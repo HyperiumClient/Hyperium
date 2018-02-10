@@ -1,0 +1,2 @@
+# HCC
+Hypixel Community Client
