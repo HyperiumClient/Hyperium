@@ -1,0 +1,16 @@
+{
+  "required": true,
+  "compatibilityLevel": "JAVA_8",
+  "package": "com.hcc.mixins",
+  "refmap": "mixins.sproject.refmap.json",
+  "verbose": true,
+  "mixins": [
+    "MixinMinecraft",
+
+    "gui.MixinGuiConnecting",
+    "gui.MixinGuiDisconnecting",
+    "gui.MixinGuiNewChat",
+
+    "world.MixinWorld"
+  ]
+}
