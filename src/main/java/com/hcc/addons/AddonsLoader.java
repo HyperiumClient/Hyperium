@@ -16,12 +16,17 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.hcc.mod
+package com.hcc.addons;
 
-import net.minecraft.launchwrapper.Launch
+import java.io.File;
+import java.net.URLClassLoader;
+import java.util.ArrayList;
+import java.util.List;
 
-object Addon {
- //   fun getMods() =
-  //          Launch.classLoader.
+public class AddonsLoader {
+    private URLClassLoader classLoader;
+    private List<Addon> addons = new ArrayList<>();
+    public void load(File f){
 
+    }
 }

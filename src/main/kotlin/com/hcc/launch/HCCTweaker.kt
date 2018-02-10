@@ -20,6 +20,7 @@ package com.hcc.launch
 
 import com.hcc.FORGE
 import com.hcc.HCC
+import com.hcc.event.EventBus
 import net.minecraft.launchwrapper.ITweaker
 import net.minecraft.launchwrapper.Launch
 import net.minecraft.launchwrapper.LaunchClassLoader

@@ -16,31 +16,9 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.hcc;
+package com.hcc.addons;
 
-import com.hcc.event.InitializationEvent;
-import com.hcc.event.InvokeEvent;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.lwjgl.opengl.Display;
-
-/**
- * Hypixel Community Client
- */
-public class HCC {
-    public static final HCC INSTANCE = new HCC();
-    public static final String VERSION = "1.0 DEV";
-
-    /**
-     * Instance of the global mod logger
-     */
-    public final static Logger logger = LogManager.getLogger(Metadata.getModid());
-
-    @InvokeEvent
-    public void init(InitializationEvent event) {
-        logger.info("HCC Started!");
-        Display.setTitle("HCC "+VERSION);
-    }
-
-
+public class Addon {
+    public void onLoad(){}
+    public void onDisable(){}
 }
