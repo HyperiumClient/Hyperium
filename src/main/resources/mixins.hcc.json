@@ -10,6 +10,8 @@
     "gui.MixinGuiConnecting",
     "gui.MixinGuiDisconnecting",
     "gui.MixinGuiNewChat",
+    "gui.MixinGuiMainMenu",
+    "gui.MixinGuiButton",
 
     "world.MixinWorld"
   ]
