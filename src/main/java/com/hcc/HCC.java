@@ -22,11 +22,14 @@ import com.hcc.event.InitializationEvent;
 import com.hcc.event.InvokeEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.lwjgl.opengl.Display;
 
 /**
  * Hypixel Community Client
  */
 public class HCC {
+    public static final HCC INSTANCE = new HCC();
+    public static final String VERSION = "1.0 DEV";
 
     /**
      * Instance of the global mod logger
@@ -34,8 +37,9 @@ public class HCC {
     public final static Logger logger = LogManager.getLogger(Metadata.getModid());
 
     @InvokeEvent
-    public static void init(InitializationEvent event) {
+    public void init(InitializationEvent event) {
         logger.info("HCC Started!");
+        Display.setTitle("HCC "+VERSION);
     }
 
 

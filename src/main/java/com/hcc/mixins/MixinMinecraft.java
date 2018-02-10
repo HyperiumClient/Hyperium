@@ -18,14 +18,22 @@
 
 package com.hcc.mixins;
 
+import com.hcc.HCC;
 import com.hcc.event.*;
+import com.hcc.utils.Utils;
 import net.minecraft.client.Minecraft;
+import net.minecraft.util.Util;
 import net.minecraft.world.WorldSettings;
+import org.apache.commons.io.IOUtils;
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.opengl.Display;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import java.io.InputStream;
+import java.nio.ByteBuffer;
 
 @Mixin(Minecraft.class)
 public class MixinMinecraft {
@@ -36,6 +44,7 @@ public class MixinMinecraft {
      */
     @Inject(method = "startGame", at = @At("RETURN"))
     private void init(CallbackInfo ci) {
+        EventBus.INSTANCE.register(HCC.INSTANCE);
         EventBus.INSTANCE.post(new InitializationEvent());
     }
 
@@ -85,4 +94,29 @@ public class MixinMinecraft {
         EventBus.INSTANCE.post(new SingleplayerJoinEvent());
     }
 
+    private void setWindowIcon(){
+        if(Util.getOSType() != Util.EnumOS.OSX){
+            InputStream inputstream = null;
+            InputStream inputstream1 = null;
+            try
+            {
+                inputstream = Minecraft.class.getResourceAsStream("/assets/hcc/icons/icon-16x.png");
+                inputstream1 = Minecraft.class.getResourceAsStream("/assets/hcc/icons/icon-32x.png");
+
+                if (inputstream != null && inputstream1 != null)
+                {
+                    Display.setIcon(new ByteBuffer[] {new Utils().readImageToBuffer(inputstream), new Utils().readImageToBuffer(inputstream1)});
+                }
+            }
+            catch (Exception ex)
+            {
+                HCC.logger.error("Couldn't set Windows Icon", ex);
+            }
+            finally
+            {
+                IOUtils.closeQuietly(inputstream);
+                IOUtils.closeQuietly(inputstream1);
+            }
+        }
+    }
 }

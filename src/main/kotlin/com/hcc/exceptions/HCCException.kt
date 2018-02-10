@@ -18,4 +18,4 @@
 
 package com.hcc.exceptions
 
-public class HCCException(s: String) : Exception()
+class HCCException(s: String) : Exception(s)

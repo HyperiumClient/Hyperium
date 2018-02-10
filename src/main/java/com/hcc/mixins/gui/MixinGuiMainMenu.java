@@ -18,6 +18,7 @@
 
 package com.hcc.mixins.gui;
 
+import com.hcc.HCC;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.renderer.GlStateManager;
@@ -76,8 +77,8 @@ public abstract class MixinGuiMainMenu extends GuiScreen implements GuiYesNoCall
             this.addSingleplayerMultiplayerButtons(j- 10, 24);
         }
 
-        this.buttonList.add(new GuiButton(0, this.width / 2 - 100, j + 72 + 12 + 24, 98, 20, I18n.format("menu.options")));
-        this.buttonList.add(new GuiButton(4, this.width / 2 + 2, j + 72 + 12 + 24, 98, 20, I18n.format("menu.quit")));
+        this.buttonList.add(new GuiButton(0, this.width / 2 - 100, j + 72 + 12 + 24 - 5, 98, 20, I18n.format("menu.options")));
+        this.buttonList.add(new GuiButton(4, this.width / 2 + 2, j + 72 + 12 + 24 - 5, 98, 20, I18n.format("menu.quit")));
 
         synchronized (this.threadLock)
         {
@@ -134,7 +135,7 @@ public abstract class MixinGuiMainMenu extends GuiScreen implements GuiYesNoCall
         GL11.glScalef(4F, 4F, 1F);
         this.drawCenteredString(fontRendererObj, title , width / 8, 40/4, 0xFFFFFF);
         GL11.glPopMatrix();
-        String s = title+" 1.0 DEV";
+        String s = title+" "+ HCC.VERSION;
         this.drawString(this.fontRendererObj, s, 2, this.height - 10, -1);
         String s1 = "Community-made Hypixel Client";
         this.drawString(this.fontRendererObj, s1, this.width - this.fontRendererObj.getStringWidth(s1) - 2, this.height - 10, -1);
