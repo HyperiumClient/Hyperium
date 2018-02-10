@@ -10,7 +10,6 @@
     "gui.MixinGuiConnecting",
     "gui.MixinGuiDisconnecting",
     "gui.MixinGuiNewChat",
-    "gui.MixinGuiResourcePack",
 
     "world.MixinWorld"
   ]
