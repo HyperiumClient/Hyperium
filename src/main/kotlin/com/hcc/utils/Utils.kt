@@ -16,12 +16,12 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.hcc.mod
+package com.hcc.utils
 
-import net.minecraft.launchwrapper.Launch
-
-object Addon {
- //   fun getMods() =
-  //          Launch.classLoader.
-
+class Utils {
+    fun fromList(list: List<String>): String{
+        var s = ""
+        list.forEach{s+=(it+"\n")}
+        return s
+    }
 }
