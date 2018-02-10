@@ -11,6 +11,8 @@
     "gui.MixinGuiDisconnecting",
     "gui.MixinGuiNewChat",
     "gui.MixinGuiResourcePack",
+    "gui.MixinGuiButton",
+    "gui.MixinGuiMainMenu",
 
     "world.MixinWorld"
   ]
