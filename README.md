@@ -28,13 +28,15 @@ add HCC that you built as dependency for the project
 Your main class __needs__ to extend [Addon](https://github.com/HypixelCommunityClient/HCC/blob/master/src/main/java/com/hcc/addons/Addon.java)
 
 ```java
-package my.cubxity;
+package me.cubxity;
 
 import com.hcc.addon.Addon;
-public class AddonMain extends Addon{
-    @Override
-    public void onLoad(){
-        // Addon init ...
+
+@Addon(modid = "TestMod", version = "1.0 BETA")
+public class TestMod {
+    @InvokeEvent
+    public void init(InitilizationEvent event) {
+        System.out.println("Started!");
     }
 }
 ```
@@ -44,7 +46,7 @@ public class AddonMain extends Addon{
 {
   "name":"MaiCuteAddon",
   "version":"1.0",
-  "main":"me.cubxity.AddonMain"
+  "main":"me.cubxity.TestMod"
 }
 ```
 ## Developers ##

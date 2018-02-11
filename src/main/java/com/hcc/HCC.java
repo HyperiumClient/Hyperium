@@ -34,7 +34,6 @@ import java.io.File;
 public class HCC {
 
     public static final HCC INSTANCE = new HCC();
-    public static final String VERSION = "1.0 DEV";
 
     public static final DefaultConfig config = new DefaultConfig(new File("/hcc/config.json"));
 
@@ -46,7 +45,7 @@ public class HCC {
     @InvokeEvent
     public void init(InitializationEvent event) {
         logger.info("HCC Started!");
-        Display.setTitle("HCC " + VERSION);
+        Display.setTitle("HCC " + Metadata.getVersion());
         Runtime.getRuntime().addShutdownHook(new Thread(this::shutdown));
     }
 
@@ -55,8 +54,9 @@ public class HCC {
 
     }
 
-    public void shutdown() {
+    private void shutdown() {
         config.save();
+        logger.info("Shutting down HCC..");
     }
 
 }
