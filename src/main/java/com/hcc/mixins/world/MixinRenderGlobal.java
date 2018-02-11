@@ -1,5 +1,16 @@
 package com.hcc.mixins.world;
 
+import com.hcc.utils.EntityLimiter;
+import net.minecraft.client.renderer.RenderGlobal;
+import net.minecraft.entity.Entity;
+import net.minecraft.util.ClassInheritanceMultiMap;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
+
+import java.util.ArrayList;
+import java.util.List;
+
 @Mixin(RenderGlobal.class)
 public class MixinRenderGlobal {
 

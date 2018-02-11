@@ -39,7 +39,7 @@ public class AddonManifest {
 
         try {
             ZipEntry entry = jar.getEntry("addon.json");
-            JSONObject json = new JSONObject(new Utils().fromList(IOUtils.readLines(jar.getInputStream(entry), Charset.defaultCharset())));
+            JSONObject json = new JSONObject(Utils.INSTANCE.fromList(IOUtils.readLines(jar.getInputStream(entry), Charset.defaultCharset())));
             this.json = json;
             if(!json.has("version") && !json.has("name") && !json.has("main")){
                 throw new HCCException("Invalid addon jar (addon.json does not exist or invalid)");
