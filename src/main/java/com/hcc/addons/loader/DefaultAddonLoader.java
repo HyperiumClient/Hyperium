@@ -34,7 +34,5 @@ public class DefaultAddonLoader extends AddonLoaderStrategy {
                 break;
             }
         }
-
-
     }
 }
