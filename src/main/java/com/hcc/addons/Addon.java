@@ -19,6 +19,15 @@
 package com.hcc.addons;
 
 public class Addon {
+    protected AddonsDescription description;
+
+    /**
+     * @return description from addon.json
+     */
+    public AddonsDescription getDescription() {
+        return description;
+    }
+
     public void onLoad(){}
     public void onDisable(){}
 }
