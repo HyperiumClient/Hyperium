@@ -18,8 +18,11 @@
 
 package com.hcc;
 
+import com.hcc.event.ChatEvent;
 import com.hcc.event.InitializationEvent;
 import com.hcc.event.InvokeEvent;
+import com.hcc.gui.ModConfigGui;
+import net.minecraft.client.Minecraft;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.Display;
@@ -40,6 +43,13 @@ public class HCC {
     public void init(InitializationEvent event) {
         logger.info("HCC Started!");
         Display.setTitle("HCC "+VERSION);
+    }
+
+    @InvokeEvent
+    public void onChat(ChatEvent event){
+        if(event.getChat().getUnformattedText().contains("configgui")){
+            Minecraft.getMinecraft().displayGuiScreen(new ModConfigGui());
+        }
     }
 
 

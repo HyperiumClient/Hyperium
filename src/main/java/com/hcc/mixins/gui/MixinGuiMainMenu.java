@@ -19,6 +19,7 @@
 package com.hcc.mixins.gui;
 
 import com.hcc.HCC;
+import com.hcc.gui.ModConfigGui;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.renderer.GlStateManager;
@@ -146,7 +147,8 @@ public abstract class MixinGuiMainMenu extends GuiScreen implements GuiYesNoCall
     }
     @Inject(method = "actionPerformed", at = @At("RETURN"))
     private void actionPerformed(GuiButton button, CallbackInfo ci) {
-        if(button.id == 15){} //TODO: Hook with config gui
+        if(button.id == 15)
+            mc.displayGuiScreen(new ModConfigGui());
     }
     @Shadow protected abstract void rotateAndBlurSkybox(float p_73968_1_);
     @Shadow protected abstract void renderSkybox(int p_73971_1_, int p_73971_2_, float p_73971_3_);
