@@ -13,6 +13,7 @@
     "gui.MixinGuiResourcePack",
     "gui.MixinGuiButton",
     "gui.MixinGuiMainMenu",
+    "gui.MixinInventory",
 
     "world.MixinWorld"
   ]
