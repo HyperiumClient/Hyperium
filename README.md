@@ -19,7 +19,34 @@ Step #5: Run Tasks \> forgeGradle \> genIntellijRuns (for IntelliJ)
 Step #6: Build project
 
 ## Addons ##
+**Requirement:** Built HCC, JDK 8+, IDE
 
+**Dependency:**
+add HCC that you built as dependency for the project
+
+**Main Class:**
+Your main class __needs__ to extend [Addon](https://github.com/HypixelCommunityClient/HCC/blob/master/src/main/java/com/hcc/addons/Addon.java)
+
+```java
+package my.cubxity;
+
+import com.hcc.addon.Addon;
+public class AddonMain extends Addon{
+    @Override
+    public void onLoad(){
+        // Addon init ...
+    }
+}
+```
+
+**addon.json**
+```json
+{
+  "name":"MaiCuteAddon",
+  "version":"1.0",
+  "main":"me.cubxity.AddonMain"
+}
+```
 ## Developers ##
 [![](https://cdn.discordapp.com/avatars/376817315830038530/87dd80c68e0598ea39af4e0472b299b7.png)](https://github.com/Sk1er)
 [![](https://cdn.discordapp.com/avatars/248159137370734601/8a8b49df90cda7ccd55f28c1f5293ad6.png)](https://github.com/CoalCoding)
