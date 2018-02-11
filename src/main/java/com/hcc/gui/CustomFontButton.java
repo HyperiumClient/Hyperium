@@ -16,37 +16,17 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.hcc.mixins.gui;
+package com.hcc.gui;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.util.ResourceLocation;
-import org.spongepowered.asm.mixin.Final;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 
 import java.awt.*;
 
-@SuppressWarnings("unused")
-@Mixin(GuiButton.class)
-public abstract class MixinGuiButton extends Gui{
-    @Shadow @Final protected static ResourceLocation buttonTextures;
-
-    @Shadow public boolean visible;
-
-    @Shadow protected boolean hovered;
-
-    @Shadow public int xPosition;
-
-    @Shadow public int yPosition;
-
-    @Shadow protected int width;
-
-    @Shadow protected int height;
-
+public class CustomFontButton extends GuiButton {
     private int hoverColor = new Color(0, 0, 0, 60).getRGB();
     private int color = new Color(0, 0, 0, 50).getRGB();
     private int textColor = new Color(255, 255, 255, 255).getRGB();
@@ -54,11 +34,13 @@ public abstract class MixinGuiButton extends Gui{
     private FontRenderer fontRenderer = Minecraft.getMinecraft().fontRendererObj;
     private boolean enabled = true;
 
+    public CustomFontButton(int buttonId, int x, int y, String buttonText) {
+        super(buttonId, x, y, buttonText);
+    }
 
-
-    @Shadow protected abstract void mouseDragged(Minecraft mc, int mouseX, int mouseY);
-
-    @Shadow public String displayString;
+    public CustomFontButton(int buttonId, int x, int y, int widthIn, int heightIn, String buttonText) {
+        super(buttonId, x, y, widthIn, heightIn, buttonText);
+    }
 
     @SuppressWarnings("Duplicates")
     public void drawButton(Minecraft mc, int mouseX, int mouseY){
@@ -68,7 +50,6 @@ public abstract class MixinGuiButton extends Gui{
             this.hovered = mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;
             this.mouseDragged(mc, mouseX, mouseY);
 
-            // TODO RECT COLORS
             if (this.hovered) {
                 Gui.drawRect(this.xPosition, this.yPosition,
                         this.xPosition + this.width, this.yPosition + this.height,
@@ -89,4 +70,8 @@ public abstract class MixinGuiButton extends Gui{
         }
     }
 
+    public CustomFontButton setFontRenderer(FontRenderer fontRenderer) {
+        this.fontRenderer = fontRenderer;
+        return this;
+    }
 }
