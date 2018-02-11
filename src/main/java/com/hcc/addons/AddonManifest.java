@@ -18,10 +18,11 @@
 
 package com.hcc.addons;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.hcc.exceptions.HCCException;
 import com.hcc.utils.Utils;
 import org.apache.commons.io.IOUtils;
-import org.json.JSONObject;
 
 import java.nio.charset.Charset;
 import java.util.jar.JarFile;
@@ -29,7 +30,7 @@ import java.util.zip.ZipEntry;
 
 public class AddonManifest {
 
-    private JSONObject json;
+    private JsonObject json;
 
     /**
      * @throws HCCException if it fails to read description
@@ -39,7 +40,8 @@ public class AddonManifest {
 
         try {
             ZipEntry entry = jar.getEntry("addon.json");
-            JSONObject json = new JSONObject(Utils.INSTANCE.fromList(IOUtils.readLines(jar.getInputStream(entry), Charset.defaultCharset())));
+            JsonParser parser = new JsonParser();
+            JsonObject json = parser.parse(Utils.INSTANCE.fromList(IOUtils.readLines(jar.getInputStream(entry), Charset.defaultCharset()))).getAsJsonObject();
             this.json = json;
             if(!json.has("version") && !json.has("name") && !json.has("main")){
                 throw new HCCException("Invalid addon jar (addon.json does not exist or invalid)");
@@ -50,15 +52,15 @@ public class AddonManifest {
     }
 
     public String getName() {
-        return json.getString("name");
+        return json.get("name").getAsString();
     }
 
     public String getVersion() {
-        return json.getString("version");
+        return json.get("version").getAsString();
     }
 
     public String getMain() {
-        return json.getString("main");
+        return json.get("main").getAsString();
     }
 
     @Override
