@@ -19,7 +19,7 @@
 
 // For those who want the bleeding edge
 buildscript {
-    ext.kotlin_version = '1.1.50'
+    ext.kotlin_version = '1.2.21'
     repositories {
         mavenCentral()
         jcenter()
@@ -41,7 +41,7 @@ buildscript {
     }
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.1-SNAPSHOT'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.1.50"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "org.jetbrains.dokka:dokka-gradle-plugin:0.9.15"
         classpath 'org.spongepowered:mixingradle:0.6-SNAPSHOT'
         classpath "com.github.jengelman.gradle.plugins:shadow:2.0.0"
@@ -80,7 +80,7 @@ dependencies {
         exclude module: 'commons-io'
         exclude module: 'log4j-core'
     }
-    compile 'org.jetbrains.kotlin:kotlin-stdlib-jre8:1.1.50'
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     compile 'com.github.jagrosh:DiscordIPC:master-SNAPSHOT'
     compile('com.esotericsoftware:reflectasm:1.11.3') {
         exclude module: 'asm'
