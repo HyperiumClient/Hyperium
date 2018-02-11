@@ -18,14 +18,15 @@
 
 package com.hcc;
 
-import com.hcc.event.ChatEvent;
+import com.hcc.config.DefaultConfig;
 import com.hcc.event.InitializationEvent;
 import com.hcc.event.InvokeEvent;
-import com.hcc.gui.ModConfigGui;
-import net.minecraft.client.Minecraft;
+import com.hcc.event.RenderEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.Display;
+
+import java.io.File;
 
 /**
  * Hypixel Community Client
@@ -34,6 +35,8 @@ public class HCC {
 
     public static final HCC INSTANCE = new HCC();
     public static final String VERSION = "1.0 DEV";
+
+    public static final DefaultConfig config = new DefaultConfig(new File("/hcc/config.json"));
 
     /**
      * Instance of the global mod logger
@@ -44,14 +47,16 @@ public class HCC {
     public void init(InitializationEvent event) {
         logger.info("HCC Started!");
         Display.setTitle("HCC " + VERSION);
+        Runtime.getRuntime().addShutdownHook(new Thread(this::shutdown));
     }
 
     @InvokeEvent
-    public void onChat(ChatEvent event){
-        if(event.getChat().getUnformattedText().contains("configgui")){
-            Minecraft.getMinecraft().displayGuiScreen(new ModConfigGui());
-        }
+    public void render(RenderEvent event) {
+
     }
 
+    public void shutdown() {
+        config.save();
+    }
 
 }

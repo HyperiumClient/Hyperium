@@ -29,7 +29,9 @@ public class ModConfigGui extends GuiScreen {
 
     @Override
     public void initGui() {
-        buttonList.add(new CustomFontButton(0, getX(0), getY(), 50, 25, "Home").setFontRenderer(Fonts.MONTSERRAT_LIGHT.get()));
+        buttonList.add(
+                new CustomFontButton(0, getX(0), getY(), 50, 25, "Home")
+                        .setFontRenderer(Fonts.MONTSERRAT_LIGHT.get()));
     }
 
     @Override

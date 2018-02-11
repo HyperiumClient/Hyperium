@@ -110,6 +110,7 @@ repositories {
 shadowJar {
     dependencies {
         include(dependency('org.spongepowered:mixin'))
+        include(dependency('org.jetbrains.kotlin:kotlin-stdlib'))
         include(dependency('org.jetbrains.kotlin:kotlin-stdlib-jre8'))
         include(dependency('com.esotericsoftware:reflectasm'))
         include(dependency('com.github.jagrosh:DiscordIPC'))
