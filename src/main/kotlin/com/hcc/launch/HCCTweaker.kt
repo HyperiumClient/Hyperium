@@ -20,7 +20,6 @@ package com.hcc.launch
 
 import com.hcc.FORGE
 import com.hcc.HCC
-import com.hcc.event.EventBus
 import net.minecraft.launchwrapper.ITweaker
 import net.minecraft.launchwrapper.Launch
 import net.minecraft.launchwrapper.LaunchClassLoader
@@ -28,7 +27,7 @@ import org.spongepowered.asm.launch.MixinBootstrap
 import org.spongepowered.asm.mixin.MixinEnvironment
 import org.spongepowered.asm.mixin.Mixins
 import java.io.File
-import java.util.ArrayList
+import java.util.*
 
 /**
  * Contains utilities used to subscribe and invoke events

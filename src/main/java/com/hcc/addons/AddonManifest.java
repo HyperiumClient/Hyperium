@@ -23,32 +23,25 @@ import com.hcc.utils.Utils;
 import org.apache.commons.io.IOUtils;
 import org.json.JSONObject;
 
-import java.io.File;
-import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.jar.JarFile;
 import java.util.zip.ZipEntry;
 
-public class AddonsDescription {
+public class AddonManifest {
+
     private JSONObject json;
 
     /**
-     * @param file Addon jar
      * @throws HCCException if it fails to read description
+     * @param jar Addon jar
      */
-    AddonsDescription(File file) throws HCCException {
-        JarFile jar;
-        try {
-            jar = new JarFile(file);
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new HCCException("Failed to load jarfile");
-        }
+    public AddonManifest(JarFile jar) throws HCCException {
+
         try {
             ZipEntry entry = jar.getEntry("addon.json");
             JSONObject json = new JSONObject(new Utils().fromList(IOUtils.readLines(jar.getInputStream(entry), Charset.defaultCharset())));
             this.json = json;
-            if (!json.has("version") && !json.has("name") && !json.has("main")) {
+            if(!json.has("version") && !json.has("name") && !json.has("main")){
                 throw new HCCException("Invalid addon jar (addon.json does not exist or invalid)");
             }
         } catch (Exception e) {
@@ -59,10 +52,17 @@ public class AddonsDescription {
     public String getName() {
         return json.getString("name");
     }
-    public String getVersion(){
+
+    public String getVersion() {
         return json.getString("version");
     }
-    public String getMain(){
+
+    public String getMain() {
         return json.getString("main");
+    }
+
+    @Override
+    public String toString() {
+        return json.toString();
     }
 }
