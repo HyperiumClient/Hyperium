@@ -71,7 +71,7 @@ public class CustomFontButton extends GuiButton {
     }
 
     public CustomFontButton setFontRenderer(FontRenderer fontRenderer) {
-        this.fontRenderer = fontRenderer;
+        //this.fontRenderer = fontRenderer;
         return this;
     }
 }

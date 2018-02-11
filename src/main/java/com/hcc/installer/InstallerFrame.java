@@ -107,7 +107,7 @@ public class InstallerFrame extends JFrame implements PropertyChangeListener {
             } catch (IOException e) {
                 e.printStackTrace();
                 display.setText("INSTALLATION FAILED");
-                error.setText("COULDN'T DELETE OLD INSTALLATION, IS GAME RUNNING?");
+                error.setText("COULDN'T DELETE OLD INSTALLATION, IS THE GAME RUNNING?");
                 exit.setVisible(true);
                 return;
             }
@@ -201,8 +201,10 @@ public class InstallerFrame extends JFrame implements PropertyChangeListener {
         ));
         JSONArray libs = json.getJSONArray("libraries");
         libs.put(lib);
+        libs.put(new JSONObject().put("name", "net.minecraft:launchwrapper:1.7"));
         json.put("libraries", libs);
         json.put("id", "HCC 1.8.9");
+        json.put("mainClass", "net.minecraft.launchwrapper.Launch");
         json.put("minecraftArguments", json.getString("minecraftArguments")+" --tweakClass="+version.get().getString("tweak-class"));
 
         JSONObject profiles = launcherProfiles.getJSONObject("profiles");

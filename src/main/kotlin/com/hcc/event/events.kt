@@ -19,8 +19,10 @@
 package com.hcc.event
 
 import com.esotericsoftware.reflectasm.MethodAccess
+import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.util.BlockPos
 import net.minecraft.util.IChatComponent
+import java.util.*
 
 /**
  * Used to store information about events and index so they can be easily accessed by ASM
@@ -88,3 +90,8 @@ class ChatEvent(val chat: IChatComponent)
  * Invoked once the player has joined singleplayer
  */
 class SingleplayerJoinEvent
+
+/**
+ * Invoked once player swings
+ */
+class PlayerSwingEvent(val player: UUID)
