@@ -18,18 +18,23 @@
 
 package com.hcc.utils
 
+import net.minecraft.client.Minecraft
+import net.minecraft.util.ResourceLocation
+import org.lwjgl.BufferUtils
+import org.lwjgl.input.Cursor
+import org.lwjgl.input.Mouse
 import java.io.InputStream
 import java.nio.ByteBuffer
+import java.nio.IntBuffer
 import javax.imageio.ImageIO
 
-class Utils {
-    fun fromList(list: List<String>): String{
-        var s = ""
-        list.forEach{s+=(it+"\n")}
-        return s
-    }
+object Utils {
 
-    fun readImageToBuffer(inputStream: InputStream): ByteBuffer{
+    fun fromList(list: List<String>) =
+            list.joinToString { "\n" }
+
+
+    fun readImageToBuffer(inputStream: InputStream): ByteBuffer {
         val bufferedimage = ImageIO.read(inputStream)
         val aint = bufferedimage.getRGB(0, 0, bufferedimage.width, bufferedimage.height, null as IntArray?, 0, bufferedimage.width)
         val bytebuffer = ByteBuffer.allocate(4 * aint.size)
@@ -40,5 +45,29 @@ class Utils {
 
         bytebuffer.flip()
         return bytebuffer
+    }
+
+    fun setCursor(cursor: ResourceLocation) {
+        try {
+            val image = ImageIO.read(Minecraft.getMinecraft().resourceManager.getResource(cursor).inputStream)
+            val w = image.width
+            val h = image.height
+            val pixels = IntArray(w * h)
+            image.getRGB(0, 0, w, h, pixels, 0, w)
+            val buffer = BufferUtils.createByteBuffer(w * h * 4)
+            for (y in 0 until h) {
+                for (x in 0 until w) {
+                    val pixel = pixels[(h - 1 - y) * w + x]
+                    buffer.put((pixel and 0xFF).toByte())
+                    buffer.put((pixel shr 8 and 0xFF).toByte())
+                    buffer.put((pixel shr 16 and 0xFF).toByte())
+                    buffer.put((pixel shr 24 and 0xFF).toByte())
+                }
+            }
+            buffer.flip()
+            Mouse.setNativeCursor(Cursor(w, h, 0, h - 1, 1, buffer.asIntBuffer(), null as IntBuffer?))
+        } catch (e: Exception) {
+        }
+
     }
 }

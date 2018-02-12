@@ -105,7 +105,8 @@ public class MixinMinecraft {
 
                 if (inputstream != null && inputstream1 != null)
                 {
-                    Display.setIcon(new ByteBuffer[] {new Utils().readImageToBuffer(inputstream), new Utils().readImageToBuffer(inputstream1)});
+                    Display.setIcon(new ByteBuffer[]{Utils.INSTANCE.readImageToBuffer(inputstream),
+                            Utils.INSTANCE.readImageToBuffer(inputstream1)});
                 }
             }
             catch (Exception ex)

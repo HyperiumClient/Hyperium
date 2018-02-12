@@ -6,6 +6,8 @@
   "verbose": true,
   "mixins": [
     "MixinMinecraft",
+    "MixinTextureManager",
+    "MixinSoundManager",
 
     "gui.MixinGuiConnecting",
     "gui.MixinGuiDisconnecting",
@@ -13,6 +15,7 @@
     "gui.MixinGuiResourcePack",
     "gui.MixinGuiButton",
     "gui.MixinGuiMainMenu",
+    "gui.MixinInventory",
 
     "entities.MixinEntityPlayer",
 

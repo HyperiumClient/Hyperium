@@ -18,7 +18,7 @@
 
 package com.hcc.mixins.gui;
 
-import com.hcc.HCC;
+import com.hcc.Metadata;
 import com.hcc.gui.ModConfigGui;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.*;
@@ -33,6 +33,7 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -57,11 +58,12 @@ public abstract class MixinGuiMainMenu extends GuiScreen implements GuiYesNoCall
     @Shadow private int field_92023_s;
     @Shadow private DynamicTexture viewportTexture;
     private FontRenderer fontRendererObj = Minecraft.getMinecraft().fontRendererObj;
-    private static final String title = "HCC";
+
 
     /**
      * Override initGui
      */
+    @Overwrite
     public void initGui()
     {
         this.viewportTexture = new DynamicTexture(256, 256);
@@ -111,6 +113,7 @@ public abstract class MixinGuiMainMenu extends GuiScreen implements GuiYesNoCall
     /**
      * Override buttons
      */
+    @Overwrite
     private void addSingleplayerMultiplayerButtons(int p_73969_1_, int p_73969_2_){
         this.buttonList.add(new GuiButton(1, this.width / 2 - 100, p_73969_1_, I18n.format("menu.singleplayer")));
         this.buttonList.add(new GuiButton(2, this.width / 2 - 100, p_73969_1_ + p_73969_2_, I18n.format("menu.multiplayer")));
@@ -121,6 +124,7 @@ public abstract class MixinGuiMainMenu extends GuiScreen implements GuiYesNoCall
     /**
      * Override drawScreen method
      */
+    @Overwrite
     public void drawScreen(int mouseX, int mouseY, float partialTicks){
         GlStateManager.disableAlpha();
         this.renderSkybox(mouseX, mouseY, partialTicks);
@@ -134,9 +138,9 @@ public abstract class MixinGuiMainMenu extends GuiScreen implements GuiYesNoCall
         this.drawGradientRect(0, 0, this.width, this.height, 0, Integer.MIN_VALUE);
         GL11.glPushMatrix();
         GL11.glScalef(4F, 4F, 1F);
-        this.drawCenteredString(fontRendererObj, title , width / 8, 40/4, 0xFFFFFF);
+        this.drawCenteredString(fontRendererObj, Metadata.getModid(), width / 8, 40 / 4, 0xFFFFFF);
         GL11.glPopMatrix();
-        String s = title+" "+ HCC.VERSION;
+        String s = String.format("%s %s", Metadata.getModid(), Metadata.getVersion());
         this.drawString(this.fontRendererObj, s, 2, this.height - 10, -1);
         String s1 = "Community-made Hypixel Client";
         this.drawString(this.fontRendererObj, s1, this.width - this.fontRendererObj.getStringWidth(s1) - 2, this.height - 10, -1);
@@ -145,11 +149,13 @@ public abstract class MixinGuiMainMenu extends GuiScreen implements GuiYesNoCall
         super.drawScreen(mouseX, mouseY, partialTicks);
 
     }
+
     @Inject(method = "actionPerformed", at = @At("RETURN"))
     private void actionPerformed(GuiButton button, CallbackInfo ci) {
         if(button.id == 15)
             mc.displayGuiScreen(new ModConfigGui());
     }
+
     @Shadow protected abstract void rotateAndBlurSkybox(float p_73968_1_);
     @Shadow protected abstract void renderSkybox(int p_73971_1_, int p_73971_2_, float p_73971_3_);
     @Shadow protected abstract void drawPanorama(int p_73970_1_, int p_73970_2_, float p_73970_3_);
