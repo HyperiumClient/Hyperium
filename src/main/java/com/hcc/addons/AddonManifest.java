@@ -30,6 +30,9 @@ import java.util.zip.ZipEntry;
 
 public class AddonManifest {
 
+    /**
+     * Manifest json
+     */
     private JsonObject json;
 
     /**
@@ -51,18 +54,30 @@ public class AddonManifest {
         }
     }
 
+    /**
+     * @return addon name
+     */
     public String getName() {
         return json.get("name").getAsString();
     }
 
+    /**
+      @return addon version
+     */
     public String getVersion() {
         return json.get("version").getAsString();
     }
 
+    /**
+     * @return main-class
+     */
     public String getMain() {
         return json.get("main").getAsString();
     }
 
+    /**
+     * @return addon manifest json in string
+     */
     @Override
     public String toString() {
         return json.toString();

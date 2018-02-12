@@ -12,10 +12,21 @@ import java.util.stream.Collectors;
 
 public class HCCAddonBootstrap {
 
+
+    /**
+     *  Addons directory
+     */
     private static final File modDirectory = new File(HCC.folder, "addons");
 
+    /**
+     * Addons file that is found
+     */
     private ArrayList<File> addons;
 
+    /**
+     * default constructor
+     * @throws HCCException when error occurs
+     */
     public HCCAddonBootstrap() throws HCCException {
         if (!modDirectory.mkdirs()) {
             throw new HCCException("Unable to create addon directory!");
@@ -28,6 +39,10 @@ public class HCCAddonBootstrap {
 
     }
 
+    /**
+     * load addons from folder using the AddonLoaderStrategy
+     * @param loader Addon loader
+     */
     public void loadAddons(AddonLoaderStrategy loader) {
         Stopwatch benchmark = Stopwatch.createStarted();
         HCC.logger.info("Starting to load addons...");
