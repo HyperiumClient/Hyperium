@@ -60,7 +60,7 @@ targetCompatibility = 1.8
 compileJava.options.encoding = 'UTF-8'
 
 version = "1.0"
-group= "com.hcc" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+group= "com.hcc"
 archivesBaseName = "HCC"
 
 minecraft {
