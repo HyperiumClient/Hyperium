@@ -18,10 +18,13 @@
 
 package com.hcc;
 
+import com.hcc.addons.HCCAddonBootstrap;
+import com.hcc.addons.loader.DefaultAddonLoader;
 import com.hcc.config.DefaultConfig;
 import com.hcc.event.InitializationEvent;
 import com.hcc.event.InvokeEvent;
 import com.hcc.event.RenderEvent;
+import com.hcc.exceptions.HCCException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.Display;
@@ -35,6 +38,9 @@ public class HCC {
 
     public static final HCC INSTANCE = new HCC();
 
+    /**
+     * Instance of default config
+     */
     public static final DefaultConfig config = new DefaultConfig(new File("/hcc/config.json"));
 
     /**
@@ -42,10 +48,36 @@ public class HCC {
      */
     public final static Logger logger = LogManager.getLogger(Metadata.getModid());
 
+    /**
+     * Instance of default addons loader
+     */
+    public static final DefaultAddonLoader addonLoader = new DefaultAddonLoader();
+
+    private static HCCAddonBootstrap addonBootstrap;
+
+    static {
+        try {
+            addonBootstrap = new HCCAddonBootstrap();
+        } catch (HCCException e) {
+            e.printStackTrace();
+            logger.error("failed to initialize addonBootstrap");
+        }
+    }
+
+
+
     @InvokeEvent
     public void init(InitializationEvent event) {
         logger.info("HCC Started!");
         Display.setTitle("HCC " + Metadata.getVersion());
+        try {
+            File addons = new File("/hcc/addons");
+            addons.mkdir();
+            addonBootstrap.loadAddons(addonLoader);
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("Failed to load addon(s) from addons folder");
+        }
         Runtime.getRuntime().addShutdownHook(new Thread(this::shutdown));
     }
 

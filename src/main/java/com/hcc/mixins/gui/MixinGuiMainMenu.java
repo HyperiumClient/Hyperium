@@ -23,8 +23,6 @@ import com.hcc.gui.ModConfigGui;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.settings.GameSettings;
@@ -62,13 +60,13 @@ public abstract class MixinGuiMainMenu extends GuiScreen implements GuiYesNoCall
 
     /**
      * Override initGui
+     * @author Cubxity
      */
     @Overwrite
     public void initGui()
     {
         this.viewportTexture = new DynamicTexture(256, 256);
         this.backgroundTexture = this.mc.getTextureManager().getDynamicTextureLocation("background", this.viewportTexture);
-        int i = 24;
         int j = this.height / 4 + 48;
 
         if (this.mc.isDemo())
@@ -112,6 +110,7 @@ public abstract class MixinGuiMainMenu extends GuiScreen implements GuiYesNoCall
 
     /**
      * Override buttons
+     * @author Cubxity
      */
     @Overwrite
     private void addSingleplayerMultiplayerButtons(int p_73969_1_, int p_73969_2_){
@@ -123,17 +122,13 @@ public abstract class MixinGuiMainMenu extends GuiScreen implements GuiYesNoCall
 
     /**
      * Override drawScreen method
+     * @author Cubxity
      */
     @Overwrite
     public void drawScreen(int mouseX, int mouseY, float partialTicks){
         GlStateManager.disableAlpha();
         this.renderSkybox(mouseX, mouseY, partialTicks);
         GlStateManager.enableAlpha();
-        Tessellator tessellator = Tessellator.getInstance();
-        WorldRenderer worldrenderer = tessellator.getWorldRenderer();
-        int i = 274;
-        int j = this.width / 2 - i / 2;
-        int k = 30;
         this.drawGradientRect(0, 0, this.width, this.height, -2130706433, 16777215);
         this.drawGradientRect(0, 0, this.width, this.height, 0, Integer.MIN_VALUE);
         GL11.glPushMatrix();
@@ -155,10 +150,7 @@ public abstract class MixinGuiMainMenu extends GuiScreen implements GuiYesNoCall
         if(button.id == 15)
             mc.displayGuiScreen(new ModConfigGui());
     }
-
-    @Shadow protected abstract void rotateAndBlurSkybox(float p_73968_1_);
     @Shadow protected abstract void renderSkybox(int p_73971_1_, int p_73971_2_, float p_73971_3_);
-    @Shadow protected abstract void drawPanorama(int p_73970_1_, int p_73970_2_, float p_73970_3_);
     @Shadow protected abstract void addDemoButtons(int p_73972_1_, int p_73972_2_);
     @Shadow protected abstract boolean func_183501_a();
 }

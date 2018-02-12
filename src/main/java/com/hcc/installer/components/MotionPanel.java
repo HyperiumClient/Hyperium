@@ -24,6 +24,9 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 
+/**
+ * When user dragged on this panel, the frame will moves
+ */
 public class MotionPanel extends JPanel {
     private Point initialClick;
     private JFrame parent;

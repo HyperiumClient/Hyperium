@@ -15,6 +15,10 @@ public class DefaultAddonLoader extends AddonLoaderStrategy {
 
     private static LaunchClassLoader classloader = Launch.classLoader;
 
+    /**
+     * @param file addons jar
+     * @throws Exception when exception occurs
+     */
     @Override
     public void load(File file) throws Exception {
         JarFile jar = new JarFile(file);
