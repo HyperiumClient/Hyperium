@@ -29,9 +29,12 @@ public class ModConfigGui extends GuiScreen {
 
     @Override
     public void initGui() {
-        buttonList.add(
-                new CustomFontButton(0, getX(0), getY(), 50, 25, "Home")
-                        .setFontRenderer(Fonts.MONTSERRAT_LIGHT.get()));
+        super.initGui();
+        buttonList.add(new CustomFontButton(0, getX(0), getY(), 50, 25, "HOME").setFontRenderer(Fonts.MONTSERRAT_LIGHT.get()));
+        buttonList.add(new CustomFontButton(1, getX(1), getY(), 50, 25, "SETTINGS").setFontRenderer(Fonts.MONTSERRAT_LIGHT.get()));
+        buttonList.add(new CustomFontButton(2, getX(2), getY(), 50, 25, "ADDONS").setFontRenderer(Fonts.MONTSERRAT_LIGHT.get()));
+        buttonList.add(new CustomFontButton(3, getX(3), getY(), 50, 25, "FRIENDS").setFontRenderer(Fonts.MONTSERRAT_LIGHT.get()));
+        buttonList.add(new CustomFontButton(4, getX(4), getY(), 50, 25, "ABOUT").setFontRenderer(Fonts.MONTSERRAT_LIGHT.get()));
     }
 
     @Override
@@ -40,12 +43,12 @@ public class ModConfigGui extends GuiScreen {
         //background
         drawRect(width / 5, height /5, width - width/5, height - height/5, new Color(0, 0, 0, 100).getRGB());
         //top menu
-        drawRect(width - width / 5, height /5, width / 5, height /5 + 25, new Color(0, 0, 0, 100).getRGB());
+        //drawRect(width - width / 5, height /5, width / 5, height /5 + 25, new Color(0, 0, 0, 100).getRGB());
     }
 
     @Override
     protected void actionPerformed(GuiButton button) throws IOException {
-
+        super.actionPerformed(button);
     }
 
     @Override

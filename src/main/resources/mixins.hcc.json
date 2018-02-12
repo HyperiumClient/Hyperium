@@ -17,6 +17,8 @@
     "gui.MixinGuiMainMenu",
     "gui.MixinInventory",
 
+    "entities.MixinEntityPlayer",
+
     "world.MixinWorld"
   ]
 }
