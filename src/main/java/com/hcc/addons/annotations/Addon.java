@@ -9,8 +9,14 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 public @interface Addon {
 
+    /**
+     * @return modid
+     */
     String modid();
 
+    /**
+     * @return version
+     */
     String version();
 
 }
