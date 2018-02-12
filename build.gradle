@@ -134,5 +134,6 @@ jar {
             "TweakClass": 'com.hcc.launch.HCCTweaker',
             "TweakOrder": 0,
             "Manifest-Version": 1.0,
+            'Main-Class': 'com.hcc.installer.InstallerMain'
     )
 }
