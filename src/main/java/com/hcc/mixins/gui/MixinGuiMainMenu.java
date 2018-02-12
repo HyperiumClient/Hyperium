@@ -139,6 +139,8 @@ public abstract class MixinGuiMainMenu extends GuiScreen implements GuiYesNoCall
         this.drawString(this.fontRendererObj, s, 2, this.height - 10, -1);
         String s1 = "Community-made Hypixel Client";
         this.drawString(this.fontRendererObj, s1, this.width - this.fontRendererObj.getStringWidth(s1) - 2, this.height - 10, -1);
+        String s3 = "Not affiliated with Hypixel INC";
+        this.drawString(this.fontRendererObj, s3, this.width - this.fontRendererObj.getStringWidth(s1) - 2, this.height - 20, -1);
 
 
         super.drawScreen(mouseX, mouseY, partialTicks);

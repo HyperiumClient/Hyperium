@@ -20,6 +20,7 @@ package com.hcc;
 
 import com.hcc.addons.HCCAddonBootstrap;
 import com.hcc.addons.loader.DefaultAddonLoader;
+import com.hcc.chromahud.ChromaHUD;
 import com.hcc.config.DefaultConfig;
 import com.hcc.event.ChatEvent;
 import com.hcc.event.InitializationEvent;
@@ -28,7 +29,6 @@ import com.hcc.event.RenderEvent;
 import com.hcc.exceptions.HCCException;
 import com.hcc.gui.ModConfigGui;
 import net.minecraft.client.Minecraft;
-import net.minecraft.command.CommandHandler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.Display;
@@ -41,26 +41,19 @@ import java.io.File;
 public class HCC {
 
     public static final HCC INSTANCE = new HCC();
-
-    public static File folder;
-
-    /**
-     * Instance of default config
-     */
-    public static final DefaultConfig config = new DefaultConfig(new File(folder, "config.json"));
-
     /**
      * Instance of the global mod logger
      */
     public final static Logger logger = LogManager.getLogger(Metadata.getModid());
-
     /**
      * Instance of default addons loader
      */
     public static final DefaultAddonLoader addonLoader = new DefaultAddonLoader();
-
-
-
+    public static File folder;
+    /**
+     * Instance of default config
+     */
+    public static final DefaultConfig config = new DefaultConfig(new File(folder, "config.json"));
     private static HCCAddonBootstrap addonBootstrap;
 
     static {
@@ -72,7 +65,7 @@ public class HCC {
         }
     }
 
-
+    private ChromaHUD chromaHUD;
 
     @InvokeEvent
     public void init(InitializationEvent event) {
@@ -86,6 +79,8 @@ public class HCC {
             logger.error("Failed to load addon(s) from addons folder");
         }
         registerCommands();
+
+        chromaHUD = new ChromaHUD();
         Runtime.getRuntime().addShutdownHook(new Thread(this::shutdown));
     }
 
@@ -94,8 +89,8 @@ public class HCC {
     }
 
     @InvokeEvent
-    public void onChat(ChatEvent event){
-        if(event.getChat().getUnformattedText().contains("configgui")){
+    public void onChat(ChatEvent event) {
+        if (event.getChat().getUnformattedText().contains("configgui")) {
             Minecraft.getMinecraft().displayGuiScreen(new ModConfigGui());
         }
     }
@@ -110,4 +105,7 @@ public class HCC {
         logger.info("Shutting down HCC..");
     }
 
+    public ChromaHUD getChromaHUD() {
+        return chromaHUD;
+    }
 }
