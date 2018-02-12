@@ -21,4 +21,5 @@ package com.hcc.mod.sk1er
 import com.hcc.mod.ModuleBase
 
 class Sk1erModule : ModuleBase() {
+    // In case sk1er wants some utils for his modules
 }
