@@ -46,6 +46,9 @@ import static com.hcc.installer.InstallerFrame.OsCheck.OSType.*;
  * @author Cubxity
  */
 public class InstallerFrame extends JFrame implements PropertyChangeListener {
+    /**
+     * Width & height for installer GUI
+     */
     private static final int WIDTH = 400;
     private static final int HEIGHT = 160;
     private JLabel display;
@@ -53,6 +56,9 @@ public class InstallerFrame extends JFrame implements PropertyChangeListener {
     private JProgressBar progressBar;
     private JButton exit;
 
+    /**
+     * Constructor
+     */
     InstallerFrame() {
         super.frameInit();
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -78,6 +84,9 @@ public class InstallerFrame extends JFrame implements PropertyChangeListener {
         }
     }
 
+    /**
+     * Method to do everything
+     */
     private void install() {
         File mc = getMinecraftDir();
         if (!mc.exists()) {
@@ -237,6 +246,9 @@ public class InstallerFrame extends JFrame implements PropertyChangeListener {
         exit.setVisible(true);
     }
 
+    /**
+     * @return default minecraft directory for every OS
+     */
     private File getMinecraftDir() {
         switch (OsCheck.getOperatingSystemType()) {
             case Linux:
@@ -250,6 +262,9 @@ public class InstallerFrame extends JFrame implements PropertyChangeListener {
         }
     }
 
+    /**
+     * Initialize components for GUI
+     */
     private void initComponents() {
         // Top Panel
         JPanel topPanel = new MotionPanel(this);
@@ -322,6 +337,9 @@ public class InstallerFrame extends JFrame implements PropertyChangeListener {
         setContentPane(contentPane);
     }
 
+    /**
+     * @param evt when progress of download changed
+     */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals("progress")) {
@@ -330,6 +348,9 @@ public class InstallerFrame extends JFrame implements PropertyChangeListener {
         }
     }
 
+    /**
+     * Checks os
+     */
     static class OsCheck {
         /**
          * types of Operating Systems

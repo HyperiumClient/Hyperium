@@ -19,6 +19,10 @@
 package com.hcc.installer;
 
 public class InstallerMain {
+    /**
+     * called when jar is executed
+     * @param args command line argument
+     */
     public static void main(String[] args){
         System.out.println("Starting installer...");
         new InstallerFrame();
