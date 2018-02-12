@@ -28,7 +28,7 @@ public class HCCAddonBootstrap {
      * @throws HCCException when error occurs
      */
     public HCCAddonBootstrap() throws HCCException {
-        if (!modDirectory.mkdirs()) {
+        if (!modDirectory.mkdirs() && !modDirectory.exists()) {
             throw new HCCException("Unable to create addon directory!");
         }
 
