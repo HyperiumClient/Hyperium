@@ -13,6 +13,9 @@ import java.util.jar.JarFile;
 
 public class DefaultAddonLoader extends AddonLoaderStrategy {
 
+    /**
+     * Classloader
+     */
     private static LaunchClassLoader classloader = Launch.classLoader;
 
     /**
