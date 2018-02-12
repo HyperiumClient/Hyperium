@@ -9,12 +9,27 @@ import net.minecraft.launchwrapper.LaunchClassLoader;
 import java.io.File;
 import java.lang.annotation.Annotation;
 import java.net.URI;
+import java.util.Objects;
 import java.util.jar.JarFile;
 
 public class DefaultAddonLoader extends AddonLoaderStrategy {
 
     private static LaunchClassLoader classloader = Launch.classLoader;
 
+    /**
+     * @param file folder to load addons from
+     * @throws Exception when error occurs
+     */
+    public void loadAll(File file) throws Exception {
+        for(File f : Objects.requireNonNull(file.listFiles(File::isFile))){
+            load(f);
+        }
+    }
+
+    /**
+     * @param file addons jar
+     * @throws Exception when exception occurs
+     */
     @Override
     public void load(File file) throws Exception {
         JarFile jar = new JarFile(file);

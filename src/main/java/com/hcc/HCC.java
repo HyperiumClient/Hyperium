@@ -18,6 +18,7 @@
 
 package com.hcc;
 
+import com.hcc.addons.loader.DefaultAddonLoader;
 import com.hcc.config.DefaultConfig;
 import com.hcc.event.InitializationEvent;
 import com.hcc.event.InvokeEvent;
@@ -35,7 +36,15 @@ public class HCC {
 
     public static final HCC INSTANCE = new HCC();
 
+    /**
+     * Instance of default config
+     */
     public static final DefaultConfig config = new DefaultConfig(new File("/hcc/config.json"));
+
+    /**
+     * Instance of default addons loader
+     */
+    public static final DefaultAddonLoader addonLoader = new DefaultAddonLoader();
 
     /**
      * Instance of the global mod logger
@@ -46,6 +55,14 @@ public class HCC {
     public void init(InitializationEvent event) {
         logger.info("HCC Started!");
         Display.setTitle("HCC " + Metadata.getVersion());
+        try {
+            File addons = new File("/hcc/addons");
+            addons.mkdir();
+            addonLoader.loadAll(addons);
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("Failed to load addon(s) from addons folder");
+        }
         Runtime.getRuntime().addShutdownHook(new Thread(this::shutdown));
     }
 
