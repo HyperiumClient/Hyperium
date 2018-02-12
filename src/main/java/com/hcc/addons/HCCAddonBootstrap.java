@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 
 public class HCCAddonBootstrap {
 
+
     /**
      *  Addons directory
      */
