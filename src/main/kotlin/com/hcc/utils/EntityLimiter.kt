@@ -5,8 +5,8 @@ import net.minecraft.entity.Entity
 
 class EntityLimiter(val method: EntityLimiterMethods, var range: Int = -1) {
 
-
     val mc = Minecraft.getMinecraft()
+
     /**
      * Gets Entities that are allowed to render
      */

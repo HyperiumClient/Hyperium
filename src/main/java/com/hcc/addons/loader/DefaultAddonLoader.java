@@ -33,7 +33,7 @@ public class DefaultAddonLoader extends AddonLoaderStrategy {
 
         for (Annotation annotation : addonMain.getAnnotations()) {
             if (annotation instanceof Addon) {
-                // do whatever with Addon annotation
+                // do whatever with Addon annotation?
                 EventBus.INSTANCE.register(instance);
                 break;
             }
