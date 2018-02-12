@@ -28,7 +28,8 @@ import java.nio.ByteBuffer
 import java.nio.IntBuffer
 import javax.imageio.ImageIO
 
-object Utils {
+object
+Utils {
 
     fun fromList(list: List<String>) =
             list.joinToString { "\n" }
@@ -69,5 +70,17 @@ object Utils {
         } catch (e: Exception) {
         }
 
+    }
+
+    fun countSubstrings(s: String, sub: String): Int {
+        var count = 0
+
+        for(i in 0 until s.length){
+            if(s[i].toString().equals(sub)){
+                count++
+            }
+        }
+
+        return count
     }
 }

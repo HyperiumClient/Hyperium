@@ -6,6 +6,9 @@ import java.io.File;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 
+/**
+ * Base for AddonLoader
+ */
 public class AddonLoaderStrategy {
 
     static void assignInstances(Object instance) throws IllegalAccessException {
@@ -22,6 +25,11 @@ public class AddonLoaderStrategy {
         }
     }
 
+    /**
+     * Override this method in the AddonLoader
+     * @param file file to load
+     * @throws Exception when exception occurs
+     */
     public void load(File file) throws Exception {
     }
 }
