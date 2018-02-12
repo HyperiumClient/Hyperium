@@ -21,10 +21,14 @@ package com.hcc;
 import com.hcc.addons.HCCAddonBootstrap;
 import com.hcc.addons.loader.DefaultAddonLoader;
 import com.hcc.config.DefaultConfig;
+import com.hcc.event.ChatEvent;
 import com.hcc.event.InitializationEvent;
 import com.hcc.event.InvokeEvent;
 import com.hcc.event.RenderEvent;
 import com.hcc.exceptions.HCCException;
+import com.hcc.gui.ModConfigGui;
+import net.minecraft.client.Minecraft;
+import net.minecraft.command.CommandHandler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.Display;
@@ -38,10 +42,12 @@ public class HCC {
 
     public static final HCC INSTANCE = new HCC();
 
+    public static File folder;
+
     /**
      * Instance of default config
      */
-    public static final DefaultConfig config = new DefaultConfig(new File("/hcc/config.json"));
+    public static final DefaultConfig config = new DefaultConfig(new File(folder, "config.json"));
 
     /**
      * Instance of the global mod logger
@@ -52,6 +58,8 @@ public class HCC {
      * Instance of default addons loader
      */
     public static final DefaultAddonLoader addonLoader = new DefaultAddonLoader();
+
+
 
     private static HCCAddonBootstrap addonBootstrap;
 
@@ -68,17 +76,28 @@ public class HCC {
 
     @InvokeEvent
     public void init(InitializationEvent event) {
+        folder = new File(Minecraft.getMinecraft().mcDataDir, "hcc");
         logger.info("HCC Started!");
         Display.setTitle("HCC " + Metadata.getVersion());
         try {
-            File addons = new File("/hcc/addons");
-            addons.mkdir();
             addonBootstrap.loadAddons(addonLoader);
         } catch (Exception e) {
             e.printStackTrace();
             logger.error("Failed to load addon(s) from addons folder");
         }
+        registerCommands();
         Runtime.getRuntime().addShutdownHook(new Thread(this::shutdown));
+    }
+
+    private void registerCommands() {
+
+    }
+
+    @InvokeEvent
+    public void onChat(ChatEvent event){
+        if(event.getChat().getUnformattedText().contains("configgui")){
+            Minecraft.getMinecraft().displayGuiScreen(new ModConfigGui());
+        }
     }
 
     @InvokeEvent

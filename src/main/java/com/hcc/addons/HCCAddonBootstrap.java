@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 public class HCCAddonBootstrap {
 
-    private File modDirectory = new File("./hcc/addons/");
+    private static final File modDirectory = new File(HCC.folder, "addons");
 
     private ArrayList<File> addons;
 

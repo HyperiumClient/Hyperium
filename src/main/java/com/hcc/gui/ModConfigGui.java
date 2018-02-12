@@ -26,29 +26,70 @@ import java.awt.*;
 import java.io.IOException;
 
 public class ModConfigGui extends GuiScreen {
+    /**
+     *  current tab
+     */
+    private Tabs currentTab = Tabs.HOME;
 
     @Override
     public void initGui() {
         super.initGui();
-        buttonList.add(new CustomFontButton(0, getX(0), getY(), 50, 25, "HOME").setFontRenderer(Fonts.MONTSERRAT_LIGHT.get()));
-        buttonList.add(new CustomFontButton(1, getX(1), getY(), 50, 25, "SETTINGS").setFontRenderer(Fonts.MONTSERRAT_LIGHT.get()));
-        buttonList.add(new CustomFontButton(2, getX(2), getY(), 50, 25, "ADDONS").setFontRenderer(Fonts.MONTSERRAT_LIGHT.get()));
-        buttonList.add(new CustomFontButton(3, getX(3), getY(), 50, 25, "FRIENDS").setFontRenderer(Fonts.MONTSERRAT_LIGHT.get()));
-        buttonList.add(new CustomFontButton(4, getX(4), getY(), 50, 25, "ABOUT").setFontRenderer(Fonts.MONTSERRAT_LIGHT.get()));
+        buttonList.add(Tabs.HOME.setButton(new CustomFontButton(0, getX(0), getY(), 50, 25, "HOME").setFontRenderer(Fonts.MONTSERRAT_LIGHT.get())));
+        buttonList.add(Tabs.SETTINGS.setButton(new CustomFontButton(1, getX(1), getY(), 50, 25, "SETTINGS").setFontRenderer(Fonts.MONTSERRAT_LIGHT.get())));
+        buttonList.add(Tabs.ADDONS.setButton(new CustomFontButton(2, getX(2), getY(), 50, 25, "ADDONS").setFontRenderer(Fonts.MONTSERRAT_LIGHT.get())));
+        buttonList.add(Tabs.FRIENDS.setButton(new CustomFontButton(3, getX(3), getY(), 50, 25, "FRIENDS").setFontRenderer(Fonts.MONTSERRAT_LIGHT.get())));
+        buttonList.add(Tabs.ABOUT.setButton(new CustomFontButton(4, getX(4), getY(), 50, 25, "ABOUT").setFontRenderer(Fonts.MONTSERRAT_LIGHT.get())));
     }
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         super.drawScreen(mouseX, mouseY, partialTicks);
         //background
-        drawRect(width / 5, height /5, width - width/5, height - height/5, new Color(0, 0, 0, 100).getRGB());
-        //top menu
-        //drawRect(width - width / 5, height /5, width / 5, height /5 + 25, new Color(0, 0, 0, 100).getRGB());
+        drawRect(width / 5, height / 5, width - width / 5, height - height / 5, new Color(0, 0, 0, 100).getRGB());
+
+        //TODO: Draw string for each tab
+        switch (currentTab){
+            case HOME:
+                break;
+            case SETTINGS:
+                break;
+            case ADDONS:
+                break;
+            case FRIENDS:
+                break;
+            case ABOUT:
+                drawCenteredString(fontRendererObj, "Developed by Sk1er, CoalOres, Kevin and Cubxity", width / 2, (height - height / 5) - 12, 0xFFFFFF);
+                break;
+        }
     }
 
     @Override
     protected void actionPerformed(GuiButton button) throws IOException {
+        System.out.println("Action performed on "+button);
         super.actionPerformed(button);
+        for(Tabs t : Tabs.values())
+            if(t.getIndex() == button.id)
+                currentTab = t;
+        updateTabs();
+    }
+
+    private void updateTabs() {
+        //TODO: Make all components invisible here
+
+
+        //TODO: Make components visible corresponding to tab
+        switch (currentTab){
+            case HOME:
+                break;
+            case SETTINGS:
+                break;
+            case ADDONS:
+                break;
+            case FRIENDS:
+                break;
+            case ABOUT:
+                break;
+        }
     }
 
     @Override
@@ -61,12 +102,40 @@ public class ModConfigGui extends GuiScreen {
 
     }
 
-    private int getX(int n){
+    private int getX(int n) {
         return (width / 5) + (50 * n);
     }
 
-    private int getY(){
-        return height /5;
+    private int getY() {
+        return height / 5;
     }
 
+    private enum Tabs {
+        HOME(null, 0),
+        SETTINGS(null, 1),
+        ADDONS(null, 2),
+        FRIENDS(null, 3),
+        ABOUT(null, 4);
+
+        private GuiButton button;
+        private int index;
+
+        Tabs(GuiButton button, int index) {
+            this.button = button;
+            this.index = index;
+        }
+
+        public GuiButton setButton(GuiButton button) {
+            this.button = button;
+            return this.button;
+        }
+
+        public GuiButton getButton() {
+            return button;
+        }
+
+        public int getIndex() {
+            return index;
+        }
+    }
 }

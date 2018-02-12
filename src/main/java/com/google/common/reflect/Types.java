@@ -29,13 +29,8 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 
 import java.io.Serializable;
-import java.lang.reflect.Array;
-import java.lang.reflect.GenericArrayType;
-import java.lang.reflect.GenericDeclaration;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import java.lang.reflect.TypeVariable;
-import java.lang.reflect.WildcardType;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.*;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.concurrent.atomic.AtomicReference;
@@ -340,6 +335,11 @@ final class Types {
       return name;
     }
 
+    @Override
+    public AnnotatedType[] getAnnotatedBounds() {
+      return new AnnotatedType[0];
+    }
+
     @Override public String toString() {
       return name;
     }
@@ -367,6 +367,21 @@ final class Types {
         }
         return false;
       }
+    }
+
+    @Override
+    public <T extends Annotation> T getAnnotation(Class<T> annotationClass) {
+      return null;
+    }
+
+    @Override
+    public Annotation[] getAnnotations() {
+      return new Annotation[0];
+    }
+
+    @Override
+    public Annotation[] getDeclaredAnnotations() {
+      return new Annotation[0];
     }
   }
 
