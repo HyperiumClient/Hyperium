@@ -1,8 +1,8 @@
-package com.hcc.chromahud;
+package com.hcc.mods.chromahud;
 
 import com.google.gson.JsonArray;
-import com.hcc.chromahud.api.DisplayItem;
-import com.hcc.chromahud.gui.GeneralConfigGui;
+import com.hcc.mods.chromahud.api.DisplayItem;
+import com.hcc.mods.chromahud.gui.GeneralConfigGui;
 import com.hcc.event.EventBus;
 import com.hcc.utils.JsonHolder;
 

@@ -1,7 +1,7 @@
-package com.hcc.chromahud.api;
+package com.hcc.mods.chromahud.api;
 
 
-import com.hcc.chromahud.ChromaHUDApi;
+import com.hcc.mods.chromahud.ChromaHUDApi;
 import com.hcc.utils.JsonHolder;
 
 import java.util.ArrayList;

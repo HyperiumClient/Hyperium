@@ -1,10 +1,10 @@
-package com.hcc.chromahud;
+package com.hcc.mods.chromahud;
 
 
-import com.hcc.chromahud.api.ChromaHUDDescription;
-import com.hcc.chromahud.api.ChromaHUDParser;
-import com.hcc.chromahud.api.DisplayItem;
-import com.hcc.chromahud.displayitems.LocationDisplay;
+import com.hcc.mods.chromahud.api.ChromaHUDDescription;
+import com.hcc.mods.chromahud.api.ChromaHUDParser;
+import com.hcc.mods.chromahud.api.DisplayItem;
+import com.hcc.mods.chromahud.displayitems.LocationDisplay;
 import com.hcc.utils.JsonHolder;
 
 import java.util.HashMap;

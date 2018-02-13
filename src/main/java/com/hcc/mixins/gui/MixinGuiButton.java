@@ -47,8 +47,8 @@ public abstract class MixinGuiButton extends Gui{
 
     @Shadow protected int height;
 
-    private int hoverColor = new Color(0, 0, 0, 60).getRGB();
-    private int color = new Color(0, 0, 0, 50).getRGB();
+    private int hoverColor = new Color(0, 0, 0, 90).getRGB();
+    private int color = new Color(0, 0, 0, 70).getRGB();
     private int textColor = new Color(255, 255, 255, 255).getRGB();
     private int textHoverColor = new Color(255, 255, 255, 255).getRGB();
     private FontRenderer fontRenderer = Minecraft.getMinecraft().fontRendererObj;
