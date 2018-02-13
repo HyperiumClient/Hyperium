@@ -117,7 +117,6 @@ public class DefaultConfig {
                     config.add(aClass.getName(), new JsonObject());
                 }
                 JsonObject classObject = config.get(aClass.getName()).getAsJsonObject();
-                System.out.println(config);
                 if (field.getType().isAssignableFrom(int.class)) {
                     classObject.addProperty(field.getName(), field.getInt(object));
                 } else if (field.getType().isAssignableFrom(String.class)) {
@@ -131,7 +130,6 @@ public class DefaultConfig {
                 } else if (field.getType().isAssignableFrom(float.class)) {
                     classObject.addProperty(field.getName(), field.getFloat(object));
                 }
-                System.out.println(config);
             }
         }
     }
