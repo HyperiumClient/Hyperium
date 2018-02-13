@@ -18,6 +18,7 @@
 
 package com.hcc.gui;
 
+import com.hcc.gui.font.Fonts;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 
@@ -25,7 +26,6 @@ import java.awt.*;
 import java.io.IOException;
 
 public class ModConfigGui extends GuiScreen {
-
     /**
      *  current tab
      */
@@ -34,18 +34,19 @@ public class ModConfigGui extends GuiScreen {
     @Override
     public void initGui() {
         super.initGui();
-        buttonList.add(Tabs.HOME.setButton(new CustomFontButton(0, getX(0), getY(), 50, 25, "HOME")));
-        buttonList.add(Tabs.SETTINGS.setButton(new CustomFontButton(1, getX(1), getY(), 50, 25, "SETTINGS")));
-        buttonList.add(Tabs.ADDONS.setButton(new CustomFontButton(2, getX(2), getY(), 50, 25, "ADDONS")));
-        buttonList.add(Tabs.FRIENDS.setButton(new CustomFontButton(3, getX(3), getY(), 50, 25, "FRIENDS")));
-        buttonList.add(Tabs.ABOUT.setButton(new CustomFontButton(4, getX(4), getY(), 50, 25, "ABOUT")));
+        this.buttonList.add(Tabs.HOME.setButton(new GuiButton(0, getX(0), getY(), 50, 25, "HOME")));
+        this.buttonList.add(Tabs.SETTINGS.setButton(new GuiButton(1, getX(1), getY(), 50, 25, "SETTINGS")));
+        this.buttonList.add(Tabs.ADDONS.setButton(new GuiButton(2, getX(2), getY(), 50, 25, "ADDONS")));
+        this.buttonList.add(Tabs.FRIENDS.setButton(new GuiButton(3, getX(3), getY(), 50, 25, "FRIENDS")));
+        this.buttonList.add(Tabs.ABOUT.setButton(new GuiButton(4, getX(4), getY(), 50, 25, "ABOUT")));
     }
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-        super.drawScreen(mouseX, mouseY, partialTicks);
+        drawDefaultBackground();
         //background
         drawRect(width / 5, height / 5, width - width / 5, height - height / 5, new Color(0, 0, 0, 100).getRGB());
+
         //TODO: Draw string for each tab
         switch (currentTab){
             case HOME:
@@ -60,12 +61,14 @@ public class ModConfigGui extends GuiScreen {
                 drawCenteredString(fontRendererObj, "Developed by Sk1er, CoalOres, Kevin and Cubxity", width / 2, (height - height / 5) - 12, 0xFFFFFF);
                 break;
         }
+        super.drawScreen(mouseX, mouseY, partialTicks);
+
+        // Tab highlight
+        drawRect(getX(currentTab.getIndex()), getY() + 22, getX(currentTab.getIndex()+1), getY()+20, new Color(149, 201, 144).getRGB());
     }
 
     @Override
-    protected void actionPerformed(GuiButton button) throws IOException {
-        System.out.println("Action performed on "+button);
-        super.actionPerformed(button);
+    protected void actionPerformed(GuiButton button) {
         for(Tabs t : Tabs.values())
             if(t.getIndex() == button.id)
                 currentTab = t;
@@ -98,7 +101,7 @@ public class ModConfigGui extends GuiScreen {
 
     @Override
     protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
-
+        super.mouseClicked(mouseX, mouseY, mouseButton);
     }
 
     private int getX(int n) {
