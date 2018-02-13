@@ -32,4 +32,7 @@ public class AnimationsContainer {
 
     @ConfigOpt
     public static boolean oldEat = true;
+
+    @ConfigOpt
+    public static boolean redArmour = true;
 }

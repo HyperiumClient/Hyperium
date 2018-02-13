@@ -1,10 +1,10 @@
-package com.hcc.chromahud.gui;
+package com.hcc.mods.chromahud.gui;
 
-import com.hcc.chromahud.*;
-import com.hcc.chromahud.api.ButtonConfig;
-import com.hcc.chromahud.api.DisplayItem;
-import com.hcc.chromahud.api.StringConfig;
-import com.hcc.chromahud.api.TextConfig;
+import com.hcc.mods.chromahud.*;
+import com.hcc.mods.chromahud.api.ButtonConfig;
+import com.hcc.mods.chromahud.api.DisplayItem;
+import com.hcc.mods.chromahud.api.StringConfig;
+import com.hcc.mods.chromahud.api.TextConfig;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.renderer.GlStateManager;

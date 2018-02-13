@@ -18,7 +18,6 @@
 
 package com.hcc.gui;
 
-import com.hcc.gui.font.Fonts;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 

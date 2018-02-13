@@ -1,4 +1,4 @@
-package com.hcc.chromahud;
+package com.hcc.mods.chromahud;
 
 /**
  * Created by mitchellkatz on 6/1/17.

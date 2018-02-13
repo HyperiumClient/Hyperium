@@ -1,9 +1,9 @@
-package com.hcc.chromahud.displayitems;
+package com.hcc.mods.chromahud.displayitems;
 
 import com.hcc.HCC;
-import com.hcc.chromahud.ElementRenderer;
-import com.hcc.chromahud.api.Dimension;
-import com.hcc.chromahud.api.DisplayItem;
+import com.hcc.mods.chromahud.ElementRenderer;
+import com.hcc.mods.chromahud.api.Dimension;
+import com.hcc.mods.chromahud.api.DisplayItem;
 import com.hcc.utils.JsonHolder;
 import net.minecraft.client.Minecraft;
 
