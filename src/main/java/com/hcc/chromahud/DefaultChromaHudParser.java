@@ -4,7 +4,7 @@ package com.hcc.chromahud;
 import com.hcc.chromahud.api.ChromaHUDDescription;
 import com.hcc.chromahud.api.ChromaHUDParser;
 import com.hcc.chromahud.api.DisplayItem;
-import com.hcc.chromahud.displayitems.FPS;
+import com.hcc.chromahud.displayitems.LocationDisplay;
 import com.hcc.utils.JsonHolder;
 
 import java.util.HashMap;
@@ -17,25 +17,15 @@ public class DefaultChromaHudParser implements ChromaHUDParser {
     private HashMap<String, String> names = new HashMap<>();
 
     public DefaultChromaHudParser() {
-        names.put("CORDS", "Cords");
-        names.put("TEXT", "Text");
-        names.put("ARMOUR_HUD", "Armour");
-        names.put("POTION", "Potion");
-        names.put("FPS", "FPS");
-        names.put("PING", "Ping");
-        names.put("DIRECTION", "Direction");
-        names.put("CPS", "CPS");
-        names.put("ARROW_COUNT", "Arrow Count");
-        names.put("TIME", "Time");
-        names.put("C_COUNTER", "C Counter");
+        names.put("LOCATION", "Location");
     }
 
     @Override
     public DisplayItem parse(String type, int ord, JsonHolder item) {
         switch (type) {
 
-            case "FPS":
-                return new FPS(item, ord);
+            case "LOCATION":
+                return new LocationDisplay(item, ord);
 
         }
         return null;
@@ -49,6 +39,6 @@ public class DefaultChromaHudParser implements ChromaHUDParser {
 
     @Override
     public ChromaHUDDescription description() {
-        return new ChromaHUDDescription("DEFAULT", "3.0", "ChromaHUD", "Default display items for ChromaHUD.");
+        return new ChromaHUDDescription("DEFAULT", "1.0", "HCC", "Default Items in HCC.");
     }
 }

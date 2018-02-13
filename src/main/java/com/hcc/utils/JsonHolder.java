@@ -20,8 +20,10 @@ public class JsonHolder {
     }
 
     public JsonHolder(String raw) {
-        if (raw == null)
+        if (raw == null) {
             object = new JsonObject();
+            return;
+        }
         try {
             this.object = new JsonParser().parse(raw).getAsJsonObject();
         } catch (Exception e) {
@@ -183,9 +185,7 @@ public class JsonHolder {
     }
 
     public List<String> getKeys() {
-        List<String> tmp = new ArrayList<>();
-        tmp.addAll(object.keySet());
-        return tmp;
+        return new ArrayList<>(object.keySet());
     }
 
     public double optDouble(String key) {

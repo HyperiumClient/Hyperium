@@ -3,6 +3,7 @@ package com.hcc.chromahud;
 import com.google.gson.JsonArray;
 import com.hcc.chromahud.api.DisplayItem;
 import com.hcc.chromahud.gui.GeneralConfigGui;
+import com.hcc.event.EventBus;
 import com.hcc.utils.JsonHolder;
 
 import java.io.*;
@@ -24,9 +25,8 @@ public class ChromaHUD {
         suggestedConfigurationFile = new File("hcc/displayconfig.json");
         ChromaHUDApi.getInstance();
         ChromaHUDApi.getInstance().register(new DefaultChromaHudParser());
-
         setup();
-
+        EventBus.INSTANCE.register(new ElementRenderer(this));
 
 
     }
@@ -35,8 +35,8 @@ public class ChromaHUD {
     public void setup() {
         JsonHolder data = new JsonHolder();
         try {
-            if(!suggestedConfigurationFile.exists()) {
-                if(!suggestedConfigurationFile.getParentFile().exists())
+            if (!suggestedConfigurationFile.exists()) {
+                if (!suggestedConfigurationFile.getParentFile().exists())
                     suggestedConfigurationFile.getParentFile().mkdirs();
                 saveState();
             }

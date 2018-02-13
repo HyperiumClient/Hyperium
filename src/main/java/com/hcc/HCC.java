@@ -28,6 +28,7 @@ import com.hcc.event.InvokeEvent;
 import com.hcc.event.RenderEvent;
 import com.hcc.exceptions.HCCException;
 import com.hcc.gui.ModConfigGui;
+import com.hcc.handlers.HCCHandlers;
 import net.minecraft.client.Minecraft;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -66,6 +67,7 @@ public class HCC {
     }
 
     private ChromaHUD chromaHUD;
+    private HCCHandlers handlers;
 
     @InvokeEvent
     public void init(InitializationEvent event) {
@@ -81,6 +83,7 @@ public class HCC {
         registerCommands();
 
         chromaHUD = new ChromaHUD();
+        handlers = new HCCHandlers();
         Runtime.getRuntime().addShutdownHook(new Thread(this::shutdown));
     }
 
@@ -107,5 +110,9 @@ public class HCC {
 
     public ChromaHUD getChromaHUD() {
         return chromaHUD;
+    }
+
+    public HCCHandlers getHandlers() {
+        return handlers;
     }
 }

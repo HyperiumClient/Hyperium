@@ -19,7 +19,7 @@ public class MixinSoundManager {
      */
     @Inject(method = "playSound", at = @At("HEAD"), cancellable = true)
     private void playSound(ISound sound, CallbackInfo ci) {
-        if (!Display.isActive()) { // todo: settigns to enable / disable
+        if (!Display.isActive()) { // todo: settings to enable / disable
             ci.cancel();
         }
     }

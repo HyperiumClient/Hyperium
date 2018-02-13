@@ -89,6 +89,10 @@ public class DefaultConfig {
                             field.set(object, jsonElement.getAsBoolean());
                         } else if (field.getType().isAssignableFrom(double.class)) {
                             field.set(object, jsonElement.getAsDouble());
+                        } else if (field.getType().isAssignableFrom(long.class)) {
+                            field.set(object, jsonElement.getAsLong());
+                        } else if (field.getType().isAssignableFrom(float.class)) {
+                            field.set(object, jsonElement.getAsFloat());
                         }
                     }
                 }
@@ -113,15 +117,21 @@ public class DefaultConfig {
                     config.add(aClass.getName(), new JsonObject());
                 }
                 JsonObject classObject = config.get(aClass.getName()).getAsJsonObject();
+                System.out.println(config);
                 if (field.getType().isAssignableFrom(int.class)) {
                     classObject.addProperty(field.getName(), field.getInt(object));
                 } else if (field.getType().isAssignableFrom(String.class)) {
-                    config.addProperty(field.getName(), (String) field.get(object));
+                    classObject.addProperty(field.getName(), (String) field.get(object));
                 } else if (field.getType().isAssignableFrom(boolean.class)) {
-                    config.addProperty(field.getName(), field.getBoolean(object));
+                    classObject.addProperty(field.getName(), field.getBoolean(object));
                 } else if (field.getType().isAssignableFrom(double.class)) {
-                    config.addProperty(field.getName(), field.getDouble(object));
+                    classObject.addProperty(field.getName(), field.getDouble(object));
+                } else if (field.getType().isAssignableFrom(long.class)) {
+                    classObject.addProperty(field.getName(), field.getLong(object));
+                } else if (field.getType().isAssignableFrom(float.class)) {
+                    classObject.addProperty(field.getName(), field.getFloat(object));
                 }
+                System.out.println(config);
             }
         }
     }
