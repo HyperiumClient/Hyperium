@@ -22,12 +22,14 @@ import com.hcc.Metadata;
 import com.hcc.gui.ModConfigGui;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.*;
+import net.minecraft.client.multiplayer.GuiConnecting;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.realms.RealmsBridge;
 import net.minecraft.util.ResourceLocation;
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -40,49 +42,60 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(GuiMainMenu.class)
 public abstract class MixinGuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 
-    @Shadow private GuiButton realmsButton;
+    @Shadow
+    private GuiButton realmsButton;
     @Shadow
     private ResourceLocation backgroundTexture;
-    @Shadow private String openGLWarning2;
-    @Shadow private String openGLWarning1;
-    @Shadow private GuiScreen field_183503_M;
-    @Shadow private boolean field_183502_L;
-    @Shadow private int field_92019_w;
-    @Shadow private int field_92020_v;
-    @Shadow @Final private Object threadLock;
-    @Shadow private int field_92021_u;
-    @Shadow private int field_92022_t;
-    @Shadow private int field_92024_r;
-    @Shadow private int field_92023_s;
-    @Shadow private DynamicTexture viewportTexture;
+    @Shadow
+    private String openGLWarning2;
+    @Shadow
+    private String openGLWarning1;
+    @Shadow
+    private GuiScreen field_183503_M;
+    @Shadow
+    private boolean field_183502_L;
+    @Shadow
+    private int field_92019_w;
+    @Shadow
+    private int field_92020_v;
+    @Shadow
+    @Final
+    private Object threadLock;
+    @Shadow
+    private int field_92021_u;
+    @Shadow
+    private int field_92022_t;
+    @Shadow
+    private int field_92024_r;
+    @Shadow
+    private int field_92023_s;
+    @Shadow
+    private DynamicTexture viewportTexture;
     private FontRenderer fontRendererObj = Minecraft.getMinecraft().fontRendererObj;
+    private GuiButton hypixelButton;
 
 
     /**
      * Override initGui
+     *
      * @author Cubxity
      */
     @Overwrite
-    public void initGui()
-    {
+    public void initGui() {
         this.viewportTexture = new DynamicTexture(256, 256);
         this.backgroundTexture = this.mc.getTextureManager().getDynamicTextureLocation("background", this.viewportTexture);
         int j = this.height / 4 + 48;
 
-        if (this.mc.isDemo())
-        {
+        if (this.mc.isDemo()) {
             this.addDemoButtons(j, 24);
-        }
-        else
-        {
-            this.addSingleplayerMultiplayerButtons(j- 10, 24);
+        } else {
+            this.addSingleplayerMultiplayerButtons(j - 10, 24);
         }
 
         this.buttonList.add(new GuiButton(0, this.width / 2 - 100, j + 72 + 12 + 24 - 5, 98, 20, I18n.format("menu.options")));
         this.buttonList.add(new GuiButton(4, this.width / 2 + 2, j + 72 + 12 + 24 - 5, 98, 20, I18n.format("menu.quit")));
 
-        synchronized (this.threadLock)
-        {
+        synchronized (this.threadLock) {
             this.field_92023_s = this.fontRendererObj.getStringWidth(this.openGLWarning1);
             this.field_92024_r = this.fontRendererObj.getStringWidth(this.openGLWarning2);
             int k = Math.max(this.field_92023_s, this.field_92024_r);
@@ -94,15 +107,13 @@ public abstract class MixinGuiMainMenu extends GuiScreen implements GuiYesNoCall
 
         this.mc.setConnectedToRealms(false);
 
-        if (Minecraft.getMinecraft().gameSettings.getOptionOrdinalValue(GameSettings.Options.REALMS_NOTIFICATIONS) && !this.field_183502_L)
-        {
+        if (Minecraft.getMinecraft().gameSettings.getOptionOrdinalValue(GameSettings.Options.REALMS_NOTIFICATIONS) && !this.field_183502_L) {
             RealmsBridge realmsbridge = new RealmsBridge();
-            this.field_183503_M= realmsbridge.getNotificationScreen(this);
+            this.field_183503_M = realmsbridge.getNotificationScreen(this);
             this.field_183502_L = true;
         }
 
-        if (this.func_183501_a())
-        {
+        if (this.func_183501_a()) {
             this.field_183503_M.func_183500_a(this.width, this.height);
             this.field_183503_M.initGui();
         }
@@ -110,22 +121,25 @@ public abstract class MixinGuiMainMenu extends GuiScreen implements GuiYesNoCall
 
     /**
      * Override buttons
+     *
      * @author Cubxity
      */
     @Overwrite
-    private void addSingleplayerMultiplayerButtons(int p_73969_1_, int p_73969_2_){
+    private void addSingleplayerMultiplayerButtons(int p_73969_1_, int p_73969_2_) {
         this.buttonList.add(new GuiButton(1, this.width / 2 - 100, p_73969_1_, I18n.format("menu.singleplayer")));
         this.buttonList.add(new GuiButton(2, this.width / 2 - 100, p_73969_1_ + p_73969_2_, I18n.format("menu.multiplayer")));
-        this.buttonList.add(this.realmsButton = new GuiButton(14, this.width / 2 - 100, p_73969_1_ + p_73969_2_ * 2, I18n.format("menu.online")));
+        //Change realms button ID to 16 to avoid conflicts
+        this.buttonList.add(this.hypixelButton = new GuiButton(16, this.width / 2 - 100, p_73969_1_ + p_73969_2_ * 2, I18n.format("Join Hypixel")));
         this.buttonList.add(new GuiButton(15, this.width / 2 - 100, p_73969_1_ + p_73969_2_ * 3, I18n.format("HCC Settings")));
     }
 
     /**
      * Override drawScreen method
+     *
      * @author Cubxity
      */
     @Overwrite
-    public void drawScreen(int mouseX, int mouseY, float partialTicks){
+    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         GlStateManager.disableAlpha();
         this.renderSkybox(mouseX, mouseY, partialTicks);
         GlStateManager.enableAlpha();
@@ -141,18 +155,27 @@ public abstract class MixinGuiMainMenu extends GuiScreen implements GuiYesNoCall
         this.drawString(this.fontRendererObj, s1, this.width - this.fontRendererObj.getStringWidth(s1) - 2, this.height - 10, -1);
         String s3 = "Not affiliated with Hypixel INC";
         this.drawString(this.fontRendererObj, s3, this.width - this.fontRendererObj.getStringWidth(s1) - 2, this.height - 20, -1);
-
-
+        this.hypixelButton.displayString = Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) ? "Fix Hypixel Session" : "Join Hypixel";
         super.drawScreen(mouseX, mouseY, partialTicks);
+
 
     }
 
     @Inject(method = "actionPerformed", at = @At("RETURN"))
     private void actionPerformed(GuiButton button, CallbackInfo ci) {
-        if(button.id == 15)
+        if (button.id == 15)
             mc.displayGuiScreen(new ModConfigGui());
+        if (button.id == 16) {
+            Minecraft.getMinecraft().displayGuiScreen(new GuiConnecting(new GuiMainMenu(), Minecraft.getMinecraft(),Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) ? "stuck.hypixel.net" : "mc.hypixel.net", 25565));
+        }
     }
-    @Shadow protected abstract void renderSkybox(int p_73971_1_, int p_73971_2_, float p_73971_3_);
-    @Shadow protected abstract void addDemoButtons(int p_73972_1_, int p_73972_2_);
-    @Shadow protected abstract boolean func_183501_a();
+
+    @Shadow
+    protected abstract void renderSkybox(int p_73971_1_, int p_73971_2_, float p_73971_3_);
+
+    @Shadow
+    protected abstract void addDemoButtons(int p_73972_1_, int p_73972_2_);
+
+    @Shadow
+    protected abstract boolean func_183501_a();
 }
