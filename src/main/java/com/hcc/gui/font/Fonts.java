@@ -23,7 +23,7 @@ import com.hcc.utils.TrueTypeFont;
 import java.awt.*;
 
 public enum Fonts {
-    ARIAL(new Font("arial", Font.BOLD, 20));
+    ARIAL(new Font("Monsterrat", Font.BOLD, 20));
 
     private Font font;
 
