@@ -1,7 +1,6 @@
 package com.hcc.utils;
 
 
-import net.minecraft.client.Minecraft;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.GLU;
@@ -94,12 +93,12 @@ public class TrueTypeFont {
         }
     }
 
-    public static void set2DMode() {
+    public static void set2DMode(int width, int height) {
         //GL11.glDisable(GL11.GL_DEPTH_TEST);
         GL11.glMatrixMode(GL11.GL_PROJECTION);                        // Select The Projection Matrix
         GL11.glPushMatrix();                                     // Store The Projection Matrix
         GL11.glLoadIdentity();                                   // Reset The Projection Matrix
-        GL11.glOrtho(0, Minecraft.getMinecraft().displayWidth, 0, Minecraft.getMinecraft().displayHeight, -1, 1);                          // Set Up An Ortho Screen
+        GL11.glOrtho(0, width, 0, height, -1, 1);                          // Set Up An Ortho Screen
         GL11.glMatrixMode(GL11.GL_MODELVIEW);                         // Select The Modelview Matrix
         GL11.glPushMatrix();                                     // Store The Modelview Matrix
         GL11.glLoadIdentity();                                   // Reset The Modelview Matrix

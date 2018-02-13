@@ -30,7 +30,6 @@ import com.hcc.exceptions.HCCException;
 import com.hcc.gui.AnimationsContainer;
 import com.hcc.gui.ModConfigGui;
 import com.hcc.handlers.HCCHandlers;
-import com.hcc.mixins.renderer.MixinItemRenderer;
 import com.hcc.utils.TrueTypeFont;
 import net.minecraft.client.Minecraft;
 import org.apache.logging.log4j.LogManager;
