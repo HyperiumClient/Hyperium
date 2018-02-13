@@ -1,4 +1,4 @@
-package com.hcc.chromahud;
+package com.hcc.mods.chromahud;
 
 import net.minecraft.client.gui.ScaledResolution;
 

@@ -1,4 +1,4 @@
-package com.hcc.chromahud.api;
+package com.hcc.mods.chromahud.api;
 
 import java.util.function.Consumer;
 

@@ -20,7 +20,7 @@ package com.hcc;
 
 import com.hcc.addons.HCCAddonBootstrap;
 import com.hcc.addons.loader.DefaultAddonLoader;
-import com.hcc.chromahud.ChromaHUD;
+import com.hcc.mods.chromahud.ChromaHUD;
 import com.hcc.config.DefaultConfig;
 import com.hcc.event.ChatEvent;
 import com.hcc.event.InitializationEvent;

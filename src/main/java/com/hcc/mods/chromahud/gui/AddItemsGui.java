@@ -1,11 +1,11 @@
-package com.hcc.chromahud.gui;
+package com.hcc.mods.chromahud.gui;
 
 
-import com.hcc.chromahud.*;
-import com.hcc.chromahud.api.ChromaHUDDescription;
-import com.hcc.chromahud.api.ChromaHUDParser;
-import com.hcc.chromahud.api.Dimension;
-import com.hcc.chromahud.api.DisplayItem;
+import com.hcc.mods.chromahud.*;
+import com.hcc.mods.chromahud.api.ChromaHUDDescription;
+import com.hcc.mods.chromahud.api.ChromaHUDParser;
+import com.hcc.mods.chromahud.api.Dimension;
+import com.hcc.mods.chromahud.api.DisplayItem;
 import com.hcc.utils.JsonHolder;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;

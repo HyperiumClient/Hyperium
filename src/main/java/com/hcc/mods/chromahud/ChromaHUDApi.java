@@ -1,7 +1,7 @@
-package com.hcc.chromahud;
+package com.hcc.mods.chromahud;
 
 import com.google.gson.JsonArray;
-import com.hcc.chromahud.api.*;
+import com.hcc.mods.chromahud.api.*;
 import com.hcc.utils.JsonHolder;
 
 import java.util.ArrayList;
