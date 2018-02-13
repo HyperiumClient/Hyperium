@@ -50,7 +50,7 @@ public class HCC {
      * Instance of default addons loader
      */
     public static final DefaultAddonLoader addonLoader = new DefaultAddonLoader();
-    public static File folder;
+    public static File folder = new File("hcc");
     /**
      * Instance of default config
      */
