@@ -19,6 +19,7 @@
 
     "entities.MixinEntityPlayer",
     "entity.MixinEntityRenderer",
+    "renderer.MixinItemRenderer",
 
     "world.MixinWorld"
   ]
