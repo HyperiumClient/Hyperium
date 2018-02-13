@@ -18,6 +18,8 @@
 
 package com.hcc.gui;
 
+import com.hcc.HCC;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 
@@ -26,7 +28,7 @@ import java.io.IOException;
 
 public class ModConfigGui extends GuiScreen {
     /**
-     *  current tab
+     * current tab
      */
     private Tabs currentTab = Tabs.HOME;
 
@@ -38,6 +40,8 @@ public class ModConfigGui extends GuiScreen {
         this.buttonList.add(Tabs.ADDONS.setButton(new GuiButton(2, getX(2), getY(), 50, 25, "ADDONS")));
         this.buttonList.add(Tabs.FRIENDS.setButton(new GuiButton(3, getX(3), getY(), 50, 25, "FRIENDS")));
         this.buttonList.add(Tabs.ABOUT.setButton(new GuiButton(4, getX(4), getY(), 50, 25, "ABOUT")));
+        this.buttonList.add(Tabs.CHROMAHUD.setButton(new GuiButton(5, getX(5), getY(), 50, 25, "DISPLAY")));
+
     }
 
     @Override
@@ -47,7 +51,7 @@ public class ModConfigGui extends GuiScreen {
         drawRect(width / 5, height / 5, width - width / 5, height - height / 5, new Color(0, 0, 0, 100).getRGB());
 
         //TODO: Draw string for each tab
-        switch (currentTab){
+        switch (currentTab) {
             case HOME:
                 break;
             case SETTINGS:
@@ -56,6 +60,14 @@ public class ModConfigGui extends GuiScreen {
                 break;
             case FRIENDS:
                 break;
+            case CHROMAHUD: {
+                if (Minecraft.getMinecraft().thePlayer == null) {
+                    drawCenteredString(fontRendererObj, "Please use this while in a world or on a server", width / 2, (height - height / 2) - 12, 0xFFFFFF);
+                } else {
+                    Minecraft.getMinecraft().displayGuiScreen(HCC.INSTANCE.getChromaHUD().getConfigGuiInstance());
+                }
+                break;
+            }
             case ABOUT:
                 drawCenteredString(fontRendererObj, "Developed by Sk1er, CoalOres, Kevin and Cubxity", width / 2, (height - height / 5) - 12, 0xFFFFFF);
                 break;
@@ -63,13 +75,13 @@ public class ModConfigGui extends GuiScreen {
         super.drawScreen(mouseX, mouseY, partialTicks);
 
         // Tab highlight
-        drawRect(getX(currentTab.getIndex()), getY() + 22, getX(currentTab.getIndex()+1), getY()+20, new Color(149, 201, 144).getRGB());
+        drawRect(getX(currentTab.getIndex()), getY() + 22, getX(currentTab.getIndex() + 1), getY() + 20, new Color(149, 201, 144).getRGB());
     }
 
     @Override
     protected void actionPerformed(GuiButton button) {
-        for(Tabs t : Tabs.values())
-            if(t.getIndex() == button.id)
+        for (Tabs t : Tabs.values())
+            if (t.getIndex() == button.id)
                 currentTab = t;
         updateTabs();
     }
@@ -79,7 +91,7 @@ public class ModConfigGui extends GuiScreen {
 
 
         //TODO: Make components visible corresponding to tab
-        switch (currentTab){
+        switch (currentTab) {
             case HOME:
                 break;
             case SETTINGS:
@@ -89,6 +101,8 @@ public class ModConfigGui extends GuiScreen {
             case FRIENDS:
                 break;
             case ABOUT:
+                break;
+            case CHROMAHUD:
                 break;
         }
     }
@@ -116,7 +130,8 @@ public class ModConfigGui extends GuiScreen {
         SETTINGS(null, 1),
         ADDONS(null, 2),
         FRIENDS(null, 3),
-        ABOUT(null, 4);
+        ABOUT(null, 4),
+        CHROMAHUD(null, 5);
 
         private GuiButton button;
         private int index;

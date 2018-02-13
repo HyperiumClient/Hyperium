@@ -69,7 +69,8 @@ public class CustomFontButton extends GuiButton {
                 j = textHoverColor;
             }
             TrueTypeFont ttf = Fonts.ARIAL.getTrueTypeFont();
-            TrueTypeFont.set2DMode();
+            //Commented by Sk1er to stop compiler errors
+//            TrueTypeFont.set2DMode();
             // help my boi cube
             ttf.drawString(this.displayString, (this.xPosition + this.width / 2) * 2, (Minecraft.getMinecraft().displayHeight - (this.yPosition + (this.height - 8) / 2) * 2) , 1f, 1f, TrueTypeFont.ALIGN_CENTER);
             TrueTypeFont.set3DMode();

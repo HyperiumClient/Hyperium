@@ -106,7 +106,6 @@ public class HCC {
     @InvokeEvent
     public void render(RenderEvent event) {
 
-        Minecraft.getMinecraft().fontRendererObj.drawString("Test", 1, 1, 0xFFFFFF);
     }
 
     private void shutdown() {

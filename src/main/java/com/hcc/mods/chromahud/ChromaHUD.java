@@ -72,10 +72,7 @@ public class ChromaHUD {
         master.put("enabled", enabled);
         JsonArray elementArray = new JsonArray();
         master.put("elements", elementArray);
-//        getDisplayElements().removeIf((displayElement) -> displayElement.getDisplayItems().size() == 0);
         for (DisplayElement element : getDisplayElements()) {
-//            if (element.getDisplayItems().size() == 0)
-//                continue;
             JsonHolder tmp = element.getData();
             JsonArray items = new JsonArray();
             for (DisplayItem item : element.getDisplayItems()) {
