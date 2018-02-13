@@ -27,10 +27,9 @@ import com.hcc.event.InitializationEvent;
 import com.hcc.event.InvokeEvent;
 import com.hcc.event.RenderEvent;
 import com.hcc.exceptions.HCCException;
-import com.hcc.gui.AnimationsContainer;
 import com.hcc.gui.ModConfigGui;
 import com.hcc.handlers.HCCHandlers;
-import com.hcc.mixins.renderer.MixinItemRenderer;
+import com.hcc.mods.discord.RichPresenceManager;
 import com.hcc.utils.TrueTypeFont;
 import net.minecraft.client.Minecraft;
 import org.apache.logging.log4j.LogManager;
@@ -43,7 +42,6 @@ import java.io.File;
  * Hypixel Community Client
  */
 public class HCC {
-
     public static final HCC INSTANCE = new HCC();
     /**
      * Instance of the global mod logger
@@ -60,6 +58,7 @@ public class HCC {
     public static final DefaultConfig config = new DefaultConfig(new File(folder, "config.json"));
     private static HCCAddonBootstrap addonBootstrap;
 
+    private static RichPresenceManager richPresenceManager = new RichPresenceManager();
 
     static {
         try {
@@ -89,7 +88,7 @@ public class HCC {
 
         chromaHUD = new ChromaHUD();
         handlers = new HCCHandlers();
-        config.register(new AnimationsContainer());
+        richPresenceManager.init();
         Runtime.getRuntime().addShutdownHook(new Thread(this::shutdown));
     }
 
@@ -112,6 +111,7 @@ public class HCC {
 
     private void shutdown() {
         config.save();
+        richPresenceManager.shutdown();
         logger.info("Shutting down HCC..");
     }
 
