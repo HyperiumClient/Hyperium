@@ -28,8 +28,7 @@ import java.nio.ByteBuffer
 import java.nio.IntBuffer
 import javax.imageio.ImageIO
 
-object
-Utils {
+object Utils {
 
     fun fromList(list: List<String>) =
             list.joinToString { "\n" }
