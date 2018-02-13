@@ -18,28 +18,27 @@
 
 package com.hcc.gui.font;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.util.ResourceLocation;
+import com.hcc.utils.TrueTypeFont;
+
+import java.awt.*;
 
 public enum Fonts {
-    MONTSERRAT_BOLD(load("Montserrat-Bold")),
-    MONTSERRAT_LIGHT(load("Montserrat-Light")),
-    MONTSERRAT_REGULAR(load("Montserrat-Regular"));
+    ARIAL(new Font("arial", Font.BOLD, 20));
 
-    private FontRenderer renderer;
-    Fonts(FontRenderer renderer){
-        this.renderer = renderer;
-    }
-    private static FontRenderer load(String font){
-       return new FontRenderer(
-               Minecraft.getMinecraft().gameSettings,
-               new ResourceLocation("textures/font/"+font+".png"),
-               Minecraft.getMinecraft().getTextureManager(),
-               false);
+    private Font font;
+
+    private TrueTypeFont ttf;
+
+    Fonts(Font font){
+        this.font = font;
+        this.ttf = new TrueTypeFont(font, true);
     }
 
-    public FontRenderer get() {
-        return renderer;
+    public Font getFont() {
+        return font;
+    }
+
+    public TrueTypeFont getTrueTypeFont() {
+        return ttf;
     }
 }

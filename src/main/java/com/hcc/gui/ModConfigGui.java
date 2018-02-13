@@ -18,7 +18,6 @@
 
 package com.hcc.gui;
 
-import com.hcc.gui.font.Fonts;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 
@@ -26,6 +25,7 @@ import java.awt.*;
 import java.io.IOException;
 
 public class ModConfigGui extends GuiScreen {
+
     /**
      *  current tab
      */
@@ -34,11 +34,11 @@ public class ModConfigGui extends GuiScreen {
     @Override
     public void initGui() {
         super.initGui();
-        buttonList.add(Tabs.HOME.setButton(new CustomFontButton(0, getX(0), getY(), 50, 25, "HOME").setFontRenderer(Fonts.MONTSERRAT_LIGHT.get())));
-        buttonList.add(Tabs.SETTINGS.setButton(new CustomFontButton(1, getX(1), getY(), 50, 25, "SETTINGS").setFontRenderer(Fonts.MONTSERRAT_LIGHT.get())));
-        buttonList.add(Tabs.ADDONS.setButton(new CustomFontButton(2, getX(2), getY(), 50, 25, "ADDONS").setFontRenderer(Fonts.MONTSERRAT_LIGHT.get())));
-        buttonList.add(Tabs.FRIENDS.setButton(new CustomFontButton(3, getX(3), getY(), 50, 25, "FRIENDS").setFontRenderer(Fonts.MONTSERRAT_LIGHT.get())));
-        buttonList.add(Tabs.ABOUT.setButton(new CustomFontButton(4, getX(4), getY(), 50, 25, "ABOUT").setFontRenderer(Fonts.MONTSERRAT_LIGHT.get())));
+        buttonList.add(Tabs.HOME.setButton(new CustomFontButton(0, getX(0), getY(), 50, 25, "HOME")));
+        buttonList.add(Tabs.SETTINGS.setButton(new CustomFontButton(1, getX(1), getY(), 50, 25, "SETTINGS")));
+        buttonList.add(Tabs.ADDONS.setButton(new CustomFontButton(2, getX(2), getY(), 50, 25, "ADDONS")));
+        buttonList.add(Tabs.FRIENDS.setButton(new CustomFontButton(3, getX(3), getY(), 50, 25, "FRIENDS")));
+        buttonList.add(Tabs.ABOUT.setButton(new CustomFontButton(4, getX(4), getY(), 50, 25, "ABOUT")));
     }
 
     @Override
@@ -46,7 +46,6 @@ public class ModConfigGui extends GuiScreen {
         super.drawScreen(mouseX, mouseY, partialTicks);
         //background
         drawRect(width / 5, height / 5, width - width / 5, height - height / 5, new Color(0, 0, 0, 100).getRGB());
-
         //TODO: Draw string for each tab
         switch (currentTab){
             case HOME:

@@ -29,6 +29,7 @@ import com.hcc.event.RenderEvent;
 import com.hcc.exceptions.HCCException;
 import com.hcc.gui.ModConfigGui;
 import com.hcc.handlers.HCCHandlers;
+import com.hcc.utils.TrueTypeFont;
 import net.minecraft.client.Minecraft;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -57,6 +58,7 @@ public class HCC {
     public static final DefaultConfig config = new DefaultConfig(new File(folder, "config.json"));
     private static HCCAddonBootstrap addonBootstrap;
 
+
     static {
         try {
             addonBootstrap = new HCCAddonBootstrap();
@@ -73,6 +75,7 @@ public class HCC {
     public void init(InitializationEvent event) {
         folder = new File(Minecraft.getMinecraft().mcDataDir, "hcc");
         logger.info("HCC Started!");
+        logger.info(TrueTypeFont.isSupported("Jokerman"));
         Display.setTitle("HCC " + Metadata.getVersion());
         try {
             addonBootstrap.loadAddons(addonLoader);
@@ -101,6 +104,7 @@ public class HCC {
     @InvokeEvent
     public void render(RenderEvent event) {
 
+        Minecraft.getMinecraft().fontRendererObj.drawString("Test", 1, 1, 0xFFFFFF);
     }
 
     private void shutdown() {
