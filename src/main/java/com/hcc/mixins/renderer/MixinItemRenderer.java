@@ -18,7 +18,7 @@
 
 package com.hcc.mixins.renderer;
 
-import com.hcc.config.ConfigOpt;
+import com.hcc.gui.AnimationsContainer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -38,15 +38,6 @@ import org.spongepowered.asm.mixin.Shadow;
 
 @Mixin(ItemRenderer.class)
 public class MixinItemRenderer {
-
-    @ConfigOpt
-    private boolean oldBlockhit = true;
-
-    @ConfigOpt
-    private boolean oldBow = true;
-
-    @ConfigOpt
-    private boolean oldRod = true;
 
     @Shadow
     private Minecraft mc;
@@ -106,18 +97,18 @@ public class MixinItemRenderer {
     @Overwrite
     private void transformFirstPersonItem(float equipProgress, float swingProgress)
     {
-        if (oldBow && this.mc != null && this.mc.thePlayer != null &&
+        if (AnimationsContainer.oldBow && this.mc != null && this.mc.thePlayer != null &&
                 this.mc.thePlayer.getItemInUse() != null && this.mc.thePlayer.getItemInUse().getItem() != null &&
                 Item.getIdFromItem(this.mc.thePlayer.getItemInUse().getItem()) == 261){
             GlStateManager.translate(-0.01f, 0.05f, -0.06f);
         }
 
-        if (oldRod && this.mc != null && this.mc.thePlayer != null && this.mc.thePlayer.getCurrentEquippedItem() != null && this.mc.thePlayer.getCurrentEquippedItem().getItem() != null && Item.getIdFromItem(this.mc.thePlayer.getCurrentEquippedItem().getItem()) == 346) {
+        if (AnimationsContainer.oldRod && this.mc != null && this.mc.thePlayer != null && this.mc.thePlayer.getCurrentEquippedItem() != null && this.mc.thePlayer.getCurrentEquippedItem().getItem() != null && Item.getIdFromItem(this.mc.thePlayer.getCurrentEquippedItem().getItem()) == 346) {
             GlStateManager.translate(0.08f, -0.027f, -0.33f);
             GlStateManager.scale(0.93f, 1.0f, 1.0f);
         }
 
-        if (oldBlockhit && this.mc != null && this.mc.thePlayer != null && this.mc.thePlayer.isSwingInProgress && this.mc.thePlayer.getCurrentEquippedItem() != null && !this.mc.thePlayer.isEating() && !this.mc.thePlayer.isBlocking()) {
+        if (AnimationsContainer.oldBlockhit && this.mc != null && this.mc.thePlayer != null && this.mc.thePlayer.isSwingInProgress && this.mc.thePlayer.getCurrentEquippedItem() != null && !this.mc.thePlayer.isEating() && !this.mc.thePlayer.isBlocking()) {
             GlStateManager.scale(0.85f, 0.85f, 0.85f);
             GlStateManager.translate(-0.078f, 0.003f, 0.05f);
         }
@@ -138,7 +129,7 @@ public class MixinItemRenderer {
 
 
     @Overwrite
-    public void renderItemInFirstPerson(float partialTicks){
+    public void renderItemInFirstPerson(float partialTicks) {
         float f = 1.0F - (this.prevEquippedProgress + (this.equippedProgress - this.prevEquippedProgress) * partialTicks);
         AbstractClientPlayer abstractclientplayer = this.mc.thePlayer;
         float f1 = abstractclientplayer.getSwingProgress(partialTicks);
@@ -146,49 +137,63 @@ public class MixinItemRenderer {
         float f3 = abstractclientplayer.prevRotationYaw + (abstractclientplayer.rotationYaw - abstractclientplayer.prevRotationYaw) * partialTicks;
         this.func_178101_a(f2, f3);
         this.func_178109_a(abstractclientplayer);
-        this.func_178110_a((EntityPlayerSP)abstractclientplayer, partialTicks);
+        this.func_178110_a((EntityPlayerSP) abstractclientplayer, partialTicks);
         GlStateManager.enableRescaleNormal();
         GlStateManager.pushMatrix();
 
-        if (this.itemToRender != null)
-        {
-            if (this.itemToRender.getItem() == Items.filled_map)
-            {
+        if (this.itemToRender != null) {
+            if (this.itemToRender.getItem() == Items.filled_map) {
                 this.renderItemMap(abstractclientplayer, f2, f, f1);
-            }
-            else if (abstractclientplayer.getItemInUseCount() > 0)
-            {
+            } else if (abstractclientplayer.getItemInUseCount() > 0) {
                 EnumAction enumaction = this.itemToRender.getItemUseAction();
 
-                switch (enumaction)
-                {
+                switch (enumaction) {
                     case NONE:
                         this.transformFirstPersonItem(f, 0.0F);
                         break;
                     case EAT:
                     case DRINK:
                         this.func_178104_a(abstractclientplayer, partialTicks);
-                        this.transformFirstPersonItem(f, 0.0F);
-                        break;
+                        if (AnimationsContainer.oldEat) {
+                            this.transformFirstPersonItem(f, f1);
+                            break;
+                        }
+                        else {
+                            this.transformFirstPersonItem(f, 0.0F);
+                            break;
+                        }
                     case BLOCK:
-                        this.transformFirstPersonItem(f, 0.0F);
-                        this.func_178103_d();
-                        break;
+                        if (AnimationsContainer.oldBlockhit) {
+                            this.transformFirstPersonItem(f, f1);
+                            this.func_178103_d();
+                            GlStateManager.scale(0.83f, 0.88f, 0.85f);
+                            GlStateManager.translate(-0.3f, 0.1f, 0.0f);
+                            break;
+                        }
+                        else{
+                            this.transformFirstPersonItem(f, 0f);
+                            this.func_178103_d();
+                            break;
+                        }
+
                     case BOW:
-                        this.transformFirstPersonItem(f, 0.0F);
-                        this.func_178098_a(partialTicks, abstractclientplayer);
+                        if (AnimationsContainer.oldBow) {
+                            this.transformFirstPersonItem(f, f1);
+                            this.func_178098_a(partialTicks, abstractclientplayer);
+                            GlStateManager.translate(0.0F, 0.1F, -0.15F);
+                        }
+                        else {
+                            this.transformFirstPersonItem(f, 0.0F);
+                            this.func_178098_a(partialTicks, abstractclientplayer);
+                        }
                 }
-            }
-            else
-            {
+            } else {
                 this.func_178105_d(f1);
                 this.transformFirstPersonItem(f, f1);
             }
 
             this.renderItem(abstractclientplayer, this.itemToRender, ItemCameraTransforms.TransformType.FIRST_PERSON);
-        }
-        else if (!abstractclientplayer.isInvisible())
-        {
+        } else if (!abstractclientplayer.isInvisible()) {
             this.func_178095_a(abstractclientplayer, f, f1);
         }
 
