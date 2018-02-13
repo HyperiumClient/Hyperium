@@ -18,6 +18,8 @@
 
 package com.hcc.gui;
 
+import com.hcc.gui.font.Fonts;
+import com.hcc.utils.TrueTypeFont;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
@@ -66,12 +68,12 @@ public class CustomFontButton extends GuiButton {
             } else if (this.hovered) {
                 j = textHoverColor;
             }
-            this.drawCenteredString(fontRenderer, this.displayString, this.xPosition + this.width / 2, this.yPosition + (this.height - 8) / 2, j);
+            TrueTypeFont ttf = Fonts.ARIAL.getTrueTypeFont();
+            TrueTypeFont.set2DMode();
+            // help my boi cube
+            ttf.drawString(this.displayString, (this.xPosition + this.width / 2) * 2, (Minecraft.getMinecraft().displayHeight - (this.yPosition + (this.height - 8) / 2) * 2) , 1f, 1f, TrueTypeFont.ALIGN_CENTER);
+            TrueTypeFont.set3DMode();
         }
     }
 
-    public CustomFontButton setFontRenderer(FontRenderer fontRenderer) {
-        //this.fontRenderer = fontRenderer;
-        return this;
-    }
 }
