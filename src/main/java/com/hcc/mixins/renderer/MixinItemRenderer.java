@@ -18,10 +18,12 @@
 
 package com.hcc.mixins.renderer;
 
+import com.hcc.config.ConfigOpt;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.entity.EntityLivingBase;
@@ -30,13 +32,20 @@ import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
+import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 
+@Mixin(ItemRenderer.class)
 public class MixinItemRenderer {
 
+    @ConfigOpt
     private boolean oldBlockhit = true;
+
+    @ConfigOpt
     private boolean oldBow = true;
+
+    @ConfigOpt
     private boolean oldRod = true;
 
     @Shadow
