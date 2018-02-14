@@ -21,6 +21,7 @@ package com.hcc;
 import com.hcc.addons.HCCAddonBootstrap;
 import com.hcc.addons.loader.DefaultAddonLoader;
 import com.hcc.event.*;
+import com.hcc.gui.NotificationCenter;
 import com.hcc.mods.chromahud.ChromaHUD;
 import com.hcc.config.DefaultConfig;
 import com.hcc.exceptions.HCCException;
@@ -53,6 +54,8 @@ public class HCC {
      * Instance of default config
      */
     public static final DefaultConfig config = new DefaultConfig(new File(folder, "config.json"));
+
+    public static final NotificationCenter notification = new NotificationCenter();
     private static HCCAddonBootstrap addonBootstrap;
 
     private static RichPresenceManager richPresenceManager = new RichPresenceManager();
@@ -102,6 +105,11 @@ public class HCC {
     }
 
     @InvokeEvent
+    public void onTick(TickEvent event){
+        notification.onTick();
+    }
+
+    @InvokeEvent
     public void render(RenderEvent event) {
 
     }
@@ -111,6 +119,8 @@ public class HCC {
         richPresenceManager.shutdown();
         logger.info("Shutting down HCC..");
     }
+
+
 
     public ChromaHUD getChromaHUD() {
         return chromaHUD;

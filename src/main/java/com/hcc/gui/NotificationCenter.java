@@ -18,16 +18,34 @@
 
 package com.hcc.gui;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.Gui;
+
+import java.awt.*;
+
 public class NotificationCenter {
     private String title;
     private String description;
-    private Long ticks;
+    private Long ticks = 0L;
+    private Long startTick = 0L;
     public void onTick(){
+        FontRenderer fontRendererObj = Minecraft.getMinecraft().fontRendererObj;
         if(ticks <= 0) return;
+        int x =0; // position changes
+//        if(startTick - ticks < 20)
+//            x+=(startTick - ticks)*3;
+        int w = Minecraft.getMinecraft().displayWidth, h = Minecraft.getMinecraft().displayHeight;
+
+        // Background
+        Gui.drawRect((w - (fontRendererObj.getStringWidth(description)+20))+x, h - 60, w, h- 30, new Color(0, 0, 0, 100).getRGB());
+        Gui.drawRect((w - (fontRendererObj.getStringWidth(description)+20))+x, h - 60, (w - (fontRendererObj.getStringWidth(description)+20))+3, h- 30, new Color(149, 201, 144).getRGB());
+
+        ticks--;
     }
     public void display(String title, String description, Long ticks){
         this.title = title;
         this.description = description;
-        this.ticks = ticks;
+        this.startTick = (this.ticks = ticks);
     }
 }
