@@ -19,9 +19,11 @@
 package com.hcc.gui;
 
 import com.hcc.HCC;
+import com.hcc.utils.HCCFontRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
+import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
 import java.io.IOException;
@@ -32,16 +34,22 @@ public class ModConfigGui extends GuiScreen {
      */
     private Tabs currentTab = Tabs.HOME;
 
+
+    private HCCFontRenderer fontRenderer =  new HCCFontRenderer("Arial", Font.PLAIN, 12);
+
+    private HCCFontRenderer mainFontRenderer =  new HCCFontRenderer("Times New Roman", Font.BOLD, 24);
+
     @Override
     public void initGui() {
         super.initGui();
-        this.buttonList.add(Tabs.HOME.setButton(new GuiButton(0, getX(0), getY(), 50, 25, "HOME")));
-        this.buttonList.add(Tabs.SETTINGS.setButton(new GuiButton(1, getX(1), getY(), 50, 25, "SETTINGS")));
-        this.buttonList.add(Tabs.ADDONS.setButton(new GuiButton(2, getX(2), getY(), 50, 25, "ADDONS")));
-        this.buttonList.add(Tabs.FRIENDS.setButton(new GuiButton(3, getX(3), getY(), 50, 25, "FRIENDS")));
-        this.buttonList.add(Tabs.ABOUT.setButton(new GuiButton(4, getX(4), getY(), 50, 25, "ABOUT")));
-        this.buttonList.add(Tabs.CHROMAHUD.setButton(new GuiButton(5, getX(5), getY(), 50, 25, "DISPLAY")));
-
+        int numberOfTabs = 6;
+        this.buttonList.add(Tabs.HOME.setButton(new CustomFontButton(0, getX(0), getY(), 50, 25, "HOME")));
+        this.buttonList.add(Tabs.SETTINGS.setButton(new CustomFontButton(1, getX(1), getY(), 50, 25, "SETTINGS")));
+        this.buttonList.add(Tabs.ADDONS.setButton(new CustomFontButton(2, getX(2), getY(), 50, 25, "ADDONS")));
+        this.buttonList.add(Tabs.FRIENDS.setButton(new CustomFontButton(3, getX(3), getY(), 50, 25, "FRIENDS")));
+        this.buttonList.add(Tabs.ABOUT.setButton(new CustomFontButton(4, getX(4), getY(), 50, 25, "ABOUT")));
+       // this.buttonList.add(Tabs.CHROMAHUD.setButton(new CustomFontButton(5, getX(5), getY(), 50, 25, "DISPLAY")));
+        // todo: Make it so if they have a retarded resolution it creates arrows for them to cycle between tabs
     }
 
     @Override
@@ -53,6 +61,10 @@ public class ModConfigGui extends GuiScreen {
         //TODO: Draw string for each tab
         switch (currentTab) {
             case HOME:
+              /*  GL11.glPushMatrix();
+                GL11.glScalef(3F, 3F, 3F);
+                mainFontRenderer.drawString("\u00a7eH\u00A7fCC", (width / 5) /3, ((height / 5) + 25) /3, 0xffffff);
+                GL11.glPopMatrix();*/
                 break;
             case SETTINGS:
                 break;
@@ -69,7 +81,9 @@ public class ModConfigGui extends GuiScreen {
                 break;
             }
             case ABOUT:
-                drawCenteredString(fontRendererObj, "Developed by Sk1er, CoalOres, Kevin and Cubxity", width / 2, (height - height / 5) - 12, 0xFFFFFF);
+                String str = "Developed by Sk1er, CoalOres, Kevin and Cubxity";
+                float strWidth = fontRenderer.getWidth(str);
+                fontRenderer.drawString(str, (8*(width / 10)) - strWidth, (height - height / 5) - 12, 0xFFFFFF);
                 break;
         }
         super.drawScreen(mouseX, mouseY, partialTicks);

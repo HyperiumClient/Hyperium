@@ -19,6 +19,7 @@
 package com.hcc.gui;
 
 import com.hcc.gui.font.Fonts;
+import com.hcc.utils.HCCFontRenderer;
 import com.hcc.utils.TrueTypeFont;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -33,7 +34,7 @@ public class CustomFontButton extends GuiButton {
     private int color = new Color(0, 0, 0, 50).getRGB();
     private int textColor = new Color(255, 255, 255, 255).getRGB();
     private int textHoverColor = new Color(255, 255, 255, 255).getRGB();
-    private FontRenderer fontRenderer = Minecraft.getMinecraft().fontRendererObj;
+    private HCCFontRenderer fontRenderer =  new HCCFontRenderer("Arial", Font.PLAIN, 12);
     private boolean enabled = true;
 
     public CustomFontButton(int buttonId, int x, int y, String buttonText) {
@@ -68,12 +69,8 @@ public class CustomFontButton extends GuiButton {
             } else if (this.hovered) {
                 j = textHoverColor;
             }
-            TrueTypeFont ttf = Fonts.ARIAL.getTrueTypeFont();
-            //Commented by Sk1er to stop compiler errors
-//            TrueTypeFont.set2DMode();
-            // help my boi cube
-            ttf.drawString(this.displayString, (this.xPosition + this.width / 2) * 2, (Minecraft.getMinecraft().displayHeight - (this.yPosition + (this.height - 8) / 2) * 2) , 1f, 1f, TrueTypeFont.ALIGN_CENTER);
-            TrueTypeFont.set3DMode();
+            float charlength = fontRenderer.getWidth(this.displayString);
+            fontRenderer.drawString(this.displayString, (this.xPosition + this.width / 2) - (charlength / 2), this.yPosition + (this.height - 8) / 2, j);
         }
     }
 

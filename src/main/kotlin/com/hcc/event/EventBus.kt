@@ -56,9 +56,9 @@ object EventBus {
             subscriptions.remove(clazz)
 
     fun post(event: Any) {
-        subscriptions[event.javaClass]!!
-                .sortedByDescending { it.priority.value }
-                .forEach { sub ->
+        subscriptions[event.javaClass]
+                ?.sortedByDescending { it.priority.value }
+                ?.forEach { sub ->
                     sub.methodAccess.invoke(sub.instance, sub.mIndex, event)
                 }
     }

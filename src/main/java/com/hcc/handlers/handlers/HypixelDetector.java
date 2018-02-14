@@ -28,7 +28,7 @@ public class HypixelDetector {
         }
     }
 
-    @InvokeEvent()
+    @InvokeEvent
     public void tick(TickEvent event) {
 
         //Check for Hypixel every tick to make sure bad things don't happen
@@ -38,8 +38,6 @@ public class HypixelDetector {
             hypixel = text.equalsIgnoreCase(HYPIXEL_HEADER);
         } else hypixel = false;
     }
-
-    @InvokeEvent
 
     public boolean isHypixel() {
         return hypixel;

@@ -32,6 +32,7 @@ import java.time.OffsetDateTime;
 import java.util.concurrent.TimeUnit;
 
 public class RichPresenceManager {
+
     private IPCClient client;
 
 

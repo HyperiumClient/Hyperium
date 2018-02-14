@@ -22,12 +22,14 @@ import com.hcc.HCC;
 import com.hcc.event.*;
 import com.hcc.utils.Utils;
 import net.minecraft.client.Minecraft;
+import net.minecraft.util.Timer;
 import net.minecraft.util.Util;
 import net.minecraft.world.WorldSettings;
 import org.apache.commons.io.IOUtils;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.gen.Accessor;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -36,7 +38,9 @@ import java.io.InputStream;
 import java.nio.ByteBuffer;
 
 @Mixin(Minecraft.class)
-public class MixinMinecraft {
+public abstract class MixinMinecraft {
+
+    @Accessor public abstract Timer getTimer();
 
     /**
      * Invoked once the game has be launched
