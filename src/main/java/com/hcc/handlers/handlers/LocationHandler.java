@@ -1,4 +1,4 @@
-package com.hcc.handlers;
+package com.hcc.handlers.handlers;
 
 import com.hcc.config.ConfigOpt;
 import com.hcc.event.ChatEvent;

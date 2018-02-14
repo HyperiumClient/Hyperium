@@ -27,14 +27,13 @@ import com.jagrosh.discordipc.entities.DiscordBuild;
 import com.jagrosh.discordipc.entities.RichPresence;
 import com.jagrosh.discordipc.exceptions.NoDiscordClientException;
 import net.minecraft.client.Minecraft;
-import net.minecraft.scoreboard.ScoreObjective;
-import net.minecraft.util.EnumChatFormatting;
 
 import java.time.OffsetDateTime;
 import java.util.concurrent.TimeUnit;
 
 public class RichPresenceManager {
     private IPCClient client;
+
 
     public void init() {
         client = new IPCClient(412963310867054602L);
@@ -74,26 +73,10 @@ public class RichPresenceManager {
                     false
             );
         else if (Minecraft.getMinecraft().getCurrentServerData() != null) {
-            ScoreObjective side;
-            if ((side = Minecraft.getMinecraft().theWorld.getScoreboard().getObjectiveInDisplaySlot(1)) != null && Minecraft.getMinecraft().theWorld.getScoreboard().getValueFromObjective(EnumChatFormatting.YELLOW.toString() + "www.hypixel.net", side).getScorePoints() == 1) {
-                presence = new RichPresence(
-                        "HCC " + Metadata.getVersion(),
-                        "Hypixel: ",
-                        OffsetDateTime.now(),
-                        null,
-                        "16",
-                        "Hypixel Network",
-                        "compass",
-                        "In server",
-                        null,
-                        0,
-                        0,
-                        null,
-                        null,
-                        null,
-                        false
-                );
-            } else
+
+            presence = processHypixel();
+            if (presence == null)
+                //TODO add config setting to hide servers / add whitelist / blacklist
                 presence = new RichPresence(
                         "HCC " + Metadata.getVersion(),
                         "In server: " + Minecraft.getMinecraft().getCurrentServerData().serverIP,
@@ -135,5 +118,29 @@ public class RichPresenceManager {
 
     public void shutdown() {
         client.close();
+    }
+
+    public RichPresence processHypixel() {
+        if (HCC.INSTANCE.getHandlers().getHypixelDetector().isHypixel())
+            return new RichPresence(
+                    "HCC " + Metadata.getVersion(),
+                    "Hypixel: ",
+                    OffsetDateTime.now(),
+                    null,
+                    "16",
+                    "Hypixel Network",
+                    "compass",
+                    "In server",
+                    null,
+                    0,
+                    0,
+                    null,
+                    null,
+                    null,
+                    false
+            );
+
+
+        return null;
     }
 }
