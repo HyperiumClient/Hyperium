@@ -96,6 +96,7 @@ public class HCC {
     @InvokeEvent
     public void onChat(ChatEvent event) {
         if (event.getChat().getUnformattedText().contains("configgui")) {
+            event.setCancelled(true);
             Minecraft.getMinecraft().displayGuiScreen(new ModConfigGui());
         }
 

@@ -35,9 +35,13 @@ public class MixinGuiNewChat {
      * @param chatComponent
      * @param ci {@see org.spongepowered.asm.mixin.injection.callback.CallbackInfo}
      */
-    @Inject(method = "printChatMessage",at = @At("HEAD"))
+    @Inject(method = "printChatMessage",at = @At("HEAD"), cancellable = true)
     private void printChatMessage(IChatComponent chatComponent, CallbackInfo ci){
-        EventBus.INSTANCE.post(new ChatEvent(chatComponent));
+        ChatEvent event = new ChatEvent(chatComponent);
+        EventBus.INSTANCE.post(event);
+        if(event.isCancelled()) {
+            ci.cancel();
+        }
     }
 
 }

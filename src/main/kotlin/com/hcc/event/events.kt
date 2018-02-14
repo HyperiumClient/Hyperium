@@ -35,6 +35,7 @@ data class EventSubscriber(val instance: Any, val methodAccess: MethodAccess, va
  */
 annotation class InvokeEvent(val priority: Priority = Priority.NORMAL)
 
+
 /**
  * Invoked once the client has started
  */
@@ -84,7 +85,7 @@ class RenderEvent
 /**
  * Invoked once a chat message is sent
  */
-class ChatEvent(val chat: IChatComponent)
+class ChatEvent(val chat: IChatComponent): CancellableEvent()
 
 /**
  * Invoked once the player has joined singleplayer
