@@ -20,13 +20,13 @@ package com.hcc;
 
 import com.hcc.addons.HCCAddonBootstrap;
 import com.hcc.addons.loader.DefaultAddonLoader;
-import com.hcc.event.*;
-import com.hcc.gui.NotificationCenter;
-import com.hcc.mods.chromahud.ChromaHUD;
 import com.hcc.config.DefaultConfig;
+import com.hcc.event.*;
 import com.hcc.exceptions.HCCException;
 import com.hcc.gui.ModConfigGui;
+import com.hcc.gui.NotificationCenter;
 import com.hcc.handlers.HCCHandlers;
+import com.hcc.mods.HCCModIntegration;
 import com.hcc.mods.discord.RichPresenceManager;
 import com.hcc.utils.TrueTypeFont;
 import net.minecraft.client.Minecraft;
@@ -69,9 +69,8 @@ public class HCC {
         }
     }
 
-    private ChromaHUD chromaHUD;
     private HCCHandlers handlers;
-
+    private HCCModIntegration modIntegration;
     @InvokeEvent
     public void init(InitializationEvent event) {
         folder = new File(Minecraft.getMinecraft().mcDataDir, "hcc");
@@ -86,8 +85,9 @@ public class HCC {
         }
         registerCommands();
 
-        chromaHUD = new ChromaHUD();
+
         handlers = new HCCHandlers();
+        modIntegration = new HCCModIntegration();
         richPresenceManager.init();
         Runtime.getRuntime().addShutdownHook(new Thread(this::shutdown));
     }
@@ -123,11 +123,12 @@ public class HCC {
 
 
 
-    public ChromaHUD getChromaHUD() {
-        return chromaHUD;
-    }
 
     public HCCHandlers getHandlers() {
         return handlers;
+    }
+
+    public HCCModIntegration getModIntegration() {
+        return modIntegration;
     }
 }

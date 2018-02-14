@@ -23,7 +23,6 @@ import com.hcc.utils.HCCFontRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
-import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
 import java.io.IOException;
@@ -77,7 +76,7 @@ public class ModConfigGui extends GuiScreen {
                 if (Minecraft.getMinecraft().thePlayer == null) {
                     drawCenteredString(fontRendererObj, "Please use this while in a world or on a server", width / 2, (height - height / 2) - 12, 0xFFFFFF);
                 } else {
-                    Minecraft.getMinecraft().displayGuiScreen(HCC.INSTANCE.getChromaHUD().getConfigGuiInstance());
+                    Minecraft.getMinecraft().displayGuiScreen(HCC.INSTANCE.getModIntegration().getChromaHUD().getConfigGuiInstance());
                 }
                 break;
             }

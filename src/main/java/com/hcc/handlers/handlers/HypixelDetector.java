@@ -15,7 +15,6 @@ public class HypixelDetector {
     private static final Field HEADER_FIELD = ReflectionUtil.findField(GuiPlayerTabOverlay.class, "field_175256_i", "header");
     private boolean hypixel = false;
 
-
     public HypixelDetector() {
 
     }

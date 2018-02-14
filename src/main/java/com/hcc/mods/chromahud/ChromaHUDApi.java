@@ -14,7 +14,7 @@ import java.util.logging.Logger;
  */
 public class ChromaHUDApi {
     //Have this for others incase implementation changes.
-    public static final String VERSION = "3.0";
+    public static final String VERSION = "3.0-HCC";
     private static ChromaHUDApi instance;
     private List<ChromaHUDParser> parsers = new ArrayList<>();
     private HashMap<String, String> names = new HashMap<>();
