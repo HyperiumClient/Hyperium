@@ -20,8 +20,10 @@ package com.hcc.event
 
 import com.esotericsoftware.reflectasm.MethodAccess
 import com.hcc.event.minigames.Minigame
+import net.minecraft.client.entity.AbstractClientPlayer
 import net.minecraft.util.BlockPos
 import net.minecraft.util.IChatComponent
+import net.minecraft.entity.Entity
 import java.util.*
 
 /**
@@ -105,4 +107,4 @@ class JoinMinigameEvent(val minigame: Minigame)
 /**
  * Invoked when a player model is rendered
  */
-class RenderPlayerEvent
+class RenderPlayerEvent(val entity: AbstractClientPlayer)

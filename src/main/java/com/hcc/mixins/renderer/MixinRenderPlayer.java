@@ -20,17 +20,18 @@ package com.hcc.mixins.renderer;
 
 import com.hcc.event.EventBus;
 import com.hcc.event.RenderPlayerEvent;
-import net.minecraft.client.model.ModelPlayer;
-import net.minecraft.entity.Entity;
+import net.minecraft.client.entity.AbstractClientPlayer;
+import net.minecraft.client.renderer.entity.RenderPlayer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(ModelPlayer.class)
-public class MixinModelPlayer {
-    @Inject(method="render", at=@At("HEAD"))
-    public void render(Entity entityIn, float p_78088_2_, float p_78088_3_, float p_78088_4_, float p_78088_5_, float p_78088_6_, float scale, CallbackInfo ci){
-        EventBus.INSTANCE.post(new RenderPlayerEvent());
+@Mixin(RenderPlayer.class)
+public class MixinRenderPlayer {
+    @Inject(method="doRender", at=@At("HEAD"))
+    public void doRender(AbstractClientPlayer entity, double x, double y, double z, float entityYaw, float partialTicks, CallbackInfo ci){
+        EventBus.INSTANCE.post(new RenderPlayerEvent(entity));
     }
 }
+
