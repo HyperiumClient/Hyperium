@@ -23,6 +23,8 @@ import net.minecraft.client.Minecraft
 
 class MinigameListener {
 
+    var cooldown = 3 * 20
+
     var server = ""
 
     var currentMinigameName = ""
@@ -30,15 +32,20 @@ class MinigameListener {
 
     @InvokeEvent
     fun onTick(event: TickEvent){
-        if(server == "hypixel" && Minecraft.getMinecraft().theWorld.scoreboard != null){
-            currentMinigameName = getScoreboardTitle()
-            val mingames = Minigame.values()
-            mingames.forEach {
-                if(currentMinigameName == it.name){
-                    EventBus.post(JoinMinigameEvent(it))
+        if(cooldown <= 0){
+            if(server == "hypixel" && Minecraft.getMinecraft().theWorld.scoreboard != null){
+                currentMinigameName = getScoreboardTitle()
+                val mingames = Minigame.values()
+                mingames.forEach {
+                    if(currentMinigameName == it.name){
+                        EventBus.post(JoinMinigameEvent(it))
+                    }
                 }
             }
+        } else{
+            cooldown--
         }
+
     }
 
     private fun getScoreboardTitle(): String{
