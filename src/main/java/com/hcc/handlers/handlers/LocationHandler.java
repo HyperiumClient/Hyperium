@@ -3,6 +3,7 @@ package com.hcc.handlers.handlers;
 import com.hcc.config.ConfigOpt;
 import com.hcc.event.ChatEvent;
 import com.hcc.event.InvokeEvent;
+import com.hcc.event.Priority;
 import net.minecraft.util.EnumChatFormatting;
 
 import java.util.regex.Matcher;

@@ -19,6 +19,7 @@
 package com.hcc.event
 
 import com.esotericsoftware.reflectasm.MethodAccess
+import java.util.*
 import java.util.concurrent.CopyOnWriteArraySet
 
 /**
@@ -30,6 +31,8 @@ import java.util.concurrent.CopyOnWriteArraySet
 object EventBus {
 
     private val subscriptions = HashMap<Class<*>, CopyOnWriteArraySet<EventSubscriber>>()
+    private val firstSubscriptions = HashMap<Class<*>, CopyOnWriteArraySet<EventSubscriber>>()
+    private val lastSubscriptions = HashMap<Class<*>, CopyOnWriteArraySet<EventSubscriber>>()
 
     fun register(obj: Any) {
         val clazz = obj.javaClass
@@ -39,8 +42,23 @@ object EventBus {
             IllegalArgumentException("Couldn't find parameter inside of ${method.name}!")
             val access = MethodAccess.get(clazz)
             val subscriber = EventSubscriber(obj, access, access.getIndex(method.name))
-            subscriptions.putIfAbsent(event, CopyOnWriteArraySet())
-            subscriptions[event]!!.add(subscriber)
+            //subscriptions.putIfAbsent(event, CopyOnWriteArraySet())
+            println("PRIORITY: " + method.getAnnotation(InvokeEvent::class.java).priority)
+            when(method.getAnnotation(InvokeEvent::class.java).priority){
+                Priority.FIRST -> {
+                    println("Registered first subscription!")
+                    firstSubscriptions.putIfAbsent(event, CopyOnWriteArraySet())
+                    firstSubscriptions[event]!!.add(subscriber)}
+                Priority.LAST -> {
+                    println("Registered last subscription!")
+                    lastSubscriptions.putIfAbsent(event, CopyOnWriteArraySet())
+                    lastSubscriptions[event]!!.add(subscriber)}
+                Priority.IRRELEVANT -> {
+                    println("Registered irrelevant subscription!")
+                    subscriptions.putIfAbsent(event, CopyOnWriteArraySet())
+                    subscriptions[event]!!.add(subscriber)}
+            }
+            //subscriptions[event]!!.add(subscriber)
         }
     }
 
@@ -53,8 +71,20 @@ object EventBus {
     fun unregister(clazz: Class<*>) =
             subscriptions.remove(clazz)
 
-    fun post(event: Any) =
-            subscriptions[event.javaClass]?.forEach { sub ->
-                sub.methodAccess.invoke(sub.instance, sub.mIndex, event)
-            }
+    fun post(event: Any) {
+        // Notifies all classes subscribed to the event with "FIRST" priority first.
+        firstSubscriptions[event.javaClass]?.forEach { sub ->
+            sub.methodAccess.invoke(sub.instance, sub.mIndex, event)
+            //println("Notified first subscriber!")
+        }
+
+        subscriptions[event.javaClass]?.forEach { sub ->
+            sub.methodAccess.invoke(sub.instance, sub.mIndex, event)
+            //println("Notified irrelevant subscriber!")
+        }
+
+        lastSubscriptions[event.javaClass]?.forEach { sub ->
+            sub.methodAccess.invoke(sub.instance, sub.mIndex, event)
+        }
+    }
 }

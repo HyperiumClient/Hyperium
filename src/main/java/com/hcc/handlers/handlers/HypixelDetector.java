@@ -1,6 +1,7 @@
 package com.hcc.handlers.handlers;
 
 import com.hcc.event.InvokeEvent;
+import com.hcc.event.Priority;
 import com.hcc.event.TickEvent;
 import me.semx11.autotip.util.ReflectionUtil;
 import net.minecraft.client.Minecraft;
@@ -27,7 +28,7 @@ public class HypixelDetector {
         }
     }
 
-    @InvokeEvent
+    @InvokeEvent()
     public void tick(TickEvent event) {
         //Check for Hypixel every tick to make sure bad things don't happen
         Object header = getHeader();

@@ -18,24 +18,22 @@
 
 package com.hcc.event.minigames
 
-import com.hcc.event.EventBus
-import com.hcc.event.InvokeEvent
-import com.hcc.event.JoinMinigameEvent
-import com.hcc.event.TickEvent
+import com.hcc.event.*
+import com.hcc.handlers.handlers.HypixelDetector
 import net.minecraft.client.Minecraft
 
 class MinigameListener {
 
     var cooldown = 3 * 20
 
-    var server = ""
-
     var currentMinigameName = ""
 
+    val hypixelDetector = HypixelDetector()
 
-    @InvokeEvent
+
+    @InvokeEvent(priority = Priority.LAST)
     fun onTick(event: TickEvent) {
-        if (server == "hypixel" && Minecraft.getMinecraft().theWorld.scoreboard != null) {
+        if (hypixelDetector.isHypixel && Minecraft.getMinecraft().theWorld.scoreboard != null) {
             if (cooldown <= 0) {
                 cooldown = 3 * 20
                 currentMinigameName = getScoreboardTitle()

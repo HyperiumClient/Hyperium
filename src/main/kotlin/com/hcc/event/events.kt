@@ -34,7 +34,7 @@ data class EventSubscriber(val instance: Any, val methodAccess: MethodAccess, va
  * Assign to a method to invoke an event
  * The first parameter of the method should be the event it is calling
  */
-annotation class InvokeEvent
+annotation class InvokeEvent(val priority: Priority = Priority.IRRELEVANT)
 
 /**
  * Invoked once the client has started
