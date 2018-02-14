@@ -19,6 +19,7 @@
 package com.hcc.event
 
 import com.esotericsoftware.reflectasm.MethodAccess
+import com.hcc.event.minigames.Minigame
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.util.BlockPos
 import net.minecraft.util.IChatComponent
@@ -95,3 +96,8 @@ class SingleplayerJoinEvent
  * Invoked once player swings
  */
 class PlayerSwingEvent(val player: UUID)
+
+/**
+ * Invoked when player joins a minigame on Hypixel
+ */
+class JoinMinigameEvent(val minigame: Minigame)
