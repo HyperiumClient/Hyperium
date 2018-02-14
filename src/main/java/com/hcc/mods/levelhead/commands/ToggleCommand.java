@@ -1,5 +1,7 @@
 package com.hcc.mods.levelhead.commands;
 
+import com.hcc.handlers.handlers.HypixelDetector;
+import com.hcc.handlers.handlers.chat.GeneralChatHandler;
 import com.hcc.mods.levelhead.Levelhead;
 import com.hcc.mods.levelhead.guis.LevelHeadGui;
 import com.hcc.mods.sk1ercommon.Sk1erMod;
@@ -33,20 +35,19 @@ public class ToggleCommand extends CommandBase {
     public void processCommand(ICommandSender sender, String[] args) throws CommandException {
         if (args.length == 1) {
             if (args[0].equalsIgnoreCase("limit")) {
-                Sk1erMod.getInstance().sendMessage(EnumChatFormatting.RED + "Count: " + Levelhead.getInstance().count);
-                Sk1erMod.getInstance().sendMessage(EnumChatFormatting.RED + "Wait: " + Levelhead.getInstance().wait);
-                Sk1erMod.getInstance().sendMessage(EnumChatFormatting.RED + "Hypixel: " + Sk1erMod.getInstance().isHypixel());
-                Sk1erMod.getInstance().sendMessage(EnumChatFormatting.RED + "Remote Status: " + Sk1erMod.getInstance().isEnabled());
-                Sk1erMod.getInstance().sendMessage(EnumChatFormatting.RED + "Local Stats: " + Levelhead.getInstance().getSk1erMod().isHypixel());
-                Sk1erMod.getInstance().sendMessage(EnumChatFormatting.RED + "Header State: " + Levelhead.getInstance().getHeaderConfig());
-                Sk1erMod.getInstance().sendMessage(EnumChatFormatting.RED + "Footer State: " + Levelhead.getInstance().getFooterConfig());
-                Sk1erMod.getInstance().sendMessage(EnumChatFormatting.RED + "Callback: " + Sk1erMod.getInstance().getResponse());
+                GeneralChatHandler.instance().sendMessage(EnumChatFormatting.RED + "Count: " + Levelhead.getInstance().count);
+                GeneralChatHandler.instance().sendMessage(EnumChatFormatting.RED + "Wait: " + Levelhead.getInstance().wait);
+                GeneralChatHandler.instance().sendMessage(EnumChatFormatting.RED + "Hypixel: " + HypixelDetector.getInstance().isHypixel());
+                GeneralChatHandler.instance().sendMessage(EnumChatFormatting.RED + "Remote Status: " + Sk1erMod.getInstance().isEnabled());
+                GeneralChatHandler.instance().sendMessage(EnumChatFormatting.RED + "Local Stats: " + HypixelDetector.getInstance().isHypixel());
+                GeneralChatHandler.instance().sendMessage(EnumChatFormatting.RED + "Header State: " + Levelhead.getInstance().getHeaderConfig());
+                GeneralChatHandler.instance().sendMessage(EnumChatFormatting.RED + "Footer State: " + Levelhead.getInstance().getFooterConfig());
+                GeneralChatHandler.instance().sendMessage(EnumChatFormatting.RED + "Callback: " + Sk1erMod.getInstance().getResponse());
                 return;
             } else if (args[0].equalsIgnoreCase("dumpcache")) {
                 Levelhead.getInstance().levelCache.clear();
 
-                Sk1erMod.getInstance().sendMessage("Stringcache entries: " + Levelhead.getInstance().levelCache.size());
-                ;
+                GeneralChatHandler.instance().sendMessage("Stringcache entries: " + Levelhead.getInstance().levelCache.size());
                 return;
             }
         }

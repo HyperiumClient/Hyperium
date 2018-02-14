@@ -8,6 +8,12 @@ import java.util.regex.Pattern;
 
 public class HypixelDetector {
 
+    private static HypixelDetector instance;
+
+    public HypixelDetector(){
+        instance = this;
+    }
+
     private static final Pattern HYPIXEL_PATTERN =
             Pattern.compile("^(?:(?:(?:\\w+\\.)?hypixel\\.net)|(?:209\\.222\\.115\\.\\d{1,3}))(?::\\d{1,5})?$", Pattern.CASE_INSENSITIVE);
 
@@ -25,5 +31,9 @@ public class HypixelDetector {
 
     public boolean isHypixel() {
         return hypixel;
+    }
+
+    public static HypixelDetector getInstance(){
+        return instance;
     }
 }
