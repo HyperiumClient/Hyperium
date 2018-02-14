@@ -20,7 +20,6 @@ package com.hcc.event
 
 import com.esotericsoftware.reflectasm.MethodAccess
 import com.hcc.event.minigames.Minigame
-import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.util.BlockPos
 import net.minecraft.util.IChatComponent
 import java.util.*
@@ -28,13 +27,13 @@ import java.util.*
 /**
  * Used to store information about events and index so they can be easily accessed by ASM
  */
-data class EventSubscriber(val instance: Any, val methodAccess: MethodAccess, val mIndex: Int)
+data class EventSubscriber(val instance: Any, val methodAccess: MethodAccess, val mIndex: Int, val priority: Priority)
 
 /**
  * Assign to a method to invoke an event
  * The first parameter of the method should be the event it is calling
  */
-annotation class InvokeEvent(val priority: Priority = Priority.IRRELEVANT)
+annotation class InvokeEvent(val priority: Priority = Priority.NORMAL)
 
 /**
  * Invoked once the client has started

@@ -18,7 +18,10 @@
 
 package com.hcc.event.minigames
 
-import com.hcc.event.*
+import com.hcc.event.EventBus
+import com.hcc.event.InvokeEvent
+import com.hcc.event.JoinMinigameEvent
+import com.hcc.event.TickEvent
 import com.hcc.handlers.handlers.HypixelDetector
 import net.minecraft.client.Minecraft
 
@@ -31,7 +34,7 @@ class MinigameListener {
     val hypixelDetector = HypixelDetector()
 
 
-    @InvokeEvent(priority = Priority.LAST)
+    @InvokeEvent
     fun onTick(event: TickEvent) {
         if (hypixelDetector.isHypixel && Minecraft.getMinecraft().theWorld.scoreboard != null) {
             if (cooldown <= 0) {

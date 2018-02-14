@@ -18,6 +18,8 @@
 
 package com.hcc.event
 
-enum class Priority {
-    FIRST, LAST, IRRELEVANT
+enum class Priority(val value: Int) {
+    HIGH(1),
+    NORMAL(0),
+    LOW(-1)
 }
