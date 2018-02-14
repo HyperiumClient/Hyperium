@@ -21,6 +21,7 @@
     "entity.MixinEntityRenderer",
     "renderer.MixinItemRenderer",
     "renderer.MixinRendererLivingEntity",
+    "renderer.MixinModelPlayer",
 
     "world.MixinWorld"
   ]

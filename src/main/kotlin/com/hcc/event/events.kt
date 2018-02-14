@@ -101,3 +101,8 @@ class PlayerSwingEvent(val player: UUID)
  * Invoked when player joins a minigame on Hypixel
  */
 class JoinMinigameEvent(val minigame: Minigame)
+
+/**
+ * Invoked when a player model is rendered
+ */
+class RenderPlayerEvent
