@@ -1,5 +1,6 @@
 package com.hcc.mods.chromahud;
 
+import com.hcc.HCC;
 import com.hcc.event.InvokeEvent;
 import com.hcc.event.RenderEvent;
 import com.hcc.event.TickEvent;
@@ -31,6 +32,7 @@ public class ElementRenderer {
     private static DisplayElement current;
     private static FontRenderer fontRendererObj = Minecraft.getMinecraft().fontRendererObj;
     private static String cValue;
+    private static FontRenderer fontRenderer;
     boolean last = false;
     private ChromaHUD mod;
     private Minecraft minecraft;
@@ -173,6 +175,10 @@ public class ElementRenderer {
         GlStateManager.scale(1.0 / element.getScale(), 1.0 / element.getScale(), 0);
     }
 
+    public static FontRenderer getFontRenderer() {
+        return fontRenderer;
+    }
+
     @InvokeEvent
     public void tick(TickEvent event) {
         if (display) {
@@ -194,6 +200,10 @@ public class ElementRenderer {
     }
 
     public void renderElements() {
+        //TODO add config option to show items when not on Hypixel
+        if (!HCC.INSTANCE.getHandlers().getHypixelDetector().isHypixel())
+            return;
+
         if (fontRendererObj == null)
             fontRendererObj = Minecraft.getMinecraft().fontRendererObj;
         boolean m = Mouse.isButtonDown(0);

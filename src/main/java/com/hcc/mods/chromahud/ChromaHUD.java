@@ -24,7 +24,7 @@ public class ChromaHUD {
     private void init() {
         suggestedConfigurationFile = new File("hcc/displayconfig.json");
         ChromaHUDApi.getInstance();
-        ChromaHUDApi.getInstance().register(new DefaultChromaHudParser());
+        ChromaHUDApi.getInstance().register(new HCCChromaHudParser());
         setup();
         EventBus.INSTANCE.register(new ElementRenderer(this));
 
