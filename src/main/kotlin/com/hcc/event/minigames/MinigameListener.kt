@@ -33,6 +33,7 @@ class MinigameListener {
     @InvokeEvent
     fun onTick(event: TickEvent){
         if(cooldown <= 0){
+            cooldown = 3 * 20
             if(server == "hypixel" && Minecraft.getMinecraft().theWorld.scoreboard != null){
                 currentMinigameName = getScoreboardTitle()
                 val mingames = Minigame.values()
