@@ -3,6 +3,7 @@ package com.hcc.mods.levelhead.commands;
 import com.hcc.mods.levelhead.Levelhead;
 import com.hcc.mods.levelhead.guis.LevelHeadGui;
 import com.hcc.mods.sk1ercommon.Sk1erMod;
+import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
