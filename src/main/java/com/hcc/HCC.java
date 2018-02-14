@@ -107,12 +107,12 @@ public class HCC {
 
     @InvokeEvent
     public void onTick(TickEvent event){
-        notification.onTick();
+
     }
 
     @InvokeEvent
     public void render(RenderEvent event) {
-
+        notification.onTick();
     }
 
     private void shutdown() {
