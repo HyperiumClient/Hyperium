@@ -98,6 +98,7 @@ public class HCC {
         if (event.getChat().getUnformattedText().contains("configgui")) {
             Minecraft.getMinecraft().displayGuiScreen(new ModConfigGui());
         }
+
     }
 
     @InvokeEvent

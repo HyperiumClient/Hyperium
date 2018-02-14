@@ -1,7 +1,6 @@
 package com.hcc.handlers.handlers;
 
 import com.hcc.event.InvokeEvent;
-import com.hcc.event.Priority;
 import com.hcc.event.TickEvent;
 import me.semx11.autotip.util.ReflectionUtil;
 import net.minecraft.client.Minecraft;
@@ -15,6 +14,7 @@ public class HypixelDetector {
     private static final String HYPIXEL_HEADER = "You are playing on MC.HYPIXEL.NET";
     private static final Field HEADER_FIELD = ReflectionUtil.findField(GuiPlayerTabOverlay.class, "field_175256_i", "header");
     private boolean hypixel = false;
+
 
     public HypixelDetector() {
 
@@ -30,6 +30,7 @@ public class HypixelDetector {
 
     @InvokeEvent()
     public void tick(TickEvent event) {
+
         //Check for Hypixel every tick to make sure bad things don't happen
         Object header = getHeader();
         if (header != null) {
@@ -37,6 +38,8 @@ public class HypixelDetector {
             hypixel = text.equalsIgnoreCase(HYPIXEL_HEADER);
         } else hypixel = false;
     }
+
+    @InvokeEvent
 
     public boolean isHypixel() {
         return hypixel;
