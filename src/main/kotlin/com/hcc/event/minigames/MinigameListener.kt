@@ -18,7 +18,10 @@
 
 package com.hcc.event.minigames
 
-import com.hcc.event.*
+import com.hcc.event.EventBus
+import com.hcc.event.InvokeEvent
+import com.hcc.event.JoinMinigameEvent
+import com.hcc.event.TickEvent
 import net.minecraft.client.Minecraft
 
 class MinigameListener {
@@ -31,25 +34,27 @@ class MinigameListener {
 
 
     @InvokeEvent
-    fun onTick(event: TickEvent){
-        if(cooldown <= 0){
-            cooldown = 3 * 20
-            if(server == "hypixel" && Minecraft.getMinecraft().theWorld.scoreboard != null){
+    fun onTick(event: TickEvent) {
+        if (server == "hypixel" && Minecraft.getMinecraft().theWorld.scoreboard != null) {
+            if (cooldown <= 0) {
+                cooldown = 3 * 20
                 currentMinigameName = getScoreboardTitle()
-                val mingames = Minigame.values()
-                mingames.forEach {
-                    if(currentMinigameName == it.name){
+                val minigames = Minigame.values()
+                minigames.forEach {
+                    if (currentMinigameName == it.name) {
                         EventBus.post(JoinMinigameEvent(it))
                     }
                 }
-            }
-        } else{
-            cooldown--
-        }
 
+            }
+            else {
+                cooldown--
+            }
+
+        }
     }
 
-    private fun getScoreboardTitle(): String{
+    private fun getScoreboardTitle(): String {
         if (Minecraft.getMinecraft().theWorld.scoreboard.getObjectiveInDisplaySlot(1) != null) {
             return Minecraft.getMinecraft().theWorld.scoreboard
                     .getObjectiveInDisplaySlot(1)
