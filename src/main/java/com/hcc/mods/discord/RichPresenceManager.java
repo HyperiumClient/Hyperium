@@ -20,14 +20,18 @@ package com.hcc.mods.discord;
 
 import com.hcc.HCC;
 import com.hcc.Metadata;
+import com.hcc.mods.chromahud.Multithreading;
 import com.jagrosh.discordipc.IPCClient;
 import com.jagrosh.discordipc.IPCListener;
 import com.jagrosh.discordipc.entities.DiscordBuild;
 import com.jagrosh.discordipc.entities.RichPresence;
 import com.jagrosh.discordipc.exceptions.NoDiscordClientException;
 import net.minecraft.client.Minecraft;
+import net.minecraft.scoreboard.ScoreObjective;
+import net.minecraft.util.EnumChatFormatting;
 
 import java.time.OffsetDateTime;
+import java.util.concurrent.TimeUnit;
 
 public class RichPresenceManager {
     private IPCClient client;
@@ -37,6 +41,7 @@ public class RichPresenceManager {
         client.setListener(new IPCListener() {
             @Override
             public void onReady(IPCClient client) {
+                Multithreading.schedule(RichPresenceManager.this::update, 0L, 15L, TimeUnit.SECONDS);
                 update();
             }
         });
@@ -68,8 +73,9 @@ public class RichPresenceManager {
                     null,
                     false
             );
-        else if (Minecraft.getMinecraft().getCurrentServerData() != null)
-            if (Minecraft.getMinecraft().getCurrentServerData().serverIP.contains("hypixel.net"))
+        else if (Minecraft.getMinecraft().getCurrentServerData() != null) {
+            ScoreObjective side;
+            if ((side = Minecraft.getMinecraft().theWorld.getScoreboard().getObjectiveInDisplaySlot(1)) != null && Minecraft.getMinecraft().theWorld.getScoreboard().getValueFromObjective(EnumChatFormatting.YELLOW.toString() + "www.hypixel.net", side).getScorePoints() == 1) {
                 presence = new RichPresence(
                         "HCC " + Metadata.getVersion(),
                         "Hypixel: ",
@@ -87,10 +93,10 @@ public class RichPresenceManager {
                         null,
                         false
                 );
-            else
+            } else
                 presence = new RichPresence(
                         "HCC " + Metadata.getVersion(),
-                        "In server: "+Minecraft.getMinecraft().getCurrentServerData().serverIP,
+                        "In server: " + Minecraft.getMinecraft().getCurrentServerData().serverIP,
                         OffsetDateTime.now(),
                         null,
                         "hcc",
@@ -105,7 +111,7 @@ public class RichPresenceManager {
                         null,
                         false
                 );
-        else
+        } else
             presence = new RichPresence(
                     "HCC " + Metadata.getVersion(),
                     "Singleplayer",
