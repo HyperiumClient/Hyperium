@@ -1,4 +1,4 @@
-package com.hcc.mods.chromahud;
+package com.hcc.mods.sk1ercommon;
 
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;

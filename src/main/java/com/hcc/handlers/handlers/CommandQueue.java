@@ -1,6 +1,6 @@
 package com.hcc.handlers.handlers;
 
-import com.hcc.mods.chromahud.Multithreading;
+import com.hcc.mods.sk1ercommon.Multithreading;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 

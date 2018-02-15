@@ -1,7 +1,11 @@
 package com.hcc.mods.chromahud.gui;
 
-import com.hcc.mods.chromahud.*;
+import com.hcc.mods.chromahud.ChromaHUD;
+import com.hcc.mods.chromahud.ChromaHUDApi;
+import com.hcc.mods.chromahud.DisplayElement;
+import com.hcc.mods.chromahud.ElementRenderer;
 import com.hcc.mods.chromahud.api.Dimension;
+import com.hcc.mods.sk1ercommon.ResolutionUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;

@@ -2,7 +2,6 @@ package com.hcc.mods.sk1ercommon;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.hcc.mods.chromahud.Multithreading;
 import com.hcc.utils.JsonHolder;
 import net.minecraft.client.Minecraft;
 import org.apache.commons.io.IOUtils;

@@ -5,7 +5,7 @@ import com.hcc.event.EventBus;
 import com.hcc.event.InvokeEvent;
 import com.hcc.event.TickEvent;
 import com.hcc.handlers.handlers.chat.GeneralChatHandler;
-import com.hcc.mods.chromahud.Multithreading;
+import com.hcc.mods.sk1ercommon.Multithreading;
 import com.hcc.mods.levelhead.config.LevelheadConfig;
 import com.hcc.mods.levelhead.renderer.LevelHeadRender;
 import com.hcc.mods.levelhead.renderer.LevelheadTag;

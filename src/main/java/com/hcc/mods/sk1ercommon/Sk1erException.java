@@ -1,4 +1,4 @@
-package com.hcc.mods.chromahud;
+package com.hcc.mods.sk1ercommon;
 
 /**
  * Created by mitchellkatz on 6/1/17.

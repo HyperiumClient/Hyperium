@@ -1,10 +1,14 @@
 package com.hcc.mods.chromahud.gui;
 
-import com.hcc.mods.chromahud.*;
+import com.hcc.mods.chromahud.ChromaHUD;
+import com.hcc.mods.chromahud.ChromaHUDApi;
+import com.hcc.mods.chromahud.DisplayElement;
+import com.hcc.mods.chromahud.ElementRenderer;
 import com.hcc.mods.chromahud.api.ButtonConfig;
 import com.hcc.mods.chromahud.api.DisplayItem;
 import com.hcc.mods.chromahud.api.StringConfig;
 import com.hcc.mods.chromahud.api.TextConfig;
+import com.hcc.mods.sk1ercommon.ResolutionUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.renderer.GlStateManager;

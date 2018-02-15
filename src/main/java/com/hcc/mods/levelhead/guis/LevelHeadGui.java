@@ -3,7 +3,7 @@ package com.hcc.mods.levelhead.guis;
 import com.hcc.event.EventBus;
 import com.hcc.event.TickEvent;
 import com.hcc.handlers.handlers.chat.GeneralChatHandler;
-import com.hcc.mods.chromahud.Multithreading;
+import com.hcc.mods.sk1ercommon.Multithreading;
 import com.hcc.mods.levelhead.Levelhead;
 import com.hcc.mods.levelhead.config.LevelheadConfig;
 import com.hcc.mods.levelhead.renderer.LevelheadComponent;

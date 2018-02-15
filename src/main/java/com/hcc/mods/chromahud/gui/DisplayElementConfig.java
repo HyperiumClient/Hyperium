@@ -1,8 +1,15 @@
 package com.hcc.mods.chromahud.gui;
 
-import com.hcc.mods.chromahud.*;
+import com.hcc.mods.chromahud.ChromaHUD;
+import com.hcc.mods.chromahud.ChromaHUDApi;
+import com.hcc.mods.chromahud.DisplayElement;
+import com.hcc.mods.chromahud.ElementRenderer;
+import com.hcc.mods.sk1ercommon.ResolutionUtil;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.*;
+import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.util.EnumChatFormatting;

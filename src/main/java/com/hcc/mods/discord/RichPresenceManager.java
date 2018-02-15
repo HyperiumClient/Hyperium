@@ -20,7 +20,7 @@ package com.hcc.mods.discord;
 
 import com.hcc.HCC;
 import com.hcc.Metadata;
-import com.hcc.mods.chromahud.Multithreading;
+import com.hcc.mods.sk1ercommon.Multithreading;
 import com.jagrosh.discordipc.IPCClient;
 import com.jagrosh.discordipc.IPCListener;
 import com.jagrosh.discordipc.entities.DiscordBuild;

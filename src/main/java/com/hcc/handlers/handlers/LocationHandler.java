@@ -21,6 +21,7 @@ public class LocationHandler {
 
     @InvokeEvent
     public void chatRecieve(ChatEvent event) {
+
         String raw = EnumChatFormatting.getTextWithoutFormattingCodes(event.getChat().getUnformattedText());
         Matcher whereAmIMatcher = whereami.matcher(raw);
         if (raw.equalsIgnoreCase("you are currently in limbo")) {
@@ -46,6 +47,8 @@ public class LocationHandler {
 
     @InvokeEvent
     public void tick(TickEvent event) {
+        if (!HCC.INSTANCE.getHandlers().getHypixelDetector().isHypixel())
+            ticksInWorld = 0;
         if (ticksInWorld < 20) {
             ticksInWorld++;
             if (ticksInWorld == 20) {
