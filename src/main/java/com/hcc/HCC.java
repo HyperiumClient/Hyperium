@@ -22,6 +22,7 @@ import com.hcc.addons.HCCAddonBootstrap;
 import com.hcc.addons.loader.DefaultAddonLoader;
 import com.hcc.config.DefaultConfig;
 import com.hcc.event.*;
+import com.hcc.event.minigames.MinigameListener;
 import com.hcc.exceptions.HCCException;
 import com.hcc.gui.ModConfigGui;
 import com.hcc.gui.NotificationCenter;
@@ -75,6 +76,7 @@ public class HCC {
 
     @InvokeEvent
     public void init(InitializationEvent event) {
+        EventBus.INSTANCE.register(new MinigameListener());
         folder = new File(Minecraft.getMinecraft().mcDataDir, "hcc");
         logger.info("HCC Started!");
         logger.info(TrueTypeFont.isSupported("Jokerman"));
