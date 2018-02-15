@@ -27,8 +27,10 @@ import com.hcc.exceptions.HCCException;
 import com.hcc.gui.ModConfigGui;
 import com.hcc.gui.NotificationCenter;
 import com.hcc.handlers.HCCHandlers;
+import com.hcc.handlers.handlers.keybinds.KeyBindHandler;
 import com.hcc.mixins.MixinKeyBinding;
 import com.hcc.mods.HCCModIntegration;
+import com.hcc.mods.ToggleSprintContainer;
 import com.hcc.mods.discord.RichPresenceManager;
 import com.hcc.utils.TrueTypeFont;
 import net.minecraft.client.Minecraft;
@@ -37,6 +39,7 @@ import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.Display;
 
 import java.io.File;
+import java.security.Key;
 
 /**
  * Hypixel Community Client
@@ -77,6 +80,8 @@ public class HCC {
     @InvokeEvent
     public void init(InitializationEvent event) {
         EventBus.INSTANCE.register(new MinigameListener());
+        EventBus.INSTANCE.register(new ToggleSprintContainer());
+
         folder = new File(Minecraft.getMinecraft().mcDataDir, "hcc");
         logger.info("HCC Started!");
         logger.info(TrueTypeFont.isSupported("Jokerman"));
@@ -112,7 +117,16 @@ public class HCC {
     @InvokeEvent
     public void onTick(TickEvent event) {
         // someone can make a keybind or some shit for this crap; kevin out
-        ((MixinKeyBinding) Minecraft.getMinecraft().gameSettings.keyBindSprint).setPressed(true);
+    }
+
+    @InvokeEvent
+    public void onKeyPress(KeypressEvent event){
+        // i got u - coal
+        if((KeyBindHandler.toggleSprint.isActivated())){
+            if(event.getKey() == Minecraft.getMinecraft().gameSettings.keyBindForward.getKeyCode() || event.getKey() ==KeyBindHandler.toggleSprint.getKey()){
+                ((MixinKeyBinding) Minecraft.getMinecraft().gameSettings.keyBindSprint).setPressed(true);
+            }
+        }
     }
 
     @InvokeEvent

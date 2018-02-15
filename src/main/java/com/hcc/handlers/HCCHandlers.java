@@ -10,6 +10,7 @@ import com.hcc.handlers.handlers.chat.AutoWhoChatHandler;
 import com.hcc.handlers.handlers.chat.GeneralChatHandler;
 import com.hcc.handlers.handlers.chat.HCCChatHandler;
 import com.hcc.handlers.handlers.chat.RankedRatingChatHandler;
+import com.hcc.handlers.handlers.keybinds.KeyBindHandler;
 import com.hcc.mods.sk1ercommon.ResolutionUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandHandler;
@@ -30,9 +31,11 @@ public class HCCHandlers {
     private ApiDataHandler dataHandler;
     private ResolutionUtil resolutionUtil;
     private GuiDisplayHandler guiDisplayHandler;
+    private KeyBindHandler keybindHandler;
     private boolean reg = false;
 
     public HCCHandlers() {
+        register(keybindHandler = new KeyBindHandler());
         register(locationHandler = new LocationHandler());
         register(hypixelDetector = new HypixelDetector());
         register(valueHandler = new ValueHandler());
@@ -107,5 +110,9 @@ public class HCCHandlers {
 
     public GuiDisplayHandler getGuiDisplayHandler() {
         return guiDisplayHandler;
+    }
+
+    public KeyBindHandler getKeybindHandler() {
+        return keybindHandler;
     }
 }
