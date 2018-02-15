@@ -18,6 +18,9 @@
     "gui.MixinInventory",
 
     "entities.MixinEntityPlayer",
+    "entity.MixinEntity",
+    "entity.MixinEntityLivingBase",
+
     "entity.MixinEntityRenderer",
     "renderer.MixinGuiIngame",
     "renderer.MixinItemRenderer",

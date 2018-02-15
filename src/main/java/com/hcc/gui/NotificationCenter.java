@@ -32,18 +32,20 @@ public class NotificationCenter {
     private Long ticks = 0L;
     private Long endTicks = 0L;
 
-
     public void onTick(){
-        if(ticks >= endTicks) return;
+        //    if(ticks >= endTicks) return;
+        //  System.out.println("fuck");
         FontRenderer fontRendererObj = Minecraft.getMinecraft().fontRendererObj;
         int x =0;
         int w = Minecraft.getMinecraft().displayWidth, h = Minecraft.getMinecraft().displayHeight;
 
+        fontRendererObj.drawString("shit", 0, 0, 0xffffff);
         // Background
-        Gui.drawRect((w - (fontRendererObj.getStringWidth(description)+20))+x, h - 60, w, h- 30, new Color(0, 0, 0, 100).getRGB());
+        Gui.drawRect((w - (fontRendererObj.getStringWidth(description) + 20)) + x, h - 60, w, h - 30, new Color(54, 57, 62, 150).getRGB());
         Gui.drawRect((w - (fontRendererObj.getStringWidth(description)+20))+x, h - 60, (w - (fontRendererObj.getStringWidth(description)+20))+3, h- 30, new Color(149, 201, 144).getRGB());
         ticks++;
     }
+
     public void display(String title, String description, float seconds){
         this.title = title;
         this.description = description;
