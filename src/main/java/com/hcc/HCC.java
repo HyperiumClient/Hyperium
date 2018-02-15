@@ -40,6 +40,7 @@ import java.io.File;
  * Hypixel Community Client
  */
 public class HCC {
+
     public static final HCC INSTANCE = new HCC();
     /**
      * Instance of the global mod logger
@@ -71,6 +72,7 @@ public class HCC {
 
     private HCCHandlers handlers;
     private HCCModIntegration modIntegration;
+
     @InvokeEvent
     public void init(InitializationEvent event) {
         folder = new File(Minecraft.getMinecraft().mcDataDir, "hcc");
