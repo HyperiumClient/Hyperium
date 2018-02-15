@@ -18,8 +18,6 @@
 
 package com.hcc.installer.utils;
 
-import com.hcc.installer.InstallerFrame;
-
 import javax.swing.*;
 import java.io.File;
 import java.io.FileOutputStream;
