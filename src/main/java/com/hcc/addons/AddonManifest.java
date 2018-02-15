@@ -60,12 +60,9 @@ public class AddonManifest {
             JsonObject json = parser.parse(Files.toString(jsonFile,Charset.defaultCharset())).getAsJsonObject();
             this.json = json;
             if(!json.has("version") && !json.has("name") && !json.has("main")){
-                System.out.println("Json doesn't have correct attributes!");
                 throw new HCCException("Invalid addon jar (addon.json does not exist or invalid)");
             }
         } catch (Exception e) {
-            System.out.println("Json is fine, just another error.");
-            e.printStackTrace();
             throw new HCCException("Invalid addon jar (addon.json does not exist or invalid)");
         }
     }
