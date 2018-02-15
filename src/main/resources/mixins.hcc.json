@@ -8,6 +8,7 @@
     "MixinMinecraft",
     "MixinTextureManager",
     "MixinSoundManager",
+    "MixinKeyBinding",
 
     "gui.MixinGuiConnecting",
     "gui.MixinGuiDisconnecting",
@@ -22,12 +23,13 @@
     "entity.MixinEntityLivingBase",
 
     "entity.MixinEntityRenderer",
+
     "renderer.MixinGuiIngame",
     "renderer.MixinItemRenderer",
     "renderer.MixinRendererLivingEntity",
     "renderer.MixinRenderPlayer",
     "packet.MixinS2EPacketCloseWindow",
-
+    "world.MixinChunk",
     "world.MixinWorld"
   ]
 }
