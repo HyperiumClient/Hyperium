@@ -39,36 +39,35 @@ public class DownloadTask extends SwingWorker<Void, Void> {
      */
     @Override
     protected Void doInBackground() throws Exception {
-            HTTPDownloadUtil util = new HTTPDownloadUtil();
-            util.downloadFile(downloadURL);
-            this.fileName = util.getFileName();
+        HTTPDownloadUtil util = new HTTPDownloadUtil();
+        String saveFilePath = saveDirectory + File.separator + util.getFileName();
 
-            // set file information on the GUI
-            String saveFilePath = saveDirectory + File.separator + util.getFileName();
-            if(new File(saveFilePath).exists())
-                new File(saveFilePath).delete();
+        if (new File(saveFilePath).exists())
+            new File(saveFilePath).delete();
+        util.downloadFile(downloadURL);
+        this.fileName = util.getFileName();
 
-            InputStream inputStream = util.getInputStream();
-            // opens an output stream to save into file
-            FileOutputStream outputStream = new FileOutputStream(saveFilePath);
+        InputStream inputStream = util.getInputStream();
+        // opens an output stream to save into file
+        FileOutputStream outputStream = new FileOutputStream(saveFilePath);
 
-            byte[] buffer = new byte[BUFFER_SIZE];
-            int bytesRead = -1;
-            long totalBytesRead = 0;
-            int percentCompleted = 0;
-            long fileSize = util.getContentLength();
+        byte[] buffer = new byte[BUFFER_SIZE];
+        int bytesRead = -1;
+        long totalBytesRead = 0;
+        int percentCompleted = 0;
+        long fileSize = util.getContentLength();
 
-            while ((bytesRead = inputStream.read(buffer)) != -1) {
-                outputStream.write(buffer, 0, bytesRead);
-                totalBytesRead += bytesRead;
-                percentCompleted = (int) (totalBytesRead * 100 / fileSize);
+        while ((bytesRead = inputStream.read(buffer)) != -1) {
+            outputStream.write(buffer, 0, bytesRead);
+            totalBytesRead += bytesRead;
+            percentCompleted = (int) (totalBytesRead * 100 / fileSize);
 
-                setProgress(percentCompleted);
-            }
+            setProgress(percentCompleted);
+        }
 
-            outputStream.close();
+        outputStream.close();
 
-            util.disconnect();
+        util.disconnect();
         return null;
     }
 
