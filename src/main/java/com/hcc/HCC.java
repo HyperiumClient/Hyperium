@@ -50,13 +50,12 @@ public class HCC {
      * Instance of default addons loader
      */
     public static final DefaultAddonLoader addonLoader = new DefaultAddonLoader();
+    public static final NotificationCenter notification = new NotificationCenter();
     public static File folder = new File("hcc");
     /**
      * Instance of default config
      */
     public static final DefaultConfig config = new DefaultConfig(new File(folder, "config.json"));
-
-    public static final NotificationCenter notification = new NotificationCenter();
     private static HCCAddonBootstrap addonBootstrap;
 
     private static RichPresenceManager richPresenceManager = new RichPresenceManager();
@@ -108,12 +107,17 @@ public class HCC {
     }
 
     @InvokeEvent
-    public void onTick(TickEvent event){
-        notification.onTick();
+    public void onTick(TickEvent event) {
+
     }
 
     @InvokeEvent
     public void render(RenderEvent event) {
+        notification.onTick();
+    }
+
+    @InvokeEvent
+    public void onSwing(PlayerSwingEvent event){
 
     }
 
@@ -122,8 +126,6 @@ public class HCC {
         richPresenceManager.shutdown();
         logger.info("Shutting down HCC..");
     }
-
-
 
 
     public HCCHandlers getHandlers() {
