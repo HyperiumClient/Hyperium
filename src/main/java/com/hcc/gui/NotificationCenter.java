@@ -18,7 +18,6 @@
 
 package com.hcc.gui;
 
-import com.hcc.HCC;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
@@ -40,7 +39,6 @@ public class NotificationCenter {
         int x =0;
         int w = Minecraft.getMinecraft().displayWidth, h = Minecraft.getMinecraft().displayHeight;
 
-        Gui.drawRect(0, h, 0, w, 0xFFFFFF);
         // Background
         Gui.drawRect((w - (fontRendererObj.getStringWidth(description)+20))+x, h - 60, w, h- 30, new Color(0, 0, 0, 100).getRGB());
         Gui.drawRect((w - (fontRendererObj.getStringWidth(description)+20))+x, h - 60, (w - (fontRendererObj.getStringWidth(description)+20))+3, h- 30, new Color(149, 201, 144).getRGB());
