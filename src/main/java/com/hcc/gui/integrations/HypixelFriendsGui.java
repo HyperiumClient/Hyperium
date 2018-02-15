@@ -2,6 +2,7 @@ package com.hcc.gui.integrations;
 
 import club.sk1er.website.api.requests.HypixelApiFriendObject;
 import com.hcc.HCC;
+import com.hcc.gui.GuiBlock;
 import com.hcc.gui.HCCGui;
 import com.hcc.mods.sk1ercommon.ResolutionUtil;
 import com.hcc.utils.JsonHolder;
@@ -21,11 +22,12 @@ public class HypixelFriendsGui extends HCCGui {
     private HypixelFriends friends;
     private GuiTextField textField;
     private int offset = 0;
+    private List<HypixelApiFriendObject> selected = new ArrayList<>();
+
 
     public HypixelFriendsGui() {
         rebuildFriends();
     }
-
 
     @Override
     public void initGui() {
@@ -80,24 +82,71 @@ public class HypixelFriendsGui extends HCCGui {
         friends.removeIf(hypixelApiFriendObject -> !hypixelApiFriendObject.getDisplay().toLowerCase().contains(textField.getText().toLowerCase()));
         super.drawScreen(mouseX, mouseY, partialTicks);
         textField.drawTextBox();
-        final int topRenderBound = 49 + offset;
+        final int topRenderBound = 30;
         final int bottomRenderBound = ResolutionUtil.current().getScaledHeight() / 9 * 8;
-        int xInterval = ResolutionUtil.current().getScaledWidth() / 9;
-        int startX = xInterval * 2;
-        int yInterval = 15;
-        int startY = 60;
-        int sliderX = 0;
 
-        for (HypixelApiFriendObject hypixelApiFriendObject : friends.get()) {
-            if (sliderX > 2) {
-                sliderX = 0;
-                startY += yInterval;
-            }
-            if (startY < topRenderBound || startY > bottomRenderBound)
-                continue;
-            drawCenteredString(fontRendererObj, hypixelApiFriendObject.getDisplay(), startX + xInterval + (sliderX * 2 * xInterval), startY, Color.WHITE.getRGB());
-            sliderX++;
+
+        GuiBlock namesBlock = new GuiBlock(2, 0, topRenderBound, topRenderBound);
+        int row = 0;
+        for (HypixelApiFriendObject object : selected) {
+            namesBlock.drawString(object.getDisplay(), fontRendererObj, false, false, 1, 1 + row * 11, true, true, Color.WHITE.getRGB());
+            row++;
         }
+        GuiBlock friendsBlock = new GuiBlock(namesBlock.getLeft() + 5, ResolutionUtil.current().getScaledWidth() - 10, topRenderBound, bottomRenderBound);
+        int drawX = friendsBlock.getLeft();
+        int drawY = friendsBlock.getTop() + offset;
+
+        int collumnWidth = fontRendererObj.getStringWidth("[YOUTUBER] Zyphalopagus1245"); //Some long name
+
+
+        for (HypixelApiFriendObject object : friends.get()) {
+            boolean scaled = false;
+            if (drawX + collumnWidth > friendsBlock.getRight()) {
+                drawX = friendsBlock.getLeft();
+                drawY += 11;
+                scaled = true;
+            }
+
+            if (!friendsBlock.drawString(object.getDisplay(), fontRendererObj, false, false, drawX, drawY, false, false, Color.WHITE.getRGB())) {
+//                if(scaled)
+//                    continue;
+//                drawX = friendsBlock.getLeft();
+//                drawY += 11;
+                //Try to rerender on new line. If still doesn't fit we are done
+                friendsBlock.drawString(object.getDisplay(), fontRendererObj, false, false, drawX, drawY, false, false, Color.WHITE.getRGB());
+
+            }
+            drawX += collumnWidth;
+        }
+        //After first wave, if bottom of people is still not on screen, fix
+        if (drawY > topRenderBound)
+            return;
+        drawY = topRenderBound;
+        drawX = friendsBlock.getLeft();
+        for (HypixelApiFriendObject object : friends.get()) {
+            boolean scaled = false;
+            if (drawX + collumnWidth > friendsBlock.getRight()) {
+                drawX = friendsBlock.getLeft();
+                drawY += 11;
+                scaled = true;
+            }
+
+            if (!friendsBlock.drawString(object.getDisplay(), fontRendererObj, false, false, drawX, drawY, false, false, Color.WHITE.getRGB())) {
+//                if(scaled)
+//                    continue;
+//                drawX = friendsBlock.getLeft();
+//                drawY += 11;
+                //Try to rerender on new line. If still doesn't fit we are done
+                friendsBlock.drawString(object.getDisplay(), fontRendererObj, false, false, drawX, drawY, false, false, Color.WHITE.getRGB());
+
+            }
+            drawX += collumnWidth;
+        }
+
+
+//
+//  X++;
+//        }
     }
 
     class HypixelFriends {
