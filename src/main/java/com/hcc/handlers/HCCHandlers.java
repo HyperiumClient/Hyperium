@@ -6,6 +6,7 @@ import com.hcc.handlers.handlers.CommandQueue;
 import com.hcc.handlers.handlers.HypixelDetector;
 import com.hcc.handlers.handlers.LocationHandler;
 import com.hcc.handlers.handlers.ValueHandler;
+import com.hcc.handlers.handlers.chat.AutoWhoChatHandler;
 import com.hcc.handlers.handlers.chat.GeneralChatHandler;
 import com.hcc.handlers.handlers.chat.HCCChatHandler;
 import com.hcc.handlers.handlers.chat.RankedRatingChatHandler;
@@ -33,6 +34,7 @@ public class HCCHandlers {
         chatHandlers = new ArrayList<>();
         register((generalChatHandler = new GeneralChatHandler(chatHandlers)));
         registerChatHandler(new RankedRatingChatHandler());
+        registerChatHandler(new AutoWhoChatHandler());
     }
 
     private void registerChatHandler(HCCChatHandler hccChatHandler) {
