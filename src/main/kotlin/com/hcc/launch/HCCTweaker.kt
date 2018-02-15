@@ -53,9 +53,11 @@ class HCCTweaker : ITweaker {
     override fun getLaunchTarget() =
             "net.minecraft.client.main.Main"
 
-    override fun injectIntoClassLoader(classLoader: LaunchClassLoader?) {
+    override fun injectIntoClassLoader(classLoader: LaunchClassLoader) {
         HCC.logger.info("Setting up Mixins...")
         MixinBootstrap.init()
+        // Excludes packages from classloader
+        classLoader.addClassLoaderExclusion("org.apache.logging.log4j.")
         with(MixinEnvironment.getDefaultEnvironment()) {
             Mixins.addConfiguration("mixins.hcc.json")
             this.obfuscationContext = when {
