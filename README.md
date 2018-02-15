@@ -24,13 +24,8 @@ Step #6: Build project
 **Dependency:**
 add HCC that you built as dependency for the project
 
-**Main Class:**
-Your main class __needs__ to extend [Addon](https://github.com/HypixelCommunityClient/HCC/blob/master/src/main/java/com/hcc/addons/Addon.java)
-
 ```java
 package me.cubxity;
-
-import com.hcc.addon.Addon;
 
 @Addon(modid = "TestMod", version = "1.0 BETA")
 public class TestMod {
