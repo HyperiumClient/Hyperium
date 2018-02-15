@@ -19,9 +19,11 @@
 
     "entities.MixinEntityPlayer",
     "entity.MixinEntityRenderer",
+    "renderer.MixinGuiIngame",
     "renderer.MixinItemRenderer",
     "renderer.MixinRendererLivingEntity",
     "renderer.MixinRenderPlayer",
+    "packet.MixinS2EPacketCloseWindow",
 
     "world.MixinWorld"
   ]

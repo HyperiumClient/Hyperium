@@ -84,6 +84,8 @@ class TickEvent
  */
 class RenderEvent
 
+class RenderHUDEvent(partialTicks: Float)
+
 /**
  * Invoked once a chat message is sent
  */
