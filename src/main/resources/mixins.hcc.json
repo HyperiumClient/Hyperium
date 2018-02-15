@@ -8,6 +8,7 @@
     "MixinMinecraft",
     "MixinTextureManager",
     "MixinSoundManager",
+    "MixinKeyBinding",
 
     "gui.MixinGuiConnecting",
     "gui.MixinGuiDisconnecting",
