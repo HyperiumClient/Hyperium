@@ -20,13 +20,21 @@ package com.hcc.mods;
 
 import com.hcc.event.InvokeEvent;
 import com.hcc.event.KeyBindDisableEvent;
+import com.hcc.event.KeyBindEnableEvent;
+import com.hcc.handlers.handlers.chat.GeneralChatHandler;
 import com.hcc.handlers.handlers.keybinds.KeyBindHandler;
 import com.hcc.mixins.MixinKeyBinding;
 import net.minecraft.client.Minecraft;
 
 public class ToggleSprintContainer {
     @InvokeEvent
+    public static void onkeyBindEnable(KeyBindEnableEvent event){
+        GeneralChatHandler.instance().sendMessage("ToggleSprint Enabled!");
+    }
+
+    @InvokeEvent
     public static void onKeyBindDisable(KeyBindDisableEvent event){
+        GeneralChatHandler.instance().sendMessage("ToggleSprint Disabled!");
         if(event.getKey() == KeyBindHandler.toggleSprint.getKey()){
             ((MixinKeyBinding) Minecraft.getMinecraft().gameSettings.keyBindSprint).setPressed(false);
         }
