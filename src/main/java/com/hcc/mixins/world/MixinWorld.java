@@ -20,12 +20,15 @@ package com.hcc.mixins.world;
 
 import com.hcc.event.EventBus;
 import com.hcc.event.SpawnpointChangeEvent;
+import net.minecraft.client.Minecraft;
 import net.minecraft.util.BlockPos;
+import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(World.class)
 public class MixinWorld {
@@ -38,5 +41,87 @@ public class MixinWorld {
     @Inject(method = "setSpawnPoint", at=@At("HEAD"))
     private void setSpawnPoint(BlockPos pos, CallbackInfo ci){
         EventBus.INSTANCE.post(new SpawnpointChangeEvent(pos));
+    }
+
+    /**
+     * Removes lightupdates
+     *
+     * @param lightType
+     * @param pos
+     * @param ci
+     */
+    @Inject(method = "checkLightFor", at = @At("HEAD"), cancellable = true)
+    private void checkLightFor(EnumSkyBlock lightType, BlockPos pos, CallbackInfoReturnable<Boolean> ci) {
+        if (!Minecraft.getMinecraft().isIntegratedServerRunning()) {
+            ci.setReturnValue(false);
+        }
+    }
+
+    /**
+     * Removes lightupdates
+     *
+     * @param type
+     * @param pos
+     * @param ci
+     */
+    @Inject(method = "getLightFromNeighborsFor", at = @At("HEAD"), cancellable = true)
+    private void getLightFromNeighborsFor(EnumSkyBlock type, BlockPos pos, CallbackInfoReturnable<Integer> ci) {
+        if (!Minecraft.getMinecraft().isIntegratedServerRunning()) {
+            ci.setReturnValue(15);
+        }
+    }
+
+    /**
+     * Removes lightupdates
+     *
+     * @param pos
+     * @param ci
+     */
+    @Inject(method = "getLightFromNeighbors", at = @At("HEAD"), cancellable = true)
+    private void getLightFromNeighbor(BlockPos pos, CallbackInfoReturnable<Integer> ci) {
+        if (!Minecraft.getMinecraft().isIntegratedServerRunning()) {
+            ci.setReturnValue(15);
+        }
+    }
+
+    /**
+     * Removes lightupdates
+     *
+     * @param pos
+     * @param lightType
+     * @param ci
+     */
+    @Inject(method = "getRawLight", at = @At("HEAD"), cancellable = true)
+    private void getRawLight(BlockPos pos, EnumSkyBlock lightType, CallbackInfoReturnable<Integer> ci) {
+        if (!Minecraft.getMinecraft().isIntegratedServerRunning()) {
+            ci.setReturnValue(15);
+        }
+    }
+
+    /**
+     * Removes lightupdates
+     *
+     * @param pos
+     * @param ci
+     */
+    @Inject(method = "getLight(Lnet/minecraft/util/BlockPos;)I", at = @At("HEAD"), cancellable = true)
+    private void getLight(BlockPos pos, CallbackInfoReturnable<Integer> ci) {
+        if (!Minecraft.getMinecraft().isIntegratedServerRunning()) {
+            ci.setReturnValue(15);
+        }
+    }
+
+    /**
+     * Removes lightupdates
+     *
+     * @param pos
+     * @param checkNeighbors
+     * @param ci
+     */
+    @Inject(method = "getLight(Lnet/minecraft/util/BlockPos;Z)I", at = @At("HEAD"), cancellable = true)
+    private void getLight(BlockPos pos, boolean checkNeighbors, CallbackInfoReturnable<Integer> ci) {
+        if (!Minecraft.getMinecraft().isIntegratedServerRunning()) {
+            ci.setReturnValue(15);
+        }
     }
 }

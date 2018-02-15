@@ -26,6 +26,7 @@ import com.hcc.exceptions.HCCException;
 import com.hcc.gui.ModConfigGui;
 import com.hcc.gui.NotificationCenter;
 import com.hcc.handlers.HCCHandlers;
+import com.hcc.mixins.MixinKeyBinding;
 import com.hcc.mods.HCCModIntegration;
 import com.hcc.mods.discord.RichPresenceManager;
 import com.hcc.utils.TrueTypeFont;
@@ -108,17 +109,13 @@ public class HCC {
 
     @InvokeEvent
     public void onTick(TickEvent event) {
-
+        // someone can make a keybind or some shit for this crap; kevin out
+        ((MixinKeyBinding) Minecraft.getMinecraft().gameSettings.keyBindSprint).setPressed(true);
     }
 
     @InvokeEvent
     public void render(RenderEvent event) {
         notification.onTick();
-    }
-
-    @InvokeEvent
-    public void onSwing(PlayerSwingEvent event){
-
     }
 
     private void shutdown() {
