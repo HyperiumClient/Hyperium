@@ -17,7 +17,7 @@ public abstract class HCCChatHandler {
     protected final Pattern questPattern = Pattern.compile("(Daily|Weekly)? Quest: (?<name>.+?(?= Completed!))");
     protected final Pattern expPattern = Pattern.compile(" \\+(?<exp>\\d+) Hypixel Experience");
     protected final Pattern coinPattern = Pattern.compile(" \\+(?<coin>\\d+) (?<game>.+) Coins");
-    protected final Pattern skywarsRankedRating = Pattern.compile("(-|\\+)(?<change>\\d+) Rating \\(\\S(?<rating>\\d+)\\)");
+    protected final Pattern skywarsRankedRating = Pattern.compile("(?<change>^-?[0-9]\\d*(\\.\\d+)?) Rating \\(\\S(?<rating>\\d+)\\)");
 
     public HCC getHcc() {
         return HCC.INSTANCE;

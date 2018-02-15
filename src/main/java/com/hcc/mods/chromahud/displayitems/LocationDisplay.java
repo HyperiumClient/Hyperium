@@ -19,10 +19,10 @@ public class LocationDisplay extends DisplayItem {
 
 
     @Override
-    public Dimension draw(int starX, double startY, boolean ignored) {
+    public Dimension draw(int starX, double startY, boolean config) {
         String string = "Location: " + HCC.INSTANCE.getHandlers().getLocationHandler().getLocation();
         ElementRenderer.draw(starX, startY, string);
-        return new Dimension(Minecraft.getMinecraft().fontRendererObj.getStringWidth(string), 10);
+        return new Dimension(config ? Minecraft.getMinecraft().fontRendererObj.getStringWidth(string) : 0, 10);
     }
 
 
