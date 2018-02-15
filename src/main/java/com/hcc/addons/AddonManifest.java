@@ -18,12 +18,17 @@
 
 package com.hcc.addons;
 
+import com.google.common.io.Files;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.hcc.exceptions.HCCException;
 import com.hcc.utils.Utils;
 import org.apache.commons.io.IOUtils;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.util.jar.JarFile;
 import java.util.zip.ZipEntry;
@@ -44,12 +49,23 @@ public class AddonManifest {
         try {
             ZipEntry entry = jar.getEntry("addon.json");
             JsonParser parser = new JsonParser();
-            JsonObject json = parser.parse(Utils.INSTANCE.fromList(IOUtils.readLines(jar.getInputStream(entry), Charset.defaultCharset()))).getAsJsonObject();
+
+            File jsonFile = File.createTempFile("json","tmp");
+            jsonFile.deleteOnExit();
+
+            InputStream jarInputStream = jar.getInputStream(entry);
+            OutputStream os = new FileOutputStream(jsonFile);
+            IOUtils.copy(jarInputStream,os);
+
+            JsonObject json = parser.parse(Files.toString(jsonFile,Charset.defaultCharset())).getAsJsonObject();
             this.json = json;
             if(!json.has("version") && !json.has("name") && !json.has("main")){
+                System.out.println("Json doesn't have correct attributes!");
                 throw new HCCException("Invalid addon jar (addon.json does not exist or invalid)");
             }
         } catch (Exception e) {
+            System.out.println("Json is fine, just another error.");
+            e.printStackTrace();
             throw new HCCException("Invalid addon jar (addon.json does not exist or invalid)");
         }
     }
