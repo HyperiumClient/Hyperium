@@ -116,6 +116,11 @@ public class HCC {
         notification.onTick();
     }
 
+    @InvokeEvent
+    public void onSwing(PlayerSwingEvent event){
+
+    }
+
     private void shutdown() {
         config.save();
         richPresenceManager.shutdown();
