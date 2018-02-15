@@ -25,7 +25,6 @@ import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.client.renderer.entity.RendererLivingEntity;
-import net.minecraft.util.ResourceLocation;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -38,9 +37,9 @@ public abstract class MixinRenderPlayer extends RendererLivingEntity<AbstractCli
         super(renderManagerIn, modelBaseIn, shadowSizeIn);
     }
 
-    @Inject(method="doRender", at=@At("HEAD"))
-    public void doRender(AbstractClientPlayer entity, double x, double y, double z, float entityYaw, float partialTicks, CallbackInfo ci){
-        EventBus.INSTANCE.post(new RenderPlayerEvent(entity, renderManager));
+    @Inject(method = "doRender", at = @At("HEAD"))
+    public void doRender(AbstractClientPlayer entity, double x, double y, double z, float entityYaw, float partialTicks, CallbackInfo ci) {
+        EventBus.INSTANCE.post(new RenderPlayerEvent(entity, renderManager, x, y, z));
     }
 
 

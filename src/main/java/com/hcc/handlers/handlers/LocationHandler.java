@@ -16,19 +16,30 @@ public class LocationHandler {
     @ConfigOpt
     private String location = "";
     private Pattern whereami = Pattern.compile("You are currently connected to server (?<server>.+)");
-
+    private boolean sendingWhereAmI = false;
     private long ticksInWorld = 0;
 
     @InvokeEvent
     public void chatRecieve(ChatEvent event) {
         String raw = EnumChatFormatting.getTextWithoutFormattingCodes(event.getChat().getUnformattedText());
         Matcher whereAmIMatcher = whereami.matcher(raw);
-        if (whereAmIMatcher.matches()) {
-            this.location = whereAmIMatcher.group("server");
-            return;
-        }
         if (raw.equalsIgnoreCase("you are currently in limbo")) {
             this.location = "Limbo";
+            if (sendingWhereAmI) {
+                sendingWhereAmI = false;
+                event.setCancelled(true);
+            }
+
+            return;
+        }
+        if (!whereAmIMatcher.matches()) {
+            return;
+        }
+
+        this.location = whereAmIMatcher.group("server");
+        if (sendingWhereAmI) {
+            sendingWhereAmI = false;
+            event.setCancelled(true);
         }
 
     }
@@ -37,8 +48,9 @@ public class LocationHandler {
     public void tick(TickEvent event) {
         if (ticksInWorld < 20) {
             ticksInWorld++;
-            if (ticksInWorld >= 20) {
+            if (ticksInWorld == 20) {
                 HCC.INSTANCE.getHandlers().getCommandQueue().queue("/whereami");
+                sendingWhereAmI = true;
             }
         }
 
