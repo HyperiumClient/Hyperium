@@ -137,7 +137,7 @@ public class InstallerFrame extends JFrame implements PropertyChangeListener {
                 versionsObjects.add((JSONObject)o);
 
             versionsObjects.forEach(o -> {
-                if(o.getString("name").equals(versionsJson.getString(channel)))
+                if(o.getString("name").equals(versionsJson.getString(channel))) 
                    version.set(o);
             });
             File dl = new File(new File(mc, "libraries"), version.get().getString("path").replaceAll("/.+?\\.jar", ""));

@@ -39,7 +39,7 @@ public class NotificationCenter {
         int x =0;
         int w = Minecraft.getMinecraft().displayWidth, h = Minecraft.getMinecraft().displayHeight;
 
-        fontRendererObj.drawString("shit", 0, 0, 0xffffff);
+//        fontRendererObj.drawString("shit", 0, 0, 0xffffff);
         // Background
         Gui.drawRect((w - (fontRendererObj.getStringWidth(description) + 20)) + x, h - 60, w, h - 30, new Color(54, 57, 62, 150).getRGB());
         Gui.drawRect((w - (fontRendererObj.getStringWidth(description)+20))+x, h - 60, (w - (fontRendererObj.getStringWidth(description)+20))+3, h- 30, new Color(149, 201, 144).getRGB());

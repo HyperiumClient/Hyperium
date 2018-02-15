@@ -34,9 +34,9 @@ public class ModConfigGui extends GuiScreen {
     private Tabs currentTab = Tabs.HOME;
 
 
-    private HCCFontRenderer fontRenderer =  new HCCFontRenderer("Arial", Font.PLAIN, 12);
+    private HCCFontRenderer fontRenderer = new HCCFontRenderer("Arial", Font.PLAIN, 12);
 
-    private HCCFontRenderer mainFontRenderer =  new HCCFontRenderer("Times New Roman", Font.BOLD, 24);
+    private HCCFontRenderer mainFontRenderer = new HCCFontRenderer("Times New Roman", Font.BOLD, 24);
 
     @Override
     public void initGui() {
@@ -74,6 +74,8 @@ public class ModConfigGui extends GuiScreen {
             case FRIENDS:
                 break;
             case CHROMAHUD: {
+
+                //Check is mostly to make sure bad things don't happen. The ChromaHUD system was made for when the player exists
                 if (Minecraft.getMinecraft().thePlayer == null) {
                     drawCenteredString(fontRendererObj, "Please use this while in a world or on a server", width / 2, (height - height / 2) - 12, 0xFFFFFF);
                 } else {
@@ -84,7 +86,7 @@ public class ModConfigGui extends GuiScreen {
             case ABOUT:
                 String str = "Developed by Sk1er, CoalOres, Kevin and Cubxity";
                 float strWidth = fontRenderer.getWidth(str);
-                fontRenderer.drawString(str, (8*(width / 10)) - strWidth, (height - height / 5) - 12, 0xFFFFFF);
+                fontRenderer.drawString(str, (8 * (width / 10)) - strWidth, (height - height / 5) - 12, 0xFFFFFF);
                 break;
         }
         super.drawScreen(mouseX, mouseY, partialTicks);

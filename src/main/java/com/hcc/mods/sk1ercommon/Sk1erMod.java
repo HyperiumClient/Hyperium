@@ -73,7 +73,6 @@ public class Sk1erMod {
             ));
             if (callback != null)
                 callback.call(en);
-            System.out.println(en);
             enabled = en.optBoolean("enabled");
             apiKey = en.optString("key");
         }, 0, 5, TimeUnit.MINUTES);
