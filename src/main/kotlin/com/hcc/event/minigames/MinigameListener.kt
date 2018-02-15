@@ -18,6 +18,7 @@
 
 package com.hcc.event.minigames
 
+import com.hcc.HCC
 import com.hcc.event.EventBus
 import com.hcc.event.InvokeEvent
 import com.hcc.event.JoinMinigameEvent
@@ -31,27 +32,26 @@ class MinigameListener {
 
     var currentMinigameName = ""
 
-    val hypixelDetector = HypixelDetector()
-
-
     @InvokeEvent
     fun onTick(event: TickEvent) {
-        if (hypixelDetector.isHypixel && Minecraft.getMinecraft().theWorld.scoreboard != null) {
-            if (cooldown <= 0) {
-                cooldown = 3 * 20
-                currentMinigameName = getScoreboardTitle()
-                val minigames = Minigame.values()
-                minigames.forEach {
-                    if (currentMinigameName == it.name) {
-                        EventBus.post(JoinMinigameEvent(it))
+       // System.out.println("Hypixel? " + HCC.INSTANCE.handlers.hypixelDetector.isHypixel)
+        if(!(Minecraft.getMinecraft().theWorld == null)) {
+            if (HCC.INSTANCE.handlers.hypixelDetector.isHypixel && Minecraft.getMinecraft().theWorld.scoreboard != null) {
+                if (cooldown <= 0) {
+                    cooldown = 3 * 20
+                    currentMinigameName = getScoreboardTitle()
+                    val minigames = Minigame.values()
+                    minigames.forEach {
+                        if (currentMinigameName.equals(it.scoreName,true)) {
+                            EventBus.post(JoinMinigameEvent(it))
+                        }
                     }
+
+                } else {
+                    cooldown--
                 }
 
             }
-            else {
-                cooldown--
-            }
-
         }
     }
 

@@ -18,15 +18,15 @@
 
 package com.hcc.event.minigames
 
-enum class Minigame(name: String, dbName: String, id: Int) {
+enum class Minigame(val scoreName: String, val dbName: String, val id: Int) {
     QUAKECRAFT("Quakecraft", "Quake", 2),
     WALLS("Walls", "Walls", 3),
     PAINTBALL("Paintball", "Paintball", 4),
-    SURVIVAL_GAMES("Blitz Survival Games", "HungerGames", 5),
+    SURVIVAL_GAMES("Blitz SG", "HungerGames", 5),
     TNTGAMES("The TNT Games", "TNTGames", 6),
     VAMPIREZ("VampireZ", "VampireZ", 7),
     WALLS3("Mega Walls", "Walls3", 13),
-    ARCADE("Arcade", "Arcade", 14),
+    ARCADE("Arcade Games", "Arcade", 14),
     ARENA("Arena Brawl", "Arena", 17),
     MCGO("Cops and Crims", "MCGO", 21),
     UHC("UHC Champions", "UHC", 20),
