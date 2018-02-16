@@ -33,7 +33,6 @@ import com.hcc.mixins.MixinKeyBinding;
 import com.hcc.mods.HCCModIntegration;
 import com.hcc.mods.ToggleSprintContainer;
 import com.hcc.mods.discord.RichPresenceManager;
-import com.hcc.utils.TrueTypeFont;
 import net.minecraft.client.Minecraft;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -84,15 +83,7 @@ public class HCC {
 
         folder = new File(Minecraft.getMinecraft().mcDataDir, "hcc");
         logger.info("HCC Started!");
-        logger.info(TrueTypeFont.isSupported("Jokerman"));
         Display.setTitle("HCC " + Metadata.getVersion());
-        try {
-            addonBootstrap.loadInternalAddon();
-            addonBootstrap.loadAddons(addonLoader);
-        } catch (Exception e) {
-            e.printStackTrace();
-            logger.error("Failed to load addon(s) from addons folder");
-        }
         registerCommands();
 
 
@@ -102,6 +93,15 @@ public class HCC {
         Runtime.getRuntime().addShutdownHook(new Thread(this::shutdown));
     }
 
+    public void registerAddons() {
+        try {
+            addonBootstrap.loadInternalAddon();
+            addonBootstrap.loadAddons(addonLoader);
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("Failed to load addon(s) from addons folder");
+        }
+    }
     private void registerCommands() {
 
     }

@@ -49,6 +49,7 @@ public abstract class MixinMinecraft {
     @Inject(method = "startGame", at = @At("RETURN"))
     private void init(CallbackInfo ci) {
         EventBus.INSTANCE.register(HCC.INSTANCE);
+        HCC.INSTANCE.registerAddons();
         EventBus.INSTANCE.post(new InitializationEvent());
     }
 
