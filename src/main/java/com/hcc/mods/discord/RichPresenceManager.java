@@ -34,7 +34,7 @@ import java.util.concurrent.TimeUnit;
 public class RichPresenceManager {
 
     private IPCClient client;
-
+    private boolean connected = false;
 
     public void init() {
         client = new IPCClient(412963310867054602L);
@@ -47,8 +47,8 @@ public class RichPresenceManager {
         });
         try {
             client.connect(DiscordBuild.ANY);
+            connected = true;
         } catch (NoDiscordClientException e) {
-            e.printStackTrace();
             HCC.logger.warn("no discord clients found");
         }
     }
@@ -118,7 +118,9 @@ public class RichPresenceManager {
     }
 
     public void shutdown() {
-        client.close();
+        if (connected) {
+            client.close();
+        }
     }
 
     public RichPresence processHypixel() {
