@@ -95,7 +95,7 @@ public class HCC {
         handlers = new HCCHandlers();
 
         //Register commands.
-        HCC.INSTANCE.getHandlers().getHCCCommandHandler().registerCommand(new TestCommand());
+        registerCommands();
 
 
         modIntegration = new HCCModIntegration();
@@ -113,7 +113,7 @@ public class HCC {
         }
     }
     private void registerCommands() {
-
+        HCC.INSTANCE.getHandlers().getHCCCommandHandler().registerCommand(new TestCommand());
     }
 
     @InvokeEvent
