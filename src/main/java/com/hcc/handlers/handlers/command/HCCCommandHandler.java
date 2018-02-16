@@ -21,7 +21,6 @@ package com.hcc.handlers.handlers.command;
 import com.hcc.event.InvokeEvent;
 import com.hcc.event.SendChatMessageEvent;
 import com.hcc.handlers.handlers.chat.GeneralChatHandler;
-import com.hcc.utils.Utils;
 import net.minecraft.client.Minecraft;
 
 import java.util.ArrayList;
@@ -57,43 +56,19 @@ public class HCCCommandHandler {
                     event.setCancelled(true);
                     Minecraft.getMinecraft().displayGuiScreen(null);
 
-                    if(syntaxCheck(command,args)){
-                        //Execute the command.
+                    try {
                         command.onExecute(args);
-                    }
-                    else{
+                    } catch (NullPointerException exception){
                         GeneralChatHandler.instance().sendMessage("Incorrect command syntax! Please use: /" + command.getUsage());
                     }
                 }
             }
         }
     }
-    public boolean syntaxCheck(BaseCommand command, String[] sentArgs){
-        int argCount = command.getArgsNum();
-        int sentArgsCount = 0;
-
-        if(sentArgs != null){
-            sentArgsCount = sentArgs.length;
-        }
-
-        if(sentArgsCount != argCount){
-            return false;
-        }
-
-        return true;
-    }
 
     public void registerCommand(BaseCommand command){
         commands.add(command);
         System.out.println("[COMMAND] Registered " + command.getName() + " command.");
-    }
-
-    public static String[] removeElement(String[] input, String remove){
-        String[] newArray;
-        List<String> list = new ArrayList<>(Arrays.asList(input));
-        list.remove(remove);
-        newArray = list.toArray(input);
-        return newArray;
     }
 
 }
