@@ -20,28 +20,37 @@ package com.hcc.mixins.gui;
 
 import com.hcc.event.ChatEvent;
 import com.hcc.event.EventBus;
+
 import net.minecraft.client.gui.GuiNewChat;
 import net.minecraft.util.IChatComponent;
+
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(GuiNewChat.class)
-public class MixinGuiNewChat {
+public abstract class MixinGuiNewChat {
 
     /**
      * Invoked once a message is printed to the players chat
-     * @param chatComponent
+     * @param chatComponent the message
      * @param ci {@see org.spongepowered.asm.mixin.injection.callback.CallbackInfo}
      */
-    @Inject(method = "printChatMessage",at = @At("HEAD"), cancellable = true)
+    @Inject(method = "printChatMessage", at = @At("HEAD"), cancellable = true)
     private void printChatMessage(IChatComponent chatComponent, CallbackInfo ci){
         ChatEvent event = new ChatEvent(chatComponent);
         EventBus.INSTANCE.post(event);
-        if(event.isCancelled()) {
+        if (event.isCancelled()) {
             ci.cancel();
+        } else {
+            if (event.getChat() != chatComponent) {
+                printChatMessageWithOptionalDeletion(event.getChat(), 0);
+                ci.cancel();
+            }
         }
     }
 
+    @Shadow public abstract void printChatMessageWithOptionalDeletion(IChatComponent component, int lineId);
 }
