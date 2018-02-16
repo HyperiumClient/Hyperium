@@ -80,6 +80,7 @@ public class HCC {
     public void init(InitializationEvent event) {
         EventBus.INSTANCE.register(new MinigameListener());
         EventBus.INSTANCE.register(new ToggleSprintContainer());
+        EventBus.INSTANCE.register(notification);
 
         folder = new File(Minecraft.getMinecraft().mcDataDir, "hcc");
         logger.info("HCC Started!");
@@ -111,6 +112,7 @@ public class HCC {
         if (event.getChat().getUnformattedText().contains("configgui")) {
             event.setCancelled(true);
             Minecraft.getMinecraft().displayGuiScreen(new ModConfigGui());
+            notification.display("Settings", "opened settings gui", 2);
         }
 
     }
@@ -133,11 +135,6 @@ public class HCC {
         if ((KeyBindHandler.debug.isPressed())) {
             Minecraft.getMinecraft().displayGuiScreen(new HypixelFriendsGui());
         }
-    }
-
-    @InvokeEvent
-    public void render(RenderEvent event) {
-        notification.onTick();
     }
 
     private void shutdown() {

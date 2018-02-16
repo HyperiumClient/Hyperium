@@ -40,12 +40,9 @@ public class DownloadTask extends SwingWorker<Void, Void> {
     @Override
     protected Void doInBackground() throws Exception {
         HTTPDownloadUtil util = new HTTPDownloadUtil();
-        String saveFilePath = saveDirectory + File.separator + util.getFileName();
-
-        if (new File(saveFilePath).exists())
-            new File(saveFilePath).delete();
         util.downloadFile(downloadURL);
         this.fileName = util.getFileName();
+        File saveFilePath = new File(saveDirectory, util.getFileName());
 
         InputStream inputStream = util.getInputStream();
         // opens an output stream to save into file

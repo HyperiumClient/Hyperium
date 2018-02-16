@@ -16,11 +16,10 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.hcc.event
+package com.hcc.tray;
 
-open class CancellableEvent {
+public class TrayManager {
+    public void init(){
 
-    var cancelled = false
-        @JvmName("isCancelled") get
-
+    }
 }
