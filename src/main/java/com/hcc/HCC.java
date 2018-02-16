@@ -87,6 +87,7 @@ public class HCC {
         logger.info(TrueTypeFont.isSupported("Jokerman"));
         Display.setTitle("HCC " + Metadata.getVersion());
         try {
+            addonBootstrap.loadInternalAddon();
             addonBootstrap.loadAddons(addonLoader);
         } catch (Exception e) {
             e.printStackTrace();

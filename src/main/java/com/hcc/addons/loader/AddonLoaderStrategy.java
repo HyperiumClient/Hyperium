@@ -11,7 +11,7 @@ import java.lang.reflect.Field;
  */
 public class AddonLoaderStrategy {
 
-    static void assignInstances(Object instance) throws IllegalAccessException {
+    public static void assignInstances(Object instance) throws IllegalAccessException {
         Class<?> clazz = instance.getClass();
         Field fields[] = clazz.getFields();
         for (Field field : fields) {

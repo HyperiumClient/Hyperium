@@ -1,11 +1,18 @@
 package com.hcc.addons;
 
 import com.google.common.base.Stopwatch;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.hcc.HCC;
+import com.hcc.addons.annotations.Addon;
 import com.hcc.addons.loader.AddonLoaderStrategy;
+import com.hcc.event.EventBus;
 import com.hcc.exceptions.HCCException;
+import org.apache.commons.io.IOUtils;
 
 import java.io.File;
+import java.lang.annotation.Annotation;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.stream.Collectors;
@@ -39,6 +46,31 @@ public class HCCAddonBootstrap {
 
     }
 
+    public void loadInternalAddon() throws Exception {
+        try {
+            JsonParser parser = new JsonParser();
+            URL resource = HCC.class.getClassLoader().getResource("addon.json");
+            String lines = IOUtils.toString(resource.openStream());
+            JsonObject json = parser.parse(lines).getAsJsonObject();
+
+            if (!json.has("version") && !json.has("name") && !json.has("main")) {
+                throw new HCCException("Invalid addon (addon.json does not exist or invalid)");
+            }
+            Class<?> addonMain = Class.forName(json.get("main").getAsString());
+            Object instance = addonMain.newInstance();
+            AddonLoaderStrategy.assignInstances(instance);
+            for (Annotation annotation : addonMain.getAnnotations()) {
+                if (annotation instanceof Addon) {
+                    // do whatever with Addon annotation?
+                    EventBus.INSTANCE.register(instance);
+                    break;
+                }
+            }
+            System.out.println("Successfully loaded " + json.get("main").getAsString() + " from workspace.");
+        } catch (Exception e) {
+        }
+    }
+
     /**
      * load addons from folder using the AddonLoaderStrategy
      * @param loader Addon loader
@@ -58,4 +90,5 @@ public class HCCAddonBootstrap {
         HCC.logger.debug("Finished loading all addons in {}.", benchmark);
 
     }
+
 }
