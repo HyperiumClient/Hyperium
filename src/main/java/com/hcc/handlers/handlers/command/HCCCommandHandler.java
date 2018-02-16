@@ -35,10 +35,6 @@ public class HCCCommandHandler {
     public void onChat(SendChatMessageEvent event){
         String chatLine = event.getMessage();
 
-        //Cancel sending message through normal chat.
-        event.setCancelled(true);
-        Minecraft.getMinecraft().displayGuiScreen(null);
-
         if(chatLine.startsWith("/") && chatLine.length() > 1){
             System.out.println("[COMMAND] RECEIVED COMMAND FROM USER");
 
@@ -58,6 +54,10 @@ public class HCCCommandHandler {
 
             for(BaseCommand command: commands){
                 if(commandName.equals(command.getName())){
+                    // Command is our command, cancel event.
+                    event.setCancelled(true);
+                    Minecraft.getMinecraft().displayGuiScreen(null);
+
                     if(syntaxCheck(command,args)){
                         System.out.println("[COMMAND] COMMAND EXISTENCE VERIFIED, EXECUTING COMMAND...");
                         //Execute the command.
