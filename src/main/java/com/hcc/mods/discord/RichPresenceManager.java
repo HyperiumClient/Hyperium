@@ -19,17 +19,11 @@
 package com.hcc.mods.discord;
 
 import com.hcc.HCC;
-import com.hcc.Metadata;
-import com.hcc.mods.sk1ercommon.Multithreading;
+import com.hcc.event.EventBus;
 import com.jagrosh.discordipc.IPCClient;
 import com.jagrosh.discordipc.IPCListener;
 import com.jagrosh.discordipc.entities.DiscordBuild;
-import com.jagrosh.discordipc.entities.RichPresence;
 import com.jagrosh.discordipc.exceptions.NoDiscordClientException;
-import net.minecraft.client.Minecraft;
-
-import java.time.OffsetDateTime;
-import java.util.concurrent.TimeUnit;
 
 public class RichPresenceManager {
 
@@ -41,8 +35,7 @@ public class RichPresenceManager {
         client.setListener(new IPCListener() {
             @Override
             public void onReady(IPCClient client) {
-                Multithreading.schedule(RichPresenceManager.this::update, 0L, 15L, TimeUnit.SECONDS);
-                update();
+                EventBus.INSTANCE.register(new RichPresenceUpdater(client));
             }
         });
         try {
@@ -53,97 +46,10 @@ public class RichPresenceManager {
         }
     }
 
-    public void update() {
-        RichPresence presence;
-        if (Minecraft.getMinecraft().theWorld == null)
-            presence = new RichPresence(
-                    "HCC " + Metadata.getVersion(),
-                    "In main menu",
-                    OffsetDateTime.now(),
-                    null,
-                    "hcc",
-                    "HypixelCommunityClient",
-                    "compass",
-                    "AFK",
-                    null,
-                    0,
-                    0,
-                    null,
-                    null,
-                    null,
-                    false
-            );
-        else if (Minecraft.getMinecraft().getCurrentServerData() != null) {
-
-            presence = processHypixel();
-            if (presence == null)
-                //TODO add config setting to hide servers / add whitelist / blacklist
-                presence = new RichPresence(
-                        "HCC " + Metadata.getVersion(),
-                        "In server: " + Minecraft.getMinecraft().getCurrentServerData().serverIP,
-                        OffsetDateTime.now(),
-                        null,
-                        "hcc",
-                        "HypixelCommunityClient",
-                        "compass",
-                        "In server",
-                        null,
-                        0,
-                        0,
-                        null,
-                        null,
-                        null,
-                        false
-                );
-        } else
-            presence = new RichPresence(
-                    "HCC " + Metadata.getVersion(),
-                    "Singleplayer",
-                    OffsetDateTime.now(),
-                    null,
-                    "hcc",
-                    "HypixelCommunityClient",
-                    "compass",
-                    "Singleplayer",
-                    null,
-                    0,
-                    0,
-                    null,
-                    null,
-                    null,
-                    false
-            );
-
-        client.sendRichPresence(presence);
-    }
-
     public void shutdown() {
         if (connected) {
             client.close();
         }
     }
 
-    public RichPresence processHypixel() {
-        if (HCC.INSTANCE.getHandlers().getHypixelDetector().isHypixel())
-            return new RichPresence(
-                    "HCC " + Metadata.getVersion(),
-                    "Hypixel: ",
-                    OffsetDateTime.now(),
-                    null,
-                    "16",
-                    "Hypixel Network",
-                    "compass",
-                    "In server",
-                    null,
-                    0,
-                    0,
-                    null,
-                    null,
-                    null,
-                    false
-            );
-
-
-        return null;
-    }
 }
