@@ -20,6 +20,7 @@ package com.hcc.handlers.handlers.keybinds;
 
 import com.hcc.event.InvokeEvent;
 import com.hcc.event.KeypressEvent;
+import net.minecraft.client.Minecraft;
 import org.lwjgl.input.Keyboard;
 
 import java.util.ArrayList;
@@ -38,12 +39,12 @@ public class KeyBindHandler {
 
     @InvokeEvent
     public static void onKeyPress(KeypressEvent event) {
-        for (HCCBind bind : keybinds) {
-            if (event.getKey() == bind.getKey()) {
-                bind.onPress();
+        if (Minecraft.getMinecraft().currentScreen == null) {
+            for (HCCBind bind : keybinds) {
+                if (event.getKey() == bind.getKey()) {
+                    bind.onPress();
+                }
             }
         }
     }
-
-
 }
