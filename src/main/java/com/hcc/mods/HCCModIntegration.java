@@ -2,18 +2,24 @@ package com.hcc.mods;
 
 import com.hcc.mods.chromahud.ChromaHUD;
 import com.hcc.mods.levelhead.Levelhead;
+import com.hcc.mods.togglechat.ToggleChatMod;
 
 /**
- * Created by mitchellkatz on 2/14/18. Designed for production use on Sk1er.club
+ * Basic inbuilt mod handler, including many community mods such as
+ *      ChromaHUD, LevelHead and ToggleChat
  */
 public class HCCModIntegration {
 
     private ChromaHUD chromaHUD;
     private Levelhead levelhead;
+    private ToggleChatMod toggleChat;
 
     public HCCModIntegration() {
-        chromaHUD = new ChromaHUD();
-        levelhead = new Levelhead();
+        this.chromaHUD = new ChromaHUD();
+        this.levelhead = new Levelhead();
+
+        // Basically just a simple constructor for togglechat.
+        this.toggleChat = new ToggleChatMod().init();
     }
 
     public ChromaHUD getChromaHUD() {
@@ -22,5 +28,9 @@ public class HCCModIntegration {
 
     public Levelhead getLevelhead() {
         return levelhead;
+    }
+
+    public ToggleChatMod getToggleChat() {
+        return this.toggleChat;
     }
 }

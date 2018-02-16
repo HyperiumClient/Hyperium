@@ -13,6 +13,7 @@
     "gui.MixinGuiConnecting",
     "gui.MixinGuiDisconnecting",
     "gui.MixinGuiNewChat",
+    "gui.MixinGuiChat",
     "gui.MixinGuiResourcePack",
     "gui.MixinGuiButton",
     "gui.MixinGuiMainMenu",
