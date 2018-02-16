@@ -33,11 +33,6 @@ public class TestCommand implements BaseCommand {
     }
 
     @Override
-    public int getArgsNum(){
-        return 2;
-    }
-
-    @Override
     public void onExecute(String[] args) {
         GeneralChatHandler.instance().sendMessage("Test command is working.");
     }

@@ -21,8 +21,5 @@ package com.hcc.handlers.handlers.command;
 public interface BaseCommand {
     String getName();
     String getUsage();
-    default int getArgsNum(){
-        return 0;
-    }
     void onExecute(String[] args);
 }
