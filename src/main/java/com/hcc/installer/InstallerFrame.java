@@ -140,7 +140,12 @@ public class InstallerFrame extends JFrame implements PropertyChangeListener {
                 if(o.getString("name").equals(versionsJson.getString(channel))) 
                    version.set(o);
             });
-            File dl = new File(new File(mc, "libraries"), version.get().getString("path").replaceAll("/.+?\\.jar", ""));
+            File dl = new File(
+                    new File(
+                            mc,
+                            "libraries"),
+                    version.get().getString("path").replaceAll("/HCC-.+?\\..+?\\.jar", ""));
+            System.out.println("Download dest folder = "+dl.getAbsolutePath());
             //noinspection ResultOfMethodCallIgnored
             dl.mkdirs();
             DownloadTask task = new DownloadTask(
@@ -150,7 +155,7 @@ public class InstallerFrame extends JFrame implements PropertyChangeListener {
             task.execute();
             task.get();
             downloaded = new File(dl, task.getFileName());
-
+            System.out.println("Download dest file = "+downloaded.getAbsolutePath());
         }catch (IOException | InterruptedException | ExecutionException ex){
             ex.printStackTrace();
             display.setText("INSTALLATION FAILED");

@@ -78,7 +78,7 @@ minecraft {
 
 dependencies {
 
-    compile('org.spongepowered:mixin:0.6.4-SNAPSHOT')  {
+    embed('org.spongepowered:mixin:0.6.4-SNAPSHOT')  {
         exclude module: 'launchwrapper'
         exclude module: 'guava'
         exclude module: 'gson'
