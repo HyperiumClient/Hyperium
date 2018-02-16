@@ -37,7 +37,6 @@ data class EventSubscriber(val instance: Any, val methodAccess: MethodAccess, va
  */
 annotation class InvokeEvent(val priority: Priority = Priority.NORMAL)
 
-
 /**
  * Invoked once the client has started
  */
@@ -89,7 +88,12 @@ class RenderHUDEvent(partialTicks: Float)
 /**
  * Invoked once a chat message is sent
  */
-class ChatEvent(val chat: IChatComponent): CancellableEvent()
+class ChatEvent(var chat: IChatComponent): CancellableEvent()
+
+/**
+ * Invoked when the player presses the enter key in the GuiChat class
+ */
+class SendChatMessageEvent(val message: String): CancellableEvent()
 
 /**
  * Invoked once the player has joined singleplayer
@@ -109,7 +113,7 @@ class JoinMinigameEvent(val minigame: Minigame)
 /**
  * Invoked when a player model is rendered
  */
-class RenderPlayerEvent(val entity: AbstractClientPlayer, val renderManager: RenderManager,val x: Double, val y: Double, val z: Double)
+class RenderPlayerEvent(val entity: AbstractClientPlayer, val renderManager: RenderManager, val x: Double, val y: Double, val z: Double)
 
 /**
  * Invoked when a keybind is enabled.

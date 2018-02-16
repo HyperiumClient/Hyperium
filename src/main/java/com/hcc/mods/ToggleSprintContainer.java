@@ -35,7 +35,7 @@ public class ToggleSprintContainer {
     @InvokeEvent
     public static void onKeyBindDisable(KeyBindDisableEvent event){
         GeneralChatHandler.instance().sendMessage("ToggleSprint Disabled!");
-        if(event.getKey() == KeyBindHandler.toggleSprint.getKey()){
+        if (event.getKey() == KeyBindHandler.toggleSprint.getKey()){
             ((MixinKeyBinding) Minecraft.getMinecraft().gameSettings.keyBindSprint).setPressed(false);
         }
     }
