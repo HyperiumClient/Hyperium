@@ -89,7 +89,6 @@ public class HCC {
         folder = new File(Minecraft.getMinecraft().mcDataDir, "hcc");
         logger.info("HCC Started!");
         Display.setTitle("HCC " + Metadata.getVersion());
-        registerCommands();
 
 
         handlers = new HCCHandlers();
@@ -113,7 +112,7 @@ public class HCC {
         }
     }
     private void registerCommands() {
-        HCC.INSTANCE.getHandlers().getHCCCommandHandler().registerCommand(new TestCommand());
+       HCC.INSTANCE.getHandlers().getHCCCommandHandler().registerCommand(new TestCommand());
     }
 
     @InvokeEvent
