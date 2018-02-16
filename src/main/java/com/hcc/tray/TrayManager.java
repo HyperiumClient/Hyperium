@@ -25,12 +25,26 @@ import java.awt.*;
 
 public class TrayManager {
     private TrayIcon tray;
+
+    public TrayIcon getTray() {
+        return tray;
+    }
+
     public void init() throws Exception{
         if(SystemTray.isSupported()){
             tray = new TrayIcon(ImageIO.read(getClass().getResourceAsStream("/assets/hcc/icons/icon-32x.png")),"");
             PopupMenu menu = new PopupMenu();
-            MenuItem exitItem = new MenuItem("exit");
+
+            MenuItem aboutItem = new MenuItem("About");
+            //TODO: Add About Dialog
+
+            MenuItem exitItem = new MenuItem("Exit");
             exitItem.addActionListener(action -> Minecraft.getMinecraft().shutdown());
+
+            // Add items
+            menu.add(aboutItem);
+            menu.add(exitItem);
+
             tray.setPopupMenu(menu);
             SystemTray.getSystemTray().add(tray);
         }
