@@ -37,9 +37,9 @@ public class HCCCommandHandler {
 
         //Cancel sending message through normal chat.
         event.setCancelled(true);
-        Minecraft.getMinecraft().currentScreen = null;
+        Minecraft.getMinecraft().displayGuiScreen(null);
 
-        if(chatLine.startsWith("/")){
+        if(chatLine.startsWith("/") && chatLine.length() > 1){
             System.out.println("[COMMAND] RECEIVED COMMAND FROM USER");
 
             String commandLine = chatLine.split("/")[1];
@@ -68,18 +68,19 @@ public class HCCCommandHandler {
                     }
                 }
             }
+        } else{
+            GeneralChatHandler.instance().sendMessage("Unknown command!");
         }
     }
     public boolean syntaxCheck(BaseCommand command, String[] sentArgs){
-        String usage = command.getUsage();
-        int argCount = Utils.INSTANCE.countSubstrings(usage,"<");
-        int sentArgsLength = 0;
+        int argCount = command.getArgsNum();
+        int sentArgsCount = 0;
 
         if(sentArgs != null){
-            sentArgsLength = sentArgs.length;
+            sentArgsCount = sentArgs.length;
         }
 
-        if(sentArgsLength!= argCount){
+        if(sentArgsCount != argCount){
             return false;
         }
 
