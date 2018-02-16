@@ -35,6 +35,7 @@ import com.hcc.mixins.MixinKeyBinding;
 import com.hcc.mods.HCCModIntegration;
 import com.hcc.mods.ToggleSprintContainer;
 import com.hcc.mods.discord.RichPresenceManager;
+import com.hcc.tray.TrayManager;
 import net.minecraft.client.Minecraft;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -66,6 +67,8 @@ public class HCC {
 
     private static RichPresenceManager richPresenceManager = new RichPresenceManager();
 
+    private TrayManager trayManager;
+
     static {
         try {
             addonBootstrap = new HCCAddonBootstrap();
@@ -92,6 +95,13 @@ public class HCC {
 
 
         handlers = new HCCHandlers();
+        trayManager = new TrayManager();
+        try {
+            trayManager.init();
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.warn("Failed to hookup TrayIcon");
+        }
 
         //Register commands.
         registerCommands();
