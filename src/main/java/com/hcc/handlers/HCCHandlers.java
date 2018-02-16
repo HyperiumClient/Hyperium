@@ -28,7 +28,6 @@ public class HCCHandlers {
     private ResolutionUtil resolutionUtil;
     private GuiDisplayHandler guiDisplayHandler;
     private KeyBindHandler keybindHandler;
-    private boolean reg = false;
     private PrivateMessageHandler privateMessageHandler;
 
     public HCCHandlers() {
@@ -58,8 +57,6 @@ public class HCCHandlers {
 
     @InvokeEvent
     public void tick(TickEvent event) {
-        if (reg)
-            return;
         //Runs first tick
         IntegratedServer integratedServer = Minecraft.getMinecraft().getIntegratedServer();
         if (integratedServer == null)
@@ -67,10 +64,10 @@ public class HCCHandlers {
         ICommandManager commandManager = integratedServer.getCommandManager();
         if (commandManager == null)
             return;
-        EventBus.INSTANCE.unregister(this);
+        EventBus.INSTANCE.unregister(HCCHandlers.class);
+
         System.out.println("Registered");
 
-        reg = true;
     }
 
     private void register(Object object) {

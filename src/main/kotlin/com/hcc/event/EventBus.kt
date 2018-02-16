@@ -50,10 +50,14 @@ object EventBus {
             obj.forEach(this::register)
 
     fun unregister(obj: Any) =
-            subscriptions.remove(obj.javaClass)
+            subscriptions.values.forEach { map ->
+                map.removeIf { it.instance == obj }
+            }
 
     fun unregister(clazz: Class<*>) =
-            subscriptions.remove(clazz)
+            subscriptions.values.forEach { map ->
+                map.removeIf { it.instance.javaClass == clazz }
+            }
 
     fun post(event: Any) {
         subscriptions[event.javaClass]
