@@ -3,39 +3,145 @@ package com.hcc.gui.integrations;
 import club.sk1er.website.api.requests.HypixelApiFriendObject;
 import com.hcc.HCC;
 import com.hcc.gui.GuiBlock;
+import com.hcc.gui.GuiBoxItem;
 import com.hcc.gui.HCCGui;
+import com.hcc.mods.chromahud.NumberUtil;
 import com.hcc.mods.sk1ercommon.ResolutionUtil;
 import com.hcc.utils.JsonHolder;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
+import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.util.EnumChatFormatting;
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
 import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 import java.util.function.Predicate;
 
-public class HypixelFriendsGui extends HCCGui {
 
+public class HypixelFriendsGui extends HCCGui {
+    private final int topRenderBound = 50;
     private int tick;
     private HypixelFriends friends;
     private GuiTextField textField;
-    private int offset = 0;
     private List<HypixelApiFriendObject> selected = new ArrayList<>();
-
+    private FriendSortType sortType = FriendSortType.NONE;
+    private ScaledResolution lastResolution;
+    private List<GuiBoxItem<HypixelApiFriendObject>> friendListBoxes = new ArrayList<>();
+    private List<GuiBoxItem<HypixelApiFriendObject>> selectedBoxes = new ArrayList<>();
+    private GuiBoxItem<HypixelApiFriendObject> selectedItem = null;
+    private int columnWidth;
+    private int partyCooldown = 0;
+    private int mouseX;
+    private int mouseY;
+    private int removeTicks = 0;
 
     public HypixelFriendsGui() {
+        lastResolution = ResolutionUtil.current();
         rebuildFriends();
+
+
     }
 
     @Override
     public void initGui() {
+        columnWidth = fontRendererObj.getStringWidth("[YOUTUBER] Zyphalopagus1245");
         super.initGui();
         //TODO remove direct address to MC font renderer
-        int textWidth = ResolutionUtil.current().getScaledWidth() / 9;
+    }
+
+    protected void pack() {
+        int textWidth = Math.max(ResolutionUtil.current().getScaledWidth() / 9, 100);
         int height = 20;
-        textField = new GuiTextField(nextId(), Minecraft.getMinecraft().fontRendererObj, ResolutionUtil.current().getScaledWidth() / 2 - textWidth / 2, 25, textWidth, height);
+        if (textField == null)
+            textField = new GuiTextField(nextId(), Minecraft.getMinecraft().fontRendererObj, ResolutionUtil.current().getScaledWidth() / 2 - textWidth / 2, 25, textWidth, height);
+
+        reg("SORT", new GuiButton(nextId(), ResolutionUtil.current().getScaledWidth() - 153, 23, 150, 20, "Sort by: "), guiButton -> {
+            int ord = sortType.ordinal();
+            ord++;
+            if (ord >= FriendSortType.values().length)
+                ord = 0;
+            this.sortType = FriendSortType.values()[ord];
+            rebuildFriends();
+            this.friends.sort(sortType);
+        }, guiButton -> {
+            guiButton.displayString = "Sort by: " + sortType.name();
+        });
+
+
+        reg("PARTY", new GuiButton(nextId(), ResolutionUtil.current().getScaledWidth() - 153, 23 + 21, 150, 20, "Party Selected"), guiButton -> {
+            Iterator<HypixelApiFriendObject> iterator = selected.iterator();
+            while (iterator.hasNext()) {
+                HypixelApiFriendObject next = iterator.next();
+                if (iterator.hasNext())
+                    HCC.INSTANCE.getHandlers().getCommandQueue().queue("/party invite " + next.getName());
+                else
+                    HCC.INSTANCE.getHandlers().getCommandQueue().register("/party invite " + next.getName(), () -> {
+                        guiButton.enabled = true;
+                    });
+            }
+            selected.clear();
+
+            guiButton.enabled = false;
+
+        }, guiButton -> {
+            if (selected.size() > 10 && !HCC.INSTANCE.getHandlers().getDataHandler().getPlayer().isStaffOrYT()) {
+                guiButton.enabled = false;
+                guiButton.displayString = "Too many players!";
+            } else {
+                guiButton.enabled = true;
+                guiButton.displayString = "Party Selected";
+            }
+
+
+        });
+
+
+        reg("REMOVE", new GuiButton(nextId(), ResolutionUtil.current().getScaledWidth() - 153, 23 + 21 * 2, 150, 20, "Remove (Hold down)"), guiButton -> {
+
+        }, guiButton -> {
+            if (guiButton.isMouseOver() && Mouse.isButtonDown(0) && guiButton.enabled) {
+                if (selected.isEmpty()) {
+                    guiButton.displayString = "Select people first!";
+                    return;
+                }
+                removeTicks++;
+                final int totalTick = 100;
+                if (removeTicks >= totalTick) {
+                    Iterator<HypixelApiFriendObject> iterator = selected.iterator();
+                    while (iterator.hasNext()) {
+                        HypixelApiFriendObject next = iterator.next();
+                        if (iterator.hasNext())
+                            HCC.INSTANCE.getHandlers().getCommandQueue().queue("/friend remove " + next.getName());
+                        else
+                            HCC.INSTANCE.getHandlers().getCommandQueue().register("/friend remove " + next.getName(), () -> {
+                                guiButton.enabled = true;
+                            });
+                    }
+                    guiButton.enabled = false;
+                    selected.clear();
+                }
+                double remaining = totalTick - removeTicks;
+                guiButton.displayString = EnumChatFormatting.RED + "Removing in: " + NumberUtil.round(remaining / 20, 1);
+
+
+            } else {
+                removeTicks = 0;
+                guiButton.displayString = "Remove (Hold down)";
+            }
+        });
+        reg("MESSAGE", new GuiButton(nextId(), ResolutionUtil.current().getScaledWidth() - 153, 23 + 21 * 3, 150, 20, "Message"), guiButton -> {
+            if (selectedItem == null)
+                return;
+            Minecraft.getMinecraft().displayGuiScreen(new HypixelPrivateMessage(HCC.INSTANCE.getHandlers().getPrivateMessageHandler().getChat(selectedItem.getObject().getName())));
+        }, (button) -> button.enabled = this.selectedItem != null);
     }
 
     @Override
@@ -48,21 +154,39 @@ public class HypixelFriendsGui extends HCCGui {
     protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
         super.mouseClicked(mouseX, mouseY, mouseButton);
         textField.mouseClicked(mouseX, mouseY, mouseButton);
-    }
+        selectedItem = null;
 
-    @Override
-    public void handleMouseInput() throws IOException {
-        super.handleMouseInput();
-        int i = Mouse.getEventDWheel();
-        if (i < 0) {
-            offset += 10;
-        } else if (i > 0) {
-            offset -= 10;
+        GuiBoxItem<HypixelApiFriendObject> remove = null;
+        for (GuiBoxItem<HypixelApiFriendObject> selectedBox : selectedBoxes) {
+            if (selectedBox.getBox().isMouseOver(mouseX, mouseY)) {
+                if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
+                    selected.remove(selectedBox.getObject());
+                    remove = selectedBox;
+                } else selectedItem = selectedBox;
+            }
+        }
+        if (remove != null)
+            selectedBoxes.remove(remove);
+
+        for (GuiBoxItem<HypixelApiFriendObject> selectedBox : friendListBoxes) {
+            if (selectedBox.getBox().isMouseOver(mouseX, mouseY)) {
+                if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
+                    if (selected.contains(selectedBox.getObject()))
+                        continue;
+                    selected.add(selectedBox.getObject());
+                    GuiBoxItem<HypixelApiFriendObject> e = new GuiBoxItem<>(new GuiBlock(2 + 5, columnWidth + 5, topRenderBound + 1 + (selected.size()) * 11, topRenderBound + 1 + (selected.size() + 1) * 11), selectedBox.getObject());
+                    selectedBoxes.add(e);
+                    selectedItem = e;
+                } else selectedItem = selectedBox;
+            }
         }
     }
 
+
+
     @Override
     public void updateScreen() {
+
         super.updateScreen();
         tick++;
         if (tick % 20 == 0) {
@@ -74,79 +198,116 @@ public class HypixelFriendsGui extends HCCGui {
 
     private void rebuildFriends() {
         this.friends = new HypixelFriends(HCC.INSTANCE.getHandlers().getDataHandler().getFriends());
-
+        this.friends.sort(sortType);
     }
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+        this.mouseX = mouseX;
+        this.mouseY = mouseY;
+        selectedBoxes.clear();
+        friendListBoxes.clear();
         friends.removeIf(hypixelApiFriendObject -> !hypixelApiFriendObject.getDisplay().toLowerCase().contains(textField.getText().toLowerCase()));
         super.drawScreen(mouseX, mouseY, partialTicks);
+
         textField.drawTextBox();
-        final int topRenderBound = 30;
+
+        //Some long name
         final int bottomRenderBound = ResolutionUtil.current().getScaledHeight() / 9 * 8;
 
-
-        GuiBlock namesBlock = new GuiBlock(2, 0, topRenderBound, topRenderBound);
-        int row = 0;
+        if (selectedItem != null) {
+            GuiBlock box = selectedItem.getBox();
+            int left = box.getLeft() - 2;
+            int right = box.getLeft() + fontRendererObj.getStringWidth(selectedItem.getObject().getDisplay()) + 2;
+            int top = box.getTop() - 2;
+            int bottom = top + 10;
+            if (top >= topRenderBound && bottom <= bottomRenderBound) {
+                Gui.drawRect(left, top, right, top + 1, Color.RED.getRGB());
+                Gui.drawRect(left, bottom, right, bottom + 1, Color.RED.getRGB());
+                Gui.drawRect(right, top, right - 1, bottom, Color.RED.getRGB());
+                Gui.drawRect(left, top, left + 1, bottom, Color.RED.getRGB());
+            }
+        }
+        GuiBlock namesBlock = new GuiBlock(2, columnWidth, topRenderBound, topRenderBound);
+        int row = 1;
+        namesBlock.drawString("Currently selected: ", fontRendererObj, false, true, namesBlock.getWidth() / 2, 1, true, true, Color.RED.getRGB(),true);
         for (HypixelApiFriendObject object : selected) {
-            namesBlock.drawString(object.getDisplay(), fontRendererObj, false, false, 1, 1 + row * 11, true, true, Color.WHITE.getRGB());
+            namesBlock.drawString(object.getDisplay(), fontRendererObj, false, false, 5, 1 + row * 11, true, true, Color.WHITE.getRGB(),true);
+            selectedBoxes.add(new GuiBoxItem<>(new GuiBlock(2 + 5, namesBlock.getRight() + 5, namesBlock.getTop() + 1 + row * 11, namesBlock.getTop() + 1 + (row + 1) * 11), object));
             row++;
         }
-        GuiBlock friendsBlock = new GuiBlock(namesBlock.getLeft() + 5, ResolutionUtil.current().getScaledWidth() - 10, topRenderBound, bottomRenderBound);
+        GuiBlock friendsBlock = new GuiBlock(namesBlock.getRight() + 15, ResolutionUtil.current().getScaledWidth() - 100, topRenderBound, bottomRenderBound);
         int drawX = friendsBlock.getLeft();
-        int drawY = friendsBlock.getTop() + offset;
+        int drawY = friendsBlock.getTop() - offset;
+        if (drawY > bottomRenderBound)
+            offset = 0;
 
-        int collumnWidth = fontRendererObj.getStringWidth("[YOUTUBER] Zyphalopagus1245"); //Some long name
 
-
-        for (HypixelApiFriendObject object : friends.get()) {
-            boolean scaled = false;
-            if (drawX + collumnWidth > friendsBlock.getRight()) {
-                drawX = friendsBlock.getLeft();
-                drawY += 11;
-                scaled = true;
-            }
-
-            if (!friendsBlock.drawString(object.getDisplay(), fontRendererObj, false, false, drawX, drawY, false, false, Color.WHITE.getRGB())) {
-//                if(scaled)
-//                    continue;
-//                drawX = friendsBlock.getLeft();
-//                drawY += 11;
-                //Try to rerender on new line. If still doesn't fit we are done
-                friendsBlock.drawString(object.getDisplay(), fontRendererObj, false, false, drawX, drawY, false, false, Color.WHITE.getRGB());
-
-            }
-            drawX += collumnWidth;
+        int cols = 1;
+        while (drawX + columnWidth * cols < friendsBlock.getRight()) {
+            cols++;
         }
-        //After first wave, if bottom of people is still not on screen, fix
-        if (drawY > topRenderBound)
+        cols -= 1;
+        if (cols <= 0)
             return;
-        drawY = topRenderBound;
-        drawX = friendsBlock.getLeft();
+
+        GuiBoxItem<HypixelApiFriendObject> lastE = null;
         for (HypixelApiFriendObject object : friends.get()) {
-            boolean scaled = false;
-            if (drawX + collumnWidth > friendsBlock.getRight()) {
+            if (drawX + columnWidth > friendsBlock.getRight()) {
                 drawX = friendsBlock.getLeft();
                 drawY += 11;
-                scaled = true;
             }
-
-            if (!friendsBlock.drawString(object.getDisplay(), fontRendererObj, false, false, drawX, drawY, false, false, Color.WHITE.getRGB())) {
-//                if(scaled)
-//                    continue;
-//                drawX = friendsBlock.getLeft();
-//                drawY += 11;
-                //Try to rerender on new line. If still doesn't fit we are done
-                friendsBlock.drawString(object.getDisplay(), fontRendererObj, false, false, drawX, drawY, false, false, Color.WHITE.getRGB());
+            if (selectedItem != null && selectedItem.getObject().equals(object) && !selected.contains(selectedItem.getObject())) {
+                selectedItem = new GuiBoxItem<>(new GuiBlock(drawX, drawX + columnWidth, drawY + friendsBlock.getTop(), drawY + friendsBlock.getTop() + 11), object);
+            }
+            if (friendsBlock.drawString(object.getDisplay(), fontRendererObj, false, false, drawX - friendsBlock.getLeft(), drawY, false, false, Color.WHITE.getRGB(),true)) {
+                GuiBoxItem<HypixelApiFriendObject> e = new GuiBoxItem<>(new GuiBlock(drawX, drawX + columnWidth, drawY + friendsBlock.getTop(), drawY + friendsBlock.getTop() + 11), object);
+                friendListBoxes.add(e);
 
             }
-            drawX += collumnWidth;
+            drawX += columnWidth;
         }
 
+
+        //After first wave, if bottom of people is still not on screen, fix
+        if (drawY < topRenderBound)
+            offset = 0;
 
 //
 //  X++;
 //        }
+    }
+
+    enum FriendSortType implements Comparator<HypixelApiFriendObject> {
+
+        ALPHABETICAL {
+            @Override
+            public int compare(HypixelApiFriendObject o1, HypixelApiFriendObject o2) {
+                return o1.getName().compareTo(o2.getName());
+            }
+        },
+        RANK {
+            @Override
+            public int compare(HypixelApiFriendObject o1, HypixelApiFriendObject o2) {
+                int compare = Integer.compare(o1.rankOrdinal(), o2.rankOrdinal());
+                if (compare == 0) {
+                    return o1.getName().compareTo(o2.getName());
+                }
+                return compare;
+            }
+        },
+        DATE_ADDED {
+            @Override
+            public int compare(HypixelApiFriendObject o1, HypixelApiFriendObject o2) {
+                return Long.compare(o1.getAddedOn(), o2.getAddedOn());
+            }
+        }, NONE {
+            @Override
+            public int compare(HypixelApiFriendObject o1, HypixelApiFriendObject o2) {
+                return 0;
+            }
+        },
+
     }
 
     class HypixelFriends {
@@ -155,10 +316,18 @@ public class HypixelFriendsGui extends HCCGui {
 
         HypixelFriends(JsonHolder data) {
             for (String s : data.getKeys()) {
-                all.add(new HypixelApiFriendObject(data.optJSONObject(s)));
+                JsonHolder jsonHolder = data.optJSONObject(s);
+                jsonHolder.put("uuid", s);
+                all.add(new HypixelApiFriendObject(jsonHolder));
             }
             reset();
 
+        }
+
+        public void sort(FriendSortType type) {
+            reset();
+            all.sort(type);
+            working = all;
         }
 
         public void removeIf(Predicate<? super HypixelApiFriendObject> e) {

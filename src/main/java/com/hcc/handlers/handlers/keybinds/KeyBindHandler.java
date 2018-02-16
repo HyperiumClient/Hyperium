@@ -20,6 +20,7 @@ package com.hcc.handlers.handlers.keybinds;
 
 import com.hcc.event.InvokeEvent;
 import com.hcc.event.KeypressEvent;
+import org.lwjgl.input.Keyboard;
 
 import java.util.ArrayList;
 
@@ -27,16 +28,18 @@ public class KeyBindHandler {
 
     public static ArrayList<HCCBind> keybinds = new ArrayList<>();
 
-    public static HCCBind toggleSprint = new HCCBind("toggleSprint",47);
+    public static HCCBind toggleSprint = new HCCBind("toggleSprint", 47);
+    public static HCCBind debug = new HCCBind("debug", Keyboard.KEY_G);
 
-    public KeyBindHandler(){
+    public KeyBindHandler() {
         keybinds.add(toggleSprint);
+        keybinds.add(debug);
     }
 
     @InvokeEvent
-    public static void onKeyPress(KeypressEvent event){
-        for(HCCBind bind : keybinds){
-            if(event.getKey() == bind.getKey()){
+    public static void onKeyPress(KeypressEvent event) {
+        for (HCCBind bind : keybinds) {
+            if (event.getKey() == bind.getKey()) {
                 bind.onPress();
             }
         }

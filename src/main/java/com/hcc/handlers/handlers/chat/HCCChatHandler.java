@@ -18,6 +18,8 @@ public abstract class HCCChatHandler {
     protected final Pattern expPattern = Pattern.compile(" \\+(?<exp>\\d+) Hypixel Experience");
     protected final Pattern coinPattern = Pattern.compile(" \\+(?<coin>\\d+) (?<game>.+) Coins");
     protected final Pattern skywarsRankedRating = Pattern.compile("(?<change>^-?[0-9]\\d*(\\.\\d+)?) Rating \\(\\S(?<rating>\\d+)\\)");
+    protected final Pattern privateMessageTo = Pattern.compile("To (?<rank>\\[.+] )?(?<player>\\S{1,16}): (?<message>.*)");
+    protected final Pattern privateMessageFrom = Pattern.compile("From (?<rank>\\[.+] )?(?<player>\\S{1,16}): (?<message>.*)");
 
     public HCC getHcc() {
         return HCC.INSTANCE;

@@ -1,19 +1,15 @@
 package com.hcc.handlers;
 
 import com.hcc.HCC;
-import com.hcc.debug.DebugCommand;
 import com.hcc.event.EventBus;
 import com.hcc.event.InvokeEvent;
 import com.hcc.event.TickEvent;
 import com.hcc.handlers.handlers.*;
-import com.hcc.handlers.handlers.chat.AutoWhoChatHandler;
-import com.hcc.handlers.handlers.chat.GeneralChatHandler;
-import com.hcc.handlers.handlers.chat.HCCChatHandler;
-import com.hcc.handlers.handlers.chat.RankedRatingChatHandler;
+import com.hcc.handlers.handlers.chat.*;
 import com.hcc.handlers.handlers.keybinds.KeyBindHandler;
+import com.hcc.handlers.handlers.privatemessages.PrivateMessageHandler;
 import com.hcc.mods.sk1ercommon.ResolutionUtil;
 import net.minecraft.client.Minecraft;
-import net.minecraft.command.CommandHandler;
 import net.minecraft.command.ICommandManager;
 import net.minecraft.server.integrated.IntegratedServer;
 
@@ -33,6 +29,7 @@ public class HCCHandlers {
     private GuiDisplayHandler guiDisplayHandler;
     private KeyBindHandler keybindHandler;
     private boolean reg = false;
+    private PrivateMessageHandler privateMessageHandler;
 
     public HCCHandlers() {
         register(keybindHandler = new KeyBindHandler());
@@ -41,6 +38,7 @@ public class HCCHandlers {
         register(valueHandler = new ValueHandler());
         register(resolutionUtil = new ResolutionUtil());
         register(guiDisplayHandler = new GuiDisplayHandler());
+        register(privateMessageHandler = new PrivateMessageHandler());
         commandQueue = new CommandQueue();
         dataHandler = new ApiDataHandler();
 
@@ -49,6 +47,7 @@ public class HCCHandlers {
         register((generalChatHandler = new GeneralChatHandler(chatHandlers)));
         registerChatHandler(new RankedRatingChatHandler());
         registerChatHandler(new AutoWhoChatHandler());
+        registerChatHandler(new PrivateMessageReader());
         EventBus.INSTANCE.register(this);
     }
 
@@ -68,7 +67,6 @@ public class HCCHandlers {
         ICommandManager commandManager = integratedServer.getCommandManager();
         if (commandManager == null)
             return;
-        ((CommandHandler) commandManager).registerCommand(new DebugCommand());
         EventBus.INSTANCE.unregister(this);
         System.out.println("Registered");
 
@@ -114,5 +112,9 @@ public class HCCHandlers {
 
     public KeyBindHandler getKeybindHandler() {
         return keybindHandler;
+    }
+
+    public PrivateMessageHandler getPrivateMessageHandler() {
+        return privateMessageHandler;
     }
 }

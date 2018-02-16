@@ -26,6 +26,7 @@ import com.hcc.event.minigames.MinigameListener;
 import com.hcc.exceptions.HCCException;
 import com.hcc.gui.ModConfigGui;
 import com.hcc.gui.NotificationCenter;
+import com.hcc.gui.integrations.HypixelFriendsGui;
 import com.hcc.handlers.HCCHandlers;
 import com.hcc.handlers.handlers.keybinds.KeyBindHandler;
 import com.hcc.mixins.MixinKeyBinding;
@@ -39,7 +40,6 @@ import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.Display;
 
 import java.io.File;
-import java.security.Key;
 
 /**
  * Hypixel Community Client
@@ -116,16 +116,21 @@ public class HCC {
 
     @InvokeEvent
     public void onTick(TickEvent event) {
-        // someone can make a keybind or some shit for this crap; kevin out
+
     }
 
     @InvokeEvent
-    public void onKeyPress(KeypressEvent event){
+    public void onKeyPress(KeypressEvent event) {
+        if(!Minecraft.getMinecraft().inGameHasFocus)
+            return;
         // i got u - coal
-        if((KeyBindHandler.toggleSprint.isActivated())){
-            if(event.getKey() == Minecraft.getMinecraft().gameSettings.keyBindForward.getKeyCode() || event.getKey() ==KeyBindHandler.toggleSprint.getKey()){
+        if ((KeyBindHandler.toggleSprint.isActivated())) {
+            if (event.getKey() == Minecraft.getMinecraft().gameSettings.keyBindForward.getKeyCode() || event.getKey() == KeyBindHandler.toggleSprint.getKey()) {
                 ((MixinKeyBinding) Minecraft.getMinecraft().gameSettings.keyBindSprint).setPressed(true);
             }
+        }
+        if ((KeyBindHandler.debug.isPressed())) {
+            Minecraft.getMinecraft().displayGuiScreen(new HypixelFriendsGui());
         }
     }
 
