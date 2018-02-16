@@ -1,5 +1,5 @@
 [ ![Discord](https://canary.discordapp.com/api/guilds/411619823445999637/widget.png) ](https://discord.gg/8GakFcT)
-# HCC (Hypixel Community Client)
+# HCC (Hypixel Community Client - Not affiliated with Hypixel INC, produced by independent developers)
 ## What is HCC? ##
 The HCC is a Minecraft modification in development. It will combine many popular features in addition to suggestions and ideas from the community to provide a unique experience designed for Hypixel.
 
