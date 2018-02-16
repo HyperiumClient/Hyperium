@@ -150,7 +150,7 @@ public class HCC {
                 ((MixinKeyBinding) Minecraft.getMinecraft().gameSettings.keyBindSprint).setPressed(true);
             }
         }
-        if ((KeyBindHandler.debug.isPressed())) {
+        if ((KeyBindHandler.debug.isActivated())) {
             Minecraft.getMinecraft().displayGuiScreen(new HypixelFriendsGui());
         }
     }

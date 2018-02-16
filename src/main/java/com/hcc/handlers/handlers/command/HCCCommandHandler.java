@@ -68,8 +68,6 @@ public class HCCCommandHandler {
                     }
                 }
             }
-        } else{
-            GeneralChatHandler.instance().sendMessage("Unknown command!");
         }
     }
     public boolean syntaxCheck(BaseCommand command, String[] sentArgs){
