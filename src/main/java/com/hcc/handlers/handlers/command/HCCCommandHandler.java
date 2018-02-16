@@ -36,7 +36,6 @@ public class HCCCommandHandler {
         String chatLine = event.getMessage();
 
         if(chatLine.startsWith("/") && chatLine.length() > 1){
-            System.out.println("[COMMAND] RECEIVED COMMAND FROM USER");
 
             String commandLine = chatLine.split("/")[1];
             String commandName;
@@ -44,9 +43,9 @@ public class HCCCommandHandler {
 
             // Check if arguments are provided.
             if(commandLine.contains(" ")){
-                System.out.println("[COMMAND] MULTIPLE ARGUMENTS DETECTED");
-                commandName = commandLine.split(" ")[0];
-                args = removeElement(commandLine.split(" "),commandName);
+                String[] syntax = commandLine.split(" ");
+                commandName = syntax[0];
+                args = Arrays.copyOfRange(syntax, 1, syntax.length);
                 // Example: If command is "/print hello 2", commandName will equal "print" and args will equal ["hello","2"]
             } else{
                 commandName = commandLine;
@@ -59,7 +58,6 @@ public class HCCCommandHandler {
                     Minecraft.getMinecraft().displayGuiScreen(null);
 
                     if(syntaxCheck(command,args)){
-                        System.out.println("[COMMAND] COMMAND EXISTENCE VERIFIED, EXECUTING COMMAND...");
                         //Execute the command.
                         command.onExecute(args);
                     }
@@ -87,7 +85,7 @@ public class HCCCommandHandler {
 
     public void registerCommand(BaseCommand command){
         commands.add(command);
-        System.out.println("[COMMAND] REGISTERED COMMAND " + command.getName() + ".");
+        System.out.println("[COMMAND] Registered " + command.getName() + " command.");
     }
 
     public static String[] removeElement(String[] input, String remove){

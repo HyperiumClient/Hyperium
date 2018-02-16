@@ -29,7 +29,12 @@ public class TestCommand implements BaseCommand {
 
     @Override
     public String getUsage() {
-        return "test";
+        return "test <arg1>";
+    }
+
+    @Override
+    public int getArgsNum(){
+        return 1;
     }
 
     @Override
