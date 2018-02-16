@@ -28,6 +28,8 @@ import com.hcc.gui.ModConfigGui;
 import com.hcc.gui.NotificationCenter;
 import com.hcc.gui.integrations.HypixelFriendsGui;
 import com.hcc.handlers.HCCHandlers;
+import com.hcc.handlers.handlers.command.HCCCommandHandler;
+import com.hcc.handlers.handlers.command.commands.TestCommand;
 import com.hcc.handlers.handlers.keybinds.KeyBindHandler;
 import com.hcc.mixins.MixinKeyBinding;
 import com.hcc.mods.HCCModIntegration;
@@ -79,6 +81,8 @@ public class HCC {
 
     @InvokeEvent
     public void init(InitializationEvent event) {
+
+
         EventBus.INSTANCE.register(new MinigameListener());
         EventBus.INSTANCE.register(new ToggleSprintContainer());
         EventBus.INSTANCE.register(notification);
@@ -98,6 +102,11 @@ public class HCC {
 
 
         handlers = new HCCHandlers();
+
+        //Register commands.
+        HCC.INSTANCE.getHandlers().getHCCCommandHandler().registerCommand(new TestCommand());
+
+
         modIntegration = new HCCModIntegration();
         richPresenceManager.init();
         Runtime.getRuntime().addShutdownHook(new Thread(this::shutdown));

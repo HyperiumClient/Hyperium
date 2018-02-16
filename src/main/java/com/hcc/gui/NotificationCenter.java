@@ -41,7 +41,7 @@ public class NotificationCenter {
             endTicks = 0L;
             return;
         }
-        System.out.println("Render tick for Notification fired ");
+        //System.out.println("Render tick for Notification fired ");
 
         FontRenderer fontRendererObj = Minecraft.getMinecraft().fontRendererObj;
         int x =0;
