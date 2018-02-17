@@ -128,7 +128,7 @@ public class GuiBlock {
         int x;
         if (sideLeft)
             x = left + xOffset;
-        else x = right -stringWidth-xOffset;
+        else x = right - stringWidth - xOffset;
 
         int y = top + yOffset;
 
@@ -146,8 +146,7 @@ public class GuiBlock {
                     }
                 else return false;
             }
-        }
-        else {
+        } else {
             if (right - stringWidth < left) {
                 if (scaleToFitX) {
                     if (expandRight) {

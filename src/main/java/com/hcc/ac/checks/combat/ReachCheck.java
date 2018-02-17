@@ -25,6 +25,7 @@ import com.hcc.ac.checks.ICheck;
 public class ReachCheck implements ICheck {
     @Override
     public CheckResult check(User user) {
+        //TODO: Distance calculation
         return new CheckResult(CheckResult.Level.CLEAN, "Reach", "Passed");
     }
 }

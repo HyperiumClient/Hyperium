@@ -71,7 +71,7 @@ public class HCCHandlers {
 
         //Command Handler
 
-        register(HCCCommandHandler =new HCCCommandHandler());
+        register(HCCCommandHandler = new HCCCommandHandler());
     }
 
     private void registerChatHandler(HCCChatHandler hccChatHandler) {
@@ -139,7 +139,7 @@ public class HCCHandlers {
         return privateMessageHandler;
     }
 
-    public HCCCommandHandler getHCCCommandHandler(){
+    public HCCCommandHandler getHCCCommandHandler() {
         return HCCCommandHandler;
     }
 }

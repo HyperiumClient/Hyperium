@@ -25,25 +25,26 @@ import java.util.UUID;
 
 public class User {
     private UUID player;
-    private int  aps = 0;
+    private int aps = 0;
     private Vec3 lookVec = null;
     private Vec3 posVec = null;
     private BlockPos pos = null;
-    User(UUID player){
+
+    User(UUID player) {
         this.player = player;
     }
 
     /**
      * when the player swing to count APS
      */
-    public void onSwing(){
+    public void onSwing() {
         aps++;
     }
 
     /**
      * resets aps every second because its per sec
      */
-    public void resetAPS(){
+    public void resetAPS() {
         aps = 0;
     }
 
@@ -70,6 +71,7 @@ public class User {
 
     /**
      * set current look vector
+     *
      * @param lookVec vector
      */
     public void setLookVec(Vec3 lookVec) {
@@ -85,6 +87,7 @@ public class User {
 
     /**
      * set current position vector
+     *
      * @param posVec vector
      */
     public void setPosVec(Vec3 posVec) {
@@ -100,6 +103,7 @@ public class User {
 
     /**
      * set current block position
+     *
      * @param pos position
      */
     public void setPos(BlockPos pos) {

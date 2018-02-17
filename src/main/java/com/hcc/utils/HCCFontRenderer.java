@@ -19,25 +19,19 @@
 package com.hcc.utils;
 
 
-
-
-import org.lwjgl.opengl.GL11;
-
-import java.awt.Font;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.StringUtils;
-
+import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.font.effects.ColorEffect;
 
-public class HCCFontRenderer {
+import java.awt.*;
 
-    private Minecraft mc = Minecraft.getMinecraft();
+public class HCCFontRenderer {
 
     private final UnicodeFont unicodeFont;
     private final int[] colorCodes = new int[32];
-
+    private Minecraft mc = Minecraft.getMinecraft();
     private int fontType, size;
     private String fontName;
 
@@ -60,21 +54,21 @@ public class HCCFontRenderer {
 
         try {
             this.unicodeFont.loadGlyphs();
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
-        for(int i = 0; i < 32; i++) {
+        for (int i = 0; i < 32; i++) {
             int shadow = (i >> 3 & 1) * 85;
             int red = (i >> 2 & 1) * 170 + shadow;
             int green = (i >> 1 & 1) * 170 + shadow;
             int blue = (i >> 0 & 1) * 170 + shadow;
 
-            if(i == 6) {
+            if (i == 6) {
                 red += 85;
             }
 
-            if(i >= 16) {
+            if (i >= 16) {
                 red /= 4;
                 green /= 4;
                 blue /= 4;
@@ -96,32 +90,32 @@ public class HCCFontRenderer {
         boolean blend = GL11.glIsEnabled(GL11.GL_BLEND);
         boolean lighting = GL11.glIsEnabled(GL11.GL_LIGHTING);
         boolean texture = GL11.glIsEnabled(GL11.GL_TEXTURE_2D);
-        if(!blend)
+        if (!blend)
             GL11.glEnable(GL11.GL_BLEND);
-        if(lighting)
+        if (lighting)
             GL11.glDisable(GL11.GL_LIGHTING);
-        if(texture)
+        if (texture)
             GL11.glDisable(GL11.GL_TEXTURE_2D);
 
         int currentColor = color;
         char[] characters = text.toCharArray();
 
         int index = 0;
-        for(char c : characters) {
-            if(c == '\r') {
+        for (char c : characters) {
+            if (c == '\r') {
                 x = originalX;
             }
-            if(c == '\n') {
+            if (c == '\n') {
                 y += getHeight(Character.toString(c)) * 2.0F;
             }
-            if(c != '\247' && (index == 0 || index == characters.length - 1 || characters[index - 1] != '\247')) {
+            if (c != '\247' && (index == 0 || index == characters.length - 1 || characters[index - 1] != '\247')) {
                 unicodeFont.drawString(x, y, Character.toString(c), new org.newdawn.slick.Color(currentColor));
                 x += (getWidth(Character.toString(c)) * 2.0F);
-            } else if(c == ' ') {
+            } else if (c == ' ') {
                 x += unicodeFont.getSpaceWidth();
-            } else if(c == '\247' && index != characters.length - 1) {
+            } else if (c == '\247' && index != characters.length - 1) {
                 int codeIndex = "0123456789abcdefg".indexOf(text.charAt(index + 1));
-                if(codeIndex < 0) continue;
+                if (codeIndex < 0) continue;
 
                 int col = this.colorCodes[codeIndex];
                 currentColor = col;
@@ -131,11 +125,11 @@ public class HCCFontRenderer {
         }
 
         GL11.glScaled(2.0F, 2.0F, 2.0F);
-        if(texture)
+        if (texture)
             GL11.glEnable(GL11.GL_TEXTURE_2D);
-        if(lighting)
+        if (lighting)
             GL11.glEnable(GL11.GL_LIGHTING);
-        if(!blend)
+        if (!blend)
             GL11.glDisable(GL11.GL_BLEND);
         GL11.glPopMatrix();
         return (int) x;
@@ -147,11 +141,11 @@ public class HCCFontRenderer {
     }
 
     public void drawCenteredString(String text, float x, float y, int color) {
-        drawString(text, x - (int)getWidth(text) / 2, y, color);
+        drawString(text, x - (int) getWidth(text) / 2, y, color);
     }
 
     public void drawCenteredStringWithShadow(String text, float x, float y, int color) {
-        drawCenteredString(StringUtils.stripControlCodes(text), x+0.5F, y+0.5F, color);
+        drawCenteredString(StringUtils.stripControlCodes(text), x + 0.5F, y + 0.5F, color);
         drawCenteredString(text, x, y, color);
     }
 
@@ -159,14 +153,14 @@ public class HCCFontRenderer {
         float width = 0.0F;
 
         String str = StringUtils.stripControlCodes(s);
-        for(char c : str.toCharArray()) {
+        for (char c : str.toCharArray()) {
             width += unicodeFont.getWidth(Character.toString(c)) + this.kerning;
         }
 
         return width / 2.0F;
     }
 
-    public float getCharWidth(char c){
+    public float getCharWidth(char c) {
         return unicodeFont.getWidth(String.valueOf(c));
     }
 
@@ -178,8 +172,7 @@ public class HCCFontRenderer {
         return this.unicodeFont;
     }
 
-    public String trimStringToWidth(String par1Str, int par2)
-    {
+    public String trimStringToWidth(String par1Str, int par2) {
         StringBuilder var4 = new StringBuilder();
         float var5 = 0.0F;
         int var6 = 0;
@@ -187,48 +180,33 @@ public class HCCFontRenderer {
         boolean var8 = false;
         boolean var9 = false;
 
-        for (int var10 = var6; var10 >= 0 && var10 < par1Str.length() && var5 < (float)par2; var10 += var7)
-        {
+        for (int var10 = var6; var10 >= 0 && var10 < par1Str.length() && var5 < (float) par2; var10 += var7) {
             char var11 = par1Str.charAt(var10);
             float var12 = this.getCharWidth(var11);
 
-            if (var8)
-            {
+            if (var8) {
                 var8 = false;
 
-                if (var11 != 108 && var11 != 76)
-                {
-                    if (var11 == 114 || var11 == 82)
-                    {
+                if (var11 != 108 && var11 != 76) {
+                    if (var11 == 114 || var11 == 82) {
                         var9 = false;
                     }
-                }
-                else
-                {
+                } else {
                     var9 = true;
                 }
-            }
-            else if (var12 < 0.0F)
-            {
+            } else if (var12 < 0.0F) {
                 var8 = true;
-            }
-            else
-            {
+            } else {
                 var5 += var12;
 
-                if (var9)
-                {
+                if (var9) {
                     ++var5;
                 }
             }
 
-            if (var5 > (float)par2)
-            {
+            if (var5 > (float) par2) {
                 break;
-            }
-
-            else
-            {
+            } else {
                 var4.append(var11);
             }
         }

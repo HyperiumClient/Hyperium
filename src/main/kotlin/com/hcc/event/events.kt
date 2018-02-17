@@ -89,7 +89,7 @@ class RenderHUDEvent(partialTicks: Float)
 /**
  * Invoked once a chat message is sent
  */
-class ChatEvent(var chat: IChatComponent): CancellableEvent()
+class ChatEvent(var chat: IChatComponent) : CancellableEvent()
 
 /**
  * Invoked when the player presses the enter key in the GuiChat class
@@ -98,7 +98,7 @@ class ChatEvent(var chat: IChatComponent): CancellableEvent()
  * @param addsToClientHistory should the message be added to the players client history, only used
  *      when the event is cancelled
  */
-class SendChatMessageEvent(val message: String, var addsToClientHistory: Boolean): CancellableEvent()
+class SendChatMessageEvent(val message: String, var addsToClientHistory: Boolean) : CancellableEvent()
 
 /**
  * Invoked once the player has joined singleplayer

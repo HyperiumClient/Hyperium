@@ -35,8 +35,8 @@ public class NotificationCenter {
     private Long endTicks = 0L;
 
     @InvokeEvent
-    public void onRenderTick(RenderEvent event){
-        if(ticks > endTicks){
+    public void onRenderTick(RenderEvent event) {
+        if (ticks > endTicks) {
             ticks = 0L;
             endTicks = 0L;
             return;
@@ -44,23 +44,23 @@ public class NotificationCenter {
         //System.out.println("Render tick for Notification fired ");
 
         FontRenderer fontRendererObj = Minecraft.getMinecraft().fontRendererObj;
-        int x =0;
+        int x = 0;
         int w = Minecraft.getMinecraft().displayWidth, h = Minecraft.getMinecraft().displayHeight;
 
         // Background
-        Gui.drawRect(((w-fontRendererObj.getStringWidth(description))-10), h - 60, w, h - 30, new Color(54, 57, 62, 150).getRGB());
-        Gui.drawRect(((w-fontRendererObj.getStringWidth(description))-10), h - 60, (w - (fontRendererObj.getStringWidth(description)+20))+3, h- 30, new Color(149, 201, 144).getRGB());
-        fontRendererObj.drawString(title, (w-fontRendererObj.getStringWidth(description))+5+x, h - 55, 0xFFFFFF);
-        fontRendererObj.drawString(title, (w-fontRendererObj.getStringWidth(description))+5+x, h - 40, 0x424242);
+        Gui.drawRect(((w - fontRendererObj.getStringWidth(description)) - 10), h - 60, w, h - 30, new Color(54, 57, 62, 150).getRGB());
+        Gui.drawRect(((w - fontRendererObj.getStringWidth(description)) - 10), h - 60, (w - (fontRendererObj.getStringWidth(description) + 20)) + 3, h - 30, new Color(149, 201, 144).getRGB());
+        fontRendererObj.drawString(title, (w - fontRendererObj.getStringWidth(description)) + 5 + x, h - 55, 0xFFFFFF);
+        fontRendererObj.drawString(title, (w - fontRendererObj.getStringWidth(description)) + 5 + x, h - 40, 0x424242);
         ticks++;
     }
 
-    public void display(String title, String description, float seconds){
-        System.out.println("Displaying "+title+":"+description+" for "+seconds+"s");
+    public void display(String title, String description, float seconds) {
+        System.out.println("Displaying " + title + ":" + description + " for " + seconds + "s");
         this.title = title;
         this.description = description;
         this.endTicks = (long) (seconds * 20);
-        System.out.println("t="+this.ticks);
-        System.out.println("et= "+this.endTicks);
+        System.out.println("t=" + this.ticks);
+        System.out.println("et= " + this.endTicks);
     }
 }

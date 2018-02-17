@@ -160,7 +160,7 @@ public class ChromaHUDApi {
             }
         }
         if (!config.has("elements")) {
-           //setup blank
+            //setup blank
         }
 
     }

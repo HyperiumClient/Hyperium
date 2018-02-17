@@ -41,7 +41,7 @@ public class CheckResult {
         return description;
     }
 
-    public enum Level{
+    public enum Level {
         CLEAN,
         SLIGHTLY,
         POTENTIALLY,

@@ -29,7 +29,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(EntityPlayer.class)
-public abstract class MixinEntityPlayer extends EntityLivingBase{
+public abstract class MixinEntityPlayer extends EntityLivingBase {
 
     private boolean last = false;
 
@@ -38,11 +38,11 @@ public abstract class MixinEntityPlayer extends EntityLivingBase{
     }
 
     @Inject(method = "updateEntityActionState", at = @At("RETURN"))
-    private void onUpdate(CallbackInfo ci){
-        if(last != this.isSwingInProgress){
+    private void onUpdate(CallbackInfo ci) {
+        if (last != this.isSwingInProgress) {
             last = this.isSwingInProgress;
-            if(this.isSwingInProgress)
-                 EventBus.INSTANCE.post(new PlayerSwingEvent(this.entityUniqueID, this.getPositionVector(), this.getLookVec(), this.getPosition()));
+            if (this.isSwingInProgress)
+                EventBus.INSTANCE.post(new PlayerSwingEvent(this.entityUniqueID, this.getPositionVector(), this.getLookVec(), this.getPosition()));
         }
     }
 

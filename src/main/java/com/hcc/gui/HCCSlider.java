@@ -23,7 +23,7 @@ import net.minecraft.client.gui.GuiButton;
 
 import java.awt.*;
 
-public class HCCSlider extends GuiButton{
+public class HCCSlider extends GuiButton {
     private int id;
     private int x;
     private int y;
@@ -32,7 +32,7 @@ public class HCCSlider extends GuiButton{
     private double value = 0;
 
     public HCCSlider(int id, int x, int y, int width, int height) {
-        super(id, x, y,width,height, "");
+        super(id, x, y, width, height, "");
         this.id = id;
         this.x = x;
         this.y = y;
@@ -51,17 +51,17 @@ public class HCCSlider extends GuiButton{
 
     @Override
     public void drawButton(Minecraft mc, int mouseX, int mouseY) {
-        drawRect(x, y+5, x+width, (y+height)-5, new Color(0,0,0,60).getRGB());
-        drawRect((int)(x+(1/width)*value), y, (int)(3+x+(1/width)*value), y+height, new Color(0,0,0,80).getRGB());
+        drawRect(x, y + 5, x + width, (y + height) - 5, new Color(0, 0, 0, 60).getRGB());
+        drawRect((int) (x + (1 / width) * value), y, (int) (3 + x + (1 / width) * value), y + height, new Color(0, 0, 0, 80).getRGB());
     }
 
     @Override
     protected void mouseDragged(Minecraft mc, int mouseX, int mouseY) {
-        if(visible){
-            value =  (float)(mouseX - (this.x + 4)) / (float)(this.width - 8);
-            if(value < 0.0D)
+        if (visible) {
+            value = (float) (mouseX - (this.x + 4)) / (float) (this.width - 8);
+            if (value < 0.0D)
                 value = 0.0D;
-            else if(value > 1.0D)
+            else if (value > 1.0D)
                 value = 1.0D;
         }
     }

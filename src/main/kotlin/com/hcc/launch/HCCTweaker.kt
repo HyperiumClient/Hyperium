@@ -40,8 +40,7 @@ class HCCTweaker : ITweaker {
     private val args: ArrayList<String> = ArrayList()
 
     private val isRunningForge: Boolean =
-            Launch.classLoader.transformers.
-                    any { it.javaClass.name.contains("fml") }
+            Launch.classLoader.transformers.any { it.javaClass.name.contains("fml") }
 
     override fun acceptOptions(args: MutableList<String>, gameDir: File?, assetsDir: File?, profile: String?) {
         this.args.addAll(args)

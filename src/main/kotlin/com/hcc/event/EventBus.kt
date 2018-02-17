@@ -34,7 +34,7 @@ object EventBus {
 
     fun register(obj: Any) {
         val clazz = obj.javaClass
-        for(method in clazz.declaredMethods) {
+        for (method in clazz.declaredMethods) {
             method.getAnnotation(InvokeEvent::class.java) ?: continue
             val event = method.parameters.first().type ?: throw
             IllegalArgumentException("Couldn't find parameter inside of ${method.name}!")

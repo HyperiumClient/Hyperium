@@ -29,9 +29,10 @@ import com.hcc.event.PlayerSwingEvent;
 import java.util.*;
 
 /**
-* We take pride in our AntiCheat
-* @author Cubxity
-*/
+ * We take pride in our AntiCheat
+ *
+ * @author Cubxity
+ */
 public class AntiCheat {
     private List<User> users = new ArrayList<>();
     private List<ICheck> checks = new ArrayList<>();
@@ -39,6 +40,7 @@ public class AntiCheat {
 
     /**
      * adds user to the ac system
+     *
      * @param user the user
      */
     public void addUser(User user) {
@@ -70,20 +72,21 @@ public class AntiCheat {
         users.forEach(User::resetAPS);
         checks.forEach(check -> users.forEach(user -> {
             CheckResult result = check.check(user);
-            if(result.getLevel() != CheckResult.Level.CLEAN){
-                HCC.INSTANCE.sendMessage("AC: "+user.getPlayer()+" has been detected for "+result.getDetection()+" Level: "+result.getLevel()+" "+result.getDescription());
+            if (result.getLevel() != CheckResult.Level.CLEAN) {
+                HCC.INSTANCE.sendMessage("AC: " + user.getPlayer() + " has been detected for " + result.getDetection() + " Level: " + result.getLevel() + " " + result.getDescription());
             }
         }));
     }
 
     /**
      * finds user in the system, if not found will add new and return it
+     *
      * @param player UUID of player
      * @return the user
      */
     public User getUser(UUID player) {
-        for(User u : users)
-            if(u.getPlayer().equals(player))
+        for (User u : users)
+            if (u.getPlayer().equals(player))
                 return u;
         User u = new User(player);
         addUser(u);
@@ -92,9 +95,10 @@ public class AntiCheat {
 
     /**
      * registers the check to the system
+     *
      * @param check Implementation of check
      */
-    public void addCheck(ICheck check){
+    public void addCheck(ICheck check) {
         checks.add(check);
     }
 

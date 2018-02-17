@@ -43,10 +43,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.Display;
 
+import java.awt.*;
 import java.io.File;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.regex.Pattern;
 
 import static com.hcc.mods.sk1ercommon.ChatColor.RED;
@@ -164,7 +162,7 @@ public class HCC {
             Minecraft.getMinecraft().displayGuiScreen(new ModConfigGui());
             notification.display("Settings", "opened settings gui", 2);
         }
-        if(friendRequestPattern.matcher(ChatColor.stripColor(event.getChat().getUnformattedText())).matches()){
+        if (friendRequestPattern.matcher(ChatColor.stripColor(event.getChat().getUnformattedText())).matches()) {
             String withoutRank = ChatColor.stripColor(event.getChat().getUnformattedText());
             withoutRank = withoutRank.replaceAll("Friend request from ", "");
             withoutRank = withoutRank.replaceAll(rankBracketPattern.pattern(), "");
@@ -175,6 +173,7 @@ public class HCC {
 
     /**
      * called when key is pressed on the keyboard
+     *
      * @param event the event
      */
     @InvokeEvent
@@ -191,6 +190,17 @@ public class HCC {
             Minecraft.getMinecraft().displayGuiScreen(new HypixelFriendsGui());
             KeyBindHandler.debug.onPress();
         }
+    }
+
+    /**
+     * called when receive friend request
+     *
+     * @param event the event
+     */
+    @InvokeEvent
+    public void onFriendRequest(HypixelFriendRequestEvent event) {
+        if (trayManager.getTray() != null)
+            trayManager.getTray().displayMessage("Hypixel", "Friend request from " + event.getFrom(), TrayIcon.MessageType.NONE);
     }
 
     /**
@@ -213,10 +223,11 @@ public class HCC {
 
     /**
      * adds a message into players chat
+     *
      * @param msg message to add
      */
-    public void sendMessage(String msg){
-        if(Minecraft.getMinecraft().thePlayer == null)return;
-        Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText(RED+"[HCC] "+WHITE+msg));
+    public void sendMessage(String msg) {
+        if (Minecraft.getMinecraft().thePlayer == null) return;
+        Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText(RED + "[HCC] " + WHITE + msg));
     }
 }

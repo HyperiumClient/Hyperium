@@ -35,11 +35,12 @@ public class MixinWorld {
 
     /**
      * Invoked once the server changes the players spawn point
+     *
      * @param pos the new spawn position
-     * @param ci {@see org.spongepowered.asm.mixin.injection.callback.CallbackInfo}
+     * @param ci  {@see org.spongepowered.asm.mixin.injection.callback.CallbackInfo}
      */
-    @Inject(method = "setSpawnPoint", at=@At("HEAD"))
-    private void setSpawnPoint(BlockPos pos, CallbackInfo ci){
+    @Inject(method = "setSpawnPoint", at = @At("HEAD"))
+    private void setSpawnPoint(BlockPos pos, CallbackInfo ci) {
         EventBus.INSTANCE.post(new SpawnpointChangeEvent(pos));
     }
 

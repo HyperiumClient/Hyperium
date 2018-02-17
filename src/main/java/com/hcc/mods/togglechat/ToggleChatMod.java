@@ -19,12 +19,13 @@
 package com.hcc.mods.togglechat;
 
 import com.hcc.HCC;
-import com.hcc.event.*;
+import com.hcc.event.EventBus;
+import com.hcc.event.InvokeEvent;
+import com.hcc.event.TickEvent;
 import com.hcc.mods.togglechat.commands.CommandToggleChat;
 import com.hcc.mods.togglechat.config.ConfigLoader;
 import com.hcc.mods.togglechat.gui.MainGui;
 import com.hcc.mods.togglechat.toggles.ToggleBaseHandler;
-
 import net.minecraft.client.Minecraft;
 
 /**
@@ -34,17 +35,25 @@ import net.minecraft.client.Minecraft;
  */
 public class ToggleChatMod {
 
-    /** ToggleChat lite! */
+    /**
+     * ToggleChat lite!
+     */
     public static final String MODID = "togglechat_lite";
     public static final String VERSION = "1.0";
 
-    /** A basic config loader */
+    /**
+     * A basic config loader
+     */
     private ConfigLoader configLoader;
 
-    /** A different implementation to the normal ToggleChat, just manages all toggles */
+    /**
+     * A different implementation to the normal ToggleChat, just manages all toggles
+     */
     private ToggleBaseHandler toggleHandler;
 
-    /** A flag for opening our gui */
+    /**
+     * A flag for opening our gui
+     */
     private boolean opening;
 
     public ToggleChatMod init() {
