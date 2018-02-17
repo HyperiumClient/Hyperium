@@ -95,7 +95,7 @@ public class HCCHandlers {
     }
 
     private void register(Object object) {
-        HCC.config.register(object);
+        HCC.CONFIG.register(object);
         EventBus.INSTANCE.register(object);
     }
 

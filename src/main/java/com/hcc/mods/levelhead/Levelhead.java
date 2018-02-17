@@ -91,7 +91,7 @@ public class Levelhead {
         });
         mod.checkStatus();
         config = new LevelheadConfig();
-        HCC.config.register(config);
+        HCC.CONFIG.register(config);
         register(mod);
         instance = this;
         userUuid = Minecraft.getMinecraft().getSession().getProfile().getId();
@@ -241,7 +241,7 @@ public class Levelhead {
         } catch (Exception ignored) {
             footerObj.put("custom", true);
         }
-        //Get config based values and merge
+        //Get CONFIG based values and merge
         headerObj.merge(getHeaderConfig(), false);
         footerObj.merge(getFooterConfig().put("footer", object.optString("strlevel", object.optInt("level") + "")), false);
 

@@ -254,7 +254,7 @@ public class LevelHeadGui extends GuiScreen {
         lock.unlock();
     }
 
-//    private void regSlider(net.minecraftforge.fml.client.config.GuiSlider slider, Consumer<GuiButton> but) {
+//    private void regSlider(net.minecraftforge.fml.client.CONFIG.GuiSlider slider, Consumer<GuiButton> but) {
 //        reg(slider, but);
 //        sliders.add(slider);
 //

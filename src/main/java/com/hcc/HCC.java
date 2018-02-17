@@ -57,33 +57,24 @@ public class HCC {
 
     public static final HCC INSTANCE = new HCC();
     /**
-     * Instance of the global mod logger
+     * Instance of the global mod LOGGER
      */
-    public final static Logger logger = LogManager.getLogger(Metadata.getModid());
+    public final static Logger LOGGER = LogManager.getLogger(Metadata.getModid());
     /**
      * Instance of default addons loader
      */
-    public static final DefaultAddonLoader addonLoader = new DefaultAddonLoader();
-    public static final NotificationCenter notification = new NotificationCenter();
+    private final DefaultAddonLoader addonLoader = new DefaultAddonLoader();
+    private final NotificationCenter notification = new NotificationCenter();
     public static File folder = new File("hcc");
     /**
-     * Instance of default config
+     * Instance of default CONFIG
      */
-    public static final DefaultConfig config = new DefaultConfig(new File(folder, "config.json"));
-    private static HCCAddonBootstrap addonBootstrap;
+    public static final DefaultConfig CONFIG = new DefaultConfig(new File(folder, "CONFIG.json"));
+    private HCCAddonBootstrap addonBootstrap;
 
-    private static RichPresenceManager richPresenceManager = new RichPresenceManager();
+    private RichPresenceManager richPresenceManager = new RichPresenceManager();
 
-    private static AntiCheat anticheat = new AntiCheat();
-
-    static {
-        try {
-            addonBootstrap = new HCCAddonBootstrap();
-        } catch (HCCException e) {
-            e.printStackTrace();
-            logger.error("failed to initialize addonBootstrap");
-        }
-    }
+    private AntiCheat anticheat = new AntiCheat();
 
     private TrayManager trayManager;
     private HCCHandlers handlers;
@@ -107,9 +98,15 @@ public class HCC {
         rankBracketPattern = Pattern.compile("[\\^] ");
 
         folder = new File(Minecraft.getMinecraft().mcDataDir, "hcc");
-        logger.info("HCC Started!");
+        LOGGER.info("HCC Started!");
         Display.setTitle("HCC " + Metadata.getVersion());
 
+        try {
+            addonBootstrap = new HCCAddonBootstrap();
+        } catch (HCCException e) {
+            e.printStackTrace();
+            LOGGER.error("failed to initialize addonBootstrap");
+        }
 
         handlers = new HCCHandlers();
         trayManager = new TrayManager();
@@ -118,7 +115,7 @@ public class HCC {
             trayManager.init();
         } catch (Exception e) {
             e.printStackTrace();
-            logger.warn("Failed to hookup TrayIcon");
+            LOGGER.warn("Failed to hookup TrayIcon");
         }
 
         //Register commands.
@@ -139,7 +136,7 @@ public class HCC {
             addonBootstrap.loadAddons(addonLoader);
         } catch (Exception e) {
             e.printStackTrace();
-            logger.error("Failed to load addon(s) from addons folder");
+            LOGGER.error("Failed to load addon(s) from addons folder");
         }
     }
 
@@ -207,9 +204,9 @@ public class HCC {
      * called when HCC shutdown
      */
     private void shutdown() {
-        config.save();
+        CONFIG.save();
         richPresenceManager.shutdown();
-        logger.info("Shutting down HCC..");
+        LOGGER.info("Shutting down HCC..");
     }
 
 

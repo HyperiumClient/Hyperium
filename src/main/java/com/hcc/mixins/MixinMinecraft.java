@@ -119,7 +119,7 @@ public abstract class MixinMinecraft {
                             Utils.INSTANCE.readImageToBuffer(inputstream1)});
                 }
             } catch (Exception ex) {
-                HCC.logger.error("Couldn't set Windows Icon", ex);
+                HCC.LOGGER.error("Couldn't set Windows Icon", ex);
             } finally {
                 IOUtils.closeQuietly(inputstream);
                 IOUtils.closeQuietly(inputstream1);

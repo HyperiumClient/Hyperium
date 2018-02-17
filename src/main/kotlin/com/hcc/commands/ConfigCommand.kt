@@ -30,11 +30,11 @@ class ConfigCommand : CommandBase() {
     }
 
     override fun getCommandName(): String {
-        return "config"
+        return "CONFIG"
     }
 
     override fun getCommandUsage(sender: ICommandSender?): String {
-        return "/config"
+        return "/CONFIG"
     }
 
     override fun getCommandAliases(): MutableList<String> {
