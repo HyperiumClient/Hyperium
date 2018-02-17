@@ -18,8 +18,7 @@
     "gui.MixinGuiButton",
     "gui.MixinGuiMainMenu",
     "gui.MixinInventory",
-
-    "entities.MixinEntityPlayer",
+    "entity.MixinEntityPlayer",
     "entity.MixinEntity",
     "entity.MixinEntityLivingBase",
 

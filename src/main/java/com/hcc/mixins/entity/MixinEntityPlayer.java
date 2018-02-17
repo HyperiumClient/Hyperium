@@ -16,7 +16,7 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.hcc.mixins.entities;
+package com.hcc.mixins.entity;
 
 import com.hcc.event.EventBus;
 import com.hcc.event.PlayerSwingEvent;
