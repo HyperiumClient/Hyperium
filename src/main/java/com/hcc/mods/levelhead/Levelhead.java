@@ -22,7 +22,7 @@ import com.hcc.HCC;
 import com.hcc.event.EventBus;
 import com.hcc.event.InvokeEvent;
 import com.hcc.event.TickEvent;
-import com.hcc.handlers.handlers.chat.GeneralChatHandler;
+import com.hcc.mods.levelhead.commands.LevelHeadCommand;
 import com.hcc.mods.sk1ercommon.Multithreading;
 import com.hcc.mods.levelhead.config.LevelheadConfig;
 import com.hcc.mods.levelhead.renderer.LevelHeadRender;
@@ -57,6 +57,8 @@ public class Levelhead {
     private java.util.List<UUID> probablyNotFakeWatchdogBoi = new ArrayList<>();
     private HashMap<UUID, Integer> timeCheck = new HashMap<>();
 
+    private boolean levelHeadInfoFailed = false;
+
     public Levelhead() {
         init();
     }
@@ -81,7 +83,10 @@ public class Levelhead {
             count = object.optInt("count");
             this.wait = object.optInt("wait", Integer.MAX_VALUE);
             if (count == 0 || wait == Integer.MAX_VALUE) {
-                GeneralChatHandler.instance().sendMessage("An error occurred whilst loading internal Levelhead info. ");
+                this.levelHeadInfoFailed = true;
+//                GeneralChatHandler.instance().sendMessage("An error occurred whilst loading internal Levelhead info. ");
+            } else {
+                this.levelHeadInfoFailed = false;
             }
         });
         mod.checkStatus();
@@ -91,6 +96,8 @@ public class Levelhead {
         instance = this;
         userUuid = Minecraft.getMinecraft().getSession().getProfile().getId();
         register(new LevelHeadRender(this), this);
+
+        HCC.INSTANCE.getHandlers().getHCCCommandHandler().registerCommand(new LevelHeadCommand());
     }
 
 

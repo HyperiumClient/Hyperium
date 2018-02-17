@@ -40,8 +40,6 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicReference;
 
-import static com.hcc.installer.InstallerFrame.OsCheck.OSType.*;
-
 /**
  * @author Cubxity
  */
@@ -377,11 +375,11 @@ public class InstallerFrame extends JFrame implements PropertyChangeListener {
             if (detectedOS == null) {
                 String OS = System.getProperty("os.name", "generic").toLowerCase(Locale.ENGLISH);
                 if ((OS.contains("mac")) || (OS.contains("darwin"))) {
-                    detectedOS = MacOS;
+                    detectedOS = OsCheck.OSType.MacOS;
                 } else if (OS.contains("win")) {
-                    detectedOS = Windows;
+                    detectedOS = OsCheck.OSType.Windows;
                 } else if (OS.contains("nux")) {
-                    detectedOS = Linux;
+                    detectedOS = OsCheck.OSType.Linux;
                 } else {
                     detectedOS = OSType.Other;
                 }

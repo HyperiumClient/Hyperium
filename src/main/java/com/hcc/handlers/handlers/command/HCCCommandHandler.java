@@ -42,7 +42,7 @@ public class HCCCommandHandler {
         if (chatLine.startsWith("/") && chatLine.length() > 1) {
             String commandLine = chatLine.split("/")[1];
             String commandName;
-            String[] args = null;
+            String[] args = new String[] {};
 
             // Check if arguments are provided.
             if (commandLine.contains(" ")) {
@@ -71,6 +71,7 @@ public class HCCCommandHandler {
                     try {
                         command.onExecute(args);
                     } catch (NullPointerException exception) {
+                        exception.printStackTrace();
                         GeneralChatHandler.instance().sendMessage("Incorrect command syntax! Please use: /" + command.getUsage());
                     }
                 }

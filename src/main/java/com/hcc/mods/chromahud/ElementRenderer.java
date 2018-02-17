@@ -20,7 +20,6 @@ package com.hcc.mods.chromahud;
 
 import com.hcc.HCC;
 import com.hcc.event.InvokeEvent;
-import com.hcc.event.Priority;
 import com.hcc.event.RenderEvent;
 import com.hcc.event.TickEvent;
 import net.minecraft.client.Minecraft;

@@ -24,7 +24,7 @@ import com.hcc.event.ChatEvent;
 import com.hcc.event.InvokeEvent;
 import com.hcc.event.SpawnpointChangeEvent;
 import com.hcc.event.TickEvent;
-import net.minecraft.util.EnumChatFormatting;
+import com.hcc.mods.sk1ercommon.ChatColor;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -40,7 +40,7 @@ public class LocationHandler {
     @InvokeEvent
     public void chatRecieve(ChatEvent event) {
 
-        String raw = EnumChatFormatting.getTextWithoutFormattingCodes(event.getChat().getUnformattedText());
+        String raw = ChatColor.stripColor(event.getChat().getUnformattedText());
         Matcher whereAmIMatcher = whereami.matcher(raw);
         if (raw.equalsIgnoreCase("you are currently in limbo")) {
             this.location = "Limbo";

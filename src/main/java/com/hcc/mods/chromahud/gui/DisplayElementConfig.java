@@ -22,6 +22,7 @@ import com.hcc.mods.chromahud.ChromaHUD;
 import com.hcc.mods.chromahud.ChromaHUDApi;
 import com.hcc.mods.chromahud.DisplayElement;
 import com.hcc.mods.chromahud.ElementRenderer;
+import com.hcc.mods.sk1ercommon.ChatColor;
 import com.hcc.mods.sk1ercommon.ResolutionUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -30,7 +31,6 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.texture.DynamicTexture;
-import net.minecraft.util.EnumChatFormatting;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
@@ -143,7 +143,7 @@ public class DisplayElementConfig extends GuiScreen {
             element.setHighlighted(!element.isHighlighted());
         }, button -> {
             //On Gui Update
-            button.displayString = EnumChatFormatting.YELLOW.toString() + "Highlighted: " + (element.isHighlighted() ? EnumChatFormatting.GREEN + "Yes" : EnumChatFormatting.RED.toString() + "No");
+            button.displayString = ChatColor.YELLOW.toString() + "Highlighted: " + (element.isHighlighted() ? ChatColor.GREEN + "Yes" : ChatColor.RED.toString() + "No");
         });
 
 
@@ -153,7 +153,7 @@ public class DisplayElementConfig extends GuiScreen {
             element.setShadow(!element.isShadow());
         }, button -> {
             //On Gui Update
-            button.displayString = EnumChatFormatting.YELLOW.toString() + "Shadow: " + (element.isShadow() ? EnumChatFormatting.GREEN + "Yes" : EnumChatFormatting.RED.toString() + "No");
+            button.displayString = ChatColor.YELLOW.toString() + "Shadow: " + (element.isShadow() ? ChatColor.GREEN + "Yes" : ChatColor.RED.toString() + "No");
         });
 
         //*4
@@ -192,7 +192,7 @@ public class DisplayElementConfig extends GuiScreen {
                 type = "Color Pallet";
             if (element.isChroma())
                 type = "Chroma";
-            button.displayString = EnumChatFormatting.YELLOW + "Color mode: " + EnumChatFormatting.GREEN.toString() + type;
+            button.displayString = ChatColor.YELLOW + "Color mode: " + ChatColor.GREEN.toString() + type;
         });
 
         reg("chromaMode", new GuiButton(nextId(), posX, start_y + 22 * 6, "-"), button -> {
@@ -207,7 +207,7 @@ public class DisplayElementConfig extends GuiScreen {
             } else {
                 button.visible = true;
                 button.enabled = true;
-                button.displayString = EnumChatFormatting.YELLOW + "Chroma mode: " + (element.isStaticChroma() ? EnumChatFormatting.GREEN + "Static" : EnumChatFormatting.GREEN + "Wave");
+                button.displayString = ChatColor.YELLOW + "Chroma mode: " + (element.isStaticChroma() ? ChatColor.GREEN + "Static" : ChatColor.GREEN + "Wave");
             }
         });
         //TODO kevin needs to make sliders
