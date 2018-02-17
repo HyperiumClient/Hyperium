@@ -47,6 +47,10 @@ public class GeneralChatHandler {
         return generalChatHandler;
     }
 
+    public static String strip(IChatComponent component) {
+        return EnumChatFormatting.getTextWithoutFormattingCodes(component.getUnformattedText());
+    }
+
     public void sendMessage(IChatComponent component) {
         messages.add(component);
     }
@@ -76,7 +80,7 @@ public class GeneralChatHandler {
         for (HCCChatHandler hccChatHandler : handlerList) {
             //Surround in try catch so errors don't stop further chat parsers
             try {
-                hccChatHandler.chatReceived(event.getChat(), EnumChatFormatting.getTextWithoutFormattingCodes(event.getChat().getUnformattedText()));
+                hccChatHandler.chatReceived(event.getChat(), strip(event.getChat()));
             } catch (Exception e) {
                 e.printStackTrace();
             }
