@@ -69,13 +69,13 @@ public class AntiCheat {
      * executed every 1 second
      */
     private void onRun() {
-        users.forEach(User::resetAPS);
         checks.forEach(check -> users.forEach(user -> {
             CheckResult result = check.check(user);
             if (result.getLevel() != CheckResult.Level.CLEAN) {
                 HCC.INSTANCE.sendMessage("AC: " + user.getPlayer() + " has been detected for " + result.getDetection() + " Level: " + result.getLevel() + " " + result.getDescription());
             }
         }));
+        users.forEach(User::resetAPS);
     }
 
     /**

@@ -38,7 +38,7 @@ public class User {
      * when the player swing to count APS
      */
     public void onSwing() {
-        aps++;
+        aps=aps+1;
     }
 
     /**

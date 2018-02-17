@@ -25,9 +25,9 @@ import com.hcc.ac.checks.ICheck;
 public class AutoClickerCheck implements ICheck {
     @Override
     public CheckResult check(User user) {
-        if(user.getAps() > 20)
+        if(user.getAps() > 20 && user.getAps() < 26)
             return new CheckResult(CheckResult.Level.SLIGHTLY, "AutoClicker",user.getAps()+" APS");
-        else if(user.getAps() > 25)
+        else if(user.getAps() > 25 && user.getAps() < 36)
             return new CheckResult(CheckResult.Level.POTENTIALLY,"AutoClicker", user.getAps()+" APS");
         else if(user.getAps() > 35)
             return new CheckResult(CheckResult.Level.DEFINITELY,"AutoClicker", user.getAps()+" APS");
