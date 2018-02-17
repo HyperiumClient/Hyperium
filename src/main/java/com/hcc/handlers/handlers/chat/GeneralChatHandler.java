@@ -24,6 +24,7 @@ import com.hcc.event.TickEvent;
 import com.hcc.mods.sk1ercommon.ChatColor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IChatComponent;
 
 import java.util.List;
