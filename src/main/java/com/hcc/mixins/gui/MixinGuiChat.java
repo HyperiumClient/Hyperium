@@ -21,6 +21,7 @@ package com.hcc.mixins.gui;
 import com.hcc.event.EventBus;
 import com.hcc.event.SendChatMessageEvent;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.GuiTextField;
 
@@ -35,6 +36,8 @@ public class MixinGuiChat {
 
     @Shadow protected GuiTextField inputField;
 
+    private final Minecraft mc = Minecraft.getMinecraft();
+
     /**
      * Invoked when the player presses the enter key in the chat gui (before any processing is done)
      *
@@ -46,11 +49,14 @@ public class MixinGuiChat {
      */
     @Inject(method = "keyTyped", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiChat;sendChatMessage(Ljava/lang/String;)V", shift = At.Shift.BEFORE), cancellable = true)
     private void keyTyped(char typedChar, int keyCode, CallbackInfo ci) {
-        SendChatMessageEvent event = new SendChatMessageEvent(this.inputField.getText().trim());
+        SendChatMessageEvent event = new SendChatMessageEvent(this.inputField.getText().trim(), true);
         EventBus.INSTANCE.post(event);
         if (event.isCancelled()) {
             ci.cancel();
+
+            if (event.getAddsToClientHistory()) {
+                this.mc.ingameGUI.getChatGUI().addToSentMessages(event.getMessage());
+            }
         }
     }
-
 }

@@ -22,7 +22,6 @@ import com.google.common.io.Files;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.hcc.exceptions.HCCException;
-import com.hcc.utils.Utils;
 import org.apache.commons.io.IOUtils;
 
 import java.io.File;

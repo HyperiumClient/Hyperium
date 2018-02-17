@@ -92,8 +92,12 @@ class ChatEvent(var chat: IChatComponent): CancellableEvent()
 
 /**
  * Invoked when the player presses the enter key in the GuiChat class
+ *
+ * @param message the message the player is sending
+ * @param addsToClientHistory should the message be added to the players client history, only used
+ *      when the event is cancelled
  */
-class SendChatMessageEvent(val message: String): CancellableEvent()
+class SendChatMessageEvent(val message: String, var addsToClientHistory: Boolean): CancellableEvent()
 
 /**
  * Invoked once the player has joined singleplayer

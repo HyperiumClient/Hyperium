@@ -18,11 +18,8 @@
 
 package com.hcc.gui;
 
-import com.hcc.gui.font.Fonts;
 import com.hcc.utils.HCCFontRenderer;
-import com.hcc.utils.TrueTypeFont;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;

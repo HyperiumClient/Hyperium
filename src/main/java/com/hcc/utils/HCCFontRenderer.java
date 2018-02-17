@@ -20,9 +20,6 @@ package com.hcc.utils;
 
 
 
-import static org.lwjgl.opengl.GL11.glDisable;
-import static org.lwjgl.opengl.GL11.glEnable;
-import static org.lwjgl.opengl.GL11.glPopMatrix;
 
 import org.lwjgl.opengl.GL11;
 
@@ -100,11 +97,11 @@ public class HCCFontRenderer {
         boolean lighting = GL11.glIsEnabled(GL11.GL_LIGHTING);
         boolean texture = GL11.glIsEnabled(GL11.GL_TEXTURE_2D);
         if(!blend)
-            glEnable(GL11.GL_BLEND);
+            GL11.glEnable(GL11.GL_BLEND);
         if(lighting)
-            glDisable(GL11.GL_LIGHTING);
+            GL11.glDisable(GL11.GL_LIGHTING);
         if(texture)
-            glDisable(GL11.GL_TEXTURE_2D);
+            GL11.glDisable(GL11.GL_TEXTURE_2D);
 
         int currentColor = color;
         char[] characters = text.toCharArray();
@@ -140,7 +137,7 @@ public class HCCFontRenderer {
             GL11.glEnable(GL11.GL_LIGHTING);
         if(!blend)
             GL11.glDisable(GL11.GL_BLEND);
-        glPopMatrix();
+        GL11.glPopMatrix();
         return (int) x;
     }
 

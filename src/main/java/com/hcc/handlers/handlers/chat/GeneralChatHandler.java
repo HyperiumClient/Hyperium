@@ -21,9 +21,9 @@ package com.hcc.handlers.handlers.chat;
 import com.hcc.event.ChatEvent;
 import com.hcc.event.InvokeEvent;
 import com.hcc.event.TickEvent;
+import com.hcc.mods.sk1ercommon.ChatColor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IChatComponent;
 
 import java.util.List;
@@ -57,7 +57,7 @@ public class GeneralChatHandler {
 
     public void sendMessage(String message, boolean addHeader) {
         if (addHeader) {
-            message = EnumChatFormatting.RED + "[HCC] " + EnumChatFormatting.WHITE.toString() + message;
+            message = ChatColor.RED + "[HCC] " + ChatColor.WHITE.toString() + message;
         }
         sendMessage(new ChatComponentText(message));
     }
@@ -80,7 +80,9 @@ public class GeneralChatHandler {
         for (HCCChatHandler hccChatHandler : handlerList) {
             //Surround in try catch so errors don't stop further chat parsers
             try {
+
                 hccChatHandler.chatReceived(event.getChat(), strip(event.getChat()));
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
