@@ -16,42 +16,10 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.hcc.ac;
+package com.hcc.ac.checks;
 
-import java.util.UUID;
+import com.hcc.ac.User;
 
-public class User {
-    private UUID player;
-    private int  aps = 0;
-    User(UUID player){
-        this.player = player;
-    }
-
-    /**
-     * when the player swing to count APS
-     */
-    public void onSwing(){
-        aps++;
-    }
-
-    /**
-     * resets aps every second because its per sec
-     */
-    public void resetAPS(){
-        aps = 0;
-    }
-
-    /**
-     * @return get current APS
-     */
-    public int getAps() {
-        return aps;
-    }
-
-    /**
-     * @return the UUID
-     */
-    public UUID getPlayer() {
-        return player;
-    }
+public interface ICheck {
+    CheckResult check(User user);
 }

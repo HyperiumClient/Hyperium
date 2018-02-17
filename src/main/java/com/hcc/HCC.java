@@ -18,6 +18,7 @@
 
 package com.hcc;
 
+import com.hcc.ac.AntiCheat;
 import com.hcc.addons.HCCAddonBootstrap;
 import com.hcc.addons.loader.DefaultAddonLoader;
 import com.hcc.config.DefaultConfig;
@@ -36,11 +37,18 @@ import com.hcc.mods.ToggleSprintContainer;
 import com.hcc.mods.discord.RichPresenceManager;
 import com.hcc.tray.TrayManager;
 import net.minecraft.client.Minecraft;
+import net.minecraft.util.ChatComponentText;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.Display;
 
 import java.io.File;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+
+import static com.hcc.mods.sk1ercommon.ChatColor.RED;
+import static com.hcc.mods.sk1ercommon.ChatColor.WHITE;
 
 /**
  * Hypixel Community Client
@@ -66,6 +74,8 @@ public class HCC {
 
     private static RichPresenceManager richPresenceManager = new RichPresenceManager();
 
+    private static AntiCheat anticheat = new AntiCheat();
+
     static {
         try {
             addonBootstrap = new HCCAddonBootstrap();
@@ -86,6 +96,7 @@ public class HCC {
         EventBus.INSTANCE.register(new MinigameListener());
         EventBus.INSTANCE.register(new ToggleSprintContainer());
         EventBus.INSTANCE.register(notification);
+        EventBus.INSTANCE.register(anticheat);
 
         folder = new File(Minecraft.getMinecraft().mcDataDir, "hcc");
         logger.info("HCC Started!");
@@ -94,6 +105,7 @@ public class HCC {
 
         handlers = new HCCHandlers();
         trayManager = new TrayManager();
+        anticheat.init();
         try {
             trayManager.init();
         } catch (Exception e) {
@@ -170,5 +182,10 @@ public class HCC {
 
     public HCCModIntegration getModIntegration() {
         return modIntegration;
+    }
+
+    public void sendMessage(String msg){
+        if(Minecraft.getMinecraft().thePlayer == null)return;
+        Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText(RED+"[HCC] "+WHITE+msg));
     }
 }

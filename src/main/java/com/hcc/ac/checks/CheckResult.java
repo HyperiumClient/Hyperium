@@ -16,42 +16,35 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.hcc.ac;
+package com.hcc.ac.checks;
 
-import java.util.UUID;
+public class CheckResult {
+    private Level level;
+    private String detection;
+    private String description;
 
-public class User {
-    private UUID player;
-    private int  aps = 0;
-    User(UUID player){
-        this.player = player;
+    public CheckResult(Level level, String detection, String description) {
+        this.level = level;
+        this.detection = detection;
+        this.description = description;
     }
 
-    /**
-     * when the player swing to count APS
-     */
-    public void onSwing(){
-        aps++;
+    public Level getLevel() {
+        return level;
     }
 
-    /**
-     * resets aps every second because its per sec
-     */
-    public void resetAPS(){
-        aps = 0;
+    public String getDetection() {
+        return detection;
     }
 
-    /**
-     * @return get current APS
-     */
-    public int getAps() {
-        return aps;
+    public String getDescription() {
+        return description;
     }
 
-    /**
-     * @return the UUID
-     */
-    public UUID getPlayer() {
-        return player;
+    public enum Level{
+        CLEAN,
+        SLIGHTLY,
+        POTENTIALLY,
+        DEFINITELY
     }
 }

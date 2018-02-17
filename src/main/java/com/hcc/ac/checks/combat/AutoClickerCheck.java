@@ -16,42 +16,22 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.hcc.ac;
+package com.hcc.ac.checks.combat;
 
-import java.util.UUID;
+import com.hcc.ac.User;
+import com.hcc.ac.checks.CheckResult;
+import com.hcc.ac.checks.ICheck;
 
-public class User {
-    private UUID player;
-    private int  aps = 0;
-    User(UUID player){
-        this.player = player;
-    }
-
-    /**
-     * when the player swing to count APS
-     */
-    public void onSwing(){
-        aps++;
-    }
-
-    /**
-     * resets aps every second because its per sec
-     */
-    public void resetAPS(){
-        aps = 0;
-    }
-
-    /**
-     * @return get current APS
-     */
-    public int getAps() {
-        return aps;
-    }
-
-    /**
-     * @return the UUID
-     */
-    public UUID getPlayer() {
-        return player;
+public class AutoClickerCheck implements ICheck {
+    @Override
+    public CheckResult check(User user) {
+        if(user.getAps() > 20)
+            return new CheckResult(CheckResult.Level.SLIGHTLY, "AutoClicker",user.getAps()+" APS");
+        else if(user.getAps() > 25)
+            return new CheckResult(CheckResult.Level.POTENTIALLY,"AutoClicker", user.getAps()+" APS");
+        else if(user.getAps() > 35)
+            return new CheckResult(CheckResult.Level.DEFINITELY,"AutoClicker", user.getAps()+" APS");
+        else
+            return new CheckResult(CheckResult.Level.CLEAN, "AutoClicker", "Passed");
     }
 }
