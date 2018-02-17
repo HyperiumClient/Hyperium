@@ -22,6 +22,7 @@ import com.hcc.HCC;
 import com.hcc.ac.checks.CheckResult;
 import com.hcc.ac.checks.ICheck;
 import com.hcc.ac.checks.combat.AutoClickerCheck;
+import com.hcc.ac.checks.combat.ReachCheck;
 import com.hcc.event.InvokeEvent;
 import com.hcc.event.PlayerSwingEvent;
 
@@ -59,6 +60,7 @@ public class AntiCheat {
 
     private void registerChecks() {
         addCheck(new AutoClickerCheck());
+        addCheck(new ReachCheck());
     }
 
     /**

@@ -24,6 +24,7 @@ import net.minecraft.client.entity.AbstractClientPlayer
 import net.minecraft.client.renderer.entity.RenderManager
 import net.minecraft.util.BlockPos
 import net.minecraft.util.IChatComponent
+import net.minecraft.util.Vec3
 import java.util.*
 
 /**
@@ -107,7 +108,7 @@ class SingleplayerJoinEvent
 /**
  * Invoked once player swings
  */
-class PlayerSwingEvent(val player: UUID)
+class PlayerSwingEvent(val player: UUID, val posVec: Vec3, val lookVec: Vec3, val pos: BlockPos)
 
 /**
  * Invoked when player joins a minigame on Hypixel
