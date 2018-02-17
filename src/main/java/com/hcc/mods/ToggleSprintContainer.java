@@ -28,15 +28,15 @@ import net.minecraft.client.Minecraft;
 
 public class ToggleSprintContainer {
     @InvokeEvent
-    public static void onkeyBindEnable(KeyBindEnableEvent event){
-        if(event.getKey() == KeyBindHandler.toggleSprint.getKey()) {
+    public static void onkeyBindEnable(KeyBindEnableEvent event) {
+        if (event.getKey() == KeyBindHandler.toggleSprint.getKey()) {
             GeneralChatHandler.instance().sendMessage("ToggleSprint Enabled!");
         }
     }
 
     @InvokeEvent
-    public static void onKeyBindDisable(KeyBindDisableEvent event){
-        if (event.getKey() == KeyBindHandler.toggleSprint.getKey()){
+    public static void onKeyBindDisable(KeyBindDisableEvent event) {
+        if (event.getKey() == KeyBindHandler.toggleSprint.getKey()) {
             // Disables ToggleSprint
             GeneralChatHandler.instance().sendMessage("ToggleSprint Disabled!");
             ((MixinKeyBinding) Minecraft.getMinecraft().gameSettings.keyBindSprint).setPressed(false);

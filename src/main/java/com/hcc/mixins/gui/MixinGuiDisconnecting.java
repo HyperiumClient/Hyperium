@@ -33,16 +33,17 @@ public class MixinGuiDisconnecting {
 
     /**
      * Invoked once the player is discconecting from a server
+     *
      * @param screen
      * @param reasonLocalizationKey
      * @param chatComp
-     * @param ci {@see org.spongepowered.asm.mixin.injection.callback.CallbackInfo}
+     * @param ci                    {@see org.spongepowered.asm.mixin.injection.callback.CallbackInfo}
      */
-    @Inject(method = "<init>",at = @At("RETURN"))
+    @Inject(method = "<init>", at = @At("RETURN"))
     private void init(GuiScreen screen,
                       String reasonLocalizationKey,
                       IChatComponent chatComp,
-                      CallbackInfo ci){
+                      CallbackInfo ci) {
         EventBus.INSTANCE.post(new ServerLeaveEvent());
     }
 }

@@ -32,21 +32,25 @@ import java.awt.*;
 
 @SuppressWarnings("unused")
 @Mixin(GuiButton.class)
-public abstract class MixinGuiButton extends Gui{
-    @Shadow @Final protected static ResourceLocation buttonTextures;
+public abstract class MixinGuiButton extends Gui {
+    @Shadow
+    @Final
+    protected static ResourceLocation buttonTextures;
 
-    @Shadow public boolean visible;
-
-    @Shadow protected boolean hovered;
-
-    @Shadow public int xPosition;
-
-    @Shadow public int yPosition;
-
-    @Shadow protected int width;
-
-    @Shadow protected int height;
-
+    @Shadow
+    public boolean visible;
+    @Shadow
+    public int xPosition;
+    @Shadow
+    public int yPosition;
+    @Shadow
+    public String displayString;
+    @Shadow
+    protected boolean hovered;
+    @Shadow
+    protected int width;
+    @Shadow
+    protected int height;
     private int hoverColor = new Color(0, 0, 0, 90).getRGB();
     private int color = new Color(0, 0, 0, 70).getRGB();
     private int textColor = new Color(255, 255, 255, 255).getRGB();
@@ -54,27 +58,22 @@ public abstract class MixinGuiButton extends Gui{
     private FontRenderer fontRenderer = Minecraft.getMinecraft().fontRendererObj;
     private boolean enabled = true;
 
-
-
-    @Shadow protected abstract void mouseDragged(Minecraft mc, int mouseX, int mouseY);
-
-    @Shadow public String displayString;
+    @Shadow
+    protected abstract void mouseDragged(Minecraft mc, int mouseX, int mouseY);
 
     @SuppressWarnings("Duplicates")
-    public void drawButton(Minecraft mc, int mouseX, int mouseY){
+    public void drawButton(Minecraft mc, int mouseX, int mouseY) {
         if (this.visible) {
-            mc.getTextureManager().bindTexture(buttonTextures);
-            GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
             this.hovered = mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;
             this.mouseDragged(mc, mouseX, mouseY);
 
             // TODO RECT COLORS
             if (this.hovered) {
-                Gui.drawRect(this.xPosition, this.yPosition,
+                drawRect(this.xPosition, this.yPosition,
                         this.xPosition + this.width, this.yPosition + this.height,
                         hoverColor);
             } else {
-                Gui.drawRect(this.xPosition, this.yPosition,
+                drawRect(this.xPosition, this.yPosition,
                         this.xPosition + this.width, this.yPosition + this.height,
                         color);
             }

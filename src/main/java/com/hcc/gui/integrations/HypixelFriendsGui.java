@@ -24,6 +24,7 @@ import com.hcc.gui.GuiBlock;
 import com.hcc.gui.GuiBoxItem;
 import com.hcc.gui.HCCGui;
 import com.hcc.mods.chromahud.NumberUtil;
+import com.hcc.mods.sk1ercommon.ChatColor;
 import com.hcc.mods.sk1ercommon.ResolutionUtil;
 import com.hcc.utils.JsonHolder;
 import net.minecraft.client.Minecraft;
@@ -31,7 +32,6 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.util.EnumChatFormatting;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
@@ -147,7 +147,7 @@ public class HypixelFriendsGui extends HCCGui {
                     selected.clear();
                 }
                 double remaining = totalTick - removeTicks;
-                guiButton.displayString = EnumChatFormatting.RED + "Removing in: " + NumberUtil.round(remaining / 20, 1);
+                guiButton.displayString = ChatColor.RED + "Removing in: " + NumberUtil.round(remaining / 20, 1);
 
 
             } else {
@@ -201,7 +201,6 @@ public class HypixelFriendsGui extends HCCGui {
     }
 
 
-
     @Override
     public void updateScreen() {
 
@@ -248,9 +247,9 @@ public class HypixelFriendsGui extends HCCGui {
         }
         GuiBlock namesBlock = new GuiBlock(2, columnWidth, topRenderBound, topRenderBound);
         int row = 1;
-        namesBlock.drawString("Currently selected: ", fontRendererObj, false, true, namesBlock.getWidth() / 2, 1, true, true, Color.RED.getRGB(),true);
+        namesBlock.drawString("Currently selected: ", fontRendererObj, false, true, namesBlock.getWidth() / 2, 1, true, true, Color.RED.getRGB(), true);
         for (HypixelApiFriendObject object : selected) {
-            namesBlock.drawString(object.getDisplay(), fontRendererObj, false, false, 5, 1 + row * 11, true, true, Color.WHITE.getRGB(),true);
+            namesBlock.drawString(object.getDisplay(), fontRendererObj, false, false, 5, 1 + row * 11, true, true, Color.WHITE.getRGB(), true);
             selectedBoxes.add(new GuiBoxItem<>(new GuiBlock(2 + 5, namesBlock.getRight() + 5, namesBlock.getTop() + 1 + row * 11, namesBlock.getTop() + 1 + (row + 1) * 11), object));
             row++;
         }
@@ -278,7 +277,7 @@ public class HypixelFriendsGui extends HCCGui {
             if (selectedItem != null && selectedItem.getObject().equals(object) && !selected.contains(selectedItem.getObject())) {
                 selectedItem = new GuiBoxItem<>(new GuiBlock(drawX, drawX + columnWidth, drawY + friendsBlock.getTop(), drawY + friendsBlock.getTop() + 11), object);
             }
-            if (friendsBlock.drawString(object.getDisplay(), fontRendererObj, false, false, drawX - friendsBlock.getLeft(), drawY, false, false, Color.WHITE.getRGB(),true)) {
+            if (friendsBlock.drawString(object.getDisplay(), fontRendererObj, false, false, drawX - friendsBlock.getLeft(), drawY, false, false, Color.WHITE.getRGB(), true)) {
                 GuiBoxItem<HypixelApiFriendObject> e = new GuiBoxItem<>(new GuiBlock(drawX, drawX + columnWidth, drawY + friendsBlock.getTop(), drawY + friendsBlock.getTop() + 11), object);
                 friendListBoxes.add(e);
 

@@ -41,7 +41,7 @@ public class Versions {
     }
 
     public void addVersion(Version version, VersionInfo.Severity severity, boolean isBetaVersion,
-            String... changelog) {
+                           String... changelog) {
         versions.add(new VersionInfo(version, severity, isBetaVersion, changelog));
     }
 

@@ -18,30 +18,36 @@
 
 package com.hcc;
 
+import com.hcc.ac.AntiCheat;
 import com.hcc.addons.HCCAddonBootstrap;
 import com.hcc.addons.loader.DefaultAddonLoader;
 import com.hcc.config.DefaultConfig;
 import com.hcc.event.*;
 import com.hcc.event.minigames.MinigameListener;
-import com.hcc.exceptions.HCCException;
 import com.hcc.gui.ModConfigGui;
 import com.hcc.gui.NotificationCenter;
 import com.hcc.gui.integrations.HypixelFriendsGui;
 import com.hcc.handlers.HCCHandlers;
-import com.hcc.handlers.handlers.command.HCCCommandHandler;
-import com.hcc.handlers.handlers.command.commands.TestCommand;
+import com.hcc.handlers.handlers.command.commands.HCCConfigGui;
 import com.hcc.handlers.handlers.keybinds.KeyBindHandler;
 import com.hcc.mixins.MixinKeyBinding;
 import com.hcc.mods.HCCModIntegration;
 import com.hcc.mods.ToggleSprintContainer;
 import com.hcc.mods.discord.RichPresenceManager;
+import com.hcc.mods.sk1ercommon.ChatColor;
 import com.hcc.tray.TrayManager;
 import net.minecraft.client.Minecraft;
+import net.minecraft.util.ChatComponentText;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.Display;
 
+import java.awt.*;
 import java.io.File;
+import java.util.regex.Pattern;
+
+import static com.hcc.mods.sk1ercommon.ChatColor.RED;
+import static com.hcc.mods.sk1ercommon.ChatColor.WHITE;
 
 
 /**
@@ -51,37 +57,34 @@ public class HCC {
 
     public static final HCC INSTANCE = new HCC();
     /**
-     * Instance of the global mod logger
+     * Instance of the global mod LOGGER
      */
-    public final static Logger logger = LogManager.getLogger(Metadata.getModid());
+    public final static Logger LOGGER = LogManager.getLogger(Metadata.getModid());
     /**
      * Instance of default addons loader
      */
-    public static final DefaultAddonLoader addonLoader = new DefaultAddonLoader();
-    public static final NotificationCenter notification = new NotificationCenter();
+    private final DefaultAddonLoader addonLoader = new DefaultAddonLoader();
+    private final NotificationCenter notification = new NotificationCenter();
     public static File folder = new File("hcc");
     /**
-     * Instance of default config
+     * Instance of default CONFIG
      */
-    public static final DefaultConfig config = new DefaultConfig(new File(folder, "config.json"));
-    private static HCCAddonBootstrap addonBootstrap;
+    public static final DefaultConfig CONFIG = new DefaultConfig(new File(folder, "CONFIG.json"));
+    private HCCAddonBootstrap addonBootstrap;
 
-    private static RichPresenceManager richPresenceManager = new RichPresenceManager();
+    private RichPresenceManager richPresenceManager = new RichPresenceManager();
+
+    private AntiCheat anticheat = new AntiCheat();
 
     private TrayManager trayManager;
-
-    static {
-        try {
-            addonBootstrap = new HCCAddonBootstrap();
-        } catch (HCCException e) {
-            e.printStackTrace();
-            logger.error("failed to initialize addonBootstrap");
-        }
-    }
-
     private HCCHandlers handlers;
     private HCCModIntegration modIntegration;
+    private Pattern friendRequestPattern;
+    private Pattern rankBracketPattern;
 
+    /**
+     * @param event initialize HCC
+     */
     @InvokeEvent
     public void init(InitializationEvent event) {
 
@@ -89,19 +92,23 @@ public class HCC {
         EventBus.INSTANCE.register(new MinigameListener());
         EventBus.INSTANCE.register(new ToggleSprintContainer());
         EventBus.INSTANCE.register(notification);
+        EventBus.INSTANCE.register(anticheat);
+
+        friendRequestPattern = Pattern.compile("Friend request from .+?");
+        rankBracketPattern = Pattern.compile("[\\^] ");
 
         folder = new File(Minecraft.getMinecraft().mcDataDir, "hcc");
-        logger.info("HCC Started!");
+        LOGGER.info("HCC Started!");
         Display.setTitle("HCC " + Metadata.getVersion());
-
 
         handlers = new HCCHandlers();
         trayManager = new TrayManager();
+        anticheat.init();
         try {
             trayManager.init();
         } catch (Exception e) {
             e.printStackTrace();
-            logger.warn("Failed to hookup TrayIcon");
+            LOGGER.warn("Failed to hookup TrayIcon");
         }
 
         //Register commands.
@@ -113,19 +120,32 @@ public class HCC {
         Runtime.getRuntime().addShutdownHook(new Thread(this::shutdown));
     }
 
+    /**
+     * load addons
+     */
     public void registerAddons() {
         try {
+            addonBootstrap = new HCCAddonBootstrap();
             addonBootstrap.loadInternalAddon();
             addonBootstrap.loadAddons(addonLoader);
         } catch (Exception e) {
             e.printStackTrace();
-            logger.error("Failed to load addon(s) from addons folder");
+            LOGGER.error("Failed to load addon(s) from addons folder");
         }
     }
+
+    /**
+     * register the commands
+     */
     private void registerCommands() {
-       HCC.INSTANCE.getHandlers().getHCCCommandHandler().registerCommand(new TestCommand());
+//       HCC.INSTANCE.getHandlers().getHCCCommandHandler().registerCommand(new TestCommand());
+
+        HCC.INSTANCE.getHandlers().getHCCCommandHandler().registerCommand(new HCCConfigGui());
     }
 
+    /**
+     * @param event called when someone sent a chat message
+     */
     @InvokeEvent
     public void onChat(ChatEvent event) {
         if (event.getChat().getUnformattedText().contains("configgui")) {
@@ -133,17 +153,23 @@ public class HCC {
             Minecraft.getMinecraft().displayGuiScreen(new ModConfigGui());
             notification.display("Settings", "opened settings gui", 2);
         }
+        if (friendRequestPattern.matcher(ChatColor.stripColor(event.getChat().getUnformattedText())).matches()) {
+            String withoutRank = ChatColor.stripColor(event.getChat().getUnformattedText());
+            withoutRank = withoutRank.replaceAll("Friend request from ", "");
+            withoutRank = withoutRank.replaceAll(rankBracketPattern.pattern(), "");
+            EventBus.INSTANCE.post(new HypixelFriendRequestEvent(withoutRank));
+        }
 
     }
 
-    @InvokeEvent
-    public void onTick(TickEvent event) {
-
-    }
-
+    /**
+     * called when key is pressed on the keyboard
+     *
+     * @param event the event
+     */
     @InvokeEvent
     public void onKeyPress(KeypressEvent event) {
-        if(!Minecraft.getMinecraft().inGameHasFocus)
+        if (!Minecraft.getMinecraft().inGameHasFocus)
             return;
         // i got u - coal
         if ((KeyBindHandler.toggleSprint.isActivated())) {
@@ -151,15 +177,30 @@ public class HCC {
                 ((MixinKeyBinding) Minecraft.getMinecraft().gameSettings.keyBindSprint).setPressed(true);
             }
         }
-        if ((KeyBindHandler.debug.isActivated())) {
+        if ((KeyBindHandler.debug.isPressed())) {
             Minecraft.getMinecraft().displayGuiScreen(new HypixelFriendsGui());
+            KeyBindHandler.debug.onPress();
         }
     }
 
+    /**
+     * called when receive friend request
+     *
+     * @param event the event
+     */
+    @InvokeEvent
+    public void onFriendRequest(HypixelFriendRequestEvent event) {
+        if (trayManager.getTray() != null)
+            trayManager.getTray().displayMessage("Hypixel", "Friend request from " + event.getFrom(), TrayIcon.MessageType.NONE);
+    }
+
+    /**
+     * called when HCC shutdown
+     */
     private void shutdown() {
-        config.save();
+        CONFIG.save();
         richPresenceManager.shutdown();
-        logger.info("Shutting down HCC..");
+        LOGGER.info("Shutting down HCC..");
     }
 
 
@@ -169,5 +210,15 @@ public class HCC {
 
     public HCCModIntegration getModIntegration() {
         return modIntegration;
+    }
+
+    /**
+     * adds a message into players chat
+     *
+     * @param msg message to add
+     */
+    public void sendMessage(String msg) {
+        if (Minecraft.getMinecraft().thePlayer == null) return;
+        Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText(RED + "[HCC] " + WHITE + msg));
     }
 }

@@ -30,9 +30,9 @@ public class TrayManager {
         return tray;
     }
 
-    public void init() throws Exception{
-        if(SystemTray.isSupported()){
-            tray = new TrayIcon(ImageIO.read(getClass().getResourceAsStream("/assets/hcc/icons/icon-32x.png")),"");
+    public void init() throws Exception {
+        if (SystemTray.isSupported()) {
+            tray = new TrayIcon(ImageIO.read(getClass().getResourceAsStream("/assets/hcc/icons/icon-32x.png")), "");
             PopupMenu menu = new PopupMenu();
 
             MenuItem aboutItem = new MenuItem("About");

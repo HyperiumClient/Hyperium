@@ -18,12 +18,12 @@
 
 package com.hcc.mods.togglechat;
 
-import com.hcc.event.*;
-
+import com.hcc.event.ChatEvent;
+import com.hcc.event.InvokeEvent;
+import com.hcc.event.Priority;
 import com.hcc.mods.sk1ercommon.ChatColor;
 import com.hcc.mods.togglechat.toggles.ToggleBase;
 import com.hcc.mods.togglechat.toggles.defaults.TypeMessageSeparator;
-
 import net.minecraft.util.ChatComponentText;
 
 @SuppressWarnings("WeakerAccess")

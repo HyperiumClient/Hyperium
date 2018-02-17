@@ -39,7 +39,7 @@ public class HCCAddonBootstrap {
 
 
     /**
-     *  Addons directory
+     * Addons directory
      */
     private static final File modDirectory = new File(HCC.folder, "addons");
 
@@ -50,6 +50,7 @@ public class HCCAddonBootstrap {
 
     /**
      * default constructor
+     *
      * @throws HCCException when error occurs
      */
     public HCCAddonBootstrap() throws HCCException {
@@ -91,21 +92,22 @@ public class HCCAddonBootstrap {
 
     /**
      * load addons from folder using the AddonLoaderStrategy
+     *
      * @param loader Addon loader
      */
     public void loadAddons(AddonLoaderStrategy loader) {
         Stopwatch benchmark = Stopwatch.createStarted();
-        HCC.logger.info("Starting to load addons...");
+        HCC.LOGGER.info("Starting to load addons...");
         for (File addon : this.addons) {
             try {
                 loader.load(addon);
-                HCC.logger.info("Loaded {}", addon.getName());
+                HCC.LOGGER.info("Loaded {}", addon.getName());
             } catch (Exception e) {
-                HCC.logger.error("Could not load {}!", addon.getName());
+                HCC.LOGGER.error("Could not load {}!", addon.getName());
                 e.printStackTrace();
             }
         }
-        HCC.logger.debug("Finished loading all addons in {}.", benchmark);
+        HCC.LOGGER.debug("Finished loading all addons in {}.", benchmark);
 
     }
 

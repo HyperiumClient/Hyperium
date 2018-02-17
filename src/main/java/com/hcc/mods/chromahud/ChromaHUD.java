@@ -19,9 +19,9 @@
 package com.hcc.mods.chromahud;
 
 import com.google.gson.JsonArray;
+import com.hcc.event.EventBus;
 import com.hcc.mods.chromahud.api.DisplayItem;
 import com.hcc.mods.chromahud.gui.GeneralConfigGui;
-import com.hcc.event.EventBus;
 import com.hcc.utils.JsonHolder;
 
 import java.io.*;
@@ -42,6 +42,7 @@ public class ChromaHUD {
     private void init() {
         suggestedConfigurationFile = new File("hcc/displayconfig.json");
         ChromaHUDApi.getInstance();
+        ChromaHUDApi.getInstance().register(new DefaultChromaHUDParser());
         ChromaHUDApi.getInstance().register(new HCCChromaHudParser());
         setup();
         EventBus.INSTANCE.register(new ElementRenderer(this));

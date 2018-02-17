@@ -22,9 +22,9 @@ package com.hcc.mods.chromahud;
 import com.hcc.mods.chromahud.api.ChromaHUDDescription;
 import com.hcc.mods.chromahud.api.ChromaHUDParser;
 import com.hcc.mods.chromahud.api.DisplayItem;
-import com.hcc.mods.chromahud.displayitems.HypixelDisplay;
-import com.hcc.mods.chromahud.displayitems.LocationDisplay;
-import com.hcc.mods.chromahud.displayitems.RatingDisplay;
+import com.hcc.mods.chromahud.displayitems.hcc.HypixelDisplay;
+import com.hcc.mods.chromahud.displayitems.hcc.LocationDisplay;
+import com.hcc.mods.chromahud.displayitems.hcc.RatingDisplay;
 import com.hcc.utils.JsonHolder;
 
 import java.util.HashMap;
@@ -50,8 +50,8 @@ public class HCCChromaHudParser implements ChromaHUDParser {
                 return new LocationDisplay(item, ord);
             case "HYPIXEL":
                 return new HypixelDisplay(item, ord);
-            case "RATING" :
-                return new RatingDisplay(item,ord);
+            case "RATING":
+                return new RatingDisplay(item, ord);
 
         }
         return null;

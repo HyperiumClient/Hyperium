@@ -16,25 +16,17 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.hcc.mods.chromahud.displayitems;
+package com.hcc.ac.checks.combat;
 
-import com.hcc.HCC;
-import com.hcc.mods.chromahud.ElementRenderer;
-import com.hcc.mods.chromahud.api.Dimension;
-import com.hcc.mods.chromahud.api.DisplayItem;
-import com.hcc.utils.JsonHolder;
-import net.minecraft.client.Minecraft;
+import com.hcc.ac.User;
+import com.hcc.ac.checks.CheckResult;
+import com.hcc.ac.checks.ICheck;
 
-public class HypixelDisplay extends DisplayItem {
-    public HypixelDisplay(JsonHolder data, int ordinal) {
-        super(data, ordinal);
-    }
-
+public class ReachCheck implements ICheck {
     @Override
-    public Dimension draw(int x, double y, boolean config) {
-        String string = "Hypixel: " + HCC.INSTANCE.getHandlers().getHypixelDetector().isHypixel();
-        ElementRenderer.draw(x, y, string);
-        //TODO remove specific reference
-        return new Dimension(config ? Minecraft.getMinecraft().fontRendererObj.getStringWidth(string) : 0, 10);
+    public CheckResult check(User user) {
+        int distance; //TODO: Calculate distance and check if player is attacking the player
+        return new CheckResult(CheckResult.Level.CLEAN, "Reach", "Passed");
+        // 1 sec lemme research
     }
 }

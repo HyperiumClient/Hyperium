@@ -52,7 +52,7 @@ public class CommandQueue {
             EntityPlayerSP thePlayer = Minecraft.getMinecraft().thePlayer;
             if (thePlayer != null) {
                 String poll = commands.poll();
-                HCC.logger.info("Sending chat: " + poll);
+                HCC.LOGGER.info("Sending chat: " + poll);
                 Runnable runnable = asyncCallbacks.get(poll);
                 thePlayer.sendChatMessage(poll);
                 if (runnable != null) {

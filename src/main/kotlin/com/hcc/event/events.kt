@@ -24,6 +24,7 @@ import net.minecraft.client.entity.AbstractClientPlayer
 import net.minecraft.client.renderer.entity.RenderManager
 import net.minecraft.util.BlockPos
 import net.minecraft.util.IChatComponent
+import net.minecraft.util.Vec3
 import java.util.*
 
 /**
@@ -88,12 +89,16 @@ class RenderHUDEvent(partialTicks: Float)
 /**
  * Invoked once a chat message is sent
  */
-class ChatEvent(var chat: IChatComponent): CancellableEvent()
+class ChatEvent(var chat: IChatComponent) : CancellableEvent()
 
 /**
  * Invoked when the player presses the enter key in the GuiChat class
+ *
+ * @param message the message the player is sending
+ * @param addsToClientHistory should the message be added to the players client history, only used
+ *      when the event is cancelled
  */
-class SendChatMessageEvent(val message: String): CancellableEvent()
+class SendChatMessageEvent(val message: String, var addsToClientHistory: Boolean) : CancellableEvent()
 
 /**
  * Invoked once the player has joined singleplayer
@@ -103,7 +108,7 @@ class SingleplayerJoinEvent
 /**
  * Invoked once player swings
  */
-class PlayerSwingEvent(val player: UUID)
+class PlayerSwingEvent(val player: UUID, val posVec: Vec3, val lookVec: Vec3, val pos: BlockPos)
 
 /**
  * Invoked when player joins a minigame on Hypixel
@@ -124,4 +129,9 @@ class KeyBindEnableEvent(val key: Int)
  * Invoked when a keybind is disabled.
  */
 class KeyBindDisableEvent(val key: Int)
+
+/**
+ * Invoked when received a friend request
+ */
+class HypixelFriendRequestEvent(val from: String)
 

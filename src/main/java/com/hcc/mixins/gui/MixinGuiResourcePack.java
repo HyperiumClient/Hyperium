@@ -35,29 +35,33 @@ import java.util.List;
 @Mixin(ResourcePackListEntry.class)
 public abstract class MixinGuiResourcePack {
 
-    @Shadow protected abstract int func_183019_a();
+    @Shadow
+    @Final
+    protected Minecraft mc;
 
-    @Shadow protected abstract String func_148312_b();
+    @Shadow
+    protected abstract int func_183019_a();
 
-    @Shadow protected abstract String func_148311_a();
+    @Shadow
+    protected abstract String func_148312_b();
 
-    @Shadow @Final protected Minecraft mc;
-
+    @Shadow
+    protected abstract String func_148311_a();
 
     /**
      * Fixes Minecraft's shitty rendering code
+     *
      * @author Kevin Brewster
      */
     @Inject(method = "drawEntry", at = @At("HEAD"), cancellable = true)
     public void drawEntry(int slotIndex, int x, int y, int listWidth, int slotHeight,
                           int mouseX, int mouseY, boolean isSelected, CallbackInfo ci) {
         boolean compact = true;
-        if(compact) {
+        if (compact) {
             ci.cancel();
             int i = this.func_183019_a();
 
-            if (i != 1)
-            {
+            if (i != 1) {
                 GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
                 Gui.drawRect(x - 1, y - 1, x + listWidth - 9, y + slotHeight + 1, -8978432);
             }
@@ -68,12 +72,11 @@ public abstract class MixinGuiResourcePack {
 
             int i1 = this.mc.fontRendererObj.getStringWidth(s);
 
-            if (i1 > 157)
-            {
+            if (i1 > 157) {
                 s = this.mc.fontRendererObj.trimStringToWidth(s, 157 - this.mc.fontRendererObj.getStringWidth("...")) + "...";
             }
 
-            this.mc.fontRendererObj.drawStringWithShadow(s, (float)(x + 2), (float)(y + 4), 16777215);
+            this.mc.fontRendererObj.drawStringWithShadow(s, (float) (x + 2), (float) (y + 4), 16777215);
             List<String> list = this.mc.fontRendererObj.listFormattedStringToWidth(s1, 157);
 
             GL11.glPushMatrix();
@@ -89,7 +92,7 @@ public abstract class MixinGuiResourcePack {
             if (len > max) {
                 info = this.mc.fontRendererObj.trimStringToWidth(msg.toString(), (int) (max - this.mc.fontRendererObj.getStringWidth("..."))) + "...";
             }
-            this.mc.fontRendererObj.drawStringWithShadow(info, (float)((x + 5) / 0.7), (float)((y + 6 + 10) / 0.7), 8421504);
+            this.mc.fontRendererObj.drawStringWithShadow(info, (float) ((x + 5) / 0.7), (float) ((y + 6 + 10) / 0.7), 8421504);
 
 
             GL11.glPopMatrix();

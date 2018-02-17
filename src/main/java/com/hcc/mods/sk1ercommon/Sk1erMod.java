@@ -39,12 +39,13 @@ public class Sk1erMod {
         Dabbing intensifies
      */
     private static Sk1erMod instance;
-    private String modid;
-    private String version;
+    private String modid = "";
+    private String version = "";
     private boolean enabled = true;
-    private String apiKey;
-    private JsonHolder en;
-    private GenKeyCallback callback;
+    private String apiKey = "";
+    private JsonHolder en = new JsonHolder();
+    private GenKeyCallback callback = object -> {
+    };
 
     public Sk1erMod(String modid, String version) {
         this.modid = modid;
@@ -60,7 +61,6 @@ public class Sk1erMod {
     public static Sk1erMod getInstance() {
         return instance;
     }
-
 
     public JsonHolder getResponse() {
         return en;

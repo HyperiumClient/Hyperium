@@ -29,7 +29,7 @@ public enum Fonts {
 
     private TrueTypeFont ttf;
 
-    Fonts(Font font){
+    Fonts(Font font) {
         this.font = font;
         this.ttf = new TrueTypeFont(font, true);
     }

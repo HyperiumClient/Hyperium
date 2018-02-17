@@ -19,6 +19,7 @@
 package com.hcc.mods.levelhead.guis;
 
 import com.hcc.event.EventBus;
+import com.hcc.event.InvokeEvent;
 import com.hcc.event.TickEvent;
 import com.hcc.handlers.handlers.chat.GeneralChatHandler;
 import com.hcc.mods.sk1ercommon.Multithreading;
@@ -35,7 +36,6 @@ import net.minecraft.event.ClickEvent;
 import net.minecraft.event.HoverEvent;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatStyle;
-import net.minecraft.util.EnumChatFormatting;
 import org.lwjgl.input.Keyboard;
 
 import java.awt.*;
@@ -90,27 +90,30 @@ public class LevelHeadGui extends GuiScreen {
 
     @Override
     public void initGui() {
-        Multithreading.runAsync(() -> {
-            String raw = Sk1erMod.getInstance().rawWithAgent("http://sk1er.club/modquery/" + Sk1erMod.getInstance().getApIKey() + "/levelhead/" + Minecraft.getMinecraft().getSession().getProfile().getId().toString().replace("-", ""));
-            System.out.println(raw);
-            this.isCustom = new JsonHolder(raw).optBoolean("custom");
-            updateCustom();
-        });
+        if (Sk1erMod.getInstance().getApIKey() != null && Minecraft.getMinecraft().getSession().getProfile().getId() != null) {
+            Multithreading.runAsync(() -> {
+                String raw = Sk1erMod.getInstance().rawWithAgent("http://sk1er.club/modquery/" + Sk1erMod.getInstance().getApIKey() + "/levelhead/" + Minecraft.getMinecraft().getSession().getProfile().getId().toString().replace("-", ""));
+                System.out.println(raw);
+                this.isCustom = new JsonHolder(raw).optBoolean("custom");
+                updateCustom();
+            });
+        }
+
         Keyboard.enableRepeatEvents(true);
 
-        reg(new GuiButton(1, this.width / 2 - 155, this.height / 2 - 100 - 34, 150, 20, "LevelHead: " + getLevelToggle()), button -> {
+        reg(new GuiButton(1, this.width / 2 - 155, this.height / 2 - 134, 150, 20, "LevelHead: " + getLevelToggle()), button -> {
             Levelhead.getInstance().getConfig().setEnabled(!Levelhead.getInstance().getConfig().isEnabled());
             button.displayString = "LevelHead: " + getLevelToggle();
             sendChatMessage(String.format("Toggled %s!", (Levelhead.getInstance().getConfig().isEnabled() ? "on" : "off")));
         });
-        reg(new GuiButton(69, this.width / 2 + 5, this.height / 2 - 100 - 34, 150, 20, "Show self: " + (Levelhead.getInstance().getConfig().isShowSelf() ? ChatColor.GREEN + "on" : ChatColor.RED + "off")), button -> {
+        reg(new GuiButton(69, this.width / 2 + 5, this.height / 2 - 134, 150, 20, "Show self: " + (Levelhead.getInstance().getConfig().isShowSelf() ? ChatColor.GREEN + "on" : ChatColor.RED + "off")), button -> {
             Levelhead.getInstance().getConfig().setShowSelf(!Levelhead.getInstance().getConfig().isShowSelf());
             button.displayString = "Show self: " + (Levelhead.getInstance().getConfig().isShowSelf() ? ChatColor.GREEN + "on" : ChatColor.RED + "off");
         });
         //RGB -> Chroma
         //Chroma -> Classic
         //Classic -> RGB
-        reg(new GuiButton(2, this.width / 2 - 155, this.height / 2 - 100 - 10, 150, 20, "Header Mode: " + getMode(true)), button -> {
+        reg(new GuiButton(2, this.width / 2 - 155, this.height / 2 - 110, 150, 20, "Header Mode: " + getMode(true)), button -> {
             if (Levelhead.getInstance().getConfig().isHeaderRgb()) {
                 Levelhead.getInstance().getConfig().setHeaderRgb(false);
                 Levelhead.getInstance().getConfig().setHeaderChroma(true);
@@ -124,7 +127,7 @@ public class LevelHeadGui extends GuiScreen {
             button.displayString = "Header Mode: " + getMode(true);
         });
 
-        reg(new GuiButton(3, this.width / 2 + 5, this.height / 2 - 100 - 10, 150, 20, "Footer Mode: " + getMode(false)), button -> {
+        reg(new GuiButton(3, this.width / 2 + 5, this.height / 2 - 110, 150, 20, "Footer Mode: " + getMode(false)), button -> {
 
             if (Levelhead.getInstance().getConfig().isFooterRgb()) {
                 Levelhead.getInstance().getConfig().setFooterRgb(false);
@@ -233,11 +236,11 @@ public class LevelHeadGui extends GuiScreen {
                     ChatComponentText text = new ChatComponentText("Click here to update your custom Levelhead colors");
                     ChatStyle style = new ChatStyle();
                     style.setBold(true);
-                    style.setColor(EnumChatFormatting.YELLOW);
+                    style.setColor(net.minecraft.util.EnumChatFormatting.YELLOW);
                     style.setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, url));
                     ChatComponentText valueIn = new ChatComponentText("Please be logged in to your Sk1er.club for this to work. Do /levelhead dumpcache after clicking to see new colors!");
                     ChatStyle style1 = new ChatStyle();
-                    style1.setColor(EnumChatFormatting.RED);
+                    style1.setColor(net.minecraft.util.EnumChatFormatting.RED);
                     valueIn.setChatStyle(style1);
                     style.setChatHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, valueIn));
                     text.setChatStyle(style);
@@ -251,7 +254,7 @@ public class LevelHeadGui extends GuiScreen {
         lock.unlock();
     }
 
-//    private void regSlider(net.minecraftforge.fml.client.config.GuiSlider slider, Consumer<GuiButton> but) {
+//    private void regSlider(net.minecraftforge.fml.client.CONFIG.GuiSlider slider, Consumer<GuiButton> but) {
 //        reg(slider, but);
 //        sliders.add(slider);
 //
@@ -377,9 +380,10 @@ public class LevelHeadGui extends GuiScreen {
         EventBus.INSTANCE.register(this);
     }
 
+    @InvokeEvent
     public void onTick(TickEvent event) {
         EventBus.INSTANCE.unregister(this);
-        mc.displayGuiScreen(new LevelHeadGui());
+        Minecraft.getMinecraft().displayGuiScreen(this);
     }
 
     @Override

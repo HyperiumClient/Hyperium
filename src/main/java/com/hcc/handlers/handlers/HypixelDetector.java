@@ -28,7 +28,7 @@ public class HypixelDetector {
 
     private static HypixelDetector instance;
 
-    public HypixelDetector(){
+    public HypixelDetector() {
         instance = this;
     }
 
@@ -51,7 +51,7 @@ public class HypixelDetector {
         return hypixel;
     }
 
-    public static HypixelDetector getInstance(){
+    public static HypixelDetector getInstance() {
         return instance;
     }
 }

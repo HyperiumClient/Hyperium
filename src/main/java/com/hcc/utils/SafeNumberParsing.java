@@ -30,6 +30,7 @@ public final class SafeNumberParsing {
             return fallback;
         }
     }
+
     public static int safeParseInt(String input) {
         return safeParseInt(input);
     }

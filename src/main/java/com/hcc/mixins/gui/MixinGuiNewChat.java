@@ -35,11 +35,12 @@ public abstract class MixinGuiNewChat {
 
     /**
      * Invoked once a message is printed to the players chat
+     *
      * @param chatComponent the message
-     * @param ci {@see org.spongepowered.asm.mixin.injection.callback.CallbackInfo}
+     * @param ci            {@see org.spongepowered.asm.mixin.injection.callback.CallbackInfo}
      */
     @Inject(method = "printChatMessage", at = @At("HEAD"), cancellable = true)
-    private void printChatMessage(IChatComponent chatComponent, CallbackInfo ci){
+    private void printChatMessage(IChatComponent chatComponent, CallbackInfo ci) {
         ChatEvent event = new ChatEvent(chatComponent);
         EventBus.INSTANCE.post(event);
         if (event.isCancelled()) {
@@ -52,5 +53,6 @@ public abstract class MixinGuiNewChat {
         }
     }
 
-    @Shadow public abstract void printChatMessageWithOptionalDeletion(IChatComponent component, int lineId);
+    @Shadow
+    public abstract void printChatMessageWithOptionalDeletion(IChatComponent component, int lineId);
 }

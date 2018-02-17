@@ -18,6 +18,7 @@
 
 package com.hcc.gui;
 
+import com.hcc.HCC;
 import com.hcc.mods.sk1ercommon.ResolutionUtil;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
@@ -39,6 +40,8 @@ public abstract class HCCGui extends GuiScreen {
     private boolean drawAlpha = true;
     private int alpha = 100;
     private ScaledResolution lastResolution;
+    private boolean display = false;
+    private boolean displayed = false;
 
     public HCCGui() {
         lastResolution = ResolutionUtil.current();
@@ -111,6 +114,11 @@ public abstract class HCCGui extends GuiScreen {
     }
 
     protected abstract void pack();
+
+    public void show() {
+        HCC.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(this);
+    }
+
 
     @Override
     public void handleMouseInput() throws IOException {

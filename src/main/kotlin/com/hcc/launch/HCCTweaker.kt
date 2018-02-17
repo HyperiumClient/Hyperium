@@ -40,8 +40,7 @@ class HCCTweaker : ITweaker {
     private val args: ArrayList<String> = ArrayList()
 
     private val isRunningForge: Boolean =
-            Launch.classLoader.transformers.
-                    any { it.javaClass.name.contains("fml") }
+            Launch.classLoader.transformers.any { it.javaClass.name.contains("fml") }
 
     override fun acceptOptions(args: MutableList<String>, gameDir: File?, assetsDir: File?, profile: String?) {
         this.args.addAll(args)
@@ -55,7 +54,7 @@ class HCCTweaker : ITweaker {
 
     override fun injectIntoClassLoader(classLoader: LaunchClassLoader) {
         classLoader.addClassLoaderExclusion("org.apache.logging.log4j.")
-        HCC.logger.info("Setting up Mixins...")
+        HCC.LOGGER.info("Setting up Mixins...")
         MixinBootstrap.init()
         // Excludes packages from classloader
         with(MixinEnvironment.getDefaultEnvironment()) {
@@ -70,7 +69,7 @@ class HCCTweaker : ITweaker {
                     "notch" // Switchs to notch mappings
                 }
             }
-            HCC.logger.info("Forge {}!", if (FORGE) "found" else "not found")
+            HCC.LOGGER.info("Forge {}!", if (FORGE) "found" else "not found")
             this.side = MixinEnvironment.Side.CLIENT
         }
     }

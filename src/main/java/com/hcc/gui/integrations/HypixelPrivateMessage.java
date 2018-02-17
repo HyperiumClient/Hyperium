@@ -113,7 +113,7 @@ public class HypixelPrivateMessage extends HCCGui {
                 }
             }
 
-            fontRendererObj.drawString(timeString, user ? block.getRight() + 2 : block.getLeft() - fontRendererObj.getStringWidth(timeString) - 5, block.getTop()+3+(10*(messages.size()-1)), Color.GRAY.getRGB(),true);
+            fontRendererObj.drawString(timeString, user ? block.getRight() + 2 : block.getLeft() - fontRendererObj.getStringWidth(timeString) - 5, block.getTop() + 3 + (10 * (messages.size() - 1)), Color.GRAY.getRGB(), true);
 
             yLevel -= block.getHeight();
             yLevel -= 5;

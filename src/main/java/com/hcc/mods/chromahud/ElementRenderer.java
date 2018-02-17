@@ -20,7 +20,6 @@ package com.hcc.mods.chromahud;
 
 import com.hcc.HCC;
 import com.hcc.event.InvokeEvent;
-import com.hcc.event.Priority;
 import com.hcc.event.RenderEvent;
 import com.hcc.event.TickEvent;
 import net.minecraft.client.Minecraft;
@@ -219,7 +218,7 @@ public class ElementRenderer {
     }
 
     public void renderElements() {
-        //TODO add config option to show items when not on Hypixel
+        //TODO add CONFIG option to show items when not on Hypixel
         if (!HCC.INSTANCE.getHandlers().getHypixelDetector().isHypixel())
             return;
 
