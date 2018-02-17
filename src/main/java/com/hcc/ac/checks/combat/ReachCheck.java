@@ -25,7 +25,8 @@ import com.hcc.ac.checks.ICheck;
 public class ReachCheck implements ICheck {
     @Override
     public CheckResult check(User user) {
-        //TODO: Distance calculation
+        int distance; //TODO: Calculate distance and check if player is attacking the player
         return new CheckResult(CheckResult.Level.CLEAN, "Reach", "Passed");
+        // 1 sec lemme research
     }
 }

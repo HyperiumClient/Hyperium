@@ -64,18 +64,16 @@ public abstract class MixinGuiButton extends Gui {
     @SuppressWarnings("Duplicates")
     public void drawButton(Minecraft mc, int mouseX, int mouseY) {
         if (this.visible) {
-            mc.getTextureManager().bindTexture(buttonTextures);
-            GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
             this.hovered = mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;
             this.mouseDragged(mc, mouseX, mouseY);
 
             // TODO RECT COLORS
             if (this.hovered) {
-                Gui.drawRect(this.xPosition, this.yPosition,
+                drawRect(this.xPosition, this.yPosition,
                         this.xPosition + this.width, this.yPosition + this.height,
                         hoverColor);
             } else {
-                Gui.drawRect(this.xPosition, this.yPosition,
+                drawRect(this.xPosition, this.yPosition,
                         this.xPosition + this.width, this.yPosition + this.height,
                         color);
             }
