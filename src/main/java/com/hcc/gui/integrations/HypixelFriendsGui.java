@@ -24,6 +24,7 @@ import com.hcc.gui.GuiBlock;
 import com.hcc.gui.GuiBoxItem;
 import com.hcc.gui.HCCGui;
 import com.hcc.mods.chromahud.NumberUtil;
+import com.hcc.mods.sk1ercommon.ChatColor;
 import com.hcc.mods.sk1ercommon.ResolutionUtil;
 import com.hcc.utils.JsonHolder;
 import net.minecraft.client.Minecraft;
@@ -31,7 +32,6 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.util.EnumChatFormatting;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
@@ -147,7 +147,7 @@ public class HypixelFriendsGui extends HCCGui {
                     selected.clear();
                 }
                 double remaining = totalTick - removeTicks;
-                guiButton.displayString = EnumChatFormatting.RED + "Removing in: " + NumberUtil.round(remaining / 20, 1);
+                guiButton.displayString = ChatColor.RED + "Removing in: " + NumberUtil.round(remaining / 20, 1);
 
 
             } else {
