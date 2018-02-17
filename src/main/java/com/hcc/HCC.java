@@ -28,7 +28,6 @@ import com.hcc.gui.ModConfigGui;
 import com.hcc.gui.NotificationCenter;
 import com.hcc.gui.integrations.HypixelFriendsGui;
 import com.hcc.handlers.HCCHandlers;
-import com.hcc.handlers.handlers.command.HCCCommandHandler;
 import com.hcc.handlers.handlers.command.commands.TestCommand;
 import com.hcc.handlers.handlers.keybinds.KeyBindHandler;
 import com.hcc.mixins.MixinKeyBinding;
@@ -121,6 +120,7 @@ public class HCC {
             logger.error("Failed to load addon(s) from addons folder");
         }
     }
+
     private void registerCommands() {
        HCC.INSTANCE.getHandlers().getHCCCommandHandler().registerCommand(new TestCommand());
     }

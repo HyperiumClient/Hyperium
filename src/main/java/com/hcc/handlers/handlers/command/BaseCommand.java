@@ -18,8 +18,35 @@
 
 package com.hcc.handlers.handlers.command;
 
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * The basic command implementation, commands can be registered by doing
+ *
+ */
 public interface BaseCommand {
+
+    /**
+     * Gets the name of the command
+     */
     String getName();
+
+    /**
+     * Gets the usage string for the command.
+     */
     String getUsage();
+
+    /**
+     * A list of aliases to the main command
+     *      this will not be used if null/empty
+     */
+    default List<String> getCommandAliases() {
+        return new ArrayList<>();
+    }
+
+    /**
+     * Callback when the command is invoked
+     */
     void onExecute(String[] args);
 }

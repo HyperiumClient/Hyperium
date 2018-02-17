@@ -20,6 +20,7 @@ package com.hcc.mods.togglechat;
 
 import com.hcc.HCC;
 import com.hcc.event.*;
+import com.hcc.mods.togglechat.commands.CommandToggleChat;
 import com.hcc.mods.togglechat.config.ConfigLoader;
 import com.hcc.mods.togglechat.gui.MainGui;
 import com.hcc.mods.togglechat.toggles.ToggleBaseHandler;
@@ -43,6 +44,7 @@ public class ToggleChatMod {
     /** A different implementation to the normal ToggleChat, just manages all toggles */
     private ToggleBaseHandler toggleHandler;
 
+    /** A flag for opening our gui */
     private boolean opening;
 
     public ToggleChatMod init() {
@@ -53,6 +55,8 @@ public class ToggleChatMod {
 
         EventBus.INSTANCE.register(new ToggleEvents(this));
         EventBus.INSTANCE.register(this);
+
+        HCC.INSTANCE.getHandlers().getHCCCommandHandler().registerCommand(new CommandToggleChat(this));
 
         this.configLoader.loadToggles();
 
@@ -70,16 +74,16 @@ public class ToggleChatMod {
     @InvokeEvent
     public void onTick(TickEvent event) {
         if (this.opening) {
+            // Sets opening to false and opens the main screen
             this.opening = false;
             Minecraft.getMinecraft().displayGuiScreen(new MainGui(this, 1));
         }
     }
 
-    @InvokeEvent(priority = Priority.LOW)
-    public void onChat(SendChatMessageEvent event) { // TODO boomboompower command implementation
-        if (event.getMessage().startsWith("/") && event.getMessage().equalsIgnoreCase("/tc")) {
-            this.opening = true;
-            event.setCancelled(true);
-        }
+    /**
+     * Tells the mod it should open the gui
+     */
+    public void openGui() {
+        this.opening = true;
     }
 }
