@@ -24,7 +24,6 @@ import com.hcc.addons.loader.DefaultAddonLoader;
 import com.hcc.config.DefaultConfig;
 import com.hcc.event.*;
 import com.hcc.event.minigames.MinigameListener;
-import com.hcc.exceptions.HCCException;
 import com.hcc.gui.ModConfigGui;
 import com.hcc.gui.NotificationCenter;
 import com.hcc.gui.integrations.HypixelFriendsGui;
@@ -101,13 +100,6 @@ public class HCC {
         LOGGER.info("HCC Started!");
         Display.setTitle("HCC " + Metadata.getVersion());
 
-        try {
-            addonBootstrap = new HCCAddonBootstrap();
-        } catch (HCCException e) {
-            e.printStackTrace();
-            LOGGER.error("failed to initialize addonBootstrap");
-        }
-
         handlers = new HCCHandlers();
         trayManager = new TrayManager();
         anticheat.init();
@@ -132,6 +124,7 @@ public class HCC {
      */
     public void registerAddons() {
         try {
+            addonBootstrap = new HCCAddonBootstrap();
             addonBootstrap.loadInternalAddon();
             addonBootstrap.loadAddons(addonLoader);
         } catch (Exception e) {

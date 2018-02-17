@@ -68,6 +68,8 @@ public class Autotip {
             Hosts.updateHosts();
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (NullPointerException e2) {
+            HCC.LOGGER.debug("[Auto-GG] Invalid UUID detected; Not logged in?.");
         }
     }
 
