@@ -129,3 +129,8 @@ class KeyBindEnableEvent(val key: Int)
  */
 class KeyBindDisableEvent(val key: Int)
 
+/**
+ * Invoked when received a friend request
+ */
+class HypixelFriendRequestEvent(val from: String)
+
