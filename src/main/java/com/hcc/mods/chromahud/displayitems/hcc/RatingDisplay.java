@@ -16,7 +16,7 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.hcc.mods.chromahud.displayitems;
+package com.hcc.mods.chromahud.displayitems.hcc;
 
 import com.hcc.HCC;
 import com.hcc.mods.chromahud.ElementRenderer;
@@ -25,23 +25,23 @@ import com.hcc.mods.chromahud.api.DisplayItem;
 import com.hcc.utils.JsonHolder;
 import net.minecraft.client.Minecraft;
 
+import java.text.NumberFormat;
+import java.util.Locale;
 
-/**
- * Created by mitchellkatz on 5/30/17.
- */
-public class LocationDisplay extends DisplayItem {
-
-    public LocationDisplay(JsonHolder raw, int ordinal) {
-        super(raw, ordinal);
+public class RatingDisplay extends DisplayItem {
+    private static final NumberFormat format = NumberFormat.getNumberInstance(Locale.US);
+    public RatingDisplay(JsonHolder data, int ordinal) {
+        super(data, ordinal);
     }
-
 
     @Override
-    public Dimension draw(int starX, double startY, boolean config) {
-        String string = "Location: " + HCC.INSTANCE.getHandlers().getLocationHandler().getLocation();
-        ElementRenderer.draw(starX, startY, string);
+    public Dimension draw(int x, double y, boolean config) {
+        String string = "Rating: " + format.format(HCC.INSTANCE.getHandlers().getValueHandler().getRankedRating());
+        if (data.optBoolean("delta")) {
+            string += " (" + HCC.INSTANCE.getHandlers().getValueHandler().getDeltaRankedRating() + ")";
+        }
+
+        ElementRenderer.draw(x, y, string);
         return new Dimension(config ? Minecraft.getMinecraft().fontRendererObj.getStringWidth(string) : 0, 10);
     }
-
-
 }

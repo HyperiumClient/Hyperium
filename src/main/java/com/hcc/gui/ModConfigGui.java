@@ -22,12 +22,11 @@ import com.hcc.HCC;
 import com.hcc.utils.HCCFontRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
 
 import java.awt.*;
 import java.io.IOException;
 
-public class ModConfigGui extends GuiScreen {
+public class ModConfigGui extends HCCGui {
     /**
      * current tab
      */
@@ -41,15 +40,7 @@ public class ModConfigGui extends GuiScreen {
     @Override
     public void initGui() {
         super.initGui();
-        int numberOfTabs = 6;
-        this.buttonList.add(Tabs.HOME.setButton(new CustomFontButton(0, getX(0), getY(), 50, 25, "HOME")));
-        this.buttonList.add(Tabs.SETTINGS.setButton(new CustomFontButton(1, getX(1), getY(), 50, 25, "SETTINGS")));
-        this.buttonList.add(Tabs.ADDONS.setButton(new CustomFontButton(2, getX(2), getY(), 50, 25, "ADDONS")));
-        this.buttonList.add(Tabs.FRIENDS.setButton(new CustomFontButton(3, getX(3), getY(), 50, 25, "FRIENDS")));
-        this.buttonList.add(Tabs.ABOUT.setButton(new CustomFontButton(4, getX(4), getY(), 50, 25, "ABOUT")));
-        this.buttonList.add(Tabs.CHROMAHUD.setButton(new CustomFontButton(5, getX(5), getY(), 50, 25, "DISPLAY")));
-        this.buttonList.add(new HCCSlider(6, getX(6), getY(), 50, 25));
-        // TODO: Make it so if they have a retarded resolution it creates arrows for them to cycle between tabs
+
     }
 
     @Override
@@ -92,6 +83,19 @@ public class ModConfigGui extends GuiScreen {
 
         // Tab highlight
         drawRect(getX(currentTab.getIndex()), getY() + 22, getX(currentTab.getIndex() + 1), getY() + 20, new Color(149, 201, 144).getRGB());
+    }
+
+    @Override
+    protected void pack() {
+        int numberOfTabs = 6;
+        this.buttonList.add(Tabs.HOME.setButton(new CustomFontButton(0, getX(0), getY(), 50, 25, "HOME")));
+        this.buttonList.add(Tabs.SETTINGS.setButton(new CustomFontButton(1, getX(1), getY(), 50, 25, "SETTINGS")));
+        this.buttonList.add(Tabs.ADDONS.setButton(new CustomFontButton(2, getX(2), getY(), 50, 25, "ADDONS")));
+        this.buttonList.add(Tabs.FRIENDS.setButton(new CustomFontButton(3, getX(3), getY(), 50, 25, "FRIENDS")));
+        this.buttonList.add(Tabs.ABOUT.setButton(new CustomFontButton(4, getX(4), getY(), 50, 25, "ABOUT")));
+        this.buttonList.add(Tabs.CHROMAHUD.setButton(new CustomFontButton(5, getX(5), getY(), 50, 25, "DISPLAY")));
+        this.buttonList.add(new HCCSlider(6, getX(6), getY(), 50, 25));
+        // TODO: Make it so if they have a retarded resolution it creates arrows for them to cycle between tabs
     }
 
     @Override

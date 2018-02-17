@@ -28,8 +28,7 @@ import com.hcc.gui.ModConfigGui;
 import com.hcc.gui.NotificationCenter;
 import com.hcc.gui.integrations.HypixelFriendsGui;
 import com.hcc.handlers.HCCHandlers;
-import com.hcc.handlers.handlers.command.HCCCommandHandler;
-import com.hcc.handlers.handlers.command.commands.TestCommand;
+import com.hcc.handlers.handlers.command.commands.HCCConfigGui;
 import com.hcc.handlers.handlers.keybinds.KeyBindHandler;
 import com.hcc.mixins.MixinKeyBinding;
 import com.hcc.mods.HCCModIntegration;
@@ -67,8 +66,6 @@ public class HCC {
 
     private static RichPresenceManager richPresenceManager = new RichPresenceManager();
 
-    private TrayManager trayManager;
-
     static {
         try {
             addonBootstrap = new HCCAddonBootstrap();
@@ -78,6 +75,7 @@ public class HCC {
         }
     }
 
+    private TrayManager trayManager;
     private HCCHandlers handlers;
     private HCCModIntegration modIntegration;
 
@@ -121,8 +119,11 @@ public class HCC {
             logger.error("Failed to load addon(s) from addons folder");
         }
     }
+
     private void registerCommands() {
-       HCC.INSTANCE.getHandlers().getHCCCommandHandler().registerCommand(new TestCommand());
+//       HCC.INSTANCE.getHandlers().getHCCCommandHandler().registerCommand(new TestCommand());
+
+        HCC.INSTANCE.getHandlers().getHCCCommandHandler().registerCommand(new HCCConfigGui());
     }
 
     @InvokeEvent
@@ -142,7 +143,7 @@ public class HCC {
 
     @InvokeEvent
     public void onKeyPress(KeypressEvent event) {
-        if(!Minecraft.getMinecraft().inGameHasFocus)
+        if (!Minecraft.getMinecraft().inGameHasFocus)
             return;
         // i got u - coal
         if ((KeyBindHandler.toggleSprint.isActivated())) {
@@ -150,8 +151,9 @@ public class HCC {
                 ((MixinKeyBinding) Minecraft.getMinecraft().gameSettings.keyBindSprint).setPressed(true);
             }
         }
-        if ((KeyBindHandler.debug.isActivated())) {
+        if ((KeyBindHandler.debug.isPressed())) {
             Minecraft.getMinecraft().displayGuiScreen(new HypixelFriendsGui());
+            KeyBindHandler.debug.onPress();
         }
     }
 
