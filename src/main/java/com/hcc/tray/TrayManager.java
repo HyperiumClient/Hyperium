@@ -36,6 +36,7 @@ public class TrayManager {
             PopupMenu menu = new PopupMenu();
 
             MenuItem aboutItem = new MenuItem("About");
+
             //TODO: Add About Dialog
 
             MenuItem exitItem = new MenuItem("Exit");

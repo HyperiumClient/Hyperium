@@ -43,6 +43,7 @@ import org.lwjgl.opengl.Display;
 
 import java.io.File;
 
+
 /**
  * Hypixel Community Client
  */
