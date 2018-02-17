@@ -21,16 +21,18 @@ package com.hcc.mods;
 import com.hcc.mods.chromahud.ChromaHUD;
 import com.hcc.mods.levelhead.Levelhead;
 import com.hcc.mods.togglechat.ToggleChatMod;
+import me.semx11.autotip.Autotip;
 
 /**
  * Basic inbuilt mod handler, including many community mods such as
- *      ChromaHUD, LevelHead and ToggleChat
+ * ChromaHUD, LevelHead and ToggleChat
  */
 public class HCCModIntegration {
 
     private ChromaHUD chromaHUD;
     private Levelhead levelhead;
     private ToggleChatMod toggleChat;
+    private Autotip autotip;
 
     public HCCModIntegration() {
         this.chromaHUD = new ChromaHUD();
@@ -38,6 +40,8 @@ public class HCCModIntegration {
 
         // Basically just a simple constructor for togglechat.
         this.toggleChat = new ToggleChatMod().init();
+        this.autotip = new Autotip();
+        autotip.init();
     }
 
     public ChromaHUD getChromaHUD() {
@@ -50,5 +54,9 @@ public class HCCModIntegration {
 
     public ToggleChatMod getToggleChat() {
         return this.toggleChat;
+    }
+
+    public Autotip getAutotip() {
+        return autotip;
     }
 }

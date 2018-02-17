@@ -1,0 +1,108 @@
+package me.semx11.autotip.event;
+
+import com.hcc.event.ChatEvent;
+import com.hcc.event.InvokeEvent;
+import com.hcc.handlers.handlers.chat.GeneralChatHandler;
+import me.semx11.autotip.Autotip;
+import me.semx11.autotip.command.LimboCommand;
+import me.semx11.autotip.misc.TipTracker;
+import me.semx11.autotip.misc.Writer;
+import me.semx11.autotip.util.ChatColor;
+import me.semx11.autotip.util.ClientMessage;
+import me.semx11.autotip.util.MessageOption;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import static me.semx11.autotip.util.MessageOption.COMPACT;
+import static me.semx11.autotip.util.MessageOption.HIDDEN;
+
+public class ChatListener {
+
+    private Pattern xpPattern = Pattern.compile("\\+50 experience \\(Gave a player a /tip\\)");
+    private Pattern playerPattern = Pattern.compile("You tipped (?<player>\\w+) in .*");
+    private Pattern coinPattern = Pattern.compile(
+            "\\+(?<coins>\\d+) coins for you in (?<game>.+) for being generous :\\)");
+    private Pattern earnedPattern = Pattern.compile(
+            "You earned (?<coins>\\d+) coins and (?<xp>\\d+) experience from (?<game>.+) tips in the last minute!");
+
+    @InvokeEvent
+    public void onChat(ChatEvent event) {
+
+        if (!Autotip.onHypixel) {
+            return;
+        }
+
+        String msg = GeneralChatHandler.strip(event.getChat());
+        MessageOption mOption = Autotip.messageOption;
+
+        if (Autotip.toggle) {
+            if (msg.equals("Slow down! You can only use /tip every few seconds.")
+                    || msg.equals("Still processing your most recent request!")
+                    || msg.equals("You are not allowed to use commands as a spectator!")
+                    || msg.equals("You cannot tip yourself!")
+                    || msg.startsWith("You can only use the /tip command")
+                    || msg.startsWith("You can't tip the same person")
+                    || msg.startsWith("You've already tipped someone in the past hour in ")
+                    || msg.startsWith("You've already tipped that person")
+                    || msg.startsWith("That player is not online, try another user!")) {
+                event.setCancelled(true);
+            }
+
+            if (xpPattern.matcher(msg).matches()) {
+                event.setCancelled(mOption.equals(COMPACT) || mOption.equals(HIDDEN));
+                return;
+            }
+
+            Matcher playerMatcher = playerPattern.matcher(msg);
+            if (playerMatcher.matches()) {
+                TipTracker.addTip(playerMatcher.group("player"));
+                event.setCancelled(mOption.equals(HIDDEN));
+                return;
+            }
+
+            Matcher coinMatcher = coinPattern.matcher(msg);
+            if (coinMatcher.matches()) {
+                int coins = Integer.parseInt(coinMatcher.group("coins"));
+                String game = coinMatcher.group("game");
+
+                TipTracker.tipsSentEarnings.merge(game, coins, (a, b) -> a + b);
+                event.setCancelled(mOption.equals(COMPACT) || mOption.equals(HIDDEN));
+
+                System.out.println("Earned " + coins + " coins in " + game);
+                return;
+            }
+
+            Matcher earnedMatcher = earnedPattern.matcher(msg);
+            if (earnedMatcher.matches()) {
+                int coins = Integer.parseInt(earnedMatcher.group("coins"));
+                int xp = Integer.parseInt(earnedMatcher.group("xp"));
+                String game = earnedMatcher.group("game");
+
+                TipTracker.tipsReceivedEarnings.merge(game, coins, (a, b) -> a + b);
+                TipTracker.tipsReceived += xp / 60;
+                Writer.execute();
+
+                if (mOption.equals(COMPACT)) {
+                    ClientMessage.sendRaw(
+                            String.format("%sEarned %s%d coins%s and %s%d experience%s in %s.",
+                                    ChatColor.GREEN, ChatColor.YELLOW, coins,
+                                    ChatColor.GREEN, ChatColor.BLUE, xp,
+                                    ChatColor.GREEN, game
+                            ));
+                }
+                event.setCancelled(mOption.equals(COMPACT) || mOption.equals(HIDDEN));
+                System.out
+                        .println("Earned " + coins + " coins and " + xp + " experience in " + game);
+                return;
+            }
+        }
+
+        if (LimboCommand.executed && msg.startsWith("A kick occurred in your connection") &&
+                msg.contains("Illegal characters")) {
+            event.setCancelled(true);
+            LimboCommand.executed = false;
+        }
+
+    }
+}
