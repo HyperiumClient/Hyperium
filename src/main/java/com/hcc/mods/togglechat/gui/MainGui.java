@@ -18,7 +18,7 @@
 
 package com.hcc.mods.togglechat.gui;
 
-import com.hcc.mods.sk1ercommon.ChatColor;
+import com.hcc.utils.ChatColor;
 import com.hcc.mods.togglechat.ToggleChatMod;
 import com.hcc.mods.togglechat.toggles.ToggleBase;
 import com.hcc.utils.Tuple;

@@ -41,8 +41,9 @@ public abstract class MixinEntityPlayer extends EntityLivingBase {
     private void onUpdate(CallbackInfo ci) {
         if (last != this.isSwingInProgress) {
             last = this.isSwingInProgress;
-            if (this.isSwingInProgress)
+            if (this.isSwingInProgress) {
                 EventBus.INSTANCE.post(new PlayerSwingEvent(this.entityUniqueID, this.getPositionVector(), this.getLookVec(), this.getPosition()));
+            }
         }
     }
 

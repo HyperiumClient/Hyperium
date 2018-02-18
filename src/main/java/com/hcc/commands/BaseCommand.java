@@ -16,14 +16,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.hcc.handlers.handlers.command;
+package com.hcc.commands;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The basic command implementation, commands can be registered by doing
- *
+ * The basic command implementation
  */
 public interface BaseCommand {
 
@@ -47,6 +46,9 @@ public interface BaseCommand {
 
     /**
      * Callback when the command is invoked
+     *
+     * @throws CommandException for errors inside the command, these errors
+     * will log directly to the players chat (without a prefix)
      */
-    void onExecute(String[] args);
+    void onExecute(String[] args) throws CommandException;
 }
