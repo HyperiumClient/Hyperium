@@ -32,6 +32,7 @@ import java.util.List;
 @SuppressWarnings("unused")
 public class JsonHolder {
     private JsonObject object;
+    private boolean parsedCorrectly = true;
 
     public JsonHolder(JsonObject object) {
         this.object = object;
@@ -46,12 +47,18 @@ public class JsonHolder {
             this.object = new JsonParser().parse(raw).getAsJsonObject();
         } catch (Exception e) {
             this.object = new JsonObject();
+            this.parsedCorrectly = false;
             e.printStackTrace();
+
         }
     }
 
     public JsonHolder() {
         this(new JsonObject());
+    }
+
+    public boolean isParsedCorrectly() {
+        return parsedCorrectly;
     }
 
     @Override
