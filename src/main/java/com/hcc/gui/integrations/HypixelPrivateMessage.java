@@ -21,6 +21,7 @@ package com.hcc.gui.integrations;
 import club.sk1er.website.api.requests.HypixelApiPlayer;
 import com.hcc.HCC;
 import com.hcc.gui.GuiBlock;
+import com.hcc.gui.GuiBoxItem;
 import com.hcc.gui.HCCGui;
 import com.hcc.handlers.handlers.privatemessages.PrivateMessage;
 import com.hcc.handlers.handlers.privatemessages.PrivateMessageChat;
@@ -40,6 +41,7 @@ public class HypixelPrivateMessage extends HCCGui {
     private PrivateMessageChat chat;
     private GuiTextField text;
     private boolean lockDown = false;
+    private List<GuiBoxItem<PrivateMessageChat>> chatBoxes = new ArrayList<>();
 
     public HypixelPrivateMessage(PrivateMessageChat chat) {
         this.chat = chat;
@@ -56,11 +58,40 @@ public class HypixelPrivateMessage extends HCCGui {
     protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
         super.mouseClicked(mouseX, mouseY, mouseButton);
         text.mouseClicked(mouseX, mouseY, mouseButton);
+        for (GuiBoxItem<PrivateMessageChat> chatBox : chatBoxes) {
+            if (chatBox.getBox().isMouseOver(mouseX, mouseY)) {
+                new HypixelPrivateMessage(chatBox.getObject()).show();
+            }
+        }
     }
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         super.drawScreen(mouseX, mouseY, partialTicks);
+        //draw recents
+        this.chatBoxes.clear();
+        List<PrivateMessageChat> allInOrder = HCC.INSTANCE.getHandlers().getPrivateMessageHandler().getAllInOrder();
+        allInOrder.remove(chat);
+        int max = (ResolutionUtil.current().getScaledHeight() - 50) / 30;
+        if (allInOrder.size() > max)
+            allInOrder = allInOrder.subList(0, max);
+
+        GuiBlock lastBlock = new GuiBlock(10, Math.max(ResolutionUtil.current().getScaledWidth() / 9, 100) - 25, 0, 20); //Shifted up by 20 because system takes next one
+        lastBlock.ensureWidth(fontRendererObj.getStringWidth("################"), true);
+        lastBlock.drawString("Recent chats", fontRendererObj, true, true, lastBlock.getWidth() / 2, 10, true, false, Color.RED.getRGB(), true);
+
+        for (PrivateMessageChat privateMessageChat : allInOrder) {
+            GuiBlock block = new GuiBlock(lastBlock.getLeft(), lastBlock.getRight(), lastBlock.getBottom() + 5, lastBlock.getBottom() + 25);
+
+            Gui.drawRect(block.getLeft(), block.getTop(), block.getRight(), block.getBottom(), new Color(0, 0, 0, 60).getRGB());
+            block.drawString(privateMessageChat.getTo(), fontRendererObj, true, false, block.getWidth() / 2, 6, true, false, Color.GREEN.getRGB(), false);
+            chatBoxes.add(new GuiBoxItem<>(block, privateMessageChat));
+            lastBlock = block;
+//            System.out.println(privateMessageChat.getTo());
+        }
+
+
+        //Draw chat
         HypixelApiPlayer otherPlayer = chat.getOtherPlayer();
         String name;
         if (otherPlayer.isLoaded()) {
@@ -175,7 +206,7 @@ public class HypixelPrivateMessage extends HCCGui {
         if (keyCode == Keyboard.KEY_RETURN) {
             String text1 = this.text.getText();
             String baseCommand = "/w " + chat.getTo() + " ";
-            int charsPerMessage = 256 - baseCommand.length();
+            int charsPerMessage = 100 - baseCommand.length();
 
             for (String message : breakIntoBits(text1, charsPerMessage, false)) {
                 HCC.INSTANCE.getHandlers().getCommandQueue().queue(baseCommand + message.trim());

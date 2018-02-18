@@ -21,6 +21,7 @@ package com.hcc;
 import com.hcc.ac.AntiCheat;
 import com.hcc.addons.HCCAddonBootstrap;
 import com.hcc.addons.loader.DefaultAddonLoader;
+import com.hcc.commands.defaults.CommandPrivateMessage;
 import com.hcc.config.DefaultConfig;
 import com.hcc.event.*;
 import com.hcc.event.minigames.MinigameListener;
@@ -140,6 +141,7 @@ public class HCC {
 //       HCC.INSTANCE.getHandlers().getHCCCommandHandler().registerCommand(new TestCommand());
 
         HCC.INSTANCE.getHandlers().getHCCCommandHandler().registerCommand(new HCCConfigGui());
+        HCC.INSTANCE.getHandlers().getHCCCommandHandler().registerCommand(new CommandPrivateMessage());
     }
 
     /**
