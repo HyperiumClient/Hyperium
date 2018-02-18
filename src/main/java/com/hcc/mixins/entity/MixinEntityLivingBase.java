@@ -31,6 +31,7 @@ public abstract class MixinEntityLivingBase extends MixinEntity {
 
     /**
      * MouseDelayFix
+     * Fixes bug MC-67665
      *
      * @author prplz
      */

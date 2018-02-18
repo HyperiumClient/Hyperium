@@ -10,7 +10,10 @@ import me.semx11.autotip.event.ChatListener;
 import me.semx11.autotip.event.HypixelListener;
 import me.semx11.autotip.event.Tipper;
 import me.semx11.autotip.misc.AutotipThreadFactory;
-import me.semx11.autotip.util.*;
+import me.semx11.autotip.util.FileUtil;
+import me.semx11.autotip.util.Hosts;
+import me.semx11.autotip.util.MessageOption;
+import me.semx11.autotip.util.Version;
 import net.minecraft.client.Minecraft;
 
 import java.io.File;
@@ -65,6 +68,8 @@ public class Autotip {
             Hosts.updateHosts();
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (NullPointerException e2) {
+            HCC.LOGGER.debug("[Auto-GG] Invalid UUID detected; Not logged in?.");
         }
     }
 

@@ -18,11 +18,95 @@
 
 package com.hcc.ac;
 
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.Vec3;
+
 import java.util.UUID;
 
 public class User {
     private UUID player;
-    public User(UUID player){
+    private int aps = 0;
+    private Vec3 lookVec = null;
+    private Vec3 posVec = null;
+    private BlockPos pos = null;
 
+    User(UUID player) {
+        this.player = player;
+    }
+
+    /**
+     * when the player swing to count APS
+     */
+    public void onSwing() {
+        aps++;
+    }
+
+    /**
+     * resets aps every second because its per sec
+     */
+    public void resetAPS() {
+        aps = 0;
+    }
+
+    /**
+     * @return get current APS
+     */
+    public int getAps() {
+        return aps;
+    }
+
+    /**
+     * @return the UUID
+     */
+    public UUID getPlayer() {
+        return player;
+    }
+
+    /**
+     * @return current look vector
+     */
+    public Vec3 getLookVec() {
+        return lookVec;
+    }
+
+    /**
+     * set current look vector
+     *
+     * @param lookVec vector
+     */
+    public void setLookVec(Vec3 lookVec) {
+        this.lookVec = lookVec;
+    }
+
+    /**
+     * @return current position vector
+     */
+    public Vec3 getPosVec() {
+        return posVec;
+    }
+
+    /**
+     * set current position vector
+     *
+     * @param posVec vector
+     */
+    public void setPosVec(Vec3 posVec) {
+        this.posVec = posVec;
+    }
+
+    /**
+     * @return current block position of player
+     */
+    public BlockPos getPos() {
+        return pos;
+    }
+
+    /**
+     * set current block position
+     *
+     * @param pos position
+     */
+    public void setPos(BlockPos pos) {
+        this.pos = pos;
     }
 }

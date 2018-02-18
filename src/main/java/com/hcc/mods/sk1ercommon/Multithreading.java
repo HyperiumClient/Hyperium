@@ -26,6 +26,7 @@ public class Multithreading {
 
     public static ExecutorService POOL = Executors.newFixedThreadPool(100, new ThreadFactory() {
         AtomicInteger counter = new AtomicInteger(0);
+
         @Override
         public Thread newThread(Runnable r) {
             return new Thread(r, String.format("Thread %s", counter.incrementAndGet()));
@@ -34,6 +35,7 @@ public class Multithreading {
 
     private static ScheduledExecutorService RUNNABLE_POOL = Executors.newScheduledThreadPool(3, new ThreadFactory() {
         private AtomicInteger counter = new AtomicInteger(0);
+
         @Override
         public Thread newThread(Runnable r) {
             return new Thread(r, String.format("Thread " + counter.incrementAndGet()));

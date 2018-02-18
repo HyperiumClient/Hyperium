@@ -71,7 +71,7 @@ public class HCCHandlers {
 
         //Command Handler
 
-        register(HCCCommandHandler =new HCCCommandHandler());
+        register(HCCCommandHandler = new HCCCommandHandler());
     }
 
     private void registerChatHandler(HCCChatHandler hccChatHandler) {
@@ -95,7 +95,7 @@ public class HCCHandlers {
     }
 
     private void register(Object object) {
-        HCC.config.register(object);
+        HCC.CONFIG.register(object);
         EventBus.INSTANCE.register(object);
     }
 
@@ -139,7 +139,7 @@ public class HCCHandlers {
         return privateMessageHandler;
     }
 
-    public HCCCommandHandler getHCCCommandHandler(){
+    public HCCCommandHandler getHCCCommandHandler() {
         return HCCCommandHandler;
     }
 }

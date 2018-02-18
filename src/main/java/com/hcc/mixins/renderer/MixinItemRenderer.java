@@ -95,11 +95,10 @@ public class MixinItemRenderer {
     }
 
     @Overwrite
-    private void transformFirstPersonItem(float equipProgress, float swingProgress)
-    {
+    private void transformFirstPersonItem(float equipProgress, float swingProgress) {
         if (AnimationsContainer.oldBow && this.mc != null && this.mc.thePlayer != null &&
                 this.mc.thePlayer.getItemInUse() != null && this.mc.thePlayer.getItemInUse().getItem() != null &&
-                Item.getIdFromItem(this.mc.thePlayer.getItemInUse().getItem()) == 261){
+                Item.getIdFromItem(this.mc.thePlayer.getItemInUse().getItem()) == 261) {
             GlStateManager.translate(-0.01f, 0.05f, -0.06f);
         }
 
@@ -114,18 +113,16 @@ public class MixinItemRenderer {
         }
 
 
-
         GlStateManager.translate(0.56F, -0.52F, -0.71999997F);
         GlStateManager.translate(0.0F, equipProgress * -0.6F, 0.0F);
         GlStateManager.rotate(45.0F, 0.0F, 1.0F, 0.0F);
-        float f = MathHelper.sin(swingProgress * swingProgress * (float)Math.PI);
-        float f1 = MathHelper.sin(MathHelper.sqrt_float(swingProgress) * (float)Math.PI);
+        float f = MathHelper.sin(swingProgress * swingProgress * (float) Math.PI);
+        float f1 = MathHelper.sin(MathHelper.sqrt_float(swingProgress) * (float) Math.PI);
         GlStateManager.rotate(f * -20.0F, 0.0F, 1.0F, 0.0F);
         GlStateManager.rotate(f1 * -20.0F, 0.0F, 0.0F, 1.0F);
         GlStateManager.rotate(f1 * -80.0F, 1.0F, 0.0F, 0.0F);
         GlStateManager.scale(0.4F, 0.4F, 0.4F);
     }
-
 
 
     @Overwrite
@@ -157,8 +154,7 @@ public class MixinItemRenderer {
                         if (AnimationsContainer.oldEat) {
                             this.transformFirstPersonItem(f, f1);
                             break;
-                        }
-                        else {
+                        } else {
                             this.transformFirstPersonItem(f, 0.0F);
                             break;
                         }
@@ -169,8 +165,7 @@ public class MixinItemRenderer {
                             GlStateManager.scale(0.83f, 0.88f, 0.85f);
                             GlStateManager.translate(-0.3f, 0.1f, 0.0f);
                             break;
-                        }
-                        else{
+                        } else {
                             this.transformFirstPersonItem(f, 0f);
                             this.func_178103_d();
                             break;
@@ -181,8 +176,7 @@ public class MixinItemRenderer {
                             this.transformFirstPersonItem(f, f1);
                             this.func_178098_a(partialTicks, abstractclientplayer);
                             GlStateManager.translate(0.0F, 0.1F, -0.15F);
-                        }
-                        else {
+                        } else {
                             this.transformFirstPersonItem(f, 0.0F);
                             this.func_178098_a(partialTicks, abstractclientplayer);
                         }

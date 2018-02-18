@@ -31,7 +31,7 @@ public class CustomFontButton extends GuiButton {
     private int color = new Color(0, 0, 0, 50).getRGB();
     private int textColor = new Color(255, 255, 255, 255).getRGB();
     private int textHoverColor = new Color(255, 255, 255, 255).getRGB();
-    private HCCFontRenderer fontRenderer =  new HCCFontRenderer("Arial", Font.PLAIN, 12);
+    private HCCFontRenderer fontRenderer = new HCCFontRenderer("Arial", Font.PLAIN, 12);
     private boolean enabled = true;
 
     public CustomFontButton(int buttonId, int x, int y, String buttonText) {
@@ -43,7 +43,7 @@ public class CustomFontButton extends GuiButton {
     }
 
     @SuppressWarnings("Duplicates")
-    public void drawButton(Minecraft mc, int mouseX, int mouseY){
+    public void drawButton(Minecraft mc, int mouseX, int mouseY) {
         if (this.visible) {
             mc.getTextureManager().bindTexture(buttonTextures);
             GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);

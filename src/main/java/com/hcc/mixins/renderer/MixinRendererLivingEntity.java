@@ -33,7 +33,7 @@ import java.util.List;
 
 
 @Mixin(RendererLivingEntity.class)
-public abstract class MixinRendererLivingEntity <T extends EntityLivingBase> extends Render<T> {
+public abstract class MixinRendererLivingEntity<T extends EntityLivingBase> extends Render<T> {
     @Shadow
     public List<LayerRenderer<T>> layerRenderers;
 
@@ -42,16 +42,15 @@ public abstract class MixinRendererLivingEntity <T extends EntityLivingBase> ext
     }
 
     @Shadow
-    protected void unsetBrightness(){}
+    protected void unsetBrightness() {
+    }
 
     @Shadow
     protected abstract boolean setBrightness(T entitylivingbaseIn, float partialTicks, boolean combineTextures);
 
     @Overwrite
-    protected void  renderLayers(T entitylivingbaseIn, float p_177093_2_, float p_177093_3_, float partialTicks, float p_177093_5_, float p_177093_6_, float p_177093_7_, float p_177093_8_)
-    {
-        for (LayerRenderer<T> layerrenderer : this.layerRenderers)
-        {
+    protected void renderLayers(T entitylivingbaseIn, float p_177093_2_, float p_177093_3_, float partialTicks, float p_177093_5_, float p_177093_6_, float p_177093_7_, float p_177093_8_) {
+        for (LayerRenderer<T> layerrenderer : this.layerRenderers) {
             boolean f = layerrenderer.shouldCombineTextures();
             if (AnimationsContainer.redArmour && layerrenderer instanceof LayerBipedArmor) {
                 f = true;
@@ -59,8 +58,7 @@ public abstract class MixinRendererLivingEntity <T extends EntityLivingBase> ext
             boolean flag = this.setBrightness(entitylivingbaseIn, partialTicks, f);
             layerrenderer.doRenderLayer(entitylivingbaseIn, p_177093_2_, p_177093_3_, partialTicks, p_177093_5_, p_177093_6_, p_177093_7_, p_177093_8_);
 
-            if (flag)
-            {
+            if (flag) {
                 this.unsetBrightness();
             }
         }

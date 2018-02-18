@@ -40,8 +40,8 @@ public class AddonManifest {
     private JsonObject json;
 
     /**
-     * @throws HCCException if it fails to read description
      * @param jar Addon jar
+     * @throws HCCException if it fails to read description
      */
     public AddonManifest(JarFile jar) throws HCCException {
 
@@ -49,16 +49,16 @@ public class AddonManifest {
             ZipEntry entry = jar.getEntry("addon.json");
             JsonParser parser = new JsonParser();
 
-            File jsonFile = File.createTempFile("json","tmp");
+            File jsonFile = File.createTempFile("json", "tmp");
             jsonFile.deleteOnExit();
 
             InputStream jarInputStream = jar.getInputStream(entry);
             OutputStream os = new FileOutputStream(jsonFile);
-            IOUtils.copy(jarInputStream,os);
+            IOUtils.copy(jarInputStream, os);
 
-            JsonObject json = parser.parse(Files.toString(jsonFile,Charset.defaultCharset())).getAsJsonObject();
+            JsonObject json = parser.parse(Files.toString(jsonFile, Charset.defaultCharset())).getAsJsonObject();
             this.json = json;
-            if(!json.has("version") && !json.has("name") && !json.has("main")){
+            if (!json.has("version") && !json.has("name") && !json.has("main")) {
                 throw new HCCException("Invalid addon jar (addon.json does not exist or invalid)");
             }
         } catch (Exception e) {
@@ -74,7 +74,7 @@ public class AddonManifest {
     }
 
     /**
-      @return addon version
+     * @return addon version
      */
     public String getVersion() {
         return json.get("version").getAsString();

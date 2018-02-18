@@ -22,13 +22,17 @@ import com.hcc.HCC;
 import com.hcc.event.*;
 import com.hcc.utils.Utils;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.DefaultResourcePack;
 import net.minecraft.util.Timer;
 import net.minecraft.util.Util;
 import net.minecraft.world.WorldSettings;
 import org.apache.commons.io.IOUtils;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Overwrite;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.gen.Accessor;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -40,10 +44,16 @@ import java.nio.ByteBuffer;
 @Mixin(Minecraft.class)
 public abstract class MixinMinecraft {
 
-    @Accessor public abstract Timer getTimer();
+    @Shadow
+    @Final
+    private DefaultResourcePack mcDefaultResourcePack;
+
+    @Accessor
+    public abstract Timer getTimer();
 
     /**
      * Invoked once the game has be launched
+     *
      * @param ci {@see org.spongepowered.asm.mixin.injection.callback.CallbackInfo}
      */
     @Inject(method = "startGame", at = @At("RETURN"))
@@ -56,6 +66,7 @@ public abstract class MixinMinecraft {
 
     /**
      * Invoked every tick (every 50milliseconds)
+     *
      * @param ci {@see org.spongepowered.asm.mixin.injection.callback.CallbackInfo}
      */
     @Inject(method = "runTick", at = @At("RETURN"))
@@ -65,6 +76,7 @@ public abstract class MixinMinecraft {
 
     /**
      * Invoked once the player has pressed a key
+     *
      * @param ci {@see org.spongepowered.asm.mixin.injection.callback.CallbackInfo}
      */
     @Inject(method = "dispatchKeypresses", at = @At(value = "INVOKE_ASSIGN", target = "Lorg/lwjgl/input/Keyboard;getEventKeyState()Z"))
@@ -74,6 +86,7 @@ public abstract class MixinMinecraft {
 
     /**
      * Invoked once the player has pressed mouse button 1
+     *
      * @param ci {@see org.spongepowered.asm.mixin.injection.callback.CallbackInfo}
      */
     @Inject(method = "clickMouse", at = @At("RETURN"))
@@ -83,6 +96,7 @@ public abstract class MixinMinecraft {
 
     /**
      * Invoked once the player has pressed mouse button 1
+     *
      * @param ci {@see org.spongepowered.asm.mixin.injection.callback.CallbackInfo}
      */
     @Inject(method = "rightClickMouse", at = @At("RETURN"))
@@ -92,34 +106,46 @@ public abstract class MixinMinecraft {
 
     /**
      * Invoked once the player has joined a singleplayer world
+     *
      * @param ci {@see org.spongepowered.asm.mixin.injection.callback.CallbackInfo}
      */
     @Inject(method = "launchIntegratedServer", at = @At("HEAD"))
-    private void launchIntegratedServer(String folderName, String worldName, WorldSettings worldSettingsIn, CallbackInfo ci){
+    private void launchIntegratedServer(String folderName, String worldName, WorldSettings worldSettingsIn, CallbackInfo ci) {
         EventBus.INSTANCE.post(new SingleplayerJoinEvent());
     }
 
-    private void setWindowIcon(){
-        if(Util.getOSType() != Util.EnumOS.OSX){
+    /**
+     * Fixes bug MC-68754 and MC-111254
+     *
+     * @param ci
+     */
+    @Inject(method = "toggleFullscreen", at = @At(value = "JUMP", target = "Lnet/minecraft/client/Minecraft;toggleFullscreen()V", shift = At.Shift.AFTER))
+    private void toggleFullScreen(CallbackInfo ci) {
+        Display.setResizable(false);
+        Display.setResizable(true);
+    }
+
+    /**
+     * Sets Minecraft Icon
+     *
+     * @author Cubxity
+     */
+    @Overwrite
+    private void setWindowIcon() {
+        if (Util.getOSType() != Util.EnumOS.OSX) {
             InputStream inputstream = null;
             InputStream inputstream1 = null;
-            try
-            {
+            try {
                 inputstream = Minecraft.class.getResourceAsStream("/assets/hcc/icons/icon-16x.png");
                 inputstream1 = Minecraft.class.getResourceAsStream("/assets/hcc/icons/icon-32x.png");
 
-                if (inputstream != null && inputstream1 != null)
-                {
+                if (inputstream != null && inputstream1 != null) {
                     Display.setIcon(new ByteBuffer[]{Utils.INSTANCE.readImageToBuffer(inputstream),
                             Utils.INSTANCE.readImageToBuffer(inputstream1)});
                 }
-            }
-            catch (Exception ex)
-            {
-                HCC.logger.error("Couldn't set Windows Icon", ex);
-            }
-            finally
-            {
+            } catch (Exception ex) {
+                HCC.LOGGER.error("Couldn't set Windows Icon", ex);
+            } finally {
                 IOUtils.closeQuietly(inputstream);
                 IOUtils.closeQuietly(inputstream1);
             }

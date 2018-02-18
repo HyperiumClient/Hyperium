@@ -44,7 +44,8 @@ public class Sk1erMod {
     private boolean enabled = true;
     private String apiKey = "";
     private JsonHolder en = new JsonHolder();
-    private GenKeyCallback callback = object -> {};
+    private GenKeyCallback callback = object -> {
+    };
 
     public Sk1erMod(String modid, String version) {
         this.modid = modid;

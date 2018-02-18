@@ -34,18 +34,18 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(GuiChat.class)
 public class MixinGuiChat {
 
-    @Shadow protected GuiTextField inputField;
+    @Shadow
+    protected GuiTextField inputField;
 
     private final Minecraft mc = Minecraft.getMinecraft();
 
     /**
      * Invoked when the player presses the enter key in the chat gui (before any processing is done)
      *
-     * @author boomboompower
-     *
      * @param typedChar the typed char
-     * @param keyCode the key code
-     * @param ci {@see org.spongepowered.asm.mixin.injection.callback.CallbackInfo}
+     * @param keyCode   the key code
+     * @param ci        {@see org.spongepowered.asm.mixin.injection.callback.CallbackInfo}
+     * @author boomboompower
      */
     @Inject(method = "keyTyped", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiChat;sendChatMessage(Ljava/lang/String;)V", shift = At.Shift.BEFORE), cancellable = true)
     private void keyTyped(char typedChar, int keyCode, CallbackInfo ci) {

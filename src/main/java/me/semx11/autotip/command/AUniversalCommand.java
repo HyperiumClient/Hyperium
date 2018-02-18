@@ -28,7 +28,7 @@ public abstract class AUniversalCommand extends CommandBase {
     // Minecraft 1.8 | 1.8.8 | 1.8.9
     // func_180525_a
     public List<String> addTabCompletionOptions(ICommandSender sender, String[] args,
-            BlockPos pos) {
+                                                BlockPos pos) {
         return onTabComplete(sender, args);
     }
 
@@ -36,7 +36,7 @@ public abstract class AUniversalCommand extends CommandBase {
     // Does not seem to work?
     // func_184883_a
     public List<String> func_184883_a(MinecraftServer server, ICommandSender sender, String[] args,
-            @Nullable BlockPos pos) {
+                                      @Nullable BlockPos pos) {
         return onTabComplete(sender, args);
     }
 

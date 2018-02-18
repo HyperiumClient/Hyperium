@@ -70,7 +70,7 @@ public class HCCCommandHandler {
 
                     try {
                         command.onExecute(args);
-                    } catch (NullPointerException exception) {
+                    } catch (Exception exception) {
                         exception.printStackTrace();
                         GeneralChatHandler.instance().sendMessage("Incorrect command syntax! Please use: /" + command.getUsage());
                     }

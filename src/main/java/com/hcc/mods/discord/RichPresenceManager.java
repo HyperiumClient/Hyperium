@@ -42,7 +42,7 @@ public class RichPresenceManager {
             client.connect(DiscordBuild.ANY);
             connected = true;
         } catch (NoDiscordClientException e) {
-            HCC.logger.warn("no discord clients found");
+            HCC.LOGGER.warn("no discord clients found");
         }
     }
 

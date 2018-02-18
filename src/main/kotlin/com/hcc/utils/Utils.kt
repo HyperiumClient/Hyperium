@@ -74,8 +74,8 @@ object Utils {
     fun countSubstrings(s: String, sub: String): Int {
         var count = 0
 
-        for(i in 0 until s.length){
-            if(s[i].toString().equals(sub)){
+        for (i in 0 until s.length) {
+            if (s[i].toString().equals(sub)) {
                 count++
             }
         }

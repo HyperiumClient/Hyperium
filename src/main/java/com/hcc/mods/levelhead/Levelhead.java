@@ -23,10 +23,10 @@ import com.hcc.event.EventBus;
 import com.hcc.event.InvokeEvent;
 import com.hcc.event.TickEvent;
 import com.hcc.mods.levelhead.commands.LevelHeadCommand;
-import com.hcc.mods.sk1ercommon.Multithreading;
 import com.hcc.mods.levelhead.config.LevelheadConfig;
 import com.hcc.mods.levelhead.renderer.LevelHeadRender;
 import com.hcc.mods.levelhead.renderer.LevelheadTag;
+import com.hcc.mods.sk1ercommon.Multithreading;
 import com.hcc.mods.sk1ercommon.Sk1erMod;
 import com.hcc.utils.JsonHolder;
 import net.minecraft.client.Minecraft;
@@ -91,7 +91,7 @@ public class Levelhead {
         });
         mod.checkStatus();
         config = new LevelheadConfig();
-        HCC.config.register(config);
+        HCC.CONFIG.register(config);
         register(mod);
         instance = this;
         userUuid = Minecraft.getMinecraft().getSession().getProfile().getId();
@@ -241,7 +241,7 @@ public class Levelhead {
         } catch (Exception ignored) {
             footerObj.put("custom", true);
         }
-        //Get config based values and merge
+        //Get CONFIG based values and merge
         headerObj.merge(getHeaderConfig(), false);
         footerObj.merge(getFooterConfig().put("footer", object.optString("strlevel", object.optInt("level") + "")), false);
 

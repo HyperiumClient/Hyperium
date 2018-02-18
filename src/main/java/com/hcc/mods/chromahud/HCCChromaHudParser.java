@@ -50,8 +50,8 @@ public class HCCChromaHudParser implements ChromaHUDParser {
                 return new LocationDisplay(item, ord);
             case "HYPIXEL":
                 return new HypixelDisplay(item, ord);
-            case "RATING" :
-                return new RatingDisplay(item,ord);
+            case "RATING":
+                return new RatingDisplay(item, ord);
 
         }
         return null;

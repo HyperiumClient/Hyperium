@@ -22,6 +22,7 @@ import java.util.Map.Entry;
 
 /**
  * Convert a web browser cookie list string to a JSONObject and back.
+ *
  * @author JSON.org
  * @version 2015-12-09
  */
@@ -32,11 +33,12 @@ public class CookieList {
      * of name/value pairs. The names are separated from the values by '='.
      * The pairs are separated by ';'. The names and the values
      * will be unescaped, possibly converting '+' and '%' sequences.
-     *
+     * <p>
      * To add a cookie to a cookie list,
      * cookielistJSONObject.put(cookieJSONObject.getString("name"),
-     *     cookieJSONObject.getString("value"));
-     * @param string  A cookie list string
+     * cookieJSONObject.getString("value"));
+     *
+     * @param string A cookie list string
      * @return A JSONObject
      * @throws JSONException
      */
@@ -57,23 +59,24 @@ public class CookieList {
      * of name/value pairs. The names are separated from the values by '='.
      * The pairs are separated by ';'. The characters '%', '+', '=', and ';'
      * in the names and values are replaced by "%hh".
+     *
      * @param jo A JSONObject
      * @return A cookie list string
      * @throws JSONException
      */
     public static String toString(JSONObject jo) throws JSONException {
-        boolean             b = false;
+        boolean b = false;
         StringBuilder sb = new StringBuilder();
-        for (final Entry<String,?> entry : jo.entrySet()) {
-        	final String key = entry.getKey();
-        	final Object value = entry.getValue();
+        for (final Entry<String, ?> entry : jo.entrySet()) {
+            final String key = entry.getKey();
+            final Object value = entry.getValue();
             if (!JSONObject.NULL.equals(value)) {
                 if (b) {
                     sb.append(';');
                 }
                 sb.append(Cookie.escape(key));
                 sb.append("=");
-				sb.append(Cookie.escape(value.toString()));
+                sb.append(Cookie.escape(value.toString()));
                 b = true;
             }
         }

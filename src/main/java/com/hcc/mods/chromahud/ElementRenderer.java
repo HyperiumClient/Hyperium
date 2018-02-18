@@ -218,7 +218,7 @@ public class ElementRenderer {
     }
 
     public void renderElements() {
-        //TODO add config option to show items when not on Hypixel
+        //TODO add CONFIG option to show items when not on Hypixel
         if (!HCC.INSTANCE.getHandlers().getHypixelDetector().isHypixel())
             return;
 

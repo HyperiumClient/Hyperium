@@ -25,6 +25,6 @@ public class Sk1erException extends Exception {
 
     public Sk1erException(String exc) {
         super(exc);
-        
+
     }
 }

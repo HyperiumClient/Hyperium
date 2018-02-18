@@ -58,7 +58,25 @@ public enum ChatColor {
     private ChatColor(char code, boolean isFormat) {
         this.code = code;
         this.isFormat = isFormat;
-        this.toString = new String(new char[] {COLOR_CHAR, code});
+        this.toString = new String(new char[]{COLOR_CHAR, code});
+    }
+
+    public static String stripColor(final String input) {
+        if (input == null) {
+            return null;
+        }
+        return Pattern.compile("(?i)" + String.valueOf(COLOR_CHAR) + "[0-9A-FK-OR]").matcher(input).replaceAll("");
+    }
+
+    public static String translateAlternateColorCodes(char altColorChar, String textToTranslate) {
+        char[] b = textToTranslate.toCharArray();
+        for (int i = 0; i < b.length - 1; i++) {
+            if (b[i] == altColorChar && "0123456789AaBbCcDdEeFfKkLlMmNnOoRr".indexOf(b[i + 1]) > -1) {
+                b[i] = ChatColor.COLOR_CHAR;
+                b[i + 1] = Character.toLowerCase(b[i + 1]);
+            }
+        }
+        return new String(b);
     }
 
     public char getChar() {
@@ -76,23 +94,5 @@ public enum ChatColor {
 
     public boolean isColor() {
         return !isFormat && this != RESET;
-    }
-
-    public static String stripColor(final String input) {
-        if (input == null) {
-            return null;
-        }
-        return Pattern.compile("(?i)" + String.valueOf(COLOR_CHAR) + "[0-9A-FK-OR]").matcher(input).replaceAll("");
-    }
-
-    public static String translateAlternateColorCodes(char altColorChar, String textToTranslate) {
-        char[] b = textToTranslate.toCharArray();
-        for (int i = 0; i < b.length - 1; i++) {
-            if (b[i] == altColorChar && "0123456789AaBbCcDdEeFfKkLlMmNnOoRr".indexOf(b[i+1]) > -1) {
-                b[i] = ChatColor.COLOR_CHAR;
-                b[i+1] = Character.toLowerCase(b[i+1]);
-            }
-        }
-        return new String(b);
     }
 }

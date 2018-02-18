@@ -82,6 +82,10 @@ public class InstallerFrame extends JFrame implements PropertyChangeListener {
         }
     }
 
+    private static String toHex(byte[] bytes) {
+        return DatatypeConverter.printHexBinary(bytes);
+    }
+
     /**
      * Method to do everything
      */
@@ -127,23 +131,23 @@ public class InstallerFrame extends JFrame implements PropertyChangeListener {
         AtomicReference<JSONObject> version = new AtomicReference<>();
         File downloaded;
 
-        try{
+        try {
             versionsJson = new JSONObject(get(versions_url));
             JSONArray versionsArray = versionsJson.getJSONArray("versions");
             List<JSONObject> versionsObjects = new ArrayList<>();
-            for(Object o : versionsArray)
-                versionsObjects.add((JSONObject)o);
+            for (Object o : versionsArray)
+                versionsObjects.add((JSONObject) o);
 
             versionsObjects.forEach(o -> {
-                if(o.getString("name").equals(versionsJson.getString(channel))) 
-                   version.set(o);
+                if (o.getString("name").equals(versionsJson.getString(channel)))
+                    version.set(o);
             });
             File dl = new File(
                     new File(
                             mc,
                             "libraries"),
                     version.get().getString("path").replaceAll("/HCC-.+?\\..+?\\.jar", ""));
-            System.out.println("Download dest folder = "+dl.getAbsolutePath());
+            System.out.println("Download dest folder = " + dl.getAbsolutePath());
             //noinspection ResultOfMethodCallIgnored
             dl.mkdirs();
             DownloadTask task = new DownloadTask(
@@ -153,8 +157,8 @@ public class InstallerFrame extends JFrame implements PropertyChangeListener {
             task.execute();
             task.get();
             downloaded = new File(dl, task.getFileName());
-            System.out.println("Download dest file = "+downloaded.getAbsolutePath());
-        }catch (IOException | InterruptedException | ExecutionException ex){
+            System.out.println("Download dest file = " + downloaded.getAbsolutePath());
+        } catch (IOException | InterruptedException | ExecutionException ex) {
             ex.printStackTrace();
             display.setText("INSTALLATION FAILED");
             error.setText("FAILED TO GATHER REQUIRED FILES");
@@ -163,16 +167,16 @@ public class InstallerFrame extends JFrame implements PropertyChangeListener {
         }
         display.setText("VERIFYING FILE");
         String hash = toHex(checksum(downloaded, "SHA-256")).toLowerCase();
-        System.out.println("SHA-256 Checksum = "+hash);
-        if(!hash.equals(version.get().getString("sha256"))){
+        System.out.println("SHA-256 Checksum = " + hash);
+        if (!hash.equals(version.get().getString("sha256"))) {
             display.setText("INSTALLATION FAILED");
             error.setText("FILE'S SHA256 CHECKSUM DOES NOT MATCH");
             exit.setVisible(true);
             return;
         }
         hash = toHex(checksum(downloaded, "SHA1")).toLowerCase();
-        System.out.println("SHA-1 Checksum = "+hash);
-        if(!hash.equals(version.get().getString("sha1"))){
+        System.out.println("SHA-1 Checksum = " + hash);
+        if (!hash.equals(version.get().getString("sha1"))) {
             display.setText("INSTALLATION FAILED");
             error.setText("FILE'S SHA1 CHECKSUM DOES NOT MATCH");
             exit.setVisible(true);
@@ -217,12 +221,12 @@ public class InstallerFrame extends JFrame implements PropertyChangeListener {
         json.put("libraries", libs);
         json.put("id", "HCC 1.8.9");
         json.put("mainClass", "net.minecraft.launchwrapper.Launch");
-        json.put("minecraftArguments", json.getString("minecraftArguments")+" --tweakClass="+version.get().getString("tweak-class"));
+        json.put("minecraftArguments", json.getString("minecraftArguments") + " --tweakClass=" + version.get().getString("tweak-class"));
 
         JSONObject profiles = launcherProfiles.getJSONObject("profiles");
-        Instant instant = Instant.ofEpochMilli ( System.currentTimeMillis());
+        Instant instant = Instant.ofEpochMilli(System.currentTimeMillis());
         String installedUUID = UUID.randomUUID().toString();
-        for(String key : profiles.keySet()) {
+        for (String key : profiles.keySet()) {
             if (profiles.getJSONObject(key).has("name"))
                 if (profiles.getJSONObject(key).getString("name").equals("HCC 1.8.9"))
                     installedUUID = key;
@@ -347,44 +351,7 @@ public class InstallerFrame extends JFrame implements PropertyChangeListener {
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals("progress")) {
             int progress = (Integer) evt.getNewValue();
-            progressBar.setValue(40 + progress/2);
-        }
-    }
-
-    /**
-     * Checks os
-     */
-    static class OsCheck {
-        /**
-         * types of Operating Systems
-         */
-        enum OSType {
-            Windows, MacOS, Linux, Other
-        }
-
-        // cached result of OS detection
-        private static OSType detectedOS;
-
-        /**
-         * detect the operating system from the os.name System property and cache
-         * the result
-         *
-         * @return - the operating system detected
-         */
-        static OSType getOperatingSystemType() {
-            if (detectedOS == null) {
-                String OS = System.getProperty("os.name", "generic").toLowerCase(Locale.ENGLISH);
-                if ((OS.contains("mac")) || (OS.contains("darwin"))) {
-                    detectedOS = OsCheck.OSType.MacOS;
-                } else if (OS.contains("win")) {
-                    detectedOS = OsCheck.OSType.Windows;
-                } else if (OS.contains("nux")) {
-                    detectedOS = OsCheck.OSType.Linux;
-                } else {
-                    detectedOS = OSType.Other;
-                }
-            }
-            return detectedOS;
+            progressBar.setValue(40 + progress / 2);
         }
     }
 
@@ -428,7 +395,40 @@ public class InstallerFrame extends JFrame implements PropertyChangeListener {
         return null;
     }
 
-    private static String toHex(byte[] bytes) {
-        return DatatypeConverter.printHexBinary(bytes);
+    /**
+     * Checks os
+     */
+    static class OsCheck {
+        // cached result of OS detection
+        private static OSType detectedOS;
+
+        /**
+         * detect the operating system from the os.name System property and cache
+         * the result
+         *
+         * @return - the operating system detected
+         */
+        static OSType getOperatingSystemType() {
+            if (detectedOS == null) {
+                String OS = System.getProperty("os.name", "generic").toLowerCase(Locale.ENGLISH);
+                if ((OS.contains("mac")) || (OS.contains("darwin"))) {
+                    detectedOS = OsCheck.OSType.MacOS;
+                } else if (OS.contains("win")) {
+                    detectedOS = OsCheck.OSType.Windows;
+                } else if (OS.contains("nux")) {
+                    detectedOS = OsCheck.OSType.Linux;
+                } else {
+                    detectedOS = OSType.Other;
+                }
+            }
+            return detectedOS;
+        }
+
+        /**
+         * types of Operating Systems
+         */
+        enum OSType {
+            Windows, MacOS, Linux, Other
+        }
     }
 }

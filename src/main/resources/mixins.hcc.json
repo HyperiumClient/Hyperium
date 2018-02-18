@@ -9,6 +9,7 @@
     "MixinTextureManager",
     "MixinSoundManager",
     "MixinKeyBinding",
+    "MixinScreenShotHelper",
 
     "gui.MixinGuiConnecting",
     "gui.MixinGuiDisconnecting",
@@ -18,12 +19,13 @@
     "gui.MixinGuiButton",
     "gui.MixinGuiMainMenu",
     "gui.MixinInventory",
+    "gui.MixinGuiGameOver",
 
-    "entities.MixinEntityPlayer",
+    "entity.MixinEntityPlayer",
     "entity.MixinEntity",
     "entity.MixinEntityLivingBase",
-
     "entity.MixinEntityRenderer",
+    "entity.MixinRenderPlayer",
 
     "renderer.MixinGuiIngame",
     "renderer.MixinItemRenderer",

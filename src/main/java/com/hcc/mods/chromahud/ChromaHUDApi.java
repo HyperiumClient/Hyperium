@@ -87,9 +87,9 @@ public class ChromaHUDApi {
     }
 
     /**
-     * Register a text config
+     * Register a text CONFIG
      *
-     * @param type   String ID for DisplayItem to show and activate on for config
+     * @param type   String ID for DisplayItem to show and activate on for CONFIG
      * @param config Config object
      */
     public void registerTextConfig(String type, TextConfig config) {
@@ -100,9 +100,9 @@ public class ChromaHUDApi {
     }
 
     /**
-     * Register a String config
+     * Register a String CONFIG
      *
-     * @param type   String ID for DisplayItem to show and activate on for config
+     * @param type   String ID for DisplayItem to show and activate on for CONFIG
      * @param config Config object
      */
     public void registerStringConfig(String type, StringConfig config) {
@@ -113,9 +113,9 @@ public class ChromaHUDApi {
     }
 
     /**
-     * Register a button config
+     * Register a button CONFIG
      *
-     * @param type   String ID for DisplayItem to show and activate on for config
+     * @param type   String ID for DisplayItem to show and activate on for CONFIG
      * @param config Config object
      */
     public void registerButtonConfig(String type, ButtonConfig config) {
@@ -160,13 +160,13 @@ public class ChromaHUDApi {
             }
         }
         if (!config.has("elements")) {
-           //setup blank
+            //setup blank
         }
 
     }
 
     /**
-     * Parse DisplayItem from config
+     * Parse DisplayItem from CONFIG
      *
      * @param type type of item
      * @param ord  ordinal inside element
