@@ -13,9 +13,13 @@ Step #1: Cloning the repo
 git clone https://github.com/HypixelCommunityClient/HCC
 ```
 Step #2: Open the repository you cloned using IDE (We prefer [IntelliJ](https://jetbrains.com/idea))
+
 Step #3: Import as gradle project, use the project's wrapper
+
 Step #4: Run Tasks \> forgeGradle \> setupDecompWorkspace
+
 Step #5: Run Tasks \> forgeGradle \> genIntellijRuns (for IntelliJ)
+
 Step #6: Build project
 
 ## Addons ##
@@ -44,6 +48,7 @@ public class TestMod {
   "main":"me.cubxity.TestMod"
 }
 ```
+**Examples [here](https://github.com/HypixelCommunityClient/AddonWorkspace)**
 ## Developers ##
 [![](https://cdn.discordapp.com/avatars/376817315830038530/87dd80c68e0598ea39af4e0472b299b7.png)](https://github.com/Sk1er)
 [![](https://cdn.discordapp.com/avatars/248159137370734601/8a8b49df90cda7ccd55f28c1f5293ad6.png)](https://github.com/CoalCoding)
