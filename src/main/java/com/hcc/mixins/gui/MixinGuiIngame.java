@@ -16,22 +16,21 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.hcc.ac.checks.combat;
+package com.hcc.mixins.gui;
 
-import com.hcc.ac.User;
-import com.hcc.ac.checks.CheckResult;
-import com.hcc.ac.checks.ICheck;
+import com.hcc.event.EventBus;
+import com.hcc.event.RenderSelectedItemEvent;
+import net.minecraft.client.gui.GuiIngame;
+import net.minecraft.client.gui.ScaledResolution;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-public class AutoClickerCheck implements ICheck {
-    @Override
-    public CheckResult check(User user) {
-        if(user.getAps() > 20 && user.getAps() < 26)
-            return new CheckResult(CheckResult.Level.SLIGHTLY, "AutoClicker",user.getAps()+" APS");
-        else if(user.getAps() > 25 && user.getAps() < 36)
-            return new CheckResult(CheckResult.Level.POTENTIALLY,"AutoClicker", user.getAps()+" APS");
-        else if(user.getAps() > 35)
-            return new CheckResult(CheckResult.Level.DEFINITELY,"AutoClicker", user.getAps()+" APS");
-        else
-            return new CheckResult(CheckResult.Level.CLEAN, "AutoClicker", "Passed");
+@Mixin(GuiIngame.class)
+public class MixinGuiIngame {
+    @Inject(method = "renderSelectedItem", at = @At(value = "RETURN", target = "Lnet/minecraft/client/renderer/GlStateManager;popMatrix(F)V"))
+    public void onRenderSelectedItem(ScaledResolution p_181551_1_, CallbackInfo ci){
+        EventBus.INSTANCE.post(new RenderSelectedItemEvent(p_181551_1_));
     }
 }
