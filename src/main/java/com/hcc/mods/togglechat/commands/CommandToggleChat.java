@@ -1,8 +1,9 @@
 package com.hcc.mods.togglechat.commands;
 
-import com.hcc.handlers.handlers.command.BaseCommand;
-import com.hcc.mods.sk1ercommon.ChatColor;
+import com.hcc.commands.BaseCommand;
+import com.hcc.commands.CommandException;
 import com.hcc.mods.togglechat.ToggleChatMod;
+import com.hcc.utils.ChatColor;
 
 import java.util.Collections;
 import java.util.List;
@@ -38,7 +39,7 @@ public class CommandToggleChat implements BaseCommand {
     }
 
     @Override
-    public void onExecute(String[] args) {
+    public void onExecute(String[] args) throws CommandException {
         this.mod.openGui();
     }
 }

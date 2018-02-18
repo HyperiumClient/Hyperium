@@ -16,11 +16,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.hcc.handlers.handlers.command;
+package com.hcc.commands;
 
 import com.hcc.event.InvokeEvent;
 import com.hcc.event.SendChatMessageEvent;
 import com.hcc.handlers.handlers.chat.GeneralChatHandler;
+import com.hcc.utils.ChatColor;
 
 import net.minecraft.client.Minecraft;
 
@@ -34,6 +35,14 @@ import java.util.*;
 public class HCCCommandHandler {
 
     private Map<String, BaseCommand> commands = new HashMap<>();
+
+    private GeneralChatHandler chatHandler;
+    private Minecraft mc;
+
+    public HCCCommandHandler() {
+        this.mc = Minecraft.getMinecraft();
+        this.chatHandler = GeneralChatHandler.instance();
+    }
 
     @InvokeEvent
     public void onChat(SendChatMessageEvent event) {
@@ -66,13 +75,15 @@ public class HCCCommandHandler {
                     // It is one of our commands, we'll cancel the event so it isn't
                     // sent to the server, and we'll close the currently opened gui
                     event.setCancelled(true);
-                    Minecraft.getMinecraft().displayGuiScreen(null);
+                    this.mc.displayGuiScreen(null);
 
                     try {
                         command.onExecute(args);
+                    } catch (CommandException cmdEx) {
+                        this.chatHandler.sendMessage(ChatColor.RED + cmdEx.getMessage(), false);
                     } catch (Exception exception) {
                         exception.printStackTrace();
-                        GeneralChatHandler.instance().sendMessage("Incorrect command syntax! Please use: /" + command.getUsage());
+                        this.chatHandler.sendMessage(ChatColor.RED + "An internal error occured whilst performing this command", false);
                     }
                 }
             }
@@ -88,14 +99,14 @@ public class HCCCommandHandler {
     public void registerCommand(BaseCommand command) {
         this.commands.put(command.getName(), command);
 
+        System.out.println("[COMMAND] Registered " + command.getName() + " command.");
+
         if (command.getCommandAliases() != null && !command.getCommandAliases().isEmpty()) {
             for (String alias : command.getCommandAliases()) {
                 this.commands.put(alias, command);
                 System.out.println("[COMMAND] Alias registered: " + alias);
             }
         }
-
-        System.out.println("[COMMAND] Registered " + command.getName() + " command.");
     }
 
 }

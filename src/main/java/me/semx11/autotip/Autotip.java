@@ -2,7 +2,7 @@ package me.semx11.autotip;
 
 import com.hcc.HCC;
 import com.hcc.event.EventBus;
-import com.hcc.handlers.handlers.command.BaseCommand;
+import com.hcc.commands.BaseCommand;
 import me.semx11.autotip.command.AutotipCommand;
 import me.semx11.autotip.command.LimboCommand;
 import me.semx11.autotip.command.TipHistoryCommand;

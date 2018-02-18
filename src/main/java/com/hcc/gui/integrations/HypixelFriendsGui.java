@@ -24,7 +24,7 @@ import com.hcc.gui.GuiBlock;
 import com.hcc.gui.GuiBoxItem;
 import com.hcc.gui.HCCGui;
 import com.hcc.mods.chromahud.NumberUtil;
-import com.hcc.mods.sk1ercommon.ChatColor;
+import com.hcc.utils.ChatColor;
 import com.hcc.mods.sk1ercommon.ResolutionUtil;
 import com.hcc.utils.JsonHolder;
 import net.minecraft.client.Minecraft;
