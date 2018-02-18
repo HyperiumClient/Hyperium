@@ -19,6 +19,7 @@
     "gui.MixinGuiButton",
     "gui.MixinGuiMainMenu",
     "gui.MixinInventory",
+    "gui.MixinGuiIngame",
     "gui.MixinGuiGameOver",
 
     "entity.MixinEntityPlayer",
