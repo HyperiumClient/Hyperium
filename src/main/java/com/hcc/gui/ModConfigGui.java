@@ -96,7 +96,6 @@ public class ModConfigGui extends HCCGui {
         this.buttonList.add(Tabs.FRIENDS.setButton(new CustomFontButton(3, getX(3), getY(), 50, 25, "FRIENDS")));
         this.buttonList.add(Tabs.ABOUT.setButton(new CustomFontButton(4, getX(4), getY(), 50, 25, "ABOUT")));
         this.buttonList.add(Tabs.CHROMAHUD.setButton(new CustomFontButton(5, getX(5), getY(), 50, 25, "DISPLAY")));
-        this.buttonList.add(new HCCSlider(6, getX(6), getY(), 50, 25));
         // TODO: Make it so if they have a retarded resolution it creates arrows for them to cycle between tabs
     }
 
