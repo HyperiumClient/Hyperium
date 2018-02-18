@@ -23,6 +23,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.nio.IntBuffer;
 
+import static com.hcc.utils.ChatColor.*;
+
 @Mixin(ScreenShotHelper.class)
 public class MixinScreenShotHelper {
 
@@ -101,6 +103,7 @@ public class MixinScreenShotHelper {
                 bufferedimage = new BufferedImage(width, height, 1);
                 bufferedimage.setRGB(0, 0, width, height, pixelValues, 0, width);
             }
+
             File file2;
 
             if (screenshotName == null) {
@@ -110,10 +113,9 @@ public class MixinScreenShotHelper {
             }
 
             ImageIO.write(bufferedimage, "png", file2);
-            IChatComponent ichatcomponent = new ChatComponentText(file2.getName());
+            IChatComponent ichatcomponent = new ChatComponentText(RED + "[HCC] " + WHITE + "Uploaded to " + UNDERLINE + file2.getName());
             ichatcomponent.getChatStyle().setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, file2.getCanonicalPath()));
-            ichatcomponent.getChatStyle().setUnderlined(true);
-            return new ChatComponentTranslation("screenshot.success", ichatcomponent);
+            return ichatcomponent;
         } catch (Exception exception) {
             logger.warn("Couldn\'t save screenshot", exception);
             return new ChatComponentTranslation("screenshot.failure", exception.getMessage());

@@ -31,12 +31,18 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.util.List;
+
 @Mixin(GuiChat.class)
 public class MixinGuiChat {
 
     @Shadow
     protected GuiTextField inputField;
 
+    @Shadow
+    private boolean playerNamesFound;
+    @Shadow
+    private List<String> foundPlayerNames;
     private final Minecraft mc = Minecraft.getMinecraft();
 
     @Inject(method = "initGui", at = @At("RETURN"))
@@ -65,5 +71,12 @@ public class MixinGuiChat {
         this.mc.displayGuiScreen(null);
         ci.cancel();
     }
+
+    // TODO
+   /* @Inject(method = "autocompletePlayerNames", at = @At(value = "JUMP", target = "Lnet/minecraft/client/gui/GuiChat;autocompletePlayerNames()V"), require = 1)
+    private void autocomplete(CallbackInfo ci) {
+        System.out.println("test");
+    }*/
+
 
 }
