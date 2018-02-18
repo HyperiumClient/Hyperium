@@ -20,7 +20,7 @@ package com.hcc.mods.levelhead.config;
 
 
 import com.hcc.config.ConfigOpt;
-import com.hcc.mods.sk1ercommon.ChatColor;
+import com.hcc.utils.ChatColor;
 
 /**
  * Created by mitchellkatz on 12/23/17. Designed for production use on Sk1er.club

@@ -18,7 +18,7 @@
 
 package com.hcc.mods.togglechat.toggles;
 
-import com.hcc.mods.sk1ercommon.ChatColor;
+import com.hcc.utils.ChatColor;
 
 import net.minecraft.client.gui.GuiButton;
 

@@ -21,6 +21,7 @@ package com.hcc.event
 import com.esotericsoftware.reflectasm.MethodAccess
 import com.hcc.event.minigames.Minigame
 import net.minecraft.client.entity.AbstractClientPlayer
+import net.minecraft.client.gui.ScaledResolution
 import net.minecraft.client.renderer.entity.RenderManager
 import net.minecraft.util.BlockPos
 import net.minecraft.util.IChatComponent
@@ -134,4 +135,6 @@ class KeyBindDisableEvent(val key: Int)
  * Invoked when received a friend request
  */
 class HypixelFriendRequestEvent(val from: String)
+
+class RenderSelectedItemEvent(val scaledRes: ScaledResolution)
 

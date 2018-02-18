@@ -30,7 +30,7 @@ public class KeyBindHandler {
     public static ArrayList<HCCBind> keybinds = new ArrayList<>();
 
     public static HCCBind toggleSprint = new HCCBind("toggleSprint", 47);
-    public static HCCBind debug = new HCCBind("debug", Keyboard.KEY_G);
+    public static HCCBind debug = new HCCBind("debug", Keyboard.KEY_L);
 
     public KeyBindHandler() {
         keybinds.add(toggleSprint);

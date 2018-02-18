@@ -1,8 +1,7 @@
-package com.hcc.handlers.handlers.command.commands;
+package com.hcc.commands.defaults;
 
+import com.hcc.commands.BaseCommand;
 import com.hcc.gui.ModConfigGui;
-import com.hcc.handlers.handlers.chat.GeneralChatHandler;
-import com.hcc.handlers.handlers.command.BaseCommand;
 
 public class HCCConfigGui implements BaseCommand {
     @Override
@@ -17,7 +16,6 @@ public class HCCConfigGui implements BaseCommand {
 
     @Override
     public void onExecute(String[] args) {
-        GeneralChatHandler.instance().sendMessage("e");
         new ModConfigGui().show();
     }
 }
