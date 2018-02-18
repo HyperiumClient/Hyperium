@@ -20,10 +20,10 @@ package com.hcc.mods.levelhead.commands;
 
 import com.hcc.handlers.handlers.HypixelDetector;
 import com.hcc.handlers.handlers.chat.GeneralChatHandler;
-import com.hcc.handlers.handlers.command.BaseCommand;
+import com.hcc.commands.BaseCommand;
 import com.hcc.mods.levelhead.Levelhead;
 import com.hcc.mods.levelhead.guis.LevelHeadGui;
-import com.hcc.mods.sk1ercommon.ChatColor;
+import com.hcc.utils.ChatColor;
 import com.hcc.mods.sk1ercommon.Sk1erMod;
 
 /**

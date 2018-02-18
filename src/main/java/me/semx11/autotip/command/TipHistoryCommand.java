@@ -1,6 +1,6 @@
 package me.semx11.autotip.command;
 
-import com.hcc.handlers.handlers.command.BaseCommand;
+import com.hcc.commands.BaseCommand;
 import me.semx11.autotip.misc.TipTracker;
 import me.semx11.autotip.util.ChatColor;
 import me.semx11.autotip.util.ClientMessage;

@@ -24,7 +24,7 @@ import com.hcc.event.InvokeEvent;
 import com.hcc.event.TickEvent;
 import com.hcc.handlers.handlers.*;
 import com.hcc.handlers.handlers.chat.*;
-import com.hcc.handlers.handlers.command.HCCCommandHandler;
+import com.hcc.commands.HCCCommandHandler;
 import com.hcc.handlers.handlers.keybinds.KeyBindHandler;
 import com.hcc.handlers.handlers.privatemessages.PrivateMessageHandler;
 import com.hcc.mods.sk1ercommon.ResolutionUtil;
@@ -48,7 +48,7 @@ public class HCCHandlers {
     private GuiDisplayHandler guiDisplayHandler;
     private KeyBindHandler keybindHandler;
     private PrivateMessageHandler privateMessageHandler;
-    private HCCCommandHandler HCCCommandHandler;
+    private HCCCommandHandler commandHandler;
 
     public HCCHandlers() {
         register(keybindHandler = new KeyBindHandler());
@@ -71,7 +71,7 @@ public class HCCHandlers {
 
         //Command Handler
 
-        register(HCCCommandHandler = new HCCCommandHandler());
+        register(commandHandler = new HCCCommandHandler());
     }
 
     private void registerChatHandler(HCCChatHandler hccChatHandler) {
@@ -140,6 +140,6 @@ public class HCCHandlers {
     }
 
     public HCCCommandHandler getHCCCommandHandler() {
-        return HCCCommandHandler;
+        return commandHandler;
     }
 }

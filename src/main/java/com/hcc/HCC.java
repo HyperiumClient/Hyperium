@@ -28,13 +28,13 @@ import com.hcc.gui.ModConfigGui;
 import com.hcc.gui.NotificationCenter;
 import com.hcc.gui.integrations.HypixelFriendsGui;
 import com.hcc.handlers.HCCHandlers;
-import com.hcc.handlers.handlers.command.commands.HCCConfigGui;
+import com.hcc.commands.defaults.HCCConfigGui;
 import com.hcc.handlers.handlers.keybinds.KeyBindHandler;
 import com.hcc.mixins.MixinKeyBinding;
 import com.hcc.mods.HCCModIntegration;
 import com.hcc.mods.ToggleSprintContainer;
 import com.hcc.mods.discord.RichPresenceManager;
-import com.hcc.mods.sk1ercommon.ChatColor;
+import com.hcc.utils.ChatColor;
 import com.hcc.tray.TrayManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ChatComponentText;
@@ -46,8 +46,8 @@ import java.awt.*;
 import java.io.File;
 import java.util.regex.Pattern;
 
-import static com.hcc.mods.sk1ercommon.ChatColor.RED;
-import static com.hcc.mods.sk1ercommon.ChatColor.WHITE;
+import static com.hcc.utils.ChatColor.RED;
+import static com.hcc.utils.ChatColor.WHITE;
 
 /**
  * Hypixel Community Client

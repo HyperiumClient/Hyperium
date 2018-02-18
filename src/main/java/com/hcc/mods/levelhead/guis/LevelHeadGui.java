@@ -27,7 +27,7 @@ import com.hcc.mods.levelhead.Levelhead;
 import com.hcc.mods.levelhead.config.LevelheadConfig;
 import com.hcc.mods.levelhead.renderer.LevelheadComponent;
 import com.hcc.mods.levelhead.renderer.LevelheadTag;
-import com.hcc.mods.sk1ercommon.ChatColor;
+import com.hcc.utils.ChatColor;
 import com.hcc.mods.sk1ercommon.Sk1erMod;
 import com.hcc.utils.JsonHolder;
 import net.minecraft.client.Minecraft;

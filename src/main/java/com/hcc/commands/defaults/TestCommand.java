@@ -16,12 +16,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.hcc.handlers.handlers.command.commands;
+package com.hcc.commands.defaults;
 
 import com.hcc.handlers.handlers.chat.GeneralChatHandler;
-import com.hcc.handlers.handlers.command.BaseCommand;
+import com.hcc.commands.BaseCommand;
 
 public class TestCommand implements BaseCommand {
+
     @Override
     public String getName() {
         return "test";

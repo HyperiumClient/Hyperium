@@ -22,7 +22,7 @@ import com.hcc.mods.chromahud.ChromaHUD;
 import com.hcc.mods.chromahud.ChromaHUDApi;
 import com.hcc.mods.chromahud.DisplayElement;
 import com.hcc.mods.chromahud.ElementRenderer;
-import com.hcc.mods.sk1ercommon.ChatColor;
+import com.hcc.utils.ChatColor;
 import com.hcc.mods.sk1ercommon.ResolutionUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
