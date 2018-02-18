@@ -47,8 +47,13 @@ public class RichPresenceManager {
     }
 
     public void shutdown() {
-        if (connected) {
-            client.close();
+        //Added by Sk1er because game crashed from it (Did not complete proper shutdown sequence)
+        try {
+            if (connected) {
+                client.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
