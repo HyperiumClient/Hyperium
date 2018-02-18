@@ -18,7 +18,8 @@
 
 package com.hcc.gui.font;
 
-import com.hcc.utils.TrueTypeFont;
+
+import com.hcc.utils.HCCFontRenderer;
 
 import java.awt.*;
 
@@ -27,18 +28,18 @@ public enum Fonts {
 
     private Font font;
 
-    private TrueTypeFont ttf;
+    private HCCFontRenderer ttf;
 
     Fonts(Font font) {
         this.font = font;
-        this.ttf = new TrueTypeFont(font, true);
+        this.ttf = new HCCFontRenderer(font.getFontName(), font.getStyle(), font.getSize());
     }
 
     public Font getFont() {
         return font;
     }
 
-    public TrueTypeFont getTrueTypeFont() {
+    public HCCFontRenderer getTrueTypeFont() {
         return ttf;
     }
 }

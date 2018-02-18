@@ -31,6 +31,7 @@
     "renderer.MixinItemRenderer",
     "renderer.MixinRendererLivingEntity",
     "renderer.MixinRenderPlayer",
+    "packet.MixinC01PacketChatMessage",
     "packet.MixinS2EPacketCloseWindow",
     "world.MixinChunk",
     "world.MixinWorld"

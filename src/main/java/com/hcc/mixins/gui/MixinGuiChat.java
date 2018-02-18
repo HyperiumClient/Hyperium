@@ -20,11 +20,11 @@ package com.hcc.mixins.gui;
 
 import com.hcc.event.EventBus;
 import com.hcc.event.SendChatMessageEvent;
-
+import com.hcc.mixins.packet.MixinC01PacketChatMessage;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.GuiTextField;
-
+import net.minecraft.network.play.client.C01PacketChatMessage;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -39,6 +39,10 @@ public class MixinGuiChat {
 
     private final Minecraft mc = Minecraft.getMinecraft();
 
+    @Inject(method = "initGui", at = @At("RETURN"))
+    private void init(CallbackInfo ci) {
+        this.inputField.setMaxStringLength(256);
+    }
     /**
      * Invoked when the player presses the enter key in the chat gui (before any processing is done)
      *
@@ -49,14 +53,17 @@ public class MixinGuiChat {
      */
     @Inject(method = "keyTyped", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiChat;sendChatMessage(Ljava/lang/String;)V", shift = At.Shift.BEFORE), cancellable = true)
     private void keyTyped(char typedChar, int keyCode, CallbackInfo ci) {
-        SendChatMessageEvent event = new SendChatMessageEvent(this.inputField.getText().trim(), true);
+        String msg = this.inputField.getText().trim();
+        SendChatMessageEvent event = new SendChatMessageEvent(msg);
         EventBus.INSTANCE.post(event);
-        if (event.isCancelled()) {
-            ci.cancel();
-
-            if (event.getAddsToClientHistory()) {
-                this.mc.ingameGUI.getChatGUI().addToSentMessages(event.getMessage());
-            }
+        if (!event.isCancelled()) {
+            final C01PacketChatMessage packet = new C01PacketChatMessage(msg);
+            ((MixinC01PacketChatMessage) packet).setMessage(msg);
+            this.mc.thePlayer.sendQueue.addToSendQueue(packet);
         }
+        this.mc.ingameGUI.getChatGUI().addToSentMessages(event.getMessage());
+        this.mc.displayGuiScreen(null);
+        ci.cancel();
     }
+
 }

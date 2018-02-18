@@ -101,7 +101,6 @@ public class MixinScreenShotHelper {
                 bufferedimage = new BufferedImage(width, height, 1);
                 bufferedimage.setRGB(0, 0, width, height, pixelValues, 0, width);
             }
-
             File file2;
 
             if (screenshotName == null) {

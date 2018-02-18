@@ -98,7 +98,7 @@ class ChatEvent(var chat: IChatComponent) : CancellableEvent()
  * @param addsToClientHistory should the message be added to the players client history, only used
  *      when the event is cancelled
  */
-class SendChatMessageEvent(val message: String, var addsToClientHistory: Boolean) : CancellableEvent()
+class SendChatMessageEvent(val message: String) : CancellableEvent()
 
 /**
  * Invoked once the player has joined singleplayer
