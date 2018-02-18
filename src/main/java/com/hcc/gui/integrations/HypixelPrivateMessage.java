@@ -42,7 +42,7 @@ public class HypixelPrivateMessage extends HCCGui {
     private GuiTextField text;
     private boolean lockDown = false;
     private List<GuiBoxItem<PrivateMessageChat>> chatBoxes = new ArrayList<>();
-
+    //TODO add option to close PM's, autoremove players that do not exist, add a text box to start a new convo with a user. Add a darker color if unread messages and make the sorting go by unread messages.
     public HypixelPrivateMessage(PrivateMessageChat chat) {
         this.chat = chat;
 
