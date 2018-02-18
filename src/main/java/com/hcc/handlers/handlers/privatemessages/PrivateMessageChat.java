@@ -28,6 +28,7 @@ import java.util.List;
 public class PrivateMessageChat implements Comparator<PrivateMessage> {
     private String to;
     private List<PrivateMessage> messages;
+    private long lastAction = System.currentTimeMillis();
 
     public PrivateMessageChat(String to) {
         this.to = to;
@@ -43,6 +44,7 @@ public class PrivateMessageChat implements Comparator<PrivateMessage> {
     }
 
     public void newMessage(String message, String person, boolean self) {
+        lastAction = System.currentTimeMillis();
         System.out.println("Message: " + message + ". self:" + self);
         messages.add(new PrivateMessage(person, message, self));
     }
@@ -58,5 +60,9 @@ public class PrivateMessageChat implements Comparator<PrivateMessage> {
     @Override
     public int compare(PrivateMessage o1, PrivateMessage o2) {
         return Long.compare(o2.getTime(), o1.getTime());
+    }
+
+    public long getLastAction() {
+        return lastAction;
     }
 }

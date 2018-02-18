@@ -18,7 +18,7 @@
 
 package com.hcc.handlers.handlers.privatemessages;
 
-import java.util.HashMap;
+import java.util.*;
 
 public class PrivateMessageHandler {
 
@@ -26,6 +26,16 @@ public class PrivateMessageHandler {
 
     public PrivateMessageChat getChat(String with) {
         return chats.computeIfAbsent(with.toLowerCase(), tmp -> new PrivateMessageChat(with));
+    }
+
+    public List<PrivateMessageChat> getAllInOrder() {
+        List<PrivateMessageChat> chats = new ArrayList<>();
+        Set<Map.Entry<String, PrivateMessageChat>> entries = this.chats.entrySet();
+        for (Map.Entry<String, PrivateMessageChat> entry : entries) {
+            chats.add(entry.getValue());
+        }
+        chats.sort((o1, o2) -> Long.compare(o2.getLastAction(), o1.getLastAction()));
+        return chats;
     }
 
     public void outboundMessage(String to, String message) {
