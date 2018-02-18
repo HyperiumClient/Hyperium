@@ -18,8 +18,8 @@
 
 package com.hcc.utils;
 
-
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.StringUtils;
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.UnicodeFont;
@@ -32,7 +32,8 @@ public class HCCFontRenderer {
     private final UnicodeFont unicodeFont;
     private final int[] colorCodes = new int[32];
     private Minecraft mc = Minecraft.getMinecraft();
-    private int fontType, size;
+    private int fontType;
+    private int size;
     private String fontName;
 
     private float kerning;
@@ -62,7 +63,7 @@ public class HCCFontRenderer {
             int shadow = (i >> 3 & 1) * 85;
             int red = (i >> 2 & 1) * 170 + shadow;
             int green = (i >> 1 & 1) * 170 + shadow;
-            int blue = (i >> 0 & 1) * 170 + shadow;
+            int blue = (i & 1) * 170 + shadow;
 
             if (i == 6) {
                 red += 85;
@@ -86,6 +87,12 @@ public class HCCFontRenderer {
 
         GL11.glPushMatrix();
         GL11.glScaled(0.5F, 0.5F, 0.5F);
+    
+        float red = (float) (color >> 16 & 255) / 255.0F;
+        float green = (float) (color >> 8 & 255) / 255.0F;
+        float blue = (float) (color & 255) / 255.0F;
+        float alpha = (float) (color >> 24 & 255) / 255.0F;
+        GlStateManager.color(red, green, blue, alpha);
 
         boolean blend = GL11.glIsEnabled(GL11.GL_BLEND);
         boolean lighting = GL11.glIsEnabled(GL11.GL_LIGHTING);
@@ -116,9 +123,8 @@ public class HCCFontRenderer {
             } else if (c == '\247' && index != characters.length - 1) {
                 int codeIndex = "0123456789abcdefg".indexOf(text.charAt(index + 1));
                 if (codeIndex < 0) continue;
-
-                int col = this.colorCodes[codeIndex];
-                currentColor = col;
+    
+                currentColor = this.colorCodes[codeIndex];
             }
 
             index++;

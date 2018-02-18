@@ -76,7 +76,9 @@ public class ModConfigGui extends HCCGui {
             case ABOUT:
                 String str = "Developed by Sk1er, CoalOres, Kevin and Cubxity";
                 float strWidth = fontRenderer.getWidth(str);
-                fontRenderer.drawString(str, (8 * (width / 10)) - strWidth, (height - height / 5) - 12, 0xFFFFFF);
+                fontRenderer.drawCenteredString(str, width / 2, height - 12, Color.WHITE.getRGB());
+                break;
+            default:
                 break;
         }
         super.drawScreen(mouseX, mouseY, partialTicks);
