@@ -222,4 +222,9 @@ public class HCC {
         if (Minecraft.getMinecraft().thePlayer == null) return;
         Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText(RED + "[HCC] " + WHITE + msg));
     }
+    
+    public void trayDisplayAboutInfo() {
+        JOptionPane popup = new JOptionPane();
+        JOptionPane.showMessageDialog(popup, "HypixelCommunityClient", "HCC - About", JOptionPane.PLAIN_MESSAGE);
+    }
 }
