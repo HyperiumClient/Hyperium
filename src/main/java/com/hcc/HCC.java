@@ -40,11 +40,15 @@ import com.hcc.mods.capturex.CaptureCore;
 import com.hcc.mods.discord.RichPresenceManager;
 import com.hcc.utils.ChatColor;
 import com.hcc.tray.TrayManager;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ChatComponentText;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.Display;
+
+import javax.swing.*;
 
 import java.awt.*;
 import java.io.File;
