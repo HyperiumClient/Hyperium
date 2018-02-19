@@ -18,8 +18,26 @@
 
 package com.hcc.integrations.spotify;
 
+import com.hcc.Metadata;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+import org.json.JSONObject;
+
+import java.io.IOException;
+
 public class Spotify {
+    private OkHttpClient client = new OkHttpClient();
     public Spotify() throws Exception{
 
+    }
+    private JSONObject get(String url) throws IOException {
+        Request request = new Request.Builder()
+                .url(url)
+                .addHeader("User-Agent", "Mozilla/5.0 HCC "+ Metadata.getVersion())
+                .build();
+        Response response = client.newCall(request).execute();
+        assert response.body() != null;
+        return new JSONObject(response.body().string());
     }
 }
