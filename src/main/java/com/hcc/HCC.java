@@ -87,6 +87,7 @@ public class HCC {
     private Pattern swKillMsg;
     private Pattern bwKillMsg;
     private Pattern bwFinalKillMsg;
+    private Pattern duelKillMsg;
 
     /**
      * @param event initialize HCC
@@ -106,6 +107,7 @@ public class HCC {
         swKillMsg = Pattern.compile(".+? was .+? by .+?\\.");
         bwKillMsg = Pattern.compile(".+? by .+?\\.");
         bwFinalKillMsg = Pattern.compile(".+? by .+?\\. FINAL KILL!");
+        duelKillMsg = Pattern.compile(".+? was kill by .+?\\.");
 
         folder = new File(Minecraft.getMinecraft().mcDataDir, "hcc");
         LOGGER.info("HCC Started!");
@@ -182,10 +184,13 @@ public class HCC {
                 case BEDWARS:
                     if(bwKillMsg.matcher(msg).matches() || bwFinalKillMsg.matcher(msg).matches())
                         msg = msg.replace(" FINAL KILL!", "");
-                        if(msg.endsWith(Minecraft.getMinecraft().thePlayer.getName()+".")) {
+                        if(msg.endsWith(Minecraft.getMinecraft().thePlayer.getName()+"."))
                             EventBus.INSTANCE.post(new HypixelKillEvent(Minigame.BEDWARS, msg.split(" ")[0]));
-                        }
                     break;
+                case DUELS:
+                    if(duelKillMsg.matcher(msg).matches())
+                        if(msg.endsWith(Minecraft.getMinecraft().thePlayer.getName()+"."))
+                            EventBus.INSTANCE.post(new HypixelKillEvent(Minigame.DUELS, msg.split(" ")[0]));
             }
         }
 
