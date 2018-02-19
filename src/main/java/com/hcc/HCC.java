@@ -36,6 +36,7 @@ import com.hcc.handlers.handlers.keybinds.KeyBindHandler;
 import com.hcc.mixins.MixinKeyBinding;
 import com.hcc.mods.HCCModIntegration;
 import com.hcc.mods.ToggleSprintContainer;
+import com.hcc.mods.capturex.CaptureCore;
 import com.hcc.mods.discord.RichPresenceManager;
 import com.hcc.utils.ChatColor;
 import com.hcc.tray.TrayManager;
@@ -79,6 +80,7 @@ public class HCC {
     private HCCHandlers handlers;
     private HCCModIntegration modIntegration;
     private Minigame currentGame;
+    private CaptureCore captureCore;
 
     private Pattern friendRequestPattern;
     private Pattern rankBracketPattern;
@@ -96,10 +98,12 @@ public class HCC {
         EventBus.INSTANCE.register(new ToggleSprintContainer());
         EventBus.INSTANCE.register(notification);
         EventBus.INSTANCE.register(anticheat);
+        EventBus.INSTANCE.register(captureCore = new CaptureCore());
 
         friendRequestPattern = Pattern.compile("Friend request from .+?");
         rankBracketPattern = Pattern.compile("[\\^] ");
         swKillMsg = Pattern.compile(".+? was .+? by .+?\\.");
+        bwKillMsg = Pattern.compile(".+? by .+?\\.");
 
         folder = new File(Minecraft.getMinecraft().mcDataDir, "hcc");
         LOGGER.info("HCC Started!");
@@ -170,9 +174,10 @@ public class HCC {
             switch (currentGame){
                 case SKYWARS:
                     if(swKillMsg.matcher(msg).matches())
-                        if(msg.startsWith(Minecraft.getMinecraft().thePlayer.getName()))
+                        if(msg.endsWith(Minecraft.getMinecraft().thePlayer.getName()+"."))
                             EventBus.INSTANCE.post(new HypixelKillEvent(Minigame.SKYWARS, msg.split(" ")[0]));
                     break;
+
             }
         }
 
@@ -222,6 +227,7 @@ public class HCC {
     private void shutdown() {
         CONFIG.save();
         richPresenceManager.shutdown();
+        captureCore.shutdown();
         LOGGER.info("Shutting down HCC..");
     }
 
@@ -232,6 +238,10 @@ public class HCC {
 
     public HCCModIntegration getModIntegration() {
         return modIntegration;
+    }
+
+    public NotificationCenter getNotification() {
+        return notification;
     }
 
     /**
