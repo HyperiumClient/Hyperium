@@ -30,18 +30,57 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
 
+/**
+ * converted from https://github.com/onetune/spotify-web-helper/blob/master/index.js
+ * @author Cubxity
+ */
 public class Spotify {
     private OkHttpClient client = new OkHttpClient();
-    private final int START_HTTPS_PORT = 4370;
-    private final int END_HTTPS_PORT = 4379;
-    private final int START_HTTP_PORT = 4380;
-    private final int END_HTTP_PORT = 4389;
-    private int localPort = START_HTTPS_PORT;
+    private static final String RETURN_ON = "\"login\",\"logout\",\"play\",\"pause\",\"error\",\"ap\"";
+    private static final int START_HTTPS_PORT = 4370;
+    private static final int END_HTTPS_PORT = 4379;
+    private static final int START_HTTP_PORT = 4380;
+    private static final int END_HTTP_PORT = 4389;
+    private static int localPort = START_HTTPS_PORT;
+    private Thread listenerThread;
+    private JSONObject status;
 
     public Spotify() throws Exception {
         if (getWebHelper() == null)
             throw new UnsupportedOperationException("Could not find WebHelper // OS not supported!");
         startWebHelper();
+        detectPort();
+        getOAuthToken();
+        getCSRFToken();
+        getStatus();
+        startListener();
+    }
+
+    /**
+     * stats the listener
+     */
+    private void startListener() {
+        listenerThread = new Thread(()->{
+            while(!Thread.interrupted()){
+                try {
+                    this.status = getStatus();
+                    checkForError(status);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    try {
+                        Thread.sleep(5000);
+                    } catch (InterruptedException ignored) {}
+                }
+            }
+        });
+        listenerThread.start();
+    }
+
+    /**
+     * stops the listener
+     */
+    private void stop(){
+        listenerThread.interrupt();
     }
 
     /**
@@ -50,15 +89,59 @@ public class Spotify {
      * @throws IOException if exception occurs
      */
     private JSONObject get(String url) throws IOException {
-        Request request = new Request.Builder()
-                .url(url)
-                .addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36")
-                .addHeader("Origin", "https://open.spotify.com")
-                .build();
+        return call(build(url).build());
+    }
+
+    /**
+     * @param request request
+     * @return JSONObject of response body
+     * @throws IOException if exception occurs
+     */
+    private JSONObject call(Request request) throws IOException {
         Response response = client.newCall(request).execute();
         return new JSONObject(Objects.requireNonNull(response.body()).string());
     }
 
+    /**
+     * @param url destination url
+     * @return default builder
+     */
+    private Request.Builder build(String url){
+        return new Request.Builder()
+                .url(url)
+                .addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36")
+                .addHeader("Origin", "https://open.spotify.com");
+    }
+
+    /**
+     * @return status
+     * @throws IOException if exception occurs
+     */
+    private JSONObject getStatus() throws IOException {
+        //noinspection SpellCheckingInspection
+        return this.status = get(genSpotifyUrl("/remote/status.json")+"?returnafter=1&returnon="+RETURN_ON+"&oauth="+getOAuthToken()+"&csrf="+getCSRFToken());
+    }
+
+    /**
+     * @return oauth token
+     * @throws IOException if exception occurs
+     */
+    private String getOAuthToken() throws IOException {
+        return get("http://open.spotify.com/token").getString("t");
+    }
+
+    /**
+     * @return csrf token
+     * @throws IOException if exception occurs
+     */
+    private String getCSRFToken() throws IOException {
+        return get(genSpotifyUrl("/simplecsrf/token.json")).getString("token");
+    }
+
+    /**
+     * @return webHelper port
+     * @throws IOException if exception occurs
+     */
     private int detectPort() throws IOException {
         try {
             get(genSpotifyUrl("/service/version.json?service=remote"));
@@ -75,6 +158,10 @@ public class Spotify {
         return localPort;
     }
 
+    /**
+     * @param path path to generate
+     * @return full url
+     */
     private String genSpotifyUrl(String path) {
         String protocol = "https://";
         if (localPort >= START_HTTP_PORT && localPort <= END_HTTP_PORT) {
@@ -108,6 +195,9 @@ public class Spotify {
         }
     }
 
+    /**
+     * @return true if webHelper is running
+     */
     private boolean isWebHelperRunning() {
         try {
             return OsHelper.isProcessRunning("SpotifyWebHelper");
@@ -115,5 +205,36 @@ public class Spotify {
             e.printStackTrace();
         }
         return false;
+    }
+
+    private void checkForError(JSONObject status) throws Exception {
+        if(!status.has("open_graph_state"))
+            throw new Exception("No user logged in");
+        if(status.has("error"))
+            throw new Exception(status.getJSONObject("error").getString("message"));
+    }
+
+    /**
+     * Listener class
+     */
+    public class SpotifyListener{
+        public void onPlay(){
+
+        }
+        public void onPause(){
+
+        }
+        public void onSeek(){
+
+        }
+        public void onEnd(){
+
+        }
+        public void onTrackChange(){
+
+        }
+        public void onStatusChange(){
+
+        }
     }
 }
