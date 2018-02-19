@@ -34,6 +34,7 @@ import java.util.Objects;
 
 /**
  * converted from https://github.com/onetune/spotify-web-helper/blob/master/index.js
+ *
  * @author Cubxity
  */
 public class Spotify {
@@ -63,17 +64,17 @@ public class Spotify {
      * stats the listener
      */
     private void startListener() {
-        listenerThread = new Thread(()->{
-            while(!Thread.interrupted()){
+        listenerThread = new Thread(() -> {
+            while (!Thread.interrupted()) {
                 try {
                     JSONObject s = getStatus();
                     checkForError(s);
                     // Call listeners
-                    if(s.getBoolean("playing") != this.status.getBoolean("playing")){
+                    if (s.getBoolean("playing") != this.status.getBoolean("playing")) {
                         System.out.println("Spotify: playing status changed");
-                        if(s.getBoolean("playing")){
+                        if (s.getBoolean("playing")) {
                             listeners.parallelStream().forEach(SpotifyListener::onPlay);
-                        }else{
+                        } else {
                             if (Math.abs(s.getLong("playing_position") - s.getJSONObject("track").getLong("length")) <= 1)
                                 listeners.parallelStream().forEach(SpotifyListener::onEnd);
                             listeners.parallelStream().forEach(SpotifyListener::onPause);
@@ -84,25 +85,26 @@ public class Spotify {
                     e.printStackTrace();
                     try {
                         Thread.sleep(5000);
-                    } catch (InterruptedException ignored) {}
+                    } catch (InterruptedException ignored) {
+                    }
                 }
             }
         });
         listenerThread.start();
     }
 
-    public void addListener(SpotifyListener listener){
+    public void addListener(SpotifyListener listener) {
         listeners.add(listener);
     }
 
-    public JSONObject getCachedStatus(){
+    public JSONObject getCachedStatus() {
         return status;
     }
 
     /**
      * stops the listener
      */
-    public void stop(){
+    public void stop() {
         listenerThread.interrupt();
     }
 
@@ -128,16 +130,16 @@ public class Spotify {
     }
 
     /**
-     * @param url destination url
+     * @param url       destination url
      * @param keepalive keep connection alive
      * @return default builder
      */
-    private Request.Builder build(String url, boolean keepalive){
-        Request.Builder b =  new Request.Builder()
+    private Request.Builder build(String url, boolean keepalive) {
+        Request.Builder b = new Request.Builder()
                 .url(url)
                 .addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36")
                 .addHeader("Origin", "https://open.spotify.com");
-        if(keepalive)
+        if (keepalive)
             b.addHeader("Connection", "keep-alive");
         return b;
     }
@@ -148,7 +150,7 @@ public class Spotify {
      */
     private JSONObject getStatus() throws IOException {
         //noinspection SpellCheckingInspection
-        return this.status = get(genSpotifyUrl("/remote/status.json")+"?returnafter=1&returnon="+RETURN_ON+"&oauth="+getOAuthToken()+"&csrf="+getCSRFToken(), true);
+        return this.status = get(genSpotifyUrl("/remote/status.json") + "?returnafter=1&returnon=" + RETURN_ON + "&oauth=" + getOAuthToken() + "&csrf=" + getCSRFToken(), true);
     }
 
     /**
@@ -237,9 +239,9 @@ public class Spotify {
     }
 
     private void checkForError(JSONObject status) throws Exception {
-        if(!status.has("open_graph_state"))
+        if (!status.has("open_graph_state"))
             throw new Exception("No user logged in");
-        if(status.has("error"))
+        if (status.has("error"))
             throw new Exception(status.getJSONObject("error").getString("message"));
     }
 
@@ -247,22 +249,27 @@ public class Spotify {
      * Listener class
      */
     public static class SpotifyListener {
-        public void onPlay(){
+        public void onPlay() {
 
         }
-        public void onPause(){
+
+        public void onPause() {
 
         }
-        public void onSeek(){
+
+        public void onSeek() {
 
         }
-        public void onEnd(){
+
+        public void onEnd() {
 
         }
-        public void onTrackChange(){
+
+        public void onTrackChange() {
 
         }
-        public void onStatusChange(){
+
+        public void onStatusChange() {
 
         }
     }
