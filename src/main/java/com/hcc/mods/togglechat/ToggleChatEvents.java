@@ -32,11 +32,11 @@ import net.minecraft.util.ChatComponentText;
  *
  * @author boomboompower
  */
-public class ToggleEvents {
+public class ToggleChatEvents {
 
     private ToggleChatMod mod;
 
-    public ToggleEvents(ToggleChatMod theMod) {
+    public ToggleChatEvents(ToggleChatMod theMod) {
         this.mod = theMod;
     }
 
