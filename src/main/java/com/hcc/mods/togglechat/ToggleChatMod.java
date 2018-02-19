@@ -23,7 +23,7 @@ import com.hcc.event.EventBus;
 import com.hcc.event.InvokeEvent;
 import com.hcc.event.TickEvent;
 import com.hcc.mods.togglechat.commands.CommandToggleChat;
-import com.hcc.mods.togglechat.config.ConfigLoader;
+import com.hcc.mods.togglechat.config.ToggleChatConfig;
 import com.hcc.mods.togglechat.gui.MainGui;
 import com.hcc.mods.togglechat.toggles.ToggleBaseHandler;
 import net.minecraft.client.Minecraft;
@@ -33,18 +33,12 @@ import net.minecraft.client.Minecraft;
  *
  * @author boomboompower
  */
-public class ToggleChatMod {
-
-    /**
-     * ToggleChat lite!
-     */
-    public static final String MODID = "togglechat_lite";
-    public static final String VERSION = "1.0";
+public final class ToggleChatMod {
 
     /**
      * A basic CONFIG loader
      */
-    private ConfigLoader configLoader;
+    private ToggleChatConfig configLoader;
 
     /**
      * A different implementation to the normal ToggleChat, just manages all toggles
@@ -57,7 +51,7 @@ public class ToggleChatMod {
     private boolean opening;
 
     public ToggleChatMod init() {
-        this.configLoader = new ConfigLoader(this, HCC.folder);
+        this.configLoader = new ToggleChatConfig(this, HCC.folder);
 
         this.toggleHandler = new ToggleBaseHandler();
         this.toggleHandler.remake();
@@ -72,7 +66,7 @@ public class ToggleChatMod {
         return this;
     }
 
-    public ConfigLoader getConfigLoader() {
+    public ToggleChatConfig getConfigLoader() {
         return this.configLoader;
     }
 

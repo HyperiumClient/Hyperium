@@ -14,30 +14,30 @@ import java.util.List;
  * @author boomboompower
  */
 public class CommandToggleChat implements BaseCommand {
-
+    
     /** The "mod" instance */
     private ToggleChatMod mod;
-
+    
     /** Default constructor */
     public CommandToggleChat(ToggleChatMod impl) {
         this.mod = impl;
     }
-
+    
     @Override
     public String getName() {
         return "chattoggle";
     }
-
+    
     @Override
     public String getUsage() {
         return ChatColor.RED + "Usage: /chattoggle";
     }
-
+    
     @Override
     public List<String> getCommandAliases() {
         return Collections.singletonList("tc");
     }
-
+    
     @Override
     public void onExecute(String[] args) throws CommandException {
         this.mod.openGui();

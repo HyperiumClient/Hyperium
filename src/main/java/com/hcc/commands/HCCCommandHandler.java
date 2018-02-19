@@ -79,8 +79,13 @@ public class HCCCommandHandler {
 
                     try {
                         command.onExecute(args);
-                    } catch (CommandException cmdEx) {
-                        this.chatHandler.sendMessage(ChatColor.RED + cmdEx.getMessage(), false);
+                    } catch (CommandUsageException usageEx) {
+                        // Throw a UsageException to trigger
+                        this.chatHandler.sendMessage(ChatColor.RED + command.getUsage(), false);
+                    } catch (CommandException knownEx) {
+                        if (knownEx.getMessage() != null) {
+                            this.chatHandler.sendMessage(ChatColor.RED + knownEx.getMessage(), false);
+                        }
                     } catch (Exception exception) {
                         exception.printStackTrace();
                         this.chatHandler.sendMessage(ChatColor.RED + "An internal error occured whilst performing this command", false);

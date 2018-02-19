@@ -14,9 +14,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 
-import static com.hcc.utils.ChatColor.RED;
-import static com.hcc.utils.ChatColor.WHITE;
-
 public class ImgurUploader implements Runnable {
 
     public static String url;
@@ -63,8 +60,8 @@ public class ImgurUploader implements Runnable {
             JsonObject imgurJson = jsonParser.parse(new InputStreamReader(conn.getInputStream())).getAsJsonObject();
             JsonObject two = imgurJson.getAsJsonObject("data");
             String link = two.get("link").getAsString();
-            ChatComponentText component = new ChatComponentText(RED + "[HCC] " + WHITE + "Uploaded!");
-            ChatComponentText component2 = new ChatComponentText(RED + "[HCC] " + WHITE + "Click here to view!");
+            ChatComponentText component = new ChatComponentText(ChatColor.RED + "[HCC] " + ChatColor.WHITE + "Uploaded!");
+            ChatComponentText component2 = new ChatComponentText(ChatColor.RED + "[HCC] " + ChatColor.WHITE + "Click here to view!");
             component2.getChatStyle().setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, link));
             Minecraft.getMinecraft().ingameGUI.getChatGUI().printChatMessage(component);
             Minecraft.getMinecraft().ingameGUI.getChatGUI().printChatMessage(component2);

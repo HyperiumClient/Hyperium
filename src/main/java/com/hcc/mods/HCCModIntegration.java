@@ -21,6 +21,7 @@ package com.hcc.mods;
 import com.hcc.mods.chromahud.ChromaHUD;
 import com.hcc.mods.levelhead.Levelhead;
 import com.hcc.mods.togglechat.ToggleChatMod;
+
 import me.semx11.autotip.Autotip;
 
 /**
@@ -28,35 +29,57 @@ import me.semx11.autotip.Autotip;
  * ChromaHUD, LevelHead and ToggleChat
  */
 public class HCCModIntegration {
+    
+    private ToggleChatMod toggleChat;
 
     private ChromaHUD chromaHUD;
     private Levelhead levelhead;
-    private ToggleChatMod toggleChat;
     private Autotip autotip;
 
     public HCCModIntegration() {
         this.chromaHUD = new ChromaHUD();
         this.levelhead = new Levelhead();
 
-        // Basically just a simple constructor for togglechat.
+        // ToggleChat implementation
         this.toggleChat = new ToggleChatMod().init();
-        this.autotip = new Autotip();
-        autotip.init();
+
+        // Autotip implementation
+        this.autotip = new Autotip().init();
     }
 
+    /**
+     * A getter for the running Autotip instance
+     *
+     * @return the running Autotip instance
+     */
+    public Autotip getAutotip() {
+        return this.autotip;
+    }
+
+    /**
+     * A getter for the running ChromeHUD instance
+     *
+     * @return the running ChromeHUD instance
+     */
     public ChromaHUD getChromaHUD() {
-        return chromaHUD;
+        return this.chromaHUD;
     }
 
+    /**
+     * A getter for the running LevelHead instance
+     *
+     * @return the running LevelHead instance
+     */
     public Levelhead getLevelhead() {
-        return levelhead;
+        return this.levelhead;
     }
 
+    /**
+     * A getter for the running ToggleChat instance
+     *
+     * @return the running ToggleChat instance
+     */
     public ToggleChatMod getToggleChat() {
         return this.toggleChat;
-    }
-
-    public Autotip getAutotip() {
-        return autotip;
     }
 }
