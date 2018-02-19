@@ -38,7 +38,6 @@
     "world.MixinChunk",
     "world.MixinWorld",
     
-    "client.renderer.MixinInventoryEffectRenderer",
     "client.resources.MixinAbstractResourcePack"
   ]
 }
