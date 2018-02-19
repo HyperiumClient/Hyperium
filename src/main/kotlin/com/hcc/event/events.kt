@@ -22,6 +22,7 @@ import com.esotericsoftware.reflectasm.MethodAccess
 import com.hcc.event.minigames.Minigame
 import net.minecraft.client.entity.AbstractClientPlayer
 import net.minecraft.client.gui.ScaledResolution
+import net.minecraft.client.gui.GuiScreen
 import net.minecraft.client.renderer.entity.RenderManager
 import net.minecraft.util.BlockPos
 import net.minecraft.util.IChatComponent
@@ -100,6 +101,13 @@ class ChatEvent(var chat: IChatComponent) : CancellableEvent()
  *      when the event is cancelled
  */
 class SendChatMessageEvent(val message: String) : CancellableEvent()
+
+/**
+ * Invoked when a gui screen is opened
+ *
+ * @param gui the gui that is being opened
+ */
+class GuiOpenEvent(var gui: GuiScreen?) : CancellableEvent()
 
 /**
  * Invoked once the player has joined singleplayer

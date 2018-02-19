@@ -26,7 +26,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-public class ConfigLoader {
+public class ToggleChatConfig {
 
     private final ToggleChatMod theMod;
 
@@ -34,7 +34,7 @@ public class ConfigLoader {
 
     private File toggleFile;
 
-    public ConfigLoader(ToggleChatMod theMod, File directory) {
+    public ToggleChatConfig(ToggleChatMod theMod, File directory) {
         if (!directory.exists()) {
             directory.mkdirs();
         }
