@@ -166,11 +166,6 @@ public class HCC {
      */
     @InvokeEvent
     public void onChat(ChatEvent event) {
-        if (event.getChat().getUnformattedText().contains("configgui")) {
-            event.setCancelled(true);
-            Minecraft.getMinecraft().displayGuiScreen(new ModConfigGui());
-            notification.display("Settings", "opened settings gui", 2);
-        }
         if (friendRequestPattern.matcher(ChatColor.stripColor(event.getChat().getUnformattedText())).matches()) {
             String withoutRank = ChatColor.stripColor(event.getChat().getUnformattedText());
             withoutRank = withoutRank.replaceAll("Friend request from ", "");
