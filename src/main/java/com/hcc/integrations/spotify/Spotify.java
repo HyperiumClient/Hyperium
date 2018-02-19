@@ -28,6 +28,8 @@ import org.json.JSONObject;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -42,6 +44,7 @@ public class Spotify {
     private static final int START_HTTP_PORT = 4380;
     private static final int END_HTTP_PORT = 4389;
     private static int localPort = START_HTTPS_PORT;
+    private List<SpotifyListener> listeners = new ArrayList<>();
     private Thread listenerThread;
     private JSONObject status;
 
@@ -63,8 +66,20 @@ public class Spotify {
         listenerThread = new Thread(()->{
             while(!Thread.interrupted()){
                 try {
-                    this.status = getStatus();
-                    checkForError(status);
+                    JSONObject s = getStatus();
+                    checkForError(s);
+                    // Call listeners
+                    if(s.getBoolean("playing") != this.status.getBoolean("playing")){
+                        System.out.println("Spotify: playing status changed");
+                        if(s.getBoolean("playing")){
+                            listeners.parallelStream().forEach(SpotifyListener::onPlay);
+                        }else{
+                            if (Math.abs(s.getLong("playing_position") - s.getJSONObject("track").getLong("length")) <= 1)
+                                listeners.parallelStream().forEach(SpotifyListener::onEnd);
+                            listeners.parallelStream().forEach(SpotifyListener::onPause);
+                        }
+                    }
+                    this.status = s;
                 } catch (Exception e) {
                     e.printStackTrace();
                     try {
@@ -76,10 +91,18 @@ public class Spotify {
         listenerThread.start();
     }
 
+    public void addListener(SpotifyListener listener){
+        listeners.add(listener);
+    }
+
+    public JSONObject getCachedStatus(){
+        return status;
+    }
+
     /**
      * stops the listener
      */
-    private void stop(){
+    public void stop(){
         listenerThread.interrupt();
     }
 
@@ -88,8 +111,8 @@ public class Spotify {
      * @return JSONObject content
      * @throws IOException if exception occurs
      */
-    private JSONObject get(String url) throws IOException {
-        return call(build(url).build());
+    private JSONObject get(String url, boolean keepalive) throws IOException {
+        return call(build(url, keepalive).build());
     }
 
     /**
@@ -99,18 +122,24 @@ public class Spotify {
      */
     private JSONObject call(Request request) throws IOException {
         Response response = client.newCall(request).execute();
-        return new JSONObject(Objects.requireNonNull(response.body()).string());
+        String res = response.body().string();
+        //System.out.println("fetched "+request.url().toString()+" response: "+res);
+        return new JSONObject(res);
     }
 
     /**
      * @param url destination url
+     * @param keepalive keep connection alive
      * @return default builder
      */
-    private Request.Builder build(String url){
-        return new Request.Builder()
+    private Request.Builder build(String url, boolean keepalive){
+        Request.Builder b =  new Request.Builder()
                 .url(url)
                 .addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36")
                 .addHeader("Origin", "https://open.spotify.com");
+        if(keepalive)
+            b.addHeader("Connection", "keep-alive");
+        return b;
     }
 
     /**
@@ -119,7 +148,7 @@ public class Spotify {
      */
     private JSONObject getStatus() throws IOException {
         //noinspection SpellCheckingInspection
-        return this.status = get(genSpotifyUrl("/remote/status.json")+"?returnafter=1&returnon="+RETURN_ON+"&oauth="+getOAuthToken()+"&csrf="+getCSRFToken());
+        return this.status = get(genSpotifyUrl("/remote/status.json")+"?returnafter=1&returnon="+RETURN_ON+"&oauth="+getOAuthToken()+"&csrf="+getCSRFToken(), true);
     }
 
     /**
@@ -127,7 +156,7 @@ public class Spotify {
      * @throws IOException if exception occurs
      */
     private String getOAuthToken() throws IOException {
-        return get("http://open.spotify.com/token").getString("t");
+        return get("https://open.spotify.com/token", false).getString("t");
     }
 
     /**
@@ -135,7 +164,7 @@ public class Spotify {
      * @throws IOException if exception occurs
      */
     private String getCSRFToken() throws IOException {
-        return get(genSpotifyUrl("/simplecsrf/token.json")).getString("token");
+        return get(genSpotifyUrl("/simplecsrf/token.json"), false).getString("token");
     }
 
     /**
@@ -144,7 +173,7 @@ public class Spotify {
      */
     private int detectPort() throws IOException {
         try {
-            get(genSpotifyUrl("/service/version.json?service=remote"));
+            get(genSpotifyUrl("/service/version.json?service=remote"), false);
         } catch (IOException e) {
             if (localPort == END_HTTP_PORT) {
                 throw e;
@@ -217,7 +246,7 @@ public class Spotify {
     /**
      * Listener class
      */
-    public class SpotifyListener{
+    public static class SpotifyListener {
         public void onPlay(){
 
         }

@@ -33,6 +33,7 @@ import com.hcc.gui.integrations.HypixelFriendsGui;
 import com.hcc.handlers.HCCHandlers;
 import com.hcc.commands.defaults.CommandConfigGui;
 import com.hcc.handlers.handlers.keybinds.KeyBindHandler;
+import com.hcc.integrations.spotify.Spotify;
 import com.hcc.mixins.MixinKeyBinding;
 import com.hcc.mods.HCCModIntegration;
 import com.hcc.mods.ToggleSprintContainer;
@@ -79,6 +80,7 @@ public class HCC {
     private RichPresenceManager richPresenceManager = new RichPresenceManager();
 
     private AntiCheat anticheat = new AntiCheat();
+    private Spotify spotify;
 
     private TrayManager trayManager;
     private HCCHandlers handlers;
@@ -133,6 +135,18 @@ public class HCC {
 
         modIntegration = new HCCModIntegration();
         richPresenceManager.init();
+        try {
+            spotify = new Spotify();
+            spotify.addListener(new Spotify.SpotifyListener(){
+                @Override
+                public void onPlay() {
+                    notification.display("Spotify", "Now playing "+spotify.getCachedStatus().getJSONObject("track").getJSONObject("track_resource").getString("name"), 3);
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+            LOGGER.warn("Failed to connect to spotify");
+        }
         Runtime.getRuntime().addShutdownHook(new Thread(this::shutdown));
     }
 
@@ -240,6 +254,7 @@ public class HCC {
         CONFIG.save();
         richPresenceManager.shutdown();
         captureCore.shutdown();
+        spotify.stop();
         LOGGER.info("Shutting down HCC..");
     }
 
