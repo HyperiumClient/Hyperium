@@ -18,15 +18,16 @@
 
 package com.hcc.integrations.spotify;
 
-import com.hcc.Metadata;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import org.apache.commons.lang3.SystemUtils;
 import org.json.JSONObject;
 
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 
 public class Spotify {
     private OkHttpClient client = new OkHttpClient();
@@ -47,8 +48,15 @@ public class Spotify {
                 .addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36")
                 .build();
         Response response = client.newCall(request).execute();
-        assert response.body() != null;
-        return new JSONObject(response.body().string());
+        return new JSONObject(Objects.requireNonNull(response.body()).string());
+    }
+
+    private void statWebHelper(){
+        try {
+            Desktop.getDesktop().open(Objects.requireNonNull(getWebHelper()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
