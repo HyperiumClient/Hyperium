@@ -21,19 +21,22 @@ package com.hcc;
 import com.hcc.ac.AntiCheat;
 import com.hcc.addons.HCCAddonBootstrap;
 import com.hcc.addons.loader.DefaultAddonLoader;
+import com.hcc.commands.defaults.CommandClearChat;
 import com.hcc.commands.defaults.CommandPrivateMessage;
 import com.hcc.config.DefaultConfig;
 import com.hcc.event.*;
+import com.hcc.event.minigames.Minigame;
 import com.hcc.event.minigames.MinigameListener;
 import com.hcc.gui.ModConfigGui;
 import com.hcc.gui.NotificationCenter;
 import com.hcc.gui.integrations.HypixelFriendsGui;
 import com.hcc.handlers.HCCHandlers;
-import com.hcc.commands.defaults.HCCConfigGui;
+import com.hcc.commands.defaults.CommandConfigGui;
 import com.hcc.handlers.handlers.keybinds.KeyBindHandler;
 import com.hcc.mixins.MixinKeyBinding;
 import com.hcc.mods.HCCModIntegration;
 import com.hcc.mods.ToggleSprintContainer;
+import com.hcc.mods.capturex.CaptureCore;
 import com.hcc.mods.discord.RichPresenceManager;
 import com.hcc.utils.ChatColor;
 import com.hcc.tray.TrayManager;
@@ -46,9 +49,6 @@ import org.lwjgl.opengl.Display;
 import java.awt.*;
 import java.io.File;
 import java.util.regex.Pattern;
-
-import static com.hcc.utils.ChatColor.RED;
-import static com.hcc.utils.ChatColor.WHITE;
 
 /**
  * Hypixel Community Client
@@ -79,8 +79,15 @@ public class HCC {
     private TrayManager trayManager;
     private HCCHandlers handlers;
     private HCCModIntegration modIntegration;
+    private Minigame currentGame;
+    private CaptureCore captureCore;
+
     private Pattern friendRequestPattern;
     private Pattern rankBracketPattern;
+    private Pattern swKillMsg;
+    private Pattern bwKillMsg;
+    private Pattern bwFinalKillMsg;
+    private Pattern duelKillMsg;
 
     /**
      * @param event initialize HCC
@@ -93,9 +100,14 @@ public class HCC {
         EventBus.INSTANCE.register(new ToggleSprintContainer());
         EventBus.INSTANCE.register(notification);
         EventBus.INSTANCE.register(anticheat);
+        EventBus.INSTANCE.register(captureCore = new CaptureCore());
 
         friendRequestPattern = Pattern.compile("Friend request from .+?");
         rankBracketPattern = Pattern.compile("[\\^] ");
+        swKillMsg = Pattern.compile(".+? was .+? by .+?\\.");
+        bwKillMsg = Pattern.compile(".+? by .+?\\.");
+        bwFinalKillMsg = Pattern.compile(".+? by .+?\\. FINAL KILL!");
+        duelKillMsg = Pattern.compile(".+? was kill by .+?\\.");
 
         folder = new File(Minecraft.getMinecraft().mcDataDir, "hcc");
         LOGGER.info("HCC Started!");
@@ -140,8 +152,9 @@ public class HCC {
     private void registerCommands() {
 //       HCC.INSTANCE.getHandlers().getHCCCommandHandler().registerCommand(new TestCommand());
 
-        HCC.INSTANCE.getHandlers().getHCCCommandHandler().registerCommand(new HCCConfigGui());
+        HCC.INSTANCE.getHandlers().getHCCCommandHandler().registerCommand(new CommandConfigGui());
         HCC.INSTANCE.getHandlers().getHCCCommandHandler().registerCommand(new CommandPrivateMessage());
+        HCC.INSTANCE.getHandlers().getHCCCommandHandler().registerCommand(new CommandClearChat());
     }
 
     /**
@@ -160,7 +173,33 @@ public class HCC {
             withoutRank = withoutRank.replaceAll(rankBracketPattern.pattern(), "");
             EventBus.INSTANCE.post(new HypixelFriendRequestEvent(withoutRank));
         }
+        String msg = ChatColor.stripColor(event.getChat().getUnformattedText());
+        if(getHandlers().getHypixelDetector().isHypixel()){
+            switch (currentGame){
+                case SKYWARS:
+                    if(swKillMsg.matcher(msg).matches())
+                        if(msg.endsWith(Minecraft.getMinecraft().thePlayer.getName()+"."))
+                            EventBus.INSTANCE.post(new HypixelKillEvent(Minigame.SKYWARS, msg.split(" ")[0]));
+                    break;
+                case BEDWARS:
+                    if(bwKillMsg.matcher(msg).matches() || bwFinalKillMsg.matcher(msg).matches())
+                        msg = msg.replace(" FINAL KILL!", "");
+                        if(msg.endsWith(Minecraft.getMinecraft().thePlayer.getName()+"."))
+                            EventBus.INSTANCE.post(new HypixelKillEvent(Minigame.BEDWARS, msg.split(" ")[0]));
+                    break;
+                case DUELS:
+                    if(duelKillMsg.matcher(msg).matches())
+                        if(msg.endsWith(Minecraft.getMinecraft().thePlayer.getName()+"."))
+                            EventBus.INSTANCE.post(new HypixelKillEvent(Minigame.DUELS, msg.split(" ")[0]));
+            }
+        }
 
+
+    }
+
+    @InvokeEvent
+    public void onMinigameJoin(JoinMinigameEvent event){
+        currentGame = event.getMinigame();
     }
 
     /**
@@ -201,6 +240,7 @@ public class HCC {
     private void shutdown() {
         CONFIG.save();
         richPresenceManager.shutdown();
+        captureCore.shutdown();
         LOGGER.info("Shutting down HCC..");
     }
 
@@ -213,6 +253,10 @@ public class HCC {
         return modIntegration;
     }
 
+    public NotificationCenter getNotification() {
+        return notification;
+    }
+
     /**
      * adds a message into players chat
      *
@@ -220,7 +264,7 @@ public class HCC {
      */
     public void sendMessage(String msg) {
         if (Minecraft.getMinecraft().thePlayer == null) return;
-        Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText(RED + "[HCC] " + WHITE + msg));
+        Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText(ChatColor.RED + "[HCC] " + ChatColor.WHITE + msg));
     }
     
     public void trayDisplayAboutInfo() {

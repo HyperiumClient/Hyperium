@@ -23,6 +23,7 @@ import com.hcc.event.SendChatMessageEvent;
 import com.hcc.handlers.handlers.chat.GeneralChatHandler;
 import com.hcc.utils.ChatColor;
 
+import java.util.Map.Entry;
 import net.minecraft.client.Minecraft;
 
 import java.util.*;
@@ -79,8 +80,13 @@ public class HCCCommandHandler {
 
                     try {
                         command.onExecute(args);
-                    } catch (CommandException cmdEx) {
-                        this.chatHandler.sendMessage(ChatColor.RED + cmdEx.getMessage(), false);
+                    } catch (CommandUsageException usageEx) {
+                        // Throw a UsageException to trigger
+                        this.chatHandler.sendMessage(ChatColor.RED + command.getUsage(), false);
+                    } catch (CommandException knownEx) {
+                        if (knownEx.getMessage() != null) {
+                            this.chatHandler.sendMessage(ChatColor.RED + knownEx.getMessage(), false);
+                        }
                     } catch (Exception exception) {
                         exception.printStackTrace();
                         this.chatHandler.sendMessage(ChatColor.RED + "An internal error occured whilst performing this command", false);
@@ -108,5 +114,17 @@ public class HCCCommandHandler {
             }
         }
     }
-
+    
+    /**
+     * Removes a register command & all aliases
+     *
+     * @param command the command to unregister
+     */
+    public void removeCommand(BaseCommand command) {
+        for (Entry<String, BaseCommand> entry : this.commands.entrySet()) {
+            if (entry.getValue().equals(command)) {
+                this.commands.remove(entry.getKey());
+            }
+        }
+    }
 }

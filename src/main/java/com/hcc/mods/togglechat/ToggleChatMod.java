@@ -20,79 +20,77 @@ package com.hcc.mods.togglechat;
 
 import com.hcc.HCC;
 import com.hcc.event.EventBus;
-import com.hcc.event.InvokeEvent;
-import com.hcc.event.TickEvent;
+import com.hcc.mods.IBaseMod;
 import com.hcc.mods.togglechat.commands.CommandToggleChat;
-import com.hcc.mods.togglechat.config.ConfigLoader;
-import com.hcc.mods.togglechat.gui.MainGui;
+import com.hcc.mods.togglechat.config.ToggleChatConfig;
 import com.hcc.mods.togglechat.toggles.ToggleBaseHandler;
-import net.minecraft.client.Minecraft;
+import com.hcc.utils.ChatColor;
 
 /**
  * Basically just a lightweight version of ToggleChat
  *
  * @author boomboompower
  */
-public class ToggleChatMod {
-
+public final class ToggleChatMod extends IBaseMod {
+    
     /**
-     * ToggleChat lite!
+     * The metadata of ToggleChat
      */
-    public static final String MODID = "togglechat_lite";
-    public static final String VERSION = "1.0";
-
+    private final Metadata meta;
+    
     /**
      * A basic CONFIG loader
      */
-    private ConfigLoader configLoader;
+    private ToggleChatConfig configLoader;
 
     /**
      * A different implementation to the normal ToggleChat, just manages all toggles
      */
     private ToggleBaseHandler toggleHandler;
-
-    /**
-     * A flag for opening our gui
-     */
-    private boolean opening;
-
-    public ToggleChatMod init() {
-        this.configLoader = new ConfigLoader(this, HCC.folder);
-
+    
+    public ToggleChatMod() {
+        Metadata metadata = new Metadata(this, "ToggleChatLite", "1.0", "boomboompower");
+        
+        metadata.setDisplayName(ChatColor.AQUA + "ToggleChatLite");
+        
+        this.meta = metadata;
+    }
+    
+    public IBaseMod init() {
+        this.configLoader = new ToggleChatConfig(this, HCC.folder);
+    
         this.toggleHandler = new ToggleBaseHandler();
         this.toggleHandler.remake();
-
-        EventBus.INSTANCE.register(new ToggleEvents(this));
-        EventBus.INSTANCE.register(this);
-
+    
+        EventBus.INSTANCE.register(new ToggleChatEvents(this));
+    
         HCC.INSTANCE.getHandlers().getHCCCommandHandler().registerCommand(new CommandToggleChat(this));
-
+    
         this.configLoader.loadToggles();
-
+        
         return this;
     }
-
-    public ConfigLoader getConfigLoader() {
+    
+    @Override
+    public Metadata getModMetadata() {
+        return this.meta;
+    }
+    
+    /**
+     * Getter for ToggleChat's configuration
+     *
+     * @return the configuration
+     */
+    public ToggleChatConfig getConfigLoader() {
         return this.configLoader;
     }
-
+    
+    /**
+     * Getter for ToggleChat's ToggleHandler
+     *
+     * @return the handlers instance
+     */
     public ToggleBaseHandler getToggleHandler() {
         return this.toggleHandler;
-    }
-
-    @InvokeEvent
-    public void onTick(TickEvent event) {
-        if (this.opening) {
-            // Sets opening to false and opens the main screen
-            this.opening = false;
-            Minecraft.getMinecraft().displayGuiScreen(new MainGui(this, 1));
-        }
-    }
-
-    /**
-     * Tells the mod it should open the gui
-     */
-    public void openGui() {
-        this.opening = true;
     }
 }

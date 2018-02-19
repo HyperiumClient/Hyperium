@@ -14,9 +14,6 @@ import me.semx11.autotip.util.MessageOption;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static me.semx11.autotip.util.MessageOption.COMPACT;
-import static me.semx11.autotip.util.MessageOption.HIDDEN;
-
 public class ChatListener {
 
     private Pattern xpPattern = Pattern.compile("\\+50 experience \\(Gave a player a /tip\\)");
@@ -50,14 +47,14 @@ public class ChatListener {
             }
 
             if (xpPattern.matcher(msg).matches()) {
-                event.setCancelled(mOption.equals(COMPACT) || mOption.equals(HIDDEN));
+                event.setCancelled(mOption.equals(MessageOption.COMPACT) || mOption.equals(MessageOption.HIDDEN));
                 return;
             }
 
             Matcher playerMatcher = playerPattern.matcher(msg);
             if (playerMatcher.matches()) {
                 TipTracker.addTip(playerMatcher.group("player"));
-                event.setCancelled(mOption.equals(HIDDEN));
+                event.setCancelled(mOption.equals(MessageOption.HIDDEN));
                 return;
             }
 
@@ -67,7 +64,7 @@ public class ChatListener {
                 String game = coinMatcher.group("game");
 
                 TipTracker.tipsSentEarnings.merge(game, coins, (a, b) -> a + b);
-                event.setCancelled(mOption.equals(COMPACT) || mOption.equals(HIDDEN));
+                event.setCancelled(mOption.equals(MessageOption.COMPACT) || mOption.equals(MessageOption.HIDDEN));
 
                 System.out.println("Earned " + coins + " coins in " + game);
                 return;
@@ -83,7 +80,7 @@ public class ChatListener {
                 TipTracker.tipsReceived += xp / 60;
                 Writer.execute();
 
-                if (mOption.equals(COMPACT)) {
+                if (mOption.equals(MessageOption.COMPACT)) {
                     ClientMessage.sendRaw(
                             String.format("%sEarned %s%d coins%s and %s%d experience%s in %s.",
                                     ChatColor.GREEN, ChatColor.YELLOW, coins,
@@ -91,7 +88,7 @@ public class ChatListener {
                                     ChatColor.GREEN, game
                             ));
                 }
-                event.setCancelled(mOption.equals(COMPACT) || mOption.equals(HIDDEN));
+                event.setCancelled(mOption.equals(MessageOption.COMPACT) || mOption.equals(MessageOption.HIDDEN));
                 System.out
                         .println("Earned " + coins + " coins and " + xp + " experience in " + game);
                 return;

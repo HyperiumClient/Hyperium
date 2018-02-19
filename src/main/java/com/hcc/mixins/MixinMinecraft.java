@@ -22,7 +22,16 @@ import com.hcc.HCC;
 import com.hcc.event.*;
 import com.hcc.utils.Utils;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.audio.SoundHandler;
+import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.client.gui.GuiGameOver;
+import net.minecraft.client.gui.GuiIngame;
+import net.minecraft.client.gui.GuiMainMenu;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.resources.DefaultResourcePack;
+import net.minecraft.client.settings.GameSettings;
 import net.minecraft.util.Timer;
 import net.minecraft.util.Util;
 import net.minecraft.world.WorldSettings;
@@ -47,7 +56,23 @@ public abstract class MixinMinecraft {
     @Shadow
     @Final
     private DefaultResourcePack mcDefaultResourcePack;
-
+    
+    @Shadow private static Minecraft theMinecraft;
+    
+    @Shadow public GuiScreen currentScreen;
+    
+    @Shadow public WorldClient theWorld;
+    
+    @Shadow public EntityPlayerSP thePlayer;
+    
+    @Shadow public GameSettings gameSettings;
+    
+    @Shadow public GuiIngame ingameGUI;
+    
+    @Shadow private SoundHandler mcSoundHandler;
+    
+    @Shadow public boolean skipRenderWorld;
+    
     @Accessor
     public abstract Timer getTimer();
 
@@ -151,4 +176,60 @@ public abstract class MixinMinecraft {
             }
         }
     }
+    
+    /**
+     * A change to gui display so a "GuiOpenEvent" can be called to set the screen
+     *
+     * @author boomboompower
+     */
+    @Overwrite
+    public void displayGuiScreen(GuiScreen guiScreenIn) {
+        if (this.currentScreen != null) {
+            this.currentScreen.onGuiClosed();
+        }
+    
+        if (guiScreenIn == null && this.theWorld == null)
+        {
+            guiScreenIn = new GuiMainMenu();
+        }
+        else if (guiScreenIn == null && this.thePlayer.getHealth() <= 0.0F)
+        {
+            guiScreenIn = new GuiGameOver();
+        }
+    
+        GuiScreen old = this.currentScreen;
+        GuiOpenEvent event = new GuiOpenEvent(guiScreenIn);
+    
+        EventBus.INSTANCE.post(event);
+        
+        if (event.isCancelled()) return;
+    
+        guiScreenIn = event.getGui();
+        if (old != null && guiScreenIn != old) {
+            old.onGuiClosed();
+        }
+    
+        if (guiScreenIn instanceof GuiMainMenu) {
+            this.gameSettings.showDebugInfo = false;
+            this.ingameGUI.getChatGUI().clearChatMessages();
+        }
+    
+        this.currentScreen = guiScreenIn;
+    
+        if (guiScreenIn != null) {
+            this.setIngameNotInFocus();
+            ScaledResolution scaledresolution = new ScaledResolution(theMinecraft);
+            int i = scaledresolution.getScaledWidth();
+            int j = scaledresolution.getScaledHeight();
+            guiScreenIn.setWorldAndResolution(theMinecraft, i, j);
+            this.skipRenderWorld = false;
+        } else {
+            this.mcSoundHandler.resumeSounds();
+            this.setIngameFocus();
+        }
+    }
+    
+    @Shadow public abstract void setIngameNotInFocus();
+    
+    @Shadow public abstract void setIngameFocus();
 }

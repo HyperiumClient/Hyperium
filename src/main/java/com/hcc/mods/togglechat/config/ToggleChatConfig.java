@@ -26,7 +26,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-public class ConfigLoader {
+public class ToggleChatConfig {
 
     private final ToggleChatMod theMod;
 
@@ -34,7 +34,7 @@ public class ConfigLoader {
 
     private File toggleFile;
 
-    public ConfigLoader(ToggleChatMod theMod, File directory) {
+    public ToggleChatConfig(ToggleChatMod theMod, File directory) {
         if (!directory.exists()) {
             directory.mkdirs();
         }
@@ -61,7 +61,11 @@ public class ConfigLoader {
                 saveToggles();
             }
 
-            for (ToggleBase base : this.theMod.getToggleHandler().getToggles().values()) {
+            for (ToggleBase base : this.
+                theMod.
+                getToggleHandler()
+                .getToggles()
+                .values()) {
                 base.setEnabled(this.toggleJson.has("show" + base.getName().replace(" ", "_")) && this.toggleJson.get("show" + base.getName().replace(" ", "_")).getAsBoolean());
             }
 

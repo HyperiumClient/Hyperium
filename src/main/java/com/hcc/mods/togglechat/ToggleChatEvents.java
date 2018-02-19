@@ -26,12 +26,17 @@ import com.hcc.mods.togglechat.toggles.ToggleBase;
 import com.hcc.mods.togglechat.toggles.defaults.TypeMessageSeparator;
 import net.minecraft.util.ChatComponentText;
 
-@SuppressWarnings("WeakerAccess")
-public class ToggleEvents {
+/**
+ * Handles all the main ToggleChat events for the lightweight
+ *      version of ToggleChat!
+ *
+ * @author boomboompower
+ */
+public class ToggleChatEvents {
 
     private ToggleChatMod mod;
 
-    public ToggleEvents(ToggleChatMod theMod) {
+    public ToggleChatEvents(ToggleChatMod theMod) {
         this.mod = theMod;
     }
 

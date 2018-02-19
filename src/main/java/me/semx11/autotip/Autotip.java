@@ -43,8 +43,7 @@ public class Autotip {
     public static int totalTipsSent;
     public static List<String> alreadyTipped = new ArrayList<>();
 
-
-    public void init() {
+    public Autotip init() {
         try {
             playerUUID = Minecraft.getMinecraft().getSession().getProfile().getId().toString();
             USER_DIR = "mods" + File.separator + "autotip" + File.separator + playerUUID
@@ -71,6 +70,7 @@ public class Autotip {
         } catch (NullPointerException e2) {
             HCC.LOGGER.debug("[Auto-GG] Invalid UUID detected; Not logged in?.");
         }
+        return this;
     }
 
     private void registerEvents(Object... events) {

@@ -1,5 +1,6 @@
 package com.hcc.mixins;
 
+import com.hcc.utils.ChatColor;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.texture.TextureUtil;
@@ -22,8 +23,6 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.nio.IntBuffer;
-
-import static com.hcc.utils.ChatColor.*;
 
 @Mixin(ScreenShotHelper.class)
 public class MixinScreenShotHelper {
@@ -113,7 +112,8 @@ public class MixinScreenShotHelper {
             }
 
             ImageIO.write(bufferedimage, "png", file2);
-            IChatComponent ichatcomponent = new ChatComponentText(RED + "[HCC] " + WHITE + "Uploaded to " + UNDERLINE + file2.getName());
+            IChatComponent ichatcomponent = new ChatComponentText(
+                ChatColor.RED + "[HCC] " + ChatColor.WHITE + "Uploaded to " + ChatColor.UNDERLINE + file2.getName());
             ichatcomponent.getChatStyle().setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, file2.getCanonicalPath()));
             return ichatcomponent;
         } catch (Exception exception) {
