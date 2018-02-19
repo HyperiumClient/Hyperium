@@ -22,6 +22,7 @@ import com.hcc.ac.AntiCheat;
 import com.hcc.addons.HCCAddonBootstrap;
 import com.hcc.addons.loader.DefaultAddonLoader;
 import com.hcc.commands.defaults.CommandClearChat;
+import com.hcc.commands.defaults.CommandConfigGui;
 import com.hcc.commands.defaults.CommandPrivateMessage;
 import com.hcc.config.DefaultConfig;
 import com.hcc.event.*;
@@ -31,15 +32,14 @@ import com.hcc.gui.ModConfigGui;
 import com.hcc.gui.NotificationCenter;
 import com.hcc.gui.integrations.HypixelFriendsGui;
 import com.hcc.handlers.HCCHandlers;
-import com.hcc.commands.defaults.CommandConfigGui;
 import com.hcc.handlers.handlers.keybinds.KeyBindHandler;
 import com.hcc.mixins.MixinKeyBinding;
 import com.hcc.mods.HCCModIntegration;
 import com.hcc.mods.ToggleSprintContainer;
 import com.hcc.mods.capturex.CaptureCore;
 import com.hcc.mods.discord.RichPresenceManager;
-import com.hcc.utils.ChatColor;
 import com.hcc.tray.TrayManager;
+import com.hcc.utils.ChatColor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ChatComponentText;
 import org.apache.logging.log4j.LogManager;
@@ -162,11 +162,6 @@ public class HCC {
      */
     @InvokeEvent
     public void onChat(ChatEvent event) {
-        if (event.getChat().getUnformattedText().contains("configgui")) {
-            event.setCancelled(true);
-            Minecraft.getMinecraft().displayGuiScreen(new ModConfigGui());
-            notification.display("Settings", "opened settings gui", 2);
-        }
         if (friendRequestPattern.matcher(ChatColor.stripColor(event.getChat().getUnformattedText())).matches()) {
             String withoutRank = ChatColor.stripColor(event.getChat().getUnformattedText());
             withoutRank = withoutRank.replaceAll("Friend request from ", "");
@@ -174,31 +169,32 @@ public class HCC {
             EventBus.INSTANCE.post(new HypixelFriendRequestEvent(withoutRank));
         }
         String msg = ChatColor.stripColor(event.getChat().getUnformattedText());
-        if(getHandlers().getHypixelDetector().isHypixel()){
-            switch (currentGame){
-                case SKYWARS:
-                    if(swKillMsg.matcher(msg).matches())
-                        if(msg.endsWith(Minecraft.getMinecraft().thePlayer.getName()+"."))
-                            EventBus.INSTANCE.post(new HypixelKillEvent(Minigame.SKYWARS, msg.split(" ")[0]));
-                    break;
-                case BEDWARS:
-                    if(bwKillMsg.matcher(msg).matches() || bwFinalKillMsg.matcher(msg).matches())
-                        msg = msg.replace(" FINAL KILL!", "");
-                        if(msg.endsWith(Minecraft.getMinecraft().thePlayer.getName()+"."))
+        if (getHandlers().getHypixelDetector().isHypixel()) {
+            if (currentGame != null)
+                switch (currentGame) {
+                    case SKYWARS:
+                        if (swKillMsg.matcher(msg).matches())
+                            if (msg.endsWith(Minecraft.getMinecraft().thePlayer.getName() + "."))
+                                EventBus.INSTANCE.post(new HypixelKillEvent(Minigame.SKYWARS, msg.split(" ")[0]));
+                        break;
+                    case BEDWARS:
+                        if (bwKillMsg.matcher(msg).matches() || bwFinalKillMsg.matcher(msg).matches())
+                            msg = msg.replace(" FINAL KILL!", "");
+                        if (msg.endsWith(Minecraft.getMinecraft().thePlayer.getName() + "."))
                             EventBus.INSTANCE.post(new HypixelKillEvent(Minigame.BEDWARS, msg.split(" ")[0]));
-                    break;
-                case DUELS:
-                    if(duelKillMsg.matcher(msg).matches())
-                        if(msg.endsWith(Minecraft.getMinecraft().thePlayer.getName()+"."))
-                            EventBus.INSTANCE.post(new HypixelKillEvent(Minigame.DUELS, msg.split(" ")[0]));
-            }
+                        break;
+                    case DUELS:
+                        if (duelKillMsg.matcher(msg).matches())
+                            if (msg.endsWith(Minecraft.getMinecraft().thePlayer.getName() + "."))
+                                EventBus.INSTANCE.post(new HypixelKillEvent(Minigame.DUELS, msg.split(" ")[0]));
+                }
         }
 
 
     }
 
     @InvokeEvent
-    public void onMinigameJoin(JoinMinigameEvent event){
+    public void onMinigameJoin(JoinMinigameEvent event) {
         currentGame = event.getMinigame();
     }
 
