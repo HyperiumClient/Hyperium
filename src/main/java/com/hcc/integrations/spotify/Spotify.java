@@ -22,14 +22,18 @@ import com.hcc.Metadata;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import org.apache.commons.lang3.SystemUtils;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.io.IOException;
 
 public class Spotify {
     private OkHttpClient client = new OkHttpClient();
     public Spotify() throws Exception{
-
+        File webHelper = getWebHelper();
+        if(webHelper == null)
+            throw new UnsupportedOperationException("Could not find WebHelper // OS not supported!");
     }
 
     /**
@@ -45,5 +49,15 @@ public class Spotify {
         Response response = client.newCall(request).execute();
         assert response.body() != null;
         return new JSONObject(response.body().string());
+    }
+
+    private File getWebHelper(){
+        if(SystemUtils.IS_OS_WINDOWS){
+            return new File(System.getProperty("user.home"), "\\AppData\\Roaming\\Spotify\\SpotifyWebHelper.exe");
+        }else if(SystemUtils.IS_OS_MAC){
+            return new File(System.getProperty("user.home"),"/Library/Application Support/Spotify/SpotifyWebHelper");
+        }else{
+            return null;
+        }
     }
 }
