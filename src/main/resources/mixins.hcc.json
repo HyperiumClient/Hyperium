@@ -35,6 +35,7 @@
     "packet.MixinC01PacketChatMessage",
     "packet.MixinS2EPacketCloseWindow",
     "world.MixinChunk",
-    "world.MixinWorld"
+    "world.MixinWorld",
+    "client.resources.MixinAbstractResourcePack"
   ]
 }
