@@ -16,26 +16,17 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.hcc.installer;
+package com.hcc.gui.integrations;
 
-import java.io.File;
+import com.hcc.event.InvokeEvent;
+import com.hcc.event.RenderSelectedItemEvent;
 
-public class InstallerMain {
-    /**
-     * called when jar is executed
-     *
-     * @param args command line argument
-     */
-    public static void main(String[] args) {
-        String mcDir = null;
-        if(args.length != 0)
-            mcDir = args[0];
-        if(mcDir!=null)
-            if(!new File(mcDir).exists()){
-                System.out.println("Specified directory does not exist");
-                System.exit(1);
-            }
-        System.out.println("Starting installer...");
-        new InstallerFrame(mcDir);
+public class TooltipEnchantments{
+    @InvokeEvent
+    public void onRenderSelectedItem(RenderSelectedItemEvent event){
+
+    }
+    public enum EnchantmentsTranslation{
+
     }
 }

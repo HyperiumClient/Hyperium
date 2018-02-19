@@ -25,6 +25,7 @@ import com.hcc.commands.defaults.CommandClearChat;
 import com.hcc.commands.defaults.CommandPrivateMessage;
 import com.hcc.config.DefaultConfig;
 import com.hcc.event.*;
+import com.hcc.event.minigames.Minigame;
 import com.hcc.event.minigames.MinigameListener;
 import com.hcc.gui.ModConfigGui;
 import com.hcc.gui.NotificationCenter;
@@ -77,8 +78,12 @@ public class HCC {
     private TrayManager trayManager;
     private HCCHandlers handlers;
     private HCCModIntegration modIntegration;
+    private Minigame currentGame;
+
     private Pattern friendRequestPattern;
     private Pattern rankBracketPattern;
+    private Pattern swKillMsg;
+    private Pattern bwKillMsg;
 
     /**
      * @param event initialize HCC
@@ -94,6 +99,7 @@ public class HCC {
 
         friendRequestPattern = Pattern.compile("Friend request from .+?");
         rankBracketPattern = Pattern.compile("[\\^] ");
+        swKillMsg = Pattern.compile(".+? was .+? by .+?\\.");
 
         folder = new File(Minecraft.getMinecraft().mcDataDir, "hcc");
         LOGGER.info("HCC Started!");
@@ -159,7 +165,23 @@ public class HCC {
             withoutRank = withoutRank.replaceAll(rankBracketPattern.pattern(), "");
             EventBus.INSTANCE.post(new HypixelFriendRequestEvent(withoutRank));
         }
+        String msg = ChatColor.stripColor(event.getChat().getUnformattedText());
+        if(getHandlers().getHypixelDetector().isHypixel()){
+            switch (currentGame){
+                case SKYWARS:
+                    if(swKillMsg.matcher(msg).matches())
+                        if(msg.startsWith(Minecraft.getMinecraft().thePlayer.getName()))
+                            EventBus.INSTANCE.post(new HypixelKillEvent(Minigame.SKYWARS, msg.split(" ")[0]));
+                    break;
+            }
+        }
 
+
+    }
+
+    @InvokeEvent
+    public void onMinigameJoin(JoinMinigameEvent event){
+        currentGame = event.getMinigame();
     }
 
     /**

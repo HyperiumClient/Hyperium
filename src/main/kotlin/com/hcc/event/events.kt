@@ -146,3 +146,5 @@ class HypixelFriendRequestEvent(val from: String)
 
 class RenderSelectedItemEvent(val scaledRes: ScaledResolution)
 
+class HypixelKillEvent(val game: Minigame, val player: String)
+

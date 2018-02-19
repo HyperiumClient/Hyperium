@@ -53,11 +53,13 @@ public class InstallerFrame extends JFrame implements PropertyChangeListener {
     private JLabel error;
     private JProgressBar progressBar;
     private JButton exit;
+    private String mcDir;
 
     /**
      * Constructor
+     * @param mcDir
      */
-    InstallerFrame() {
+    InstallerFrame(String mcDir) {
         super.frameInit();
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         setSize(WIDTH, HEIGHT);
@@ -73,6 +75,7 @@ public class InstallerFrame extends JFrame implements PropertyChangeListener {
 
         this.setVisible(true);
         this.setLayout(null);
+        this.mcDir = mcDir;
         try {
             install();
         } catch (Throwable ex) {
@@ -257,6 +260,8 @@ public class InstallerFrame extends JFrame implements PropertyChangeListener {
      * @return default minecraft directory for every OS
      */
     private File getMinecraftDir() {
+        if(mcDir!=null)
+            return new File(mcDir);
         switch (OsCheck.getOperatingSystemType()) {
             case Linux:
                 return new File(System.getProperty("user.home"), ".minecraft");

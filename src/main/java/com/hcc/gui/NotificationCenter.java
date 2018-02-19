@@ -20,6 +20,7 @@ package com.hcc.gui;
 
 import com.hcc.event.InvokeEvent;
 import com.hcc.event.RenderEvent;
+import com.hcc.event.RenderHUDEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
@@ -35,7 +36,7 @@ public class NotificationCenter {
     private Long endTicks = 0L;
 
     @InvokeEvent
-    public void onRenderTick(RenderEvent event) {
+    public void onRenderTick(RenderHUDEvent event) {
         if (ticks > endTicks) {
             ticks = 0L;
             endTicks = 0L;
