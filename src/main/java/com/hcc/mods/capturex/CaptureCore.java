@@ -55,7 +55,7 @@ public class CaptureCore {
         addScheduledTask(() -> {
             mc.addScheduledTask(()->ScreenShotHelper.saveScreenshot(mc.mcDataDir, mc.displayWidth, mc.displayHeight, mc.getFramebuffer()));
             HCC.INSTANCE.sendMessage("Kill captured!");
-            HCC.INSTANCE.getNotification().display("CaptureX", "Kill captured!", 2);
+            HCC.INSTANCE.getNotification().display("CaptureX", "Kill captured!", 3);
         });
     }
 
