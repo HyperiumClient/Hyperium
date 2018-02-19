@@ -31,7 +31,6 @@ import org.apache.commons.lang3.Validate;
 
 import java.util.Queue;
 import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.FutureTask;
 
@@ -54,7 +53,6 @@ public class CaptureCore {
         Minecraft mc = Minecraft.getMinecraft();
         addScheduledTask(() -> {
             mc.addScheduledTask(()->ScreenShotHelper.saveScreenshot(mc.mcDataDir, mc.displayWidth, mc.displayHeight, mc.getFramebuffer()));
-            HCC.INSTANCE.sendMessage("Kill captured!");
             HCC.INSTANCE.getNotification().display("CaptureX", "Kill captured!", 3);
         });
     }
