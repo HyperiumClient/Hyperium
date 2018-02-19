@@ -31,6 +31,12 @@ public class Spotify {
     public Spotify() throws Exception{
 
     }
+
+    /**
+     * @param url url to get
+     * @return JSONObject content
+     * @throws IOException if exception occurs
+     */
     private JSONObject get(String url) throws IOException {
         Request request = new Request.Builder()
                 .url(url)
