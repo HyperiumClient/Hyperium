@@ -30,7 +30,6 @@ public abstract class MixinAbstractResourcePack implements IResourcePack {
         if (originalIcon == null) {
             return null;
         }
-        System.out.println("Scaling resource pack icon from " + originalIcon.getWidth() + " to " + IconSize);
         BufferedImage resizedIcon = new BufferedImage(IconSize, IconSize, BufferedImage.TYPE_INT_ARGB);
         Graphics graphics = resizedIcon.getGraphics();
         graphics.drawImage(originalIcon, 0, 0, IconSize, IconSize, null);
