@@ -86,6 +86,7 @@ public class HCC {
     private Pattern rankBracketPattern;
     private Pattern swKillMsg;
     private Pattern bwKillMsg;
+    private Pattern bwFinalKillMsg;
 
     /**
      * @param event initialize HCC
@@ -104,6 +105,7 @@ public class HCC {
         rankBracketPattern = Pattern.compile("[\\^] ");
         swKillMsg = Pattern.compile(".+? was .+? by .+?\\.");
         bwKillMsg = Pattern.compile(".+? by .+?\\.");
+        bwFinalKillMsg = Pattern.compile(".+? by .+?\\. FINAL KILL!");
 
         folder = new File(Minecraft.getMinecraft().mcDataDir, "hcc");
         LOGGER.info("HCC Started!");
@@ -177,7 +179,13 @@ public class HCC {
                         if(msg.endsWith(Minecraft.getMinecraft().thePlayer.getName()+"."))
                             EventBus.INSTANCE.post(new HypixelKillEvent(Minigame.SKYWARS, msg.split(" ")[0]));
                     break;
-
+                case BEDWARS:
+                    if(bwKillMsg.matcher(msg).matches() || bwFinalKillMsg.matcher(msg).matches())
+                        msg = msg.replace(" FINAL KILL!", "");
+                        if(msg.endsWith(Minecraft.getMinecraft().thePlayer.getName()+".")) {
+                            EventBus.INSTANCE.post(new HypixelKillEvent(Minigame.BEDWARS, msg.split(" ")[0]));
+                        }
+                    break;
             }
         }
 
