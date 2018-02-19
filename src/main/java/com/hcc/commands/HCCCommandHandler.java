@@ -23,6 +23,7 @@ import com.hcc.event.SendChatMessageEvent;
 import com.hcc.handlers.handlers.chat.GeneralChatHandler;
 import com.hcc.utils.ChatColor;
 
+import java.util.Map.Entry;
 import net.minecraft.client.Minecraft;
 
 import java.util.*;
@@ -113,5 +114,17 @@ public class HCCCommandHandler {
             }
         }
     }
-
+    
+    /**
+     * Removes a register command & all aliases
+     *
+     * @param command the command to unregister
+     */
+    public void removeCommand(BaseCommand command) {
+        for (Entry<String, BaseCommand> entry : this.commands.entrySet()) {
+            if (entry.getValue().equals(command)) {
+                this.commands.remove(entry.getKey());
+            }
+        }
+    }
 }

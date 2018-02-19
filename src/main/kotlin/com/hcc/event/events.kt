@@ -23,9 +23,12 @@ import com.hcc.event.minigames.Minigame
 import net.minecraft.client.entity.AbstractClientPlayer
 import net.minecraft.client.gui.ScaledResolution
 import net.minecraft.client.gui.GuiScreen
+import net.minecraft.client.network.NetworkPlayerInfo
 import net.minecraft.client.renderer.entity.RenderManager
+import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.util.BlockPos
 import net.minecraft.util.IChatComponent
+import net.minecraft.util.ResourceLocation
 import net.minecraft.util.Vec3
 import java.util.*
 
@@ -86,6 +89,9 @@ class TickEvent
  */
 class RenderEvent
 
+/**
+ * Invoked when the hud of the client is rendered
+ */
 class RenderHUDEvent(partialTicks: Float)
 
 /**
@@ -97,8 +103,6 @@ class ChatEvent(var chat: IChatComponent) : CancellableEvent()
  * Invoked when the player presses the enter key in the GuiChat class
  *
  * @param message the message the player is sending
- * @param addsToClientHistory should the message be added to the players client history, only used
- *      when the event is cancelled
  */
 class SendChatMessageEvent(val message: String) : CancellableEvent()
 
@@ -108,6 +112,22 @@ class SendChatMessageEvent(val message: String) : CancellableEvent()
  * @param gui the gui that is being opened
  */
 class GuiOpenEvent(var gui: GuiScreen?) : CancellableEvent()
+
+/**
+ * Invoked when a players cape is grabbed from the game
+ * code, this allows easy modification of that cape
+ *
+ * @param cape the cape that will be used (may be null)
+ */
+class PlayerGetCapeEvent(val player: EntityPlayer, var cape: ResourceLocation?)
+
+/**
+ * Invoked when a players skin is grabbed from the game
+ * code, this allows easy modification of the players skin
+ *
+ * @param skin the skin that will be used (may be null)
+ */
+class PlayerGetSkinEvent(val player: EntityPlayer, var skin: ResourceLocation?)
 
 /**
  * Invoked once the player has joined singleplayer
@@ -144,6 +164,9 @@ class KeyBindDisableEvent(val key: Int)
  */
 class HypixelFriendRequestEvent(val from: String)
 
+/**
+ * Invoked when the selected item is about to be rendered
+ */
 class RenderSelectedItemEvent(val scaledRes: ScaledResolution)
 
 class HypixelKillEvent(val game: Minigame, val player: String)

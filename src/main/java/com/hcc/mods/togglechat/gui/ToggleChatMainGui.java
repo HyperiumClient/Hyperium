@@ -18,6 +18,9 @@
 
 package com.hcc.mods.togglechat.gui;
 
+import com.hcc.event.EventBus;
+import com.hcc.event.InvokeEvent;
+import com.hcc.event.TickEvent;
 import com.hcc.utils.ChatColor;
 import com.hcc.mods.togglechat.ToggleChatMod;
 import com.hcc.mods.togglechat.toggles.ToggleBase;
@@ -30,7 +33,7 @@ import net.minecraft.client.gui.GuiScreen;
 import java.awt.*;
 import java.util.HashMap;
 
-public class MainGui extends GuiScreen {
+public class ToggleChatMainGui extends GuiScreen {
 
     //        - 99
     //        - 75
@@ -48,7 +51,7 @@ public class MainGui extends GuiScreen {
 
     private int pageNumber;
 
-    public MainGui(ToggleChatMod main, int pageNumber) {
+    public ToggleChatMainGui(ToggleChatMod main, int pageNumber) {
         this.pageNumber = pageNumber;
 
         this.main = main;
@@ -75,7 +78,7 @@ public class MainGui extends GuiScreen {
             final int[] position = {this.height / 2 - 75};
 
             this.main.getToggleHandler().getToggles().values().stream().skip((this.pageNumber - 1) * 7).limit(7).forEach(baseType -> {
-                GuiButton button = new GuiButton(0, this.width / 2 - 75, position[0], 150, 20, String.format(baseType.getDisplayName(), getStatus(baseType.isEnabled())));
+                GuiButton button = new GuiButton(0, this.width / 2 - 75, position[0], 150, 20, String.format(baseType.getDisplayName(), baseType.getStatus(baseType.isEnabled())));
                 this.data.put(button, new Tuple<>(baseType, baseType.getName().toLowerCase().replace(" ", "_")));
                 this.buttonList.add(button);
                 position[0] += 24;
@@ -106,10 +109,10 @@ public class MainGui extends GuiScreen {
     protected void actionPerformed(GuiButton button) {
         switch (button.id) {
             case 1:
-                this.mc.displayGuiScreen(new MainGui(this.main, this.pageNumber - 1));
+                this.mc.displayGuiScreen(new ToggleChatMainGui(this.main, this.pageNumber - 1));
                 return;
             case 2:
-                this.mc.displayGuiScreen(new MainGui(this.main, this.pageNumber + 1));
+                this.mc.displayGuiScreen(new ToggleChatMainGui(this.main, this.pageNumber + 1));
                 return;
         }
 
@@ -117,7 +120,8 @@ public class MainGui extends GuiScreen {
         if (button.id == 0) {
             for (ToggleBase base : this.main.getToggleHandler().getToggles().values()) {
                 if (this.data.containsKey(button) && base.getName().toLowerCase().replace(" ", "_").equals(this.data.get(button).getSecond())) {
-                    base.onClick(button);
+                    base.setEnabled(!base.isEnabled());
+                    button.displayString = (String.format(base.getDisplayName(), base.getStatus(base.isEnabled())));
                     this.changed = true;
                     break;
                 }
@@ -157,8 +161,19 @@ public class MainGui extends GuiScreen {
             }
         }
     }
-
-    private String getStatus(boolean in) {
-        return in ? ChatColor.GREEN + "Enabled" : ChatColor.RED + "Disabled";
+    
+    @Override
+    public boolean doesGuiPauseGame() {
+        return false;
+    }
+    
+    public void display() {
+        EventBus.INSTANCE.register(this);
+    }
+    
+    @InvokeEvent
+    public void tick(TickEvent e) {
+        EventBus.INSTANCE.unregister(this);
+        Minecraft.getMinecraft().displayGuiScreen(this);
     }
 }

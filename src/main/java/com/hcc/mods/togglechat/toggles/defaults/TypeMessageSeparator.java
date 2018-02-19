@@ -20,8 +20,6 @@ package com.hcc.mods.togglechat.toggles.defaults;
 
 import com.hcc.mods.togglechat.toggles.ToggleBase;
 
-import net.minecraft.client.gui.GuiButton;
-
 import java.util.LinkedList;
 
 public class TypeMessageSeparator extends ToggleBase {
@@ -44,12 +42,6 @@ public class TypeMessageSeparator extends ToggleBase {
             return formattedText.replace("--", "");
         }
         return formattedText;
-    }
-
-    @Override
-    public void onClick(GuiButton button) {
-        this.enabled = !this.enabled;
-        button.displayString = (String.format(getDisplayName(), getStatus(isEnabled())));
     }
 
     @Override

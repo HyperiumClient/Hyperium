@@ -20,6 +20,7 @@ package com.hcc.mods;
 
 import com.hcc.mods.chromahud.ChromaHUD;
 import com.hcc.mods.levelhead.Levelhead;
+import com.hcc.mods.skinchanger.SkinChangerMod;
 import com.hcc.mods.togglechat.ToggleChatMod;
 
 import me.semx11.autotip.Autotip;
@@ -30,7 +31,8 @@ import me.semx11.autotip.Autotip;
  */
 public class HCCModIntegration {
     
-    private ToggleChatMod toggleChat;
+    private IBaseMod skinChanger;
+    private IBaseMod toggleChat;
 
     private ChromaHUD chromaHUD;
     private Levelhead levelhead;
@@ -42,6 +44,9 @@ public class HCCModIntegration {
 
         // ToggleChat implementation
         this.toggleChat = new ToggleChatMod().init();
+        
+        // SkinChanger implementation
+        this.skinChanger = new SkinChangerMod().init();
 
         // Autotip implementation
         this.autotip = new Autotip().init();
@@ -73,13 +78,22 @@ public class HCCModIntegration {
     public Levelhead getLevelhead() {
         return this.levelhead;
     }
-
+    
+    /**
+     * A getter for the running SkinChanger instance
+     *
+     * @return the running SkinChanger instance
+     */
+    public IBaseMod getSkinChanger() {
+        return this.skinChanger;
+    }
+    
     /**
      * A getter for the running ToggleChat instance
      *
      * @return the running ToggleChat instance
      */
-    public ToggleChatMod getToggleChat() {
+    public IBaseMod getToggleChat() {
         return this.toggleChat;
     }
 }

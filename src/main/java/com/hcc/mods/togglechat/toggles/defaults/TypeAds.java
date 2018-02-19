@@ -20,8 +20,6 @@ package com.hcc.mods.togglechat.toggles.defaults;
 
 import com.hcc.mods.togglechat.toggles.ToggleBase;
 
-import net.minecraft.client.gui.GuiButton;
-
 import java.util.LinkedList;
 import java.util.regex.Pattern;
 
@@ -35,55 +33,48 @@ public class TypeAds extends ToggleBase {
     private Pattern mediaPattern4 = Pattern.compile("\nGet deals and news sent to your email!\nSignup for the Newsletter! (?<special>.) (?<link>.+)\n");
 
     private boolean enabled = true;
-
+    
     @Override
     public String getName() {
         return "Ads";
     }
-
+    
     @Override
     public String getDisplayName() {
         return "Ads: %s";
     }
-
+    
     @Override
     public boolean shouldToggle(String message) {
-        return this.networkBoosterPattern.matcher(message).find() ||
-                this.mysteryPattern.matcher(message).find() ||
-                this.mediaPattern1.matcher(message).matches() ||
-                this.mediaPattern2.matcher(message).matches() ||
-                this.mediaPattern3.matcher(message).matches() ||
-                this.mediaPattern4.matcher(message).matches();
+        return this.networkBoosterPattern.matcher(message).find()
+            || this.mysteryPattern.matcher(message).find()
+            || this.mediaPattern1.matcher(message).matches()
+            || this.mediaPattern2.matcher(message).matches()
+            || this.mediaPattern3.matcher(message).matches()
+            || this.mediaPattern4.matcher(message).matches();
     }
-
-    @Override
-    public void onClick(GuiButton button) {
-        this.enabled = !this.enabled;
-        button.displayString = (String.format(getDisplayName(), getStatus(isEnabled())));
-    }
-
-    @Override
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
-
+    
     @Override
     public boolean isEnabled() {
         return this.enabled;
     }
-
+    
+    @Override
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+    
     @Override
     public LinkedList<String> getDescription() {
         return asLinked(
-                "Toggles all server chat",
-                "advertisements such as",
-                "things prompting the",
-                "store page",
-                "",
-                "This cleans up the chat",
-                "whilst you are afk",
-                "so you don\'t miss",
-                "important messages"
-        );
+            "Toggles all server chat",
+            "advertisements such as",
+            "things prompting the",
+            "store page",
+            "",
+            "This cleans up the chat",
+            "whilst you are afk",
+            "so you don\'t miss",
+            "important messages");
     }
 }

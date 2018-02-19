@@ -19,7 +19,6 @@
 package com.hcc.mods.togglechat.toggles.defaults;
 
 import com.hcc.mods.togglechat.toggles.ToggleBase;
-import net.minecraft.client.gui.GuiButton;
 
 import java.util.LinkedList;
 import java.util.regex.Pattern;
@@ -41,12 +40,6 @@ public class TypeSpectator extends ToggleBase {
     @Override
     public boolean shouldToggle(String message) {
         return this.spectatorPattern.matcher(message).matches();
-    }
-
-    @Override
-    public void onClick(GuiButton button) {
-        this.enabled = !this.enabled;
-        button.displayString = (String.format(getDisplayName(), getStatus(isEnabled())));
     }
 
     @Override

@@ -21,8 +21,6 @@ package com.hcc.mods.togglechat.toggles.defaults;
 import com.hcc.utils.ChatColor;
 import com.hcc.mods.togglechat.toggles.ToggleBase;
 
-import net.minecraft.client.gui.GuiButton;
-
 import java.util.LinkedList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -50,12 +48,6 @@ public class TypeBuildBattle extends ToggleBase {
         Matcher matcher = this.battlePattern.matcher(ChatColor.stripColor(message));
 
         return matcher.matches() && validBattleRank(matcher.group("battle"));
-    }
-
-    @Override
-    public void onClick(GuiButton button) {
-        this.enabled = !this.enabled;
-        button.displayString = (String.format(getDisplayName(), getStatus(isEnabled())));
     }
 
     @Override

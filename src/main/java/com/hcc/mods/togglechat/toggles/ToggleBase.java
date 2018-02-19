@@ -20,8 +20,6 @@ package com.hcc.mods.togglechat.toggles;
 
 import com.hcc.utils.ChatColor;
 
-import net.minecraft.client.gui.GuiButton;
-
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.regex.Pattern;
@@ -31,7 +29,6 @@ import java.util.regex.Pattern;
  *
  * @author boomboompower
  */
-@SuppressWarnings("WeakerAccess")
 public abstract class ToggleBase {
 
     /**
@@ -69,14 +66,6 @@ public abstract class ToggleBase {
      * @param enabled used in loading to set the toggled enabled/disabled
      */
     public abstract void setEnabled(boolean enabled);
-
-    /**
-     * Called when the button is first clicked. Toggle logic should
-     *      go here. Such as turning your setting on/off
-     *
-     * @param button The button that was pressed
-     */
-    public abstract void onClick(GuiButton button);
 
     /**
      * Gets the description of the specified toggle,
