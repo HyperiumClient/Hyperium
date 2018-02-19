@@ -19,7 +19,6 @@
 package com.hcc.mods.togglechat.toggles.defaults;
 
 import com.hcc.mods.togglechat.toggles.ToggleBase;
-import net.minecraft.client.gui.GuiButton;
 
 import java.util.LinkedList;
 
@@ -41,12 +40,6 @@ public class TypeColored extends ToggleBase {
                 message.startsWith("[WHITE] ") ||
                 message.startsWith("[PURPLE] "
         );
-    }
-
-    @Override
-    public void onClick(GuiButton button) {
-        this.enabled = !this.enabled;
-        button.displayString = (String.format(getDisplayName(), getStatus(isEnabled())));
     }
 
     @Override

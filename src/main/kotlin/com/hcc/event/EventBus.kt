@@ -66,7 +66,7 @@ object EventBus {
                     try {
                         sub.methodAccess.invoke(sub.instance, sub.mIndex, event)
                     } catch (e: Exception) {
-                        println("Failed to call the " + event.javaClass.name + " in the " + sub.instance.javaClass.name + "class, check below for errors!")
+                        println("Failed to call " + event.javaClass.canonicalName + " in " + sub.instance.javaClass.canonicalName + " class, check below for errors!")
                         e.printStackTrace()
                     }
                 }
