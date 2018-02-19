@@ -44,13 +44,16 @@ public class Spotify {
     private JSONObject get(String url) throws IOException {
         Request request = new Request.Builder()
                 .url(url)
-                .addHeader("User-Agent", "Mozilla/5.0 HCC "+ Metadata.getVersion())
+                .addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36")
                 .build();
         Response response = client.newCall(request).execute();
         assert response.body() != null;
         return new JSONObject(response.body().string());
     }
 
+    /**
+     * @return web helper executable path
+     */
     private File getWebHelper(){
         if(SystemUtils.IS_OS_WINDOWS){
             return new File(System.getProperty("user.home"), "\\AppData\\Roaming\\Spotify\\SpotifyWebHelper.exe");
