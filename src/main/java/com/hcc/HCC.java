@@ -53,13 +53,9 @@ import java.awt.*;
 import java.io.File;
 import java.util.regex.Pattern;
 
-<<<<<<< HEAD
-import static com.hcc.mods.sk1ercommon.ChatColor.RED;
-import static com.hcc.mods.sk1ercommon.ChatColor.WHITE;
 
 
-=======
->>>>>>> 410afa5a57ae020eb66cc7dae807bd13d1844a7c
+
 /**
  * Hypixel Community Client
  */

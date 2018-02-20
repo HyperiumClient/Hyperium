@@ -39,13 +39,12 @@ public class TrayManager {
             PopupMenu menu = new PopupMenu();
 
             MenuItem aboutItem = new MenuItem("About");
-<<<<<<< HEAD
+
 
             //TODO: Add About Dialog
-=======
+
             //TODO: Edit about Dialog
             aboutItem.addActionListener(action -> hccutils.trayDisplayAboutInfo());
->>>>>>> 410afa5a57ae020eb66cc7dae807bd13d1844a7c
 
             MenuItem exitItem = new MenuItem("Exit");
             exitItem.addActionListener(action -> Minecraft.getMinecraft().shutdown());

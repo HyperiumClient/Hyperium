@@ -55,11 +55,9 @@ apply plugin: 'net.minecraftforge.gradle.tweaker-client'
 apply plugin: 'org.spongepowered.mixin'
 apply plugin: 'kotlin'
 apply plugin: 'java'
-<<<<<<< HEAD
-=======
+
 apply plugin: 'com.github.johnrengelman.shadow'
 apply plugin: 'maven-publish'
->>>>>>> 410afa5a57ae020eb66cc7dae807bd13d1844a7c
 
 
 sourceCompatibility = 1.8
