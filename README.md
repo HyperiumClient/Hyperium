@@ -11,6 +11,20 @@ The HCC is a Minecraft modification in development. It will combine many popular
 
 **stop.**
 
+## FAQ ##
+Q: PLEASE HELP ME I CAN'T BUILD THE PROJECT!
+
+A: JUST **WAIT**
+
+
+Q:RELEASE, WHEN??
+
+A: WE DON'T KNOW!
+
+
+Q: ETA?
+
+A: DON'T KNOW
 
 ## Addons ##
 **Requirement:** Built HCC, JDK 8+, IDE
