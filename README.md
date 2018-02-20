@@ -91,7 +91,7 @@ public class TestMod {
   "main":"me.cubxity.TestMod"
 }
 ```
-**Examples [here](https://github.com/HypixelCommunityClient/AddonWorkspace)**
+**Examples [here](https://github.com/HypixelCommunityClient/Addon-Workspace)**
 ## Developers ##
 [![](https://cdn.discordapp.com/avatars/376817315830038530/87dd80c68e0598ea39af4e0472b299b7.png)](https://github.com/Sk1er)
 [![](https://cdn.discordapp.com/avatars/248159137370734601/8a8b49df90cda7ccd55f28c1f5293ad6.png)](https://github.com/CoalCoding)
