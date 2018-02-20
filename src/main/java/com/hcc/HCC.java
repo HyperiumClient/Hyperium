@@ -186,7 +186,9 @@ public class HCC {
         }
         String msg = ChatColor.stripColor(event.getChat().getUnformattedText());
         if (getHandlers().getHypixelDetector().isHypixel()) {
-            if(currentGame!=null)
+            if (currentGame == null) {
+                return;
+            }
             switch (currentGame) {
                 case SKYWARS:
                     if (swKillMsg.matcher(msg).matches())

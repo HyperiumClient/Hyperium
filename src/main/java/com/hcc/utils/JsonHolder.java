@@ -39,7 +39,7 @@ public class JsonHolder {
     }
 
     public JsonHolder(String raw) {
-        if (raw == null) {
+        if (raw == null || raw.isEmpty()) {
             object = new JsonObject();
             return;
         }

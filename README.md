@@ -8,62 +8,23 @@ The HCC is a Minecraft modification in development. It will combine many popular
 ## Contributing ##
 
 ## Building the project with IntelliJ ##
-Step #1 - Cloning the GitHub.
 
-- Click "Clone or Download" and download as ZIP.
-- Extract the file inside called "HCC_master" to wherever you want your workspace to be.
+**stop.**
 
-Step #2 - Importing the build.gradle in IntelliJ.
+## FAQ ##
+Q: PLEASE HELP ME I CAN'T BUILD THE PROJECT!
 
-- Launch IntelliJ.
-- Click New -> Project from existing sources, and select the build.gradle in the HCC_master folder.
-- Select "use gradle wrapper configuration" when it asks for it.
-- Open the new project and wait for all the processes to finish.
-
-Step #3 - Changing your gradle version.
-
-- Go into gradle/wrapper/gradle-wrapper.properties
-- Change the version number in the distribution URL to "2.9" from "3.5".
+A: JUST **WAIT**
 
 
-Step #4 - Disabling shadowJar in the gradle.
-- Go into the build.gradle file located in your workspace.
-- Comment out anything with "shadow" or "shadowJar" in it.
+Q: RELEASE, WHEN??
 
-Step #5 - Setting up decompiled MC.
-
-- Open the gradle tab on the right hand side of IntelliJ, if it's not there, click "View", "Tool Windows"
- and then "gradle".
-- In the gradle tab, expand Tasks, forgegradle and run setupDecompWorkspace, wait for it to finish.
+A: WE DON'T KNOW!
 
 
-Step #6 - Generating run files.
-- In the gradle tab, forgegradle again, run "genIntelliJRuns".
-- Open the run files in the top of IntelliJ next to the green "Run" button, and click "edit configurations".
-- Expand "Application", select Minecraft Client, and change "Use classpath of module" to "HCC_master_main".
-- Hit apply and close with "OK".
+Q: ETA?
 
-Step #7 - Resetting the gradle files and running MC.
-- Go back into the build.gradle and uncomment out everything you commented out.
-- Go back to the gradle-wrapper.properties file and change the version back to 3.5.
-- Select "Minecraft Client" next to the run button and click the run button.
-- The gradle should automatically rebuild, this may take a minute.
-- Minecraft should launch.
-
-## Building ##
-Step #1: Cloning the repo
-```
-git clone https://github.com/HypixelCommunityClient/HCC
-```
-Step #2: Open the repository you cloned using IDE (We prefer [IntelliJ](https://jetbrains.com/idea))
-
-Step #3: Import as gradle project, use the project's wrapper
-
-Step #4: Run Tasks \> forgeGradle \> setupDecompWorkspace
-
-Step #5: Run Tasks \> forgeGradle \> genIntellijRuns (for IntelliJ)
-
-Step #6: Build project
+A: DON'T KNOW
 
 ## Addons ##
 **Requirement:** Built HCC, JDK 8+, IDE

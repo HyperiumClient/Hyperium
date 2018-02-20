@@ -37,6 +37,8 @@
     "packet.MixinS2EPacketCloseWindow",
     "world.MixinChunk",
     "world.MixinWorld",
+
+    "scoreboard.MixinScoreboard",
     
     "client.resources.MixinAbstractResourcePack"
   ]

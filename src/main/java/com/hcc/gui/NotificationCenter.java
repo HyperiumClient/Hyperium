@@ -27,49 +27,54 @@ import net.minecraft.client.gui.ScaledResolution;
 
 import java.awt.*;
 
-public class NotificationCenter extends Gui{
-
+public class NotificationCenter extends Gui {
+    
     private String title;
     private String description;
-
+    
     private int ticks = 0;
     private int endTicks = 0;
-
+    
     @InvokeEvent
     public void onRenderTick(RenderHUDEvent event) {
-
-        if (ticks >= endTicks) {
+        
+        if (this.ticks >= this.endTicks) {
             return;
         }
-
+        
         FontRenderer fontRendererObj = Minecraft.getMinecraft().fontRendererObj;
-
+        
         int rectW = 175;
         int rectH = 40;
         int x = 0;
-         //animation
-        if(ticks < 20){
+        // animation
+        if (ticks < 20) {
             x = (rectW / 20) * (20 - ticks);
-        }else if ((endTicks - ticks) < 20){
-            x = (rectW / 20)*(20 - (endTicks - ticks));
+        } else if ((endTicks - ticks) < 20) {
+            x = (rectW / 20) * (20 - (endTicks - ticks));
         }
-
+        
         ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
         int w = sr.getScaledWidth(), h = sr.getScaledHeight();
-
+        
         // Background
-        Gui.drawRect(w-rectW+x, (h - 30)-rectH, w+x, h - 30, new Color(30, 30, 30).getRGB());
-        Gui.drawRect(w-rectW+x, (h - 30)-rectH, (w-rectW)+3+x, h - 30, new Color(149, 201, 144).getRGB());
-        fontRendererObj.drawString(title, (w-rectW) + 10 + x, (h -30)-rectH + 10, 0xFFFFFF);
-        fontRendererObj.drawString(description, (w-rectW) + 10 + x, (h -30)-rectH + 20, 0x424242);
-
+        Gui.drawRect(w - rectW + x, (h - 30) - rectH, w + x, h - 30, new Color(30, 30, 30).getRGB());
+        Gui.drawRect(
+            w - rectW + x,
+            (h - 30) - rectH,
+            (w - rectW) + 3 + x,
+            h - 30,
+            new Color(149, 201, 144).getRGB());
+        fontRendererObj.drawString(title, (w - rectW) + 10 + x, (h - 30) - rectH + 10, 0xFFFFFF);
+        fontRendererObj.drawString(description, (w - rectW) + 10 + x, (h - 30) - rectH + 20, 0x424242);
+        
         ticks++;
     }
-
+    
     public void display(String title, String description, float seconds) {
         this.title = title;
         this.description = description;
         this.ticks = 0;
-        this.endTicks = (int) (seconds*20);
+        this.endTicks = (int) (seconds * 20);
     }
 }
