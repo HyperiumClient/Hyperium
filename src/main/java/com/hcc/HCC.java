@@ -189,7 +189,6 @@ public class HCC {
             if (currentGame == null) {
                 return;
             }
-            
             switch (currentGame) {
                 case SKYWARS:
                     if (swKillMsg.matcher(msg).matches())
