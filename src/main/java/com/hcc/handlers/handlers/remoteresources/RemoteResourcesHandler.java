@@ -92,6 +92,10 @@ public class RemoteResourcesHandler {
 
     private String readFileString(String name) {
         try {
+            if (!getFile(name).exists()) {
+                return "";
+            }
+            
             FileReader fr = new FileReader(getFile(name));
             BufferedReader br = new BufferedReader(fr);
             StringBuilder builder = new StringBuilder();
@@ -230,7 +234,7 @@ public class RemoteResourcesHandler {
 
     public String rawHttp(String url) {
         url = url.replace(" ", "%20");
-        System.out.println("Fetching " + url);
+        //System.out.println("Fetching " + url);
         try {
             URL u = new URL(url);
             HttpURLConnection connection = (HttpURLConnection) u.openConnection();
