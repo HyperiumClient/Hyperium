@@ -95,7 +95,7 @@ public class RemoteResourcesHandler {
             if (!getFile(name).exists()) {
                 return "";
             }
-            
+
             FileReader fr = new FileReader(getFile(name));
             BufferedReader br = new BufferedReader(fr);
             StringBuilder builder = new StringBuilder();
