@@ -58,6 +58,11 @@ public abstract class MixinNetworkPlayerInfo {
         if (cape == null) {
             this.loadPlayerTextures();
         }
+        
+        // Fix the NPE occu inside the event
+        if (getPlayer() == null) {
+            return cape;
+        }
     
         PlayerGetCapeEvent event = new PlayerGetCapeEvent(getPlayer(), cape);
         
@@ -80,6 +85,10 @@ public abstract class MixinNetworkPlayerInfo {
         if (skin == null) {
             this.loadPlayerTextures();
         }
+        
+        if (getPlayer() == null) {
+            return normalizeSkin(skin);
+        }
     
         PlayerGetSkinEvent event = new PlayerGetSkinEvent(getPlayer(), skin);
     
@@ -87,7 +96,7 @@ public abstract class MixinNetworkPlayerInfo {
     
         skin = event.getSkin();
     
-        return this.locationSkin = (skin != null ? skin :  DefaultPlayerSkin.getDefaultSkin(this.gameProfile.getId()));
+        return this.locationSkin = normalizeSkin(skin);
     }
     
     private EntityPlayer getPlayer() {
@@ -101,6 +110,10 @@ public abstract class MixinNetworkPlayerInfo {
         }
         
         return this.thePlayer;
+    }
+    
+    private ResourceLocation normalizeSkin(ResourceLocation skin) {
+        return (skin != null ? skin : DefaultPlayerSkin.getDefaultSkin(this.gameProfile.getId()));
     }
     
     @Shadow protected abstract void loadPlayerTextures();
