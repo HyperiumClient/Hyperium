@@ -92,7 +92,9 @@ public class RemoteResourcesHandler {
 
     private String readFileString(String name) {
         try {
-            FileReader fr = new FileReader(getFile(name));
+            File file = getFile(name);
+            file.mkdirs();
+            FileReader fr = new FileReader(file);
             BufferedReader br = new BufferedReader(fr);
             StringBuilder builder = new StringBuilder();
             String line = null;
@@ -255,7 +257,7 @@ public class RemoteResourcesHandler {
 
     public enum ResourceType {
         TEXT,
-        IMAGE;
+        IMAGE
     }
 
     class ResourceFrame {

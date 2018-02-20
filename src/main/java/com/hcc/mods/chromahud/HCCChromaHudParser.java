@@ -25,6 +25,7 @@ import com.hcc.mods.chromahud.api.DisplayItem;
 import com.hcc.mods.chromahud.displayitems.hcc.HypixelDisplay;
 import com.hcc.mods.chromahud.displayitems.hcc.LocationDisplay;
 import com.hcc.mods.chromahud.displayitems.hcc.RatingDisplay;
+import com.hcc.mods.chromahud.displayitems.hcc.ScoreboardDisplay;
 import com.hcc.utils.JsonHolder;
 
 import java.util.HashMap;
@@ -40,6 +41,7 @@ public class HCCChromaHudParser implements ChromaHUDParser {
         names.put("LOCATION", "Location");
         names.put("HYPIXEL", "Hypixel");
         names.put("RATING", "Rating");
+        names.put("SCOREBOARD", "Scoreboard");
     }
 
     @Override
@@ -52,6 +54,8 @@ public class HCCChromaHudParser implements ChromaHUDParser {
                 return new HypixelDisplay(item, ord);
             case "RATING":
                 return new RatingDisplay(item, ord);
+            case "SCOREBOARD":
+                return new ScoreboardDisplay(item, ord);
 
         }
         return null;

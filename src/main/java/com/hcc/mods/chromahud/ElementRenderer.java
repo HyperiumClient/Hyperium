@@ -24,7 +24,6 @@ import com.hcc.event.RenderEvent;
 import com.hcc.event.TickEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderItem;
@@ -110,8 +109,8 @@ public class ElementRenderer {
         for (String string : list) {
 
             if (current.isHighlighted()) {
-                int stringWidth = fontRendererObj.getStringWidth(string);
-                Gui.drawRect((int) ((tx - 1) / getCurrentScale()), (int) ((ty - 1) / getCurrentScale()), (int) ((tx + 1) / getCurrentScale()) + stringWidth, (int) ((ty + 1) / getCurrentScale()) + 8, new Color(0, 0, 0, 125).getRGB());
+                //    int stringWidth = fontRendererObj.getStringWidth(string);
+                //    Gui.drawRect((int) ((tx - 1) / getCurrentScale()), (int) ((ty - 1) / getCurrentScale()), (int) ((tx + 1) / getCurrentScale()) + stringWidth, (int) ((ty + 1) / getCurrentScale()) + 8, new Color(0, 0, 0, 120).getRGB());
             }
             if (current.isChroma()) {
 
@@ -240,6 +239,7 @@ public class ElementRenderer {
             try {
                 element.draw();
             } catch (Exception ignored) {
+                // lmao this is so unsafe sk1er XDDDDDDDDD
             }
             endDrawing(element);
         }
