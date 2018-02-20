@@ -19,14 +19,15 @@
 package com.hcc.handlers;
 
 import com.hcc.HCC;
+import com.hcc.commands.HCCCommandHandler;
 import com.hcc.event.EventBus;
 import com.hcc.event.InvokeEvent;
 import com.hcc.event.TickEvent;
 import com.hcc.handlers.handlers.*;
 import com.hcc.handlers.handlers.chat.*;
-import com.hcc.commands.HCCCommandHandler;
 import com.hcc.handlers.handlers.keybinds.KeyBindHandler;
 import com.hcc.handlers.handlers.privatemessages.PrivateMessageHandler;
+import com.hcc.handlers.handlers.remoteresources.RemoteResourcesHandler;
 import com.hcc.mods.sk1ercommon.ResolutionUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.command.ICommandManager;
@@ -49,8 +50,11 @@ public class HCCHandlers {
     private KeyBindHandler keybindHandler;
     private PrivateMessageHandler privateMessageHandler;
     private HCCCommandHandler commandHandler;
+    private RemoteResourcesHandler remoteResourcesHandler;
 
     public HCCHandlers() {
+        chatHandlers = new ArrayList<>();
+        register((generalChatHandler = new GeneralChatHandler(chatHandlers)));
         register(keybindHandler = new KeyBindHandler());
         register(locationHandler = new LocationHandler());
         register(hypixelDetector = new HypixelDetector());
@@ -60,10 +64,9 @@ public class HCCHandlers {
         register(privateMessageHandler = new PrivateMessageHandler());
         commandQueue = new CommandQueue();
         dataHandler = new ApiDataHandler();
-
+        this.remoteResourcesHandler = new RemoteResourcesHandler();
         //Chat Handlers
-        chatHandlers = new ArrayList<>();
-        register((generalChatHandler = new GeneralChatHandler(chatHandlers)));
+
         registerChatHandler(new RankedRatingChatHandler());
         registerChatHandler(new AutoWhoChatHandler());
         registerChatHandler(new PrivateMessageReader());
@@ -141,5 +144,9 @@ public class HCCHandlers {
 
     public HCCCommandHandler getHCCCommandHandler() {
         return commandHandler;
+    }
+
+    public RemoteResourcesHandler getRemoteResourcesHandler() {
+        return remoteResourcesHandler;
     }
 }

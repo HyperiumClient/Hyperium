@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/HCC.iml" filepath="$PROJECT_DIR$/HCC.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/HCC_api.iml" filepath="$PROJECT_DIR$/.idea/modules/HCC_api.iml" group="HCC" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/HCC_main.iml" filepath="$PROJECT_DIR$/.idea/modules/HCC_main.iml" group="HCC" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/HCC_test.iml" filepath="$PROJECT_DIR$/.idea/modules/HCC_test.iml" group="HCC" />
+    </modules>
+  </component>
+</project>

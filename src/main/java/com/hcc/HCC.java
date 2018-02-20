@@ -18,38 +18,33 @@
 
 package com.hcc;
 
-import com.hcc.ac.AntiCheat;
 import com.hcc.addons.HCCAddonBootstrap;
 import com.hcc.addons.loader.DefaultAddonLoader;
 import com.hcc.commands.defaults.CommandClearChat;
+import com.hcc.commands.defaults.CommandConfigGui;
 import com.hcc.commands.defaults.CommandPrivateMessage;
 import com.hcc.config.DefaultConfig;
 import com.hcc.event.*;
 import com.hcc.event.minigames.Minigame;
 import com.hcc.event.minigames.MinigameListener;
-import com.hcc.gui.ModConfigGui;
 import com.hcc.gui.NotificationCenter;
 import com.hcc.gui.integrations.HypixelFriendsGui;
 import com.hcc.handlers.HCCHandlers;
-import com.hcc.commands.defaults.CommandConfigGui;
 import com.hcc.handlers.handlers.keybinds.KeyBindHandler;
 import com.hcc.mixins.MixinKeyBinding;
 import com.hcc.mods.HCCModIntegration;
 import com.hcc.mods.ToggleSprintContainer;
 import com.hcc.mods.capturex.CaptureCore;
 import com.hcc.mods.discord.RichPresenceManager;
-import com.hcc.utils.ChatColor;
 import com.hcc.tray.TrayManager;
-
+import com.hcc.utils.ChatColor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ChatComponentText;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.Display;
 
 import javax.swing.*;
-
 import java.awt.*;
 import java.io.File;
 import java.util.regex.Pattern;
@@ -78,7 +73,6 @@ public class HCC {
 
     private RichPresenceManager richPresenceManager = new RichPresenceManager();
 
-    private AntiCheat anticheat = new AntiCheat();
 
     private TrayManager trayManager;
     private HCCHandlers handlers;
@@ -103,7 +97,6 @@ public class HCC {
         EventBus.INSTANCE.register(new MinigameListener());
         EventBus.INSTANCE.register(new ToggleSprintContainer());
         EventBus.INSTANCE.register(notification);
-        EventBus.INSTANCE.register(anticheat);
         EventBus.INSTANCE.register(captureCore = new CaptureCore());
 
         friendRequestPattern = Pattern.compile("Friend request from .+?");
@@ -119,7 +112,6 @@ public class HCC {
 
         handlers = new HCCHandlers();
         trayManager = new TrayManager();
-        anticheat.init();
         try {
             trayManager.init();
         } catch (Exception e) {
