@@ -18,6 +18,7 @@
 
 package com.hcc;
 
+
 import com.hcc.addons.HCCAddonBootstrap;
 import com.hcc.addons.loader.DefaultAddonLoader;
 import com.hcc.commands.defaults.CommandClearChat;
