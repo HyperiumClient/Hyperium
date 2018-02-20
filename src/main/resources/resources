@@ -6,7 +6,7 @@
         "chat_regex",
         "https://raw.githubusercontent.com/HypixelCommunityClient/HCC-Repo/master/files/chat_regex"
       ],
-      "preload": true,
+      "preload": false,
       "preload_url": "https://raw.githubusercontent.com/HypixelCommunityClient/HCC-Repo/master/files/chat_regex",
       "type": "TEXT"
     }

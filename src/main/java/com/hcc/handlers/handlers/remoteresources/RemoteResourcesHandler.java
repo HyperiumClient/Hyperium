@@ -1,15 +1,18 @@
 package com.hcc.handlers.handlers.remoteresources;
 
+import com.google.gson.JsonObject;
 import com.hcc.HCC;
 import com.hcc.handlers.handlers.chat.GeneralChatHandler;
 import com.hcc.mods.sk1ercommon.Multithreading;
-import com.hcc.mods.sk1ercommon.Sk1erMod;
 import com.hcc.utils.JsonHolder;
+import org.apache.commons.io.IOUtils;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.ReentrantLock;
@@ -25,7 +28,7 @@ public class RemoteResourcesHandler {
     private final ResourceFrame[] preload = {new ResourceFrame(ResourceType.TEXT, "chat_regex")};
     private final ConcurrentHashMap<String, HCCResource> resources = new ConcurrentHashMap<>();
     private final String GITHUB_DATA = "https://raw.githubusercontent.com/HypixelCommunityClient/HCC-Repo/master/files/";
-    private JsonHolder resourceData = null;
+    private JsonHolder resourceData = new JsonHolder();
     private JsonHolder cacheTimes = new JsonHolder();
     private HashMap<String, String> urlToName = new HashMap<>();
     private ReentrantLock saveLock = new ReentrantLock();
@@ -43,7 +46,11 @@ public class RemoteResourcesHandler {
             }
 
             cacheTimes = new JsonHolder(readFileString("cachetimes.txt"));
-            //TODO add local cache check
+            String resources = readFileString("resources");
+            if (!resources.isEmpty() && !resources.equalsIgnoreCase("{}")) {
+                resourceData = new JsonHolder(resources);
+            }
+
             if (resourceData == null) {
                 GeneralChatHandler.instance().sendMessage("Unable to load critical critical resource file and no cached version is available. " +
                         "Please restart your game.");
@@ -70,6 +77,7 @@ public class RemoteResourcesHandler {
                     else System.out.println("Failed to load HCC Resource " + s);
                 }));
             }
+            saveTextFile(this.resourceData.toString(), "resources");
         });
 
     }
@@ -149,7 +157,7 @@ public class RemoteResourcesHandler {
         }
         //not cached -> get from http
         if (type == ResourceType.TEXT) {
-            String s1 = Sk1erMod.getInstance().rawWithAgent(url);
+            String s1 = rawHttp(url);
             JsonHolder holder = new JsonHolder(s1);
             boolean success = true;
             if (holder.isParsedCorrectly()) {
@@ -158,7 +166,9 @@ public class RemoteResourcesHandler {
                     success = !holder.optString("cause").equalsIgnoreCase("exception");
                 }
             }
-
+            //resource file
+            if (!s1.endsWith("resources"))
+                saveTextFile(s1, decodeName(url));
             return new HCCResource(s1, success);
         } else if (type == ResourceType.IMAGE) {
             try {
@@ -216,6 +226,31 @@ public class RemoteResourcesHandler {
             });
             return null;
         });
+    }
+
+    public String rawHttp(String url) {
+        url = url.replace(" ", "%20");
+        System.out.println("Fetching " + url);
+        try {
+            URL u = new URL(url);
+            HttpURLConnection connection = (HttpURLConnection) u.openConnection();
+            connection.setRequestMethod("GET");
+            connection.setUseCaches(true);
+            connection.addRequestProperty("User-Agent", "Mozilla/4.76 HCC ");
+            connection.setReadTimeout(15000);
+            connection.setConnectTimeout(15000);
+            connection.setDoOutput(true);
+            InputStream is = connection.getInputStream();
+            return IOUtils.toString(is, Charset.forName("UTF-8"));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        JsonObject object = new JsonObject();
+        object.addProperty("success", false);
+        object.addProperty("cause", "Exception");
+        return object.toString();
+
     }
 
     public enum ResourceType {

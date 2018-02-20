@@ -22,7 +22,6 @@ import com.hcc.HCC;
 import com.hcc.event.EventBus;
 import com.hcc.event.InvokeEvent;
 import com.hcc.event.TickEvent;
-import com.hcc.mods.levelhead.commands.LevelHeadCommand;
 import com.hcc.mods.levelhead.config.LevelheadConfig;
 import com.hcc.mods.levelhead.renderer.LevelHeadRender;
 import com.hcc.mods.levelhead.renderer.LevelheadTag;
@@ -97,7 +96,7 @@ public class Levelhead {
         userUuid = Minecraft.getMinecraft().getSession().getProfile().getId();
         register(new LevelHeadRender(this), this);
 
-        HCC.INSTANCE.getHandlers().getHCCCommandHandler().registerCommand(new LevelHeadCommand());
+
     }
 
 

@@ -83,7 +83,7 @@ public class HypixelPrivateMessage extends HCCGui {
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         super.drawScreen(mouseX, mouseY, partialTicks);
-        //draw recents
+        //draw recent messages
         this.chatBoxes.clear();
         List<PrivateMessageChat> allInOrder = HCC.INSTANCE.getHandlers().getPrivateMessageHandler().getAllInOrder();
         allInOrder.remove(chat);

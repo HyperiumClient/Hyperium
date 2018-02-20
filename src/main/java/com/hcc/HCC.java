@@ -21,6 +21,7 @@ package com.hcc;
 
 import com.hcc.addons.HCCAddonBootstrap;
 import com.hcc.addons.loader.DefaultAddonLoader;
+import com.hcc.commands.defaults.CommandChromaHUD;
 import com.hcc.commands.defaults.CommandClearChat;
 import com.hcc.commands.defaults.CommandConfigGui;
 import com.hcc.commands.defaults.CommandPrivateMessage;
@@ -38,6 +39,7 @@ import com.hcc.mods.HCCModIntegration;
 import com.hcc.mods.ToggleSprintContainer;
 import com.hcc.mods.capturex.CaptureCore;
 import com.hcc.mods.discord.RichPresenceManager;
+import com.hcc.mods.levelhead.commands.LevelHeadCommand;
 import com.hcc.tray.TrayManager;
 import com.hcc.utils.ChatColor;
 import net.minecraft.client.Minecraft;
@@ -61,16 +63,16 @@ public class HCC {
      * Instance of the global mod LOGGER
      */
     public final static Logger LOGGER = LogManager.getLogger(Metadata.getModid());
-    /**
-     * Instance of default addons loader
-     */
-    private final DefaultAddonLoader addonLoader = new DefaultAddonLoader();
-    private final NotificationCenter notification = new NotificationCenter();
     public static File folder = new File("hcc");
     /**
      * Instance of default CONFIG
      */
     public static final DefaultConfig CONFIG = new DefaultConfig(new File(folder, "CONFIG.json"));
+    /**
+     * Instance of default addons loader
+     */
+    private final DefaultAddonLoader addonLoader = new DefaultAddonLoader();
+    private final NotificationCenter notification = new NotificationCenter();
     private HCCAddonBootstrap addonBootstrap;
 
     private RichPresenceManager richPresenceManager = new RichPresenceManager();
@@ -131,10 +133,10 @@ public class HCC {
         richPresenceManager.init();
         try {
             spotify = new Spotify();
-            spotify.addListener(new Spotify.SpotifyListener(){
+            spotify.addListener(new Spotify.SpotifyListener() {
                 @Override
                 public void onPlay() {
-                    notification.display("Spotify", "Now playing "+spotify.getCachedStatus().getJSONObject("track").getJSONObject("track_resource").getString("name"), 3);
+                    notification.display("Spotify", "Now playing " + spotify.getCachedStatus().getJSONObject("track").getJSONObject("track_resource").getString("name"), 3);
                 }
             });
         } catch (Exception e) {
@@ -166,7 +168,9 @@ public class HCC {
 
         HCC.INSTANCE.getHandlers().getHCCCommandHandler().registerCommand(new CommandConfigGui());
         HCC.INSTANCE.getHandlers().getHCCCommandHandler().registerCommand(new CommandPrivateMessage());
+        HCC.INSTANCE.getHandlers().getHCCCommandHandler().registerCommand(new LevelHeadCommand());
         HCC.INSTANCE.getHandlers().getHCCCommandHandler().registerCommand(new CommandClearChat());
+        HCC.INSTANCE.getHandlers().getHCCCommandHandler().registerCommand(new CommandChromaHUD());
     }
 
     /**
@@ -181,22 +185,22 @@ public class HCC {
             EventBus.INSTANCE.post(new HypixelFriendRequestEvent(withoutRank));
         }
         String msg = ChatColor.stripColor(event.getChat().getUnformattedText());
-        if(getHandlers().getHypixelDetector().isHypixel()){
-            switch (currentGame){
+        if (getHandlers().getHypixelDetector().isHypixel()) {
+            switch (currentGame) {
                 case SKYWARS:
-                    if(swKillMsg.matcher(msg).matches())
-                        if(msg.endsWith(Minecraft.getMinecraft().thePlayer.getName()+"."))
+                    if (swKillMsg.matcher(msg).matches())
+                        if (msg.endsWith(Minecraft.getMinecraft().thePlayer.getName() + "."))
                             EventBus.INSTANCE.post(new HypixelKillEvent(Minigame.SKYWARS, msg.split(" ")[0]));
                     break;
                 case BEDWARS:
-                    if(bwKillMsg.matcher(msg).matches() || bwFinalKillMsg.matcher(msg).matches())
+                    if (bwKillMsg.matcher(msg).matches() || bwFinalKillMsg.matcher(msg).matches())
                         msg = msg.replace(" FINAL KILL!", "");
-                        if(msg.endsWith(Minecraft.getMinecraft().thePlayer.getName()+"."))
-                            EventBus.INSTANCE.post(new HypixelKillEvent(Minigame.BEDWARS, msg.split(" ")[0]));
+                    if (msg.endsWith(Minecraft.getMinecraft().thePlayer.getName() + "."))
+                        EventBus.INSTANCE.post(new HypixelKillEvent(Minigame.BEDWARS, msg.split(" ")[0]));
                     break;
                 case DUELS:
-                    if(duelKillMsg.matcher(msg).matches())
-                        if(msg.endsWith(Minecraft.getMinecraft().thePlayer.getName()+"."))
+                    if (duelKillMsg.matcher(msg).matches())
+                        if (msg.endsWith(Minecraft.getMinecraft().thePlayer.getName() + "."))
                             EventBus.INSTANCE.post(new HypixelKillEvent(Minigame.DUELS, msg.split(" ")[0]));
             }
         }
@@ -205,7 +209,7 @@ public class HCC {
     }
 
     @InvokeEvent
-    public void onMinigameJoin(JoinMinigameEvent event){
+    public void onMinigameJoin(JoinMinigameEvent event) {
         currentGame = event.getMinigame();
     }
 
@@ -274,7 +278,7 @@ public class HCC {
         if (Minecraft.getMinecraft().thePlayer == null) return;
         Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText(ChatColor.RED + "[HCC] " + ChatColor.WHITE + msg));
     }
-    
+
     public void trayDisplayAboutInfo() {
         JOptionPane popup = new JOptionPane();
         JOptionPane.showMessageDialog(popup, "HypixelCommunityClient", "HCC - About", JOptionPane.PLAIN_MESSAGE);

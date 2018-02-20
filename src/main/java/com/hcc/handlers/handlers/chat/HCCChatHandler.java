@@ -19,8 +19,10 @@
 package com.hcc.handlers.handlers.chat;
 
 import com.hcc.HCC;
+import com.hcc.handlers.HCCHandlers;
 import com.hcc.handlers.handlers.remoteresources.HCCResource;
 import com.hcc.handlers.handlers.remoteresources.RemoteResourcesHandler;
+import com.hcc.mods.sk1ercommon.Multithreading;
 import net.minecraft.util.IChatComponent;
 
 import java.util.regex.Pattern;
@@ -30,13 +32,36 @@ import java.util.regex.Pattern;
  */
 public abstract class HCCChatHandler {
     //Resource *should* be loaded by then sooooo
-    protected static final HCCResource regexs = HCC.INSTANCE.getHandlers().getRemoteResourcesHandler().getResourceSync("chat_regex", RemoteResourcesHandler.ResourceType.TEXT);
-    protected static final Pattern guildChatPattern = Pattern.compile(regexs.getasJson().optString("guild_chat"));
-    protected static final Pattern partyChatPattern = Pattern.compile(regexs.getasJson().optString("party_chat"));
-    protected static final Pattern skywarsRankedRating = Pattern.compile(regexs.getasJson().optString("skywars_rating"));
-    protected static final Pattern privateMessageTo = Pattern.compile(regexs.getasJson().optString("private_message_to"));
-    protected static final Pattern privateMessageFrom = Pattern.compile(regexs.getasJson().optString("private_message_from"));
+    protected static HCCResource regexs;
+    protected static Pattern guildChatPattern = null;
+    protected static Pattern partyChatPattern = null;
+    protected static Pattern skywarsRankedRating = null;
+    protected static Pattern privateMessageTo = null;
+    protected static Pattern privateMessageFrom = null;
 
+    static {
+        Multithreading.runAsync(() -> {
+
+            HCCHandlers handlers;
+            while((handlers = HCC.INSTANCE.getHandlers()) == null) {
+                try {
+                    Thread.sleep(50L);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            handlers.getRemoteResourcesHandler().getResourceAsync("chat_regex", RemoteResourcesHandler.ResourceType.TEXT, hccResource -> {
+                regexs = hccResource;
+                guildChatPattern = Pattern.compile(regexs.getasJson().optString("guild_chat"));
+                partyChatPattern = Pattern.compile(regexs.getasJson().optString("party_chat"));
+                skywarsRankedRating = Pattern.compile(regexs.getasJson().optString("skywars_rating"));
+                privateMessageTo = Pattern.compile(regexs.getasJson().optString("private_message_to"));
+                privateMessageFrom = Pattern.compile(regexs.getasJson().optString("private_message_from"));
+            });
+        });
+
+        ;
+    }
 
     public HCC getHcc() {
         return HCC.INSTANCE;
