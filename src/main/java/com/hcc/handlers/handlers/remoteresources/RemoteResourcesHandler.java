@@ -1,6 +1,5 @@
 package com.hcc.handlers.handlers.remoteresources;
 
-import com.google.gson.JsonElement;
 import com.hcc.HCC;
 import com.hcc.handlers.handlers.chat.GeneralChatHandler;
 import com.hcc.mods.sk1ercommon.Multithreading;
@@ -19,9 +18,11 @@ import java.util.function.Consumer;
 public class RemoteResourcesHandler {
 
     /*
-    Use this for downloading resouces that should not be hard coded.
+    Use this for downloading resources that should not be hard coded.
+    Cache times are only valid when attempting to load from file. If their game is open, it will always the version in memory.
+
      */
-    private final ResourceFrame[] preload = {new ResourceFrame(ResourceType.TEXT, "quest_data")};
+    private final ResourceFrame[] preload = {new ResourceFrame(ResourceType.TEXT, "chat_regex")};
     private final ConcurrentHashMap<String, HCCResource> resources = new ConcurrentHashMap<>();
     private final String GITHUB_DATA = "https://raw.githubusercontent.com/HypixelCommunityClient/HCC-Repo/master/files/";
     private JsonHolder resourceData = null;
@@ -48,21 +49,20 @@ public class RemoteResourcesHandler {
                         "Please restart your game.");
                 return;
             }
-            for (JsonElement element : resourceData.optJSONArray("preload")) {
-                JsonHolder holder = new JsonHolder(element.getAsJsonObject());
-                getResourceAsync(holder.optString("url"), ResourceType.valueOf(holder.optString("type")), (hccResource -> {
-                    if (hccResource.isSuccessfullyLoaded())
-                        System.out.println("Preloaded HCC Resource: " + holder.optString("url"));
-                    else System.out.println("Failed to load HCC Resource " + holder.optString("url"));
-                }));
-
+            for (String name : resourceData.optJSONObject("resources").getKeys()) {
+                JsonHolder holder = resourceData.optJSONObject("resources").optJSONObject(name);
+                for (String s : holder.getJsonArrayAsStringList("urls")) {
+                    urlToName.put(s, name.toLowerCase());
+                }
+                if (holder.optBoolean("preload")) {
+                    getResourceAsync(holder.optString("preload_url"), ResourceType.valueOf(holder.optString("type")), (hccResource -> {
+                        if (hccResource.isSuccessfullyLoaded())
+                            System.out.println("Preloaded HCC Resource: " + holder.optString("url"));
+                        else System.out.println("Failed to load HCC Resource " + holder.optString("url"));
+                    }));
+                }
             }
-            for (JsonElement element : resourceData.optJSONArray("name_map")) {
-                JsonHolder holder = new JsonHolder(element.getAsJsonObject());
-                String url = holder.optString("url");
-                String name = holder.optString("name");
-                urlToName.put(url, name);
-            }
+            //for those hardcoded urls
             for (ResourceFrame s : preload) {
                 getResourceAsync(s.getUrl(), s.getType(), (hccResource -> {
                     if (hccResource.isSuccessfullyLoaded())
@@ -125,7 +125,7 @@ public class RemoteResourcesHandler {
 
     //Sync loading
     public HCCResource getResourceSync(String url, ResourceType type) {
-        return resources.computeIfAbsent(url.toUpperCase(), s -> create(url, type));
+        return resources.computeIfAbsent(url.toLowerCase(), s -> create(url, type));
     }
 
     private HCCResource create(String url, ResourceType type) {
@@ -134,7 +134,6 @@ public class RemoteResourcesHandler {
             JsonHolder resources = resourceData.optJSONObject("resources");
             if (resources.has(url.toLowerCase())) {
                 JsonHolder theResourceData = resources.optJSONObject(url.toLowerCase());
-
                 if (useCache(url)) {
                     if (type == ResourceType.TEXT) {
                         return new HCCResource(readFileString(url), true);
@@ -208,7 +207,7 @@ public class RemoteResourcesHandler {
     }
 
     public void getResourceAsync(String url, ResourceType type, Consumer<HCCResource> callback) {
-        resources.computeIfAbsent(url.toUpperCase(), s -> {
+        resources.computeIfAbsent(url.toLowerCase(), s -> {
             Multithreading.runAsync(() -> {
                 HCCResource value = create(url, type);
                 this.resources.put(url, value);
@@ -219,7 +218,7 @@ public class RemoteResourcesHandler {
         });
     }
 
-    enum ResourceType {
+    public enum ResourceType {
         TEXT,
         IMAGE;
     }

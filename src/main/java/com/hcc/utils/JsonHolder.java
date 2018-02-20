@@ -242,4 +242,17 @@ public class JsonHolder {
     public void remove(String header) {
         object.remove(header);
     }
+
+    public List<String> getJsonArrayAsStringList(String root) {
+        List<String> strings = new ArrayList<>();
+        try {
+
+            for (JsonElement element : object.get(root).getAsJsonArray()) {
+                strings.add(element.getAsString());
+            }
+        } catch (Exception ignored) {
+
+        }
+        return strings;
+    }
 }

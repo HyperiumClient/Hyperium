@@ -81,7 +81,7 @@ public class GeneralChatHandler {
         for (HCCChatHandler hccChatHandler : handlerList) {
             //Surround in try catch so errors don't stop further chat parsers
             try {
-
+                //todo add canceling of event
                 hccChatHandler.chatReceived(event.getChat(), strip(event.getChat()));
 
             } catch (Exception e) {

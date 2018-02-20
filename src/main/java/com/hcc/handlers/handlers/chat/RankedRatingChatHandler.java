@@ -18,6 +18,7 @@
 
 package com.hcc.handlers.handlers.chat;
 
+import com.hcc.utils.JsonHolder;
 import com.hcc.utils.SafeNumberParsing;
 import net.minecraft.util.IChatComponent;
 

@@ -53,6 +53,7 @@ public class HCCHandlers {
     private RemoteResourcesHandler remoteResourcesHandler;
 
     public HCCHandlers() {
+        this.remoteResourcesHandler = new RemoteResourcesHandler();
         chatHandlers = new ArrayList<>();
         register((generalChatHandler = new GeneralChatHandler(chatHandlers)));
         register(keybindHandler = new KeyBindHandler());
@@ -64,12 +65,13 @@ public class HCCHandlers {
         register(privateMessageHandler = new PrivateMessageHandler());
         commandQueue = new CommandQueue();
         dataHandler = new ApiDataHandler();
-        this.remoteResourcesHandler = new RemoteResourcesHandler();
+
         //Chat Handlers
 
         registerChatHandler(new RankedRatingChatHandler());
         registerChatHandler(new AutoWhoChatHandler());
         registerChatHandler(new PrivateMessageReader());
+        registerChatHandler(new GuildPartyChatParser());
         EventBus.INSTANCE.register(this);
 
         //Command Handler

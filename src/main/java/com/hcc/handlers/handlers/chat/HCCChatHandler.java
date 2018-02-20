@@ -19,6 +19,8 @@
 package com.hcc.handlers.handlers.chat;
 
 import com.hcc.HCC;
+import com.hcc.handlers.handlers.remoteresources.HCCResource;
+import com.hcc.handlers.handlers.remoteresources.RemoteResourcesHandler;
 import net.minecraft.util.IChatComponent;
 
 import java.util.regex.Pattern;
@@ -27,21 +29,17 @@ import java.util.regex.Pattern;
  * Created by mitchellkatz on 2/14/18. Designed for production use on Sk1er.club
  */
 public abstract class HCCChatHandler {
-    protected final Pattern guildChatParrern = Pattern.compile("Guild > (?<rank>\\[.+] )?(?<player>\\S{1,16}): (?<message>.*)");
-    protected final Pattern partyChatPattern = Pattern.compile("Party > (?<rank>\\[.+] )?(?<player>\\S{1,16}): (?<message>.*)");
-    protected final Pattern partyInvitePattern = Pattern.compile("(\\[.*\\] )?(?<player>\\w+) has invited you to join their party!");
-    protected final Pattern coinsPatternTwo = Pattern.compile("\\+(?<coins>.+) coins!");
-    protected final Pattern friendPattern = Pattern.compile("--+\\\\nFriend request from ((?<rank>\\[.+] )?(?<player>\\w+)).*");
-    protected final Pattern questPattern = Pattern.compile("(Daily|Weekly)? Quest: (?<name>.+?(?= Completed!))");
-    protected final Pattern expPattern = Pattern.compile(" \\+(?<exp>\\d+) Hypixel Experience");
-    protected final Pattern coinPattern = Pattern.compile(" \\+(?<coin>\\d+) (?<game>.+) Coins");
-    protected final Pattern skywarsRankedRating = Pattern.compile("(?<change>^-?[0-9]\\d*(\\.\\d+)?) Rating \\(\\S(?<rating>\\d+)\\)");
-    protected final Pattern privateMessageTo = Pattern.compile("To (?<rank>\\[.+] )?(?<player>\\S{1,16}): (?<message>.*)");
-    protected final Pattern privateMessageFrom = Pattern.compile("From (?<rank>\\[.+] )?(?<player>\\S{1,16}): (?<message>.*)");
+    //Resource *should* be loaded by then sooooo
+    protected static final HCCResource regexs = HCC.INSTANCE.getHandlers().getRemoteResourcesHandler().getResourceSync("chat_regex", RemoteResourcesHandler.ResourceType.TEXT);
+    protected static final Pattern guildChatPattern = Pattern.compile(regexs.getasJson().optString("guild_chat"));
+    protected static final Pattern partyChatPattern = Pattern.compile(regexs.getasJson().optString("party_chat"));
+    protected static final Pattern skywarsRankedRating = Pattern.compile(regexs.getasJson().optString("skywars_rating"));
+    protected static final Pattern privateMessageTo = Pattern.compile(regexs.getasJson().optString("private_message_to"));
+    protected static final Pattern privateMessageFrom = Pattern.compile(regexs.getasJson().optString("private_message_from"));
+
 
     public HCC getHcc() {
         return HCC.INSTANCE;
-
     }
 
     /**
