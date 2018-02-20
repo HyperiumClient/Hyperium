@@ -19,7 +19,6 @@
 package com.hcc.mods.capturex;
 
 import com.hcc.mods.capturex.render.FrameRenderer;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.shader.Framebuffer;
 
 import java.io.File;
@@ -37,7 +36,7 @@ public class CapturePack {
 
     public void renderFrames() {
         for (int i = 0; i < framebufferQueue.size(); i++) {
-            FrameRenderer.render(timestamp, i, framebufferQueue.poll());
+            FrameRenderer.render(timestamp, 20-i, framebufferQueue.poll());
         }
     }
     public void cleanup(){

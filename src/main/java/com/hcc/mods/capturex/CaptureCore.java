@@ -59,7 +59,7 @@ public class CaptureCore {
     public void onTick(TickEvent event){
         // 1 seconds backward
         if(backwardsBuffer.size() > 20)
-            backwardsBuffer.remove();
+            backwardsBuffer.poll();
         backwardsBuffer.add(Minecraft.getMinecraft().getFramebuffer());
     }
 
@@ -70,7 +70,7 @@ public class CaptureCore {
                 HCC.INSTANCE.getNotification().display("CaptureX", "Rendering kill", 3);
                 CapturePack pack = new CapturePack(backwardsBuffer);
                 FFMpeg.run(pack, "C:\\FFmpeg\\bin\\ffmpeg.exe", "kill");
-                //pack.cleanup();
+                pack.cleanup();
                 HCC.INSTANCE.getNotification().display("CaptureX", "Kill captured", 3);
             } catch (Exception e) {
                 e.printStackTrace();
