@@ -24,18 +24,25 @@ import com.google.common.util.concurrent.ListenableFutureTask;
 import com.hcc.HCC;
 import com.hcc.event.HypixelKillEvent;
 import com.hcc.event.InvokeEvent;
+import com.hcc.event.TickEvent;
+import com.hcc.mods.capturex.render.FFMpegHelper;
 import net.minecraft.client.Minecraft;
-import net.minecraft.util.ScreenShotHelper;
+import net.minecraft.client.shader.Framebuffer;
 import net.minecraft.util.Util;
 import org.apache.commons.lang3.Validate;
 
+import java.io.File;
+import java.util.ArrayDeque;
 import java.util.Queue;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
 import java.util.concurrent.FutureTask;
 
 public class CaptureCore {
+    public static final File captureXDir = new File(Minecraft.getMinecraft().mcDataDir, "captureX");
     private final Queue<FutureTask<?>> scheduledTasks = Queues.newArrayDeque();
+    private Queue<Framebuffer> backwardsBuffer = new ArrayDeque<>();
+    private FFMpegHelper FFMpeg = new FFMpegHelper();
     private Thread queueWorker;
 
     public CaptureCore() {
@@ -49,11 +56,26 @@ public class CaptureCore {
     }
 
     @InvokeEvent
+    public void onTick(TickEvent event){
+        // 1 seconds backward
+        if(backwardsBuffer.size() > 20)
+            backwardsBuffer.remove();
+        backwardsBuffer.add(Minecraft.getMinecraft().getFramebuffer());
+    }
+
+    @InvokeEvent
     public void onKill(HypixelKillEvent event) {
-        Minecraft mc = Minecraft.getMinecraft();
         addScheduledTask(() -> {
-            mc.addScheduledTask(()->ScreenShotHelper.saveScreenshot(mc.mcDataDir, mc.displayWidth, mc.displayHeight, mc.getFramebuffer()));
-            HCC.INSTANCE.getNotification().display("CaptureX", "Kill captured!", 3);
+            try {
+                HCC.INSTANCE.getNotification().display("CaptureX", "Rendering kill", 3);
+                CapturePack pack = new CapturePack(backwardsBuffer);
+                FFMpeg.run(pack, "C:\\FFmpeg\\bin\\ffmpeg.exe", "kill");
+                //pack.cleanup();
+                HCC.INSTANCE.getNotification().display("CaptureX", "Kill captured", 3);
+            } catch (Exception e) {
+                e.printStackTrace();
+                HCC.INSTANCE.getNotification().display("CaptureX", "Failed to capture kill", 3);
+            }
         });
     }
 
