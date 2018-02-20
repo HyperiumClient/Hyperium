@@ -59,7 +59,7 @@ public abstract class MixinNetworkPlayerInfo {
             this.loadPlayerTextures();
         }
         
-        // Fix the NPE occu inside the event
+        // Fix the NPE occurs inside the event
         if (getPlayer() == null) {
             return cape;
         }
