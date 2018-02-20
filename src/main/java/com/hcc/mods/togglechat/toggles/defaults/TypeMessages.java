@@ -20,8 +20,6 @@ package com.hcc.mods.togglechat.toggles.defaults;
 
 import com.hcc.mods.togglechat.toggles.ToggleBase;
 
-import net.minecraft.client.gui.GuiButton;
-
 import java.util.LinkedList;
 
 public class TypeMessages extends ToggleBase {
@@ -37,13 +35,7 @@ public class TypeMessages extends ToggleBase {
     public boolean shouldToggle(String message) {
         return message.startsWith("To ") || message.startsWith("From ");
     }
-
-    @Override
-    public void onClick(GuiButton button) {
-        this.enabled = !this.enabled;
-        button.displayString = (String.format(getDisplayName(), getStatus(isEnabled())));
-    }
-
+    
     @Override
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;

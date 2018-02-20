@@ -20,7 +20,6 @@ package com.hcc.mods.togglechat.toggles.defaults;
 
 import com.hcc.mods.togglechat.toggles.ToggleBaseHandler;
 import com.hcc.mods.togglechat.toggles.ToggleBase;
-import net.minecraft.client.gui.GuiButton;
 
 import java.util.LinkedList;
 import java.util.regex.Matcher;
@@ -62,12 +61,6 @@ public class TypeGlobal extends ToggleBase {
         Matcher matcher = this.chatPattern.matcher(message);
 
         return matcher.matches() && isNotOtherChat(matcher);
-    }
-
-    @Override
-    public void onClick(GuiButton button) {
-        this.enabled = !this.enabled;
-        button.displayString = (String.format(getDisplayName(), getStatus(isEnabled())));
     }
 
     @Override

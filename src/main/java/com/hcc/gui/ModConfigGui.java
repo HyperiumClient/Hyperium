@@ -37,10 +37,11 @@ public class ModConfigGui extends HCCGui {
 
     private HCCFontRenderer mainFontRenderer = new HCCFontRenderer("Times New Roman", Font.BOLD, 24);
 
+    private GuiBlock guiblock;
+
     @Override
     public void initGui() {
         super.initGui();
-
     }
 
     @Override
@@ -75,14 +76,15 @@ public class ModConfigGui extends HCCGui {
             }
             case ABOUT:
                 String str = "Developed by Sk1er, CoalOres, Kevin and Cubxity";
-                float strWidth = fontRenderer.getWidth(str);
-                fontRenderer.drawString(str, (8 * (width / 10)) - strWidth, (height - height / 5) - 12, 0xFFFFFF);
+                fontRenderer.drawCenteredString(str, width / 2, height - 12, Color.WHITE.getRGB());
+                break;
+            default:
                 break;
         }
         super.drawScreen(mouseX, mouseY, partialTicks);
 
         // Tab highlight
-        drawRect(getX(currentTab.getIndex()), getY() + 22, getX(currentTab.getIndex() + 1), getY() + 20, new Color(149, 201, 144).getRGB());
+        drawRect(getX(currentTab.getIndex()), getY() + 23, getX(currentTab.getIndex() + 1), getY() + 25, new Color(149, 201, 144).getRGB());
     }
 
     @Override
@@ -94,7 +96,7 @@ public class ModConfigGui extends HCCGui {
         this.buttonList.add(Tabs.FRIENDS.setButton(new CustomFontButton(3, getX(3), getY(), 50, 25, "FRIENDS")));
         this.buttonList.add(Tabs.ABOUT.setButton(new CustomFontButton(4, getX(4), getY(), 50, 25, "ABOUT")));
         this.buttonList.add(Tabs.CHROMAHUD.setButton(new CustomFontButton(5, getX(5), getY(), 50, 25, "DISPLAY")));
-        this.buttonList.add(new HCCSlider(6, getX(6), getY(), 50, 25));
+        //  guiblock = new GuiBlock(getX(0), width - getX(0), getY(), height - getY());
         // TODO: Make it so if they have a retarded resolution it creates arrows for them to cycle between tabs
     }
 

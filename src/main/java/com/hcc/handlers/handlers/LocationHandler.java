@@ -24,7 +24,7 @@ import com.hcc.event.ChatEvent;
 import com.hcc.event.InvokeEvent;
 import com.hcc.event.SpawnpointChangeEvent;
 import com.hcc.event.TickEvent;
-import com.hcc.mods.sk1ercommon.ChatColor;
+import com.hcc.utils.ChatColor;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

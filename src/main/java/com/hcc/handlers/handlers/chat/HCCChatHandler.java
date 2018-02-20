@@ -19,6 +19,10 @@
 package com.hcc.handlers.handlers.chat;
 
 import com.hcc.HCC;
+import com.hcc.handlers.HCCHandlers;
+import com.hcc.handlers.handlers.remoteresources.HCCResource;
+import com.hcc.handlers.handlers.remoteresources.RemoteResourcesHandler;
+import com.hcc.mods.sk1ercommon.Multithreading;
 import net.minecraft.util.IChatComponent;
 
 import java.util.regex.Pattern;
@@ -27,21 +31,40 @@ import java.util.regex.Pattern;
  * Created by mitchellkatz on 2/14/18. Designed for production use on Sk1er.club
  */
 public abstract class HCCChatHandler {
-    protected final Pattern guildChatParrern = Pattern.compile("Guild > (?<rank>\\[.+] )?(?<player>\\S{1,16}): (?<message>.*)");
-    protected final Pattern partyChatPattern = Pattern.compile("Party > (?<rank>\\[.+] )?(?<player>\\S{1,16}): (?<message>.*)");
-    protected final Pattern partyInvitePattern = Pattern.compile("(\\[.*\\] )?(?<player>\\w+) has invited you to join their party!");
-    protected final Pattern coinsPatternTwo = Pattern.compile("\\+(?<coins>.+) coins!");
-    protected final Pattern friendPattern = Pattern.compile("--+\\\\nFriend request from ((?<rank>\\[.+] )?(?<player>\\w+)).*");
-    protected final Pattern questPattern = Pattern.compile("(Daily|Weekly)? Quest: (?<name>.+?(?= Completed!))");
-    protected final Pattern expPattern = Pattern.compile(" \\+(?<exp>\\d+) Hypixel Experience");
-    protected final Pattern coinPattern = Pattern.compile(" \\+(?<coin>\\d+) (?<game>.+) Coins");
-    protected final Pattern skywarsRankedRating = Pattern.compile("(?<change>^-?[0-9]\\d*(\\.\\d+)?) Rating \\(\\S(?<rating>\\d+)\\)");
-    protected final Pattern privateMessageTo = Pattern.compile("To (?<rank>\\[.+] )?(?<player>\\S{1,16}): (?<message>.*)");
-    protected final Pattern privateMessageFrom = Pattern.compile("From (?<rank>\\[.+] )?(?<player>\\S{1,16}): (?<message>.*)");
+    //Resource *should* be loaded by then sooooo
+    protected static HCCResource regexs;
+    protected static Pattern guildChatPattern = null;
+    protected static Pattern partyChatPattern = null;
+    protected static Pattern skywarsRankedRating = null;
+    protected static Pattern privateMessageTo = null;
+    protected static Pattern privateMessageFrom = null;
+
+    static {
+        Multithreading.runAsync(() -> {
+
+            HCCHandlers handlers;
+            while((handlers = HCC.INSTANCE.getHandlers()) == null) {
+                try {
+                    Thread.sleep(50L);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            handlers.getRemoteResourcesHandler().getResourceAsync("chat_regex", RemoteResourcesHandler.ResourceType.TEXT, hccResource -> {
+                regexs = hccResource;
+                guildChatPattern = Pattern.compile(regexs.getasJson().optString("guild_chat"));
+                partyChatPattern = Pattern.compile(regexs.getasJson().optString("party_chat"));
+                skywarsRankedRating = Pattern.compile(regexs.getasJson().optString("skywars_rating"));
+                privateMessageTo = Pattern.compile(regexs.getasJson().optString("private_message_to"));
+                privateMessageFrom = Pattern.compile(regexs.getasJson().optString("private_message_from"));
+            });
+        });
+
+        ;
+    }
 
     public HCC getHcc() {
         return HCC.INSTANCE;
-
     }
 
     /**

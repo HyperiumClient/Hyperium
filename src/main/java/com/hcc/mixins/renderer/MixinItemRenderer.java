@@ -89,11 +89,15 @@ public class MixinItemRenderer {
 
     }
 
+
     @Shadow
     private void renderItemMap(AbstractClientPlayer clientPlayer, float p_178097_2_, float p_178097_3_, float p_178097_4_) {
 
     }
 
+    /**
+     * @author
+     */
     @Overwrite
     private void transformFirstPersonItem(float equipProgress, float swingProgress) {
         if (AnimationsContainer.oldBow && this.mc != null && this.mc.thePlayer != null &&
@@ -125,6 +129,9 @@ public class MixinItemRenderer {
     }
 
 
+    /**
+     * @author
+     */
     @Overwrite
     public void renderItemInFirstPerson(float partialTicks) {
         float f = 1.0F - (this.prevEquippedProgress + (this.equippedProgress - this.prevEquippedProgress) * partialTicks);

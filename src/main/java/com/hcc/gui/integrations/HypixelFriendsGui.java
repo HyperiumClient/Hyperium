@@ -24,8 +24,8 @@ import com.hcc.gui.GuiBlock;
 import com.hcc.gui.GuiBoxItem;
 import com.hcc.gui.HCCGui;
 import com.hcc.mods.chromahud.NumberUtil;
-import com.hcc.mods.sk1ercommon.ChatColor;
 import com.hcc.mods.sk1ercommon.ResolutionUtil;
+import com.hcc.utils.ChatColor;
 import com.hcc.utils.JsonHolder;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -57,7 +57,6 @@ public class HypixelFriendsGui extends HCCGui {
     private GuiBoxItem<HypixelApiFriendObject> selectedItem = null;
     private int columnWidth;
     private int partyCooldown = 0;
-    private int mouseX;
     private int mouseY;
     private int removeTicks = 0;
 
@@ -220,7 +219,6 @@ public class HypixelFriendsGui extends HCCGui {
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-        this.mouseX = mouseX;
         this.mouseY = mouseY;
         selectedBoxes.clear();
         friendListBoxes.clear();
@@ -228,6 +226,8 @@ public class HypixelFriendsGui extends HCCGui {
         super.drawScreen(mouseX, mouseY, partialTicks);
 
         textField.drawTextBox();
+
+
 
         //Some long name
         final int bottomRenderBound = ResolutionUtil.current().getScaledHeight() / 9 * 8;

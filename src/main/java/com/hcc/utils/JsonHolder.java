@@ -32,13 +32,14 @@ import java.util.List;
 @SuppressWarnings("unused")
 public class JsonHolder {
     private JsonObject object;
+    private boolean parsedCorrectly = true;
 
     public JsonHolder(JsonObject object) {
         this.object = object;
     }
 
     public JsonHolder(String raw) {
-        if (raw == null) {
+        if (raw == null || raw.isEmpty()) {
             object = new JsonObject();
             return;
         }
@@ -46,12 +47,18 @@ public class JsonHolder {
             this.object = new JsonParser().parse(raw).getAsJsonObject();
         } catch (Exception e) {
             this.object = new JsonObject();
+            this.parsedCorrectly = false;
             e.printStackTrace();
+
         }
     }
 
     public JsonHolder() {
         this(new JsonObject());
+    }
+
+    public boolean isParsedCorrectly() {
+        return parsedCorrectly;
     }
 
     @Override
@@ -234,5 +241,18 @@ public class JsonHolder {
 
     public void remove(String header) {
         object.remove(header);
+    }
+
+    public List<String> getJsonArrayAsStringList(String root) {
+        List<String> strings = new ArrayList<>();
+        try {
+
+            for (JsonElement element : object.get(root).getAsJsonArray()) {
+                strings.add(element.getAsString());
+            }
+        } catch (Exception ignored) {
+
+        }
+        return strings;
     }
 }

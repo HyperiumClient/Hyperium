@@ -20,6 +20,8 @@ package com.hcc.tray;
 
 import net.minecraft.client.Minecraft;
 
+import com.hcc.HCC;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 
@@ -32,12 +34,18 @@ public class TrayManager {
 
     public void init() throws Exception {
         if (SystemTray.isSupported()) {
-            tray = new TrayIcon(ImageIO.read(getClass().getResourceAsStream("/assets/hcc/icons/icon-32x.png")), "");
+            HCC hccutils = new HCC();
+            tray = new TrayIcon(ImageIO.read(getClass().getResourceAsStream("/assets/hcc/icons/icon-16x.png")), ""); //resolution fix
             PopupMenu menu = new PopupMenu();
 
             MenuItem aboutItem = new MenuItem("About");
+<<<<<<< HEAD
 
             //TODO: Add About Dialog
+=======
+            //TODO: Edit about Dialog
+            aboutItem.addActionListener(action -> hccutils.trayDisplayAboutInfo());
+>>>>>>> 410afa5a57ae020eb66cc7dae807bd13d1844a7c
 
             MenuItem exitItem = new MenuItem("Exit");
             exitItem.addActionListener(action -> Minecraft.getMinecraft().shutdown());

@@ -21,7 +21,7 @@ package com.hcc.handlers.handlers.chat;
 import com.hcc.event.ChatEvent;
 import com.hcc.event.InvokeEvent;
 import com.hcc.event.TickEvent;
-import com.hcc.mods.sk1ercommon.ChatColor;
+import com.hcc.utils.ChatColor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
@@ -81,7 +81,11 @@ public class GeneralChatHandler {
         for (HCCChatHandler hccChatHandler : handlerList) {
             //Surround in try catch so errors don't stop further chat parsers
             try {
-
+                //not ready
+                if(HCCChatHandler.regexs ==null) {
+                    return;
+                }
+                //todo add canceling of event
                 hccChatHandler.chatReceived(event.getChat(), strip(event.getChat()));
 
             } catch (Exception e) {

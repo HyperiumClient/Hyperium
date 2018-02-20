@@ -19,7 +19,6 @@
 package com.hcc.mods.togglechat.toggles.defaults;
 
 import com.hcc.mods.togglechat.toggles.ToggleBase;
-import net.minecraft.client.gui.GuiButton;
 
 import java.util.LinkedList;
 
@@ -40,12 +39,6 @@ public class TypeLobbyJoin extends ToggleBase {
     @Override
     public boolean shouldToggle(String message) {
         return message.endsWith("joined the lobby!") || (message.contains("joined the lobby") && message.startsWith(" >>>"));
-    }
-
-    @Override
-    public void onClick(GuiButton button) {
-        this.enabled = !this.enabled;
-        button.displayString = (String.format(getDisplayName(), getStatus(isEnabled())));
     }
 
     @Override

@@ -21,10 +21,12 @@ package com.hcc.gui.integrations;
 import club.sk1er.website.api.requests.HypixelApiPlayer;
 import com.hcc.HCC;
 import com.hcc.gui.GuiBlock;
+import com.hcc.gui.GuiBoxItem;
 import com.hcc.gui.HCCGui;
 import com.hcc.handlers.handlers.privatemessages.PrivateMessage;
 import com.hcc.handlers.handlers.privatemessages.PrivateMessageChat;
 import com.hcc.mods.sk1ercommon.ResolutionUtil;
+import com.hcc.utils.ChatColor;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiTextField;
 import org.apache.commons.lang3.StringUtils;
@@ -40,7 +42,9 @@ public class HypixelPrivateMessage extends HCCGui {
     private PrivateMessageChat chat;
     private GuiTextField text;
     private boolean lockDown = false;
+    private List<GuiBoxItem<PrivateMessageChat>> chatBoxes = new ArrayList<>();
 
+    //TODO add option to close PM's, autoremove players that do not exist, add a text box to start a new convo with a user. Add a darker color if unread messages and make the sorting go by unread messages.
     public HypixelPrivateMessage(PrivateMessageChat chat) {
         this.chat = chat;
 
@@ -56,21 +60,79 @@ public class HypixelPrivateMessage extends HCCGui {
     protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
         super.mouseClicked(mouseX, mouseY, mouseButton);
         text.mouseClicked(mouseX, mouseY, mouseButton);
+        for (GuiBoxItem<PrivateMessageChat> chatBox : chatBoxes) {
+            if (chatBox.getBox().isMouseOver(mouseX, mouseY)) {
+                new HypixelPrivateMessage(chatBox.getObject()).show();
+            }
+        }
     }
+
+    private boolean isGuildOrParty() {
+        return isParty() || isGuild();
+    }
+
+    private boolean isParty() {
+        return chat.getTo().equalsIgnoreCase("party");
+    }
+
+    private boolean isGuild() {
+        return chat.getTo().equalsIgnoreCase("guild");
+    }
+
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         super.drawScreen(mouseX, mouseY, partialTicks);
-        HypixelApiPlayer otherPlayer = chat.getOtherPlayer();
-        String name;
-        if (otherPlayer.isLoaded()) {
-            if (otherPlayer.isValid()) {
-                name = otherPlayer.getDisplayString() + "";
-            } else {
-                lockDown = true;
-                name = "Invalid player";
-            }
-        } else name = "Loading..";
+        //draw recent messages
+        this.chatBoxes.clear();
+        List<PrivateMessageChat> allInOrder = HCC.INSTANCE.getHandlers().getPrivateMessageHandler().getAllInOrder();
+        allInOrder.remove(chat);
+        int max = (ResolutionUtil.current().getScaledHeight() - 50) / 30;
+        if (allInOrder.size() > max)
+            allInOrder = allInOrder.subList(0, max);
+
+        GuiBlock lastBlock = new GuiBlock(10, Math.max(ResolutionUtil.current().getScaledWidth() / 9, 100) - 25, 0, 20); //Shifted up by 20 because system takes next one
+        lastBlock.ensureWidth(fontRendererObj.getStringWidth("################"), true);
+        lastBlock.drawString("Recent chats", fontRendererObj, true, true, lastBlock.getWidth() / 2, 10, true, false, Color.RED.getRGB(), true);
+
+        for (PrivateMessageChat privateMessageChat : allInOrder) {
+            GuiBlock block = new GuiBlock(lastBlock.getLeft(), lastBlock.getRight(), lastBlock.getBottom() + 5, lastBlock.getBottom() + 25);
+            Gui.drawRect(block.getLeft(), block.getTop(), block.getRight(), block.getBottom(), new Color(0, 0, 0, 60).getRGB());
+            block.drawString(privateMessageChat.getTo(), fontRendererObj, true, false, block.getWidth() / 2, 6, true, false, Color.GREEN.getRGB(), false);
+            chatBoxes.add(new GuiBoxItem<>(block, privateMessageChat));
+            lastBlock = block;
+
+        }
+
+        String name = null;
+        //Draw chat
+        if (chat.getTo().equalsIgnoreCase("guild")) {
+            name = ChatColor.GREEN.toString() + "Guild";
+        } else if (chat.getTo().equalsIgnoreCase("party")) {
+            name = ChatColor.BLUE.toString() + "Party";
+        }
+        //save api call by checking if it is a party or guild chat
+        if (name == null) {
+            HypixelApiPlayer otherPlayer = chat.getOtherPlayer();
+            if (otherPlayer.isLoaded()) {
+                if (otherPlayer.isValid()) {
+                    boolean empty = otherPlayer.getDisplayString().isEmpty();
+                    if (empty) {
+                        if (otherPlayer.getName().isEmpty()) {
+                            lockDown = true;
+                            name = "Invalid player";
+                        } else {
+                            name = otherPlayer.getDisplayString();
+                        }
+                    } else {
+                        name = otherPlayer.getDisplayString();
+                    }
+                } else {
+                    lockDown = true;
+                    name = "Invalid player";
+                }
+            } else name = "Loading..";
+        }
         drawCenteredString(fontRendererObj, "Chatting with " + name, ResolutionUtil.current().getScaledWidth() / 2, 20, Color.WHITE.getRGB());
         if (lockDown)
             return;
@@ -95,7 +157,6 @@ public class HypixelPrivateMessage extends HCCGui {
             int y = 1;
             for (String s : messages) {
                 block.drawString(s, fontRendererObj, true, false, user ? 5 : 0, y, false, false, Color.WHITE.getRGB(), !user);
-//                System.out.println(s);
                 y += 11;
             }
             long delta = System.currentTimeMillis() - time;
@@ -112,6 +173,8 @@ public class HypixelPrivateMessage extends HCCGui {
                     timeString = Long.toString(delta) + "h";
                 }
             }
+            if (isGuildOrParty())
+                timeString += " " + privateMessage.getWith();
 
             fontRendererObj.drawString(timeString, user ? block.getRight() + 2 : block.getLeft() - fontRendererObj.getStringWidth(timeString) - 5, block.getTop() + 3 + (10 * (messages.size() - 1)), Color.GRAY.getRGB(), true);
 
@@ -174,8 +237,12 @@ public class HypixelPrivateMessage extends HCCGui {
         text.textboxKeyTyped(typedChar, keyCode);
         if (keyCode == Keyboard.KEY_RETURN) {
             String text1 = this.text.getText();
-            String baseCommand = "/w " + chat.getTo() + " ";
-            int charsPerMessage = 256 - baseCommand.length();
+            String baseCommand;
+            if (isGuildOrParty()) {
+                if (isParty()) baseCommand = "/pchat ";
+                else baseCommand = "/gchat ";
+            } else baseCommand = "/w " + chat.getTo() + " ";
+            int charsPerMessage = 100 - baseCommand.length();
 
             for (String message : breakIntoBits(text1, charsPerMessage, false)) {
                 HCC.INSTANCE.getHandlers().getCommandQueue().queue(baseCommand + message.trim());

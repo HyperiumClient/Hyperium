@@ -20,7 +20,9 @@ package com.hcc.mods;
 
 import com.hcc.mods.chromahud.ChromaHUD;
 import com.hcc.mods.levelhead.Levelhead;
+import com.hcc.mods.skinchanger.SkinChangerMod;
 import com.hcc.mods.togglechat.ToggleChatMod;
+
 import me.semx11.autotip.Autotip;
 
 /**
@@ -28,35 +30,70 @@ import me.semx11.autotip.Autotip;
  * ChromaHUD, LevelHead and ToggleChat
  */
 public class HCCModIntegration {
+    
+    private IBaseMod skinChanger;
+    private IBaseMod toggleChat;
 
     private ChromaHUD chromaHUD;
     private Levelhead levelhead;
-    private ToggleChatMod toggleChat;
     private Autotip autotip;
 
     public HCCModIntegration() {
         this.chromaHUD = new ChromaHUD();
         this.levelhead = new Levelhead();
 
-        // Basically just a simple constructor for togglechat.
+        // ToggleChat implementation
         this.toggleChat = new ToggleChatMod().init();
-        this.autotip = new Autotip();
-        autotip.init();
+        
+        // SkinChanger implementation
+        this.skinChanger = new SkinChangerMod().init();
+
+        // Autotip implementation
+        this.autotip = new Autotip().init();
     }
 
-    public ChromaHUD getChromaHUD() {
-        return chromaHUD;
-    }
-
-    public Levelhead getLevelhead() {
-        return levelhead;
-    }
-
-    public ToggleChatMod getToggleChat() {
-        return this.toggleChat;
-    }
-
+    /**
+     * A getter for the running Autotip instance
+     *
+     * @return the running Autotip instance
+     */
     public Autotip getAutotip() {
-        return autotip;
+        return this.autotip;
+    }
+
+    /**
+     * A getter for the running ChromeHUD instance
+     *
+     * @return the running ChromeHUD instance
+     */
+    public ChromaHUD getChromaHUD() {
+        return this.chromaHUD;
+    }
+
+    /**
+     * A getter for the running LevelHead instance
+     *
+     * @return the running LevelHead instance
+     */
+    public Levelhead getLevelhead() {
+        return this.levelhead;
+    }
+    
+    /**
+     * A getter for the running SkinChanger instance
+     *
+     * @return the running SkinChanger instance
+     */
+    public IBaseMod getSkinChanger() {
+        return this.skinChanger;
+    }
+    
+    /**
+     * A getter for the running ToggleChat instance
+     *
+     * @return the running ToggleChat instance
+     */
+    public IBaseMod getToggleChat() {
+        return this.toggleChat;
     }
 }

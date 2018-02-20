@@ -63,7 +63,13 @@ object EventBus {
         subscriptions[event.javaClass]
                 ?.sortedByDescending { it.priority.value }
                 ?.forEach { sub ->
-                    sub.methodAccess.invoke(sub.instance, sub.mIndex, event)
+                    try {
+                        sub.methodAccess.invoke(sub.instance, sub.mIndex, event)
+                    } catch (e: Exception) {
+                        println("Failed to call " + event.javaClass.canonicalName + " in " + sub.instance.javaClass.canonicalName + " class, check below for errors!")
+                        e.printStackTrace()
+                    }
                 }
+
     }
 }
