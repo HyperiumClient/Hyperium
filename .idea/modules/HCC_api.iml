@@ -22,6 +22,14 @@
         </compilerArguments>
       </configuration>
     </facet>
+    <facet type="minecraft" name="Minecraft">
+      <configuration>
+        <autoDetectTypes>
+          <platformType>MIXIN</platformType>
+          <platformType>MCP</platformType>
+        </autoDetectTypes>
+      </configuration>
+    </facet>
   </component>
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8" inherit-compiler-output="true">
     <exclude-output />
@@ -114,8 +122,8 @@
     <orderEntry type="library" name="Gradle: com.paulscode:libraryjavasound:20101123" level="project" />
     <orderEntry type="library" name="Gradle: com.paulscode:librarylwjglopenal:20100824" level="project" />
     <orderEntry type="library" name="Gradle: com.paulscode:soundsystem:20120107" level="project" />
-    <orderEntry type="library" name="Gradle: org.lwjgl.lwjgl:lwjgl:2.9.2-nightly-20140822" level="project" />
-    <orderEntry type="library" name="Gradle: org.lwjgl.lwjgl:lwjgl_util:2.9.2-nightly-20140822" level="project" />
+    <orderEntry type="library" name="Gradle: org.lwjgl.lwjgl:lwjgl:2.9.4-nightly-20150209" level="project" />
+    <orderEntry type="library" name="Gradle: org.lwjgl.lwjgl:lwjgl_util:2.9.4-nightly-20150209" level="project" />
     <orderEntry type="library" name="Gradle: tv.twitch:twitch:6.5" level="project" />
     <orderEntry type="library" name="Gradle: org.ow2.asm:asm-debug-all:5.0.3" level="project" />
     <orderEntry type="library" name="Gradle: com.google.code.findbugs:jsr305:2.0.1" level="project" />
@@ -124,8 +132,8 @@
     <orderEntry type="library" name="Gradle: tv.twitch:twitch-platform:natives-osx:6.5" level="project" />
     <orderEntry type="library" name="Gradle: tv.twitch:twitch-external-platform:natives-windows-32:4.5" level="project" />
     <orderEntry type="library" name="Gradle: tv.twitch:twitch-external-platform:natives-windows-64:4.5" level="project" />
-    <orderEntry type="library" name="Gradle: org.lwjgl.lwjgl:lwjgl-platform:natives-windows:2.9.2-nightly-20140822" level="project" />
-    <orderEntry type="library" name="Gradle: org.lwjgl.lwjgl:lwjgl-platform:natives-linux:2.9.2-nightly-20140822" level="project" />
-    <orderEntry type="library" name="Gradle: org.lwjgl.lwjgl:lwjgl-platform:natives-osx:2.9.2-nightly-20140822" level="project" />
+    <orderEntry type="library" name="Gradle: org.lwjgl.lwjgl:lwjgl-platform:natives-windows:2.9.4-nightly-20150209" level="project" />
+    <orderEntry type="library" name="Gradle: org.lwjgl.lwjgl:lwjgl-platform:natives-linux:2.9.4-nightly-20150209" level="project" />
+    <orderEntry type="library" name="Gradle: org.lwjgl.lwjgl:lwjgl-platform:natives-osx:2.9.4-nightly-20150209" level="project" />
   </component>
 </module>

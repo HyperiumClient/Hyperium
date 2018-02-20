@@ -43,6 +43,7 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "org.jetbrains.dokka:dokka-gradle-plugin:0.9.15"
         classpath 'org.spongepowered:mixingradle:0.6-SNAPSHOT'
+        classpath "com.github.jengelman.gradle.plugins:shadow:2.0.0"
     }
 }
 
@@ -55,7 +56,6 @@ apply plugin: 'net.minecraftforge.gradle.tweaker-client'
 apply plugin: 'org.spongepowered.mixin'
 apply plugin: 'kotlin'
 apply plugin: 'java'
-
 apply plugin: 'com.github.johnrengelman.shadow'
 apply plugin: 'maven-publish'
 
@@ -115,6 +115,31 @@ repositories {
     mavenCentral()
     jcenter()
 }
+
+shadowJar {
+    dependencies {
+        include(dependency('org.spongepowered:mixin'))
+        include(dependency('org.slick2d:slick2d-core'))
+        include(dependency('com.google.guava:guava'))
+        include(dependency('com.google.code.gson:gson'))
+        include(dependency('org.jetbrains.kotlin:kotlin-stdlib'))
+        include(dependency('org.jetbrains.kotlin:kotlin-stdlib-jre8'))
+        include(dependency('com.esotericsoftware:reflectasm'))
+        include(dependency('com.github.jagrosh:DiscordIPC'))
+    }
+
+    classifier = 'full'
+}
+
+reobf {
+    shadowJar {
+        mappingType = 'NOTCH'
+        classpath = sourceSets.main.compileClasspath
+    }
+}
+
+build.dependsOn(shadowJar)
+
 jar {
     manifest.attributes(
             "MixinConfigs": 'mixins.hcc.json',
