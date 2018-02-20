@@ -75,7 +75,6 @@ public class ModConfigGui extends HCCGui {
             }
             case ABOUT:
                 String str = "Developed by Sk1er, CoalOres, Kevin and Cubxity";
-                float strWidth = fontRenderer.getWidth(str);
                 fontRenderer.drawCenteredString(str, width / 2, height - 12, Color.WHITE.getRGB());
                 break;
             default:
@@ -84,7 +83,7 @@ public class ModConfigGui extends HCCGui {
         super.drawScreen(mouseX, mouseY, partialTicks);
 
         // Tab highlight
-        drawRect(getX(currentTab.getIndex()), getY() + 22, getX(currentTab.getIndex() + 1), getY() + 20, new Color(149, 201, 144).getRGB());
+        drawRect(getX(currentTab.getIndex()), getY() + 23, getX(currentTab.getIndex() + 1), getY() + 25, new Color(149, 201, 144).getRGB());
     }
 
     @Override
