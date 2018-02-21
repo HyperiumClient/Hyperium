@@ -39,7 +39,7 @@ public class TypeMessageSeparator extends ToggleBase {
     public String editMessage(String formattedText) {
         if (formattedText.contains("--")) {
             formattedText = formattedText.replace("----------------------------------------------------\n", "");
-            return formattedText.replace("--", "");
+            return formattedText.replace("-", "");
         }
         return formattedText;
     }
