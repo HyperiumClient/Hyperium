@@ -20,6 +20,7 @@ package com.hcc.gui;
 
 import com.hcc.HCC;
 import com.hcc.gui.settings.SettingItem;
+import com.hcc.gui.settings.items.GeneralSetting;
 import com.hcc.utils.HCCFontRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
@@ -95,13 +96,13 @@ public class ModConfigGui extends HCCGui {
     }
 
     private void drawSettingsItem(Minecraft mc, int mouseX, int mouseY) {
-        int items = (height - (getY()*2+25)) / 15;
+        int items = (height - (getY() * 2 + 25)) / 15;
 
         settingItems.stream()
-                .filter(i -> items - i.id >= offset && (getY()+25)+(offset+i.id)*15 >= getY()+25)
+                .filter(i -> items - i.id >= offset && (getY() + 25) + (offset + i.id) * 15 >= getY() + 25)
                 .forEach(i -> {
                     i.visible = true;
-                    i.drawItem(mc, mouseX, mouseY, getX(0), (getY()+25)+(offset+i.id)*15);
+                    i.drawItem(mc, mouseX, mouseY, getX(0), (getY() + 25) + (offset + i.id) * 15);
                 });
     }
 
@@ -119,14 +120,13 @@ public class ModConfigGui extends HCCGui {
 
         // Add settings item
         settingItems = new ArrayList<>(); //Clear list
-        settingItems.add(new SettingItem(0, width - getX(0)*2, "GENERAL", i ->{
-            //TODO: Display the gui
+        settingItems.add(new SettingItem(0, width - getX(0) * 2, "GENERAL", i -> {
+            Minecraft.getMinecraft().displayGuiScreen(new GeneralSetting(this));
         }));
-        settingItems.add(new SettingItem(1, width - getX(0)*2, "CAPTUREX", i ->{
+        settingItems.add(new SettingItem(1, width - getX(0) * 2, "CAPTUREX", i -> {
             //TODO: Display the gui
         }));
     }
-
 
 
     @Override
@@ -176,6 +176,12 @@ public class ModConfigGui extends HCCGui {
     @Override
     protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
         super.mouseClicked(mouseX, mouseY, mouseButton);
+        settingItems.stream()
+                .filter(i -> i.mousePressed(this.mc, mouseX, mouseY))
+                .forEach(i -> {
+                    i.playPressSound(mc.getSoundHandler());
+                    i.callback.accept(i.id);
+                });
     }
 
     private int getX(int n) {

@@ -32,7 +32,7 @@ public class SettingItem extends GuiButton {
     private int textColor = new Color(255, 255, 255, 255).getRGB();
     private int textHoverColor = new Color(255, 255, 255, 255).getRGB();
     private String displayString;
-    private Consumer<Integer> callback;
+    public Consumer<Integer> callback;
 
     public SettingItem(int id, int width, String displayString, Consumer<Integer> callback) {
         super(id, 0, 0, width, 15, displayString);
@@ -42,10 +42,7 @@ public class SettingItem extends GuiButton {
 
     @Override
     public boolean mousePressed(Minecraft mc, int mouseX, int mouseY) {
-        boolean pressed = super.mousePressed(mc, mouseX, mouseY);
-        if(pressed)
-            callback.accept(id);
-        return pressed;
+        return super.mousePressed(mc, mouseX, mouseY);
     }
 
     public void drawItem(Minecraft mc, int mouseX, int mouseY, int x, int y) {

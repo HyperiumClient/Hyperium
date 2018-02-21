@@ -19,11 +19,16 @@
 package com.hcc.gui.settings;
 
 import com.hcc.gui.HCCGui;
+import com.hcc.gui.font.Fonts;
+import com.hcc.utils.HCCFontRenderer;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 
 import java.awt.*;
 
 public class SettingGui extends HCCGui {
+    private HCCFontRenderer fontRendererObj = Fonts.ARIAL.getTrueTypeFont();
     private String name;
     private GuiScreen previous;
     public SettingGui(String name, GuiScreen previous){
@@ -35,11 +40,14 @@ public class SettingGui extends HCCGui {
         drawDefaultBackground();
         // The Box
         drawRect(width / 5, height / 5, width - width / 5, height - height / 5, new Color(0, 0, 0, 100).getRGB());
+        // Top bar
+        drawRect(width / 5, height / 5, width -width/5, height / 5  + 30, new Color(0, 0, 0, 30).getRGB());
+        fontRendererObj.drawString(name, width / 5 + 10, (height / 5) + ((30 - 9) / 2), 0xFFFFFF);
         super.drawScreen(mouseX, mouseY, partialTicks);
     }
 
     @Override
     protected void pack() {
-
+        reg(">", new GuiButton(0, width - width / 5, height /5, ">"), b -> Minecraft.getMinecraft().displayGuiScreen(previous), b->{});
     }
 }
