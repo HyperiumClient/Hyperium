@@ -41,6 +41,7 @@ import com.hcc.mods.ToggleSprintContainer;
 import com.hcc.mods.capturex.CaptureCore;
 import com.hcc.mods.discord.RichPresenceManager;
 import com.hcc.mods.levelhead.commands.LevelHeadCommand;
+import com.hcc.mods.sk1ercommon.Multithreading;
 import com.hcc.tray.TrayManager;
 import com.hcc.utils.ChatColor;
 import net.minecraft.client.Minecraft;
@@ -136,7 +137,7 @@ public class HCC {
         modIntegration = new HCCModIntegration();
         richPresenceManager.init();
         // spotify thread (>^.^)>
-        new Thread(() -> {
+        Multithreading.runAsync(() -> {
             try {
                 spotify = new Spotify();
                 spotify.addListener(new Spotify.SpotifyListener() {
@@ -149,7 +150,7 @@ public class HCC {
                 e.printStackTrace();
                 LOGGER.warn("Failed to connect to spotify");
             }
-        }).start();
+        });
         Runtime.getRuntime().addShutdownHook(new Thread(this::shutdown));
     }
 
@@ -262,7 +263,7 @@ public class HCC {
         CONFIG.save();
         richPresenceManager.shutdown();
         captureCore.shutdown();
-        if(spotify!=null)
+        if (spotify != null)
             spotify.stop();
         LOGGER.info("Shutting down HCC..");
     }
