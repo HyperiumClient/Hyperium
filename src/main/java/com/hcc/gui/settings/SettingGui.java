@@ -41,13 +41,13 @@ public class SettingGui extends HCCGui {
         // The Box
         drawRect(width / 5, height / 5, width - width / 5, height - height / 5, new Color(0, 0, 0, 100).getRGB());
         // Top bar
-        drawRect(width / 5, height / 5, width -width/5, height / 5  + 30, new Color(0, 0, 0, 30).getRGB());
-        fontRendererObj.drawString(name, width / 5 + 10, (height / 5) + ((30 - 9) / 2), 0xFFFFFF);
+        drawRect(width / 5, height / 5, width -width/5, height / 5  + 25, new Color(0, 0, 0, 30).getRGB());
+        fontRendererObj.drawString(name, width / 5 + 10, (height / 5) + ((35 - 9) / 2), 0xFFFFFF);
         super.drawScreen(mouseX, mouseY, partialTicks);
     }
 
     @Override
     protected void pack() {
-        reg(">", new GuiButton(0, (width - width / 5)- 30, height /5, 30, 30, ">"), b -> Minecraft.getMinecraft().displayGuiScreen(previous), b->{});
+        reg(">", new GuiButton(0, (width - width / 5)- 25, height /5, 25, 25, ">"), b -> Minecraft.getMinecraft().displayGuiScreen(previous), b->{});
     }
 }
