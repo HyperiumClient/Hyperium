@@ -176,12 +176,13 @@ public class ModConfigGui extends HCCGui {
     @Override
     protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
         super.mouseClicked(mouseX, mouseY, mouseButton);
-        settingItems.stream()
-                .filter(i -> i.mousePressed(this.mc, mouseX, mouseY))
-                .forEach(i -> {
-                    i.playPressSound(mc.getSoundHandler());
-                    i.callback.accept(i.id);
-                });
+        if (mouseButton == 0)
+            settingItems.stream()
+                    .filter(i -> i.mousePressed(this.mc, mouseX, mouseY))
+                    .forEach(i -> {
+                        i.playPressSound(mc.getSoundHandler());
+                        i.callback.accept(i.id);
+                    });
     }
 
     private int getX(int n) {
