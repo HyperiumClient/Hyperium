@@ -255,7 +255,8 @@ public class HCC {
         CONFIG.save();
         richPresenceManager.shutdown();
         captureCore.shutdown();
-        spotify.stop();
+        if(spotify!=null)
+            spotify.stop();
         LOGGER.info("Shutting down HCC..");
     }
 
