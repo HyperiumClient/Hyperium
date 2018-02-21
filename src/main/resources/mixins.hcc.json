@@ -10,6 +10,7 @@
     "MixinSoundManager",
     "MixinKeyBinding",
     "MixinScreenShotHelper",
+    "MixinEnchantment",
 
     "gui.MixinGuiConnecting",
     "gui.MixinGuiDisconnecting",

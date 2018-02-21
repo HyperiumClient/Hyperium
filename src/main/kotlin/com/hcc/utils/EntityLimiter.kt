@@ -23,7 +23,7 @@ import net.minecraft.entity.Entity
 
 class EntityLimiter(val method: EntityLimiterMethods, var range: Int = -1) {
 
-    val mc = Minecraft.getMinecraft()
+    private val mc = Minecraft.getMinecraft()
 
     /**
      * Gets Entities that are allowed to render
@@ -32,7 +32,7 @@ class EntityLimiter(val method: EntityLimiterMethods, var range: Int = -1) {
         EntityLimiterMethods.RANGE -> entities
                 .filter { mc.thePlayer.getDistanceToEntity(it) <= range }
         EntityLimiterMethods.ENTITY_COUNT -> entities
-                .sortedBy { mc.thePlayer.getDistanceSqToEntity(it) }
+                .sortedBy { mc.thePlayer.getDistanceToEntity(it) }
                 .subList(0, if (range < entities.size) range else entities.size)
         else -> entities
     }

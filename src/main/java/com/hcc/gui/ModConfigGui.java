@@ -139,7 +139,7 @@ public class ModConfigGui extends HCCGui {
 
     private void updateTabs() {
         //TODO: Make all components invisible here
-        settingItems.parallelStream().forEach(i -> i.visible = false);
+        settingItems.forEach(i -> i.visible = false);
 
         //TODO: Make components visible corresponding to tab
         switch (currentTab) {
