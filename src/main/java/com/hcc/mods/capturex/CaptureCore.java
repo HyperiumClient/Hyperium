@@ -24,6 +24,7 @@ import com.google.common.util.concurrent.ListenableFutureTask;
 import com.hcc.HCC;
 import com.hcc.event.HypixelKillEvent;
 import com.hcc.event.InvokeEvent;
+import com.hcc.event.RenderEvent;
 import com.hcc.event.TickEvent;
 import com.hcc.mods.capturex.render.FFMpegHelper;
 import net.minecraft.client.Minecraft;
@@ -56,7 +57,7 @@ public class CaptureCore {
     }
 
     @InvokeEvent
-    public void onTick(TickEvent event){
+    public void onTick(RenderEvent event){
         // 1 seconds backward
         if(backwardsBuffer.size() > 20)
             backwardsBuffer.poll();

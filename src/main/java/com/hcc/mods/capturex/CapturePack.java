@@ -36,7 +36,7 @@ public class CapturePack {
 
     public void renderFrames() {
         for (int i = 0; i < framebufferQueue.size(); i++) {
-            FrameRenderer.render(timestamp, 20-i, framebufferQueue.poll());
+            FrameRenderer.render(timestamp, i, framebufferQueue.poll());
         }
     }
     public void cleanup(){

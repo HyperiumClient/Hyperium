@@ -19,14 +19,20 @@
 package com.hcc.gui;
 
 import com.hcc.HCC;
+import com.hcc.gui.settings.SettingItem;
 import com.hcc.utils.HCCFontRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
+import org.lwjgl.input.Mouse;
 
 import java.awt.*;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ModConfigGui extends HCCGui {
+    private List<SettingItem> settingItems = new ArrayList<>();
+    private int offset = 0;
     /**
      * current tab
      */
@@ -59,6 +65,7 @@ public class ModConfigGui extends HCCGui {
                 GL11.glPopMatrix();*/
                 break;
             case SETTINGS:
+                drawSettingsItem(Minecraft.getMinecraft(), mouseX, mouseY);
                 break;
             case ADDONS:
                 break;
@@ -87,6 +94,17 @@ public class ModConfigGui extends HCCGui {
         drawRect(getX(currentTab.getIndex()), getY() + 23, getX(currentTab.getIndex() + 1), getY() + 25, new Color(149, 201, 144).getRGB());
     }
 
+    private void drawSettingsItem(Minecraft mc, int mouseX, int mouseY) {
+        int items = (height - (getY()*2+25)) / 15;
+
+        settingItems.stream()
+                .filter(i -> items - i.id >= offset && (getY()+25)+offset*15 >= getY()+25)
+                .forEach(i -> {
+                    i.visible = true;
+                    i.drawItem(mc, mouseX, mouseY, getX(0), (getY()+25)+offset*15);
+                });
+    }
+
     @Override
     protected void pack() {
         int numberOfTabs = 6;
@@ -98,7 +116,15 @@ public class ModConfigGui extends HCCGui {
         this.buttonList.add(Tabs.CHROMAHUD.setButton(new CustomFontButton(5, getX(5), getY(), 50, 25, "DISPLAY")));
         //  guiblock = new GuiBlock(getX(0), width - getX(0), getY(), height - getY());
         // TODO: Make it so if they have a retarded resolution it creates arrows for them to cycle between tabs
+
+        // Add settings item
+        settingItems = new ArrayList<>(); //Clear list
+        settingItems.add(new SettingItem(0, width - getX(0)*2, "GENERAL", i ->{
+            //TODO: Display the gui
+        }));
     }
+
+
 
     @Override
     protected void actionPerformed(GuiButton button) {
@@ -108,9 +134,19 @@ public class ModConfigGui extends HCCGui {
         updateTabs();
     }
 
+    @Override
+    public void handleMouseInput() throws IOException {
+        super.handleMouseInput();
+        int i = Mouse.getEventDWheel();
+        if (i < 0)
+            offset += 1;
+        else if (i > 0)
+            offset -= 1;
+    }
+
     private void updateTabs() {
         //TODO: Make all components invisible here
-
+        settingItems.parallelStream().forEach(i -> i.visible = false);
 
         //TODO: Make components visible corresponding to tab
         switch (currentTab) {

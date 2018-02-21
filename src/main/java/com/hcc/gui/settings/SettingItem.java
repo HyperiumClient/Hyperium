@@ -34,8 +34,8 @@ public class SettingItem extends GuiButton {
     private String displayString;
     private Consumer<Integer> callback;
 
-    public SettingItem(int id, int x, int y, int width, String displayString, Consumer<Integer> callback) {
-        super(id, x, y, width, 15, displayString);
+    public SettingItem(int id, int width, String displayString, Consumer<Integer> callback) {
+        super(id, 0, 0, width, 15, displayString);
         this.displayString = displayString;
         this.callback = callback;
     }
@@ -48,21 +48,19 @@ public class SettingItem extends GuiButton {
         return pressed;
     }
 
-    @SuppressWarnings("Duplicates")
-    @Override
-    public void drawButton(Minecraft mc, int mouseX, int mouseY) {
+    public void drawItem(Minecraft mc, int mouseX, int mouseY, int x, int y) {
         if (this.visible) {
-            this.hovered = mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;
+            this.hovered = mouseX >= x && mouseY >= y && mouseX < this.xPosition + this.width && mouseY < y + this.height;
             this.mouseDragged(mc, mouseX, mouseY);
 
             // TODO RECT COLORS
             if (this.hovered) {
-                drawRect(this.xPosition, this.yPosition,
-                        this.xPosition + this.width, this.yPosition + this.height,
+                drawRect(x, y,
+                        x + this.width, y + this.height,
                         hoverColor);
             } else {
-                drawRect(this.xPosition, this.yPosition,
-                        this.xPosition + this.width, this.yPosition + this.height,
+                drawRect(x, y,
+                        x + this.width, y + this.height,
                         color);
             }
             int j = textColor;
@@ -72,8 +70,8 @@ public class SettingItem extends GuiButton {
             } else if (this.hovered) {
                 j = textHoverColor;
             }
-            fontRenderer.drawString(this.displayString, this.xPosition + 4, this.yPosition + (this.height - 8) / 2, j);
-            fontRenderer.drawString(">", this.xPosition + width - 2, this.yPosition + (this.height - 8) / 2, j);
+            fontRenderer.drawString(this.displayString, x + 4, y + (this.height - 8) / 2, j);
+            fontRenderer.drawString(">", x + width - 6, y + (this.height - 8) / 2, j);
         }
 
     }

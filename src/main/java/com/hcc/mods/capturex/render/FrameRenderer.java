@@ -44,54 +44,7 @@ public class FrameRenderer {
         try {
             File file1 = new File(CaptureCore.captureXDir, "kill-" + timestamp);
             file1.mkdir();
-
-            if (mc.addScheduledTask(OpenGlHelper::isFramebufferEnabled).get()) {
-                width = buffer.framebufferTextureWidth;
-                height = buffer.framebufferTextureHeight;
-            }
-
-            int i = width * height;
-
-            if (pixelBuffer == null || pixelBuffer.capacity() < i) {
-                pixelBuffer = BufferUtils.createIntBuffer(i);
-                pixelValues = new int[i];
-            }
-
-            mc.addScheduledTask(() -> {
-                GL11.glPixelStorei(GL11.GL_PACK_ALIGNMENT, 1);
-                GL11.glPixelStorei(GL11.GL_UNPACK_ALIGNMENT, 1);
-            }).get();
-
-            pixelBuffer.clear();
-
-            int finalWidth = width;
-            int finalHeight = height;
-            mc.addScheduledTask(() -> {
-                if (OpenGlHelper.isFramebufferEnabled()) {
-                    GlStateManager.bindTexture(buffer.framebufferTexture);
-                    GL11.glGetTexImage(GL11.GL_TEXTURE_2D, 0, GL12.GL_BGRA, GL12.GL_UNSIGNED_INT_8_8_8_8_REV, pixelBuffer);
-                } else {
-                    GL11.glReadPixels(0, 0, finalWidth, finalHeight, GL12.GL_BGRA, GL12.GL_UNSIGNED_INT_8_8_8_8_REV, pixelBuffer);
-                }
-            }).get();
-
-            pixelBuffer.get(pixelValues);
-            TextureUtil.processPixelValues(pixelValues, width, height);
-            BufferedImage bufferedimage = null;
-            if (mc.addScheduledTask(OpenGlHelper::isFramebufferEnabled).get()) {
-                bufferedimage = new BufferedImage(buffer.framebufferWidth, buffer.framebufferHeight, 1);
-                int j = buffer.framebufferTextureHeight - buffer.framebufferHeight;
-
-                for (int k = j; k < buffer.framebufferTextureHeight; ++k) {
-                    for (int l = 0; l < buffer.framebufferWidth; ++l) {
-                        bufferedimage.setRGB(l, k - j, pixelValues[k * buffer.framebufferTextureWidth + l]);
-                    }
-                }
-            } else {
-                bufferedimage = new BufferedImage(width, height, 1);
-                bufferedimage.setRGB(0, 0, width, height, pixelValues, 0, width);
-            }
-
+            BufferedImage bufferedimage= mc.addScheduledTask(()->getImageFromFrameBuffer(buffer,mc.displayWidth,mc.displayHeight)).get();
             File file2;
             file2 = new File(file1, String.format("img0%02d.png", n));
 
@@ -101,5 +54,23 @@ public class FrameRenderer {
             ex.printStackTrace();
             return null;
         }
+    }
+    private synchronized static BufferedImage getImageFromFrameBuffer(Framebuffer buffer, int width, int height) {
+        int k = buffer.framebufferTextureWidth * buffer.framebufferTextureHeight;
+        if (pixelBuffer == null || pixelBuffer.capacity() < k) {
+            pixelBuffer = BufferUtils.createIntBuffer(k);
+            pixelValues = new int[k];
+        }
+        GL11.glPixelStorei(GL11.GL_PACK_ALIGNMENT, 1);
+        GL11.glPixelStorei(GL11.GL_UNPACK_ALIGNMENT, 1);
+        pixelBuffer.clear();
+        GlStateManager.bindTexture(buffer.framebufferTexture);
+        GL11.glGetTexImage(GL11.GL_TEXTURE_2D, 0, GL12.GL_BGRA, GL12.GL_UNSIGNED_INT_8_8_8_8_REV, pixelBuffer);
+        pixelBuffer.get(pixelValues);
+        TextureUtil.processPixelValues(pixelValues, buffer.framebufferTextureWidth, buffer.framebufferTextureHeight);
+        BufferedImage bufferedimage = new BufferedImage(width, height, BufferedImage.TYPE_4BYTE_ABGR);
+        int l = buffer.framebufferTextureHeight - buffer.framebufferHeight;
+        bufferedimage.setRGB(0, 0, width, height, pixelValues, l*buffer.framebufferTextureWidth, buffer.framebufferTextureWidth);
+        return bufferedimage;
     }
 }
