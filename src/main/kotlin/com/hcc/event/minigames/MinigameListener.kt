@@ -28,29 +28,27 @@ import net.minecraft.client.Minecraft
 
 class MinigameListener {
 
-    var cooldown = 3 * 20
+    private var cooldown = 3 * 20
 
-    var currentMinigameName = ""
+    private var currentMinigameName = ""
 
     @InvokeEvent
     fun onTick(event: TickEvent) {
-       // System.out.println("Hypixel? " + HCC.INSTANCE.handlers.hypixelDetector.isHypixel)
-        if(!(Minecraft.getMinecraft().theWorld == null)) {
+        if(Minecraft.getMinecraft().theWorld != null) {
             if (HCC.INSTANCE.handlers.hypixelDetector.isHypixel && Minecraft.getMinecraft().theWorld.scoreboard != null) {
                 if (cooldown <= 0) {
                     cooldown = 3 * 20
-                    currentMinigameName = getScoreboardTitle()
+                    val minigameName = getScoreboardTitle()
                     val minigames = Minigame.values()
                     minigames.forEach {
-                        if (currentMinigameName.equals(it.scoreName,true)) {
+                        if (minigameName.equals(it.scoreName,true) && !minigameName.equals(currentMinigameName, true)) {
+                            currentMinigameName = minigameName
                             EventBus.post(JoinMinigameEvent(it))
                         }
                     }
-
                 } else {
                     cooldown--
                 }
-
             }
         }
     }
