@@ -18,7 +18,6 @@
 
 package com.hcc.handlers.handlers.chat;
 
-import com.hcc.utils.JsonHolder;
 import com.hcc.utils.SafeNumberParsing;
 import net.minecraft.util.IChatComponent;
 
@@ -32,7 +31,7 @@ public class RankedRatingChatHandler extends HCCChatHandler {
     @Override
     public boolean chatReceived(IChatComponent component, String text) {
         Matcher matcher = skywarsRankedRating.matcher(text);
-        if (matcher.find()) {
+        if (matcher.matches()) {
             getHcc().getHandlers().getValueHandler().setRankedRating(SafeNumberParsing.safeParseInt(matcher.group("rating"), getHcc().getHandlers().getValueHandler().getRankedRating()));
             getHcc().getHandlers().getValueHandler().setDeltaRankedRating(SafeNumberParsing.safeParseInt(matcher.group("change"), getHcc().getHandlers().getValueHandler().getDeltaRankedRating()));
         }

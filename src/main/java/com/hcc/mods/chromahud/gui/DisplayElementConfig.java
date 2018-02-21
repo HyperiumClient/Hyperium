@@ -155,7 +155,13 @@ public class DisplayElementConfig extends GuiScreen {
             //On Gui Update
             button.displayString = ChatColor.YELLOW.toString() + "Shadow: " + (element.isShadow() ? ChatColor.GREEN + "Yes" : ChatColor.RED.toString() + "No");
         });
-
+        reg("Toggle Right", new GuiButton(nextId(), posX, start_y + 22 * 4, "-"), button -> {
+            //On click
+            element.setRightSided(!element.isRightSided());
+        }, button -> {
+            //On Gui Update
+            button.displayString = ChatColor.YELLOW.toString() + "Right side: " + (element.isRightSided() ? ChatColor.GREEN + "Yes" : ChatColor.RED.toString() + "No");
+        });
         //*4
 
 //        reg("Scale Slider", new GuiSlider(nextId(), posX, start_y + 22 * 4, 200, 20, "Scale: ", "", 50, 200, element.getScale() * 100D, false, true), button -> {

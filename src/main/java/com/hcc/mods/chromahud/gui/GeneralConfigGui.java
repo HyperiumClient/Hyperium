@@ -98,8 +98,10 @@ public class GeneralConfigGui extends GuiScreen {
         }
         if (currentElement != null) {
             ScaledResolution resolution = new ScaledResolution(Minecraft.getMinecraft());
-            double x1 = currentElement.getXloc() * resolution.getScaledWidth_double();
-            double x2 = currentElement.getXloc() * resolution.getScaledWidth_double() + currentElement.getDimensions().getWidth();
+            double offset = currentElement.isRightSided() ? currentElement.getDimensions().getWidth() : 0;
+//            double offset= 4;
+            double x1 = currentElement.getXloc() * resolution.getScaledWidth_double()-offset;
+            double x2 = currentElement.getXloc() * resolution.getScaledWidth_double() + currentElement.getDimensions().getWidth()-offset;
             double y1 = currentElement.getYloc() * resolution.getScaledHeight_double();
             double y2 = currentElement.getYloc() * resolution.getScaledHeight_double() + currentElement.getDimensions().getHeight();
             //Left top right bottom
@@ -179,6 +181,8 @@ public class GeneralConfigGui extends GuiScreen {
             for (DisplayElement element : mod.getDisplayElements()) {
                 Dimension dimension = element.getDimensions();
                 double displayXLoc = current.getScaledWidth_double() * element.getXloc();
+                if (element.isRightSided())
+                    displayXLoc -= element.getDimensions().getWidth();
                 double displayYLoc = current.getScaledHeight_double() - current.getScaledHeight_double() * element.getYloc();
                 if (clickX > displayXLoc
                         && clickX < displayXLoc + dimension.getWidth()

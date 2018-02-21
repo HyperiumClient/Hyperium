@@ -20,9 +20,11 @@ package com.hcc.mods.chromahud;
 
 import com.google.gson.JsonArray;
 import com.hcc.event.EventBus;
+import com.hcc.mods.chromahud.api.ButtonConfig;
 import com.hcc.mods.chromahud.api.DisplayItem;
 import com.hcc.mods.chromahud.gui.GeneralConfigGui;
 import com.hcc.utils.JsonHolder;
+import net.minecraft.client.gui.GuiButton;
 
 import java.io.*;
 import java.util.List;
@@ -44,6 +46,11 @@ public class ChromaHUD {
         ChromaHUDApi.getInstance();
         ChromaHUDApi.getInstance().register(new DefaultChromaHUDParser());
         ChromaHUDApi.getInstance().register(new HCCChromaHudParser());
+        ChromaHUDApi.getInstance().registerButtonConfig("SCOREBOARD", new ButtonConfig((guiButton, displayItem) -> {
+            displayItem.getData().put("numbers",!displayItem.getData().optBoolean("numbers"));
+        }, new GuiButton(0, 0, 0, "Toggle Number"), (guiButton, displayItem) -> {
+
+        }));
         setup();
         EventBus.INSTANCE.register(new ElementRenderer(this));
 

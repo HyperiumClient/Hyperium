@@ -24,6 +24,7 @@ import com.hcc.event.RenderEvent;
 import com.hcc.event.TickEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderItem;
@@ -49,7 +50,6 @@ public class ElementRenderer {
     private static DisplayElement current;
     private static FontRenderer fontRendererObj = Minecraft.getMinecraft().fontRendererObj;
     private static String cValue;
-    private static FontRenderer fontRenderer;
     boolean last = false;
     private ChromaHUD mod;
     private Minecraft minecraft;
@@ -68,13 +68,6 @@ public class ElementRenderer {
     }
 
     public static int getColor(int c, int x) {
-//        if (isChromaInt(c)) {
-////            System.out.println(c);
-//            long e = (System.currentTimeMillis() + (c == 1 ? (x * 10) : 0));
-////            System.out.println(e);
-//            long l = e % 1000L;
-//            return Color.HSBtoRGB(l / 1000.0f, 0.8f, 0.8f);
-//        }
         return c;
 
     }
@@ -107,22 +100,24 @@ public class ElementRenderer {
         int tx = x;
         double ty = y;
         for (String string : list) {
-
+            int shift = current.isRightSided()
+                    ? fontRendererObj.getStringWidth(string)
+                    : 0;
             if (current.isHighlighted()) {
-                //    int stringWidth = fontRendererObj.getStringWidth(string);
-                //    Gui.drawRect((int) ((tx - 1) / getCurrentScale()), (int) ((ty - 1) / getCurrentScale()), (int) ((tx + 1) / getCurrentScale()) + stringWidth, (int) ((ty + 1) / getCurrentScale()) + 8, new Color(0, 0, 0, 120).getRGB());
+                int stringWidth = fontRendererObj.getStringWidth(string);
+                Gui.drawRect((int) ((tx - 1) / getCurrentScale() - shift), (int) ((ty - 1) / getCurrentScale()), (int) ((tx + 1) / getCurrentScale()) + stringWidth - shift, (int) ((ty + 1) / getCurrentScale()) + 8, new Color(0, 0, 0, 120).getRGB());
             }
             if (current.isChroma()) {
-
-                drawChromaString(string, tx, (int) ty);
+                drawChromaString(string, tx - shift, (int) ty);
             } else {
-                fontRendererObj.drawString(string, (int) (tx / getCurrentScale()), (int) (ty / getCurrentScale()), getColor(color, x), current.isShadow());
+                fontRendererObj.drawString(string, (int) (tx / getCurrentScale() - shift), (int) (ty / getCurrentScale()), getColor(color, x), current.isShadow());
             }
             ty += 10;
         }
     }
 
 
+    //Don't shift, by the time it is here it is already shifted
     public static void drawChromaString(String text, int xIn, int y) {
         FontRenderer renderer = Minecraft.getMinecraft().fontRendererObj;
         int x = xIn;
@@ -172,9 +167,9 @@ public class ElementRenderer {
         int line = 0;
         RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
         for (ItemStack stack : itemStacks) {
-            renderItem.renderItemAndEffectIntoGUI(stack, (int) (x / ElementRenderer.getCurrentScale()), (int) ((y + (16 * line * ElementRenderer.getCurrentScale())) / ElementRenderer.getCurrentScale()));
+            String dur = (stack.getMaxDamage() - stack.getItemDamage()) + "/" + stack.getMaxDamage();
+            renderItem.renderItemAndEffectIntoGUI(stack, (int) (x / ElementRenderer.getCurrentScale() - (current.isRightSided() ? (showDurability ? 16 + (double) 20 * currentScale + fontRendererObj.getStringWidth(dur) : -16) : 0)), (int) ((y + (16 * line * ElementRenderer.getCurrentScale())) / ElementRenderer.getCurrentScale()));
             if (showDurability) {
-                String dur = (stack.getMaxDamage() - stack.getItemDamage()) + "/" + stack.getMaxDamage();
                 ElementRenderer.draw((int) (x + (double) 20 * currentScale), y + (16 * line) + 8, dur);
             }
             line++;
@@ -193,7 +188,7 @@ public class ElementRenderer {
     }
 
     public static FontRenderer getFontRenderer() {
-        return fontRenderer;
+        return fontRendererObj;
     }
 
     @InvokeEvent

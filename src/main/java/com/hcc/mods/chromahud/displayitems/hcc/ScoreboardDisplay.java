@@ -2,10 +2,12 @@ package com.hcc.mods.chromahud.displayitems.hcc;
 
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import com.hcc.mods.chromahud.ElementRenderer;
 import com.hcc.mods.chromahud.api.Dimension;
 import com.hcc.mods.chromahud.api.DisplayItem;
 import com.hcc.utils.JsonHolder;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.scoreboard.Score;
 import net.minecraft.scoreboard.ScoreObjective;
@@ -50,6 +52,8 @@ public class ScoreboardDisplay extends DisplayItem {
         int i1 = collection.size() * Minecraft.getMinecraft().fontRendererObj.FONT_HEIGHT;
         int k1 = 3;
         int l1 = starX;
+        if(ElementRenderer.getCurrent().isRightSided())
+            l1-=i;
         int j = 0;
 
         int k = 0;
@@ -60,19 +64,24 @@ public class ScoreboardDisplay extends DisplayItem {
             String s2 = EnumChatFormatting.RED + "" + score1.getScorePoints();
             k = ((int) startY) + (collection.size() - j + 1) * Minecraft.getMinecraft().fontRendererObj.FONT_HEIGHT;
             int l = p_180475_2_.getScaledWidth() - k1 + 2;
-            //  drawRect(l1 - 2, k, l1 + i, k + Minecraft.getMinecraft().fontRendererObj.FONT_HEIGHT, 1342177280);
+            if (ElementRenderer.getCurrent().isHighlighted())
+                Gui.drawRect(l1 - 2, k, l1 + i, k + Minecraft.getMinecraft().fontRendererObj.FONT_HEIGHT, 1342177280);
             Minecraft.getMinecraft().fontRendererObj.drawString(s1, l1, k, 553648127);
             // todo: make toggle number
-            //   Minecraft.getMinecraft().fontRendererObj.drawString(s2, l1 + i - Minecraft.getMinecraft().fontRendererObj.getStringWidth(s2), k, 553648127);
+            if (data.optBoolean("numbers")) {
+                Minecraft.getMinecraft().fontRendererObj.drawString(s2, l1 + i - Minecraft.getMinecraft().fontRendererObj.getStringWidth(s2), k, 553648127);
+            }
 
             if (j == collection.size()) {
                 String s3 = p_180475_1_.getDisplayName();
-                //    drawRect(l1 - 2, k - Minecraft.getMinecraft().fontRendererObj.FONT_HEIGHT - 1, l1 + i, k - 1, 1610612736);
-                //    drawRect(l1 - 2, k - 1, l1 + i, k, 1342177280);
+                if(ElementRenderer.getCurrent().isHighlighted()) {
+                    Gui.drawRect(l1 - 2, k - Minecraft.getMinecraft().fontRendererObj.FONT_HEIGHT - 1, l1 + i, k - 1, 1610612736);
+                    Gui.drawRect(l1 - 2, k - 1, l1 + i, k, 1342177280);
+                }
                 Minecraft.getMinecraft().fontRendererObj.drawString(s3, l1 + i / 2 - Minecraft.getMinecraft().fontRendererObj.getStringWidth(s3) / 2, k - Minecraft.getMinecraft().fontRendererObj.FONT_HEIGHT, 553648127);
             }
         }
-        return new Dimension(i, i1 + 10);
+        return new Dimension(i - (data.optBoolean("numbers") ? 0: 10), i1 + 10);
     }
 
 

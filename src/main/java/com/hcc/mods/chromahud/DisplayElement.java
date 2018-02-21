@@ -23,7 +23,6 @@ import com.hcc.mods.chromahud.api.Dimension;
 import com.hcc.mods.chromahud.api.DisplayItem;
 import com.hcc.utils.JsonHolder;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 
 import java.awt.*;
@@ -73,6 +72,14 @@ public class DisplayElement {
         return new DisplayElement(new JsonHolder().put("x", .5).put("y", .5).put("scale", 1).put("color", Color.WHITE.getRGB()).put("color_pallet", true));
     }
 
+    public boolean isRightSided() {
+        return data.optBoolean("right_side");
+    }
+
+    public void setRightSided(boolean newState) {
+        data.put("right_side", newState);
+    }
+
     public double getBrightness() {
         return data.optDouble("brightness");
     }
@@ -118,14 +125,14 @@ public class DisplayElement {
         ScaledResolution resolution = new ScaledResolution(Minecraft.getMinecraft());
         int x = (int) (xloc * resolution.getScaledWidth_double());
         double y = (int) (yloc * resolution.getScaledHeight_double());
-        if (this.isHighlighted()) {
-            Gui.drawRect(
-                    x - 2,
-                    (int) y - 2,
-                    (int) (x + getDimensions().getWidth()) + 2,
-                    (int) (y + getDimensions().getHeight()),
-                    new Color(0, 0, 0, 120).getRGB());
-        }
+//        if (this.isHighlighted()) {
+//            Gui.drawRect(
+//                    x - 2,
+//                    (int) y - 2,
+//                    (int) (x + getDimensions().getWidth()) + 2,
+//                    (int) (y + getDimensions().getHeight()),
+//                    new Color(0, 0, 0, 120).getRGB());
+//        }
 
         for (DisplayItem iDisplayItem : displayItems) {
             try {
@@ -209,6 +216,15 @@ public class DisplayElement {
     public void renderEditView() {
         ScaledResolution resolution = new ScaledResolution(Minecraft.getMinecraft());
         int x = (int) (.8 * resolution.getScaledWidth_double());
+        if (isRightSided()) {
+            x += getDimensions().getWidth();
+            if(x > resolution.getScaledWidth())
+                x=resolution.getScaledWidth();
+        } else {
+            if(x + getDimensions().getWidth() > resolution.getScaledWidth()) {
+                x = (int) (resolution.getScaledWidth()-getDimensions().getWidth());
+            }
+        }
         double y = (int) (.2 * resolution.getScaledHeight_double());
         for (DisplayItem iDisplayItem : displayItems) {
             Dimension d = iDisplayItem.draw(x, y, false);
