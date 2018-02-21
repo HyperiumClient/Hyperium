@@ -64,7 +64,9 @@ public class ModConfigGui extends HCCGui {
                 break;
             case FRIENDS:
                 break;
-            case CHROMAHUD: {
+            case CHROMAHUD:
+                break;
+            case FORUMS: {
 
                 //Check is mostly to make sure bad things don't happen. The ChromaHUD system was made for when the player exists
                 if (Minecraft.getMinecraft().thePlayer == null) {
@@ -96,6 +98,7 @@ public class ModConfigGui extends HCCGui {
         this.buttonList.add(Tabs.FRIENDS.setButton(new CustomFontButton(3, getX(3), getY(), 50, 25, "FRIENDS")));
         this.buttonList.add(Tabs.ABOUT.setButton(new CustomFontButton(4, getX(4), getY(), 50, 25, "ABOUT")));
         this.buttonList.add(Tabs.CHROMAHUD.setButton(new CustomFontButton(5, getX(5), getY(), 50, 25, "DISPLAY")));
+        this.buttonList.add(Tabs.FORUMS.setButton(new CustomFontButton(6, getX(6), getY(), 50, 25, "FORUMS")));
         //  guiblock = new GuiBlock(getX(0), width - getX(0), getY(), height - getY());
         // TODO: Make it so if they have a retarded resolution it creates arrows for them to cycle between tabs
     }
@@ -126,6 +129,8 @@ public class ModConfigGui extends HCCGui {
                 break;
             case CHROMAHUD:
                 break;
+            case FORUMS:
+                break;
         }
     }
 
@@ -153,7 +158,8 @@ public class ModConfigGui extends HCCGui {
         ADDONS(null, 2),
         FRIENDS(null, 3),
         ABOUT(null, 4),
-        CHROMAHUD(null, 5);
+        CHROMAHUD(null, 5),
+        FORUMS(null, 6);
 
         private GuiButton button;
         private int index;

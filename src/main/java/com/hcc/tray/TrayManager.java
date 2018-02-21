@@ -39,6 +39,10 @@ public class TrayManager {
             PopupMenu menu = new PopupMenu();
 
             MenuItem aboutItem = new MenuItem("About");
+
+
+            //TODO: Add About Dialog
+
             //TODO: Edit about Dialog
             aboutItem.addActionListener(action -> hccutils.trayDisplayAboutInfo());
 
