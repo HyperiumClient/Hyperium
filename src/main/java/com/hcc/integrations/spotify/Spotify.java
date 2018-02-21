@@ -48,6 +48,8 @@ public class Spotify {
     private List<SpotifyListener> listeners = new ArrayList<>();
     private Thread listenerThread;
     private JSONObject status;
+    
+    private String oauthToken = "";
 
     public Spotify() throws Exception {
         if (getWebHelper() == null)
@@ -158,7 +160,11 @@ public class Spotify {
      * @throws IOException if exception occurs
      */
     private String getOAuthToken() throws IOException {
-        return get("https://open.spotify.com/token", false).getString("t");
+        if (this.oauthToken == null || this.oauthToken.isEmpty()) {
+            return this.oauthToken = get("https://open.spotify.com/token", false).getString("t");
+        }
+        
+        return this.oauthToken;
     }
 
     /**
