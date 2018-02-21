@@ -72,16 +72,6 @@ public class ModConfigGui extends HCCGui {
                 break;
             case FRIENDS:
                 break;
-            case CHROMAHUD: {
-
-                //Check is mostly to make sure bad things don't happen. The ChromaHUD system was made for when the player exists
-                if (Minecraft.getMinecraft().thePlayer == null) {
-                    drawCenteredString(fontRendererObj, "Please use this while in a world or on a server", width / 2, (height - height / 2) - 12, 0xFFFFFF);
-                } else {
-                    Minecraft.getMinecraft().displayGuiScreen(HCC.INSTANCE.getModIntegration().getChromaHUD().getConfigGuiInstance());
-                }
-                break;
-            }
             case ABOUT:
                 String str = "Developed by Sk1er, CoalOres, Kevin and Cubxity";
                 fontRenderer.drawCenteredString(str, width / 2, height - 12, Color.WHITE.getRGB());
@@ -108,24 +98,20 @@ public class ModConfigGui extends HCCGui {
 
     @Override
     protected void pack() {
-        int numberOfTabs = 6;
         this.buttonList.add(Tabs.HOME.setButton(new CustomFontButton(0, getX(0), getY(), 50, 25, "HOME")));
         this.buttonList.add(Tabs.SETTINGS.setButton(new CustomFontButton(1, getX(1), getY(), 50, 25, "SETTINGS")));
         this.buttonList.add(Tabs.ADDONS.setButton(new CustomFontButton(2, getX(2), getY(), 50, 25, "ADDONS")));
         this.buttonList.add(Tabs.FRIENDS.setButton(new CustomFontButton(3, getX(3), getY(), 50, 25, "FRIENDS")));
         this.buttonList.add(Tabs.ABOUT.setButton(new CustomFontButton(4, getX(4), getY(), 50, 25, "ABOUT")));
-        this.buttonList.add(Tabs.CHROMAHUD.setButton(new CustomFontButton(5, getX(5), getY(), 50, 25, "DISPLAY")));
-        //  guiblock = new GuiBlock(getX(0), width - getX(0), getY(), height - getY());
-        // TODO: Make it so if they have a retarded resolution it creates arrows for them to cycle between tabs
 
         // Add settings item
         settingItems = new ArrayList<>(); //Clear list
-        settingItems.add(new SettingItem(0,  getX(0), getDefaultItemY(0), width - getX(0) * 2, "GENERAL", i -> {
-            Minecraft.getMinecraft().displayGuiScreen(new GeneralSetting(this));
-        }));
+        settingItems.add(new SettingItem(0,  getX(0), getDefaultItemY(0), width - getX(0) * 2, "GENERAL", i -> Minecraft.getMinecraft().displayGuiScreen(new GeneralSetting(this))));
         settingItems.add(new SettingItem(1, getX(0), getDefaultItemY(1),width - getX(0) * 2, "CAPTUREX", i -> {
             //TODO: Display the gui
         }));
+        if(Minecraft.getMinecraft().thePlayer!=null)
+            settingItems.add(new SettingItem(2, getX(0), getDefaultItemY(2),width - getX(0) * 2, "CHROMAHUD", i -> Minecraft.getMinecraft().displayGuiScreen(HCC.INSTANCE.getModIntegration().getChromaHUD().getConfigGuiInstance())));
     }
 
     private int getDefaultItemY(int i) {
@@ -167,8 +153,6 @@ public class ModConfigGui extends HCCGui {
                 break;
             case ABOUT:
                 break;
-            case CHROMAHUD:
-                break;
         }
     }
 
@@ -202,8 +186,7 @@ public class ModConfigGui extends HCCGui {
         SETTINGS(null, 1),
         ADDONS(null, 2),
         FRIENDS(null, 3),
-        ABOUT(null, 4),
-        CHROMAHUD(null, 5);
+        ABOUT(null, 4);
 
         private GuiButton button;
         private int index;
