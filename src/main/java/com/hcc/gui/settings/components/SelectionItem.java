@@ -16,35 +16,59 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.hcc.gui.settings;
+package com.hcc.gui.settings.components;
 
-import com.hcc.utils.HCCFontRenderer;
+import com.hcc.gui.settings.SettingItem;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiButton;
 
-import java.awt.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.function.Consumer;
 
-public class SettingItem extends GuiButton {
-    protected static final HCCFontRenderer fontRenderer =  new HCCFontRenderer("Arial", Font.PLAIN, 12);
-    protected int hoverColor = new Color(0, 0, 0, 30).getRGB();
-    protected int color = new Color(0, 0, 0, 0).getRGB();
-    protected int textColor = new Color(255, 255, 255, 255).getRGB();
-    protected int textHoverColor = new Color(255, 255, 255, 255).getRGB();
-    protected String displayString;
-    public Consumer<SettingItem> callback;
+public class SelectionItem extends SettingItem {
+    private List<String> items = new ArrayList<>();
+    private String selectedItem = "";
+    public SelectionItem(int id, int x, int y, int width, String displayString, Consumer<SettingItem> callback) {
+        super(id, x, y, width, displayString, callback);
+    }
 
-    public SettingItem(int id, int x, int y, int width, String displayString, Consumer<SettingItem> callback) {
-        super(id, x, y, width, 15, displayString);
-        this.displayString = displayString;
-        this.callback = callback;
+    public void setSelectedItem(String selectedItem) {
+        this.selectedItem = selectedItem;
+    }
+
+    public String getSelectedItem() {
+        return selectedItem;
+    }
+
+    public void addItem(String item){
+        items.add(item);
+    }
+
+    public void addItems(Collection<String> item){
+        items.addAll(item);
+    }
+
+    public void addDefaultOnOff(){
+        items.add("ON");
+        items.add("OFF");
+    }
+
+    public void nextItem(){
+        if(items.isEmpty())
+            return;
+        if(!items.contains(selectedItem)) {
+            selectedItem = items.get(0);
+            return;
+        }
+        int i = items.indexOf(selectedItem);
+        if(i == items.size() - 1)
+            i =0;
+        else i++;
+        selectedItem = items.get(i);
     }
 
     @Override
-    public boolean mousePressed(Minecraft mc, int mouseX, int mouseY) {
-        return super.mousePressed(mc, mouseX, mouseY);
-    }
-
     public void drawItem(Minecraft mc, int mouseX, int mouseY, int x, int y) {
         this.xPosition = x;
         this.yPosition = y;
@@ -70,8 +94,7 @@ public class SettingItem extends GuiButton {
                 j = textHoverColor;
             }
             fontRenderer.drawString(this.displayString, x + 4, y + (this.height - 8) / 2, j);
-            fontRenderer.drawString(">", x + width - 6, y + (this.height - 8) / 2, j);
+            fontRenderer.drawString(selectedItem, x+width - (fontRenderer.getWidth(selectedItem) + 10), y + (this.height - 8) / 2, j);
         }
-
     }
 }

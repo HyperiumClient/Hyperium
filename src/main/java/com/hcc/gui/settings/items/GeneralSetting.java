@@ -18,11 +18,40 @@
 
 package com.hcc.gui.settings.items;
 
+import com.hcc.HCC;
+import com.hcc.config.ConfigOpt;
+import com.hcc.config.DefaultConfig;
 import com.hcc.gui.settings.SettingGui;
+import com.hcc.gui.settings.components.SelectionItem;
 import net.minecraft.client.gui.GuiScreen;
 
 public class GeneralSetting extends SettingGui {
+    private DefaultConfig config;
+
+    @ConfigOpt
+    private boolean discordRPEnabled = true;
+
+    private SelectionItem discordRP;
     public GeneralSetting(GuiScreen previous) {
         super("GENERAL", previous);
+        config = HCC.CONFIG;
+        config.loadToClass(this);
     }
+
+    @Override
+    protected void pack() {
+        super.pack();
+        settingItems.add(discordRP = new SelectionItem(0, getX(), getDefaultItemY(0),  width - getX() * 2, "DISCORD RICH PRESENCE", i->{
+            ((SelectionItem)i).nextItem();
+            discordRPEnabled = ((SelectionItem) i).getSelectedItem().equals("ON");
+            config.saveToJsonFromRamObject(this);
+        }));
+        discordRP.addDefaultOnOff();
+        discordRP.setSelectedItem(discordRPEnabled ? "ON" : "OFF");
+    }
+
+    private int getDefaultItemY(int i) {
+        return getY()+25 + i * 15;
+    }
+
 }

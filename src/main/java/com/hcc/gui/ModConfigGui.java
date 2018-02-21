@@ -161,6 +161,7 @@ public class ModConfigGui extends HCCGui {
         super.keyTyped(typedChar, keyCode);
     }
 
+    @SuppressWarnings("Duplicates")
     @Override
     protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
         super.mouseClicked(mouseX, mouseY, mouseButton);
@@ -168,7 +169,7 @@ public class ModConfigGui extends HCCGui {
             for(SettingItem i : settingItems)
                 if(i.mousePressed(mc, mouseX, mouseY)){
                     i.playPressSound(mc.getSoundHandler());
-                    i.callback.accept(i.id);
+                    i.callback.accept(i);
                 }
 
     }
