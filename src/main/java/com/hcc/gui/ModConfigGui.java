@@ -98,10 +98,10 @@ public class ModConfigGui extends HCCGui {
         int items = (height - (getY()*2+25)) / 15;
 
         settingItems.stream()
-                .filter(i -> items - i.id >= offset && (getY()+25)+offset*15 >= getY()+25)
+                .filter(i -> items - i.id >= offset && (getY()+25)+(offset+i.id)*15 >= getY()+25)
                 .forEach(i -> {
                     i.visible = true;
-                    i.drawItem(mc, mouseX, mouseY, getX(0), (getY()+25)+offset*15);
+                    i.drawItem(mc, mouseX, mouseY, getX(0), (getY()+25)+(offset+i.id)*15);
                 });
     }
 
@@ -120,6 +120,9 @@ public class ModConfigGui extends HCCGui {
         // Add settings item
         settingItems = new ArrayList<>(); //Clear list
         settingItems.add(new SettingItem(0, width - getX(0)*2, "GENERAL", i ->{
+            //TODO: Display the gui
+        }));
+        settingItems.add(new SettingItem(1, width - getX(0)*2, "CAPTUREX", i ->{
             //TODO: Display the gui
         }));
     }
