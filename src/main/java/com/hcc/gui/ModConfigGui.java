@@ -120,12 +120,16 @@ public class ModConfigGui extends HCCGui {
 
         // Add settings item
         settingItems = new ArrayList<>(); //Clear list
-        settingItems.add(new SettingItem(0, width - getX(0) * 2, "GENERAL", i -> {
+        settingItems.add(new SettingItem(0,  getX(0), getDefaultItemY(0), width - getX(0) * 2, "GENERAL", i -> {
             Minecraft.getMinecraft().displayGuiScreen(new GeneralSetting(this));
         }));
-        settingItems.add(new SettingItem(1, width - getX(0) * 2, "CAPTUREX", i -> {
+        settingItems.add(new SettingItem(1, getX(0), getDefaultItemY(1),width - getX(0) * 2, "CAPTUREX", i -> {
             //TODO: Display the gui
         }));
+    }
+
+    private int getDefaultItemY(int i) {
+        return getY()+25 + i * 15;
     }
 
 
@@ -177,12 +181,12 @@ public class ModConfigGui extends HCCGui {
     protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
         super.mouseClicked(mouseX, mouseY, mouseButton);
         if (mouseButton == 0)
-            settingItems.stream()
-                    .filter(i -> i.mousePressed(this.mc, mouseX, mouseY))
-                    .forEach(i -> {
-                        i.playPressSound(mc.getSoundHandler());
-                        i.callback.accept(i.id);
-                    });
+            for(SettingItem i : settingItems)
+                if(i.mousePressed(mc, mouseX, mouseY)){
+                    i.playPressSound(mc.getSoundHandler());
+                    i.callback.accept(i.id);
+                }
+
     }
 
     private int getX(int n) {

@@ -48,6 +48,6 @@ public class SettingGui extends HCCGui {
 
     @Override
     protected void pack() {
-        reg(">", new GuiButton(0, width - width / 5, height /5, ">"), b -> Minecraft.getMinecraft().displayGuiScreen(previous), b->{});
+        reg(">", new GuiButton(0, (width - width / 5)- 30, height /5, 30, 30, ">"), b -> Minecraft.getMinecraft().displayGuiScreen(previous), b->{});
     }
 }

@@ -34,8 +34,8 @@ public class SettingItem extends GuiButton {
     private String displayString;
     public Consumer<Integer> callback;
 
-    public SettingItem(int id, int width, String displayString, Consumer<Integer> callback) {
-        super(id, 0, 0, width, 15, displayString);
+    public SettingItem(int id, int x, int y, int width, String displayString, Consumer<Integer> callback) {
+        super(id, x, y, width, 15, displayString);
         this.displayString = displayString;
         this.callback = callback;
     }
@@ -46,6 +46,8 @@ public class SettingItem extends GuiButton {
     }
 
     public void drawItem(Minecraft mc, int mouseX, int mouseY, int x, int y) {
+        this.xPosition = x;
+        this.yPosition = y;
         if (this.visible) {
             this.hovered = mouseX >= x && mouseY >= y && mouseX < this.xPosition + this.width && mouseY < y + this.height;
             this.mouseDragged(mc, mouseX, mouseY);
