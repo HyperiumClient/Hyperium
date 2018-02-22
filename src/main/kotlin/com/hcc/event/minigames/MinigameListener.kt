@@ -22,23 +22,31 @@ import com.hcc.HCC
 import com.hcc.event.EventBus
 import com.hcc.event.InvokeEvent
 import com.hcc.event.JoinMinigameEvent
-import com.hcc.event.SpawnpointChangeEvent
-import com.hcc.handlers.handlers.chat.GeneralChatHandler
+import com.hcc.event.TickEvent
 import net.minecraft.client.Minecraft
 
 class MinigameListener {
-    
+
+    private var cooldown = 3 * 20
+
     private var currentMinigameName = ""
 
     @InvokeEvent
-    fun onWorldChange(event: SpawnpointChangeEvent) {
-        if (HCC.INSTANCE.handlers.hypixelDetector.isHypixel && Minecraft.getMinecraft().theWorld.scoreboard != null) {
-            val minigameName = getScoreboardTitle()
-            val minigames = Minigame.values()
-            minigames.forEach {
-                if (minigameName.equals(it.scoreName, true) && !minigameName.equals(currentMinigameName, true)) {
-                    currentMinigameName = minigameName
-                    EventBus.post(JoinMinigameEvent(it))
+    fun onTick(event: TickEvent) {
+        if (Minecraft.getMinecraft().theWorld != null) {
+            if (HCC.INSTANCE.handlers.hypixelDetector.isHypixel && Minecraft.getMinecraft().theWorld.scoreboard != null) {
+                if (cooldown <= 0) {
+                    cooldown = 3 * 20
+                    val minigameName = getScoreboardTitle()
+                    val minigames = Minigame.values()
+                    minigames.forEach {
+                        if (minigameName.equals(it.scoreName, true) && !minigameName.equals(currentMinigameName, true)) {
+                            currentMinigameName = minigameName
+                            EventBus.post(JoinMinigameEvent(it))
+                        }
+                    }
+                } else {
+                    cooldown--
                 }
             }
         }
@@ -52,12 +60,6 @@ class MinigameListener {
                     .replace(Regex("\u00A7[0-9a-zA-Z]"), "")
         }
         return ""
-    }
-
-    @InvokeEvent
-    fun minigameTest(event: JoinMinigameEvent) {
-        GeneralChatHandler.instance().sendMessage("Detected minigame change: " + event.minigame.scoreName)
-        System.out.println("Detected minigame change: " + event.minigame.scoreName)
     }
 
 }
