@@ -31,10 +31,12 @@ public class KeyBindHandler {
 
     public static HCCBind toggleSprint = new HCCBind("toggleSprint", 47);
     public static HCCBind debug = new HCCBind("debug", Keyboard.KEY_L);
+    public static HCCBind perspective = new HCCBind("perspective", Keyboard.KEY_P);
 
     public KeyBindHandler() {
         keybinds.add(toggleSprint);
         keybinds.add(debug);
+        keybinds.add(perspective);
     }
 
     @InvokeEvent

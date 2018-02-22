@@ -41,6 +41,7 @@ import com.hcc.mods.ToggleSprintContainer;
 import com.hcc.mods.capturex.CaptureCore;
 import com.hcc.mods.discord.RichPresenceManager;
 import com.hcc.mods.levelhead.commands.LevelHeadCommand;
+import com.hcc.mods.perspective.PerspectiveModifierContainer;
 import com.hcc.mods.sk1ercommon.Multithreading;
 import com.hcc.tray.TrayManager;
 import com.hcc.utils.ChatColor;
@@ -81,6 +82,8 @@ public class HCC {
 
     private RichPresenceManager richPresenceManager = new RichPresenceManager();
 
+    public static PerspectiveModifierContainer perspective = new PerspectiveModifierContainer();
+
 
     private Spotify spotify;
 
@@ -108,6 +111,8 @@ public class HCC {
         EventBus.INSTANCE.register(captureCore = new CaptureCore());
         EventBus.INSTANCE.register(CompactChat.getInstance());
         EventBus.INSTANCE.register(FPSLimiter.getInstance());
+        EventBus.INSTANCE.register(perspective);
+
         friendRequestPattern = Pattern.compile("Friend request from .+?");
         rankBracketPattern = Pattern.compile("[\\^] ");
         swKillMsg = Pattern.compile(".+? was .+? by .+?\\.");
