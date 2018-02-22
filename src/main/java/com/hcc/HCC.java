@@ -31,6 +31,7 @@ import com.hcc.event.minigames.Minigame;
 import com.hcc.event.minigames.MinigameListener;
 import com.hcc.gui.NotificationCenter;
 import com.hcc.gui.integrations.HypixelFriendsGui;
+import com.hcc.gui.settings.items.GeneralSetting;
 import com.hcc.handlers.HCCHandlers;
 import com.hcc.handlers.handlers.keybinds.KeyBindHandler;
 import com.hcc.integrations.spotify.Spotify;
@@ -40,6 +41,7 @@ import com.hcc.mods.ToggleSprintContainer;
 import com.hcc.mods.capturex.CaptureCore;
 import com.hcc.mods.discord.RichPresenceManager;
 import com.hcc.mods.levelhead.commands.LevelHeadCommand;
+import com.hcc.mods.sk1ercommon.Multithreading;
 import com.hcc.tray.TrayManager;
 import com.hcc.utils.ChatColor;
 import net.minecraft.client.Minecraft;
@@ -128,21 +130,27 @@ public class HCC {
         //Register commands.
         registerCommands();
 
+        // instance does not need to be saved as shit is static ^.^
+        CONFIG.register(new GeneralSetting(null));
+
 
         modIntegration = new HCCModIntegration();
         richPresenceManager.init();
-        try {
-            spotify = new Spotify();
-            spotify.addListener(new Spotify.SpotifyListener() {
-                @Override
-                public void onPlay() {
-                    notification.display("Spotify", "Now playing " + spotify.getCachedStatus().getJSONObject("track").getJSONObject("track_resource").getString("name"), 3);
-                }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-            LOGGER.warn("Failed to connect to spotify");
-        }
+        // spotify thread (>^.^)>
+        Multithreading.runAsync(() -> {
+            try {
+                spotify = new Spotify();
+                spotify.addListener(new Spotify.SpotifyListener() {
+                    @Override
+                    public void onPlay() {
+                        notification.display("Spotify", "Now playing " + spotify.getCachedStatus().getJSONObject("track").getJSONObject("track_resource").getString("name"), 3);
+                    }
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+                LOGGER.warn("Failed to connect to spotify");
+            }
+        });
         Runtime.getRuntime().addShutdownHook(new Thread(this::shutdown));
     }
 
@@ -255,7 +263,7 @@ public class HCC {
         CONFIG.save();
         richPresenceManager.shutdown();
         captureCore.shutdown();
-        if(spotify!=null)
+        if (spotify != null)
             spotify.stop();
         LOGGER.info("Shutting down HCC..");
     }

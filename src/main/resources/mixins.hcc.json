@@ -10,6 +10,7 @@
     "MixinSoundManager",
     "MixinKeyBinding",
     "MixinScreenShotHelper",
+    "MixinEnchantment",
 
     "gui.MixinGuiConnecting",
     "gui.MixinGuiDisconnecting",
@@ -33,8 +34,11 @@
     "renderer.MixinItemRenderer",
     "renderer.MixinRendererLivingEntity",
     "renderer.MixinRenderPlayer",
+
     "packet.MixinC01PacketChatMessage",
     "packet.MixinS2EPacketCloseWindow",
+    "packet.MixinS14PacketEntity",
+
     "world.MixinChunk",
     "world.MixinWorld",
 

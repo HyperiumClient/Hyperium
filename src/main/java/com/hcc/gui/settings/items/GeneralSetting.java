@@ -29,13 +29,26 @@ public class GeneralSetting extends SettingGui {
     private DefaultConfig config;
 
     @ConfigOpt
-    private boolean discordRPEnabled = true;
+    public static boolean discordRPEnabled = true;
+    @ConfigOpt
+    public static boolean fullbrightEnabled = true;
+    @ConfigOpt
+    public static boolean romanNumeralsEnabled = true;
+    @ConfigOpt
+    public static boolean discordServerDisplayEnabled = true;
 
     private SelectionItem discordRP;
+
+    private SelectionItem fullBright;
+
+    private SelectionItem romanNumerals;
+
+    private SelectionItem discordServerDisplay;
+
     public GeneralSetting(GuiScreen previous) {
         super("GENERAL", previous);
         config = HCC.CONFIG;
-        config.loadToClass(this);
+        config.register(this);
     }
 
     @Override
@@ -44,14 +57,39 @@ public class GeneralSetting extends SettingGui {
         settingItems.add(discordRP = new SelectionItem(0, getX(), getDefaultItemY(0),  width - getX() * 2, "DISCORD RICH PRESENCE", i->{
             ((SelectionItem)i).nextItem();
             discordRPEnabled = ((SelectionItem) i).getSelectedItem().equals("ON");
-            config.saveToJsonFromRamObject(this);
         }));
         discordRP.addDefaultOnOff();
         discordRP.setSelectedItem(discordRPEnabled ? "ON" : "OFF");
+
+        settingItems.add(discordServerDisplay = new SelectionItem(1, getX(), getDefaultItemY(1),  width - getX() * 2, "DISCORD DISPLAY SERVER", i->{
+            ((SelectionItem)i).nextItem();
+            discordServerDisplayEnabled = ((SelectionItem) i).getSelectedItem().equals("ON");
+        }));
+        discordServerDisplay.addDefaultOnOff();
+        discordServerDisplay.setSelectedItem(discordServerDisplayEnabled ? "ON" : "OFF");
+
+        settingItems.add(fullBright = new SelectionItem(2, getX(), getDefaultItemY(2),  width - getX() * 2, "FULLBRIGHT", i->{
+            ((SelectionItem)i).nextItem();
+            fullbrightEnabled = ((SelectionItem) i).getSelectedItem().equals("ON");
+        }));
+        fullBright.addDefaultOnOff();
+        fullBright.setSelectedItem(fullbrightEnabled ? "ON" : "OFF");
+
+        settingItems.add(romanNumerals = new SelectionItem(3, getX(), getDefaultItemY(3),  width - getX() * 2, "ROMAN NUMERALS", i->{
+            ((SelectionItem)i).nextItem();
+            romanNumeralsEnabled = ((SelectionItem) i).getSelectedItem().equals("ON");
+        }));
+        romanNumerals.addDefaultOnOff();
+        romanNumerals.setSelectedItem(romanNumeralsEnabled ? "ON" : "OFF");
     }
 
     private int getDefaultItemY(int i) {
         return getY()+25 + i * 15;
     }
 
+    @Override
+    public void onGuiClosed() {
+        super.onGuiClosed();
+        config.save();
+    }
 }

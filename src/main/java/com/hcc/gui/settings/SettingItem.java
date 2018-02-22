@@ -28,7 +28,7 @@ import java.util.function.Consumer;
 public class SettingItem extends GuiButton {
     protected static final HCCFontRenderer fontRenderer =  new HCCFontRenderer("Arial", Font.PLAIN, 12);
     protected int hoverColor = new Color(0, 0, 0, 30).getRGB();
-    protected int color = new Color(0, 0, 0, 0).getRGB();
+    protected Color color = new Color(0, 0, 0, 0);
     protected int textColor = new Color(255, 255, 255, 255).getRGB();
     protected int textHoverColor = new Color(255, 255, 255, 255).getRGB();
     protected String displayString;
@@ -52,7 +52,6 @@ public class SettingItem extends GuiButton {
             this.hovered = mouseX >= x && mouseY >= y && mouseX < this.xPosition + this.width && mouseY < y + this.height;
             this.mouseDragged(mc, mouseX, mouseY);
 
-            // TODO RECT COLORS
             if (this.hovered) {
                 drawRect(x, y,
                         x + this.width, y + this.height,
@@ -60,7 +59,7 @@ public class SettingItem extends GuiButton {
             } else {
                 drawRect(x, y,
                         x + this.width, y + this.height,
-                        color);
+                        color.getRGB());
             }
             int j = textColor;
 

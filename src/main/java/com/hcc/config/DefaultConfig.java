@@ -19,9 +19,7 @@
 package com.hcc.config;
 
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import com.google.gson.*;
 
 import java.io.*;
 import java.lang.reflect.Field;
@@ -32,6 +30,8 @@ import java.util.List;
  * Created by mitchellkatz on 7/1/17.
  */
 public class DefaultConfig {
+
+    private Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
     private JsonObject config = new JsonObject();
     private List<Object> configObjects = new ArrayList<>();
@@ -59,12 +59,12 @@ public class DefaultConfig {
         }
     }
 
-    public void saveFile() {
+    private void saveFile() {
         try {
             file.createNewFile();
             FileWriter fw = new FileWriter(file);
             BufferedWriter bw = new BufferedWriter(fw);
-            bw.write(config.toString());
+            bw.write(gson.toJson(config));
             bw.close();
             fw.close();
         } catch (Exception e) {
@@ -82,7 +82,7 @@ public class DefaultConfig {
         loadToClass(object);
     }
 
-    public void loadToClass(Object o) {
+    private void loadToClass(Object o) {
         try {
             loadToClassObject(o);
         } catch (IllegalAccessException e) {
@@ -118,7 +118,7 @@ public class DefaultConfig {
         }
     }
 
-    public void saveToJsonFromRamObject(Object o) {
+    private void saveToJsonFromRamObject(Object o) {
         try {
             loadToJson(o);
         } catch (IllegalAccessException e) {

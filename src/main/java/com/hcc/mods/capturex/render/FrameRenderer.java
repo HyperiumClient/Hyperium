@@ -37,10 +37,9 @@ import java.nio.IntBuffer;
 public class FrameRenderer {
     private static IntBuffer pixelBuffer;
     private static int[] pixelValues;
-    public static File render(Long timestamp, int n, Framebuffer buffer) {
+    public static File render(final Long timestamp, final int n, final Framebuffer buffer) {
         Minecraft mc = Minecraft.getMinecraft();
         ScaledResolution sr = new ScaledResolution(mc);
-        int width = sr.getScaledWidth(), height = sr.getScaledHeight();
         try {
             File file1 = new File(CaptureCore.captureXDir, "kill-" + timestamp);
             file1.mkdir();

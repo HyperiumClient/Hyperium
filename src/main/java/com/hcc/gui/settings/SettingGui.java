@@ -25,6 +25,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
 import java.io.IOException;
@@ -37,6 +38,9 @@ public class SettingGui extends HCCGui {
     private HCCFontRenderer fontRendererObj = Fonts.ARIAL.getTrueTypeFont();
     private String name;
     private GuiScreen previous;
+
+    private int animation = (height / 5) * 3;
+
     public SettingGui(String name, GuiScreen previous){
         this.name = name;
         this.previous = previous;
@@ -51,11 +55,12 @@ public class SettingGui extends HCCGui {
         int items = (height - (getY() * 2 + 25)) / 15;
 
         settingItems.stream()
-                .filter(i -> items - i.id >= offset && (getY() + 25) + (offset + i.id) * 15 >= getY() + 25)
+                .filter(i -> items - i.id >= offset && (getY() + 28) + (offset + i.id) * 15 >= getY() + 25)
                 .forEach(i -> {
                     i.visible = true;
-                    i.drawItem(mc, mouseX, mouseY, getX(), (getY() + 25) + (offset + i.id) * 15);
+                    i.drawItem(mc, mouseX, mouseY, getX() + animation, (getY() + 25) + (offset + i.id) * 15);
                 });
+        fontRendererObj.drawString(">", (width - width / 5) - 18, (height /5) + 5, 0xFFFFFF);
         fontRendererObj.drawString(name, width / 5 + 10, (height / 5) + ((25 - 9) / 2), 0xFFFFFF);
         super.drawScreen(mouseX, mouseY, partialTicks);
     }
@@ -71,7 +76,7 @@ public class SettingGui extends HCCGui {
     @Override
     protected void pack() {
         settingItems.clear();
-        reg(">", new GuiButton(0, (width - width / 5)- 25, height /5, 25, 25, ">"), b -> Minecraft.getMinecraft().displayGuiScreen(previous), b->{});
+        reg("", new GuiButton(0, (width / 5), height /5, (width /5) * 3, 25, ""), b -> Minecraft.getMinecraft().displayGuiScreen(previous), b->{});
     }
 
     @Override
@@ -88,12 +93,13 @@ public class SettingGui extends HCCGui {
     @Override
     protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
         super.mouseClicked(mouseX, mouseY, mouseButton);
-        if (mouseButton == 0)
-            for(SettingItem i : settingItems)
-                if(i.mousePressed(mc, mouseX, mouseY)){
+        if (mouseButton == 0) {
+            for (SettingItem i : settingItems) {
+                if (i.mousePressed(mc, mouseX, mouseY)) {
                     i.playPressSound(mc.getSoundHandler());
                     i.callback.accept(i);
                 }
-
+            }
+        }
     }
 }

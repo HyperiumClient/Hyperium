@@ -21,14 +21,17 @@ package com.hcc.gui.settings.components;
 import com.hcc.gui.settings.SettingItem;
 import net.minecraft.client.Minecraft;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.function.Consumer;
 
 public class SelectionItem extends SettingItem {
+
     private List<String> items = new ArrayList<>();
     private String selectedItem = "";
+
     public SelectionItem(int id, int x, int y, int width, String displayString, Consumer<SettingItem> callback) {
         super(id, x, y, width, displayString, callback);
     }
@@ -76,23 +79,25 @@ public class SelectionItem extends SettingItem {
             this.hovered = mouseX >= x && mouseY >= y && mouseX < this.xPosition + this.width && mouseY < y + this.height;
             this.mouseDragged(mc, mouseX, mouseY);
 
-            // TODO RECT COLORS
+            int j = textColor;
+
             if (this.hovered) {
                 drawRect(x, y,
                         x + this.width, y + this.height,
-                        hoverColor);
+                        color.darker().darker().darker().darker().getRGB());
+                // professional
             } else {
                 drawRect(x, y,
                         x + this.width, y + this.height,
-                        color);
+                        color.getRGB());
             }
-            int j = textColor;
 
             if (!this.enabled) {
                 j = 10526880;
             } else if (this.hovered) {
                 j = textHoverColor;
             }
+
             fontRenderer.drawString(this.displayString, x + 4, y + (this.height - 8) / 2, j);
             fontRenderer.drawString(selectedItem, x+width - (fontRenderer.getWidth(selectedItem) + 10), y + (this.height - 8) / 2, j);
         }
