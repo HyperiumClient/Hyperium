@@ -20,11 +20,16 @@ package com.hcc.mixins.world;
 
 import com.hcc.event.EventBus;
 import com.hcc.event.SpawnpointChangeEvent;
+import com.hcc.gui.settings.items.GeneralSetting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldType;
+import net.minecraft.world.storage.WorldInfo;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Overwrite;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -32,6 +37,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(World.class)
 public class MixinWorld {
+
+    @Shadow protected WorldInfo worldInfo;
 
     /**
      * Invoked once the server changes the players spawn point
@@ -58,6 +65,7 @@ public class MixinWorld {
         }
     }
 
+
     /**
      * Removes lightupdates
      *
@@ -72,6 +80,17 @@ public class MixinWorld {
         }
     }
 
+    /**
+     * Fixes Void Flicker
+     * @author prplz/2pi
+     */
+    @Overwrite
+    public double getHorizon() {
+        if(GeneralSetting.voidflickerfixEnabled) {
+            return 0.0;
+        }
+        return this.worldInfo.getTerrainType() == WorldType.FLAT ? 0.0D : 63.0D;
+    }
     /**
      * Removes lightupdates
      *

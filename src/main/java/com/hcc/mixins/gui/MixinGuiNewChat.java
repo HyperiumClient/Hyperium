@@ -88,8 +88,6 @@ public abstract class MixinGuiNewChat {
         }
     }
 
-    //todo: hard coded chat lines
-    //todo: fix limit from 100 to 255
 
     /**
      * Hardcoded chat limit of 100 -> 300

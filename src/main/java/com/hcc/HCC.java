@@ -44,6 +44,8 @@ import com.hcc.mods.levelhead.commands.LevelHeadCommand;
 import com.hcc.mods.sk1ercommon.Multithreading;
 import com.hcc.tray.TrayManager;
 import com.hcc.utils.ChatColor;
+import com.hcc.utils.mods.CompactChat;
+import com.hcc.utils.mods.FPSLimiter;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ChatComponentText;
 import org.apache.logging.log4j.LogManager;
@@ -100,13 +102,12 @@ public class HCC {
      */
     @InvokeEvent
     public void init(InitializationEvent event) {
-
-
         EventBus.INSTANCE.register(new MinigameListener());
         EventBus.INSTANCE.register(new ToggleSprintContainer());
         EventBus.INSTANCE.register(notification);
         EventBus.INSTANCE.register(captureCore = new CaptureCore());
-
+        EventBus.INSTANCE.register(CompactChat.getInstance());
+        EventBus.INSTANCE.register(FPSLimiter.getInstance());
         friendRequestPattern = Pattern.compile("Friend request from .+?");
         rankBracketPattern = Pattern.compile("[\\^] ");
         swKillMsg = Pattern.compile(".+? was .+? by .+?\\.");
@@ -127,12 +128,11 @@ public class HCC {
             LOGGER.warn("Failed to hookup TrayIcon");
         }
 
-        //Register commands.
-        registerCommands();
-
         // instance does not need to be saved as shit is static ^.^
         CONFIG.register(new GeneralSetting(null));
 
+        //Register commands.
+        registerCommands();
 
         modIntegration = new HCCModIntegration();
         richPresenceManager.init();

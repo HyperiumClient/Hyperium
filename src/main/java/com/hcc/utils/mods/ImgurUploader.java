@@ -1,7 +1,9 @@
-package com.hcc.utils;
+package com.hcc.utils.mods;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.hcc.HCC;
+import com.hcc.utils.ChatColor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.event.ClickEvent;
 import net.minecraft.util.ChatComponentText;
@@ -60,16 +62,14 @@ public class ImgurUploader implements Runnable {
             JsonObject imgurJson = jsonParser.parse(new InputStreamReader(conn.getInputStream())).getAsJsonObject();
             JsonObject two = imgurJson.getAsJsonObject("data");
             String link = two.get("link").getAsString();
-            ChatComponentText component = new ChatComponentText(ChatColor.RED + "[HCC] " + ChatColor.WHITE + "Uploaded!");
-            ChatComponentText component2 = new ChatComponentText(ChatColor.RED + "[HCC] " + ChatColor.WHITE + "Click here to view!");
+            ChatComponentText component2 = new ChatComponentText(ChatColor.RED + "[HCC] " + ChatColor.WHITE + "Uploaded to " + link);
             component2.getChatStyle().setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, link));
-            Minecraft.getMinecraft().ingameGUI.getChatGUI().printChatMessage(component);
             Minecraft.getMinecraft().ingameGUI.getChatGUI().printChatMessage(component2);
 
             wr.close();
             rd.close();
         } catch (Exception e) {
-
+            HCC.INSTANCE.sendMessage("Error occurred while uploading.");
         }
     }
 

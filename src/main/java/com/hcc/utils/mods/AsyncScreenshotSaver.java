@@ -1,6 +1,7 @@
-package com.hcc.utils;
+package com.hcc.utils.mods;
 
 
+import com.hcc.utils.ChatColor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.shader.*;
 import java.io.*;
@@ -24,13 +25,15 @@ public class AsyncScreenshotSaver implements Runnable
     private int[] pixelValues;
     private Framebuffer frameBuffer;
     private File screenshotDir;
+    private boolean upload;
 
-    public AsyncScreenshotSaver(final int width, final int height, final int[] pixelValues, final Framebuffer frameBuffer, final File screenshotDir) {
+    public AsyncScreenshotSaver(final int width, final int height, final int[] pixelValues, final Framebuffer frameBuffer, final File screenshotDir, final boolean upload) {
         this.width = width;
         this.height = height;
         this.pixelValues = pixelValues;
         this.frameBuffer = frameBuffer;
         this.screenshotDir = screenshotDir;
+        this.upload = upload;
     }
 
     @Override
@@ -53,10 +56,14 @@ public class AsyncScreenshotSaver implements Runnable
             }
             final File file2 = getTimestampedPNGFileForDirectory(this.screenshotDir);
             ImageIO.write(bufferedimage, "png", file2);
-            IChatComponent ichatcomponent = new ChatComponentText(
-                    ChatColor.RED + "[HCC] " + ChatColor.WHITE + "Uploaded to " + ChatColor.UNDERLINE + file2.getName());
-            ichatcomponent.getChatStyle().setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, file2.getCanonicalPath()));
-            Minecraft.getMinecraft().thePlayer.addChatMessage(ichatcomponent);
+            if(!upload) {
+                IChatComponent ichatcomponent = new ChatComponentText(
+                        ChatColor.RED + "[HCC] " + ChatColor.WHITE + "Captured to " + ChatColor.UNDERLINE + file2.getName());
+                ichatcomponent.getChatStyle().setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, file2.getCanonicalPath()));
+                Minecraft.getMinecraft().thePlayer.addChatMessage(ichatcomponent);
+            } else {
+                new ImgurUploader("649f2fb48e59767", file2).run();
+            }
         }
         catch (Exception exception) {
             LogManager.getLogger().warn("Couldn't save screenshot", exception);

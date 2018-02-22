@@ -23,6 +23,7 @@ import com.hcc.config.ConfigOpt;
 import com.hcc.config.DefaultConfig;
 import com.hcc.gui.settings.SettingGui;
 import com.hcc.gui.settings.components.SelectionItem;
+import com.hcc.utils.mods.CompactChat;
 import net.minecraft.client.gui.GuiScreen;
 
 public class GeneralSetting extends SettingGui {
@@ -36,6 +37,12 @@ public class GeneralSetting extends SettingGui {
     public static boolean romanNumeralsEnabled = true;
     @ConfigOpt
     public static boolean discordServerDisplayEnabled = true;
+    @ConfigOpt
+    public static boolean compactChatEnabled = true;
+    @ConfigOpt
+    public static boolean voidflickerfixEnabled = true;
+    @ConfigOpt
+    public static boolean framerateLimiterEnabled = true;
 
     private SelectionItem discordRP;
 
@@ -44,6 +51,13 @@ public class GeneralSetting extends SettingGui {
     private SelectionItem romanNumerals;
 
     private SelectionItem discordServerDisplay;
+
+    private SelectionItem compactChat;
+
+    private SelectionItem voidflickerfix;
+
+    private SelectionItem framerateLimiter;
+
 
     public GeneralSetting(GuiScreen previous) {
         super("GENERAL", previous);
@@ -81,6 +95,27 @@ public class GeneralSetting extends SettingGui {
         }));
         romanNumerals.addDefaultOnOff();
         romanNumerals.setSelectedItem(romanNumeralsEnabled ? "ON" : "OFF");
+
+        settingItems.add(compactChat = new SelectionItem(4, getX(), getDefaultItemY(4),  width - getX() * 2, "COMPACT CHAT", i->{
+            ((SelectionItem)i).nextItem();
+            compactChatEnabled = ((SelectionItem) i).getSelectedItem().equals("ON");
+        }));
+        compactChat.addDefaultOnOff();
+        compactChat.setSelectedItem(compactChatEnabled ? "ON" : "OFF");
+
+        settingItems.add(voidflickerfix = new SelectionItem(5, getX(), getDefaultItemY(5),  width - getX() * 2, "VOID FLICKER FIX", i->{
+            ((SelectionItem)i).nextItem();
+            voidflickerfixEnabled = ((SelectionItem) i).getSelectedItem().equals("ON");
+        }));
+        voidflickerfix.addDefaultOnOff();
+        voidflickerfix.setSelectedItem(voidflickerfixEnabled ? "ON" : "OFF");
+
+        settingItems.add(framerateLimiter = new SelectionItem(6, getX(), getDefaultItemY(6),  width - getX() * 2, "SMART FRAMERATE", i->{
+            ((SelectionItem)i).nextItem();
+            framerateLimiterEnabled = ((SelectionItem) i).getSelectedItem().equals("ON");
+        }));
+        framerateLimiter.addDefaultOnOff();
+        framerateLimiter.setSelectedItem(framerateLimiterEnabled ? "ON" : "OFF");
     }
 
     private int getDefaultItemY(int i) {

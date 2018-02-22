@@ -1,28 +1,23 @@
 package com.hcc.mixins;
 
-import com.hcc.utils.AsyncScreenshotSaver;
+import com.hcc.utils.mods.AsyncScreenshotSaver;
 import com.hcc.utils.ChatColor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
-import net.minecraft.client.renderer.texture.TextureUtil;
 import net.minecraft.client.shader.Framebuffer;
-import net.minecraft.event.ClickEvent;
 import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.util.ScreenShotHelper;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.BufferUtils;
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.nio.IntBuffer;
 
@@ -81,8 +76,10 @@ public class MixinScreenShotHelper {
             GL11.glReadPixels(0, 0, width, height, 32993, 33639, pixelBuffer);
         }
         pixelBuffer.get(pixelValues);
-        new Thread(new AsyncScreenshotSaver(width, height, pixelValues, Minecraft.getMinecraft().getFramebuffer(), new File(Minecraft.getMinecraft().mcDataDir, "screenshots"))).start();
-        return new ChatComponentText(ChatColor.RED + "[HCC] " + ChatColor.WHITE + "Capturing...");
+        boolean upload = Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT);
+        new Thread(new AsyncScreenshotSaver(width, height, pixelValues, Minecraft.getMinecraft().getFramebuffer(), new File(Minecraft.getMinecraft().mcDataDir, "screenshots"), upload)).start();
+        if(!upload) return new ChatComponentText(ChatColor.RED + "[HCC] " + ChatColor.WHITE + "Capturing...");
+        return new ChatComponentText(ChatColor.RED + "[HCC] " + ChatColor.WHITE + "Uploading...");
     }
 
 }

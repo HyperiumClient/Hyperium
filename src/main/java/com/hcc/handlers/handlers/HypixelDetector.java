@@ -21,6 +21,7 @@ package com.hcc.handlers.handlers;
 import com.hcc.event.InvokeEvent;
 import com.hcc.event.ServerJoinEvent;
 import com.hcc.event.ServerLeaveEvent;
+import com.hcc.event.SingleplayerJoinEvent;
 
 import java.util.regex.Pattern;
 
@@ -46,6 +47,9 @@ public class HypixelDetector {
     public void serverLeaveEvent(ServerLeaveEvent event) {
         hypixel = false;
     }
+
+    @InvokeEvent
+    public void singlePlayerJoin(SingleplayerJoinEvent event) { hypixel = false; }
 
     public boolean isHypixel() {
         return hypixel;
