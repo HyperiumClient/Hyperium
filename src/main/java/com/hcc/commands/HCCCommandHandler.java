@@ -105,12 +105,9 @@ public class HCCCommandHandler {
     public void registerCommand(BaseCommand command) {
         this.commands.put(command.getName(), command);
 
-        System.out.println("[COMMAND] Registered " + command.getName() + " command.");
-
         if (command.getCommandAliases() != null && !command.getCommandAliases().isEmpty()) {
             for (String alias : command.getCommandAliases()) {
                 this.commands.put(alias, command);
-                System.out.println("[COMMAND] Alias registered: " + alias);
             }
         }
     }

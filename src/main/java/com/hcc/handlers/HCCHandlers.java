@@ -95,8 +95,6 @@ public class HCCHandlers {
             return;
         EventBus.INSTANCE.unregister(HCCHandlers.class);
 
-        System.out.println("Registered");
-
     }
 
     private void register(Object object) {

@@ -21,6 +21,7 @@ package com.hcc.mixins;
 import com.hcc.HCC;
 import com.hcc.event.*;
 import com.hcc.utils.Utils;
+import com.hcc.utils.mods.FPSLimiter;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -46,6 +47,7 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.io.InputStream;
 import java.nio.ByteBuffer;
@@ -226,6 +228,14 @@ public abstract class MixinMinecraft {
         } else {
             this.mcSoundHandler.resumeSounds();
             this.setIngameFocus();
+        }
+    }
+
+    @Inject(method = "getLimitFramerate", at = @At("HEAD"), cancellable = true)
+    private void getLimitFramerate(CallbackInfoReturnable<Integer> ci)
+    {
+        if(FPSLimiter.shouldLimitFramerate()) {
+            ci.setReturnValue(30);
         }
     }
     
