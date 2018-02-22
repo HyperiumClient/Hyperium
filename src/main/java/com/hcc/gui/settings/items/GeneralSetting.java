@@ -75,7 +75,7 @@ public class GeneralSetting extends SettingGui {
         fullBright.addDefaultOnOff();
         fullBright.setSelectedItem(fullbrightEnabled ? "ON" : "OFF");
 
-        settingItems.add(romanNumerals = new SelectionItem(3, getX(), getDefaultItemY(3),  width - getX() * 2, "ROMAN NUMBERALS", i->{
+        settingItems.add(romanNumerals = new SelectionItem(3, getX(), getDefaultItemY(3),  width - getX() * 2, "ROMAN NUMERALS", i->{
             ((SelectionItem)i).nextItem();
             romanNumeralsEnabled = ((SelectionItem) i).getSelectedItem().equals("ON");
         }));
