@@ -61,7 +61,8 @@ public class CaptureCore {
         // 1 seconds backward
         if(backwardsBuffer.size() > 20)
             backwardsBuffer.poll();
-        backwardsBuffer.add(Minecraft.getMinecraft().getFramebuffer());
+        final Framebuffer fb = Minecraft.getMinecraft().getFramebuffer();
+        backwardsBuffer.add(fb);
     }
 
     @InvokeEvent
@@ -69,7 +70,8 @@ public class CaptureCore {
         addScheduledTask(() -> {
             try {
                 HCC.INSTANCE.getNotification().display("CaptureX", "Rendering kill", 3);
-                CapturePack pack = new CapturePack(backwardsBuffer);
+                final Queue<Framebuffer> finalBackwardsBuffer = backwardsBuffer;
+                CapturePack pack = new CapturePack(finalBackwardsBuffer);
                 FFMpeg.run(pack, "C:\\FFmpeg\\bin\\ffmpeg.exe", "kill");
                 pack.cleanup();
                 HCC.INSTANCE.getNotification().display("CaptureX", "Kill captured", 3);

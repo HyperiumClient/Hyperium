@@ -29,7 +29,7 @@ import java.util.Queue;
 public class CapturePack {
     private Long timestamp;
     private Queue<Framebuffer> framebufferQueue;
-    public CapturePack(Queue<Framebuffer> framebufferQueue){
+    CapturePack(final Queue<Framebuffer> framebufferQueue){
         this.framebufferQueue = framebufferQueue;
         this.timestamp = System.currentTimeMillis();
     }

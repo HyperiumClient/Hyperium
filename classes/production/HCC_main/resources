@@ -1,0 +1,14 @@
+{
+  "resources": {
+    "chat_regex": {
+      "cache_time": 0,
+      "urls": [
+        "chat_regex",
+        "https://raw.githubusercontent.com/HypixelCommunityClient/HCC-Repo/master/files/chat_regex"
+      ],
+      "preload": false,
+      "preload_url": "https://raw.githubusercontent.com/HypixelCommunityClient/HCC-Repo/master/files/chat_regex",
+      "type": "TEXT"
+    }
+  }
+}

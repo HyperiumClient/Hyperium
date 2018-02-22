@@ -26,7 +26,7 @@ import java.io.IOException;
 import static com.hcc.mods.capturex.CaptureCore.captureXDir;
 
 public class FFMpegHelper {
-    public File run(CapturePack capturePack, String ffmpegExecutable, String outputName) throws IOException, InterruptedException {
+    public File run(final CapturePack capturePack, final String ffmpegExecutable, final String outputName) throws IOException, InterruptedException {
         capturePack.renderFrames();
         captureXDir.mkdir();
         ProcessBuilder builder = new ProcessBuilder()
