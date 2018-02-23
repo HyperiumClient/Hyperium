@@ -21,6 +21,7 @@ package cc.hyperium.mods;
 import cc.hyperium.mods.skinchanger.SkinChangerMod;
 import cc.hyperium.mods.chromahud.ChromaHUD;
 import cc.hyperium.mods.levelhead.Levelhead;
+import cc.hyperium.mods.timechanger.TimeChanger;
 import cc.hyperium.mods.togglechat.ToggleChatMod;
 import me.semx11.autotip.Autotip;
 
@@ -30,13 +31,14 @@ import me.semx11.autotip.Autotip;
  */
 public class HyperiumModIntegration {
     
+    private IBaseMod timeChanger;
     private IBaseMod skinChanger;
     private IBaseMod toggleChat;
-
+    
     private ChromaHUD chromaHUD;
     private Levelhead levelhead;
     private Autotip autotip;
-
+    
     public HyperiumModIntegration() {
         this.chromaHUD = new ChromaHUD();
         this.levelhead = new Levelhead();
@@ -46,7 +48,10 @@ public class HyperiumModIntegration {
         
         // SkinChanger implementation
         this.skinChanger = new SkinChangerMod().init();
-
+        
+        // TimeChanger implementation
+        this.timeChanger = new TimeChanger().init();
+        
         // Autotip implementation
         this.autotip = new Autotip().init();
     }
@@ -59,7 +64,7 @@ public class HyperiumModIntegration {
     public Autotip getAutotip() {
         return this.autotip;
     }
-
+    
     /**
      * A getter for the running ChromeHUD instance
      *
@@ -68,7 +73,7 @@ public class HyperiumModIntegration {
     public ChromaHUD getChromaHUD() {
         return this.chromaHUD;
     }
-
+    
     /**
      * A getter for the running LevelHead instance
      *
@@ -76,6 +81,15 @@ public class HyperiumModIntegration {
      */
     public Levelhead getLevelhead() {
         return this.levelhead;
+    }
+    
+    /**
+     * A getter for the running TimeChanger instance
+     *
+     * @return the running TimeChanger instance
+     */
+    public IBaseMod getTimeChanger() {
+        return timeChanger;
     }
     
     /**
