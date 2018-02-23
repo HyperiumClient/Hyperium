@@ -37,11 +37,13 @@ public class GeneralSetting extends SettingGui {
     @ConfigOpt
     public static boolean discordServerDisplayEnabled = true;
     @ConfigOpt
-    public static boolean compactChatEnabled = true;
+    public static boolean compactChatEnabled = false;
     @ConfigOpt
     public static boolean voidflickerfixEnabled = true;
     @ConfigOpt
     public static boolean framerateLimiterEnabled = true;
+    @ConfigOpt
+    public static boolean fastchatEnabled = false;
 
     private SelectionItem discordRP;
 
@@ -56,6 +58,8 @@ public class GeneralSetting extends SettingGui {
     private SelectionItem voidflickerfix;
 
     private SelectionItem framerateLimiter;
+
+    private SelectionItem fastChat;
 
 
     public GeneralSetting(GuiScreen previous) {
@@ -115,6 +119,13 @@ public class GeneralSetting extends SettingGui {
         }));
         framerateLimiter.addDefaultOnOff();
         framerateLimiter.setSelectedItem(framerateLimiterEnabled ? "ON" : "OFF");
+
+        settingItems.add(fastChat = new SelectionItem(7, getX(), getDefaultItemY(7),  width - getX() * 2, "FASTCHAT", i->{
+            ((SelectionItem)i).nextItem();
+            fastchatEnabled = ((SelectionItem) i).getSelectedItem().equals("ON");
+        }));
+        fastChat.addDefaultOnOff();
+        fastChat.setSelectedItem(fastchatEnabled ? "ON" : "OFF");
     }
 
     private int getDefaultItemY(int i) {

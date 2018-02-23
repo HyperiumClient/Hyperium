@@ -20,7 +20,8 @@ package cc.hyperium.mixins.renderer;
 
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.RenderHUDEvent;
-import cc.hyperium.mods.chromahud.displayitems.Hyperium.ScoreboardDisplay;
+;
+import cc.hyperium.mods.chromahud.displayitems.hyperium.ScoreboardDisplay;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiIngame;
 import net.minecraft.client.gui.ScaledResolution;

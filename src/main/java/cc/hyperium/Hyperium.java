@@ -300,7 +300,7 @@ public class Hyperium {
 
     public void trayDisplayAboutInfo() {
         JOptionPane popup = new JOptionPane();
-        JOptionPane.showMessageDialog(popup, "HypixelCommunityClient", "Hyperium - About", JOptionPane.PLAIN_MESSAGE);
+        JOptionPane.showMessageDialog(popup, "Hyperium Client", "Hyperium - About", JOptionPane.PLAIN_MESSAGE);
     }
 
     public boolean isAcceptedTos() {

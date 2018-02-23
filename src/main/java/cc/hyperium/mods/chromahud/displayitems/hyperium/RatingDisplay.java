@@ -16,25 +16,32 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package cc.hyperium.mods.chromahud.displayitems.Hyperium;
+package cc.hyperium.mods.chromahud.displayitems.hyperium;
 
 import cc.hyperium.Hyperium;
-import cc.hyperium.utils.JsonHolder;
 import cc.hyperium.mods.chromahud.ElementRenderer;
 import cc.hyperium.mods.chromahud.api.Dimension;
 import cc.hyperium.mods.chromahud.api.DisplayItem;
+import cc.hyperium.utils.JsonHolder;
 import net.minecraft.client.Minecraft;
 
-public class HypixelDisplay extends DisplayItem {
-    public HypixelDisplay(JsonHolder data, int ordinal) {
+import java.text.NumberFormat;
+import java.util.Locale;
+
+public class RatingDisplay extends DisplayItem {
+    private static final NumberFormat format = NumberFormat.getNumberInstance(Locale.US);
+    public RatingDisplay(JsonHolder data, int ordinal) {
         super(data, ordinal);
     }
 
     @Override
     public Dimension draw(int x, double y, boolean config) {
-        String string = "Hypixel: " + Hyperium.INSTANCE.getHandlers().getHypixelDetector().isHypixel();
+        String string = "Rating: " + format.format(Hyperium.INSTANCE.getHandlers().getValueHandler().getRankedRating());
+        if (data.optBoolean("delta")) {
+            string += " (" + Hyperium.INSTANCE.getHandlers().getValueHandler().getDeltaRankedRating() + ")";
+        }
+
         ElementRenderer.draw(x, y, string);
-        //TODO remove specific reference
         return new Dimension(config ? Minecraft.getMinecraft().fontRendererObj.getStringWidth(string) : 0, 10);
     }
 }

@@ -16,7 +16,7 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package cc.hyperium.mods.chromahud.displayitems.Hyperium.chromahud;
+package cc.hyperium.mods.chromahud.displayitems.hyperium.chromahud;
 
 import cc.hyperium.mods.chromahud.ElementRenderer;
 import cc.hyperium.mods.chromahud.api.Dimension;
@@ -24,44 +24,25 @@ import cc.hyperium.mods.chromahud.api.DisplayItem;
 import cc.hyperium.utils.JsonHolder;
 import net.minecraft.client.Minecraft;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
- * Created by mitchellkatz on 6/26/17.
+ * Created by mitchellkatz on 6/25/17.
  */
-public class TimeHud extends DisplayItem {
-    private String format;
+public class CpsDisplay extends DisplayItem {
 
-    public TimeHud(JsonHolder data, int ordinal) {
+    public CpsDisplay(JsonHolder data, int ordinal) {
         super(data, ordinal);
-        this.format = data.optString("format");
-        if (this.format.isEmpty()) {
-            this.format = "HH:mm:ss";
-        }
-
     }
 
-
-    public String getFormat() {
-        return format;
-    }
-
-    public void setFormat(String format) {
-        data.put("format", format);
-        this.format = format;
-    }
 
     @Override
     public Dimension draw(int starX, double startY, boolean isConfig) {
-        try {
-            String string = new SimpleDateFormat(format).format(new Date(System.currentTimeMillis()));
-            ElementRenderer.draw(starX, startY, string);
-            return new Dimension(isConfig ? Minecraft.getMinecraft().fontRendererObj.getStringWidth(string) : 0, 10);
-        } catch (Exception e) {
-            ElementRenderer.draw(starX, startY, "Invalid");
-        }
-        return new Dimension(0, 0);
+        ElementRenderer.draw(starX, startY, "CPS: " + ElementRenderer.getCPS());
+        if (isConfig)
+            return new Dimension(Minecraft.getMinecraft().fontRendererObj.getStringWidth("CPS: " + ElementRenderer.getCPS()), 10);
+        return new Dimension(0, 10);
+
     }
+
 
 }
