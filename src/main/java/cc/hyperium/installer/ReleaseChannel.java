@@ -31,6 +31,10 @@ public enum ReleaseChannel {
     }
 
     private static String getLocalHyperium(){
-        return new File(new File(".").toPath().getRoot().toFile(), "Hyperium").getAbsolutePath();
+        return new File(new File(System.getProperty("user.dir")).toPath().getRoot().toFile(), "Hyperium").getAbsolutePath();
+    }
+
+    public String getRelease() {
+        return release;
     }
 }

@@ -21,6 +21,7 @@ package cc.hyperium.installer;
 import java.io.File;
 
 public class InstallerMain {
+    protected static ReleaseChannel releaseChannel = ReleaseChannel.STABLE;
     /**
      * called when jar is executed
      *
@@ -28,8 +29,10 @@ public class InstallerMain {
      */
     public static void main(String[] args) {
         String mcDir = null;
-        if(args.length != 0)
+        if(args.length > 0)
             mcDir = args[0];
+        if(args.length > 1)
+            releaseChannel = ReleaseChannel.valueOf(args[1]);
         if(mcDir!=null)
             if(!new File(mcDir).exists()){
                 System.out.println("Specified directory does not exist");
