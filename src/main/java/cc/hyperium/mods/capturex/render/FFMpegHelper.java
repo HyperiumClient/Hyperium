@@ -18,27 +18,31 @@
 
 package cc.hyperium.mods.capturex.render;
 
-
+import cc.hyperium.mods.capturex.CaptureCore;
 import cc.hyperium.mods.capturex.CapturePack;
 
 import java.io.File;
 import java.io.IOException;
 
-import static cc.hyperium.mods.capturex.CaptureCore.captureXDir;
-
 public class FFMpegHelper {
-    public File run(final CapturePack capturePack, final String ffmpegExecutable, final String outputName) throws IOException, InterruptedException {
+    
+    private final File captureXDir = CaptureCore.captureXDir;
+    
+    public File run(final CapturePack capturePack, final String ffmpegExecutable,
+        final String outputName) throws IOException, InterruptedException {
         capturePack.renderFrames();
-        captureXDir.mkdir();
+        this.captureXDir.mkdir();
         ProcessBuilder builder = new ProcessBuilder()
-                .command(ffmpegExecutable, "-framerate", "20", "-i", "img%03d.png", outputName+".mp4")
-                .directory(new File(captureXDir, "kill-"+capturePack.getTimestamp()))
-                .inheritIO()
-                .redirectErrorStream(true);
+            .command(ffmpegExecutable, "-framerate", "20", "-i", "img%03d.png", outputName + ".mp4")
+            .directory(new File(this.captureXDir, "kill-" + capturePack.getTimestamp()))
+            .inheritIO()
+            .redirectErrorStream(true);
         Process process = builder.start();
         int i = process.waitFor();
         System.gc();
-        if(i!=0)return null;
-        return new File(captureXDir, outputName+".mp4");
+        if (i != 0) {
+            return null;
+        }
+        return new File(this.captureXDir, outputName + ".mp4");
     }
 }
