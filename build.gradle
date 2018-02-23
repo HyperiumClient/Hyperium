@@ -97,6 +97,8 @@ dependencies {
     embed 'com.squareup.okhttp3:okhttp:3.9.0'
 
     embed group: 'org.slick2d', name: 'slick2d-core', version: '1.0.2'
+
+    compile fileTree(dir: 'libs', include: '*.jar')
 }
 
 
