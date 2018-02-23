@@ -37,6 +37,7 @@ import java.util.UUID;
 
 public class SkinChangerEvents {
     
+    private final Minecraft mc = Minecraft.getMinecraft();
     private final SkinChangerMod mod;
     
     public SkinChangerEvents(SkinChangerMod theMod) {
@@ -45,34 +46,43 @@ public class SkinChangerEvents {
     
     @InvokeEvent
     public void onGetSkin(PlayerGetSkinEvent event) {
-        Minecraft.getMinecraft().addScheduledTask(() -> {
-            String name = this.mod.getConfig().getSkinName();
+        if (this.mc.thePlayer != null && this.mod.getConfig().getSkinName().equalsIgnoreCase(this.mc.thePlayer.getName())) {
+            return;
+        }
+        
+        if (this.mc.thePlayer != null && event.getPlayer().getName().equalsIgnoreCase(this.mc.thePlayer.getName())) {
+            this.mc.addScheduledTask(() -> {
+                String name = this.mod.getConfig().getSkinName();
+        
+                if (name != null && !name.isEmpty()) {
+                    ResourceLocation loc = getSkin(name);
             
-            if (name != null && !name.isEmpty()) {
-                ResourceLocation loc = getSkin(name);
-                
-                if (loc != null) {
-                    event.setSkin(loc);
+                    if (loc != null) {
+                        event.setSkin(loc);
+                    }
                 }
-            }
-        });
+            });
+        }
     }
     
     @InvokeEvent
     public void onGetCape(PlayerGetCapeEvent event) {
-        Minecraft.getMinecraft().addScheduledTask(() -> {
-            if (!this.mod.getConfig().isUsingCape()) return;
-    
-            String name = this.mod.getConfig().getOfCapeName();
-    
-            if (name != null && !name.isEmpty()) {
-                ResourceLocation loc = getOfCape(name);
+        if (!this.mod.getConfig().isUsingCape()) return;
         
-                if (loc != null) {
-                    event.setCape(loc);
+        if (this.mc.thePlayer != null && event.getPlayer().getName().equalsIgnoreCase(this.mc.thePlayer.getName())) {
+            this.mc.addScheduledTask(() -> {
+        
+                String name = this.mod.getConfig().getOfCapeName();
+        
+                if (name != null && !name.isEmpty()) {
+                    ResourceLocation loc = getOfCape(name);
+            
+                    if (loc != null) {
+                        event.setCape(loc);
+                    }
                 }
-            }
-        });
+            });
+        }
     }
     
     private ResourceLocation getSkin(String name) {
