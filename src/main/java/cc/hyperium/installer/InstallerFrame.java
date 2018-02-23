@@ -71,7 +71,7 @@ public class InstallerFrame extends JFrame implements PropertyChangeListener {
 
         setTitle("Hyperium Installer");
 
-        setIconImage(new ImageIcon(getClass().getResource("/assets/Hyperium/icons/icon-32x.png")).getImage());
+        setIconImage(new ImageIcon(getClass().getResource("/assets/hyperium/icons/icon-32x.png")).getImage());
 
         this.setVisible(true);
         this.setLayout(null);
@@ -128,7 +128,7 @@ public class InstallerFrame extends JFrame implements PropertyChangeListener {
         }
         progressBar.setValue(40);
         display.setText("GETTING FILES");
-        String versions_url = "https://raw.githubusercontent.com/HypixelCommunityClient/Hyperium-Repo/master/installer/versions.json";
+        String versions_url = "https://raw.githubusercontent.com/HyperiumClient/Hyperium-Repo/master/installer/versions.json";
         String channel = "latest-dev";
         JSONObject versionsJson;
         AtomicReference<JSONObject> version = new AtomicReference<>();
@@ -298,7 +298,7 @@ public class InstallerFrame extends JFrame implements PropertyChangeListener {
         display.setSize(400, 20);
         display.setLocation(0, 50);
         try {
-            display.setFont(Font.createFont(Font.TRUETYPE_FONT, InstallerMain.class.getResourceAsStream("/assets/Hyperium/fonts/Montserrat-Regular.ttf")).deriveFont(15.0F));
+            display.setFont(Font.createFont(Font.TRUETYPE_FONT, InstallerMain.class.getResourceAsStream("/assets/hyperium/fonts/Montserrat-Regular.ttf")).deriveFont(15.0F));
         } catch (FontFormatException | IOException e) {
             display.setFont(Font.getFont("Arial")); //backup
             e.printStackTrace();
@@ -310,7 +310,7 @@ public class InstallerFrame extends JFrame implements PropertyChangeListener {
         error.setSize(400, 10);
         error.setLocation(0, 105);
         try {
-            error.setFont(Font.createFont(Font.TRUETYPE_FONT, InstallerMain.class.getResourceAsStream("/assets/Hyperium/fonts/Montserrat-Regular.ttf")).deriveFont(10.0F));
+            error.setFont(Font.createFont(Font.TRUETYPE_FONT, InstallerMain.class.getResourceAsStream("/assets/hyperium/fonts/Montserrat-Regular.ttf")).deriveFont(10.0F));
         } catch (FontFormatException | IOException e) {
             error.setFont(Font.getFont("Arial")); //backup
             e.printStackTrace();
@@ -322,7 +322,7 @@ public class InstallerFrame extends JFrame implements PropertyChangeListener {
         exit.setBackground(new Color(255, 254, 254));
         exit.setForeground(new Color(30, 30, 30));
         try {
-            exit.setFont(Font.createFont(Font.TRUETYPE_FONT, InstallerMain.class.getResourceAsStream("/assets/Hyperium/fonts/Montserrat-Regular.ttf")).deriveFont(12.0F));
+            exit.setFont(Font.createFont(Font.TRUETYPE_FONT, InstallerMain.class.getResourceAsStream("/assets/hyperium/fonts/Montserrat-Regular.ttf")).deriveFont(12.0F));
         } catch (FontFormatException | IOException e) {
             exit.setFont(Font.getFont("Arial")); //backup
             e.printStackTrace();
