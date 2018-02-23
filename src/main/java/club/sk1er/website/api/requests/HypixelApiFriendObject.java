@@ -1,6 +1,6 @@
 /*
- *     Hypixel Community Client, Client optimized for Hypixel Network
- *     Copyright (C) 2018  HCC Dev Team
+ * Hyperium Client, Free client with huds and popular mod
+ *     Copyright (C) 2018  Hyperium Dev Team
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU Affero General Public License as published
@@ -18,7 +18,7 @@
 
 package club.sk1er.website.api.requests;
 
-import com.hcc.utils.JsonHolder;
+import cc.hyperium.utils.JsonHolder;
 
 public class HypixelApiFriendObject {
     private JsonHolder data;

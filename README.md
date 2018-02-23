@@ -1,7 +1,7 @@
 [ ![Discord](https://canary.discordapp.com/api/guilds/411619823445999637/widget.png) ](https://discord.gg/8GakFcT)
-# HCC (Hypixel Community Client - Not affiliated with Hypixel INC, produced by independent developers)
-## What is HCC? ##
-The HCC is a Minecraft modification in development. It will combine many popular features in addition to suggestions and ideas from the community to provide a unique experience designed for Hypixel.
+# Hyperium (A Community Client for Hypixel - Not affiliated with Hypixel INC, produced by independent developers)
+## What is Hyperium? ##
+The Hyperium is a Minecraft modification in development. It will combine many popular features in addition to suggestions and ideas from the community to provide a unique experience designed for Hypixel.
 
 ## Features ##
 
@@ -27,10 +27,10 @@ Q: ETA?
 A: DON'T KNOW
 
 ## Addons ##
-**Requirement:** Built HCC, JDK 8+, IDE
+**Requirement:** Built Hyperium, JDK 8+, IDE
 
 **Dependency:**
-add HCC that you built as dependency for the project
+add Hyperium that you built as dependency for the project
 
 ```java
 package me.cubxity;

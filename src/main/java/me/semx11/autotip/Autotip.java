@@ -1,8 +1,26 @@
+/*
+ * Hyperium Client, Free client with huds and popular mod
+ *     Copyright (C) 2018  Hyperium Dev Team
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU Affero General Public License as published
+ *     by the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU Affero General Public License for more details.
+ *
+ *     You should have received a copy of the GNU Affero General Public License
+ *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package me.semx11.autotip;
 
-import com.hcc.HCC;
-import com.hcc.event.EventBus;
-import com.hcc.commands.BaseCommand;
+import cc.hyperium.Hyperium;
+import cc.hyperium.commands.BaseCommand;
+import cc.hyperium.event.EventBus;
 import me.semx11.autotip.command.AutotipCommand;
 import me.semx11.autotip.command.LimboCommand;
 import me.semx11.autotip.command.TipHistoryCommand;
@@ -68,7 +86,7 @@ public class Autotip {
         } catch (IOException e) {
             e.printStackTrace();
         } catch (NullPointerException e2) {
-            HCC.LOGGER.debug("[Auto-GG] Invalid UUID detected; Not logged in?.");
+            Hyperium.LOGGER.debug("[Auto-GG] Invalid UUID detected; Not logged in?.");
         }
         return this;
     }
@@ -78,7 +96,7 @@ public class Autotip {
     }
 
     private void registerCommands(BaseCommand... commands) {
-        Arrays.asList(commands).forEach((e) -> HCC.INSTANCE.getHandlers().getHCCCommandHandler().registerCommand(e));
+        Arrays.asList(commands).forEach((e) -> Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(e));
     }
 
 }

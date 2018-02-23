@@ -1,6 +1,24 @@
+/*
+ * Hyperium Client, Free client with huds and popular mod
+ *     Copyright (C) 2018  Hyperium Dev Team
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU Affero General Public License as published
+ *     by the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU Affero General Public License for more details.
+ *
+ *     You should have received a copy of the GNU Affero General Public License
+ *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package me.semx11.autotip.command;
 
-import com.hcc.commands.BaseCommand;
+import cc.hyperium.commands.BaseCommand;
 import me.semx11.autotip.Autotip;
 import me.semx11.autotip.event.HypixelListener;
 import me.semx11.autotip.event.Tipper;
@@ -53,7 +71,7 @@ public class AutotipCommand implements BaseCommand {
                             null,
                             ChatColor.GOLD + "2Pi's legacy will live on."
                     );
-                    ClientMessage.send("Running in " + "HCC Integration");
+                    ClientMessage.send("Running in " + "Hyperium Integration");
                     ClientMessage.send(
                             "Autotipper: " + (Autotip.toggle ? ChatColor.GREEN + "En"
                                     : ChatColor.RED + "Dis") + "abled");
@@ -156,7 +174,7 @@ public class AutotipCommand implements BaseCommand {
                 case "info+":
                     ClientMessage.separator();
                     ClientMessage.send("Last IP joined: " + HypixelListener.lastIp);
-                    ClientMessage.send("Detected MC version: HCC");
+                    ClientMessage.send("Detected MC version: Hyperium");
                     ClientMessage
                             .send("Current tipqueue: " + StringUtils.join(Tipper.tipQueue, ", "));
                     ClientMessage.separator();

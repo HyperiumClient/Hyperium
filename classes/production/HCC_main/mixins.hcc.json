@@ -1,7 +1,7 @@
 {
   "required": true,
   "compatibilityLevel": "JAVA_8",
-  "package": "com.hcc.mixins",
+  "package": "com.Hyperium.mixins",
   "refmap": "mixins.sproject.refmap.json",
   "verbose": true,
   "mixins": [
