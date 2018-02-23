@@ -29,11 +29,13 @@ public class FPSLimiter {
 
     private static boolean limbo;
     private static long time = 0L;
+
     @ConfigOpt
     private long secondsWait = 5;
 
     @ConfigOpt
     private int fpsLimit = 30;
+
     public static FPSLimiter getInstance() {
         if (instance == null)
             instance = new FPSLimiter();

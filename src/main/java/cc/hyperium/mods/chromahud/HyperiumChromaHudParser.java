@@ -22,11 +22,11 @@ package cc.hyperium.mods.chromahud;
 import cc.hyperium.mods.chromahud.api.ChromaHUDDescription;
 import cc.hyperium.mods.chromahud.api.ChromaHUDParser;
 import cc.hyperium.mods.chromahud.api.DisplayItem;
-import cc.hyperium.mods.chromahud.displayitems.Hyperium.HypixelDisplay;
-import cc.hyperium.mods.chromahud.displayitems.Hyperium.LocationDisplay;
-import cc.hyperium.mods.chromahud.displayitems.Hyperium.ScoreboardDisplay;
+import cc.hyperium.mods.chromahud.displayitems.hyperium.HypixelDisplay;
+import cc.hyperium.mods.chromahud.displayitems.hyperium.LocationDisplay;
+import cc.hyperium.mods.chromahud.displayitems.hyperium.RatingDisplay;
+import cc.hyperium.mods.chromahud.displayitems.hyperium.ScoreboardDisplay;
 import cc.hyperium.utils.JsonHolder;
-import cc.hyperium.mods.chromahud.displayitems.Hyperium.RatingDisplay;
 
 import java.util.HashMap;
 import java.util.Map;

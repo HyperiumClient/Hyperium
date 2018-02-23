@@ -38,6 +38,7 @@
     "packet.MixinC01PacketChatMessage",
     "packet.MixinS2EPacketCloseWindow",
     "packet.MixinS14PacketEntity",
+    "packet.MixinNetHandlerPlayClient",
 
     "world.MixinChunk",
     "world.MixinWorld",
