@@ -127,6 +127,7 @@ shadowJar {
         include(dependency('org.jetbrains.kotlin:kotlin-stdlib-jre8'))
         include(dependency('com.esotericsoftware:reflectasm'))
         include(dependency('com.github.jagrosh:DiscordIPC'))
+        include(dependency('commons-io:commons-io'))
     }
 
     classifier = 'full'
