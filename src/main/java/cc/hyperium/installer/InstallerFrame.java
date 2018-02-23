@@ -185,20 +185,42 @@ public class InstallerFrame extends JFrame implements PropertyChangeListener {
             exit.setVisible(true);
             return;
         }
-        display.setText("CREATING PROFILE");
-        //noinspection ResultOfMethodCallIgnored
+        File optifine = new File(InstallerMain.class.getResource("/mods/OptiFine_1.8.9_HD_U_I3.jar").getFile());
+        progressBar.setValue(91);
+        display.setText("COPYING FILES");
         target.mkdir();
         File targetJson = new File(target, "Hyperium 1.8.9.json");
         File targetJar = new File(target, "Hyperium 1.8.9.jar");
         try {
             Files.copy(originJson, targetJson);
-            Files.copy(originJar, targetJar);
+            targetJar.createNewFile();
         } catch (IOException e) {
             e.printStackTrace();
             display.setText("INSTALLATION FAILED");
             error.setText("FAILED TO COPY FILES FROM VERSION '1.8.9'");
+            exit.setVisible(true);
             return;
         }
+        progressBar.setValue(95);
+        display.setText("PATCHING OPTIFINE");
+        ProcessBuilder builder = new ProcessBuilder("java", "-cp", optifine.getAbsolutePath(), "optifine.Patcher", originJar.getAbsolutePath(), optifine.getAbsolutePath(), targetJar.getAbsolutePath());
+        builder.inheritIO();
+        builder.redirectErrorStream(true);
+        Process proc;
+        try {
+             proc = builder.start();
+            if(proc.waitFor()!=0)
+                throw new IOException("Failed to install optifine");
+        } catch (InterruptedException | IOException e) {
+            e.printStackTrace();
+            display.setText("INSTALLATION FAILED");
+            error.setText("FAILED TO PATCH OPTIFINE");
+            exit.setVisible(true);
+            return;
+        }
+        progressBar.setValue(99);
+        display.setText("CREATING PROFILE");
+        //noinspection ResultOfMethodCallIgnored
         JSONObject json;
         JSONObject launcherProfiles;
         try {
