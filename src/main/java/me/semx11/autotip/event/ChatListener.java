@@ -1,8 +1,8 @@
 package me.semx11.autotip.event;
 
-import com.hcc.event.ChatEvent;
-import com.hcc.event.InvokeEvent;
-import com.hcc.handlers.handlers.chat.GeneralChatHandler;
+import cc.hyperium.event.ChatEvent;
+import cc.hyperium.event.InvokeEvent;
+import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
 import me.semx11.autotip.Autotip;
 import me.semx11.autotip.command.LimboCommand;
 import me.semx11.autotip.misc.TipTracker;

@@ -1,8 +1,8 @@
 package me.semx11.autotip.event;
 
-import com.hcc.event.InvokeEvent;
-import com.hcc.event.ServerJoinEvent;
-import com.hcc.event.ServerLeaveEvent;
+import cc.hyperium.event.InvokeEvent;
+import cc.hyperium.event.ServerJoinEvent;
+import cc.hyperium.event.ServerLeaveEvent;
 import me.semx11.autotip.Autotip;
 import me.semx11.autotip.misc.StartLogin;
 import me.semx11.autotip.util.UniversalUtil;

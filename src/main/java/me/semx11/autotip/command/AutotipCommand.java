@@ -1,6 +1,6 @@
 package me.semx11.autotip.command;
 
-import com.hcc.commands.BaseCommand;
+import cc.hyperium.commands.BaseCommand;
 import me.semx11.autotip.Autotip;
 import me.semx11.autotip.event.HypixelListener;
 import me.semx11.autotip.event.Tipper;
@@ -53,7 +53,7 @@ public class AutotipCommand implements BaseCommand {
                             null,
                             ChatColor.GOLD + "2Pi's legacy will live on."
                     );
-                    ClientMessage.send("Running in " + "HCC Integration");
+                    ClientMessage.send("Running in " + "Hyperium Integration");
                     ClientMessage.send(
                             "Autotipper: " + (Autotip.toggle ? ChatColor.GREEN + "En"
                                     : ChatColor.RED + "Dis") + "abled");
@@ -156,7 +156,7 @@ public class AutotipCommand implements BaseCommand {
                 case "info+":
                     ClientMessage.separator();
                     ClientMessage.send("Last IP joined: " + HypixelListener.lastIp);
-                    ClientMessage.send("Detected MC version: HCC");
+                    ClientMessage.send("Detected MC version: Hyperium");
                     ClientMessage
                             .send("Current tipqueue: " + StringUtils.join(Tipper.tipQueue, ", "));
                     ClientMessage.separator();

@@ -1,6 +1,6 @@
 /*
  *     Hypixel Community Client, Client optimized for Hypixel Network
- *     Copyright (C) 2018  HCC Dev Team
+ *     Copyright (C) 2018  Hyperium Dev Team
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU Affero General Public License as published
@@ -20,7 +20,7 @@ package club.sk1er.website.api.requests;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.hcc.utils.JsonHolder;
+import cc.hyperium.utils.JsonHolder;
 import net.hypixel.api.GameType;
 import net.hypixel.api.util.ILeveling;
 

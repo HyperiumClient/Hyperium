@@ -1,6 +1,6 @@
 /*
  *     Hypixel Community Client, Client optimized for Hypixel Network
- *     Copyright (C) 2018  HCC Dev Team
+ *     Copyright (C) 2018  Hyperium Dev Team
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU Affero General Public License as published
@@ -65,12 +65,12 @@ targetCompatibility = 1.8
 compileJava.options.encoding = 'UTF-8'
 
 version = "1.0"
-group = "com.hcc"
-archivesBaseName = "HCC"
+group = "cc.Hyperium"
+archivesBaseName = "Hyperium"
 
 minecraft {
     version = "1.8.9"
-    tweakClass = "com.hcc.launch.HCCTweaker"
+    tweakClass = "cc.hyperium.launch.HyperiumTweaker"
     mappings = "stable_20"
     runDir = 'run'
     makeObfSourceJar = true
@@ -103,7 +103,7 @@ dependencies {
 mixin {
     // Specify "notch" or "searge" here
     defaultObfuscationEnv notch
-    add sourceSets.main, "mixin.hcc.refmap.json"
+    add sourceSets.main, "mixin.Hyperium.refmap.json"
 }
 
 repositories {
@@ -142,11 +142,11 @@ build.dependsOn(shadowJar)
 
 jar {
     manifest.attributes(
-            "MixinConfigs": 'mixins.hcc.json',
-            "TweakClass": 'com.hcc.launch.HCCTweaker',
+            "MixinConfigs": 'mixins.Hyperium.json',
+            "TweakClass": 'cc.hyperium.launch.HyperiumTweaker',
             "TweakOrder": 0,
             "Manifest-Version": 1.0,
-            'Main-Class': 'com.hcc.installer.InstallerMain'
+            'Main-Class': 'cc.hyperium.installer.InstallerMain'
     )
     from configurations.embed.collect { it.isDirectory() ? it : zipTree(it) }
 }

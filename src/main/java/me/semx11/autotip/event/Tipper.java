@@ -1,8 +1,8 @@
 package me.semx11.autotip.event;
 
-import com.hcc.HCC;
-import com.hcc.event.InvokeEvent;
-import com.hcc.event.TickEvent;
+import cc.hyperium.Hyperium;
+import cc.hyperium.event.InvokeEvent;
+import cc.hyperium.event.TickEvent;
 import me.semx11.autotip.Autotip;
 import me.semx11.autotip.misc.FetchBoosters;
 
@@ -34,7 +34,7 @@ public class Tipper {
 
             if (!tipQueue.isEmpty() && (tipDelay % 5 == 0)) {
                 System.out.println("Attempting to tip: " + tipQueue.get(0));
-                HCC.INSTANCE.getHandlers().getCommandQueue().queue("/tip " + tipQueue.get(0));
+                Hyperium.INSTANCE.getHandlers().getCommandQueue().queue("/tip " + tipQueue.get(0));
                 tipQueue.remove(0);
                 tipDelay = 0;
             }

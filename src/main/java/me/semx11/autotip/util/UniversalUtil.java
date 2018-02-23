@@ -1,7 +1,7 @@
 package me.semx11.autotip.util;
 
-import com.hcc.event.ServerJoinEvent;
-import com.hcc.handlers.handlers.chat.GeneralChatHandler;
+import cc.hyperium.event.ServerJoinEvent;
+import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
 import net.minecraft.event.ClickEvent;
 import net.minecraft.event.HoverEvent;
 import net.minecraft.util.ChatComponentText;

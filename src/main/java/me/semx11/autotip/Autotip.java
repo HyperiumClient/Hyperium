@@ -1,8 +1,8 @@
 package me.semx11.autotip;
 
-import com.hcc.HCC;
-import com.hcc.event.EventBus;
-import com.hcc.commands.BaseCommand;
+import cc.hyperium.Hyperium;
+import cc.hyperium.commands.BaseCommand;
+import cc.hyperium.event.EventBus;
 import me.semx11.autotip.command.AutotipCommand;
 import me.semx11.autotip.command.LimboCommand;
 import me.semx11.autotip.command.TipHistoryCommand;
@@ -68,7 +68,7 @@ public class Autotip {
         } catch (IOException e) {
             e.printStackTrace();
         } catch (NullPointerException e2) {
-            HCC.LOGGER.debug("[Auto-GG] Invalid UUID detected; Not logged in?.");
+            Hyperium.LOGGER.debug("[Auto-GG] Invalid UUID detected; Not logged in?.");
         }
         return this;
     }
@@ -78,7 +78,7 @@ public class Autotip {
     }
 
     private void registerCommands(BaseCommand... commands) {
-        Arrays.asList(commands).forEach((e) -> HCC.INSTANCE.getHandlers().getHCCCommandHandler().registerCommand(e));
+        Arrays.asList(commands).forEach((e) -> Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(e));
     }
 
 }
