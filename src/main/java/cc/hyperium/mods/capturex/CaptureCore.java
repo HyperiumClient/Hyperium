@@ -60,16 +60,17 @@ public class CaptureCore {
         // 1 seconds backward
         if(backwardsBuffer.size() > 20)
             backwardsBuffer.poll();
-        final Framebuffer fb = Minecraft.getMinecraft().getFramebuffer();
+        Minecraft mc = Minecraft.getMinecraft();
+        final Framebuffer fb = new Framebuffer(mc.displayWidth, mc.displayHeight, mc.getFramebuffer().useDepth);
         backwardsBuffer.add(fb);
     }
 
     @InvokeEvent
     public void onKill(HypixelKillEvent event) {
+        final Queue<Framebuffer> finalBackwardsBuffer = new ArrayDeque<>(backwardsBuffer);
         addScheduledTask(() -> {
             try {
                 Hyperium.INSTANCE.getNotification().display("CaptureX", "Rendering kill", 3);
-                final Queue<Framebuffer> finalBackwardsBuffer = new ArrayDeque<>(backwardsBuffer);
                 CapturePack pack = new CapturePack(finalBackwardsBuffer);
                 FFMpeg.run(pack, "C:\\FFmpeg\\bin\\ffmpeg.exe", "kill");
                 pack.cleanup();
