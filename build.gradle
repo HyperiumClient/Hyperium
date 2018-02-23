@@ -98,7 +98,6 @@ dependencies {
 
     embed group: 'org.slick2d', name: 'slick2d-core', version: '1.0.2'
 
-    compile fileTree(dir: 'libs', include: '*.jar')
 }
 
 
