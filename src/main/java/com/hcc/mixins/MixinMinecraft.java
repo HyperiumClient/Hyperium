@@ -25,11 +25,7 @@ import com.hcc.utils.mods.FPSLimiter;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.client.entity.EntityPlayerSP;
-import net.minecraft.client.gui.GuiGameOver;
-import net.minecraft.client.gui.GuiIngame;
-import net.minecraft.client.gui.GuiMainMenu;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.gui.*;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.resources.DefaultResourcePack;
 import net.minecraft.client.settings.GameSettings;
@@ -56,25 +52,25 @@ import java.nio.ByteBuffer;
 public abstract class MixinMinecraft {
 
     @Shadow
+    private static Minecraft theMinecraft;
+    @Shadow
+    public GuiScreen currentScreen;
+    @Shadow
+    public WorldClient theWorld;
+    @Shadow
+    public EntityPlayerSP thePlayer;
+    @Shadow
+    public GameSettings gameSettings;
+    @Shadow
+    public GuiIngame ingameGUI;
+    @Shadow
+    public boolean skipRenderWorld;
+    @Shadow
     @Final
     private DefaultResourcePack mcDefaultResourcePack;
-    
-    @Shadow private static Minecraft theMinecraft;
-    
-    @Shadow public GuiScreen currentScreen;
-    
-    @Shadow public WorldClient theWorld;
-    
-    @Shadow public EntityPlayerSP thePlayer;
-    
-    @Shadow public GameSettings gameSettings;
-    
-    @Shadow public GuiIngame ingameGUI;
-    
-    @Shadow private SoundHandler mcSoundHandler;
-    
-    @Shadow public boolean skipRenderWorld;
-    
+    @Shadow
+    private SoundHandler mcSoundHandler;
+
     @Accessor
     public abstract Timer getTimer();
 
@@ -178,7 +174,7 @@ public abstract class MixinMinecraft {
             }
         }
     }
-    
+
     /**
      * A change to gui display so a "GuiOpenEvent" can be called to set the screen
      *
@@ -189,35 +185,32 @@ public abstract class MixinMinecraft {
         if (this.currentScreen != null) {
             this.currentScreen.onGuiClosed();
         }
-    
-        if (guiScreenIn == null && this.theWorld == null)
-        {
+
+        if (guiScreenIn == null && this.theWorld == null) {
             guiScreenIn = new GuiMainMenu();
-        }
-        else if (guiScreenIn == null && this.thePlayer.getHealth() <= 0.0F)
-        {
+        } else if (guiScreenIn == null && this.thePlayer.getHealth() <= 0.0F) {
             guiScreenIn = new GuiGameOver();
         }
-    
+
         GuiScreen old = this.currentScreen;
         GuiOpenEvent event = new GuiOpenEvent(guiScreenIn);
-    
+
         EventBus.INSTANCE.post(event);
-        
+
         if (event.isCancelled()) return;
-    
+
         guiScreenIn = event.getGui();
         if (old != null && guiScreenIn != old) {
             old.onGuiClosed();
         }
-    
+
         if (guiScreenIn instanceof GuiMainMenu) {
             this.gameSettings.showDebugInfo = false;
             this.ingameGUI.getChatGUI().clearChatMessages();
         }
-    
+
         this.currentScreen = guiScreenIn;
-    
+
         if (guiScreenIn != null) {
             this.setIngameNotInFocus();
             ScaledResolution scaledresolution = new ScaledResolution(theMinecraft);
@@ -232,14 +225,15 @@ public abstract class MixinMinecraft {
     }
 
     @Inject(method = "getLimitFramerate", at = @At("HEAD"), cancellable = true)
-    private void getLimitFramerate(CallbackInfoReturnable<Integer> ci)
-    {
-        if(FPSLimiter.shouldLimitFramerate()) {
-            ci.setReturnValue(30);
+    private void getLimitFramerate(CallbackInfoReturnable<Integer> ci) {
+        if (FPSLimiter.shouldLimitFramerate()) {
+            ci.setReturnValue(FPSLimiter.getInstance().getFpsLimit());
         }
     }
-    
-    @Shadow public abstract void setIngameNotInFocus();
-    
-    @Shadow public abstract void setIngameFocus();
+
+    @Shadow
+    public abstract void setIngameNotInFocus();
+
+    @Shadow
+    public abstract void setIngameFocus();
 }

@@ -77,9 +77,10 @@ public class DefaultConfig {
         saveFile();
     }
 
-    public void register(Object object) {
+    public Object register(Object object) {
         configObjects.add(object);
         loadToClass(object);
+        return object;
     }
 
     private void loadToClass(Object o) {

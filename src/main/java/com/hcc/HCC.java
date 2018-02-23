@@ -107,7 +107,7 @@ public class HCC {
         EventBus.INSTANCE.register(notification);
         EventBus.INSTANCE.register(captureCore = new CaptureCore());
         EventBus.INSTANCE.register(CompactChat.getInstance());
-        EventBus.INSTANCE.register(FPSLimiter.getInstance());
+        EventBus.INSTANCE.register(CONFIG.register(FPSLimiter.getInstance()));
         friendRequestPattern = Pattern.compile("Friend request from .+?");
         rankBracketPattern = Pattern.compile("[\\^] ");
         swKillMsg = Pattern.compile(".+? was .+? by .+?\\.");
