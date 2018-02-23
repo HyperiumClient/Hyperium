@@ -16,12 +16,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.hcc.mods.perspective;
+package cc.hyperium.mods.perspective;
 
-import com.hcc.event.InvokeEvent;
-import com.hcc.event.KeyBindDisableEvent;
-import com.hcc.event.KeyBindEnableEvent;
-import com.hcc.handlers.handlers.chat.GeneralChatHandler;
+
+import cc.hyperium.event.InvokeEvent;
+import cc.hyperium.event.KeyBindDisableEvent;
+import cc.hyperium.event.KeyBindEnableEvent;
+import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
 import net.minecraft.client.Minecraft;
 import org.lwjgl.input.Keyboard;
 

@@ -41,6 +41,7 @@ import cc.hyperium.mods.ToggleSprintContainer;
 import cc.hyperium.mods.capturex.CaptureCore;
 import cc.hyperium.mods.discord.RichPresenceManager;
 import cc.hyperium.mods.levelhead.commands.LevelHeadCommand;
+import cc.hyperium.mods.perspective.PerspectiveModifierContainer;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.tray.TrayManager;
 import cc.hyperium.utils.ChatColor;
@@ -69,6 +70,8 @@ public class Hyperium {
      */
     public final static Logger LOGGER = LogManager.getLogger(Metadata.getModid());
     public static File folder = new File("hyperium");
+    public static PerspectiveModifierContainer perspective;
+
     /**
      * Instance of default CONFIG
      */
@@ -240,7 +243,6 @@ public class Hyperium {
     public void onKeyPress(KeypressEvent event) {
         if (!Minecraft.getMinecraft().inGameHasFocus)
             return;
-        // i got u - coal
         if ((KeyBindHandler.toggleSprint.isActivated())) {
             if (event.getKey() == Minecraft.getMinecraft().gameSettings.keyBindForward.getKeyCode() || event.getKey() == KeyBindHandler.toggleSprint.getKey()) {
                 ((MixinKeyBinding) Minecraft.getMinecraft().gameSettings.keyBindSprint).setPressed(true);

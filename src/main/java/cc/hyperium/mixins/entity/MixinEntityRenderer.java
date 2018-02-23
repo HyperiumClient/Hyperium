@@ -1,6 +1,6 @@
 /*
  *     Hypixel Community Client, Client optimized for Hypixel Network
- *     Copyright (C) 2018  HCC Dev Team
+ *     Copyright (C) 2018  Hyperium Dev Team
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU Affero General Public License as published
@@ -16,11 +16,11 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.hcc.mixins.entity;
+package cc.hyperium.mixins.entity;
 
-import com.hcc.HCC;
-import com.hcc.event.EventBus;
-import com.hcc.event.RenderEvent;
+import cc.hyperium.Hyperium;
+import cc.hyperium.event.EventBus;
+import cc.hyperium.event.RenderEvent;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBed;
 import net.minecraft.block.state.IBlockState;
@@ -122,9 +122,9 @@ public class MixinEntityRenderer {
                 float f1 = entity.rotationYaw;
                 float f2 = entity.rotationPitch;
 
-                if (HCC.INSTANCE.perspective.enabled) {
-                    f1 = HCC.INSTANCE.perspective.modifiedYaw;
-                    f2 = HCC.INSTANCE.perspective.modifiedPitch;
+                if (Hyperium.INSTANCE.perspective.enabled) {
+                    f1 = Hyperium.INSTANCE.perspective.modifiedYaw;
+                    f2 = Hyperium.INSTANCE.perspective.modifiedPitch;
                 }
 
                 if (Minecraft.getMinecraft().gameSettings.thirdPersonView == 2) {
@@ -159,12 +159,12 @@ public class MixinEntityRenderer {
 
                 // Replaced with modified yaw and pitch values.
 
-                if (HCC.INSTANCE.perspective.enabled) {
-                    GlStateManager.rotate(HCC.INSTANCE.perspective.modifiedPitch - f2, 1.0F, 0.0F, 0.0F);
-                    GlStateManager.rotate(HCC.INSTANCE.perspective.modifiedYaw - f1, 0.0F, 1.0F, 0.0F);
+                if (Hyperium.INSTANCE.perspective.enabled) {
+                    GlStateManager.rotate(Hyperium.INSTANCE.perspective.modifiedPitch - f2, 1.0F, 0.0F, 0.0F);
+                    GlStateManager.rotate(Hyperium.INSTANCE.perspective.modifiedYaw - f1, 0.0F, 1.0F, 0.0F);
                     GlStateManager.translate(0.0F, 0.0F, (float) (-d3));
-                    GlStateManager.rotate(f1 - HCC.INSTANCE.perspective.modifiedYaw, 0.0F, 1.0F, 0.0F);
-                    GlStateManager.rotate(f2 - HCC.INSTANCE.perspective.modifiedPitch, 1.0F, 0.0F, 0.0F);
+                    GlStateManager.rotate(f1 - Hyperium.INSTANCE.perspective.modifiedYaw, 0.0F, 1.0F, 0.0F);
+                    GlStateManager.rotate(f2 - Hyperium.INSTANCE.perspective.modifiedPitch, 1.0F, 0.0F, 0.0F);
                 } else {
                     GlStateManager.rotate(entity.rotationPitch - f2, 1.0F, 0.0F, 0.0F);
                     GlStateManager.rotate(entity.rotationYaw - f1, 0.0F, 1.0F, 0.0F);
@@ -179,9 +179,9 @@ public class MixinEntityRenderer {
 
         if (!Minecraft.getMinecraft().gameSettings.debugCamEnable) {
             // Further modifications.
-            if (HCC.INSTANCE.perspective.enabled) {
-                GlStateManager.rotate(HCC.INSTANCE.perspective.modifiedPitch, 1.0F, 0.0F, 0.0F);
-                GlStateManager.rotate(HCC.INSTANCE.perspective.modifiedYaw + 180.0F, 0.0F, 1.0F, 0.0F);
+            if (Hyperium.INSTANCE.perspective.enabled) {
+                GlStateManager.rotate(Hyperium.INSTANCE.perspective.modifiedPitch, 1.0F, 0.0F, 0.0F);
+                GlStateManager.rotate(Hyperium.INSTANCE.perspective.modifiedYaw + 180.0F, 0.0F, 1.0F, 0.0F);
             } else {
                 GlStateManager.rotate(entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * partialTicks, 1.0F, 0.0F, 0.0F);
             }
@@ -222,8 +222,8 @@ public class MixinEntityRenderer {
         }
 
         if (Minecraft.getMinecraft().inGameHasFocus && flag) {
-            if (HCC.INSTANCE.perspective.enabled && Minecraft.getMinecraft().gameSettings.thirdPersonView != 1) {
-                HCC.INSTANCE.perspective.onDisable();
+            if (Hyperium.INSTANCE.perspective.enabled && Minecraft.getMinecraft().gameSettings.thirdPersonView != 1) {
+                Hyperium.INSTANCE.perspective.onDisable();
             }
 
             Minecraft.getMinecraft().mouseHelper.mouseXYChange();
@@ -245,35 +245,35 @@ public class MixinEntityRenderer {
                 f2 = this.smoothCamFilterX * f4;
                 f3 = this.smoothCamFilterY * f4;
 
-                if (HCC.INSTANCE.perspective.enabled) {
+                if (Hyperium.INSTANCE.perspective.enabled) {
 
                     // Modifying pitch and yaw values.
-                    HCC.INSTANCE.perspective.modifiedYaw += f2 / 8.0F;
-                    HCC.INSTANCE.perspective.modifiedPitch += f3 / 8.0F;
+                    Hyperium.INSTANCE.perspective.modifiedYaw += f2 / 8.0F;
+                    Hyperium.INSTANCE.perspective.modifiedPitch += f3 / 8.0F;
 
 
                     // Range check.
-                    if (Math.abs(HCC.INSTANCE.perspective.modifiedPitch) > 90.0F) {
-                        if (HCC.INSTANCE.perspective.modifiedPitch > 0.0F) {
-                            HCC.INSTANCE.perspective.modifiedPitch = 90.0F;
+                    if (Math.abs(Hyperium.INSTANCE.perspective.modifiedPitch) > 90.0F) {
+                        if (Hyperium.INSTANCE.perspective.modifiedPitch > 0.0F) {
+                            Hyperium.INSTANCE.perspective.modifiedPitch = 90.0F;
                         } else {
-                            HCC.INSTANCE.perspective.modifiedPitch = -90.0F;
+                            Hyperium.INSTANCE.perspective.modifiedPitch = -90.0F;
                         }
                     }
                 } else {
                     Minecraft.getMinecraft().thePlayer.setAngles(f2, f3 * (float) i);
                 }
-            } else if (HCC.INSTANCE.perspective.enabled) {
+            } else if (Hyperium.INSTANCE.perspective.enabled) {
                 // Modifying pitch and yaw values.
-                HCC.INSTANCE.perspective.modifiedYaw += f2 / 8.0F;
-                HCC.INSTANCE.perspective.modifiedPitch += f3 / 8.0F;
+                Hyperium.INSTANCE.perspective.modifiedYaw += f2 / 8.0F;
+                Hyperium.INSTANCE.perspective.modifiedPitch += f3 / 8.0F;
 
                 // Checking if pitch exceeds maximum range.
-                if (Math.abs(HCC.INSTANCE.perspective.modifiedPitch) > 90.0F) {
-                    if (HCC.INSTANCE.perspective.modifiedPitch > 0.0F) {
-                        HCC.INSTANCE.perspective.modifiedPitch = 90.0F;
+                if (Math.abs(Hyperium.INSTANCE.perspective.modifiedPitch) > 90.0F) {
+                    if (Hyperium.INSTANCE.perspective.modifiedPitch > 0.0F) {
+                        Hyperium.INSTANCE.perspective.modifiedPitch = 90.0F;
                     } else {
-                        HCC.INSTANCE.perspective.modifiedPitch = -90.0F;
+                        Hyperium.INSTANCE.perspective.modifiedPitch = -90.0F;
                     }
                 }
             } else {

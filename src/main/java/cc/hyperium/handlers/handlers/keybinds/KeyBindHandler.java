@@ -16,10 +16,10 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.hcc.handlers.handlers.keybinds;
+package cc.hyperium.handlers.handlers.keybinds;
 
-import com.hcc.event.InvokeEvent;
-import com.hcc.event.KeypressEvent;
+import cc.hyperium.event.InvokeEvent;
+import cc.hyperium.event.KeypressEvent;
 import net.minecraft.client.Minecraft;
 import org.lwjgl.input.Keyboard;
 
@@ -27,11 +27,11 @@ import java.util.ArrayList;
 
 public class KeyBindHandler {
 
-    public static ArrayList<HCCBind> keybinds = new ArrayList<>();
+    public static ArrayList<HyperiumBind> keybinds = new ArrayList<>();
 
-    public static HCCBind toggleSprint = new HCCBind("toggleSprint", 47);
-    public static HCCBind debug = new HCCBind("debug", Keyboard.KEY_L);
-    public static HCCBind perspective = new HCCBind("perspective", Keyboard.KEY_P);
+    public static HyperiumBind toggleSprint = new HyperiumBind("toggleSprint", 47);
+    public static HyperiumBind debug = new HyperiumBind("debug", Keyboard.KEY_L);
+    public static HyperiumBind perspective = new HyperiumBind("perspective", Keyboard.KEY_P);
 
     public KeyBindHandler() {
         keybinds.add(toggleSprint);
@@ -42,7 +42,7 @@ public class KeyBindHandler {
     @InvokeEvent
     public static void onKeyPress(KeypressEvent event) {
         if (Minecraft.getMinecraft().currentScreen == null) {
-            for (HCCBind bind : keybinds) {
+            for (HyperiumBind bind : keybinds) {
                 if (event.getKey() == bind.getKey()) {
                     bind.onPress();
                 }
