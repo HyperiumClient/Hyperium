@@ -34,7 +34,7 @@ public class PerspectiveModifierContainer {
 
     public void onEnable() {
         if (!enabled) {
-            GeneralChatHandler.instance().sendMessage("Enabled F5 Perspective.");
+            GeneralChatHandler.instance().sendMessage("Enabled 360 Degree Perspective.");
             Minecraft.getMinecraft().gameSettings.thirdPersonView = 1;
             this.enabled = true;
 
@@ -48,7 +48,7 @@ public class PerspectiveModifierContainer {
     public void onDisable() {
         if (enabled) {
             Minecraft.getMinecraft().gameSettings.thirdPersonView = 0;
-            GeneralChatHandler.instance().sendMessage("Disabled F5 Perspective.");
+            GeneralChatHandler.instance().sendMessage("Disabled 360 Degree Perspective.");
             this.enabled = false;
         } else {
             // Current keybind system doesn't support being changed through other means, therefore this method is necessary.
