@@ -18,9 +18,13 @@
 
 package cc.hyperium.mods.crosshair;
 
+import net.minecraft.client.Minecraft;
+
 import java.awt.*;
 
 public abstract class CrosshairType {
+
+    protected Minecraft mc = Minecraft.getMinecraft();
 
     public abstract void draw(boolean bloom,
                               Color colour,

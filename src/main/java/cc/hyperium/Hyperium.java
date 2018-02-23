@@ -39,6 +39,7 @@ import cc.hyperium.mixins.MixinKeyBinding;
 import cc.hyperium.mods.HyperiumModIntegration;
 import cc.hyperium.mods.ToggleSprintContainer;
 import cc.hyperium.mods.capturex.CaptureCore;
+import cc.hyperium.mods.crosshair.CrosshairMod;
 import cc.hyperium.mods.discord.RichPresenceManager;
 import cc.hyperium.mods.levelhead.commands.LevelHeadCommand;
 import cc.hyperium.mods.perspective.PerspectiveModifierContainer;
@@ -117,6 +118,7 @@ public class Hyperium {
         EventBus.INSTANCE.register(notification);
         EventBus.INSTANCE.register(captureCore = new CaptureCore());
         EventBus.INSTANCE.register(CompactChat.getInstance());
+        EventBus.INSTANCE.register(CrosshairMod.getInstance());
         EventBus.INSTANCE.register(CONFIG.register(FPSLimiter.getInstance()));
         EventBus.INSTANCE.register(perspective = new PerspectiveModifierContainer());
 

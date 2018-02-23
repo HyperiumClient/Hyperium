@@ -35,7 +35,7 @@ public class RichPresenceUpdater {
         RichPresence.Builder builder = new RichPresence.Builder();
         client.sendRichPresence(builder
                 .setSmallImage("compass")
-                .setLargeImage("Hyperium", "Hyperium Client")
+                .setLargeImage("hyperium", "Hyperium Client")
                 .setState("IGN: " + Minecraft.getMinecraft().getSession().getUsername())
                 .setStartTimestamp(OffsetDateTime.now())
                 .build());
@@ -78,7 +78,7 @@ public class RichPresenceUpdater {
         RichPresence.Builder builder = new RichPresence.Builder();
         client.sendRichPresence(builder
                 .setSmallImage("compass")
-                .setLargeImage("Hyperium", "Hyperium Client")
+                .setLargeImage("hyperium", "Hyperium Client")
                 .setState("IGN: " + Minecraft.getMinecraft().getSession().getUsername())
                 .setStartTimestamp(OffsetDateTime.now())
                 .build());
