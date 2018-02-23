@@ -118,6 +118,8 @@ public class Hyperium {
         EventBus.INSTANCE.register(captureCore = new CaptureCore());
         EventBus.INSTANCE.register(CompactChat.getInstance());
         EventBus.INSTANCE.register(CONFIG.register(FPSLimiter.getInstance()));
+        EventBus.INSTANCE.register(perspective = new PerspectiveModifierContainer());
+
         friendRequestPattern = Pattern.compile("Friend request from .+?");
         rankBracketPattern = Pattern.compile("[\\^] ");
         swKillMsg = Pattern.compile(".+? was .+? by .+?\\.");
