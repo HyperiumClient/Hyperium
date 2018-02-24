@@ -16,37 +16,46 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package cc.hyperium.mods.chromahud.displayitems.hyperium.chromahud;
+package cc.hyperium.mods.chromahud.displayitems.chromahud;
 
 
 import cc.hyperium.mods.chromahud.ElementRenderer;
 import cc.hyperium.mods.chromahud.api.Dimension;
 import cc.hyperium.mods.chromahud.api.DisplayItem;
 import cc.hyperium.utils.JsonHolder;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityPlayerSP;
 
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Created by mitchellkatz on 6/21/17.
+ * Created by Mitchell Katz on 5/29/2017.
  */
-public class PingDisplay extends DisplayItem {
+public class TextItem extends DisplayItem {
 
-    public PingDisplay(JsonHolder raw, int ordinal) {
-        super(raw, ordinal);
+    private String text;
+
+
+    public TextItem(JsonHolder object, int ordinal) {
+        super(object, ordinal);
+        text = object.optString("text");
     }
 
 
-
-    @Override
-    public Dimension draw(int starX, double startY, boolean isConfig) {
-        EntityPlayerSP thePlayer = Minecraft.getMinecraft().thePlayer;
-        if (thePlayer != null) {
-            String string = "Ping: " + Minecraft.getMinecraft().getNetHandler().getPlayerInfo(Minecraft.getMinecraft().thePlayer.getUniqueID()).getResponseTime();
-            ElementRenderer.draw(starX, startY, string);
-            return new Dimension(Minecraft.getMinecraft().fontRendererObj.getStringWidth(string), 10);
-        }
-        return new Dimension(0, 0);
+    public Dimension draw(int x, double y, boolean isConfig) {
+        List<String> list = new ArrayList<>();
+        if (text.isEmpty())
+            list.add("Text is empty??");
+        else list.add(text);
+        ElementRenderer.draw(x, y, list);
+        return new Dimension(ElementRenderer.maxWidth(list), 10);
     }
 
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+        data.put("text", text);
+    }
 }

@@ -18,11 +18,11 @@
 
 package cc.hyperium.mods.chromahud;
 
-import cc.hyperium.mods.chromahud.displayitems.hyperium.chromahud.*;
-import cc.hyperium.utils.JsonHolder;
 import cc.hyperium.mods.chromahud.api.ChromaHUDDescription;
 import cc.hyperium.mods.chromahud.api.ChromaHUDParser;
 import cc.hyperium.mods.chromahud.api.DisplayItem;
+import cc.hyperium.mods.chromahud.displayitems.chromahud.*;
+import cc.hyperium.utils.JsonHolder;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -34,7 +34,7 @@ public class TrayManager {
     public void init() throws Exception {
         if (SystemTray.isSupported()) {
             Hyperium Hyperiumutils = new Hyperium();
-            tray = new TrayIcon(ImageIO.read(getClass().getResourceAsStream("/assets/Hyperium/icons/icon-16x.png")), ""); //resolution fix
+            tray = new TrayIcon(ImageIO.read(getClass().getResourceAsStream("/assets/hyperium/icons/icon-16x.png")), ""); //resolution fix
             PopupMenu menu = new PopupMenu();
 
             MenuItem aboutItem = new MenuItem("About");

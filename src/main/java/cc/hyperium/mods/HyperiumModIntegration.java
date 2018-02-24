@@ -18,6 +18,7 @@
 
 package cc.hyperium.mods;
 
+import cc.hyperium.mods.keystrokes.KeystrokesMod;
 import cc.hyperium.mods.skinchanger.SkinChangerMod;
 import cc.hyperium.mods.chromahud.ChromaHUD;
 import cc.hyperium.mods.levelhead.Levelhead;
@@ -38,11 +39,18 @@ public class HyperiumModIntegration {
     private ChromaHUD chromaHUD;
     private Levelhead levelhead;
     private Autotip autotip;
+
+    public KeystrokesMod getKeystrokesMod() {
+        return keystrokesMod;
+    }
+
+    private KeystrokesMod keystrokesMod;
     
     public HyperiumModIntegration() {
         this.chromaHUD = new ChromaHUD();
         this.levelhead = new Levelhead();
-
+        this.keystrokesMod  = new KeystrokesMod();
+        keystrokesMod.init();
         // ToggleChat implementation
         this.toggleChat = new ToggleChatMod().init();
         
