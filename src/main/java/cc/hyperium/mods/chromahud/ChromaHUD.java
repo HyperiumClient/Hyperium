@@ -18,6 +18,7 @@
 
 package cc.hyperium.mods.chromahud;
 
+import cc.hyperium.Hyperium;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.mods.chromahud.api.ButtonConfig;
 import cc.hyperium.mods.chromahud.api.DisplayItem;
@@ -42,7 +43,7 @@ public class ChromaHUD {
 
 
     private void init() {
-        suggestedConfigurationFile = new File("Hyperium/displayconfig.json");
+        suggestedConfigurationFile = new File(Hyperium.folder, "/displayconfig.json");
         ChromaHUDApi.getInstance();
         ChromaHUDApi.getInstance().register(new DefaultChromaHUDParser());
         ChromaHUDApi.getInstance().register(new HyperiumChromaHudParser());

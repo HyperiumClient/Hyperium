@@ -129,7 +129,6 @@ public class Hyperium {
         bwFinalKillMsg = Pattern.compile(".+? by .+?\\. FINAL KILL!");
         duelKillMsg = Pattern.compile(".+? was kill by .+?\\.");
 
-        folder = new File(Minecraft.getMinecraft().mcDataDir, "Hyperium");
         LOGGER.info("Hyperium Started!");
         Display.setTitle("Hyperium " + Metadata.getVersion());
 
