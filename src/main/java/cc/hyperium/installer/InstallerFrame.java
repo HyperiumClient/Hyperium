@@ -18,9 +18,9 @@
 
 package cc.hyperium.installer;
 
-import com.google.common.io.Files;
 import cc.hyperium.installer.components.MotionPanel;
 import cc.hyperium.installer.utils.DownloadTask;
+import com.google.common.io.Files;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -39,6 +39,7 @@ import java.util.*;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.regex.Pattern;
 
 /**
  * @author Cubxity
@@ -57,7 +58,8 @@ public class InstallerFrame extends JFrame implements PropertyChangeListener {
 
     /**
      * Constructor
-     * @param mcDir
+     *
+     * @param mcDir minecraft directory
      */
     InstallerFrame(String mcDir) {
         super.frameInit();
@@ -79,6 +81,7 @@ public class InstallerFrame extends JFrame implements PropertyChangeListener {
         try {
             install();
         } catch (Throwable ex) {
+            ex.printStackTrace();
             display.setText("EXCEPTION OCCURRED");
             error.setText(ex.getMessage());
             exit.setVisible(true);
@@ -129,12 +132,12 @@ public class InstallerFrame extends JFrame implements PropertyChangeListener {
         progressBar.setValue(40);
         display.setText("GETTING FILES");
         String versions_url = "https://raw.githubusercontent.com/HyperiumClient/Hyperium-Repo/master/installer/versions.json";
-        String channel = "latest-dev";
-        JSONObject versionsJson;
+        ReleaseChannel channel = InstallerMain.releaseChannel;
         AtomicReference<JSONObject> version = new AtomicReference<>();
-        File downloaded;
-
-        try {
+        String hash = null;
+        File builtJar = null;
+        try{
+            JSONObject versionsJson;
             versionsJson = new JSONObject(get(versions_url));
             JSONArray versionsArray = versionsJson.getJSONArray("versions");
             List<JSONObject> versionsObjects = new ArrayList<>();
@@ -142,50 +145,131 @@ public class InstallerFrame extends JFrame implements PropertyChangeListener {
                 versionsObjects.add((JSONObject) o);
 
             versionsObjects.forEach(o -> {
-                if (o.getString("name").equals(versionsJson.getString(channel)))
+                if (o.getString("name").equals(versionsJson.getString(channel!=ReleaseChannel.LOCAL ? channel.getRelease() : ReleaseChannel.DEV.getRelease())))
                     version.set(o);
             });
-            File dl = new File(
-                    new File(
-                            mc,
-                            "libraries"),
-                    version.get().getString("path").replaceAll("/Hyperium-.+?\\..+?\\.jar", ""));
-            System.out.println("Download dest folder = " + dl.getAbsolutePath());
-            //noinspection ResultOfMethodCallIgnored
-            dl.mkdirs();
-            DownloadTask task = new DownloadTask(
-                    version.get().getString("url"),
-                    dl.getAbsolutePath());
-            task.addPropertyChangeListener(this);
-            task.execute();
-            task.get();
-            downloaded = new File(dl, task.getFileName());
-            System.out.println("Download dest file = " + downloaded.getAbsolutePath());
-        } catch (IOException | InterruptedException | ExecutionException ex) {
+        }catch (IOException ex){
             ex.printStackTrace();
             display.setText("INSTALLATION FAILED");
-            error.setText("FAILED TO GATHER REQUIRED FILES");
+            error.setText("FAILED TO FETCH JSON DATA");
             exit.setVisible(true);
             return;
         }
-        display.setText("VERIFYING FILE");
-        String hash = toHex(checksum(downloaded, "SHA-256")).toLowerCase();
-        System.out.println("SHA-256 Checksum = " + hash);
-        if (!hash.equals(version.get().getString("sha256"))) {
+        if (channel == ReleaseChannel.LOCAL) {
+            File local = new File(channel.getRelease());
+            if(!local.exists()){
+                try {
+                    Process p = new ProcessBuilder("git", "clone", "https://github.com/HyperiumClient/Hyperium")
+                            .directory(local.getParentFile())
+                            .inheritIO()
+                            .redirectErrorStream(true)
+                            .start();
+                    if(p.waitFor()!=0)
+                        throw new IOException("Failed to clone Hyperium!");
+                } catch (IOException | InterruptedException e) {
+                    e.printStackTrace();
+                    display.setText("INSTALLATION FAILED");
+                    error.setText("FAILED TO CLONE HYPERIUM REPOSITORY");
+                    exit.setVisible(true);
+                    return;
+                }
+            }
+            progressBar.setValue(60);
+            display.setText("BUILDING LOCAL HYPERIUM");
+            try {
+                Process p = new ProcessBuilder(local.getAbsolutePath()+File.separator+"gradlew"+(System.getProperty("os.name").contains("dows")?".bat":""), "reobfJar")
+                        .directory(local)
+                        .inheritIO()
+                        .redirectErrorStream(true)
+                        .start();
+                if(p.waitFor()!=0)
+                    throw new IOException("Failed to build Hyperium!");
+            } catch (IOException | InterruptedException e) {
+                e.printStackTrace();
+                display.setText("INSTALLATION FAILED");
+                error.setText("FAILED TO BUILD LOCAL HYPERIUM");
+                exit.setVisible(true);
+                return;
+            }
+            progressBar.setValue(80);
+            display.setText("FINDING JAR...");
+            Pattern jar = Pattern.compile("Hyperium-.+?\\.jar");
+            builtJar = Arrays.stream(Objects.requireNonNull(new File(new File(local, "build"), "libs").listFiles()))
+                    .filter(f -> jar.matcher(f.getName()).matches())
+                    .min(Comparator.comparingLong(File::lastModified))
+                    .get();
+            progressBar.setValue(90);
+            display.setText("COPYING BUILT JAR");
+            try {
+                new File(new File(mc, "libraries"), "cc/hyperium/Hyperium/"+builtJar.getName().replace("Hyperium-", "")).mkdirs();
+                Files.copy(builtJar, new File(new File(mc, "libraries"), "cc/hyperium/Hyperium/"+builtJar.getName().replace("Hyperium-", "")+File.separator+builtJar.getName()));
+            } catch (IOException e) {
+                e.printStackTrace();
+                display.setText("INSTALLATION FAILED");
+                error.setText("FAILED TO COPY BUILT JAR");
+                return;
+            }
+        } else {
+            File downloaded;
+            try {
+                File dl = new File(
+                        new File(
+                                mc,
+                                "libraries"),
+                        version.get().getString("path").replaceAll("/Hyperium-.+?\\..+?\\.jar", ""));
+                System.out.println("Download dest folder = " + dl.getAbsolutePath());
+                //noinspection ResultOfMethodCallIgnored
+                dl.mkdirs();
+                DownloadTask task = new DownloadTask(
+                        version.get().getString("url"),
+                        dl.getAbsolutePath());
+                task.addPropertyChangeListener(this);
+                task.execute();
+                task.get();
+                downloaded = new File(dl, task.getFileName());
+                System.out.println("Download dest file = " + downloaded.getAbsolutePath());
+            } catch ( InterruptedException | ExecutionException ex) {
+                ex.printStackTrace();
+                display.setText("INSTALLATION FAILED");
+                error.setText("FAILED TO GATHER REQUIRED FILES");
+                exit.setVisible(true);
+                return;
+            }
+
+            display.setText("VERIFYING FILE");
+            hash = toHex(checksum(downloaded, "SHA-256")).toLowerCase();
+            System.out.println("SHA-256 Checksum = " + hash);
+            if (!hash.equals(version.get().getString("sha256"))) {
+                display.setText("INSTALLATION FAILED");
+                error.setText("FILE'S SHA256 CHECKSUM DOES NOT MATCH");
+                exit.setVisible(true);
+                return;
+            }
+            hash = toHex(checksum(downloaded, "SHA1")).toLowerCase();
+            System.out.println("SHA-1 Checksum = " + hash);
+            if (!hash.equals(version.get().getString("sha1"))) {
+                display.setText("INSTALLATION FAILED");
+                error.setText("FILE'S SHA1 CHECKSUM DOES NOT MATCH");
+                exit.setVisible(true);
+                return;
+            }
+        }
+        File optifine;
+        try {
+            optifine = File.createTempFile("Optifine", ".jar");
+            InputStream is = InstallerMain.class.getResourceAsStream("/mods/OptiFine_1.8.9_HD_U_I3.jarx");
+            byte[] buffer = new byte[is.available()];
+            is.read(buffer);
+            OutputStream outStream = new FileOutputStream(optifine);
+            outStream.write(buffer);
+            optifine.deleteOnExit();
+        } catch (Exception e) {
+            e.printStackTrace();
             display.setText("INSTALLATION FAILED");
-            error.setText("FILE'S SHA256 CHECKSUM DOES NOT MATCH");
+            error.setText("FAILED TO FIND OPTIFINE FILE");
             exit.setVisible(true);
             return;
         }
-        hash = toHex(checksum(downloaded, "SHA1")).toLowerCase();
-        System.out.println("SHA-1 Checksum = " + hash);
-        if (!hash.equals(version.get().getString("sha1"))) {
-            display.setText("INSTALLATION FAILED");
-            error.setText("FILE'S SHA1 CHECKSUM DOES NOT MATCH");
-            exit.setVisible(true);
-            return;
-        }
-        File optifine = new File(InstallerMain.class.getResource("/mods/OptiFine_1.8.9_HD_U_I3.jar").getFile());
         progressBar.setValue(91);
         display.setText("COPYING FILES");
         target.mkdir();
@@ -208,8 +292,8 @@ public class InstallerFrame extends JFrame implements PropertyChangeListener {
         builder.redirectErrorStream(true);
         Process proc;
         try {
-             proc = builder.start();
-            if(proc.waitFor()!=0)
+            proc = builder.start();
+            if (proc.waitFor() != 0)
                 throw new IOException("Failed to install optifine");
         } catch (InterruptedException | IOException e) {
             e.printStackTrace();
@@ -233,13 +317,14 @@ public class InstallerFrame extends JFrame implements PropertyChangeListener {
             return;
         }
         JSONObject lib = new JSONObject();
-        lib.put("name", version.get().getString("artifact-name"));
-        lib.put("downloads", new JSONObject().put("artifact", new JSONObject()
-                .put("size", version.get().getLong("size"))
-                .put("sha1", hash)
-                .put("path", version.get().getString("path"))
-                .put("url", version.get().getString("url"))
-        ));
+        lib.put("name", channel == ReleaseChannel.LOCAL ? "cc.hyperium:Hyperium:"+builtJar.getName().replace("Hyperium-", "") : version.get().getString("artifact-name"));
+        if (version.get()!=null && hash != null)
+            lib.put("downloads", new JSONObject().put("artifact", new JSONObject()
+                    .put("size", version.get().getLong("size"))
+                    .put("sha1", hash)
+                    .put("path", version.get().getString("path"))
+                    .put("url", version.get().getString("url"))
+            ));
         JSONArray libs = json.getJSONArray("libraries");
         libs.put(lib);
         libs.put(new JSONObject().put("name", "net.minecraft:launchwrapper:1.7"));
@@ -282,7 +367,7 @@ public class InstallerFrame extends JFrame implements PropertyChangeListener {
      * @return default minecraft directory for every OS
      */
     private File getMinecraftDir() {
-        if(mcDir!=null)
+        if (mcDir != null)
             return new File(mcDir);
         switch (OsCheck.getOperatingSystemType()) {
             case Linux:

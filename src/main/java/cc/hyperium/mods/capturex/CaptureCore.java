@@ -55,7 +55,7 @@ public class CaptureCore {
         queueWorker.start();
     }
 
-    @InvokeEvent
+   // @InvokeEvent
     public void onTick(RenderEvent event){
         // 1 seconds backward
         if(backwardsBuffer.size() > 20)

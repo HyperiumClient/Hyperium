@@ -48,7 +48,9 @@ public class CompactChat {
             this.lastMessage = event.getChat().getUnformattedText();
         }
         this.line++;
-        guiNewChat.printChatMessageWithOptionalDeletion(event.getChat(), line);
+        if(!event.isCancelled()) {
+            guiNewChat.printChatMessageWithOptionalDeletion(event.getChat(), line);
+        }
         if(line > 256) line = 0; // yeah...
         event.setCancelled(true);
     }

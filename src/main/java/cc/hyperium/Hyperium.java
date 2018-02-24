@@ -39,6 +39,7 @@ import cc.hyperium.mixins.MixinKeyBinding;
 import cc.hyperium.mods.HyperiumModIntegration;
 import cc.hyperium.mods.ToggleSprintContainer;
 import cc.hyperium.mods.capturex.CaptureCore;
+import cc.hyperium.mods.crosshair.CrosshairMod;
 import cc.hyperium.mods.discord.RichPresenceManager;
 import cc.hyperium.mods.levelhead.commands.LevelHeadCommand;
 import cc.hyperium.mods.perspective.PerspectiveModifierContainer;
@@ -117,6 +118,7 @@ public class Hyperium {
         EventBus.INSTANCE.register(notification);
         EventBus.INSTANCE.register(captureCore = new CaptureCore());
         EventBus.INSTANCE.register(CompactChat.getInstance());
+        EventBus.INSTANCE.register(CrosshairMod.getInstance());
         EventBus.INSTANCE.register(CONFIG.register(FPSLimiter.getInstance()));
         EventBus.INSTANCE.register(perspective = new PerspectiveModifierContainer());
 
@@ -127,7 +129,6 @@ public class Hyperium {
         bwFinalKillMsg = Pattern.compile(".+? by .+?\\. FINAL KILL!");
         duelKillMsg = Pattern.compile(".+? was kill by .+?\\.");
 
-        folder = new File(Minecraft.getMinecraft().mcDataDir, "Hyperium");
         LOGGER.info("Hyperium Started!");
         Display.setTitle("Hyperium " + Metadata.getVersion());
 
@@ -304,7 +305,7 @@ public class Hyperium {
 
     public void trayDisplayAboutInfo() {
         JOptionPane popup = new JOptionPane();
-        JOptionPane.showMessageDialog(popup, "HypixelCommunityClient", "Hyperium - About", JOptionPane.PLAIN_MESSAGE);
+        JOptionPane.showMessageDialog(popup, "Hyperium Client", "Hyperium - About", JOptionPane.PLAIN_MESSAGE);
     }
 
     public boolean isAcceptedTos() {

@@ -16,7 +16,7 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package cc.hyperium.mods.chromahud.displayitems.Hyperium.chromahud;
+package cc.hyperium.mods.chromahud.displayitems.hyperium.chromahud;
 
 
 import cc.hyperium.mods.chromahud.ElementRenderer;
@@ -25,26 +25,41 @@ import cc.hyperium.mods.chromahud.api.DisplayItem;
 import cc.hyperium.utils.JsonHolder;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Created by mitchellkatz on 6/21/17.
+ * Created by mitchellkatz on 6/25/17.
  */
-public class PingDisplay extends DisplayItem {
+public class ArrowCount extends DisplayItem {
+    private JsonHolder data;
 
-    public PingDisplay(JsonHolder raw, int ordinal) {
-        super(raw, ordinal);
+    public ArrowCount(JsonHolder data, int ordinal) {
+        super(data, ordinal);
+        this.data = data;
     }
-
 
 
     @Override
     public Dimension draw(int starX, double startY, boolean isConfig) {
+        List<ItemStack> list = new ArrayList<>();
+        list.add(new ItemStack(Item.getItemById(262), 64));
         EntityPlayerSP thePlayer = Minecraft.getMinecraft().thePlayer;
         if (thePlayer != null) {
-            String string = "Ping: " + Minecraft.getMinecraft().getNetHandler().getPlayerInfo(Minecraft.getMinecraft().thePlayer.getUniqueID()).getResponseTime();
-            ElementRenderer.draw(starX, startY, string);
-            return new Dimension(Minecraft.getMinecraft().fontRendererObj.getStringWidth(string), 10);
+            int c = 0;
+            for (ItemStack is : thePlayer.inventory.mainInventory) {
+                if (is != null) {
+                    if (is.getUnlocalizedName().equalsIgnoreCase("item.arrow"))
+                        c += is.stackSize;
+                }
+
+            }
+            ElementRenderer.render(list, starX, startY, false);
+            ElementRenderer.draw(starX + 16, startY + 8, "x" + (isConfig ? 64:c));
+            return new Dimension(16, 16);
         }
         return new Dimension(0, 0);
     }

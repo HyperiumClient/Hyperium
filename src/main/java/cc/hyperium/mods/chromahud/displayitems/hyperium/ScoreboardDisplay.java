@@ -16,7 +16,7 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package cc.hyperium.mods.chromahud.displayitems.Hyperium;
+package cc.hyperium.mods.chromahud.displayitems.hyperium;
 
 import cc.hyperium.utils.JsonHolder;
 import com.google.common.collect.Iterables;
