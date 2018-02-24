@@ -50,7 +50,7 @@ public abstract class HyperiumChatHandler {
                     e.printStackTrace();
                 }
             }
-            handlers.getRemoteResourcesHandler().getResourceAsync("chat_regex", RemoteResourcesHandler.ResourceType.TEXT, HyperiumResource -> {
+            handlers.getRemoteResourcesHandler().getResourceAsync("chat_regex.json", RemoteResourcesHandler.ResourceType.TEXT, HyperiumResource -> {
                 regexs = HyperiumResource;
                 guildChatPattern = Pattern.compile(regexs.getasJson().optString("guild_chat"));
                 partyChatPattern = Pattern.compile(regexs.getasJson().optString("party_chat"));

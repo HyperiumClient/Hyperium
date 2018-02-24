@@ -39,7 +39,7 @@ import java.util.function.Consumer;
 public class RemoteResourcesHandler {
 
     /*
-    Use this for downloading resources that should not be hard coded.
+    Use this for downloading resources.json that should not be hard coded.
     Cache times are only valid when attempting to load from file. If their game is open, it will always the version in memory.
 
      */
@@ -55,7 +55,7 @@ public class RemoteResourcesHandler {
         Multithreading.runAsync(() -> {
             int attempts = 0;
             while (attempts < 10) {
-                HyperiumResource resource = create("resources", ResourceType.TEXT);
+                HyperiumResource resource = create("resources.json", ResourceType.TEXT);
                 if (resource.isSuccessfullyLoaded()) {
                     this.resourceData = resource.getasJson();
                     break;
@@ -74,8 +74,8 @@ public class RemoteResourcesHandler {
                         "Please restart your game.");
                 return;
             }
-            for (String name : resourceData.optJSONObject("resources").getKeys()) {
-                JsonHolder holder = resourceData.optJSONObject("resources").optJSONObject(name);
+            for (String name : resourceData.optJSONObject("resources.json").getKeys()) {
+                JsonHolder holder = resourceData.optJSONObject("resources.json").optJSONObject(name);
                 for (String s : holder.getJsonArrayAsStringList("urls")) {
                     urlToName.put(s, name.toLowerCase());
                 }
@@ -95,7 +95,7 @@ public class RemoteResourcesHandler {
                     else System.out.println("Failed to load Hyperium Resource " + s);
                 }));
             }
-            saveTextFile(this.resourceData.toString(), "resources");
+            saveTextFile(this.resourceData.toString(), "resources.json");
         });
 
     }
@@ -189,7 +189,7 @@ public class RemoteResourcesHandler {
                 }
             }
             //resource file
-            if (!s1.endsWith("resources"))
+            if (!s1.endsWith("resources.json"))
                 saveTextFile(s1, decodeName(url));
             return new HyperiumResource(s1, success);
         } else if (type == ResourceType.IMAGE) {
