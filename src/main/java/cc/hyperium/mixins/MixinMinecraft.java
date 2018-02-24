@@ -159,8 +159,8 @@ public abstract class MixinMinecraft {
             InputStream inputstream = null;
             InputStream inputstream1 = null;
             try {
-                inputstream = Minecraft.class.getResourceAsStream("/assets/Hyperium/icons/icon-16x.png");
-                inputstream1 = Minecraft.class.getResourceAsStream("/assets/Hyperium/icons/icon-32x.png");
+                inputstream = Minecraft.class.getResourceAsStream("/assets/hyperium/icons/icon-16x.png");
+                inputstream1 = Minecraft.class.getResourceAsStream("/assets/hyperium/icons/icon-32x.png");
 
                 if (inputstream != null && inputstream1 != null) {
                     Display.setIcon(new ByteBuffer[]{Utils.INSTANCE.readImageToBuffer(inputstream),
