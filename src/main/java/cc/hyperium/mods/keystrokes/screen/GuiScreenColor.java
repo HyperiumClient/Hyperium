@@ -1,6 +1,5 @@
 package cc.hyperium.mods.keystrokes.screen;
 
-import cc.hyperium.mods.keystrokes.utils.IScrollable;
 import cc.hyperium.mods.keystrokes.KeystrokesMod;
 
 import net.minecraft.client.Minecraft;
@@ -12,21 +11,27 @@ import java.io.IOException;
 
 public class GuiScreenColor extends GuiScreen {
 
+    private final KeystrokesMod mod; // OOP
+    
     private IScrollable scrollable1; // Red
     private IScrollable scrollable2; // Green
     private IScrollable scrollable3; // Blue
     private IScrollable scrollable4; // Gamma
 
-    private boolean updated = false;
+    private boolean updated = false; // Have the values been changed?
 
-    GuiScreenColor(IScrollable scrollable1, IScrollable scrollable2, IScrollable scrollable3) {
+    GuiScreenColor(KeystrokesMod mod, IScrollable scrollable1, IScrollable scrollable2, IScrollable scrollable3) {
+        this.mod = mod;
+        
         this.scrollable1 = scrollable1;
         this.scrollable2 = scrollable2;
         this.scrollable3 = scrollable3;
         this.scrollable4 = null;
     }
 
-    GuiScreenColor(IScrollable scrollable1, IScrollable scrollable2, IScrollable scrollable3, IScrollable scrollable4) {
+    GuiScreenColor(KeystrokesMod mod, IScrollable scrollable1, IScrollable scrollable2, IScrollable scrollable3, IScrollable scrollable4) {
+        this.mod = mod;
+        
         this.scrollable1 = scrollable1;
         this.scrollable2 = scrollable2;
         this.scrollable3 = scrollable3;
@@ -76,7 +81,7 @@ public class GuiScreenColor extends GuiScreen {
     protected void actionPerformed(GuiButton button) {
         switch (button.id) {
             case 4:
-                Minecraft.getMinecraft().displayGuiScreen(new GuiScreenKeystrokes());
+                Minecraft.getMinecraft().displayGuiScreen(new GuiScreenKeystrokes(this.mod));
                 break;
             default:
                 break;
@@ -86,7 +91,7 @@ public class GuiScreenColor extends GuiScreen {
     @Override
     protected void keyTyped(char typedChar, int keyCode) throws IOException {
         if (keyCode == 1) {
-            Minecraft.getMinecraft().displayGuiScreen(new GuiScreenKeystrokes());
+            Minecraft.getMinecraft().displayGuiScreen(new GuiScreenKeystrokes(this.mod));
         } else {
             super.keyTyped(typedChar, keyCode);
         }
@@ -94,14 +99,14 @@ public class GuiScreenColor extends GuiScreen {
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-        KeystrokesMod.getRenderer().renderKeystrokes();
+        this.mod.getRenderer().renderKeystrokes();
         super.drawScreen(mouseX, mouseY, partialTicks);
     }
 
     @Override
     public void onGuiClosed() {
         if (this.updated) {
-            KeystrokesMod.getSettings().save();
+            this.mod.getSettings().save();
         }
     }
 
