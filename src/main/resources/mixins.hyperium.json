@@ -11,6 +11,7 @@
     "MixinKeyBinding",
     "MixinScreenShotHelper",
     "MixinEnchantment",
+    "MixinFrameBuffer",
 
     "gui.MixinGuiConnecting",
     "gui.MixinGuiDisconnecting",

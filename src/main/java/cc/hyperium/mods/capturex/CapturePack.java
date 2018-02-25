@@ -21,6 +21,7 @@ package cc.hyperium.mods.capturex;
 import cc.hyperium.mods.capturex.render.FrameRenderer;
 import net.minecraft.client.shader.Framebuffer;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.Arrays;
 import java.util.Objects;
@@ -28,8 +29,8 @@ import java.util.Queue;
 
 public class CapturePack {
     private Long timestamp;
-    private Queue<Framebuffer> framebufferQueue;
-    CapturePack(final Queue<Framebuffer> framebufferQueue){
+    private Queue<BufferedImage> framebufferQueue;
+    CapturePack(final Queue<BufferedImage> framebufferQueue){
         this.framebufferQueue = framebufferQueue;
         this.timestamp = System.currentTimeMillis();
     }

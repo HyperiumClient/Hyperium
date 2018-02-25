@@ -36,24 +36,20 @@ import java.nio.IntBuffer;
 public class FrameRenderer {
     private static IntBuffer pixelBuffer;
     private static int[] pixelValues;
-    public static File render(final Long timestamp, final int n, final Framebuffer buffer) {
-        Minecraft mc = Minecraft.getMinecraft();
-        ScaledResolution sr = new ScaledResolution(mc);
+    public static File render(final Long timestamp, final int n, final BufferedImage buffer) {
         try {
             File file1 = new File(CaptureCore.captureXDir, "kill-" + timestamp);
             file1.mkdir();
-            BufferedImage bufferedimage= mc.addScheduledTask(()->getImageFromFrameBuffer(buffer,mc.displayWidth,mc.displayHeight)).get();
             File file2;
             file2 = new File(file1, String.format("img0%02d.png", n));
-
-            ImageIO.write(bufferedimage, "png", file2);
+            ImageIO.write(buffer, "png", file2);
             return file2;
         } catch (Exception ex) {
             ex.printStackTrace();
             return null;
         }
     }
-    private synchronized static BufferedImage getImageFromFrameBuffer(Framebuffer buffer, int width, int height) {
+    public synchronized static BufferedImage getImageFromFrameBuffer(Framebuffer buffer, int width, int height) {
         int k = buffer.framebufferTextureWidth * buffer.framebufferTextureHeight;
         if (pixelBuffer == null || pixelBuffer.capacity() < k) {
             pixelBuffer = BufferUtils.createIntBuffer(k);

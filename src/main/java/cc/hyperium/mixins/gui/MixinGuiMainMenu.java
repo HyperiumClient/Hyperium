@@ -18,10 +18,12 @@
 
 package cc.hyperium.mixins.gui;
 
+import cc.hyperium.GuiStyle;
 import cc.hyperium.Hyperium;
 import cc.hyperium.Metadata;
 import cc.hyperium.gui.GuiBlock;
 import cc.hyperium.gui.ModConfigGui;
+import cc.hyperium.gui.settings.items.GeneralSetting;
 import cc.hyperium.utils.ChatColor;
 import cc.hyperium.utils.RenderUtils;
 import net.minecraft.client.Minecraft;
@@ -48,7 +50,6 @@ import java.awt.*;
 
 @Mixin(GuiMainMenu.class)
 public abstract class MixinGuiMainMenu extends GuiScreen implements GuiYesNoCallback {
-    ;
     boolean overLast = false;
     @Shadow
     private ResourceLocation backgroundTexture;
@@ -80,6 +81,7 @@ public abstract class MixinGuiMainMenu extends GuiScreen implements GuiYesNoCall
     private FontRenderer fontRendererObj = Minecraft.getMinecraft().fontRendererObj;
     private GuiButton hypixelButton;
     private boolean clickedCheckBox = false;
+    private GuiStyle style;
 
     /**
      * Override initGui
@@ -88,6 +90,7 @@ public abstract class MixinGuiMainMenu extends GuiScreen implements GuiYesNoCall
      */
     @Overwrite
     public void initGui() {
+        style = GuiStyle.valueOf(GeneralSetting.menuStyle);
         this.viewportTexture = new DynamicTexture(256, 256);
         this.backgroundTexture = this.mc.getTextureManager().getDynamicTextureLocation("background", this.viewportTexture);
         int j = this.height / 4 + 48;
@@ -98,8 +101,17 @@ public abstract class MixinGuiMainMenu extends GuiScreen implements GuiYesNoCall
             this.addSingleplayerMultiplayerButtons(j - 10, 24);
         }
 
-        this.buttonList.add(new GuiButton(0, this.width / 2 - 100, j + 72 + 12 + 24 - 5, 98, 20, I18n.format("menu.options")));
-        this.buttonList.add(new GuiButton(4, this.width / 2 + 2, j + 72 + 12 + 24 - 5, 98, 20, I18n.format("menu.quit")));
+        switch (style){
+            case DEFAULT:
+                addDefaultStyleOptionsButton(j);
+                break;
+            case CENTERED:
+                addCenteredStyleOptionsButton(j);
+                break;
+            case LEFT_SIDED:
+                addLeftSidedStyleOptionsButton(j);
+                break;
+        }
 
         synchronized (this.threadLock) {
             this.field_92023_s = this.fontRendererObj.getStringWidth(this.openGLWarning1);
@@ -132,11 +144,17 @@ public abstract class MixinGuiMainMenu extends GuiScreen implements GuiYesNoCall
      */
     @Overwrite
     private void addSingleplayerMultiplayerButtons(int p_73969_1_, int p_73969_2_) {
-        this.buttonList.add(new GuiButton(1, this.width / 2 - 100, p_73969_1_, I18n.format("menu.singleplayer")));
-        this.buttonList.add(new GuiButton(2, this.width / 2 - 100, p_73969_1_ + p_73969_2_, I18n.format("menu.multiplayer")));
-        //Change realms button ID to 16 to avoid conflicts
-        this.buttonList.add(this.hypixelButton = new GuiButton(16, this.width / 2 - 100, p_73969_1_ + p_73969_2_ * 2, I18n.format("Join Hypixel")));
-        this.buttonList.add(new GuiButton(15, this.width / 2 - 100, p_73969_1_ + p_73969_2_ * 3, I18n.format("Hyperium Settings")));
+        switch (style){
+            case DEFAULT:
+                addDefaultStyleSingleplayerMultiplayerButtons(p_73969_1_, p_73969_2_);
+                break;
+            case CENTERED:
+                addCenteredStyleSingleplayerMultiplayerButtons(p_73969_1_, p_73969_2_);
+                break;
+            case LEFT_SIDED:
+                addLeftSidedStyleSingleplayerMultiplayerButtons(p_73969_1_, p_73969_2_);
+                break;
+        }
     }
 
 
@@ -148,6 +166,72 @@ public abstract class MixinGuiMainMenu extends GuiScreen implements GuiYesNoCall
      */
     @Overwrite
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+        switch (style){
+            case DEFAULT:
+                drawDefaultStyleScreen(mouseX, mouseY, partialTicks);
+                break;
+            case CENTERED:
+                drawCenteredStyleScreen(mouseX, mouseY, partialTicks);
+                break;
+            case LEFT_SIDED:
+                drawLeftSidedStyleScreen(mouseX, mouseY, partialTicks);
+                break;
+        }
+    }
+
+    @Inject(method = "actionPerformed", at = @At("HEAD"))
+    private void actionPerformed(GuiButton button, CallbackInfo ci) {
+        if (!Hyperium.INSTANCE.isAcceptedTos())
+            return;
+        switch (style){
+            case DEFAULT:
+                if (button.id == 15)
+                    mc.displayGuiScreen(new ModConfigGui());
+                if (button.id == 16)
+                    Minecraft.getMinecraft().displayGuiScreen(new GuiConnecting(new GuiMainMenu(), Minecraft.getMinecraft(), Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) ? "stuck.hypixel.net" : "mc.hypixel.net", 25565));
+                break;
+            case LEFT_SIDED:
+                break;
+            case CENTERED:
+                break;
+        }
+
+    }
+
+    private void addCenteredStyleSingleplayerMultiplayerButtons(int p_73969_1_, int p_73969_2_){
+
+    }
+
+    private void addDefaultStyleSingleplayerMultiplayerButtons(int p_73969_1_, int p_73969_2_){
+        this.buttonList.add(new GuiButton(1, this.width / 2 - 100, p_73969_1_, I18n.format("menu.singleplayer")));
+        this.buttonList.add(new GuiButton(2, this.width / 2 - 100, p_73969_1_ + p_73969_2_, I18n.format("menu.multiplayer")));
+        //Change realms button ID to 16 to avoid conflicts
+        this.buttonList.add(this.hypixelButton = new GuiButton(16, this.width / 2 - 100, p_73969_1_ + p_73969_2_ * 2, I18n.format("Join Hypixel")));
+        this.buttonList.add(new GuiButton(15, this.width / 2 - 100, p_73969_1_ + p_73969_2_ * 3, I18n.format("Hyperium Settings")));
+    }
+
+    private void addLeftSidedStyleSingleplayerMultiplayerButtons(int p_73969_1_, int p_73969_2_){
+
+    }
+
+    private void addCenteredStyleOptionsButton(int j){
+
+    }
+
+    private void addDefaultStyleOptionsButton(int j){
+        this.buttonList.add(new GuiButton(0, this.width / 2 - 100, j + 72 + 12 + 24 - 5, 98, 20, I18n.format("menu.options")));
+        this.buttonList.add(new GuiButton(4, this.width / 2 + 2, j + 72 + 12 + 24 - 5, 98, 20, I18n.format("menu.quit")));
+    }
+
+    private void addLeftSidedStyleOptionsButton(int j){
+
+    }
+
+    private void drawCenteredStyleScreen(int mouseX, int mouseY, float partialTicks){
+
+    }
+
+    private void drawDefaultStyleScreen(int mouseX, int mouseY, float partialTicks){
         GlStateManager.disableAlpha();
         this.renderSkybox(mouseX, mouseY, partialTicks);
         GlStateManager.enableAlpha();
@@ -194,19 +278,10 @@ public abstract class MixinGuiMainMenu extends GuiScreen implements GuiYesNoCall
             overLast = Mouse.isButtonDown(0);
         } else
             super.drawScreen(mouseX, mouseY, partialTicks);
-
-
     }
 
-    @Inject(method = "actionPerformed", at = @At("HEAD"))
-    private void actionPerformed(GuiButton button, CallbackInfo ci) {
-        if (!Hyperium.INSTANCE.isAcceptedTos())
-            return;
-        if (button.id == 15)
-            mc.displayGuiScreen(new ModConfigGui());
-        if (button.id == 16) {
-            Minecraft.getMinecraft().displayGuiScreen(new GuiConnecting(new GuiMainMenu(), Minecraft.getMinecraft(), Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) ? "stuck.hypixel.net" : "mc.hypixel.net", 25565));
-        }
+    private void drawLeftSidedStyleScreen(int mouseX, int mouseY, float partialTicks){
+
     }
 
     @Shadow

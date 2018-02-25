@@ -23,25 +23,30 @@ import cc.hyperium.event.HypixelKillEvent;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.RenderEvent;
 import cc.hyperium.mods.capturex.render.FFMpegHelper;
+import cc.hyperium.mods.capturex.render.FrameRenderer;
 import com.google.common.collect.Queues;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListenableFutureTask;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.shader.Framebuffer;
 import net.minecraft.util.Util;
+import org.apache.commons.lang3.SerializationUtils;
 import org.apache.commons.lang3.Validate;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.Serializable;
 import java.util.ArrayDeque;
 import java.util.Queue;
 import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.FutureTask;
 
 public class CaptureCore {
     public static final File captureXDir = new File(Minecraft.getMinecraft().mcDataDir, "captureX");
     private final Queue<FutureTask<?>> scheduledTasks = Queues.newArrayDeque();
-    private Queue<Framebuffer> backwardsBuffer = new ArrayDeque<>();
+    private Queue<BufferedImage> backwardFrames = new ArrayDeque<>();
     private FFMpegHelper FFMpeg = new FFMpegHelper();
     private Thread queueWorker;
 
@@ -55,19 +60,23 @@ public class CaptureCore {
         queueWorker.start();
     }
 
-   // @InvokeEvent
+    @InvokeEvent
     public void onTick(RenderEvent event){
         // 1 seconds backward
-        if(backwardsBuffer.size() > 20)
-            backwardsBuffer.poll();
+        if(backwardFrames.size() > 20)
+            backwardFrames.poll();
         Minecraft mc = Minecraft.getMinecraft();
-        final Framebuffer fb = new Framebuffer(mc.displayWidth, mc.displayHeight, mc.getFramebuffer().useDepth);
-        backwardsBuffer.add(fb);
+        final Framebuffer fb = (Framebuffer) SerializationUtils.clone((Serializable) mc.getFramebuffer());
+        try {
+            backwardFrames.add(mc.addScheduledTask(()->FrameRenderer.getImageFromFrameBuffer(fb, mc.displayWidth, mc.displayHeight)).get());
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
     }
 
     @InvokeEvent
     public void onKill(HypixelKillEvent event) {
-        final Queue<Framebuffer> finalBackwardsBuffer = new ArrayDeque<>(backwardsBuffer);
+        final Queue<BufferedImage> finalBackwardsBuffer = new ArrayDeque<>(backwardFrames);
         addScheduledTask(() -> {
             try {
                 Hyperium.INSTANCE.getNotification().display("CaptureX", "Rendering kill", 3);
