@@ -30,12 +30,12 @@ public class CommandConfigGui implements BaseCommand {
     
     @Override
     public String getName() {
-        return "Hyperiumconfig";
+        return "hyperiumconfig";
     }
     
     @Override
     public String getUsage() {
-        return "Hyperiumconfig";
+        return "hyperiumconfig";
     }
     
     @Override
