@@ -248,7 +248,7 @@ public abstract class MixinGuiMainMenu extends GuiScreen implements GuiYesNoCall
         String s1 = "Not affiliated with Mojang AB.";
         this.drawString(this.fontRendererObj, s1, this.width - this.fontRendererObj.getStringWidth(s1) - 2, this.height - 10, -1);
         String s3 = "Made by Sk1er, Kevin, Cubxity, CoalOres and boomboompower";
-        this.drawString(this.fontRendererObj, s3, this.width - this.fontRendererObj.getStringWidth(s1) - 2, this.height - 20, -1);
+        this.drawString(this.fontRendererObj, s3, this.width - this.fontRendererObj.getStringWidth(s3) - 2, this.height - 20, -1);
         this.hypixelButton.displayString = Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) ? "Fix Hypixel Session" : "Join Hypixel";
         if (!Hyperium.INSTANCE.isAcceptedTos()) {
             drawCenteredString(this.fontRendererObj, ChatColor.RED + "By continuing, you acknowledge this client is " + ChatColor.BOLD + "USE AT YOUR OWN RISK", width / 2, 90, Color.WHITE.getRGB());
