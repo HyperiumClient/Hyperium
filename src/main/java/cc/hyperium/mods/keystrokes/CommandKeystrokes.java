@@ -1,43 +1,28 @@
 package cc.hyperium.mods.keystrokes;
 
 import cc.hyperium.commands.BaseCommand;
-import cc.hyperium.commands.CommandException;
-import net.minecraft.command.ICommandSender;
+import cc.hyperium.mods.keystrokes.screen.GuiScreenKeystrokes;
 
 public class CommandKeystrokes implements BaseCommand {
-
-    public String getCommandName() {
-        return "keystrokesmod";
+    
+    private final KeystrokesMod mod;
+    
+    public CommandKeystrokes(KeystrokesMod mod) {
+        this.mod = mod;
     }
-
-    public String getCommandUsage(ICommandSender sender) {
-        return getCommandName();
-    }
-
-    public void processCommand(ICommandSender sender, String[] args) {
-        KeystrokesMod.openGui();
-    }
-
-    public int getRequiredPermissionLevel() {
-        return 0;
-    }
-
-    public boolean canCommandSenderUseCommand(ICommandSender sender) {
-        return true;
-    }
-
+    
     @Override
     public String getName() {
-        return getCommandName();
+        return "keystrokesmod";
     }
-
+    
     @Override
     public String getUsage() {
-        return getCommandUsage(null);
+        return "Usage: " + getName();
     }
-
+    
     @Override
-    public void onExecute(String[] args) throws CommandException {
-        processCommand(null,args);
+    public void onExecute(String[] args) {
+        new GuiScreenKeystrokes(this.mod).display();
     }
 }

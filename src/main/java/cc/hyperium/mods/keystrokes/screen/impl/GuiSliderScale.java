@@ -10,10 +10,10 @@ public class GuiSliderScale extends GuiSlider {
     private final KeystrokesSettings settings;
     private final GuiScreenKeystrokes keystrokesGui;
 
-    public GuiSliderScale(int id, int xPos, int yPos, int width, int height, GuiScreenKeystrokes keystrokes) {
-        super(id, xPos, yPos, width, height, "Scale: ", "%", 50, 150, KeystrokesMod.getSettings().getScale() * 100.0D, false, true);
+    public GuiSliderScale(KeystrokesMod mod, int id, int xPos, int yPos, int width, int height, GuiScreenKeystrokes keystrokes) {
+        super(id, xPos, yPos, width, height, "Scale: ", "%", 50, 150, mod.getSettings().getScale() * 100.0D, false, true);
 
-        this.settings = KeystrokesMod.getSettings();
+        this.settings = mod.getSettings();
         this.keystrokesGui = keystrokes;
     }
 

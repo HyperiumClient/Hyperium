@@ -2,78 +2,74 @@ package cc.hyperium.mods.keystrokes;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.event.EventBus;
-import cc.hyperium.event.InvokeEvent;
-import cc.hyperium.event.TickEvent;
+import cc.hyperium.mods.IBaseMod;
 import cc.hyperium.mods.keystrokes.config.KeystrokesSettings;
 import cc.hyperium.mods.keystrokes.render.KeystrokesRenderer;
-import cc.hyperium.mods.keystrokes.screen.GuiScreenKeystrokes;
-import cc.hyperium.mods.keystrokes.utils.AntiReflection;
 import cc.hyperium.mods.sk1ercommon.Sk1erMod;
-import net.minecraft.client.Minecraft;
+import cc.hyperium.utils.ChatColor;
 
-import java.io.File;
-
-public class KeystrokesMod {
-
-    public static final String MOD_ID = "keystrokesmod";
-    public static final String MOD_NAME = "KeystrokesMod";
-    public static final String VERSION = "4.1.1";
-
-    @AntiReflection.HiddenField
-    private static KeystrokesSettings settings;
-
-    @AntiReflection.HiddenField
-    private static KeystrokesRenderer renderer;
-
-    @AntiReflection.HiddenField
-    private static boolean openGui;
-
+public class KeystrokesMod extends IBaseMod {
+    
+    /**
+     * The mods metadata
+     */
+    private final Metadata metaData;
+    
+    private KeystrokesSettings config;
+    private KeystrokesRenderer renderer;
+    
+    /**
+     * Default constructor, this will load the mods metadata
+     */
     public KeystrokesMod() {
+        Metadata data = new Metadata(this, "KeystrokesMod", "4.1.1", "Fyu, boomboompower and Sk1er");
+        
+        data.setDisplayName(ChatColor.AQUA + "SkinChanger");
+        
+        this.metaData = data;
     }
-
-    @AntiReflection.HiddenMethod
-    public static KeystrokesSettings getSettings() {
-        return settings;
+    
+    /**
+     * Init method, loads configs and events for the KeystrokesMod
+     *
+     * @return this mods instance
+     */
+    @Override
+    public IBaseMod init() {
+        this.config = new KeystrokesSettings(this, Hyperium.folder);
+        this.config.load();
+        
+        new Sk1erMod("keystrokesmod", "4.1.1").checkStatus();
+        
+        this.renderer = new KeystrokesRenderer(this);
+        
+        EventBus.INSTANCE.register(this.renderer);
+        
+        Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(new CommandKeystrokes(this));
+        
+        return this;
     }
-
-    @AntiReflection.HiddenMethod
-    public static KeystrokesRenderer getRenderer() {
-        return renderer;
+    
+    @Override
+    public Metadata getModMetadata() {
+        return this.metaData;
     }
-
-    @AntiReflection.HiddenMethod
-    public static void openGui() {
-        openGui = true;
+    
+    /**
+     * Getter for the Keystrokes settings
+     *
+     * @return the keystrokes settings
+     */
+    public KeystrokesSettings getSettings() {
+        return this.config;
     }
-
-    @AntiReflection.HiddenMethod
-    public static File getMainDir() {
-        return new File(".", "mods" + File.separatorChar + KeystrokesMod.MOD_ID + File.separatorChar);
-    }
-
-
-    public void init() {
-        settings = new KeystrokesSettings("keystrokes");
-        settings.load();
-
-        new Sk1erMod(MOD_ID, VERSION, (jsonHolder) -> {
-            //ignored
-        }).checkStatus();
-        renderer = new KeystrokesRenderer();
-
-        EventBus.INSTANCE.register(renderer);
-        EventBus.INSTANCE.register(this);
-
-        Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(new CommandKeystrokes());
-
-        AntiReflection.filterMultipleClasses(getClass(), settings.getClass(), renderer.getClass());
-    }
-
-    @InvokeEvent
-    public void onClientTick(TickEvent event) {
-        if (openGui) {
-            Minecraft.getMinecraft().displayGuiScreen(new GuiScreenKeystrokes());
-            openGui = false;
-        }
+    
+    /**
+     * Getter for the Keystrokes renderer
+     *
+     * @return the keystrokes renderer
+     */
+    public KeystrokesRenderer getRenderer() {
+        return this.renderer;
     }
 }

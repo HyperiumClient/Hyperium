@@ -1,17 +1,17 @@
 package cc.hyperium.mods.keystrokes.config;
 
-import cc.hyperium.mods.keystrokes.utils.boom.BetterJsonObject;
-import cc.hyperium.mods.keystrokes.utils.boom.MessageHelper;
+import cc.hyperium.mods.togglechat.utils.BetterJsonObject;
 import cc.hyperium.mods.keystrokes.KeystrokesMod;
 
 import java.io.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@SuppressWarnings("ResultOfMethodCallIgnored")
 public class KeystrokesSettings {
 
-    private final String fileLocation;
-    private final String fileName;
+    private final KeystrokesMod theMod;
+    private final File configFile;
 
     private int x = 0;
 
@@ -42,23 +42,27 @@ public class KeystrokesSettings {
     private int pressedGreen = 0;
 
     private int pressedBlue = 0;
+    
     private boolean leftClick;
 
-    public KeystrokesSettings(String fileName) {
-        this.fileLocation = KeystrokesMod.getMainDir().getPath() + File.separatorChar + format(fileName) + ".dat";
-        this.fileName = format(fileName);
+    public KeystrokesSettings(KeystrokesMod mod, File directory) {
+        if (!directory.exists()) {
+            directory.mkdirs();
+        }
+        
+        this.theMod = mod;
+        
+        this.configFile = new File(directory, "keystrokes.json");
     }
 
     public void load() {
         try {
-            File configFile = new File(this.fileLocation);
-
-            if (!configFile.getParentFile().exists() || !configFile.exists()) {
+            if (!this.configFile.getParentFile().exists() || !this.configFile.exists()) {
                 save();
                 return;
             }
 
-            BufferedReader f = new BufferedReader(new FileReader(new File(this.fileLocation)));
+            BufferedReader f = new BufferedReader(new FileReader(this.configFile));
             List<String> options = f.lines().collect(Collectors.toList());
             StringBuilder builder = new StringBuilder();
 
@@ -74,22 +78,19 @@ public class KeystrokesSettings {
                 parseSettings(new BetterJsonObject(builder.toString().trim()));
             }
         } catch (Exception ex) {
-            System.out.println(String.format("Could not load config file! (\"%s\")", this.fileName));
+            System.out.println(String.format("Could not load config file! (\"%s\")", this.configFile.getName()));
             save();
         }
     }
 
     public void save() {
         try {
-            File configFile = new File(this.fileLocation);
-
-            if (!configFile.getParentFile().exists()) {
-                //noinspection ResultOfMethodCallIgnored
-                configFile.getParentFile().mkdirs();
+            if (!this.configFile.getParentFile().exists()) {
+                this.configFile.getParentFile().mkdirs();
             }
 
-            if (!configFile.exists()) {
-                if (!configFile.createNewFile()) {
+            if (!this.configFile.exists()) {
+                if (!this.configFile.createNewFile()) {
                     return;
                 }
             }
@@ -113,7 +114,7 @@ public class KeystrokesSettings {
             object.addProperty("showSpacebar", isShowingSpacebar());
             object.writeToFile(configFile);
         } catch (Exception ex) {
-            System.out.println(String.format("Could not save config file! (\"%s\")", this.fileName));
+            System.out.println(String.format("Could not save config file! (\"%s\")", this.configFile.getName()));
         }
     }
 
@@ -135,9 +136,7 @@ public class KeystrokesSettings {
         setShowingCPS(object.optBoolean("showCPS"));
         setShowingSpacebar(object.optBoolean("showSpacebar"));
     }
-    public boolean isLeftClick() {
-        return leftClick;
-    }
+    
     public int getX() {
         return this.x;
     }
@@ -203,19 +202,19 @@ public class KeystrokesSettings {
     }
 
     public double getScale() {
-        return MessageHelper.capDouble(this.scale, 0.5F, 1.5F);
+        return capDouble(this.scale, 0.5F, 1.5F);
     }
 
     public void setScale(double scale) {
-        this.scale = MessageHelper.capDouble(scale, 0.5F, 1.5F);
+        this.scale = capDouble(scale, 0.5F, 1.5F);
     }
 
     public double getFadeTime() {
-        return MessageHelper.capDouble(this.fadeTime, 0.1F, 3.0F);
+        return capDouble(this.fadeTime, 0.1F, 3.0F);
     }
 
     public void setFadeTime(double scale) {
-        this.fadeTime = MessageHelper.capDouble(scale, 0.1F, 3.0F);
+        this.fadeTime = capDouble(scale, 0.1F, 3.0F);
     }
 
     public boolean isEnabled() {
@@ -257,14 +256,15 @@ public class KeystrokesSettings {
     public void setChroma(boolean showingChroma) {
         this.chroma = showingChroma;
     }
-
-    private String format(String input) {
-        if (input == null || input.isEmpty()) input = "settings";
-        if (input.length() > 16) input = input.substring(0, 16);
-        if (input.contains(".")) input = input.split(".")[0];
-        return input;
+    
+    public boolean isLeftClick() {
+        return leftClick;
     }
-
+    
+    public void setLeftClick(boolean leftClick) {
+        this.leftClick = leftClick;
+    }
+    
     public int getHeight() {
         int height = 50;
 
@@ -286,8 +286,20 @@ public class KeystrokesSettings {
     public int getWidth() {
         return 74; // Hardcoded value
     }
-
-    public void setLeftClick(boolean leftClick) {
-        this.leftClick = leftClick;
+    
+    public KeystrokesMod getMod() {
+        return this.theMod;
+    }
+    
+    private float capFloat(float valueIn, float minValue, float maxValue) {
+        return valueIn < minValue ? minValue : valueIn > maxValue ? maxValue : valueIn;
+    }
+    
+    private double capDouble(double valueIn, double minValue, double maxValue) {
+        return valueIn < minValue ? minValue : valueIn > maxValue ? maxValue : valueIn;
+    }
+    
+    private int capInt(int valueIn, int minValue, int maxValue) {
+        return valueIn < minValue ? minValue : valueIn > maxValue ? maxValue : valueIn;
     }
 }

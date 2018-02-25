@@ -3,6 +3,7 @@ package cc.hyperium.mods.keystrokes.screen.impl;
 import cc.hyperium.mods.keystrokes.config.KeystrokesSettings;
 import cc.hyperium.mods.keystrokes.KeystrokesMod;
 import cc.hyperium.mods.keystrokes.screen.GuiScreenKeystrokes;
+
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.client.config.GuiSlider;
 
@@ -11,10 +12,10 @@ public class GuiSliderFadeTime extends GuiSlider {
     private final KeystrokesSettings settings;
     private final GuiScreenKeystrokes keystrokesGui;
 
-    public GuiSliderFadeTime(int id, int xPos, int yPos, int width, int height, GuiScreenKeystrokes keystrokes) {
-        super(id, xPos, yPos, width, height, "Fade Time: ", "%", 0, 30, KeystrokesMod.getSettings().getFadeTime() * 100.0D, false, true);
+    public GuiSliderFadeTime(KeystrokesMod mod, int id, int xPos, int yPos, int width, int height, GuiScreenKeystrokes keystrokes) {
+        super(id, xPos, yPos, width, height, "Fade Time: ", "%", 0, 30, mod.getSettings().getFadeTime() * 100.0D, false, true);
 
-        this.settings = KeystrokesMod.getSettings();
+        this.settings = mod.getSettings();
         this.keystrokesGui = keystrokes;
     }
 
