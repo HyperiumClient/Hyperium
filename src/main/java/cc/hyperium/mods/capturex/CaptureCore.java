@@ -22,6 +22,7 @@ import cc.hyperium.Hyperium;
 import cc.hyperium.event.HypixelKillEvent;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.RenderEvent;
+import cc.hyperium.gui.settings.items.CaptureXSetting;
 import cc.hyperium.mods.capturex.render.FFMpegHelper;
 import cc.hyperium.mods.capturex.render.FrameRenderer;
 import com.google.common.collect.Queues;
@@ -62,8 +63,9 @@ public class CaptureCore {
 
     @InvokeEvent
     public void onTick(RenderEvent event){
+        if(CaptureXSetting.mode != CaptureMode.VIDEO)return;
         // 1 seconds backward
-        if(backwardFrames.size() > 20)
+        if(backwardFrames.size() > CaptureXSetting.captureLength * 20)
             backwardFrames.poll();
         Minecraft mc = Minecraft.getMinecraft();
         final Framebuffer fb = (Framebuffer) SerializationUtils.clone((Serializable) mc.getFramebuffer());
@@ -78,15 +80,19 @@ public class CaptureCore {
     public void onKill(HypixelKillEvent event) {
         final Queue<BufferedImage> finalBackwardsBuffer = new ArrayDeque<>(backwardFrames);
         addScheduledTask(() -> {
-            try {
-                Hyperium.INSTANCE.getNotification().display("CaptureX", "Rendering kill", 3);
-                CapturePack pack = new CapturePack(finalBackwardsBuffer);
-                FFMpeg.run(pack, "C:\\FFmpeg\\bin\\ffmpeg.exe", "kill");
-                pack.cleanup();
-                Hyperium.INSTANCE.getNotification().display("CaptureX", "Kill captured", 3);
-            } catch (Exception e) {
-                e.printStackTrace();
-                Hyperium.INSTANCE.getNotification().display("CaptureX", "Failed to capture kill", 3);
+            switch (CaptureXSetting.mode){
+                case VIDEO:
+                    try {
+                        Hyperium.INSTANCE.getNotification().display("CaptureX", "Rendering kill", 3);
+                        CapturePack pack = new CapturePack(finalBackwardsBuffer, "kill");
+                        FFMpeg.run(pack, "C:\\FFmpeg\\bin\\ffmpeg.exe", "kill", "kill");
+                        pack.cleanup();
+                        Hyperium.INSTANCE.getNotification().display("CaptureX", "Kill captured", 3);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        Hyperium.INSTANCE.getNotification().display("CaptureX", "Failed to capture kill", 3);
+                    }
+                    break;
             }
         });
     }

@@ -28,6 +28,7 @@ import net.minecraft.client.gui.GuiScreen;
 
 import java.util.Arrays;
 
+@SuppressWarnings("unchecked")
 public class GeneralSetting extends SettingGui {
     private DefaultConfig config;
 
@@ -50,23 +51,23 @@ public class GeneralSetting extends SettingGui {
     @ConfigOpt
     public static String menuStyle = GuiStyle.DEFAULT.toString();
 
-    private SelectionItem discordRP;
+    private SelectionItem<String> discordRP;
 
-    private SelectionItem fullBright;
+    private SelectionItem<String> fullBright;
 
-    private SelectionItem romanNumerals;
+    private SelectionItem<String> romanNumerals;
 
-    private SelectionItem discordServerDisplay;
+    private SelectionItem<String> discordServerDisplay;
 
-    private SelectionItem compactChat;
+    private SelectionItem<String> compactChat;
 
-    private SelectionItem voidflickerfix;
+    private SelectionItem<String> voidflickerfix;
 
-    private SelectionItem framerateLimiter;
+    private SelectionItem<String> framerateLimiter;
 
-    private SelectionItem fastChat;
+    private SelectionItem<String> fastChat;
 
-    private SelectionItem menuStyleSelection;
+    private SelectionItem<String> menuStyleSelection;
 
 
     public GeneralSetting(GuiScreen previous) {
@@ -85,8 +86,8 @@ public class GeneralSetting extends SettingGui {
         discordRP.addDefaultOnOff();
         discordRP.setSelectedItem(discordRPEnabled ? "ON" : "OFF");
 
-        settingItems.add(discordServerDisplay = new SelectionItem(1, getX(), getDefaultItemY(1),  width - getX() * 2, "DISCORD DISPLAY SERVER", i->{
-            ((SelectionItem)i).nextItem();
+        settingItems.add(discordServerDisplay = new SelectionItem<>(1, getX(), getDefaultItemY(1),  width - getX() * 2, "DISCORD DISPLAY SERVER", i->{
+            ((SelectionItem<String>)i).nextItem();
             discordServerDisplayEnabled = ((SelectionItem) i).getSelectedItem().equals("ON");
         }));
         discordServerDisplay.addDefaultOnOff();
@@ -135,7 +136,7 @@ public class GeneralSetting extends SettingGui {
         fastChat.setSelectedItem(fastchatEnabled ? "ON" : "OFF");
         settingItems.add(menuStyleSelection = new SelectionItem(8, getX(), getDefaultItemY(8),  width - getX() * 2, "MENU STYLE", i->{
             ((SelectionItem)i).nextItem();
-            menuStyle = ((SelectionItem) i).getSelectedItem();
+            menuStyle = (String)((SelectionItem)i).getSelectedItem();
         }));
         Arrays.stream(GuiStyle.values()).forEach(s -> menuStyleSelection.addItem(s.toString()));
         menuStyleSelection.setSelectedItem(menuStyle);

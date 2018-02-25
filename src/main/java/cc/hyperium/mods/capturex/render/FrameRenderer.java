@@ -36,12 +36,12 @@ import java.nio.IntBuffer;
 public class FrameRenderer {
     private static IntBuffer pixelBuffer;
     private static int[] pixelValues;
-    public static File render(final Long timestamp, final int n, final BufferedImage buffer) {
+    public static File render(final Long timestamp, final int n, final BufferedImage buffer, String prefix) {
         try {
-            File file1 = new File(CaptureCore.captureXDir, "kill-" + timestamp);
+            File file1 = new File(CaptureCore.captureXDir, prefix+"-" + timestamp);
             file1.mkdir();
             File file2;
-            file2 = new File(file1, String.format("img0%02d.png", n));
+            file2 = new File(file1, String.format("img%03d.png", n));
             ImageIO.write(buffer, "png", file2);
             return file2;
         } catch (Exception ex) {
