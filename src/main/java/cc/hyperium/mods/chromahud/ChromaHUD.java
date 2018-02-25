@@ -34,7 +34,6 @@ public class ChromaHUD {
     public static final String MODID = "ChromaHUD";
     public static final String VERSION = "3.0";
     private File suggestedConfigurationFile;
-    //TODO
     private boolean enabled = true;
 
     public ChromaHUD() {

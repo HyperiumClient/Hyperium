@@ -48,7 +48,6 @@ public class LevelHeadRender {
         this.levelHead = levelHead;
     }
 
-    //TODO actually implement. Waiting on events
     @InvokeEvent
     public void render(RenderPlayerEvent event) {
 

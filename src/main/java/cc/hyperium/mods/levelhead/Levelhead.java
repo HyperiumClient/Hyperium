@@ -106,7 +106,7 @@ public class Levelhead {
         if (!config.isEnabled())
             return false;
 
-        for (PotionEffect effect : player.getActivePotionEffects()) { // TODO - Method obfuscated (PORTING REQUIRED)
+        for (PotionEffect effect : player.getActivePotionEffects()) {
             if (effect.getPotionID() == 14)
                 return false;
         }
@@ -280,7 +280,6 @@ public class Levelhead {
     }
 
     //Remote runaway memory leak from storing levels in ram.
-    //TODO make configurable for people with more ram
     private void clearCache() {
         if (levelCache.size() > Math.max(config.getPurgeSize(), 150)) {
             ArrayList<UUID> safePlayers = new ArrayList<>();
