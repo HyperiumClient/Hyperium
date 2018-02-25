@@ -29,12 +29,12 @@ public class FFMpegHelper {
     private final File captureXDir = CaptureCore.captureXDir;
     
     public File run(final CapturePack capturePack, final String ffmpegExecutable,
-        final String outputName) throws IOException, InterruptedException {
+        final String outputName, String prefix) throws IOException, InterruptedException {
         capturePack.renderFrames();
         this.captureXDir.mkdir();
         ProcessBuilder builder = new ProcessBuilder()
             .command(ffmpegExecutable, "-framerate", "20", "-i", "img%03d.png", outputName + ".mp4")
-            .directory(new File(this.captureXDir, "kill-" + capturePack.getTimestamp()))
+            .directory(new File(this.captureXDir, prefix+"-" + capturePack.getTimestamp()))
             .inheritIO()
             .redirectErrorStream(true);
         Process process = builder.start();

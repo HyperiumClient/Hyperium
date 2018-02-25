@@ -136,7 +136,7 @@ public class InstallerFrame extends JFrame implements PropertyChangeListener {
         AtomicReference<JSONObject> version = new AtomicReference<>();
         String hash = null;
         File builtJar = null;
-        try{
+        try {
             JSONObject versionsJson;
             versionsJson = new JSONObject(get(versions_url));
             JSONArray versionsArray = versionsJson.getJSONArray("versions");
@@ -145,10 +145,10 @@ public class InstallerFrame extends JFrame implements PropertyChangeListener {
                 versionsObjects.add((JSONObject) o);
 
             versionsObjects.forEach(o -> {
-                if (o.getString("name").equals(versionsJson.getString(channel!=ReleaseChannel.LOCAL ? channel.getRelease() : ReleaseChannel.DEV.getRelease())))
+                if (o.getString("name").equals(versionsJson.getString(channel != ReleaseChannel.LOCAL ? channel.getRelease() : ReleaseChannel.DEV.getRelease())))
                     version.set(o);
             });
-        }catch (IOException ex){
+        } catch (IOException ex) {
             ex.printStackTrace();
             display.setText("INSTALLATION FAILED");
             error.setText("FAILED TO FETCH JSON DATA");
@@ -157,14 +157,14 @@ public class InstallerFrame extends JFrame implements PropertyChangeListener {
         }
         if (channel == ReleaseChannel.LOCAL) {
             File local = new File(channel.getRelease());
-            if(!local.exists()){
+            if (!local.exists()) {
                 try {
                     Process p = new ProcessBuilder("git", "clone", "https://github.com/HyperiumClient/Hyperium")
                             .directory(local.getParentFile())
                             .inheritIO()
                             .redirectErrorStream(true)
                             .start();
-                    if(p.waitFor()!=0)
+                    if (p.waitFor() != 0)
                         throw new IOException("Failed to clone Hyperium!");
                 } catch (IOException | InterruptedException e) {
                     e.printStackTrace();
@@ -177,12 +177,12 @@ public class InstallerFrame extends JFrame implements PropertyChangeListener {
             progressBar.setValue(60);
             display.setText("BUILDING LOCAL HYPERIUM");
             try {
-                Process p = new ProcessBuilder(local.getAbsolutePath()+File.separator+"gradlew"+(System.getProperty("os.name").contains("dows")?".bat":""), "reobfJar")
+                Process p = new ProcessBuilder(local.getAbsolutePath() + File.separator + "gradlew" + (System.getProperty("os.name").contains("dows") ? ".bat" : ""), "reobfJar")
                         .directory(local)
                         .inheritIO()
                         .redirectErrorStream(true)
                         .start();
-                if(p.waitFor()!=0)
+                if (p.waitFor() != 0)
                     throw new IOException("Failed to build Hyperium!");
             } catch (IOException | InterruptedException e) {
                 e.printStackTrace();
@@ -201,8 +201,8 @@ public class InstallerFrame extends JFrame implements PropertyChangeListener {
             progressBar.setValue(90);
             display.setText("COPYING BUILT JAR");
             try {
-                new File(new File(mc, "libraries"), "cc/hyperium/Hyperium/"+builtJar.getName().replace("Hyperium-", "")).mkdirs();
-                Files.copy(builtJar, new File(new File(mc, "libraries"), "cc/hyperium/Hyperium/"+builtJar.getName().replace("Hyperium-", "")+File.separator+builtJar.getName()));
+                new File(new File(mc, "libraries"), "cc/hyperium/Hyperium/" + builtJar.getName().replace("Hyperium-", "")).mkdirs();
+                Files.copy(builtJar, new File(new File(mc, "libraries"), "cc/hyperium/Hyperium/" + builtJar.getName().replace("Hyperium-", "") + File.separator + builtJar.getName()));
             } catch (IOException e) {
                 e.printStackTrace();
                 display.setText("INSTALLATION FAILED");
@@ -228,7 +228,7 @@ public class InstallerFrame extends JFrame implements PropertyChangeListener {
                 task.get();
                 downloaded = new File(dl, task.getFileName());
                 System.out.println("Download dest file = " + downloaded.getAbsolutePath());
-            } catch ( InterruptedException | ExecutionException ex) {
+            } catch (InterruptedException | ExecutionException ex) {
                 ex.printStackTrace();
                 display.setText("INSTALLATION FAILED");
                 error.setText("FAILED TO GATHER REQUIRED FILES");
@@ -256,13 +256,7 @@ public class InstallerFrame extends JFrame implements PropertyChangeListener {
         }
         File optifine;
         try {
-            optifine = File.createTempFile("Optifine", ".jar");
-            InputStream is = InstallerMain.class.getResourceAsStream("/mods/OptiFine_1.8.9_HD_U_I3.jarx");
-            byte[] buffer = new byte[is.available()];
-            is.read(buffer);
-            OutputStream outStream = new FileOutputStream(optifine);
-            outStream.write(buffer);
-            optifine.deleteOnExit();
+            optifine = exportTempOptifine();
         } catch (Exception e) {
             e.printStackTrace();
             display.setText("INSTALLATION FAILED");
@@ -287,6 +281,7 @@ public class InstallerFrame extends JFrame implements PropertyChangeListener {
         }
         progressBar.setValue(95);
         display.setText("PATCHING OPTIFINE");
+        System.out.println("Temp optifine=" + optifine.getAbsolutePath());
         ProcessBuilder builder = new ProcessBuilder("java", "-cp", optifine.getAbsolutePath(), "optifine.Patcher", originJar.getAbsolutePath(), optifine.getAbsolutePath(), targetJar.getAbsolutePath());
         builder.inheritIO();
         builder.redirectErrorStream(true);
@@ -317,8 +312,8 @@ public class InstallerFrame extends JFrame implements PropertyChangeListener {
             return;
         }
         JSONObject lib = new JSONObject();
-        lib.put("name", channel == ReleaseChannel.LOCAL ? "cc.hyperium:Hyperium:"+builtJar.getName().replace("Hyperium-", "") : version.get().getString("artifact-name"));
-        if (version.get()!=null && hash != null)
+        lib.put("name", channel == ReleaseChannel.LOCAL ? "cc.hyperium:Hyperium:" + builtJar.getName().replace("Hyperium-", "") : version.get().getString("artifact-name"));
+        if (version.get() != null && hash != null)
             lib.put("downloads", new JSONObject().put("artifact", new JSONObject()
                     .put("size", version.get().getLong("size"))
                     .put("sha1", hash)
@@ -361,6 +356,27 @@ public class InstallerFrame extends JFrame implements PropertyChangeListener {
         display.setText("INSTALLATION SUCCESS");
         error.setText("OPEN LAUNCHER AND LAUNCH 'Hyperium 1.8.9' PROFILE");
         exit.setVisible(true);
+    }
+
+    private File exportTempOptifine() throws Exception{
+        InputStream stream = null;
+        OutputStream resStreamOut = null;
+        File tmp;
+        try {
+            tmp = File.createTempFile("Optifine", ".jar");
+            tmp.deleteOnExit();
+            stream = InstallerMain.class.getResourceAsStream("/mods/OptiFine_1.8.9_HD_U_I3.jarx");
+            int readBytes;
+            byte[] buffer = new byte[4096];
+            resStreamOut = new FileOutputStream(tmp);
+            while ((readBytes = stream.read(buffer)) > 0) {
+                resStreamOut.write(buffer, 0, readBytes);
+            }
+        } finally {
+            stream.close();
+            resStreamOut.close();
+        }
+        return tmp;
     }
 
     /**

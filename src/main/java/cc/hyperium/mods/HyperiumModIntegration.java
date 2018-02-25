@@ -18,11 +18,13 @@
 
 package cc.hyperium.mods;
 
+import cc.hyperium.mods.keystrokes.KeystrokesMod;
 import cc.hyperium.mods.skinchanger.SkinChangerMod;
 import cc.hyperium.mods.chromahud.ChromaHUD;
 import cc.hyperium.mods.levelhead.Levelhead;
 import cc.hyperium.mods.timechanger.TimeChanger;
 import cc.hyperium.mods.togglechat.ToggleChatMod;
+
 import me.semx11.autotip.Autotip;
 
 /**
@@ -31,6 +33,7 @@ import me.semx11.autotip.Autotip;
  */
 public class HyperiumModIntegration {
     
+    private IBaseMod keystrokesMod;
     private IBaseMod timeChanger;
     private IBaseMod skinChanger;
     private IBaseMod toggleChat;
@@ -42,7 +45,7 @@ public class HyperiumModIntegration {
     public HyperiumModIntegration() {
         this.chromaHUD = new ChromaHUD();
         this.levelhead = new Levelhead();
-
+        
         // ToggleChat implementation
         this.toggleChat = new ToggleChatMod().init();
         
@@ -52,10 +55,13 @@ public class HyperiumModIntegration {
         // TimeChanger implementation
         this.timeChanger = new TimeChanger().init();
         
+        // KeystrokesMod implementation
+        this.keystrokesMod = new KeystrokesMod().init();
+        
         // Autotip implementation
         this.autotip = new Autotip().init();
     }
-
+    
     /**
      * A getter for the running Autotip instance
      *
@@ -108,5 +114,14 @@ public class HyperiumModIntegration {
      */
     public IBaseMod getToggleChat() {
         return this.toggleChat;
+    }
+    
+    /**
+     * A getter for the running KeystrokesMod instance
+     *
+     * @return the running KeystrokesMod instance
+     */
+    public IBaseMod getKeystrokesMod() {
+        return this.keystrokesMod;
     }
 }

@@ -21,6 +21,7 @@ package cc.hyperium.mods.capturex;
 import cc.hyperium.mods.capturex.render.FrameRenderer;
 import net.minecraft.client.shader.Framebuffer;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.Arrays;
 import java.util.Objects;
@@ -28,20 +29,22 @@ import java.util.Queue;
 
 public class CapturePack {
     private Long timestamp;
-    private Queue<Framebuffer> framebufferQueue;
-    CapturePack(final Queue<Framebuffer> framebufferQueue){
+    private String prefix;
+    private Queue<BufferedImage> framebufferQueue;
+    CapturePack(final Queue<BufferedImage> framebufferQueue, String prefix){
         this.framebufferQueue = framebufferQueue;
         this.timestamp = System.currentTimeMillis();
+        this.prefix = prefix;
     }
 
     public void renderFrames() {
         for (int i = 0; i < framebufferQueue.size(); i++) {
-            FrameRenderer.render(timestamp, i, framebufferQueue.poll());
+            FrameRenderer.render(timestamp, i, framebufferQueue.poll(), prefix);
         }
     }
     public void cleanup(){
         //noinspection ResultOfMethodCallIgnored
-        Arrays.asList(Objects.requireNonNull(new File(CaptureCore.captureXDir, "kill-" + timestamp)
+        Arrays.asList(Objects.requireNonNull(new File(CaptureCore.captureXDir, prefix+"-" + timestamp)
                 .listFiles())).parallelStream().filter(f -> !f.getName().contains(".mp4")).forEach(File::delete);
     }
 

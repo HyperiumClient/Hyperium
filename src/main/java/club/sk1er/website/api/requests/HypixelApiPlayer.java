@@ -18,9 +18,9 @@
 
 package club.sk1er.website.api.requests;
 
+import cc.hyperium.utils.JsonHolder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import cc.hyperium.utils.JsonHolder;
 import net.hypixel.api.GameType;
 import net.hypixel.api.util.ILeveling;
 
@@ -193,6 +193,35 @@ public class HypixelApiPlayer implements HypixelApiObject {
 
     public String getDisplayString() {
         return getRoot().optString("display");
+    }
+
+    public Rank getRank() {
+        return Rank.get(getRankForMod().toUpperCase());
+    }
+
+    enum Rank {
+        ADMIN,
+        MODERATOR,
+        HELPER,
+        YOUTUBER,
+        MVP_PLUS_PLUS,
+        MVP_PLUS,
+        MVP,
+        VIP_PLUS,
+        VIP,
+        NONE;
+
+        static Rank get(String in) {
+            for (Rank rank : values()) {
+                if (rank.name().equalsIgnoreCase(in))
+                    return rank;
+            }
+            return NONE;
+        }
+
+        boolean has(Rank other) {
+            return ordinal() >= other.ordinal();
+        }
     }
 }
 

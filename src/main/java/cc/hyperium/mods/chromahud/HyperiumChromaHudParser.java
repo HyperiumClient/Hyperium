@@ -22,10 +22,7 @@ package cc.hyperium.mods.chromahud;
 import cc.hyperium.mods.chromahud.api.ChromaHUDDescription;
 import cc.hyperium.mods.chromahud.api.ChromaHUDParser;
 import cc.hyperium.mods.chromahud.api.DisplayItem;
-import cc.hyperium.mods.chromahud.displayitems.hyperium.HypixelDisplay;
-import cc.hyperium.mods.chromahud.displayitems.hyperium.LocationDisplay;
-import cc.hyperium.mods.chromahud.displayitems.hyperium.RatingDisplay;
-import cc.hyperium.mods.chromahud.displayitems.hyperium.ScoreboardDisplay;
+import cc.hyperium.mods.chromahud.displayitems.hyperium.*;
 import cc.hyperium.utils.JsonHolder;
 
 import java.util.HashMap;
@@ -42,12 +39,14 @@ public class HyperiumChromaHudParser implements ChromaHUDParser {
         names.put("HYPIXEL", "Hypixel");
         names.put("RATING", "Rating");
         names.put("SCOREBOARD", "Scoreboard");
+        names.put("INFO","Hyperium Info");
     }
 
     @Override
     public DisplayItem parse(String type, int ord, JsonHolder item) {
         switch (type) {
-
+            case "INFO":
+                return new HyperiumInfoDisplay(item,ord);
             case "LOCATION":
                 return new LocationDisplay(item, ord);
             case "HYPIXEL":

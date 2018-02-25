@@ -18,6 +18,7 @@
 
 package cc.hyperium.gui.settings.items;
 
+import cc.hyperium.GuiStyle;
 import cc.hyperium.Hyperium;
 import cc.hyperium.config.ConfigOpt;
 import cc.hyperium.config.DefaultConfig;
@@ -25,6 +26,9 @@ import cc.hyperium.gui.settings.SettingGui;
 import cc.hyperium.gui.settings.components.SelectionItem;
 import net.minecraft.client.gui.GuiScreen;
 
+import java.util.Arrays;
+
+@SuppressWarnings("unchecked")
 public class GeneralSetting extends SettingGui {
     private DefaultConfig config;
 
@@ -44,22 +48,26 @@ public class GeneralSetting extends SettingGui {
     public static boolean framerateLimiterEnabled = true;
     @ConfigOpt
     public static boolean fastchatEnabled = false;
+    @ConfigOpt
+    public static String menuStyle = GuiStyle.DEFAULT.toString();
 
-    private SelectionItem discordRP;
+    private SelectionItem<String> discordRP;
 
-    private SelectionItem fullBright;
+    private SelectionItem<String> fullBright;
 
-    private SelectionItem romanNumerals;
+    private SelectionItem<String> romanNumerals;
 
-    private SelectionItem discordServerDisplay;
+    private SelectionItem<String> discordServerDisplay;
 
-    private SelectionItem compactChat;
+    private SelectionItem<String> compactChat;
 
-    private SelectionItem voidflickerfix;
+    private SelectionItem<String> voidflickerfix;
 
-    private SelectionItem framerateLimiter;
+    private SelectionItem<String> framerateLimiter;
 
-    private SelectionItem fastChat;
+    private SelectionItem<String> fastChat;
+
+    private SelectionItem<String> menuStyleSelection;
 
 
     public GeneralSetting(GuiScreen previous) {
@@ -78,8 +86,8 @@ public class GeneralSetting extends SettingGui {
         discordRP.addDefaultOnOff();
         discordRP.setSelectedItem(discordRPEnabled ? "ON" : "OFF");
 
-        settingItems.add(discordServerDisplay = new SelectionItem(1, getX(), getDefaultItemY(1),  width - getX() * 2, "DISCORD DISPLAY SERVER", i->{
-            ((SelectionItem)i).nextItem();
+        settingItems.add(discordServerDisplay = new SelectionItem<>(1, getX(), getDefaultItemY(1),  width - getX() * 2, "DISCORD DISPLAY SERVER", i->{
+            ((SelectionItem<String>)i).nextItem();
             discordServerDisplayEnabled = ((SelectionItem) i).getSelectedItem().equals("ON");
         }));
         discordServerDisplay.addDefaultOnOff();
@@ -126,6 +134,12 @@ public class GeneralSetting extends SettingGui {
         }));
         fastChat.addDefaultOnOff();
         fastChat.setSelectedItem(fastchatEnabled ? "ON" : "OFF");
+        settingItems.add(menuStyleSelection = new SelectionItem(8, getX(), getDefaultItemY(8),  width - getX() * 2, "MENU STYLE", i->{
+            ((SelectionItem)i).nextItem();
+            menuStyle = (String)((SelectionItem)i).getSelectedItem();
+        }));
+        Arrays.stream(GuiStyle.values()).forEach(s -> menuStyleSelection.addItem(s.toString()));
+        menuStyleSelection.setSelectedItem(menuStyle);
     }
 
     private int getDefaultItemY(int i) {
