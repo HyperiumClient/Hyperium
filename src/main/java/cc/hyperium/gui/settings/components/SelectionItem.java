@@ -26,34 +26,34 @@ import java.util.Collection;
 import java.util.List;
 import java.util.function.Consumer;
 
-public class SelectionItem extends SettingItem {
+public class SelectionItem<T> extends SettingItem {
 
-    private List<String> items = new ArrayList<>();
-    private String selectedItem = "";
+    private List<T> items = new ArrayList<>();
+    private T selectedItem = null;
 
     public SelectionItem(int id, int x, int y, int width, String displayString, Consumer<SettingItem> callback) {
         super(id, x, y, width, displayString, callback);
     }
 
-    public void setSelectedItem(String selectedItem) {
+    public void setSelectedItem(T selectedItem) {
         this.selectedItem = selectedItem;
     }
 
-    public String getSelectedItem() {
+    public T getSelectedItem() {
         return selectedItem;
     }
 
-    public void addItem(String item){
+    public void addItem(T item){
         items.add(item);
     }
 
-    public void addItems(Collection<String> item){
+    public void addItems(Collection<T> item){
         items.addAll(item);
     }
 
     public void addDefaultOnOff(){
-        items.add("ON");
-        items.add("OFF");
+        ((List<String>)items).add("ON");
+        ((List<String>)items).add("OFF");
     }
 
     public void nextItem(){
@@ -98,7 +98,7 @@ public class SelectionItem extends SettingItem {
             }
 
             fontRenderer.drawString(this.displayString, x + 4, y + (this.height - 8) / 2, j);
-            fontRenderer.drawString(selectedItem, x+width - (fontRenderer.getWidth(selectedItem) + 10), y + (this.height - 8) / 2, j);
+            fontRenderer.drawString(String.valueOf(selectedItem), x+width - (fontRenderer.getWidth(String.valueOf(selectedItem)) + 10), y + (this.height - 8) / 2, j);
         }
     }
 }
