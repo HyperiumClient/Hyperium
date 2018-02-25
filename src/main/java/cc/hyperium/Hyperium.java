@@ -44,6 +44,7 @@ import cc.hyperium.mods.discord.RichPresenceManager;
 import cc.hyperium.mods.levelhead.commands.LevelHeadCommand;
 import cc.hyperium.mods.perspective.PerspectiveModifierContainer;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
+import cc.hyperium.mods.statistics.GeneralStatisticsTracking;
 import cc.hyperium.tray.TrayManager;
 import cc.hyperium.utils.ChatColor;
 import cc.hyperium.utils.mods.CompactChat;
@@ -72,6 +73,7 @@ public class Hyperium {
     public final static Logger LOGGER = LogManager.getLogger(Metadata.getModid());
     public static File folder = new File("hyperium");
     public static PerspectiveModifierContainer perspective;
+    public static GeneralStatisticsTracking statTrack = new GeneralStatisticsTracking();
 
     /**
      * Instance of default CONFIG
@@ -121,6 +123,10 @@ public class Hyperium {
         EventBus.INSTANCE.register(CrosshairMod.getInstance());
         EventBus.INSTANCE.register(CONFIG.register(FPSLimiter.getInstance()));
         EventBus.INSTANCE.register(perspective = new PerspectiveModifierContainer());
+
+        // Register statistics tracking.
+        EventBus.INSTANCE.register(statTrack);
+        CONFIG.register(statTrack);
 
         friendRequestPattern = Pattern.compile("Friend request from .+?");
         rankBracketPattern = Pattern.compile("[\\^] ");
