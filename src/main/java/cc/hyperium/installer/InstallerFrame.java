@@ -177,7 +177,7 @@ public class InstallerFrame extends JFrame implements PropertyChangeListener {
             progressBar.setValue(60);
             display.setText("BUILDING LOCAL HYPERIUM");
             try {
-                Process p = new ProcessBuilder(local.getAbsolutePath() + File.separator + "gradlew" + (System.getProperty("os.name").contains("dows") ? ".bat" : ""), "reobfJar")
+                Process p = new ProcessBuilder(local.getAbsolutePath() + File.separator + "gradlew" + (System.getProperty("os.name").contains("dows") ? ".bat" : ""), "build")
                         .directory(local)
                         .inheritIO()
                         .redirectErrorStream(true)
@@ -193,16 +193,17 @@ public class InstallerFrame extends JFrame implements PropertyChangeListener {
             }
             progressBar.setValue(80);
             display.setText("FINDING JAR...");
-            Pattern jar = Pattern.compile("Hyperium-.+?\\.jar");
+            Pattern jar = Pattern.compile("Hyperium-.+?\\..+?\\.jar");
             builtJar = Arrays.stream(Objects.requireNonNull(new File(new File(local, "build"), "libs").listFiles()))
                     .filter(f -> jar.matcher(f.getName()).matches())
+                    .filter(f -> !f.getName().contains("full") && !f.getName().contains("source"))
                     .min(Comparator.comparingLong(File::lastModified))
                     .get();
             progressBar.setValue(90);
             display.setText("COPYING BUILT JAR");
             try {
-                new File(new File(mc, "libraries"), "cc/hyperium/Hyperium/" + builtJar.getName().replace("Hyperium-", "")).mkdirs();
-                Files.copy(builtJar, new File(new File(mc, "libraries"), "cc/hyperium/Hyperium/" + builtJar.getName().replace("Hyperium-", "") + File.separator + builtJar.getName()));
+                new File(new File(mc, "libraries"), "cc/hyperium/Hyperium/" + builtJar.getName().replace("Hyperium-", "").replace(".jar", "")).mkdirs();
+                Files.copy(builtJar, new File(new File(mc, "libraries"), "cc/hyperium/Hyperium/" + builtJar.getName().replace("Hyperium-", "").replace(".jar", "") + File.separator + builtJar.getName()));
             } catch (IOException e) {
                 e.printStackTrace();
                 display.setText("INSTALLATION FAILED");
@@ -312,7 +313,7 @@ public class InstallerFrame extends JFrame implements PropertyChangeListener {
             return;
         }
         JSONObject lib = new JSONObject();
-        lib.put("name", channel == ReleaseChannel.LOCAL ? "cc.hyperium:Hyperium:" + builtJar.getName().replace("Hyperium-", "") : version.get().getString("artifact-name"));
+        lib.put("name", channel == ReleaseChannel.LOCAL ? "cc.hyperium:Hyperium:" + builtJar.getName().replace("Hyperium-", "").replace(".jar", "") : version.get().getString("artifact-name"));
         if (version.get() != null && hash != null)
             lib.put("downloads", new JSONObject().put("artifact", new JSONObject()
                     .put("size", version.get().getLong("size"))
