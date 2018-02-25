@@ -179,10 +179,12 @@ public abstract class MixinGuiMainMenu extends GuiScreen implements GuiYesNoCall
         }
     }
 
-    @Inject(method = "actionPerformed", at = @At("HEAD"))
+    @Inject(method = "actionPerformed", at = @At("HEAD"), cancellable = true)
     private void actionPerformed(GuiButton button, CallbackInfo ci) {
-        if (!Hyperium.INSTANCE.isAcceptedTos())
+        if (!Hyperium.INSTANCE.isAcceptedTos()) {
+            ci.cancel();
             return;
+        }
         switch (style){
             case DEFAULT:
                 if (button.id == 15)

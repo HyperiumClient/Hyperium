@@ -2,7 +2,7 @@
   "required": true,
   "compatibilityLevel": "JAVA_8",
   "package": "cc.hyperium.mixins",
-  "refmap": "mixins.sproject.refmap.json",
+  "refmap": "mixin.Hyperium.refmap.json",
   "verbose": true,
   "mixins": [
     "MixinMinecraft",
