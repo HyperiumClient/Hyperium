@@ -1,4 +1,4 @@
-package cc.hyperium.mods.keystrokes.utils;
+package cc.hyperium.mods.keystrokes.screen;
 
 /**
  * Better way to control scrolling (Using Anonymous classes)
