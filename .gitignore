@@ -1,9 +1,10 @@
-.idea/*
-.iml
+*.iml
 build/
 .gradle/
 out/
 run/
 src/api/
 src/test/
-Hyperium.iml
+.idea/
+gradle/
+gradlew
