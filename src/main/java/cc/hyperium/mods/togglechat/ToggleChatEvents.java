@@ -24,6 +24,7 @@ import cc.hyperium.event.Priority;
 import cc.hyperium.utils.ChatColor;
 import cc.hyperium.mods.togglechat.toggles.ToggleBase;
 import cc.hyperium.mods.togglechat.toggles.defaults.TypeMessageSeparator;
+
 import net.minecraft.util.ChatComponentText;
 
 /**
@@ -40,7 +41,7 @@ public class ToggleChatEvents {
         this.mod = theMod;
     }
 
-    @InvokeEvent(priority = Priority.LOW) // We use the low priority to grab things first
+    @InvokeEvent(priority = Priority.HIGH) // We use the high priority to grab things first
     public void onChatReceive(ChatEvent event) {
         // Strip the message of any colors for improved detectability
         String unformattedText = ChatColor.stripColor(event.getChat().getUnformattedText());
@@ -51,6 +52,11 @@ public class ToggleChatEvents {
         try {
             // Loop through all the toggles
             for (ToggleBase type : this.mod.getToggleHandler().getToggles().values()) {
+                // The chat its looking for shouldn't be toggled, move to next one!
+                if (type.isEnabled()) {
+                    continue;
+                }
+                
                 // We don't want an issue with one toggle bringing
                 // the whole toggle system crashing down in flames.
                 try {
@@ -60,7 +66,7 @@ public class ToggleChatEvents {
                     // If the toggle should toggle the specified message and
                     // the toggle is not enabled (this message is turned off)
                     // don't send the message to the player & stop looping
-                    if (!type.isEnabled() && type.shouldToggle(input)) {
+                    if (type.shouldToggle(input)) {
                         if (type instanceof TypeMessageSeparator) {
                             event.setChat(new ChatComponentText(((TypeMessageSeparator) type).editMessage(formattedText)));
                         } else {

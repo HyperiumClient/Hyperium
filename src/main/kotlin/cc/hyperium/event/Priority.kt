@@ -19,7 +19,7 @@
 package cc.hyperium.event
 
 enum class Priority(val value: Int) {
-    HIGH(1),
+    HIGH(1), // Called first
     NORMAL(0),
-    LOW(-1)
+    LOW(-1) // Called last
 }

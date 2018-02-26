@@ -28,7 +28,7 @@ public class TypeLobbyJoin extends ToggleBase {
 
     @Override
     public String getName() {
-        return "lobby_join";
+        return "Lobby Join";
     }
 
     @Override
