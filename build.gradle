@@ -52,6 +52,7 @@ configurations {
     compile.extendsFrom(embed)
 }
 
+
 apply plugin: 'net.minecraftforge.gradle.tweaker-client'
 apply plugin: 'org.spongepowered.mixin'
 apply plugin: 'kotlin'
@@ -65,7 +66,7 @@ targetCompatibility = 1.8
 compileJava.options.encoding = 'UTF-8'
 
 version = "1.0"
-group = "cc.Hyperium"
+group = "cc.hyperium"
 archivesBaseName = "Hyperium"
 
 minecraft {
@@ -97,14 +98,13 @@ dependencies {
     embed 'com.squareup.okhttp3:okhttp:3.9.0'
 
     embed group: 'org.slick2d', name: 'slick2d-core', version: '1.0.2'
-
 }
 
 
 mixin {
     // Specify "notch" or "searge" here
     defaultObfuscationEnv notch
-    add sourceSets.main, "mixin.Hyperium.refmap.json"
+    add sourceSets.main, "mixin.hyperium.refmap.json"
 }
 
 repositories {
@@ -143,12 +143,26 @@ reobf {
 build.dependsOn(shadowJar)
 
 jar {
+    dependsOn configurations.compile
+    from {
+        configurations.embed.collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+    }
+}
+
+jar {
     manifest.attributes(
-            "MixinConfigs": 'mixins.Hyperium.json',
+            "MixinConfigs": 'mixins.hyperium.json',
             "TweakClass": 'cc.hyperium.launch.HyperiumTweaker',
             "TweakOrder": 0,
             "Manifest-Version": 1.0,
             'Main-Class': 'cc.hyperium.installer.InstallerMain'
     )
-    from configurations.embed.collect { it.isDirectory() ? it : zipTree(it) }
+    configurations.embed.each { dep ->
+        from(project.zipTree(dep)) {
+            exclude 'META-INF', 'META-INF/**'
+            exclude 'org/jetbrains/annotations', 'org/jetbrains/annotations/**'
+        }
+    }
 }

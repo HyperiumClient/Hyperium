@@ -31,6 +31,7 @@ import cc.hyperium.event.minigames.Minigame;
 import cc.hyperium.event.minigames.MinigameListener;
 import cc.hyperium.gui.NotificationCenter;
 import cc.hyperium.gui.integrations.HypixelFriendsGui;
+import cc.hyperium.gui.settings.items.AnimationSettings;
 import cc.hyperium.gui.settings.items.GeneralSetting;
 import cc.hyperium.handlers.HyperiumHandlers;
 import cc.hyperium.handlers.handlers.keybinds.KeyBindHandler;
@@ -42,9 +43,9 @@ import cc.hyperium.mods.capturex.CaptureCore;
 import cc.hyperium.mods.crosshair.CrosshairMod;
 import cc.hyperium.mods.discord.RichPresenceManager;
 import cc.hyperium.mods.levelhead.commands.LevelHeadCommand;
-import cc.hyperium.mods.perspective.PerspectiveModifierContainer;
+import cc.hyperium.utils.mods.PerspectiveModifierContainer;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
-import cc.hyperium.mods.statistics.GeneralStatisticsTracking;
+import cc.hyperium.utils.mods.GeneralStatisticsTracking;
 import cc.hyperium.tray.TrayManager;
 import cc.hyperium.utils.ChatColor;
 import cc.hyperium.utils.mods.CompactChat;
@@ -149,6 +150,7 @@ public class Hyperium {
 
         // instance does not need to be saved as shit is static ^.^
         CONFIG.register(new GeneralSetting(null));
+        CONFIG.register(new AnimationSettings(null));
 
         //Register commands.
         registerCommands();

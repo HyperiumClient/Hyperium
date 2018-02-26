@@ -35,7 +35,7 @@ import java.util.*
  * @author Kevin
  * @since 10/02/2018 4:11 PM
  */
-class HyperiumTweaker : ITweaker {
+open class HyperiumTweaker : ITweaker {
 
     private val args: ArrayList<String> = ArrayList()
 

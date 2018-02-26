@@ -56,7 +56,7 @@ public class HyperiumHandlers {
     public HyperiumHandlers() {
         this.remoteResourcesHandler = new RemoteResourcesHandler();
         chatHandlers = new ArrayList<>();
-        register((generalChatHandler = new GeneralChatHandler(chatHandlers)));
+        register(generalChatHandler = new GeneralChatHandler(chatHandlers));
         register(keybindHandler = new KeyBindHandler());
         register(locationHandler = new LocationHandler());
         register(hypixelDetector = new HypixelDetector());

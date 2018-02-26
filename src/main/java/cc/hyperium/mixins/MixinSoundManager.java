@@ -39,7 +39,7 @@ public class MixinSoundManager {
      */
     @Inject(method = "playSound", at = @At("HEAD"), cancellable = true)
     private void playSound(ISound sound, CallbackInfo ci) {
-        if (GeneralSetting.betterSoundsEnabled && !Display.isActive()) {
+        if (GeneralSetting.smartSoundsEnabled && !Display.isActive()) {
             ci.cancel(); // does not stop music from being played but whatever
         }
     }

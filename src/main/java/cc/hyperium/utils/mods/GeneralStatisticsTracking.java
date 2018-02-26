@@ -17,7 +17,7 @@
  *
  */
 
-package cc.hyperium.mods.statistics;
+package cc.hyperium.utils.mods;
 
 import cc.hyperium.config.ConfigOpt;
 import cc.hyperium.event.ChatEvent;

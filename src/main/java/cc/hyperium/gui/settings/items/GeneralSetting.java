@@ -51,7 +51,7 @@ public class GeneralSetting extends SettingGui {
     @ConfigOpt
     public static boolean shinyPotsEnabled = false;
     @ConfigOpt
-    public static boolean betterSoundsEnabled = false;
+    public static boolean smartSoundsEnabled = false;
     @ConfigOpt
     public static String menuStyle = GuiStyle.DEFAULT.toString();
 
@@ -73,7 +73,7 @@ public class GeneralSetting extends SettingGui {
     
     private SelectionItem<String> shinyPots;
     
-    private SelectionItem<String> betterSounds;
+    private SelectionItem<String> smartSounds;
 
     private SelectionItem<String> menuStyleSelection;
 
@@ -151,12 +151,12 @@ public class GeneralSetting extends SettingGui {
         shinyPots.setSelectedItem(shinyPotsEnabled ? "ON" : "OFF");
     
         settingItems.add(
-            betterSounds = new SelectionItem(9, getX(), getDefaultItemY(9),  width - getX() * 2, "BETTER SOUNDS", i-> {
+            smartSounds = new SelectionItem(9, getX(), getDefaultItemY(9),  width - getX() * 2, "BETTER SOUNDS", i-> {
             ((SelectionItem)i).nextItem();
-            betterSoundsEnabled = ((SelectionItem) i).getSelectedItem().equals("ON");
+            smartSoundsEnabled = ((SelectionItem) i).getSelectedItem().equals("ON");
         }));
-        betterSounds.addDefaultOnOff();
-        betterSounds.setSelectedItem(betterSoundsEnabled ? "ON" : "OFF");
+        smartSounds.addDefaultOnOff();
+        smartSounds.setSelectedItem(smartSoundsEnabled ? "ON" : "OFF");
         
         settingItems.add(menuStyleSelection = new SelectionItem(10, getX(), getDefaultItemY(10),  width - getX() * 2, "MENU STYLE", i->{
             ((SelectionItem)i).nextItem();
