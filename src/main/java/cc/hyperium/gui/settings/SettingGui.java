@@ -44,6 +44,7 @@ public class SettingGui extends HyperiumGui {
         this.name = name;
         this.previous = previous;
     }
+
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         drawDefaultBackground();
