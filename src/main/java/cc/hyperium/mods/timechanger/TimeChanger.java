@@ -4,7 +4,7 @@ import cc.hyperium.Hyperium;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.TickEvent;
-import cc.hyperium.mods.IBaseMod;
+import cc.hyperium.mods.AbstractMod;
 import cc.hyperium.mods.timechanger.commands.CommandTimeChangerDay;
 import cc.hyperium.mods.timechanger.commands.CommandTimeChangerFastTime;
 import cc.hyperium.mods.timechanger.commands.CommandTimeChangerNight;
@@ -13,7 +13,7 @@ import cc.hyperium.mods.timechanger.commands.CommandTimeChangerSunset;
 import cc.hyperium.utils.ChatColor;
 import net.minecraft.client.Minecraft;
 
-public class TimeChanger extends IBaseMod {
+public class TimeChanger extends AbstractMod {
     
     private final Metadata metadata = new Metadata(this, "timechanger", "1.0", "fyu");
     private final Minecraft mc = Minecraft.getMinecraft();
@@ -26,7 +26,7 @@ public class TimeChanger extends IBaseMod {
     }
     
     @Override
-    public IBaseMod init() {
+    public AbstractMod init() {
         Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(new CommandTimeChangerDay(this));
         Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(new CommandTimeChangerNight(this));
         Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(new CommandTimeChangerSunset(this));

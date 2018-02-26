@@ -31,14 +31,14 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(RenderPlayer.class)
-public abstract class MixinRenderPlayer extends RendererLivingEntity {
+public abstract class MixinRenderPlayer extends RendererLivingEntity<AbstractClientPlayer> {
 
     public MixinRenderPlayer(RenderManager renderManagerIn, ModelBase modelBaseIn, float shadowSizeIn) {
         super(renderManagerIn, modelBaseIn, shadowSizeIn);
     }
 
     @Inject(method = "doRender", at = @At("HEAD"))
-    public void doRender(AbstractClientPlayer entity, double x, double y, double z, float entityYaw, float partialTicks, CallbackInfo ci) {
+    private void doRender(AbstractClientPlayer entity, double x, double y, double z, float entityYaw, float partialTicks, CallbackInfo ci) {
         EventBus.INSTANCE.post(new RenderPlayerEvent(entity, renderManager, x, y, z));
     }
 

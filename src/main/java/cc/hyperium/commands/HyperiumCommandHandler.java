@@ -63,7 +63,7 @@ public class HyperiumCommandHandler {
                 String[] syntax = commandLine.split(" ");
                 commandName = syntax[0];
                 args = Arrays.copyOfRange(syntax, 1, syntax.length);
-                // Example: If command is "/print hello 2", commandName will equal "print" and args will equal ["hello","2"]
+                // SpotifyInformation: If command is "/print hello 2", commandName will equal "print" and args will equal ["hello","2"]
             } else {
                 commandName = commandLine;
             }

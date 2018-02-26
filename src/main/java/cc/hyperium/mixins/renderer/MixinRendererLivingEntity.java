@@ -33,23 +33,25 @@ import java.util.List;
 
 
 @Mixin(RendererLivingEntity.class)
-public abstract class MixinRendererLivingEntity<T extends EntityLivingBase> extends Render {
+public abstract class MixinRendererLivingEntity<T extends EntityLivingBase> extends Render<T> {
     @Shadow
-    public List<LayerRenderer<T>> layerRenderers;
+    protected List<LayerRenderer<T>> layerRenderers;
 
     protected MixinRendererLivingEntity(RenderManager renderManager) {
         super(renderManager);
     }
 
     @Shadow
-    protected void unsetBrightness() {
-    }
+    protected abstract void unsetBrightness();
 
     @Shadow
     protected abstract boolean setBrightness(T entitylivingbaseIn, float partialTicks, boolean combineTextures);
 
+    /**
+     * @author
+     */
     @Overwrite
-    public void renderLayers(T entitylivingbaseIn, float p_177093_2_, float p_177093_3_, float partialTicks, float p_177093_5_, float p_177093_6_, float p_177093_7_, float p_177093_8_) {
+    protected void renderLayers(T entitylivingbaseIn, float p_177093_2_, float p_177093_3_, float partialTicks, float p_177093_5_, float p_177093_6_, float p_177093_7_, float p_177093_8_) {
         for (LayerRenderer<T> layerrenderer : this.layerRenderers) {
             boolean f = layerrenderer.shouldCombineTextures();
             if (AnimationSettings.redArmour && layerrenderer instanceof LayerBipedArmor) {
