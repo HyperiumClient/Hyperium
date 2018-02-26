@@ -19,11 +19,14 @@
 package cc.hyperium.integrations.spotify;
 
 import cc.hyperium.integrations.os.OsHelper;
+import cc.hyperium.integrations.spotify.impl.SpotifyInformation;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import org.apache.commons.lang3.SystemUtils;
-import org.json.JSONObject;
 
 import java.awt.*;
 import java.io.File;
@@ -38,74 +41,72 @@ import java.util.Objects;
  * @author Cubxity
  */
 public class Spotify {
-    private OkHttpClient client = new OkHttpClient();
     private static final String RETURN_ON = "\"login\",\"logout\",\"play\",\"pause\",\"error\",\"ap\"";
     private static final int START_HTTPS_PORT = 4370;
     private static final int END_HTTPS_PORT = 4379;
     private static final int START_HTTP_PORT = 4380;
     private static final int END_HTTP_PORT = 4389;
     private static int localPort = START_HTTPS_PORT;
-    private List<SpotifyListener> listeners = new ArrayList<>();
-    private Thread listenerThread;
-    private JSONObject status;
+
+    private final ArrayList<SpotifyListener> listeners = new ArrayList<>();
+    private OkHttpClient client = new OkHttpClient();
+    private SpotifyInformation status;
+
+    private String token;
+    private String csrfToken;
 
     public Spotify() throws Exception {
         if (getWebHelper() == null)
             throw new UnsupportedOperationException("Could not find WebHelper // OS not supported!");
         startWebHelper();
         detectPort();
-        getOAuthToken();
-        getCSRFToken();
-        getStatus();
-        startListener();
+        this.token = getOAuthToken();
+        this.csrfToken = getCSRFToken();
+        this.status = getStatus();
     }
 
     /**
      * stats the listener
      */
-    private void startListener() {
-        listenerThread = new Thread(() -> {
-            while (!Thread.interrupted()) {
-                try {
-                    JSONObject s = getStatus();
-                    checkForError(s);
-                    // Call listeners
-                    if (s.getBoolean("playing") != this.status.getBoolean("playing")) {
-                        System.out.println("Spotify: playing status changed");
-                        if (s.getBoolean("playing")) {
-                            listeners.parallelStream().forEach(SpotifyListener::onPlay);
-                        } else {
-                            if (Math.abs(s.getLong("playing_position") - s.getJSONObject("track").getLong("length")) <= 1)
-                                listeners.parallelStream().forEach(SpotifyListener::onEnd);
-                            listeners.parallelStream().forEach(SpotifyListener::onPause);
-                        }
-                    }
-                    this.status = s;
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    try {
-                        Thread.sleep(5000);
-                    } catch (InterruptedException ignored) {
+    public void start() {
+        try {
+            while (true) {
+                final SpotifyInformation information = getStatus();
+                checkForError(information);
+                if (information.isPlaying() != this.status.isPlaying()) {
+                    if (information.isPlaying()) {
+                        this.listeners.forEach(listener -> listener.onPlay(information));
+                    } else {
+                        this.listeners.forEach(SpotifyListener::onPause);
                     }
                 }
+
+                if(information.getTrack() != null && status.getTrack() != null) {
+                    if(information.getTrack().getAlbumResource() != null && status.getTrack().getAlbumResource() != null) {
+                        if (!information.getTrack().getAlbumResource().getName().equals(status.getTrack().getAlbumResource().getName())) {
+                            this.listeners.forEach(listener -> listener.onPlay(information));
+                        }
+                    }
+                }
+                // this is now 3 seconds old :P
+                this.status = information;
+                Thread.sleep(3 * 1000); // we dont want to fetch it too often
             }
-        });
-        listenerThread.start();
+        } catch (Exception e) {
+            e.printStackTrace(); // error :(
+            try {
+                Thread.sleep(10 * 1000); // 10 seconds reconnect :P
+            } catch (InterruptedException ignored) { }
+        }
+        // WTF IS THIS SHIT LOL
     }
 
     public void addListener(SpotifyListener listener) {
-        listeners.add(listener);
+        this.listeners.add(listener);
     }
 
-    public JSONObject getCachedStatus() {
+    public SpotifyInformation getCachedStatus() {
         return status;
-    }
-
-    /**
-     * stops the listener
-     */
-    public void stop() {
-        listenerThread.interrupt();
     }
 
     /**
@@ -113,7 +114,7 @@ public class Spotify {
      * @return JSONObject content
      * @throws IOException if exception occurs
      */
-    private JSONObject get(String url, boolean keepalive) throws IOException {
+    private JsonObject get(String url, boolean keepalive) throws IOException {
         return call(build(url, keepalive).build());
     }
 
@@ -122,11 +123,11 @@ public class Spotify {
      * @return JSONObject of response body
      * @throws IOException if exception occurs
      */
-    private JSONObject call(Request request) throws IOException {
+    private JsonObject call(Request request) throws IOException {
         Response response = client.newCall(request).execute();
         String res = response.body().string();
-        //System.out.println("fetched "+request.url().toString()+" response: "+res);
-        return new JSONObject(res);
+        return new JsonParser().parse(res).getAsJsonObject();
+
     }
 
     /**
@@ -148,9 +149,10 @@ public class Spotify {
      * @return status
      * @throws IOException if exception occurs
      */
-    private JSONObject getStatus() throws IOException {
-        //noinspection SpellCheckingInspection
-        return this.status = get(genSpotifyUrl("/remote/status.json") + "?returnafter=1&returnon=" + RETURN_ON + "&oauth=" + getOAuthToken() + "&csrf=" + getCSRFToken(), true);
+    private SpotifyInformation getStatus() throws IOException {
+        JsonObject obj = get(genSpotifyUrl("/remote/status.json") + "?returnafter=1&returnon=" + RETURN_ON + "&oauth=" + this.token + "&csrf=" + this.csrfToken, true);
+        SpotifyInformation information = new Gson().fromJson(obj, SpotifyInformation.class);
+        return information;
     }
 
     /**
@@ -158,7 +160,7 @@ public class Spotify {
      * @throws IOException if exception occurs
      */
     private String getOAuthToken() throws IOException {
-        return get("https://open.spotify.com/token", false).getString("t");
+        return get("https://open.spotify.com/token", false).get("t").getAsString();
     }
 
     /**
@@ -166,7 +168,7 @@ public class Spotify {
      * @throws IOException if exception occurs
      */
     private String getCSRFToken() throws IOException {
-        return get(genSpotifyUrl("/simplecsrf/token.json"), false).getString("token");
+        return get(genSpotifyUrl("/simplecsrf/token.json"), false).get("token").getAsString();
     }
 
     /**
@@ -238,39 +240,33 @@ public class Spotify {
         return false;
     }
 
-    private void checkForError(JSONObject status) throws Exception {
-        if (!status.has("open_graph_state"))
+    private void checkForError(SpotifyInformation status) throws Exception {
+        if (status.getOpenStateGraph() == null)
             throw new Exception("No user logged in");
-        if (status.has("error"))
-            throw new Exception(status.getJSONObject("error").getString("message"));
     }
 
     /**
      * Listener class
      */
-    public static class SpotifyListener {
-        public void onPlay() {
+    public interface SpotifyListener {
 
+        default void onPlay(SpotifyInformation info) {
         }
 
-        public void onPause() {
-
+        default void onPause() {
         }
 
-        public void onSeek() {
-
+        default void onSeek() {
         }
 
-        public void onEnd() {
-
+        default void onEnd() {
         }
 
-        public void onTrackChange() {
-
+        default void onTrackChange() {
         }
 
-        public void onStatusChange() {
-
+        default void onStatusChange() {
         }
+
     }
 }

@@ -36,6 +36,7 @@ import cc.hyperium.gui.settings.items.GeneralSetting;
 import cc.hyperium.handlers.HyperiumHandlers;
 import cc.hyperium.handlers.handlers.keybinds.KeyBindHandler;
 import cc.hyperium.integrations.spotify.Spotify;
+import cc.hyperium.integrations.spotify.impl.SpotifyInformation;
 import cc.hyperium.mixins.MixinKeyBinding;
 import cc.hyperium.mods.HyperiumModIntegration;
 import cc.hyperium.mods.ToggleSprintContainer;
@@ -84,9 +85,6 @@ public class Hyperium {
     private final NotificationCenter notification = new NotificationCenter();
 
     private RichPresenceManager richPresenceManager = new RichPresenceManager();
-
-
-    private Spotify spotify;
 
     private TrayManager trayManager;
     private HyperiumHandlers handlers;
@@ -156,13 +154,14 @@ public class Hyperium {
         // spotify thread (>^.^)>
         Multithreading.runAsync(() -> {
             try {
-                spotify = new Spotify();
+                Spotify spotify = new Spotify();
                 spotify.addListener(new Spotify.SpotifyListener() {
                     @Override
-                    public void onPlay() {
-                        notification.display("Spotify", "Now playing " + spotify.getCachedStatus().getJSONObject("track").getJSONObject("track_resource").getString("name"), 3);
+                    public void onPlay(SpotifyInformation info) {
+                        notification.display("Spotify", "Now playing " + info.getTrack().getAlbumResource().getName(), 8);
                     }
                 });
+                spotify.start();
             } catch (Exception e) {
                 e.printStackTrace();
                 LOGGER.warn("Failed to connect to spotify");
@@ -265,8 +264,6 @@ public class Hyperium {
         CONFIG.save();
         richPresenceManager.shutdown();
         captureCore.shutdown();
-        if (spotify != null)
-            spotify.stop();
         LOGGER.info("Shutting down Hyperium..");
     }
 

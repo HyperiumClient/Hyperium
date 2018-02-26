@@ -45,8 +45,10 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import static cc.hyperium.Hyperium.*;
+
 @Mixin(EntityRenderer.class)
-public class MixinEntityRenderer {
+public abstract class MixinEntityRenderer {
 
     @Inject(method = "updateCameraAndRender", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiIngame;renderGameOverlay(F)V", shift = At.Shift.AFTER))
     private void updateCameraAndRender(float partialTicks, long nano, CallbackInfo ci) {
@@ -81,14 +83,14 @@ public class MixinEntityRenderer {
     private long renderEndNanoTime;
 
     @Shadow
-    public void setupOverlayRendering() {
-    }
+    public abstract void setupOverlayRendering();
 
     @Shadow
-    public void renderWorld(float partialTicks, long finishTimeNano) {
-    }
+    public abstract void renderWorld(float partialTicks, long finishTimeNano);
 
-
+    /**
+     * @author COAL UR FUCKING CODE IS SHIT
+     */
     @Overwrite
     private void orientCamera(float partialTicks) {
         Entity entity = Minecraft.getMinecraft().getRenderViewEntity();
@@ -107,7 +109,7 @@ public class MixinEntityRenderer {
                 Block block = iblockstate.getBlock();
 
                 if (block == Blocks.bed) {
-                    int j = ((EnumFacing) iblockstate.getValue(BlockBed.FACING)).getHorizontalIndex();
+                    int j = iblockstate.getValue(BlockBed.FACING).getHorizontalIndex();
                     GlStateManager.rotate((float) (j * 90), 0.0F, 1.0F, 0.0F);
                 }
 
@@ -123,9 +125,9 @@ public class MixinEntityRenderer {
                 float f1 = entity.rotationYaw;
                 float f2 = entity.rotationPitch;
 
-                if (Hyperium.INSTANCE.perspective.enabled) {
-                    f1 = Hyperium.INSTANCE.perspective.modifiedYaw;
-                    f2 = Hyperium.INSTANCE.perspective.modifiedPitch;
+                if (perspective.enabled) {
+                    f1 = perspective.modifiedYaw;
+                    f2 = perspective.modifiedPitch;
                 }
 
                 if (Minecraft.getMinecraft().gameSettings.thirdPersonView == 2) {
@@ -160,12 +162,12 @@ public class MixinEntityRenderer {
 
                 // Replaced with modified yaw and pitch values.
 
-                if (Hyperium.INSTANCE.perspective.enabled) {
-                    GlStateManager.rotate(Hyperium.INSTANCE.perspective.modifiedPitch - f2, 1.0F, 0.0F, 0.0F);
-                    GlStateManager.rotate(Hyperium.INSTANCE.perspective.modifiedYaw - f1, 0.0F, 1.0F, 0.0F);
+                if (perspective.enabled) {
+                    GlStateManager.rotate(perspective.modifiedPitch - f2, 1.0F, 0.0F, 0.0F);
+                    GlStateManager.rotate(perspective.modifiedYaw - f1, 0.0F, 1.0F, 0.0F);
                     GlStateManager.translate(0.0F, 0.0F, (float) (-d3));
-                    GlStateManager.rotate(f1 - Hyperium.INSTANCE.perspective.modifiedYaw, 0.0F, 1.0F, 0.0F);
-                    GlStateManager.rotate(f2 - Hyperium.INSTANCE.perspective.modifiedPitch, 1.0F, 0.0F, 0.0F);
+                    GlStateManager.rotate(f1 - perspective.modifiedYaw, 0.0F, 1.0F, 0.0F);
+                    GlStateManager.rotate(f2 - perspective.modifiedPitch, 1.0F, 0.0F, 0.0F);
                 } else {
                     GlStateManager.rotate(entity.rotationPitch - f2, 1.0F, 0.0F, 0.0F);
                     GlStateManager.rotate(entity.rotationYaw - f1, 0.0F, 1.0F, 0.0F);
@@ -180,9 +182,9 @@ public class MixinEntityRenderer {
 
         if (!Minecraft.getMinecraft().gameSettings.debugCamEnable) {
             // Further modifications.
-            if (Hyperium.INSTANCE.perspective.enabled) {
-                GlStateManager.rotate(Hyperium.INSTANCE.perspective.modifiedPitch, 1.0F, 0.0F, 0.0F);
-                GlStateManager.rotate(Hyperium.INSTANCE.perspective.modifiedYaw + 180.0F, 0.0F, 1.0F, 0.0F);
+            if (perspective.enabled) {
+                GlStateManager.rotate(perspective.modifiedPitch, 1.0F, 0.0F, 0.0F);
+                GlStateManager.rotate(perspective.modifiedYaw + 180.0F, 0.0F, 1.0F, 0.0F);
             } else {
                 GlStateManager.rotate(entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * partialTicks, 1.0F, 0.0F, 0.0F);
             }
@@ -202,6 +204,9 @@ public class MixinEntityRenderer {
         this.cloudFog = Minecraft.getMinecraft().renderGlobal.hasCloudFog(d0, d1, d2, partialTicks);
     }
 
+    /**
+     * @author COAL UR FUCKING CODE IS SHIT
+     */
     @Overwrite
     public void updateCameraAndRender(float p_181560_1_, long p_181560_2_) {
         boolean flag = Display.isActive();
@@ -223,8 +228,8 @@ public class MixinEntityRenderer {
         }
 
         if (Minecraft.getMinecraft().inGameHasFocus && flag) {
-            if (Hyperium.INSTANCE.perspective.enabled && Minecraft.getMinecraft().gameSettings.thirdPersonView != 1) {
-                Hyperium.INSTANCE.perspective.onDisable();
+            if (perspective.enabled && Minecraft.getMinecraft().gameSettings.thirdPersonView != 1) {
+                perspective.onDisable();
             }
 
             Minecraft.getMinecraft().mouseHelper.mouseXYChange();
@@ -246,35 +251,35 @@ public class MixinEntityRenderer {
                 f2 = this.smoothCamFilterX * f4;
                 f3 = this.smoothCamFilterY * f4;
 
-                if (Hyperium.INSTANCE.perspective.enabled) {
+                if (perspective.enabled) {
 
                     // Modifying pitch and yaw values.
-                    Hyperium.INSTANCE.perspective.modifiedYaw += f2 / 8.0F;
-                    Hyperium.INSTANCE.perspective.modifiedPitch += f3 / 8.0F;
+                    perspective.modifiedYaw += f2 / 8.0F;
+                    perspective.modifiedPitch += f3 / 8.0F;
 
 
                     // Range check.
-                    if (Math.abs(Hyperium.INSTANCE.perspective.modifiedPitch) > 90.0F) {
-                        if (Hyperium.INSTANCE.perspective.modifiedPitch > 0.0F) {
-                            Hyperium.INSTANCE.perspective.modifiedPitch = 90.0F;
+                    if (Math.abs(perspective.modifiedPitch) > 90.0F) {
+                        if (perspective.modifiedPitch > 0.0F) {
+                            perspective.modifiedPitch = 90.0F;
                         } else {
-                            Hyperium.INSTANCE.perspective.modifiedPitch = -90.0F;
+                            perspective.modifiedPitch = -90.0F;
                         }
                     }
                 } else {
                     Minecraft.getMinecraft().thePlayer.setAngles(f2, f3 * (float) i);
                 }
-            } else if (Hyperium.INSTANCE.perspective.enabled) {
+            } else if (perspective.enabled) {
                 // Modifying pitch and yaw values.
-                Hyperium.INSTANCE.perspective.modifiedYaw += f2 / 8.0F;
-                Hyperium.INSTANCE.perspective.modifiedPitch += f3 / 8.0F;
+                perspective.modifiedYaw += f2 / 8.0F;
+                perspective.modifiedPitch += f3 / 8.0F;
 
                 // Checking if pitch exceeds maximum range.
-                if (Math.abs(Hyperium.INSTANCE.perspective.modifiedPitch) > 90.0F) {
-                    if (Hyperium.INSTANCE.perspective.modifiedPitch > 0.0F) {
-                        Hyperium.INSTANCE.perspective.modifiedPitch = 90.0F;
+                if (Math.abs(perspective.modifiedPitch) > 90.0F) {
+                    if (perspective.modifiedPitch > 0.0F) {
+                        perspective.modifiedPitch = 90.0F;
                     } else {
-                        Hyperium.INSTANCE.perspective.modifiedPitch = -90.0F;
+                        perspective.modifiedPitch = -90.0F;
                     }
                 }
             } else {
