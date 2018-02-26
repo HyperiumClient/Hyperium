@@ -51,6 +51,8 @@ public class GeneralSetting extends SettingGui {
     @ConfigOpt
     public static boolean shinyPotsEnabled = false;
     @ConfigOpt
+    public static boolean betterSoundsEnabled = false;
+    @ConfigOpt
     public static String menuStyle = GuiStyle.DEFAULT.toString();
 
     private SelectionItem<String> discordRP;
@@ -70,6 +72,8 @@ public class GeneralSetting extends SettingGui {
     private SelectionItem<String> fastChat;
     
     private SelectionItem<String> shinyPots;
+    
+    private SelectionItem<String> betterSounds;
 
     private SelectionItem<String> menuStyleSelection;
 
@@ -145,8 +149,16 @@ public class GeneralSetting extends SettingGui {
         }));
         shinyPots.addDefaultOnOff();
         shinyPots.setSelectedItem(shinyPotsEnabled ? "ON" : "OFF");
+    
+        settingItems.add(
+            betterSounds = new SelectionItem(9, getX(), getDefaultItemY(9),  width - getX() * 2, "BETTER SOUNDS", i-> {
+            ((SelectionItem)i).nextItem();
+            betterSoundsEnabled = ((SelectionItem) i).getSelectedItem().equals("ON");
+        }));
+        betterSounds.addDefaultOnOff();
+        betterSounds.setSelectedItem(betterSoundsEnabled ? "ON" : "OFF");
         
-        settingItems.add(menuStyleSelection = new SelectionItem(9, getX(), getDefaultItemY(9),  width - getX() * 2, "MENU STYLE", i->{
+        settingItems.add(menuStyleSelection = new SelectionItem(10, getX(), getDefaultItemY(10),  width - getX() * 2, "MENU STYLE", i->{
             ((SelectionItem)i).nextItem();
             menuStyle = (String)((SelectionItem)i).getSelectedItem();
         }));
