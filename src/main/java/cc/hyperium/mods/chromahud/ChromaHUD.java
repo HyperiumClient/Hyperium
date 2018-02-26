@@ -59,6 +59,7 @@ public class ChromaHUD {
             if (state < 0 || state > 2) {
                 state = 0;
             }
+            data.put("state",state);
 
         }, new GuiButton(0, 0, 0, "Toggle Number"), (guiButton, displayItem) -> {
             JsonHolder data = displayItem.getData();
