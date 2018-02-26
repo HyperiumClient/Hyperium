@@ -20,6 +20,7 @@ package cc.hyperium.gui;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.gui.settings.items.AnimationSettings;
+import cc.hyperium.gui.settings.items.CaptureXSetting;
 import cc.hyperium.gui.settings.items.GeneralSetting;
 import cc.hyperium.gui.settings.SettingItem;
 import cc.hyperium.utils.HyperiumFontRenderer;
@@ -123,11 +124,9 @@ public class ModConfigGui extends HyperiumGui {
         settingItems = new ArrayList<>(); //Clear list
         settingItems.add(new SettingItem(0,  getX(0), getDefaultItemY(0), width - getX(0) * 2, "GENERAL", i -> Minecraft.getMinecraft().displayGuiScreen(new GeneralSetting(this))));
         settingItems.add(new SettingItem(1,  getX(0), getDefaultItemY(1), width - getX(0)* 2, "ANIMATIONS", i -> Minecraft.getMinecraft().displayGuiScreen(new AnimationSettings(this))));
-        settingItems.add(new SettingItem(2, getX(0), getDefaultItemY(2),width - getX(0) * 2, "CAPTUREX", i -> {
-            //TODO: Display the gui
-        }));
+        settingItems.add(new SettingItem(2, getX(0), getDefaultItemY(2),width - getX(0) * 2, "CAPTUREX", i -> Minecraft.getMinecraft().displayGuiScreen(new CaptureXSetting(this))));
         if(Minecraft.getMinecraft().thePlayer!=null)
-            settingItems.add(new SettingItem(2, getX(0), getDefaultItemY(2),width - getX(0) * 2, "CHROMAHUD", i -> Minecraft.getMinecraft().displayGuiScreen(Hyperium.INSTANCE.getModIntegration().getChromaHUD().getConfigGuiInstance())));
+            settingItems.add(new SettingItem(3, getX(0), getDefaultItemY(3),width - getX(0) * 2, "CHROMAHUD", i -> Minecraft.getMinecraft().displayGuiScreen(Hyperium.INSTANCE.getModIntegration().getChromaHUD().getConfigGuiInstance())));
     }
 
     private int getDefaultItemY(int i) {

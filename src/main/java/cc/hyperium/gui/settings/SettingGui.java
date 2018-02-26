@@ -83,10 +83,13 @@ public class SettingGui extends HyperiumGui {
     public void handleMouseInput() throws IOException {
         super.handleMouseInput();
         int i = Mouse.getEventDWheel();
-        if (i < 0)
+        if (i < 0 ) {
+            if(offset < 0) {
+                offset -= 1;
+            }
+        } else if (i > 0) {
             offset += 1;
-        else if (i > 0)
-            offset -= 1;
+        }
     }
 
     @Override
