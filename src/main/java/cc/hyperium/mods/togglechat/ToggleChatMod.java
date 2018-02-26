@@ -20,7 +20,7 @@ package cc.hyperium.mods.togglechat;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.event.EventBus;
-import cc.hyperium.mods.IBaseMod;
+import cc.hyperium.mods.AbstractMod;
 import cc.hyperium.mods.togglechat.commands.CommandToggleChat;
 import cc.hyperium.mods.togglechat.config.ToggleChatConfig;
 import cc.hyperium.mods.togglechat.toggles.ToggleBaseHandler;
@@ -31,7 +31,7 @@ import cc.hyperium.utils.ChatColor;
  *
  * @author boomboompower
  */
-public final class ToggleChatMod extends IBaseMod {
+public final class ToggleChatMod extends AbstractMod {
     
     /**
      * The metadata of ToggleChat
@@ -56,7 +56,7 @@ public final class ToggleChatMod extends IBaseMod {
         this.meta = metadata;
     }
     
-    public IBaseMod init() {
+    public AbstractMod init() {
         this.configLoader = new ToggleChatConfig(this, Hyperium.folder);
     
         this.toggleHandler = new ToggleBaseHandler();
