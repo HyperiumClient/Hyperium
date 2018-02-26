@@ -80,12 +80,8 @@ public class Hyperium {
      * Instance of default CONFIG
      */
     public static final DefaultConfig CONFIG = new DefaultConfig(new File(folder, "CONFIG.json"));
-    /**
-     * Instance of default addons loader
-     */
-    private final DefaultAddonLoader addonLoader = new DefaultAddonLoader();
+
     private final NotificationCenter notification = new NotificationCenter();
-    private HyperiumAddonBootstrap addonBootstrap;
 
     private RichPresenceManager richPresenceManager = new RichPresenceManager();
 
@@ -173,20 +169,6 @@ public class Hyperium {
             }
         });
         Runtime.getRuntime().addShutdownHook(new Thread(this::shutdown));
-    }
-
-    /**
-     * load addons
-     */
-    public void registerAddons() {
-        try {
-            addonBootstrap = new HyperiumAddonBootstrap();
-            addonBootstrap.loadInternalAddon();
-            addonBootstrap.loadAddons(addonLoader);
-        } catch (Exception e) {
-            e.printStackTrace();
-            LOGGER.error("Failed to load addon(s) from addons folder");
-        }
     }
 
     /**

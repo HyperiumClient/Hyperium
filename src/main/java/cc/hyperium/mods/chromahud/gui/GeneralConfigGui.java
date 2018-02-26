@@ -62,12 +62,11 @@ public class GeneralConfigGui extends GuiScreen {
     @Override
     public void initGui() {
         super.initGui();
-        reg((edit = new GuiButtonIcon(1, new ResourceLocation("textures/chromahud/iconsheet.png"),5, 0, 0, .2f) ), button -> {
+        reg((edit = new GuiButtonIcon(1, new ResourceLocation("textures/chromahud/iconsheet.png"),5, 0, 1, .2f) ), button -> {
             //Open Gui for editing element
-            ((GuiButtonIcon) button).sprite = 2;
-          /*  if (currentElement != null) {
+            if (currentElement != null) {
                 Minecraft.getMinecraft().displayGuiScreen(new DisplayElementConfig(currentElement, mod));
-            }*/
+            }
         });
         reg(new GuiButton(2, 2, ResolutionUtil.current().getScaledHeight() - 22, 100, 20, "New"), (guiButton) -> {
             DisplayElement blank = DisplayElement.blank();
