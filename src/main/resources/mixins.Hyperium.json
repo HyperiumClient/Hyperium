@@ -33,6 +33,7 @@
 
     "renderer.MixinGuiIngame",
     "renderer.MixinItemRenderer",
+    "renderer.MixinRenderItem",
     "renderer.MixinRendererLivingEntity",
     "renderer.MixinRenderPlayer",
 
