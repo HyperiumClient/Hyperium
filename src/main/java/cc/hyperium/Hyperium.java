@@ -34,9 +34,10 @@ import cc.hyperium.gui.settings.items.GeneralSetting;
 import cc.hyperium.handlers.HyperiumHandlers;
 import cc.hyperium.handlers.handlers.keybinds.KeyBindHandler;
 import cc.hyperium.integrations.spotify.Spotify;
+import cc.hyperium.integrations.spotify.impl.SpotifyInformation;
 import cc.hyperium.mixins.MixinKeyBinding;
 import cc.hyperium.mods.HyperiumModIntegration;
-import cc.hyperium.mods.ToggleSprintContainer;
+import cc.hyperium.utils.mods.ToggleSprintContainer;
 import cc.hyperium.mods.capturex.CaptureCore;
 import cc.hyperium.mods.crosshair.CrosshairMod;
 import cc.hyperium.mods.discord.RichPresenceManager;
@@ -152,13 +153,13 @@ public class Hyperium {
         Multithreading.runAsync(() -> {
             try {
                 Spotify spotify = new Spotify();
-                //Commented by Sk1er because Kevin didn't include half of the files
-//                spotify.addListener(new Spotify.SpotifyListener() {
-//                    @Override
-//                    public void onPlay(SpotifyInformation info) {
-//                        notification.display("Spotify", "Now playing " + info.getTrack().getAlbumResource().getName(), 8);
-//                    }
-//                });
+                // Uncommented by Kevin because he added the file ^.^
+                spotify.addListener(new Spotify.SpotifyListener() {
+                    @Override
+                    public void onPlay(SpotifyInformation info) {
+                        notification.display("Spotify", "Now playing " + info.getTrack().getAlbumResource().getName(), 8);
+                    }
+                });
                 spotify.start();
             } catch (Exception e) {
                 e.printStackTrace();

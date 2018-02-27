@@ -19,7 +19,9 @@
 package cc.hyperium.integrations.spotify;
 
 import cc.hyperium.integrations.os.OsHelper;
+import cc.hyperium.integrations.spotify.impl.SpotifyInformation;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import okhttp3.OkHttpClient;
@@ -49,10 +51,12 @@ public class Spotify {
 
     private final ArrayList<SpotifyListener> listeners = new ArrayList<>();
     private OkHttpClient client = new OkHttpClient();
-//    private SpotifyInformation status;
+    private SpotifyInformation status;
 
     private String token;
     private String csrfToken;
+
+    private int reconnectAttempts = 0;
 
     public Spotify() throws Exception {
         if (getWebHelper() == null)
@@ -61,7 +65,7 @@ public class Spotify {
         detectPort();
         this.token = getOAuthToken();
         this.csrfToken = getCSRFToken();
-//        this.status = getStatus();
+        this.status = getStatus();
     }
 
     /**
@@ -69,26 +73,29 @@ public class Spotify {
      */
     public void start() {
         Multithreading.schedule(() -> {
-            //Commented by Sk1er for not having the files
-//            final SpotifyInformation information = getStatus();
-//            checkForError(information);
-//            if (information.isPlaying() != this.status.isPlaying()) {
-//                if (information.isPlaying()) {
-//                    this.listeners.forEach(listener -> listener.onPlay(information));
-//                } else {
-//                    this.listeners.forEach(SpotifyListener::onPause);
-//                }
-//            }
-//
-//            if (information.getTrack() != null && status.getTrack() != null) {
-//                if (information.getTrack().getAlbumResource() != null && status.getTrack().getAlbumResource() != null) {
-//                    if (!information.getTrack().getAlbumResource().getName().equals(status.getTrack().getAlbumResource().getName())) {
-//                        this.listeners.forEach(listener -> listener.onPlay(information));
-//                    }
-//                }
-//            }
-//            // this is now 3 seconds old :P
-//            this.status = information;
+            try {
+                final SpotifyInformation information = getStatus();
+                checkForError(information);
+                if (information.isPlaying() != this.status.isPlaying()) {
+                    if (information.isPlaying()) {
+                        this.listeners.forEach(listener -> listener.onPlay(information));
+                    } else {
+                        this.listeners.forEach(SpotifyListener::onPause);
+                    }
+                }
+
+                if (information.getTrack() != null && status.getTrack() != null) {
+                    if (information.getTrack().getAlbumResource() != null && status.getTrack().getAlbumResource() != null) {
+                        if (!information.getTrack().getAlbumResource().getName().equals(status.getTrack().getAlbumResource().getName())) {
+                            this.listeners.forEach(listener -> listener.onPlay(information));
+                        }
+                    }
+                }
+                // this is now 3 seconds old :P
+                this.status = information;
+            } catch(Exception e) {
+                System.out.println("[SPOTIFY] Exception occurred");
+            }
         }, 3, 3, TimeUnit.SECONDS);
 
 
@@ -99,9 +106,9 @@ public class Spotify {
         this.listeners.add(listener);
     }
 
-//    public SpotifyInformation getCachedStatus() {
-//        return status;
-//    }
+    public SpotifyInformation getCachedStatus() {
+        return status;
+    }
 
     /**
      * @param url url to get
@@ -143,11 +150,11 @@ public class Spotify {
      * @return status
      * @throws IOException if exception occurs
      */
-//    private SpotifyInformation getStatus() throws IOException {
-//        JsonObject obj = get(genSpotifyUrl("/remote/status.json") + "?returnafter=1&returnon=" + RETURN_ON + "&oauth=" + this.token + "&csrf=" + this.csrfToken, true);
-//        SpotifyInformation information = new Gson().fromJson(obj, SpotifyInformation.class);
-//        return information;
-//    }
+    private SpotifyInformation getStatus() throws IOException {
+        JsonObject obj = get(genSpotifyUrl("/remote/status.json") + "?returnafter=1&returnon=" + RETURN_ON + "&oauth=" + this.token + "&csrf=" + this.csrfToken, true);
+        SpotifyInformation information = new Gson().fromJson(obj, SpotifyInformation.class);
+        return information;
+    }
 
     /**
      * @return oauth token
@@ -234,18 +241,18 @@ public class Spotify {
         return false;
     }
 
-//    private void checkForError(SpotifyInformation status) throws Exception {
-//        if (status.getOpenStateGraph() == null)
-//            throw new Exception("No user logged in");
-//    }
-//
+    private void checkForError(SpotifyInformation status) throws Exception {
+        if (status.getOpenStateGraph() == null)
+            throw new Exception("No user logged in");
+    }
+
     /**
      * Listener class
      */
     public interface SpotifyListener {
 
-//        default void onPlay(SpotifyInformation info) {
-//        }
+        default void onPlay(SpotifyInformation info) {
+        }
 
         default void onPause() {
         }
