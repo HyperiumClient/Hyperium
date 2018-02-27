@@ -24,7 +24,9 @@ import cc.hyperium.gui.settings.items.CaptureXSetting;
 import cc.hyperium.gui.settings.items.GeneralSetting;
 import cc.hyperium.gui.settings.SettingItem;
 import cc.hyperium.utils.HyperiumFontRenderer;
+import javafx.scene.control.Tab;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.util.MathHelper;
 import org.lwjgl.input.Mouse;
@@ -35,11 +37,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ModConfigGui extends HyperiumGui {
-    public static ModConfigGui INSTANCE;
-
     private List<SettingItem> settingItems = new ArrayList<>();
+    private List<Tab> tabs = new ArrayList<>();
     private int offset = 0;
-    private Tabs currentTab = Tabs.HOME;
     private HyperiumFontRenderer fontRenderer = new HyperiumFontRenderer("Arial", Font.PLAIN, 12);
     private HyperiumFontRenderer mainFontRenderer = new HyperiumFontRenderer("Times New Roman", Font.BOLD, 24);
     private GuiBlock guiblock;
@@ -47,8 +47,6 @@ public class ModConfigGui extends HyperiumGui {
     @Override
     public void initGui() {
         super.initGui();
-
-        INSTANCE = this;
     }
 
     @Override
@@ -67,37 +65,28 @@ public class ModConfigGui extends HyperiumGui {
                 new Color(0, 0, 0, 100).getRGB()
         );
 
-//        // right side drop shadow
-//        drawRect(
-//                rightBoxEdge,
-//                height / 5 + 5,
-//                rightBoxEdge + 3,
-//                bottomBoxEdge + 3,
-//                new Color(0, 0, 0, 180).getRGB()
-//        );
-//
-//        // left side drop shadow
-//        drawRect(
-//                width / 5 + 5,
-//                bottomBoxEdge,
-//                rightBoxEdge,
-//                bottomBoxEdge + 3,
-//                new Color(0, 0, 0, 180).getRGB()
-//        );
+        // right side drop shadow
+        drawRect(
+                rightBoxEdge,
+                height / 5 + 5,
+                rightBoxEdge + 3,
+                bottomBoxEdge + 3,
+                new Color(0, 0, 0, 180).getRGB()
+        );
 
-        switch (currentTab) {
-            case SETTINGS:
-                drawSettingsItem(Minecraft.getMinecraft(), mouseX, mouseY);
-                break;
-            case ABOUT:
-                String str = "Developed by Sk1er, CoalOres, Kevin and Cubxity";
-                fontRenderer.drawCenteredString(str, width / 2, height - 12, Color.WHITE.getRGB());
-                break;
-        }
+        // left side drop shadow
+        drawRect(
+                width / 5 + 5,
+                bottomBoxEdge,
+                rightBoxEdge,
+                bottomBoxEdge + 3,
+                new Color(0, 0, 0, 180).getRGB()
+        );
 
-        for (Tabs tab : Tabs.values()) {
+        for (Tab tab : tabs) {
             tab.draw(mouseX, mouseY);
         }
+
         super.drawScreen(mouseX, mouseY, partialTicks);
     }
 
@@ -114,19 +103,67 @@ public class ModConfigGui extends HyperiumGui {
 
     @Override
     protected void pack() {
-        this.buttonList.add(Tabs.HOME.setButton(new CustomFontButton(0, getX(0), getY(), getButtonWidth(), 25, "HOME")));
-        this.buttonList.add(Tabs.SETTINGS.setButton(new CustomFontButton(1, getX(1), getY(), getButtonWidth(), 25, "SETTINGS")));
-        this.buttonList.add(Tabs.ADDONS.setButton(new CustomFontButton(2, getX(2), getY(), getButtonWidth(), 25, "ADDONS")));
-        this.buttonList.add(Tabs.FRIENDS.setButton(new CustomFontButton(3, getX(3), getY(), getButtonWidth(), 25, "FRIENDS")));
-        this.buttonList.add(Tabs.ABOUT.setButton(new CustomFontButton(4, getX(4), getY(), getButtonWidth(), 25, "ABOUT")));
+        CustomFontButton button = new CustomFontButton(0, getX(0), getY(), getButtonWidth(), 25, "HOME");
+        this.tabs.add(new Tab(button, 0, this));
 
-        // Add settings item
-        settingItems = new ArrayList<>(); //Clear list
-        settingItems.add(new SettingItem(0,  getX(0), getDefaultItemY(0), width - getX(0) * 2, "GENERAL", i -> Minecraft.getMinecraft().displayGuiScreen(new GeneralSetting(this))));
-        settingItems.add(new SettingItem(1,  getX(0), getDefaultItemY(1), width - getX(0)* 2, "ANIMATIONS", i -> Minecraft.getMinecraft().displayGuiScreen(new AnimationSettings(this))));
-        settingItems.add(new SettingItem(2, getX(0), getDefaultItemY(2),width - getX(0) * 2, "CAPTUREX", i -> Minecraft.getMinecraft().displayGuiScreen(new CaptureXSetting(this))));
-        if(Minecraft.getMinecraft().thePlayer!=null)
-            settingItems.add(new SettingItem(3, getX(0), getDefaultItemY(3),width - getX(0) * 2, "CHROMAHUD", i -> Minecraft.getMinecraft().displayGuiScreen(Hyperium.INSTANCE.getModIntegration().getChromaHUD().getConfigGuiInstance())));
+        button = new CustomFontButton(1, getX(1), getY(), getButtonWidth(), 25, "SETTINGS");
+        Tab tab = new ModConfigGui.Tab(button, 1, this) {
+            @Override
+            public void draw(int mouseX, int mouseY) {
+                super.draw(mouseX, mouseY);
+
+                drawSettingsItem(Minecraft.getMinecraft(), mouseX, mouseY);
+            }
+        };
+
+        tab.addSetting(new SettingItem(
+                0,  getX(0),
+                getDefaultItemY(0),
+                width - getX(0) * 2,
+                "GENERAL",
+                i -> Minecraft.getMinecraft().displayGuiScreen(new GeneralSetting(this))
+        )).addSetting(new SettingItem(
+                1,  getX(0),
+                getDefaultItemY(1),
+                width - getX(0)* 2,
+                "ANIMATIONS",
+                i -> Minecraft.getMinecraft().displayGuiScreen(new AnimationSettings(this))
+        )).addSetting(new SettingItem(
+                2, getX(0),
+                getDefaultItemY(2),
+                width - getX(0) * 2,
+                "CAPTUREX",
+                i -> Minecraft.getMinecraft().displayGuiScreen(new CaptureXSetting(this))
+        ));
+
+        if(Minecraft.getMinecraft().thePlayer!=null) {
+            tab.addSetting(new SettingItem(
+                    3, getX(0),
+                    getDefaultItemY(3),
+                    width - getX(0) * 2,
+                    "CHROMAHUD",
+                    i -> Minecraft.getMinecraft().displayGuiScreen(Hyperium.INSTANCE.getModIntegration().getChromaHUD().getConfigGuiInstance())
+            ));
+        }
+
+        this.tabs.add(tab);
+
+        button = new CustomFontButton(2, getX(2), getY(), getButtonWidth(), 25, "ADDONS");
+        this.tabs.add(new Tab(button, 2, this));
+
+        button = new CustomFontButton(3, getX(3), getY(), getButtonWidth(), 25, "FRIENDS");
+        this.tabs.add(new Tab(button, 3, this));
+
+        button = new CustomFontButton(4, getX(4), getY(), getButtonWidth(), 25, "ABOUT");
+        this.tabs.add(new ModConfigGui.Tab(button, 4, this) {
+            @Override
+            public void draw(int mouseX, int mouseY) {
+                super.draw(mouseX, mouseY);
+
+                String str = "Developed by Sk1er, CoalOres, Kevin and Cubxity";
+                fontRenderer.drawCenteredString(str, width / 2, height - 12, Color.WHITE.getRGB());
+            }
+        });
     }
 
     private int getDefaultItemY(int i) {
@@ -136,16 +173,9 @@ public class ModConfigGui extends HyperiumGui {
 
     @Override
     protected void actionPerformed(GuiButton button) {
-        for (Tabs t : Tabs.values()) {
-            if (t.getIndex() == button.id) {
-                currentTab = t;
-                t.setSelected(true);
-            } else {
-                t.setSelected(false);
-            }
+        for (Tab t : tabs) {
+            t.setSelected(t.getIndex() == button.id);
         }
-
-        updateTabs();
     }
 
     @Override
@@ -158,25 +188,6 @@ public class ModConfigGui extends HyperiumGui {
             offset -= 1;
     }
 
-    private void updateTabs() {
-        //TODO: Make all components invisible here
-        settingItems.forEach(i -> i.visible = false);
-
-        //TODO: Make components visible corresponding to tab
-        switch (currentTab) {
-            case HOME:
-                break;
-            case SETTINGS:
-                break;
-            case ADDONS:
-                break;
-            case FRIENDS:
-                break;
-            case ABOUT:
-                break;
-        }
-    }
-
     @Override
     protected void keyTyped(char typedChar, int keyCode) throws IOException {
         super.keyTyped(typedChar, keyCode);
@@ -186,13 +197,17 @@ public class ModConfigGui extends HyperiumGui {
     @Override
     protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
         super.mouseClicked(mouseX, mouseY, mouseButton);
-        if (mouseButton == 0)
-            for(SettingItem i : settingItems)
-                if(i.mousePressed(mc, mouseX, mouseY)){
-                    i.playPressSound(mc.getSoundHandler());
-                    i.callback.accept(i);
-                }
 
+        if (mouseButton != 0) {
+            return;
+        }
+
+        for (SettingItem i : settingItems) {
+            if(i.mousePressed(mc, mouseX, mouseY)){
+                i.playPressSound(mc.getSoundHandler());
+                i.callback.accept(i);
+            }
+        }
     }
 
     private int getButtonWidth() {
@@ -209,27 +224,19 @@ public class ModConfigGui extends HyperiumGui {
         return height / 5;
     }
 
-    private enum Tabs {
-        HOME(null, 0),
-        SETTINGS(null, 1),
-        ADDONS(null, 2),
-        FRIENDS(null, 3),
-        ABOUT(null, 4);
-
-        private GuiButton button;
+    private class Tab {
+        private ModConfigGui owningGui;
+        private CustomFontButton button;
         private int index;
         private boolean selected;
         private float selectPercent;
+        private ArrayList<SettingItem> settings;
 
-        Tabs(GuiButton button, int index) {
+        public Tab(CustomFontButton button, int index, ModConfigGui owningGui) {
             this.button = button;
             this.index = index;
-        }
-
-        public GuiButton setButton(GuiButton button) {
-            this.button = button;
-            ((CustomFontButton) this.button).renderBackground = false;
-            return this.button;
+            this.owningGui = owningGui;
+            this.settings = new ArrayList<>();
         }
 
         public void draw(int mouseX, int mouseY) {
@@ -244,21 +251,17 @@ public class ModConfigGui extends HyperiumGui {
                     1.0f
             );
 
-            int leftX = ModConfigGui.INSTANCE.getX(getIndex());
-            int endX = ModConfigGui.INSTANCE.getX(getIndex() + 1);
-            int beginY = ModConfigGui.INSTANCE.getY() + 23;
-            int endY = ModConfigGui.INSTANCE.getY() + 25;
+            int leftX = owningGui.getX(getIndex());
+            int endX = owningGui.getX(getIndex() + 1);
+            int beginY = owningGui.getY() + 23;
+            int endY = owningGui.getY() + 25;
 
             int halfWidth = (endX - leftX) / 2;
             int finalWidth = MathHelper.floor_float(halfWidth * this.selectPercent);
 
-//            if (this.selectPercent > 0) {
-//                System.out.println(this.name() + ":[" + (leftX + finalWidth) + "," + endX);
-//            }
-
             drawRect(
                     leftX,
-                    ModConfigGui.INSTANCE.getY(),
+                    owningGui.getY(),
                     endX,
                     endY,
                     new Color(0, 0, 0, 125).getRGB()
@@ -283,8 +286,16 @@ public class ModConfigGui extends HyperiumGui {
             }
         }
 
+        public Tab addSetting(SettingItem item) {
+            this.settings.add(item);
+        }
+
         public void setSelected(boolean selected) {
             this.selected = selected;
+
+            if (selected) {
+                owningGui.settingItems = settings;
+            }
         }
 
         public GuiButton getButton() {
@@ -293,18 +304,6 @@ public class ModConfigGui extends HyperiumGui {
 
         public int getIndex() {
             return index;
-        }
-
-        private float clamp(float number, float min, float max) {
-            return number < min ? min : number > max ? max : number;
-        }
-
-        private float easeOut(float current, float finish, float jump, float speed) {
-            if (Math.floor(Math.abs(finish - current) / jump) > 0) {
-                return current + (finish - current) / speed;
-            } else {
-                return finish;
-            }
         }
     }
 }
