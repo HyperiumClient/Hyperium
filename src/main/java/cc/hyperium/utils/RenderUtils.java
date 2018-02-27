@@ -18,6 +18,7 @@
 
 package cc.hyperium.utils;
 
+import net.minecraft.client.gui.Gui;
 import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
@@ -211,5 +212,24 @@ public class RenderUtils {
         GL11.glEnable(GL11.GL_TEXTURE_2D);
         GL11.glDisable(GL11.GL_BLEND);
         GL11.glDisable(GL11.GL_LINE_SMOOTH);
+    }
+
+    public static void drawSmoothRect(int left, int top, int right, int bottom, int color) {
+        left += 4;
+        right -= 4;
+        Gui.drawRect(left, top, right, bottom, color);
+        Gui.drawRect(left - 4, top + 3, left, bottom - 3, color);
+        Gui.drawRect(right, top + 3, right+4, bottom - 3, color);
+
+        RenderUtils.drawFilledCircle(left, top + 4, 4, color);
+        RenderUtils.drawFilledCircle(left, bottom - 4, 4, color);
+
+        RenderUtils.drawFilledCircle(right, top + 4, 4, color);
+        RenderUtils.drawFilledCircle(right, bottom - 4, 4, color);
+
+
+
+
+
     }
 }
