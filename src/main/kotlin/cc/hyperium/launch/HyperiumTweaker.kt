@@ -20,6 +20,9 @@ package cc.hyperium.launch
 
 import cc.hyperium.FORGE
 import cc.hyperium.Hyperium
+import cc.hyperium.OPTIFINE
+import cc.hyperium.addons.HyperiumAddonBootstrap
+import cc.hyperium.addons.loader.DefaultAddonLoader
 import net.minecraft.launchwrapper.ITweaker
 import net.minecraft.launchwrapper.Launch
 import net.minecraft.launchwrapper.LaunchClassLoader
@@ -35,12 +38,21 @@ import java.util.*
  * @author Kevin
  * @since 10/02/2018 4:11 PM
  */
-class HyperiumTweaker : ITweaker {
+open class HyperiumTweaker : ITweaker {
+
+    /**
+     * Addons
+     */
+    val addonBootstrap  = HyperiumAddonBootstrap()
+    val addonLoader = DefaultAddonLoader()
 
     private val args: ArrayList<String> = ArrayList()
 
     private val isRunningForge: Boolean =
             Launch.classLoader.transformers.any { it.javaClass.name.contains("fml") }
+
+    private val isRunningOptifine: Boolean =
+            Launch.classLoader.transformers.any { it.javaClass.name.contains("optifine") }
 
     override fun acceptOptions(args: MutableList<String>, gameDir: File?, assetsDir: File?, profile: String?) {
         this.args.addAll(args)
@@ -54,28 +66,44 @@ class HyperiumTweaker : ITweaker {
 
     override fun injectIntoClassLoader(classLoader: LaunchClassLoader) {
         classLoader.addClassLoaderExclusion("org.apache.logging.log4j.")
+
+        Hyperium.LOGGER.info("Loading Addons...")
+        loadAddons()
+
         Hyperium.LOGGER.info("Setting up Mixins...")
         MixinBootstrap.init()
         // Excludes packages from classloader
         with(MixinEnvironment.getDefaultEnvironment()) {
-            Mixins.addConfiguration("mixins.Hyperium.json")
+            Mixins.addConfiguration("mixins.hyperium.json")
             this.obfuscationContext = when {
                 isRunningForge -> {
                     FORGE = true
-                    "searge" // Switchs to forge searge mappings
+                    "searge" // Switch's to forge searge mappings
                 }
-                else -> {
-                    FORGE = false
-                    "notch" // Switchs to notch mappings
+                isRunningOptifine -> {
+                    OPTIFINE = true
+                    "notch" // Switch's to notch mappings
                 }
+                else -> "notch" // Switch's to notch mappings
             }
             Hyperium.LOGGER.info("Forge {}!", if (FORGE) "found" else "not found")
             this.side = MixinEnvironment.Side.CLIENT
         }
     }
 
+    fun loadAddons() {
+        try {
+            addonBootstrap.loadInternalAddon()
+            addonBootstrap.loadAddons(addonLoader)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Hyperium.LOGGER.error("Failed to load addon(s) from addons folder")
+        }
+
+    }
+
     override fun getLaunchArguments(): Array<String> =
-            if (FORGE) arrayOf()
+            if (FORGE || OPTIFINE) arrayOf()
             else args.toTypedArray()
 
     private fun addArg(label: String, value: String?) {

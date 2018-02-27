@@ -18,6 +18,7 @@
 
 package cc.hyperium.mods.chromahud.gui;
 
+import cc.hyperium.gui.GuiButtonIcon;
 import cc.hyperium.mods.chromahud.ChromaHUD;
 import cc.hyperium.mods.chromahud.ChromaHUDApi;
 import cc.hyperium.mods.chromahud.DisplayElement;
@@ -28,6 +29,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.util.ResourceLocation;
 import org.lwjgl.input.Mouse;
 
 import java.awt.*;
@@ -60,7 +62,7 @@ public class GeneralConfigGui extends GuiScreen {
     @Override
     public void initGui() {
         super.initGui();
-        reg((edit = new GuiButton(1, 5, 5, 100, 20, "Edit")), button -> {
+        reg((edit = new GuiButtonIcon(1, new ResourceLocation("textures/chromahud/iconsheet.png"),5, 0, 1, .2f) ), button -> {
             //Open Gui for editing element
             if (currentElement != null) {
                 Minecraft.getMinecraft().displayGuiScreen(new DisplayElementConfig(currentElement, mod));
@@ -118,7 +120,7 @@ public class GeneralConfigGui extends GuiScreen {
 //            currentElement.drawForConfig();
             edit.visible = true;
             int propX = (int) x1 - 5;
-            int propY = (int) y1 - 30;
+            int propY = (int) y1 - 20;
             if (propX < 10 || propX > resolution.getScaledWidth() - 200) {
                 propX = resolution.getScaledWidth() / 2;
             }

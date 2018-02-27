@@ -18,6 +18,7 @@
 
 package cc.hyperium.mixins;
 
+import cc.hyperium.gui.settings.items.GeneralSetting;
 import net.minecraft.client.audio.ISound;
 import net.minecraft.client.audio.SoundManager;
 import org.lwjgl.opengl.Display;
@@ -28,18 +29,19 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(SoundManager.class)
 public class MixinSoundManager {
-
+    
     /**
-     * Sound will not play unless the window is active
+     * Sound will not play unless the window is active while the out of
+     * focus sounds option is disabled
      *
-     * @param sound
-     * @param ci
+     * @param sound the sound
+     * @param ci callback
      */
     @Inject(method = "playSound", at = @At("HEAD"), cancellable = true)
     private void playSound(ISound sound, CallbackInfo ci) {
-        if (!Display.isActive()) { // todo: settings to enable / disable
+        if (GeneralSetting.smartSoundsEnabled && !Display.isActive()) {
             ci.cancel(); // does not stop music from being played but whatever
         }
     }
-
+    
 }

@@ -2,7 +2,7 @@
   "required": true,
   "compatibilityLevel": "JAVA_8",
   "package": "cc.hyperium.mixins",
-  "refmap": "mixin.Hyperium.refmap.json",
+  "refmap": "mixin.hyperium.refmap.json",
   "verbose": true,
   "mixins": [
     "MixinMinecraft",
@@ -33,6 +33,7 @@
 
     "renderer.MixinGuiIngame",
     "renderer.MixinItemRenderer",
+    "renderer.MixinRenderItem",
     "renderer.MixinRendererLivingEntity",
     "renderer.MixinRenderPlayer",
 

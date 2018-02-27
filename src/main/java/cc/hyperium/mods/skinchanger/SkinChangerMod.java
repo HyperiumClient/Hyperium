@@ -23,7 +23,7 @@ import cc.hyperium.mods.skinchanger.config.SkinChangerConfig;
 import cc.hyperium.mods.skinchanger.events.SkinChangerEvents;
 import cc.hyperium.Hyperium;
 import cc.hyperium.event.EventBus;
-import cc.hyperium.mods.IBaseMod;
+import cc.hyperium.mods.AbstractMod;
 import cc.hyperium.utils.ChatColor;
 
 /**
@@ -31,7 +31,7 @@ import cc.hyperium.utils.ChatColor;
  *
  * @author boomboompower
  */
-public class SkinChangerMod extends IBaseMod {
+public class SkinChangerMod extends AbstractMod {
     
     /**
      * The mods metadata
@@ -54,7 +54,7 @@ public class SkinChangerMod extends IBaseMod {
         this.metaData = data;
     }
     
-    public IBaseMod init() {
+    public AbstractMod init() {
         this.config = new SkinChangerConfig(this, Hyperium.folder);
         this.config.load();
         

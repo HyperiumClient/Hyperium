@@ -43,7 +43,6 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "org.jetbrains.dokka:dokka-gradle-plugin:0.9.15"
         classpath 'org.spongepowered:mixingradle:0.6-SNAPSHOT'
-        classpath "com.github.jengelman.gradle.plugins:shadow:2.0.0"
     }
 }
 
@@ -52,11 +51,11 @@ configurations {
     compile.extendsFrom(embed)
 }
 
+
 apply plugin: 'net.minecraftforge.gradle.tweaker-client'
 apply plugin: 'org.spongepowered.mixin'
 apply plugin: 'kotlin'
 apply plugin: 'java'
-apply plugin: 'com.github.johnrengelman.shadow'
 apply plugin: 'maven-publish'
 
 
@@ -65,7 +64,7 @@ targetCompatibility = 1.8
 compileJava.options.encoding = 'UTF-8'
 
 version = "1.0"
-group = "cc.Hyperium"
+group = "cc.hyperium"
 archivesBaseName = "Hyperium"
 
 minecraft {
@@ -73,6 +72,7 @@ minecraft {
     tweakClass = "cc.hyperium.launch.HyperiumTweaker"
     mappings = "stable_20"
     runDir = 'run'
+    clientJvmArgs = ["-XX:-DisableExplicitGC"] // fast world loading
     makeObfSourceJar = true
 }
 
@@ -97,14 +97,13 @@ dependencies {
     embed 'com.squareup.okhttp3:okhttp:3.9.0'
 
     embed group: 'org.slick2d', name: 'slick2d-core', version: '1.0.2'
-
 }
 
 
 mixin {
     // Specify "notch" or "searge" here
     defaultObfuscationEnv notch
-    add sourceSets.main, "mixin.Hyperium.refmap.json"
+    add sourceSets.main, "mixin.hyperium.refmap.json"
 }
 
 repositories {
@@ -117,38 +116,27 @@ repositories {
     jcenter()
 }
 
-shadowJar {
-    dependencies {
-        include(dependency('org.spongepowered:mixin'))
-        include(dependency('org.slick2d:slick2d-core'))
-        include(dependency('com.google.guava:guava'))
-        include(dependency('com.google.code.gson:gson'))
-        include(dependency('org.jetbrains.kotlin:kotlin-stdlib'))
-        include(dependency('org.jetbrains.kotlin:kotlin-stdlib-jre8'))
-        include(dependency('com.esotericsoftware:reflectasm'))
-        include(dependency('com.github.jagrosh:DiscordIPC'))
-        include(dependency('commons-io:commons-io'))
-    }
-
-    classifier = 'full'
-}
-
-reobf {
-    shadowJar {
-        mappingType = 'NOTCH'
-        classpath = sourceSets.main.compileClasspath
+jar {
+    dependsOn configurations.compile
+    from {
+        configurations.embed.collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
     }
 }
-
-build.dependsOn(shadowJar)
 
 jar {
     manifest.attributes(
-            "MixinConfigs": 'mixins.Hyperium.json',
+            "MixinConfigs": 'mixins.hyperium.json',
             "TweakClass": 'cc.hyperium.launch.HyperiumTweaker',
             "TweakOrder": 0,
             "Manifest-Version": 1.0,
             'Main-Class': 'cc.hyperium.installer.InstallerMain'
     )
-    from configurations.embed.collect { it.isDirectory() ? it : zipTree(it) }
+    configurations.embed.each { dep ->
+        from(project.zipTree(dep)) {
+            exclude 'META-INF', 'META-INF/**'
+            exclude 'org/jetbrains/annotations', 'org/jetbrains/annotations/**'
+        }
+    }
 }

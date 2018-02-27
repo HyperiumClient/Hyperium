@@ -21,15 +21,15 @@ package cc.hyperium.mods.levelhead.guis;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.TickEvent;
-import cc.hyperium.mods.sk1ercommon.Multithreading;
-import cc.hyperium.utils.ChatColor;
-import cc.hyperium.utils.JsonHolder;
 import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
 import cc.hyperium.mods.levelhead.Levelhead;
 import cc.hyperium.mods.levelhead.config.LevelheadConfig;
 import cc.hyperium.mods.levelhead.renderer.LevelheadComponent;
 import cc.hyperium.mods.levelhead.renderer.LevelheadTag;
+import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.mods.sk1ercommon.Sk1erMod;
+import cc.hyperium.utils.ChatColor;
+import cc.hyperium.utils.JsonHolder;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
@@ -39,6 +39,7 @@ import net.minecraft.event.ClickEvent;
 import net.minecraft.event.HoverEvent;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatStyle;
+import net.minecraftforge.fml.client.config.GuiSlider;
 import org.lwjgl.input.Keyboard;
 
 import java.awt.*;
@@ -164,49 +165,48 @@ public class LevelHeadGui extends GuiScreen {
             }
             Levelhead.getInstance().getConfig().setFooterColor(COLOR_CHAR + colors.charAt(primaryId));
         });
-//        reg(new GuiSlider(13, this.width / 2 - 155, this.height / 2 - 83 + 22, 150, 20, "Display Distance: ", "", 5, 64, Levelhead.getInstance().getConfig().getRenderDistance(), false, true, slider -> {
-//            Levelhead.getInstance().getConfig().setRenderDistance(slider.getValueInt());
-//            slider.dragging = false;
-//        }), null);
-//
-//        reg(new GuiSlider(14, this.width / 2 + 5, this.height / 2 - 83 + 22, 150, 20, "Cache size: ", "", 150, 5000, Levelhead.getInstance().getConfig().getPurgeSize(), false, true, slider -> {
-//            Levelhead.getInstance().getConfig().setPurgeSize(slider.getValueInt());
-//            slider.dragging = false;
-//        }), null);
+        reg(new GuiSlider(13, this.width / 2 - 155, this.height / 2 - 83 + 22, 150, 20, "Display Distance: ", "", 5, 64, Levelhead.getInstance().getConfig().getRenderDistance(), false, true, slider -> {
+            Levelhead.getInstance().getConfig().setRenderDistance(slider.getValueInt());
+            slider.dragging = false;
+        }), null);
 
-        //public GuiSlider(int id, int xPos, int yPos, int width, int height, String prefix, String suf, double minVal, double maxVal, double currentVal, boolean showDec, boolean drawStr, ISlider par)
-//        regSlider(new GuiSlider(6, this.width / 2 - 155, this.height / 2 - 83 + 44, 150, 20, "Header Red: ", "", 0, 255, Levelhead.getInstance().getConfig().getHeaderRed(), false, true, slider -> {
-//            Levelhead.getInstance().getConfig().setHeaderRed(slider.getValueInt());
-//            updatePeopleToValues();
-//            slider.dragging = false;
-//        }), null);
-//        regSlider(new GuiSlider(7, this.width / 2 - 155, this.height / 2 - 83 + 66, 150, 20, "Header Green: ", "", 0, 255, Levelhead.getInstance().getConfig().getHeaderGreen(), false, true, slider -> {
-//            Levelhead.getInstance().getConfig().setHeaderGreen(slider.getValueInt());
-//            updatePeopleToValues();
-//            slider.dragging = false;
-//        }), null);
-//        regSlider(new GuiSlider(8, this.width / 2 - 155, this.height / 2 - 83 + 88, 150, 20, "Header Blue: ", "", 0, 255, Levelhead.getInstance().getConfig().getHeaderBlue(), false, true, slider -> {
-//            Levelhead.getInstance().getConfig().setHeaderBlue(slider.getValueInt());
-//            updatePeopleToValues();
-//            slider.dragging = false;
-//        }), null);
-//
-//
-//        regSlider(new GuiSlider(10, this.width / 2 + 5, this.height / 2 - 83 + 44, 150, 20, "Footer Red: ", "", 0, 255, Levelhead.getInstance().getConfig().getFooterRed(), false, true, slider -> {
-//            Levelhead.getInstance().getConfig().setFooterRed(slider.getValueInt());
-//            updatePeopleToValues();
-//            slider.dragging = false;
-//        }), null);
-//        regSlider(new GuiSlider(11, this.width / 2 + 5, this.height / 2 - 83 + 66, 150, 20, "Footer Green: ", "", 0, 255, Levelhead.getInstance().getConfig().getFooterGreen(), false, true, slider -> {
-//            Levelhead.getInstance().getConfig().setFooterGreen(slider.getValueInt());
-//            updatePeopleToValues();
-//            slider.dragging = false;
-//        }), null);
-//        regSlider(new GuiSlider(12, this.width / 2 + 5, this.height / 2 - 83 + 88, 150, 20, "Footer Blue: ", "", 0, 255, Levelhead.getInstance().getConfig().getFooterBlue(), false, true, slider -> {
-//            Levelhead.getInstance().getConfig().setFooterBlue(slider.getValueInt());
-//            updatePeopleToValues();
-//            slider.dragging = false;
-//        }), null);
+        reg(new GuiSlider(14, this.width / 2 + 5, this.height / 2 - 83 + 22, 150, 20, "Cache size: ", "", 150, 5000, Levelhead.getInstance().getConfig().getPurgeSize(), false, true, slider -> {
+            Levelhead.getInstance().getConfig().setPurgeSize(slider.getValueInt());
+            slider.dragging = false;
+        }), null);
+
+        regSlider(new GuiSlider(6, this.width / 2 - 155, this.height / 2 - 83 + 44, 150, 20, "Header Red: ", "", 0, 255, Levelhead.getInstance().getConfig().getHeaderRed(), false, true, slider -> {
+            Levelhead.getInstance().getConfig().setHeaderRed(slider.getValueInt());
+            updatePeopleToValues();
+            slider.dragging = false;
+        }), null);
+        regSlider(new GuiSlider(7, this.width / 2 - 155, this.height / 2 - 83 + 66, 150, 20, "Header Green: ", "", 0, 255, Levelhead.getInstance().getConfig().getHeaderGreen(), false, true, slider -> {
+            Levelhead.getInstance().getConfig().setHeaderGreen(slider.getValueInt());
+            updatePeopleToValues();
+            slider.dragging = false;
+        }), null);
+        regSlider(new GuiSlider(8, this.width / 2 - 155, this.height / 2 - 83 + 88, 150, 20, "Header Blue: ", "", 0, 255, Levelhead.getInstance().getConfig().getHeaderBlue(), false, true, slider -> {
+            Levelhead.getInstance().getConfig().setHeaderBlue(slider.getValueInt());
+            updatePeopleToValues();
+            slider.dragging = false;
+        }), null);
+
+
+        regSlider(new GuiSlider(10, this.width / 2 + 5, this.height / 2 - 83 + 44, 150, 20, "Footer Red: ", "", 0, 255, Levelhead.getInstance().getConfig().getFooterRed(), false, true, slider -> {
+            Levelhead.getInstance().getConfig().setFooterRed(slider.getValueInt());
+            updatePeopleToValues();
+            slider.dragging = false;
+        }), null);
+        regSlider(new GuiSlider(11, this.width / 2 + 5, this.height / 2 - 83 + 66, 150, 20, "Footer Green: ", "", 0, 255, Levelhead.getInstance().getConfig().getFooterGreen(), false, true, slider -> {
+            Levelhead.getInstance().getConfig().setFooterGreen(slider.getValueInt());
+            updatePeopleToValues();
+            slider.dragging = false;
+        }), null);
+        regSlider(new GuiSlider(12, this.width / 2 + 5, this.height / 2 - 83 + 88, 150, 20, "Footer Blue: ", "", 0, 255, Levelhead.getInstance().getConfig().getFooterBlue(), false, true, slider -> {
+            Levelhead.getInstance().getConfig().setFooterBlue(slider.getValueInt());
+            updatePeopleToValues();
+            slider.dragging = false;
+        }), null);
 
 
     }
@@ -256,11 +256,11 @@ public class LevelHeadGui extends GuiScreen {
         lock.unlock();
     }
 
-//    private void regSlider(net.minecraftforge.fml.client.CONFIG.GuiSlider slider, Consumer<GuiButton> but) {
-//        reg(slider, but);
-//        sliders.add(slider);
-//
-//    }
+    private void regSlider(GuiSlider slider, Consumer<GuiButton> but) {
+        reg(slider, but);
+        sliders.add(slider);
+
+    }
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float ticks) {

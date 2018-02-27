@@ -22,6 +22,7 @@ import cc.hyperium.utils.HyperiumFontRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.GlStateManager;
 
 import java.awt.*;

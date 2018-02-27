@@ -229,12 +229,12 @@ public class ElementRenderer {
 
         List<DisplayElement> elementList = mod.getDisplayElements();
         for (DisplayElement element : elementList) {
-
             startDrawing(element);
             try {
                 element.draw();
             } catch (Exception ignored) {
                 // lmao this is so unsafe sk1er XDDDDDDDDD
+                //Dude it's in a try catch so that it IS safe!
             }
             endDrawing(element);
         }

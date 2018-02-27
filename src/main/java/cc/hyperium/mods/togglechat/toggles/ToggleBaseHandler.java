@@ -25,11 +25,9 @@ import java.util.LinkedHashMap;
 public class ToggleBaseHandler {
 
     private LinkedHashMap<String, ToggleBase> toggles = new LinkedHashMap<>();
-
-    private boolean terminated;
     
     public LinkedHashMap<String, ToggleBase> getToggles() {
-        return this.terminated ? new LinkedHashMap<>() : new LinkedHashMap<>(this.toggles);
+        return this.toggles;
     }
 
     /**
@@ -38,10 +36,6 @@ public class ToggleBaseHandler {
      * @param toggleBase the developers toggle
      */
     public void addToggle(ToggleBase toggleBase) {
-        if (this.terminated) {
-            return;
-        }
-        
         if (toggleBase != null && toggleBase.getName() != null)  {
             this.toggles.put(toggleBase.getName().toLowerCase().replace(" ", "_"), toggleBase);
         }
@@ -55,10 +49,6 @@ public class ToggleBaseHandler {
      * @return the formatted text
      */
     public boolean shouldToggle(String input) {
-        if (this.terminated) {
-            return false;
-        }
-        
         for (ToggleBase parser : this.toggles.values()) {
             if (!parser.isEnabled() && parser.shouldToggle(input)) {
                 return true;
@@ -71,10 +61,6 @@ public class ToggleBaseHandler {
      * Clears all toggles and readds default ones
      */
     public void remake() {
-        if (this.terminated) {
-            return;
-        }
-        
         this.toggles.clear();
         this.toggles.put("ads", new TypeAds());
         this.toggles.put("team", new TypeTeam());
@@ -106,7 +92,7 @@ public class ToggleBaseHandler {
      * @return a ToggleBase instance if found, or else null
      */
     public ToggleBase getToggle(String name) {
-        return this.terminated ? null : this.toggles.getOrDefault(name, null);
+        return this.toggles.getOrDefault(name, null);
     }
 
     /**
@@ -117,12 +103,6 @@ public class ToggleBaseHandler {
      * @return true if it is registered
      */
     public boolean hasToggle(String name) {
-        return !this.terminated && this.toggles.containsKey(name) && getToggle(name) != null;
-    }
-    
-    public void terminate() {
-        this.terminated = true;
-        
-        this.toggles.clear();
+        return this.toggles.containsKey(name) && getToggle(name) != null;
     }
 }

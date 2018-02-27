@@ -2,13 +2,13 @@ package cc.hyperium.mods.keystrokes;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.event.EventBus;
-import cc.hyperium.mods.IBaseMod;
+import cc.hyperium.mods.AbstractMod;
 import cc.hyperium.mods.keystrokes.config.KeystrokesSettings;
 import cc.hyperium.mods.keystrokes.render.KeystrokesRenderer;
 import cc.hyperium.mods.sk1ercommon.Sk1erMod;
 import cc.hyperium.utils.ChatColor;
 
-public class KeystrokesMod extends IBaseMod {
+public class KeystrokesMod extends AbstractMod {
     
     /**
      * The mods metadata
@@ -35,7 +35,7 @@ public class KeystrokesMod extends IBaseMod {
      * @return this mods instance
      */
     @Override
-    public IBaseMod init() {
+    public AbstractMod init() {
         this.config = new KeystrokesSettings(this, Hyperium.folder);
         this.config.load();
         

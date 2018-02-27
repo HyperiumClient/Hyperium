@@ -24,15 +24,15 @@ import com.google.common.base.Preconditions;
  * A simple interface which allows a built-in mod
  * to be turned on and off by the user
  */
-public abstract class IBaseMod {
+public abstract class AbstractMod {
     
     /**
      * The init method where all events and commands should
      * be registered. Use this to load configs as well
      *
-     * @return the {@link IBaseMod} instance of the mod
+     * @return the {@link AbstractMod} instance of the mod
      */
-    public abstract IBaseMod init();
+    public abstract AbstractMod init();
     
     /**
      * This mods metadata, which will be displayed in the
@@ -48,18 +48,18 @@ public abstract class IBaseMod {
      */
     public class Metadata {
         
-        private final IBaseMod mod;
+        private final AbstractMod mod;
         private final String author;
         private final String name;
         private final String version;
         
         private String displayName;
         
-        public Metadata(IBaseMod mod, String name) {
+        public Metadata(AbstractMod mod, String name) {
             this(mod, name, "1.0");
         }
         
-        public Metadata(IBaseMod mod, String name, String version) {
+        public Metadata(AbstractMod mod, String name, String version) {
             this(mod, name, version, "");
         }
     
@@ -71,7 +71,7 @@ public abstract class IBaseMod {
          * @param version the mod version
          * @param author the mod author
          */
-        public Metadata(IBaseMod mod, String name, String version, String author) {
+        public Metadata(AbstractMod mod, String name, String version, String author) {
             Preconditions.checkArgument(mod != null, "The mod instance cannot be null");
             Preconditions.checkArgument(name != null && !name.isEmpty(), "Name cannot be null or empty");
             Preconditions.checkArgument(version != null && !version.isEmpty(), "Version cannot be null or empty");
@@ -88,7 +88,7 @@ public abstract class IBaseMod {
          *
          * @return the mod instance
          */
-        public IBaseMod getMod() {
+        public AbstractMod getMod() {
             return this.mod;
         }
     

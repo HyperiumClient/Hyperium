@@ -49,6 +49,10 @@ public class GeneralSetting extends SettingGui {
     @ConfigOpt
     public static boolean fastchatEnabled = false;
     @ConfigOpt
+    public static boolean shinyPotsEnabled = false;
+    @ConfigOpt
+    public static boolean smartSoundsEnabled = false;
+    @ConfigOpt
     public static String menuStyle = GuiStyle.DEFAULT.toString();
 
     private SelectionItem<String> discordRP;
@@ -66,6 +70,10 @@ public class GeneralSetting extends SettingGui {
     private SelectionItem<String> framerateLimiter;
 
     private SelectionItem<String> fastChat;
+    
+    private SelectionItem<String> shinyPots;
+    
+    private SelectionItem<String> smartSounds;
 
     private SelectionItem<String> menuStyleSelection;
 
@@ -134,7 +142,23 @@ public class GeneralSetting extends SettingGui {
         }));
         fastChat.addDefaultOnOff();
         fastChat.setSelectedItem(fastchatEnabled ? "ON" : "OFF");
-        settingItems.add(menuStyleSelection = new SelectionItem(8, getX(), getDefaultItemY(8),  width - getX() * 2, "MENU STYLE", i->{
+    
+        settingItems.add(shinyPots = new SelectionItem(8, getX(), getDefaultItemY(8),  width - getX() * 2, "SHINY POTS", i-> {
+            ((SelectionItem)i).nextItem();
+            shinyPotsEnabled = ((SelectionItem) i).getSelectedItem().equals("ON");
+        }));
+        shinyPots.addDefaultOnOff();
+        shinyPots.setSelectedItem(shinyPotsEnabled ? "ON" : "OFF");
+    
+        settingItems.add(
+            smartSounds = new SelectionItem(9, getX(), getDefaultItemY(9),  width - getX() * 2, "BETTER SOUNDS", i-> {
+            ((SelectionItem)i).nextItem();
+            smartSoundsEnabled = ((SelectionItem) i).getSelectedItem().equals("ON");
+        }));
+        smartSounds.addDefaultOnOff();
+        smartSounds.setSelectedItem(smartSoundsEnabled ? "ON" : "OFF");
+        
+        settingItems.add(menuStyleSelection = new SelectionItem(10, getX(), getDefaultItemY(10),  width - getX() * 2, "MENU STYLE", i->{
             ((SelectionItem)i).nextItem();
             menuStyle = (String)((SelectionItem)i).getSelectedItem();
         }));

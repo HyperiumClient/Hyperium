@@ -19,11 +19,10 @@
 package cc.hyperium.mods.chromahud.displayitems.hyperium;
 
 import cc.hyperium.Hyperium;
-import cc.hyperium.utils.JsonHolder;
 import cc.hyperium.mods.chromahud.ElementRenderer;
 import cc.hyperium.mods.chromahud.api.Dimension;
 import cc.hyperium.mods.chromahud.api.DisplayItem;
-import net.minecraft.client.Minecraft;
+import cc.hyperium.utils.JsonHolder;
 
 public class HypixelDisplay extends DisplayItem {
     public HypixelDisplay(JsonHolder data, int ordinal) {
@@ -35,6 +34,6 @@ public class HypixelDisplay extends DisplayItem {
         String string = "Hypixel: " + Hyperium.INSTANCE.getHandlers().getHypixelDetector().isHypixel();
         ElementRenderer.draw(x, y, string);
         //TODO remove specific reference
-        return new Dimension(config ? Minecraft.getMinecraft().fontRendererObj.getStringWidth(string) : 0, 10);
+        return new Dimension(config ? ElementRenderer.getFontRenderer().getStringWidth(string) : 0, 10);
     }
 }

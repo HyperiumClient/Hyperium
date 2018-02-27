@@ -101,17 +101,17 @@ public abstract class MixinGuiMainMenu extends GuiScreen implements GuiYesNoCall
             this.addSingleplayerMultiplayerButtons(j - 10, 24);
         }
 
-        switch (style){
-            case DEFAULT:
+    //    switch (style){
+   //         case DEFAULT:
                 addDefaultStyleOptionsButton(j);
-                break;
+   /*             break;
             case CENTERED:
                 addCenteredStyleOptionsButton(j);
                 break;
             case LEFT_SIDED:
                 addLeftSidedStyleOptionsButton(j);
                 break;
-        }
+        }*/
 
         synchronized (this.threadLock) {
             this.field_92023_s = this.fontRendererObj.getStringWidth(this.openGLWarning1);

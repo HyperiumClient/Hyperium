@@ -18,9 +18,11 @@
 
 package cc.hyperium.mixins.gui;
 
+import cc.hyperium.Hyperium;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.SendChatMessageEvent;
 import cc.hyperium.mixins.packet.MixinC01PacketChatMessage;
+import com.google.common.collect.ObjectArrays;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.GuiTextField;
@@ -29,9 +31,8 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
-import java.util.List;
 
 @Mixin(GuiChat.class)
 public class MixinGuiChat {
@@ -39,10 +40,6 @@ public class MixinGuiChat {
     @Shadow
     protected GuiTextField inputField;
 
-    @Shadow
-    private boolean playerNamesFound;
-    @Shadow
-    private List<String> foundPlayerNames;
     private final Minecraft mc = Minecraft.getMinecraft();
 
     @Inject(method = "initGui", at = @At("RETURN"))
@@ -72,11 +69,17 @@ public class MixinGuiChat {
         ci.cancel();
     }
 
-    // TODO
-   /* @Inject(method = "autocompletePlayerNames", at = @At(value = "JUMP", target = "Lnet/minecraft/client/gui/GuiChat;autocompletePlayerNames()V"), require = 1)
-    private void autocomplete(CallbackInfo ci) {
-        System.out.println("test");
-    }*/
+    @Inject(method = "sendAutocompleteRequest", at = @At(value = "JUMP", ordinal = 0, shift = At.Shift.AFTER))
+    private void onSendAutocompleteRequest(String leftOfCursor, String fullInput, CallbackInfo ci) {
+        Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().autoComplete(leftOfCursor);
+    }
 
-
+    @ModifyVariable(method = "onAutocompleteResponse", name = "p_146406_1_", at = @At(value = "INVOKE", target = "Ljava/util/List;clear()V", shift = At.Shift.AFTER))
+    private String[] addModCompletions(String[] currentCompletions) {
+        String[] modCompletions = Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().getLatestAutoComplete();
+        if (modCompletions != null) {
+            currentCompletions = ObjectArrays.concat(modCompletions, currentCompletions, String.class);
+        }
+        return currentCompletions;
+    }
 }

@@ -51,4 +51,8 @@ public interface BaseCommand {
      * will log directly to the players chat (without a prefix)
      */
     void onExecute(String[] args) throws CommandException;
+
+	default List<String> onTabComplete(String[] args) {
+		return null;
+	}
 }

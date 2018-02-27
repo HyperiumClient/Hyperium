@@ -19,8 +19,6 @@
 package cc.hyperium;
 
 
-import cc.hyperium.addons.HyperiumAddonBootstrap;
-import cc.hyperium.addons.loader.DefaultAddonLoader;
 import cc.hyperium.commands.defaults.CommandChromaHUD;
 import cc.hyperium.commands.defaults.CommandClearChat;
 import cc.hyperium.commands.defaults.CommandConfigGui;
@@ -31,6 +29,7 @@ import cc.hyperium.event.minigames.Minigame;
 import cc.hyperium.event.minigames.MinigameListener;
 import cc.hyperium.gui.NotificationCenter;
 import cc.hyperium.gui.integrations.HypixelFriendsGui;
+import cc.hyperium.gui.settings.items.AnimationSettings;
 import cc.hyperium.gui.settings.items.GeneralSetting;
 import cc.hyperium.handlers.HyperiumHandlers;
 import cc.hyperium.handlers.handlers.keybinds.KeyBindHandler;
@@ -42,13 +41,14 @@ import cc.hyperium.mods.capturex.CaptureCore;
 import cc.hyperium.mods.crosshair.CrosshairMod;
 import cc.hyperium.mods.discord.RichPresenceManager;
 import cc.hyperium.mods.levelhead.commands.LevelHeadCommand;
-import cc.hyperium.mods.perspective.PerspectiveModifierContainer;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.mods.statistics.GeneralStatisticsTracking;
 import cc.hyperium.tray.TrayManager;
 import cc.hyperium.utils.ChatColor;
 import cc.hyperium.utils.mods.CompactChat;
 import cc.hyperium.utils.mods.FPSLimiter;
+import cc.hyperium.utils.mods.GeneralStatisticsTracking;
+import cc.hyperium.utils.mods.PerspectiveModifierContainer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ChatComponentText;
 import org.apache.logging.log4j.LogManager;
@@ -79,17 +79,10 @@ public class Hyperium {
      * Instance of default CONFIG
      */
     public static final DefaultConfig CONFIG = new DefaultConfig(new File(folder, "CONFIG.json"));
-    /**
-     * Instance of default addons loader
-     */
-    private final DefaultAddonLoader addonLoader = new DefaultAddonLoader();
+
     private final NotificationCenter notification = new NotificationCenter();
-    private HyperiumAddonBootstrap addonBootstrap;
 
     private RichPresenceManager richPresenceManager = new RichPresenceManager();
-
-
-    private Spotify spotify;
 
     private TrayManager trayManager;
     private HyperiumHandlers handlers;
@@ -149,6 +142,7 @@ public class Hyperium {
 
         // instance does not need to be saved as shit is static ^.^
         CONFIG.register(new GeneralSetting(null));
+        CONFIG.register(new AnimationSettings(null));
 
         //Register commands.
         registerCommands();
@@ -158,33 +152,21 @@ public class Hyperium {
         // spotify thread (>^.^)>
         Multithreading.runAsync(() -> {
             try {
-                spotify = new Spotify();
-                spotify.addListener(new Spotify.SpotifyListener() {
-                    @Override
-                    public void onPlay() {
-                        notification.display("Spotify", "Now playing " + spotify.getCachedStatus().getJSONObject("track").getJSONObject("track_resource").getString("name"), 3);
-                    }
-                });
+                Spotify spotify = new Spotify();
+                //Commented by Sk1er because Kevin didn't include half of the files
+//                spotify.addListener(new Spotify.SpotifyListener() {
+//                    @Override
+//                    public void onPlay(SpotifyInformation info) {
+//                        notification.display("Spotify", "Now playing " + info.getTrack().getAlbumResource().getName(), 8);
+//                    }
+//                });
+                spotify.start();
             } catch (Exception e) {
                 e.printStackTrace();
                 LOGGER.warn("Failed to connect to spotify");
             }
         });
         Runtime.getRuntime().addShutdownHook(new Thread(this::shutdown));
-    }
-
-    /**
-     * load addons
-     */
-    public void registerAddons() {
-        try {
-            addonBootstrap = new HyperiumAddonBootstrap();
-            addonBootstrap.loadInternalAddon();
-            addonBootstrap.loadAddons(addonLoader);
-        } catch (Exception e) {
-            e.printStackTrace();
-            LOGGER.error("Failed to load addon(s) from addons folder");
-        }
     }
 
     /**
@@ -281,8 +263,6 @@ public class Hyperium {
         CONFIG.save();
         richPresenceManager.shutdown();
         captureCore.shutdown();
-        if (spotify != null)
-            spotify.stop();
         LOGGER.info("Shutting down Hyperium..");
     }
 
