@@ -20,6 +20,7 @@ package cc.hyperium.integrations.spotify;
 
 import cc.hyperium.integrations.os.OsHelper;
 import cc.hyperium.integrations.spotify.impl.SpotifyInformation;
+import cc.hyperium.mods.sk1ercommon.Multithreading;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -32,8 +33,8 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 /**
  * converted from https://github.com/onetune/spotify-web-helper/blob/master/index.js
@@ -55,6 +56,8 @@ public class Spotify {
     private String token;
     private String csrfToken;
 
+    private int reconnectAttempts = 0;
+
     public Spotify() throws Exception {
         if (getWebHelper() == null)
             throw new UnsupportedOperationException("Could not find WebHelper // OS not supported!");
@@ -69,8 +72,8 @@ public class Spotify {
      * stats the listener
      */
     public void start() {
-        try {
-            while (true) {
+        Multithreading.schedule(() -> {
+            try {
                 final SpotifyInformation information = getStatus();
                 checkForError(information);
                 if (information.isPlaying() != this.status.isPlaying()) {
@@ -81,8 +84,8 @@ public class Spotify {
                     }
                 }
 
-                if(information.getTrack() != null && status.getTrack() != null) {
-                    if(information.getTrack().getAlbumResource() != null && status.getTrack().getAlbumResource() != null) {
+                if (information.getTrack() != null && status.getTrack() != null) {
+                    if (information.getTrack().getAlbumResource() != null && status.getTrack().getAlbumResource() != null) {
                         if (!information.getTrack().getAlbumResource().getName().equals(status.getTrack().getAlbumResource().getName())) {
                             this.listeners.forEach(listener -> listener.onPlay(information));
                         }
@@ -90,14 +93,12 @@ public class Spotify {
                 }
                 // this is now 3 seconds old :P
                 this.status = information;
-                Thread.sleep(3 * 1000); // we dont want to fetch it too often
+            } catch(Exception e) {
+                System.out.println("[SPOTIFY] Exception occurred");
             }
-        } catch (Exception e) {
-            e.printStackTrace(); // error :(
-            try {
-                Thread.sleep(10 * 1000); // 10 seconds reconnect :P
-            } catch (InterruptedException ignored) { }
-        }
+        }, 3, 3, TimeUnit.SECONDS);
+
+
         // WTF IS THIS SHIT LOL
     }
 

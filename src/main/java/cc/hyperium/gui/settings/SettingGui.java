@@ -84,11 +84,15 @@ public class SettingGui extends HyperiumGui {
         super.handleMouseInput();
         int i = Mouse.getEventDWheel();
         if (i < 0 ) {
-            if(offset < 0) {
+            int length = (((height / 5) * 3) / 15); // works out size of the scrollable area
+            if(offset - length + 1> -settingItems.size() && length <= settingItems.size()) {
+                // regions it cant exceed
                 offset -= 1;
             }
         } else if (i > 0) {
-            offset += 1;
+            if(offset < 0) {
+                offset += 1;
+            }
         }
     }
 

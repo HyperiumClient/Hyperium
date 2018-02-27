@@ -18,6 +18,7 @@
 
 package cc.hyperium.handlers.handlers;
 
+import cc.hyperium.Hyperium;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.ServerJoinEvent;
 import cc.hyperium.event.ServerLeaveEvent;
@@ -27,20 +28,24 @@ import java.util.regex.Pattern;
 
 public class HypixelDetector {
 
+    private static final Pattern HYPIXEL_PATTERN =
+            Pattern.compile("^(?:(?:(?:\\w+\\.)?hypixel\\.net)|(?:209\\.222\\.115\\.\\d{1,3}))(?::\\d{1,5})?$", Pattern.CASE_INSENSITIVE);
     private static HypixelDetector instance;
+    private boolean hypixel = false;
 
     public HypixelDetector() {
         instance = this;
     }
 
-    private static final Pattern HYPIXEL_PATTERN =
-            Pattern.compile("^(?:(?:(?:\\w+\\.)?hypixel\\.net)|(?:209\\.222\\.115\\.\\d{1,3}))(?::\\d{1,5})?$", Pattern.CASE_INSENSITIVE);
-
-    private boolean hypixel = false;
+    public static HypixelDetector getInstance() {
+        return instance;
+    }
 
     @InvokeEvent
     public void serverJoinEvent(ServerJoinEvent event) {
-        hypixel = HYPIXEL_PATTERN.matcher(event.getServer()).find();
+        boolean h1 = this.hypixel;
+        this.hypixel = HYPIXEL_PATTERN.matcher(event.getServer()).find();
+        Hyperium.INSTANCE.getNotification().display("Hypixel", "Welcome to the HYPIXEL ZOO", 5f);
     }
 
     @InvokeEvent
@@ -49,13 +54,11 @@ public class HypixelDetector {
     }
 
     @InvokeEvent
-    public void singlePlayerJoin(SingleplayerJoinEvent event) { hypixel = false; }
+    public void singlePlayerJoin(SingleplayerJoinEvent event) {
+        hypixel = false;
+    }
 
     public boolean isHypixel() {
         return hypixel;
-    }
-
-    public static HypixelDetector getInstance() {
-        return instance;
     }
 }

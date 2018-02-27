@@ -26,6 +26,7 @@ import cc.hyperium.handlers.handlers.privatemessages.PrivateMessage;
 import cc.hyperium.handlers.handlers.privatemessages.PrivateMessageChat;
 import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
 import cc.hyperium.utils.ChatColor;
+import cc.hyperium.utils.RenderUtils;
 import club.sk1er.website.api.requests.HypixelApiPlayer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiTextField;
@@ -91,14 +92,14 @@ public class HypixelPrivateMessage extends HyperiumGui {
         if (allInOrder.size() > max)
             allInOrder = allInOrder.subList(0, max);
 
-        GuiBlock lastBlock = new GuiBlock(10, Math.max(ResolutionUtil.current().getScaledWidth() / 9, 100) - 25, 0, 20); //Shifted up by 20 because system takes next one
+        GuiBlock lastBlock = new GuiBlock(10, Math.max(ResolutionUtil.current().getScaledWidth() / 9, 100) - 25, offset, offset + 20); //Shifted up by 20 because system takes next one
         lastBlock.ensureWidth(fontRendererObj.getStringWidth("################"), true);
         lastBlock.drawString("Recent chats", fontRendererObj, true, true, lastBlock.getWidth() / 2, 10, true, false, Color.RED.getRGB(), true);
 
         for (PrivateMessageChat privateMessageChat : allInOrder) {
             GuiBlock block = new GuiBlock(lastBlock.getLeft(), lastBlock.getRight(), lastBlock.getBottom() + 5, lastBlock.getBottom() + 25);
             Gui.drawRect(block.getLeft(), block.getTop(), block.getRight(), block.getBottom(), new Color(0, 0, 0, 60).getRGB());
-            block.drawString(privateMessageChat.getTo(), fontRendererObj, true, false, block.getWidth() / 2, 6, true, false, Color.GREEN.getRGB(), false);
+            block.drawString(privateMessageChat.getTo(), fontRendererObj, true, true, block.getWidth() / 2, 6, true, false, Color.GREEN.getRGB(), true);
             chatBoxes.add(new GuiBoxItem<>(block, privateMessageChat));
             lastBlock = block;
 
@@ -140,23 +141,34 @@ public class HypixelPrivateMessage extends HyperiumGui {
         final int bottom = ResolutionUtil.current().getScaledHeight() - 30;
         final int top = 40;
         chat.getMessages().sort(chat);
-        int yLevel = bottom - 10;
+        int yLevel = bottom - 10 + offset;
         int leftSideX = ResolutionUtil.current().getScaledWidth() / 2 - ResolutionUtil.current().getScaledWidth() / 6;
         int rightSideX = ResolutionUtil.current().getScaledWidth() / 2 + ResolutionUtil.current().getScaledWidth() / 6;
-
+        String lastAuthor = "";
         for (PrivateMessage privateMessage : chat.getMessages()) {
             boolean user = privateMessage.isUser();
             String message = privateMessage.getMessage();
+            if (message.isEmpty())
+                continue;
             long time = privateMessage.getTime();
             GuiBlock block = new GuiBlock(leftSideX, rightSideX, yLevel, yLevel);
             block.setExpandRight(!user);
             //Compound message into the list of strings and expand boxes to ensure space
             List<String> messages = breakIntoBits(message, rightSideX - leftSideX - 25, true);
             block.ensureHeight(messages.size() * 11, false);
-            Gui.drawRect(block.getLeft() + (user ? 25 : 0), block.getTop(), block.getRight() + (user ? 0 : -25), block.getBottom(), user ? new Color(0, 0, 255, 100).getRGB() : new Color(0, 255, 0, 100).getRGB());
+            if (block.getTop() < 20 || block.getBottom() > bottom - 10) {
+                yLevel -= block.getHeight();
+                yLevel -= 5;
+                continue;
+            }
+//            Gui.drawRect(block.getLeft() + (user ? 25 : 3), block.getTop(), block.getRight() + (user ? 0 : -25), block.getBottom(), user ? new Color(0, 0, 255, 255).getRGB() : new Color(0, 255, 0, 255).getRGB());
+//            RenderUtils.drawFilledCircle(block.getLeft() + (user ? 25 : 3), block.getTop() + 4, 4, user ? new Color(0, 0, 255, 255).getRGB() : new Color(0, 255, 0, 255).getRGB());
+//            RenderUtils.drawFilledCircle(block.getLeft() + (user ? 25 : 3), block.getBottom() - 4, 4, user ? new Color(0, 0, 255, 255).getRGB() : new Color(0, 255, 0, 255).getRGB());
+//            Gui.drawRect(block.getLeft()-4+(user ? 25 : 3), block.getTop() + 3, block.getLeft()+(user ? 25 : 3) , block.getBottom() - 3, user ? new Color(0, 0, 255, 200).getRGB() : new Color(0, 255, 0, 200).getRGB());
+           RenderUtils.drawSmoothRect(block.getLeft() + (user ? 25 : 3), block.getTop(), block.getRight() + (user ? 0 : -25), block.getBottom(),user ? new Color(0, 0, 255, 255).getRGB() : new Color(0, 255, 0, 255).getRGB());
             int y = 1;
             for (String s : messages) {
-                block.drawString(s, fontRendererObj, true, false, user ? 5 : 0, y, false, false, Color.WHITE.getRGB(), !user);
+                block.drawString(s.trim(), fontRendererObj, true, false, user ? 7 : 5, y, false, false, Color.WHITE.getRGB(), !user);
                 y += 11;
             }
             long delta = System.currentTimeMillis() - time;
@@ -175,9 +187,9 @@ public class HypixelPrivateMessage extends HyperiumGui {
             }
             if (isGuildOrParty())
                 timeString += " " + privateMessage.getWith();
-
-            fontRendererObj.drawString(timeString, user ? block.getRight() + 2 : block.getLeft() - fontRendererObj.getStringWidth(timeString) - 5, block.getTop() + 3 + (10 * (messages.size() - 1)), Color.GRAY.getRGB(), true);
-
+            if (!lastAuthor.equalsIgnoreCase(privateMessage.getWith()))
+                fontRendererObj.drawString(timeString, user ? block.getRight() + 2 : block.getLeft() - fontRendererObj.getStringWidth(timeString) - 5, block.getTop() + 3 + (10 * (messages.size() - 1)), Color.GRAY.getRGB(), true);
+            lastAuthor = privateMessage.getWith();
             yLevel -= block.getHeight();
             yLevel -= 5;
 

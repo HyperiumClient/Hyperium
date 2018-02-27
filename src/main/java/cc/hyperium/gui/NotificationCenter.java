@@ -28,49 +28,64 @@ import net.minecraft.client.gui.ScaledResolution;
 import java.awt.*;
 
 public class NotificationCenter extends Gui {
-    
+
     private String title;
     private String description;
-    
+
     private int ticks = 0;
     private int endTicks = 0;
-    
+
     @InvokeEvent
     public void onRenderTick(RenderHUDEvent event) {
-        
+
         if (this.ticks >= this.endTicks) {
             return;
         }
-        
+
         FontRenderer fontRendererObj = Minecraft.getMinecraft().fontRendererObj;
-        
+
         int rectW = 175;
         int rectH = 40;
         int x = 0;
+
+        //Sk1er test changes to make it look better
+        // Goal: Alpha blend it out during first/last 20% of movement + make it move better
+
+        float percentComplete = ticks / 20F;
+        float alpha = 255;
+
         // animation
         if (ticks < 20) {
-            x = (rectW / 20) * (20 - ticks);
+            x = (rectW / 20) * (20 - ticks) * (20 - ticks);
         } else if ((endTicks - ticks) < 20) {
-            x = (rectW / 20) * (20 - (endTicks - ticks));
+            x = (rectW / 20) * (20 - (endTicks - ticks)) * (20 - (endTicks - ticks));
         }
-        
+        if (x > rectW / 4) {
+            float e = rectW / 4F;
+            float t = x - rectW;
+            alpha = e / t;
+        }
+
         ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
-        int w = sr.getScaledWidth(), h = sr.getScaledHeight();
-        
+        int w = sr.getScaledWidth();
+        int h = sr.getScaledHeight();
+        if (alpha <= 4)
+            alpha = 10;
+
         // Background
-        Gui.drawRect(w - rectW + x, (h - 30) - rectH, w + x, h - 30, new Color(30, 30, 30).getRGB());
+        Gui.drawRect(w - rectW + x, (h - 30) - rectH, w + x, h - 30, new Color(30, 30, 30, (int) alpha).getRGB());
         Gui.drawRect(
-            w - rectW + x,
-            (h - 30) - rectH,
-            (w - rectW) + 3 + x,
-            h - 30,
-            new Color(149, 201, 144).getRGB());
+                w - rectW + x,
+                (h - 30) - rectH,
+                (w - rectW) + 3 + x,
+                h - 30,
+                new Color(149, 201, 144).getRGB());
         fontRendererObj.drawString(title, (w - rectW) + 10 + x, (h - 30) - rectH + 10, 0xFFFFFF);
         fontRendererObj.drawString(description, (w - rectW) + 10 + x, (h - 30) - rectH + 20, 0x424242);
-        
+
         ticks++;
     }
-    
+
     public void display(String title, String description, float seconds) {
         this.title = title;
         this.description = description;

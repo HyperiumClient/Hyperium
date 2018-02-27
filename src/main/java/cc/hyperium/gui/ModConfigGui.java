@@ -69,8 +69,8 @@ public class ModConfigGui extends HyperiumGui {
         drawRect(
                 rightBoxEdge,
                 height / 5 + 5,
-                rightBoxEdge + 3,
-                bottomBoxEdge + 3,
+                rightBoxEdge + 2,
+                bottomBoxEdge + 2,
                 new Color(0, 0, 0, 180).getRGB()
         );
 
@@ -79,7 +79,7 @@ public class ModConfigGui extends HyperiumGui {
                 width / 5 + 5,
                 bottomBoxEdge,
                 rightBoxEdge,
-                bottomBoxEdge + 3,
+                bottomBoxEdge + 2,
                 new Color(0, 0, 0, 180).getRGB()
         );
 
@@ -104,9 +104,11 @@ public class ModConfigGui extends HyperiumGui {
     @Override
     protected void pack() {
         CustomFontButton button = new CustomFontButton(0, getX(0), getY(), getButtonWidth(), 25, "HOME");
+        buttonList.add(button);
         this.tabs.add(new Tab(button, 0, this));
 
         button = new CustomFontButton(1, getX(1), getY(), getButtonWidth(), 25, "SETTINGS");
+        buttonList.add(button);
         Tab tab = new ModConfigGui.Tab(button, 1, this) {
             @Override
             public void draw(int mouseX, int mouseY) {
@@ -149,19 +151,24 @@ public class ModConfigGui extends HyperiumGui {
         this.tabs.add(tab);
 
         button = new CustomFontButton(2, getX(2), getY(), getButtonWidth(), 25, "ADDONS");
+        buttonList.add(button);
         this.tabs.add(new Tab(button, 2, this));
 
         button = new CustomFontButton(3, getX(3), getY(), getButtonWidth(), 25, "FRIENDS");
+        buttonList.add(button);
         this.tabs.add(new Tab(button, 3, this));
 
         button = new CustomFontButton(4, getX(4), getY(), getButtonWidth(), 25, "ABOUT");
+        buttonList.add(button);
         this.tabs.add(new ModConfigGui.Tab(button, 4, this) {
             @Override
             public void draw(int mouseX, int mouseY) {
                 super.draw(mouseX, mouseY);
 
-                String str = "Developed by Sk1er, CoalOres, Kevin and Cubxity";
-                fontRenderer.drawCenteredString(str, width / 2, height - 12, Color.WHITE.getRGB());
+                if (this.selected) {
+                    String str = "Developed by Sk1er, CoalOres, Kevin and Cubxity";
+                    fontRenderer.drawCenteredString(str, width / 2, height - 12, Color.WHITE.getRGB());
+                }
             }
         });
     }
@@ -273,7 +280,7 @@ public class ModConfigGui extends HyperiumGui {
                         beginY,
                         leftX + halfWidth,
                         endY,
-                        new Color(149, 201, 144).getRGB()
+                        new Color(149, 250, 144).getRGB()
                 );
 
                 drawRect(
@@ -281,13 +288,15 @@ public class ModConfigGui extends HyperiumGui {
                         beginY,
                         leftX + halfWidth + finalWidth,
                         endY,
-                        new Color(149, 201, 144).getRGB()
+                        new Color(149, 250, 144).getRGB()
                 );
             }
         }
 
         public Tab addSetting(SettingItem item) {
             this.settings.add(item);
+
+            return this;
         }
 
         public void setSelected(boolean selected) {
