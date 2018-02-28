@@ -35,6 +35,7 @@ public class NotificationCenter extends Gui {
 
     private int ticks = 0;
     private int endTicks = 0;
+
     @InvokeEvent
     public void tick(TickEvent ev) {
         if (this.ticks >= this.endTicks) {
@@ -43,6 +44,7 @@ public class NotificationCenter extends Gui {
         ticks++;
 
     }
+
     @InvokeEvent
     public void onRenderTick(RenderHUDEvent event) {
 
@@ -64,9 +66,9 @@ public class NotificationCenter extends Gui {
 
         // animation
         if (ticks < 20) {
-            x = (rectW / 20) * (20 - ticks) * (20 - ticks);
+            x = (rectW / 20) * (20 - ticks) * (20 - ticks) / 2;
         } else if ((endTicks - ticks) < 20) {
-            x = (rectW / 20) * (20 - (endTicks - ticks)) * (20 - (endTicks - ticks));
+            x = (rectW / 20) * (20 - (endTicks - ticks)) * (20 - (endTicks - ticks))/2;
         }
         if (x > rectW / 4) {
             float e = rectW / 4F;
