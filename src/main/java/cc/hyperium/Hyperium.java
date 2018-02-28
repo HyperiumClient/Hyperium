@@ -151,7 +151,8 @@ public class Hyperium {
                 spotify.addListener(new Spotify.SpotifyListener() {
                     @Override
                     public void onPlay(SpotifyInformation info) {
-                        notification.display("Spotify", "Now playing " + info.getTrack().getAlbumResource().getName(), 8);
+                        // This is on a different thread, so we need to use the static getter
+                        Hyperium.INSTANCE.getNotification().display("Spotify", "Now playing " + info.getTrack().getTrackResource().getName(), 8);
                     }
                 });
                 spotify.start();
