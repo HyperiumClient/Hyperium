@@ -19,10 +19,10 @@
 package cc.hyperium.gui;
 
 import cc.hyperium.Hyperium;
+import cc.hyperium.gui.settings.SettingItem;
 import cc.hyperium.gui.settings.items.AnimationSettings;
 import cc.hyperium.gui.settings.items.CaptureXSetting;
 import cc.hyperium.gui.settings.items.GeneralSetting;
-import cc.hyperium.gui.settings.SettingItem;
 import cc.hyperium.utils.HyperiumFontRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
@@ -75,7 +75,7 @@ public class ModConfigGui extends HyperiumGui {
             case FRIENDS:
                 break;
             case ABOUT:
-                String str = "Developed by Sk1er, CoalOres, Kevin and Cubxity";
+                String str = "Developed by Sk1er, CoalOres, Kevin, Cubxity and boomboompower";
                 fontRenderer.drawCenteredString(str, width / 2, height - 12, Color.WHITE.getRGB());
                 break;
             default:

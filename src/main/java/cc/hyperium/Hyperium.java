@@ -19,14 +19,12 @@
 package cc.hyperium;
 
 
-import cc.hyperium.commands.defaults.CommandChromaHUD;
-import cc.hyperium.commands.defaults.CommandClearChat;
-import cc.hyperium.commands.defaults.CommandConfigGui;
-import cc.hyperium.commands.defaults.CommandPrivateMessage;
+import cc.hyperium.commands.defaults.*;
 import cc.hyperium.config.DefaultConfig;
 import cc.hyperium.event.*;
 import cc.hyperium.event.minigames.Minigame;
 import cc.hyperium.event.minigames.MinigameListener;
+import cc.hyperium.gui.NameHistoryGui;
 import cc.hyperium.gui.NotificationCenter;
 import cc.hyperium.gui.integrations.HypixelFriendsGui;
 import cc.hyperium.gui.settings.items.AnimationSettings;
@@ -45,7 +43,10 @@ import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.mods.statistics.GeneralStatisticsTracking;
 import cc.hyperium.tray.TrayManager;
 import cc.hyperium.utils.ChatColor;
-import cc.hyperium.utils.mods.*;
+import cc.hyperium.utils.mods.CompactChat;
+import cc.hyperium.utils.mods.FPSLimiter;
+import cc.hyperium.utils.mods.PerspectiveModifierContainer;
+import cc.hyperium.utils.mods.ToggleSprintContainer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ChatComponentText;
 import org.apache.logging.log4j.LogManager;
@@ -111,6 +112,7 @@ public class Hyperium {
         EventBus.INSTANCE.register(CrosshairMod.getInstance());
         EventBus.INSTANCE.register(CONFIG.register(FPSLimiter.getInstance()));
         EventBus.INSTANCE.register(perspective = new PerspectiveModifierContainer());
+        EventBus.INSTANCE.register(new NameHistoryGui());
 
         // Register statistics tracking.
         EventBus.INSTANCE.register(statTrack);
@@ -169,13 +171,12 @@ public class Hyperium {
      * register the commands
      */
     private void registerCommands() {
-//       Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(new TestCommand());
-
         Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(new CommandConfigGui());
         Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(new CommandPrivateMessage());
         Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(new LevelHeadCommand());
         Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(new CommandClearChat());
         Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(new CommandChromaHUD());
+        Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(new NameHistoryCommand());
     }
 
     /**

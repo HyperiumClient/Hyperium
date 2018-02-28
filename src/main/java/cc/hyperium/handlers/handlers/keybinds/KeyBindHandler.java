@@ -30,14 +30,16 @@ public class KeyBindHandler {
 
     public static ArrayList<HyperiumBind> keybinds = new ArrayList<>();
 
-    public static HyperiumBind toggleSprint = new HyperiumBind("toggleSprint", 47);
+    public static HyperiumBind toggleSprint = new HyperiumBind("toggleSprint", Keyboard.KEY_V);
     public static HyperiumBind debug = new HyperiumBind("debug", Keyboard.KEY_L);
     public static HyperiumBind perspective = new HyperiumBind("perspective", Keyboard.KEY_P);
+    public static HyperiumBind nameHistory = new HyperiumBind("nameHistory", Keyboard.KEY_N);
 
     public KeyBindHandler() {
         keybinds.add(toggleSprint);
         keybinds.add(debug);
         keybinds.add(perspective);
+        keybinds.add(nameHistory);
     }
 
     @InvokeEvent
