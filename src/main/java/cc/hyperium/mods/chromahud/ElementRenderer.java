@@ -20,7 +20,7 @@ package cc.hyperium.mods.chromahud;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.event.InvokeEvent;
-import cc.hyperium.event.RenderEvent;
+import cc.hyperium.event.RenderHUDEvent;
 import cc.hyperium.event.TickEvent;
 import cc.hyperium.utils.RenderUtils;
 import net.minecraft.client.Minecraft;
@@ -198,6 +198,7 @@ public class ElementRenderer {
         GlStateManager.scale(1.0 / element.getScale(), 1.0 / element.getScale(), 0);
     }
 
+
     public static FontRenderer getFontRenderer() {
         return fontRendererObj;
     }
@@ -214,12 +215,17 @@ public class ElementRenderer {
     }
 
     @InvokeEvent
-    public void onRenderTick(RenderEvent event) {
+    public void onRenderTick(RenderHUDEvent event) {
         resolution = new ScaledResolution(Minecraft.getMinecraft());
         if (!this.minecraft.inGameHasFocus || this.minecraft.gameSettings.showDebugInfo) {
             return;
         }
+//        GlStateManager.color(1.0F,1.0F,1.0F,1.0F);
+
         renderElements();
+
+//        GlStateManager.color(1.0F,1.0F,1.0F,1.0F);
+
     }
 
     public void renderElements() {
@@ -237,6 +243,7 @@ public class ElementRenderer {
             }
         }
 
+        GlStateManager.color(1.0F,1.0F,1.0F,1.0F);
 
         List<DisplayElement> elementList = mod.getDisplayElements();
         for (DisplayElement element : elementList) {

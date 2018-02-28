@@ -373,7 +373,7 @@ public class DisplayElementConfig extends GuiScreen {
     }
 
     private void drawCircle(int x, int y) {
-        GL11.glColor4f(0F, 0F, 0F, 1.0F);
+        GlStateManager.color(0F, 0F, 0F, 1.0F);
         Gui.drawRect(x - 2, y + 12, x + 2, y + 3, Color.BLACK.getRGB());
         Gui.drawRect(x - 2, y - 3, x + 2, y - 12, Color.BLACK.getRGB());
         Gui.drawRect(x + 12, y - 2, x + 3, y + 2, Color.BLACK.getRGB());
@@ -418,13 +418,13 @@ public class DisplayElementConfig extends GuiScreen {
 //        //    public void drawTexturedModalRect(int x, int y, int textureX, int textureY, int width, int height)
         GL11.glPushMatrix();
         GL11.glTranslatef(left, top, 0);
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);//
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);//
         GlStateManager.scale(size / 285F, size / 285F, 0);
         drawTexturedModalRect(0, 0, 0, 0, 256, 256);
 
         if (texture2 != null) {
             GlStateManager.bindTexture(texture2.getGlTextureId());
-            GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
             GL11.glTranslatef(256 + 15, 0, 0);
             drawTexturedModalRect(0, 0, 0, 0, 15, 256);
         }
