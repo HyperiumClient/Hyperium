@@ -42,6 +42,7 @@ public class HyperiumChromaHudParser implements ChromaHUDParser {
         names.put("INFO", "Hyperium Info");
         names.put("COINS", "Coin Display");
         names.put("CBCPS", "Cheatbreaker CPS");
+        names.put("CBFPS", "Cheatbreaker FPS");
     }
 
     @Override
@@ -61,6 +62,8 @@ public class HyperiumChromaHudParser implements ChromaHUDParser {
                 return new ScoreboardDisplay(item, ord);
             case "CBCPS":
                 return new CBCpsDisplay(item, ord);
+            case "CBFPS":
+                return new CBFpsDisplay(item, ord);
 
         }
         return null;
