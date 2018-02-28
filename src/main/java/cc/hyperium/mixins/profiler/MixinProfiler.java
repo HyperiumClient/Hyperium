@@ -1,7 +1,6 @@
 package cc.hyperium.mixins.profiler;
 
 import com.google.common.collect.Lists;
-import net.minecraft.client.Minecraft;
 import net.minecraft.profiler.Profiler;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -36,18 +35,16 @@ public class MixinProfiler {
     private void endSection(CallbackInfo ci) {
         if (this.profilingEnabled) {
             long i = System.nanoTime();
-            long j = ((Long) this.timestampList.get(this.timestampList.size() - 1)).longValue();
+            long j = (Long) this.timestampList.get(this.timestampList.size() - 1);
             long k = i - j;
 
             if (k > TimeUnit.MILLISECONDS.toNanos(20)) {
-                System.out.println(System.currentTimeMillis() + " Something\'s taking too long! \'" + this.profilingSection + "\' took aprox " + (double) k / 1000000.0D + " ms");
-                if (Minecraft.getMinecraft().renderGlobal == null) {
-
-                    System.out.println(Minecraft.getMinecraft().renderGlobal.getDebugInfoEntities());
-                    System.out.println(Minecraft.getMinecraft().renderGlobal.getDebugInfoRenders());
-                }
-
-
+//                System.out.println(System.currentTimeMillis() + " Something\'s taking too long! \'" + this.profilingSection + "\' took aprox " + (double) k / 1000000.0D + " ms");
+//                if (Minecraft.getMinecraft().renderGlobal == null) {
+//
+//                    System.out.println(Minecraft.getMinecraft().renderGlobal.getDebugInfoEntities());
+//                    System.out.println(Minecraft.getMinecraft().renderGlobal.getDebugInfoRenders());
+//                }
             }
         }
     }
