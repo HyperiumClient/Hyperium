@@ -104,15 +104,24 @@ public class ElementRenderer {
                     ? fontRendererObj.getStringWidth(string)
                     : 0;
             if (current.isHighlighted()) {
-                int stringWidth = fontRendererObj.getStringWidth(string);
+                if(current.getDisplayItems().stream().anyMatch(i -> i.getType().contains("CB"))){
+                    RenderUtils.drawRect((int) ((tx - 1) / getCurrentScale() - shift), (int) ((ty - 2) / getCurrentScale()), (int) ((tx + 1) / getCurrentScale()) + 50 - shift, (int) ((ty + 2) / getCurrentScale()) + 8, new Color(0, 0, 0, 120).getRGB());
+                } else {
+                    int stringWidth = fontRendererObj.getStringWidth(string);
 //                Gui.drawRect((int) ((tx - 1) / getCurrentScale() - shift), (int) ((ty - 1) / getCurrentScale()), (int) ((tx + 1) / getCurrentScale()) + stringWidth - shift, (int) ((ty + 1) / getCurrentScale()) + 8, new Color(0, 0, 0, 120).getRGB());
-                RenderUtils.drawRect((int) ((tx - 1) / getCurrentScale() - shift), (int) ((ty - 1) / getCurrentScale()), (int) ((tx + 1) / getCurrentScale()) + stringWidth - shift, (int) ((ty + 1) / getCurrentScale()) + 8, new Color(0, 0, 0, 120).getRGB());
-
+                    RenderUtils.drawRect((int) ((tx - 1) / getCurrentScale() - shift), (int) ((ty - 1) / getCurrentScale()), (int) ((tx + 1) / getCurrentScale()) + stringWidth - shift, (int) ((ty + 1) / getCurrentScale()) + 8, new Color(0, 0, 0, 120).getRGB());
+                }
             }
             if (current.isChroma()) {
-                drawChromaString(string, tx - shift, (int) ty);
+                if(current.getDisplayItems().stream().anyMatch(i -> i.getType().contains("CB")))
+                    drawChromaString(string, ((50 - fontRendererObj.getStringWidth(string)) / 2) + (tx - shift), (int) ty);
+                else
+                    drawChromaString(string, tx - shift, (int) ty);
             } else {
-                fontRendererObj.drawString(string, (int) (tx / getCurrentScale() - shift), (int) (ty / getCurrentScale()), getColor(color, x), current.isShadow());
+                if(current.getDisplayItems().stream().anyMatch(i -> i.getType().contains("CB")))
+                    fontRendererObj.drawString(string, (float) (((50 - fontRendererObj.getStringWidth(string)) / 2) + (tx / getCurrentScale() - shift)), (int) (ty / getCurrentScale()), getColor(color, x), current.isShadow());
+                else
+                    fontRendererObj.drawString(string, (int) (tx / getCurrentScale() - shift), (int) (ty / getCurrentScale()), getColor(color, x), current.isShadow());
             }
             ty += 10;
         }

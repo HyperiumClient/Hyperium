@@ -99,11 +99,12 @@ public class GeneralConfigGui extends GuiScreen {
             ElementRenderer.endDrawing(element);
         }
         if (currentElement != null) {
+            boolean cbHud = currentElement.getDisplayItems().stream().anyMatch(i -> i.getType().contains("CB"));
             ScaledResolution resolution = new ScaledResolution(Minecraft.getMinecraft());
             double offset = currentElement.isRightSided() ? currentElement.getDimensions().getWidth() : 0;
 //            double offset= 4;
             double x1 = currentElement.getXloc() * resolution.getScaledWidth_double()-offset;
-            double x2 = currentElement.getXloc() * resolution.getScaledWidth_double() + currentElement.getDimensions().getWidth()-offset;
+            double x2 = currentElement.getXloc() * resolution.getScaledWidth_double() + (cbHud ? 50 : currentElement.getDimensions().getWidth())-offset;
             double y1 = currentElement.getYloc() * resolution.getScaledHeight_double();
             double y2 = currentElement.getYloc() * resolution.getScaledHeight_double() + currentElement.getDimensions().getHeight();
             //Left top right bottom

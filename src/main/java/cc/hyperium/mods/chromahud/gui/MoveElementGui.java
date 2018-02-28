@@ -96,11 +96,11 @@ public class MoveElementGui extends GuiScreen {
         ElementRenderer.startDrawing(element);
         element.drawForConfig();
         ElementRenderer.endDrawing(element);
-
+        boolean cbHud = element.getDisplayItems().stream().anyMatch(i -> i.getType().contains("CB"));
         ScaledResolution resolution = new ScaledResolution(Minecraft.getMinecraft());
         double offset = element.isRightSided() ? element.getDimensions().getWidth() : 0;
         double x1 = element.getXloc() * resolution.getScaledWidth_double() - offset;
-        double x2 = element.getXloc() * resolution.getScaledWidth_double() + element.getDimensions().getWidth() - offset;
+        double x2 = element.getXloc() * resolution.getScaledWidth_double() + (cbHud ? 50 : element.getDimensions().getWidth()) - offset;
         double y1 = element.getYloc() * resolution.getScaledHeight_double();
         double y2 = element.getYloc() * resolution.getScaledHeight_double() + element.getDimensions().getHeight();
         //Left top right bottom
