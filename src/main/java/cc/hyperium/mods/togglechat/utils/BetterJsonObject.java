@@ -33,7 +33,7 @@ import java.io.IOException;
  * @author boomboompower
  * @version 1.0
  */
-@SuppressWarnings({"WeakerAccess", "ResultOfMethodCallIgnored"}) // Don't care
+@SuppressWarnings({"WeakerAccess", "ResultOfMethodCallIgnored", "UnusedReturnValue"}) // Don't care
 public class BetterJsonObject {
 
     /** Our pretty printer */
@@ -249,10 +249,11 @@ public class BetterJsonObject {
      * @param key the key
      * @param value the value
      */
-    public void addProperty(String key, String value) {
+    public BetterJsonObject addProperty(String key, String value) {
         if (key != null) {
             this.data.addProperty(key, value);
         }
+        return this;
     }
 
     /**
@@ -262,10 +263,11 @@ public class BetterJsonObject {
      * @param key the key
      * @param value the value
      */
-    public void addProperty(String key, Number value) {
+    public BetterJsonObject addProperty(String key, Number value) {
         if (key != null) {
             this.data.addProperty(key, value);
         }
+        return this;
     }
 
     /**
@@ -275,10 +277,24 @@ public class BetterJsonObject {
      * @param key the key
      * @param value the value
      */
-    public void addProperty(String key, Boolean value) {
+    public BetterJsonObject addProperty(String key, Boolean value) {
         if (key != null) {
             this.data.addProperty(key, value);
         }
+        return this;
+    }
+    
+    /**
+     * Adds another BetterJsonObject into this one
+     *
+     * @param key the key
+     * @param object the object to add
+     */
+    public BetterJsonObject add(String key, BetterJsonObject object) {
+        if (key != null) {
+            this.data.add(key, object.getData());
+        }
+        return this;
     }
 
     /**

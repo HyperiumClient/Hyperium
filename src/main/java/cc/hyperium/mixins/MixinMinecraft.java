@@ -106,6 +106,11 @@ public abstract class MixinMinecraft {
         EventBus.INSTANCE.post(new KeypressEvent(Keyboard.getEventKey(), Keyboard.isRepeatEvent()));
     }
 
+    @Inject(method = "runGameLoop", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/achievement/GuiAchievement;updateAchievementWindow()V"))
+    public void onRun(CallbackInfo ci) {
+        Minecraft.getMinecraft().mcProfiler.profilingEnabled=true;
+    }
+
     /**
      * Invoked once the player has pressed mouse button 1
      *

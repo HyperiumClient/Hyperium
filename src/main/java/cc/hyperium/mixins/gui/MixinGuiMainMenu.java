@@ -101,17 +101,14 @@ public abstract class MixinGuiMainMenu extends GuiScreen implements GuiYesNoCall
             this.addSingleplayerMultiplayerButtons(j - 10, 24);
         }
 
-    //    switch (style){
-   //         case DEFAULT:
+        switch (style){
+            case DEFAULT:
                 addDefaultStyleOptionsButton(j);
-   /*             break;
-            case CENTERED:
-                addCenteredStyleOptionsButton(j);
                 break;
-            case LEFT_SIDED:
-                addLeftSidedStyleOptionsButton(j);
+            case HYPERIUM:
+                addHyperiumStyleOptionsButton(j);
                 break;
-        }*/
+        }
 
         synchronized (this.threadLock) {
             this.field_92023_s = this.fontRendererObj.getStringWidth(this.openGLWarning1);
@@ -148,11 +145,8 @@ public abstract class MixinGuiMainMenu extends GuiScreen implements GuiYesNoCall
             case DEFAULT:
                 addDefaultStyleSingleplayerMultiplayerButtons(p_73969_1_, p_73969_2_);
                 break;
-            case CENTERED:
-                addCenteredStyleSingleplayerMultiplayerButtons(p_73969_1_, p_73969_2_);
-                break;
-            case LEFT_SIDED:
-                addLeftSidedStyleSingleplayerMultiplayerButtons(p_73969_1_, p_73969_2_);
+            case HYPERIUM:
+                addHyperiumStyleSingleplayerMultiplayerButtons(p_73969_1_, p_73969_2_);
                 break;
         }
     }
@@ -170,11 +164,8 @@ public abstract class MixinGuiMainMenu extends GuiScreen implements GuiYesNoCall
             case DEFAULT:
                 drawDefaultStyleScreen(mouseX, mouseY, partialTicks);
                 break;
-            case CENTERED:
-                drawCenteredStyleScreen(mouseX, mouseY, partialTicks);
-                break;
-            case LEFT_SIDED:
-                drawLeftSidedStyleScreen(mouseX, mouseY, partialTicks);
+            case HYPERIUM:
+                drawHyperiumStyleScreen(mouseX, mouseY, partialTicks);
                 break;
         }
     }
@@ -192,15 +183,13 @@ public abstract class MixinGuiMainMenu extends GuiScreen implements GuiYesNoCall
                 if (button.id == 16)
                     Minecraft.getMinecraft().displayGuiScreen(new GuiConnecting(new GuiMainMenu(), Minecraft.getMinecraft(), Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) ? "stuck.hypixel.net" : "mc.hypixel.net", 25565));
                 break;
-            case LEFT_SIDED:
-                break;
-            case CENTERED:
+            case HYPERIUM:
                 break;
         }
 
     }
 
-    private void addCenteredStyleSingleplayerMultiplayerButtons(int p_73969_1_, int p_73969_2_){
+    private void addHyperiumStyleSingleplayerMultiplayerButtons(int p_73969_1_, int p_73969_2_){
 
     }
 
@@ -212,11 +201,7 @@ public abstract class MixinGuiMainMenu extends GuiScreen implements GuiYesNoCall
         this.buttonList.add(new GuiButton(15, this.width / 2 - 100, p_73969_1_ + p_73969_2_ * 3, I18n.format("Hyperium Settings")));
     }
 
-    private void addLeftSidedStyleSingleplayerMultiplayerButtons(int p_73969_1_, int p_73969_2_){
-
-    }
-
-    private void addCenteredStyleOptionsButton(int j){
+    private void addHyperiumStyleOptionsButton(int j){
 
     }
 
@@ -225,11 +210,8 @@ public abstract class MixinGuiMainMenu extends GuiScreen implements GuiYesNoCall
         this.buttonList.add(new GuiButton(4, this.width / 2 + 2, j + 72 + 12 + 24 - 5, 98, 20, I18n.format("menu.quit")));
     }
 
-    private void addLeftSidedStyleOptionsButton(int j){
 
-    }
-
-    private void drawCenteredStyleScreen(int mouseX, int mouseY, float partialTicks){
+    private void drawHyperiumStyleScreen(int mouseX, int mouseY, float partialTicks){
 
     }
 
@@ -280,10 +262,6 @@ public abstract class MixinGuiMainMenu extends GuiScreen implements GuiYesNoCall
             overLast = Mouse.isButtonDown(0);
         } else
             super.drawScreen(mouseX, mouseY, partialTicks);
-    }
-
-    private void drawLeftSidedStyleScreen(int mouseX, int mouseY, float partialTicks){
-
     }
 
     @Shadow

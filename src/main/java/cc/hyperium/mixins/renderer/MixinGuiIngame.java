@@ -20,7 +20,6 @@ package cc.hyperium.mixins.renderer;
 
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.RenderHUDEvent;
-;
 import cc.hyperium.mods.chromahud.displayitems.hyperium.ScoreboardDisplay;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiIngame;
@@ -33,13 +32,16 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+;
+
 @Mixin(GuiIngame.class)
 public abstract class MixinGuiIngame {
 
     @Shadow
     public abstract FontRenderer getFontRenderer();
 
-    @Inject(method = "renderGameOverlay", at = @At("RETURN"))
+    @Inject(method = "renderGameOverlay", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/settings/KeyBinding;isKeyDown()Z"))
+
     private void renderGameOverlay(float partialTicks, CallbackInfo ci) {
         EventBus.INSTANCE.post(new RenderHUDEvent(partialTicks));
     }

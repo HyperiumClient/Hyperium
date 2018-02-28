@@ -32,6 +32,7 @@ public class OsHelper {
             return isProcessRunningMac(proc);
         return false;
     }
+
     private static boolean isProcessRunningWindows(String proc) throws IOException {
         String line;
         StringBuilder pidInfo = new StringBuilder();
@@ -43,6 +44,7 @@ public class OsHelper {
         input.close();
         return pidInfo.toString().contains(proc);
     }
+
     private static boolean isProcessRunningMac(String proc) throws IOException {
         String line;
         StringBuilder pidInfo = new StringBuilder();

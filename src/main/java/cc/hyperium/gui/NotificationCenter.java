@@ -20,6 +20,7 @@ package cc.hyperium.gui;
 
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.RenderHUDEvent;
+import cc.hyperium.event.TickEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
@@ -34,6 +35,15 @@ public class NotificationCenter extends Gui {
 
     private int ticks = 0;
     private int endTicks = 0;
+
+    @InvokeEvent
+    public void tick(TickEvent ev) {
+        if (this.ticks >= this.endTicks) {
+            return;
+        }
+        ticks++;
+
+    }
 
     @InvokeEvent
     public void onRenderTick(RenderHUDEvent event) {
@@ -56,9 +66,9 @@ public class NotificationCenter extends Gui {
 
         // animation
         if (ticks < 20) {
-            x = (rectW / 20) * (20 - ticks) * (20 - ticks);
+            x = (rectW / 20) * (20 - ticks) * (20 - ticks) / 2;
         } else if ((endTicks - ticks) < 20) {
-            x = (rectW / 20) * (20 - (endTicks - ticks)) * (20 - (endTicks - ticks));
+            x = (rectW / 20) * (20 - (endTicks - ticks)) * (20 - (endTicks - ticks))/2;
         }
         if (x > rectW / 4) {
             float e = rectW / 4F;
@@ -83,7 +93,6 @@ public class NotificationCenter extends Gui {
         fontRendererObj.drawString(title, (w - rectW) + 10 + x, (h - 30) - rectH + 10, 0xFFFFFF);
         fontRendererObj.drawString(description, (w - rectW) + 10 + x, (h - 30) - rectH + 20, 0x424242);
 
-        ticks++;
     }
 
     public void display(String title, String description, float seconds) {
