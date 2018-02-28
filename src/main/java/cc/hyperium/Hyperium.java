@@ -37,7 +37,6 @@ import cc.hyperium.integrations.spotify.Spotify;
 import cc.hyperium.integrations.spotify.impl.SpotifyInformation;
 import cc.hyperium.mixins.MixinKeyBinding;
 import cc.hyperium.mods.HyperiumModIntegration;
-import cc.hyperium.utils.mods.ToggleSprintContainer;
 import cc.hyperium.mods.capturex.CaptureCore;
 import cc.hyperium.mods.crosshair.CrosshairMod;
 import cc.hyperium.mods.discord.RichPresenceManager;
@@ -45,10 +44,7 @@ import cc.hyperium.mods.levelhead.commands.LevelHeadCommand;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.tray.TrayManager;
 import cc.hyperium.utils.ChatColor;
-import cc.hyperium.utils.mods.CompactChat;
-import cc.hyperium.utils.mods.FPSLimiter;
-import cc.hyperium.utils.mods.GeneralStatisticsTracking;
-import cc.hyperium.utils.mods.PerspectiveModifierContainer;
+import cc.hyperium.utils.mods.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ChatComponentText;
 import org.apache.logging.log4j.LogManager;
@@ -72,14 +68,12 @@ public class Hyperium {
      */
     public final static Logger LOGGER = LogManager.getLogger(Metadata.getModid());
     public static File folder = new File("hyperium");
-    public static PerspectiveModifierContainer perspective;
-    public static GeneralStatisticsTracking statTrack = new GeneralStatisticsTracking();
-
     /**
      * Instance of default CONFIG
      */
     public static final DefaultConfig CONFIG = new DefaultConfig(new File(folder, "CONFIG.json"));
-
+    public static PerspectiveModifierContainer perspective;
+    public static GeneralStatisticsTracking statTrack = new GeneralStatisticsTracking();
     private final NotificationCenter notification = new NotificationCenter();
 
     private RichPresenceManager richPresenceManager = new RichPresenceManager();
@@ -104,8 +98,8 @@ public class Hyperium {
 
     @InvokeEvent
     public void init(InitializationEvent event) {
+        Minecraft.getMinecraft().mcProfiler.profilingEnabled = true;
         new File(folder.getAbsolutePath() + "/accounts").mkdirs();
-
         acceptedTos = new File(folder.getAbsolutePath() + "/accounts/" + Minecraft.getMinecraft().getSession().getPlayerID() + ".lck").exists();
 
         EventBus.INSTANCE.register(new MinigameListener());
@@ -299,7 +293,7 @@ public class Hyperium {
     }
 
     public void acceptTos() {
-        acceptedTos=true;
+        acceptedTos = true;
         try {
             new File(folder.getAbsolutePath() + "/accounts/" + Minecraft.getMinecraft().getSession().getPlayerID() + ".lck").createNewFile();
         } catch (IOException e) {

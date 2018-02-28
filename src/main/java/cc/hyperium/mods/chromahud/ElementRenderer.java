@@ -22,9 +22,9 @@ import cc.hyperium.Hyperium;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.RenderEvent;
 import cc.hyperium.event.TickEvent;
+import cc.hyperium.utils.RenderUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderItem;
@@ -105,7 +105,9 @@ public class ElementRenderer {
                     : 0;
             if (current.isHighlighted()) {
                 int stringWidth = fontRendererObj.getStringWidth(string);
-                Gui.drawRect((int) ((tx - 1) / getCurrentScale() - shift), (int) ((ty - 1) / getCurrentScale()), (int) ((tx + 1) / getCurrentScale()) + stringWidth - shift, (int) ((ty + 1) / getCurrentScale()) + 8, new Color(0, 0, 0, 120).getRGB());
+//                Gui.drawRect((int) ((tx - 1) / getCurrentScale() - shift), (int) ((ty - 1) / getCurrentScale()), (int) ((tx + 1) / getCurrentScale()) + stringWidth - shift, (int) ((ty + 1) / getCurrentScale()) + 8, new Color(0, 0, 0, 120).getRGB());
+                RenderUtils.drawRect((int) ((tx - 1) / getCurrentScale() - shift), (int) ((ty - 1) / getCurrentScale()), (int) ((tx + 1) / getCurrentScale()) + stringWidth - shift, (int) ((ty + 1) / getCurrentScale()) + 8, new Color(0, 0, 0, 120).getRGB());
+
             }
             if (current.isChroma()) {
                 drawChromaString(string, tx - shift, (int) ty);

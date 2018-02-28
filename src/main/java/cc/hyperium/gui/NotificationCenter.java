@@ -20,6 +20,7 @@ package cc.hyperium.gui;
 
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.RenderHUDEvent;
+import cc.hyperium.event.TickEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
@@ -34,7 +35,14 @@ public class NotificationCenter extends Gui {
 
     private int ticks = 0;
     private int endTicks = 0;
+    @InvokeEvent
+    public void tick(TickEvent ev) {
+        if (this.ticks >= this.endTicks) {
+            return;
+        }
+        ticks++;
 
+    }
     @InvokeEvent
     public void onRenderTick(RenderHUDEvent event) {
 
@@ -83,7 +91,6 @@ public class NotificationCenter extends Gui {
         fontRendererObj.drawString(title, (w - rectW) + 10 + x, (h - 30) - rectH + 10, 0xFFFFFF);
         fontRendererObj.drawString(description, (w - rectW) + 10 + x, (h - 30) - rectH + 20, 0x424242);
 
-        ticks++;
     }
 
     public void display(String title, String description, float seconds) {

@@ -19,6 +19,7 @@
 package cc.hyperium.utils;
 
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.renderer.GlStateManager;
 import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
@@ -42,7 +43,7 @@ public class RenderUtils {
         for (int i = 0; i < 50; i++) {
             float x = (float) (radius * Math.sin(i * 0.12566370614359174D));
             float y = (float) (radius * Math.cos(i * 0.12566370614359174D));
-            GL11.glColor4f(f2, f3, f4, f);
+            GlStateManager.color(f2, f3, f4, f);
             GL11.glVertex2f(xx + x, yy + y);
         }
 
@@ -50,7 +51,7 @@ public class RenderUtils {
         GL11.glEnable(3553);
         GL11.glDisable(3042);
         GL11.glDisable(2848);
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         GL11.glPopMatrix();
     }
 
@@ -69,10 +70,10 @@ public class RenderUtils {
         for (int i = 0; i < 70; i++) {
             float x = (float) (radius * Math.cos(i * 0.08975979010256552D));
             float y = (float) (radius * Math.sin(i * 0.08975979010256552D));
-            GL11.glColor4f(f2, f3, f4, f);
+            GlStateManager.color(f2, f3, f4, f);
             GL11.glVertex2f(xx + x, yy + y);
         }
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         GL11.glEnd();
         GL11.glEnable(3553);
         GL11.glDisable(3042);
@@ -109,7 +110,7 @@ public class RenderUtils {
         GL11.glBlendFunc(770, 771);
         GL11.glEnable(2848);
         GL11.glPushMatrix();
-        GL11.glColor4f(f2, f3, f4, f);
+        GlStateManager.color(f2, f3, f4, f);
         GL11.glBegin(7);
         GL11.glVertex2d(i, h);
         GL11.glVertex2d(g, h);
@@ -120,6 +121,7 @@ public class RenderUtils {
         GL11.glEnable(3553);
         GL11.glDisable(3042);
         GL11.glDisable(2848);
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
     }
 
     public static void drawBorderedRect(float x, float y, float x2, float y2, float l1, int col1, int col2) {
@@ -133,7 +135,7 @@ public class RenderUtils {
         GL11.glBlendFunc(770, 771);
         GL11.glEnable(2848);
         GL11.glPushMatrix();
-        GL11.glColor4f(f2, f3, f4, f);
+        GlStateManager.color(f2, f3, f4, f);
         GL11.glLineWidth(l1);
         GL11.glBegin(1);
         GL11.glVertex2d(x, y);
@@ -185,7 +187,7 @@ public class RenderUtils {
     }
 
     public static void glColor(Color color) {
-        GL11.glColor4f(color.getRed() / 255.0F, color.getGreen() / 255.0F, color.getBlue() / 255.0F,
+        GlStateManager.color(color.getRed() / 255.0F, color.getGreen() / 255.0F, color.getBlue() / 255.0F,
                 color.getAlpha() / 255.0F);
     }
 
@@ -201,7 +203,7 @@ public class RenderUtils {
         GL11.glEnable(GL11.GL_LINE_SMOOTH);
 
         GL11.glPushMatrix();
-        GL11.glColor4f(red, green, blue, alpha);
+        GlStateManager.color(red, green, blue, alpha);
         GL11.glLineWidth(width);
         GL11.glBegin(GL11.GL_LINE_STRIP);
         GL11.glVertex2f(x, y);
@@ -219,16 +221,13 @@ public class RenderUtils {
         right -= 4;
         Gui.drawRect(left, top, right, bottom, color);
         Gui.drawRect(left - 4, top + 3, left, bottom - 3, color);
-        Gui.drawRect(right, top + 3, right+4, bottom - 3, color);
+        Gui.drawRect(right, top + 3, right + 4, bottom - 3, color);
 
         RenderUtils.drawFilledCircle(left, top + 4, 4, color);
         RenderUtils.drawFilledCircle(left, bottom - 4, 4, color);
 
         RenderUtils.drawFilledCircle(right, top + 4, 4, color);
         RenderUtils.drawFilledCircle(right, bottom - 4, 4, color);
-
-
-
 
 
     }
