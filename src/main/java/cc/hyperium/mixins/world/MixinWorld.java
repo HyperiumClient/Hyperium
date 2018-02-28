@@ -21,12 +21,14 @@ package cc.hyperium.mixins.world;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.SpawnpointChangeEvent;
 import cc.hyperium.gui.settings.items.GeneralSetting;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldType;
 import net.minecraft.world.storage.WorldInfo;
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
@@ -34,8 +36,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-
-import static cc.hyperium.gui.settings.items.GeneralSetting.fullbrightEnabled;
 
 @Mixin(World.class)
 public class MixinWorld {
@@ -62,7 +62,7 @@ public class MixinWorld {
      */
     @Inject(method = "checkLightFor", at = @At("HEAD"), cancellable = true)
     private void checkLightFor(EnumSkyBlock lightType, BlockPos pos, CallbackInfoReturnable<Boolean> ci) {
-        if (!Minecraft.getMinecraft().isIntegratedServerRunning() && fullbrightEnabled) {
+        if (!Minecraft.getMinecraft().isIntegratedServerRunning() && GeneralSetting.fullbrightEnabled) {
             ci.setReturnValue(false);
         }
     }
@@ -77,7 +77,7 @@ public class MixinWorld {
      */
     @Inject(method = "getLightFromNeighborsFor", at = @At("HEAD"), cancellable = true)
     private void getLightFromNeighborsFor(EnumSkyBlock type, BlockPos pos, CallbackInfoReturnable<Integer> ci) {
-        if (!Minecraft.getMinecraft().isIntegratedServerRunning() && fullbrightEnabled) {
+        if (!Minecraft.getMinecraft().isIntegratedServerRunning() && GeneralSetting.fullbrightEnabled) {
             ci.setReturnValue(15);
         }
     }
@@ -101,7 +101,7 @@ public class MixinWorld {
      */
     @Inject(method = "getLightFromNeighbors", at = @At("HEAD"), cancellable = true)
     private void getLightFromNeighbor(BlockPos pos, CallbackInfoReturnable<Integer> ci) {
-        if (!Minecraft.getMinecraft().isIntegratedServerRunning() && fullbrightEnabled) {
+        if (!Minecraft.getMinecraft().isIntegratedServerRunning() && GeneralSetting.fullbrightEnabled) {
             ci.setReturnValue(15);
         }
     }
@@ -115,7 +115,7 @@ public class MixinWorld {
      */
     @Inject(method = "getRawLight", at = @At("HEAD"), cancellable = true)
     private void getRawLight(BlockPos pos, EnumSkyBlock lightType, CallbackInfoReturnable<Integer> ci) {
-        if (!Minecraft.getMinecraft().isIntegratedServerRunning() && fullbrightEnabled) {
+        if (!Minecraft.getMinecraft().isIntegratedServerRunning() && GeneralSetting.fullbrightEnabled) {
             ci.setReturnValue(15);
         }
     }
@@ -128,7 +128,7 @@ public class MixinWorld {
      */
     @Inject(method = "getLight(Lnet/minecraft/util/BlockPos;)I", at = @At("HEAD"), cancellable = true)
     private void getLight(BlockPos pos, CallbackInfoReturnable<Integer> ci) {
-        if (!Minecraft.getMinecraft().isIntegratedServerRunning() && fullbrightEnabled) {
+        if (!Minecraft.getMinecraft().isIntegratedServerRunning() && GeneralSetting.fullbrightEnabled) {
             ci.setReturnValue(15);
         }
     }
@@ -142,7 +142,7 @@ public class MixinWorld {
      */
     @Inject(method = "getLight(Lnet/minecraft/util/BlockPos;Z)I", at = @At("HEAD"), cancellable = true)
     private void getLight(BlockPos pos, boolean checkNeighbors, CallbackInfoReturnable<Integer> ci) {
-        if (!Minecraft.getMinecraft().isIntegratedServerRunning() && fullbrightEnabled) {
+        if (!Minecraft.getMinecraft().isIntegratedServerRunning() && GeneralSetting.fullbrightEnabled) {
             ci.setReturnValue(15);
         }
     }
