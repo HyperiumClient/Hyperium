@@ -105,10 +105,12 @@ public class ModConfigGui extends HyperiumGui {
     @Override
     protected void pack() {
         CustomFontButton button = new CustomFontButton(0, getX(0), getY(), getButtonWidth(), 25, "HOME");
+        button.renderBackground = false;
         buttonList.add(button);
         this.tabs.add(new Tab(button, 0, this));
 
         button = new CustomFontButton(1, getX(1), getY(), getButtonWidth(), 25, "SETTINGS");
+        button.renderBackground = false;
         buttonList.add(button);
         Tab tab = new ModConfigGui.Tab(button, 1, this) {
             @Override
@@ -152,21 +154,24 @@ public class ModConfigGui extends HyperiumGui {
         this.tabs.add(tab);
 
         button = new CustomFontButton(2, getX(2), getY(), getButtonWidth(), 25, "ADDONS");
+        button.renderBackground = false;
         buttonList.add(button);
         this.tabs.add(new Tab(button, 2, this));
 
         button = new CustomFontButton(3, getX(3), getY(), getButtonWidth(), 25, "FRIENDS");
+        button.renderBackground = false;
         buttonList.add(button);
         this.tabs.add(new Tab(button, 3, this));
 
         button = new CustomFontButton(4, getX(4), getY(), getButtonWidth(), 25, "ABOUT");
+        button.renderBackground = false;
         buttonList.add(button);
         this.tabs.add(new ModConfigGui.Tab(button, 4, this) {
             @Override
             public void draw(int mouseX, int mouseY) {
                 super.draw(mouseX, mouseY);
 
-                if (this.selected) {
+                if (selected) {
                     String str = "Developed by Sk1er, CoalOres, Kevin and Cubxity";
                     fontRenderer.drawCenteredString(str, width / 2, height - 12, Color.WHITE.getRGB());
                 }
@@ -236,7 +241,7 @@ public class ModConfigGui extends HyperiumGui {
         private ModConfigGui owningGui;
         private CustomFontButton button;
         private int index;
-        private boolean selected;
+        protected boolean selected;
         private float selectPercent;
         private ArrayList<SettingItem> settings;
 
