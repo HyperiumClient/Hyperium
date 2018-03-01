@@ -215,7 +215,7 @@ public abstract class MixinGuiMainMenu extends GuiScreen implements GuiYesNoCall
         switch (getStyle()){
             case DEFAULT:
                 if (button.id == 15)
-                    mc.displayGuiScreen(Hyperium.INSTANCE.getConfigGui());
+                    mc.displayGuiScreen(new ModConfigGui());
                 if (button.id == 16)
                     Minecraft.getMinecraft().displayGuiScreen(new GuiConnecting(new GuiMainMenu(), Minecraft.getMinecraft(), Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) ? "stuck.hypixel.net" : "mc.hypixel.net", 25565));
                 break;
