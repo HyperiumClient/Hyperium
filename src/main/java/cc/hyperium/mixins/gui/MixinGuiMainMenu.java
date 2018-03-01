@@ -114,7 +114,9 @@ public abstract class MixinGuiMainMenu extends GuiScreen implements GuiYesNoCall
                     this.field_92024_r = this.fontRendererObj.getStringWidth(this.openGLWarning2);
                     int k = Math.max(this.field_92023_s, this.field_92024_r);
                     this.field_92022_t = (this.width - k) / 2;
-                    this.field_92021_u = this.buttonList.get(0).yPosition - 24;
+                    if (this.buttonList.size() > 0) {
+                        this.field_92021_u = this.buttonList.get(0).yPosition - 24;
+                    }
                     this.field_92020_v = this.field_92022_t + k;
                     this.field_92019_w = this.field_92021_u + 24;
                 }
@@ -213,7 +215,7 @@ public abstract class MixinGuiMainMenu extends GuiScreen implements GuiYesNoCall
         switch (getStyle()){
             case DEFAULT:
                 if (button.id == 15)
-                    mc.displayGuiScreen(Hyperium.INSTANCE.getConfigGui());
+                    mc.displayGuiScreen(new ModConfigGui());
                 if (button.id == 16)
                     Minecraft.getMinecraft().displayGuiScreen(new GuiConnecting(new GuiMainMenu(), Minecraft.getMinecraft(), Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) ? "stuck.hypixel.net" : "mc.hypixel.net", 25565));
                 break;
