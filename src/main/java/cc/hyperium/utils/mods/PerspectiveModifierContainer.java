@@ -20,55 +20,41 @@ package cc.hyperium.utils.mods;
 
 
 import cc.hyperium.event.InvokeEvent;
-import cc.hyperium.event.KeyBindDisableEvent;
-import cc.hyperium.event.KeyBindEnableEvent;
+import cc.hyperium.event.KeyBindPressEvent;
 import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
+import cc.hyperium.handlers.handlers.keybinds.KeyBindHandler;
 import net.minecraft.client.Minecraft;
-import org.lwjgl.input.Keyboard;
 
 public class PerspectiveModifierContainer {
-    public boolean enabled = false;
+    public static boolean enabled = false;
 
     public float modifiedYaw;
     public float modifiedPitch;
 
     public void onEnable() {
-        if (!enabled) {
-            GeneralChatHandler.instance().sendMessage("Enabled 360 Degree Perspective.");
-            Minecraft.getMinecraft().gameSettings.thirdPersonView = 1;
-            this.enabled = true;
+        GeneralChatHandler.instance().sendMessage("Enabled 360 Degree Perspective.");
+        Minecraft.getMinecraft().gameSettings.thirdPersonView = 1;
 
-            modifiedYaw = Minecraft.getMinecraft().thePlayer.cameraYaw;
-            modifiedPitch = Minecraft.getMinecraft().thePlayer.cameraPitch;
-        } else {
-            onDisable();
-        }
+        modifiedYaw = Minecraft.getMinecraft().thePlayer.cameraYaw;
+        modifiedPitch = Minecraft.getMinecraft().thePlayer.cameraPitch;
     }
 
     public void onDisable() {
-        if (enabled) {
-            Minecraft.getMinecraft().gameSettings.thirdPersonView = 0;
-            GeneralChatHandler.instance().sendMessage("Disabled 360 Degree Perspective.");
-            this.enabled = false;
-        } else {
-            // Current keybind system doesn't support being changed through other means, therefore this method is necessary.
-            onEnable();
-        }
+        this.enabled = false;
+        Minecraft.getMinecraft().gameSettings.thirdPersonView = 0;
+        GeneralChatHandler.instance().sendMessage("Disabled 360 Degree Perspective.");
     }
 
     @InvokeEvent
-    public void onKeyBindEnable(KeyBindEnableEvent event) {
-        if (event.getKey() == Keyboard.KEY_P) {
-            // Enable the mod.
-            onEnable();
-        }
-    }
+    public void onKeyBindPress(KeyBindPressEvent event) {
+        if (event.getKeyCode() == KeyBindHandler.perspective.getKey()) {
+            enabled = !enabled;
+            if (!enabled) {
+                onDisable();
+            } else {
+                onEnable();
+            }
 
-    @InvokeEvent
-    public void onKeyBindDisable(KeyBindDisableEvent event) {
-        if (event.getKey() == Keyboard.KEY_P) {
-            // Disable the mod.
-            onDisable();
         }
     }
 }

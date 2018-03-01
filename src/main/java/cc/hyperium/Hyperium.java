@@ -27,7 +27,7 @@ import cc.hyperium.config.DefaultConfig;
 import cc.hyperium.event.*;
 import cc.hyperium.event.minigames.Minigame;
 import cc.hyperium.event.minigames.MinigameListener;
-import cc.hyperium.gui.ModConfigGui;
+import cc.hyperium.gui.NameHistoryGui;
 import cc.hyperium.gui.NotificationCenter;
 import cc.hyperium.gui.integrations.HypixelFriendsGui;
 import cc.hyperium.gui.settings.items.AnimationSettings;
@@ -36,7 +36,6 @@ import cc.hyperium.handlers.HyperiumHandlers;
 import cc.hyperium.handlers.handlers.keybinds.KeyBindHandler;
 import cc.hyperium.integrations.spotify.Spotify;
 import cc.hyperium.integrations.spotify.impl.SpotifyInformation;
-import cc.hyperium.mixins.MixinKeyBinding;
 import cc.hyperium.mods.HyperiumModIntegration;
 import cc.hyperium.mods.capturex.CaptureCore;
 import cc.hyperium.mods.crosshair.CrosshairMod;
@@ -111,6 +110,7 @@ public class Hyperium {
         EventBus.INSTANCE.register(CrosshairMod.getInstance());
         EventBus.INSTANCE.register(CONFIG.register(FPSLimiter.getInstance()));
         EventBus.INSTANCE.register(perspective = new PerspectiveModifierContainer());
+        EventBus.INSTANCE.register(new NameHistoryGui());
 
         // Register statistics tracking.
         EventBus.INSTANCE.register(statTrack);
@@ -144,6 +144,7 @@ public class Hyperium {
 
         modIntegration = new HyperiumModIntegration();
         richPresenceManager.init();
+
         // spotify thread (>^.^)>
         Multithreading.runAsync(() -> {
             try {
@@ -230,11 +231,6 @@ public class Hyperium {
     public void onKeyPress(KeypressEvent event) {
         if (!Minecraft.getMinecraft().inGameHasFocus)
             return;
-        if ((KeyBindHandler.toggleSprint.isActivated())) {
-            if (event.getKey() == Minecraft.getMinecraft().gameSettings.keyBindForward.getKeyCode() || event.getKey() == KeyBindHandler.toggleSprint.getKey()) {
-                ((MixinKeyBinding) Minecraft.getMinecraft().gameSettings.keyBindSprint).setPressed(true);
-            }
-        }
         if ((KeyBindHandler.debug.isPressed())) {
             Minecraft.getMinecraft().displayGuiScreen(new HypixelFriendsGui());
             KeyBindHandler.debug.onPress();
