@@ -121,7 +121,6 @@ public abstract class HyperiumGui extends GuiScreen {
         Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(this);
     }
 
-
     @Override
     public void handleMouseInput() throws IOException {
         super.handleMouseInput();
@@ -130,6 +129,18 @@ public abstract class HyperiumGui extends GuiScreen {
             offset += 11;
         } else if (i > 0) {
             offset -= 11;
+        }
+    }
+
+    public static float clamp(float number, float min, float max) {
+        return number < min ? min : number > max ? max : number;
+    }
+
+    public static float easeOut(float current, float finish, float jump, float speed) {
+        if (Math.floor(Math.abs(finish - current) / jump) > 0) {
+            return current + (finish - current) / speed;
+        } else {
+            return finish;
         }
     }
 }

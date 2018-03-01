@@ -25,6 +25,7 @@ import cc.hyperium.gui.GuiBlock;
 import cc.hyperium.gui.ModConfigGui;
 import cc.hyperium.gui.settings.items.GeneralSetting;
 import cc.hyperium.utils.ChatColor;
+import cc.hyperium.utils.HyperiumFontRenderer;
 import cc.hyperium.utils.RenderUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.*;
@@ -46,7 +47,11 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.io.IOException;
+import java.net.URL;
+import java.util.HashMap;
 
 @Mixin(GuiMainMenu.class)
 public abstract class MixinGuiMainMenu extends GuiScreen implements GuiYesNoCallback {
@@ -81,7 +86,8 @@ public abstract class MixinGuiMainMenu extends GuiScreen implements GuiYesNoCall
     private FontRenderer fontRendererObj = Minecraft.getMinecraft().fontRendererObj;
     private GuiButton hypixelButton;
     private boolean clickedCheckBox = false;
-    private GuiStyle style;
+    private HyperiumFontRenderer fr = new HyperiumFontRenderer("Arial", Font.PLAIN, 20);
+    private HashMap<String, DynamicTexture> cachedImages = new HashMap<>();
 
     /**
      * Override initGui
@@ -90,7 +96,6 @@ public abstract class MixinGuiMainMenu extends GuiScreen implements GuiYesNoCall
      */
     @Overwrite
     public void initGui() {
-        style = GuiStyle.valueOf(GeneralSetting.menuStyle);
         this.viewportTexture = new DynamicTexture(256, 256);
         this.backgroundTexture = this.mc.getTextureManager().getDynamicTextureLocation("background", this.viewportTexture);
         int j = this.height / 4 + 48;
@@ -101,23 +106,24 @@ public abstract class MixinGuiMainMenu extends GuiScreen implements GuiYesNoCall
             this.addSingleplayerMultiplayerButtons(j - 10, 24);
         }
 
-        switch (style){
+        switch (getStyle()){
             case DEFAULT:
                 addDefaultStyleOptionsButton(j);
+                synchronized (this.threadLock) {
+                    this.field_92023_s = this.fontRendererObj.getStringWidth(this.openGLWarning1);
+                    this.field_92024_r = this.fontRendererObj.getStringWidth(this.openGLWarning2);
+                    int k = Math.max(this.field_92023_s, this.field_92024_r);
+                    this.field_92022_t = (this.width - k) / 2;
+                    if (this.buttonList.size() > 0) {
+                        this.field_92021_u = this.buttonList.get(0).yPosition - 24;
+                    }
+                    this.field_92020_v = this.field_92022_t + k;
+                    this.field_92019_w = this.field_92021_u + 24;
+                }
                 break;
             case HYPERIUM:
                 addHyperiumStyleOptionsButton(j);
                 break;
-        }
-
-        synchronized (this.threadLock) {
-            this.field_92023_s = this.fontRendererObj.getStringWidth(this.openGLWarning1);
-            this.field_92024_r = this.fontRendererObj.getStringWidth(this.openGLWarning2);
-            int k = Math.max(this.field_92023_s, this.field_92024_r);
-            this.field_92022_t = (this.width - k) / 2;
-            this.field_92021_u = this.buttonList.get(0).yPosition - 24;
-            this.field_92020_v = this.field_92022_t + k;
-            this.field_92019_w = this.field_92021_u + 24;
         }
 
         this.mc.setConnectedToRealms(false);
@@ -141,7 +147,7 @@ public abstract class MixinGuiMainMenu extends GuiScreen implements GuiYesNoCall
      */
     @Overwrite
     private void addSingleplayerMultiplayerButtons(int p_73969_1_, int p_73969_2_) {
-        switch (style){
+        switch (getStyle()){
             case DEFAULT:
                 addDefaultStyleSingleplayerMultiplayerButtons(p_73969_1_, p_73969_2_);
                 break;
@@ -160,7 +166,7 @@ public abstract class MixinGuiMainMenu extends GuiScreen implements GuiYesNoCall
      */
     @Overwrite
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-        switch (style){
+        switch (getStyle()){
             case DEFAULT:
                 drawDefaultStyleScreen(mouseX, mouseY, partialTicks);
                 break;
@@ -168,6 +174,36 @@ public abstract class MixinGuiMainMenu extends GuiScreen implements GuiYesNoCall
                 drawHyperiumStyleScreen(mouseX, mouseY, partialTicks);
                 break;
         }
+        if (!Hyperium.INSTANCE.isAcceptedTos()) {
+            drawCenteredString(this.fontRendererObj, ChatColor.RED + "By continuing, you acknowledge this client is " + ChatColor.BOLD + "USE AT YOUR OWN RISK", width / 2, 90, Color.WHITE.getRGB());
+            drawCenteredString(this.fontRendererObj, ChatColor.RED + "The developers of Hyperium are not responsible for any damages or bans ", width / 2, 100, Color.WHITE.getRGB());
+            drawCenteredString(this.fontRendererObj, ChatColor.RED + "to your account while using this client", width / 2, 110, Color.WHITE.getRGB());
+
+            //
+            drawCenteredString(this.fontRendererObj, ChatColor.RED + "Please check the box to confirm you agree with these terms", width / 2, 120, Color.WHITE.getRGB());
+
+            GuiBlock block = new GuiBlock(width / 2 - 10, width / 2 + 10, 135, 155);
+            if (!overLast && Mouse.isButtonDown(0) && block.isMouseOver(mouseX, mouseY)) {
+                clickedCheckBox = !clickedCheckBox;
+            }
+
+            RenderUtils.drawBorderedRect(block.getLeft(), block.getTop(), block.getRight(), block.getBottom(), 7, Color.BLACK.getRGB(), Color.RED.getRGB());
+            if (clickedCheckBox) {
+                RenderUtils.drawLine(block.getLeft(), block.getTop(), block.getRight(), block.getBottom(), 5, Color.BLACK.getRGB());
+                RenderUtils.drawLine(block.getLeft(), block.getBottom(), block.getRight(), block.getTop(), 5, Color.BLACK.getRGB());
+                int hoverColor = new Color(0, 0, 0, 60).getRGB();
+                int color = new Color(0, 0, 0, 50).getRGB();
+                GuiBlock block1 = new GuiBlock(width / 2 - 100, width / 2 + 100, 170, 190);
+                Gui.drawRect(block1.getLeft(), block1.getTop(), block1.getRight(), block1.getBottom(), block1.isMouseOver(mouseX, mouseY) ? hoverColor : color);
+
+                if (block1.isMouseOver(mouseX, mouseY) && Mouse.isButtonDown(0)) {
+                    Hyperium.INSTANCE.acceptTos();
+                }
+                drawCenteredString(fontRendererObj, ChatColor.RED + "Accept", width / 2, 175, Color.WHITE.getRGB());
+            }
+            overLast = Mouse.isButtonDown(0);
+        } else
+            super.drawScreen(mouseX, mouseY, partialTicks);
     }
 
     @Inject(method = "actionPerformed", at = @At("HEAD"), cancellable = true)
@@ -176,7 +212,7 @@ public abstract class MixinGuiMainMenu extends GuiScreen implements GuiYesNoCall
             ci.cancel();
             return;
         }
-        switch (style){
+        switch (getStyle()){
             case DEFAULT:
                 if (button.id == 15)
                     mc.displayGuiScreen(new ModConfigGui());
@@ -212,7 +248,35 @@ public abstract class MixinGuiMainMenu extends GuiScreen implements GuiYesNoCall
 
 
     private void drawHyperiumStyleScreen(int mouseX, int mouseY, float partialTicks){
+        // Background
+        GlStateManager.disableAlpha();
+        this.renderSkybox(mouseX, mouseY, partialTicks);
+        GlStateManager.enableAlpha();
+        this.drawGradientRect(0, 0, this.width, this.height, -2130706433, 16777215);
+        this.drawGradientRect(0, 0, this.width, this.height, 0, Integer.MIN_VALUE);
 
+        // Logo
+        ResourceLocation logo = new ResourceLocation("textures/hyperium-logo.png");
+        Minecraft.getMinecraft().getTextureManager().bindTexture(logo);
+        drawScaledCustomSizeModalRect(10, 1, 0, 0, 2160, 500, 180, 35, 2160, 500);
+
+        // Account area
+        drawRect(width - 160, 10, width - 10, 40, color(0, 0, 0, 60));
+        drawRect(width - 160, 10, width - 158, 40, color(149, 201, 144, 255));
+        try {
+            GL11.glBindTexture(GL11.GL_TEXTURE_2D, getCachedTexture(Minecraft.getMinecraft().getSession().getPlayerID()).getGlTextureId());
+            drawScaledCustomSizeModalRect(width - 158, 10, 0, 0, 30, 30, 30, 30, 30, 30);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        fr.drawString(Minecraft.getMinecraft().getSession().getUsername(), width - 123, 19, 0xFFFFFF);
+
+        // Buttons area background
+        drawRect(width / 2 - 95, (height / 2 +20)- 55, width / 2 + 95, (height / 2 +20)+ 55, color(0, 0, 0, 40));
+    }
+
+    private int color(int i, int i1, int i2, int i3) {
+        return new Color(i, i1, i2, i3).getRGB();
     }
 
     private void drawDefaultStyleScreen(int mouseX, int mouseY, float partialTicks){
@@ -232,36 +296,6 @@ public abstract class MixinGuiMainMenu extends GuiScreen implements GuiYesNoCall
         String s3 = "Made by Sk1er, Kevin, Cubxity, CoalOres and boomboompower";
         this.drawString(this.fontRendererObj, s3, this.width - this.fontRendererObj.getStringWidth(s3) - 2, this.height - 20, -1);
         this.hypixelButton.displayString = Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) ? "Fix Hypixel Session" : "Join Hypixel";
-        if (!Hyperium.INSTANCE.isAcceptedTos()) {
-            drawCenteredString(this.fontRendererObj, ChatColor.RED + "By continuing, you acknowledge this client is " + ChatColor.BOLD + "USE AT YOUR OWN RISK", width / 2, 90, Color.WHITE.getRGB());
-            drawCenteredString(this.fontRendererObj, ChatColor.RED + "The developers of Hyperium are not responsible for any damages or bans ", width / 2, 100, Color.WHITE.getRGB());
-            drawCenteredString(this.fontRendererObj, ChatColor.RED + "to your account while using this client", width / 2, 110, Color.WHITE.getRGB());
-
-            //
-            drawCenteredString(this.fontRendererObj, ChatColor.RED + "Please check the box to confirm you agree with these terms", width / 2, 120, Color.WHITE.getRGB());
-
-            GuiBlock block = new GuiBlock(width / 2 - 10, width / 2 + 10, 135, 155);
-            if (!overLast && Mouse.isButtonDown(0) && block.isMouseOver(mouseX, mouseY)) {
-                clickedCheckBox = !clickedCheckBox;
-            }
-
-            RenderUtils.drawBorderedRect(block.getLeft(), block.getTop(), block.getRight(), block.getBottom(), 7, Color.BLACK.getRGB(), Color.RED.getRGB());
-            if (clickedCheckBox) {
-                RenderUtils.drawLine(block.getLeft(), block.getTop(), block.getRight(), block.getBottom(), 5, Color.BLACK.getRGB());
-                RenderUtils.drawLine(block.getLeft(), block.getBottom(), block.getRight(), block.getTop(), 5, Color.BLACK.getRGB());
-                int hoverColor = new Color(0, 0, 0, 60).getRGB();
-                int color = new Color(0, 0, 0, 50).getRGB();
-                GuiBlock block1 = new GuiBlock(width / 2 - 100, width / 2 + 100, 170, 190);
-                Gui.drawRect(block1.getLeft(), block1.getTop(), block1.getRight(), block1.getBottom(), block1.isMouseOver(mouseX, mouseY) ? hoverColor : color);
-
-                if (block1.isMouseOver(mouseX, mouseY) && Mouse.isButtonDown(0)) {
-                    Hyperium.INSTANCE.acceptTos();
-                }
-                drawCenteredString(fontRendererObj, ChatColor.RED + "Accept", width / 2, 175, Color.WHITE.getRGB());
-            }
-            overLast = Mouse.isButtonDown(0);
-        } else
-            super.drawScreen(mouseX, mouseY, partialTicks);
     }
 
     @Shadow
@@ -272,4 +306,15 @@ public abstract class MixinGuiMainMenu extends GuiScreen implements GuiYesNoCall
 
     @Shadow
     protected abstract boolean func_183501_a();
+
+    private GuiStyle getStyle() {
+        return GuiStyle.valueOf(GeneralSetting.menuStyle);
+    }
+
+    private DynamicTexture getCachedTexture(String t) throws IOException {
+        DynamicTexture texture = cachedImages.get(t);
+        if(texture == null)
+            texture = new DynamicTexture(ImageIO.read(new URL("https://crafatar.com/avatars/"+t+"?size=30?default=MHF_Steve")));
+        return texture;
+    }
 }
