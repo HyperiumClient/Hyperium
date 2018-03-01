@@ -18,6 +18,7 @@
 
 package cc.hyperium.commands.defaults;
 
+import cc.hyperium.Hyperium;
 import cc.hyperium.commands.BaseCommand;
 import cc.hyperium.gui.ModConfigGui;
 
@@ -40,6 +41,6 @@ public class CommandConfigGui implements BaseCommand {
     
     @Override
     public void onExecute(String[] args) {
-        new ModConfigGui().show();
+        Hyperium.INSTANCE.getConfigGui().show();
     }
 }

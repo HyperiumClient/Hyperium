@@ -20,11 +20,11 @@ package cc.hyperium.mods.chromahud;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.event.InvokeEvent;
-import cc.hyperium.event.RenderEvent;
+import cc.hyperium.event.RenderHUDEvent;
 import cc.hyperium.event.TickEvent;
+import cc.hyperium.utils.RenderUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderItem;
@@ -104,13 +104,24 @@ public class ElementRenderer {
                     ? fontRendererObj.getStringWidth(string)
                     : 0;
             if (current.isHighlighted()) {
-                int stringWidth = fontRendererObj.getStringWidth(string);
-                Gui.drawRect((int) ((tx - 1) / getCurrentScale() - shift), (int) ((ty - 1) / getCurrentScale()), (int) ((tx + 1) / getCurrentScale()) + stringWidth - shift, (int) ((ty + 1) / getCurrentScale()) + 8, new Color(0, 0, 0, 120).getRGB());
+                if(current.getDisplayItems().stream().anyMatch(i -> i.getType().contains("CB"))){
+                    RenderUtils.drawRect((int) ((tx - 1) / getCurrentScale() - shift), (int) ((ty - 3) / getCurrentScale()), (int) ((tx + 1) / getCurrentScale()) + 60 - shift, (int) ((ty + 3) / getCurrentScale()) + 8, new Color(0, 0, 0, 120).getRGB());
+                } else {
+                    int stringWidth = fontRendererObj.getStringWidth(string);
+//                Gui.drawRect((int) ((tx - 1) / getCurrentScale() - shift), (int) ((ty - 1) / getCurrentScale()), (int) ((tx + 1) / getCurrentScale()) + stringWidth - shift, (int) ((ty + 1) / getCurrentScale()) + 8, new Color(0, 0, 0, 120).getRGB());
+                    RenderUtils.drawRect((int) ((tx - 1) / getCurrentScale() - shift), (int) ((ty - 1) / getCurrentScale()), (int) ((tx + 1) / getCurrentScale()) + stringWidth - shift, (int) ((ty + 1) / getCurrentScale()) + 8, new Color(0, 0, 0, 120).getRGB());
+                }
             }
             if (current.isChroma()) {
-                drawChromaString(string, tx - shift, (int) ty);
+                if(current.getDisplayItems().stream().anyMatch(i -> i.getType().contains("CB")))
+                    drawChromaString(string, ((60 - fontRendererObj.getStringWidth(string)) / 2) + (tx - shift), (int) ty);
+                else
+                    drawChromaString(string, tx - shift, (int) ty);
             } else {
-                fontRendererObj.drawString(string, (int) (tx / getCurrentScale() - shift), (int) (ty / getCurrentScale()), getColor(color, x), current.isShadow());
+                if(current.getDisplayItems().stream().anyMatch(i -> i.getType().contains("CB")))
+                    fontRendererObj.drawString(string, (float) (((60 - fontRendererObj.getStringWidth(string)) / 2) + (tx / getCurrentScale() - shift)), (int) (ty / getCurrentScale()), getColor(color, x), current.isShadow());
+                else
+                    fontRendererObj.drawString(string, (int) (tx / getCurrentScale() - shift), (int) (ty / getCurrentScale()), getColor(color, x), current.isShadow());
             }
             ty += 10;
         }
@@ -187,6 +198,7 @@ public class ElementRenderer {
         GlStateManager.scale(1.0 / element.getScale(), 1.0 / element.getScale(), 0);
     }
 
+
     public static FontRenderer getFontRenderer() {
         return fontRendererObj;
     }
@@ -203,12 +215,17 @@ public class ElementRenderer {
     }
 
     @InvokeEvent
-    public void onRenderTick(RenderEvent event) {
+    public void onRenderTick(RenderHUDEvent event) {
         resolution = new ScaledResolution(Minecraft.getMinecraft());
         if (!this.minecraft.inGameHasFocus || this.minecraft.gameSettings.showDebugInfo) {
             return;
         }
+//        GlStateManager.color(1.0F,1.0F,1.0F,1.0F);
+
         renderElements();
+
+//        GlStateManager.color(1.0F,1.0F,1.0F,1.0F);
+
     }
 
     public void renderElements() {
@@ -226,6 +243,7 @@ public class ElementRenderer {
             }
         }
 
+        GlStateManager.color(1.0F,1.0F,1.0F,1.0F);
 
         List<DisplayElement> elementList = mod.getDisplayElements();
         for (DisplayElement element : elementList) {

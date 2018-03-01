@@ -24,6 +24,8 @@ import cc.hyperium.config.ConfigOpt;
 import cc.hyperium.config.DefaultConfig;
 import cc.hyperium.gui.settings.SettingGui;
 import cc.hyperium.gui.settings.components.SelectionItem;
+import cc.hyperium.mixins.gui.MixinGuiMainMenu;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 
 import java.util.Arrays;
@@ -82,6 +84,7 @@ public class GeneralSetting extends SettingGui {
         super("GENERAL", previous);
         config = Hyperium.CONFIG;
         config.register(this);
+        Minecraft.getMinecraft().currentScreen.setWorldAndResolution(mc, mc.displayWidth, mc.displayHeight);
     }
 
     @Override

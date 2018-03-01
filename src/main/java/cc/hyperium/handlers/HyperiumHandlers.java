@@ -52,8 +52,9 @@ public class HyperiumHandlers {
     private PrivateMessageHandler privateMessageHandler;
     private HyperiumCommandHandler commandHandler;
     private RemoteResourcesHandler remoteResourcesHandler;
-
+    private HyperiumNetwork network;
     public HyperiumHandlers() {
+        network = new HyperiumNetwork();
         this.remoteResourcesHandler = new RemoteResourcesHandler();
         chatHandlers = new ArrayList<>();
         register(generalChatHandler = new GeneralChatHandler(chatHandlers));
@@ -78,6 +79,10 @@ public class HyperiumHandlers {
         //Command Handler
 
         register(commandHandler = new HyperiumCommandHandler());
+    }
+
+    public HyperiumNetwork getNetwork() {
+        return network;
     }
 
     private void registerChatHandler(HyperiumChatHandler HyperiumChatHandler) {

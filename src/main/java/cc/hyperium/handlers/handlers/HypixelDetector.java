@@ -19,10 +19,11 @@
 package cc.hyperium.handlers.handlers;
 
 import cc.hyperium.Hyperium;
-import cc.hyperium.event.InvokeEvent;
-import cc.hyperium.event.ServerJoinEvent;
-import cc.hyperium.event.ServerLeaveEvent;
-import cc.hyperium.event.SingleplayerJoinEvent;
+import cc.hyperium.event.*;
+import cc.hyperium.mods.sk1ercommon.Multithreading;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.audio.PositionedSoundRecord;
+import net.minecraft.util.ResourceLocation;
 
 import java.util.regex.Pattern;
 
@@ -45,7 +46,37 @@ public class HypixelDetector {
     public void serverJoinEvent(ServerJoinEvent event) {
         boolean h1 = this.hypixel;
         this.hypixel = HYPIXEL_PATTERN.matcher(event.getServer()).find();
+        if (hypixel) {
+            Multithreading.runAsync(() -> {
+                int tries = 0;
+                while (Minecraft.getMinecraft().thePlayer == null) {
+                    tries++;
+                    if (tries > 20 * 10) {
+                        return;
+                    }
+                    try {
+                        Thread.sleep(50L);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+                EventBus.INSTANCE.post(new JoinHypixelEvent());
+            });
+
+
+        }
+    }
+
+    @InvokeEvent
+    public void join(JoinHypixelEvent event) {
+        System.out.println("Zoo");
         Hyperium.INSTANCE.getNotification().display("Hypixel", "Welcome to the HYPIXEL ZOO", 5f);
+
+        Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.create(new ResourceLocation("zoo"), (float) Minecraft.getMinecraft().thePlayer.posX, (float) Minecraft.getMinecraft().thePlayer.posY, (float) Minecraft.getMinecraft().thePlayer.posZ));
+
+
+
+//        Minecraft.getMinecraft().thePlayer.playSound("hyperium:zoo",1.0F,1.0F);
     }
 
     @InvokeEvent

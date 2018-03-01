@@ -44,6 +44,8 @@ public class ModConfigGui extends HyperiumGui {
     private HyperiumFontRenderer mainFontRenderer = new HyperiumFontRenderer("Times New Roman", Font.BOLD, 24);
     private GuiBlock guiblock;
 
+    private GeneralSetting generalSetting;
+
     @Override
     public void initGui() {
         super.initGui();

@@ -27,6 +27,7 @@ import cc.hyperium.config.DefaultConfig;
 import cc.hyperium.event.*;
 import cc.hyperium.event.minigames.Minigame;
 import cc.hyperium.event.minigames.MinigameListener;
+import cc.hyperium.gui.ModConfigGui;
 import cc.hyperium.gui.NotificationCenter;
 import cc.hyperium.gui.integrations.HypixelFriendsGui;
 import cc.hyperium.gui.settings.items.AnimationSettings;
@@ -37,7 +38,6 @@ import cc.hyperium.integrations.spotify.Spotify;
 import cc.hyperium.integrations.spotify.impl.SpotifyInformation;
 import cc.hyperium.mixins.MixinKeyBinding;
 import cc.hyperium.mods.HyperiumModIntegration;
-import cc.hyperium.utils.mods.ToggleSprintContainer;
 import cc.hyperium.mods.capturex.CaptureCore;
 import cc.hyperium.mods.crosshair.CrosshairMod;
 import cc.hyperium.mods.discord.RichPresenceManager;
@@ -45,10 +45,7 @@ import cc.hyperium.mods.levelhead.commands.LevelHeadCommand;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.tray.TrayManager;
 import cc.hyperium.utils.ChatColor;
-import cc.hyperium.utils.mods.CompactChat;
-import cc.hyperium.utils.mods.FPSLimiter;
-import cc.hyperium.utils.mods.GeneralStatisticsTracking;
-import cc.hyperium.utils.mods.PerspectiveModifierContainer;
+import cc.hyperium.utils.mods.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ChatComponentText;
 import org.apache.logging.log4j.LogManager;
@@ -72,14 +69,12 @@ public class Hyperium {
      */
     public final static Logger LOGGER = LogManager.getLogger(Metadata.getModid());
     public static File folder = new File("hyperium");
-    public static PerspectiveModifierContainer perspective;
-    public static GeneralStatisticsTracking statTrack = new GeneralStatisticsTracking();
-
     /**
      * Instance of default CONFIG
      */
     public static final DefaultConfig CONFIG = new DefaultConfig(new File(folder, "CONFIG.json"));
-
+    public static PerspectiveModifierContainer perspective;
+    public static GeneralStatisticsTracking statTrack = new GeneralStatisticsTracking();
     private final NotificationCenter notification = new NotificationCenter();
 
     private RichPresenceManager richPresenceManager = new RichPresenceManager();
@@ -89,6 +84,7 @@ public class Hyperium {
     private HyperiumModIntegration modIntegration;
     private Minigame currentGame;
     private CaptureCore captureCore;
+    private ModConfigGui configGui;
 
     private Pattern friendRequestPattern;
     private Pattern rankBracketPattern;
@@ -104,8 +100,8 @@ public class Hyperium {
 
     @InvokeEvent
     public void init(InitializationEvent event) {
+        Minecraft.getMinecraft().mcProfiler.profilingEnabled = true;
         new File(folder.getAbsolutePath() + "/accounts").mkdirs();
-
         acceptedTos = new File(folder.getAbsolutePath() + "/accounts/" + Minecraft.getMinecraft().getSession().getPlayerID() + ".lck").exists();
 
         EventBus.INSTANCE.register(new MinigameListener());
@@ -148,6 +144,7 @@ public class Hyperium {
         registerCommands();
 
         modIntegration = new HyperiumModIntegration();
+        configGui = new ModConfigGui();
         richPresenceManager.init();
         // spotify thread (>^.^)>
         Multithreading.runAsync(() -> {
@@ -157,7 +154,8 @@ public class Hyperium {
                 spotify.addListener(new Spotify.SpotifyListener() {
                     @Override
                     public void onPlay(SpotifyInformation info) {
-                        notification.display("Spotify", "Now playing " + info.getTrack().getAlbumResource().getName(), 8);
+                        // This is on a different thread, so we need to use the static getter
+                        Hyperium.INSTANCE.getNotification().display("Spotify", "Now playing " + info.getTrack().getTrackResource().getName(), 8);
                     }
                 });
                 spotify.start();
@@ -299,11 +297,15 @@ public class Hyperium {
     }
 
     public void acceptTos() {
-        acceptedTos=true;
+        acceptedTos = true;
         try {
             new File(folder.getAbsolutePath() + "/accounts/" + Minecraft.getMinecraft().getSession().getPlayerID() + ".lck").createNewFile();
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public ModConfigGui getConfigGui() {
+        return configGui;
     }
 }
