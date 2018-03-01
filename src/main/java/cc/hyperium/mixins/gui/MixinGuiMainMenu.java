@@ -23,7 +23,6 @@ import cc.hyperium.Hyperium;
 import cc.hyperium.Metadata;
 import cc.hyperium.gui.GuiBlock;
 import cc.hyperium.gui.ModConfigGui;
-import cc.hyperium.gui.font.Fonts;
 import cc.hyperium.gui.settings.items.GeneralSetting;
 import cc.hyperium.utils.ChatColor;
 import cc.hyperium.utils.HyperiumFontRenderer;
@@ -51,7 +50,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 
@@ -88,7 +86,7 @@ public abstract class MixinGuiMainMenu extends GuiScreen implements GuiYesNoCall
     private FontRenderer fontRendererObj = Minecraft.getMinecraft().fontRendererObj;
     private GuiButton hypixelButton;
     private boolean clickedCheckBox = false;
-    private HyperiumFontRenderer fr = Fonts.ARIAL.getTrueTypeFont();
+    private HyperiumFontRenderer fr = new HyperiumFontRenderer("Arial", Font.PLAIN, 20);
     private HashMap<String, DynamicTexture> cachedImages = new HashMap<>();
 
     /**
@@ -239,7 +237,7 @@ public abstract class MixinGuiMainMenu extends GuiScreen implements GuiYesNoCall
         } catch (IOException e) {
             e.printStackTrace();
         }
-        fr.drawString(Minecraft.getMinecraft().getSession().getUsername(), width - 192, 15, 0xFFFFFF);
+        fr.drawString(Minecraft.getMinecraft().getSession().getUsername(), width - 123, 19, 0xFFFFFF);
     }
 
     private int color(int i, int i1, int i2, int i3) {
