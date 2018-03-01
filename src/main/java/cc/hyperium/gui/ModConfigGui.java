@@ -43,7 +43,6 @@ public class ModConfigGui extends HyperiumGui {
     private HyperiumFontRenderer fontRenderer = new HyperiumFontRenderer("Arial", Font.PLAIN, 12);
     private HyperiumFontRenderer mainFontRenderer = new HyperiumFontRenderer("Times New Roman", Font.BOLD, 24);
     private GuiBlock guiblock;
-
     private GeneralSetting generalSetting;
 
     @Override
@@ -125,7 +124,7 @@ public class ModConfigGui extends HyperiumGui {
                 getDefaultItemY(0),
                 width - getX(0) * 2,
                 "GENERAL",
-                i -> Minecraft.getMinecraft().displayGuiScreen(new GeneralSetting(this))
+                i -> Minecraft.getMinecraft().displayGuiScreen(this.generalSetting = new GeneralSetting(this))
         )).addSetting(new SettingItem(
                 1,  getX(0),
                 getDefaultItemY(1),
