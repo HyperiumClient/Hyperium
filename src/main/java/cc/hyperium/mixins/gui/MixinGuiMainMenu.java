@@ -213,7 +213,7 @@ public abstract class MixinGuiMainMenu extends GuiScreen implements GuiYesNoCall
         switch (getStyle()){
             case DEFAULT:
                 if (button.id == 15)
-                    mc.displayGuiScreen(new ModConfigGui());
+                    mc.displayGuiScreen(Hyperium.INSTANCE.getConfigGui());
                 if (button.id == 16)
                     Minecraft.getMinecraft().displayGuiScreen(new GuiConnecting(new GuiMainMenu(), Minecraft.getMinecraft(), Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) ? "stuck.hypixel.net" : "mc.hypixel.net", 25565));
                 break;
@@ -269,7 +269,8 @@ public abstract class MixinGuiMainMenu extends GuiScreen implements GuiYesNoCall
         }
         fr.drawString(Minecraft.getMinecraft().getSession().getUsername(), width - 123, 19, 0xFFFFFF);
 
-        // Buttons background
+        // Buttons area background
+        drawRect(width / 2 - 95, (height / 2 +20)- 55, width / 2 + 95, (height / 2 +20)+ 55, color(0, 0, 0, 40));
     }
 
     private int color(int i, int i1, int i2, int i3) {

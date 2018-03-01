@@ -48,6 +48,8 @@ public class ModConfigGui extends HyperiumGui {
 
     private GuiBlock guiblock;
 
+    private GeneralSetting generalSetting;
+
     @Override
     public void initGui() {
         super.initGui();
@@ -100,6 +102,7 @@ public class ModConfigGui extends HyperiumGui {
 
     @Override
     protected void pack() {
+        generalSetting = new GeneralSetting(this);
         this.buttonList.add(Tabs.HOME.setButton(new CustomFontButton(0, getX(0), getY(), 50, 25, "HOME")));
         this.buttonList.add(Tabs.SETTINGS.setButton(new CustomFontButton(1, getX(1), getY(), 50, 25, "SETTINGS")));
         this.buttonList.add(Tabs.ADDONS.setButton(new CustomFontButton(2, getX(2), getY(), 50, 25, "ADDONS")));
@@ -108,7 +111,7 @@ public class ModConfigGui extends HyperiumGui {
 
         // Add settings item
         settingItems = new ArrayList<>(); //Clear list
-        settingItems.add(new SettingItem(0,  getX(0), getDefaultItemY(0), width - getX(0) * 2, "GENERAL", i -> Minecraft.getMinecraft().displayGuiScreen(new GeneralSetting(this))));
+        settingItems.add(new SettingItem(0,  getX(0), getDefaultItemY(0), width - getX(0) * 2, "GENERAL", i -> Minecraft.getMinecraft().displayGuiScreen(generalSetting)));
         settingItems.add(new SettingItem(1,  getX(0), getDefaultItemY(1), width - getX(0)* 2, "ANIMATIONS", i -> Minecraft.getMinecraft().displayGuiScreen(new AnimationSettings(this))));
         settingItems.add(new SettingItem(2, getX(0), getDefaultItemY(2),width - getX(0) * 2, "CAPTUREX", i -> Minecraft.getMinecraft().displayGuiScreen(new CaptureXSetting(this))));
         if(Minecraft.getMinecraft().thePlayer!=null)
