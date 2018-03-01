@@ -172,6 +172,36 @@ public abstract class MixinGuiMainMenu extends GuiScreen implements GuiYesNoCall
                 drawHyperiumStyleScreen(mouseX, mouseY, partialTicks);
                 break;
         }
+        if (!Hyperium.INSTANCE.isAcceptedTos()) {
+            drawCenteredString(this.fontRendererObj, ChatColor.RED + "By continuing, you acknowledge this client is " + ChatColor.BOLD + "USE AT YOUR OWN RISK", width / 2, 90, Color.WHITE.getRGB());
+            drawCenteredString(this.fontRendererObj, ChatColor.RED + "The developers of Hyperium are not responsible for any damages or bans ", width / 2, 100, Color.WHITE.getRGB());
+            drawCenteredString(this.fontRendererObj, ChatColor.RED + "to your account while using this client", width / 2, 110, Color.WHITE.getRGB());
+
+            //
+            drawCenteredString(this.fontRendererObj, ChatColor.RED + "Please check the box to confirm you agree with these terms", width / 2, 120, Color.WHITE.getRGB());
+
+            GuiBlock block = new GuiBlock(width / 2 - 10, width / 2 + 10, 135, 155);
+            if (!overLast && Mouse.isButtonDown(0) && block.isMouseOver(mouseX, mouseY)) {
+                clickedCheckBox = !clickedCheckBox;
+            }
+
+            RenderUtils.drawBorderedRect(block.getLeft(), block.getTop(), block.getRight(), block.getBottom(), 7, Color.BLACK.getRGB(), Color.RED.getRGB());
+            if (clickedCheckBox) {
+                RenderUtils.drawLine(block.getLeft(), block.getTop(), block.getRight(), block.getBottom(), 5, Color.BLACK.getRGB());
+                RenderUtils.drawLine(block.getLeft(), block.getBottom(), block.getRight(), block.getTop(), 5, Color.BLACK.getRGB());
+                int hoverColor = new Color(0, 0, 0, 60).getRGB();
+                int color = new Color(0, 0, 0, 50).getRGB();
+                GuiBlock block1 = new GuiBlock(width / 2 - 100, width / 2 + 100, 170, 190);
+                Gui.drawRect(block1.getLeft(), block1.getTop(), block1.getRight(), block1.getBottom(), block1.isMouseOver(mouseX, mouseY) ? hoverColor : color);
+
+                if (block1.isMouseOver(mouseX, mouseY) && Mouse.isButtonDown(0)) {
+                    Hyperium.INSTANCE.acceptTos();
+                }
+                drawCenteredString(fontRendererObj, ChatColor.RED + "Accept", width / 2, 175, Color.WHITE.getRGB());
+            }
+            overLast = Mouse.isButtonDown(0);
+        } else
+            super.drawScreen(mouseX, mouseY, partialTicks);
     }
 
     @Inject(method = "actionPerformed", at = @At("HEAD"), cancellable = true)
@@ -238,6 +268,8 @@ public abstract class MixinGuiMainMenu extends GuiScreen implements GuiYesNoCall
             e.printStackTrace();
         }
         fr.drawString(Minecraft.getMinecraft().getSession().getUsername(), width - 123, 19, 0xFFFFFF);
+
+        // Buttons background
     }
 
     private int color(int i, int i1, int i2, int i3) {
@@ -261,36 +293,6 @@ public abstract class MixinGuiMainMenu extends GuiScreen implements GuiYesNoCall
         String s3 = "Made by Sk1er, Kevin, Cubxity, CoalOres and boomboompower";
         this.drawString(this.fontRendererObj, s3, this.width - this.fontRendererObj.getStringWidth(s3) - 2, this.height - 20, -1);
         this.hypixelButton.displayString = Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) ? "Fix Hypixel Session" : "Join Hypixel";
-        if (!Hyperium.INSTANCE.isAcceptedTos()) {
-            drawCenteredString(this.fontRendererObj, ChatColor.RED + "By continuing, you acknowledge this client is " + ChatColor.BOLD + "USE AT YOUR OWN RISK", width / 2, 90, Color.WHITE.getRGB());
-            drawCenteredString(this.fontRendererObj, ChatColor.RED + "The developers of Hyperium are not responsible for any damages or bans ", width / 2, 100, Color.WHITE.getRGB());
-            drawCenteredString(this.fontRendererObj, ChatColor.RED + "to your account while using this client", width / 2, 110, Color.WHITE.getRGB());
-
-            //
-            drawCenteredString(this.fontRendererObj, ChatColor.RED + "Please check the box to confirm you agree with these terms", width / 2, 120, Color.WHITE.getRGB());
-
-            GuiBlock block = new GuiBlock(width / 2 - 10, width / 2 + 10, 135, 155);
-            if (!overLast && Mouse.isButtonDown(0) && block.isMouseOver(mouseX, mouseY)) {
-                clickedCheckBox = !clickedCheckBox;
-            }
-
-            RenderUtils.drawBorderedRect(block.getLeft(), block.getTop(), block.getRight(), block.getBottom(), 7, Color.BLACK.getRGB(), Color.RED.getRGB());
-            if (clickedCheckBox) {
-                RenderUtils.drawLine(block.getLeft(), block.getTop(), block.getRight(), block.getBottom(), 5, Color.BLACK.getRGB());
-                RenderUtils.drawLine(block.getLeft(), block.getBottom(), block.getRight(), block.getTop(), 5, Color.BLACK.getRGB());
-                int hoverColor = new Color(0, 0, 0, 60).getRGB();
-                int color = new Color(0, 0, 0, 50).getRGB();
-                GuiBlock block1 = new GuiBlock(width / 2 - 100, width / 2 + 100, 170, 190);
-                Gui.drawRect(block1.getLeft(), block1.getTop(), block1.getRight(), block1.getBottom(), block1.isMouseOver(mouseX, mouseY) ? hoverColor : color);
-
-                if (block1.isMouseOver(mouseX, mouseY) && Mouse.isButtonDown(0)) {
-                    Hyperium.INSTANCE.acceptTos();
-                }
-                drawCenteredString(fontRendererObj, ChatColor.RED + "Accept", width / 2, 175, Color.WHITE.getRGB());
-            }
-            overLast = Mouse.isButtonDown(0);
-        } else
-            super.drawScreen(mouseX, mouseY, partialTicks);
     }
 
     @Shadow
