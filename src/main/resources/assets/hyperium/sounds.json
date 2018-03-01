@@ -1,0 +1,9 @@
+{
+  "zoo": {
+    "category": "players",
+    "subtitle": "hyperium.zoo",
+    "sounds": [
+      "hyperium:zoo"
+    ]
+  }
+}
