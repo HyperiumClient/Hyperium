@@ -149,14 +149,9 @@ class JoinMinigameEvent(val minigame: Minigame)
 class RenderPlayerEvent(val entity: AbstractClientPlayer, val renderManager: RenderManager, val x: Double, val y: Double, val z: Double)
 
 /**
- * Invoked when a keybind is enabled.
+ * Invoked when a keybind is pressed.
  */
-class KeyBindEnableEvent(val key: Int)
-
-/**
- * Invoked when a keybind is disabled.
- */
-class KeyBindDisableEvent(val key: Int)
+class KeyBindPressEvent(val keyCode: Int)
 
 /**
  * Invoked when received a friend request

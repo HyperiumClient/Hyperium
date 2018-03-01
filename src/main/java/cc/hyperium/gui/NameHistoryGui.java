@@ -20,7 +20,7 @@
 package cc.hyperium.gui;
 
 import cc.hyperium.event.InvokeEvent;
-import cc.hyperium.event.KeyBindEnableEvent;
+import cc.hyperium.event.KeyBindPressEvent;
 import cc.hyperium.handlers.handlers.keybinds.KeyBindHandler;
 import cc.hyperium.utils.HyperiumFontRenderer;
 import me.kbrewster.mojangapi.MojangAPI;
@@ -97,8 +97,8 @@ public class NameHistoryGui extends HyperiumGui {
     }
 
     @InvokeEvent
-    public void onKeyBindActivate(KeyBindEnableEvent event) {
-        if (event.getKey() == KeyBindHandler.nameHistory.getKey()) {
+    public void onKeyBindPress(KeyBindPressEvent event) {
+        if (event.getKeyCode() == KeyBindHandler.nameHistory.getKey()) {
             new NameHistoryGui().show();
         }
     }
