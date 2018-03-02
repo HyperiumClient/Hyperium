@@ -22,6 +22,7 @@ import cc.hyperium.GuiStyle;
 import cc.hyperium.Hyperium;
 import cc.hyperium.Metadata;
 import cc.hyperium.gui.GuiBlock;
+import cc.hyperium.gui.HyperiumMainMenu;
 import cc.hyperium.gui.ModConfigGui;
 import cc.hyperium.gui.settings.items.GeneralSetting;
 import cc.hyperium.utils.ChatColor;
@@ -42,6 +43,7 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
+import org.lwjgl.opengl.GL11;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
@@ -58,50 +60,10 @@ import java.util.HashMap;
 
 @Mixin(GuiMainMenu.class)
 public abstract class MixinGuiMainMenu extends GuiScreen implements GuiYesNoCallback {
+
     boolean overLast = false;
-    @Shadow
-    private ResourceLocation backgroundTexture;
-    @Shadow
-    private String openGLWarning2;
-    @Shadow
-    private String openGLWarning1;
-    @Shadow
-    private GuiScreen field_183503_M;
-    @Shadow
-    private boolean field_183502_L;
-    @Shadow
-    private int field_92019_w;
-    @Shadow
-    private int field_92020_v;
-    @Shadow
-    @Final
-    private Object threadLock;
-    @Shadow
-    private int field_92021_u;
-    @Shadow
-    private int field_92022_t;
-    @Shadow
-    private int field_92024_r;
-    @Shadow
-    private int field_92023_s;
-    @Shadow
-    private DynamicTexture viewportTexture;
-    private FontRenderer fontRendererObj = Minecraft.getMinecraft().fontRendererObj;
-    private GuiButton hypixelButton;
+
     private boolean clickedCheckBox = false;
-    private HyperiumFontRenderer fr = new HyperiumFontRenderer("Arial", Font.PLAIN, 20);
-    private HyperiumFontRenderer sfr = new HyperiumFontRenderer("Arial", Font.PLAIN, 12);
-    private HashMap<String, DynamicTexture> cachedImages = new HashMap<>();
-
-    private ResourceLocation exit = new ResourceLocation("textures/material/exit.png");
-
-    private ResourceLocation people_outline = new ResourceLocation("textures/material/people-outline.png");
-
-    private ResourceLocation person_outline = new ResourceLocation("textures/material/person-outline.png");
-
-    private ResourceLocation settings = new ResourceLocation("textures/material/settings.png");
-
-    private ResourceLocation hIcon = new ResourceLocation("textures/h_icon.png");
 
     /**
      * Override initGui
@@ -110,84 +72,21 @@ public abstract class MixinGuiMainMenu extends GuiScreen implements GuiYesNoCall
      */
     @Overwrite
     public void initGui() {
-        this.viewportTexture = new DynamicTexture(256, 256);
-        this.backgroundTexture = this.mc.getTextureManager().getDynamicTextureLocation("background", this.viewportTexture);
-        int j = this.height / 4 + 48;
-
-        if (this.mc.isDemo()) {
-            this.addDemoButtons(j, 24);
-        } else {
-            this.addSingleplayerMultiplayerButtons(j - 10, 24);
-        }
-
-        switch (getStyle()){
-            case DEFAULT:
-                addDefaultStyleOptionsButton(j);
-                synchronized (this.threadLock) {
-                    this.field_92023_s = this.fontRendererObj.getStringWidth(this.openGLWarning1);
-                    this.field_92024_r = this.fontRendererObj.getStringWidth(this.openGLWarning2);
-                    int k = Math.max(this.field_92023_s, this.field_92024_r);
-                    this.field_92022_t = (this.width - k) / 2;
-                    if (this.buttonList.size() > 0) {
-                        this.field_92021_u = this.buttonList.get(0).yPosition - 24;
-                    }
-                    this.field_92020_v = this.field_92022_t + k;
-                    this.field_92019_w = this.field_92021_u + 24;
-                }
-                break;
-            case HYPERIUM:
-                addHyperiumStyleOptionsButton(j);
-                break;
-        }
-
-        this.mc.setConnectedToRealms(false);
-
-        if (Minecraft.getMinecraft().gameSettings.getOptionOrdinalValue(GameSettings.Options.REALMS_NOTIFICATIONS) && !this.field_183502_L) {
-            RealmsBridge realmsbridge = new RealmsBridge();
-            this.field_183503_M = realmsbridge.getNotificationScreen(this);
-            this.field_183502_L = true;
-        }
-
-        if (this.func_183501_a()) {
-            this.field_183503_M.func_183500_a(this.width, this.height);
-            this.field_183503_M.initGui();
-        }
-    }
-
-    /**
-     * Override buttons
-     *
-     * @author Cubxity
-     */
-    @Overwrite
-    private void addSingleplayerMultiplayerButtons(int p_73969_1_, int p_73969_2_) {
-        switch (getStyle()){
-            case DEFAULT:
-                addDefaultStyleSingleplayerMultiplayerButtons(p_73969_1_, p_73969_2_);
-                break;
-            case HYPERIUM:
-                addHyperiumStyleSingleplayerMultiplayerButtons(p_73969_1_, p_73969_2_);
-                break;
+        if(Hyperium.INSTANCE.isAcceptedTos()) {
+            Minecraft.getMinecraft().displayGuiScreen(new HyperiumMainMenu());
         }
     }
 
 
 
     /**
-     * Override drawScreen method
+     * TOS Rendering
      *
-     * @author Cubxity
+     * @author Sk1er and Kevin
      */
     @Overwrite
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-        switch (getStyle()){
-            case DEFAULT:
-                drawDefaultStyleScreen(mouseX, mouseY, partialTicks);
-                break;
-            case HYPERIUM:
-                drawHyperiumStyleScreen(mouseX, mouseY, partialTicks);
-                break;
-        }
+        this.drawDefaultBackground();
         if (!Hyperium.INSTANCE.isAcceptedTos()) {
             drawCenteredString(this.fontRendererObj, ChatColor.RED + "By continuing, you acknowledge this client is " + ChatColor.BOLD + "USE AT YOUR OWN RISK", width / 2, 90, Color.WHITE.getRGB());
             drawCenteredString(this.fontRendererObj, ChatColor.RED + "The developers of Hyperium are not responsible for any damages or bans ", width / 2, 100, Color.WHITE.getRGB());
@@ -216,158 +115,10 @@ public abstract class MixinGuiMainMenu extends GuiScreen implements GuiYesNoCall
                 drawCenteredString(fontRendererObj, ChatColor.RED + "Accept", width / 2, 175, Color.WHITE.getRGB());
             }
             overLast = Mouse.isButtonDown(0);
-        } else
-            super.drawScreen(mouseX, mouseY, partialTicks);
-    }
-
-    @Inject(method = "actionPerformed", at = @At("HEAD"), cancellable = true)
-    private void actionPerformed(GuiButton button, CallbackInfo ci) {
-        if (!Hyperium.INSTANCE.isAcceptedTos()) {
-            ci.cancel();
-            return;
+        } else {
+            Minecraft.getMinecraft().displayGuiScreen(new HyperiumMainMenu());
         }
-        switch (getStyle()){
-            case DEFAULT:
-                if (button.id == 15)
-                    mc.displayGuiScreen(new ModConfigGui());
-                if (button.id == 16)
-                    Minecraft.getMinecraft().displayGuiScreen(new GuiConnecting(new GuiMainMenu(), Minecraft.getMinecraft(), Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) ? "stuck.hypixel.net" : "mc.hypixel.net", 25565));
-                break;
-            case HYPERIUM:
-                if (button.id == 15)
-                    mc.displayGuiScreen(new ModConfigGui());
-                break;
-        }
-
-    }
-
-    private void addHyperiumStyleSingleplayerMultiplayerButtons(int p_73969_1_, int p_73969_2_){
-        this.buttonList.add(new GuiButton(1, width / 2 - 295, height / 2 - 55, 110, 110, ""));
-        this.buttonList.add(new GuiButton(2, width / 2 - 175, height / 2 - 55, 110, 110, ""));
-        this.buttonList.add(new GuiButton(15, width / 2 + 65, height / 2 - 55, 110, 110, ""));
-    }
-
-    private void addDefaultStyleSingleplayerMultiplayerButtons(int p_73969_1_, int p_73969_2_){
-        this.buttonList.add(new GuiButton(1, this.width / 2 - 100, p_73969_1_, I18n.format("menu.singleplayer")));
-        this.buttonList.add(new GuiButton(2, this.width / 2 - 100, p_73969_1_ + p_73969_2_, I18n.format("menu.multiplayer")));
-        //Change realms button ID to 16 to avoid conflicts
-        this.buttonList.add(this.hypixelButton = new GuiButton(16, this.width / 2 - 100, p_73969_1_ + p_73969_2_ * 2, I18n.format("Join Hypixel")));
-        this.buttonList.add(new GuiButton(15, this.width / 2 - 100, p_73969_1_ + p_73969_2_ * 3, I18n.format("Hyperium Settings")));
-    }
-
-    private void addHyperiumStyleOptionsButton(int j){
-        this.buttonList.add(new GuiButton(0, width / 2 - 55, height / 2 - 55, 110, 110, ""));
-        this.buttonList.add(new GuiButton(4, width / 2 + 185, height / 2 - 55, 110, 110, ""));
-    }
-
-    private void addDefaultStyleOptionsButton(int j){
-        this.buttonList.add(new GuiButton(0, this.width / 2 - 100, j + 72 + 12 + 24 - 5, 98, 20, I18n.format("menu.options")));
-        this.buttonList.add(new GuiButton(4, this.width / 2 + 2, j + 72 + 12 + 24 - 5, 98, 20, I18n.format("menu.quit")));
     }
 
 
-    private void drawHyperiumStyleScreen(int mouseX, int mouseY, float partialTicks){
-        // Background
-        GlStateManager.disableAlpha();
-        this.renderSkybox(mouseX, mouseY, partialTicks);
-        GlStateManager.enableAlpha();
-        this.drawGradientRect(0, 0, this.width, this.height, -2130706433, 16777215);
-        this.drawGradientRect(0, 0, this.width, this.height, 0, Integer.MIN_VALUE);
-
-        // Logo
-        ResourceLocation logo = new ResourceLocation("textures/hyperium-logo.png");
-        Minecraft.getMinecraft().getTextureManager().bindTexture(logo);
-        drawScaledCustomSizeModalRect(10, 1, 0, 0, 2160, 500, 180, 35, 2160, 500);
-
-        // Account area
-        drawRect(width - 155, 10, width - 10, 40,  new Color(0, 0, 0, 60).getRGB());
-        
-        // Looks weird with the small green strip
-        // drawRect(width - 160, 10, width - 158, 40, new Color(149, 201, 144, 255).getRGB());
-
-        // Reset the color of the renderer
-        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-
-        // Bind
-        GlStateManager.bindTexture(getCachedTexture(Minecraft.getMinecraft().getSession().getPlayerID()).getGlTextureId());
-        drawScaledCustomSizeModalRect(width - 155, 10, 0, 0, 30, 30, 30, 30, 30, 30);
-        fr.drawString(Minecraft.getMinecraft().getSession().getUsername(), width - 123, 19, 0xFFFFFF);
-
-        // Credits
-        sfr.drawString("COPYRIGHT 2018 HYPERIUM DEV TEAM", 0, height - 10, 0xFFFFFF);
-        String s = "NOT AFFILIATED WITH MOJANG AB";
-        sfr.drawString(s, width - sfr.getWidth(s), height - 10, 0xFFFFFF);
-
-        // Draw icons on buttons
-        TextureManager tm = mc.getTextureManager();
-        tm.bindTexture(person_outline);
-        drawScaledCustomSizeModalRect(width / 2 - 285, height / 2 - 45, 0, 0, 192, 192, 90, 90, 192, 192);
-        tm.bindTexture(people_outline);
-        drawScaledCustomSizeModalRect(width / 2 - 165, height / 2 - 45, 0, 0, 192, 192, 90, 90, 192, 192);
-        tm.bindTexture(settings);
-        drawScaledCustomSizeModalRect(width / 2 - 45, height / 2 - 45, 0, 0, 192, 192, 90, 90, 192, 192);
-        tm.bindTexture(hIcon);
-        drawScaledCustomSizeModalRect(width / 2 + 85, height / 2 - 35, 0, 0, 104, 104, 70, 70, 104, 104);
-        tm.bindTexture(exit);
-        drawScaledCustomSizeModalRect(width / 2 + 195, height / 2 - 45, 0, 0, 192, 192, 90, 90, 192, 192);
-    }
-
-    private int color(int i, int i1, int i2, int i3) {
-        return new Color(i, i1, i2, i3).getRGB();
-    }
-
-    private void drawDefaultStyleScreen(int mouseX, int mouseY, float partialTicks){
-        GlStateManager.disableAlpha();
-        this.renderSkybox(mouseX, mouseY, partialTicks);
-        GlStateManager.enableAlpha();
-        this.drawGradientRect(0, 0, this.width, this.height, -2130706433, 16777215);
-        this.drawGradientRect(0, 0, this.width, this.height, 0, Integer.MIN_VALUE);
-        GlStateManager.pushMatrix();
-        GlStateManager.scale(4F, 4F, 1F);
-        this.drawCenteredString(fontRendererObj, Metadata.getModid(), width / 8, 40 / 4, 0xFFFFFF);
-        GlStateManager.popMatrix();
-        String s = String.format("%s %s", Metadata.getModid(), Metadata.getVersion());
-        this.drawString(this.fontRendererObj, s, 2, this.height - 10, -1);
-        String s1 = "Not affiliated with Mojang AB.";
-        this.drawString(this.fontRendererObj, s1, this.width - this.fontRendererObj.getStringWidth(s1) - 2, this.height - 10, -1);
-        String s3 = "Made by Sk1er, Kevin, Cubxity, CoalOres and boomboompower";
-        this.drawString(this.fontRendererObj, s3, this.width - this.fontRendererObj.getStringWidth(s3) - 2, this.height - 20, -1);
-        this.hypixelButton.displayString = Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) ? "Fix Hypixel Session" : "Join Hypixel";
-    }
-
-    @Shadow
-    protected abstract void renderSkybox(int p_73971_1_, int p_73971_2_, float p_73971_3_);
-
-    @Shadow
-    protected abstract void addDemoButtons(int p_73972_1_, int p_73972_2_);
-
-    @Shadow
-    protected abstract boolean func_183501_a();
-
-    private GuiStyle getStyle() {
-        return GuiStyle.valueOf(GeneralSetting.menuStyle);
-    }
-    
-    private DynamicTexture getCachedTexture(String t) {
-        final DynamicTexture[] texture = {this.cachedImages.get(t)};
-        if (texture[0] == null) {
-            Minecraft.getMinecraft().addScheduledTask(() -> {
-                try {
-                    texture[0] = new DynamicTexture(ImageIO
-                        .read(new URL("https://crafatar.com/avatars/" + t + "?size=30?default=MHF_Steve")));
-                    
-                } catch (Exception ignored) {
-                    try {
-                        texture[0] = new DynamicTexture(ImageIO
-                            .read(new URL("https://crafatar.com/avatars/c06f89064c8a49119c29ea1dbd1aab82")));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-                this.cachedImages.put(t, texture[0]);
-            });
-            
-        }
-        return texture[0];
-    }
 }
