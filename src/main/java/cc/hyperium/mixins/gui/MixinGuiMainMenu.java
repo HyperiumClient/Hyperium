@@ -221,13 +221,17 @@ public abstract class MixinGuiMainMenu extends GuiScreen implements GuiYesNoCall
                     Minecraft.getMinecraft().displayGuiScreen(new GuiConnecting(new GuiMainMenu(), Minecraft.getMinecraft(), Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) ? "stuck.hypixel.net" : "mc.hypixel.net", 25565));
                 break;
             case HYPERIUM:
+                if (button.id == 15)
+                    mc.displayGuiScreen(new ModConfigGui());
                 break;
         }
 
     }
 
     private void addHyperiumStyleSingleplayerMultiplayerButtons(int p_73969_1_, int p_73969_2_){
-
+        this.buttonList.add(new GuiButton(1, width / 2 - 295, height / 2 - 55, 110, 110, "S"));
+        this.buttonList.add(new GuiButton(2, width / 2 - 175, height / 2 - 55, 110, 110, "M"));
+        this.buttonList.add(new GuiButton(15, width / 2 + 65, height / 2 - 55, 110, 110, "H"));
     }
 
     private void addDefaultStyleSingleplayerMultiplayerButtons(int p_73969_1_, int p_73969_2_){
@@ -239,7 +243,8 @@ public abstract class MixinGuiMainMenu extends GuiScreen implements GuiYesNoCall
     }
 
     private void addHyperiumStyleOptionsButton(int j){
-
+        this.buttonList.add(new GuiButton(0, width / 2 - 55, height / 2 - 55, 110, 110, "O"));
+        this.buttonList.add(new GuiButton(4, width / 2 + 185, height / 2 - 55, 110, 110, "E"));
     }
 
     private void addDefaultStyleOptionsButton(int j){
