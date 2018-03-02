@@ -35,6 +35,8 @@ public class GeneralSetting extends SettingGui {
     private DefaultConfig config;
 
     @ConfigOpt
+    public static boolean darkModeEnabled = true;
+    @ConfigOpt
     public static boolean numberPingEnabled = false;
     @ConfigOpt
     public static boolean discordRPEnabled = true;
@@ -82,6 +84,8 @@ public class GeneralSetting extends SettingGui {
     private SelectionItem<String> menuStyleSelection;
 
     private SelectionItem<String> numberPing;
+
+    private SelectionItem<String> darkMode;
 
 
     public GeneralSetting(GuiScreen previous) {
@@ -178,6 +182,13 @@ public class GeneralSetting extends SettingGui {
         }));
         numberPing.addDefaultOnOff();
         numberPing.setSelectedItem(numberPingEnabled ? "ON" : "OFF");
+
+        settingItems.add(darkMode = new SelectionItem(12, getX(), getDefaultItemY(12),  width - getX() * 2, "DARK MODE", i->{
+            ((SelectionItem)i).nextItem();
+            darkModeEnabled = ((SelectionItem) i).getSelectedItem().equals("ON");
+        }));
+        darkMode.addDefaultOnOff();
+        darkMode.setSelectedItem(darkModeEnabled ? "ON" : "OFF");
     }
 
     private int getDefaultItemY(int i) {
