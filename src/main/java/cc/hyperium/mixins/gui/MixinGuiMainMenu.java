@@ -27,6 +27,7 @@ import cc.hyperium.gui.settings.items.GeneralSetting;
 import cc.hyperium.utils.ChatColor;
 import cc.hyperium.utils.HyperiumFontRenderer;
 import cc.hyperium.utils.RenderUtils;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.multiplayer.GuiConnecting;
@@ -36,9 +37,10 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.realms.RealmsBridge;
 import net.minecraft.util.ResourceLocation;
+
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
-import org.lwjgl.opengl.GL11;
+
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
@@ -267,11 +269,18 @@ public abstract class MixinGuiMainMenu extends GuiScreen implements GuiYesNoCall
         drawScaledCustomSizeModalRect(10, 1, 0, 0, 2160, 500, 180, 35, 2160, 500);
 
         // Account area
-        drawRect(width - 160, 10, width - 10, 40, color(0, 0, 0, 60));
-        drawRect(width - 160, 10, width - 158, 40, color(149, 201, 144, 255));
+        drawRect(width - 155, 10, width - 10, 40,  new Color(0, 0, 0, 60).getRGB());
+        
+        // Looks weird with the small green strip
+        // drawRect(width - 160, 10, width - 158, 40, new Color(149, 201, 144, 255).getRGB());
+        
         try {
-            GL11.glBindTexture(GL11.GL_TEXTURE_2D, getCachedTexture(Minecraft.getMinecraft().getSession().getPlayerID()).getGlTextureId());
-            drawScaledCustomSizeModalRect(width - 158, 10, 0, 0, 30, 30, 30, 30, 30, 30);
+            // Reset the color of the renderer
+            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+            
+            // Bind
+            GlStateManager.bindTexture(getCachedTexture(Minecraft.getMinecraft().getSession().getPlayerID()).getGlTextureId());
+            drawScaledCustomSizeModalRect(width - 155, 10, 0, 0, 30, 30, 30, 30, 30, 30);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -293,10 +302,10 @@ public abstract class MixinGuiMainMenu extends GuiScreen implements GuiYesNoCall
         GlStateManager.enableAlpha();
         this.drawGradientRect(0, 0, this.width, this.height, -2130706433, 16777215);
         this.drawGradientRect(0, 0, this.width, this.height, 0, Integer.MIN_VALUE);
-        GL11.glPushMatrix();
-        GL11.glScalef(4F, 4F, 1F);
+        GlStateManager.pushMatrix();
+        GlStateManager.scale(4F, 4F, 1F);
         this.drawCenteredString(fontRendererObj, Metadata.getModid(), width / 8, 40 / 4, 0xFFFFFF);
-        GL11.glPopMatrix();
+        GlStateManager.popMatrix();
         String s = String.format("%s %s", Metadata.getModid(), Metadata.getVersion());
         this.drawString(this.fontRendererObj, s, 2, this.height - 10, -1);
         String s1 = "Not affiliated with Mojang AB.";
@@ -318,11 +327,27 @@ public abstract class MixinGuiMainMenu extends GuiScreen implements GuiYesNoCall
     private GuiStyle getStyle() {
         return GuiStyle.valueOf(GeneralSetting.menuStyle);
     }
-
+    
     private DynamicTexture getCachedTexture(String t) throws IOException {
-        DynamicTexture texture = cachedImages.get(t);
-        if(texture == null)
-            texture = new DynamicTexture(ImageIO.read(new URL("https://crafatar.com/avatars/"+t+"?size=30?default=MHF_Steve")));
-        return texture;
+        final DynamicTexture[] texture = {this.cachedImages.get(t)};
+        if (texture[0] == null) {
+            Minecraft.getMinecraft().addScheduledTask(() -> {
+                try {
+                    texture[0] = new DynamicTexture(ImageIO
+                        .read(new URL("https://crafatar.com/avatars/" + t + "?size=30?default=MHF_Steve")));
+                    
+                } catch (Exception ignored) {
+                    try {
+                        texture[0] = new DynamicTexture(ImageIO
+                            .read(new URL("https://crafatar.com/avatars/c06f89064c8a49119c29ea1dbd1aab82")));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                this.cachedImages.put(t, texture[0]);
+            });
+            
+        }
+        return texture[0];
     }
 }
