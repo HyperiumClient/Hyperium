@@ -47,6 +47,7 @@ public class HyperiumBind {
     }
 
     public void onPress(){
+        // Invokes event.
         if(!pressed){
             EventBus.INSTANCE.post(new KeyBindPressEvent(key));
         }
