@@ -113,12 +113,13 @@ public class NameHistoryGui extends HyperiumGui {
                 if (history.getChangedToAt() == 0) {
                     names.add(name);
                 } else {
+                    // Adds name and date changed to the array to be displayed.
                     names.add(String.format("%s -> %s", name, format.format(history.getChangedToAt())));
                 }
             }
 
         } catch (Exception e) {
-            e.printStackTrace(); //test
+            e.printStackTrace();
         }
 
     }
