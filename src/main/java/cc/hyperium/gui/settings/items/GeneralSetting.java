@@ -34,6 +34,7 @@ import java.util.Arrays;
 public class GeneralSetting extends SettingGui {
     private DefaultConfig config;
 
+    
     @ConfigOpt
     public static boolean numberPingEnabled = false;
     @ConfigOpt
