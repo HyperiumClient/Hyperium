@@ -328,7 +328,7 @@ public abstract class MixinGuiMainMenu extends GuiScreen implements GuiYesNoCall
         return GuiStyle.valueOf(GeneralSetting.menuStyle);
     }
     
-    private DynamicTexture getCachedTexture(String t) throws IOException {
+    private DynamicTexture getCachedTexture(String t) {
         final DynamicTexture[] texture = {this.cachedImages.get(t)};
         if (texture[0] == null) {
             Minecraft.getMinecraft().addScheduledTask(() -> {
