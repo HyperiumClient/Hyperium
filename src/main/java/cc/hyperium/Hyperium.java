@@ -84,7 +84,6 @@ public class Hyperium {
     private HyperiumModIntegration modIntegration;
     private Minigame currentGame;
     private CaptureCore captureCore;
-    private ModConfigGui configGui;
 
     private Pattern friendRequestPattern;
     private Pattern rankBracketPattern;
@@ -92,12 +91,12 @@ public class Hyperium {
     private Pattern bwKillMsg;
     private Pattern bwFinalKillMsg;
     private Pattern duelKillMsg;
-
+    
+    private boolean acceptedTos = false;
+    
     /**
      * @param event initialize Hyperium
      */
-    private boolean acceptedTos = false;
-
     @InvokeEvent
     public void init(InitializationEvent event) {
         Minecraft.getMinecraft().mcProfiler.profilingEnabled = true;
@@ -144,7 +143,6 @@ public class Hyperium {
         registerCommands();
 
         modIntegration = new HyperiumModIntegration();
-        configGui = new ModConfigGui();
         richPresenceManager.init();
         // spotify thread (>^.^)>
         Multithreading.runAsync(() -> {
@@ -303,9 +301,5 @@ public class Hyperium {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public ModConfigGui getConfigGui() {
-        return configGui;
     }
 }

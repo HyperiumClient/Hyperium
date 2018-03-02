@@ -84,7 +84,6 @@ public class GeneralSetting extends SettingGui {
         super("GENERAL", previous);
         config = Hyperium.CONFIG;
         config.register(this);
-        Minecraft.getMinecraft().currentScreen.setWorldAndResolution(mc, mc.displayWidth, mc.displayHeight);
     }
 
     @Override
