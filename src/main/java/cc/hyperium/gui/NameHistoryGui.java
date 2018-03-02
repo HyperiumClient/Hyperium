@@ -94,6 +94,7 @@ public class NameHistoryGui extends HyperiumGui {
     public void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
         nameField.mouseClicked(mouseX, mouseY, mouseButton);
         super.mouseClicked(mouseX, mouseY, mouseButton);
+        System.out.println("NAME HISTORY: Mouse Clicked");
     }
 
     @InvokeEvent
