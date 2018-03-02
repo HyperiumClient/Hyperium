@@ -26,7 +26,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
-import static cc.hyperium.gui.HyperiumGui.*;
 
 import java.awt.*;
 import java.util.LinkedList;
@@ -106,8 +105,8 @@ public class NotificationCenter extends Gui {
 
             FontRenderer fontRendererObj = Minecraft.getMinecraft().fontRendererObj;
 
-            this.percentComplete = clamp(
-                    easeOut(
+            this.percentComplete = HyperiumGui.clamp(
+                HyperiumGui.easeOut(
                             this.percentComplete,
                             this.ticksLeft < lowerThreshhold ? 0.0f :
                                     this.ticksLeft > topThreshhold ? 1.0f : ticksLeft,
