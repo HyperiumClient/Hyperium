@@ -118,7 +118,7 @@ public class NameHistoryGui extends HyperiumGui {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(); //test
         }
 
     }
