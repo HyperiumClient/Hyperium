@@ -33,8 +33,6 @@ import java.util.Arrays;
 @SuppressWarnings("unchecked")
 public class GeneralSetting extends SettingGui {
     private DefaultConfig config;
-
-
     
     @ConfigOpt
     public static boolean numberPingEnabled = false;
