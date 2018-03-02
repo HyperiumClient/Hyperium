@@ -153,7 +153,7 @@ public class Hyperium {
                     @Override
                     public void onPlay(SpotifyInformation info) {
                         // This is on a different thread, so we need to use the static getter
-                        Hyperium.INSTANCE.getNotification().display("Spotify", "Now playing " + info.getTrack().getTrackResource().getName(), 8);
+                        Hyperium.INSTANCE.getNotification().display("Spotify", "Now playing: " + info.getTrack().getArtistResource().getName() + " - " + info.getTrack().getTrackResource().getName(), 8);
                     }
                 });
                 spotify.start();
