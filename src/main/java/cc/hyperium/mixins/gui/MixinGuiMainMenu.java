@@ -33,6 +33,7 @@ import net.minecraft.client.gui.*;
 import net.minecraft.client.multiplayer.GuiConnecting;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.texture.DynamicTexture;
+import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.realms.RealmsBridge;
@@ -91,6 +92,16 @@ public abstract class MixinGuiMainMenu extends GuiScreen implements GuiYesNoCall
     private HyperiumFontRenderer fr = new HyperiumFontRenderer("Arial", Font.PLAIN, 20);
     private HyperiumFontRenderer sfr = new HyperiumFontRenderer("Arial", Font.PLAIN, 12);
     private HashMap<String, DynamicTexture> cachedImages = new HashMap<>();
+
+    private ResourceLocation exit = new ResourceLocation("textures/material/exit.png");
+
+    private ResourceLocation people_outline = new ResourceLocation("textures/material/people-outline.png");
+
+    private ResourceLocation person_outline = new ResourceLocation("textures/material/person-outline.png");
+
+    private ResourceLocation settings = new ResourceLocation("textures/material/settings.png");
+
+    private ResourceLocation hIcon = new ResourceLocation("textures/h_icon.png");
 
     /**
      * Override initGui
@@ -286,6 +297,19 @@ public abstract class MixinGuiMainMenu extends GuiScreen implements GuiYesNoCall
         sfr.drawString("COPYRIGHT 2018 HYPERIUM DEV TEAM", 0, height - 10, 0xFFFFFF);
         String s = "NOT AFFILIATED WITH MOJANG AB";
         sfr.drawString(s, width - sfr.getWidth(s), height - 10, 0xFFFFFF);
+
+        // Draw icons on buttons
+        TextureManager tm = mc.getTextureManager();
+        tm.bindTexture(person_outline);
+        drawScaledCustomSizeModalRect(width / 2 - 285, height / 2 - 45, 0, 0, 192, 192, 90, 90, 192, 192);
+        tm.bindTexture(people_outline);
+        drawScaledCustomSizeModalRect(width / 2 - 165, height / 2 - 45, 0, 0, 192, 192, 90, 90, 192, 192);
+        tm.bindTexture(settings);
+        drawScaledCustomSizeModalRect(width / 2 - 45, height / 2 - 45, 0, 0, 192, 192, 90, 90, 192, 192);
+        tm.bindTexture(hIcon);
+        drawScaledCustomSizeModalRect(width / 2 + 85, height / 2 - 35, 0, 0, 104, 104, 70, 70, 104, 104);
+        tm.bindTexture(exit);
+        drawScaledCustomSizeModalRect(width / 2 + 195, height / 2 - 45, 0, 0, 192, 192, 90, 90, 192, 192);
     }
 
     private int color(int i, int i1, int i2, int i3) {
