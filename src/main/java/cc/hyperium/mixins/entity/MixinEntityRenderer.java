@@ -24,12 +24,15 @@ import cc.hyperium.event.EventBus;
 import cc.hyperium.event.RenderEvent;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBed;
+import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.renderer.ActiveRenderInfo;
 import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.client.settings.GameSettings;
 import net.minecraft.client.shader.ShaderGroup;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -88,7 +91,21 @@ public abstract class MixinEntityRenderer {
 
     @Shadow
     public abstract void renderWorld(float partialTicks, long finishTimeNano);
-
+    
+    @Shadow private boolean debugView;
+    
+    @Shadow private Minecraft mc;
+    
+    @Shadow private float fovModifierHandPrev;
+    
+    @Shadow private float fovModifierHand;
+    
+    @Shadow private MouseFilter mouseFilterYAxis;
+    
+    @Shadow private MouseFilter mouseFilterXAxis;
+    
+    private boolean zoomMode = false;
+    
     /**
      * @author COAL UR FUCKING CODE IS SHIT
      */
@@ -351,6 +368,61 @@ public abstract class MixinEntityRenderer {
                     // This is necessary because it crashes otherwise for some reason... Unsure if this will cause any issues in the future.
                 }
             }
+        }
+    }
+    
+    /**
+     * Camera zooming
+     *
+     * @author boomboompower
+     */
+    @Overwrite
+    private float getFOVModifier(float partialTicks, boolean notHand) {
+        if (this.debugView) {
+            return 90.0F;
+        } else {
+            Entity entity = this.mc.getRenderViewEntity();
+            float fov = 70.0F;
+            
+            if (notHand) {
+                fov = this.mc.gameSettings.fovSetting * (this.fovModifierHandPrev + (this.fovModifierHand - this.fovModifierHandPrev) * partialTicks);
+            }
+            
+            boolean flag = false;
+            
+            if (this.mc.currentScreen == null) {
+                GameSettings gamesettings = this.mc.gameSettings;
+                flag = GameSettings.isKeyDown(((cc.hyperium.mods.utilities.UtilitiesMod) Hyperium.INSTANCE.getModIntegration().getUtilities()).getBinding());
+            }
+            
+            if (flag) {
+                if (!this.zoomMode) {
+                    this.zoomMode = true;
+                    this.mc.gameSettings.smoothCamera = true;
+                }
+    
+                fov /= 4.0F;
+            } else if (this.zoomMode) {
+                this.zoomMode = false;
+                this.mc.gameSettings.smoothCamera = false;
+                this.mouseFilterXAxis = new MouseFilter();
+                this.mouseFilterYAxis = new MouseFilter();
+                this.mc.renderGlobal.setDisplayListEntitiesDirty();
+            }
+            
+            if (entity instanceof EntityLivingBase && ((EntityLivingBase) entity).getHealth() <= 0.0F) {
+                float f1 = (float) ((EntityLivingBase) entity).deathTime + partialTicks;
+                fov /= (1.0F - 500.0F / (f1 + 500.0F)) * 2.0F + 1.0F;
+            }
+            
+            Block block = ActiveRenderInfo
+                .getBlockAtEntityViewpoint(this.mc.theWorld, entity, partialTicks);
+            
+            if (block.getMaterial() == Material.water) {
+                fov = fov * 60.0F / 70.0F;
+            }
+            
+            return fov;
         }
     }
 }

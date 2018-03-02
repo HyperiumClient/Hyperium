@@ -90,12 +90,12 @@ public class Hyperium {
     private Pattern bwKillMsg;
     private Pattern bwFinalKillMsg;
     private Pattern duelKillMsg;
-
+    
+    private boolean acceptedTos = false;
+    
     /**
      * @param event initialize Hyperium
      */
-    private boolean acceptedTos = false;
-
     @InvokeEvent
     public void init(InitializationEvent event) {
         Minecraft.getMinecraft().mcProfiler.profilingEnabled = true;

@@ -18,6 +18,7 @@
 
 package cc.hyperium.gui;
 
+import cc.hyperium.Hyperium;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.RenderHUDEvent;
 import cc.hyperium.event.TickEvent;
@@ -27,78 +28,138 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 
 import java.awt.*;
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class NotificationCenter extends Gui {
-
-    private String title;
-    private String description;
-
-    private int ticks = 0;
-    private int endTicks = 0;
+    private Queue<Notification> notifications = new LinkedList<>();
+    private Notification currentNotification;
 
     @InvokeEvent
     public void tick(TickEvent ev) {
-        if (this.ticks >= this.endTicks) {
+        if (currentNotification == null) {
+            currentNotification = notifications.poll();
+
             return;
         }
-        ticks++;
 
+        boolean finished = currentNotification.tick();
+
+        if (finished) {
+            currentNotification = notifications.poll();
+        }
     }
 
     @InvokeEvent
     public void onRenderTick(RenderHUDEvent event) {
-
-        if (this.ticks >= this.endTicks) {
-            return;
+        if (currentNotification != null) {
+            currentNotification.render();
         }
-
-        FontRenderer fontRendererObj = Minecraft.getMinecraft().fontRendererObj;
-
-        int rectW = 175;
-        int rectH = 40;
-        int x = 0;
-
-        //Sk1er test changes to make it look better
-        // Goal: Alpha blend it out during first/last 20% of movement + make it move better
-
-        float percentComplete = ticks / 20F;
-        float alpha = 255;
-
-        // animation
-        if (ticks < 20) {
-            x = (rectW / 20) * (20 - ticks) * (20 - ticks) / 2;
-        } else if ((endTicks - ticks) < 20) {
-            x = (rectW / 20) * (20 - (endTicks - ticks)) * (20 - (endTicks - ticks))/2;
-        }
-        if (x > rectW / 4) {
-            float e = rectW / 4F;
-            float t = x - rectW;
-            alpha = e / t;
-        }
-
-        ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
-        int w = sr.getScaledWidth();
-        int h = sr.getScaledHeight();
-        if (alpha <= 4)
-            alpha = 10;
-
-        // Background
-        Gui.drawRect(w - rectW + x, (h - 30) - rectH, w + x, h - 30, new Color(30, 30, 30, (int) alpha).getRGB());
-        Gui.drawRect(
-                w - rectW + x,
-                (h - 30) - rectH,
-                (w - rectW) + 3 + x,
-                h - 30,
-                new Color(149, 201, 144).getRGB());
-        fontRendererObj.drawString(title, (w - rectW) + 10 + x, (h - 30) - rectH + 10, 0xFFFFFF);
-        fontRendererObj.drawString(description, (w - rectW) + 10 + x, (h - 30) - rectH + 20, 0x424242);
-
     }
 
     public void display(String title, String description, float seconds) {
-        this.title = title;
-        this.description = description;
-        this.ticks = 0;
-        this.endTicks = (int) (seconds * 20);
+        Notification notif = new Notification(title, description, (int) (seconds * 20));
+
+        try {
+            notifications.add(notif);
+        } catch (Exception e) {
+            Hyperium.LOGGER.error("Can't display notification!", e);
+        }
+    }
+
+    class Notification {
+        private String title;
+        private String description;
+        private int ticksLeft;
+        private float percentComplete;
+        private int topThreshhold;
+        private int lowerThreshhold;
+        private int numLines = 1;
+
+        public Notification(String title, String description, int ticksLeft) {
+            this.title = title;
+            this.description = description;
+            this.ticksLeft = ticksLeft;
+
+            int fifth = ticksLeft / 5;
+            this.topThreshhold = ticksLeft - fifth;
+            this.lowerThreshhold = fifth;
+            this.percentComplete = 0.0F;
+
+            this.numLines = Minecraft.getMinecraft()
+                    .fontRendererObj
+                    .listFormattedStringToWidth(description, 175 - 15)
+                    .size();
+        }
+
+        public boolean tick() {
+            this.ticksLeft--;
+
+            return ticksLeft <= 0;
+        }
+
+        public void render() {
+            if (ticksLeft <= 0) {
+                return;
+            }
+
+            FontRenderer fontRendererObj = Minecraft.getMinecraft().fontRendererObj;
+
+            this.percentComplete = HyperiumGui.clamp(
+                HyperiumGui.easeOut(
+                            this.percentComplete,
+                            this.ticksLeft < lowerThreshhold ? 0.0f :
+                                    this.ticksLeft > topThreshhold ? 1.0f : ticksLeft,
+                            0.01f,
+                            5f
+                    ),
+                    0.0f,
+                    1.0f
+            );
+
+            ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
+
+            int width = 175;
+            int height = 40 + ((numLines - 1) * fontRendererObj.FONT_HEIGHT);
+
+            int x = (int) (sr.getScaledWidth() - (width * this.percentComplete));
+            int y = sr.getScaledHeight() - height - 15;
+            float alpha = 255 /* clamp(this.percentComplete, 0.5f, 1.0f)*/;
+
+            // Background
+            Gui.drawRect(
+                    x,
+                    y,
+                    x + width,
+                    y + height,
+                    new Color(30, 30, 30, (int) alpha).getRGB()
+            );
+
+            // Highlight color
+            Gui.drawRect(
+                    x,
+                    y,
+                    x + 5,
+                    y + height,
+                    new Color(149, 201, 144).getRGB()
+            );
+
+            // Title Text
+            fontRendererObj.drawString(
+                    title,
+                    x + 10,
+                    y + 10,
+                    0xFFFFFF
+            );
+
+            // Notification Body
+            fontRendererObj.drawSplitString(
+                    description,
+                    x + 10,
+                    y + 10 + fontRendererObj.FONT_HEIGHT + 2,
+                    width - 15,
+                    0x424242
+            );
+        }
     }
 }

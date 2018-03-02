@@ -25,6 +25,7 @@ import cc.hyperium.mods.levelhead.Levelhead;
 import cc.hyperium.mods.timechanger.TimeChanger;
 import cc.hyperium.mods.togglechat.ToggleChatMod;
 
+import cc.hyperium.mods.utilities.UtilitiesMod;
 import me.semx11.autotip.Autotip;
 
 /**
@@ -37,6 +38,7 @@ public class HyperiumModIntegration {
     private AbstractMod timeChanger;
     private AbstractMod skinChanger;
     private AbstractMod toggleChat;
+    private AbstractMod utilities;
     
     private ChromaHUD chromaHUD;
     private Levelhead levelhead;
@@ -45,6 +47,9 @@ public class HyperiumModIntegration {
     public HyperiumModIntegration() {
         this.chromaHUD = new ChromaHUD();
         this.levelhead = new Levelhead();
+        
+        // Utilities implementation
+        this.utilities = new UtilitiesMod().init();
         
         // ToggleChat implementation
         this.toggleChat = new ToggleChatMod().init();
@@ -87,6 +92,15 @@ public class HyperiumModIntegration {
      */
     public Levelhead getLevelhead() {
         return this.levelhead;
+    }
+    
+    /**
+     * A getter for the running Utilities instance
+     *
+     * @return the running Utilities instance
+     */
+    public AbstractMod getUtilities() {
+        return this.utilities;
     }
     
     /**

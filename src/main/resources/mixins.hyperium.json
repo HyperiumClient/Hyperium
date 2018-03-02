@@ -23,6 +23,7 @@
     "gui.MixinInventory",
     "gui.MixinGuiIngame",
     "gui.MixinGuiGameOver",
+    "gui.MixinGuiPlayerTabOverlay",
 
     "entity.MixinNetworkPlayerInfo",
     "entity.MixinEntityPlayer",

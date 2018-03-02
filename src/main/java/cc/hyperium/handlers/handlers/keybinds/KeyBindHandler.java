@@ -22,6 +22,8 @@ package cc.hyperium.handlers.handlers.keybinds;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.KeypressEvent;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.settings.KeyBinding;
+import org.apache.commons.lang3.ArrayUtils;
 import org.lwjgl.input.Keyboard;
 
 import java.util.ArrayList;
@@ -51,5 +53,10 @@ public class KeyBindHandler {
                 }
             }
         }
+    }
+    
+    public void registerKeyBinding(KeyBinding bind) {
+        Minecraft.getMinecraft().gameSettings.keyBindings = ArrayUtils
+            .add(Minecraft.getMinecraft().gameSettings.keyBindings, bind);
     }
 }
