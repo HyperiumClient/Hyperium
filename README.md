@@ -63,7 +63,7 @@ public class TestMod {
 ## Contributors ##
 [![](https://avatars0.githubusercontent.com/u/23426946?s=128&v=4)](https://github.com/emanh1)
 [![](https://avatars0.githubusercontent.com/u/31479541?s=128&v=4)](https://github.com/ConorTheOreo)
-[![](https://avatars2.githubusercontent.com/u/20765494?s=128&v=4)](https://github.com/#8FalseHonesty)
+[![](https://avatars2.githubusercontent.com/u/20765494?s=128&v=4)](https://github.com/FalseHonesty)
 [![](https://avatars1.githubusercontent.com/u/15932140?s=128&v=4)](https://github.com/9Y0)
 [![](https://avatars2.githubusercontent.com/u/7330807?s=128&v=4)](https://github.com/bugfroggy)
 
