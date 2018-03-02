@@ -87,6 +87,7 @@ public abstract class MixinGuiMainMenu extends GuiScreen implements GuiYesNoCall
     private GuiButton hypixelButton;
     private boolean clickedCheckBox = false;
     private HyperiumFontRenderer fr = new HyperiumFontRenderer("Arial", Font.PLAIN, 20);
+    private HyperiumFontRenderer sfr = new HyperiumFontRenderer("Arial", Font.PLAIN, 12);
     private HashMap<String, DynamicTexture> cachedImages = new HashMap<>();
 
     /**
@@ -271,8 +272,10 @@ public abstract class MixinGuiMainMenu extends GuiScreen implements GuiYesNoCall
         }
         fr.drawString(Minecraft.getMinecraft().getSession().getUsername(), width - 123, 19, 0xFFFFFF);
 
-        // Buttons area background
-        drawRect(width / 2 - 95, (height / 2 +20)- 55, width / 2 + 95, (height / 2 +20)+ 55, color(0, 0, 0, 40));
+        // Credits
+        sfr.drawString("COPYRIGHT 2018 HYPERIUM DEV TEAM", 0, height - 10, 0xFFFFFF);
+        String s = "NOT AFFILIATED WITH MOJANG AB";
+        sfr.drawString(s, width - sfr.getWidth(s), height - 10, 0xFFFFFF);
     }
 
     private int color(int i, int i1, int i2, int i3) {
