@@ -30,7 +30,6 @@ public class AnimationSettings extends SettingGui {
     private DefaultConfig config;
 
     // 1.7 Animations
-    // Can be toggled.
 
     @ConfigOpt
     public static boolean oldBlockhit = true;
