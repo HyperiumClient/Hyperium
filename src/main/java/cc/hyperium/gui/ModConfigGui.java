@@ -176,7 +176,7 @@ public class ModConfigGui extends HyperiumGui {
                 super.draw(mouseX, mouseY);
 
                 if (selected) {
-                    String str = "Developed by Sk1er, CoalOres, Kevin and Cubxity";
+                    String str = "Developed by Sk1er, CoalOres, Kevin, Cubxity and boomboompower";
                     fontRenderer.drawCenteredString(str, width / 2, height - 12, Color.WHITE.getRGB());
                 }
             }

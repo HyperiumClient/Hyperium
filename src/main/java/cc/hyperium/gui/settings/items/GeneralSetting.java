@@ -31,7 +31,9 @@ import java.util.Arrays;
 @SuppressWarnings("unchecked")
 public class GeneralSetting extends SettingGui {
     private DefaultConfig config;
-
+    
+    @ConfigOpt
+    public static boolean numberPingEnabled = false;
     @ConfigOpt
     public static boolean discordRPEnabled = true;
     @ConfigOpt
@@ -81,6 +83,8 @@ public class GeneralSetting extends SettingGui {
 
     private SelectionItem<String> menuStyleSelection;
 
+    private SelectionItem<String> numberPing;
+
 
     public GeneralSetting(GuiScreen previous) {
         super("GENERAL", previous);
@@ -91,6 +95,7 @@ public class GeneralSetting extends SettingGui {
     @Override
     protected void pack() {
         super.pack();
+
         settingItems.add(discordRP = new SelectionItem(0, getX(), getDefaultItemY(0),  width - getX() * 2, "DISCORD RICH PRESENCE", i->{
             ((SelectionItem)i).nextItem();
             discordRPEnabled = ((SelectionItem) i).getSelectedItem().equals("ON");
@@ -176,6 +181,13 @@ public class GeneralSetting extends SettingGui {
         }));
         Arrays.stream(GuiStyle.values()).forEach(s -> menuStyleSelection.addItem(s.toString()));
         menuStyleSelection.setSelectedItem(menuStyle);
+
+        settingItems.add(numberPing = new SelectionItem(11, getX(), getDefaultItemY(11),  width - getX() * 2, "SHOW NUMBER PING", i->{
+            ((SelectionItem)i).nextItem();
+            numberPingEnabled = ((SelectionItem) i).getSelectedItem().equals("OFF");
+        }));
+        numberPing.addDefaultOnOff();
+        numberPing.setSelectedItem(numberPingEnabled ? "ON" : "OFF");
     }
 
     private int getDefaultItemY(int i) {

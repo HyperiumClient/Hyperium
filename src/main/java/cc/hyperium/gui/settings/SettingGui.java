@@ -61,7 +61,7 @@ public class SettingGui extends HyperiumGui {
                     i.drawItem(mc, mouseX, mouseY, getX() + animation, (getY() + 25) + (offset + i.id) * 15);
                 });
         fontRendererObj.drawString(">", (width - width / 5) - 18, (height /5) + 5, 0xFFFFFF);
-        fontRendererObj.drawString(name, width / 5 + 10, (height / 5) + ((25 - 9) / 2), 0xFFFFFF);
+        fontRendererObj.drawString(name, width / 5 + 10, (height / 5) + 5, 0xFFFFFF);
         super.drawScreen(mouseX, mouseY, partialTicks);
     }
 

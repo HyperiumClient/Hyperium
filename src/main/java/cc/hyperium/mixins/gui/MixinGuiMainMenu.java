@@ -231,9 +231,9 @@ public abstract class MixinGuiMainMenu extends GuiScreen implements GuiYesNoCall
     }
 
     private void addHyperiumStyleSingleplayerMultiplayerButtons(int p_73969_1_, int p_73969_2_){
-        this.buttonList.add(new GuiButton(1, width / 2 - 295, height / 2 - 55, 110, 110, "S"));
-        this.buttonList.add(new GuiButton(2, width / 2 - 175, height / 2 - 55, 110, 110, "M"));
-        this.buttonList.add(new GuiButton(15, width / 2 + 65, height / 2 - 55, 110, 110, "H"));
+        this.buttonList.add(new GuiButton(1, width / 2 - 295, height / 2 - 55, 110, 110, ""));
+        this.buttonList.add(new GuiButton(2, width / 2 - 175, height / 2 - 55, 110, 110, ""));
+        this.buttonList.add(new GuiButton(15, width / 2 + 65, height / 2 - 55, 110, 110, ""));
     }
 
     private void addDefaultStyleSingleplayerMultiplayerButtons(int p_73969_1_, int p_73969_2_){
@@ -245,8 +245,8 @@ public abstract class MixinGuiMainMenu extends GuiScreen implements GuiYesNoCall
     }
 
     private void addHyperiumStyleOptionsButton(int j){
-        this.buttonList.add(new GuiButton(0, width / 2 - 55, height / 2 - 55, 110, 110, "O"));
-        this.buttonList.add(new GuiButton(4, width / 2 + 185, height / 2 - 55, 110, 110, "E"));
+        this.buttonList.add(new GuiButton(0, width / 2 - 55, height / 2 - 55, 110, 110, ""));
+        this.buttonList.add(new GuiButton(4, width / 2 + 185, height / 2 - 55, 110, 110, ""));
     }
 
     private void addDefaultStyleOptionsButton(int j){
@@ -273,17 +273,13 @@ public abstract class MixinGuiMainMenu extends GuiScreen implements GuiYesNoCall
         
         // Looks weird with the small green strip
         // drawRect(width - 160, 10, width - 158, 40, new Color(149, 201, 144, 255).getRGB());
-        
-        try {
-            // Reset the color of the renderer
-            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-            
-            // Bind
-            GlStateManager.bindTexture(getCachedTexture(Minecraft.getMinecraft().getSession().getPlayerID()).getGlTextureId());
-            drawScaledCustomSizeModalRect(width - 155, 10, 0, 0, 30, 30, 30, 30, 30, 30);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
+        // Reset the color of the renderer
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+
+        // Bind
+        GlStateManager.bindTexture(getCachedTexture(Minecraft.getMinecraft().getSession().getPlayerID()).getGlTextureId());
+        drawScaledCustomSizeModalRect(width - 155, 10, 0, 0, 30, 30, 30, 30, 30, 30);
         fr.drawString(Minecraft.getMinecraft().getSession().getUsername(), width - 123, 19, 0xFFFFFF);
 
         // Credits
@@ -328,7 +324,7 @@ public abstract class MixinGuiMainMenu extends GuiScreen implements GuiYesNoCall
         return GuiStyle.valueOf(GeneralSetting.menuStyle);
     }
     
-    private DynamicTexture getCachedTexture(String t) throws IOException {
+    private DynamicTexture getCachedTexture(String t) {
         final DynamicTexture[] texture = {this.cachedImages.get(t)};
         if (texture[0] == null) {
             Minecraft.getMinecraft().addScheduledTask(() -> {
