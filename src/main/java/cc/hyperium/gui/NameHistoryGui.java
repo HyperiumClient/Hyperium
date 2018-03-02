@@ -21,6 +21,7 @@ package cc.hyperium.gui;
 
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.KeyBindPressEvent;
+import cc.hyperium.gui.settings.items.NameHistorySettings;
 import cc.hyperium.handlers.handlers.keybinds.KeyBindHandler;
 import cc.hyperium.utils.HyperiumFontRenderer;
 import me.kbrewster.mojangapi.MojangAPI;
@@ -39,7 +40,6 @@ import java.util.UUID;
 
 public class NameHistoryGui extends HyperiumGui {
 
-    public boolean rgb = true;
     List<String> names = new ArrayList<>();
     private HyperiumFontRenderer fontRenderer = new HyperiumFontRenderer("Arial", Font.PLAIN, 16);
     private HyperiumFontRenderer smallRenderer = new HyperiumFontRenderer("Arial", Font.PLAIN, 14);
@@ -65,7 +65,7 @@ public class NameHistoryGui extends HyperiumGui {
         //Text Box
         nameField.drawTextBox();
         int defaultColour = Color.WHITE.getRGB();
-        if (rgb) {
+        if (NameHistorySettings.rgbNamesEnabled) {
             defaultColour = Color.getHSBColor(System.currentTimeMillis() % 1000L / 1000F, 1F, 1F).getRGB();
         }
         for (int i = 0; i < names.size(); i++) {

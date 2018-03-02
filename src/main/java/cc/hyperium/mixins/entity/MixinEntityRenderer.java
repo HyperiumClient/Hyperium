@@ -38,10 +38,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.*;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.spongepowered.asm.mixin.Mixin;
@@ -105,10 +102,7 @@ public abstract class MixinEntityRenderer {
     @Shadow private MouseFilter mouseFilterXAxis;
     
     private boolean zoomMode = false;
-    
-    /**
-     * @author COAL UR FUCKING CODE IS SHIT
-     */
+
     @Overwrite
     private void orientCamera(float partialTicks) {
         Entity entity = Minecraft.getMinecraft().getRenderViewEntity();
@@ -222,9 +216,6 @@ public abstract class MixinEntityRenderer {
         this.cloudFog = Minecraft.getMinecraft().renderGlobal.hasCloudFog(d0, d1, d2, partialTicks);
     }
 
-    /**
-     * @author COAL UR FUCKING CODE IS SHIT
-     */
     @Overwrite
     public void updateCameraAndRender(float p_181560_1_, long p_181560_2_) {
         boolean flag = Display.isActive();
