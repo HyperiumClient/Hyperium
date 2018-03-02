@@ -273,17 +273,13 @@ public abstract class MixinGuiMainMenu extends GuiScreen implements GuiYesNoCall
         
         // Looks weird with the small green strip
         // drawRect(width - 160, 10, width - 158, 40, new Color(149, 201, 144, 255).getRGB());
-        
-        try {
-            // Reset the color of the renderer
-            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-            
-            // Bind
-            GlStateManager.bindTexture(getCachedTexture(Minecraft.getMinecraft().getSession().getPlayerID()).getGlTextureId());
-            drawScaledCustomSizeModalRect(width - 155, 10, 0, 0, 30, 30, 30, 30, 30, 30);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
+        // Reset the color of the renderer
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+
+        // Bind
+        GlStateManager.bindTexture(getCachedTexture(Minecraft.getMinecraft().getSession().getPlayerID()).getGlTextureId());
+        drawScaledCustomSizeModalRect(width - 155, 10, 0, 0, 30, 30, 30, 30, 30, 30);
         fr.drawString(Minecraft.getMinecraft().getSession().getUsername(), width - 123, 19, 0xFFFFFF);
 
         // Credits
