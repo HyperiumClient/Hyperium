@@ -287,7 +287,7 @@ public class Hyperium {
 
     public void trayDisplayAboutInfo() {
         JOptionPane popup = new JOptionPane();
-        JOptionPane.showMessageDialog(popup, "Hyperium Client", "Hyperium - About", JOptionPane.PLAIN_MESSAGE);
+        JOptionPane.showMessageDialog(popup, "Hyperium is a Hypixel Based 1.8 Client developed by Sk1er, CoalOres, Cubixity, KevinPriv and boomboompower", "Hyperium - About", JOptionPane.PLAIN_MESSAGE);
     }
 
     public boolean isAcceptedTos() {
