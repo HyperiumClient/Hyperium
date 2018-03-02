@@ -24,8 +24,6 @@ import cc.hyperium.config.ConfigOpt;
 import cc.hyperium.config.DefaultConfig;
 import cc.hyperium.gui.settings.SettingGui;
 import cc.hyperium.gui.settings.components.SelectionItem;
-import cc.hyperium.mixins.gui.MixinGuiMainMenu;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 
 import java.util.Arrays;
@@ -58,6 +56,10 @@ public class GeneralSetting extends SettingGui {
     public static boolean smartSoundsEnabled = false;
     @ConfigOpt
     public static String menuStyle = GuiStyle.DEFAULT.toString();
+    @ConfigOpt
+    public static boolean numberPingEnabled = false;
+
+    private SelectionItem<String> numberPing;
 
     private SelectionItem<String> discordRP;
 
@@ -164,8 +166,16 @@ public class GeneralSetting extends SettingGui {
         }));
         smartSounds.addDefaultOnOff();
         smartSounds.setSelectedItem(smartSoundsEnabled ? "ON" : "OFF");
-        
-        settingItems.add(menuStyleSelection = new SelectionItem(10, getX(), getDefaultItemY(10),  width - getX() * 2, "MENU STYLE", i->{
+
+        settingItems.add(
+                numberPing = new SelectionItem(10, getX(), getDefaultItemY(9), width - getX() * 2, "NUMBER PING IN TAB", i -> {
+                    ((SelectionItem) i).nextItem();
+                    numberPingEnabled = ((SelectionItem) i).getSelectedItem().equals("ON");
+                }));
+        numberPing.addDefaultOnOff();
+        numberPing.setSelectedItem(numberPingEnabled ? "ON" : "OFF");
+
+        settingItems.add(menuStyleSelection = new SelectionItem(11, getX(), getDefaultItemY(10), width - getX() * 2, "MENU STYLE", i -> {
             ((SelectionItem)i).nextItem();
             menuStyle = (String)((SelectionItem)i).getSelectedItem();
         }));

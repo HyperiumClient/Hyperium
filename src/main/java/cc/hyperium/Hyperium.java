@@ -19,15 +19,12 @@
 package cc.hyperium;
 
 
-import cc.hyperium.commands.defaults.CommandChromaHUD;
-import cc.hyperium.commands.defaults.CommandClearChat;
-import cc.hyperium.commands.defaults.CommandConfigGui;
-import cc.hyperium.commands.defaults.CommandPrivateMessage;
+import cc.hyperium.commands.defaults.*;
 import cc.hyperium.config.DefaultConfig;
 import cc.hyperium.event.*;
 import cc.hyperium.event.minigames.Minigame;
 import cc.hyperium.event.minigames.MinigameListener;
-import cc.hyperium.gui.ModConfigGui;
+import cc.hyperium.gui.NameHistoryGui;
 import cc.hyperium.gui.NotificationCenter;
 import cc.hyperium.gui.integrations.HypixelFriendsGui;
 import cc.hyperium.gui.settings.items.AnimationSettings;
@@ -36,16 +33,19 @@ import cc.hyperium.handlers.HyperiumHandlers;
 import cc.hyperium.handlers.handlers.keybinds.KeyBindHandler;
 import cc.hyperium.integrations.spotify.Spotify;
 import cc.hyperium.integrations.spotify.impl.SpotifyInformation;
-import cc.hyperium.mixins.MixinKeyBinding;
 import cc.hyperium.mods.HyperiumModIntegration;
 import cc.hyperium.mods.capturex.CaptureCore;
 import cc.hyperium.mods.crosshair.CrosshairMod;
 import cc.hyperium.mods.discord.RichPresenceManager;
 import cc.hyperium.mods.levelhead.commands.LevelHeadCommand;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
+import cc.hyperium.mods.statistics.GeneralStatisticsTracking;
 import cc.hyperium.tray.TrayManager;
 import cc.hyperium.utils.ChatColor;
-import cc.hyperium.utils.mods.*;
+import cc.hyperium.utils.mods.CompactChat;
+import cc.hyperium.utils.mods.FPSLimiter;
+import cc.hyperium.utils.mods.PerspectiveModifierContainer;
+import cc.hyperium.utils.mods.ToggleSprintContainer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ChatComponentText;
 import org.apache.logging.log4j.LogManager;
@@ -144,6 +144,7 @@ public class Hyperium {
 
         modIntegration = new HyperiumModIntegration();
         richPresenceManager.init();
+
         // spotify thread (>^.^)>
         Multithreading.runAsync(() -> {
             try {
@@ -169,13 +170,12 @@ public class Hyperium {
      * register the commands
      */
     private void registerCommands() {
-//       Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(new TestCommand());
-
         Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(new CommandConfigGui());
         Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(new CommandPrivateMessage());
         Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(new LevelHeadCommand());
         Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(new CommandClearChat());
         Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(new CommandChromaHUD());
+        Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(new NameHistoryCommand());
     }
 
     /**
@@ -230,14 +230,22 @@ public class Hyperium {
     public void onKeyPress(KeypressEvent event) {
         if (!Minecraft.getMinecraft().inGameHasFocus)
             return;
-        if ((KeyBindHandler.toggleSprint.isActivated())) {
-            if (event.getKey() == Minecraft.getMinecraft().gameSettings.keyBindForward.getKeyCode() || event.getKey() == KeyBindHandler.toggleSprint.getKey()) {
-                ((MixinKeyBinding) Minecraft.getMinecraft().gameSettings.keyBindSprint).setPressed(true);
-            }
-        }
         if ((KeyBindHandler.debug.isPressed())) {
             Minecraft.getMinecraft().displayGuiScreen(new HypixelFriendsGui());
             KeyBindHandler.debug.onPress();
+        }
+    }
+
+    /**
+     * called when key bind is pressed
+     *
+     * @param event the event
+     */
+
+    @InvokeEvent
+    public void onKeyBindPress(KeyBindPressEvent event) {
+        if (event.getKeyCode() == KeyBindHandler.nameHistory.getKey()) {
+            new NameHistoryGui().show();
         }
     }
 

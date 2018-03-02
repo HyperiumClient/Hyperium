@@ -3,8 +3,8 @@ package cc.hyperium.mods.chromahud.displayitems.hyperium;
 import cc.hyperium.mods.chromahud.ElementRenderer;
 import cc.hyperium.mods.chromahud.api.Dimension;
 import cc.hyperium.mods.chromahud.api.DisplayItem;
+import cc.hyperium.mods.statistics.GeneralStatisticsTracking;
 import cc.hyperium.utils.JsonHolder;
-import cc.hyperium.utils.mods.GeneralStatisticsTracking;
 
 /**
  * Created by mitchellkatz on 2/26/18. Designed for production use on Sk1er.club
