@@ -56,8 +56,6 @@ public class GeneralSetting extends SettingGui {
     public static boolean smartSoundsEnabled = false;
     @ConfigOpt
     public static String menuStyle = GuiStyle.DEFAULT.toString();
-    @ConfigOpt
-    public static boolean numberPingEnabled = false;
 
     private SelectionItem<String> numberPing;
 
@@ -82,9 +80,6 @@ public class GeneralSetting extends SettingGui {
     private SelectionItem<String> smartSounds;
 
     private SelectionItem<String> menuStyleSelection;
-
-    private SelectionItem<String> numberPing;
-
 
     public GeneralSetting(GuiScreen previous) {
         super("GENERAL", previous);
@@ -181,13 +176,7 @@ public class GeneralSetting extends SettingGui {
         }));
         Arrays.stream(GuiStyle.values()).forEach(s -> menuStyleSelection.addItem(s.toString()));
         menuStyleSelection.setSelectedItem(menuStyle);
-
-        settingItems.add(numberPing = new SelectionItem(11, getX(), getDefaultItemY(11),  width - getX() * 2, "SHOW NUMBER PING", i->{
-            ((SelectionItem)i).nextItem();
-            numberPingEnabled = ((SelectionItem) i).getSelectedItem().equals("OFF");
-        }));
-        numberPing.addDefaultOnOff();
-        numberPing.setSelectedItem(numberPingEnabled ? "ON" : "OFF");
+        
     }
 
     private int getDefaultItemY(int i) {
