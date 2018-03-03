@@ -24,18 +24,23 @@ import cc.hyperium.config.ConfigOpt;
 import cc.hyperium.config.DefaultConfig;
 import cc.hyperium.gui.settings.SettingGui;
 import cc.hyperium.gui.settings.components.SelectionItem;
-import cc.hyperium.mixins.gui.MixinGuiMainMenu;
-import net.minecraft.client.Minecraft;
+
 import net.minecraft.client.gui.GuiScreen;
 
 import java.util.Arrays;
 
-@SuppressWarnings("unchecked")
+/**
+ * A class containing all the main settings for Hyperium,
+ * the settings here are saved when the gui is closed
+ */
+@SuppressWarnings({"unchecked", "FieldCanBeLocal"})
 public class GeneralSetting extends SettingGui {
+    
+    /**
+     * The configuration instance, for all the settings below
+     */
     private DefaultConfig config;
     
-    @ConfigOpt
-    public static boolean numberPingEnabled = false;
     @ConfigOpt
     public static boolean discordRPEnabled = true;
     @ConfigOpt
@@ -57,6 +62,8 @@ public class GeneralSetting extends SettingGui {
     @ConfigOpt
     public static boolean smartSoundsEnabled = false;
     @ConfigOpt
+    public static boolean numberPingEnabled = false;
+    @ConfigOpt
     public static String menuStyle = GuiStyle.DEFAULT.toString();
     @ConfigOpt
     public static boolean windowedFullScreen = true;
@@ -75,129 +82,142 @@ public class GeneralSetting extends SettingGui {
 
     private SelectionItem<String> framerateLimiter;
 
-    private SelectionItem<String> fastChat;
-    
     private SelectionItem<String> shinyPots;
     
     private SelectionItem<String> smartSounds;
+    
+    private SelectionItem<String> numberPing;
 
     private SelectionItem<String> menuStyleSelection;
 
-    private SelectionItem<String> numberPing;
-
     private SelectionItem<String> fullScreenStyle;
 
-
+    /** Set to true when a setting is changed, this will trigger a save when the gui is closed */
+    private boolean settingsUpdated;
+    
     public GeneralSetting(GuiScreen previous) {
         super("GENERAL", previous);
-        config = Hyperium.CONFIG;
-        config.register(this);
+        this.config = Hyperium.CONFIG;
+        this.config.register(this);
     }
 
     @Override
     protected void pack() {
         super.pack();
-
-        settingItems.add(discordRP = new SelectionItem(0, getX(), getDefaultItemY(0),  width - getX() * 2, "DISCORD RICH PRESENCE", i->{
-            ((SelectionItem)i).nextItem();
+    
+        this.settingItems.add(this.discordRP = new SelectionItem(0, getX(), getDefaultItemY(0), this.width - getX() * 2, "DISCORD RICH PRESENCE", i -> {
+            ((SelectionItem) i).nextItem();
             discordRPEnabled = ((SelectionItem) i).getSelectedItem().equals("ON");
+            this.settingsUpdated = true;
         }));
-        discordRP.addDefaultOnOff();
-        discordRP.setSelectedItem(discordRPEnabled ? "ON" : "OFF");
-
-        settingItems.add(discordServerDisplay = new SelectionItem<>(1, getX(), getDefaultItemY(1),  width - getX() * 2, "DISCORD DISPLAY SERVER", i->{
-            ((SelectionItem<String>)i).nextItem();
+        this.discordRP.addDefaultOnOff();
+        this.discordRP.setSelectedItem(discordRPEnabled ? "ON" : "OFF");
+    
+        this.settingItems.add(this.discordServerDisplay = new SelectionItem<>(1, getX(), getDefaultItemY(1), this.width - getX() * 2, "DISCORD DISPLAY SERVER", i -> {
+            ((SelectionItem<String>) i).nextItem();
             discordServerDisplayEnabled = ((SelectionItem) i).getSelectedItem().equals("ON");
+            this.settingsUpdated = true;
         }));
-        discordServerDisplay.addDefaultOnOff();
-        discordServerDisplay.setSelectedItem(discordServerDisplayEnabled ? "ON" : "OFF");
-
-        settingItems.add(fullBright = new SelectionItem(2, getX(), getDefaultItemY(2),  width - getX() * 2, "FULLBRIGHT", i->{
-            ((SelectionItem)i).nextItem();
+        this.discordServerDisplay.addDefaultOnOff();
+        this.discordServerDisplay.setSelectedItem(discordServerDisplayEnabled ? "ON" : "OFF");
+    
+        this.settingItems.add(this.fullBright = new SelectionItem(2, getX(), getDefaultItemY(2), this.width - getX() * 2, "FULLBRIGHT", i -> {
+            ((SelectionItem) i).nextItem();
             fullbrightEnabled = ((SelectionItem) i).getSelectedItem().equals("ON");
+            this.settingsUpdated = true;
         }));
-        fullBright.addDefaultOnOff();
-        fullBright.setSelectedItem(fullbrightEnabled ? "ON" : "OFF");
-
-        settingItems.add(romanNumerals = new SelectionItem(3, getX(), getDefaultItemY(3),  width - getX() * 2, "ROMAN NUMERALS", i->{
-            ((SelectionItem)i).nextItem();
+        this.fullBright.addDefaultOnOff();
+        this.fullBright.setSelectedItem(fullbrightEnabled ? "ON" : "OFF");
+    
+        this.settingItems.add(this.romanNumerals = new SelectionItem(3, getX(), getDefaultItemY(3), this.width - getX() * 2, "ROMAN NUMERALS", i -> {
+            ((SelectionItem) i).nextItem();
             romanNumeralsEnabled = ((SelectionItem) i).getSelectedItem().equals("ON");
+            this.settingsUpdated = true;
         }));
-        romanNumerals.addDefaultOnOff();
-        romanNumerals.setSelectedItem(romanNumeralsEnabled ? "ON" : "OFF");
-
-        settingItems.add(compactChat = new SelectionItem(4, getX(), getDefaultItemY(4),  width - getX() * 2, "COMPACT CHAT", i->{
-            ((SelectionItem)i).nextItem();
+        this.romanNumerals.addDefaultOnOff();
+        this.romanNumerals.setSelectedItem(romanNumeralsEnabled ? "ON" : "OFF");
+    
+        this.settingItems.add(this.compactChat = new SelectionItem(4, getX(), getDefaultItemY(4), this.width - getX() * 2, "COMPACT CHAT", i -> {
+            ((SelectionItem) i).nextItem();
             compactChatEnabled = ((SelectionItem) i).getSelectedItem().equals("ON");
+            this.settingsUpdated = true;
         }));
-        compactChat.addDefaultOnOff();
-        compactChat.setSelectedItem(compactChatEnabled ? "ON" : "OFF");
-
-        settingItems.add(voidflickerfix = new SelectionItem(5, getX(), getDefaultItemY(5),  width - getX() * 2, "VOID FLICKER FIX", i->{
-            ((SelectionItem)i).nextItem();
+        this.compactChat.addDefaultOnOff();
+        this.compactChat.setSelectedItem(compactChatEnabled ? "ON" : "OFF");
+    
+        this.settingItems.add(this.voidflickerfix = new SelectionItem(5, getX(), getDefaultItemY(5), this.width - getX() * 2, "VOID FLICKER FIX", i -> {
+            ((SelectionItem) i).nextItem();
             voidflickerfixEnabled = ((SelectionItem) i).getSelectedItem().equals("ON");
+            this.settingsUpdated = true;
         }));
-        voidflickerfix.addDefaultOnOff();
-        voidflickerfix.setSelectedItem(voidflickerfixEnabled ? "ON" : "OFF");
-
-        settingItems.add(framerateLimiter = new SelectionItem(6, getX(), getDefaultItemY(6),  width - getX() * 2, "SMART FRAMERATE", i->{
-            ((SelectionItem)i).nextItem();
+        this.voidflickerfix.addDefaultOnOff();
+        this.voidflickerfix.setSelectedItem(voidflickerfixEnabled ? "ON" : "OFF");
+    
+        this.settingItems.add(this.framerateLimiter = new SelectionItem(6, getX(), getDefaultItemY(6), this.width - getX() * 2, "SMART FRAMERATE", i -> {
+            ((SelectionItem) i).nextItem();
             framerateLimiterEnabled = ((SelectionItem) i).getSelectedItem().equals("ON");
+            this.settingsUpdated = true;
         }));
-        framerateLimiter.addDefaultOnOff();
-        framerateLimiter.setSelectedItem(framerateLimiterEnabled ? "ON" : "OFF");
-
-        settingItems.add(fastChat = new SelectionItem(7, getX(), getDefaultItemY(7),  width - getX() * 2, "FASTCHAT", i->{
-            ((SelectionItem)i).nextItem();
-            fastchatEnabled = ((SelectionItem) i).getSelectedItem().equals("ON");
-        }));
-        fastChat.addDefaultOnOff();
-        fastChat.setSelectedItem(fastchatEnabled ? "ON" : "OFF");
+        this.framerateLimiter.addDefaultOnOff();
+        this.framerateLimiter.setSelectedItem(framerateLimiterEnabled ? "ON" : "OFF");
     
-        settingItems.add(shinyPots = new SelectionItem(8, getX(), getDefaultItemY(8),  width - getX() * 2, "SHINY POTS", i-> {
-            ((SelectionItem)i).nextItem();
+        this.settingItems.add(this.shinyPots = new SelectionItem(7, getX(), getDefaultItemY(7), this.width - getX() * 2, "SHINY POTS", i -> {
+            ((SelectionItem) i).nextItem();
             shinyPotsEnabled = ((SelectionItem) i).getSelectedItem().equals("ON");
+            this.settingsUpdated = true;
         }));
-        shinyPots.addDefaultOnOff();
-        shinyPots.setSelectedItem(shinyPotsEnabled ? "ON" : "OFF");
+        this.shinyPots.addDefaultOnOff();
+        this.shinyPots.setSelectedItem(shinyPotsEnabled ? "ON" : "OFF");
     
-        settingItems.add(
-            smartSounds = new SelectionItem(9, getX(), getDefaultItemY(9),  width - getX() * 2, "BETTER SOUNDS", i-> {
-            ((SelectionItem)i).nextItem();
+        this.settingItems.add(
+            this.smartSounds = new SelectionItem(8, getX(), getDefaultItemY(8), this.width - getX() * 2, "BETTER SOUNDS", i -> {
+            ((SelectionItem) i).nextItem();
             smartSoundsEnabled = ((SelectionItem) i).getSelectedItem().equals("ON");
+            this.settingsUpdated = true;
         }));
-        smartSounds.addDefaultOnOff();
-        smartSounds.setSelectedItem(smartSoundsEnabled ? "ON" : "OFF");
-        
-        settingItems.add(menuStyleSelection = new SelectionItem(10, getX(), getDefaultItemY(10),  width - getX() * 2, "MENU STYLE", i->{
-            ((SelectionItem)i).nextItem();
-            menuStyle = (String)((SelectionItem)i).getSelectedItem();
-        }));
-        Arrays.stream(GuiStyle.values()).forEach(s -> menuStyleSelection.addItem(s.toString()));
-        menuStyleSelection.setSelectedItem(menuStyle);
-
-        settingItems.add(numberPing = new SelectionItem(11, getX(), getDefaultItemY(11),  width - getX() * 2, "SHOW NUMBER PING", i->{
-            ((SelectionItem)i).nextItem();
-            numberPingEnabled = ((SelectionItem) i).getSelectedItem().equals("OFF");
+        this.smartSounds.addDefaultOnOff();
+        this.smartSounds.setSelectedItem(smartSoundsEnabled ? "ON" : "OFF");
+    
+        this.settingItems.add(this.numberPing = new SelectionItem(9, getX(), getDefaultItemY(9), this.width - getX() * 2, "PING NUMBER", i -> {
+            ((SelectionItem) i).nextItem();
+            numberPingEnabled = ((SelectionItem) i).getSelectedItem().equals("ON");
+            this.settingsUpdated = true;
         }));
         numberPing.addDefaultOnOff();
         numberPing.setSelectedItem(numberPingEnabled ? "ON" : "OFF");
-
-        settingItems.add(fullScreenStyle = new SelectionItem<>(11, getX(), getDefaultItemY(12), width - getX() * 2, "WINDOWED FULLSCREEN", i->{
-            ((SelectionItem)i).nextItem();
-            windowedFullScreen = ((SelectionItem) i).getSelectedItem().equals("ON");
+    
+        this.settingItems.add(this.menuStyleSelection = new SelectionItem(10, getX(), getDefaultItemY(10), this.width - getX() * 2, "MENU STYLE", i -> {
+            ((SelectionItem) i).nextItem();
+            menuStyle = (String) ((SelectionItem) i).getSelectedItem();
+            this.settingsUpdated = true;
         }));
-        fullScreenStyle.addDefaultOnOff();
-        fullScreenStyle.setSelectedItem(windowedFullScreen ? "ON" : "OFF");
+        Arrays.stream(GuiStyle.values()).forEach(s -> this.menuStyleSelection.addItem(s.toString()));
+        this.menuStyleSelection.setSelectedItem(menuStyle);
+    
+        this.settingItems.add(this.fullScreenStyle = new SelectionItem<>(11, getX(), getDefaultItemY(11),this.width - getX() * 2, "WINDOWED FULLSCREEN", i -> {
+            ((SelectionItem) i).nextItem();
+            windowedFullScreen = ((SelectionItem) i).getSelectedItem().equals("ON");
+            this.settingsUpdated = true;
+        }));
+        this.fullScreenStyle.addDefaultOnOff();
+        this.fullScreenStyle.setSelectedItem(windowedFullScreen ? "ON" : "OFF");
     }
-
+    
+    /**
+     * A getter for the y location of the given setting
+     *
+     * @param i the item number
+     * @return the y location the element will be rendered at
+     */
     private int getDefaultItemY(int i) {
-        return getY()+25 + i * 15;
+        return getY() + 25 + i * 15;
     }
 
     @Override
     public void onGuiClosed() {
-        super.onGuiClosed();
-        config.save();
+        // If a setting has been modified, we'll save the config.
+        if (this.settingsUpdated) {
+            this.config.save();
+        }
     }
 }

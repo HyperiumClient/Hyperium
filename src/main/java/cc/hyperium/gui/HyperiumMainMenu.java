@@ -2,6 +2,7 @@ package cc.hyperium.gui;
 
 import cc.hyperium.GuiStyle;
 import cc.hyperium.Metadata;
+import cc.hyperium.gui.settings.items.BackgroundSettings;
 import cc.hyperium.gui.settings.items.GeneralSetting;
 import cc.hyperium.utils.HyperiumFontRenderer;
 import net.minecraft.client.Minecraft;
@@ -53,7 +54,15 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
     private HyperiumFontRenderer sfr = new HyperiumFontRenderer("Arial", Font.PLAIN, 12);
     private HashMap<String, DynamicTexture> cachedImages = new HashMap<>();
 
-    private static final ResourceLocation background = new ResourceLocation("textures/material/background.jpg");
+    public static ResourceLocation getBackground() {
+        return background;
+    }
+
+    public static void setBackground(ResourceLocation background) {
+        HyperiumMainMenu.background = background;
+    }
+
+    private static ResourceLocation background = new ResourceLocation("textures/material/backgrounds/1.png");
 
     private final ResourceLocation exit = new ResourceLocation("textures/material/exit.png");
 
@@ -117,8 +126,6 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
                 break;
         }
     }
-
-
 
     /**
      * Override drawScreen method
