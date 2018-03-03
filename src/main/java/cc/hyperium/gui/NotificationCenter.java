@@ -22,18 +22,21 @@ import cc.hyperium.Hyperium;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.RenderHUDEvent;
 import cc.hyperium.event.TickEvent;
+import cc.hyperium.utils.HyperiumFontRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 
 public class NotificationCenter extends Gui {
     private Queue<Notification> notifications = new LinkedList<>();
     private Notification currentNotification;
+    private HyperiumFontRenderer fontRenderer = new HyperiumFontRenderer("Arial", Font.PLAIN, 18);
 
     @InvokeEvent
     public void tick(TickEvent ev) {
@@ -103,10 +106,8 @@ public class NotificationCenter extends Gui {
                 return;
             }
 
-            FontRenderer fontRendererObj = Minecraft.getMinecraft().fontRendererObj;
-
-            this.percentComplete = HyperiumGui.clamp(
-                HyperiumGui.easeOut(
+            this.percentComplete = clamp(
+                    easeOut(
                             this.percentComplete,
                             this.ticksLeft < lowerThreshhold ? 0.0f :
                                     this.ticksLeft > topThreshhold ? 1.0f : ticksLeft,
@@ -119,8 +120,10 @@ public class NotificationCenter extends Gui {
 
             ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
 
+
             int width = 175;
-            int height = 40 + ((numLines - 1) * fontRendererObj.FONT_HEIGHT);
+            ArrayList<String> lines = fontRenderer.splitString(description, width - 10);
+            int height = (int) (30 + fontRenderer.getHeight(String.join("\n\r", lines)));
 
             int x = (int) (sr.getScaledWidth() - (width * this.percentComplete));
             int y = sr.getScaledHeight() - height - 15;
@@ -145,19 +148,18 @@ public class NotificationCenter extends Gui {
             );
 
             // Title Text
-            fontRendererObj.drawString(
+            fontRenderer.drawString(
                     title,
                     x + 10,
-                    y + 10,
+                    y + 5,
                     0xFFFFFF
             );
 
             // Notification Body
-            fontRendererObj.drawSplitString(
-                    description,
+            fontRenderer.drawSplitString(
+                    lines,
                     x + 10,
-                    y + 10 + fontRendererObj.FONT_HEIGHT + 2,
-                    width - 15,
+                    (int) (y + 5 + fontRenderer.getHeight(title) + 2),
                     0x424242
             );
         }

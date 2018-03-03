@@ -26,6 +26,7 @@ import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.font.effects.ColorEffect;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 public class HyperiumFontRenderer {
 
@@ -87,7 +88,7 @@ public class HyperiumFontRenderer {
 
         GL11.glPushMatrix();
         GL11.glScaled(0.5F, 0.5F, 0.5F);
-    
+
         float red = (float) (color >> 16 & 255) / 255.0F;
         float green = (float) (color >> 8 & 255) / 255.0F;
         float blue = (float) (color & 255) / 255.0F;
@@ -123,7 +124,7 @@ public class HyperiumFontRenderer {
             } else if (c == '\247' && index != characters.length - 1) {
                 int codeIndex = "0123456789abcdefg".indexOf(text.charAt(index + 1));
                 if (codeIndex < 0) continue;
-    
+
                 currentColor = this.colorCodes[codeIndex];
             }
 
@@ -218,5 +219,36 @@ public class HyperiumFontRenderer {
         }
 
         return var4.toString();
+    }
+
+    public void drawSplitString(ArrayList<String> lines, int x, int y, int color) {
+        drawString(
+                String.join("\n\r", lines),
+                x,
+                y,
+                color
+        );
+    }
+
+    public ArrayList<String> splitString(String text, int wrapWidth) {
+        ArrayList<String> lines = new ArrayList<>();
+
+        String[] splitText = text.split(" ");
+        StringBuilder currentString = new StringBuilder();
+
+        for (String word : splitText) {
+            String potential = currentString.toString() + " " + word;
+
+            if (getWidth(potential) > wrapWidth) {
+                lines.add(currentString.toString());
+                currentString = new StringBuilder();
+            } else {
+                currentString.append(word).append(" ");
+            }
+        }
+
+        lines.add(currentString.toString());
+
+        return lines;
     }
 }
