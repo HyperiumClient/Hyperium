@@ -19,11 +19,8 @@
 package cc.hyperium.gui;
 
 import cc.hyperium.Hyperium;
-import cc.hyperium.gui.settings.items.AnimationSettings;
-import cc.hyperium.gui.settings.items.CaptureXSetting;
-import cc.hyperium.gui.settings.items.GeneralSetting;
+import cc.hyperium.gui.settings.items.*;
 import cc.hyperium.gui.settings.SettingItem;
-import cc.hyperium.gui.settings.items.ToggleChatSettings;
 import cc.hyperium.utils.HyperiumFontRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
@@ -144,7 +141,14 @@ public class ModConfigGui extends HyperiumGui {
             this.width - getX(0) * 2,
             "TOGGLECHAT",
             i -> Minecraft.getMinecraft().displayGuiScreen(new ToggleChatSettings(this))
+        )).addSetting(new SettingItem(
+                4, getX(0),
+                getDefaultItemY(4),
+                width - getX(0) * 2,
+                "BACKGROUNDS",
+                i -> Minecraft.getMinecraft().displayGuiScreen(new BackgroundSettings(this))
         ));
+
 
         if (Minecraft.getMinecraft().thePlayer != null) {
             tab.addSetting(new SettingItem(
