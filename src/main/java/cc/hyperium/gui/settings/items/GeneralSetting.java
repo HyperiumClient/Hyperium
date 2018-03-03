@@ -82,8 +82,6 @@ public class GeneralSetting extends SettingGui {
 
     private SelectionItem<String> framerateLimiter;
 
-    private SelectionItem<String> fastChat;
-    
     private SelectionItem<String> shinyPots;
     
     private SelectionItem<String> smartSounds;
@@ -163,15 +161,7 @@ public class GeneralSetting extends SettingGui {
         this.framerateLimiter.addDefaultOnOff();
         this.framerateLimiter.setSelectedItem(framerateLimiterEnabled ? "ON" : "OFF");
     
-        this.settingItems.add(this.fastChat = new SelectionItem(7, getX(), getDefaultItemY(7), this.width - getX() * 2, "FASTCHAT", i -> {
-            ((SelectionItem) i).nextItem();
-            fastchatEnabled = ((SelectionItem) i).getSelectedItem().equals("ON");
-            this.settingsUpdated = true;
-        }));
-        this.fastChat.addDefaultOnOff();
-        this.fastChat.setSelectedItem(fastchatEnabled ? "ON" : "OFF");
-    
-        this.settingItems.add(this.shinyPots = new SelectionItem(8, getX(), getDefaultItemY(8), this.width - getX() * 2, "SHINY POTS", i -> {
+        this.settingItems.add(this.shinyPots = new SelectionItem(7, getX(), getDefaultItemY(7), this.width - getX() * 2, "SHINY POTS", i -> {
             ((SelectionItem) i).nextItem();
             shinyPotsEnabled = ((SelectionItem) i).getSelectedItem().equals("ON");
             this.settingsUpdated = true;
@@ -180,7 +170,7 @@ public class GeneralSetting extends SettingGui {
         this.shinyPots.setSelectedItem(shinyPotsEnabled ? "ON" : "OFF");
     
         this.settingItems.add(
-            this.smartSounds = new SelectionItem(9, getX(), getDefaultItemY(9), this.width - getX() * 2, "BETTER SOUNDS", i -> {
+            this.smartSounds = new SelectionItem(8, getX(), getDefaultItemY(8), this.width - getX() * 2, "BETTER SOUNDS", i -> {
             ((SelectionItem) i).nextItem();
             smartSoundsEnabled = ((SelectionItem) i).getSelectedItem().equals("ON");
             this.settingsUpdated = true;
@@ -188,7 +178,7 @@ public class GeneralSetting extends SettingGui {
         this.smartSounds.addDefaultOnOff();
         this.smartSounds.setSelectedItem(smartSoundsEnabled ? "ON" : "OFF");
     
-        this.settingItems.add(this.numberPing = new SelectionItem(10, getX(), getDefaultItemY(10), this.width - getX() * 2, "PING NUMBER", i -> {
+        this.settingItems.add(this.numberPing = new SelectionItem(9, getX(), getDefaultItemY(9), this.width - getX() * 2, "PING NUMBER", i -> {
             ((SelectionItem) i).nextItem();
             numberPingEnabled = ((SelectionItem) i).getSelectedItem().equals("ON");
             this.settingsUpdated = true;
@@ -196,7 +186,7 @@ public class GeneralSetting extends SettingGui {
         numberPing.addDefaultOnOff();
         numberPing.setSelectedItem(numberPingEnabled ? "ON" : "OFF");
     
-        this.settingItems.add(this.menuStyleSelection = new SelectionItem(11, getX(), getDefaultItemY(11), this.width - getX() * 2, "MENU STYLE", i -> {
+        this.settingItems.add(this.menuStyleSelection = new SelectionItem(10, getX(), getDefaultItemY(10), this.width - getX() * 2, "MENU STYLE", i -> {
             ((SelectionItem) i).nextItem();
             menuStyle = (String) ((SelectionItem) i).getSelectedItem();
             this.settingsUpdated = true;
@@ -204,7 +194,7 @@ public class GeneralSetting extends SettingGui {
         Arrays.stream(GuiStyle.values()).forEach(s -> this.menuStyleSelection.addItem(s.toString()));
         this.menuStyleSelection.setSelectedItem(menuStyle);
     
-        this.settingItems.add(this.fullScreenStyle = new SelectionItem<>(12, getX(), getDefaultItemY(12),this.width - getX() * 2, "WINDOWED FULLSCREEN", i -> {
+        this.settingItems.add(this.fullScreenStyle = new SelectionItem<>(11, getX(), getDefaultItemY(11),this.width - getX() * 2, "WINDOWED FULLSCREEN", i -> {
             ((SelectionItem) i).nextItem();
             windowedFullScreen = ((SelectionItem) i).getSelectedItem().equals("ON");
             this.settingsUpdated = true;

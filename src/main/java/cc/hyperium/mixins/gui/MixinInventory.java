@@ -18,6 +18,7 @@
 
 package cc.hyperium.mixins.gui;
 
+import cc.hyperium.gui.settings.items.BackgroundSettings;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.InventoryEffectRenderer;
