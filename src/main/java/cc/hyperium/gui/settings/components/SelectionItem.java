@@ -52,8 +52,8 @@ public class SelectionItem<T> extends SettingItem {
     }
 
     public void addDefaultOnOff(){
-        ((List<String>)items).add("ON");
-        ((List<String>)items).add("OFF");
+        ((List<String>) items).add("ON");
+        ((List<String>) items).add("OFF");
     }
 
     public void nextItem(){

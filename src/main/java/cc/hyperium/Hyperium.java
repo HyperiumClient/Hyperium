@@ -310,4 +310,33 @@ public class Hyperium {
             e.printStackTrace();
         }
     }
+
+    private boolean fullScreen = false;
+    public void toggleFullscreen(){
+        boolean windowed = GeneralSetting.windowedFullScreen;
+        boolean lastStateWindowed = false;
+        if(System.getProperty("org.lwjgl.opengl.Window.undecorated") == null)
+            System.setProperty("org.lwjgl.opengl.Window.undecorated", "false");
+        if(Display.isFullscreen())
+            fullScreen = true;
+        if(System.getProperty("org.lwjgl.opengl.Window.undecorated").equals("true")) {
+            fullScreen = true;
+            lastStateWindowed = true;
+        }
+
+        fullScreen = !fullScreen;
+        if(!lastStateWindowed){
+            Minecraft.getMinecraft().toggleFullscreen();
+            return;
+        }
+
+        if(fullScreen){
+
+        }else{
+
+        }
+
+
+    }
+
 }

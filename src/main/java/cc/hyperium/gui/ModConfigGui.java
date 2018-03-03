@@ -19,11 +19,11 @@
 package cc.hyperium.gui;
 
 import cc.hyperium.Hyperium;
-import cc.hyperium.gui.settings.SettingItem;
 import cc.hyperium.gui.settings.items.AnimationSettings;
 import cc.hyperium.gui.settings.items.CaptureXSetting;
 import cc.hyperium.gui.settings.items.GeneralSetting;
-import cc.hyperium.gui.settings.items.NameHistorySettings;
+import cc.hyperium.gui.settings.SettingItem;
+import cc.hyperium.gui.settings.items.ToggleChatSettings;
 import cc.hyperium.utils.HyperiumFontRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
@@ -139,16 +139,17 @@ public class ModConfigGui extends HyperiumGui {
                 "CAPTUREX",
                 i -> Minecraft.getMinecraft().displayGuiScreen(new CaptureXSetting(this))
         )).addSetting(new SettingItem(
-                3, getX(0),
-                getDefaultItemY(2),
-                width - getX(0) * 2,
-                "NAME HISTORY",
-                i -> Minecraft.getMinecraft().displayGuiScreen(new NameHistorySettings(this))));
+            3, getX(0),
+            getDefaultItemY(3),
+            this.width - getX(0) * 2,
+            "TOGGLECHAT",
+            i -> Minecraft.getMinecraft().displayGuiScreen(new ToggleChatSettings(this))
+        ));
 
-        if(Minecraft.getMinecraft().thePlayer!=null) {
+        if (Minecraft.getMinecraft().thePlayer != null) {
             tab.addSetting(new SettingItem(
                     4, getX(0),
-                    getDefaultItemY(3),
+                    getDefaultItemY(4),
                     width - getX(0) * 2,
                     "CHROMAHUD",
                     i -> Minecraft.getMinecraft().displayGuiScreen(Hyperium.INSTANCE.getModIntegration().getChromaHUD().getConfigGuiInstance())

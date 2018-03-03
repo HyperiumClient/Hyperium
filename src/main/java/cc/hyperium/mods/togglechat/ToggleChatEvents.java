@@ -68,7 +68,14 @@ public class ToggleChatEvents {
                     // don't send the message to the player & stop looping
                     if (type.shouldToggle(input)) {
                         if (type instanceof TypeMessageSeparator) {
-                            event.setChat(new ChatComponentText(((TypeMessageSeparator) type).editMessage(formattedText)));
+                            String edited = ((TypeMessageSeparator) type).editMessage(formattedText);
+                            
+                            // Don't bother sending the message if its empty
+                            if (!input.equals(edited) && edited.isEmpty()) {
+                                event.setCancelled(true);
+                            } else {
+                                event.setChat(new ChatComponentText(edited));
+                            }
                         } else {
                             event.setCancelled(true);
                         }
