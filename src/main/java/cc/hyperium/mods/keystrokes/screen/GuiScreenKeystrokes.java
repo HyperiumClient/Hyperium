@@ -71,7 +71,7 @@ public class GuiScreenKeystrokes extends GuiScreen {
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         this.mod.getRenderer().renderKeystrokes();
         
-        drawCenteredString(this.mc.fontRendererObj, "KeystrokesMod v4.1 HCC", this.width / 2, 5, Color.WHITE.getRGB());
+        drawCenteredString(this.mc.fontRendererObj, "KeystrokesMod v4.1", this.width / 2, 5, Color.WHITE.getRGB());
         drawCenteredString(this.mc.fontRendererObj, "Ported by boomboompower", this.width / 2, 16, Color.WHITE.getRGB());
         drawCenteredString(this.mc.fontRendererObj, "<3 from Sk1er", this.width / 2, 27, Color.WHITE.getRGB());
         
