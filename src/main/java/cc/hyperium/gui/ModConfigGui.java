@@ -23,10 +23,9 @@ import cc.hyperium.gui.settings.items.AnimationSettings;
 import cc.hyperium.gui.settings.items.CaptureXSetting;
 import cc.hyperium.gui.settings.items.GeneralSetting;
 import cc.hyperium.gui.settings.SettingItem;
+import cc.hyperium.gui.settings.items.ToggleChatSettings;
 import cc.hyperium.utils.HyperiumFontRenderer;
-import javafx.scene.control.Tab;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.util.MathHelper;
 import org.lwjgl.input.Mouse;
@@ -139,12 +138,18 @@ public class ModConfigGui extends HyperiumGui {
                 width - getX(0) * 2,
                 "CAPTUREX",
                 i -> Minecraft.getMinecraft().displayGuiScreen(new CaptureXSetting(this))
+        )).addSetting(new SettingItem(
+            3, getX(0),
+            getDefaultItemY(3),
+            this.width - getX(0) * 2,
+            "TOGGLECHAT",
+            i -> Minecraft.getMinecraft().displayGuiScreen(new ToggleChatSettings(this))
         ));
 
-        if(Minecraft.getMinecraft().thePlayer!=null) {
+        if (Minecraft.getMinecraft().thePlayer != null) {
             tab.addSetting(new SettingItem(
-                    3, getX(0),
-                    getDefaultItemY(3),
+                    4, getX(0),
+                    getDefaultItemY(4),
                     width - getX(0) * 2,
                     "CHROMAHUD",
                     i -> Minecraft.getMinecraft().displayGuiScreen(Hyperium.INSTANCE.getModIntegration().getChromaHUD().getConfigGuiInstance())
