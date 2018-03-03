@@ -1,6 +1,7 @@
 package cc.hyperium.mixins.gui;
 
 import cc.hyperium.gui.settings.items.BackgroundSettings;
+import cc.hyperium.gui.settings.items.GeneralSetting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import org.spongepowered.asm.mixin.Mixin;
@@ -17,7 +18,7 @@ public abstract class MixinGuiScreen {
     @Inject(method = "drawWorldBackground", at = @At("HEAD"), cancellable = true)
     private void drawWorldBackground(int tint, CallbackInfo ci)
     {
-        if (this.mc.theWorld != null && BackgroundSettings.fastWorldGuiEnabled)
+        if (this.mc.theWorld != null && GeneralSetting.fastWorldGuiEnabled)
         {
             ci.cancel();
         }
