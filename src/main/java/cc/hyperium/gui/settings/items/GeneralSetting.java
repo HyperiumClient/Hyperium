@@ -58,6 +58,8 @@ public class GeneralSetting extends SettingGui {
     public static boolean smartSoundsEnabled = false;
     @ConfigOpt
     public static String menuStyle = GuiStyle.DEFAULT.toString();
+    @ConfigOpt
+    public static boolean windowedFullScreen = true;
 
     private SelectionItem<String> discordRP;
 
@@ -82,6 +84,8 @@ public class GeneralSetting extends SettingGui {
     private SelectionItem<String> menuStyleSelection;
 
     private SelectionItem<String> numberPing;
+
+    private SelectionItem<String> fullScreenStyle;
 
 
     public GeneralSetting(GuiScreen previous) {
@@ -178,6 +182,13 @@ public class GeneralSetting extends SettingGui {
         }));
         numberPing.addDefaultOnOff();
         numberPing.setSelectedItem(numberPingEnabled ? "ON" : "OFF");
+
+        settingItems.add(fullScreenStyle = new SelectionItem<>(11, getX(), getDefaultItemY(12), width - getX() * 2, "WINDOWED FULLSCREEN", i->{
+            ((SelectionItem)i).nextItem();
+            windowedFullScreen = ((SelectionItem) i).getSelectedItem().equals("ON");
+        }));
+        fullScreenStyle.addDefaultOnOff();
+        fullScreenStyle.setSelectedItem(windowedFullScreen ? "ON" : "OFF");
     }
 
     private int getDefaultItemY(int i) {
