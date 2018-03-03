@@ -5,7 +5,19 @@
 The Hyperium is a Minecraft modification in development. It will combine many popular features in addition to suggestions and ideas from the community to provide a unique experience designed for Hypixel.
 
 ## Features ##
-
+- ChromaHUD
+- Keystrokes v4
+- MouseDelayFix
+- NoCloseChat
+- 1.7 Animations
+- Levelhead
+- AutoGG
+- AutoWho
+- ToggleChat
+- MemoryFix
+- Perspective Mod
+- Sidebar Mod
+- ShadowPlay Integration
 ## Contributing ##
 
 ## Building the project with IntelliJ ##
