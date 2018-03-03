@@ -18,7 +18,6 @@
 
 package cc.hyperium.event
 
-import com.esotericsoftware.reflectasm.MethodAccess
 import java.util.*
 import java.util.concurrent.CopyOnWriteArraySet
 
@@ -38,11 +37,10 @@ object EventBus {
             method.getAnnotation(InvokeEvent::class.java) ?: continue
             val event = method.parameters.first().type ?: throw
             IllegalArgumentException("Couldn't find parameter inside of ${method.name}!")
-            val access = MethodAccess.get(clazz)
             val priority = method.getAnnotation(InvokeEvent::class.java).priority
-            val subscriber = EventSubscriber(obj, access, access.getIndex(method.name), priority)
+            method.isAccessible = true
             subscriptions.putIfAbsent(event, CopyOnWriteArraySet())
-            subscriptions[event]!!.add(subscriber)
+            subscriptions[event]!!.add(EventSubscriber(obj, method, priority))
         }
     }
 
@@ -64,7 +62,7 @@ object EventBus {
                 ?.sortedByDescending { it.priority.value }
                 ?.forEach { sub ->
                     try {
-                        sub.methodAccess.invoke(sub.instance, sub.mIndex, event)
+                        sub.method.invoke(sub.instance, event)
                     } catch (e: Exception) {
                         println("Failed to call " + event.javaClass.canonicalName + " in " + sub.instance.javaClass.canonicalName + " class, check below for errors!")
                         e.printStackTrace()
