@@ -16,7 +16,13 @@ public class BackgroundSettings extends SettingGui {
     
     @ConfigOpt
     public static String backgroundSelect = "1";
+    @ConfigOpt
+    public static boolean fastWorldGuiEnabled = true;
+    @ConfigOpt
+    public static boolean fastChatEnabled = true;
 
+    private SelectionItem<String> fastWorldGui;
+    private SelectionItem<String> fastChat;
 
     public BackgroundSettings(GuiScreen previous) {
         super("BACKGROUNDS", previous);
@@ -58,6 +64,20 @@ public class BackgroundSettings extends SettingGui {
         }
 
         this.settingItems.add(selectionItem);
+
+        this.settingItems.add(this.fastChat = new SelectionItem<>(1, getX(), getDefaultItemY(7), this.width - getX() * 2, "FAST CHAT", i -> {
+            ((SelectionItem) i).nextItem();
+            fastChatEnabled = ((SelectionItem) i).getSelectedItem().equals("ON");
+        }));
+        this.fastChat.addDefaultOnOff();
+        this.fastChat.setSelectedItem(fastChatEnabled ? "ON" : "OFF");
+
+        this.settingItems.add(this.fastWorldGui = new SelectionItem<>(2, getX(), getDefaultItemY(7), this.width - getX() * 2, "FAST CONTAINERS", i -> {
+            ((SelectionItem) i).nextItem();
+            fastWorldGuiEnabled = ((SelectionItem) i).getSelectedItem().equals("ON");
+        }));
+        this.fastWorldGui.addDefaultOnOff();
+        this.fastWorldGui.setSelectedItem(fastWorldGuiEnabled ? "ON" : "OFF");
 
     }
 
