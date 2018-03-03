@@ -27,7 +27,7 @@ public class ToggleBaseHandler {
     private LinkedHashMap<String, ToggleBase> toggles = new LinkedHashMap<>();
     
     public LinkedHashMap<String, ToggleBase> getToggles() {
-        return this.toggles;
+        return new LinkedHashMap<>(this.toggles);
     }
 
     /**
