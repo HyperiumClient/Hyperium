@@ -19,6 +19,8 @@
 package cc.hyperium.gui;
 
 import cc.hyperium.Hyperium;
+import cc.hyperium.gui.settings.items.*;
+import cc.hyperium.gui.settings.SettingItem;
 import cc.hyperium.gui.settings.SettingItem;
 import cc.hyperium.gui.settings.items.*;
 import cc.hyperium.utils.HyperiumFontRenderer;
@@ -143,11 +145,19 @@ public class ModConfigGui extends HyperiumGui {
             i -> Minecraft.getMinecraft().displayGuiScreen(new ToggleChatSettings(this))
         )).addSetting(new SettingItem(
                 4, getX(0),
-                getDefaultItemY(3),
+                getDefaultItemY(4),
+                width - getX(0) * 2,
+                "BACKGROUNDS",
+                 i -> Minecraft.getMinecraft().displayGuiScreen(new BackgroundSettings(this))
+        )).addSetting(new SettingItem(
+                5, getX(0),
+                getDefaultItemY(5),
                 this.width - getX(0) * 2,
                 "NAME HISTORY",
                 i -> Minecraft.getMinecraft().displayGuiScreen(new NameHistorySettings(this))
         ));
+
+
 
         if (Minecraft.getMinecraft().thePlayer != null) {
             tab.addSetting(new SettingItem(
