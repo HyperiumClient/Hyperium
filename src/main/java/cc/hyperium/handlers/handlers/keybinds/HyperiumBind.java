@@ -19,8 +19,8 @@
 package cc.hyperium.handlers.handlers.keybinds;
 
 import cc.hyperium.event.EventBus;
-import cc.hyperium.event.KeyBindDisableEvent;
-import cc.hyperium.event.KeyBindEnableEvent;
+import cc.hyperium.event.KeyBindPressEvent;
+
 
 public class HyperiumBind {
     private String name;
@@ -47,15 +47,9 @@ public class HyperiumBind {
     }
 
     public void onPress(){
+        // Invokes event.
         if(!pressed){
-            if(!activated){
-                System.out.println("[KEYBINDS] " + name + "keybind enabled!");
-                EventBus.INSTANCE.post(new KeyBindEnableEvent(key));
-            } else{
-                System.out.println("[KEYBINDS] " + name + "keybind disabled!");
-                EventBus.INSTANCE.post(new KeyBindDisableEvent(key));
-            }
-            activated = !activated;
+            EventBus.INSTANCE.post(new KeyBindPressEvent(key));
         }
         pressed = !pressed;
     }

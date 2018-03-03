@@ -102,10 +102,7 @@ public abstract class MixinEntityRenderer {
     @Shadow private MouseFilter mouseFilterXAxis;
     
     private boolean zoomMode = false;
-    
-    /**
-     * @author COAL UR FUCKING CODE IS SHIT
-     */
+
     @Overwrite
     private void orientCamera(float partialTicks) {
         Entity entity = Minecraft.getMinecraft().getRenderViewEntity();
@@ -219,9 +216,6 @@ public abstract class MixinEntityRenderer {
         this.cloudFog = Minecraft.getMinecraft().renderGlobal.hasCloudFog(d0, d1, d2, partialTicks);
     }
 
-    /**
-     * @author COAL UR FUCKING CODE IS SHIT
-     */
     @Overwrite
     public void updateCameraAndRender(float p_181560_1_, long p_181560_2_) {
         boolean flag = Display.isActive();

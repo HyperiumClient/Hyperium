@@ -19,27 +19,38 @@
 package cc.hyperium.utils.mods;
 
 import cc.hyperium.event.InvokeEvent;
-import cc.hyperium.event.KeyBindDisableEvent;
-import cc.hyperium.event.KeyBindEnableEvent;
+import cc.hyperium.event.KeyBindPressEvent;
+import cc.hyperium.event.KeypressEvent;
 import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
 import cc.hyperium.handlers.handlers.keybinds.KeyBindHandler;
 import cc.hyperium.mixins.MixinKeyBinding;
 import net.minecraft.client.Minecraft;
 
 public class ToggleSprintContainer {
+
+    private static boolean toggleSprintActive = false;
+
     @InvokeEvent
-    public static void onkeyBindEnable(KeyBindEnableEvent event) {
-        if (event.getKey() == KeyBindHandler.toggleSprint.getKey()) {
-            GeneralChatHandler.instance().sendMessage("ToggleSprint Enabled!");
+    public static void onKeyBindPress(KeyBindPressEvent event) {
+        if (event.getKeyCode() == KeyBindHandler.toggleSprint.getKey()) {
+            if (toggleSprintActive) {
+                GeneralChatHandler.instance().sendMessage("ToggleSprint Disabled!");
+                ((MixinKeyBinding) Minecraft.getMinecraft().gameSettings.keyBindSprint).setPressed(false);
+            } else {
+                GeneralChatHandler.instance().sendMessage("ToggleSprint Enabled!");
+                ((MixinKeyBinding) Minecraft.getMinecraft().gameSettings.keyBindSprint).setPressed(true);
+            }
+            toggleSprintActive = !toggleSprintActive;
         }
     }
 
     @InvokeEvent
-    public static void onKeyBindDisable(KeyBindDisableEvent event) {
-        if (event.getKey() == KeyBindHandler.toggleSprint.getKey()) {
-            // Disables ToggleSprint
-            GeneralChatHandler.instance().sendMessage("ToggleSprint Disabled!");
-            ((MixinKeyBinding) Minecraft.getMinecraft().gameSettings.keyBindSprint).setPressed(false);
+    public static void onKeyPress(KeypressEvent event) {
+        if (toggleSprintActive) {
+            if (event.getKey() == Minecraft.getMinecraft().gameSettings.keyBindForward.getKeyCode() || event.getKey() == KeyBindHandler.toggleSprint.getKey()) {
+                ((MixinKeyBinding) Minecraft.getMinecraft().gameSettings.keyBindSprint).setPressed(true);
+            }
         }
     }
+
 }
