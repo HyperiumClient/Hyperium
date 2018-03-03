@@ -150,7 +150,7 @@ public class ModConfigGui extends HyperiumGui {
                 "BACKGROUNDS",
                  i -> Minecraft.getMinecraft().displayGuiScreen(new BackgroundSettings(this))
         )).addSetting(new SettingItem(
-                4, getX(0),
+                5, getX(0),
                 getDefaultItemY(5),
                 this.width - getX(0) * 2,
                 "NAME HISTORY",
