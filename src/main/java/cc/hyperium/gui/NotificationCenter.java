@@ -33,6 +33,9 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import static cc.hyperium.gui.HyperiumGui.clamp;
+import static cc.hyperium.gui.HyperiumGui.easeOut;
+
 public class NotificationCenter extends Gui {
     private Queue<Notification> notifications = new LinkedList<>();
     private Notification currentNotification;
