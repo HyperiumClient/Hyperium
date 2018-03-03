@@ -18,7 +18,7 @@ public abstract class MixinGuiScreen {
     @Inject(method = "drawWorldBackground", at = @At("HEAD"), cancellable = true)
     private void drawWorldBackground(int tint, CallbackInfo ci)
     {
-        if (this.mc.theWorld != null && GeneralSetting.fastWorldGuiEnabled)
+        if (this.mc.theWorld != null && BackgroundSettings.fastWorldGuiEnabled)
         {
             ci.cancel();
         }
