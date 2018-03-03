@@ -59,11 +59,3 @@ public class TestMod {
 [![](https://cdn.discordapp.com/avatars/248159137370734601/8a8b49df90cda7ccd55f28c1f5293ad6.png)](https://github.com/CoalCoding)
 [![](https://cdn.discordapp.com/avatars/247785387919933440/e8f6af129f0d6d4db93d8c7360aac15a.png)](https://github.com/KevinPriv)
 [![](https://cdn.discordapp.com/avatars/290921387655430144/1495ae41593665e29f683d63d502c600.png)](https://github.com/VRCube)
-
-## Contributors ##
-[![](https://avatars0.githubusercontent.com/u/23426946?s=128&v=4)](https://github.com/emanh1)
-[![](https://avatars0.githubusercontent.com/u/31479541?s=128&v=4)](https://github.com/ConorTheOreo)
-[![](https://avatars2.githubusercontent.com/u/20765494?s=128&v=4)](https://github.com/#8FalseHonesty)
-[![](https://avatars1.githubusercontent.com/u/15932140?s=128&v=4)](https://github.com/9Y0)
-[![](https://avatars2.githubusercontent.com/u/7330807?s=128&v=4)](https://github.com/bugfroggy)
-
