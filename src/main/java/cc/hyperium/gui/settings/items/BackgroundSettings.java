@@ -17,6 +17,17 @@ public class BackgroundSettings extends SettingGui {
     @ConfigOpt
     public static String backgroundSelect = "1";
 
+    @ConfigOpt
+    public static boolean fastWorldGuiEnabled = true;
+
+    private SelectionItem<String> fastWorldGui;
+
+    @ConfigOpt
+    public static boolean fastChatEnabled = true;
+
+    private SelectionItem<String> fastChat;
+
+
     public BackgroundSettings(GuiScreen previous) {
         super("BACKGROUNDS", previous);
         config = Hyperium.CONFIG;
@@ -27,7 +38,7 @@ public class BackgroundSettings extends SettingGui {
     protected void pack() {
         super.pack();
         
-        SelectionItem<String> selectionItem = new SelectionItem<>(0, getX(), getDefaultItemY(0),  width - getX() * 2, "BACKGROUND", i -> {
+        SelectionItem<String> selectionItem = new SelectionItem<>(0, getX(), getDefaultItemY(0),  width - getX() * 2, "MENU BACKGROUND", i -> {
             ((SelectionItem) i).nextItem();
             backgroundSelect = (String) ((SelectionItem) i).getSelectedItem();
         });
@@ -36,7 +47,7 @@ public class BackgroundSettings extends SettingGui {
         selectionItem.addItem("2");
         selectionItem.addItem("3");
         selectionItem.setSelectedItem(backgroundSelect);
-        
+
         switch (selectionItem.getSelectedItem()) {
             case "1":
                 HyperiumMainMenu.setBackground(new ResourceLocation("textures/material/backgrounds/1.png"));
@@ -48,8 +59,23 @@ public class BackgroundSettings extends SettingGui {
                 HyperiumMainMenu.setBackground(new ResourceLocation("textures/material/backgrounds/3.png"));
                 break;
         }
-        
+
         this.settingItems.add(selectionItem);
+
+        this.settingItems.add(this.fastChat = new SelectionItem<>(1, getX(), getDefaultItemY(7), this.width - getX() * 2, "FAST CHAT", i -> {
+            ((SelectionItem) i).nextItem();
+            fastChatEnabled = ((SelectionItem) i).getSelectedItem().equals("ON");
+        }));
+        this.fastChat.addDefaultOnOff();
+        this.fastChat.setSelectedItem(fastChatEnabled ? "ON" : "OFF");
+
+        this.settingItems.add(this.fastWorldGui = new SelectionItem<>(2, getX(), getDefaultItemY(7), this.width - getX() * 2, "FAST CONTAINERS", i -> {
+            ((SelectionItem) i).nextItem();
+            fastWorldGuiEnabled = ((SelectionItem) i).getSelectedItem().equals("ON");
+        }));
+        this.fastWorldGui.addDefaultOnOff();
+        this.fastWorldGui.setSelectedItem(fastWorldGuiEnabled ? "ON" : "OFF");
+
     }
 
     private int getDefaultItemY(int i) {

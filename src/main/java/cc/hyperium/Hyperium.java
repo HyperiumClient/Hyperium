@@ -28,6 +28,7 @@ import cc.hyperium.gui.NameHistoryGui;
 import cc.hyperium.gui.NotificationCenter;
 import cc.hyperium.gui.integrations.HypixelFriendsGui;
 import cc.hyperium.gui.settings.items.AnimationSettings;
+import cc.hyperium.gui.settings.items.BackgroundSettings;
 import cc.hyperium.gui.settings.items.GeneralSetting;
 import cc.hyperium.handlers.HyperiumHandlers;
 import cc.hyperium.handlers.handlers.keybinds.KeyBindHandler;
@@ -138,6 +139,7 @@ public class Hyperium {
         // instance does not need to be saved as shit is static ^.^
         CONFIG.register(new GeneralSetting(null));
         CONFIG.register(new AnimationSettings(null));
+        CONFIG.register(new BackgroundSettings(null));
 
         //Register commands.
         registerCommands();

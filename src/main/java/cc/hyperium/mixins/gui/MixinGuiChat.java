@@ -22,6 +22,7 @@ import cc.hyperium.Hyperium;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.SendChatMessageEvent;
 import cc.hyperium.mixins.packet.MixinC01PacketChatMessage;
+import cc.hyperium.utils.ChatUtil;
 import com.google.common.collect.ObjectArrays;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiChat;
@@ -60,9 +61,7 @@ public class MixinGuiChat {
         SendChatMessageEvent event = new SendChatMessageEvent(msg);
         EventBus.INSTANCE.post(event);
         if (!event.isCancelled()) {
-            final C01PacketChatMessage packet = new C01PacketChatMessage(msg);
-            ((MixinC01PacketChatMessage) packet).setMessage(msg);
-            this.mc.thePlayer.sendQueue.addToSendQueue(packet);
+            ChatUtil.sendMessage(msg);
         }
         this.mc.ingameGUI.getChatGUI().addToSentMessages(event.getMessage());
         this.mc.displayGuiScreen(null);
