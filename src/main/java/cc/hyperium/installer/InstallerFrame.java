@@ -21,6 +21,8 @@ package cc.hyperium.installer;
 import cc.hyperium.installer.components.MotionPanel;
 import cc.hyperium.installer.utils.DownloadTask;
 import com.google.common.io.Files;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -32,6 +34,9 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.*;
 import java.net.URL;
+import java.net.URLConnection;
+import java.nio.channels.Channels;
+import java.nio.channels.ReadableByteChannel;
 import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.time.Instant;
@@ -177,7 +182,7 @@ public class InstallerFrame extends JFrame implements PropertyChangeListener {
             progressBar.setValue(60);
             display.setText("BUILDING LOCAL HYPERIUM");
             try {
-                Process p = new ProcessBuilder(local.getAbsolutePath() + File.separator + "gradlew" + (System.getProperty("os.name").contains("dows") ? ".bat" : ""), "build")
+                Process p = new ProcessBuilder(local.getAbsolutePath() + File.separator + "gradlew" + (System.getProperty("os.name").contains("dows") ? ".bat" : ""), "--no-daemon", "build")
                         .directory(local)
                         .inheritIO()
                         .redirectErrorStream(true)
@@ -258,6 +263,7 @@ public class InstallerFrame extends JFrame implements PropertyChangeListener {
         File optifine;
         try {
             optifine = exportTempOptifine();
+            optifine.deleteOnExit();
         } catch (Exception e) {
             e.printStackTrace();
             display.setText("INSTALLATION FAILED");
@@ -265,6 +271,7 @@ public class InstallerFrame extends JFrame implements PropertyChangeListener {
             exit.setVisible(true);
             return;
         }
+        System.out.println("Temp optifine="+optifine.getAbsolutePath());
         progressBar.setValue(91);
         display.setText("COPYING FILES");
         target.mkdir();
@@ -272,7 +279,7 @@ public class InstallerFrame extends JFrame implements PropertyChangeListener {
         File targetJar = new File(target, "Hyperium 1.8.9.jar");
         try {
             Files.copy(originJson, targetJson);
-            targetJar.createNewFile();
+            Files.copy(originJar, targetJar);
         } catch (IOException e) {
             e.printStackTrace();
             display.setText("INSTALLATION FAILED");
@@ -282,8 +289,10 @@ public class InstallerFrame extends JFrame implements PropertyChangeListener {
         }
         progressBar.setValue(95);
         display.setText("PATCHING OPTIFINE");
-        System.out.println("Temp optifine=" + optifine.getAbsolutePath());
-        ProcessBuilder builder = new ProcessBuilder("java", "-cp", optifine.getAbsolutePath(), "optifine.Patcher", originJar.getAbsolutePath(), optifine.getAbsolutePath(), targetJar.getAbsolutePath());
+        File optifineLibDir = new File(getMinecraftDir(), "libraries/optifine/OptiFine/1.8.9_HD_U_I3");
+        optifineLibDir.mkdirs();
+        File optifineLib = new File(optifineLibDir, "OptiFine-1.8.9_HD_U_I3.jar");
+        ProcessBuilder builder = new ProcessBuilder("java", "-cp", optifine.getAbsolutePath(), "optifine.Patcher", originJar.getAbsolutePath(), optifine.getAbsolutePath(), optifineLib.getAbsolutePath());
         builder.inheritIO();
         builder.redirectErrorStream(true);
         Process proc;
@@ -324,10 +333,11 @@ public class InstallerFrame extends JFrame implements PropertyChangeListener {
         JSONArray libs = json.getJSONArray("libraries");
         libs.put(lib);
         libs.put(new JSONObject().put("name", "net.minecraft:launchwrapper:1.7"));
+        libs.put(new JSONObject().put("name", "optifine:OptiFine:1.8.9_HD_U_I3"));
         json.put("libraries", libs);
         json.put("id", "Hyperium 1.8.9");
         json.put("mainClass", "net.minecraft.launchwrapper.Launch");
-        json.put("minecraftArguments", json.getString("minecraftArguments") + " --tweakClass=" + version.get().getString("tweak-class"));
+        json.put("minecraftArguments", json.getString("minecraftArguments") + " --tweakClass=" + version.get().getString("tweak-class")+" --tweakClass=optifine.OptiFineTweaker");
 
         JSONObject profiles = launcherProfiles.getJSONObject("profiles");
         Instant instant = Instant.ofEpochMilli(System.currentTimeMillis());
@@ -360,22 +370,27 @@ public class InstallerFrame extends JFrame implements PropertyChangeListener {
     }
 
     private File exportTempOptifine() throws Exception{
-        InputStream stream = null;
-        OutputStream resStreamOut = null;
-        File tmp;
+        File tmp = File.createTempFile("Optifine", ".jar");
+        BufferedInputStream in = null;
+        FileOutputStream fout = null;
         try {
-            tmp = File.createTempFile("Optifine", ".jar");
-            tmp.deleteOnExit();
-            stream = InstallerMain.class.getResourceAsStream("/mods/OptiFine_1.8.9_HD_U_I3.jarx");
-            int readBytes;
-            byte[] buffer = new byte[4096];
-            resStreamOut = new FileOutputStream(tmp);
-            while ((readBytes = stream.read(buffer)) > 0) {
-                resStreamOut.write(buffer, 0, readBytes);
+            URLConnection conn = new URL("https://raw.githubusercontent.com/HyperiumClient/Hyperium-Repo/master/files/mods/OptiFine_1.8.9_HD_U_I3.jar").openConnection();
+            conn.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:56.0) Gecko/20100101 Firefox/56.0");
+            in = new BufferedInputStream(conn.getInputStream());
+            fout = new FileOutputStream(tmp);
+
+            final byte data[] = new byte[1024];
+            int count;
+            while ((count = in.read(data, 0, 1024)) != -1) {
+                fout.write(data, 0, count);
             }
         } finally {
-            stream.close();
-            resStreamOut.close();
+            if (in != null) {
+                in.close();
+            }
+            if (fout != null) {
+                fout.close();
+            }
         }
         return tmp;
     }

@@ -33,7 +33,7 @@ val VERSION
 
 val AUTHORS
     @JvmName("getAuthors")
-    get() = arrayOf("Kevin", "CoalOres", "Sk1er", "VRCube")
+    get() = arrayOf("Kevin", "CoalOres", "Sk1er", "VRCube", "boomboompower")
 
 var FORGE = false
     @JvmName("isUsingForge") get

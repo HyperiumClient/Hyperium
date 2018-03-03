@@ -20,7 +20,7 @@ package cc.hyperium.mods.togglechat.config;
 
 import cc.hyperium.mods.togglechat.ToggleChatMod;
 import cc.hyperium.mods.togglechat.toggles.ToggleBase;
-import cc.hyperium.mods.togglechat.utils.BetterJsonObject;
+import cc.hyperium.utils.BetterJsonObject;
 
 import java.io.*;
 import java.nio.file.Files;

@@ -1,6 +1,6 @@
 package cc.hyperium.mods.keystrokes.config;
 
-import cc.hyperium.mods.togglechat.utils.BetterJsonObject;
+import cc.hyperium.utils.BetterJsonObject;
 import cc.hyperium.mods.keystrokes.KeystrokesMod;
 
 import java.io.*;

@@ -13,6 +13,7 @@
     "MixinEnchantment",
     "MixinFrameBuffer",
 
+    "gui.MixinGuiScreen",
     "gui.MixinGuiConnecting",
     "gui.MixinGuiDisconnecting",
     "gui.MixinGuiNewChat",
@@ -23,6 +24,7 @@
     "gui.MixinInventory",
     "gui.MixinGuiIngame",
     "gui.MixinGuiGameOver",
+    "gui.MixinGuiPlayerTabOverlay",
 
     "entity.MixinNetworkPlayerInfo",
     "entity.MixinEntityPlayer",

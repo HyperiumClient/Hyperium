@@ -22,6 +22,8 @@ package cc.hyperium.handlers.handlers.keybinds;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.KeypressEvent;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.settings.KeyBinding;
+import org.apache.commons.lang3.ArrayUtils;
 import org.lwjgl.input.Keyboard;
 
 import java.util.ArrayList;
@@ -30,14 +32,16 @@ public class KeyBindHandler {
 
     public static ArrayList<HyperiumBind> keybinds = new ArrayList<>();
 
-    public static HyperiumBind toggleSprint = new HyperiumBind("toggleSprint", 47);
+    public static HyperiumBind toggleSprint = new HyperiumBind("toggleSprint", Keyboard.KEY_V);
     public static HyperiumBind debug = new HyperiumBind("debug", Keyboard.KEY_L);
     public static HyperiumBind perspective = new HyperiumBind("perspective", Keyboard.KEY_P);
+    public static HyperiumBind nameHistory = new HyperiumBind("nameHistory", Keyboard.KEY_N);
 
     public KeyBindHandler() {
         keybinds.add(toggleSprint);
         keybinds.add(debug);
         keybinds.add(perspective);
+        keybinds.add(nameHistory);
     }
 
     @InvokeEvent
@@ -49,5 +53,10 @@ public class KeyBindHandler {
                 }
             }
         }
+    }
+    
+    public void registerKeyBinding(KeyBinding bind) {
+        Minecraft.getMinecraft().gameSettings.keyBindings = ArrayUtils
+            .add(Minecraft.getMinecraft().gameSettings.keyBindings, bind);
     }
 }

@@ -16,7 +16,7 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package cc.hyperium.mods.togglechat.utils;
+package cc.hyperium.utils;
 
 import com.google.gson.*;
 
