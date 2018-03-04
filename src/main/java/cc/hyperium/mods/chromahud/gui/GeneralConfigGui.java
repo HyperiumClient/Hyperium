@@ -18,6 +18,9 @@
 
 package cc.hyperium.mods.chromahud.gui;
 
+import cc.hyperium.event.EventBus;
+import cc.hyperium.event.InvokeEvent;
+import cc.hyperium.event.TickEvent;
 import cc.hyperium.gui.GuiButtonIcon;
 import cc.hyperium.mods.chromahud.ChromaHUD;
 import cc.hyperium.mods.chromahud.ChromaHUDApi;
@@ -216,5 +219,14 @@ public class GeneralConfigGui extends GuiScreen {
         super.onGuiClosed();
         mod.saveState();
     }
-
+    
+    public void display() {
+        EventBus.INSTANCE.register(this);
+    }
+    
+    @InvokeEvent
+    public void tick(TickEvent e) {
+        EventBus.INSTANCE.unregister(this);
+        Minecraft.getMinecraft().displayGuiScreen(this);
+    }
 }

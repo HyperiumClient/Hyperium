@@ -26,7 +26,7 @@ import cc.hyperium.handlers.handlers.keybinds.KeyBindHandler;
 import net.minecraft.client.Minecraft;
 
 public class PerspectiveModifierContainer {
-    public static boolean enabled = false;
+    public boolean enabled = false;
 
     public float modifiedYaw;
     public float modifiedPitch;

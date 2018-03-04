@@ -22,7 +22,6 @@ package cc.hyperium;
 import cc.hyperium.commands.defaults.*;
 import cc.hyperium.config.DefaultConfig;
 import cc.hyperium.event.*;
-import cc.hyperium.event.minigames.Minigame;
 import cc.hyperium.event.minigames.MinigameListener;
 import cc.hyperium.gui.NameHistoryGui;
 import cc.hyperium.gui.NotificationCenter;
@@ -38,7 +37,6 @@ import cc.hyperium.mods.HyperiumModIntegration;
 import cc.hyperium.mods.capturex.CaptureCore;
 import cc.hyperium.mods.crosshair.CrosshairMod;
 import cc.hyperium.mods.discord.RichPresenceManager;
-import cc.hyperium.mods.levelhead.commands.LevelHeadCommand;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.mods.statistics.GeneralStatisticsTracking;
 import cc.hyperium.tray.TrayManager;
@@ -57,7 +55,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
-import java.util.regex.Pattern;
 
 /**
  * Hypixel Community Client
@@ -83,15 +80,8 @@ public class Hyperium {
     private TrayManager trayManager;
     private HyperiumHandlers handlers;
     private HyperiumModIntegration modIntegration;
-    private Minigame currentGame;
+    
     private CaptureCore captureCore;
-
-    private Pattern friendRequestPattern;
-    private Pattern rankBracketPattern;
-    private Pattern swKillMsg;
-    private Pattern bwKillMsg;
-    private Pattern bwFinalKillMsg;
-    private Pattern duelKillMsg;
     
     private boolean acceptedTos = false;
     
@@ -107,7 +97,7 @@ public class Hyperium {
         EventBus.INSTANCE.register(new MinigameListener());
         EventBus.INSTANCE.register(new ToggleSprintContainer());
         EventBus.INSTANCE.register(notification);
-        EventBus.INSTANCE.register(captureCore = new CaptureCore());
+        EventBus.INSTANCE.register(captureCore = new CaptureCore(this));
         EventBus.INSTANCE.register(CompactChat.getInstance());
         EventBus.INSTANCE.register(CrosshairMod.getInstance());
         EventBus.INSTANCE.register(CONFIG.register(FPSLimiter.getInstance()));
@@ -116,13 +106,7 @@ public class Hyperium {
         // Register statistics tracking.
         EventBus.INSTANCE.register(statTrack);
         CONFIG.register(statTrack);
-
-        friendRequestPattern = Pattern.compile("Friend request from .+?");
-        rankBracketPattern = Pattern.compile("[\\^] ");
-        swKillMsg = Pattern.compile(".+? was .+? by .+?\\.");
-        bwKillMsg = Pattern.compile(".+? by .+?\\.");
-        bwFinalKillMsg = Pattern.compile(".+? by .+?\\. FINAL KILL!");
-        duelKillMsg = Pattern.compile(".+? was kill by .+?\\.");
+        
 
         LOGGER.info("Hyperium Started!");
         Display.setTitle("Hyperium " + Metadata.getVersion());
@@ -174,55 +158,10 @@ public class Hyperium {
     private void registerCommands() {
         Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(new CommandConfigGui());
         Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(new CommandPrivateMessage());
-        Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(new LevelHeadCommand());
         Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(new CommandClearChat());
-        Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(new CommandChromaHUD());
-        Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(new NameHistoryCommand());
+        Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(new CommandNameHistory());
     }
-
-    /**
-     * @param event called when someone sent a chat message
-     */
-    @InvokeEvent
-    public void onChat(ChatEvent event) {
-        if (friendRequestPattern.matcher(ChatColor.stripColor(event.getChat().getUnformattedText())).matches()) {
-            String withoutRank = ChatColor.stripColor(event.getChat().getUnformattedText());
-            withoutRank = withoutRank.replaceAll("Friend request from ", "");
-            withoutRank = withoutRank.replaceAll(rankBracketPattern.pattern(), "");
-            EventBus.INSTANCE.post(new HypixelFriendRequestEvent(withoutRank));
-        }
-        String msg = ChatColor.stripColor(event.getChat().getUnformattedText());
-        if (getHandlers().getHypixelDetector().isHypixel()) {
-            if (currentGame == null) {
-                return;
-            }
-            switch (currentGame) {
-                case SKYWARS:
-                    if (swKillMsg.matcher(msg).matches())
-                        if (msg.endsWith(Minecraft.getMinecraft().thePlayer.getName() + "."))
-                            EventBus.INSTANCE.post(new HypixelKillEvent(Minigame.SKYWARS, msg.split(" ")[0]));
-                    break;
-                case BEDWARS:
-                    if (bwKillMsg.matcher(msg).matches() || bwFinalKillMsg.matcher(msg).matches())
-                        msg = msg.replace(" FINAL KILL!", "");
-                    if (msg.endsWith(Minecraft.getMinecraft().thePlayer.getName() + "."))
-                        EventBus.INSTANCE.post(new HypixelKillEvent(Minigame.BEDWARS, msg.split(" ")[0]));
-                    break;
-                case DUELS:
-                    if (duelKillMsg.matcher(msg).matches())
-                        if (msg.endsWith(Minecraft.getMinecraft().thePlayer.getName() + "."))
-                            EventBus.INSTANCE.post(new HypixelKillEvent(Minigame.DUELS, msg.split(" ")[0]));
-            }
-        }
-
-
-    }
-
-    @InvokeEvent
-    public void onMinigameJoin(JoinMinigameEvent event) {
-        currentGame = event.getMinigame();
-    }
-
+    
     /**
      * called when key is pressed on the keyboard
      *

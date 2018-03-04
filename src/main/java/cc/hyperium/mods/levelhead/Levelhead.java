@@ -22,7 +22,10 @@ import cc.hyperium.Hyperium;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.TickEvent;
+import cc.hyperium.mods.AbstractMod;
+import cc.hyperium.mods.levelhead.commands.LevelHeadCommand;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
+import cc.hyperium.utils.ChatColor;
 import cc.hyperium.utils.JsonHolder;
 import cc.hyperium.mods.levelhead.config.LevelheadConfig;
 import cc.hyperium.mods.levelhead.renderer.LevelHeadRender;
@@ -39,11 +42,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class Levelhead {
+public class Levelhead extends AbstractMod {
 
     public static final String MODID = "LEVEL_HEAD";
     public static final String VERSION = "Hyperium_1.0-4.1.2";
-    private static Levelhead instance;
     public Map<UUID, LevelheadTag> levelCache = new HashMap<>();
     public UUID userUuid = null;
     public int count = 1;
@@ -57,14 +59,20 @@ public class Levelhead {
     private HashMap<UUID, Integer> timeCheck = new HashMap<>();
 
     private boolean levelHeadInfoFailed = false;
-
+    
+    /**
+     * The metadata of LevelHead
+     */
+    private final Metadata meta;
+    
     public Levelhead() {
-        init();
+        Metadata metadata = new Metadata(this, "LevelHead", "4.1.2", "Sk1er");
+    
+        metadata.setDisplayName(ChatColor.AQUA + "LevelHead");
+    
+        this.meta = metadata;
     }
 
-    /*
-    Made with a
-     */
     public static int getRGBColor() {
         return Color.HSBtoRGB(System.currentTimeMillis() % 1000L / 1000.0f, 0.8f, 0.8f);
     }
@@ -73,11 +81,7 @@ public class Levelhead {
         return Color.HSBtoRGB(System.currentTimeMillis() % 1000L / 1000.0f, 0.8f, 0.2f);
     }
 
-    public static Levelhead getInstance() {
-        return instance;
-    }
-
-    public void init() {
+    public AbstractMod init() {
         mod = new Sk1erMod(MODID, VERSION, object -> {
             count = object.optInt("count");
             this.wait = object.optInt("wait", Integer.MAX_VALUE);
@@ -88,22 +92,28 @@ public class Levelhead {
                 this.levelHeadInfoFailed = false;
             }
         });
-        mod.checkStatus();
-        config = new LevelheadConfig();
+        this.mod.checkStatus();
+        this.config = new LevelheadConfig();
         Hyperium.CONFIG.register(config);
         register(mod);
-        instance = this;
         userUuid = Minecraft.getMinecraft().getSession().getProfile().getId();
         register(new LevelHeadRender(this), this);
-
-
+    
+        Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(new LevelHeadCommand(this));
+        
+        return this;
     }
-
-
+    
+    @Override
+    public Metadata getModMetadata() {
+        return this.meta;
+    }
+    
+    @SuppressWarnings("SimplifiableIfStatement")
     public boolean loadOrRender(EntityPlayer player) {
         if (!Hyperium.INSTANCE.getHandlers().getHypixelDetector().isHypixel())
             return false;
-        if (!config.isEnabled())
+        if (!this.config.isEnabled())
             return false;
 
         for (PotionEffect effect : player.getActivePotionEffects()) {
@@ -114,11 +124,11 @@ public class Levelhead {
             return false;
         if (player.riddenByEntity != null)
             return false;
-        int min = Math.min(64 * 64, config.getRenderDistance() * config.getRenderDistance());
+        int min = Math.min(64 * 64, this.config.getRenderDistance() * this.config.getRenderDistance());
         if (player.getDistanceSqToEntity(Minecraft.getMinecraft().thePlayer) > min) {
             return false;
         }
-        if (!probablyNotFakeWatchdogBoi.contains(player.getUniqueID())) {
+        if (!this.probablyNotFakeWatchdogBoi.contains(player.getUniqueID())) {
             return false;
         }
 
@@ -130,8 +140,6 @@ public class Levelhead {
         if (player.isSneaking())
             return false;
         return player.getAlwaysRenderNameTagForRender() && !player.getDisplayName().getUnformattedText().isEmpty();
-
-
     }
 
     private boolean renderFromTeam(EntityPlayer player) {
@@ -158,15 +166,15 @@ public class Levelhead {
 
     @InvokeEvent
     public void tick(TickEvent event) {
-
-        if (!Hyperium.INSTANCE.getHandlers().getHypixelDetector().isHypixel() || !config.isEnabled() || !mod.isEnabled()) {
+        if (!Hyperium.INSTANCE.getHandlers().getHypixelDetector().isHypixel() || !this.config.isEnabled() || !this.mod.isEnabled()) {
             return;
         }
         Minecraft mc = Minecraft.getMinecraft();
+        
         if (!mc.isGamePaused() && mc.thePlayer != null && mc.theWorld != null) {
-            if (System.currentTimeMillis() < waitUntil) {
-                if (updates > 0) {
-                    updates = 0;
+            if (System.currentTimeMillis() < this.waitUntil) {
+                if (this.updates > 0) {
+                    this.updates = 0;
                 }
                 return;
             }
@@ -193,10 +201,6 @@ public class Levelhead {
         }
     }
 
-    public String rawWithAgent(String url) {
-        return getSk1erMod().rawWithAgent(url);
-    }
-
     private void getLevel(final UUID uuid) {
         if (updates >= count) {
             waitUntil = System.currentTimeMillis() + 1000 * wait;
@@ -206,7 +210,7 @@ public class Levelhead {
         updates++;
         levelCache.put(uuid, null);
         Multithreading.runAsync(() -> {
-            JsonHolder object = new JsonHolder(rawWithAgent("http://sk1er.club/newlevel/" + uuid.toString().replace("-", "") + "/" + VERSION));
+            JsonHolder object = new JsonHolder(getSk1erMod().rawWithAgent("http://sk1er.club/newlevel/" + uuid.toString().replace("-", "") + "/" + VERSION));
             LevelheadTag value = buildTag(object, uuid);
             levelCache.put(uuid, value);
             trueLevelCache.put(uuid, object.optInt("level"));
@@ -309,8 +313,7 @@ public class Levelhead {
     public LevelheadConfig getConfig() {
         return config;
     }
-
-
+    
     public Sk1erMod getSk1erMod() {
         return mod;
     }

@@ -18,6 +18,8 @@
 
 package me.semx11.autotip.util;
 
+import cc.hyperium.utils.ChatColor;
+
 import java.util.Arrays;
 import java.util.List;
 

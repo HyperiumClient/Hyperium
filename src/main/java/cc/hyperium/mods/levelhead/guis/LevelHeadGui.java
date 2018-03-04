@@ -73,7 +73,7 @@ public class LevelHeadGui extends GuiScreen {
     private final String DISABLED = ChatColor.RED + "Disabled";
     private final String COLOR_CHAR = String.valueOf("\u00a7");
     private final String colors = "0123456789abcdef";
-    List<GuiButton> sliders = new ArrayList<>();
+    private List<GuiButton> sliders = new ArrayList<>();
     private HashMap<GuiButton, Consumer<GuiButton>> clicks = new HashMap<>();
     private Minecraft mc;
     private GuiButton headerColorButton;
@@ -82,9 +82,12 @@ public class LevelHeadGui extends GuiScreen {
     private boolean isCustom = false;
     private GuiTextField textField;
     private ReentrantLock lock = new ReentrantLock();
+    
+    private Levelhead mod;
 
-    public LevelHeadGui() {
-        mc = Minecraft.getMinecraft();
+    public LevelHeadGui(Levelhead modIn) {
+        this.mod = modIn;
+        this.mc = Minecraft.getMinecraft();
     }
 
     private void reg(GuiButton button, Consumer<GuiButton> consumer) {
@@ -105,42 +108,42 @@ public class LevelHeadGui extends GuiScreen {
         Keyboard.enableRepeatEvents(true);
 
         reg(new GuiButton(1, this.width / 2 - 155, this.height / 2 - 134, 150, 20, "LevelHead: " + getLevelToggle()), button -> {
-            Levelhead.getInstance().getConfig().setEnabled(!Levelhead.getInstance().getConfig().isEnabled());
+            this.mod.getConfig().setEnabled(!this.mod.getConfig().isEnabled());
             button.displayString = "LevelHead: " + getLevelToggle();
-            sendChatMessage(String.format("Toggled %s!", (Levelhead.getInstance().getConfig().isEnabled() ? "on" : "off")));
+            sendChatMessage(String.format("Toggled %s!", (this.mod.getConfig().isEnabled() ? "on" : "off")));
         });
-        reg(new GuiButton(69, this.width / 2 + 5, this.height / 2 - 134, 150, 20, "Show self: " + (Levelhead.getInstance().getConfig().isShowSelf() ? ChatColor.GREEN + "on" : ChatColor.RED + "off")), button -> {
-            Levelhead.getInstance().getConfig().setShowSelf(!Levelhead.getInstance().getConfig().isShowSelf());
-            button.displayString = "Show self: " + (Levelhead.getInstance().getConfig().isShowSelf() ? ChatColor.GREEN + "on" : ChatColor.RED + "off");
+        reg(new GuiButton(69, this.width / 2 + 5, this.height / 2 - 134, 150, 20, "Show self: " + (this.mod.getConfig().isShowSelf() ? ChatColor.GREEN + "on" : ChatColor.RED + "off")), button -> {
+            this.mod.getConfig().setShowSelf(!this.mod.getConfig().isShowSelf());
+            button.displayString = "Show self: " + (this.mod.getConfig().isShowSelf() ? ChatColor.GREEN + "on" : ChatColor.RED + "off");
         });
         //RGB -> Chroma
         //Chroma -> Classic
         //Classic -> RGB
         reg(new GuiButton(2, this.width / 2 - 155, this.height / 2 - 110, 150, 20, "Header Mode: " + getMode(true)), button -> {
-            if (Levelhead.getInstance().getConfig().isHeaderRgb()) {
-                Levelhead.getInstance().getConfig().setHeaderRgb(false);
-                Levelhead.getInstance().getConfig().setHeaderChroma(true);
-            } else if (Levelhead.getInstance().getConfig().isHeaderChroma()) {
-                Levelhead.getInstance().getConfig().setHeaderRgb(false);
-                Levelhead.getInstance().getConfig().setHeaderChroma(false);
+            if (this.mod.getConfig().isHeaderRgb()) {
+                this.mod.getConfig().setHeaderRgb(false);
+                this.mod.getConfig().setHeaderChroma(true);
+            } else if (this.mod.getConfig().isHeaderChroma()) {
+                this.mod.getConfig().setHeaderRgb(false);
+                this.mod.getConfig().setHeaderChroma(false);
             } else {
-                Levelhead.getInstance().getConfig().setHeaderRgb(true);
-                Levelhead.getInstance().getConfig().setHeaderChroma(false);
+                this.mod.getConfig().setHeaderRgb(true);
+                this.mod.getConfig().setHeaderChroma(false);
             }
             button.displayString = "Header Mode: " + getMode(true);
         });
 
         reg(new GuiButton(3, this.width / 2 + 5, this.height / 2 - 110, 150, 20, "Footer Mode: " + getMode(false)), button -> {
 
-            if (Levelhead.getInstance().getConfig().isFooterRgb()) {
-                Levelhead.getInstance().getConfig().setFooterRgb(false);
-                Levelhead.getInstance().getConfig().setFooterChroma(true);
-            } else if (Levelhead.getInstance().getConfig().isFooterChroma()) {
-                Levelhead.getInstance().getConfig().setFooterRgb(false);
-                Levelhead.getInstance().getConfig().setFooterChroma(false);
+            if (this.mod.getConfig().isFooterRgb()) {
+                this.mod.getConfig().setFooterRgb(false);
+                this.mod.getConfig().setFooterChroma(true);
+            } else if (this.mod.getConfig().isFooterChroma()) {
+                this.mod.getConfig().setFooterRgb(false);
+                this.mod.getConfig().setFooterChroma(false);
             } else {
-                Levelhead.getInstance().getConfig().setFooterRgb(true);
-                Levelhead.getInstance().getConfig().setFooterChroma(false);
+                this.mod.getConfig().setFooterRgb(true);
+                this.mod.getConfig().setFooterChroma(false);
             }
             button.displayString = "Header Mode: " + getMode(false);
         });
@@ -152,58 +155,58 @@ public class LevelHeadGui extends GuiScreen {
 
         //Color rotate
         reg(this.headerColorButton = new GuiButton(4, this.width / 2 - 155, this.height / 2 - 83 + 44, 150, 20, "Rotate Color"), button -> {
-            int primaryId = colors.indexOf(removeColorChar(Levelhead.getInstance().getConfig().getHeaderColor()));
+            int primaryId = colors.indexOf(removeColorChar(this.mod.getConfig().getHeaderColor()));
             if (++primaryId == colors.length()) {
                 primaryId = 0;
             }
-            Levelhead.getInstance().getConfig().setHeaderColor(COLOR_CHAR + colors.charAt(primaryId));
+            this.mod.getConfig().setHeaderColor(COLOR_CHAR + colors.charAt(primaryId));
         });
         reg(this.footerColorButton = new GuiButton(5, this.width / 2 + 5, this.height / 2 - 83 + 44, 150, 20, "Rotate Color"), button -> {
-            int primaryId = colors.indexOf(removeColorChar(Levelhead.getInstance().getConfig().getFooterColor()));
+            int primaryId = colors.indexOf(removeColorChar(this.mod.getConfig().getFooterColor()));
             if (++primaryId == colors.length()) {
                 primaryId = 0;
             }
-            Levelhead.getInstance().getConfig().setFooterColor(COLOR_CHAR + colors.charAt(primaryId));
+            this.mod.getConfig().setFooterColor(COLOR_CHAR + colors.charAt(primaryId));
         });
-        reg(new GuiSlider(13, this.width / 2 - 155, this.height / 2 - 83 + 22, 150, 20, "Display Distance: ", "", 5, 64, Levelhead.getInstance().getConfig().getRenderDistance(), false, true, slider -> {
-            Levelhead.getInstance().getConfig().setRenderDistance(slider.getValueInt());
+        reg(new GuiSlider(13, this.width / 2 - 155, this.height / 2 - 83 + 22, 150, 20, "Display Distance: ", "", 5, 64, this.mod.getConfig().getRenderDistance(), false, true, slider -> {
+            this.mod.getConfig().setRenderDistance(slider.getValueInt());
             slider.dragging = false;
         }), null);
 
-        reg(new GuiSlider(14, this.width / 2 + 5, this.height / 2 - 83 + 22, 150, 20, "Cache size: ", "", 150, 5000, Levelhead.getInstance().getConfig().getPurgeSize(), false, true, slider -> {
-            Levelhead.getInstance().getConfig().setPurgeSize(slider.getValueInt());
+        reg(new GuiSlider(14, this.width / 2 + 5, this.height / 2 - 83 + 22, 150, 20, "Cache size: ", "", 150, 5000, this.mod.getConfig().getPurgeSize(), false, true, slider -> {
+            this.mod.getConfig().setPurgeSize(slider.getValueInt());
             slider.dragging = false;
         }), null);
 
-        regSlider(new GuiSlider(6, this.width / 2 - 155, this.height / 2 - 83 + 44, 150, 20, "Header Red: ", "", 0, 255, Levelhead.getInstance().getConfig().getHeaderRed(), false, true, slider -> {
-            Levelhead.getInstance().getConfig().setHeaderRed(slider.getValueInt());
+        regSlider(new GuiSlider(6, this.width / 2 - 155, this.height / 2 - 83 + 44, 150, 20, "Header Red: ", "", 0, 255, this.mod.getConfig().getHeaderRed(), false, true, slider -> {
+            this.mod.getConfig().setHeaderRed(slider.getValueInt());
             updatePeopleToValues();
             slider.dragging = false;
         }), null);
-        regSlider(new GuiSlider(7, this.width / 2 - 155, this.height / 2 - 83 + 66, 150, 20, "Header Green: ", "", 0, 255, Levelhead.getInstance().getConfig().getHeaderGreen(), false, true, slider -> {
-            Levelhead.getInstance().getConfig().setHeaderGreen(slider.getValueInt());
+        regSlider(new GuiSlider(7, this.width / 2 - 155, this.height / 2 - 83 + 66, 150, 20, "Header Green: ", "", 0, 255, this.mod.getConfig().getHeaderGreen(), false, true, slider -> {
+            this.mod.getConfig().setHeaderGreen(slider.getValueInt());
             updatePeopleToValues();
             slider.dragging = false;
         }), null);
-        regSlider(new GuiSlider(8, this.width / 2 - 155, this.height / 2 - 83 + 88, 150, 20, "Header Blue: ", "", 0, 255, Levelhead.getInstance().getConfig().getHeaderBlue(), false, true, slider -> {
-            Levelhead.getInstance().getConfig().setHeaderBlue(slider.getValueInt());
+        regSlider(new GuiSlider(8, this.width / 2 - 155, this.height / 2 - 83 + 88, 150, 20, "Header Blue: ", "", 0, 255, this.mod.getConfig().getHeaderBlue(), false, true, slider -> {
+            this.mod.getConfig().setHeaderBlue(slider.getValueInt());
             updatePeopleToValues();
             slider.dragging = false;
         }), null);
 
 
-        regSlider(new GuiSlider(10, this.width / 2 + 5, this.height / 2 - 83 + 44, 150, 20, "Footer Red: ", "", 0, 255, Levelhead.getInstance().getConfig().getFooterRed(), false, true, slider -> {
-            Levelhead.getInstance().getConfig().setFooterRed(slider.getValueInt());
+        regSlider(new GuiSlider(10, this.width / 2 + 5, this.height / 2 - 83 + 44, 150, 20, "Footer Red: ", "", 0, 255, this.mod.getConfig().getFooterRed(), false, true, slider -> {
+            this.mod.getConfig().setFooterRed(slider.getValueInt());
             updatePeopleToValues();
             slider.dragging = false;
         }), null);
-        regSlider(new GuiSlider(11, this.width / 2 + 5, this.height / 2 - 83 + 66, 150, 20, "Footer Green: ", "", 0, 255, Levelhead.getInstance().getConfig().getFooterGreen(), false, true, slider -> {
-            Levelhead.getInstance().getConfig().setFooterGreen(slider.getValueInt());
+        regSlider(new GuiSlider(11, this.width / 2 + 5, this.height / 2 - 83 + 66, 150, 20, "Footer Green: ", "", 0, 255, this.mod.getConfig().getFooterGreen(), false, true, slider -> {
+            this.mod.getConfig().setFooterGreen(slider.getValueInt());
             updatePeopleToValues();
             slider.dragging = false;
         }), null);
-        regSlider(new GuiSlider(12, this.width / 2 + 5, this.height / 2 - 83 + 88, 150, 20, "Footer Blue: ", "", 0, 255, Levelhead.getInstance().getConfig().getFooterBlue(), false, true, slider -> {
-            Levelhead.getInstance().getConfig().setFooterBlue(slider.getValueInt());
+        regSlider(new GuiSlider(12, this.width / 2 + 5, this.height / 2 - 83 + 88, 150, 20, "Footer Blue: ", "", 0, 255, this.mod.getConfig().getFooterBlue(), false, true, slider -> {
+            this.mod.getConfig().setFooterBlue(slider.getValueInt());
             updatePeopleToValues();
             slider.dragging = false;
         }), null);
@@ -230,8 +233,8 @@ public class LevelHeadGui extends GuiScreen {
             GuiButton button1 = new GuiButton(16, this.width / 2 - 155, this.height / 2 + 50, 310, 20, ChatColor.YELLOW + "Export these colors to my custom Levelhead");
             reg(button1, button -> {
                 JsonHolder object = new JsonHolder();
-                object.put("header_obj", Levelhead.getInstance().getHeaderConfig());
-                object.put("footer_obj", Levelhead.getInstance().getFooterConfig());
+                object.put("header_obj", this.mod.getHeaderConfig());
+                object.put("footer_obj", this.mod.getFooterConfig());
                 try {
                     String encode = URLEncoder.encode(object.toString(), "UTF-8");
                     String url = "https://sk1er.club/user?levelhead_color=" + encode;
@@ -266,16 +269,16 @@ public class LevelHeadGui extends GuiScreen {
     public void drawScreen(int mouseX, int mouseY, float ticks) {
         lock.lock();
         drawDefaultBackground();
-        drawTitle("Sk1er LevelHead v" + Levelhead.VERSION);
+        drawTitle("Sk1er LevelHead");
         drawLook();
 
 
         textField.drawTextBox();
 
-        headerColorButton.visible = !Levelhead.getInstance().getConfig().isHeaderChroma() && !Levelhead.getInstance().getConfig().isHeaderRgb();
-        footerColorButton.visible = !Levelhead.getInstance().getConfig().isFooterChroma() && !Levelhead.getInstance().getConfig().isFooterRgb();
+        headerColorButton.visible = !this.mod.getConfig().isHeaderChroma() && !this.mod.getConfig().isHeaderRgb();
+        footerColorButton.visible = !this.mod.getConfig().isFooterChroma() && !this.mod.getConfig().isFooterRgb();
         prefixButton.enabled = !textField.getText().isEmpty();
-        if (Levelhead.getInstance().getConfig().isHeaderRgb()) {
+        if (this.mod.getConfig().isHeaderRgb()) {
             for (GuiButton slider : sliders) {
                 if (slider.displayString.contains("Header"))
                     slider.visible = true;
@@ -288,7 +291,7 @@ public class LevelHeadGui extends GuiScreen {
 
             }
         }
-        if (Levelhead.getInstance().getConfig().isFooterRgb()) {
+        if (this.mod.getConfig().isFooterRgb()) {
             for (GuiButton slider : sliders) {
                 if (slider.displayString.contains("Footer"))
                     slider.visible = true;
@@ -309,7 +312,7 @@ public class LevelHeadGui extends GuiScreen {
     }
 
     public String getMode(boolean header) {
-        LevelheadConfig config = Levelhead.getInstance().getConfig();
+        LevelheadConfig config = this.mod.getConfig();
         if (header) {
             return config.isHeaderChroma() ? "Chroma" : config.isHeaderRgb() ? "RGB" : "Classic";
         } else {
@@ -318,12 +321,12 @@ public class LevelHeadGui extends GuiScreen {
     }
 
     public void updatePeopleToValues() {
-        Levelhead.getInstance().levelCache.forEach((uuid, levelheadTag) -> {
-            Integer value = Levelhead.getInstance().getTrueLevelCache().get(uuid);
+        this.mod.levelCache.forEach((uuid, levelheadTag) -> {
+            Integer value = this.mod.getTrueLevelCache().get(uuid);
             if (value == null)
                 return;
             JsonHolder footer = new JsonHolder().put("level", value).put("strlevel", value + "");
-            LevelheadTag tag = Levelhead.getInstance().buildTag(footer, uuid);
+            LevelheadTag tag = this.mod.buildTag(footer, uuid);
             levelheadTag.reApply(tag);
 
         });
@@ -395,8 +398,8 @@ public class LevelHeadGui extends GuiScreen {
 
     private void changePrefix() {
         if (!textField.getText().isEmpty()) {
-            Levelhead.getInstance().getConfig().setCustomHeader(textField.getText());
-            Levelhead.getInstance().levelCache.clear();
+            this.mod.getConfig().setCustomHeader(textField.getText());
+            this.mod.levelCache.clear();
             sendChatMessage(String.format("LevelHead prefix is now %s!", ChatColor.GOLD + textField.getText() + ChatColor.YELLOW));
         } else {
             sendChatMessage("No prefix supplied!");
@@ -414,9 +417,9 @@ public class LevelHeadGui extends GuiScreen {
 
     private void drawLook() {
         FontRenderer renderer = mc.fontRendererObj;
-        if (Levelhead.getInstance().getConfig().isEnabled()) {
+        if (this.mod.getConfig().isEnabled()) {
             drawCenteredString(renderer, "This is how levels will display", this.width / 2, this.height / 2 - 100 - 60, Color.WHITE.getRGB());
-            LevelheadTag levelheadTag = Levelhead.getInstance().buildTag(new JsonHolder(), null);
+            LevelheadTag levelheadTag = this.mod.buildTag(new JsonHolder(), null);
             LevelheadComponent header = levelheadTag.getHeader();
             if (header.isChroma())
                 drawCenteredString(renderer, header.getValue(), this.width / 2, this.height / 2 - 100 - 50, Levelhead.getRGBColor());
@@ -446,7 +449,7 @@ public class LevelHeadGui extends GuiScreen {
     }
 
     private String getLevelToggle() {
-        return Levelhead.getInstance().getConfig().isEnabled() ? ENABLED : DISABLED;
+        return this.mod.getConfig().isEnabled() ? ENABLED : DISABLED;
     }
 
     private String removeColorChar(String message) {
