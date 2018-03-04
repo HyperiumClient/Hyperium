@@ -57,6 +57,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.regex.Pattern;
 
 /**
@@ -92,9 +94,9 @@ public class Hyperium {
     private Pattern bwKillMsg;
     private Pattern bwFinalKillMsg;
     private Pattern duelKillMsg;
-    
+
     private boolean acceptedTos = false;
-    
+
     /**
      * @param event initialize Hyperium
      */
@@ -156,7 +158,19 @@ public class Hyperium {
                     @Override
                     public void onPlay(SpotifyInformation info) {
                         // This is on a different thread, so we need to use the static getter
-                        Hyperium.INSTANCE.getNotification().display("Spotify", "Now playing " + info.getTrack().getTrackResource().getName(), 8);
+                        Hyperium.INSTANCE.getNotification()
+                                .display("Spotify",
+                                        "Now playing " + info.getTrack().getTrackResource().getName(),
+                                        8
+                                ).setClickedCallback(() -> {
+                                    /*try {
+                                        String path = new File(Hyperium.folder, "openSpotify.vbs").getAbsolutePath();
+
+                                        Runtime.getRuntime().exec(path);
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }*/
+                        });
                     }
                 });
                 spotify.start();
@@ -297,7 +311,7 @@ public class Hyperium {
 
     public void trayDisplayAboutInfo() {
         JOptionPane popup = new JOptionPane();
-        JOptionPane.showMessageDialog(popup, "Hyperium is a Hypixel Based 1.8 Client developed by Sk1er, CoalOres, Cubixity, KevinPriv and boomboompower. Version: " + Metadata.getVersion() , "Hyperium - About", JOptionPane.PLAIN_MESSAGE);
+        JOptionPane.showMessageDialog(popup, "Hyperium is a Hypixel Based 1.8 Client developed by Sk1er, CoalOres, Cubixity, KevinPriv and boomboompower. Version: " + Metadata.getVersion(), "Hyperium - About", JOptionPane.PLAIN_MESSAGE);
     }
 
     public boolean isAcceptedTos() {
@@ -314,27 +328,28 @@ public class Hyperium {
     }
 
     private boolean fullScreen = false;
-    public void toggleFullscreen(){
+
+    public void toggleFullscreen() {
         boolean windowed = GeneralSetting.windowedFullScreen;
         boolean lastStateWindowed = false;
-        if(System.getProperty("org.lwjgl.opengl.Window.undecorated") == null)
+        if (System.getProperty("org.lwjgl.opengl.Window.undecorated") == null)
             System.setProperty("org.lwjgl.opengl.Window.undecorated", "false");
-        if(Display.isFullscreen())
+        if (Display.isFullscreen())
             fullScreen = true;
-        if(System.getProperty("org.lwjgl.opengl.Window.undecorated").equals("true")) {
+        if (System.getProperty("org.lwjgl.opengl.Window.undecorated").equals("true")) {
             fullScreen = true;
             lastStateWindowed = true;
         }
 
         fullScreen = !fullScreen;
-        if(!lastStateWindowed){
+        if (!lastStateWindowed) {
             Minecraft.getMinecraft().toggleFullscreen();
             return;
         }
 
-        if(fullScreen){
+        if (fullScreen) {
 
-        }else{
+        } else {
 
         }
 

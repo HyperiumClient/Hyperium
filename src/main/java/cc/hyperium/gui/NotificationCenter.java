@@ -27,9 +27,11 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
+import org.lwjgl.input.Mouse;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -40,6 +42,15 @@ public class NotificationCenter extends Gui {
     private Queue<Notification> notifications = new LinkedList<>();
     private Notification currentNotification;
     private HyperiumFontRenderer fontRenderer = new HyperiumFontRenderer("Arial", Font.PLAIN, 18);
+    private HashMap<Integer, Boolean> mouseState;
+    private HashMap<Integer, Float[]> draggedState;
+
+    public NotificationCenter() {
+        this.mouseState = new HashMap<>(5);
+        for (int i = 0; i < 5; i++)
+            this.mouseState.put(i, false);
+        draggedState = new HashMap<>();
+    }
 
     @InvokeEvent
     public void tick(TickEvent ev) {
@@ -58,29 +69,95 @@ public class NotificationCenter extends Gui {
 
     @InvokeEvent
     public void onRenderTick(RenderHUDEvent event) {
+        handleMouseInput();
+
         if (currentNotification != null) {
             currentNotification.render();
         }
     }
 
-    public void display(String title, String description, float seconds) {
+    public Notification display(String title, String description, float seconds) {
         Notification notif = new Notification(title, description, (int) (seconds * 20));
 
         try {
             notifications.add(notif);
+            return notif;
         } catch (Exception e) {
             Hyperium.LOGGER.error("Can't display notification!", e);
         }
+
+        return null;
     }
 
-    class Notification {
+    private void handleMouseInput() {
+        if (!Mouse.isCreated()) return;
+
+        for (int button = 0; button < 5; button++) {
+            handleDragged(button);
+
+            // normal click
+            if (Mouse.isButtonDown(button) == this.mouseState.get(button)) continue;
+
+            if (currentNotification != null) {
+                currentNotification.onClick(getMouseX(), getMouseY(), button, Mouse.isButtonDown(button));
+            }
+
+            this.mouseState.put(button, Mouse.isButtonDown(button));
+
+            // add new dragged
+            if (Mouse.isButtonDown(button))
+                this.draggedState.put(button, new Float[]{ getMouseX(), getMouseY() });
+
+            // remove old dragged
+            if (Mouse.isButtonDown(button)) continue;
+            if (!this.draggedState.containsKey(button)) continue;
+            this.draggedState.remove(button);
+        }
+    }
+
+    private void handleDragged(int button) {
+        if (!this.draggedState.containsKey(button))
+            return;
+
+        if (currentNotification != null) {
+            currentNotification.onDrag(
+                    getMouseX() - this.draggedState.get(button)[0],
+                    getMouseY() - this.draggedState.get(button)[1],
+                    getMouseX(),
+                    getMouseY(),
+                    button
+            );
+        }
+
+        // update dragged
+        this.draggedState.put(button, new Float[]{ getMouseX(), getMouseY() });
+    }
+
+    private float getMouseY() {
+        float my = (float) Mouse.getY();
+        float rh = (float) new ScaledResolution(Minecraft.getMinecraft()).getScaledHeight();
+        float dh = (float) Minecraft.getMinecraft().displayHeight;
+        return rh - my * rh / dh - 1L;
+    }
+
+    private float getMouseX() {
+        float mx = (float) Mouse.getX();
+        float rw = (float) new ScaledResolution(Minecraft.getMinecraft()).getScaledWidth();
+        float dw = (float) Minecraft.getMinecraft().displayWidth;
+        return mx * rw / dw;
+    }
+
+
+
+    public class Notification {
         private String title;
         private String description;
         private int ticksLeft;
         private float percentComplete;
         private int topThreshhold;
         private int lowerThreshhold;
-        private int numLines = 1;
+        private boolean dragging = false;
+        private Runnable clickedCallback;
 
         public Notification(String title, String description, int ticksLeft) {
             this.title = title;
@@ -92,16 +169,40 @@ public class NotificationCenter extends Gui {
             this.lowerThreshhold = fifth;
             this.percentComplete = 0.0F;
 
-            this.numLines = Minecraft.getMinecraft()
-                    .fontRendererObj
-                    .listFormattedStringToWidth(description, 175 - 15)
-                    .size();
+            this.clickedCallback = () -> {};
+        }
+
+        public void setClickedCallback(Runnable runnable) {
+            this.clickedCallback = runnable;
         }
 
         public boolean tick() {
             this.ticksLeft--;
 
             return ticksLeft <= 0;
+        }
+
+        public void onClick(float x, float y, int button, boolean down) {
+            ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
+
+            int width = 175;
+            ArrayList<String> lines = fontRenderer.splitString(description, width - 10);
+            int height = (int) (30 + fontRenderer.getHeight(String.join("\n\r", lines)));
+
+            int notifX = (int) (sr.getScaledWidth() - (width * this.percentComplete));
+            int notifY = sr.getScaledHeight() - height - 15;
+
+            if (x > notifX && x < notifX + width
+                    && y > notifY && y < notifY + height
+                    && button == 0
+                    && !down
+                    ) {
+                clickedCallback.run();
+            }
+        }
+
+        public void onDrag(float dx, float dy, float x, float y, int button) {
+
         }
 
         public void render() {
@@ -122,7 +223,6 @@ public class NotificationCenter extends Gui {
             );
 
             ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
-
 
             int width = 175;
             ArrayList<String> lines = fontRenderer.splitString(description, width - 10);
