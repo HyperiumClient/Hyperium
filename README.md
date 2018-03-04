@@ -5,29 +5,29 @@
 The Hyperium is a Minecraft modification in development. It will combine many popular features in addition to suggestions and ideas from the community to provide a unique experience designed for Hypixel.
 
 ## Features ##
-- ChromaHUD
-- Keystrokes v4
-- MouseDelayFix
+- [ChromaHUD](https://www.youtube.com/watch?v=eyh6pcsGMpo)
+- [Keystrokes v4](https://www.youtube.com/watch?v=tA1SmI8nfY4)
+- [MouseDelayFix](https://prplz.io/mousedelayfix)
 - NoCloseChat
-- 1.7 Animations
-- Levelhead
-- AutoGG
-- AutoWho
-- ToggleChat
-- MemoryFix
-- Perspective Mod
-- Sidebar Mod
-- ShadowPlay Integration
+- [1.7 Animations](https://www.youtube.com/watch?v=9-LoFff-3fI)
+- [Levelhead](https://sk1er.club/levelhead)
+- [AutoGG](https://www.youtube.com/watch?v=1eETPGuSQWA)
+- [AutoWho](https://www.youtube.com/watch?v=osJW53GA_1I)
+- [ToggleChat](https://www.youtube.com/watch?v=guD8kAk-Wn4)
+- [MemoryFix](https://prplz.io/memoryfix)
+- [Perspective Mod](https://www.youtube.com/watch?v=7FdMMpzNdUk)
+- [Sidebar Mod](https://www.youtube.com/watch?v=cn9VvT43yRs)
+- [ShadowPlay Integration](https://www.nvidia.com/en-us/geforce/geforce-experience/shadowplay/)
 ## Contributing ##
 
 ## Building the project with IntelliJ ##
 
-**stop.**
+**If you don't know how, you shouldn't. Wait 'til release!**
 
 ## FAQ ##
 Q: PLEASE HELP ME I CAN'T BUILD THE PROJECT!
 
-A: JUST **WAIT**
+A: JUST **WAIT!**
 
 
 Q: RELEASE, WHEN??
@@ -37,7 +37,7 @@ A: WE DON'T KNOW!
 
 Q: ETA?
 
-A: DON'T KNOW
+A: DON'T KNOW!
 
 ## Addons ##
 **Requirement:** Built Hyperium, JDK 8+, IDE
