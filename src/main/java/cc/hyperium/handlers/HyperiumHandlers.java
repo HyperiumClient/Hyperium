@@ -36,7 +36,9 @@ import net.minecraft.server.integrated.IntegratedServer;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * A class containing most of Hyperium's internal handlers
+ */
 public class HyperiumHandlers {
 
     private LocationHandler locationHandler;
@@ -47,14 +49,15 @@ public class HyperiumHandlers {
     private GeneralChatHandler generalChatHandler;
     private ApiDataHandler dataHandler;
     private ResolutionUtil resolutionUtil;
-    private GuiDisplayHandler guiDisplayHandler;
     private KeyBindHandler keybindHandler;
     private PrivateMessageHandler privateMessageHandler;
     private HyperiumCommandHandler commandHandler;
     private RemoteResourcesHandler remoteResourcesHandler;
     private HyperiumNetwork network;
+    
     public HyperiumHandlers() {
         network = new HyperiumNetwork();
+        
         this.remoteResourcesHandler = new RemoteResourcesHandler();
         chatHandlers = new ArrayList<>();
         register(generalChatHandler = new GeneralChatHandler(chatHandlers));
@@ -63,7 +66,6 @@ public class HyperiumHandlers {
         register(hypixelDetector = new HypixelDetector());
         register(valueHandler = new ValueHandler());
         register(resolutionUtil = new ResolutionUtil());
-        register(guiDisplayHandler = new GuiDisplayHandler());
         register(privateMessageHandler = new PrivateMessageHandler());
         commandQueue = new CommandQueue();
         dataHandler = new ApiDataHandler();
@@ -134,10 +136,6 @@ public class HyperiumHandlers {
 
     public ResolutionUtil getResolutionUtil() {
         return resolutionUtil;
-    }
-
-    public GuiDisplayHandler getGuiDisplayHandler() {
-        return guiDisplayHandler;
     }
 
     public KeyBindHandler getKeybindHandler() {

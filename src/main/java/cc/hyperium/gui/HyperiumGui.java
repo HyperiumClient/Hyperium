@@ -18,8 +18,11 @@
 
 package cc.hyperium.gui;
 
-import cc.hyperium.Hyperium;
+import cc.hyperium.event.EventBus;
+import cc.hyperium.event.InvokeEvent;
+import cc.hyperium.event.TickEvent;
 import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -31,9 +34,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.function.Consumer;
 
-
-
 public abstract class HyperiumGui extends GuiScreen {
+    
     protected int offset = 0;
     private int idIteration;
     private HashMap<GuiButton, Consumer<GuiButton>> clicks = new HashMap<>();
@@ -116,11 +118,7 @@ public abstract class HyperiumGui extends GuiScreen {
     }
 
     protected abstract void pack();
-
-    public void show() {
-        Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(this);
-    }
-
+    
     @Override
     public void handleMouseInput() throws IOException {
         super.handleMouseInput();
@@ -142,5 +140,15 @@ public abstract class HyperiumGui extends GuiScreen {
         } else {
             return finish;
         }
+    }
+    
+    public void show() {
+        EventBus.INSTANCE.register(this);
+    }
+    
+    @InvokeEvent
+    public void tick(TickEvent e) {
+        EventBus.INSTANCE.unregister(this);
+        Minecraft.getMinecraft().displayGuiScreen(this);
     }
 }

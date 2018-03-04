@@ -22,6 +22,7 @@ import cc.hyperium.Hyperium;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.mods.chromahud.api.ButtonConfig;
 import cc.hyperium.mods.chromahud.api.DisplayItem;
+import cc.hyperium.mods.chromahud.commands.CommandChromaHUD;
 import cc.hyperium.mods.chromahud.gui.GeneralConfigGui;
 import cc.hyperium.utils.JsonHolder;
 import com.google.gson.JsonArray;
@@ -81,8 +82,8 @@ public class ChromaHUD {
         }));
         setup();
         EventBus.INSTANCE.register(new ElementRenderer(this));
-
-
+    
+        Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(new CommandChromaHUD(this));
     }
 
 

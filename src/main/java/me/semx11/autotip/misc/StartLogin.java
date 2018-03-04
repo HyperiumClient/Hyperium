@@ -18,9 +18,13 @@
 
 package me.semx11.autotip.misc;
 
+import cc.hyperium.utils.ChatColor;
+
 import me.semx11.autotip.Autotip;
 import me.semx11.autotip.util.*;
+
 import net.minecraft.client.Minecraft;
+
 import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;

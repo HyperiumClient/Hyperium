@@ -25,7 +25,7 @@ import me.semx11.autotip.Autotip;
 import me.semx11.autotip.command.LimboCommand;
 import me.semx11.autotip.misc.TipTracker;
 import me.semx11.autotip.misc.Writer;
-import me.semx11.autotip.util.ChatColor;
+import cc.hyperium.utils.ChatColor;
 import me.semx11.autotip.util.ClientMessage;
 import me.semx11.autotip.util.MessageOption;
 

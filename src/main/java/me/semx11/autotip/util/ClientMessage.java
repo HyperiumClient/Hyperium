@@ -18,6 +18,8 @@
 
 package me.semx11.autotip.util;
 
+import cc.hyperium.utils.ChatColor;
+
 public class ClientMessage {
 
     private static String prefix =
