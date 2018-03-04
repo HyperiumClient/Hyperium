@@ -18,11 +18,9 @@
 
 package cc.hyperium.gui;
 
-import cc.hyperium.event.EventBus;
-import cc.hyperium.event.InvokeEvent;
-import cc.hyperium.event.TickEvent;
+import cc.hyperium.Hyperium;
 import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
-import net.minecraft.client.Minecraft;
+
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -143,12 +141,6 @@ public abstract class HyperiumGui extends GuiScreen {
     }
     
     public void show() {
-        EventBus.INSTANCE.register(this);
-    }
-    
-    @InvokeEvent
-    public void tick(TickEvent e) {
-        EventBus.INSTANCE.unregister(this);
-        Minecraft.getMinecraft().displayGuiScreen(this);
+        Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(this);
     }
 }

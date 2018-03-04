@@ -49,6 +49,7 @@ public class HyperiumHandlers {
     private GeneralChatHandler generalChatHandler;
     private ApiDataHandler dataHandler;
     private ResolutionUtil resolutionUtil;
+    private GuiDisplayHandler guiDisplayHandler;
     private KeyBindHandler keybindHandler;
     private PrivateMessageHandler privateMessageHandler;
     private HyperiumCommandHandler commandHandler;
@@ -66,6 +67,7 @@ public class HyperiumHandlers {
         register(hypixelDetector = new HypixelDetector());
         register(valueHandler = new ValueHandler());
         register(resolutionUtil = new ResolutionUtil());
+        register(guiDisplayHandler = new GuiDisplayHandler());
         register(privateMessageHandler = new PrivateMessageHandler());
         commandQueue = new CommandQueue();
         dataHandler = new ApiDataHandler();
@@ -136,6 +138,10 @@ public class HyperiumHandlers {
 
     public ResolutionUtil getResolutionUtil() {
         return resolutionUtil;
+    }
+    
+    public GuiDisplayHandler getGuiDisplayHandler() {
+        return guiDisplayHandler;
     }
 
     public KeyBindHandler getKeybindHandler() {
