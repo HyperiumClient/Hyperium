@@ -103,6 +103,10 @@ public abstract class MixinEntityRenderer {
     
     private boolean zoomMode = false;
 
+    /**
+     * @author CoalOres
+     * @reason 360 Perspective
+     */
     @Overwrite
     private void orientCamera(float partialTicks) {
         Entity entity = Minecraft.getMinecraft().getRenderViewEntity();
@@ -216,6 +220,10 @@ public abstract class MixinEntityRenderer {
         this.cloudFog = Minecraft.getMinecraft().renderGlobal.hasCloudFog(d0, d1, d2, partialTicks);
     }
 
+    /**
+     * @author CoalOres
+     * @reason 360 Perspective
+     */
     @Overwrite
     public void updateCameraAndRender(float p_181560_1_, long p_181560_2_) {
         boolean flag = Display.isActive();

@@ -19,15 +19,21 @@
 package cc.hyperium.mods.capturex;
 
 import cc.hyperium.Hyperium;
-import cc.hyperium.event.HypixelKillEvent;
+import cc.hyperium.event.ChatEvent;
+import cc.hyperium.event.EventBus;
+import cc.hyperium.event.HypixelFriendRequestEvent;
 import cc.hyperium.event.InvokeEvent;
+import cc.hyperium.event.JoinMinigameEvent;
 import cc.hyperium.event.RenderEvent;
+import cc.hyperium.event.minigames.Minigame;
 import cc.hyperium.gui.settings.items.CaptureXSetting;
 import cc.hyperium.mods.capturex.render.FFMpegHelper;
 import cc.hyperium.mods.capturex.render.FrameRenderer;
+import cc.hyperium.utils.ChatColor;
 import com.google.common.collect.Queues;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListenableFutureTask;
+import java.util.regex.Pattern;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.shader.Framebuffer;
 import net.minecraft.util.Util;
@@ -50,8 +56,28 @@ public class CaptureCore {
     private Queue<BufferedImage> backwardFrames = new ArrayDeque<>();
     private FFMpegHelper FFMpeg = new FFMpegHelper();
     private Thread queueWorker;
-
-    public CaptureCore() {
+    
+    private Minigame currentGame;
+    
+    private Pattern friendRequestPattern;
+    private Pattern rankBracketPattern;
+    private Pattern swKillMsg;
+    private Pattern bwKillMsg;
+    private Pattern bwFinalKillMsg;
+    private Pattern duelKillMsg;
+    
+    private Hyperium client;
+    
+    public CaptureCore(Hyperium hyperiumIn) {
+        friendRequestPattern = Pattern.compile("Friend request from .+?");
+        rankBracketPattern = Pattern.compile("[\\^] ");
+        swKillMsg = Pattern.compile(".+? was .+? by .+?\\.");
+        bwKillMsg = Pattern.compile(".+? by .+?\\.");
+        bwFinalKillMsg = Pattern.compile(".+? by .+?\\. FINAL KILL!");
+        duelKillMsg = Pattern.compile(".+? was kill by .+?\\.");
+        
+        this.client = hyperiumIn;
+        
         queueWorker = new Thread(() -> {
             while (!Thread.interrupted())
                 while (!this.scheduledTasks.isEmpty()) {
@@ -76,8 +102,7 @@ public class CaptureCore {
         }
     }
 
-    @InvokeEvent
-    public void onKill(HypixelKillEvent event) {
+    public void onKill() {
         final Queue<BufferedImage> finalBackwardsBuffer = new ArrayDeque<>(backwardFrames);
         addScheduledTask(() -> {
             switch (CaptureXSetting.mode){
@@ -113,5 +138,50 @@ public class CaptureCore {
 
     public void shutdown() {
         queueWorker.interrupt();
+    }
+    
+    
+    @InvokeEvent
+    public void onMinigameJoin(JoinMinigameEvent event) {
+        this.currentGame = event.getMinigame();
+    }
+    
+    @InvokeEvent
+    public void onChat(ChatEvent event) {
+        if (friendRequestPattern.matcher(ChatColor.stripColor(event.getChat().getUnformattedText())).matches()) {
+            String withoutRank = ChatColor.stripColor(event.getChat().getUnformattedText());
+            withoutRank = withoutRank.replaceAll("Friend request from ", "");
+            withoutRank = withoutRank.replaceAll(rankBracketPattern.pattern(), "");
+            EventBus.INSTANCE.post(new HypixelFriendRequestEvent(withoutRank));
+        }
+        String msg = ChatColor.stripColor(event.getChat().getUnformattedText());
+        if (this.client.getHandlers().getHypixelDetector().isHypixel()) {
+            if (currentGame == null) {
+                return;
+            }
+            switch (currentGame) {
+                case SKYWARS:
+                    if (swKillMsg.matcher(msg).matches()) {
+                        if (msg.endsWith(Minecraft.getMinecraft().thePlayer.getName() + ".")) {
+                            onKill();
+                        }
+                    }
+                    break;
+                case BEDWARS:
+                    if (bwKillMsg.matcher(msg).matches() || bwFinalKillMsg.matcher(msg).matches()) {
+                        msg = msg.replace(" FINAL KILL!", "");
+                    }
+                    if (msg.endsWith(Minecraft.getMinecraft().thePlayer.getName() + ".")) {
+                        onKill();
+                    }
+                    break;
+                case DUELS:
+                    if (duelKillMsg.matcher(msg).matches()) {
+                        if (msg.endsWith(Minecraft.getMinecraft().thePlayer.getName() + ".")) {
+                            onKill();
+                        }
+                    }
+            }
+        }
     }
 }

@@ -16,41 +16,36 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package me.semx11.autotip.util;
+package cc.hyperium.mods.chromahud.commands;
 
-public enum ChatColor {
-    BLACK('0'),
-    DARK_BLUE('1'),
-    DARK_GREEN('2'),
-    DARK_AQUA('3'),
-    DARK_RED('4'),
-    DARK_PURPLE('5'),
-    GOLD('6'),
-    GRAY('7'),
-    DARK_GRAY('8'),
-    BLUE('9'),
-    GREEN('a'),
-    AQUA('b'),
-    RED('c'),
-    LIGHT_PURPLE('d'),
-    YELLOW('e'),
-    WHITE('f'),
-    OBFUSCATED('k'),
-    BOLD('l'),
-    STRIKETHROUGH('m'),
-    UNDERLINE('n'),
-    ITALIC('o'),
-    RESET('r');
+import cc.hyperium.commands.BaseCommand;
+import cc.hyperium.commands.CommandException;
+import cc.hyperium.mods.chromahud.ChromaHUD;
+import cc.hyperium.mods.chromahud.gui.GeneralConfigGui;
 
-    private char formattingCode;
-
-    ChatColor(char formattingCode) {
-        this.formattingCode = formattingCode;
+/**
+ * Created by mitchellkatz on 2/19/18.
+ */
+public class CommandChromaHUD implements BaseCommand {
+    
+    private ChromaHUD mod;
+    
+    public CommandChromaHUD(ChromaHUD modIn) {
+        this.mod = modIn;
+    }
+    
+    @Override
+    public String getName() {
+        return "chromahud";
     }
 
     @Override
-    public String toString() {
-        return "\u00a7" + formattingCode;
+    public String getUsage() {
+        return "chromahud";
     }
 
+    @Override
+    public void onExecute(String[] args) throws CommandException {
+        new GeneralConfigGui(this.mod).display();
+    }
 }

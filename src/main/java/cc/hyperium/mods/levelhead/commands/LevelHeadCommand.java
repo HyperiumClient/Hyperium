@@ -31,6 +31,12 @@ import cc.hyperium.mods.sk1ercommon.Sk1erMod;
  */
 public class LevelHeadCommand implements BaseCommand {
 
+    private Levelhead mod;
+    
+    public LevelHeadCommand(Levelhead mod) {
+        this.mod = mod;
+    }
+    
     @Override
     public String getName() {
         return "levelhead";
@@ -45,22 +51,24 @@ public class LevelHeadCommand implements BaseCommand {
     public void onExecute(String[] args) {
         if (args.length == 1) {
             if (args[0].equalsIgnoreCase("limit")) {
-                GeneralChatHandler.instance().sendMessage(ChatColor.RED + "Count: " + Levelhead.getInstance().count);
-                GeneralChatHandler.instance().sendMessage(ChatColor.RED + "Wait: " + Levelhead.getInstance().wait);
+                GeneralChatHandler.instance().sendMessage(ChatColor.RED + "Count: " + this.mod.count);
+                GeneralChatHandler.instance().sendMessage(ChatColor.RED + "Wait: " + this.mod.wait);
                 GeneralChatHandler.instance().sendMessage(ChatColor.RED + "Hypixel: " + HypixelDetector.getInstance().isHypixel());
                 GeneralChatHandler.instance().sendMessage(ChatColor.RED + "Remote Status: " + Sk1erMod.getInstance().isEnabled());
                 GeneralChatHandler.instance().sendMessage(ChatColor.RED + "Local Stats: " + HypixelDetector.getInstance().isHypixel());
-                GeneralChatHandler.instance().sendMessage(ChatColor.RED + "Header State: " + Levelhead.getInstance().getHeaderConfig());
-                GeneralChatHandler.instance().sendMessage(ChatColor.RED + "Footer State: " + Levelhead.getInstance().getFooterConfig());
+                GeneralChatHandler.instance().sendMessage(ChatColor.RED + "Header State: " + this.mod.getHeaderConfig());
+                GeneralChatHandler.instance().sendMessage(ChatColor.RED + "Footer State: " + this.mod.getFooterConfig());
                 GeneralChatHandler.instance().sendMessage(ChatColor.RED + "Callback: " + Sk1erMod.getInstance().getResponse());
                 return;
             } else if (args[0].equalsIgnoreCase("dumpcache")) {
-                Levelhead.getInstance().levelCache.clear();
+                int prevCache = this.mod.levelCache.size();
+                
+                this.mod.levelCache.clear();
 
-                GeneralChatHandler.instance().sendMessage("Stringcache entries: " + Levelhead.getInstance().levelCache.size());
+                GeneralChatHandler.instance().sendMessage("Stringcache entries: " + prevCache + " -> " + this.mod.levelCache.size());
                 return;
             }
         }
-        new LevelHeadGui().display();
+        new LevelHeadGui(this.mod).display();
     }
 }

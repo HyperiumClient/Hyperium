@@ -16,17 +16,12 @@ public class BackgroundSettings extends SettingGui {
     
     @ConfigOpt
     public static String backgroundSelect = "1";
-
     @ConfigOpt
-    public static boolean fastWorldGuiEnabled = true;
-
+    public static boolean fastWorldGuiEnabled = false; // Default to false
+    public static boolean fastChatEnabled = false;
+    @ConfigOpt
     private SelectionItem<String> fastWorldGui;
-
-    @ConfigOpt
-    public static boolean fastChatEnabled = true;
-
     private SelectionItem<String> fastChat;
-
 
     public BackgroundSettings(GuiScreen previous) {
         super("BACKGROUNDS", previous);
@@ -46,6 +41,8 @@ public class BackgroundSettings extends SettingGui {
         selectionItem.addItem("1");
         selectionItem.addItem("2");
         selectionItem.addItem("3");
+        selectionItem.addItem("4");
+        selectionItem.addItem("5");
         selectionItem.setSelectedItem(backgroundSelect);
 
         switch (selectionItem.getSelectedItem()) {
@@ -58,6 +55,11 @@ public class BackgroundSettings extends SettingGui {
             case "3":
                 HyperiumMainMenu.setBackground(new ResourceLocation("textures/material/backgrounds/3.png"));
                 break;
+            case "4":
+                HyperiumMainMenu.setBackground(new ResourceLocation("textures/material/backgrounds/4.png"));
+                break;
+            case "5":
+                HyperiumMainMenu.setBackground(new ResourceLocation("textures/material/backgrounds/5.png"));
         }
 
         this.settingItems.add(selectionItem);

@@ -19,7 +19,6 @@
 package cc.hyperium.event
 
 import cc.hyperium.event.minigames.Minigame
-import com.esotericsoftware.reflectasm.MethodAccess
 import net.minecraft.client.entity.AbstractClientPlayer
 import net.minecraft.client.gui.GuiScreen
 import net.minecraft.client.gui.ScaledResolution
@@ -29,12 +28,13 @@ import net.minecraft.util.BlockPos
 import net.minecraft.util.IChatComponent
 import net.minecraft.util.ResourceLocation
 import net.minecraft.util.Vec3
+import java.lang.reflect.Method
 import java.util.*
 
 /**
  * Used to store information about events and index so they can be easily accessed by ASM
  */
-data class EventSubscriber(val instance: Any, val methodAccess: MethodAccess, val mIndex: Int, val priority: Priority)
+data class EventSubscriber(val instance: Any, val method: Method, val priority: Priority)
 
 /**
  * Assign to a method to invoke an event
@@ -163,8 +163,9 @@ class HypixelFriendRequestEvent(val from: String)
  */
 class RenderSelectedItemEvent(val scaledRes: ScaledResolution)
 
-class HypixelKillEvent(val game: Minigame, val player: String)
-
+/**
+ * Called when the player joins hypixel
+ */
 class JoinHypixelEvent
 
 

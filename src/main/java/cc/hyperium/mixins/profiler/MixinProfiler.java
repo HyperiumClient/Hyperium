@@ -24,7 +24,7 @@ public class MixinProfiler {
     public boolean profilingEnabled;
     @Shadow
     @Final
-    private List<Long> timestampList = Lists.<Long>newArrayList();
+    private final List<Long> timestampList = Lists.<Long>newArrayList();
     /**
      * Current profiling section
      */

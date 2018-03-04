@@ -51,12 +51,12 @@ public class LevelHeadRender {
     @InvokeEvent
     public void render(RenderPlayerEvent event) {
 
-        if ((event.getEntity().getUniqueID().equals(Levelhead.getInstance().userUuid) && !levelHead.getConfig().isShowSelf()) || !Hyperium.INSTANCE.getHandlers().getHypixelDetector().isHypixel())
+        if ((event.getEntity().getUniqueID().equals(this.levelHead.userUuid) && !levelHead.getConfig().isShowSelf()) || !Hyperium.INSTANCE.getHandlers().getHypixelDetector().isHypixel())
             return;
 
         EntityPlayer player = event.getEntity();
 
-        if (levelHead.loadOrRender(player) && (Levelhead.getInstance().getLevelString(player.getUniqueID())) != null) {
+        if (levelHead.loadOrRender(player) && (this.levelHead.getLevelString(player.getUniqueID())) != null) {
             if (player.getDistanceSqToEntity(Minecraft.getMinecraft().thePlayer) < 64 * 64) {
                 double offset = 0.3;
                 Scoreboard scoreboard = player.getWorldScoreboard();
@@ -65,9 +65,9 @@ public class LevelHeadRender {
                 if (scoreObjective != null && player.getDistanceSqToEntity(Minecraft.getMinecraft().thePlayer) < 10 * 10) {
                     offset *= 2;
                 }
-                if (player.getUniqueID().equals(Levelhead.getInstance().userUuid))
+                if (player.getUniqueID().equals(this.levelHead.userUuid))
                     offset = 0;
-                renderName(event, (Levelhead.getInstance().getLevelString(player.getUniqueID())), player, event.getX(), event.getY() + offset, event.getZ());
+                renderName(event, (this.levelHead.getLevelString(player.getUniqueID())), player, event.getX(), event.getY() + offset, event.getZ());
             }
         }
     }

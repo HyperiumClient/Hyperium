@@ -40,7 +40,7 @@ public class GeneralSetting extends SettingGui {
      * The configuration instance, for all the settings below
      */
     private DefaultConfig config;
-    
+
     @ConfigOpt
     public static boolean discordRPEnabled = true;
     @ConfigOpt

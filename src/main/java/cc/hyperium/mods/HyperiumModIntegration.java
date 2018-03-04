@@ -39,14 +39,16 @@ public class HyperiumModIntegration {
     private AbstractMod skinChanger;
     private AbstractMod toggleChat;
     private AbstractMod utilities;
+    private AbstractMod levelhead;
     
     private ChromaHUD chromaHUD;
-    private Levelhead levelhead;
     private Autotip autotip;
     
     public HyperiumModIntegration() {
         this.chromaHUD = new ChromaHUD();
-        this.levelhead = new Levelhead();
+        
+        // LevelHead implementation
+        this.levelhead = new Levelhead().init();
         
         // Utilities implementation
         this.utilities = new UtilitiesMod().init();
@@ -90,7 +92,7 @@ public class HyperiumModIntegration {
      *
      * @return the running LevelHead instance
      */
-    public Levelhead getLevelhead() {
+    public AbstractMod getLevelhead() {
         return this.levelhead;
     }
     

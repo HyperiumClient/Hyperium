@@ -26,7 +26,12 @@ import cc.hyperium.gui.NameHistoryGui;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NameHistoryCommand implements BaseCommand {
+/**
+ * Command to open the NameHistory gui
+ *
+ * @author CoalOres
+ */
+public class CommandNameHistory implements BaseCommand {
 
     @Override
     public String getName() {
