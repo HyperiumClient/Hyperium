@@ -2,7 +2,6 @@ package cc.hyperium.gui;
 
 import cc.hyperium.GuiStyle;
 import cc.hyperium.Metadata;
-import cc.hyperium.gui.settings.items.BackgroundSettings;
 import cc.hyperium.gui.settings.items.GeneralSetting;
 import cc.hyperium.utils.HyperiumFontRenderer;
 import net.minecraft.client.Minecraft;
@@ -28,24 +27,23 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
-import java.util.*;
+import java.util.HashMap;
 
 public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
-    
 
+
+    private static ResourceLocation background = new ResourceLocation("textures/material/backgrounds/1.png");
+    private final ResourceLocation exit = new ResourceLocation("textures/material/exit.png");
+    private final ResourceLocation people_outline = new ResourceLocation("textures/material/people-outline.png");
+    private final ResourceLocation person_outline = new ResourceLocation("textures/material/person-outline.png");
+    private final ResourceLocation settings = new ResourceLocation("textures/material/settings.png");
+    private final ResourceLocation hIcon = new ResourceLocation("textures/h_icon.png");
     private GuiScreen field_183503_M;
-    
     private boolean field_183502_L;
-
-    
     private int field_92021_u;
-    
     private int field_92022_t;
-    
     private int field_92024_r;
-    
     private int field_92023_s;
-    
     private DynamicTexture viewportTexture;
     private FontRenderer fontRendererObj = Minecraft.getMinecraft().fontRendererObj;
     private GuiButton hypixelButton;
@@ -62,24 +60,12 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
         HyperiumMainMenu.background = background;
     }
 
-    private static ResourceLocation background = new ResourceLocation("textures/material/backgrounds/1.png");
-
-    private final ResourceLocation exit = new ResourceLocation("textures/material/exit.png");
-
-    private final ResourceLocation people_outline = new ResourceLocation("textures/material/people-outline.png");
-
-    private final ResourceLocation person_outline = new ResourceLocation("textures/material/person-outline.png");
-
-    private final ResourceLocation settings = new ResourceLocation("textures/material/settings.png");
-
-    private final ResourceLocation hIcon = new ResourceLocation("textures/h_icon.png");
-
     /**
      * Override initGui
      *
      * @author Cubxity
      */
-    
+
     public void initGui() {
         this.viewportTexture = new DynamicTexture(256, 256);
         int j = this.height / 4 + 48;
@@ -87,7 +73,7 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
         this.addSingleplayerMultiplayerButtons(j - 10, 24);
 
 
-        switch (getStyle()){
+        switch (getStyle()) {
             case DEFAULT:
                 addDefaultStyleOptionsButton(j);
                 break;
@@ -115,9 +101,9 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
      *
      * @author Cubxity
      */
-    
+
     private void addSingleplayerMultiplayerButtons(int p_73969_1_, int p_73969_2_) {
-        switch (getStyle()){
+        switch (getStyle()) {
             case DEFAULT:
                 addDefaultStyleSingleplayerMultiplayerButtons(p_73969_1_, p_73969_2_);
                 break;
@@ -132,9 +118,10 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
      *
      * @author Cubxity
      */
-    
+
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-        switch (getStyle()){
+
+        switch (getStyle()) {
             case DEFAULT:
                 drawDefaultStyleScreen(mouseX, mouseY, partialTicks);
                 break;
@@ -142,56 +129,48 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
                 drawHyperiumStyleScreen(mouseX, mouseY, partialTicks);
                 break;
         }
-
         super.drawScreen(mouseX, mouseY, partialTicks);
+
     }
 
     @Override
     public void actionPerformed(GuiButton button) {
 
-        if (button.id == 0)
-        {
+        if (button.id == 0) {
             this.mc.displayGuiScreen(new GuiOptions(this, this.mc.gameSettings));
         }
 
-        if (button.id == 5)
-        {
+        if (button.id == 5) {
             this.mc.displayGuiScreen(new GuiLanguage(this, this.mc.gameSettings, this.mc.getLanguageManager()));
         }
 
-        if (button.id == 1)
-        {
+        if (button.id == 1) {
             this.mc.displayGuiScreen(new GuiSelectWorld(this));
         }
 
-        if (button.id == 2)
-        {
+        if (button.id == 2) {
             this.mc.displayGuiScreen(new GuiMultiplayer(this));
         }
 
-        if (button.id == 4)
-        {
+        if (button.id == 4) {
             this.mc.shutdown();
         }
 
-        if (button.id == 11)
-        {
+        if (button.id == 11) {
             this.mc.launchIntegratedServer("Demo_World", "Demo_World", DemoWorldServer.demoWorldSettings);
         }
 
-        if (button.id == 12)
-        {
+        if (button.id == 12) {
             ISaveFormat isaveformat = this.mc.getSaveLoader();
             WorldInfo worldinfo = isaveformat.getWorldInfo("Demo_World");
 
-            if (worldinfo != null)
-            {
+            if (worldinfo != null) {
                 GuiYesNo guiyesno = GuiSelectWorld.func_152129_a(this, worldinfo.getWorldName(), 12);
                 this.mc.displayGuiScreen(guiyesno);
             }
         }
 
-        switch (getStyle()){
+        switch (getStyle()) {
             case DEFAULT:
                 if (button.id == 15)
                     mc.displayGuiScreen(new ModConfigGui());
@@ -206,13 +185,13 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
 
     }
 
-    private void addHyperiumStyleSingleplayerMultiplayerButtons(int p_73969_1_, int p_73969_2_){
+    private void addHyperiumStyleSingleplayerMultiplayerButtons(int p_73969_1_, int p_73969_2_) {
         this.buttonList.add(new GuiButton(1, width / 2 - 295, height / 2 - 55, 110, 110, ""));
         this.buttonList.add(new GuiButton(2, width / 2 - 175, height / 2 - 55, 110, 110, ""));
         this.buttonList.add(new GuiButton(15, width / 2 + 65, height / 2 - 55, 110, 110, ""));
     }
 
-    private void addDefaultStyleSingleplayerMultiplayerButtons(int p_73969_1_, int p_73969_2_){
+    private void addDefaultStyleSingleplayerMultiplayerButtons(int p_73969_1_, int p_73969_2_) {
         this.buttonList.add(new GuiButton(1, this.width / 2 - 100, p_73969_1_, I18n.format("menu.singleplayer")));
         this.buttonList.add(new GuiButton(2, this.width / 2 - 100, p_73969_1_ + p_73969_2_, I18n.format("menu.multiplayer")));
         //Change realms button ID to 16 to avoid conflicts
@@ -220,22 +199,23 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
         this.buttonList.add(new GuiButton(15, this.width / 2 - 100, p_73969_1_ + p_73969_2_ * 3, I18n.format("Hyperium Settings")));
     }
 
-    private void addHyperiumStyleOptionsButton(int j){
+    private void addHyperiumStyleOptionsButton(int j) {
         this.buttonList.add(new GuiButton(0, width / 2 - 55, height / 2 - 55, 110, 110, ""));
         this.buttonList.add(new GuiButton(4, width / 2 + 185, height / 2 - 55, 110, 110, ""));
     }
 
-    private void addDefaultStyleOptionsButton(int j){
+    private void addDefaultStyleOptionsButton(int j) {
         this.buttonList.add(new GuiButton(0, this.width / 2 - 100, j + 72 + 12 + 24 - 5, 98, 20, I18n.format("menu.options")));
         this.buttonList.add(new GuiButton(4, this.width / 2 + 2, j + 72 + 12 + 24 - 5, 98, 20, I18n.format("menu.quit")));
     }
 
 
-    private void drawHyperiumStyleScreen(int mouseX, int mouseY, float partialTicks){
+    private void drawHyperiumStyleScreen(int mouseX, int mouseY, float partialTicks) {
         // Background
         GlStateManager.disableAlpha();
         ScaledResolution sr = new ScaledResolution(mc);
         this.renderHyperiumBackground(sr);
+
         GlStateManager.enableAlpha();
         this.drawGradientRect(0, 0, this.width, this.height, -2130706433, 16777215);
         this.drawGradientRect(0, 0, this.width, this.height, 0, Integer.MIN_VALUE);
@@ -246,7 +226,7 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
         drawScaledCustomSizeModalRect(10, 1, 0, 0, 2160, 500, 180, 35, 2160, 500);
 
         // Account area
-        drawRect(width - 155, 10, width - 10, 40,  new Color(0, 0, 0, 60).getRGB());
+        drawRect(width - 155, 10, width - 10, 40, new Color(0, 0, 0, 60).getRGB());
 
         // Looks weird with the small green strip
         // drawRect(width - 160, 10, width - 158, 40, new Color(149, 201, 144, 255).getRGB());
@@ -284,8 +264,7 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
         GlStateManager.popMatrix();
     }
 
-    private void renderHyperiumBackground(ScaledResolution p_180476_1_)
-    {
+    private void renderHyperiumBackground(ScaledResolution p_180476_1_) {
         GlStateManager.disableDepth();
         GlStateManager.depthMask(false);
         GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
@@ -295,24 +274,27 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
         Tessellator tessellator = Tessellator.getInstance();
         WorldRenderer worldrenderer = tessellator.getWorldRenderer();
         worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
-        worldrenderer.pos(0.0D, (double)p_180476_1_.getScaledHeight(), -90.0D).tex(0.0D, 1.0D).endVertex();
-        worldrenderer.pos((double)p_180476_1_.getScaledWidth(), (double)p_180476_1_.getScaledHeight(), -90.0D).tex(1.0D, 1.0D).endVertex();
-        worldrenderer.pos((double)p_180476_1_.getScaledWidth(), 0.0D, -90.0D).tex(1.0D, 0.0D).endVertex();
+        worldrenderer.pos(0.0D, (double) p_180476_1_.getScaledHeight(), -90.0D).tex(0.0D, 1.0D).endVertex();
+        worldrenderer.pos((double) p_180476_1_.getScaledWidth(), (double) p_180476_1_.getScaledHeight(), -90.0D).tex(1.0D, 1.0D).endVertex();
+        worldrenderer.pos((double) p_180476_1_.getScaledWidth(), 0.0D, -90.0D).tex(1.0D, 0.0D).endVertex();
         worldrenderer.pos(0.0D, 0.0D, -90.0D).tex(0.0D, 0.0D).endVertex();
         tessellator.draw();
         GlStateManager.depthMask(true);
         GlStateManager.enableDepth();
         GlStateManager.enableAlpha();
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+
     }
 
     private int color(int i, int i1, int i2, int i3) {
         return new Color(i, i1, i2, i3).getRGB();
     }
 
-    private void drawDefaultStyleScreen(int mouseX, int mouseY, float partialTicks){
+    private void drawDefaultStyleScreen(int mouseX, int mouseY, float partialTicks) {
         GlStateManager.disableAlpha();
         this.renderHyperiumBackground(new ScaledResolution(mc));
+        ParticleOverlay.getOverlay().render(mouseX, mouseY);
+
         GlStateManager.enableAlpha();
         this.drawGradientRect(0, 0, this.width, this.height, -2130706433, 16777215);
         this.drawGradientRect(0, 0, this.width, this.height, 0, Integer.MIN_VALUE);

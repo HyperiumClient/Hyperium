@@ -205,6 +205,7 @@ public class ElementRenderer {
 
     @InvokeEvent
     public void tick(TickEvent event) {
+
         if (display) {
             Minecraft.getMinecraft().displayGuiScreen(mod.getConfigGuiInstance());
             display = false;
