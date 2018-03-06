@@ -61,6 +61,7 @@ public class ParticleOverlay {
     }
 
     public void render(int mouseX, int mouseY) {
+        long lines = 0L;
         float step = (float) (0.01 * (BackgroundSettings.maxParticles / 100));
         Mode m = getMode();
         if (m == Mode.OFF) return;
@@ -71,8 +72,9 @@ public class ParticleOverlay {
             float v1 = ((float) ResolutionUtil.current().getScaledWidth_double()) * particle.x;
             float v2 = ((float) ResolutionUtil.current().getScaledHeight_double()) * particle.y;
             double mouseDis = Math.pow(v1 - mouseX, 2) + Math.pow(v2 - mouseY, 2);
-            if (mouseDis < Math.pow(ResolutionUtil.current().getScaledWidth() / 8, 2)) {
-                float moveFac = ResolutionUtil.current().getScaledWidth() / 8;
+            int i = ResolutionUtil.current().getScaledWidth() / 12;
+            if (mouseDis < Math.pow(i, 2)) {
+                float moveFac = i;
                 float xVec = Math.min(500F, moveFac / (mouseX - v1));
                 float yVec = Math.min(500F, moveFac / (mouseY - v2));
                 v1 -= xVec;
@@ -106,6 +108,7 @@ public class ParticleOverlay {
                             RenderUtils.drawLine(v1, v2, x2, y2, 1F, Color.HSBtoRGB(h, 0.8F, 0.8F));
                             break;
                     }
+                    lines++;
                     w += lineStrength;
                 }
             }

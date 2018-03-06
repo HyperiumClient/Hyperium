@@ -25,7 +25,6 @@ import cc.hyperium.gui.HyperiumMainMenu;
 import cc.hyperium.gui.ParticleOverlay;
 import cc.hyperium.gui.settings.SettingGui;
 import cc.hyperium.gui.settings.components.SelectionItem;
-
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.util.ResourceLocation;
 
@@ -33,8 +32,6 @@ import java.util.Arrays;
 
 public class BackgroundSettings extends SettingGui {
 
-    private DefaultConfig config;
-    
     @ConfigOpt
     public static String backgroundSelect = "1";
     @ConfigOpt
@@ -45,7 +42,7 @@ public class BackgroundSettings extends SettingGui {
     public static String particlesModeString = "OFF";
     @ConfigOpt
     public static int maxParticles = 200;
-
+    private DefaultConfig config;
     private SelectionItem<String> fastWorldGui;
     private SelectionItem<String> fastChat;
     private SelectionItem<String> particlesMode;
@@ -60,9 +57,9 @@ public class BackgroundSettings extends SettingGui {
     @Override
     protected void pack() {
         super.pack();
-        
+
         SelectionItem<String> selectionItem;
-        settingItems.add(selectionItem = new SelectionItem<>(0, getX(), getDefaultItemY(0),  width - getX() * 2, "MENU BACKGROUND", i -> {
+        settingItems.add(selectionItem = new SelectionItem<>(0, getX(), getDefaultItemY(0), width - getX() * 2, "MENU BACKGROUND", i -> {
             ((SelectionItem) i).nextItem();
             backgroundSelect = (String) ((SelectionItem) i).getSelectedItem();
             refreshBackground();
@@ -95,10 +92,10 @@ public class BackgroundSettings extends SettingGui {
 
         this.settingItems.add(maxParticlesSelection = new SelectionItem<>(4, getX(), getDefaultItemY(4), this.width - getX() * 2, "PARTICLES MAX", i -> {
             ((SelectionItem) i).nextItem();
-            maxParticles = ((SelectionItem<Integer>)i).getSelectedItem();
+            maxParticles = ((SelectionItem<Integer>) i).getSelectedItem();
             ParticleOverlay.reload();
         }));
-        this.maxParticlesSelection.addItems(Arrays.asList(20, 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1200, 1500, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000));
+        this.maxParticlesSelection.addItems(Arrays.asList(20, 50, 75, 100, 125, 150, 175, 200, 225, 250, 275, 300, 325, 350, 375, 400, 425, 450, 475, 500));
         this.maxParticlesSelection.setSelectedItem(maxParticles);
 
     }
@@ -112,8 +109,8 @@ public class BackgroundSettings extends SettingGui {
         this.config.save();
     }
 
-    private void refreshBackground(){
-        switch (((SelectionItem<String>)settingItems.get(0)).getSelectedItem()) {
+    private void refreshBackground() {
+        switch (((SelectionItem<String>) settingItems.get(0)).getSelectedItem()) {
             case "1":
                 HyperiumMainMenu.setBackground(new ResourceLocation("textures/material/backgrounds/1.png"));
                 break;
