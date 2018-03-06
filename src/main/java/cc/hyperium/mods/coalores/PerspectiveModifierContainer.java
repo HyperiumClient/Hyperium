@@ -34,8 +34,6 @@ public class PerspectiveModifierContainer {
      * This class requires massive improvements, this will be worked on and fixed in a later release
      */
 
-    // You require massive improvements faggot.
-    
     private final HyperiumBind perspective = new PerspectiveKeyBind();
     
     public PerspectiveModifierContainer() {

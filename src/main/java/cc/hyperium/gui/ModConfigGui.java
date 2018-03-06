@@ -157,7 +157,7 @@ public class ModConfigGui extends HyperiumGui {
 
         if (Minecraft.getMinecraft().thePlayer != null) {
             tab.addSetting(new SettingItem(
-                    7, getX(0),
+                    6, getX(0),
                     getDefaultItemY(6),
                     width - getX(0) * 2,
                     "CHROMAHUD",
