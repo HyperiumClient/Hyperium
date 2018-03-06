@@ -3,6 +3,7 @@ package cc.hyperium.gui;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.TickEvent;
+import cc.hyperium.gui.settings.items.BackgroundSettings;
 import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
 import cc.hyperium.utils.RenderUtils;
 import net.minecraft.client.gui.Gui;
@@ -123,5 +124,15 @@ public class ParticleOverlay {
         public float getY() {
             return y;
         }
+    }
+    private Mode getMode(){
+        return Mode.valueOf(BackgroundSettings.particlesModeString.replace(" ", "_"));
+    }
+    enum Mode{
+        OFF,
+        PLAIN_1,
+        PLAIN_2,
+        CHROMA_1,
+        CHROMA_2
     }
 }
