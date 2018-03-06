@@ -59,6 +59,7 @@ public class ParticleOverlay {
     }
 
     public void render(int mouseX, int mouseY) {
+        float step = (float) (0.01*(BackgroundSettings.maxParticles / 100));
         Mode m = getMode();
         if(m == Mode.OFF)return;
         last = System.currentTimeMillis();
@@ -108,7 +109,7 @@ public class ParticleOverlay {
             Gui.drawRect((int) v1, (int) v2, (int) (v1 + w), (int) (v2 + w), Color.WHITE.getRGB());
             if(h >= 1.0F)
                 h = 0.0F;
-            h+=0.01;
+            h+=step;
         }
     }
 
