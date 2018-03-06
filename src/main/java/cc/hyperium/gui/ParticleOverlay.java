@@ -38,7 +38,7 @@ public class ParticleOverlay {
     private long last;
 
     public ParticleOverlay() {
-        int max = 200;
+        int max = BackgroundSettings.maxParticles;
         for (int i = 0; i < max; i++) {
             particles.add(new Particle());
         }
