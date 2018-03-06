@@ -251,8 +251,7 @@ public class RemoteResourcesHandler {
     }
 
     public String rawHttp(String url) {
-        url = url.replace(" ", "%20");
-        //System.out.println("Fetching " + url);
+        url = url.trim().replace(" ", "%20");
         try {
             URL u = new URL(url);
             HttpURLConnection connection = (HttpURLConnection) u.openConnection();

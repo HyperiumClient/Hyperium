@@ -18,45 +18,25 @@
 
 package cc.hyperium.mixins.gui;
 
-import cc.hyperium.GuiStyle;
 import cc.hyperium.Hyperium;
-import cc.hyperium.Metadata;
 import cc.hyperium.gui.GuiBlock;
 import cc.hyperium.gui.HyperiumMainMenu;
-import cc.hyperium.gui.ModConfigGui;
-import cc.hyperium.gui.settings.items.GeneralSetting;
+import cc.hyperium.handlers.handlers.remoteresources.RemoteResourcesHandler;
+import cc.hyperium.utils.BanSystem;
 import cc.hyperium.utils.ChatColor;
-import cc.hyperium.utils.HyperiumFontRenderer;
 import cc.hyperium.utils.RenderUtils;
-
+import com.google.gson.Gson;
+import me.kbrewster.mojangapi.MojangAPI;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.*;
-import net.minecraft.client.multiplayer.GuiConnecting;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.texture.DynamicTexture;
-import net.minecraft.client.renderer.texture.TextureManager;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.client.settings.GameSettings;
-import net.minecraft.realms.RealmsBridge;
-import net.minecraft.util.ResourceLocation;
-
-import org.lwjgl.input.Keyboard;
+import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiMainMenu;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.GuiYesNoCallback;
 import org.lwjgl.input.Mouse;
-
-import org.lwjgl.opengl.GL11;
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
-import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
-import java.io.IOException;
-import java.net.URL;
-import java.util.HashMap;
 
 @Mixin(GuiMainMenu.class)
 public abstract class MixinGuiMainMenu extends GuiScreen implements GuiYesNoCallback {
@@ -72,11 +52,28 @@ public abstract class MixinGuiMainMenu extends GuiScreen implements GuiYesNoCall
      */
     @Overwrite
     public void initGui() {
-        if(Hyperium.INSTANCE.isAcceptedTos()) {
+        if (Hyperium.banSystem == null) {
+            try {
+                String request = new RemoteResourcesHandler().rawHttp("https://api.hyperium.cc/status/" + MojangAPI.stripDashes(Minecraft.getMinecraft().getSession().getProfile().getId()));
+                Hyperium.banSystem = new Gson().fromJson(request, BanSystem.class);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        // checks again
+        if(Hyperium.banSystem != null) {
+            BanSystem banSystem = Hyperium.banSystem;
+            if (banSystem.isDisallow() && banSystem.isSuccessful()) {
+                return;
+            }
+        }
+
+
+        if (Hyperium.INSTANCE.isAcceptedTos()) {
             Minecraft.getMinecraft().displayGuiScreen(new HyperiumMainMenu());
         }
     }
-
 
 
     /**
@@ -86,7 +83,23 @@ public abstract class MixinGuiMainMenu extends GuiScreen implements GuiYesNoCall
      */
     @Overwrite
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+        super.drawScreen(mouseX, mouseY, partialTicks);
         this.drawDefaultBackground();
+        BanSystem banSystem = Hyperium.banSystem;
+        if (banSystem != null) {
+            if (banSystem.isDisallow() && banSystem.isSuccessful()) {
+                drawCenteredString(this.fontRendererObj, ChatColor.RED + "Game start has been suspended by remote callback!", width / 2, 90, Color.WHITE.getRGB());
+                drawCenteredString(this.fontRendererObj, ChatColor.RED + "Reason: " + banSystem.getReason(), width / 2, 100, Color.WHITE.getRGB());
+                drawCenteredString(this.fontRendererObj, ChatColor.RED + "Expires: " + banSystem.getExpire(), width / 2, 110, Color.WHITE.getRGB());
+                GuiBlock block = new GuiBlock(width / 2 - 10, width / 2 + 10, 135, 155);
+                if (!overLast && Mouse.isButtonDown(0) && block.isMouseOver(mouseX, mouseY)) {
+                    clickedCheckBox = !clickedCheckBox;
+                }
+
+                RenderUtils.drawBorderedRect(-1, -1, -2, -2, 7, Color.BLACK.getRGB(), Color.RED.getRGB());
+                return;
+            }
+        }
         if (!Hyperium.INSTANCE.isAcceptedTos()) {
             drawCenteredString(this.fontRendererObj, ChatColor.RED + "By continuing, you acknowledge this client is " + ChatColor.BOLD + "USE AT YOUR OWN RISK", width / 2, 90, Color.WHITE.getRGB());
             drawCenteredString(this.fontRendererObj, ChatColor.RED + "The developers of Hyperium are not responsible for any damages or bans ", width / 2, 100, Color.WHITE.getRGB());
