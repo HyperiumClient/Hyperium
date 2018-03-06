@@ -18,8 +18,9 @@ public class BackgroundSettings extends SettingGui {
     public static String backgroundSelect = "1";
     @ConfigOpt
     public static boolean fastWorldGuiEnabled = false; // Default to false
-    public static boolean fastChatEnabled = false;
     @ConfigOpt
+    public static boolean fastChatEnabled = false;
+
     private SelectionItem<String> fastWorldGui;
     private SelectionItem<String> fastChat;
     private SelectionItem<String> particlesMode;
