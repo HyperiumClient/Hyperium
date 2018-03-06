@@ -53,6 +53,8 @@ public class ParticleOverlay {
     }
 
     public void render(int mouseX, int mouseY) {
+        Mode m = getMode();
+        if(m == Mode.OFF)return;
         last = System.currentTimeMillis();
         for (Particle particle : particles) {
             double w = 1;
@@ -78,7 +80,21 @@ public class ParticleOverlay {
                     double lineStrength = Math.min(10000.0D, 1.0D / v) / 100D;
                     float x2 = ((float) ResolutionUtil.current().getScaledWidth_double()) * particle1.x;
                     float y2 = ((float) ResolutionUtil.current().getScaledHeight_double()) * particle1.y;
-                    RenderUtils.drawLine(v1, v2, x2, y2, (float) lineStrength, Color.HSBtoRGB(h, 0.8F, 0.8F));
+                    double alpha = 100+((0.02 / 155)*v);
+                    switch(m){
+                        case PLAIN_1:
+                            RenderUtils.drawLine(v1, v2, x2, y2, (float) lineStrength, new Color(255, 255, 255, (float) alpha).getRGB());
+                            break;
+                        case PLAIN_2:
+                            RenderUtils.drawLine(v1, v2, x2, y2, 1F, new Color(255, 255, 255, (float) alpha).getRGB());
+                            break;
+                        case CHROMA_1:
+                            RenderUtils.drawLine(v1, v2, x2, y2, (float) lineStrength, Color.HSBtoRGB(h, 0.8F, 0.8F));
+                            break;
+                        case CHROMA_2:
+                            RenderUtils.drawLine(v1, v2, x2, y2, 1F, Color.HSBtoRGB(h, 0.8F, 0.8F));
+                            break;
+                    }
                     w += lineStrength;
                 }
             }

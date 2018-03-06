@@ -57,17 +57,16 @@ public class BackgroundSettings extends SettingGui {
     protected void pack() {
         super.pack();
         
-        SelectionItem<String> selectionItem = new SelectionItem<>(0, getX(), getDefaultItemY(0),  width - getX() * 2, "MENU BACKGROUND", i -> {
+        SelectionItem<String> selectionItem;
+        settingItems.add(selectionItem = new SelectionItem<>(0, getX(), getDefaultItemY(0),  width - getX() * 2, "MENU BACKGROUND", i -> {
             ((SelectionItem) i).nextItem();
             backgroundSelect = (String) ((SelectionItem) i).getSelectedItem();
             refreshBackground();
-        });
-        
+        }));
+
         selectionItem.addItems(Arrays.asList("1", "2", "3", "4", "5"));
         selectionItem.setSelectedItem(backgroundSelect);
         refreshBackground();
-
-        this.settingItems.add(selectionItem);
 
         this.settingItems.add(this.fastChat = new SelectionItem<>(1, getX(), getDefaultItemY(1), this.width - getX() * 2, "FAST CHAT", i -> {
             ((SelectionItem) i).nextItem();
