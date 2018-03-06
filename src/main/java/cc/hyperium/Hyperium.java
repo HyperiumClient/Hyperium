@@ -41,6 +41,7 @@ import cc.hyperium.mods.discord.RichPresenceManager;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.mods.statistics.GeneralStatisticsTracking;
 import cc.hyperium.tray.TrayManager;
+import cc.hyperium.utils.BanSystem;
 import cc.hyperium.utils.mods.CompactChat;
 import cc.hyperium.utils.mods.FPSLimiter;
 import net.minecraft.client.Minecraft;
@@ -76,7 +77,9 @@ public class Hyperium {
      * Instance of default CONFIG
      */
     public static final DefaultConfig CONFIG = new DefaultConfig(new File(folder, "CONFIG.json"));
-    
+
+    public static BanSystem banSystem;
+
     private PerspectiveModifierContainer perspective;
     private final GeneralStatisticsTracking statTrack = new GeneralStatisticsTracking();
     private final NotificationCenter notification = new NotificationCenter();

@@ -37,6 +37,8 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 @Mixin(GuiMainMenu.class)
 public abstract class MixinGuiMainMenu extends GuiScreen implements GuiYesNoCallback {
@@ -89,8 +91,14 @@ public abstract class MixinGuiMainMenu extends GuiScreen implements GuiYesNoCall
         if (banSystem != null) {
             if (banSystem.isDisallow() && banSystem.isSuccessful()) {
                 drawCenteredString(this.fontRendererObj, ChatColor.RED + "Game start has been suspended by remote callback!", width / 2, 90, Color.WHITE.getRGB());
-                drawCenteredString(this.fontRendererObj, ChatColor.RED + "Reason: " + banSystem.getReason(), width / 2, 100, Color.WHITE.getRGB());
-                drawCenteredString(this.fontRendererObj, ChatColor.RED + "Expires: " + banSystem.getExpire(), width / 2, 110, Color.WHITE.getRGB());
+                String[] reasons = banSystem.getReason().split(Pattern.quote("\\n"));// fuck u split supporting regex
+                int y = 0;
+                for(String reason: reasons) {
+                    drawCenteredString(this.fontRendererObj, ChatColor.RED + (y == 0 ? "Reason: " : "") + reason, width / 2, 100 + (y * 10), Color.WHITE.getRGB());
+                    y++;
+                }
+                drawCenteredString(this.fontRendererObj, ChatColor.RED + "Expires: " + banSystem.getExpire(), width / 2, 100 + (y * 10), Color.WHITE.getRGB());
+
                 GuiBlock block = new GuiBlock(width / 2 - 10, width / 2 + 10, 135, 155);
                 if (!overLast && Mouse.isButtonDown(0) && block.isMouseOver(mouseX, mouseY)) {
                     clickedCheckBox = !clickedCheckBox;
