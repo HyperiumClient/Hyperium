@@ -3,9 +3,12 @@ package cc.hyperium.gui;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.TickEvent;
+import cc.hyperium.mods.levelhead.Levelhead;
 import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
 import cc.hyperium.utils.RenderUtils;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiMainMenu;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -52,6 +55,7 @@ public class ParticleOverlay {
 
             particle.x = v1 / (float) ResolutionUtil.current().getScaledWidth_double();
             particle.y = v2 / (float) ResolutionUtil.current().getScaledHeight_double();
+            int potentialMax = Minecraft.getMinecraft().currentScreen instanceof GuiMainMenu ? 255 : 150;
             for (Particle particle1 : particles) {
                 double v = particle.distSqTo(particle1);
                 //Threshold for line
@@ -59,7 +63,10 @@ public class ParticleOverlay {
                     double lineStrength = Math.min(10000.0D, 1.0D / v) / 100D;
                     float x2 = ((float) ResolutionUtil.current().getScaledWidth_double()) * particle1.x;
                     float y2 = ((float) ResolutionUtil.current().getScaledHeight_double()) * particle1.y;
-                    RenderUtils.drawLine(v1, v2, x2, y2, (float) lineStrength, new Color(0, 0, 255, 100).getRGB());
+
+                    float min = (float) Math.min(potentialMax, lineStrength * 15);
+                    int rgb = new Color(255, 40, 234, ((int) min)).getRGB();
+                    RenderUtils.drawLine(v1, v2, x2, y2, (float) lineStrength, Levelhead.getRGBColor());
                     w += lineStrength;
                 }
             }
