@@ -10,6 +10,8 @@ import cc.hyperium.gui.settings.components.SelectionItem;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.util.ResourceLocation;
 
+import java.util.Arrays;
+
 public class BackgroundSettings extends SettingGui {
 
     private DefaultConfig config;
@@ -68,8 +70,11 @@ public class BackgroundSettings extends SettingGui {
         this.fastWorldGui.setSelectedItem(fastWorldGuiEnabled ? "ON" : "OFF");
 
         this.settingItems.add(this.particlesMode = new SelectionItem<>(3, getX(), getDefaultItemY(3), this.width - getX() * 2, "PARTICLES MODE", i -> {
-
+            ((SelectionItem) i).nextItem();
+            particlesModeString = ((SelectionItem<String>) i).getSelectedItem();
         }));
+        this.particlesMode.addItems(Arrays.asList("OFF", "PLAIN 1", "PLAIN 2", "CHROMA 1", "CHROMA 2"));
+        this.particlesMode.setSelectedItem(particlesModeString);
 
     }
 
