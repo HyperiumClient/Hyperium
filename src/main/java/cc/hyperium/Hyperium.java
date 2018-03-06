@@ -18,7 +18,10 @@
 
 package cc.hyperium;
 
-import cc.hyperium.commands.defaults.*;
+import cc.hyperium.commands.defaults.CommandClearChat;
+import cc.hyperium.commands.defaults.CommandConfigGui;
+import cc.hyperium.commands.defaults.CommandNameHistory;
+import cc.hyperium.commands.defaults.CommandPrivateMessage;
 import cc.hyperium.config.DefaultConfig;
 import cc.hyperium.event.*;
 import cc.hyperium.event.minigames.MinigameListener;
@@ -27,39 +30,27 @@ import cc.hyperium.gui.settings.items.AnimationSettings;
 import cc.hyperium.gui.settings.items.BackgroundSettings;
 import cc.hyperium.gui.settings.items.GeneralSetting;
 import cc.hyperium.handlers.HyperiumHandlers;
-import cc.hyperium.handlers.handlers.remoteresources.RemoteResourcesHandler;
 import cc.hyperium.integrations.spotify.Spotify;
 import cc.hyperium.integrations.spotify.impl.SpotifyInformation;
 import cc.hyperium.mods.HyperiumModIntegration;
 import cc.hyperium.mods.capturex.CaptureCore;
+import cc.hyperium.mods.common.PerspectiveModifierContainer;
+import cc.hyperium.mods.common.ToggleSprintContainer;
 import cc.hyperium.mods.crosshair.CrosshairMod;
 import cc.hyperium.mods.discord.RichPresenceManager;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.mods.statistics.GeneralStatisticsTracking;
 import cc.hyperium.tray.TrayManager;
-import cc.hyperium.utils.BanSystem;
 import cc.hyperium.utils.mods.CompactChat;
 import cc.hyperium.utils.mods.FPSLimiter;
-import cc.hyperium.mods.coalores.PerspectiveModifierContainer;
-import cc.hyperium.mods.coalores.ToggleSprintContainer;
-
-import com.google.gson.Gson;
-import me.kbrewster.mojangapi.MojangAPI;
 import net.minecraft.client.Minecraft;
-
-import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.Display;
 
 import java.awt.*;
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
 
 /**
  * Hypixel Community Client
@@ -97,9 +88,7 @@ public class Hyperium {
     private HyperiumModIntegration modIntegration;
     
     private CaptureCore captureCore;
-
-    public static BanSystem banSystem;
-
+    
     private boolean acceptedTos = false;
 
     /**

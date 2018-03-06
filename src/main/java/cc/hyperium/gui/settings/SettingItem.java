@@ -31,7 +31,7 @@ public class SettingItem extends GuiButton {
     protected Color color = new Color(0, 0, 0, 0);
     protected int textColor = new Color(255, 255, 255, 255).getRGB();
     protected int textHoverColor = new Color(255, 255, 255, 255).getRGB();
-    protected String displayString;
+    public String displayString;
     public Consumer<SettingItem> callback;
 
     public SettingItem(int id, int x, int y, int width, String displayString, Consumer<SettingItem> callback) {

@@ -16,7 +16,7 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package cc.hyperium.mods.coalores;
+package cc.hyperium.mods.common;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.event.InvokeEvent;
@@ -25,37 +25,38 @@ import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
 import cc.hyperium.handlers.handlers.keybinds.HyperiumBind;
 import cc.hyperium.handlers.handlers.keybinds.KeyBindHandler;
 import cc.hyperium.mixins.MixinKeyBinding;
-
 import net.minecraft.client.Minecraft;
-
 import org.lwjgl.input.Keyboard;
 
 public class ToggleSprintContainer {
-    
+
+    boolean press = false;
+    private boolean toggleSprintActive = false;
     private final HyperiumBind toggleSprint = new HyperiumBind("toggleSprint", Keyboard.KEY_V) {
         @Override
         public void onPress() {
-            if (ToggleSprintContainer.this.toggleSprintActive) {
-                GeneralChatHandler.instance().sendMessage("ToggleSprint Disabled!");
-                ((MixinKeyBinding) Minecraft.getMinecraft().gameSettings.keyBindSprint).setPressed(false);
-            } else {
-                GeneralChatHandler.instance().sendMessage("ToggleSprint Enabled!");
-                ((MixinKeyBinding) Minecraft.getMinecraft().gameSettings.keyBindSprint).setPressed(true);
+            press = !press;
+            if (press) {
+                if (ToggleSprintContainer.this.toggleSprintActive) {
+                    GeneralChatHandler.instance().sendMessage("ToggleSprint Disabled!");
+                    ((MixinKeyBinding) Minecraft.getMinecraft().gameSettings.keyBindSprint).setPressed(false);
+                } else {
+                    GeneralChatHandler.instance().sendMessage("ToggleSprint Enabled!");
+                    ((MixinKeyBinding) Minecraft.getMinecraft().gameSettings.keyBindSprint).setPressed(true);
+                }
+                ToggleSprintContainer.this.toggleSprintActive = !ToggleSprintContainer.this.toggleSprintActive;
             }
-            ToggleSprintContainer.this.toggleSprintActive = !ToggleSprintContainer.this.toggleSprintActive;
         }
     };
-    
-    private boolean toggleSprintActive = false;
-    
+
     public ToggleSprintContainer() {
         KeyBindHandler keyBindHandler = Hyperium.INSTANCE.getHandlers().getKeybindHandler();
-    
+
         if (keyBindHandler.getBinding(this.toggleSprint.getKeyDescription()) == null) {
             keyBindHandler.registerKeyBinding(this.toggleSprint);
         }
     }
-    
+
     @InvokeEvent
     public void onKeyPress(KeypressEvent event) {
         if (this.toggleSprintActive) {

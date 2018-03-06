@@ -19,8 +19,6 @@
 package cc.hyperium.gui;
 
 import cc.hyperium.Hyperium;
-import cc.hyperium.gui.settings.items.*;
-import cc.hyperium.gui.settings.SettingItem;
 import cc.hyperium.gui.settings.SettingItem;
 import cc.hyperium.gui.settings.items.*;
 import cc.hyperium.utils.HyperiumFontRenderer;
@@ -156,8 +154,6 @@ public class ModConfigGui extends HyperiumGui {
                 "NAME HISTORY",
                 i -> Minecraft.getMinecraft().displayGuiScreen(new NameHistorySettings(this))
         ));
-
-
 
         if (Minecraft.getMinecraft().thePlayer != null) {
             tab.addSetting(new SettingItem(
