@@ -22,6 +22,7 @@ public class BackgroundSettings extends SettingGui {
     @ConfigOpt
     private SelectionItem<String> fastWorldGui;
     private SelectionItem<String> fastChat;
+    private SelectionItem<String> particlesMode;
 
     public BackgroundSettings(GuiScreen previous) {
         super("BACKGROUNDS", previous);
