@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class ParticleOverlay {
-
+    private float h = 0.1F;
     private static ParticleOverlay overlay;
     private List<Particle> particles = new ArrayList<>();
     private long last;
@@ -59,12 +59,15 @@ public class ParticleOverlay {
                     double lineStrength = Math.min(10000.0D, 1.0D / v) / 100D;
                     float x2 = ((float) ResolutionUtil.current().getScaledWidth_double()) * particle1.x;
                     float y2 = ((float) ResolutionUtil.current().getScaledHeight_double()) * particle1.y;
-                    RenderUtils.drawLine(v1, v2, x2, y2, (float) lineStrength, new Color(0, 0, 255, 100).getRGB());
+                    RenderUtils.drawLine(v1, v2, x2, y2, (float) lineStrength, Color.HSBtoRGB(h, 0.8F, 0.8F));
                     w += lineStrength;
                 }
             }
             w = Math.sqrt(w) / 10D;
-            Gui.drawRect((int) v1, (int) v2, (int) (v1 + w), (int) (v2 + w), Color.RED.getRGB());
+            Gui.drawRect((int) v1, (int) v2, (int) (v1 + w), (int) (v2 + w), Color.WHITE.getRGB());
+            if(h >= 1.0F)
+                h = 0.0F;
+            h+=0.01;
         }
     }
 
