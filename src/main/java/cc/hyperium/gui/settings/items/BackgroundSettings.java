@@ -38,6 +38,7 @@ public class BackgroundSettings extends SettingGui {
         SelectionItem<String> selectionItem = new SelectionItem<>(0, getX(), getDefaultItemY(0),  width - getX() * 2, "MENU BACKGROUND", i -> {
             ((SelectionItem) i).nextItem();
             backgroundSelect = (String) ((SelectionItem) i).getSelectedItem();
+            refreshBackground();
         });
         
         selectionItem.addItem("1");
@@ -46,23 +47,7 @@ public class BackgroundSettings extends SettingGui {
         selectionItem.addItem("4");
         selectionItem.addItem("5");
         selectionItem.setSelectedItem(backgroundSelect);
-
-        switch (selectionItem.getSelectedItem()) {
-            case "1":
-                HyperiumMainMenu.setBackground(new ResourceLocation("textures/material/backgrounds/1.png"));
-                break;
-            case "2":
-                HyperiumMainMenu.setBackground(new ResourceLocation("textures/material/backgrounds/2.png"));
-                break;
-            case "3":
-                HyperiumMainMenu.setBackground(new ResourceLocation("textures/material/backgrounds/3.png"));
-                break;
-            case "4":
-                HyperiumMainMenu.setBackground(new ResourceLocation("textures/material/backgrounds/4.png"));
-                break;
-            case "5":
-                HyperiumMainMenu.setBackground(new ResourceLocation("textures/material/backgrounds/5.png"));
-        }
+        refreshBackground();
 
         this.settingItems.add(selectionItem);
 
@@ -89,5 +74,24 @@ public class BackgroundSettings extends SettingGui {
     @Override
     public void onGuiClosed() {
         this.config.save();
+    }
+
+    private void refreshBackground(){
+        switch (((SelectionItem<String>)settingItems.get(0)).getSelectedItem()) {
+            case "1":
+                HyperiumMainMenu.setBackground(new ResourceLocation("textures/material/backgrounds/1.png"));
+                break;
+            case "2":
+                HyperiumMainMenu.setBackground(new ResourceLocation("textures/material/backgrounds/2.png"));
+                break;
+            case "3":
+                HyperiumMainMenu.setBackground(new ResourceLocation("textures/material/backgrounds/3.png"));
+                break;
+            case "4":
+                HyperiumMainMenu.setBackground(new ResourceLocation("textures/material/backgrounds/4.png"));
+                break;
+            case "5":
+                HyperiumMainMenu.setBackground(new ResourceLocation("textures/material/backgrounds/5.png"));
+        }
     }
 }
