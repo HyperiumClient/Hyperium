@@ -37,6 +37,7 @@ public class PerspectiveModifierContainer {
     private final HyperiumBind perspective = new PerspectiveKeyBind();
     public float modifiedYaw;
     public float modifiedPitch;
+    
     boolean press = false;
     private boolean enabled = false;
 
