@@ -16,7 +16,7 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package cc.hyperium.mods.coalores;
+package cc.hyperium.mods.common;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.gui.settings.items.GeneralSetting;
@@ -29,25 +29,24 @@ import org.lwjgl.input.Keyboard;
  * The perspective mod handler
  */
 public class PerspectiveModifierContainer {
-    
+
     /**
      * This class requires massive improvements, this will be worked on and fixed in a later release
      */
 
     private final HyperiumBind perspective = new PerspectiveKeyBind();
-    
+    public float modifiedYaw;
+    public float modifiedPitch;
+    boolean press = false;
+    private boolean enabled = false;
+
     public PerspectiveModifierContainer() {
         KeyBindHandler keyBindHandler = Hyperium.INSTANCE.getHandlers().getKeybindHandler();
-        
+
         if (keyBindHandler.getBinding("perspective") == null) {
             keyBindHandler.registerKeyBinding(this.perspective);
         }
     }
-    
-    private boolean enabled = false;
-
-    public float modifiedYaw;
-    public float modifiedPitch;
 
     public void onEnable() {
         Minecraft.getMinecraft().gameSettings.thirdPersonView = 2;
@@ -59,47 +58,50 @@ public class PerspectiveModifierContainer {
 
     public void onDisable() {
         this.enabled = false;
-        
+
         //((MixinKeyBinding) this.perspective).setPressed(false);
-    
+
         Minecraft.getMinecraft().gameSettings.thirdPersonView = 0;
         //GeneralChatHandler.instance().sendMessage("Disabled 360 Degree Perspective.");
-    
+
         // Reset the states anyway
         this.modifiedYaw = Minecraft.getMinecraft().thePlayer.cameraYaw;
         this.modifiedPitch = Minecraft.getMinecraft().thePlayer.cameraPitch;
     }
-    
+
     public boolean isEnabled() {
         return this.enabled;
     }
-    
+
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
     }
-    
+
     class PerspectiveKeyBind extends HyperiumBind {
-    
+
         public PerspectiveKeyBind() {
             super("perspective", Keyboard.KEY_P);
         }
-    
+
         @Override
         public void onPress() {
+            press = !press;
             if (GeneralSetting.perspectiveHoldDownEnabled) {
                 onEnable();
                 setEnabled(true);
             } else {
-                setEnabled(!isEnabled());
-    
-                if (!GeneralSetting.perspectiveHoldDownEnabled && !isEnabled()) {
-                    onDisable();
-                } else {
-                    onEnable();
+                if (press) {
+                    setEnabled(!isEnabled());
+
+                    if (!GeneralSetting.perspectiveHoldDownEnabled && !isEnabled()) {
+                        onDisable();
+                    } else {
+                        onEnable();
+                    }
                 }
             }
         }
-    
+
         @Override
         public void onRelease() {
             if (GeneralSetting.perspectiveHoldDownEnabled) {

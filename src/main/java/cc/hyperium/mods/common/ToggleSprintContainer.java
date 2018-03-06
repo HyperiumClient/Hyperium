@@ -16,7 +16,7 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package cc.hyperium.mods.coalores;
+package cc.hyperium.mods.common;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.event.InvokeEvent;
@@ -30,14 +30,13 @@ import org.lwjgl.input.Keyboard;
 
 public class ToggleSprintContainer {
 
-    int count = 1;
-    
+    boolean press = false;
+    private boolean toggleSprintActive = false;
     private final HyperiumBind toggleSprint = new HyperiumBind("toggleSprint", Keyboard.KEY_V) {
         @Override
         public void onPress() {
-            // Problem solved!
-            if (count >= 2) {
-                count = 0;
+            press = !press;
+            if (press) {
                 if (ToggleSprintContainer.this.toggleSprintActive) {
                     GeneralChatHandler.instance().sendMessage("ToggleSprint Disabled!");
                     ((MixinKeyBinding) Minecraft.getMinecraft().gameSettings.keyBindSprint).setPressed(false);
@@ -47,21 +46,17 @@ public class ToggleSprintContainer {
                 }
                 ToggleSprintContainer.this.toggleSprintActive = !ToggleSprintContainer.this.toggleSprintActive;
             }
-
-            count++;
         }
     };
-    
-    private boolean toggleSprintActive = false;
-    
+
     public ToggleSprintContainer() {
         KeyBindHandler keyBindHandler = Hyperium.INSTANCE.getHandlers().getKeybindHandler();
-    
+
         if (keyBindHandler.getBinding(this.toggleSprint.getKeyDescription()) == null) {
             keyBindHandler.registerKeyBinding(this.toggleSprint);
         }
     }
-    
+
     @InvokeEvent
     public void onKeyPress(KeypressEvent event) {
         if (this.toggleSprintActive) {
