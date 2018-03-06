@@ -19,8 +19,6 @@
 package cc.hyperium.gui;
 
 import cc.hyperium.Hyperium;
-import cc.hyperium.gui.settings.items.*;
-import cc.hyperium.gui.settings.SettingItem;
 import cc.hyperium.gui.settings.SettingItem;
 import cc.hyperium.gui.settings.items.*;
 import cc.hyperium.utils.HyperiumFontRenderer;
@@ -157,11 +155,9 @@ public class ModConfigGui extends HyperiumGui {
                 i -> Minecraft.getMinecraft().displayGuiScreen(new NameHistorySettings(this))
         ));
 
-
-
         if (Minecraft.getMinecraft().thePlayer != null) {
             tab.addSetting(new SettingItem(
-                    6, getX(0),
+                    7, getX(0),
                     getDefaultItemY(6),
                     width - getX(0) * 2,
                     "CHROMAHUD",

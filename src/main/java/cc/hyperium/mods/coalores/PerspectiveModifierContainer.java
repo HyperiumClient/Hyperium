@@ -21,10 +21,8 @@ package cc.hyperium.mods.coalores;
 import cc.hyperium.Hyperium;
 import cc.hyperium.gui.settings.items.GeneralSetting;
 import cc.hyperium.handlers.handlers.keybinds.HyperiumBind;
-
 import cc.hyperium.handlers.handlers.keybinds.KeyBindHandler;
 import net.minecraft.client.Minecraft;
-
 import org.lwjgl.input.Keyboard;
 
 /**
@@ -35,6 +33,8 @@ public class PerspectiveModifierContainer {
     /**
      * This class requires massive improvements, this will be worked on and fixed in a later release
      */
+
+    // You require massive improvements faggot.
     
     private final HyperiumBind perspective = new PerspectiveKeyBind();
     
