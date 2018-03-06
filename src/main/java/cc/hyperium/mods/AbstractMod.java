@@ -36,7 +36,7 @@ public abstract class AbstractMod {
     
     /**
      * This mods metadata, which will be displayed in the
-     * configuration gui & other places
+     * configuration gui and other places
      *
      * @return the mods metadata
      */

@@ -168,4 +168,9 @@ class RenderSelectedItemEvent(val scaledRes: ScaledResolution)
  */
 class JoinHypixelEvent
 
+/**
+ * Called when the game is shutting down, use this to save your configs
+ */
+class GameShutDownEvent
+
 

@@ -16,10 +16,8 @@ public abstract class MixinGuiScreen {
     @Shadow protected Minecraft mc;
 
     @Inject(method = "drawWorldBackground", at = @At("HEAD"), cancellable = true)
-    private void drawWorldBackground(int tint, CallbackInfo ci)
-    {
-        if (this.mc.theWorld != null && BackgroundSettings.fastWorldGuiEnabled)
-        {
+    private void drawWorldBackground(int tint, CallbackInfo ci) {
+        if (this.mc.theWorld != null && BackgroundSettings.fastWorldGuiEnabled) {
             ci.cancel();
         }
     }

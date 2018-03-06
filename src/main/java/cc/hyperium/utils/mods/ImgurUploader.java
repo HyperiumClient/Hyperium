@@ -18,7 +18,7 @@
 
 package cc.hyperium.utils.mods;
 
-import cc.hyperium.Hyperium;
+import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
 import cc.hyperium.utils.ChatColor;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -87,7 +87,7 @@ public class ImgurUploader implements Runnable {
             wr.close();
             rd.close();
         } catch (Exception e) {
-            Hyperium.INSTANCE.sendMessage("Error occurred while uploading.");
+            GeneralChatHandler.instance().sendMessage("Error occurred while uploading.");
         }
     }
 
