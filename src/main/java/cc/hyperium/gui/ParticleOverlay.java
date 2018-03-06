@@ -44,6 +44,12 @@ public class ParticleOverlay {
         }
     }
 
+    public static void reload(){
+        overlay = null;
+        System.gc();
+        overlay = new ParticleOverlay();
+    }
+
     public static ParticleOverlay getOverlay() {
         if (overlay == null) {
             overlay = new ParticleOverlay();
