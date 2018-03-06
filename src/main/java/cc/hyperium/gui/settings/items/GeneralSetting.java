@@ -1,5 +1,5 @@
 /*
- * Hyperium Client, Free client with huds and popular mod
+ *  Hypixel Community Client, Client optimized for Hypixel Network
  *     Copyright (C) 2018  Hyperium Dev Team
  *
  *     This program is free software: you can redistribute it and/or modify
@@ -64,6 +64,10 @@ public class GeneralSetting extends SettingGui {
     @ConfigOpt
     public static boolean numberPingEnabled = false;
     @ConfigOpt
+    public static boolean combatParticleFixEnabled = true;
+    @ConfigOpt
+    public static boolean perspectiveHoldDownEnabled = false;
+    @ConfigOpt
     public static String menuStyle = GuiStyle.DEFAULT.toString();
     @ConfigOpt
     public static boolean windowedFullScreen = true;
@@ -87,6 +91,10 @@ public class GeneralSetting extends SettingGui {
     private SelectionItem<String> smartSounds;
     
     private SelectionItem<String> numberPing;
+    
+    private SelectionItem<String> combatParticleFix;
+    
+    private SelectionItem<String> perspectiveHold;
 
     private SelectionItem<String> menuStyleSelection;
 
@@ -186,7 +194,23 @@ public class GeneralSetting extends SettingGui {
         numberPing.addDefaultOnOff();
         numberPing.setSelectedItem(numberPingEnabled ? "ON" : "OFF");
     
-        this.settingItems.add(this.menuStyleSelection = new SelectionItem(10, getX(), getDefaultItemY(10), this.width - getX() * 2, "MENU STYLE", i -> {
+        this.settingItems.add(this.combatParticleFix = new SelectionItem(10, getX(), getDefaultItemY(10), this.width - getX() * 2, "COMBAT PARTICLE FIX", i -> {
+            ((SelectionItem) i).nextItem();
+            combatParticleFixEnabled = ((SelectionItem) i).getSelectedItem().equals("ON");
+            this.settingsUpdated = true;
+        }));
+        combatParticleFix.addDefaultOnOff();
+        combatParticleFix.setSelectedItem(combatParticleFixEnabled ? "ON" : "OFF");
+    
+        this.settingItems.add(this.perspectiveHold = new SelectionItem(11, getX(), getDefaultItemY(11), this.width - getX() * 2, "PERSPECTIVE HOLD", i -> {
+            ((SelectionItem) i).nextItem();
+            perspectiveHoldDownEnabled = ((SelectionItem) i).getSelectedItem().equals("ON");
+            this.settingsUpdated = true;
+        }));
+        perspectiveHold.addDefaultOnOff();
+        perspectiveHold.setSelectedItem(perspectiveHoldDownEnabled ? "ON" : "OFF");
+    
+        this.settingItems.add(this.menuStyleSelection = new SelectionItem(12, getX(), getDefaultItemY(12), this.width - getX() * 2, "MENU STYLE", i -> {
             ((SelectionItem) i).nextItem();
             menuStyle = (String) ((SelectionItem) i).getSelectedItem();
             this.settingsUpdated = true;
@@ -194,7 +218,7 @@ public class GeneralSetting extends SettingGui {
         Arrays.stream(GuiStyle.values()).forEach(s -> this.menuStyleSelection.addItem(s.toString()));
         this.menuStyleSelection.setSelectedItem(menuStyle);
     
-        this.settingItems.add(this.fullScreenStyle = new SelectionItem<>(11, getX(), getDefaultItemY(11),this.width - getX() * 2, "WINDOWED FULLSCREEN", i -> {
+        this.settingItems.add(this.fullScreenStyle = new SelectionItem<>(13, getX(), getDefaultItemY(13),this.width - getX() * 2, "WINDOWED FULLSCREEN", i -> {
             ((SelectionItem) i).nextItem();
             windowedFullScreen = ((SelectionItem) i).getSelectedItem().equals("ON");
             this.settingsUpdated = true;

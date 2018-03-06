@@ -1,5 +1,5 @@
 /*
- * Hyperium Client, Free client with huds and popular mod
+ *  Hypixel Community Client, Client optimized for Hypixel Network
  *     Copyright (C) 2018  Hyperium Dev Team
  *
  *     This program is free software: you can redistribute it and/or modify
@@ -19,6 +19,8 @@
 package cc.hyperium.tray;
 
 import cc.hyperium.Hyperium;
+import cc.hyperium.Metadata;
+import javax.swing.JOptionPane;
 import net.minecraft.client.Minecraft;
 
 import javax.imageio.ImageIO;
@@ -39,7 +41,7 @@ public class TrayManager {
 
             MenuItem aboutItem = new MenuItem("About");
             //TODO: Edit about Dialog
-            aboutItem.addActionListener(action -> Hyperiumutils.trayDisplayAboutInfo());
+            aboutItem.addActionListener(action -> trayDisplayAboutInfo());
 
             MenuItem exitItem = new MenuItem("Exit");
             exitItem.addActionListener(action -> Minecraft.getMinecraft().shutdown());
@@ -51,5 +53,11 @@ public class TrayManager {
             tray.setPopupMenu(menu);
             SystemTray.getSystemTray().add(tray);
         }
+    }
+    
+    private void trayDisplayAboutInfo() {
+        JOptionPane popup = new JOptionPane();
+        JOptionPane.showMessageDialog(popup, "Hyperium is a Hypixel Based 1.8 Client developed by Sk1er, CoalOres, Cubixity, KevinPriv and boomboompower. Version: " + Metadata
+            .getVersion() , "Hyperium - About", JOptionPane.PLAIN_MESSAGE);
     }
 }

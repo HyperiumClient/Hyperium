@@ -1,5 +1,5 @@
 /*
- * Hyperium Client, Free client with huds and popular mod
+ *  Hypixel Community Client, Client optimized for Hypixel Network
  *     Copyright (C) 2018  Hyperium Dev Team
  *
  *     This program is free software: you can redistribute it and/or modify
@@ -36,7 +36,7 @@ public abstract class AbstractMod {
     
     /**
      * This mods metadata, which will be displayed in the
-     * configuration gui & other places
+     * configuration gui and other places
      *
      * @return the mods metadata
      */

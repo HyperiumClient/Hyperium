@@ -1,5 +1,5 @@
 /*
- * Hyperium Client, Free client with huds and popular mod
+ *  Hypixel Community Client, Client optimized for Hypixel Network
  *     Copyright (C) 2018  Hyperium Dev Team
  *
  *     This program is free software: you can redistribute it and/or modify
@@ -32,16 +32,17 @@ public class CpsDisplay extends DisplayItem {
 
     public CpsDisplay(JsonHolder data, int ordinal) {
         super(data, ordinal);
+        this.height = 10;
     }
 
 
     @Override
-    public Dimension draw(int starX, double startY, boolean isConfig) {
+    public void draw(int starX, double startY, boolean isConfig) {
         ElementRenderer.draw(starX, startY, "CPS: " + ElementRenderer.getCPS());
-        if (isConfig)
-            return new Dimension(Minecraft.getMinecraft().fontRendererObj.getStringWidth("CPS: " + ElementRenderer.getCPS()), 10);
-        return new Dimension(0, 10);
-
+        if (isConfig) {
+           this.width = Minecraft.getMinecraft().fontRendererObj.getStringWidth("CPS: " + ElementRenderer.getCPS());
+        }
+        this.width = 0;
     }
 
 

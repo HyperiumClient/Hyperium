@@ -1,5 +1,5 @@
 /*
- * Hyperium Client, Free client with huds and popular mod
+ *  Hypixel Community Client, Client optimized for Hypixel Network
  *     Copyright (C) 2018  Hyperium Dev Team
  *
  *     This program is free software: you can redistribute it and/or modify
@@ -37,10 +37,11 @@ public class DirectionHUD extends DisplayItem {
 
     public DirectionHUD(JsonHolder raw, int ordinal) {
         super(raw, ordinal);
+        this.height = 10;
     }
 
 
-    public Dimension draw(int x, double y, boolean isConfig) {
+    public void draw(int x, double y, boolean isConfig) {
         List<String> list = new ArrayList<>();
         EntityPlayer player = Minecraft.getMinecraft().thePlayer;
         if (player != null) {
@@ -60,7 +61,7 @@ public class DirectionHUD extends DisplayItem {
             }
         }
         ElementRenderer.draw(x, y, list);
-        return new Dimension(isConfig ? ElementRenderer.maxWidth(list) : 0, 10);
+        this.width = isConfig ? ElementRenderer.maxWidth(list) : 0;
     }
 
 }

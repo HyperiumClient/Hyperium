@@ -1,5 +1,5 @@
 /*
- * Hyperium Client, Free client with huds and popular mod
+ *  Hypixel Community Client, Client optimized for Hypixel Network
  *     Copyright (C) 2018  Hyperium Dev Team
  *
  *     This program is free software: you can redistribute it and/or modify
@@ -22,7 +22,9 @@ import cc.hyperium.event.minigames.Minigame
 import net.minecraft.client.entity.AbstractClientPlayer
 import net.minecraft.client.gui.GuiScreen
 import net.minecraft.client.gui.ScaledResolution
+import net.minecraft.client.model.ModelBiped
 import net.minecraft.client.renderer.entity.RenderManager
+import net.minecraft.entity.Entity
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.util.BlockPos
 import net.minecraft.util.IChatComponent
@@ -168,4 +170,13 @@ class RenderSelectedItemEvent(val scaledRes: ScaledResolution)
  */
 class JoinHypixelEvent
 
+/**
+ * Called when the game is shutting down, use this to save your configs
+ */
+class GameShutDownEvent
+
+class EntityRenderEvent(val entityIn: Entity,
+                        val model: ModelBiped, val p_78088_2_: Float,
+                        val p_78088_3_: Float, val p_78088_4_: Float,
+                        val p_78088_5_: Float, val p_78088_6_: Float, val scale: Float): CancellableEvent()
 

@@ -1,5 +1,5 @@
 /*
- * Hyperium Client, Free client with huds and popular mod
+ *  Hypixel Community Client, Client optimized for Hypixel Network
  *     Copyright (C) 2018  Hyperium Dev Team
  *
  *     This program is free software: you can redistribute it and/or modify
@@ -32,16 +32,17 @@ public class RatingDisplay extends DisplayItem {
     private static final NumberFormat format = NumberFormat.getNumberInstance(Locale.US);
     public RatingDisplay(JsonHolder data, int ordinal) {
         super(data, ordinal);
+        this.height = 10;
     }
 
     @Override
-    public Dimension draw(int x, double y, boolean config) {
+    public void draw(int x, double y, boolean config) {
         String string = "Rating: " + format.format(Hyperium.INSTANCE.getHandlers().getValueHandler().getRankedRating());
         if (data.optBoolean("delta")) {
             string += " (" + Hyperium.INSTANCE.getHandlers().getValueHandler().getDeltaRankedRating() + ")";
         }
 
         ElementRenderer.draw(x, y, string);
-        return new Dimension(config ? Minecraft.getMinecraft().fontRendererObj.getStringWidth(string) : 0, 10);
+        this.width = config ? Minecraft.getMinecraft().fontRendererObj.getStringWidth(string) : 0;
     }
 }

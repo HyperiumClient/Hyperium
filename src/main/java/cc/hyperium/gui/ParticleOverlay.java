@@ -1,8 +1,27 @@
+/*
+ *  Hypixel Community Client, Client optimized for Hypixel Network
+ *     Copyright (C) 2018  Hyperium Dev Team
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU Affero General Public License as published
+ *     by the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU Affero General Public License for more details.
+ *
+ *     You should have received a copy of the GNU Affero General Public License
+ *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package cc.hyperium.gui;
 
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.TickEvent;
+import cc.hyperium.gui.settings.items.BackgroundSettings;
 import cc.hyperium.mods.levelhead.Levelhead;
 import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
 import cc.hyperium.utils.RenderUtils;
@@ -16,16 +35,22 @@ import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class ParticleOverlay {
-
+    private float h = 0.1F;
     private static ParticleOverlay overlay;
     private List<Particle> particles = new ArrayList<>();
     private long last;
 
     public ParticleOverlay() {
-        int max = 200;
+        int max = BackgroundSettings.maxParticles;
         for (int i = 0; i < max; i++) {
             particles.add(new Particle());
         }
+    }
+
+    public static void reload(){
+        overlay = null;
+        System.gc();
+        overlay = new ParticleOverlay();
     }
 
     public static ParticleOverlay getOverlay() {
@@ -37,6 +62,9 @@ public class ParticleOverlay {
     }
 
     public void render(int mouseX, int mouseY) {
+        float step = (float) (0.01*(BackgroundSettings.maxParticles / 100));
+        Mode m = getMode();
+        if(m == Mode.OFF)return;
         last = System.currentTimeMillis();
         for (Particle particle : particles) {
             double w = 1;
@@ -63,15 +91,29 @@ public class ParticleOverlay {
                     double lineStrength = Math.min(10000.0D, 1.0D / v) / 100D;
                     float x2 = ((float) ResolutionUtil.current().getScaledWidth_double()) * particle1.x;
                     float y2 = ((float) ResolutionUtil.current().getScaledHeight_double()) * particle1.y;
-
-                    float min = (float) Math.min(potentialMax, lineStrength * 15);
-                    int rgb = new Color(255, 40, 234, ((int) min)).getRGB();
-                    RenderUtils.drawLine(v1, v2, x2, y2, (float) lineStrength, Levelhead.getRGBColor());
+                    double alpha = 100+((0.02 / 155)*v);
+                    switch(m){
+                        case PLAIN_1:
+                            RenderUtils.drawLine(v1, v2, x2, y2, (float) lineStrength, new Color(255, 255, 255, (float) alpha).getRGB());
+                            break;
+                        case PLAIN_2:
+                            RenderUtils.drawLine(v1, v2, x2, y2, 1F, new Color(255, 255, 255, (float) alpha).getRGB());
+                            break;
+                        case CHROMA_1:
+                            RenderUtils.drawLine(v1, v2, x2, y2, (float) lineStrength, Color.HSBtoRGB(h, 0.8F, 0.8F));
+                            break;
+                        case CHROMA_2:
+                            RenderUtils.drawLine(v1, v2, x2, y2, 1F, Color.HSBtoRGB(h, 0.8F, 0.8F));
+                            break;
+                    }
                     w += lineStrength;
                 }
             }
             w = Math.sqrt(w) / 10D;
-            Gui.drawRect((int) v1, (int) v2, (int) (v1 + w), (int) (v2 + w), Color.RED.getRGB());
+            Gui.drawRect((int) v1, (int) v2, (int) (v1 + w), (int) (v2 + w), Color.WHITE.getRGB());
+            if(h >= 1.0F)
+                h = 0.0F;
+            h+=step;
         }
     }
 
@@ -127,5 +169,15 @@ public class ParticleOverlay {
         public float getY() {
             return y;
         }
+    }
+    private Mode getMode(){
+        return Mode.valueOf(BackgroundSettings.particlesModeString.replace(" ", "_"));
+    }
+    enum Mode{
+        OFF,
+        PLAIN_1,
+        PLAIN_2,
+        CHROMA_1,
+        CHROMA_2
     }
 }

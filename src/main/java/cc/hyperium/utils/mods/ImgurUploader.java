@@ -1,5 +1,5 @@
 /*
- * Hyperium Client, Free client with huds and popular mod
+ *  Hypixel Community Client, Client optimized for Hypixel Network
  *     Copyright (C) 2018  Hyperium Dev Team
  *
  *     This program is free software: you can redistribute it and/or modify
@@ -18,7 +18,7 @@
 
 package cc.hyperium.utils.mods;
 
-import cc.hyperium.Hyperium;
+import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
 import cc.hyperium.utils.ChatColor;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -87,7 +87,7 @@ public class ImgurUploader implements Runnable {
             wr.close();
             rd.close();
         } catch (Exception e) {
-            Hyperium.INSTANCE.sendMessage("Error occurred while uploading.");
+            GeneralChatHandler.instance().sendMessage("Error occurred while uploading.");
         }
     }
 

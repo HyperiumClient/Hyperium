@@ -1,5 +1,5 @@
 /*
- * Hyperium Client, Free client with huds and popular mod
+ *  Hypixel Community Client, Client optimized for Hypixel Network
  *     Copyright (C) 2018  Hyperium Dev Team
  *
  *     This program is free software: you can redistribute it and/or modify
@@ -53,15 +53,15 @@ public class TimeHud extends DisplayItem {
     }
 
     @Override
-    public Dimension draw(int starX, double startY, boolean isConfig) {
+    public void draw(int starX, double startY, boolean isConfig) {
         try {
             String string = new SimpleDateFormat(format).format(new Date(System.currentTimeMillis()));
             ElementRenderer.draw(starX, startY, string);
-            return new Dimension(isConfig ? Minecraft.getMinecraft().fontRendererObj.getStringWidth(string) : 0, 10);
+            this.width = isConfig ? Minecraft.getMinecraft().fontRendererObj.getStringWidth(string) : 0;
+            this.height = 10;
         } catch (Exception e) {
             ElementRenderer.draw(starX, startY, "Invalid");
         }
-        return new Dimension(0, 0);
     }
 
 }
