@@ -22,6 +22,7 @@ import cc.hyperium.Hyperium;
 import cc.hyperium.config.ConfigOpt;
 import cc.hyperium.config.DefaultConfig;
 import cc.hyperium.gui.HyperiumMainMenu;
+import cc.hyperium.gui.ParticleOverlay;
 import cc.hyperium.gui.settings.SettingGui;
 import cc.hyperium.gui.settings.components.SelectionItem;
 
@@ -95,6 +96,7 @@ public class BackgroundSettings extends SettingGui {
         this.settingItems.add(maxParticlesSelection = new SelectionItem<>(4, getX(), getDefaultItemY(4), this.width - getX() * 2, "PARTICLES MAX", i -> {
             ((SelectionItem) i).nextItem();
             maxParticles = ((SelectionItem<Integer>)i).getSelectedItem();
+            ParticleOverlay.reload();
         }));
         this.maxParticlesSelection.addItems(Arrays.asList(20, 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1200, 1500, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000));
         this.maxParticlesSelection.setSelectedItem(maxParticles);
