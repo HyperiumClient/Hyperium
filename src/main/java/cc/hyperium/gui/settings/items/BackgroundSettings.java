@@ -42,6 +42,9 @@ public class BackgroundSettings extends SettingGui {
     public static String particlesModeString = "OFF";
     @ConfigOpt
     public static int maxParticles = 200;
+
+    @ConfigOpt
+    public static boolean renderOverInventory = true;
     private DefaultConfig config;
     private SelectionItem<String> fastWorldGui;
     private SelectionItem<String> fastChat;

@@ -60,63 +60,80 @@ public class ParticleOverlay {
         return overlay;
     }
 
-    public void render(int mouseX, int mouseY) {
-        long lines = 0L;
-        float step = (float) (0.01 * (BackgroundSettings.maxParticles / 100));
-        Mode m = getMode();
-        if (m == Mode.OFF) return;
-        last = System.currentTimeMillis();
-        for (Particle particle : particles) {
-            double w = 1;
+    public void render(int mouseX, int mouseY, int guiLeft, int guiTop, int guiRight, int guiBottom) {
+        try {
+            long lines = 0L;
+            float step = (float) (0.01 * (BackgroundSettings.maxParticles / 100));
+            Mode m = getMode();
+            if (m == Mode.OFF) return;
+            last = System.currentTimeMillis();
+            for (Particle particle : particles) {
+                double w = 1;
 
-            float v1 = ((float) ResolutionUtil.current().getScaledWidth_double()) * particle.x;
-            float v2 = ((float) ResolutionUtil.current().getScaledHeight_double()) * particle.y;
-            double mouseDis = Math.pow(v1 - mouseX, 2) + Math.pow(v2 - mouseY, 2);
-            int i = ResolutionUtil.current().getScaledWidth() / 12;
-            if (mouseDis < Math.pow(i, 2)) {
-                float moveFac = i;
-                float xVec = Math.min(500F, moveFac / (mouseX - v1));
-                float yVec = Math.min(500F, moveFac / (mouseY - v2));
-                v1 -= xVec;
-                v2 -= yVec;
-                particle.regenerateVector();
-            }
-
-            particle.x = v1 / (float) ResolutionUtil.current().getScaledWidth_double();
-            particle.y = v2 / (float) ResolutionUtil.current().getScaledHeight_double();
-            int potentialMax = Minecraft.getMinecraft().currentScreen instanceof GuiMainMenu ? 255 : 150;
-            for (Particle particle1 : particles) {
-                double v = particle.distSqTo(particle1);
-                //Threshold for line
-                if (v < 0.02) {
-                    double lineStrength = Math.min(10000.0D, 1.0D / v) / 100D;
-                    float x2 = ((float) ResolutionUtil.current().getScaledWidth_double()) * particle1.x;
-                    float y2 = ((float) ResolutionUtil.current().getScaledHeight_double()) * particle1.y;
-                    double alpha = 100 + ((0.02 / 155) * v);
-
-                    switch (m) {
-                        case PLAIN_1:
-                            RenderUtils.drawLine(v1, v2, x2, y2, (float) lineStrength, new Color(255, 255, 255, (int) alpha).getRGB());
-                            break;
-                        case PLAIN_2:
-                            RenderUtils.drawLine(v1, v2, x2, y2, 1F, new Color(255, 255, 255, (int) alpha).getRGB());
-                            break;
-                        case CHROMA_1:
-                            RenderUtils.drawLine(v1, v2, x2, y2, (float) lineStrength, Color.HSBtoRGB(h, 0.8F, 0.8F));
-                            break;
-                        case CHROMA_2:
-                            RenderUtils.drawLine(v1, v2, x2, y2, 1F, Color.HSBtoRGB(h, 0.8F, 0.8F));
-                            break;
-                    }
-                    lines++;
-                    w += lineStrength;
+                float v1 = ((float) ResolutionUtil.current().getScaledWidth_double()) * particle.x;
+                float v2 = ((float) ResolutionUtil.current().getScaledHeight_double()) * particle.y;
+                double mouseDis = Math.pow(v1 - mouseX, 2) + Math.pow(v2 - mouseY, 2);
+                int i = ResolutionUtil.current().getScaledWidth() / 12;
+                if (mouseDis < Math.pow(i, 2)) {
+                    float moveFac = i;
+                    float xVec = Math.min(500F, moveFac / (mouseX - v1));
+                    float yVec = Math.min(500F, moveFac / (mouseY - v2));
+                    v1 -= xVec;
+                    v2 -= yVec;
+                    particle.regenerateVector();
                 }
+
+                particle.x = v1 / (float) ResolutionUtil.current().getScaledWidth_double();
+                particle.y = v2 / (float) ResolutionUtil.current().getScaledHeight_double();
+                int potentialMax = Minecraft.getMinecraft().currentScreen instanceof GuiMainMenu ? 255 : 150;
+                for (Particle particle1 : particles) {
+                    double v = particle.distSqTo(particle1);
+                    //Threshold for line
+                    if (v < 0.02) {
+                        double lineStrength = Math.min(10000.0D, 1.0D / v) / 100D;
+                        float x2 = ((float) ResolutionUtil.current().getScaledWidth_double()) * particle1.x;
+                        float y2 = ((float) ResolutionUtil.current().getScaledHeight_double()) * particle1.y;
+                        double alpha = 100 + ((0.02 / 155) * v);
+//
+                        boolean flag = false;
+                        if (((v1 >= guiLeft && v1 <= guiRight) || (x2 >= guiLeft && x2 <= guiRight))
+                                && ((v2 >= guiTop && v2 <= guiBottom) || (y2 >= guiTop && y2 <= guiBottom))) {
+                            if (!BackgroundSettings.renderOverInventory)
+                                continue;
+                            alpha /= 4;
+                            flag = true;
+                        }
+
+
+                        int color = Color.HSBtoRGB(h, 0.8F, 0.8F);
+                        Color eee = new Color(color);
+                        eee = new Color(eee.getRed(), eee.getBlue(), eee.getGreen(), flag ? 255 / 4 : 255);
+                        switch (m) {
+                            case PLAIN_1:
+                                RenderUtils.drawLine(v1, v2, x2, y2, (float) lineStrength, new Color(255, 255, 255, (int) alpha).getRGB());
+                                break;
+                            case PLAIN_2:
+                                RenderUtils.drawLine(v1, v2, x2, y2, 1F, new Color(255, 255, 255, (int) alpha).getRGB());
+                                break;
+                            case CHROMA_1:
+                                RenderUtils.drawLine(v1, v2, x2, y2, (float) lineStrength, eee.getRGB());
+                                break;
+                            case CHROMA_2:
+                                RenderUtils.drawLine(v1, v2, x2, y2, 1F, eee.getRGB());
+                                break;
+                        }
+                        lines++;
+                        w += lineStrength;
+                    }
+                }
+                w = Math.sqrt(w) / 10D;
+                Gui.drawRect((int) v1, (int) v2, (int) (v1 + w), (int) (v2 + w), Color.WHITE.getRGB());
+                if (h >= 1.0F)
+                    h = 0.0F;
+                h += step;
             }
-            w = Math.sqrt(w) / 10D;
-            Gui.drawRect((int) v1, (int) v2, (int) (v1 + w), (int) (v2 + w), Color.WHITE.getRGB());
-            if (h >= 1.0F)
-                h = 0.0F;
-            h += step;
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -129,11 +146,11 @@ public class ParticleOverlay {
 
     }
 
-    private Mode getMode() {
+    public Mode getMode() {
         return Mode.valueOf(BackgroundSettings.particlesModeString.replace(" ", "_"));
     }
 
-    enum Mode {
+    public enum Mode {
         OFF,
         PLAIN_1,
         PLAIN_2,

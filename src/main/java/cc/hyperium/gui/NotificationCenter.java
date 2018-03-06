@@ -24,7 +24,6 @@ import cc.hyperium.event.RenderHUDEvent;
 import cc.hyperium.event.TickEvent;
 import cc.hyperium.utils.HyperiumFontRenderer;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
@@ -268,6 +267,7 @@ public class NotificationCenter extends Gui {
                     0x424242
             );
             GlStateManager.popMatrix();
+
         }
     }
 }

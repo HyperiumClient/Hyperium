@@ -311,7 +311,7 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
     private void drawDefaultStyleScreen(int mouseX, int mouseY, float partialTicks) {
         GlStateManager.disableAlpha();
         this.renderHyperiumBackground(new ScaledResolution(mc));
-        ParticleOverlay.getOverlay().render(mouseX, mouseY);
+        ParticleOverlay.getOverlay().render(mouseX, mouseY, 0, 0, 0, 0);
 
         GlStateManager.enableAlpha();
         this.drawGradientRect(0, 0, this.width, this.height, -2130706433, 16777215);
