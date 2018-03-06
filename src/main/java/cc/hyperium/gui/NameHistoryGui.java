@@ -97,13 +97,6 @@ public class NameHistoryGui extends HyperiumGui {
         System.out.println("NAME HISTORY: Mouse Clicked");
     }
 
-    @InvokeEvent
-    public void onKeyBindPress(KeyBindPressEvent event) {
-        if (event.getKeyCode() == KeyBindHandler.nameHistory.getKey()) {
-            new NameHistoryGui().show();
-        }
-    }
-
     public void getNames(String username) {
         try {
             UUID uuid = MojangAPI.getUUID(username);
