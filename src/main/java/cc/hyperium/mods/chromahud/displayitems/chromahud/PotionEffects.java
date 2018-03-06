@@ -41,7 +41,7 @@ public class PotionEffects extends DisplayItem {
         super(raw, ordinal);
     }
 
-    public Dimension draw(int x, double y, boolean isConfig) {
+    public void draw(int x, double y, boolean isConfig) {
 
         int row = 0;
         double scale = ElementRenderer.getCurrentScale();
@@ -68,7 +68,8 @@ public class PotionEffects extends DisplayItem {
             ElementRenderer.draw((int) (x / scale), ((y + row * 16)), text);
             row++;
         }
-        return new Dimension(isConfig ? ElementRenderer.maxWidth(tmp) : 0, row * 16);
+        this.width = isConfig ? ElementRenderer.maxWidth(tmp) : 0;
+        this.height = row * 16;
 
     }
 

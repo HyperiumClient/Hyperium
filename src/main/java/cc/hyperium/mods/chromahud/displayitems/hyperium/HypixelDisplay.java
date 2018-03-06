@@ -27,13 +27,14 @@ import cc.hyperium.utils.JsonHolder;
 public class HypixelDisplay extends DisplayItem {
     public HypixelDisplay(JsonHolder data, int ordinal) {
         super(data, ordinal);
+        this.height = 10;
     }
 
     @Override
-    public Dimension draw(int x, double y, boolean config) {
+    public void draw(int x, double y, boolean config) {
         String string = "Hypixel: " + Hyperium.INSTANCE.getHandlers().getHypixelDetector().isHypixel();
         ElementRenderer.draw(x, y, string);
         //TODO remove specific reference
-        return new Dimension(config ? ElementRenderer.getFontRenderer().getStringWidth(string) : 0, 10);
+        this.width = config ? ElementRenderer.getFontRenderer().getStringWidth(string) : 0;
     }
 }

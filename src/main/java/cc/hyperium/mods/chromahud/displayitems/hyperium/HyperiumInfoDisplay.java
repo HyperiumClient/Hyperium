@@ -15,11 +15,12 @@ public class HyperiumInfoDisplay extends DisplayItem {
     }
 
     @Override
-    public Dimension draw(int x, double y, boolean config) {
+    public void draw(int x, double y, boolean config) {
         List<String> list = new ArrayList<>();
         list.add("Client: " + Metadata.getModid());
         list.add("Version " + Metadata.getVersion());
         ElementRenderer.draw(x, y, list);
-        return new Dimension(config ? ElementRenderer.maxWidth(list) : 0, list.size() * 10);
+        this.width = config ? ElementRenderer.maxWidth(list) : 0;
+        this.height = list.size() * 10;
     }
 }

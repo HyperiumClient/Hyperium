@@ -35,20 +35,18 @@ public class PingDisplay extends DisplayItem {
 
     public PingDisplay(JsonHolder raw, int ordinal) {
         super(raw, ordinal);
+        this.height = 10;
     }
 
-
-
     @Override
-    public Dimension draw(int starX, double startY, boolean isConfig) {
+    public void draw(int starX, double startY, boolean isConfig) {
         EntityPlayerSP thePlayer = Minecraft.getMinecraft().thePlayer;
         if (thePlayer != null) {
             NetworkPlayerInfo playerInfo = Minecraft.getMinecraft().getNetHandler().getPlayerInfo(Minecraft.getMinecraft().thePlayer.getUniqueID());
             String string = "Ping: " + (playerInfo == null ? "error" : playerInfo.getResponseTime());
             ElementRenderer.draw(starX, startY, string);
-            return new Dimension(Minecraft.getMinecraft().fontRendererObj.getStringWidth(string), 10);
+            this.width = Minecraft.getMinecraft().fontRendererObj.getStringWidth(string);
         }
-        return new Dimension(0, 0);
     }
 
 }

@@ -32,12 +32,11 @@ import java.util.List;
 /**
  * Created by Mitchell Katz on 5/25/2017.
  */
-public class DisplayElement {
+public class DisplayElement extends Dimension {
     private double xloc, yloc;
     private List<DisplayItem> displayItems = new ArrayList<>();
     private double scale = 1;
     private int color;
-    private double prevX, prevY;
     private boolean shadow;
     private boolean highlighted;
     private JsonHolder data;
@@ -136,8 +135,8 @@ public class DisplayElement {
 
         for (DisplayItem iDisplayItem : displayItems) {
             try {
-                Dimension d = iDisplayItem.draw(x, y, false);
-                y += d.getHeight() * ElementRenderer.getCurrentScale();
+                iDisplayItem.draw(x, y, false);
+                y += iDisplayItem.getHeight() * ElementRenderer.getCurrentScale();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -192,24 +191,24 @@ public class DisplayElement {
     }
 
     public Dimension getDimensions() {
-        return new Dimension((int) prevX, (int) prevY);
+        return this;
     }
 
     public void drawForConfig() {
         recalculateColor();
-        this.prevX = 0;
-        this.prevY = 0;
+        this.width = 0;
+        this.height = 0;
         ScaledResolution resolution = new ScaledResolution(Minecraft.getMinecraft());
         double addy = 0;
         int x = (int) (xloc * resolution.getScaledWidth_double());
         double y = (int) (yloc * resolution.getScaledHeight_double());
         for (DisplayItem iDisplayItem : displayItems) {
-            Dimension d = iDisplayItem.draw(x, y, true);
-            y += d.getHeight() * ElementRenderer.getCurrentScale();
-            addy += d.getHeight() * ElementRenderer.getCurrentScale();
-            prevX = (int) Math.max(d.getWidth() * ElementRenderer.getCurrentScale(), prevX);
+            iDisplayItem.draw(x, y, true);
+            y += iDisplayItem.getHeight() * ElementRenderer.getCurrentScale();
+            addy += iDisplayItem.getHeight() * ElementRenderer.getCurrentScale();
+            this.width = (int) Math.max(iDisplayItem.getWidth() * ElementRenderer.getCurrentScale(), this.width);
         }
-        this.prevY = addy;
+        this.height = addy;
 
     }
 
@@ -227,8 +226,8 @@ public class DisplayElement {
         }
         double y = (int) (.2 * resolution.getScaledHeight_double());
         for (DisplayItem iDisplayItem : displayItems) {
-            Dimension d = iDisplayItem.draw(x, y, false);
-            y += d.getHeight() * ElementRenderer.getCurrentScale();
+            iDisplayItem.draw(x, y, false);
+            y += iDisplayItem.getHeight() * ElementRenderer.getCurrentScale();
         }
 
     }

@@ -9,12 +9,13 @@ import net.minecraft.client.Minecraft;
 public class CBFpsDisplay extends DisplayItem {
     public CBFpsDisplay(JsonHolder raw, int ordinal) {
         super(raw, ordinal);
+        this.height = 10;
     }
 
     @Override
-    public Dimension draw(int x, double y, boolean config) {
+    public void draw(int x, double y, boolean config) {
         String string =  Minecraft.getDebugFPS()+" FPS";
         ElementRenderer.draw(x, y, string);
-        return new Dimension(Minecraft.getMinecraft().fontRendererObj.getStringWidth(string), 10);
+        this.height = Minecraft.getMinecraft().fontRendererObj.getStringWidth(string);
     }
 }

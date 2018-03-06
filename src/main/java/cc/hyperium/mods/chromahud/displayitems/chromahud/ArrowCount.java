@@ -40,11 +40,13 @@ public class ArrowCount extends DisplayItem {
     public ArrowCount(JsonHolder data, int ordinal) {
         super(data, ordinal);
         this.data = data;
+        this.height = 16;
+        this.width = 16;
     }
 
 
     @Override
-    public Dimension draw(int starX, double startY, boolean isConfig) {
+    public void draw(int starX, double startY, boolean isConfig) {
         List<ItemStack> list = new ArrayList<>();
         list.add(new ItemStack(Item.getItemById(262), 64));
         EntityPlayerSP thePlayer = Minecraft.getMinecraft().thePlayer;
@@ -59,9 +61,7 @@ public class ArrowCount extends DisplayItem {
             }
             ElementRenderer.render(list, starX, startY, false);
             ElementRenderer.draw(starX + 16, startY + 8, "x" + (isConfig ? 64:c));
-            return new Dimension(16, 16);
         }
-        return new Dimension(0, 0);
     }
 
 }

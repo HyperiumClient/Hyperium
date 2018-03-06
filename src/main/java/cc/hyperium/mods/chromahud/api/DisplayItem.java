@@ -28,7 +28,7 @@ import java.util.List;
 /**
  * Created by mitchellkatz on 1/8/18. Designed for production use on Sk1er.club
  */
-public abstract class DisplayItem {
+public abstract class DisplayItem extends Dimension {
 
     private int ordinal;
 
@@ -59,7 +59,7 @@ public abstract class DisplayItem {
         this.ordinal = ordinal;
     }
 
-    public abstract Dimension draw(int x, double y, boolean config);
+    public abstract void draw(int x, double y, boolean config);
 
     public List<ButtonConfig> configOptions() {
         return new ArrayList<>();

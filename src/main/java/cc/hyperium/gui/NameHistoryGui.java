@@ -99,7 +99,7 @@ public class NameHistoryGui extends HyperiumGui {
 
     @InvokeEvent
     public void onKeyBindPress(KeyBindPressEvent event) {
-        if (event.getKeyCode() == KeyBindHandler.nameHistory.getKey()) {
+        if (event.getKeyCode() == KeyBindHandler.nameHistory.getKeyCode()) {
             new NameHistoryGui().show();
         }
     }

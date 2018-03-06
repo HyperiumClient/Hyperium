@@ -14,11 +14,11 @@ public class CoinsDisplay extends DisplayItem {
 
     public CoinsDisplay(JsonHolder data, int ordinal) {
         super(data, ordinal);
-
+        this.height = 10;
     }
 
     @Override
-    public Dimension draw(int x, double y, boolean config) {
+    public void draw(int x, double y, boolean config) {
 
         String render = null;
         if (data.optInt("state") == 0) {
@@ -34,6 +34,6 @@ public class CoinsDisplay extends DisplayItem {
             render = "Error, " + data.optInt("type") + " invalid state";
         }
         ElementRenderer.draw(x, y, render);
-        return new Dimension(config ? ElementRenderer.getFontRenderer().getStringWidth(render) : 0, 10);
+        this.width =config ? ElementRenderer.getFontRenderer().getStringWidth(render) : 0;
     }
 }

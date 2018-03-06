@@ -45,6 +45,7 @@ public class ArmourHud extends DisplayItem {
         super(raw, ordinal);
         this.dur = raw.optBoolean("dur");
         this.hand = raw.optBoolean("hand");
+        this.width = 16;
     }
 
     @Override
@@ -55,7 +56,7 @@ public class ArmourHud extends DisplayItem {
     }
 
     @Override
-    public Dimension draw(int starX, double startY, boolean isConfig) {
+    public void draw(int starX, double startY, boolean isConfig) {
         list.clear();
         if (isConfig) {
             list.add(new ItemStack(Item.getItemById(276), 1));
@@ -70,10 +71,10 @@ public class ArmourHud extends DisplayItem {
         }
         drawArmour(starX, startY);
 
-        return new Dimension(16, getHeight());
+        this.height = getArmourHeight();
     }
 
-    public void drawArmour(int x, double y) {
+    private void drawArmour(int x, double y) {
         RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
         EntityPlayerSP thePlayer = Minecraft.getMinecraft().thePlayer;
         if (thePlayer == null || renderItem == null) {
@@ -82,7 +83,7 @@ public class ArmourHud extends DisplayItem {
         ElementRenderer.render(list, x, y, dur);
     }
 
-    public int getHeight() {
+    private int getArmourHeight() {
         return list.size() * 16;
     }
 

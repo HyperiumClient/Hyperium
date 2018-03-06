@@ -34,14 +34,15 @@ public class FPS extends DisplayItem {
 
     public FPS(JsonHolder raw, int ordinal) {
         super(raw, ordinal);
+        this.height = 10;
     }
 
 
     @Override
-    public Dimension draw(int starX, double startY, boolean ignored) {
+    public void draw(int starX, double startY, boolean ignored) {
         String string = "FPS: " + Minecraft.getDebugFPS();
         ElementRenderer.draw(starX, startY, string);
-        return new Dimension(Minecraft.getMinecraft().fontRendererObj.getStringWidth(string), 10);
+        this.width = Minecraft.getMinecraft().fontRendererObj.getStringWidth(string);
     }
 
 

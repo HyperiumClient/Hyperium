@@ -50,7 +50,7 @@ public class ScoreboardDisplay extends DisplayItem {
 
 
     @Override
-    public Dimension draw(int starX, double startY, boolean config) {
+    public void draw(int starX, double startY, boolean config) {
         if (p_180475_1_ != null) {
             boolean guiF = false;
 
@@ -114,9 +114,9 @@ public class ScoreboardDisplay extends DisplayItem {
                 }
             }
             //432 ms
-            return new Dimension(i - (data.optBoolean("numbers") ? 0 : 10), i1 + 10);
+            this.width = i - (data.optBoolean("numbers") ? 0 : 10);
+            this.height = i1 + 10;
         }
-        return new Dimension(10, 10);
     }
 
 

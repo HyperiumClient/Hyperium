@@ -1,6 +1,7 @@
 package cc.hyperium.utils;
 
 import cc.hyperium.mixins.packet.MixinC01PacketChatMessage;
+import me.kbrewster.mojangapi.MojangAPI;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.play.client.C01PacketChatMessage;
 

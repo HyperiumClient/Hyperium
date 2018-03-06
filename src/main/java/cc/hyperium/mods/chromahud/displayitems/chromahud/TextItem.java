@@ -38,16 +38,17 @@ public class TextItem extends DisplayItem {
     public TextItem(JsonHolder object, int ordinal) {
         super(object, ordinal);
         text = object.optString("text");
+        this.height = 10;
     }
 
 
-    public Dimension draw(int x, double y, boolean isConfig) {
+    public void draw(int x, double y, boolean isConfig) {
         List<String> list = new ArrayList<>();
         if (text.isEmpty())
             list.add("Text is empty??");
         else list.add(text);
         ElementRenderer.draw(x, y, list);
-        return new Dimension(ElementRenderer.maxWidth(list), 10);
+        this.width = ElementRenderer.maxWidth(list);
     }
 
     public String getText() {

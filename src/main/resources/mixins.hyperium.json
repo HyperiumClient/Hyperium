@@ -34,6 +34,7 @@
     "entity.MixinEntityLivingBase",
     "entity.MixinEntityRenderer",
     "entity.MixinRenderPlayer",
+    "entity.MixinModelBiped",
 
     "profiler.MixinProfiler",
 

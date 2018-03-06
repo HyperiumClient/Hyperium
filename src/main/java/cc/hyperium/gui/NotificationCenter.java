@@ -27,6 +27,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.renderer.GlStateManager;
 import org.lwjgl.input.Mouse;
 
 import java.awt.*;
@@ -233,6 +234,7 @@ public class NotificationCenter extends Gui {
             float alpha = 255 /* clamp(this.percentComplete, 0.5f, 1.0f)*/;
 
             // Background
+            GlStateManager.pushMatrix();
             Gui.drawRect(
                     x,
                     y,
@@ -265,6 +267,7 @@ public class NotificationCenter extends Gui {
                     (int) (y + 5 + fontRenderer.getHeight(title) + 2),
                     0x424242
             );
+            GlStateManager.popMatrix();
         }
     }
 }

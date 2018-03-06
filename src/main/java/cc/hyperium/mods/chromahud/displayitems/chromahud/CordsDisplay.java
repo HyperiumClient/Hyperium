@@ -44,7 +44,6 @@ public class CordsDisplay extends DisplayItem {
         super(options, orderinal);
         state = options.optInt("state");
         this.precision = options.optInt("precision");
-
     }
 
     @Override
@@ -61,7 +60,7 @@ public class CordsDisplay extends DisplayItem {
     }
 
     @Override
-    public Dimension draw(int x, double y, boolean isConfig) {
+    public void draw(int x, double y, boolean isConfig) {
         List<String> tmp = new ArrayList<>();
         EntityPlayer player = Minecraft.getMinecraft().thePlayer;
         if (player != null) {
@@ -84,7 +83,8 @@ public class CordsDisplay extends DisplayItem {
             } else tmp.add("Illegal state of cords unit (" + state + ")");
         } else tmp.add("X: null, Y: null, Z: null");
         ElementRenderer.draw(x, y, tmp);
-        return new Dimension(isConfig ? ElementRenderer.maxWidth(tmp) : 0, tmp.size() * 10);
+        this.width = isConfig ? ElementRenderer.maxWidth(tmp) : 0;
+        this.height = tmp.size() * 10;
 
     }
 }
