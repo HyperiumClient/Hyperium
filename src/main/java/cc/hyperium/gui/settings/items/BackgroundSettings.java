@@ -45,11 +45,7 @@ public class BackgroundSettings extends SettingGui {
             refreshBackground();
         });
         
-        selectionItem.addItem("1");
-        selectionItem.addItem("2");
-        selectionItem.addItem("3");
-        selectionItem.addItem("4");
-        selectionItem.addItem("5");
+        selectionItem.addItems(Arrays.asList("1", "2", "3", "4", "5"));
         selectionItem.setSelectedItem(backgroundSelect);
         refreshBackground();
 
