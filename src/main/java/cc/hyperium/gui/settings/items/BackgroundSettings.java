@@ -20,6 +20,8 @@ public class BackgroundSettings extends SettingGui {
     public static boolean fastWorldGuiEnabled = false; // Default to false
     @ConfigOpt
     public static boolean fastChatEnabled = false;
+    @ConfigOpt
+    public static String particlesModeString = "OFF";
 
     private SelectionItem<String> fastWorldGui;
     private SelectionItem<String> fastChat;
@@ -64,6 +66,10 @@ public class BackgroundSettings extends SettingGui {
         }));
         this.fastWorldGui.addDefaultOnOff();
         this.fastWorldGui.setSelectedItem(fastWorldGuiEnabled ? "ON" : "OFF");
+
+        this.settingItems.add(this.particlesMode = new SelectionItem<>(3, getX(), getDefaultItemY(3), this.width - getX() * 2, "PARTICLES MODE", i -> {
+
+        }));
 
     }
 
