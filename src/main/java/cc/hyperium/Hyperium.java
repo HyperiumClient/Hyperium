@@ -18,10 +18,7 @@
 
 package cc.hyperium;
 
-import cc.hyperium.commands.defaults.CommandClearChat;
-import cc.hyperium.commands.defaults.CommandConfigGui;
-import cc.hyperium.commands.defaults.CommandNameHistory;
-import cc.hyperium.commands.defaults.CommandPrivateMessage;
+import cc.hyperium.commands.defaults.*;
 import cc.hyperium.config.DefaultConfig;
 import cc.hyperium.event.*;
 import cc.hyperium.event.minigames.MinigameListener;
@@ -57,42 +54,41 @@ import java.io.IOException;
  * Hypixel Community Client
  */
 public class Hyperium {
-    
+
     /**
      * The hyperium instance
      */
     public static final Hyperium INSTANCE = new Hyperium();
-    
+
     /**
      * Instance of the global mod LOGGER
      */
     public final static Logger LOGGER = LogManager.getLogger(Metadata.getModid());
-    
+
     /**
      * The Hyperium configuration folder
      */
     public static File folder = new File("hyperium");
-    
+
     /**
      * Instance of default CONFIG
      */
     public static final DefaultConfig CONFIG = new DefaultConfig(new File(folder, "CONFIG.json"));
 
     public static BanSystem banSystem;
-
-    private PerspectiveModifierContainer perspective;
     private final GeneralStatisticsTracking statTrack = new GeneralStatisticsTracking();
     private final NotificationCenter notification = new NotificationCenter();
-
+    private PerspectiveModifierContainer perspective;
     private RichPresenceManager richPresenceManager = new RichPresenceManager();
 
     private TrayManager trayManager;
     private HyperiumHandlers handlers;
     private HyperiumModIntegration modIntegration;
-    
+
     private CaptureCore captureCore;
-    
+
     private boolean acceptedTos = false;
+    private boolean fullScreen = false;
 
     /**
      * @param event initialize Hyperium
@@ -100,17 +96,17 @@ public class Hyperium {
     @InvokeEvent
     public void init(InitializationEvent event) {
         Minecraft.getMinecraft().mcProfiler.profilingEnabled = true;
-        
+
         // Creates the accounts dir
         new File(folder.getAbsolutePath() + "/accounts").mkdirs();
-        
+
         // Has the user accepted the TOS of the client?
         this.acceptedTos = new File(
-            folder.getAbsolutePath() + "/accounts/" + Minecraft.getMinecraft().getSession()
-                .getPlayerID() + ".lck").exists();
-    
+                folder.getAbsolutePath() + "/accounts/" + Minecraft.getMinecraft().getSession()
+                        .getPlayerID() + ".lck").exists();
+
         handlers = new HyperiumHandlers();
-        
+
         EventBus.INSTANCE.register(new MinigameListener());
         EventBus.INSTANCE.register(new ToggleSprintContainer());
         EventBus.INSTANCE.register(notification);
@@ -123,12 +119,12 @@ public class Hyperium {
         // Register statistics tracking.
         EventBus.INSTANCE.register(statTrack);
         CONFIG.register(statTrack);
-        
+
         LOGGER.info("Hyperium Started!");
         Display.setTitle("Hyperium " + Metadata.getVersion());
-        
+
         trayManager = new TrayManager();
-        
+
         try {
             trayManager.init();
         } catch (Exception e) {
@@ -188,6 +184,8 @@ public class Hyperium {
         Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(new CommandPrivateMessage());
         Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(new CommandClearChat());
         Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(new CommandNameHistory());
+        Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(new CommandPlayGame());
+
     }
 
     /**
@@ -199,8 +197,8 @@ public class Hyperium {
     public void onFriendRequest(HypixelFriendRequestEvent event) {
         if (trayManager.getTray() != null) {
             trayManager.getTray()
-                .displayMessage("Hypixel", "Friend request from " + event.getFrom(),
-                    TrayIcon.MessageType.NONE);
+                    .displayMessage("Hypixel", "Friend request from " + event.getFrom(),
+                            TrayIcon.MessageType.NONE);
         }
     }
 
@@ -211,17 +209,17 @@ public class Hyperium {
         CONFIG.save();
         richPresenceManager.shutdown();
         captureCore.shutdown();
-        
+
         // Tell the modules the game is shutting down
         EventBus.INSTANCE.post(new GameShutDownEvent());
-        
+
         LOGGER.info("Shutting down Hyperium..");
     }
-    
+
     public GeneralStatisticsTracking getStatTrack() {
         return this.statTrack;
     }
-    
+
     public HyperiumHandlers getHandlers() {
         return handlers;
     }
@@ -237,7 +235,7 @@ public class Hyperium {
     public PerspectiveModifierContainer getPerspective() {
         return this.perspective;
     }
-    
+
     public boolean isAcceptedTos() {
         return acceptedTos;
     }
@@ -250,9 +248,7 @@ public class Hyperium {
             e.printStackTrace();
         }
     }
-    
-    private boolean fullScreen = false;
-    
+
     public void toggleFullscreen() {
         boolean windowed = GeneralSetting.windowedFullScreen;
         boolean lastStateWindowed = false;
@@ -266,17 +262,17 @@ public class Hyperium {
             fullScreen = true;
             lastStateWindowed = true;
         }
-        
+
         fullScreen = !fullScreen;
         if (!lastStateWindowed) {
             Minecraft.getMinecraft().toggleFullscreen();
             return;
         }
-        
+
         if (fullScreen) {
-        
+
         } else {
-        
+
         }
     }
 }
