@@ -36,6 +36,7 @@ import cc.hyperium.mods.common.ToggleSprintContainer;
 import cc.hyperium.mods.crosshair.CrosshairMod;
 import cc.hyperium.mods.discord.RichPresenceManager;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
+import cc.hyperium.mods.sk1ercommon.Sk1erMod;
 import cc.hyperium.mods.statistics.GeneralStatisticsTracking;
 import cc.hyperium.tray.TrayManager;
 import cc.hyperium.utils.BanSystem;
@@ -89,6 +90,8 @@ public class Hyperium {
 
     private boolean acceptedTos = false;
     private boolean fullScreen = false;
+    private boolean checkedForUpdate = false;
+    private Sk1erMod sk1erMod;
 
     /**
      * @param event initialize Hyperium
@@ -174,6 +177,17 @@ public class Hyperium {
             }
         });
         Runtime.getRuntime().addShutdownHook(new Thread(this::shutdown));
+        if (acceptedTos) {
+            sk1erMod = new Sk1erMod("hyperium", Metadata.getVersion(), object -> {
+                //Callback
+                if (object.has("enabled") && !object.optBoolean("enabled")) {
+                    //Disable stuff
+                    EventBus.INSTANCE.disable();
+                    getHandlers().getHyperiumCommandHandler().clear();
+                }
+            });
+            sk1erMod.checkStatus();
+        }
     }
 
     /**
@@ -242,6 +256,10 @@ public class Hyperium {
 
     public void acceptTos() {
         acceptedTos = true;
+        if (sk1erMod == null) {
+            sk1erMod = new Sk1erMod("hyperium", Metadata.getVersion());
+            sk1erMod.checkStatus();
+        }
         try {
             new File(folder.getAbsolutePath() + "/accounts/" + Minecraft.getMinecraft().getSession().getPlayerID() + ".lck").createNewFile();
         } catch (IOException e) {

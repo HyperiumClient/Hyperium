@@ -53,6 +53,14 @@ public class RemoteResourcesHandler {
 
     public RemoteResourcesHandler() {
         Multithreading.runAsync(() -> {
+            while (!Hyperium.INSTANCE.isAcceptedTos()) {
+                try {
+                    Thread.sleep(1000L);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
             int attempts = 0;
             while (attempts < 10) {
                 HyperiumResource resource = create("resources.json", ResourceType.TEXT);

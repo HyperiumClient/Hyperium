@@ -18,6 +18,7 @@
 
 package cc.hyperium.mods.sk1ercommon;
 
+import cc.hyperium.Hyperium;
 import cc.hyperium.utils.JsonHolder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -98,6 +99,8 @@ public class Sk1erMod {
 
 
     public String rawWithAgent(String url) {
+        if (!Hyperium.INSTANCE.isAcceptedTos())
+            return new JsonHolder().put("success", false).put("cause", "TOS_NOT_ACCEPTED").toString();
         url = url.replace(" ", "%20");
         System.out.println("Fetching " + url);
         try {

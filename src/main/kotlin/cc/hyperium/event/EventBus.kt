@@ -30,7 +30,7 @@ import java.util.concurrent.CopyOnWriteArraySet
 object EventBus {
 
     private val subscriptions = HashMap<Class<*>, CopyOnWriteArraySet<EventSubscriber>>()
-
+    var disabled = false
     fun register(obj: Any) {
         val clazz = obj.javaClass
         for (method in clazz.declaredMethods) {
@@ -44,6 +44,9 @@ object EventBus {
         }
     }
 
+    fun disable() {
+        disabled = true
+    };
     fun register(vararg obj: Any) =
             obj.forEach(this::register)
 
@@ -58,6 +61,8 @@ object EventBus {
             }
 
     fun post(event: Any) {
+        if(disabled)
+            return
         subscriptions[event.javaClass]
                 ?.sortedByDescending { it.priority.value }
                 ?.forEach { sub ->

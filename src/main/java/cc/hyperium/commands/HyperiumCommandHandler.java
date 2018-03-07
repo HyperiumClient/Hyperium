@@ -197,4 +197,8 @@ public class HyperiumCommandHandler {
     public String[] getLatestAutoComplete() {
         return latestAutoComplete;
     }
+
+    public void clear() {
+        this.commands.clear();
+    }
 }
