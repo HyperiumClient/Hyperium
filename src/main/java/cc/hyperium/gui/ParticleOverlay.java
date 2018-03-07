@@ -126,11 +126,16 @@ public class ParticleOverlay {
                         w += lineStrength;
                     }
                 }
-                w = Math.sqrt(w) / 10D;
-                Gui.drawRect((int) v1, (int) v2, (int) (v1 + w), (int) (v2 + w), Color.WHITE.getRGB());
+
+
                 if (h >= 1.0F)
                     h = 0.0F;
                 h += step;
+                if (!BackgroundSettings.renderOverInventory)
+                    continue;
+                w = Math.sqrt(w) / 10D;
+                Gui.drawRect((int) v1, (int) v2, (int) (v1 + w), (int) (v2 + w), Color.WHITE.getRGB());
+
             }
         } catch (Exception e) {
             e.printStackTrace();

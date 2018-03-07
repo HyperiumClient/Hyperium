@@ -50,6 +50,7 @@ public class BackgroundSettings extends SettingGui {
     private SelectionItem<String> fastChat;
     private SelectionItem<String> particlesMode;
     private SelectionItem<Integer> maxParticlesSelection;
+    private SelectionItem<String> showOverInventory;
 
     public BackgroundSettings(GuiScreen previous) {
         super("BACKGROUNDS", previous);
@@ -100,6 +101,13 @@ public class BackgroundSettings extends SettingGui {
         }));
         this.maxParticlesSelection.addItems(Arrays.asList(20, 50, 75, 100, 125, 150, 175, 200, 225, 250, 275, 300, 325, 350, 375, 400, 425, 450, 475, 500));
         this.maxParticlesSelection.setSelectedItem(maxParticles);
+
+        this.settingItems.add(this.showOverInventory = new SelectionItem<>(5, getX(), getDefaultItemY(5), this.width - getX() * 2, "SHOW PARTICLES OVER INVENTORY", i -> {
+            ((SelectionItem) i).nextItem();
+            renderOverInventory = ((SelectionItem) i).getSelectedItem().equals("ON");
+        }));
+        this.showOverInventory.addDefaultOnOff();
+        this.showOverInventory.setSelectedItem(renderOverInventory ? "ON" : "OFF");
 
     }
 
