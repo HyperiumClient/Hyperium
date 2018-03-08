@@ -48,12 +48,12 @@ public class CaptureXSetting extends SettingGui {
         super("CAPTUREX", previous);
         config = Hyperium.CONFIG;
         config.register(this);
+        mode = CaptureMode.valueOf(modeStr);
     }
 
     @Override
     protected void pack() {
         super.pack();
-        mode = CaptureMode.valueOf(modeStr);
         settingItems.add(modeSelection = new SelectionItem<>(0, getX(), getDefaultItemY(0),  width - getX() * 2, "CAPTURE MODE", i -> {
             ((SelectionItem)i).nextItem();
             mode = ((SelectionItem<CaptureMode>) i).getSelectedItem();

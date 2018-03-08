@@ -29,12 +29,14 @@ import cc.hyperium.event.minigames.Minigame;
 import cc.hyperium.gui.settings.items.CaptureXSetting;
 import cc.hyperium.mods.capturex.render.FFMpegHelper;
 import cc.hyperium.mods.capturex.render.FrameRenderer;
+import cc.hyperium.mods.chromahud.api.DisplayItem;
 import cc.hyperium.utils.ChatColor;
 import cc.hyperium.utils.mods.AsyncScreenshotSaver;
 import com.google.common.collect.Queues;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListenableFutureTask;
 
+import java.awt.*;
 import java.io.IOException;
 import java.util.regex.Pattern;
 import net.minecraft.client.Minecraft;
@@ -43,6 +45,7 @@ import net.minecraft.util.ScreenShotHelper;
 import net.minecraft.util.Util;
 import org.apache.commons.lang3.SerializationUtils;
 import org.apache.commons.lang3.Validate;
+import org.lwjgl.opengl.Display;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -58,9 +61,11 @@ import java.util.concurrent.FutureTask;
 public class CaptureCore {
     public static final File captureXDir = new File(Minecraft.getMinecraft().mcDataDir, "captureX");
     private final Queue<FutureTask<?>> scheduledTasks = Queues.newArrayDeque();
+    private final Queue<FutureTask<?>> renderTasks = Queues.newArrayDeque();
     private Queue<BufferedImage> backwardFrames = new ArrayDeque<>();
     private FFMpegHelper FFMpeg = new FFMpegHelper();
     private Thread queueWorker;
+    private Thread renderWorker;
     
     private Minigame currentGame;
     
@@ -72,7 +77,16 @@ public class CaptureCore {
     private Pattern duelKillMsg;
     
     private Hyperium client;
-    
+    private Robot robot;
+
+    {
+        try {
+            robot = new Robot();
+        } catch (AWTException e) {
+            e.printStackTrace();
+        }
+    }
+
     public CaptureCore(Hyperium hyperiumIn) {
         friendRequestPattern = Pattern.compile("Friend request from .+?");
         rankBracketPattern = Pattern.compile("[\\^] ");
@@ -86,10 +100,25 @@ public class CaptureCore {
         queueWorker = new Thread(() -> {
             while (!Thread.interrupted())
                 while (!this.scheduledTasks.isEmpty()) {
+                try {
                     Util.runTask((FutureTask<?>) this.scheduledTasks.poll(), Hyperium.LOGGER);
+                }catch(Exception ex){
+                    ex.printStackTrace();
+                }
                 }
         }, "Capture Worker");
         queueWorker.start();
+        renderWorker = new Thread(() -> {
+            while (!Thread.interrupted())
+                while (!this.renderTasks.isEmpty()) {
+                    try {
+                        Util.runTask((FutureTask<?>) this.renderTasks.poll(), Hyperium.LOGGER);
+                    }catch(Exception ex){
+                        ex.printStackTrace();
+                    }
+                }
+        }, "Render Worker");
+        renderWorker.start();
     }
 
     @InvokeEvent
@@ -98,10 +127,8 @@ public class CaptureCore {
         // 1 seconds backward
         if(backwardFrames.size() > CaptureXSetting.captureLength * 20)
             backwardFrames.poll();
-        Minecraft mc = Minecraft.getMinecraft();
-        final Framebuffer fb = (Framebuffer) SerializationUtils.clone((Serializable) mc.getFramebuffer());
         try {
-            backwardFrames.add(mc.addScheduledTask(()->FrameRenderer.getImageFromFrameBuffer(fb, mc.displayWidth, mc.displayHeight)).get());
+            backwardFrames.add(addScheduledTask(() -> robot.createScreenCapture(new Rectangle(Display.getX(), Display.getY(), Display.getWidth(), Display.getHeight()))).get());
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
@@ -109,7 +136,7 @@ public class CaptureCore {
 
     private void onKill() {
         final Queue<BufferedImage> finalBackwardsBuffer = new ArrayDeque<>(backwardFrames);
-        addScheduledTask(() -> {
+        addRenderTask(() -> {
             switch (CaptureXSetting.mode){
                 case VIDEO:
                     try {
@@ -150,8 +177,23 @@ public class CaptureCore {
         return this.addScheduledTask(Executors.callable(runnableToSchedule));
     }
 
+    private <V> ListenableFuture<V> addRenderTask(Callable<V> callableToSchedule) {
+        ListenableFutureTask<V> listenable = ListenableFutureTask.create(callableToSchedule);
+
+        synchronized (this.renderTasks) {
+            this.renderTasks.add(listenable);
+            return listenable;
+        }
+    }
+
+    private ListenableFuture<Object> addRenderTask(Runnable runnableToSchedule) {
+        Validate.notNull(runnableToSchedule);
+        return this.addRenderTask(Executors.callable(runnableToSchedule));
+    }
+
     public void shutdown() {
         queueWorker.interrupt();
+        renderWorker.interrupt();
     }
     
     
