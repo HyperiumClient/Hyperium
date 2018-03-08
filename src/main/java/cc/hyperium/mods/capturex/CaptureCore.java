@@ -30,16 +30,21 @@ import cc.hyperium.gui.settings.items.CaptureXSetting;
 import cc.hyperium.mods.capturex.render.FFMpegHelper;
 import cc.hyperium.mods.capturex.render.FrameRenderer;
 import cc.hyperium.utils.ChatColor;
+import cc.hyperium.utils.mods.AsyncScreenshotSaver;
 import com.google.common.collect.Queues;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListenableFutureTask;
+
+import java.io.IOException;
 import java.util.regex.Pattern;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.shader.Framebuffer;
+import net.minecraft.util.ScreenShotHelper;
 import net.minecraft.util.Util;
 import org.apache.commons.lang3.SerializationUtils;
 import org.apache.commons.lang3.Validate;
 
+import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.Serializable;
@@ -114,6 +119,15 @@ public class CaptureCore {
                         pack.cleanup();
                         Hyperium.INSTANCE.getNotification().display("CaptureX", "Kill captured", 3);
                     } catch (Exception e) {
+                        e.printStackTrace();
+                        Hyperium.INSTANCE.getNotification().display("CaptureX", "Failed to capture kill", 3);
+                    }
+                    break;
+                case SCREENSHOT:
+                    try {
+                        ImageIO.write(FrameRenderer.getImageFromFrameBuffer(Minecraft.getMinecraft().getFramebuffer(), Minecraft.getMinecraft().displayWidth, Minecraft.getMinecraft().displayHeight), "png", new File(captureXDir, "kill-"+System.currentTimeMillis()+".png"));
+                        Hyperium.INSTANCE.getNotification().display("CaptureX", "Kill captured", 3);
+                    } catch (IOException e) {
                         e.printStackTrace();
                         Hyperium.INSTANCE.getNotification().display("CaptureX", "Failed to capture kill", 3);
                     }
