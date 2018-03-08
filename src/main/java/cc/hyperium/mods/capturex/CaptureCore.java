@@ -102,7 +102,7 @@ public class CaptureCore {
         }
     }
 
-    public void onKill() {
+    private void onKill() {
         final Queue<BufferedImage> finalBackwardsBuffer = new ArrayDeque<>(backwardFrames);
         addScheduledTask(() -> {
             switch (CaptureXSetting.mode){
