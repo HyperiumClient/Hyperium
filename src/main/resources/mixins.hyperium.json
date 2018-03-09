@@ -54,6 +54,8 @@
 
     "scoreboard.MixinScoreboard",
 
-    "client.resources.MixinAbstractResourcePack"
+    "client.resources.MixinAbstractResourcePack",
+
+    "utils.MixinMathHelper"
   ]
 }
