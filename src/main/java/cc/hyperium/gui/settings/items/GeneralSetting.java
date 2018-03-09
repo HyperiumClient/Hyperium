@@ -24,7 +24,6 @@ import cc.hyperium.config.ConfigOpt;
 import cc.hyperium.config.DefaultConfig;
 import cc.hyperium.gui.settings.SettingGui;
 import cc.hyperium.gui.settings.components.SelectionItem;
-
 import net.minecraft.client.gui.GuiScreen;
 
 import java.util.Arrays;
@@ -71,6 +70,8 @@ public class GeneralSetting extends SettingGui {
     public static String menuStyle = GuiStyle.DEFAULT.toString();
     @ConfigOpt
     public static boolean windowedFullScreen = true;
+    @ConfigOpt
+    public static boolean staticFovEnabled = true;
 
     private SelectionItem<String> discordRP;
 
@@ -99,6 +100,8 @@ public class GeneralSetting extends SettingGui {
     private SelectionItem<String> menuStyleSelection;
 
     private SelectionItem<String> fullScreenStyle;
+
+    private SelectionItem<String> staticFov;
 
     /** Set to true when a setting is changed, this will trigger a save when the gui is closed */
     private boolean settingsUpdated;
@@ -223,8 +226,14 @@ public class GeneralSetting extends SettingGui {
             windowedFullScreen = ((SelectionItem) i).getSelectedItem().equals("ON");
             this.settingsUpdated = true;
         }));
-        this.fullScreenStyle.addDefaultOnOff();
-        this.fullScreenStyle.setSelectedItem(windowedFullScreen ? "ON" : "OFF");
+
+        this.settingItems.add(this.staticFov = new SelectionItem<>(14, getX(), getDefaultItemY(13),this.width - getX() * 2, "STATIC FOV", i -> {
+            ((SelectionItem) i).nextItem();
+            staticFovEnabled = ((SelectionItem) i).getSelectedItem().equals("ON");
+            this.settingsUpdated = true;
+        }));
+        this.staticFov.addDefaultOnOff();
+        this.staticFov.setSelectedItem(staticFovEnabled ? "ON" : "OFF");
     }
     
     /**
