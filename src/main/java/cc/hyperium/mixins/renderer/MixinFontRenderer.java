@@ -124,7 +124,7 @@ public abstract class MixinFontRenderer {
         tessellator.draw();
     }
 
-
+    private HashMap<DynamicTexture, Integer> returnCache = new HashMap<>();
     @Overwrite
     public int drawString(String text, float x, float y, int color, boolean dropShadow) {
         DynamicTexture texture = textureCache.get(text);
@@ -133,6 +133,7 @@ public abstract class MixinFontRenderer {
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
             GL11.glTranslatef(256 + 15, 0, 0);
             drawTexturedModalRect(0, 0, 0, 0, 15, 256);
+            return returnCache.get(texture);
         }
 
         GlStateManager.enableAlpha();
