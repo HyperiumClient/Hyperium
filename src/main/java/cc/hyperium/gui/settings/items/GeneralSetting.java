@@ -71,7 +71,7 @@ public class GeneralSetting extends SettingGui {
     @ConfigOpt
     public static boolean windowedFullScreen = true;
     @ConfigOpt
-    public static boolean staticFovEnabled = true;
+    public static boolean staticFovEnabled = false;
 
     private SelectionItem<String> discordRP;
 
