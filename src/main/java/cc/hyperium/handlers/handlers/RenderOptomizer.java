@@ -24,7 +24,6 @@ public class RenderOptomizer {
 
     public boolean shouldRender(Entity entity) {
         if (entity instanceof EntityArmorStand) {
-
             String textWithoutFormattingCodes = EnumChatFormatting.getTextWithoutFormattingCodes(entity.getDisplayName().getUnformattedText());
             boolean flag = true;
             if (rendered.contains(textWithoutFormattingCodes)) {
