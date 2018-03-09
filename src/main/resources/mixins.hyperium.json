@@ -35,6 +35,7 @@
     "entity.MixinEntityRenderer",
     "entity.MixinRenderPlayer",
     "entity.MixinModelBiped",
+    "entity.MixinAbstractClientPlayer",
     "profiler.MixinProfiler",
     "renderer.MixinGuiIngame",
     "renderer.MixinItemRenderer",
