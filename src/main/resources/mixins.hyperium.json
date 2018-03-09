@@ -12,6 +12,7 @@
     "MixinScreenShotHelper",
     "MixinEnchantment",
     "MixinFrameBuffer",
+
     "gui.MixinGuiScreen",
     "gui.MixinGui",
     "gui.MixinGuiConnecting",
@@ -40,6 +41,7 @@
     "renderer.MixinRenderItem",
     "renderer.MixinRendererLivingEntity",
     "renderer.MixinRenderPlayer",
+    "renderer.MixinFontRenderer",
     "packet.MixinC01PacketChatMessage",
     "packet.MixinS2EPacketCloseWindow",
     "packet.MixinS14PacketEntity",

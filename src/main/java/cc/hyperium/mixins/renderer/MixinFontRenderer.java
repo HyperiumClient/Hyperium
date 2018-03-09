@@ -1,12 +1,13 @@
 package cc.hyperium.mixins.renderer;
 
+import cc.hyperium.utils.CachedString;
+import cc.hyperium.utils.GraphicsUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
-import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
@@ -68,8 +69,8 @@ public abstract class MixinFontRenderer {
     private boolean underlineStyle;
     @Shadow
     private boolean strikethroughStyle;
-    private HashMap<String, DynamicTexture> textureCache = new HashMap<>();
-    private HashMap<String, DynamicTexture> obfuscatedCache = new HashMap<>();
+    private HashMap<String, CachedString> cache = new HashMap<>();
+
 
     @Shadow
     protected abstract void resetStyles();
@@ -124,18 +125,28 @@ public abstract class MixinFontRenderer {
         tessellator.draw();
     }
 
-    private HashMap<DynamicTexture, Integer> returnCache = new HashMap<>();
+
+    /**
+     * @author Sk1er
+     */
     @Overwrite
     public int drawString(String text, float x, float y, int color, boolean dropShadow) {
-        DynamicTexture texture = textureCache.get(text);
-        if (texture != null) {
-            GlStateManager.bindTexture(texture.getGlTextureId());
-            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-            GL11.glTranslatef(256 + 15, 0, 0);
-            drawTexturedModalRect(0, 0, 0, 0, 15, 256);
-            return returnCache.get(texture);
-        }
 
+        CachedString texture = /*cache.computeIfAbsent(text, (s) -> GraphicsUtil.INSTANCE.generate(text, color, dropShadow));*/GraphicsUtil.INSTANCE.generate(text, color, dropShadow);
+        if (texture != null) {
+            GlStateManager.bindTexture(texture.getTexture().getGlTextureId());
+            GlStateManager.enableTexture2D();
+            GL11.glPushMatrix();
+            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+            GL11.glTranslatef(x, y, 0);
+            GlStateManager.scale(1.0, .25, 1.0);
+            GlStateManager.scale(.5,.5,1.0);
+            drawTexturedModalRect(0, 0, 0, 0, texture.getWidth(), texture.getHeight());
+            GL11.glPopMatrix();
+            return texture.getReturnThing();
+        }
+        //Something cant be done, revert to legacy
+        System.out.println("Failed to render " + text + " x: " + x + " y: " + y + " color: " + color + " " + dropShadow);
         GlStateManager.enableAlpha();
         this.resetStyles();
         int i;
@@ -149,4 +160,6 @@ public abstract class MixinFontRenderer {
 
         return i;
     }
+
+
 }
