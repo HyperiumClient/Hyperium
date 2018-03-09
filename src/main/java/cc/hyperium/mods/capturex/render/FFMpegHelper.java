@@ -33,7 +33,7 @@ public class FFMpegHelper {
         capturePack.renderFrames();
         this.captureXDir.mkdir();
         ProcessBuilder builder = new ProcessBuilder()
-            .command(ffmpegExecutable, "-framerate", "20", "-i", "img%03d.png", outputName + ".mp4")
+            .command(ffmpegExecutable, "-framerate", "20", "-i", "img%03d.png", "-c:v", "libx264", "-pix_fmt", "yuv420p", outputName + ".mp4")
             .directory(new File(this.captureXDir, prefix+"-" + capturePack.getTimestamp()))
             .inheritIO()
             .redirectErrorStream(true);
