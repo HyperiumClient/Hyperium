@@ -12,7 +12,7 @@ import java.util.List;
 
 public class RenderOptomizer {
 
-    private List<String> rendered = new ArrayList<>();
+    private List<Entity> rendered = new ArrayList<>();
 
     @ConfigOpt
     private boolean limitArmourStands = true;
@@ -23,16 +23,26 @@ public class RenderOptomizer {
     }
 
     public boolean shouldRender(Entity entity) {
-        if (entity instanceof EntityArmorStand) {
-            String textWithoutFormattingCodes = EnumChatFormatting.getTextWithoutFormattingCodes(entity.getDisplayName().getUnformattedText());
-            boolean flag = true;
-            if (rendered.contains(textWithoutFormattingCodes)) {
-                flag = false;
-            } else rendered.add(textWithoutFormattingCodes);
-            return flag;
-
+        if (entity instanceof EntityArmorStand && limitArmourStands) {
+            return isSimilar(entity);
 
         }
         return true;
+    }
+
+    private boolean isSimilar(Entity other) {
+
+        String text1 = EnumChatFormatting.getTextWithoutFormattingCodes(other.getDisplayName().getUnformattedText());
+        double posX = other.posX;
+        double posY = other.posY;
+        double posZ = other.posZ;
+        for (Entity entity : rendered) {
+            String text = EnumChatFormatting.getTextWithoutFormattingCodes(entity.getDisplayName().getUnformattedText());
+            if (text.equalsIgnoreCase(text1) && posX == entity.posX && posY == entity.posY && entity.posZ == posZ) {
+                return true;
+            }
+
+        }
+        return false;
     }
 }
