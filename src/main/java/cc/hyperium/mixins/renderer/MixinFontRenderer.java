@@ -1,7 +1,6 @@
 package cc.hyperium.mixins.renderer;
 
 import cc.hyperium.utils.CachedString;
-import cc.hyperium.utils.GraphicsUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiScreen;
@@ -11,7 +10,6 @@ import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
-import org.lwjgl.opengl.GL11;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
@@ -129,10 +127,10 @@ public abstract class MixinFontRenderer {
     /**
      * @author Sk1er
      */
-    @Overwrite
+    /*@Overwrite
     public int drawString(String text, float x, float y, int color, boolean dropShadow) {
 
-        CachedString texture = /*cache.computeIfAbsent(text, (s) -> GraphicsUtil.INSTANCE.generate(text, color, dropShadow));*/GraphicsUtil.INSTANCE.generate(text, color, dropShadow);
+        CachedString texture = *//*cache.computeIfAbsent(text, (s) -> GraphicsUtil.INSTANCE.generate(text, color, dropShadow));*//*GraphicsUtil.INSTANCE.generate(text, color, dropShadow);
         if (texture != null) {
             GlStateManager.bindTexture(texture.getTexture().getGlTextureId());
             GlStateManager.enableTexture2D();
@@ -159,7 +157,7 @@ public abstract class MixinFontRenderer {
         }
 
         return i;
-    }
+    }*/
 
 
 }
