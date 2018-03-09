@@ -227,13 +227,13 @@ public class GeneralSetting extends SettingGui {
             this.settingsUpdated = true;
         }));
 
-        this.settingItems.add(this.staticFov = new SelectionItem<>(14, getX(), getDefaultItemY(13),this.width - getX() * 2, "STATIC FOV", i -> {
+        this.settingItems.add(this.staticFov = new SelectionItem(14, getX(), getDefaultItemY(14), this.width - getX() * 2, "STATIC FOV", i -> {
             ((SelectionItem) i).nextItem();
             staticFovEnabled = ((SelectionItem) i).getSelectedItem().equals("ON");
             this.settingsUpdated = true;
         }));
-        this.staticFov.addDefaultOnOff();
-        this.staticFov.setSelectedItem(staticFovEnabled ? "ON" : "OFF");
+        staticFov.addDefaultOnOff();
+        staticFov.setSelectedItem(staticFovEnabled ? "ON" : "OFF");
     }
     
     /**
