@@ -19,7 +19,6 @@
 package cc.hyperium.mixins.gui;
 
 import cc.hyperium.gui.settings.items.BackgroundSettings;
-import cc.hyperium.gui.settings.items.GeneralSetting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import org.spongepowered.asm.mixin.Mixin;
@@ -39,4 +38,5 @@ public abstract class MixinGuiScreen {
             ci.cancel();
         }
     }
+
 }
