@@ -199,6 +199,7 @@ public class Hyperium {
         Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(new CommandClearChat());
         Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(new CommandNameHistory());
         Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(new CommandPlayGame());
+        Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(new CommandBrowser());
 
     }
 
