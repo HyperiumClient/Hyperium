@@ -186,7 +186,7 @@ import java.util.Arrays;
  */
 @SuppressWarnings({"unchecked", "FieldCanBeLocal"})
 public class GeneralSetting extends SettingGui {
-    
+
     /**
      * The configuration instance, for all the settings below
      */
@@ -242,26 +242,26 @@ public class GeneralSetting extends SettingGui {
     private SelectionItem<String> framerateLimiter;
 
     private SelectionItem<String> shinyPots;
-    
+
     private SelectionItem<String> smartSounds;
-    
+
     private SelectionItem<String> numberPing;
-    
+
     private SelectionItem<String> combatParticleFix;
-    
+
     private SelectionItem<String> perspectiveHold;
 
     private SelectionItem<String> menuStyleSelection;
 
     private SelectionItem<String> fullScreenStyle;
-    
+
     private SelectionItem<String> bossBarTextOnly;
-    
+
     private SelectionItem<String> staticFov;
 
     /** Set to true when a setting is changed, this will trigger a save when the gui is closed */
     private boolean settingsUpdated;
-    
+
     public GeneralSetting(HyperiumGui previous) {
         super("GENERAL", previous);
         this.config = Hyperium.CONFIG;
@@ -271,7 +271,7 @@ public class GeneralSetting extends SettingGui {
     @Override
     protected void pack() {
         super.pack();
-    
+
         this.settingItems.add(this.discordRP = new SelectionItem(0, getX(), getDefaultItemY(0), this.width - getX() * 2, "DISCORD RICH PRESENCE", i -> {
             ((SelectionItem) i).nextItem();
             discordRPEnabled = ((SelectionItem) i).getSelectedItem().equals("ON");
@@ -279,7 +279,7 @@ public class GeneralSetting extends SettingGui {
         }));
         this.discordRP.addDefaultOnOff();
         this.discordRP.setSelectedItem(discordRPEnabled ? "ON" : "OFF");
-    
+
         this.settingItems.add(this.discordServerDisplay = new SelectionItem<>(1, getX(), getDefaultItemY(1), this.width - getX() * 2, "DISCORD DISPLAY SERVER", i -> {
             ((SelectionItem<String>) i).nextItem();
             discordServerDisplayEnabled = ((SelectionItem) i).getSelectedItem().equals("ON");
@@ -287,7 +287,7 @@ public class GeneralSetting extends SettingGui {
         }));
         this.discordServerDisplay.addDefaultOnOff();
         this.discordServerDisplay.setSelectedItem(discordServerDisplayEnabled ? "ON" : "OFF");
-    
+
         this.settingItems.add(this.fullBright = new SelectionItem(2, getX(), getDefaultItemY(2), this.width - getX() * 2, "FULLBRIGHT", i -> {
             ((SelectionItem) i).nextItem();
             fullbrightEnabled = ((SelectionItem) i).getSelectedItem().equals("ON");
@@ -295,7 +295,7 @@ public class GeneralSetting extends SettingGui {
         }));
         this.fullBright.addDefaultOnOff();
         this.fullBright.setSelectedItem(fullbrightEnabled ? "ON" : "OFF");
-    
+
         this.settingItems.add(this.romanNumerals = new SelectionItem(3, getX(), getDefaultItemY(3), this.width - getX() * 2, "ROMAN NUMERALS", i -> {
             ((SelectionItem) i).nextItem();
             romanNumeralsEnabled = ((SelectionItem) i).getSelectedItem().equals("ON");
@@ -303,7 +303,7 @@ public class GeneralSetting extends SettingGui {
         }));
         this.romanNumerals.addDefaultOnOff();
         this.romanNumerals.setSelectedItem(romanNumeralsEnabled ? "ON" : "OFF");
-    
+
         this.settingItems.add(this.compactChat = new SelectionItem(4, getX(), getDefaultItemY(4), this.width - getX() * 2, "COMPACT CHAT", i -> {
             ((SelectionItem) i).nextItem();
             compactChatEnabled = ((SelectionItem) i).getSelectedItem().equals("ON");
@@ -311,7 +311,7 @@ public class GeneralSetting extends SettingGui {
         }));
         this.compactChat.addDefaultOnOff();
         this.compactChat.setSelectedItem(compactChatEnabled ? "ON" : "OFF");
-    
+
         this.settingItems.add(this.voidflickerfix = new SelectionItem(5, getX(), getDefaultItemY(5), this.width - getX() * 2, "VOID FLICKER FIX", i -> {
             ((SelectionItem) i).nextItem();
             voidflickerfixEnabled = ((SelectionItem) i).getSelectedItem().equals("ON");
@@ -319,7 +319,7 @@ public class GeneralSetting extends SettingGui {
         }));
         this.voidflickerfix.addDefaultOnOff();
         this.voidflickerfix.setSelectedItem(voidflickerfixEnabled ? "ON" : "OFF");
-    
+
         this.settingItems.add(this.framerateLimiter = new SelectionItem(6, getX(), getDefaultItemY(6), this.width - getX() * 2, "SMART FRAMERATE", i -> {
             ((SelectionItem) i).nextItem();
             framerateLimiterEnabled = ((SelectionItem) i).getSelectedItem().equals("ON");
@@ -327,7 +327,7 @@ public class GeneralSetting extends SettingGui {
         }));
         this.framerateLimiter.addDefaultOnOff();
         this.framerateLimiter.setSelectedItem(framerateLimiterEnabled ? "ON" : "OFF");
-    
+
         this.settingItems.add(this.shinyPots = new SelectionItem(7, getX(), getDefaultItemY(7), this.width - getX() * 2, "SHINY POTS", i -> {
             ((SelectionItem) i).nextItem();
             shinyPotsEnabled = ((SelectionItem) i).getSelectedItem().equals("ON");
@@ -335,16 +335,16 @@ public class GeneralSetting extends SettingGui {
         }));
         this.shinyPots.addDefaultOnOff();
         this.shinyPots.setSelectedItem(shinyPotsEnabled ? "ON" : "OFF");
-    
+
         this.settingItems.add(
-            this.smartSounds = new SelectionItem(8, getX(), getDefaultItemY(8), this.width - getX() * 2, "BETTER SOUNDS", i -> {
-            ((SelectionItem) i).nextItem();
-            smartSoundsEnabled = ((SelectionItem) i).getSelectedItem().equals("ON");
-            this.settingsUpdated = true;
-        }));
+                this.smartSounds = new SelectionItem(8, getX(), getDefaultItemY(8), this.width - getX() * 2, "BETTER SOUNDS", i -> {
+                    ((SelectionItem) i).nextItem();
+                    smartSoundsEnabled = ((SelectionItem) i).getSelectedItem().equals("ON");
+                    this.settingsUpdated = true;
+                }));
         this.smartSounds.addDefaultOnOff();
         this.smartSounds.setSelectedItem(smartSoundsEnabled ? "ON" : "OFF");
-    
+
         this.settingItems.add(this.numberPing = new SelectionItem(9, getX(), getDefaultItemY(9), this.width - getX() * 2, "PING NUMBER", i -> {
             ((SelectionItem) i).nextItem();
             numberPingEnabled = ((SelectionItem) i).getSelectedItem().equals("ON");
@@ -352,7 +352,7 @@ public class GeneralSetting extends SettingGui {
         }));
         numberPing.addDefaultOnOff();
         numberPing.setSelectedItem(numberPingEnabled ? "ON" : "OFF");
-    
+
         this.settingItems.add(this.combatParticleFix = new SelectionItem(10, getX(), getDefaultItemY(10), this.width - getX() * 2, "COMBAT PARTICLE FIX", i -> {
             ((SelectionItem) i).nextItem();
             combatParticleFixEnabled = ((SelectionItem) i).getSelectedItem().equals("ON");
@@ -360,7 +360,7 @@ public class GeneralSetting extends SettingGui {
         }));
         combatParticleFix.addDefaultOnOff();
         combatParticleFix.setSelectedItem(combatParticleFixEnabled ? "ON" : "OFF");
-    
+
         this.settingItems.add(this.perspectiveHold = new SelectionItem(11, getX(), getDefaultItemY(11), this.width - getX() * 2, "PERSPECTIVE HOLD", i -> {
             ((SelectionItem) i).nextItem();
             perspectiveHoldDownEnabled = ((SelectionItem) i).getSelectedItem().equals("ON");
@@ -368,7 +368,7 @@ public class GeneralSetting extends SettingGui {
         }));
         perspectiveHold.addDefaultOnOff();
         perspectiveHold.setSelectedItem(perspectiveHoldDownEnabled ? "ON" : "OFF");
-    
+
         this.settingItems.add(this.menuStyleSelection = new SelectionItem(12, getX(), getDefaultItemY(12), this.width - getX() * 2, "MENU STYLE", i -> {
             ((SelectionItem) i).nextItem();
             menuStyle = (String) ((SelectionItem) i).getSelectedItem();
@@ -376,7 +376,7 @@ public class GeneralSetting extends SettingGui {
         }));
         Arrays.stream(GuiStyle.values()).forEach(s -> this.menuStyleSelection.addItem(s.toString()));
         this.menuStyleSelection.setSelectedItem(menuStyle);
-    
+
         this.settingItems.add(this.fullScreenStyle = new SelectionItem<>(13, getX(), getDefaultItemY(13),this.width - getX() * 2, "WINDOWED FULLSCREEN", i -> {
             ((SelectionItem) i).nextItem();
             windowedFullScreen = ((SelectionItem) i).getSelectedItem().equals("ON");
@@ -410,7 +410,7 @@ public class GeneralSetting extends SettingGui {
         staticFov.addDefaultOnOff();
         staticFov.setSelectedItem(staticFovEnabled ? "ON" : "OFF");
     }
-    
+
     /**
      * A getter for the y location of the given setting
      *
