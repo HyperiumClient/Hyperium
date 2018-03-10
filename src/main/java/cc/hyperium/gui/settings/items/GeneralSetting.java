@@ -69,7 +69,7 @@ public class GeneralSetting extends SettingGui {
     @ConfigOpt
     public static String menuStyle = GuiStyle.DEFAULT.toString();
     @ConfigOpt
-    public static boolean windowedFullScreen = true;
+    public static boolean borderlessWindowedEnabled = false;
     @ConfigOpt
     public static boolean staticFovEnabled = false;
 
@@ -99,7 +99,7 @@ public class GeneralSetting extends SettingGui {
 
     private SelectionItem<String> menuStyleSelection;
 
-    private SelectionItem<String> fullScreenStyle;
+    private SelectionItem<String> borderlessWindow;
 
     private SelectionItem<String> staticFov;
 
@@ -220,12 +220,14 @@ public class GeneralSetting extends SettingGui {
         }));
         Arrays.stream(GuiStyle.values()).forEach(s -> this.menuStyleSelection.addItem(s.toString()));
         this.menuStyleSelection.setSelectedItem(menuStyle);
-    
-        this.settingItems.add(this.fullScreenStyle = new SelectionItem<>(13, getX(), getDefaultItemY(13),this.width - getX() * 2, "WINDOWED FULLSCREEN", i -> {
+
+        this.settingItems.add(this.borderlessWindow = new SelectionItem(13, getX(), getDefaultItemY(13), this.width - getX() * 2, "BORDERLESS WINDOWED MODE", i -> {
             ((SelectionItem) i).nextItem();
-            windowedFullScreen = ((SelectionItem) i).getSelectedItem().equals("ON");
+            borderlessWindowedEnabled = ((SelectionItem) i).getSelectedItem().equals("ON");
             this.settingsUpdated = true;
         }));
+        borderlessWindow.addDefaultOnOff();
+        borderlessWindow.setSelectedItem(borderlessWindowedEnabled ? "ON" : "OFF");
 
         this.settingItems.add(this.staticFov = new SelectionItem(14, getX(), getDefaultItemY(14), this.width - getX() * 2, "STATIC FOV", i -> {
             ((SelectionItem) i).nextItem();
