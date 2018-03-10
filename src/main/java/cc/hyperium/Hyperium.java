@@ -174,7 +174,11 @@ import cc.hyperium.cosmetics.HyperiumCosmetics;
 import cc.hyperium.cosmetics.WingCosmetic;
 import cc.hyperium.event.*;
 import cc.hyperium.event.minigames.MinigameListener;
+<<<<<<< HEAD
 import cc.hyperium.gui.ConfirmationPopup;
+=======
+import cc.hyperium.gui.BorderlessWindowedContainer;
+>>>>>>> Added borderless windowed mode - few things left to fix.
 import cc.hyperium.gui.NotificationCenter;
 import cc.hyperium.gui.settings.items.AnimationSettings;
 import cc.hyperium.gui.settings.items.BackgroundSettings;
@@ -280,8 +284,12 @@ public class Hyperium {
         EventBus.INSTANCE.register(CrosshairMod.getInstance());
         EventBus.INSTANCE.register(CONFIG.register(FPSLimiter.getInstance()));
         EventBus.INSTANCE.register(perspective = new PerspectiveModifierContainer());
+<<<<<<< HEAD
         EventBus.INSTANCE.register(new WingCosmetic());
         EventBus.INSTANCE.register(confirmation = new ConfirmationPopup());
+=======
+        EventBus.INSTANCE.register(new BorderlessWindowedContainer());
+>>>>>>> Added borderless windowed mode - few things left to fix.
 
         // Register statistics tracking.
         EventBus.INSTANCE.register(statTrack);
@@ -437,6 +445,7 @@ public class Hyperium {
         }
     }
 
+<<<<<<< HEAD
     public ConfirmationPopup getConfirmation() {
         return confirmation;
     }
@@ -473,4 +482,6 @@ public class Hyperium {
 //
 //        }
 //    }
+=======
+>>>>>>> Added borderless windowed mode - few things left to fix.
 }
