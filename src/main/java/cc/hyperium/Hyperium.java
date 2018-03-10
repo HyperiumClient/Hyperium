@@ -22,6 +22,7 @@ import cc.hyperium.commands.defaults.*;
 import cc.hyperium.config.DefaultConfig;
 import cc.hyperium.event.*;
 import cc.hyperium.event.minigames.MinigameListener;
+import cc.hyperium.gui.BorderlessWindowedContainer;
 import cc.hyperium.gui.NotificationCenter;
 import cc.hyperium.gui.settings.items.AnimationSettings;
 import cc.hyperium.gui.settings.items.BackgroundSettings;
@@ -118,6 +119,7 @@ public class Hyperium {
         EventBus.INSTANCE.register(CrosshairMod.getInstance());
         EventBus.INSTANCE.register(CONFIG.register(FPSLimiter.getInstance()));
         EventBus.INSTANCE.register(perspective = new PerspectiveModifierContainer());
+        EventBus.INSTANCE.register(new BorderlessWindowedContainer());
 
         // Register statistics tracking.
         EventBus.INSTANCE.register(statTrack);
@@ -268,30 +270,4 @@ public class Hyperium {
         }
     }
 
-    public void toggleFullscreen() {
-        boolean windowed = GeneralSetting.windowedFullScreen;
-        boolean lastStateWindowed = false;
-        if (System.getProperty("org.lwjgl.opengl.Window.undecorated") == null) {
-            System.setProperty("org.lwjgl.opengl.Window.undecorated", "false");
-        }
-        if (Display.isFullscreen()) {
-            fullScreen = true;
-        }
-        if (System.getProperty("org.lwjgl.opengl.Window.undecorated").equals("true")) {
-            fullScreen = true;
-            lastStateWindowed = true;
-        }
-
-        fullScreen = !fullScreen;
-        if (!lastStateWindowed) {
-            Minecraft.getMinecraft().toggleFullscreen();
-            return;
-        }
-
-        if (fullScreen) {
-
-        } else {
-
-        }
-    }
 }
