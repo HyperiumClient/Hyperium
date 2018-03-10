@@ -18,10 +18,10 @@
 
 package cc.hyperium.commands;
 
-import cc.hyperium.utils.ChatColor;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.SendChatMessageEvent;
 import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
+import cc.hyperium.utils.ChatColor;
 import com.google.common.collect.Lists;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiChat;
@@ -54,7 +54,7 @@ public class HyperiumCommandHandler {
         String chatLine = event.getMessage();
 
         if (chatLine.startsWith("/") && chatLine.length() > 1) {
-            String commandLine = chatLine.split("/")[1];
+            String commandLine = chatLine.replaceFirst("/","");
             String commandName;
             String[] args = new String[] {};
 
