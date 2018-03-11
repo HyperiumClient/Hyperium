@@ -27,6 +27,8 @@
     "gui.MixinGuiGameOver",
     "gui.MixinGuiPlayerTabOverlay",
     "gui.MixinInventoryParticle",
+    "gui.MixinGuiConfirmOpenLink",
+
     "entity.MixinNetworkPlayerInfo",
     "entity.MixinEntityPlayer",
     "entity.MixinEntityPlayerSP",
