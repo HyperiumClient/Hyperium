@@ -226,6 +226,8 @@ public class GeneralSetting extends SettingGui {
             windowedFullScreen = ((SelectionItem) i).getSelectedItem().equals("ON");
             this.settingsUpdated = true;
         }));
+        fullScreenStyle.addDefaultOnOff();
+        fullScreenStyle.setSelectedItem(windowedFullScreen ? "ON" : "OFF");
 
         this.settingItems.add(this.staticFov = new SelectionItem(14, getX(), getDefaultItemY(14), this.width - getX() * 2, "STATIC FOV", i -> {
             ((SelectionItem) i).nextItem();
