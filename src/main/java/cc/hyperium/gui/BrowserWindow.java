@@ -186,8 +186,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 public class BrowserWindow extends JFrame {
-    private static final int WIDTH = 400;
-    private static final int HEIGHT = 250;
+    public static final int WIDTH = 400;
+    public static final int HEIGHT = 250;
     private Browser browser;
     private BrowserView browserView;
     private MotionPanel mp;
@@ -249,6 +249,7 @@ public class BrowserWindow extends JFrame {
         mp.getComponent(0).setBounds(getWidth() - 30, 0, 15, 10);
         mp.getComponent(1).setBounds(getWidth() - 15, 0, 15, 10);
         browserView.setBounds(0, 10, getWidth(), getHeight() - 10);
+        browser.setSize(width * 2, height * 2);
     }
 
     private void initComponents() {
