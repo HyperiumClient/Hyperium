@@ -245,6 +245,7 @@ dependencies {
     embed group: 'org.slick2d', name: 'slick2d-core', version: '1.0.2'
 
     compile "com.github.KevinPriv:MojangAPI:1.0"
+    compile fileTree(dir: 'libs', include: '*.jar')
 }
 
 
