@@ -18,6 +18,7 @@
 
 package cc.hyperium.gui;
 
+import cc.hyperium.Hyperium;
 import cc.hyperium.installer.components.MotionPanel;
 import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
 import com.sun.webkit.network.CookieManager;
@@ -52,8 +53,8 @@ public class BrowserWindow extends JFrame {
         CookieHandler.setDefault(cookieManager);
 
         super.frameInit();
-        defaultSize();
         initComponents();
+        defaultSize();
         loadURL(url);
         this.setUndecorated(true);
         this.setAlwaysOnTop(true);
@@ -62,6 +63,7 @@ public class BrowserWindow extends JFrame {
             @Override
             public void windowClosing(WindowEvent e) {
                 Platform.runLater(() -> engine.load(""));
+                Hyperium.INSTANCE.getHandlers().getBrowserManager().setShow(false);
             }
         });
         setTitle("Browser");
@@ -97,7 +99,10 @@ public class BrowserWindow extends JFrame {
         int bottomY = Display.getY() + current.getScaledHeight() * current.getScaleFactor();
 
         this.setLocation(rightX - width, bottomY - height);
-
+        mp.setBounds(0, 0, getWidth(), 10);
+        mp.getComponent(0).setBounds(getWidth() - 30, 0, 15, 10);
+        mp.getComponent(1).setBounds(getWidth() - 15, 0, 15, 10);
+        jfx.setBounds(0, 10, getWidth(), getHeight() - 10);
     }
 
     private void initComponents() {
@@ -127,6 +132,29 @@ public class BrowserWindow extends JFrame {
         mp = new MotionPanel(this);
         mp.setBounds(0, 0, getWidth(), 10);
         mp.setBackground(new Color(30, 30, 30));
+        mp.setLayout(null);
+
+        JButton max = new JButton();
+        max.setBackground(new Color(40, 40, 40));
+        max.setSize(15, 10);
+        max.setBounds(getWidth() - 30, 0, 15, 10);
+        max.setBorderPainted(false);
+        max.setFocusPainted(false);
+        max.addActionListener(a -> Hyperium.INSTANCE.getHandlers().getBrowserManager().toggleMaximize());
+
+        JButton exit = new JButton();
+        exit.setBackground(Color.RED);
+        exit.setSize(15, 10);
+        exit.setBounds(getWidth() - 15, 0, 15, 10);
+        exit.setBorderPainted(false);
+        exit.setFocusPainted(false);
+        exit.addActionListener(a -> {
+            Platform.runLater(() -> engine.load(""));
+            Hyperium.INSTANCE.getHandlers().getBrowserManager().setShow(false);
+            setVisible(false);
+        });
+        mp.add(max);
+        mp.add(exit);
         container.add(jfx);
         container.add(mp);
         setContentPane(container);
