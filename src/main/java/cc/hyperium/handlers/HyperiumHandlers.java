@@ -56,9 +56,11 @@ public class HyperiumHandlers {
     private RemoteResourcesHandler remoteResourcesHandler;
     private HyperiumNetwork network;
     private RenderOptomizer renderOptomizer;
+    private BrowserManager browserManager;
+
     public HyperiumHandlers() {
         network = new HyperiumNetwork();
-        
+
         this.remoteResourcesHandler = new RemoteResourcesHandler();
         chatHandlers = new ArrayList<>();
         register(generalChatHandler = new GeneralChatHandler(chatHandlers));
@@ -66,6 +68,7 @@ public class HyperiumHandlers {
         register(locationHandler = new LocationHandler());
         register(hypixelDetector = new HypixelDetector());
         register(valueHandler = new ValueHandler());
+        register(browserManager = new BrowserManager());
         register(resolutionUtil = new ResolutionUtil());
         register(guiDisplayHandler = new GuiDisplayHandler());
         register(renderOptomizer = new RenderOptomizer());
@@ -141,7 +144,7 @@ public class HyperiumHandlers {
     public ResolutionUtil getResolutionUtil() {
         return resolutionUtil;
     }
-    
+
     public GuiDisplayHandler getGuiDisplayHandler() {
         return guiDisplayHandler;
     }
@@ -164,5 +167,9 @@ public class HyperiumHandlers {
 
     public RenderOptomizer getRenderOptomizer() {
         return renderOptomizer;
+    }
+
+    public BrowserManager getBrowserManager() {
+        return browserManager;
     }
 }

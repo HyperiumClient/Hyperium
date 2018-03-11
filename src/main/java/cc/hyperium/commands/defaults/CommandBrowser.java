@@ -18,15 +18,16 @@
 
 package cc.hyperium.commands.defaults;
 
+import cc.hyperium.Hyperium;
 import cc.hyperium.commands.BaseCommand;
-import cc.hyperium.gui.BrowserWindow;
+import cc.hyperium.mods.sk1ercommon.Multithreading;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class CommandBrowser implements BaseCommand{
-    private BrowserWindow browser;
+public class CommandBrowser implements BaseCommand {
+
     @Override
     public String getName() {
         return "browser";
@@ -44,17 +45,15 @@ public class CommandBrowser implements BaseCommand{
 
     @Override
     public void onExecute(String[] args) {
-        if(args.length < 1){
+        if (args.length < 1) {
             return;
         }
         String url = args[0];
-        System.out.println("Browsing "+url);
-        if(browser == null)
-            browser = new BrowserWindow(url);
-        else {
-            browser.loadURL(url);
-            browser.setVisible(true);
-        }
+        System.out.println("Browsing " + url);
+        Multithreading.runAsync(() -> {
+            Hyperium.INSTANCE.getHandlers().getBrowserManager().browse(url);
+        });
+
     }
 
     @Override

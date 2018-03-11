@@ -19,16 +19,21 @@
 package cc.hyperium.gui;
 
 import cc.hyperium.installer.components.MotionPanel;
+import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
+import com.sun.webkit.network.CookieManager;
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.Scene;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
+import net.minecraft.client.gui.ScaledResolution;
+import org.lwjgl.opengl.Display;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.net.CookieHandler;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -38,12 +43,16 @@ public class BrowserWindow extends JFrame {
     private static final int WIDTH = 400;
     private static final int HEIGHT = 250;
     private WebEngine engine;
+    private JFXPanel jfx;
+    private MotionPanel mp;
 
     public BrowserWindow(String url) {
+        CookieManager cookieManager = new CookieManager();
+
+        CookieHandler.setDefault(cookieManager);
+
         super.frameInit();
-        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        setSize(WIDTH, HEIGHT);
-        this.setLocation(dim.width / 2 - getSize().width / 2, dim.height / 2 - getSize().height / 2);
+        defaultSize();
         initComponents();
         loadURL(url);
         this.setUndecorated(true);
@@ -52,21 +61,53 @@ public class BrowserWindow extends JFrame {
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                Platform.runLater(()->engine.load(""));
+                Platform.runLater(() -> engine.load(""));
             }
         });
         setTitle("Browser");
         this.setVisible(true);
         this.setLayout(null);
+        setResizable(true);
+
+    }
+
+    private static String toURL(String str) {
+        try {
+            return new URL(str).toExternalForm();
+        } catch (MalformedURLException exception) {
+            return null;
+        }
+    }
+
+    public JFXPanel getJfx() {
+        return jfx;
+    }
+
+    public MotionPanel getMp() {
+        return mp;
+    }
+
+    public void defaultSize() {
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        int width = Math.max(WIDTH, ResolutionUtil.current().getScaledWidth() / 8);
+        int height = Math.max(HEIGHT, ResolutionUtil.current().getScaledHeight() / 8);
+        setSize(width, height);
+        ScaledResolution current = ResolutionUtil.current();
+        int rightX = Display.getX() + current.getScaledWidth() * current.getScaleFactor();
+        int bottomY = Display.getY() + current.getScaledHeight() * current.getScaleFactor();
+
+        this.setLocation(rightX - width, bottomY - height);
+
     }
 
     private void initComponents() {
         Container container = getContentPane();
         container.setLayout(null);
 
-        JFXPanel jfx = new JFXPanel();
-        jfx.setBounds(0, 10, getWidth(), getHeight()-10);
-        Platform.runLater(()->{
+
+        jfx = new JFXPanel();
+        jfx.setBounds(0, 10, getWidth(), getHeight() - 10);
+        Platform.runLater(() -> {
             WebView view = new WebView();
             engine = view.getEngine();
             engine.getLoadWorker()
@@ -75,18 +116,23 @@ public class BrowserWindow extends JFrame {
                         if (engine.getLoadWorker().getState() == FAILED)
                             SwingUtilities.invokeLater(() -> {
                                 value.printStackTrace();
-                                engine.loadContent("<html><h1>Error</h1>\n<p>Failed to load webpage</p>\n<p>"+value.getMessage()+"</p></html>", "text/html");
+                                engine.loadContent("<html><h1>Error</h1>\n<p>Failed to load webpage</p>\n<p>" + value.getMessage() + "</p></html>", "text/html");
                             });
                     });
             jfx.setScene(new Scene(view));
+
         });
-        MotionPanel mp = new MotionPanel(this);
+
+
+        mp = new MotionPanel(this);
         mp.setBounds(0, 0, getWidth(), 10);
         mp.setBackground(new Color(30, 30, 30));
         container.add(jfx);
         container.add(mp);
         setContentPane(container);
+
     }
+
     public void loadURL(final String url) {
         Platform.runLater(() -> {
             String tmp = toURL(url);
@@ -94,12 +140,5 @@ public class BrowserWindow extends JFrame {
                 tmp = toURL("https://" + url);
             engine.load(tmp);
         });
-    }
-    private static String toURL(String str) {
-        try {
-            return new URL(str).toExternalForm();
-        } catch (MalformedURLException exception) {
-            return null;
-        }
     }
 }
