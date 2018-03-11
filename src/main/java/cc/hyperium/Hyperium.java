@@ -226,7 +226,6 @@ public class Hyperium {
      */
     public static final DefaultConfig CONFIG = new DefaultConfig(new File(folder, "CONFIG.json"));
 
-    public static BanSystem banSystem;
     private final GeneralStatisticsTracking statTrack = new GeneralStatisticsTracking();
     private final NotificationCenter notification = new NotificationCenter();
     private PerspectiveModifierContainer perspective;

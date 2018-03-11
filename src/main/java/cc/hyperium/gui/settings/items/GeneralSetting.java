@@ -174,6 +174,7 @@ import cc.hyperium.config.ConfigOpt;
 import cc.hyperium.config.DefaultConfig;
 import cc.hyperium.gui.settings.SettingGui;
 import cc.hyperium.gui.settings.components.SelectionItem;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 
 import java.util.Arrays;
@@ -219,7 +220,7 @@ public class GeneralSetting extends SettingGui {
     @ConfigOpt
     public static String menuStyle = GuiStyle.DEFAULT.toString();
     @ConfigOpt
-    public static boolean windowedFullScreen = true;
+    public static boolean windowedFullScreen = false;
     @ConfigOpt
     public static boolean staticFovEnabled = false;
 
@@ -252,6 +253,7 @@ public class GeneralSetting extends SettingGui {
     private SelectionItem<String> fullScreenStyle;
 
     private SelectionItem<String> staticFov;
+
 
     /** Set to true when a setting is changed, this will trigger a save when the gui is closed */
     private boolean settingsUpdated;
@@ -375,9 +377,20 @@ public class GeneralSetting extends SettingGui {
             ((SelectionItem) i).nextItem();
             windowedFullScreen = ((SelectionItem) i).getSelectedItem().equals("ON");
             this.settingsUpdated = true;
+            // redo it
+            Minecraft.getMinecraft().toggleFullscreen();
+            Minecraft.getMinecraft().toggleFullscreen();
         }));
         fullScreenStyle.addDefaultOnOff();
         fullScreenStyle.setSelectedItem(windowedFullScreen ? "ON" : "OFF");
+
+        this.settingItems.add(this.staticFov = new SelectionItem(14, getX(), getDefaultItemY(14), this.width - getX() * 2, "STATIC FOV", i -> {
+            ((SelectionItem) i).nextItem();
+            staticFovEnabled = ((SelectionItem) i).getSelectedItem().equals("ON");
+            this.settingsUpdated = true;
+        }));
+        staticFov.addDefaultOnOff();
+        staticFov.setSelectedItem(staticFovEnabled ? "ON" : "OFF");
 
         this.settingItems.add(this.staticFov = new SelectionItem(14, getX(), getDefaultItemY(14), this.width - getX() * 2, "STATIC FOV", i -> {
             ((SelectionItem) i).nextItem();

@@ -170,6 +170,7 @@ package cc.hyperium.mixins;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.event.*;
+import cc.hyperium.gui.settings.items.GeneralSetting;
 import cc.hyperium.utils.Utils;
 import cc.hyperium.utils.mods.FPSLimiter;
 import net.minecraft.client.Minecraft;
@@ -183,8 +184,10 @@ import net.minecraft.util.Timer;
 import net.minecraft.util.Util;
 import net.minecraft.world.WorldSettings;
 import org.apache.commons.io.IOUtils;
+import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.DisplayMode;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
@@ -192,15 +195,27 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.gen.Accessor;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import java.awt.*;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 
 @Mixin(Minecraft.class)
 public abstract class MixinMinecraft {
 
+    @Shadow protected abstract void resize(int width, int height);
+
+    @Shadow public int displayHeight;
+    @Shadow public int displayWidth;
+    @Shadow private int tempDisplayHeight;
+    @Shadow private int tempDisplayWidth;
+
+    @Shadow public abstract void updateDisplay();
+
+    @Shadow private boolean fullscreen;
     @Shadow
     private static Minecraft theMinecraft;
     @Shadow
@@ -223,6 +238,17 @@ public abstract class MixinMinecraft {
 
     @Accessor
     public abstract Timer getTimer();
+
+
+    /**
+     * Invoked once the game is launching
+     *
+     * @param ci {@see org.spongepowered.asm.mixin.injection.callback.CallbackInfo}
+     */
+    @Inject(method = "startGame", at = @At("HEAD"))
+    private void preinit(CallbackInfo ci) {
+        EventBus.INSTANCE.post(new PreInitializationEvent());
+    }
 
     /**
      * Invoked once the game has be launched
@@ -291,17 +317,42 @@ public abstract class MixinMinecraft {
         EventBus.INSTANCE.post(new SingleplayerJoinEvent());
     }
 
+
     /**
      * Fixes bug MC-68754 and MC-111254
      *
      * @param ci
+     * @author Kevin Brewster
      */
-    @Inject(method = "toggleFullscreen", at = @At(value = "JUMP", target = "Lnet/minecraft/client/Minecraft;toggleFullscreen()V", shift = At.Shift.AFTER))
-    private void toggleFullScreen(CallbackInfo ci) {
+    @Inject(method = "setInitialDisplayMode", at = @At(value = "HEAD"), cancellable = true)
+    private void displayFix(CallbackInfo ci) throws LWJGLException {
+        ci.cancel();
+        Display.setFullscreen(false);
+        if (this.fullscreen) {
+            if (GeneralSetting.windowedFullScreen) {
+                System.setProperty("org.lwjgl.opengl.Window.undecorated", "true");
+            } else {
+                Display.setFullscreen(true);
+            }
+        }
+        else {
+            System.setProperty("org.lwjgl.opengl.Window.undecorated", "false");
+        }
         Display.setResizable(false);
         Display.setResizable(true);
     }
 
+    @Inject(method = "toggleFullscreen", at = @At(value = "INVOKE", target = "Lorg/lwjgl/opengl/Display;setVSyncEnabled(Z)V", shift = At.Shift.AFTER))
+    private void fullScreenFix(CallbackInfo ci) throws LWJGLException {
+        if (GeneralSetting.windowedFullScreen) {
+            System.setProperty("org.lwjgl.opengl.Window.undecorated", "" + !this.fullscreen);
+        } else {
+            Display.setFullscreen(this.fullscreen);
+            System.setProperty("org.lwjgl.opengl.Window.undecorated", "false");
+        }
+        Display.setResizable(false);
+        Display.setResizable(true);
+    }
     /**
      * Sets Minecraft Icon
      *

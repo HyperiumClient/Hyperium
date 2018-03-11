@@ -197,6 +197,11 @@ annotation class InvokeEvent(val priority: Priority = Priority.NORMAL)
 /**
  * Invoked once the client has started
  */
+class PreInitializationEvent
+
+/**
+ * Invoked once the client has started
+ */
 class InitializationEvent
 
 /**
