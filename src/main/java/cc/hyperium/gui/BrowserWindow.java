@@ -172,11 +172,8 @@ import cc.hyperium.Hyperium;
 import cc.hyperium.installer.components.MotionPanel;
 import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
 import com.sun.webkit.network.CookieManager;
-import javafx.application.Platform;
-import javafx.embed.swing.JFXPanel;
-import javafx.scene.Scene;
-import javafx.scene.web.WebEngine;
-import javafx.scene.web.WebView;
+import com.teamdev.jxbrowser.chromium.Browser;
+import com.teamdev.jxbrowser.chromium.swing.BrowserView;
 import net.minecraft.client.gui.ScaledResolution;
 import org.lwjgl.opengl.Display;
 
@@ -188,18 +185,15 @@ import java.net.CookieHandler;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import static javafx.concurrent.Worker.State.FAILED;
-
 public class BrowserWindow extends JFrame {
-    private static final int WIDTH = 400;
-    private static final int HEIGHT = 250;
-    private WebEngine engine;
-    private JFXPanel jfx;
+    public static final int WIDTH = 400;
+    public static final int HEIGHT = 250;
+    private Browser browser;
+    private BrowserView browserView;
     private MotionPanel mp;
 
     public BrowserWindow(String url) {
         CookieManager cookieManager = new CookieManager();
-
         CookieHandler.setDefault(cookieManager);
 
         super.frameInit();
@@ -212,8 +206,7 @@ public class BrowserWindow extends JFrame {
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                Platform.runLater(() -> engine.load(""));
-                Hyperium.INSTANCE.getHandlers().getBrowserManager().setShow(false);
+                browser.stop();
             }
         });
         setTitle("Browser");
@@ -231,8 +224,12 @@ public class BrowserWindow extends JFrame {
         }
     }
 
-    public JFXPanel getJfx() {
-        return jfx;
+    public Browser getBrowser() {
+        return browser;
+    }
+
+    public BrowserView getBrowserView() {
+        return browserView;
     }
 
     public MotionPanel getMp() {
@@ -240,7 +237,6 @@ public class BrowserWindow extends JFrame {
     }
 
     public void defaultSize() {
-        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         int width = Math.max(WIDTH, ResolutionUtil.current().getScaledWidth() / 8);
         int height = Math.max(HEIGHT, ResolutionUtil.current().getScaledHeight() / 8);
         setSize(width, height);
@@ -252,32 +248,15 @@ public class BrowserWindow extends JFrame {
         mp.setBounds(0, 0, getWidth(), 10);
         mp.getComponent(0).setBounds(getWidth() - 30, 0, 15, 10);
         mp.getComponent(1).setBounds(getWidth() - 15, 0, 15, 10);
-        jfx.setBounds(0, 10, getWidth(), getHeight() - 10);
+        browserView.setBounds(0, 10, getWidth(), getHeight() - 10);
+        browser.setSize(width * 2, height * 2);
     }
 
     private void initComponents() {
         Container container = getContentPane();
         container.setLayout(null);
-
-
-        jfx = new JFXPanel();
-        jfx.setBounds(0, 10, getWidth(), getHeight() - 10);
-        Platform.runLater(() -> {
-            WebView view = new WebView();
-            engine = view.getEngine();
-            engine.getLoadWorker()
-                    .exceptionProperty()
-                    .addListener((o, old, value) -> {
-                        if (engine.getLoadWorker().getState() == FAILED)
-                            SwingUtilities.invokeLater(() -> {
-                                value.printStackTrace();
-                                engine.loadContent("<html><h1>Error</h1>\n<p>Failed to load webpage</p>\n<p>" + value.getMessage() + "</p></html>", "text/html");
-                            });
-                    });
-            jfx.setScene(new Scene(view));
-
-        });
-
+        browser = new Browser();
+        browserView= new BrowserView(browser);
 
         mp = new MotionPanel(this);
         mp.setBounds(0, 0, getWidth(), 10);
@@ -299,24 +278,22 @@ public class BrowserWindow extends JFrame {
         exit.setBorderPainted(false);
         exit.setFocusPainted(false);
         exit.addActionListener(a -> {
-            Platform.runLater(() -> engine.load(""));
+            browser.stop();
             Hyperium.INSTANCE.getHandlers().getBrowserManager().setShow(false);
             setVisible(false);
         });
         mp.add(max);
         mp.add(exit);
-        container.add(jfx);
+        container.add(browserView);
         container.add(mp);
         setContentPane(container);
 
     }
 
     public void loadURL(final String url) {
-        Platform.runLater(() -> {
-            String tmp = toURL(url);
-            if (tmp == null)
-                tmp = toURL("https://" + url);
-            engine.load(tmp);
-        });
+        String tmp = toURL(url);
+        if (tmp == null)
+            tmp = toURL("https://" + url);
+        browser.loadURL(tmp);
     }
 }
