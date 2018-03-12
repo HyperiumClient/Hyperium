@@ -222,6 +222,8 @@ public class GeneralSetting extends SettingGui {
     @ConfigOpt
     public static boolean windowedFullScreen = false;
     @ConfigOpt
+    public static boolean bossBarTextOnlyEnabled = false;
+    @ConfigOpt
     public static boolean staticFovEnabled = false;
 
     private SelectionItem<String> discordRP;
@@ -251,9 +253,10 @@ public class GeneralSetting extends SettingGui {
     private SelectionItem<String> menuStyleSelection;
 
     private SelectionItem<String> fullScreenStyle;
-
+    
+    private SelectionItem<String> bossBarTextOnly;
+    
     private SelectionItem<String> staticFov;
-
 
     /** Set to true when a setting is changed, this will trigger a save when the gui is closed */
     private boolean settingsUpdated;
@@ -384,15 +387,15 @@ public class GeneralSetting extends SettingGui {
         fullScreenStyle.addDefaultOnOff();
         fullScreenStyle.setSelectedItem(windowedFullScreen ? "ON" : "OFF");
 
-        this.settingItems.add(this.staticFov = new SelectionItem(14, getX(), getDefaultItemY(14), this.width - getX() * 2, "STATIC FOV", i -> {
+        this.settingItems.add(this.bossBarTextOnly = new SelectionItem(14, getX(), getDefaultItemY(14), this.width - getX() * 2, "BOSSBAR TEXT ONLY", i -> {
             ((SelectionItem) i).nextItem();
-            staticFovEnabled = ((SelectionItem) i).getSelectedItem().equals("ON");
+            bossBarTextOnlyEnabled = ((SelectionItem) i).getSelectedItem().equals("ON");
             this.settingsUpdated = true;
         }));
-        staticFov.addDefaultOnOff();
-        staticFov.setSelectedItem(staticFovEnabled ? "ON" : "OFF");
+        bossBarTextOnly.addDefaultOnOff();
+        bossBarTextOnly.setSelectedItem(bossBarTextOnlyEnabled ? "ON" : "OFF");
 
-        this.settingItems.add(this.staticFov = new SelectionItem(14, getX(), getDefaultItemY(14), this.width - getX() * 2, "STATIC FOV", i -> {
+        this.settingItems.add(this.staticFov = new SelectionItem(15, getX(), getDefaultItemY(15), this.width - getX() * 2, "STATIC FOV", i -> {
             ((SelectionItem) i).nextItem();
             staticFovEnabled = ((SelectionItem) i).getSelectedItem().equals("ON");
             this.settingsUpdated = true;

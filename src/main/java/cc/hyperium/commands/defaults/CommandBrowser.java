@@ -170,6 +170,7 @@ package cc.hyperium.commands.defaults;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.commands.BaseCommand;
+import cc.hyperium.commands.CommandUsageException;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 
 import java.util.ArrayList;
@@ -185,7 +186,7 @@ public class CommandBrowser implements BaseCommand {
 
     @Override
     public String getUsage() {
-        return "/browse <URL>";
+        return "Usage: /browse <URL>";
     }
 
     @Override
@@ -194,16 +195,13 @@ public class CommandBrowser implements BaseCommand {
     }
 
     @Override
-    public void onExecute(String[] args) {
+    public void onExecute(String[] args) throws CommandUsageException {
         if (args.length < 1) {
-            return;
+            throw new CommandUsageException();
         }
         String url = args[0];
         System.out.println("Browsing " + url);
-        Multithreading.runAsync(() -> {
-            Hyperium.INSTANCE.getHandlers().getBrowserManager().browse(url);
-        });
-
+        Multithreading.runAsync(() -> Hyperium.INSTANCE.getHandlers().getBrowserManager().browse(url));
     }
 
     @Override

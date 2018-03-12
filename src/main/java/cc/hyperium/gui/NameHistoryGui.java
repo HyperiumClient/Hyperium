@@ -168,10 +168,7 @@
 
 package cc.hyperium.gui;
 
-import cc.hyperium.event.InvokeEvent;
-import cc.hyperium.event.KeyBindPressEvent;
 import cc.hyperium.gui.settings.items.NameHistorySettings;
-import cc.hyperium.handlers.handlers.keybinds.KeyBindHandler;
 import cc.hyperium.utils.HyperiumFontRenderer;
 import me.kbrewster.mojangapi.MojangAPI;
 import me.kbrewster.mojangapi.profile.Name;

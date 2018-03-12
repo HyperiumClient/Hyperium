@@ -169,6 +169,7 @@
 package cc.hyperium.mixins.renderer;
 
 import cc.hyperium.utils.CachedString;
+import cc.hyperium.utils.GraphicsUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiScreen;
@@ -247,6 +248,9 @@ public abstract class MixinFontRenderer {
     @Shadow
     protected abstract void renderStringAtPos(String text, boolean shadow);
 
+    /**
+     * @author Sk1er
+     */
     @Overwrite
     private int renderString(String text, float x, float y, int color, boolean dropShadow) {
         if (text == null) {
@@ -292,40 +296,40 @@ public abstract class MixinFontRenderer {
     }
 
 
-    /**
-     * @author Sk1er
-     */
-    /*@Overwrite
-    public int drawString(String text, float x, float y, int color, boolean dropShadow) {
-
-        CachedString texture = *//*cache.computeIfAbsent(text, (s) -> GraphicsUtil.INSTANCE.generate(text, color, dropShadow));*//*GraphicsUtil.INSTANCE.generate(text, color, dropShadow);
-        if (texture != null) {
-            GlStateManager.bindTexture(texture.getTexture().getGlTextureId());
-            GlStateManager.enableTexture2D();
-            GL11.glPushMatrix();
-            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-            GL11.glTranslatef(x, y, 0);
-            GlStateManager.scale(1.0, .25, 1.0);
-            GlStateManager.scale(.5,.5,1.0);
-            drawTexturedModalRect(0, 0, 0, 0, texture.getWidth(), texture.getHeight());
-            GL11.glPopMatrix();
-            return texture.getReturnThing();
-        }
-        //Something cant be done, revert to legacy
-        System.out.println("Failed to render " + text + " x: " + x + " y: " + y + " color: " + color + " " + dropShadow);
-        GlStateManager.enableAlpha();
-        this.resetStyles();
-        int i;
-
-        if (dropShadow) {
-            i = this.renderString(text, x + 1.0F, y + 1.0F, color, true);
-            i = Math.max(i, this.renderString(text, x, y, color, false));
-        } else {
-            i = this.renderString(text, x, y, color, false);
-        }
-
-        return i;
-    }*/
+//    /**
+//     * @author Sk1er
+//     */
+//    @Overwrite
+//    public int drawString(String text, float x, float y, int color, boolean dropShadow) {
+//
+//        CachedString texture = cache.computeIfAbsent(text, (s) -> GraphicsUtil.INSTANCE.generate(text, color, dropShadow));
+//        if (texture != null) {
+//            GlStateManager.bindTexture(texture.getTexture().getGlTextureId());
+//            GlStateManager.enableTexture2D();
+//            GlStateManager.pushMatrix();
+//            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+//            GlStateManager.translate(x, y, 0);
+//            GlStateManager.scale(1.0, .25, 1.0);
+//            GlStateManager.scale(.5,.5,1.0);
+//            drawTexturedModalRect(0, 0, 0, 0, texture.getWidth(), texture.getHeight());
+//            GlStateManager.popMatrix();
+//            return texture.getReturnThing();
+//        }
+//        //Something cant be done, revert to legacy
+//        System.out.println("Failed to render " + text + " x: " + x + " y: " + y + " color: " + color + " " + dropShadow);
+//        GlStateManager.enableAlpha();
+//        this.resetStyles();
+//        int i;
+//
+//        if (dropShadow) {
+//            i = this.renderString(text, x + 1.0F, y + 1.0F, color, true);
+//            i = Math.max(i, this.renderString(text, x, y, color, false));
+//        } else {
+//            i = this.renderString(text, x, y, color, false);
+//        }
+//
+//        return i;
+//    }
 
 
 }
