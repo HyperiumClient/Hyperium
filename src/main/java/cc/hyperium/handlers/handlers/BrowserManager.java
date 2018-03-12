@@ -192,7 +192,7 @@ public class BrowserManager {
             browser.getMp().getComponent(0).setBounds(browser.getWidth() - 30, 0, 15, 10);
             browser.getMp().getComponent(1).setBounds(browser.getWidth() - 15, 0, 15, 10);
             browser.setLocation(Display.getX() + 10, Display.getY() + 10);
-            browser.getBrowser().setSize(1920, 1080);
+            browser.getBrowser().setZoomLevel(0.0);
             System.out.println("Resize");
         }
         maximized = !maximized;
@@ -210,6 +210,7 @@ public class BrowserManager {
                 browser.setVisible(true);
             }
         }
+        browser.getBrowser().setZoomLevel(-3.8017840169239308);
     }
 
     public void setShow(boolean show) {

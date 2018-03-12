@@ -232,7 +232,7 @@ dependencies {
         exclude module: 'guava'
         exclude module: 'gson'
         exclude module: 'commons-io'
-        exclude module: 'log4j-core'
+        //exclude module: 'log4j-core'
     }
     embed "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     embed 'com.github.jagrosh:DiscordIPC:master-SNAPSHOT'

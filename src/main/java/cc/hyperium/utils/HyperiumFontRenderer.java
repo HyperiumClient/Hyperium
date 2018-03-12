@@ -168,7 +168,6 @@
 
 package cc.hyperium.utils;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.StringUtils;
 import org.lwjgl.opengl.GL11;
@@ -182,7 +181,6 @@ public class HyperiumFontRenderer {
 
     private final UnicodeFont unicodeFont;
     private final int[] colorCodes = new int[32];
-    private Minecraft mc = Minecraft.getMinecraft();
     private int fontType;
     private int size;
     private String fontName;

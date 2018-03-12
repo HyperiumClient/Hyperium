@@ -249,7 +249,7 @@ public class BrowserWindow extends JFrame {
         mp.getComponent(0).setBounds(getWidth() - 30, 0, 15, 10);
         mp.getComponent(1).setBounds(getWidth() - 15, 0, 15, 10);
         browserView.setBounds(0, 10, getWidth(), getHeight() - 10);
-        browser.setSize(width * 2, height * 2);
+        browser.setZoomLevel(-3.8017840169239308);
     }
 
     private void initComponents() {
