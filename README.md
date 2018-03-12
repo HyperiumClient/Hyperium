@@ -73,7 +73,7 @@ public class TestMod {
 [![](https://cdn.discordapp.com/avatars/290921387655430144/1495ae41593665e29f683d63d502c600.png)](https://github.com/VRCube)
 
 
-## Sponsers ##
+## Special Thanks ##
 
 [![yk](https://www.yourkit.com/images/yklogo.png)](https://www.yourkit.com/java/profiler/)
 
