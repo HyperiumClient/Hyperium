@@ -343,6 +343,14 @@ public class Spotify {
     }
 
     /**
+     * @param pause player xd
+     */
+    
+    private void PlayRequest(boolean pause) throws IOException {    	
+        get(genSpotifyUrl("/remote/pause.json") + "?pause="+pause + "&oauth=" + this.token + "&csrf=" + this.csrfToken, true);
+    }
+    
+    /**
      * @param path path to generate
      * @return full url
      */
