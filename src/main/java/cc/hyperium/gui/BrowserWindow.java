@@ -179,6 +179,8 @@ import org.lwjgl.opengl.Display;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.net.CookieHandler;
@@ -188,9 +190,12 @@ import java.net.URL;
 public class BrowserWindow extends JFrame {
     public static final int WIDTH = 400;
     public static final int HEIGHT = 250;
+    private float scale = 1.0F;
     private Browser browser;
     private BrowserView browserView;
     private MotionPanel mp;
+    private boolean ctrlPressed = false;
+    private boolean shiftPressed = false;
 
     public BrowserWindow(String url) {
         CookieManager cookieManager = new CookieManager();
@@ -213,7 +218,34 @@ public class BrowserWindow extends JFrame {
         this.setVisible(true);
         this.setLayout(null);
         setResizable(true);
+        addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                if(e.getKeyCode() == KeyEvent.VK_CONTROL)
+                    ctrlPressed = false;
+                else if(e.getKeyCode() == KeyEvent.VK_SHIFT)
+                    shiftPressed = false;
+            }
 
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if(e.getKeyCode() == KeyEvent.VK_CONTROL)
+                    ctrlPressed = true;
+                else if(e.getKeyCode() == KeyEvent.VK_SHIFT)
+                    shiftPressed = true;
+                else if(ctrlPressed && e.getKeyCode() == KeyEvent.VK_PLUS)
+                    browser.zoomIn();
+                else if(ctrlPressed && e.getKeyCode() == KeyEvent.VK_MINUS)
+                    browser.zoomOut();
+                else if(ctrlPressed && shiftPressed && e.getKeyCode() == KeyEvent.VK_PLUS){
+                    scale+=0.1;
+                    scale(scale);
+                }else if(ctrlPressed && shiftPressed && e.getKeyCode() == KeyEvent.VK_MINUS){
+                    scale-=0.1;
+                    scale(scale);
+                }
+            }
+        });
     }
 
     private static String toURL(String str) {
@@ -237,8 +269,12 @@ public class BrowserWindow extends JFrame {
     }
 
     public void defaultSize() {
-        int width = Math.max(WIDTH, ResolutionUtil.current().getScaledWidth() / 8);
-        int height = Math.max(HEIGHT, ResolutionUtil.current().getScaledHeight() / 8);
+        scale(1);
+    }
+
+    private void scale(float scale){
+        int width = (int) Math.max(WIDTH*scale, ResolutionUtil.current().getScaledWidth() / 8);
+        int height = (int) Math.max(HEIGHT*scale, ResolutionUtil.current().getScaledHeight() / 8);
         setSize(width, height);
         ScaledResolution current = ResolutionUtil.current();
         int rightX = Display.getX() + current.getScaledWidth() * current.getScaleFactor();

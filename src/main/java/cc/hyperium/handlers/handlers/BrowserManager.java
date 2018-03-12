@@ -168,6 +168,8 @@
 
 package cc.hyperium.handlers.handlers;
 
+import cc.hyperium.event.InvokeEvent;
+import cc.hyperium.event.TickEvent;
 import cc.hyperium.gui.BrowserWindow;
 import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
 import net.minecraft.client.gui.ScaledResolution;
@@ -211,6 +213,15 @@ public class BrowserManager {
             }
         }
         browser.getBrowser().setZoomLevel(-3.8017840169239308);
+    }
+
+    @InvokeEvent
+    public void onTick(TickEvent e){
+        if(browser == null)return;
+        if(!Display.isActive() && browser.isVisible())
+            browser.setVisible(false);
+        else if(Display.isActive() && !browser.isVisible())
+            browser.setVisible(true);
     }
 
     public void setShow(boolean show) {

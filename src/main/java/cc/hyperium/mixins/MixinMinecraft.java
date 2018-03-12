@@ -178,6 +178,7 @@ import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.multiplayer.WorldClient;
+import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.resources.DefaultResourcePack;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.util.Timer;
@@ -187,7 +188,6 @@ import org.apache.commons.io.IOUtils;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
-import org.lwjgl.opengl.DisplayMode;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
@@ -195,11 +195,9 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.gen.Accessor;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import java.awt.*;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 
@@ -441,4 +439,28 @@ public abstract class MixinMinecraft {
 
     @Shadow
     public abstract void setIngameFocus();
+
+    @Shadow public abstract void func_181536_a(int p_181536_1_, int p_181536_2_, int p_181536_3_, int p_181536_4_, int p_181536_5_, int p_181536_6_, int p_181536_7_, int p_181536_8_, int p_181536_9_, int p_181536_10_);
+
+
+    @Shadow public FontRenderer fontRendererObj;
+
+    /**
+     * FontRenderer for drawing splash screen
+     */
+    private FontRenderer sfr;
+
+    /**
+     * change to splash screen logo
+     * @author Cubxity
+     */
+    @Inject(method = "drawSplashScreen", at = @At(value = "INVOKE", target = "net/minecraft/client/renderer/texture/TextureManager.getDynamicTextureLocation(Ljava/lang/String;Lnet/minecraft/client/renderer/texture/DynamicTexture;)Lnet/minecraft/util/ResourceLocation;", shift = At.Shift.AFTER))
+    private void overrideLogo(TextureManager tm, CallbackInfo ci){
+
+    }
+    private void drawProgress(TextureManager textureManagerInstance, CallbackInfo ci){
+        if(sfr == null)
+            sfr = new FontRenderer(Minecraft.getMinecraft().gameSettings, new net.minecraft.util.ResourceLocation("textures/font/ascii.png"), textureManagerInstance, false);
+
+    }
 }
