@@ -178,7 +178,7 @@ import net.minecraft.util.EnumChatFormatting;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RenderOptomizer {
+public class RenderOptimizer {
 
     private List<Entity> rendered = new ArrayList<>();
 

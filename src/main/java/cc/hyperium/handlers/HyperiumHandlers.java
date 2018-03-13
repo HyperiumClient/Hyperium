@@ -206,7 +206,7 @@ public class HyperiumHandlers {
     private HyperiumCommandHandler commandHandler;
     private RemoteResourcesHandler remoteResourcesHandler;
     private HyperiumNetwork network;
-    private RenderOptomizer renderOptomizer;
+    private RenderOptimizer renderOptomizer;
     private BrowserManager browserManager;
 
     public HyperiumHandlers() {
@@ -222,7 +222,7 @@ public class HyperiumHandlers {
         register(browserManager = new BrowserManager());
         register(resolutionUtil = new ResolutionUtil());
         register(guiDisplayHandler = new GuiDisplayHandler());
-        register(renderOptomizer = new RenderOptomizer());
+        register(renderOptomizer = new RenderOptimizer());
 
         register(privateMessageHandler = new PrivateMessageHandler());
         commandQueue = new CommandQueue();
@@ -316,7 +316,7 @@ public class HyperiumHandlers {
         return remoteResourcesHandler;
     }
 
-    public RenderOptomizer getRenderOptomizer() {
+    public RenderOptimizer getRenderOptomizer() {
         return renderOptomizer;
     }
 
