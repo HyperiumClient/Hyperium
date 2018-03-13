@@ -181,6 +181,7 @@ import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.resources.DefaultResourcePack;
 import net.minecraft.client.settings.GameSettings;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Timer;
 import net.minecraft.util.Util;
 import net.minecraft.world.WorldSettings;
@@ -445,6 +446,8 @@ public abstract class MixinMinecraft {
 
     @Shadow public FontRenderer fontRendererObj;
 
+    private ResourceLocation splash;
+
     /**
      * FontRenderer for drawing splash screen
      */
@@ -454,13 +457,16 @@ public abstract class MixinMinecraft {
      * change to splash screen logo
      * @author Cubxity
      */
-    @Inject(method = "drawSplashScreen", at = @At(value = "INVOKE", target = "net/minecraft/client/renderer/texture/TextureManager.getDynamicTextureLocation(Ljava/lang/String;Lnet/minecraft/client/renderer/texture/DynamicTexture;)Lnet/minecraft/util/ResourceLocation;", shift = At.Shift.AFTER))
+    @Inject(method = "drawSplashScreen", at = @At(value = "INVOKE", target = "net/minecraft/client/renderer/texture/TextureManager.bindTexture(Lnet/minecraft/util/ResourceLocation;)V", shift = At.Shift.AFTER))
     private void overrideLogo(TextureManager tm, CallbackInfo ci){
-
+        if(splash == null)
+            splash = new ResourceLocation("textures/hyperium-splash.png");
+        tm.bindTexture(splash);
     }
+
+    @Inject(method = "drawSplashScreen", at = @At(value = "INVOKE", target = "net/minecraft/client/renderer/GlStateManager.disableFog()V", shift = At.Shift.AFTER))
     private void drawProgress(TextureManager textureManagerInstance, CallbackInfo ci){
         if(sfr == null)
             sfr = new FontRenderer(Minecraft.getMinecraft().gameSettings, new net.minecraft.util.ResourceLocation("textures/font/ascii.png"), textureManagerInstance, false);
-
     }
 }
