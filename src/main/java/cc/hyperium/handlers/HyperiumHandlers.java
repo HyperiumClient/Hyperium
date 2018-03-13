@@ -201,6 +201,7 @@ public class HyperiumHandlers {
     private ResolutionUtil resolutionUtil;
     private GuiDisplayHandler guiDisplayHandler;
     private KeyBindHandler keybindHandler;
+    private TimeTrackHandler timeTrackHandler;
     private PrivateMessageHandler privateMessageHandler;
     private HyperiumCommandHandler commandHandler;
     private RemoteResourcesHandler remoteResourcesHandler;
@@ -226,7 +227,7 @@ public class HyperiumHandlers {
         register(privateMessageHandler = new PrivateMessageHandler());
         commandQueue = new CommandQueue();
         dataHandler = new ApiDataHandler();
-
+        timeTrackHandler = new TimeTrackHandler();
         //Chat Handlers
 
         registerChatHandler(new RankedRatingChatHandler());

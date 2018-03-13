@@ -189,7 +189,6 @@ import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.mods.sk1ercommon.Sk1erMod;
 import cc.hyperium.mods.statistics.GeneralStatisticsTracking;
 import cc.hyperium.tray.TrayManager;
-import cc.hyperium.utils.BanSystem;
 import cc.hyperium.utils.mods.CompactChat;
 import cc.hyperium.utils.mods.FPSLimiter;
 import net.minecraft.client.Minecraft;
@@ -236,11 +235,15 @@ public class Hyperium {
     private HyperiumModIntegration modIntegration;
 
     private CaptureCore captureCore;
-
+    private MinigameListener minigameListener;
     private boolean acceptedTos = false;
     private boolean fullScreen = false;
     private boolean checkedForUpdate = false;
     private Sk1erMod sk1erMod;
+
+    public MinigameListener getMinigameListener() {
+        return minigameListener;
+    }
 
     /**
      * @param event initialize Hyperium
@@ -259,7 +262,9 @@ public class Hyperium {
 
         handlers = new HyperiumHandlers();
 
-        EventBus.INSTANCE.register(new MinigameListener());
+
+        minigameListener = new MinigameListener();
+        EventBus.INSTANCE.register(minigameListener);
         EventBus.INSTANCE.register(new ToggleSprintContainer());
         EventBus.INSTANCE.register(notification);
         EventBus.INSTANCE.register(captureCore = new CaptureCore(this));

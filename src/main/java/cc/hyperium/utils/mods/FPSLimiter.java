@@ -196,6 +196,10 @@ public class FPSLimiter {
         return getInstance().limit();
     }
 
+    public boolean isLimbo() {
+        return limbo;
+    }
+
     public boolean limit() {
         return (!Display.isActive() || limbo) && GeneralSetting.framerateLimiterEnabled && time * 20 >= secondsWait;
     }
