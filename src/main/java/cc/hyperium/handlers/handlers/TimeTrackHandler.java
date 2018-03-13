@@ -5,7 +5,9 @@ import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.utils.JsonHolder;
 import cc.hyperium.utils.mods.FPSLimiter;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.multiplayer.WorldClient;
+import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.client.multiplayer.ServerData;
+import net.minecraft.world.World;
 
 import java.io.*;
 import java.text.DateFormat;
@@ -19,7 +21,7 @@ import java.util.concurrent.TimeUnit;
 public class TimeTrackHandler implements Runnable {
 
     private final DateFormat folderFormat = new SimpleDateFormat("MMMM YYYY");
-    private final DateFormat todayFormat = new SimpleDateFormat("DD");
+    private final DateFormat todayFormat = new SimpleDateFormat("dd");
     private JsonHolder data;
     private File today;
 
@@ -32,7 +34,7 @@ public class TimeTrackHandler implements Runnable {
     }
 
     private void loadData() {
-        File file = new File(Hyperium.folder, Minecraft.getMinecraft().getSession().getPlayerID() + "/" + folderFormat.format(new Date(System.currentTimeMillis())));
+        File file = new File(Hyperium.folder, "timetracking/" + Minecraft.getMinecraft().getSession().getPlayerID() + "/" + folderFormat.format(new Date(System.currentTimeMillis())));
 
         //check parent exists
         if (!file.exists())
@@ -64,24 +66,35 @@ public class TimeTrackHandler implements Runnable {
 
     @Override
     public void run() {
-        checkDate();
-        if (Hyperium.INSTANCE.getHandlers().getHypixelDetector().isHypixel()) {
-            if (FPSLimiter.getInstance().isLimbo()) {
-                inc("Hypixel", "limbo");
+        try {
+            checkDate();
+            if (Hyperium.INSTANCE.getHandlers().getHypixelDetector().isHypixel()) {
+                if (FPSLimiter.getInstance().isLimbo()) {
+                    inc("Hypixel", "limbo");
+                } else {
+                    inc("Hpixel", Hyperium.INSTANCE.getMinigameListener().getCurrentMinigameName());
+                }
             } else {
-                inc("Hpixel", Hyperium.INSTANCE.getMinigameListener().getCurrentMinigameName());
-            }
-        } else {
-            WorldClient theWorld = Minecraft.getMinecraft().theWorld;
-            if (theWorld == null) {
-                return;
-            }
-            if (theWorld.isRemote) {
-                inc("Server", Minecraft.getMinecraft().getCurrentServerData().serverIP);
+                EntityPlayerSP thePlayer = Minecraft.getMinecraft().thePlayer;
+                if (thePlayer == null) {
+                    inc("Unknown1", null);
+                    return;
+                }
+                World theWorld = thePlayer.getEntityWorld();
+                if (theWorld == null) {
+                    inc("Unknown2", null);
+                    return;
+                }
+                ServerData currentServerData = Minecraft.getMinecraft().getCurrentServerData();
+                if (currentServerData != null) {
+                    inc("Server", currentServerData.serverIP);
+                } else {
+                    inc("Singleplayer", Minecraft.getMinecraft().getIntegratedServer().getFolderName());
+                }
 
-            } else {
-                inc("Singleplayer", theWorld.getWorldInfo().getWorldName());
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -107,7 +120,7 @@ public class TimeTrackHandler implements Runnable {
         if (!todayFormat.format(new Date(System.currentTimeMillis())).equalsIgnoreCase(today.getName())) {
             save(today, data.toString());
             data = new JsonHolder().put("time", System.currentTimeMillis());
-            File file = new File(Hyperium.folder, Minecraft.getMinecraft().getSession().getPlayerID() + "/" + folderFormat.format(new Date(System.currentTimeMillis())));
+            File file = new File(Hyperium.folder, "timetracking/" + Minecraft.getMinecraft().getSession().getPlayerID() + "/" + folderFormat.format(new Date(System.currentTimeMillis())));
 
             //check parent exists
             if (!file.exists())
@@ -118,8 +131,12 @@ public class TimeTrackHandler implements Runnable {
     }
 
     private void inc(String catagory, String sub) {
+        if (sub == null) {
+            data.put(catagory, data.optLong(catagory) + 1);
+            return;
+        }
         if (!data.has(catagory))
             data.put(catagory, new JsonHolder());
-        data.put(sub, data.optLong(sub) + 1);
+        data.optJSONObject(catagory).put(sub, data.optJSONObject(catagory).optLong(sub) + 1);
     }
 }

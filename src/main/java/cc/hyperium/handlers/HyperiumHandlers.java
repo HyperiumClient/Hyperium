@@ -173,6 +173,7 @@ import cc.hyperium.commands.HyperiumCommandHandler;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.TickEvent;
+import cc.hyperium.gui.ScoreboardRenderer;
 import cc.hyperium.handlers.handlers.*;
 import cc.hyperium.handlers.handlers.chat.*;
 import cc.hyperium.handlers.handlers.keybinds.KeyBindHandler;
@@ -208,9 +209,11 @@ public class HyperiumHandlers {
     private HyperiumNetwork network;
     private RenderOptimizer renderOptomizer;
     private BrowserManager browserManager;
+    private ScoreboardRenderer scoreboardRenderer;
 
     public HyperiumHandlers() {
-        network = new HyperiumNetwork();
+
+        register(network = new HyperiumNetwork());
 
         this.remoteResourcesHandler = new RemoteResourcesHandler();
         chatHandlers = new ArrayList<>();
@@ -223,6 +226,7 @@ public class HyperiumHandlers {
         register(resolutionUtil = new ResolutionUtil());
         register(guiDisplayHandler = new GuiDisplayHandler());
         register(renderOptomizer = new RenderOptimizer());
+        register(scoreboardRenderer = new ScoreboardRenderer());
 
         register(privateMessageHandler = new PrivateMessageHandler());
         commandQueue = new CommandQueue();
@@ -322,5 +326,13 @@ public class HyperiumHandlers {
 
     public BrowserManager getBrowserManager() {
         return browserManager;
+    }
+
+    public TimeTrackHandler getTimeTrackHandler() {
+        return timeTrackHandler;
+    }
+
+    public ScoreboardRenderer getScoreboardRenderer() {
+        return scoreboardRenderer;
     }
 }

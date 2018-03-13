@@ -182,7 +182,9 @@ public class HyperiumNetwork {
 
     @InvokeEvent
     public void joinHypixel(JoinHypixelEvent event) {
-        Minecraft.getMinecraft().getNetHandler().addToSendQueue(new C17PacketCustomPayload("hyperium", new PacketBuffer(Unpooled.buffer()).writeString(new JsonHolder()
+        Minecraft.getMinecraft().getNetHandler().addToSendQueue(
+                new C17PacketCustomPayload("hyperium",
+                        new PacketBuffer(Unpooled.buffer()).writeString(new JsonHolder()
                 .put("id", Metadata.getModid())
                 .put("optifine", Metadata.isUsingOptifine())
                 .put("forge", Metadata.isUsingForge())

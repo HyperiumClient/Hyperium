@@ -168,6 +168,7 @@
 
 package cc.hyperium.mixins.renderer;
 
+import cc.hyperium.Hyperium;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.RenderHUDEvent;
 import cc.hyperium.mods.chromahud.displayitems.hyperium.ScoreboardDisplay;
@@ -197,13 +198,16 @@ public abstract class MixinGuiIngame {
     }
 
     /**
-     * @param p_180475_1_
-     * @param p_180475_2_
-     * @author Kevin Brewster
+     * @param objective
+     * @param resolution
+     * @author Kevin Brewster / Sk1er
      */
     @Overwrite
-    private void renderScoreboard(ScoreObjective p_180475_1_, ScaledResolution p_180475_2_) {
-        ScoreboardDisplay.p_180475_1_ = p_180475_1_;
-        ScoreboardDisplay.p_180475_2_ = p_180475_2_;
+    private void renderScoreboard(ScoreObjective objective, ScaledResolution resolution) {
+        //For *extra* scoreboards
+        ScoreboardDisplay.p_180475_1_ = objective;
+        ScoreboardDisplay.p_180475_2_ = resolution;
+
+        Hyperium.INSTANCE.getHandlers().getScoreboardRenderer().render(objective, resolution);
     }
 }
