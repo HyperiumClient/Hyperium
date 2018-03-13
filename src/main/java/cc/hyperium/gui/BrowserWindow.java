@@ -233,14 +233,14 @@ public class BrowserWindow extends JFrame {
                     ctrlPressed = true;
                 else if(e.getKeyCode() == KeyEvent.VK_SHIFT)
                     shiftPressed = true;
-                else if(ctrlPressed && e.getKeyCode() == KeyEvent.VK_PLUS)
+                else if(ctrlPressed && e.getKeyCode() == KeyEvent.VK_PLUS || e.getKeyCode() == KeyEvent.VK_EQUALS)
                     browser.zoomIn();
-                else if(ctrlPressed && e.getKeyCode() == KeyEvent.VK_MINUS)
+                else if(ctrlPressed && e.getKeyCode() == KeyEvent.VK_MINUS || e.getKeyCode() == KeyEvent.VK_UNDERSCORE)
                     browser.zoomOut();
-                else if(ctrlPressed && shiftPressed && e.getKeyCode() == KeyEvent.VK_PLUS){
+                else if(ctrlPressed && shiftPressed && e.getKeyCode() == KeyEvent.VK_PLUS || e.getKeyCode() == KeyEvent.VK_EQUALS){
                     scale+=0.1;
                     scale(scale);
-                }else if(ctrlPressed && shiftPressed && e.getKeyCode() == KeyEvent.VK_MINUS){
+                }else if(ctrlPressed && shiftPressed && e.getKeyCode() == KeyEvent.VK_MINUS || e.getKeyCode() == KeyEvent.VK_UNDERSCORE){
                     scale-=0.1;
                     scale(scale);
                 }
