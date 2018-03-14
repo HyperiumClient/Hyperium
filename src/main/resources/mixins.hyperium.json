@@ -44,6 +44,7 @@
     "renderer.MixinRenderItem",
     "renderer.MixinRendererLivingEntity",
     "renderer.MixinRenderPlayer",
+    "renderer.MixinRender",
     "renderer.MixinFontRenderer",
     "packet.MixinC01PacketChatMessage",
     "packet.MixinS2EPacketCloseWindow",
@@ -53,5 +54,6 @@
     "world.MixinWorld",
     "scoreboard.MixinScoreboard",
     "client.resources.MixinAbstractResourcePack"
+
   ]
 }
