@@ -199,7 +199,8 @@ public class RenderOptimizer {
     }
 
     private boolean isSimilar(Entity other) {
-
+        if (true)
+            return true;
         String text1 = EnumChatFormatting.getTextWithoutFormattingCodes(other.getDisplayName().getUnformattedText());
         double posX = other.posX;
         double posY = other.posY;
@@ -207,10 +208,11 @@ public class RenderOptimizer {
         for (Entity entity : rendered) {
             String text = EnumChatFormatting.getTextWithoutFormattingCodes(entity.getDisplayName().getUnformattedText());
             if (text.equalsIgnoreCase(text1) && posX == entity.posX && posY == entity.posY && entity.posZ == posZ) {
-                return true;
+                return false;
             }
 
         }
+        rendered.add(other);
         return false;
     }
 }

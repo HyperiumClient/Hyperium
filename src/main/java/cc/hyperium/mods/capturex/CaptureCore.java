@@ -169,63 +169,54 @@
 package cc.hyperium.mods.capturex;
 
 import cc.hyperium.Hyperium;
-import cc.hyperium.event.ChatEvent;
-import cc.hyperium.event.EventBus;
-import cc.hyperium.event.HypixelFriendRequestEvent;
-import cc.hyperium.event.InvokeEvent;
-import cc.hyperium.event.JoinMinigameEvent;
-import cc.hyperium.event.RenderEvent;
+import cc.hyperium.event.*;
 import cc.hyperium.event.minigames.Minigame;
 import cc.hyperium.gui.settings.items.CaptureXSetting;
 import cc.hyperium.mods.capturex.render.FFMpegHelper;
 import cc.hyperium.mods.capturex.render.FrameRenderer;
-import cc.hyperium.mods.chromahud.api.DisplayItem;
 import cc.hyperium.utils.ChatColor;
-import cc.hyperium.utils.mods.AsyncScreenshotSaver;
-import com.google.common.collect.Queues;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListenableFutureTask;
-
-import java.awt.*;
-import java.io.IOException;
-import java.util.regex.Pattern;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.shader.Framebuffer;
-import net.minecraft.util.ScreenShotHelper;
 import net.minecraft.util.Util;
-import org.apache.commons.lang3.SerializationUtils;
 import org.apache.commons.lang3.Validate;
+import org.jetbrains.annotations.NotNull;
 import org.lwjgl.opengl.Display;
 
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.Serializable;
+import java.io.IOException;
 import java.util.ArrayDeque;
 import java.util.Queue;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Executors;
-import java.util.concurrent.FutureTask;
+import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.regex.Pattern;
 
 public class CaptureCore {
     public static final File captureXDir = new File(Minecraft.getMinecraft().mcDataDir, "captureX");
-    private final Queue<FutureTask<?>> scheduledTasks = Queues.newArrayDeque();
-    private final Queue<FutureTask<?>> renderTasks = Queues.newArrayDeque();
+    private final ConcurrentLinkedDeque<FutureTask<?>> scheduledTasks = new ConcurrentLinkedDeque<>();
+    private final ConcurrentLinkedDeque<FutureTask<?>> renderTasks = new ConcurrentLinkedDeque<>();
     private Queue<BufferedImage> backwardFrames = new ArrayDeque<>();
     private FFMpegHelper FFMpeg = new FFMpegHelper();
-    private Thread queueWorker;
-    private Thread renderWorker;
-    
+
     private Minigame currentGame;
-    
+    private ScheduledExecutorService service = Executors.newScheduledThreadPool(1, new ThreadFactory() {
+        private AtomicInteger counter = new AtomicInteger(0);
+
+        @Override
+        public Thread newThread(@NotNull Runnable r) {
+            return new Thread(r, "CaptureX Worker " + counter.incrementAndGet());
+        }
+    });
     private Pattern friendRequestPattern;
     private Pattern rankBracketPattern;
     private Pattern swKillMsg;
     private Pattern bwKillMsg;
     private Pattern bwFinalKillMsg;
     private Pattern duelKillMsg;
-    
+
     private Hyperium client;
     private Robot robot;
 
@@ -244,38 +235,34 @@ public class CaptureCore {
         bwKillMsg = Pattern.compile(".+? by .+?\\.");
         bwFinalKillMsg = Pattern.compile(".+? by .+?\\. FINAL KILL!");
         duelKillMsg = Pattern.compile(".+? was kill by .+?\\.");
-        
+
         this.client = hyperiumIn;
-        
-        queueWorker = new Thread(() -> {
-            while (!Thread.interrupted())
-                while (!this.scheduledTasks.isEmpty()) {
+
+
+        service.scheduleAtFixedRate(() -> {
+            for (FutureTask<?> renderTask : renderTasks) {
                 try {
-                    Util.runTask((FutureTask<?>) this.scheduledTasks.poll(), Hyperium.LOGGER);
-                }catch(Exception ex){
+                    Util.runTask((FutureTask<?>) renderTask, Hyperium.LOGGER);
+                } catch (Exception ex) {
                     ex.printStackTrace();
                 }
+            }
+            for (FutureTask<?> scheduledTask : this.scheduledTasks) {
+                try {
+                    Util.runTask((FutureTask<?>) scheduledTask, Hyperium.LOGGER);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
                 }
-        }, "Capture Worker");
-        queueWorker.start();
-        renderWorker = new Thread(() -> {
-            while (!Thread.interrupted())
-                while (!this.renderTasks.isEmpty()) {
-                    try {
-                        Util.runTask((FutureTask<?>) this.renderTasks.poll(), Hyperium.LOGGER);
-                    }catch(Exception ex){
-                        ex.printStackTrace();
-                    }
-                }
-        }, "Render Worker");
-        renderWorker.start();
+            }
+
+        }, 15, 15, TimeUnit.MILLISECONDS);
     }
 
     @InvokeEvent
-    public void onTick(RenderEvent event){
-        if(CaptureXSetting.mode != CaptureMode.VIDEO)return;
+    public void onTick(RenderEvent event) {
+        if (CaptureXSetting.mode != CaptureMode.VIDEO) return;
         // 1 seconds backward
-        if(backwardFrames.size() > CaptureXSetting.captureLength * 20)
+        if (backwardFrames.size() > CaptureXSetting.captureLength * 20)
             backwardFrames.poll();
         try {
             backwardFrames.add(addScheduledTask(() -> robot.createScreenCapture(new Rectangle(Display.getX(), Display.getY(), Display.getWidth(), Display.getHeight()))).get());
@@ -287,7 +274,7 @@ public class CaptureCore {
     private void onKill() {
         final Queue<BufferedImage> finalBackwardsBuffer = new ArrayDeque<>(backwardFrames);
         addRenderTask(() -> {
-            switch (CaptureXSetting.mode){
+            switch (CaptureXSetting.mode) {
                 case VIDEO:
                     try {
                         Hyperium.INSTANCE.getNotification().display("CaptureX", "Rendering kill", 3);
@@ -302,7 +289,7 @@ public class CaptureCore {
                     break;
                 case SCREENSHOT:
                     try {
-                        ImageIO.write(FrameRenderer.getImageFromFrameBuffer(Minecraft.getMinecraft().getFramebuffer(), Minecraft.getMinecraft().displayWidth, Minecraft.getMinecraft().displayHeight), "png", new File(captureXDir, "kill-"+System.currentTimeMillis()+".png"));
+                        ImageIO.write(FrameRenderer.getImageFromFrameBuffer(Minecraft.getMinecraft().getFramebuffer(), Minecraft.getMinecraft().displayWidth, Minecraft.getMinecraft().displayHeight), "png", new File(captureXDir, "kill-" + System.currentTimeMillis() + ".png"));
                         Hyperium.INSTANCE.getNotification().display("CaptureX", "Kill captured", 3);
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -315,11 +302,8 @@ public class CaptureCore {
 
     private <V> ListenableFuture<V> addScheduledTask(Callable<V> callableToSchedule) {
         ListenableFutureTask<V> listenable = ListenableFutureTask.create(callableToSchedule);
-
-        synchronized (this.scheduledTasks) {
-            this.scheduledTasks.add(listenable);
-            return listenable;
-        }
+        this.scheduledTasks.add(listenable);
+        return listenable;
     }
 
     private ListenableFuture<Object> addScheduledTask(Runnable runnableToSchedule) {
@@ -330,10 +314,9 @@ public class CaptureCore {
     private <V> ListenableFuture<V> addRenderTask(Callable<V> callableToSchedule) {
         ListenableFutureTask<V> listenable = ListenableFutureTask.create(callableToSchedule);
 
-        synchronized (this.renderTasks) {
-            this.renderTasks.add(listenable);
-            return listenable;
-        }
+        this.renderTasks.add(listenable);
+        return listenable;
+
     }
 
     private ListenableFuture<Object> addRenderTask(Runnable runnableToSchedule) {
@@ -342,16 +325,19 @@ public class CaptureCore {
     }
 
     public void shutdown() {
-        queueWorker.interrupt();
-        renderWorker.interrupt();
+        try {
+            service.awaitTermination(1, TimeUnit.SECONDS);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
-    
-    
+
+
     @InvokeEvent
     public void onMinigameJoin(JoinMinigameEvent event) {
         this.currentGame = event.getMinigame();
     }
-    
+
     @InvokeEvent
     public void onChat(ChatEvent event) {
         if (friendRequestPattern.matcher(ChatColor.stripColor(event.getChat().getUnformattedText())).matches()) {
@@ -361,6 +347,7 @@ public class CaptureCore {
             EventBus.INSTANCE.post(new HypixelFriendRequestEvent(withoutRank));
         }
         String msg = ChatColor.stripColor(event.getChat().getUnformattedText());
+        if (CaptureXSetting.mode == CaptureMode.OFF) return;
         if (this.client.getHandlers().getHypixelDetector().isHypixel()) {
             if (currentGame == null) {
                 return;
