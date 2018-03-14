@@ -8,4 +8,6 @@ import cc.hyperium.config.ConfigOpt;
 public class OtherConfigOptions {
     @ConfigOpt
     public double headScaleFactor = 2.0;
+    @ConfigOpt
+    public boolean hideNameTags = false;
 }

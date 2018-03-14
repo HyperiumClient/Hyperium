@@ -175,15 +175,21 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityArmorStand;
 import net.minecraft.util.EnumChatFormatting;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 
 public class RenderOptimizer {
 
-    private List<Entity> rendered = new ArrayList<>();
-
+    private HashMap<Entity, String> rendered = new HashMap<>();
     @ConfigOpt
     private boolean limitArmourStands = true;
+
+    public boolean isLimitArmourStands() {
+        return limitArmourStands;
+    }
+
+    public void setLimitArmourStands(boolean limitArmourStands) {
+        this.limitArmourStands = limitArmourStands;
+    }
 
     @InvokeEvent
     public void renderHUD(RenderHUDEvent event) {
@@ -199,20 +205,18 @@ public class RenderOptimizer {
     }
 
     private boolean isSimilar(Entity other) {
-        if (true)
-            return true;
         String text1 = EnumChatFormatting.getTextWithoutFormattingCodes(other.getDisplayName().getUnformattedText());
         double posX = other.posX;
         double posY = other.posY;
         double posZ = other.posZ;
-        for (Entity entity : rendered) {
-            String text = EnumChatFormatting.getTextWithoutFormattingCodes(entity.getDisplayName().getUnformattedText());
+        for (Entity entity : rendered.keySet()) {
+            String text = rendered.get(entity);
             if (text.equalsIgnoreCase(text1) && posX == entity.posX && posY == entity.posY && entity.posZ == posZ) {
                 return false;
             }
 
         }
-        rendered.add(other);
-        return false;
+        rendered.put(other, text1);
+        return true;
     }
 }

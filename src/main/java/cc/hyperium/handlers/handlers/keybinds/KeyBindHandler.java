@@ -174,40 +174,63 @@ import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.KeypressEvent;
 import cc.hyperium.gui.NameHistoryGui;
 import cc.hyperium.gui.integrations.HypixelFriendsGui;
-import java.util.TreeMap;
 import net.minecraft.client.Minecraft;
 import org.apache.commons.lang3.ArrayUtils;
 import org.lwjgl.input.Keyboard;
 
-public class KeyBindHandler {
-    
-    private final KeyBindConfig keyBindConfig;
-    
-    // Case insensitive treemap
-    private final TreeMap<String, HyperiumBind> keybinds = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+import java.util.TreeMap;
 
-    
-    public HyperiumBind debug = new HyperiumBind("friends", Keyboard.KEY_L) {
-        @Override
-        public void onPress() {
-            Minecraft.getMinecraft().displayGuiScreen(new HypixelFriendsGui());
-        }
-    };
-    
+public class KeyBindHandler {
+
     public static HyperiumBind nameHistory = new HyperiumBind("nameHistory", Keyboard.KEY_N) {
         @Override
         public void onPress() {
             new NameHistoryGui().show();
         }
     };
+    private final KeyBindConfig keyBindConfig;
+    // Case insensitive treemap
+    private final TreeMap<String, HyperiumBind> keybinds = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+    public HyperiumBind friends = new HyperiumBind("friends", Keyboard.KEY_L) {
+        @Override
+        public void onPress() {
+            Minecraft.getMinecraft().displayGuiScreen(new HypixelFriendsGui());
+        }
+    };
+    public HyperiumBind debug = new HyperiumBind("DEBUG", Keyboard.KEY_J) {
+        @Override
+        public void onPress() {
+            Hyperium.INSTANCE.getHandlers().getRenderOptomizer().setLimitArmourStands(!Hyperium.INSTANCE.getHandlers().getRenderOptomizer().isLimitArmourStands());
+        }
 
+        @Override
+        public void onRelease() {
+            Hyperium.INSTANCE.getHandlers().getRenderOptomizer().setLimitArmourStands(!Hyperium.INSTANCE.getHandlers().getRenderOptomizer().isLimitArmourStands());
+        }
+    };
+
+    public HyperiumBind debug1 = new HyperiumBind("DEBUG1", Keyboard.KEY_U) {
+        @Override
+        public void onPress() {
+            Hyperium.INSTANCE.getHandlers().getConfigOptions().hideNameTags = !Hyperium.INSTANCE.getHandlers().getConfigOptions().hideNameTags;
+        }
+
+        @Override
+        public void onRelease() {
+            Hyperium.INSTANCE.getHandlers().getConfigOptions().hideNameTags = !Hyperium.INSTANCE.getHandlers().getConfigOptions().hideNameTags;
+        }
+    };
+
+    //Hyperium.INSTANCE.getHandlers().getConfigOptions().hideNameTags
     public KeyBindHandler() {
         this.keyBindConfig = new KeyBindConfig(this, Hyperium.folder);
-        
+
         this.keyBindConfig.load();
-        
-        registerKeyBinding(debug);
+
+        registerKeyBinding(friends);
         registerKeyBinding(nameHistory);
+        registerKeyBinding(debug);
+        registerKeyBinding(debug1);
     }
 
     @InvokeEvent
@@ -218,7 +241,7 @@ public class KeyBindHandler {
                     bind.onPress();
                     bind.setWasPressed(true);
                 }
-                
+
                 if (bind.wasPressed() && !bind.isKeyDown()) {
                     bind.onRelease();
                     bind.setWasPressed(false);
@@ -226,12 +249,12 @@ public class KeyBindHandler {
             }
         }
     }
-    
+
     @InvokeEvent
     public void onGameShutdown(GameShutDownEvent event) {
         this.keyBindConfig.save();
     }
-    
+
     /**
      * Grabs a binding from the registered keybindings list, this is case-insensitive and
      * any key/name may be provided without fear of causing issues
@@ -242,7 +265,7 @@ public class KeyBindHandler {
     public HyperiumBind getBinding(String name) {
         return this.keybinds.getOrDefault(name, null);
     }
-    
+
     /**
      * Registers a Hyperium KeyBinding here & in the game code so it shows up in the
      * controls menu, allowing the user to modify the keyblind
@@ -251,13 +274,13 @@ public class KeyBindHandler {
      */
     public void registerKeyBinding(HyperiumBind bind) {
         this.keybinds.put(bind.getRealDescription(), bind);
-        
+
         this.keyBindConfig.attemptKeyBindLoad(bind);
-        
+
         Minecraft.getMinecraft().gameSettings.keyBindings = ArrayUtils
-            .add(Minecraft.getMinecraft().gameSettings.keyBindings, bind);
+                .add(Minecraft.getMinecraft().gameSettings.keyBindings, bind);
     }
-    
+
     /**
      * Getter for the amazing KeyBind config
      *
@@ -266,7 +289,7 @@ public class KeyBindHandler {
     public KeyBindConfig getKeyBindConfig() {
         return this.keyBindConfig;
     }
-    
+
     /**
      * Getter for the all the registered key bindings, this is package
      * private to allow for saving and loading
