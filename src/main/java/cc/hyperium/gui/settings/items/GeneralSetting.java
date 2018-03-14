@@ -382,6 +382,12 @@ public class GeneralSetting extends SettingGui {
             this.settingsUpdated = true;
             // redo it
             Minecraft.getMinecraft().toggleFullscreen();
+            try {
+                // hacky fix to concurrent exception
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             Minecraft.getMinecraft().toggleFullscreen();
         }));
         fullScreenStyle.addDefaultOnOff();
