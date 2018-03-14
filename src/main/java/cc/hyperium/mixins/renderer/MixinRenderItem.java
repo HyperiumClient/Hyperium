@@ -168,8 +168,8 @@
 
 package cc.hyperium.mixins.renderer;
 
+import cc.hyperium.Hyperium;
 import cc.hyperium.gui.settings.items.GeneralSetting;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.ItemModelMesher;
@@ -181,9 +181,9 @@ import net.minecraft.client.renderer.tileentity.TileEntityItemStackRenderer;
 import net.minecraft.client.resources.IResourceManagerReloadListener;
 import net.minecraft.client.resources.model.IBakedModel;
 import net.minecraft.item.ItemPotion;
+import net.minecraft.item.ItemSkull;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
@@ -197,28 +197,28 @@ import org.spongepowered.asm.mixin.Shadow;
  */
 @Mixin(RenderItem.class)
 public abstract class MixinRenderItem implements IResourceManagerReloadListener {
-    
+
     /**
      * A shadow of the item enchantment texture
      */
     @Shadow
     @Final
     private static ResourceLocation RES_ITEM_GLINT;
-    
+
     /**
      * A shadow of the model mesh field
      */
     @Shadow
     @Final
     private ItemModelMesher itemModelMesher;
-    
+
     /**
      * A shadow of the texture manager field
      */
     @Shadow
     @Final
     private TextureManager textureManager;
-    
+
     /**
      * Overrides the normal method to use our custom one
      *
@@ -230,7 +230,7 @@ public abstract class MixinRenderItem implements IResourceManagerReloadListener 
     public void renderItem(ItemStack stack, IBakedModel model) {
         this.renderItem(stack, model, false);
     }
-    
+
     /**
      * A custom method which includes a "isInv" parameter, this specifies if the item being rendered
      * is in an inventory
@@ -241,53 +241,70 @@ public abstract class MixinRenderItem implements IResourceManagerReloadListener 
      * @author boomboompower
      */
     public void renderItem(ItemStack stack, IBakedModel model, boolean isInv) {
+        final boolean trueInv = isInv;
         if (!GeneralSetting.shinyPotsEnabled) {
             isInv = false;
         }
-        
+
         if (stack != null) {
             GlStateManager.pushMatrix();
             GlStateManager.scale(0.5F, 0.5F, 0.5F);
-            
+
             if (model.isBuiltInRenderer()) {
                 GlStateManager.rotate(180.0F, 0.0F, 1.0F, 0.0F);
                 GlStateManager.translate(-0.5F, -0.5F, -0.5F);
                 GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
                 GlStateManager.enableRescaleNormal();
+                boolean isHead = !trueInv && stack.getItem() != null && stack.getItem() instanceof ItemSkull;
+                double headScale = Hyperium.INSTANCE.getHandlers().getConfigOptions().headScaleFactor;
+                if (isHead) {
+                    GlStateManager.scale(headScale, headScale, headScale);
+                }
                 TileEntityItemStackRenderer.instance.renderByItem(stack);
+                if (isHead) {
+                    GlStateManager.scale(1.0 / headScale, 1.0 / headScale, 1.0 / headScale);
+                }
             } else {
                 // Didn't really want to do this, but it's necessary
                 boolean renderedAsPotion = false;
-                
+
                 GlStateManager.translate(-0.5F, -0.5F, -0.5F);
-    
+
                 // Basically we want to render our potion effect before
                 // the item is renderer so it doesn't render over the item
                 if (isInv && stack.getItem() != null && stack.getItem() instanceof ItemPotion) {
                     this.renderPot(model); // Use our renderer instead of the normal one
-                    
+
                     renderedAsPotion = true;
                 }
-                
+                boolean isHead = !isInv && stack.getItem() != null && stack.getItem() instanceof ItemSkull;
+                double headScale = Hyperium.INSTANCE.getHandlers().getConfigOptions().headScaleFactor;
+                if (isHead) {
+                    GlStateManager.scale(headScale, headScale, headScale);
+                }
+
                 // Normal item renderer
                 this.renderModel(model, stack);
-                
+
                 // If the effect has not been renderer as a potion, we'll use a normal render
                 if (!renderedAsPotion && stack.hasEffect()) {
                     this.renderEffect(model); // The regular effect renderer
                 }
+                if (isHead) {
+                    GlStateManager.scale(1.0 / headScale, 1.0 / headScale, 1.0 / headScale);
+                }
             }
-            
+
             GlStateManager.popMatrix();
         }
     }
-    
+
     /**
      * Overrides the normal gui renderer to use our custom renderer instead
      *
      * @param stack the item to render
-     * @param x the x location of the item
-     * @param y the y location of the item
+     * @param x     the x location of the item
+     * @param y     the y location of the item
      * @author boomboompower
      */
     @Overwrite
@@ -296,7 +313,7 @@ public abstract class MixinRenderItem implements IResourceManagerReloadListener 
         GlStateManager.pushMatrix();
         this.textureManager.bindTexture(TextureMap.locationBlocksTexture);
         this.textureManager.getTexture(TextureMap.locationBlocksTexture)
-            .setBlurMipmap(false, false);
+                .setBlurMipmap(false, false);
         GlStateManager.enableRescaleNormal();
         GlStateManager.enableAlpha();
         GlStateManager.alphaFunc(516, 0.1F);
@@ -305,10 +322,10 @@ public abstract class MixinRenderItem implements IResourceManagerReloadListener 
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         this.setupGuiTransform(x, y, ibakedmodel.isGui3d());
         ibakedmodel.getItemCameraTransforms()
-            .applyTransform(ItemCameraTransforms.TransformType.GUI);
-        
+                .applyTransform(ItemCameraTransforms.TransformType.GUI);
+
         this.renderItem(stack, ibakedmodel, true); // Changed to true because this IS an inventory
-        
+
         GlStateManager.disableAlpha();
         GlStateManager.disableRescaleNormal();
         GlStateManager.disableLighting();
@@ -316,7 +333,7 @@ public abstract class MixinRenderItem implements IResourceManagerReloadListener 
         this.textureManager.bindTexture(TextureMap.locationBlocksTexture);
         this.textureManager.getTexture(TextureMap.locationBlocksTexture).restoreLastBlurMipmap();
     }
-    
+
     /**
      * Normal code for rendering an effect/enchantment on an item
      *
@@ -350,7 +367,7 @@ public abstract class MixinRenderItem implements IResourceManagerReloadListener 
         GlStateManager.depthMask(true);
         this.textureManager.bindTexture(TextureMap.locationBlocksTexture);
     }
-    
+
     /**
      * Basically the same as the above method, but does not include the depth code
      *
@@ -380,27 +397,27 @@ public abstract class MixinRenderItem implements IResourceManagerReloadListener 
         GlStateManager.blendFunc(770, 771);
         GlStateManager.enableLighting();
         GlStateManager.depthMask(true);
-        
+
         this.textureManager.bindTexture(TextureMap.locationBlocksTexture);
     }
-    
+
     /**
      * A shadow method, this will call the method in the the class we are modifying
      */
     @Shadow
     protected abstract void renderModel(IBakedModel model, int color);
-    
+
     /**
      * A shadow method, this will call the method in the the class we are modifying
      */
     @Shadow
     protected abstract void renderModel(IBakedModel model, ItemStack stack);
-    
+
     /**
      * A shadow method, this will call the method in the the class we are modifying
      */
     @Shadow
     protected abstract void setupGuiTransform(int xPosition, int yPosition,
-        boolean isGui3d);
+                                              boolean isGui3d);
 }
 

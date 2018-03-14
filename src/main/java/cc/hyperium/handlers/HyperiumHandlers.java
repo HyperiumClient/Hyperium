@@ -210,13 +210,14 @@ public class HyperiumHandlers {
     private RenderOptimizer renderOptomizer;
     private BrowserManager browserManager;
     private ScoreboardRenderer scoreboardRenderer;
-
+    private OtherConfigOptions configOptions;
     public HyperiumHandlers() {
 
         register(network = new HyperiumNetwork());
 
         this.remoteResourcesHandler = new RemoteResourcesHandler();
         chatHandlers = new ArrayList<>();
+        register(configOptions = new OtherConfigOptions());
         register(generalChatHandler = new GeneralChatHandler(chatHandlers));
         register(keybindHandler = new KeyBindHandler());
         register(locationHandler = new LocationHandler());
@@ -334,5 +335,9 @@ public class HyperiumHandlers {
 
     public ScoreboardRenderer getScoreboardRenderer() {
         return scoreboardRenderer;
+    }
+
+    public OtherConfigOptions getConfigOptions() {
+        return configOptions;
     }
 }
