@@ -189,6 +189,7 @@ import org.apache.commons.io.IOUtils;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.DisplayMode;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
@@ -325,20 +326,28 @@ public abstract class MixinMinecraft {
      */
     @Inject(method = "setInitialDisplayMode", at = @At(value = "HEAD"), cancellable = true)
     private void displayFix(CallbackInfo ci) throws LWJGLException {
-        ci.cancel();
         Display.setFullscreen(false);
         if (this.fullscreen) {
             if (GeneralSetting.windowedFullScreen) {
                 System.setProperty("org.lwjgl.opengl.Window.undecorated", "true");
             } else {
                 Display.setFullscreen(true);
+                DisplayMode displaymode = Display.getDisplayMode();
+                this.displayWidth = Math.max(1, displaymode.getWidth());
+                this.displayHeight = Math.max(1, displaymode.getHeight());
             }
-        }
-        else {
-            System.setProperty("org.lwjgl.opengl.Window.undecorated", "false");
+        } else {
+            if (GeneralSetting.windowedFullScreen) {
+                System.setProperty("org.lwjgl.opengl.Window.undecorated", "false");
+            } else {
+                Display.setDisplayMode(new DisplayMode(this.displayWidth, this.displayHeight));
+            }
         }
         Display.setResizable(false);
         Display.setResizable(true);
+
+        // effectively overwrites the method
+        ci.cancel();
     }
 
     @Inject(method = "toggleFullscreen", at = @At(value = "INVOKE", target = "Lorg/lwjgl/opengl/Display;setVSyncEnabled(Z)V", shift = At.Shift.AFTER))
