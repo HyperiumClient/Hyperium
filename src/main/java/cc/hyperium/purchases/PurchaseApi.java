@@ -172,6 +172,7 @@ import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.mods.sk1ercommon.Sk1erMod;
 import cc.hyperium.purchases.packages.CustomLevelhead;
 import cc.hyperium.purchases.packages.EarlyBird;
+import cc.hyperium.purchases.packages.WingCosmetic;
 import cc.hyperium.utils.JsonHolder;
 
 import java.lang.reflect.InvocationTargetException;
@@ -189,6 +190,7 @@ public class PurchaseApi {
     private PurchaseApi() {
         register(EnumPurchaseType.LEVEL_HEAD, CustomLevelhead.class);
         register(EnumPurchaseType.EARLY_BIRD, EarlyBird.class);
+        register(EnumPurchaseType.WING_COSMETIC, WingCosmetic.class);
     }
 
     public static PurchaseApi getInstance() {
