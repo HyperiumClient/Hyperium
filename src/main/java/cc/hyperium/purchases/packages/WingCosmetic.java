@@ -166,30 +166,14 @@
  * Library.
  */
 
-package cc.hyperium.purchases;
+package cc.hyperium.purchases.packages;
 
-public enum EnumPurchaseType {
-    LEVEL_HEAD(2709838),
-    EARLY_BIRD(2888258),
-    WING_COSMETIC(-1),
-    //set to 0 because 0 is default value of a primitive !
-    UNKNOWN(0);
+import cc.hyperium.purchases.AbstractHyperiumPurchase;
+import cc.hyperium.purchases.EnumPurchaseType;
+import cc.hyperium.utils.JsonHolder;
 
-    private int id;
-
-    EnumPurchaseType(int i) {
-        this.id = i;
-    }
-
-    public static EnumPurchaseType parse(String asString) {
-        try {
-            return valueOf(asString.toUpperCase());
-        } catch (Exception e) {
-            return UNKNOWN;
-        }
-    }
-
-    public int getId() {
-        return id;
+public class WingCosmetic extends AbstractHyperiumPurchase {
+    public WingCosmetic(EnumPurchaseType type, JsonHolder data) {
+        super(type, data);
     }
 }
