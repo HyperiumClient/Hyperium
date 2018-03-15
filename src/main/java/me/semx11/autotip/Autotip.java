@@ -171,6 +171,8 @@ package me.semx11.autotip;
 import cc.hyperium.Hyperium;
 import cc.hyperium.commands.BaseCommand;
 import cc.hyperium.event.EventBus;
+import cc.hyperium.mods.AbstractMod;
+import cc.hyperium.utils.ChatColor;
 import me.semx11.autotip.command.AutotipCommand;
 import me.semx11.autotip.command.LimboCommand;
 import me.semx11.autotip.command.TipHistoryCommand;
@@ -192,7 +194,7 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class Autotip {
+public class Autotip extends AbstractMod {
 
     public static final String MODID = "autotip";
     public static final String VERSION_STRING = "2.0.3";
@@ -210,7 +212,20 @@ public class Autotip {
 
     public static int totalTipsSent;
     public static List<String> alreadyTipped = new ArrayList<>();
-
+    
+    /**
+     * The metadata of Autotip
+     */
+    private final Metadata meta;
+    
+    public Autotip() {
+        Metadata metadata = new Metadata(this, "Autotip", "2.0.3", "Semx11, 2pi, Sk1er");
+    
+        metadata.setDisplayName(ChatColor.AQUA + "Autotip");
+    
+        this.meta = metadata;
+    }
+    
     public Autotip init() {
         try {
             playerUUID = Minecraft.getMinecraft().getSession().getProfile().getId().toString();
@@ -240,7 +255,12 @@ public class Autotip {
         }
         return this;
     }
-
+    
+    @Override
+    public Metadata getModMetadata() {
+        return this.meta;
+    }
+    
     private void registerEvents(Object... events) {
         Arrays.asList(events).forEach(EventBus.INSTANCE::register);
     }
