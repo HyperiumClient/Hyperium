@@ -170,10 +170,12 @@ package cc.hyperium.mods.chromahud;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.event.EventBus;
+import cc.hyperium.mods.AbstractMod;
 import cc.hyperium.mods.chromahud.api.ButtonConfig;
 import cc.hyperium.mods.chromahud.api.DisplayItem;
 import cc.hyperium.mods.chromahud.commands.CommandChromaHUD;
 import cc.hyperium.mods.chromahud.gui.GeneralConfigGui;
+import cc.hyperium.utils.ChatColor;
 import cc.hyperium.utils.JsonHolder;
 import com.google.gson.JsonArray;
 import net.minecraft.client.gui.GuiButton;
@@ -181,18 +183,26 @@ import net.minecraft.client.gui.GuiButton;
 import java.io.*;
 import java.util.List;
 
-public class ChromaHUD {
+public class ChromaHUD extends AbstractMod {
     public static final String MODID = "ChromaHUD";
     public static final String VERSION = "3.0";
     private File suggestedConfigurationFile;
     private boolean enabled = true;
-
+    
+    /**
+     * The metadata of ChromaHUD
+     */
+    private final Metadata meta;
+    
     public ChromaHUD() {
-        init();
+        Metadata metadata = new Metadata(this, "ChromaHUD", "3.0", "Sk1er");
+    
+        metadata.setDisplayName(ChatColor.AQUA + "ChromaHUD");
+    
+        this.meta = metadata;
     }
 
-
-    private void init() {
+    public AbstractMod init() {
         suggestedConfigurationFile = new File(Hyperium.folder, "/displayconfig.json");
         ChromaHUDApi.getInstance();
         ChromaHUDApi.getInstance().register(new DefaultChromaHUDParser());
@@ -234,9 +244,16 @@ public class ChromaHUD {
         EventBus.INSTANCE.register(new ElementRenderer(this));
     
         Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(new CommandChromaHUD(this));
+        
+        return this;
     }
-
-
+    
+    @Override
+    public Metadata getModMetadata() {
+        return this.meta;
+    }
+    
+    
     public void setup() {
         JsonHolder data = new JsonHolder();
         try {

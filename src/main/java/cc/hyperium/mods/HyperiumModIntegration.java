@@ -191,11 +191,12 @@ public class HyperiumModIntegration {
     private AbstractMod utilities;
     private AbstractMod levelhead;
     
-    private ChromaHUD chromaHUD;
-    private Autotip autotip;
+    private AbstractMod chromaHUD;
+    private AbstractMod autotip;
     
     public HyperiumModIntegration() {
-        this.chromaHUD = new ChromaHUD();
+        // ChromaHud implementation
+        this.chromaHUD = new ChromaHUD().init();
         
         // LevelHead implementation
         this.levelhead = new Levelhead().init();
@@ -224,7 +225,7 @@ public class HyperiumModIntegration {
      *
      * @return the running Autotip instance
      */
-    public Autotip getAutotip() {
+    public AbstractMod getAutotip() {
         return this.autotip;
     }
     
@@ -233,7 +234,7 @@ public class HyperiumModIntegration {
      *
      * @return the running ChromeHUD instance
      */
-    public ChromaHUD getChromaHUD() {
+    public AbstractMod getChromaHUD() {
         return this.chromaHUD;
     }
     
