@@ -171,6 +171,7 @@ package cc.hyperium.gui;
 import cc.hyperium.Hyperium;
 import cc.hyperium.gui.settings.SettingItem;
 import cc.hyperium.gui.settings.items.*;
+import cc.hyperium.mods.chromahud.ChromaHUD;
 import cc.hyperium.utils.HyperiumFontRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
@@ -311,7 +312,7 @@ public class ModConfigGui extends HyperiumGui {
                     getDefaultItemY(6),
                     width - getX(0) * 2,
                     "CHROMAHUD",
-                    i -> Minecraft.getMinecraft().displayGuiScreen(Hyperium.INSTANCE.getModIntegration().getChromaHUD().getConfigGuiInstance())
+                    i -> Minecraft.getMinecraft().displayGuiScreen(((ChromaHUD)Hyperium.INSTANCE.getModIntegration().getChromaHUD()).getConfigGuiInstance())
             ));
         }
 
