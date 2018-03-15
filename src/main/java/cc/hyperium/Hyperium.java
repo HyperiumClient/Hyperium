@@ -260,9 +260,14 @@ public class Hyperium {
                 folder.getAbsolutePath() + "/accounts/" + Minecraft.getMinecraft().getSession()
                         .getPlayerID() + ".lck").exists();
 
+        SplashProgress.PROGRESS = 5;
+        SplashProgress.CURRENT = "Loading handlers";
+        SplashProgress.update();
         handlers = new HyperiumHandlers();
 
-
+        SplashProgress.PROGRESS = 6;
+        SplashProgress.CURRENT = "Registering listeners";
+        SplashProgress.update();
         minigameListener = new MinigameListener();
         EventBus.INSTANCE.register(minigameListener);
         EventBus.INSTANCE.register(new ToggleSprintContainer());
@@ -277,11 +282,17 @@ public class Hyperium {
         EventBus.INSTANCE.register(statTrack);
         CONFIG.register(statTrack);
 
+        SplashProgress.PROGRESS = 7;
+        SplashProgress.CURRENT = "Starting Hyperium";
+        SplashProgress.update();
         LOGGER.info("Hyperium Started!");
         Display.setTitle("Hyperium " + Metadata.getVersion());
 
         trayManager = new TrayManager();
 
+        SplashProgress.PROGRESS = 8;
+        SplashProgress.CURRENT = "Initializing tray icon";
+        SplashProgress.update();
         try {
             trayManager.init();
         } catch (Exception e) {
@@ -290,13 +301,22 @@ public class Hyperium {
         }
 
         // instance does not need to be saved as shit is static ^.^
+        SplashProgress.PROGRESS = 9;
+        SplashProgress.CURRENT = "Registering config";
+        SplashProgress.update();
         CONFIG.register(new GeneralSetting(null));
         CONFIG.register(new AnimationSettings(null));
         CONFIG.register(new BackgroundSettings(null));
 
         //Register commands.
+        SplashProgress.PROGRESS = 10;
+        SplashProgress.CURRENT = "Registering commands";
+        SplashProgress.update();
         registerCommands();
 
+        SplashProgress.PROGRESS = 11;
+        SplashProgress.CURRENT = "Loading integrations";
+        SplashProgress.update();
         modIntegration = new HyperiumModIntegration();
         richPresenceManager.init();
 
@@ -342,6 +362,9 @@ public class Hyperium {
             });
             sk1erMod.checkStatus();
         }
+        SplashProgress.PROGRESS = 12;
+        SplashProgress.CURRENT = "Finished";
+        SplashProgress.update();
     }
 
     /**
