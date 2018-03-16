@@ -10,4 +10,9 @@ public class OtherConfigOptions {
     public double headScaleFactor = 2.0;
     @ConfigOpt
     public boolean hideNameTags = false;
+    @ConfigOpt
+    public int renderNameDistance = 64;
+    @ConfigOpt
+    public boolean shadeNameTags = true;
+
 }

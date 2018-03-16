@@ -38,7 +38,9 @@
     "entity.MixinRenderPlayer",
     "entity.MixinModelBiped",
     "entity.MixinAbstractClientPlayer",
+
     "profiler.MixinProfiler",
+
     "renderer.MixinGuiIngame",
     "renderer.MixinItemRenderer",
     "renderer.MixinRenderItem",
@@ -49,10 +51,14 @@
     "packet.MixinC01PacketChatMessage",
     "packet.MixinS2EPacketCloseWindow",
     "packet.MixinS14PacketEntity",
+    "packet.MixinS19PacketEntityStatus",
     "packet.MixinNetHandlerPlayClient",
+
     "world.MixinChunk",
     "world.MixinWorld",
+
     "scoreboard.MixinScoreboard",
+
     "client.resources.MixinAbstractResourcePack"
 
   ]
