@@ -172,12 +172,18 @@ import cc.hyperium.Hyperium;
 import cc.hyperium.mods.timechanger.TimeChanger;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.network.NetHandlerPlayClient;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.PacketThreadUtil;
 import net.minecraft.network.play.INetHandlerPlayClient;
 import net.minecraft.network.play.server.S03PacketTimeUpdate;
 
+import net.minecraft.network.play.server.S0BPacketAnimation;
+import net.minecraft.util.EnumParticleTypes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
@@ -185,6 +191,7 @@ import org.spongepowered.asm.mixin.Shadow;
 @Mixin(NetHandlerPlayClient.class)
 public abstract class MixinNetHandlerPlayClient {
     
+    @Shadow private WorldClient clientWorldController;
     @Shadow
     private Minecraft gameController;
     
@@ -223,6 +230,41 @@ public abstract class MixinNetHandlerPlayClient {
             (INetHandlerPlayClient) getNetworkManager().getNetHandler(), this.gameController);
         this.gameController.theWorld.setTotalWorldTime(packetIn.getTotalWorldTime());
         this.gameController.theWorld.setWorldTime(packetIn.getWorldTime());
+    }
+    
+    /**
+     * Renders a specified animation: Waking up a player, a living entity swinging its currently held item, being hurt
+     * or receiving a critical hit by normal or magical means
+     *
+     * @author boomboompower
+     * @reason Fixes internal NPE
+     */
+    @Overwrite
+    public void handleAnimation(S0BPacketAnimation packetIn) {
+        PacketThreadUtil.checkThreadAndEnqueue(packetIn, (INetHandlerPlayClient) getNetworkManager().getNetHandler(), this.gameController);
+        
+        // Added by boomboompower to fix internal errors
+        if (this.clientWorldController == null) {
+            return;
+        }
+        
+        Entity entity = this.clientWorldController.getEntityByID(packetIn.getEntityID());
+        
+        if (entity != null) {
+            if (packetIn.getAnimationType() == 0) {
+                EntityLivingBase entitylivingbase = (EntityLivingBase)entity;
+                entitylivingbase.swingItem();
+            } else if (packetIn.getAnimationType() == 1) {
+                entity.performHurtAnimation();
+            } else if (packetIn.getAnimationType() == 2) {
+                EntityPlayer entityplayer = (EntityPlayer)entity;
+                entityplayer.wakeUpPlayer(false, false, false);
+            } else if (packetIn.getAnimationType() == 4) {
+                this.gameController.effectRenderer.emitParticleAtEntity(entity, EnumParticleTypes.CRIT);
+            } else if (packetIn.getAnimationType() == 5) {
+                this.gameController.effectRenderer.emitParticleAtEntity(entity, EnumParticleTypes.CRIT_MAGIC);
+            }
+        }
     }
     
     @Shadow
