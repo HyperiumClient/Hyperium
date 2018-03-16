@@ -303,7 +303,7 @@ class JoinMinigameEvent(val minigame: Minigame)
 /**
  * Invoked when a player model is rendered
  */
-class RenderPlayerEvent(val entity: AbstractClientPlayer, val renderManager: RenderManager, val x: Double, val y: Double, val z: Double)
+class RenderPlayerEvent(val entity: AbstractClientPlayer, val renderManager: RenderManager, val x: Double, val y: Double, val z: Double, val partialTicks: Float)
 
 /**
  * Invoked when a keybind is pressed.

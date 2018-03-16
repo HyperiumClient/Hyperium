@@ -168,6 +168,128 @@
 
 package cc.hyperium.cosmetics
 
-class WingCosmetic {
-    
+import cc.hyperium.event.InvokeEvent
+import cc.hyperium.event.RenderPlayerEvent
+import cc.hyperium.purchases.EnumPurchaseType
+import cc.hyperium.purchases.PurchaseApi
+import cc.hyperium.utils.JsonHolder
+import net.minecraft.client.Minecraft
+import net.minecraft.client.model.ModelBase
+import net.minecraft.client.model.ModelRenderer
+import net.minecraft.client.renderer.GlStateManager
+import net.minecraft.entity.player.EntityPlayer
+import net.minecraft.util.MathHelper
+import net.minecraft.util.ResourceLocation
+import org.lwjgl.opengl.GL11
+import java.util.*
+
+
+class WingCosmetic : ModelBase(){
+    private val data = emptyList<WingData>()
+    private val api = PurchaseApi.getInstance()
+    private val mc = Minecraft.getMinecraft()
+    private var wing: ModelRenderer? = null
+    private var wingTip: ModelRenderer? = null
+    private val location = ResourceLocation("textures/cosmetics/wings.png")
+    init{
+        this.setTextureOffset("wing.bone", 0, 0)
+        this.setTextureOffset("wing.skin", -10, 8)
+        this.setTextureOffset("wingtip.bone", 0, 5)
+        this.setTextureOffset("wingtip.skin", -10, 18)
+        this.wing = ModelRenderer(this as ModelBase, "wing")
+        this.wing!!.setTextureSize(30, 30)
+        this.wing!!.setRotationPoint(-2.0f, 0.0f, 0.0f)
+        this.wing!!.addBox("bone", -10.0f, -1.0f, -1.0f, 10, 2, 2)
+        this.wing!!.addBox("skin", -10.0f, 0.0f, 0.5f, 10, 0, 10)
+        this.wingTip = ModelRenderer(this as ModelBase, "wingtip")
+        this.wingTip!!.setTextureSize(30, 30)
+        this.wingTip!!.setRotationPoint(-10.0f, 0.0f, 0.0f)
+        this.wingTip!!.addBox("bone", -10.0f, -0.5f, -0.5f, 10, 1, 1)
+        this.wingTip!!.addBox("skin", -10.0f, 0.0f, 0.5f, 10, 0, 10)
+        this.wing!!.addChild(this.wingTip)
+    }
+    @InvokeEvent
+    fun onRenderPlayer(event: RenderPlayerEvent){
+        // val d = getWingData(event.entity.uniqueID)
+        //if(d.wing == Wing.NONE)return wait for sk1er to do api stuff
+        //if(loadOrRender(event.entity))
+        //    renderWings(event.entity, event.partialTicks)
+    }
+
+    private fun getWingData(player: UUID) : WingData{
+        val purchase = api.getPackageSync(player)
+        if(purchase.purchases.stream().anyMatch { it.type == EnumPurchaseType.WING_COSMETIC })
+            data.plus(WingData(player, Wing.NORMAL, purchase.purchases.stream().filter { it.type == EnumPurchaseType.WING_COSMETIC }.findFirst().get().data))
+        data.plus(WingData(player, Wing.NONE, JsonHolder()))
+        return data.stream().filter{it.player == player}.findAny().get()
+    }
+
+    private fun renderWings(player: EntityPlayer, partialTicks: Float) {
+        val scale = 0.6 // change when api had it
+        val rotate = this.interpolate(player.prevRenderYawOffset, player.renderYawOffset, partialTicks).toDouble()
+        GL11.glPushMatrix()
+        GL11.glScaled(-scale, -scale, scale)
+        GL11.glRotated(180.0 + rotate, 0.0, 1.0, 0.0)
+        GL11.glTranslated(0.0, -1.25 / scale, 0.0)
+        GL11.glTranslated(0.0, 0.0, 0.2 / scale)
+        if (player.isSneaking)
+            GL11.glTranslated(0.0, 0.125 / scale, 0.0)
+        GlStateManager.translate(player.renderOffsetX.toDouble(), player.renderOffsetY.toDouble(), player.renderOffsetZ.toDouble())
+        val colors = floatArrayOf(0F,0F,0F) // will change when api is ready
+        //GL11.glColor3f(colors[0], colors[1], colors[2])
+        this.mc.textureManager.bindTexture(this.location)
+        for (j in 0..1) {
+            GL11.glEnable(2884)
+            val f11 = System.currentTimeMillis() % 1000L / 1000.0f * 3.1415927f * 2.0f
+//            this.wing!!.offsetX = player.renderOffsetX
+//            this.wing!!.offsetY = player.renderOffsetY
+//            this.wing!!.offsetZ = player.renderOffsetZ
+            this.wing!!.rotateAngleX = Math.toRadians(-80.0).toFloat() - MathHelper.cos(f11) * 0.2f
+            this.wing!!.rotateAngleY = Math.toRadians(20.0).toFloat() + MathHelper.sin(f11) * 0.4f
+            this.wing!!.rotateAngleZ = Math.toRadians(20.0).toFloat()
+            this.wingTip!!.rotateAngleZ = -(MathHelper.sin((f11 + 2.0f)) + 0.5).toFloat() * 0.75f
+            this.wing!!.render(0.0625f)
+            GL11.glScalef(-1.0f, 1.0f, 1.0f)
+            if (j == 0) {
+                GL11.glCullFace(1028)
+            }
+        }
+        GL11.glCullFace(1029)
+        GL11.glDisable(2884)
+        GL11.glColor3f(255.0f, 255.0f, 255.0f)
+        GL11.glPopMatrix()
+    }
+
+    private fun interpolate(yaw1: Float, yaw2: Float, percent: Float): Float {
+        var f = (yaw1 + (yaw2 - yaw1) * percent) % 360.0f
+        if (f < 0.0f) {
+            f += 360.0f
+        }
+        return f
+    }
+
+    fun loadOrRender(player: EntityPlayer): Boolean {
+        for (effect in player.activePotionEffects)
+            if (effect.potionID == 14)
+                return false
+        if (player.riddenByEntity != null)
+            return false
+        val min = 64
+        if (player.getDistanceSqToEntity(Minecraft.getMinecraft().thePlayer) > min)
+            return false
+        if (player.hasCustomName() && player.customNameTag.isEmpty())
+            return false
+        if (player.isInvisible || player.isInvisibleToPlayer(Minecraft.getMinecraft().thePlayer))
+            return false
+        return player.alwaysRenderNameTagForRender && !player.displayName.unformattedText.isEmpty()
+    }
+
+    class WingData(val player: UUID, val wing: Wing, val json: JsonHolder)
+
+    enum class Wing{
+        NONE,
+        NORMAL,
+        COLORED,
+        CHROMA
+    }
 }

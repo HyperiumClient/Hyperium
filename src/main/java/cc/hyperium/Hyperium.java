@@ -170,6 +170,7 @@ package cc.hyperium;
 
 import cc.hyperium.commands.defaults.*;
 import cc.hyperium.config.DefaultConfig;
+import cc.hyperium.cosmetics.WingCosmetic;
 import cc.hyperium.event.*;
 import cc.hyperium.event.minigames.MinigameListener;
 import cc.hyperium.gui.NotificationCenter;
@@ -277,6 +278,7 @@ public class Hyperium {
         EventBus.INSTANCE.register(CrosshairMod.getInstance());
         EventBus.INSTANCE.register(CONFIG.register(FPSLimiter.getInstance()));
         EventBus.INSTANCE.register(perspective = new PerspectiveModifierContainer());
+        EventBus.INSTANCE.register(new WingCosmetic());
 
         // Register statistics tracking.
         EventBus.INSTANCE.register(statTrack);
