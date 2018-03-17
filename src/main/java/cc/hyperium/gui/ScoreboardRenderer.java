@@ -66,10 +66,9 @@ public class ScoreboardRenderer {
             RenderUtils.drawRect(l1 - 2, k, l, k + this.getFontRenderer().FONT_HEIGHT, 1342177280);
             this.getFontRenderer().drawString(s1, l1, k, 553648127);
 
-            //TODO: ONLY IF IN A LOBBY
-            //if (!Hyperium.INSTANCE.getHandlers().getHypixelDetector().isHypixel()) {
+            if (!Hyperium.INSTANCE.getHandlers().getHypixelDetector().isHypixel()) {
                 this.getFontRenderer().drawString(s2, l - this.getFontRenderer().getStringWidth(s2), k, 553648127);
-            //}
+            }
 
             if (j == collection.size()) {
                 String s3 = objective.getDisplayName();
