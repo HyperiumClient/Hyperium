@@ -178,7 +178,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 /**
- * Created by mitchellkatz on 1/8/18. Designed for production use on Sk1er.club
+ * @author Sk1er
  */
 public class ChromaHUDApi {
     //Have this for others incase implementation changes.

@@ -178,7 +178,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * Created by mitchellkatz on 6/26/17.
+ * @author Sk1er
  */
 public class TimeHud extends DisplayItem {
     private String format;

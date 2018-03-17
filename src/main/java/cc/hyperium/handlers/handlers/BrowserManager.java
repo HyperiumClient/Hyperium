@@ -176,7 +176,7 @@ import net.minecraft.client.gui.ScaledResolution;
 import org.lwjgl.opengl.Display;
 
 /**
- * Created by mitchellkatz on 3/10/18. Designed for production use on Sk1er.club
+ * @author Sk1er
  */
 public class BrowserManager {
     private BrowserWindow browser;

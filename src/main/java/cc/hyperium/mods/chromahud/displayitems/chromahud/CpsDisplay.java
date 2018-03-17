@@ -176,7 +176,7 @@ import net.minecraft.client.Minecraft;
 
 
 /**
- * Created by mitchellkatz on 6/25/17.
+ * @author Sk1er
  */
 public class CpsDisplay extends DisplayItem {
 

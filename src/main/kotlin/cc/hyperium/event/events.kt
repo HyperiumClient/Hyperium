@@ -311,9 +311,14 @@ class RenderPlayerEvent(val entity: AbstractClientPlayer, val renderManager: Ren
 class KeyBindPressEvent(val keyCode: Int)
 
 /**
- * Invoked when received a friend request
+ * Invoked when received a friend request is received
  */
 class HypixelFriendRequestEvent(val from: String)
+
+/**
+ * Invoked when the player receives a party invite
+ */
+class HypixelPartyInviteEvent(val from: String)
 
 /**
  * Invoked when the selected item is about to be rendered

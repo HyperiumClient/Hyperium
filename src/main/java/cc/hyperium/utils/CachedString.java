@@ -173,7 +173,7 @@ import net.minecraft.client.renderer.texture.DynamicTexture;
 import java.awt.image.BufferedImage;
 
 /**
- * Created by mitchellkatz on 3/9/18. Designed for production use on Sk1er.club
+ * @author Sk1er
  */
 public class CachedString {
     private DynamicTexture texture;

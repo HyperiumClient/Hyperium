@@ -174,7 +174,7 @@ import cc.hyperium.mods.chromahud.ChromaHUD;
 import cc.hyperium.mods.chromahud.gui.GeneralConfigGui;
 
 /**
- * Created by mitchellkatz on 2/19/18.
+ * @author Sk1er
  */
 public class CommandChromaHUD implements BaseCommand {
     

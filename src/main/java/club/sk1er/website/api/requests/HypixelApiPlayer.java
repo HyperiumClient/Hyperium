@@ -179,7 +179,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * Created by mitchellkatz on 3/3/17.
+ * @author Sk1er
  */
 public class HypixelApiPlayer implements HypixelApiObject {
 

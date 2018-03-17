@@ -169,7 +169,7 @@
 package cc.hyperium.utils;
 
 /**
- * Created by mitchellkatz on 2/14/18. Designed for production use on Sk1er.club
+ * @author Sk1er
  */
 public final class SafeNumberParsing {
 

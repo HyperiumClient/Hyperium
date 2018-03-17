@@ -170,6 +170,9 @@ package cc.hyperium.tray;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.Metadata;
+import cc.hyperium.event.EventBus;
+import cc.hyperium.event.HypixelFriendRequestEvent;
+import cc.hyperium.event.InvokeEvent;
 import javax.swing.JOptionPane;
 import net.minecraft.client.Minecraft;
 
@@ -177,12 +180,17 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 
 public class TrayManager {
+    
     private TrayIcon tray;
 
     public TrayIcon getTray() {
         return tray;
     }
 
+    public TrayManager() {
+        EventBus.INSTANCE.register(this);
+    }
+    
     public void init() throws Exception {
         if (SystemTray.isSupported()) {
             Hyperium Hyperiumutils = new Hyperium();
@@ -205,9 +213,21 @@ public class TrayManager {
         }
     }
     
+    /**
+     * Friend requests
+     *
+     * @param event the event
+     */
+    @InvokeEvent
+    public void onFriendRequest(HypixelFriendRequestEvent event) {
+        if (this.tray != null) {
+            this.tray.displayMessage("Hypixel", "Friend request from " + event.getFrom(), TrayIcon.MessageType.NONE);
+        }
+    }
+    
     private void trayDisplayAboutInfo() {
         JOptionPane popup = new JOptionPane();
-        JOptionPane.showMessageDialog(popup, "Hyperium is a Hypixel Based 1.8 Client developed by Sk1er, CoalOres, Cubixity, KevinPriv and boomboompower. Version: " + Metadata
+        JOptionPane.showMessageDialog(popup, "Hyperium is a Hypixel Based 1.8 Client developed by Sk1er, CoalOres, Cubxity, KevinPriv and boomboompower. Version: " + Metadata
             .getVersion() , "Hyperium - About", JOptionPane.PLAIN_MESSAGE);
     }
 }

@@ -176,7 +176,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by mitchellkatz on 1/8/18. Designed for production use on Sk1er.club
+ * @author Sk1er
  */
 public abstract class DisplayItem extends Dimension {
 

@@ -171,6 +171,7 @@ package cc.hyperium.gui.settings.items;
 import cc.hyperium.Hyperium;
 import cc.hyperium.config.ConfigOpt;
 import cc.hyperium.config.DefaultConfig;
+import cc.hyperium.gui.HyperiumGui;
 import cc.hyperium.gui.settings.SettingGui;
 import cc.hyperium.gui.settings.components.SelectionItem;
 import cc.hyperium.mods.capturex.CaptureMode;
@@ -194,7 +195,7 @@ public class CaptureXSetting extends SettingGui {
 
     private SelectionItem<Integer> lengthSelection;
 
-    public CaptureXSetting(GuiScreen previous) {
+    public CaptureXSetting(HyperiumGui previous) {
         super("CAPTUREX", previous);
         config = Hyperium.CONFIG;
         config.register(this);

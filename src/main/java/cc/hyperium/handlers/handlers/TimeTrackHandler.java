@@ -16,7 +16,7 @@ import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Created by mitchellkatz on 3/12/18. Designed for production use on Sk1er.club
+ * @author Sk1er
  */
 public class TimeTrackHandler implements Runnable {
 

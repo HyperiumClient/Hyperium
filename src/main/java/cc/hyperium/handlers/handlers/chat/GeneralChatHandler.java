@@ -169,9 +169,16 @@
 package cc.hyperium.handlers.handlers.chat;
 
 import cc.hyperium.event.ChatEvent;
+import cc.hyperium.event.EventBus;
+import cc.hyperium.event.HypixelFriendRequestEvent;
+import cc.hyperium.event.HypixelPartyInviteEvent;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.TickEvent;
 import cc.hyperium.utils.ChatColor;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
@@ -181,9 +188,14 @@ import java.util.List;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
- * Created by mitchellkatz on 2/14/18. Designed for production use on Sk1er.club
+ * @author Sk1er
  */
 public class GeneralChatHandler {
+    
+    // The chat pattern for friend requests
+    private Pattern patternFriendRequest = Pattern.compile("--+\\\\nFriend request from ((?<rank>\\[.+] )?(?<player>\\w+)).*");
+    private Pattern patternPartyInvite = Pattern.compile("(\\[.*] )?(?<player>\\w+) has invited you to join their party!");
+    
     private static GeneralChatHandler generalChatHandler = null;
     private List<HyperiumChatHandler> handlerList;
 
@@ -232,7 +244,7 @@ public class GeneralChatHandler {
             //Surround in try catch so errors don't stop further chat parsers
             try {
                 //not ready
-                if(HyperiumChatHandler.regexs ==null) {
+                if (cc.hyperium.handlers.handlers.chat.HyperiumChatHandler.regexs == null) {
                     return;
                 }
                 //todo add canceling of event
@@ -241,6 +253,37 @@ public class GeneralChatHandler {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        }
+    }
+    
+    /**
+     * A better way to handle incoming friend requests
+     *
+     * @author boomboompower
+     * @param event the ChatEvent
+     */
+    @InvokeEvent
+    public void onFriendReceived(ChatEvent event) {
+        if (!event.getChat().getUnformattedText().toLowerCase().contains("friend request")) {
+            return;
+        }
+    
+        Matcher matcher = this.patternFriendRequest.matcher(ChatColor.stripColor(event.getChat().getUnformattedText()));
+        
+        if (matcher.matches()) {
+            EventBus.INSTANCE.post(new HypixelFriendRequestEvent(matcher.group("player")));
+        }
+    }
+    
+    public void onPartyReceived(ChatEvent event) {
+        if (!event.getChat().getUnformattedText().toLowerCase().contains("their party!")) {
+            return;
+        }
+    
+        Matcher matcher = this.patternPartyInvite.matcher(ChatColor.stripColor(event.getChat().getUnformattedText()));
+    
+        if (matcher.matches()) {
+            EventBus.INSTANCE.post(new HypixelPartyInviteEvent(matcher.group("player")));
         }
     }
 }

@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 
 /**
- * Created by mitchellkatz on 3/14/18. Designed for production use on Sk1er.club
+ * @author Sk1er
  */
 @Mixin(Render.class)
 public abstract class MixinRender<T extends Entity> {

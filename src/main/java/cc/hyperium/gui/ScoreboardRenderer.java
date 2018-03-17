@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Created by mitchellkatz on 3/13/18. Designed for production use on Sk1er.club
+ * @author Sk1er
  */
 public class ScoreboardRenderer {
 
