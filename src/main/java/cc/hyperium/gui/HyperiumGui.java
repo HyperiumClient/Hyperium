@@ -260,7 +260,7 @@ public abstract class HyperiumGui extends GuiScreen {
         this.nameMap.put(name, button);
     }
 
-    private void rePack() {
+    public void rePack() {
         buttonList.clear();
         pack();
     }
