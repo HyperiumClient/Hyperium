@@ -171,6 +171,7 @@ package cc.hyperium.gui.settings.items;
 import cc.hyperium.Hyperium;
 import cc.hyperium.config.ConfigOpt;
 import cc.hyperium.config.DefaultConfig;
+import cc.hyperium.gui.HyperiumGui;
 import cc.hyperium.gui.HyperiumMainMenu;
 import cc.hyperium.gui.ParticleOverlay;
 import cc.hyperium.gui.settings.SettingGui;
@@ -202,7 +203,7 @@ public class BackgroundSettings extends SettingGui {
     private SelectionItem<Integer> maxParticlesSelection;
     private SelectionItem<String> showOverInventory;
 
-    public BackgroundSettings(GuiScreen previous) {
+    public BackgroundSettings(HyperiumGui previous) {
         super("BACKGROUNDS", previous);
         config = Hyperium.CONFIG;
         config.register(this);

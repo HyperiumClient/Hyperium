@@ -177,11 +177,9 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
-import org.lwjgl.input.Mouse;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -192,14 +190,14 @@ public class NotificationCenter extends Gui {
     private Queue<Notification> notifications = new LinkedList<>();
     private Notification currentNotification;
     private HyperiumFontRenderer fontRenderer = new HyperiumFontRenderer("Arial", Font.PLAIN, 18);
-    private HashMap<Integer, Boolean> mouseState;
-    private HashMap<Integer, Float[]> draggedState;
+    //private HashMap<Integer, Boolean> mouseState;
+    //private HashMap<Integer, Float[]> draggedState;
 
     public NotificationCenter() {
-        this.mouseState = new HashMap<>(5);
+        /*this.mouseState = new HashMap<>(5);
         for (int i = 0; i < 5; i++)
             this.mouseState.put(i, false);
-        draggedState = new HashMap<>();
+        draggedState = new HashMap<>();*/
     }
 
     @InvokeEvent
@@ -210,16 +208,14 @@ public class NotificationCenter extends Gui {
             return;
         }
 
-        boolean finished = currentNotification.tick();
-
-        if (finished) {
+        if (currentNotification.tick()) {
             currentNotification = notifications.poll();
         }
     }
 
     @InvokeEvent
     public void onRenderTick(RenderHUDEvent event) {
-        handleMouseInput();
+        //handleMouseInput();
 
         if (currentNotification != null) {
             currentNotification.render();
@@ -239,7 +235,7 @@ public class NotificationCenter extends Gui {
         return null;
     }
 
-    private void handleMouseInput() {
+    /*private void handleMouseInput() {
         if (!Mouse.isCreated()) return;
 
         for (int button = 0; button < 5; button++) {
@@ -295,7 +291,7 @@ public class NotificationCenter extends Gui {
         float rw = (float) new ScaledResolution(Minecraft.getMinecraft()).getScaledWidth();
         float dw = (float) Minecraft.getMinecraft().displayWidth;
         return mx * rw / dw;
-    }
+    }*/
 
 
 
@@ -304,8 +300,8 @@ public class NotificationCenter extends Gui {
         private String description;
         private int ticksLeft;
         private float percentComplete;
-        private int topThreshhold;
-        private int lowerThreshhold;
+        private int topThreshold;
+        private int lowerThreshold;
         private boolean dragging = false;
         private Runnable clickedCallback;
 
@@ -315,8 +311,8 @@ public class NotificationCenter extends Gui {
             this.ticksLeft = ticksLeft;
 
             int fifth = ticksLeft / 5;
-            this.topThreshhold = ticksLeft - fifth;
-            this.lowerThreshhold = fifth;
+            this.topThreshold = ticksLeft - fifth;
+            this.lowerThreshold = fifth;
             this.percentComplete = 0.0F;
 
             this.clickedCallback = () -> {};
@@ -363,8 +359,8 @@ public class NotificationCenter extends Gui {
             this.percentComplete = clamp(
                     easeOut(
                             this.percentComplete,
-                            this.ticksLeft < lowerThreshhold ? 0.0f :
-                                    this.ticksLeft > topThreshhold ? 1.0f : ticksLeft,
+                            this.ticksLeft < lowerThreshold ? 0.0f :
+                                    this.ticksLeft > topThreshold ? 1.0f : ticksLeft,
                             0.01f,
                             5f
                     ),
@@ -380,7 +376,7 @@ public class NotificationCenter extends Gui {
 
             int x = (int) (sr.getScaledWidth() - (width * this.percentComplete));
             int y = sr.getScaledHeight() - height - 15;
-            float alpha = 255 /* clamp(this.percentComplete, 0.5f, 1.0f)*/;
+            float alpha = 255 /* * clamp(this.percentComplete, 0.5f, 1.0f)*/;
 
             // Background
             GlStateManager.pushMatrix();

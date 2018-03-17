@@ -173,7 +173,7 @@ import cc.hyperium.config.ConfigOpt;
 import cc.hyperium.utils.ChatColor;
 
 /**
- * Created by mitchellkatz on 12/23/17. Designed for production use on Sk1er.club
+ * @author Sk1er
  */
 public class LevelheadConfig {
 

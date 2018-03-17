@@ -172,6 +172,7 @@ import cc.hyperium.GuiStyle;
 import cc.hyperium.Hyperium;
 import cc.hyperium.config.ConfigOpt;
 import cc.hyperium.config.DefaultConfig;
+import cc.hyperium.gui.HyperiumGui;
 import cc.hyperium.gui.settings.SettingGui;
 import cc.hyperium.gui.settings.components.SelectionItem;
 import net.minecraft.client.Minecraft;
@@ -261,7 +262,7 @@ public class GeneralSetting extends SettingGui {
     /** Set to true when a setting is changed, this will trigger a save when the gui is closed */
     private boolean settingsUpdated;
     
-    public GeneralSetting(GuiScreen previous) {
+    public GeneralSetting(HyperiumGui previous) {
         super("GENERAL", previous);
         this.config = Hyperium.CONFIG;
         this.config.register(this);

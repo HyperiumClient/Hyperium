@@ -169,7 +169,7 @@
 package cc.hyperium.mods.levelhead.renderer;
 
 /**
- * Created by mitchellkatz on 12/22/17. Designed for production use on Levelhead
+ * @author Sk1er
  */
 public class LevelheadComponent {
     private String value;

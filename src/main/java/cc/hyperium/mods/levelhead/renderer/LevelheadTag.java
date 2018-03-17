@@ -174,7 +174,7 @@ import cc.hyperium.utils.JsonHolder;
 import java.util.UUID;
 
 /**
- * Created by mitchellkatz on 12/22/17. Designed for production use on Levelhead
+ * @author Sk1er
  */
 public class LevelheadTag {
     private LevelheadComponent header;

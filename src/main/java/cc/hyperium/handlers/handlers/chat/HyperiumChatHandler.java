@@ -178,7 +178,7 @@ import net.minecraft.util.IChatComponent;
 import java.util.regex.Pattern;
 
 /**
- * Created by mitchellkatz on 2/14/18. Designed for production use on Sk1er.club
+ * @author Sk1er
  */
 public abstract class HyperiumChatHandler {
     //Resource *should* be loaded by then sooooo

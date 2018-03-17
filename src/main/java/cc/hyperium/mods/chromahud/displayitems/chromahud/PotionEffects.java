@@ -183,7 +183,7 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * Created by mitchellkatz on 5/30/17.
+ * @author Sk1er
  */
 public class PotionEffects extends DisplayItem {
 

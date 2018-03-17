@@ -173,7 +173,7 @@ import net.minecraft.client.gui.GuiTextField;
 import java.util.function.BiConsumer;
 
 /**
- * Created by mitchellkatz on 1/8/18. Designed for production use on Sk1er.club
+ * @author Sk1er
  */
 public class TextConfig {
     /*

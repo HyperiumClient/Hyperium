@@ -192,7 +192,7 @@ import java.util.List;
 import java.util.function.Consumer;
 
 /**
- * Created by mitchellkatz on 5/30/17.
+ * @author Sk1er
  */
 public class GeneralConfigGui extends GuiScreen {
     private ChromaHUD mod;

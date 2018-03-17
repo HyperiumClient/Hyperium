@@ -171,7 +171,7 @@ package club.sk1er.website.api.requests;
 import com.google.gson.JsonObject;
 
 /**
- * Created by mitchellkatz on 6/4/17.
+ * @author Sk1er
  */
 public interface HypixelApiObject {
 

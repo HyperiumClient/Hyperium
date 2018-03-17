@@ -173,7 +173,7 @@ import net.minecraft.client.gui.FontRenderer;
 import java.util.List;
 
 /**
- * Created by mitchellkatz on 2/15/18. Designed for production use on Sk1er.club
+ * @author Sk1er
  */
 
 public class GuiBlock {

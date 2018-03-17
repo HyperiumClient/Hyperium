@@ -205,7 +205,7 @@ import java.util.concurrent.locks.ReentrantLock;
 import java.util.function.Consumer;
 
 /**
- * Created by mitchellkatz on 6/10/17.
+ * @author Sk1er
  * <p>
  * Modified by boomboompower on 14/6/2017
  */

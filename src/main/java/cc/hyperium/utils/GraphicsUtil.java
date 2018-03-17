@@ -174,7 +174,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 /**
- * Created by mitchellkatz on 3/9/18. Designed for production use on Sk1er.club
+ * @author Sk1er
  */
 public class GraphicsUtil {
     public static GraphicsUtil INSTANCE = new GraphicsUtil();

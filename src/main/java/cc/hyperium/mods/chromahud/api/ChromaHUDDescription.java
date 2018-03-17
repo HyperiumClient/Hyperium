@@ -169,7 +169,7 @@
 package cc.hyperium.mods.chromahud.api;
 
 /**
- * Created by mitchellkatz on 1/8/18. Designed for production use on Sk1er.club
+ * @author Sk1er
  */
 public class ChromaHUDDescription {
     private String id;

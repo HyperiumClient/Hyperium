@@ -171,10 +171,10 @@ package cc.hyperium.gui.settings.items;
 import cc.hyperium.Hyperium;
 import cc.hyperium.config.ConfigOpt;
 import cc.hyperium.config.DefaultConfig;
+import cc.hyperium.gui.HyperiumGui;
 import cc.hyperium.gui.settings.SettingGui;
 import cc.hyperium.gui.settings.components.SelectionItem;
 import cc.hyperium.mods.capturex.CaptureMode;
-import net.minecraft.client.gui.GuiScreen;
 
 import java.util.Arrays;
 
@@ -185,7 +185,7 @@ public class CaptureXSetting extends SettingGui {
     @ConfigOpt
     private static String modeStr = "OFF";
 
-    public static CaptureMode mode;
+    public static CaptureMode mode = CaptureMode.OFF;
 
     @ConfigOpt
     public static int captureLength = 1;
@@ -194,7 +194,7 @@ public class CaptureXSetting extends SettingGui {
 
     private SelectionItem<Integer> lengthSelection;
 
-    public CaptureXSetting(GuiScreen previous) {
+    public CaptureXSetting(HyperiumGui previous) {
         super("CAPTUREX", previous);
         config = Hyperium.CONFIG;
         config.register(this);

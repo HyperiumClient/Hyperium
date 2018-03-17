@@ -177,7 +177,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by mitchellkatz on 7/1/17.
+ * @author Sk1er
  */
 public class DefaultConfig {
 

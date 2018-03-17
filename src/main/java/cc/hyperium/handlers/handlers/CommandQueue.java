@@ -178,7 +178,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Created by mitchellkatz on 2/14/18. Designed for production use on Sk1er.club
+ * @author Sk1er
  */
 public class CommandQueue {
 

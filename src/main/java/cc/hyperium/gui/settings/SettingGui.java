@@ -186,11 +186,11 @@ public class SettingGui extends HyperiumGui {
     private int offset = 0;
     private HyperiumFontRenderer fontRendererObj = Fonts.ARIAL.getTrueTypeFont();
     private String name;
-    private GuiScreen previous;
+    private HyperiumGui previous;
 
     private int animation = (height / 5) * 3;
 
-    public SettingGui(String name, GuiScreen previous){
+    public SettingGui(String name, HyperiumGui previous){
         this.name = name;
         this.previous = previous;
     }
@@ -226,7 +226,10 @@ public class SettingGui extends HyperiumGui {
     @Override
     protected void pack() {
         settingItems.clear();
-        reg("", new GuiButton(0, (width / 5), height /5, (width /5) * 3, 25, ""), b -> Minecraft.getMinecraft().displayGuiScreen(previous), b->{});
+        reg("", new GuiButton(0, (width / 5), height /5, (width /5) * 3, 25, ""), b -> {
+            this.previous.rePack();
+            this.previous.show();
+        }, b->{});
     }
 
     @Override

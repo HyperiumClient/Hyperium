@@ -182,7 +182,7 @@ import java.util.TreeMap;
 
 public class KeyBindHandler {
 
-    public static HyperiumBind nameHistory = new HyperiumBind("nameHistory", Keyboard.KEY_N) {
+    public static HyperiumBind nameHistory = new HyperiumBind("nameHistory", Keyboard.KEY_H) {
         @Override
         public void onPress() {
             new NameHistoryGui().show();

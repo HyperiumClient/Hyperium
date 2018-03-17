@@ -174,7 +174,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Created by mitchellkatz on 7/1/17.
+ * @author Sk1er
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)

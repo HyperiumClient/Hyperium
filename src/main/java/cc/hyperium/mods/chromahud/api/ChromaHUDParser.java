@@ -174,7 +174,7 @@ import cc.hyperium.utils.JsonHolder;
 import java.util.Map;
 
 /**
- * Created by mitchellkatz on 1/8/18. Designed for production use on Sk1er.club
+ * @author Sk1er
  */
 public interface ChromaHUDParser {
 

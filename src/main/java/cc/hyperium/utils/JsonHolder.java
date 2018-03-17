@@ -177,7 +177,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by mitchellkatz on 9/28/17. Designed for production use on Sk1er.club
+ * @author Sk1er
  */
 @SuppressWarnings("unused")
 public class JsonHolder {

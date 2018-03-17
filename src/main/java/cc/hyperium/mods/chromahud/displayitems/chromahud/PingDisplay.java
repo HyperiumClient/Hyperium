@@ -179,7 +179,7 @@ import net.minecraft.client.network.NetworkPlayerInfo;
 
 
 /**
- * Created by mitchellkatz on 6/21/17.
+ * @author Sk1er
  */
 public class PingDisplay extends DisplayItem {
 

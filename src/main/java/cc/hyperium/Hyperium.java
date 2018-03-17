@@ -170,8 +170,10 @@ package cc.hyperium;
 
 import cc.hyperium.commands.defaults.*;
 import cc.hyperium.config.DefaultConfig;
+import cc.hyperium.cosmetics.WingCosmetic;
 import cc.hyperium.event.*;
 import cc.hyperium.event.minigames.MinigameListener;
+import cc.hyperium.gui.ConfirmationPopup;
 import cc.hyperium.gui.NotificationCenter;
 import cc.hyperium.gui.settings.items.AnimationSettings;
 import cc.hyperium.gui.settings.items.BackgroundSettings;
@@ -196,7 +198,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.Display;
 
-import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
@@ -229,6 +230,7 @@ public class Hyperium {
     private final NotificationCenter notification = new NotificationCenter();
     private PerspectiveModifierContainer perspective;
     private RichPresenceManager richPresenceManager = new RichPresenceManager();
+    private ConfirmationPopup confirmation = new ConfirmationPopup();
 
     private TrayManager trayManager;
     private HyperiumHandlers handlers;
@@ -277,6 +279,8 @@ public class Hyperium {
         EventBus.INSTANCE.register(CrosshairMod.getInstance());
         EventBus.INSTANCE.register(CONFIG.register(FPSLimiter.getInstance()));
         EventBus.INSTANCE.register(perspective = new PerspectiveModifierContainer());
+        EventBus.INSTANCE.register(new WingCosmetic());
+        EventBus.INSTANCE.register(confirmation = new ConfirmationPopup());
 
         // Register statistics tracking.
         EventBus.INSTANCE.register(statTrack);
@@ -381,20 +385,6 @@ public class Hyperium {
     }
 
     /**
-     * called when receive friend request
-     *
-     * @param event the event
-     */
-    @InvokeEvent
-    public void onFriendRequest(HypixelFriendRequestEvent event) {
-        if (trayManager.getTray() != null) {
-            trayManager.getTray()
-                    .displayMessage("Hypixel", "Friend request from " + event.getFrom(),
-                            TrayIcon.MessageType.NONE);
-        }
-    }
-
-    /**
      * called when Hyperium shutdown
      */
     private void shutdown() {
@@ -445,30 +435,36 @@ public class Hyperium {
         }
     }
 
-    public void toggleFullscreen() {
-        boolean windowed = GeneralSetting.windowedFullScreen;
-        boolean lastStateWindowed = false;
-        if (System.getProperty("org.lwjgl.opengl.Window.undecorated") == null) {
-            System.setProperty("org.lwjgl.opengl.Window.undecorated", "false");
-        }
-        if (Display.isFullscreen()) {
-            fullScreen = true;
-        }
-        if (System.getProperty("org.lwjgl.opengl.Window.undecorated").equals("true")) {
-            fullScreen = true;
-            lastStateWindowed = true;
-        }
-
-        fullScreen = !fullScreen;
-        if (!lastStateWindowed) {
-            Minecraft.getMinecraft().toggleFullscreen();
-            return;
-        }
-
-        if (fullScreen) {
-
-        } else {
-
-        }
+    public ConfirmationPopup getConfirmation() {
+        return confirmation;
     }
+
+
+    // Does not appear to be used
+//    public void toggleFullscreen() {
+//        boolean windowed = GeneralSetting.windowedFullScreen;
+//        boolean lastStateWindowed = false;
+//        if (System.getProperty("org.lwjgl.opengl.Window.undecorated") == null) {
+//            System.setProperty("org.lwjgl.opengl.Window.undecorated", "false");
+//        }
+//        if (Display.isFullscreen()) {
+//            fullScreen = true;
+//        }
+//        if (System.getProperty("org.lwjgl.opengl.Window.undecorated").equals("true")) {
+//            fullScreen = true;
+//            lastStateWindowed = true;
+//        }
+//
+//        fullScreen = !fullScreen;
+//        if (!lastStateWindowed) {
+//            Minecraft.getMinecraft().toggleFullscreen();
+//            return;
+//        }
+//
+//        if (fullScreen) {
+//
+//        } else {
+//
+//        }
+//    }
 }

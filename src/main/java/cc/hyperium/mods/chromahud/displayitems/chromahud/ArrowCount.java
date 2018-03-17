@@ -182,7 +182,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by mitchellkatz on 6/25/17.
+ * @author Sk1er
  */
 public class ArrowCount extends DisplayItem {
     private JsonHolder data;

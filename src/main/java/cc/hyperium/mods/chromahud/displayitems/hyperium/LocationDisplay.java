@@ -177,7 +177,7 @@ import net.minecraft.client.Minecraft;
 
 
 /**
- * Created by mitchellkatz on 5/30/17.
+ * @author Sk1er
  */
 public class LocationDisplay extends DisplayItem {
 

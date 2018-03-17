@@ -171,6 +171,7 @@ package cc.hyperium.gui.settings.items;
 import cc.hyperium.Hyperium;
 import cc.hyperium.config.ConfigOpt;
 import cc.hyperium.config.DefaultConfig;
+import cc.hyperium.gui.HyperiumGui;
 import cc.hyperium.gui.settings.SettingGui;
 import cc.hyperium.gui.settings.components.SelectionItem;
 import net.minecraft.client.gui.GuiScreen;
@@ -181,7 +182,7 @@ public class NameHistorySettings extends SettingGui {
     private DefaultConfig config;
     private SelectionItem<String> rgbNames;
 
-    public NameHistorySettings(GuiScreen previous) {
+    public NameHistorySettings(HyperiumGui previous) {
         super("NAME HISTORY", previous);
         config = Hyperium.CONFIG;
         config.register(this);
@@ -190,7 +191,7 @@ public class NameHistorySettings extends SettingGui {
     @Override
     protected void pack() {
         super.pack();
-        settingItems.add(rgbNames = new SelectionItem(0, getX(), getDefaultItemY(0), width - getX() * 2, "RGB NAMES", i -> {
+        settingItems.add(rgbNames = new SelectionItem<>(0, getX(), getDefaultItemY(0), width - getX() * 2, "RGB NAMES", i -> {
             ((SelectionItem) i).nextItem();
             rgbNamesEnabled = ((SelectionItem) i).getSelectedItem().equals("ON");
         }));

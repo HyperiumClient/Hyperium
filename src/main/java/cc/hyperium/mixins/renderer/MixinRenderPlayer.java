@@ -189,7 +189,7 @@ public abstract class MixinRenderPlayer extends RendererLivingEntity<AbstractCli
 
     @Inject(method = "doRender", at = @At("HEAD"))
     private void doRender(AbstractClientPlayer entity, double x, double y, double z, float entityYaw, float partialTicks, CallbackInfo ci) {
-        EventBus.INSTANCE.post(new RenderPlayerEvent(entity, renderManager, x, y, z));
+        EventBus.INSTANCE.post(new RenderPlayerEvent(entity, renderManager, x, y, z, partialTicks));
     }
 
 

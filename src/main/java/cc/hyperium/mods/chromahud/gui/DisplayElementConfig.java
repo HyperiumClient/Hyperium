@@ -191,7 +191,7 @@ import java.util.HashMap;
 import java.util.function.Consumer;
 
 /**
- * Created by mitchellkatz on 1/15/18. Designed for production use on Sk1er.club
+ * @author Sk1er
  */
 public class DisplayElementConfig extends GuiScreen {
 

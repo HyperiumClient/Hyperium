@@ -340,12 +340,6 @@ public class CaptureCore {
 
     @InvokeEvent
     public void onChat(ChatEvent event) {
-        if (friendRequestPattern.matcher(ChatColor.stripColor(event.getChat().getUnformattedText())).matches()) {
-            String withoutRank = ChatColor.stripColor(event.getChat().getUnformattedText());
-            withoutRank = withoutRank.replaceAll("Friend request from ", "");
-            withoutRank = withoutRank.replaceAll(rankBracketPattern.pattern(), "");
-            EventBus.INSTANCE.post(new HypixelFriendRequestEvent(withoutRank));
-        }
         String msg = ChatColor.stripColor(event.getChat().getUnformattedText());
         if (CaptureXSetting.mode == CaptureMode.OFF) return;
         if (this.client.getHandlers().getHypixelDetector().isHypixel()) {
