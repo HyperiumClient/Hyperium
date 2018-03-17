@@ -197,7 +197,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.Display;
 
-import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
@@ -383,20 +382,6 @@ public class Hyperium {
     }
 
     /**
-     * called when receive friend request
-     *
-     * @param event the event
-     */
-    @InvokeEvent
-    public void onFriendRequest(HypixelFriendRequestEvent event) {
-        if (trayManager.getTray() != null) {
-            trayManager.getTray()
-                    .displayMessage("Hypixel", "Friend request from " + event.getFrom(),
-                            TrayIcon.MessageType.NONE);
-        }
-    }
-
-    /**
      * called when Hyperium shutdown
      */
     private void shutdown() {
@@ -447,30 +432,31 @@ public class Hyperium {
         }
     }
 
-    public void toggleFullscreen() {
-        boolean windowed = GeneralSetting.windowedFullScreen;
-        boolean lastStateWindowed = false;
-        if (System.getProperty("org.lwjgl.opengl.Window.undecorated") == null) {
-            System.setProperty("org.lwjgl.opengl.Window.undecorated", "false");
-        }
-        if (Display.isFullscreen()) {
-            fullScreen = true;
-        }
-        if (System.getProperty("org.lwjgl.opengl.Window.undecorated").equals("true")) {
-            fullScreen = true;
-            lastStateWindowed = true;
-        }
-
-        fullScreen = !fullScreen;
-        if (!lastStateWindowed) {
-            Minecraft.getMinecraft().toggleFullscreen();
-            return;
-        }
-
-        if (fullScreen) {
-
-        } else {
-
-        }
-    }
+    // Does not appear to be used
+//    public void toggleFullscreen() {
+//        boolean windowed = GeneralSetting.windowedFullScreen;
+//        boolean lastStateWindowed = false;
+//        if (System.getProperty("org.lwjgl.opengl.Window.undecorated") == null) {
+//            System.setProperty("org.lwjgl.opengl.Window.undecorated", "false");
+//        }
+//        if (Display.isFullscreen()) {
+//            fullScreen = true;
+//        }
+//        if (System.getProperty("org.lwjgl.opengl.Window.undecorated").equals("true")) {
+//            fullScreen = true;
+//            lastStateWindowed = true;
+//        }
+//
+//        fullScreen = !fullScreen;
+//        if (!lastStateWindowed) {
+//            Minecraft.getMinecraft().toggleFullscreen();
+//            return;
+//        }
+//
+//        if (fullScreen) {
+//
+//        } else {
+//
+//        }
+//    }
 }
