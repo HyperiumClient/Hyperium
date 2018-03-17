@@ -191,7 +191,7 @@ public class ConfirmationPopup {
     public void onFriend(HypixelFriendRequestEvent e) {
         displayConfirmation("Friend request from " + e.getFrom(), accept -> {
             Minecraft.getMinecraft().thePlayer.sendChatMessage((accept ? "/friend accept " : "/friend deny ") + e.getFrom());
-            currentConfirmation.ticksLeft = 0;
+            currentConfirmation.framesLeft = 0;
         }, 5);
     }
 
@@ -202,25 +202,19 @@ public class ConfirmationPopup {
                 Minecraft.getMinecraft().thePlayer.sendChatMessage("/party accept " + e.getFrom());
             }
 
-            currentConfirmation.ticksLeft = 0;
+            currentConfirmation.framesLeft = 0;
         }, 5);
     }
 
     @InvokeEvent
-    public void onTick(TickEvent e) {
+    public void onRenderTick(RenderHUDEvent e) {
         if (currentConfirmation == null) {
             currentConfirmation = confirmations.poll();
             return;
         }
 
-        if (currentConfirmation.tick())
+        if (currentConfirmation.render())
             currentConfirmation = confirmations.poll();
-    }
-
-    @InvokeEvent
-    public void onRenderTick(RenderHUDEvent e) {
-        if (currentConfirmation != null)
-            currentConfirmation.render();
     }
 
     @InvokeEvent
@@ -235,50 +229,50 @@ public class ConfirmationPopup {
     }
 
     public Confirmation displayConfirmation(String text, Consumer<Boolean> callback, int seconds) {
-        Confirmation c = new Confirmation(seconds * 20, seconds * 20, text, callback);
+        Confirmation c = new Confirmation(seconds * 60, seconds * 60, text, callback);
         confirmations.add(c);
         return c;
     }
 
 
     class Confirmation {
-        private long ticksLeft;
-        private long ticks;
+        private long framesLeft;
         private String text;
         private Consumer<Boolean> callback;
         private long upperThreshold;
         private long lowerThreshold;
         private float percentComplete;
+        private long systemTime;
 
-        Confirmation(long ticksLeft, long ticks, String text, Consumer<Boolean> callback) {
-            this.ticksLeft = ticksLeft;
-            this.ticks = ticks;
+        Confirmation(long framesLeft, long frames, String text, Consumer<Boolean> callback) {
+            this.framesLeft = framesLeft;
             this.text = text;
             this.callback = callback;
 
-            long fifth = ticks / 5;
-            upperThreshold = ticks - fifth;
+            long fifth = frames / 5;
+            upperThreshold = frames - fifth;
             lowerThreshold = fifth;
             this.percentComplete = 0.0f;
+            this.systemTime = Minecraft.getSystemTime();
         }
 
-        public boolean tick() {
-            this.ticksLeft--;
-            return ticksLeft <= 0;
-        }
+        public boolean render() {
+            if (framesLeft <= 0) {
+                return true;
+            }
 
-        public void render() {
-            if (ticksLeft <= 0) {
-                return;
+            while (this.systemTime < Minecraft.getSystemTime() + (1000 / 60)) {
+                this.framesLeft--;
+                this.systemTime += (1000 / 60);
             }
 
             this.percentComplete = clamp(
                     easeOut(
                             this.percentComplete,
-                            this.ticksLeft < lowerThreshold ? 0.0f :
-                                    this.ticksLeft > upperThreshold ? 1.0f : ticksLeft,
+                            this.framesLeft < lowerThreshold ? 0.0f :
+                                    this.framesLeft > upperThreshold ? 1.0f : framesLeft,
                             0.01f,
-                            5f
+                            15f
                     ),
                     0.0f,
                     1.0f
@@ -302,7 +296,7 @@ public class ConfirmationPopup {
 
             if (this.percentComplete == 1.0F) {
                 long length = upperThreshold - lowerThreshold;
-                long current = ticksLeft - lowerThreshold;
+                long current = framesLeft - lowerThreshold;
                 float progress = 1.0F - clamp((float) current / (float) length, 0.0F, 1.0F);
                 System.out.println("l: " + length + ",c: " + current + ",p: " + progress);
 
@@ -319,6 +313,8 @@ public class ConfirmationPopup {
                 String s = "[Y] Accept [N] Deny";
                 fr.drawString(s, sr.getScaledWidth() / 2 - fr.getStringWidth(s) / 2, 70, new Color(170, 170, 170).getRGB());
             }
+
+            return false;
         }
     }
 
