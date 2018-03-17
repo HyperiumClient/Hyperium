@@ -179,6 +179,7 @@ import cc.hyperium.handlers.handlers.chat.*;
 import cc.hyperium.handlers.handlers.keybinds.KeyBindHandler;
 import cc.hyperium.handlers.handlers.privatemessages.PrivateMessageHandler;
 import cc.hyperium.handlers.handlers.remoteresources.RemoteResourcesHandler;
+import cc.hyperium.handlers.handlers.tracker.KillTracker;
 import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.command.ICommandManager;
@@ -211,6 +212,8 @@ public class HyperiumHandlers {
     private BrowserManager browserManager;
     private ScoreboardRenderer scoreboardRenderer;
     private OtherConfigOptions configOptions;
+    private KillTracker killTracker;
+
     public HyperiumHandlers() {
 
         register(network = new HyperiumNetwork());
@@ -228,6 +231,7 @@ public class HyperiumHandlers {
         register(guiDisplayHandler = new GuiDisplayHandler());
         register(renderOptomizer = new RenderOptimizer());
         register(scoreboardRenderer = new ScoreboardRenderer());
+        register(killTracker = new KillTracker());
 
         register(privateMessageHandler = new PrivateMessageHandler());
         commandQueue = new CommandQueue();
@@ -244,6 +248,10 @@ public class HyperiumHandlers {
         //Command Handler
 
         register(commandHandler = new HyperiumCommandHandler());
+    }
+
+    public KillTracker getKillTracker() {
+        return killTracker;
     }
 
     public HyperiumNetwork getNetwork() {

@@ -172,7 +172,7 @@ public enum EnumPurchaseType {
     LEVEL_HEAD(2709838),
     EARLY_BIRD(2888258),
     WING_COSMETIC(-1),
-    //set to 0 because 0 is default value of a primitive !
+    KILL_TRACKER_MUSCLE(-2),
     UNKNOWN(0);
 
     private int id;
