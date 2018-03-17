@@ -204,10 +204,14 @@ public abstract class MixinRenderPlayer extends RendererLivingEntity<AbstractCli
             return;
         //Dabq
         float heldPercent = 100;
+        int dabAnimTicks = Hyperium.INSTANCE.getCosmetics().getDabCosmetic().getDabAnimTicks(entity.getUniqueID());
+        if (dabAnimTicks > 0) {
+            heldPercent = 10 * (10 - dabAnimTicks);
+        }
         if (dabTicks < 10)
             heldPercent = 10 * (dabTicks);
         heldPercent /= 100;
-        Hyperium.INSTANCE.getCosmetics().getDabCosmetic().getDabTicks(entity.getUniqueID());
+
         getMainModel().bipedRightArm.rotateAngleX = (float) Math.toRadians(-90.0f * heldPercent);
         getMainModel().bipedRightArm.rotateAngleY = (float) Math.toRadians(-35.0f * heldPercent);
         getMainModel().bipedRightArmwear.rotateAngleX = (float) Math.toRadians(-90.0f * heldPercent);
