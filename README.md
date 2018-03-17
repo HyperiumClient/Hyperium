@@ -8,7 +8,7 @@ The Hyperium is a Minecraft modification in development. It will combine many po
 - [ChromaHUD](https://www.youtube.com/watch?v=eyh6pcsGMpo)
 - [Keystrokes v4](https://www.youtube.com/watch?v=tA1SmI8nfY4)
 - [MouseDelayFix](https://prplz.io/mousedelayfix)
-- NoCloseChat
+- [NoCloseMyChat](https://hypixel.net/threads/1260752/)
 - [1.7 Animations](https://www.youtube.com/watch?v=9-LoFff-3fI)
 - [Levelhead](https://sk1er.club/levelhead)
 - [AutoGG](https://www.youtube.com/watch?v=1eETPGuSQWA)
