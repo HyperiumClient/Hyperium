@@ -228,19 +228,21 @@ public class GeneralChatHandler {
 
     @InvokeEvent
     public void chatEvent(ChatEvent event) {
-        for (HyperiumChatHandler HyperiumChatHandler : handlerList) {
+        boolean state = true;
+        for (HyperiumChatHandler chatHandler : handlerList) {
             //Surround in try catch so errors don't stop further chat parsers
             try {
                 //not ready
                 if(HyperiumChatHandler.regexs ==null) {
                     return;
                 }
-                //todo add canceling of event
-                HyperiumChatHandler.chatReceived(event.getChat(), strip(event.getChat()));
+
+               state = state &&  chatHandler.chatReceived(event.getChat(), strip(event.getChat()));
 
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
+        event.setCancelled(state);
     }
 }
