@@ -197,4 +197,8 @@ public class HyperiumPurchase {
     public UUID getPlayerUUID() {
         return playerUUID;
     }
+
+    public JsonHolder getResponse() {
+        return response;
+    }
 }

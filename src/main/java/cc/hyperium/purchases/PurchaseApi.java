@@ -172,6 +172,7 @@ import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.mods.sk1ercommon.Sk1erMod;
 import cc.hyperium.purchases.packages.CustomLevelhead;
 import cc.hyperium.purchases.packages.EarlyBird;
+import cc.hyperium.purchases.packages.KillTrackerMuscles;
 import cc.hyperium.purchases.packages.WingCosmetic;
 import cc.hyperium.utils.JsonHolder;
 
@@ -191,6 +192,7 @@ public class PurchaseApi {
         register(EnumPurchaseType.LEVEL_HEAD, CustomLevelhead.class);
         register(EnumPurchaseType.EARLY_BIRD, EarlyBird.class);
         register(EnumPurchaseType.WING_COSMETIC, WingCosmetic.class);
+        register(EnumPurchaseType.KILL_TRACKER_MUSCLE, KillTrackerMuscles.class);
     }
 
     public static PurchaseApi getInstance() {
