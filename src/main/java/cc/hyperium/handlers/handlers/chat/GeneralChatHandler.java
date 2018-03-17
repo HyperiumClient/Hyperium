@@ -168,17 +168,8 @@
 
 package cc.hyperium.handlers.handlers.chat;
 
-import cc.hyperium.event.ChatEvent;
-import cc.hyperium.event.EventBus;
-import cc.hyperium.event.HypixelFriendRequestEvent;
-import cc.hyperium.event.HypixelPartyInviteEvent;
-import cc.hyperium.event.InvokeEvent;
-import cc.hyperium.event.TickEvent;
+import cc.hyperium.event.*;
 import cc.hyperium.utils.ChatColor;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
@@ -186,6 +177,8 @@ import net.minecraft.util.IChatComponent;
 
 import java.util.List;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author Sk1er
@@ -193,8 +186,8 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 public class GeneralChatHandler {
     
     // The chat pattern for friend requests
-    private Pattern patternFriendRequest = Pattern.compile("--+\\\\nFriend request from ((?<rank>\\[.+] )?(?<player>\\w+)).*");
-    private Pattern patternPartyInvite = Pattern.compile("(\\[.*] )?(?<player>\\w+) has invited you to join their party!");
+    private Pattern patternFriendRequest = Pattern.compile("Friend request from ((?<rank>\\[.+] )?(?<player>\\w+)).*");
+    private Pattern patternPartyInvite = Pattern.compile("(\\[.*] )?(?<player>\\w+) has invited you to join (?<party>\\w+) party!");
     
     private static GeneralChatHandler generalChatHandler = null;
     private List<HyperiumChatHandler> handlerList;
@@ -270,11 +263,12 @@ public class GeneralChatHandler {
     
         Matcher matcher = this.patternFriendRequest.matcher(ChatColor.stripColor(event.getChat().getUnformattedText()));
         
-        if (matcher.matches()) {
+        if (matcher.find()) {
             EventBus.INSTANCE.post(new HypixelFriendRequestEvent(matcher.group("player")));
         }
     }
-    
+
+    @InvokeEvent
     public void onPartyReceived(ChatEvent event) {
         if (!event.getChat().getUnformattedText().toLowerCase().contains("their party!")) {
             return;
@@ -282,7 +276,7 @@ public class GeneralChatHandler {
     
         Matcher matcher = this.patternPartyInvite.matcher(ChatColor.stripColor(event.getChat().getUnformattedText()));
     
-        if (matcher.matches()) {
+        if (matcher.find()) {
             EventBus.INSTANCE.post(new HypixelPartyInviteEvent(matcher.group("player")));
         }
     }

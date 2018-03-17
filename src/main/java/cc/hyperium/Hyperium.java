@@ -173,6 +173,7 @@ import cc.hyperium.config.DefaultConfig;
 import cc.hyperium.cosmetics.WingCosmetic;
 import cc.hyperium.event.*;
 import cc.hyperium.event.minigames.MinigameListener;
+import cc.hyperium.gui.ConfirmationPopup;
 import cc.hyperium.gui.NotificationCenter;
 import cc.hyperium.gui.settings.items.AnimationSettings;
 import cc.hyperium.gui.settings.items.BackgroundSettings;
@@ -229,6 +230,7 @@ public class Hyperium {
     private final NotificationCenter notification = new NotificationCenter();
     private PerspectiveModifierContainer perspective;
     private RichPresenceManager richPresenceManager = new RichPresenceManager();
+    private ConfirmationPopup confirmation = new ConfirmationPopup();
 
     private TrayManager trayManager;
     private HyperiumHandlers handlers;
@@ -278,6 +280,7 @@ public class Hyperium {
         EventBus.INSTANCE.register(CONFIG.register(FPSLimiter.getInstance()));
         EventBus.INSTANCE.register(perspective = new PerspectiveModifierContainer());
         EventBus.INSTANCE.register(new WingCosmetic());
+        EventBus.INSTANCE.register(confirmation = new ConfirmationPopup());
 
         // Register statistics tracking.
         EventBus.INSTANCE.register(statTrack);
@@ -431,6 +434,11 @@ public class Hyperium {
             e.printStackTrace();
         }
     }
+
+    public ConfirmationPopup getConfirmation() {
+        return confirmation;
+    }
+
 
     // Does not appear to be used
 //    public void toggleFullscreen() {

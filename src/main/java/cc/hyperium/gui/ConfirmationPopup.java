@@ -166,67 +166,113 @@
  * Library.
  */
 
-package cc.hyperium.gui.settings.items;
+package cc.hyperium.gui;
 
-import cc.hyperium.Hyperium;
-import cc.hyperium.config.ConfigOpt;
-import cc.hyperium.config.DefaultConfig;
-import cc.hyperium.gui.HyperiumGui;
-import cc.hyperium.gui.settings.SettingGui;
-import cc.hyperium.gui.settings.components.SelectionItem;
-import cc.hyperium.mods.capturex.CaptureMode;
+import cc.hyperium.event.*;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.ScaledResolution;
+import org.lwjgl.input.Keyboard;
 
-import java.util.Arrays;
+import java.awt.*;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.function.Consumer;
 
-@SuppressWarnings("unchecked")
-public class CaptureXSetting extends SettingGui {
-    private DefaultConfig config;
+public class ConfirmationPopup{
+    private Queue<Confirmation> confirmations = new LinkedList<>();
+    private Confirmation currentConfirmation;
+    private FontRenderer fr;
 
-    @ConfigOpt
-    private static String modeStr = "OFF";
-
-    public static CaptureMode mode = CaptureMode.OFF;
-
-    @ConfigOpt
-    public static int captureLength = 1;
-
-    private SelectionItem<CaptureMode> modeSelection;
-
-    private SelectionItem<Integer> lengthSelection;
-
-    public CaptureXSetting(HyperiumGui previous) {
-        super("CAPTUREX", previous);
-        config = Hyperium.CONFIG;
-        config.register(this);
-        mode = CaptureMode.valueOf(modeStr);
+    @InvokeEvent
+    public void onFriend(HypixelFriendRequestEvent e){
+        displayConfirmation("Friend request from "+e.getFrom(), accept -> {
+            if(accept) {
+                Minecraft.getMinecraft().thePlayer.sendChatMessage("/friend accept " + e.getFrom());
+                currentConfirmation.ticksLeft = 0;
+            } else {
+                Minecraft.getMinecraft().thePlayer.sendChatMessage("/friend deny " + e.getFrom());
+                currentConfirmation.ticksLeft = 0;
+            }
+            }, 5);
     }
 
-    @Override
-    protected void pack() {
-        super.pack();
-        settingItems.add(modeSelection = new SelectionItem<>(0, getX(), getDefaultItemY(0),  width - getX() * 2, "CAPTURE MODE", i -> {
-            ((SelectionItem)i).nextItem();
-            mode = ((SelectionItem<CaptureMode>) i).getSelectedItem();
-            modeStr = mode.toString();
-        }));
-        modeSelection.addItems(Arrays.asList(CaptureMode.values()));
-        modeSelection.setSelectedItem(mode);
-
-        settingItems.add(lengthSelection = new SelectionItem<>(1, getX(), getDefaultItemY(1), width - getX() * 2, "CAPTURE LENGTH", i -> {
-            ((SelectionItem)i).nextItem();
-            captureLength = ((SelectionItem<Integer>)i).getSelectedItem();
-        }));
-        lengthSelection.addItems(Arrays.asList(1, 3, 5, 8, 10));
-        lengthSelection.setSelectedItem(captureLength);
+    @InvokeEvent
+    public void onParty(HypixelPartyInviteEvent e){
+        displayConfirmation("Party request from "+e.getFrom(), accept -> {
+            if(accept) {
+                Minecraft.getMinecraft().thePlayer.sendChatMessage("/party accept " + e.getFrom());
+                currentConfirmation.ticksLeft = 0;
+            }else
+                currentConfirmation.ticksLeft = 0;
+        }, 5);
     }
 
-    private int getDefaultItemY(int i) {
-        return getY()+25 + i * 15;
+    @InvokeEvent
+    public void onTick(TickEvent e){
+        if (currentConfirmation == null) {
+            currentConfirmation = confirmations.poll();
+            return;
+        }
+        if (currentConfirmation.tick())
+            currentConfirmation = confirmations.poll();
     }
 
-    @Override
-    public void onGuiClosed() {
-        super.onGuiClosed();
-        config.save();
+    @InvokeEvent
+    public void onRenderTick(RenderHUDEvent e){
+        if (currentConfirmation != null)
+            currentConfirmation.render();
     }
+
+    @InvokeEvent
+    public void onKeypress(KeypressEvent e){
+        if(e.getKey() == Keyboard.KEY_Y && Minecraft.getMinecraft().currentScreen == null && currentConfirmation != null){
+            currentConfirmation.callback.accept(true);
+        }else if(e.getKey() == Keyboard.KEY_N && Minecraft.getMinecraft().currentScreen == null && currentConfirmation != null){
+            currentConfirmation.callback.accept(false);
+        }
+    }
+
+    public Confirmation displayConfirmation(String text, Consumer<Boolean> callback, int seconds){
+        Confirmation c = new Confirmation(seconds * 20, seconds * 20, text, callback);
+        confirmations.add(c);
+        return c;
+    }
+    public class Confirmation{
+        private long ticksLeft;
+        private long ticks;
+        private String text;
+        private Consumer<Boolean> callback;
+
+        Confirmation(long ticksLeft, long ticks, String text, Consumer<Boolean> callback) {
+            this.ticksLeft = ticksLeft;
+            this.ticks = ticks;
+            this.text = text;
+            this.callback = callback;
+        }
+
+        public boolean tick(){
+            this.ticksLeft--;
+            return ticksLeft <= 0;
+        }
+
+        public void render(){
+            if(fr == null)
+                fr = Minecraft.getMinecraft().fontRendererObj;
+            if(ticksLeft <= 0)
+                return;
+
+            ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
+            // Background
+            Gui.drawRect(sr.getScaledWidth() / 2 - 105, 50, sr.getScaledWidth() / 2 + 105, 95, new Color(30, 30, 30).getRGB());
+            // Progress
+            Gui.drawRect(sr.getScaledWidth() / 2 - 105, 93, (int) ((sr.getScaledWidth() / 2 - 105)+((1D / ticks) * (ticks - ticksLeft))*210), 95, new Color(149, 201, 144).getRGB());
+            // Text
+            fr.drawString(text, sr.getScaledWidth() / 2 - fr.getStringWidth(text) / 2, 58, 0xFFFFFF);
+            String s = "[Y] Accept [N] Deny";
+            fr.drawString(s, sr.getScaledWidth() / 2 - fr.getStringWidth(s) / 2, 70, new Color(170, 170, 170).getRGB());
+        }
+    }
+
 }
