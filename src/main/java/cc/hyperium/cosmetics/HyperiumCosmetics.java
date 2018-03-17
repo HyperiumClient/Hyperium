@@ -11,13 +11,19 @@ import java.util.List;
 public class HyperiumCosmetics {
 
     private List<AbstractCosmetic> cosmeticList = new ArrayList<>();
+    private DabOnKIllCosmetic dabCosmetic;
 
     public HyperiumCosmetics() {
-        cosmeticList.add(new KillCounterMuscles());
+        register(new KillCounterMuscles());
+        register(this.dabCosmetic = new DabOnKIllCosmetic());
     }
 
     private void register(AbstractCosmetic cosmetic) {
         cosmeticList.add(cosmetic);
         EventBus.INSTANCE.register(cosmetic);
+    }
+
+    public DabOnKIllCosmetic getDabCosmetic() {
+        return dabCosmetic;
     }
 }

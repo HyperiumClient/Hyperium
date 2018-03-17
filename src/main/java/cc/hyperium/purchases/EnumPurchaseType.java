@@ -173,6 +173,7 @@ public enum EnumPurchaseType {
     EARLY_BIRD(2888258),
     WING_COSMETIC(-1),
     KILL_TRACKER_MUSCLE(-2),
+    DAB_ON_KILL(-3),
     UNKNOWN(0);
 
     private int id;

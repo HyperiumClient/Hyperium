@@ -170,11 +170,12 @@ package cc.hyperium.purchases;
 
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.mods.sk1ercommon.Sk1erMod;
-import cc.hyperium.purchases.packages.CustomLevelhead;
-import cc.hyperium.purchases.packages.EarlyBird;
-import cc.hyperium.purchases.packages.KillTrackerMuscles;
-import cc.hyperium.purchases.packages.WingCosmetic;
+import cc.hyperium.purchases.packages.*;
 import cc.hyperium.utils.JsonHolder;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.WorldClient;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.EnumChatFormatting;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
@@ -188,20 +189,43 @@ public class PurchaseApi {
     private static final PurchaseApi instance = new PurchaseApi();
     private ConcurrentHashMap<UUID, HyperiumPurchase> purchasePlayers = new ConcurrentHashMap<>();
     private HashMap<EnumPurchaseType, Class<? extends AbstractHyperiumPurchase>> purchaseClasses = new HashMap<>();
+    private HashMap<String, UUID> nameToUuid = new HashMap<>();
 
     private PurchaseApi() {
         register(EnumPurchaseType.LEVEL_HEAD, CustomLevelhead.class);
         register(EnumPurchaseType.EARLY_BIRD, EarlyBird.class);
         register(EnumPurchaseType.WING_COSMETIC, WingCosmetic.class);
         register(EnumPurchaseType.KILL_TRACKER_MUSCLE, KillTrackerMuscles.class);
+        register(EnumPurchaseType.DAB_ON_KILL, DabOnKill.class);
     }
 
     public static PurchaseApi getInstance() {
         return instance;
     }
 
+    public UUID nameToUUID(String name) {
+        UUID uuid = nameToUuid.get(name.toLowerCase());
+        if (uuid != null)
+            return uuid;
+        WorldClient theWorld = Minecraft.getMinecraft().theWorld;
+        if (theWorld == null)
+            return null;
+        for (EntityPlayer playerEntity : theWorld.playerEntities) {
+            if (playerEntity.getName().equalsIgnoreCase(name) || EnumChatFormatting.getTextWithoutFormattingCodes(playerEntity.getDisplayName().getUnformattedText()).equalsIgnoreCase(name)) {
+                nameToUuid.put(name.toLowerCase(), playerEntity.getUniqueID());
+                return playerEntity.getUniqueID();
+            }
+        }
+        return null;
+    }
+
     public HyperiumPurchase getPackageSync(UUID uuid) {
+        if(uuid == null)
+            return null;
         return purchasePlayers.computeIfAbsent(uuid, uuid1 -> new HyperiumPurchase(uuid, get(url + uuid.toString())));
+    }
+    public HyperiumPurchase getPackageIfReady(UUID uuid) {
+        return purchasePlayers.get(uuid);
     }
 
     public void getPackageAsync(UUID uuid, Consumer<HyperiumPurchase> callback) {

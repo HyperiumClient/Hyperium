@@ -335,6 +335,10 @@ class JoinHypixelEvent
  */
 class GameShutDownEvent
 
+class ServerSwitchEvent(val from: String, val to: String)
+
+class KillEvent(val user: String)
+
 class EntityRenderEvent(val entityIn: Entity,
                         val model: ModelBiped, val p_78088_2_: Float,
                         val p_78088_3_: Float, val p_78088_4_: Float,

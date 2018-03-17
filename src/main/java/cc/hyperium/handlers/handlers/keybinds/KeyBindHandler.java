@@ -169,9 +169,7 @@
 package cc.hyperium.handlers.handlers.keybinds;
 
 import cc.hyperium.Hyperium;
-import cc.hyperium.event.GameShutDownEvent;
-import cc.hyperium.event.InvokeEvent;
-import cc.hyperium.event.KeypressEvent;
+import cc.hyperium.event.*;
 import cc.hyperium.gui.NameHistoryGui;
 import cc.hyperium.gui.integrations.HypixelFriendsGui;
 import net.minecraft.client.Minecraft;
@@ -212,12 +210,13 @@ public class KeyBindHandler {
     public HyperiumBind debug1 = new HyperiumBind("DEBUG1", Keyboard.KEY_U) {
         @Override
         public void onPress() {
-            Hyperium.INSTANCE.getHandlers().getConfigOptions().hideNameTags = !Hyperium.INSTANCE.getHandlers().getConfigOptions().hideNameTags;
+            EventBus.INSTANCE.post(new KillEvent(Minecraft.getMinecraft().thePlayer.getName()));
+//            Hyperium.INSTANCE.getHandlers().getConfigOptions().hideNameTags = !Hyperium.INSTANCE.getHandlers().getConfigOptions().hideNameTags;
         }
 
         @Override
         public void onRelease() {
-            Hyperium.INSTANCE.getHandlers().getConfigOptions().hideNameTags = !Hyperium.INSTANCE.getHandlers().getConfigOptions().hideNameTags;
+//            Hyperium.INSTANCE.getHandlers().getConfigOptions().hideNameTags = !Hyperium.INSTANCE.getHandlers().getConfigOptions().hideNameTags;
         }
     };
 

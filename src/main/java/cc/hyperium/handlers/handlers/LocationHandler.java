@@ -170,10 +170,7 @@ package cc.hyperium.handlers.handlers;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.config.ConfigOpt;
-import cc.hyperium.event.ChatEvent;
-import cc.hyperium.event.InvokeEvent;
-import cc.hyperium.event.SpawnpointChangeEvent;
-import cc.hyperium.event.TickEvent;
+import cc.hyperium.event.*;
 import cc.hyperium.utils.ChatColor;
 
 import java.util.regex.Matcher;
@@ -193,6 +190,7 @@ public class LocationHandler {
         String raw = ChatColor.stripColor(event.getChat().getUnformattedText());
         Matcher whereAmIMatcher = whereami.matcher(raw);
         if (raw.equalsIgnoreCase("you are currently in limbo")) {
+            EventBus.INSTANCE.post(new ServerSwitchEvent(this.location, "Limbo"));
             this.location = "Limbo";
             if (sendingWhereAmI) {
                 sendingWhereAmI = false;
@@ -205,7 +203,12 @@ public class LocationHandler {
             return;
         }
 
-        this.location = whereAmIMatcher.group("server");
+        String to = whereAmIMatcher.group("server");
+        String old = this.location;
+        if (!this.location.equalsIgnoreCase(to)) {
+            EventBus.INSTANCE.post(new ServerSwitchEvent(old, to));
+        }
+        this.location = to;
         if (sendingWhereAmI) {
             sendingWhereAmI = false;
             event.setCancelled(true);

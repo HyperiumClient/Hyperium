@@ -189,14 +189,11 @@ public class HyperiumPurchase {
             this.purchases.add(PurchaseApi.getInstance().parse(parse, PurchaseApi.getInstance().get(PurchaseApi.url + playerUUID.toString() + "/" + parse.name())));
         }
     }
+
     public boolean hasPurchased(EnumPurchaseType type) {
-        for (AbstractHyperiumPurchase purchase : purchases) {
-            if (purchase.getType()==type) {
-                return true;
-            }
-        }
-        return false;
+        return getPurchase(type) != null;
     }
+
     public List<AbstractHyperiumPurchase> getPurchases() {
         return purchases;
     }
@@ -207,5 +204,14 @@ public class HyperiumPurchase {
 
     public JsonHolder getResponse() {
         return response;
+    }
+
+    public AbstractHyperiumPurchase getPurchase(EnumPurchaseType type) {
+        for (AbstractHyperiumPurchase purchase : purchases) {
+            if (purchase.getType() == type) {
+                return purchase;
+            }
+        }
+        return null;
     }
 }
