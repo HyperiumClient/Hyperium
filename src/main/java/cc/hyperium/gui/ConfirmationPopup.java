@@ -180,98 +180,145 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.function.Consumer;
 
-public class ConfirmationPopup{
+import static cc.hyperium.gui.HyperiumGui.clamp;
+import static cc.hyperium.gui.HyperiumGui.easeOut;
+
+public class ConfirmationPopup {
     private Queue<Confirmation> confirmations = new LinkedList<>();
     private Confirmation currentConfirmation;
-    private FontRenderer fr;
 
     @InvokeEvent
-    public void onFriend(HypixelFriendRequestEvent e){
-        displayConfirmation("Friend request from "+e.getFrom(), accept -> {
-            if(accept) {
-                Minecraft.getMinecraft().thePlayer.sendChatMessage("/friend accept " + e.getFrom());
-                currentConfirmation.ticksLeft = 0;
-            } else {
-                Minecraft.getMinecraft().thePlayer.sendChatMessage("/friend deny " + e.getFrom());
-                currentConfirmation.ticksLeft = 0;
-            }
-            }, 5);
-    }
-
-    @InvokeEvent
-    public void onParty(HypixelPartyInviteEvent e){
-        displayConfirmation("Party request from "+e.getFrom(), accept -> {
-            if(accept) {
-                Minecraft.getMinecraft().thePlayer.sendChatMessage("/party accept " + e.getFrom());
-                currentConfirmation.ticksLeft = 0;
-            }else
-                currentConfirmation.ticksLeft = 0;
+    public void onFriend(HypixelFriendRequestEvent e) {
+        displayConfirmation("Friend request from " + e.getFrom(), accept -> {
+            Minecraft.getMinecraft().thePlayer.sendChatMessage((accept ? "/friend accept " : "/friend deny ") + e.getFrom());
+            currentConfirmation.ticksLeft = 0;
         }, 5);
     }
 
     @InvokeEvent
-    public void onTick(TickEvent e){
+    public void onParty(HypixelPartyInviteEvent e) {
+        displayConfirmation("Party request from " + e.getFrom(), accept -> {
+            if (accept) {
+                Minecraft.getMinecraft().thePlayer.sendChatMessage("/party accept " + e.getFrom());
+            }
+
+            currentConfirmation.ticksLeft = 0;
+        }, 5);
+    }
+
+    @InvokeEvent
+    public void onTick(TickEvent e) {
         if (currentConfirmation == null) {
             currentConfirmation = confirmations.poll();
             return;
         }
+
         if (currentConfirmation.tick())
             currentConfirmation = confirmations.poll();
     }
 
     @InvokeEvent
-    public void onRenderTick(RenderHUDEvent e){
+    public void onRenderTick(RenderHUDEvent e) {
         if (currentConfirmation != null)
             currentConfirmation.render();
     }
 
     @InvokeEvent
-    public void onKeypress(KeypressEvent e){
-        if(e.getKey() == Keyboard.KEY_Y && Minecraft.getMinecraft().currentScreen == null && currentConfirmation != null){
+    public void onKeypress(KeypressEvent e) {
+        if (e.getKey() == Keyboard.KEY_Y && Minecraft.getMinecraft().currentScreen == null && currentConfirmation != null) {
             currentConfirmation.callback.accept(true);
-        }else if(e.getKey() == Keyboard.KEY_N && Minecraft.getMinecraft().currentScreen == null && currentConfirmation != null){
+        } else if (e.getKey() == Keyboard.KEY_N && Minecraft.getMinecraft().currentScreen == null && currentConfirmation != null) {
             currentConfirmation.callback.accept(false);
+        } else if (e.getKey() == Keyboard.KEY_P && Minecraft.getMinecraft().currentScreen == null) {
+            onFriend(new HypixelFriendRequestEvent("John Cena"));
         }
     }
 
-    public Confirmation displayConfirmation(String text, Consumer<Boolean> callback, int seconds){
+    public Confirmation displayConfirmation(String text, Consumer<Boolean> callback, int seconds) {
         Confirmation c = new Confirmation(seconds * 20, seconds * 20, text, callback);
         confirmations.add(c);
         return c;
     }
-    public class Confirmation{
+
+
+    class Confirmation {
         private long ticksLeft;
         private long ticks;
         private String text;
         private Consumer<Boolean> callback;
+        private long upperThreshold;
+        private long lowerThreshold;
+        private float percentComplete;
 
         Confirmation(long ticksLeft, long ticks, String text, Consumer<Boolean> callback) {
             this.ticksLeft = ticksLeft;
             this.ticks = ticks;
             this.text = text;
             this.callback = callback;
+
+            long fifth = ticks / 5;
+            upperThreshold = ticks - fifth;
+            lowerThreshold = fifth;
+            this.percentComplete = 0.0f;
         }
 
-        public boolean tick(){
+        public boolean tick() {
             this.ticksLeft--;
             return ticksLeft <= 0;
         }
 
-        public void render(){
-            if(fr == null)
-                fr = Minecraft.getMinecraft().fontRendererObj;
-            if(ticksLeft <= 0)
+        public void render() {
+            if (ticksLeft <= 0) {
                 return;
+            }
 
+            this.percentComplete = clamp(
+                    easeOut(
+                            this.percentComplete,
+                            this.ticksLeft < lowerThreshold ? 0.0f :
+                                    this.ticksLeft > upperThreshold ? 1.0f : ticksLeft,
+                            0.01f,
+                            5f
+                    ),
+                    0.0f,
+                    1.0f
+            );
+
+            FontRenderer fr = Minecraft.getMinecraft().fontRendererObj;
             ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
+
+            int middle = sr.getScaledWidth() / 2;
+            int halfWidth = 105;
+            int currWidth = (int) (halfWidth * percentComplete);
+
             // Background
-            Gui.drawRect(sr.getScaledWidth() / 2 - 105, 50, sr.getScaledWidth() / 2 + 105, 95, new Color(30, 30, 30).getRGB());
-            // Progress
-            Gui.drawRect(sr.getScaledWidth() / 2 - 105, 93, (int) ((sr.getScaledWidth() / 2 - 105)+((1D / ticks) * (ticks - ticksLeft))*210), 95, new Color(149, 201, 144).getRGB());
-            // Text
-            fr.drawString(text, sr.getScaledWidth() / 2 - fr.getStringWidth(text) / 2, 58, 0xFFFFFF);
-            String s = "[Y] Accept [N] Deny";
-            fr.drawString(s, sr.getScaledWidth() / 2 - fr.getStringWidth(s) / 2, 70, new Color(170, 170, 170).getRGB());
+            Gui.drawRect(
+                    middle - currWidth,
+                    50,
+                    middle + currWidth,
+                    95,
+                    new Color(30, 30, 30).getRGB()
+            );
+
+            if (this.percentComplete == 1.0F) {
+                long length = upperThreshold - lowerThreshold;
+                long current = ticksLeft - lowerThreshold;
+                float progress = 1.0F - clamp((float) current / (float) length, 0.0F, 1.0F);
+                System.out.println("l: " + length + ",c: " + current + ",p: " + progress);
+
+                // Progress
+                Gui.drawRect(
+                        middle - currWidth,
+                        93,
+                        (int) (middle - currWidth + (210 * progress)),
+                        95,
+                        new Color(149, 201, 144).getRGB()
+                );
+
+                fr.drawString(text, sr.getScaledWidth() / 2 - fr.getStringWidth(text) / 2, 58, 0xFFFFFF);
+                String s = "[Y] Accept [N] Deny";
+                fr.drawString(s, sr.getScaledWidth() / 2 - fr.getStringWidth(s) / 2, 70, new Color(170, 170, 170).getRGB());
+            }
         }
     }
 

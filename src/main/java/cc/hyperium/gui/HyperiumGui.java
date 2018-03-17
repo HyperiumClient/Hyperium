@@ -282,11 +282,11 @@ public abstract class HyperiumGui extends GuiScreen {
         return number < min ? min : number > max ? max : number;
     }
 
-    public static float easeOut(float current, float finish, float jump, float speed) {
-        if (Math.floor(Math.abs(finish - current) / jump) > 0) {
-            return current + (finish - current) / speed;
+    public static float easeOut(float current, float goal, float jump, float speed) {
+        if (Math.floor(Math.abs(goal - current) / jump) > 0) {
+            return current + (goal - current) / speed;
         } else {
-            return finish;
+            return goal;
         }
     }
     
