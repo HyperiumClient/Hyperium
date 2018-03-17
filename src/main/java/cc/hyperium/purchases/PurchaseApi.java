@@ -180,6 +180,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Consumer;
 
 public class PurchaseApi {
 
@@ -201,6 +202,10 @@ public class PurchaseApi {
 
     public HyperiumPurchase getPackageSync(UUID uuid) {
         return purchasePlayers.computeIfAbsent(uuid, uuid1 -> new HyperiumPurchase(uuid, get(url + uuid.toString())));
+    }
+
+    public void getPackageAsync(UUID uuid, Consumer<HyperiumPurchase> callback) {
+        Multithreading.runAsync(() -> callback.accept(getPackageSync(uuid)));
     }
 
     public void ensureLoaded(UUID uuid) {

@@ -170,6 +170,7 @@ package cc.hyperium;
 
 import cc.hyperium.commands.defaults.*;
 import cc.hyperium.config.DefaultConfig;
+import cc.hyperium.cosmetics.HyperiumCosmetics;
 import cc.hyperium.cosmetics.WingCosmetic;
 import cc.hyperium.event.*;
 import cc.hyperium.event.minigames.MinigameListener;
@@ -231,7 +232,7 @@ public class Hyperium {
     private PerspectiveModifierContainer perspective;
     private RichPresenceManager richPresenceManager = new RichPresenceManager();
     private ConfirmationPopup confirmation = new ConfirmationPopup();
-
+    private HyperiumCosmetics cosmetics;
     private TrayManager trayManager;
     private HyperiumHandlers handlers;
     private HyperiumModIntegration modIntegration;
@@ -369,6 +370,7 @@ public class Hyperium {
         SplashProgress.PROGRESS = 12;
         SplashProgress.CURRENT = "Finished";
         SplashProgress.update();
+        cosmetics = new HyperiumCosmetics();
     }
 
     /**
@@ -437,6 +439,10 @@ public class Hyperium {
 
     public ConfirmationPopup getConfirmation() {
         return confirmation;
+    }
+
+    public HyperiumCosmetics getCosmetics() {
+        return cosmetics;
     }
 
 

@@ -275,7 +275,7 @@ class WingCosmetic : ModelBase(){
         if (player.riddenByEntity != null)
             return false
         val min = 64
-        if (player.getDistanceSqToEntity(Minecraft.getMinecraft().thePlayer) > min)
+        if (player.getDistanceSqToEntity(Minecraft.getMinecraft().thePlayer) > min*min)
             return false
         if (player.hasCustomName() && player.customNameTag.isEmpty())
             return false
