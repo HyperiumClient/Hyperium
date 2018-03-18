@@ -189,6 +189,7 @@ public class KeyBindHandler {
     private final KeyBindConfig keyBindConfig;
     // Case insensitive treemap
     private final TreeMap<String, HyperiumBind> keybinds = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+    
     public HyperiumBind friends = new HyperiumBind("friends", Keyboard.KEY_L) {
         @Override
         public void onPress() {

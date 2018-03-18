@@ -210,12 +210,6 @@ public class CaptureCore {
             return new Thread(r, "CaptureX Worker " + counter.incrementAndGet());
         }
     });
-    private Pattern friendRequestPattern;
-    private Pattern rankBracketPattern;
-    private Pattern swKillMsg;
-    private Pattern bwKillMsg;
-    private Pattern bwFinalKillMsg;
-    private Pattern duelKillMsg;
 
     private Hyperium client;
     private Robot robot;
@@ -229,15 +223,7 @@ public class CaptureCore {
     }
 
     public CaptureCore(Hyperium hyperiumIn) {
-        friendRequestPattern = Pattern.compile("Friend request from .+?");
-        rankBracketPattern = Pattern.compile("[\\^] ");
-        swKillMsg = Pattern.compile(".+? was .+? by .+?\\.");
-        bwKillMsg = Pattern.compile(".+? by .+?\\.");
-        bwFinalKillMsg = Pattern.compile(".+? by .+?\\. FINAL KILL!");
-        duelKillMsg = Pattern.compile(".+? was kill by .+?\\.");
-
         this.client = hyperiumIn;
-
 
         service.scheduleAtFixedRate(() -> {
             for (FutureTask<?> renderTask : renderTasks) {
@@ -260,26 +246,31 @@ public class CaptureCore {
 
     @InvokeEvent
     public void onTick(RenderEvent event) {
-        if (CaptureXSetting.mode != CaptureMode.VIDEO) return;
+        if (this.currentGame == null || CaptureXSetting.mode != CaptureMode.VIDEO) return;
         // 1 seconds backward
-        if (backwardFrames.size() > CaptureXSetting.captureLength * 20)
-            backwardFrames.poll();
+        if (this.backwardFrames.size() > CaptureXSetting.captureLength * 20)
+            this.backwardFrames.poll();
         try {
-            backwardFrames.add(addScheduledTask(() -> robot.createScreenCapture(new Rectangle(Display.getX(), Display.getY(), Display.getWidth(), Display.getHeight()))).get());
+            this.backwardFrames.add(addScheduledTask(() -> robot.createScreenCapture(new Rectangle(Display.getX(), Display.getY(), Display.getWidth(), Display.getHeight()))).get());
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
     }
 
-    private void onKill() {
-        final Queue<BufferedImage> finalBackwardsBuffer = new ArrayDeque<>(backwardFrames);
+    @InvokeEvent
+    public void onKill(KillEvent event) {
+        if (this.currentGame == null || CaptureXSetting.mode == CaptureMode.OFF) {
+            return;
+        }
+        
+        final Queue<BufferedImage> finalBackwardsBuffer = new ArrayDeque<>(this.backwardFrames);
         addRenderTask(() -> {
             switch (CaptureXSetting.mode) {
                 case VIDEO:
                     try {
                         Hyperium.INSTANCE.getNotification().display("CaptureX", "Rendering kill", 3);
                         CapturePack pack = new CapturePack(finalBackwardsBuffer, "kill");
-                        FFMpeg.run(pack, "C:\\FFmpeg\\bin\\ffmpeg.exe", "kill", "kill");
+                        this.FFMpeg.run(pack, "C:\\FFmpeg\\bin\\ffmpeg.exe", "kill", "kill");
                         pack.cleanup();
                         Hyperium.INSTANCE.getNotification().display("CaptureX", "Kill captured", 3);
                     } catch (Exception e) {
@@ -336,39 +327,5 @@ public class CaptureCore {
     @InvokeEvent
     public void onMinigameJoin(JoinMinigameEvent event) {
         this.currentGame = event.getMinigame();
-    }
-
-    @InvokeEvent
-    public void onChat(ChatEvent event) {
-        String msg = ChatColor.stripColor(event.getChat().getUnformattedText());
-        if (CaptureXSetting.mode == CaptureMode.OFF) return;
-        if (this.client.getHandlers().getHypixelDetector().isHypixel()) {
-            if (currentGame == null) {
-                return;
-            }
-            switch (currentGame) {
-                case SKYWARS:
-                    if (swKillMsg.matcher(msg).matches()) {
-                        if (msg.endsWith(Minecraft.getMinecraft().thePlayer.getName() + ".")) {
-                            onKill();
-                        }
-                    }
-                    break;
-                case BEDWARS:
-                    if (bwKillMsg.matcher(msg).matches() || bwFinalKillMsg.matcher(msg).matches()) {
-                        msg = msg.replace(" FINAL KILL!", "");
-                    }
-                    if (msg.endsWith(Minecraft.getMinecraft().thePlayer.getName() + ".")) {
-                        onKill();
-                    }
-                    break;
-                case DUELS:
-                    if (duelKillMsg.matcher(msg).matches()) {
-                        if (msg.endsWith(Minecraft.getMinecraft().thePlayer.getName() + ".")) {
-                            onKill();
-                        }
-                    }
-            }
-        }
     }
 }

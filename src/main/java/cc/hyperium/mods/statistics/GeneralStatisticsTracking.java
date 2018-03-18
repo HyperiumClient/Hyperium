@@ -207,7 +207,7 @@ public class GeneralStatisticsTracking {
             lifetimeCoins += coins;
             monthlyCoins += coins;
             dailyCoins += coins;
-            System.out.println("Lifetime coins earned: " + lifetimeCoins);
+            //System.out.println("Lifetime coins earned: " + lifetimeCoins);
         }
     }
 

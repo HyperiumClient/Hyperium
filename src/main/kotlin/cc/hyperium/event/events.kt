@@ -306,11 +306,6 @@ class JoinMinigameEvent(val minigame: Minigame)
 class RenderPlayerEvent(val entity: AbstractClientPlayer, val renderManager: RenderManager, val x: Double, val y: Double, val z: Double, val partialTicks: Float)
 
 /**
- * Invoked when a keybind is pressed.
- */
-class KeyBindPressEvent(val keyCode: Int)
-
-/**
  * Invoked when received a friend request is received
  */
 class HypixelFriendRequestEvent(val from: String)
