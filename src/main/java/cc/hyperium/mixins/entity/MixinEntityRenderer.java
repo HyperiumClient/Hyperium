@@ -176,19 +176,15 @@ import net.minecraft.block.BlockBed;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.ActiveRenderInfo;
 import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.settings.GameSettings;
-import net.minecraft.client.shader.ShaderGroup;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.*;
-import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
@@ -199,14 +195,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(EntityRenderer.class)
 public abstract class MixinEntityRenderer {
-
-    @Inject(method = "updateCameraAndRender", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiIngame;renderGameOverlay(F)V", shift = At.Shift.AFTER))
-    private void updateCameraAndRender(float partialTicks, long nano, CallbackInfo ci) {
-        EventBus.INSTANCE.post(new RenderEvent());
-    }
-
-    @Shadow
-    public static boolean anaglyphEnable;
     @Shadow
     private float thirdPersonDistance;
     @Shadow
@@ -214,43 +202,23 @@ public abstract class MixinEntityRenderer {
     @Shadow
     private boolean cloudFog;
     @Shadow
-    private long prevFrameTime;
+    private boolean debugView;
     @Shadow
-    private float smoothCamYaw;
+    private Minecraft mc;
     @Shadow
-    private float smoothCamPitch;
+    private float fovModifierHandPrev;
     @Shadow
-    private float smoothCamFilterX;
+    private float fovModifierHand;
     @Shadow
-    private float smoothCamFilterY;
+    private MouseFilter mouseFilterYAxis;
     @Shadow
-    private float smoothCamPartialTicks;
-    @Shadow
-    private ShaderGroup theShaderGroup;
-    @Shadow
-    private boolean useShader;
-    @Shadow
-    private long renderEndNanoTime;
-
-    @Shadow
-    public abstract void setupOverlayRendering();
-
-    @Shadow
-    public abstract void renderWorld(float partialTicks, long finishTimeNano);
-    
-    @Shadow private boolean debugView;
-    
-    @Shadow private Minecraft mc;
-    
-    @Shadow private float fovModifierHandPrev;
-    
-    @Shadow private float fovModifierHand;
-    
-    @Shadow private MouseFilter mouseFilterYAxis;
-    
-    @Shadow private MouseFilter mouseFilterXAxis;
-    
+    private MouseFilter mouseFilterXAxis;
     private boolean zoomMode = false;
+
+    @Inject(method = "updateCameraAndRender", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiIngame;renderGameOverlay(F)V", shift = At.Shift.AFTER))
+    private void updateCameraAndRender(float partialTicks, long nano, CallbackInfo ci) {
+        EventBus.INSTANCE.post(new RenderEvent());
+    }
 
     /**
      * @author CoalOres
@@ -373,70 +341,24 @@ public abstract class MixinEntityRenderer {
      * @author CoalOres
      * @reason 360 Perspective
      */
-    @Overwrite
-    public void updateCameraAndRender(float p_181560_1_, long p_181560_2_) {
-        boolean flag = Display.isActive();
 
-        if (!flag && Minecraft.getMinecraft().gameSettings.pauseOnLostFocus && (!Minecraft.getMinecraft().gameSettings.touchscreen || !Mouse.isButtonDown(1))) {
-            if (Minecraft.getSystemTime() - this.prevFrameTime > 500L) {
-                Minecraft.getMinecraft().displayInGameMenu();
-            }
-        } else {
-            this.prevFrameTime = Minecraft.getSystemTime();
-        }
-
-        Minecraft.getMinecraft().mcProfiler.startSection("mouse");
-
-        if (flag && Minecraft.isRunningOnMac && Minecraft.getMinecraft().inGameHasFocus && !Mouse.isInsideWindow()) {
-            Mouse.setGrabbed(false);
-            Mouse.setCursorPosition(Display.getWidth() / 2, Display.getHeight() / 2);
-            Mouse.setGrabbed(true);
-        }
-
-        if (Minecraft.getMinecraft().inGameHasFocus && flag) {
+    @Inject(method = "updateCameraAndRender", at = @At(value = "INVOKE_STRING", target = "Lnet/minecraft/profiler/Profiler;startSection(Ljava/lang/String;)V", args = "ldc=mouse"))
+    private void updateCameraAndRender2(float partialTicks, long nanoTime, CallbackInfo ci) {
+        boolean flag2 = Display.isActive();
+        if (Minecraft.getMinecraft().inGameHasFocus && flag2) {
             if (Hyperium.INSTANCE.getPerspective().isEnabled() && Minecraft.getMinecraft().gameSettings.thirdPersonView != 2) {
                 Hyperium.INSTANCE.getPerspective().onDisable();
                 Hyperium.INSTANCE.getPerspective().setEnabled(false);
             }
 
-            Minecraft.getMinecraft().mouseHelper.mouseXYChange();
-            float f = Minecraft.getMinecraft().gameSettings.mouseSensitivity * 0.6F + 0.2F;
-            float f1 = f * f * f * 8.0F;
-            float f2 = (float) Minecraft.getMinecraft().mouseHelper.deltaX * f1;
-            float f3 = (float) Minecraft.getMinecraft().mouseHelper.deltaY * f1;
-            int i = 1;
+            if (Hyperium.INSTANCE.getPerspective().isEnabled()) {
+                Minecraft.getMinecraft().mouseHelper.mouseXYChange();
 
-            if (Minecraft.getMinecraft().gameSettings.invertMouse) {
-                i = -1;
-            }
+                float f = Minecraft.getMinecraft().gameSettings.mouseSensitivity * 0.6F + 0.2F;
+                float f1 = f * f * f * 8.0F;
+                float f2 = (float) Minecraft.getMinecraft().mouseHelper.deltaX * f1;
+                float f3 = (float) Minecraft.getMinecraft().mouseHelper.deltaY * f1;
 
-            if (Minecraft.getMinecraft().gameSettings.smoothCamera) {
-                this.smoothCamYaw += f2;
-                this.smoothCamPitch += f3;
-                float f4 = p_181560_1_ - this.smoothCamPartialTicks;
-                this.smoothCamPartialTicks = p_181560_1_;
-                f2 = this.smoothCamFilterX * f4;
-                f3 = this.smoothCamFilterY * f4;
-
-                if (Hyperium.INSTANCE.getPerspective().isEnabled()) {
-
-                    // Modifying pitch and yaw values.
-                    Hyperium.INSTANCE.getPerspective().modifiedYaw += f2 / 8.0F;
-                    Hyperium.INSTANCE.getPerspective().modifiedPitch += f3 / 8.0F;
-
-
-                    // Range check.
-                    if (Math.abs(Hyperium.INSTANCE.getPerspective().modifiedPitch) > 90.0F) {
-                        if (Hyperium.INSTANCE.getPerspective().modifiedPitch > 0.0F) {
-                            Hyperium.INSTANCE.getPerspective().modifiedPitch = 90.0F;
-                        } else {
-                            Hyperium.INSTANCE.getPerspective().modifiedPitch = -90.0F;
-                        }
-                    }
-                } else {
-                    Minecraft.getMinecraft().thePlayer.setAngles(f2, f3 * (float) i);
-                }
-            } else if (Hyperium.INSTANCE.getPerspective().isEnabled()) {
                 // Modifying pitch and yaw values.
                 Hyperium.INSTANCE.getPerspective().modifiedYaw += f2 / 8.0F;
                 Hyperium.INSTANCE.getPerspective().modifiedPitch += f3 / 8.0F;
@@ -449,77 +371,10 @@ public abstract class MixinEntityRenderer {
                         Hyperium.INSTANCE.getPerspective().modifiedPitch = -90.0F;
                     }
                 }
-            } else {
-                this.smoothCamYaw = 0.0F;
-                this.smoothCamPitch = 0.0F;
-                Minecraft.getMinecraft().thePlayer.setAngles(f2, f3 * (float) i);
-            }
-        }
-
-        Minecraft.getMinecraft().mcProfiler.endSection();
-
-        if (!Minecraft.getMinecraft().skipRenderWorld) {
-            anaglyphEnable = Minecraft.getMinecraft().gameSettings.anaglyph;
-            final ScaledResolution scaledresolution = new ScaledResolution(Minecraft.getMinecraft());
-            int i1 = scaledresolution.getScaledWidth();
-            int j1 = scaledresolution.getScaledHeight();
-            final int k1 = Mouse.getX() * i1 / Minecraft.getMinecraft().displayWidth;
-            final int l1 = j1 - Mouse.getY() * j1 / Minecraft.getMinecraft().displayHeight - 1;
-            int i2 = Minecraft.getMinecraft().gameSettings.limitFramerate;
-
-            if (Minecraft.getMinecraft().theWorld != null) {
-                Minecraft.getMinecraft().mcProfiler.startSection("level");
-                int j = Math.min(Minecraft.getDebugFPS(), i2);
-                j = Math.max(j, 60);
-                long k = System.nanoTime() - p_181560_2_;
-                long l = Math.max((long) (1000000000 / j / 4) - k, 0L);
-                this.renderWorld(p_181560_1_, System.nanoTime() + l);
-
-                if (OpenGlHelper.shadersSupported) {
-                    Minecraft.getMinecraft().renderGlobal.renderEntityOutlineFramebuffer();
-
-                    if (this.theShaderGroup != null && this.useShader) {
-                        GlStateManager.matrixMode(5890);
-                        GlStateManager.pushMatrix();
-                        GlStateManager.loadIdentity();
-                        this.theShaderGroup.loadShaderGroup(p_181560_1_);
-                        GlStateManager.popMatrix();
-                    }
-
-                    Minecraft.getMinecraft().getFramebuffer().bindFramebuffer(true);
-                }
-
-                this.renderEndNanoTime = System.nanoTime();
-                Minecraft.getMinecraft().mcProfiler.endStartSection("gui");
-
-                if (!Minecraft.getMinecraft().gameSettings.hideGUI || Minecraft.getMinecraft().currentScreen != null) {
-                    GlStateManager.alphaFunc(516, 0.1F);
-                    Minecraft.getMinecraft().ingameGUI.renderGameOverlay(p_181560_1_);
-                }
-
-                Minecraft.getMinecraft().mcProfiler.endSection();
-            } else {
-                GlStateManager.viewport(0, 0, Minecraft.getMinecraft().displayWidth, Minecraft.getMinecraft().displayHeight);
-                GlStateManager.matrixMode(5889);
-                GlStateManager.loadIdentity();
-                GlStateManager.matrixMode(5888);
-                GlStateManager.loadIdentity();
-                this.setupOverlayRendering();
-                this.renderEndNanoTime = System.nanoTime();
-            }
-
-            if (Minecraft.getMinecraft().currentScreen != null) {
-                GlStateManager.clear(256);
-
-                try {
-                    Minecraft.getMinecraft().currentScreen.drawScreen(k1, l1, p_181560_1_);
-                } catch (Throwable throwable) {
-                    // This is necessary because it crashes otherwise for some reason... Unsure if this will cause any issues in the future.
-                }
             }
         }
     }
-    
+
     /**
      * Camera zooming
      *
@@ -532,24 +387,24 @@ public abstract class MixinEntityRenderer {
         } else {
             Entity entity = this.mc.getRenderViewEntity();
             float fov = 70.0F;
-            
+
             if (notHand) {
                 fov = this.mc.gameSettings.fovSetting * (this.fovModifierHandPrev + (this.fovModifierHand - this.fovModifierHandPrev) * partialTicks);
             }
-            
+
             boolean flag = false;
-            
+
             if (this.mc.currentScreen == null) {
                 GameSettings gamesettings = this.mc.gameSettings;
                 flag = GameSettings.isKeyDown(((cc.hyperium.mods.utilities.UtilitiesMod) Hyperium.INSTANCE.getModIntegration().getUtilities()).getBinding());
             }
-            
+
             if (flag) {
                 if (!this.zoomMode) {
                     this.zoomMode = true;
                     this.mc.gameSettings.smoothCamera = true;
                 }
-    
+
                 fov /= 4.0F;
             } else if (this.zoomMode) {
                 this.zoomMode = false;
@@ -558,19 +413,19 @@ public abstract class MixinEntityRenderer {
                 this.mouseFilterYAxis = new MouseFilter();
                 this.mc.renderGlobal.setDisplayListEntitiesDirty();
             }
-            
+
             if (entity instanceof EntityLivingBase && ((EntityLivingBase) entity).getHealth() <= 0.0F) {
                 float f1 = (float) ((EntityLivingBase) entity).deathTime + partialTicks;
                 fov /= (1.0F - 500.0F / (f1 + 500.0F)) * 2.0F + 1.0F;
             }
-            
+
             Block block = ActiveRenderInfo
-                .getBlockAtEntityViewpoint(this.mc.theWorld, entity, partialTicks);
-            
+                    .getBlockAtEntityViewpoint(this.mc.theWorld, entity, partialTicks);
+
             if (block.getMaterial() == Material.water) {
                 fov = fov * 60.0F / 70.0F;
             }
-            
+
             return fov;
         }
     }
