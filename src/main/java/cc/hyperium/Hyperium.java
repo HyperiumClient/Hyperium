@@ -360,7 +360,7 @@ public class Hyperium {
                 //Callback
                 if (object.has("enabled") && !object.optBoolean("enabled")) {
                     //Disable stuff
-                    EventBus.INSTANCE.disable();
+                    // EventBus.INSTANCE.disable(); dont think this is needed?
                     getHandlers().getHyperiumCommandHandler().clear();
                 }
             });
