@@ -354,9 +354,9 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
     }
 
     private void addHyperiumStyleSingleplayerMultiplayerButtons(int p_73969_1_, int p_73969_2_) {
-        this.buttonList.add(new GuiButton(1, width / 2 - 295, height / 2 - 55, 110, 110, ""));
-        this.buttonList.add(new GuiButton(2, width / 2 - 175, height / 2 - 55, 110, 110, ""));
-        this.buttonList.add(new GuiButton(15, width / 2 + 65, height / 2 - 55, 110, 110, ""));
+        this.buttonList.add(new GuiButton(1, this.width / 2 - getIntendedWidth(295), this.height / 2 - getIntendedHeight(55), getIntendedWidth(110), getIntendedHeight(110), ""));
+        this.buttonList.add(new GuiButton(2, this.width / 2 - getIntendedWidth(175), this.height / 2 - getIntendedHeight(55), getIntendedWidth(110), getIntendedHeight(110), ""));
+        this.buttonList.add(new GuiButton(15, this.width / 2 + getIntendedWidth(65), this.height / 2 - getIntendedHeight(55), getIntendedWidth(110),getIntendedHeight(110), ""));
     }
 
     private void addDefaultStyleSingleplayerMultiplayerButtons(int p_73969_1_, int p_73969_2_) {
@@ -368,8 +368,8 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
     }
 
     private void addHyperiumStyleOptionsButton(int j) {
-        this.buttonList.add(new GuiButton(0, width / 2 - 55, height / 2 - 55, 110, 110, ""));
-        this.buttonList.add(new GuiButton(4, width / 2 + 185, height / 2 - 55, 110, 110, ""));
+        this.buttonList.add(new GuiButton(0, width / 2 - getIntendedWidth(55), height / 2 - getIntendedHeight(55), getIntendedWidth(110), getIntendedHeight(110), ""));
+        this.buttonList.add(new GuiButton(4, width / 2 + getIntendedWidth(185), height / 2 - getIntendedHeight(55), getIntendedWidth(110), getIntendedHeight(110), ""));
     }
 
     private void addDefaultStyleOptionsButton(int j) {
@@ -419,17 +419,27 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
         TextureManager tm = mc.getTextureManager();
 
         tm.bindTexture(person_outline);
-        drawScaledCustomSizeModalRect(width / 2 - 285, height / 2 - 45, 0, 0, 192, 192, 90, 90, 192, 192);
+        drawScaledCustomSizeModalRect(this.width / 2 - getIntendedWidth(285), this.height / 2 - getIntendedHeight(45), 0, 0, 192, 192, getIntendedWidth(90), getIntendedHeight(90), 192, 192);
         tm.bindTexture(people_outline);
-        drawScaledCustomSizeModalRect(width / 2 - 165, height / 2 - 45, 0, 0, 192, 192, 90, 90, 192, 192);
+        drawScaledCustomSizeModalRect(this.width / 2 - getIntendedWidth(165), this.height / 2 - getIntendedHeight(45), 0, 0, 192, 192, getIntendedWidth(90), getIntendedHeight(90), 192, 192);
         tm.bindTexture(settings);
-        drawScaledCustomSizeModalRect(width / 2 - 45, height / 2 - 45, 0, 0, 192, 192, 90, 90, 192, 192);
+        drawScaledCustomSizeModalRect(this.width / 2 - getIntendedWidth(45), this.height / 2 - getIntendedHeight(45), 0, 0, 192, 192, getIntendedWidth(90), getIntendedHeight(90), 192, 192);
         tm.bindTexture(hIcon);
-        drawScaledCustomSizeModalRect(width / 2 + 85, height / 2 - 35, 0, 0, 104, 104, 70, 70, 104, 104);
+        drawScaledCustomSizeModalRect(this.width / 2 + getIntendedWidth(85), this.height / 2 - getIntendedHeight(35), 0, 0, 104, 104, getIntendedWidth(70), getIntendedHeight(70), 104, 104);
         tm.bindTexture(exit);
-        drawScaledCustomSizeModalRect(width / 2 + 195, height / 2 - 45, 0, 0, 192, 192, 90, 90, 192, 192);
+        drawScaledCustomSizeModalRect(this.width / 2 + getIntendedWidth(195), this.height / 2 - getIntendedHeight(45), 0, 0, 192, 192, getIntendedWidth(90), getIntendedHeight(90), 192, 192);
         GlStateManager.disableBlend();
         GlStateManager.popMatrix();
+    }
+
+    private int getIntendedWidth(int value){
+        float intendedWidth = 1920F;
+        return (int) ((Minecraft.getMinecraft().displayWidth / intendedWidth) * value);
+    }
+
+    private int getIntendedHeight(int value){
+        float intendedHeight = 1080F;
+        return (int) ((Minecraft.getMinecraft().displayHeight / intendedHeight) * value);
     }
 
     private void renderHyperiumBackground(ScaledResolution p_180476_1_) {

@@ -1,5 +1,6 @@
 package cc.hyperium.gui;
 
+import cc.hyperium.Hyperium;
 import cc.hyperium.config.ConfigOpt;
 import cc.hyperium.utils.RenderUtils;
 import com.google.common.collect.Iterables;
@@ -64,7 +65,10 @@ public class ScoreboardRenderer {
             int l = (int) (resolution.getScaledWidth_double() * getxLocation()) - k1 + 2;
             RenderUtils.drawRect(l1 - 2, k, l, k + this.getFontRenderer().FONT_HEIGHT, 1342177280);
             this.getFontRenderer().drawString(s1, l1, k, 553648127);
-            this.getFontRenderer().drawString(s2, l - this.getFontRenderer().getStringWidth(s2), k, 553648127);
+
+            if (!Hyperium.INSTANCE.getHandlers().getHypixelDetector().isHypixel()) {
+                this.getFontRenderer().drawString(s2, l - this.getFontRenderer().getStringWidth(s2), k, 553648127);
+            }
 
             if (j == collection.size()) {
                 String s3 = objective.getDisplayName();
