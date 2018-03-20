@@ -64,7 +64,7 @@ public class HyperiumHandlers {
     private QuestTrackingChatHandler questTracking;
 
     public HyperiumHandlers() {
-
+        System.out.println("Loading handlers");
         register(network = new HyperiumNetwork());
 
         this.remoteResourcesHandler = new RemoteResourcesHandler();
@@ -72,8 +72,8 @@ public class HyperiumHandlers {
         register(configOptions = new OtherConfigOptions());
         register(generalChatHandler = new GeneralChatHandler(chatHandlers));
         register(keybindHandler = new KeyBindHandler());
-        register(locationHandler = new LocationHandler());
         register(hypixelDetector = new HypixelDetector());
+        register(locationHandler = new LocationHandler());
         register(valueHandler = new ValueHandler());
         register(browserManager = new BrowserManager());
         register(resolutionUtil = new ResolutionUtil());
@@ -81,23 +81,29 @@ public class HyperiumHandlers {
         register(renderOptomizer = new RenderOptimizer());
         register(scoreboardRenderer = new ScoreboardRenderer());
         register(dataTracking = new GameDataTracking());
-
         register(privateMessageHandler = new PrivateMessageHandler());
+
         commandQueue = new CommandQueue();
         dataHandler = new ApiDataHandler();
         timeTrackHandler = new TimeTrackHandler();
         //Chat Handlers
-
+        System.out.println("Loading chat handlers");
         registerChatHandler(new RankedRatingChatHandler());
         registerChatHandler(new AutoWhoChatHandler());
         registerChatHandler(new PrivateMessageReader());
         registerChatHandler(new GuildPartyChatParser());
         registerChatHandler(questTracking = new QuestTrackingChatHandler());
+        System.out.println("Registering events");
         EventBus.INSTANCE.register(this);
+        System.out.println("Done");
+
 
         //Command Handler
-
         register(commandHandler = new HyperiumCommandHandler());
+    }
+
+    public void postInit() {
+        generalChatHandler.post();
     }
 
     public GameDataTracking getDataTracking() {

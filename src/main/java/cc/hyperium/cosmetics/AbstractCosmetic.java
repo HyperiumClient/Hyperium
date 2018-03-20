@@ -24,6 +24,10 @@ public abstract class AbstractCosmetic {
         this.purchasable = purchaseable;
         if (purchaseable) {
             PurchaseApi.getInstance().getPackageAsync(Minecraft.getMinecraft().getSession().getProfile().getId(), hyperiumPurchase -> {
+                if (hyperiumPurchase == null) {
+                    System.out.println("WARNING COSMETIC NULL");
+                    return;
+                }
                 selfUnlocked = hyperiumPurchase.hasPurchased(purchaseType);
             });
         }

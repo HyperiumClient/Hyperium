@@ -77,11 +77,17 @@ public class PurchaseApi {
     }
 
     public HyperiumPurchase getPackageIfReady(UUID uuid) {
+        if(uuid == null)
+            return null;
         return purchasePlayers.get(uuid);
     }
 
     public void getPackageAsync(UUID uuid, Consumer<HyperiumPurchase> callback) {
-        Multithreading.runAsync(() -> callback.accept(getPackageSync(uuid)));
+        Multithreading.runAsync(
+                () ->
+                        callback.accept
+                                (getPackageSync
+                                        (uuid)));
     }
     public HyperiumPurchase getSelf() {
         return getPackageIfReady(Minecraft.getMinecraft().getSession().getProfile().getId());

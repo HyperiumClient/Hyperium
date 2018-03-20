@@ -119,6 +119,7 @@ public class Hyperium {
         SplashProgress.CURRENT = "Loading handlers";
         SplashProgress.update();
         handlers = new HyperiumHandlers();
+        handlers.postInit();
 
         SplashProgress.PROGRESS = 6;
         SplashProgress.CURRENT = "Registering listeners";

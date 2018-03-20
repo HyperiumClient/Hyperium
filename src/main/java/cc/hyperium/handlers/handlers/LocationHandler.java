@@ -20,6 +20,7 @@ package cc.hyperium.handlers.handlers;
 import cc.hyperium.Hyperium;
 import cc.hyperium.config.ConfigOpt;
 import cc.hyperium.event.*;
+import cc.hyperium.handlers.HyperiumHandlers;
 import cc.hyperium.utils.ChatColor;
 
 import java.util.regex.Matcher;
@@ -67,7 +68,11 @@ public class LocationHandler {
 
     @InvokeEvent
     public void tick(TickEvent event) {
-        if (!Hyperium.INSTANCE.getHandlers().getHypixelDetector().isHypixel())
+        Hyperium instance = Hyperium.INSTANCE;
+        HyperiumHandlers handlers = instance.getHandlers();
+        if(handlers == null)return;
+        HypixelDetector hypixelDetector = handlers.getHypixelDetector();
+        if (!hypixelDetector.isHypixel())
             ticksInWorld = 0;
         if (ticksInWorld < 20) {
             ticksInWorld++;

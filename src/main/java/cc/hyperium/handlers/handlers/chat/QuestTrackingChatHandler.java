@@ -182,7 +182,6 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /*
  * Created by Cubxity on 20/03/2018
@@ -190,7 +189,6 @@ import java.util.regex.Pattern;
 public class QuestTrackingChatHandler extends HyperiumChatHandler{
     private File file;
     private JsonArray json;
-    private Pattern completePattern;
     public QuestTrackingChatHandler(){
         file = new File(Hyperium.folder, "quest_tracking.json");
         if(!file.exists()){
@@ -198,7 +196,6 @@ public class QuestTrackingChatHandler extends HyperiumChatHandler{
             save();
         }
         load();
-        completePattern = Pattern.compile(regexs.getasJson().optString("quest_complete"));
     }
     @Override
     public boolean chatReceived(IChatComponent component, String text) {

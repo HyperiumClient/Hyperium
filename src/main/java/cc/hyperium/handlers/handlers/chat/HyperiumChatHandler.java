@@ -18,10 +18,8 @@
 package cc.hyperium.handlers.handlers.chat;
 
 import cc.hyperium.Hyperium;
-import cc.hyperium.handlers.HyperiumHandlers;
 import cc.hyperium.handlers.handlers.remoteresources.HyperiumResource;
-import cc.hyperium.handlers.handlers.remoteresources.RemoteResourcesHandler;
-import cc.hyperium.mods.sk1ercommon.Multithreading;
+import cc.hyperium.utils.JsonHolder;
 import net.minecraft.util.IChatComponent;
 
 import java.util.regex.Pattern;
@@ -37,30 +35,8 @@ public abstract class HyperiumChatHandler {
     protected static Pattern skywarsRankedRating = null;
     protected static Pattern privateMessageTo = null;
     protected static Pattern privateMessageFrom = null;
+    protected static Pattern completePattern = null;
 
-    static {
-        Multithreading.runAsync(() -> {
-
-            HyperiumHandlers handlers;
-            while((handlers = Hyperium.INSTANCE.getHandlers()) == null) {
-                try {
-                    Thread.sleep(50L);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-            handlers.getRemoteResourcesHandler().getResourceAsync("chat_regex.json", RemoteResourcesHandler.ResourceType.TEXT, HyperiumResource -> {
-                regexs = HyperiumResource;
-                guildChatPattern = Pattern.compile(regexs.getasJson().optString("guild_chat"));
-                partyChatPattern = Pattern.compile(regexs.getasJson().optString("party_chat"));
-                skywarsRankedRating = Pattern.compile(regexs.getasJson().optString("skywars_rating"));
-                privateMessageTo = Pattern.compile(regexs.getasJson().optString("private_message_to"));
-                privateMessageFrom = Pattern.compile(regexs.getasJson().optString("private_message_from"));
-            });
-        });
-
-        ;
-    }
 
     public Hyperium getHyperium() {
         return Hyperium.INSTANCE;
@@ -73,4 +49,7 @@ public abstract class HyperiumChatHandler {
      */
     public abstract boolean chatReceived(IChatComponent component, String text);
 
+    public void callback(JsonHolder data) {
+
+    }
 }
