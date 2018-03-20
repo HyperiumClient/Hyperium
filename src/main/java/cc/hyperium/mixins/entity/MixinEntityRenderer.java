@@ -1,169 +1,18 @@
 /*
- *                    GNU LESSER GENERAL PUBLIC LICENSE
- *                        Version 3, 29 June 2007
+ *     Copyright (C) 2018  Hyperium <https://hyperium.cc/>
  *
- *  Copyright (C) 2007 Free Software Foundation, Inc. <http://fsf.org/>
- *  Everyone is permitted to copy and distribute verbatim copies
- *  of this license document, but changing it is not allowed.
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU Lesser General Public License as published
+ *     by the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
  *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU Lesser General Public License for more details.
  *
- *   This version of the GNU Lesser General Public License incorporates
- * the terms and conditions of version 3 of the GNU General Public
- * License, supplemented by the additional permissions listed below.
- *
- *   0. Additional Definitions.
- *
- *   As used herein, "this License" refers to version 3 of the GNU Lesser
- * General Public License, and the "GNU GPL" refers to version 3 of the GNU
- * General Public License.
- *
- *   "The Library" refers to a covered work governed by this License,
- * other than an Application or a Combined Work as defined below.
- *
- *   An "Application" is any work that makes use of an interface provided
- * by the Library, but which is not otherwise based on the Library.
- * Defining a subclass of a class defined by the Library is deemed a mode
- * of using an interface provided by the Library.
- *
- *   A "Combined Work" is a work produced by combining or linking an
- * Application with the Library.  The particular version of the Library
- * with which the Combined Work was made is also called the "Linked
- * Version".
- *
- *   The "Minimal Corresponding Source" for a Combined Work means the
- * Corresponding Source for the Combined Work, excluding any source code
- * for portions of the Combined Work that, considered in isolation, are
- * based on the Application, and not on the Linked Version.
- *
- *   The "Corresponding Application Code" for a Combined Work means the
- * object code and/or source code for the Application, including any data
- * and utility programs needed for reproducing the Combined Work from the
- * Application, but excluding the System Libraries of the Combined Work.
- *
- *   1. Exception to Section 3 of the GNU GPL.
- *
- *   You may convey a covered work under sections 3 and 4 of this License
- * without being bound by section 3 of the GNU GPL.
- *
- *   2. Conveying Modified Versions.
- *
- *   If you modify a copy of the Library, and, in your modifications, a
- * facility refers to a function or data to be supplied by an Application
- * that uses the facility (other than as an argument passed when the
- * facility is invoked), then you may convey a copy of the modified
- * version:
- *
- *    a) under this License, provided that you make a good faith effort to
- *    ensure that, in the event an Application does not supply the
- *    function or data, the facility still operates, and performs
- *    whatever part of its purpose remains meaningful, or
- *
- *    b) under the GNU GPL, with none of the additional permissions of
- *    this License applicable to that copy.
- *
- *   3. Object Code Incorporating Material from Library Header Files.
- *
- *   The object code form of an Application may incorporate material from
- * a header file that is part of the Library.  You may convey such object
- * code under terms of your choice, provided that, if the incorporated
- * material is not limited to numerical parameters, data structure
- * layouts and accessors, or small macros, inline functions and templates
- * (ten or fewer lines in length), you do both of the following:
- *
- *    a) Give prominent notice with each copy of the object code that the
- *    Library is used in it and that the Library and its use are
- *    covered by this License.
- *
- *    b) Accompany the object code with a copy of the GNU GPL and this license
- *    document.
- *
- *   4. Combined Works.
- *
- *   You may convey a Combined Work under terms of your choice that,
- * taken together, effectively do not restrict modification of the
- * portions of the Library contained in the Combined Work and reverse
- * engineering for debugging such modifications, if you also do each of
- * the following:
- *
- *    a) Give prominent notice with each copy of the Combined Work that
- *    the Library is used in it and that the Library and its use are
- *    covered by this License.
- *
- *    b) Accompany the Combined Work with a copy of the GNU GPL and this license
- *    document.
- *
- *    c) For a Combined Work that displays copyright notices during
- *    execution, include the copyright notice for the Library among
- *    these notices, as well as a reference directing the user to the
- *    copies of the GNU GPL and this license document.
- *
- *    d) Do one of the following:
- *
- *        0) Convey the Minimal Corresponding Source under the terms of this
- *        License, and the Corresponding Application Code in a form
- *        suitable for, and under terms that permit, the user to
- *        recombine or relink the Application with a modified version of
- *        the Linked Version to produce a modified Combined Work, in the
- *        manner specified by section 6 of the GNU GPL for conveying
- *        Corresponding Source.
- *
- *        1) Use a suitable shared library mechanism for linking with the
- *        Library.  A suitable mechanism is one that (a) uses at run time
- *        a copy of the Library already present on the user's computer
- *        system, and (b) will operate properly with a modified version
- *        of the Library that is interface-compatible with the Linked
- *        Version.
- *
- *    e) Provide Installation Information, but only if you would otherwise
- *    be required to provide such information under section 6 of the
- *    GNU GPL, and only to the extent that such information is
- *    necessary to install and execute a modified version of the
- *    Combined Work produced by recombining or relinking the
- *    Application with a modified version of the Linked Version. (If
- *    you use option 4d0, the Installation Information must accompany
- *    the Minimal Corresponding Source and Corresponding Application
- *    Code. If you use option 4d1, you must provide the Installation
- *    Information in the manner specified by section 6 of the GNU GPL
- *    for conveying Corresponding Source.)
- *
- *   5. Combined Libraries.
- *
- *   You may place library facilities that are a work based on the
- * Library side by side in a single library together with other library
- * facilities that are not Applications and are not covered by this
- * License, and convey such a combined library under terms of your
- * choice, if you do both of the following:
- *
- *    a) Accompany the combined library with a copy of the same work based
- *    on the Library, uncombined with any other library facilities,
- *    conveyed under the terms of this License.
- *
- *    b) Give prominent notice with the combined library that part of it
- *    is a work based on the Library, and explaining where to find the
- *    accompanying uncombined form of the same work.
- *
- *   6. Revised Versions of the GNU Lesser General Public License.
- *
- *   The Free Software Foundation may publish revised and/or new versions
- * of the GNU Lesser General Public License from time to time. Such new
- * versions will be similar in spirit to the present version, but may
- * differ in detail to address new problems or concerns.
- *
- *   Each version is given a distinguishing version number. If the
- * Library as you received it specifies that a certain numbered version
- * of the GNU Lesser General Public License "or any later version"
- * applies to it, you have the option of following the terms and
- * conditions either of that published version or of any later version
- * published by the Free Software Foundation. If the Library as you
- * received it does not specify a version number of the GNU Lesser
- * General Public License, you may choose any version of the GNU Lesser
- * General Public License ever published by the Free Software Foundation.
- *
- *   If the Library as you received it specifies that a proxy can decide
- * whether future versions of the GNU Lesser General Public License shall
- * apply, that proxy's public statement of acceptance of any version is
- * permanent authorization for you to choose that version for the
- * Library.
+ *     You should have received a copy of the GNU Lesser General Public License
+ *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package cc.hyperium.mixins.entity;
@@ -176,19 +25,15 @@ import net.minecraft.block.BlockBed;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.ActiveRenderInfo;
 import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.settings.GameSettings;
-import net.minecraft.client.shader.ShaderGroup;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.*;
-import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
@@ -199,14 +44,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(EntityRenderer.class)
 public abstract class MixinEntityRenderer {
-
-    @Inject(method = "updateCameraAndRender", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiIngame;renderGameOverlay(F)V", shift = At.Shift.AFTER))
-    private void updateCameraAndRender(float partialTicks, long nano, CallbackInfo ci) {
-        EventBus.INSTANCE.post(new RenderEvent());
-    }
-
-    @Shadow
-    public static boolean anaglyphEnable;
     @Shadow
     private float thirdPersonDistance;
     @Shadow
@@ -214,43 +51,23 @@ public abstract class MixinEntityRenderer {
     @Shadow
     private boolean cloudFog;
     @Shadow
-    private long prevFrameTime;
+    private boolean debugView;
     @Shadow
-    private float smoothCamYaw;
+    private Minecraft mc;
     @Shadow
-    private float smoothCamPitch;
+    private float fovModifierHandPrev;
     @Shadow
-    private float smoothCamFilterX;
+    private float fovModifierHand;
     @Shadow
-    private float smoothCamFilterY;
+    private MouseFilter mouseFilterYAxis;
     @Shadow
-    private float smoothCamPartialTicks;
-    @Shadow
-    private ShaderGroup theShaderGroup;
-    @Shadow
-    private boolean useShader;
-    @Shadow
-    private long renderEndNanoTime;
-
-    @Shadow
-    public abstract void setupOverlayRendering();
-
-    @Shadow
-    public abstract void renderWorld(float partialTicks, long finishTimeNano);
-    
-    @Shadow private boolean debugView;
-    
-    @Shadow private Minecraft mc;
-    
-    @Shadow private float fovModifierHandPrev;
-    
-    @Shadow private float fovModifierHand;
-    
-    @Shadow private MouseFilter mouseFilterYAxis;
-    
-    @Shadow private MouseFilter mouseFilterXAxis;
-    
+    private MouseFilter mouseFilterXAxis;
     private boolean zoomMode = false;
+
+    @Inject(method = "updateCameraAndRender", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiIngame;renderGameOverlay(F)V", shift = At.Shift.AFTER))
+    private void updateCameraAndRender(float partialTicks, long nano, CallbackInfo ci) {
+        EventBus.INSTANCE.post(new RenderEvent());
+    }
 
     /**
      * @author CoalOres
@@ -373,70 +190,24 @@ public abstract class MixinEntityRenderer {
      * @author CoalOres
      * @reason 360 Perspective
      */
-    @Overwrite
-    public void updateCameraAndRender(float p_181560_1_, long p_181560_2_) {
-        boolean flag = Display.isActive();
 
-        if (!flag && Minecraft.getMinecraft().gameSettings.pauseOnLostFocus && (!Minecraft.getMinecraft().gameSettings.touchscreen || !Mouse.isButtonDown(1))) {
-            if (Minecraft.getSystemTime() - this.prevFrameTime > 500L) {
-                Minecraft.getMinecraft().displayInGameMenu();
-            }
-        } else {
-            this.prevFrameTime = Minecraft.getSystemTime();
-        }
-
-        Minecraft.getMinecraft().mcProfiler.startSection("mouse");
-
-        if (flag && Minecraft.isRunningOnMac && Minecraft.getMinecraft().inGameHasFocus && !Mouse.isInsideWindow()) {
-            Mouse.setGrabbed(false);
-            Mouse.setCursorPosition(Display.getWidth() / 2, Display.getHeight() / 2);
-            Mouse.setGrabbed(true);
-        }
-
-        if (Minecraft.getMinecraft().inGameHasFocus && flag) {
+    @Inject(method = "updateCameraAndRender", at = @At(value = "INVOKE_STRING", target = "Lnet/minecraft/profiler/Profiler;startSection(Ljava/lang/String;)V", args = "ldc=mouse"))
+    private void updateCameraAndRender2(float partialTicks, long nanoTime, CallbackInfo ci) {
+        boolean flag2 = Display.isActive();
+        if (Minecraft.getMinecraft().inGameHasFocus && flag2) {
             if (Hyperium.INSTANCE.getPerspective().isEnabled() && Minecraft.getMinecraft().gameSettings.thirdPersonView != 2) {
                 Hyperium.INSTANCE.getPerspective().onDisable();
                 Hyperium.INSTANCE.getPerspective().setEnabled(false);
             }
 
-            Minecraft.getMinecraft().mouseHelper.mouseXYChange();
-            float f = Minecraft.getMinecraft().gameSettings.mouseSensitivity * 0.6F + 0.2F;
-            float f1 = f * f * f * 8.0F;
-            float f2 = (float) Minecraft.getMinecraft().mouseHelper.deltaX * f1;
-            float f3 = (float) Minecraft.getMinecraft().mouseHelper.deltaY * f1;
-            int i = 1;
+            if (Hyperium.INSTANCE.getPerspective().isEnabled()) {
+                Minecraft.getMinecraft().mouseHelper.mouseXYChange();
 
-            if (Minecraft.getMinecraft().gameSettings.invertMouse) {
-                i = -1;
-            }
+                float f = Minecraft.getMinecraft().gameSettings.mouseSensitivity * 0.6F + 0.2F;
+                float f1 = f * f * f * 8.0F;
+                float f2 = (float) Minecraft.getMinecraft().mouseHelper.deltaX * f1;
+                float f3 = (float) Minecraft.getMinecraft().mouseHelper.deltaY * f1;
 
-            if (Minecraft.getMinecraft().gameSettings.smoothCamera) {
-                this.smoothCamYaw += f2;
-                this.smoothCamPitch += f3;
-                float f4 = p_181560_1_ - this.smoothCamPartialTicks;
-                this.smoothCamPartialTicks = p_181560_1_;
-                f2 = this.smoothCamFilterX * f4;
-                f3 = this.smoothCamFilterY * f4;
-
-                if (Hyperium.INSTANCE.getPerspective().isEnabled()) {
-
-                    // Modifying pitch and yaw values.
-                    Hyperium.INSTANCE.getPerspective().modifiedYaw += f2 / 8.0F;
-                    Hyperium.INSTANCE.getPerspective().modifiedPitch += f3 / 8.0F;
-
-
-                    // Range check.
-                    if (Math.abs(Hyperium.INSTANCE.getPerspective().modifiedPitch) > 90.0F) {
-                        if (Hyperium.INSTANCE.getPerspective().modifiedPitch > 0.0F) {
-                            Hyperium.INSTANCE.getPerspective().modifiedPitch = 90.0F;
-                        } else {
-                            Hyperium.INSTANCE.getPerspective().modifiedPitch = -90.0F;
-                        }
-                    }
-                } else {
-                    Minecraft.getMinecraft().thePlayer.setAngles(f2, f3 * (float) i);
-                }
-            } else if (Hyperium.INSTANCE.getPerspective().isEnabled()) {
                 // Modifying pitch and yaw values.
                 Hyperium.INSTANCE.getPerspective().modifiedYaw += f2 / 8.0F;
                 Hyperium.INSTANCE.getPerspective().modifiedPitch += f3 / 8.0F;
@@ -449,77 +220,10 @@ public abstract class MixinEntityRenderer {
                         Hyperium.INSTANCE.getPerspective().modifiedPitch = -90.0F;
                     }
                 }
-            } else {
-                this.smoothCamYaw = 0.0F;
-                this.smoothCamPitch = 0.0F;
-                Minecraft.getMinecraft().thePlayer.setAngles(f2, f3 * (float) i);
-            }
-        }
-
-        Minecraft.getMinecraft().mcProfiler.endSection();
-
-        if (!Minecraft.getMinecraft().skipRenderWorld) {
-            anaglyphEnable = Minecraft.getMinecraft().gameSettings.anaglyph;
-            final ScaledResolution scaledresolution = new ScaledResolution(Minecraft.getMinecraft());
-            int i1 = scaledresolution.getScaledWidth();
-            int j1 = scaledresolution.getScaledHeight();
-            final int k1 = Mouse.getX() * i1 / Minecraft.getMinecraft().displayWidth;
-            final int l1 = j1 - Mouse.getY() * j1 / Minecraft.getMinecraft().displayHeight - 1;
-            int i2 = Minecraft.getMinecraft().gameSettings.limitFramerate;
-
-            if (Minecraft.getMinecraft().theWorld != null) {
-                Minecraft.getMinecraft().mcProfiler.startSection("level");
-                int j = Math.min(Minecraft.getDebugFPS(), i2);
-                j = Math.max(j, 60);
-                long k = System.nanoTime() - p_181560_2_;
-                long l = Math.max((long) (1000000000 / j / 4) - k, 0L);
-                this.renderWorld(p_181560_1_, System.nanoTime() + l);
-
-                if (OpenGlHelper.shadersSupported) {
-                    Minecraft.getMinecraft().renderGlobal.renderEntityOutlineFramebuffer();
-
-                    if (this.theShaderGroup != null && this.useShader) {
-                        GlStateManager.matrixMode(5890);
-                        GlStateManager.pushMatrix();
-                        GlStateManager.loadIdentity();
-                        this.theShaderGroup.loadShaderGroup(p_181560_1_);
-                        GlStateManager.popMatrix();
-                    }
-
-                    Minecraft.getMinecraft().getFramebuffer().bindFramebuffer(true);
-                }
-
-                this.renderEndNanoTime = System.nanoTime();
-                Minecraft.getMinecraft().mcProfiler.endStartSection("gui");
-
-                if (!Minecraft.getMinecraft().gameSettings.hideGUI || Minecraft.getMinecraft().currentScreen != null) {
-                    GlStateManager.alphaFunc(516, 0.1F);
-                    Minecraft.getMinecraft().ingameGUI.renderGameOverlay(p_181560_1_);
-                }
-
-                Minecraft.getMinecraft().mcProfiler.endSection();
-            } else {
-                GlStateManager.viewport(0, 0, Minecraft.getMinecraft().displayWidth, Minecraft.getMinecraft().displayHeight);
-                GlStateManager.matrixMode(5889);
-                GlStateManager.loadIdentity();
-                GlStateManager.matrixMode(5888);
-                GlStateManager.loadIdentity();
-                this.setupOverlayRendering();
-                this.renderEndNanoTime = System.nanoTime();
-            }
-
-            if (Minecraft.getMinecraft().currentScreen != null) {
-                GlStateManager.clear(256);
-
-                try {
-                    Minecraft.getMinecraft().currentScreen.drawScreen(k1, l1, p_181560_1_);
-                } catch (Throwable throwable) {
-                    // This is necessary because it crashes otherwise for some reason... Unsure if this will cause any issues in the future.
-                }
             }
         }
     }
-    
+
     /**
      * Camera zooming
      *
@@ -532,24 +236,24 @@ public abstract class MixinEntityRenderer {
         } else {
             Entity entity = this.mc.getRenderViewEntity();
             float fov = 70.0F;
-            
+
             if (notHand) {
                 fov = this.mc.gameSettings.fovSetting * (this.fovModifierHandPrev + (this.fovModifierHand - this.fovModifierHandPrev) * partialTicks);
             }
-            
+
             boolean flag = false;
-            
+
             if (this.mc.currentScreen == null) {
                 GameSettings gamesettings = this.mc.gameSettings;
                 flag = GameSettings.isKeyDown(((cc.hyperium.mods.utilities.UtilitiesMod) Hyperium.INSTANCE.getModIntegration().getUtilities()).getBinding());
             }
-            
+
             if (flag) {
                 if (!this.zoomMode) {
                     this.zoomMode = true;
                     this.mc.gameSettings.smoothCamera = true;
                 }
-    
+
                 fov /= 4.0F;
             } else if (this.zoomMode) {
                 this.zoomMode = false;
@@ -558,19 +262,19 @@ public abstract class MixinEntityRenderer {
                 this.mouseFilterYAxis = new MouseFilter();
                 this.mc.renderGlobal.setDisplayListEntitiesDirty();
             }
-            
+
             if (entity instanceof EntityLivingBase && ((EntityLivingBase) entity).getHealth() <= 0.0F) {
                 float f1 = (float) ((EntityLivingBase) entity).deathTime + partialTicks;
                 fov /= (1.0F - 500.0F / (f1 + 500.0F)) * 2.0F + 1.0F;
             }
-            
+
             Block block = ActiveRenderInfo
-                .getBlockAtEntityViewpoint(this.mc.theWorld, entity, partialTicks);
-            
+                    .getBlockAtEntityViewpoint(this.mc.theWorld, entity, partialTicks);
+
             if (block.getMaterial() == Material.water) {
                 fov = fov * 60.0F / 70.0F;
             }
-            
+
             return fov;
         }
     }
