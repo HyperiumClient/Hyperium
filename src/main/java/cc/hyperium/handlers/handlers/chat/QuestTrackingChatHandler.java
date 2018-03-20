@@ -170,7 +170,7 @@ package cc.hyperium.handlers.handlers.chat;
 
 import cc.hyperium.Hyperium;
 import com.google.common.io.Files;
-import com.google.gson.JsonObject;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonParser;
 import net.minecraft.util.IChatComponent;
 
@@ -184,12 +184,12 @@ import java.util.regex.Pattern;
  */
 public class QuestTrackingChatHandler extends HyperiumChatHandler{
     private File file;
-    private JsonObject json;
+    private JsonArray json;
     private Pattern completePattern;
     public QuestTrackingChatHandler(){
         file = new File(Hyperium.folder, "quest_tracking.json");
         if(!file.exists()){
-            json = new JsonObject();
+            json = new JsonArray();
             save();
         }
         load();
@@ -203,10 +203,10 @@ public class QuestTrackingChatHandler extends HyperiumChatHandler{
 
     private void load(){
         try {
-            json = new JsonParser().parse(Files.toString(file, Charset.defaultCharset())).getAsJsonObject();
+            json = new JsonParser().parse(Files.toString(file, Charset.defaultCharset())).getAsJsonArray();
         } catch (IOException e) {
             if(json == null)
-                json = new JsonObject(); //Fallback
+                json = new JsonArray(); //Fallback
             e.printStackTrace();
             Hyperium.LOGGER.error("Could not load quest tracking json to memory!");
         }
