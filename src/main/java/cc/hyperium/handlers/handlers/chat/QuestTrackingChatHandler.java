@@ -171,12 +171,15 @@ package cc.hyperium.handlers.handlers.chat;
 import cc.hyperium.Hyperium;
 import com.google.common.io.Files;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.JsonPrimitive;
 import net.minecraft.util.IChatComponent;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /*
@@ -197,7 +200,15 @@ public class QuestTrackingChatHandler extends HyperiumChatHandler{
     }
     @Override
     public boolean chatReceived(IChatComponent component, String text) {
-
+        Matcher matcher = completePattern.matcher(text);
+        if(matcher.matches()){
+            JsonObject record = new JsonObject();
+            record.add("name", new JsonPrimitive(matcher.group("name")));
+            record.add("type", new JsonPrimitive(matcher.group("type")));
+            record.add("timestamp", new JsonPrimitive(System.currentTimeMillis()));
+            json.add(record);
+            save();
+        }
         return false;
     }
 
