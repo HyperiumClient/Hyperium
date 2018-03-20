@@ -23,7 +23,6 @@
 
 package cc.hyperium
 
-import cc.hyperium.utils.BanSystem
 
 val MODID
     @JvmName("getModid")
