@@ -61,6 +61,7 @@ public class HyperiumHandlers {
     private ScoreboardRenderer scoreboardRenderer;
     private OtherConfigOptions configOptions;
     private GameDataTracking dataTracking;
+    private QuestTrackingChatHandler questTracking;
 
     public HyperiumHandlers() {
 
@@ -91,7 +92,7 @@ public class HyperiumHandlers {
         registerChatHandler(new AutoWhoChatHandler());
         registerChatHandler(new PrivateMessageReader());
         registerChatHandler(new GuildPartyChatParser());
-        registerChatHandler(new QuestTrackingChatHandler());
+        registerChatHandler(questTracking = new QuestTrackingChatHandler());
         EventBus.INSTANCE.register(this);
 
         //Command Handler
@@ -196,5 +197,9 @@ public class HyperiumHandlers {
 
     public OtherConfigOptions getConfigOptions() {
         return configOptions;
+    }
+
+    public QuestTrackingChatHandler getQuestTracking() {
+        return questTracking;
     }
 }

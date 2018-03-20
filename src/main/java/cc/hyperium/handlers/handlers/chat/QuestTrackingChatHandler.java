@@ -168,16 +168,57 @@
 
 package cc.hyperium.handlers.handlers.chat;
 
+import cc.hyperium.Hyperium;
+import com.google.common.io.Files;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import net.minecraft.util.IChatComponent;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.util.regex.Pattern;
 
 /*
  * Created by Cubxity on 20/03/2018
  */
 public class QuestTrackingChatHandler extends HyperiumChatHandler{
-
+    private File file;
+    private JsonObject json;
+    private Pattern completePattern;
+    public QuestTrackingChatHandler(){
+        file = new File(Hyperium.folder, "quest_tracking.json");
+        if(!file.exists()){
+            json = new JsonObject();
+            save();
+        }
+        load();
+        completePattern = Pattern.compile(regexs.getasJson().optString("quest_complete"));
+    }
     @Override
     public boolean chatReceived(IChatComponent component, String text) {
 
         return false;
     }
+
+    private void load(){
+        try {
+            json = new JsonParser().parse(Files.toString(file, Charset.defaultCharset())).getAsJsonObject();
+        } catch (IOException e) {
+            if(json == null)
+                json = new JsonObject(); //Fallback
+            e.printStackTrace();
+            Hyperium.LOGGER.error("Could not load quest tracking json to memory!");
+        }
+    }
+
+    private void save(){
+        try {
+            Files.write(json.toString(), file, Charset.defaultCharset());
+        } catch (IOException e) {
+            e.printStackTrace();
+            Hyperium.LOGGER.error("Could not save quest tracking json to the file!");
+        }
+    }
+
 }
