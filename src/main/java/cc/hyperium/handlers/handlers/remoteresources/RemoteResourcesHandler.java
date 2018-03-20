@@ -195,7 +195,7 @@ public class RemoteResourcesHandler {
      */
     private final ResourceFrame[] preload = {new ResourceFrame(ResourceType.TEXT, "chat_regex")};
     private final ConcurrentHashMap<String, HyperiumResource> resources = new ConcurrentHashMap<>();
-    private final String GITHUB_DATA = "https://raw.githubusercontent.com/HyperiumClient/Hyperium-Repo/master/files/";
+    private final String GITHUB_DATA = "https://hyperium.cc/Hyperium-Repo/files/";
     private JsonHolder resourceData = new JsonHolder();
     private JsonHolder cacheTimes = new JsonHolder();
     private HashMap<String, String> urlToName = new HashMap<>();
