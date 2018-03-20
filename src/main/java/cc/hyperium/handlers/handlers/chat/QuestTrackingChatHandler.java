@@ -179,6 +179,8 @@ import net.minecraft.util.IChatComponent;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -229,6 +231,40 @@ public class QuestTrackingChatHandler extends HyperiumChatHandler{
         } catch (IOException e) {
             e.printStackTrace();
             Hyperium.LOGGER.error("Could not save quest tracking json to the file!");
+        }
+    }
+
+    public List<QuestData> getTrackedQuests(){
+        List<QuestData> trackedQuests = new ArrayList<>();
+        load();
+        json.forEach(e -> {
+            JsonObject o = e.getAsJsonObject();
+            trackedQuests.add(new QuestData(o.get("name").getAsString(), o.get("type").getAsString(), o.get("timestamp").getAsLong()));
+        });
+        return trackedQuests;
+    }
+
+    public class QuestData{
+        private String name;
+        private String type;
+        private Long timestamp;
+
+        public QuestData(String name, String type, Long timestamp) {
+            this.name = name;
+            this.type = type;
+            this.timestamp = timestamp;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public String getType() {
+            return type;
+        }
+
+        public Long getTimestamp() {
+            return timestamp;
         }
     }
 
