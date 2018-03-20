@@ -170,7 +170,10 @@ package cc.hyperium.purchases;
 
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.mods.sk1ercommon.Sk1erMod;
-import cc.hyperium.purchases.packages.*;
+import cc.hyperium.purchases.packages.DabOnKill;
+import cc.hyperium.purchases.packages.KillTrackerMuscles;
+import cc.hyperium.purchases.packages.ParticleBackgroundCosmetic;
+import cc.hyperium.purchases.packages.WingCosmetic;
 import cc.hyperium.utils.JsonHolder;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.WorldClient;
@@ -192,11 +195,10 @@ public class PurchaseApi {
     private HashMap<String, UUID> nameToUuid = new HashMap<>();
 
     private PurchaseApi() {
-        register(EnumPurchaseType.LEVEL_HEAD, CustomLevelhead.class);
-        register(EnumPurchaseType.EARLY_BIRD, EarlyBird.class);
         register(EnumPurchaseType.WING_COSMETIC, WingCosmetic.class);
         register(EnumPurchaseType.KILL_TRACKER_MUSCLE, KillTrackerMuscles.class);
         register(EnumPurchaseType.DAB_ON_KILL, DabOnKill.class);
+        register(EnumPurchaseType.PARTICLE_BACKGROUND, ParticleBackgroundCosmetic.class);
     }
 
     public static PurchaseApi getInstance() {
@@ -220,16 +222,20 @@ public class PurchaseApi {
     }
 
     public HyperiumPurchase getPackageSync(UUID uuid) {
-        if(uuid == null)
+        if (uuid == null)
             return null;
         return purchasePlayers.computeIfAbsent(uuid, uuid1 -> new HyperiumPurchase(uuid, get(url + uuid.toString())));
     }
+
     public HyperiumPurchase getPackageIfReady(UUID uuid) {
         return purchasePlayers.get(uuid);
     }
 
     public void getPackageAsync(UUID uuid, Consumer<HyperiumPurchase> callback) {
         Multithreading.runAsync(() -> callback.accept(getPackageSync(uuid)));
+    }
+    public HyperiumPurchase getSelf() {
+        return getPackageIfReady(Minecraft.getMinecraft().getSession().getProfile().getId());
     }
 
     public void ensureLoaded(UUID uuid) {

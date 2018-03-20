@@ -169,17 +169,15 @@
 package cc.hyperium.purchases;
 
 public enum EnumPurchaseType {
-    LEVEL_HEAD(2709838),
-    EARLY_BIRD(2888258),
-    WING_COSMETIC(-1),
-    KILL_TRACKER_MUSCLE(-2),
-    DAB_ON_KILL(-3),
-    UNKNOWN(0);
+    PARTICLE_BACKGROUND,
+    WING_COSMETIC,
+    KILL_TRACKER_MUSCLE,
+    DAB_ON_KILL,
+    UNKNOWN;
 
-    private int id;
 
-    EnumPurchaseType(int i) {
-        this.id = i;
+    EnumPurchaseType() {
+
     }
 
     public static EnumPurchaseType parse(String asString) {
@@ -190,7 +188,4 @@ public enum EnumPurchaseType {
         }
     }
 
-    public int getId() {
-        return id;
-    }
 }

@@ -183,7 +183,7 @@ public class HyperiumPurchase {
     public HyperiumPurchase(UUID playerUUID, JsonHolder response) {
         this.playerUUID = playerUUID;
         this.response = response;
-        for (JsonElement nicePackages : response.optJSONArray("nicePackages")) {
+        for (JsonElement nicePackages : response.optJSONArray("hyperium")) {
             String asString = nicePackages.getAsString();
             EnumPurchaseType parse = EnumPurchaseType.parse(asString);
             this.purchases.add(PurchaseApi.getInstance().parse(parse, PurchaseApi.getInstance().get(PurchaseApi.url + playerUUID.toString() + "/" + parse.name())));

@@ -176,7 +176,6 @@ import cc.hyperium.gui.HyperiumMainMenu;
 import cc.hyperium.gui.ParticleOverlay;
 import cc.hyperium.gui.settings.SettingGui;
 import cc.hyperium.gui.settings.components.SelectionItem;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.util.ResourceLocation;
 
 import java.util.Arrays;
@@ -239,11 +238,19 @@ public class BackgroundSettings extends SettingGui {
         this.fastWorldGui.setSelectedItem(fastWorldGuiEnabled ? "ON" : "OFF");
 
         this.settingItems.add(this.particlesMode = new SelectionItem<>(3, getX(), getDefaultItemY(3), this.width - getX() * 2, "PARTICLES MODE", i -> {
+            if (!ParticleOverlay.getOverlay().purchased()) {
+                return;
+            }
             ((SelectionItem) i).nextItem();
             particlesModeString = ((SelectionItem<String>) i).getSelectedItem();
         }));
-        this.particlesMode.addItems(Arrays.asList("OFF", "PLAIN 1", "PLAIN 2", "CHROMA 1", "CHROMA 2"));
-        this.particlesMode.setSelectedItem(particlesModeString);
+        if (ParticleOverlay.getOverlay().purchased()) {
+            this.particlesMode.addItems(Arrays.asList("OFF", "PLAIN 1", "PLAIN 2", "CHROMA 1", "CHROMA 2"));
+            this.particlesMode.setSelectedItem(particlesModeString);
+        } else {
+            this.particlesMode.addItems(Arrays.asList("NOT PURCHASED"));
+            this.particlesMode.setSelectedItem("NOT PURCHASED");
+        }
 
         this.settingItems.add(maxParticlesSelection = new SelectionItem<>(4, getX(), getDefaultItemY(4), this.width - getX() * 2, "PARTICLES MAX", i -> {
             ((SelectionItem) i).nextItem();

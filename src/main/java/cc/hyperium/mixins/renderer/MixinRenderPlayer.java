@@ -177,7 +177,6 @@ import net.minecraft.client.model.ModelPlayer;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.client.renderer.entity.RendererLivingEntity;
-import net.minecraft.entity.player.EntityPlayer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -222,19 +221,13 @@ public abstract class MixinRenderPlayer extends RendererLivingEntity<AbstractCli
         getMainModel().bipedLeftArmwear.rotateAngleX = (float) Math.toRadians(15.0f * heldPercent);
         getMainModel().bipedLeftArmwear.rotateAngleY = (float) Math.toRadians(15.0f * heldPercent);
         getMainModel().bipedLeftArmwear.rotateAngleZ = (float) Math.toRadians(-110.0f * heldPercent);
+
         final float rotationX = entity.rotationPitch;
         getMainModel().bipedHead.rotateAngleX = (float) Math.toRadians(-rotationX * heldPercent) + (float) Math.toRadians(45.0f * heldPercent + rotationX);
-        final float rotationY = ((EntityPlayer) entity).renderYawOffset - entity.rotationYaw;
+        final float rotationY = entity.renderYawOffset - entity.rotationYaw;
         getMainModel().bipedHead.rotateAngleY = (float) Math.toRadians(rotationY * heldPercent) + (float) Math.toRadians(35.0f * heldPercent - rotationY);
         getMainModel().bipedHeadwear.rotateAngleX = (float) Math.toRadians(45.0f * heldPercent);
         getMainModel().bipedHeadwear.rotateAngleY = (float) Math.toRadians(35.0f * heldPercent);
-//            if (isOurPlayer && Minecraft.getMinecraft().gameSettings.thirdPersonView == 0) {
-//                heldPercent = (InputEvent.prevDabbingHeld + (InputEvent.dabbingHeld - InputEvent.prevDabbingHeld) * InputEvent.firstPersonPartialTicks) / 8.0f;
-//                GlStateManager.rotate(-50.0f * heldPercent, 1.0f, 0.0f, 0.0f);
-//                GlStateManager.rotate(30.0f * heldPercent, 0.0f, 1.0f, 0.0f);
-//                GlStateManager.rotate(-30.0f * heldPercent, 0.0f, 0.0f, 1.0f);
-//                GlStateManager.translate(-0.3 * heldPercent, -0.2 * heldPercent, -0.5 * heldPercent);
-//            }
 
     }
 

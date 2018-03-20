@@ -194,7 +194,7 @@ public class HypixelApiPlayer implements HypixelApiObject {
     }
 
 
-    public double getTotalXP() {
+    public double getsafTotalXP() {
         return ILeveling.getTotalExpToLevel(getRoot().optInt("oldLevel") + 1) + getRoot().optInt(ILeveling.EXP_FIELD);
     }
 

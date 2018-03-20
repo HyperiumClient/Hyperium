@@ -239,7 +239,7 @@ public class ApiDataHandler {
                                 "/" + Sk1erMod.getInstance().getApIKey())));
                 player.getRoot().put("localCache", System.currentTimeMillis());
             } catch (Exception e) {
-                GeneralChatHandler.instance().sendMessage("Something went wrong while loading your friends");
+                GeneralChatHandler.instance().sendMessage("Something went wrong while loading your data");
             }
         });
     }
