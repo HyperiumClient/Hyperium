@@ -23,9 +23,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.regex.Pattern;
 
 import cc.hyperium.Hyperium;
-import cc.hyperium.event.ChatEvent;
-import cc.hyperium.event.InvokeEvent;
-import cc.hyperium.event.TickEvent;
+import cc.hyperium.event.*;
 import cc.hyperium.handlers.handlers.remoteresources.RemoteResourcesHandler;
 import cc.hyperium.utils.ChatColor;
 import cc.hyperium.utils.JsonHolder;
@@ -87,7 +85,6 @@ public class GeneralChatHandler {
         boolean state = true;
         if(!posted)
             return;
-
         for (HyperiumChatHandler chatHandler : handlerList) {
             //Surround in try catch so errors don't stop further chat parsers
             try {

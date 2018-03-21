@@ -68,6 +68,7 @@ public class TimeTrackHandler implements Runnable {
     public void run() {
         try {
             checkDate();
+            if(Hyperium.INSTANCE.getHandlers() == null)return;
             if (Hyperium.INSTANCE.getHandlers().getHypixelDetector().isHypixel()) {
                 if (FPSLimiter.getInstance().isLimbo()) {
                     inc("Hypixel", "limbo");

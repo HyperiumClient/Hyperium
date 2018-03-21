@@ -22,6 +22,7 @@ public enum EnumPurchaseType {
     WING_COSMETIC,
     KILL_TRACKER_MUSCLE,
     DAB_ON_KILL,
+    CHROMA_WIN,
     UNKNOWN;
 
 

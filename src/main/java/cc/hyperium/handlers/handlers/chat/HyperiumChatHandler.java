@@ -17,7 +17,6 @@
 
 package cc.hyperium.handlers.handlers.chat;
 
-import java.util.Arrays;
 import java.util.Map;
 import java.util.regex.Pattern;
 
