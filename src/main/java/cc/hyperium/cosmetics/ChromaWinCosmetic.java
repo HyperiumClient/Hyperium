@@ -173,7 +173,6 @@ import cc.hyperium.purchases.EnumPurchaseType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.util.EnumChatFormatting;
 
 import java.awt.*;
 
@@ -205,16 +204,6 @@ public class ChromaWinCosmetic extends AbstractCosmetic {
         h += 0.05;
         if(h >= 1)
             h = 0;
-    }
-
-    // Should actually change the regex instead of doing this cub
-    @InvokeEvent
-    public void onChat(ChatEvent e) {
-        String text = EnumChatFormatting.getTextWithoutFormattingCodes(e.getChat().getUnformattedText());
-
-        if(text.toLowerCase().contains(Minecraft.getMinecraft().thePlayer.getName().toLowerCase()+" winner!")) {
-            chroma(60);
-        }
     }
 
     @InvokeEvent

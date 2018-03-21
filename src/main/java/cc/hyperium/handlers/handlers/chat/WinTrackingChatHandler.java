@@ -169,10 +169,12 @@
 package cc.hyperium.handlers.handlers.chat;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.regex.Matcher;
 
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.HypixelWinEvent;
+import net.minecraft.client.Minecraft;
 import net.minecraft.util.IChatComponent;
 
 /*
@@ -195,6 +197,12 @@ public class WinTrackingChatHandler extends HyperiumChatHandler {
                 }
             }
             EventBus.INSTANCE.post(new HypixelWinEvent(Arrays.asList(winners)));
+		}
+
+		// Should actually change the regex tho
+		if (text.toLowerCase().contains(Minecraft.getMinecraft().thePlayer.getName().toLowerCase() + " winner!")) {
+			EventBus.INSTANCE
+					.post(new HypixelWinEvent(Collections.singletonList(Minecraft.getMinecraft().thePlayer.getName())));
 		}
 		return false;
 	}
