@@ -25,12 +25,12 @@ import java.util.regex.Matcher;
 public class PrivateMessageReader extends HyperiumChatHandler {
     @Override
     public boolean chatReceived(IChatComponent component, String text) {
-        Matcher fromMatcher = privateMessageFrom.matcher(text);
+        Matcher fromMatcher = regexPatterns.get(ChatRegexType.PRIVATE_MESSAGE_FROM).matcher(text);
         if (fromMatcher.matches()) {
             Hyperium.INSTANCE.getHandlers().getPrivateMessageHandler().inboundMessage(fromMatcher.group("player"), fromMatcher.group("message"));
         }
 
-        Matcher toMatcher = privateMessageTo.matcher(text);
+        Matcher toMatcher = regexPatterns.get(ChatRegexType.PRIVATE_MESSAGE_FROM).matcher(text);
         if (toMatcher.matches()) {
             Hyperium.INSTANCE.getHandlers().getPrivateMessageHandler().outboundMessage(toMatcher.group("player"), toMatcher.group("message"));
         }
