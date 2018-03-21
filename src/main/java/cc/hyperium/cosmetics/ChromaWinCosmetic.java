@@ -176,9 +176,6 @@ import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.util.EnumChatFormatting;
 
 import java.awt.*;
-import java.util.regex.Matcher;
-
-import static cc.hyperium.handlers.handlers.chat.HyperiumChatHandler.winPattern;
 
 /*
  * Created by Cubxity on 21/03/2018
@@ -210,16 +207,21 @@ public class ChromaWinCosmetic extends AbstractCosmetic {
             h = 0;
     }
 
+    // Should actually change the regex instead of doing this cub
     @InvokeEvent
-    public void onChat(ChatEvent e){
-        if(winPattern == null)return;
+    public void onChat(ChatEvent e) {
         String text = EnumChatFormatting.getTextWithoutFormattingCodes(e.getChat().getUnformattedText());
-        Matcher matcher = winPattern.matcher(text);
-        if (matcher.matches())
-            if (matcher.group("winners").contains(Minecraft.getMinecraft().thePlayer.getName()))
-                chroma(60);
-            else if(text.toLowerCase().contains(Minecraft.getMinecraft().thePlayer.getName().toLowerCase()+" winner!"))
-                chroma(60);
+
+        if(text.toLowerCase().contains(Minecraft.getMinecraft().thePlayer.getName().toLowerCase()+" winner!")) {
+            chroma(60);
+        }
+    }
+
+    @InvokeEvent
+    public void onWin(HypixelWinEvent event) {
+        if (event.getWinners().contains(Minecraft.getMinecraft().thePlayer.getName())) {
+            chroma(60);
+        }
     }
 
     public void chroma(int ticks){
