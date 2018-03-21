@@ -93,6 +93,7 @@ public class HyperiumHandlers {
         registerChatHandler(new PrivateMessageReader());
         registerChatHandler(new GuildPartyChatParser());
         registerChatHandler(questTracking = new QuestTrackingChatHandler());
+        registerChatHandler(new WinTrackingChatHandler());
         System.out.println("Registering events");
         EventBus.INSTANCE.register(this);
         System.out.println("Done");

@@ -147,6 +147,7 @@ public class GeneralChatHandler {
             HyperiumChatHandler.privateMessageTo = Pattern.compile(data.optString("private_message_to"));
             HyperiumChatHandler.privateMessageFrom = Pattern.compile(data.optString("private_message_from"));
             HyperiumChatHandler.completePattern = Pattern.compile(data.optString("quest_complete"));
+            HyperiumChatHandler.winPattern = Pattern.compile(data.optString("win"));
 
 
             posted = true;

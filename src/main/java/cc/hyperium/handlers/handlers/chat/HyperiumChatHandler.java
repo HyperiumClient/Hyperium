@@ -36,6 +36,7 @@ public abstract class HyperiumChatHandler {
     protected static Pattern privateMessageTo = null;
     protected static Pattern privateMessageFrom = null;
     protected static Pattern completePattern = null;
+    public static Pattern winPattern = null;
 
 
     public Hyperium getHyperium() {

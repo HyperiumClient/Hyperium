@@ -10,12 +10,14 @@ import java.util.List;
  */
 public class HyperiumCosmetics {
 
+    private final ChromaWinCosmetic chromaWin;
     private List<AbstractCosmetic> cosmeticList = new ArrayList<>();
     private DabOnKIllCosmetic dabCosmetic;
 
     public HyperiumCosmetics() {
         register(new KillCounterMuscles());
         register(this.dabCosmetic = new DabOnKIllCosmetic());
+        register(chromaWin = new ChromaWinCosmetic());
     }
 
     private void register(AbstractCosmetic cosmetic) {
@@ -25,5 +27,9 @@ public class HyperiumCosmetics {
 
     public DabOnKIllCosmetic getDabCosmetic() {
         return dabCosmetic;
+    }
+
+    public ChromaWinCosmetic getChromaWin() {
+        return chromaWin;
     }
 }
