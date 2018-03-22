@@ -29,7 +29,7 @@ public class RankedRatingChatHandler extends HyperiumChatHandler {
 
     @Override
     public boolean chatReceived(IChatComponent component, String text) {
-        Matcher matcher = skywarsRankedRating.matcher(text);
+        Matcher matcher = regexPatterns.get(ChatRegexType.SKYWARS_RATING).matcher(text);
         if (matcher.matches()) {
             getHyperium().getHandlers().getValueHandler().setRankedRating(SafeNumberParsing.safeParseInt(matcher.group("rating"), getHyperium().getHandlers().getValueHandler().getRankedRating()));
             getHyperium().getHandlers().getValueHandler().setDeltaRankedRating(SafeNumberParsing.safeParseInt(matcher.group("change"), getHyperium().getHandlers().getValueHandler().getDeltaRankedRating()));

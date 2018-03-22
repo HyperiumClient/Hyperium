@@ -17,7 +17,7 @@ public class KillTrackerChatHandler extends HyperiumChatHandler{
      */
     @Override
     public boolean chatReceived(IChatComponent component, String text) {
-            //TODO
+        //TODO
         return false;
     }
 }

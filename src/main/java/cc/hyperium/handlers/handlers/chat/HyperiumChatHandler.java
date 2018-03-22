@@ -17,12 +17,13 @@
 
 package cc.hyperium.handlers.handlers.chat;
 
+import java.util.Map;
+import java.util.regex.Pattern;
+
 import cc.hyperium.Hyperium;
 import cc.hyperium.handlers.handlers.remoteresources.HyperiumResource;
 import cc.hyperium.utils.JsonHolder;
 import net.minecraft.util.IChatComponent;
-
-import java.util.regex.Pattern;
 
 /**
  * @author Sk1er
@@ -30,14 +31,7 @@ import java.util.regex.Pattern;
 public abstract class HyperiumChatHandler {
     //Resource *should* be loaded by then sooooo
     protected static HyperiumResource regexs;
-    protected static Pattern guildChatPattern = null;
-    protected static Pattern partyChatPattern = null;
-    protected static Pattern skywarsRankedRating = null;
-    protected static Pattern privateMessageTo = null;
-    protected static Pattern privateMessageFrom = null;
-    protected static Pattern completePattern = null;
-    public static Pattern winPattern = null;
-
+    protected static Map<ChatRegexType, Pattern> regexPatterns;
 
     public Hyperium getHyperium() {
         return Hyperium.INSTANCE;
@@ -53,4 +47,20 @@ public abstract class HyperiumChatHandler {
     public void callback(JsonHolder data) {
 
     }
+
+	public enum ChatRegexType {
+		SKYWARS_RATING, //
+		PRIVATE_MESSAGE_TO, //
+		PRIVATE_MESSAGE_FROM, //
+		FRIEND_REQUEST, //
+		GUILD_CHAT, //
+		PARTY_CHAT, //
+		PARTY_INVITE, //
+		SKYWARS_KILL, //
+		BEDWARS_KILL, //
+		MEGAWALLS_KILL, //
+		BLITZ_KILL, //
+		QUEST_COMPLETE, //
+		WIN //
+	}
 }

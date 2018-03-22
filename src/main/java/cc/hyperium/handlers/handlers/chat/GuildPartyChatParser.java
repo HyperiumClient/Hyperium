@@ -29,13 +29,13 @@ import java.util.regex.Matcher;
 public class GuildPartyChatParser extends HyperiumChatHandler {
     @Override
     public boolean chatReceived(IChatComponent component, String text) {
-        Matcher guildMatcher = guildChatPattern.matcher(text);
+        Matcher guildMatcher = regexPatterns.get(ChatRegexType.GUILD_CHAT).matcher(text);
         if (guildMatcher.matches()) {
             String player = guildMatcher.group("player");
             String message = guildMatcher.group("message");
             Hyperium.INSTANCE.getHandlers().getPrivateMessageHandler().getChat("guild").newMessage(message, player, Minecraft.getMinecraft().getSession().getUsername().equals(player));
         }
-        Matcher partyMatcher = partyChatPattern.matcher(text);
+        Matcher partyMatcher = regexPatterns.get(ChatRegexType.PARTY_CHAT).matcher(text);
         if (partyMatcher.matches()) {
             String player = partyMatcher.group("player");
             String message = partyMatcher.group("message");

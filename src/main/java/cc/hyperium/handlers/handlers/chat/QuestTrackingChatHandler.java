@@ -199,7 +199,7 @@ public class QuestTrackingChatHandler extends HyperiumChatHandler{
     }
     @Override
     public boolean chatReceived(IChatComponent component, String text) {
-        Matcher matcher = completePattern.matcher(text);
+        Matcher matcher = regexPatterns.get(ChatRegexType.QUEST_COMPLETE).matcher(text);
         if(matcher.matches()){
             JsonObject record = new JsonObject();
             record.add("name", new JsonPrimitive(matcher.group("name")));

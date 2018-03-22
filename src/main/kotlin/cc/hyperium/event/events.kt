@@ -165,6 +165,11 @@ class HypixelFriendRequestEvent(val from: String)
 class HypixelPartyInviteEvent(val from: String)
 
 /**
+ * Invoked when player(s) win a game
+ */
+class HypixelWinEvent(val winners: List<String>)
+
+/**
  * Invoked when the selected item is about to be rendered
  */
 class RenderSelectedItemEvent(val scaledRes: ScaledResolution)
@@ -187,5 +192,3 @@ class EntityRenderEvent(val entityIn: Entity,
                         val model: ModelBiped, val p_78088_2_: Float,
                         val p_78088_3_: Float, val p_78088_4_: Float,
                         val p_78088_5_: Float, val p_78088_6_: Float, val scale: Float): CancellableEvent()
-
-class WinEvent()
