@@ -30,7 +30,7 @@ public class PrivateMessageReader extends HyperiumChatHandler {
             Hyperium.INSTANCE.getHandlers().getPrivateMessageHandler().inboundMessage(fromMatcher.group("player"), fromMatcher.group("message"));
         }
 
-        Matcher toMatcher = regexPatterns.get(ChatRegexType.PRIVATE_MESSAGE_FROM).matcher(text);
+        Matcher toMatcher = regexPatterns.get(ChatRegexType.PRIVATE_MESSAGE_TO).matcher(text);
         if (toMatcher.matches()) {
             Hyperium.INSTANCE.getHandlers().getPrivateMessageHandler().outboundMessage(toMatcher.group("player"), toMatcher.group("message"));
         }
