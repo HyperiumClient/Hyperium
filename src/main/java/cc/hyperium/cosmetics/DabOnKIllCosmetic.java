@@ -18,7 +18,7 @@ import java.util.UUID;
  */
 public class DabOnKIllCosmetic extends AbstractCosmetic {
 
-
+    public static int dabs = 0;
     private HashMap<UUID, Integer> dabTicks = new HashMap<>();
     private HashMap<UUID, Integer> dabAnimTicks = new HashMap<>();
 
@@ -53,6 +53,7 @@ public class DabOnKIllCosmetic extends AbstractCosmetic {
         if (purchase != null) {
             AbstractHyperiumPurchase dab = purchase.getPurchase(EnumPurchaseType.DAB_ON_KILL);
             if (dab != null) {
+                dabs++;
                 dabTicks.put(uuid, 20 * ((DabOnKill) dab).getDuration());
                 dabAnimTicks.put(uuid, 10);
             }

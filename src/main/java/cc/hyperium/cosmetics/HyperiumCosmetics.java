@@ -13,11 +13,13 @@ public class HyperiumCosmetics {
     private final ChromaWinCosmetic chromaWin;
     private List<AbstractCosmetic> cosmeticList = new ArrayList<>();
     private DabOnKIllCosmetic dabCosmetic;
+    private DealWithItGlasses dealWithIt;
 
     public HyperiumCosmetics() {
         register(new KillCounterMuscles());
         register(this.dabCosmetic = new DabOnKIllCosmetic());
         register(chromaWin = new ChromaWinCosmetic());
+        register(dealWithIt = new DealWithItGlasses());
     }
 
     private void register(AbstractCosmetic cosmetic) {
