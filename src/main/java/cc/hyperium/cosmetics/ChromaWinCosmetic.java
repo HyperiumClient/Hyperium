@@ -171,10 +171,6 @@ package cc.hyperium.cosmetics;
 import cc.hyperium.event.*;
 import cc.hyperium.purchases.EnumPurchaseType;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.ScaledResolution;
-
-import java.awt.*;
 
 /*
  * Created by Cubxity on 21/03/2018
@@ -188,13 +184,14 @@ public class ChromaWinCosmetic extends AbstractCosmetic {
     }
 
     @InvokeEvent
-    public void onTick(TickEvent e){
-        if(ticksLeft > 0)
+    public void onTick(TickEvent e) {
+        if (ticksLeft > 0)
             ticksLeft--;
     }
 
     @InvokeEvent(priority = Priority.LOW)
-    public void onRender(RenderEvent e){
+    public void onRender(RenderEvent e) {
+        /*
         if(ticksLeft <= 0) return;
         ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
         Color chroma = Color.getHSBColor(h, 0.8F, 0.8F);
@@ -204,6 +201,7 @@ public class ChromaWinCosmetic extends AbstractCosmetic {
         h += 0.05;
         if(h >= 1)
             h = 0;
+            */
     }
 
     @InvokeEvent
@@ -213,7 +211,7 @@ public class ChromaWinCosmetic extends AbstractCosmetic {
         }
     }
 
-    public void chroma(int ticks){
+    public void chroma(int ticks) {
         ticksLeft = ticks;
     }
 }
