@@ -656,7 +656,7 @@ public class HyperiumTextField{
             }
 
             String s = this.fontRendererInstance.trimStringToWidth(this.text.substring(this.lineScrollOffset), this.getWidth());
-            this.setCursorPosition(this.fontRendererInstance.trimStringToWidth(s, i).length() + this.lineScrollOffset);
+            this.setCursorPosition((2 *this.fontRendererInstance.trimStringToWidth(s, i).length()) + this.lineScrollOffset);
         }
     }
 
@@ -780,7 +780,7 @@ public class HyperiumTextField{
 
 
     /**
-     * returns the maximum number of character that can be contained in this textbox
+     * returns the maximum number of characters that can be contained in this textbox
      */
     public int getMaxStringLength()
     {
