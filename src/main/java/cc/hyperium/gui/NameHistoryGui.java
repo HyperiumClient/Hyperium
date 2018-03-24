@@ -21,8 +21,6 @@ import cc.hyperium.gui.settings.items.NameHistorySettings;
 import cc.hyperium.utils.HyperiumFontRenderer;
 import me.kbrewster.mojangapi.MojangAPI;
 import me.kbrewster.mojangapi.profile.Name;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiTextField;
 import org.lwjgl.input.Keyboard;
 
 import java.awt.*;
@@ -38,12 +36,13 @@ public class NameHistoryGui extends HyperiumGui {
     List<String> names = new ArrayList<>();
     private HyperiumFontRenderer fontRenderer = new HyperiumFontRenderer("Arial", Font.PLAIN, 16);
     private HyperiumFontRenderer smallRenderer = new HyperiumFontRenderer("Arial", Font.PLAIN, 14);
-    private GuiTextField nameField;
+    //private GuiTextField nameField;
+    private HyperiumTextField nameField;
 
     @Override
     public void initGui() {
         super.initGui();
-        nameField = new GuiTextField(1, Minecraft.getMinecraft().fontRendererObj, width / 2 - (115 / 2), height / 5 + 10, 115, 20);
+        nameField = new HyperiumTextField(1, fontRenderer, width / 2 - (115 / 2), height / 5 + 10, 115, 20);
     }
 
     @Override
@@ -64,7 +63,7 @@ public class NameHistoryGui extends HyperiumGui {
             defaultColour = Color.getHSBColor(System.currentTimeMillis() % 1000L / 1000F, 1F, 1F).getRGB();
         }
         for (int i = 0; i < names.size(); i++) {
-            Minecraft.getMinecraft().fontRendererObj.drawString(names.get(i), width / 2 - (115 / 2), height / 5 + 30 + 5 + (i * 10), defaultColour);
+            fontRenderer.drawString(names.get(i), width / 2 - (115 / 2), height / 5 + 30 + 5 + (i * 10), defaultColour);
         }
 
         super.drawScreen(mouseX, mouseY, partialTicks);
@@ -89,7 +88,6 @@ public class NameHistoryGui extends HyperiumGui {
     public void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
         nameField.mouseClicked(mouseX, mouseY, mouseButton);
         super.mouseClicked(mouseX, mouseY, mouseButton);
-        System.out.println("NAME HISTORY: Mouse Clicked");
     }
 
     public void getNames(String username) {
