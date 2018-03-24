@@ -20,8 +20,6 @@ package cc.hyperium.installer;
 import cc.hyperium.installer.components.MotionPanel;
 import cc.hyperium.installer.utils.DownloadTask;
 import com.google.common.io.Files;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -34,8 +32,6 @@ import java.beans.PropertyChangeListener;
 import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
-import java.nio.channels.Channels;
-import java.nio.channels.ReadableByteChannel;
 import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.time.Instant;
@@ -333,6 +329,33 @@ public class InstallerFrame extends JFrame implements PropertyChangeListener {
         libs.put(lib);
         libs.put(new JSONObject().put("name", "net.minecraft:launchwrapper:1.7"));
         libs.put(new JSONObject().put("name", "optifine:OptiFine:1.8.9_HD_U_I3"));
+        libs.put(
+                new JSONObject()
+                .put("downloads", new JSONObject().put("classifiers",
+                        new JSONObject()
+                                .put("natives-windows", new JSONObject().put("url", "https://hyperium.cc/Hyperium/libs/jxbrowser-win32-6.19.1.jar"))
+                                .put("natives-osx", new JSONObject().put("url", "https://hyperium.cc/Hyperium/libs/jxbrowser-mac-6.19.1.jar"))
+                                .put("natives-linux", new JSONObject().put("url", "https://hyperium.cc/Hyperium/libs/jxbrowser-linux64-6.19.1.jar"))
+                ))
+                .put("rules", new JSONObject("{\"osx\": \"natives-osx\",\"linux\": \"natives-linux\",\"windows\": \"natives-windows\"}"))
+                .put("name", "cc.hyperium.libs:jxbrowser-natives:6.19.1")
+        );
+        libs.put(
+                new JSONObject()
+                .put("downloads",
+                        new JSONObject()
+                                .put("artifact", new JSONObject().put("url", " https://hyperium.cc/Hyperium/libs/jxbrowser-6.19.1.jar"))
+                                .put("name", "cc.hyperium.libs:jxbrowser:6.19.1")
+                )
+        );
+        libs.put(
+                new JSONObject()
+                        .put("downloads",
+                                new JSONObject()
+                                        .put("artifact", new JSONObject().put("url", " https://hyperium.cc/Hyperium/libs/license.jar"))
+                                        .put("name", "cc.hyperium.libs:jxbrowser-license:6.19.1")
+                        )
+        );
         json.put("libraries", libs);
         json.put("id", "Hyperium 1.8.9");
         json.put("mainClass", "net.minecraft.launchwrapper.Launch");
