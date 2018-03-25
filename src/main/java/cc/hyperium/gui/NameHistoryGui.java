@@ -21,6 +21,7 @@ import cc.hyperium.gui.settings.items.NameHistorySettings;
 import cc.hyperium.utils.HyperiumFontRenderer;
 import me.kbrewster.mojangapi.MojangAPI;
 import me.kbrewster.mojangapi.profile.Name;
+import net.minecraft.client.gui.GuiScreen;
 import org.lwjgl.input.Keyboard;
 
 import java.awt.*;
@@ -31,22 +32,22 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class NameHistoryGui extends HyperiumGui {
+public class NameHistoryGui extends GuiScreen {
 
     List<String> names = new ArrayList<>();
     private HyperiumFontRenderer fontRenderer = new HyperiumFontRenderer("Arial", Font.PLAIN, 16);
-    private HyperiumFontRenderer smallRenderer = new HyperiumFontRenderer("Arial", Font.PLAIN, 14);
-    //private GuiTextField nameField;
     private HyperiumTextField nameField;
 
     @Override
     public void initGui() {
+        System.out.println("init!");
         super.initGui();
         nameField = new HyperiumTextField(1, fontRenderer, width / 2 - (115 / 2), height / 5 + 10, 115, 20);
     }
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+        super.drawScreen(mouseX, mouseY, partialTicks);
         //BG
         drawRect(width / 5 - 1, height / 5 - 1, width - width / 5, height / 5 + 31 + (names.size() * 11), new Color(0, 0, 0, 100).getRGB());
 
@@ -65,13 +66,6 @@ public class NameHistoryGui extends HyperiumGui {
         for (int i = 0; i < names.size(); i++) {
             fontRenderer.drawString(names.get(i), width / 2 - (115 / 2), height / 5 + 30 + 5 + (i * 10), defaultColour);
         }
-
-        super.drawScreen(mouseX, mouseY, partialTicks);
-    }
-
-    @Override
-    public void pack() {
-
     }
 
     @Override

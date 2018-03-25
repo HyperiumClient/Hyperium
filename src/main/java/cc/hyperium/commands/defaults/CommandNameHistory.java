@@ -17,6 +17,7 @@
 
 package cc.hyperium.commands.defaults;
 
+import cc.hyperium.Hyperium;
 import cc.hyperium.commands.BaseCommand;
 import cc.hyperium.commands.CommandException;
 import cc.hyperium.gui.NameHistoryGui;
@@ -52,6 +53,6 @@ public class CommandNameHistory implements BaseCommand {
 
     @Override
     public void onExecute(String[] args) throws CommandException {
-        new NameHistoryGui().show();
+        Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new NameHistoryGui());
     }
 }

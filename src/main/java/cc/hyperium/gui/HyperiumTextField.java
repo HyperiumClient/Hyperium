@@ -23,6 +23,7 @@ import com.google.common.base.Predicates;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiPageButtonList;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
@@ -30,7 +31,7 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ChatAllowedCharacters;
 import net.minecraft.util.MathHelper;
 
-public class HyperiumTextField{
+public class HyperiumTextField extends GuiTextField{
     private final int id;
     private final HyperiumFontRenderer fontRendererInstance;
     public int xPosition;
@@ -57,12 +58,12 @@ public class HyperiumTextField{
     private int enabledColor = 14737632;
     private int disabledColor = 7368816;
     /** True if this textbox is visible */
-    private boolean visible = true;
     private GuiPageButtonList.GuiResponder guiResponder;
     private Predicate<String> field_175209_y = Predicates.alwaysTrue();
 
     public HyperiumTextField(int componentId, HyperiumFontRenderer fontrendererObj, int x, int y, int par5Width, int par6Height)
     {
+        super(componentId,null,x,y,par5Width,par6Height);
         this.id = componentId;
         this.fontRendererInstance = fontrendererObj;
         this.xPosition = x;
@@ -220,69 +221,6 @@ public class HyperiumTextField{
         }
     }
 
-    public int getId()
-    {
-        return this.id;
-    }
-
-    /**
-     * see @getNthNextWordFromPos() params: N, position
-     */
-    public int getNthWordFromCursor(int p_146187_1_)
-    {
-        return this.getNthWordFromPos(p_146187_1_, this.getCursorPosition());
-    }
-
-    /**
-     * gets the position of the nth word. N may be negative, then it looks backwards. params: N, position
-     */
-    public int getNthWordFromPos(int p_146183_1_, int p_146183_2_)
-    {
-        return this.func_146197_a(p_146183_1_, p_146183_2_, true);
-    }
-
-    public int func_146197_a(int p_146197_1_, int p_146197_2_, boolean p_146197_3_)
-    {
-        int i = p_146197_2_;
-        boolean flag = p_146197_1_ < 0;
-        int j = Math.abs(p_146197_1_);
-
-        for (int k = 0; k < j; ++k)
-        {
-            if (!flag)
-            {
-                int l = this.text.length();
-                i = this.text.indexOf(32, i);
-
-                if (i == -1)
-                {
-                    i = l;
-                }
-                else
-                {
-                    while (p_146197_3_ && i < l && this.text.charAt(i) == 32)
-                    {
-                        ++i;
-                    }
-                }
-            }
-            else
-            {
-                while (p_146197_3_ && i > 0 && this.text.charAt(i - 1) == 32)
-                {
-                    --i;
-                }
-
-                while (i > 0 && this.text.charAt(i - 1) != 32)
-                {
-                    --i;
-                }
-            }
-        }
-
-        return i;
-    }
-
     /**
      * Moves the text cursor by a specified number of characters and clears the selection
      */
@@ -300,14 +238,6 @@ public class HyperiumTextField{
         int i = this.text.length();
         this.cursorPosition = MathHelper.clamp_int(this.cursorPosition, 0, i);
         this.setSelectionPos(this.cursorPosition);
-    }
-
-    /**
-     * sets the cursors position to the beginning
-     */
-    public void setCursorPositionZero()
-    {
-        this.setCursorPosition(0);
     }
 
     /**
@@ -625,34 +555,6 @@ public class HyperiumTextField{
         GlStateManager.enableTexture2D();
     }
 
-
-    /**
-     * returns the maximum number of characters that can be contained in this textbox
-     */
-    public int getMaxStringLength()
-    {
-        return this.maxStringLength;
-    }
-
-    /**
-     * returns the current position of the cursor
-     */
-    public int getCursorPosition()
-    {
-        return this.cursorPosition;
-    }
-
-    /**
-     * get enable drawing background and outline
-     */
-    public boolean getEnableBackgroundDrawing()
-    {
-        return this.enableBackgroundDrawing;
-    }
-
-    /**
-     * Sets focus to this gui element
-     */
     public void setFocused(boolean isFocusedIn)
     {
         if (isFocusedIn && !this.isFocused)
@@ -663,31 +565,6 @@ public class HyperiumTextField{
         this.isFocused = isFocusedIn;
     }
 
-
-    public void setEnabled(boolean p_146184_1_)
-    {
-        this.isEnabled = p_146184_1_;
-    }
-
-    /**
-     * the side of the selection that is not the cursor, may be the same as the cursor
-     */
-    public int getSelectionEnd()
-    {
-        return this.selectionEnd;
-    }
-
-    /**
-     * returns the width of the textbox depending on if background drawing is enabled
-     */
-    public int getWidth()
-    {
-        return this.getEnableBackgroundDrawing() ? this.width - 8 : this.width;
-    }
-
-    /**
-     * Sets the position of the selection anchor (i.e. position the selection was started at)
-     */
     public void setSelectionPos(int position)
     {
         int i = this.text.length();
@@ -731,21 +608,5 @@ public class HyperiumTextField{
 
             this.lineScrollOffset = MathHelper.clamp_int(this.lineScrollOffset, 0, i);
         }
-    }
-
-    /**
-     * returns true if this textbox is visible
-     */
-    public boolean getVisible()
-    {
-        return this.visible;
-    }
-
-    /**
-     * Sets whether or not this textbox is visible
-     */
-    public void setVisible(boolean p_146189_1_)
-    {
-        this.visible = p_146189_1_;
     }
 }

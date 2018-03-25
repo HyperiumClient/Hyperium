@@ -34,7 +34,7 @@ public class KeyBindHandler {
     public static HyperiumBind nameHistory = new HyperiumBind("nameHistory", Keyboard.KEY_H) {
         @Override
         public void onPress() {
-            new NameHistoryGui().show();
+            Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new NameHistoryGui());
         }
     };
     private final KeyBindConfig keyBindConfig;
