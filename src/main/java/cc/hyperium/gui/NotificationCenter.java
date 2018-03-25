@@ -176,7 +176,6 @@ import cc.hyperium.utils.HyperiumFontRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.renderer.GlStateManager;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -294,7 +293,6 @@ public class NotificationCenter extends Gui {
     }*/
 
 
-
     public class Notification {
         private String title;
         private String description;
@@ -315,7 +313,8 @@ public class NotificationCenter extends Gui {
             this.lowerThreshold = fifth;
             this.percentComplete = 0.0F;
 
-            this.clickedCallback = () -> {};
+            this.clickedCallback = () -> {
+            };
         }
 
         public void setClickedCallback(Runnable runnable) {
@@ -371,6 +370,7 @@ public class NotificationCenter extends Gui {
             ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
 
             int width = 175;
+
             ArrayList<String> lines = fontRenderer.splitString(description, width - 10);
             int height = (int) (30 + fontRenderer.getHeight(String.join("\n\r", lines)));
 
@@ -379,7 +379,7 @@ public class NotificationCenter extends Gui {
             float alpha = 255 /* * clamp(this.percentComplete, 0.5f, 1.0f)*/;
 
             // Background
-            GlStateManager.pushMatrix();
+//            GlStateManager.pushMatrix();
             Gui.drawRect(
                     x,
                     y,
@@ -388,7 +388,7 @@ public class NotificationCenter extends Gui {
                     new Color(30, 30, 30, (int) alpha).getRGB()
             );
 
-            // Highlight color
+//             Highlight color
             Gui.drawRect(
                     x,
                     y,
@@ -398,21 +398,30 @@ public class NotificationCenter extends Gui {
             );
 
             // Title Text
-            fontRenderer.drawString(
-                    title,
-                    x + 10,
-                    y + 5,
-                    0xFFFFFF
-            );
+            Minecraft.getMinecraft().fontRendererObj.drawString(title, x + 10, y + 5, 0xFFFFFF);
+//            fontRenderer.drawString(
+//                    title,
+//                    x + 10,
+//                    y + 5,
+//                    0xFFFFFF
+//            );
 
-            // Notification Body
-            fontRenderer.drawSplitString(
-                    lines,
-                    x + 10,
-                    (int) (y + 5 + fontRenderer.getHeight(title) + 2),
-                    0x424242
-            );
-            GlStateManager.popMatrix();
+//             Notification Body
+            int line1 = 0;
+            for (String line : lines) {
+                Minecraft.getMinecraft().fontRendererObj.drawString(line,
+                        x + 10,
+                        (int) (y + 5 + fontRenderer.getHeight(title) + 2) + line1 * 10,
+                        0x424242);
+                line1++;
+            }
+//            fontRenderer.drawSplitString(
+//                    lines,
+//                    x + 10,
+//                    (int) (y + 5 + fontRenderer.getHeight(title) + 2),
+//                    0x424242
+//            );
+//            GlStateManager.popMatrix();
 
         }
     }

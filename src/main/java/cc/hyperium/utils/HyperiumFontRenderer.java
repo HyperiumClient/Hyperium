@@ -114,6 +114,7 @@ public class HyperiumFontRenderer {
                 y += getHeight(Character.toString(c)) * 2.0F;
             }
             if (c != '\247' && (index == 0 || index == characters.length - 1 || characters[index - 1] != '\247')) {
+                //Line causing error
                 unicodeFont.drawString(x, y, Character.toString(c), new org.newdawn.slick.Color(currentColor));
                 x += (getWidth(Character.toString(c)) * 2.0F);
             } else if (c == ' ') {
@@ -135,6 +136,7 @@ public class HyperiumFontRenderer {
             GL11.glEnable(GL11.GL_LIGHTING);
         if (!blend)
             GL11.glDisable(GL11.GL_BLEND);
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         GL11.glPopMatrix();
         return (int) x;
     }
