@@ -83,9 +83,6 @@ public abstract class MixinGuiMainMenu extends GuiScreen implements GuiYesNoCall
                 int hoverColor = new Color(0, 0, 0, 60).getRGB();
                 int color = new Color(0, 0, 0, 50).getRGB();
                 GuiBlock block1 = new GuiBlock(width / 2 - 100, width / 2 + 100, 180, 200);
-
-
-
                 Gui.drawRect(block1.getLeft(), block1.getTop(), block1.getRight(), block1.getBottom(), block1.isMouseOver(mouseX, mouseY) ? hoverColor : color);
 
                 if (block1.isMouseOver(mouseX, mouseY) && Mouse.isButtonDown(0)) {
