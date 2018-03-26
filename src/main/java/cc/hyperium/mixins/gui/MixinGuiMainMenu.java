@@ -88,13 +88,11 @@ public abstract class MixinGuiMainMenu extends GuiScreen implements GuiYesNoCall
                 if (block1.isMouseOver(mouseX, mouseY) && Mouse.isButtonDown(0)) {
                     Hyperium.INSTANCE.acceptTos();
                 }
-                drawCenteredString(fontRendererObj, ChatColor.RED + "Accept", width / 2, 175, Color.WHITE.getRGB());
+                drawCenteredString(fontRendererObj, ChatColor.RED + "Accept", width / 2, 185, Color.WHITE.getRGB());
             }
             overLast = Mouse.isButtonDown(0);
         } else {
             Minecraft.getMinecraft().displayGuiScreen(new HyperiumMainMenu());
         }
     }
-
-
 }

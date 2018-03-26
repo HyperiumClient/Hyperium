@@ -26,13 +26,14 @@ import org.newdawn.slick.font.effects.ColorEffect;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class HyperiumFontRenderer {
+public class HyperiumFontRenderer{
 
     private final UnicodeFont unicodeFont;
     private final int[] colorCodes = new int[32];
     private int fontType;
     private int size;
     private String fontName;
+    public int FONT_HEIGHT = 9;
 
     private float kerning;
 
@@ -138,7 +139,7 @@ public class HyperiumFontRenderer {
             GL11.glDisable(GL11.GL_BLEND);
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         GL11.glPopMatrix();
-        return (int) x;
+        return (int) x / 2;
     }
 
     public int drawStringWithShadow(String text, float x, float y, int color) {

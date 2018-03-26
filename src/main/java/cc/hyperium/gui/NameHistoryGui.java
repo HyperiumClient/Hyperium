@@ -21,8 +21,7 @@ import cc.hyperium.gui.settings.items.NameHistorySettings;
 import cc.hyperium.utils.HyperiumFontRenderer;
 import me.kbrewster.mojangapi.MojangAPI;
 import me.kbrewster.mojangapi.profile.Name;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiTextField;
+import net.minecraft.client.gui.GuiScreen;
 import org.lwjgl.input.Keyboard;
 
 import java.awt.*;
@@ -33,21 +32,22 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class NameHistoryGui extends HyperiumGui {
+public class NameHistoryGui extends GuiScreen {
 
     List<String> names = new ArrayList<>();
     private HyperiumFontRenderer fontRenderer = new HyperiumFontRenderer("Arial", Font.PLAIN, 16);
-    private HyperiumFontRenderer smallRenderer = new HyperiumFontRenderer("Arial", Font.PLAIN, 14);
-    private GuiTextField nameField;
+    private HyperiumTextField nameField;
 
     @Override
     public void initGui() {
+        System.out.println("init!");
         super.initGui();
-        nameField = new GuiTextField(1, Minecraft.getMinecraft().fontRendererObj, width / 2 - (115 / 2), height / 5 + 10, 115, 20);
+        nameField = new HyperiumTextField(1, fontRenderer, width / 2 - (115 / 2), height / 5 + 10, 115, 20);
     }
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+        super.drawScreen(mouseX, mouseY, partialTicks);
         //BG
         drawRect(width / 5 - 1, height / 5 - 1, width - width / 5, height / 5 + 31 + (names.size() * 11), new Color(0, 0, 0, 100).getRGB());
 
@@ -64,15 +64,8 @@ public class NameHistoryGui extends HyperiumGui {
             defaultColour = Color.getHSBColor(System.currentTimeMillis() % 1000L / 1000F, 1F, 1F).getRGB();
         }
         for (int i = 0; i < names.size(); i++) {
-            Minecraft.getMinecraft().fontRendererObj.drawString(names.get(i), width / 2 - (115 / 2), height / 5 + 30 + 5 + (i * 10), defaultColour);
+            fontRenderer.drawString(names.get(i), width / 2 - (115 / 2), height / 5 + 30 + 5 + (i * 10), defaultColour);
         }
-
-        super.drawScreen(mouseX, mouseY, partialTicks);
-    }
-
-    @Override
-    public void pack() {
-
     }
 
     @Override
@@ -89,7 +82,6 @@ public class NameHistoryGui extends HyperiumGui {
     public void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
         nameField.mouseClicked(mouseX, mouseY, mouseButton);
         super.mouseClicked(mouseX, mouseY, mouseButton);
-        System.out.println("NAME HISTORY: Mouse Clicked");
     }
 
     public void getNames(String username) {
