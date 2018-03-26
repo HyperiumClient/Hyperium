@@ -31,7 +31,7 @@ public final class SafeNumberParsing {
     }
 
     public static int safeParseInt(String input) {
-        return safeParseInt(input);
+        return safeParseInt(input, 0);
     }
 
 }
