@@ -18,7 +18,9 @@
 package cc.hyperium.handlers.handlers.keybinds;
 
 import cc.hyperium.Hyperium;
-import cc.hyperium.event.*;
+import cc.hyperium.event.GameShutDownEvent;
+import cc.hyperium.event.InvokeEvent;
+import cc.hyperium.event.KeypressEvent;
 import cc.hyperium.gui.NameHistoryGui;
 import cc.hyperium.gui.integrations.HypixelFriendsGui;
 import net.minecraft.client.Minecraft;
@@ -38,7 +40,7 @@ public class KeyBindHandler {
     private final KeyBindConfig keyBindConfig;
     // Case insensitive treemap
     private final TreeMap<String, HyperiumBind> keybinds = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
-    
+
     public HyperiumBind friends = new HyperiumBind("friends", Keyboard.KEY_L) {
         @Override
         public void onPress() {
@@ -60,8 +62,7 @@ public class KeyBindHandler {
     public HyperiumBind debug1 = new HyperiumBind("DEBUG1", Keyboard.KEY_U) {
         @Override
         public void onPress() {
-            EventBus.INSTANCE.post(new KillEvent(Minecraft.getMinecraft().thePlayer.getName()));
-//            Hyperium.INSTANCE.getHandlers().getConfigOptions().hideNameTags = !Hyperium.INSTANCE.getHandlers().getConfigOptions().hideNameTags;
+            Hyperium.INSTANCE.getNotification().display("Test", "Dab", 4F);
         }
 
         @Override

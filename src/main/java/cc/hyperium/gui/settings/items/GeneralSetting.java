@@ -25,7 +25,6 @@ import cc.hyperium.gui.HyperiumGui;
 import cc.hyperium.gui.settings.SettingGui;
 import cc.hyperium.gui.settings.components.SelectionItem;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiScreen;
 
 import java.util.Arrays;
 
@@ -62,7 +61,7 @@ public class GeneralSetting extends SettingGui {
     @ConfigOpt
     public static boolean smartSoundsEnabled = false;
     @ConfigOpt
-    public static boolean numberPingEnabled = false;
+    public static boolean numberPingEnabled = true;
     @ConfigOpt
     public static boolean combatParticleFixEnabled = true;
     @ConfigOpt
