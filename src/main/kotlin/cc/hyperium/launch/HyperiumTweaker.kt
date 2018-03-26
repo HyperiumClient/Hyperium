@@ -64,7 +64,7 @@ open class HyperiumTweaker : ITweaker {
             "net.minecraft.client.main.Main"
 
     override fun injectIntoClassLoader(classLoader: LaunchClassLoader) {
-        classLoader.addClassLoaderExclusion("org.apache.logging.log4j.simple.")
+        //classLoader.addClassLoaderExclusion("org.apache.logging.log4j.simple.")
 
         Hyperium.LOGGER.info("Loading Addons...")
         loadAddons()

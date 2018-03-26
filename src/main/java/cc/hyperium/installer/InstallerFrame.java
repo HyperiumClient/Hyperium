@@ -193,7 +193,7 @@ public class InstallerFrame extends JFrame implements PropertyChangeListener {
             }
             progressBar.setValue(80);
             display.setText("FINDING JAR...");
-            Pattern jar = Pattern.compile("Hyperium-\\d\\.\\d-full\\.jar");
+            Pattern jar = Pattern.compile("Hyperium-\\d\\.\\d.jar");
             builtJar = Arrays.stream(Objects.requireNonNull(new File(new File(local, "build"), "libs").listFiles()))
                     .filter(f -> jar.matcher(f.getName()).matches())
                     .min(Comparator.comparingLong(File::lastModified))
