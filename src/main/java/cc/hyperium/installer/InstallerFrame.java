@@ -136,8 +136,8 @@ public class InstallerFrame extends JFrame implements PropertyChangeListener {
         AtomicReference<JSONObject> version = new AtomicReference<>();
         String hash = null;
         File builtJar = null;
+        JSONObject versionsJson;
         try {
-            JSONObject versionsJson;
             versionsJson = new JSONObject(get(versions_url));
             JSONArray versionsArray = versionsJson.getJSONArray("versions");
             List<JSONObject> versionsObjects = new ArrayList<>();
@@ -193,10 +193,9 @@ public class InstallerFrame extends JFrame implements PropertyChangeListener {
             }
             progressBar.setValue(80);
             display.setText("FINDING JAR...");
-            Pattern jar = Pattern.compile("Hyperium-.+?\\..+?\\.jar");
+            Pattern jar = Pattern.compile("Hyperium-\\d\\.\\d-full\\.jar");
             builtJar = Arrays.stream(Objects.requireNonNull(new File(new File(local, "build"), "libs").listFiles()))
                     .filter(f -> jar.matcher(f.getName()).matches())
-                    .filter(f -> !f.getName().contains("full") && !f.getName().contains("source"))
                     .min(Comparator.comparingLong(File::lastModified))
                     .get();
             progressBar.setValue(90);
@@ -266,7 +265,7 @@ public class InstallerFrame extends JFrame implements PropertyChangeListener {
             exit.setVisible(true);
             return;
         }
-        System.out.println("Temp optifine="+optifine.getAbsolutePath());
+        System.out.println("Temp optifine=" + optifine.getAbsolutePath());
         progressBar.setValue(91);
         display.setText("COPYING FILES");
         target.mkdir();
@@ -329,37 +328,11 @@ public class InstallerFrame extends JFrame implements PropertyChangeListener {
         libs.put(lib);
         libs.put(new JSONObject().put("name", "net.minecraft:launchwrapper:1.7"));
         libs.put(new JSONObject().put("name", "optifine:OptiFine:1.8.9_HD_U_I3"));
-        libs.put(
-                new JSONObject()
-                .put("downloads", new JSONObject().put("classifiers",
-                        new JSONObject()
-                                .put("natives-windows", new JSONObject().put("url", "https://hyperium.cc/Hyperium/libs/jxbrowser-win32-6.19.1.jar"))
-                                .put("natives-osx", new JSONObject().put("url", "https://hyperium.cc/Hyperium/libs/jxbrowser-mac-6.19.1.jar"))
-                                .put("natives-linux", new JSONObject().put("url", "https://hyperium.cc/Hyperium/libs/jxbrowser-linux64-6.19.1.jar"))
-                ))
-                .put("rules", new JSONObject("{\"osx\": \"natives-osx\",\"linux\": \"natives-linux\",\"windows\": \"natives-windows\"}"))
-                .put("name", "cc.hyperium.libs:jxbrowser-natives:6.19.1")
-        );
-        libs.put(
-                new JSONObject()
-                .put("downloads",
-                        new JSONObject()
-                                .put("artifact", new JSONObject().put("url", " https://hyperium.cc/Hyperium/libs/jxbrowser-6.19.1.jar"))
-                                .put("name", "cc.hyperium.libs:jxbrowser:6.19.1")
-                )
-        );
-        libs.put(
-                new JSONObject()
-                        .put("downloads",
-                                new JSONObject()
-                                        .put("artifact", new JSONObject().put("url", " https://hyperium.cc/Hyperium/libs/license.jar"))
-                                        .put("name", "cc.hyperium.libs:jxbrowser-license:6.19.1")
-                        )
-        );
+        versionsJson.getJSONArray("libs").forEach(libs::put);
         json.put("libraries", libs);
         json.put("id", "Hyperium 1.8.9");
         json.put("mainClass", "net.minecraft.launchwrapper.Launch");
-        json.put("minecraftArguments", json.getString("minecraftArguments") + " --tweakClass=" + version.get().getString("tweak-class")+" --tweakClass=optifine.OptiFineTweaker");
+        json.put("minecraftArguments", json.getString("minecraftArguments") + " --tweakClass=" + version.get().getString("tweak-class") + " --tweakClass=optifine.OptiFineTweaker");
 
         JSONObject profiles = launcherProfiles.getJSONObject("profiles");
         Instant instant = Instant.ofEpochMilli(System.currentTimeMillis());
@@ -391,7 +364,7 @@ public class InstallerFrame extends JFrame implements PropertyChangeListener {
         exit.setVisible(true);
     }
 
-    private File exportTempOptifine() throws Exception{
+    private File exportTempOptifine() throws Exception {
         File tmp = File.createTempFile("Optifine", ".jar");
         BufferedInputStream in = null;
         FileOutputStream fout = null;
