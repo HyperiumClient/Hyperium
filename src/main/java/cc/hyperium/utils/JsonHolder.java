@@ -24,6 +24,8 @@ import com.google.gson.JsonParser;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @author Sk1er
@@ -209,7 +211,7 @@ public class JsonHolder {
     }
 
     public List<String> getKeys() {
-        return new ArrayList<>(object.keySet());
+        return object.entrySet().stream().map(Map.Entry::getKey).collect(Collectors.toList());
     }
 
     public double optDouble(String key) {
