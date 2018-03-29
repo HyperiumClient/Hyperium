@@ -169,6 +169,7 @@
 package cc.hyperium.gui;
 
 import cc.hyperium.Hyperium;
+import cc.hyperium.event.InitializationEvent;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.RenderHUDEvent;
 import cc.hyperium.event.TickEvent;
@@ -188,7 +189,7 @@ import static cc.hyperium.gui.HyperiumGui.easeOut;
 public class NotificationCenter extends Gui {
     private Queue<Notification> notifications = new LinkedList<>();
     private Notification currentNotification;
-    private HyperiumFontRenderer fontRenderer = new HyperiumFontRenderer("Arial", Font.PLAIN, 18);
+    private HyperiumFontRenderer fontRenderer;
     //private HashMap<Integer, Boolean> mouseState;
     //private HashMap<Integer, Float[]> draggedState;
 
@@ -197,6 +198,11 @@ public class NotificationCenter extends Gui {
         for (int i = 0; i < 5; i++)
             this.mouseState.put(i, false);
         draggedState = new HashMap<>();*/
+    }
+
+    @InvokeEvent
+    public void onInit(InitializationEvent event){
+        fontRenderer = new HyperiumFontRenderer("Arial", Font.PLAIN, 18);
     }
 
     @InvokeEvent
