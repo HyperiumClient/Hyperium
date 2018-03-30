@@ -23,7 +23,6 @@ import cc.hyperium.event.LeftMouseClickEvent;
 import cc.hyperium.event.RightMouseClickEvent;
 import cc.hyperium.mods.keystrokes.KeystrokesMod;
 import cc.hyperium.mods.keystrokes.keys.IKey;
-
 import net.minecraft.client.gui.Gui;
 import org.lwjgl.input.Mouse;
 
@@ -80,17 +79,13 @@ public class CPSKey extends IKey {
     
     @InvokeEvent
     public void onClick(LeftMouseClickEvent event) {
-        if (this.mod.getSettings().isLeftClick()) {
-            Mouse.poll();
-            this.clicks.add(System.currentTimeMillis());
-        }
+        Mouse.poll();
+        this.clicks.add(System.currentTimeMillis());
     }
     
     @InvokeEvent
     public void onClickRight(RightMouseClickEvent event) {
-        if (!this.mod.getSettings().isLeftClick()) {
-            Mouse.poll();
-            this.clicks.add(System.currentTimeMillis());
-        }
+        Mouse.poll();
+        this.clicks.add(System.currentTimeMillis());
     }
 }

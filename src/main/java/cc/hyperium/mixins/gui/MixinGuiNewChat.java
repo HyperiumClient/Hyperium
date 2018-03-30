@@ -19,6 +19,7 @@ package cc.hyperium.mixins.gui;
 
 import cc.hyperium.event.ChatEvent;
 import cc.hyperium.event.EventBus;
+import cc.hyperium.gui.settings.items.BackgroundSettings;
 import cc.hyperium.gui.settings.items.GeneralSetting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ChatLine;
@@ -150,7 +151,8 @@ public abstract class MixinGuiNewChat {
                             {
                                 int i2 = 0;
                                 int j2 = -i1 * 9;
-                                if(!GeneralSetting.fastchatEnabled) {
+                                System.out.println("FASTCHAT: " + GeneralSetting.fastchatEnabled);
+                                if(!BackgroundSettings.fastChatEnabled) {
                                     Gui.drawRect(i2, j2 - 9, i2 + l + 4, j2, l1 / 2 << 24);
                                 }
                                 String s = chatline.getChatComponent().getFormattedText();

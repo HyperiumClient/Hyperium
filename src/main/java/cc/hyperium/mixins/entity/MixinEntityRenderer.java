@@ -64,6 +64,8 @@ public abstract class MixinEntityRenderer {
     private MouseFilter mouseFilterXAxis;
     private boolean zoomMode = false;
 
+    private float distanceModifier = 0.0f;
+
     @Inject(method = "updateCameraAndRender", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiIngame;renderGameOverlay(F)V", shift = At.Shift.AFTER))
     private void updateCameraAndRender(float partialTicks, long nano, CallbackInfo ci) {
         EventBus.INSTANCE.post(new RenderEvent());
@@ -99,13 +101,41 @@ public abstract class MixinEntityRenderer {
                 GlStateManager.rotate(entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * partialTicks, -1.0F, 0.0F, 0.0F);
             }
         } else if (Minecraft.getMinecraft().gameSettings.thirdPersonView > 0) {
+            // Ray tracing attempts.
+
+            // Gets the current position of the camera.
+            Vec3 camPos = ActiveRenderInfo.getPosition();
+
+            // This is actually the position relative to the player, so we have to adjust for that.
+            Vec3 playerPos = Minecraft.getMinecraft().thePlayer.getPositionVector();
+
+            Vec3 trueCamPos = camPos.add(playerPos);
+
             double d3 = (double) (this.thirdPersonDistanceTemp + (this.thirdPersonDistance - this.thirdPersonDistanceTemp) * partialTicks);
+            MovingObjectPosition mop = Minecraft.getMinecraft().theWorld.rayTraceBlocks(trueCamPos,playerPos);
+            if(mop != null && mop.entityHit != null){
+                System.out.println("Entity looked at: " + mop.entityHit.getName());
+            }
+            System.out.println(mop.hitVec);
+
+            // Now we need to check if there's a block in the camera, if so, stop it.
+            if(isBlockAtPos(trueCamPos)){
+                // There's a block in the camera!
+                Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage("There's a block in the camera!");
+
+                // Stop it!
+
+                double reduction = 1;
+
+                d3 = (double) (this.thirdPersonDistanceTemp + (this.thirdPersonDistance - this.thirdPersonDistanceTemp) * partialTicks) -reduction;
+            }
 
             if (Minecraft.getMinecraft().gameSettings.debugCamEnable) {
                 GlStateManager.translate(0.0F, 0.0F, (float) (-d3));
             } else {
                 float f1 = entity.rotationYaw;
                 float f2 = entity.rotationPitch;
+
 
                 if (Hyperium.INSTANCE.getPerspective().isEnabled()) {
                     f1 = Hyperium.INSTANCE.getPerspective().modifiedYaw;
@@ -184,6 +214,16 @@ public abstract class MixinEntityRenderer {
         d1 = entity.prevPosY + (entity.posY - entity.prevPosY) * (double) partialTicks + (double) f;
         d2 = entity.prevPosZ + (entity.posZ - entity.prevPosZ) * (double) partialTicks;
         this.cloudFog = Minecraft.getMinecraft().renderGlobal.hasCloudFog(d0, d1, d2, partialTicks);
+    }
+
+    private boolean isBlockAtPos(Vec3 blockPos){
+        Block blockPresent = Minecraft.getMinecraft().theWorld.getBlockState(new BlockPos(blockPos.xCoord,blockPos.yCoord,blockPos.zCoord)).getBlock();
+        if(blockPresent != null && !blockPresent.getLocalizedName().contains("air")){
+            return true;
+        } else{
+            return false;
+        }
+
     }
 
     /**
