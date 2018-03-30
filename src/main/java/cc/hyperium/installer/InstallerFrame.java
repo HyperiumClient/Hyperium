@@ -25,7 +25,6 @@ import org.json.JSONObject;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.swing.*;
-import javax.xml.bind.DatatypeConverter;
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -50,6 +49,7 @@ public class InstallerFrame extends JFrame implements PropertyChangeListener {
      */
     private static final int WIDTH = 400;
     private static final int HEIGHT = 160;
+    private static final char[] hexCodes = "0123456789ABCDEF".toCharArray();
     private JLabel display;
     private JLabel error;
     private JProgressBar progressBar;
@@ -89,7 +89,14 @@ public class InstallerFrame extends JFrame implements PropertyChangeListener {
     }
 
     private static String toHex(byte[] bytes) {
-        return DatatypeConverter.printHexBinary(bytes);
+        StringBuilder r = new StringBuilder(bytes.length * 2);
+
+        for (byte b : bytes) {
+            r.append(hexCodes[(b >> 4) & 0xF]);
+            r.append(hexCodes[(b & 0xF)]);
+        }
+
+        return r.toString();
     }
 
     /**
