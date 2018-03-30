@@ -20,14 +20,13 @@ package cc.hyperium.gui.settings;
 import cc.hyperium.gui.HyperiumGui;
 import cc.hyperium.gui.font.Fonts;
 import cc.hyperium.utils.HyperiumFontRenderer;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
 import org.lwjgl.input.Mouse;
 
 import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 import java.util.List;
 
 public class SettingGui extends HyperiumGui {
@@ -39,7 +38,7 @@ public class SettingGui extends HyperiumGui {
 
     private int animation = (height / 5) * 3;
 
-    public SettingGui(String name, HyperiumGui previous){
+    public SettingGui(String name, HyperiumGui previous) {
         this.name = name;
         this.previous = previous;
     }
@@ -47,10 +46,24 @@ public class SettingGui extends HyperiumGui {
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         drawDefaultBackground();
+
         // The Box
-        drawRect(width / 5, height / 5, width - width / 5, height - height / 5, new Color(0, 0, 0, 100).getRGB());
+        drawRect(
+                width / 5,
+                height / 5,
+                width - width / 5,
+                height - height / 5,
+                new Color(0, 0, 0, 100).getRGB()
+        );
         // Top bar
-        drawRect(width / 5, height / 5, width -width/5, height / 5  + 25, new Color(0, 0, 0, 30).getRGB());
+        drawRect(
+                width / 5,
+                height / 5,
+                width - width / 5,
+                height / 5 + 25,
+                new Color(0, 0, 0, 30).getRGB()
+        );
+
         int items = (height - (getY() * 2 + 25)) / 15;
 
         settingItems.stream()
@@ -59,40 +72,43 @@ public class SettingGui extends HyperiumGui {
                     i.visible = true;
                     i.drawItem(mc, mouseX, mouseY, getX() + animation, (getY() + 25) + (offset + i.id) * 15);
                 });
-        fontRendererObj.drawString(">", (width - width / 5) - 18, (height /5) + 5, 0xFFFFFF);
+
+        fontRendererObj.drawString(">", (width - width / 5) - 18, (height / 5) + 5, 0xFFFFFF);
         fontRendererObj.drawString(name, width / 5 + 10, (height / 5) + 5, 0xFFFFFF);
+
         super.drawScreen(mouseX, mouseY, partialTicks);
     }
 
-    protected int getY(){
+    protected int getY() {
         return height / 5;
     }
 
-    protected int getX(){
+    protected int getX() {
         return width / 5;
     }
 
     @Override
     protected void pack() {
         settingItems.clear();
-        reg("", new GuiButton(0, (width / 5), height /5, (width /5) * 3, 25, ""), b -> {
+        reg("", new GuiButton(0, (width / 5), height / 5, (width / 5) * 3, 25, ""), b -> {
             this.previous.rePack();
             this.previous.show();
-        }, b->{});
+        }, b -> {
+        });
     }
 
     @Override
     public void handleMouseInput() throws IOException {
         super.handleMouseInput();
         int i = Mouse.getEventDWheel();
-        if (i < 0 ) {
+        if (i < 0) {
             int length = (((height / 5) * 3) / 15); // works out size of the scrollable area
-            if(offset - length + 1> -settingItems.size() && length <= settingItems.size()) {
+            if (offset - length + 1 > -settingItems.size() && length <= settingItems.size()) {
                 // regions it cant exceed
                 offset -= 1;
             }
         } else if (i > 0) {
-            if(offset < 0) {
+            if (offset < 0) {
                 offset += 1;
             }
         }
@@ -101,13 +117,17 @@ public class SettingGui extends HyperiumGui {
     @Override
     protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
         super.mouseClicked(mouseX, mouseY, mouseButton);
-        if (mouseButton == 0) {
+
+        if (mouseButton != 0) return;
+
+        try {
             for (SettingItem i : settingItems) {
                 if (i.mousePressed(mc, mouseX, mouseY)) {
                     i.playPressSound(mc.getSoundHandler());
                     i.callback.accept(i);
                 }
             }
+        } catch (ConcurrentModificationException ignored) {
         }
     }
 }
