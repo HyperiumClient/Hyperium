@@ -25,6 +25,7 @@ import net.minecraft.util.ResourceLocation;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Overwrite;
 
 import java.awt.*;
 
@@ -59,7 +60,7 @@ public abstract class MixinGuiButton extends Gui {
     @Shadow
     protected abstract void mouseDragged(Minecraft mc, int mouseX, int mouseY);
 
-    @SuppressWarnings("Duplicates")
+    @Overwrite
     public void drawButton(Minecraft mc, int mouseX, int mouseY) {
         if (this.visible) {
             this.hovered = mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;
