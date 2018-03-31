@@ -21,20 +21,16 @@ import cc.hyperium.Hyperium;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.RenderEvent;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockBed;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ActiveRenderInfo;
 import net.minecraft.client.renderer.EntityRenderer;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.passive.EntityAnimal;
-import net.minecraft.init.Blocks;
-import net.minecraft.util.*;
-import org.lwjgl.opengl.Display;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.MouseFilter;
+import net.minecraft.util.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
@@ -75,7 +71,7 @@ public abstract class MixinEntityRenderer {
      * @author CoalOres
      * @reason 360 Perspective
      */
-    @Overwrite
+   /* @Overwrite
     private void orientCamera(float partialTicks) {
         Entity entity = Minecraft.getMinecraft().getRenderViewEntity();
         float f = entity.getEyeHeight();
@@ -214,7 +210,7 @@ public abstract class MixinEntityRenderer {
         d1 = entity.prevPosY + (entity.posY - entity.prevPosY) * (double) partialTicks + (double) f;
         d2 = entity.prevPosZ + (entity.posZ - entity.prevPosZ) * (double) partialTicks;
         this.cloudFog = Minecraft.getMinecraft().renderGlobal.hasCloudFog(d0, d1, d2, partialTicks);
-    }
+    }*/
 
     private boolean isBlockAtPos(Vec3 blockPos){
         Block blockPresent = Minecraft.getMinecraft().theWorld.getBlockState(new BlockPos(blockPos.xCoord,blockPos.yCoord,blockPos.zCoord)).getBlock();
@@ -231,7 +227,7 @@ public abstract class MixinEntityRenderer {
      * @reason 360 Perspective
      */
 
-    @Inject(method = "updateCameraAndRender", at = @At(value = "INVOKE_STRING", target = "Lnet/minecraft/profiler/Profiler;startSection(Ljava/lang/String;)V", args = "ldc=mouse"))
+    /*@Inject(method = "updateCameraAndRender", at = @At(value = "INVOKE_STRING", target = "Lnet/minecraft/profiler/Profiler;startSection(Ljava/lang/String;)V", args = "ldc=mouse"))
     private void updateCameraAndRender2(float partialTicks, long nanoTime, CallbackInfo ci) {
         boolean flag2 = Display.isActive();
         if (Minecraft.getMinecraft().inGameHasFocus && flag2) {
@@ -262,7 +258,7 @@ public abstract class MixinEntityRenderer {
                 }
             }
         }
-    }
+    }*/
 
     /**
      * Camera zooming

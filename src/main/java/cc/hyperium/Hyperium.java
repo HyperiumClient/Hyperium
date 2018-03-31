@@ -132,7 +132,7 @@ public class Hyperium {
         EventBus.INSTANCE.register(CompactChat.getInstance());
         EventBus.INSTANCE.register(CrosshairMod.getInstance());
         EventBus.INSTANCE.register(CONFIG.register(FPSLimiter.getInstance()));
-        EventBus.INSTANCE.register(perspective = new PerspectiveModifierContainer());
+        //EventBus.INSTANCE.register(perspective = new PerspectiveModifierContainer());
         EventBus.INSTANCE.register(new WingCosmetic());
         EventBus.INSTANCE.register(confirmation = new ConfirmationPopup());
 
