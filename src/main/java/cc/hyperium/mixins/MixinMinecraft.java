@@ -172,6 +172,7 @@ import cc.hyperium.Hyperium;
 import cc.hyperium.SplashProgress;
 import cc.hyperium.event.*;
 import cc.hyperium.gui.settings.items.GeneralSetting;
+import cc.hyperium.handlers.handlers.HypixelDetector;
 import cc.hyperium.utils.Utils;
 import cc.hyperium.utils.mods.FPSLimiter;
 import net.minecraft.block.material.Material;
@@ -511,6 +512,8 @@ public abstract class MixinMinecraft {
         SplashProgress.update();
     }
 
+
+
     /**
      * @author CoalOres
      */
@@ -520,15 +523,32 @@ public abstract class MixinMinecraft {
             this.leftClickCounter = 0;
         }
 
-        if (leftClick && this.objectMouseOver != null && this.objectMouseOver.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
-            BlockPos blockpos = this.objectMouseOver.getBlockPos();
+        if (!HypixelDetector.badlion) {
+            // Removes 1.7 block breaking while using item.
+            if (this.leftClickCounter <= 0 && !this.thePlayer.isUsingItem()) {
+                if (leftClick && this.objectMouseOver != null && this.objectMouseOver.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
+                    BlockPos blockpos = this.objectMouseOver.getBlockPos();
 
-            if (this.theWorld.getBlockState(blockpos).getBlock().getMaterial() != Material.air && this.playerController.onPlayerDamageBlock(blockpos, this.objectMouseOver.sideHit)) {
-                this.effectRenderer.addBlockHitEffects(blockpos, this.objectMouseOver.sideHit);
-                this.thePlayer.swingItem();
+                    if (this.theWorld.getBlockState(blockpos).getBlock().getMaterial() != Material.air && this.playerController.onPlayerDamageBlock(blockpos, this.objectMouseOver.sideHit)) {
+                        this.effectRenderer.addBlockHitEffects(blockpos, this.objectMouseOver.sideHit);
+                        this.thePlayer.swingItem();
+                    }
+                } else {
+                    this.playerController.resetBlockRemoving();
+                }
             }
-        } else {
-            this.playerController.resetBlockRemoving();
+        } else{
+            // Keeps 1.7 block breaking while using item.
+            if (leftClick && this.objectMouseOver != null && this.objectMouseOver.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
+                BlockPos blockpos = this.objectMouseOver.getBlockPos();
+
+                if (this.theWorld.getBlockState(blockpos).getBlock().getMaterial() != Material.air && this.playerController.onPlayerDamageBlock(blockpos, this.objectMouseOver.sideHit)) {
+                    this.effectRenderer.addBlockHitEffects(blockpos, this.objectMouseOver.sideHit);
+                    this.thePlayer.swingItem();
+                }
+            } else {
+                this.playerController.resetBlockRemoving();
+            }
         }
     }
 }

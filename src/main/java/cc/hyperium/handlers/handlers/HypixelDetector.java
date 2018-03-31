@@ -32,6 +32,7 @@ public class HypixelDetector {
             Pattern.compile("^(?:(?:(?:\\w+\\.)?hypixel\\.net)|(?:209\\.222\\.115\\.\\d{1,3}))(?::\\d{1,5})?$", Pattern.CASE_INSENSITIVE);
     private static HypixelDetector instance;
     private boolean hypixel = false;
+    public static boolean badlion = false;
 
     public HypixelDetector() {
         instance = this;
@@ -43,6 +44,7 @@ public class HypixelDetector {
 
     @InvokeEvent
     public void serverJoinEvent(ServerJoinEvent event) {
+        badlion = isBadlion();
         boolean h1 = this.hypixel;
         this.hypixel = HYPIXEL_PATTERN.matcher(event.getServer()).find();
         if (hypixel) {
@@ -90,5 +92,18 @@ public class HypixelDetector {
 
     public boolean isHypixel() {
         return hypixel;
+    }
+
+    public static boolean isBadlion() {
+        if (Minecraft.getMinecraft().getCurrentServerData() != null) {
+            String ip = Minecraft.getMinecraft().getCurrentServerData().serverIP;
+            // This is to make sure it doesn't detect badlion.hypixel.net as badlion.
+            if (ip.contains("badlion") && !ip.contains("hypixel")) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        return false;
     }
 }
