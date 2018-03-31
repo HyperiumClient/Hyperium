@@ -168,7 +168,6 @@
 
 package cc.hyperium.mods.chromahud;
 
-import cc.hyperium.Hyperium;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.RenderHUDEvent;
 import cc.hyperium.event.TickEvent;
@@ -381,8 +380,8 @@ public class ElementRenderer {
 
     public void renderElements() {
         //TODO add CONFIG option to show items when not on Hypixel
-        if (!Hyperium.INSTANCE.getHandlers().getHypixelDetector().isHypixel())
-            return;
+        //if (!Hyperium.INSTANCE.getHandlers().getHypixelDetector().isHypixel())
+        //  return;
 
         if (fontRendererObj == null)
             fontRendererObj = Minecraft.getMinecraft().fontRendererObj;
