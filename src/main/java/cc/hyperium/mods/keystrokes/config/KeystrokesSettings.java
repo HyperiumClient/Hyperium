@@ -17,10 +17,12 @@
 
 package cc.hyperium.mods.keystrokes.config;
 
-import cc.hyperium.utils.BetterJsonObject;
 import cc.hyperium.mods.keystrokes.KeystrokesMod;
+import cc.hyperium.utils.BetterJsonObject;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -60,7 +62,7 @@ public class KeystrokesSettings {
 
     private int pressedBlue = 0;
     
-    private boolean leftClick;
+    private boolean leftClick = true;
 
     public KeystrokesSettings(KeystrokesMod mod, File directory) {
         if (!directory.exists()) {
@@ -275,7 +277,7 @@ public class KeystrokesSettings {
     }
     
     public boolean isLeftClick() {
-        return leftClick;
+        return this.leftClick;
     }
     
     public void setLeftClick(boolean leftClick) {
