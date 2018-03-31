@@ -176,10 +176,11 @@ import net.minecraft.entity.item.EntityArmorStand;
 import net.minecraft.util.EnumChatFormatting;
 
 import java.util.HashMap;
+import java.util.Objects;
 
 public class RenderOptimizer {
 
-    private HashMap<Entity, String> rendered = new HashMap<>();
+    private HashMap<UniqueEntity, Boolean> rendered = new HashMap<>();
     @ConfigOpt
     private boolean limitArmourStands = true;
 
@@ -205,18 +206,38 @@ public class RenderOptimizer {
     }
 
     private boolean isSimilar(Entity other) {
-        String text1 = EnumChatFormatting.getTextWithoutFormattingCodes(other.getDisplayName().getUnformattedText());
-        double posX = other.posX;
-        double posY = other.posY;
-        double posZ = other.posZ;
-        for (Entity entity : rendered.keySet()) {
-            String text = rendered.get(entity);
-            if (text.equalsIgnoreCase(text1) && posX == entity.posX && posY == entity.posY && entity.posZ == posZ) {
-                return false;
-            }
-
-        }
-        rendered.put(other, text1);
+        UniqueEntity key = new UniqueEntity(other);
+        if(rendered.containsKey(key))
+           return false;
+        rendered.put(key,true);
         return true;
+    }
+    class UniqueEntity {
+        private double x,y,z;
+        private String name;
+
+        public UniqueEntity(Entity in) {
+            this.x=in.posX;
+            this.y=in.posY;
+            this.z=in.posZ;
+            name=EnumChatFormatting.getTextWithoutFormattingCodes(in.getDisplayName().getUnformattedText());
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            UniqueEntity that = (UniqueEntity) o;
+            return Double.compare(that.x, x) == 0 &&
+                    Double.compare(that.y, y) == 0 &&
+                    Double.compare(that.z, z) == 0 &&
+                    Objects.equals(name, that.name);
+        }
+
+        @Override
+        public int hashCode() {
+
+            return Objects.hash(x, y, z, name);
+        }
     }
 }

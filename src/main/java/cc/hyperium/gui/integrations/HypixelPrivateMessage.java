@@ -21,12 +21,14 @@ import cc.hyperium.Hyperium;
 import cc.hyperium.gui.GuiBlock;
 import cc.hyperium.gui.GuiBoxItem;
 import cc.hyperium.gui.HyperiumGui;
+import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
 import cc.hyperium.handlers.handlers.privatemessages.PrivateMessage;
 import cc.hyperium.handlers.handlers.privatemessages.PrivateMessageChat;
 import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
 import cc.hyperium.utils.ChatColor;
 import cc.hyperium.utils.RenderUtils;
 import club.sk1er.website.api.requests.HypixelApiPlayer;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiTextField;
 import org.apache.commons.lang3.StringUtils;
@@ -134,8 +136,10 @@ public class HypixelPrivateMessage extends HyperiumGui {
             } else name = "Loading..";
         }
         drawCenteredString(fontRendererObj, "Chatting with " + name, ResolutionUtil.current().getScaledWidth() / 2, 20, Color.WHITE.getRGB());
-        if (lockDown)
-            return;
+        if (lockDown) {
+            Minecraft.getMinecraft().displayGuiScreen(null);
+            GeneralChatHandler.instance().sendMessage("Player not found!");
+        }
         text.drawTextBox();
         final int bottom = ResolutionUtil.current().getScaledHeight() - 30;
         final int top = 40;

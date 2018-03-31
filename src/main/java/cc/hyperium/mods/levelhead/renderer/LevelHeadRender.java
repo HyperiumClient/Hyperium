@@ -89,7 +89,8 @@ public class LevelHeadRender {
         Tessellator tessellator = Tessellator.getInstance();
         WorldRenderer worldrenderer = tessellator.getWorldRenderer();
         int i = 0;
-
+        String formattedText = entityIn.getDisplayName().getFormattedText();
+        boolean obfFlag = formattedText.startsWith("§7§k");
         int j = fontrenderer.getStringWidth(tag.getString()) / 2;
         GlStateManager.disableTexture2D();
         worldrenderer.begin(7, DefaultVertexFormats.POSITION_COLOR);
@@ -100,7 +101,7 @@ public class LevelHeadRender {
         tessellator.draw();
         GlStateManager.enableTexture2D();
 
-        renderString(fontrenderer, tag);
+        renderString(fontrenderer, tag, obfFlag);
 
         GlStateManager.enableLighting();
         GlStateManager.disableBlend();
@@ -108,35 +109,35 @@ public class LevelHeadRender {
         GlStateManager.popMatrix();
     }
 
-    private void renderString(FontRenderer renderer, LevelheadTag tag) {
+    private void renderString(FontRenderer renderer, LevelheadTag tag, boolean obf) {
 
         int y = 0;
 
         int x = -renderer.getStringWidth(tag.getString()) / 2;
         //Render header
         LevelheadComponent header = tag.getHeader();
-        render(renderer, header, x);
+        render(renderer, header, x, obf);
         x += renderer.getStringWidth(header.getValue());
         //render footer
-        render(renderer, tag.getFooter(), x);
+        render(renderer, tag.getFooter(), x, obf);
 
     }
 
-    private void render(FontRenderer renderer, LevelheadComponent header, int x) {
+    private void render(FontRenderer renderer, LevelheadComponent header, int x, boolean obf) {
         GlStateManager.disableDepth();
         GlStateManager.depthMask(true);
         GlStateManager.disableDepth();
         GlStateManager.depthMask(false);
-
         int y = 0;
         if (header.isRgb()) {
 //            GlStateManager.color(header.getRed()/2, header.getBlue()/2, header.getGreen()/2);
-            renderer.drawString(header.getValue(), x, y, new Color((float) header.getRed() / 255F, (float) header.getGreen() / 255F, (float) header.getBlue() / 255F, .2F).getRGB());
+            renderer.drawString((obf ? "§k" : "" )+ header.getValue(), x, y, new Color((float) header.getRed() / 255F, (float) header.getGreen() / 255F, (float) header.getBlue() / 255F, .2F).getRGB());
         } else if (header.isChroma()) {
-            renderer.drawString(header.getValue(), x, y, Levelhead.getRGBDarkColor());
+            renderer.drawString((obf ? "§k" : "" )+ header.getValue(), x, y, Levelhead.getRGBDarkColor());
         } else {
             GlStateManager.color(255, 255, 255, .5F);
-            renderer.drawString(header.getColor() + header.getValue(), x, y, Color.WHITE.darker().darker().darker().darker().darker().getRGB() * 255);
+            renderer.drawString(header.getColor() + (obf ? "§k" : "") + header.getValue(), x, y, Color.WHITE.darker().darker().darker().darker().darker().getRGB() * 255);
+
         }
         GlStateManager.enableDepth();
         GlStateManager.depthMask(true);
@@ -144,13 +145,13 @@ public class LevelHeadRender {
         GlStateManager.color(1.0F, 1.0F, 1.0F);
         if (header.isRgb()) {
             GlStateManager.color(header.getRed(), header.getBlue(), header.getGreen(), header.getAlpha());
-            renderer.drawString(header.getValue(), x, y, new Color(header.getRed(), header.getGreen(), header.getBlue()).getRGB());
+            renderer.drawString((obf ? "§k" : "") + header.getValue(), x, y, new Color(header.getRed(), header.getGreen(), header.getBlue()).getRGB());
         } else if (header.isChroma()) {
-            renderer.drawString(header.getValue(), x, y, header.isChroma() ? Levelhead.getRGBColor() : 553648127);
+            renderer.drawString((obf ? "§k" : "" )+ header.getValue(), x, y, header.isChroma() ? Levelhead.getRGBColor() : 553648127);
         } else {
             GlStateManager.color(255, 255, 255, .5F);
-
-            renderer.drawString(header.getColor() + header.getValue(), x, y, Color.WHITE.darker().getRGB());
+            String text = header.getColor() + (obf ? "§k" : "") + header.getValue();
+            renderer.drawString(text, x, y, Color.WHITE.darker().getRGB());
         }
 
 
