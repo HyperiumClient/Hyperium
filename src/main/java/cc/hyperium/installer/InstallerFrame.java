@@ -25,7 +25,6 @@ import org.json.JSONObject;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.swing.*;
-import javax.xml.bind.DatatypeConverter;
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -50,6 +49,7 @@ public class InstallerFrame extends JFrame implements PropertyChangeListener {
      */
     private static final int WIDTH = 400;
     private static final int HEIGHT = 160;
+    private static final char[] hexCodes = "0123456789ABCDEF".toCharArray();
     private JLabel display;
     private JLabel error;
     private JProgressBar progressBar;
@@ -89,7 +89,14 @@ public class InstallerFrame extends JFrame implements PropertyChangeListener {
     }
 
     private static String toHex(byte[] bytes) {
-        return DatatypeConverter.printHexBinary(bytes);
+        StringBuilder r = new StringBuilder(bytes.length * 2);
+
+        for (byte b : bytes) {
+            r.append(hexCodes[(b >> 4) & 0xF]);
+            r.append(hexCodes[(b & 0xF)]);
+        }
+
+        return r.toString();
     }
 
     /**
@@ -216,7 +223,7 @@ public class InstallerFrame extends JFrame implements PropertyChangeListener {
                         new File(
                                 mc,
                                 "libraries"),
-                        version.get().getString("path").replaceAll("/Hyperium-.+?\\..+?\\.jar", ""));
+                        version.get().getString("path").replaceAll("/Hyperium-\\d\\.\\d\\.jar", ""));
                 System.out.println("Download dest folder = " + dl.getAbsolutePath());
                 //noinspection ResultOfMethodCallIgnored
                 dl.mkdirs();
@@ -347,7 +354,8 @@ public class InstallerFrame extends JFrame implements PropertyChangeListener {
                 .put("type", "custom")
                 .put("created", instant.toString())
                 .put("lastUsed", instant.toString())
-                .put("lastVersionId", "Hyperium 1.8.9"));
+                .put("lastVersionId", "Hyperium 1.8.9")
+                .put("javaArgs", "-Xmx1G -XX:+UnlockExperimentalVMOptions -XX:+UseG1GC -XX:G1NewSizePercent=20 -XX:G1ReservePercent=20 -XX:MaxGCPauseMillis=50 -XX:G1HeapRegionSize=16M -XX:+DisableExplicitGC"));
         launcherProfiles.put("profiles", profiles);
         try {
             Files.write(json.toString(), targetJson, Charset.defaultCharset());

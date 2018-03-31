@@ -68,12 +68,12 @@ public class ConfirmationPopup {
 
     @InvokeEvent
     public void onKeypress(KeypressEvent e) {
-        if (e.getKey() == Keyboard.KEY_Y && Minecraft.getMinecraft().currentScreen == null && currentConfirmation != null) {
+        if (currentConfirmation == null || Minecraft.getMinecraft().currentScreen != null) return;
+
+        if (e.getKey() == Keyboard.KEY_Y) {
             currentConfirmation.callback.accept(true);
-        } else if (e.getKey() == Keyboard.KEY_N && Minecraft.getMinecraft().currentScreen == null && currentConfirmation != null) {
+        } else if (e.getKey() == Keyboard.KEY_N) {
             currentConfirmation.callback.accept(false);
-        } else if (e.getKey() == Keyboard.KEY_P && Minecraft.getMinecraft().currentScreen == null) {
-            onFriend(new HypixelFriendRequestEvent("John Cena"));
         }
     }
 
