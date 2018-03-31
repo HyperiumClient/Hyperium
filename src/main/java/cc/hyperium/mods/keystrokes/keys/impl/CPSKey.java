@@ -80,8 +80,8 @@ public class CPSKey extends IKey {
     @InvokeEvent
     public void onClick(LeftMouseClickEvent event) {
         if(this.mod.getSettings().isLeftClick()){
-        Mouse.poll();
-        this.clicks.add(System.currentTimeMillis());
+            Mouse.poll();
+            this.clicks.add(System.currentTimeMillis());
         }
     }
     
