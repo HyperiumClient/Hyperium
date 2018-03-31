@@ -46,7 +46,7 @@ public abstract class MixinFontRenderer {
     @Shadow
     public Random fontRandom;
     @Shadow
-    private int[] charWidth;
+    private float[] charWidth;
     @Shadow
     private byte[] glyphWidth;
     @Shadow
