@@ -39,29 +39,29 @@ import java.util.Random;
 public abstract class MixinVanillaFontRenderer {
     @Shadow
     @Final
-    public static ResourceLocation[] unicodePageLocations;
+    private static ResourceLocation[] unicodePageLocations;
     @Shadow
     public int FONT_HEIGHT;
     @Shadow
     public Random fontRandom;
     @Shadow
-    public int[] charWidth;
+    private int[] charWidth;
     @Shadow
-    public byte[] glyphWidth;
+    private byte[] glyphWidth;
     @Shadow
-    public int[] colorCode;
-    @Shadow
-    @Final
-    public ResourceLocation locationFontTexture;
+    private int[] colorCode;
     @Shadow
     @Final
-    public TextureManager renderEngine;
+    private ResourceLocation locationFontTexture;
+    @Shadow
+    @Final
+    private TextureManager renderEngine;
     @Shadow
     private float posX;
     @Shadow
-    public float posY;
+    private float posY;
     @Shadow
-    public boolean unicodeFlag;
+    private boolean unicodeFlag;
     @Shadow
     private boolean bidiFlag;
     @Shadow
@@ -73,18 +73,18 @@ public abstract class MixinVanillaFontRenderer {
     @Shadow
     private float alpha;
     @Shadow
-    public int textColor;
+    private int textColor;
     @Shadow
-    public boolean randomStyle;
+    private boolean randomStyle;
     @Shadow
-    public boolean boldStyle;
+    private boolean boldStyle;
     @Shadow
-    public boolean italicStyle;
+    private boolean italicStyle;
     @Shadow
-    public boolean underlineStyle;
+    private boolean underlineStyle;
     @Shadow
-    public boolean strikethroughStyle;
-    public HashMap<String, CachedString> cache = new HashMap<>();
+    private boolean strikethroughStyle;
+    private HashMap<String, CachedString> cache = new HashMap<>();
 
 
     @Shadow
@@ -100,8 +100,7 @@ public abstract class MixinVanillaFontRenderer {
      * @author Sk1er
      */
     @Overwrite
-    public int renderString(String text, float x, float y, int cTemp, boolean dropShadow) {
-        int color = cTemp;
+    private int renderString(String text, float x, float y, int color, boolean dropShadow) {
         if (text == null) {
             return 0;
         } else {
@@ -130,7 +129,7 @@ public abstract class MixinVanillaFontRenderer {
     }
 
     public void drawTexturedModalRect(int x, int y, int textureX, int textureY, int width, int height) {
-        //GuiScreen currentScreen = Minecraft.getMinecraft().currentScreen;
+        GuiScreen currentScreen = Minecraft.getMinecraft().currentScreen;
         float zLevel = /*currentScreen != null ? currentScreen.zLevel :*/ 0;
         float f = 0.00390625F;
         float f1 = 0.00390625F;
