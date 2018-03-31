@@ -212,10 +212,17 @@ public class ModConfigGui extends HyperiumGui {
     public void handleMouseInput() throws IOException {
         super.handleMouseInput();
         int i = Mouse.getEventDWheel();
+        int min = 0, max = 100;
+        int windowHeight = height - (height / 5) * 2;
+        int items = (height - (getY() * 2 + 25)) / 15;
+
         if (i < 0)
-            offset += 1;
-        else if (i > 0)
             offset -= 1;
+        else if (i > 0)
+            offset += 1;
+
+        if (offset < 0) offset = 0;
+        if (windowHeight / 25 < items) offset = 0;
     }
 
     @Override
