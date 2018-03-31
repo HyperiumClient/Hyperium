@@ -174,14 +174,19 @@ import cc.hyperium.event.*;
 import cc.hyperium.gui.settings.items.GeneralSetting;
 import cc.hyperium.utils.Utils;
 import cc.hyperium.utils.mods.FPSLimiter;
+import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.*;
+import net.minecraft.client.multiplayer.PlayerControllerMP;
 import net.minecraft.client.multiplayer.WorldClient;
+import net.minecraft.client.particle.EffectRenderer;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.resources.DefaultResourcePack;
 import net.minecraft.client.settings.GameSettings;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Timer;
 import net.minecraft.util.Util;
 import net.minecraft.world.WorldSettings;
@@ -206,18 +211,12 @@ import java.nio.ByteBuffer;
 @Mixin(Minecraft.class)
 public abstract class MixinMinecraft {
 
-    @Shadow protected abstract void resize(int width, int height);
-
-    @Shadow public int displayHeight;
-    @Shadow public int displayWidth;
-    @Shadow private int tempDisplayHeight;
-    @Shadow private int tempDisplayWidth;
-
-    @Shadow public abstract void updateDisplay();
-
-    @Shadow private boolean fullscreen;
     @Shadow
     private static Minecraft theMinecraft;
+    @Shadow
+    public int displayHeight;
+    @Shadow
+    public int displayWidth;
     @Shadow
     public GuiScreen currentScreen;
     @Shadow
@@ -231,14 +230,35 @@ public abstract class MixinMinecraft {
     @Shadow
     public boolean skipRenderWorld;
     @Shadow
+    public MovingObjectPosition objectMouseOver;
+    @Shadow
+    public EffectRenderer effectRenderer;
+    @Shadow
+    public PlayerControllerMP playerController;
+    @Shadow
+    public FontRenderer fontRendererObj;
+    @Shadow
+    private int tempDisplayHeight;
+    @Shadow
+    private int tempDisplayWidth;
+    @Shadow
+    private boolean fullscreen;
+    @Shadow
     @Final
     private DefaultResourcePack mcDefaultResourcePack;
     @Shadow
     private SoundHandler mcSoundHandler;
+    @Shadow
+    private int leftClickCounter;
+
+    @Shadow
+    protected abstract void resize(int width, int height);
+
+    @Shadow
+    public abstract void updateDisplay();
 
     @Accessor
     public abstract Timer getTimer();
-
 
     /**
      * Invoked once the game is launching
@@ -260,7 +280,6 @@ public abstract class MixinMinecraft {
         EventBus.INSTANCE.register(Hyperium.INSTANCE);
         EventBus.INSTANCE.post(new InitializationEvent());
     }
-
 
     /**
      * Invoked every tick (every 50milliseconds)
@@ -284,7 +303,7 @@ public abstract class MixinMinecraft {
 
     @Inject(method = "runGameLoop", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/achievement/GuiAchievement;updateAchievementWindow()V"))
     public void onRun(CallbackInfo ci) {
-        Minecraft.getMinecraft().mcProfiler.profilingEnabled=true;
+        Minecraft.getMinecraft().mcProfiler.profilingEnabled = true;
     }
 
     /**
@@ -316,7 +335,6 @@ public abstract class MixinMinecraft {
     private void launchIntegratedServer(String folderName, String worldName, WorldSettings worldSettingsIn, CallbackInfo ci) {
         EventBus.INSTANCE.post(new SingleplayerJoinEvent());
     }
-
 
     /**
      * Fixes bug MC-68754 and MC-111254
@@ -361,6 +379,7 @@ public abstract class MixinMinecraft {
         Display.setResizable(false);
         Display.setResizable(true);
     }
+
     /**
      * Sets Minecraft Icon
      *
@@ -450,48 +469,66 @@ public abstract class MixinMinecraft {
     @Shadow
     public abstract void setIngameFocus();
 
-    @Shadow public abstract void func_181536_a(int p_181536_1_, int p_181536_2_, int p_181536_3_, int p_181536_4_, int p_181536_5_, int p_181536_6_, int p_181536_7_, int p_181536_8_, int p_181536_9_, int p_181536_10_);
-
-
-    @Shadow public FontRenderer fontRendererObj;
-
-
+    @Shadow
+    public abstract void func_181536_a(int p_181536_1_, int p_181536_2_, int p_181536_3_, int p_181536_4_, int p_181536_5_, int p_181536_6_, int p_181536_7_, int p_181536_8_, int p_181536_9_, int p_181536_10_);
 
     /**
      * change to splash screen logo
+     *
      * @author Cubxity
      */
     @Overwrite
-    private void drawSplashScreen(TextureManager tm){
-       SplashProgress.drawSplash(tm);
+    private void drawSplashScreen(TextureManager tm) {
+        SplashProgress.drawSplash(tm);
     }
 
 
     @Inject(method = "startGame", at = @At("HEAD"))
-    private void onStartGame(CallbackInfo ci){
+    private void onStartGame(CallbackInfo ci) {
         SplashProgress.PROGRESS = 1;
         SplashProgress.CURRENT = "Starting game";
         SplashProgress.update();
     }
 
     @Inject(method = "startGame", at = @At(value = "INVOKE", target = "java/util/List.add(Ljava/lang/Object;)Z", shift = At.Shift.BEFORE))
-    private void onLoadDefaultResourcePack(CallbackInfo ci){
+    private void onLoadDefaultResourcePack(CallbackInfo ci) {
         SplashProgress.PROGRESS = 2;
         SplashProgress.CURRENT = "Loading resource";
         SplashProgress.update();
     }
 
     @Inject(method = "startGame", at = @At(value = "INVOKE", target = "net/minecraft/client/Minecraft.createDisplay()V", shift = At.Shift.BEFORE))
-    private void onCreateDisplay(CallbackInfo ci){
+    private void onCreateDisplay(CallbackInfo ci) {
         SplashProgress.PROGRESS = 3;
         SplashProgress.CURRENT = "Creating display";
         SplashProgress.update();
     }
 
     @Inject(method = "startGame", at = @At(value = "INVOKE", target = "net/minecraft/client/renderer/OpenGlHelper.initializeTextures()V", shift = At.Shift.BEFORE))
-    private void onLoadTexture(CallbackInfo ci){
+    private void onLoadTexture(CallbackInfo ci) {
         SplashProgress.PROGRESS = 4;
         SplashProgress.CURRENT = "Initializing textures";
         SplashProgress.update();
+    }
+
+    /**
+     * @author CoalOres
+     */
+    @Overwrite
+    private void sendClickBlockToController(boolean leftClick) {
+        if (!leftClick) {
+            this.leftClickCounter = 0;
+        }
+
+        if (leftClick && this.objectMouseOver != null && this.objectMouseOver.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
+            BlockPos blockpos = this.objectMouseOver.getBlockPos();
+
+            if (this.theWorld.getBlockState(blockpos).getBlock().getMaterial() != Material.air && this.playerController.onPlayerDamageBlock(blockpos, this.objectMouseOver.sideHit)) {
+                this.effectRenderer.addBlockHitEffects(blockpos, this.objectMouseOver.sideHit);
+                this.thePlayer.swingItem();
+            }
+        } else {
+            this.playerController.resetBlockRemoving();
+        }
     }
 }
