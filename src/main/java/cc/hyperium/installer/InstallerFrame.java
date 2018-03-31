@@ -354,7 +354,8 @@ public class InstallerFrame extends JFrame implements PropertyChangeListener {
                 .put("type", "custom")
                 .put("created", instant.toString())
                 .put("lastUsed", instant.toString())
-                .put("lastVersionId", "Hyperium 1.8.9"));
+                .put("lastVersionId", "Hyperium 1.8.9")
+                .put("javaArgs", "-Xmx1G -XX:+UnlockExperimentalVMOptions -XX:+UseG1GC -XX:G1NewSizePercent=20 -XX:G1ReservePercent=20 -XX:MaxGCPauseMillis=50 -XX:G1HeapRegionSize=16M -XX:+DisableExplicitGC"));
         launcherProfiles.put("profiles", profiles);
         try {
             Files.write(json.toString(), targetJson, Charset.defaultCharset());
