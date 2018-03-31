@@ -18,7 +18,6 @@
 package cc.hyperium.mixins.renderer;
 
 import cc.hyperium.utils.CachedString;
-import cc.hyperium.utils.GraphicsUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiScreen;
@@ -40,29 +39,29 @@ import java.util.Random;
 public abstract class MixinVanillaFontRenderer {
     @Shadow
     @Final
-    private static ResourceLocation[] unicodePageLocations;
+    public static ResourceLocation[] unicodePageLocations;
     @Shadow
     public int FONT_HEIGHT;
     @Shadow
     public Random fontRandom;
     @Shadow
-    private int[] charWidth;
+    public int[] charWidth;
     @Shadow
-    private byte[] glyphWidth;
+    public byte[] glyphWidth;
     @Shadow
-    private int[] colorCode;
-    @Shadow
-    @Final
-    private ResourceLocation locationFontTexture;
+    public int[] colorCode;
     @Shadow
     @Final
-    private TextureManager renderEngine;
+    public ResourceLocation locationFontTexture;
+    @Shadow
+    @Final
+    public TextureManager renderEngine;
     @Shadow
     private float posX;
     @Shadow
-    private float posY;
+    public float posY;
     @Shadow
-    private boolean unicodeFlag;
+    public boolean unicodeFlag;
     @Shadow
     private boolean bidiFlag;
     @Shadow
@@ -74,18 +73,18 @@ public abstract class MixinVanillaFontRenderer {
     @Shadow
     private float alpha;
     @Shadow
-    private int textColor;
+    public int textColor;
     @Shadow
-    private boolean randomStyle;
+    public boolean randomStyle;
     @Shadow
-    private boolean boldStyle;
+    public boolean boldStyle;
     @Shadow
-    private boolean italicStyle;
+    public boolean italicStyle;
     @Shadow
-    private boolean underlineStyle;
+    public boolean underlineStyle;
     @Shadow
-    private boolean strikethroughStyle;
-    private HashMap<String, CachedString> cache = new HashMap<>();
+    public boolean strikethroughStyle;
+    public HashMap<String, CachedString> cache = new HashMap<>();
 
 
     @Shadow
@@ -101,7 +100,8 @@ public abstract class MixinVanillaFontRenderer {
      * @author Sk1er
      */
     @Overwrite
-    private int renderString(String text, float x, float y, int color, boolean dropShadow) {
+    public int renderString(String text, float x, float y, int cTemp, boolean dropShadow) {
+        int color = cTemp;
         if (text == null) {
             return 0;
         } else {
@@ -130,7 +130,7 @@ public abstract class MixinVanillaFontRenderer {
     }
 
     public void drawTexturedModalRect(int x, int y, int textureX, int textureY, int width, int height) {
-        GuiScreen currentScreen = Minecraft.getMinecraft().currentScreen;
+        //GuiScreen currentScreen = Minecraft.getMinecraft().currentScreen;
         float zLevel = /*currentScreen != null ? currentScreen.zLevel :*/ 0;
         float f = 0.00390625F;
         float f1 = 0.00390625F;
