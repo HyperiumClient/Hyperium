@@ -261,18 +261,18 @@ public class InstallerFrame extends JFrame implements PropertyChangeListener {
                 return;
             }
         }
-//        File optifine;
-//        try {
-//            optifine = exportTempOptifine();
-//            optifine.deleteOnExit();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            display.setText("INSTALLATION FAILED");
-//            error.setText("FAILED TO FIND OPTIFINE FILE");
-//            exit.setVisible(true);
-//            return;
-//        }
-//        System.out.println("Temp optifine=" + optifine.getAbsolutePath());
+        File optifine;
+        try {
+            optifine = exportTempOptifine();
+            optifine.deleteOnExit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            display.setText("INSTALLATION FAILED");
+            error.setText("FAILED TO FIND OPTIFINE FILE");
+            exit.setVisible(true);
+            return;
+        }
+        System.out.println("Temp optifine=" + optifine.getAbsolutePath());
         progressBar.setValue(91);
         display.setText("COPYING FILES");
         target.mkdir();
@@ -288,26 +288,26 @@ public class InstallerFrame extends JFrame implements PropertyChangeListener {
             exit.setVisible(true);
             return;
         }
-//        progressBar.setValue(95);
-//        display.setText("PATCHING OPTIFINE");
-//        File optifineLibDir = new File(getMinecraftDir(), "libraries/optifine/OptiFine/1.8.9_HD_U_I3");
-//        optifineLibDir.mkdirs();
-//        File optifineLib = new File(optifineLibDir, "OptiFine-1.8.9_HD_U_I3.jar");
-//        ProcessBuilder builder = new ProcessBuilder("java", "-cp", optifine.getAbsolutePath(), "optifine.Patcher", originJar.getAbsolutePath(), optifine.getAbsolutePath(), optifineLib.getAbsolutePath());
-//        builder.inheritIO();
-//        builder.redirectErrorStream(true);
-//        Process proc;
-//        try {
-//            proc = builder.start();
-//            if (proc.waitFor() != 0)
-//                throw new IOException("Failed to install optifine");
-//        } catch (InterruptedException | IOException e) {
-//            e.printStackTrace();
-//            display.setText("INSTALLATION FAILED");
-//            error.setText("FAILED TO PATCH OPTIFINE");
-//            exit.setVisible(true);
-//            return;
-//        }
+        progressBar.setValue(95);
+        display.setText("PATCHING OPTIFINE");
+        File optifineLibDir = new File(getMinecraftDir(), "libraries/optifine/OptiFine/1.8.9_HD_U_I3");
+        optifineLibDir.mkdirs();
+        File optifineLib = new File(optifineLibDir, "OptiFine-1.8.9_HD_U_I3.jar");
+        ProcessBuilder builder = new ProcessBuilder("java", "-cp", optifine.getAbsolutePath(), "optifine.Patcher", originJar.getAbsolutePath(), optifine.getAbsolutePath(), optifineLib.getAbsolutePath());
+        builder.inheritIO();
+        builder.redirectErrorStream(true);
+        Process proc;
+        try {
+            proc = builder.start();
+            if (proc.waitFor() != 0)
+                throw new IOException("Failed to install optifine");
+        } catch (InterruptedException | IOException e) {
+            e.printStackTrace();
+            display.setText("INSTALLATION FAILED");
+            error.setText("FAILED TO PATCH OPTIFINE");
+            exit.setVisible(true);
+            return;
+        }
         progressBar.setValue(99);
         display.setText("CREATING PROFILE");
         //noinspection ResultOfMethodCallIgnored
@@ -334,7 +334,7 @@ public class InstallerFrame extends JFrame implements PropertyChangeListener {
         JSONArray libs = json.getJSONArray("libraries");
         libs.put(lib);
         libs.put(new JSONObject().put("name", "net.minecraft:launchwrapper:1.7"));
-        //libs.put(new JSONObject().put("name", "optifine:OptiFine:1.8.9_HD_U_I3"));
+        libs.put(new JSONObject().put("name", "optifine:OptiFine:1.8.9_HD_U_I3"));
         versionsJson.getJSONArray("libs").forEach(libs::put);
         json.put("libraries", libs);
         json.put("id", "Hyperium 1.8.9");
