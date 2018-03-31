@@ -223,7 +223,7 @@ public class InstallerFrame extends JFrame implements PropertyChangeListener {
                         new File(
                                 mc,
                                 "libraries"),
-                        version.get().getString("path").replaceAll("/Hyperium-.+?\\..+?\\.jar", ""));
+                        version.get().getString("path").replaceAll("/Hyperium-\\d\\.\\d\\.jar", ""));
                 System.out.println("Download dest folder = " + dl.getAbsolutePath());
                 //noinspection ResultOfMethodCallIgnored
                 dl.mkdirs();
