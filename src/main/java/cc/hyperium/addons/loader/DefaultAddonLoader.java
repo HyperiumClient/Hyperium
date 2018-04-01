@@ -25,7 +25,6 @@ import net.minecraft.launchwrapper.LaunchClassLoader;
 
 import java.io.File;
 import java.lang.annotation.Annotation;
-import java.net.URI;
 import java.util.jar.JarFile;
 
 public class DefaultAddonLoader extends AddonLoaderStrategy {
@@ -44,10 +43,9 @@ public class DefaultAddonLoader extends AddonLoaderStrategy {
         JarFile jar = new JarFile(file);
         AddonManifest manifest = new AddonManifest(jar);
 
-        URI uri = file.toURI();
-        classloader.addURL(uri.toURL());
+        classloader.addURL(file.toURI().toURL());
 
-        Class<?> addonMain = Class.forName(manifest.getMain());
+        Class<?> addonMain = classloader.findClass(manifest.getMain());
         Object instance = addonMain.newInstance();
         assignInstances(instance);
 

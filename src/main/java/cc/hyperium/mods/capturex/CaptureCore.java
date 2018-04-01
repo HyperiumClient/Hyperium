@@ -18,12 +18,14 @@
 package cc.hyperium.mods.capturex;
 
 import cc.hyperium.Hyperium;
-import cc.hyperium.event.*;
+import cc.hyperium.event.InvokeEvent;
+import cc.hyperium.event.JoinMinigameEvent;
+import cc.hyperium.event.KillEvent;
+import cc.hyperium.event.RenderEvent;
 import cc.hyperium.event.minigames.Minigame;
 import cc.hyperium.gui.settings.items.CaptureXSetting;
 import cc.hyperium.mods.capturex.render.FFMpegHelper;
 import cc.hyperium.mods.capturex.render.FrameRenderer;
-import cc.hyperium.utils.ChatColor;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListenableFutureTask;
 import net.minecraft.client.Minecraft;
@@ -41,7 +43,6 @@ import java.util.ArrayDeque;
 import java.util.Queue;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.regex.Pattern;
 
 public class CaptureCore {
     public static final File captureXDir = new File(Minecraft.getMinecraft().mcDataDir, "captureX");
@@ -60,7 +61,6 @@ public class CaptureCore {
         }
     });
 
-    private Hyperium client;
     private Robot robot;
 
     {
@@ -71,8 +71,7 @@ public class CaptureCore {
         }
     }
 
-    public CaptureCore(Hyperium hyperiumIn) {
-        this.client = hyperiumIn;
+    public CaptureCore() {
 
         service.scheduleAtFixedRate(() -> {
             for (FutureTask<?> renderTask : renderTasks) {
