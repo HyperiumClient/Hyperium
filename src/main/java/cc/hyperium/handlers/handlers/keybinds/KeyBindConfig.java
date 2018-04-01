@@ -64,7 +64,7 @@ public class KeyBindConfig {
     
             this.keyBindJson.writeToFile(this.keybindFile);
         } catch (IOException ex) {
-            Hyperium.LOGGER.warn("An error occured while saving the Hyperium KeyBlinds, this is not good.");
+            Hyperium.LOGGER.warn("An error occured while saving the Hyperium KeyBinds, this is not good.");
         }
     }
     
