@@ -27,7 +27,7 @@ public class ClassTransformer implements IClassTransformer {
             case "CapeUtils":
                 // Use our CapeImageBuffer instead of OptiFine's
                 return transformCapeUtils(bytes);
-            case "io.prplz.memoryfix.CapeImageBuffer":
+            case "cc.hyperium.mods.memoryfix.CapeImageBuffer":
                 // Redirect our stub calls to optifine
                 return transformMethods(bytes, this::transformCapeImageBuffer);
             default:
@@ -54,7 +54,7 @@ public class ClassTransformer implements IClassTransformer {
             @Override
             public String map(String typeName) {
                 if (typeName.equals("CapeUtils$1")) {
-                    return "io.prplz.memoryfix.CapeImageBuffer".replace('.', '/');
+                    return "cc.hyperium.mods.memoryfix.CapeImageBuffer".replace('.', '/');
                 }
                 return typeName;
             }

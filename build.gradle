@@ -92,7 +92,6 @@ dependencies {
     embed 'com.squareup.okhttp3:okhttp:3.9.0'
 
     embed group: 'org.slick2d', name: 'slick2d-core', version: '1.0.2'
-    embed group: 'org.ow2.asm', name: 'asm', version: '5.0.3'
 
     embed "com.github.KevinPriv:MojangAPI:1.0"
     compile fileTree(dir: 'libs', include: '*.jar')
