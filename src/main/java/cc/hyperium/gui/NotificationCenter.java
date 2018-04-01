@@ -207,6 +207,9 @@ public class NotificationCenter extends Gui {
 
     @InvokeEvent
     public void tick(TickEvent ev) {
+        if (fontRenderer == null) {
+            fontRenderer = new HyperiumFontRenderer("Arial", Font.PLAIN, 18);
+        }
         if (currentNotification == null) {
             currentNotification = notifications.poll();
 
@@ -376,7 +379,6 @@ public class NotificationCenter extends Gui {
             ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
 
             int width = 175;
-
             ArrayList<String> lines = fontRenderer.splitString(description, width - 10);
             int height = (int) (30 + fontRenderer.getHeight(String.join("\n\r", lines)));
 
