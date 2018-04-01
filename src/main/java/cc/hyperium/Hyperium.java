@@ -105,7 +105,7 @@ public class Hyperium {
      */
     @InvokeEvent
     public void init(InitializationEvent event) {
-        Minecraft.getMinecraft().mcProfiler.profilingEnabled = true;
+        Minecraft.getMinecraft().mcProfiler.profilingEnabled = false;
 
         // Creates the accounts dir
         new File(folder.getAbsolutePath() + "/accounts").mkdirs();

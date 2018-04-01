@@ -59,17 +59,6 @@ public class KeyBindHandler {
         }
     };
 
-    public HyperiumBind debug1 = new HyperiumBind("DEBUG1", Keyboard.KEY_U) {
-        @Override
-        public void onPress() {
-            Hyperium.INSTANCE.getNotification().display("Test", "Dab", 4F);
-        }
-
-        @Override
-        public void onRelease() {
-//            Hyperium.INSTANCE.getHandlers().getConfigOptions().hideNameTags = !Hyperium.INSTANCE.getHandlers().getConfigOptions().hideNameTags;
-        }
-    };
 
     //Hyperium.INSTANCE.getHandlers().getConfigOptions().hideNameTags
     public KeyBindHandler() {
@@ -80,7 +69,6 @@ public class KeyBindHandler {
         registerKeyBinding(friends);
         registerKeyBinding(nameHistory);
         registerKeyBinding(debug);
-        registerKeyBinding(debug1);
     }
 
     @InvokeEvent
