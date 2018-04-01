@@ -78,14 +78,18 @@ public class InstallerFrame extends JFrame implements PropertyChangeListener {
         this.setVisible(true);
         this.setLayout(null);
         this.mcDir = mcDir;
-        try {
-            install();
-        } catch (Throwable ex) {
-            ex.printStackTrace();
-            display.setText("EXCEPTION OCCURRED");
-            error.setText(ex.getMessage());
-            exit.setVisible(true);
-        }
+        display.setText("HYPERIUM IS NOT WORKING RIGHT NOW");
+        error.setText("WE ARE TRYING TO FIX IT");
+        progressBar.setVisible(false);
+        exit.setVisible(true);
+        //try {
+        //    install();
+        //} catch (Throwable ex) {
+        //    ex.printStackTrace();
+        //    display.setText("EXCEPTION OCCURRED");
+        //    error.setText(ex.getMessage());
+        //    exit.setVisible(true);
+        //}
     }
 
     private static String toHex(byte[] bytes) {
