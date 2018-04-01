@@ -37,7 +37,7 @@ A: We don't know! However, open beta testing has began at our <a href="https://d
 
 Q: ETA?
 
-A: For beta, now! Join the <a href="https://discord.gg/RNyRgtv">Discord!</a>. For release, we don't know!
+A: For beta, now! Join the <a href="https://discord.gg/RNyRgtv">Discord</a>! For release, we don't know!
 
 ## Addons ##
 **Requirement:** Built Hyperium, JDK 8+, IDE
