@@ -22,22 +22,22 @@ The Hyperium is a Minecraft modification in development. It will combine many po
 
 ## Building the project with IntelliJ ##
 
-**If you don't know how, you shouldn't. Wait 'til release!**
+If you don't know how, you shouldn't. Go join our beta in <a href="https://discord.gg/RNyRgtv">Discord</a>, or wait for release!
 
 ## FAQ ##
-Q: PLEASE HELP ME I CAN'T BUILD THE PROJECT!
+Q: Please help, I can't build Hyperium!
 
-A: JUST **WAIT!**
+A: Wait for a new beta or release! 
 
 
-Q: RELEASE, WHEN??
+Q: Release, when?
 
-A: WE DON'T KNOW!
+A: We don't know! However, open beta testing has began at our <a href="https://discord.gg/RNyRgtv">Discord</a>!
 
 
 Q: ETA?
 
-A: DON'T KNOW!
+A: For beta, now! Join the <a href="https://discord.gg/RNyRgtv">Discord!</a>. For release, we don't know!
 
 ## Addons ##
 **Requirement:** Built Hyperium, JDK 8+, IDE
