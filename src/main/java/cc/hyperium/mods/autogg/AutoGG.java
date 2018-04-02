@@ -5,8 +5,6 @@ import cc.hyperium.event.EventBus;
 import cc.hyperium.handlers.handlers.HypixelDetector;
 import cc.hyperium.mods.AbstractMod;
 import net.minecraft.client.Minecraft;
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.LogManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +36,7 @@ public class AutoGG extends AbstractMod {
     }
 
     public boolean isHypixel() {
-        return true;
+        return HypixelDetector.getInstance().isHypixel();
     }
 
     public List getTriggers() {
@@ -83,7 +81,6 @@ public class AutoGG extends AbstractMod {
 
     @Override
     public AbstractMod init() {
-        LogManager.getLogger("AutoGG").log(Level.INFO, "Initializing AutoGG");
         AutoGG.instance = this;
         EventBus.INSTANCE.register(new GGListener());
         Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(new GGCommand());
