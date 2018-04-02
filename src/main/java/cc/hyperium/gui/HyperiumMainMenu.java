@@ -499,7 +499,7 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
             Minecraft.getMinecraft().addScheduledTask(() -> {
                 try {
                     texture[0] = new DynamicTexture(ImageIO
-                            .read(new URL("https://crafatar.com/avatars/" + t + "?size=30?default=MHF_Steve")));
+                            .read(new URL("https://crafatar.com/avatars/" + t + "?size=30?default=MHF_Steve&overlay")));
 
                 } catch (Exception ignored) {
                     try {
