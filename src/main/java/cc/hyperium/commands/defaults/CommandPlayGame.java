@@ -50,5 +50,10 @@ public class CommandPlayGame implements BaseCommand {
     public void onExecute(String[] args) throws CommandException {
         new HyperiumGuiGames().show();
     }
+    
+    @Override
+    public List<String> onTabComplete(String[] args) {
+        return tabComplete;
+    }
 
 }
