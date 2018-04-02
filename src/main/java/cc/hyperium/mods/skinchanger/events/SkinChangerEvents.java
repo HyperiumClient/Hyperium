@@ -56,7 +56,7 @@ public class SkinChangerEvents {
             return;
         }
         
-        if (this.mc.thePlayer != null && event.getPlayer().getName()
+        if (this.mc.thePlayer != null && event.getProfile().getName()
             .equalsIgnoreCase(this.mc.thePlayer.getName())) {
             this.mc.addScheduledTask(() -> {
                 String name = this.mod.getConfig().getSkinName();
@@ -78,7 +78,7 @@ public class SkinChangerEvents {
             return;
         }
         
-        if (this.mc.thePlayer != null && event.getPlayer().getName()
+        if (this.mc.thePlayer != null && event.getProfile().getName()
             .equalsIgnoreCase(this.mc.thePlayer.getName())) {
             this.mc.addScheduledTask(() -> {
                 

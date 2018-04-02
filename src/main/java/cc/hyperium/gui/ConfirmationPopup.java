@@ -29,9 +29,6 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.function.Consumer;
 
-import static cc.hyperium.gui.HyperiumGui.clamp;
-import static cc.hyperium.gui.HyperiumGui.easeOut;
-
 public class ConfirmationPopup {
     private Queue<Confirmation> confirmations = new LinkedList<>();
     private Confirmation currentConfirmation;
@@ -115,8 +112,8 @@ public class ConfirmationPopup {
                 this.systemTime += (1000 / 60);
             }
 
-            this.percentComplete = clamp(
-                    easeOut(
+            this.percentComplete = HyperiumGui.clamp(
+                    HyperiumGui.easeOut(
                             this.percentComplete,
                             this.framesLeft < lowerThreshold ? 0.0f :
                                     this.framesLeft > upperThreshold ? 1.0f : framesLeft,
@@ -146,7 +143,7 @@ public class ConfirmationPopup {
             if (this.percentComplete == 1.0F) {
                 long length = upperThreshold - lowerThreshold;
                 long current = framesLeft - lowerThreshold;
-                float progress = 1.0F - clamp((float) current / (float) length, 0.0F, 1.0F);
+                float progress = 1.0F - HyperiumGui.clamp((float) current / (float) length, 0.0F, 1.0F);
                 System.out.println("l: " + length + ",c: " + current + ",p: " + progress);
 
                 // Progress

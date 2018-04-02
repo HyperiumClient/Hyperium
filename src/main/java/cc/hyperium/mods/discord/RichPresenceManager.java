@@ -20,6 +20,7 @@ package cc.hyperium.mods.discord;
 import cc.hyperium.Hyperium;
 import cc.hyperium.event.EventBus;
 import com.jagrosh.discordipc.IPCClient;
+import com.jagrosh.discordipc.IPCClient.Status;
 import com.jagrosh.discordipc.IPCListener;
 import com.jagrosh.discordipc.entities.DiscordBuild;
 import com.jagrosh.discordipc.exceptions.NoDiscordClientException;
@@ -27,11 +28,10 @@ import com.jagrosh.discordipc.exceptions.NoDiscordClientException;
 public class RichPresenceManager {
 
     private IPCClient client;
-    private boolean connected = false;
 
     public void init() {
-        client = new IPCClient(412963310867054602L);
-        client.setListener(new IPCListener() {
+        this.client = new IPCClient(412963310867054602L);
+        this.client.setListener(new IPCListener() {
             @Override
             public void onReady(IPCClient client) {
                 EventBus.INSTANCE.register(new RichPresenceUpdater(client));
@@ -39,17 +39,16 @@ public class RichPresenceManager {
         });
         try {
             client.connect(DiscordBuild.ANY);
-            connected = true;
         } catch (NoDiscordClientException e) {
             Hyperium.LOGGER.warn("no discord clients found");
         }
     }
 
     public void shutdown() {
-        //Added by Sk1er because game crashed from it (Did not complete proper shutdown sequence)
+        // Added by Sk1er because game crashed from it (Did not complete proper shutdown sequence)
         try {
-            if (connected) {
-                client.close();
+            if (this.client != null && this.client.getStatus() == Status.CONNECTED) {
+                this.client.close();
             }
         } catch (Exception e) {
             e.printStackTrace();

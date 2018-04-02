@@ -18,6 +18,7 @@
 package cc.hyperium.event
 
 import cc.hyperium.event.minigames.Minigame
+import com.mojang.authlib.GameProfile
 import net.minecraft.client.entity.AbstractClientPlayer
 import net.minecraft.client.gui.GuiScreen
 import net.minecraft.client.gui.ScaledResolution
@@ -124,7 +125,7 @@ class GuiOpenEvent(var gui: GuiScreen?) : CancellableEvent()
  *
  * @param cape the cape that will be used (may be null)
  */
-class PlayerGetCapeEvent(val player: EntityPlayer, var cape: ResourceLocation?)
+class PlayerGetCapeEvent(val profile: GameProfile, var cape: ResourceLocation?)
 
 /**
  * Invoked when a players skin is grabbed from the game
@@ -132,7 +133,7 @@ class PlayerGetCapeEvent(val player: EntityPlayer, var cape: ResourceLocation?)
  *
  * @param skin the skin that will be used (may be null)
  */
-class PlayerGetSkinEvent(val player: EntityPlayer, var skin: ResourceLocation?)
+class PlayerGetSkinEvent(val profile: GameProfile, var skin: ResourceLocation?)
 
 /**
  * Invoked once the player has joined singleplayer
