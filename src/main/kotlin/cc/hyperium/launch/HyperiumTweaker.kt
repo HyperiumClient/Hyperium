@@ -71,11 +71,13 @@ open class HyperiumTweaker : ITweaker {
 
         Hyperium.LOGGER.info("Setting up Mixins...")
         MixinBootstrap.init()
-        
-        Mixins.addConfiguration("mixins.hyperium.json")
+
+        Hyperium.LOGGER.info("Applying transformers...")
+        //classLoader.registerTransformer("cc.hyperium.mods.memoryfix.ClassTransformer")
 
         // Excludes packages from classloader
         with(MixinEnvironment.getDefaultEnvironment()) {
+            Mixins.addConfiguration("mixins.hyperium.json")
             this.obfuscationContext = when {
                 isRunningForge -> {
                     FORGE = true
