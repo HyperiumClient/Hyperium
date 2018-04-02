@@ -1,0 +1,64 @@
+{
+  "required": true,
+  "compatibilityLevel": "JAVA_8",
+  "package": "cc.hyperium.mixins",
+  "refmap": "mixin.hyperium.refmap.json",
+  "verbose": true,
+  "mixins": [
+    "MixinMinecraft",
+    "MixinTextureManager",
+    "MixinSoundManager",
+    "MixinKeyBinding",
+    "MixinScreenShotHelper",
+    "MixinEnchantment",
+    "MixinFrameBuffer",
+
+    "gui.MixinGuiScreen",
+    "gui.MixinGui",
+    "gui.MixinGuiConnecting",
+    "gui.MixinGuiDisconnecting",
+    "gui.MixinGuiNewChat",
+    "gui.MixinGuiChat",
+    "gui.MixinGuiResourcePack",
+    "gui.MixinGuiButton",
+    "gui.MixinGuiMainMenu",
+    "gui.MixinInventory",
+    "gui.MixinGuiIngame",
+    "gui.MixinGuiGameOver",
+    "gui.MixinGuiPlayerTabOverlay",
+    "gui.MixinInventoryParticle",
+    "gui.MixinGuiConfirmOpenLink",
+
+    "entity.MixinNetworkPlayerInfo",
+    "entity.MixinEntityPlayer",
+    "entity.MixinEntityPlayerSP",
+    "entity.MixinEntity",
+    "entity.MixinEntityLivingBase",
+    "entity.MixinEntityRenderer",
+    "entity.MixinRenderPlayer",
+    "entity.MixinModelBiped",
+    "entity.MixinAbstractClientPlayer",
+
+    "profiler.MixinProfiler",
+
+    "renderer.MixinGuiIngame",
+    "renderer.MixinItemRenderer",
+    "renderer.MixinRenderItem",
+    "renderer.MixinRendererLivingEntity",
+    "renderer.MixinRenderPlayer",
+    "renderer.MixinRender",
+    "packet.MixinC01PacketChatMessage",
+    "packet.MixinS2EPacketCloseWindow",
+    "packet.MixinS14PacketEntity",
+    "packet.MixinS19PacketEntityStatus",
+    "packet.MixinNetHandlerPlayClient",
+
+    "world.MixinChunk",
+    "world.MixinWorld",
+
+    "scoreboard.MixinScoreboard",
+
+    "client.resources.MixinAbstractResourcePack"
+
+  ]
+}
