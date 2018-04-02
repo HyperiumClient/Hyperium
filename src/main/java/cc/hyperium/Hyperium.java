@@ -21,10 +21,7 @@ import cc.hyperium.commands.defaults.*;
 import cc.hyperium.config.DefaultConfig;
 import cc.hyperium.cosmetics.HyperiumCosmetics;
 import cc.hyperium.cosmetics.WingCosmetic;
-import cc.hyperium.event.EventBus;
-import cc.hyperium.event.GameShutDownEvent;
-import cc.hyperium.event.InitializationEvent;
-import cc.hyperium.event.InvokeEvent;
+import cc.hyperium.event.*;
 import cc.hyperium.event.minigames.MinigameListener;
 import cc.hyperium.gui.ConfirmationPopup;
 import cc.hyperium.gui.NotificationCenter;
@@ -35,6 +32,7 @@ import cc.hyperium.handlers.HyperiumHandlers;
 import cc.hyperium.integrations.spotify.Spotify;
 import cc.hyperium.integrations.spotify.impl.SpotifyInformation;
 import cc.hyperium.mods.HyperiumModIntegration;
+import cc.hyperium.mods.autogg.AutoGG;
 import cc.hyperium.mods.capturex.CaptureCore;
 import cc.hyperium.mods.common.PerspectiveModifierContainer;
 import cc.hyperium.mods.common.ToggleSprintContainer;
@@ -98,6 +96,11 @@ public class Hyperium {
 
     public MinigameListener getMinigameListener() {
         return minigameListener;
+    }
+
+    @InvokeEvent
+    public void preinit(PreInitializationEvent event) {
+        EventBus.INSTANCE.register(new AutoGG());
     }
 
     /**
