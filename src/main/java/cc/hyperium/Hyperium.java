@@ -21,10 +21,7 @@ import cc.hyperium.commands.defaults.*;
 import cc.hyperium.config.DefaultConfig;
 import cc.hyperium.cosmetics.HyperiumCosmetics;
 import cc.hyperium.cosmetics.WingCosmetic;
-import cc.hyperium.event.EventBus;
-import cc.hyperium.event.GameShutDownEvent;
-import cc.hyperium.event.InitializationEvent;
-import cc.hyperium.event.InvokeEvent;
+import cc.hyperium.event.*;
 import cc.hyperium.event.minigames.MinigameListener;
 import cc.hyperium.gui.ConfirmationPopup;
 import cc.hyperium.gui.NotificationCenter;
@@ -35,6 +32,7 @@ import cc.hyperium.handlers.HyperiumHandlers;
 import cc.hyperium.integrations.spotify.Spotify;
 import cc.hyperium.integrations.spotify.impl.SpotifyInformation;
 import cc.hyperium.mods.HyperiumModIntegration;
+import cc.hyperium.mods.autogg.AutoGG;
 import cc.hyperium.mods.capturex.CaptureCore;
 import cc.hyperium.mods.common.PerspectiveModifierContainer;
 import cc.hyperium.mods.common.ToggleSprintContainer;
@@ -100,12 +98,17 @@ public class Hyperium {
         return minigameListener;
     }
 
+    @InvokeEvent
+    public void preinit(PreInitializationEvent event) {
+        EventBus.INSTANCE.register(new AutoGG());
+    }
+
     /**
      * @param event initialize Hyperium
      */
     @InvokeEvent
     public void init(InitializationEvent event) {
-        Minecraft.getMinecraft().mcProfiler.profilingEnabled = true;
+        Minecraft.getMinecraft().mcProfiler.profilingEnabled = false;
 
         // Creates the accounts dir
         new File(folder.getAbsolutePath() + "/accounts").mkdirs();
@@ -128,7 +131,7 @@ public class Hyperium {
         EventBus.INSTANCE.register(minigameListener);
         EventBus.INSTANCE.register(new ToggleSprintContainer());
         EventBus.INSTANCE.register(notification);
-        EventBus.INSTANCE.register(captureCore = new CaptureCore(this));
+        EventBus.INSTANCE.register(captureCore = new CaptureCore());
         EventBus.INSTANCE.register(CompactChat.getInstance());
         EventBus.INSTANCE.register(CrosshairMod.getInstance());
         EventBus.INSTANCE.register(CONFIG.register(FPSLimiter.getInstance()));
