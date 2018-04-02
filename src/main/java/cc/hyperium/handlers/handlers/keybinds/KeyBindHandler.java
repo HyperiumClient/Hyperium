@@ -21,8 +21,6 @@ import cc.hyperium.Hyperium;
 import cc.hyperium.event.GameShutDownEvent;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.KeypressEvent;
-import cc.hyperium.gui.HyperiumGui;
-import cc.hyperium.gui.HyperiumMainMenu;
 import cc.hyperium.gui.ModConfigGui;
 import cc.hyperium.gui.NameHistoryGui;
 import cc.hyperium.gui.integrations.HypixelFriendsGui;
