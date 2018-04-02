@@ -73,7 +73,7 @@ open class HyperiumTweaker : ITweaker {
         MixinBootstrap.init()
 
         Hyperium.LOGGER.info("Applying transformers...")
-        classLoader.registerTransformer("cc.hyperium.mods.memoryfix.ClassTransformer")
+        //classLoader.registerTransformer("cc.hyperium.mods.memoryfix.ClassTransformer")
 
         // Excludes packages from classloader
         with(MixinEnvironment.getDefaultEnvironment()) {
