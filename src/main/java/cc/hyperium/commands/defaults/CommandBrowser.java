@@ -28,6 +28,8 @@ import java.util.List;
 
 public class CommandBrowser implements BaseCommand {
 
+    private List<String> tabComplete = Arrays.asList("br", "bro", "brow", "brows");
+
     @Override
     public String getName() {
         return "browser";
@@ -55,6 +57,6 @@ public class CommandBrowser implements BaseCommand {
 
     @Override
     public List<String> onTabComplete(String[] args) {
-        return new ArrayList<>();
+        return tabComplete;
     }
 }

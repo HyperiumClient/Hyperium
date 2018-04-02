@@ -21,25 +21,36 @@ import cc.hyperium.Hyperium;
 import cc.hyperium.commands.BaseCommand;
 import cc.hyperium.gui.ModConfigGui;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 /**
  * A command to open the clients main configuration menu
  *
  * @author Sk1er
  */
 public class CommandConfigGui implements BaseCommand {
-    
+
+    private List<String> tabComplete = Arrays.asList("hyperium", "hype", "config", "hyperiumcon", "hy");
+
     @Override
     public String getName() {
         return "hyperiumconfig";
     }
-    
+
     @Override
     public String getUsage() {
         return "hyperiumconfig";
     }
-    
+
     @Override
     public void onExecute(String[] args) {
         new ModConfigGui().show();
+    }
+
+    @Override
+    public List<String> onTabComplete(String[] args) {
+        return tabComplete;
     }
 }
