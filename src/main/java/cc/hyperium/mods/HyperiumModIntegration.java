@@ -82,6 +82,15 @@ public class HyperiumModIntegration {
     public AbstractMod getAutotip() {
         return this.autotip;
     }
+
+    /**
+     * A getter for the running AutoGG instance
+     *
+     * @return the running AutoGG instance
+     */
+    public AbstractMod getAutoGG() {
+        return this.autogg;
+    }
     
     /**
      * A getter for the running ChromeHUD instance
