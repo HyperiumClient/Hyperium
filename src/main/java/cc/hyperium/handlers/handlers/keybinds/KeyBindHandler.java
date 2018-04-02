@@ -63,7 +63,7 @@ public class KeyBindHandler {
     /**
      * Opens GUI on Z key pressed oof - ConorTheOreo
      */
-    public HyperiumBind guikey = new HyperiumBind("Hyperium GUI", Keyboard.KEY_Z) {
+    public HyperiumBind guikey = new HyperiumBind("Hyperium GUI", Keyboard.KEY_GRAVE) {
         @Override
         public void onPress() {
             new ModConfigGui().show();
