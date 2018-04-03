@@ -167,7 +167,9 @@ public class Hyperium {
         SplashProgress.update();
         CONFIG.register(new GeneralSetting(null));
         CONFIG.register(new AnimationSettings(null));
-        CONFIG.register(new BackgroundSettings(null));
+        BackgroundSettings backgroundSettings = new BackgroundSettings(null);
+        backgroundSettings.rePack();
+        CONFIG.register(backgroundSettings);
 
         //Register commands.
         SplashProgress.PROGRESS = 10;
