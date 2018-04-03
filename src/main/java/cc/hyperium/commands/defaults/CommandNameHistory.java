@@ -23,7 +23,6 @@ import cc.hyperium.commands.CommandException;
 import cc.hyperium.gui.NameHistoryGui;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -32,8 +31,6 @@ import java.util.List;
  * @author CoalOres
  */
 public class CommandNameHistory implements BaseCommand {
-
-    private List<String> tabComplete = Arrays.asList("name", "nameh", "namehi", "namehis", "namehist", "namehisto", "namehistor");
 
     @Override
     public String getName() {
@@ -57,10 +54,5 @@ public class CommandNameHistory implements BaseCommand {
     @Override
     public void onExecute(String[] args) throws CommandException {
         Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new NameHistoryGui());
-    }
-
-    @Override
-    public List<String> onTabComplete(String[] args) {
-        return tabComplete;
     }
 }

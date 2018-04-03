@@ -23,9 +23,6 @@ import cc.hyperium.commands.CommandException;
 import cc.hyperium.gui.games.HyperiumGuiGames;
 import net.minecraft.client.gui.GuiNewChat;
 
-import java.util.Arrays;
-import java.util.List;
-
 /**
  * A simple command to clear your chat history & sent commands,
  * simply calls the {@link GuiNewChat#clearChatMessages()} method
@@ -33,9 +30,7 @@ import java.util.List;
  * @author boomboompower
  */
 public class CommandPlayGame implements BaseCommand {
-
-    private List<String> tabComplete = Arrays.asList("p", "pl", "pla", "play", "playg", "playga", "playgam");
-
+    
     @Override
     public String getName() {
         return "playgame";
@@ -50,10 +45,4 @@ public class CommandPlayGame implements BaseCommand {
     public void onExecute(String[] args) throws CommandException {
         new HyperiumGuiGames().show();
     }
-    
-    @Override
-    public List<String> onTabComplete(String[] args) {
-        return tabComplete;
-    }
-
 }
