@@ -64,12 +64,13 @@ public class GeneralConfigGui extends GuiScreen {
     @Override
     public void initGui() {
         super.initGui();
-        reg((edit = new GuiButtonIcon(1, new ResourceLocation("textures/chromahud/iconsheet.png"),5, 0, 1, .2f) ), button -> {
+        reg((edit = new GuiButtonIcon(1, new ResourceLocation("textures/chromahud/iconsheet.png"),5, 0, 1, .4f) ), button -> {
             //Open Gui for editing element
             if (currentElement != null) {
                 Minecraft.getMinecraft().displayGuiScreen(new DisplayElementConfig(currentElement, mod));
             }
         });
+        ((GuiButtonIcon) edit).setOutline(true);
         reg(new GuiButton(2, 2, ResolutionUtil.current().getScaledHeight() - 22, 100, 20, "New"), (guiButton) -> {
             DisplayElement blank = DisplayElement.blank();
             ChromaHUDApi.getInstance().getElements().add(blank);
