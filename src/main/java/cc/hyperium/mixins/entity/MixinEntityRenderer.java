@@ -17,22 +17,15 @@
 
 package cc.hyperium.mixins.entity;
 
-import cc.hyperium.Hyperium;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.RenderEvent;
 import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.ActiveRenderInfo;
 import net.minecraft.client.renderer.EntityRenderer;
-import net.minecraft.client.settings.GameSettings;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MouseFilter;
 import net.minecraft.util.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -58,7 +51,6 @@ public abstract class MixinEntityRenderer {
     private MouseFilter mouseFilterYAxis;
     @Shadow
     private MouseFilter mouseFilterXAxis;
-    private boolean zoomMode = false;
 
     private float distanceModifier = 0.0f;
 
@@ -260,11 +252,11 @@ public abstract class MixinEntityRenderer {
         }
     }*/
 
-    /**
+   /* /**
      * Camera zooming
      *
      * @author boomboompower
-     */
+
     @Overwrite
     private float getFOVModifier(float partialTicks, boolean notHand) {
         if (this.debugView) {
@@ -277,27 +269,8 @@ public abstract class MixinEntityRenderer {
                 fov = this.mc.gameSettings.fovSetting * (this.fovModifierHandPrev + (this.fovModifierHand - this.fovModifierHandPrev) * partialTicks);
             }
 
-            boolean flag = false;
 
-            if (this.mc.currentScreen == null) {
-                GameSettings gamesettings = this.mc.gameSettings;
-                flag = GameSettings.isKeyDown(((cc.hyperium.mods.utilities.UtilitiesMod) Hyperium.INSTANCE.getModIntegration().getUtilities()).getBinding());
-            }
 
-            if (flag) {
-                if (!this.zoomMode) {
-                    this.zoomMode = true;
-                    this.mc.gameSettings.smoothCamera = true;
-                }
-
-                fov /= 4.0F;
-            } else if (this.zoomMode) {
-                this.zoomMode = false;
-                this.mc.gameSettings.smoothCamera = false;
-                this.mouseFilterXAxis = new MouseFilter();
-                this.mouseFilterYAxis = new MouseFilter();
-                this.mc.renderGlobal.setDisplayListEntitiesDirty();
-            }
 
             if (entity instanceof EntityLivingBase && ((EntityLivingBase) entity).getHealth() <= 0.0F) {
                 float f1 = (float) ((EntityLivingBase) entity).deathTime + partialTicks;
@@ -313,5 +286,5 @@ public abstract class MixinEntityRenderer {
 
             return fov;
         }
-    }
+    }  */
 }

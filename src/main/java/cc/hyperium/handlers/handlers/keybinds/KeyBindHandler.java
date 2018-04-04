@@ -21,6 +21,7 @@ import cc.hyperium.Hyperium;
 import cc.hyperium.event.GameShutDownEvent;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.KeypressEvent;
+import cc.hyperium.gui.ModConfigGui;
 import cc.hyperium.gui.NameHistoryGui;
 import cc.hyperium.gui.integrations.HypixelFriendsGui;
 import net.minecraft.client.Minecraft;
@@ -59,6 +60,15 @@ public class KeyBindHandler {
         }
     };
 
+    /**
+     * Opens GUI on Z key pressed oof - ConorTheOreo
+     */
+    public HyperiumBind guikey = new HyperiumBind("Hyperium GUI", Keyboard.KEY_GRAVE) {
+        @Override
+        public void onPress() {
+            new ModConfigGui().show();
+        }
+    };
 
     //Hyperium.INSTANCE.getHandlers().getConfigOptions().hideNameTags
     public KeyBindHandler() {
@@ -69,6 +79,7 @@ public class KeyBindHandler {
         registerKeyBinding(friends);
         registerKeyBinding(nameHistory);
         registerKeyBinding(debug);
+        registerKeyBinding(guikey);
     }
 
     @InvokeEvent

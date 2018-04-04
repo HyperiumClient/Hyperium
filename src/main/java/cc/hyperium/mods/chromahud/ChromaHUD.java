@@ -22,12 +22,21 @@ import cc.hyperium.event.EventBus;
 import cc.hyperium.mods.AbstractMod;
 import cc.hyperium.mods.chromahud.api.ButtonConfig;
 import cc.hyperium.mods.chromahud.api.DisplayItem;
+import cc.hyperium.mods.chromahud.api.StringConfig;
+import cc.hyperium.mods.chromahud.api.TextConfig;
 import cc.hyperium.mods.chromahud.commands.CommandChromaHUD;
+import cc.hyperium.mods.chromahud.displayitems.chromahud.ArmourHud;
+import cc.hyperium.mods.chromahud.displayitems.chromahud.CordsDisplay;
+import cc.hyperium.mods.chromahud.displayitems.chromahud.TextItem;
+import cc.hyperium.mods.chromahud.displayitems.chromahud.TimeHud;
 import cc.hyperium.mods.chromahud.gui.GeneralConfigGui;
 import cc.hyperium.utils.ChatColor;
 import cc.hyperium.utils.JsonHolder;
 import com.google.gson.JsonArray;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiTextField;
+import net.minecraft.util.EnumChatFormatting;
 
 import java.io.*;
 import java.util.List;
@@ -56,6 +65,63 @@ public class ChromaHUD extends AbstractMod {
         ChromaHUDApi.getInstance();
         ChromaHUDApi.getInstance().register(new DefaultChromaHUDParser());
         ChromaHUDApi.getInstance().register(new HyperiumChromaHudParser());
+        ChromaHUDApi.getInstance().registerButtonConfig("CORDS", new ButtonConfig((guiButton, displayItem) -> {
+            CordsDisplay displayItem1 = (CordsDisplay) displayItem;
+            displayItem1.state = displayItem1.state == 1 ? 0 : 1;
+            guiButton.displayString = EnumChatFormatting.RED.toString() + "Make " + (((CordsDisplay) displayItem).state == 1 ? "Horizontal" : "Vertical");
+        }, new GuiButton(0, 0, 0, "Cords State"), (guiButton, displayItem) -> {
+            guiButton.displayString = EnumChatFormatting.RED.toString() + "Make " + (((CordsDisplay) displayItem).state == 1 ? "Horizontal" : "Vertical");
+        }));
+        ChromaHUDApi.getInstance().registerButtonConfig("CORDS", new ButtonConfig((guiButton, displayItem) -> {
+            CordsDisplay displayItem1 = (CordsDisplay) displayItem;
+            displayItem1.precision += 1;
+            if (displayItem1.precision > 4)
+                displayItem1.precision = 0;
+            int next = displayItem1.precision + 1;
+            if (next > 4)
+                next = 0;
+            guiButton.displayString = EnumChatFormatting.RED.toString() + "Change to " + next + " decimal" + (next != 1 ? "s" : "");
+        }, new GuiButton(0, 0, 0, "Coords Precision"), (guiButton, displayItem) -> {
+            int next = ((CordsDisplay) displayItem).precision + 1;
+            if (next > 4)
+                next = 0;
+            guiButton.displayString = EnumChatFormatting.RED.toString() + "Change to " + next + " decimal" + (next != 1 ? "s" : "");
+        }));
+
+        ChromaHUDApi.getInstance().registerButtonConfig("ARMOUR_HUD", new ButtonConfig((guiButton, displayItem) -> {
+            ArmourHud item = (ArmourHud) displayItem;
+            item.toggleDurability();
+            guiButton.displayString = EnumChatFormatting.RED.toString() + "Toggle Durability";
+        }, new GuiButton(0, 0, 0, "Armour Hud Durability"), (guiButton, displayItem) -> {
+            guiButton.displayString = EnumChatFormatting.RED.toString() + "Toggle Durability";
+        }));
+
+        ChromaHUDApi.getInstance().registerButtonConfig("ARMOUR_HUD", new ButtonConfig((guiButton, displayItem) -> {
+            ArmourHud item = (ArmourHud) displayItem;
+            item.toggleHand();
+            guiButton.displayString = EnumChatFormatting.RED.toString() + "Toggle Held Item";
+        }, new GuiButton(0, 0, 0, "Armour Hud Hand"), (guiButton, displayItem) -> {
+            guiButton.displayString = EnumChatFormatting.RED.toString() + "Toggle Held Item";
+        }));
+
+        GuiTextField textTextField = new GuiTextField(1, Minecraft.getMinecraft().fontRendererObj, 0, 0, 200, 20);
+        ChromaHUDApi.getInstance().registerTextConfig("TEXT", new TextConfig((guiTextField, displayItem) -> {
+            ((TextItem) displayItem).setText(guiTextField.getText());
+        }, textTextField, (guiTextField, displayItem) -> guiTextField.setText(((TextItem) displayItem).getText())));
+
+        ChromaHUDApi.getInstance().registerTextConfig("TIME", new TextConfig((guiTextField, displayItem) -> {
+            ((TimeHud) displayItem).setFormat(guiTextField.getText());
+        }, textTextField, (guiTextField, displayItem) -> guiTextField.setText(((TimeHud) displayItem).getFormat())));
+        ChromaHUDApi.getInstance().registerStringConfig("TIME", new StringConfig("Accepted Formats\n" +
+                "YY - Year\n" +
+                "MM - Month\n" +
+                "dd - Day\n" +
+                "HH - Hour\n" +
+                "mm - Minute\n" +
+                "ss - Second\n" +
+                "For more options, Google \"Date Format\""));
+
+
         ChromaHUDApi.getInstance().registerButtonConfig("SCOREBOARD", new ButtonConfig((guiButton, displayItem) -> {
             displayItem.getData().put("numbers", !displayItem.getData().optBoolean("numbers"));
         }, new GuiButton(0, 0, 0, "Toggle Number"), (guiButton, displayItem) -> {

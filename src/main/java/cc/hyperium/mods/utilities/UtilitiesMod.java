@@ -17,21 +17,14 @@
 
 package cc.hyperium.mods.utilities;
 
-import cc.hyperium.Hyperium;
-import cc.hyperium.handlers.handlers.keybinds.HyperiumBind;
 import cc.hyperium.mods.AbstractMod;
 import cc.hyperium.utils.ChatColor;
-
-import net.minecraft.client.settings.KeyBinding;
-
-import org.lwjgl.input.Keyboard;
 
 public class UtilitiesMod extends AbstractMod {
     
     private final Metadata metadata;
     
-    private final HyperiumBind binding = new HyperiumBind("Zoom", Keyboard.KEY_C, "Utilities");
-    
+
     public UtilitiesMod() {
         Metadata metadata = new Metadata(this, "Utilities", "1.0", "boomboompower");
     
@@ -43,8 +36,7 @@ public class UtilitiesMod extends AbstractMod {
     @Override
     public AbstractMod init() {
     
-        Hyperium.INSTANCE.getHandlers().getKeybindHandler().registerKeyBinding(this.binding);
-        
+
         return this;
     }
     
@@ -53,7 +45,4 @@ public class UtilitiesMod extends AbstractMod {
         return this.metadata;
     }
     
-    public KeyBinding getBinding() {
-        return this.binding;
-    }
 }

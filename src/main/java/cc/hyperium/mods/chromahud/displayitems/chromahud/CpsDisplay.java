@@ -18,7 +18,6 @@
 package cc.hyperium.mods.chromahud.displayitems.chromahud;
 
 import cc.hyperium.mods.chromahud.ElementRenderer;
-import cc.hyperium.mods.chromahud.api.Dimension;
 import cc.hyperium.mods.chromahud.api.DisplayItem;
 import cc.hyperium.utils.JsonHolder;
 import net.minecraft.client.Minecraft;
@@ -39,9 +38,9 @@ public class CpsDisplay extends DisplayItem {
     public void draw(int starX, double startY, boolean isConfig) {
         ElementRenderer.draw(starX, startY, "CPS: " + ElementRenderer.getCPS());
         if (isConfig) {
-           this.width = Minecraft.getMinecraft().fontRendererObj.getStringWidth("CPS: " + ElementRenderer.getCPS());
-        }
-        this.width = 0;
+            this.width = Minecraft.getMinecraft().fontRendererObj.getStringWidth("CPS: " + ElementRenderer.getCPS());
+        } else
+            this.width = 0;
     }
 
 

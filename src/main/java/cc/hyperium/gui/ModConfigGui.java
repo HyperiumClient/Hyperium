@@ -21,6 +21,8 @@ import cc.hyperium.Hyperium;
 import cc.hyperium.gui.settings.SettingItem;
 import cc.hyperium.gui.settings.items.*;
 import cc.hyperium.mods.chromahud.ChromaHUD;
+import cc.hyperium.mods.keystrokes.KeystrokesMod;
+import cc.hyperium.mods.keystrokes.screen.GuiScreenKeystrokes;
 import cc.hyperium.utils.HyperiumFontRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
@@ -121,15 +123,15 @@ public class ModConfigGui extends HyperiumGui {
         };
 
         tab.addSetting(new SettingItem(
-                0,  getX(0),
+                0, getX(0),
                 getDefaultItemY(0),
                 width - getX(0) * 2,
                 "GENERAL",
                 i -> Minecraft.getMinecraft().displayGuiScreen(this.generalSetting = new GeneralSetting(this))
         )).addSetting(new SettingItem(
-                1,  getX(0),
+                1, getX(0),
                 getDefaultItemY(1),
-                width - getX(0)* 2,
+                width - getX(0) * 2,
                 "ANIMATIONS",
                 i -> Minecraft.getMinecraft().displayGuiScreen(new AnimationSettings(this))
         )).addSetting(new SettingItem(
@@ -139,17 +141,17 @@ public class ModConfigGui extends HyperiumGui {
                 "CAPTUREX",
                 i -> Minecraft.getMinecraft().displayGuiScreen(new CaptureXSetting(this))
         )).addSetting(new SettingItem(
-            3, getX(0),
-            getDefaultItemY(3),
-            this.width - getX(0) * 2,
-            "TOGGLECHAT",
-            i -> Minecraft.getMinecraft().displayGuiScreen(new ToggleChatSettings(this))
+                3, getX(0),
+                getDefaultItemY(3),
+                this.width - getX(0) * 2,
+                "TOGGLECHAT",
+                i -> Minecraft.getMinecraft().displayGuiScreen(new ToggleChatSettings(this))
         )).addSetting(new SettingItem(
                 4, getX(0),
                 getDefaultItemY(4),
                 width - getX(0) * 2,
                 "BACKGROUNDS",
-                 i -> Minecraft.getMinecraft().displayGuiScreen(new BackgroundSettings(this))
+                i -> Minecraft.getMinecraft().displayGuiScreen(new BackgroundSettings(this))
         )).addSetting(new SettingItem(
                 5, getX(0),
                 getDefaultItemY(5),
@@ -158,15 +160,27 @@ public class ModConfigGui extends HyperiumGui {
                 i -> Minecraft.getMinecraft().displayGuiScreen(new NameHistorySettings(this))
         ));
 
-        if (Minecraft.getMinecraft().thePlayer != null) {
+        tab.addSetting(new SettingItem(
+                6, getX(0),
+                getDefaultItemY(6),
+                width - getX(0) * 2,
+                Minecraft.getMinecraft().thePlayer != null ? "CHROMAHUD" : "CHROMAHUD CAN ONLY BE CONFIGURED INGAME",
+                i -> {
+                    if (Minecraft.getMinecraft().thePlayer != null)
+                        Minecraft.getMinecraft().displayGuiScreen(((ChromaHUD) Hyperium.INSTANCE.getModIntegration().getChromaHUD()).getConfigGuiInstance());
+                }));
+
             tab.addSetting(new SettingItem(
-                    6, getX(0),
-                    getDefaultItemY(6),
+                    7, getX(0),
+                    getDefaultItemY(7),
                     width - getX(0) * 2,
-                    "CHROMAHUD",
-                    i -> Minecraft.getMinecraft().displayGuiScreen(((ChromaHUD)Hyperium.INSTANCE.getModIntegration().getChromaHUD()).getConfigGuiInstance())
+                    Minecraft.getMinecraft().thePlayer != null? "KEYSTROKES" : "KEYSTROKES CAN ONLY BE CONFIGURED INGAME",
+                    i -> {
+                        if (Minecraft.getMinecraft().thePlayer != null)
+                        new GuiScreenKeystrokes(((KeystrokesMod) Hyperium.INSTANCE.getModIntegration().getKeystrokesMod())).display();
+                    }
             ));
-        }
+
 
         this.tabs.add(tab);
 
@@ -197,7 +211,7 @@ public class ModConfigGui extends HyperiumGui {
     }
 
     private int getDefaultItemY(int i) {
-        return getY()+25 + i * 15;
+        return getY() + 25 + i * 15;
     }
 
 
@@ -240,7 +254,7 @@ public class ModConfigGui extends HyperiumGui {
         }
 
         for (SettingItem i : settingItems) {
-            if(i.mousePressed(mc, mouseX, mouseY)){
+            if (i.mousePressed(mc, mouseX, mouseY)) {
                 i.playPressSound(mc.getSoundHandler());
                 i.callback.accept(i);
             }
@@ -262,10 +276,10 @@ public class ModConfigGui extends HyperiumGui {
     }
 
     private class Tab {
+        protected boolean selected;
         private ModConfigGui owningGui;
         private CustomFontButton button;
         private int index;
-        protected boolean selected;
         private float selectPercent;
         private ArrayList<SettingItem> settings;
 
