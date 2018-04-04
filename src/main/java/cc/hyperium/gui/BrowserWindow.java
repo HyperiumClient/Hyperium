@@ -20,7 +20,6 @@ package cc.hyperium.gui;
 import cc.hyperium.Hyperium;
 import cc.hyperium.installer.components.MotionPanel;
 import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
-import com.sun.webkit.network.CookieManager;
 import com.teamdev.jxbrowser.chromium.Browser;
 import com.teamdev.jxbrowser.chromium.swing.BrowserView;
 import net.minecraft.client.gui.ScaledResolution;
@@ -33,6 +32,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.net.CookieHandler;
+import java.net.CookieManager;
 import java.net.MalformedURLException;
 import java.net.URL;
 
