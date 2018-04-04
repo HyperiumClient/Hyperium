@@ -67,9 +67,13 @@ public class BrowserManager {
     @InvokeEvent
     public void onTick(TickEvent e){
         if(browser == null)return;
-        if(!Display.isActive() && !browser.isFocused() && browser.isVisible())
+        if(!Display.isActive() && !browser.isFocused() && browser.isVisible()) {
             browser.setVisible(false);
-        else if(Display.isActive() && !browser.isVisible())
+        }
+
+        if (browser.isVisible() && !show) browser.setVisible(false);
+
+        else if(Display.isActive() && !browser.isVisible() && show)
             browser.setVisible(true);
     }
 
