@@ -377,7 +377,7 @@ public class InstallerFrame extends JFrame implements PropertyChangeListener {
         BufferedInputStream in = null;
         FileOutputStream fout = null;
         try {
-            URLConnection conn = new URL("https://raw.githubusercontent.com/HyperiumClient/Hyperium-Repo/master/files/mods/OptiFine_1.8.9_HD_U_I3.jar").openConnection();
+            URLConnection conn = new URL("https://raw.githubusercontent.com/HyperiumClient/Hyperium-Repo/master/files/mods/OptiFine_1.8.9_HD_U_I7.jar").openConnection();
             conn.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:56.0) Gecko/20100101 Firefox/56.0");
             in = new BufferedInputStream(conn.getInputStream());
             fout = new FileOutputStream(tmp);
