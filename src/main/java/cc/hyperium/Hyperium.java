@@ -29,6 +29,7 @@ import cc.hyperium.gui.settings.items.AnimationSettings;
 import cc.hyperium.gui.settings.items.BackgroundSettings;
 import cc.hyperium.gui.settings.items.GeneralSetting;
 import cc.hyperium.handlers.HyperiumHandlers;
+import cc.hyperium.installer.InstallerFrame;
 import cc.hyperium.integrations.spotify.Spotify;
 import cc.hyperium.integrations.spotify.impl.SpotifyInformation;
 import cc.hyperium.mods.HyperiumModIntegration;
@@ -76,6 +77,7 @@ public class Hyperium {
      * Instance of default CONFIG
      */
     public static final DefaultConfig CONFIG = new DefaultConfig(new File(folder, "CONFIG.json"));
+    public static boolean updateQueue = false;
 
     private final GeneralStatisticsTracking statTrack = new GeneralStatisticsTracking();
     private final NotificationCenter notification = new NotificationCenter();
@@ -235,13 +237,13 @@ public class Hyperium {
      * register the commands
      */
     private void registerCommands() {
-        Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(new CommandConfigGui());
-        Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(new CommandPrivateMessage());
-        Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(new CommandClearChat());
-        Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(new CommandNameHistory());
-        Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(new CommandPlayGame());
-        Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(new CommandBrowser());
-
+        getHandlers().getHyperiumCommandHandler().registerCommand(new CommandConfigGui());
+        getHandlers().getHyperiumCommandHandler().registerCommand(new CommandPrivateMessage());
+        getHandlers().getHyperiumCommandHandler().registerCommand(new CommandClearChat());
+        getHandlers().getHyperiumCommandHandler().registerCommand(new CommandNameHistory());
+        getHandlers().getHyperiumCommandHandler().registerCommand(new CommandPlayGame());
+        getHandlers().getHyperiumCommandHandler().registerCommand(new CommandBrowser());
+        getHandlers().getHyperiumCommandHandler().registerCommand(new CommandUpdate());
     }
 
     /**
@@ -256,6 +258,20 @@ public class Hyperium {
         EventBus.INSTANCE.post(new GameShutDownEvent());
 
         LOGGER.info("Shutting down Hyperium..");
+
+        if(updateQueue) {
+            try {
+                Runtime.getRuntime().exec(new String[]{
+                        InstallerFrame.OsCheck.getOperatingSystemType() == InstallerFrame.OsCheck.OSType.Windows ? "start " : "nohup "+
+                        "java "+
+                        "-jar "+
+                        new File(getClass().getProtectionDomain().getCodeSource().getLocation().getFile()).getAbsolutePath()+" "+
+                        Minecraft.getMinecraft().mcDataDir.getAbsolutePath()
+                });
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public GeneralStatisticsTracking getStatTrack() {
