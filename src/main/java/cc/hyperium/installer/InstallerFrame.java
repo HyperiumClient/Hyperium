@@ -290,9 +290,9 @@ public class InstallerFrame extends JFrame implements PropertyChangeListener {
         }
         progressBar.setValue(95);
         display.setText("PATCHING OPTIFINE");
-        File optifineLibDir = new File(getMinecraftDir(), "libraries/optifine/OptiFine/1.8.9_HD_U_I3");
+        File optifineLibDir = new File(getMinecraftDir(), "libraries/optifine/OptiFine/1.8.9_HD_U_I7");
         optifineLibDir.mkdirs();
-        File optifineLib = new File(optifineLibDir, "OptiFine-1.8.9_HD_U_I3.jar");
+        File optifineLib = new File(optifineLibDir, "OptiFine-1.8.9_HD_U_I7.jar");
         ProcessBuilder builder = new ProcessBuilder("java", "-cp", optifine.getAbsolutePath(), "optifine.Patcher", originJar.getAbsolutePath(), optifine.getAbsolutePath(), optifineLib.getAbsolutePath());
         builder.inheritIO();
         builder.redirectErrorStream(true);
@@ -334,7 +334,7 @@ public class InstallerFrame extends JFrame implements PropertyChangeListener {
         JSONArray libs = json.getJSONArray("libraries");
         libs.put(lib);
         libs.put(new JSONObject().put("name", "net.minecraft:launchwrapper:1.7"));
-        libs.put(new JSONObject().put("name", "optifine:OptiFine:1.8.9_HD_U_I3"));
+        libs.put(new JSONObject().put("name", "optifine:OptiFine:1.8.9_HD_U_I7"));
         versionsJson.getJSONArray("libs").forEach(libs::put);
         json.put("libraries", libs);
         json.put("id", "Hyperium 1.8.9");
@@ -377,7 +377,7 @@ public class InstallerFrame extends JFrame implements PropertyChangeListener {
         BufferedInputStream in = null;
         FileOutputStream fout = null;
         try {
-            URLConnection conn = new URL("https://raw.githubusercontent.com/HyperiumClient/Hyperium-Repo/master/files/mods/OptiFine_1.8.9_HD_U_I3.jar").openConnection();
+            URLConnection conn = new URL("https://raw.githubusercontent.com/HyperiumClient/Hyperium-Repo/master/files/mods/OptiFine_1.8.9_HD_U_I7.jar").openConnection();
             conn.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:56.0) Gecko/20100101 Firefox/56.0");
             in = new BufferedInputStream(conn.getInputStream());
             fout = new FileOutputStream(tmp);
