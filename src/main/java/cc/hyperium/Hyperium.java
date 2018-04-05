@@ -133,7 +133,7 @@ public class Hyperium {
         EventBus.INSTANCE.register(minigameListener);
         EventBus.INSTANCE.register(new ToggleSprintContainer());
         EventBus.INSTANCE.register(notification);
-        EventBus.INSTANCE.register(captureCore = new CaptureCore());
+
         EventBus.INSTANCE.register(CompactChat.getInstance());
         EventBus.INSTANCE.register(CrosshairMod.getInstance());
         EventBus.INSTANCE.register(CONFIG.register(FPSLimiter.getInstance()));
