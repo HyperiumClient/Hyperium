@@ -49,7 +49,7 @@ public class HypixelFriendsGui extends HyperiumGui {
     private HypixelFriends friends;
     private GuiTextField textField;
     private List<HypixelApiFriendObject> selected = new ArrayList<>();
-    private FriendSortType sortType = FriendSortType.NONE;
+    private static FriendSortType sortType = FriendSortType.NONE;
     private ScaledResolution lastResolution;
     private List<GuiBoxItem<HypixelApiFriendObject>> friendListBoxes = new ArrayList<>();
     private List<GuiBoxItem<HypixelApiFriendObject>> selectedBoxes = new ArrayList<>();
