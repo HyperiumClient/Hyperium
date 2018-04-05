@@ -57,11 +57,11 @@ public class BrowserWindow extends JFrame {
     public BrowserWindow(String url) {
         CookieHandler cookieManager;
         
-        // Attempt a crash fix
+        // Allow backup CookieManager
         try {
             cookieManager = new com.sun.webkit.network.CookieManager();
         } catch (Exception ex) {
-            cookieManager = new java.net.CookieManager();
+            cookieManager = new CookieManager();
         }
         
         CookieHandler.setDefault(cookieManager);
@@ -172,7 +172,7 @@ public class BrowserWindow extends JFrame {
     /**
      * Scales the browser
      *
-     * @param scale
+     * @param scale the scale of the browser
      */
     private void scale(float scale) {
         int width = (int) Math.max(WIDTH * scale, ResolutionUtil.current().getScaledWidth() / 8);
