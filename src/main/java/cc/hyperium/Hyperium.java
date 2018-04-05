@@ -252,7 +252,6 @@ public class Hyperium {
     private void shutdown() {
         CONFIG.save();
         richPresenceManager.shutdown();
-        captureCore.shutdown();
 
         // Tell the modules the game is shutting down
         EventBus.INSTANCE.post(new GameShutDownEvent());

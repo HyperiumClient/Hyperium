@@ -20,6 +20,7 @@ package cc.hyperium.addons.loader;
 import cc.hyperium.addons.AddonManifest;
 import cc.hyperium.addons.annotations.Addon;
 import cc.hyperium.event.EventBus;
+import cc.hyperium.exceptions.HyperiumException;
 import net.minecraft.launchwrapper.Launch;
 import net.minecraft.launchwrapper.LaunchClassLoader;
 
@@ -49,12 +50,10 @@ public class DefaultAddonLoader extends AddonLoaderStrategy {
         Object instance = addonMain.newInstance();
         assignInstances(instance);
 
-        for (Annotation annotation : addonMain.getAnnotations()) {
-            if (annotation instanceof Addon) {
-                // do whatever with Addon annotation?
-                EventBus.INSTANCE.register(instance);
-                break;
-            }
-        }
+        Addon addon = addonMain.getAnnotation(Addon.class);
+        // do whatever with addon annotation
+        if(addon == null)
+            throw new HyperiumException("Failed to load addon: "+manifest.getName()+". No @Addon annotation present");
+        EventBus.INSTANCE.register(instance);
     }
 }
