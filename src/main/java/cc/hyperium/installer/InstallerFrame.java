@@ -545,7 +545,7 @@ public class InstallerFrame extends JFrame implements PropertyChangeListener {
     /**
      * Checks os
      */
-    static class OsCheck {
+    public static class OsCheck {
         // cached result of OS detection
         private static OSType detectedOS;
 
@@ -555,7 +555,7 @@ public class InstallerFrame extends JFrame implements PropertyChangeListener {
          *
          * @return - the operating system detected
          */
-        static OSType getOperatingSystemType() {
+        public static OSType getOperatingSystemType() {
             if (detectedOS == null) {
                 String OS = System.getProperty("os.name", "generic").toLowerCase(Locale.ENGLISH);
                 if ((OS.contains("mac")) || (OS.contains("darwin"))) {
@@ -574,7 +574,7 @@ public class InstallerFrame extends JFrame implements PropertyChangeListener {
         /**
          * types of Operating Systems
          */
-        enum OSType {
+        public enum OSType {
             Windows, MacOS, Linux, Other
         }
     }

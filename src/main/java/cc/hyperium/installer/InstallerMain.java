@@ -20,13 +20,13 @@ package cc.hyperium.installer;
 import java.io.File;
 
 public class InstallerMain {
-    protected static ReleaseChannel releaseChannel = ReleaseChannel.DEV;
+    static ReleaseChannel releaseChannel = ReleaseChannel.DEV;
     /**
      * called when jar is executed
      *
      * @param args command line argument
      */
-    public static void main(String[] args) {
+    public static void main(String... args) {
         String mcDir = null;
         if(args.length > 0)
             mcDir = args[0];

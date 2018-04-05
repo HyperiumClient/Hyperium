@@ -202,7 +202,7 @@ public class NotificationCenter extends Gui {
 
     @InvokeEvent
     public void onInit(InitializationEvent event){
-        fontRenderer = new HyperiumFontRenderer("Arial", Font.PLAIN, 18);
+
     }
 
     @InvokeEvent
@@ -357,9 +357,10 @@ public class NotificationCenter extends Gui {
         }
 
         public void render() {
-            if (ticksLeft <= 0) {
+            if (ticksLeft <= 0)
                 return;
-            }
+            if (fontRenderer == null)
+                fontRenderer = new HyperiumFontRenderer("Arial", Font.PLAIN, 18);
 
             this.percentComplete = clamp(
                     easeOut(
