@@ -197,7 +197,7 @@ public class CommandUpdate implements BaseCommand {
     @Override
     public void onExecute(String[] args) {
         Hyperium.updateQueue = true;
-        Hyperium.INSTANCE.getNotification().display("Update", "Update is scheduled after client shutdown/restart", 5);
+        Hyperium.INSTANCE.getNotification().display("Update", "Update is scheduled after restart", 5);
     }
 
     @Override

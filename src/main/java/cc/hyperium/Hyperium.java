@@ -258,13 +258,17 @@ public class Hyperium {
 
         LOGGER.info("Shutting down Hyperium..");
 
-        if(updateQueue) {
+        if (updateQueue) {
             try {
+                boolean windows = InstallerFrame.OsCheck.getOperatingSystemType() == InstallerFrame.OsCheck.OSType.Windows;
+                String cs = new File(getClass().getProtectionDomain().getCodeSource().getLocation().getFile()).getAbsolutePath();
+                System.out.println("cs="+cs);
                 Runtime.getRuntime().exec(new String[]{
-                        InstallerFrame.OsCheck.getOperatingSystemType() == InstallerFrame.OsCheck.OSType.Windows ? "start " : "nohup "+
-                        "java "+
-                        "-jar "+
-                        new File(getClass().getProtectionDomain().getCodeSource().getLocation().getFile()).getAbsolutePath()+" "+
+                        windows ? "cmd" : "bash",
+                        windows ? "/c" : "-c",
+                        "java",
+                        "-jar",
+                        cs,
                         Minecraft.getMinecraft().mcDataDir.getAbsolutePath()
                 });
             } catch (IOException e) {
