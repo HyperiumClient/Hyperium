@@ -28,42 +28,44 @@ import org.lwjgl.opengl.Display;
  * @author Sk1er
  */
 public class BrowserManager {
+    
     private BrowserWindow browser;
     private boolean show = false;
     private boolean maximized = false;
-
-    public void toggleMaximize(){
-        if(maximized)
-            browser.defaultSize();
-        else{
+    
+    public void toggleMaximize() {
+        if (this.maximized) {
+            this.browser.setToDefaultSize();
+        } else {
             ScaledResolution current = ResolutionUtil.current();
-            browser.setSize(current.getScaledWidth() * current.getScaleFactor() - 20, current.getScaledHeight() * current.getScaleFactor() - 20);
-            browser.getMp().setBounds(0, 0, browser.getWidth(), 10);
-            browser.getBrowserView().setBounds(0, 10, browser.getWidth(), browser.getHeight() - 10);
-            browser.getMp().getComponent(0).setBounds(browser.getWidth() - 30, 0, 15, 10);
-            browser.getMp().getComponent(1).setBounds(browser.getWidth() - 15, 0, 15, 10);
-            browser.setLocation(Display.getX() + 10, Display.getY() + 10);
-            browser.getBrowser().setZoomLevel(0.0);
+            this.browser.setSize(current.getScaledWidth() * current.getScaleFactor() - 20,
+                current.getScaledHeight() * current.getScaleFactor() - 20);
+            this.browser.getMotionPanel().setBounds(0, 0, browser.getWidth(), 10);
+            this.browser.getBrowserView().setBounds(0, 10, browser.getWidth(), browser.getHeight() - 10);
+            this.browser.getMotionPanel().getComponent(0).setBounds(browser.getWidth() - 30, 0, 15, 10);
+            this.browser.getMotionPanel().getComponent(1).setBounds(browser.getWidth() - 15, 0, 15, 10);
+            this.browser.setLocation(Display.getX() + 10, Display.getY() + 10);
+            this.browser.getBrowser().setZoomLevel(0.0);
             System.out.println("Resize");
         }
-        maximized = !maximized;
+        this.maximized = !this.maximized;
     }
-
+    
     public void browse(String url) {
-        show = true;
-        if (browser == null)
-            browser = new BrowserWindow(url);
-        else {
-            if (url.equalsIgnoreCase("close"))
-                show = false;
-            else {
-                browser.loadURL(url);
-                browser.setVisible(true);
+        this.show = true;
+        if (this.browser == null) {
+            this.browser = new BrowserWindow(url);
+        } else {
+            if (url.equalsIgnoreCase("close")) {
+                this.show = false;
+            } else {
+                this.browser.loadURL(url);
+                this.browser.setVisible(true);
             }
         }
-        browser.getBrowser().setZoomLevel(-3.8017840169239308);
+        this.browser.getBrowser().setZoomLevel(-3.8017840169239308);
     }
-
+    
     @InvokeEvent
     public void onTick(TickEvent e){
         if(browser == null)return;
@@ -76,12 +78,12 @@ public class BrowserManager {
         else if(Display.isActive() && !browser.isVisible() && show)
             browser.setVisible(true);
     }
-
+    
     public void setShow(boolean show) {
         this.show = show;
     }
-
+    
     public boolean isShow() {
-        return show;
+        return this.show;
     }
 }
