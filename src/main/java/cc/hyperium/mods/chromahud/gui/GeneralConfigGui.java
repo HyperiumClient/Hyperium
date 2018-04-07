@@ -21,6 +21,7 @@ import cc.hyperium.event.EventBus;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.TickEvent;
 import cc.hyperium.gui.GuiButtonIcon;
+import cc.hyperium.gui.HyperiumGui;
 import cc.hyperium.mods.chromahud.ChromaHUD;
 import cc.hyperium.mods.chromahud.ChromaHUDApi;
 import cc.hyperium.mods.chromahud.DisplayElement;
@@ -28,6 +29,7 @@ import cc.hyperium.mods.chromahud.ElementRenderer;
 import cc.hyperium.mods.chromahud.api.Dimension;
 import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
@@ -93,6 +95,10 @@ public class GeneralConfigGui extends GuiScreen {
         super.drawScreen(mouseX, mouseY, partialTicks);
         List<DisplayElement> elementList = mod.getDisplayElements();
         for (DisplayElement element : elementList) {
+            if (this.currentElement != null && this.currentElement == element) {
+                continue;
+            }
+            
             ElementRenderer.startDrawing(element);
             try {
                 element.drawForConfig();
@@ -105,24 +111,24 @@ public class GeneralConfigGui extends GuiScreen {
             boolean cbHud = currentElement.getDisplayItems().stream().anyMatch(i -> i.getType().contains("CB"));
             ScaledResolution resolution = new ScaledResolution(Minecraft.getMinecraft());
             double offset = currentElement.isRightSided() ? currentElement.getDimensions().getWidth() : 0;
-//            double offset= 4;
+    
+            // Left top right bottom
             double x1 = currentElement.getXloc() * resolution.getScaledWidth_double()-offset;
             double x2 = currentElement.getXloc() * resolution.getScaledWidth_double() + (cbHud ? 60 : currentElement.getDimensions().getWidth())-offset;
             double y1 = currentElement.getYloc() * resolution.getScaledHeight_double();
             double y2 = currentElement.getYloc() * resolution.getScaledHeight_double() + currentElement.getDimensions().getHeight();
-            //Left top right bottom
 
-            //Outline
-            drawHorizontalLine((int) (x1 - 5), (int) (x2 + 5), (int) y1 - 5, Color.RED.getRGB());
-            drawHorizontalLine((int) (x1 - 5), (int) (x2 + 5), (int) y2 + 5, Color.RED.getRGB());
-            drawVerticalLine((int) x1 - 5, (int) (y1 - 5), (int) (y2 + 5), Color.RED.getRGB());
-            drawVerticalLine((int) x2 + 5, (int) (y1 - 5), (int) (y2 + 5), Color.RED.getRGB());
-
-//            drawVerticalLine((int) (y1 + 5), (int) (y1 - 5), (int) 3, Color.RED.getRGB());
-
-//            Gui.drawRect((int) x1, (int) y1, (int) x2, (int) y2, Color.WHITE.getRGB());
-//            currentElement.drawForConfig();
-            edit.visible = true;
+            // Chroma selection background
+            if (this.currentElement.isSelected()) {
+                HyperiumGui.drawChromaBox((int) x1 - 2, (int) y1 - 2, (int) x2 + 2, (int) y2 - 2, 0.2F);
+            }
+            
+            // Draw the element after the background
+            this.currentElement.drawForConfig();
+            
+            // Turns the edit image on
+            this.edit.visible = true;
+            
             int propX = (int) x1 - 5;
             int propY = (int) y1 - 20;
             if (propX < 10 || propX > resolution.getScaledWidth() - 200) {
@@ -132,11 +138,9 @@ public class GeneralConfigGui extends GuiScreen {
                 propY = resolution.getScaledHeight() / 2;
             edit.xPosition = propX;
             edit.yPosition = propY;
-//            System.out.println("Y1: " + y1 +" res/2: " + (resolution.getScaledHeight() / 2));
-
-
-//
-        } else edit.visible = false;
+        } else {
+            this.edit.visible = false;
+        }
     }
 
     @Override
@@ -194,13 +198,31 @@ public class GeneralConfigGui extends GuiScreen {
                         && clickX < displayXLoc + dimension.getWidth()
                         && clickY < displayYLoc
                         && clickY > displayYLoc - dimension.getHeight()) {
+                    
+                    // Open gui
+                    if (currentElement != null && currentElement == element) {
+                        // Safely nuke the fields and deactivate the chroma effect
+                        element.setSelected(false);
+                        this.currentElement = null;
+    
+                        this.mc.getSoundHandler().playSound(PositionedSoundRecord
+                            .create(new ResourceLocation("gui.button.press"), 1.0F));
+                        Minecraft.getMinecraft().displayGuiScreen(new DisplayElementConfig(element, mod));
+                        return;
+                    }
+                    
                     this.currentElement = element;
+                    element.setSelected(true);
                     found = true;
                     break;
                 }
             }
-            if (!found)
+            if (!found) {
+                if (currentElement != null) {
+                    currentElement.setSelected(false);
+                }
                 currentElement = null;
+            }
         }
         mouseDown = Mouse.isButtonDown(0);
     }
