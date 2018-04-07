@@ -18,19 +18,18 @@
 package cc.hyperium.gui.integrations;
 
 import cc.hyperium.Hyperium;
+import cc.hyperium.gui.GuiBlock;
+import cc.hyperium.gui.GuiBoxItem;
 import cc.hyperium.gui.HyperiumGui;
+import cc.hyperium.mods.chromahud.NumberUtil;
 import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
 import cc.hyperium.utils.ChatColor;
 import cc.hyperium.utils.JsonHolder;
 import club.sk1er.website.api.requests.HypixelApiFriendObject;
-import cc.hyperium.gui.GuiBlock;
-import cc.hyperium.gui.GuiBoxItem;
-import cc.hyperium.mods.chromahud.NumberUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
-import net.minecraft.client.gui.ScaledResolution;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
@@ -50,7 +49,6 @@ public class HypixelFriendsGui extends HyperiumGui {
     private GuiTextField textField;
     private List<HypixelApiFriendObject> selected = new ArrayList<>();
     private static FriendSortType sortType = FriendSortType.NONE;
-    private ScaledResolution lastResolution;
     private List<GuiBoxItem<HypixelApiFriendObject>> friendListBoxes = new ArrayList<>();
     private List<GuiBoxItem<HypixelApiFriendObject>> selectedBoxes = new ArrayList<>();
     private GuiBoxItem<HypixelApiFriendObject> selectedItem = null;
@@ -60,7 +58,6 @@ public class HypixelFriendsGui extends HyperiumGui {
     private int removeTicks = 0;
 
     public HypixelFriendsGui() {
-        lastResolution = ResolutionUtil.current();
         rebuildFriends();
 
 
