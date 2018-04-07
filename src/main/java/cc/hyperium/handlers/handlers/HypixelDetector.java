@@ -29,7 +29,7 @@ import java.util.regex.Pattern;
 public class HypixelDetector {
 
     private static final Pattern HYPIXEL_PATTERN =
-            Pattern.compile("^(?:(?:(?:\\w+\\.)?hypixel\\.net)|(?:209\\.222\\.115\\.\\d{1,3}))(?::\\d{1,5})?$", Pattern.CASE_INSENSITIVE);
+            Pattern.compile("^(?:(?:(?:\\w+\\.)?hypixel\\.net)|(?:209\\.222\\.115\\.\\d{1,3}))(?::\\d{1,5})|(?:hypixel\\.net)?$", Pattern.CASE_INSENSITIVE);
     private static HypixelDetector instance;
     private boolean hypixel = false;
     public static boolean badlion = false;
