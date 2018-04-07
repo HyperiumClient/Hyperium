@@ -18,6 +18,8 @@
 package cc.hyperium.mixins.packet;
 
 import cc.hyperium.Hyperium;
+import cc.hyperium.event.EventBus;
+import cc.hyperium.event.ServerChatEvent;
 import cc.hyperium.mods.timechanger.TimeChanger;
 
 import net.minecraft.client.Minecraft;
@@ -29,14 +31,19 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.PacketThreadUtil;
 import net.minecraft.network.play.INetHandlerPlayClient;
+import net.minecraft.network.play.server.S02PacketChat;
 import net.minecraft.network.play.server.S03PacketTimeUpdate;
-
 import net.minecraft.network.play.server.S0BPacketAnimation;
 import net.minecraft.util.EnumParticleTypes;
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 
+/**
+ * Provides code that may be used in mods that require it
+ *
+ */
 @Mixin(NetHandlerPlayClient.class)
 public abstract class MixinNetHandlerPlayClient {
     
@@ -92,7 +99,7 @@ public abstract class MixinNetHandlerPlayClient {
     public void handleAnimation(S0BPacketAnimation packetIn) {
         PacketThreadUtil.checkThreadAndEnqueue(packetIn, (INetHandlerPlayClient) getNetworkManager().getNetHandler(), this.gameController);
         
-        // Added by boomboompower to fix internal errors
+        // Stops the code if the world is null, usually due to a weird packet from the server
         if (this.clientWorldController == null) {
             return;
         }
@@ -113,6 +120,38 @@ public abstract class MixinNetHandlerPlayClient {
             } else if (packetIn.getAnimationType() == 5) {
                 this.gameController.effectRenderer.emitParticleAtEntity(entity, EnumParticleTypes.CRIT_MAGIC);
             }
+        }
+    }
+    
+    /**
+     * Allows detection of incoming chat packets from the server (includes actionbars)
+     *
+     * Byte values for the event
+     * 0 : Standard Text Message, displayed in chat
+     * 1 : 'System' message, displayed as standard text in the chat.
+     * 2 : 'Status' message, displayed as an action bar above the hotbar
+     *
+     * @author boomboompower
+     * @reason Detect incoming chat packets being sent from the server
+     */
+    @Overwrite
+    public void handleChat(S02PacketChat packetIn) {
+        PacketThreadUtil.checkThreadAndEnqueue(packetIn, (INetHandlerPlayClient) getNetworkManager().getNetHandler(), this.gameController);
+        
+        ServerChatEvent event = new ServerChatEvent(packetIn.getType(), packetIn.getChatComponent());
+        
+        EventBus.INSTANCE.post(event);
+        
+        // If the event is cancelled or the message is empty, we'll ignore the packet.
+        if (event.isCancelled() || event.getChat().getFormattedText().isEmpty()) {
+            return;
+        }
+        
+        if (packetIn.getType() == 2) {
+            this.gameController.ingameGUI.setRecordPlaying(event.getChat(), false);
+        } else {
+            // This will then trigger the other chat event
+            this.gameController.ingameGUI.getChatGUI().printChatMessage(event.getChat());
         }
     }
     
