@@ -41,7 +41,6 @@ public abstract class MixinGuiIngame {
     public abstract FontRenderer getFontRenderer();
 
     @Inject(method = "renderGameOverlay", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/settings/KeyBinding;isKeyDown()Z"))
-
     private void renderGameOverlay(float partialTicks, CallbackInfo ci) {
         EventBus.INSTANCE.post(new RenderHUDEvent(partialTicks));
     }

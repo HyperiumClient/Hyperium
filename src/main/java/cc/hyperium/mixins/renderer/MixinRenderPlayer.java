@@ -17,7 +17,6 @@
 
 package cc.hyperium.mixins.renderer;
 
-import cc.hyperium.Hyperium;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.RenderPlayerEvent;
 import net.minecraft.client.entity.AbstractClientPlayer;
@@ -41,42 +40,11 @@ public abstract class MixinRenderPlayer extends RendererLivingEntity<AbstractCli
 
     @Shadow
     public abstract ModelPlayer getMainModel();
-
-    @Inject(method = "doRender", at = @At("HEAD"))
+    @Inject(method = "doRender", at = @At(value = "INVOKE",target = "Lnet/minecraft/client/entity/AbstractClientPlayer;isSneaking()Z"))
     private void doRender(AbstractClientPlayer entity, double x, double y, double z, float entityYaw, float partialTicks, CallbackInfo ci) {
         EventBus.INSTANCE.post(new RenderPlayerEvent(entity, renderManager, x, y, z, partialTicks));
 
         //Start DAB
-        int dabTicks = Hyperium.INSTANCE.getCosmetics().getDabCosmetic().getDabTicks(entity.getUniqueID());
-        if (dabTicks <= -1)
-            return;
-        //Dabq
-        float heldPercent = 100;
-        int dabAnimTicks = Hyperium.INSTANCE.getCosmetics().getDabCosmetic().getDabAnimTicks(entity.getUniqueID());
-        if (dabAnimTicks > 0) {
-            heldPercent = 10 * (10 - dabAnimTicks);
-        }
-        if (dabTicks < 10)
-            heldPercent = 10 * (dabTicks);
-        heldPercent /= 100;
-
-        getMainModel().bipedRightArm.rotateAngleX = (float) Math.toRadians(-90.0f * heldPercent);
-        getMainModel().bipedRightArm.rotateAngleY = (float) Math.toRadians(-35.0f * heldPercent);
-        getMainModel().bipedRightArmwear.rotateAngleX = (float) Math.toRadians(-90.0f * heldPercent);
-        getMainModel().bipedRightArmwear.rotateAngleY = (float) Math.toRadians(-35.0f * heldPercent);
-        getMainModel().bipedLeftArm.rotateAngleX = (float) Math.toRadians(15.0f * heldPercent);
-        getMainModel().bipedLeftArm.rotateAngleY = (float) Math.toRadians(15.0f * heldPercent);
-        getMainModel().bipedLeftArm.rotateAngleZ = (float) Math.toRadians(-110.0f * heldPercent);
-        getMainModel().bipedLeftArmwear.rotateAngleX = (float) Math.toRadians(15.0f * heldPercent);
-        getMainModel().bipedLeftArmwear.rotateAngleY = (float) Math.toRadians(15.0f * heldPercent);
-        getMainModel().bipedLeftArmwear.rotateAngleZ = (float) Math.toRadians(-110.0f * heldPercent);
-
-        final float rotationX = entity.rotationPitch;
-        getMainModel().bipedHead.rotateAngleX = (float) Math.toRadians(-rotationX * heldPercent) + (float) Math.toRadians(45.0f * heldPercent + rotationX);
-        final float rotationY = entity.renderYawOffset - entity.rotationYaw;
-        getMainModel().bipedHead.rotateAngleY = (float) Math.toRadians(rotationY * heldPercent) + (float) Math.toRadians(35.0f * heldPercent - rotationY);
-        getMainModel().bipedHeadwear.rotateAngleX = (float) Math.toRadians(45.0f * heldPercent);
-        getMainModel().bipedHeadwear.rotateAngleY = (float) Math.toRadians(35.0f * heldPercent);
 
     }
 

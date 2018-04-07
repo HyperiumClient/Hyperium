@@ -60,6 +60,7 @@ public class HyperiumHandlers {
     private BrowserManager browserManager;
     private ScoreboardRenderer scoreboardRenderer;
     private OtherConfigOptions configOptions;
+    private DabHandler dabHandler;
     private GameDataTracking dataTracking;
     private QuestTrackingChatHandler questTracking;
 
@@ -82,6 +83,7 @@ public class HyperiumHandlers {
         register(scoreboardRenderer = new ScoreboardRenderer());
         register(dataTracking = new GameDataTracking());
         register(privateMessageHandler = new PrivateMessageHandler());
+        register(dabHandler = new DabHandler());
 
         commandQueue = new CommandQueue();
         dataHandler = new ApiDataHandler();
@@ -210,5 +212,9 @@ public class HyperiumHandlers {
 
     public QuestTrackingChatHandler getQuestTracking() {
         return questTracking;
+    }
+
+    public DabHandler getDabHandler() {
+        return dabHandler;
     }
 }

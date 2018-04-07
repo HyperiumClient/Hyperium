@@ -51,12 +51,12 @@ public class KeyBindHandler {
     public HyperiumBind debug = new HyperiumBind("DEBUG", Keyboard.KEY_J) {
         @Override
         public void onPress() {
-            Hyperium.INSTANCE.getHandlers().getRenderOptomizer().setLimitArmourStands(!Hyperium.INSTANCE.getHandlers().getRenderOptomizer().isLimitArmourStands());
+    Hyperium.INSTANCE.getHandlers().getDabHandler().startDabbing(Minecraft.getMinecraft().getSession().getProfile().getId());
         }
 
         @Override
         public void onRelease() {
-            Hyperium.INSTANCE.getHandlers().getRenderOptomizer().setLimitArmourStands(!Hyperium.INSTANCE.getHandlers().getRenderOptomizer().isLimitArmourStands());
+            Hyperium.INSTANCE.getHandlers().getDabHandler().stopDabbing(Minecraft.getMinecraft().getSession().getProfile().getId());
         }
     };
 

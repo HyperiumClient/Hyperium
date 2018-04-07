@@ -42,6 +42,8 @@ import cc.hyperium.mods.discord.RichPresenceManager;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.mods.sk1ercommon.Sk1erMod;
 import cc.hyperium.mods.statistics.GeneralStatisticsTracking;
+import cc.hyperium.netty.NettyClient;
+import cc.hyperium.network.NetworkHandler;
 import cc.hyperium.tray.TrayManager;
 import cc.hyperium.utils.mods.CompactChat;
 import cc.hyperium.utils.mods.FPSLimiter;

@@ -144,7 +144,6 @@ public class ConfirmationPopup {
                 long length = upperThreshold - lowerThreshold;
                 long current = framesLeft - lowerThreshold;
                 float progress = 1.0F - HyperiumGui.clamp((float) current / (float) length, 0.0F, 1.0F);
-                System.out.println("l: " + length + ",c: " + current + ",p: " + progress);
 
                 // Progress
                 Gui.drawRect(

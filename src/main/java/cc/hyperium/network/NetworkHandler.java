@@ -1,5 +1,6 @@
 package cc.hyperium.network;
 
+import cc.hyperium.Hyperium;
 import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
 import cc.hyperium.netty.INetty;
 import net.minecraft.client.Minecraft;
@@ -29,6 +30,8 @@ public class NetworkHandler implements INetty {
 
     @Override
     public void handleDab(UUID uuid, boolean b) {
-        System.out.println("UUID: " + uuid + " new dabbing state: " + b);
+        if (b)
+            Hyperium.INSTANCE.getHandlers().getDabHandler().get(uuid).ensureDabbingFor(60);
+        else Hyperium.INSTANCE.getHandlers().getDabHandler().get(uuid).stopDabbing();
     }
 }
