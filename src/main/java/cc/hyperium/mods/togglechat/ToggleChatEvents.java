@@ -17,14 +17,15 @@
 
 package cc.hyperium.mods.togglechat;
 
-import cc.hyperium.event.ChatEvent;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.Priority;
+import cc.hyperium.event.ServerChatEvent;
 import cc.hyperium.utils.ChatColor;
 import cc.hyperium.mods.togglechat.toggles.ToggleBase;
 import cc.hyperium.mods.togglechat.toggles.defaults.TypeMessageSeparator;
 
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.ChatStyle;
 
 /**
  * Handles all the main ToggleChat events for the lightweight
@@ -41,7 +42,7 @@ public class ToggleChatEvents {
     }
 
     @InvokeEvent(priority = Priority.HIGH) // We use the high priority to grab things first
-    public void onChatReceive(ChatEvent event) {
+    public void onChatReceive(ServerChatEvent event) {
         // Strip the message of any colors for improved detectability
         String unformattedText = ChatColor.stripColor(event.getChat().getUnformattedText());
 
@@ -67,13 +68,16 @@ public class ToggleChatEvents {
                     // don't send the message to the player & stop looping
                     if (type.shouldToggle(input)) {
                         if (type instanceof TypeMessageSeparator) {
+                            // Attempt to keep the formatting
+                            ChatStyle style = event.getChat().getChatStyle();
+                            
                             String edited = ((TypeMessageSeparator) type).editMessage(formattedText);
                             
                             // Don't bother sending the message if its empty
                             if (!input.equals(edited) && edited.isEmpty()) {
                                 event.setCancelled(true);
                             } else {
-                                event.setChat(new ChatComponentText(edited));
+                                event.setChat(new ChatComponentText(edited).setChatStyle(style));
                             }
                         } else {
                             event.setCancelled(true);
