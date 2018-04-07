@@ -261,7 +261,9 @@ public class Hyperium {
         if (updateQueue) {
             try {
                 boolean windows = InstallerFrame.OsCheck.getOperatingSystemType() == InstallerFrame.OsCheck.OSType.Windows;
-                String cs = new File(getClass().getResource(".").getPath()).getAbsolutePath();
+                //Class<?> c = getClass();
+                //String n = c.getName().replace('.', '/');
+                String cs = Hyperium.class.getProtectionDomain().getCodeSource().getLocation().getPath();
                 System.out.println("cs="+cs);
                 Runtime.getRuntime().exec(new String[]{
                         windows ? "cmd" : "bash",
