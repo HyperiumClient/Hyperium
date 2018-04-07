@@ -57,12 +57,7 @@ public class BrowserWindow extends JFrame {
     public BrowserWindow(String url) {
         CookieHandler cookieManager;
         
-        // Allow backup CookieManager
-        try {
-            cookieManager = new com.sun.webkit.network.CookieManager();
-        } catch (Exception ex) {
-            cookieManager = new CookieManager();
-        }
+        cookieManager = new CookieManager();
         
         CookieHandler.setDefault(cookieManager);
         

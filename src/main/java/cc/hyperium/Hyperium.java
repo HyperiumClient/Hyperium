@@ -42,8 +42,6 @@ import cc.hyperium.mods.discord.RichPresenceManager;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.mods.sk1ercommon.Sk1erMod;
 import cc.hyperium.mods.statistics.GeneralStatisticsTracking;
-import cc.hyperium.netty.NettyClient;
-import cc.hyperium.network.NetworkHandler;
 import cc.hyperium.tray.TrayManager;
 import cc.hyperium.utils.mods.CompactChat;
 import cc.hyperium.utils.mods.FPSLimiter;
@@ -271,8 +269,10 @@ public class Hyperium {
         if (updateQueue) {
             try {
                 boolean windows = InstallerFrame.OsCheck.getOperatingSystemType() == InstallerFrame.OsCheck.OSType.Windows;
-                String cs = new File(getClass().getResource('/' + getClass().getName().replace('.', '/') + ".class").getFile()).getAbsolutePath();
-                System.out.println("cs=" + cs);
+                //Class<?> c = getClass();
+                //String n = c.getName().replace('.', '/');
+                String cs = Hyperium.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+                System.out.println("cs="+cs);
                 Runtime.getRuntime().exec(new String[]{
                         windows ? "cmd" : "bash",
                         windows ? "/c" : "-c",

@@ -24,6 +24,10 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.WorldRenderer;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import org.lwjgl.input.Mouse;
 
 import java.awt.*;
@@ -137,6 +141,58 @@ public abstract class HyperiumGui extends GuiScreen {
         } else {
             return goal;
         }
+    }
+    
+    /**
+     * Draws an animated rainbow box in the specified range
+     *
+     * @param left the x1 position
+     * @param top the y1 position
+     * @param right the x2 position
+     * @param bottom the y2 position
+     * @param alpha the alpha the box should be drawn at
+     *
+     * @author boomboompower
+     */
+    public static void drawChromaBox(int left, int top, int right, int bottom, float alpha) {
+        if (left < right) {
+            int i = left;
+            left = right;
+            right = i;
+        }
+        
+        if (top < bottom) {
+            int j = top;
+            top = bottom;
+            bottom = j;
+        }
+        
+        int startColor = Color.HSBtoRGB(System.currentTimeMillis() % 5000L / 5000.0f, 0.8f, 0.8f);
+        int endColor = Color.HSBtoRGB((System.currentTimeMillis() + 500) % 5000L / 5000.0f, 0.8f, 0.8f);
+        
+        float f1 = (float) (startColor >> 16 & 255) / 255.0F;
+        float f2 = (float) (startColor >> 8 & 255) / 255.0F;
+        float f3 = (float) (startColor & 255) / 255.0F;
+        float f5 = (float) (endColor >> 16 & 255) / 255.0F;
+        float f6 = (float) (endColor >> 8 & 255) / 255.0F;
+        float f7 = (float) (endColor & 255) / 255.0F;
+        GlStateManager.disableTexture2D();
+        GlStateManager.enableBlend();
+        GlStateManager.disableAlpha();
+        GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
+        GlStateManager.shadeModel(7425);
+        Tessellator tessellator = Tessellator.getInstance();
+        WorldRenderer worldrenderer = tessellator.getWorldRenderer();
+        worldrenderer.begin(7, DefaultVertexFormats.POSITION_COLOR);
+        worldrenderer.pos((double) right, (double)top, (double) 0).color(f1, f2, f3, alpha).endVertex();
+        worldrenderer.pos((double) left, (double)top, (double) 0).color(f1, f2, f3, alpha).endVertex();
+        worldrenderer.pos((double) left, (double)bottom, (double) 0).color(f5, f6, f7, alpha).endVertex();
+        worldrenderer.pos((double) right, (double)bottom, (double) 0).color(f5, f6, f7, alpha).endVertex();
+        tessellator.draw();
+        GlStateManager.shadeModel(7424);
+        GlStateManager.disableBlend();
+        GlStateManager.enableAlpha();
+        GlStateManager.enableTexture2D();
     }
     
     public void show() {
