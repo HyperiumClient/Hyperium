@@ -25,6 +25,8 @@ import cc.hyperium.gui.ModConfigGui;
 import cc.hyperium.gui.NameHistoryGui;
 import cc.hyperium.gui.integrations.HypixelFriendsGui;
 import cc.hyperium.gui.integrations.QueueModGui;
+import cc.hyperium.netty.NettyClient;
+import cc.hyperium.netty.packet.packets.serverbound.ServerDabbingUpdate;
 import net.minecraft.client.Minecraft;
 import org.apache.commons.lang3.ArrayUtils;
 import org.lwjgl.input.Keyboard;
@@ -59,12 +61,30 @@ public class KeyBindHandler {
     public HyperiumBind debug = new HyperiumBind("DEBUG", Keyboard.KEY_J) {
         @Override
         public void onPress() {
-    Hyperium.INSTANCE.getHandlers().getDabHandler().startDabbing(Minecraft.getMinecraft().getSession().getProfile().getId());
+            Hyperium.INSTANCE.getHandlers().getDabHandler().startDabbing(Minecraft.getMinecraft().getSession().getProfile().getId());
+            NettyClient.getClient().write(ServerDabbingUpdate.build(true));
         }
 
         @Override
         public void onRelease() {
             Hyperium.INSTANCE.getHandlers().getDabHandler().stopDabbing(Minecraft.getMinecraft().getSession().getProfile().getId());
+            NettyClient.getClient().write(ServerDabbingUpdate.build(false));
+
+        }
+    };
+
+    public HyperiumBind dab = new HyperiumBind("Dab", Keyboard.KEY_B) {
+        @Override
+        public void onPress() {
+            Hyperium.INSTANCE.getHandlers().getDabHandler().startDabbing(Minecraft.getMinecraft().getSession().getProfile().getId());
+            NettyClient.getClient().write(ServerDabbingUpdate.build(true));
+        }
+
+        @Override
+        public void onRelease() {
+            Hyperium.INSTANCE.getHandlers().getDabHandler().stopDabbing(Minecraft.getMinecraft().getSession().getProfile().getId());
+            NettyClient.getClient().write(ServerDabbingUpdate.build(false));
+
         }
     };
 
@@ -89,6 +109,7 @@ public class KeyBindHandler {
         registerKeyBinding(debug);
         registerKeyBinding(guikey);
         registerKeyBinding(queue);
+        registerKeyBinding(dab);
     }
 
     @InvokeEvent
