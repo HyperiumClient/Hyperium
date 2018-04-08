@@ -24,6 +24,7 @@ import cc.hyperium.event.KeypressEvent;
 import cc.hyperium.gui.ModConfigGui;
 import cc.hyperium.gui.NameHistoryGui;
 import cc.hyperium.gui.integrations.HypixelFriendsGui;
+import cc.hyperium.gui.integrations.QueueModGui;
 import net.minecraft.client.Minecraft;
 import org.apache.commons.lang3.ArrayUtils;
 import org.lwjgl.input.Keyboard;
@@ -48,6 +49,13 @@ public class KeyBindHandler {
             Minecraft.getMinecraft().displayGuiScreen(new HypixelFriendsGui());
         }
     };
+    public HyperiumBind queue = new HyperiumBind("Queue", Keyboard.KEY_K) {
+        @Override
+        public void onPress() {
+            Minecraft.getMinecraft().displayGuiScreen(new QueueModGui());
+        }
+    };
+
     public HyperiumBind debug = new HyperiumBind("DEBUG", Keyboard.KEY_J) {
         @Override
         public void onPress() {
@@ -80,6 +88,7 @@ public class KeyBindHandler {
         registerKeyBinding(nameHistory);
         registerKeyBinding(debug);
         registerKeyBinding(guikey);
+        registerKeyBinding(queue);
     }
 
     @InvokeEvent

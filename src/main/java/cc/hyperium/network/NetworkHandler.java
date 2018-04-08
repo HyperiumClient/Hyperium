@@ -5,6 +5,7 @@ import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
 import cc.hyperium.netty.INetty;
 import net.minecraft.client.Minecraft;
 
+import java.util.List;
 import java.util.UUID;
 
 public class NetworkHandler implements INetty {
@@ -33,5 +34,17 @@ public class NetworkHandler implements INetty {
         if (b)
             Hyperium.INSTANCE.getHandlers().getDabHandler().get(uuid).ensureDabbingFor(60);
         else Hyperium.INSTANCE.getHandlers().getDabHandler().get(uuid).stopDabbing();
+    }
+
+    @Override
+    public void party(List<String> list) {
+        for (String s : list) {
+            Hyperium.INSTANCE.getHandlers().getCommandQueue().queue("/party invite " + s);
+        }
+    }
+
+    @Override
+    public void setLeader(String s) {
+        Hyperium.INSTANCE.getConfirmation().setAcceptFrom(s);
     }
 }
