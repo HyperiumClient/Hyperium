@@ -94,6 +94,7 @@ dependencies {
     embed group: 'org.slick2d', name: 'slick2d-core', version: '1.0.2'
 
     embed "com.github.KevinPriv:MojangAPI:1.0"
+    embed fileTree(dir: 'libs', include: 'Netty Client.jar')
     compile fileTree(dir: 'libs', include: '*.jar')
 }
 
