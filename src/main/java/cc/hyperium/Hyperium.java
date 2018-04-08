@@ -279,6 +279,7 @@ public class Hyperium {
                 for(URL u : Launch.classLoader.getURLs())
                     if(u.getPath().contains("Hyperium"))
                         cs = u.getPath();
+                System.out.println("cs="+cs);
                 Runtime.getRuntime().exec(new String[]{
                         windows ? "cmd" : "bash",
                         windows ? "/c" : "-c",
