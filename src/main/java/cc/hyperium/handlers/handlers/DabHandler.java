@@ -3,6 +3,7 @@ package cc.hyperium.handlers.handlers;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.RenderEvent;
 import cc.hyperium.gui.HyperiumGui;
+import cc.hyperium.gui.settings.items.AnimationSettings;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.model.ModelBiped;
@@ -28,7 +29,7 @@ public class DabHandler {
                         this.state,
                         this.asc ? 100.0f : 0.0f,
                         0.01f,
-                        7
+                        AnimationSettings.dabSpeed
                 ),
                 0.0f,
                 100.0f

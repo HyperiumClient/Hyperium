@@ -25,6 +25,8 @@ import cc.hyperium.gui.settings.SettingGui;
 import cc.hyperium.gui.settings.components.SelectionItem;
 import net.minecraft.client.gui.GuiScreen;
 
+import java.util.Arrays;
+
 public class AnimationSettings extends SettingGui {
 
     private DefaultConfig config;
@@ -46,13 +48,16 @@ public class AnimationSettings extends SettingGui {
     @ConfigOpt
     public static boolean redArmour = true;
 
+    // Dab Mod
+    @ConfigOpt
+    public static int dabSpeed = 7;
+
     private SelectionItem<String> blockhit;
     private SelectionItem<String> bow;
     private SelectionItem<String> rod;
     private SelectionItem<String> eat;
     private SelectionItem<String> redarmour;
-
-
+    private SelectionItem<Integer> dabspeed;
 
     public AnimationSettings(HyperiumGui previous) {
         super("ANIMATIONS", previous);
@@ -103,6 +108,15 @@ public class AnimationSettings extends SettingGui {
         redarmour.addItem("1.7");
         redarmour.addItem("1.8");
         redarmour.setSelectedItem(redArmour ? "1.7" : "1.8");
+
+        settingItems.add(dabspeed = new SelectionItem<>(5, getX(), getDefaultItemY(5), width - getX() * 2, "DAB SPEED", i -> {
+            ((SelectionItem) i).nextItem();
+            dabSpeed = 15 - (((SelectionItem<Integer>) i).getSelectedItem() * 2);
+        }));
+        dabspeed.addItems(Arrays.asList(1, 2, 3, 4, 5));
+        dabspeed.setSelectedItem(
+                dabSpeed == 13 ? 1 : dabSpeed == 11 ? 2 : dabSpeed == 9 ? 3 : dabSpeed == 7 ? 4 : 5
+        );
 
     }
 
