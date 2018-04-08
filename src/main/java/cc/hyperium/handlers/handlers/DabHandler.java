@@ -1,6 +1,7 @@
 package cc.hyperium.handlers.handlers;
 
-import cc.hyperium.config.ConfigOpt;
+import cc.hyperium.event.InvokeEvent;
+import cc.hyperium.event.RenderEvent;
 import cc.hyperium.gui.HyperiumGui;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
@@ -12,24 +13,22 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class DabHandler {
 
-    @ConfigOpt
-    public float speed = 7;
     private int dabs;
     private ConcurrentHashMap<UUID, DabState> dabStates = new ConcurrentHashMap<>();
     private float state = 0;
     private boolean right = true;
     private boolean asc = true;
 
-    public void update() {
+    @InvokeEvent
+    public void onRender(RenderEvent e) {
         dabStates.values().forEach(DabState::update);
-        speed = 7;
 
         state = HyperiumGui.clamp(
                 HyperiumGui.easeOut(
                         this.state,
                         this.asc ? 100.0f : 0.0f,
-                        0.1f,
-                        speed
+                        0.01f,
+                        7
                 ),
                 0.0f,
                 100.0f
@@ -64,7 +63,6 @@ public class DabHandler {
     }
 
     public void modify(AbstractClientPlayer entity, ModelPlayer player) {
-        update();
 
         int ticks = get(entity.getUniqueID()).dabFrames;
         if (ticks > 0) {
