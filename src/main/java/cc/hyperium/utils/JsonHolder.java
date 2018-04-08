@@ -209,7 +209,8 @@ public class JsonHolder {
             return fallBack;
         }
     }
-
+//modgame add bw_4 2 4 `Bedwars 4 Team` Bedwars
+    //modgame rm Bedwars
     public List<String> getKeys() {
         return object.entrySet().stream().map(Map.Entry::getKey).collect(Collectors.toList());
     }
