@@ -19,6 +19,9 @@ package cc.hyperium.mods.keystrokes;
 
 import cc.hyperium.commands.BaseCommand;
 import cc.hyperium.mods.keystrokes.screen.GuiScreenKeystrokes;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 public class CommandKeystrokes implements BaseCommand {
     
@@ -31,6 +34,11 @@ public class CommandKeystrokes implements BaseCommand {
     @Override
     public String getName() {
         return "keystrokesmod";
+    }
+    
+    @Override
+    public List<String> getCommandAliases() {
+        return Collections.singletonList("keystrokes");
     }
     
     @Override
