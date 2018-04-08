@@ -56,6 +56,7 @@ import org.lwjgl.opengl.Display;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.net.URLClassLoader;
 
 /**
  * Hypixel Community Client
@@ -276,7 +277,7 @@ public class Hyperium {
                 //Class<?> c = getClass();
                 //String n = c.getName().replace('.', '/');
                 String cs = "";
-                for(URL u : Launch.classLoader.getURLs())
+                for(URL u : ((URLClassLoader)getClass().getClassLoader()).getURLs())
                     if(u.getPath().contains("Hyperium"))
                         cs = u.getPath();
                 System.out.println("cs="+cs);
