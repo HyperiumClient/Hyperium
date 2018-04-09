@@ -34,8 +34,6 @@ import java.util.List;
  */
 public class CommandPlayGame implements BaseCommand {
 
-    private List<String> tabComplete = Arrays.asList("p", "pl", "pla", "play", "playg", "playga", "playgam");
-
     @Override
     public String getName() {
         return "playgame";
@@ -47,13 +45,8 @@ public class CommandPlayGame implements BaseCommand {
     }
     
     @Override
-    public void onExecute(String[] args) throws CommandException {
+    public void onExecute(String[] args) {
         new HyperiumGuiGames().show();
-    }
-    
-    @Override
-    public List<String> onTabComplete(String[] args) {
-        return tabComplete;
     }
 
 }
