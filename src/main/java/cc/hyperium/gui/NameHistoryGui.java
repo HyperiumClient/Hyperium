@@ -40,7 +40,6 @@ public class NameHistoryGui extends GuiScreen {
 
     @Override
     public void initGui() {
-        System.out.println("init!");
         super.initGui();
         nameField = new HyperiumTextField(1, fontRenderer, width / 2 - (115 / 2), height / 5 + 10, 115, 20);
     }
