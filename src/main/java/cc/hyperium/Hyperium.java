@@ -92,7 +92,6 @@ public class Hyperium {
     private HyperiumHandlers handlers;
     private HyperiumModIntegration modIntegration;
 
-    private CaptureCore captureCore;
     private MinigameListener minigameListener;
     private boolean acceptedTos = false;
     private boolean fullScreen = false;
