@@ -28,8 +28,6 @@ import java.util.List;
 
 public class CommandBrowser implements BaseCommand {
 
-    private List<String> tabComplete = Arrays.asList("br", "bro", "brow", "brows");
-
     @Override
     public String getName() {
         return "browser";
@@ -53,10 +51,5 @@ public class CommandBrowser implements BaseCommand {
         String url = args[0];
         System.out.println("Browsing " + url);
         Multithreading.runAsync(() -> Hyperium.INSTANCE.getHandlers().getBrowserManager().browse(url));
-    }
-
-    @Override
-    public List<String> onTabComplete(String[] args) {
-        return tabComplete;
     }
 }

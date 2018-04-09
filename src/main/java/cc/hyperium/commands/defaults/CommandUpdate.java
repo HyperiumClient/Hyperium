@@ -199,9 +199,4 @@ public class CommandUpdate implements BaseCommand {
         Hyperium.updateQueue = true;
         Hyperium.INSTANCE.getNotification().display("Update", "Update is scheduled after restart", 5);
     }
-
-    @Override
-    public List<String> onTabComplete(String[] args) {
-        return Arrays.asList("up", "upd", "upda");
-    }
 }

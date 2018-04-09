@@ -29,8 +29,6 @@ import java.util.List;
  */
 public class CommandConfigGui implements BaseCommand {
 
-    private List<String> tabComplete = Arrays.asList("hyperium", "hype", "config", "hyperiumcon", "hy");
-
     @Override
     public String getName() {
         return "hyperiumconfig";
@@ -44,10 +42,5 @@ public class CommandConfigGui implements BaseCommand {
     @Override
     public void onExecute(String[] args) {
         new ModConfigGui().show();
-    }
-
-    @Override
-    public List<String> onTabComplete(String[] args) {
-        return tabComplete;
     }
 }
