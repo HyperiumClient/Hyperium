@@ -19,10 +19,11 @@ package cc.hyperium.mods.discord;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.event.EventBus;
+
 import com.jagrosh.discordipc.IPCClient;
+import com.jagrosh.discordipc.IPCClient.Status;
 import com.jagrosh.discordipc.IPCListener;
 import com.jagrosh.discordipc.entities.DiscordBuild;
-import com.jagrosh.discordipc.entities.pipe.PipeStatus;
 import com.jagrosh.discordipc.exceptions.NoDiscordClientException;
 
 public class RichPresenceManager {
@@ -47,7 +48,7 @@ public class RichPresenceManager {
     public void shutdown() {
         // Added by Sk1er because game crashed from it (Did not complete proper shutdown sequence)
         try {
-            if (this.client != null && this.client.getStatus() == PipeStatus.CONNECTED) {
+            if (this.client != null && this.client.getStatus() == Status.CONNECTED) {
                 this.client.close();
             }
         } catch (Exception e) {
