@@ -175,14 +175,17 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityArmorStand;
 import net.minecraft.util.EnumChatFormatting;
 
-import java.util.HashMap;
 import java.util.Objects;
+import java.util.TreeMap;
 
 public class RenderOptimizer {
 
-    private HashMap<UniqueEntity, Boolean> rendered = new HashMap<>();
+    private TreeMap<UniqueEntity, Boolean> rendered = new TreeMap<>();
     @ConfigOpt
     private boolean limitArmourStands = true;
+
+    @ConfigOpt
+    private boolean alternateRendering = false;
 
     public boolean isLimitArmourStands() {
         return limitArmourStands;
@@ -206,21 +209,21 @@ public class RenderOptimizer {
     }
 
     private boolean isSimilar(Entity other) {
+        if (!alternateRendering)
+            return true;
         UniqueEntity key = new UniqueEntity(other);
-        if(rendered.containsKey(key))
-           return false;
-        rendered.put(key,true);
-        return true;
+        return !rendered.putIfAbsent(key, true);
     }
+
     class UniqueEntity {
-        private double x,y,z;
+        private double x, y, z;
         private String name;
 
         public UniqueEntity(Entity in) {
-            this.x=in.posX;
-            this.y=in.posY;
-            this.z=in.posZ;
-            name=EnumChatFormatting.getTextWithoutFormattingCodes(in.getDisplayName().getUnformattedText());
+            this.x = in.posX;
+            this.y = in.posY;
+            this.z = in.posZ;
+            name = EnumChatFormatting.getTextWithoutFormattingCodes(in.getDisplayName().getUnformattedText());
         }
 
         @Override
