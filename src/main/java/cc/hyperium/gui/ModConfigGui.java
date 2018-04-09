@@ -18,6 +18,7 @@
 package cc.hyperium.gui;
 
 import cc.hyperium.Hyperium;
+import cc.hyperium.gui.integrations.HypixelFriendsGui;
 import cc.hyperium.gui.settings.SettingItem;
 import cc.hyperium.gui.settings.items.*;
 import cc.hyperium.mods.chromahud.ChromaHUD;
@@ -135,26 +136,20 @@ public class ModConfigGui extends HyperiumGui {
                 "ANIMATIONS",
                 i -> Minecraft.getMinecraft().displayGuiScreen(new AnimationSettings(this))
         )).addSetting(new SettingItem(
-                2, getX(0),
-                getDefaultItemY(2),
-                width - getX(0) * 2,
-                "CAPTUREX",
-                i -> Minecraft.getMinecraft().displayGuiScreen(new CaptureXSetting(this))
-        )).addSetting(new SettingItem(
                 3, getX(0),
-                getDefaultItemY(3),
+                getDefaultItemY(2),
                 this.width - getX(0) * 2,
                 "TOGGLECHAT",
                 i -> Minecraft.getMinecraft().displayGuiScreen(new ToggleChatSettings(this))
         )).addSetting(new SettingItem(
                 4, getX(0),
-                getDefaultItemY(4),
+                getDefaultItemY(3),
                 width - getX(0) * 2,
                 "BACKGROUNDS",
                 i -> Minecraft.getMinecraft().displayGuiScreen(new BackgroundSettings(this))
         )).addSetting(new SettingItem(
                 5, getX(0),
-                getDefaultItemY(5),
+                getDefaultItemY(4),
                 this.width - getX(0) * 2,
                 "NAME HISTORY",
                 i -> Minecraft.getMinecraft().displayGuiScreen(new NameHistorySettings(this))
@@ -162,7 +157,7 @@ public class ModConfigGui extends HyperiumGui {
 
         tab.addSetting(new SettingItem(
                 6, getX(0),
-                getDefaultItemY(6),
+                getDefaultItemY(5),
                 width - getX(0) * 2,
                 Minecraft.getMinecraft().thePlayer != null ? "CHROMAHUD" : "CHROMAHUD CAN ONLY BE CONFIGURED INGAME",
                 i -> {
@@ -172,7 +167,7 @@ public class ModConfigGui extends HyperiumGui {
 
             tab.addSetting(new SettingItem(
                     7, getX(0),
-                    getDefaultItemY(7),
+                    getDefaultItemY(6),
                     width - getX(0) * 2,
                     Minecraft.getMinecraft().thePlayer != null? "KEYSTROKES" : "KEYSTROKES CAN ONLY BE CONFIGURED INGAME",
                     i -> {
@@ -192,12 +187,17 @@ public class ModConfigGui extends HyperiumGui {
         button = new CustomFontButton(3, getX(3), getY(), getButtonWidth(), 25, "FRIENDS");
         button.renderBackground = false;
         buttonList.add(button);
-        this.tabs.add(new Tab(button, 3, this));
+        this.tabs.add(new Tab(button, 3, this){
+            @Override
+            public void draw(int mouseX, int mouseY) {
+                new HypixelFriendsGui().show();
+            }
+        });
 
         button = new CustomFontButton(4, getX(4), getY(), getButtonWidth(), 25, "ABOUT");
         button.renderBackground = false;
         buttonList.add(button);
-        this.tabs.add(new ModConfigGui.Tab(button, 4, this) {
+        this.tabs.add(new Tab(button, 4, this) {
             @Override
             public void draw(int mouseX, int mouseY) {
                 super.draw(mouseX, mouseY);

@@ -5,8 +5,8 @@ import cc.hyperium.gui.GuiBoxItem;
 import cc.hyperium.gui.HyperiumGui;
 import cc.hyperium.netty.NettyClient;
 import cc.hyperium.netty.packet.packets.serverbound.UpdateQueuePacket;
-import net.minecraft.client.gui.GuiButton;
 import utils.JsonHolder;
+import net.minecraft.client.gui.GuiButton;
 
 import java.awt.*;
 import java.io.IOException;
