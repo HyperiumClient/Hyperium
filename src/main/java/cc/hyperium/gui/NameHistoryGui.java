@@ -135,10 +135,8 @@ public class NameHistoryGui extends GuiScreen {
                 // regions it cant exceed
                 offset -= 1;
             }
-        } else if (i > 0) {
-            if (offset < 0) {
-                offset += 1;
-            }
+        } else if (i > 0 && offset < 0) {
+            offset += 1;
         }
     }
 
