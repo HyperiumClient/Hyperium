@@ -6,8 +6,8 @@ import cc.hyperium.internal.addons.misc.AddonLoadException
 import cc.hyperium.internal.addons.strategy.AddonLoaderStrategy
 import cc.hyperium.internal.addons.strategy.DefaultAddonLoader
 import cc.hyperium.internal.addons.strategy.WorkspaceAddonLoader
-import me.kbrewster.blazeapi.internal.addons.translate.InstanceTranslator
-import me.kbrewster.blazeapi.internal.addons.translate.MixinTranslator
+import cc.hyperium.internal.addons.translate.InstanceTranslator
+import cc.hyperium.internal.addons.translate.MixinTranslator
 import net.minecraft.launchwrapper.Launch
 import java.io.File
 import java.util.*

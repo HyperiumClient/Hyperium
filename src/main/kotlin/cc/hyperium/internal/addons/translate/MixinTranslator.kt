@@ -1,4 +1,4 @@
-package me.kbrewster.blazeapi.internal.addons.translate
+package cc.hyperium.internal.addons.translate
 
 import cc.hyperium.internal.addons.AddonManifest
 import org.spongepowered.asm.mixin.Mixins

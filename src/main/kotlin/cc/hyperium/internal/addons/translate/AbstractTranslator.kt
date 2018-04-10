@@ -1,4 +1,4 @@
-package me.kbrewster.blazeapi.internal.addons.translate
+package cc.hyperium.internal.addons.translate
 
 abstract class AbstractTranslator: ITranslator {
 
