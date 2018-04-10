@@ -51,7 +51,7 @@ class MinigameListener {
         }
     }
 
-    private fun getScoreboardTitle(): String {
+    public fun getScoreboardTitle(): String {
         if (Minecraft.getMinecraft().theWorld.scoreboard.getObjectiveInDisplaySlot(1) != null) {
             return Minecraft.getMinecraft().theWorld.scoreboard
                     .getObjectiveInDisplaySlot(1)

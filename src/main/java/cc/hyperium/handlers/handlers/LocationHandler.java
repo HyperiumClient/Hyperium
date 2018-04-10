@@ -71,12 +71,16 @@ public class LocationHandler {
 
     @InvokeEvent
     public void serverSwap(ServerSwitchEvent event) {
-        NettyClient.getClient().write(UpdateLocationPacket.build(event.getTo()));
+        if (Hyperium.INSTANCE.getMinigameListener().getScoreboardTitle().equalsIgnoreCase(Minigame.HOUSING.name()))
+            NettyClient.getClient().write(UpdateLocationPacket.build(Minigame.HOUSING.name()));
+        else
+            NettyClient.getClient().write(UpdateLocationPacket.build(event.getTo()));
     }
+
     @InvokeEvent
     public void miniGameJoin(JoinMinigameEvent event) {
-        if(event.getMinigame() == Minigame.HOUSING)
-        NettyClient.getClient().write(UpdateLocationPacket.build(Minigame.HOUSING.name()));
+        if (event.getMinigame() == Minigame.HOUSING)
+            NettyClient.getClient().write(UpdateLocationPacket.build(Minigame.HOUSING.name()));
     }
 
     @InvokeEvent
