@@ -104,6 +104,14 @@ public class ChromaHUD extends AbstractMod {
             guiButton.displayString = EnumChatFormatting.RED.toString() + "Toggle Held Item";
         }));
 
+        ChromaHUDApi.getInstance().registerButtonConfig("ARMOUR_HUD", new ButtonConfig((guiButton, displayItem) -> {
+            ArmourHud item = (ArmourHud) displayItem;
+            item.setArmourOnTop(!item.isArmourOnTop());
+            guiButton.displayString = EnumChatFormatting.RED.toString() + "Toggle Armour On Top";
+        }, new GuiButton(0, 0, 0, "Armour Hud Hand"), (guiButton, displayItem) -> {
+            guiButton.displayString = EnumChatFormatting.RED.toString() + "Toggle Armour On Top";
+        }));
+
         GuiTextField textTextField = new GuiTextField(1, Minecraft.getMinecraft().fontRendererObj, 0, 0, 200, 20);
         ChromaHUDApi.getInstance().registerTextConfig("TEXT", new TextConfig((guiTextField, displayItem) -> {
             ((TextItem) displayItem).setText(guiTextField.getText());
