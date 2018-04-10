@@ -18,6 +18,7 @@
 package cc.hyperium.mods.common;
 
 import cc.hyperium.Hyperium;
+import cc.hyperium.config.ConfigOpt;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.KeypressEvent;
 import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
@@ -30,7 +31,11 @@ import org.lwjgl.input.Keyboard;
 public class ToggleSprintContainer {
 
     boolean press = false;
+
+    @ConfigOpt
     private boolean toggleSprintActive = false;
+
+
     private final HyperiumBind toggleSprint = new HyperiumBind("toggleSprint", Keyboard.KEY_V) {
         @Override
         public void onPress() {

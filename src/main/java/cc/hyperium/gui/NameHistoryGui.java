@@ -23,6 +23,7 @@ import me.kbrewster.mojangapi.MojangAPI;
 import me.kbrewster.mojangapi.profile.Name;
 import net.minecraft.client.gui.GuiScreen;
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 
 import java.awt.*;
 import java.io.IOException;
@@ -37,6 +38,7 @@ public class NameHistoryGui extends GuiScreen {
     List<String> names = new ArrayList<>();
     private HyperiumFontRenderer fontRenderer = new HyperiumFontRenderer("Arial", Font.PLAIN, 16);
     private HyperiumTextField nameField;
+    private int offset = 0;
 
     @Override
     public void initGui() {
@@ -63,7 +65,23 @@ public class NameHistoryGui extends GuiScreen {
             defaultColour = Color.getHSBColor(System.currentTimeMillis() % 1000L / 1000F, 1F, 1F).getRGB();
         }
         for (int i = 0; i < names.size(); i++) {
-            fontRenderer.drawString(names.get(i), width / 2 - (115 / 2), height / 5 + 30 + 5 + (i * 10), defaultColour);
+
+            float xPos = width / 2 - (115 / 2);
+            float yPos = height / 5 + 30 + 5 + (i * 10) + offset;
+
+            // Check if names have been scrolled outside of bounding box.
+            if(yPos < (height/5) + 32){
+                continue;
+            }
+
+            // Highlight current and original names.
+            if(i == 0){
+                fontRenderer.drawString(names.get(i), xPos, yPos, Color.YELLOW.getRGB());
+            } else if(i == names.size()-1){
+                fontRenderer.drawString(names.get(i), xPos, yPos, Color.GREEN.getRGB());
+            } else {
+                fontRenderer.drawString(names.get(i), xPos, yPos, defaultColour);
+            }
         }
     }
 
@@ -84,6 +102,7 @@ public class NameHistoryGui extends GuiScreen {
     }
 
     public void getNames(String username) {
+        offset = 0;
         try {
             UUID uuid = MojangAPI.getUUID(username);
             for (Name history : MojangAPI.getNameHistory(uuid)) {
@@ -101,6 +120,24 @@ public class NameHistoryGui extends GuiScreen {
             e.printStackTrace();
         }
 
+    }
+
+    @Override
+    public void handleMouseInput() throws IOException {
+        super.handleMouseInput();
+        int i = Mouse.getEventDWheel();
+        if (i < 0) {
+            // works out length of scrollable area
+
+            int length = height/5 - (int) (names.size() * fontRenderer.getHeight("s"));
+
+            if (offset - length + 1 > -names.size() && length <= names.size()) {
+                // regions it cant exceed
+                offset -= 1;
+            }
+        } else if (i > 0 && offset < 0) {
+            offset += 1;
+        }
     }
 
 }
