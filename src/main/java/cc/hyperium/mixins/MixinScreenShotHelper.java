@@ -17,6 +17,7 @@
 
 package cc.hyperium.mixins;
 
+import cc.hyperium.gui.settings.items.GeneralSetting;
 import cc.hyperium.utils.ChatColor;
 import cc.hyperium.utils.mods.AsyncScreenshotSaver;
 import net.minecraft.client.Minecraft;
@@ -92,8 +93,12 @@ public class MixinScreenShotHelper {
         } else {
             GL11.glReadPixels(0, 0, width, height, 32993, 33639, pixelBuffer);
         }
+        boolean upload = true;
         pixelBuffer.get(pixelValues);
-        boolean upload = Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT);
+
+        if(!GeneralSetting.uploadScreenshotsByDefault) {
+            upload = Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT);
+        }
         new Thread(new AsyncScreenshotSaver(width, height, pixelValues, Minecraft.getMinecraft().getFramebuffer(), new File(Minecraft.getMinecraft().mcDataDir, "screenshots"), upload)).start();
         if(!upload) return new ChatComponentText(ChatColor.RED + "[Hyperium] " + ChatColor.WHITE + "Capturing...");
         return new ChatComponentText(ChatColor.RED + "[Hyperium] " + ChatColor.WHITE + "Uploading...");

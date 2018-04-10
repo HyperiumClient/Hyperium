@@ -74,6 +74,8 @@ public class GeneralSetting extends SettingGui {
     public static boolean bossBarTextOnlyEnabled = false;
     @ConfigOpt
     public static boolean staticFovEnabled = false;
+    @ConfigOpt
+    public static boolean uploadScreenshotsByDefault = false;
 
     private SelectionItem<String> discordRP;
 
@@ -106,6 +108,8 @@ public class GeneralSetting extends SettingGui {
     private SelectionItem<String> bossBarTextOnly;
 
     private SelectionItem<String> staticFov;
+
+    private SelectionItem<String> uploadByDefault;
 
     /** Set to true when a setting is changed, this will trigger a save when the gui is closed */
     private boolean settingsUpdated;
@@ -257,6 +261,14 @@ public class GeneralSetting extends SettingGui {
         }));
         staticFov.addDefaultOnOff();
         staticFov.setSelectedItem(staticFovEnabled ? "ON" : "OFF");
+
+        this.settingItems.add(this.uploadByDefault = new SelectionItem(16, getX(), getDefaultItemY(15), this.width - getX() * 2, "UPLOAD SCREENSHOTS BY DEFAULT", i -> {
+            ((SelectionItem) i).nextItem();
+            uploadScreenshotsByDefault = ((SelectionItem) i).getSelectedItem().equals("ON");
+            this.settingsUpdated = true;
+        }));
+        uploadByDefault.addDefaultOnOff();
+        uploadByDefault.setSelectedItem(uploadScreenshotsByDefault ? "ON" : "OFF");
     }
 
     /**
