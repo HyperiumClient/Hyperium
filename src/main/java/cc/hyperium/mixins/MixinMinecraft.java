@@ -173,6 +173,8 @@ import cc.hyperium.SplashProgress;
 import cc.hyperium.event.*;
 import cc.hyperium.gui.settings.items.GeneralSetting;
 import cc.hyperium.handlers.handlers.HypixelDetector;
+import cc.hyperium.internal.addons.AddonMinecraftBootstrap;
+import cc.hyperium.internal.addons.IAddon;
 import cc.hyperium.utils.Utils;
 import cc.hyperium.utils.mods.FPSLimiter;
 import net.minecraft.block.material.Material;
@@ -268,6 +270,7 @@ public abstract class MixinMinecraft {
      */
     @Inject(method = "startGame", at = @At("HEAD"))
     private void preinit(CallbackInfo ci) {
+        AddonMinecraftBootstrap.init();
         EventBus.INSTANCE.post(new PreInitializationEvent());
     }
 
@@ -550,5 +553,11 @@ public abstract class MixinMinecraft {
                 this.playerController.resetBlockRemoving();
             }
         }
+    }
+
+
+    @Inject(method = "shutdown", at = @At("HEAD"))
+    private void shutdown(CallbackInfo ci) {
+        AddonMinecraftBootstrap.getLoadedAddons().forEach(IAddon::onClose);
     }
 }
