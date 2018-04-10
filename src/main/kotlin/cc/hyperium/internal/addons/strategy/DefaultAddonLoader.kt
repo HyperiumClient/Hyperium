@@ -1,8 +1,9 @@
 package cc.hyperium.internal.addons.strategy
 
 import cc.hyperium.internal.addons.AddonManifest
+import cc.hyperium.internal.addons.misc.AddonLoadException
 import cc.hyperium.internal.addons.misc.AddonManifestParser
-import cc.hyperium.internal.addons.strategy.AddonLoaderStrategy
+import net.minecraft.launchwrapper.Launch
 
 import java.io.File
 import java.util.jar.JarFile
@@ -22,12 +23,16 @@ class DefaultAddonLoader : AddonLoaderStrategy() {
      * @throws Exception when exception occurs
      */
     @Throws(Exception::class)
-    override fun load(file: File): AddonManifest {
+    override fun load(file: File?): AddonManifest? {
+        if(file == null) {
+            throw AddonLoadException("Could not load file; parameter issued was null.")
+        }
+
         val jar = JarFile(file)
         val manifest = AddonManifestParser(jar).getAddonManifest()
 
         val uri = file.toURI()
-        classloader.addURL(uri.toURL())
+        Launch.classLoader.addURL(uri.toURL())
 
         return manifest
     }

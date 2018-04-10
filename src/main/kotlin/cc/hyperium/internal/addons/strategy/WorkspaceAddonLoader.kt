@@ -15,7 +15,6 @@ import java.nio.charset.Charset
  */
 class WorkspaceAddonLoader : AddonLoaderStrategy() {
 
-
     /**
      * Does not need to be added to the classloader as
      * it gets compiled from the dev environment
