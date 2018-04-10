@@ -17,7 +17,7 @@
 
 
 /**
- * Contains String Contants of the mod
+ * Contains String Constants of the mod
  */
 @file:JvmName("Metadata")
 
