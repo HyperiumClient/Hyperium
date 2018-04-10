@@ -137,7 +137,7 @@ public class ModConfigGui extends HyperiumGui {
                 i -> Minecraft.getMinecraft().displayGuiScreen(new AnimationSettings(this))
         )).addSetting(new SettingItem(
                 3, getX(0),
-                getDefaultItemY(2),
+                getDefaultItemY(1),
                 this.width - getX(0) * 2,
                 "TOGGLECHAT",
                 i -> Minecraft.getMinecraft().displayGuiScreen(new ToggleChatSettings(this))
@@ -190,7 +190,11 @@ public class ModConfigGui extends HyperiumGui {
         this.tabs.add(new Tab(button, 3, this){
             @Override
             public void draw(int mouseX, int mouseY) {
-                new HypixelFriendsGui().show();
+                super.draw(mouseX, mouseY);
+
+                if (selected) {
+                    new HypixelFriendsGui().show();
+                }
             }
         });
 
