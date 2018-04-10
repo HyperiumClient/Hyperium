@@ -202,7 +202,6 @@ public class EditItemsGui extends GuiScreen {
                     //Adjust for 3 pixel gap
                     yPosition += 23;
                 }
-                System.out.println("adjusting mod");
             }
             for (GuiButton guiButton : super.buttonList) {
                 if (guiButton.isMouseOver())

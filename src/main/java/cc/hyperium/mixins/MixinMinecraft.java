@@ -381,7 +381,7 @@ public abstract class MixinMinecraft {
                 Display.setLocation(0, 0);
                 Display.setFullscreen(false);
             } else
-                System.setProperty("org.lwjgl.opengl.Window.undecorated", "" + !this.fullscreen);
+                System.setProperty("org.lwjgl.opengl.Window.undecorated", "" + false);
         } else {
             Display.setFullscreen(this.fullscreen);
             System.setProperty("org.lwjgl.opengl.Window.undecorated", "false");
