@@ -23,7 +23,6 @@ import cc.hyperium.config.DefaultConfig;
 import cc.hyperium.gui.HyperiumGui;
 import cc.hyperium.gui.settings.SettingGui;
 import cc.hyperium.gui.settings.components.SelectionItem;
-import net.minecraft.client.gui.GuiScreen;
 
 import java.util.Arrays;
 
@@ -52,12 +51,16 @@ public class AnimationSettings extends SettingGui {
     @ConfigOpt
     public static int dabSpeed = 7;
 
+    @ConfigOpt
+    public static boolean dabToggle = false;
+
     private SelectionItem<String> blockhit;
     private SelectionItem<String> bow;
     private SelectionItem<String> rod;
     private SelectionItem<String> eat;
     private SelectionItem<String> redarmour;
     private SelectionItem<Integer> dabspeed;
+    private SelectionItem<String> toggledab;
 
     public AnimationSettings(HyperiumGui previous) {
         super("ANIMATIONS", previous);
@@ -118,6 +121,12 @@ public class AnimationSettings extends SettingGui {
                 dabSpeed == 13 ? 1 : dabSpeed == 11 ? 2 : dabSpeed == 9 ? 3 : dabSpeed == 7 ? 4 : 5
         );
 
+        settingItems.add(toggledab = new SelectionItem<>(6, getX(), getDefaultItemY(6), width - getX() * 2, "TOGGLE DAB", i -> {
+            ((SelectionItem) i).nextItem();
+            dabToggle = ((SelectionItem) i).getSelectedItem().equals("ON");
+        }));
+        toggledab.addItems(Arrays.asList("ON", "OFF"));
+        toggledab.setSelectedItem(dabToggle ? "ON" : "OFF");
     }
 
 

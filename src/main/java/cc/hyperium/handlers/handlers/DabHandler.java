@@ -60,98 +60,100 @@ public class DabHandler {
     }
 
     public void stopDabbing(UUID uuid) {
+        get(uuid).setToggled(false);
         get(uuid).stopDabbing();
     }
 
     public void modify(AbstractClientPlayer entity, ModelPlayer player) {
-
         int ticks = get(entity.getUniqueID()).dabFrames;
-        if (ticks > 0) {
-            float heldPercent = state / 100F;
-            if (right) {
-                player.bipedRightArm.rotateAngleX = (float) Math.toRadians(-90.0f * heldPercent);
-                player.bipedRightArm.rotateAngleY = (float) Math.toRadians(-35.0f * heldPercent);
-                player.bipedRightArmwear.rotateAngleX = (float) Math.toRadians(-90.0f * heldPercent);
-                player.bipedRightArmwear.rotateAngleY = (float) Math.toRadians(-35.0f * heldPercent);
-                player.bipedLeftArm.rotateAngleX = (float) Math.toRadians(15.0f * heldPercent);
-                player.bipedLeftArm.rotateAngleY = (float) Math.toRadians(15.0f * heldPercent);
-                player.bipedLeftArm.rotateAngleZ = (float) Math.toRadians(-110.0f * heldPercent);
-                player.bipedLeftArmwear.rotateAngleX = (float) Math.toRadians(15.0f * heldPercent);
-                player.bipedLeftArmwear.rotateAngleY = (float) Math.toRadians(15.0f * heldPercent);
-                player.bipedLeftArmwear.rotateAngleZ = (float) Math.toRadians(-110.0f * heldPercent);
-//                final float rotationX = entity.rotationPitch;
-//                player.bipedHead.rotateAngleX = (float) Math.toRadians(-rotationX * heldPercent) + (float) Math.toRadians(45.0f * heldPercent + rotationX);
-//                final float rotationY = entity.renderYawOffset - entity.rotationYaw;
-//                player.bipedHead.rotateAngleY = (float) Math.toRadians(rotationY * heldPercent) + (float) Math.toRadians(35.0f * heldPercent - rotationY);
-                player.bipedHeadwear.rotateAngleX = (float) Math.toRadians(45.0f * heldPercent);
-                player.bipedHeadwear.rotateAngleY = (float) Math.toRadians(35.0f * heldPercent);
-                player.bipedHead.rotateAngleX = (float) Math.toRadians(45.0f * heldPercent);
-                player.bipedHead.rotateAngleY = (float) Math.toRadians(35.0f * heldPercent);
-            } else {
-                player.bipedLeftArm.rotateAngleX = (float) Math.toRadians(-90.0f * heldPercent);
-                player.bipedLeftArm.rotateAngleY = (float) Math.toRadians(35.0f * heldPercent);
-                player.bipedLeftArmwear.rotateAngleX = (float) Math.toRadians(-90.0f * heldPercent);
-                player.bipedLeftArmwear.rotateAngleY = (float) Math.toRadians(35.0f * heldPercent);
-                player.bipedRightArm.rotateAngleX = (float) Math.toRadians(-15.0f * heldPercent);
-                player.bipedRightArm.rotateAngleY = (float) Math.toRadians(-15.0f * heldPercent);
-                player.bipedRightArm.rotateAngleZ = (float) Math.toRadians(110.0f * heldPercent);
-                player.bipedRightArmwear.rotateAngleX = (float) Math.toRadians(-15.0f * heldPercent);
-                player.bipedRightArmwear.rotateAngleY = (float) Math.toRadians(-15.0f * heldPercent);
-                player.bipedRightArmwear.rotateAngleZ = (float) Math.toRadians(110.0f * heldPercent);
-//                final float rotationX = entity.rotationPitch;
-//                player.bipedHead.rotateAngleX = (float) Math.toRadians(-rotationX * heldPercent) + (float) Math.toRadians(45.0f * heldPercent + rotationX);
-//                final float rotationY = entity.renderYawOffset - entity.rotationYaw;
-//                player.bipedHead.rotateAngleY = (float) Math.toRadians(rotationY * heldPercent) + (float) Math.toRadians(-35.0f * heldPercent - rotationY);
-                player.bipedHeadwear.rotateAngleX = (float) Math.toRadians(45.0f * heldPercent);
-                player.bipedHeadwear.rotateAngleY = (float) Math.toRadians(-35.0f * heldPercent);
-                player.bipedHead.rotateAngleX = (float) Math.toRadians(45.0f * heldPercent);
-                player.bipedHead.rotateAngleY = (float) Math.toRadians(-35.0f * heldPercent);
-            }
 
+        if (ticks <= 0) return;
 
+        float heldPercent = state / 100F;
+        if (right) {
+            player.bipedRightArm.rotateAngleX = (float) Math.toRadians(-90.0f * heldPercent);
+            player.bipedRightArm.rotateAngleY = (float) Math.toRadians(-35.0f * heldPercent);
+
+            player.bipedRightArmwear.rotateAngleX = (float) Math.toRadians(-90.0f * heldPercent);
+            player.bipedRightArmwear.rotateAngleY = (float) Math.toRadians(-35.0f * heldPercent);
+
+            player.bipedLeftArm.rotateAngleX = (float) Math.toRadians(15.0f * heldPercent);
+            player.bipedLeftArm.rotateAngleY = (float) Math.toRadians(15.0f * heldPercent);
+            player.bipedLeftArm.rotateAngleZ = (float) Math.toRadians(-110.0f * heldPercent);
+
+            player.bipedLeftArmwear.rotateAngleX = (float) Math.toRadians(15.0f * heldPercent);
+            player.bipedLeftArmwear.rotateAngleY = (float) Math.toRadians(15.0f * heldPercent);
+            player.bipedLeftArmwear.rotateAngleZ = (float) Math.toRadians(-110.0f * heldPercent);
+
+            player.bipedHeadwear.rotateAngleX = (float) Math.toRadians(45.0f * heldPercent);
+            player.bipedHeadwear.rotateAngleY = (float) Math.toRadians(35.0f * heldPercent);
+
+            player.bipedHead.rotateAngleX = (float) Math.toRadians(45.0f * heldPercent);
+            player.bipedHead.rotateAngleY = (float) Math.toRadians(35.0f * heldPercent);
+        } else {
+            player.bipedLeftArm.rotateAngleX = (float) Math.toRadians(-90.0f * heldPercent);
+            player.bipedLeftArm.rotateAngleY = (float) Math.toRadians(35.0f * heldPercent);
+
+            player.bipedLeftArmwear.rotateAngleX = (float) Math.toRadians(-90.0f * heldPercent);
+            player.bipedLeftArmwear.rotateAngleY = (float) Math.toRadians(35.0f * heldPercent);
+
+            player.bipedRightArm.rotateAngleX = (float) Math.toRadians(-15.0f * heldPercent);
+            player.bipedRightArm.rotateAngleY = (float) Math.toRadians(-15.0f * heldPercent);
+            player.bipedRightArm.rotateAngleZ = (float) Math.toRadians(110.0f * heldPercent);
+
+            player.bipedRightArmwear.rotateAngleX = (float) Math.toRadians(-15.0f * heldPercent);
+            player.bipedRightArmwear.rotateAngleY = (float) Math.toRadians(-15.0f * heldPercent);
+            player.bipedRightArmwear.rotateAngleZ = (float) Math.toRadians(110.0f * heldPercent);
+
+            player.bipedHeadwear.rotateAngleX = (float) Math.toRadians(45.0f * heldPercent);
+            player.bipedHeadwear.rotateAngleY = (float) Math.toRadians(-35.0f * heldPercent);
+
+            player.bipedHead.rotateAngleX = (float) Math.toRadians(45.0f * heldPercent);
+            player.bipedHead.rotateAngleY = (float) Math.toRadians(-35.0f * heldPercent);
         }
     }
     public void modify(AbstractClientPlayer entity, ModelBiped player) {
         int ticks = get(entity.getUniqueID()).dabFrames;
-        if (ticks != 0) {
-            float heldPercent = state / 100F;
-            if (right) {
-                player.bipedRightArm.rotateAngleX = (float) Math.toRadians(-90.0f * heldPercent);
-                player.bipedRightArm.rotateAngleY = (float) Math.toRadians(-35.0f * heldPercent);
-                player.bipedLeftArm.rotateAngleX = (float) Math.toRadians(15.0f * heldPercent);
-                player.bipedLeftArm.rotateAngleY = (float) Math.toRadians(15.0f * heldPercent);
-                player.bipedLeftArm.rotateAngleZ = (float) Math.toRadians(-110.0f * heldPercent);
-                final float rotationX = entity.rotationPitch;
-                player.bipedHead.rotateAngleX = (float) Math.toRadians(-rotationX * heldPercent) + (float) Math.toRadians(45.0f * heldPercent + rotationX);
-                final float rotationY = entity.renderYawOffset - entity.rotationYaw;
-                player.bipedHead.rotateAngleY = (float) Math.toRadians(rotationY * heldPercent) + (float) Math.toRadians(35.0f * heldPercent - rotationY);
-                player.bipedHeadwear.rotateAngleX = (float) Math.toRadians(45.0f * heldPercent);
-                player.bipedHeadwear.rotateAngleY = (float) Math.toRadians(35.0f * heldPercent);
-            } else {
-                player.bipedLeftArm.rotateAngleX = (float) Math.toRadians(-90.0f * heldPercent);
-                player.bipedLeftArm.rotateAngleY = (float) Math.toRadians(35.0f * heldPercent);
-                player.bipedRightArm.rotateAngleX = (float) Math.toRadians(-15.0f * heldPercent);
-                player.bipedRightArm.rotateAngleY = (float) Math.toRadians(-15.0f * heldPercent);
-                player.bipedRightArm.rotateAngleZ = (float) Math.toRadians(110.0f * heldPercent);
-                final float rotationX = entity.rotationPitch;
-                player.bipedHead.rotateAngleX = (float) Math.toRadians(-rotationX * heldPercent) + (float) Math.toRadians(45.0f * heldPercent + rotationX);
-                final float rotationY = entity.renderYawOffset - entity.rotationYaw;
-                player.bipedHead.rotateAngleY = (float) Math.toRadians(rotationY * heldPercent) + (float) Math.toRadians(-35.0f * heldPercent - rotationY);
-                player.bipedHeadwear.rotateAngleX = (float) Math.toRadians(45.0f * heldPercent);
-                player.bipedHeadwear.rotateAngleY = (float) Math.toRadians(-35.0f * heldPercent);
-            }
 
+        if (ticks <= 0) return;
 
+        float heldPercent = state / 100F;
+        if (right) {
+            player.bipedRightArm.rotateAngleX = (float) Math.toRadians(-90.0f * heldPercent);
+            player.bipedRightArm.rotateAngleY = (float) Math.toRadians(-35.0f * heldPercent);
+            player.bipedLeftArm.rotateAngleX = (float) Math.toRadians(15.0f * heldPercent);
+            player.bipedLeftArm.rotateAngleY = (float) Math.toRadians(15.0f * heldPercent);
+            player.bipedLeftArm.rotateAngleZ = (float) Math.toRadians(-110.0f * heldPercent);
+            final float rotationX = entity.rotationPitch;
+            player.bipedHead.rotateAngleX = (float) Math.toRadians(-rotationX * heldPercent) + (float) Math.toRadians(45.0f * heldPercent + rotationX);
+            final float rotationY = entity.renderYawOffset - entity.rotationYaw;
+            player.bipedHead.rotateAngleY = (float) Math.toRadians(rotationY * heldPercent) + (float) Math.toRadians(35.0f * heldPercent - rotationY);
+            player.bipedHeadwear.rotateAngleX = (float) Math.toRadians(45.0f * heldPercent);
+            player.bipedHeadwear.rotateAngleY = (float) Math.toRadians(35.0f * heldPercent);
+        } else {
+            player.bipedLeftArm.rotateAngleX = (float) Math.toRadians(-90.0f * heldPercent);
+            player.bipedLeftArm.rotateAngleY = (float) Math.toRadians(35.0f * heldPercent);
+            player.bipedRightArm.rotateAngleX = (float) Math.toRadians(-15.0f * heldPercent);
+            player.bipedRightArm.rotateAngleY = (float) Math.toRadians(-15.0f * heldPercent);
+            player.bipedRightArm.rotateAngleZ = (float) Math.toRadians(110.0f * heldPercent);
+            final float rotationX = entity.rotationPitch;
+            player.bipedHead.rotateAngleX = (float) Math.toRadians(-rotationX * heldPercent) + (float) Math.toRadians(45.0f * heldPercent + rotationX);
+            final float rotationY = entity.renderYawOffset - entity.rotationYaw;
+            player.bipedHead.rotateAngleY = (float) Math.toRadians(rotationY * heldPercent) + (float) Math.toRadians(-35.0f * heldPercent - rotationY);
+            player.bipedHeadwear.rotateAngleX = (float) Math.toRadians(45.0f * heldPercent);
+            player.bipedHeadwear.rotateAngleY = (float) Math.toRadians(-35.0f * heldPercent);
         }
     }
     public class DabState {
         UUID uuid;
         int dabFrames = 0;
         long systemTime;
+        boolean toggled;
 
         public DabState(UUID uuid) {
             this.uuid = uuid;
             this.systemTime = Minecraft.getSystemTime();
+            this.toggled = false;
         }
 
         void update() {
@@ -160,19 +162,27 @@ public class DabHandler {
                 this.systemTime += (1000 / 60);
             }
 
-            if (dabFrames < 0) dabFrames = 0;
+            if (dabFrames <= 0) {
+                if (AnimationSettings.dabToggle && this.toggled) {
+                    ensureDabbingFor(60);
+                } else {
+                    dabFrames = 0;
+                }
+            }
         }
 
         public void ensureDabbingFor(int seconds) {
             seconds *= 60;
 
             dabFrames = Math.max(dabFrames, seconds);
-
         }
 
         public void stopDabbing() {
             dabFrames = 0;
         }
 
+        public boolean isDabbing() { return dabFrames > 0; }
+
+        public void setToggled(boolean toggled) { this.toggled = toggled; }
     }
 }
