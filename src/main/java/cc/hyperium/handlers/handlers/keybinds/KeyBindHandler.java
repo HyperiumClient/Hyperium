@@ -80,6 +80,7 @@ public class KeyBindHandler {
             NettyClient.getClient().write(ServerDabbingUpdate.build(true));
         }
 
+
         @Override
         public void onRelease() {
             Hyperium.INSTANCE.getHandlers().getDabHandler().stopDabbing(Minecraft.getMinecraft().getSession().getProfile().getId());
