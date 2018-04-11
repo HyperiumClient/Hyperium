@@ -59,7 +59,17 @@ public class QueueModGui extends HyperiumGui {
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         super.drawScreen(mouseX, mouseY, partialTicks);
         boxes.clear();
+        
+        if (NettyClient.getClient() == null) {
+            return;
+        }
+        
         JsonHolder games = NettyClient.getClient().getGames();
+        
+        if (games == null || games.getKeys().isEmpty()) {
+            return;
+        }
+        
         int y = 50 + offset;
         for (String s : games.getKeys()) {
             JsonHolder holder = games.optJSONObject(s);
