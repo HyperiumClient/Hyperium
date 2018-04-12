@@ -28,7 +28,7 @@ class MinigameListener {
 
     private var cooldown = 3 * 20
 
-    public var currentMinigameName = ""
+    var currentMinigameName = ""
 
     @InvokeEvent
     fun onTick(event: TickEvent) {
