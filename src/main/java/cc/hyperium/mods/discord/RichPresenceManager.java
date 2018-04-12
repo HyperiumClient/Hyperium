@@ -24,7 +24,7 @@ import com.jagrosh.discordipc.IPCListener;
 import com.jagrosh.discordipc.entities.DiscordBuild;
 import com.jagrosh.discordipc.exceptions.NoDiscordClientException;
 
-import static com.jagrosh.discordipc.IPCClient.Status.CONNECTED;
+import static com.jagrosh.discordipc.entities.pipe.PipeStatus.CONNECTED;
 
 public class RichPresenceManager {
 
