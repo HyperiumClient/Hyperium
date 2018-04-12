@@ -19,6 +19,7 @@ package cc.hyperium.mods;
 
 import cc.hyperium.mods.autogg.AutoGG;
 import cc.hyperium.mods.keystrokes.KeystrokesMod;
+import cc.hyperium.mods.oldanimations.OldAnimations;
 import cc.hyperium.mods.skinchanger.SkinChangerMod;
 import cc.hyperium.mods.chromahud.ChromaHUD;
 import cc.hyperium.mods.levelhead.Levelhead;
@@ -44,6 +45,7 @@ public class HyperiumModIntegration {
     private AbstractMod chromaHUD;
     private AbstractMod autotip;
     private AbstractMod autogg;
+    private AbstractMod oldanimations;
     
     public HyperiumModIntegration() {
         // ChromaHud implementation
@@ -72,6 +74,8 @@ public class HyperiumModIntegration {
 
         // AutoGG implementation
         this.autogg = new AutoGG().init();
+
+        this.oldanimations = new OldAnimations().init();
     }
     
     /**
