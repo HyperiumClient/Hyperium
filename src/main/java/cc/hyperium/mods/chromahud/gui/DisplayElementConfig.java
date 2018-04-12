@@ -348,7 +348,6 @@ public class DisplayElementConfig extends GuiScreen {
                     if (x < 256 && x > 0) {
                         this.hue = (int) x;
                         this.saturation = (int) (256 - y);
-                        System.out.println("Update: " + hue + " sat: " + saturation);
                         regenImage();
                         lastX = mouseX;
                         lastY = mouseY;

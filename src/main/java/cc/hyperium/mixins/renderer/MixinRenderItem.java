@@ -94,10 +94,6 @@ public abstract class MixinRenderItem implements IResourceManagerReloadListener 
      * @author boomboompower
      */
     public void renderItem(ItemStack stack, IBakedModel model, boolean isInv) {
-        if (!GeneralSetting.shinyPotsEnabled) {
-            isInv = false;
-        }
-
         if (stack != null) {
             GlStateManager.pushMatrix();
             GlStateManager.scale(0.5F, 0.5F, 0.5F);
@@ -130,7 +126,7 @@ public abstract class MixinRenderItem implements IResourceManagerReloadListener 
 
                 // We want to render our potion effect before
                 // the item is renderer so the effect doesn't obscure the item
-                if (isInv && stack.getItem() != null && stack.getItem() instanceof ItemPotion) {
+                if (GeneralSetting.shinyPotsEnabled && isInv && stack.getItem() != null && stack.getItem() instanceof ItemPotion) {
                     this.renderPot(model); // Use our renderer instead of the normal one
 
                     renderedAsPotion = true;

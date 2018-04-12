@@ -34,9 +34,6 @@ import java.util.List;
  */
 public class CommandClearChat implements BaseCommand {
 
-    private List<String> tabComplete = Arrays.asList("clear", "clea", "cl", "c", "clearc", "clearch", "clearcha");
-
-
     @Override
     public String getName() {
         return "clearchat";
@@ -48,12 +45,7 @@ public class CommandClearChat implements BaseCommand {
     }
     
     @Override
-    public void onExecute(String[] args) throws CommandException {
+    public void onExecute(String[] args) {
         Minecraft.getMinecraft().ingameGUI.getChatGUI().clearChatMessages();
-    }
-
-    @Override
-    public List<String> onTabComplete(String[] args) {
-        return tabComplete;
     }
 }

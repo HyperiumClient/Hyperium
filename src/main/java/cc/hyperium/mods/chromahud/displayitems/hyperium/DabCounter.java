@@ -168,7 +168,7 @@
 
 package cc.hyperium.mods.chromahud.displayitems.hyperium;
 
-import cc.hyperium.cosmetics.DabOnKIllCosmetic;
+import cc.hyperium.Hyperium;
 import cc.hyperium.mods.chromahud.ElementRenderer;
 import cc.hyperium.mods.chromahud.api.DisplayItem;
 import cc.hyperium.utils.JsonHolder;
@@ -184,7 +184,7 @@ public class DabCounter extends DisplayItem {
 
     @Override
     public void draw(int x, double y, boolean config) {
-        String s = "Dabs: "+ DabOnKIllCosmetic.dabs;
+        String s = "Dabs: "+ Hyperium.INSTANCE.getHandlers().getDabHandler().getDabs();
         this.width = ElementRenderer.getFontRenderer().getStringWidth(s);
         ElementRenderer.draw(x, y, s);
     }

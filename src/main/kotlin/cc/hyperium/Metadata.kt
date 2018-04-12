@@ -17,7 +17,7 @@
 
 
 /**
- * Contains String Contants of the mod
+ * Contains String Constants of the mod
  */
 @file:JvmName("Metadata")
 
@@ -30,7 +30,7 @@ val MODID
 
 val VERSION
     @JvmName("getVersion")
-    get() = "1.0 - Dev"
+    get() = "1.0 - Dev B2"
 
 val AUTHORS
     @JvmName("getAuthors")

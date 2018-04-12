@@ -25,7 +25,6 @@ import net.minecraft.client.gui.ScaledResolution
 import net.minecraft.client.model.ModelBiped
 import net.minecraft.client.renderer.entity.RenderManager
 import net.minecraft.entity.Entity
-import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.util.BlockPos
 import net.minecraft.util.IChatComponent
 import net.minecraft.util.ResourceLocation
@@ -91,7 +90,12 @@ class SpawnpointChangeEvent(val blockPos: BlockPos)
 class TickEvent
 
 /**
- * Invoked every tick; used to render
+ * Invoked every frame; used to render in the ingame GUI
+ */
+class RenderGuiEvent
+
+/**
+ * Invoked every frame; used to render in the 3D space
  */
 class RenderEvent
 

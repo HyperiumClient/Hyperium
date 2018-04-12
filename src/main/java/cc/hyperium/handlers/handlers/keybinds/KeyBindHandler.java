@@ -24,11 +24,17 @@ import cc.hyperium.event.KeypressEvent;
 import cc.hyperium.gui.ModConfigGui;
 import cc.hyperium.gui.NameHistoryGui;
 import cc.hyperium.gui.integrations.HypixelFriendsGui;
+import cc.hyperium.gui.integrations.QueueModGui;
+import cc.hyperium.gui.settings.items.AnimationSettings;
+import cc.hyperium.handlers.handlers.DabHandler;
+import cc.hyperium.netty.NettyClient;
+import cc.hyperium.netty.packet.packets.serverbound.ServerDabbingUpdate;
 import net.minecraft.client.Minecraft;
 import org.apache.commons.lang3.ArrayUtils;
 import org.lwjgl.input.Keyboard;
 
 import java.util.TreeMap;
+import java.util.UUID;
 
 public class KeyBindHandler {
 
@@ -48,15 +54,58 @@ public class KeyBindHandler {
             Minecraft.getMinecraft().displayGuiScreen(new HypixelFriendsGui());
         }
     };
+    public HyperiumBind queue = new HyperiumBind("Queue", Keyboard.KEY_K) {
+        @Override
+        public void onPress() {
+            Minecraft.getMinecraft().displayGuiScreen(new QueueModGui());
+        }
+    };
+
     public HyperiumBind debug = new HyperiumBind("DEBUG", Keyboard.KEY_J) {
         @Override
         public void onPress() {
-            Hyperium.INSTANCE.getHandlers().getRenderOptomizer().setLimitArmourStands(!Hyperium.INSTANCE.getHandlers().getRenderOptomizer().isLimitArmourStands());
+            Hyperium.INSTANCE.getHandlers().getDabHandler().startDabbing(Minecraft.getMinecraft().getSession().getProfile().getId());
+            NettyClient.getClient().write(ServerDabbingUpdate.build(true));
         }
 
         @Override
         public void onRelease() {
-            Hyperium.INSTANCE.getHandlers().getRenderOptomizer().setLimitArmourStands(!Hyperium.INSTANCE.getHandlers().getRenderOptomizer().isLimitArmourStands());
+            Hyperium.INSTANCE.getHandlers().getDabHandler().stopDabbing(Minecraft.getMinecraft().getSession().getProfile().getId());
+            NettyClient.getClient().write(ServerDabbingUpdate.build(false));
+
+        }
+    };
+
+    public HyperiumBind dab = new HyperiumBind("Dab", Keyboard.KEY_B) {
+        @Override
+        public void onPress() {
+            System.out.println("pressing");
+            DabHandler dabHandler = Hyperium.INSTANCE.getHandlers().getDabHandler();
+            UUID uuid = (Minecraft.getMinecraft().getSession()).getProfile().getId();
+            DabHandler.DabState currentState = dabHandler.get(uuid);
+
+            if (AnimationSettings.dabToggle && currentState.isDabbing() && !this.wasPressed()) {
+                dabHandler.get(uuid).setToggled(false);
+                dabHandler.stopDabbing(uuid);
+                NettyClient.getClient().write(ServerDabbingUpdate.build(false));
+                return;
+            }
+
+            if (!this.wasPressed()) {
+                dabHandler.get(uuid).setToggled(AnimationSettings.dabToggle);
+                dabHandler.startDabbing(uuid);
+            }
+            NettyClient.getClient().write(ServerDabbingUpdate.build(true));
+        }
+
+
+        @Override
+        public void onRelease() {
+            System.out.println("releasing");
+            if (AnimationSettings.dabToggle) return;
+
+            Hyperium.INSTANCE.getHandlers().getDabHandler().stopDabbing(Minecraft.getMinecraft().getSession().getProfile().getId());
+            NettyClient.getClient().write(ServerDabbingUpdate.build(false));
         }
     };
 
@@ -80,6 +129,8 @@ public class KeyBindHandler {
         registerKeyBinding(nameHistory);
         registerKeyBinding(debug);
         registerKeyBinding(guikey);
+        registerKeyBinding(queue);
+        registerKeyBinding(dab);
     }
 
     @InvokeEvent

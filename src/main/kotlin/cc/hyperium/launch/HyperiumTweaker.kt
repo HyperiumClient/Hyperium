@@ -20,8 +20,8 @@ package cc.hyperium.launch
 import cc.hyperium.FORGE
 import cc.hyperium.Hyperium
 import cc.hyperium.OPTIFINE
-import cc.hyperium.addons.HyperiumAddonBootstrap
-import cc.hyperium.addons.loader.DefaultAddonLoader
+import cc.hyperium.internal.addons.AddonBootstrap
+import cc.hyperium.internal.addons.strategy.DefaultAddonLoader
 import net.minecraft.launchwrapper.ITweaker
 import net.minecraft.launchwrapper.Launch
 import net.minecraft.launchwrapper.LaunchClassLoader
@@ -38,12 +38,6 @@ import java.util.*
  * @since 10/02/2018 4:11 PM
  */
 open class HyperiumTweaker : ITweaker {
-
-    /**
-     * Addons
-     */
-    val addonBootstrap  = HyperiumAddonBootstrap()
-    val addonLoader = DefaultAddonLoader()
 
     private val args: ArrayList<String> = ArrayList()
 
@@ -67,10 +61,10 @@ open class HyperiumTweaker : ITweaker {
         //classLoader.addClassLoaderExclusion("org.apache.logging.log4j.simple.")
 
         Hyperium.LOGGER.info("Loading Addons...")
-        loadAddons()
 
-        Hyperium.LOGGER.info("Setting up Mixins...")
+        Hyperium.LOGGER.info("Initialising Bootstraps...")
         MixinBootstrap.init()
+        AddonBootstrap.init()
 
         Hyperium.LOGGER.info("Applying transformers...")
         //classLoader.registerTransformer("cc.hyperium.mods.memoryfix.ClassTransformer")
@@ -94,16 +88,6 @@ open class HyperiumTweaker : ITweaker {
         }
     }
 
-    fun loadAddons() {
-        try {
-            addonBootstrap.loadInternalAddon()
-            addonBootstrap.loadAddons(addonLoader)
-        } catch (e: Exception) {
-            e.printStackTrace()
-            Hyperium.LOGGER.error("Failed to load addon(s) from addons folder")
-        }
-
-    }
 
     override fun getLaunchArguments(): Array<String> =
             if (FORGE || OPTIFINE) arrayOf()

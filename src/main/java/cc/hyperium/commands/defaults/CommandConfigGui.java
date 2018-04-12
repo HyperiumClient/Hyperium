@@ -16,9 +16,12 @@
  */
 
 package cc.hyperium.commands.defaults;
+
 import cc.hyperium.commands.BaseCommand;
 import cc.hyperium.gui.ModConfigGui;
+import cc.hyperium.utils.ChatColor;
 
+import java.util.Collections;
 import java.util.Arrays;
 import java.util.List;
 
@@ -29,8 +32,6 @@ import java.util.List;
  */
 public class CommandConfigGui implements BaseCommand {
 
-    private List<String> tabComplete = Arrays.asList("hyperium", "hype", "config", "hyperiumcon", "hy");
-
     @Override
     public String getName() {
         return "hyperiumconfig";
@@ -38,16 +39,17 @@ public class CommandConfigGui implements BaseCommand {
 
     @Override
     public String getUsage() {
-        return "hyperiumconfig";
+        return ChatColor.RED + "Usage: /hyperiumconfig";
     }
-
+    
+    @Override
+    public List<String> getCommandAliases() {
+        // Allow an alias for the main config gui
+        return Collections.singletonList("hyperium");
+    }
+    
     @Override
     public void onExecute(String[] args) {
         new ModConfigGui().show();
-    }
-
-    @Override
-    public List<String> onTabComplete(String[] args) {
-        return tabComplete;
     }
 }

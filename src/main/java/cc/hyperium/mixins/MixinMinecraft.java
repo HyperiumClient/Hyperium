@@ -173,6 +173,8 @@ import cc.hyperium.SplashProgress;
 import cc.hyperium.event.*;
 import cc.hyperium.gui.settings.items.GeneralSetting;
 import cc.hyperium.handlers.handlers.HypixelDetector;
+import cc.hyperium.internal.addons.AddonMinecraftBootstrap;
+import cc.hyperium.internal.addons.IAddon;
 import cc.hyperium.utils.Utils;
 import cc.hyperium.utils.mods.FPSLimiter;
 import net.minecraft.block.material.Material;
@@ -268,6 +270,7 @@ public abstract class MixinMinecraft {
      */
     @Inject(method = "startGame", at = @At("HEAD"))
     private void preinit(CallbackInfo ci) {
+        AddonMinecraftBootstrap.init();
         EventBus.INSTANCE.post(new PreInitializationEvent());
     }
 
@@ -372,7 +375,16 @@ public abstract class MixinMinecraft {
     @Inject(method = "toggleFullscreen", at = @At(value = "INVOKE", target = "Lorg/lwjgl/opengl/Display;setVSyncEnabled(Z)V", shift = At.Shift.AFTER))
     private void fullScreenFix(CallbackInfo ci) throws LWJGLException {
         if (GeneralSetting.windowedFullScreen) {
-            System.setProperty("org.lwjgl.opengl.Window.undecorated", "" + !this.fullscreen);
+            if (fullscreen) {
+                System.setProperty("org.lwjgl.opengl.Window.undecorated", "true");
+                Display.setDisplayMode(Display.getDesktopDisplayMode());
+                Display.setLocation(0, 0);
+                Display.setFullscreen(false);
+            } else {
+                System.setProperty("org.lwjgl.opengl.Window.undecorated", "false");
+                Display.setDisplayMode(new DisplayMode(this.displayWidth, this.displayHeight));
+
+            }
         } else {
             Display.setFullscreen(this.fullscreen);
             System.setProperty("org.lwjgl.opengl.Window.undecorated", "false");
@@ -513,7 +525,6 @@ public abstract class MixinMinecraft {
     }
 
 
-
     /**
      * @author CoalOres
      */
@@ -537,7 +548,7 @@ public abstract class MixinMinecraft {
                     this.playerController.resetBlockRemoving();
                 }
             }
-        } else{
+        } else {
             // Keeps 1.7 block breaking while using item.
             if (leftClick && this.objectMouseOver != null && this.objectMouseOver.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
                 BlockPos blockpos = this.objectMouseOver.getBlockPos();
@@ -550,5 +561,11 @@ public abstract class MixinMinecraft {
                 this.playerController.resetBlockRemoving();
             }
         }
+    }
+
+
+    @Inject(method = "shutdown", at = @At("HEAD"))
+    private void shutdown(CallbackInfo ci) {
+        AddonMinecraftBootstrap.getLoadedAddons().forEach(IAddon::onClose);
     }
 }

@@ -47,6 +47,7 @@
     "renderer.MixinRendererLivingEntity",
     "renderer.MixinRenderPlayer",
     "renderer.MixinRender",
+    "renderer.MixingDabRender",
     "packet.MixinC01PacketChatMessage",
     "packet.MixinS2EPacketCloseWindow",
     "packet.MixinS14PacketEntity",

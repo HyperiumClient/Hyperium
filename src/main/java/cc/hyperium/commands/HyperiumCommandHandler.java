@@ -134,7 +134,8 @@ public class HyperiumCommandHandler {
      */
     public void autoComplete(String leftOfCursor) {
         latestAutoComplete = null;
-
+        if(leftOfCursor.length()==0)
+            return;
         if (leftOfCursor.charAt(0) == '/') {
             leftOfCursor = leftOfCursor.substring(1);
 

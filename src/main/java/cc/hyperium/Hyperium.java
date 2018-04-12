@@ -34,7 +34,6 @@ import cc.hyperium.integrations.spotify.Spotify;
 import cc.hyperium.integrations.spotify.impl.SpotifyInformation;
 import cc.hyperium.mods.HyperiumModIntegration;
 import cc.hyperium.mods.autogg.AutoGG;
-import cc.hyperium.mods.capturex.CaptureCore;
 import cc.hyperium.mods.common.PerspectiveModifierContainer;
 import cc.hyperium.mods.common.ToggleSprintContainer;
 import cc.hyperium.mods.crosshair.CrosshairMod;
@@ -42,6 +41,8 @@ import cc.hyperium.mods.discord.RichPresenceManager;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.mods.sk1ercommon.Sk1erMod;
 import cc.hyperium.mods.statistics.GeneralStatisticsTracking;
+import cc.hyperium.netty.NettyClient;
+import cc.hyperium.network.NetworkHandler;
 import cc.hyperium.tray.TrayManager;
 import cc.hyperium.utils.mods.CompactChat;
 import cc.hyperium.utils.mods.FPSLimiter;
@@ -52,6 +53,8 @@ import org.lwjgl.opengl.Display;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
+import java.net.URLClassLoader;
 
 /**
  * Hypixel Community Client
@@ -89,12 +92,13 @@ public class Hyperium {
     private HyperiumHandlers handlers;
     private HyperiumModIntegration modIntegration;
 
-    private CaptureCore captureCore;
     private MinigameListener minigameListener;
     private boolean acceptedTos = false;
     private boolean fullScreen = false;
     private boolean checkedForUpdate = false;
     private Sk1erMod sk1erMod;
+    private NettyClient client;
+    private NetworkHandler networkHandler;
 
     public MinigameListener getMinigameListener() {
         return minigameListener;
@@ -231,6 +235,12 @@ public class Hyperium {
         SplashProgress.CURRENT = "Finished";
         SplashProgress.update();
         cosmetics = new HyperiumCosmetics();
+
+        Multithreading.runAsync(() -> {
+
+            networkHandler = new NetworkHandler();
+            this.client = new NettyClient(networkHandler);
+        });
     }
 
     /**
@@ -261,7 +271,12 @@ public class Hyperium {
         if (updateQueue) {
             try {
                 boolean windows = InstallerFrame.OsCheck.getOperatingSystemType() == InstallerFrame.OsCheck.OSType.Windows;
-                String cs = new File(getClass().getResource(".").getPath()).getAbsolutePath();
+                //Class<?> c = getClass();
+                //String n = c.getName().replace('.', '/');
+                String cs = "";
+                for(URL u : ((URLClassLoader)getClass().getClassLoader()).getURLs())
+                    if(u.getPath().contains("Hyperium"))
+                        cs = u.getPath();
                 System.out.println("cs="+cs);
                 Runtime.getRuntime().exec(new String[]{
                         windows ? "cmd" : "bash",

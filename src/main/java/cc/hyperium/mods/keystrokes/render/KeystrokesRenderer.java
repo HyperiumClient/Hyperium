@@ -18,7 +18,7 @@
 package cc.hyperium.mods.keystrokes.render;
 
 import cc.hyperium.event.InvokeEvent;
-import cc.hyperium.event.RenderEvent;
+import cc.hyperium.event.RenderGuiEvent;
 import cc.hyperium.mods.keystrokes.KeystrokesMod;
 import cc.hyperium.mods.keystrokes.keys.impl.CPSKey;
 import cc.hyperium.mods.keystrokes.keys.impl.Key;
@@ -65,7 +65,7 @@ public class KeystrokesRenderer {
     }
     
     @InvokeEvent
-    public void onRenderTick(RenderEvent event) {
+    public void onRenderTick(RenderGuiEvent event) {
         if (this.mc.currentScreen != null) {
             if (this.mc.currentScreen instanceof GuiScreenKeystrokes || this.mc.currentScreen instanceof GuiScreenColor) {
                 try {

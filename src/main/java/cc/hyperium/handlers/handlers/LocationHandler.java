@@ -20,7 +20,10 @@ package cc.hyperium.handlers.handlers;
 import cc.hyperium.Hyperium;
 import cc.hyperium.config.ConfigOpt;
 import cc.hyperium.event.*;
+import cc.hyperium.event.minigames.Minigame;
 import cc.hyperium.handlers.HyperiumHandlers;
+import cc.hyperium.netty.NettyClient;
+import cc.hyperium.netty.packet.packets.serverbound.UpdateLocationPacket;
 import cc.hyperium.utils.ChatColor;
 
 import java.util.regex.Matcher;
@@ -67,10 +70,24 @@ public class LocationHandler {
     }
 
     @InvokeEvent
+    public void serverSwap(ServerSwitchEvent event) {
+        if (Hyperium.INSTANCE.getMinigameListener().getScoreboardTitle().equalsIgnoreCase(Minigame.HOUSING.name()))
+            NettyClient.getClient().write(UpdateLocationPacket.build(Minigame.HOUSING.name()));
+        else
+            NettyClient.getClient().write(UpdateLocationPacket.build(event.getTo()));
+    }
+
+    @InvokeEvent
+    public void miniGameJoin(JoinMinigameEvent event) {
+        if (event.getMinigame() == Minigame.HOUSING)
+            NettyClient.getClient().write(UpdateLocationPacket.build(Minigame.HOUSING.name()));
+    }
+
+    @InvokeEvent
     public void tick(TickEvent event) {
         Hyperium instance = Hyperium.INSTANCE;
         HyperiumHandlers handlers = instance.getHandlers();
-        if(handlers == null)return;
+        if (handlers == null) return;
         HypixelDetector hypixelDetector = handlers.getHypixelDetector();
         if (!hypixelDetector.isHypixel())
             ticksInWorld = 0;

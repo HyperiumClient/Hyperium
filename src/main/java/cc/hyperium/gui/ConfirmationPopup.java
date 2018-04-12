@@ -32,6 +32,7 @@ import java.util.function.Consumer;
 public class ConfirmationPopup {
     private Queue<Confirmation> confirmations = new LinkedList<>();
     private Confirmation currentConfirmation;
+    private String acceptFrom = "";
 
     @InvokeEvent
     public void onFriend(HypixelFriendRequestEvent e) {
@@ -80,6 +81,9 @@ public class ConfirmationPopup {
         return c;
     }
 
+    public void setAcceptFrom(String acceptFrom) {
+        this.acceptFrom = acceptFrom;
+    }
 
     class Confirmation {
         private long framesLeft;
@@ -104,6 +108,10 @@ public class ConfirmationPopup {
 
         public boolean render() {
             if (framesLeft <= 0) {
+                return true;
+            }
+            if(text.equalsIgnoreCase("Party request from "+acceptFrom)) {
+                callback.accept(true);
                 return true;
             }
 
@@ -144,7 +152,6 @@ public class ConfirmationPopup {
                 long length = upperThreshold - lowerThreshold;
                 long current = framesLeft - lowerThreshold;
                 float progress = 1.0F - HyperiumGui.clamp((float) current / (float) length, 0.0F, 1.0F);
-                System.out.println("l: " + length + ",c: " + current + ",p: " + progress);
 
                 // Progress
                 Gui.drawRect(
@@ -156,6 +163,7 @@ public class ConfirmationPopup {
                 );
 
                 fr.drawString(text, sr.getScaledWidth() / 2 - fr.getStringWidth(text) / 2, 58, 0xFFFFFF);
+
                 String s = "[Y] Accept [N] Deny";
                 fr.drawString(s, sr.getScaledWidth() / 2 - fr.getStringWidth(s) / 2, 70, new Color(170, 170, 170).getRGB());
             }

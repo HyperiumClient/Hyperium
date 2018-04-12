@@ -17,7 +17,7 @@
 
 package cc.hyperium.mods.crosshair;
 
-import cc.hyperium.event.RenderEvent;
+import cc.hyperium.event.RenderGuiEvent;
 
 public class CrosshairMod {
 
@@ -26,7 +26,7 @@ public class CrosshairMod {
 //    private CrosshairType crosshair = new Crosshair();
 
     // todo: @InvokeEvent do crosshair shit when u can cba - note to self, kevin :*
-    public void renderEvent(RenderEvent event ) {
+    public void renderEvent(RenderGuiEvent event ) {
         // draw whatever my dudes
 //        crosshair.draw(true, Color.BLACK, 10, 10, 10, 10, 10);
     }

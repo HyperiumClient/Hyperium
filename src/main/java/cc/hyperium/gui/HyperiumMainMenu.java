@@ -484,9 +484,14 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
         this.drawString(this.fontRendererObj, s, 2, this.height - 10, -1);
         String s1 = "Not affiliated with Mojang AB.";
         this.drawString(this.fontRendererObj, s1, this.width - this.fontRendererObj.getStringWidth(s1) - 2, this.height - 10, -1);
-        String s3 = "Made by Sk1er, Kevin, Cubxity, CoalOres and boomboompower";
-        this.drawString(this.fontRendererObj, s3, this.width - this.fontRendererObj.getStringWidth(s3) - 2, this.height - 20, -1);
+        String s3 = "Made by Sk1er, Kevin,";
+        this.drawString(this.fontRendererObj, s3, this.width - this.fontRendererObj.getStringWidth(s3) - 2, this.height - 30, -1);
+
+        String s4 = "Cubxity, CoalOres and boomboompower";
+        this.drawString(this.fontRendererObj, s4, this.width - this.fontRendererObj.getStringWidth(s4) - 2, this.height - 20, -1);
+
         this.hypixelButton.displayString = Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) ? "Fix Hypixel Session" : "Join Hypixel";
+
     }
 
     private GuiStyle getStyle() {

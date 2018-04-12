@@ -40,7 +40,10 @@ public class DisplayElement extends Dimension {
     private boolean highlighted;
     private JsonHolder data;
     private double brightness;
-
+    
+    // Used for rainbox rendering
+    private boolean selected;
+    
     public DisplayElement(JsonHolder object) {
         this.data = object;
         xloc = object.optDouble("x");
@@ -283,5 +286,13 @@ public class DisplayElement extends Dimension {
 
     public JsonHolder getData() {
         return data;
+    }
+    
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
+    
+    public boolean isSelected() {
+        return this.selected;
     }
 }
