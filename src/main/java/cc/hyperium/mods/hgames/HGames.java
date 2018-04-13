@@ -1,16 +1,11 @@
 package cc.hyperium.mods.hgames;
 
 import cc.hyperium.event.*;
-import cc.hyperium.event.minigames.MinigameListener;
 import cc.hyperium.mods.AbstractMod;
-import cc.hyperium.mods.chromahud.api.DisplayItem;
-import cc.hyperium.mods.chromahud.displayitems.hyperium.HypixelDisplay;
 import cc.hyperium.mods.chromahud.displayitems.hyperium.MinigameDisplay;
 import cc.hyperium.mods.hgames.minigames.Minigame;
 import cc.hyperium.mods.hgames.minigames.Walls3;
 import cc.hyperium.utils.ChatColor;
-import cc.hyperium.utils.JsonHolder;
-import tv.twitch.chat.Chat;
 
 public class HGames extends AbstractMod {
 
@@ -46,6 +41,14 @@ public class HGames extends AbstractMod {
     private void onChat(ChatEvent event) {
         if(minigame != null) {
             minigame.onChat(event.getChat());
+        }
+    }
+
+    @InvokeEvent
+    private void onWorldChange(WorldChangeEvent event){
+        System.out.println("World changed event called!");
+        if(minigame != null){
+            minigame.onWorldChange();
         }
     }
 

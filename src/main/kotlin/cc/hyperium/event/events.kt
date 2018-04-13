@@ -64,6 +64,11 @@ class ServerJoinEvent(val server: String, val port: Int)
 class ServerLeaveEvent
 
 /**
+ * Invoked when the world is changed
+ */
+class WorldChangeEvent
+
+/**
  * Invoked once left mouse is pressed
  */
 class LeftMouseClickEvent

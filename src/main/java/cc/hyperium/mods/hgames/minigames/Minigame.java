@@ -11,5 +11,6 @@ public abstract class Minigame {
 
     public void onChat(IChatComponent message) {}
 
+    public void onWorldChange(){}
 
 }
