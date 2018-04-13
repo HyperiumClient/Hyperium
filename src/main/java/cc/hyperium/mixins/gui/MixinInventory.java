@@ -17,6 +17,8 @@
 
 package cc.hyperium.mixins.gui;
 
+import cc.hyperium.event.EventBus;
+import cc.hyperium.event.PotionAddedEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.InventoryEffectRenderer;
@@ -42,6 +44,7 @@ public abstract class MixinInventory extends GuiContainer {
      */
     @Overwrite
     protected void updateActivePotionEffects() {
+        EventBus.INSTANCE.register(new PotionAddedEvent());
         this.hasActivePotionEffects = !Minecraft.getMinecraft().thePlayer.getActivePotionEffects().isEmpty();
         this.guiLeft = (this.width - this.xSize) / 2;
     }

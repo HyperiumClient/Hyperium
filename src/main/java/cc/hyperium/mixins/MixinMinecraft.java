@@ -524,6 +524,11 @@ public abstract class MixinMinecraft {
         SplashProgress.update();
     }
 
+    @Inject(method="loadWorld(Lnet/minecraft/client/multiplayer/WorldClient;)V", at = @At("HEAD"))
+    private void loadWorld(WorldClient worldClient, CallbackInfo ci){
+        EventBus.INSTANCE.post(new WorldChangeEvent());
+    }
+
 
     /**
      * @author CoalOres

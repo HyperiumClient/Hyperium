@@ -64,6 +64,11 @@ class ServerJoinEvent(val server: String, val port: Int)
 class ServerLeaveEvent
 
 /**
+ * Invoked when the world is changed
+ */
+class WorldChangeEvent
+
+/**
  * Invoked once left mouse is pressed
  */
 class LeftMouseClickEvent
@@ -188,6 +193,11 @@ class RenderSelectedItemEvent(val scaledRes: ScaledResolution)
  * Called when the player joins hypixel
  */
 class JoinHypixelEvent
+
+/**
+ * Called when a potion effect is added to the player
+ */
+class PotionAddedEvent
 
 /**
  * Called when the game is shutting down, use this to save your configs
