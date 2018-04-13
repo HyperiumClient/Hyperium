@@ -112,7 +112,8 @@ public class Hyperium {
     /**
      * @param event initialize Hyperium
      */
-    @InvokeEvent
+
+    @InvokeEvent(priority = Priority.HIGH)
     public void init(InitializationEvent event) {
         Minecraft.getMinecraft().mcProfiler.profilingEnabled = false;
 
