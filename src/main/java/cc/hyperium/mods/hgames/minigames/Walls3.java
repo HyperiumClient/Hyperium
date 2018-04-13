@@ -52,9 +52,4 @@ public class Walls3 extends Minigame {
         }
         duplicateCounter++;
     }
-
-    @Override
-    public void onPotionAdded() {
-        System.out.println("Test! Potion added!");
-    }
 }
