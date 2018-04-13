@@ -13,6 +13,4 @@ public abstract class Minigame {
 
     public void onWorldChange(){}
 
-    public void onPotionAdded(){}
-
 }

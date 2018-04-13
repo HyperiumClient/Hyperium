@@ -52,13 +52,6 @@ public class HGames extends AbstractMod {
         }
     }
 
-    @InvokeEvent
-    private void onPotionAdded(PotionAddedEvent event){
-        if(minigame != null){
-            minigame.onPotionAdded();
-        }
-    }
-
     public void render(MinigameDisplay display, int starX, double startY, boolean config) {
         if(minigame != null) {
             minigame.draw(display, starX, startY, config);
