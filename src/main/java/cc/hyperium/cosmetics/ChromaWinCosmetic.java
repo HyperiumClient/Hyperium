@@ -190,7 +190,7 @@ public class ChromaWinCosmetic extends AbstractCosmetic {
     }
 
     @InvokeEvent(priority = Priority.LOW)
-    public void onRender(RenderEvent e) {
+    public void onRender(RenderGuiEvent e) {
         /*
         if(ticksLeft <= 0) return;
         ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());

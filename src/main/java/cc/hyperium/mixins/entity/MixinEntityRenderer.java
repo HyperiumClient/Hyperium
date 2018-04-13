@@ -19,6 +19,7 @@ package cc.hyperium.mixins.entity;
 
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.RenderEvent;
+import cc.hyperium.event.RenderGuiEvent;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.EntityRenderer;
@@ -55,7 +56,12 @@ public abstract class MixinEntityRenderer {
     private float distanceModifier = 0.0f;
 
     @Inject(method = "updateCameraAndRender", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiIngame;renderGameOverlay(F)V", shift = At.Shift.AFTER))
-    private void updateCameraAndRender(float partialTicks, long nano, CallbackInfo ci) {
+    private void renderGui(float partialTicks, long nano, CallbackInfo ci) {
+        EventBus.INSTANCE.post(new RenderGuiEvent());
+    }
+
+    @Inject(method = "updateCameraAndRender", at = @At(value="INVOKE", target = "Lnet/minecraft/client/renderer/EntityRenderer;renderWorld(FJ)V", shift = At.Shift.AFTER))
+    private void renderWorld(float partialTicks, long nano, CallbackInfo ci) {
         EventBus.INSTANCE.post(new RenderEvent());
     }
 
