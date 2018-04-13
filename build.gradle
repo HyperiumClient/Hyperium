@@ -71,7 +71,7 @@ minecraft {
     mappings = "stable_20"
     runDir = 'run'
     clientJvmArgs = ["-XX:-DisableExplicitGC"] // fast world loading
-    makeObfSourceJar = true
+    makeObfSourceJar = false
 }
 
 dependencies {
@@ -99,6 +99,7 @@ dependencies {
     compile fileTree(dir: 'libs', include: '*.jar')
 
 }
+
 
 
 mixin {
