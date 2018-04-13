@@ -39,7 +39,8 @@ public class LocationHandler {
 
     @InvokeEvent
     public void chatRecieve(ChatEvent event) {
-
+        if(!Hyperium.INSTANCE.getHandlers().getHypixelDetector().isHypixel())
+            return;
         String raw = ChatColor.stripColor(event.getChat().getUnformattedText());
         Matcher whereAmIMatcher = whereami.matcher(raw);
         if (raw.equalsIgnoreCase("you are currently in limbo")) {
