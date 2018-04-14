@@ -7,6 +7,7 @@ import cc.hyperium.utils.mods.FPSLimiter;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.multiplayer.ServerData;
+import net.minecraft.server.integrated.IntegratedServer;
 import net.minecraft.world.World;
 
 import java.io.*;
@@ -68,7 +69,7 @@ public class TimeTrackHandler implements Runnable {
     public void run() {
         try {
             checkDate();
-            if(Hyperium.INSTANCE.getHandlers() == null)return;
+            if (Hyperium.INSTANCE.getHandlers() == null) return;
             if (Hyperium.INSTANCE.getHandlers().getHypixelDetector().isHypixel()) {
                 if (FPSLimiter.getInstance().isLimbo()) {
                     inc("Hypixel", "limbo");
@@ -90,7 +91,9 @@ public class TimeTrackHandler implements Runnable {
                 if (currentServerData != null) {
                     inc("Server", currentServerData.serverIP);
                 } else {
-                    inc("Singleplayer", Minecraft.getMinecraft().getIntegratedServer().getFolderName());
+                    IntegratedServer integratedServer = Minecraft.getMinecraft().getIntegratedServer();
+                    if (integratedServer != null)
+                        inc("Singleplayer", integratedServer.getFolderName());
                 }
 
             }
