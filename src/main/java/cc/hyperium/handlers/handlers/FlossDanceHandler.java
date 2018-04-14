@@ -119,6 +119,8 @@ public class FlossDanceHandler {
 				player.bipedLeftArm.rotateAngleX = (float) Math.toRadians(30f * heldPercent);
 				player.bipedLeftArmwear.rotateAngleX = (float) Math.toRadians(30f * heldPercent);
 				break;
+			default:
+				break;
 		}
 	}
 	public void modify(AbstractClientPlayer entity, ModelBiped player) {
@@ -164,10 +166,10 @@ public class FlossDanceHandler {
 	}
 
 	public class DanceState {
-		UUID uuid;
-		int danceFrames = 0;
-		long systemTime;
-		boolean toggled;
+		private UUID uuid;
+		private int danceFrames = 0;
+		private long systemTime;
+		private boolean toggled;
 
 		public DanceState(UUID uuid) {
 			this.uuid = uuid;
@@ -175,7 +177,7 @@ public class FlossDanceHandler {
 			this.toggled = false;
 		}
 
-		void update() {
+		private void update() {
 			while (this.systemTime < Minecraft.getSystemTime() + (1000 / 60)) {
 				this.danceFrames--;
 				this.systemTime += (1000 / 60);
@@ -191,9 +193,7 @@ public class FlossDanceHandler {
 		}
 
 		public void ensureDancingFor(int seconds) {
-			seconds *= 60;
-
-			danceFrames = Math.max(danceFrames, seconds);
+			danceFrames = Math.max(danceFrames, seconds * 60);
 		}
 
 		public void stopDancing() {
