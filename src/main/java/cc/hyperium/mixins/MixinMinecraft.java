@@ -539,7 +539,7 @@ public abstract class MixinMinecraft {
             this.leftClickCounter = 0;
         }
 
-        if (!HypixelDetector.badlion) {
+        if (!HypixelDetector.getInstance().isBadlion()) {
             // Removes 1.7 block breaking while using item.
             if (this.leftClickCounter <= 0 && !this.thePlayer.isUsingItem()) {
                 if (leftClick && this.objectMouseOver != null && this.objectMouseOver.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
