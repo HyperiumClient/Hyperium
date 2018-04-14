@@ -49,7 +49,6 @@
     "renderer.MixinRenderPlayer",
     "renderer.MixinRender",
     "renderer.MixinDabRender",
-    "renderer.MixinFlossDanceRender",
     "packet.MixinC01PacketChatMessage",
     "packet.MixinS2EPacketCloseWindow",
     "packet.MixinS14PacketEntity",

@@ -17,7 +17,6 @@
 
 package cc.hyperium.handlers.handlers.keybinds;
 
-import cc.hyperium.C;
 import cc.hyperium.Hyperium;
 import cc.hyperium.event.GameShutDownEvent;
 import cc.hyperium.event.InvokeEvent;
@@ -32,7 +31,6 @@ import cc.hyperium.handlers.handlers.FlossDanceHandler;
 import cc.hyperium.netty.NettyClient;
 import cc.hyperium.netty.packet.packets.serverbound.ServerCrossDataPacket;
 import net.minecraft.client.Minecraft;
-import net.minecraft.util.ChatComponentText;
 import org.apache.commons.lang3.ArrayUtils;
 import org.lwjgl.input.Keyboard;
 import utils.JsonHolder;
@@ -68,12 +66,10 @@ public class KeyBindHandler {
     public HyperiumBind debug = new HyperiumBind("DEBUG", Keyboard.KEY_J) {
         @Override
         public void onPress() {
-            Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText(C.RED+"TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST "));
         }
 
         @Override
         public void onRelease() {
-            Hyperium.INSTANCE.getHandlers().getFlossDanceHandler().stopDancing(Minecraft.getMinecraft().getSession().getProfile().getId());
         }
     };
 

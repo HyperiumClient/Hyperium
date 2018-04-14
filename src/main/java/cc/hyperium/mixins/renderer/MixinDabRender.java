@@ -20,12 +20,17 @@ public class MixinDabRender extends ModelBase {
             ModelBase modelBase = this;
             if (modelBase instanceof ModelPlayer) {
                 ModelPlayer player = (ModelPlayer) modelBase;
+                Hyperium.INSTANCE.getHandlers().getFlossDanceHandler().modify(((AbstractClientPlayer) entityIn), player);
                 Hyperium.INSTANCE.getHandlers().getDabHandler().modify(((AbstractClientPlayer) entityIn), player);
+
             } else {
-                if (modelBase instanceof ModelBiped)
+                if (modelBase instanceof ModelBiped) {
+                    Hyperium.INSTANCE.getHandlers().getFlossDanceHandler().modify(((AbstractClientPlayer) entityIn), ((ModelBiped) modelBase));
                     Hyperium.INSTANCE.getHandlers().getDabHandler().modify(((AbstractClientPlayer) entityIn), ((ModelBiped) modelBase));
 
+                }
             }
+
         }
     }
 }
