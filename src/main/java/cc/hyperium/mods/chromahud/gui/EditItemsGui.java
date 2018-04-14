@@ -188,8 +188,6 @@ public class EditItemsGui extends GuiScreen {
             int tmpX = mouseX;
             int tmpY = mouseY;
             int xCenter = current.getScaledWidth() / 2;
-            System.out.println(tmpX);
-            System.out.println(tmpY);
             if (tmpX >= xCenter - 80 && tmpX <= xCenter + 80) {
                 //now some super janky code
                 int yPosition = 40;

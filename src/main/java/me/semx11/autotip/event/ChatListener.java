@@ -83,7 +83,6 @@ public class ChatListener {
                 TipTracker.tipsSentEarnings.merge(game, coins, (a, b) -> a + b);
                 event.setCancelled(mOption.equals(MessageOption.COMPACT) || mOption.equals(MessageOption.HIDDEN));
 
-                System.out.println("Earned " + coins + " coins in " + game);
                 return;
             }
 

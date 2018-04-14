@@ -41,7 +41,6 @@ public class CommandQueue {
     }
 
     public void register(String chat, Runnable task) {
-        System.out.println("Queued callback for " + chat);
         asyncCallbacks.put(chat, task);
         queue(chat);
     }
@@ -51,11 +50,9 @@ public class CommandQueue {
             EntityPlayerSP thePlayer = Minecraft.getMinecraft().thePlayer;
             if (thePlayer != null) {
                 String poll = commands.poll();
-                Hyperium.LOGGER.info("Sending chat: " + poll);
                 Runnable runnable = asyncCallbacks.get(poll);
                 thePlayer.sendChatMessage(poll);
                 if (runnable != null) {
-                    System.out.println("Running runnable for " + poll);
                     runnable.run();
                 }
 
@@ -65,7 +62,6 @@ public class CommandQueue {
     }
 
     public void queue(String message) {
-        System.out.println("queued command: " + message);
         commands.add(message);
     }
 }
