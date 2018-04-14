@@ -79,7 +79,6 @@ public class KeyBindHandler {
     public HyperiumBind dab = new HyperiumBind("Dab", Keyboard.KEY_B) {
         @Override
         public void onPress() {
-            System.out.println("pressing");
             DabHandler dabHandler = Hyperium.INSTANCE.getHandlers().getDabHandler();
             UUID uuid = (Minecraft.getMinecraft().getSession()).getProfile().getId();
             DabHandler.DabState currentState = dabHandler.get(uuid);
@@ -101,7 +100,6 @@ public class KeyBindHandler {
 
         @Override
         public void onRelease() {
-            System.out.println("releasing");
             if (AnimationSettings.dabToggle) return;
 
             Hyperium.INSTANCE.getHandlers().getDabHandler().stopDabbing(Minecraft.getMinecraft().getSession().getProfile().getId());

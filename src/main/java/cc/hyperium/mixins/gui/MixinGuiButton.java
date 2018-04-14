@@ -29,6 +29,9 @@ import org.spongepowered.asm.mixin.Overwrite;
 
 import java.awt.*;
 
+import static cc.hyperium.gui.HyperiumGui.clamp;
+import static cc.hyperium.gui.HyperiumGui.easeOut;
+
 @SuppressWarnings("unused")
 @Mixin(GuiButton.class)
 public abstract class MixinGuiButton extends Gui {
@@ -50,41 +53,61 @@ public abstract class MixinGuiButton extends Gui {
     protected int width;
     @Shadow
     protected int height;
-    private int hoverColor = new Color(0, 0, 0, 90).getRGB();
+    private int hoverColor = new Color(0, 0, 0, 120).getRGB();
     private int color = new Color(0, 0, 0, 70).getRGB();
     private int textColor = new Color(255, 255, 255, 255).getRGB();
     private int textHoverColor = new Color(255, 255, 255, 255).getRGB();
     private FontRenderer fontRenderer = Minecraft.getMinecraft().fontRendererObj;
     private boolean enabled = true;
+    private float selectPercent = 0.0f;
 
     @Shadow
     protected abstract void mouseDragged(Minecraft mc, int mouseX, int mouseY);
 
     @Overwrite
     public void drawButton(Minecraft mc, int mouseX, int mouseY) {
-        if (this.visible) {
-            this.hovered = mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;
-            this.mouseDragged(mc, mouseX, mouseY);
+        if (!this.visible) return;
 
-            // TODO RECT COLORS
-            if (this.hovered) {
-                drawRect(this.xPosition, this.yPosition,
-                        this.xPosition + this.width, this.yPosition + this.height,
-                        hoverColor);
-            } else {
-                drawRect(this.xPosition, this.yPosition,
-                        this.xPosition + this.width, this.yPosition + this.height,
-                        color);
-            }
-            int j = textColor;
+        this.hovered = mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;
+        this.mouseDragged(mc, mouseX, mouseY);
 
-            if (!this.enabled) {
-                j = 10526880;
-            } else if (this.hovered) {
-                j = textHoverColor;
-            }
-            this.drawCenteredString(fontRenderer, this.displayString, this.xPosition + this.width / 2, this.yPosition + (this.height - 8) / 2, j);
+        this.selectPercent = clamp(
+                easeOut(
+                        this.selectPercent,
+                        this.hovered ? 1.0f : 0.0f,
+                        0.01f,
+                        this.hovered ? 5f : 2f
+                ),
+                0.0f,
+                1.0f
+        );
+
+        drawRect(
+                (int) (xPosition + (selectPercent * 7)),
+                yPosition,
+                (int) ((xPosition + width) - (selectPercent * 7)),
+                yPosition + height,
+                hovered ? hoverColor : color
+        );
+
+        /*// TODO RECT COLORS
+        if (this.hovered) {
+            drawRect(this.xPosition, this.yPosition,
+                    this.xPosition + this.width, this.yPosition + this.height,
+                    hoverColor);
+        } else {
+            drawRect(this.xPosition, this.yPosition,
+                    this.xPosition + this.width, this.yPosition + this.height,
+                    color);
+        }*/
+
+        int j = textColor;
+
+        if (!this.enabled) {
+            j = 10526880;
+        } else if (this.hovered) {
+            j = textHoverColor;
         }
+        this.drawCenteredString(fontRenderer, this.displayString, this.xPosition + this.width / 2, this.yPosition + (this.height - 8) / 2, j);
     }
-
 }
