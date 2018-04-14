@@ -286,6 +286,7 @@ public class ModConfigGui extends HyperiumGui {
         private int index;
         private float selectPercent;
         private ArrayList<SettingItem> settings;
+        private long systemTime = Minecraft.getSystemTime();
 
         public Tab(CustomFontButton button, int index, ModConfigGui owningGui) {
             this.button = button;
@@ -295,16 +296,20 @@ public class ModConfigGui extends HyperiumGui {
         }
 
         public void draw(int mouseX, int mouseY) {
-            this.selectPercent = clamp(
-                    easeOut(
-                            this.selectPercent,
-                            this.selected ? 1.0f : 0.0f,
-                            0.01f,
-                            this.selected ? 5f : 2f
-                    ),
-                    0.0f,
-                    1.0f
-            );
+            if (this.systemTime < Minecraft.getSystemTime() + (1000 / 60)) {
+                this.selectPercent = clamp(
+                        easeOut(
+                                this.selectPercent,
+                                this.selected ? 1.0f : 0.0f,
+                                0.01f,
+                                this.selected ? 5f : 2f
+                        ),
+                        0.0f,
+                        1.0f
+                );
+
+                this.systemTime += (1000 / 60);
+            }
 
             int leftX = owningGui.getX(getIndex());
             int endX = owningGui.getX(getIndex() + 1);

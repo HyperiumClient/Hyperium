@@ -19,27 +19,34 @@ public class DabHandler {
     private float state = 0;
     private boolean right = true;
     private boolean asc = true;
+    private long systemTime = 0;
 
     @InvokeEvent
     public void onRender(RenderEvent e) {
         dabStates.values().forEach(DabState::update);
 
-        state = HyperiumGui.clamp(
-                HyperiumGui.easeOut(
-                        this.state,
-                        this.asc ? 100.0f : 0.0f,
-                        0.01f,
-                        AnimationSettings.dabSpeed
-                ),
-                0.0f,
-                100.0f
-        );
+        if (this.systemTime == 0) this.systemTime = Minecraft.getSystemTime();
 
-        if (state <= 0) {
-            asc = true;
-            right = !right;
-        } else if (state >= 100) {
-            asc = false;
+        if (this.systemTime < Minecraft.getSystemTime() + (1000 / 120)) {
+            state = HyperiumGui.clamp(
+                    HyperiumGui.easeOut(
+                            this.state,
+                            this.asc ? 100.0f : 0.0f,
+                            0.01f,
+                            AnimationSettings.dabSpeed
+                    ),
+                    0.0f,
+                    100.0f
+            );
+
+            this.systemTime += (1000 / 120);
+
+            if (state <= 0) {
+                asc = true;
+                right = !right;
+            } else if (state >= 100) {
+                asc = false;
+            }
         }
     }
 

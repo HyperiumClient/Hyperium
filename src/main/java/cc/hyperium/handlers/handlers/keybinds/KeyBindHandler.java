@@ -66,7 +66,7 @@ public class KeyBindHandler {
     public HyperiumBind debug = new HyperiumBind("DEBUG", Keyboard.KEY_J) {
         @Override
         public void onPress() {
-            Hyperium.INSTANCE.getHandlers().getFlossDanceHandler().startDacing(Minecraft.getMinecraft().getSession().getProfile().getId());
+            Hyperium.INSTANCE.getHandlers().getFlossDanceHandler().startDancing(Minecraft.getMinecraft().getSession().getProfile().getId());
         }
 
         @Override
@@ -91,7 +91,7 @@ public class KeyBindHandler {
 
             if (!this.wasPressed()) {
                 flossDanceHandler.get(uuid).setToggled(AnimationSettings.flossDanceToggle);
-                flossDanceHandler.startDacing(uuid);
+                flossDanceHandler.startDancing(uuid);
                 NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("type", "floss_update").put("flossing", true)));
 
             }

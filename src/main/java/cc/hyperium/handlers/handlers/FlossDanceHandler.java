@@ -23,6 +23,7 @@ public class FlossDanceHandler {
 	// x, y, z values
 	private final Random random = new Random();
 	private float[] randomHeadMovement = new float[3];
+	private long systemTime = 0;
 
 	public FlossDanceHandler() {
 		fillRandomHeadMovementArray();
@@ -36,16 +37,22 @@ public class FlossDanceHandler {
 	public void onRender(RenderEvent e) {
 		danceStates.values().forEach(DanceState::update);
 
-		float speed = AnimationSettings.flossDanceSpeed * 3;
-		state = HyperiumGui.clamp(state + (asc ? speed : -speed), 0.0f, 100.0f);
+		float speed = AnimationSettings.flossDanceSpeed * 2;
 
-		if (state <= 0) {
-			asc = true;
-			right = !right;
-			armsDirection = ArmsDirection.values()[armsDirection.ordinal() + 1 >= ArmsDirection.values().length ? 0 : armsDirection.ordinal() + 1];
-			fillRandomHeadMovementArray();
-		} else if (state >= 100) {
-			asc = false;
+		if (this.systemTime == 0) this.systemTime = Minecraft.getSystemTime();
+
+		if (this.systemTime < Minecraft.getSystemTime() + (1000 / 120)) {
+			state = HyperiumGui.clamp(state + (asc ? speed : -speed), 0.0f, 100.0f);
+			this.systemTime += (1000 / 120);
+
+			if (state <= 0) {
+				asc = true;
+				right = !right;
+				armsDirection = ArmsDirection.values()[armsDirection.ordinal() + 1 >= ArmsDirection.values().length ? 0 : armsDirection.ordinal() + 1];
+				fillRandomHeadMovementArray();
+			} else if (state >= 100) {
+				asc = false;
+			}
 		}
 	}
 
@@ -59,7 +66,7 @@ public class FlossDanceHandler {
 		return danceStates.computeIfAbsent(uuid, DanceState::new);
 	}
 
-	public void startDacing(UUID uuid) {
+	public void startDancing(UUID uuid) {
 		get(uuid).ensureDancingFor(60);
 	}
 
@@ -72,24 +79,19 @@ public class FlossDanceHandler {
 		int ticks = get(entity.getUniqueID()).danceFrames;
 
 		if (ticks <= 0) {
-			player.bipedBody.rotateAngleZ = 0;
-			player.bipedBodyWear.rotateAngleZ = 0;
-			player.bipedLeftLeg.rotateAngleZ = 0;
-			player.bipedLeftLegwear.rotateAngleZ = 0;
-			player.bipedRightLeg.rotateAngleZ = 0;
-			player.bipedRightLegwear.rotateAngleZ = 0;
+			if (get(entity.getUniqueID()).shouldReset()) {
+				resetAnimation(player);
+				player.bipedBodyWear.rotateAngleZ = 0;
+				player.bipedBodyWear.rotateAngleX = 0;
+				player.bipedBodyWear.rotateAngleY = 0;
+				player.bipedLeftLegwear.rotateAngleZ = 0;
+				player.bipedRightLegwear.rotateAngleZ = 0;
 
-			player.bipedRightLeg.offsetX = 0;
-			player.bipedRightLegwear.offsetX = 0;
-			player.bipedLeftLeg.offsetX = 0;
-			player.bipedLeftLegwear.offsetX = 0;
+				player.bipedBodyWear.offsetX = 0;
+				player.bipedRightLegwear.offsetX = 0;
+				player.bipedLeftLegwear.offsetX = 0;
+			}
 
-			player.bipedHead.rotateAngleX = 0;
-			player.bipedHeadwear.rotateAngleX = 0;
-			player.bipedHead.rotateAngleY = 0;
-			player.bipedHeadwear.rotateAngleY = 0;
-			player.bipedHead.rotateAngleZ = 0;
-			player.bipedHeadwear.rotateAngleZ = 0;
 			return;
 		}
 
@@ -143,8 +145,13 @@ public class FlossDanceHandler {
 	public void modify(AbstractClientPlayer entity, ModelBiped player) {
 		int ticks = get(entity.getUniqueID()).danceFrames;
 
-		if (ticks <= 0)
+		if (ticks <= 0) {
+			if (get(entity.getUniqueID()).shouldReset()) {
+				resetAnimation(player);
+			}
+
 			return;
+		}
 
 		float heldPercent = state / 100F;
 
@@ -179,19 +186,36 @@ public class FlossDanceHandler {
 				player.bipedLeftArm.rotateAngleX = (float) Math.toRadians(30f * heldPercent);
 				break;
 		}
+	}
 
+	private void resetAnimation(ModelBiped player) {
+		player.bipedBody.rotateAngleZ = 0;
+		player.bipedLeftLeg.rotateAngleZ = 0;
+		player.bipedRightLeg.rotateAngleZ = 0;
+
+		player.bipedRightLeg.offsetX = 0;
+		player.bipedLeftLeg.offsetX = 0;
+
+		player.bipedHead.rotateAngleX = 0;
+		player.bipedHeadwear.rotateAngleX = 0;
+		player.bipedHead.rotateAngleY = 0;
+		player.bipedHeadwear.rotateAngleY = 0;
+		player.bipedHead.rotateAngleZ = 0;
+		player.bipedHeadwear.rotateAngleZ = 0;
 	}
 
 	public class DanceState {
 		UUID uuid;
-		int danceFrames = 0;
+		int danceFrames = -1;
 		long systemTime;
 		boolean toggled;
+		boolean reset;
 
 		public DanceState(UUID uuid) {
 			this.uuid = uuid;
 			this.systemTime = Minecraft.getSystemTime();
 			this.toggled = false;
+			reset = true;
 		}
 
 		void update() {
@@ -200,23 +224,24 @@ public class FlossDanceHandler {
 				this.systemTime += (1000 / 60);
 			}
 
-			if (danceFrames <= 0) {
+			if (danceFrames < 0) {
 				if (this.toggled) {
 					ensureDancingFor(60);
 				} else {
-					danceFrames = 0;
+					danceFrames = -1;
 				}
 			}
 		}
 
 		public void ensureDancingFor(int seconds) {
 			seconds *= 60;
-
 			danceFrames = Math.max(danceFrames, seconds);
+
+			reset = true;
 		}
 
 		public void stopDancing() {
-			danceFrames = 0;
+			danceFrames = -1;
 		}
 
 		public boolean isDancing() {
@@ -225,6 +250,15 @@ public class FlossDanceHandler {
 
 		public void setToggled(boolean toggled) {
 			this.toggled = toggled;
+		}
+
+		public boolean shouldReset() {
+			if (this.danceFrames <= 0 && reset) {
+				reset = false;
+				return true;
+			}
+
+			return false;
 		}
 	}
 }

@@ -60,6 +60,7 @@ public abstract class MixinGuiButton extends Gui {
     private FontRenderer fontRenderer = Minecraft.getMinecraft().fontRendererObj;
     private boolean enabled = true;
     private float selectPercent = 0.0f;
+    private long systemTime = Minecraft.getSystemTime();
 
     @Shadow
     protected abstract void mouseDragged(Minecraft mc, int mouseX, int mouseY);
@@ -71,16 +72,20 @@ public abstract class MixinGuiButton extends Gui {
         this.hovered = mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;
         this.mouseDragged(mc, mouseX, mouseY);
 
-        this.selectPercent = clamp(
-                easeOut(
-                        this.selectPercent,
-                        this.hovered ? 1.0f : 0.0f,
-                        0.01f,
-                        this.hovered ? 5f : 2f
-                ),
-                0.0f,
-                1.0f
-        );
+        if (this.systemTime < Minecraft.getSystemTime() + (1000 / 60)) {
+            this.selectPercent = clamp(
+                    easeOut(
+                            this.selectPercent,
+                            this.hovered ? 1.0f : 0.0f,
+                            0.01f,
+                            this.hovered ? 5f : 2f
+                    ),
+                    0.0f,
+                    1.0f
+            );
+
+            this.systemTime += (1000 / 60);
+        }
 
         drawRect(
                 (int) (xPosition + (selectPercent * 7)),
