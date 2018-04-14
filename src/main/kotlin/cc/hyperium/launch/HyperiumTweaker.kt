@@ -17,11 +17,8 @@
 
 package cc.hyperium.launch
 
-import cc.hyperium.FORGE
 import cc.hyperium.Hyperium
-import cc.hyperium.OPTIFINE
 import cc.hyperium.internal.addons.AddonBootstrap
-import cc.hyperium.internal.addons.strategy.DefaultAddonLoader
 import net.minecraft.launchwrapper.ITweaker
 import net.minecraft.launchwrapper.Launch
 import net.minecraft.launchwrapper.LaunchClassLoader
@@ -112,4 +109,14 @@ open class HyperiumTweaker : ITweaker {
                     is File? -> addArg(label, value)
                 }
             }
+
+    companion object {
+
+        var FORGE = false
+            @JvmName("isUsingForge") get
+
+        var OPTIFINE = false
+            @JvmName("isUsingOptifine") get
+
+    }
 }
