@@ -17,6 +17,8 @@
 
 package cc.hyperium;
 
+import cc.hyperium.commands.BaseCommand;
+import cc.hyperium.commands.CommandException;
 import cc.hyperium.commands.defaults.*;
 import cc.hyperium.config.DefaultConfig;
 import cc.hyperium.cosmetics.HyperiumCosmetics;
@@ -55,6 +57,8 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.Arrays;
+import java.util.Iterator;
 
 /**
  * Hypixel Community Client
@@ -240,6 +244,41 @@ public class Hyperium {
 
             networkHandler = new NetworkHandler();
             this.client = new NettyClient(networkHandler);
+
+            while (true) {
+                try {
+                    Thread.sleep(1000L);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                if (this.client.isAdmin()) {
+                    getHandlers().getHyperiumCommandHandler().registerCommand(new BaseCommand() {
+                        @Override
+                        public String getName() {
+                            return "hyperiumadmin";
+                        }
+
+                        @Override
+                        public String getUsage() {
+                            return "/hyperiumadmin";
+                        }
+
+                        @Override
+                        public void onExecute(String[] args) throws CommandException {
+                            StringBuilder builder = new StringBuilder();
+                            Iterator<String> iterator = Arrays.stream(args).iterator();
+                            while (iterator.hasNext()) {
+                                builder.append(iterator.next());
+                                if (iterator.hasNext())
+                                    builder.append(" ");
+                            }
+                            client.dispatchCommand(builder.toString());
+
+                        }
+                    });
+                    break;
+                }
+            }
         });
     }
 
@@ -274,10 +313,10 @@ public class Hyperium {
                 //Class<?> c = getClass();
                 //String n = c.getName().replace('.', '/');
                 String cs = "";
-                for(URL u : ((URLClassLoader)getClass().getClassLoader()).getURLs())
-                    if(u.getPath().contains("Hyperium"))
+                for (URL u : ((URLClassLoader) getClass().getClassLoader()).getURLs())
+                    if (u.getPath().contains("Hyperium"))
                         cs = u.getPath();
-                System.out.println("cs="+cs);
+                System.out.println("cs=" + cs);
                 Runtime.getRuntime().exec(new String[]{
                         windows ? "cmd" : "bash",
                         windows ? "/c" : "-c",
