@@ -23,7 +23,7 @@ object AddonBootstrap {
     /**
      * Directory where all the addonManifests are stored
      */
-    private val modDirectory = File("addon")
+    private val modDirectory = File("addons")
 
     /**
      * Current (active) environment phase, set to NULL until the
