@@ -4,6 +4,7 @@ import cc.hyperium.Hyperium;
 import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
 import cc.hyperium.netty.INetty;
 import net.minecraft.client.Minecraft;
+import utils.JsonHolder;
 
 import java.util.List;
 import java.util.UUID;
@@ -31,10 +32,17 @@ public class NetworkHandler implements INetty {
     }
 
     @Override
-    public void handleDab(UUID uuid, boolean b) {
-        if (b)
-            Hyperium.INSTANCE.getHandlers().getDabHandler().get(uuid).ensureDabbingFor(60);
-        else Hyperium.INSTANCE.getHandlers().getDabHandler().get(uuid).stopDabbing();
+    public void handleCrossClientData(UUID uuid, JsonHolder jsonHolder) {
+        String type = jsonHolder.optString("type");
+        if (type.equalsIgnoreCase("dab_update"))
+            if (jsonHolder.optBoolean("dabbing"))
+                Hyperium.INSTANCE.getHandlers().getDabHandler().get(uuid).ensureDabbingFor(60);
+            else Hyperium.INSTANCE.getHandlers().getDabHandler().get(uuid).stopDabbing();
+        else if (type.equalsIgnoreCase("floss_update")) {
+            if (jsonHolder.optBoolean("flossing"))
+                Hyperium.INSTANCE.getHandlers().getFlossDanceHandler().get(uuid).ensureDancingFor(60);
+            else Hyperium.INSTANCE.getHandlers().getFlossDanceHandler().get(uuid).stopDancing();
+        }
     }
 
     @Override

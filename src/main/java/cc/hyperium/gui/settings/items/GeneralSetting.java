@@ -76,6 +76,8 @@ public class GeneralSetting extends SettingGui {
     public static boolean staticFovEnabled = false;
     @ConfigOpt
     public static boolean uploadScreenshotsByDefault = false;
+    @ConfigOpt
+    public static boolean hideScoreboardNumbers = true;
 
     private SelectionItem<String> discordRP;
 
@@ -110,6 +112,8 @@ public class GeneralSetting extends SettingGui {
     private SelectionItem<String> staticFov;
 
     private SelectionItem<String> uploadByDefault;
+
+    private SelectionItem<String> scoreboardNumbers;
 
     /** Set to true when a setting is changed, this will trigger a save when the gui is closed */
     private boolean settingsUpdated;
@@ -262,13 +266,21 @@ public class GeneralSetting extends SettingGui {
         staticFov.addDefaultOnOff();
         staticFov.setSelectedItem(staticFovEnabled ? "ON" : "OFF");
 
-        this.settingItems.add(this.uploadByDefault = new SelectionItem(16, getX(), getDefaultItemY(15), this.width - getX() * 2, "UPLOAD SCREENSHOTS BY DEFAULT", i -> {
+        this.settingItems.add(this.uploadByDefault = new SelectionItem(16, getX(), getDefaultItemY(16), this.width - getX() * 2, "UPLOAD SCREENSHOTS BY DEFAULT", i -> {
             ((SelectionItem) i).nextItem();
             uploadScreenshotsByDefault = ((SelectionItem) i).getSelectedItem().equals("ON");
             this.settingsUpdated = true;
         }));
         uploadByDefault.addDefaultOnOff();
         uploadByDefault.setSelectedItem(uploadScreenshotsByDefault ? "ON" : "OFF");
+
+        this.settingItems.add(this.scoreboardNumbers = new SelectionItem<>(17, getX(), getDefaultItemY(17), this.width - getX() * 2, "HIDE SCOREBOARD NUMBERS", i -> {
+            ((SelectionItem) i).nextItem();
+            hideScoreboardNumbers = ((SelectionItem) i).getSelectedItem().equals("ON");
+            this.settingsUpdated = true;
+        }));
+        scoreboardNumbers.addDefaultOnOff();
+        scoreboardNumbers.setSelectedItem(hideScoreboardNumbers ? "ON" : "OFF");
     }
 
     /**
