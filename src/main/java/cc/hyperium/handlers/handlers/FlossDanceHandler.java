@@ -1,9 +1,5 @@
 package cc.hyperium.handlers.handlers;
 
-import java.util.Random;
-import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
-
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.RenderEvent;
 import cc.hyperium.gui.HyperiumGui;
@@ -12,6 +8,10 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelPlayer;
+
+import java.util.Random;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class FlossDanceHandler {
 
@@ -71,8 +71,27 @@ public class FlossDanceHandler {
 	public void modify(AbstractClientPlayer entity, ModelPlayer player) {
 		int ticks = get(entity.getUniqueID()).danceFrames;
 
-		if (ticks <= 0)
+		if (ticks <= 0) {
+			player.bipedBody.rotateAngleZ = 0;
+			player.bipedBodyWear.rotateAngleZ = 0;
+			player.bipedLeftLeg.rotateAngleZ = 0;
+			player.bipedLeftLegwear.rotateAngleZ = 0;
+			player.bipedRightLeg.rotateAngleZ = 0;
+			player.bipedRightLegwear.rotateAngleZ = 0;
+
+			player.bipedRightLeg.offsetX = 0;
+			player.bipedRightLegwear.offsetX = 0;
+			player.bipedLeftLeg.offsetX = 0;
+			player.bipedLeftLegwear.offsetX = 0;
+
+			player.bipedHead.rotateAngleX = 0;
+			player.bipedHeadwear.rotateAngleX = 0;
+			player.bipedHead.rotateAngleY = 0;
+			player.bipedHeadwear.rotateAngleY = 0;
+			player.bipedHead.rotateAngleZ = 0;
+			player.bipedHeadwear.rotateAngleZ = 0;
 			return;
+		}
 
 		float heldPercent = state / 100F;
 
