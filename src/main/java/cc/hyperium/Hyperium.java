@@ -216,7 +216,6 @@ public class Hyperium {
                 });
                 spotify.start();
             } catch (Exception e) {
-                e.printStackTrace();
                 LOGGER.warn("Failed to connect to spotify");
             }
         });
