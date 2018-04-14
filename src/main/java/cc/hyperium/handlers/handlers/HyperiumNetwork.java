@@ -20,6 +20,8 @@ package cc.hyperium.handlers.handlers;
 import cc.hyperium.Metadata;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.JoinHypixelEvent;
+import cc.hyperium.internal.addons.AddonMinecraftBootstrap;
+import cc.hyperium.launch.HyperiumTweaker;
 import cc.hyperium.utils.JsonHolder;
 import io.netty.buffer.Unpooled;
 import net.minecraft.client.Minecraft;
@@ -35,8 +37,8 @@ public class HyperiumNetwork {
                 new C17PacketCustomPayload("hyperium",
                         new PacketBuffer(Unpooled.buffer()).writeString(new JsonHolder()
                 .put("id", Metadata.getModid())
-                .put("optifine", Metadata.isUsingOptifine())
-                .put("forge", Metadata.isUsingForge())
+                .put("optifine", HyperiumTweaker.Companion.isUsingOptifine())
+                .put("forge", HyperiumTweaker.Companion.isUsingForge())
                 .put("version", Metadata.getVersion()).toString())));
     }
 

@@ -46,7 +46,6 @@ public class HGames extends AbstractMod {
 
     @InvokeEvent
     private void onWorldChange(WorldChangeEvent event){
-        System.out.println("World changed event called!");
         if(minigame != null){
             minigame.onWorldChange();
         }

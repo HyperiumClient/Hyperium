@@ -116,32 +116,17 @@ public class FlossDanceHandler {
 		player.bipedHead.rotateAngleZ = (float) Math.toRadians(randomHeadMovement[2] * heldPercent);
 		player.bipedHeadwear.rotateAngleZ = (float) Math.toRadians(randomHeadMovement[2] * heldPercent);
 
-		switch (armsDirection) {
-			case HORIZONTAL:
-			case FRONT:
-				player.bipedRightArm.rotateAngleZ = (float) Math.toRadians((right ? -50f : 50f) * heldPercent);
-				player.bipedRightArmwear.rotateAngleZ = (float) Math.toRadians((right ? -50f : 50f)  * heldPercent);
-				player.bipedRightArm.rotateAngleX = (float) Math.toRadians(-30f * heldPercent);
-				player.bipedRightArmwear.rotateAngleX = (float) Math.toRadians(-30f * heldPercent);
+		player.bipedRightArm.rotateAngleZ = (float) Math.toRadians((right ? -50f : 50f) * heldPercent);
+		player.bipedRightArmwear.rotateAngleZ = (float) Math.toRadians((right ? -50f : 50f)  * heldPercent);
+		player.bipedRightArm.rotateAngleX = (float) Math.toRadians((armsDirection == ArmsDirection.BACK ? 30.0f : -30.0f) * heldPercent);
+		player.bipedRightArmwear.rotateAngleX = (float) Math.toRadians((armsDirection == ArmsDirection.BACK ? 30.0f : -30.0f) * heldPercent);
 
-				player.bipedLeftArm.rotateAngleZ = (float) Math.toRadians((right ? -50f : 50f)  * heldPercent);
-				player.bipedLeftArmwear.rotateAngleZ = (float) Math.toRadians((right ? -50f : 50f)  * heldPercent);
-				player.bipedLeftArm.rotateAngleX = (float) Math.toRadians(-30f * heldPercent);
-				player.bipedLeftArmwear.rotateAngleX = (float) Math.toRadians(-30f * heldPercent);
-				break;
-			case BACK:
-				player.bipedRightArm.rotateAngleZ = (float) Math.toRadians((right ? -50f : 50f) * heldPercent);
-				player.bipedRightArmwear.rotateAngleZ = (float) Math.toRadians((right ? -50f : 50f)  * heldPercent);
-				player.bipedRightArm.rotateAngleX = (float) Math.toRadians(30f * heldPercent);
-				player.bipedRightArmwear.rotateAngleX = (float) Math.toRadians(30f * heldPercent);
-
-				player.bipedLeftArm.rotateAngleZ = (float) Math.toRadians((right ? -50f : 50f)  * heldPercent);
-				player.bipedLeftArmwear.rotateAngleZ = (float) Math.toRadians((right ? -50f : 50f)  * heldPercent);
-				player.bipedLeftArm.rotateAngleX = (float) Math.toRadians(30f * heldPercent);
-				player.bipedLeftArmwear.rotateAngleX = (float) Math.toRadians(30f * heldPercent);
-				break;
-		}
+		player.bipedLeftArm.rotateAngleZ = (float) Math.toRadians((right ? -50f : 50f)  * heldPercent);
+		player.bipedLeftArmwear.rotateAngleZ = (float) Math.toRadians((right ? -50f : 50f)  * heldPercent);
+		player.bipedLeftArm.rotateAngleX = (float) Math.toRadians((armsDirection == ArmsDirection.BACK ? 30.0f : -30.0f) * heldPercent);
+		player.bipedLeftArmwear.rotateAngleX = (float) Math.toRadians((armsDirection == ArmsDirection.BACK ? 30.0f : -30.0f) * heldPercent);
 	}
+
 	public void modify(AbstractClientPlayer entity, ModelBiped player) {
 		int ticks = get(entity.getUniqueID()).danceFrames;
 
@@ -169,26 +154,14 @@ public class FlossDanceHandler {
 		player.bipedHead.rotateAngleZ = (float) Math.toRadians(randomHeadMovement[2] * heldPercent);
 		player.bipedHeadwear.rotateAngleZ = (float) Math.toRadians(randomHeadMovement[2] * heldPercent);
 
-		switch (armsDirection) {
-			case HORIZONTAL:
-			case FRONT:
-				player.bipedRightArm.rotateAngleZ = (float) Math.toRadians((right ? -50f : 50f) * heldPercent);
-				player.bipedRightArm.rotateAngleX = (float) Math.toRadians(-30f * heldPercent);
+		player.bipedRightArm.rotateAngleZ = (float) Math.toRadians((right ? -50f : 50f) * heldPercent);
+		player.bipedRightArm.rotateAngleX = (float) Math.toRadians((armsDirection == ArmsDirection.BACK ? 30.0f : -30.0f) * heldPercent);
 
-				player.bipedLeftArm.rotateAngleZ = (float) Math.toRadians((right ? -50f : 50f)  * heldPercent);
-				player.bipedLeftArm.rotateAngleX = (float) Math.toRadians(-30f * heldPercent);
-				break;
-			case BACK:
-				player.bipedRightArm.rotateAngleZ = (float) Math.toRadians((right ? -50f : 50f) * heldPercent);
-				player.bipedRightArm.rotateAngleX = (float) Math.toRadians(30f * heldPercent);
-
-				player.bipedLeftArm.rotateAngleZ = (float) Math.toRadians((right ? -50f : 50f)  * heldPercent);
-				player.bipedLeftArm.rotateAngleX = (float) Math.toRadians(30f * heldPercent);
-				break;
-		}
+		player.bipedLeftArm.rotateAngleZ = (float) Math.toRadians((right ? -50f : 50f)  * heldPercent);
+		player.bipedLeftArm.rotateAngleX = (float) Math.toRadians((armsDirection == ArmsDirection.BACK ? 30.0f : -30.0f) * heldPercent);
 	}
-
-	private void resetAnimation(ModelBiped player) {
+	
+  private void resetAnimation(ModelBiped player) {
 		player.bipedBody.rotateAngleZ = 0;
 		player.bipedLeftLeg.rotateAngleZ = 0;
 		player.bipedRightLeg.rotateAngleZ = 0;
@@ -204,11 +177,12 @@ public class FlossDanceHandler {
 		player.bipedHeadwear.rotateAngleZ = 0;
 	}
 
+
 	public class DanceState {
-		UUID uuid;
-		int danceFrames = -1;
-		long systemTime;
-		boolean toggled;
+		private UUID uuid;
+		private int danceFrames = 0;
+		private long systemTime;
+		private boolean toggled;
 		boolean reset;
 
 		public DanceState(UUID uuid) {
@@ -218,7 +192,7 @@ public class FlossDanceHandler {
 			reset = true;
 		}
 
-		void update() {
+		private void update() {
 			while (this.systemTime < Minecraft.getSystemTime() + (1000 / 60)) {
 				this.danceFrames--;
 				this.systemTime += (1000 / 60);
@@ -234,9 +208,7 @@ public class FlossDanceHandler {
 		}
 
 		public void ensureDancingFor(int seconds) {
-			seconds *= 60;
-			danceFrames = Math.max(danceFrames, seconds);
-
+			danceFrames = Math.max(danceFrames, seconds * 60);
 			reset = true;
 		}
 

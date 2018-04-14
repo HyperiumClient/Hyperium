@@ -278,7 +278,6 @@ public class DisplayElementConfig extends GuiScreen {
 
             Minecraft.getMinecraft().displayGuiScreen(new GeneralConfigGui(mod));
             ChromaHUDApi.getInstance().getElements().remove(element);
-            System.out.println("Removed");
         }, (guiButton) -> {
         });
 

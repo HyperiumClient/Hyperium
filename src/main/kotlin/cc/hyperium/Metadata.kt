@@ -30,14 +30,8 @@ val MODID
 
 val VERSION
     @JvmName("getVersion")
-    get() = "1.0 - Dev B2"
+    get() = "1.0 - Dev B3"
 
 val AUTHORS
     @JvmName("getAuthors")
     get() = arrayOf("Kevin", "CoalOres", "Sk1er", "VRCube", "boomboompower")
-
-var FORGE = false
-    @JvmName("isUsingForge") get
-
-var OPTIFINE = false
-    @JvmName("isUsingOptifine") get
