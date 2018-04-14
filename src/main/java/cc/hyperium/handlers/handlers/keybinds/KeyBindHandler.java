@@ -27,6 +27,7 @@ import cc.hyperium.gui.integrations.HypixelFriendsGui;
 import cc.hyperium.gui.integrations.QueueModGui;
 import cc.hyperium.gui.settings.items.AnimationSettings;
 import cc.hyperium.handlers.handlers.DabHandler;
+import cc.hyperium.handlers.handlers.FlossDanceHandler;
 import cc.hyperium.netty.NettyClient;
 import cc.hyperium.netty.packet.packets.serverbound.ServerDabbingUpdate;
 import net.minecraft.client.Minecraft;
@@ -64,15 +65,40 @@ public class KeyBindHandler {
     public HyperiumBind debug = new HyperiumBind("DEBUG", Keyboard.KEY_J) {
         @Override
         public void onPress() {
-            Hyperium.INSTANCE.getHandlers().getDabHandler().startDabbing(Minecraft.getMinecraft().getSession().getProfile().getId());
-            NettyClient.getClient().write(ServerDabbingUpdate.build(true));
+            Hyperium.INSTANCE.getHandlers().getFlossDanceHandler().startDacing(Minecraft.getMinecraft().getSession().getProfile().getId());
         }
 
         @Override
         public void onRelease() {
-            Hyperium.INSTANCE.getHandlers().getDabHandler().stopDabbing(Minecraft.getMinecraft().getSession().getProfile().getId());
-            NettyClient.getClient().write(ServerDabbingUpdate.build(false));
+            Hyperium.INSTANCE.getHandlers().getFlossDanceHandler().stopDancing(Minecraft.getMinecraft().getSession().getProfile().getId());
+         }
+    };
 
+    public HyperiumBind flossDance = new HyperiumBind("Floss dance", Keyboard.KEY_P) {
+        @Override
+        public void onPress() {
+            FlossDanceHandler flossDanceHandler = Hyperium.INSTANCE.getHandlers().getFlossDanceHandler();
+            UUID uuid = (Minecraft.getMinecraft().getSession()).getProfile().getId();
+            FlossDanceHandler.DanceState currentState = flossDanceHandler.get(uuid);
+
+            if (AnimationSettings.flossDanceToggle && currentState.isDancing() && !this.wasPressed()) {
+                flossDanceHandler.get(uuid).setToggled(false);
+                flossDanceHandler.stopDancing(uuid);
+                return;
+            }
+
+            if (!this.wasPressed()) {
+                flossDanceHandler.get(uuid).setToggled(AnimationSettings.flossDanceToggle);
+                flossDanceHandler.startDacing(uuid);
+            }
+        }
+
+
+        @Override
+        public void onRelease() {
+            if (AnimationSettings.flossDanceToggle) return;
+
+            Hyperium.INSTANCE.getHandlers().getFlossDanceHandler().stopDancing(Minecraft.getMinecraft().getSession().getProfile().getId());
         }
     };
 
@@ -129,6 +155,7 @@ public class KeyBindHandler {
         registerKeyBinding(guikey);
         registerKeyBinding(queue);
         registerKeyBinding(dab);
+        registerKeyBinding(flossDance);
     }
 
     @InvokeEvent
