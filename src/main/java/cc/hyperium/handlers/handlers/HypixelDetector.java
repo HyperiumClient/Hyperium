@@ -29,10 +29,13 @@ import java.util.regex.Pattern;
 public class HypixelDetector {
 
     private static final Pattern HYPIXEL_PATTERN =
-            Pattern.compile("^(?:(?:(?:\\w+\\.)?hypixel\\.net)|(?:209\\.222\\.115\\.\\d{1,3}))(?::\\d{1,5})|(?:hypixel\\.net)?$", Pattern.CASE_INSENSITIVE);
+            Pattern.compile("^(?:(?:(?:\\w+\\.)?hypixel\\.net)|(?:209\\.222\\.115\\.\\d{1,3}))(?::\\d{1,5})?$", Pattern.CASE_INSENSITIVE);
+    private static final Pattern BADLION_PATTERN =
+            Pattern.compile("^(?:(?:na|eu|sa)\\.badlion\\.net)(?::\\d{1,5})?$", Pattern.CASE_INSENSITIVE);
+
     private static HypixelDetector instance;
     private boolean hypixel = false;
-    public static boolean badlion = false;
+    private boolean badlion = false;
 
     public HypixelDetector() {
         instance = this;
@@ -44,8 +47,7 @@ public class HypixelDetector {
 
     @InvokeEvent
     public void serverJoinEvent(ServerJoinEvent event) {
-        badlion = isBadlion();
-        boolean h1 = this.hypixel;
+        this.badlion = BADLION_PATTERN.matcher(event.getServer()).find();
         this.hypixel = HYPIXEL_PATTERN.matcher(event.getServer()).find();
         if (hypixel) {
             Multithreading.runAsync(() -> {
@@ -83,27 +85,20 @@ public class HypixelDetector {
     @InvokeEvent
     public void serverLeaveEvent(ServerLeaveEvent event) {
         hypixel = false;
+        badlion = false;
     }
 
     @InvokeEvent
     public void singlePlayerJoin(SingleplayerJoinEvent event) {
         hypixel = false;
+        badlion = false;
     }
 
     public boolean isHypixel() {
         return hypixel;
     }
 
-    public static boolean isBadlion() {
-        if (Minecraft.getMinecraft().getCurrentServerData() != null) {
-            String ip = Minecraft.getMinecraft().getCurrentServerData().serverIP;
-            // This is to make sure it doesn't detect badlion.hypixel.net as badlion.
-            if (ip.contains("badlion") && !ip.contains("hypixel")) {
-                return true;
-            } else {
-                return false;
-            }
-        }
-        return false;
+    public boolean isBadlion() {
+        return badlion;
     }
 }

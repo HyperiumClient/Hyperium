@@ -54,6 +54,13 @@ public class AnimationSettings extends SettingGui {
     @ConfigOpt
     public static boolean dabToggle = false;
 
+    // Floss dance
+    @ConfigOpt
+    public static int flossDanceSpeed = 4;
+
+    @ConfigOpt
+    public static boolean flossDanceToggle = false;
+
     private SelectionItem<String> blockhit;
     private SelectionItem<String> bow;
     private SelectionItem<String> rod;
@@ -61,6 +68,8 @@ public class AnimationSettings extends SettingGui {
     private SelectionItem<String> redarmour;
     private SelectionItem<Integer> dabspeed;
     private SelectionItem<String> toggledab;
+    private SelectionItem<Integer> flossdancespeed;
+    private SelectionItem<String> toggleflossdance;
 
     public AnimationSettings(HyperiumGui previous) {
         super("ANIMATIONS", previous);
@@ -127,6 +136,20 @@ public class AnimationSettings extends SettingGui {
         }));
         toggledab.addItems(Arrays.asList("ON", "OFF"));
         toggledab.setSelectedItem(dabToggle ? "ON" : "OFF");
+
+        settingItems.add(flossdancespeed = new SelectionItem<>(7, getX(), getDefaultItemY(5), width - getX() * 2, "FLOSS DANCE SPEED", i -> {
+            ((SelectionItem) i).nextItem();
+            flossDanceSpeed = ((SelectionItem<Integer>) i).getSelectedItem();
+        }));
+        flossdancespeed.addItems(Arrays.asList(1, 2, 3, 4, 5));
+        flossdancespeed.setSelectedItem(flossDanceSpeed);
+
+        settingItems.add(toggleflossdance = new SelectionItem<>(8, getX(), getDefaultItemY(6), width - getX() * 2, "TOGGLE FLOSS DANCE", i -> {
+            ((SelectionItem) i).nextItem();
+            flossDanceToggle = ((SelectionItem) i).getSelectedItem().equals("ON");
+        }));
+        toggleflossdance.addItems(Arrays.asList("ON", "OFF"));
+        toggleflossdance.setSelectedItem(dabToggle ? "ON" : "OFF");
     }
 
 
