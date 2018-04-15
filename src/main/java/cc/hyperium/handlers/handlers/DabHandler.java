@@ -92,11 +92,15 @@ public class DabHandler {
             player.bipedLeftArmwear.rotateAngleY = (float) Math.toRadians(15.0f * heldPercent);
             player.bipedLeftArmwear.rotateAngleZ = (float) Math.toRadians(-110.0f * heldPercent);
 
-            player.bipedHeadwear.rotateAngleX = (float) Math.toRadians(45.0f * heldPercent);
-            player.bipedHeadwear.rotateAngleY = (float) Math.toRadians(35.0f * heldPercent);
+            final float rotationX = entity.rotationPitch;
+            final float rotationY = entity.renderYawOffset - entity.rotationYaw;
 
-            player.bipedHead.rotateAngleX = (float) Math.toRadians(45.0f * heldPercent);
-            player.bipedHead.rotateAngleY = (float) Math.toRadians(35.0f * heldPercent);
+            player.bipedHead.rotateAngleX =  (float) Math.toRadians(-rotationX * heldPercent)+(float) Math.toRadians(45.0f * heldPercent+ rotationX);
+            player.bipedHead.rotateAngleY = (float) Math.toRadians(rotationY * heldPercent) +  (float) Math.toRadians(35.0f * heldPercent- rotationY);
+
+            player.bipedHeadwear.rotateAngleX = (float) Math.toRadians(-rotationX * heldPercent)+(float) Math.toRadians(45.0f * heldPercent+rotationX);
+            player.bipedHeadwear.rotateAngleY = (float) Math.toRadians(rotationY * heldPercent) +  (float) Math.toRadians(35.0f * heldPercent-rotationY);
+
         } else {
             player.bipedLeftArm.rotateAngleX = (float) Math.toRadians(-90.0f * heldPercent);
             player.bipedLeftArm.rotateAngleY = (float) Math.toRadians(35.0f * heldPercent);
@@ -112,11 +116,21 @@ public class DabHandler {
             player.bipedRightArmwear.rotateAngleY = (float) Math.toRadians(-15.0f * heldPercent);
             player.bipedRightArmwear.rotateAngleZ = (float) Math.toRadians(110.0f * heldPercent);
 
-            player.bipedHeadwear.rotateAngleX = (float) Math.toRadians(45.0f * heldPercent);
-            player.bipedHeadwear.rotateAngleY = (float) Math.toRadians(-35.0f * heldPercent);
 
-            player.bipedHead.rotateAngleX = (float) Math.toRadians(45.0f * heldPercent);
-            player.bipedHead.rotateAngleY = (float) Math.toRadians(-35.0f * heldPercent);
+
+            final float rotationX = entity.rotationPitch;
+            player.bipedHead.rotateAngleX =
+                    (float) Math.toRadians(-rotationX * heldPercent)+
+                            (float) Math.toRadians(45.0f * heldPercent+ rotationX);
+            final float rotationY = entity.renderYawOffset - entity.rotationYaw;
+
+            player.bipedHead.rotateAngleY =
+                    (float) Math.toRadians(rotationY * heldPercent) +
+                            (float) Math.toRadians(-35.0f * heldPercent-rotationY);
+
+            player.bipedHeadwear.rotateAngleX =    (float) Math.toRadians(-rotationX * heldPercent)+ (float) Math.toRadians(45.0f * heldPercent+rotationX);
+            player.bipedHeadwear.rotateAngleY = (float) Math.toRadians(rotationY * heldPercent) +(float) Math.toRadians(-35.0f * heldPercent-rotationY);
+
         }
     }
     public void modify(AbstractClientPlayer entity, ModelBiped player) {
