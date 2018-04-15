@@ -87,7 +87,6 @@ public class FlossDanceHandler {
                 player.bipedBodyWear.offsetX = 0;
                 player.bipedRightLegwear.offsetX = 0;
                 player.bipedLeftLegwear.offsetX = 0;
-                System.out.println("Escaped");
             }
 
             return;
@@ -123,20 +122,21 @@ public class FlossDanceHandler {
         player.bipedLeftArmwear.rotateAngleZ = (float) Math.toRadians((right ? -50f : 50f) * heldPercent);
         player.bipedLeftArm.rotateAngleX = (float) Math.toRadians((armsDirection == ArmsDirection.BACK ? 30.0f : -30.0f) * heldPercent);
         player.bipedLeftArmwear.rotateAngleX = (float) Math.toRadians((armsDirection == ArmsDirection.BACK ? 30.0f : -30.0f) * heldPercent);
-        System.out.println("e");
     }
 
     public void modify(AbstractClientPlayer entity, ModelBiped player) {
         DanceState danceState = get(entity.getUniqueID());
         int ticks = danceState.danceFrames;
+
         if (ticks <= 2) {
             if (danceState.shouldReset()) {
                 resetAnimation(player, true);
-                System.out.println("reset3");
             }
+
+            System.out.println("Returning for entity of type " + entity.getClass());
             return;
         }
-        System.out.println("doing");
+
         float heldPercent = state / 100F;
 
         player.bipedBody.rotateAngleZ = (float) Math.toRadians((right ? 10f : -10f) * heldPercent);
@@ -168,8 +168,8 @@ public class FlossDanceHandler {
             player.bipedHeadwear.rotateAngleY = 0;
             player.bipedHead.rotateAngleZ = 0;
             player.bipedHeadwear.rotateAngleZ = 0;
-
         }
+
         player.bipedBody.rotateAngleZ = 0;
         player.bipedBody.rotateAngleX = 0;
         player.bipedBody.rotateAngleY = 0;
@@ -192,7 +192,6 @@ public class FlossDanceHandler {
 
         player.bipedRightLeg.offsetX = 0;
         player.bipedLeftLeg.offsetX = 0;
-        System.out.println("RESET");
     }
 
     enum ArmsDirection {
@@ -246,10 +245,7 @@ public class FlossDanceHandler {
         }
 
         public boolean shouldReset() {
-            if(this.danceFrames !=-1)
-            System.out.println(this.danceFrames);
             return this.danceFrames == 1;
-
         }
     }
 }
