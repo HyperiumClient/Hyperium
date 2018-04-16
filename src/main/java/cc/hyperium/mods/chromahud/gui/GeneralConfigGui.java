@@ -52,6 +52,11 @@ public class GeneralConfigGui extends GuiScreen {
     private GuiButton edit;
     private HashMap<GuiButton, Consumer<GuiButton>> clicks = new HashMap<>();
     private boolean mouseLock;
+    private double lastX;
+    private double lastY;
+    private boolean lastD = false;
+    private boolean pastClick = false;
+    private int dTick = 0; //double clik delay
 
     public GeneralConfigGui(ChromaHUD mod) {
         this.mod = mod;
@@ -88,6 +93,7 @@ public class GeneralConfigGui extends GuiScreen {
         super.mouseClickMove(mouseX, mouseY, clickedMouseButton, timeSinceLastClick);
     }
 
+    @SuppressWarnings("Duplicates")
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         ScaledResolution current = ResolutionUtil.current();
@@ -138,9 +144,44 @@ public class GeneralConfigGui extends GuiScreen {
                 propY = resolution.getScaledHeight() / 2;
             edit.xPosition = propX;
             edit.yPosition = propY;
+            // moving the thing
+            if(Mouse.isButtonDown(0)){
+                if (mouseX > x1 - 2 && mouseX < x2 + 2 && mouseY > y1 - 2 && mouseY < y2 + 2 || lastD) {
+                    //inside
+                    double x3 = Mouse.getX() / ResolutionUtil.current().getScaledWidth_double();
+                    double y3 = Mouse.getY() / ResolutionUtil.current().getScaledHeight_double();
+                    currentElement.setXloc(currentElement.getXloc() - (lastX - x3) / ((double) ResolutionUtil.current().getScaleFactor()));
+                    currentElement.setYloc(currentElement.getYloc() + (lastY - y3) / ((double) ResolutionUtil.current().getScaleFactor()));
+                    //Math to keep it inside screen
+                    if (currentElement.getXloc() * resolution.getScaledWidth_double() - offset < 0) {
+                        if (currentElement.isRightSided())
+                            currentElement.setXloc(offset / resolution.getScaledWidth_double());
+                        else
+                            currentElement.setXloc(0);
+                    }
+                    if (currentElement.getYloc() < 0)
+                        currentElement.setYloc(0);
+                    if (currentElement.getXloc() * resolution.getScaledWidth() + currentElement.getDimensions().getWidth() - offset > resolution.getScaledWidth()) {
+                        if (currentElement.isRightSided())
+                            currentElement.setXloc(1.0);
+                        else
+                            currentElement.setXloc((resolution.getScaledWidth_double() - currentElement.getDimensions().getWidth()) / resolution.getScaledWidth_double());
+                    }
+                    if (currentElement.getYloc() * resolution.getScaledHeight() + currentElement.getDimensions().getHeight() > resolution.getScaledHeight()) {
+                        currentElement.setYloc((resolution.getScaledHeight_double() - currentElement.getDimensions().getHeight()) / resolution.getScaledHeight_double());
+                    }
+                    lastD = true;
+                }else lastD = false;
+            }else lastD = false;
         } else {
             this.edit.visible = false;
         }
+        lastX = Mouse.getX() / ResolutionUtil.current().getScaledWidth_double();
+        lastY = Mouse.getY() / ResolutionUtil.current().getScaledHeight_double();
+        if(dTick <= 0 && pastClick)
+            pastClick = false;
+        if(pastClick)
+            dTick--;
     }
 
     @Override
@@ -200,7 +241,7 @@ public class GeneralConfigGui extends GuiScreen {
                         && clickY > displayYLoc - dimension.getHeight()) {
                     
                     // Open gui
-                    if (currentElement != null && currentElement == element) {
+                    if (currentElement != null && currentElement == element && pastClick) {
                         // Safely nuke the fields and deactivate the chroma effect
                         element.setSelected(false);
                         this.currentElement = null;
@@ -225,6 +266,10 @@ public class GeneralConfigGui extends GuiScreen {
             }
         }
         mouseDown = Mouse.isButtonDown(0);
+        if(mouseDown) {
+            pastClick = true;
+            dTick = 5;
+        }
     }
 
     @Override
