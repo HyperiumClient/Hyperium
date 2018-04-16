@@ -40,10 +40,14 @@ public class DisplayElement extends Dimension {
     private boolean highlighted;
     private JsonHolder data;
     private double brightness;
-    
+    private boolean rightSided = false;
     // Used for rainbox rendering
     private boolean selected;
-    
+    private boolean chroma;
+    private boolean rgb;
+    private boolean color_pallet;
+    private boolean static_chroma;
+
     public DisplayElement(JsonHolder object) {
         this.data = object;
         xloc = object.optDouble("x");
@@ -66,7 +70,11 @@ public class DisplayElement extends Dimension {
         this.brightness = data.optDouble("brightness");
         this.color = data.optInt("color");
         recalculateColor();
-
+        this.rightSided = data.optBoolean("right_side");
+        this.chroma = data.optBoolean("chroma");
+        this.rgb = data.optBoolean("rgb");
+        this.color_pallet = data.optBoolean("color_pallet");
+        this.static_chroma = data.optBoolean("static_chroma");
     }
 
     public static DisplayElement blank() {
@@ -74,19 +82,12 @@ public class DisplayElement extends Dimension {
     }
 
     public boolean isRightSided() {
-        return data.optBoolean("right_side");
+        return rightSided;
     }
 
     public void setRightSided(boolean newState) {
+        this.rightSided = newState;
         data.put("right_side", newState);
-    }
-
-    public double getBrightness() {
-        return data.optDouble("brightness");
-    }
-
-    public void setBrightness(double brightness) {
-        this.data.put("brightness", brightness);
     }
 
     @Override
@@ -101,10 +102,11 @@ public class DisplayElement extends Dimension {
     }
 
     public boolean isChroma() {
-        return data.optBoolean("chroma");
+        return this.chroma;
     }
 
     public void setChroma(boolean chroma) {
+        this.chroma = chroma;
         this.data.put("chroma", chroma);
     }
 
@@ -113,12 +115,6 @@ public class DisplayElement extends Dimension {
             color = 0;
         } else if (isRGB()) {
             this.color = new Color(data.optInt("red"), data.optInt("green"), data.optInt("blue")).getRGB();
-        }
-    }
-
-    public void reformatColor() {
-        if (isChroma()) {
-
         }
     }
 
@@ -219,11 +215,11 @@ public class DisplayElement extends Dimension {
         int x = (int) (.8 * resolution.getScaledWidth_double());
         if (isRightSided()) {
             x += getDimensions().getWidth();
-            if(x > resolution.getScaledWidth())
-                x=resolution.getScaledWidth();
+            if (x > resolution.getScaledWidth())
+                x = resolution.getScaledWidth();
         } else {
-            if(x + getDimensions().getWidth() > resolution.getScaledWidth()) {
-                x = (int) (resolution.getScaledWidth()-getDimensions().getWidth());
+            if (x + getDimensions().getWidth() > resolution.getScaledWidth()) {
+                x = (int) (resolution.getScaledWidth() - getDimensions().getWidth());
             }
         }
         double y = (int) (.2 * resolution.getScaledHeight_double());
@@ -241,27 +237,29 @@ public class DisplayElement extends Dimension {
     }
 
     public void setRgb(boolean state) {
+        this.rgb = state;
         this.data.put("rgb", state);
     }
 
     public boolean isRGB() {
-        return data.optBoolean("rgb");
+        return rgb;
     }
 
     public boolean isColorPallet() {
-        return data.optBoolean("color_pallet");
+        return color_pallet;
     }
 
-
     public void setColorPallet(boolean state) {
+        this.color_pallet = state;
         this.data.put("color_pallet", state);
     }
 
     public boolean isStaticChroma() {
-        return data.optBoolean("static_chroma");
+        return static_chroma;
     }
 
     public void setStaticChroma(boolean state) {
+        this.static_chroma = state;
         this.data.put("static_chroma", state);
     }
 
@@ -287,12 +285,12 @@ public class DisplayElement extends Dimension {
     public JsonHolder getData() {
         return data;
     }
-    
-    public void setSelected(boolean selected) {
-        this.selected = selected;
-    }
-    
+
     public boolean isSelected() {
         return this.selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
     }
 }

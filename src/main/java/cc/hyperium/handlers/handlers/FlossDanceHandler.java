@@ -139,7 +139,6 @@ public class FlossDanceHandler {
                 resetAnimation(player, true);
             }
 
-            System.out.println("Returning for entity of type " + entity.getClass());
             return;
         }
 

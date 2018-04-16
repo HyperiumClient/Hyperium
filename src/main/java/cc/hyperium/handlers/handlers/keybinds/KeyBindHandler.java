@@ -66,6 +66,7 @@ public class KeyBindHandler {
     public HyperiumBind debug = new HyperiumBind("DEBUG", Keyboard.KEY_J) {
         @Override
         public void onPress() {
+            Hyperium.INSTANCE.getHandlers().getRenderOptomizer().alternateRendering=! Hyperium.INSTANCE.getHandlers().getRenderOptomizer().alternateRendering;
         }
 
         @Override

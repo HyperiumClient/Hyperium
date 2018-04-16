@@ -174,18 +174,18 @@ import cc.hyperium.event.RenderHUDEvent;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityArmorStand;
 import net.minecraft.util.EnumChatFormatting;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 import java.util.TreeMap;
 
 public class RenderOptimizer {
 
+    @ConfigOpt
+    public boolean alternateRendering = false;
     private TreeMap<UniqueEntity, Boolean> rendered = new TreeMap<>();
     @ConfigOpt
     private boolean limitArmourStands = true;
-
-    @ConfigOpt
-    private boolean alternateRendering = false;
 
     public boolean isLimitArmourStands() {
         return limitArmourStands;
@@ -212,10 +212,10 @@ public class RenderOptimizer {
         if (!alternateRendering)
             return true;
         UniqueEntity key = new UniqueEntity(other);
-        return !rendered.putIfAbsent(key, true);
+       return rendered.putIfAbsent(key, true)== null;
     }
 
-    class UniqueEntity {
+    class UniqueEntity implements Comparable<UniqueEntity> {
         private double x, y, z;
         private String name;
 
@@ -241,6 +241,21 @@ public class RenderOptimizer {
         public int hashCode() {
 
             return Objects.hash(x, y, z, name);
+        }
+
+        @Override
+        public int compareTo(@NotNull UniqueEntity o) {
+            int compare = Double.compare(x, o.x);
+            if (compare != 0)
+                return compare;
+            compare = Double.compare(y, o.y);
+            if (compare != 0)
+                return compare;
+            compare = Double.compare(z, o.z);
+            if (compare != 0)
+                return compare;
+            return name.compareTo(name);
+
         }
     }
 }
