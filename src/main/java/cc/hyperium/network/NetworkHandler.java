@@ -27,7 +27,7 @@ public class NetworkHandler implements INetty {
 
     @Override
     public void handleChat(String s) {
-        GeneralChatHandler.instance().sendMessage(s);
+        GeneralChatHandler.instance().sendMessage(s,false);
     }
 
     @Override
