@@ -74,7 +74,7 @@ public class TimeTrackHandler implements Runnable {
                 if (FPSLimiter.getInstance().isLimbo()) {
                     inc("Hypixel", "limbo");
                 } else {
-                    inc("Hpixel", Hyperium.INSTANCE.getMinigameListener().getCurrentMinigameName());
+                    inc("Hypixel", Hyperium.INSTANCE.getMinigameListener().getCurrentMinigameName());
                 }
             } else {
                 EntityPlayerSP thePlayer = Minecraft.getMinecraft().thePlayer;
