@@ -2,6 +2,7 @@ package cc.hyperium.handlers.handlers;
 
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.RenderEvent;
+import cc.hyperium.event.WorldChangeEvent;
 import cc.hyperium.gui.HyperiumGui;
 import cc.hyperium.gui.settings.items.AnimationSettings;
 import net.minecraft.client.Minecraft;
@@ -20,6 +21,12 @@ public class DabHandler {
     private boolean right = true;
     private boolean asc = true;
     private long systemTime = 0;
+
+    @InvokeEvent
+    public void swapWorld(WorldChangeEvent event) {
+        dabStates.clear();
+
+    }
 
     @InvokeEvent
     public void onRender(RenderEvent e) {
@@ -95,11 +102,11 @@ public class DabHandler {
             final float rotationX = entity.rotationPitch;
             final float rotationY = entity.renderYawOffset - entity.rotationYaw;
 
-            player.bipedHead.rotateAngleX =  (float) Math.toRadians(-rotationX * heldPercent)+(float) Math.toRadians(45.0f * heldPercent+ rotationX);
-            player.bipedHead.rotateAngleY = (float) Math.toRadians(rotationY * heldPercent) +  (float) Math.toRadians(35.0f * heldPercent- rotationY);
+            player.bipedHead.rotateAngleX = (float) Math.toRadians(-rotationX * heldPercent) + (float) Math.toRadians(45.0f * heldPercent + rotationX);
+            player.bipedHead.rotateAngleY = (float) Math.toRadians(rotationY * heldPercent) + (float) Math.toRadians(35.0f * heldPercent - rotationY);
 
-            player.bipedHeadwear.rotateAngleX = (float) Math.toRadians(-rotationX * heldPercent)+(float) Math.toRadians(45.0f * heldPercent+rotationX);
-            player.bipedHeadwear.rotateAngleY = (float) Math.toRadians(rotationY * heldPercent) +  (float) Math.toRadians(35.0f * heldPercent-rotationY);
+            player.bipedHeadwear.rotateAngleX = (float) Math.toRadians(-rotationX * heldPercent) + (float) Math.toRadians(45.0f * heldPercent + rotationX);
+            player.bipedHeadwear.rotateAngleY = (float) Math.toRadians(rotationY * heldPercent) + (float) Math.toRadians(35.0f * heldPercent - rotationY);
 
         } else {
             player.bipedLeftArm.rotateAngleX = (float) Math.toRadians(-90.0f * heldPercent);
@@ -117,22 +124,22 @@ public class DabHandler {
             player.bipedRightArmwear.rotateAngleZ = (float) Math.toRadians(110.0f * heldPercent);
 
 
-
             final float rotationX = entity.rotationPitch;
             player.bipedHead.rotateAngleX =
-                    (float) Math.toRadians(-rotationX * heldPercent)+
-                            (float) Math.toRadians(45.0f * heldPercent+ rotationX);
+                    (float) Math.toRadians(-rotationX * heldPercent) +
+                            (float) Math.toRadians(45.0f * heldPercent + rotationX);
             final float rotationY = entity.renderYawOffset - entity.rotationYaw;
 
             player.bipedHead.rotateAngleY =
                     (float) Math.toRadians(rotationY * heldPercent) +
-                            (float) Math.toRadians(-35.0f * heldPercent-rotationY);
+                            (float) Math.toRadians(-35.0f * heldPercent - rotationY);
 
-            player.bipedHeadwear.rotateAngleX =    (float) Math.toRadians(-rotationX * heldPercent)+ (float) Math.toRadians(45.0f * heldPercent+rotationX);
-            player.bipedHeadwear.rotateAngleY = (float) Math.toRadians(rotationY * heldPercent) +(float) Math.toRadians(-35.0f * heldPercent-rotationY);
+            player.bipedHeadwear.rotateAngleX = (float) Math.toRadians(-rotationX * heldPercent) + (float) Math.toRadians(45.0f * heldPercent + rotationX);
+            player.bipedHeadwear.rotateAngleY = (float) Math.toRadians(rotationY * heldPercent) + (float) Math.toRadians(-35.0f * heldPercent - rotationY);
 
         }
     }
+
     public void modify(AbstractClientPlayer entity, ModelBiped player) {
         int ticks = get(entity.getUniqueID()).dabFrames;
 
@@ -165,6 +172,7 @@ public class DabHandler {
             player.bipedHeadwear.rotateAngleY = (float) Math.toRadians(-35.0f * heldPercent);
         }
     }
+
     public class DabState {
         UUID uuid;
         int dabFrames = 0;
@@ -202,8 +210,12 @@ public class DabHandler {
             dabFrames = 0;
         }
 
-        public boolean isDabbing() { return dabFrames > 0; }
+        public boolean isDabbing() {
+            return dabFrames > 0;
+        }
 
-        public void setToggled(boolean toggled) { this.toggled = toggled; }
+        public void setToggled(boolean toggled) {
+            this.toggled = toggled;
+        }
     }
 }

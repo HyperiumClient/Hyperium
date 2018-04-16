@@ -2,6 +2,7 @@ package cc.hyperium.handlers.handlers;
 
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.RenderEvent;
+import cc.hyperium.event.WorldChangeEvent;
 import cc.hyperium.gui.HyperiumGui;
 import cc.hyperium.gui.settings.items.AnimationSettings;
 import net.minecraft.client.Minecraft;
@@ -27,6 +28,11 @@ public class FlossDanceHandler {
 
     public FlossDanceHandler() {
         fillRandomHeadMovementArray();
+    }
+    @InvokeEvent
+    public void swapWorld(WorldChangeEvent event) {
+        danceStates.clear();
+
     }
 
     @InvokeEvent
