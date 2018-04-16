@@ -30,6 +30,7 @@ public class HyperiumPurchase {
     private JsonHolder response;
 
     public HyperiumPurchase(UUID playerUUID, JsonHolder response) {
+        System.out.println("Loaded purchases for " + playerUUID + " (" + response + ")");
         this.playerUUID = playerUUID;
         this.response = response;
         for (JsonElement nicePackages : response.optJSONArray("hyperium")) {
