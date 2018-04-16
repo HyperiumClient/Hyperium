@@ -56,7 +56,6 @@ public class HyperiumHandlers {
     private HyperiumCommandHandler commandHandler;
     private RemoteResourcesHandler remoteResourcesHandler;
     private HyperiumNetwork network;
-    private RenderOptimizer renderOptomizer;
     private BrowserManager browserManager;
     private ScoreboardRenderer scoreboardRenderer;
     private OtherConfigOptions configOptions;
@@ -80,7 +79,6 @@ public class HyperiumHandlers {
         register(browserManager = new BrowserManager());
         register(resolutionUtil = new ResolutionUtil());
         register(guiDisplayHandler = new GuiDisplayHandler());
-        register(renderOptomizer = new RenderOptimizer());
         register(scoreboardRenderer = new ScoreboardRenderer());
         register(dataTracking = new GameDataTracking());
         register(privateMessageHandler = new PrivateMessageHandler());
@@ -192,9 +190,6 @@ public class HyperiumHandlers {
         return remoteResourcesHandler;
     }
 
-    public RenderOptimizer getRenderOptomizer() {
-        return renderOptomizer;
-    }
 
     public BrowserManager getBrowserManager() {
         return browserManager;

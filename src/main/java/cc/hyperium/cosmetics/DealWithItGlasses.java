@@ -168,7 +168,6 @@
 
 package cc.hyperium.cosmetics;
 
-import cc.hyperium.Hyperium;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.RenderPlayerEvent;
 import cc.hyperium.purchases.EnumPurchaseType;
@@ -203,6 +202,6 @@ public class DealWithItGlasses extends AbstractCosmetic {
     }
 
     private boolean shouldRender(AbstractClientPlayer entity) {
-        return !entity.isInvisibleToPlayer(Minecraft.getMinecraft().thePlayer) || Hyperium.INSTANCE.getHandlers().getRenderOptomizer().shouldRender(entity);
+        return !entity.isInvisibleToPlayer(Minecraft.getMinecraft().thePlayer);
     }
 }

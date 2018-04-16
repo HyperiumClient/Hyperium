@@ -17,7 +17,6 @@
 
 package cc.hyperium.mixins.renderer;
 
-import cc.hyperium.Hyperium;
 import cc.hyperium.gui.settings.items.AnimationSettings;
 import net.minecraft.client.renderer.culling.ICamera;
 import net.minecraft.client.renderer.entity.Render;
@@ -70,6 +69,6 @@ public abstract class MixinRendererLivingEntity<T extends EntityLivingBase> exte
 
     @Override
     public boolean shouldRender(T livingEntity, ICamera camera, double camX, double camY, double camZ) {
-        return super.shouldRender(livingEntity, camera, camX, camY, camZ) && Hyperium.INSTANCE.getHandlers().getRenderOptomizer().shouldRender(livingEntity);
+        return super.shouldRender(livingEntity, camera, camX, camY, camZ);
     }
 }
