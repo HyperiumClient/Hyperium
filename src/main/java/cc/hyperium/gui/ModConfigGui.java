@@ -21,6 +21,7 @@ import cc.hyperium.Hyperium;
 import cc.hyperium.gui.integrations.HypixelFriendsGui;
 import cc.hyperium.gui.settings.SettingItem;
 import cc.hyperium.gui.settings.items.*;
+import cc.hyperium.internal.addons.AddonBootstrap;
 import cc.hyperium.mods.chromahud.ChromaHUD;
 import cc.hyperium.mods.keystrokes.KeystrokesMod;
 import cc.hyperium.mods.keystrokes.screen.GuiScreenKeystrokes;
@@ -34,6 +35,7 @@ import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class ModConfigGui extends HyperiumGui {
     private List<SettingItem> settingItems = new ArrayList<>();
@@ -142,7 +144,7 @@ public class ModConfigGui extends HyperiumGui {
                 "TOGGLECHAT",
                 i -> Minecraft.getMinecraft().displayGuiScreen(new ToggleChatSettings(this))
         )).addSetting(new SettingItem(
-               3 , getX(0),
+                3, getX(0),
                 getDefaultItemY(3),
                 width - getX(0) * 2,
                 "BACKGROUNDS",
@@ -165,16 +167,16 @@ public class ModConfigGui extends HyperiumGui {
                         Minecraft.getMinecraft().displayGuiScreen(((ChromaHUD) Hyperium.INSTANCE.getModIntegration().getChromaHUD()).getConfigGuiInstance());
                 }));
 
-            tab.addSetting(new SettingItem(
-                    6, getX(0),
-                    getDefaultItemY(6),
-                    width - getX(0) * 2,
-                    Minecraft.getMinecraft().thePlayer != null? "KEYSTROKES" : "KEYSTROKES CAN ONLY BE CONFIGURED INGAME",
-                    i -> {
-                        if (Minecraft.getMinecraft().thePlayer != null)
+        tab.addSetting(new SettingItem(
+                6, getX(0),
+                getDefaultItemY(6),
+                width - getX(0) * 2,
+                Minecraft.getMinecraft().thePlayer != null ? "KEYSTROKES" : "KEYSTROKES CAN ONLY BE CONFIGURED INGAME",
+                i -> {
+                    if (Minecraft.getMinecraft().thePlayer != null)
                         new GuiScreenKeystrokes(((KeystrokesMod) Hyperium.INSTANCE.getModIntegration().getKeystrokesMod())).display();
-                    }
-            ));
+                }
+        ));
 
 
         this.tabs.add(tab);
@@ -182,12 +184,34 @@ public class ModConfigGui extends HyperiumGui {
         button = new CustomFontButton(2, getX(2), getY(), getButtonWidth(), 25, "ADDONS");
         button.renderBackground = false;
         buttonList.add(button);
-        this.tabs.add(new Tab(button, 2, this));
+        Tab addonT;
+        this.tabs.add(addonT = new Tab(button, 2, this) {
+            @Override
+            public void draw(int mouseX, int mouseY) {
+                super.draw(mouseX, mouseY);
+
+                drawSettingsItem(Minecraft.getMinecraft(), mouseX, mouseY);
+            }
+        });
+
+        AtomicInteger count = new AtomicInteger(0);
+        AddonBootstrap.INSTANCE.getAddonManifests().forEach(addon -> {
+            addonT.addSetting(new SettingItem(
+                    count.get(), getX(0),
+                    getDefaultItemY(count.get()),
+                    width - getX(0) * 2,
+                    addon.getName()+" :: "+addon.getVersion(),
+                    i -> {
+                        //TODO: Addon config gui
+                    }
+            ));
+            count.addAndGet(1);
+        });
 
         button = new CustomFontButton(3, getX(3), getY(), getButtonWidth(), 25, "FRIENDS");
         button.renderBackground = false;
         buttonList.add(button);
-        this.tabs.add(new Tab(button, 3, this){
+        this.tabs.add(new Tab(button, 3, this) {
             @Override
             public void draw(int mouseX, int mouseY) {
                 super.draw(mouseX, mouseY);
