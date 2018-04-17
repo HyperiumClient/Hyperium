@@ -5,8 +5,8 @@ import cc.hyperium.gui.GuiBoxItem;
 import cc.hyperium.gui.HyperiumGui;
 import cc.hyperium.netty.NettyClient;
 import cc.hyperium.netty.packet.packets.serverbound.UpdateQueuePacket;
-import utils.JsonHolder;
 import net.minecraft.client.gui.GuiButton;
+import utils.JsonHolder;
 
 import java.awt.*;
 import java.io.IOException;
@@ -23,13 +23,20 @@ public class QueueModGui extends HyperiumGui {
     protected void pack() {
         reg("QUEUE", new GuiButton(nextId(), width - 201, height - 21, "Update Queue"), guiButton -> {
             coolDown = 100;
-            NettyClient.getClient().write(UpdateQueuePacket.build(selected));
+            NettyClient client = NettyClient.getClient();
+            if (client != null) {
+                NettyClient.getClient().write(UpdateQueuePacket.build(selected));
+            }
         }, guiButton -> {
             guiButton.enabled = coolDown == 0;
         });
         reg("QUEUE1", new GuiButton(nextId(), width - 201, height - 42, "Clear Queue"), guiButton -> {
             selected.clear();
-            NettyClient.getClient().write(UpdateQueuePacket.build(selected));
+            NettyClient client = NettyClient.getClient();
+            if (client != null) {
+
+                client.write(UpdateQueuePacket.build(selected));
+            }
         }, guiButton -> {
             guiButton.enabled = coolDown == 0;
         });
@@ -59,17 +66,17 @@ public class QueueModGui extends HyperiumGui {
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         super.drawScreen(mouseX, mouseY, partialTicks);
         boxes.clear();
-        
+
         if (NettyClient.getClient() == null) {
             return;
         }
-        
+
         JsonHolder games = NettyClient.getClient().getGames();
-        
+
         if (games == null || games.getKeys().isEmpty()) {
             return;
         }
-        
+
         int y = 50 + offset;
         for (String s : games.getKeys()) {
             JsonHolder holder = games.optJSONObject(s);
