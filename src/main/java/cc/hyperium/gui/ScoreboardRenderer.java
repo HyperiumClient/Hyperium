@@ -1,7 +1,9 @@
 package cc.hyperium.gui;
 
-import cc.hyperium.Hyperium;
 import cc.hyperium.config.ConfigOpt;
+import cc.hyperium.event.EventBus;
+import cc.hyperium.event.RenderScoreboardEvent;
+import cc.hyperium.gui.settings.items.GeneralSetting;
 import cc.hyperium.utils.RenderUtils;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
@@ -13,8 +15,6 @@ import net.minecraft.scoreboard.ScoreObjective;
 import net.minecraft.scoreboard.ScorePlayerTeam;
 import net.minecraft.scoreboard.Scoreboard;
 import net.minecraft.util.EnumChatFormatting;
-import cc.hyperium.event.RenderScoreboardEvent;
-import cc.hyperium.event.EventBus;
 
 import java.util.Collection;
 import java.util.List;
@@ -71,7 +71,7 @@ public class ScoreboardRenderer {
                 RenderUtils.drawRect(l1 - 2, k, l, k + this.getFontRenderer().FONT_HEIGHT, 1342177280);
                 this.getFontRenderer().drawString(s1, l1, k, 553648127);
 
-                if (!Hyperium.INSTANCE.getHandlers().getHypixelDetector().isHypixel()) {
+                if (!GeneralSetting.hideScoreboardNumbers) {
                     this.getFontRenderer().drawString(s2, l - this.getFontRenderer().getStringWidth(s2), k, 553648127);
                 }
 

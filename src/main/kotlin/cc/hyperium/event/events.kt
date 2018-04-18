@@ -111,6 +111,11 @@ class RenderHUDEvent(partialTicks: Float)
 class ChatEvent(var chat: IChatComponent) : CancellableEvent()
 
 /**
+ * Invoked when a chat packet is received, will not detect messages directly printed to the chat
+ */
+class ServerChatEvent(val type: Byte, var chat: IChatComponent) : CancellableEvent()
+
+/**
  * Invoked when the player presses the enter key in the GuiChat class
  *
  * @param message the message the player is sending
