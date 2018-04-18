@@ -25,6 +25,7 @@ import net.minecraft.client.gui.ScaledResolution
 import net.minecraft.client.model.ModelBiped
 import net.minecraft.client.renderer.entity.RenderManager
 import net.minecraft.entity.Entity
+import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.util.BlockPos
 import net.minecraft.util.IChatComponent
 import net.minecraft.util.ResourceLocation
@@ -64,11 +65,6 @@ class ServerJoinEvent(val server: String, val port: Int)
 class ServerLeaveEvent
 
 /**
- * Invoked when the world is changed
- */
-class WorldChangeEvent
-
-/**
  * Invoked once left mouse is pressed
  */
 class LeftMouseClickEvent
@@ -77,6 +73,11 @@ class LeftMouseClickEvent
  * Invoked once right mouse is pressed
  */
 class RightMouseClickEvent
+
+/**
+ * Invoked once the scoreboard is rendered
+ */
+class RenderScoreboardEvent(val x: Double, val y: Double) : CancellableEvent()
 
 /**
  * Invoked once a key is pressed
@@ -95,12 +96,7 @@ class SpawnpointChangeEvent(val blockPos: BlockPos)
 class TickEvent
 
 /**
- * Invoked every frame; used to render in the ingame GUI
- */
-class RenderGuiEvent
-
-/**
- * Invoked every frame; used to render in the 3D space
+ * Invoked every tick; used to render
  */
 class RenderEvent
 
