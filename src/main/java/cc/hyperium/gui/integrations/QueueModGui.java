@@ -24,19 +24,16 @@ public class QueueModGui extends HyperiumGui {
         reg("QUEUE", new GuiButton(nextId(), width - 201, height - 21, "Update Queue"), guiButton -> {
             coolDown = 100;
             NettyClient client = NettyClient.getClient();
-            if (client != null) {
-                NettyClient.getClient().write(UpdateQueuePacket.build(selected));
-            }
+            if (client != null)
+                client.write(UpdateQueuePacket.build(selected));
         }, guiButton -> {
             guiButton.enabled = coolDown == 0;
         });
         reg("QUEUE1", new GuiButton(nextId(), width - 201, height - 42, "Clear Queue"), guiButton -> {
             selected.clear();
             NettyClient client = NettyClient.getClient();
-            if (client != null) {
-
+            if (client != null)
                 client.write(UpdateQueuePacket.build(selected));
-            }
         }, guiButton -> {
             guiButton.enabled = coolDown == 0;
         });
@@ -53,13 +50,12 @@ public class QueueModGui extends HyperiumGui {
     @Override
     protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
         super.mouseClicked(mouseX, mouseY, mouseButton);
-        for (GuiBoxItem<String> box : boxes) {
-            if (box.getBox().isMouseOver(mouseX, mouseY)) {
+        for (GuiBoxItem<String> box : boxes)
+            if (box.getBox().isMouseOver(mouseX, mouseY))
                 if (selected.contains(box.getObject()))
                     selected.remove(box.getObject());
-                else selected.add(box.getObject());
-            }
-        }
+                else
+                    selected.add(box.getObject());
     }
 
     @Override
@@ -67,15 +63,13 @@ public class QueueModGui extends HyperiumGui {
         super.drawScreen(mouseX, mouseY, partialTicks);
         boxes.clear();
 
-        if (NettyClient.getClient() == null) {
+        if (NettyClient.getClient() == null)
             return;
-        }
 
         JsonHolder games = NettyClient.getClient().getGames();
 
-        if (games == null || games.getKeys().isEmpty()) {
+        if (games == null || games.getKeys().isEmpty())
             return;
-        }
 
         int y = 50 + offset;
         for (String s : games.getKeys()) {
