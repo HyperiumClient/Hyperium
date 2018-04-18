@@ -51,13 +51,12 @@ public class HyperiumCommandHandler {
     @InvokeEvent
     public void onChat(SendChatMessageEvent event) {
         final String chatLine = event.getMessage();
-        if (chatLine.startsWith("/") && chatLine.length() > 1) {
-            if(executeCommand(chatLine)) {
-                // It is one of our commands, we'll cancel the event so it isn't
-                // sent to the server, and we'll close the currently opened gui
-                event.setCancelled(true);
-                this.mc.displayGuiScreen(null);
-            }
+        // Attempt to execute command if necessary
+        if (chatLine.startsWith("/") && chatLine.length() > 1 && executeCommand(chatLine)) {
+            // It is one of our commands, we'll cancel the event so it isn't
+            // sent to the server, and we'll close the currently opened gui
+            event.setCancelled(true);
+            this.mc.displayGuiScreen(null);
         }
     }
 
