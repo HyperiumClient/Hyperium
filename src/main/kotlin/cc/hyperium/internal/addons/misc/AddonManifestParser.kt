@@ -1,14 +1,14 @@
 package cc.hyperium.internal.addons.misc
 
+import cc.hyperium.internal.addons.AddonManifest
 import com.google.common.io.Files
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
-import cc.hyperium.internal.addons.AddonManifest
 import org.apache.commons.io.IOUtils
-
 import java.io.File
 import java.io.FileOutputStream
+import java.io.InputStream
 import java.nio.charset.Charset
 import java.util.jar.JarFile
 
@@ -38,13 +38,14 @@ class AddonManifestParser {
      */
     constructor(jar: JarFile) {
 
+        var jarInputStream: InputStream? = null
         try {
             val entry = jar.getEntry("addon.json")
 
             val jsonFile = File.createTempFile("json", "tmp")
             jsonFile.deleteOnExit()
 
-            val jarInputStream = jar.getInputStream(entry)
+            jarInputStream = jar.getInputStream(entry)
             val os = FileOutputStream(jsonFile)
             IOUtils.copy(jarInputStream, os)
 
@@ -59,6 +60,10 @@ class AddonManifestParser {
             this.json = json
         } catch (e: Exception) {
             throw AddonLoadException("Exception reading manifest")
+        } finally {
+            if (jarInputStream != null)
+                jarInputStream.close()
+            jar.close()
         }
     }
 

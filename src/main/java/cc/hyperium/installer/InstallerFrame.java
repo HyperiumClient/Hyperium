@@ -19,6 +19,8 @@ package cc.hyperium.installer;
 
 import cc.hyperium.installer.components.MotionPanel;
 import cc.hyperium.installer.utils.DownloadTask;
+import cc.hyperium.internal.addons.AddonManifest;
+import cc.hyperium.internal.addons.misc.AddonManifestParser;
 import com.google.common.io.Files;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -38,12 +40,13 @@ import java.util.*;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.jar.JarFile;
 import java.util.regex.Pattern;
 
 /**
  * @author Cubxity
  */
-public class InstallerFrame extends JFrame implements PropertyChangeListener {
+public class InstallerFrame implements PropertyChangeListener {
     /**
      * Width & height for installer GUI
      */
@@ -54,38 +57,18 @@ public class InstallerFrame extends JFrame implements PropertyChangeListener {
     private JLabel error;
     private JProgressBar progressBar;
     private JButton exit;
-    private String mcDir;
+    private JFrame frame;
 
     /**
      * Constructor
-     *
-     * @param mcDir minecraft directory
      */
-    InstallerFrame(String mcDir) {
-        super.frameInit();
+    InstallerFrame(String dir, int wam, List<String> components, InstallerConfig frame) {
+        this.frame = frame;
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        setSize(WIDTH, HEIGHT);
-        this.setLocation(dim.width / 2 - getSize().width / 2, dim.height / 2 - getSize().height / 2);
+        frame.setSize(WIDTH, HEIGHT);
+        frame.setLocation(dim.width / 2 - frame.getSize().width / 2, dim.height / 2 - frame.getSize().height / 2);
         initComponents();
-        setResizable(false);
-        this.setUndecorated(true);
-        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
-        setTitle("Hyperium Installer");
-
-        setIconImage(new ImageIcon(getClass().getResource("/assets/hyperium/icons/icon-32x.png")).getImage());
-
-        this.setVisible(true);
-        this.setLayout(null);
-        this.mcDir = mcDir;
-        try {
-            install();
-        } catch (Throwable ex) {
-            ex.printStackTrace();
-            display.setText("EXCEPTION OCCURRED");
-            error.setText(ex.getMessage());
-            exit.setVisible(true);
-        }
+        install(new File(dir), wam, components);
     }
 
     private static String toHex(byte[] bytes) {
@@ -102,8 +85,7 @@ public class InstallerFrame extends JFrame implements PropertyChangeListener {
     /**
      * Method to do everything
      */
-    private void install() {
-        File mc = getMinecraftDir();
+    private void install(File mc, int wam, List<String> components) {
         if (!mc.exists()) {
             display.setText("INSTALLATION FAILED");
             error.setText("NO MINECRAFT INSTALLATION FOUND");
@@ -261,18 +243,20 @@ public class InstallerFrame extends JFrame implements PropertyChangeListener {
                 return;
             }
         }
-        File optifine;
-        try {
-            optifine = exportTempOptifine();
-            optifine.deleteOnExit();
-        } catch (Exception e) {
-            e.printStackTrace();
-            display.setText("INSTALLATION FAILED");
-            error.setText("FAILED TO FIND OPTIFINE FILE");
-            exit.setVisible(true);
-            return;
+        File optifine = null;
+        if (components.contains("Optifine")) {
+            try {
+                optifine = exportTempOptifine();
+                optifine.deleteOnExit();
+            } catch (Exception e) {
+                e.printStackTrace();
+                display.setText("INSTALLATION FAILED");
+                error.setText("FAILED TO FIND OPTIFINE FILE");
+                exit.setVisible(true);
+                return;
+            }
+            System.out.println("Temp optifine=" + optifine.getAbsolutePath());
         }
-        System.out.println("Temp optifine=" + optifine.getAbsolutePath());
         progressBar.setValue(91);
         display.setText("COPYING FILES");
         target.mkdir();
@@ -289,22 +273,78 @@ public class InstallerFrame extends JFrame implements PropertyChangeListener {
             return;
         }
         progressBar.setValue(95);
-        display.setText("PATCHING OPTIFINE");
-        File optifineLibDir = new File(getMinecraftDir(), "libraries/optifine/OptiFine/1.8.9_HD_U_I7");
-        optifineLibDir.mkdirs();
-        File optifineLib = new File(optifineLibDir, "OptiFine-1.8.9_HD_U_I7.jar");
-        ProcessBuilder builder = new ProcessBuilder("java", "-cp", optifine.getAbsolutePath(), "optifine.Patcher", originJar.getAbsolutePath(), optifine.getAbsolutePath(), optifineLib.getAbsolutePath());
-        builder.inheritIO();
-        builder.redirectErrorStream(true);
-        Process proc;
+        display.setText("INSTALLING COMPONENTS");
+        if (components.contains("Optifine")) {
+            File optifineLibDir = new File(mc, "libraries/optifine/OptiFine/1.8.9_HD_U_I7");
+            optifineLibDir.mkdirs();
+            File optifineLib = new File(optifineLibDir, "OptiFine-1.8.9_HD_U_I7.jar");
+            ProcessBuilder builder = new ProcessBuilder("java", "-cp", optifine.getAbsolutePath(), "optifine.Patcher", originJar.getAbsolutePath(), optifine.getAbsolutePath(), optifineLib.getAbsolutePath());
+            builder.inheritIO();
+            builder.redirectErrorStream(true);
+            Process proc;
+            try {
+                proc = builder.start();
+                if (proc.waitFor() != 0)
+                    throw new IOException("Failed to install components");
+            } catch (InterruptedException | IOException e) {
+                e.printStackTrace();
+                display.setText("INSTALLATION FAILED");
+                error.setText("FAILED TO PATCH OPTIFINE");
+                exit.setVisible(true);
+                return;
+            }
+        }
+        HashMap<File, AddonManifest> installedAddons = new HashMap<>();
+        File addonsDir = new File(mc, "addons");
+        if (addonsDir.exists()) {
+            for (File a : Objects.requireNonNull(addonsDir.listFiles((dir, name) -> name.endsWith(".jar")))) {
+                try {
+                    installedAddons.put(a, new AddonManifestParser(new JarFile(a)).getAddonManifest());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        } else addonsDir.mkdirs();
         try {
-            proc = builder.start();
-            if (proc.waitFor() != 0)
-                throw new IOException("Failed to install optifine");
-        } catch (InterruptedException | IOException e) {
-            e.printStackTrace();
+            List<JSONObject> ao = new ArrayList<>();
+            for (Object o : versionsJson.getJSONArray("addons"))
+                ao.add((JSONObject) o);
+            for (String comp : components) {
+                if (comp.startsWith("Addon :: ")) {
+                    String aid = comp.replace("Addon :: ", "");
+                    Optional<JSONObject> addon = ao.stream().filter(jo -> jo.getString("name").equals(aid)).findAny();
+                    if (addon.isPresent()) {
+                        installedAddons.forEach((f, m) -> {
+                            if (m.getName() != null)
+                                if (m.getName().equals(aid))
+                                    if (!f.delete())
+                                        System.err.println("Failed to delete: " + f.getAbsolutePath());
+                        });
+                        try {
+                            System.out.println("Downloading: " + addon.get().getString("url"));
+                            File aOut = new File(addonsDir, aid + "-" + addon.get().getString("version") + ".jar");
+                            download(aOut, addon.get().getString("url"));
+                            if (!toHex(checksum(aOut, "SHA-256")).equalsIgnoreCase(addon.get().getString("sha256"))) {
+                                display.setText("INSTALLATION FAILED");
+                                error.setText("COMPONENT'S SHA256 DOES NOT MATCH");
+                                exit.setVisible(true);
+                                return;
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            System.err.println("Failed to install " + comp);
+                            display.setText("INSTALLATION FAILED");
+                            error.setText("FAILED TO INSTALL COMPONENTS");
+                            exit.setVisible(true);
+                            return;
+                        }
+                    } else System.err.println(comp + " is not found");
+                }
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
             display.setText("INSTALLATION FAILED");
-            error.setText("FAILED TO PATCH OPTIFINE");
+            error.setText("FAILED TO INSTALL COMPONENTS");
             exit.setVisible(true);
             return;
         }
@@ -334,7 +374,8 @@ public class InstallerFrame extends JFrame implements PropertyChangeListener {
         JSONArray libs = json.getJSONArray("libraries");
         libs.put(lib);
         libs.put(new JSONObject().put("name", "net.minecraft:launchwrapper:1.7"));
-        libs.put(new JSONObject().put("name", "optifine:OptiFine:1.8.9_HD_U_I7"));
+        if (components.contains("Optifine"))
+            libs.put(new JSONObject().put("name", "optifine:OptiFine:1.8.9_HD_U_I7"));
         versionsJson.getJSONArray("libs").forEach(libs::put);
         json.put("libraries", libs);
         json.put("id", "Hyperium 1.8.9");
@@ -355,7 +396,7 @@ public class InstallerFrame extends JFrame implements PropertyChangeListener {
                 .put("created", instant.toString())
                 .put("lastUsed", instant.toString())
                 .put("lastVersionId", "Hyperium 1.8.9")
-                .put("javaArgs", "-Xmx1G -XX:+UnlockExperimentalVMOptions -XX:+UseG1GC -XX:G1NewSizePercent=20 -XX:G1ReservePercent=20 -XX:MaxGCPauseMillis=50 -XX:G1HeapRegionSize=16M -XX:+DisableExplicitGC"));
+                .put("javaArgs", "-Xms512M -Xmx" + wam + "G -XX:+UnlockExperimentalVMOptions -XX:+UseG1GC -XX:G1NewSizePercent=20 -XX:G1ReservePercent=20 -XX:MaxGCPauseMillis=50 -XX:G1HeapRegionSize=16M -XX:+DisableExplicitGC"));
         launcherProfiles.put("profiles", profiles);
         try {
             Files.write(json.toString(), targetJson, Charset.defaultCharset());
@@ -374,54 +415,30 @@ public class InstallerFrame extends JFrame implements PropertyChangeListener {
 
     private File exportTempOptifine() throws Exception {
         File tmp = File.createTempFile("Optifine", ".jar");
-        BufferedInputStream in = null;
-        FileOutputStream fout = null;
-        try {
-            URLConnection conn = new URL("https://raw.githubusercontent.com/HyperiumClient/Hyperium-Repo/master/files/mods/OptiFine_1.8.9_HD_U_I7.jar").openConnection();
-            conn.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:56.0) Gecko/20100101 Firefox/56.0");
-            in = new BufferedInputStream(conn.getInputStream());
-            fout = new FileOutputStream(tmp);
-
-            final byte data[] = new byte[1024];
-            int count;
-            while ((count = in.read(data, 0, 1024)) != -1) {
-                fout.write(data, 0, count);
-            }
-        } finally {
-            if (in != null) {
-                in.close();
-            }
-            if (fout != null) {
-                fout.close();
-            }
-        }
+        download(tmp, "https://raw.githubusercontent.com/HyperiumClient/Hyperium-Repo/master/files/mods/OptiFine_1.8.9_HD_U_I7.jar");
         return tmp;
     }
 
-    /**
-     * @return default minecraft directory for every OS
-     */
-    private File getMinecraftDir() {
-        if (mcDir != null)
-            return new File(mcDir);
-        switch (OsCheck.getOperatingSystemType()) {
-            case Linux:
-                return new File(System.getProperty("user.home"), ".minecraft");
-            case Windows:
-                return new File(System.getenv("APPDATA"), ".minecraft");
-            case MacOS:
-                return new File(System.getProperty("user.home") + "/Library/Application Support", "minecraft");
-            default:
-                return new File(System.getProperty("user.home"), ".minecraft");
+    private void download(File file, String url) throws Exception {
+        URLConnection conn = new URL(url).openConnection();
+        conn.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:56.0) Gecko/20100101 Firefox/56.0");
+        if (!file.exists())
+            file.createNewFile();
+        try (BufferedInputStream in = new BufferedInputStream(conn.getInputStream()); FileOutputStream fout = new FileOutputStream(file)) {
+            final byte data[] = new byte[1024];
+            int count;
+            while ((count = in.read(data, 0, 1024)) != -1)
+                fout.write(data, 0, count);
         }
     }
+
 
     /**
      * Initialize components for GUI
      */
     private void initComponents() {
         // Top Panel
-        JPanel topPanel = new MotionPanel(this);
+        JPanel topPanel = new MotionPanel(frame);
         topPanel.setBackground(new Color(30, 30, 30));
         topPanel.setBounds(0, 0, 400, 20);
         topPanel.setLayout(null);
@@ -476,7 +493,7 @@ public class InstallerFrame extends JFrame implements PropertyChangeListener {
         exit.setVisible(false);
 
         // Container
-        Container contentPane = getContentPane();
+        Container contentPane = frame.getContentPane();
         contentPane.setLayout(null);
         contentPane.setBackground(new Color(30, 30, 30));
 
@@ -486,9 +503,6 @@ public class InstallerFrame extends JFrame implements PropertyChangeListener {
         contentPane.add(display);
         contentPane.add(error);
         contentPane.add(exit);
-
-        // Finalize
-        setContentPane(contentPane);
     }
 
     /**
@@ -511,7 +525,7 @@ public class InstallerFrame extends JFrame implements PropertyChangeListener {
             throw new FileNotFoundException("Failed to delete file: " + f);
     }
 
-    private String get(String url) throws IOException {
+    public static String get(String url) throws IOException {
         URL u = new URL(url);
         HttpsURLConnection conn = (HttpsURLConnection) u.openConnection();
         conn.addRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 5.1; rv:19.0) Gecko/20100101 Firefox/19.0");
