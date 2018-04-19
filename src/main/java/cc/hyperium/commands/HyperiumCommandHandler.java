@@ -50,53 +50,64 @@ public class HyperiumCommandHandler {
 
     @InvokeEvent
     public void onChat(SendChatMessageEvent event) {
-        String chatLine = event.getMessage();
+        final String chatLine = event.getMessage();
+        // Attempt to execute command if necessary
+        if (chatLine.startsWith("/") && chatLine.length() > 1 && executeCommand(chatLine)) {
+            // It is one of our commands, we'll cancel the event so it isn't
+            // sent to the server, and we'll close the currently opened gui
+            event.setCancelled(true);
+            this.mc.displayGuiScreen(null);
+        }
+    }
 
-        if (chatLine.startsWith("/") && chatLine.length() > 1) {
-            String commandLine = chatLine.replaceFirst("/","");
-            String commandName;
-            String[] args = new String[] {};
+    /**
+     * Execute the provided command, if it exists. Initial leading slash will be removed if it is sent.
+     * @param command Command to attempt to execute
+     * @return Whether the command was successfully executed
+     */
+    public boolean executeCommand(String command) {
+        final String commandLine = command.startsWith("/") ? command.substring(1, command.length()) : command;
+        String commandName;
+        String[] args = new String[] {};
 
-            // Check if arguments are provided.
-            if (commandLine.contains(" ")) {
-                String[] syntax = commandLine.split(" ");
-                commandName = syntax[0];
-                args = Arrays.copyOfRange(syntax, 1, syntax.length);
-                // SpotifyInformation: If command is "/print hello 2", commandName will equal "print" and args will equal ["hello","2"]
-            } else {
-                commandName = commandLine;
-            }
+        // Check if arguments are provided.
+        if (commandLine.contains(" ")) {
+            String[] syntax = commandLine.split(" ");
+            commandName = syntax[0];
+            args = Arrays.copyOfRange(syntax, 1, syntax.length);
+            // SpotifyInformation: If command is "/print hello 2", commandName will equal "print" and args will equal ["hello","2"]
+        } else {
+            commandName = commandLine;
+        }
 
-            // Loop through our commands, if the identifier matches the expected command, active the base
-            for (Map.Entry<String, BaseCommand> entry : this.commands.entrySet()) {
+        // Loop through our commands, if the identifier matches the expected command, active the base
+        for (Map.Entry<String, BaseCommand> entry : this.commands.entrySet()) {
 
-                // Check if the expected command matches the command identifier for this entry
-                if (commandName.equals(entry.getKey())) {
+            // Check if the expected command matches the command identifier for this entry
+            if (commandName.equals(entry.getKey())) {
 
-                    // It matched, we'll grab the command instance
-                    BaseCommand command = entry.getValue();
+                // It matched, we'll grab the command instance
+                final BaseCommand baseCommand = entry.getValue();
 
-                    // It is one of our commands, we'll cancel the event so it isn't
-                    // sent to the server, and we'll close the currently opened gui
-                    event.setCancelled(true);
-                    this.mc.displayGuiScreen(null);
-
-                    try {
-                        command.onExecute(args);
-                    } catch (CommandUsageException usageEx) {
-                        // Throw a UsageException to trigger
-                        this.chatHandler.sendMessage(ChatColor.RED + command.getUsage(), false);
-                    } catch (CommandException knownEx) {
-                        if (knownEx.getMessage() != null) {
-                            this.chatHandler.sendMessage(ChatColor.RED + knownEx.getMessage(), false);
-                        }
-                    } catch (Exception exception) {
-                        exception.printStackTrace();
-                        this.chatHandler.sendMessage(ChatColor.RED + "An internal error occured whilst performing this command", false);
+                try {
+                    baseCommand.onExecute(args);
+                } catch (CommandUsageException usageEx) {
+                    // Throw a UsageException to trigger
+                    this.chatHandler.sendMessage(ChatColor.RED + baseCommand.getUsage(), false);
+                } catch (CommandException knownEx) {
+                    if (knownEx.getMessage() != null) {
+                        this.chatHandler.sendMessage(ChatColor.RED + knownEx.getMessage(), false);
                     }
+                } catch (Exception exception) {
+                    exception.printStackTrace();
+                    this.chatHandler.sendMessage(ChatColor.RED + "An internal error occured whilst performing this command", false);
+                    return false;
                 }
+
+                return true;
             }
         }
+        return false;
     }
 
     /**
