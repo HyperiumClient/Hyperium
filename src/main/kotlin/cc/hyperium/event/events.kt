@@ -25,6 +25,7 @@ import net.minecraft.client.gui.ScaledResolution
 import net.minecraft.client.model.ModelBiped
 import net.minecraft.client.renderer.entity.RenderManager
 import net.minecraft.entity.Entity
+import net.minecraft.scoreboard.ScoreObjective
 import net.minecraft.util.BlockPos
 import net.minecraft.util.IChatComponent
 import net.minecraft.util.ResourceLocation
@@ -211,4 +212,4 @@ class EntityRenderEvent(val entityIn: Entity,
 /**
  * Invoked when the scoreboard is rendered
  */
-class RenderScoreboardEvent(val x: Double, val y: Double): CancellableEvent()
+class RenderScoreboardEvent(val x: Double, val y: Double, val objective: ScoreObjective, val resolution: ScaledResolution): CancellableEvent()
