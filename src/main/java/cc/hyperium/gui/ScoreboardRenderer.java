@@ -31,11 +31,12 @@ public class ScoreboardRenderer {
 
     private double yLocation = .5D;
 
+    private RenderScoreboardEvent renderEvent = new RenderScoreboardEvent(this.xLocation, this.yLocation);
+
 
     public void render(ScoreObjective objective, ScaledResolution resolution) {
-        RenderScoreboardEvent event = new RenderScoreboardEvent(this.xLocation, this.yLocation);
-        EventBus.INSTANCE.post(event);
-        if (!event.isCancelled()) {
+        EventBus.INSTANCE.post(this.renderEvent);
+        if (!this.renderEvent.isCancelled()) {
             Scoreboard scoreboard = objective.getScoreboard();
             Collection<Score> collection = scoreboard.getSortedScores(objective);
             List<Score> list = Lists.newArrayList(collection.stream().filter(p_apply_1_ -> p_apply_1_.getPlayerName() != null && !p_apply_1_.getPlayerName().startsWith("#")).collect(Collectors.toList()));
@@ -91,6 +92,7 @@ public class ScoreboardRenderer {
 
     public void setxLocation(double xLocation) {
         this.xLocation = xLocation;
+        this.renderEvent = new RenderScoreboardEvent(this.xLocation, this.yLocation);
     }
 
     public double getyLocation() {
@@ -99,6 +101,7 @@ public class ScoreboardRenderer {
 
     public void setyLocation(double yLocation) {
         this.yLocation = yLocation;
+        this.renderEvent = new RenderScoreboardEvent(this.xLocation, this.yLocation);
     }
 
     private FontRenderer getFontRenderer() {
