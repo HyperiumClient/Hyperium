@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # IKey #
 >#### Class Overview ####
 >Used as the base class for all keys with a few essential methods and fields
@@ -7,17 +7,29 @@
 >#### Field Overview ####
 >No description provided
 >
+>**default**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;null
+>
 ### protected final KeystrokesMod mod ###
 >#### Field Overview ####
 >No description provided
+>
+>**default**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;null
 >
 ### protected final int xOffset ###
 >#### Field Overview ####
 >No description provided
 >
+>**default**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;null
+>
 ### protected final int yOffset ###
 >#### Field Overview ####
 >No description provided
+>
+>**default**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;null
 >
 ## Constructors ##
 ### public IKey (KeystrokesMod, int, int) ###

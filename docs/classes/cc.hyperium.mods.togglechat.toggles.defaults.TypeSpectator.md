@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # TypeSpectator #
 >#### Class Overview ####
 >#BringBackSpecChat

@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # LevelHeadCommand #
 >#### Class Overview ####
 >Created by Mitchell Katz on 5/8/2017.

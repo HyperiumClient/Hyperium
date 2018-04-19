@@ -1,7 +1,7 @@
-[< Back](..)
+[< Back](../README.md)
 # BrowserManager #
 >#### Class Overview ####
->Created by mitchellkatz on 3/10/18. Designed for production use on Sk1er.club
+>No description provided
 ## Constructors ##
 ### public BrowserManager () ###
 >#### Constructor Overview ####
@@ -13,6 +13,10 @@
 >No description provided
 >
 ### public void browse (String) ###
+>#### Method Overview ####
+>No description provided
+>
+### public void onTick (TickEvent) ###
 >#### Method Overview ####
 >No description provided
 >

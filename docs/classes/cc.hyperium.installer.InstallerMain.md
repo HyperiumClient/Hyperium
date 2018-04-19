@@ -1,12 +1,7 @@
-[< Back](..)
+[< Back](../README.md)
 # InstallerMain #
 >#### Class Overview ####
 >No description provided
-## Fields ##
-### protected static ReleaseChannel releaseChannel ###
->#### Field Overview ####
->No description provided
->
 ## Constructors ##
 ### public InstallerMain () ###
 >#### Constructor Overview ####

@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # KeyBindConfig #
 >#### Class Overview ####
 >KeyBinding config, basically just a modified ToggleChat config

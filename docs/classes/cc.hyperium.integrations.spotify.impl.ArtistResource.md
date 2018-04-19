@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # ArtistResource #
 >#### Class Overview ####
 >No description provided

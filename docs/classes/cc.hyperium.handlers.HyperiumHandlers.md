@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # HyperiumHandlers #
 >#### Class Overview ####
 >A class containing most of Hyperium's internal handlers
@@ -8,6 +8,14 @@
 >No description provided
 >
 ## Methods ##
+### public void postInit () ###
+>#### Method Overview ####
+>No description provided
+>
+### public GameDataTracking getDataTracking () ###
+>#### Method Overview ####
+>No description provided
+>
 ### public HyperiumNetwork getNetwork () ###
 >#### Method Overview ####
 >No description provided
@@ -64,11 +72,31 @@
 >#### Method Overview ####
 >No description provided
 >
-### public RenderOptomizer getRenderOptomizer () ###
+### public BrowserManager getBrowserManager () ###
 >#### Method Overview ####
 >No description provided
 >
-### public BrowserManager getBrowserManager () ###
+### public TimeTrackHandler getTimeTrackHandler () ###
+>#### Method Overview ####
+>No description provided
+>
+### public ScoreboardRenderer getScoreboardRenderer () ###
+>#### Method Overview ####
+>No description provided
+>
+### public OtherConfigOptions getConfigOptions () ###
+>#### Method Overview ####
+>No description provided
+>
+### public QuestTrackingChatHandler getQuestTracking () ###
+>#### Method Overview ####
+>No description provided
+>
+### public DabHandler getDabHandler () ###
+>#### Method Overview ####
+>No description provided
+>
+### public FlossDanceHandler getFlossDanceHandler () ###
 >#### Method Overview ####
 >No description provided
 >

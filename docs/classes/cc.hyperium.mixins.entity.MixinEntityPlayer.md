@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # MixinEntityPlayer #
 >#### Class Overview ####
 >No description provided

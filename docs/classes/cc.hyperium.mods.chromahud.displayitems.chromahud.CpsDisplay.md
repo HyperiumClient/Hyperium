@@ -1,7 +1,7 @@
-[< Back](..)
+[< Back](../README.md)
 # CpsDisplay #
 >#### Class Overview ####
->Created by mitchellkatz on 6/25/17.
+>No description provided
 ## Constructors ##
 ### public CpsDisplay (JsonHolder, int) ###
 >#### Constructor Overview ####

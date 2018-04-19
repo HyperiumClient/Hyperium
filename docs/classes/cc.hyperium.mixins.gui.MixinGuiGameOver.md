@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # MixinGuiGameOver #
 >#### Class Overview ####
 >No description provided

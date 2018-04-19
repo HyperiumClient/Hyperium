@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # CrosshairMod #
 >#### Class Overview ####
 >No description provided
@@ -8,7 +8,7 @@
 >No description provided
 >
 ## Methods ##
-### public void renderEvent (RenderEvent) ###
+### public void renderEvent (RenderGuiEvent) ###
 >#### Method Overview ####
 >No description provided
 >

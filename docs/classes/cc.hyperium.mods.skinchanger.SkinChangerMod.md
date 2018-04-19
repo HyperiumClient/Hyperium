@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # SkinChangerMod #
 >#### Class Overview ####
 >Also a lightweight version of SkinChanger

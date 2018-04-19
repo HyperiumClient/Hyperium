@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # PrivateMessageReader #
 >#### Class Overview ####
 >No description provided

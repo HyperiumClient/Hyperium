@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # TypeParty #
 >#### Class Overview ####
 >No description provided

@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # TextItem #
 >#### Class Overview ####
 >Created by Mitchell Katz on 5/29/2017.

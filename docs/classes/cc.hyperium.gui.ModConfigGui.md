@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # ModConfigGui #
 >#### Class Overview ####
 >No description provided

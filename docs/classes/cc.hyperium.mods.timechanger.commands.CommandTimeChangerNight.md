@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # CommandTimeChangerNight #
 >#### Class Overview ####
 >No description provided

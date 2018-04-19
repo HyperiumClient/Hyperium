@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # TypeAds #
 >#### Class Overview ####
 >No description provided

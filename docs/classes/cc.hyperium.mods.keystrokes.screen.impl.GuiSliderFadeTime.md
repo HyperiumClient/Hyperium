@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # GuiSliderFadeTime #
 >#### Class Overview ####
 >No description provided

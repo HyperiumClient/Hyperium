@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # ScoreboardDisplay #
 >#### Class Overview ####
 >No description provided
@@ -7,9 +7,15 @@
 >#### Field Overview ####
 >No description provided
 >
+>**default**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;null
+>
 ### public static ScaledResolution p_180475_2_ ###
 >#### Field Overview ####
 >No description provided
+>
+>**default**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;null
 >
 ## Constructors ##
 ### public ScoreboardDisplay (JsonHolder, int) ###

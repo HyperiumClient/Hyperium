@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # CompactChat #
 >#### Class Overview ####
 >No description provided

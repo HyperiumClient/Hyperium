@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # RichPresenceManager #
 >#### Class Overview ####
 >No description provided

@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # CommandNameHistory #
 >#### Class Overview ####
 >Command to open the NameHistory gui

@@ -1,7 +1,7 @@
-[< Back](..)
+[< Back](../README.md)
 # CachedString #
 >#### Class Overview ####
->Created by mitchellkatz on 3/9/18. Designed for production use on Sk1er.club
+>No description provided
 ## Constructors ##
 ### public CachedString (BufferedImage) ###
 >#### Constructor Overview ####

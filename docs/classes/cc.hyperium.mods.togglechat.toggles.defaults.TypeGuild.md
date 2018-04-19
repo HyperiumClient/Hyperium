@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # TypeGuild #
 >#### Class Overview ####
 >No description provided

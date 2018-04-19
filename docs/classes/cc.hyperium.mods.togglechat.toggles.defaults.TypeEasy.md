@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # TypeEasy #
 >#### Class Overview ####
 >No description provided

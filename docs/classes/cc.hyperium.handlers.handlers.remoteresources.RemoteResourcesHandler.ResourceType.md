@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # RemoteResourcesHandler.ResourceType #
 >#### Class Overview ####
 >No description provided
@@ -7,9 +7,15 @@
 >#### Field Overview ####
 >No description provided
 >
+>**default**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;null
+>
 ### public static final ResourceType IMAGE ###
 >#### Field Overview ####
 >No description provided
+>
+>**default**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;null
 >
 ## Methods ##
 ### public static ResourceType values () ###

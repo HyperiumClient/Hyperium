@@ -1,15 +1,56 @@
-[< Back](..)
+[< Back](../README.md)
 # KeyBindHandler #
 >#### Class Overview ####
 >No description provided
 ## Fields ##
+### public static HyperiumBind nameHistory ###
+>#### Field Overview ####
+>No description provided
+>
+>**default**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;null
+>
+### public HyperiumBind friends ###
+>#### Field Overview ####
+>No description provided
+>
+>**default**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;null
+>
+### public HyperiumBind queue ###
+>#### Field Overview ####
+>No description provided
+>
+>**default**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;null
+>
 ### public HyperiumBind debug ###
 >#### Field Overview ####
 >No description provided
 >
-### public static HyperiumBind nameHistory ###
+>**default**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;null
+>
+### public HyperiumBind flossDance ###
 >#### Field Overview ####
 >No description provided
+>
+>**default**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;null
+>
+### public HyperiumBind dab ###
+>#### Field Overview ####
+>No description provided
+>
+>**default**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;null
+>
+### public HyperiumBind guikey ###
+>#### Field Overview ####
+>Opens GUI on Z key pressed oof - ConorTheOreo
+>
+>**default**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;null
 >
 ## Constructors ##
 ### public KeyBindHandler () ###

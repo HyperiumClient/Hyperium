@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # HyperiumInfoDisplay #
 >#### Class Overview ####
 >No description provided

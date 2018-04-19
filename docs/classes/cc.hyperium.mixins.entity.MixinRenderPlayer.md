@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # MixinRenderPlayer #
 >#### Class Overview ####
 >No description provided

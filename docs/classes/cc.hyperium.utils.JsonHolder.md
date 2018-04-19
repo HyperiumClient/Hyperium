@@ -1,7 +1,7 @@
-[< Back](..)
+[< Back](../README.md)
 # JsonHolder #
 >#### Class Overview ####
->Created by mitchellkatz on 9/28/17. Designed for production use on Sk1er.club
+>No description provided
 ## Constructors ##
 ### public JsonHolder (JsonObject) ###
 >#### Constructor Overview ####

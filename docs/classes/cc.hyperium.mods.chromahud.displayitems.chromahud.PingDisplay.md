@@ -1,7 +1,7 @@
-[< Back](..)
+[< Back](../README.md)
 # PingDisplay #
 >#### Class Overview ####
->Created by mitchellkatz on 6/21/17.
+>No description provided
 ## Constructors ##
 ### public PingDisplay (JsonHolder, int) ###
 >#### Constructor Overview ####

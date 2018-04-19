@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # MixinModelBiped #
 >#### Class Overview ####
 >No description provided

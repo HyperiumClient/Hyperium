@@ -1,7 +1,7 @@
-[< Back](..)
+[< Back](../README.md)
 # ButtonConfig #
 >#### Class Overview ####
->Created by mitchellkatz on 1/8/18. Designed for production use on Sk1er.club
+>No description provided
 ## Constructors ##
 ### public ButtonConfig (BiConsumer, GuiButton, BiConsumer) ###
 >#### Constructor Overview ####

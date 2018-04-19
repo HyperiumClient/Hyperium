@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # TrayManager #
 >#### Class Overview ####
 >No description provided
@@ -15,6 +15,14 @@
 ### public void init () ###
 >#### Method Overview ####
 >No description provided
+>
+### public void onFriendRequest (HypixelFriendRequestEvent) ###
+>#### Method Overview ####
+>Friend requests
+>
+>### Parameters ###
+>**event**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the event
 >
 
 ---

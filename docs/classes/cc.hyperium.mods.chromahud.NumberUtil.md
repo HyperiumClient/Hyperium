@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # NumberUtil #
 >#### Class Overview ####
 >Created by Mitchell Katz on 5/25/2017.

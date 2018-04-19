@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # DirectionHUD #
 >#### Class Overview ####
 >Created by Mitchell Katz on 6/1/2017.

@@ -1,7 +1,7 @@
-[< Back](..)
+[< Back](../README.md)
 # LevelheadConfig #
 >#### Class Overview ####
->Created by mitchellkatz on 12/23/17. Designed for production use on Sk1er.club
+>No description provided
 ## Constructors ##
 ### public LevelheadConfig () ###
 >#### Constructor Overview ####

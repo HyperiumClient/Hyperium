@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # ElementRenderer #
 >#### Class Overview ####
 >Created by Mitchell Katz on 5/25/2017.
@@ -6,6 +6,9 @@
 ### protected static ScaledResolution resolution ###
 >#### Field Overview ####
 >No description provided
+>
+>**default**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;null
 >
 ## Constructors ##
 ### public ElementRenderer (ChromaHUD) ###

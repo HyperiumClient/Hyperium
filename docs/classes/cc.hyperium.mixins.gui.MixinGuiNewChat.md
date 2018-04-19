@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # MixinGuiNewChat #
 >#### Class Overview ####
 >No description provided

@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # ImgurUploader #
 >#### Class Overview ####
 >No description provided
@@ -6,6 +6,9 @@
 ### public static String url ###
 >#### Field Overview ####
 >No description provided
+>
+>**default**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;null
 >
 ## Constructors ##
 ### public ImgurUploader (String, File) ###

@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # CommandTimeChangerReset #
 >#### Class Overview ####
 >No description provided

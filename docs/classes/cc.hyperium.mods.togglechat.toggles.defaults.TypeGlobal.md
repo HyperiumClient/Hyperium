@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # TypeGlobal #
 >#### Class Overview ####
 >No description provided

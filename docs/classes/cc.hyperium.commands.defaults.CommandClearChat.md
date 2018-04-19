@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # CommandClearChat #
 >#### Class Overview ####
 >A simple command to clear your chat history & sent commands,

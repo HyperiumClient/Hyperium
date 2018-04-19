@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # TooltipEnchantments.EnchantmentsTranslation #
 >#### Class Overview ####
 >No description provided

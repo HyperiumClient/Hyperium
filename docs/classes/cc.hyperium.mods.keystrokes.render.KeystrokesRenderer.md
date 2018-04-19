@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # KeystrokesRenderer #
 >#### Class Overview ####
 >The KeystrokesRenderer, taken and modified from the v3 source
@@ -8,7 +8,7 @@
 >No description provided
 >
 ## Methods ##
-### public void onRenderTick (RenderEvent) ###
+### public void onRenderTick (RenderGuiEvent) ###
 >#### Method Overview ####
 >No description provided
 >

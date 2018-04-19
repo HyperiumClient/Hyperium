@@ -1,7 +1,7 @@
-[< Back](..)
+[< Back](../README.md)
 # RankedRatingChatHandler #
 >#### Class Overview ####
->Created by mitchellkatz on 2/14/18. Designed for production use on Sk1er.club
+>No description provided
 ## Constructors ##
 ### public RankedRatingChatHandler () ###
 >#### Constructor Overview ####

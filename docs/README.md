@@ -1,19 +1,6 @@
+![Classes](https://img.shields.io/badge/classes-318-red.svg)
+![Methods](https://img.shields.io/badge/methods-289-brightgreen.svg)
 # Documentation #
-## cc.hyperium.addons ##
-[HyperiumAddonBootstrap](classes/cc.hyperium.addons.HyperiumAddonBootstrap.md)
-
-[AddonManifest](classes/cc.hyperium.addons.AddonManifest.md)
-
-## cc.hyperium.addons.annotations ##
-[Instance](classes/cc.hyperium.addons.annotations.Instance.md)
-
-[Addon](classes/cc.hyperium.addons.annotations.Addon.md)
-
-## cc.hyperium.addons.loader ##
-[DefaultAddonLoader](classes/cc.hyperium.addons.loader.DefaultAddonLoader.md)
-
-[AddonLoaderStrategy](classes/cc.hyperium.addons.loader.AddonLoaderStrategy.md)
-
 ## cc.hyperium.commands ##
 [HyperiumCommandHandler](classes/cc.hyperium.commands.HyperiumCommandHandler.md)
 
@@ -24,6 +11,8 @@
 [BaseCommand](classes/cc.hyperium.commands.BaseCommand.md)
 
 ## cc.hyperium.commands.defaults ##
+[CommandUpdate](classes/cc.hyperium.commands.defaults.CommandUpdate.md)
+
 [CommandPrivateMessage](classes/cc.hyperium.commands.defaults.CommandPrivateMessage.md)
 
 [CommandPlayGame](classes/cc.hyperium.commands.defaults.CommandPlayGame.md)
@@ -41,7 +30,22 @@
 
 [ConfigOpt](classes/cc.hyperium.config.ConfigOpt.md)
 
+## cc.hyperium.cosmetics ##
+[KillCounterMuscles](classes/cc.hyperium.cosmetics.KillCounterMuscles.md)
+
+[HyperiumCosmetics](classes/cc.hyperium.cosmetics.HyperiumCosmetics.md)
+
+[DealWithItGlasses](classes/cc.hyperium.cosmetics.DealWithItGlasses.md)
+
+[DabOnKIllCosmetic](classes/cc.hyperium.cosmetics.DabOnKIllCosmetic.md)
+
+[ChromaWinCosmetic](classes/cc.hyperium.cosmetics.ChromaWinCosmetic.md)
+
+[AbstractCosmetic](classes/cc.hyperium.cosmetics.AbstractCosmetic.md)
+
 ## cc.hyperium.gui ##
+[ScoreboardRenderer](classes/cc.hyperium.gui.ScoreboardRenderer.md)
+
 [ParticleOverlay](classes/cc.hyperium.gui.ParticleOverlay.md)
 
 [ParticleOverlay.Mode](classes/cc.hyperium.gui.ParticleOverlay.Mode.md)
@@ -53,6 +57,8 @@
 [NameHistoryGui](classes/cc.hyperium.gui.NameHistoryGui.md)
 
 [ModConfigGui](classes/cc.hyperium.gui.ModConfigGui.md)
+
+[HyperiumTextField](classes/cc.hyperium.gui.HyperiumTextField.md)
 
 [HyperiumSlider](classes/cc.hyperium.gui.HyperiumSlider.md)
 
@@ -67,6 +73,8 @@
 [GuiBlock](classes/cc.hyperium.gui.GuiBlock.md)
 
 [CustomFontButton](classes/cc.hyperium.gui.CustomFontButton.md)
+
+[ConfirmationPopup](classes/cc.hyperium.gui.ConfirmationPopup.md)
 
 [BrowserWindow](classes/cc.hyperium.gui.BrowserWindow.md)
 
@@ -83,6 +91,8 @@
 
 [TooltipEnchantments.EnchantmentsTranslation](classes/cc.hyperium.gui.integrations.TooltipEnchantments.EnchantmentsTranslation.md)
 
+[QueueModGui](classes/cc.hyperium.gui.integrations.QueueModGui.md)
+
 [HypixelPrivateMessage](classes/cc.hyperium.gui.integrations.HypixelPrivateMessage.md)
 
 [HypixelFriendsGui](classes/cc.hyperium.gui.integrations.HypixelFriendsGui.md)
@@ -96,8 +106,6 @@
 [NameHistorySettings](classes/cc.hyperium.gui.settings.items.NameHistorySettings.md)
 
 [GeneralSetting](classes/cc.hyperium.gui.settings.items.GeneralSetting.md)
-
-[CaptureXSetting](classes/cc.hyperium.gui.settings.items.CaptureXSetting.md)
 
 [BackgroundSettings](classes/cc.hyperium.gui.settings.items.BackgroundSettings.md)
 
@@ -113,7 +121,9 @@
 ## cc.hyperium.handlers.handlers ##
 [ValueHandler](classes/cc.hyperium.handlers.handlers.ValueHandler.md)
 
-[RenderOptomizer](classes/cc.hyperium.handlers.handlers.RenderOptomizer.md)
+[TimeTrackHandler](classes/cc.hyperium.handlers.handlers.TimeTrackHandler.md)
+
+[OtherConfigOptions](classes/cc.hyperium.handlers.handlers.OtherConfigOptions.md)
 
 [LocationHandler](classes/cc.hyperium.handlers.handlers.LocationHandler.md)
 
@@ -123,6 +133,16 @@
 
 [GuiDisplayHandler](classes/cc.hyperium.handlers.handlers.GuiDisplayHandler.md)
 
+[GameDataTracking](classes/cc.hyperium.handlers.handlers.GameDataTracking.md)
+
+[FlossDanceHandler](classes/cc.hyperium.handlers.handlers.FlossDanceHandler.md)
+
+[FlossDanceHandler.DanceState](classes/cc.hyperium.handlers.handlers.FlossDanceHandler.DanceState.md)
+
+[DabHandler](classes/cc.hyperium.handlers.handlers.DabHandler.md)
+
+[DabHandler.DabState](classes/cc.hyperium.handlers.handlers.DabHandler.DabState.md)
+
 [CommandQueue](classes/cc.hyperium.handlers.handlers.CommandQueue.md)
 
 [BrowserManager](classes/cc.hyperium.handlers.handlers.BrowserManager.md)
@@ -130,15 +150,29 @@
 [ApiDataHandler](classes/cc.hyperium.handlers.handlers.ApiDataHandler.md)
 
 ## cc.hyperium.handlers.handlers.chat ##
+[WinTrackingChatHandler](classes/cc.hyperium.handlers.handlers.chat.WinTrackingChatHandler.md)
+
 [RankedRatingChatHandler](classes/cc.hyperium.handlers.handlers.chat.RankedRatingChatHandler.md)
+
+[QuestTrackingChatHandler](classes/cc.hyperium.handlers.handlers.chat.QuestTrackingChatHandler.md)
+
+[QuestTrackingChatHandler.QuestData](classes/cc.hyperium.handlers.handlers.chat.QuestTrackingChatHandler.QuestData.md)
 
 [PrivateMessageReader](classes/cc.hyperium.handlers.handlers.chat.PrivateMessageReader.md)
 
+[PartyInviteChatHandler](classes/cc.hyperium.handlers.handlers.chat.PartyInviteChatHandler.md)
+
+[KillTrackerChatHandler](classes/cc.hyperium.handlers.handlers.chat.KillTrackerChatHandler.md)
+
 [HyperiumChatHandler](classes/cc.hyperium.handlers.handlers.chat.HyperiumChatHandler.md)
+
+[HyperiumChatHandler.ChatRegexType](classes/cc.hyperium.handlers.handlers.chat.HyperiumChatHandler.ChatRegexType.md)
 
 [GuildPartyChatParser](classes/cc.hyperium.handlers.handlers.chat.GuildPartyChatParser.md)
 
 [GeneralChatHandler](classes/cc.hyperium.handlers.handlers.chat.GeneralChatHandler.md)
+
+[FriendRequestChatHandler](classes/cc.hyperium.handlers.handlers.chat.FriendRequestChatHandler.md)
 
 [AutoWhoChatHandler](classes/cc.hyperium.handlers.handlers.chat.AutoWhoChatHandler.md)
 
@@ -167,10 +201,14 @@
 [HyperiumHandlers](classes/cc.hyperium.handlers.HyperiumHandlers.md)
 
 ## cc.hyperium ##
+[SplashProgress](classes/cc.hyperium.SplashProgress.md)
+
 [Hyperium](classes/cc.hyperium.Hyperium.md)
 
 ## cc.hyperium.installer.components ##
 [MotionPanel](classes/cc.hyperium.installer.components.MotionPanel.md)
+
+[MaterialRadioButton](classes/cc.hyperium.installer.components.MaterialRadioButton.md)
 
 ## cc.hyperium.installer ##
 [ReleaseChannel](classes/cc.hyperium.installer.ReleaseChannel.md)
@@ -178,6 +216,10 @@
 [InstallerMain](classes/cc.hyperium.installer.InstallerMain.md)
 
 [InstallerFrame](classes/cc.hyperium.installer.InstallerFrame.md)
+
+[InstallerFrame.OsCheck](classes/cc.hyperium.installer.InstallerFrame.OsCheck.md)
+
+[InstallerFrame.OsCheck.OSType](classes/cc.hyperium.installer.InstallerFrame.OsCheck.OSType.md)
 
 ## cc.hyperium.installer.utils ##
 [HTTPDownloadUtil](classes/cc.hyperium.installer.utils.HTTPDownloadUtil.md)
@@ -232,6 +274,8 @@
 
 [MixinInventory](classes/cc.hyperium.mixins.gui.MixinInventory.md)
 
+[MixinGuiUtilRenderComponents](classes/cc.hyperium.mixins.gui.MixinGuiUtilRenderComponents.md)
+
 [MixinGuiScreen](classes/cc.hyperium.mixins.gui.MixinGuiScreen.md)
 
 [MixinGuiResourcePack](classes/cc.hyperium.mixins.gui.MixinGuiResourcePack.md)
@@ -276,6 +320,8 @@
 ## cc.hyperium.mixins.packet ##
 [MixinS2EPacketCloseWindow](classes/cc.hyperium.mixins.packet.MixinS2EPacketCloseWindow.md)
 
+[MixinS19PacketEntityStatus](classes/cc.hyperium.mixins.packet.MixinS19PacketEntityStatus.md)
+
 [MixinS14PacketEntity](classes/cc.hyperium.mixins.packet.MixinS14PacketEntity.md)
 
 [MixinNetHandlerPlayClient](classes/cc.hyperium.mixins.packet.MixinNetHandlerPlayClient.md)
@@ -292,16 +338,20 @@
 
 [MixinRendererLivingEntity](classes/cc.hyperium.mixins.renderer.MixinRendererLivingEntity.md)
 
+[MixinRender](classes/cc.hyperium.mixins.renderer.MixinRender.md)
+
 [MixinItemRenderer](classes/cc.hyperium.mixins.renderer.MixinItemRenderer.md)
 
 [MixinGuiIngame](classes/cc.hyperium.mixins.renderer.MixinGuiIngame.md)
 
-[MixinFontRenderer](classes/cc.hyperium.mixins.renderer.MixinFontRenderer.md)
+[MixinDabRender](classes/cc.hyperium.mixins.renderer.MixinDabRender.md)
 
 ## cc.hyperium.mixins.scoreboard ##
 [MixinScoreboard](classes/cc.hyperium.mixins.scoreboard.MixinScoreboard.md)
 
 ## cc.hyperium.mixins.utils ##
+[MixinResourcePackRepository](classes/cc.hyperium.mixins.utils.MixinResourcePackRepository.md)
+
 [MixinMathHelper](classes/cc.hyperium.mixins.utils.MixinMathHelper.md)
 
 ## cc.hyperium.mixins.world ##
@@ -318,17 +368,16 @@
 
 [AbstractMod.Metadata](classes/cc.hyperium.mods.AbstractMod.Metadata.md)
 
-## cc.hyperium.mods.capturex ##
-[CapturePack](classes/cc.hyperium.mods.capturex.CapturePack.md)
+## cc.hyperium.mods.autogg ##
+[AutoGGListener](classes/cc.hyperium.mods.autogg.AutoGGListener.md)
 
-[CaptureMode](classes/cc.hyperium.mods.capturex.CaptureMode.md)
+[AutoGG](classes/cc.hyperium.mods.autogg.AutoGG.md)
 
-[CaptureCore](classes/cc.hyperium.mods.capturex.CaptureCore.md)
+## cc.hyperium.mods.autogg.commands ##
+[GGCommand](classes/cc.hyperium.mods.autogg.commands.GGCommand.md)
 
-## cc.hyperium.mods.capturex.render ##
-[FrameRenderer](classes/cc.hyperium.mods.capturex.render.FrameRenderer.md)
-
-[FFMpegHelper](classes/cc.hyperium.mods.capturex.render.FFMpegHelper.md)
+## cc.hyperium.mods.autogg.config ##
+[AutoGGConfig](classes/cc.hyperium.mods.autogg.config.AutoGGConfig.md)
 
 ## cc.hyperium.mods.chromahud.api ##
 [TextConfig](classes/cc.hyperium.mods.chromahud.api.TextConfig.md)
@@ -391,11 +440,15 @@
 
 [RatingDisplay](classes/cc.hyperium.mods.chromahud.displayitems.hyperium.RatingDisplay.md)
 
+[MinigameDisplay](classes/cc.hyperium.mods.chromahud.displayitems.hyperium.MinigameDisplay.md)
+
 [LocationDisplay](classes/cc.hyperium.mods.chromahud.displayitems.hyperium.LocationDisplay.md)
 
 [HypixelDisplay](classes/cc.hyperium.mods.chromahud.displayitems.hyperium.HypixelDisplay.md)
 
 [HyperiumInfoDisplay](classes/cc.hyperium.mods.chromahud.displayitems.hyperium.HyperiumInfoDisplay.md)
+
+[DabCounter](classes/cc.hyperium.mods.chromahud.displayitems.hyperium.DabCounter.md)
 
 [CoinsDisplay](classes/cc.hyperium.mods.chromahud.displayitems.hyperium.CoinsDisplay.md)
 
@@ -419,9 +472,6 @@
 
 [PerspectiveModifierContainer](classes/cc.hyperium.mods.common.PerspectiveModifierContainer.md)
 
-## cc.hyperium.mods.comsetics ##
-[AbstractCosmetic](classes/cc.hyperium.mods.comsetics.AbstractCosmetic.md)
-
 ## cc.hyperium.mods.crosshair ##
 [CrosshairType](classes/cc.hyperium.mods.crosshair.CrosshairType.md)
 
@@ -435,6 +485,14 @@
 [RichPresenceUpdater](classes/cc.hyperium.mods.discord.RichPresenceUpdater.md)
 
 [RichPresenceManager](classes/cc.hyperium.mods.discord.RichPresenceManager.md)
+
+## cc.hyperium.mods.hgames ##
+[HGames](classes/cc.hyperium.mods.hgames.HGames.md)
+
+## cc.hyperium.mods.hgames.minigames ##
+[Walls3](classes/cc.hyperium.mods.hgames.minigames.Walls3.md)
+
+[Minigame](classes/cc.hyperium.mods.hgames.minigames.Minigame.md)
 
 ## cc.hyperium.mods.keystrokes ##
 [KeystrokesMod](classes/cc.hyperium.mods.keystrokes.KeystrokesMod.md)
@@ -489,6 +547,16 @@
 [LevelHeadRender](classes/cc.hyperium.mods.levelhead.renderer.LevelHeadRender.md)
 
 [LevelheadComponent](classes/cc.hyperium.mods.levelhead.renderer.LevelheadComponent.md)
+
+## cc.hyperium.mods.memoryfix ##
+[ClassTransformer](classes/cc.hyperium.mods.memoryfix.ClassTransformer.md)
+
+[CapeImageBuffer](classes/cc.hyperium.mods.memoryfix.CapeImageBuffer.md)
+
+## cc.hyperium.mods.oldanimations ##
+[OldAnimations](classes/cc.hyperium.mods.oldanimations.OldAnimations.md)
+
+[AnimationEventHandler](classes/cc.hyperium.mods.oldanimations.AnimationEventHandler.md)
 
 ## cc.hyperium.mods.sk1ercommon ##
 [Sk1erMod](classes/cc.hyperium.mods.sk1ercommon.Sk1erMod.md)
@@ -600,6 +668,9 @@
 ## cc.hyperium.mods.utilities ##
 [UtilitiesMod](classes/cc.hyperium.mods.utilities.UtilitiesMod.md)
 
+## cc.hyperium.network ##
+[NetworkHandler](classes/cc.hyperium.network.NetworkHandler.md)
+
 ## cc.hyperium.purchases ##
 [PurchaseApi](classes/cc.hyperium.purchases.PurchaseApi.md)
 
@@ -610,9 +681,13 @@
 [AbstractHyperiumPurchase](classes/cc.hyperium.purchases.AbstractHyperiumPurchase.md)
 
 ## cc.hyperium.purchases.packages ##
-[EarlyBird](classes/cc.hyperium.purchases.packages.EarlyBird.md)
+[WingCosmetic](classes/cc.hyperium.purchases.packages.WingCosmetic.md)
 
-[CustomLevelhead](classes/cc.hyperium.purchases.packages.CustomLevelhead.md)
+[ParticleBackgroundCosmetic](classes/cc.hyperium.purchases.packages.ParticleBackgroundCosmetic.md)
+
+[KillTrackerMuscles](classes/cc.hyperium.purchases.packages.KillTrackerMuscles.md)
+
+[DabOnKill](classes/cc.hyperium.purchases.packages.DabOnKill.md)
 
 ## cc.hyperium.tray ##
 [TrayManager](classes/cc.hyperium.tray.TrayManager.md)
@@ -637,8 +712,6 @@
 [CachedString](classes/cc.hyperium.utils.CachedString.md)
 
 [BetterJsonObject](classes/cc.hyperium.utils.BetterJsonObject.md)
-
-[BanSystem](classes/cc.hyperium.utils.BanSystem.md)
 
 ## cc.hyperium.utils.mods ##
 [ImgurUploader](classes/cc.hyperium.utils.mods.ImgurUploader.md)

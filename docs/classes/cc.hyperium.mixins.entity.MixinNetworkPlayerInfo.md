@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # MixinNetworkPlayerInfo #
 >#### Class Overview ####
 >No description provided

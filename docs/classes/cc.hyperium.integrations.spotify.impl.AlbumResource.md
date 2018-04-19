@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # AlbumResource #
 >#### Class Overview ####
 >No description provided

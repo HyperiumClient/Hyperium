@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # TypeJoin #
 >#### Class Overview ####
 >No description provided

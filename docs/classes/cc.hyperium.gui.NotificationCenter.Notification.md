@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # NotificationCenter.Notification #
 >#### Class Overview ####
 >No description provided

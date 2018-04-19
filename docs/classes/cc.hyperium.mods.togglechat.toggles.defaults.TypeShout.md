@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # TypeShout #
 >#### Class Overview ####
 >No description provided

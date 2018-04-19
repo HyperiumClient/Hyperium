@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # MixinChunk #
 >#### Class Overview ####
 >No description provided

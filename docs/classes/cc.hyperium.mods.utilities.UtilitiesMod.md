@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # UtilitiesMod #
 >#### Class Overview ####
 >No description provided
@@ -13,10 +13,6 @@
 >No description provided
 >
 ### public Metadata getModMetadata () ###
->#### Method Overview ####
->No description provided
->
-### public KeyBinding getBinding () ###
 >#### Method Overview ####
 >No description provided
 >

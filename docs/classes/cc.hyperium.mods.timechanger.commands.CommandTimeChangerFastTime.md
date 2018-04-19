@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # CommandTimeChangerFastTime #
 >#### Class Overview ####
 >No description provided

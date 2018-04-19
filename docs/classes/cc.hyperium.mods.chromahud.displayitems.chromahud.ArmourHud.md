@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # ArmourHud #
 >#### Class Overview ####
 >Created by Mitchell Katz on 5/29/2017.
@@ -21,6 +21,14 @@
 >No description provided
 >
 ### public void toggleHand () ###
+>#### Method Overview ####
+>No description provided
+>
+### public boolean isArmourOnTop () ###
+>#### Method Overview ####
+>No description provided
+>
+### public void setArmourOnTop (boolean) ###
 >#### Method Overview ####
 >No description provided
 >

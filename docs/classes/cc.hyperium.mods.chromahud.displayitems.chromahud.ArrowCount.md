@@ -1,7 +1,7 @@
-[< Back](..)
+[< Back](../README.md)
 # ArrowCount #
 >#### Class Overview ####
->Created by mitchellkatz on 6/25/17.
+>No description provided
 ## Constructors ##
 ### public ArrowCount (JsonHolder, int) ###
 >#### Constructor Overview ####

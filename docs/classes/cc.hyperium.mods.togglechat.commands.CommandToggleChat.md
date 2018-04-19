@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # CommandToggleChat #
 >#### Class Overview ####
 >The BaseCommand implementation for ToggleChat's command with aliases

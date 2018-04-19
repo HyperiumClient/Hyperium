@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # AbstractMod #
 >#### Class Overview ####
 >A simple interface which allows a built-in mod

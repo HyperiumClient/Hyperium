@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # PrivateMessageChat #
 >#### Class Overview ####
 >No description provided

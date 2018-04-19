@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # NameHistorySettings #
 >#### Class Overview ####
 >No description provided
@@ -7,8 +7,11 @@
 >#### Field Overview ####
 >No description provided
 >
+>**default**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;null
+>
 ## Constructors ##
-### public NameHistorySettings (GuiScreen) ###
+### public NameHistorySettings (HyperiumGui) ###
 >#### Constructor Overview ####
 >No description provided
 >

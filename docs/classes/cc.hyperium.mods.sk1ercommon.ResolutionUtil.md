@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # ResolutionUtil #
 >#### Class Overview ####
 >No description provided

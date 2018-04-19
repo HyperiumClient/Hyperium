@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # BetterJsonObject #
 >#### Class Overview ####
 >The solution to the missing methods in Google's implementation

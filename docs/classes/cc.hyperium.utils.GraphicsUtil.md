@@ -1,11 +1,14 @@
-[< Back](..)
+[< Back](../README.md)
 # GraphicsUtil #
 >#### Class Overview ####
->Created by mitchellkatz on 3/9/18. Designed for production use on Sk1er.club
+>No description provided
 ## Fields ##
 ### public static GraphicsUtil INSTANCE ###
 >#### Field Overview ####
 >No description provided
+>
+>**default**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;null
 >
 ## Methods ##
 ### public CachedString generate (String, int, boolean) ###

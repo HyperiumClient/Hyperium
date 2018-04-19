@@ -1,7 +1,7 @@
-[< Back](..)
+[< Back](../README.md)
 # GeneralConfigGui #
 >#### Class Overview ####
->Created by mitchellkatz on 5/30/17.
+>No description provided
 ## Constructors ##
 ### public GeneralConfigGui (ChromaHUD) ###
 >#### Constructor Overview ####

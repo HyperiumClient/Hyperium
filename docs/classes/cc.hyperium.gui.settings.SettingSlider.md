@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # SettingSlider #
 >#### Class Overview ####
 >No description provided
@@ -7,9 +7,15 @@
 >#### Field Overview ####
 >No description provided
 >
+>**default**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;null
+>
 ### public boolean dragging ###
 >#### Field Overview ####
 >No description provided
+>
+>**default**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;null
 >
 ## Constructors ##
 ### public SettingSlider (int, int, int, String, float) ###

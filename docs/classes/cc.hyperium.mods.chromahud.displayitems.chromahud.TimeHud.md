@@ -1,7 +1,7 @@
-[< Back](..)
+[< Back](../README.md)
 # TimeHud #
 >#### Class Overview ####
->Created by mitchellkatz on 6/26/17.
+>No description provided
 ## Constructors ##
 ### public TimeHud (JsonHolder, int) ###
 >#### Constructor Overview ####

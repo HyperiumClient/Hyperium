@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # KeystrokesSettings #
 >#### Class Overview ####
 >No description provided

@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # MixinGuiIngame #
 >#### Class Overview ####
 >No description provided
@@ -8,6 +8,10 @@
 >No description provided
 >
 ## Methods ##
+### public abstract FontRenderer getFontRenderer () ###
+>#### Method Overview ####
+>No description provided
+>
 ### public void onRenderSelectedItem (ScaledResolution, CallbackInfo) ###
 >#### Method Overview ####
 >No description provided

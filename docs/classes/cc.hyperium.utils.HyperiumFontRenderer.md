@@ -1,7 +1,15 @@
-[< Back](..)
+[< Back](../README.md)
 # HyperiumFontRenderer #
 >#### Class Overview ####
 >No description provided
+## Fields ##
+### public int FONT_HEIGHT ###
+>#### Field Overview ####
+>No description provided
+>
+>**default**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;null
+>
 ## Constructors ##
 ### public HyperiumFontRenderer (String, int, int) ###
 >#### Constructor Overview ####

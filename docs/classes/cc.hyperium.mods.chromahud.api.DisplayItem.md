@@ -1,11 +1,14 @@
-[< Back](..)
+[< Back](../README.md)
 # DisplayItem #
 >#### Class Overview ####
->Created by mitchellkatz on 1/8/18. Designed for production use on Sk1er.club
+>No description provided
 ## Fields ##
 ### protected JsonHolder data ###
 >#### Field Overview ####
 >No description provided
+>
+>**default**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;null
 >
 ## Constructors ##
 ### public DisplayItem (JsonHolder, int) ###

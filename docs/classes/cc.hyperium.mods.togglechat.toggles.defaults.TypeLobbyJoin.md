@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # TypeLobbyJoin #
 >#### Class Overview ####
 >No description provided

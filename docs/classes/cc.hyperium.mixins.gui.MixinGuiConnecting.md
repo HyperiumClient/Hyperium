@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # MixinGuiConnecting #
 >#### Class Overview ####
 >No description provided
