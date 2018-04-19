@@ -5,10 +5,7 @@ import com.google.common.io.Files
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
-import org.apache.commons.io.IOUtils
-import java.io.File
-import java.io.FileOutputStream
-import java.io.InputStream
+import java.io.*
 import java.nio.charset.Charset
 import java.util.jar.JarFile
 
@@ -47,7 +44,7 @@ class AddonManifestParser {
 
             jarInputStream = jar.getInputStream(entry)
             val os = FileOutputStream(jsonFile)
-            IOUtils.copy(jarInputStream, os)
+            copyInputStream(jarInputStream, os)
 
             val contents = Files.toString(jsonFile, Charset.defaultCharset())
 
@@ -96,5 +93,23 @@ class AddonManifestParser {
      */
     override fun toString(): String {
         return json!!.toString()
+    }
+
+    private fun copyInputStream(input: InputStream, output: OutputStream): Int {
+        val count = copyLarge(input, output, ByteArray(1024 * 4))
+        return if (count > Integer.MAX_VALUE) {
+            -1
+        } else count.toInt()
+    }
+
+    @Throws(IOException::class)
+    private fun copyLarge(input: InputStream, output: OutputStream, buffer: ByteArray): Long {
+        var count: Long = 0
+        var n = 0
+        while ({n = input.read(buffer); n}() != -1) {
+            output.write(buffer, 0, n)
+            count += n.toLong()
+        }
+        return count
     }
 }
