@@ -261,6 +261,7 @@ class InstallerConfig extends JFrame {
                     JSONObject j = (JSONObject) o;
                     JRadioButton b = new MaterialRadioButton("Addon :: " + j.getString("name"));
                     b.setFont(f);
+                    b.setEnabled(!j.getString("url").isEmpty());
                     b.addMouseListener(new MouseAdapter() {
                         @Override
                         public void mouseExited(MouseEvent e) {
