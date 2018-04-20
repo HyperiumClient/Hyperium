@@ -228,6 +228,11 @@ public class NotificationCenter extends Gui {
         }
     }
 
+    @InvokeEvent
+    public void onClick(ClickEvent event) {
+        System.out.println("Yes");
+    }
+
     public Notification display(String title, String description, float seconds) {
         return this.display(title, description, seconds, null);
     }
