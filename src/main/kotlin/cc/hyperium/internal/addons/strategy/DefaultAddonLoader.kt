@@ -1,8 +1,11 @@
 package cc.hyperium.internal.addons.strategy
 
+import cc.hyperium.internal.addons.AddonBootstrap
 import cc.hyperium.internal.addons.AddonManifest
 import cc.hyperium.internal.addons.misc.AddonLoadException
 import cc.hyperium.internal.addons.misc.AddonManifestParser
+import net.minecraft.client.resources.FileResourcePack
+import net.minecraft.client.resources.IResourcePack
 import net.minecraft.launchwrapper.Launch
 
 import java.io.File
@@ -30,6 +33,8 @@ class DefaultAddonLoader : AddonLoaderStrategy() {
 
         val jar = JarFile(file)
         val manifest = AddonManifestParser(jar).getAddonManifest()
+
+        AddonBootstrap.addonResourcePacks.add(file)
 
         val uri = file.toURI()
         Launch.classLoader.addURL(uri.toURL())

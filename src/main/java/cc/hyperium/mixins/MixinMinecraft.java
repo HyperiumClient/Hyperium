@@ -173,6 +173,7 @@ import cc.hyperium.SplashProgress;
 import cc.hyperium.event.*;
 import cc.hyperium.gui.settings.items.GeneralSetting;
 import cc.hyperium.handlers.handlers.HypixelDetector;
+import cc.hyperium.internal.addons.AddonBootstrap;
 import cc.hyperium.internal.addons.AddonMinecraftBootstrap;
 import cc.hyperium.internal.addons.IAddon;
 import cc.hyperium.utils.Utils;
@@ -187,6 +188,9 @@ import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.particle.EffectRenderer;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.resources.DefaultResourcePack;
+import net.minecraft.client.resources.FileResourcePack;
+import net.minecraft.client.resources.FolderResourcePack;
+import net.minecraft.client.resources.IResourcePack;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MovingObjectPosition;
@@ -208,8 +212,10 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import java.io.File;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
+import java.util.List;
 
 @Mixin(Minecraft.class)
 public abstract class MixinMinecraft {
@@ -270,6 +276,10 @@ public abstract class MixinMinecraft {
      */
     @Inject(method = "startGame", at = @At("HEAD"))
     private void preinit(CallbackInfo ci) {
+        for (File file : AddonBootstrap.getAddonResourcePacks()) {
+            IResourcePack pack = file.isDirectory() ? new FolderResourcePack(file) : new FileResourcePack(file);
+            this.defaultResourcePacks.add(pack);
+        }
         AddonMinecraftBootstrap.init();
         EventBus.INSTANCE.post(new PreInitializationEvent());
     }
@@ -484,6 +494,8 @@ public abstract class MixinMinecraft {
 
     @Shadow
     public abstract void func_181536_a(int p_181536_1_, int p_181536_2_, int p_181536_3_, int p_181536_4_, int p_181536_5_, int p_181536_6_, int p_181536_7_, int p_181536_8_, int p_181536_9_, int p_181536_10_);
+
+    @Shadow @Final private List<IResourcePack> defaultResourcePacks;
 
     /**
      * change to splash screen logo
