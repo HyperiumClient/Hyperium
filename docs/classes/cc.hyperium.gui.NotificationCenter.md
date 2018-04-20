@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # NotificationCenter #
 >#### Class Overview ####
 >No description provided
@@ -8,6 +8,10 @@
 >No description provided
 >
 ## Methods ##
+### public void onInit (InitializationEvent) ###
+>#### Method Overview ####
+>No description provided
+>
 ### public void tick (TickEvent) ###
 >#### Method Overview ####
 >No description provided

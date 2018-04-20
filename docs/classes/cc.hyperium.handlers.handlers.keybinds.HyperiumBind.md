@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # HyperiumBind #
 >#### Class Overview ####
 >Our implementation of the normal Minecraft KeyBinding, uses anonymous

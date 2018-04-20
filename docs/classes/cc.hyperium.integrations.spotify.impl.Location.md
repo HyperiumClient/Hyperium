@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # Location #
 >#### Class Overview ####
 >No description provided

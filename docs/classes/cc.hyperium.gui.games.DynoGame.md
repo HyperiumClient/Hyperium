@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # DynoGame #
 >#### Class Overview ####
 >No description provided

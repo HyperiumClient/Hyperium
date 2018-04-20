@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # ToggleChatEvents #
 >#### Class Overview ####
 >Handles all the main ToggleChat events for the lightweight
@@ -9,7 +9,7 @@
 >No description provided
 >
 ## Methods ##
-### public void onChatReceive (ChatEvent) ###
+### public void onChatReceive (ServerChatEvent) ###
 >#### Method Overview ####
 >No description provided
 >

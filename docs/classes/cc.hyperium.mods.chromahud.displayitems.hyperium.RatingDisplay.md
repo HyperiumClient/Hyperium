@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # RatingDisplay #
 >#### Class Overview ####
 >No description provided

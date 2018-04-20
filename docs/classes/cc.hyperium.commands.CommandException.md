@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # CommandException #
 >#### Class Overview ####
 >Generic exception for command handling which triggers the message

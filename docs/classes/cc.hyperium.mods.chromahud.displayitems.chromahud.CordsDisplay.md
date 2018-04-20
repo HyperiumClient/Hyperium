@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # CordsDisplay #
 >#### Class Overview ####
 >Created by Mitchell Katz on 5/25/2017.
@@ -7,9 +7,15 @@
 >#### Field Overview ####
 >No description provided
 >
+>**default**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;null
+>
 ### public int precision ###
 >#### Field Overview ####
 >No description provided
+>
+>**default**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;null
 >
 ## Constructors ##
 ### public CordsDisplay (JsonHolder, int) ###

@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # ToggleChatMod #
 >#### Class Overview ####
 >Basically just a lightweight version of ToggleChat

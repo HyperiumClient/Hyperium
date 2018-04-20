@@ -1,7 +1,7 @@
-[< Back](..)
+[< Back](../README.md)
 # ConfigOpt #
 >#### Class Overview ####
->Created by mitchellkatz on 7/1/17.
+>No description provided
 ## Methods ##
 ### public String comment () ###
 >#### Method Overview ####

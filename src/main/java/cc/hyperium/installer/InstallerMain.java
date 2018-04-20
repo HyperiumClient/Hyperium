@@ -17,8 +17,6 @@
 
 package cc.hyperium.installer;
 
-import java.io.File;
-
 public class InstallerMain {
     static ReleaseChannel releaseChannel = ReleaseChannel.DEV;
     /**
@@ -27,17 +25,6 @@ public class InstallerMain {
      * @param args command line argument
      */
     public static void main(String... args) {
-        String mcDir = null;
-        if(args.length > 0)
-            mcDir = args[0];
-        if(args.length > 1)
-            releaseChannel = ReleaseChannel.valueOf(args[1]);
-        if(mcDir!=null)
-            if(!new File(mcDir).exists()){
-                System.out.println("Specified directory does not exist");
-                System.exit(1);
-            }
-        System.out.println("Starting installer...");
-        new InstallerFrame(mcDir);
+         new InstallerConfig();
     }
 }

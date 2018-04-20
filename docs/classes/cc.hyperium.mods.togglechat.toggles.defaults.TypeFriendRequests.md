@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # TypeFriendRequests #
 >#### Class Overview ####
 >No description provided

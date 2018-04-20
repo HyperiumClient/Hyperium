@@ -1,31 +1,21 @@
-[< Back](..)
+[< Back](../README.md)
 # HyperiumChatHandler #
 >#### Class Overview ####
->Created by mitchellkatz on 2/14/18. Designed for production use on Sk1er.club
+>No description provided
 ## Fields ##
 ### protected static HyperiumResource regexs ###
 >#### Field Overview ####
 >No description provided
 >
-### protected static Pattern guildChatPattern ###
+>**default**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;null
+>
+### protected static Map regexPatterns ###
 >#### Field Overview ####
 >No description provided
 >
-### protected static Pattern partyChatPattern ###
->#### Field Overview ####
->No description provided
->
-### protected static Pattern skywarsRankedRating ###
->#### Field Overview ####
->No description provided
->
-### protected static Pattern privateMessageTo ###
->#### Field Overview ####
->No description provided
->
-### protected static Pattern privateMessageFrom ###
->#### Field Overview ####
->No description provided
+>**default**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;null
 >
 ## Constructors ##
 ### public HyperiumChatHandler () ###
@@ -50,6 +40,10 @@
 >
 >**text**<br />
 >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pure text for parsign
+>
+### public void callback (JsonHolder) ###
+>#### Method Overview ####
+>No description provided
 >
 
 ---

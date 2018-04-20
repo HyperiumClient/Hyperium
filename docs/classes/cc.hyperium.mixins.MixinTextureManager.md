@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # MixinTextureManager #
 >#### Class Overview ####
 >No description provided

@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # HypixelDetector #
 >#### Class Overview ####
 >No description provided
@@ -29,6 +29,10 @@
 >No description provided
 >
 ### public boolean isHypixel () ###
+>#### Method Overview ####
+>No description provided
+>
+### public boolean isBadlion () ###
 >#### Method Overview ####
 >No description provided
 >

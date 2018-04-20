@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # Spotify #
 >#### Class Overview ####
 >converted from https://github.com/onetune/spotify-web-helper/blob/master/index.js

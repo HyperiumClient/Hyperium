@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # SkinChangerGui #
 >#### Class Overview ####
 >No description provided

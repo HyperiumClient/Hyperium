@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # MixinScreenShotHelper #
 >#### Class Overview ####
 >No description provided

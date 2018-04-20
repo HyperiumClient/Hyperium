@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # MixinEntityLivingBase #
 >#### Class Overview ####
 >No description provided

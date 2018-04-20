@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # MixinC01PacketChatMessage #
 >#### Class Overview ####
 >No description provided

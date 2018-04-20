@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # CommandSkinChanger #
 >#### Class Overview ####
 >No description provided

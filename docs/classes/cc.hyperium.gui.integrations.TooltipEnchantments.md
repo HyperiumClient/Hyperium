@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # TooltipEnchantments #
 >#### Class Overview ####
 >No description provided

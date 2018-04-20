@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # ChromaHUD #
 >#### Class Overview ####
 >No description provided
@@ -7,9 +7,15 @@
 >#### Field Overview ####
 >No description provided
 >
+>**default**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ChromaHUD
+>
 ### public static final String VERSION ###
 >#### Field Overview ####
 >No description provided
+>
+>**default**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3.0
 >
 ## Constructors ##
 ### public ChromaHUD () ###
@@ -17,6 +23,14 @@
 >No description provided
 >
 ## Methods ##
+### public AbstractMod init () ###
+>#### Method Overview ####
+>No description provided
+>
+### public Metadata getModMetadata () ###
+>#### Method Overview ####
+>No description provided
+>
 ### public void setup () ###
 >#### Method Overview ####
 >No description provided

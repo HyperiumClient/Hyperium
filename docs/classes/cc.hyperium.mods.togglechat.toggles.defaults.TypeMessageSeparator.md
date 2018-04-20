@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # TypeMessageSeparator #
 >#### Class Overview ####
 >No description provided

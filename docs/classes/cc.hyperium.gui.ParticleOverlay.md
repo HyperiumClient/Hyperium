@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # ParticleOverlay #
 >#### Class Overview ####
 >No description provided
@@ -13,6 +13,10 @@
 >No description provided
 >
 ### public static ParticleOverlay getOverlay () ###
+>#### Method Overview ####
+>No description provided
+>
+### public boolean purchased () ###
 >#### Method Overview ####
 >No description provided
 >

@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # MixinMathHelper #
 >#### Class Overview ####
 >No description provided

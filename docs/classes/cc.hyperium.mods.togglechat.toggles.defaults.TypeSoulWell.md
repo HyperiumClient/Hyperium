@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # TypeSoulWell #
 >#### Class Overview ####
 >No description provided

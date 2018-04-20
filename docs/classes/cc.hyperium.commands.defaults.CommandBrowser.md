@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # CommandBrowser #
 >#### Class Overview ####
 >No description provided
@@ -21,10 +21,6 @@
 >No description provided
 >
 ### public void onExecute (String[]) ###
->#### Method Overview ####
->No description provided
->
-### public List onTabComplete (String[]) ###
 >#### Method Overview ####
 >No description provided
 >

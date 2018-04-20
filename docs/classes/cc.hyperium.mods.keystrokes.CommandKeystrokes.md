@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # CommandKeystrokes #
 >#### Class Overview ####
 >No description provided
@@ -9,6 +9,10 @@
 >
 ## Methods ##
 ### public String getName () ###
+>#### Method Overview ####
+>No description provided
+>
+### public List getCommandAliases () ###
 >#### Method Overview ####
 >No description provided
 >

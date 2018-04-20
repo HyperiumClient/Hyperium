@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # HyperiumSlider #
 >#### Class Overview ####
 >No description provided

@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # AbstractMod.Metadata #
 >#### Class Overview ####
 >The Metadata implementation, created to identify built-in

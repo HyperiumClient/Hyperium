@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # MixinFrameBuffer #
 >#### Class Overview ####
 >No description provided

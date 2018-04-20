@@ -1,7 +1,7 @@
-[< Back](..)
+[< Back](../README.md)
 # CommandChromaHUD #
 >#### Class Overview ####
->Created by mitchellkatz on 2/19/18.
+>No description provided
 ## Constructors ##
 ### public CommandChromaHUD (ChromaHUD) ###
 >#### Constructor Overview ####

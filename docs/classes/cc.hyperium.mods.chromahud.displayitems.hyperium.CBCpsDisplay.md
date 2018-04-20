@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # CBCpsDisplay #
 >#### Class Overview ####
 >No description provided

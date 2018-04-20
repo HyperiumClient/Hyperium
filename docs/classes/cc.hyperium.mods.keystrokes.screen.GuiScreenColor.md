@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # GuiScreenColor #
 >#### Class Overview ####
 >No description provided

@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # PerspectiveModifierContainer #
 >#### Class Overview ####
 >The perspective mod handler
@@ -7,9 +7,15 @@
 >#### Field Overview ####
 >No description provided
 >
+>**default**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;null
+>
 ### public float modifiedPitch ###
 >#### Field Overview ####
 >No description provided
+>
+>**default**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;null
 >
 ## Constructors ##
 ### public PerspectiveModifierContainer () ###

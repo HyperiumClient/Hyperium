@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # OpenStateGraph #
 >#### Class Overview ####
 >No description provided

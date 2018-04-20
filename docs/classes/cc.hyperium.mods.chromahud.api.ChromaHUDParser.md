@@ -1,7 +1,7 @@
-[< Back](..)
+[< Back](../README.md)
 # ChromaHUDParser #
 >#### Class Overview ####
->Created by mitchellkatz on 1/8/18. Designed for production use on Sk1er.club
+>No description provided
 ## Methods ##
 ### public DisplayItem parse (String, int, JsonHolder) ###
 >#### Method Overview ####

@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # TimeChanger #
 >#### Class Overview ####
 >No description provided

@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # MixinEnchantment #
 >#### Class Overview ####
 >No description provided

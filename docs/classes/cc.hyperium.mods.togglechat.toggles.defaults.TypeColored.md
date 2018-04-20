@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # TypeColored #
 >#### Class Overview ####
 >No description provided

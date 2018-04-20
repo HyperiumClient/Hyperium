@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # FPSLimiter #
 >#### Class Overview ####
 >No description provided
@@ -13,6 +13,10 @@
 >No description provided
 >
 ### public static boolean shouldLimitFramerate () ###
+>#### Method Overview ####
+>No description provided
+>
+### public boolean isLimbo () ###
 >#### Method Overview ####
 >No description provided
 >

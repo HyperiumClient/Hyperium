@@ -1,7 +1,7 @@
-[< Back](..)
+[< Back](../README.md)
 # CoinsDisplay #
 >#### Class Overview ####
->Created by mitchellkatz on 2/26/18. Designed for production use on Sk1er.club
+>No description provided
 ## Constructors ##
 ### public CoinsDisplay (JsonHolder, int) ###
 >#### Constructor Overview ####

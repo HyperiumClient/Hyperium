@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # TypeMessages #
 >#### Class Overview ####
 >No description provided

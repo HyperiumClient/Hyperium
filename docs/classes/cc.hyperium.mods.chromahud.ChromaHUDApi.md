@@ -1,11 +1,14 @@
-[< Back](..)
+[< Back](../README.md)
 # ChromaHUDApi #
 >#### Class Overview ####
->Created by mitchellkatz on 1/8/18. Designed for production use on Sk1er.club
+>No description provided
 ## Fields ##
 ### public static final String VERSION ###
 >#### Field Overview ####
 >No description provided
+>
+>**default**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3.0-Hyperium
 >
 ## Methods ##
 ### public static ChromaHUDApi getInstance () ###

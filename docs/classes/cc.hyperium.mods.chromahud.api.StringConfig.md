@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # StringConfig #
 >#### Class Overview ####
 >No description provided

@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # MixinRendererLivingEntity #
 >#### Class Overview ####
 >No description provided
@@ -6,6 +6,9 @@
 ### protected List layerRenderers ###
 >#### Field Overview ####
 >No description provided
+>
+>**default**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;null
 >
 ## Constructors ##
 ### protected MixinRendererLivingEntity (RenderManager) ###

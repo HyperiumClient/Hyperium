@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # RichPresenceUpdater #
 >#### Class Overview ####
 >No description provided

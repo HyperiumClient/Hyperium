@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # MixinKeyBinding #
 >#### Class Overview ####
 >No description provided

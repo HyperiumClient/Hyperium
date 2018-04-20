@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # HyperiumModIntegration #
 >#### Class Overview ####
 >Basic inbuilt mod handler, including many community mods such as
@@ -9,14 +9,28 @@
 >No description provided
 >
 ## Methods ##
-### public Autotip getAutotip () ###
+### public AbstractMod getAutotip () ###
 >#### Method Overview ####
 >A getter for the running Autotip instance
 >
 >**returns**<br />
 >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the running Autotip instance
 >
-### public ChromaHUD getChromaHUD () ###
+### public AbstractMod getAutoGG () ###
+>#### Method Overview ####
+>A getter for the running AutoGG instance
+>
+>**returns**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the running AutoGG instance
+>
+### public AbstractMod getHGames () ###
+>#### Method Overview ####
+>A getter for the running HGames instance
+>
+>**returns**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the running HGames instance
+>
+### public AbstractMod getChromaHUD () ###
 >#### Method Overview ####
 >A getter for the running ChromeHUD instance
 >

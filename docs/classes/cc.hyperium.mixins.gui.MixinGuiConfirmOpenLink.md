@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # MixinGuiConfirmOpenLink #
 >#### Class Overview ####
 >No description provided

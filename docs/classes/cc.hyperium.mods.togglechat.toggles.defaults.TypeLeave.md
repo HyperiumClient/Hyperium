@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # TypeLeave #
 >#### Class Overview ####
 >No description provided

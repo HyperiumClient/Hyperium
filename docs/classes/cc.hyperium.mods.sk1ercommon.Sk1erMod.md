@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # Sk1erMod #
 >#### Class Overview ####
 >Created by Mitchell Katz on 6/8/2017.

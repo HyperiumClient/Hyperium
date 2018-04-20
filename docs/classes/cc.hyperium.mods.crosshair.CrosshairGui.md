@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # CrosshairGui #
 >#### Class Overview ####
 >No description provided

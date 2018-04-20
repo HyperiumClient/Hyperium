@@ -1,15 +1,21 @@
-[< Back](..)
+[< Back](../README.md)
 # Dimension #
 >#### Class Overview ####
->Created by mitchellkatz on 1/8/18. Designed for production use on Sk1er.club
+>No description provided
 ## Fields ##
 ### protected double width ###
 >#### Field Overview ####
 >No description provided
 >
+>**default**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;null
+>
 ### protected double height ###
 >#### Field Overview ####
 >No description provided
+>
+>**default**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;null
 >
 ## Constructors ##
 ### public Dimension () ###

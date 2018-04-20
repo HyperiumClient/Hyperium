@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # HypixelFriendsGui #
 >#### Class Overview ####
 >No description provided

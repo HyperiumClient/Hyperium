@@ -1,7 +1,7 @@
-[< Back](..)
+[< Back](../README.md)
 # GuiBlock #
 >#### Class Overview ####
->Created by mitchellkatz on 2/15/18. Designed for production use on Sk1er.club
+>No description provided
 ## Constructors ##
 ### public GuiBlock (int, int, int, int) ###
 >#### Constructor Overview ####

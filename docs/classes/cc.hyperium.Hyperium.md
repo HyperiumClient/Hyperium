@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # Hyperium #
 >#### Class Overview ####
 >Hypixel Community Client
@@ -7,21 +7,36 @@
 >#### Field Overview ####
 >The hyperium instance
 >
+>**default**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;null
+>
 ### public static final Logger LOGGER ###
 >#### Field Overview ####
 >Instance of the global mod LOGGER
+>
+>**default**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;null
 >
 ### public static File folder ###
 >#### Field Overview ####
 >The Hyperium configuration folder
 >
+>**default**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;null
+>
 ### public static final DefaultConfig CONFIG ###
 >#### Field Overview ####
 >Instance of default CONFIG
 >
-### public static BanSystem banSystem ###
+>**default**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;null
+>
+### public static boolean updateQueue ###
 >#### Field Overview ####
 >No description provided
+>
+>**default**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;null
 >
 ## Constructors ##
 ### public Hyperium () ###
@@ -29,6 +44,14 @@
 >No description provided
 >
 ## Methods ##
+### public MinigameListener getMinigameListener () ###
+>#### Method Overview ####
+>No description provided
+>
+### public void preinit (PreInitializationEvent) ###
+>#### Method Overview ####
+>No description provided
+>
 ### public void init (InitializationEvent) ###
 >#### Method Overview ####
 >No description provided
@@ -36,14 +59,6 @@
 >### Parameters ###
 >**event**<br />
 >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;initialize Hyperium
->
-### public void onFriendRequest (HypixelFriendRequestEvent) ###
->#### Method Overview ####
->called when receive friend request
->
->### Parameters ###
->**event**<br />
->&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the event
 >
 ### public GeneralStatisticsTracking getStatTrack () ###
 >#### Method Overview ####
@@ -73,7 +88,11 @@
 >#### Method Overview ####
 >No description provided
 >
-### public void toggleFullscreen () ###
+### public ConfirmationPopup getConfirmation () ###
+>#### Method Overview ####
+>No description provided
+>
+### public HyperiumCosmetics getCosmetics () ###
 >#### Method Overview ####
 >No description provided
 >

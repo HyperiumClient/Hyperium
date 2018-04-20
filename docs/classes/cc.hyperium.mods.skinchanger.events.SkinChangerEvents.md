@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # SkinChangerEvents #
 >#### Class Overview ####
 >The EventHandler for SkinChanger which loads the skins

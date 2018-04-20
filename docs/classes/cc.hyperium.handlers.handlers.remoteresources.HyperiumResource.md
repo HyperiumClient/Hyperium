@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # HyperiumResource #
 >#### Class Overview ####
 >No description provided

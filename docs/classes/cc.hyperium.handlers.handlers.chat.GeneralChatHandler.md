@@ -1,7 +1,7 @@
-[< Back](..)
+[< Back](../README.md)
 # GeneralChatHandler #
 >#### Class Overview ####
->Created by mitchellkatz on 2/14/18. Designed for production use on Sk1er.club
+>No description provided
 ## Constructors ##
 ### public GeneralChatHandler (List) ###
 >#### Constructor Overview ####
@@ -29,6 +29,10 @@
 >No description provided
 >
 ### public void chatEvent (ChatEvent) ###
+>#### Method Overview ####
+>No description provided
+>
+### public void post () ###
 >#### Method Overview ####
 >No description provided
 >

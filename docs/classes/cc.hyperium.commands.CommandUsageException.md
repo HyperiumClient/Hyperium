@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # CommandUsageException #
 >#### Class Overview ####
 >An exception caused by invalid command usage, will log the command

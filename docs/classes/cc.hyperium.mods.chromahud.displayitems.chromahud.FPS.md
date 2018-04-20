@@ -1,7 +1,7 @@
-[< Back](..)
+[< Back](../README.md)
 # FPS #
 >#### Class Overview ####
->Created by mitchellkatz on 5/30/17.
+>No description provided
 ## Constructors ##
 ### public FPS (JsonHolder, int) ###
 >#### Constructor Overview ####

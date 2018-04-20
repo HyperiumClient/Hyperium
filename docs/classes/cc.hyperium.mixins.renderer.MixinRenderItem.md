@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # MixinRenderItem #
 >#### Class Overview ####
 >A Mixin to the RenderItem class to provide ShinyPots support, not to be confused with the

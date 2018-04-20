@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # HyperiumCommandHandler #
 >#### Class Overview ####
 >This is our custom client-side command implementation, it handles most of the

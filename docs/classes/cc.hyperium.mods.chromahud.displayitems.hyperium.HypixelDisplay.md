@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # HypixelDisplay #
 >#### Class Overview ####
 >No description provided

@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # MixinInventoryParticle #
 >#### Class Overview ####
 >No description provided
@@ -7,13 +7,22 @@
 >#### Field Overview ####
 >No description provided
 >
+>**default**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;null
+>
 ### protected int guiTop ###
 >#### Field Overview ####
 >No description provided
 >
+>**default**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;null
+>
 ### protected int xSize ###
 >#### Field Overview ####
 >No description provided
+>
+>**default**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;null
 >
 ## Constructors ##
 ### public MixinInventoryParticle () ###

@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # ToggleChatSettings #
 >#### Class Overview ####
 >Hyperium implementation of the ToggleChat settings gui

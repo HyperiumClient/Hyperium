@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # MixinEntityPlayerSP #
 >#### Class Overview ####
 >No description provided
@@ -6,6 +6,9 @@
 ### protected Minecraft mc ###
 >#### Field Overview ####
 >No description provided
+>
+>**default**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;null
 >
 ## Constructors ##
 ### public MixinEntityPlayerSP () ###

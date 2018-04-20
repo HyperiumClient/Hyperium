@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # CommandPrivateMessage #
 >#### Class Overview ####
 >No description provided

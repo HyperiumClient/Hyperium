@@ -1,7 +1,7 @@
-[< Back](..)
+[< Back](../README.md)
 # Sk1erException #
 >#### Class Overview ####
->Created by mitchellkatz on 6/1/17.
+>No description provided
 ## Constructors ##
 ### public Sk1erException (String) ###
 >#### Constructor Overview ####

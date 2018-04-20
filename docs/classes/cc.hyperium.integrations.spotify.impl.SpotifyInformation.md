@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # SpotifyInformation #
 >#### Class Overview ####
 >No description provided

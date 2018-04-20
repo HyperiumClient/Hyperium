@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # PrivateMessageHandler #
 >#### Class Overview ####
 >No description provided

@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # ReleaseChannel #
 >#### Class Overview ####
 >No description provided
@@ -7,13 +7,22 @@
 >#### Field Overview ####
 >No description provided
 >
+>**default**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;null
+>
 ### public static final ReleaseChannel DEV ###
 >#### Field Overview ####
 >No description provided
 >
+>**default**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;null
+>
 ### public static final ReleaseChannel LOCAL ###
 >#### Field Overview ####
 >No description provided
+>
+>**default**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;null
 >
 ## Methods ##
 ### public static ReleaseChannel values () ###

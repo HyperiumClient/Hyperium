@@ -1,7 +1,7 @@
-[< Back](..)
+[< Back](../README.md)
 # LevelheadComponent #
 >#### Class Overview ####
->Created by mitchellkatz on 12/22/17. Designed for production use on Levelhead
+>No description provided
 ## Constructors ##
 ### public LevelheadComponent (String) ###
 >#### Constructor Overview ####

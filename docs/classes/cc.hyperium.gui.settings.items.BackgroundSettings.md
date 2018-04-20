@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # BackgroundSettings #
 >#### Class Overview ####
 >No description provided
@@ -7,28 +7,46 @@
 >#### Field Overview ####
 >No description provided
 >
+>**default**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;null
+>
 ### public static boolean fastWorldGuiEnabled ###
 >#### Field Overview ####
 >No description provided
+>
+>**default**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;null
 >
 ### public static boolean fastChatEnabled ###
 >#### Field Overview ####
 >No description provided
 >
+>**default**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;null
+>
 ### public static String particlesModeString ###
 >#### Field Overview ####
 >No description provided
+>
+>**default**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;null
 >
 ### public static int maxParticles ###
 >#### Field Overview ####
 >No description provided
 >
+>**default**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;null
+>
 ### public static boolean renderOverInventory ###
 >#### Field Overview ####
 >No description provided
 >
+>**default**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;null
+>
 ## Constructors ##
-### public BackgroundSettings (GuiScreen) ###
+### public BackgroundSettings (HyperiumGui) ###
 >#### Constructor Overview ####
 >No description provided
 >

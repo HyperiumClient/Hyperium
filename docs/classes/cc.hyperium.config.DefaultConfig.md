@@ -1,7 +1,7 @@
-[< Back](..)
+[< Back](../README.md)
 # DefaultConfig #
 >#### Class Overview ####
->Created by mitchellkatz on 7/1/17.
+>No description provided
 ## Constructors ##
 ### public DefaultConfig (File) ###
 >#### Constructor Overview ####

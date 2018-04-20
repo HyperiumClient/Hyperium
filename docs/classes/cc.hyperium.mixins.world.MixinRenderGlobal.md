@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # MixinRenderGlobal #
 >#### Class Overview ####
 >No description provided

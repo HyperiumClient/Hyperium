@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # MixinProfiler #
 >#### Class Overview ####
 >No description provided
@@ -6,6 +6,9 @@
 ### public boolean profilingEnabled ###
 >#### Field Overview ####
 >Flag profiling enabled
+>
+>**default**<br />
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;null
 >
 ## Constructors ##
 ### public MixinProfiler () ###

@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # SkinChangerConfig #
 >#### Class Overview ####
 >No description provided

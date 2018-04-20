@@ -1,4 +1,4 @@
-[< Back](..)
+[< Back](../README.md)
 # DisplayElement #
 >#### Class Overview ####
 >Created by Mitchell Katz on 5/25/2017.
@@ -20,14 +20,6 @@
 >#### Method Overview ####
 >No description provided
 >
-### public double getBrightness () ###
->#### Method Overview ####
->No description provided
->
-### public void setBrightness (double) ###
->#### Method Overview ####
->No description provided
->
 ### public String toString () ###
 >#### Method Overview ####
 >No description provided
@@ -41,10 +33,6 @@
 >No description provided
 >
 ### public void recalculateColor () ###
->#### Method Overview ####
->No description provided
->
-### public void reformatColor () ###
 >#### Method Overview ####
 >No description provided
 >
@@ -149,6 +137,14 @@
 >No description provided
 >
 ### public JsonHolder getData () ###
+>#### Method Overview ####
+>No description provided
+>
+### public boolean isSelected () ###
+>#### Method Overview ####
+>No description provided
+>
+### public void setSelected (boolean) ###
 >#### Method Overview ####
 >No description provided
 >
