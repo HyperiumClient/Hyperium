@@ -177,8 +177,14 @@ import cc.hyperium.utils.HyperiumFontRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.texture.DynamicTexture;
+import net.minecraft.event.ClickEvent;
+import net.minecraft.util.ResourceLocation;
+import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -198,11 +204,6 @@ public class NotificationCenter extends Gui {
         for (int i = 0; i < 5; i++)
             this.mouseState.put(i, false);
         draggedState = new HashMap<>();*/
-    }
-
-    @InvokeEvent
-    public void onInit(InitializationEvent event){
-
     }
 
     @InvokeEvent
@@ -228,7 +229,11 @@ public class NotificationCenter extends Gui {
     }
 
     public Notification display(String title, String description, float seconds) {
-        Notification notif = new Notification(title, description, (int) (seconds * 20));
+        return this.display(title, description, seconds, null);
+    }
+
+    public Notification display(String title, String description, float seconds, BufferedImage img) {
+        Notification notif = new Notification(title, description, (int) (seconds * 20), img);
 
         try {
             notifications.add(notif);
@@ -308,8 +313,16 @@ public class NotificationCenter extends Gui {
         private int lowerThreshold;
         private boolean dragging = false;
         private Runnable clickedCallback;
+        private DynamicTexture img = null;
+        private final int imgSize = 256;
+        private final double imgScale = 0.125;
+        final int imgXMargins = 25;
 
         public Notification(String title, String description, int ticksLeft) {
+            this(title, description, ticksLeft, null);
+        }
+
+        public Notification(String title, String description, int ticksLeft, BufferedImage img) {
             this.title = title;
             this.description = description;
             this.ticksLeft = ticksLeft;
@@ -321,6 +334,9 @@ public class NotificationCenter extends Gui {
 
             this.clickedCallback = () -> {
             };
+            Minecraft.getMinecraft().addScheduledTask(() -> {
+                this.img = img != null ? new DynamicTexture(img) : null;
+            });
         }
 
         public void setClickedCallback(Runnable runnable) {
@@ -428,6 +444,24 @@ public class NotificationCenter extends Gui {
 //                    (int) (y + 5 + fontRenderer.getHeight(title) + 2),
 //                    0x424242
 //            );
+
+            // Notification Image
+            if(img != null) {
+                GlStateManager.color(1, 1, 1, 1);
+                GlStateManager.scale(imgScale, imgScale, imgScale);
+                GlStateManager.bindTexture(img.getGlTextureId());
+                GlStateManager.enableTexture2D();
+                drawTexturedModalRect(
+                        (float) ((x + width) / imgScale - imgSize - imgXMargins),
+                        (float) (y / imgScale + ((height / imgScale) - imgSize) / 2),
+                        0,
+                        0,
+                        imgSize,
+                        imgSize);
+                GlStateManager.scale(1 / imgScale, 1 / imgScale, 1 / imgScale);
+            }
+
+
 //            GlStateManager.popMatrix();
 
         }
