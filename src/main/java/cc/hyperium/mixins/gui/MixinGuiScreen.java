@@ -17,7 +17,11 @@
 
 package cc.hyperium.mixins.gui;
 
+import cc.hyperium.event.EventBus;
+import cc.hyperium.event.GuiClickEvent;
+import cc.hyperium.event.SendChatMessageEvent;
 import cc.hyperium.gui.settings.items.BackgroundSettings;
+import cc.hyperium.utils.ChatUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import org.spongepowered.asm.mixin.Mixin;
@@ -34,6 +38,15 @@ public abstract class MixinGuiScreen {
     @Inject(method = "drawWorldBackground", at = @At("HEAD"), cancellable = true)
     private void drawWorldBackground(int tint, CallbackInfo ci) {
         if (this.mc.theWorld != null && BackgroundSettings.fastWorldGuiEnabled) {
+            ci.cancel();
+        }
+    }
+
+    @Inject(method = "mouseClicked", at = @At("HEAD"), cancellable = true)
+    private void mouseClicked(int mouseX, int mouseY, int mouseButton, CallbackInfo ci) {
+        final GuiClickEvent event = new GuiClickEvent(mouseX, mouseY, mouseButton, null); // TODO pass this GUI
+        EventBus.INSTANCE.post(event);
+        if (event.isCancelled()) {
             ci.cancel();
         }
     }
