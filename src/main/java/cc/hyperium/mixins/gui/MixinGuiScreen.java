@@ -19,9 +19,7 @@ package cc.hyperium.mixins.gui;
 
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.GuiClickEvent;
-import cc.hyperium.event.SendChatMessageEvent;
 import cc.hyperium.gui.settings.items.BackgroundSettings;
-import cc.hyperium.utils.ChatUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import org.spongepowered.asm.mixin.Mixin;
