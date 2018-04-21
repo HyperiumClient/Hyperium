@@ -18,6 +18,7 @@
 package cc.hyperium.mods;
 
 import cc.hyperium.mods.autogg.AutoGG;
+import cc.hyperium.mods.blockoverlay.BlockOverlay;
 import cc.hyperium.mods.hgames.HGames;
 import cc.hyperium.mods.keystrokes.KeystrokesMod;
 import cc.hyperium.mods.oldanimations.OldAnimations;
@@ -48,6 +49,7 @@ public class HyperiumModIntegration {
     private AbstractMod autogg;
     private AbstractMod oldanimations;
     private AbstractMod hgames;
+    private AbstractMod blockOverlay;
     
     public HyperiumModIntegration() {
         // ChromaHud implementation
@@ -81,6 +83,8 @@ public class HyperiumModIntegration {
         this.hgames = new HGames().init();
 
         this.oldanimations = new OldAnimations().init();
+
+        this.blockOverlay = new BlockOverlay().init();
     }
     
     /**
