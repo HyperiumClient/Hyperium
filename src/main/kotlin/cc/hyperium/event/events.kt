@@ -23,13 +23,13 @@ import net.minecraft.client.entity.AbstractClientPlayer
 import net.minecraft.client.gui.GuiScreen
 import net.minecraft.client.gui.ScaledResolution
 import net.minecraft.client.model.ModelBiped
+import net.minecraft.client.renderer.RenderGlobal
 import net.minecraft.client.renderer.entity.RenderManager
 import net.minecraft.entity.Entity
+import net.minecraft.entity.player.EntityPlayer
+import net.minecraft.item.ItemStack
 import net.minecraft.scoreboard.ScoreObjective
-import net.minecraft.util.BlockPos
-import net.minecraft.util.IChatComponent
-import net.minecraft.util.ResourceLocation
-import net.minecraft.util.Vec3
+import net.minecraft.util.*
 import java.lang.reflect.Method
 import java.util.*
 
@@ -207,9 +207,11 @@ class KillEvent(val user: String)
 class EntityRenderEvent(val entityIn: Entity,
                         val model: ModelBiped, val p_78088_2_: Float,
                         val p_78088_3_: Float, val p_78088_4_: Float,
-                        val p_78088_5_: Float, val p_78088_6_: Float, val scale: Float): CancellableEvent()
+                        val p_78088_5_: Float, val p_78088_6_: Float, val scale: Float) : CancellableEvent()
 
 /**
  * Invoked when the scoreboard is rendered
  */
-class RenderScoreboardEvent(val x: Double, val y: Double, val objective: ScoreObjective, val resolution: ScaledResolution): CancellableEvent()
+class RenderScoreboardEvent(val x: Double, val y: Double, val objective: ScoreObjective, val resolution: ScaledResolution) : CancellableEvent()
+
+class DrawBlockHighlightEvent(val context: RenderGlobal, val player: EntityPlayer, val target: MovingObjectPosition, val subID: Int, val currentItem: ItemStack, val partialTicks: Float) : CancellableEvent()
