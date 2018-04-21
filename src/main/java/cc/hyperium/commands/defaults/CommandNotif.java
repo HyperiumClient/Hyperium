@@ -55,7 +55,9 @@ public class CommandNotif implements BaseCommand {
                 HttpURLConnection httpcon = (HttpURLConnection) url.openConnection();
                 httpcon.addRequestProperty("User-Agent", "");
                 Hyperium.INSTANCE.getNotification().display("Hey, Vsauce! Michael here.", "Are you a camel?",
-                        5, ImageIO.read(httpcon.getInputStream()), null, new Color(137, 244, 66));
+                        5, ImageIO.read(httpcon.getInputStream()), () -> {
+                            System.out.println("HELLO");
+                        }, new Color(137, 244, 66));
             } catch (IOException e) {
                 e.printStackTrace();
             }

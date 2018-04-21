@@ -201,6 +201,7 @@ public class NotificationCenter extends Gui {
     private Notification currentNotification;
     /**
      * Font renderer to use
+     * TODO
      */
     private HyperiumFontRenderer fontRenderer;
 
@@ -210,13 +211,7 @@ public class NotificationCenter extends Gui {
 
     @InvokeEvent
     private void tick(TickEvent ev) {
-        if (currentNotification == null) {
-            currentNotification = notifications.poll();
-
-            return;
-        }
-
-        if (currentNotification.tick()) {
+        if (currentNotification == null || currentNotification.tick()) {
             currentNotification = notifications.poll();
         }
     }
@@ -230,7 +225,18 @@ public class NotificationCenter extends Gui {
 
     @InvokeEvent
     private void onClick(GuiClickEvent event) {
-        if(currentNotification != null) {
+        if(currentNotification != null && currentNotification.clickedCallback != null) {
+            final ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
+            final int left = currentNotification.getX(sr);
+            final int top = currentNotification.getY(sr);
+            final int right = left + currentNotification.width;
+            final int bottom = top + currentNotification.height;
+            final int mouseX = event.getMouseX();
+            final int mouseY = event.getMouseY();
+
+            if(mouseX > left && mouseX < right && mouseY > top && mouseY < bottom) {
+                currentNotification.clickedCallback.run();
+            }
 
         }
     }
@@ -486,17 +492,11 @@ public class NotificationCenter extends Gui {
         }
 
         /**
-         * Render this notification
+         * Update percentage completed on the notification
+         * @return New percentage completed
          */
-        public void render() {
-            if (ticksLeft <= 0)
-                return;
-
-            if (fontRenderer == null)
-                fontRenderer = new HyperiumFontRenderer("Arial", Font.PLAIN, 18);
-
-            // Update percentage
-            this.percentComplete = clamp(
+        float updatePercentage() {
+            return this.percentComplete = clamp(
                     easeOut(
                             this.percentComplete,
                             this.ticksLeft < lowerThreshold ? 0.0f :
@@ -507,25 +507,56 @@ public class NotificationCenter extends Gui {
                     0.0f,
                     1.0f
             );
+        }
+
+        /**
+         * Get the X location of the top left corner of the notification
+         * @return X location
+         */
+        public int getX(ScaledResolution sr) {
+            return (int) (sr.getScaledWidth() - (width * updatePercentage()));
+        }
+
+        /**
+         * Get the Y location of the top left corner of the notification
+         * @return Y Location
+         */
+        public int getY(ScaledResolution sr) {
+            return sr.getScaledHeight() - height - bottomMargins;
+        }
+
+        /**
+         * Render this notification
+         */
+        public void render() {
+            if (ticksLeft <= 0)
+                return;
+
+            if (fontRenderer == null)
+                fontRenderer = new HyperiumFontRenderer("Arial", Font.PLAIN, 18);
 
             final ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
 
+            // Update percentage -- Called in getX()
+            // updatePercentage();
+            final int x = getX(sr);
+            final int y = getY(sr);
 
-            int x = (int) (sr.getScaledWidth() - (width * this.percentComplete));
-            int y = sr.getScaledHeight() - height - bottomMargins;
-            float alpha = 255 /* * clamp(this.percentComplete, 0.5f, 1.0f)*/;
+            final int alpha = (int) clamp(this.percentComplete * 255, 127, 255);
 
             // Background
             Gui.drawRect(x, y, x + width, y + height,
-                    new Color(30, 30, 30, (int) alpha).getRGB());
+                    new Color(30, 30, 30, alpha).getRGB());
+            GlStateManager.enableBlend();
 
             // Highlight color
             setHighlightColor(highlightColor); // Anti-NPE
-            drawRect(x, y, x + highlightBarWidth, y + height, highlightColor.getRGB());
+            drawRect(x, y, x + highlightBarWidth, y + height, highlightColor.getRGB() | alpha << 24);
+            GlStateManager.enableBlend();
 
             // Title Text
             Minecraft.getMinecraft().fontRendererObj.drawString(trimString(String.valueOf(title), width - rightMargins,
-                    null, true), x + highlightBarWidth + highlightBarMargins, y + topPadding, 0xFFFFFF);
+                    null, true), x + highlightBarWidth + highlightBarMargins, y + topPadding, 0xFFFFFF | alpha << 24);
 
             // Description text
             if(descriptionColor == null) descriptionColor = new Color(80, 80, 80); // Anti-NPE
@@ -539,7 +570,7 @@ public class NotificationCenter extends Gui {
                                 true),
                             x + highlightBarWidth + highlightBarMargins,
                             y + topPadding + fontRenderer.FONT_HEIGHT + lineSpacing,
-                            descriptionColor.getRGB());
+                            descriptionColor.getRGB() | alpha << 24);
                 } else {
                     // Trim & split into multiple lines
                     List<String> lines = Minecraft.getMinecraft().fontRendererObj.listFormattedStringToWidth(String.valueOf(description), wrapWidth);
@@ -557,7 +588,7 @@ public class NotificationCenter extends Gui {
                         Minecraft.getMinecraft().fontRendererObj.drawString(String.valueOf(line),
                                 x + highlightBarWidth + highlightBarMargins,
                                 y + topPadding + fontRenderer.FONT_HEIGHT + lineSpacing + fontRenderer.FONT_HEIGHT * currentLine,
-                                descriptionColor.getRGB());
+                                descriptionColor.getRGB() | alpha << 24);
 
                         if(++currentLine >= maxDescriptionLines) break; // stop if too many lines have gone by
                     }
