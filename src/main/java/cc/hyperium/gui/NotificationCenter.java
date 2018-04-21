@@ -175,6 +175,7 @@ import cc.hyperium.event.RenderHUDEvent;
 import cc.hyperium.event.TickEvent;
 import cc.hyperium.utils.HyperiumFontRenderer;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
@@ -190,21 +191,25 @@ import static cc.hyperium.gui.HyperiumGui.clamp;
 import static cc.hyperium.gui.HyperiumGui.easeOut;
 
 public class NotificationCenter extends Gui {
+    /**
+     * List of notifications to be displayed
+     */
     private Queue<Notification> notifications = new LinkedList<>();
+    /**
+     * The notification currently being displayed
+     */
     private Notification currentNotification;
+    /**
+     * Font renderer to use
+     */
     private HyperiumFontRenderer fontRenderer;
-    //private HashMap<Integer, Boolean> mouseState;
-    //private HashMap<Integer, Float[]> draggedState;
 
     public NotificationCenter() {
-        /*this.mouseState = new HashMap<>(5);
-        for (int i = 0; i < 5; i++)
-            this.mouseState.put(i, false);
-        draggedState = new HashMap<>();*/
+
     }
 
     @InvokeEvent
-    public void tick(TickEvent ev) {
+    private void tick(TickEvent ev) {
         if (currentNotification == null) {
             currentNotification = notifications.poll();
 
@@ -217,27 +222,65 @@ public class NotificationCenter extends Gui {
     }
 
     @InvokeEvent
-    public void onRenderTick(RenderHUDEvent event) {
-        //handleMouseInput();
-
+    private void onRenderTick(RenderHUDEvent event) {
         if (currentNotification != null) {
             currentNotification.render();
         }
     }
 
     @InvokeEvent
-    public void onClick(GuiClickEvent event) {
+    private void onClick(GuiClickEvent event) {
         if(currentNotification != null) {
 
         }
     }
 
+    /**
+     * Create a notification queued to be displayed
+     * @param title Title of the notification
+     * @param description Description of the notification
+     * @param seconds Seconds the notification should be displayed for
+     * @return The new notification
+     */
     public Notification display(String title, String description, float seconds) {
-        return this.display(title, description, seconds, null);
+        return this.display(title, description, seconds, null, null);
     }
 
+    /**
+     * Create a notification queued to be displayed
+     * @param title Title of the notification
+     * @param description Description of the notification
+     * @param seconds Seconds the notification should be displayed for
+     * @param img Image to be displayed with the notification
+     * @return The new notification
+     */
     public Notification display(String title, String description, float seconds, BufferedImage img) {
-        Notification notif = new Notification(title, description, (int) (seconds * 20), img);
+        return this.display(title, description, seconds, img, null);
+    }
+
+    /**
+     * Create a notification queued to be displayed
+     * @param title Title of the notification
+     * @param description Description of the notification
+     * @param seconds Seconds the notification should be displayed for
+     * @param callback Callback to be ran when the user clicks on the notification
+     * @return The new notification
+     */
+    public Notification display(String title, String description, float seconds, Runnable callback) {
+        return this.display(title, description, seconds, null, callback);
+    }
+
+    /**
+     * Create a notification queued to be displayed
+     * @param title Title of the notification
+     * @param description Description of the notification
+     * @param seconds Seconds the notification should be displayed for
+     * @param img Image to be displayed with the notification
+     * @param callback Callback to be ran when the user clicks on the notification
+     * @return The new notification
+     */
+    public Notification display(String title, String description, float seconds, BufferedImage img, Runnable callback) {
+        final Notification notif = new Notification(title, description, (int) (seconds * 20), img, callback);
 
         try {
             notifications.add(notif);
@@ -249,141 +292,179 @@ public class NotificationCenter extends Gui {
         return null;
     }
 
-    /*private void handleMouseInput() {
-        if (!Mouse.isCreated()) return;
-
-        for (int button = 0; button < 5; button++) {
-            handleDragged(button);
-
-            // normal click
-            if (Mouse.isButtonDown(button) == this.mouseState.get(button)) continue;
-
-            if (currentNotification != null) {
-                currentNotification.onClick(getMouseX(), getMouseY(), button, Mouse.isButtonDown(button));
-            }
-
-            this.mouseState.put(button, Mouse.isButtonDown(button));
-
-            // add new dragged
-            if (Mouse.isButtonDown(button))
-                this.draggedState.put(button, new Float[]{ getMouseX(), getMouseY() });
-
-            // remove old dragged
-            if (Mouse.isButtonDown(button)) continue;
-            if (!this.draggedState.containsKey(button)) continue;
-            this.draggedState.remove(button);
-        }
-    }
-
-    private void handleDragged(int button) {
-        if (!this.draggedState.containsKey(button))
-            return;
-
-        if (currentNotification != null) {
-            currentNotification.onDrag(
-                    getMouseX() - this.draggedState.get(button)[0],
-                    getMouseY() - this.draggedState.get(button)[1],
-                    getMouseX(),
-                    getMouseY(),
-                    button
-            );
-        }
-
-        // update dragged
-        this.draggedState.put(button, new Float[]{ getMouseX(), getMouseY() });
-    }
-
-    private float getMouseY() {
-        float my = (float) Mouse.getY();
-        float rh = (float) new ScaledResolution(Minecraft.getMinecraft()).getScaledHeight();
-        float dh = (float) Minecraft.getMinecraft().displayHeight;
-        return rh - my * rh / dh - 1L;
-    }
-
-    private float getMouseX() {
-        float mx = (float) Mouse.getX();
-        float rw = (float) new ScaledResolution(Minecraft.getMinecraft()).getScaledWidth();
-        float dw = (float) Minecraft.getMinecraft().displayWidth;
-        return mx * rw / dw;
-    }*/
-
-
+    /**
+     * Notification class
+     */
     public class Notification {
 
+        /**
+         * Width of this notification
+         */
         public int width = 175;
+        /**
+         * Height of this notification
+         */
         public int height = 40;
+        /**
+         * Title text displayed for this notification
+         * @see #maxTitleLines
+         */
         private String title;
+        /**
+         * Description text for this notification
+         * @see #maxDescriptionLines
+         */
         private String description;
+        /**
+         * Maximum number of lines titles can span. After this, they will be trimmed
+         * @see HyperiumGui#trimString(String, int, FontRenderer, boolean)
+         */
+        private int maxTitleLines = 1;
+        /**
+         * Maximum number of lines descriptions can span. After this, they will be trimmed
+         * @see HyperiumGui#trimString(String, int, FontRenderer, boolean)
+         */
+        private int maxDescriptionLines = 2;
+        /**
+         * Margins between the bottom of the notification and the bottom of the screen
+         */
+        public int bottomMargins = 15;
+        /**
+         * Margins between text or images (whichever is applicable) from the left of the screen
+         */
+        public int leftMargins = 10;
+        /**
+         * Ticks left until this notification goes bye-bye
+         */
         private int ticksLeft;
+        /**
+         * Percentage complete of this notifications lifecycle
+         */
         private float percentComplete;
+        /**
+         * Upper threshold used for easeout of the notification
+         */
         private int topThreshold;
+        /**
+         * Lower threshold used for easeout of the notification
+         */
         private int lowerThreshold;
-        private boolean dragging = false;
-        private Runnable clickedCallback;
+        /**
+         * Ran when the user clicks on this notification, if applicable
+         */
+        private Runnable clickedCallback = null;
+        /**
+         * Image rendered with this notification, if applicable
+         */
         private DynamicTexture img = null;
+        /**
+         * Size of every image. Should always be 256.
+         */
         private final int imgSize = 256;
+        /**
+         * What to scale the image to
+         * Should be around <code>height / imgSize</code>
+         */
         private final double imgScale = 0.125;
-        private final int imgXMargins = 25;
 
-        public Notification(String title, String description, int ticksLeft) {
-            this(title, description, ticksLeft, null);
-        }
+        /**
+         * Create a new notification
+         * Use {@link NotificationCenter#display} if you wish to create a notification.
+         *
+         * @param title Title of the notification
+         * @param description Description of the notification
+         * @param ticks Ticks to display this notification for
+         * @param img Image to display on this notification
+         * @param clickedCallback Callback to run when the notification is clicked
+         *
+         * @throws IllegalArgumentException Title is null
+         * @throws IllegalArgumentException description is null
+         * @throws IllegalArgumentException Ticks is less than or equal to 0
+         */
+        Notification(String title, String description, int ticks, BufferedImage img, Runnable clickedCallback) {
+            if(title == null)
+                throw new IllegalArgumentException("Title cannot be null!");
+            if(description == null)
+                throw new IllegalArgumentException("Description cannot be null!");
+            if(ticks <= 0)
+                throw new IllegalArgumentException("Ticks cannot be less than or equal to 0!");
 
-        public Notification(String title, String description, int ticksLeft, BufferedImage img) {
-            this.title = title;
-            this.description = description;
-            this.ticksLeft = ticksLeft;
+            this.ticksLeft = ticks;
 
-            int fifth = ticksLeft / 5;
-            this.topThreshold = ticksLeft - fifth;
+            int fifth = ticks / 5;
+            this.topThreshold = ticks - fifth;
             this.lowerThreshold = fifth;
             this.percentComplete = 0.0F;
 
-            this.clickedCallback = () -> {
-            };
+            setClickedCallback(clickedCallback)
+                    .setTitle(title)
+                    .setDescriptionText(description)
+                    .setImage(img);
+        }
+
+        /**
+         * Set the display image for this notification
+         * @param img Img to display
+         * @return This
+         */
+        public Notification setImage(BufferedImage img) {
             Minecraft.getMinecraft().addScheduledTask(() -> {
                 this.img = img != null ? new DynamicTexture(img) : null;
             });
+            return this;
         }
 
-        public void setClickedCallback(Runnable runnable) {
+        /**
+         * Set the callback to be ran when this notification is clicked
+         * @param runnable Runnable to run when clicked
+         * @return This
+         */
+        public Notification setClickedCallback(Runnable runnable) {
             this.clickedCallback = runnable;
+            return this;
         }
 
-        public boolean tick() {
+        /**
+         * Set the title of this notification
+         * @param title Title
+         * @return This
+         */
+        public Notification setTitle(String title) {
+            this.title = title;
+            return this;
+        }
+
+        /**
+         * Set the description text for this notification
+         * @param description Description text
+         * @return This
+         */
+        public Notification setDescriptionText(String description) {
+            this.description = description;
+            return this;
+        }
+
+        /**
+         * Tick down this notification
+         * @return Whether this notification is complete
+         */
+        boolean tick() {
             this.ticksLeft--;
 
             return ticksLeft <= 0;
         }
 
-        public void onClick(float x, float y, int button, boolean down) {
-            ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
-
-            ArrayList<String> lines = fontRenderer.splitString(description, width - 10);
-            //int height = (int) (30 + fontRenderer.getHeight(String.join("\n\r", lines)));
-
-            int notifX = (int) (sr.getScaledWidth() - (width * this.percentComplete));
-            int notifY = sr.getScaledHeight() - height - 15;
-
-            if (x > notifX && x < notifX + width
-                    && y > notifY && y < notifY + height
-                    && button == 0
-                    && !down
-                    ) {
-                clickedCallback.run();
-            }
-        }
-
-        public void onDrag(float dx, float dy, float x, float y, int button) {
-
-        }
-
+        /**
+         * Render this notification
+         */
         public void render() {
             if (ticksLeft <= 0)
                 return;
+
             if (fontRenderer == null)
                 fontRenderer = new HyperiumFontRenderer("Arial", Font.PLAIN, 18);
 
+            // Update percentage
             this.percentComplete = clamp(
                     easeOut(
                             this.percentComplete,
@@ -396,13 +477,13 @@ public class NotificationCenter extends Gui {
                     1.0f
             );
 
-            ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
+            final ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
 
-            ArrayList<String> lines = fontRenderer.splitString(description, width - 10);
+            final ArrayList<String> lines = fontRenderer.splitString(description, width - leftMargins);
             // int height = (int) (30 + fontRenderer.getHeight(String.join("\n\r", lines)));
 
             int x = (int) (sr.getScaledWidth() - (width * this.percentComplete));
-            int y = sr.getScaledHeight() - height - 15;
+            int y = sr.getScaledHeight() - height - bottomMargins;
             float alpha = 255 /* * clamp(this.percentComplete, 0.5f, 1.0f)*/;
 
             // Background
@@ -456,7 +537,7 @@ public class NotificationCenter extends Gui {
                 GlStateManager.bindTexture(img.getGlTextureId());
                 GlStateManager.enableTexture2D();
                 drawTexturedModalRect(
-                        (float) ((x + width) / imgScale - imgSize - imgXMargins),
+                        (float) ((x + width) / imgScale - imgSize - leftMargins),
                         (float) (y / imgScale + ((height / imgScale) - imgSize) / 2),
                         0,
                         0,
