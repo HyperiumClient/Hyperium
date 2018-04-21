@@ -173,7 +173,6 @@ import cc.hyperium.event.GuiClickEvent;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.RenderHUDEvent;
 import cc.hyperium.event.TickEvent;
-import cc.hyperium.utils.HyperiumFontRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
@@ -203,7 +202,7 @@ public class NotificationCenter extends Gui {
      * Font renderer to use
      * TODO
      */
-    private HyperiumFontRenderer fontRenderer;
+    private FontRenderer fontRenderer;
 
     public NotificationCenter() {
 
@@ -466,8 +465,8 @@ public class NotificationCenter extends Gui {
          * Adjusts the height of the notification to fit all text/images/etc
          */
         void adjustHeight() {
-            final int lineCount = Minecraft.getMinecraft().fontRendererObj.listFormattedStringToWidth(description, getWrapWidth()).size();
-            final int totalHeight = (Minecraft.getMinecraft().fontRendererObj.FONT_HEIGHT + lineSpacing) * (Math.min(maxDescriptionLines, lineCount) + 1) + topPadding;
+            final int lineCount = fontRenderer.listFormattedStringToWidth(description, getWrapWidth()).size();
+            final int totalHeight = (fontRenderer.FONT_HEIGHT + lineSpacing) * (Math.min(maxDescriptionLines, lineCount) + 1) + topPadding;
             if(totalHeight > height) height = totalHeight;
         }
 
@@ -533,7 +532,7 @@ public class NotificationCenter extends Gui {
                 return;
 
             if (fontRenderer == null)
-                fontRenderer = new HyperiumFontRenderer("Arial", Font.PLAIN, 18);
+                fontRenderer = Minecraft.getMinecraft().fontRendererObj;
 
             final ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
 
@@ -555,7 +554,7 @@ public class NotificationCenter extends Gui {
             GlStateManager.enableBlend();
 
             // Title Text
-            Minecraft.getMinecraft().fontRendererObj.drawString(trimString(String.valueOf(title), width - rightMargins,
+            fontRenderer.drawString(trimString(String.valueOf(title), width - rightMargins,
                     null, true), x + highlightBarWidth + highlightBarMargins, y + topPadding, 0xFFFFFF | alpha << 24);
 
             // Description text
@@ -563,7 +562,7 @@ public class NotificationCenter extends Gui {
             if(maxDescriptionLines > 0) { // Don't draw if no lines
                 final int wrapWidth = getWrapWidth();
                 if(maxDescriptionLines == 1) { // Well this is easy..
-                    Minecraft.getMinecraft().fontRendererObj.drawString(trimString(
+                    fontRenderer.drawString(trimString(
                                 String.valueOf(description),
                                 wrapWidth,
                                 null,
@@ -573,7 +572,7 @@ public class NotificationCenter extends Gui {
                             descriptionColor.getRGB() | alpha << 24);
                 } else {
                     // Trim & split into multiple lines
-                    List<String> lines = Minecraft.getMinecraft().fontRendererObj.listFormattedStringToWidth(String.valueOf(description), wrapWidth);
+                    List<String> lines = fontRenderer.listFormattedStringToWidth(String.valueOf(description), wrapWidth);
                     if(lines.size() > maxDescriptionLines) { // Trim size & last line if overflow
                         final String nextLine = lines.get(maxDescriptionLines); // The line that would appear after the last one
                         lines = lines.subList(0, maxDescriptionLines);
@@ -585,7 +584,7 @@ public class NotificationCenter extends Gui {
                     // Draw lines
                     int currentLine = 0;
                     for (final String line : lines) {
-                        Minecraft.getMinecraft().fontRendererObj.drawString(String.valueOf(line),
+                        fontRenderer.drawString(String.valueOf(line),
                                 x + highlightBarWidth + highlightBarMargins,
                                 y + topPadding + fontRenderer.FONT_HEIGHT + lineSpacing + fontRenderer.FONT_HEIGHT * currentLine,
                                 descriptionColor.getRGB() | alpha << 24);
