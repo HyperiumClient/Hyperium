@@ -20,14 +20,9 @@ package cc.hyperium.commands.defaults;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.commands.BaseCommand;
-import cc.hyperium.mods.sk1ercommon.Multithreading;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiNewChat;
 
-import javax.imageio.ImageIO;
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.awt.*;
 
 /**
  * A simple command to clear your chat history & sent commands,
@@ -49,19 +44,7 @@ public class CommandNotif implements BaseCommand {
     
     @Override
     public void onExecute(String[] args) {
-        if(args.length == 3) {
-            Hyperium.INSTANCE.getNotification().display(args[0], args[1], Float.parseFloat(args[2]));
-        } else if(args.length == 4) {
-            Multithreading.runAsync(() -> {
-                try {
-                    URL url = new URL(args[3]);
-                    HttpURLConnection httpcon = (HttpURLConnection) url.openConnection();
-                    httpcon.addRequestProperty("User-Agent", "");
-                    Hyperium.INSTANCE.getNotification().display(args[0], args[1], Float.parseFloat(args[2]), ImageIO.read(httpcon.getInputStream()));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            });
-        }
+        Hyperium.INSTANCE.getNotification().display("Hey, Vsauce! Micheal here.", "Are you a camel? Are you a camel? Are you a camel? Are you a camel? Are you a camel? Are you a camel?",
+                5, null, null, new Color(255, 0, 0));
     }
 }

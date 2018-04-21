@@ -152,7 +152,7 @@ public abstract class HyperiumGui extends GuiScreen {
      * @throws IllegalStateException <code>font</code> is null and default couldn't be used
      * @return Trimmed string
      */
-    public String trimString(String str, int width, FontRenderer font, boolean appendEllipsis) {
+    public static String trimString(String str, int width, FontRenderer font, boolean appendEllipsis) {
         if(width <= 0) {
             throw new IllegalArgumentException("String width cannot be less than or equal to 0.");
         } else if(str == null || str.length() <= 0) {
@@ -167,7 +167,7 @@ public abstract class HyperiumGui extends GuiScreen {
 
             // Everything should be fine and dandy if you're at this point...
             final StringBuilder strBuilder = new StringBuilder();
-            final String suffix = appendEllipsis ? "..." : "";
+            final String suffix = (appendEllipsis ? "..." : "");
             int currentWidth = font.getStringWidth(suffix);
             // If suffix is already too long
             if(width < currentWidth) return suffix;
@@ -180,6 +180,7 @@ public abstract class HyperiumGui extends GuiScreen {
                     return strBuilder.append(suffix).toString();
                 } else {
                     strBuilder.append(theChar);
+                    currentWidth += charWidth;
                 }
             }
 
