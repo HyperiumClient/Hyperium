@@ -67,17 +67,8 @@ public class MixinGuiChat {
         ci.cancel();
     }
 
-    @Inject(method = "sendAutocompleteRequest", at = @At(value = "JUMP", ordinal = 0, shift = At.Shift.AFTER))
+    @Inject(method = "sendAutocompleteRequest", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/NetHandlerPlayClient;addToSendQueue(Lnet/minecraft/network/Packet;)V", shift = At.Shift.BEFORE))
     private void onSendAutocompleteRequest(String leftOfCursor, String fullInput, CallbackInfo ci) {
         Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().autoComplete(leftOfCursor);
-    }
-
-    @ModifyVariable(method = "onAutocompleteResponse", name = "p_146406_1_", at = @At(value = "INVOKE", target = "Ljava/util/List;clear()V", shift = At.Shift.AFTER))
-    private String[] addModCompletions(String[] currentCompletions) {
-        String[] modCompletions = Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().getLatestAutoComplete();
-        if (modCompletions != null) {
-            currentCompletions = ObjectArrays.concat(modCompletions, currentCompletions, String.class);
-        }
-        return currentCompletions;
     }
 }
