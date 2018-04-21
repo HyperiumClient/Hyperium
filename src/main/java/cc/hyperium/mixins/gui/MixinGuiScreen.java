@@ -32,6 +32,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class MixinGuiScreen {
 
     @Shadow protected Minecraft mc;
+    protected GuiScreen instance = (GuiScreen) (Object) this;
 
     @Inject(method = "drawWorldBackground", at = @At("HEAD"), cancellable = true)
     private void drawWorldBackground(int tint, CallbackInfo ci) {
@@ -42,7 +43,7 @@ public abstract class MixinGuiScreen {
 
     @Inject(method = "mouseClicked", at = @At("HEAD"), cancellable = true)
     private void mouseClicked(int mouseX, int mouseY, int mouseButton, CallbackInfo ci) {
-        final GuiClickEvent event = new GuiClickEvent(mouseX, mouseY, mouseButton, null); // TODO pass this GUI
+        final GuiClickEvent event = new GuiClickEvent(mouseX, mouseY, mouseButton, instance);
         EventBus.INSTANCE.post(event);
         if (event.isCancelled()) {
             ci.cancel();

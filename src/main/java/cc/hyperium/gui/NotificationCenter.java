@@ -169,7 +169,10 @@
 package cc.hyperium.gui;
 
 import cc.hyperium.Hyperium;
-import cc.hyperium.event.*;
+import cc.hyperium.event.GuiClickEvent;
+import cc.hyperium.event.InvokeEvent;
+import cc.hyperium.event.RenderHUDEvent;
+import cc.hyperium.event.TickEvent;
 import cc.hyperium.utils.HyperiumFontRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -224,7 +227,9 @@ public class NotificationCenter extends Gui {
 
     @InvokeEvent
     public void onClick(GuiClickEvent event) {
-        System.out.println("Yes");
+        if(currentNotification != null) {
+
+        }
     }
 
     public Notification display(String title, String description, float seconds) {
@@ -304,6 +309,9 @@ public class NotificationCenter extends Gui {
 
 
     public class Notification {
+
+        public int width = 175;
+        public int height = 40;
         private String title;
         private String description;
         private int ticksLeft;
@@ -315,7 +323,7 @@ public class NotificationCenter extends Gui {
         private DynamicTexture img = null;
         private final int imgSize = 256;
         private final double imgScale = 0.125;
-        final int imgXMargins = 25;
+        private final int imgXMargins = 25;
 
         public Notification(String title, String description, int ticksLeft) {
             this(title, description, ticksLeft, null);
@@ -351,9 +359,8 @@ public class NotificationCenter extends Gui {
         public void onClick(float x, float y, int button, boolean down) {
             ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
 
-            int width = 175;
             ArrayList<String> lines = fontRenderer.splitString(description, width - 10);
-            int height = (int) (30 + fontRenderer.getHeight(String.join("\n\r", lines)));
+            //int height = (int) (30 + fontRenderer.getHeight(String.join("\n\r", lines)));
 
             int notifX = (int) (sr.getScaledWidth() - (width * this.percentComplete));
             int notifY = sr.getScaledHeight() - height - 15;
@@ -391,10 +398,8 @@ public class NotificationCenter extends Gui {
 
             ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
 
-            int width = 175;
-
             ArrayList<String> lines = fontRenderer.splitString(description, width - 10);
-            int height = (int) (30 + fontRenderer.getHeight(String.join("\n\r", lines)));
+            // int height = (int) (30 + fontRenderer.getHeight(String.join("\n\r", lines)));
 
             int x = (int) (sr.getScaledWidth() - (width * this.percentComplete));
             int y = sr.getScaledHeight() - height - 15;
