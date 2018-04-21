@@ -22,6 +22,7 @@ import cc.hyperium.event.EventBus;
 import cc.hyperium.event.ServerChatEvent;
 import cc.hyperium.mods.timechanger.TimeChanger;
 
+import com.google.common.collect.ObjectArrays;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.network.NetHandlerPlayClient;
@@ -39,6 +40,8 @@ import net.minecraft.util.EnumParticleTypes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
 
 /**
  * Provides code that may be used in mods that require it
@@ -52,7 +55,19 @@ public abstract class MixinNetHandlerPlayClient {
     private Minecraft gameController;
     
     private TimeChanger timeChanger = (TimeChanger) Hyperium.INSTANCE.getModIntegration().getTimeChanger();
-    
+
+    /**
+     * Adds the tab completions of the client to the tab completions received from the server.
+     */
+    @ModifyArg(method = "handleTabComplete", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiChat;onAutocompleteResponse([Ljava/lang/String;)V"))
+    private String[] addClientTabCompletions(String[] currentCompletions) {
+        String[] modCompletions = Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().getLatestAutoComplete();
+        if (modCompletions != null) {
+            currentCompletions = ObjectArrays.concat(modCompletions, currentCompletions, String.class);
+        }
+        return currentCompletions;
+    }
+
     /**
      * For TimeChanger, changes the way time packets are handled
      *

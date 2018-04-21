@@ -25,6 +25,7 @@ import com.google.common.collect.Lists;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.command.CommandBase;
+import net.minecraft.util.EnumChatFormatting;
 
 import java.util.*;
 import java.util.Map.Entry;
@@ -155,7 +156,7 @@ public class HyperiumCommandHandler {
                 if (completions != null && !completions.isEmpty()) {
                     if (leftOfCursor.indexOf(' ') == -1) {
                         for (int i = 0; i < completions.size(); i++) {
-                            completions.set(i, "/" + completions.get(i));
+                            completions.set(i, EnumChatFormatting.GRAY + "/" + completions.get(i) + EnumChatFormatting.RESET);
                         }
                     }
 
