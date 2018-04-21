@@ -295,15 +295,15 @@ public class NotificationCenter extends Gui {
          * Maximum number of lines descriptions can span. After this, they will be trimmed
          * @see HyperiumGui#trimString(String, int, FontRenderer, boolean)
          */
-        private int maxDescriptionLines = 2;
+        private int maxDescriptionLines = 4;
         /**
          * Margins between the bottom of the notification and the bottom of the screen
          */
         public int bottomMargins = 15;
         /**
-         * Margins between text or images (whichever is applicable) from the left of the screen
+         * Margins between text or images (whichever is applicable) from the right of the screen
          */
-        public int leftMargins = 10;
+        public int rightMargins = 5;
         /**
          * Padding between the top of the notification and title text
          */
@@ -340,7 +340,15 @@ public class NotificationCenter extends Gui {
          * What to scale the image to
          * Should be around <code>height / imgSize</code>
          */
-        private final double imgScale = 0.125;
+        private double imgScale = 0.125;
+        /**
+         * Width of the highlight bar
+         */
+        private int highlightBarWidth = 5;
+        /**
+         * Margins between the highlight bar and the text next to it
+         */
+        private int highlightBarMargins = 5;
         /**
          * Color of the highlight next to the notification
          */
@@ -349,6 +357,14 @@ public class NotificationCenter extends Gui {
          * Color of the description text
          */
         private Color descriptionColor = new Color(80, 80, 80);
+        /**
+         * Spacing in pixels between each line
+         */
+        private int lineSpacing = 1;
+        /**
+         * Margins between the top of the image and the title
+         */
+        private int imgTopMargins = 5;
 
         /**
          * Create a new notification
@@ -430,12 +446,33 @@ public class NotificationCenter extends Gui {
 
         /**
          * Set the description text for this notification
+         * Also readjusts the height of notifications
          * @param description Description text
          * @return This
          */
         public Notification setDescriptionText(String description) {
             this.description = description;
+            adjustHeight();
             return this;
+        }
+
+        /**
+         * Adjusts the height of the notification to fit all text/images/etc
+         */
+        void adjustHeight() {
+            final int lineCount = Minecraft.getMinecraft().fontRendererObj.listFormattedStringToWidth(description, getWrapWidth()).size();
+            final int totalHeight = (Minecraft.getMinecraft().fontRendererObj.FONT_HEIGHT + lineSpacing) * (Math.min(maxDescriptionLines, lineCount) + 1) + topPadding;
+            if(totalHeight > height) height = totalHeight;
+        }
+
+        /**
+         * Get the width at which point description text needs to wrap
+         * @return The width at which description text should wrap
+         */
+        private int getWrapWidth() {
+            final int descRightMargins = (img == null ? rightMargins : rightMargins * 2); // Double right margins if image is there
+            // Width that text is permitted to stretch across before wrapping/stopping
+            return (int) (width - descRightMargins - imgSize * imgScale - highlightBarMargins - highlightBarWidth);
         }
 
         /**
@@ -484,42 +521,42 @@ public class NotificationCenter extends Gui {
 
             // Highlight color
             setHighlightColor(highlightColor); // Anti-NPE
-            drawRect(x, y, x + 5, y + height, highlightColor.getRGB());
+            drawRect(x, y, x + highlightBarWidth, y + height, highlightColor.getRGB());
 
             // Title Text
-            Minecraft.getMinecraft().fontRendererObj.drawString(trimString(String.valueOf(title), width - leftMargins,
-                    null, true), x + 10, y + 5, 0xFFFFFF);
+            Minecraft.getMinecraft().fontRendererObj.drawString(trimString(String.valueOf(title), width - rightMargins,
+                    null, true), x + highlightBarWidth + highlightBarMargins, y + topPadding, 0xFFFFFF);
 
             // Description text
-            final int descriptionTopMargins = 2; // Margins between the description & title text
             if(descriptionColor == null) descriptionColor = new Color(80, 80, 80); // Anti-NPE
             if(maxDescriptionLines > 0) { // Don't draw if no lines
+                final int wrapWidth = getWrapWidth();
                 if(maxDescriptionLines == 1) { // Well this is easy..
                     Minecraft.getMinecraft().fontRendererObj.drawString(trimString(
                                 String.valueOf(description),
-                                width - leftMargins,
+                                wrapWidth,
                                 null,
                                 true),
-                            x + 10,
-                            y + topPadding + fontRenderer.FONT_HEIGHT + descriptionTopMargins,
+                            x + highlightBarWidth + highlightBarMargins,
+                            y + topPadding + fontRenderer.FONT_HEIGHT + lineSpacing,
                             descriptionColor.getRGB());
                 } else {
                     // Trim & split into multiple lines
-                    List<String> lines = Minecraft.getMinecraft().fontRendererObj.listFormattedStringToWidth(
-                            String.valueOf(description), width - leftMargins);
+                    List<String> lines = Minecraft.getMinecraft().fontRendererObj.listFormattedStringToWidth(String.valueOf(description), wrapWidth);
                     if(lines.size() > maxDescriptionLines) { // Trim size & last line if overflow
                         final String nextLine = lines.get(maxDescriptionLines); // The line that would appear after the last one
                         lines = lines.subList(0, maxDescriptionLines);
                         // Next line is appended to guarantee three ellipsis on the end of the string
                         lines.set(lines.size() - 1, trimString(lines.get(lines.size() - 1) + " " + nextLine,
-                                width - leftMargins, null, true));
+                                wrapWidth, null, true));
                     }
+
                     // Draw lines
                     int currentLine = 0;
                     for (final String line : lines) {
                         Minecraft.getMinecraft().fontRendererObj.drawString(String.valueOf(line),
-                                x + 10,
-                                y + topPadding + fontRenderer.FONT_HEIGHT + descriptionTopMargins + fontRenderer.FONT_HEIGHT * currentLine,
+                                x + highlightBarWidth + highlightBarMargins,
+                                y + topPadding + fontRenderer.FONT_HEIGHT + lineSpacing + fontRenderer.FONT_HEIGHT * currentLine,
                                 descriptionColor.getRGB());
 
                         if(++currentLine >= maxDescriptionLines) break; // stop if too many lines have gone by
@@ -529,19 +566,22 @@ public class NotificationCenter extends Gui {
 
             // Notification Image
             if(img != null) {
+                imgScale = (double) (height - topPadding - fontRenderer.FONT_HEIGHT - imgTopMargins) / imgSize;
+                if(imgScale * imgSize > (double) width / 4) imgScale = ((double) width / 4) / imgSize; // Limit to 25% of width
                 GlStateManager.color(1, 1, 1, 1);
                 GlStateManager.scale(imgScale, imgScale, imgScale);
                 GlStateManager.bindTexture(img.getGlTextureId());
                 GlStateManager.enableTexture2D();
                 drawTexturedModalRect(
-                        (float) ((x + width) / imgScale - imgSize - leftMargins),
-                        (float) (y / imgScale + ((height / imgScale) - imgSize) / 2),
+                        (float) ((x + width - rightMargins) / imgScale - imgSize),
+                        (float) (y / imgScale + (((height + fontRenderer.FONT_HEIGHT) / imgScale) - imgSize) / 2) ,
                         0,
                         0,
                         imgSize,
                         imgSize);
                 GlStateManager.scale(1 / imgScale, 1 / imgScale, 1 / imgScale);
-            }
+            } else
+                imgScale = 0;
 
 
 //            GlStateManager.popMatrix();
