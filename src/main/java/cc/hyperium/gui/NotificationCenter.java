@@ -181,14 +181,14 @@ import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 
+import javax.annotation.Nullable;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 
-import static cc.hyperium.gui.HyperiumGui.clamp;
-import static cc.hyperium.gui.HyperiumGui.easeOut;
+import static cc.hyperium.gui.HyperiumGui.*;
 
 public class NotificationCenter extends Gui {
     /**
@@ -243,31 +243,7 @@ public class NotificationCenter extends Gui {
      * @return The new notification
      */
     public Notification display(String title, String description, float seconds) {
-        return this.display(title, description, seconds, null, null);
-    }
-
-    /**
-     * Create a notification queued to be displayed
-     * @param title Title of the notification
-     * @param description Description of the notification
-     * @param seconds Seconds the notification should be displayed for
-     * @param img Image to be displayed with the notification
-     * @return The new notification
-     */
-    public Notification display(String title, String description, float seconds, BufferedImage img) {
-        return this.display(title, description, seconds, img, null);
-    }
-
-    /**
-     * Create a notification queued to be displayed
-     * @param title Title of the notification
-     * @param description Description of the notification
-     * @param seconds Seconds the notification should be displayed for
-     * @param callback Callback to be ran when the user clicks on the notification
-     * @return The new notification
-     */
-    public Notification display(String title, String description, float seconds, Runnable callback) {
-        return this.display(title, description, seconds, null, callback);
+        return this.display(title, description, seconds, null, null, null);
     }
 
     /**
@@ -279,8 +255,8 @@ public class NotificationCenter extends Gui {
      * @param callback Callback to be ran when the user clicks on the notification
      * @return The new notification
      */
-    public Notification display(String title, String description, float seconds, BufferedImage img, Runnable callback) {
-        final Notification notif = new Notification(title, description, (int) (seconds * 20), img, callback);
+    public Notification display(String title, String description, float seconds, @Nullable BufferedImage img, @Nullable Runnable callback, @Nullable Color highlightColor) {
+        final Notification notif = new Notification(title, description, (int) (seconds * 20), img, callback, highlightColor);
 
         try {
             notifications.add(notif);
@@ -307,7 +283,7 @@ public class NotificationCenter extends Gui {
         public int height = 40;
         /**
          * Title text displayed for this notification
-         * @see #maxTitleLines
+         * Max lines is always 1
          */
         private String title;
         /**
@@ -315,11 +291,6 @@ public class NotificationCenter extends Gui {
          * @see #maxDescriptionLines
          */
         private String description;
-        /**
-         * Maximum number of lines titles can span. After this, they will be trimmed
-         * @see HyperiumGui#trimString(String, int, FontRenderer, boolean)
-         */
-        private int maxTitleLines = 1;
         /**
          * Maximum number of lines descriptions can span. After this, they will be trimmed
          * @see HyperiumGui#trimString(String, int, FontRenderer, boolean)
@@ -333,6 +304,10 @@ public class NotificationCenter extends Gui {
          * Margins between text or images (whichever is applicable) from the left of the screen
          */
         public int leftMargins = 10;
+        /**
+         * Padding between the top of the notification and title text
+         */
+        public int topPadding = 5;
         /**
          * Ticks left until this notification goes bye-bye
          */
@@ -366,6 +341,14 @@ public class NotificationCenter extends Gui {
          * Should be around <code>height / imgSize</code>
          */
         private final double imgScale = 0.125;
+        /**
+         * Color of the highlight next to the notification
+         */
+        private Color highlightColor = new Color(149, 201, 144);
+        /**
+         * Color of the description text
+         */
+        private Color descriptionColor = new Color(80, 80, 80);
 
         /**
          * Create a new notification
@@ -381,7 +364,7 @@ public class NotificationCenter extends Gui {
          * @throws IllegalArgumentException description is null
          * @throws IllegalArgumentException Ticks is less than or equal to 0
          */
-        Notification(String title, String description, int ticks, BufferedImage img, Runnable clickedCallback) {
+        Notification(String title, String description, int ticks, BufferedImage img, Runnable clickedCallback, Color highlightColor) {
             if(title == null)
                 throw new IllegalArgumentException("Title cannot be null!");
             if(description == null)
@@ -399,6 +382,7 @@ public class NotificationCenter extends Gui {
             setClickedCallback(clickedCallback)
                     .setTitle(title)
                     .setDescriptionText(description)
+                    .setHighlightColor(highlightColor)
                     .setImage(img);
         }
 
@@ -431,6 +415,16 @@ public class NotificationCenter extends Gui {
          */
         public Notification setTitle(String title) {
             this.title = title;
+            return this;
+        }
+
+        /**
+         * Set the highlight color for this notification
+         * @param highlightColor New color
+         * @return This
+         */
+        public Notification setHighlightColor(Color highlightColor) {
+            this.highlightColor = (highlightColor != null ? highlightColor : new Color(149, 201, 144));
             return this;
         }
 
@@ -479,56 +473,59 @@ public class NotificationCenter extends Gui {
 
             final ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
 
-            final ArrayList<String> lines = fontRenderer.splitString(description, width - leftMargins);
-            // int height = (int) (30 + fontRenderer.getHeight(String.join("\n\r", lines)));
 
             int x = (int) (sr.getScaledWidth() - (width * this.percentComplete));
             int y = sr.getScaledHeight() - height - bottomMargins;
             float alpha = 255 /* * clamp(this.percentComplete, 0.5f, 1.0f)*/;
 
             // Background
-//            GlStateManager.pushMatrix();
-            Gui.drawRect(
-                    x,
-                    y,
-                    x + width,
-                    y + height,
-                    new Color(30, 30, 30, (int) alpha).getRGB()
-            );
+            Gui.drawRect(x, y, x + width, y + height,
+                    new Color(30, 30, 30, (int) alpha).getRGB());
 
-//             Highlight color
-            Gui.drawRect(
-                    x,
-                    y,
-                    x + 5,
-                    y + height,
-                    new Color(149, 201, 144).getRGB()
-            );
+            // Highlight color
+            setHighlightColor(highlightColor); // Anti-NPE
+            drawRect(x, y, x + 5, y + height, highlightColor.getRGB());
 
             // Title Text
-            Minecraft.getMinecraft().fontRendererObj.drawString(title, x + 10, y + 5, 0xFFFFFF);
-//            fontRenderer.drawString(
-//                    title,
-//                    x + 10,
-//                    y + 5,
-//                    0xFFFFFF
-//            );
+            Minecraft.getMinecraft().fontRendererObj.drawString(trimString(String.valueOf(title), width - leftMargins,
+                    null, true), x + 10, y + 5, 0xFFFFFF);
 
-//             Notification Body
-            int line1 = 0;
-            for (String line : lines) {
-                Minecraft.getMinecraft().fontRendererObj.drawString(line,
-                        x + 10,
-                        (int) (y + 5 + fontRenderer.getHeight(title) + 2) + line1 * 10,
-                        0x424242);
-                line1++;
+            // Description text
+            final int descriptionTopMargins = 2; // Margins between the description & title text
+            if(descriptionColor == null) descriptionColor = new Color(80, 80, 80); // Anti-NPE
+            if(maxDescriptionLines > 0) { // Don't draw if no lines
+                if(maxDescriptionLines == 1) { // Well this is easy..
+                    Minecraft.getMinecraft().fontRendererObj.drawString(trimString(
+                                String.valueOf(description),
+                                width - leftMargins,
+                                null,
+                                true),
+                            x + 10,
+                            y + topPadding + fontRenderer.FONT_HEIGHT + descriptionTopMargins,
+                            descriptionColor.getRGB());
+                } else {
+                    // Trim & split into multiple lines
+                    List<String> lines = Minecraft.getMinecraft().fontRendererObj.listFormattedStringToWidth(
+                            String.valueOf(description), width - leftMargins);
+                    if(lines.size() > maxDescriptionLines) { // Trim size & last line if overflow
+                        final String nextLine = lines.get(maxDescriptionLines); // The line that would appear after the last one
+                        lines = lines.subList(0, maxDescriptionLines);
+                        // Next line is appended to guarantee three ellipsis on the end of the string
+                        lines.set(lines.size() - 1, trimString(lines.get(lines.size() - 1) + " " + nextLine,
+                                width - leftMargins, null, true));
+                    }
+                    // Draw lines
+                    int currentLine = 0;
+                    for (final String line : lines) {
+                        Minecraft.getMinecraft().fontRendererObj.drawString(String.valueOf(line),
+                                x + 10,
+                                y + topPadding + fontRenderer.FONT_HEIGHT + descriptionTopMargins + fontRenderer.FONT_HEIGHT * currentLine,
+                                descriptionColor.getRGB());
+
+                        if(++currentLine >= maxDescriptionLines) break; // stop if too many lines have gone by
+                    }
+                }
             }
-//            fontRenderer.drawSplitString(
-//                    lines,
-//                    x + 10,
-//                    (int) (y + 5 + fontRenderer.getHeight(title) + 2),
-//                    0x424242
-//            );
 
             // Notification Image
             if(img != null) {
