@@ -27,10 +27,12 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.network.play.client.C01PacketChatMessage;
+import net.minecraft.util.EnumChatFormatting;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
@@ -70,5 +72,18 @@ public class MixinGuiChat {
     @Inject(method = "sendAutocompleteRequest", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/NetHandlerPlayClient;addToSendQueue(Lnet/minecraft/network/Packet;)V", shift = At.Shift.BEFORE))
     private void onSendAutocompleteRequest(String leftOfCursor, String fullInput, CallbackInfo ci) {
         Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().autoComplete(leftOfCursor);
+    }
+
+    @ModifyArg(method = "onAutocompleteResponse", at = @At(value = "INVOKE", target = "Ljava/lang/String;equalsIgnoreCase(Ljava/lang/String;)Z"))
+    private String removeChatFormattingOfCommonPrefix(String commonPrefix) {
+        return EnumChatFormatting.getTextWithoutFormattingCodes(commonPrefix);
+    }
+
+    /**
+     * IntelliJ gives an error but it works and there are no errors in game, so don't question it
+     */
+    @ModifyArg(method = {"autocompletePlayerNames", "onAutocompleteResponse"}, at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiTextField;writeText(Ljava/lang/String;)V"))
+    private String removeChatFormattingOfCompletion(String completion) {
+        return EnumChatFormatting.getTextWithoutFormattingCodes(completion);
     }
 }
