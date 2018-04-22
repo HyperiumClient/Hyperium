@@ -44,6 +44,7 @@ public class HyperiumChromaHudParser implements ChromaHUDParser {
         names.put("CBCPS", "Cheatbreaker CPS");
         names.put("CBFPS", "Cheatbreaker FPS");
         names.put("DCOUNT", "Dabs counter");
+        names.put("PLAYER", "Player display");
     }
 
     @Override
@@ -69,6 +70,8 @@ public class HyperiumChromaHudParser implements ChromaHUDParser {
                 return new CBFpsDisplay(item, ord);
             case "DCOUNT":
                 return new DabCounter(item, ord);
+            case "PLAYER":
+                return new PlayerDisplay(item, ord);
 
         }
         return null;
