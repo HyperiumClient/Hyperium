@@ -80,6 +80,11 @@ class LeftMouseClickEvent
 class RightMouseClickEvent
 
 /**
+ * Invoked once a mouse button is pressed
+ */
+class MouseButtonEvent(val value: Int)
+
+/**
  * Invoked once a key is pressed
  */
 class KeypressEvent(val key: Int, val isRepeat: Boolean)

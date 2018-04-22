@@ -21,6 +21,7 @@ import cc.hyperium.Hyperium;
 import cc.hyperium.event.GameShutDownEvent;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.KeypressEvent;
+import cc.hyperium.event.MouseButtonEvent;
 import cc.hyperium.gui.ModConfigGui;
 import cc.hyperium.gui.NameHistoryGui;
 import cc.hyperium.gui.integrations.HypixelFriendsGui;
@@ -35,10 +36,14 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.lwjgl.input.Keyboard;
 import utils.JsonHolder;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.TreeMap;
 import java.util.UUID;
 
 public class KeyBindHandler {
+
+    private static Map<Integer, Integer> mouseBinds = new HashMap<>();
 
     public static HyperiumBind nameHistory = new HyperiumBind("nameHistory", Keyboard.KEY_H) {
         @Override
@@ -183,6 +188,11 @@ public class KeyBindHandler {
         registerKeyBinding(dab);
         registerKeyBinding(invert);
         registerKeyBinding(flossDance);
+
+        // Populate mouse bind list in accordance with Minecraft's values.
+        for (int i = 0; i < 16; i++ ){
+            mouseBinds.put(i,-100 + i);
+        }
     }
 
     @InvokeEvent
@@ -197,6 +207,27 @@ public class KeyBindHandler {
                 if (bind.wasPressed() && !bind.isKeyDown()) {
                     bind.onRelease();
                     bind.setWasPressed(false);
+                }
+            }
+        }
+    }
+
+    @InvokeEvent
+    public void onMouseButton(MouseButtonEvent event){
+        // Dismisses mouse movement input.
+        if(event.getValue() >= 0) {
+            if (Minecraft.getMinecraft().inGameHasFocus && Minecraft.getMinecraft().currentScreen == null) {
+                for (HyperiumBind bind : this.keybinds.values()) {
+                    // Gets Minecraft value of the mouse value and checks to see if it matches a keybind.
+                    if (mouseBinds.get(event.getValue()) == bind.getKeyCode()) {
+                        bind.onPress();
+                        bind.setWasPressed(true);
+                    }
+
+                    if (bind.wasPressed() && !bind.isKeyDown()) {
+                        bind.onRelease();
+                        bind.setWasPressed(false);
+                    }
                 }
             }
         }
