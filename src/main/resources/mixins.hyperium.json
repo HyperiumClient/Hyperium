@@ -23,6 +23,8 @@
     "gui.MixinGuiButton",
     "gui.MixinGuiMainMenu",
     "gui.MixinGuiContainer",
+    "gui.MixinGuiEditSign",
+    "gui.MixinGuiScreenBook",
     "gui.MixinInventory",
     "gui.MixinGuiIngame",
     "gui.MixinGuiGameOver",
