@@ -19,12 +19,44 @@ package cc.hyperium.mixins.entity;
 
 
 import net.minecraft.entity.Entity;
+import net.minecraft.event.HoverEvent;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.IChatComponent;
 import net.minecraft.util.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 
+import java.util.UUID;
+
 @Mixin(Entity.class)
-abstract class MixinEntity {
+public abstract class MixinEntity {
+
+    private IChatComponent cachedName;
+    private long nameCacheTime = System.currentTimeMillis();
+
+    @Shadow
+    public abstract String getName();
+
+    @Shadow
+    protected abstract HoverEvent getHoverEvent();
+
+    @Shadow
+    public abstract UUID getUniqueID();
+
+    /**
+     * @author Sk1er
+     */
+    @Overwrite
+    public IChatComponent getDisplayName() {
+        if (cachedName == null || System.currentTimeMillis() - nameCacheTime > 50L) {
+            ChatComponentText chatcomponenttext = new ChatComponentText(this.getName());
+            chatcomponenttext.getChatStyle().setChatHoverEvent(this.getHoverEvent());
+            chatcomponenttext.getChatStyle().setInsertion(this.getUniqueID().toString());
+            this.cachedName = chatcomponenttext;
+        }
+        return cachedName;
+    }
 
     @Shadow
     public Vec3 getLook(float particalTicks) {

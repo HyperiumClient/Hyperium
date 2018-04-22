@@ -19,10 +19,7 @@ package cc.hyperium.purchases;
 
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.mods.sk1ercommon.Sk1erMod;
-import cc.hyperium.purchases.packages.DabOnKill;
-import cc.hyperium.purchases.packages.KillTrackerMuscles;
-import cc.hyperium.purchases.packages.ParticleBackgroundCosmetic;
-import cc.hyperium.purchases.packages.WingCosmetic;
+import cc.hyperium.purchases.packages.*;
 import cc.hyperium.utils.JsonHolder;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.WorldClient;
@@ -48,6 +45,7 @@ public class PurchaseApi {
         register(EnumPurchaseType.KILL_TRACKER_MUSCLE, KillTrackerMuscles.class);
         register(EnumPurchaseType.DAB_ON_KILL, DabOnKill.class);
         register(EnumPurchaseType.PARTICLE_BACKGROUND, ParticleBackgroundCosmetic.class);
+        register(EnumPurchaseType.FLIP_COSMETIC, FlipCosmeticPackage.class);
     }
 
     public static PurchaseApi getInstance() {

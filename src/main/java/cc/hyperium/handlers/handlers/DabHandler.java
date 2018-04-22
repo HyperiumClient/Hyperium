@@ -25,7 +25,6 @@ public class DabHandler {
     @InvokeEvent
     public void swapWorld(WorldChangeEvent event) {
         dabStates.clear();
-
     }
 
     @InvokeEvent

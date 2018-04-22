@@ -66,10 +66,36 @@ public class KeyBindHandler {
     public HyperiumBind debug = new HyperiumBind("DEBUG", Keyboard.KEY_J) {
         @Override
         public void onPress() {
+            Hyperium.INSTANCE.getHandlers().getRotatePlayerHandler().state(Minecraft.getMinecraft().getSession().getProfile().getId(),true);
+            NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("type", "flip_update").put("flipped", true)));
+
         }
 
         @Override
         public void onRelease() {
+            Hyperium.INSTANCE.getHandlers().getRotatePlayerHandler().state(Minecraft.getMinecraft().getSession().getProfile().getId(),false);
+            NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("type", "flip_update").put("flipped", false)));
+
+        }
+    };
+
+    public HyperiumBind invert = new HyperiumBind("Invert (Requires Purchase)", Keyboard.KEY_I) {
+        @Override
+        public void onPress() {
+            if(!Hyperium.INSTANCE.getCosmetics().getFlipCosmetic().isSelfUnlocked())
+                return;
+            Hyperium.INSTANCE.getHandlers().getRotatePlayerHandler().state(Minecraft.getMinecraft().getSession().getProfile().getId(),true);
+            NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("type", "flip_update").put("flipped", true)));
+
+        }
+
+        @Override
+        public void onRelease() {
+            if(!Hyperium.INSTANCE.getCosmetics().getFlipCosmetic().isSelfUnlocked())
+                return;
+            Hyperium.INSTANCE.getHandlers().getRotatePlayerHandler().state(Minecraft.getMinecraft().getSession().getProfile().getId(),false);
+            NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("type", "flip_update").put("flipped", false)));
+
         }
     };
 
@@ -158,6 +184,7 @@ public class KeyBindHandler {
         registerKeyBinding(guikey);
         registerKeyBinding(queue);
         registerKeyBinding(dab);
+        registerKeyBinding(invert);
         registerKeyBinding(flossDance);
     }
 

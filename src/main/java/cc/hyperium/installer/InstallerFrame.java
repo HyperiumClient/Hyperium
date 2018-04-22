@@ -82,6 +82,22 @@ public class InstallerFrame implements PropertyChangeListener {
         return r.toString();
     }
 
+    public static String get(String url) throws IOException {
+        URL u = new URL(url);
+        HttpsURLConnection conn = (HttpsURLConnection) u.openConnection();
+        conn.addRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 5.1; rv:19.0) Gecko/20100101 Firefox/19.0");
+        InputStream is = conn.getInputStream();
+        InputStreamReader isr = new InputStreamReader(is);
+        BufferedReader br = new BufferedReader(isr);
+        String inputLine;
+        StringBuilder out = new StringBuilder();
+        while ((inputLine = br.readLine()) != null) {
+            out.append(inputLine);
+        }
+        br.close();
+        return out.toString();
+    }
+
     /**
      * Method to do everything
      */
@@ -227,7 +243,7 @@ public class InstallerFrame implements PropertyChangeListener {
 
             display.setText("VERIFYING FILE");
             hash = toHex(checksum(downloaded, "SHA-256")).toLowerCase();
-            System.out.println("SHA-256 Checksum = " + hash);
+            System.out.println("SHA-256 Checksum = " + hash + " Expected: " + version.get().getString("sha256"));
             if (!hash.equals(version.get().getString("sha256"))) {
                 display.setText("INSTALLATION FAILED");
                 error.setText("FILE'S SHA256 CHECKSUM DOES NOT MATCH");
@@ -432,7 +448,6 @@ public class InstallerFrame implements PropertyChangeListener {
         }
     }
 
-
     /**
      * Initialize components for GUI
      */
@@ -523,22 +538,6 @@ public class InstallerFrame implements PropertyChangeListener {
         }
         if (!f.delete())
             throw new FileNotFoundException("Failed to delete file: " + f);
-    }
-
-    public static String get(String url) throws IOException {
-        URL u = new URL(url);
-        HttpsURLConnection conn = (HttpsURLConnection) u.openConnection();
-        conn.addRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 5.1; rv:19.0) Gecko/20100101 Firefox/19.0");
-        InputStream is = conn.getInputStream();
-        InputStreamReader isr = new InputStreamReader(is);
-        BufferedReader br = new BufferedReader(isr);
-        String inputLine;
-        StringBuilder out = new StringBuilder();
-        while ((inputLine = br.readLine()) != null) {
-            out.append(inputLine);
-        }
-        br.close();
-        return out.toString();
     }
 
     private byte[] checksum(File input, String name) {

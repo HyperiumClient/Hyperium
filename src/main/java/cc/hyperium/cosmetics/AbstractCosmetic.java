@@ -58,4 +58,8 @@ public abstract class AbstractCosmetic {
     public boolean isPurchasable() {
         return purchasable;
     }
+
+    public boolean isSelfUnlocked() {
+        return selfUnlocked;
+    }
 }

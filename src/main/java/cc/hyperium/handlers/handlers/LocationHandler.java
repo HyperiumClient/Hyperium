@@ -95,8 +95,8 @@ public class LocationHandler {
         if (ticksInWorld < 20) {
             ticksInWorld++;
             if (ticksInWorld == 20) {
-                Hyperium.INSTANCE.getHandlers().getCommandQueue().queue("/whereami");
                 sendingWhereAmI = true;
+                Hyperium.INSTANCE.getHandlers().getCommandQueue().queue("/whereami");
             }
         }
 
