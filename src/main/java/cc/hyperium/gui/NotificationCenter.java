@@ -571,10 +571,10 @@ public class NotificationCenter extends Gui {
                 final int wrapWidth = getWrapWidth();
                 if(maxDescriptionLines == 1) { // Well this is easy..
                     fontRenderer.drawString(trimString(
-                            String.valueOf(description),
-                            wrapWidth,
-                            null,
-                            true),
+                                String.valueOf(description),
+                                wrapWidth,
+                                null,
+                                true),
                             x + highlightBarWidth + highlightBarMargins,
                             y + topPadding + fontRenderer.FONT_HEIGHT + lineSpacing,
                             descriptionColor.getRGB() | alpha << 24);
