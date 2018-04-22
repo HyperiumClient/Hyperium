@@ -129,12 +129,12 @@ public class GeneralConfigGui extends GuiScreen {
                 HyperiumGui.drawChromaBox((int) x1 - 2, (int) y1 - 2, (int) x2 + 2, (int) y2 - 2, 0.2F);
             }
             
-            ElementRenderer.startDrawing(element);
+            ElementRenderer.startDrawing(currentElement);
             
             // Draw the element after the background
             this.currentElement.drawForConfig();
             
-            ElementRenderer.endDrawing(element);
+            ElementRenderer.endDrawing(currentElement);
             
             // Turns the edit image on
             this.edit.visible = true;
