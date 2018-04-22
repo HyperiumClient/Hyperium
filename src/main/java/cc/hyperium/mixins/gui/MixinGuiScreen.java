@@ -20,13 +20,19 @@ package cc.hyperium.mixins.gui;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.GuiClickEvent;
 import cc.hyperium.gui.settings.items.BackgroundSettings;
+import cc.hyperium.gui.settings.items.GeneralSetting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.renderer.EntityRenderer;
+import net.minecraft.util.ResourceLocation;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 @Mixin(GuiScreen.class)
 public abstract class MixinGuiScreen {
@@ -50,4 +56,37 @@ public abstract class MixinGuiScreen {
         }
     }
 
+    @Inject(method = "initGui", at = @At("HEAD"))
+    private void initGui(CallbackInfo ci) {
+        if(GeneralSetting.blurGuiBackgroundsEnabled) {
+            Minecraft.getMinecraft().addScheduledTask(() -> {
+                Method loadShaderMethod = null;
+                try {
+                    loadShaderMethod = EntityRenderer.class.getDeclaredMethod("loadShader", ResourceLocation.class);
+                } catch (NoSuchMethodException e) {
+                    try {
+                        loadShaderMethod = EntityRenderer.class.getDeclaredMethod("a", ResourceLocation.class);
+                    } catch (NoSuchMethodException e1) {
+                        e1.printStackTrace();
+                    }
+                }
+
+                if (loadShaderMethod != null) {
+                    loadShaderMethod.setAccessible(true);
+                    try {
+                        loadShaderMethod.invoke(Minecraft.getMinecraft().entityRenderer, new ResourceLocation("shaders/hyperium_blur.json"));
+                    } catch (IllegalAccessException | InvocationTargetException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }
+    }
+
+    @Inject(method = "onGuiClosed", at = @At("HEAD"))
+    private void onGuiClosed(CallbackInfo ci) {
+        Minecraft.getMinecraft().addScheduledTask(() -> {
+            Minecraft.getMinecraft().entityRenderer.stopUseShader();
+        });
+    }
 }
