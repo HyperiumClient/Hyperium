@@ -3,6 +3,7 @@ package cc.hyperium.handlers.handlers;
 import cc.hyperium.Hyperium;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.WorldChangeEvent;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -17,7 +18,11 @@ public class RotatePlayerHandler {
 
     @InvokeEvent
     public void swapWorld(WorldChangeEvent event) {
+        UUID id = Minecraft.getMinecraft().getSession().getProfile().getId();
+        Boolean aBoolean = rotateState.get(id);
         rotateState.clear();
+        if (aBoolean != null)
+            rotateState.put(id, aBoolean);
     }
 
     public void state(UUID uuid, boolean state) {
