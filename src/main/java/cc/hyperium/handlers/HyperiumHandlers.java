@@ -63,7 +63,7 @@ public class HyperiumHandlers {
     private FlossDanceHandler flossDanceHandler;
     private GameDataTracking dataTracking;
     private QuestTrackingChatHandler questTracking;
-    private RotatePlayerHandler rotatePlayerHandler;
+    private FlipHandler flipHandler;
 
     public HyperiumHandlers() {
         System.out.println("Loading handlers");
@@ -76,7 +76,7 @@ public class HyperiumHandlers {
         register(generalChatHandler = new GeneralChatHandler(chatHandlers));
         register(keybindHandler = new KeyBindHandler());
         register(hypixelDetector = new HypixelDetector());
-        register(rotatePlayerHandler = new RotatePlayerHandler());
+        register(flipHandler = new FlipHandler());
         register(locationHandler = new LocationHandler());
         register(valueHandler = new ValueHandler());
         register(browserManager = new BrowserManager());
@@ -110,8 +110,8 @@ public class HyperiumHandlers {
         register(commandHandler = new HyperiumCommandHandler());
     }
 
-    public RotatePlayerHandler getRotatePlayerHandler() {
-        return rotatePlayerHandler;
+    public FlipHandler getFlipHandler() {
+        return flipHandler;
     }
 
     public void postInit() {

@@ -13,7 +13,7 @@ import net.minecraft.util.EnumChatFormatting;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class RotatePlayerHandler {
+public class FlipHandler {
     private ConcurrentHashMap<UUID, Boolean> rotateState = new ConcurrentHashMap<>();
 
     @InvokeEvent
@@ -21,8 +21,9 @@ public class RotatePlayerHandler {
         UUID id = Minecraft.getMinecraft().getSession().getProfile().getId();
         Boolean aBoolean = rotateState.get(id);
         rotateState.clear();
-        if (aBoolean != null)
-            rotateState.put(id, aBoolean);
+        if (aBoolean != null && aBoolean) {
+            rotateState.put(id, true);
+        }
     }
 
     public void state(UUID uuid, boolean state) {
@@ -41,5 +42,9 @@ public class RotatePlayerHandler {
             GlStateManager.translate(0.0F, bat.height + 0.1F, 0.0F);
             GlStateManager.rotate(180.0F, 0.0F, 0.0F, 1.0F);
         }
+    }
+
+    public boolean getSelf() {
+        return rotateState.getOrDefault(Minecraft.getMinecraft().getSession().getProfile().getId(), false);
     }
 }
