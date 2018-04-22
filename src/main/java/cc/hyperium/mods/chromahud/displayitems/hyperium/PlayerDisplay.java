@@ -71,5 +71,4 @@ public class PlayerDisplay extends DisplayItem {
         GlStateManager.setActiveTexture(OpenGlHelper.defaultTexUnit);
         GL11.glEnable(GL11.GL_DEPTH_TEST);
     }
-    ()
 }
