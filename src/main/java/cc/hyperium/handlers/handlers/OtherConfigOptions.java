@@ -15,4 +15,6 @@ public class OtherConfigOptions {
     @ConfigOpt
     public boolean shadeNameTags = true;
 
+    @ConfigOpt
+    public boolean showFlipEverywhere = true;
 }
