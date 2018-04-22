@@ -156,8 +156,8 @@ public class AnimationSettings extends SettingGui {
             Hyperium.INSTANCE.getHandlers().getConfigOptions().showFlipEverywhere = ((SelectionItem) i).getSelectedItem().equals("YES");
         });
         settingItems.add(flip);
-        toggleflossdance.addItems(Arrays.asList("YES", "NO"));
-        toggleflossdance.setSelectedItem(  Hyperium.INSTANCE.getHandlers().getConfigOptions().showFlipEverywhere  ? "YES" : "NO");
+        flip.addItems(Arrays.asList("YES", "NO"));
+        flip.setSelectedItem(  Hyperium.INSTANCE.getHandlers().getConfigOptions().showFlipEverywhere  ? "YES" : "NO");
 
 
     }
