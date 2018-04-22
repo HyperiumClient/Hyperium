@@ -76,22 +76,23 @@ public class KeyBindHandler {
     };
 
     public HyperiumBind invert = new HyperiumBind("Invert (Requires Purchase)", Keyboard.KEY_I) {
+        private boolean inverted;
+
         @Override
         public void onPress() {
-            if(!Hyperium.INSTANCE.getCosmetics().getFlipCosmetic().isSelfUnlocked())
+            if (!Hyperium.INSTANCE.getCosmetics().getFlipCosmetic().isSelfUnlocked())
                 return;
-            Hyperium.INSTANCE.getHandlers().getRotatePlayerHandler().state(Minecraft.getMinecraft().getSession().getProfile().getId(),true);
-            NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("type", "flip_update").put("flipped", true)));
+            inverted=!inverted;
+            Hyperium.INSTANCE.getHandlers().getRotatePlayerHandler().state(Minecraft.getMinecraft().getSession().getProfile().getId(), inverted);
+            NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("type", "flip_update").put("flipped", inverted)));
 
         }
 
         @Override
         public void onRelease() {
-            if(!Hyperium.INSTANCE.getCosmetics().getFlipCosmetic().isSelfUnlocked())
-                return;
-            Hyperium.INSTANCE.getHandlers().getRotatePlayerHandler().state(Minecraft.getMinecraft().getSession().getProfile().getId(),false);
-            NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("type", "flip_update").put("flipped", false)));
-
+            inverted=!inverted;
+            Hyperium.INSTANCE.getHandlers().getRotatePlayerHandler().state(Minecraft.getMinecraft().getSession().getProfile().getId(), inverted);
+            NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("type", "flip_update").put("flipped", inverted)));
         }
     };
 
