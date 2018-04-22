@@ -42,7 +42,7 @@ public class MixinGuiChat {
     @Shadow
     protected GuiTextField inputField;
 
-    private final Minecraft mc = Minecraft.getMinecraft();
+    public final Minecraft mc = Minecraft.getMinecraft();
 
     @Inject(method = "initGui", at = @At("RETURN"))
     private void init(CallbackInfo ci) {
