@@ -214,16 +214,20 @@ public class KeyBindHandler {
 
     @InvokeEvent
     public void onMouseButton(MouseButtonEvent event){
-        if (Minecraft.getMinecraft().inGameHasFocus && Minecraft.getMinecraft().currentScreen == null) {
-            for (HyperiumBind bind : this.keybinds.values()) {
-                if (mouseBinds.get(event.getValue()) == bind.getKeyCode()) {
-                    bind.onPress();
-                    bind.setWasPressed(true);
-                }
+        // Dismisses mouse movement input.
+        if(event.getValue() >= 0) {
+            if (Minecraft.getMinecraft().inGameHasFocus && Minecraft.getMinecraft().currentScreen == null) {
+                for (HyperiumBind bind : this.keybinds.values()) {
+                    // Gets Minecraft value of the mouse value and checks to see if it matches a keybind.
+                    if (mouseBinds.get(event.getValue()) == bind.getKeyCode()) {
+                        bind.onPress();
+                        bind.setWasPressed(true);
+                    }
 
-                if (bind.wasPressed() && !bind.isKeyDown()) {
-                    bind.onRelease();
-                    bind.setWasPressed(false);
+                    if (bind.wasPressed() && !bind.isKeyDown()) {
+                        bind.onRelease();
+                        bind.setWasPressed(false);
+                    }
                 }
             }
         }
