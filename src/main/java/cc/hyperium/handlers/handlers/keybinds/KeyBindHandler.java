@@ -214,8 +214,6 @@ public class KeyBindHandler {
 
     @InvokeEvent
     public void onMouseButton(MouseButtonEvent event){
-        System.out.println("Mouse value: " + event.getValue());
-        System.out.println("NH: " + KeyBindHandler.nameHistory.getKeyCode());
         if (Minecraft.getMinecraft().inGameHasFocus && Minecraft.getMinecraft().currentScreen == null) {
             for (HyperiumBind bind : this.keybinds.values()) {
                 if (mouseBinds.get(event.getValue()) == bind.getKeyCode()) {
