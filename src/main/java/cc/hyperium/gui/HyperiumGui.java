@@ -19,11 +19,8 @@ package cc.hyperium.gui;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
-
-import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.*;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
@@ -140,6 +137,55 @@ public abstract class HyperiumGui extends GuiScreen {
             return current + (goal - current) / speed;
         } else {
             return goal;
+        }
+    }
+
+    /**
+     * Trim a string to a specified width with the specified font renderer
+     *
+     * @param str String to trim
+     * @param width width to trim to
+     * @param font Font renderer to get width from, if null then default font renderer is used
+     * @param appendEllipsis Whether "..." should be appended to the end of the string before returning
+     * @throws IllegalArgumentException If <code>width</code> is less than or equal to 0
+     * @throws IllegalArgumentException if <code>str</code> is null or has a length less than or equal to 0
+     * @throws IllegalStateException <code>font</code> is null and default couldn't be used
+     * @return Trimmed string
+     */
+    public static String trimString(String str, int width, FontRenderer font, boolean appendEllipsis) {
+        if(width <= 0) {
+            throw new IllegalArgumentException("String width cannot be less than or equal to 0.");
+        } else if(str == null || str.length() <= 0) {
+            throw new IllegalArgumentException("String cannot be null and cannot have a length less than or equal to 0.");
+        } else {
+            if(font == null) {
+                if(Minecraft.getMinecraft() != null && Minecraft.getMinecraft().fontRendererObj != null)
+                    font = Minecraft.getMinecraft().fontRendererObj;
+                else
+                    throw new IllegalStateException("Param \"font\" is null and default font renderer could not be used!");
+            }
+
+            // Everything should be fine and dandy if you're at this point...
+            final StringBuilder strBuilder = new StringBuilder();
+            final String suffix = (appendEllipsis ? "..." : "");
+            int currentWidth = font.getStringWidth(suffix);
+            // If suffix is already too long
+            if(width < currentWidth) return suffix;
+
+            // Loop through each character until too long
+            for(char theChar : str.toCharArray()) {
+                final int charWidth = font.getCharWidth(theChar);
+                // If strWidth + next charWidth is too big then return this string, otherwise continue
+                if(width < currentWidth + charWidth) {
+                    return strBuilder.append(suffix).toString();
+                } else {
+                    strBuilder.append(theChar);
+                    currentWidth += charWidth;
+                }
+            }
+
+            // Return entire string if we get to this point. strBuilder.toString() should == str
+            return strBuilder.toString();
         }
     }
     

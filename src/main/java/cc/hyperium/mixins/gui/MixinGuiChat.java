@@ -27,10 +27,12 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.network.play.client.C01PacketChatMessage;
+import net.minecraft.util.EnumChatFormatting;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
@@ -40,7 +42,7 @@ public class MixinGuiChat {
     @Shadow
     protected GuiTextField inputField;
 
-    private final Minecraft mc = Minecraft.getMinecraft();
+    public final Minecraft mc = Minecraft.getMinecraft();
 
     @Inject(method = "initGui", at = @At("RETURN"))
     private void init(CallbackInfo ci) {
@@ -67,17 +69,21 @@ public class MixinGuiChat {
         ci.cancel();
     }
 
-    @Inject(method = "sendAutocompleteRequest", at = @At(value = "JUMP", ordinal = 0, shift = At.Shift.AFTER))
+    @Inject(method = "sendAutocompleteRequest", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/NetHandlerPlayClient;addToSendQueue(Lnet/minecraft/network/Packet;)V", shift = At.Shift.BEFORE))
     private void onSendAutocompleteRequest(String leftOfCursor, String fullInput, CallbackInfo ci) {
         Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().autoComplete(leftOfCursor);
     }
 
-    @ModifyVariable(method = "onAutocompleteResponse", name = "p_146406_1_", at = @At(value = "INVOKE", target = "Ljava/util/List;clear()V", shift = At.Shift.AFTER))
-    private String[] addModCompletions(String[] currentCompletions) {
-        String[] modCompletions = Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().getLatestAutoComplete();
-        if (modCompletions != null) {
-            currentCompletions = ObjectArrays.concat(modCompletions, currentCompletions, String.class);
-        }
-        return currentCompletions;
+    @ModifyArg(method = "onAutocompleteResponse", at = @At(value = "INVOKE", target = "Ljava/lang/String;equalsIgnoreCase(Ljava/lang/String;)Z"))
+    private String removeChatFormattingOfCommonPrefix(String commonPrefix) {
+        return EnumChatFormatting.getTextWithoutFormattingCodes(commonPrefix);
+    }
+
+    /**
+     * IntelliJ gives an error but it works and there are no errors in game, so don't question it
+     */
+    @ModifyArg(method = {"autocompletePlayerNames", "onAutocompleteResponse"}, at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiTextField;writeText(Ljava/lang/String;)V"))
+    private String removeChatFormattingOfCompletion(String completion) {
+        return EnumChatFormatting.getTextWithoutFormattingCodes(completion);
     }
 }

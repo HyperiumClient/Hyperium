@@ -32,6 +32,11 @@ object AddonBootstrap {
     var phase: Phase = Phase.NOT_STARTED
 
     /**
+     * Addons as resource packs to load
+     */
+    @JvmStatic val addonResourcePacks: ArrayList<File> = ArrayList()
+
+    /**
      * All the filtered jars inside of the {@link #modDirectory} folder,
      */
     private val jars: ArrayList<File>
