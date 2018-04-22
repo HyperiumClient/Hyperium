@@ -135,6 +135,16 @@ class SendChatMessageEvent(val message: String) : CancellableEvent()
 class GuiOpenEvent(var gui: GuiScreen?) : CancellableEvent()
 
 /**
+ * Invoked when a user clicks within a GuiScreen.
+ *
+ * @param mouseX x position of the mouse on click
+ * @param mouseY y position of the mouse on click
+ * @param button Mouse button clicked (0 = left, 1 = right, 2 = middle)
+ * @param gui GUI that detected the click
+ */
+class GuiClickEvent(var mouseX: Int, var mouseY: Int, var button: Int, var gui: GuiScreen?) : CancellableEvent()
+
+/**
  * Invoked when a players cape is grabbed from the game
  * code, this allows easy modification of that cape
  *
