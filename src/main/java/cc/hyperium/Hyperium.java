@@ -25,6 +25,7 @@ import cc.hyperium.cosmetics.HyperiumCosmetics;
 import cc.hyperium.cosmetics.WingCosmetic;
 import cc.hyperium.event.*;
 import cc.hyperium.event.minigames.MinigameListener;
+import cc.hyperium.gui.BlurDisableFallback;
 import cc.hyperium.gui.ConfirmationPopup;
 import cc.hyperium.gui.NotificationCenter;
 import cc.hyperium.gui.settings.items.AnimationSettings;
@@ -149,6 +150,7 @@ public class Hyperium {
         //EventBus.INSTANCE.register(perspective = new PerspectiveModifierContainer());
         EventBus.INSTANCE.register(new WingCosmetic());
         EventBus.INSTANCE.register(confirmation = new ConfirmationPopup());
+        EventBus.INSTANCE.register(new BlurDisableFallback());
 
         // Register statistics tracking.
         EventBus.INSTANCE.register(statTrack);
