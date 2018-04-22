@@ -28,7 +28,7 @@ public class RotatePlayerHandler {
         String s = EnumChatFormatting.getTextWithoutFormattingCodes(bat.getName());
         Boolean aBoolean = rotateState.get(bat.getUniqueID());
         if (!Hyperium.INSTANCE.getHandlers().getConfigOptions().showFlipEverywhere) {
-            if (!Hyperium.INSTANCE.getMinigameListener().getCurrentMinigameName().equalsIgnoreCase("HOUSING") || !Hyperium.INSTANCE.getHandlers().getLocationHandler().getLocation().contains("lobby"))
+            if (!(Hyperium.INSTANCE.getMinigameListener().getCurrentMinigameName().equalsIgnoreCase("HOUSING") || Hyperium.INSTANCE.getHandlers().getLocationHandler().getLocation().contains("lobby")))
                 return;
         }
         if ((aBoolean != null && aBoolean) || s != null && (s.equals("Dinnerbone") ||
