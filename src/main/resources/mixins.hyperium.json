@@ -22,6 +22,7 @@
     "gui.MixinGuiResourcePack",
     "gui.MixinGuiButton",
     "gui.MixinGuiMainMenu",
+    "gui.MixinGuiContainer",
     "gui.MixinInventory",
     "gui.MixinGuiIngame",
     "gui.MixinGuiGameOver",
