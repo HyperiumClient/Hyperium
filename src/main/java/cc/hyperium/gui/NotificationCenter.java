@@ -274,6 +274,14 @@ public class NotificationCenter extends Gui {
     }
 
     /**
+     * Set the font renderer to be used to default font renderer
+     */
+    private void setDefaultFontRenderer() {
+        if (fontRenderer == null)
+            fontRenderer = Minecraft.getMinecraft().fontRendererObj;
+    }
+
+    /**
      * Notification class
      */
     public class Notification {
@@ -465,6 +473,7 @@ public class NotificationCenter extends Gui {
          * Adjusts the height of the notification to fit all text/images/etc
          */
         void adjustHeight() {
+            setDefaultFontRenderer();
             final int lineCount = fontRenderer.listFormattedStringToWidth(description, getWrapWidth()).size();
             final int totalHeight = (fontRenderer.FONT_HEIGHT + lineSpacing) * (Math.min(maxDescriptionLines, lineCount) + 1) + topPadding;
             if(totalHeight > height) height = totalHeight;
@@ -531,8 +540,7 @@ public class NotificationCenter extends Gui {
             if (ticksLeft <= 0)
                 return;
 
-            if (fontRenderer == null)
-                fontRenderer = Minecraft.getMinecraft().fontRendererObj;
+            setDefaultFontRenderer();
 
             final ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
 
