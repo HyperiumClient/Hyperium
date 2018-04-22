@@ -20,6 +20,7 @@ package cc.hyperium.mixins.gui;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.GuiClickEvent;
 import cc.hyperium.gui.settings.items.BackgroundSettings;
+import cc.hyperium.gui.settings.items.GeneralSetting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.EntityRenderer;
@@ -57,27 +58,29 @@ public abstract class MixinGuiScreen {
 
     @Inject(method = "initGui", at = @At("HEAD"))
     private void initGui(CallbackInfo ci) {
-        Minecraft.getMinecraft().addScheduledTask(() -> {
-            Method loadShaderMethod = null;
-            try {
-                loadShaderMethod = EntityRenderer.class.getDeclaredMethod("loadShader", ResourceLocation.class);
-            } catch (NoSuchMethodException e) {
+        if(GeneralSetting.blurGuiBackgroundsEnabled) {
+            Minecraft.getMinecraft().addScheduledTask(() -> {
+                Method loadShaderMethod = null;
                 try {
-                    loadShaderMethod = EntityRenderer.class.getDeclaredMethod("a", ResourceLocation.class);
-                } catch (NoSuchMethodException e1) {
-                    e1.printStackTrace();
+                    loadShaderMethod = EntityRenderer.class.getDeclaredMethod("loadShader", ResourceLocation.class);
+                } catch (NoSuchMethodException e) {
+                    try {
+                        loadShaderMethod = EntityRenderer.class.getDeclaredMethod("a", ResourceLocation.class);
+                    } catch (NoSuchMethodException e1) {
+                        e1.printStackTrace();
+                    }
                 }
-            }
 
-            if (loadShaderMethod != null) {
-                loadShaderMethod.setAccessible(true);
-                try {
-                    loadShaderMethod.invoke(Minecraft.getMinecraft().entityRenderer, new ResourceLocation("shaders/hyperium_blur.json"));
-                } catch (IllegalAccessException | InvocationTargetException e) {
-                    e.printStackTrace();
+                if (loadShaderMethod != null) {
+                    loadShaderMethod.setAccessible(true);
+                    try {
+                        loadShaderMethod.invoke(Minecraft.getMinecraft().entityRenderer, new ResourceLocation("shaders/hyperium_blur.json"));
+                    } catch (IllegalAccessException | InvocationTargetException e) {
+                        e.printStackTrace();
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 
     @Inject(method = "onGuiClosed", at = @At("HEAD"))
