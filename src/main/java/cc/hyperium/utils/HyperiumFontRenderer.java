@@ -25,17 +25,18 @@ import org.newdawn.slick.font.effects.ColorEffect;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 
-public class HyperiumFontRenderer{
+public class HyperiumFontRenderer {
 
     private final UnicodeFont unicodeFont;
     private final int[] colorCodes = new int[32];
+    public int FONT_HEIGHT = 9;
     private int fontType;
     private int size;
     private String fontName;
-    public int FONT_HEIGHT = 9;
-
     private float kerning;
+    private HashMap<String, Float> cachedStringWidth = new HashMap<>();
 
     public HyperiumFontRenderer(String fontName, int fontType, int size) {
         this(fontName, fontType, size, 0);
@@ -157,14 +158,18 @@ public class HyperiumFontRenderer{
     }
 
     public float getWidth(String s) {
-        float width = 0.0F;
+        if (cachedStringWidth.size() > 1000)
+            cachedStringWidth.clear();
+        return cachedStringWidth.computeIfAbsent(s, e -> {
+            float width = 0.0F;
+            String str = StringUtils.stripControlCodes(s);
+            for (char c : str.toCharArray()) {
+                width += unicodeFont.getWidth(Character.toString(c)) + this.kerning;
+            }
 
-        String str = StringUtils.stripControlCodes(s);
-        for (char c : str.toCharArray()) {
-            width += unicodeFont.getWidth(Character.toString(c)) + this.kerning;
-        }
+            return width / 2.0F;
+        });
 
-        return width / 2.0F;
     }
 
     public float getCharWidth(char c) {
@@ -246,9 +251,7 @@ public class HyperiumFontRenderer{
                 currentString.append(word).append(" ");
             }
         }
-
         lines.add(currentString.toString());
-
         return lines;
     }
 }

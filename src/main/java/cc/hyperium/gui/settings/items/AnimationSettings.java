@@ -150,6 +150,16 @@ public class AnimationSettings extends SettingGui {
         }));
         toggleflossdance.addItems(Arrays.asList("ON", "OFF"));
         toggleflossdance.setSelectedItem(dabToggle ? "ON" : "OFF");
+
+        SelectionItem<Object> flip = new SelectionItem<>(9, getX(), getDefaultItemY(7), width - getX() * 2, "SHOW FLIP EVERYWHERE", i -> {
+            ((SelectionItem) i).nextItem();
+            Hyperium.INSTANCE.getHandlers().getConfigOptions().showFlipEverywhere = ((SelectionItem) i).getSelectedItem().equals("YES");
+        });
+        settingItems.add(flip);
+        flip.addItems(Arrays.asList("YES", "NO"));
+        flip.setSelectedItem(  Hyperium.INSTANCE.getHandlers().getConfigOptions().showFlipEverywhere  ? "YES" : "NO");
+
+
     }
 
 

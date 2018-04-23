@@ -200,6 +200,7 @@ import net.minecraft.world.WorldSettings;
 import org.apache.commons.io.IOUtils;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.spongepowered.asm.mixin.Final;
@@ -578,6 +579,13 @@ public abstract class MixinMinecraft {
                 this.playerController.resetBlockRemoving();
             }
         }
+    }
+
+    @Inject(method="runTick",at = @At(value = "INVOKE",target = "Lorg/lwjgl/input/Mouse;getEventButton()I",ordinal = 0))
+    private void runTickMouseButton(CallbackInfo ci){
+        // Actiavtes for EVERY mouse button.
+        int i = Mouse.getEventButton();
+        EventBus.INSTANCE.post(new MouseButtonEvent(i));
     }
 
 

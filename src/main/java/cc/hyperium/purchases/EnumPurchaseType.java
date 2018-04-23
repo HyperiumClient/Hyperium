@@ -24,6 +24,7 @@ public enum EnumPurchaseType {
     DAB_ON_KILL,
     CHROMA_WIN,
     DEAL_WITH_IT,
+    FLIP_COSMETIC,
     UNKNOWN;
 
 

@@ -23,13 +23,13 @@ import net.minecraft.client.entity.AbstractClientPlayer
 import net.minecraft.client.gui.GuiScreen
 import net.minecraft.client.gui.ScaledResolution
 import net.minecraft.client.model.ModelBiped
+import net.minecraft.client.renderer.RenderGlobal
 import net.minecraft.client.renderer.entity.RenderManager
 import net.minecraft.entity.Entity
+import net.minecraft.entity.player.EntityPlayer
+import net.minecraft.item.ItemStack
 import net.minecraft.scoreboard.ScoreObjective
-import net.minecraft.util.BlockPos
-import net.minecraft.util.IChatComponent
-import net.minecraft.util.ResourceLocation
-import net.minecraft.util.Vec3
+import net.minecraft.util.*
 import java.lang.reflect.Method
 import java.util.*
 
@@ -78,6 +78,11 @@ class LeftMouseClickEvent
  * Invoked once right mouse is pressed
  */
 class RightMouseClickEvent
+
+/**
+ * Invoked once a mouse button is pressed
+ */
+class MouseButtonEvent(val value: Int)
 
 /**
  * Invoked once a key is pressed
@@ -133,6 +138,16 @@ class SendChatMessageEvent(val message: String) : CancellableEvent()
  * @param gui the gui that is being opened
  */
 class GuiOpenEvent(var gui: GuiScreen?) : CancellableEvent()
+
+/**
+ * Invoked when a user clicks within a GuiScreen.
+ *
+ * @param mouseX x position of the mouse on click
+ * @param mouseY y position of the mouse on click
+ * @param button Mouse button clicked (0 = left, 1 = right, 2 = middle)
+ * @param gui GUI that detected the click
+ */
+class GuiClickEvent(var mouseX: Int, var mouseY: Int, var button: Int, var gui: GuiScreen?) : CancellableEvent()
 
 /**
  * Invoked when a players cape is grabbed from the game
@@ -207,9 +222,11 @@ class KillEvent(val user: String)
 class EntityRenderEvent(val entityIn: Entity,
                         val model: ModelBiped, val p_78088_2_: Float,
                         val p_78088_3_: Float, val p_78088_4_: Float,
-                        val p_78088_5_: Float, val p_78088_6_: Float, val scale: Float): CancellableEvent()
+                        val p_78088_5_: Float, val p_78088_6_: Float, val scale: Float) : CancellableEvent()
 
 /**
  * Invoked when the scoreboard is rendered
  */
-class RenderScoreboardEvent(val x: Double, val y: Double, val objective: ScoreObjective, val resolution: ScaledResolution): CancellableEvent()
+class RenderScoreboardEvent(val x: Double, val y: Double, val objective: ScoreObjective, val resolution: ScaledResolution) : CancellableEvent()
+
+class DrawBlockHighlightEvent(val context: RenderGlobal, val player: EntityPlayer, val target: MovingObjectPosition, val subID: Int, val currentItem: ItemStack?, val partialTicks: Float) : CancellableEvent()

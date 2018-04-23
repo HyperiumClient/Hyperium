@@ -23,8 +23,10 @@ import cc.hyperium.event.*;
 import cc.hyperium.event.minigames.Minigame;
 import cc.hyperium.handlers.HyperiumHandlers;
 import cc.hyperium.netty.NettyClient;
+import cc.hyperium.netty.packet.packets.serverbound.ServerCrossDataPacket;
 import cc.hyperium.netty.packet.packets.serverbound.UpdateLocationPacket;
 import cc.hyperium.utils.ChatColor;
+import utils.JsonHolder;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -39,7 +41,7 @@ public class LocationHandler {
 
     @InvokeEvent
     public void chatRecieve(ChatEvent event) {
-        if(!Hyperium.INSTANCE.getHandlers().getHypixelDetector().isHypixel())
+        if (!Hyperium.INSTANCE.getHandlers().getHypixelDetector().isHypixel())
             return;
         String raw = ChatColor.stripColor(event.getChat().getUnformattedText());
         Matcher whereAmIMatcher = whereami.matcher(raw);
@@ -76,12 +78,19 @@ public class LocationHandler {
             NettyClient.getClient().write(UpdateLocationPacket.build(Minigame.HOUSING.name()));
         else
             NettyClient.getClient().write(UpdateLocationPacket.build(event.getTo()));
+        if (Hyperium.INSTANCE.getHandlers().getFlipHandler().getSelf())
+            NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("type", "flip_update").put("flipped", true)));
+
     }
 
     @InvokeEvent
     public void miniGameJoin(JoinMinigameEvent event) {
-        if (event.getMinigame() == Minigame.HOUSING)
+        if (event.getMinigame() == Minigame.HOUSING) {
             NettyClient.getClient().write(UpdateLocationPacket.build(Minigame.HOUSING.name()));
+            if (Hyperium.INSTANCE.getHandlers().getFlipHandler().getSelf())
+                NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("type", "flip_update").put("flipped", true)));
+
+        }
     }
 
     @InvokeEvent
@@ -95,8 +104,8 @@ public class LocationHandler {
         if (ticksInWorld < 20) {
             ticksInWorld++;
             if (ticksInWorld == 20) {
-                Hyperium.INSTANCE.getHandlers().getCommandQueue().queue("/whereami");
                 sendingWhereAmI = true;
+                Hyperium.INSTANCE.getHandlers().getCommandQueue().queue("/whereami");
             }
         }
 

@@ -78,6 +78,8 @@ public class GeneralSetting extends SettingGui {
     public static boolean uploadScreenshotsByDefault = false;
     @ConfigOpt
     public static boolean hideScoreboardNumbers = true;
+    @ConfigOpt
+    public static boolean blurGuiBackgroundsEnabled = true;
 
     private SelectionItem<String> discordRP;
 
@@ -114,6 +116,8 @@ public class GeneralSetting extends SettingGui {
     private SelectionItem<String> uploadByDefault;
 
     private SelectionItem<String> scoreboardNumbers;
+
+    private SelectionItem<String> blurGuiBackgrounds;
 
     /** Set to true when a setting is changed, this will trigger a save when the gui is closed */
     private boolean settingsUpdated;
@@ -281,6 +285,14 @@ public class GeneralSetting extends SettingGui {
         }));
         scoreboardNumbers.addDefaultOnOff();
         scoreboardNumbers.setSelectedItem(hideScoreboardNumbers ? "ON" : "OFF");
+
+        this.settingItems.add(this.blurGuiBackgrounds = new SelectionItem<>(18, getX(), getDefaultItemY(18), this.width - getX() * 2, "BLUR GUI BACKGROUNDS", i -> {
+            ((SelectionItem) i).nextItem();
+            blurGuiBackgroundsEnabled = ((SelectionItem) i).getSelectedItem().equals("ON");
+            this.settingsUpdated = true;
+        }));
+        blurGuiBackgrounds.addDefaultOnOff();
+        blurGuiBackgrounds.setSelectedItem(blurGuiBackgroundsEnabled ? "ON" : "OFF");
     }
 
     /**

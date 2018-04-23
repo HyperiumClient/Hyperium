@@ -27,7 +27,7 @@ public class NetworkHandler implements INetty {
 
     @Override
     public void handleChat(String s) {
-        GeneralChatHandler.instance().sendMessage(s,false);
+        GeneralChatHandler.instance().sendMessage(s, false);
     }
 
     @Override
@@ -41,6 +41,8 @@ public class NetworkHandler implements INetty {
             if (jsonHolder.optBoolean("flossing"))
                 Hyperium.INSTANCE.getHandlers().getFlossDanceHandler().get(uuid).ensureDancingFor(60);
             else Hyperium.INSTANCE.getHandlers().getFlossDanceHandler().get(uuid).stopDancing();
+        } else if (type.equalsIgnoreCase("flip_update")) {
+            Hyperium.INSTANCE.getHandlers().getFlipHandler().state(uuid, jsonHolder.optBoolean("flipped"));
         }
     }
 

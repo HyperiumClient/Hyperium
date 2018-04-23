@@ -17,7 +17,9 @@
 
 package cc.hyperium.mixins.renderer;
 
+import cc.hyperium.Hyperium;
 import cc.hyperium.gui.settings.items.AnimationSettings;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.culling.ICamera;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -25,6 +27,7 @@ import net.minecraft.client.renderer.entity.RendererLivingEntity;
 import net.minecraft.client.renderer.entity.layers.LayerBipedArmor;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.util.MathHelper;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
@@ -47,6 +50,9 @@ public abstract class MixinRendererLivingEntity<T extends EntityLivingBase> exte
     @Shadow
     protected abstract boolean setBrightness(T entitylivingbaseIn, float partialTicks, boolean combineTextures);
 
+    @Shadow
+    protected abstract float getDeathMaxRotation(T entityLivingBaseIn);
+
     /**
      * @author
      */
@@ -66,6 +72,23 @@ public abstract class MixinRendererLivingEntity<T extends EntityLivingBase> exte
         }
     }
 
+    @Overwrite
+    protected void rotateCorpse(T bat, float p_77043_2_, float p_77043_3_, float partialTicks) {
+        GlStateManager.rotate(180.0F - p_77043_3_, 0.0F, 1.0F, 0.0F);
+
+        if (bat.deathTime > 0) {
+            float f = ((float) bat.deathTime + partialTicks - 1.0F) / 20.0F * 1.6F;
+            f = MathHelper.sqrt_float(f);
+
+            if (f > 1.0F) {
+                f = 1.0F;
+            }
+
+            GlStateManager.rotate(f * this.getDeathMaxRotation(bat), 0.0F, 0.0F, 1.0F);
+        } else {
+            Hyperium.INSTANCE.getHandlers().getFlipHandler().transform(bat);
+        }
+    }
 
     @Override
     public boolean shouldRender(T livingEntity, ICamera camera, double camX, double camY, double camZ) {

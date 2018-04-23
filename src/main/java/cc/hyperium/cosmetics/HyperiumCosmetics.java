@@ -14,11 +14,13 @@ public class HyperiumCosmetics {
     private List<AbstractCosmetic> cosmeticList = new ArrayList<>();
     private DabOnKIllCosmetic dabCosmetic;
     private DealWithItGlasses dealWithIt;
+    private FlipCosmetic flipCosmetic;
 
     public HyperiumCosmetics() {
         register(new KillCounterMuscles());
         register(this.dabCosmetic = new DabOnKIllCosmetic());
         register(chromaWin = new ChromaWinCosmetic());
+        register(flipCosmetic = new FlipCosmetic());
         register(dealWithIt = new DealWithItGlasses());
     }
 
@@ -33,5 +35,9 @@ public class HyperiumCosmetics {
 
     public ChromaWinCosmetic getChromaWin() {
         return chromaWin;
+    }
+
+    public FlipCosmetic getFlipCosmetic() {
+        return flipCosmetic;
     }
 }

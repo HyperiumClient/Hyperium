@@ -29,6 +29,7 @@ public class FlossDanceHandler {
     public FlossDanceHandler() {
         fillRandomHeadMovementArray();
     }
+
     @InvokeEvent
     public void swapWorld(WorldChangeEvent event) {
         danceStates.clear();
@@ -80,6 +81,17 @@ public class FlossDanceHandler {
     public void modify(AbstractClientPlayer entity, ModelPlayer player) {
         DanceState danceState = get(entity.getUniqueID());
         int ticks = danceState.danceFrames;
+        player.bipedBody.rotateAngleZ = 0F;
+        player.bipedBodyWear.rotateAngleZ = 0F;
+
+        player.bipedRightLeg.rotateAngleZ = 0F;
+        player.bipedRightLegwear.rotateAngleZ = 0F;
+        player.bipedLeftLeg.rotateAngleZ = 0F;
+        player.bipedLeftLegwear.rotateAngleZ = 0F;
+        player.bipedRightLeg.offsetX = 0F;
+        player.bipedRightLegwear.offsetX = 0F;
+        player.bipedLeftLeg.offsetX = 0F;
+        player.bipedLeftLegwear.offsetX = 0F;
 
         if (ticks <= 2) {
             if (danceState.shouldReset()) {
