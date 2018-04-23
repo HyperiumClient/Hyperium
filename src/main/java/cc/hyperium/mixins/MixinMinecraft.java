@@ -277,9 +277,9 @@ public abstract class MixinMinecraft {
      */
     @Inject(method = "startGame", at = @At("HEAD"))
     private void preinit(CallbackInfo ci) {
+        this.defaultResourcePacks.add(this.mcDefaultResourcePack);
         for (File file : AddonBootstrap.getAddonResourcePacks()) {
-            IResourcePack pack = file.isDirectory() ? new FolderResourcePack(file) : new FileResourcePack(file);
-            this.defaultResourcePacks.add(pack);
+            this.defaultResourcePacks.add(file.isDirectory() ? new FolderResourcePack(file) : new FileResourcePack(file));
         }
         AddonMinecraftBootstrap.init();
         EventBus.INSTANCE.post(new PreInitializationEvent());
