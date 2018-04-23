@@ -92,6 +92,8 @@ public class FlossDanceHandler {
         player.bipedRightLegwear.offsetX = 0F;
         player.bipedLeftLeg.offsetX = 0F;
         player.bipedLeftLegwear.offsetX = 0F;
+        player.bipedHead.rotateAngleZ = 0F;
+        player.bipedHeadwear.rotateAngleZ = 0F;
 
         if (ticks <= 2) {
             if (danceState.shouldReset()) {
