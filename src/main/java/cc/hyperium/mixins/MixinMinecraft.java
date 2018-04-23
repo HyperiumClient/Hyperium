@@ -200,7 +200,6 @@ import net.minecraft.world.WorldSettings;
 import org.apache.commons.io.IOUtils;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.spongepowered.asm.mixin.Final;
@@ -277,9 +276,9 @@ public abstract class MixinMinecraft {
      */
     @Inject(method = "startGame", at = @At("HEAD"))
     private void preinit(CallbackInfo ci) {
+        this.defaultResourcePacks.add(this.mcDefaultResourcePack);
         for (File file : AddonBootstrap.getAddonResourcePacks()) {
-            IResourcePack pack = file.isDirectory() ? new FolderResourcePack(file) : new FileResourcePack(file);
-            this.defaultResourcePacks.add(pack);
+            this.defaultResourcePacks.add(file.isDirectory() ? new FolderResourcePack(file) : new FileResourcePack(file));
         }
         AddonMinecraftBootstrap.init();
         EventBus.INSTANCE.post(new PreInitializationEvent());
@@ -579,13 +578,6 @@ public abstract class MixinMinecraft {
                 this.playerController.resetBlockRemoving();
             }
         }
-    }
-
-    @Inject(method="runTick",at = @At(value = "INVOKE",target = "Lorg/lwjgl/input/Mouse;getEventButton()I",ordinal = 0))
-    private void runTickMouseButton(CallbackInfo ci){
-        // Actiavtes for EVERY mouse button.
-        int i = Mouse.getEventButton();
-        EventBus.INSTANCE.post(new MouseButtonEvent(i));
     }
 
 
