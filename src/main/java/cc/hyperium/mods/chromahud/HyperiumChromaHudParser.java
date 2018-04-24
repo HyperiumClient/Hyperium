@@ -43,8 +43,9 @@ public class HyperiumChromaHudParser implements ChromaHUDParser {
         names.put("COINS", "Coin Display");
         names.put("CBCPS", "Cheatbreaker CPS");
         names.put("CBFPS", "Cheatbreaker FPS");
-        names.put("DCOUNT", "Dabs counter");
-        names.put("PLAYER", "Player display");
+        names.put("DCOUNT", "Dabs Counter");
+        names.put("PLAYER", "Player Display");
+        names.put("BEDWARS", "Bedwars Resources Display");
     }
 
     @Override
@@ -72,6 +73,8 @@ public class HyperiumChromaHudParser implements ChromaHUDParser {
                 return new DabCounter(item, ord);
             case "PLAYER":
                 return new PlayerDisplay(item, ord);
+            case "BEDWARS":
+                return new BedwarsResourcesDisplay(item, ord);
 
         }
         return null;

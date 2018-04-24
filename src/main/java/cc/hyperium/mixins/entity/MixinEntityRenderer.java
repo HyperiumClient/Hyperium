@@ -17,10 +17,7 @@
 
 package cc.hyperium.mixins.entity;
 
-import cc.hyperium.event.DrawBlockHighlightEvent;
-import cc.hyperium.event.EventBus;
-import cc.hyperium.event.RenderEvent;
-import cc.hyperium.event.RenderGuiEvent;
+import cc.hyperium.event.*;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
@@ -120,6 +117,7 @@ public abstract class MixinEntityRenderer {
     private void renderWorld(float partialTicks, long nano, CallbackInfo ci) {
         EventBus.INSTANCE.post(new RenderEvent());
     }
+
 
     /**
      * @author CoalOres
