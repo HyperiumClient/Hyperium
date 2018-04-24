@@ -50,6 +50,8 @@ import cc.hyperium.tray.TrayManager;
 import cc.hyperium.utils.mods.CompactChat;
 import cc.hyperium.utils.mods.FPSLimiter;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.IResource;
+import net.minecraft.util.ResourceLocation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.Display;
@@ -60,6 +62,7 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * Hypixel Community Client
