@@ -232,7 +232,7 @@ public class ElementRenderer {
     }
 
     public void renderElements() {
-        //TODO add CONFIG option to show items when not on Hypixel
+        //TODO add CONFIG option to show items when not on Hypixel: DONE
         String setting = "chromaHudNonHypixelEnabled";
         JsonObject generalJsonObject = Hyperium.CONFIG.getConfig().get("cc.hyperium.gui.settings.items.GeneralSetting").getAsJsonObject();
         boolean multiServerEnabled;
