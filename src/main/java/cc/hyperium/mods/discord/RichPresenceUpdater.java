@@ -32,20 +32,20 @@ public class RichPresenceUpdater {
 
     RichPresenceUpdater(IPCClient client) {
         this.client = client;
-        if (GeneralSetting.discordRPEnabled) {
-            RichPresence.Builder builder = new RichPresence.Builder();
-            client.sendRichPresence(builder
-                    .setSmallImage("compass")
-                    .setLargeImage("hyperium", "Hyperium Client")
-                    .setState("IGN: " + Minecraft.getMinecraft().getSession().getUsername())
-                    .setStartTimestamp(OffsetDateTime.now())
-                    .build());
-        }
+        if (!GeneralSetting.discordRPEnabled) return;
+        
+         RichPresence.Builder builder = new RichPresence.Builder();
+         client.sendRichPresence(builder
+                 .setSmallImage("compass")
+                 .setLargeImage("hyperium", "Hyperium Client")
+                 .setState("IGN: " + Minecraft.getMinecraft().getSession().getUsername())
+                 .setStartTimestamp(OffsetDateTime.now())
+                 .build());
     }
 
     @InvokeEvent(priority = Priority.LOW)
     public void onServerJoin(ServerJoinEvent event) {
-        if (!GeneralSetting.discordServerDisplayEnabled) return;
+        if (!GeneralSetting.discordRPEnabled || !GeneralSetting.discordServerDisplayEnabled) return;
         RichPresence.Builder builder = new RichPresence.Builder();
         if (Hyperium.INSTANCE.getHandlers().getHypixelDetector().isHypixel()) {
             client.sendRichPresence(builder
@@ -66,7 +66,7 @@ public class RichPresenceUpdater {
 
     @InvokeEvent(priority = Priority.LOW)
     public void onMinigameJoin(JoinMinigameEvent event) {
-        if (!GeneralSetting.discordServerDisplayEnabled) return;
+        if (!GeneralSetting.discordRPEnabled || !GeneralSetting.discordServerDisplayEnabled) return;
         RichPresence.Builder builder = new RichPresence.Builder();
         client.sendRichPresence(builder
                 .setSmallImage("compass")
