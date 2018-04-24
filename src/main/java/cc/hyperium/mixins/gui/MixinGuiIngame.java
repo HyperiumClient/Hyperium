@@ -36,13 +36,9 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(GuiIngame.class)
-public abstract class MixinGuiIngame extends GuiIngame {
+public abstract class MixinGuiIngame extends Gui {
     
     @Shadow @Final private Minecraft mc;
-
-    public MixinGuiIngame() {
-        super(Minecraft.getMinecraft());
-    }
 
     @Shadow public abstract FontRenderer getFontRenderer();
     
