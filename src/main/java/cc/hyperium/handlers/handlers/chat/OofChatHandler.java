@@ -4,7 +4,6 @@ import cc.hyperium.Hyperium;
 import com.google.gson.JsonObject;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.IChatComponent;
-import net.minecraft.util.ResourceLocation;
 
 public class OofChatHandler extends HyperiumChatHandler {
 
