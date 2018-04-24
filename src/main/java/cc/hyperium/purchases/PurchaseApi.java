@@ -26,6 +26,7 @@ import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumChatFormatting;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.UUID;
@@ -98,11 +99,15 @@ public class PurchaseApi {
 
     public AbstractHyperiumPurchase parse(EnumPurchaseType type, JsonHolder data) {
         Class<? extends AbstractHyperiumPurchase> c = purchaseClasses.get(type);
+        if (c == null) {
+            throw new NullPointerException(type + " doesn't have a class? ");
+        }
         Class[] cArg = new Class[2];
         cArg[0] = EnumPurchaseType.class;
         cArg[1] = JsonHolder.class;
         try {
-            return c.getDeclaredConstructor(cArg).newInstance(type, data);
+            Constructor<? extends AbstractHyperiumPurchase> declaredConstructor = c.getDeclaredConstructor(cArg);
+            return declaredConstructor.newInstance(type, data);
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             e.printStackTrace();
         }

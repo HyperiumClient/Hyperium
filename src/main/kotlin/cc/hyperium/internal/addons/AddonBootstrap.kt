@@ -34,7 +34,7 @@ object AddonBootstrap {
     /**
      * Addons as resource packs to load
      */
-    @JvmStatic val addonResourcePacks: ArrayList<File> = ArrayList()
+    @JvmStatic val addonResourcePacks: ArrayList<File?> = ArrayList()
 
     /**
      * All the filtered jars inside of the {@link #modDirectory} folder,

@@ -176,6 +176,8 @@ public class ElementRenderer {
         int line = 0;
         RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
         for (ItemStack stack : itemStacks) {
+            if(stack.getMaxDamage() == 0)
+                continue;
             String dur = (stack.getMaxDamage() - stack.getItemDamage()) + "/" + stack.getMaxDamage();
             renderItem.renderItemAndEffectIntoGUI(stack, (int) (x / ElementRenderer.getCurrentScale() - (current.isRightSided() ? (showDurability ? 16 + (double) 20 * currentScale + fontRendererObj.getStringWidth(dur) : -16) : 0)), (int) ((y + (16 * line * ElementRenderer.getCurrentScale())) / ElementRenderer.getCurrentScale()));
             if (showDurability) {
