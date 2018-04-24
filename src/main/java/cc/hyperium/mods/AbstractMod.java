@@ -26,7 +26,7 @@ import com.google.common.base.Preconditions;
 public abstract class AbstractMod {
 
     /**
-     * The init method where all eventsl and commands should
+     * The init method where all events and commands should
      * be registered. Use this to load configs as well
      *
      * @return the {@link AbstractMod} instance of the mod
