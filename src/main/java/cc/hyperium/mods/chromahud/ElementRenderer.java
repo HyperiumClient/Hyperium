@@ -17,10 +17,10 @@
 
 package cc.hyperium.mods.chromahud;
 
-import cc.hyperium.event.InvokeEvent;
-import cc.hyperium.event.RenderHUDEvent;
-import cc.hyperium.event.TickEvent;
+import cc.hyperium.Hyperium;
+import cc.hyperium.event.*;
 import cc.hyperium.utils.RenderUtils;
+import com.google.gson.JsonObject;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.ScaledResolution;
@@ -219,6 +219,8 @@ public class ElementRenderer {
         if (!this.minecraft.inGameHasFocus || this.minecraft.gameSettings.showDebugInfo) {
             return;
         }
+//        if (!MiscUtil.shouldRenderHUD())
+//            return;
 //        GlStateManager.color(1.0F,1.0F,1.0F,1.0F);
 
         renderElements();
@@ -229,8 +231,16 @@ public class ElementRenderer {
 
     public void renderElements() {
         //TODO add CONFIG option to show items when not on Hypixel
-        //if (!Hyperium.INSTANCE.getHandlers().getHypixelDetector().isHypixel())
-        //  return;
+        String setting = "chromaHudNonHypixelEnabled";
+        JsonObject generalJsonObject = Hyperium.CONFIG.getConfig().get("cc.hyperium.gui.settings.items.GeneralSetting").getAsJsonObject();
+        boolean multiServerEnabled;
+        if (!generalJsonObject.has(setting)) {
+            generalJsonObject.addProperty(setting, true);
+            Hyperium.CONFIG.save();
+        }
+        multiServerEnabled = generalJsonObject.get(setting).getAsBoolean();
+        if (!Hyperium.INSTANCE.getHandlers().getHypixelDetector().isHypixel() && !multiServerEnabled)
+          return;
 
         if (fontRendererObj == null)
             fontRendererObj = Minecraft.getMinecraft().fontRendererObj;
