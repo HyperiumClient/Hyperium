@@ -5,15 +5,5 @@
     "sounds": [
       "hyperium:zoo"
     ]
-  },
-  "hyperium.oof": {
-    "category": "players",
-    "subtitle": "hyperium.oof",
-    "sounds": [
-      {
-        "name": "hyperium:oof",
-        "stream": true
-      }
-    ]
   }
 }
