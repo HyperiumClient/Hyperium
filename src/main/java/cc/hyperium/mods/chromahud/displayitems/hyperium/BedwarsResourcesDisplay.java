@@ -18,8 +18,8 @@ public class BedwarsResourcesDisplay extends DisplayItem {
 
     public BedwarsResourcesDisplay(JsonHolder data, int ordinal) {
         super(data, ordinal);
-        this.height = 5 * 10;
-        this.width = 6.5 * 10;
+        this.height = 6.5 * 10;
+        this.width = 10 * 10;
     }
 
     @Override
