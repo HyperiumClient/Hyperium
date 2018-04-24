@@ -34,6 +34,7 @@ public class BedwarsResourcesDisplay extends DisplayItem {
                 totalAmount += inventoryPlayer.getStackInSlot(i).stackSize;
             }
         }
+        list.add("BedWars Resources:");
         list.add("Blocks: " + totalAmount);
         list.add("Iron: " + getAmountOfType(Items.iron_ingot));
         list.add("Gold: " + getAmountOfType(Items.gold_ingot));
