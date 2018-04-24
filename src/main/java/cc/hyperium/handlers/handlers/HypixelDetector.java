@@ -25,6 +25,10 @@ import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.util.ResourceLocation;
 
+import java.awt.*;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.regex.Pattern;
 
 public class HypixelDetector {
@@ -88,11 +92,17 @@ public class HypixelDetector {
     @InvokeEvent
     public void join(JoinHypixelEvent event) {
         System.out.println("Zoo");
-        Hyperium.INSTANCE.getNotification().display("Hypixel", "Welcome to the HYPIXEL ZOO", 5f);
+
+        Hyperium.INSTANCE.getNotification().display("Welcome to the HYPIXEL ZOO", "Click to visit https://hypixel.net/", 5f,
+                null, () -> {
+                    try {
+                        Desktop.getDesktop().browse(new URI("https://hypixel.net/"));
+                    } catch (IOException | URISyntaxException e) {
+                        e.printStackTrace();
+                    }
+                }, new Color(200, 150, 50));
 
         Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.create(new ResourceLocation("zoo"), (float) Minecraft.getMinecraft().thePlayer.posX, (float) Minecraft.getMinecraft().thePlayer.posY, (float) Minecraft.getMinecraft().thePlayer.posZ));
-
-
 
 //        Minecraft.getMinecraft().thePlayer.playSound("hyperium:zoo",1.0F,1.0F);
     }
