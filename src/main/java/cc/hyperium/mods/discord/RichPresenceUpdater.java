@@ -19,6 +19,7 @@ package cc.hyperium.mods.discord;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.event.*;
+import cc.hyperium.gui.settings.items.GeneralSetting;
 import com.jagrosh.discordipc.IPCClient;
 import com.jagrosh.discordipc.entities.RichPresence;
 import net.minecraft.client.Minecraft;
@@ -31,18 +32,21 @@ public class RichPresenceUpdater {
 
     RichPresenceUpdater(IPCClient client) {
         this.client = client;
-        RichPresence.Builder builder = new RichPresence.Builder();
-        client.sendRichPresence(builder
-                .setSmallImage("compass")
-                .setLargeImage("hyperium", "Hyperium Client")
-                .setState("IGN: " + Minecraft.getMinecraft().getSession().getUsername())
-                .setDetails("On the Main Menu")
-                .setStartTimestamp(OffsetDateTime.now())
-                .build());
+        if (!GeneralSetting.discordRPEnabled) return;
+        
+         RichPresence.Builder builder = new RichPresence.Builder();
+         client.sendRichPresence(builder
+                 .setSmallImage("compass")
+                 .setLargeImage("hyperium", "Hyperium Client")
+                 .setState("IGN: " + Minecraft.getMinecraft().getSession().getUsername())
+                 .setDetails("On the Main Menu")
+                 .setStartTimestamp(OffsetDateTime.now())
+                 .build());
     }
 
     @InvokeEvent(priority = Priority.LOW)
     public void onServerJoin(ServerJoinEvent event) {
+        if (!GeneralSetting.discordRPEnabled || !GeneralSetting.discordServerDisplayEnabled) return;
         RichPresence.Builder builder = new RichPresence.Builder();
         if (Hyperium.INSTANCE.getHandlers().getHypixelDetector().isHypixel()) {
             client.sendRichPresence(builder
@@ -65,6 +69,7 @@ public class RichPresenceUpdater {
 
     @InvokeEvent(priority = Priority.LOW)
     public void onMinigameJoin(JoinMinigameEvent event) {
+        if (!GeneralSetting.discordRPEnabled || !GeneralSetting.discordServerDisplayEnabled) return;
         RichPresence.Builder builder = new RichPresence.Builder();
         client.sendRichPresence(builder
                 .setSmallImage("compass")
@@ -77,6 +82,7 @@ public class RichPresenceUpdater {
 
     @InvokeEvent(priority = Priority.LOW)
     public void onSinglePlayer(SingleplayerJoinEvent event) {
+        if (!GeneralSetting.discordRPEnabled) return;
         RichPresence.Builder builder = new RichPresence.Builder();
         client.sendRichPresence(builder
                 .setSmallImage("compass")
@@ -89,6 +95,7 @@ public class RichPresenceUpdater {
 
     @InvokeEvent(priority = Priority.LOW)
     public void onServerLeave(ServerLeaveEvent e) {
+        if (!GeneralSetting.discordRPEnabled) return;
         RichPresence.Builder builder = new RichPresence.Builder();
         client.sendRichPresence(builder
                 .setSmallImage("compass")
