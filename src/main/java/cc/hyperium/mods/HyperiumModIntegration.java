@@ -19,15 +19,14 @@ package cc.hyperium.mods;
 
 import cc.hyperium.mods.autogg.AutoGG;
 import cc.hyperium.mods.blockoverlay.BlockOverlay;
+import cc.hyperium.mods.chromahud.ChromaHUD;
 import cc.hyperium.mods.hgames.HGames;
 import cc.hyperium.mods.keystrokes.KeystrokesMod;
+import cc.hyperium.mods.levelhead.Levelhead;
 import cc.hyperium.mods.oldanimations.OldAnimations;
 import cc.hyperium.mods.skinchanger.SkinChangerMod;
-import cc.hyperium.mods.chromahud.ChromaHUD;
-import cc.hyperium.mods.levelhead.Levelhead;
 import cc.hyperium.mods.timechanger.TimeChanger;
 import cc.hyperium.mods.togglechat.ToggleChatMod;
-
 import cc.hyperium.mods.utilities.UtilitiesMod;
 import me.semx11.autotip.Autotip;
 
@@ -36,43 +35,43 @@ import me.semx11.autotip.Autotip;
  * ChromaHUD, LevelHead and ToggleChat
  */
 public class HyperiumModIntegration {
-    
+
     private AbstractMod keystrokesMod;
     private AbstractMod timeChanger;
     private AbstractMod skinChanger;
     private AbstractMod toggleChat;
     private AbstractMod utilities;
     private AbstractMod levelhead;
-    
+
     private AbstractMod chromaHUD;
     private AbstractMod autotip;
     private AbstractMod autogg;
     private AbstractMod oldanimations;
     private AbstractMod hgames;
     private AbstractMod blockOverlay;
-    
+
     public HyperiumModIntegration() {
         // ChromaHud implementation
         this.chromaHUD = new ChromaHUD().init();
-        
+
         // LevelHead implementation
         this.levelhead = new Levelhead().init();
-        
+
         // Utilities implementation
         this.utilities = new UtilitiesMod().init();
-        
+
         // ToggleChat implementation
         this.toggleChat = new ToggleChatMod().init();
-        
+
         // SkinChanger implementation
         this.skinChanger = new SkinChangerMod().init();
-        
+
         // TimeChanger implementation
         this.timeChanger = new TimeChanger().init();
-        
+
         // KeystrokesMod implementation
         this.keystrokesMod = new KeystrokesMod().init();
-        
+
         // Autotip implementation
         this.autotip = new Autotip().init();
 
@@ -86,7 +85,7 @@ public class HyperiumModIntegration {
 
         this.blockOverlay = new BlockOverlay().init();
     }
-    
+
     /**
      * A getter for the running Autotip instance
      *
@@ -113,7 +112,7 @@ public class HyperiumModIntegration {
     public AbstractMod getHGames() {
         return this.hgames;
     }
-    
+
     /**
      * A getter for the running ChromeHUD instance
      *
@@ -122,7 +121,7 @@ public class HyperiumModIntegration {
     public AbstractMod getChromaHUD() {
         return this.chromaHUD;
     }
-    
+
     /**
      * A getter for the running LevelHead instance
      *
@@ -131,7 +130,7 @@ public class HyperiumModIntegration {
     public AbstractMod getLevelhead() {
         return this.levelhead;
     }
-    
+
     /**
      * A getter for the running Utilities instance
      *
@@ -140,7 +139,7 @@ public class HyperiumModIntegration {
     public AbstractMod getUtilities() {
         return this.utilities;
     }
-    
+
     /**
      * A getter for the running TimeChanger instance
      *
@@ -149,7 +148,7 @@ public class HyperiumModIntegration {
     public AbstractMod getTimeChanger() {
         return timeChanger;
     }
-    
+
     /**
      * A getter for the running SkinChanger instance
      *
@@ -158,7 +157,7 @@ public class HyperiumModIntegration {
     public AbstractMod getSkinChanger() {
         return this.skinChanger;
     }
-    
+
     /**
      * A getter for the running ToggleChat instance
      *
@@ -167,7 +166,7 @@ public class HyperiumModIntegration {
     public AbstractMod getToggleChat() {
         return this.toggleChat;
     }
-    
+
     /**
      * A getter for the running KeystrokesMod instance
      *

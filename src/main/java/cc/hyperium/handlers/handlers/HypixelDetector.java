@@ -22,6 +22,7 @@ import cc.hyperium.event.*;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
+import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.util.ResourceLocation;
 
 import java.util.regex.Pattern;
@@ -29,7 +30,7 @@ import java.util.regex.Pattern;
 public class HypixelDetector {
 
     private static final Pattern HYPIXEL_PATTERN =
-            Pattern.compile("^(?:(?:(?:\\w+\\.)?hypixel\\.net)|(?:209\\.222\\.115\\.\\d{1,3}))(?::\\d{1,5})?$", Pattern.CASE_INSENSITIVE);
+            Pattern.compile("^(?:(?:(?:.+\\.)?hypixel\\.net)|(?:209\\.222\\.115\\.\\d{1,3})|(?:99\\.198\\.123\\.[123]?\\d?))\\.?(?::\\d{1,5}\\.?)?$", Pattern.CASE_INSENSITIVE);
     private static final Pattern BADLION_PATTERN =
             Pattern.compile("^(?:(?:na|eu|sa)\\.badlion\\.net)(?::\\d{1,5})?$", Pattern.CASE_INSENSITIVE);
 
@@ -49,25 +50,39 @@ public class HypixelDetector {
     public void serverJoinEvent(ServerJoinEvent event) {
         this.badlion = BADLION_PATTERN.matcher(event.getServer()).find();
         this.hypixel = HYPIXEL_PATTERN.matcher(event.getServer()).find();
-        if (hypixel) {
-            Multithreading.runAsync(() -> {
-                int tries = 0;
-                while (Minecraft.getMinecraft().thePlayer == null) {
-                    tries++;
-                    if (tries > 20 * 10) {
-                        return;
-                    }
-                    try {
-                        Thread.sleep(50L);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+
+        Multithreading.runAsync(() -> {
+            // Wait a while until the player isn't null, signifying the joining process is complete
+            int tries = 0;
+            while (Minecraft.getMinecraft().thePlayer == null) {
+                tries++;
+                if (tries > 20 * 10) {
+                    return;
+                }
+                try {
+                    Thread.sleep(50L);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            if (hypixel) { // If player is online recognized Hypixel IP
+                EventBus.INSTANCE.post(new JoinHypixelEvent(JoinHypixelEvent.VerificationMethod.IP));
+
+            } else if (!badlion) { // Player ISNT on badlion, further Hypixel checks
+                if (Minecraft.getMinecraft() != null && Minecraft.getMinecraft().getCurrentServerData() != null) {
+                    final ServerData serverData = Minecraft.getMinecraft().getCurrentServerData();
+
+                    if(serverData != null) {
+                        // Check MOTD for Hypixel
+                        if (serverData.serverMOTD != null && serverData.serverMOTD.toLowerCase().contains("hypixel network")) {
+                            this.hypixel = true;
+                            EventBus.INSTANCE.post(new JoinHypixelEvent(JoinHypixelEvent.VerificationMethod.MOTD));
+                        }
                     }
                 }
-                EventBus.INSTANCE.post(new JoinHypixelEvent());
-            });
-
-
-        }
+            }
+        });
     }
 
     @InvokeEvent

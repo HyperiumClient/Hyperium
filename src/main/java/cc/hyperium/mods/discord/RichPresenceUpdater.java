@@ -39,6 +39,7 @@ public class RichPresenceUpdater {
                  .setSmallImage("compass")
                  .setLargeImage("hyperium", "Hyperium Client")
                  .setState("IGN: " + Minecraft.getMinecraft().getSession().getUsername())
+                 .setDetails("On the Main Menu")
                  .setStartTimestamp(OffsetDateTime.now())
                  .build());
     }
@@ -52,6 +53,7 @@ public class RichPresenceUpdater {
                     .setSmallImage("compass")
                     .setLargeImage("16", "Hypixel Network")
                     .setState("IGN: " + Minecraft.getMinecraft().getSession().getUsername())
+                    .setDetails("In the Lobbies on MC.HYPIXEL.NET")
                     .setStartTimestamp(OffsetDateTime.now())
                     .build());
         } else {
@@ -59,6 +61,7 @@ public class RichPresenceUpdater {
                     .setSmallImage("compass")
                     .setLargeImage("16", "Hypixel Network")
                     .setState("IGN: " + Minecraft.getMinecraft().getSession().getUsername())
+                    .setDetails("On a Minecraft server")
                     .setStartTimestamp(OffsetDateTime.now())
                     .build());
         }
@@ -72,9 +75,9 @@ public class RichPresenceUpdater {
                 .setSmallImage("compass")
                 .setLargeImage(String.valueOf(event.getMinigame().getId()), event.getMinigame().getScoreName())
                 .setState("IGN: " + Minecraft.getMinecraft().getSession().getUsername())
+                .setDetails("Playing " + event.getMinigame().getScoreName() + " on MC.HYPIXEL.NET")
                 .setStartTimestamp(OffsetDateTime.now())
                 .build());
-
     }
 
     @InvokeEvent(priority = Priority.LOW)
@@ -85,6 +88,20 @@ public class RichPresenceUpdater {
                 .setSmallImage("compass")
                 .setLargeImage("hyperium", "Hyperium Client")
                 .setState("IGN: " + Minecraft.getMinecraft().getSession().getUsername())
+                .setDetails("Playing Single-Player")
+                .setStartTimestamp(OffsetDateTime.now())
+                .build());
+    }
+
+    @InvokeEvent(priority = Priority.LOW)
+    public void onServerLeave(ServerLeaveEvent e) {
+        if (!GeneralSetting.discordRPEnabled) return;
+        RichPresence.Builder builder = new RichPresence.Builder();
+        client.sendRichPresence(builder
+                .setSmallImage("compass")
+                .setLargeImage("hyperium", "Hyperium Client")
+                .setState("IGN: " + Minecraft.getMinecraft().getSession().getUsername())
+                .setDetails("On the Main Menu")
                 .setStartTimestamp(OffsetDateTime.now())
                 .build());
     }

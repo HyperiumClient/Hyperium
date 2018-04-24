@@ -24,7 +24,7 @@ import com.google.common.base.Preconditions;
  * to be turned on and off by the user
  */
 public abstract class AbstractMod {
-    
+
     /**
      * The init method where all events and commands should
      * be registered. Use this to load configs as well
@@ -32,7 +32,7 @@ public abstract class AbstractMod {
      * @return the {@link AbstractMod} instance of the mod
      */
     public abstract AbstractMod init();
-    
+
     /**
      * This mods metadata, which will be displayed in the
      * configuration gui and other places
@@ -40,35 +40,35 @@ public abstract class AbstractMod {
      * @return the mods metadata
      */
     public abstract Metadata getModMetadata();
-    
+
     /**
      * The Metadata implementation, created to identify built-in
      * addons and their other information. For upcoming features
      */
     public class Metadata {
-        
+
         private final AbstractMod mod;
         private final String author;
         private final String name;
         private final String version;
-        
+
         private String displayName;
-        
+
         public Metadata(AbstractMod mod, String name) {
             this(mod, name, "1.0");
         }
-        
+
         public Metadata(AbstractMod mod, String name, String version) {
             this(mod, name, version, "");
         }
-    
+
         /**
          * The best constructor for the Metadata, contains all the useful data
          *
-         * @param mod the mod instance
-         * @param name the mod identifier
+         * @param mod     the mod instance
+         * @param name    the mod identifier
          * @param version the mod version
-         * @param author the mod author
+         * @param author  the mod author
          */
         public Metadata(AbstractMod mod, String name, String version, String author) {
             Preconditions.checkArgument(mod != null, "The mod instance cannot be null");
@@ -81,7 +81,7 @@ public abstract class AbstractMod {
             this.version = version;
             this.displayName = name;
         }
-    
+
         /**
          * Getter for the mod instance
          *
@@ -90,7 +90,7 @@ public abstract class AbstractMod {
         public AbstractMod getMod() {
             return this.mod;
         }
-    
+
         /**
          * Getter for the identifier of the mod
          *
@@ -99,7 +99,7 @@ public abstract class AbstractMod {
         public String getName() {
             return this.name != null ? this.name : "";
         }
-        
+
         /**
          * Getter for the version of the mod
          *
@@ -108,7 +108,7 @@ public abstract class AbstractMod {
         public String getVersion() {
             return this.version;
         }
-    
+
         /**
          * Getter for the author of the mod
          *
@@ -117,7 +117,7 @@ public abstract class AbstractMod {
         public String getAuthor() {
             return this.author != null ? this.author : "";
         }
-    
+
         /**
          * Setter for the mods display name for the configuration menu
          *
@@ -126,7 +126,7 @@ public abstract class AbstractMod {
         public void setDisplayName(String name) {
             this.displayName = name;
         }
-        
+
         /**
          * Getter for the mods display name
          *
