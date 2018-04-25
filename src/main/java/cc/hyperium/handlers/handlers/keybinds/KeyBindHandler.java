@@ -43,14 +43,13 @@ import java.util.UUID;
 
 public class KeyBindHandler {
 
-    private static Map<Integer, Integer> mouseBinds = new HashMap<>();
-
     public static HyperiumBind nameHistory = new HyperiumBind("nameHistory", Keyboard.KEY_H) {
         @Override
         public void onPress() {
             Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new NameHistoryGui());
         }
     };
+    private static Map<Integer, Integer> mouseBinds = new HashMap<>();
     private final KeyBindConfig keyBindConfig;
     // Case insensitive treemap
     private final TreeMap<String, HyperiumBind> keybinds = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
@@ -71,12 +70,13 @@ public class KeyBindHandler {
     public HyperiumBind debug = new HyperiumBind("DEBUG", Keyboard.KEY_J) {
         @Override
         public void onPress() {
+            Hyperium.INSTANCE.getHandlers().getConfigOptions().alternateFontRenderer = !Hyperium.INSTANCE.getHandlers().getConfigOptions().alternateFontRenderer;
 
         }
 
         @Override
         public void onRelease() {
-
+            Hyperium.INSTANCE.getHandlers().getConfigOptions().alternateFontRenderer = !Hyperium.INSTANCE.getHandlers().getConfigOptions().alternateFontRenderer;
         }
     };
 
@@ -87,7 +87,7 @@ public class KeyBindHandler {
         public void onPress() {
             if (!Hyperium.INSTANCE.getCosmetics().getFlipCosmetic().isSelfUnlocked())
                 return;
-            inverted=!inverted;
+            inverted = !inverted;
             Hyperium.INSTANCE.getHandlers().getFlipHandler().state(Minecraft.getMinecraft().getSession().getProfile().getId(), inverted);
             NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("type", "flip_update").put("flipped", inverted)));
 
@@ -97,7 +97,7 @@ public class KeyBindHandler {
         public void onRelease() {
             if (!Hyperium.INSTANCE.getCosmetics().getFlipCosmetic().isSelfUnlocked())
                 return;
-            inverted=!inverted;
+            inverted = !inverted;
             Hyperium.INSTANCE.getHandlers().getFlipHandler().state(Minecraft.getMinecraft().getSession().getProfile().getId(), inverted);
             NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("type", "flip_update").put("flipped", inverted)));
         }
@@ -192,8 +192,8 @@ public class KeyBindHandler {
         registerKeyBinding(flossDance);
 
         // Populate mouse bind list in accordance with Minecraft's values.
-        for (int i = 0; i < 16; i++ ){
-            mouseBinds.put(i,-100 + i);
+        for (int i = 0; i < 16; i++) {
+            mouseBinds.put(i, -100 + i);
         }
     }
 
@@ -215,9 +215,9 @@ public class KeyBindHandler {
     }
 
     @InvokeEvent
-    public void onMouseButton(MouseButtonEvent event){
+    public void onMouseButton(MouseButtonEvent event) {
         // Dismisses mouse movement input.
-        if(event.getValue() >= 0) {
+        if (event.getValue() >= 0) {
             if (Minecraft.getMinecraft().inGameHasFocus && Minecraft.getMinecraft().currentScreen == null) {
                 for (HyperiumBind bind : this.keybinds.values()) {
                     // Gets Minecraft value of the mouse value and checks to see if it matches a keybind.

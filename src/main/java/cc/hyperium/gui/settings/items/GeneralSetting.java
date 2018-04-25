@@ -80,6 +80,10 @@ public class GeneralSetting extends SettingGui {
     public static boolean hideScoreboardNumbers = true;
     @ConfigOpt
     public static boolean blurGuiBackgroundsEnabled = true;
+    @ConfigOpt
+    public static boolean chromaHudNonHypixelEnabled = true;
+    @ConfigOpt
+    public static boolean screenshotOnKillEnabled = false;
 
     private SelectionItem<String> discordRP;
 
@@ -118,6 +122,10 @@ public class GeneralSetting extends SettingGui {
     private SelectionItem<String> scoreboardNumbers;
 
     private SelectionItem<String> blurGuiBackgrounds;
+
+    private SelectionItem<String> chromaHudNonHypixel;
+
+    private SelectionItem<String> screenshotOnKill;
 
     /** Set to true when a setting is changed, this will trigger a save when the gui is closed */
     private boolean settingsUpdated;
@@ -293,6 +301,22 @@ public class GeneralSetting extends SettingGui {
         }));
         blurGuiBackgrounds.addDefaultOnOff();
         blurGuiBackgrounds.setSelectedItem(blurGuiBackgroundsEnabled ? "ON" : "OFF");
+
+        this.settingItems.add(this.chromaHudNonHypixel = new SelectionItem<>(19, getX(), getDefaultItemY(19), this.width - getX() * 2, "DISPLAY CHROMA-HUD ON OTHER SERVERS", i -> {
+            ((SelectionItem) i).nextItem();
+            chromaHudNonHypixelEnabled = ((SelectionItem) i).getSelectedItem().equals("ON");
+            this.settingsUpdated = true;
+        }));
+        chromaHudNonHypixel.addDefaultOnOff();
+        chromaHudNonHypixel.setSelectedItem(chromaHudNonHypixelEnabled ? "ON" : "OFF");
+
+        this.settingItems.add(this.screenshotOnKill = new SelectionItem<>(20, getX(), getDefaultItemY(20), this.width - getX() * 2, "TAKE SCREENSHOT ON KILL", i -> {
+            ((SelectionItem) i).nextItem();
+            screenshotOnKillEnabled = ((SelectionItem) i).getSelectedItem().equals("ON");
+            this.settingsUpdated = true;
+        }));
+        screenshotOnKill.addDefaultOnOff();
+        screenshotOnKill.setSelectedItem(screenshotOnKillEnabled ? "ON" : "OFF");
     }
 
     /**

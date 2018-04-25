@@ -207,8 +207,23 @@ class RenderSelectedItemEvent(val scaledRes: ScaledResolution)
 
 /**
  * Called when the player joins hypixel
+ * @param method method used to verify the player is online Hypixel
  */
-class JoinHypixelEvent
+class JoinHypixelEvent(val method: ServerVerificationMethod)
+
+/**
+ * Called when the player joins badlion
+ * @param method method used to verify the player is online Badlion
+ */
+class JoinBadlionEvent(val method: ServerVerificationMethod)
+
+/**
+ * All the methods used by HypixelDetector to detect Hypixel or Badlion
+ * This is used by the above two events
+ */
+enum class ServerVerificationMethod {
+    IP, MOTD
+}
 
 /**
  * Called when the game is shutting down, use this to save your configs
