@@ -58,6 +58,7 @@
     "packet.MixinS14PacketEntity",
     "packet.MixinS19PacketEntityStatus",
     "packet.MixinNetHandlerPlayClient",
+    "packet.MixinNetworkManager",
     "utils.MixinResourcePackRepository",
 
     "world.MixinChunk",

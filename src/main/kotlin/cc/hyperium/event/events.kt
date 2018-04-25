@@ -28,6 +28,8 @@ import net.minecraft.client.renderer.entity.RenderManager
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.item.ItemStack
+import net.minecraft.network.INetHandler
+import net.minecraft.network.Packet
 import net.minecraft.scoreboard.ScoreObjective
 import net.minecraft.util.*
 import java.lang.reflect.Method
@@ -114,6 +116,8 @@ class RenderEvent
  * Invoked when the hud of the client is rendered
  */
 class RenderHUDEvent(partialTicks: Float)
+
+class PacketReceivedEvent(var packet : Packet<out INetHandler>)
 
 /**
  * Invoked once a chat message is sent
