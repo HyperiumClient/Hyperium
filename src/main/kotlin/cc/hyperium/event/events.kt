@@ -117,6 +117,9 @@ class RenderEvent
  */
 class RenderHUDEvent(partialTicks: Float)
 
+/**
+ * Invoked once a packet is received by the client, right before it is processed
+ */
 class PacketReceivedEvent(var packet : Packet<out INetHandler>)
 
 /**
