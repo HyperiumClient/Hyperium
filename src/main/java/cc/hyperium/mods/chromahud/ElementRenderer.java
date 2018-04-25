@@ -21,7 +21,7 @@ import cc.hyperium.Hyperium;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.RenderHUDEvent;
 import cc.hyperium.event.TickEvent;
-import cc.hyperium.utils.ConfigUtil;
+import cc.hyperium.gui.settings.items.GeneralSetting;
 import cc.hyperium.utils.RenderUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -234,8 +234,7 @@ public class ElementRenderer {
     }
 
     public void renderElements() {
-        boolean multiServerEnabled = ConfigUtil.getOptionWithDefault("chromaHudNonHypixelEnabled", "cc.hyperium.gui.settings.items.GeneralSetting", true);
-        if (!Hyperium.INSTANCE.getHandlers().getHypixelDetector().isHypixel() && !multiServerEnabled)
+        if (!Hyperium.INSTANCE.getHandlers().getHypixelDetector().isHypixel() && !GeneralSetting.chromaHudNonHypixelEnabled)
             return;
 
         if (fontRendererObj == null)

@@ -4,9 +4,9 @@ import cc.hyperium.event.ChatEvent;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.TickEvent;
+import cc.hyperium.gui.settings.items.GeneralSetting;
 import cc.hyperium.mods.AbstractMod;
 import cc.hyperium.utils.ChatColor;
-import cc.hyperium.utils.ConfigUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.util.ScreenShotHelper;
@@ -27,13 +27,12 @@ public class KillScreenshot extends AbstractMod {
     @Override
     public AbstractMod init() {
         EventBus.INSTANCE.register(this);
-        ConfigUtil.getOptionWithDefault("screenshotOnKillEnabled", "cc.hyperium.gui.settings.items.GeneralSetting", false);
         return this;
     }
 
     @InvokeEvent
     public void onChatRecieved(ChatEvent e) {
-        if (!ConfigUtil.getOptionWithDefault("screenshotOnKillEnabled", "cc.hyperium.gui.settings.items.GeneralSetting", false))
+        if (!GeneralSetting.screenshotOnKillEnabled)
             return;
         if ((e.getChat().getUnformattedText().startsWith("+")) && (e.getChat().getUnformattedText().contains("Kill")) && (e.getChat().getUnformattedText().contains("coins"))) {
             screenshotTimer = 0;
