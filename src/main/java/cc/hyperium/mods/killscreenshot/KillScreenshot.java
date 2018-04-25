@@ -1,7 +1,9 @@
 package cc.hyperium.mods.killscreenshot;
 
-import cc.hyperium.event.*;
-import cc.hyperium.handlers.handlers.chat.HyperiumChatHandler;
+import cc.hyperium.event.ChatEvent;
+import cc.hyperium.event.EventBus;
+import cc.hyperium.event.InvokeEvent;
+import cc.hyperium.event.TickEvent;
 import cc.hyperium.mods.AbstractMod;
 import cc.hyperium.utils.ChatColor;
 import cc.hyperium.utils.ConfigUtil;
@@ -10,10 +12,6 @@ import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.util.ScreenShotHelper;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
-
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class KillScreenshot extends AbstractMod {
 
