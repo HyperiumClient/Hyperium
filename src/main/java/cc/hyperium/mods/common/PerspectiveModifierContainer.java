@@ -17,8 +17,13 @@
 
 package cc.hyperium.mods.common;
 
+import cc.hyperium.Hyperium;
 import cc.hyperium.gui.settings.items.GeneralSetting;
+import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
 import cc.hyperium.handlers.handlers.keybinds.HyperiumBind;
+import cc.hyperium.handlers.handlers.keybinds.KeyBindHandler;
+import cc.hyperium.mixins.MixinKeyBinding;
+import net.minecraft.client.Minecraft;
 import org.lwjgl.input.Keyboard;
 
 /**
@@ -38,32 +43,32 @@ public class PerspectiveModifierContainer {
     private boolean enabled = false;
 
     public PerspectiveModifierContainer() {
-        //KeyBindHandler keyBindHandler = Hyperium.INSTANCE.getHandlers().getKeybindHandler();
+        KeyBindHandler keyBindHandler = Hyperium.INSTANCE.getHandlers().getKeybindHandler();
 
-        //if (keyBindHandler.getBinding("perspective") == null) {
-        //    keyBindHandler.registerKeyBinding(this.perspective);
-        //}
+        if (keyBindHandler.getBinding("perspective") == null) {
+            keyBindHandler.registerKeyBinding(this.perspective);
+        }
     }
 
     public void onEnable() {
-        //Minecraft.getMinecraft().gameSettings.thirdPersonView = 2;
-        //GeneralChatHandler.instance().sendMessage("Enabled 360 Degree Perspective.");
+        Minecraft.getMinecraft().gameSettings.thirdPersonView = 1;
+        GeneralChatHandler.instance().sendMessage("Enabled 360 Degree Perspective.");
 
-        //this.modifiedYaw = Minecraft.getMinecraft().thePlayer.cameraYaw;
-        //this.modifiedPitch = Minecraft.getMinecraft().thePlayer.cameraPitch;
+        this.modifiedYaw = Minecraft.getMinecraft().thePlayer.cameraYaw;
+        this.modifiedPitch = Minecraft.getMinecraft().thePlayer.cameraPitch;
     }
 
     public void onDisable() {
-        //this.enabled = false;
+        this.enabled = false;
 
-        //((MixinKeyBinding) this.perspective).setPressed(false);
+        ((MixinKeyBinding) this.perspective).setPressed(false);
 
-        //Minecraft.getMinecraft().gameSettings.thirdPersonView = 0;
-        //GeneralChatHandler.instance().sendMessage("Disabled 360 Degree Perspective.");
+        Minecraft.getMinecraft().gameSettings.thirdPersonView = 0;
+        GeneralChatHandler.instance().sendMessage("Disabled 360 Degree Perspective.");
 
         // Reset the states anyway
-        //this.modifiedYaw = Minecraft.getMinecraft().thePlayer.cameraYaw;
-        //this.modifiedPitch = Minecraft.getMinecraft().thePlayer.cameraPitch;
+        this.modifiedYaw = Minecraft.getMinecraft().thePlayer.cameraYaw;
+        this.modifiedPitch = Minecraft.getMinecraft().thePlayer.cameraPitch;
     }
 
     public boolean isEnabled() {

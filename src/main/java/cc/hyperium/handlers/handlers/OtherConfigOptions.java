@@ -17,4 +17,10 @@ public class OtherConfigOptions {
 
     @ConfigOpt
     public boolean showFlipEverywhere = true;
+
+    @ConfigOpt
+    public int stringCacheSize = 1000;
+
+    @ConfigOpt
+    public boolean alternateFontRenderer = false;
 }
