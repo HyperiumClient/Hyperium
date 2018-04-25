@@ -30,11 +30,10 @@ class DefaultAddonLoader : AddonLoaderStrategy() {
         }
 
         val jar = JarFile(file)
-        val manifest = AddonManifestParser(jar).getAddonManifest()
-
         if (jar.getJarEntry("pack.mcmeta") != null) {
             AddonBootstrap.addonResourcePacks.add(file)
         }
+        val manifest = AddonManifestParser(jar).getAddonManifest()
 
         val uri = file.toURI()
         Launch.classLoader.addURL(uri.toURL())
