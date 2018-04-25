@@ -52,4 +52,13 @@ class AddonManifest {
      * @return tweaker-class
      */
     val tweakerClass: String? = null
+
+    /**
+     * An array containing all the names of
+     * the dependencies. The dependencies
+     * should be loaded before this addon.
+     *
+     * @return the names of the dependencies
+     */
+    val dependencies: List<String> = ArrayList()
 }

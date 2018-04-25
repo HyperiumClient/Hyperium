@@ -31,6 +31,7 @@ object AddonMinecraftBootstrap {
         }
 
         val loaded = AddonBootstrap.addonManifests
+                .sortedWith(DependencyComparator())
                 .map { Class.forName(it.mainClass).newInstance() }
                 .filter { it is IAddon }
                 .map { it as IAddon }
