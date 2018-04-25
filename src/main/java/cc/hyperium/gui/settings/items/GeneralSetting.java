@@ -82,6 +82,8 @@ public class GeneralSetting extends SettingGui {
     public static boolean blurGuiBackgroundsEnabled = true;
     @ConfigOpt
     public static boolean chromaHudNonHypixelEnabled = true;
+    @ConfigOpt
+    public static boolean screenshotOnKillEnabled = false;
 
     private SelectionItem<String> discordRP;
 
@@ -122,6 +124,8 @@ public class GeneralSetting extends SettingGui {
     private SelectionItem<String> blurGuiBackgrounds;
 
     private SelectionItem<String> chromaHudNonHypixel;
+
+    private SelectionItem<String> screenshotOnKill;
 
     /** Set to true when a setting is changed, this will trigger a save when the gui is closed */
     private boolean settingsUpdated;
@@ -305,6 +309,14 @@ public class GeneralSetting extends SettingGui {
         }));
         chromaHudNonHypixel.addDefaultOnOff();
         chromaHudNonHypixel.setSelectedItem(chromaHudNonHypixelEnabled ? "ON" : "OFF");
+
+        this.settingItems.add(this.screenshotOnKill = new SelectionItem<>(20, getX(), getDefaultItemY(20), this.width - getX() * 2, "TAKE SCREENSHOT ON KILL", i -> {
+            ((SelectionItem) i).nextItem();
+            screenshotOnKillEnabled = ((SelectionItem) i).getSelectedItem().equals("ON");
+            this.settingsUpdated = true;
+        }));
+        screenshotOnKill.addDefaultOnOff();
+        screenshotOnKill.setSelectedItem(screenshotOnKillEnabled ? "ON" : "OFF");
     }
 
     /**

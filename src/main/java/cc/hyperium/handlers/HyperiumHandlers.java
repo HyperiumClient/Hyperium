@@ -105,7 +105,6 @@ public class HyperiumHandlers {
         EventBus.INSTANCE.register(this);
         System.out.println("Done");
 
-
         //Command Handler
         register(commandHandler = new HyperiumCommandHandler());
     }

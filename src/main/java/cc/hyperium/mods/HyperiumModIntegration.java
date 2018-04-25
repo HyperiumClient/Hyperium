@@ -22,6 +22,7 @@ import cc.hyperium.mods.blockoverlay.BlockOverlay;
 import cc.hyperium.mods.chromahud.ChromaHUD;
 import cc.hyperium.mods.hgames.HGames;
 import cc.hyperium.mods.keystrokes.KeystrokesMod;
+import cc.hyperium.mods.killscreenshot.KillScreenshot;
 import cc.hyperium.mods.levelhead.Levelhead;
 import cc.hyperium.mods.oldanimations.OldAnimations;
 import cc.hyperium.mods.skinchanger.SkinChangerMod;
@@ -42,6 +43,7 @@ public class HyperiumModIntegration {
     private AbstractMod toggleChat;
     private AbstractMod utilities;
     private AbstractMod levelhead;
+    private AbstractMod killScreenshot;
 
     private AbstractMod chromaHUD;
     private AbstractMod autotip;
@@ -81,9 +83,14 @@ public class HyperiumModIntegration {
         // HGames implementation
         this.hgames = new HGames().init();
 
+        // Old Animations implementation
         this.oldanimations = new OldAnimations().init();
 
+        // Block Overlay implementation
         this.blockOverlay = new BlockOverlay().init();
+
+        // Kill Screenshot implementation
+        this.killScreenshot = new KillScreenshot().init();
     }
 
     /**
@@ -174,5 +181,14 @@ public class HyperiumModIntegration {
      */
     public AbstractMod getKeystrokesMod() {
         return this.keystrokesMod;
+    }
+
+    /**
+     * A getter for the running KillScreenshot instance
+     *
+     * @return the running KillScreenshot instance
+     */
+    public AbstractMod getKillScreenshot() {
+        return this.killScreenshot;
     }
 }
