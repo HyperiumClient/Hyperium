@@ -19,6 +19,7 @@ package cc.hyperium.mods.chromahud;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.event.*;
+import cc.hyperium.utils.ConfigUtil;
 import cc.hyperium.utils.RenderUtils;
 import com.google.gson.JsonObject;
 import net.minecraft.client.Minecraft;
@@ -232,15 +233,7 @@ public class ElementRenderer {
     }
 
     public void renderElements() {
-        //TODO add CONFIG option to show items when not on Hypixel: DONE
-        String setting = "chromaHudNonHypixelEnabled";
-        JsonObject generalJsonObject = Hyperium.CONFIG.getConfig().get("cc.hyperium.gui.settings.items.GeneralSetting").getAsJsonObject();
-        boolean multiServerEnabled;
-        if (!generalJsonObject.has(setting)) {
-            generalJsonObject.addProperty(setting, true);
-            Hyperium.CONFIG.save();
-        }
-        multiServerEnabled = generalJsonObject.get(setting).getAsBoolean();
+        boolean multiServerEnabled = ConfigUtil.getOptionWithDefault("chromaHudNonHypixelEnabled", "cc.hyperium.gui.settings.items.GeneralSetting", true);
         if (!Hyperium.INSTANCE.getHandlers().getHypixelDetector().isHypixel() && !multiServerEnabled)
           return;
 
