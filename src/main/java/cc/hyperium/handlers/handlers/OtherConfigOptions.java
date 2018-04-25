@@ -23,4 +23,7 @@ public class OtherConfigOptions {
 
     @ConfigOpt
     public boolean alternateFontRenderer = false;
+
+    @ConfigOpt
+    public boolean enableDeadmau5Ears = true;
 }
