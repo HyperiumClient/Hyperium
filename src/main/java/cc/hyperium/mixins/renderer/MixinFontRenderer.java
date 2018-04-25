@@ -153,7 +153,7 @@ public abstract class MixinFontRenderer {
             }
 
             list = GLAllocation.generateDisplayLists(1);
-            GL11.glNewList(list, GL11.GL_COMPILE);
+            GL11.glNewList(list, GL11.GL_COMPILE_AND_EXECUTE);
         }
         for (int i = 0; i < text.length(); ++i) {
             char c0 = text.charAt(i);
