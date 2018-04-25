@@ -175,6 +175,7 @@ public class ElementRenderer {
     }
 
     public static void render(List<ItemStack> itemStacks, int x, double y, boolean showDurability) {
+      GlStateManager.pushMatrix();
         int line = 0;
         RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
         for (ItemStack stack : itemStacks) {
@@ -187,6 +188,7 @@ public class ElementRenderer {
             }
             line++;
         }
+        GlStateManager.popMatrix();
     }
 
     public static void startDrawing(DisplayElement element) {
