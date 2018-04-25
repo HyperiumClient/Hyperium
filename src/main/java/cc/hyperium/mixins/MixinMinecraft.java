@@ -176,6 +176,7 @@ import cc.hyperium.handlers.handlers.HypixelDetector;
 import cc.hyperium.internal.addons.AddonBootstrap;
 import cc.hyperium.internal.addons.AddonMinecraftBootstrap;
 import cc.hyperium.internal.addons.IAddon;
+import cc.hyperium.utils.AddonWorkspaceResourcePack;
 import cc.hyperium.utils.Utils;
 import cc.hyperium.utils.mods.FPSLimiter;
 import net.minecraft.block.material.Material;
@@ -189,7 +190,6 @@ import net.minecraft.client.particle.EffectRenderer;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.resources.DefaultResourcePack;
 import net.minecraft.client.resources.FileResourcePack;
-import net.minecraft.client.resources.FolderResourcePack;
 import net.minecraft.client.resources.IResourcePack;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.util.BlockPos;
@@ -279,7 +279,7 @@ public abstract class MixinMinecraft {
     private void preinit(CallbackInfo ci) {
         this.defaultResourcePacks.add(this.mcDefaultResourcePack);
         for (File file : AddonBootstrap.getAddonResourcePacks()) {
-            this.defaultResourcePacks.add(file.isDirectory() ? new FolderResourcePack(file) : new FileResourcePack(file));
+            this.defaultResourcePacks.add(file == null ? new AddonWorkspaceResourcePack() : new FileResourcePack(file));
         }
         AddonMinecraftBootstrap.init();
         EventBus.INSTANCE.post(new PreInitializationEvent());
