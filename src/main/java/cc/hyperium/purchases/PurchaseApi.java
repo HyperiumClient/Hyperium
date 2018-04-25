@@ -17,6 +17,8 @@
 
 package cc.hyperium.purchases;
 
+import cc.hyperium.event.InvokeEvent;
+import cc.hyperium.event.SpawnpointChangeEvent;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.mods.sk1ercommon.Sk1erMod;
 import cc.hyperium.purchases.packages.*;
@@ -47,10 +49,28 @@ public class PurchaseApi {
         register(EnumPurchaseType.DAB_ON_KILL, DabOnKill.class);
         register(EnumPurchaseType.PARTICLE_BACKGROUND, ParticleBackgroundCosmetic.class);
         register(EnumPurchaseType.FLIP_COSMETIC, FlipCosmeticPackage.class);
+        getPackageAsync(Minecraft.getMinecraft().getSession().getProfile().getId(), hyperiumPurchase -> {
+            System.out.println("Loaded self packages: " + hyperiumPurchase.getResponse());
+        });
     }
 
     public static PurchaseApi getInstance() {
         return instance;
+    }
+
+    @InvokeEvent
+    public void worldSwitch(SpawnpointChangeEvent event) {
+        Multithreading.runAsync(() -> {
+            synchronized (instance) {
+                UUID id = Minecraft.getMinecraft().getSession().getProfile().getId();
+                HyperiumPurchase purchase = purchasePlayers.get(id);
+                purchasePlayers.clear();
+                if (purchase != null) {
+                    purchasePlayers.put(id, purchase);
+                }
+            }
+        });
+
     }
 
     public UUID nameToUUID(String name) {
