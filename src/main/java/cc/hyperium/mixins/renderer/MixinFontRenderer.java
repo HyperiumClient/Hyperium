@@ -144,10 +144,8 @@ public abstract class MixinFontRenderer {
         if (Hyperium.INSTANCE.getHandlers().getConfigOptions().alternateFontRenderer) {
             CachedString cachedString = shadow ? shadowStringCache.get(text) : normalStringCache.get(text);
             if (cachedString != null) {
-                GlStateManager.pushMatrix();
                 GlStateManager.callList(cachedString.getListId());
-                GlStateManager.popMatrix();
-
+                this.renderEngine.bindTexture(this.locationFontTexture);
                 GlStateManager.translate(-posX, -posY, 0F);
                 this.posY = posY + cachedString.getHeight();
                 this.posX = posX + cachedString.getWidth();
@@ -155,7 +153,7 @@ public abstract class MixinFontRenderer {
             }
 
             list = GLAllocation.generateDisplayLists(1);
-            GL11.glNewList(list, GL11.GL_COMPILE_AND_EXECUTE);
+            GL11.glNewList(list, GL11.GL_COMPILE);
         }
         for (int i = 0; i < text.length(); ++i) {
             char c0 = text.charAt(i);

@@ -27,6 +27,7 @@ public class ValueHandler {
     private int rankedRating;
     @ConfigOpt
     private int deltaRankedRating;
+    private int lastTexture;
 
     public int getDeltaRankedRating() {
         return deltaRankedRating;
@@ -42,5 +43,13 @@ public class ValueHandler {
 
     public void setRankedRating(int rankedRating) {
         this.rankedRating = rankedRating;
+    }
+
+    public int getLastTexture() {
+        return lastTexture;
+    }
+
+    public void setLastTexture(int lastTexture) {
+        this.lastTexture = lastTexture;
     }
 }

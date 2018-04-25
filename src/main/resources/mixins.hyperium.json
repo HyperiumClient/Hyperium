@@ -53,6 +53,7 @@
     "renderer.MixinRender",
     "renderer.MixinDabRender",
     "renderer.MixinFontRenderer",
+
     "renderer.MixinLayerDeadmau5Head",
     "packet.MixinC01PacketChatMessage",
     "packet.MixinS2EPacketCloseWindow",
