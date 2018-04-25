@@ -159,7 +159,6 @@ public class AnimationSettings extends SettingGui {
         flip.addItems(Arrays.asList("YES", "NO"));
         flip.setSelectedItem(  Hyperium.INSTANCE.getHandlers().getConfigOptions().showFlipEverywhere  ? "YES" : "NO");
 
-
     }
 
 
