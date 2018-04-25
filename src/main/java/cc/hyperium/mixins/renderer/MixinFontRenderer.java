@@ -1,6 +1,7 @@
 package cc.hyperium.mixins.renderer;
 
 import cc.hyperium.Hyperium;
+import cc.hyperium.handlers.handlers.FontRendererData;
 import cc.hyperium.utils.CachedString;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.GLAllocation;
@@ -16,7 +17,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
@@ -29,10 +29,6 @@ public abstract class MixinFontRenderer {
     public Random fontRandom;
     @Shadow
     public int FONT_HEIGHT;
-    public HashMap<String, CachedString> normalStringCache = new HashMap<>();
-    public HashMap<String, CachedString> shadowStringCache = new HashMap<>();
-
-    private HashMap<String, Integer> stringWidthCache = new HashMap<>();
     @Shadow
     private boolean bidiFlag;
     @Shadow
@@ -141,8 +137,8 @@ public abstract class MixinFontRenderer {
         this.posY = 0;
         this.posX = 0;
         GlStateManager.translate(posX, posY, 0F);
-        if (Hyperium.INSTANCE.getHandlers().getConfigOptions().alternateFontRenderer) {
-            CachedString cachedString = shadow ? shadowStringCache.get(text) : normalStringCache.get(text);
+        if (Hyperium.INSTANCE.getHandlers().getConfigOptions().alternateFontRenderer && text.length() > 10) {
+            CachedString cachedString = shadow ? FontRendererData.INSTANCE.shadowStringCache.get(text) : FontRendererData.INSTANCE.normalStringCache.get(text);
             if (cachedString != null) {
                 GlStateManager.callList(cachedString.getListId());
                 this.renderEngine.bindTexture(this.locationFontTexture);
@@ -282,13 +278,13 @@ public abstract class MixinFontRenderer {
                 this.posX += (float) ((int) f);
             }
         }
-        if (Hyperium.INSTANCE.getHandlers().getConfigOptions().alternateFontRenderer) {
+        if (Hyperium.INSTANCE.getHandlers().getConfigOptions().alternateFontRenderer && text.length() > 10) {
             GL11.glEndList();
             CachedString value = new CachedString(text, list, this.posX - posX, this.posY - posY);
             if (shadow)
-                shadowStringCache.put(text, value);
+                FontRendererData.INSTANCE.shadowStringCache.put(text, value);
             else
-                normalStringCache.put(text, value);
+                FontRendererData.INSTANCE.normalStringCache.put(text, value);
         }
         GlStateManager.translate(-posX, -posY, 0F);
     }
@@ -331,9 +327,9 @@ public abstract class MixinFontRenderer {
             return 0;
         } else {
 
-            if (stringWidthCache.size() > Hyperium.INSTANCE.getHandlers().getConfigOptions().stringCacheSize)
-                stringWidthCache.clear();
-            return stringWidthCache.computeIfAbsent(text, (text1) -> {
+            if (FontRendererData.INSTANCE.stringWidthCache.size() > Hyperium.INSTANCE.getHandlers().getConfigOptions().stringCacheSize)
+                FontRendererData.INSTANCE.stringWidthCache.clear();
+            return FontRendererData.INSTANCE.stringWidthCache.computeIfAbsent(text, (text1) -> {
                 int i = 0;
                 boolean flag = false;
 
