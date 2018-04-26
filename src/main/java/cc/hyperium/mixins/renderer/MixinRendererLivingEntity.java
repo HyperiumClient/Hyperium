@@ -19,15 +19,26 @@ package cc.hyperium.mixins.renderer;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.gui.settings.items.AnimationSettings;
+import cc.hyperium.purchases.AbstractHyperiumPurchase;
+import cc.hyperium.purchases.EnumPurchaseType;
+import cc.hyperium.purchases.HyperiumPurchase;
+import cc.hyperium.purchases.PurchaseApi;
+import cc.hyperium.purchases.packages.EarsCosmetic;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.culling.ICamera;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.RendererLivingEntity;
 import net.minecraft.client.renderer.entity.layers.LayerBipedArmor;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.MathHelper;
+import org.lwjgl.opengl.GL11;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
@@ -52,6 +63,9 @@ public abstract class MixinRendererLivingEntity<T extends EntityLivingBase> exte
 
     @Shadow
     protected abstract float getDeathMaxRotation(T entityLivingBaseIn);
+
+    @Shadow
+    protected abstract boolean canRenderName(T entity);
 
     /**
      * @author
@@ -93,5 +107,69 @@ public abstract class MixinRendererLivingEntity<T extends EntityLivingBase> exte
     @Override
     public boolean shouldRender(T livingEntity, ICamera camera, double camX, double camY, double camZ) {
         return super.shouldRender(livingEntity, camera, camX, camY, camZ);
+    }
+
+    @Overwrite
+    public void renderName(T entity, double x, double y, double z) {
+        if (this.canRenderName(entity)) {
+            double d0 = entity.getDistanceSqToEntity(this.renderManager.livingPlayer);
+            float f = entity.isSneaking() ? 32.0F : 64.0F;
+
+            if (d0 < (double) (f * f)) {
+                String s = entity.getDisplayName().getFormattedText();
+                float f1 = 0.02666667F;
+                GlStateManager.alphaFunc(516, 0.1F);
+
+                if (entity.isSneaking()) {
+                    FontRenderer fontrenderer = this.getFontRendererFromRenderManager();
+                    GlStateManager.pushMatrix();
+                    float offset = 0;
+                    if (Hyperium.INSTANCE.getCosmetics().getDeadmau5Cosmetic().isPurchasedBy(entity.getUniqueID())) {
+                        HyperiumPurchase packageIfReady = PurchaseApi.getInstance().getPackageIfReady(entity.getUniqueID());
+                        if (packageIfReady != null) {
+                            AbstractHyperiumPurchase purchase = packageIfReady.getPurchase(EnumPurchaseType.DEADMAU5_COSMETIC);
+                            if (purchase != null) {
+                                if (entity.getUniqueID() != Minecraft.getMinecraft().thePlayer.getUniqueID()) {
+                                    if (((EarsCosmetic) purchase).isEnabled()) {
+                                        offset += .24;
+                                    }
+                                } else if (Hyperium.INSTANCE.getHandlers().getConfigOptions().enableDeadmau5Ears)
+                                    offset += .24;
+                            }
+
+                        }
+                    }
+                    GlStateManager.translate((float) x, (float) y + offset + entity.height + 0.5F - (entity.isChild() ? entity.height / 2.0F : 0.0F), (float) z);
+                    GL11.glNormal3f(0.0F, 1.0F, 0.0F);
+                    GlStateManager.rotate(-this.renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
+                    GlStateManager.rotate(this.renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
+                    GlStateManager.scale(-0.02666667F, -0.02666667F, 0.02666667F);
+                    GlStateManager.translate(0.0F, 9.374999F, 0.0F);
+                    GlStateManager.disableLighting();
+                    GlStateManager.depthMask(false);
+                    GlStateManager.enableBlend();
+                    GlStateManager.disableTexture2D();
+                    GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
+                    int i = fontrenderer.getStringWidth(s) / 2;
+                    Tessellator tessellator = Tessellator.getInstance();
+                    WorldRenderer worldrenderer = tessellator.getWorldRenderer();
+                    worldrenderer.begin(7, DefaultVertexFormats.POSITION_COLOR);
+                    worldrenderer.pos((double) (-i - 1), -1.0D, 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
+                    worldrenderer.pos((double) (-i - 1), 8.0D, 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
+                    worldrenderer.pos((double) (i + 1), 8.0D, 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
+                    worldrenderer.pos((double) (i + 1), -1.0D, 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
+                    tessellator.draw();
+                    GlStateManager.enableTexture2D();
+                    GlStateManager.depthMask(true);
+                    fontrenderer.drawString(s, -fontrenderer.getStringWidth(s) / 2, 0, 553648127);
+                    GlStateManager.enableLighting();
+                    GlStateManager.disableBlend();
+                    GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+                    GlStateManager.popMatrix();
+                } else {
+                    this.renderOffsetLivingLabel(entity, x, y - (entity.isChild() ? (double) (entity.height / 2.0F) : 0.0D), z, s, 0.02666667F, d0);
+                }
+            }
+        }
     }
 }

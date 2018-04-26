@@ -1,6 +1,11 @@
 package cc.hyperium.mixins.renderer;
 
 import cc.hyperium.Hyperium;
+import cc.hyperium.purchases.AbstractHyperiumPurchase;
+import cc.hyperium.purchases.EnumPurchaseType;
+import cc.hyperium.purchases.HyperiumPurchase;
+import cc.hyperium.purchases.PurchaseApi;
+import cc.hyperium.purchases.packages.EarsCosmetic;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.GlStateManager;
@@ -59,12 +64,28 @@ public abstract class MixinRender<T extends Entity> {
             float f = 1.6F;
             float f1 = 0.016666668F * f;
             GlStateManager.pushMatrix();
-            GlStateManager.translate((float) x + 0.0F, (float) y + entityIn.height + 0.5F, (float) z);
+            float offset = 0;
+                if (Hyperium.INSTANCE.getCosmetics().getDeadmau5Cosmetic().isPurchasedBy(entityIn.getUniqueID())) {
+                    HyperiumPurchase packageIfReady = PurchaseApi.getInstance().getPackageIfReady(entityIn.getUniqueID());
+                    if (packageIfReady != null) {
+                        AbstractHyperiumPurchase purchase = packageIfReady.getPurchase(EnumPurchaseType.DEADMAU5_COSMETIC);
+                        if (purchase != null) {
+                            if (entityIn.getUniqueID() != Minecraft.getMinecraft().thePlayer.getUniqueID()) {
+                                if (((EarsCosmetic) purchase).isEnabled()) {
+                                    offset += .24;
+                                }
+                            } else if (Hyperium.INSTANCE.getHandlers().getConfigOptions().enableDeadmau5Ears)
+                                offset += .24;
+                        }
+
+                }
+            }
+            GlStateManager.translate((float) x + 0.0F, (float) y + offset + entityIn.height + 0.5F, (float) z);
             GL11.glNormal3f(0.0F, 1.0F, 0.0F);
             GlStateManager.rotate(-this.renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
 
             int xMultiplier = 1; // Nametag x rotations should flip in front-facing 3rd person
-            if(Minecraft.getMinecraft() != null && Minecraft.getMinecraft().gameSettings != null &&Minecraft.getMinecraft().gameSettings.thirdPersonView == 2)
+            if (Minecraft.getMinecraft() != null && Minecraft.getMinecraft().gameSettings != null && Minecraft.getMinecraft().gameSettings.thirdPersonView == 2)
                 xMultiplier = -1;
             GlStateManager.rotate(this.renderManager.playerViewX * xMultiplier, 1.0F, 0.0F, 0.0F);
             GlStateManager.scale(-f1, -f1, f1);
