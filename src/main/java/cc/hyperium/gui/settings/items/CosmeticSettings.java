@@ -43,12 +43,14 @@ public class CosmeticSettings extends SettingGui {
     public static int flossDanceSpeed = 4;
     @ConfigOpt
     public static boolean flossDanceToggle = false;
+    
     private DefaultConfig config;
     private SelectionItem<String> showEars;
     private SelectionItem<Integer> dabspeed;
     private SelectionItem<String> toggledab;
     private SelectionItem<Integer> flossdancespeed;
     private SelectionItem<String> toggleflossdance;
+    
     public CosmeticSettings(HyperiumGui previous) {
         super("COSMETICS", previous);
         config = Hyperium.CONFIG;
@@ -102,18 +104,16 @@ public class CosmeticSettings extends SettingGui {
             flossDanceToggle = ((SelectionItem) i).getSelectedItem().equals("ON");
         }));
         toggleflossdance.addItems(Arrays.asList("ON", "OFF"));
-        toggleflossdance.setSelectedItem(dabToggle ? "ON" : "OFF");
+        toggleflossdance.setSelectedItem(flossDanceToggle ? "ON" : "OFF");
 
-        SelectionItem<Object> flip = new SelectionItem<>(5, getX(), getDefaultItemY(5), width - getX() * 2, "SHOW COSMETICS EVERYWHERE", i -> {
+        SelectionItem<Object> showCosmeticsEveryWhere = new SelectionItem<>(5, getX(), getDefaultItemY(5), width - getX() * 2, "SHOW COSMETICS EVERYWHERE", i -> {
             ((SelectionItem) i).nextItem();
             Hyperium.INSTANCE.getHandlers().getConfigOptions().showCosmeticsEveryWhere = ((SelectionItem) i).getSelectedItem().equals("YES");
         });
-        settingItems.add(flip);
-        flip.addItems(Arrays.asList("YES", "NO"));
-        flip.setSelectedItem(Hyperium.INSTANCE.getHandlers().getConfigOptions().showCosmeticsEveryWhere ? "YES" : "NO");
-
+        settingItems.add(showCosmeticsEveryWhere);
+        showCosmeticsEveryWhere.addItems(Arrays.asList("YES", "NO"));
+        showCosmeticsEveryWhere.setSelectedItem(Hyperium.INSTANCE.getHandlers().getConfigOptions().showCosmeticsEveryWhere ? "YES" : "NO");
     }
-
 
     private int getDefaultItemY(int i) {
         return getY() + 25 + i * 15;
