@@ -68,7 +68,6 @@ public class Spotify {
         this.csrfToken = getCSRFToken();
         this.status = getStatus();
         instance = this;
-        System.out.println("Spotify loaded: " + instance);
     }
 
     /**
@@ -266,9 +265,7 @@ public class Spotify {
         while (spotify == null) {
             try {
                 spotify = new Spotify();
-            } catch (Exception ignored) {
-                System.out.println("Failed to load Spotify, trying again in 5 seconds.");
-            }
+            } catch (Exception ignored) { }
 
             if (spotify == null) {
                 try {
