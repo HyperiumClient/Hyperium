@@ -3,81 +3,12 @@ package cc.hyperium.mixins.renderer;
 import cc.hyperium.Hyperium;
 import cc.hyperium.handlers.handlers.FontRendererData;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.renderer.texture.TextureManager;
-import net.minecraft.util.ResourceLocation;
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 
-import java.util.List;
-import java.util.Random;
-
 @Mixin(FontRenderer.class)
 public abstract class MixinFontRenderer {
-
-
-    @Shadow
-    public Random fontRandom;
-    @Shadow
-    public int FONT_HEIGHT;
-    @Shadow
-    private boolean bidiFlag;
-    @Shadow
-    private float red;
-    @Shadow
-    private float blue;
-    @Shadow
-    private float green;
-    @Shadow
-    private float alpha;
-    @Shadow
-    private float posX;
-    @Shadow
-    private float posY;
-
-    @Shadow
-    private boolean randomStyle;
-    @Shadow
-    private boolean boldStyle;
-    @Shadow
-    private boolean strikethroughStyle;
-    @Shadow
-    private boolean underlineStyle;
-    @Shadow
-    private boolean italicStyle;
-    @Shadow
-    private int[] colorCode;
-    @Shadow
-    private int textColor;
-    @Shadow
-    private boolean unicodeFlag;
-    @Shadow
-    @Final
-    private TextureManager renderEngine;
-    @Shadow
-    @Final
-    private ResourceLocation locationFontTexture;
-    @Shadow
-    private int[] charWidth;
-
-    @Shadow
-    public abstract int getCharWidth(char character);
-
-    @Shadow
-    protected abstract void resetStyles();
-
-    @Shadow
-    protected abstract String bidiReorder(String text);
-
-    @Shadow
-    protected abstract float renderUnicodeChar(char ch, boolean italic);
-
-    @Shadow
-    public abstract List<String> listFormattedStringToWidth(String str, int wrapWidth);
-
-    @Shadow
-    protected abstract int renderStringAligned(String text, int x, int y, int width, int color, boolean dropShadow);
 
 
     /**
@@ -242,8 +173,8 @@ public abstract class MixinFontRenderer {
 //        }
 //        GlStateManager.translate(-posX, -posY, 0F);
 //    }
-
-
+    @Shadow
+    public abstract int getCharWidth(char character);
 
     /**
      * @author Sk1er

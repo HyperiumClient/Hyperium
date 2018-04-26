@@ -61,18 +61,21 @@ public class MixinLayerDeadmau5Head {
         }
         if (Hyperium.INSTANCE.getCosmetics().getDeadmau5Cosmetic().isPurchasedBy(entitylivingbaseIn.getUniqueID()) && !(entitylivingbaseIn.getName().equals("deadmau5"))) {
             HyperiumPurchase packageIfReady = PurchaseApi.getInstance().getPackageIfReady(entitylivingbaseIn.getUniqueID());
-            if (packageIfReady == null)
+            if (packageIfReady == null) {
+
                 return;
+            }
             AbstractHyperiumPurchase purchase = packageIfReady.getPurchase(EnumPurchaseType.DEADMAU5_COSMETIC);
-            if (purchase == null)
+            if (purchase == null) {
+
                 return;
+            }
             if (entitylivingbaseIn.getUniqueID() != Minecraft.getMinecraft().thePlayer.getUniqueID()) {
                 if (!((EarsCosmetic) purchase).isEnabled()) {
                     return;
                 }
             } else if (!Hyperium.INSTANCE.getHandlers().getConfigOptions().enableDeadmau5Ears)
                 return;
-
             this.playerRenderer.bindTexture(entitylivingbaseIn.getLocationSkin());
 
             for (int i = 0; i < 2; ++i) {
@@ -85,7 +88,7 @@ public class MixinLayerDeadmau5Head {
                 GlStateManager.translate(0.0F, -0.375F, 0.0F);
                 GlStateManager.rotate(-f1, 1.0F, 0.0F, 0.0F);
                 GlStateManager.rotate(-f, 0.0F, 1.0F, 0.0F);
-                if (Minecraft.getMinecraft().thePlayer.isSneaking()) {
+                if (entitylivingbaseIn.isSneaking()) {
                     GlStateManager.translate(0.0F, 0.25, 0.0F);
                 }
                 float f2 = 1.3333334F;

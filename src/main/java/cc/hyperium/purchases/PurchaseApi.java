@@ -17,6 +17,7 @@
 
 package cc.hyperium.purchases;
 
+import cc.hyperium.event.EventBus;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.SpawnpointChangeEvent;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
@@ -58,6 +59,8 @@ public class PurchaseApi {
         getPackageAsync(Minecraft.getMinecraft().getSession().getProfile().getId(), hyperiumPurchase -> {
             System.out.println("Loaded self packages: " + hyperiumPurchase.getResponse());
         });
+        EventBus.INSTANCE.register(this);
+
     }
 
     public static PurchaseApi getInstance() {
@@ -74,6 +77,7 @@ public class PurchaseApi {
                 if (purchase != null) {
                     purchasePlayers.put(id, purchase);
                 }
+                System.out.println("Cleared purchase cache ("+purchasePlayers.size()+")");
             }
         });
 
