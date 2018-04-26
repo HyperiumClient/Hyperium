@@ -17,7 +17,6 @@
 
 package cc.hyperium.purchases;
 
-import cc.hyperium.event.EventBus;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.SpawnpointChangeEvent;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
@@ -145,7 +144,7 @@ public class PurchaseApi {
 
     JsonHolder get(String url) {
         url = url.replace(" ", "%20");
-        //System.out.println("Fetching " + url);
+        System.out.println("Fetching " + url);
         try {
             URL u = new URL(url);
             HttpURLConnection connection = (HttpURLConnection) u.openConnection();
