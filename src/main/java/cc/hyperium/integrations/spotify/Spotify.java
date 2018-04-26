@@ -17,6 +17,7 @@
 
 package cc.hyperium.integrations.spotify;
 
+import cc.hyperium.Hyperium;
 import cc.hyperium.integrations.os.OsHelper;
 import cc.hyperium.integrations.spotify.impl.SpotifyInformation;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
@@ -98,7 +99,7 @@ public class Spotify {
             } catch(Exception e) {
                 System.out.println("[SPOTIFY] Exception occurred");
             }
-        }, 3, 1, TimeUnit.SECONDS);
+        }, 3, 3, TimeUnit.SECONDS);
 
 
         // WTF IS THIS SHIT LOL
@@ -257,6 +258,43 @@ public class Spotify {
     private void checkForError(SpotifyInformation status) throws Exception {
         if (status.getOpenStateGraph() == null)
             throw new Exception("No user logged in");
+    }
+
+    public static void load() {
+        Spotify spotify = null;
+
+        while (spotify == null) {
+            try {
+                spotify = new Spotify();
+            } catch (Exception ignored) {
+                System.out.println("Failed to load Spotify, trying again in 5 seconds.");
+            }
+
+            if (spotify == null) {
+                try {
+                    Thread.sleep(1000 * 5);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        try {
+            spotify.addListener(new Spotify.SpotifyListener() {
+                @Override
+                public void onPlay(SpotifyInformation info) {
+                    Hyperium.INSTANCE.getNotification()
+                            .display("Spotify",
+                                    "Now playing " + info.getTrack().getTrackResource().getName(),
+                                    8
+                            );
+                }
+            });
+
+            spotify.start();
+        } catch (Exception e) {
+            Hyperium.LOGGER.warn("Failed to connect to spotify");
+        }
     }
 
     /**
