@@ -33,7 +33,7 @@ public class FlipHandler {
     public void transform(EntityLivingBase bat) {
         String s = EnumChatFormatting.getTextWithoutFormattingCodes(bat.getName());
         Boolean aBoolean = rotateState.get(bat.getUniqueID());
-        if (!Hyperium.INSTANCE.getHandlers().getConfigOptions().showFlipEverywhere) {
+        if (!Hyperium.INSTANCE.getHandlers().getConfigOptions().showCosmeticsEveryWhere) {
             if (!(Hyperium.INSTANCE.getMinigameListener().getCurrentMinigameName().equalsIgnoreCase("HOUSING") || Hyperium.INSTANCE.getHandlers().getLocationHandler().getLocation().contains("lobby")))
                 return;
         }

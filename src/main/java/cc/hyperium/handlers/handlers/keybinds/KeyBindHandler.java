@@ -26,7 +26,7 @@ import cc.hyperium.gui.ModConfigGui;
 import cc.hyperium.gui.NameHistoryGui;
 import cc.hyperium.gui.integrations.HypixelFriendsGui;
 import cc.hyperium.gui.integrations.QueueModGui;
-import cc.hyperium.gui.settings.items.AnimationSettings;
+import cc.hyperium.gui.settings.items.CosmeticSettings;
 import cc.hyperium.handlers.handlers.DabHandler;
 import cc.hyperium.handlers.handlers.FlossDanceHandler;
 import cc.hyperium.netty.NettyClient;
@@ -110,7 +110,7 @@ public class KeyBindHandler {
             UUID uuid = (Minecraft.getMinecraft().getSession()).getProfile().getId();
             FlossDanceHandler.DanceState currentState = flossDanceHandler.get(uuid);
 
-            if (AnimationSettings.flossDanceToggle && currentState.isDancing() && !this.wasPressed()) {
+            if (CosmeticSettings.flossDanceToggle && currentState.isDancing() && !this.wasPressed()) {
                 flossDanceHandler.get(uuid).setToggled(false);
                 flossDanceHandler.stopDancing(uuid);
                 NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("type", "floss_update").put("flossing", false)));
@@ -118,7 +118,7 @@ public class KeyBindHandler {
             }
 
             if (!this.wasPressed()) {
-                flossDanceHandler.get(uuid).setToggled(AnimationSettings.flossDanceToggle);
+                flossDanceHandler.get(uuid).setToggled(CosmeticSettings.flossDanceToggle);
                 flossDanceHandler.startDancing(uuid);
                 NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("type", "floss_update").put("flossing", true)));
 
@@ -128,7 +128,7 @@ public class KeyBindHandler {
 
         @Override
         public void onRelease() {
-            if (AnimationSettings.flossDanceToggle) return;
+            if (CosmeticSettings.flossDanceToggle) return;
             Hyperium.INSTANCE.getHandlers().getFlossDanceHandler().stopDancing(Minecraft.getMinecraft().getSession().getProfile().getId());
             NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("type", "floss_update").put("flossing", false)));
 
@@ -142,7 +142,7 @@ public class KeyBindHandler {
             UUID uuid = (Minecraft.getMinecraft().getSession()).getProfile().getId();
             DabHandler.DabState currentState = dabHandler.get(uuid);
 
-            if (AnimationSettings.dabToggle && currentState.isDabbing() && !this.wasPressed()) {
+            if (CosmeticSettings.dabToggle && currentState.isDabbing() && !this.wasPressed()) {
                 dabHandler.get(uuid).setToggled(false);
                 dabHandler.stopDabbing(uuid);
                 NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("type", "dab_update").put("dabbing", false)));
@@ -150,7 +150,7 @@ public class KeyBindHandler {
             }
 
             if (!this.wasPressed()) {
-                dabHandler.get(uuid).setToggled(AnimationSettings.dabToggle);
+                dabHandler.get(uuid).setToggled(CosmeticSettings.dabToggle);
                 dabHandler.startDabbing(uuid);
             }
             NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("type", "dab_update").put("dabbing", true)));
@@ -159,7 +159,7 @@ public class KeyBindHandler {
 
         @Override
         public void onRelease() {
-            if (AnimationSettings.dabToggle) return;
+            if (CosmeticSettings.dabToggle) return;
 
             Hyperium.INSTANCE.getHandlers().getDabHandler().stopDabbing(Minecraft.getMinecraft().getSession().getProfile().getId());
             NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("type", "dab_update").put("dabbing", false)));

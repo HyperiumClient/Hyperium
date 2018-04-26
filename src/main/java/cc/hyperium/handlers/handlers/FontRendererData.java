@@ -21,7 +21,6 @@ public class FontRendererData {
     public void tickEvent(TickEvent event) {
         this.e++;
         if (e > 20) {
-            System.out.println("Clearing");
             normalStringCache.forEach((s, cachedString) -> GLAllocation.deleteDisplayLists(cachedString.getListId()));
             shadowStringCache.forEach((s, cachedString) -> GLAllocation.deleteDisplayLists(cachedString.getListId()));
             normalStringCache.clear();

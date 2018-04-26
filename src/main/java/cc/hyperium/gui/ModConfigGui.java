@@ -152,14 +152,20 @@ public class ModConfigGui extends HyperiumGui {
         )).addSetting(new SettingItem(
                 4, getX(0),
                 getDefaultItemY(4),
+                width - getX(0) * 2,
+                "COSMETICS",
+                i -> Minecraft.getMinecraft().displayGuiScreen(new CosmeticSettings(this))
+        )).addSetting(new SettingItem(
+                5, getX(0),
+                getDefaultItemY(5),
                 this.width - getX(0) * 2,
                 "NAME HISTORY",
                 i -> Minecraft.getMinecraft().displayGuiScreen(new NameHistorySettings(this))
         ));
 
         tab.addSetting(new SettingItem(
-                5, getX(0),
-                getDefaultItemY(5),
+                6, getX(0),
+                getDefaultItemY(6),
                 width - getX(0) * 2,
                 Minecraft.getMinecraft().thePlayer != null ? "CHROMAHUD" : "CHROMAHUD CAN ONLY BE CONFIGURED INGAME",
                 i -> {
@@ -168,8 +174,8 @@ public class ModConfigGui extends HyperiumGui {
                 }));
 
         tab.addSetting(new SettingItem(
-                6, getX(0),
-                getDefaultItemY(6),
+                7, getX(0),
+                getDefaultItemY(7),
                 width - getX(0) * 2,
                 Minecraft.getMinecraft().thePlayer != null ? "KEYSTROKES" : "KEYSTROKES CAN ONLY BE CONFIGURED INGAME",
                 i -> {
