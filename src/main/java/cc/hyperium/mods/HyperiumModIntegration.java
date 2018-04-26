@@ -25,6 +25,7 @@ import cc.hyperium.mods.oldanimations.OldAnimations;
 import cc.hyperium.mods.skinchanger.SkinChangerMod;
 import cc.hyperium.mods.chromahud.ChromaHUD;
 import cc.hyperium.mods.levelhead.Levelhead;
+import cc.hyperium.mods.spotify.SpotifyControls;
 import cc.hyperium.mods.timechanger.TimeChanger;
 import cc.hyperium.mods.togglechat.ToggleChatMod;
 
@@ -50,6 +51,7 @@ public class HyperiumModIntegration {
     private AbstractMod oldanimations;
     private AbstractMod hgames;
     private AbstractMod blockOverlay;
+    private AbstractMod spotifyControls;
     
     public HyperiumModIntegration() {
         // ChromaHud implementation
@@ -85,6 +87,9 @@ public class HyperiumModIntegration {
         this.oldanimations = new OldAnimations().init();
 
         this.blockOverlay = new BlockOverlay().init();
+
+        // Spotify Controls Implementation
+        this.spotifyControls = new SpotifyControls().init();
     }
     
     /**

@@ -510,7 +510,7 @@ public class NotificationCenter extends Gui {
                             this.ticksLeft < lowerThreshold ? 0.0f :
                                     this.ticksLeft > topThreshold ? 1.0f : ticksLeft,
                             0.01f,
-                            5f
+                            8f
                     ),
                     0.0f,
                     1.0f

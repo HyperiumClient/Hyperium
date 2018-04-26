@@ -68,14 +68,12 @@ public class KeyBindHandler {
         public void onPress() {
             Hyperium.INSTANCE.getHandlers().getRotatePlayerHandler().state(Minecraft.getMinecraft().getSession().getProfile().getId(),true);
             NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("type", "flip_update").put("flipped", true)));
-
         }
 
         @Override
         public void onRelease() {
             Hyperium.INSTANCE.getHandlers().getRotatePlayerHandler().state(Minecraft.getMinecraft().getSession().getProfile().getId(),false);
             NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("type", "flip_update").put("flipped", false)));
-
         }
     };
 

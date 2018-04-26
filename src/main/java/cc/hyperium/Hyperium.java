@@ -223,7 +223,9 @@ public class Hyperium {
                 LOGGER.warn("Failed to connect to spotify");
             }
         });
+
         Runtime.getRuntime().addShutdownHook(new Thread(this::shutdown));
+
         if (acceptedTos) {
             sk1erMod = new Sk1erMod("hyperium", Metadata.getVersion(), object -> {
                 //Callback
