@@ -124,20 +124,24 @@ public abstract class MixinRendererLivingEntity<T extends EntityLivingBase> exte
                     FontRenderer fontrenderer = this.getFontRendererFromRenderManager();
                     GlStateManager.pushMatrix();
                     float offset = 0;
-                    if (Hyperium.INSTANCE.getCosmetics().getDeadmau5Cosmetic().isPurchasedBy(entity.getUniqueID())) {
-                        HyperiumPurchase packageIfReady = PurchaseApi.getInstance().getPackageIfReady(entity.getUniqueID());
-                        if (packageIfReady != null) {
-                            AbstractHyperiumPurchase purchase = packageIfReady.getPurchase(EnumPurchaseType.DEADMAU5_COSMETIC);
-                            if (purchase != null) {
-                                if (entity.getUniqueID() != Minecraft.getMinecraft().thePlayer.getUniqueID()) {
-                                    if (((EarsCosmetic) purchase).isEnabled()) {
+                    try {
+                        if (Hyperium.INSTANCE.getCosmetics().getDeadmau5Cosmetic().isPurchasedBy(entity.getUniqueID())) {
+                            HyperiumPurchase packageIfReady = PurchaseApi.getInstance().getPackageIfReady(entity.getUniqueID());
+                            if (packageIfReady != null) {
+                                AbstractHyperiumPurchase purchase = packageIfReady.getPurchase(EnumPurchaseType.DEADMAU5_COSMETIC);
+                                if (purchase != null) {
+                                    if (entity.getUniqueID() != Minecraft.getMinecraft().thePlayer.getUniqueID()) {
+                                        if (((EarsCosmetic) purchase).isEnabled()) {
+                                            offset += .24;
+                                        }
+                                    } else if (Hyperium.INSTANCE.getHandlers().getConfigOptions().enableDeadmau5Ears)
                                         offset += .24;
-                                    }
-                                } else if (Hyperium.INSTANCE.getHandlers().getConfigOptions().enableDeadmau5Ears)
-                                    offset += .24;
-                            }
+                                }
 
+                            }
                         }
+                    } catch (Exception e) {
+
                     }
                     GlStateManager.translate((float) x, (float) y + offset + entity.height + 0.5F - (entity.isChild() ? entity.height / 2.0F : 0.0F), (float) z);
                     GL11.glNormal3f(0.0F, 1.0F, 0.0F);

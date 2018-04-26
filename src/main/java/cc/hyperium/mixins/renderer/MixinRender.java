@@ -65,6 +65,7 @@ public abstract class MixinRender<T extends Entity> {
             float f1 = 0.016666668F * f;
             GlStateManager.pushMatrix();
             float offset = 0;
+            try {
                 if (Hyperium.INSTANCE.getCosmetics().getDeadmau5Cosmetic().isPurchasedBy(entityIn.getUniqueID())) {
                     HyperiumPurchase packageIfReady = PurchaseApi.getInstance().getPackageIfReady(entityIn.getUniqueID());
                     if (packageIfReady != null) {
@@ -78,7 +79,10 @@ public abstract class MixinRender<T extends Entity> {
                                 offset += .24;
                         }
 
+                    }
                 }
+            } catch (Exception e) {
+//                e.printStackTrace();
             }
             GlStateManager.translate((float) x + 0.0F, (float) y + offset + entityIn.height + 0.5F, (float) z);
             GL11.glNormal3f(0.0F, 1.0F, 0.0F);
