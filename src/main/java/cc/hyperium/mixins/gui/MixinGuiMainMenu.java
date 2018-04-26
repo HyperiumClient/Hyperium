@@ -20,6 +20,8 @@ package cc.hyperium.mixins.gui;
 import cc.hyperium.Hyperium;
 import cc.hyperium.gui.GuiBlock;
 import cc.hyperium.gui.HyperiumMainMenu;
+import cc.hyperium.internal.addons.AddonManifest;
+import cc.hyperium.internal.addons.AddonMinecraftBootstrap;
 import cc.hyperium.utils.ChatColor;
 import cc.hyperium.utils.RenderUtils;
 import net.minecraft.client.Minecraft;
@@ -27,11 +29,15 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiYesNoCallback;
+import org.apache.commons.lang3.StringUtils;
 import org.lwjgl.input.Mouse;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Mixin(GuiMainMenu.class)
 public abstract class MixinGuiMainMenu extends GuiScreen implements GuiYesNoCallback {
@@ -91,6 +97,38 @@ public abstract class MixinGuiMainMenu extends GuiScreen implements GuiYesNoCall
                 drawCenteredString(fontRendererObj, ChatColor.RED + "Accept", width / 2, 185, Color.WHITE.getRGB());
             }
             overLast = Mouse.isButtonDown(0);
+        } else if (!AddonMinecraftBootstrap.getDependenciesLoopMap().isEmpty() || !AddonMinecraftBootstrap.getMissingDependenciesMap().isEmpty()) {
+            int textY = 20;
+            drawCenteredString(this.fontRendererObj, ChatColor.RED.toString() +  ChatColor.BOLD + "ERROR LOADING ADDONS", width / 2, textY, Color.WHITE.getRGB());
+            textY += 10;
+            drawCenteredString(this.fontRendererObj, ChatColor.RED.toString() +  ChatColor.BOLD + "THE FOLLOWING ADDONS WON'T LOAD", width / 2, textY, Color.WHITE.getRGB());
+            textY += 10;
+            if (!AddonMinecraftBootstrap.getMissingDependenciesMap().isEmpty()) {
+                for (Map.Entry<AddonManifest, ArrayList<String>> entry : AddonMinecraftBootstrap.getMissingDependenciesMap().entrySet()) {
+                    textY += 10;
+                    drawCenteredString(this.fontRendererObj, ChatColor.RED + entry.getKey().getName() + " needs " + StringUtils.join(entry.getValue(), ", ") + " to load.", width / 2, textY, Color.WHITE.getRGB());
+                }
+            }
+
+            textY += 10;
+            if (!AddonMinecraftBootstrap.getDependenciesLoopMap().isEmpty()) {
+                for (Map.Entry<AddonManifest, ArrayList<AddonManifest>> entry : AddonMinecraftBootstrap.getDependenciesLoopMap().entrySet()) {
+                    textY += 10;
+                    drawCenteredString(this.fontRendererObj, ChatColor.RED + entry.getKey().getName() + " can't load together with " + StringUtils.join(entry.getValue().stream().map(AddonManifest::getName).collect(Collectors.toList()), ", " + "."), width / 2, textY, Color.WHITE.getRGB());
+                }
+            }
+
+            int hoverColor = new Color(0, 0, 0, 60).getRGB();
+            int color = new Color(0, 0, 0, 50).getRGB();
+            GuiBlock block1 = new GuiBlock(width / 2 - 100, width / 2 + 100, 200, 220);
+            Gui.drawRect(block1.getLeft(), block1.getTop(), block1.getRight(), block1.getBottom(), block1.isMouseOver(mouseX, mouseY) ? hoverColor : color);
+
+            if (block1.isMouseOver(mouseX, mouseY) && Mouse.isButtonDown(0)) {
+                // Clear the maps so this screen goes away.
+                AddonMinecraftBootstrap.getDependenciesLoopMap().clear();
+                AddonMinecraftBootstrap.getMissingDependenciesMap().clear();
+            }
+            drawCenteredString(fontRendererObj, "Continue", width / 2, 205, Color.WHITE.getRGB());
         } else {
             Minecraft.getMinecraft().displayGuiScreen(new HyperiumMainMenu());
         }
