@@ -59,7 +59,6 @@ public class PurchaseApi {
         getPackageAsync(Minecraft.getMinecraft().getSession().getProfile().getId(), hyperiumPurchase -> {
             System.out.println("Loaded self packages: " + hyperiumPurchase.getResponse());
         });
-        EventBus.INSTANCE.register(this);
 
     }
 

@@ -190,7 +190,7 @@ public class Hyperium {
         SplashProgress.CURRENT = "Registering commands";
         SplashProgress.update();
         registerCommands();
-        PurchaseApi instance = PurchaseApi.getInstance();
+        EventBus.INSTANCE.register( PurchaseApi.getInstance());
 
         SplashProgress.PROGRESS = 11;
         SplashProgress.CURRENT = "Loading integrations";
