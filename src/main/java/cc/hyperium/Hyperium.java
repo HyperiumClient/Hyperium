@@ -46,6 +46,7 @@ import cc.hyperium.mods.sk1ercommon.Sk1erMod;
 import cc.hyperium.mods.statistics.GeneralStatisticsTracking;
 import cc.hyperium.netty.NettyClient;
 import cc.hyperium.network.NetworkHandler;
+import cc.hyperium.purchases.PurchaseApi;
 import cc.hyperium.tray.TrayManager;
 import cc.hyperium.utils.mods.CompactChat;
 import cc.hyperium.utils.mods.FPSLimiter;
@@ -189,6 +190,7 @@ public class Hyperium {
         SplashProgress.CURRENT = "Registering commands";
         SplashProgress.update();
         registerCommands();
+        PurchaseApi instance = PurchaseApi.getInstance();
 
         SplashProgress.PROGRESS = 11;
         SplashProgress.CURRENT = "Loading integrations";
