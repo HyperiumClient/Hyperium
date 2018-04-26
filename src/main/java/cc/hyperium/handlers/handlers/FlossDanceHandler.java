@@ -4,7 +4,7 @@ import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.RenderEvent;
 import cc.hyperium.event.WorldChangeEvent;
 import cc.hyperium.gui.HyperiumGui;
-import cc.hyperium.gui.settings.items.AnimationSettings;
+import cc.hyperium.gui.settings.items.CosmeticSettings;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.model.ModelBiped;
@@ -40,7 +40,7 @@ public class FlossDanceHandler {
     public void onRender(RenderEvent e) {
         danceStates.values().forEach(DanceState::update);
 
-        float speed = AnimationSettings.flossDanceSpeed * 2;
+        float speed = CosmeticSettings.flossDanceSpeed * 2;
 
         if (this.systemTime == 0) this.systemTime = Minecraft.getSystemTime();
 

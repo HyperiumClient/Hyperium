@@ -53,12 +53,14 @@
     "renderer.MixinRender",
     "renderer.MixinDabRender",
     "renderer.MixinFontRenderer",
+
     "renderer.MixinLayerDeadmau5Head",
     "packet.MixinC01PacketChatMessage",
     "packet.MixinS2EPacketCloseWindow",
     "packet.MixinS14PacketEntity",
     "packet.MixinS19PacketEntityStatus",
     "packet.MixinNetHandlerPlayClient",
+    "packet.MixinNetworkManager",
     "utils.MixinResourcePackRepository",
 
     "world.MixinChunk",

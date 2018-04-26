@@ -24,8 +24,6 @@ import cc.hyperium.gui.HyperiumGui;
 import cc.hyperium.gui.settings.SettingGui;
 import cc.hyperium.gui.settings.components.SelectionItem;
 
-import java.util.Arrays;
-
 public class AnimationSettings extends SettingGui {
 
     private DefaultConfig config;
@@ -47,29 +45,14 @@ public class AnimationSettings extends SettingGui {
     @ConfigOpt
     public static boolean redArmour = true;
 
-    // Dab Mod
-    @ConfigOpt
-    public static int dabSpeed = 7;
 
-    @ConfigOpt
-    public static boolean dabToggle = false;
-
-    // Floss dance
-    @ConfigOpt
-    public static int flossDanceSpeed = 4;
-
-    @ConfigOpt
-    public static boolean flossDanceToggle = false;
 
     private SelectionItem<String> blockhit;
     private SelectionItem<String> bow;
     private SelectionItem<String> rod;
     private SelectionItem<String> eat;
     private SelectionItem<String> redarmour;
-    private SelectionItem<Integer> dabspeed;
-    private SelectionItem<String> toggledab;
-    private SelectionItem<Integer> flossdancespeed;
-    private SelectionItem<String> toggleflossdance;
+
 
     public AnimationSettings(HyperiumGui previous) {
         super("ANIMATIONS", previous);
@@ -121,43 +104,6 @@ public class AnimationSettings extends SettingGui {
         redarmour.addItem("1.8");
         redarmour.setSelectedItem(redArmour ? "1.7" : "1.8");
 
-        settingItems.add(dabspeed = new SelectionItem<>(5, getX(), getDefaultItemY(5), width - getX() * 2, "DAB SPEED", i -> {
-            ((SelectionItem) i).nextItem();
-            dabSpeed = 15 - (((SelectionItem<Integer>) i).getSelectedItem() * 2);
-        }));
-        dabspeed.addItems(Arrays.asList(1, 2, 3, 4, 5));
-        dabspeed.setSelectedItem(
-                dabSpeed == 13 ? 1 : dabSpeed == 11 ? 2 : dabSpeed == 9 ? 3 : dabSpeed == 7 ? 4 : 5
-        );
-
-        settingItems.add(toggledab = new SelectionItem<>(6, getX(), getDefaultItemY(6), width - getX() * 2, "TOGGLE DAB", i -> {
-            ((SelectionItem) i).nextItem();
-            dabToggle = ((SelectionItem) i).getSelectedItem().equals("ON");
-        }));
-        toggledab.addItems(Arrays.asList("ON", "OFF"));
-        toggledab.setSelectedItem(dabToggle ? "ON" : "OFF");
-
-        settingItems.add(flossdancespeed = new SelectionItem<>(7, getX(), getDefaultItemY(5), width - getX() * 2, "FLOSS DANCE SPEED", i -> {
-            ((SelectionItem) i).nextItem();
-            flossDanceSpeed = ((SelectionItem<Integer>) i).getSelectedItem();
-        }));
-        flossdancespeed.addItems(Arrays.asList(1, 2, 3, 4, 5));
-        flossdancespeed.setSelectedItem(flossDanceSpeed);
-
-        settingItems.add(toggleflossdance = new SelectionItem<>(8, getX(), getDefaultItemY(6), width - getX() * 2, "TOGGLE FLOSS DANCE", i -> {
-            ((SelectionItem) i).nextItem();
-            flossDanceToggle = ((SelectionItem) i).getSelectedItem().equals("ON");
-        }));
-        toggleflossdance.addItems(Arrays.asList("ON", "OFF"));
-        toggleflossdance.setSelectedItem(dabToggle ? "ON" : "OFF");
-
-        SelectionItem<Object> flip = new SelectionItem<>(9, getX(), getDefaultItemY(7), width - getX() * 2, "SHOW FLIP EVERYWHERE", i -> {
-            ((SelectionItem) i).nextItem();
-            Hyperium.INSTANCE.getHandlers().getConfigOptions().showFlipEverywhere = ((SelectionItem) i).getSelectedItem().equals("YES");
-        });
-        settingItems.add(flip);
-        flip.addItems(Arrays.asList("YES", "NO"));
-        flip.setSelectedItem(  Hyperium.INSTANCE.getHandlers().getConfigOptions().showFlipEverywhere  ? "YES" : "NO");
 
     }
 

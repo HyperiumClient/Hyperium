@@ -47,6 +47,7 @@ public class Spotify {
     private static final int START_HTTP_PORT = 4380;
     private static final int END_HTTP_PORT = 4389;
     private static int localPort = START_HTTPS_PORT;
+    public static Spotify instance;
 
     private final ArrayList<SpotifyListener> listeners = new ArrayList<>();
     private OkHttpClient client = new OkHttpClient();
@@ -65,6 +66,8 @@ public class Spotify {
         this.token = getOAuthToken();
         this.csrfToken = getCSRFToken();
         this.status = getStatus();
+        instance = this;
+        System.out.println("Spotify loaded: " + instance);
     }
 
     /**
@@ -95,7 +98,7 @@ public class Spotify {
             } catch(Exception e) {
                 System.out.println("[SPOTIFY] Exception occurred");
             }
-        }, 3, 3, TimeUnit.SECONDS);
+        }, 3, 1, TimeUnit.SECONDS);
 
 
         // WTF IS THIS SHIT LOL
@@ -114,7 +117,7 @@ public class Spotify {
      * @return JSONObject content
      * @throws IOException if exception occurs
      */
-    private JsonObject get(String url, boolean keepalive) throws IOException {
+    public JsonObject get(String url, boolean keepalive) throws IOException {
         return call(build(url, keepalive).build());
     }
 
@@ -153,6 +156,17 @@ public class Spotify {
         JsonObject obj = get(genSpotifyUrl("/remote/status.json") + "?returnafter=1&returnon=" + RETURN_ON + "&oauth=" + this.token + "&csrf=" + this.csrfToken, true);
         SpotifyInformation information = new Gson().fromJson(obj, SpotifyInformation.class);
         return information;
+    }
+
+    public void pause(boolean pause) {
+        try {
+            get(
+                    genSpotifyUrl("/remote/pause.json") + "?oauth=" + this.token + "&csrf=" + this.csrfToken + "&pause=" + pause,
+                    false
+            );
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**

@@ -23,6 +23,7 @@ public enum EnumPurchaseType {
     KILL_TRACKER_MUSCLE,
     DAB_ON_KILL,
     CHROMA_WIN,
+    LEVEL_HEAD,
     DEAL_WITH_IT,
     FLIP_COSMETIC,
     DEADMAU5_COSMETIC,

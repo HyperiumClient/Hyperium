@@ -18,7 +18,7 @@
 package cc.hyperium.mods.keystrokes.render;
 
 import cc.hyperium.event.InvokeEvent;
-import cc.hyperium.event.RenderGuiEvent;
+import cc.hyperium.event.RenderHUDEvent;
 import cc.hyperium.mods.keystrokes.KeystrokesMod;
 import cc.hyperium.mods.keystrokes.keys.impl.CPSKey;
 import cc.hyperium.mods.keystrokes.keys.impl.Key;
@@ -26,7 +26,6 @@ import cc.hyperium.mods.keystrokes.keys.impl.MouseButton;
 import cc.hyperium.mods.keystrokes.keys.impl.SpaceKey;
 import cc.hyperium.mods.keystrokes.screen.GuiScreenColor;
 import cc.hyperium.mods.keystrokes.screen.GuiScreenKeystrokes;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
@@ -65,7 +64,7 @@ public class KeystrokesRenderer {
     }
     
     @InvokeEvent
-    public void onRenderTick(RenderGuiEvent event) {
+    public void onRenderTick(RenderHUDEvent event) {
         if (this.mc.currentScreen != null) {
             if (this.mc.currentScreen instanceof GuiScreenKeystrokes || this.mc.currentScreen instanceof GuiScreenColor) {
                 try {

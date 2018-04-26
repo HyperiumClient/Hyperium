@@ -21,6 +21,11 @@ import cc.hyperium.Hyperium;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.RenderPlayerEvent;
 import cc.hyperium.mods.levelhead.Levelhead;
+import cc.hyperium.purchases.AbstractHyperiumPurchase;
+import cc.hyperium.purchases.EnumPurchaseType;
+import cc.hyperium.purchases.HyperiumPurchase;
+import cc.hyperium.purchases.PurchaseApi;
+import cc.hyperium.purchases.packages.EarsCosmetic;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.GlStateManager;
@@ -66,6 +71,21 @@ public class LevelHeadRender {
                 }
                 if (player.getUniqueID().equals(this.levelHead.userUuid))
                     offset = 0;
+                if (Hyperium.INSTANCE.getCosmetics().getDeadmau5Cosmetic().isPurchasedBy(event.getEntity().getUniqueID())) {
+                    HyperiumPurchase packageIfReady = PurchaseApi.getInstance().getPackageIfReady(event.getEntity().getUniqueID());
+                    if (packageIfReady != null) {
+                        AbstractHyperiumPurchase purchase = packageIfReady.getPurchase(EnumPurchaseType.DEADMAU5_COSMETIC);
+                        if (purchase != null) {
+                            if (event.getEntity().getUniqueID() != Minecraft.getMinecraft().thePlayer.getUniqueID()) {
+                                if (((EarsCosmetic) purchase).isEnabled()) {
+                                    offset += .3;
+                                }
+                            } else if (Hyperium.INSTANCE.getHandlers().getConfigOptions().enableDeadmau5Ears)
+                                offset += .2;
+                        }
+
+                    }
+                }
                 renderName(event, (this.levelHead.getLevelString(player.getUniqueID())), player, event.getX(), event.getY() + offset, event.getZ());
             }
         }
@@ -81,7 +101,7 @@ public class LevelHeadRender {
         GlStateManager.rotate(-event.getRenderManager().playerViewY, 0.0F, 1.0F, 0.0F);
 
         int xMultiplier = 1; // Nametag x rotations should flip in front-facing 3rd person
-        if(Minecraft.getMinecraft() != null && Minecraft.getMinecraft().gameSettings != null &&Minecraft.getMinecraft().gameSettings.thirdPersonView == 2)
+        if (Minecraft.getMinecraft() != null && Minecraft.getMinecraft().gameSettings != null && Minecraft.getMinecraft().gameSettings.thirdPersonView == 2)
             xMultiplier = -1;
         GlStateManager.rotate(event.getRenderManager().playerViewX * xMultiplier, 1.0F, 0.0F, 0.0F);
         GlStateManager.scale(-f1, -f1, f1);
@@ -135,9 +155,9 @@ public class LevelHeadRender {
         int y = 0;
         if (header.isRgb()) {
 //            GlStateManager.color(header.getRed()/2, header.getBlue()/2, header.getGreen()/2);
-            renderer.drawString((obf ? "§k" : "" )+ header.getValue(), x, y, new Color((float) header.getRed() / 255F, (float) header.getGreen() / 255F, (float) header.getBlue() / 255F, .2F).getRGB());
+            renderer.drawString((obf ? "§k" : "") + header.getValue(), x, y, new Color((float) header.getRed() / 255F, (float) header.getGreen() / 255F, (float) header.getBlue() / 255F, .2F).getRGB());
         } else if (header.isChroma()) {
-            renderer.drawString((obf ? "§k" : "" )+ header.getValue(), x, y, Levelhead.getRGBDarkColor());
+            renderer.drawString((obf ? "§k" : "") + header.getValue(), x, y, Levelhead.getRGBDarkColor());
         } else {
             GlStateManager.color(255, 255, 255, .5F);
             renderer.drawString(header.getColor() + (obf ? "§k" : "") + header.getValue(), x, y, Color.WHITE.darker().darker().darker().darker().darker().getRGB() * 255);
@@ -151,7 +171,7 @@ public class LevelHeadRender {
             GlStateManager.color(header.getRed(), header.getBlue(), header.getGreen(), header.getAlpha());
             renderer.drawString((obf ? "§k" : "") + header.getValue(), x, y, new Color(header.getRed(), header.getGreen(), header.getBlue()).getRGB());
         } else if (header.isChroma()) {
-            renderer.drawString((obf ? "§k" : "" )+ header.getValue(), x, y, header.isChroma() ? Levelhead.getRGBColor() : 553648127);
+            renderer.drawString((obf ? "§k" : "") + header.getValue(), x, y, header.isChroma() ? Levelhead.getRGBColor() : 553648127);
         } else {
             GlStateManager.color(255, 255, 255, .5F);
             String text = header.getColor() + (obf ? "§k" : "") + header.getValue();

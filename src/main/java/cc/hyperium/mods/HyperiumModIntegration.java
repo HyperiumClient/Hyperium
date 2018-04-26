@@ -26,6 +26,7 @@ import cc.hyperium.mods.killscreenshot.KillScreenshot;
 import cc.hyperium.mods.levelhead.Levelhead;
 import cc.hyperium.mods.oldanimations.OldAnimations;
 import cc.hyperium.mods.skinchanger.SkinChangerMod;
+import cc.hyperium.mods.spotify.SpotifyControls;
 import cc.hyperium.mods.timechanger.TimeChanger;
 import cc.hyperium.mods.togglechat.ToggleChatMod;
 import cc.hyperium.mods.utilities.UtilitiesMod;
@@ -51,7 +52,8 @@ public class HyperiumModIntegration {
     private AbstractMod oldanimations;
     private AbstractMod hgames;
     private AbstractMod blockOverlay;
-
+    private AbstractMod spotifyControls;
+    
     public HyperiumModIntegration() {
         // ChromaHud implementation
         this.chromaHUD = new ChromaHUD().init();
@@ -91,6 +93,9 @@ public class HyperiumModIntegration {
 
         // Kill Screenshot implementation
         this.killScreenshot = new KillScreenshot().init();
+
+        // Spotify Controls Implementation
+        this.spotifyControls = new SpotifyControls().init();
     }
 
     /**
