@@ -176,6 +176,7 @@ import cc.hyperium.handlers.handlers.HypixelDetector;
 import cc.hyperium.internal.addons.AddonBootstrap;
 import cc.hyperium.internal.addons.AddonMinecraftBootstrap;
 import cc.hyperium.internal.addons.IAddon;
+import cc.hyperium.utils.AddonWorkspaceResourcePack;
 import cc.hyperium.utils.Utils;
 import cc.hyperium.utils.mods.FPSLimiter;
 import net.minecraft.block.material.Material;
@@ -189,7 +190,6 @@ import net.minecraft.client.particle.EffectRenderer;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.resources.DefaultResourcePack;
 import net.minecraft.client.resources.FileResourcePack;
-import net.minecraft.client.resources.FolderResourcePack;
 import net.minecraft.client.resources.IResourcePack;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.util.BlockPos;
@@ -200,6 +200,7 @@ import net.minecraft.world.WorldSettings;
 import org.apache.commons.io.IOUtils;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.spongepowered.asm.mixin.Final;
@@ -276,9 +277,9 @@ public abstract class MixinMinecraft {
      */
     @Inject(method = "startGame", at = @At("HEAD"))
     private void preinit(CallbackInfo ci) {
+        this.defaultResourcePacks.add(this.mcDefaultResourcePack);
         for (File file : AddonBootstrap.getAddonResourcePacks()) {
-            IResourcePack pack = file.isDirectory() ? new FolderResourcePack(file) : new FileResourcePack(file);
-            this.defaultResourcePacks.add(pack);
+            this.defaultResourcePacks.add(file == null ? new AddonWorkspaceResourcePack() : new FileResourcePack(file));
         }
         AddonMinecraftBootstrap.init();
         EventBus.INSTANCE.post(new PreInitializationEvent());
@@ -578,6 +579,13 @@ public abstract class MixinMinecraft {
                 this.playerController.resetBlockRemoving();
             }
         }
+    }
+
+    @Inject(method="runTick",at = @At(value = "INVOKE",target = "Lorg/lwjgl/input/Mouse;getEventButton()I",ordinal = 0))
+    private void runTickMouseButton(CallbackInfo ci){
+        // Actiavtes for EVERY mouse button.
+        int i = Mouse.getEventButton();
+        EventBus.INSTANCE.post(new MouseButtonEvent(i));
     }
 
 

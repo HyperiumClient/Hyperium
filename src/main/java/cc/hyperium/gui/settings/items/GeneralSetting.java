@@ -79,6 +79,12 @@ public class GeneralSetting extends SettingGui {
     @ConfigOpt
     public static boolean hideScoreboardNumbers = true;
     @ConfigOpt
+    public static boolean blurGuiBackgroundsEnabled = true;
+    @ConfigOpt
+    public static boolean chromaHudNonHypixelEnabled = true;
+    @ConfigOpt
+    public static boolean screenshotOnKillEnabled = false;
+    @ConfigOpt
     public static boolean spotifyControlsEnabled = false;
 
     private SelectionItem<String> discordRP;
@@ -116,6 +122,12 @@ public class GeneralSetting extends SettingGui {
     private SelectionItem<String> uploadByDefault;
 
     private SelectionItem<String> scoreboardNumbers;
+
+    private SelectionItem<String> blurGuiBackgrounds;
+
+    private SelectionItem<String> chromaHudNonHypixel;
+
+    private SelectionItem<String> screenshotOnKill;
 
     private SelectionItem<String> spotifyControls;
 
@@ -285,6 +297,30 @@ public class GeneralSetting extends SettingGui {
         }));
         scoreboardNumbers.addDefaultOnOff();
         scoreboardNumbers.setSelectedItem(hideScoreboardNumbers ? "ON" : "OFF");
+
+        this.settingItems.add(this.blurGuiBackgrounds = new SelectionItem<>(18, getX(), getDefaultItemY(18), this.width - getX() * 2, "BLUR GUI BACKGROUNDS", i -> {
+            ((SelectionItem) i).nextItem();
+            blurGuiBackgroundsEnabled = ((SelectionItem) i).getSelectedItem().equals("ON");
+            this.settingsUpdated = true;
+        }));
+        blurGuiBackgrounds.addDefaultOnOff();
+        blurGuiBackgrounds.setSelectedItem(blurGuiBackgroundsEnabled ? "ON" : "OFF");
+
+        this.settingItems.add(this.chromaHudNonHypixel = new SelectionItem<>(19, getX(), getDefaultItemY(19), this.width - getX() * 2, "DISPLAY CHROMA-HUD ON OTHER SERVERS", i -> {
+            ((SelectionItem) i).nextItem();
+            chromaHudNonHypixelEnabled = ((SelectionItem) i).getSelectedItem().equals("ON");
+            this.settingsUpdated = true;
+        }));
+        chromaHudNonHypixel.addDefaultOnOff();
+        chromaHudNonHypixel.setSelectedItem(chromaHudNonHypixelEnabled ? "ON" : "OFF");
+
+        this.settingItems.add(this.screenshotOnKill = new SelectionItem<>(20, getX(), getDefaultItemY(20), this.width - getX() * 2, "TAKE SCREENSHOT ON KILL", i -> {
+            ((SelectionItem) i).nextItem();
+            screenshotOnKillEnabled = ((SelectionItem) i).getSelectedItem().equals("ON");
+            this.settingsUpdated = true;
+        }));
+        screenshotOnKill.addDefaultOnOff();
+        screenshotOnKill.setSelectedItem(screenshotOnKillEnabled ? "ON" : "OFF");
 
         this.settingItems.add(this.spotifyControls = new SelectionItem<>(18, getX(), getDefaultItemY(18), this.width - getX() * 2, "SHOW SPOTIFY CONTROLS", i -> {
             ((SelectionItem) i).nextItem();

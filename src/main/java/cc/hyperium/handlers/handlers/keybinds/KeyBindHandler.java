@@ -21,11 +21,12 @@ import cc.hyperium.Hyperium;
 import cc.hyperium.event.GameShutDownEvent;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.KeypressEvent;
+import cc.hyperium.event.MouseButtonEvent;
 import cc.hyperium.gui.ModConfigGui;
 import cc.hyperium.gui.NameHistoryGui;
 import cc.hyperium.gui.integrations.HypixelFriendsGui;
 import cc.hyperium.gui.integrations.QueueModGui;
-import cc.hyperium.gui.settings.items.AnimationSettings;
+import cc.hyperium.gui.settings.items.CosmeticSettings;
 import cc.hyperium.handlers.handlers.DabHandler;
 import cc.hyperium.handlers.handlers.FlossDanceHandler;
 import cc.hyperium.netty.NettyClient;
@@ -35,6 +36,8 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.lwjgl.input.Keyboard;
 import utils.JsonHolder;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.TreeMap;
 import java.util.UUID;
 
@@ -46,6 +49,7 @@ public class KeyBindHandler {
             Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new NameHistoryGui());
         }
     };
+    private static Map<Integer, Integer> mouseBinds = new HashMap<>();
     private final KeyBindConfig keyBindConfig;
     // Case insensitive treemap
     private final TreeMap<String, HyperiumBind> keybinds = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
@@ -66,34 +70,36 @@ public class KeyBindHandler {
     public HyperiumBind debug = new HyperiumBind("DEBUG", Keyboard.KEY_J) {
         @Override
         public void onPress() {
-            Hyperium.INSTANCE.getHandlers().getRotatePlayerHandler().state(Minecraft.getMinecraft().getSession().getProfile().getId(),true);
-            NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("type", "flip_update").put("flipped", true)));
+            Hyperium.INSTANCE.getHandlers().getConfigOptions().alternateFontRenderer = !Hyperium.INSTANCE.getHandlers().getConfigOptions().alternateFontRenderer;
+
         }
 
         @Override
         public void onRelease() {
-            Hyperium.INSTANCE.getHandlers().getRotatePlayerHandler().state(Minecraft.getMinecraft().getSession().getProfile().getId(),false);
-            NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("type", "flip_update").put("flipped", false)));
+            Hyperium.INSTANCE.getHandlers().getConfigOptions().alternateFontRenderer = !Hyperium.INSTANCE.getHandlers().getConfigOptions().alternateFontRenderer;
         }
     };
 
     public HyperiumBind invert = new HyperiumBind("Invert (Requires Purchase)", Keyboard.KEY_I) {
+        private boolean inverted;
+
         @Override
         public void onPress() {
-            if(!Hyperium.INSTANCE.getCosmetics().getFlipCosmetic().isSelfUnlocked())
+            if (!Hyperium.INSTANCE.getCosmetics().getFlipCosmetic().isSelfUnlocked())
                 return;
-            Hyperium.INSTANCE.getHandlers().getRotatePlayerHandler().state(Minecraft.getMinecraft().getSession().getProfile().getId(),true);
-            NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("type", "flip_update").put("flipped", true)));
+            inverted = !inverted;
+            Hyperium.INSTANCE.getHandlers().getFlipHandler().state(Minecraft.getMinecraft().getSession().getProfile().getId(), inverted);
+            NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("type", "flip_update").put("flipped", inverted)));
 
         }
 
         @Override
         public void onRelease() {
-            if(!Hyperium.INSTANCE.getCosmetics().getFlipCosmetic().isSelfUnlocked())
+            if (!Hyperium.INSTANCE.getCosmetics().getFlipCosmetic().isSelfUnlocked())
                 return;
-            Hyperium.INSTANCE.getHandlers().getRotatePlayerHandler().state(Minecraft.getMinecraft().getSession().getProfile().getId(),false);
-            NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("type", "flip_update").put("flipped", false)));
-
+            inverted = !inverted;
+            Hyperium.INSTANCE.getHandlers().getFlipHandler().state(Minecraft.getMinecraft().getSession().getProfile().getId(), inverted);
+            NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("type", "flip_update").put("flipped", inverted)));
         }
     };
 
@@ -104,7 +110,7 @@ public class KeyBindHandler {
             UUID uuid = (Minecraft.getMinecraft().getSession()).getProfile().getId();
             FlossDanceHandler.DanceState currentState = flossDanceHandler.get(uuid);
 
-            if (AnimationSettings.flossDanceToggle && currentState.isDancing() && !this.wasPressed()) {
+            if (CosmeticSettings.flossDanceToggle && currentState.isDancing() && !this.wasPressed()) {
                 flossDanceHandler.get(uuid).setToggled(false);
                 flossDanceHandler.stopDancing(uuid);
                 NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("type", "floss_update").put("flossing", false)));
@@ -112,7 +118,7 @@ public class KeyBindHandler {
             }
 
             if (!this.wasPressed()) {
-                flossDanceHandler.get(uuid).setToggled(AnimationSettings.flossDanceToggle);
+                flossDanceHandler.get(uuid).setToggled(CosmeticSettings.flossDanceToggle);
                 flossDanceHandler.startDancing(uuid);
                 NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("type", "floss_update").put("flossing", true)));
 
@@ -122,7 +128,7 @@ public class KeyBindHandler {
 
         @Override
         public void onRelease() {
-            if (AnimationSettings.flossDanceToggle) return;
+            if (CosmeticSettings.flossDanceToggle) return;
             Hyperium.INSTANCE.getHandlers().getFlossDanceHandler().stopDancing(Minecraft.getMinecraft().getSession().getProfile().getId());
             NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("type", "floss_update").put("flossing", false)));
 
@@ -136,7 +142,7 @@ public class KeyBindHandler {
             UUID uuid = (Minecraft.getMinecraft().getSession()).getProfile().getId();
             DabHandler.DabState currentState = dabHandler.get(uuid);
 
-            if (AnimationSettings.dabToggle && currentState.isDabbing() && !this.wasPressed()) {
+            if (CosmeticSettings.dabToggle && currentState.isDabbing() && !this.wasPressed()) {
                 dabHandler.get(uuid).setToggled(false);
                 dabHandler.stopDabbing(uuid);
                 NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("type", "dab_update").put("dabbing", false)));
@@ -144,7 +150,7 @@ public class KeyBindHandler {
             }
 
             if (!this.wasPressed()) {
-                dabHandler.get(uuid).setToggled(AnimationSettings.dabToggle);
+                dabHandler.get(uuid).setToggled(CosmeticSettings.dabToggle);
                 dabHandler.startDabbing(uuid);
             }
             NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("type", "dab_update").put("dabbing", true)));
@@ -153,7 +159,7 @@ public class KeyBindHandler {
 
         @Override
         public void onRelease() {
-            if (AnimationSettings.dabToggle) return;
+            if (CosmeticSettings.dabToggle) return;
 
             Hyperium.INSTANCE.getHandlers().getDabHandler().stopDabbing(Minecraft.getMinecraft().getSession().getProfile().getId());
             NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("type", "dab_update").put("dabbing", false)));
@@ -184,6 +190,11 @@ public class KeyBindHandler {
         registerKeyBinding(dab);
         registerKeyBinding(invert);
         registerKeyBinding(flossDance);
+
+        // Populate mouse bind list in accordance with Minecraft's values.
+        for (int i = 0; i < 16; i++) {
+            mouseBinds.put(i, -100 + i);
+        }
     }
 
     @InvokeEvent
@@ -198,6 +209,27 @@ public class KeyBindHandler {
                 if (bind.wasPressed() && !bind.isKeyDown()) {
                     bind.onRelease();
                     bind.setWasPressed(false);
+                }
+            }
+        }
+    }
+
+    @InvokeEvent
+    public void onMouseButton(MouseButtonEvent event) {
+        // Dismisses mouse movement input.
+        if (event.getValue() >= 0) {
+            if (Minecraft.getMinecraft().inGameHasFocus && Minecraft.getMinecraft().currentScreen == null) {
+                for (HyperiumBind bind : this.keybinds.values()) {
+                    // Gets Minecraft value of the mouse value and checks to see if it matches a keybind.
+                    if (mouseBinds.get(event.getValue()) == bind.getKeyCode()) {
+                        bind.onPress();
+                        bind.setWasPressed(true);
+                    }
+
+                    if (bind.wasPressed() && !bind.isKeyDown()) {
+                        bind.onRelease();
+                        bind.setWasPressed(false);
+                    }
                 }
             }
         }

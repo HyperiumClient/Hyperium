@@ -86,7 +86,7 @@ public abstract class MixinRendererLivingEntity<T extends EntityLivingBase> exte
 
             GlStateManager.rotate(f * this.getDeathMaxRotation(bat), 0.0F, 0.0F, 1.0F);
         } else {
-            Hyperium.INSTANCE.getHandlers().getRotatePlayerHandler().transform(bat);
+            Hyperium.INSTANCE.getHandlers().getFlipHandler().transform(bat);
         }
     }
 

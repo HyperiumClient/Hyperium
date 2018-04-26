@@ -17,9 +17,11 @@
 
 package cc.hyperium.mods.chromahud;
 
+import cc.hyperium.Hyperium;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.RenderHUDEvent;
 import cc.hyperium.event.TickEvent;
+import cc.hyperium.gui.settings.items.GeneralSetting;
 import cc.hyperium.utils.RenderUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -102,7 +104,7 @@ public class ElementRenderer {
                     ? fontRendererObj.getStringWidth(string)
                     : 0;
             if (current.isHighlighted()) {
-                if(current.getDisplayItems().stream().anyMatch(i -> i.getType().contains("CB"))){
+                if (current.getDisplayItems().stream().anyMatch(i -> i.getType().contains("CB"))) {
                     RenderUtils.drawRect((int) ((tx - 1) / getCurrentScale() - shift), (int) ((ty - 3) / getCurrentScale()), (int) ((tx + 1) / getCurrentScale()) + 60 - shift, (int) ((ty + 3) / getCurrentScale()) + 8, new Color(0, 0, 0, 120).getRGB());
                 } else {
                     int stringWidth = fontRendererObj.getStringWidth(string);
@@ -111,12 +113,12 @@ public class ElementRenderer {
                 }
             }
             if (current.isChroma()) {
-                if(current.getDisplayItems().stream().anyMatch(i -> i.getType().contains("CB")))
+                if (current.getDisplayItems().stream().anyMatch(i -> i.getType().contains("CB")))
                     drawChromaString(string, ((60 - fontRendererObj.getStringWidth(string)) / 2) + (tx - shift), (int) ty);
                 else
                     drawChromaString(string, tx - shift, (int) ty);
             } else {
-                if(current.getDisplayItems().stream().anyMatch(i -> i.getType().contains("CB")))
+                if (current.getDisplayItems().stream().anyMatch(i -> i.getType().contains("CB")))
                     fontRendererObj.drawString(string, (float) (((60 - fontRendererObj.getStringWidth(string)) / 2) + (tx / getCurrentScale() - shift)), (int) (ty / getCurrentScale()), getColor(color, x), current.isShadow());
                 else
                     fontRendererObj.drawString(string, (int) (tx / getCurrentScale() - shift), (int) (ty / getCurrentScale()), getColor(color, x), current.isShadow());
@@ -173,9 +175,12 @@ public class ElementRenderer {
     }
 
     public static void render(List<ItemStack> itemStacks, int x, double y, boolean showDurability) {
+      GlStateManager.pushMatrix();
         int line = 0;
         RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
         for (ItemStack stack : itemStacks) {
+            if (stack.getMaxDamage() == 0)
+                continue;
             String dur = (stack.getMaxDamage() - stack.getItemDamage()) + "/" + stack.getMaxDamage();
             renderItem.renderItemAndEffectIntoGUI(stack, (int) (x / ElementRenderer.getCurrentScale() - (current.isRightSided() ? (showDurability ? 16 + (double) 20 * currentScale + fontRendererObj.getStringWidth(dur) : -16) : 0)), (int) ((y + (16 * line * ElementRenderer.getCurrentScale())) / ElementRenderer.getCurrentScale()));
             if (showDurability) {
@@ -183,6 +188,7 @@ public class ElementRenderer {
             }
             line++;
         }
+        GlStateManager.popMatrix();
     }
 
     public static void startDrawing(DisplayElement element) {
@@ -219,6 +225,8 @@ public class ElementRenderer {
         if (!this.minecraft.inGameHasFocus || this.minecraft.gameSettings.showDebugInfo) {
             return;
         }
+//        if (!MiscUtil.shouldRenderHUD())
+//            return;
 //        GlStateManager.color(1.0F,1.0F,1.0F,1.0F);
 
         renderElements();
@@ -228,9 +236,8 @@ public class ElementRenderer {
     }
 
     public void renderElements() {
-        //TODO add CONFIG option to show items when not on Hypixel
-        //if (!Hyperium.INSTANCE.getHandlers().getHypixelDetector().isHypixel())
-        //  return;
+        if (!Hyperium.INSTANCE.getHandlers().getHypixelDetector().isHypixel() && !GeneralSetting.chromaHudNonHypixelEnabled)
+            return;
 
         if (fontRendererObj == null)
             fontRendererObj = Minecraft.getMinecraft().fontRendererObj;
@@ -242,7 +249,7 @@ public class ElementRenderer {
             }
         }
 
-        GlStateManager.color(1.0F,1.0F,1.0F,1.0F);
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 
         List<DisplayElement> elementList = mod.getDisplayElements();
         for (DisplayElement element : elementList) {

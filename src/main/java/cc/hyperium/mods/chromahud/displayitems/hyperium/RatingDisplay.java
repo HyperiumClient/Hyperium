@@ -19,7 +19,6 @@ package cc.hyperium.mods.chromahud.displayitems.hyperium;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.mods.chromahud.ElementRenderer;
-import cc.hyperium.mods.chromahud.api.Dimension;
 import cc.hyperium.mods.chromahud.api.DisplayItem;
 import cc.hyperium.utils.JsonHolder;
 import net.minecraft.client.Minecraft;
@@ -29,15 +28,20 @@ import java.util.Locale;
 
 public class RatingDisplay extends DisplayItem {
     private static final NumberFormat format = NumberFormat.getNumberInstance(Locale.US);
+    public boolean delta;
+
     public RatingDisplay(JsonHolder data, int ordinal) {
         super(data, ordinal);
         this.height = 10;
+        delta = data.optBoolean("delta");
     }
 
     @Override
     public void draw(int x, double y, boolean config) {
         String string = "Rating: " + format.format(Hyperium.INSTANCE.getHandlers().getValueHandler().getRankedRating());
-        if (data.optBoolean("delta")) {
+
+
+        if (delta) {
             string += " (" + Hyperium.INSTANCE.getHandlers().getValueHandler().getDeltaRankedRating() + ")";
         }
 

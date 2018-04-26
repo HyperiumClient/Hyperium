@@ -16,5 +16,14 @@ public class OtherConfigOptions {
     public boolean shadeNameTags = true;
 
     @ConfigOpt
-    public boolean showFlipEverywhere = true;
+    public boolean showCosmeticsEveryWhere = true;
+
+    @ConfigOpt
+    public int stringCacheSize = 1000;
+
+    @ConfigOpt
+    public boolean alternateFontRenderer = false;
+
+    @ConfigOpt
+    public boolean enableDeadmau5Ears = true;
 }

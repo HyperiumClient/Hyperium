@@ -17,51 +17,36 @@
 
 package cc.hyperium.utils;
 
-import net.minecraft.client.renderer.texture.DynamicTexture;
-
-import java.awt.image.BufferedImage;
-
 /**
  * @author Sk1er
  */
 public class CachedString {
-    private DynamicTexture texture;
-    private int width;
-    private int height;
-    private int returnThing;
+    private String text;
+    private int listId;
+    private float width;
+    private float height;
 
-    private BufferedImage image;
-
-    public CachedString(BufferedImage texture) {
-        this.texture = new DynamicTexture(texture);
-        this.image = texture;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public void setHeight(int height) {
+    public CachedString(String text, int listId, float width, float height) {
+        this.text = text;
+        this.listId = listId;
+        this.width = width;
         this.height = height;
     }
 
-    public int getWidth() {
+
+    public float getWidth() {
         return width;
     }
 
-    public void setWidth(int width) {
-        this.width = width;
+    public float getHeight() {
+        return height;
     }
 
-    public DynamicTexture getTexture() {
-        return texture;
+    public String getText() {
+        return text;
     }
 
-    public int getReturnThing() {
-        return returnThing;
-    }
-
-    public void setReturnThing(int returnThing) {
-        this.returnThing = returnThing;
+    public int getListId() {
+        return listId;
     }
 }

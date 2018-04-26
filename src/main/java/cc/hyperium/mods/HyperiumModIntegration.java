@@ -19,16 +19,16 @@ package cc.hyperium.mods;
 
 import cc.hyperium.mods.autogg.AutoGG;
 import cc.hyperium.mods.blockoverlay.BlockOverlay;
+import cc.hyperium.mods.chromahud.ChromaHUD;
 import cc.hyperium.mods.hgames.HGames;
 import cc.hyperium.mods.keystrokes.KeystrokesMod;
+import cc.hyperium.mods.killscreenshot.KillScreenshot;
+import cc.hyperium.mods.levelhead.Levelhead;
 import cc.hyperium.mods.oldanimations.OldAnimations;
 import cc.hyperium.mods.skinchanger.SkinChangerMod;
-import cc.hyperium.mods.chromahud.ChromaHUD;
-import cc.hyperium.mods.levelhead.Levelhead;
 import cc.hyperium.mods.spotify.SpotifyControls;
 import cc.hyperium.mods.timechanger.TimeChanger;
 import cc.hyperium.mods.togglechat.ToggleChatMod;
-
 import cc.hyperium.mods.utilities.UtilitiesMod;
 import me.semx11.autotip.Autotip;
 
@@ -37,14 +37,15 @@ import me.semx11.autotip.Autotip;
  * ChromaHUD, LevelHead and ToggleChat
  */
 public class HyperiumModIntegration {
-    
+
     private AbstractMod keystrokesMod;
     private AbstractMod timeChanger;
     private AbstractMod skinChanger;
     private AbstractMod toggleChat;
     private AbstractMod utilities;
     private AbstractMod levelhead;
-    
+    private AbstractMod killScreenshot;
+
     private AbstractMod chromaHUD;
     private AbstractMod autotip;
     private AbstractMod autogg;
@@ -56,25 +57,25 @@ public class HyperiumModIntegration {
     public HyperiumModIntegration() {
         // ChromaHud implementation
         this.chromaHUD = new ChromaHUD().init();
-        
+
         // LevelHead implementation
         this.levelhead = new Levelhead().init();
-        
+
         // Utilities implementation
         this.utilities = new UtilitiesMod().init();
-        
+
         // ToggleChat implementation
         this.toggleChat = new ToggleChatMod().init();
-        
+
         // SkinChanger implementation
         this.skinChanger = new SkinChangerMod().init();
-        
+
         // TimeChanger implementation
         this.timeChanger = new TimeChanger().init();
-        
+
         // KeystrokesMod implementation
         this.keystrokesMod = new KeystrokesMod().init();
-        
+
         // Autotip implementation
         this.autotip = new Autotip().init();
 
@@ -84,14 +85,19 @@ public class HyperiumModIntegration {
         // HGames implementation
         this.hgames = new HGames().init();
 
+        // Old Animations implementation
         this.oldanimations = new OldAnimations().init();
 
+        // Block Overlay implementation
         this.blockOverlay = new BlockOverlay().init();
+
+        // Kill Screenshot implementation
+        this.killScreenshot = new KillScreenshot().init();
 
         // Spotify Controls Implementation
         this.spotifyControls = new SpotifyControls().init();
     }
-    
+
     /**
      * A getter for the running Autotip instance
      *
@@ -118,7 +124,7 @@ public class HyperiumModIntegration {
     public AbstractMod getHGames() {
         return this.hgames;
     }
-    
+
     /**
      * A getter for the running ChromeHUD instance
      *
@@ -127,7 +133,7 @@ public class HyperiumModIntegration {
     public AbstractMod getChromaHUD() {
         return this.chromaHUD;
     }
-    
+
     /**
      * A getter for the running LevelHead instance
      *
@@ -136,7 +142,7 @@ public class HyperiumModIntegration {
     public AbstractMod getLevelhead() {
         return this.levelhead;
     }
-    
+
     /**
      * A getter for the running Utilities instance
      *
@@ -145,7 +151,7 @@ public class HyperiumModIntegration {
     public AbstractMod getUtilities() {
         return this.utilities;
     }
-    
+
     /**
      * A getter for the running TimeChanger instance
      *
@@ -154,7 +160,7 @@ public class HyperiumModIntegration {
     public AbstractMod getTimeChanger() {
         return timeChanger;
     }
-    
+
     /**
      * A getter for the running SkinChanger instance
      *
@@ -163,7 +169,7 @@ public class HyperiumModIntegration {
     public AbstractMod getSkinChanger() {
         return this.skinChanger;
     }
-    
+
     /**
      * A getter for the running ToggleChat instance
      *
@@ -172,7 +178,7 @@ public class HyperiumModIntegration {
     public AbstractMod getToggleChat() {
         return this.toggleChat;
     }
-    
+
     /**
      * A getter for the running KeystrokesMod instance
      *
@@ -180,5 +186,14 @@ public class HyperiumModIntegration {
      */
     public AbstractMod getKeystrokesMod() {
         return this.keystrokesMod;
+    }
+
+    /**
+     * A getter for the running KillScreenshot instance
+     *
+     * @return the running KillScreenshot instance
+     */
+    public AbstractMod getKillScreenshot() {
+        return this.killScreenshot;
     }
 }

@@ -19,7 +19,6 @@ package cc.hyperium.mods.chromahud.displayitems.chromahud;
 
 
 import cc.hyperium.mods.chromahud.ElementRenderer;
-import cc.hyperium.mods.chromahud.api.Dimension;
 import cc.hyperium.mods.chromahud.api.DisplayItem;
 import cc.hyperium.utils.JsonHolder;
 import net.minecraft.client.Minecraft;
@@ -39,6 +38,8 @@ public class PingDisplay extends DisplayItem {
 
     @Override
     public void draw(int starX, double startY, boolean isConfig) {
+        if (Minecraft.getMinecraft().theWorld != null && !Minecraft.getMinecraft().theWorld.isRemote && !isConfig)
+            return;
         EntityPlayerSP thePlayer = Minecraft.getMinecraft().thePlayer;
         if (thePlayer != null) {
             NetworkPlayerInfo playerInfo = Minecraft.getMinecraft().getNetHandler().getPlayerInfo(Minecraft.getMinecraft().thePlayer.getUniqueID());

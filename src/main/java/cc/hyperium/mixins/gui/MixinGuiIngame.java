@@ -39,7 +39,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class MixinGuiIngame extends Gui {
     
     @Shadow @Final private Minecraft mc;
-    
+
     @Shadow public abstract FontRenderer getFontRenderer();
     
     @Inject(method = "renderSelectedItem", at = @At(value = "RETURN", target = "Lnet/minecraft/client/renderer/GlStateManager;popMatrix()V"))

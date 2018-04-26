@@ -19,8 +19,8 @@ package cc.hyperium.mods.chromahud.displayitems.chromahud;
 
 
 import cc.hyperium.mods.chromahud.ElementRenderer;
-import cc.hyperium.mods.chromahud.api.Dimension;
 import cc.hyperium.mods.chromahud.api.DisplayItem;
+import cc.hyperium.utils.ChatColor;
 import cc.hyperium.utils.JsonHolder;
 
 import java.util.ArrayList;
@@ -46,7 +46,7 @@ public class TextItem extends DisplayItem {
         if (text.isEmpty())
             list.add("Text is empty??");
         else list.add(text);
-        ElementRenderer.draw(x, y, list);
+        ElementRenderer.draw(x, y, ChatColor.translateAlternateColorCodes('%', text));
         this.width = ElementRenderer.maxWidth(list);
     }
 

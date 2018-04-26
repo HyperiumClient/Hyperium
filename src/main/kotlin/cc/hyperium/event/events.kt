@@ -28,6 +28,8 @@ import net.minecraft.client.renderer.entity.RenderManager
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.item.ItemStack
+import net.minecraft.network.INetHandler
+import net.minecraft.network.Packet
 import net.minecraft.scoreboard.ScoreObjective
 import net.minecraft.util.*
 import java.lang.reflect.Method
@@ -80,6 +82,11 @@ class LeftMouseClickEvent
 class RightMouseClickEvent
 
 /**
+ * Invoked once a mouse button is pressed
+ */
+class MouseButtonEvent(val value: Int)
+
+/**
  * Invoked once a key is pressed
  */
 class KeypressEvent(val key: Int, val isRepeat: Boolean)
@@ -109,6 +116,11 @@ class RenderEvent
  * Invoked when the hud of the client is rendered
  */
 class RenderHUDEvent(partialTicks: Float)
+
+/**
+ * Invoked once a packet is received by the client, right before it is processed
+ */
+class PacketReceivedEvent(var packet : Packet<out INetHandler>)
 
 /**
  * Invoked once a chat message is sent
@@ -202,8 +214,23 @@ class RenderSelectedItemEvent(val scaledRes: ScaledResolution)
 
 /**
  * Called when the player joins hypixel
+ * @param method method used to verify the player is online Hypixel
  */
-class JoinHypixelEvent
+class JoinHypixelEvent(val method: ServerVerificationMethod)
+
+/**
+ * Called when the player joins badlion
+ * @param method method used to verify the player is online Badlion
+ */
+class JoinBadlionEvent(val method: ServerVerificationMethod)
+
+/**
+ * All the methods used by HypixelDetector to detect Hypixel or Badlion
+ * This is used by the above two events
+ */
+enum class ServerVerificationMethod {
+    IP, MOTD
+}
 
 /**
  * Called when the game is shutting down, use this to save your configs

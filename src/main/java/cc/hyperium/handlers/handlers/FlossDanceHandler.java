@@ -4,7 +4,7 @@ import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.RenderEvent;
 import cc.hyperium.event.WorldChangeEvent;
 import cc.hyperium.gui.HyperiumGui;
-import cc.hyperium.gui.settings.items.AnimationSettings;
+import cc.hyperium.gui.settings.items.CosmeticSettings;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.model.ModelBiped;
@@ -29,6 +29,7 @@ public class FlossDanceHandler {
     public FlossDanceHandler() {
         fillRandomHeadMovementArray();
     }
+
     @InvokeEvent
     public void swapWorld(WorldChangeEvent event) {
         danceStates.clear();
@@ -39,7 +40,7 @@ public class FlossDanceHandler {
     public void onRender(RenderEvent e) {
         danceStates.values().forEach(DanceState::update);
 
-        float speed = AnimationSettings.flossDanceSpeed * 2;
+        float speed = CosmeticSettings.flossDanceSpeed * 2;
 
         if (this.systemTime == 0) this.systemTime = Minecraft.getSystemTime();
 
@@ -80,6 +81,19 @@ public class FlossDanceHandler {
     public void modify(AbstractClientPlayer entity, ModelPlayer player) {
         DanceState danceState = get(entity.getUniqueID());
         int ticks = danceState.danceFrames;
+        player.bipedBody.rotateAngleZ = 0F;
+        player.bipedBodyWear.rotateAngleZ = 0F;
+
+        player.bipedRightLeg.rotateAngleZ = 0F;
+        player.bipedRightLegwear.rotateAngleZ = 0F;
+        player.bipedLeftLeg.rotateAngleZ = 0F;
+        player.bipedLeftLegwear.rotateAngleZ = 0F;
+        player.bipedRightLeg.offsetX = 0F;
+        player.bipedRightLegwear.offsetX = 0F;
+        player.bipedLeftLeg.offsetX = 0F;
+        player.bipedLeftLegwear.offsetX = 0F;
+        player.bipedHead.rotateAngleZ = 0F;
+        player.bipedHeadwear.rotateAngleZ = 0F;
 
         if (ticks <= 2) {
             if (danceState.shouldReset()) {

@@ -25,6 +25,7 @@ public enum EnumPurchaseType {
     CHROMA_WIN,
     DEAL_WITH_IT,
     FLIP_COSMETIC,
+    DEADMAU5_COSMETIC,
     UNKNOWN;
 
 

@@ -4,7 +4,7 @@ import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.RenderEvent;
 import cc.hyperium.event.WorldChangeEvent;
 import cc.hyperium.gui.HyperiumGui;
-import cc.hyperium.gui.settings.items.AnimationSettings;
+import cc.hyperium.gui.settings.items.CosmeticSettings;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.model.ModelBiped;
@@ -39,7 +39,7 @@ public class DabHandler {
                             this.state,
                             this.asc ? 100.0f : 0.0f,
                             0.01f,
-                            AnimationSettings.dabSpeed
+                            CosmeticSettings.dabSpeed
                     ),
                     0.0f,
                     100.0f
@@ -191,7 +191,7 @@ public class DabHandler {
             }
 
             if (dabFrames <= 0) {
-                if (AnimationSettings.dabToggle && this.toggled) {
+                if (CosmeticSettings.dabToggle && this.toggled) {
                     ensureDabbingFor(60);
                 } else {
                     dabFrames = 0;
