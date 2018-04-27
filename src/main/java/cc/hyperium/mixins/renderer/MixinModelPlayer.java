@@ -1,5 +1,8 @@
 package cc.hyperium.mixins.renderer;
 
+import cc.hyperium.event.EventBus;
+import cc.hyperium.event.PostCopyPlayerModelAnglesEvent;
+import cc.hyperium.event.PreCopyPlayerModelAnglesEvent;
 import cc.hyperium.mixinsimp.renderer.IMixinModelPlayer;
 import net.minecraft.client.model.ModelBiped;
 import org.spongepowered.asm.mixin.Mixin;
@@ -225,6 +228,8 @@ public class MixinModelPlayer extends ModelBiped implements IMixinModelPlayer {
 
 	@Inject(method =  "setRotationAngles", at = @At("RETURN"))
 	private void setRotationAngles(float p_78087_1_, float p_78087_2_, float p_78087_3_, float p_78087_4_, float p_78087_5_, float p_78087_6_, Entity entityIn, CallbackInfo ci) {
+		EventBus.INSTANCE.post(new PreCopyPlayerModelAnglesEvent(this));
+
 		copyModelAngles(this.bipedLeftArm, this.bipedLeftForeArm);
 		copyModelAngles(this.bipedRightArm, this.bipedRightForeArm);
 		copyModelAngles(this.bipedLeftArmwear, this.bipedLeftForeArmwear);
@@ -234,6 +239,8 @@ public class MixinModelPlayer extends ModelBiped implements IMixinModelPlayer {
 		copyModelAngles(this.bipedRightLeg, this.bipedRightLowerLeg);
 		copyModelAngles(this.bipedLeftLegwear, this.bipedLeftLowerLegwear);
 		copyModelAngles(this.bipedRightLegwear, this.bipedRightLowerLegwear);
+
+		EventBus.INSTANCE.post(new PostCopyPlayerModelAnglesEvent(this));
 	}
 
 	@Inject(method = "setInvisible", at = @At("RETURN"))

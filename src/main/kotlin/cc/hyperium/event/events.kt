@@ -18,6 +18,7 @@
 package cc.hyperium.event
 
 import cc.hyperium.event.minigames.Minigame
+import cc.hyperium.mixinsimp.renderer.IMixinModelPlayer
 import com.mojang.authlib.GameProfile
 import net.minecraft.client.entity.AbstractClientPlayer
 import net.minecraft.client.gui.GuiScreen
@@ -252,3 +253,15 @@ class EntityRenderEvent(val entityIn: Entity,
 class RenderScoreboardEvent(val x: Double, val y: Double, val objective: ScoreObjective, val resolution: ScaledResolution) : CancellableEvent()
 
 class DrawBlockHighlightEvent(val context: RenderGlobal, val player: EntityPlayer, val target: MovingObjectPosition, val subID: Int, val currentItem: ItemStack?, val partialTicks: Float) : CancellableEvent()
+
+/**
+ * Get called before the angles of the upperleg gets copied into the lower leg etc
+ * Edit the player rotation here, if the upperleg and the lowerleg need the same roations
+ */
+class PreCopyPlayerModelAnglesEvent(val model: IMixinModelPlayer)
+
+/**
+ * Get called after the angles of the upperleg gets copied into the lower leg etc
+ * Edit the player rotation here, if the upperleg and the lowerleg need other roations
+ */
+class PostCopyPlayerModelAnglesEvent(val model: IMixinModelPlayer)
