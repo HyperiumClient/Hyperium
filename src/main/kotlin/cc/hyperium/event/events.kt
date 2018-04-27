@@ -258,10 +258,10 @@ class DrawBlockHighlightEvent(val context: RenderGlobal, val player: EntityPlaye
  * Get called before the angles of the upperleg gets copied into the lower leg etc
  * Edit the player rotation here, if the upperleg and the lowerleg need the same roations
  */
-class PreCopyPlayerModelAnglesEvent(val model: IMixinModelPlayer)
+class PreCopyPlayerModelAnglesEvent(val entity: AbstractClientPlayer, val model: IMixinModelPlayer)
 
 /**
  * Get called after the angles of the upperleg gets copied into the lower leg etc
  * Edit the player rotation here, if the upperleg and the lowerleg need other roations
  */
-class PostCopyPlayerModelAnglesEvent(val model: IMixinModelPlayer)
+class PostCopyPlayerModelAnglesEvent(val entity: AbstractClientPlayer, val model: IMixinModelPlayer)
