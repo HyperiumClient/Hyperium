@@ -234,15 +234,15 @@ public class MixinModelPlayer extends ModelBiped implements IMixinModelPlayer {
             EventBus.INSTANCE.post(new PreCopyPlayerModelAnglesEvent(((AbstractClientPlayer) entityIn), this));
         }
 
-		copyModelAngles(this.bipedLeftArm, this.bipedLeftForeArm);
-		copyModelAngles(this.bipedRightArm, this.bipedRightForeArm);
-		copyModelAngles(this.bipedLeftArmwear, this.bipedLeftForeArmwear);
-		copyModelAngles(this.bipedRightArmwear, this.bipedRightForeArmwear);
+        copyModelAnglesAndOffest(this.bipedLeftArm, this.bipedLeftForeArm);
+        copyModelAnglesAndOffest(this.bipedRightArm, this.bipedRightForeArm);
+        copyModelAnglesAndOffest(this.bipedLeftArmwear, this.bipedLeftForeArmwear);
+        copyModelAnglesAndOffest(this.bipedRightArmwear, this.bipedRightForeArmwear);
 
-		copyModelAngles(this.bipedLeftLeg, this.bipedLeftLowerLeg);
-		copyModelAngles(this.bipedRightLeg, this.bipedRightLowerLeg);
-		copyModelAngles(this.bipedLeftLegwear, this.bipedLeftLowerLegwear);
-		copyModelAngles(this.bipedRightLegwear, this.bipedRightLowerLegwear);
+        copyModelAnglesAndOffest(this.bipedLeftLeg, this.bipedLeftLowerLeg);
+        copyModelAnglesAndOffest(this.bipedRightLeg, this.bipedRightLowerLeg);
+        copyModelAnglesAndOffest(this.bipedLeftLegwear, this.bipedLeftLowerLegwear);
+        copyModelAnglesAndOffest(this.bipedRightLegwear, this.bipedRightLowerLegwear);
 
         if (entityIn instanceof AbstractClientPlayer) {
             EventBus.INSTANCE.post(new PostCopyPlayerModelAnglesEvent(((AbstractClientPlayer) entityIn),this));
@@ -261,6 +261,13 @@ public class MixinModelPlayer extends ModelBiped implements IMixinModelPlayer {
 		this.bipedRightLowerLeg.showModel = invisble;
 		this.bipedRightLowerLegwear.showModel = invisble;
 	}
+
+    private void copyModelAnglesAndOffest(ModelRenderer src, ModelRenderer dest) {
+        copyModelAngles(src, dest);
+        dest.offsetX = src.offsetX;
+        dest.offsetY = src.offsetY;
+        dest.offsetZ = src.offsetZ;
+    }
 
 	/* Right leg wrappers */
 	@Override
