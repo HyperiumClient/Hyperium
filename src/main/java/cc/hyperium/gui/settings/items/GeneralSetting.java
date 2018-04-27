@@ -322,7 +322,7 @@ public class GeneralSetting extends SettingGui {
         screenshotOnKill.addDefaultOnOff();
         screenshotOnKill.setSelectedItem(screenshotOnKillEnabled ? "ON" : "OFF");
 
-        this.settingItems.add(this.spotifyControls = new SelectionItem<>(18, getX(), getDefaultItemY(18), this.width - getX() * 2, "SHOW SPOTIFY CONTROLS", i -> {
+        this.settingItems.add(this.spotifyControls = new SelectionItem<>(21, getX(), getDefaultItemY(21), this.width - getX() * 2, "SHOW SPOTIFY CONTROLS", i -> {
             ((SelectionItem) i).nextItem();
             spotifyControlsEnabled = ((SelectionItem) i).getSelectedItem().equals("ON");
             this.settingsUpdated = true;

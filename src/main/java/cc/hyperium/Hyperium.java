@@ -34,7 +34,6 @@ import cc.hyperium.gui.settings.items.GeneralSetting;
 import cc.hyperium.handlers.HyperiumHandlers;
 import cc.hyperium.installer.InstallerFrame;
 import cc.hyperium.integrations.spotify.Spotify;
-import cc.hyperium.integrations.spotify.impl.SpotifyInformation;
 import cc.hyperium.mods.HyperiumModIntegration;
 import cc.hyperium.mods.autogg.AutoGG;
 import cc.hyperium.mods.common.PerspectiveModifierContainer;
@@ -198,35 +197,7 @@ public class Hyperium {
         modIntegration = new HyperiumModIntegration();
         richPresenceManager.init();
 
-        // spotify thread (>^.^)>
-        Multithreading.runAsync(() -> {
-            try {
-                Spotify spotify = new Spotify();
-                // Uncommented by Kevin because he added the file ^.^
-                spotify.addListener(new Spotify.SpotifyListener() {
-                    @Override
-                    public void onPlay(SpotifyInformation info) {
-                        // This is on a different thread, so we need to use the static getter
-                        Hyperium.INSTANCE.getNotification()
-                                .display("Spotify",
-                                        "Now playing " + info.getTrack().getTrackResource().getName(),
-                                        8
-                                ).setClickedCallback(() -> {
-                                    /*try {
-                                        String path = new File(Hyperium.folder, "openSpotify.vbs").getAbsolutePath();
-
-                                        Runtime.getRuntime().exec(path);
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
-                                    }*/
-                        });
-                    }
-                });
-                spotify.start();
-            } catch (Exception e) {
-                LOGGER.warn("Failed to connect to spotify");
-            }
-        });
+        Multithreading.runAsync(Spotify::load);
 
         Runtime.getRuntime().addShutdownHook(new Thread(this::shutdown));
 

@@ -62,7 +62,6 @@ public class SpotifyControls extends AbstractMod {
     private Color white = Color.WHITE;
     private Metadata metadata;
     private long current = 0;
-    private int currTicks = 0;
     private long cachedTime = 0;
     private long systemTime = 0;
     private DynamicTexture pause, play, art;
@@ -139,7 +138,7 @@ public class SpotifyControls extends AbstractMod {
     }
 
     @InvokeEvent
-    public void onRender(RenderGuiEvent e) {
+    public void onRender(RenderHUDEvent e) {
         while (Minecraft.getSystemTime() > this.systemTime + 1000) {
             this.systemTime += 1000;
 
@@ -159,11 +158,6 @@ public class SpotifyControls extends AbstractMod {
                 renderControls();
             }
         }
-    }
-
-    @InvokeEvent
-    public void onTick(TickEvent e) {
-        currTicks++;
     }
 
     @InvokeEvent
@@ -227,9 +221,6 @@ public class SpotifyControls extends AbstractMod {
 
         long length = info.getTrack().getLength();
 
-        Color bg = new Color(30, 30, 30, 255);
-        Color highlight = new Color(149, 201, 144);
-
         name = fontRenderer.trimStringToWidth(name, (int) ((width - 30) * 0.8));
         artist = fontRenderer.trimStringToWidth(artist, width - 30);
 
@@ -264,7 +255,7 @@ public class SpotifyControls extends AbstractMod {
 
         GL11.glPushMatrix();
         GL11.glScalef(1.2f, 1.2f, 1);
-        fontRenderer.drawString(name, (int) Math.floor((x + 5) / 1.2), (int) Math.floor((y + 5) / 1.2), white.getRGB());
+        fontRenderer.drawString(name, (float) ((x + 5) / 1.2), (float) ((y + 5) / 1.2), white.getRGB(), false);
         GL11.glPopMatrix();
 
         fontRenderer.drawString(artist, x + 5, y + 18, white.getRGB());
