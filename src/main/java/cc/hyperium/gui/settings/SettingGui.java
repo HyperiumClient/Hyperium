@@ -35,6 +35,7 @@ public class SettingGui extends HyperiumGui {
     private HyperiumFontRenderer fontRendererObj = Fonts.ARIAL.getTrueTypeFont();
     private String name;
     private HyperiumGui previous;
+    private int currentID = 0;
 
     private int animation = (height / 5) * 3;
 
