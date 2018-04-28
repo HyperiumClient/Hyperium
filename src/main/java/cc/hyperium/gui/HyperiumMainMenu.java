@@ -208,8 +208,8 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
 
 
     private static ResourceLocation background = new ResourceLocation("textures/material/backgrounds/1.png");
-//    private static DynamicTexture background2 = null;
-//    private static File customImage = new File(Minecraft.getMinecraft().mcDataDir, "customImage.png");
+    private static DynamicTexture background2 = null;
+    private static File customImage = new File(Minecraft.getMinecraft().mcDataDir, "customImage.png");
     private final ResourceLocation exit = new ResourceLocation("textures/material/exit.png");
     private final ResourceLocation people_outline = new ResourceLocation("textures/material/people-outline.png");
     private final ResourceLocation person_outline = new ResourceLocation("textures/material/person-outline.png");
@@ -457,22 +457,34 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
         GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         GlStateManager.disableAlpha();
-//        if (customImage.exists()) {
-//            try {
-//                ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
-//                BufferedImage image = ImageIO.read(new FileInputStream(customImage));
-//                Texture texture = TextureLoader.getTexture("PNG", (InputStream) ImageIO.createImageInputStream(image.getScaledInstance(sr.getScaledWidth(), sr.getScaledHeight(), 1)));
-//                texture.bind();
-//
-//                GlStateManager.depthMask(true);
-//                GlStateManager.enableDepth();
-//                GlStateManager.enableAlpha();
-//                GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-//                return;
-//            } catch (IOException e) {
-//
-//            }
-//        }
+        if (customImage.exists()) {
+            try {
+                ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
+                BufferedImage bufferedImage = ImageIO.read(new FileInputStream(customImage));
+                DynamicTexture dynamicTexture = new DynamicTexture(bufferedImage);
+                dynamicTexture.loadTexture(Minecraft.getMinecraft().getResourceManager());
+
+                GL11.glBegin(GL11.GL_QUADS);
+                GL11.glTexCoord2f(0,0);
+                GL11.glVertex2f(0,0);
+                GL11.glTexCoord2f(1,0);
+                GL11.glVertex2f(sr.getScaledWidth(),0);
+                GL11.glTexCoord2f(1,1);
+                GL11.glVertex2f(sr.getScaledWidth(), sr.getScaledHeight());
+                GL11.glTexCoord2f(0,1);
+                GL11.glVertex2f(0,100+sr.getScaledHeight());
+                GL11.glEnd();
+                GL11.glDeleteTextures(dynamicTexture.getGlTextureId());
+
+                GlStateManager.depthMask(true);
+                GlStateManager.enableDepth();
+                GlStateManager.enableAlpha();
+                GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+                return;
+            } catch (IOException e) {
+
+            }
+        }
         Minecraft.getMinecraft().getTextureManager().bindTexture(background);
         Tessellator tessellator = Tessellator.getInstance();
         WorldRenderer worldrenderer = tessellator.getWorldRenderer();
