@@ -22,6 +22,7 @@ import cc.hyperium.commands.BaseCommand;
 import cc.hyperium.commands.CommandUsageException;
 import cc.hyperium.handlers.handlers.HypixelDetector;
 import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
+import cc.hyperium.mods.chromahud.ChromaHUDApi;
 import cc.hyperium.mods.levelhead.Levelhead;
 import cc.hyperium.mods.sk1ercommon.Sk1erMod;
 import cc.hyperium.purchases.HyperiumPurchase;
@@ -66,6 +67,9 @@ public class CommandDebug implements BaseCommand {
         builder.append("\n");
         builder.append("\n");
 
+        builder.append("ChromaHUD: ").append(printer.toJson(ChromaHUDApi.getInstance().getConfig().getObject()));
+        builder.append("\n");
+        builder.append("\n");
         builder.append("Keybinds: ").append(printer.toJson(Hyperium.INSTANCE.getHandlers().getKeybindHandler().getKeyBindConfig().getKeyBindJson().getData()));
         builder.append("\n");
         builder.append("\n");
