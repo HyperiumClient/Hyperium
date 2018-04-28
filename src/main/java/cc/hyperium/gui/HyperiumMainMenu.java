@@ -190,17 +190,26 @@ import net.minecraft.world.storage.ISaveFormat;
 import net.minecraft.world.storage.WorldInfo;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
+import org.newdawn.slick.opengl.Texture;
+import org.newdawn.slick.opengl.TextureLoader;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
+import java.nio.Buffer;
 import java.util.HashMap;
 
 public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
 
 
     private static ResourceLocation background = new ResourceLocation("textures/material/backgrounds/1.png");
+//    private static DynamicTexture background2 = null;
+//    private static File customImage = new File(Minecraft.getMinecraft().mcDataDir, "customImage.png");
     private final ResourceLocation exit = new ResourceLocation("textures/material/exit.png");
     private final ResourceLocation people_outline = new ResourceLocation("textures/material/people-outline.png");
     private final ResourceLocation person_outline = new ResourceLocation("textures/material/person-outline.png");
@@ -448,7 +457,23 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
         GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         GlStateManager.disableAlpha();
-        this.mc.getTextureManager().bindTexture(background);
+//        if (customImage.exists()) {
+//            try {
+//                ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
+//                BufferedImage image = ImageIO.read(new FileInputStream(customImage));
+//                Texture texture = TextureLoader.getTexture("PNG", (InputStream) ImageIO.createImageInputStream(image.getScaledInstance(sr.getScaledWidth(), sr.getScaledHeight(), 1)));
+//                texture.bind();
+//
+//                GlStateManager.depthMask(true);
+//                GlStateManager.enableDepth();
+//                GlStateManager.enableAlpha();
+//                GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+//                return;
+//            } catch (IOException e) {
+//
+//            }
+//        }
+        Minecraft.getMinecraft().getTextureManager().bindTexture(background);
         Tessellator tessellator = Tessellator.getInstance();
         WorldRenderer worldrenderer = tessellator.getWorldRenderer();
         worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
@@ -462,6 +487,15 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
         GlStateManager.enableAlpha();
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 
+    }
+
+    private BufferedImage getScaledImage(Image srcImg, int w, int h){
+        BufferedImage resizedImg = new BufferedImage(w, h, BufferedImage.TRANSLUCENT);
+        Graphics2D g2 = resizedImg.createGraphics();
+        g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+        g2.drawImage(srcImg, 0, 0, w, h, null);
+        g2.dispose();
+        return resizedImg;
     }
 
     private int color(int i, int i1, int i2, int i3) {

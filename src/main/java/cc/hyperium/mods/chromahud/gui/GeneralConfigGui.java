@@ -34,6 +34,7 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.util.ResourceLocation;
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
 import java.awt.*;
@@ -299,5 +300,12 @@ public class GeneralConfigGui extends GuiScreen {
     public void tick(TickEvent e) {
         EventBus.INSTANCE.unregister(this);
         Minecraft.getMinecraft().displayGuiScreen(this);
+    }
+
+    @Override
+    protected void keyTyped(char typedChar, int keyCode) throws IOException {
+        if (keyCode == Keyboard.KEY_RETURN && currentElement != null)
+            Minecraft.getMinecraft().displayGuiScreen(new DisplayElementConfig(currentElement, mod));
+        super.keyTyped(typedChar, keyCode);
     }
 }
