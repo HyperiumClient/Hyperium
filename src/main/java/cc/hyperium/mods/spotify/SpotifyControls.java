@@ -18,7 +18,10 @@
 package cc.hyperium.mods.spotify;
 
 import cc.hyperium.Hyperium;
-import cc.hyperium.event.*;
+import cc.hyperium.event.EventBus;
+import cc.hyperium.event.GuiClickEvent;
+import cc.hyperium.event.InvokeEvent;
+import cc.hyperium.event.RenderHUDEvent;
 import cc.hyperium.gui.HyperiumGui;
 import cc.hyperium.gui.settings.items.GeneralSetting;
 import cc.hyperium.integrations.spotify.Spotify;
@@ -231,7 +234,7 @@ public class SpotifyControls extends AbstractMod {
         this.x = (int) HyperiumGui.clamp(x, 0, sr.getScaledWidth() - 200);
         this.y = (int) HyperiumGui.clamp(y, 0, sr.getScaledHeight() - 50);
 
-        if (imageToGenerate != null){
+        if (imageToGenerate != null) {
             this.art = new DynamicTexture(imageToGenerate);
             imageToGenerate = null;
         }
@@ -297,18 +300,18 @@ public class SpotifyControls extends AbstractMod {
         Tessellator tessellator = Tessellator.getInstance();
         WorldRenderer worldrenderer = tessellator.getWorldRenderer();
         worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
-            worldrenderer.pos(x / imgScale, y / imgScale + 256, 0)
-                    .tex(0, f)
-                    .endVertex();
-            worldrenderer.pos(x / imgScale + 256, y / imgScale + 256, 0)
-                    .tex(f, f)
-                    .endVertex();
-            worldrenderer.pos(x / imgScale + 256, y / imgScale, 0)
-                    .tex(f, 0)
-                    .endVertex();
-            worldrenderer.pos(x / imgScale, y / imgScale, 0)
-                    .tex(0, 0)
-                    .endVertex();
+        worldrenderer.pos(x / imgScale, y / imgScale + 256, 0)
+                .tex(0, f)
+                .endVertex();
+        worldrenderer.pos(x / imgScale + 256, y / imgScale + 256, 0)
+                .tex(f, f)
+                .endVertex();
+        worldrenderer.pos(x / imgScale + 256, y / imgScale, 0)
+                .tex(f, 0)
+                .endVertex();
+        worldrenderer.pos(x / imgScale, y / imgScale, 0)
+                .tex(0, 0)
+                .endVertex();
         tessellator.draw();
 
         GlStateManager.popMatrix();

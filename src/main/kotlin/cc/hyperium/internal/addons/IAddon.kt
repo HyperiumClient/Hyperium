@@ -21,4 +21,10 @@ interface IAddon {
      */
     fun onClose()
 
+
+    /**
+     * Invoked on debug call
+     */
+    fun sendDebugInfo()
+
 }
