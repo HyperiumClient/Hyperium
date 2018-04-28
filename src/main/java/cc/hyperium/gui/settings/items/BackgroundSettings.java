@@ -68,7 +68,7 @@ public class BackgroundSettings extends SettingGui {
             refreshBackground();
         }));
 
-        selectionItem.addItems(Arrays.asList("1", "2", "3", "4", "5"));
+        selectionItem.addItems(Arrays.asList("1", "2", "3", "4", "5", "CUSTOM"));
         selectionItem.setSelectedItem(backgroundSelect);
         refreshBackground();
 
@@ -133,18 +133,26 @@ public class BackgroundSettings extends SettingGui {
         switch (((SelectionItem<String>) settingItems.get(0)).getSelectedItem()) {
             case "1":
                 HyperiumMainMenu.setBackground(new ResourceLocation("textures/material/backgrounds/1.png"));
+                HyperiumMainMenu.setCustomBackground(false);
                 break;
             case "2":
                 HyperiumMainMenu.setBackground(new ResourceLocation("textures/material/backgrounds/2.png"));
+                HyperiumMainMenu.setCustomBackground(false);
                 break;
             case "3":
                 HyperiumMainMenu.setBackground(new ResourceLocation("textures/material/backgrounds/3.png"));
+                HyperiumMainMenu.setCustomBackground(false);
                 break;
             case "4":
                 HyperiumMainMenu.setBackground(new ResourceLocation("textures/material/backgrounds/4.png"));
+                HyperiumMainMenu.setCustomBackground(false);
                 break;
             case "5":
                 HyperiumMainMenu.setBackground(new ResourceLocation("textures/material/backgrounds/5.png"));
+                HyperiumMainMenu.setCustomBackground(false);
+                break;
+            case "CUSTOM":
+                HyperiumMainMenu.setCustomBackground(true);
                 break;
         }
     }
