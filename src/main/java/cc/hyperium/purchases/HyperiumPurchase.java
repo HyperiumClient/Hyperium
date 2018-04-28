@@ -61,6 +61,14 @@ public class HyperiumPurchase {
         return response;
     }
 
+    @Override
+    public String toString() {
+        return "HyperiumPurchase{" +
+                "playerUUID=" + playerUUID +
+                ", response=" + response +
+                '}';
+    }
+
     public AbstractHyperiumPurchase getPurchase(EnumPurchaseType type) {
         for (AbstractHyperiumPurchase purchase : purchases) {
             if (purchase.getType() == type) {

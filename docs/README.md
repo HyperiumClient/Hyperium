@@ -23,7 +23,7 @@
 
 [CommandClearChat](classes/cc.hyperium.commands.defaults.CommandClearChat.md)
 
-[CommandBrowser](classes/cc.hyperium.commands.defaults.CommandBrowser.md)
+[CommandBrowser](classes/cc.hyperium.commands.defaults.CommandDebug.md)
 
 ## cc.hyperium.config ##
 [DefaultConfig](classes/cc.hyperium.config.DefaultConfig.md)
