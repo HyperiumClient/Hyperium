@@ -19,6 +19,7 @@ package cc.hyperium.event
 
 import cc.hyperium.event.minigames.Minigame
 import com.mojang.authlib.GameProfile
+import net.minecraft.client.audio.ISound
 import net.minecraft.client.entity.AbstractClientPlayer
 import net.minecraft.client.gui.GuiScreen
 import net.minecraft.client.gui.ScaledResolution
@@ -252,3 +253,25 @@ class EntityRenderEvent(val entityIn: Entity,
 class RenderScoreboardEvent(val x: Double, val y: Double, val objective: ScoreObjective, val resolution: ScaledResolution) : CancellableEvent()
 
 class DrawBlockHighlightEvent(val context: RenderGlobal, val player: EntityPlayer, val target: MovingObjectPosition, val subID: Int, val currentItem: ItemStack?, val partialTicks: Float) : CancellableEvent()
+
+class SoundPlayEvent(val sound: ISound) : CancellableEvent()
+
+enum class ElementType {
+    ALL,
+    HELMET,
+    PORTAL,
+    CROSSHAIR,
+    BOSS_HEALTH,
+    ARMOR,
+    HEALTH,
+    FOOD,
+    AIR,
+    HOTBAR,
+    EXPERIENCE,
+    TEXT,
+    HEALTH_MOUNT,
+    JUMP_BAR,
+    CHAT,
+    PLAYER_LIST,
+    DEBUG
+}

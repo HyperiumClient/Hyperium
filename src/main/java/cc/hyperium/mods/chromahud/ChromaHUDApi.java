@@ -40,6 +40,7 @@ public class ChromaHUDApi {
     private HashMap<String, ArrayList<ButtonConfig>> buttonConfigs = new HashMap<>();
     private HashMap<String, ArrayList<TextConfig>> textConfigs = new HashMap<>();
     private HashMap<String, ArrayList<StringConfig>> stringConfigs = new HashMap<>();
+    private JsonHolder config = new JsonHolder();
 
     private ChromaHUDApi() {
         instance = this;
@@ -142,6 +143,7 @@ public class ChromaHUDApi {
      * @param config Config data from file
      */
     protected void post(JsonHolder config) {
+        this.config = config;
         if (posted)
             throw new IllegalStateException("Already posted!");
         this.posted = true;
@@ -196,5 +198,9 @@ public class ChromaHUDApi {
 
     public List<ChromaHUDParser> getParsers() {
         return new ArrayList<>(parsers);
+    }
+
+    public JsonHolder getConfig() {
+        return config;
     }
 }

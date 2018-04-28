@@ -101,7 +101,7 @@ public class HyperiumCommandHandler {
                     }
                 } catch (Exception exception) {
                     exception.printStackTrace();
-                    this.chatHandler.sendMessage(ChatColor.RED + "An internal error occured whilst performing this command", false);
+                    this.chatHandler.sendMessage(ChatColor.RED + "An internal error occurred whilst performing this command", false);
                     return false;
                 }
 
