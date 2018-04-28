@@ -223,6 +223,7 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
     private HyperiumFontRenderer fr = new HyperiumFontRenderer("Arial", Font.PLAIN, 20);
     private HyperiumFontRenderer sfr = new HyperiumFontRenderer("Arial", Font.PLAIN, 12);
     private HashMap<String, DynamicTexture> cachedImages = new HashMap<>();
+    private BufferedImage bgBr = null;
 
     public static ResourceLocation getBackground() {
         return background;
@@ -239,6 +240,13 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
      */
 
     public void initGui() {
+        if (customImage.exists()) {
+            try {
+                bgBr = ImageIO.read(new FileInputStream(customImage));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
         this.viewportTexture = new DynamicTexture(256, 256);
         int j = this.height / 4 + 48;
 
@@ -454,10 +462,13 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
         GlStateManager.disableAlpha();
         if (customImage.exists()) {
             try {
+                DynamicTexture bgDynamicTexture = null;
+                if (bgBr != null)
+                    bgDynamicTexture = new DynamicTexture(bgBr);
+                if (bgDynamicTexture == null)
+                    return;
+                bgDynamicTexture.loadTexture(Minecraft.getMinecraft().getResourceManager());
                 ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
-                BufferedImage bufferedImage = ImageIO.read(new FileInputStream(customImage));
-                DynamicTexture dynamicTexture = new DynamicTexture(bufferedImage);
-                dynamicTexture.loadTexture(Minecraft.getMinecraft().getResourceManager());
 
                 GL11.glBegin(GL11.GL_QUADS);
                 GL11.glTexCoord2f(0, 0);
@@ -469,7 +480,7 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
                 GL11.glTexCoord2f(0, 1);
                 GL11.glVertex2f(0, 100 + sr.getScaledHeight());
                 GL11.glEnd();
-                GL11.glDeleteTextures(dynamicTexture.getGlTextureId());
+                GL11.glDeleteTextures(bgDynamicTexture.getGlTextureId());
 
                 GlStateManager.depthMask(true);
                 GlStateManager.enableDepth();
