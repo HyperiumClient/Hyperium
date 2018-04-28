@@ -145,6 +145,7 @@ public class BackgroundSettings extends SettingGui {
                 break;
             case "5":
                 HyperiumMainMenu.setBackground(new ResourceLocation("textures/material/backgrounds/5.png"));
+                break;
         }
     }
 }

@@ -29,6 +29,7 @@ import cc.hyperium.gui.integrations.QueueModGui;
 import cc.hyperium.gui.settings.items.CosmeticSettings;
 import cc.hyperium.handlers.handlers.DabHandler;
 import cc.hyperium.handlers.handlers.FlossDanceHandler;
+import cc.hyperium.integrations.spotify.Spotify;
 import cc.hyperium.netty.NettyClient;
 import cc.hyperium.netty.packet.packets.serverbound.ServerCrossDataPacket;
 import net.minecraft.client.Minecraft;
@@ -88,9 +89,10 @@ public class KeyBindHandler {
             if (!Hyperium.INSTANCE.getCosmetics().getFlipCosmetic().isSelfUnlocked())
                 return;
             inverted = !inverted;
-            Hyperium.INSTANCE.getHandlers().getFlipHandler().state(Minecraft.getMinecraft().getSession().getProfile().getId(), inverted);
-            NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("type", "flip_update").put("flipped", inverted)));
-
+            int state = inverted ? CosmeticSettings.flip_type : 0;
+            Hyperium.INSTANCE.getHandlers().getFlipHandler().state(Minecraft.getMinecraft().getSession().getProfile().getId(), state);
+            NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("type", "flip_update").put("flip_state", state)));
+            Hyperium.INSTANCE.getHandlers().getFlipHandler().resetTick();
         }
 
         @Override
@@ -98,8 +100,9 @@ public class KeyBindHandler {
             if (!Hyperium.INSTANCE.getCosmetics().getFlipCosmetic().isSelfUnlocked())
                 return;
             inverted = !inverted;
-            Hyperium.INSTANCE.getHandlers().getFlipHandler().state(Minecraft.getMinecraft().getSession().getProfile().getId(), inverted);
-            NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("type", "flip_update").put("flipped", inverted)));
+            int state = inverted ? CosmeticSettings.flip_type : 0;
+            Hyperium.INSTANCE.getHandlers().getFlipHandler().state(Minecraft.getMinecraft().getSession().getProfile().getId(), state);
+            NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("type", "flip_update").put("flip_state", state)));
         }
     };
 
@@ -176,6 +179,20 @@ public class KeyBindHandler {
         }
     };
 
+    // Spotify Binds
+    private HyperiumBind pauseSpotify = new HyperiumBind("Pause Spotify", Keyboard.KEY_COMMA) {
+        @Override
+        public void onPress() {
+            Spotify.instance.pause(true);
+        }
+    };
+    private HyperiumBind resumeSpotify = new HyperiumBind("Resume Spotify", Keyboard.KEY_PERIOD) {
+        @Override
+        public void onPress() {
+            Spotify.instance.pause(false);
+        }
+    };
+
     //Hyperium.INSTANCE.getHandlers().getConfigOptions().hideNameTags
     public KeyBindHandler() {
         this.keyBindConfig = new KeyBindConfig(this, Hyperium.folder);
@@ -190,6 +207,8 @@ public class KeyBindHandler {
         registerKeyBinding(dab);
         registerKeyBinding(invert);
         registerKeyBinding(flossDance);
+        registerKeyBinding(pauseSpotify);
+        registerKeyBinding(resumeSpotify);
 
         // Populate mouse bind list in accordance with Minecraft's values.
         for (int i = 0; i < 16; i++) {

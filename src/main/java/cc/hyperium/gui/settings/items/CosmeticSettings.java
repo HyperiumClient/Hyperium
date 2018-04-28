@@ -43,14 +43,20 @@ public class CosmeticSettings extends SettingGui {
     public static int flossDanceSpeed = 4;
     @ConfigOpt
     public static boolean flossDanceToggle = false;
-    
+
+    @ConfigOpt
+    public static int flip_type = 1;
+
+
     private DefaultConfig config;
     private SelectionItem<String> showEars;
     private SelectionItem<Integer> dabspeed;
     private SelectionItem<String> toggledab;
     private SelectionItem<Integer> flossdancespeed;
     private SelectionItem<String> toggleflossdance;
-    
+
+    private SelectionItem<String> flip_state;
+
     public CosmeticSettings(HyperiumGui previous) {
         super("COSMETICS", previous);
         config = Hyperium.CONFIG;
@@ -113,6 +119,17 @@ public class CosmeticSettings extends SettingGui {
         settingItems.add(showCosmeticsEveryWhere);
         showCosmeticsEveryWhere.addItems(Arrays.asList("YES", "NO"));
         showCosmeticsEveryWhere.setSelectedItem(Hyperium.INSTANCE.getHandlers().getConfigOptions().showCosmeticsEveryWhere ? "YES" : "NO");
+
+
+        flip_state = new SelectionItem<>(6, getX(), getDefaultItemY(6), width - getX() * 2, "INVERT TYPE", i -> {
+            ((SelectionItem) i).nextItem();
+            flip_type = ((SelectionItem) i).getSelectedItem().equals("ROTATE") ? 2 : 1;
+        });
+        settingItems.add(flip_state);
+        flip_state.addItems(Arrays.asList("INVERT", "ROTATE"));
+        flip_state.setSelectedItem(flip_type == 1 ? "INVERT" : "ROTATE");
+
+
     }
 
     private int getDefaultItemY(int i) {

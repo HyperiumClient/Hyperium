@@ -5,6 +5,7 @@ import cc.hyperium.mods.chromahud.api.DisplayItem;
 import cc.hyperium.utils.JsonHolder;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -16,10 +17,11 @@ import java.util.List;
 
 public class BedwarsResourcesDisplay extends DisplayItem {
 
+    private FontRenderer fr = Minecraft.getMinecraft().fontRendererObj;
+
     public BedwarsResourcesDisplay(JsonHolder data, int ordinal) {
         super(data, ordinal);
-        this.height = 6.5 * 10;
-        this.width = 10 * 10;
+        this.height = fr.FONT_HEIGHT * 10;
     }
 
     @Override
@@ -40,6 +42,12 @@ public class BedwarsResourcesDisplay extends DisplayItem {
         list.add("Gold: " + getAmountOfType(Items.gold_ingot));
         list.add("Diamond: " + getAmountOfType(Items.diamond));
         list.add("Emerald: " + getAmountOfType(Items.emerald));
+        int maxWidth = 0;
+        for (String line : list) {
+            if (fr.getStringWidth(line) > maxWidth) maxWidth = fr.getStringWidth(line);
+        }
+        this.width = maxWidth;
+        this.height = fr.FONT_HEIGHT * list.size();
         ElementRenderer.draw(x, y, list);
     }
 

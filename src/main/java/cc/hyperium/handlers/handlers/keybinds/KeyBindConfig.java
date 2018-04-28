@@ -34,7 +34,11 @@ import java.nio.file.Paths;
  */
 @SuppressWarnings("ResultOfMethodCallIgnored") // Suppress because we don't care
 public class KeyBindConfig {
-    
+
+    public BetterJsonObject getKeyBindJson() {
+        return keyBindJson;
+    }
+
     private BetterJsonObject keyBindJson = new BetterJsonObject();
     
     private KeyBindHandler handler;
