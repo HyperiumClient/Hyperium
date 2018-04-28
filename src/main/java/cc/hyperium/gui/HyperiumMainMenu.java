@@ -190,8 +190,6 @@ import net.minecraft.world.storage.ISaveFormat;
 import net.minecraft.world.storage.WorldInfo;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
-import org.newdawn.slick.opengl.Texture;
-import org.newdawn.slick.opengl.TextureLoader;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -199,16 +197,13 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
-import java.nio.Buffer;
 import java.util.HashMap;
 
 public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
 
 
     private static ResourceLocation background = new ResourceLocation("textures/material/backgrounds/1.png");
-    private static DynamicTexture background2 = null;
     private static File customImage = new File(Minecraft.getMinecraft().mcDataDir, "customImage.png");
     private final ResourceLocation exit = new ResourceLocation("textures/material/exit.png");
     private final ResourceLocation people_outline = new ResourceLocation("textures/material/people-outline.png");
@@ -365,7 +360,7 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
     private void addHyperiumStyleSingleplayerMultiplayerButtons(int p_73969_1_, int p_73969_2_) {
         this.buttonList.add(new GuiButton(1, this.width / 2 - getIntendedWidth(295), this.height / 2 - getIntendedHeight(55), getIntendedWidth(110), getIntendedHeight(110), ""));
         this.buttonList.add(new GuiButton(2, this.width / 2 - getIntendedWidth(175), this.height / 2 - getIntendedHeight(55), getIntendedWidth(110), getIntendedHeight(110), ""));
-        this.buttonList.add(new GuiButton(15, this.width / 2 + getIntendedWidth(65), this.height / 2 - getIntendedHeight(55), getIntendedWidth(110),getIntendedHeight(110), ""));
+        this.buttonList.add(new GuiButton(15, this.width / 2 + getIntendedWidth(65), this.height / 2 - getIntendedHeight(55), getIntendedWidth(110), getIntendedHeight(110), ""));
     }
 
     private void addDefaultStyleSingleplayerMultiplayerButtons(int p_73969_1_, int p_73969_2_) {
@@ -441,12 +436,12 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
         GlStateManager.popMatrix();
     }
 
-    private int getIntendedWidth(int value){
+    private int getIntendedWidth(int value) {
         float intendedWidth = 1920F;
         return (int) ((Minecraft.getMinecraft().displayWidth / intendedWidth) * value);
     }
 
-    private int getIntendedHeight(int value){
+    private int getIntendedHeight(int value) {
         float intendedHeight = 1080F;
         return (int) ((Minecraft.getMinecraft().displayHeight / intendedHeight) * value);
     }
@@ -465,14 +460,14 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
                 dynamicTexture.loadTexture(Minecraft.getMinecraft().getResourceManager());
 
                 GL11.glBegin(GL11.GL_QUADS);
-                GL11.glTexCoord2f(0,0);
-                GL11.glVertex2f(0,0);
-                GL11.glTexCoord2f(1,0);
-                GL11.glVertex2f(sr.getScaledWidth(),0);
-                GL11.glTexCoord2f(1,1);
+                GL11.glTexCoord2f(0, 0);
+                GL11.glVertex2f(0, 0);
+                GL11.glTexCoord2f(1, 0);
+                GL11.glVertex2f(sr.getScaledWidth(), 0);
+                GL11.glTexCoord2f(1, 1);
                 GL11.glVertex2f(sr.getScaledWidth(), sr.getScaledHeight());
-                GL11.glTexCoord2f(0,1);
-                GL11.glVertex2f(0,100+sr.getScaledHeight());
+                GL11.glTexCoord2f(0, 1);
+                GL11.glVertex2f(0, 100 + sr.getScaledHeight());
                 GL11.glEnd();
                 GL11.glDeleteTextures(dynamicTexture.getGlTextureId());
 
@@ -499,15 +494,6 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
         GlStateManager.enableAlpha();
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 
-    }
-
-    private BufferedImage getScaledImage(Image srcImg, int w, int h){
-        BufferedImage resizedImg = new BufferedImage(w, h, BufferedImage.TRANSLUCENT);
-        Graphics2D g2 = resizedImg.createGraphics();
-        g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-        g2.drawImage(srcImg, 0, 0, w, h, null);
-        g2.dispose();
-        return resizedImg;
     }
 
     private int color(int i, int i1, int i2, int i3) {

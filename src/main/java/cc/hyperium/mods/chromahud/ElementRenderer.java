@@ -54,6 +54,12 @@ public class ElementRenderer {
     private ChromaHUD mod;
     private Minecraft minecraft;
 
+    private static List<Long> rClicks = new ArrayList<>();
+    private boolean rLast = false;
+
+    private static List<Long> mClicks = new ArrayList<>();
+    private boolean mLast = false;
+
     public ElementRenderer(ChromaHUD mod) {
         this.mod = mod;
         minecraft = Minecraft.getMinecraft();
@@ -175,7 +181,7 @@ public class ElementRenderer {
     }
 
     public static void render(List<ItemStack> itemStacks, int x, double y, boolean showDurability) {
-      GlStateManager.pushMatrix();
+        GlStateManager.pushMatrix();
         int line = 0;
         RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
         for (ItemStack stack : itemStacks) {
@@ -289,9 +295,6 @@ public class ElementRenderer {
 
     // Right CPS Counter
 
-    private static List<Long> rClicks = new ArrayList<>();
-    boolean rLast = false;
-
     public static int getRightCPS() {
         Iterator<Long> iterator = rClicks.iterator();
         while (iterator.hasNext())
@@ -301,9 +304,6 @@ public class ElementRenderer {
     }
 
     // Middle CPS Counter
-
-    private static List<Long> mClicks = new ArrayList<>();
-    boolean mLast = false;
 
     public static int getMiddleCPS() {
         Iterator<Long> iterator = mClicks.iterator();

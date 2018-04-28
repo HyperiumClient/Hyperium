@@ -17,12 +17,12 @@ import java.util.List;
 
 public class BedwarsResourcesDisplay extends DisplayItem {
 
+    private FontRenderer fr = Minecraft.getMinecraft().fontRendererObj;
+
     public BedwarsResourcesDisplay(JsonHolder data, int ordinal) {
         super(data, ordinal);
         this.height = fr.FONT_HEIGHT * 10;
     }
-
-    private FontRenderer fr = Minecraft.getMinecraft().fontRendererObj;
 
     @Override
     public void draw(int x, double y, boolean config) {
