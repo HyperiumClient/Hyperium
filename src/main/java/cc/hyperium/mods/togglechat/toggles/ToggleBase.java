@@ -21,6 +21,7 @@ import cc.hyperium.utils.ChatColor;
 
 import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 /**
@@ -65,6 +66,17 @@ public abstract class ToggleBase {
      * @param enabled used in loading to set the toggled enabled/disabled
      */
     public abstract void setEnabled(boolean enabled);
+
+    /**
+     * Sets the toggle to be the opposite
+     * of the current state
+     *
+     * @see #isEnabled()
+     */
+    public void toggle()
+    {
+        setEnabled(!isEnabled());
+    }
 
     /**
      * Gets the description of the specified toggle,
@@ -133,5 +145,17 @@ public abstract class ToggleBase {
 
     public String getStatus(boolean in) {
         return in ? ChatColor.GREEN + "Enabled" : ChatColor.RED + "Disabled";
+    }
+
+    @Override
+    public boolean equals(Object other)
+    {
+        return other instanceof ToggleBase && getName().equals(((ToggleBase) other).getName());
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(getName());
     }
 }
