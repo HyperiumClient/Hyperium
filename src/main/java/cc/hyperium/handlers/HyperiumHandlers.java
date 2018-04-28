@@ -64,7 +64,6 @@ public class HyperiumHandlers {
     private GameDataTracking dataTracking;
     private QuestTrackingChatHandler questTracking;
     private FlipHandler flipHandler;
-
     public HyperiumHandlers() {
         System.out.println("Loading handlers");
         register(network = new HyperiumNetwork());
@@ -72,7 +71,7 @@ public class HyperiumHandlers {
         this.remoteResourcesHandler = new RemoteResourcesHandler();
         chatHandlers = new ArrayList<>();
         register(configOptions = new OtherConfigOptions());
-
+        register(FontRendererData.INSTANCE);
         register(generalChatHandler = new GeneralChatHandler(chatHandlers));
         register(keybindHandler = new KeyBindHandler());
         register(hypixelDetector = new HypixelDetector());
@@ -108,6 +107,8 @@ public class HyperiumHandlers {
         //Command Handler
         register(commandHandler = new HyperiumCommandHandler());
     }
+
+
 
     public FlipHandler getFlipHandler() {
         return flipHandler;

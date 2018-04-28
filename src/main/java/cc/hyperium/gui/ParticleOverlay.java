@@ -215,7 +215,6 @@ public class ParticleOverlay {
     public boolean purchased() {
         HyperiumPurchase self = PurchaseApi.getInstance().getSelf();
         return self != null && self.hasPurchased(EnumPurchaseType.PARTICLE_BACKGROUND);
-
     }
     public void render(int mouseX, int mouseY, int guiLeft, int guiTop, int guiRight, int guiBottom) {
       if(!purchased())

@@ -57,8 +57,8 @@ public class SkinChangerMod extends AbstractMod {
         this.config = new SkinChangerConfig(this, Hyperium.folder);
         this.config.load();
         
-        EventBus.INSTANCE.register(new SkinChangerEvents(this));
-        Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(new CommandSkinChanger(this));
+        //EventBus.INSTANCE.register(new SkinChangerEvents(this));
+        //Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(new CommandSkinChanger(this));
         
         return this;
     }

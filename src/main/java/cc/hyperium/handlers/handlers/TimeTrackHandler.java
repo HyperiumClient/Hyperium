@@ -120,6 +120,7 @@ public class TimeTrackHandler implements Runnable {
         }
     }
 
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     private void checkDate() {
         if (!todayFormat.format(new Date(System.currentTimeMillis())).equalsIgnoreCase(today.getName())) {
             save(today, data.toString());

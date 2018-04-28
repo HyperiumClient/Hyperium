@@ -17,17 +17,24 @@
 
 package cc.hyperium.purchases;
 
+import cc.hyperium.event.InvokeEvent;
+import cc.hyperium.event.SpawnpointChangeEvent;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
-import cc.hyperium.mods.sk1ercommon.Sk1erMod;
 import cc.hyperium.purchases.packages.*;
 import cc.hyperium.utils.JsonHolder;
+import com.google.gson.JsonObject;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumChatFormatting;
+import org.apache.commons.io.IOUtils;
 
+import java.io.InputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -47,10 +54,31 @@ public class PurchaseApi {
         register(EnumPurchaseType.DAB_ON_KILL, DabOnKill.class);
         register(EnumPurchaseType.PARTICLE_BACKGROUND, ParticleBackgroundCosmetic.class);
         register(EnumPurchaseType.FLIP_COSMETIC, FlipCosmeticPackage.class);
+        register(EnumPurchaseType.DEADMAU5_COSMETIC, EarsCosmetic.class);
+        getPackageAsync(Minecraft.getMinecraft().getSession().getProfile().getId(), hyperiumPurchase -> {
+            System.out.println("Loaded self packages: " + hyperiumPurchase.getResponse());
+        });
+
     }
 
     public static PurchaseApi getInstance() {
         return instance;
+    }
+
+    @InvokeEvent
+    public void worldSwitch(SpawnpointChangeEvent event) {
+        Multithreading.runAsync(() -> {
+            synchronized (instance) {
+                UUID id = Minecraft.getMinecraft().getSession().getProfile().getId();
+                HyperiumPurchase purchase = purchasePlayers.get(id);
+                purchasePlayers.clear();
+                if (purchase != null) {
+                    purchasePlayers.put(id, purchase);
+                }
+                System.out.println("Cleared purchase cache ("+purchasePlayers.size()+")");
+            }
+        });
+
     }
 
     public UUID nameToUUID(String name) {
@@ -115,7 +143,27 @@ public class PurchaseApi {
     }
 
     JsonHolder get(String url) {
-        return new JsonHolder(Sk1erMod.getInstance().rawWithAgent(url));
+        url = url.replace(" ", "%20");
+        System.out.println("Fetching " + url);
+        try {
+            URL u = new URL(url);
+            HttpURLConnection connection = (HttpURLConnection) u.openConnection();
+            connection.setRequestMethod("GET");
+            connection.setUseCaches(true);
+            connection.addRequestProperty("User-Agent", "Mozilla/4.76 Hyperium ");
+            connection.setReadTimeout(15000);
+            connection.setConnectTimeout(15000);
+            connection.setDoOutput(true);
+            InputStream is = connection.getInputStream();
+            return new JsonHolder(IOUtils.toString(is, Charset.forName("UTF-8")));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        JsonObject object = new JsonObject();
+        object.addProperty("success", false);
+        object.addProperty("cause", "Exception");
+        return new JsonHolder(object);
     }
 
 }

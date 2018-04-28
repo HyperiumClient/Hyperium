@@ -36,7 +36,12 @@ public class HyperiumPurchase {
         for (JsonElement nicePackages : response.optJSONArray("hyperium")) {
             String asString = nicePackages.getAsString();
             EnumPurchaseType parse = EnumPurchaseType.parse(asString);
-            this.purchases.add(PurchaseApi.getInstance().parse(parse, PurchaseApi.getInstance().get(PurchaseApi.url + playerUUID.toString() + "/" + parse.name())));
+            if (parse != EnumPurchaseType.UNKNOWN)
+                try {
+                    this.purchases.add(PurchaseApi.getInstance().parse(parse, PurchaseApi.getInstance().get(PurchaseApi.url + playerUUID.toString() + "/" + parse.name())));
+                } catch (Exception wtf) {
+                wtf.printStackTrace();
+                }
         }
     }
 

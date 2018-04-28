@@ -25,6 +25,10 @@ import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.util.ResourceLocation;
 
+import java.awt.*;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.regex.Pattern;
 
 public class HypixelDetector {
@@ -32,7 +36,8 @@ public class HypixelDetector {
     private static final Pattern HYPIXEL_PATTERN =
             Pattern.compile("^(?:(?:(?:.+\\.)?hypixel\\.net)|(?:209\\.222\\.115\\.\\d{1,3})|(?:99\\.198\\.123\\.[123]?\\d?))\\.?(?::\\d{1,5}\\.?)?$", Pattern.CASE_INSENSITIVE);
     private static final Pattern BADLION_PATTERN =
-            Pattern.compile("^(?:(?:na|eu|sa)\\.badlion\\.net)(?::\\d{1,5})?$", Pattern.CASE_INSENSITIVE);
+            Pattern.compile("^(?:(?:(?:na|eu|sa)\\.badlion\\.net\\.?)|(?:205\\.234\\.159\\.\\d{1,3})|(?:54\\.38\\.220\\.\\d{1,3})|" +
+                    "(?:52\\.67\\.(?:35\\.133|42\\.110))|(?:18\\.231\\.25\\.\\d{1,3}))(?::\\d{1,5}\\.?)?$", Pattern.CASE_INSENSITIVE);
 
     private static HypixelDetector instance;
     private boolean hypixel = false;
@@ -67,17 +72,24 @@ public class HypixelDetector {
             }
 
             if (hypixel) { // If player is online recognized Hypixel IP
-                EventBus.INSTANCE.post(new JoinHypixelEvent(JoinHypixelEvent.VerificationMethod.IP));
+                EventBus.INSTANCE.post(new JoinHypixelEvent(ServerVerificationMethod.IP));
 
-            } else if (!badlion) { // Player ISNT on badlion, further Hypixel checks
+            } else if(badlion) { // If player is online recognized badlion IP
+                EventBus.INSTANCE.post(new JoinBadlionEvent(ServerVerificationMethod.IP));
+
+            } else { // Double check the player isn't online Hypixel
                 if (Minecraft.getMinecraft() != null && Minecraft.getMinecraft().getCurrentServerData() != null) {
                     final ServerData serverData = Minecraft.getMinecraft().getCurrentServerData();
 
-                    if(serverData != null) {
-                        // Check MOTD for Hypixel
-                        if (serverData.serverMOTD != null && serverData.serverMOTD.toLowerCase().contains("hypixel network")) {
+                    if(serverData != null && serverData.serverMOTD != null) {
+                        if (serverData.serverMOTD.toLowerCase().contains("hypixel network")) { // Check MOTD for Hypixel
                             this.hypixel = true;
-                            EventBus.INSTANCE.post(new JoinHypixelEvent(JoinHypixelEvent.VerificationMethod.MOTD));
+                            this.badlion = false;
+                            EventBus.INSTANCE.post(new JoinHypixelEvent(ServerVerificationMethod.MOTD));
+                        } else if(serverData.serverMOTD.toLowerCase().contains("badlion network")) { // Badlion MOTD check
+                            this.badlion = true;
+                            this.hypixel = false;
+                            EventBus.INSTANCE.post(new JoinBadlionEvent(ServerVerificationMethod.MOTD));
                         }
                     }
                 }
@@ -88,11 +100,17 @@ public class HypixelDetector {
     @InvokeEvent
     public void join(JoinHypixelEvent event) {
         System.out.println("Zoo");
-        Hyperium.INSTANCE.getNotification().display("Hypixel", "Welcome to the HYPIXEL ZOO", 5f);
+
+        Hyperium.INSTANCE.getNotification().display("Welcome to the HYPIXEL ZOO", "Click to visit https://hypixel.net/", 5f,
+                null, () -> {
+                    try {
+                        Desktop.getDesktop().browse(new URI("https://hypixel.net/"));
+                    } catch (IOException | URISyntaxException e) {
+                        e.printStackTrace();
+                    }
+                }, new Color(200, 150, 50));
 
         Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.create(new ResourceLocation("zoo"), (float) Minecraft.getMinecraft().thePlayer.posX, (float) Minecraft.getMinecraft().thePlayer.posY, (float) Minecraft.getMinecraft().thePlayer.posZ));
-
-
 
 //        Minecraft.getMinecraft().thePlayer.playSound("hyperium:zoo",1.0F,1.0F);
     }
