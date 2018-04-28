@@ -21,6 +21,7 @@ import cc.hyperium.Hyperium;
 import cc.hyperium.event.*;
 import cc.hyperium.gui.HyperiumGui;
 import cc.hyperium.gui.settings.items.GeneralSetting;
+import cc.hyperium.handlers.handlers.keybinds.HyperiumBind;
 import cc.hyperium.integrations.spotify.Spotify;
 import cc.hyperium.integrations.spotify.impl.SpotifyInformation;
 import cc.hyperium.mods.AbstractMod;
@@ -37,6 +38,7 @@ import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
 import javax.imageio.ImageIO;
