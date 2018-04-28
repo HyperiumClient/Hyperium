@@ -241,6 +241,8 @@ public class ElementRenderer {
 
         if (fontRendererObj == null)
             fontRendererObj = Minecraft.getMinecraft().fontRendererObj;
+
+        // Mouse Button Left
         boolean m = Mouse.isButtonDown(0);
         if (m != last) {
             last = m;
@@ -248,6 +250,26 @@ public class ElementRenderer {
                 clicks.add(System.currentTimeMillis());
             }
         }
+
+        // Mouse Button Middle
+        boolean mm = Mouse.isButtonDown(2);
+        if (mm != mLast) {
+            mLast = mm;
+            if (mm) {
+                mClicks.add(System.currentTimeMillis());
+            }
+        }
+
+        // Mouse Button Right
+        boolean rm = Mouse.isButtonDown(1);
+        if (rm != rLast) {
+            rLast = rm;
+            if (rm) {
+                rClicks.add(System.currentTimeMillis());
+            }
+        }
+
+        // Others
 
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 
@@ -263,5 +285,31 @@ public class ElementRenderer {
             endDrawing(element);
         }
 
+    }
+
+    // Right CPS Counter
+
+    private static List<Long> rClicks = new ArrayList<>();
+    boolean rLast = false;
+
+    public static int getRightCPS() {
+        Iterator<Long> iterator = rClicks.iterator();
+        while (iterator.hasNext())
+            if (System.currentTimeMillis() - iterator.next() > 1000L)
+                iterator.remove();
+        return rClicks.size();
+    }
+
+    // Middle CPS Counter
+
+    private static List<Long> mClicks = new ArrayList<>();
+    boolean mLast = false;
+
+    public static int getMiddleCPS() {
+        Iterator<Long> iterator = mClicks.iterator();
+        while (iterator.hasNext())
+            if (System.currentTimeMillis() - iterator.next() > 1000L)
+                iterator.remove();
+        return mClicks.size();
     }
 }

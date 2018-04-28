@@ -45,7 +45,8 @@ public class HyperiumChromaHudParser implements ChromaHUDParser {
         names.put("CBFPS", "Cheatbreaker FPS");
         names.put("DCOUNT", "Dabs Counter");
         names.put("PLAYER", "Player Display");
-        names.put("BEDWARS", "Bedwars Resources Display");
+        names.put("BEDWARS", "BedWars Resources Display");
+        names.put("DOUBLE_CPS_DISPLAY", "L+R CPS Display");
     }
 
     @Override
@@ -75,14 +76,14 @@ public class HyperiumChromaHudParser implements ChromaHUDParser {
                 return new PlayerDisplay(item, ord);
             case "BEDWARS":
                 return new BedwarsResourcesDisplay(item, ord);
-
+            case "DOUBLE_CPS_DISPLAY":
+                return new DoubleCPSDisplay(item, ord);
         }
         return null;
     }
 
     @Override
     public Map<String, String> getNames() {
-
         return names;
     }
 
