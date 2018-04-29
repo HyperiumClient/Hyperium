@@ -236,7 +236,7 @@ public class ChromaHUD extends AbstractMod {
             bw.write(master.toString());
             bw.close();
             fw.close();
-        } catch (Exception e) {
+        } catch (Exception ignored) {
 
         }
 

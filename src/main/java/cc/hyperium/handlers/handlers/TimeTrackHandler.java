@@ -115,7 +115,7 @@ public class TimeTrackHandler implements Runnable {
             bw.write(data);
             bw.close();
             fw.close();
-        } catch (Exception e) {
+        } catch (Exception ignored) {
 
         }
     }

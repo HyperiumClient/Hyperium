@@ -69,7 +69,7 @@ public class KeystrokesRenderer {
             if (this.mc.currentScreen instanceof GuiScreenKeystrokes || this.mc.currentScreen instanceof GuiScreenColor) {
                 try {
                     this.mc.currentScreen.handleInput();
-                } catch (IOException var3) {
+                } catch (IOException ignored) {
                 }
             }
 

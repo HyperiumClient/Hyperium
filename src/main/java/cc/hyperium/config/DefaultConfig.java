@@ -66,7 +66,7 @@ public class DefaultConfig {
             bw.write(gson.toJson(config));
             bw.close();
             fw.close();
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
     }
 

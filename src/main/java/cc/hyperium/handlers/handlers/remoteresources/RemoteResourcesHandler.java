@@ -221,7 +221,7 @@ public class RemoteResourcesHandler {
             bw.write(text);
             bw.close();
             fw.close();
-        } catch (Exception e) {
+        } catch (Exception ignored) {
 
         } finally {
             saveLock.unlock();

@@ -54,7 +54,7 @@ public class DirectionHUD extends DisplayItem {
                     direction += 8;
 
                 list.add(dir[direction]);
-            } catch (Exception e) {
+            } catch (Exception ignored) {
 
             }
         }
