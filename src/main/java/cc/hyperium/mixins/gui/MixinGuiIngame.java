@@ -46,7 +46,7 @@ public abstract class MixinGuiIngame extends Gui {
     public abstract FontRenderer getFontRenderer();
 
     @Inject(method = "renderSelectedItem", at = @At(value = "RETURN", target = "Lnet/minecraft/client/renderer/GlStateManager;popMatrix()V"))
-    public void onRenderSelectedItem(ScaledResolution p_181551_1_, CallbackInfo ci) {
+    private void onRenderSelectedItem(ScaledResolution p_181551_1_, CallbackInfo ci) {
         EventBus.INSTANCE.post(new RenderSelectedItemEvent(p_181551_1_));
     }
 

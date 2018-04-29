@@ -342,7 +342,7 @@ public class BetterJsonObject {
      * @return the JsonPrimitive instance or null if is not an instanceof the JsonPrimitive class
      */
     private JsonPrimitive asPrimitive(JsonElement element) {
-        return element != null && element instanceof JsonPrimitive ? (JsonPrimitive) element : null;
+        return element instanceof JsonPrimitive ? (JsonPrimitive) element : null;
     }
 
     /**

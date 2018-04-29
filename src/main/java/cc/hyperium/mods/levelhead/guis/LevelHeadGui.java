@@ -310,7 +310,7 @@ public class LevelHeadGui extends GuiScreen {
         lock.unlock();
     }
 
-    public String getMode(boolean header) {
+    private String getMode(boolean header) {
         LevelheadConfig config = this.mod.getConfig();
         if (header) {
             return config.isHeaderChroma() ? "Chroma" : config.isHeaderRgb() ? "RGB" : "Classic";
@@ -319,7 +319,7 @@ public class LevelHeadGui extends GuiScreen {
         }
     }
 
-    public void updatePeopleToValues() {
+    private void updatePeopleToValues() {
         this.mod.levelCache.forEach((uuid, levelheadTag) -> {
             Integer value = this.mod.getTrueLevelCache().get(uuid);
             if (value == null)

@@ -31,7 +31,7 @@ import org.spongepowered.asm.mixin.Shadow;
 public class MixinEntityPlayerSP {
 
     @Shadow
-    protected Minecraft mc;
+    private Minecraft mc;
 
     /**
      * Uses server-side hit registration, instead of on the client

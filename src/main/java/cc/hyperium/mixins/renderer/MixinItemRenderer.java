@@ -68,7 +68,7 @@ public class MixinItemRenderer {
     }
 
     @Shadow
-    public void renderItem(EntityLivingBase entityIn, ItemStack heldStack, ItemCameraTransforms.TransformType transform) {
+    private void renderItem(EntityLivingBase entityIn, ItemStack heldStack, ItemCameraTransforms.TransformType transform) {
     }
 
     @Shadow

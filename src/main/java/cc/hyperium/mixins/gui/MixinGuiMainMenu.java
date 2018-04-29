@@ -42,7 +42,7 @@ import java.util.stream.Collectors;
 @Mixin(GuiMainMenu.class)
 public abstract class MixinGuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 
-    boolean overLast = false;
+    private boolean overLast = false;
 
     private boolean clickedCheckBox = false;
 

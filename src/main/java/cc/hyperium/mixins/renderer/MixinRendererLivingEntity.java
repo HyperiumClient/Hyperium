@@ -49,7 +49,7 @@ import java.util.List;
 @Mixin(RendererLivingEntity.class)
 public abstract class MixinRendererLivingEntity<T extends EntityLivingBase> extends Render<T> {
     @Shadow
-    protected List<LayerRenderer<T>> layerRenderers;
+    private List<LayerRenderer<T>> layerRenderers;
 
     protected MixinRendererLivingEntity(RenderManager renderManager) {
         super(renderManager);

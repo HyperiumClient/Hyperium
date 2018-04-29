@@ -76,7 +76,7 @@ public class ApiDataHandler {
     }
 
 
-    public void refreshPlayer() {
+    private void refreshPlayer() {
         if (player.getRoot().optBoolean("fetching"))
             return;
         player.getRoot().put("fetching", true);

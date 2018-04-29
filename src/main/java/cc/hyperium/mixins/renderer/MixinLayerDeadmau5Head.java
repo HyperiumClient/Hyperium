@@ -36,7 +36,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(LayerDeadmau5Head.class)
-public class MixinLayerDeadmau5Head {
+class MixinLayerDeadmau5Head {
 
     @Final
     @Shadow
@@ -50,8 +50,8 @@ public class MixinLayerDeadmau5Head {
      * @author
      */
     @Inject(method = "doRenderLayer", at = @At("HEAD"))
-    public void doRenderLayer(AbstractClientPlayer entitylivingbaseIn, float p_177141_2_, float p_177141_3_,
-                              float partialTicks, float p_177141_5_, float p_177141_6_, float p_177141_7_, float scale, CallbackInfo ci) {
+    private void doRenderLayer(AbstractClientPlayer entitylivingbaseIn, float p_177141_2_, float p_177141_3_,
+                               float partialTicks, float p_177141_5_, float p_177141_6_, float p_177141_7_, float scale, CallbackInfo ci) {
         if (entitylivingbaseIn.isInvisible())
             return;
         if (entitylivingbaseIn.isInvisibleToPlayer(Minecraft.getMinecraft().thePlayer))

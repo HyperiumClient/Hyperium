@@ -224,27 +224,27 @@ public abstract class MixinMinecraft {
     @Shadow
     private static Minecraft theMinecraft;
     @Shadow
-    public int displayHeight;
+    private int displayHeight;
     @Shadow
-    public int displayWidth;
+    private int displayWidth;
     @Shadow
-    public GuiScreen currentScreen;
+    private GuiScreen currentScreen;
     @Shadow
-    public WorldClient theWorld;
+    private WorldClient theWorld;
     @Shadow
-    public EntityPlayerSP thePlayer;
+    private EntityPlayerSP thePlayer;
     @Shadow
-    public GameSettings gameSettings;
+    private GameSettings gameSettings;
     @Shadow
-    public GuiIngame ingameGUI;
+    private GuiIngame ingameGUI;
     @Shadow
-    public boolean skipRenderWorld;
+    private boolean skipRenderWorld;
     @Shadow
-    public MovingObjectPosition objectMouseOver;
+    private MovingObjectPosition objectMouseOver;
     @Shadow
-    public EffectRenderer effectRenderer;
+    private EffectRenderer effectRenderer;
     @Shadow
-    public PlayerControllerMP playerController;
+    private PlayerControllerMP playerController;
     @Shadow
     public FontRenderer fontRendererObj;
     @Shadow
@@ -320,7 +320,7 @@ public abstract class MixinMinecraft {
     }
 
     @Inject(method = "runGameLoop", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/achievement/GuiAchievement;updateAchievementWindow()V"))
-    public void onRun(CallbackInfo ci) {
+    private void onRun(CallbackInfo ci) {
         Minecraft.getMinecraft().mcProfiler.profilingEnabled = true;
     }
 

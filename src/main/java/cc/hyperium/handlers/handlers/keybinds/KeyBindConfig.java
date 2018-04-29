@@ -39,7 +39,7 @@ public class KeyBindConfig {
     private KeyBindHandler handler;
     private File keybindFile;
 
-    protected KeyBindConfig(KeyBindHandler handler, File directory) {
+    KeyBindConfig(KeyBindHandler handler, File directory) {
         if (!directory.exists()) {
             directory.mkdirs();
         }

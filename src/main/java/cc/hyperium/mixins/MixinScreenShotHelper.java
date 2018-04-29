@@ -40,7 +40,7 @@ import java.io.File;
 import java.nio.IntBuffer;
 
 @Mixin(ScreenShotHelper.class)
-public class MixinScreenShotHelper {
+class MixinScreenShotHelper {
 
     @Shadow
     private static IntBuffer pixelBuffer;

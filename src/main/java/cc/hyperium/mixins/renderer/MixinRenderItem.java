@@ -91,7 +91,7 @@ public abstract class MixinRenderItem implements IResourceManagerReloadListener 
      * @param isInv true if the item is being rendered in an inventory
      * @author boomboompower
      */
-    public void renderItem(ItemStack stack, IBakedModel model, boolean isInv) {
+    private void renderItem(ItemStack stack, IBakedModel model, boolean isInv) {
         if (stack != null) {
             GlStateManager.pushMatrix();
             GlStateManager.scale(0.5F, 0.5F, 0.5F);

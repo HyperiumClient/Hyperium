@@ -235,9 +235,8 @@ public class ParticleOverlay {
                 double mouseDis = Math.pow(v1 - mouseX, 2) + Math.pow(v2 - mouseY, 2);
                 int i = ResolutionUtil.current().getScaledWidth() / 12;
                 if (mouseDis < Math.pow(i, 2)) {
-                    float moveFac = i;
-                    float xVec = Math.min(500F, moveFac / (mouseX - v1));
-                    float yVec = Math.min(500F, moveFac / (mouseY - v2));
+                    float xVec = Math.min(500F, (float) i / (mouseX - v1));
+                    float yVec = Math.min(500F, (float) i / (mouseY - v2));
                     v1 -= xVec;
                     v2 -= yVec;
                     particle.regenerateVector();

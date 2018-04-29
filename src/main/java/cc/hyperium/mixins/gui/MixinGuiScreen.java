@@ -38,8 +38,8 @@ import java.lang.reflect.Method;
 public abstract class MixinGuiScreen {
 
     @Shadow
-    protected Minecraft mc;
-    protected GuiScreen instance = (GuiScreen) (Object) this;
+    private Minecraft mc;
+    private GuiScreen instance = (GuiScreen) (Object) this;
 
     @Inject(method = "drawWorldBackground", at = @At("HEAD"), cancellable = true)
     private void drawWorldBackground(int tint, CallbackInfo ci) {

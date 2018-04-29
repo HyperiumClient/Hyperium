@@ -7,7 +7,7 @@ import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.MovingObjectPosition;
 
-public class AnimationEventHandler {
+class AnimationEventHandler {
     private Minecraft mc;
 
     public AnimationEventHandler() {
@@ -31,7 +31,7 @@ public class AnimationEventHandler {
         }
     }
 
-    public void swingItem(final EntityPlayerSP entityplayersp) {
+    private void swingItem(final EntityPlayerSP entityplayersp) {
         final int swingAnimationEnd = entityplayersp.isPotionActive(Potion.digSpeed) ? (6 - (1 + entityplayersp.getActivePotionEffect(Potion.digSpeed).getAmplifier()) * 1) : (entityplayersp.isPotionActive(Potion.digSlowdown) ? (6 + (1 + entityplayersp.getActivePotionEffect(Potion.digSlowdown).getAmplifier()) * 2) : 6);
         if (!entityplayersp.isSwingInProgress || entityplayersp.swingProgressInt >= swingAnimationEnd / 2 || entityplayersp.swingProgressInt < 0) {
             entityplayersp.swingProgressInt = -1;

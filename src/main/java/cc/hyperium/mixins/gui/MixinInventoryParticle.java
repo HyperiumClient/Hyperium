@@ -30,15 +30,15 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 public class MixinInventoryParticle {
     @Shadow
-    protected int guiLeft;
+    private int guiLeft;
     @Shadow
-    protected int guiTop;
+    private int guiTop;
 
     @Shadow
-    protected int xSize;
+    private int xSize;
 
     @Inject(method = "drawScreen", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/inventory/GuiContainer;drawGuiContainerBackgroundLayer(FII)V"))
-    public void draw(int mouseX, int mouseY, float partialTicks, CallbackInfo ci) {
+    private void draw(int mouseX, int mouseY, float partialTicks, CallbackInfo ci) {
 
         ParticleOverlay overlay = ParticleOverlay.getOverlay();
         if (overlay.getMode() == ParticleOverlay.Mode.OFF)

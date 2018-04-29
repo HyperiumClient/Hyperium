@@ -24,7 +24,7 @@ import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 
 @Mixin(MathHelper.class)
-public class MixinMathHelper {
+class MixinMathHelper {
     @Shadow
     @Final
     private static float[] SIN_TABLE;

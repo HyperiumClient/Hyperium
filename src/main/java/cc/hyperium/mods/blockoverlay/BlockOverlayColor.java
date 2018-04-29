@@ -4,7 +4,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 
-public class BlockOverlayColor extends GuiScreen {
+class BlockOverlayColor extends GuiScreen {
     private GuiButton buttonChroma;
     private GuiButton buttonBack;
     private GuiSlider sliderChroma;

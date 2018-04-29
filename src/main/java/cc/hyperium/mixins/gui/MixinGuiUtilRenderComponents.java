@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.Overwrite;
 import java.util.List;
 
 @Mixin(GuiUtilRenderComponents.class)
-public abstract class MixinGuiUtilRenderComponents {
+abstract class MixinGuiUtilRenderComponents {
 
 
     @Overwrite

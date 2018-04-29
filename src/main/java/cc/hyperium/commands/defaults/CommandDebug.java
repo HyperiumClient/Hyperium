@@ -36,7 +36,7 @@ import java.net.URL;
 
 public class CommandDebug implements BaseCommand {
 
-    public static final Gson printer = new GsonBuilder().setPrettyPrinting().create();
+    private static final Gson printer = new GsonBuilder().setPrettyPrinting().create();
 
     @Override
     public String getName() {

@@ -189,8 +189,7 @@ public class Spotify {
      */
     private SpotifyInformation getStatus() throws IOException {
         JsonObject obj = get(genSpotifyUrl("/remote/status.json") + "?returnafter=1&returnon=" + RETURN_ON + "&oauth=" + this.token + "&csrf=" + this.csrfToken, true);
-        SpotifyInformation information = new Gson().fromJson(obj, SpotifyInformation.class);
-        return information;
+        return new Gson().fromJson(obj, SpotifyInformation.class);
     }
 
     public void pause(boolean pause) {

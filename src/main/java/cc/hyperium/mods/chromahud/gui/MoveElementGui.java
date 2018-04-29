@@ -32,7 +32,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.function.Consumer;
 
-public class MoveElementGui extends GuiScreen {
+class MoveElementGui extends GuiScreen {
     private HashMap<GuiButton, Consumer<GuiButton>> clicks = new HashMap<>();
     private HashMap<GuiButton, Consumer<GuiButton>> updates = new HashMap<>();
     private HashMap<String, GuiButton> nameMap = new HashMap<>();

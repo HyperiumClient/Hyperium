@@ -174,7 +174,7 @@ class InstallerConfig extends JFrame {
         UIManager.put("ScrollBar.width", 10);
         components.getVerticalScrollBar().setUI(new MetalScrollBarUI() {
 
-            protected JButton zero() {
+            JButton zero() {
                 JButton b = new JButton();
                 Dimension d = new Dimension(0, 0);
                 b.setPreferredSize(d);

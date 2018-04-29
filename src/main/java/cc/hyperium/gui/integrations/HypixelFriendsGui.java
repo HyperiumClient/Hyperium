@@ -80,7 +80,7 @@ public class HypixelFriendsGui extends HyperiumGui {
             ord++;
             if (ord >= FriendSortType.values().length)
                 ord = 0;
-            this.sortType = FriendSortType.values()[ord];
+            sortType = FriendSortType.values()[ord];
             rebuildFriends();
             this.friends.sort(sortType);
         }, guiButton -> {

@@ -295,23 +295,23 @@ public class NotificationCenter extends Gui {
         /**
          * Width of this notification
          */
-        public int width = 175;
+        int width = 175;
         /**
          * Height of this notification
          */
-        public int height = 40;
+        int height = 40;
         /**
          * Margins between the bottom of the notification and the bottom of the screen
          */
-        public int bottomMargins = 15;
+        int bottomMargins = 15;
         /**
          * Margins between text or images (whichever is applicable) from the right of the screen
          */
-        public int rightMargins = 5;
+        int rightMargins = 5;
         /**
          * Padding between the top of the notification and title text
          */
-        public int topPadding = 5;
+        int topPadding = 5;
         /**
          * Title text displayed for this notification
          * Max lines is always 1
@@ -424,7 +424,7 @@ public class NotificationCenter extends Gui {
          * @param img Img to display
          * @return This
          */
-        public Notification setImage(BufferedImage img) {
+        Notification setImage(BufferedImage img) {
             Minecraft.getMinecraft().addScheduledTask(() -> {
                 this.img = img != null ? new DynamicTexture(img) : null;
             });
@@ -437,7 +437,7 @@ public class NotificationCenter extends Gui {
          * @param runnable Runnable to run when clicked
          * @return This
          */
-        public Notification setClickedCallback(Runnable runnable) {
+        Notification setClickedCallback(Runnable runnable) {
             this.clickedCallback = runnable;
             return this;
         }
@@ -448,7 +448,7 @@ public class NotificationCenter extends Gui {
          * @param title Title
          * @return This
          */
-        public Notification setTitle(String title) {
+        Notification setTitle(String title) {
             this.title = title;
             return this;
         }
@@ -459,7 +459,7 @@ public class NotificationCenter extends Gui {
          * @param highlightColor New color
          * @return This
          */
-        public Notification setHighlightColor(Color highlightColor) {
+        Notification setHighlightColor(Color highlightColor) {
             this.highlightColor = (highlightColor != null ? highlightColor : new Color(149, 201, 144));
             return this;
         }
@@ -471,7 +471,7 @@ public class NotificationCenter extends Gui {
          * @param description Description text
          * @return This
          */
-        public Notification setDescriptionText(String description) {
+        Notification setDescriptionText(String description) {
             this.description = description;
             adjustHeight();
             return this;
@@ -533,7 +533,7 @@ public class NotificationCenter extends Gui {
          *
          * @return X location
          */
-        public int getX(ScaledResolution sr) {
+        int getX(ScaledResolution sr) {
             return (int) (sr.getScaledWidth() - (width * updatePercentage()));
         }
 
@@ -542,14 +542,14 @@ public class NotificationCenter extends Gui {
          *
          * @return Y Location
          */
-        public int getY(ScaledResolution sr) {
+        int getY(ScaledResolution sr) {
             return sr.getScaledHeight() - height - bottomMargins;
         }
 
         /**
          * Render this notification
          */
-        public void render() {
+        void render() {
             if (ticksLeft <= 0)
                 return;
 

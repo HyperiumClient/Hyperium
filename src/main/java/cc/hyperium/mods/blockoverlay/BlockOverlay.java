@@ -11,16 +11,16 @@ import net.minecraft.client.Minecraft;
 import java.io.*;
 
 public class BlockOverlay extends AbstractMod {
-    protected static boolean alwaysRender;
-    protected static boolean isChroma;
-    protected static boolean openGui;
-    protected static float lineWidth;
-    protected static float red;
-    protected static float green;
-    protected static float blue;
-    protected static float alpha;
-    protected static int chromaSpeed;
-    protected static BlockOverlayMode mode;
+    static boolean alwaysRender;
+    static boolean isChroma;
+    static boolean openGui;
+    static float lineWidth;
+    static float red;
+    static float green;
+    static float blue;
+    static float alpha;
+    static int chromaSpeed;
+    static BlockOverlayMode mode;
     private final Metadata meta;
 
     public BlockOverlay() {
@@ -63,7 +63,7 @@ public class BlockOverlay extends AbstractMod {
         return this;
     }
 
-    public void loadConfig() {
+    private void loadConfig() {
         try {
             final File file = new File(Minecraft.getMinecraft().mcDataDir + "/config/blockOverlay.cfg");
             if (file.exists()) {

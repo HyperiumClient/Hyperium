@@ -142,7 +142,7 @@ public class ChromaHUDApi {
      *
      * @param config Config data from file
      */
-    protected void post(JsonHolder config) {
+    void post(JsonHolder config) {
         this.config = config;
         if (posted)
             throw new IllegalStateException("Already posted!");

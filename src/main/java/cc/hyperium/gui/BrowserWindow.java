@@ -41,8 +41,8 @@ import java.net.URL;
  */
 public class BrowserWindow extends JFrame {
 
-    public static final int WIDTH = 400;
-    public static final int HEIGHT = 250;
+    private static final int WIDTH = 400;
+    private static final int HEIGHT = 250;
     private float scale = 1.0F;
     private Browser browser;
     private BrowserView browserView;

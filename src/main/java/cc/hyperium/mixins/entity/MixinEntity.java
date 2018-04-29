@@ -59,7 +59,7 @@ public abstract class MixinEntity {
     }
 
     @Shadow
-    public Vec3 getLook(float particalTicks) {
+    Vec3 getLook(float particalTicks) {
         return null;
     }
 }
