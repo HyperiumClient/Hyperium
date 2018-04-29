@@ -26,6 +26,8 @@ import org.newdawn.slick.font.effects.ColorEffect;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class HyperiumFontRenderer {
 
@@ -33,7 +35,7 @@ public class HyperiumFontRenderer {
     private final int[] colorCodes = new int[32];
     public final int FONT_HEIGHT = 9;
     private final float kerning;
-    private final HashMap<String, Float> cachedStringWidth = new HashMap<>();
+    private final Map<String, Float> cachedStringWidth = new HashMap<>();
 
     public HyperiumFontRenderer(String fontName, int fontType, int size) {
         this(fontName, fontType, size, 0);
@@ -232,8 +234,8 @@ public class HyperiumFontRenderer {
         );
     }
 
-    public ArrayList<String> splitString(String text, int wrapWidth) {
-        ArrayList<String> lines = new ArrayList<>();
+    public List<String> splitString(String text, int wrapWidth) {
+        List<String> lines = new ArrayList<>();
 
         String[] splitText = text.split(" ");
         StringBuilder currentString = new StringBuilder();

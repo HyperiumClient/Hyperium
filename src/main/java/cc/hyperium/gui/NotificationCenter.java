@@ -187,7 +187,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
-import static cc.hyperium.gui.HyperiumGui.*;
+import static cc.hyperium.gui.HyperiumGui.clamp;
+import static cc.hyperium.gui.HyperiumGui.easeOut;
+import static cc.hyperium.gui.HyperiumGui.trimString;
 
 public class NotificationCenter extends Gui {
     /**

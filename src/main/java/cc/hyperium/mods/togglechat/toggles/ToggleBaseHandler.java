@@ -20,12 +20,13 @@ package cc.hyperium.mods.togglechat.toggles;
 import cc.hyperium.mods.togglechat.toggles.defaults.*;
 
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class ToggleBaseHandler {
 
-    private final LinkedHashMap<String, ToggleBase> toggles = new LinkedHashMap<>();
+    private final Map<String, ToggleBase> toggles = new LinkedHashMap<>();
 
-    public LinkedHashMap<String, ToggleBase> getToggles() {
+    public Map<String, ToggleBase> getToggles() {
         return new LinkedHashMap<>(this.toggles);
     }
 

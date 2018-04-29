@@ -27,7 +27,11 @@ import net.minecraft.client.gui.GuiChat;
 import net.minecraft.command.CommandBase;
 import net.minecraft.util.EnumChatFormatting;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 
 /**

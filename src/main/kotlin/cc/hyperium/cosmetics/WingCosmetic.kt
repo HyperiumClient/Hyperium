@@ -183,7 +183,6 @@ import net.minecraft.util.ResourceLocation
 import org.lwjgl.opengl.GL11
 import java.util.*
 
-
 class WingCosmetic : ModelBase() {
     private val data = emptyList<WingData>()
     private val api = PurchaseApi.getInstance()

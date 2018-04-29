@@ -21,7 +21,6 @@ import cc.hyperium.Hyperium;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.ServerChatEvent;
 import cc.hyperium.mods.timechanger.TimeChanger;
-
 import com.google.common.collect.ObjectArrays;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.WorldClient;
@@ -36,7 +35,6 @@ import net.minecraft.network.play.server.S02PacketChat;
 import net.minecraft.network.play.server.S03PacketTimeUpdate;
 import net.minecraft.network.play.server.S0BPacketAnimation;
 import net.minecraft.util.EnumParticleTypes;
-
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;

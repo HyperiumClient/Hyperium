@@ -10,7 +10,6 @@ import cc.hyperium.internal.addons.translate.MixinTranslator
 import com.google.common.base.Stopwatch
 import net.minecraft.launchwrapper.Launch
 import java.io.File
-import java.util.*
 
 /**
  * Instance created on the classloader sun.misc.Launcher$AppClassLoader

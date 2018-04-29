@@ -8,7 +8,11 @@ import cc.hyperium.mods.AbstractMod;
 import cc.hyperium.utils.ChatColor;
 import net.minecraft.client.Minecraft;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 
 public class BlockOverlay extends AbstractMod {
     static boolean alwaysRender;

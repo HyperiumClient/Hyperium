@@ -17,13 +17,18 @@
 
 package cc.hyperium.mods.chromahud;
 
-import cc.hyperium.mods.chromahud.api.*;
+import cc.hyperium.mods.chromahud.api.ButtonConfig;
+import cc.hyperium.mods.chromahud.api.ChromaHUDParser;
+import cc.hyperium.mods.chromahud.api.DisplayItem;
+import cc.hyperium.mods.chromahud.api.StringConfig;
+import cc.hyperium.mods.chromahud.api.TextConfig;
 import cc.hyperium.utils.JsonHolder;
 import com.google.gson.JsonArray;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 /**
@@ -34,12 +39,12 @@ public class ChromaHUDApi {
     public static final String VERSION = "3.0-Hyperium";
     private static ChromaHUDApi instance;
     private final List<ChromaHUDParser> parsers = new ArrayList<>();
-    private final HashMap<String, String> names = new HashMap<>();
+    private final Map<String, String> names = new HashMap<>();
     private final List<DisplayElement> elements = new ArrayList<>();
     private boolean posted = false;
-    private final HashMap<String, ArrayList<ButtonConfig>> buttonConfigs = new HashMap<>();
-    private final HashMap<String, ArrayList<TextConfig>> textConfigs = new HashMap<>();
-    private final HashMap<String, ArrayList<StringConfig>> stringConfigs = new HashMap<>();
+    private final Map<String, ArrayList<ButtonConfig>> buttonConfigs = new HashMap<>();
+    private final Map<String, ArrayList<TextConfig>> textConfigs = new HashMap<>();
+    private final Map<String, ArrayList<StringConfig>> stringConfigs = new HashMap<>();
     private JsonHolder config = new JsonHolder();
 
     private ChromaHUDApi() {
@@ -57,7 +62,7 @@ public class ChromaHUDApi {
 
     public List<ButtonConfig> getButtonConfigs(String type) {
         type = type.toLowerCase();
-        ArrayList<ButtonConfig> configs = buttonConfigs.get(type);
+        List<ButtonConfig> configs = buttonConfigs.get(type);
         if (configs != null)
             return new ArrayList<>(configs);
         return new ArrayList<>();
@@ -65,7 +70,7 @@ public class ChromaHUDApi {
 
     public List<TextConfig> getTextConfigs(String type) {
         type = type.toLowerCase();
-        ArrayList<TextConfig> configs = this.textConfigs.get(type);
+        List<TextConfig> configs = this.textConfigs.get(type);
         if (configs != null)
             return new ArrayList<>(configs);
         return new ArrayList<>();
@@ -73,7 +78,7 @@ public class ChromaHUDApi {
 
     public List<StringConfig> getStringConfigs(String type) {
         type = type.toLowerCase();
-        ArrayList<StringConfig> configs = this.stringConfigs.get(type);
+        List<StringConfig> configs = this.stringConfigs.get(type);
         if (configs != null)
             return new ArrayList<>(configs);
         return new ArrayList<>();

@@ -18,7 +18,6 @@
 package cc.hyperium.mods.chromahud.commands;
 
 import cc.hyperium.commands.BaseCommand;
-import cc.hyperium.commands.CommandException;
 import cc.hyperium.mods.chromahud.ChromaHUD;
 import cc.hyperium.mods.chromahud.gui.GeneralConfigGui;
 

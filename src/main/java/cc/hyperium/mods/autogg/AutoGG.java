@@ -26,7 +26,7 @@ public class AutoGG extends AbstractMod {
     private static List<String> triggers;
     private final Metadata meta;
     private AutoGGConfig config;
-    private Boolean running;
+    private boolean running;
 
     public AutoGG() {
         Metadata metadata = new Metadata(this, "AutoGG", "2.0", "2Pi");
@@ -48,8 +48,10 @@ public class AutoGG extends AbstractMod {
         // The GetTriggers class
         Multithreading.POOL.submit(() -> {
             try {
-                final String rawTriggers = IOUtils.toString(new URL(
-                        "https://gist.githubusercontent.com/minemanpi/72c38b0023f5062a5f3eba02a5132603/raw/triggers.txt"));
+                final String rawTriggers = IOUtils.toString(
+                    new URL("https://gist.githubusercontent.com/minemanpi/72c38b0023f5062a5f3eba02a5132603/raw/triggers.txt")
+                );
+
                 triggers = new ArrayList<>(Arrays.asList(rawTriggers.split("\n")));
             } catch (Exception e) {
                 e.printStackTrace();

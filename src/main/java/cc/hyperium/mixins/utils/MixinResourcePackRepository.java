@@ -19,7 +19,6 @@ package cc.hyperium.mixins.utils;
 
 import net.minecraft.client.resources.ResourcePackRepository;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.filefilter.IOFileFilter;
 import org.apache.commons.io.filefilter.TrueFileFilter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

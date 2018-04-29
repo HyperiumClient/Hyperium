@@ -73,10 +73,8 @@ public class HypixelApiFriendObject {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == null) return false;
-        if (!(obj instanceof HypixelApiFriendObject)) return false;
-
-        return ((HypixelApiFriendObject) obj).getUuid().equalsIgnoreCase(getUuid());
+        return obj instanceof HypixelApiFriendObject &&
+            ((HypixelApiFriendObject) obj).getUuid().equals(getUuid());
     }
 
     public String getUuid() {

@@ -26,11 +26,18 @@ import org.apache.commons.io.IOUtils;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.function.Consumer;
@@ -43,10 +50,10 @@ public class RemoteResourcesHandler {
 
      */
     private final ResourceFrame[] preload = {new ResourceFrame(ResourceType.TEXT, "chat_regex")};
-    private final ConcurrentHashMap<String, HyperiumResource> resources = new ConcurrentHashMap<>();
+    private final Map<String, HyperiumResource> resources = new ConcurrentHashMap<>();
     private JsonHolder resourceData = new JsonHolder();
     private JsonHolder cacheTimes = new JsonHolder();
-    private final HashMap<String, String> urlToName = new HashMap<>();
+    private final Map<String, String> urlToName = new HashMap<>();
     private final ReentrantLock saveLock = new ReentrantLock();
 
     public RemoteResourcesHandler() {

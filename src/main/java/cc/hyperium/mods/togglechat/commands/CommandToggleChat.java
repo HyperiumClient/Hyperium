@@ -18,7 +18,6 @@
 package cc.hyperium.mods.togglechat.commands;
 
 import cc.hyperium.commands.BaseCommand;
-import cc.hyperium.commands.CommandException;
 import cc.hyperium.mods.togglechat.ToggleChatMod;
 import cc.hyperium.mods.togglechat.gui.ToggleChatMainGui;
 import cc.hyperium.utils.ChatColor;
