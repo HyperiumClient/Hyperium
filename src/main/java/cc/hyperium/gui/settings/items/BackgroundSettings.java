@@ -20,11 +20,13 @@ package cc.hyperium.gui.settings.items;
 import cc.hyperium.Hyperium;
 import cc.hyperium.config.ConfigOpt;
 import cc.hyperium.config.DefaultConfig;
+import cc.hyperium.gui.ChangeBackgroundGui;
 import cc.hyperium.gui.HyperiumGui;
 import cc.hyperium.gui.HyperiumMainMenu;
 import cc.hyperium.gui.ParticleOverlay;
 import cc.hyperium.gui.settings.SettingGui;
 import cc.hyperium.gui.settings.components.SelectionItem;
+import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
 
 import java.util.Arrays;
@@ -116,6 +118,12 @@ public class BackgroundSettings extends SettingGui {
         }));
         showOverInventory.addDefaultOnOff();
         showOverInventory.setSelectedItem(renderOverInventory ? "ON" : "OFF");
+
+
+        SelectionItem<String> changeBg;
+        settingItems.add(changeBg = new SelectionItem<>(6, getX(), getDefaultItemY(6), this.width - getX() * 2, "Custom Background", i -> Minecraft.getMinecraft().displayGuiScreen(new ChangeBackgroundGui(this))));
+        changeBg.addItem("DOWNLOAD");
+        changeBg.setSelectedItem("DOWNLOAD");
 
     }
 
