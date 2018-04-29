@@ -18,11 +18,18 @@
 package cc.hyperium.config;
 
 
-import com.google.gson.*;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
-import java.io.*;
-import java.lang.reflect.Field;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -31,6 +38,7 @@ import java.util.List;
 public class DefaultConfig {
 
     private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    private final JsonParser parser = new JsonParser();
 
     private JsonObject config = new JsonObject();
     private final List<Object> configObjects = new ArrayList<>();
@@ -83,73 +91,39 @@ public class DefaultConfig {
     }
 
     private void loadToClass(Object o) {
-        try {
-            loadToClassObject(o);
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
+        loadToClassObject(o);
     }
 
-    private void loadToClassObject(Object object) throws IllegalAccessException {
-        Class<?> aClass = object.getClass();
-        for (Field field : aClass.getDeclaredFields()) {
-            field.setAccessible(true);
-            if (field.isAnnotationPresent(ConfigOpt.class)) {
-                if (config.has(aClass.getName())) {
-                    JsonObject tmp = config.get(aClass.getName()).getAsJsonObject();
-                    if (tmp.has(field.getName())) {
-                        JsonElement jsonElement = tmp.get(field.getName());
-                        if (field.getType().isAssignableFrom(int.class)) {
-                            field.set(object, jsonElement.getAsInt());
-                        } else if (field.getType().isAssignableFrom(String.class)) {
-                            field.set(object, jsonElement.getAsString());
-                        } else if (field.getType().isAssignableFrom(boolean.class)) {
-                            field.set(object, jsonElement.getAsBoolean());
-                        } else if (field.getType().isAssignableFrom(double.class)) {
-                            field.set(object, jsonElement.getAsDouble());
-                        } else if (field.getType().isAssignableFrom(long.class)) {
-                            field.set(object, jsonElement.getAsLong());
-                        } else if (field.getType().isAssignableFrom(float.class)) {
-                            field.set(object, jsonElement.getAsFloat());
-                        }
-                    }
+    private void loadToClassObject(Object object) {
+        Class<?> c = object.getClass();
+        Arrays.stream(c.getDeclaredFields()).filter(f -> f.isAnnotationPresent(ConfigOpt.class) && config.has(c.getName())).forEach(f -> {
+            f.setAccessible(true);
+            JsonObject tmp = config.get(c.getName()).getAsJsonObject();
+            if (tmp.has(f.getName())) {
+                try {
+                    f.set(object, gson.fromJson(tmp.get(f.getName()), f.getType()));
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
                 }
             }
-        }
+        });
     }
 
     private void saveToJsonFromRamObject(Object o) {
-        try {
-            loadToJson(o);
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
+        loadToJson(o);
     }
 
-    private void loadToJson(Object object) throws IllegalAccessException {
-        Class<?> aClass = object.getClass();
-        for (Field field : aClass.getDeclaredFields()) {
-            field.setAccessible(true);
-            if (field.getAnnotation(ConfigOpt.class) != null) {
-                if (!config.has(aClass.getName())) {
-                    config.add(aClass.getName(), new JsonObject());
-                }
-                JsonObject classObject = config.get(aClass.getName()).getAsJsonObject();
-                if (field.getType().isAssignableFrom(int.class)) {
-                    classObject.addProperty(field.getName(), field.getInt(object));
-                } else if (field.getType().isAssignableFrom(String.class)) {
-                    classObject.addProperty(field.getName(), (String) field.get(object));
-                } else if (field.getType().isAssignableFrom(boolean.class)) {
-                    classObject.addProperty(field.getName(), field.getBoolean(object));
-                } else if (field.getType().isAssignableFrom(double.class)) {
-                    classObject.addProperty(field.getName(), field.getDouble(object));
-                } else if (field.getType().isAssignableFrom(long.class)) {
-                    classObject.addProperty(field.getName(), field.getLong(object));
-                } else if (field.getType().isAssignableFrom(float.class)) {
-                    classObject.addProperty(field.getName(), field.getFloat(object));
-                }
+    private void loadToJson(Object object) {
+        Class<?> c = object.getClass();
+        Arrays.stream(c.getDeclaredFields()).filter(f -> f.isAnnotationPresent(ConfigOpt.class) && config.has(c.getName())).forEach(f -> {
+            f.setAccessible(true);
+            JsonObject classObject = config.get(c.getName()).getAsJsonObject();
+            try {
+                classObject.add(f.getName(), gson.toJsonTree(f.get(object), f.getType()));
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
             }
-        }
+        });
     }
 
     public JsonObject getConfig() {

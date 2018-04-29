@@ -5,6 +5,7 @@ import cc.hyperium.purchases.EnumPurchaseType;
 import cc.hyperium.purchases.PurchaseApi;
 import net.minecraft.client.Minecraft;
 
+import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -16,7 +17,7 @@ public abstract class AbstractCosmetic {
     private final EnumPurchaseType purchaseType;
     private final boolean purchasable;
     private boolean selfUnlocked;
-    private final ConcurrentHashMap<UUID, Boolean> purchasedBy = new ConcurrentHashMap<>();
+    private final Map<UUID, Boolean> purchasedBy = new ConcurrentHashMap<>();
 
     AbstractCosmetic(boolean selfOnly, EnumPurchaseType purchaseType, boolean purchaseable) {
         this.selfOnly = selfOnly;

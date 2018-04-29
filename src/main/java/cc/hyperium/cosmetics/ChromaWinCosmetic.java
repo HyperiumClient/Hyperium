@@ -168,7 +168,11 @@
 
 package cc.hyperium.cosmetics;
 
-import cc.hyperium.event.*;
+import cc.hyperium.event.HypixelWinEvent;
+import cc.hyperium.event.InvokeEvent;
+import cc.hyperium.event.Priority;
+import cc.hyperium.event.RenderGuiEvent;
+import cc.hyperium.event.TickEvent;
 import cc.hyperium.purchases.EnumPurchaseType;
 import net.minecraft.client.Minecraft;
 

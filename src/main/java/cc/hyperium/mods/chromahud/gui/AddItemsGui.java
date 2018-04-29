@@ -45,9 +45,9 @@ import java.util.function.Consumer;
 public class AddItemsGui extends GuiScreen {
     private final ChromaHUD mod;
     private final DisplayElement element;
-    private final HashMap<GuiButton, Consumer<GuiButton>> clicks = new HashMap<>();
-    private final HashMap<GuiButton, Consumer<GuiButton>> updates = new HashMap<>();
-    private final HashMap<String, GuiButton> nameMap = new HashMap<>();
+    private final Map<GuiButton, Consumer<GuiButton>> clicks = new HashMap<>();
+    private final Map<GuiButton, Consumer<GuiButton>> updates = new HashMap<>();
+    private final Map<String, GuiButton> nameMap = new HashMap<>();
     private int tmpId = 0;
     private boolean adding = true;
     private int offset = 0;

@@ -33,7 +33,7 @@ public class CommandPrivateMessage implements BaseCommand {
 
     @Override
     public String getUsage() {
-        return "pm <name>";
+        return "/pm <name>";
     }
 
     @Override

@@ -20,14 +20,11 @@ package cc.hyperium.mixins.entity;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.PlayerGetCapeEvent;
 import cc.hyperium.event.PlayerGetSkinEvent;
-
 import com.mojang.authlib.GameProfile;
-
 import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.client.resources.DefaultPlayerSkin;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
-
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;

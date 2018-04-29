@@ -18,7 +18,12 @@
 package cc.hyperium.mods.discord;
 
 import cc.hyperium.Hyperium;
-import cc.hyperium.event.*;
+import cc.hyperium.event.InvokeEvent;
+import cc.hyperium.event.JoinMinigameEvent;
+import cc.hyperium.event.Priority;
+import cc.hyperium.event.ServerJoinEvent;
+import cc.hyperium.event.ServerLeaveEvent;
+import cc.hyperium.event.SingleplayerJoinEvent;
 import cc.hyperium.gui.settings.items.GeneralSetting;
 import com.jagrosh.discordipc.IPCClient;
 import com.jagrosh.discordipc.entities.RichPresence;

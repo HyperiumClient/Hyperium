@@ -17,7 +17,11 @@
 
 package cc.hyperium.gui;
 
-import cc.hyperium.event.*;
+import cc.hyperium.event.HypixelFriendRequestEvent;
+import cc.hyperium.event.HypixelPartyInviteEvent;
+import cc.hyperium.event.InvokeEvent;
+import cc.hyperium.event.KeypressEvent;
+import cc.hyperium.event.RenderHUDEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;

@@ -12,13 +12,14 @@ import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelPlayer;
 
+import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class DabHandler {
 
     private int dabs;
-    private final ConcurrentHashMap<UUID, DabState> dabStates = new ConcurrentHashMap<>();
+    private final Map<UUID, DabState> dabStates = new ConcurrentHashMap<>();
     private float state = 0;
     private boolean right = true;
     private boolean asc = true;

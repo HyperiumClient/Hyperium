@@ -27,7 +27,11 @@ import net.minecraft.client.gui.GuiChat;
 import net.minecraft.command.CommandBase;
 import net.minecraft.util.EnumChatFormatting;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 
 /**
@@ -83,33 +87,27 @@ public class HyperiumCommandHandler {
         }
 
         // Loop through our commands, if the identifier matches the expected command, active the base
-        for (Map.Entry<String, BaseCommand> entry : this.commands.entrySet()) {
+        String[] finalArgs = args;
+        return this.commands.entrySet().stream().filter(e -> commandName.equals(e.getKey())).findFirst().map(e->{
+            final BaseCommand baseCommand = e.getValue();
 
-            // Check if the expected command matches the command identifier for this entry
-            if (commandName.equals(entry.getKey())) {
-
-                // It matched, we'll grab the command instance
-                final BaseCommand baseCommand = entry.getValue();
-
-                try {
-                    baseCommand.onExecute(args);
-                } catch (CommandUsageException usageEx) {
-                    // Throw a UsageException to trigger
-                    this.chatHandler.sendMessage(ChatColor.RED + baseCommand.getUsage(), false);
-                } catch (CommandException knownEx) {
-                    if (knownEx.getMessage() != null) {
-                        this.chatHandler.sendMessage(ChatColor.RED + knownEx.getMessage(), false);
-                    }
-                } catch (Exception exception) {
-                    exception.printStackTrace();
-                    this.chatHandler.sendMessage(ChatColor.RED + "An internal error occurred whilst performing this command", false);
-                    return false;
+            try {
+                baseCommand.onExecute(finalArgs);
+            } catch (CommandUsageException usageEx) {
+                // Throw a UsageException to trigger
+                this.chatHandler.sendMessage(ChatColor.RED + baseCommand.getUsage(), false);
+            } catch (CommandException knownEx) {
+                if (knownEx.getMessage() != null) {
+                    this.chatHandler.sendMessage(ChatColor.RED + knownEx.getMessage(), false);
                 }
-
-                return true;
+            } catch (Exception exception) {
+                exception.printStackTrace();
+                this.chatHandler.sendMessage(ChatColor.RED + "An internal error occurred whilst performing this command", false);
+                return false;
             }
-        }
-        return false;
+
+            return true;
+        }).orElse(false);
     }
 
     /**

@@ -36,7 +36,6 @@ import me.semx11.autotip.util.Version;
 import net.minecraft.client.Minecraft;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -97,8 +96,6 @@ public class Autotip extends AbstractMod {
 
             FileUtil.getVars();
             Hosts.updateHosts();
-        } catch (IOException e) {
-            e.printStackTrace();
         } catch (NullPointerException e2) {
             Hyperium.LOGGER.debug("[Auto-GG] Invalid UUID detected; Not logged in?.");
         }

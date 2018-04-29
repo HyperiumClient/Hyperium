@@ -200,6 +200,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.Map;
 
 public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
 
@@ -223,7 +224,7 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
     private boolean clickedCheckBox = false;
     private final HyperiumFontRenderer fr = new HyperiumFontRenderer("Arial", Font.PLAIN, 20);
     private final HyperiumFontRenderer sfr = new HyperiumFontRenderer("Arial", Font.PLAIN, 12);
-    private final HashMap<String, DynamicTexture> cachedImages = new HashMap<>();
+    private final Map<String, DynamicTexture> cachedImages = new HashMap<>();
     private BufferedImage bgBr = null;
     private ResourceLocation bgDynamicTexture = null;
 

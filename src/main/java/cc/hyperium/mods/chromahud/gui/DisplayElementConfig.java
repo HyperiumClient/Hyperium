@@ -37,6 +37,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Consumer;
 
 /**
@@ -45,9 +46,9 @@ import java.util.function.Consumer;
 public class DisplayElementConfig extends GuiScreen {
 
     private DisplayElement element;
-    private final HashMap<GuiButton, Consumer<GuiButton>> clicks = new HashMap<>();
-    private final HashMap<GuiButton, Consumer<GuiButton>> updates = new HashMap<>();
-    private final HashMap<String, GuiButton> nameMap = new HashMap<>();
+    private final Map<GuiButton, Consumer<GuiButton>> clicks = new HashMap<>();
+    private final Map<GuiButton, Consumer<GuiButton>> updates = new HashMap<>();
+    private final Map<String, GuiButton> nameMap = new HashMap<>();
     private int ids;
     private int lastX, lastY;
     private DynamicTexture texture;

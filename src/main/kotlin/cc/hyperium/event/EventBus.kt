@@ -17,7 +17,6 @@
 
 package cc.hyperium.event
 
-import java.util.*
 import java.util.concurrent.CopyOnWriteArrayList
 
 /**

@@ -41,6 +41,7 @@ import java.awt.*;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Consumer;
 
 /**
@@ -51,7 +52,7 @@ public class GeneralConfigGui extends GuiScreen {
     private boolean mouseDown;
     private DisplayElement currentElement;
     private GuiButton edit;
-    private final HashMap<GuiButton, Consumer<GuiButton>> clicks = new HashMap<>();
+    private final Map<GuiButton, Consumer<GuiButton>> clicks = new HashMap<>();
     private double lastX;
     private double lastY;
     private boolean lastD = false;

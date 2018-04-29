@@ -37,7 +37,7 @@ public class CommandPlayGame implements BaseCommand {
 
     @Override
     public String getUsage() {
-        return null;
+        return "/playgame";
     }
 
     @Override

@@ -18,7 +18,6 @@
 package cc.hyperium.mods.skinchanger.commands;
 
 import cc.hyperium.commands.BaseCommand;
-import cc.hyperium.commands.CommandException;
 import cc.hyperium.mods.skinchanger.SkinChangerMod;
 import cc.hyperium.mods.skinchanger.gui.SkinChangerGui;
 import cc.hyperium.utils.ChatColor;
