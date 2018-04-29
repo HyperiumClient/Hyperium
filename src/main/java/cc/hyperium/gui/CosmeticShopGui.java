@@ -1,5 +1,6 @@
 package cc.hyperium.gui;
 
+import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.purchases.EnumPurchaseType;
 import cc.hyperium.purchases.PurchaseApi;
 import cc.hyperium.utils.JsonHolder;
@@ -34,7 +35,9 @@ public class CosmeticShopGui extends HyperiumGui {
         });
         reg("REFRESH", new GuiButton(nextId(), width / 2 - 100, 30, "Refresh purchases"), guiButton -> {
             cooldownTicks = 0;
-            PurchaseApi.getInstance().refreshSelf();
+            Multithreading.runAsync(() -> {
+                PurchaseApi.getInstance().refreshSelf();
+            });
         }, guiButton -> {
             cooldownTicks++;
             guiButton.enabled = cooldownTicks >= 20;
