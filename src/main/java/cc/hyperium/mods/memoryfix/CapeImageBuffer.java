@@ -11,9 +11,9 @@ import java.lang.ref.WeakReference;
 @SuppressWarnings("unused")
 public class CapeImageBuffer implements IImageBuffer {
 
-    public ImageBufferDownload imageBufferDownload;
     public final WeakReference<AbstractClientPlayer> playerRef;
     public final ResourceLocation resourceLocation;
+    public final ImageBufferDownload imageBufferDownload;
 
     public CapeImageBuffer(AbstractClientPlayer player, ResourceLocation resourceLocation) {
         playerRef = new WeakReference<>(player);
@@ -21,15 +21,18 @@ public class CapeImageBuffer implements IImageBuffer {
         imageBufferDownload = new ImageBufferDownload();
     }
 
+    private static BufferedImage parseCape(BufferedImage image) {
+        return null;
+    }
+
+    private static void setLocationOfCape(AbstractClientPlayer player, ResourceLocation resourceLocation) {
+    }
+
     @Override
     public BufferedImage parseUserSkin(BufferedImage image) {
         // ClassTransformer will remap to:
         // CapeUtils.parseCape(image);
         return parseCape(image);
-    }
-
-    private static BufferedImage parseCape(BufferedImage image) {
-        return null;
     }
 
     @Override
@@ -40,8 +43,5 @@ public class CapeImageBuffer implements IImageBuffer {
             // player.setLocationOfCape(resourceLocation);
             setLocationOfCape(player, resourceLocation);
         }
-    }
-
-    private static void setLocationOfCape(AbstractClientPlayer player, ResourceLocation resourceLocation) {
     }
 }

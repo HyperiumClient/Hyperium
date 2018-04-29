@@ -18,24 +18,24 @@
 package cc.hyperium.mods.levelhead.commands;
 
 import cc.hyperium.commands.BaseCommand;
-import cc.hyperium.utils.ChatColor;
 import cc.hyperium.handlers.handlers.HypixelDetector;
 import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
 import cc.hyperium.mods.levelhead.Levelhead;
 import cc.hyperium.mods.levelhead.guis.LevelHeadGui;
 import cc.hyperium.mods.sk1ercommon.Sk1erMod;
+import cc.hyperium.utils.ChatColor;
 
 /**
  * Created by Mitchell Katz on 5/8/2017.
  */
 public class LevelHeadCommand implements BaseCommand {
 
-    private Levelhead mod;
-    
+    private final Levelhead mod;
+
     public LevelHeadCommand(Levelhead mod) {
         this.mod = mod;
     }
-    
+
     @Override
     public String getName() {
         return "levelhead";
@@ -61,7 +61,7 @@ public class LevelHeadCommand implements BaseCommand {
                 return;
             } else if (args[0].equalsIgnoreCase("dumpcache")) {
                 int prevCache = this.mod.levelCache.size();
-                
+
                 this.mod.levelCache.clear();
 
                 GeneralChatHandler.instance().sendMessage("Stringcache entries: " + prevCache + " -> " + this.mod.levelCache.size());

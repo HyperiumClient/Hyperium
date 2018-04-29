@@ -36,7 +36,7 @@ import java.net.URL;
 
 public class CommandDebug implements BaseCommand {
 
-    public static final Gson printer = new GsonBuilder().setPrettyPrinting().create();
+    private static final Gson printer = new GsonBuilder().setPrettyPrinting().create();
 
     @Override
     public String getName() {
@@ -49,7 +49,7 @@ public class CommandDebug implements BaseCommand {
     }
 
     @Override
-    public void onExecute(String[] args) throws CommandUsageException {
+    public void onExecute(String[] args) {
         StringBuilder builder = new StringBuilder();
         HyperiumPurchase self = PurchaseApi.getInstance().getSelf();
         builder.append("\n");

@@ -24,7 +24,7 @@ import java.util.regex.Pattern;
 
 public class TypeSoulWell extends ToggleBase {
 
-    private Pattern soulPattern = Pattern.compile("(?<player>\\S{1,16}) has found (?<message>.*) in the Soul Well!");
+    private final Pattern soulPattern = Pattern.compile("(?<player>\\S{1,16}) has found (?<message>.*) in the Soul Well!");
 
     private boolean enabled = true;
 
@@ -44,13 +44,13 @@ public class TypeSoulWell extends ToggleBase {
     }
 
     @Override
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
+    public boolean isEnabled() {
+        return this.enabled;
     }
 
     @Override
-    public boolean isEnabled() {
-        return this.enabled;
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 
     @Override

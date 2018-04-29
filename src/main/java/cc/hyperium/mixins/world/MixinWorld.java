@@ -39,7 +39,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(World.class)
 public class MixinWorld {
 
-    @Shadow protected WorldInfo worldInfo;
+    @Shadow
+    private WorldInfo worldInfo;
 
     /**
      * Invoked once the server changes the players spawn point

@@ -37,10 +37,10 @@ import java.util.Map.Entry;
  */
 public class HyperiumCommandHandler {
 
-    private Map<String, BaseCommand> commands = new HashMap<>();
+    private final Map<String, BaseCommand> commands = new HashMap<>();
 
-    private GeneralChatHandler chatHandler;
-    private Minecraft mc;
+    private final GeneralChatHandler chatHandler;
+    private final Minecraft mc;
 
     private String[] latestAutoComplete;
 
@@ -63,13 +63,14 @@ public class HyperiumCommandHandler {
 
     /**
      * Execute the provided command, if it exists. Initial leading slash will be removed if it is sent.
+     *
      * @param command Command to attempt to execute
      * @return Whether the command was successfully executed
      */
     public boolean executeCommand(String command) {
         final String commandLine = command.startsWith("/") ? command.substring(1, command.length()) : command;
         String commandName;
-        String[] args = new String[] {};
+        String[] args = new String[]{};
 
         // Check if arguments are provided.
         if (commandLine.contains(" ")) {
@@ -113,7 +114,7 @@ public class HyperiumCommandHandler {
 
     /**
      * Registers the command to this CommandHandler instance.
-     *      also registers any aliases if applicable
+     * also registers any aliases if applicable
      *
      * @param command The command to register
      */
@@ -126,7 +127,7 @@ public class HyperiumCommandHandler {
             }
         }
     }
-    
+
     /**
      * Removes a register command & all aliases
      *
@@ -141,12 +142,11 @@ public class HyperiumCommandHandler {
     }
 
     /**
-     *
      * @author Forge
      */
     public void autoComplete(String leftOfCursor) {
         latestAutoComplete = null;
-        if(leftOfCursor.length()==0)
+        if (leftOfCursor.length() == 0)
             return;
         if (leftOfCursor.charAt(0) == '/') {
             leftOfCursor = leftOfCursor.substring(1);
@@ -161,14 +161,13 @@ public class HyperiumCommandHandler {
                     }
 
                     Collections.sort(completions);
-                    latestAutoComplete = completions.toArray(new String[completions.size()]);
+                    latestAutoComplete = completions.toArray(new String[0]);
                 }
             }
         }
     }
 
     /**
-     *
      * @author Forge
      */
     private List<String> getTabCompletionOptions(String input) {
@@ -186,18 +185,17 @@ public class HyperiumCommandHandler {
 
             return list;
         } else {
-			BaseCommand command = this.commands.get(s);
+            BaseCommand command = this.commands.get(s);
 
-			if (command != null) {
+            if (command != null) {
                 return command.onTabComplete(dropFirstString(astring));
-			}
+            }
 
-			return null;
-		}
+            return null;
+        }
     }
 
     /**
-     *
      * @author Forge
      */
     private String[] dropFirstString(String[] input) {

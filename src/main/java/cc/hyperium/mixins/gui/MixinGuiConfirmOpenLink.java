@@ -30,16 +30,18 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(GuiConfirmOpenLink.class)
 public class MixinGuiConfirmOpenLink extends GuiScreen {
-    @Shadow @Final private String linkText;
+    @Shadow
+    @Final
+    private String linkText;
 
     @Inject(method = "initGui", at = @At("RETURN"))
-    private void initGui(CallbackInfo ci){
+    private void initGui(CallbackInfo ci) {
         this.buttonList.add(new GuiButton(3, this.width / 2 - 80, this.height / 6 + 121, 160, 20, "Open with Integrated Browser"));
     }
 
     @Inject(method = "actionPerformed", at = @At("HEAD"))
-    private void actionPerformed(GuiButton button, CallbackInfo ci){
-        if(button.id == 3){
+    private void actionPerformed(GuiButton button, CallbackInfo ci) {
+        if (button.id == 3) {
             Hyperium.INSTANCE.getHandlers().getBrowserManager().browse(this.linkText);
         }
     }

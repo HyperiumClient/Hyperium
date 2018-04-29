@@ -24,12 +24,13 @@ public enum ReleaseChannel {
     DEV("latest-dev"),
     LOCAL(getLocalHyperium());
 
-    private String release;
+    private final String release;
+
     ReleaseChannel(String release) {
         this.release = release;
     }
 
-    private static String getLocalHyperium(){
+    private static String getLocalHyperium() {
         return new File(new File(System.getProperty("user.dir")).toPath().getRoot().toFile(), "Hyperium").getAbsolutePath();
     }
 

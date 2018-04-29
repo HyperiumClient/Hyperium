@@ -32,18 +32,17 @@ import java.io.InputStream;
 public abstract class MixinAbstractResourcePack implements IResourcePack {
 
     /**
-    * @author prplz
+     * @author prplz
      */
 
 
     private static final int IconSize = 64;
 
     @Overwrite
-    protected abstract InputStream getInputStreamByName(String name) throws IOException;
+    protected abstract InputStream getInputStreamByName(String name);
 
     @Overwrite
-    public BufferedImage getPackImage() throws IOException
-    {
+    public BufferedImage getPackImage() throws IOException {
         BufferedImage originalIcon = TextureUtil.readBufferedImage(this.getInputStreamByName("pack.png"));
         if (originalIcon == null) {
             return null;

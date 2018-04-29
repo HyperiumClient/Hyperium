@@ -38,8 +38,7 @@ public class DisplayElement extends Dimension {
     private int color;
     private boolean shadow;
     private boolean highlighted;
-    private JsonHolder data;
-    private double brightness;
+    private final JsonHolder data;
     private boolean rightSided = false;
     // Used for rainbox rendering
     private boolean selected;
@@ -67,7 +66,7 @@ public class DisplayElement extends Dimension {
         this.displayItems = items;
         this.shadow = object.optBoolean("shadow");
         this.highlighted = object.optBoolean("highlighted");
-        this.brightness = data.optDouble("brightness");
+        double brightness = data.optDouble("brightness");
         this.color = data.optInt("color");
         recalculateColor();
         this.rightSided = data.optBoolean("right_side");

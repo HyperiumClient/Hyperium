@@ -28,18 +28,18 @@ import org.lwjgl.opengl.Display;
  * @author Sk1er
  */
 public class BrowserManager {
-    
+
     private BrowserWindow browser;
     private boolean show = false;
     private boolean maximized = false;
-    
+
     public void toggleMaximize() {
         if (this.maximized) {
             this.browser.setToDefaultSize();
         } else {
             ScaledResolution current = ResolutionUtil.current();
             this.browser.setSize(current.getScaledWidth() * current.getScaleFactor() - 20,
-                current.getScaledHeight() * current.getScaleFactor() - 20);
+                    current.getScaledHeight() * current.getScaleFactor() - 20);
             this.browser.getMotionPanel().setBounds(0, 0, browser.getWidth(), 10);
             this.browser.getBrowserView().setBounds(0, 10, browser.getWidth(), browser.getHeight() - 10);
             this.browser.getMotionPanel().getComponent(0).setBounds(browser.getWidth() - 30, 0, 15, 10);
@@ -50,7 +50,7 @@ public class BrowserManager {
         }
         this.maximized = !this.maximized;
     }
-    
+
     public void browse(String url) {
         this.show = true;
         if (this.browser == null) {
@@ -65,25 +65,25 @@ public class BrowserManager {
         }
         this.browser.getBrowser().setZoomLevel(-3.8017840169239308);
     }
-    
+
     @InvokeEvent
-    public void onTick(TickEvent e){
-        if(browser == null)return;
-        if(!Display.isActive() && !browser.isFocused() && browser.isVisible()) {
+    public void onTick(TickEvent e) {
+        if (browser == null) return;
+        if (!Display.isActive() && !browser.isFocused() && browser.isVisible()) {
             browser.setVisible(false);
         }
 
         if (browser.isVisible() && !show) browser.setVisible(false);
 
-        else if(Display.isActive() && !browser.isVisible() && show)
+        else if (Display.isActive() && !browser.isVisible() && show)
             browser.setVisible(true);
     }
-    
-    public void setShow(boolean show) {
-        this.show = show;
-    }
-    
+
     public boolean isShow() {
         return this.show;
+    }
+
+    public void setShow(boolean show) {
+        this.show = show;
     }
 }

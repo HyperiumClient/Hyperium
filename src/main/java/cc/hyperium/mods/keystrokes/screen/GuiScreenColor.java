@@ -18,7 +18,6 @@
 package cc.hyperium.mods.keystrokes.screen;
 
 import cc.hyperium.mods.keystrokes.KeystrokesMod;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -29,17 +28,17 @@ import java.io.IOException;
 public class GuiScreenColor extends GuiScreen {
 
     private final KeystrokesMod mod; // OOP
-    
-    private IScrollable scrollable1; // Red
-    private IScrollable scrollable2; // Green
-    private IScrollable scrollable3; // Blue
-    private IScrollable scrollable4; // Gamma
+
+    private final IScrollable scrollable1; // Red
+    private final IScrollable scrollable2; // Green
+    private final IScrollable scrollable3; // Blue
+    private final IScrollable scrollable4; // Gamma
 
     private boolean updated = false; // Have the values been changed?
 
     GuiScreenColor(KeystrokesMod mod, IScrollable scrollable1, IScrollable scrollable2, IScrollable scrollable3) {
         this.mod = mod;
-        
+
         this.scrollable1 = scrollable1;
         this.scrollable2 = scrollable2;
         this.scrollable3 = scrollable3;
@@ -48,7 +47,7 @@ public class GuiScreenColor extends GuiScreen {
 
     GuiScreenColor(KeystrokesMod mod, IScrollable scrollable1, IScrollable scrollable2, IScrollable scrollable3, IScrollable scrollable4) {
         this.mod = mod;
-        
+
         this.scrollable1 = scrollable1;
         this.scrollable2 = scrollable2;
         this.scrollable3 = scrollable3;

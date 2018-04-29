@@ -17,32 +17,32 @@
 
 package cc.hyperium.mods.skinchanger.config;
 
+import cc.hyperium.mods.skinchanger.SkinChangerMod;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import cc.hyperium.mods.skinchanger.SkinChangerMod;
 
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
 public class SkinChangerConfig {
-    
+
     private JsonObject configJson = new JsonObject();
-    private SkinChangerMod mod;
-    private File configFile;
-    
+    private final SkinChangerMod mod;
+    private final File configFile;
+
     private String skinName = "";
     private String ofCapeName = "";
     private boolean usingCape = false;
     private boolean experimental = false;
-    
+
     public SkinChangerConfig(SkinChangerMod mod, File directory) {
         if (!directory.exists()) {
             directory.mkdirs();
         }
-    
+
         this.mod = mod;
-    
+
         this.configFile = new File(directory, "skinchanger.json");
     }
 
@@ -102,43 +102,43 @@ public class SkinChangerConfig {
     public File getConfigFile() {
         return this.configFile;
     }
-    
+
     public String getSkinName() {
         return this.skinName;
     }
-    
+
     public void setSkinName(String skinName) {
         this.skinName = skinName;
     }
-    
+
     public String getOfCapeName() {
         return this.ofCapeName;
     }
-    
+
     public void setOfCapeName(String ofCapeName) {
         this.ofCapeName = ofCapeName;
     }
-    
+
     public boolean isExperimental() {
         return this.experimental;
     }
-    
+
     public void setExperimental(boolean experimental) {
         this.experimental = experimental;
     }
-    
+
     public boolean isUsingCape() {
         return this.usingCape;
     }
-    
+
     public void setUsingCape(boolean usingCape) {
         this.usingCape = usingCape;
     }
-    
+
     public SkinChangerMod getMod() {
         return this.mod;
     }
-    
+
     protected void log(String message, Object... replace) {
         System.out.println(String.format("[%s] " + message, replace));
     }

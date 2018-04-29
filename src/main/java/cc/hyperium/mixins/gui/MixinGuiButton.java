@@ -24,8 +24,8 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.util.ResourceLocation;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Overwrite;
+import org.spongepowered.asm.mixin.Shadow;
 
 import java.awt.*;
 
@@ -53,12 +53,11 @@ public abstract class MixinGuiButton extends Gui {
     protected int width;
     @Shadow
     protected int height;
-    private int hoverColor = new Color(0, 0, 0, 120).getRGB();
-    private int color = new Color(0, 0, 0, 70).getRGB();
-    private int textColor = new Color(255, 255, 255, 255).getRGB();
-    private int textHoverColor = new Color(255, 255, 255, 255).getRGB();
-    private FontRenderer fontRenderer = Minecraft.getMinecraft().fontRendererObj;
-    private boolean enabled = true;
+    private final int hoverColor = new Color(0, 0, 0, 120).getRGB();
+    private final int color = new Color(0, 0, 0, 70).getRGB();
+    private final int textColor = new Color(255, 255, 255, 255).getRGB();
+    private final int textHoverColor = new Color(255, 255, 255, 255).getRGB();
+    private final FontRenderer fontRenderer = Minecraft.getMinecraft().fontRendererObj;
     private float selectPercent = 0.0f;
     private long systemTime = Minecraft.getSystemTime();
 
@@ -108,7 +107,8 @@ public abstract class MixinGuiButton extends Gui {
 
         int j = textColor;
 
-        if (!this.enabled) {
+        boolean enabled = true;
+        if (!enabled) {
             j = 10526880;
         } else if (this.hovered) {
             j = textHoverColor;

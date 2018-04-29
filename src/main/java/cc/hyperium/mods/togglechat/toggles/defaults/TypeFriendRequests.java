@@ -24,14 +24,14 @@ import java.util.regex.Pattern;
 
 public class TypeFriendRequests extends ToggleBase {
 
-    private Pattern friendPattern = Pattern.compile(
+    private final Pattern friendPattern = Pattern.compile(
             "----------------------------------------------------\n" +
-            "Friend request from (?<rank>\\[.+] )?(?<player>\\S{1,16})\n" +
-            "\\[ACCEPT] - \\[DENY] - \\[IGNORE]\n" +
-            "----------------------------------------------------");
+                    "Friend request from (?<rank>\\[.+] )?(?<player>\\S{1,16})\n" +
+                    "\\[ACCEPT] - \\[DENY] - \\[IGNORE]\n" +
+                    "----------------------------------------------------");
 
     // This is used for expiry messages
-    private Pattern oldPattern = Pattern.compile(Pattern.quote("Friend request from "), Pattern.CASE_INSENSITIVE);
+    private final Pattern oldPattern = Pattern.compile(Pattern.quote("Friend request from "), Pattern.CASE_INSENSITIVE);
 
     private boolean enabled = true;
 
@@ -46,13 +46,13 @@ public class TypeFriendRequests extends ToggleBase {
     }
 
     @Override
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
+    public boolean isEnabled() {
+        return this.enabled;
     }
 
     @Override
-    public boolean isEnabled() {
-        return this.enabled;
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 
     @Override

@@ -30,11 +30,11 @@ import java.util.List;
  */
 public class DefaultConfig {
 
-    private Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
     private JsonObject config = new JsonObject();
-    private List<Object> configObjects = new ArrayList<>();
-    private File file;
+    private final List<Object> configObjects = new ArrayList<>();
+    private final File file;
 
     public DefaultConfig(File configFile) {
         this.file = configFile;
@@ -66,7 +66,7 @@ public class DefaultConfig {
             bw.write(gson.toJson(config));
             bw.close();
             fw.close();
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
     }
 

@@ -25,9 +25,9 @@ import java.awt.*;
 public enum Fonts {
     ARIAL(new Font("Monsterrat", Font.BOLD, 20));
 
-    private Font font;
+    private final Font font;
 
-    private HyperiumFontRenderer ttf;
+    private final HyperiumFontRenderer ttf;
 
     Fonts(Font font) {
         this.font = font;

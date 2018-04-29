@@ -46,18 +46,16 @@ public class ElementRenderer {
     private static int color;
     private static int[] COLORS = new int[]{16777215, 16711680, 65280, 255, 16776960, 11141290};
     private static boolean display = false;
-    private static List<Long> clicks = new ArrayList<>();
+    private static final List<Long> clicks = new ArrayList<>();
     private static DisplayElement current;
     private static FontRenderer fontRendererObj = Minecraft.getMinecraft().fontRendererObj;
     private static String cValue;
+    private static final List<Long> rClicks = new ArrayList<>();
+    private static final List<Long> mClicks = new ArrayList<>();
     boolean last = false;
-    private ChromaHUD mod;
-    private Minecraft minecraft;
-
-    private static List<Long> rClicks = new ArrayList<>();
+    private final ChromaHUD mod;
+    private final Minecraft minecraft;
     private boolean rLast = false;
-
-    private static List<Long> mClicks = new ArrayList<>();
     private boolean mLast = false;
 
     public ElementRenderer(ChromaHUD mod) {
@@ -103,7 +101,6 @@ public class ElementRenderer {
     }
 
     public static void draw(int x, double y, List<String> list) {
-        int tx = x;
         double ty = y;
         for (String string : list) {
             int shift = current.isRightSided()
@@ -111,23 +108,23 @@ public class ElementRenderer {
                     : 0;
             if (current.isHighlighted()) {
                 if (current.getDisplayItems().stream().anyMatch(i -> i.getType().contains("CB"))) {
-                    RenderUtils.drawRect((int) ((tx - 1) / getCurrentScale() - shift), (int) ((ty - 3) / getCurrentScale()), (int) ((tx + 1) / getCurrentScale()) + 60 - shift, (int) ((ty + 3) / getCurrentScale()) + 8, new Color(0, 0, 0, 120).getRGB());
+                    RenderUtils.drawRect((int) ((x - 1) / getCurrentScale() - shift), (int) ((ty - 3) / getCurrentScale()), (int) ((x + 1) / getCurrentScale()) + 60 - shift, (int) ((ty + 3) / getCurrentScale()) + 8, new Color(0, 0, 0, 120).getRGB());
                 } else {
                     int stringWidth = fontRendererObj.getStringWidth(string);
 //                Gui.drawRect((int) ((tx - 1) / getCurrentScale() - shift), (int) ((ty - 1) / getCurrentScale()), (int) ((tx + 1) / getCurrentScale()) + stringWidth - shift, (int) ((ty + 1) / getCurrentScale()) + 8, new Color(0, 0, 0, 120).getRGB());
-                    RenderUtils.drawRect((int) ((tx - 1) / getCurrentScale() - shift), (int) ((ty - 1) / getCurrentScale()), (int) ((tx + 1) / getCurrentScale()) + stringWidth - shift, (int) ((ty + 1) / getCurrentScale()) + 8, new Color(0, 0, 0, 120).getRGB());
+                    RenderUtils.drawRect((int) ((x - 1) / getCurrentScale() - shift), (int) ((ty - 1) / getCurrentScale()), (int) ((x + 1) / getCurrentScale()) + stringWidth - shift, (int) ((ty + 1) / getCurrentScale()) + 8, new Color(0, 0, 0, 120).getRGB());
                 }
             }
             if (current.isChroma()) {
                 if (current.getDisplayItems().stream().anyMatch(i -> i.getType().contains("CB")))
-                    drawChromaString(string, ((60 - fontRendererObj.getStringWidth(string)) / 2) + (tx - shift), (int) ty);
+                    drawChromaString(string, ((60 - fontRendererObj.getStringWidth(string)) / 2) + (x - shift), (int) ty);
                 else
-                    drawChromaString(string, tx - shift, (int) ty);
+                    drawChromaString(string, x - shift, (int) ty);
             } else {
                 if (current.getDisplayItems().stream().anyMatch(i -> i.getType().contains("CB")))
-                    fontRendererObj.drawString(string, (float) (((60 - fontRendererObj.getStringWidth(string)) / 2) + (tx / getCurrentScale() - shift)), (int) (ty / getCurrentScale()), getColor(color, x), current.isShadow());
+                    fontRendererObj.drawString(string, (float) (((60 - fontRendererObj.getStringWidth(string)) / 2) + (x / getCurrentScale() - shift)), (int) (ty / getCurrentScale()), getColor(color, x), current.isShadow());
                 else
-                    fontRendererObj.drawString(string, (int) (tx / getCurrentScale() - shift), (int) (ty / getCurrentScale()), getColor(color, x), current.isShadow());
+                    fontRendererObj.drawString(string, (int) (x / getCurrentScale() - shift), (int) (ty / getCurrentScale()), getColor(color, x), current.isShadow());
             }
             ty += 10;
         }
@@ -213,6 +210,22 @@ public class ElementRenderer {
         return fontRendererObj;
     }
 
+    public static int getRightCPS() {
+        Iterator<Long> iterator = rClicks.iterator();
+        while (iterator.hasNext())
+            if (System.currentTimeMillis() - iterator.next() > 1000L)
+                iterator.remove();
+        return rClicks.size();
+    }
+
+    public static int getMiddleCPS() {
+        Iterator<Long> iterator = mClicks.iterator();
+        while (iterator.hasNext())
+            if (System.currentTimeMillis() - iterator.next() > 1000L)
+                iterator.remove();
+        return mClicks.size();
+    }
+
     @InvokeEvent
     public void tick(TickEvent event) {
 
@@ -224,6 +237,8 @@ public class ElementRenderer {
         if (Minecraft.getMinecraft().inGameHasFocus)
             cValue = Minecraft.getMinecraft().renderGlobal.getDebugInfoRenders().split("/")[0].trim();
     }
+
+    // Right CPS Counter
 
     @InvokeEvent
     public void onRenderTick(RenderHUDEvent event) {
@@ -240,6 +255,8 @@ public class ElementRenderer {
 //        GlStateManager.color(1.0F,1.0F,1.0F,1.0F);
 
     }
+
+    // Middle CPS Counter
 
     public void renderElements() {
         if (!Hyperium.INSTANCE.getHandlers().getHypixelDetector().isHypixel() && !GeneralSetting.chromaHudNonHypixelEnabled)
@@ -291,25 +308,5 @@ public class ElementRenderer {
             endDrawing(element);
         }
 
-    }
-
-    // Right CPS Counter
-
-    public static int getRightCPS() {
-        Iterator<Long> iterator = rClicks.iterator();
-        while (iterator.hasNext())
-            if (System.currentTimeMillis() - iterator.next() > 1000L)
-                iterator.remove();
-        return rClicks.size();
-    }
-
-    // Middle CPS Counter
-
-    public static int getMiddleCPS() {
-        Iterator<Long> iterator = mClicks.iterator();
-        while (iterator.hasNext())
-            if (System.currentTimeMillis() - iterator.next() > 1000L)
-                iterator.remove();
-        return mClicks.size();
     }
 }

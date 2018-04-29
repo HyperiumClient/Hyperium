@@ -7,11 +7,13 @@ import cc.hyperium.utils.ChatColor;
 public class OldAnimations extends AbstractMod {
 
     private final Metadata metadata;
+
     public OldAnimations() {
         Metadata data = new Metadata(this, "OldAnimations", "1.0", "Amplifiable");
         data.setDisplayName(ChatColor.AQUA + "OldAnimations");
         this.metadata = data;
     }
+
     @Override
     public AbstractMod init() {
         EventBus.INSTANCE.register(new AnimationEventHandler());

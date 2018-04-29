@@ -15,7 +15,7 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class FlipHandler {
-    private ConcurrentHashMap<UUID, Integer> rotateState = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<UUID, Integer> rotateState = new ConcurrentHashMap<>();
 
     private int tick = 0;
 

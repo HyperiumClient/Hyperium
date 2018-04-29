@@ -189,7 +189,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class ParticleOverlay {
     private static ParticleOverlay overlay;
     private float h = 0.1F;
-    private List<Particle> particles = new ArrayList<>();
+    private final List<Particle> particles = new ArrayList<>();
     private long last;
 
     public ParticleOverlay() {
@@ -212,13 +212,15 @@ public class ParticleOverlay {
         }
         return overlay;
     }
+
     public boolean purchased() {
         HyperiumPurchase self = PurchaseApi.getInstance().getSelf();
         return self != null && self.hasPurchased(EnumPurchaseType.PARTICLE_BACKGROUND);
     }
+
     public void render(int mouseX, int mouseY, int guiLeft, int guiTop, int guiRight, int guiBottom) {
-      if(!purchased())
-          return;
+        if (!purchased())
+            return;
         try {
             long lines = 0L;
             float step = (float) (0.01 * (BackgroundSettings.maxParticles / 100));
@@ -233,9 +235,8 @@ public class ParticleOverlay {
                 double mouseDis = Math.pow(v1 - mouseX, 2) + Math.pow(v2 - mouseY, 2);
                 int i = ResolutionUtil.current().getScaledWidth() / 12;
                 if (mouseDis < Math.pow(i, 2)) {
-                    float moveFac = i;
-                    float xVec = Math.min(500F, moveFac / (mouseX - v1));
-                    float yVec = Math.min(500F, moveFac / (mouseY - v2));
+                    float xVec = Math.min(500F, (float) i / (mouseX - v1));
+                    float yVec = Math.min(500F, (float) i / (mouseY - v2));
                     v1 -= xVec;
                     v2 -= yVec;
                     particle.regenerateVector();
@@ -302,7 +303,7 @@ public class ParticleOverlay {
 
     @InvokeEvent
     public void tick(TickEvent event) {
-        if(!purchased())
+        if (!purchased())
             return;
         if (System.currentTimeMillis() - last < 1000)
             for (Particle particle : particles) {

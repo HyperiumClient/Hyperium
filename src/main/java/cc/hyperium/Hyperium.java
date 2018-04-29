@@ -79,7 +79,7 @@ public class Hyperium {
     /**
      * The Hyperium configuration folder
      */
-    public static File folder = new File("hyperium");
+    public static final File folder = new File("hyperium");
 
     /**
      * Instance of default CONFIG
@@ -90,10 +90,9 @@ public class Hyperium {
     private final GeneralStatisticsTracking statTrack = new GeneralStatisticsTracking();
     private final NotificationCenter notification = new NotificationCenter();
     private PerspectiveModifierContainer perspective;
-    private RichPresenceManager richPresenceManager = new RichPresenceManager();
+    private final RichPresenceManager richPresenceManager = new RichPresenceManager();
     private ConfirmationPopup confirmation = new ConfirmationPopup();
     private HyperiumCosmetics cosmetics;
-    private TrayManager trayManager;
     private HyperiumHandlers handlers;
     private HyperiumModIntegration modIntegration;
 
@@ -162,7 +161,7 @@ public class Hyperium {
         LOGGER.info("Hyperium Started!");
         Display.setTitle("Hyperium " + Metadata.getVersion());
 
-        trayManager = new TrayManager();
+        TrayManager trayManager = new TrayManager();
 
         SplashProgress.PROGRESS = 8;
         SplashProgress.CURRENT = "Initializing tray icon";
@@ -241,7 +240,7 @@ public class Hyperium {
                         }
 
                         @Override
-                        public void onExecute(String[] args) throws CommandException {
+                        public void onExecute(String[] args) {
                             StringBuilder builder = new StringBuilder();
                             Iterator<String> iterator = Arrays.stream(args).iterator();
                             while (iterator.hasNext()) {

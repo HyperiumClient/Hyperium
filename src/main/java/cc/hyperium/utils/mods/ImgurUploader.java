@@ -36,8 +36,8 @@ import java.net.URLEncoder;
 public class ImgurUploader implements Runnable {
 
     public static String url;
-    private String clientID;
-    private File uploadFile;
+    private final String clientID;
+    private final File uploadFile;
 
     public ImgurUploader(String clientID, File uploadFile) {
         this.clientID = clientID;

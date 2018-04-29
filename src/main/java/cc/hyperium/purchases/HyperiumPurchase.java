@@ -25,9 +25,9 @@ import java.util.List;
 import java.util.UUID;
 
 public class HyperiumPurchase {
-    private UUID playerUUID;
-    private List<AbstractHyperiumPurchase> purchases = new ArrayList<>();
-    private JsonHolder response;
+    private final UUID playerUUID;
+    private final List<AbstractHyperiumPurchase> purchases = new ArrayList<>();
+    private final JsonHolder response;
 
     public HyperiumPurchase(UUID playerUUID, JsonHolder response) {
         System.out.println("Loaded purchases for " + playerUUID + " (" + response + ")");
@@ -40,7 +40,7 @@ public class HyperiumPurchase {
                 try {
                     this.purchases.add(PurchaseApi.getInstance().parse(parse, PurchaseApi.getInstance().get(PurchaseApi.url + playerUUID.toString() + "/" + parse.name())));
                 } catch (Exception wtf) {
-                wtf.printStackTrace();
+                    wtf.printStackTrace();
                 }
         }
     }

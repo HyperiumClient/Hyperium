@@ -18,13 +18,14 @@
 package cc.hyperium.installer;
 
 public class InstallerMain {
-    static ReleaseChannel releaseChannel = ReleaseChannel.DEV;
+    static final ReleaseChannel releaseChannel = ReleaseChannel.DEV;
+
     /**
      * called when jar is executed
      *
      * @param args command line argument
      */
     public static void main(String... args) {
-         new InstallerConfig();
+        new InstallerConfig();
     }
 }

@@ -19,12 +19,8 @@ package cc.hyperium.commands.defaults;
 
 
 import cc.hyperium.commands.BaseCommand;
-import cc.hyperium.commands.CommandException;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiNewChat;
-
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * A simple command to clear your chat history & sent commands,
@@ -38,12 +34,12 @@ public class CommandClearChat implements BaseCommand {
     public String getName() {
         return "clearchat";
     }
-    
+
     @Override
     public String getUsage() {
         return null;
     }
-    
+
     @Override
     public void onExecute(String[] args) {
         Minecraft.getMinecraft().ingameGUI.getChatGUI().clearChatMessages();

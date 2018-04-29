@@ -119,21 +119,21 @@ public abstract class AbstractMod {
         }
 
         /**
-         * Setter for the mods display name for the configuration menu
-         *
-         * @param name the display name to be set
-         */
-        public void setDisplayName(String name) {
-            this.displayName = name;
-        }
-
-        /**
          * Getter for the mods display name
          *
          * @return the display name
          */
         public String getDisplayName() {
             return this.displayName != null ? this.displayName : getName();
+        }
+
+        /**
+         * Setter for the mods display name for the configuration menu
+         *
+         * @param name the display name to be set
+         */
+        public void setDisplayName(String name) {
+            this.displayName = name;
         }
     }
 }

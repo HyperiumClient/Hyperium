@@ -12,13 +12,13 @@ import java.util.concurrent.ConcurrentHashMap;
  * Created by mitchellkatz on 3/17/18. Designed for production use on Sk1er.club
  */
 public abstract class AbstractCosmetic {
-    private boolean selfOnly;
-    private EnumPurchaseType purchaseType;
-    private boolean purchasable;
+    private final boolean selfOnly;
+    private final EnumPurchaseType purchaseType;
+    private final boolean purchasable;
     private boolean selfUnlocked;
-    private ConcurrentHashMap<UUID, Boolean> purchasedBy = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<UUID, Boolean> purchasedBy = new ConcurrentHashMap<>();
 
-    public AbstractCosmetic(boolean selfOnly, EnumPurchaseType purchaseType, boolean purchaseable) {
+    AbstractCosmetic(boolean selfOnly, EnumPurchaseType purchaseType, boolean purchaseable) {
         this.selfOnly = selfOnly;
         this.purchaseType = purchaseType;
         this.purchasable = purchaseable;

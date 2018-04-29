@@ -23,6 +23,7 @@ import org.apache.commons.io.filefilter.IOFileFilter;
 import org.apache.commons.io.filefilter.TrueFileFilter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -34,8 +35,10 @@ import java.io.File;
 @Mixin(ResourcePackRepository.class)
 public class MixinResourcePackRepository {
 
+    @Final
     @Shadow
     private final File dirServerResourcepacks = null;
+    @Final
     @Shadow
     private static final Logger logger = LogManager.getLogger();
 
@@ -43,11 +46,10 @@ public class MixinResourcePackRepository {
      * @author
      */
     @Inject(method = "func_183028_i", at = @At("HEAD"), cancellable = true)
-    private void func_183028_i(CallbackInfo callbackInfo)
-    {
-        try{
-            FileUtils.listFiles(this.dirServerResourcepacks, TrueFileFilter.TRUE, (IOFileFilter) null);
-        } catch (Exception e){
+    private void func_183028_i(CallbackInfo callbackInfo) {
+        try {
+            FileUtils.listFiles(this.dirServerResourcepacks, TrueFileFilter.TRUE, null);
+        } catch (Exception e) {
             callbackInfo.cancel();
         }
     }

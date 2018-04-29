@@ -49,7 +49,7 @@ import java.util.List;
 @Mixin(RendererLivingEntity.class)
 public abstract class MixinRendererLivingEntity<T extends EntityLivingBase> extends Render<T> {
     @Shadow
-    protected List<LayerRenderer<T>> layerRenderers;
+    private List<LayerRenderer<T>> layerRenderers;
 
     protected MixinRendererLivingEntity(RenderManager renderManager) {
         super(renderManager);
@@ -140,7 +140,7 @@ public abstract class MixinRendererLivingEntity<T extends EntityLivingBase> exte
 
                             }
                         }
-                    } catch (Exception e) {
+                    } catch (Exception ignored) {
 
                     }
                     GlStateManager.translate((float) x, (float) y + offset + entity.height + 0.5F - (entity.isChild() ? entity.height / 2.0F : 0.0F), (float) z);

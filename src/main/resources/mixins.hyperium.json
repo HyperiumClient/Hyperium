@@ -12,7 +12,6 @@
     "MixinScreenShotHelper",
     "MixinEnchantment",
     "MixinFrameBuffer",
-
     "gui.MixinGuiScreen",
     "gui.MixinGui",
     "gui.MixinGuiConnecting",
@@ -32,7 +31,6 @@
     "gui.MixinInventoryParticle",
     "gui.MixinGuiConfirmOpenLink",
     "gui.MixinGuiUtilRenderComponents",
-
     "entity.MixinNetworkPlayerInfo",
     "entity.MixinEntityPlayer",
     "entity.MixinEntityPlayerSP",
@@ -42,9 +40,7 @@
     "entity.MixinRenderPlayer",
     "entity.MixinModelBiped",
     "entity.MixinAbstractClientPlayer",
-
     "profiler.MixinProfiler",
-
     "renderer.MixinGuiIngame",
     "renderer.MixinItemRenderer",
     "renderer.MixinRenderItem",
@@ -53,7 +49,6 @@
     "renderer.MixinRender",
     "renderer.MixinDabRender",
     "renderer.MixinFontRenderer",
-
     "renderer.MixinLayerDeadmau5Head",
     "packet.MixinC01PacketChatMessage",
     "packet.MixinS2EPacketCloseWindow",
@@ -62,13 +57,9 @@
     "packet.MixinNetHandlerPlayClient",
     "packet.MixinNetworkManager",
     "utils.MixinResourcePackRepository",
-
     "world.MixinChunk",
     "world.MixinWorld",
-
     "scoreboard.MixinScoreboard",
-
     "client.resources.MixinAbstractResourcePack"
-
   ]
 }

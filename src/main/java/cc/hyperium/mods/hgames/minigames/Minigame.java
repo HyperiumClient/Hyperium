@@ -7,10 +7,13 @@ public abstract class Minigame {
 
     public abstract void draw(MinigameDisplay display, int starX, double startY, boolean config);
 
-    public void onTick() {}
+    public void onTick() {
+    }
 
-    public void onChat(IChatComponent message) {}
+    public void onChat(IChatComponent message) {
+    }
 
-    public void onWorldChange(){}
+    public void onWorldChange() {
+    }
 
 }

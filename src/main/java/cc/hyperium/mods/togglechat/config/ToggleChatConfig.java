@@ -31,7 +31,7 @@ public class ToggleChatConfig {
 
     private BetterJsonObject toggleJson = new BetterJsonObject();
 
-    private File toggleFile;
+    private final File toggleFile;
 
     public ToggleChatConfig(ToggleChatMod theMod, File directory) {
         if (!directory.exists()) {
@@ -61,10 +61,10 @@ public class ToggleChatConfig {
             }
 
             for (ToggleBase base : this.
-                theMod.
-                getToggleHandler()
-                .getToggles()
-                .values()) {
+                    theMod.
+                    getToggleHandler()
+                    .getToggles()
+                    .values()) {
                 base.setEnabled(this.toggleJson.has("show" + base.getName().replace(" ", "_")) && this.toggleJson.get("show" + base.getName().replace(" ", "_")).getAsBoolean());
             }
 

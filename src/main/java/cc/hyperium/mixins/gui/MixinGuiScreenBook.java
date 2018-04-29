@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(GuiScreenBook.class)
-public abstract class MixinGuiScreenBook extends GuiScreen {
+abstract class MixinGuiScreenBook extends GuiScreen {
 
     /**
      * @see MixinGuiScreen#onGuiClosed(CallbackInfo)
@@ -17,7 +17,7 @@ public abstract class MixinGuiScreenBook extends GuiScreen {
     private void onGuiClosed(CallbackInfo ci) {
         super.onGuiClosed();
     }
-    
+
     /**
      * @see MixinGuiScreen#initGui(CallbackInfo)
      */

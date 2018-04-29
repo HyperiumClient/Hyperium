@@ -18,10 +18,10 @@
 package cc.hyperium.handlers.handlers.remoteresources;
 
 import cc.hyperium.Hyperium;
+import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.utils.JsonHolder;
 import com.google.gson.JsonObject;
-import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
 import org.apache.commons.io.IOUtils;
 
 import javax.imageio.ImageIO;
@@ -44,11 +44,10 @@ public class RemoteResourcesHandler {
      */
     private final ResourceFrame[] preload = {new ResourceFrame(ResourceType.TEXT, "chat_regex")};
     private final ConcurrentHashMap<String, HyperiumResource> resources = new ConcurrentHashMap<>();
-    private final String GITHUB_DATA = "https://hyperium.cc/Hyperium-Repo/files/";
     private JsonHolder resourceData = new JsonHolder();
     private JsonHolder cacheTimes = new JsonHolder();
-    private HashMap<String, String> urlToName = new HashMap<>();
-    private ReentrantLock saveLock = new ReentrantLock();
+    private final HashMap<String, String> urlToName = new HashMap<>();
+    private final ReentrantLock saveLock = new ReentrantLock();
 
     public RemoteResourcesHandler() {
         Multithreading.runAsync(() -> {
@@ -169,6 +168,7 @@ public class RemoteResourcesHandler {
         if (!url.startsWith("http")) {
             //Check for cache, we only cache data that has is within our data system
             JsonHolder resources = resourceData.optJSONObject("resources");
+            String GITHUB_DATA = "https://hyperium.cc/Hyperium-Repo/files/";
             if (resources.has(url.toLowerCase())) {
                 JsonHolder theResourceData = resources.optJSONObject(url.toLowerCase());
                 if (useCache(url)) {
@@ -221,7 +221,7 @@ public class RemoteResourcesHandler {
             bw.write(text);
             bw.close();
             fw.close();
-        } catch (Exception e) {
+        } catch (Exception ignored) {
 
         } finally {
             saveLock.unlock();
@@ -287,8 +287,8 @@ public class RemoteResourcesHandler {
     }
 
     class ResourceFrame {
-        private ResourceType type;
-        private String url;
+        private final ResourceType type;
+        private final String url;
 
         ResourceFrame(ResourceType type, String url) {
             this.type = type;

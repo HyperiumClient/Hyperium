@@ -18,8 +18,8 @@
 package cc.hyperium.utils.mods;
 
 import cc.hyperium.config.ConfigOpt;
-import cc.hyperium.gui.settings.items.GeneralSetting;
 import cc.hyperium.event.*;
+import cc.hyperium.gui.settings.items.GeneralSetting;
 import org.lwjgl.opengl.Display;
 
 public class FPSLimiter {
@@ -28,12 +28,6 @@ public class FPSLimiter {
 
     private static boolean limbo;
     private static long time = 0L;
-
-    @ConfigOpt
-    private long secondsWait = 5;
-
-    @ConfigOpt
-    private int fpsLimit = 30;
 
     public static FPSLimiter getInstance() {
         if (instance == null)
@@ -50,6 +44,7 @@ public class FPSLimiter {
     }
 
     public boolean limit() {
+        long secondsWait = 5;
         return (!Display.isActive() || limbo) && GeneralSetting.framerateLimiterEnabled && time * 20 >= secondsWait;
     }
 
@@ -74,6 +69,7 @@ public class FPSLimiter {
 
 
     public int getFpsLimit() {
+        int fpsLimit = 30;
         return fpsLimit;
     }
 }

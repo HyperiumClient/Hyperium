@@ -33,13 +33,13 @@ public class ChromaHUDApi {
     //Have this for others incase implementation changes.
     public static final String VERSION = "3.0-Hyperium";
     private static ChromaHUDApi instance;
-    private List<ChromaHUDParser> parsers = new ArrayList<>();
-    private HashMap<String, String> names = new HashMap<>();
-    private List<DisplayElement> elements = new ArrayList<>();
+    private final List<ChromaHUDParser> parsers = new ArrayList<>();
+    private final HashMap<String, String> names = new HashMap<>();
+    private final List<DisplayElement> elements = new ArrayList<>();
     private boolean posted = false;
-    private HashMap<String, ArrayList<ButtonConfig>> buttonConfigs = new HashMap<>();
-    private HashMap<String, ArrayList<TextConfig>> textConfigs = new HashMap<>();
-    private HashMap<String, ArrayList<StringConfig>> stringConfigs = new HashMap<>();
+    private final HashMap<String, ArrayList<ButtonConfig>> buttonConfigs = new HashMap<>();
+    private final HashMap<String, ArrayList<TextConfig>> textConfigs = new HashMap<>();
+    private final HashMap<String, ArrayList<StringConfig>> stringConfigs = new HashMap<>();
     private JsonHolder config = new JsonHolder();
 
     private ChromaHUDApi() {
@@ -142,7 +142,7 @@ public class ChromaHUDApi {
      *
      * @param config Config data from file
      */
-    protected void post(JsonHolder config) {
+    void post(JsonHolder config) {
         this.config = config;
         if (posted)
             throw new IllegalStateException("Already posted!");

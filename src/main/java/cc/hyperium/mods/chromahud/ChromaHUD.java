@@ -44,19 +44,17 @@ import java.util.List;
 public class ChromaHUD extends AbstractMod {
     public static final String MODID = "ChromaHUD";
     public static final String VERSION = "3.0";
-    private File suggestedConfigurationFile;
-    private boolean enabled = true;
-    
     /**
      * The metadata of ChromaHUD
      */
     private final Metadata meta;
-    
+    private File suggestedConfigurationFile;
+
     public ChromaHUD() {
         Metadata metadata = new Metadata(this, "ChromaHUD", "3.0", "Sk1er");
-    
+
         metadata.setDisplayName(ChatColor.AQUA + "ChromaHUD");
-    
+
         this.meta = metadata;
     }
 
@@ -69,9 +67,7 @@ public class ChromaHUD extends AbstractMod {
             CordsDisplay displayItem1 = (CordsDisplay) displayItem;
             displayItem1.state = displayItem1.state == 1 ? 0 : 1;
             guiButton.displayString = EnumChatFormatting.RED.toString() + "Make " + (((CordsDisplay) displayItem).state == 1 ? "Horizontal" : "Vertical");
-        }, new GuiButton(0, 0, 0, "Cords State"), (guiButton, displayItem) -> {
-            guiButton.displayString = EnumChatFormatting.RED.toString() + "Make " + (((CordsDisplay) displayItem).state == 1 ? "Horizontal" : "Vertical");
-        }));
+        }, new GuiButton(0, 0, 0, "Cords State"), (guiButton, displayItem) -> guiButton.displayString = EnumChatFormatting.RED.toString() + "Make " + (((CordsDisplay) displayItem).state == 1 ? "Horizontal" : "Vertical")));
         ChromaHUDApi.getInstance().registerButtonConfig("CORDS", new ButtonConfig((guiButton, displayItem) -> {
             CordsDisplay displayItem1 = (CordsDisplay) displayItem;
             displayItem1.precision += 1;
@@ -92,34 +88,24 @@ public class ChromaHUD extends AbstractMod {
             ArmourHud item = (ArmourHud) displayItem;
             item.toggleDurability();
             guiButton.displayString = EnumChatFormatting.RED.toString() + "Toggle Durability";
-        }, new GuiButton(0, 0, 0, "Armour Hud Durability"), (guiButton, displayItem) -> {
-            guiButton.displayString = EnumChatFormatting.RED.toString() + "Toggle Durability";
-        }));
+        }, new GuiButton(0, 0, 0, "Armour Hud Durability"), (guiButton, displayItem) -> guiButton.displayString = EnumChatFormatting.RED.toString() + "Toggle Durability"));
 
         ChromaHUDApi.getInstance().registerButtonConfig("ARMOUR_HUD", new ButtonConfig((guiButton, displayItem) -> {
             ArmourHud item = (ArmourHud) displayItem;
             item.toggleHand();
             guiButton.displayString = EnumChatFormatting.RED.toString() + "Toggle Held Item";
-        }, new GuiButton(0, 0, 0, "Armour Hud Hand"), (guiButton, displayItem) -> {
-            guiButton.displayString = EnumChatFormatting.RED.toString() + "Toggle Held Item";
-        }));
+        }, new GuiButton(0, 0, 0, "Armour Hud Hand"), (guiButton, displayItem) -> guiButton.displayString = EnumChatFormatting.RED.toString() + "Toggle Held Item"));
 
         ChromaHUDApi.getInstance().registerButtonConfig("ARMOUR_HUD", new ButtonConfig((guiButton, displayItem) -> {
             ArmourHud item = (ArmourHud) displayItem;
             item.setArmourOnTop(!item.isArmourOnTop());
             guiButton.displayString = EnumChatFormatting.RED.toString() + "Toggle Armour On Top";
-        }, new GuiButton(0, 0, 0, "Armour Hud Hand"), (guiButton, displayItem) -> {
-            guiButton.displayString = EnumChatFormatting.RED.toString() + "Toggle Armour On Top";
-        }));
+        }, new GuiButton(0, 0, 0, "Armour Hud Hand"), (guiButton, displayItem) -> guiButton.displayString = EnumChatFormatting.RED.toString() + "Toggle Armour On Top"));
 
         GuiTextField textTextField = new GuiTextField(1, Minecraft.getMinecraft().fontRendererObj, 0, 0, 200, 20);
-        ChromaHUDApi.getInstance().registerTextConfig("TEXT", new TextConfig((guiTextField, displayItem) -> {
-            ((TextItem) displayItem).setText(guiTextField.getText());
-        }, textTextField, (guiTextField, displayItem) -> guiTextField.setText(((TextItem) displayItem).getText())));
+        ChromaHUDApi.getInstance().registerTextConfig("TEXT", new TextConfig((guiTextField, displayItem) -> ((TextItem) displayItem).setText(guiTextField.getText()), textTextField, (guiTextField, displayItem) -> guiTextField.setText(((TextItem) displayItem).getText())));
 
-        ChromaHUDApi.getInstance().registerTextConfig("TIME", new TextConfig((guiTextField, displayItem) -> {
-            ((TimeHud) displayItem).setFormat(guiTextField.getText());
-        }, textTextField, (guiTextField, displayItem) -> guiTextField.setText(((TimeHud) displayItem).getFormat())));
+        ChromaHUDApi.getInstance().registerTextConfig("TIME", new TextConfig((guiTextField, displayItem) -> ((TimeHud) displayItem).setFormat(guiTextField.getText()), textTextField, (guiTextField, displayItem) -> guiTextField.setText(((TimeHud) displayItem).getFormat())));
         ChromaHUDApi.getInstance().registerStringConfig("TIME", new StringConfig("Accepted Formats\n" +
                 "YY - Year\n" +
                 "MM - Month\n" +
@@ -130,9 +116,7 @@ public class ChromaHUD extends AbstractMod {
                 "For more options, Google \"Date Format\""));
 
 
-        ChromaHUDApi.getInstance().registerButtonConfig("SCOREBOARD", new ButtonConfig((guiButton, displayItem) -> {
-            displayItem.getData().put("numbers", !displayItem.getData().optBoolean("numbers"));
-        }, new GuiButton(0, 0, 0, "Toggle Number"), (guiButton, displayItem) -> {
+        ChromaHUDApi.getInstance().registerButtonConfig("SCOREBOARD", new ButtonConfig((guiButton, displayItem) -> displayItem.getData().put("numbers", !displayItem.getData().optBoolean("numbers")), new GuiButton(0, 0, 0, "Toggle Number"), (guiButton, displayItem) -> {
         }));
 
 
@@ -143,7 +127,7 @@ public class ChromaHUD extends AbstractMod {
             if (state < 0 || state > 2) {
                 state = 0;
             }
-            data.put("state",state);
+            data.put("state", state);
 
         }, new GuiButton(0, 0, 0, "Toggle Number"), (guiButton, displayItem) -> {
             JsonHolder data = displayItem.getData();
@@ -165,19 +149,19 @@ public class ChromaHUD extends AbstractMod {
         }));
         setup();
         EventBus.INSTANCE.register(new ElementRenderer(this));
-    
+
         Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(new CommandChromaHUD(this));
-        
+
         return this;
     }
-    
+
     @Override
     public Metadata getModMetadata() {
         return this.meta;
     }
-    
-    
-    public void setup() {
+
+
+    private void setup() {
         JsonHolder data = new JsonHolder();
         try {
             if (!suggestedConfigurationFile.exists()) {
@@ -214,6 +198,7 @@ public class ChromaHUD extends AbstractMod {
      */
     public void saveState() {
         JsonHolder master = new JsonHolder();
+        boolean enabled = true;
         master.put("enabled", enabled);
         JsonArray elementArray = new JsonArray();
         master.put("elements", elementArray);
@@ -237,7 +222,7 @@ public class ChromaHUD extends AbstractMod {
             bw.write(master.toString());
             bw.close();
             fw.close();
-        } catch (Exception e) {
+        } catch (Exception ignored) {
 
         }
 

@@ -15,8 +15,8 @@ import java.util.List;
 
 public class QueueModGui extends HyperiumGui {
 
-    private static List<String> selected = new ArrayList<>();
-    private List<GuiBoxItem<String>> boxes = new ArrayList<>();
+    private static final List<String> selected = new ArrayList<>();
+    private final List<GuiBoxItem<String>> boxes = new ArrayList<>();
     private int coolDown = 0;
 
     @Override
@@ -27,9 +27,7 @@ public class QueueModGui extends HyperiumGui {
             if (client != null) {
                 NettyClient.getClient().write(UpdateQueuePacket.build(selected));
             }
-        }, guiButton -> {
-            guiButton.enabled = coolDown == 0;
-        });
+        }, guiButton -> guiButton.enabled = coolDown == 0);
         reg("QUEUE1", new GuiButton(nextId(), width - 201, height - 42, "Clear Queue"), guiButton -> {
             selected.clear();
             NettyClient client = NettyClient.getClient();
@@ -37,9 +35,7 @@ public class QueueModGui extends HyperiumGui {
 
                 client.write(UpdateQueuePacket.build(selected));
             }
-        }, guiButton -> {
-            guiButton.enabled = coolDown == 0;
-        });
+        }, guiButton -> guiButton.enabled = coolDown == 0);
     }
 
     @Override

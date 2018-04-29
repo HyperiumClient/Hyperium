@@ -24,7 +24,7 @@ import org.spongepowered.asm.mixin.Shadow;
 @Mixin(Gui.class)
 public class MixinGui {
     @Shadow
-    protected float zLevel;
+    private float zLevel;
 
     public float getzLevel() {
         return zLevel;

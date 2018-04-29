@@ -15,7 +15,6 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 // For those who want the bleeding edge
 buildscript {
     ext.kotlin_version = '1.2.21'
@@ -125,7 +124,7 @@ jar {
             it.isDirectory() ? it : zipTree(it)
         }
     }
-    exclude 'META-INF/*.RSA', 'META-INF/*.SF','META-INF/*.DSA'
+    exclude 'META-INF/*.RSA', 'META-INF/*.SF', 'META-INF/*.DSA'
 }
 
 jar {

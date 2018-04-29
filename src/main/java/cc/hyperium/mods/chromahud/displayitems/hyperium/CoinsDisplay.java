@@ -18,7 +18,6 @@
 package cc.hyperium.mods.chromahud.displayitems.hyperium;
 
 import cc.hyperium.mods.chromahud.ElementRenderer;
-import cc.hyperium.mods.chromahud.api.Dimension;
 import cc.hyperium.mods.chromahud.api.DisplayItem;
 import cc.hyperium.mods.statistics.GeneralStatisticsTracking;
 import cc.hyperium.utils.JsonHolder;
@@ -51,6 +50,6 @@ public class CoinsDisplay extends DisplayItem {
             render = "Error, " + data.optInt("type") + " invalid state";
         }
         ElementRenderer.draw(x, y, render);
-        this.width =config ? ElementRenderer.getFontRenderer().getStringWidth(render) : 0;
+        this.width = config ? ElementRenderer.getFontRenderer().getStringWidth(render) : 0;
     }
 }

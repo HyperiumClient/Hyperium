@@ -18,12 +18,12 @@ public class FlossDanceHandler {
 
     // x, y, z values
     private final Random random = new Random();
-    private ConcurrentHashMap<UUID, DanceState> danceStates = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<UUID, DanceState> danceStates = new ConcurrentHashMap<>();
     private float state = 0;
     private boolean right = true;
     private boolean asc = true;
     private ArmsDirection armsDirection = ArmsDirection.HORIZONTAL;
-    private float[] randomHeadMovement = new float[3];
+    private final float[] randomHeadMovement = new float[3];
     private long systemTime = 0;
 
     public FlossDanceHandler() {
@@ -219,7 +219,7 @@ public class FlossDanceHandler {
 
     public class DanceState {
         boolean reset;
-        private UUID uuid;
+        private final UUID uuid;
         private int danceFrames = 0;
         private long systemTime;
         private boolean toggled;

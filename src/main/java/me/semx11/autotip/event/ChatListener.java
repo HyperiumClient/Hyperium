@@ -20,11 +20,11 @@ package me.semx11.autotip.event;
 import cc.hyperium.event.ChatEvent;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
+import cc.hyperium.utils.ChatColor;
 import me.semx11.autotip.Autotip;
 import me.semx11.autotip.command.LimboCommand;
 import me.semx11.autotip.misc.TipTracker;
 import me.semx11.autotip.misc.Writer;
-import cc.hyperium.utils.ChatColor;
 import me.semx11.autotip.util.ClientMessage;
 import me.semx11.autotip.util.MessageOption;
 
@@ -33,11 +33,11 @@ import java.util.regex.Pattern;
 
 public class ChatListener {
 
-    private Pattern xpPattern = Pattern.compile("\\+50 experience \\(Gave a player a /tip\\)");
-    private Pattern playerPattern = Pattern.compile("You tipped (?<player>\\w+) in .*");
-    private Pattern coinPattern = Pattern.compile(
+    private final Pattern xpPattern = Pattern.compile("\\+50 experience \\(Gave a player a /tip\\)");
+    private final Pattern playerPattern = Pattern.compile("You tipped (?<player>\\w+) in .*");
+    private final Pattern coinPattern = Pattern.compile(
             "\\+(?<coins>\\d+) coins for you in (?<game>.+) for being generous :\\)");
-    private Pattern earnedPattern = Pattern.compile(
+    private final Pattern earnedPattern = Pattern.compile(
             "You earned (?<coins>\\d+) coins and (?<xp>\\d+) experience from (?<game>.+) tips in the last minute!");
 
     @InvokeEvent

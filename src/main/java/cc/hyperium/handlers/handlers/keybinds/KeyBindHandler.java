@@ -44,31 +44,31 @@ import java.util.UUID;
 
 public class KeyBindHandler {
 
-    public static HyperiumBind nameHistory = new HyperiumBind("nameHistory", Keyboard.KEY_H) {
+    public static final HyperiumBind nameHistory = new HyperiumBind("nameHistory", Keyboard.KEY_H) {
         @Override
         public void onPress() {
             Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new NameHistoryGui());
         }
     };
-    private static Map<Integer, Integer> mouseBinds = new HashMap<>();
+    private static final Map<Integer, Integer> mouseBinds = new HashMap<>();
     private final KeyBindConfig keyBindConfig;
     // Case insensitive treemap
     private final TreeMap<String, HyperiumBind> keybinds = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 
-    public HyperiumBind friends = new HyperiumBind("friends", Keyboard.KEY_L) {
+    public final HyperiumBind friends = new HyperiumBind("friends", Keyboard.KEY_L) {
         @Override
         public void onPress() {
             Minecraft.getMinecraft().displayGuiScreen(new HypixelFriendsGui());
         }
     };
-    public HyperiumBind queue = new HyperiumBind("Queue", Keyboard.KEY_K) {
+    public final HyperiumBind queue = new HyperiumBind("Queue", Keyboard.KEY_K) {
         @Override
         public void onPress() {
             Minecraft.getMinecraft().displayGuiScreen(new QueueModGui());
         }
     };
 
-    public HyperiumBind debug = new HyperiumBind("DEBUG", Keyboard.KEY_J) {
+    public final HyperiumBind debug = new HyperiumBind("DEBUG", Keyboard.KEY_J) {
         @Override
         public void onPress() {
             Hyperium.INSTANCE.getHandlers().getConfigOptions().alternateFontRenderer = !Hyperium.INSTANCE.getHandlers().getConfigOptions().alternateFontRenderer;
@@ -81,7 +81,7 @@ public class KeyBindHandler {
         }
     };
 
-    public HyperiumBind invert = new HyperiumBind("Invert (Requires Purchase)", Keyboard.KEY_I) {
+    public final HyperiumBind invert = new HyperiumBind("Invert (Requires Purchase)", Keyboard.KEY_I) {
         private boolean inverted;
 
         @Override
@@ -106,7 +106,7 @@ public class KeyBindHandler {
         }
     };
 
-    public HyperiumBind flossDance = new HyperiumBind("Floss dance", Keyboard.KEY_P) {
+    public final HyperiumBind flossDance = new HyperiumBind("Floss dance", Keyboard.KEY_P) {
         @Override
         public void onPress() {
             FlossDanceHandler flossDanceHandler = Hyperium.INSTANCE.getHandlers().getFlossDanceHandler();
@@ -138,7 +138,7 @@ public class KeyBindHandler {
         }
     };
 
-    public HyperiumBind dab = new HyperiumBind("Dab", Keyboard.KEY_B) {
+    public final HyperiumBind dab = new HyperiumBind("Dab", Keyboard.KEY_B) {
         @Override
         public void onPress() {
             DabHandler dabHandler = Hyperium.INSTANCE.getHandlers().getDabHandler();
@@ -172,24 +172,10 @@ public class KeyBindHandler {
     /**
      * Opens GUI on Z key pressed oof - ConorTheOreo
      */
-    public HyperiumBind guikey = new HyperiumBind("Hyperium GUI", Keyboard.KEY_GRAVE) {
+    public final HyperiumBind guikey = new HyperiumBind("Hyperium GUI", Keyboard.KEY_GRAVE) {
         @Override
         public void onPress() {
             new ModConfigGui().show();
-        }
-    };
-
-    // Spotify Binds
-    private HyperiumBind pauseSpotify = new HyperiumBind("Pause Spotify", Keyboard.KEY_COMMA) {
-        @Override
-        public void onPress() {
-            Spotify.instance.pause(true);
-        }
-    };
-    private HyperiumBind resumeSpotify = new HyperiumBind("Resume Spotify", Keyboard.KEY_PERIOD) {
-        @Override
-        public void onPress() {
-            Spotify.instance.pause(false);
         }
     };
 
@@ -207,7 +193,20 @@ public class KeyBindHandler {
         registerKeyBinding(dab);
         registerKeyBinding(invert);
         registerKeyBinding(flossDance);
+        // Spotify Binds
+        HyperiumBind pauseSpotify = new HyperiumBind("Pause Spotify", Keyboard.KEY_COMMA) {
+            @Override
+            public void onPress() {
+                Spotify.instance.pause(true);
+            }
+        };
         registerKeyBinding(pauseSpotify);
+        HyperiumBind resumeSpotify = new HyperiumBind("Resume Spotify", Keyboard.KEY_PERIOD) {
+            @Override
+            public void onPress() {
+                Spotify.instance.pause(false);
+            }
+        };
         registerKeyBinding(resumeSpotify);
 
         // Populate mouse bind list in accordance with Minecraft's values.

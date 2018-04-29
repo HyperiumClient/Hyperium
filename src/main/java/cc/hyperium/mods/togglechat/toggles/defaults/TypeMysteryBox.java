@@ -24,8 +24,8 @@ import java.util.regex.Pattern;
 
 public class TypeMysteryBox extends ToggleBase {
 
-    private Pattern mysteryPattern = Pattern.compile("(?<player>\\S{1,16}) found a (?<star>\\S{1,5}) Mystery Box!");
-    private Pattern mysteryFoundPattern = Pattern.compile("\\[Mystery Box] (?<player>\\S{1,16}) found a (?<thing>.*)!");
+    private final Pattern mysteryPattern = Pattern.compile("(?<player>\\S{1,16}) found a (?<star>\\S{1,5}) Mystery Box!");
+    private final Pattern mysteryFoundPattern = Pattern.compile("\\[Mystery Box] (?<player>\\S{1,16}) found a (?<thing>.*)!");
 
     private boolean enabled = true;
 
@@ -45,14 +45,15 @@ public class TypeMysteryBox extends ToggleBase {
     }
 
     @Override
+    public boolean isEnabled() {
+        return this.enabled;
+    }
+
+    @Override
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
     }
 
-    @Override
-    public boolean isEnabled() {
-        return this.enabled;
-    }
     @Override
     public LinkedList<String> getDescription() {
         return asLinked(

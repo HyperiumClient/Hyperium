@@ -21,7 +21,7 @@ public class HGames extends AbstractMod {
 
     @InvokeEvent
     private void onMinigameSwitch(JoinMinigameEvent event) {
-        switch(event.getMinigame()) {
+        switch (event.getMinigame()) {
             case WALLS3:
                 minigame = new Walls3();
                 break;
@@ -32,27 +32,27 @@ public class HGames extends AbstractMod {
 
     @InvokeEvent
     private void onTick(TickEvent event) {
-        if(minigame != null) {
+        if (minigame != null) {
             minigame.onTick();
         }
     }
 
     @InvokeEvent
     private void onChat(ChatEvent event) {
-        if(minigame != null) {
+        if (minigame != null) {
             minigame.onChat(event.getChat());
         }
     }
 
     @InvokeEvent
-    private void onWorldChange(WorldChangeEvent event){
-        if(minigame != null){
+    private void onWorldChange(WorldChangeEvent event) {
+        if (minigame != null) {
             minigame.onWorldChange();
         }
     }
 
     public void render(MinigameDisplay display, int starX, double startY, boolean config) {
-        if(minigame != null) {
+        if (minigame != null) {
             minigame.draw(display, starX, startY, config);
         }
     }

@@ -11,21 +11,37 @@ import net.minecraft.client.Minecraft;
 import java.io.*;
 
 public class BlockOverlay extends AbstractMod {
-    protected static boolean alwaysRender;
-    protected static boolean isChroma;
-    protected static boolean openGui;
-    protected static float lineWidth;
-    protected static float red;
-    protected static float green;
-    protected static float blue;
-    protected static float alpha;
-    protected static int chromaSpeed;
-    protected static BlockOverlayMode mode;
+    static boolean alwaysRender;
+    static boolean isChroma;
+    static boolean openGui;
+    static float lineWidth;
+    static float red;
+    static float green;
+    static float blue;
+    static float alpha;
+    static int chromaSpeed;
+    static BlockOverlayMode mode;
     private final Metadata meta;
 
     public BlockOverlay() {
         meta = new Metadata(this, "BlockOverlay", "1.0", "aycy & powns");
         meta.setDisplayName(ChatColor.RED + "BlockOverlay");
+    }
+
+    public static void saveConfig() {
+        try {
+            final File file = new File(Minecraft.getMinecraft().mcDataDir + "/config/blockOverlay.cfg");
+            if (!file.exists()) {
+                file.getParentFile().mkdirs();
+                file.createNewFile();
+            }
+            final BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+            writer.write(BlockOverlay.mode.name + "\r\n" + BlockOverlay.red + "\r\n" + BlockOverlay.green + "\r\n" + BlockOverlay.blue + "\r\n" + BlockOverlay.alpha + "\r\n" + BlockOverlay.alwaysRender + "\r\n" + BlockOverlay.isChroma + "\r\n" + BlockOverlay.chromaSpeed + "\r\n" + BlockOverlay.lineWidth);
+            writer.close();
+        } catch (Exception exception) {
+            System.out.println("Error occurred while saving BlockOverlay configuration");
+            exception.printStackTrace();
+        }
     }
 
     @Override
@@ -47,7 +63,7 @@ public class BlockOverlay extends AbstractMod {
         return this;
     }
 
-    public void loadConfig() {
+    private void loadConfig() {
         try {
             final File file = new File(Minecraft.getMinecraft().mcDataDir + "/config/blockOverlay.cfg");
             if (file.exists()) {
@@ -71,22 +87,6 @@ public class BlockOverlay extends AbstractMod {
             }
         } catch (Exception exception) {
             System.out.println("Error occurred while loading BlockOverlay configuration");
-            exception.printStackTrace();
-        }
-    }
-
-    public static void saveConfig() {
-        try {
-            final File file = new File(Minecraft.getMinecraft().mcDataDir + "/config/blockOverlay.cfg");
-            if (!file.exists()) {
-                file.getParentFile().mkdirs();
-                file.createNewFile();
-            }
-            final BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-            writer.write(BlockOverlay.mode.name + "\r\n" + BlockOverlay.red + "\r\n" + BlockOverlay.green + "\r\n" + BlockOverlay.blue + "\r\n" + BlockOverlay.alpha + "\r\n" + BlockOverlay.alwaysRender + "\r\n" + BlockOverlay.isChroma + "\r\n" + BlockOverlay.chromaSpeed + "\r\n" + BlockOverlay.lineWidth);
-            writer.close();
-        } catch (Exception exception) {
-            System.out.println("Error occurred while saving BlockOverlay configuration");
             exception.printStackTrace();
         }
     }

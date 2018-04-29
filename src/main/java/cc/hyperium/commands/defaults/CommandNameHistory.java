@@ -19,11 +19,9 @@ package cc.hyperium.commands.defaults;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.commands.BaseCommand;
-import cc.hyperium.commands.CommandException;
 import cc.hyperium.gui.NameHistoryGui;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**

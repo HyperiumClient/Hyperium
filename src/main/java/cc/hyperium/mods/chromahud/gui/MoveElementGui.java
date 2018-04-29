@@ -17,10 +17,10 @@
 
 package cc.hyperium.mods.chromahud.gui;
 
-import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
 import cc.hyperium.mods.chromahud.ChromaHUD;
 import cc.hyperium.mods.chromahud.DisplayElement;
 import cc.hyperium.mods.chromahud.ElementRenderer;
+import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -32,12 +32,12 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.function.Consumer;
 
-public class MoveElementGui extends GuiScreen {
-    private HashMap<GuiButton, Consumer<GuiButton>> clicks = new HashMap<>();
-    private HashMap<GuiButton, Consumer<GuiButton>> updates = new HashMap<>();
-    private HashMap<String, GuiButton> nameMap = new HashMap<>();
-    private ChromaHUD mod;
-    private DisplayElement element;
+class MoveElementGui extends GuiScreen {
+    private final HashMap<GuiButton, Consumer<GuiButton>> clicks = new HashMap<>();
+    private final HashMap<GuiButton, Consumer<GuiButton>> updates = new HashMap<>();
+    private final HashMap<String, GuiButton> nameMap = new HashMap<>();
+    private final ChromaHUD mod;
+    private final DisplayElement element;
     private GuiButton edit;
     private double lastX;
     private double lastY;
@@ -78,7 +78,7 @@ public class MoveElementGui extends GuiScreen {
     }
 
     @Override
-    protected void actionPerformed(GuiButton button) throws IOException {
+    protected void actionPerformed(GuiButton button) {
         Consumer<GuiButton> guiButtonConsumer = clicks.get(button);
         if (guiButtonConsumer != null) {
             guiButtonConsumer.accept(button);

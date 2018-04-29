@@ -18,15 +18,15 @@ public class BlurDisableFallback {
 
     @InvokeEvent
     private void onTick(TickEvent event) {
-        if(Minecraft.getMinecraft() != null &&
+        if (Minecraft.getMinecraft() != null &&
                 GeneralSetting.blurGuiBackgroundsEnabled &&
                 Minecraft.getMinecraft().entityRenderer != null &&
                 Minecraft.getMinecraft().entityRenderer.isShaderActive()) {
 
             final GuiScreen currentScreen = Minecraft.getMinecraft().currentScreen;
 
-            if(lastKnownScreen != currentScreen) {
-                if(currentScreen == null) // Disable shaders if screen just closed
+            if (lastKnownScreen != currentScreen) {
+                if (currentScreen == null) // Disable shaders if screen just closed
                     Minecraft.getMinecraft().addScheduledTask(() ->
                             Minecraft.getMinecraft().entityRenderer.stopUseShader());
 

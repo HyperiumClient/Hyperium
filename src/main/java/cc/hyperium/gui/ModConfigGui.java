@@ -39,9 +39,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class ModConfigGui extends HyperiumGui {
     private List<SettingItem> settingItems = new ArrayList<>();
-    private List<Tab> tabs = new ArrayList<>();
+    private final List<Tab> tabs = new ArrayList<>();
     private int offset = 0;
-    private HyperiumFontRenderer fontRenderer = new HyperiumFontRenderer("Arial", Font.PLAIN, 12);
+    private final HyperiumFontRenderer fontRenderer = new HyperiumFontRenderer("Arial", Font.PLAIN, 12);
     private HyperiumFontRenderer mainFontRenderer = new HyperiumFontRenderer("Times New Roman", Font.BOLD, 24);
     private GuiBlock guiblock;
     private GeneralSetting generalSetting;
@@ -206,7 +206,7 @@ public class ModConfigGui extends HyperiumGui {
                     count.get(), getX(0),
                     getDefaultItemY(count.get()),
                     width - getX(0) * 2,
-                    addon.getName()+" :: "+addon.getVersion(),
+                    addon.getName() + " :: " + addon.getVersion(),
                     i -> {
                         //TODO: Addon config gui
                     }
@@ -311,11 +311,11 @@ public class ModConfigGui extends HyperiumGui {
 
     private class Tab {
         protected boolean selected;
-        private ModConfigGui owningGui;
-        private CustomFontButton button;
-        private int index;
+        private final ModConfigGui owningGui;
+        private final CustomFontButton button;
+        private final int index;
         private float selectPercent;
-        private ArrayList<SettingItem> settings;
+        private final ArrayList<SettingItem> settings;
         private long systemTime = Minecraft.getSystemTime();
 
         public Tab(CustomFontButton button, int index, ModConfigGui owningGui) {

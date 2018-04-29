@@ -18,7 +18,6 @@
 package cc.hyperium.handlers.handlers.keybinds;
 
 import net.minecraft.client.settings.KeyBinding;
-
 import org.apache.commons.lang3.text.WordUtils;
 
 /**
@@ -35,7 +34,7 @@ public class HyperiumBind extends KeyBinding {
      */
     private final int defaultKeyCode;
 
-    private String description;
+    private final String description;
     private int key;
 
     private boolean wasPressed;
@@ -64,15 +63,6 @@ public class HyperiumBind extends KeyBinding {
     }
 
     /**
-     * Returns the default key code for the key
-     *
-     * @return the default key code
-     */
-    public int getDefaultKeyCode() {
-        return this.defaultKeyCode;
-    }
-
-    /**
      * Setter for the key code, sets it here and calls the super
      * method to update it as well
      *
@@ -83,6 +73,15 @@ public class HyperiumBind extends KeyBinding {
         this.key = key;
 
         super.setKeyCode(key);
+    }
+
+    /**
+     * Returns the default key code for the key
+     *
+     * @return the default key code
+     */
+    public int getDefaultKeyCode() {
+        return this.defaultKeyCode;
     }
 
     /**

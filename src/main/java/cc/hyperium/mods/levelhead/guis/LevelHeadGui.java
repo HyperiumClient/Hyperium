@@ -72,17 +72,17 @@ public class LevelHeadGui extends GuiScreen {
     private final String DISABLED = ChatColor.RED + "Disabled";
     private final String COLOR_CHAR = String.valueOf("\u00a7");
     private final String colors = "0123456789abcdef";
-    private List<GuiButton> sliders = new ArrayList<>();
-    private HashMap<GuiButton, Consumer<GuiButton>> clicks = new HashMap<>();
-    private Minecraft mc;
+    private final List<GuiButton> sliders = new ArrayList<>();
+    private final HashMap<GuiButton, Consumer<GuiButton>> clicks = new HashMap<>();
+    private final Minecraft mc;
     private GuiButton headerColorButton;
     private GuiButton footerColorButton;
     private GuiButton prefixButton;
     private boolean isCustom = false;
     private GuiTextField textField;
-    private ReentrantLock lock = new ReentrantLock();
-    
-    private Levelhead mod;
+    private final ReentrantLock lock = new ReentrantLock();
+
+    private final Levelhead mod;
 
     public LevelHeadGui(Levelhead modIn) {
         this.mod = modIn;
@@ -310,7 +310,7 @@ public class LevelHeadGui extends GuiScreen {
         lock.unlock();
     }
 
-    public String getMode(boolean header) {
+    private String getMode(boolean header) {
         LevelheadConfig config = this.mod.getConfig();
         if (header) {
             return config.isHeaderChroma() ? "Chroma" : config.isHeaderRgb() ? "RGB" : "Classic";
@@ -319,7 +319,7 @@ public class LevelHeadGui extends GuiScreen {
         }
     }
 
-    public void updatePeopleToValues() {
+    private void updatePeopleToValues() {
         this.mod.levelCache.forEach((uuid, levelheadTag) -> {
             Integer value = this.mod.getTrueLevelCache().get(uuid);
             if (value == null)
@@ -332,7 +332,7 @@ public class LevelHeadGui extends GuiScreen {
     }
 
     @Override
-    protected void actionPerformed(GuiButton button) throws IOException {
+    protected void actionPerformed(GuiButton button) {
         Consumer<GuiButton> guiButtonConsumer = clicks.get(button);
         if (guiButtonConsumer != null) {
             guiButtonConsumer.accept(button);
@@ -342,7 +342,7 @@ public class LevelHeadGui extends GuiScreen {
     }
 
     @Override
-    protected void keyTyped(char typedChar, int keyCode) throws IOException {
+    protected void keyTyped(char typedChar, int keyCode) {
         if (keyCode == 1) {
             mc.displayGuiScreen(null);
         } else if (textField.isFocused() && keyCode == 28) {
@@ -358,9 +358,7 @@ public class LevelHeadGui extends GuiScreen {
     protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
         textField.mouseClicked(mouseX, mouseY, mouseButton);
         if (mouseButton == 0) {
-            for (int i = 0; i < this.buttonList.size(); ++i) {
-                GuiButton guibutton = this.buttonList.get(i);
-
+            for (GuiButton guibutton : this.buttonList) {
                 if (guibutton.mousePressed(this.mc, mouseX, mouseY)) {
 //                    net.minecraftforge.client.event.GuiScreenEvent.ActionPerformedEvent.Pre event = new net.minecraftforge.client.event.GuiScreenEvent.ActionPerformedEvent.Pre(this, guibutton, this.buttonList);
 //                    if (net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(event))

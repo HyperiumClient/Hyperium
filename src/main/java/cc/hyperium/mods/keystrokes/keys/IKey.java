@@ -18,7 +18,6 @@
 package cc.hyperium.mods.keystrokes.keys;
 
 import cc.hyperium.mods.keystrokes.KeystrokesMod;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 
@@ -30,19 +29,19 @@ import java.awt.*;
  * @author boomboompower
  */
 public abstract class IKey {
-    
+
     protected final Minecraft mc = Minecraft.getMinecraft();
     protected final KeystrokesMod mod;
-    
+
     protected final int xOffset;
     protected final int yOffset;
-    
+
     public IKey(KeystrokesMod mod, int xOffset, int yOffset) {
         this.mod = mod;
         this.xOffset = xOffset;
         this.yOffset = yOffset;
     }
-    
+
     protected void drawChromaString(String text, int x, int y) {
         FontRenderer renderer = Minecraft.getMinecraft().fontRendererObj;
         for (char c : text.toCharArray()) {
@@ -52,12 +51,12 @@ public abstract class IKey {
             x += renderer.getStringWidth(tmp);
         }
     }
-    
+
     /**
      * Renders the key at the specified x and y location
      */
     protected abstract void renderKey(int x, int y);
-    
+
     /**
      * Gets the x offset of the key
      *
@@ -66,7 +65,7 @@ public abstract class IKey {
     protected final int getXOffset() {
         return this.xOffset;
     }
-    
+
     /**
      * Gets the y offset of the key
      *
@@ -75,7 +74,7 @@ public abstract class IKey {
     protected final int getYOffset() {
         return this.yOffset;
     }
-    
+
     /**
      * Gets the color of the text whilst the key is not being pressed
      * <p>
@@ -86,7 +85,7 @@ public abstract class IKey {
     protected final int getColor() {
         return this.mod.getSettings().isChroma() ? Color.HSBtoRGB((float) ((System.currentTimeMillis() - (getXOffset() * 10) - (getYOffset() * 10)) % 2000) / 2000.0F, 0.8F, 0.8F) : new Color(this.mod.getSettings().getRed(), this.mod.getSettings().getGreen(), this.mod.getSettings().getBlue()).getRGB();
     }
-    
+
     /**
      * Gets the color of the text whilst the key is being pressed
      * <p>
@@ -97,14 +96,14 @@ public abstract class IKey {
     public final int getPressedColor() {
         return this.mod.getSettings().isChroma() ? new Color(0, 0, 0).getRGB() : new Color(this.mod.getSettings().getPressedRed(), this.mod.getSettings().getPressedGreen(), this.mod.getSettings().getPressedBlue()).getRGB();
     }
-    
+
     /**
      * Draws a centered string without a background shadow at the specified location
-     *      with the given color
+     * with the given color
      *
-     * @param text text to draw
-     * @param x the x position for the text
-     * @param y the y position for the text
+     * @param text  text to draw
+     * @param x     the x position for the text
+     * @param y     the y position for the text
      * @param color the texts color
      */
     protected final void drawCenteredString(String text, int x, int y, int color) {

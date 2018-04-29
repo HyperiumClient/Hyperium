@@ -34,18 +34,19 @@ public class SplashProgress {
     public static String CURRENT = "";
     private static ResourceLocation splash;
     private static TextureManager ctm;
-
-    public static void update(){
-        if(ctm == null)return;
-//        drawProgress();
-    }
-
     /**
      * FontRenderer for drawing splash screen
      */
     private static FontRenderer sfr;
-    public static void drawSplash(TextureManager tm){
-        if(ctm == null)
+
+    public static void update() {
+        if (ctm == null) {
+        }
+        //drawProgress();
+    }
+
+    public static void drawSplash(TextureManager tm) {
+        if (ctm == null)
             ctm = tm;
         ScaledResolution scaledresolution = new ScaledResolution(Minecraft.getMinecraft());
         int i = scaledresolution.getScaleFactor();
@@ -53,7 +54,7 @@ public class SplashProgress {
         framebuffer.bindFramebuffer(false);
         GlStateManager.matrixMode(5889);
         GlStateManager.loadIdentity();
-        GlStateManager.ortho(0.0D, (double)scaledresolution.getScaledWidth(), (double)scaledresolution.getScaledHeight(), 0.0D, 1000.0D, 3000.0D);
+        GlStateManager.ortho(0.0D, (double) scaledresolution.getScaledWidth(), (double) scaledresolution.getScaledHeight(), 0.0D, 1000.0D, 3000.0D);
         GlStateManager.matrixMode(5888);
         GlStateManager.loadIdentity();
         GlStateManager.translate(0.0F, 0.0F, -2000.0F);
@@ -61,12 +62,12 @@ public class SplashProgress {
         GlStateManager.disableFog();
         GlStateManager.disableDepth();
         GlStateManager.enableTexture2D();
-        if(splash == null)
+        if (splash == null)
             splash = new ResourceLocation("textures/hyperium-splash.png");
         tm.bindTexture(splash);
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         Gui.drawScaledCustomSizeModalRect(0, 0, 0, 0, 1920, 1080, scaledresolution.getScaledWidth(), scaledresolution.getScaledHeight(), 1920, 1080);
-//        drawProgress();
+        //drawProgress();
         framebuffer.unbindFramebuffer();
         framebuffer.framebufferRender(scaledresolution.getScaledWidth() * i, scaledresolution.getScaledHeight() * i);
         GlStateManager.enableAlpha();
@@ -74,8 +75,8 @@ public class SplashProgress {
         Minecraft.getMinecraft().updateDisplay();
     }
 
-    private static void drawProgress(){
-        if(sfr == null)
+    private static void drawProgress() {
+        if (sfr == null)
             sfr = new FontRenderer(Minecraft.getMinecraft().gameSettings, new ResourceLocation("textures/font/ascii.png"), Minecraft.getMinecraft().getTextureManager(), false);
         ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
         // Bar base

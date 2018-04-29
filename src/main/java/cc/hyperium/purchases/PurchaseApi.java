@@ -44,9 +44,9 @@ public class PurchaseApi {
 
     public final static String url = "https://api.hyperium.cc/purchases/";
     private static final PurchaseApi instance = new PurchaseApi();
-    private ConcurrentHashMap<UUID, HyperiumPurchase> purchasePlayers = new ConcurrentHashMap<>();
-    private HashMap<EnumPurchaseType, Class<? extends AbstractHyperiumPurchase>> purchaseClasses = new HashMap<>();
-    private HashMap<String, UUID> nameToUuid = new HashMap<>();
+    private final ConcurrentHashMap<UUID, HyperiumPurchase> purchasePlayers = new ConcurrentHashMap<>();
+    private final HashMap<EnumPurchaseType, Class<? extends AbstractHyperiumPurchase>> purchaseClasses = new HashMap<>();
+    private final HashMap<String, UUID> nameToUuid = new HashMap<>();
 
     private PurchaseApi() {
         register(EnumPurchaseType.WING_COSMETIC, WingCosmetic.class);
@@ -55,9 +55,7 @@ public class PurchaseApi {
         register(EnumPurchaseType.PARTICLE_BACKGROUND, ParticleBackgroundCosmetic.class);
         register(EnumPurchaseType.FLIP_COSMETIC, FlipCosmeticPackage.class);
         register(EnumPurchaseType.DEADMAU5_COSMETIC, EarsCosmetic.class);
-        getPackageAsync(Minecraft.getMinecraft().getSession().getProfile().getId(), hyperiumPurchase -> {
-            System.out.println("Loaded self packages: " + hyperiumPurchase.getResponse());
-        });
+        getPackageAsync(Minecraft.getMinecraft().getSession().getProfile().getId(), hyperiumPurchase -> System.out.println("Loaded self packages: " + hyperiumPurchase.getResponse()));
 
     }
 
@@ -75,7 +73,7 @@ public class PurchaseApi {
                 if (purchase != null) {
                     purchasePlayers.put(id, purchase);
                 }
-                System.out.println("Cleared purchase cache ("+purchasePlayers.size()+")");
+                System.out.println("Cleared purchase cache (" + purchasePlayers.size() + ")");
             }
         });
 

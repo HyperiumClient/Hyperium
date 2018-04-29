@@ -19,7 +19,6 @@ package cc.hyperium.mods.chromahud.displayitems.chromahud;
 
 
 import cc.hyperium.mods.chromahud.ElementRenderer;
-import cc.hyperium.mods.chromahud.api.Dimension;
 import cc.hyperium.mods.chromahud.api.DisplayItem;
 import cc.hyperium.utils.JsonHolder;
 import net.minecraft.client.Minecraft;
@@ -34,11 +33,10 @@ import java.util.List;
  * @author Sk1er
  */
 public class ArrowCount extends DisplayItem {
-    private JsonHolder data;
 
     public ArrowCount(JsonHolder data, int ordinal) {
         super(data, ordinal);
-        this.data = data;
+        JsonHolder data1 = data;
         this.height = 16;
         this.width = 16;
     }
@@ -59,7 +57,7 @@ public class ArrowCount extends DisplayItem {
 
             }
             ElementRenderer.render(list, starX, startY, false);
-            ElementRenderer.draw(starX + 16, startY + 8, "x" + (isConfig ? 64:c));
+            ElementRenderer.draw(starX + 16, startY + 8, "x" + (isConfig ? 64 : c));
         }
     }
 

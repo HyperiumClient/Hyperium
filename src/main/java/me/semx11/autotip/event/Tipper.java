@@ -29,8 +29,8 @@ import java.util.List;
 public class Tipper {
 
     public static int waveCounter = 910;
-    public static int waveLength = 915;
-    public static List<String> tipQueue = new ArrayList<>();
+    public static final int waveLength = 915;
+    public static final List<String> tipQueue = new ArrayList<>();
     private static int tipDelay = 4;
     private long unixTime;
 
