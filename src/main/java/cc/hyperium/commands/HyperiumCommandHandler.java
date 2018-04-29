@@ -161,7 +161,7 @@ public class HyperiumCommandHandler {
                     }
 
                     Collections.sort(completions);
-                    latestAutoComplete = completions.toArray(new String[completions.size()]);
+                    latestAutoComplete = completions.toArray(new String[0]);
                 }
             }
         }

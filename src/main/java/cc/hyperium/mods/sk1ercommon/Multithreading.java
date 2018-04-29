@@ -37,7 +37,7 @@ public class Multithreading {
 
         @Override
         public Thread newThread(Runnable r) {
-            return new Thread(r, String.format("Thread " + counter.incrementAndGet()));
+            return new Thread(r, "Thread " + counter.incrementAndGet());
         }
     });
 

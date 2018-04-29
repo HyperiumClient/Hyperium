@@ -146,24 +146,24 @@ public class GuiSlider extends GuiButtonExt {
             this.sliderValue = 1.0F;
         }
 
-        String val;
+        StringBuilder val;
 
         if (showDecimal) {
-            val = Double.toString(sliderValue * (maxValue - minValue) + minValue);
+            val = new StringBuilder(Double.toString(sliderValue * (maxValue - minValue) + minValue));
 
             if (val.substring(val.indexOf(".") + 1).length() > precision) {
-                val = val.substring(0, val.indexOf(".") + precision + 1);
+                val = new StringBuilder(val.substring(0, val.indexOf(".") + precision + 1));
 
-                if (val.endsWith(".")) {
-                    val = val.substring(0, val.indexOf(".") + precision);
+                if (val.toString().endsWith(".")) {
+                    val = new StringBuilder(val.substring(0, val.indexOf(".") + precision));
                 }
             } else {
                 while (val.substring(val.indexOf(".") + 1).length() < precision) {
-                    val = val + "0";
+                    val.append("0");
                 }
             }
         } else {
-            val = Integer.toString((int) Math.round(sliderValue * (maxValue - minValue) + minValue));
+            val = new StringBuilder(Integer.toString((int) Math.round(sliderValue * (maxValue - minValue) + minValue)));
         }
 
         if (drawString) {

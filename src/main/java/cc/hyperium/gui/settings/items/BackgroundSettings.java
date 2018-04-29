@@ -30,6 +30,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
 
 import java.util.Arrays;
+import java.util.Collections;
 
 public class BackgroundSettings extends SettingGui {
 
@@ -98,7 +99,7 @@ public class BackgroundSettings extends SettingGui {
             particlesMode.addItems(Arrays.asList("OFF", "PLAIN 1", "PLAIN 2", "CHROMA 1", "CHROMA 2"));
             particlesMode.setSelectedItem(particlesModeString);
         } else {
-            particlesMode.addItems(Arrays.asList("NOT PURCHASED"));
+            particlesMode.addItems(Collections.singletonList("NOT PURCHASED"));
             particlesMode.setSelectedItem("NOT PURCHASED");
         }
 
