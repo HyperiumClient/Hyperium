@@ -79,7 +79,7 @@ public class Writer implements Runnable {
 
             if (new File(Autotip.USER_DIR + "tipped.at").exists()) {
                 try (BufferedReader f = new BufferedReader(
-                        new FileReader(Autotip.USER_DIR + "tipped.at"));) {
+                        new FileReader(Autotip.USER_DIR + "tipped.at"))) {
                     List<String> lines = f.lines().collect(Collectors.toList());
                     if (lines.size() >= 1) {
                         String date = lines.get(0);
