@@ -586,9 +586,10 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
 
     @Override
     protected void keyTyped(char typedChar, int keyCode) throws IOException {
-        if (keyCode == Keyboard.KEY_B) {
+        if (keyCode == Keyboard.KEY_B)
             Minecraft.getMinecraft().displayGuiScreen(new ChangeBackgroundGui(this));
-        }
+//        if (keyCode == Keyboard.KEY_C)
+//            Minecraft.getMinecraft().displayGuiScreen(new GuiCredits(this));
         super.keyTyped(typedChar, keyCode);
     }
 }

@@ -37,7 +37,7 @@ public class SplashProgress {
 
     public static void update(){
         if(ctm == null)return;
-        //drawProgress();
+//        drawProgress();
     }
 
     /**
@@ -66,7 +66,7 @@ public class SplashProgress {
         tm.bindTexture(splash);
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         Gui.drawScaledCustomSizeModalRect(0, 0, 0, 0, 1920, 1080, scaledresolution.getScaledWidth(), scaledresolution.getScaledHeight(), 1920, 1080);
-        //drawProgress();
+//        drawProgress();
         framebuffer.unbindFramebuffer();
         framebuffer.framebufferRender(scaledresolution.getScaledWidth() * i, scaledresolution.getScaledHeight() * i);
         GlStateManager.enableAlpha();
