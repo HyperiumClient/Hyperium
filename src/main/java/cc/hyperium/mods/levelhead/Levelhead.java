@@ -38,6 +38,7 @@ import net.minecraft.scoreboard.Team;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -57,9 +58,9 @@ public class Levelhead extends AbstractMod {
     private int updates = 0;
     private Sk1erMod mod;
     private LevelheadConfig config;
-    private final HashMap<UUID, Integer> trueLevelCache = new HashMap<>();
+    private final Map<UUID, Integer> trueLevelCache = new HashMap<>();
     private final java.util.List<UUID> probablyNotFakeWatchdogBoi = new ArrayList<>();
-    private final HashMap<UUID, Integer> timeCheck = new HashMap<>();
+    private final Map<UUID, Integer> timeCheck = new HashMap<>();
     private boolean levelHeadInfoFailed = false;
 
     public Levelhead() {
@@ -283,7 +284,7 @@ public class Levelhead extends AbstractMod {
     //Remote runaway memory leak from storing levels in ram.
     private void clearCache() {
         if (levelCache.size() > Math.max(config.getPurgeSize(), 150)) {
-            ArrayList<UUID> safePlayers = new ArrayList<>();
+            List<UUID> safePlayers = new ArrayList<>();
             for (EntityPlayer player : Minecraft.getMinecraft().theWorld.playerEntities) {
                 if (probablyNotFakeWatchdogBoi.contains(player.getUniqueID())) {
                     safePlayers.add(player.getUniqueID());
@@ -315,7 +316,7 @@ public class Levelhead extends AbstractMod {
         return mod;
     }
 
-    public HashMap<UUID, Integer> getTrueLevelCache() {
+    public Map<UUID, Integer> getTrueLevelCache() {
         return trueLevelCache;
     }
 }

@@ -17,8 +17,11 @@
 
 package cc.hyperium.utils.mods;
 
-import cc.hyperium.config.ConfigOpt;
-import cc.hyperium.event.*;
+import cc.hyperium.event.ChatEvent;
+import cc.hyperium.event.InvokeEvent;
+import cc.hyperium.event.Priority;
+import cc.hyperium.event.SpawnpointChangeEvent;
+import cc.hyperium.event.TickEvent;
 import cc.hyperium.gui.settings.items.GeneralSetting;
 import org.lwjgl.opengl.Display;
 

@@ -21,7 +21,19 @@ package cc.hyperium.mods.chromahud;
 import cc.hyperium.mods.chromahud.api.ChromaHUDDescription;
 import cc.hyperium.mods.chromahud.api.ChromaHUDParser;
 import cc.hyperium.mods.chromahud.api.DisplayItem;
-import cc.hyperium.mods.chromahud.displayitems.hyperium.*;
+import cc.hyperium.mods.chromahud.displayitems.hyperium.BedwarsResourcesDisplay;
+import cc.hyperium.mods.chromahud.displayitems.hyperium.CBCpsDisplay;
+import cc.hyperium.mods.chromahud.displayitems.hyperium.CBFpsDisplay;
+import cc.hyperium.mods.chromahud.displayitems.hyperium.CoinsDisplay;
+import cc.hyperium.mods.chromahud.displayitems.hyperium.DabCounter;
+import cc.hyperium.mods.chromahud.displayitems.hyperium.DoubleCPSDisplay;
+import cc.hyperium.mods.chromahud.displayitems.hyperium.HyperiumInfoDisplay;
+import cc.hyperium.mods.chromahud.displayitems.hyperium.HypixelDisplay;
+import cc.hyperium.mods.chromahud.displayitems.hyperium.LocationDisplay;
+import cc.hyperium.mods.chromahud.displayitems.hyperium.MinigameDisplay;
+import cc.hyperium.mods.chromahud.displayitems.hyperium.PlayerDisplay;
+import cc.hyperium.mods.chromahud.displayitems.hyperium.RatingDisplay;
+import cc.hyperium.mods.chromahud.displayitems.hyperium.ScoreboardDisplay;
 import cc.hyperium.utils.JsonHolder;
 
 import java.util.HashMap;
@@ -31,7 +43,7 @@ import java.util.Map;
  * @author Sk1er
  */
 public class HyperiumChromaHudParser implements ChromaHUDParser {
-    private final HashMap<String, String> names = new HashMap<>();
+    private final Map<String, String> names = new HashMap<>();
 
     public HyperiumChromaHudParser() {
         names.put("LOCATION", "Location");

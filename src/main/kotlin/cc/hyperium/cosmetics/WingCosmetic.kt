@@ -181,8 +181,7 @@ import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.util.MathHelper
 import net.minecraft.util.ResourceLocation
 import org.lwjgl.opengl.GL11
-import java.util.*
-
+import java.util.UUID;
 
 class WingCosmetic : ModelBase() {
     private val data = emptyList<WingData>()

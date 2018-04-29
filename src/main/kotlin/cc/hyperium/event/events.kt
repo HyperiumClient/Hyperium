@@ -34,7 +34,7 @@ import net.minecraft.network.Packet
 import net.minecraft.scoreboard.ScoreObjective
 import net.minecraft.util.*
 import java.lang.reflect.Method
-import java.util.*
+import java.util.UUID
 
 /**
  * Used to store information about events and index so they can be easily accessed by ASM

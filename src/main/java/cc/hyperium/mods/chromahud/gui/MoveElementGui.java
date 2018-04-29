@@ -30,12 +30,13 @@ import org.lwjgl.input.Mouse;
 import java.awt.*;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Consumer;
 
 class MoveElementGui extends GuiScreen {
-    private final HashMap<GuiButton, Consumer<GuiButton>> clicks = new HashMap<>();
-    private final HashMap<GuiButton, Consumer<GuiButton>> updates = new HashMap<>();
-    private final HashMap<String, GuiButton> nameMap = new HashMap<>();
+    private final Map<GuiButton, Consumer<GuiButton>> clicks = new HashMap<>();
+    private final Map<GuiButton, Consumer<GuiButton>> updates = new HashMap<>();
+    private final Map<String, GuiButton> nameMap = new HashMap<>();
     private final ChromaHUD mod;
     private final DisplayElement element;
     private GuiButton edit;

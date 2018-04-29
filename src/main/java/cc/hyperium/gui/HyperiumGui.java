@@ -20,7 +20,11 @@ package cc.hyperium.gui;
 import cc.hyperium.Hyperium;
 import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.*;
+import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
@@ -30,15 +34,16 @@ import org.lwjgl.input.Mouse;
 import java.awt.*;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Consumer;
 
 public abstract class HyperiumGui extends GuiScreen {
 
     protected int offset = 0;
     private int idIteration;
-    private final HashMap<GuiButton, Consumer<GuiButton>> clicks = new HashMap<>();
-    private final HashMap<GuiButton, Consumer<GuiButton>> updates = new HashMap<>();
-    private final HashMap<String, GuiButton> nameMap = new HashMap<>();
+    private final Map<GuiButton, Consumer<GuiButton>> clicks = new HashMap<>();
+    private final Map<GuiButton, Consumer<GuiButton>> updates = new HashMap<>();
+    private final Map<String, GuiButton> nameMap = new HashMap<>();
     private boolean drawAlpha = true;
     private int alpha = 100;
     private ScaledResolution lastResolution;

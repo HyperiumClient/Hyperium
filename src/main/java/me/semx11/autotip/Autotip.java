@@ -36,7 +36,6 @@ import me.semx11.autotip.util.Version;
 import net.minecraft.client.Minecraft;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

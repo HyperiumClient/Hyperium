@@ -21,7 +21,6 @@ import cc.hyperium.Hyperium;
 import cc.hyperium.commands.BaseCommand;
 import cc.hyperium.gui.NameHistoryGui;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 

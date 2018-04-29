@@ -50,6 +50,7 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.function.Consumer;
 
@@ -73,7 +74,7 @@ public class LevelHeadGui extends GuiScreen {
     private final String COLOR_CHAR = String.valueOf("\u00a7");
     private final String colors = "0123456789abcdef";
     private final List<GuiButton> sliders = new ArrayList<>();
-    private final HashMap<GuiButton, Consumer<GuiButton>> clicks = new HashMap<>();
+    private final Map<GuiButton, Consumer<GuiButton>> clicks = new HashMap<>();
     private final Minecraft mc;
     private GuiButton headerColorButton;
     private GuiButton footerColorButton;
