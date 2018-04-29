@@ -46,7 +46,7 @@ import java.awt.*;
  */
 public class LevelHeadRender {
 
-    private Levelhead levelHead;
+    private final Levelhead levelHead;
 
     public LevelHeadRender(Levelhead levelHead) {
         this.levelHead = levelHead;

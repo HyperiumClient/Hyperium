@@ -51,8 +51,8 @@ public class SettingSlider extends GuiButton {
         }
 
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        drawRect(xPosition + (int) (sliderValue * (float) (width - 8)), yPosition, xPosition + (int) (sliderValue * (float) (width - 8)) +4, yPosition + 20, 0xFFFFFF);
-        drawRect(xPosition + (int) (sliderValue * (float) (width - 8)), yPosition, xPosition + (int) (sliderValue * (float) (width - 8)) +4, yPosition + 20, new Color(25, 0, 0).getRGB());
+        drawRect(xPosition + (int) (sliderValue * (float) (width - 8)), yPosition, xPosition + (int) (sliderValue * (float) (width - 8)) + 4, yPosition + 20, 0xFFFFFF);
+        drawRect(xPosition + (int) (sliderValue * (float) (width - 8)), yPosition, xPosition + (int) (sliderValue * (float) (width - 8)) + 4, yPosition + 20, new Color(25, 0, 0).getRGB());
     }
 
     /**
@@ -89,7 +89,7 @@ public class SettingSlider extends GuiButton {
         return 0;
     }
 
-    private float limitToRange (float value) {
+    private float limitToRange(float value) {
         if (value < 0) {
             return 0;
         } else if (value > 1) {

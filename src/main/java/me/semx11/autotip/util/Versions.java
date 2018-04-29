@@ -31,9 +31,9 @@ public class Versions {
 
     private static Versions instance;
 
-    private Version latest;
+    private final Version latest;
     private Version latestBeta;
-    private List<VersionInfo> versions = new ArrayList<>();
+    private final List<VersionInfo> versions = new ArrayList<>();
 
     private Versions(Version latest) {
         this.latest = latest;
@@ -75,7 +75,7 @@ public class Versions {
 
     public List<VersionInfo> getHigherVersionInfo(Version version, Version highest) {
         return versions.stream()
-                .filter(vi -> vi.getVersion().compareTo(version) == 1
+                .filter(vi -> vi.getVersion().compareTo(version) > 0
                         && vi.getVersion().compareTo(highest) < 1)
                 .collect(Collectors.toList());
     }

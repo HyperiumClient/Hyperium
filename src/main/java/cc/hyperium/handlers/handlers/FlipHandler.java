@@ -11,11 +11,12 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EnumPlayerModelParts;
 import net.minecraft.util.EnumChatFormatting;
 
+import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class FlipHandler {
-    private ConcurrentHashMap<UUID, Integer> rotateState = new ConcurrentHashMap<>();
+    private final Map<UUID, Integer> rotateState = new ConcurrentHashMap<>();
 
     private int tick = 0;
 

@@ -1,24 +1,23 @@
 package cc.hyperium.handlers.handlers;
 
-import cc.hyperium.Hyperium;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.RenderEvent;
 import cc.hyperium.event.WorldChangeEvent;
 import cc.hyperium.gui.HyperiumGui;
 import cc.hyperium.gui.settings.items.CosmeticSettings;
-import cc.hyperium.handlers.handlers.keybinds.HyperiumBind;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelPlayer;
 
+import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class DabHandler {
 
     private int dabs;
-    private ConcurrentHashMap<UUID, DabState> dabStates = new ConcurrentHashMap<>();
+    private final Map<UUID, DabState> dabStates = new ConcurrentHashMap<>();
     private float state = 0;
     private boolean right = true;
     private boolean asc = true;
@@ -178,7 +177,7 @@ public class DabHandler {
     }
 
     public class DabState {
-        UUID uuid;
+        final UUID uuid;
         int dabFrames = 0;
         long systemTime;
         boolean toggled;

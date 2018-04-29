@@ -19,7 +19,6 @@ package cc.hyperium.commands.defaults;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.commands.BaseCommand;
-import cc.hyperium.commands.CommandUsageException;
 import cc.hyperium.handlers.handlers.HypixelDetector;
 import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
 import cc.hyperium.mods.chromahud.ChromaHUDApi;
@@ -36,7 +35,7 @@ import java.net.URL;
 
 public class CommandDebug implements BaseCommand {
 
-    public static final Gson printer = new GsonBuilder().setPrettyPrinting().create();
+    private static final Gson printer = new GsonBuilder().setPrettyPrinting().create();
 
     @Override
     public String getName() {
@@ -49,7 +48,7 @@ public class CommandDebug implements BaseCommand {
     }
 
     @Override
-    public void onExecute(String[] args) throws CommandUsageException {
+    public void onExecute(String[] args) {
         StringBuilder builder = new StringBuilder();
         HyperiumPurchase self = PurchaseApi.getInstance().getSelf();
         builder.append("\n");

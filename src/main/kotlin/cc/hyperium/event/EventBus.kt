@@ -17,9 +17,7 @@
 
 package cc.hyperium.event
 
-import java.util.*
 import java.util.concurrent.CopyOnWriteArrayList
-import java.util.concurrent.CopyOnWriteArraySet
 
 /**
  * Contains utilities used to subscribe and invoke events
@@ -108,7 +106,9 @@ object EventBus {
                 ?.forEach { sub ->
                     try {
                         sub.method.invoke(sub.instance, event)
-                    } catch(e: Exception) { e.printStackTrace() }
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
                 }
     }
 

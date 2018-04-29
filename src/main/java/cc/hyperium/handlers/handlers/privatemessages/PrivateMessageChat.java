@@ -25,8 +25,8 @@ import java.util.Comparator;
 import java.util.List;
 
 public class PrivateMessageChat implements Comparator<PrivateMessage> {
-    private String to;
-    private List<PrivateMessage> messages;
+    private final String to;
+    private final List<PrivateMessage> messages;
     private long lastAction = System.currentTimeMillis();
 
     public PrivateMessageChat(String to) {

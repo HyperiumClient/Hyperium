@@ -27,30 +27,38 @@ import cc.hyperium.mods.chromahud.api.StringConfig;
 import cc.hyperium.mods.chromahud.api.TextConfig;
 import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.*;
+import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.GuiTextField;
+import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import org.lwjgl.input.Mouse;
 
 import java.awt.*;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Consumer;
 
 public class EditItemsGui extends GuiScreen {
-    private DisplayElement element;
-    private HashMap<GuiButton, Consumer<GuiButton>> clicks = new HashMap<>();
-    private HashMap<GuiButton, Consumer<GuiButton>> updates = new HashMap<>();
-    private HashMap<String, GuiButton> nameMap = new HashMap<>();
+    private final DisplayElement element;
+    private final Map<GuiButton, Consumer<GuiButton>> clicks = new HashMap<>();
+    private final Map<GuiButton, Consumer<GuiButton>> updates = new HashMap<>();
+    private final Map<String, GuiButton> nameMap = new HashMap<>();
     private DisplayItem modifying;
     private int tmpId;
-    private ChromaHUD mod;
-    private boolean mouseLock;
+    private final ChromaHUD mod;
 
     public EditItemsGui(DisplayElement element, ChromaHUD mod) {
         this.element = element;
         this.mod = mod;
-        mouseLock = Mouse.isButtonDown(0);
+        boolean mouseLock = Mouse.isButtonDown(0);
     }
 
     private int nextId() {
@@ -91,16 +99,13 @@ public class EditItemsGui extends GuiScreen {
         }, (guiButton) -> guiButton.enabled = modifying != null && this.modifying.getOrdinal() < this.element.getDisplayItems().size() - 1);
 
 
-        reg("Back", new GuiButton(nextId(), 2, ResolutionUtil.current().getScaledHeight() - 22, 100, 20, "Back"), (guiButton) -> {
-
-            Minecraft.getMinecraft().displayGuiScreen(new DisplayElementConfig(element, mod));
-        }, (guiButton) -> {
+        reg("Back", new GuiButton(nextId(), 2, ResolutionUtil.current().getScaledHeight() - 22, 100, 20, "Back"), (guiButton) -> Minecraft.getMinecraft().displayGuiScreen(new DisplayElementConfig(element, mod)), (guiButton) -> {
         });
 
     }
 
     @Override
-    protected void actionPerformed(GuiButton button) throws IOException {
+    protected void actionPerformed(GuiButton button) {
         Consumer<GuiButton> guiButtonConsumer = clicks.get(button);
         if (guiButtonConsumer != null) {
             guiButtonConsumer.accept(button);
@@ -185,10 +190,9 @@ public class EditItemsGui extends GuiScreen {
             DisplayItem item1 = null;
             //Check X range first since it is easy
             ScaledResolution current = ResolutionUtil.current();
-            int tmpX = mouseX;
             int tmpY = mouseY;
             int xCenter = current.getScaledWidth() / 2;
-            if (tmpX >= xCenter - 80 && tmpX <= xCenter + 80) {
+            if (mouseX >= xCenter - 80 && mouseX <= xCenter + 80) {
                 //now some super janky code
                 int yPosition = 40;
 
@@ -207,15 +211,9 @@ public class EditItemsGui extends GuiScreen {
             }
             this.modifying = item1;
             if (this.modifying != null) {
-                ChromaHUDApi.getInstance().getTextConfigs(this.modifying.getType()).forEach((config) -> {
-                    config.getLoad().accept(config.getTextField(), this.modifying);
-                });
-                ChromaHUDApi.getInstance().getButtonConfigs(this.modifying.getType()).forEach((button) -> {
-                    button.getLoad().accept(button.getButton(), this.modifying);
-                });
-                ChromaHUDApi.getInstance().getStringConfigs(this.modifying.getType()).forEach((button) -> {
-                    button.getLoad().accept(this.modifying);
-                });
+                ChromaHUDApi.getInstance().getTextConfigs(this.modifying.getType()).forEach((config) -> config.getLoad().accept(config.getTextField(), this.modifying));
+                ChromaHUDApi.getInstance().getButtonConfigs(this.modifying.getType()).forEach((button) -> button.getLoad().accept(button.getButton(), this.modifying));
+                ChromaHUDApi.getInstance().getStringConfigs(this.modifying.getType()).forEach((button) -> button.getLoad().accept(this.modifying));
             }
 
 

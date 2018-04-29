@@ -10,7 +10,11 @@ import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.server.integrated.IntegratedServer;
 import net.minecraft.world.World;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -28,9 +32,7 @@ public class TimeTrackHandler implements Runnable {
 
     public TimeTrackHandler() {
         loadData();
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            save(today, data.toString());
-        }));
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> save(today, data.toString())));
         Multithreading.schedule(this, 1L, 1L, TimeUnit.SECONDS);
     }
 
@@ -115,7 +117,7 @@ public class TimeTrackHandler implements Runnable {
             bw.write(data);
             bw.close();
             fw.close();
-        } catch (Exception e) {
+        } catch (Exception ignored) {
 
         }
     }

@@ -22,19 +22,20 @@ import cc.hyperium.event.EventBus;
 import cc.hyperium.event.RenderEvent;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBed;
-import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ActiveRenderInfo;
 import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.settings.GameSettings;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.*;
-import net.minecraft.world.World;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.MathHelper;
+import net.minecraft.util.MouseFilter;
+import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.Vec3;
 import org.lwjgl.opengl.Display;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
@@ -81,7 +82,7 @@ public abstract class MixinEntityRenderer {
         double d0 = entity.prevPosX + (entity.posX - entity.prevPosX) * partialTicks;
         double d2 = entity.prevPosY + (entity.posY - entity.prevPosY) * partialTicks + f;
         double d3 = entity.prevPosZ + (entity.posZ - entity.prevPosZ) * partialTicks;
-        if (entity instanceof EntityLivingBase && ((EntityLivingBase)entity).isPlayerSleeping()) {
+        if (entity instanceof EntityLivingBase && ((EntityLivingBase) entity).isPlayerSleeping()) {
             ++f;
             GlStateManager.translate(0.0f, 0.3f, 0.0f);
             if (!this.mc.gameSettings.debugCamEnable) {
@@ -96,13 +97,11 @@ public abstract class MixinEntityRenderer {
                 GlStateManager.rotate(entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw) * partialTicks + 180.0f, 0.0f, -1.0f, 0.0f);
                 GlStateManager.rotate(entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * partialTicks, -1.0f, 0.0f, 0.0f);
             }
-        }
-        else if (this.mc.gameSettings.thirdPersonView > 0) {
+        } else if (this.mc.gameSettings.thirdPersonView > 0) {
             double d4 = this.thirdPersonDistanceTemp + (this.thirdPersonDistance - this.thirdPersonDistanceTemp) * partialTicks;
             if (this.mc.gameSettings.debugCamEnable) {
-                GlStateManager.translate(0.0f, 0.0f, (float)(-d4));
-            }
-            else {
+                GlStateManager.translate(0.0f, 0.0f, (float) (-d4));
+            } else {
                 float f2 = entity.rotationYaw;
                 float f3 = entity.rotationPitch;
                 if (Hyperium.INSTANCE.getPerspective().isEnabled()) {
@@ -136,20 +135,18 @@ public abstract class MixinEntityRenderer {
                 if (Hyperium.INSTANCE.getPerspective().isEnabled()) {
                     GlStateManager.rotate(Hyperium.INSTANCE.getPerspective().modifiedPitch - f3, 1.0f, 0.0f, 0.0f);
                     GlStateManager.rotate(Hyperium.INSTANCE.getPerspective().modifiedYaw - f2, 0.0f, 1.0f, 0.0f);
-                    GlStateManager.translate(0.0f, 0.0f, (float)(-d4));
+                    GlStateManager.translate(0.0f, 0.0f, (float) (-d4));
                     GlStateManager.rotate(f2 - Hyperium.INSTANCE.getPerspective().modifiedYaw, 0.0f, 1.0f, 0.0f);
                     GlStateManager.rotate(f3 - Hyperium.INSTANCE.getPerspective().modifiedPitch, 1.0f, 0.0f, 0.0f);
-                }
-                else {
+                } else {
                     GlStateManager.rotate(entity.rotationPitch - f3, 1.0f, 0.0f, 0.0f);
                     GlStateManager.rotate(entity.rotationYaw - f2, 0.0f, 1.0f, 0.0f);
-                    GlStateManager.translate(0.0f, 0.0f, (float)(-d4));
+                    GlStateManager.translate(0.0f, 0.0f, (float) (-d4));
                     GlStateManager.rotate(f2 - entity.rotationYaw, 0.0f, 1.0f, 0.0f);
                     GlStateManager.rotate(f3 - entity.rotationPitch, 1.0f, 0.0f, 0.0f);
                 }
             }
-        }
-        else {
+        } else {
             GlStateManager.translate(0.0f, 0.0f, -0.1f);
         }
         if (!this.mc.gameSettings.debugCamEnable) {
@@ -157,7 +154,7 @@ public abstract class MixinEntityRenderer {
             final float pitch = entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * partialTicks;
             final float roll = 0.0f;
             if (entity instanceof EntityAnimal) {
-                final EntityAnimal entityanimal = (EntityAnimal)entity;
+                final EntityAnimal entityanimal = (EntityAnimal) entity;
                 yaw = entityanimal.prevRotationYawHead + (entityanimal.rotationYawHead - entityanimal.prevRotationYawHead) * partialTicks + 180.0f;
             }
             final Block block = ActiveRenderInfo.getBlockAtEntityViewpoint(this.mc.theWorld, entity, partialTicks);
@@ -165,8 +162,7 @@ public abstract class MixinEntityRenderer {
                 GlStateManager.rotate(roll, 0.0f, 0.0f, 1.0f);
                 GlStateManager.rotate(Hyperium.INSTANCE.getPerspective().modifiedPitch, 1.0f, 0.0f, 0.0f);
                 GlStateManager.rotate(Hyperium.INSTANCE.getPerspective().modifiedYaw + 180.0f, 0.0f, 1.0f, 0.0f);
-            }
-            else {
+            } else {
                 GlStateManager.rotate(roll, 0.0f, 0.0f, 1.0f);
                 GlStateManager.rotate(pitch, 1.0f, 0.0f, 0.0f);
                 GlStateManager.rotate(yaw, 0.0f, 1.0f, 0.0f);

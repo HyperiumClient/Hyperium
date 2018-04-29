@@ -27,7 +27,11 @@ import net.minecraft.client.gui.GuiChat;
 import net.minecraft.command.CommandBase;
 import net.minecraft.util.EnumChatFormatting;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 
 /**
@@ -37,10 +41,10 @@ import java.util.Map.Entry;
  */
 public class HyperiumCommandHandler {
 
-    private Map<String, BaseCommand> commands = new HashMap<>();
+    private final Map<String, BaseCommand> commands = new HashMap<>();
 
-    private GeneralChatHandler chatHandler;
-    private Minecraft mc;
+    private final GeneralChatHandler chatHandler;
+    private final Minecraft mc;
 
     private String[] latestAutoComplete;
 
@@ -63,13 +67,14 @@ public class HyperiumCommandHandler {
 
     /**
      * Execute the provided command, if it exists. Initial leading slash will be removed if it is sent.
+     *
      * @param command Command to attempt to execute
      * @return Whether the command was successfully executed
      */
     public boolean executeCommand(String command) {
         final String commandLine = command.startsWith("/") ? command.substring(1, command.length()) : command;
         String commandName;
-        String[] args = new String[] {};
+        String[] args = new String[]{};
 
         // Check if arguments are provided.
         if (commandLine.contains(" ")) {
@@ -82,38 +87,32 @@ public class HyperiumCommandHandler {
         }
 
         // Loop through our commands, if the identifier matches the expected command, active the base
-        for (Map.Entry<String, BaseCommand> entry : this.commands.entrySet()) {
+        String[] finalArgs = args;
+        return this.commands.entrySet().stream().filter(e -> commandName.equals(e.getKey())).findFirst().map(e->{
+            final BaseCommand baseCommand = e.getValue();
 
-            // Check if the expected command matches the command identifier for this entry
-            if (commandName.equals(entry.getKey())) {
-
-                // It matched, we'll grab the command instance
-                final BaseCommand baseCommand = entry.getValue();
-
-                try {
-                    baseCommand.onExecute(args);
-                } catch (CommandUsageException usageEx) {
-                    // Throw a UsageException to trigger
-                    this.chatHandler.sendMessage(ChatColor.RED + baseCommand.getUsage(), false);
-                } catch (CommandException knownEx) {
-                    if (knownEx.getMessage() != null) {
-                        this.chatHandler.sendMessage(ChatColor.RED + knownEx.getMessage(), false);
-                    }
-                } catch (Exception exception) {
-                    exception.printStackTrace();
-                    this.chatHandler.sendMessage(ChatColor.RED + "An internal error occurred whilst performing this command", false);
-                    return false;
+            try {
+                baseCommand.onExecute(finalArgs);
+            } catch (CommandUsageException usageEx) {
+                // Throw a UsageException to trigger
+                this.chatHandler.sendMessage(ChatColor.RED + baseCommand.getUsage(), false);
+            } catch (CommandException knownEx) {
+                if (knownEx.getMessage() != null) {
+                    this.chatHandler.sendMessage(ChatColor.RED + knownEx.getMessage(), false);
                 }
-
-                return true;
+            } catch (Exception exception) {
+                exception.printStackTrace();
+                this.chatHandler.sendMessage(ChatColor.RED + "An internal error occurred whilst performing this command", false);
+                return false;
             }
-        }
-        return false;
+
+            return true;
+        }).orElse(false);
     }
 
     /**
      * Registers the command to this CommandHandler instance.
-     *      also registers any aliases if applicable
+     * also registers any aliases if applicable
      *
      * @param command The command to register
      */
@@ -126,7 +125,7 @@ public class HyperiumCommandHandler {
             }
         }
     }
-    
+
     /**
      * Removes a register command & all aliases
      *
@@ -141,12 +140,11 @@ public class HyperiumCommandHandler {
     }
 
     /**
-     *
      * @author Forge
      */
     public void autoComplete(String leftOfCursor) {
         latestAutoComplete = null;
-        if(leftOfCursor.length()==0)
+        if (leftOfCursor.length() == 0)
             return;
         if (leftOfCursor.charAt(0) == '/') {
             leftOfCursor = leftOfCursor.substring(1);
@@ -161,14 +159,13 @@ public class HyperiumCommandHandler {
                     }
 
                     Collections.sort(completions);
-                    latestAutoComplete = completions.toArray(new String[completions.size()]);
+                    latestAutoComplete = completions.toArray(new String[0]);
                 }
             }
         }
     }
 
     /**
-     *
      * @author Forge
      */
     private List<String> getTabCompletionOptions(String input) {
@@ -186,18 +183,17 @@ public class HyperiumCommandHandler {
 
             return list;
         } else {
-			BaseCommand command = this.commands.get(s);
+            BaseCommand command = this.commands.get(s);
 
-			if (command != null) {
+            if (command != null) {
                 return command.onTabComplete(dropFirstString(astring));
-			}
+            }
 
-			return null;
-		}
+            return null;
+        }
     }
 
     /**
-     *
      * @author Forge
      */
     private String[] dropFirstString(String[] input) {

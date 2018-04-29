@@ -26,9 +26,9 @@ import java.util.TreeMap;
 
 public class TipTracker {
 
-    public static Map<Long, String> tipsSentHistory = new TreeMap<>(Collections.reverseOrder());
-    public static Map<String, Integer> tipsSentEarnings = new HashMap<>();
-    public static Map<String, Integer> tipsReceivedEarnings = new HashMap<>();
+    public static final Map<Long, String> tipsSentHistory = new TreeMap<>(Collections.reverseOrder());
+    public static final Map<String, Integer> tipsSentEarnings = new HashMap<>();
+    public static final Map<String, Integer> tipsReceivedEarnings = new HashMap<>();
     public static int tipsSent = 0;
     public static int tipsReceived = 0;
     public static int karmaCount = 0;

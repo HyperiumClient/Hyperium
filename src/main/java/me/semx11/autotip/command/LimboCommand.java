@@ -18,25 +18,24 @@
 package me.semx11.autotip.command;
 
 import cc.hyperium.commands.BaseCommand;
-
-import me.semx11.autotip.Autotip;
 import cc.hyperium.utils.ChatColor;
+import me.semx11.autotip.Autotip;
 import me.semx11.autotip.util.ClientMessage;
 
 public class LimboCommand implements BaseCommand {
-    
+
     public static boolean executed;
-    
+
     @Override
     public String getName() {
         return "limbo";
     }
-    
+
     @Override
     public String getUsage() {
         return "Usage: /limbo";
     }
-    
+
     @Override
     public void onExecute(String[] args) {
         if (Autotip.onHypixel) {

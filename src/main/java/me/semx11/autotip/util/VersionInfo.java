@@ -24,10 +24,10 @@ import java.util.List;
 
 public class VersionInfo {
 
-    private Version version;
-    private Severity severity;
-    private boolean isBetaVersion;
-    private List<String> changelog;
+    private final Version version;
+    private final Severity severity;
+    private final boolean isBetaVersion;
+    private final List<String> changelog;
 
     public VersionInfo(Version version, Severity severity, boolean isBetaVersion,
                        String... changelog) {

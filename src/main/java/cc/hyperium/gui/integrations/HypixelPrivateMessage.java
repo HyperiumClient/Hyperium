@@ -41,10 +41,10 @@ import java.util.List;
 
 public class HypixelPrivateMessage extends HyperiumGui {
 
-    private PrivateMessageChat chat;
+    private final PrivateMessageChat chat;
     private GuiTextField text;
     private boolean lockDown = false;
-    private List<GuiBoxItem<PrivateMessageChat>> chatBoxes = new ArrayList<>();
+    private final List<GuiBoxItem<PrivateMessageChat>> chatBoxes = new ArrayList<>();
 
     //TODO add option to close PM's, autoremove players that do not exist, add a text box to start a new convo with a user. Add a darker color if unread messages and make the sorting go by unread messages.
     public HypixelPrivateMessage(PrivateMessageChat chat) {
@@ -168,7 +168,7 @@ public class HypixelPrivateMessage extends HyperiumGui {
 //            RenderUtils.drawFilledCircle(block.getLeft() + (user ? 25 : 3), block.getTop() + 4, 4, user ? new Color(0, 0, 255, 255).getRGB() : new Color(0, 255, 0, 255).getRGB());
 //            RenderUtils.drawFilledCircle(block.getLeft() + (user ? 25 : 3), block.getBottom() - 4, 4, user ? new Color(0, 0, 255, 255).getRGB() : new Color(0, 255, 0, 255).getRGB());
 //            Gui.drawRect(block.getLeft()-4+(user ? 25 : 3), block.getTop() + 3, block.getLeft()+(user ? 25 : 3) , block.getBottom() - 3, user ? new Color(0, 0, 255, 200).getRGB() : new Color(0, 255, 0, 200).getRGB());
-           RenderUtils.drawSmoothRect(block.getLeft() + (user ? 25 : 3), block.getTop(), block.getRight() + (user ? 0 : -25), block.getBottom(),user ? new Color(0, 0, 255, 255).getRGB() : new Color(0, 255, 0, 255).getRGB());
+            RenderUtils.drawSmoothRect(block.getLeft() + (user ? 25 : 3), block.getTop(), block.getRight() + (user ? 0 : -25), block.getBottom(), user ? new Color(0, 0, 255, 255).getRGB() : new Color(0, 255, 0, 255).getRGB());
             int y = 1;
             for (String s : messages) {
                 block.drawString(s.trim(), fontRendererObj, true, false, user ? 7 : 5, y, false, false, Color.WHITE.getRGB(), !user);

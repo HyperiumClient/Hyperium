@@ -17,7 +17,11 @@
 
 package cc.hyperium.gui;
 
-import cc.hyperium.event.*;
+import cc.hyperium.event.HypixelFriendRequestEvent;
+import cc.hyperium.event.HypixelPartyInviteEvent;
+import cc.hyperium.event.InvokeEvent;
+import cc.hyperium.event.KeypressEvent;
+import cc.hyperium.event.RenderHUDEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
@@ -30,7 +34,7 @@ import java.util.Queue;
 import java.util.function.Consumer;
 
 public class ConfirmationPopup {
-    private Queue<Confirmation> confirmations = new LinkedList<>();
+    private final Queue<Confirmation> confirmations = new LinkedList<>();
     private Confirmation currentConfirmation;
     private String acceptFrom = "";
 
@@ -87,10 +91,10 @@ public class ConfirmationPopup {
 
     class Confirmation {
         private long framesLeft;
-        private String text;
-        private Consumer<Boolean> callback;
-        private long upperThreshold;
-        private long lowerThreshold;
+        private final String text;
+        private final Consumer<Boolean> callback;
+        private final long upperThreshold;
+        private final long lowerThreshold;
         private float percentComplete;
         private long systemTime;
 
@@ -110,7 +114,7 @@ public class ConfirmationPopup {
             if (framesLeft <= 0) {
                 return true;
             }
-            if(text.equalsIgnoreCase("Party request from "+acceptFrom)) {
+            if (text.equalsIgnoreCase("Party request from " + acceptFrom)) {
                 callback.accept(true);
                 return true;
             }

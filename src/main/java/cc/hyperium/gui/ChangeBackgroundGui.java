@@ -16,7 +16,7 @@ import java.net.URLConnection;
 
 public class ChangeBackgroundGui extends GuiScreen {
 
-    private GuiScreen prevGui;
+    private final GuiScreen prevGui;
 
     private GuiTextField downloadUrlField;
     private String statusText = "Enter a URL below to change the background.";
@@ -27,12 +27,11 @@ public class ChangeBackgroundGui extends GuiScreen {
 
     @Override
     public void initGui() {
-        ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
-        downloadUrlField = new GuiTextField(0, Minecraft.getMinecraft().fontRendererObj, sr.getScaledWidth() / 4, sr.getScaledHeight() / 2 - 10, sr.getScaledWidth() / 2, 20);
+        downloadUrlField = new GuiTextField(0, Minecraft.getMinecraft().fontRendererObj, width / 4, height / 2 - 10, width / 2, 20);
         downloadUrlField.setFocused(true);
         downloadUrlField.setMaxStringLength(150);
-        buttonList.add(new GuiButton(1, sr.getScaledWidth() / 2 - 150 / 2, sr.getScaledHeight() / 2 + 20, 150, 15, "Set"));
-        buttonList.add(new GuiButton(2, sr.getScaledWidth() / 2 - 150 / 2, sr.getScaledHeight() / 2 + 40, 150, 15, "Cancel"));
+        buttonList.add(new GuiButton(1, width / 2 - 150 / 2, height / 2 + 20, 150, 15, "Set"));
+        buttonList.add(new GuiButton(2, width / 2 - 150 / 2, height / 2 + 40, 150, 15, "Cancel"));
         super.initGui();
     }
 
@@ -62,12 +61,12 @@ public class ChangeBackgroundGui extends GuiScreen {
     }
 
     private void handleDownload() {
-        if (downloadUrlField.getText().equalsIgnoreCase("")) {
+        if (downloadUrlField.getText().isEmpty()) {
             statusText = "The URL cannot be empty.";
             return;
         }
-        if (!downloadUrlField.getText().endsWith(".png")) {
-            statusText = "That is not a png file.";
+        if (!downloadUrlField.getText().endsWith(".png") || !downloadUrlField.getText().startsWith("http")) {
+            statusText = "Invalid PNG image url";
             return;
         }
         URL url;
@@ -79,6 +78,7 @@ public class ChangeBackgroundGui extends GuiScreen {
             statusText = "Working...";
             url = new URL(downloadUrlField.getText());
             con = url.openConnection();
+            con.addRequestProperty("User-Agent", "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.4; en-US; rv:1.9.2.2) Gecko/20100316 Firefox/3.6.2");
             dis = new DataInputStream(con.getInputStream());
             fileData = new byte[con.getContentLength()];
             for (int q = 0; q < fileData.length; q++) {
@@ -90,13 +90,11 @@ public class ChangeBackgroundGui extends GuiScreen {
             statusText = "Done!";
             Minecraft.getMinecraft().displayGuiScreen(prevGui);
             fos.close();
-        }
-        catch(Exception m) {
+        } catch (Exception m) {
             statusText = "Error whilst downloading.";
-            System.out.println(m);
+            m.printStackTrace();
         }
     }
-
 
 
     @Override
@@ -110,7 +108,7 @@ public class ChangeBackgroundGui extends GuiScreen {
         drawDefaultBackground();
         ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
         drawCenteredString(Minecraft.getMinecraft().fontRendererObj, statusText, sr.getScaledWidth() / 2, sr.getScaledHeight() / 2 - 50, 0xFFFFFF);
-        drawCenteredString(Minecraft.getMinecraft().fontRendererObj,"To make it show select \"custom\" in background settings.", sr.getScaledWidth() / 2, sr.getScaledHeight() / 2 - 30, 0xFFFFFF);
+        drawCenteredString(Minecraft.getMinecraft().fontRendererObj, "To make it show select \"custom\" in background settings.", sr.getScaledWidth() / 2, sr.getScaledHeight() / 2 - 30, 0xFFFFFF);
         downloadUrlField.drawTextBox();
         super.drawScreen(mouseX, mouseY, partialTicks);
     }

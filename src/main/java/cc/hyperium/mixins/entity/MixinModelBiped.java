@@ -29,13 +29,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(ModelBiped.class)
 public class MixinModelBiped {
 
-    @Inject(method = "render", at = @At("HEAD") ,cancellable = true)
-    private void render(Entity entityIn, float limbSwing, float limbSwingAmount, float p_78088_4_, float ageInTicks, float headPitch, float scale, CallbackInfo ci)
-    {
+    @Inject(method = "render", at = @At("HEAD"), cancellable = true)
+    private void render(Entity entityIn, float limbSwing, float limbSwingAmount, float p_78088_4_, float ageInTicks, float headPitch, float scale, CallbackInfo ci) {
         ModelBiped model = (ModelBiped) (Object) this;
         EntityRenderEvent event = new EntityRenderEvent(entityIn, model, limbSwing, limbSwingAmount, p_78088_4_, ageInTicks, headPitch, scale);
         EventBus.INSTANCE.post(event);
-        if(event.isCancelled()) {
+        if (event.isCancelled()) {
             ci.cancel();
         }
     }

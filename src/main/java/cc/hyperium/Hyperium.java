@@ -18,12 +18,22 @@
 package cc.hyperium;
 
 import cc.hyperium.commands.BaseCommand;
-import cc.hyperium.commands.CommandException;
-import cc.hyperium.commands.defaults.*;
+import cc.hyperium.commands.defaults.CommandClearChat;
+import cc.hyperium.commands.defaults.CommandConfigGui;
+import cc.hyperium.commands.defaults.CommandDebug;
+import cc.hyperium.commands.defaults.CommandNameHistory;
+import cc.hyperium.commands.defaults.CommandPlayGame;
+import cc.hyperium.commands.defaults.CommandPrivateMessage;
+import cc.hyperium.commands.defaults.CommandUpdate;
 import cc.hyperium.config.DefaultConfig;
 import cc.hyperium.cosmetics.HyperiumCosmetics;
 import cc.hyperium.cosmetics.WingCosmetic;
-import cc.hyperium.event.*;
+import cc.hyperium.event.EventBus;
+import cc.hyperium.event.GameShutDownEvent;
+import cc.hyperium.event.InitializationEvent;
+import cc.hyperium.event.InvokeEvent;
+import cc.hyperium.event.PreInitializationEvent;
+import cc.hyperium.event.Priority;
 import cc.hyperium.event.minigames.MinigameListener;
 import cc.hyperium.gui.BlurDisableFallback;
 import cc.hyperium.gui.ConfirmationPopup;
@@ -80,7 +90,7 @@ public class Hyperium {
     /**
      * The Hyperium configuration folder
      */
-    public static File folder = new File("hyperium");
+    public static final File folder = new File("hyperium");
 
     /**
      * Instance of default CONFIG
@@ -91,10 +101,9 @@ public class Hyperium {
     private final GeneralStatisticsTracking statTrack = new GeneralStatisticsTracking();
     private final NotificationCenter notification = new NotificationCenter();
     private PerspectiveModifierContainer perspective;
-    private RichPresenceManager richPresenceManager = new RichPresenceManager();
+    private final RichPresenceManager richPresenceManager = new RichPresenceManager();
     private ConfirmationPopup confirmation = new ConfirmationPopup();
     private HyperiumCosmetics cosmetics;
-    private TrayManager trayManager;
     private HyperiumHandlers handlers;
     private HyperiumModIntegration modIntegration;
 
@@ -163,7 +172,7 @@ public class Hyperium {
         LOGGER.info("Hyperium Started!");
         Display.setTitle("Hyperium " + Metadata.getVersion());
 
-        trayManager = new TrayManager();
+        TrayManager trayManager = new TrayManager();
 
         SplashProgress.PROGRESS = 8;
         SplashProgress.CURRENT = "Initializing tray icon";
@@ -237,7 +246,7 @@ public class Hyperium {
                         }
 
                         @Override
-                        public void onExecute(String[] args) throws CommandException {
+                        public void onExecute(String[] args) {
                             StringBuilder builder = new StringBuilder();
                             Iterator<String> iterator = Arrays.stream(args).iterator();
                             while (iterator.hasNext()) {

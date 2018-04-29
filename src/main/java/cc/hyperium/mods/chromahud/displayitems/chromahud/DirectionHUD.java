@@ -18,7 +18,6 @@
 package cc.hyperium.mods.chromahud.displayitems.chromahud;
 
 import cc.hyperium.mods.chromahud.ElementRenderer;
-import cc.hyperium.mods.chromahud.api.Dimension;
 import cc.hyperium.mods.chromahud.api.DisplayItem;
 import cc.hyperium.utils.JsonHolder;
 import net.minecraft.client.Minecraft;
@@ -55,7 +54,7 @@ public class DirectionHUD extends DisplayItem {
                     direction += 8;
 
                 list.add(dir[direction]);
-            } catch (Exception e) {
+            } catch (Exception ignored) {
 
             }
         }

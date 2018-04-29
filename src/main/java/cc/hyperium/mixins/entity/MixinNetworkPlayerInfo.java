@@ -20,14 +20,11 @@ package cc.hyperium.mixins.entity;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.PlayerGetCapeEvent;
 import cc.hyperium.event.PlayerGetSkinEvent;
-
 import com.mojang.authlib.GameProfile;
-
 import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.client.resources.DefaultPlayerSkin;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
-
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
@@ -35,16 +32,18 @@ import org.spongepowered.asm.mixin.Shadow;
 
 @Mixin(NetworkPlayerInfo.class)
 public abstract class MixinNetworkPlayerInfo {
-    
+
     @Shadow
     @Final
     private GameProfile gameProfile;
-    
-    @Shadow private ResourceLocation locationSkin;
-    @Shadow private ResourceLocation locationCape;
-    
+
+    @Shadow
+    private ResourceLocation locationSkin;
+    @Shadow
+    private ResourceLocation locationCape;
+
     private EntityPlayer thePlayer;
-    
+
     /**
      * Allow for better cape customization
      *
@@ -57,7 +56,7 @@ public abstract class MixinNetworkPlayerInfo {
         if (cape == null) {
             this.loadPlayerTextures();
         }
-        
+
         PlayerGetCapeEvent event = new PlayerGetCapeEvent(this.gameProfile, cape);
 
         EventBus.INSTANCE.post(event);
@@ -66,7 +65,7 @@ public abstract class MixinNetworkPlayerInfo {
 
         return this.locationCape = cape;
     }
-    
+
     /**
      * Allow for better skin customization
      *
@@ -75,7 +74,7 @@ public abstract class MixinNetworkPlayerInfo {
     @Overwrite
     public ResourceLocation getLocationSkin() {
         ResourceLocation skin = this.locationSkin;
-        
+
         if (skin == null) {
             this.loadPlayerTextures();
         }
@@ -88,10 +87,11 @@ public abstract class MixinNetworkPlayerInfo {
 
         return this.locationSkin = normalizeSkin(skin);
     }
-    
+
     private ResourceLocation normalizeSkin(ResourceLocation skin) {
         return (skin != null ? skin : DefaultPlayerSkin.getDefaultSkin(this.gameProfile.getId()));
     }
-    
-    @Shadow protected abstract void loadPlayerTextures();
+
+    @Shadow
+    protected abstract void loadPlayerTextures();
 }

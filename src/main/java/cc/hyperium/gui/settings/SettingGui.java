@@ -30,14 +30,14 @@ import java.util.ConcurrentModificationException;
 import java.util.List;
 
 public class SettingGui extends HyperiumGui {
-    protected List<SettingItem> settingItems = new ArrayList<>();
+    protected final List<SettingItem> settingItems = new ArrayList<>();
     private int offset = 0;
-    private HyperiumFontRenderer fontRendererObj = Fonts.ARIAL.getTrueTypeFont();
-    private String name;
-    private HyperiumGui previous;
+    private final HyperiumFontRenderer fontRendererObj = Fonts.ARIAL.getTrueTypeFont();
+    private final String name;
+    private final HyperiumGui previous;
     private int currentID = 0;
 
-    private int animation = (height / 5) * 3;
+    private final int animation = (height / 5) * 3;
 
     public SettingGui(String name, HyperiumGui previous) {
         this.name = name;

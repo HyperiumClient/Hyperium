@@ -32,7 +32,11 @@ import cc.hyperium.utils.BetterJsonObject;
 import cc.hyperium.utils.ChatColor;
 import com.google.gson.JsonObject;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.*;
+import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiChat;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
@@ -58,19 +62,22 @@ import java.net.URL;
 public class SpotifyControls extends AbstractMod {
     public static SpotifyControls instance;
 
-    private int x = 0, y = 0, width = 150, height = 50;
-    private Color bg = new Color(30, 30, 30, 255);
-    private Color progress = new Color(54, 54, 54);
-    private Color highlight = new Color(149, 201, 144);
-    private Color white = Color.WHITE;
-    private Metadata metadata;
+    private int x = 0;
+    private int y = 0;
+    private final int width = 150;
+    private final int height = 50;
+    private final Color bg = new Color(30, 30, 30, 255);
+    private final Color progress = new Color(54, 54, 54);
+    private final Color highlight = new Color(149, 201, 144);
+    private final Color white = Color.WHITE;
+    private final Metadata metadata;
     private long current = 0;
     private long cachedTime = 0;
     private long systemTime = 0;
     private DynamicTexture pause, play, art;
     private String currentURI = "";
     private BufferedImage imageToGenerate;
-    private File configFile;
+    private final File configFile;
 
     public SpotifyControls() {
         instance = this;
@@ -121,12 +128,12 @@ public class SpotifyControls extends AbstractMod {
         return x;
     }
 
-    public int getY() {
-        return y;
-    }
-
     public void setX(int x) {
         this.x = x;
+    }
+
+    public int getY() {
+        return y;
     }
 
     public void setY(int y) {

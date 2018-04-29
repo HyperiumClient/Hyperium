@@ -18,13 +18,11 @@
 package cc.hyperium.mixins.gui;
 
 import cc.hyperium.gui.settings.items.GeneralSetting;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiPlayerTabOverlay;
 import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.client.renderer.GlStateManager;
-
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
@@ -32,9 +30,11 @@ import org.spongepowered.asm.mixin.Shadow;
 
 @Mixin(GuiPlayerTabOverlay.class)
 public class MixinGuiPlayerTabOverlay extends Gui {
-    
-    @Shadow @Final private Minecraft mc;
-    
+
+    @Shadow
+    @Final
+    private Minecraft mc;
+
     /**
      * Allows the user to use numbered ping if they wish
      *
@@ -43,10 +43,10 @@ public class MixinGuiPlayerTabOverlay extends Gui {
     @Overwrite
     protected void drawPing(int p_175245_1_, int p_175245_2_, int yIn, NetworkPlayerInfo networkPlayerInfoIn) {
         final int ping = networkPlayerInfoIn.getResponseTime();
-        
+
         if (GeneralSetting.numberPingEnabled) {
             int colour;
-            
+
             if (ping > 500) {
                 colour = 11141120;
             } else if (ping > 300) {
@@ -62,7 +62,7 @@ public class MixinGuiPlayerTabOverlay extends Gui {
             } else {
                 colour = 11141120;
             }
-            
+
             if (ping >= 0 && ping < 10000) {
                 GlStateManager.pushMatrix();
                 GlStateManager.scale(0.5f, 0.5f, 0.5f);
@@ -74,12 +74,12 @@ public class MixinGuiPlayerTabOverlay extends Gui {
             }
             return;
         }
-    
+
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         this.mc.getTextureManager().bindTexture(icons);
         int i = 0;
         int j = 0;
-        
+
         if (ping < 0) {
             j = 5;
         } else if (ping < 150) {
@@ -93,7 +93,7 @@ public class MixinGuiPlayerTabOverlay extends Gui {
         } else {
             j = 4;
         }
-        
+
         this.zLevel += 100.0F;
         drawTexturedModalRect(p_175245_2_ + p_175245_1_ - 11, yIn, i * 10, 176 + j * 8, 10, 8);
         this.zLevel -= 100.0F;

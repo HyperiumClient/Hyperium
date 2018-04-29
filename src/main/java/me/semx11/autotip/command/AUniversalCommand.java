@@ -19,7 +19,6 @@ package me.semx11.autotip.command;
 
 import me.semx11.autotip.Autotip;
 import net.minecraft.command.CommandBase;
-import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
@@ -37,8 +36,7 @@ public abstract class AUniversalCommand extends CommandBase {
 
     // Minecraft 1.9 | 1.9.4 | 1.10 | 1.10.2 | 1.11 | 1.11.2
     // func_184881_a
-    public void func_184881_a(MinecraftServer server, ICommandSender sender, String[] args)
-            throws CommandException {
+    public void func_184881_a(MinecraftServer server, ICommandSender sender, String[] args) {
         Autotip.THREAD_POOL.submit(() -> onCommand(sender, args));
     }
 

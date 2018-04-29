@@ -19,12 +19,8 @@ package cc.hyperium.commands.defaults;
 
 
 import cc.hyperium.commands.BaseCommand;
-import cc.hyperium.commands.CommandException;
 import cc.hyperium.gui.games.HyperiumGuiGames;
 import net.minecraft.client.gui.GuiNewChat;
-
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * A simple command to clear your chat history & sent commands,
@@ -38,12 +34,12 @@ public class CommandPlayGame implements BaseCommand {
     public String getName() {
         return "playgame";
     }
-    
+
     @Override
     public String getUsage() {
-        return null;
+        return "/playgame";
     }
-    
+
     @Override
     public void onExecute(String[] args) {
         new HyperiumGuiGames().show();

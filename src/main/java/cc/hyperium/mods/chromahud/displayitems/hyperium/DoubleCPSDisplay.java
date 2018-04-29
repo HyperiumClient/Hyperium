@@ -11,7 +11,7 @@ import java.util.List;
 
 public class DoubleCPSDisplay extends DisplayItem {
 
-    private FontRenderer fr = Minecraft.getMinecraft().fontRendererObj;
+    private final FontRenderer fr = Minecraft.getMinecraft().fontRendererObj;
 
     public DoubleCPSDisplay(JsonHolder data, int ordinal) {
         super(data, ordinal);

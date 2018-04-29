@@ -19,7 +19,13 @@ package cc.hyperium.handlers.handlers;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.config.ConfigOpt;
-import cc.hyperium.event.*;
+import cc.hyperium.event.ChatEvent;
+import cc.hyperium.event.EventBus;
+import cc.hyperium.event.InvokeEvent;
+import cc.hyperium.event.JoinMinigameEvent;
+import cc.hyperium.event.ServerSwitchEvent;
+import cc.hyperium.event.SpawnpointChangeEvent;
+import cc.hyperium.event.TickEvent;
 import cc.hyperium.event.minigames.Minigame;
 import cc.hyperium.handlers.HyperiumHandlers;
 import cc.hyperium.netty.NettyClient;
@@ -35,7 +41,7 @@ public class LocationHandler {
 
     @ConfigOpt
     private String location = "";
-    private Pattern whereami = Pattern.compile("You are currently connected to server (?<server>.+)");
+    private final Pattern whereami = Pattern.compile("You are currently connected to server (?<server>.+)");
     private boolean sendingWhereAmI = false;
     private long ticksInWorld = 0;
 
@@ -87,7 +93,7 @@ public class LocationHandler {
     public void miniGameJoin(JoinMinigameEvent event) {
         if (event.getMinigame() == Minigame.HOUSING) {
             NettyClient.getClient().write(UpdateLocationPacket.build(Minigame.HOUSING.name()));
-            if (Hyperium.INSTANCE.getHandlers().getFlipHandler().getSelf() !=0)
+            if (Hyperium.INSTANCE.getHandlers().getFlipHandler().getSelf() != 0)
                 NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("type", "flip_update").put("flip_state", 2)));
 
         }

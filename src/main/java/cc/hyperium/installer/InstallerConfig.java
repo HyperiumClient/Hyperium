@@ -107,7 +107,7 @@ class InstallerConfig extends JFrame {
         wam.setForeground(Color.WHITE);
         wam.addChangeListener(e -> wamTxt.setText("Ram to allocate (" + wam.getValue() + "GB)"));
         wam.setUI(new BasicSliderUI(wam) {
-            private Stroke s = new BasicStroke(1f);
+            private final Stroke s = new BasicStroke(1f);
 
             @Override
             public void paintTrack(Graphics g) {
@@ -174,7 +174,7 @@ class InstallerConfig extends JFrame {
         UIManager.put("ScrollBar.width", 10);
         components.getVerticalScrollBar().setUI(new MetalScrollBarUI() {
 
-            protected JButton zero() {
+            JButton zero() {
                 JButton b = new JButton();
                 Dimension d = new Dimension(0, 0);
                 b.setPreferredSize(d);

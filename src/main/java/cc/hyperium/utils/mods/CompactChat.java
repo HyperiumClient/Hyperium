@@ -17,23 +17,30 @@
 
 package cc.hyperium.utils.mods;
 
-import cc.hyperium.gui.settings.items.GeneralSetting;
-import cc.hyperium.utils.ChatColor;
 import cc.hyperium.event.ChatEvent;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.Priority;
+import cc.hyperium.gui.settings.items.GeneralSetting;
+import cc.hyperium.utils.ChatColor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiNewChat;
 
 public class CompactChat {
-    
+
     private static CompactChat instance;
-    
+
     private String lastMessage = "";
-    
+
     private int line = 0;
     private int amount = 0;
-    
+
+    public static CompactChat getInstance() {
+        if (instance == null) {
+            instance = new CompactChat();
+        }
+        return instance;
+    }
+
     @InvokeEvent(priority = Priority.LOW)
     public void onChat(ChatEvent event) {
         if (GeneralSetting.compactChatEnabled && !event.isCancelled()) {
@@ -57,12 +64,5 @@ public class CompactChat {
             event.setCancelled(true);
         }
     }
-    
-    public static CompactChat getInstance() {
-        if (instance == null) {
-            instance = new CompactChat();
-        }
-        return instance;
-    }
-    
+
 }

@@ -30,13 +30,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(SoundManager.class)
 public class MixinSoundManager {
-    
+
     /**
      * Sound will not play unless the window is active while the out of
      * focus sounds option is disabled
      *
      * @param sound the sound
-     * @param ci callback
+     * @param ci    callback
      */
     @Inject(
             method = "playSound",

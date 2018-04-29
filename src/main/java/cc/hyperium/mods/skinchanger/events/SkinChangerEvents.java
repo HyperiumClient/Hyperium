@@ -22,7 +22,6 @@ import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.PlayerGetCapeEvent;
 import cc.hyperium.event.PlayerGetSkinEvent;
 import cc.hyperium.mods.skinchanger.SkinChangerMod;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IImageBuffer;
 import net.minecraft.client.renderer.ImageBufferDownload;
@@ -41,29 +40,29 @@ import java.util.UUID;
  * and capes from certain websites
  */
 public class SkinChangerEvents {
-    
+
     private final Minecraft mc = Minecraft.getMinecraft();
     private final SkinChangerMod mod;
-    
+
     public SkinChangerEvents(SkinChangerMod theMod) {
         this.mod = theMod;
     }
-    
+
     @InvokeEvent
     public void onGetSkin(PlayerGetSkinEvent event) {
         if (this.mc.thePlayer != null && this.mod.getConfig().getSkinName()
-            .equalsIgnoreCase(this.mc.thePlayer.getName())) {
+                .equalsIgnoreCase(this.mc.thePlayer.getName())) {
             return;
         }
-        
+
         if (this.mc.thePlayer != null && event.getProfile().getName()
-            .equalsIgnoreCase(this.mc.thePlayer.getName())) {
+                .equalsIgnoreCase(this.mc.thePlayer.getName())) {
             this.mc.addScheduledTask(() -> {
                 String name = this.mod.getConfig().getSkinName();
-                
+
                 if (name != null && !name.isEmpty()) {
                     ResourceLocation loc = getSkin(name);
-                    
+
                     if (loc != null) {
                         event.setSkin(loc);
                     }
@@ -71,22 +70,22 @@ public class SkinChangerEvents {
             });
         }
     }
-    
+
     @InvokeEvent
     public void onGetCape(PlayerGetCapeEvent event) {
         if (!this.mod.getConfig().isUsingCape()) {
             return;
         }
-        
+
         if (this.mc.thePlayer != null && event.getProfile().getName()
-            .equalsIgnoreCase(this.mc.thePlayer.getName())) {
+                .equalsIgnoreCase(this.mc.thePlayer.getName())) {
             this.mc.addScheduledTask(() -> {
-                
+
                 String name = this.mod.getConfig().getOfCapeName();
-                
+
                 if (name != null && !name.isEmpty()) {
                     ResourceLocation loc = getOfCape(name);
-                    
+
                     if (loc != null) {
                         event.setCape(loc);
                     }
@@ -94,30 +93,30 @@ public class SkinChangerEvents {
             });
         }
     }
-    
+
     private ResourceLocation getSkin(String name) {
         if (name != null && !name.isEmpty()) {
             final ResourceLocation location = new ResourceLocation("skins/" + name);
-            
+
             File file1 = new File(new File(Hyperium.folder, "skins"),
-                UUID.nameUUIDFromBytes(name.getBytes()).toString().substring(0, 2));
+                    UUID.nameUUIDFromBytes(name.getBytes()).toString().substring(0, 2));
             File file2 = new File(file1,
-                UUID.nameUUIDFromBytes(name.getBytes()).toString() + ".png");
-            
+                    UUID.nameUUIDFromBytes(name.getBytes()).toString() + ".png");
+
             // Rely on the skin cache to work its magic
             if (!file2.exists()) {
                 return null;
             }
-            
+
             final IImageBuffer imageBuffer = new ImageBufferDownload();
             ThreadDownloadImageData imageData = new ThreadDownloadImageData(file2,
-                String.format("https://minotar.net/skin/%s", name),
-                DefaultPlayerSkin.getDefaultSkinLegacy(), new IImageBuffer() {
+                    String.format("https://minotar.net/skin/%s", name),
+                    DefaultPlayerSkin.getDefaultSkinLegacy(), new IImageBuffer() {
                 @Override
                 public BufferedImage parseUserSkin(BufferedImage image) {
                     return imageBuffer.parseUserSkin(image);
                 }
-                
+
                 @Override
                 public void skinAvailable() {
                     imageBuffer.skinAvailable();
@@ -129,51 +128,51 @@ public class SkinChangerEvents {
             return null;
         }
     }
-    
+
     private ResourceLocation getOfCape(String name) {
         if (name != null && !name.isEmpty()) {
             final String url = "http://s.optifine.net/capes/" + name + ".png";
-            
+
             final String id = UUID.nameUUIDFromBytes(name.getBytes()).toString();
-            
+
             final ResourceLocation rl = new ResourceLocation("ofcape/" + id);
-            
+
             File file1 = new File(new File(Hyperium.folder, "ofcape"), id);
             File file2 = new File(file1, id + ".png");
-            
+
             // Rely on the cache
             if (!file2.exists()) {
                 return null;
             }
-            
+
             TextureManager textureManager = Minecraft.getMinecraft().getTextureManager();
-            
+
             IImageBuffer imageBuffer = new IImageBuffer() {
                 @Override
                 public BufferedImage parseUserSkin(BufferedImage img) {
                     int imageWidth = 64;
                     int imageHeight = 32;
                     int srcWidth = img.getWidth();
-                    
+
                     for (int srcHeight = img.getHeight();
-                        imageWidth < srcWidth || imageHeight < srcHeight; imageHeight *= 2) {
+                         imageWidth < srcWidth || imageHeight < srcHeight; imageHeight *= 2) {
                         imageWidth *= 2;
                     }
-                    
+
                     BufferedImage imgNew = new BufferedImage(imageWidth, imageHeight, 2);
                     Graphics g = imgNew.getGraphics();
                     g.drawImage(img, 0, 0, null);
                     g.dispose();
                     return imgNew;
                 }
-                
+
                 @Override
                 public void skinAvailable() {
                 }
             };
             textureManager
-                .loadTexture(rl, new ThreadDownloadImageData(file2, url, null, imageBuffer));
-            
+                    .loadTexture(rl, new ThreadDownloadImageData(file2, url, null, imageBuffer));
+
             return rl;
         } else {
             return null;

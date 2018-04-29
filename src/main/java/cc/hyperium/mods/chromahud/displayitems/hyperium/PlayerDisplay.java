@@ -19,6 +19,6 @@ public class PlayerDisplay extends DisplayItem {
     @Override
     public void draw(int x, double y, boolean config) {
         GlStateManager.translate(x, y, 0);
-        GuiInventory.drawEntityOnScreen(0,0, 30, 0, 0, Minecraft.getMinecraft().thePlayer);
+        GuiInventory.drawEntityOnScreen(0, 0, 30, 0, 0, Minecraft.getMinecraft().thePlayer);
     }
 }

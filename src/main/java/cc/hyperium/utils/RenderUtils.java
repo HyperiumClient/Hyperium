@@ -190,7 +190,7 @@ public class RenderUtils {
                 color.getAlpha() / 255.0F);
     }
 
-    public static final void drawLine(float x, float y, float x1, float y1, float width, int colour) {
+    public static void drawLine(float x, float y, float x1, float y1, float width, int colour) {
         float red = (float) (colour >> 16 & 0xFF) / 255F;
         float green = (float) (colour >> 8 & 0xFF) / 255F;
         float blue = (float) (colour & 0xFF) / 255F;

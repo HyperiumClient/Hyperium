@@ -34,7 +34,7 @@ import java.util.List;
  * Created by Mitchell Katz on 5/29/2017.
  */
 public class ArmourHud extends DisplayItem {
-    List<ItemStack> list = new ArrayList<>();
+    private List<ItemStack> list = new ArrayList<>();
     private int ordinal;
     private boolean dur = false;
     private boolean hand = false;

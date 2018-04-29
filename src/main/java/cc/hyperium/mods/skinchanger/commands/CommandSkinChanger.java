@@ -18,31 +18,30 @@
 package cc.hyperium.mods.skinchanger.commands;
 
 import cc.hyperium.commands.BaseCommand;
-import cc.hyperium.commands.CommandException;
 import cc.hyperium.mods.skinchanger.SkinChangerMod;
 import cc.hyperium.mods.skinchanger.gui.SkinChangerGui;
 import cc.hyperium.utils.ChatColor;
 
 public class CommandSkinChanger implements BaseCommand {
-    
-    private SkinChangerMod mod;
-    
+
+    private final SkinChangerMod mod;
+
     public CommandSkinChanger(SkinChangerMod theMod) {
         this.mod = theMod;
     }
-    
+
     @Override
     public String getName() {
         return "skinchanger";
     }
-    
+
     @Override
     public String getUsage() {
         return ChatColor.RED + "Usage: /" + getName();
     }
-    
+
     @Override
-    public void onExecute(String[] args) throws CommandException {
+    public void onExecute(String[] args) {
         new SkinChangerGui(this.mod).display();
     }
 }

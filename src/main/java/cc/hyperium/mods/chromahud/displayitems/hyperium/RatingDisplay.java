@@ -28,7 +28,7 @@ import java.util.Locale;
 
 public class RatingDisplay extends DisplayItem {
     private static final NumberFormat format = NumberFormat.getNumberInstance(Locale.US);
-    public boolean delta;
+    public final boolean delta;
 
     public RatingDisplay(JsonHolder data, int ordinal) {
         super(data, ordinal);

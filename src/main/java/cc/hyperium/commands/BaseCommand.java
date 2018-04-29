@@ -37,7 +37,7 @@ public interface BaseCommand {
 
     /**
      * A list of aliases to the main command
-     *      this will not be used if null/empty
+     * this will not be used if null/empty
      */
     default List<String> getCommandAliases() {
         return new ArrayList<>();
@@ -47,11 +47,11 @@ public interface BaseCommand {
      * Callback when the command is invoked
      *
      * @throws CommandException for errors inside the command, these errors
-     * will log directly to the players chat (without a prefix)
+     *                          will log directly to the players chat (without a prefix)
      */
     void onExecute(String[] args) throws CommandException;
 
-	default List<String> onTabComplete(String[] args) {
-		return null;
-	}
+    default List<String> onTabComplete(String[] args) {
+        return null;
+    }
 }

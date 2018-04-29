@@ -184,7 +184,7 @@ public class DabCounter extends DisplayItem {
 
     @Override
     public void draw(int x, double y, boolean config) {
-        String s = "Dabs: "+ Hyperium.INSTANCE.getHandlers().getDabHandler().getDabs();
+        String s = "Dabs: " + Hyperium.INSTANCE.getHandlers().getDabHandler().getDabs();
         this.width = ElementRenderer.getFontRenderer().getStringWidth(s);
         ElementRenderer.draw(x, y, s);
     }

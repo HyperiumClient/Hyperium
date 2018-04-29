@@ -18,11 +18,15 @@
 package cc.hyperium.handlers.handlers.privatemessages;
 
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class PrivateMessageHandler {
 
-    private HashMap<String, PrivateMessageChat> chats = new HashMap<>();
+    private final Map<String, PrivateMessageChat> chats = new HashMap<>();
 
     public PrivateMessageChat getChat(String with) {
         return chats.computeIfAbsent(with.toLowerCase(), tmp -> new PrivateMessageChat(with));

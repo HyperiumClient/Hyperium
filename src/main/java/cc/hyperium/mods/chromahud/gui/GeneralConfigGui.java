@@ -41,18 +41,18 @@ import java.awt.*;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Consumer;
 
 /**
  * @author Sk1er
  */
 public class GeneralConfigGui extends GuiScreen {
-    private ChromaHUD mod;
+    private final ChromaHUD mod;
     private boolean mouseDown;
     private DisplayElement currentElement;
     private GuiButton edit;
-    private HashMap<GuiButton, Consumer<GuiButton>> clicks = new HashMap<>();
-    private boolean mouseLock;
+    private final Map<GuiButton, Consumer<GuiButton>> clicks = new HashMap<>();
     private double lastX;
     private double lastY;
     private boolean lastD = false;
@@ -61,7 +61,7 @@ public class GeneralConfigGui extends GuiScreen {
 
     public GeneralConfigGui(ChromaHUD mod) {
         this.mod = mod;
-        mouseLock = Mouse.isButtonDown(0);
+        boolean mouseLock = Mouse.isButtonDown(0);
     }
 
     private void reg(GuiButton button, Consumer<GuiButton> consumer) {
@@ -72,7 +72,7 @@ public class GeneralConfigGui extends GuiScreen {
     @Override
     public void initGui() {
         super.initGui();
-        reg((edit = new GuiButtonIcon(1, new ResourceLocation("textures/chromahud/iconsheet.png"),5, 0, 1, .4f) ), button -> {
+        reg((edit = new GuiButtonIcon(1, new ResourceLocation("textures/chromahud/iconsheet.png"), 5, 0, 1, .4f)), button -> {
             //Open Gui for editing element
             if (currentElement != null) {
                 Minecraft.getMinecraft().displayGuiScreen(new DisplayElementConfig(currentElement, mod));
@@ -105,7 +105,7 @@ public class GeneralConfigGui extends GuiScreen {
             if (this.currentElement != null && this.currentElement == element) {
                 continue;
             }
-            
+
             ElementRenderer.startDrawing(element);
             try {
                 element.drawForConfig();
@@ -118,10 +118,10 @@ public class GeneralConfigGui extends GuiScreen {
             boolean cbHud = currentElement.getDisplayItems().stream().anyMatch(i -> i.getType().contains("CB"));
             ScaledResolution resolution = new ScaledResolution(Minecraft.getMinecraft());
             double offset = currentElement.isRightSided() ? currentElement.getDimensions().getWidth() : 0;
-    
+
             // Left top right bottom
-            double x1 = currentElement.getXloc() * resolution.getScaledWidth_double()-offset;
-            double x2 = currentElement.getXloc() * resolution.getScaledWidth_double() + (cbHud ? 60 : currentElement.getDimensions().getWidth())-offset;
+            double x1 = currentElement.getXloc() * resolution.getScaledWidth_double() - offset;
+            double x2 = currentElement.getXloc() * resolution.getScaledWidth_double() + (cbHud ? 60 : currentElement.getDimensions().getWidth()) - offset;
             double y1 = currentElement.getYloc() * resolution.getScaledHeight_double();
             double y2 = currentElement.getYloc() * resolution.getScaledHeight_double() + currentElement.getDimensions().getHeight();
 
@@ -129,17 +129,17 @@ public class GeneralConfigGui extends GuiScreen {
             if (this.currentElement.isSelected()) {
                 HyperiumGui.drawChromaBox((int) x1 - 2, (int) y1 - 2, (int) x2 + 2, (int) y2 - 2, 0.2F);
             }
-            
+
             ElementRenderer.startDrawing(currentElement);
-            
+
             // Draw the element after the background
             this.currentElement.drawForConfig();
-            
+
             ElementRenderer.endDrawing(currentElement);
-            
+
             // Turns the edit image on
             this.edit.visible = true;
-            
+
             int propX = (int) x1 - 5;
             int propY = (int) y1 - 20;
             if (propX < 10 || propX > resolution.getScaledWidth() - 200) {
@@ -150,7 +150,7 @@ public class GeneralConfigGui extends GuiScreen {
             edit.xPosition = propX;
             edit.yPosition = propY;
             // moving the thing
-            if(Mouse.isButtonDown(0)){
+            if (Mouse.isButtonDown(0)) {
                 if (mouseX > x1 - 2 && mouseX < x2 + 2 && mouseY > y1 - 2 && mouseY < y2 + 2 || lastD) {
                     //inside
                     double x3 = Mouse.getX() / ResolutionUtil.current().getScaledWidth_double();
@@ -176,16 +176,16 @@ public class GeneralConfigGui extends GuiScreen {
                         currentElement.setYloc((resolution.getScaledHeight_double() - currentElement.getDimensions().getHeight()) / resolution.getScaledHeight_double());
                     }
                     lastD = true;
-                }else lastD = false;
-            }else lastD = false;
+                } else lastD = false;
+            } else lastD = false;
         } else {
             this.edit.visible = false;
         }
         lastX = Mouse.getX() / ResolutionUtil.current().getScaledWidth_double();
         lastY = Mouse.getY() / ResolutionUtil.current().getScaledHeight_double();
-        if(dTick <= 0 && pastClick)
+        if (dTick <= 0 && pastClick)
             pastClick = false;
-        if(pastClick)
+        if (pastClick)
             dTick--;
     }
 
@@ -244,19 +244,19 @@ public class GeneralConfigGui extends GuiScreen {
                         && clickX < displayXLoc + dimension.getWidth()
                         && clickY < displayYLoc
                         && clickY > displayYLoc - dimension.getHeight()) {
-                    
+
                     // Open gui
                     if (currentElement != null && currentElement == element && pastClick) {
                         // Safely nuke the fields and deactivate the chroma effect
                         element.setSelected(false);
                         this.currentElement = null;
-    
+
                         this.mc.getSoundHandler().playSound(PositionedSoundRecord
-                            .create(new ResourceLocation("gui.button.press"), 1.0F));
+                                .create(new ResourceLocation("gui.button.press"), 1.0F));
                         Minecraft.getMinecraft().displayGuiScreen(new DisplayElementConfig(element, mod));
                         return;
                     }
-                    
+
                     this.currentElement = element;
                     element.setSelected(true);
                     found = true;
@@ -271,14 +271,14 @@ public class GeneralConfigGui extends GuiScreen {
             }
         }
         mouseDown = Mouse.isButtonDown(0);
-        if(mouseDown) {
+        if (mouseDown) {
             pastClick = true;
             dTick = 5;
         }
     }
 
     @Override
-    protected void actionPerformed(GuiButton button) throws IOException {
+    protected void actionPerformed(GuiButton button) {
         Consumer<GuiButton> guiButtonConsumer = clicks.get(button);
         if (guiButtonConsumer != null) {
             guiButtonConsumer.accept(button);
@@ -291,11 +291,11 @@ public class GeneralConfigGui extends GuiScreen {
         super.onGuiClosed();
         mod.saveState();
     }
-    
+
     public void display() {
         EventBus.INSTANCE.register(this);
     }
-    
+
     @InvokeEvent
     public void tick(TickEvent e) {
         EventBus.INSTANCE.unregister(this);

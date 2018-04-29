@@ -34,14 +34,14 @@ import java.util.concurrent.TimeUnit;
 public class MixinProfiler {
 
 
+    @Shadow
+    @Final
+    private final List<Long> timestampList = Lists.newArrayList();
     /**
      * Flag profiling enabled
      */
     @Shadow
     public boolean profilingEnabled;
-    @Shadow
-    @Final
-    private final List<Long> timestampList = Lists.<Long>newArrayList();
     /**
      * Current profiling section
      */
@@ -54,7 +54,7 @@ public class MixinProfiler {
             long i = System.nanoTime();
             long j = this.timestampList.get(this.timestampList.size() - 1);
             long k = i - j;
-           
+
             if (k > TimeUnit.MILLISECONDS.toNanos(20)) {
 //                System.out.println(System.currentTimeMillis() + " Something\'s taking too long! \'" + this.profilingSection + "\' took aprox " + (double) k / 1000000.0D + " ms");
 //                if (Minecraft.getMinecraft().renderGlobal == null) {

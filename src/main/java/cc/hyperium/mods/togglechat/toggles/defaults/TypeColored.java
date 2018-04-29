@@ -39,17 +39,17 @@ public class TypeColored extends ToggleBase {
                 message.startsWith("[RED] ") ||
                 message.startsWith("[WHITE] ") ||
                 message.startsWith("[PURPLE] "
-        );
-    }
-
-    @Override
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
+                );
     }
 
     @Override
     public boolean isEnabled() {
         return this.enabled;
+    }
+
+    @Override
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 
     @Override

@@ -36,16 +36,16 @@ import java.util.Date;
 
 /**
  * Lagless screenshots
+ *
  * @author OrangeMarshall
  */
-public class AsyncScreenshotSaver implements Runnable
-{
-    private int width;
-    private int height;
-    private int[] pixelValues;
-    private Framebuffer frameBuffer;
-    private File screenshotDir;
-    private boolean upload;
+public class AsyncScreenshotSaver implements Runnable {
+    private final int width;
+    private final int height;
+    private final int[] pixelValues;
+    private final Framebuffer frameBuffer;
+    private final File screenshotDir;
+    private final boolean upload;
 
     public AsyncScreenshotSaver(final int width, final int height, final int[] pixelValues, final Framebuffer frameBuffer, final File screenshotDir, final boolean upload) {
         this.width = width;
@@ -54,41 +54,6 @@ public class AsyncScreenshotSaver implements Runnable
         this.frameBuffer = frameBuffer;
         this.screenshotDir = screenshotDir;
         this.upload = upload;
-    }
-
-    @Override
-    public void run() {
-        processPixelValues(this.pixelValues, this.width, this.height);
-        BufferedImage bufferedimage = null;
-        try {
-            if (OpenGlHelper.isFramebufferEnabled()) {
-                bufferedimage = new BufferedImage(this.frameBuffer.framebufferWidth, this.frameBuffer.framebufferHeight, 1);
-                int k;
-                for (int j = k = this.frameBuffer.framebufferTextureHeight - this.frameBuffer.framebufferHeight; k < this.frameBuffer.framebufferTextureHeight; ++k) {
-                    for (int l = 0; l < this.frameBuffer.framebufferWidth; ++l) {
-                        bufferedimage.setRGB(l, k - j, this.pixelValues[k * this.frameBuffer.framebufferTextureWidth + l]);
-                    }
-                }
-            }
-            else {
-                bufferedimage = new BufferedImage(this.width, this.height, 1);
-                bufferedimage.setRGB(0, 0, this.width, this.height, this.pixelValues, 0, this.width);
-            }
-            final File file2 = getTimestampedPNGFileForDirectory(this.screenshotDir);
-            ImageIO.write(bufferedimage, "png", file2);
-            if(!upload) {
-                IChatComponent ichatcomponent = new ChatComponentText(
-                        ChatColor.RED + "[Hyperium] " + ChatColor.WHITE + "Captured to " + ChatColor.UNDERLINE + file2.getName());
-                ichatcomponent.getChatStyle().setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, file2.getCanonicalPath()));
-                Minecraft.getMinecraft().thePlayer.addChatMessage(ichatcomponent);
-            } else {
-                new ImgurUploader("649f2fb48e59767", file2).run();
-            }
-        }
-        catch (Exception exception) {
-            LogManager.getLogger().warn("Couldn't save screenshot", exception);
-            Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentTranslation("screenshot.failure", exception.getMessage()));
-        }
     }
 
     private static File getTimestampedPNGFileForDirectory(final File gameDirectory) {
@@ -111,6 +76,39 @@ public class AsyncScreenshotSaver implements Runnable
             System.arraycopy(p_147953_0_, j * p_147953_1_, aint, 0, p_147953_1_);
             System.arraycopy(p_147953_0_, (p_147953_2_ - 1 - j) * p_147953_1_, p_147953_0_, j * p_147953_1_, p_147953_1_);
             System.arraycopy(aint, 0, p_147953_0_, (p_147953_2_ - 1 - j) * p_147953_1_, p_147953_1_);
+        }
+    }
+
+    @Override
+    public void run() {
+        processPixelValues(this.pixelValues, this.width, this.height);
+        BufferedImage bufferedimage = null;
+        try {
+            if (OpenGlHelper.isFramebufferEnabled()) {
+                bufferedimage = new BufferedImage(this.frameBuffer.framebufferWidth, this.frameBuffer.framebufferHeight, 1);
+                int k;
+                for (int j = k = this.frameBuffer.framebufferTextureHeight - this.frameBuffer.framebufferHeight; k < this.frameBuffer.framebufferTextureHeight; ++k) {
+                    for (int l = 0; l < this.frameBuffer.framebufferWidth; ++l) {
+                        bufferedimage.setRGB(l, k - j, this.pixelValues[k * this.frameBuffer.framebufferTextureWidth + l]);
+                    }
+                }
+            } else {
+                bufferedimage = new BufferedImage(this.width, this.height, 1);
+                bufferedimage.setRGB(0, 0, this.width, this.height, this.pixelValues, 0, this.width);
+            }
+            final File file2 = getTimestampedPNGFileForDirectory(this.screenshotDir);
+            ImageIO.write(bufferedimage, "png", file2);
+            if (!upload) {
+                IChatComponent ichatcomponent = new ChatComponentText(
+                        ChatColor.RED + "[Hyperium] " + ChatColor.WHITE + "Captured to " + ChatColor.UNDERLINE + file2.getName());
+                ichatcomponent.getChatStyle().setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, file2.getCanonicalPath()));
+                Minecraft.getMinecraft().thePlayer.addChatMessage(ichatcomponent);
+            } else {
+                new ImgurUploader("649f2fb48e59767", file2).run();
+            }
+        } catch (Exception exception) {
+            LogManager.getLogger().warn("Couldn't save screenshot", exception);
+            Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentTranslation("screenshot.failure", exception.getMessage()));
         }
     }
 }

@@ -31,7 +31,7 @@ import java.util.Map;
  * @author Sk1er
  */
 public class HyperiumChromaHudParser implements ChromaHUDParser {
-    private HashMap<String, String> names = new HashMap<>();
+    private final Map<String, String> names = new HashMap<>();
 
     public HyperiumChromaHudParser() {
         names.put("LOCATION", "Location");

@@ -17,8 +17,8 @@
 
 package me.semx11.autotip.misc;
 
-import me.semx11.autotip.Autotip;
 import cc.hyperium.utils.ChatColor;
+import me.semx11.autotip.Autotip;
 import me.semx11.autotip.util.ClientMessage;
 
 import java.io.BufferedReader;
@@ -29,7 +29,13 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class Stats {
@@ -112,8 +118,8 @@ public class Stats {
         if (!games.isEmpty()) {
             ClientMessage.separator();
             games.forEach(game -> {
-                int sentCoins = sentStats.containsKey(game) ? sentStats.get(game) : 0;
-                int receivedCoins = receivedStats.containsKey(game) ? receivedStats.get(game) : 0;
+                int sentCoins = sentStats.getOrDefault(game, 0);
+                int receivedCoins = receivedStats.getOrDefault(game, 0);
                 if (sentStats.containsKey(game) || receivedStats.containsKey(game)) {
                     ClientMessage.send(
                             String.format("%s%s: %s%s coins",

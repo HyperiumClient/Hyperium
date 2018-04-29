@@ -20,21 +20,16 @@ package me.semx11.autotip.command;
 import cc.hyperium.commands.BaseCommand;
 import cc.hyperium.commands.CommandException;
 import cc.hyperium.commands.CommandUsageException;
-
-import java.util.Collections;
-import java.util.List;
-
+import cc.hyperium.utils.ChatColor;
 import me.semx11.autotip.Autotip;
 import me.semx11.autotip.event.HypixelListener;
 import me.semx11.autotip.event.Tipper;
 import me.semx11.autotip.misc.StartLogin;
 import me.semx11.autotip.misc.Stats;
 import me.semx11.autotip.misc.TipTracker;
-import cc.hyperium.utils.ChatColor;
 import me.semx11.autotip.util.ClientMessage;
 import me.semx11.autotip.util.FileUtil;
 import me.semx11.autotip.util.Versions;
-
 import org.apache.commons.lang3.StringUtils;
 
 import java.time.DayOfWeek;
@@ -42,6 +37,8 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.Year;
 import java.time.format.DateTimeFormatter;
+import java.util.Collections;
+import java.util.List;
 
 public class AutotipCommand implements BaseCommand {
 
@@ -54,12 +51,12 @@ public class AutotipCommand implements BaseCommand {
     public String getUsage() {
         return ChatColor.RED + "Usage: /autotip <stats, info, messages, toggle, time>";
     }
-    
+
     @Override
     public List<String> getCommandAliases() {
         return Collections.singletonList("at");
     }
-    
+
     @Override
     public void onExecute(String[] args) throws CommandException {
         if (args.length > 0) {

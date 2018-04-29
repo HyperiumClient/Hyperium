@@ -20,7 +20,12 @@ package cc.hyperium.gui;
 import cc.hyperium.Hyperium;
 import cc.hyperium.gui.integrations.HypixelFriendsGui;
 import cc.hyperium.gui.settings.SettingItem;
-import cc.hyperium.gui.settings.items.*;
+import cc.hyperium.gui.settings.items.AnimationSettings;
+import cc.hyperium.gui.settings.items.BackgroundSettings;
+import cc.hyperium.gui.settings.items.CosmeticSettings;
+import cc.hyperium.gui.settings.items.GeneralSetting;
+import cc.hyperium.gui.settings.items.NameHistorySettings;
+import cc.hyperium.gui.settings.items.ToggleChatSettings;
 import cc.hyperium.internal.addons.AddonBootstrap;
 import cc.hyperium.mods.chromahud.ChromaHUD;
 import cc.hyperium.mods.keystrokes.KeystrokesMod;
@@ -39,9 +44,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class ModConfigGui extends HyperiumGui {
     private List<SettingItem> settingItems = new ArrayList<>();
-    private List<Tab> tabs = new ArrayList<>();
+    private final List<Tab> tabs = new ArrayList<>();
     private int offset = 0;
-    private HyperiumFontRenderer fontRenderer = new HyperiumFontRenderer("Arial", Font.PLAIN, 12);
+    private final HyperiumFontRenderer fontRenderer = new HyperiumFontRenderer("Arial", Font.PLAIN, 12);
     private HyperiumFontRenderer mainFontRenderer = new HyperiumFontRenderer("Times New Roman", Font.BOLD, 24);
     private GuiBlock guiblock;
     private GeneralSetting generalSetting;
@@ -322,11 +327,11 @@ public class ModConfigGui extends HyperiumGui {
 
     private class Tab {
         protected boolean selected;
-        private ModConfigGui owningGui;
-        private CustomFontButton button;
-        private int index;
+        private final ModConfigGui owningGui;
+        private final CustomFontButton button;
+        private final int index;
         private float selectPercent;
-        private ArrayList<SettingItem> settings;
+        private final ArrayList<SettingItem> settings;
         private long systemTime = Minecraft.getSystemTime();
 
         public Tab(CustomFontButton button, int index, ModConfigGui owningGui) {

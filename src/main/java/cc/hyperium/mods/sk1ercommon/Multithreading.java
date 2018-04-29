@@ -17,14 +17,19 @@
 
 package cc.hyperium.mods.sk1ercommon;
 
-import java.util.concurrent.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 
 public class Multithreading {
 
-    public static ExecutorService POOL = Executors.newFixedThreadPool(100, new ThreadFactory() {
-        AtomicInteger counter = new AtomicInteger(0);
+    public static final ExecutorService POOL = Executors.newFixedThreadPool(100, new ThreadFactory() {
+        final AtomicInteger counter = new AtomicInteger(0);
 
         @Override
         public Thread newThread(Runnable r) {
@@ -32,8 +37,8 @@ public class Multithreading {
         }
     });
 
-    private static ScheduledExecutorService RUNNABLE_POOL = Executors.newScheduledThreadPool(10, new ThreadFactory() {
-        private AtomicInteger counter = new AtomicInteger(0);
+    private static final ScheduledExecutorService RUNNABLE_POOL = Executors.newScheduledThreadPool(10, new ThreadFactory() {
+        private final AtomicInteger counter = new AtomicInteger(0);
 
         @Override
         public Thread newThread(Runnable r) {

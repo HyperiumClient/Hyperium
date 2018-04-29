@@ -29,15 +29,15 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(Enchantment.class)
 public abstract class MixinEnchantment {
 
-    @Shadow public abstract String getName();
+    @Shadow
+    public abstract String getName();
 
     @Inject(method = "getTranslatedName", at = @At("HEAD"), cancellable = true)
-    private void getTranslatedName(int level, CallbackInfoReturnable<String> ci)
-    {
-        if(!GeneralSetting.romanNumeralsEnabled) {
+    private void getTranslatedName(int level, CallbackInfoReturnable<String> ci) {
+        if (!GeneralSetting.romanNumeralsEnabled) {
             String s = StatCollector.translateToLocal(this.getName());
-        //    String binary = "00000000";
-        //    binary = binary.substring(Integer.toBinaryString(level).length()) + Integer.toBinaryString(level);
+            //    String binary = "00000000";
+            //    binary = binary.substring(Integer.toBinaryString(level).length()) + Integer.toBinaryString(level);
             ci.setReturnValue(s + " " + level);
         }
     }

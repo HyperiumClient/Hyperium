@@ -24,7 +24,7 @@ import java.awt.image.BufferedImage;
 public class HyperiumResource {
 
     private String data;
-    private boolean successfullyLoaded;
+    private final boolean successfullyLoaded;
     private JsonHolder asJson = null;
     private BufferedImage image;
 
@@ -32,6 +32,7 @@ public class HyperiumResource {
         this.data = data;
         this.successfullyLoaded = successfullyLoaded;
     }
+
     //Order switched so null, false won't call just string
     public HyperiumResource(boolean successfullyLoaded, BufferedImage image) {
         this.successfullyLoaded = successfullyLoaded;

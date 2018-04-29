@@ -24,10 +24,10 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 public class GuiButtonIcon extends GuiButton {
-    public int sprite;
-    private ResourceLocation icon;
+    public final int sprite;
+    private final ResourceLocation icon;
     private boolean outline;
-    private float scale;
+    private final float scale;
 
     public GuiButtonIcon(int buttonID, ResourceLocation icon, int xPos, int yPos, int sprite, float scale) {
         super(buttonID, xPos, yPos, 52, 52, "");
@@ -63,7 +63,7 @@ public class GuiButtonIcon extends GuiButton {
             GlStateManager.scale(mag, mag, mag);
             this.drawTexturedModalRect(-width / 2, -height / 2, 52 * sprite, 0, this.width, this.height);
             GlStateManager.scale(1.0F / mag, 1.0F / mag, 1.0F / mag);
-            GlStateManager.color(1.0F,1.0F,1.0F,1.0F);
+            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
             this.drawTexturedModalRect(-width / 2, -height / 2, 52 * sprite, 0, this.width, this.height);
 
             GlStateManager.disableBlend();

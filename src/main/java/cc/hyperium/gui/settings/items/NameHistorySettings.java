@@ -23,13 +23,11 @@ import cc.hyperium.config.DefaultConfig;
 import cc.hyperium.gui.HyperiumGui;
 import cc.hyperium.gui.settings.SettingGui;
 import cc.hyperium.gui.settings.components.SelectionItem;
-import net.minecraft.client.gui.GuiScreen;
 
 public class NameHistorySettings extends SettingGui {
     @ConfigOpt
     public static boolean rgbNamesEnabled = false;
-    private DefaultConfig config;
-    private SelectionItem<String> rgbNames;
+    private final DefaultConfig config;
 
     public NameHistorySettings(HyperiumGui previous) {
         super("NAME HISTORY", previous);
@@ -40,6 +38,7 @@ public class NameHistorySettings extends SettingGui {
     @Override
     protected void pack() {
         super.pack();
+        SelectionItem<String> rgbNames;
         settingItems.add(rgbNames = new SelectionItem<>(0, getX(), getDefaultItemY(0), width - getX() * 2, "RGB NAMES", i -> {
             ((SelectionItem) i).nextItem();
             rgbNamesEnabled = ((SelectionItem) i).getSelectedItem().equals("ON");

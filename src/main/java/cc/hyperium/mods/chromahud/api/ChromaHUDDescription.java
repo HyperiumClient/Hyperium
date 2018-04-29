@@ -21,10 +21,10 @@ package cc.hyperium.mods.chromahud.api;
  * @author Sk1er
  */
 public class ChromaHUDDescription {
-    private String id;
-    private String version;
-    private String name;
-    private String description;
+    private final String id;
+    private final String version;
+    private final String name;
+    private final String description;
 
     public ChromaHUDDescription(String id, String version, String name, String description) {
 

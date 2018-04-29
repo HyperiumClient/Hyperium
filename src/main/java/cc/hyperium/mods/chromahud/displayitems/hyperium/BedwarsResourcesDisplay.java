@@ -3,11 +3,9 @@ package cc.hyperium.mods.chromahud.displayitems.hyperium;
 import cc.hyperium.mods.chromahud.ElementRenderer;
 import cc.hyperium.mods.chromahud.api.DisplayItem;
 import cc.hyperium.utils.JsonHolder;
-import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -17,7 +15,7 @@ import java.util.List;
 
 public class BedwarsResourcesDisplay extends DisplayItem {
 
-    private FontRenderer fr = Minecraft.getMinecraft().fontRendererObj;
+    private final FontRenderer fr = Minecraft.getMinecraft().fontRendererObj;
 
     public BedwarsResourcesDisplay(JsonHolder data, int ordinal) {
         super(data, ordinal);

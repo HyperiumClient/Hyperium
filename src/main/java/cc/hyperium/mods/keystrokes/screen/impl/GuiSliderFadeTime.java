@@ -17,10 +17,9 @@
 
 package cc.hyperium.mods.keystrokes.screen.impl;
 
-import cc.hyperium.mods.keystrokes.config.KeystrokesSettings;
 import cc.hyperium.mods.keystrokes.KeystrokesMod;
+import cc.hyperium.mods.keystrokes.config.KeystrokesSettings;
 import cc.hyperium.mods.keystrokes.screen.GuiScreenKeystrokes;
-
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.client.config.GuiSlider;
 

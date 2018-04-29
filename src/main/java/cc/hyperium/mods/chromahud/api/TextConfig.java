@@ -29,9 +29,9 @@ public class TextConfig {
         Action is called when the text field is drawn. You cancel actions, please modify the given GuiTextField class.
         Load is called on load to initialize  to right state
      */
-    private BiConsumer<GuiTextField, DisplayItem> action;
-    private GuiTextField button;
-    private BiConsumer<GuiTextField, DisplayItem> load;
+    private final BiConsumer<GuiTextField, DisplayItem> action;
+    private final GuiTextField button;
+    private final BiConsumer<GuiTextField, DisplayItem> load;
 
     public TextConfig(BiConsumer<GuiTextField, DisplayItem> action, GuiTextField button, BiConsumer<GuiTextField, DisplayItem> load) {
         this.action = action;

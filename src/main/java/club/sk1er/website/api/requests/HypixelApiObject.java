@@ -24,7 +24,6 @@ import com.google.gson.JsonObject;
  */
 public interface HypixelApiObject {
 
-
     boolean isValid();
 
     JsonObject getData();

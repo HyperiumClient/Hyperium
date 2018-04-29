@@ -21,28 +21,28 @@ import cc.hyperium.mods.AbstractMod;
 import cc.hyperium.utils.ChatColor;
 
 public class UtilitiesMod extends AbstractMod {
-    
+
     private final Metadata metadata;
-    
+
 
     public UtilitiesMod() {
         Metadata metadata = new Metadata(this, "Utilities", "1.0", "boomboompower");
-    
+
         metadata.setDisplayName(ChatColor.AQUA + "Utilities");
-    
+
         this.metadata = metadata;
     }
-    
+
     @Override
     public AbstractMod init() {
-    
+
 
         return this;
     }
-    
+
     @Override
     public Metadata getModMetadata() {
         return this.metadata;
     }
-    
+
 }

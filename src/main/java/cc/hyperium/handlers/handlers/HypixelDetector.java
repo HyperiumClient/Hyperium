@@ -18,7 +18,14 @@
 package cc.hyperium.handlers.handlers;
 
 import cc.hyperium.Hyperium;
-import cc.hyperium.event.*;
+import cc.hyperium.event.EventBus;
+import cc.hyperium.event.InvokeEvent;
+import cc.hyperium.event.JoinBadlionEvent;
+import cc.hyperium.event.JoinHypixelEvent;
+import cc.hyperium.event.ServerJoinEvent;
+import cc.hyperium.event.ServerLeaveEvent;
+import cc.hyperium.event.ServerVerificationMethod;
+import cc.hyperium.event.SingleplayerJoinEvent;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
@@ -74,19 +81,19 @@ public class HypixelDetector {
             if (hypixel) { // If player is online recognized Hypixel IP
                 EventBus.INSTANCE.post(new JoinHypixelEvent(ServerVerificationMethod.IP));
 
-            } else if(badlion) { // If player is online recognized badlion IP
+            } else if (badlion) { // If player is online recognized badlion IP
                 EventBus.INSTANCE.post(new JoinBadlionEvent(ServerVerificationMethod.IP));
 
             } else { // Double check the player isn't online Hypixel
                 if (Minecraft.getMinecraft() != null && Minecraft.getMinecraft().getCurrentServerData() != null) {
                     final ServerData serverData = Minecraft.getMinecraft().getCurrentServerData();
 
-                    if(serverData != null && serverData.serverMOTD != null) {
+                    if (serverData != null && serverData.serverMOTD != null) {
                         if (serverData.serverMOTD.toLowerCase().contains("hypixel network")) { // Check MOTD for Hypixel
                             this.hypixel = true;
                             this.badlion = false;
                             EventBus.INSTANCE.post(new JoinHypixelEvent(ServerVerificationMethod.MOTD));
-                        } else if(serverData.serverMOTD.toLowerCase().contains("badlion network")) { // Badlion MOTD check
+                        } else if (serverData.serverMOTD.toLowerCase().contains("badlion network")) { // Badlion MOTD check
                             this.badlion = true;
                             this.hypixel = false;
                             EventBus.INSTANCE.post(new JoinBadlionEvent(ServerVerificationMethod.MOTD));

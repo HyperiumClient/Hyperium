@@ -24,6 +24,7 @@ import cc.hyperium.utils.JsonHolder;
 import club.sk1er.website.api.requests.HypixelApiPlayer;
 import net.minecraft.client.Minecraft;
 
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class ApiDataHandler {
@@ -32,11 +33,7 @@ public class ApiDataHandler {
 
     private JsonHolder friends = new JsonHolder();
     private HypixelApiPlayer player = new HypixelApiPlayer(new JsonHolder());
-    private ConcurrentHashMap<String, HypixelApiPlayer> otherPlayers = new ConcurrentHashMap<>();
-
-    public ApiDataHandler() {
-
-    }
+    private final Map<String, HypixelApiPlayer> otherPlayers = new ConcurrentHashMap<>();
 
     public HypixelApiPlayer getPlayer(String name) {
         return otherPlayers.computeIfAbsent(name.toLowerCase(), s -> {
@@ -76,7 +73,7 @@ public class ApiDataHandler {
     }
 
 
-    public void refreshPlayer() {
+    private void refreshPlayer() {
         if (player.getRoot().optBoolean("fetching"))
             return;
         player.getRoot().put("fetching", true);

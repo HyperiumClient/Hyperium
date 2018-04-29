@@ -18,10 +18,10 @@
 package cc.hyperium.handlers.handlers.privatemessages;
 
 public class PrivateMessage {
-    private String with;
-    private String message;
-    private long time;
-    private boolean isUser;
+    private final String with;
+    private final String message;
+    private final long time;
+    private final boolean isUser;
 
     public PrivateMessage(String with, String message, boolean isUser) {
         this.with = with;

@@ -18,7 +18,12 @@
 package cc.hyperium.mods.discord;
 
 import cc.hyperium.Hyperium;
-import cc.hyperium.event.*;
+import cc.hyperium.event.InvokeEvent;
+import cc.hyperium.event.JoinMinigameEvent;
+import cc.hyperium.event.Priority;
+import cc.hyperium.event.ServerJoinEvent;
+import cc.hyperium.event.ServerLeaveEvent;
+import cc.hyperium.event.SingleplayerJoinEvent;
 import cc.hyperium.gui.settings.items.GeneralSetting;
 import com.jagrosh.discordipc.IPCClient;
 import com.jagrosh.discordipc.entities.RichPresence;
@@ -28,20 +33,20 @@ import java.time.OffsetDateTime;
 
 public class RichPresenceUpdater {
 
-    private IPCClient client;
+    private final IPCClient client;
 
     RichPresenceUpdater(IPCClient client) {
         this.client = client;
         if (!GeneralSetting.discordRPEnabled) return;
-        
-         RichPresence.Builder builder = new RichPresence.Builder();
-         client.sendRichPresence(builder
-                 .setSmallImage("compass")
-                 .setLargeImage("hyperium", "Hyperium Client")
-                 .setState("IGN: " + Minecraft.getMinecraft().getSession().getUsername())
-                 .setDetails("On the Main Menu")
-                 .setStartTimestamp(OffsetDateTime.now())
-                 .build());
+
+        RichPresence.Builder builder = new RichPresence.Builder();
+        client.sendRichPresence(builder
+                .setSmallImage("compass")
+                .setLargeImage("hyperium", "Hyperium Client")
+                .setState("IGN: " + Minecraft.getMinecraft().getSession().getUsername())
+                .setDetails("On the Main Menu")
+                .setStartTimestamp(OffsetDateTime.now())
+                .build());
     }
 
     @InvokeEvent(priority = Priority.LOW)
