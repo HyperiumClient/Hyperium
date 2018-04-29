@@ -170,17 +170,7 @@ package cc.hyperium.mixins;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.SplashProgress;
-import cc.hyperium.event.EventBus;
-import cc.hyperium.event.GuiOpenEvent;
-import cc.hyperium.event.InitializationEvent;
-import cc.hyperium.event.KeypressEvent;
-import cc.hyperium.event.LeftMouseClickEvent;
-import cc.hyperium.event.MouseButtonEvent;
-import cc.hyperium.event.PreInitializationEvent;
-import cc.hyperium.event.RightMouseClickEvent;
-import cc.hyperium.event.SingleplayerJoinEvent;
-import cc.hyperium.event.TickEvent;
-import cc.hyperium.event.WorldChangeEvent;
+import cc.hyperium.event.*;
 import cc.hyperium.gui.settings.items.GeneralSetting;
 import cc.hyperium.handlers.handlers.HypixelDetector;
 import cc.hyperium.internal.addons.AddonBootstrap;
