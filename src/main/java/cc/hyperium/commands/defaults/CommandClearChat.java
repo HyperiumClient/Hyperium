@@ -37,7 +37,7 @@ public class CommandClearChat implements BaseCommand {
 
     @Override
     public String getUsage() {
-        return null;
+        return "/clearchat";
     }
 
     @Override
