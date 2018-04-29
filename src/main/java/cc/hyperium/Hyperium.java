@@ -60,6 +60,7 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Hypixel Community Client
@@ -189,7 +190,7 @@ public class Hyperium {
         SplashProgress.CURRENT = "Registering commands";
         SplashProgress.update();
         registerCommands();
-        EventBus.INSTANCE.register( PurchaseApi.getInstance());
+        EventBus.INSTANCE.register(PurchaseApi.getInstance());
 
         SplashProgress.PROGRESS = 11;
         SplashProgress.CURRENT = "Loading integrations";
@@ -222,12 +223,7 @@ public class Hyperium {
             networkHandler = new NetworkHandler();
             this.client = new NettyClient(networkHandler);
 
-            while (true) {
-                try {
-                    Thread.sleep(1000L);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+           Multithreading.schedule(() -> {
                 if (this.client.isAdmin()) {
                     getHandlers().getHyperiumCommandHandler().registerCommand(new BaseCommand() {
                         @Override
@@ -253,9 +249,11 @@ public class Hyperium {
 
                         }
                     });
-                    break;
+
                 }
-            }
+
+            }, 1, 1, TimeUnit.SECONDS);
+
         });
     }
 

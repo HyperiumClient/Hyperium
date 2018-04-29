@@ -30,7 +30,6 @@
     "gui.MixinGuiGameOver",
     "gui.MixinGuiPlayerTabOverlay",
     "gui.MixinInventoryParticle",
-    "gui.MixinGuiConfirmOpenLink",
     "gui.MixinGuiUtilRenderComponents",
 
     "entity.MixinNetworkPlayerInfo",

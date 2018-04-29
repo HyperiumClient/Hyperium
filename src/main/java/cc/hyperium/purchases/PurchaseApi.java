@@ -75,7 +75,7 @@ public class PurchaseApi {
                 if (purchase != null) {
                     purchasePlayers.put(id, purchase);
                 }
-                System.out.println("Cleared purchase cache ("+purchasePlayers.size()+")");
+                System.out.println("Cleared purchase cache (" + purchasePlayers.size() + ")");
             }
         });
 
@@ -166,4 +166,8 @@ public class PurchaseApi {
         return new JsonHolder(object);
     }
 
+    public void refreshSelf() {
+        UUID id = Minecraft.getMinecraft().getSession().getProfile().getId();
+        purchasePlayers.put(id, new HyperiumPurchase(id, get(url + id.toString())));
+    }
 }

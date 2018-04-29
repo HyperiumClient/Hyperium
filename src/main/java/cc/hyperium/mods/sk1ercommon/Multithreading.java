@@ -37,12 +37,12 @@ public class Multithreading {
 
         @Override
         public Thread newThread(Runnable r) {
-            return new Thread(r, String.format("Thread " + counter.incrementAndGet()));
+            return new Thread(r, "Thread " + counter.incrementAndGet());
         }
     });
 
-    public static void schedule(Runnable r, long initialDelay, long delay, TimeUnit unit) {
-        RUNNABLE_POOL.scheduleAtFixedRate(r, initialDelay, delay, unit);
+    public static ScheduledFuture<?> schedule(Runnable r, long initialDelay, long delay, TimeUnit unit) {
+       return RUNNABLE_POOL.scheduleAtFixedRate(r, initialDelay, delay, unit);
     }
 
     public static void runAsync(Runnable runnable) {

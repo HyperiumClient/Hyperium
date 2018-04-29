@@ -111,7 +111,18 @@ public class ModConfigGui extends HyperiumGui {
         CustomFontButton button = new CustomFontButton(0, getX(0), getY(), getButtonWidth(), 25, "HOME");
         button.renderBackground = false;
         buttonList.add(button);
-        this.tabs.add(new Tab(button, 0, this));
+
+        Tab e = new Tab(button, 0, this);
+        this.tabs.add(e);
+        e.setSelected(true);
+
+        e.addSetting(new SettingItem(
+                0, getX(0),
+                getDefaultItemY(0),
+                width - getX(0) * 2,
+                "COSMETIC SHOP",
+                i -> Minecraft.getMinecraft().displayGuiScreen(new CosmeticShopGui())));
+
 
         button = new CustomFontButton(1, getX(1), getY(), getButtonWidth(), 25, "SETTINGS");
         button.renderBackground = false;
@@ -206,7 +217,7 @@ public class ModConfigGui extends HyperiumGui {
                     count.get(), getX(0),
                     getDefaultItemY(count.get()),
                     width - getX(0) * 2,
-                    addon.getName()+" :: "+addon.getVersion(),
+                    addon.getName() + " :: " + addon.getVersion(),
                     i -> {
                         //TODO: Addon config gui
                     }

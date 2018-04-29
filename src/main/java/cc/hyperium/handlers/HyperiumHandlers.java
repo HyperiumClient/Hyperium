@@ -56,7 +56,6 @@ public class HyperiumHandlers {
     private HyperiumCommandHandler commandHandler;
     private RemoteResourcesHandler remoteResourcesHandler;
     private HyperiumNetwork network;
-    private BrowserManager browserManager;
     private ScoreboardRenderer scoreboardRenderer;
     private OtherConfigOptions configOptions;
     private DabHandler dabHandler;
@@ -78,7 +77,6 @@ public class HyperiumHandlers {
         register(flipHandler = new FlipHandler());
         register(locationHandler = new LocationHandler());
         register(valueHandler = new ValueHandler());
-        register(browserManager = new BrowserManager());
         register(resolutionUtil = new ResolutionUtil());
         register(guiDisplayHandler = new GuiDisplayHandler());
         register(scoreboardRenderer = new ScoreboardRenderer());
@@ -198,9 +196,6 @@ public class HyperiumHandlers {
     }
 
 
-    public BrowserManager getBrowserManager() {
-        return browserManager;
-    }
 
     public TimeTrackHandler getTimeTrackHandler() {
         return timeTrackHandler;

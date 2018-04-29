@@ -259,10 +259,12 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
             if (bgDynamicTexture == null)
                 return;
         }
+
         this.viewportTexture = new DynamicTexture(256, 256);
         int j = this.height / 4 + 48;
 
         this.addSingleplayerMultiplayerButtons(j - 10, 24);
+        this.buttonList.add(new GuiButton(100, 1, 1, "Cosmetic Shop"));
 
         switch (getStyle()) {
             case DEFAULT:
@@ -377,6 +379,9 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
 
         if (button.id == 17)
             mc.displayGuiScreen(new ChangeBackgroundGui(this));
+        if (button.id == 100) {
+            mc.displayGuiScreen(new CosmeticShopGui());
+        }
     }
 
     private void addHyperiumStyleSingleplayerMultiplayerButtons(int p_73969_1_, int p_73969_2_) {
