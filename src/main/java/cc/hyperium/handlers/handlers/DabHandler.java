@@ -1,10 +1,12 @@
 package cc.hyperium.handlers.handlers;
 
+import cc.hyperium.Hyperium;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.RenderEvent;
 import cc.hyperium.event.WorldChangeEvent;
 import cc.hyperium.gui.HyperiumGui;
 import cc.hyperium.gui.settings.items.CosmeticSettings;
+import cc.hyperium.handlers.handlers.keybinds.HyperiumBind;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.model.ModelBiped;
@@ -30,6 +32,9 @@ public class DabHandler {
     @InvokeEvent
     public void onRender(RenderEvent e) {
         dabStates.values().forEach(DabState::update);
+
+        if (state == 100 && get(Minecraft.getMinecraft().thePlayer.getUniqueID()).isDabbing())
+            incDabs();
 
         if (this.systemTime == 0) this.systemTime = Minecraft.getSystemTime();
 

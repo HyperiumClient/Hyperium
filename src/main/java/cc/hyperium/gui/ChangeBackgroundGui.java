@@ -97,6 +97,8 @@ public class ChangeBackgroundGui extends GuiScreen {
         }
     }
 
+
+
     @Override
     protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
         downloadUrlField.mouseClicked(mouseX, mouseY, mouseButton);
