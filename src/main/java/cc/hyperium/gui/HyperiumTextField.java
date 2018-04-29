@@ -18,8 +18,6 @@
 package cc.hyperium.gui;
 
 import cc.hyperium.utils.HyperiumFontRenderer;
-import com.google.common.base.Predicate;
-import com.google.common.base.Predicates;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiPageButtonList;
 import net.minecraft.client.gui.GuiScreen;
@@ -30,6 +28,8 @@ import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ChatAllowedCharacters;
 import net.minecraft.util.MathHelper;
+
+import java.util.function.Predicate;
 
 public class HyperiumTextField extends GuiTextField {
     private final int id;
@@ -69,7 +69,7 @@ public class HyperiumTextField extends GuiTextField {
      * True if this textbox is visible
      */
     private GuiPageButtonList.GuiResponder guiResponder;
-    private final Predicate<String> field_175209_y = Predicates.alwaysTrue();
+    private final Predicate<String> field_175209_y = s -> true;
 
     public HyperiumTextField(int componentId, HyperiumFontRenderer fontrendererObj, int x, int y, int par5Width, int par6Height) {
         super(componentId, null, x, y, par5Width, par6Height);
@@ -92,7 +92,7 @@ public class HyperiumTextField extends GuiTextField {
      * Sets the text of the textbox
      */
     public void setText(String p_146180_1_) {
-        if (this.field_175209_y.apply(p_146180_1_)) {
+        if (this.field_175209_y.test(p_146180_1_)) {
             if (p_146180_1_.length() > this.maxStringLength) {
                 this.text = p_146180_1_.substring(0, this.maxStringLength);
             } else {
@@ -139,7 +139,7 @@ public class HyperiumTextField extends GuiTextField {
             s = s + this.text.substring(j);
         }
 
-        if (this.field_175209_y.apply(s)) {
+        if (this.field_175209_y.test(s)) {
             this.text = s;
             this.moveCursorBy(i - this.selectionEnd + l);
 
@@ -184,7 +184,7 @@ public class HyperiumTextField extends GuiTextField {
                     s = s + this.text.substring(j);
                 }
 
-                if (this.field_175209_y.apply(s)) {
+                if (this.field_175209_y.test(s)) {
                     this.text = s;
 
                     if (flag) {

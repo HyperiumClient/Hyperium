@@ -358,9 +358,7 @@ public class LevelHeadGui extends GuiScreen {
     protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
         textField.mouseClicked(mouseX, mouseY, mouseButton);
         if (mouseButton == 0) {
-            for (int i = 0; i < this.buttonList.size(); ++i) {
-                GuiButton guibutton = this.buttonList.get(i);
-
+            for (GuiButton guibutton : this.buttonList) {
                 if (guibutton.mousePressed(this.mc, mouseX, mouseY)) {
 //                    net.minecraftforge.client.event.GuiScreenEvent.ActionPerformedEvent.Pre event = new net.minecraftforge.client.event.GuiScreenEvent.ActionPerformedEvent.Pre(this, guibutton, this.buttonList);
 //                    if (net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(event))

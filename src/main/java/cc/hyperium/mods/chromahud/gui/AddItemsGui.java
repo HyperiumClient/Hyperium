@@ -87,16 +87,12 @@ public class AddItemsGui extends GuiScreen {
             //On click
             adding = true;
             offset = 0;
-        }, (guiButton) -> {
-            guiButton.enabled = !adding;
-        });
+        }, (guiButton) -> guiButton.enabled = !adding);
         reg("Explore", new GuiButton(nextId(), 2, 23, 100, 20, "Explore"), (guiButton) -> {
             //On click
             adding = false;
             offset = 0;
-        }, (guiButton) -> {
-            guiButton.enabled = adding;
-        });
+        }, (guiButton) -> guiButton.enabled = adding);
 
         reg("Down", new GuiButton(nextId(), 2, 23 + 21 * 2, 100, 20, "Scroll Down"), (guiButton) -> {
             //On click
@@ -110,9 +106,7 @@ public class AddItemsGui extends GuiScreen {
         });
 
 
-        reg("Back", new GuiButton(nextId(), 2, ResolutionUtil.current().getScaledHeight() - 22, 100, 20, "Back"), (guiButton) -> {
-            Minecraft.getMinecraft().displayGuiScreen(new EditItemsGui(element, mod));
-        }, (guiButton) -> {
+        reg("Back", new GuiButton(nextId(), 2, ResolutionUtil.current().getScaledHeight() - 22, 100, 20, "Back"), (guiButton) -> Minecraft.getMinecraft().displayGuiScreen(new EditItemsGui(element, mod)), (guiButton) -> {
         });
 
     }

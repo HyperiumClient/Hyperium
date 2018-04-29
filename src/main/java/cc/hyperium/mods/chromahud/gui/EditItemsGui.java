@@ -90,10 +90,7 @@ public class EditItemsGui extends GuiScreen {
         }, (guiButton) -> guiButton.enabled = modifying != null && this.modifying.getOrdinal() < this.element.getDisplayItems().size() - 1);
 
 
-        reg("Back", new GuiButton(nextId(), 2, ResolutionUtil.current().getScaledHeight() - 22, 100, 20, "Back"), (guiButton) -> {
-
-            Minecraft.getMinecraft().displayGuiScreen(new DisplayElementConfig(element, mod));
-        }, (guiButton) -> {
+        reg("Back", new GuiButton(nextId(), 2, ResolutionUtil.current().getScaledHeight() - 22, 100, 20, "Back"), (guiButton) -> Minecraft.getMinecraft().displayGuiScreen(new DisplayElementConfig(element, mod)), (guiButton) -> {
         });
 
     }
@@ -205,15 +202,9 @@ public class EditItemsGui extends GuiScreen {
             }
             this.modifying = item1;
             if (this.modifying != null) {
-                ChromaHUDApi.getInstance().getTextConfigs(this.modifying.getType()).forEach((config) -> {
-                    config.getLoad().accept(config.getTextField(), this.modifying);
-                });
-                ChromaHUDApi.getInstance().getButtonConfigs(this.modifying.getType()).forEach((button) -> {
-                    button.getLoad().accept(button.getButton(), this.modifying);
-                });
-                ChromaHUDApi.getInstance().getStringConfigs(this.modifying.getType()).forEach((button) -> {
-                    button.getLoad().accept(this.modifying);
-                });
+                ChromaHUDApi.getInstance().getTextConfigs(this.modifying.getType()).forEach((config) -> config.getLoad().accept(config.getTextField(), this.modifying));
+                ChromaHUDApi.getInstance().getButtonConfigs(this.modifying.getType()).forEach((button) -> button.getLoad().accept(button.getButton(), this.modifying));
+                ChromaHUDApi.getInstance().getStringConfigs(this.modifying.getType()).forEach((button) -> button.getLoad().accept(this.modifying));
             }
 
 

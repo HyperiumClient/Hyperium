@@ -55,9 +55,7 @@ public class PurchaseApi {
         register(EnumPurchaseType.PARTICLE_BACKGROUND, ParticleBackgroundCosmetic.class);
         register(EnumPurchaseType.FLIP_COSMETIC, FlipCosmeticPackage.class);
         register(EnumPurchaseType.DEADMAU5_COSMETIC, EarsCosmetic.class);
-        getPackageAsync(Minecraft.getMinecraft().getSession().getProfile().getId(), hyperiumPurchase -> {
-            System.out.println("Loaded self packages: " + hyperiumPurchase.getResponse());
-        });
+        getPackageAsync(Minecraft.getMinecraft().getSession().getProfile().getId(), hyperiumPurchase -> System.out.println("Loaded self packages: " + hyperiumPurchase.getResponse()));
 
     }
 

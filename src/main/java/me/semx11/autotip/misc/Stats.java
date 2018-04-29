@@ -112,8 +112,8 @@ public class Stats {
         if (!games.isEmpty()) {
             ClientMessage.separator();
             games.forEach(game -> {
-                int sentCoins = sentStats.containsKey(game) ? sentStats.get(game) : 0;
-                int receivedCoins = receivedStats.containsKey(game) ? receivedStats.get(game) : 0;
+                int sentCoins = sentStats.getOrDefault(game, 0);
+                int receivedCoins = receivedStats.getOrDefault(game, 0);
                 if (sentStats.containsKey(game) || receivedStats.containsKey(game)) {
                     ClientMessage.send(
                             String.format("%s%s: %s%s coins",

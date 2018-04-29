@@ -28,9 +28,7 @@ public class TimeTrackHandler implements Runnable {
 
     public TimeTrackHandler() {
         loadData();
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            save(today, data.toString());
-        }));
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> save(today, data.toString())));
         Multithreading.schedule(this, 1L, 1L, TimeUnit.SECONDS);
     }
 

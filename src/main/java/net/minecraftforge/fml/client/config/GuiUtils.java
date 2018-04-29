@@ -249,7 +249,7 @@ public class GuiUtils {
 
             if (needsWrap) {
                 int wrappedTooltipWidth = 0;
-                List<String> wrappedTextLines = new ArrayList<String>();
+                List<String> wrappedTextLines = new ArrayList<>();
                 for (int i = 0; i < textLines.size(); i++) {
                     String textLine = textLines.get(i);
                     List<String> wrappedLine = font.listFormattedStringToWidth(textLine, tooltipTextWidth);

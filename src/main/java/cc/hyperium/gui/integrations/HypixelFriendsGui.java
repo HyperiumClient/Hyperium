@@ -83,9 +83,7 @@ public class HypixelFriendsGui extends HyperiumGui {
             sortType = FriendSortType.values()[ord];
             rebuildFriends();
             this.friends.sort(sortType);
-        }, guiButton -> {
-            guiButton.displayString = "Sort by: " + sortType.name();
-        });
+        }, guiButton -> guiButton.displayString = "Sort by: " + sortType.name());
 
 
         reg("PARTY", new GuiButton(nextId(), ResolutionUtil.current().getScaledWidth() - 153, 23 + 21, 150, 20, "Party Selected"), guiButton -> {
@@ -95,9 +93,7 @@ public class HypixelFriendsGui extends HyperiumGui {
                 if (iterator.hasNext())
                     Hyperium.INSTANCE.getHandlers().getCommandQueue().queue("/party invite " + next.getName());
                 else
-                    Hyperium.INSTANCE.getHandlers().getCommandQueue().register("/party invite " + next.getName(), () -> {
-                        guiButton.enabled = true;
-                    });
+                    Hyperium.INSTANCE.getHandlers().getCommandQueue().register("/party invite " + next.getName(), () -> guiButton.enabled = true);
             }
             selected.clear();
 
@@ -133,9 +129,7 @@ public class HypixelFriendsGui extends HyperiumGui {
                         if (iterator.hasNext())
                             Hyperium.INSTANCE.getHandlers().getCommandQueue().queue("/friend remove " + next.getName());
                         else
-                            Hyperium.INSTANCE.getHandlers().getCommandQueue().register("/friend remove " + next.getName(), () -> {
-                                guiButton.enabled = true;
-                            });
+                            Hyperium.INSTANCE.getHandlers().getCommandQueue().register("/friend remove " + next.getName(), () -> guiButton.enabled = true);
                     }
                     guiButton.enabled = false;
                     selected.clear();

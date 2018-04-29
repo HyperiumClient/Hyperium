@@ -86,8 +86,6 @@ public abstract class MixinGuiScreen {
 
     @Inject(method = "onGuiClosed", at = @At("HEAD"))
     private void onGuiClosed(CallbackInfo ci) {
-        Minecraft.getMinecraft().addScheduledTask(() -> {
-            Minecraft.getMinecraft().entityRenderer.stopUseShader();
-        });
+        Minecraft.getMinecraft().addScheduledTask(() -> Minecraft.getMinecraft().entityRenderer.stopUseShader());
     }
 }

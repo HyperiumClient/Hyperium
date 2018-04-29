@@ -66,11 +66,10 @@ public class Writer implements Runnable {
 
             games.forEach(game -> {
                 int sent =
-                        TipTracker.tipsSentEarnings.containsKey(game) ? TipTracker.tipsSentEarnings
-                                .get(game) : 0;
-                int received = TipTracker.tipsReceivedEarnings.containsKey(game)
-                        ? TipTracker.tipsReceivedEarnings.get(
-                        game) : 0;
+                        TipTracker.tipsSentEarnings
+                                .getOrDefault(game, 0);
+                int received = TipTracker.tipsReceivedEarnings.getOrDefault(
+                game, 0);
                 write(dailyStats, game + ":" + sent + ":" + received + ls);
             });
             dailyStats.close();

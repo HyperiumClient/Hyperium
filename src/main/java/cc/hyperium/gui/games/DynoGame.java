@@ -48,11 +48,7 @@ public class DynoGame extends HyperiumGui {
     @Override
     protected void pack() {
         GuiButton restart;
-        reg("RESTART", restart = new GuiButton(0, ResolutionUtil.current().getScaledWidth() / 2 - 100, 40, "Restart"), guiButton -> {
-            reset();
-        }, guiButton -> {
-            guiButton.visible = dead;
-        });
+        reg("RESTART", restart = new GuiButton(0, ResolutionUtil.current().getScaledWidth() / 2 - 100, 40, "Restart"), guiButton -> reset(), guiButton -> guiButton.visible = dead);
     }
 
     @Override

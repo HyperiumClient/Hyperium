@@ -129,12 +129,8 @@ public class DisplayElementConfig extends GuiScreen {
         ScaledResolution current = ResolutionUtil.current();
         int start_y = Math.max((int) (current.getScaledHeight_double() * .1) - 20, 5);
         int posX = (int) (current.getScaledWidth_double() * .5) - 100;
-        reg("pos", new GuiButton(nextId(), posX, start_y, "Change Position"), button -> {
-            Minecraft.getMinecraft().displayGuiScreen(new MoveElementGui(mod, element));
-        });
-        reg("items", new GuiButton(nextId(), posX, start_y + 22, "Change Items"), button -> {
-            Minecraft.getMinecraft().displayGuiScreen(new EditItemsGui(element, mod));
-        });
+        reg("pos", new GuiButton(nextId(), posX, start_y, "Change Position"), button -> Minecraft.getMinecraft().displayGuiScreen(new MoveElementGui(mod, element)));
+        reg("items", new GuiButton(nextId(), posX, start_y + 22, "Change Items"), button -> Minecraft.getMinecraft().displayGuiScreen(new EditItemsGui(element, mod)));
 
         //Highlighted
         reg("Highlight", new GuiButton(nextId(), posX, start_y + 22 * 2, "-"), button -> {
@@ -269,10 +265,7 @@ public class DisplayElementConfig extends GuiScreen {
 //                button.displayString = EnumChatFormatting.YELLOW + "Green: " + (element.getData().optInt("green"));
 //            }
 //        });
-        reg("Back", new GuiButton(nextId(), 2, ResolutionUtil.current().getScaledHeight() - 22, 100, 20, "Back"), (guiButton) -> {
-
-            Minecraft.getMinecraft().displayGuiScreen(new GeneralConfigGui(mod));
-        }, (guiButton) -> {
+        reg("Back", new GuiButton(nextId(), 2, ResolutionUtil.current().getScaledHeight() - 22, 100, 20, "Back"), (guiButton) -> Minecraft.getMinecraft().displayGuiScreen(new GeneralConfigGui(mod)), (guiButton) -> {
         });
         reg("Delete", new GuiButton(nextId(), 2, ResolutionUtil.current().getScaledHeight() - 22 * 2, 100, 20, "Delete"), (guiButton) -> {
 
