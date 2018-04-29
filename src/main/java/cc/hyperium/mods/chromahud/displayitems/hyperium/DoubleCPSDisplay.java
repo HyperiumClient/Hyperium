@@ -21,13 +21,11 @@ public class DoubleCPSDisplay extends DisplayItem {
     public void draw(int x, double y, boolean config) {
         List<String> list = new ArrayList<>();
         int leftCps = ElementRenderer.getCPS();
-        int middleCps = ElementRenderer.getMiddleCPS();
         int rightCps = ElementRenderer.getRightCPS();
         list.add("CPS:");
         list.add("Left CPS: " + leftCps);
-        list.add("Middle CPS: " + middleCps);
         list.add("Right CPS: " + rightCps);
-        list.add("Total CPS: " + (leftCps + middleCps + rightCps));
+        list.add("Total CPS: " + (leftCps + rightCps));
         this.height = fr.FONT_HEIGHT * list.size();
         int maxWidth = 0;
         for (String line : list) {
