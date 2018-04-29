@@ -40,31 +40,48 @@ public class GuiCredits extends GuiScreen {
     @Override
     public void initGui() {
         textList = new ArrayList<>();
-        try {
-            String result = "";
-            URL url = new URL("https://api.github.com/repos/HyperiumClient/Hyperium/contributors");
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("GET");
-            BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-            String line;
-            while ((line = rd.readLine()) != null) {
-                result += line;
-            }
-            rd.close();
-            JsonParser jsonParser = new JsonParser();
-            JsonElement jsonElement = jsonParser.parse(result);
-            JsonArray jsonArray = jsonElement.getAsJsonArray();
-            for (Iterator<JsonElement> it = jsonArray.iterator(); it.hasNext(); ) {
-                JsonElement element = it.next();
-                textList.add(element.getAsJsonObject().get("login").getAsString());
-            }
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (ProtocolException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            String result = "";
+//            URL url = new URL("https://api.github.com/repos/HyperiumClient/Hyperium/contributors");
+//            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+//            conn.setRequestMethod("GET");
+//            BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+//            String line;
+//            while ((line = rd.readLine()) != null) {
+//                result += line;
+//            }
+//            rd.close();
+//            JsonParser jsonParser = new JsonParser();
+//            JsonElement jsonElement = jsonParser.parse(result);
+//            JsonArray jsonArray = jsonElement.getAsJsonArray();
+//            for (Iterator<JsonElement> it = jsonArray.iterator(); it.hasNext(); ) {
+//                JsonElement element = it.next();
+//                textList.add(element.getAsJsonObject().get("login").getAsString());
+//            }
+//        } catch (MalformedURLException e) {
+//            e.printStackTrace();
+//        } catch (ProtocolException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+        textList.add("<----Developers---->");
+        textList.add("Kevin");
+        textList.add("Sk1er");
+        textList.add("BoomBoomPower");
+        textList.add("Cube");
+        textList.add("<----Contrubitors---->");
+        textList.add("9Y0");
+        textList.add("BugFroggy");
+        textList.add("Disregard");
+        textList.add("FalseHonesty");
+        textList.add("KerbyBit");
+        textList.add("KodingKing");
+        textList.add("Vatuu Komalia");
+        textList.add("<----Support Team---->");
+        textList.add("Deactivation");
+        textList.add("KenWay");
+        textList.add("Zezzo");
 
         super.initGui();
     }
@@ -74,7 +91,7 @@ public class GuiCredits extends GuiScreen {
         FontRenderer fr = Minecraft.getMinecraft().fontRendererObj;
         int y = 80;
         ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
-        drawDefaultBackground();
+        drawChromaString("Press \"esc\" to exit.", sr.getScaledWidth() / 4 - fr.getStringWidth("Contributor") / 2, 10);
         GlStateManager.scale(2, 2, 2);
         drawChromaString("Contributors", sr.getScaledWidth() / 4 - fr.getStringWidth("Contributor") / 2, 30);
         GlStateManager.scale(0.5, 0.5, 0.5);
@@ -82,7 +99,6 @@ public class GuiCredits extends GuiScreen {
             drawChromaString(line, sr.getScaledWidth() / 2 - fr.getStringWidth(line) / 2, y);
             y += fr.FONT_HEIGHT + 1;
         }
-        drawString(fr, "Quig was here...", 0, 0, 0x29b6f6);
         super.drawScreen(mouseX, mouseY, partialTicks);
     }
 
