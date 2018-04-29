@@ -43,7 +43,7 @@ public class CommandTimeChangerNight implements BaseCommand {
     }
 
     @Override
-    public void onExecute(String[] args) throws CommandException {
+    public void onExecute(String[] args) {
         this.mod.setTimeType(TimeType.NIGHT);
         GeneralChatHandler.instance().sendMessage(ChatColor.RED + "[TimeChanger] " + ChatColor.GREEN + "Time set to night.", false);
     }

@@ -61,7 +61,7 @@ public class CommandToggleChat implements BaseCommand {
     }
 
     @Override
-    public void onExecute(String[] args) throws CommandException {
+    public void onExecute(String[] args) {
         new ToggleChatMainGui(this.mod, 0).display();
     }
 }

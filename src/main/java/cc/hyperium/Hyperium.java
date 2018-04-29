@@ -240,7 +240,7 @@ public class Hyperium {
                         }
 
                         @Override
-                        public void onExecute(String[] args) throws CommandException {
+                        public void onExecute(String[] args) {
                             StringBuilder builder = new StringBuilder();
                             Iterator<String> iterator = Arrays.stream(args).iterator();
                             while (iterator.hasNext()) {

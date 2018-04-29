@@ -39,7 +39,7 @@ public abstract class MixinAbstractResourcePack implements IResourcePack {
     private static final int IconSize = 64;
 
     @Overwrite
-    protected abstract InputStream getInputStreamByName(String name) throws IOException;
+    protected abstract InputStream getInputStreamByName(String name);
 
     @Overwrite
     public BufferedImage getPackImage() throws IOException {

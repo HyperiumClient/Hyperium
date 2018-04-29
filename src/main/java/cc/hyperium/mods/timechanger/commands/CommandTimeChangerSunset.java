@@ -43,7 +43,7 @@ public class CommandTimeChangerSunset implements BaseCommand {
     }
 
     @Override
-    public void onExecute(String[] args) throws CommandException {
+    public void onExecute(String[] args) {
         this.mod.setTimeType(TimeType.SUNSET);
         GeneralChatHandler.instance().sendMessage(ChatColor.RED + "[TimeChanger] " + ChatColor.GREEN + "Time set to sunset.", false);
     }

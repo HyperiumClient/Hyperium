@@ -44,7 +44,7 @@ public class CommandChromaHUD implements BaseCommand {
     }
 
     @Override
-    public void onExecute(String[] args) throws CommandException {
+    public void onExecute(String[] args) {
         new GeneralConfigGui(this.mod).display();
     }
 }

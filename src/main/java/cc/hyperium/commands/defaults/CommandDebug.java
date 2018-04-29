@@ -49,7 +49,7 @@ public class CommandDebug implements BaseCommand {
     }
 
     @Override
-    public void onExecute(String[] args) throws CommandUsageException {
+    public void onExecute(String[] args) {
         StringBuilder builder = new StringBuilder();
         HyperiumPurchase self = PurchaseApi.getInstance().getSelf();
         builder.append("\n");

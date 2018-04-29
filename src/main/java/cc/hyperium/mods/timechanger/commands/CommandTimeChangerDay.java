@@ -43,7 +43,7 @@ public class CommandTimeChangerDay implements BaseCommand {
     }
 
     @Override
-    public void onExecute(String[] args) throws CommandException {
+    public void onExecute(String[] args) {
         this.mod.setTimeType(TimeType.DAY);
         GeneralChatHandler.instance().sendMessage(ChatColor.RED + "[TimeChanger] " + ChatColor.GREEN + "Time set to day.", false);
     }
