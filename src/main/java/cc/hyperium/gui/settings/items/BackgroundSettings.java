@@ -25,7 +25,10 @@ import cc.hyperium.gui.HyperiumGui;
 import cc.hyperium.gui.HyperiumMainMenu;
 import cc.hyperium.gui.ParticleOverlay;
 import cc.hyperium.gui.settings.SettingGui;
+import cc.hyperium.gui.settings.SettingItem;
+import cc.hyperium.gui.settings.components.OnOffSetting;
 import cc.hyperium.gui.settings.components.SelectionItem;
+import java.util.function.Consumer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
 
@@ -48,6 +51,13 @@ public class BackgroundSettings extends SettingGui {
     @ConfigOpt
     public static boolean renderOverInventory = true;
     private final DefaultConfig config;
+    
+    private int currentID = 0;
+    
+    /**
+     * Set to true when a setting is changed, this will trigger a save when the gui is closed
+     */
+    private boolean settingsUpdated;
 
     public BackgroundSettings(HyperiumGui previous) {
         super("BACKGROUNDS", previous);
@@ -58,43 +68,17 @@ public class BackgroundSettings extends SettingGui {
     @Override
     protected void pack() {
         super.pack();
-
-        SelectionItem<String> selectionItem;
-        settingItems.add(selectionItem = new SelectionItem<>(0, getX(), getDefaultItemY(0), width - getX() * 2, "MENU BACKGROUND", i -> {
-            ((SelectionItem) i).nextItem();
-            backgroundSelect = (String) ((SelectionItem) i).getSelectedItem();
-            refreshBackground();
-        }));
-
-        selectionItem.addItems(Arrays.asList("1", "2", "3", "4", "5", "CUSTOM"));
-        selectionItem.setSelectedItem(backgroundSelect);
+    
+        this.currentID = 0;
+        
+        registerCustomSetting("MENU BACKGROUND", backgroundSelect, i -> refreshBackground()).addItems(Arrays.asList("1", "2", "3", "4", "5", "CUSTOM"));
         refreshBackground();
-
-        SelectionItem<String> fastChat;
-        this.settingItems.add(fastChat = new SelectionItem<>(1, getX(), getDefaultItemY(1), this.width - getX() * 2, "FAST CHAT", i -> {
-            ((SelectionItem) i).nextItem();
-            fastChatEnabled = ((SelectionItem) i).getSelectedItem().equals("ON");
-        }));
-        fastChat.addDefaultOnOff();
-        fastChat.setSelectedItem(fastChatEnabled ? "ON" : "OFF");
-
-
-        SelectionItem<String> fastWorldGui;
-        this.settingItems.add(fastWorldGui = new SelectionItem<>(2, getX(), getDefaultItemY(2), this.width - getX() * 2, "FAST CONTAINERS", i -> {
-            ((SelectionItem) i).nextItem();
-            fastWorldGuiEnabled = ((SelectionItem) i).getSelectedItem().equals("ON");
-        }));
-        fastWorldGui.addDefaultOnOff();
-        fastWorldGui.setSelectedItem(fastWorldGuiEnabled ? "ON" : "OFF");
-
-        SelectionItem<String> particlesMode;
-        this.settingItems.add(particlesMode = new SelectionItem<>(3, getX(), getDefaultItemY(3), this.width - getX() * 2, "PARTICLES MODE", i -> {
-            if (!ParticleOverlay.getOverlay().purchased()) {
-                return;
-            }
-            ((SelectionItem) i).nextItem();
-            particlesModeString = ((SelectionItem<String>) i).getSelectedItem();
-        }));
+        
+        registerOnOffSetting("FAST CHAT", fastChatEnabled, on -> fastChatEnabled = on);
+        registerOnOffSetting("FAST CONTAINERS", fastWorldGuiEnabled, on -> fastWorldGuiEnabled = on);
+    
+        SelectionItem<String> particlesMode = registerCustomSetting("PARTICLES MODE", backgroundSelect, i -> {});
+    
         if (ParticleOverlay.getOverlay().purchased()) {
             particlesMode.addItems(Arrays.asList("OFF", "PLAIN 1", "PLAIN 2", "CHROMA 1", "CHROMA 2"));
             particlesMode.setSelectedItem(particlesModeString);
@@ -102,39 +86,16 @@ public class BackgroundSettings extends SettingGui {
             particlesMode.addItems(Collections.singletonList("NOT PURCHASED"));
             particlesMode.setSelectedItem("NOT PURCHASED");
         }
-
-        SelectionItem<Integer> maxParticlesSelection;
-        this.settingItems.add(maxParticlesSelection = new SelectionItem<>(4, getX(), getDefaultItemY(4), this.width - getX() * 2, "PARTICLES MAX", i -> {
-            ((SelectionItem) i).nextItem();
-            maxParticles = ((SelectionItem<Integer>) i).getSelectedItem();
+    
+        SelectionItem<Integer> maxP = registerIntegerSetting("PARTICLES MAX", maxParticles, i -> {
             ParticleOverlay.reload();
-        }));
-        maxParticlesSelection.addItems(Arrays.asList(20, 50, 75, 100, 125, 150, 175, 200, 225, 250, 275, 300, 325, 350, 375, 400, 425, 450, 475, 500));
-        maxParticlesSelection.setSelectedItem(maxParticles);
-
-        SelectionItem<String> showOverInventory;
-        this.settingItems.add(showOverInventory = new SelectionItem<>(5, getX(), getDefaultItemY(5), this.width - getX() * 2, "SHOW PARTICLES OVER INVENTORY", i -> {
-            ((SelectionItem) i).nextItem();
-            renderOverInventory = ((SelectionItem) i).getSelectedItem().equals("ON");
-        }));
-        showOverInventory.addDefaultOnOff();
-        showOverInventory.setSelectedItem(renderOverInventory ? "ON" : "OFF");
-
-
-        SelectionItem<String> changeBg;
-        settingItems.add(changeBg = new SelectionItem<>(6, getX(), getDefaultItemY(6), this.width - getX() * 2, "Custom Background", i -> Minecraft.getMinecraft().displayGuiScreen(new ChangeBackgroundGui(this))));
-        changeBg.addItem("DOWNLOAD");
-        changeBg.setSelectedItem("DOWNLOAD");
-
-    }
-
-    private int getDefaultItemY(int i) {
-        return getY() + 25 + i * 15;
-    }
-
-    @Override
-    public void onGuiClosed() {
-        this.config.save();
+        });
+        maxP.addItems(Arrays.asList(20, 50, 75, 100, 125, 150, 175, 200, 225, 250, 275, 300, 325, 350, 375, 400, 425, 450, 475, 500));
+        maxP.setSelectedItem(maxParticles);
+        
+        registerOnOffSetting("SHOW PARTICLES OVER INVENTORY", renderOverInventory, on -> renderOverInventory = on);
+        
+        registerCustomSetting("CUSTOM BACKGROUND", "DOWNLOAD", i -> Minecraft.getMinecraft().displayGuiScreen(new ChangeBackgroundGui(this)));
     }
 
     private void refreshBackground() {
@@ -162,6 +123,78 @@ public class BackgroundSettings extends SettingGui {
             case "CUSTOM":
                 HyperiumMainMenu.setCustomBackground(true);
                 break;
+        }
+    }
+    
+    private int getDefaultItemY(int i) {
+        return getY() + 25 + i * 15;
+    }
+    
+    private void registerOnOffSetting(String name, boolean enabled, Consumer<Boolean> callback) {
+        OnOffSetting setting = new OnOffSetting(
+            currentID,
+            getX(),
+            getDefaultItemY(currentID),
+            this.width - (getX() * 2),
+            name
+        );
+        setting.setEnabled(enabled).setConsumer(
+            callback.andThen((on) -> settingsUpdated = true)
+        );
+        
+        this.settingItems.add(setting);
+        
+        currentID++;
+    }
+    
+    private SelectionItem<Integer> registerIntegerSetting(String name, Integer selected, Consumer<SettingItem> callback) {
+        SelectionItem<Integer> item = new SelectionItem<>(
+            currentID,
+            getX(),
+            getDefaultItemY(currentID),
+            this.width - (getX() * 2),
+            name,
+            
+            callback.andThen((i) -> {
+                settingsUpdated = true;
+                ((SelectionItem) i).nextItem();
+            })
+        );
+        item.setSelectedItem(selected);
+    
+        this.settingItems.add(item);
+    
+        currentID++;
+    
+        return item;
+    }
+    
+    private SelectionItem<String> registerCustomSetting(String name, String selected, Consumer<SettingItem> callback) {
+        SelectionItem<String> item = new SelectionItem<>(
+            currentID,
+            getX(),
+            getDefaultItemY(currentID),
+            this.width - (getX() * 2),
+            name,
+            callback.andThen((i) -> {
+                settingsUpdated = true;
+                ((SelectionItem) i).nextItem();
+            })
+        );
+        item.setSelectedItem(selected);
+        
+        this.settingItems.add(item);
+        
+        currentID++;
+        
+        return item;
+    }
+    
+    @Override
+    public void onGuiClosed() {
+        // If a setting has been modified, we'll save the config.
+        if (this.settingsUpdated) {
+            this.config.save();
         }
     }
 }
