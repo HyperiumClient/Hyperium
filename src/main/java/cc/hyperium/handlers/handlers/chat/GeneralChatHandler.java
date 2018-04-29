@@ -17,13 +17,10 @@
 
 package cc.hyperium.handlers.handlers.chat;
 
-import java.util.EnumMap;
-import java.util.List;
-import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.regex.Pattern;
-
 import cc.hyperium.Hyperium;
-import cc.hyperium.event.*;
+import cc.hyperium.event.ChatEvent;
+import cc.hyperium.event.InvokeEvent;
+import cc.hyperium.event.TickEvent;
 import cc.hyperium.handlers.handlers.remoteresources.RemoteResourcesHandler;
 import cc.hyperium.utils.ChatColor;
 import cc.hyperium.utils.JsonHolder;
@@ -31,6 +28,11 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IChatComponent;
+
+import java.util.EnumMap;
+import java.util.List;
+import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.regex.Pattern;
 
 /**
  * @author Sk1er
@@ -83,7 +85,7 @@ public class GeneralChatHandler {
     @InvokeEvent
     public void chatEvent(ChatEvent event) {
         boolean state = true;
-        if(!posted)
+        if (!posted)
             return;
         for (HyperiumChatHandler chatHandler : handlerList) {
             //Surround in try catch so errors don't stop further chat parsers
@@ -93,9 +95,9 @@ public class GeneralChatHandler {
                     return;
                 }
 
-				// Is reversed because chathandlers weren't called if state was false, since
-				// false && boolean will always be false, so it skipped the
-				// HyperiumChatHandler#chatReceived method
+                // Is reversed because chathandlers weren't called if state was false, since
+                // false && boolean will always be false, so it skipped the
+                // HyperiumChatHandler#chatReceived method
                 state = chatHandler.chatReceived(event.getChat(), strip(event.getChat())) && state;
 
             } catch (Exception e) {

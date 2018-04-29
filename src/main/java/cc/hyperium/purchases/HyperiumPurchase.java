@@ -40,7 +40,7 @@ public class HyperiumPurchase {
                 try {
                     this.purchases.add(PurchaseApi.getInstance().parse(parse, PurchaseApi.getInstance().get(PurchaseApi.url + playerUUID.toString() + "/" + parse.name())));
                 } catch (Exception wtf) {
-                wtf.printStackTrace();
+                    wtf.printStackTrace();
                 }
         }
     }

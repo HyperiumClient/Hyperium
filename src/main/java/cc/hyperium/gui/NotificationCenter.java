@@ -224,7 +224,7 @@ public class NotificationCenter extends Gui {
 
     @InvokeEvent
     private void onClick(GuiClickEvent event) {
-        if(currentNotification != null && currentNotification.clickedCallback != null) {
+        if (currentNotification != null && currentNotification.clickedCallback != null) {
             final ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
             final int left = currentNotification.getX(sr);
             final int top = currentNotification.getY(sr);
@@ -233,7 +233,7 @@ public class NotificationCenter extends Gui {
             final int mouseX = event.getMouseX();
             final int mouseY = event.getMouseY();
 
-            if(mouseX > left && mouseX < right && mouseY > top && mouseY < bottom) {
+            if (mouseX > left && mouseX < right && mouseY > top && mouseY < bottom) {
                 currentNotification.clickedCallback.run();
             }
 
@@ -242,9 +242,10 @@ public class NotificationCenter extends Gui {
 
     /**
      * Create a notification queued to be displayed
-     * @param title Title of the notification
+     *
+     * @param title       Title of the notification
      * @param description Description of the notification
-     * @param seconds Seconds the notification should be displayed for
+     * @param seconds     Seconds the notification should be displayed for
      * @return The new notification
      */
     public Notification display(String title, String description, float seconds) {
@@ -253,11 +254,12 @@ public class NotificationCenter extends Gui {
 
     /**
      * Create a notification queued to be displayed
-     * @param title Title of the notification
+     *
+     * @param title       Title of the notification
      * @param description Description of the notification
-     * @param seconds Seconds the notification should be displayed for
-     * @param img Image to be displayed with the notification
-     * @param callback Callback to be ran when the user clicks on the notification
+     * @param seconds     Seconds the notification should be displayed for
+     * @param img         Image to be displayed with the notification
+     * @param callback    Callback to be ran when the user clicks on the notification
      * @return The new notification
      */
     public Notification display(String title, String description, float seconds, @Nullable BufferedImage img, @Nullable Runnable callback, @Nullable Color highlightColor) {
@@ -287,6 +289,10 @@ public class NotificationCenter extends Gui {
     public class Notification {
 
         /**
+         * Size of every image. Should always be 256.
+         */
+        private final int imgSize = 256;
+        /**
          * Width of this notification
          */
         public int width = 175;
@@ -294,21 +300,6 @@ public class NotificationCenter extends Gui {
          * Height of this notification
          */
         public int height = 40;
-        /**
-         * Title text displayed for this notification
-         * Max lines is always 1
-         */
-        private String title;
-        /**
-         * Description text for this notification
-         * @see #maxDescriptionLines
-         */
-        private String description;
-        /**
-         * Maximum number of lines descriptions can span. After this, they will be trimmed
-         * @see HyperiumGui#trimString(String, int, FontRenderer, boolean)
-         */
-        private int maxDescriptionLines = 4;
         /**
          * Margins between the bottom of the notification and the bottom of the screen
          */
@@ -321,6 +312,23 @@ public class NotificationCenter extends Gui {
          * Padding between the top of the notification and title text
          */
         public int topPadding = 5;
+        /**
+         * Title text displayed for this notification
+         * Max lines is always 1
+         */
+        private String title;
+        /**
+         * Description text for this notification
+         *
+         * @see #maxDescriptionLines
+         */
+        private String description;
+        /**
+         * Maximum number of lines descriptions can span. After this, they will be trimmed
+         *
+         * @see HyperiumGui#trimString(String, int, FontRenderer, boolean)
+         */
+        private int maxDescriptionLines = 4;
         /**
          * Ticks left until this notification goes bye-bye
          */
@@ -345,10 +353,6 @@ public class NotificationCenter extends Gui {
          * Image rendered with this notification, if applicable
          */
         private DynamicTexture img = null;
-        /**
-         * Size of every image. Should always be 256.
-         */
-        private final int imgSize = 256;
         /**
          * What to scale the image to
          * Should be around <code>height / imgSize</code>
@@ -383,22 +387,21 @@ public class NotificationCenter extends Gui {
          * Create a new notification
          * Use {@link NotificationCenter#display} if you wish to create a notification.
          *
-         * @param title Title of the notification
-         * @param description Description of the notification
-         * @param ticks Ticks to display this notification for
-         * @param img Image to display on this notification
+         * @param title           Title of the notification
+         * @param description     Description of the notification
+         * @param ticks           Ticks to display this notification for
+         * @param img             Image to display on this notification
          * @param clickedCallback Callback to run when the notification is clicked
-         *
          * @throws IllegalArgumentException Title is null
          * @throws IllegalArgumentException description is null
          * @throws IllegalArgumentException Ticks is less than or equal to 0
          */
         Notification(String title, String description, int ticks, BufferedImage img, Runnable clickedCallback, Color highlightColor) {
-            if(title == null)
+            if (title == null)
                 throw new IllegalArgumentException("Title cannot be null!");
-            if(description == null)
+            if (description == null)
                 throw new IllegalArgumentException("Description cannot be null!");
-            if(ticks <= 0)
+            if (ticks <= 0)
                 throw new IllegalArgumentException("Ticks cannot be less than or equal to 0!");
 
             this.ticksLeft = ticks;
@@ -417,6 +420,7 @@ public class NotificationCenter extends Gui {
 
         /**
          * Set the display image for this notification
+         *
          * @param img Img to display
          * @return This
          */
@@ -429,6 +433,7 @@ public class NotificationCenter extends Gui {
 
         /**
          * Set the callback to be ran when this notification is clicked
+         *
          * @param runnable Runnable to run when clicked
          * @return This
          */
@@ -439,6 +444,7 @@ public class NotificationCenter extends Gui {
 
         /**
          * Set the title of this notification
+         *
          * @param title Title
          * @return This
          */
@@ -449,6 +455,7 @@ public class NotificationCenter extends Gui {
 
         /**
          * Set the highlight color for this notification
+         *
          * @param highlightColor New color
          * @return This
          */
@@ -460,6 +467,7 @@ public class NotificationCenter extends Gui {
         /**
          * Set the description text for this notification
          * Also readjusts the height of notifications
+         *
          * @param description Description text
          * @return This
          */
@@ -476,11 +484,12 @@ public class NotificationCenter extends Gui {
             setDefaultFontRenderer();
             final int lineCount = fontRenderer.listFormattedStringToWidth(description, getWrapWidth()).size();
             final int totalHeight = (fontRenderer.FONT_HEIGHT + lineSpacing) * (Math.min(maxDescriptionLines, lineCount) + 1) + topPadding;
-            if(totalHeight > height) height = totalHeight;
+            if (totalHeight > height) height = totalHeight;
         }
 
         /**
          * Get the width at which point description text needs to wrap
+         *
          * @return The width at which description text should wrap
          */
         private int getWrapWidth() {
@@ -491,6 +500,7 @@ public class NotificationCenter extends Gui {
 
         /**
          * Tick down this notification
+         *
          * @return Whether this notification is complete
          */
         boolean tick() {
@@ -501,6 +511,7 @@ public class NotificationCenter extends Gui {
 
         /**
          * Update percentage completed on the notification
+         *
          * @return New percentage completed
          */
         float updatePercentage() {
@@ -519,6 +530,7 @@ public class NotificationCenter extends Gui {
 
         /**
          * Get the X location of the top left corner of the notification
+         *
          * @return X location
          */
         public int getX(ScaledResolution sr) {
@@ -527,6 +539,7 @@ public class NotificationCenter extends Gui {
 
         /**
          * Get the Y location of the top left corner of the notification
+         *
          * @return Y Location
          */
         public int getY(ScaledResolution sr) {
@@ -566,22 +579,22 @@ public class NotificationCenter extends Gui {
                     null, true), x + highlightBarWidth + highlightBarMargins, y + topPadding, 0xFFFFFF | alpha << 24);
 
             // Description text
-            if(descriptionColor == null) descriptionColor = new Color(80, 80, 80); // Anti-NPE
-            if(maxDescriptionLines > 0) { // Don't draw if no lines
+            if (descriptionColor == null) descriptionColor = new Color(80, 80, 80); // Anti-NPE
+            if (maxDescriptionLines > 0) { // Don't draw if no lines
                 final int wrapWidth = getWrapWidth();
-                if(maxDescriptionLines == 1) { // Well this is easy..
+                if (maxDescriptionLines == 1) { // Well this is easy..
                     fontRenderer.drawString(trimString(
-                                String.valueOf(description),
-                                wrapWidth,
-                                null,
-                                true),
+                            String.valueOf(description),
+                            wrapWidth,
+                            null,
+                            true),
                             x + highlightBarWidth + highlightBarMargins,
                             y + topPadding + fontRenderer.FONT_HEIGHT + lineSpacing,
                             descriptionColor.getRGB() | alpha << 24);
                 } else {
                     // Trim & split into multiple lines
                     List<String> lines = fontRenderer.listFormattedStringToWidth(String.valueOf(description), wrapWidth);
-                    if(lines.size() > maxDescriptionLines) { // Trim size & last line if overflow
+                    if (lines.size() > maxDescriptionLines) { // Trim size & last line if overflow
                         final String nextLine = lines.get(maxDescriptionLines); // The line that would appear after the last one
                         lines = lines.subList(0, maxDescriptionLines);
                         // Next line is appended to guarantee three ellipsis on the end of the string
@@ -597,22 +610,23 @@ public class NotificationCenter extends Gui {
                                 y + topPadding + fontRenderer.FONT_HEIGHT + lineSpacing + fontRenderer.FONT_HEIGHT * currentLine,
                                 descriptionColor.getRGB() | alpha << 24);
 
-                        if(++currentLine >= maxDescriptionLines) break; // stop if too many lines have gone by
+                        if (++currentLine >= maxDescriptionLines) break; // stop if too many lines have gone by
                     }
                 }
             }
 
             // Notification Image
-            if(img != null) {
+            if (img != null) {
                 imgScale = (double) (height - topPadding - fontRenderer.FONT_HEIGHT - imgTopMargins) / imgSize;
-                if(imgScale * imgSize > (double) width / 4) imgScale = ((double) width / 4) / imgSize; // Limit to 25% of width
+                if (imgScale * imgSize > (double) width / 4)
+                    imgScale = ((double) width / 4) / imgSize; // Limit to 25% of width
                 GlStateManager.color(1, 1, 1, 1);
                 GlStateManager.scale(imgScale, imgScale, imgScale);
                 GlStateManager.bindTexture(img.getGlTextureId());
                 GlStateManager.enableTexture2D();
                 drawTexturedModalRect(
                         (float) ((x + width - rightMargins) / imgScale - imgSize),
-                        (float) (y / imgScale + (((height + fontRenderer.FONT_HEIGHT) / imgScale) - imgSize) / 2) ,
+                        (float) (y / imgScale + (((height + fontRenderer.FONT_HEIGHT) / imgScale) - imgSize) / 2),
                         0,
                         0,
                         imgSize,

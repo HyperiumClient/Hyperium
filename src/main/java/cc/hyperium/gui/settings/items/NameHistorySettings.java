@@ -23,7 +23,6 @@ import cc.hyperium.config.DefaultConfig;
 import cc.hyperium.gui.HyperiumGui;
 import cc.hyperium.gui.settings.SettingGui;
 import cc.hyperium.gui.settings.components.SelectionItem;
-import net.minecraft.client.gui.GuiScreen;
 
 public class NameHistorySettings extends SettingGui {
     @ConfigOpt

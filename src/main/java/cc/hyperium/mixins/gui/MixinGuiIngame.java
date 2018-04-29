@@ -37,16 +37,19 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(GuiIngame.class)
 public abstract class MixinGuiIngame extends Gui {
-    
-    @Shadow @Final private Minecraft mc;
 
-    @Shadow public abstract FontRenderer getFontRenderer();
-    
+    @Shadow
+    @Final
+    private Minecraft mc;
+
+    @Shadow
+    public abstract FontRenderer getFontRenderer();
+
     @Inject(method = "renderSelectedItem", at = @At(value = "RETURN", target = "Lnet/minecraft/client/renderer/GlStateManager;popMatrix()V"))
-    public void onRenderSelectedItem(ScaledResolution p_181551_1_, CallbackInfo ci){
+    public void onRenderSelectedItem(ScaledResolution p_181551_1_, CallbackInfo ci) {
         EventBus.INSTANCE.post(new RenderSelectedItemEvent(p_181551_1_));
     }
-    
+
     /**
      * Add toggle for boss bar texture
      *
@@ -57,31 +60,32 @@ public abstract class MixinGuiIngame extends Gui {
     private void renderBossHealth() {
         if (BossStatus.bossName != null && BossStatus.statusBarTime > 0) {
             --BossStatus.statusBarTime;
-    
+
             FontRenderer fontrenderer = this.mc.fontRendererObj;
             ScaledResolution scaledresolution = new ScaledResolution(this.mc);
             int i = scaledresolution.getScaledWidth();
             int i1 = 12;
-            
+
             if (GeneralSetting.bossBarTextOnlyEnabled) {
                 String s = BossStatus.bossName;
-                this.getFontRenderer().drawStringWithShadow(s, (float)(i / 2 - this.getFontRenderer().getStringWidth(s) / 2), (float)(i1 - 10), 16777215);
+                this.getFontRenderer().drawStringWithShadow(s, (float) (i / 2 - this.getFontRenderer().getStringWidth(s) / 2), (float) (i1 - 10), 16777215);
                 GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
                 this.mc.getTextureManager().bindTexture(icons);
                 return;
             }
-            
+
             int j = 182;
             int k = i / 2 - j / 2;
-            int l = (int) (BossStatus.healthScale * (float)(j + 1));
+            int l = (int) (BossStatus.healthScale * (float) (j + 1));
             this.drawTexturedModalRect(k, i1, 0, 74, j, 5);
             this.drawTexturedModalRect(k, i1, 0, 74, j, 5);
-        
+
             if (l > 0) {
-                this.drawTexturedModalRect(k, i1, 0, 79, l, 5); }
-        
+                this.drawTexturedModalRect(k, i1, 0, 79, l, 5);
+            }
+
             String s = BossStatus.bossName;
-            this.getFontRenderer().drawStringWithShadow(s, (float)(i / 2 - this.getFontRenderer().getStringWidth(s) / 2), (float)(i1 - 10), 16777215);
+            this.getFontRenderer().drawStringWithShadow(s, (float) (i / 2 - this.getFontRenderer().getStringWidth(s) / 2), (float) (i1 - 10), 16777215);
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
             this.mc.getTextureManager().bindTexture(icons);
         }

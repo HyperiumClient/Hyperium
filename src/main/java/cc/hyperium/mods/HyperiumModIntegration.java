@@ -53,7 +53,7 @@ public class HyperiumModIntegration {
     private AbstractMod hgames;
     private AbstractMod blockOverlay;
     private AbstractMod spotifyControls;
-    
+
     public HyperiumModIntegration() {
         // ChromaHud implementation
         this.chromaHUD = new ChromaHUD().init();

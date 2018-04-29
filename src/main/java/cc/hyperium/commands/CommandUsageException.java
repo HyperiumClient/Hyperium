@@ -24,7 +24,7 @@ package cc.hyperium.commands;
  * @author boomboompower
  */
 public class CommandUsageException extends CommandException {
-    
+
     /**
      * Default constructor for this class
      */

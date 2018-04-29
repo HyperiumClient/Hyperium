@@ -43,12 +43,12 @@ import java.util.function.Predicate;
 
 
 public class HypixelFriendsGui extends HyperiumGui {
+    private static FriendSortType sortType = FriendSortType.NONE;
     private final int topRenderBound = 50;
     private int tick;
     private HypixelFriends friends;
     private GuiTextField textField;
     private List<HypixelApiFriendObject> selected = new ArrayList<>();
-    private static FriendSortType sortType = FriendSortType.NONE;
     private List<GuiBoxItem<HypixelApiFriendObject>> friendListBoxes = new ArrayList<>();
     private List<GuiBoxItem<HypixelApiFriendObject>> selectedBoxes = new ArrayList<>();
     private GuiBoxItem<HypixelApiFriendObject> selectedItem = null;
@@ -222,7 +222,6 @@ public class HypixelFriendsGui extends HyperiumGui {
         super.drawScreen(mouseX, mouseY, partialTicks);
 
         textField.drawTextBox();
-
 
 
         //Some long name

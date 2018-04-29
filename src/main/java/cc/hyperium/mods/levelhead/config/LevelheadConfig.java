@@ -51,7 +51,7 @@ public class LevelheadConfig {
     @ConfigOpt
     private double headerAlpha = 1.0;
     @ConfigOpt
-    private String customHeader ="Level";
+    private String customHeader = "Level";
 
 
     @ConfigOpt
@@ -68,7 +68,6 @@ public class LevelheadConfig {
     private int footerBlue = 250;
     @ConfigOpt
     private double footerAlpha = 1.0;
-
 
 
     public boolean isFooterChroma() {
@@ -126,7 +125,6 @@ public class LevelheadConfig {
     public void setFooterAlpha(double footerAlpha) {
         this.footerAlpha = footerAlpha;
     }
-
 
 
     public boolean isHeaderChroma() {

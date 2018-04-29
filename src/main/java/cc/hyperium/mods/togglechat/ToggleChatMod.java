@@ -31,12 +31,12 @@ import cc.hyperium.utils.ChatColor;
  * @author boomboompower
  */
 public final class ToggleChatMod extends AbstractMod {
-    
+
     /**
      * The metadata of ToggleChat
      */
     private final Metadata meta;
-    
+
     /**
      * A basic CONFIG loader
      */
@@ -46,35 +46,35 @@ public final class ToggleChatMod extends AbstractMod {
      * A different implementation to the normal ToggleChat, just manages all toggles
      */
     private ToggleBaseHandler toggleHandler;
-    
+
     public ToggleChatMod() {
         Metadata metadata = new Metadata(this, "ToggleChatLite", "1.0", "boomboompower");
-        
+
         metadata.setDisplayName(ChatColor.AQUA + "ToggleChatLite");
-        
+
         this.meta = metadata;
     }
-    
+
     public AbstractMod init() {
         this.configLoader = new ToggleChatConfig(this, Hyperium.folder);
-    
+
         this.toggleHandler = new ToggleBaseHandler();
         this.toggleHandler.remake();
-    
+
         EventBus.INSTANCE.register(new ToggleChatEvents(this));
-    
+
         Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(new CommandToggleChat(this));
-    
+
         this.configLoader.loadToggles();
-        
+
         return this;
     }
-    
+
     @Override
     public Metadata getModMetadata() {
         return this.meta;
     }
-    
+
     /**
      * Getter for ToggleChat's configuration
      *
@@ -83,7 +83,7 @@ public final class ToggleChatMod extends AbstractMod {
     public ToggleChatConfig getConfigLoader() {
         return this.configLoader;
     }
-    
+
     /**
      * Getter for ToggleChat's ToggleHandler
      *

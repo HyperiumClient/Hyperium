@@ -37,7 +37,8 @@ import java.lang.reflect.Method;
 @Mixin(GuiScreen.class)
 public abstract class MixinGuiScreen {
 
-    @Shadow protected Minecraft mc;
+    @Shadow
+    protected Minecraft mc;
     protected GuiScreen instance = (GuiScreen) (Object) this;
 
     @Inject(method = "drawWorldBackground", at = @At("HEAD"), cancellable = true)
@@ -58,7 +59,7 @@ public abstract class MixinGuiScreen {
 
     @Inject(method = "initGui", at = @At("HEAD"))
     private void initGui(CallbackInfo ci) {
-        if(GeneralSetting.blurGuiBackgroundsEnabled) {
+        if (GeneralSetting.blurGuiBackgroundsEnabled) {
             Minecraft.getMinecraft().addScheduledTask(() -> {
                 Method loadShaderMethod = null;
                 try {

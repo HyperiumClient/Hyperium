@@ -322,7 +322,7 @@ public class DisplayElementConfig extends GuiScreen {
     }
 
     private void apply(int mouseX, int mouseY) {
-        if(mouseLock)
+        if (mouseLock)
             return;
         if (!Mouse.isButtonDown(0))
             return;

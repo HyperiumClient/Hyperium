@@ -18,8 +18,8 @@
 package cc.hyperium.utils.mods;
 
 import cc.hyperium.config.ConfigOpt;
-import cc.hyperium.gui.settings.items.GeneralSetting;
 import cc.hyperium.event.*;
+import cc.hyperium.gui.settings.items.GeneralSetting;
 import org.lwjgl.opengl.Display;
 
 public class FPSLimiter {

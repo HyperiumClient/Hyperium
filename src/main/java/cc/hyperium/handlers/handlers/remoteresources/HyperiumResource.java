@@ -32,6 +32,7 @@ public class HyperiumResource {
         this.data = data;
         this.successfullyLoaded = successfullyLoaded;
     }
+
     //Order switched so null, false won't call just string
     public HyperiumResource(boolean successfullyLoaded, BufferedImage image) {
         this.successfullyLoaded = successfullyLoaded;

@@ -35,7 +35,7 @@ import java.io.IOException;
 public class SkinChangerGui extends GuiScreen {
 
     private final SkinChangerMod mod;
-    
+
 //    private FakePlayerUtils.FakePlayer fakePlayer = FakePlayerUtils.getFakePlayer();
 
     private GuiTextField textField;
@@ -84,17 +84,17 @@ public class SkinChangerGui extends GuiScreen {
 //        drawEntityOnScreen(this.width / 2, this.height / 2 - 45, 35, this.width / 2 - mouseX, (this.height / 2 - 90) - mouseY, this.fakePlayer, this.previewCape);
 
         if (this.previewCape) {
-            drawCenteredString(this.mc.fontRendererObj,"Preview Cape", this.width / 2, this.height / 2 - 40, Color.WHITE.getRGB());
+            drawCenteredString(this.mc.fontRendererObj, "Preview Cape", this.width / 2, this.height / 2 - 40, Color.WHITE.getRGB());
         } else {
-            drawCenteredString(this.mc.fontRendererObj,"Preview Skin", this.width / 2, this.height / 2 - 40, Color.WHITE.getRGB());
+            drawCenteredString(this.mc.fontRendererObj, "Preview Skin", this.width / 2, this.height / 2 - 40, Color.WHITE.getRGB());
         }
-        
+
         if (this.previewCape) {
-            drawCenteredString(this.mc.fontRendererObj,ChatColor.WHITE + "Hold Left-Alt to flip the cape!", this.width / 2, this.height / 2 + 100, Color.WHITE.getRGB());
+            drawCenteredString(this.mc.fontRendererObj, ChatColor.WHITE + "Hold Left-Alt to flip the cape!", this.width / 2, this.height / 2 + 100, Color.WHITE.getRGB());
         }
 
         this.textField.drawTextBox();
-        
+
         super.drawScreen(mouseX, mouseY, partialTicks);
     }
 
@@ -145,39 +145,39 @@ public class SkinChangerGui extends GuiScreen {
                 break;
         }
     }
-    
+
     @Override
     protected void keyTyped(char typedChar, int keyCode) throws IOException {
         if (this.textField.textboxKeyTyped(typedChar, keyCode)) {
             return;
         }
-        
+
         super.keyTyped(typedChar, keyCode);
     }
-    
+
     @Override
     protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
         this.textField.mouseClicked(mouseX, mouseY, mouseButton);
-        
+
         super.mouseClicked(mouseX, mouseY, mouseButton);
     }
-    
+
     @Override
     public void sendChatMessage(String msg) {
         GeneralChatHandler.instance().sendMessage(ChatColor.RED + msg, false);
     }
-    
+
     @Override
     public void onGuiClosed() {
         Keyboard.enableRepeatEvents(false);
         this.mod.getConfig().save();
     }
-    
+
     @Override
     public boolean doesGuiPauseGame() {
         return false;
     }
-    
+
     public void display() {
         EventBus.INSTANCE.register(this);
     }

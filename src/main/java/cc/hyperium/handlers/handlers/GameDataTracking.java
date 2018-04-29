@@ -23,7 +23,6 @@ public class GameDataTracking {
     }
 
 
-
     @InvokeEvent
     public void swap(ServerSwitchEvent event) {
         playerKills.clear();

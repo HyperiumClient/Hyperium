@@ -70,14 +70,14 @@ public class NameHistoryGui extends GuiScreen {
             float yPos = height / 5 + 30 + 5 + (i * 10) + offset;
 
             // Check if names have been scrolled outside of bounding box.
-            if(yPos < (height/5) + 32){
+            if (yPos < (height / 5) + 32) {
                 continue;
             }
 
             // Highlight current and original names.
-            if(i == 0){
+            if (i == 0) {
                 fontRenderer.drawString(names.get(i), xPos, yPos, Color.YELLOW.getRGB());
-            } else if(i == names.size()-1){
+            } else if (i == names.size() - 1) {
                 fontRenderer.drawString(names.get(i), xPos, yPos, Color.GREEN.getRGB());
             } else {
                 fontRenderer.drawString(names.get(i), xPos, yPos, defaultColour);
@@ -129,7 +129,7 @@ public class NameHistoryGui extends GuiScreen {
         if (i < 0) {
             // works out length of scrollable area
 
-            int length = height/5 - (int) (names.size() * fontRenderer.getHeight("s"));
+            int length = height / 5 - (int) (names.size() * fontRenderer.getHeight("s"));
 
             if (offset - length + 1 > -names.size() && length <= names.size()) {
                 // regions it cant exceed

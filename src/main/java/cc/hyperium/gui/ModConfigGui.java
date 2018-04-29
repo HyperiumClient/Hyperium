@@ -206,7 +206,7 @@ public class ModConfigGui extends HyperiumGui {
                     count.get(), getX(0),
                     getDefaultItemY(count.get()),
                     width - getX(0) * 2,
-                    addon.getName()+" :: "+addon.getVersion(),
+                    addon.getName() + " :: " + addon.getVersion(),
                     i -> {
                         //TODO: Addon config gui
                     }

@@ -17,7 +17,7 @@ public abstract class MixinGuiScreenBook extends GuiScreen {
     private void onGuiClosed(CallbackInfo ci) {
         super.onGuiClosed();
     }
-    
+
     /**
      * @see MixinGuiScreen#initGui(CallbackInfo)
      */

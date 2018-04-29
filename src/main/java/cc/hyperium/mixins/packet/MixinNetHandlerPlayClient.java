@@ -45,15 +45,15 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 
 /**
  * Provides code that may be used in mods that require it
- *
  */
 @Mixin(NetHandlerPlayClient.class)
 public abstract class MixinNetHandlerPlayClient {
-    
-    @Shadow private WorldClient clientWorldController;
+
+    @Shadow
+    private WorldClient clientWorldController;
     @Shadow
     private Minecraft gameController;
-    
+
     private TimeChanger timeChanger = (TimeChanger) Hyperium.INSTANCE.getModIntegration().getTimeChanger();
 
     /**
@@ -90,7 +90,7 @@ public abstract class MixinNetHandlerPlayClient {
                 break;
         }
     }
-    
+
     /**
      * The actual logic of the packet, may be spoofed.
      *
@@ -98,11 +98,11 @@ public abstract class MixinNetHandlerPlayClient {
      */
     private void handleActualPacket(S03PacketTimeUpdate packetIn) {
         PacketThreadUtil.checkThreadAndEnqueue(packetIn,
-            (INetHandlerPlayClient) getNetworkManager().getNetHandler(), this.gameController);
+                (INetHandlerPlayClient) getNetworkManager().getNetHandler(), this.gameController);
         this.gameController.theWorld.setTotalWorldTime(packetIn.getTotalWorldTime());
         this.gameController.theWorld.setWorldTime(packetIn.getWorldTime());
     }
-    
+
     /**
      * Renders a specified animation: Waking up a player, a living entity swinging its currently held item, being hurt
      * or receiving a critical hit by normal or magical means
@@ -113,22 +113,22 @@ public abstract class MixinNetHandlerPlayClient {
     @Overwrite
     public void handleAnimation(S0BPacketAnimation packetIn) {
         PacketThreadUtil.checkThreadAndEnqueue(packetIn, (INetHandlerPlayClient) getNetworkManager().getNetHandler(), this.gameController);
-        
+
         // Stops the code if the world is null, usually due to a weird packet from the server
         if (this.clientWorldController == null) {
             return;
         }
-        
+
         Entity entity = this.clientWorldController.getEntityByID(packetIn.getEntityID());
-        
+
         if (entity != null) {
             if (packetIn.getAnimationType() == 0) {
-                EntityLivingBase entitylivingbase = (EntityLivingBase)entity;
+                EntityLivingBase entitylivingbase = (EntityLivingBase) entity;
                 entitylivingbase.swingItem();
             } else if (packetIn.getAnimationType() == 1) {
                 entity.performHurtAnimation();
             } else if (packetIn.getAnimationType() == 2) {
-                EntityPlayer entityplayer = (EntityPlayer)entity;
+                EntityPlayer entityplayer = (EntityPlayer) entity;
                 entityplayer.wakeUpPlayer(false, false, false);
             } else if (packetIn.getAnimationType() == 4) {
                 this.gameController.effectRenderer.emitParticleAtEntity(entity, EnumParticleTypes.CRIT);
@@ -137,10 +137,10 @@ public abstract class MixinNetHandlerPlayClient {
             }
         }
     }
-    
+
     /**
      * Allows detection of incoming chat packets from the server (includes actionbars)
-     *
+     * <p>
      * Byte values for the event
      * 0 : Standard Text Message, displayed in chat
      * 1 : 'System' message, displayed as standard text in the chat.
@@ -152,16 +152,16 @@ public abstract class MixinNetHandlerPlayClient {
     @Overwrite
     public void handleChat(S02PacketChat packetIn) {
         PacketThreadUtil.checkThreadAndEnqueue(packetIn, (INetHandlerPlayClient) getNetworkManager().getNetHandler(), this.gameController);
-        
+
         ServerChatEvent event = new ServerChatEvent(packetIn.getType(), packetIn.getChatComponent());
-        
+
         EventBus.INSTANCE.post(event);
-        
+
         // If the event is cancelled or the message is empty, we'll ignore the packet.
         if (event.isCancelled() || event.getChat().getFormattedText().isEmpty()) {
             return;
         }
-        
+
         if (packetIn.getType() == 2) {
             this.gameController.ingameGUI.setRecordPlaying(event.getChat(), false);
         } else {
@@ -169,7 +169,7 @@ public abstract class MixinNetHandlerPlayClient {
             this.gameController.ingameGUI.getChatGUI().printChatMessage(event.getChat());
         }
     }
-    
+
     @Shadow
     public abstract NetworkManager getNetworkManager();
 }

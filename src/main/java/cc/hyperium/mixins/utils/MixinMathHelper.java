@@ -25,14 +25,16 @@ import org.spongepowered.asm.mixin.Shadow;
 
 @Mixin(MathHelper.class)
 public class MixinMathHelper {
-    @Shadow @Final private static float[] SIN_TABLE;
+    @Shadow
+    @Final
+    private static float[] SIN_TABLE;
 
     /**
      * @author Cubxity and Mojang
      */
     @Overwrite
     public static float sin(float p_76126_0_) {
-        return SIN_TABLE[(int)(p_76126_0_ * 10430.378F) & 65535];
+        return SIN_TABLE[(int) (p_76126_0_ * 10430.378F) & 65535];
     }
 
     /**
@@ -40,7 +42,7 @@ public class MixinMathHelper {
      */
     @Overwrite
     public static float cos(float value) {
-        return SIN_TABLE[(int)(value * 10430.378F + 16384.0F) & 65535];
+        return SIN_TABLE[(int) (value * 10430.378F + 16384.0F) & 65535];
     }
 
 }

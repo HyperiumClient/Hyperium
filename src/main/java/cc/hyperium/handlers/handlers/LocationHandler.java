@@ -87,7 +87,7 @@ public class LocationHandler {
     public void miniGameJoin(JoinMinigameEvent event) {
         if (event.getMinigame() == Minigame.HOUSING) {
             NettyClient.getClient().write(UpdateLocationPacket.build(Minigame.HOUSING.name()));
-            if (Hyperium.INSTANCE.getHandlers().getFlipHandler().getSelf() !=0)
+            if (Hyperium.INSTANCE.getHandlers().getFlipHandler().getSelf() != 0)
                 NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("type", "flip_update").put("flip_state", 2)));
 
         }

@@ -33,37 +33,37 @@ public class SelectionItem<T> extends SettingItem {
         super(id, x, y, width, displayString, callback);
     }
 
-    public void setSelectedItem(T selectedItem) {
-        this.selectedItem = selectedItem;
-    }
-
     public T getSelectedItem() {
         return selectedItem;
     }
 
-    public void addItem(T item){
+    public void setSelectedItem(T selectedItem) {
+        this.selectedItem = selectedItem;
+    }
+
+    public void addItem(T item) {
         items.add(item);
     }
 
-    public void addItems(Collection<T> item){
+    public void addItems(Collection<T> item) {
         items.addAll(item);
     }
 
-    public void addDefaultOnOff(){
+    public void addDefaultOnOff() {
         ((List<String>) items).add("ON");
         ((List<String>) items).add("OFF");
     }
 
-    public void nextItem(){
-        if(items.isEmpty())
+    public void nextItem() {
+        if (items.isEmpty())
             return;
-        if(!items.contains(selectedItem)) {
+        if (!items.contains(selectedItem)) {
             selectedItem = items.get(0);
             return;
         }
         int i = items.indexOf(selectedItem);
-        if(i == items.size() - 1)
-            i =0;
+        if (i == items.size() - 1)
+            i = 0;
         else i++;
         selectedItem = items.get(i);
     }
@@ -96,7 +96,7 @@ public class SelectionItem<T> extends SettingItem {
             }
 
             fontRenderer.drawString(this.displayString, x + 4, y + (this.height - 8) / 2, j);
-            fontRenderer.drawString(String.valueOf(selectedItem), x+width - (fontRenderer.getWidth(String.valueOf(selectedItem)) + 10), y + (this.height - 8) / 2, j);
+            fontRenderer.drawString(String.valueOf(selectedItem), x + width - (fontRenderer.getWidth(String.valueOf(selectedItem)) + 10), y + (this.height - 8) / 2, j);
         }
     }
 }

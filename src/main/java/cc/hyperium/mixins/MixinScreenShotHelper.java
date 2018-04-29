@@ -96,11 +96,11 @@ public class MixinScreenShotHelper {
         boolean upload = true;
         pixelBuffer.get(pixelValues);
 
-        if(!GeneralSetting.uploadScreenshotsByDefault) {
+        if (!GeneralSetting.uploadScreenshotsByDefault) {
             upload = Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT);
         }
         new Thread(new AsyncScreenshotSaver(width, height, pixelValues, Minecraft.getMinecraft().getFramebuffer(), new File(Minecraft.getMinecraft().mcDataDir, "screenshots"), upload)).start();
-        if(!upload) return new ChatComponentText(ChatColor.RED + "[Hyperium] " + ChatColor.WHITE + "Capturing...");
+        if (!upload) return new ChatComponentText(ChatColor.RED + "[Hyperium] " + ChatColor.WHITE + "Capturing...");
         return new ChatComponentText(ChatColor.RED + "[Hyperium] " + ChatColor.WHITE + "Uploading...");
     }
 

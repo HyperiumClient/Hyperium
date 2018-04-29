@@ -18,10 +18,10 @@
 package cc.hyperium.handlers.handlers.remoteresources;
 
 import cc.hyperium.Hyperium;
+import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.utils.JsonHolder;
 import com.google.gson.JsonObject;
-import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
 import org.apache.commons.io.IOUtils;
 
 import javax.imageio.ImageIO;

@@ -75,7 +75,7 @@ public class PurchaseApi {
                 if (purchase != null) {
                     purchasePlayers.put(id, purchase);
                 }
-                System.out.println("Cleared purchase cache ("+purchasePlayers.size()+")");
+                System.out.println("Cleared purchase cache (" + purchasePlayers.size() + ")");
             }
         });
 

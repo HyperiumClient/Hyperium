@@ -80,7 +80,6 @@ public class BackgroundSettings extends SettingGui {
         this.fastChat.setSelectedItem(fastChatEnabled ? "ON" : "OFF");
 
 
-
         this.settingItems.add(this.fastWorldGui = new SelectionItem<>(2, getX(), getDefaultItemY(2), this.width - getX() * 2, "FAST CONTAINERS", i -> {
             ((SelectionItem) i).nextItem();
             fastWorldGuiEnabled = ((SelectionItem) i).getSelectedItem().equals("ON");

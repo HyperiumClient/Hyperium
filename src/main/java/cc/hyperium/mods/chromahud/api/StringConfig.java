@@ -24,6 +24,7 @@ public class StringConfig {
     private String string;
     private Consumer<DisplayItem> load;
     private Consumer<DisplayItem> draw;
+
     public StringConfig(String string, Consumer<DisplayItem> load, Consumer<DisplayItem> draw) {
         this.string = string;
         this.load = load;

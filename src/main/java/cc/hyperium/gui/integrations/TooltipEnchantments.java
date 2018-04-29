@@ -20,12 +20,13 @@ package cc.hyperium.gui.integrations;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.RenderSelectedItemEvent;
 
-public class TooltipEnchantments{
+public class TooltipEnchantments {
     @InvokeEvent
-    public void onRenderSelectedItem(RenderSelectedItemEvent event){
+    public void onRenderSelectedItem(RenderSelectedItemEvent event) {
 
     }
-    public enum EnchantmentsTranslation{
+
+    public enum EnchantmentsTranslation {
 
     }
 }

@@ -41,13 +41,13 @@ public class CommandConfigGui implements BaseCommand {
     public String getUsage() {
         return ChatColor.RED + "Usage: /hyperiumconfig";
     }
-    
+
     @Override
     public List<String> getCommandAliases() {
         // Allow an alias for the main config gui
         return Collections.singletonList("hyperium");
     }
-    
+
     @Override
     public void onExecute(String[] args) {
         new ModConfigGui().show();

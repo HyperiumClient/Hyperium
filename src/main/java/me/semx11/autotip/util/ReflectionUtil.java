@@ -175,15 +175,15 @@ public class ReflectionUtil {
         return theEnum;
     }
 
-    public static <T, E> T getPrivateValue(Class <? super E > classToAccess, E instance, String... fieldNames) {
+    public static <T, E> T getPrivateValue(Class<? super E> classToAccess, E instance, String... fieldNames) {
         try {
             return (T) findField(classToAccess, fieldNames).get(instance);
         } catch (Exception e) {
             throw new UnableToAccessFieldException(fieldNames, e);
         }
     }
-    
-    public static <T, E> void setPrivateValue(Class <? super T > classToAccess, T instance, E value, String... fieldNames) {
+
+    public static <T, E> void setPrivateValue(Class<? super T> classToAccess, T instance, E value, String... fieldNames) {
         try {
             findField(classToAccess, fieldNames).set(instance, value);
         } catch (Exception e) {

@@ -32,7 +32,6 @@ public class GraphicsUtil {
     }
 
 
-
     private void createGraphics() {
         BufferedImage image = new BufferedImage(10, 10, BufferedImage.TYPE_INT_RGB);
         persistantGraphics = image.getGraphics();

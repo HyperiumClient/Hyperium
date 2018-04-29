@@ -43,5 +43,7 @@ public class HyperiumCosmetics {
         return flipCosmetic;
     }
 
-    public Deadmau5Cosmetic getDeadmau5Cosmetic(){ return deadmau5Cosmetic; }
+    public Deadmau5Cosmetic getDeadmau5Cosmetic() {
+        return deadmau5Cosmetic;
+    }
 }

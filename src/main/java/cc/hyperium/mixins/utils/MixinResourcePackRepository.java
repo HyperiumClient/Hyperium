@@ -43,11 +43,10 @@ public class MixinResourcePackRepository {
      * @author
      */
     @Inject(method = "func_183028_i", at = @At("HEAD"), cancellable = true)
-    private void func_183028_i(CallbackInfo callbackInfo)
-    {
-        try{
+    private void func_183028_i(CallbackInfo callbackInfo) {
+        try {
             FileUtils.listFiles(this.dirServerResourcepacks, TrueFileFilter.TRUE, (IOFileFilter) null);
-        } catch (Exception e){
+        } catch (Exception e) {
             callbackInfo.cancel();
         }
     }

@@ -29,12 +29,12 @@ public class Dimension {
         return width;
     }
 
-    public double getHeight() {
-        return height;
-    }
-
     public void setWidth(double width) {
         this.width = width;
+    }
+
+    public double getHeight() {
+        return height;
     }
 
     public void setHeight(double height) {

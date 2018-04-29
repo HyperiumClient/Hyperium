@@ -44,19 +44,18 @@ import java.util.List;
 public class ChromaHUD extends AbstractMod {
     public static final String MODID = "ChromaHUD";
     public static final String VERSION = "3.0";
-    private File suggestedConfigurationFile;
-    private boolean enabled = true;
-    
     /**
      * The metadata of ChromaHUD
      */
     private final Metadata meta;
-    
+    private File suggestedConfigurationFile;
+    private boolean enabled = true;
+
     public ChromaHUD() {
         Metadata metadata = new Metadata(this, "ChromaHUD", "3.0", "Sk1er");
-    
+
         metadata.setDisplayName(ChatColor.AQUA + "ChromaHUD");
-    
+
         this.meta = metadata;
     }
 
@@ -143,7 +142,7 @@ public class ChromaHUD extends AbstractMod {
             if (state < 0 || state > 2) {
                 state = 0;
             }
-            data.put("state",state);
+            data.put("state", state);
 
         }, new GuiButton(0, 0, 0, "Toggle Number"), (guiButton, displayItem) -> {
             JsonHolder data = displayItem.getData();
@@ -165,18 +164,18 @@ public class ChromaHUD extends AbstractMod {
         }));
         setup();
         EventBus.INSTANCE.register(new ElementRenderer(this));
-    
+
         Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(new CommandChromaHUD(this));
-        
+
         return this;
     }
-    
+
     @Override
     public Metadata getModMetadata() {
         return this.meta;
     }
-    
-    
+
+
     public void setup() {
         JsonHolder data = new JsonHolder();
         try {

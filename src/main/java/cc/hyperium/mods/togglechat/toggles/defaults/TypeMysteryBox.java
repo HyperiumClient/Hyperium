@@ -45,14 +45,15 @@ public class TypeMysteryBox extends ToggleBase {
     }
 
     @Override
+    public boolean isEnabled() {
+        return this.enabled;
+    }
+
+    @Override
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
     }
 
-    @Override
-    public boolean isEnabled() {
-        return this.enabled;
-    }
     @Override
     public LinkedList<String> getDescription() {
         return asLinked(

@@ -28,6 +28,22 @@ public class BlockOverlay extends AbstractMod {
         meta.setDisplayName(ChatColor.RED + "BlockOverlay");
     }
 
+    public static void saveConfig() {
+        try {
+            final File file = new File(Minecraft.getMinecraft().mcDataDir + "/config/blockOverlay.cfg");
+            if (!file.exists()) {
+                file.getParentFile().mkdirs();
+                file.createNewFile();
+            }
+            final BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+            writer.write(BlockOverlay.mode.name + "\r\n" + BlockOverlay.red + "\r\n" + BlockOverlay.green + "\r\n" + BlockOverlay.blue + "\r\n" + BlockOverlay.alpha + "\r\n" + BlockOverlay.alwaysRender + "\r\n" + BlockOverlay.isChroma + "\r\n" + BlockOverlay.chromaSpeed + "\r\n" + BlockOverlay.lineWidth);
+            writer.close();
+        } catch (Exception exception) {
+            System.out.println("Error occurred while saving BlockOverlay configuration");
+            exception.printStackTrace();
+        }
+    }
+
     @Override
     public AbstractMod init() {
         BlockOverlay.alwaysRender = false;
@@ -71,22 +87,6 @@ public class BlockOverlay extends AbstractMod {
             }
         } catch (Exception exception) {
             System.out.println("Error occurred while loading BlockOverlay configuration");
-            exception.printStackTrace();
-        }
-    }
-
-    public static void saveConfig() {
-        try {
-            final File file = new File(Minecraft.getMinecraft().mcDataDir + "/config/blockOverlay.cfg");
-            if (!file.exists()) {
-                file.getParentFile().mkdirs();
-                file.createNewFile();
-            }
-            final BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-            writer.write(BlockOverlay.mode.name + "\r\n" + BlockOverlay.red + "\r\n" + BlockOverlay.green + "\r\n" + BlockOverlay.blue + "\r\n" + BlockOverlay.alpha + "\r\n" + BlockOverlay.alwaysRender + "\r\n" + BlockOverlay.isChroma + "\r\n" + BlockOverlay.chromaSpeed + "\r\n" + BlockOverlay.lineWidth);
-            writer.close();
-        } catch (Exception exception) {
-            System.out.println("Error occurred while saving BlockOverlay configuration");
             exception.printStackTrace();
         }
     }

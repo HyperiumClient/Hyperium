@@ -38,11 +38,6 @@ import java.util.function.Consumer;
 @SuppressWarnings({"unchecked", "FieldCanBeLocal"})
 public class GeneralSetting extends SettingGui {
 
-    /**
-     * The configuration instance, for all the settings below
-     */
-    private DefaultConfig config;
-
     @ConfigOpt
     public static boolean discordRPEnabled = true;
     @ConfigOpt
@@ -89,8 +84,13 @@ public class GeneralSetting extends SettingGui {
     public static boolean screenshotOnKillEnabled = false;
     @ConfigOpt
     public static boolean spotifyControlsEnabled = false;
-
-    /** Set to true when a setting is changed, this will trigger a save when the gui is closed */
+    /**
+     * The configuration instance, for all the settings below
+     */
+    private DefaultConfig config;
+    /**
+     * Set to true when a setting is changed, this will trigger a save when the gui is closed
+     */
     private boolean settingsUpdated;
     private int currentID = 0;
 

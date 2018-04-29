@@ -161,16 +161,16 @@ public class ToggleChatMainGui extends GuiScreen {
             }
         }
     }
-    
+
     @Override
     public boolean doesGuiPauseGame() {
         return false;
     }
-    
+
     public void display() {
         EventBus.INSTANCE.register(this);
     }
-    
+
     @InvokeEvent
     public void tick(TickEvent e) {
         EventBus.INSTANCE.unregister(this);

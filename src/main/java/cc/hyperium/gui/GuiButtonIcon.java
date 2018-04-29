@@ -63,7 +63,7 @@ public class GuiButtonIcon extends GuiButton {
             GlStateManager.scale(mag, mag, mag);
             this.drawTexturedModalRect(-width / 2, -height / 2, 52 * sprite, 0, this.width, this.height);
             GlStateManager.scale(1.0F / mag, 1.0F / mag, 1.0F / mag);
-            GlStateManager.color(1.0F,1.0F,1.0F,1.0F);
+            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
             this.drawTexturedModalRect(-width / 2, -height / 2, 52 * sprite, 0, this.width, this.height);
 
             GlStateManager.disableBlend();

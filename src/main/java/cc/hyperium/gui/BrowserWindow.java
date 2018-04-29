@@ -20,16 +20,12 @@ package cc.hyperium.gui;
 import cc.hyperium.Hyperium;
 import cc.hyperium.installer.components.MotionPanel;
 import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
-
 import com.teamdev.jxbrowser.chromium.Browser;
 import com.teamdev.jxbrowser.chromium.swing.BrowserView;
-
 import net.minecraft.client.gui.ScaledResolution;
-
 import org.lwjgl.opengl.Display;
 
 import javax.swing.*;
-
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -44,7 +40,7 @@ import java.net.URL;
  * A window which can be used to quickly view a webpage in-game
  */
 public class BrowserWindow extends JFrame {
-    
+
     public static final int WIDTH = 400;
     public static final int HEIGHT = 250;
     private float scale = 1.0F;
@@ -53,14 +49,14 @@ public class BrowserWindow extends JFrame {
     private MotionPanel mp;
     private boolean ctrlPressed = false;
     private boolean shiftPressed = false;
-    
+
     public BrowserWindow(String url) {
         CookieHandler cookieManager;
-        
+
         cookieManager = new CookieManager();
-        
+
         CookieHandler.setDefault(cookieManager);
-        
+
         super.frameInit();
         initComponents();
         setToDefaultSize();
@@ -87,7 +83,7 @@ public class BrowserWindow extends JFrame {
                     BrowserWindow.this.shiftPressed = false;
                 }
             }
-            
+
             @Override
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_CONTROL) {
@@ -95,24 +91,24 @@ public class BrowserWindow extends JFrame {
                 } else if (e.getKeyCode() == KeyEvent.VK_SHIFT) {
                     shiftPressed = true;
                 } else if (ctrlPressed && e.getKeyCode() == KeyEvent.VK_PLUS
-                    || e.getKeyCode() == KeyEvent.VK_EQUALS) {
+                        || e.getKeyCode() == KeyEvent.VK_EQUALS) {
                     browser.zoomIn();
                 } else if (ctrlPressed && e.getKeyCode() == KeyEvent.VK_MINUS
-                    || e.getKeyCode() == KeyEvent.VK_UNDERSCORE) {
+                        || e.getKeyCode() == KeyEvent.VK_UNDERSCORE) {
                     browser.zoomOut();
                 } else if (ctrlPressed && shiftPressed && e.getKeyCode() == KeyEvent.VK_PLUS
-                    || e.getKeyCode() == KeyEvent.VK_EQUALS) {
+                        || e.getKeyCode() == KeyEvent.VK_EQUALS) {
                     scale += 0.1;
                     scale(scale);
                 } else if (ctrlPressed && shiftPressed && e.getKeyCode() == KeyEvent.VK_MINUS
-                    || e.getKeyCode() == KeyEvent.VK_UNDERSCORE) {
+                        || e.getKeyCode() == KeyEvent.VK_UNDERSCORE) {
                     scale -= 0.1;
                     scale(scale);
                 }
             }
         });
     }
-    
+
     /**
      * Gets the url version of the string, returns null if the url is not valid
      *
@@ -126,7 +122,7 @@ public class BrowserWindow extends JFrame {
             return null;
         }
     }
-    
+
     /**
      * Loads a url into the browser
      *
@@ -137,25 +133,25 @@ public class BrowserWindow extends JFrame {
         if (tmp == null) {
             tmp = toURL("https://" + url);
         }
-        
+
         // Final check
         if (tmp != null) {
             this.browser.loadURL(tmp);
         }
     }
-    
+
     public Browser getBrowser() {
         return this.browser;
     }
-    
+
     public BrowserView getBrowserView() {
         return this.browserView;
     }
-    
+
     public MotionPanel getMotionPanel() {
         return this.mp;
     }
-    
+
     /**
      * Sets the browser window to its default size
      */
@@ -163,7 +159,7 @@ public class BrowserWindow extends JFrame {
         // Cross call
         scale(1);
     }
-    
+
     /**
      * Scales the browser
      *
@@ -176,7 +172,7 @@ public class BrowserWindow extends JFrame {
         ScaledResolution current = ResolutionUtil.current();
         int rightX = Display.getX() + current.getScaledWidth() * current.getScaleFactor();
         int bottomY = Display.getY() + current.getScaledHeight() * current.getScaleFactor();
-        
+
         this.setLocation(rightX - width, bottomY - height);
         mp.setBounds(0, 0, getWidth(), 10);
         mp.getComponent(0).setBounds(getWidth() - 30, 0, 15, 10);
@@ -184,18 +180,18 @@ public class BrowserWindow extends JFrame {
         browserView.setBounds(0, 10, getWidth(), getHeight() - 10);
         browser.setZoomLevel(-3.8017840169239308);
     }
-    
+
     private void initComponents() {
         Container container = getContentPane();
         container.setLayout(null);
         browser = new Browser();
         browserView = new BrowserView(browser);
-        
+
         mp = new MotionPanel(this);
         mp.setBounds(0, 0, getWidth(), 10);
         mp.setBackground(new Color(30, 30, 30));
         mp.setLayout(null);
-        
+
         JButton max = new JButton();
         max.setBackground(new Color(40, 40, 40));
         max.setSize(15, 10);
@@ -203,8 +199,8 @@ public class BrowserWindow extends JFrame {
         max.setBorderPainted(false);
         max.setFocusPainted(false);
         max.addActionListener(
-            a -> Hyperium.INSTANCE.getHandlers().getBrowserManager().toggleMaximize());
-        
+                a -> Hyperium.INSTANCE.getHandlers().getBrowserManager().toggleMaximize());
+
         JButton exit = new JButton();
         exit.setBackground(Color.RED);
         exit.setSize(15, 10);
@@ -221,6 +217,6 @@ public class BrowserWindow extends JFrame {
         container.add(browserView);
         container.add(mp);
         setContentPane(container);
-        
+
     }
 }

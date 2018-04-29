@@ -81,7 +81,7 @@ public class LevelHeadGui extends GuiScreen {
     private boolean isCustom = false;
     private GuiTextField textField;
     private ReentrantLock lock = new ReentrantLock();
-    
+
     private Levelhead mod;
 
     public LevelHeadGui(Levelhead modIn) {

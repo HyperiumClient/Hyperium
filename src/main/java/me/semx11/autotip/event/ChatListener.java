@@ -20,11 +20,11 @@ package me.semx11.autotip.event;
 import cc.hyperium.event.ChatEvent;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
+import cc.hyperium.utils.ChatColor;
 import me.semx11.autotip.Autotip;
 import me.semx11.autotip.command.LimboCommand;
 import me.semx11.autotip.misc.TipTracker;
 import me.semx11.autotip.misc.Writer;
-import cc.hyperium.utils.ChatColor;
 import me.semx11.autotip.util.ClientMessage;
 import me.semx11.autotip.util.MessageOption;
 

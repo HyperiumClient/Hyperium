@@ -33,15 +33,15 @@ public class RichPresenceUpdater {
     RichPresenceUpdater(IPCClient client) {
         this.client = client;
         if (!GeneralSetting.discordRPEnabled) return;
-        
-         RichPresence.Builder builder = new RichPresence.Builder();
-         client.sendRichPresence(builder
-                 .setSmallImage("compass")
-                 .setLargeImage("hyperium", "Hyperium Client")
-                 .setState("IGN: " + Minecraft.getMinecraft().getSession().getUsername())
-                 .setDetails("On the Main Menu")
-                 .setStartTimestamp(OffsetDateTime.now())
-                 .build());
+
+        RichPresence.Builder builder = new RichPresence.Builder();
+        client.sendRichPresence(builder
+                .setSmallImage("compass")
+                .setLargeImage("hyperium", "Hyperium Client")
+                .setState("IGN: " + Minecraft.getMinecraft().getSession().getUsername())
+                .setDetails("On the Main Menu")
+                .setStartTimestamp(OffsetDateTime.now())
+                .build());
     }
 
     @InvokeEvent(priority = Priority.LOW)

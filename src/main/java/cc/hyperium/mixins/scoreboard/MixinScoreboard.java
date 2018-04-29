@@ -28,11 +28,15 @@ import java.util.Map;
 
 @Mixin(Scoreboard.class)
 public abstract class MixinScoreboard {
-    
-    @Shadow @Final private Map<String, ScorePlayerTeam> teams;
-    
-    @Shadow @Final private Map<String, ScorePlayerTeam> teamMemberships;
-    
+
+    @Shadow
+    @Final
+    private Map<String, ScorePlayerTeam> teams;
+
+    @Shadow
+    @Final
+    private Map<String, ScorePlayerTeam> teamMemberships;
+
     /**
      * Fix NPE's
      *
@@ -43,17 +47,18 @@ public abstract class MixinScoreboard {
         if (team == null) {
             return;
         }
-        
+
         if (team.getRegisteredName() != null) {
             this.teams.remove(team.getRegisteredName());
         }
-    
+
         for (String s : team.getMembershipCollection()) {
             this.teamMemberships.remove(s);
         }
-    
+
         this.func_96513_c(team);
     }
-    
-    @Shadow public abstract void func_96513_c(ScorePlayerTeam playerTeam);
+
+    @Shadow
+    public abstract void func_96513_c(ScorePlayerTeam playerTeam);
 }

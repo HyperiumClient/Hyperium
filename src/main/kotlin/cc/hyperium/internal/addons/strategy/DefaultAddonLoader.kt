@@ -25,7 +25,7 @@ class DefaultAddonLoader : AddonLoaderStrategy() {
      */
     @Throws(Exception::class)
     override fun load(file: File?): AddonManifest? {
-        if(file == null) {
+        if (file == null) {
             throw AddonLoadException("Could not load file; parameter issued was null.")
         }
 

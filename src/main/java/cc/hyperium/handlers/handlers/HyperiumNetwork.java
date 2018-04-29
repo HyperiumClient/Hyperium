@@ -36,10 +36,10 @@ public class HyperiumNetwork {
         Minecraft.getMinecraft().getNetHandler().addToSendQueue(
                 new C17PacketCustomPayload("hyperium",
                         new PacketBuffer(Unpooled.buffer()).writeString(new JsonHolder()
-                .put("id", Metadata.getModid())
-                .put("optifine", HyperiumTweaker.Companion.isUsingOptifine())
-                .put("forge", HyperiumTweaker.Companion.isUsingForge())
-                .put("version", Metadata.getVersion()).toString())));
+                                .put("id", Metadata.getModid())
+                                .put("optifine", HyperiumTweaker.Companion.isUsingOptifine())
+                                .put("forge", HyperiumTweaker.Companion.isUsingForge())
+                                .put("version", Metadata.getVersion()).toString())));
     }
 
 }

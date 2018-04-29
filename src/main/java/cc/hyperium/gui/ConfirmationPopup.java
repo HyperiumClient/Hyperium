@@ -110,7 +110,7 @@ public class ConfirmationPopup {
             if (framesLeft <= 0) {
                 return true;
             }
-            if(text.equalsIgnoreCase("Party request from "+acceptFrom)) {
+            if (text.equalsIgnoreCase("Party request from " + acceptFrom)) {
                 callback.accept(true);
                 return true;
             }

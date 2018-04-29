@@ -106,7 +106,7 @@ class AddonManifestParser {
     private fun copyLarge(input: InputStream, output: OutputStream, buffer: ByteArray): Long {
         var count: Long = 0
         var n = 0
-        while ({n = input.read(buffer); n}() != -1) {
+        while ({ n = input.read(buffer); n }() != -1) {
             output.write(buffer, 0, n)
             count += n.toLong()
         }

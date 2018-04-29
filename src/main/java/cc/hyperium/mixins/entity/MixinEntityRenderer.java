@@ -81,7 +81,7 @@ public abstract class MixinEntityRenderer {
         double d0 = entity.prevPosX + (entity.posX - entity.prevPosX) * partialTicks;
         double d2 = entity.prevPosY + (entity.posY - entity.prevPosY) * partialTicks + f;
         double d3 = entity.prevPosZ + (entity.posZ - entity.prevPosZ) * partialTicks;
-        if (entity instanceof EntityLivingBase && ((EntityLivingBase)entity).isPlayerSleeping()) {
+        if (entity instanceof EntityLivingBase && ((EntityLivingBase) entity).isPlayerSleeping()) {
             ++f;
             GlStateManager.translate(0.0f, 0.3f, 0.0f);
             if (!this.mc.gameSettings.debugCamEnable) {
@@ -96,13 +96,11 @@ public abstract class MixinEntityRenderer {
                 GlStateManager.rotate(entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw) * partialTicks + 180.0f, 0.0f, -1.0f, 0.0f);
                 GlStateManager.rotate(entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * partialTicks, -1.0f, 0.0f, 0.0f);
             }
-        }
-        else if (this.mc.gameSettings.thirdPersonView > 0) {
+        } else if (this.mc.gameSettings.thirdPersonView > 0) {
             double d4 = this.thirdPersonDistanceTemp + (this.thirdPersonDistance - this.thirdPersonDistanceTemp) * partialTicks;
             if (this.mc.gameSettings.debugCamEnable) {
-                GlStateManager.translate(0.0f, 0.0f, (float)(-d4));
-            }
-            else {
+                GlStateManager.translate(0.0f, 0.0f, (float) (-d4));
+            } else {
                 float f2 = entity.rotationYaw;
                 float f3 = entity.rotationPitch;
                 if (Hyperium.INSTANCE.getPerspective().isEnabled()) {
@@ -136,20 +134,18 @@ public abstract class MixinEntityRenderer {
                 if (Hyperium.INSTANCE.getPerspective().isEnabled()) {
                     GlStateManager.rotate(Hyperium.INSTANCE.getPerspective().modifiedPitch - f3, 1.0f, 0.0f, 0.0f);
                     GlStateManager.rotate(Hyperium.INSTANCE.getPerspective().modifiedYaw - f2, 0.0f, 1.0f, 0.0f);
-                    GlStateManager.translate(0.0f, 0.0f, (float)(-d4));
+                    GlStateManager.translate(0.0f, 0.0f, (float) (-d4));
                     GlStateManager.rotate(f2 - Hyperium.INSTANCE.getPerspective().modifiedYaw, 0.0f, 1.0f, 0.0f);
                     GlStateManager.rotate(f3 - Hyperium.INSTANCE.getPerspective().modifiedPitch, 1.0f, 0.0f, 0.0f);
-                }
-                else {
+                } else {
                     GlStateManager.rotate(entity.rotationPitch - f3, 1.0f, 0.0f, 0.0f);
                     GlStateManager.rotate(entity.rotationYaw - f2, 0.0f, 1.0f, 0.0f);
-                    GlStateManager.translate(0.0f, 0.0f, (float)(-d4));
+                    GlStateManager.translate(0.0f, 0.0f, (float) (-d4));
                     GlStateManager.rotate(f2 - entity.rotationYaw, 0.0f, 1.0f, 0.0f);
                     GlStateManager.rotate(f3 - entity.rotationPitch, 1.0f, 0.0f, 0.0f);
                 }
             }
-        }
-        else {
+        } else {
             GlStateManager.translate(0.0f, 0.0f, -0.1f);
         }
         if (!this.mc.gameSettings.debugCamEnable) {
@@ -157,7 +153,7 @@ public abstract class MixinEntityRenderer {
             final float pitch = entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * partialTicks;
             final float roll = 0.0f;
             if (entity instanceof EntityAnimal) {
-                final EntityAnimal entityanimal = (EntityAnimal)entity;
+                final EntityAnimal entityanimal = (EntityAnimal) entity;
                 yaw = entityanimal.prevRotationYawHead + (entityanimal.rotationYawHead - entityanimal.prevRotationYawHead) * partialTicks + 180.0f;
             }
             final Block block = ActiveRenderInfo.getBlockAtEntityViewpoint(this.mc.theWorld, entity, partialTicks);
@@ -165,8 +161,7 @@ public abstract class MixinEntityRenderer {
                 GlStateManager.rotate(roll, 0.0f, 0.0f, 1.0f);
                 GlStateManager.rotate(Hyperium.INSTANCE.getPerspective().modifiedPitch, 1.0f, 0.0f, 0.0f);
                 GlStateManager.rotate(Hyperium.INSTANCE.getPerspective().modifiedYaw + 180.0f, 0.0f, 1.0f, 0.0f);
-            }
-            else {
+            } else {
                 GlStateManager.rotate(roll, 0.0f, 0.0f, 1.0f);
                 GlStateManager.rotate(pitch, 1.0f, 0.0f, 0.0f);
                 GlStateManager.rotate(yaw, 0.0f, 1.0f, 0.0f);

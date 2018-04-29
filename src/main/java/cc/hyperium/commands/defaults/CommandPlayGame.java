@@ -38,12 +38,12 @@ public class CommandPlayGame implements BaseCommand {
     public String getName() {
         return "playgame";
     }
-    
+
     @Override
     public String getUsage() {
         return null;
     }
-    
+
     @Override
     public void onExecute(String[] args) {
         new HyperiumGuiGames().show();

@@ -29,20 +29,21 @@ import java.util.List;
  */
 public abstract class DisplayItem extends Dimension {
 
+    protected JsonHolder data;
     private int ordinal;
+
+    public DisplayItem(JsonHolder data, int ordinal) {
+        this.data = data;
+        this.ordinal = ordinal;
+
+    }
 
     public JsonHolder getData() {
         save();
         return data;
     }
+
     public void save() {
-
-    }
-    protected JsonHolder data;
-
-    public DisplayItem(JsonHolder data, int ordinal) {
-        this.data = data;
-        this.ordinal = ordinal;
 
     }
 

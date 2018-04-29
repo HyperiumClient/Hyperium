@@ -22,19 +22,18 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.GlStateManager;
 
 import java.awt.*;
 
 public class CustomFontButton extends GuiButton {
+    public boolean renderBackground = true;
     private int hoverColor = new Color(0, 0, 0, 60).getRGB();
     private int color = new Color(0, 0, 0, 50).getRGB();
     private int textColor = new Color(255, 255, 255, 255).getRGB();
     private int textHoverColor = new Color(255, 255, 255, 255).getRGB();
     private HyperiumFontRenderer fontRenderer = new HyperiumFontRenderer("Arial", Font.PLAIN, 12);
     private boolean enabled = true;
-    public boolean renderBackground = true;
 
     public CustomFontButton(int buttonId, int x, int y, String buttonText) {
         super(buttonId, x, y, buttonText);

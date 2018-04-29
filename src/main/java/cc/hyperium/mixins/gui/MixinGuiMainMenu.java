@@ -99,9 +99,9 @@ public abstract class MixinGuiMainMenu extends GuiScreen implements GuiYesNoCall
             overLast = Mouse.isButtonDown(0);
         } else if (!AddonMinecraftBootstrap.getDependenciesLoopMap().isEmpty() || !AddonMinecraftBootstrap.getMissingDependenciesMap().isEmpty()) {
             int textY = 20;
-            drawCenteredString(this.fontRendererObj, ChatColor.RED.toString() +  ChatColor.BOLD + "ERROR LOADING ADDONS", width / 2, textY, Color.WHITE.getRGB());
+            drawCenteredString(this.fontRendererObj, ChatColor.RED.toString() + ChatColor.BOLD + "ERROR LOADING ADDONS", width / 2, textY, Color.WHITE.getRGB());
             textY += 10;
-            drawCenteredString(this.fontRendererObj, ChatColor.RED.toString() +  ChatColor.BOLD + "THE FOLLOWING ADDONS WON'T LOAD", width / 2, textY, Color.WHITE.getRGB());
+            drawCenteredString(this.fontRendererObj, ChatColor.RED.toString() + ChatColor.BOLD + "THE FOLLOWING ADDONS WON'T LOAD", width / 2, textY, Color.WHITE.getRGB());
             textY += 10;
             if (!AddonMinecraftBootstrap.getMissingDependenciesMap().isEmpty()) {
                 for (Map.Entry<AddonManifest, ArrayList<String>> entry : AddonMinecraftBootstrap.getMissingDependenciesMap().entrySet()) {

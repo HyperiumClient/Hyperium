@@ -90,13 +90,11 @@ public class ChangeBackgroundGui extends GuiScreen {
             statusText = "Done!";
             Minecraft.getMinecraft().displayGuiScreen(prevGui);
             fos.close();
-        }
-        catch(Exception m) {
+        } catch (Exception m) {
             statusText = "Error whilst downloading.";
             System.out.println(m);
         }
     }
-
 
 
     @Override
@@ -110,7 +108,7 @@ public class ChangeBackgroundGui extends GuiScreen {
         drawDefaultBackground();
         ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
         drawCenteredString(Minecraft.getMinecraft().fontRendererObj, statusText, sr.getScaledWidth() / 2, sr.getScaledHeight() / 2 - 50, 0xFFFFFF);
-        drawCenteredString(Minecraft.getMinecraft().fontRendererObj,"To make it show select \"custom\" in background settings.", sr.getScaledWidth() / 2, sr.getScaledHeight() / 2 - 30, 0xFFFFFF);
+        drawCenteredString(Minecraft.getMinecraft().fontRendererObj, "To make it show select \"custom\" in background settings.", sr.getScaledWidth() / 2, sr.getScaledHeight() / 2 - 30, 0xFFFFFF);
         downloadUrlField.drawTextBox();
         super.drawScreen(mouseX, mouseY, partialTicks);
     }

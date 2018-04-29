@@ -212,13 +212,15 @@ public class ParticleOverlay {
         }
         return overlay;
     }
+
     public boolean purchased() {
         HyperiumPurchase self = PurchaseApi.getInstance().getSelf();
         return self != null && self.hasPurchased(EnumPurchaseType.PARTICLE_BACKGROUND);
     }
+
     public void render(int mouseX, int mouseY, int guiLeft, int guiTop, int guiRight, int guiBottom) {
-      if(!purchased())
-          return;
+        if (!purchased())
+            return;
         try {
             long lines = 0L;
             float step = (float) (0.01 * (BackgroundSettings.maxParticles / 100));
@@ -302,7 +304,7 @@ public class ParticleOverlay {
 
     @InvokeEvent
     public void tick(TickEvent event) {
-        if(!purchased())
+        if (!purchased())
             return;
         if (System.currentTimeMillis() - last < 1000)
             for (Particle particle : particles) {

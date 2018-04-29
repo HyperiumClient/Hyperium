@@ -50,14 +50,12 @@ public class ElementRenderer {
     private static DisplayElement current;
     private static FontRenderer fontRendererObj = Minecraft.getMinecraft().fontRendererObj;
     private static String cValue;
+    private static List<Long> rClicks = new ArrayList<>();
+    private static List<Long> mClicks = new ArrayList<>();
     boolean last = false;
     private ChromaHUD mod;
     private Minecraft minecraft;
-
-    private static List<Long> rClicks = new ArrayList<>();
     private boolean rLast = false;
-
-    private static List<Long> mClicks = new ArrayList<>();
     private boolean mLast = false;
 
     public ElementRenderer(ChromaHUD mod) {
@@ -213,6 +211,22 @@ public class ElementRenderer {
         return fontRendererObj;
     }
 
+    public static int getRightCPS() {
+        Iterator<Long> iterator = rClicks.iterator();
+        while (iterator.hasNext())
+            if (System.currentTimeMillis() - iterator.next() > 1000L)
+                iterator.remove();
+        return rClicks.size();
+    }
+
+    public static int getMiddleCPS() {
+        Iterator<Long> iterator = mClicks.iterator();
+        while (iterator.hasNext())
+            if (System.currentTimeMillis() - iterator.next() > 1000L)
+                iterator.remove();
+        return mClicks.size();
+    }
+
     @InvokeEvent
     public void tick(TickEvent event) {
 
@@ -224,6 +238,8 @@ public class ElementRenderer {
         if (Minecraft.getMinecraft().inGameHasFocus)
             cValue = Minecraft.getMinecraft().renderGlobal.getDebugInfoRenders().split("/")[0].trim();
     }
+
+    // Right CPS Counter
 
     @InvokeEvent
     public void onRenderTick(RenderHUDEvent event) {
@@ -240,6 +256,8 @@ public class ElementRenderer {
 //        GlStateManager.color(1.0F,1.0F,1.0F,1.0F);
 
     }
+
+    // Middle CPS Counter
 
     public void renderElements() {
         if (!Hyperium.INSTANCE.getHandlers().getHypixelDetector().isHypixel() && !GeneralSetting.chromaHudNonHypixelEnabled)
@@ -291,25 +309,5 @@ public class ElementRenderer {
             endDrawing(element);
         }
 
-    }
-
-    // Right CPS Counter
-
-    public static int getRightCPS() {
-        Iterator<Long> iterator = rClicks.iterator();
-        while (iterator.hasNext())
-            if (System.currentTimeMillis() - iterator.next() > 1000L)
-                iterator.remove();
-        return rClicks.size();
-    }
-
-    // Middle CPS Counter
-
-    public static int getMiddleCPS() {
-        Iterator<Long> iterator = mClicks.iterator();
-        while (iterator.hasNext())
-            if (System.currentTimeMillis() - iterator.next() > 1000L)
-                iterator.remove();
-        return mClicks.size();
     }
 }

@@ -184,14 +184,15 @@ import org.lwjgl.opengl.GL11
 import java.util.*
 
 
-class WingCosmetic : ModelBase(){
+class WingCosmetic : ModelBase() {
     private val data = emptyList<WingData>()
     private val api = PurchaseApi.getInstance()
     private val mc = Minecraft.getMinecraft()
     private var wing: ModelRenderer? = null
     private var wingTip: ModelRenderer? = null
     private val location = ResourceLocation("textures/cosmetics/wings.png")
-    init{
+
+    init {
         this.setTextureOffset("wing.bone", 0, 0)
         this.setTextureOffset("wing.skin", -10, 8)
         this.setTextureOffset("wingtip.bone", 0, 5)
@@ -208,20 +209,21 @@ class WingCosmetic : ModelBase(){
         this.wingTip!!.addBox("skin", -10.0f, 0.0f, 0.5f, 10, 0, 10)
         this.wing!!.addChild(this.wingTip)
     }
+
     @InvokeEvent
-    fun onRenderPlayer(event: RenderPlayerEvent){
+    fun onRenderPlayer(event: RenderPlayerEvent) {
         // val d = getWingData(event.entity.uniqueID)
         //if(d.wing == Wing.NONE)return wait for sk1er to do api stuff
         //if(loadOrRender(event.entity))
         //    renderWings(event.entity, event.partialTicks)
     }
 
-    private fun getWingData(player: UUID) : WingData{
+    private fun getWingData(player: UUID): WingData {
         val purchase = api.getPackageSync(player)
-        if(purchase.purchases.stream().anyMatch { it.type == EnumPurchaseType.WING_COSMETIC })
+        if (purchase.purchases.stream().anyMatch { it.type == EnumPurchaseType.WING_COSMETIC })
             data.plus(WingData(player, Wing.NORMAL, purchase.purchases.stream().filter { it.type == EnumPurchaseType.WING_COSMETIC }.findFirst().get().data))
         data.plus(WingData(player, Wing.NONE, JsonHolder()))
-        return data.stream().filter{it.player == player}.findAny().get()
+        return data.stream().filter { it.player == player }.findAny().get()
     }
 
     private fun renderWings(player: EntityPlayer, partialTicks: Float) {
@@ -235,7 +237,7 @@ class WingCosmetic : ModelBase(){
         if (player.isSneaking)
             GL11.glTranslated(0.0, 0.125 / scale, 0.0)
         GlStateManager.translate(player.renderOffsetX.toDouble(), player.renderOffsetY.toDouble(), player.renderOffsetZ.toDouble())
-        val colors = floatArrayOf(0F,0F,0F) // will change when api is ready
+        val colors = floatArrayOf(0F, 0F, 0F) // will change when api is ready
         //GL11.glColor3f(colors[0], colors[1], colors[2])
         this.mc.textureManager.bindTexture(this.location)
         for (j in 0..1) {
@@ -275,7 +277,7 @@ class WingCosmetic : ModelBase(){
         if (player.riddenByEntity != null)
             return false
         val min = 64
-        if (player.getDistanceSqToEntity(Minecraft.getMinecraft().thePlayer) > min*min)
+        if (player.getDistanceSqToEntity(Minecraft.getMinecraft().thePlayer) > min * min)
             return false
         if (player.hasCustomName() && player.customNameTag.isEmpty())
             return false
@@ -286,7 +288,7 @@ class WingCosmetic : ModelBase(){
 
     class WingData(val player: UUID, val wing: Wing, val json: JsonHolder)
 
-    enum class Wing{
+    enum class Wing {
         NONE,
         NORMAL,
         COLORED,

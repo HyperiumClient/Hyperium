@@ -92,7 +92,7 @@ public class DynoGame extends HyperiumGui {
         if (!dead) {
             for (Bush bush : bushes) {
                 bush.tick();
-                if (bush.hitbox.isMouseOver(DYNO_X, GAME_LEVEL - dynoOffset) || bush.hitbox.isMouseOver(DYNO_X+10, GAME_LEVEL - dynoOffset)) {
+                if (bush.hitbox.isMouseOver(DYNO_X, GAME_LEVEL - dynoOffset) || bush.hitbox.isMouseOver(DYNO_X + 10, GAME_LEVEL - dynoOffset)) {
                     //Hit the box
                     endGame();
                 }

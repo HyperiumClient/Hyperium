@@ -38,12 +38,12 @@ public class CommandClearChat implements BaseCommand {
     public String getName() {
         return "clearchat";
     }
-    
+
     @Override
     public String getUsage() {
         return null;
     }
-    
+
     @Override
     public void onExecute(String[] args) {
         Minecraft.getMinecraft().ingameGUI.getChatGUI().clearChatMessages();

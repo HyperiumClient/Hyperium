@@ -25,9 +25,9 @@ import java.io.InputStreamReader;
 
 public class OsHelper {
     public static boolean isProcessRunning(String proc) throws IOException {
-        if(SystemUtils.IS_OS_WINDOWS)
+        if (SystemUtils.IS_OS_WINDOWS)
             return isProcessRunningWindows(proc);
-        else if(SystemUtils.IS_OS_MAC)
+        else if (SystemUtils.IS_OS_MAC)
             return isProcessRunningMac(proc);
         return false;
     }
@@ -35,8 +35,8 @@ public class OsHelper {
     private static boolean isProcessRunningWindows(String proc) throws IOException {
         String line;
         StringBuilder pidInfo = new StringBuilder();
-        Process p =Runtime.getRuntime().exec(System.getenv("windir") +"\\system32\\"+"tasklist.exe");
-        BufferedReader input =  new BufferedReader(new InputStreamReader(p.getInputStream()));
+        Process p = Runtime.getRuntime().exec(System.getenv("windir") + "\\system32\\" + "tasklist.exe");
+        BufferedReader input = new BufferedReader(new InputStreamReader(p.getInputStream()));
         while ((line = input.readLine()) != null) {
             pidInfo.append(line);
         }
@@ -47,8 +47,8 @@ public class OsHelper {
     private static boolean isProcessRunningMac(String proc) throws IOException {
         String line;
         StringBuilder pidInfo = new StringBuilder();
-        Process p =Runtime.getRuntime().exec("ps -A");
-        BufferedReader input =  new BufferedReader(new InputStreamReader(p.getInputStream()));
+        Process p = Runtime.getRuntime().exec("ps -A");
+        BufferedReader input = new BufferedReader(new InputStreamReader(p.getInputStream()));
         while ((line = input.readLine()) != null) {
             pidInfo.append(line);
         }

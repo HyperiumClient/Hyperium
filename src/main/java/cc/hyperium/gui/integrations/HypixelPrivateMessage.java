@@ -168,7 +168,7 @@ public class HypixelPrivateMessage extends HyperiumGui {
 //            RenderUtils.drawFilledCircle(block.getLeft() + (user ? 25 : 3), block.getTop() + 4, 4, user ? new Color(0, 0, 255, 255).getRGB() : new Color(0, 255, 0, 255).getRGB());
 //            RenderUtils.drawFilledCircle(block.getLeft() + (user ? 25 : 3), block.getBottom() - 4, 4, user ? new Color(0, 0, 255, 255).getRGB() : new Color(0, 255, 0, 255).getRGB());
 //            Gui.drawRect(block.getLeft()-4+(user ? 25 : 3), block.getTop() + 3, block.getLeft()+(user ? 25 : 3) , block.getBottom() - 3, user ? new Color(0, 0, 255, 200).getRGB() : new Color(0, 255, 0, 200).getRGB());
-           RenderUtils.drawSmoothRect(block.getLeft() + (user ? 25 : 3), block.getTop(), block.getRight() + (user ? 0 : -25), block.getBottom(),user ? new Color(0, 0, 255, 255).getRGB() : new Color(0, 255, 0, 255).getRGB());
+            RenderUtils.drawSmoothRect(block.getLeft() + (user ? 25 : 3), block.getTop(), block.getRight() + (user ? 0 : -25), block.getBottom(), user ? new Color(0, 0, 255, 255).getRGB() : new Color(0, 255, 0, 255).getRGB());
             int y = 1;
             for (String s : messages) {
                 block.drawString(s.trim(), fontRendererObj, true, false, user ? 7 : 5, y, false, false, Color.WHITE.getRGB(), !user);

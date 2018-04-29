@@ -26,13 +26,13 @@ import cc.hyperium.mods.chromahud.gui.GeneralConfigGui;
  * @author Sk1er
  */
 public class CommandChromaHUD implements BaseCommand {
-    
+
     private ChromaHUD mod;
-    
+
     public CommandChromaHUD(ChromaHUD modIn) {
         this.mod = modIn;
     }
-    
+
     @Override
     public String getName() {
         return "chromahud";

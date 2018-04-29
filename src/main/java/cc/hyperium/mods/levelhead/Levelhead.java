@@ -23,13 +23,13 @@ import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.TickEvent;
 import cc.hyperium.mods.AbstractMod;
 import cc.hyperium.mods.levelhead.commands.LevelHeadCommand;
-import cc.hyperium.mods.sk1ercommon.Multithreading;
-import cc.hyperium.utils.ChatColor;
-import cc.hyperium.utils.JsonHolder;
 import cc.hyperium.mods.levelhead.config.LevelheadConfig;
 import cc.hyperium.mods.levelhead.renderer.LevelHeadRender;
 import cc.hyperium.mods.levelhead.renderer.LevelheadTag;
+import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.mods.sk1ercommon.Sk1erMod;
+import cc.hyperium.utils.ChatColor;
+import cc.hyperium.utils.JsonHolder;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.PotionEffect;
@@ -45,6 +45,10 @@ public class Levelhead extends AbstractMod {
 
     public static final String MODID = "LEVEL_HEAD";
     public static final String VERSION = "Hyperium_1.0-4.1.2";
+    /**
+     * The metadata of LevelHead
+     */
+    private final Metadata meta;
     public Map<UUID, LevelheadTag> levelCache = new HashMap<>();
     public UUID userUuid = null;
     public int count = 1;
@@ -56,19 +60,13 @@ public class Levelhead extends AbstractMod {
     private HashMap<UUID, Integer> trueLevelCache = new HashMap<>();
     private java.util.List<UUID> probablyNotFakeWatchdogBoi = new ArrayList<>();
     private HashMap<UUID, Integer> timeCheck = new HashMap<>();
-
     private boolean levelHeadInfoFailed = false;
-    
-    /**
-     * The metadata of LevelHead
-     */
-    private final Metadata meta;
-    
+
     public Levelhead() {
         Metadata metadata = new Metadata(this, "LevelHead", "4.1.2", "Sk1er");
-    
+
         metadata.setDisplayName(ChatColor.AQUA + "LevelHead");
-    
+
         this.meta = metadata;
     }
 
@@ -97,17 +95,17 @@ public class Levelhead extends AbstractMod {
         register(mod);
         userUuid = Minecraft.getMinecraft().getSession().getProfile().getId();
         register(new LevelHeadRender(this), this);
-    
+
         Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(new LevelHeadCommand(this));
-        
+
         return this;
     }
-    
+
     @Override
     public Metadata getModMetadata() {
         return this.meta;
     }
-    
+
     @SuppressWarnings("SimplifiableIfStatement")
     public boolean loadOrRender(EntityPlayer player) {
         if (!Hyperium.INSTANCE.getHandlers().getHypixelDetector().isHypixel())
@@ -169,7 +167,7 @@ public class Levelhead extends AbstractMod {
             return;
         }
         Minecraft mc = Minecraft.getMinecraft();
-        
+
         if (!mc.isGamePaused() && mc.thePlayer != null && mc.theWorld != null) {
             if (System.currentTimeMillis() < this.waitUntil) {
                 if (this.updates > 0) {
@@ -312,7 +310,7 @@ public class Levelhead extends AbstractMod {
     public LevelheadConfig getConfig() {
         return config;
     }
-    
+
     public Sk1erMod getSk1erMod() {
         return mod;
     }

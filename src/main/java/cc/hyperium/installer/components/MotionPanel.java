@@ -30,7 +30,7 @@ public class MotionPanel extends JPanel {
     private Point initialClick;
     private JFrame parent;
 
-    public MotionPanel(final JFrame parent){
+    public MotionPanel(final JFrame parent) {
         this.parent = parent;
 
         addMouseListener(new MouseAdapter() {

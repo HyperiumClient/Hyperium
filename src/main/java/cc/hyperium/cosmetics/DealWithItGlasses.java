@@ -181,14 +181,16 @@ import net.minecraft.util.ResourceLocation;
  */
 public class DealWithItGlasses extends AbstractCosmetic {
     private ResourceLocation glass;
+    private float h = 0.0F; //TODO: Chroma
+
     DealWithItGlasses() {
         super(false, EnumPurchaseType.DEAL_WITH_IT, true);
         glass = new ResourceLocation("textures/cosmetics/dealwithit.png");
     }
-    private float h = 0.0F; //TODO: Chroma
+
     @InvokeEvent
-    public void onPlayerRender(RenderPlayerEvent e){
-        if(!shouldRender(e.getEntity()))return;
+    public void onPlayerRender(RenderPlayerEvent e) {
+        if (!shouldRender(e.getEntity())) return;
         AbstractClientPlayer player = e.getEntity();
 
         GlStateManager.pushMatrix();

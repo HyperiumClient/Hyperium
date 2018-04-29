@@ -186,21 +186,23 @@ import java.util.regex.Matcher;
 /*
  * Created by Cubxity on 20/03/2018
  */
-public class QuestTrackingChatHandler extends HyperiumChatHandler{
+public class QuestTrackingChatHandler extends HyperiumChatHandler {
     private File file;
     private JsonArray json;
-    public QuestTrackingChatHandler(){
+
+    public QuestTrackingChatHandler() {
         file = new File(Hyperium.folder, "quest_tracking.json");
-        if(!file.exists()){
+        if (!file.exists()) {
             json = new JsonArray();
             save();
         }
         load();
     }
+
     @Override
     public boolean chatReceived(IChatComponent component, String text) {
         Matcher matcher = regexPatterns.get(ChatRegexType.QUEST_COMPLETE).matcher(text);
-        if(matcher.matches()){
+        if (matcher.matches()) {
             JsonObject record = new JsonObject();
             record.add("name", new JsonPrimitive(matcher.group("name")));
             record.add("type", new JsonPrimitive(matcher.group("type")));
@@ -211,18 +213,18 @@ public class QuestTrackingChatHandler extends HyperiumChatHandler{
         return false;
     }
 
-    private void load(){
+    private void load() {
         try {
             json = new JsonParser().parse(Files.toString(file, Charset.defaultCharset())).getAsJsonArray();
         } catch (IOException e) {
-            if(json == null)
+            if (json == null)
                 json = new JsonArray(); //Fallback
             e.printStackTrace();
             Hyperium.LOGGER.error("Could not load quest tracking json to memory!");
         }
     }
 
-    private void save(){
+    private void save() {
         try {
             Files.write(json.toString(), file, Charset.defaultCharset());
         } catch (IOException e) {
@@ -231,7 +233,7 @@ public class QuestTrackingChatHandler extends HyperiumChatHandler{
         }
     }
 
-    public List<QuestData> getTrackedQuests(){
+    public List<QuestData> getTrackedQuests() {
         List<QuestData> trackedQuests = new ArrayList<>();
         load();
         json.forEach(e -> {
@@ -241,7 +243,7 @@ public class QuestTrackingChatHandler extends HyperiumChatHandler{
         return trackedQuests;
     }
 
-    public class QuestData{
+    public class QuestData {
         private String name;
         private String type;
         private Long timestamp;
