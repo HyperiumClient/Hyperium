@@ -17,7 +17,6 @@
 
 package cc.hyperium.handlers.handlers;
 
-import cc.hyperium.Hyperium;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;

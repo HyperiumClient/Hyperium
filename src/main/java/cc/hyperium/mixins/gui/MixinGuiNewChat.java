@@ -120,7 +120,7 @@ public abstract class MixinGuiNewChat {
                 GlStateManager.scale(f1, f1, 1.0F);
 
                 for (int i1 = 0; i1 + this.scrollPos < this.field_146253_i.size() && i1 < i; ++i1) {
-                    ChatLine chatline = (ChatLine) this.field_146253_i.get(i1 + this.scrollPos);
+                    ChatLine chatline = this.field_146253_i.get(i1 + this.scrollPos);
 
                     if (chatline != null) {
                         int j1 = p_146230_1_ - chatline.getUpdatedCounter();

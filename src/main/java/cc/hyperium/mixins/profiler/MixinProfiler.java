@@ -36,7 +36,7 @@ public class MixinProfiler {
 
     @Shadow
     @Final
-    private final List<Long> timestampList = Lists.<Long>newArrayList();
+    private final List<Long> timestampList = Lists.newArrayList();
     /**
      * Flag profiling enabled
      */

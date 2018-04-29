@@ -1,12 +1,10 @@
 package cc.hyperium.handlers.handlers;
 
-import cc.hyperium.Hyperium;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.RenderEvent;
 import cc.hyperium.event.WorldChangeEvent;
 import cc.hyperium.gui.HyperiumGui;
 import cc.hyperium.gui.settings.items.CosmeticSettings;
-import cc.hyperium.handlers.handlers.keybinds.HyperiumBind;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.model.ModelBiped;

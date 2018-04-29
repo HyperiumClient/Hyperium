@@ -40,7 +40,8 @@ public class SplashProgress {
     private static FontRenderer sfr;
 
     public static void update() {
-        if (ctm == null) return;
+        if (ctm == null) {
+        }
         //drawProgress();
     }
 

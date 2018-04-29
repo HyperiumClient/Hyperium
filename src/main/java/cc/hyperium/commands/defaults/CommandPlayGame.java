@@ -19,12 +19,8 @@ package cc.hyperium.commands.defaults;
 
 
 import cc.hyperium.commands.BaseCommand;
-import cc.hyperium.commands.CommandException;
 import cc.hyperium.gui.games.HyperiumGuiGames;
 import net.minecraft.client.gui.GuiNewChat;
-
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * A simple command to clear your chat history & sent commands,

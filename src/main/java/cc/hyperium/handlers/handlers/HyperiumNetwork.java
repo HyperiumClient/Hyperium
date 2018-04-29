@@ -20,7 +20,6 @@ package cc.hyperium.handlers.handlers;
 import cc.hyperium.Metadata;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.JoinHypixelEvent;
-import cc.hyperium.internal.addons.AddonMinecraftBootstrap;
 import cc.hyperium.launch.HyperiumTweaker;
 import cc.hyperium.utils.JsonHolder;
 import io.netty.buffer.Unpooled;
