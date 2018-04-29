@@ -29,28 +29,30 @@ import org.apache.commons.lang3.text.WordUtils;
  * @author boomboompower
  */
 public class HyperiumBind extends KeyBinding {
-    
-    /** The default key code */
+
+    /**
+     * The default key code
+     */
     private final int defaultKeyCode;
-    
+
     private String description;
     private int key;
-    
+
     private boolean wasPressed;
-    
+
     public HyperiumBind(String description, int key) {
         this(description, key, "Hyperium");
     }
-    
+
     public HyperiumBind(String description, int key, String category) {
         super(description, key, category);
-        
+
         this.defaultKeyCode = key;
-        
+
         this.description = description;
         this.key = key;
     }
-    
+
     /**
      * Returns the current code of the key
      *
@@ -60,7 +62,7 @@ public class HyperiumBind extends KeyBinding {
     public int getKeyCode() {
         return this.key;
     }
-    
+
     /**
      * Returns the default key code for the key
      *
@@ -69,7 +71,7 @@ public class HyperiumBind extends KeyBinding {
     public int getDefaultKeyCode() {
         return this.defaultKeyCode;
     }
-    
+
     /**
      * Setter for the key code, sets it here and calls the super
      * method to update it as well
@@ -79,10 +81,10 @@ public class HyperiumBind extends KeyBinding {
     @Override
     public void setKeyCode(int key) {
         this.key = key;
-        
+
         super.setKeyCode(key);
     }
-    
+
     /**
      * Returns the key description, this will be capitalized if the capitalize
      * method returns true (see {@link #capitalizeDescription()})
@@ -92,14 +94,14 @@ public class HyperiumBind extends KeyBinding {
     @Override
     public String getKeyDescription() {
         String message = this.description;
-        
+
         if (this.capitalizeDescription()) {
             message = WordUtils.capitalizeFully(message);
         }
-        
+
         return message;
     }
-    
+
     /**
      * Gets the description without the formatting, this is used for saving
      *
@@ -108,7 +110,7 @@ public class HyperiumBind extends KeyBinding {
     protected String getRealDescription() {
         return this.description;
     }
-    
+
     /**
      * Setter for the WasPressed variable, if true it means the buttons
      * last event was to be pressed
@@ -118,7 +120,7 @@ public class HyperiumBind extends KeyBinding {
     public void setWasPressed(boolean wasPressed) {
         this.wasPressed = wasPressed;
     }
-    
+
     /**
      * Was the the last event on the key a key press?
      *
@@ -127,7 +129,7 @@ public class HyperiumBind extends KeyBinding {
     public boolean wasPressed() {
         return this.wasPressed;
     }
-    
+
     /**
      * Should the Key Description be capitalized, this looks neater in the
      * controls menu, instead of leaving it lowercase
@@ -137,14 +139,14 @@ public class HyperiumBind extends KeyBinding {
     public boolean capitalizeDescription() {
         return true;
     }
-    
+
     /**
      * Called when the button is pressed, override this ton
      */
     public void onPress() {
         // We want these to be changed
     }
-    
+
     public void onRelease() {
         // We want these to be changed
     }
