@@ -44,7 +44,6 @@ public class RemoteResourcesHandler {
      */
     private final ResourceFrame[] preload = {new ResourceFrame(ResourceType.TEXT, "chat_regex")};
     private final ConcurrentHashMap<String, HyperiumResource> resources = new ConcurrentHashMap<>();
-    private final String GITHUB_DATA = "https://hyperium.cc/Hyperium-Repo/files/";
     private JsonHolder resourceData = new JsonHolder();
     private JsonHolder cacheTimes = new JsonHolder();
     private HashMap<String, String> urlToName = new HashMap<>();
@@ -169,6 +168,7 @@ public class RemoteResourcesHandler {
         if (!url.startsWith("http")) {
             //Check for cache, we only cache data that has is within our data system
             JsonHolder resources = resourceData.optJSONObject("resources");
+            String GITHUB_DATA = "https://hyperium.cc/Hyperium-Repo/files/";
             if (resources.has(url.toLowerCase())) {
                 JsonHolder theResourceData = resources.optJSONObject(url.toLowerCase());
                 if (useCache(url)) {

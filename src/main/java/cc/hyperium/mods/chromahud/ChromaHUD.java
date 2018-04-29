@@ -49,7 +49,6 @@ public class ChromaHUD extends AbstractMod {
      */
     private final Metadata meta;
     private File suggestedConfigurationFile;
-    private boolean enabled = true;
 
     public ChromaHUD() {
         Metadata metadata = new Metadata(this, "ChromaHUD", "3.0", "Sk1er");
@@ -213,6 +212,7 @@ public class ChromaHUD extends AbstractMod {
      */
     public void saveState() {
         JsonHolder master = new JsonHolder();
+        boolean enabled = true;
         master.put("enabled", enabled);
         JsonArray elementArray = new JsonArray();
         master.put("elements", elementArray);

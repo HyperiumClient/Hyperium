@@ -23,7 +23,6 @@ import net.minecraft.client.gui.GuiButton;
 import java.awt.*;
 
 public class HyperiumSlider extends GuiButton {
-    private int id;
     private int x;
     private int y;
     private int width;
@@ -32,7 +31,7 @@ public class HyperiumSlider extends GuiButton {
 
     public HyperiumSlider(int id, int x, int y, int width, int height) {
         super(id, x, y, width, height, "");
-        this.id = id;
+        int id1 = id;
         this.x = x;
         this.y = y;
         this.width = width;

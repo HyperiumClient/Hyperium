@@ -28,10 +28,9 @@ import java.awt.event.MouseMotionAdapter;
  */
 public class MotionPanel extends JPanel {
     private Point initialClick;
-    private JFrame parent;
 
     public MotionPanel(final JFrame parent) {
-        this.parent = parent;
+        JFrame parent1 = parent;
 
         addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {

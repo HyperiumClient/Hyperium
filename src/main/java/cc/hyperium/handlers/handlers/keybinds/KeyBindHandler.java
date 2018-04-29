@@ -179,20 +179,6 @@ public class KeyBindHandler {
         }
     };
 
-    // Spotify Binds
-    private HyperiumBind pauseSpotify = new HyperiumBind("Pause Spotify", Keyboard.KEY_COMMA) {
-        @Override
-        public void onPress() {
-            Spotify.instance.pause(true);
-        }
-    };
-    private HyperiumBind resumeSpotify = new HyperiumBind("Resume Spotify", Keyboard.KEY_PERIOD) {
-        @Override
-        public void onPress() {
-            Spotify.instance.pause(false);
-        }
-    };
-
     //Hyperium.INSTANCE.getHandlers().getConfigOptions().hideNameTags
     public KeyBindHandler() {
         this.keyBindConfig = new KeyBindConfig(this, Hyperium.folder);
@@ -207,7 +193,20 @@ public class KeyBindHandler {
         registerKeyBinding(dab);
         registerKeyBinding(invert);
         registerKeyBinding(flossDance);
+        // Spotify Binds
+        HyperiumBind pauseSpotify = new HyperiumBind("Pause Spotify", Keyboard.KEY_COMMA) {
+            @Override
+            public void onPress() {
+                Spotify.instance.pause(true);
+            }
+        };
         registerKeyBinding(pauseSpotify);
+        HyperiumBind resumeSpotify = new HyperiumBind("Resume Spotify", Keyboard.KEY_PERIOD) {
+            @Override
+            public void onPress() {
+                Spotify.instance.pause(false);
+            }
+        };
         registerKeyBinding(resumeSpotify);
 
         // Populate mouse bind list in accordance with Minecraft's values.

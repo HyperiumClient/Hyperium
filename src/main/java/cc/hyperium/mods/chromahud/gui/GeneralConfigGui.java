@@ -52,7 +52,6 @@ public class GeneralConfigGui extends GuiScreen {
     private DisplayElement currentElement;
     private GuiButton edit;
     private HashMap<GuiButton, Consumer<GuiButton>> clicks = new HashMap<>();
-    private boolean mouseLock;
     private double lastX;
     private double lastY;
     private boolean lastD = false;
@@ -61,7 +60,7 @@ public class GeneralConfigGui extends GuiScreen {
 
     public GeneralConfigGui(ChromaHUD mod) {
         this.mod = mod;
-        mouseLock = Mouse.isButtonDown(0);
+        boolean mouseLock = Mouse.isButtonDown(0);
     }
 
     private void reg(GuiButton button, Consumer<GuiButton> consumer) {

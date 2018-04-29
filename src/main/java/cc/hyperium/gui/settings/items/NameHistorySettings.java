@@ -28,7 +28,6 @@ public class NameHistorySettings extends SettingGui {
     @ConfigOpt
     public static boolean rgbNamesEnabled = false;
     private DefaultConfig config;
-    private SelectionItem<String> rgbNames;
 
     public NameHistorySettings(HyperiumGui previous) {
         super("NAME HISTORY", previous);
@@ -39,6 +38,7 @@ public class NameHistorySettings extends SettingGui {
     @Override
     protected void pack() {
         super.pack();
+        SelectionItem<String> rgbNames;
         settingItems.add(rgbNames = new SelectionItem<>(0, getX(), getDefaultItemY(0), width - getX() * 2, "RGB NAMES", i -> {
             ((SelectionItem) i).nextItem();
             rgbNamesEnabled = ((SelectionItem) i).getSelectedItem().equals("ON");

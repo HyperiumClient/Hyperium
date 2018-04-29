@@ -31,12 +31,11 @@ import java.util.concurrent.TimeUnit;
  */
 public class CommandQueue {
 
-    private final long DELAY = 1000;
     private ConcurrentLinkedQueue<String> commands = new ConcurrentLinkedQueue<>();
-    private long last = System.currentTimeMillis();
     private ConcurrentHashMap<String, Runnable> asyncCallbacks = new ConcurrentHashMap<>();
 
     public CommandQueue() {
+        long DELAY = 1000;
         Multithreading.schedule(CommandQueue.this::check, 0, DELAY, TimeUnit.MILLISECONDS);
     }
 
@@ -58,7 +57,7 @@ public class CommandQueue {
 
             }
         }
-        last = System.currentTimeMillis();
+        long last = System.currentTimeMillis();
     }
 
     public void queue(String message) {

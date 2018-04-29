@@ -35,10 +35,8 @@ public class DynoGame extends HyperiumGui {
 
     private final Random random = new Random();
     private final int GAME_LEVEL = 200;
-    private final int GRAVITY = -2;
     private final int DYNO_X = 150;
     private int DELTA_BUSH = 0;
-    private GuiButton restart;
     private boolean dead = false;
     private int score;
     private List<Bush> bushes = new ArrayList<>();
@@ -49,6 +47,7 @@ public class DynoGame extends HyperiumGui {
 
     @Override
     protected void pack() {
+        GuiButton restart;
         reg("RESTART", restart = new GuiButton(0, ResolutionUtil.current().getScaledWidth() / 2 - 100, 40, "Restart"), guiButton -> {
             reset();
         }, guiButton -> {
@@ -98,6 +97,7 @@ public class DynoGame extends HyperiumGui {
                 }
             }
             bushes.removeIf(bush -> bush.xLoc < 100);
+            int GRAVITY = -2;
             dynoVelocity += GRAVITY;
             dynoOffset += dynoVelocity;
             if (dynoOffset < 0) {

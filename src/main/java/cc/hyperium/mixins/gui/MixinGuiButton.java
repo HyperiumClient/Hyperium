@@ -58,7 +58,6 @@ public abstract class MixinGuiButton extends Gui {
     private int textColor = new Color(255, 255, 255, 255).getRGB();
     private int textHoverColor = new Color(255, 255, 255, 255).getRGB();
     private FontRenderer fontRenderer = Minecraft.getMinecraft().fontRendererObj;
-    private boolean enabled = true;
     private float selectPercent = 0.0f;
     private long systemTime = Minecraft.getSystemTime();
 
@@ -108,7 +107,8 @@ public abstract class MixinGuiButton extends Gui {
 
         int j = textColor;
 
-        if (!this.enabled) {
+        boolean enabled = true;
+        if (!enabled) {
             j = 10526880;
         } else if (this.hovered) {
             j = textHoverColor;

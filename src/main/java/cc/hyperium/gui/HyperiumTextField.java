@@ -49,10 +49,6 @@ public class HyperiumTextField extends GuiTextField {
     private int cursorCounter;
     private boolean enableBackgroundDrawing = true;
     /**
-     * if true the textbox can lose focus by clicking elsewhere on the screen
-     */
-    private boolean canLoseFocus = true;
-    /**
      * If this value is true along with isEnabled, keyTyped will process the keys.
      */
     private boolean isFocused;
@@ -69,8 +65,6 @@ public class HyperiumTextField extends GuiTextField {
      * other selection position, maybe the same as the cursor
      */
     private int selectionEnd;
-    private int enabledColor = 14737632;
-    private int disabledColor = 7368816;
     /**
      * True if this textbox is visible
      */
@@ -349,7 +343,12 @@ public class HyperiumTextField extends GuiTextField {
     public void mouseClicked(int p_146192_1_, int p_146192_2_, int p_146192_3_) {
         boolean flag = p_146192_1_ >= this.xPosition && p_146192_1_ < this.xPosition + this.width && p_146192_2_ >= this.yPosition && p_146192_2_ < this.yPosition + this.height;
 
-        if (this.canLoseFocus) {
+        /*
+      if true the textbox can lose focus by clicking elsewhere on the screen
+     */ /**
+         * if true the textbox can lose focus by clicking elsewhere on the screen
+         */boolean canLoseFocus = true;
+        if (canLoseFocus) {
             this.setFocused(flag);
         }
 
@@ -375,7 +374,9 @@ public class HyperiumTextField extends GuiTextField {
                 Gui.drawRect(this.xPosition, this.yPosition, this.xPosition + this.width, this.yPosition + this.height, -16777216);
             }
 
-            int i = this.isEnabled ? this.enabledColor : this.disabledColor;
+            int disabledColor = 7368816;
+            int enabledColor = 14737632;
+            int i = this.isEnabled ? enabledColor : disabledColor;
             int j = this.cursorPosition - this.lineScrollOffset;
             int k = this.selectionEnd - this.lineScrollOffset;
             String s = this.fontRendererInstance.trimStringToWidth(this.text.substring(this.lineScrollOffset), this.getWidth());

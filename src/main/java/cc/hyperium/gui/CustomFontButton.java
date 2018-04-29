@@ -33,7 +33,6 @@ public class CustomFontButton extends GuiButton {
     private int textColor = new Color(255, 255, 255, 255).getRGB();
     private int textHoverColor = new Color(255, 255, 255, 255).getRGB();
     private HyperiumFontRenderer fontRenderer = new HyperiumFontRenderer("Arial", Font.PLAIN, 12);
-    private boolean enabled = true;
 
     public CustomFontButton(int buttonId, int x, int y, String buttonText) {
         super(buttonId, x, y, buttonText);
@@ -67,11 +66,12 @@ public class CustomFontButton extends GuiButton {
 
         float charlength = fontRenderer.getWidth(this.displayString);
 
+        boolean enabled = true;
         fontRenderer.drawString(
                 this.displayString,
                 (this.xPosition + this.width / 2) - (charlength / 2),
                 this.yPosition + (this.height - 8) / 2,
-                this.enabled ? 10526880 : this.hovered ? textHoverColor : textColor
+                enabled ? 10526880 : this.hovered ? textHoverColor : textColor
         );
     }
 

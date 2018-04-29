@@ -39,11 +39,6 @@ public class AnimationSettings extends SettingGui {
     @ConfigOpt
     public static boolean redArmour = true;
     private DefaultConfig config;
-    private SelectionItem<String> blockhit;
-    private SelectionItem<String> bow;
-    private SelectionItem<String> rod;
-    private SelectionItem<String> eat;
-    private SelectionItem<String> redarmour;
 
 
     public AnimationSettings(HyperiumGui previous) {
@@ -55,6 +50,7 @@ public class AnimationSettings extends SettingGui {
     @Override
     protected void pack() {
         super.pack();
+        SelectionItem<String> blockhit;
         settingItems.add(blockhit = new SelectionItem<>(0, getX(), getDefaultItemY(0), width - getX() * 2, "BLOCKHITTING", i -> {
             ((SelectionItem) i).nextItem();
             oldBlockhit = ((SelectionItem) i).getSelectedItem().equals("1.7");
@@ -63,6 +59,7 @@ public class AnimationSettings extends SettingGui {
         blockhit.addItem("1.8");
         blockhit.setSelectedItem(oldBlockhit ? "1.7" : "1.8");
 
+        SelectionItem<String> bow;
         settingItems.add(bow = new SelectionItem<>(1, getX(), getDefaultItemY(1), width - getX() * 2, "BOW", i -> {
             ((SelectionItem) i).nextItem();
             oldBow = ((SelectionItem) i).getSelectedItem().equals("1.7");
@@ -71,6 +68,7 @@ public class AnimationSettings extends SettingGui {
         bow.addItem("1.8");
         bow.setSelectedItem(oldBow ? "1.7" : "1.8");
 
+        SelectionItem<String> rod;
         settingItems.add(rod = new SelectionItem<>(2, getX(), getDefaultItemY(2), width - getX() * 2, "FISHING ROD", i -> {
             ((SelectionItem) i).nextItem();
             oldRod = ((SelectionItem) i).getSelectedItem().equals("1.7");
@@ -79,6 +77,7 @@ public class AnimationSettings extends SettingGui {
         rod.addItem("1.8");
         rod.setSelectedItem(oldRod ? "1.7" : "1.8");
 
+        SelectionItem<String> eat;
         settingItems.add(eat = new SelectionItem<>(3, getX(), getDefaultItemY(3), width - getX() * 2, "EATING", i -> {
             ((SelectionItem) i).nextItem();
             oldEat = ((SelectionItem) i).getSelectedItem().equals("1.7");
@@ -88,6 +87,7 @@ public class AnimationSettings extends SettingGui {
         eat.setSelectedItem(oldEat ? "1.7" : "1.8");
 
 
+        SelectionItem<String> redarmour;
         settingItems.add(redarmour = new SelectionItem<>(4, getX(), getDefaultItemY(4), width - getX() * 2, "ARMOUR", i -> {
             ((SelectionItem) i).nextItem();
             redArmour = ((SelectionItem) i).getSelectedItem().equals("1.7");

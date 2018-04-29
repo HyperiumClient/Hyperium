@@ -218,7 +218,6 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
     private int field_92022_t;
     private int field_92024_r;
     private int field_92023_s;
-    private DynamicTexture viewportTexture;
     private FontRenderer fontRendererObj = Minecraft.getMinecraft().fontRendererObj;
     private GuiButton hypixelButton;
     private boolean clickedCheckBox = false;
@@ -259,7 +258,7 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
             if (bgDynamicTexture == null)
                 return;
         }
-        this.viewportTexture = new DynamicTexture(256, 256);
+        DynamicTexture viewportTexture = new DynamicTexture(256, 256);
         int j = this.height / 4 + 48;
 
         this.addSingleplayerMultiplayerButtons(j - 10, 24);

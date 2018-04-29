@@ -33,11 +33,10 @@ import java.util.List;
  * @author Sk1er
  */
 public class ArrowCount extends DisplayItem {
-    private JsonHolder data;
 
     public ArrowCount(JsonHolder data, int ordinal) {
         super(data, ordinal);
-        this.data = data;
+        JsonHolder data1 = data;
         this.height = 16;
         this.width = 16;
     }

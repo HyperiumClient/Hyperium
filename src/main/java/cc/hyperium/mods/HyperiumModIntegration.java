@@ -49,10 +49,7 @@ public class HyperiumModIntegration {
     private AbstractMod chromaHUD;
     private AbstractMod autotip;
     private AbstractMod autogg;
-    private AbstractMod oldanimations;
     private AbstractMod hgames;
-    private AbstractMod blockOverlay;
-    private AbstractMod spotifyControls;
 
     public HyperiumModIntegration() {
         // ChromaHud implementation
@@ -86,16 +83,16 @@ public class HyperiumModIntegration {
         this.hgames = new HGames().init();
 
         // Old Animations implementation
-        this.oldanimations = new OldAnimations().init();
+        AbstractMod oldanimations = new OldAnimations().init();
 
         // Block Overlay implementation
-        this.blockOverlay = new BlockOverlay().init();
+        AbstractMod blockOverlay = new BlockOverlay().init();
 
         // Kill Screenshot implementation
         this.killScreenshot = new KillScreenshot().init();
 
         // Spotify Controls Implementation
-        this.spotifyControls = new SpotifyControls().init();
+        AbstractMod spotifyControls = new SpotifyControls().init();
     }
 
     /**

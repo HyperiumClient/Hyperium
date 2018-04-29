@@ -13,7 +13,6 @@ public class HyperiumCosmetics {
     private final ChromaWinCosmetic chromaWin;
     private List<AbstractCosmetic> cosmeticList = new ArrayList<>();
     private DabOnKIllCosmetic dabCosmetic;
-    private DealWithItGlasses dealWithIt;
     private FlipCosmetic flipCosmetic;
     private Deadmau5Cosmetic deadmau5Cosmetic;
 
@@ -22,6 +21,7 @@ public class HyperiumCosmetics {
         register(this.dabCosmetic = new DabOnKIllCosmetic());
         register(chromaWin = new ChromaWinCosmetic());
         register(flipCosmetic = new FlipCosmetic());
+        DealWithItGlasses dealWithIt;
         register(dealWithIt = new DealWithItGlasses());
         register(deadmau5Cosmetic = new Deadmau5Cosmetic());
     }

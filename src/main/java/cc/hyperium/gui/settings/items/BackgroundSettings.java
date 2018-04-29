@@ -45,11 +45,6 @@ public class BackgroundSettings extends SettingGui {
     @ConfigOpt
     public static boolean renderOverInventory = true;
     private DefaultConfig config;
-    private SelectionItem<String> fastWorldGui;
-    private SelectionItem<String> fastChat;
-    private SelectionItem<String> particlesMode;
-    private SelectionItem<Integer> maxParticlesSelection;
-    private SelectionItem<String> showOverInventory;
 
     public BackgroundSettings(HyperiumGui previous) {
         super("BACKGROUNDS", previous);
@@ -72,22 +67,25 @@ public class BackgroundSettings extends SettingGui {
         selectionItem.setSelectedItem(backgroundSelect);
         refreshBackground();
 
-        this.settingItems.add(this.fastChat = new SelectionItem<>(1, getX(), getDefaultItemY(1), this.width - getX() * 2, "FAST CHAT", i -> {
+        SelectionItem<String> fastChat;
+        this.settingItems.add(fastChat = new SelectionItem<>(1, getX(), getDefaultItemY(1), this.width - getX() * 2, "FAST CHAT", i -> {
             ((SelectionItem) i).nextItem();
             fastChatEnabled = ((SelectionItem) i).getSelectedItem().equals("ON");
         }));
-        this.fastChat.addDefaultOnOff();
-        this.fastChat.setSelectedItem(fastChatEnabled ? "ON" : "OFF");
+        fastChat.addDefaultOnOff();
+        fastChat.setSelectedItem(fastChatEnabled ? "ON" : "OFF");
 
 
-        this.settingItems.add(this.fastWorldGui = new SelectionItem<>(2, getX(), getDefaultItemY(2), this.width - getX() * 2, "FAST CONTAINERS", i -> {
+        SelectionItem<String> fastWorldGui;
+        this.settingItems.add(fastWorldGui = new SelectionItem<>(2, getX(), getDefaultItemY(2), this.width - getX() * 2, "FAST CONTAINERS", i -> {
             ((SelectionItem) i).nextItem();
             fastWorldGuiEnabled = ((SelectionItem) i).getSelectedItem().equals("ON");
         }));
-        this.fastWorldGui.addDefaultOnOff();
-        this.fastWorldGui.setSelectedItem(fastWorldGuiEnabled ? "ON" : "OFF");
+        fastWorldGui.addDefaultOnOff();
+        fastWorldGui.setSelectedItem(fastWorldGuiEnabled ? "ON" : "OFF");
 
-        this.settingItems.add(this.particlesMode = new SelectionItem<>(3, getX(), getDefaultItemY(3), this.width - getX() * 2, "PARTICLES MODE", i -> {
+        SelectionItem<String> particlesMode;
+        this.settingItems.add(particlesMode = new SelectionItem<>(3, getX(), getDefaultItemY(3), this.width - getX() * 2, "PARTICLES MODE", i -> {
             if (!ParticleOverlay.getOverlay().purchased()) {
                 return;
             }
@@ -95,27 +93,29 @@ public class BackgroundSettings extends SettingGui {
             particlesModeString = ((SelectionItem<String>) i).getSelectedItem();
         }));
         if (ParticleOverlay.getOverlay().purchased()) {
-            this.particlesMode.addItems(Arrays.asList("OFF", "PLAIN 1", "PLAIN 2", "CHROMA 1", "CHROMA 2"));
-            this.particlesMode.setSelectedItem(particlesModeString);
+            particlesMode.addItems(Arrays.asList("OFF", "PLAIN 1", "PLAIN 2", "CHROMA 1", "CHROMA 2"));
+            particlesMode.setSelectedItem(particlesModeString);
         } else {
-            this.particlesMode.addItems(Arrays.asList("NOT PURCHASED"));
-            this.particlesMode.setSelectedItem("NOT PURCHASED");
+            particlesMode.addItems(Arrays.asList("NOT PURCHASED"));
+            particlesMode.setSelectedItem("NOT PURCHASED");
         }
 
+        SelectionItem<Integer> maxParticlesSelection;
         this.settingItems.add(maxParticlesSelection = new SelectionItem<>(4, getX(), getDefaultItemY(4), this.width - getX() * 2, "PARTICLES MAX", i -> {
             ((SelectionItem) i).nextItem();
             maxParticles = ((SelectionItem<Integer>) i).getSelectedItem();
             ParticleOverlay.reload();
         }));
-        this.maxParticlesSelection.addItems(Arrays.asList(20, 50, 75, 100, 125, 150, 175, 200, 225, 250, 275, 300, 325, 350, 375, 400, 425, 450, 475, 500));
-        this.maxParticlesSelection.setSelectedItem(maxParticles);
+        maxParticlesSelection.addItems(Arrays.asList(20, 50, 75, 100, 125, 150, 175, 200, 225, 250, 275, 300, 325, 350, 375, 400, 425, 450, 475, 500));
+        maxParticlesSelection.setSelectedItem(maxParticles);
 
-        this.settingItems.add(this.showOverInventory = new SelectionItem<>(5, getX(), getDefaultItemY(5), this.width - getX() * 2, "SHOW PARTICLES OVER INVENTORY", i -> {
+        SelectionItem<String> showOverInventory;
+        this.settingItems.add(showOverInventory = new SelectionItem<>(5, getX(), getDefaultItemY(5), this.width - getX() * 2, "SHOW PARTICLES OVER INVENTORY", i -> {
             ((SelectionItem) i).nextItem();
             renderOverInventory = ((SelectionItem) i).getSelectedItem().equals("ON");
         }));
-        this.showOverInventory.addDefaultOnOff();
-        this.showOverInventory.setSelectedItem(renderOverInventory ? "ON" : "OFF");
+        showOverInventory.addDefaultOnOff();
+        showOverInventory.setSelectedItem(renderOverInventory ? "ON" : "OFF");
 
     }
 

@@ -45,12 +45,11 @@ public class EditItemsGui extends GuiScreen {
     private DisplayItem modifying;
     private int tmpId;
     private ChromaHUD mod;
-    private boolean mouseLock;
 
     public EditItemsGui(DisplayElement element, ChromaHUD mod) {
         this.element = element;
         this.mod = mod;
-        mouseLock = Mouse.isButtonDown(0);
+        boolean mouseLock = Mouse.isButtonDown(0);
     }
 
     private int nextId() {

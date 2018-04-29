@@ -93,7 +93,6 @@ public class Hyperium {
     private RichPresenceManager richPresenceManager = new RichPresenceManager();
     private ConfirmationPopup confirmation = new ConfirmationPopup();
     private HyperiumCosmetics cosmetics;
-    private TrayManager trayManager;
     private HyperiumHandlers handlers;
     private HyperiumModIntegration modIntegration;
 
@@ -162,7 +161,7 @@ public class Hyperium {
         LOGGER.info("Hyperium Started!");
         Display.setTitle("Hyperium " + Metadata.getVersion());
 
-        trayManager = new TrayManager();
+        TrayManager trayManager = new TrayManager();
 
         SplashProgress.PROGRESS = 8;
         SplashProgress.CURRENT = "Initializing tray icon";
