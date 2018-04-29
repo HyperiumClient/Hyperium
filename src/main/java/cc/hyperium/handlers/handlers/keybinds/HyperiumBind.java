@@ -34,7 +34,7 @@ public class HyperiumBind extends KeyBinding {
      */
     private final int defaultKeyCode;
 
-    private String description;
+    private final String description;
     private int key;
 
     private boolean wasPressed;

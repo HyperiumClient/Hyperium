@@ -34,7 +34,7 @@ import net.minecraft.util.ChatStyle;
  */
 public class ToggleChatEvents {
 
-    private ToggleChatMod mod;
+    private final ToggleChatMod mod;
 
     public ToggleChatEvents(ToggleChatMod theMod) {
         this.mod = theMod;

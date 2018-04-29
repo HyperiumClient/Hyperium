@@ -26,12 +26,12 @@ import java.util.function.Consumer;
 
 public class SettingItem extends GuiButton {
     protected static final HyperiumFontRenderer fontRenderer = new HyperiumFontRenderer("Arial", Font.PLAIN, 12);
-    public String displayString;
+    public final String displayString;
     public Consumer<SettingItem> callback;
-    protected int hoverColor = new Color(0, 0, 0, 30).getRGB();
-    protected Color color = new Color(0, 0, 0, 0);
-    protected int textColor = new Color(255, 255, 255, 255).getRGB();
-    protected int textHoverColor = new Color(255, 255, 255, 255).getRGB();
+    protected final int hoverColor = new Color(0, 0, 0, 30).getRGB();
+    protected final Color color = new Color(0, 0, 0, 0);
+    protected final int textColor = new Color(255, 255, 255, 255).getRGB();
+    protected final int textHoverColor = new Color(255, 255, 255, 255).getRGB();
 
     public SettingItem(int id, int x, int y, int width, String displayString, Consumer<SettingItem> callback) {
         super(id, x, y, width, 15, displayString);

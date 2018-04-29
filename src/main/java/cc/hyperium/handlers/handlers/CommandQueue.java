@@ -31,8 +31,8 @@ import java.util.concurrent.TimeUnit;
  */
 public class CommandQueue {
 
-    private ConcurrentLinkedQueue<String> commands = new ConcurrentLinkedQueue<>();
-    private ConcurrentHashMap<String, Runnable> asyncCallbacks = new ConcurrentHashMap<>();
+    private final ConcurrentLinkedQueue<String> commands = new ConcurrentLinkedQueue<>();
+    private final ConcurrentHashMap<String, Runnable> asyncCallbacks = new ConcurrentHashMap<>();
 
     public CommandQueue() {
         long DELAY = 1000;

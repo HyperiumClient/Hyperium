@@ -193,7 +193,7 @@ public class NotificationCenter extends Gui {
     /**
      * List of notifications to be displayed
      */
-    private Queue<Notification> notifications = new LinkedList<>();
+    private final Queue<Notification> notifications = new LinkedList<>();
     /**
      * The notification currently being displayed
      */
@@ -295,7 +295,7 @@ public class NotificationCenter extends Gui {
         /**
          * Width of this notification
          */
-        int width = 175;
+        final int width = 175;
         /**
          * Height of this notification
          */
@@ -303,15 +303,15 @@ public class NotificationCenter extends Gui {
         /**
          * Margins between the bottom of the notification and the bottom of the screen
          */
-        int bottomMargins = 15;
+        final int bottomMargins = 15;
         /**
          * Margins between text or images (whichever is applicable) from the right of the screen
          */
-        int rightMargins = 5;
+        final int rightMargins = 5;
         /**
          * Padding between the top of the notification and title text
          */
-        int topPadding = 5;
+        final int topPadding = 5;
         /**
          * Title text displayed for this notification
          * Max lines is always 1
@@ -328,7 +328,7 @@ public class NotificationCenter extends Gui {
          *
          * @see HyperiumGui#trimString(String, int, FontRenderer, boolean)
          */
-        private int maxDescriptionLines = 4;
+        private final int maxDescriptionLines = 4;
         /**
          * Ticks left until this notification goes bye-bye
          */
@@ -361,11 +361,11 @@ public class NotificationCenter extends Gui {
         /**
          * Width of the highlight bar
          */
-        private int highlightBarWidth = 5;
+        private final int highlightBarWidth = 5;
         /**
          * Margins between the highlight bar and the text next to it
          */
-        private int highlightBarMargins = 5;
+        private final int highlightBarMargins = 5;
         /**
          * Color of the highlight next to the notification
          */
@@ -377,11 +377,11 @@ public class NotificationCenter extends Gui {
         /**
          * Spacing in pixels between each line
          */
-        private int lineSpacing = 1;
+        private final int lineSpacing = 1;
         /**
          * Margins between the top of the image and the title
          */
-        private int imgTopMargins = 5;
+        private final int imgTopMargins = 5;
 
         /**
          * Create a new notification

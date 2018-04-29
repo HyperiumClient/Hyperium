@@ -38,7 +38,7 @@ public class AnimationSettings extends SettingGui {
     public static boolean oldEat = true;
     @ConfigOpt
     public static boolean redArmour = true;
-    private DefaultConfig config;
+    private final DefaultConfig config;
 
 
     public AnimationSettings(HyperiumGui previous) {

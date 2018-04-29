@@ -28,7 +28,7 @@ import java.util.UUID;
 public class LevelheadTag {
     private LevelheadComponent header;
     private LevelheadComponent footer;
-    private UUID owner;
+    private final UUID owner;
 
     public LevelheadTag(UUID owner) {
         this.owner = owner;

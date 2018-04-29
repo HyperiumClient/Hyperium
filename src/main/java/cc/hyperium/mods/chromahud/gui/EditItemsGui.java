@@ -38,13 +38,13 @@ import java.util.List;
 import java.util.function.Consumer;
 
 public class EditItemsGui extends GuiScreen {
-    private DisplayElement element;
-    private HashMap<GuiButton, Consumer<GuiButton>> clicks = new HashMap<>();
-    private HashMap<GuiButton, Consumer<GuiButton>> updates = new HashMap<>();
-    private HashMap<String, GuiButton> nameMap = new HashMap<>();
+    private final DisplayElement element;
+    private final HashMap<GuiButton, Consumer<GuiButton>> clicks = new HashMap<>();
+    private final HashMap<GuiButton, Consumer<GuiButton>> updates = new HashMap<>();
+    private final HashMap<String, GuiButton> nameMap = new HashMap<>();
     private DisplayItem modifying;
     private int tmpId;
-    private ChromaHUD mod;
+    private final ChromaHUD mod;
 
     public EditItemsGui(DisplayElement element, ChromaHUD mod) {
         this.element = element;

@@ -50,7 +50,7 @@ public class Spotify {
     public static Spotify instance;
     private static int localPort = START_HTTPS_PORT;
     private final ArrayList<SpotifyListener> listeners = new ArrayList<>();
-    private OkHttpClient client = new OkHttpClient();
+    private final OkHttpClient client = new OkHttpClient();
     private SpotifyInformation status;
 
     private String token;

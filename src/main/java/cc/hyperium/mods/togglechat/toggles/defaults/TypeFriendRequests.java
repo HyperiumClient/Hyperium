@@ -24,14 +24,14 @@ import java.util.regex.Pattern;
 
 public class TypeFriendRequests extends ToggleBase {
 
-    private Pattern friendPattern = Pattern.compile(
+    private final Pattern friendPattern = Pattern.compile(
             "----------------------------------------------------\n" +
                     "Friend request from (?<rank>\\[.+] )?(?<player>\\S{1,16})\n" +
                     "\\[ACCEPT] - \\[DENY] - \\[IGNORE]\n" +
                     "----------------------------------------------------");
 
     // This is used for expiry messages
-    private Pattern oldPattern = Pattern.compile(Pattern.quote("Friend request from "), Pattern.CASE_INSENSITIVE);
+    private final Pattern oldPattern = Pattern.compile(Pattern.quote("Friend request from "), Pattern.CASE_INSENSITIVE);
 
     private boolean enabled = true;
 

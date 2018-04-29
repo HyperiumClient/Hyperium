@@ -72,17 +72,17 @@ public class LevelHeadGui extends GuiScreen {
     private final String DISABLED = ChatColor.RED + "Disabled";
     private final String COLOR_CHAR = String.valueOf("\u00a7");
     private final String colors = "0123456789abcdef";
-    private List<GuiButton> sliders = new ArrayList<>();
-    private HashMap<GuiButton, Consumer<GuiButton>> clicks = new HashMap<>();
-    private Minecraft mc;
+    private final List<GuiButton> sliders = new ArrayList<>();
+    private final HashMap<GuiButton, Consumer<GuiButton>> clicks = new HashMap<>();
+    private final Minecraft mc;
     private GuiButton headerColorButton;
     private GuiButton footerColorButton;
     private GuiButton prefixButton;
     private boolean isCustom = false;
     private GuiTextField textField;
-    private ReentrantLock lock = new ReentrantLock();
+    private final ReentrantLock lock = new ReentrantLock();
 
-    private Levelhead mod;
+    private final Levelhead mod;
 
     public LevelHeadGui(Levelhead modIn) {
         this.mod = modIn;

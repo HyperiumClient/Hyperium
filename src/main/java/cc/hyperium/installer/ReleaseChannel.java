@@ -24,7 +24,7 @@ public enum ReleaseChannel {
     DEV("latest-dev"),
     LOCAL(getLocalHyperium());
 
-    private String release;
+    private final String release;
 
     ReleaseChannel(String release) {
         this.release = release;

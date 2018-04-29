@@ -28,8 +28,8 @@ import java.nio.file.Paths;
 public class SkinChangerConfig {
 
     private JsonObject configJson = new JsonObject();
-    private SkinChangerMod mod;
-    private File configFile;
+    private final SkinChangerMod mod;
+    private final File configFile;
 
     private String skinName = "";
     private String ofCapeName = "";

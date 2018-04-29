@@ -54,7 +54,7 @@ public abstract class MixinNetHandlerPlayClient {
     @Shadow
     private Minecraft gameController;
 
-    private TimeChanger timeChanger = (TimeChanger) Hyperium.INSTANCE.getModIntegration().getTimeChanger();
+    private final TimeChanger timeChanger = (TimeChanger) Hyperium.INSTANCE.getModIntegration().getTimeChanger();
 
     /**
      * Adds the tab completions of the client to the tab completions received from the server.

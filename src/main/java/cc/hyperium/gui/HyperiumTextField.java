@@ -39,15 +39,15 @@ public class HyperiumTextField extends GuiTextField {
      */
     private final int width;
     private final int height;
-    public int xPosition;
-    public int yPosition;
+    public final int xPosition;
+    public final int yPosition;
     /**
      * Has the current text being edited on the textbox.
      */
     private String text = "";
-    private int maxStringLength = 32;
+    private final int maxStringLength = 32;
     private int cursorCounter;
-    private boolean enableBackgroundDrawing = true;
+    private final boolean enableBackgroundDrawing = true;
     /**
      * If this value is true along with isEnabled, keyTyped will process the keys.
      */
@@ -55,7 +55,7 @@ public class HyperiumTextField extends GuiTextField {
     /**
      * If this value is true along with isFocused, keyTyped will process the keys.
      */
-    private boolean isEnabled = true;
+    private final boolean isEnabled = true;
     /**
      * The current character index that should be used as start of the rendered text.
      */
@@ -69,7 +69,7 @@ public class HyperiumTextField extends GuiTextField {
      * True if this textbox is visible
      */
     private GuiPageButtonList.GuiResponder guiResponder;
-    private Predicate<String> field_175209_y = Predicates.alwaysTrue();
+    private final Predicate<String> field_175209_y = Predicates.alwaysTrue();
 
     public HyperiumTextField(int componentId, HyperiumFontRenderer fontrendererObj, int x, int y, int par5Width, int par6Height) {
         super(componentId, null, x, y, par5Width, par6Height);

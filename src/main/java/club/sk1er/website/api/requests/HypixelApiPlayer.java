@@ -35,7 +35,7 @@ public class HypixelApiPlayer implements HypixelApiObject {
     public static final DateFormat DMY = new SimpleDateFormat("dd/MM, YYYY");
     public static final DateFormat DMYHHMMSS = new SimpleDateFormat("dd/MM, YYYY HH:mm:ss");
 
-    private JsonHolder player;
+    private final JsonHolder player;
 
 
     public HypixelApiPlayer(JsonHolder holder) {

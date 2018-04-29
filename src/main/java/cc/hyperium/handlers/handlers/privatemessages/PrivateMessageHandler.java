@@ -22,7 +22,7 @@ import java.util.*;
 
 public class PrivateMessageHandler {
 
-    private HashMap<String, PrivateMessageChat> chats = new HashMap<>();
+    private final HashMap<String, PrivateMessageChat> chats = new HashMap<>();
 
     public PrivateMessageChat getChat(String with) {
         return chats.computeIfAbsent(with.toLowerCase(), tmp -> new PrivateMessageChat(with));

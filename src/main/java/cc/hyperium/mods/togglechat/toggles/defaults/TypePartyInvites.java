@@ -24,9 +24,9 @@ import java.util.regex.Pattern;
 
 public class TypePartyInvites extends ToggleBase {
 
-    private Pattern expiredPattern = Pattern.compile("The party invite (?<where>\\S{1,4}) (?<rank>\\[.+] )?(?<player>\\S{1,16}) has expired.");
-    private Pattern invitePattern = Pattern.compile("(?<rank>\\[.+] )?(?<player>\\S{1,16}) has invited you to join (?<meme>\\[.+] )?(?<meme2>\\S{1,16}) party!");
-    private Pattern otherInvitePattern = Pattern.compile("(?<inviteerank>\\[.+] )?(?<invitee>\\S{1,16}) invited (?<rank>\\[.+] )?(?<player>\\S{1,16}) to the party! They have 60 seconds to accept.");
+    private final Pattern expiredPattern = Pattern.compile("The party invite (?<where>\\S{1,4}) (?<rank>\\[.+] )?(?<player>\\S{1,16}) has expired.");
+    private final Pattern invitePattern = Pattern.compile("(?<rank>\\[.+] )?(?<player>\\S{1,16}) has invited you to join (?<meme>\\[.+] )?(?<meme2>\\S{1,16}) party!");
+    private final Pattern otherInvitePattern = Pattern.compile("(?<inviteerank>\\[.+] )?(?<invitee>\\S{1,16}) invited (?<rank>\\[.+] )?(?<player>\\S{1,16}) to the party! They have 60 seconds to accept.");
 
     private boolean enabled = true;
 

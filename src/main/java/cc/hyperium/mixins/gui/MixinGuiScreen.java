@@ -39,7 +39,7 @@ public abstract class MixinGuiScreen {
 
     @Shadow
     private Minecraft mc;
-    private GuiScreen instance = (GuiScreen) (Object) this;
+    private final GuiScreen instance = (GuiScreen) (Object) this;
 
     @Inject(method = "drawWorldBackground", at = @At("HEAD"), cancellable = true)
     private void drawWorldBackground(int tint, CallbackInfo ci) {

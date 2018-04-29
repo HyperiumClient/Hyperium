@@ -36,8 +36,8 @@ import java.nio.file.Paths;
 public class KeyBindConfig {
 
     private BetterJsonObject keyBindJson = new BetterJsonObject();
-    private KeyBindHandler handler;
-    private File keybindFile;
+    private final KeyBindHandler handler;
+    private final File keybindFile;
 
     KeyBindConfig(KeyBindHandler handler, File directory) {
         if (!directory.exists()) {

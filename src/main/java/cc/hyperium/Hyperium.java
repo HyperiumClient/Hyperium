@@ -79,7 +79,7 @@ public class Hyperium {
     /**
      * The Hyperium configuration folder
      */
-    public static File folder = new File("hyperium");
+    public static final File folder = new File("hyperium");
 
     /**
      * Instance of default CONFIG
@@ -90,7 +90,7 @@ public class Hyperium {
     private final GeneralStatisticsTracking statTrack = new GeneralStatisticsTracking();
     private final NotificationCenter notification = new NotificationCenter();
     private PerspectiveModifierContainer perspective;
-    private RichPresenceManager richPresenceManager = new RichPresenceManager();
+    private final RichPresenceManager richPresenceManager = new RichPresenceManager();
     private ConfirmationPopup confirmation = new ConfirmationPopup();
     private HyperiumCosmetics cosmetics;
     private HyperiumHandlers handlers;

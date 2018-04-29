@@ -49,7 +49,7 @@ public class Levelhead extends AbstractMod {
      * The metadata of LevelHead
      */
     private final Metadata meta;
-    public Map<UUID, LevelheadTag> levelCache = new HashMap<>();
+    public final Map<UUID, LevelheadTag> levelCache = new HashMap<>();
     public UUID userUuid = null;
     public int count = 1;
     public int wait = 60;
@@ -57,9 +57,9 @@ public class Levelhead extends AbstractMod {
     private int updates = 0;
     private Sk1erMod mod;
     private LevelheadConfig config;
-    private HashMap<UUID, Integer> trueLevelCache = new HashMap<>();
-    private java.util.List<UUID> probablyNotFakeWatchdogBoi = new ArrayList<>();
-    private HashMap<UUID, Integer> timeCheck = new HashMap<>();
+    private final HashMap<UUID, Integer> trueLevelCache = new HashMap<>();
+    private final java.util.List<UUID> probablyNotFakeWatchdogBoi = new ArrayList<>();
+    private final HashMap<UUID, Integer> timeCheck = new HashMap<>();
     private boolean levelHeadInfoFailed = false;
 
     public Levelhead() {

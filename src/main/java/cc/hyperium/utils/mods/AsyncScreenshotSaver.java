@@ -40,12 +40,12 @@ import java.util.Date;
  * @author OrangeMarshall
  */
 public class AsyncScreenshotSaver implements Runnable {
-    private int width;
-    private int height;
-    private int[] pixelValues;
-    private Framebuffer frameBuffer;
-    private File screenshotDir;
-    private boolean upload;
+    private final int width;
+    private final int height;
+    private final int[] pixelValues;
+    private final Framebuffer frameBuffer;
+    private final File screenshotDir;
+    private final boolean upload;
 
     public AsyncScreenshotSaver(final int width, final int height, final int[] pixelValues, final Framebuffer frameBuffer, final File screenshotDir, final boolean upload) {
         this.width = width;

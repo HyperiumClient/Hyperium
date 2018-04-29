@@ -20,7 +20,7 @@ package club.sk1er.website.api.requests;
 import cc.hyperium.utils.JsonHolder;
 
 public class HypixelApiFriendObject {
-    private JsonHolder data;
+    private final JsonHolder data;
     private int ord = -1;
 
     public HypixelApiFriendObject(JsonHolder data) {

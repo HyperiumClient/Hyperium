@@ -27,7 +27,7 @@ import cc.hyperium.mods.chromahud.gui.GeneralConfigGui;
  */
 public class CommandChromaHUD implements BaseCommand {
 
-    private ChromaHUD mod;
+    private final ChromaHUD mod;
 
     public CommandChromaHUD(ChromaHUD modIn) {
         this.mod = modIn;

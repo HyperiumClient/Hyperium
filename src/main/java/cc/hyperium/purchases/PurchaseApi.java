@@ -44,9 +44,9 @@ public class PurchaseApi {
 
     public final static String url = "https://api.hyperium.cc/purchases/";
     private static final PurchaseApi instance = new PurchaseApi();
-    private ConcurrentHashMap<UUID, HyperiumPurchase> purchasePlayers = new ConcurrentHashMap<>();
-    private HashMap<EnumPurchaseType, Class<? extends AbstractHyperiumPurchase>> purchaseClasses = new HashMap<>();
-    private HashMap<String, UUID> nameToUuid = new HashMap<>();
+    private final ConcurrentHashMap<UUID, HyperiumPurchase> purchasePlayers = new ConcurrentHashMap<>();
+    private final HashMap<EnumPurchaseType, Class<? extends AbstractHyperiumPurchase>> purchaseClasses = new HashMap<>();
+    private final HashMap<String, UUID> nameToUuid = new HashMap<>();
 
     private PurchaseApi() {
         register(EnumPurchaseType.WING_COSMETIC, WingCosmetic.class);

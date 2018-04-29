@@ -8,10 +8,10 @@ import net.minecraft.client.renderer.GLAllocation;
 import java.util.HashMap;
 
 public class FontRendererData {
-    public static FontRendererData INSTANCE = new FontRendererData();
-    public HashMap<String, CachedString> normalStringCache = new HashMap<>();
-    public HashMap<String, CachedString> shadowStringCache = new HashMap<>();
-    public HashMap<String, Integer> stringWidthCache = new HashMap<>();
+    public static final FontRendererData INSTANCE = new FontRendererData();
+    public final HashMap<String, CachedString> normalStringCache = new HashMap<>();
+    public final HashMap<String, CachedString> shadowStringCache = new HashMap<>();
+    public final HashMap<String, Integer> stringWidthCache = new HashMap<>();
     int e = 0;
 
     private FontRendererData() {

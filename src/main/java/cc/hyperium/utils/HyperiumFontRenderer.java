@@ -31,9 +31,9 @@ public class HyperiumFontRenderer {
 
     private final UnicodeFont unicodeFont;
     private final int[] colorCodes = new int[32];
-    public int FONT_HEIGHT = 9;
-    private float kerning;
-    private HashMap<String, Float> cachedStringWidth = new HashMap<>();
+    public final int FONT_HEIGHT = 9;
+    private final float kerning;
+    private final HashMap<String, Float> cachedStringWidth = new HashMap<>();
 
     public HyperiumFontRenderer(String fontName, int fontType, int size) {
         this(fontName, fontType, size, 0);

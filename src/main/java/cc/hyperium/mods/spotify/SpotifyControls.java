@@ -58,19 +58,22 @@ import java.net.URL;
 public class SpotifyControls extends AbstractMod {
     public static SpotifyControls instance;
 
-    private int x = 0, y = 0, width = 150, height = 50;
-    private Color bg = new Color(30, 30, 30, 255);
-    private Color progress = new Color(54, 54, 54);
-    private Color highlight = new Color(149, 201, 144);
-    private Color white = Color.WHITE;
-    private Metadata metadata;
+    private int x = 0;
+    private int y = 0;
+    private final int width = 150;
+    private final int height = 50;
+    private final Color bg = new Color(30, 30, 30, 255);
+    private final Color progress = new Color(54, 54, 54);
+    private final Color highlight = new Color(149, 201, 144);
+    private final Color white = Color.WHITE;
+    private final Metadata metadata;
     private long current = 0;
     private long cachedTime = 0;
     private long systemTime = 0;
     private DynamicTexture pause, play, art;
     private String currentURI = "";
     private BufferedImage imageToGenerate;
-    private File configFile;
+    private final File configFile;
 
     public SpotifyControls() {
         instance = this;

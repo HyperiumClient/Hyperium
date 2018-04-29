@@ -25,12 +25,12 @@ import java.util.regex.Pattern;
 
 public class TypeAds extends ToggleBase {
 
-    private Pattern networkBoosterPattern = Pattern.compile("\nBuying a (?<game>.*) Network Booster activates (?<coinboost>.*) for (?<count>.*) players & supports the server!\nClick to browse Network Boosters! (?<thing>.) (?<site>.*)\n");
-    private Pattern mysteryPattern = Pattern.compile("\nMystery Boxes contain tons of awesome collectibles! Unlock Housing items, find legendary Pets and more!\nClick to browse Mystery Boxes! (?<symbol>.) (?<site>.*)\n");
-    private Pattern mediaPattern1 = Pattern.compile("\nSee all the posts shared by Hypixel on (?<name>.*)!\nLike the Hypixel page! (?<special>.) (?<link>.*)\n");
-    private Pattern mediaPattern2 = Pattern.compile("\nKeep up with the latest from Hypixel on (?<name>.*)!\nFollow @HypixelNetwork! (?<special>.) (?<link>.+)\n");
-    private Pattern mediaPattern3 = Pattern.compile("\nBe the first to watch Hypixel (?<media>.+) videos!\nSubscribe to Hypixel! (?<special>.) (?<link>.+)\n");
-    private Pattern mediaPattern4 = Pattern.compile("\nGet deals and news sent to your email!\nSignup for the Newsletter! (?<special>.) (?<link>.+)\n");
+    private final Pattern networkBoosterPattern = Pattern.compile("\nBuying a (?<game>.*) Network Booster activates (?<coinboost>.*) for (?<count>.*) players & supports the server!\nClick to browse Network Boosters! (?<thing>.) (?<site>.*)\n");
+    private final Pattern mysteryPattern = Pattern.compile("\nMystery Boxes contain tons of awesome collectibles! Unlock Housing items, find legendary Pets and more!\nClick to browse Mystery Boxes! (?<symbol>.) (?<site>.*)\n");
+    private final Pattern mediaPattern1 = Pattern.compile("\nSee all the posts shared by Hypixel on (?<name>.*)!\nLike the Hypixel page! (?<special>.) (?<link>.*)\n");
+    private final Pattern mediaPattern2 = Pattern.compile("\nKeep up with the latest from Hypixel on (?<name>.*)!\nFollow @HypixelNetwork! (?<special>.) (?<link>.+)\n");
+    private final Pattern mediaPattern3 = Pattern.compile("\nBe the first to watch Hypixel (?<media>.+) videos!\nSubscribe to Hypixel! (?<special>.) (?<link>.+)\n");
+    private final Pattern mediaPattern4 = Pattern.compile("\nGet deals and news sent to your email!\nSignup for the Newsletter! (?<special>.) (?<link>.+)\n");
 
     private boolean enabled = true;
 

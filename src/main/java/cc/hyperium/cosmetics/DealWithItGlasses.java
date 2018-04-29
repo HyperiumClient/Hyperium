@@ -180,7 +180,7 @@ import net.minecraft.util.ResourceLocation;
  * Created by Cubxity on 22/03/2018
  */
 public class DealWithItGlasses extends AbstractCosmetic {
-    private ResourceLocation glass;
+    private final ResourceLocation glass;
     private float h = 0.0F; //TODO: Chroma
 
     DealWithItGlasses() {

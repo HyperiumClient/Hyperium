@@ -39,7 +39,7 @@ public class DynoGame extends HyperiumGui {
     private int DELTA_BUSH = 0;
     private boolean dead = false;
     private int score;
-    private List<Bush> bushes = new ArrayList<>();
+    private final List<Bush> bushes = new ArrayList<>();
     private boolean running;
     private int dynoOffset = 0;
     private int dynoVelocity = 0;
@@ -143,7 +143,7 @@ public class DynoGame extends HyperiumGui {
     class Bush {
 
         private int xLoc;
-        private GuiBlock hitbox;
+        private final GuiBlock hitbox;
 
         public Bush(int xLoc) {
             this.xLoc = xLoc;

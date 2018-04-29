@@ -31,7 +31,7 @@ import java.util.stream.Stream;
 public class Writer implements Runnable {
 
     private static String lastDate = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
-    private static String ls = System.lineSeparator();
+    private static final String ls = System.lineSeparator();
 
     public static void execute() {
         Autotip.THREAD_POOL.submit(new Writer());

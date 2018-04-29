@@ -32,7 +32,7 @@ public class ApiDataHandler {
 
     private JsonHolder friends = new JsonHolder();
     private HypixelApiPlayer player = new HypixelApiPlayer(new JsonHolder());
-    private ConcurrentHashMap<String, HypixelApiPlayer> otherPlayers = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<String, HypixelApiPlayer> otherPlayers = new ConcurrentHashMap<>();
 
     public ApiDataHandler() {
 

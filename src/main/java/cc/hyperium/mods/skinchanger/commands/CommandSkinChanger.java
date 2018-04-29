@@ -25,7 +25,7 @@ import cc.hyperium.utils.ChatColor;
 
 public class CommandSkinChanger implements BaseCommand {
 
-    private SkinChangerMod mod;
+    private final SkinChangerMod mod;
 
     public CommandSkinChanger(SkinChangerMod theMod) {
         this.mod = theMod;

@@ -10,9 +10,9 @@ import java.awt.image.BufferedImage;
  */
 public class MaterialRadioButton extends JRadioButton {
 
-    private static BufferedImage unselectedButtonImage;
-    private static BufferedImage selectedButtonImage;
-    private static BufferedImage disabledButtonImage;
+    private static final BufferedImage unselectedButtonImage;
+    private static final BufferedImage selectedButtonImage;
+    private static final BufferedImage disabledButtonImage;
 
     static {
         unselectedButtonImage = new BufferedImage(10, 10, BufferedImage.TYPE_INT_ARGB);

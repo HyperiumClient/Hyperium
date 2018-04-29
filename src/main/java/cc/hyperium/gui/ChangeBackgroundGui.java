@@ -16,7 +16,7 @@ import java.net.URLConnection;
 
 public class ChangeBackgroundGui extends GuiScreen {
 
-    private GuiScreen prevGui;
+    private final GuiScreen prevGui;
 
     private GuiTextField downloadUrlField;
     private String statusText = "Enter a URL below to change the background.";

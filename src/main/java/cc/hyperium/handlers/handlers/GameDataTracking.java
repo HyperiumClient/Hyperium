@@ -12,7 +12,7 @@ public class GameDataTracking {
 
     //General class for keeping track of kills
 
-    private HashMap<String, Integer> playerKills = new HashMap<>();
+    private final HashMap<String, Integer> playerKills = new HashMap<>();
 
     public int getKills(String user) {
         return playerKills.getOrDefault(user.toLowerCase(), 0);

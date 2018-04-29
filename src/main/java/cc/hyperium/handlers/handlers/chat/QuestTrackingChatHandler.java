@@ -187,7 +187,7 @@ import java.util.regex.Matcher;
  * Created by Cubxity on 20/03/2018
  */
 public class QuestTrackingChatHandler extends HyperiumChatHandler {
-    private File file;
+    private final File file;
     private JsonArray json;
 
     public QuestTrackingChatHandler() {
@@ -244,9 +244,9 @@ public class QuestTrackingChatHandler extends HyperiumChatHandler {
     }
 
     public class QuestData {
-        private String name;
-        private String type;
-        private Long timestamp;
+        private final String name;
+        private final String type;
+        private final Long timestamp;
 
         public QuestData(String name, String type, Long timestamp) {
             this.name = name;

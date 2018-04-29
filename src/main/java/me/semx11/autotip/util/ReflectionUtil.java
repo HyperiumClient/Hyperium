@@ -32,11 +32,11 @@ import java.util.stream.Collectors;
  */
 public class ReflectionUtil {
 
-    private static Map<String, Class<?>> loadedClasses = new HashMap<>();
-    private static Map<Class<?>, Map<Class<?>[], Constructor<?>>> loadedConstructors = new HashMap<>();
-    private static Map<Class<?>, Map<String, Method>> loadedMethods = new HashMap<>();
-    private static Map<Class<?>, Map<String, Field>> loadedFields = new HashMap<>();
-    private static Map<Class<?>, Map<String, Enum<?>>> loadedEnums = new HashMap<>();
+    private static final Map<String, Class<?>> loadedClasses = new HashMap<>();
+    private static final Map<Class<?>, Map<Class<?>[], Constructor<?>>> loadedConstructors = new HashMap<>();
+    private static final Map<Class<?>, Map<String, Method>> loadedMethods = new HashMap<>();
+    private static final Map<Class<?>, Map<String, Field>> loadedFields = new HashMap<>();
+    private static final Map<Class<?>, Map<String, Enum<?>>> loadedEnums = new HashMap<>();
 
 
     public static Class<?> findClazz(String... classNames) {

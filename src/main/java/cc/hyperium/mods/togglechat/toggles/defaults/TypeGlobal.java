@@ -26,9 +26,9 @@ import java.util.regex.Pattern;
 
 public class TypeGlobal extends ToggleBase {
 
-    private ToggleBaseHandler base;
+    private final ToggleBaseHandler base;
 
-    private Pattern chatPattern = Pattern.compile("(?<rank>\\[.+] )?(?<player>\\S{1,16}): (?<message>.*)");
+    private final Pattern chatPattern = Pattern.compile("(?<rank>\\[.+] )?(?<player>\\S{1,16}): (?<message>.*)");
 
     private boolean enabled = true;
 

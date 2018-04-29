@@ -24,7 +24,7 @@ import java.util.regex.Pattern;
 
 public class TypeShout extends ToggleBase {
 
-    private Pattern shoutPattern = Pattern.compile("\\[SHOUT] (?<rank>\\[.+] )?(?<player>\\S{1,16}): (?<message>.*)");
+    private final Pattern shoutPattern = Pattern.compile("\\[SHOUT] (?<rank>\\[.+] )?(?<player>\\S{1,16}): (?<message>.*)");
 
     private boolean enabled = true;
 

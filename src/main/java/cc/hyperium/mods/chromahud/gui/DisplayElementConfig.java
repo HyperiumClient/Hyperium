@@ -45,9 +45,9 @@ import java.util.function.Consumer;
 public class DisplayElementConfig extends GuiScreen {
 
     private DisplayElement element;
-    private HashMap<GuiButton, Consumer<GuiButton>> clicks = new HashMap<>();
-    private HashMap<GuiButton, Consumer<GuiButton>> updates = new HashMap<>();
-    private HashMap<String, GuiButton> nameMap = new HashMap<>();
+    private final HashMap<GuiButton, Consumer<GuiButton>> clicks = new HashMap<>();
+    private final HashMap<GuiButton, Consumer<GuiButton>> updates = new HashMap<>();
+    private final HashMap<String, GuiButton> nameMap = new HashMap<>();
     private int ids;
     private int lastX, lastY;
     private DynamicTexture texture;

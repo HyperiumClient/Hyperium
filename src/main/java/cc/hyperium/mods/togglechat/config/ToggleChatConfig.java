@@ -31,7 +31,7 @@ public class ToggleChatConfig {
 
     private BetterJsonObject toggleJson = new BetterJsonObject();
 
-    private File toggleFile;
+    private final File toggleFile;
 
     public ToggleChatConfig(ToggleChatMod theMod, File directory) {
         if (!directory.exists()) {

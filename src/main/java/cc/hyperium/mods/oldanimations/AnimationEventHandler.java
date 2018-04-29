@@ -8,7 +8,7 @@ import net.minecraft.potion.Potion;
 import net.minecraft.util.MovingObjectPosition;
 
 class AnimationEventHandler {
-    private Minecraft mc;
+    private final Minecraft mc;
 
     public AnimationEventHandler() {
         this.mc = Minecraft.getMinecraft();

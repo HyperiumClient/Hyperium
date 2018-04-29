@@ -29,10 +29,10 @@ public class GuiScreenColor extends GuiScreen {
 
     private final KeystrokesMod mod; // OOP
 
-    private IScrollable scrollable1; // Red
-    private IScrollable scrollable2; // Green
-    private IScrollable scrollable3; // Blue
-    private IScrollable scrollable4; // Gamma
+    private final IScrollable scrollable1; // Red
+    private final IScrollable scrollable2; // Green
+    private final IScrollable scrollable3; // Blue
+    private final IScrollable scrollable4; // Gamma
 
     private boolean updated = false; // Have the values been changed?
 

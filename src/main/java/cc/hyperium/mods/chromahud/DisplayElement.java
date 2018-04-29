@@ -38,7 +38,7 @@ public class DisplayElement extends Dimension {
     private int color;
     private boolean shadow;
     private boolean highlighted;
-    private JsonHolder data;
+    private final JsonHolder data;
     private boolean rightSided = false;
     // Used for rainbox rendering
     private boolean selected;

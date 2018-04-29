@@ -34,7 +34,7 @@ public class CPSKey extends IKey {
 
     private boolean wasPressed = true;
 
-    private List<Long> clicks = new ArrayList<>();
+    private final List<Long> clicks = new ArrayList<>();
 
     public CPSKey(KeystrokesMod mod, int xOffset, int yOffset) {
         super(mod, xOffset, yOffset);

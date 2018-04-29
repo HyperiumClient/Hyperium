@@ -24,7 +24,7 @@ import java.util.regex.Pattern;
 
 public class TypeLeave extends ToggleBase {
 
-    private Pattern leavePattern = Pattern.compile("(?<player>\\S{1,16})(\\s+)(left\\.)");
+    private final Pattern leavePattern = Pattern.compile("(?<player>\\S{1,16})(\\s+)(left\\.)");
 
     private boolean enabled = true;
 

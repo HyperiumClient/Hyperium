@@ -30,7 +30,7 @@ import cc.hyperium.utils.ChatColor;
  */
 public class LevelHeadCommand implements BaseCommand {
 
-    private Levelhead mod;
+    private final Levelhead mod;
 
     public LevelHeadCommand(Levelhead mod) {
         this.mod = mod;

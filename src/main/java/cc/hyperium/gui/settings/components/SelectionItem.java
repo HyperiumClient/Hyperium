@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.function.Consumer;
 
 public class SelectionItem<T> extends SettingItem {
-    protected List<T> items = new ArrayList<>();
+    protected final List<T> items = new ArrayList<>();
     protected T selectedItem = null;
 
     public SelectionItem(int id, int x, int y, int width, String displayString, Consumer<SettingItem> callback) {

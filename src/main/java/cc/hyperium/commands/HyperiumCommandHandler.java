@@ -37,10 +37,10 @@ import java.util.Map.Entry;
  */
 public class HyperiumCommandHandler {
 
-    private Map<String, BaseCommand> commands = new HashMap<>();
+    private final Map<String, BaseCommand> commands = new HashMap<>();
 
-    private GeneralChatHandler chatHandler;
-    private Minecraft mc;
+    private final GeneralChatHandler chatHandler;
+    private final Minecraft mc;
 
     private String[] latestAutoComplete;
 

@@ -8,11 +8,11 @@ import java.text.DecimalFormat;
 
 public class GuiSlider extends GuiButton {
     private boolean isDragging;
-    private double minValue;
-    private double maxValue;
+    private final double minValue;
+    private final double maxValue;
     private double sliderValue;
-    private DecimalFormat decimalFormat;
-    private String sliderPrefix;
+    private final DecimalFormat decimalFormat;
+    private final String sliderPrefix;
 
     public GuiSlider(final int buttonId, final int x, final int y, final String sliderPrefix, final int minValue, final int maxValue, final int currentValue) {
         this(buttonId, x, y, sliderPrefix, minValue, maxValue, currentValue, "#");

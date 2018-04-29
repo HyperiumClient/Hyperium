@@ -15,7 +15,7 @@ import java.util.List;
 
 public class BedwarsResourcesDisplay extends DisplayItem {
 
-    private FontRenderer fr = Minecraft.getMinecraft().fontRendererObj;
+    private final FontRenderer fr = Minecraft.getMinecraft().fontRendererObj;
 
     public BedwarsResourcesDisplay(JsonHolder data, int ordinal) {
         super(data, ordinal);

@@ -13,7 +13,7 @@ public class CapeImageBuffer implements IImageBuffer {
 
     public final WeakReference<AbstractClientPlayer> playerRef;
     public final ResourceLocation resourceLocation;
-    public ImageBufferDownload imageBufferDownload;
+    public final ImageBufferDownload imageBufferDownload;
 
     public CapeImageBuffer(AbstractClientPlayer player, ResourceLocation resourceLocation) {
         playerRef = new WeakReference<>(player);

@@ -23,7 +23,7 @@ import java.util.LinkedHashMap;
 
 public class ToggleBaseHandler {
 
-    private LinkedHashMap<String, ToggleBase> toggles = new LinkedHashMap<>();
+    private final LinkedHashMap<String, ToggleBase> toggles = new LinkedHashMap<>();
 
     public LinkedHashMap<String, ToggleBase> getToggles() {
         return new LinkedHashMap<>(this.toggles);

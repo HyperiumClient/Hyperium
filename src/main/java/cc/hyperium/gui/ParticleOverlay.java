@@ -189,7 +189,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class ParticleOverlay {
     private static ParticleOverlay overlay;
     private float h = 0.1F;
-    private List<Particle> particles = new ArrayList<>();
+    private final List<Particle> particles = new ArrayList<>();
     private long last;
 
     public ParticleOverlay() {

@@ -46,7 +46,7 @@ public class BackgroundSettings extends SettingGui {
 
     @ConfigOpt
     public static boolean renderOverInventory = true;
-    private DefaultConfig config;
+    private final DefaultConfig config;
 
     public BackgroundSettings(HyperiumGui previous) {
         super("BACKGROUNDS", previous);

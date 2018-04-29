@@ -24,7 +24,7 @@ import java.util.regex.Pattern;
 
 public class TypeJoin extends ToggleBase {
 
-    private Pattern joinPattern = Pattern.compile("(?<player>\\S{1,16})(\\s+)(joined\\.)");
+    private final Pattern joinPattern = Pattern.compile("(?<player>\\S{1,16})(\\s+)(joined\\.)");
 
     private boolean enabled = true;
 

@@ -28,11 +28,11 @@ import java.awt.*;
 
 public class CustomFontButton extends GuiButton {
     public boolean renderBackground = true;
-    private int hoverColor = new Color(0, 0, 0, 60).getRGB();
-    private int color = new Color(0, 0, 0, 50).getRGB();
-    private int textColor = new Color(255, 255, 255, 255).getRGB();
-    private int textHoverColor = new Color(255, 255, 255, 255).getRGB();
-    private HyperiumFontRenderer fontRenderer = new HyperiumFontRenderer("Arial", Font.PLAIN, 12);
+    private final int hoverColor = new Color(0, 0, 0, 60).getRGB();
+    private final int color = new Color(0, 0, 0, 50).getRGB();
+    private final int textColor = new Color(255, 255, 255, 255).getRGB();
+    private final int textHoverColor = new Color(255, 255, 255, 255).getRGB();
+    private final HyperiumFontRenderer fontRenderer = new HyperiumFontRenderer("Arial", Font.PLAIN, 12);
 
     public CustomFontButton(int buttonId, int x, int y, String buttonText) {
         super(buttonId, x, y, buttonText);

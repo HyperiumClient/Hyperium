@@ -206,7 +206,7 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
 
     private static ResourceLocation background = new ResourceLocation("textures/material/backgrounds/1.png");
     private static boolean customBackground = false;
-    private static File customImage = new File(Minecraft.getMinecraft().mcDataDir, "customImage.png");
+    private static final File customImage = new File(Minecraft.getMinecraft().mcDataDir, "customImage.png");
     private final ResourceLocation exit = new ResourceLocation("textures/material/exit.png");
     private final ResourceLocation people_outline = new ResourceLocation("textures/material/people-outline.png");
     private final ResourceLocation person_outline = new ResourceLocation("textures/material/person-outline.png");
@@ -218,12 +218,12 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
     private int field_92022_t;
     private int field_92024_r;
     private int field_92023_s;
-    private FontRenderer fontRendererObj = Minecraft.getMinecraft().fontRendererObj;
+    private final FontRenderer fontRendererObj = Minecraft.getMinecraft().fontRendererObj;
     private GuiButton hypixelButton;
     private boolean clickedCheckBox = false;
-    private HyperiumFontRenderer fr = new HyperiumFontRenderer("Arial", Font.PLAIN, 20);
-    private HyperiumFontRenderer sfr = new HyperiumFontRenderer("Arial", Font.PLAIN, 12);
-    private HashMap<String, DynamicTexture> cachedImages = new HashMap<>();
+    private final HyperiumFontRenderer fr = new HyperiumFontRenderer("Arial", Font.PLAIN, 20);
+    private final HyperiumFontRenderer sfr = new HyperiumFontRenderer("Arial", Font.PLAIN, 12);
+    private final HashMap<String, DynamicTexture> cachedImages = new HashMap<>();
     private BufferedImage bgBr = null;
     private ResourceLocation bgDynamicTexture = null;
 

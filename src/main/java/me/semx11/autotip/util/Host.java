@@ -19,9 +19,9 @@ package me.semx11.autotip.util;
 
 public class Host {
 
-    private String id;
-    private String url;
-    private boolean enabled;
+    private final String id;
+    private final String url;
+    private final boolean enabled;
 
     public Host(String id, String url, boolean enabled) {
         this.id = id;

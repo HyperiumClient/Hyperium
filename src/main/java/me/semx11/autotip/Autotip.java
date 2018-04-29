@@ -52,7 +52,7 @@ public class Autotip extends AbstractMod {
             .newCachedThreadPool(new AutotipThreadFactory());
     public static String USER_DIR = "";
 
-    public static Minecraft mc = Minecraft.getMinecraft();
+    public static final Minecraft mc = Minecraft.getMinecraft();
 
     public static MessageOption messageOption = MessageOption.SHOWN;
     public static String playerUUID = "";
@@ -60,7 +60,7 @@ public class Autotip extends AbstractMod {
     public static boolean toggle = true;
 
     public static int totalTipsSent;
-    public static List<String> alreadyTipped = new ArrayList<>();
+    public static final List<String> alreadyTipped = new ArrayList<>();
 
     /**
      * The metadata of Autotip

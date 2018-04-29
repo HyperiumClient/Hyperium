@@ -24,8 +24,8 @@ import java.util.regex.Pattern;
 
 public class TypeParty extends ToggleBase {
 
-    private Pattern partyPattern = Pattern.compile("Party > (?<rank>\\[.+] )?(?<player>\\S{1,16}): (?<message>.*)");
-    private Pattern shortPartyPattern = Pattern.compile("P > (?<rank>\\[.+] )?(?<player>\\S{1,16}): (?<message>.*)");
+    private final Pattern partyPattern = Pattern.compile("Party > (?<rank>\\[.+] )?(?<player>\\S{1,16}): (?<message>.*)");
+    private final Pattern shortPartyPattern = Pattern.compile("P > (?<rank>\\[.+] )?(?<player>\\S{1,16}): (?<message>.*)");
 
     private boolean enabled = true;
 

@@ -57,7 +57,7 @@ public class InstallerFrame implements PropertyChangeListener {
     private JLabel error;
     private JProgressBar progressBar;
     private JButton exit;
-    private JFrame frame;
+    private final JFrame frame;
 
     /**
      * Constructor

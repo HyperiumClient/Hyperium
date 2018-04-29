@@ -18,8 +18,8 @@
 package cc.hyperium.gui;
 
 public class GuiBoxItem<E> {
-    private GuiBlock box;
-    private E object;
+    private final GuiBlock box;
+    private final E object;
 
     public GuiBoxItem(GuiBlock box, E object) {
         this.box = box;

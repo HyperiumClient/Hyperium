@@ -31,9 +31,9 @@ public class Versions {
 
     private static Versions instance;
 
-    private Version latest;
+    private final Version latest;
     private Version latestBeta;
-    private List<VersionInfo> versions = new ArrayList<>();
+    private final List<VersionInfo> versions = new ArrayList<>();
 
     private Versions(Version latest) {
         this.latest = latest;

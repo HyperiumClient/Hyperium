@@ -35,7 +35,7 @@ public class LocationHandler {
 
     @ConfigOpt
     private String location = "";
-    private Pattern whereami = Pattern.compile("You are currently connected to server (?<server>.+)");
+    private final Pattern whereami = Pattern.compile("You are currently connected to server (?<server>.+)");
     private boolean sendingWhereAmI = false;
     private long ticksInWorld = 0;
 

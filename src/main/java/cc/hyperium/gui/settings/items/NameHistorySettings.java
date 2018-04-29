@@ -27,7 +27,7 @@ import cc.hyperium.gui.settings.components.SelectionItem;
 public class NameHistorySettings extends SettingGui {
     @ConfigOpt
     public static boolean rgbNamesEnabled = false;
-    private DefaultConfig config;
+    private final DefaultConfig config;
 
     public NameHistorySettings(HyperiumGui previous) {
         super("NAME HISTORY", previous);

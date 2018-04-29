@@ -9,7 +9,7 @@ public enum BlockOverlayMode {
     OUTLINE("Outline"),
     FULL("Full");
 
-    String name;
+    final String name;
 
     BlockOverlayMode(final String name) {
         this.name = name;

@@ -46,8 +46,8 @@ public class RemoteResourcesHandler {
     private final ConcurrentHashMap<String, HyperiumResource> resources = new ConcurrentHashMap<>();
     private JsonHolder resourceData = new JsonHolder();
     private JsonHolder cacheTimes = new JsonHolder();
-    private HashMap<String, String> urlToName = new HashMap<>();
-    private ReentrantLock saveLock = new ReentrantLock();
+    private final HashMap<String, String> urlToName = new HashMap<>();
+    private final ReentrantLock saveLock = new ReentrantLock();
 
     public RemoteResourcesHandler() {
         Multithreading.runAsync(() -> {
@@ -287,8 +287,8 @@ public class RemoteResourcesHandler {
     }
 
     class ResourceFrame {
-        private ResourceType type;
-        private String url;
+        private final ResourceType type;
+        private final String url;
 
         ResourceFrame(ResourceType type, String url) {
             this.type = type;

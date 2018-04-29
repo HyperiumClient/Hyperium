@@ -36,7 +36,7 @@ public class CommandToggleChat implements BaseCommand {
     /**
      * The "mod" instance
      */
-    private ToggleChatMod mod;
+    private final ToggleChatMod mod;
 
     /**
      * Default constructor

@@ -36,9 +36,9 @@ public abstract class HyperiumGui extends GuiScreen {
 
     protected int offset = 0;
     private int idIteration;
-    private HashMap<GuiButton, Consumer<GuiButton>> clicks = new HashMap<>();
-    private HashMap<GuiButton, Consumer<GuiButton>> updates = new HashMap<>();
-    private HashMap<String, GuiButton> nameMap = new HashMap<>();
+    private final HashMap<GuiButton, Consumer<GuiButton>> clicks = new HashMap<>();
+    private final HashMap<GuiButton, Consumer<GuiButton>> updates = new HashMap<>();
+    private final HashMap<String, GuiButton> nameMap = new HashMap<>();
     private boolean drawAlpha = true;
     private int alpha = 100;
     private ScaledResolution lastResolution;

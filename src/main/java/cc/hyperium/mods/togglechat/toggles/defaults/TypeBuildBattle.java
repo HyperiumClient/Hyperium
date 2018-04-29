@@ -26,7 +26,7 @@ import java.util.regex.Pattern;
 
 public class TypeBuildBattle extends ToggleBase {
 
-    private Pattern battlePattern = Pattern.compile("(?<battle>.*\\w) (?<rank>\\[.+] )?(?<player>\\S{1,16}): (?<message>.*)");
+    private final Pattern battlePattern = Pattern.compile("(?<battle>.*\\w) (?<rank>\\[.+] )?(?<player>\\S{1,16}): (?<message>.*)");
 
     private boolean enabled = true;
 

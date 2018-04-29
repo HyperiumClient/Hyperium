@@ -38,18 +38,18 @@ import me.semx11.autotip.Autotip;
  */
 public class HyperiumModIntegration {
 
-    private AbstractMod keystrokesMod;
-    private AbstractMod timeChanger;
-    private AbstractMod skinChanger;
-    private AbstractMod toggleChat;
-    private AbstractMod utilities;
-    private AbstractMod levelhead;
-    private AbstractMod killScreenshot;
+    private final AbstractMod keystrokesMod;
+    private final AbstractMod timeChanger;
+    private final AbstractMod skinChanger;
+    private final AbstractMod toggleChat;
+    private final AbstractMod utilities;
+    private final AbstractMod levelhead;
+    private final AbstractMod killScreenshot;
 
-    private AbstractMod chromaHUD;
-    private AbstractMod autotip;
-    private AbstractMod autogg;
-    private AbstractMod hgames;
+    private final AbstractMod chromaHUD;
+    private final AbstractMod autotip;
+    private final AbstractMod autogg;
+    private final AbstractMod hgames;
 
     public HyperiumModIntegration() {
         // ChromaHud implementation

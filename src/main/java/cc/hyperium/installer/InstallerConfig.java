@@ -107,7 +107,7 @@ class InstallerConfig extends JFrame {
         wam.setForeground(Color.WHITE);
         wam.addChangeListener(e -> wamTxt.setText("Ram to allocate (" + wam.getValue() + "GB)"));
         wam.setUI(new BasicSliderUI(wam) {
-            private Stroke s = new BasicStroke(1f);
+            private final Stroke s = new BasicStroke(1f);
 
             @Override
             public void paintTrack(Graphics g) {

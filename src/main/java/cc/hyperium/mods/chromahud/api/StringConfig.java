@@ -22,8 +22,8 @@ import java.util.function.Consumer;
 public class StringConfig {
 
     private String string;
-    private Consumer<DisplayItem> load;
-    private Consumer<DisplayItem> draw;
+    private final Consumer<DisplayItem> load;
+    private final Consumer<DisplayItem> draw;
 
     public StringConfig(String string, Consumer<DisplayItem> load, Consumer<DisplayItem> draw) {
         this.string = string;

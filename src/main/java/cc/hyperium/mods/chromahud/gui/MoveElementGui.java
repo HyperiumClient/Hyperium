@@ -33,11 +33,11 @@ import java.util.HashMap;
 import java.util.function.Consumer;
 
 class MoveElementGui extends GuiScreen {
-    private HashMap<GuiButton, Consumer<GuiButton>> clicks = new HashMap<>();
-    private HashMap<GuiButton, Consumer<GuiButton>> updates = new HashMap<>();
-    private HashMap<String, GuiButton> nameMap = new HashMap<>();
-    private ChromaHUD mod;
-    private DisplayElement element;
+    private final HashMap<GuiButton, Consumer<GuiButton>> clicks = new HashMap<>();
+    private final HashMap<GuiButton, Consumer<GuiButton>> updates = new HashMap<>();
+    private final HashMap<String, GuiButton> nameMap = new HashMap<>();
+    private final ChromaHUD mod;
+    private final DisplayElement element;
     private GuiButton edit;
     private double lastX;
     private double lastY;

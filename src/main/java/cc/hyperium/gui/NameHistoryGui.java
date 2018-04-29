@@ -35,8 +35,8 @@ import java.util.UUID;
 
 public class NameHistoryGui extends GuiScreen {
 
-    List<String> names = new ArrayList<>();
-    private HyperiumFontRenderer fontRenderer = new HyperiumFontRenderer("Arial", Font.PLAIN, 16);
+    final List<String> names = new ArrayList<>();
+    private final HyperiumFontRenderer fontRenderer = new HyperiumFontRenderer("Arial", Font.PLAIN, 16);
     private HyperiumTextField nameField;
     private int offset = 0;
 

@@ -15,8 +15,8 @@ import java.util.List;
 
 public class QueueModGui extends HyperiumGui {
 
-    private static List<String> selected = new ArrayList<>();
-    private List<GuiBoxItem<String>> boxes = new ArrayList<>();
+    private static final List<String> selected = new ArrayList<>();
+    private final List<GuiBoxItem<String>> boxes = new ArrayList<>();
     private int coolDown = 0;
 
     @Override

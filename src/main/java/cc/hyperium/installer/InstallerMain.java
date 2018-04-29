@@ -18,7 +18,7 @@
 package cc.hyperium.installer;
 
 public class InstallerMain {
-    static ReleaseChannel releaseChannel = ReleaseChannel.DEV;
+    static final ReleaseChannel releaseChannel = ReleaseChannel.DEV;
 
     /**
      * called when jar is executed

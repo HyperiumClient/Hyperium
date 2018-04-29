@@ -47,11 +47,11 @@ import java.util.function.Consumer;
  * @author Sk1er
  */
 public class GeneralConfigGui extends GuiScreen {
-    private ChromaHUD mod;
+    private final ChromaHUD mod;
     private boolean mouseDown;
     private DisplayElement currentElement;
     private GuiButton edit;
-    private HashMap<GuiButton, Consumer<GuiButton>> clicks = new HashMap<>();
+    private final HashMap<GuiButton, Consumer<GuiButton>> clicks = new HashMap<>();
     private double lastX;
     private double lastY;
     private boolean lastD = false;

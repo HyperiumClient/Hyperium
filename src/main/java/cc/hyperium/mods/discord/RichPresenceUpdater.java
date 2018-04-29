@@ -28,7 +28,7 @@ import java.time.OffsetDateTime;
 
 public class RichPresenceUpdater {
 
-    private IPCClient client;
+    private final IPCClient client;
 
     RichPresenceUpdater(IPCClient client) {
         this.client = client;

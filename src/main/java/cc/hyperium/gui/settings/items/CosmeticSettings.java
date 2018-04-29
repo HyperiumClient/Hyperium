@@ -48,7 +48,7 @@ public class CosmeticSettings extends SettingGui {
     public static int flip_type = 1;
 
 
-    private DefaultConfig config;
+    private final DefaultConfig config;
 
     public CosmeticSettings(HyperiumGui previous) {
         super("COSMETICS", previous);

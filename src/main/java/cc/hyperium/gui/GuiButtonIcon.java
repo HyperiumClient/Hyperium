@@ -24,10 +24,10 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 public class GuiButtonIcon extends GuiButton {
-    public int sprite;
-    private ResourceLocation icon;
+    public final int sprite;
+    private final ResourceLocation icon;
     private boolean outline;
-    private float scale;
+    private final float scale;
 
     public GuiButtonIcon(int buttonID, ResourceLocation icon, int xPos, int yPos, int sprite, float scale) {
         super(buttonID, xPos, yPos, 52, 52, "");

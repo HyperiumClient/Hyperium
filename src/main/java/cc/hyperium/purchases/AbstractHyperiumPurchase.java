@@ -20,8 +20,8 @@ package cc.hyperium.purchases;
 import cc.hyperium.utils.JsonHolder;
 
 public abstract class AbstractHyperiumPurchase {
-    private EnumPurchaseType type;
-    private JsonHolder data;
+    private final EnumPurchaseType type;
+    private final JsonHolder data;
 
     public AbstractHyperiumPurchase(EnumPurchaseType type, JsonHolder data) {
         this.type = type;

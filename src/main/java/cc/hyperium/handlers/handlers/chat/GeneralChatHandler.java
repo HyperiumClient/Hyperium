@@ -40,9 +40,9 @@ import java.util.regex.Pattern;
 public class GeneralChatHandler {
 
     private static GeneralChatHandler generalChatHandler = null;
-    private List<HyperiumChatHandler> handlerList;
+    private final List<HyperiumChatHandler> handlerList;
 
-    private ConcurrentLinkedQueue<IChatComponent> messages = new ConcurrentLinkedQueue<>();
+    private final ConcurrentLinkedQueue<IChatComponent> messages = new ConcurrentLinkedQueue<>();
     private boolean posted = false;
 
     public GeneralChatHandler(List<HyperiumChatHandler> handlerList) {

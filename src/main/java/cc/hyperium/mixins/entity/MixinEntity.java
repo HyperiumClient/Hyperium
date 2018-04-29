@@ -33,7 +33,7 @@ import java.util.UUID;
 public abstract class MixinEntity {
 
     private IChatComponent cachedName;
-    private long nameCacheTime = System.currentTimeMillis();
+    private final long nameCacheTime = System.currentTimeMillis();
 
     @Shadow
     public abstract String getName();

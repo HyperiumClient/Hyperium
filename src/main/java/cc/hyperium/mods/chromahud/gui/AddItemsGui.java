@@ -43,16 +43,16 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 public class AddItemsGui extends GuiScreen {
-    private ChromaHUD mod;
-    private DisplayElement element;
-    private HashMap<GuiButton, Consumer<GuiButton>> clicks = new HashMap<>();
-    private HashMap<GuiButton, Consumer<GuiButton>> updates = new HashMap<>();
-    private HashMap<String, GuiButton> nameMap = new HashMap<>();
+    private final ChromaHUD mod;
+    private final DisplayElement element;
+    private final HashMap<GuiButton, Consumer<GuiButton>> clicks = new HashMap<>();
+    private final HashMap<GuiButton, Consumer<GuiButton>> updates = new HashMap<>();
+    private final HashMap<String, GuiButton> nameMap = new HashMap<>();
     private int tmpId = 0;
     private boolean adding = true;
     private int offset = 0;
-    private List<DisplayElement> all = new ArrayList<>();
-    private DisplayElement target;
+    private final List<DisplayElement> all = new ArrayList<>();
+    private final DisplayElement target;
     private boolean mouseLock;
 
     public AddItemsGui(ChromaHUD mod, DisplayElement element) {

@@ -29,7 +29,7 @@ import java.util.List;
  */
 public abstract class DisplayItem extends Dimension {
 
-    protected JsonHolder data;
+    protected final JsonHolder data;
     private int ordinal;
 
     public DisplayItem(JsonHolder data, int ordinal) {
