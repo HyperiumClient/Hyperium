@@ -170,6 +170,7 @@ package cc.hyperium.gui;
 
 import cc.hyperium.GuiStyle;
 import cc.hyperium.Metadata;
+import cc.hyperium.gui.settings.items.BackgroundSettings;
 import cc.hyperium.gui.settings.items.GeneralSetting;
 import cc.hyperium.utils.HyperiumFontRenderer;
 import net.minecraft.client.Minecraft;
@@ -204,6 +205,7 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
 
 
     private static ResourceLocation background = new ResourceLocation("textures/material/backgrounds/1.png");
+    private static boolean customBackground = false;
     private static File customImage = new File(Minecraft.getMinecraft().mcDataDir, "customImage.png");
     private final ResourceLocation exit = new ResourceLocation("textures/material/exit.png");
     private final ResourceLocation people_outline = new ResourceLocation("textures/material/people-outline.png");
@@ -224,6 +226,7 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
     private HyperiumFontRenderer sfr = new HyperiumFontRenderer("Arial", Font.PLAIN, 12);
     private HashMap<String, DynamicTexture> cachedImages = new HashMap<>();
     private BufferedImage bgBr = null;
+    private ResourceLocation bgDynamicTexture = null;
 
     public static ResourceLocation getBackground() {
         return background;
@@ -233,6 +236,10 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
         HyperiumMainMenu.background = background;
     }
 
+    public static void setCustomBackground(boolean customBackground) {
+        HyperiumMainMenu.customBackground = customBackground;
+    }
+
     /**
      * Override initGui
      *
@@ -240,18 +247,22 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
      */
 
     public void initGui() {
-        if (customImage.exists()) {
+        customBackground = BackgroundSettings.backgroundSelect.equalsIgnoreCase("CUSTOM");
+        if (customImage.exists() && customBackground) {
             try {
                 bgBr = ImageIO.read(new FileInputStream(customImage));
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            if (bgBr != null)
+                bgDynamicTexture = mc.getRenderManager().renderEngine.getDynamicTextureLocation(customImage.getName(), new DynamicTexture(bgBr));
+            if (bgDynamicTexture == null)
+                return;
         }
         this.viewportTexture = new DynamicTexture(256, 256);
         int j = this.height / 4 + 48;
 
         this.addSingleplayerMultiplayerButtons(j - 10, 24);
-
 
         switch (getStyle()) {
             case DEFAULT:
@@ -309,6 +320,7 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
                 drawHyperiumStyleScreen(mouseX, mouseY, partialTicks);
                 break;
         }
+
         super.drawScreen(mouseX, mouseY, partialTicks);
 
     }
@@ -363,12 +375,17 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
                 break;
         }
 
+        if (button.id == 17)
+            mc.displayGuiScreen(new ChangeBackgroundGui(this));
     }
 
     private void addHyperiumStyleSingleplayerMultiplayerButtons(int p_73969_1_, int p_73969_2_) {
         this.buttonList.add(new GuiButton(1, this.width / 2 - getIntendedWidth(295), this.height / 2 - getIntendedHeight(55), getIntendedWidth(110), getIntendedHeight(110), ""));
         this.buttonList.add(new GuiButton(2, this.width / 2 - getIntendedWidth(175), this.height / 2 - getIntendedHeight(55), getIntendedWidth(110), getIntendedHeight(110), ""));
         this.buttonList.add(new GuiButton(15, this.width / 2 + getIntendedWidth(65), this.height / 2 - getIntendedHeight(55), getIntendedWidth(110), getIntendedHeight(110), ""));
+
+        // Background Gui Button
+        this.buttonList.add(new GuiButton(17, this.width / 2 - 110 / 2, this.height - 20, 110, getIntendedHeight(110), ""));
     }
 
     private void addDefaultStyleSingleplayerMultiplayerButtons(int p_73969_1_, int p_73969_2_) {
@@ -377,6 +394,9 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
         //Change realms button ID to 16 to avoid conflicts
         this.buttonList.add(this.hypixelButton = new GuiButton(16, this.width / 2 - 100, p_73969_1_ + p_73969_2_ * 2, I18n.format("Join Hypixel")));
         this.buttonList.add(new GuiButton(15, this.width / 2 - 100, p_73969_1_ + p_73969_2_ * 3, I18n.format("Hyperium Settings")));
+
+        // Background Gui Button
+        this.buttonList.add(new GuiButton(17, this.width / 2 - 100, this.height - 20, I18n.format("Change Menu Background")));
     }
 
     private void addHyperiumStyleOptionsButton(int j) {
@@ -427,6 +447,8 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
         GlStateManager.bindTexture(getCachedTexture(Minecraft.getMinecraft().getSession().getPlayerID()).getGlTextureId());
         drawScaledCustomSizeModalRect(width - 155, 10, 0, 0, 30, 30, 30, 30, 30, 30);
 
+        sfr.drawCenteredString("Change menu Background", this.width / 2, this.height - 15, 0xFFFFFF);
+
         // Draw icons on buttons
         TextureManager tm = mc.getTextureManager();
 
@@ -460,36 +482,34 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
         GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         GlStateManager.disableAlpha();
-        if (customImage.exists()) {
-            try {
-                DynamicTexture bgDynamicTexture = null;
-                if (bgBr != null)
-                    bgDynamicTexture = new DynamicTexture(bgBr);
-                if (bgDynamicTexture == null)
-                    return;
-                bgDynamicTexture.loadTexture(Minecraft.getMinecraft().getResourceManager());
-                ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
+        if (customImage.exists() && bgDynamicTexture != null && customBackground) {
+            Minecraft.getMinecraft().getTextureManager().bindTexture(bgDynamicTexture);
 
-                GL11.glBegin(GL11.GL_QUADS);
-                GL11.glTexCoord2f(0, 0);
-                GL11.glVertex2f(0, 0);
-                GL11.glTexCoord2f(1, 0);
-                GL11.glVertex2f(sr.getScaledWidth(), 0);
-                GL11.glTexCoord2f(1, 1);
-                GL11.glVertex2f(sr.getScaledWidth(), sr.getScaledHeight());
-                GL11.glTexCoord2f(0, 1);
-                GL11.glVertex2f(0, 100 + sr.getScaledHeight());
-                GL11.glEnd();
-                GL11.glDeleteTextures(bgDynamicTexture.getGlTextureId());
+//                GL11.glBegin(GL11.GL_QUADS);
+//                GL11.glTexCoord2f(0, 0);
+//                GL11.glVertex2f(0, 0);
+//                GL11.glTexCoord2f(1, 0);
+//                GL11.glVertex2f(sr.getScaledWidth(), 0);
+//                GL11.glTexCoord2f(1, 1);
+//                GL11.glVertex2f(sr.getScaledWidth(), sr.getScaledHeight());
+//                GL11.glTexCoord2f(0, 1);
+//                GL11.glVertex2f(0, 100 + sr.getScaledHeight());
+//                GL11.glEnd();
 
-                GlStateManager.depthMask(true);
-                GlStateManager.enableDepth();
-                GlStateManager.enableAlpha();
-                GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-                return;
-            } catch (IOException e) {
+            Tessellator tessellator = Tessellator.getInstance();
+            WorldRenderer worldrenderer = tessellator.getWorldRenderer();
+            worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
+            worldrenderer.pos(0.0D, (double) p_180476_1_.getScaledHeight(), -90.0D).tex(0.0D, 1.0D).endVertex();
+            worldrenderer.pos((double) p_180476_1_.getScaledWidth(), (double) p_180476_1_.getScaledHeight(), -90.0D).tex(1.0D, 1.0D).endVertex();
+            worldrenderer.pos((double) p_180476_1_.getScaledWidth(), 0.0D, -90.0D).tex(1.0D, 0.0D).endVertex();
+            worldrenderer.pos(0.0D, 0.0D, -90.0D).tex(0.0D, 0.0D).endVertex();
+            tessellator.draw();
 
-            }
+            GlStateManager.depthMask(true);
+            GlStateManager.enableDepth();
+            GlStateManager.enableAlpha();
+            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+            return;
         }
         Minecraft.getMinecraft().getTextureManager().bindTexture(background);
         Tessellator tessellator = Tessellator.getInstance();
@@ -562,5 +582,13 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
 
         }
         return texture[0];
+    }
+
+    @Override
+    protected void keyTyped(char typedChar, int keyCode) throws IOException {
+        if (keyCode == Keyboard.KEY_B) {
+            Minecraft.getMinecraft().displayGuiScreen(new ChangeBackgroundGui(this));
+        }
+        super.keyTyped(typedChar, keyCode);
     }
 }
