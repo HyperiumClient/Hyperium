@@ -97,8 +97,6 @@ public class Autotip extends AbstractMod {
 
             FileUtil.getVars();
             Hosts.updateHosts();
-        } catch (IOException e) {
-            e.printStackTrace();
         } catch (NullPointerException e2) {
             Hyperium.LOGGER.debug("[Auto-GG] Invalid UUID detected; Not logged in?.");
         }
