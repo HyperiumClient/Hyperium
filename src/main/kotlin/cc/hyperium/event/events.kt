@@ -18,7 +18,7 @@
 package cc.hyperium.event
 
 import cc.hyperium.event.minigames.Minigame
-import cc.hyperium.mixinsimp.renderer.IMixinModelPlayer
+import cc.hyperium.mixinsimp.renderer.model.IMixinModelBiped
 import com.mojang.authlib.GameProfile
 import net.minecraft.client.entity.AbstractClientPlayer
 import net.minecraft.client.gui.GuiScreen
@@ -258,10 +258,10 @@ class DrawBlockHighlightEvent(val context: RenderGlobal, val player: EntityPlaye
  * Get called before the angles of the upperleg gets copied into the lower leg etc
  * Edit the player rotation here, if the upperleg and the lowerleg need the same roations
  */
-class PreCopyPlayerModelAnglesEvent(val entity: AbstractClientPlayer, val model: IMixinModelPlayer)
+class PreCopyPlayerModelAnglesEvent(val entity: AbstractClientPlayer, val model: IMixinModelBiped)
 
 /**
  * Get called after the angles of the upperleg gets copied into the lower leg etc
  * Edit the player rotation here, if the upperleg and the lowerleg need other roations
  */
-class PostCopyPlayerModelAnglesEvent(val entity: AbstractClientPlayer, val model: IMixinModelPlayer)
+class PostCopyPlayerModelAnglesEvent(val entity: AbstractClientPlayer, val model: IMixinModelBiped)
