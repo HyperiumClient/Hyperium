@@ -52,7 +52,7 @@ public abstract class MixinNetHandlerPlayClient {
     @Shadow
     private Minecraft gameController;
 
-    private final TimeChanger timeChanger = (TimeChanger) Hyperium.INSTANCE.getModIntegration().getTimeChanger();
+    private TimeChanger timeChanger = (TimeChanger) Hyperium.INSTANCE.getModIntegration().getTimeChanger();
 
     /**
      * Adds the tab completions of the client to the tab completions received from the server.
@@ -73,6 +73,16 @@ public abstract class MixinNetHandlerPlayClient {
      */
     @Overwrite
     public void handleTimeUpdate(S03PacketTimeUpdate packet) {
+        if (this.timeChanger == null) {
+            this.timeChanger = (TimeChanger) Hyperium.INSTANCE.getModIntegration().getTimeChanger();
+        }
+        
+        if (this.timeChanger.getTimeType() == null) {
+            handleActualPacket(packet);
+            
+            return;
+        }
+        
         switch (this.timeChanger.getTimeType()) {
             case DAY:
                 handleActualPacket(new S03PacketTimeUpdate(packet.getWorldTime(), -6000L, true));
@@ -95,8 +105,12 @@ public abstract class MixinNetHandlerPlayClient {
      * @param packetIn the packet
      */
     private void handleActualPacket(S03PacketTimeUpdate packetIn) {
+        if (this.gameController == null || this.gameController.theWorld == null) {
+            return;
+        }
+        
         PacketThreadUtil.checkThreadAndEnqueue(packetIn,
-                (INetHandlerPlayClient) getNetworkManager().getNetHandler(), this.gameController);
+                (INetHandlerPlayClient)  Minecraft.getMinecraft().getNetHandler().getNetworkManager().getNetHandler(), this.gameController);
         this.gameController.theWorld.setTotalWorldTime(packetIn.getTotalWorldTime());
         this.gameController.theWorld.setWorldTime(packetIn.getWorldTime());
     }
