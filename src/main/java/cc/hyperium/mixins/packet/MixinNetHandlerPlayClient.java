@@ -52,7 +52,7 @@ public abstract class MixinNetHandlerPlayClient {
     @Shadow
     private Minecraft gameController;
 
-    private final TimeChanger timeChanger = (TimeChanger) Hyperium.INSTANCE.getModIntegration().getTimeChanger();
+//    private final TimeChanger timeChanger = (TimeChanger) Hyperium.INSTANCE.getModIntegration().getTimeChanger();
 
     /**
      * Adds the tab completions of the client to the tab completions received from the server.
@@ -71,23 +71,23 @@ public abstract class MixinNetHandlerPlayClient {
      *
      * @author boomboompower
      */
-    @Overwrite
-    public void handleTimeUpdate(S03PacketTimeUpdate packet) {
-        switch (this.timeChanger.getTimeType()) {
-            case DAY:
-                handleActualPacket(new S03PacketTimeUpdate(packet.getWorldTime(), -6000L, true));
-                break;
-            case SUNSET:
-                handleActualPacket(new S03PacketTimeUpdate(packet.getWorldTime(), -22880L, true));
-                break;
-            case NIGHT:
-                handleActualPacket(new S03PacketTimeUpdate(packet.getWorldTime(), -18000L, true));
-                break;
-            case VANILLA:
-                handleActualPacket(packet);
-                break;
-        }
-    }
+//    @Overwrite
+//    public void handleTimeUpdate(S03PacketTimeUpdate packet) {
+//        switch (this.timeChanger.getTimeType()) {
+//            case DAY:
+//                handleActualPacket(new S03PacketTimeUpdate(packet.getWorldTime(), -6000L, true));
+//                break;
+//            case SUNSET:
+//                handleActualPacket(new S03PacketTimeUpdate(packet.getWorldTime(), -22880L, true));
+//                break;
+//            case NIGHT:
+//                handleActualPacket(new S03PacketTimeUpdate(packet.getWorldTime(), -18000L, true));
+//                break;
+//            case VANILLA:
+//                handleActualPacket(packet);
+//                break;
+//        }
+//    }
 
     /**
      * The actual logic of the packet, may be spoofed.
@@ -96,7 +96,7 @@ public abstract class MixinNetHandlerPlayClient {
      */
     private void handleActualPacket(S03PacketTimeUpdate packetIn) {
         PacketThreadUtil.checkThreadAndEnqueue(packetIn,
-                (INetHandlerPlayClient) getNetworkManager().getNetHandler(), this.gameController);
+                (INetHandlerPlayClient) Minecraft.getMinecraft().getNetHandler().getNetworkManager().getNetHandler(), this.gameController);
         this.gameController.theWorld.setTotalWorldTime(packetIn.getTotalWorldTime());
         this.gameController.theWorld.setWorldTime(packetIn.getWorldTime());
     }
@@ -149,6 +149,7 @@ public abstract class MixinNetHandlerPlayClient {
      */
     @Overwrite
     public void handleChat(S02PacketChat packetIn) {
+
         PacketThreadUtil.checkThreadAndEnqueue(packetIn, (INetHandlerPlayClient) getNetworkManager().getNetHandler(), this.gameController);
 
         ServerChatEvent event = new ServerChatEvent(packetIn.getType(), packetIn.getChatComponent());
