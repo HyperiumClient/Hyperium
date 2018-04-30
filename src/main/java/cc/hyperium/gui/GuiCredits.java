@@ -1,36 +1,25 @@
 package cc.hyperium.gui;
 
-import cc.hyperium.mods.chromahud.ElementRenderer;
-import com.google.common.collect.Lists;
-import com.google.gson.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.GuiWinGame;
 import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.util.ResourceLocation;
-import org.apache.commons.io.Charsets;
 import org.lwjgl.input.Keyboard;
 
 import java.awt.*;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
-import java.net.URL;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Random;
 
 public class GuiCredits extends GuiScreen {
 
-    private List<String> textList;
+    private List<String> devList;
+    private List<String> contribList;
+    private List<String> supportList;
     private GuiScreen prevGui;
 
     public GuiCredits(GuiScreen prevGui) {
@@ -39,7 +28,9 @@ public class GuiCredits extends GuiScreen {
 
     @Override
     public void initGui() {
-        textList = new ArrayList<>();
+        devList = new ArrayList<>();
+        contribList = new ArrayList<>();
+        supportList = new ArrayList<>();
 //        try {
 //            String result = "";
 //            URL url = new URL("https://api.github.com/repos/HyperiumClient/Hyperium/contributors");
@@ -65,23 +56,42 @@ public class GuiCredits extends GuiScreen {
 //        } catch (IOException e) {
 //            e.printStackTrace();
 //        }
-        textList.add("<----Developers---->");
-        textList.add("Kevin");
-        textList.add("Sk1er");
-        textList.add("BoomBoomPower");
-        textList.add("Cube");
-        textList.add("<----Contrubitors---->");
-        textList.add("9Y0");
-        textList.add("BugFroggy");
-        textList.add("Disregard");
-        textList.add("FalseHonesty");
-        textList.add("KerbyBit");
-        textList.add("KodingKing");
-        textList.add("Vatuu Komalia");
-        textList.add("<----Support Team---->");
-        textList.add("Deactivation");
-        textList.add("KenWay");
-        textList.add("Zezzo");
+        devList.add("Kevin");
+        devList.add("Sk1er");
+        devList.add("BoomBoomPower");
+        devList.add("Cube");
+
+        contribList.add("9Y0");
+        contribList.add("BugFroggy");
+        contribList.add("Disregard");
+        contribList.add("FalseHonesty");
+        contribList.add("KerbyBit");
+        contribList.add("KodingKing");
+        contribList.add("Vatuu Komalia");
+
+        supportList.add("Deactivation");
+        supportList.add("KenWay");
+        supportList.add("Zezzo");
+
+        Method loadShaderMethod = null;
+        try {
+            loadShaderMethod = EntityRenderer.class.getDeclaredMethod("loadShader", ResourceLocation.class);
+        } catch (NoSuchMethodException e) {
+            try {
+                loadShaderMethod = EntityRenderer.class.getDeclaredMethod("a", ResourceLocation.class);
+            } catch (NoSuchMethodException e1) {
+                e1.printStackTrace();
+            }
+        }
+
+        if (loadShaderMethod != null) {
+            loadShaderMethod.setAccessible(true);
+            try {
+                loadShaderMethod.invoke(Minecraft.getMinecraft().entityRenderer, new ResourceLocation("shaders/hyperium_extra_blur.json"));
+            } catch (IllegalAccessException | InvocationTargetException e) {
+                e.printStackTrace();
+            }
+        }
 
         super.initGui();
     }
@@ -89,29 +99,42 @@ public class GuiCredits extends GuiScreen {
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         FontRenderer fr = Minecraft.getMinecraft().fontRendererObj;
-        int y = 80;
+        int yStart = 60;
+        int dY = yStart;
+        int cY = yStart;
+        int sY = yStart;
         ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
-        drawChromaString("Press \"esc\" to exit.", sr.getScaledWidth() / 4 - fr.getStringWidth("Contributor") / 2, 10);
-        GlStateManager.scale(2, 2, 2);
-        drawChromaString("Contributors", sr.getScaledWidth() / 4 - fr.getStringWidth("Contributor") / 2, 30);
-        GlStateManager.scale(0.5, 0.5, 0.5);
-        for (String line : textList) {
-            drawChromaString(line, sr.getScaledWidth() / 2 - fr.getStringWidth(line) / 2, y);
-            y += fr.FONT_HEIGHT + 1;
+        drawRect(0, 0, sr.getScaledWidth(), sr.getScaledHeight(), new Color(0, 0, 0, 170).getRGB());
+        drawChromaString("Press \"esc\" to exit.", sr.getScaledWidth() / 2 - fr.getStringWidth("Press \"esc\" to exit.") / 2, 25);
+        drawChromaString("Developers", (int) (sr.getScaledWidth() / 4 - fr.getStringWidth("Developers") / 2), 45);
+        drawChromaString("Contributors", (int) (sr.getScaledWidth() / 4 - fr.getStringWidth("Contributor") / 2) + sr.getScaledWidth() / 4, 45);
+        drawChromaString("Support Team", (int) ((sr.getScaledWidth() / 4 - fr.getStringWidth("Support Team") / 2) + sr.getScaledWidth() / 2), 45);
+        for (String line : devList) {
+            drawChromaString(line, (int) ((sr.getScaledWidth() / 2 - fr.getStringWidth(line) / 2) - sr.getScaledWidth() / 4), dY);
+            dY += fr.FONT_HEIGHT + 1;
+        }
+        for (String line : contribList) {
+            drawChromaString(line, sr.getScaledWidth() / 2 - fr.getStringWidth(line) / 2, cY);
+            cY += fr.FONT_HEIGHT + 1;
+        }
+        for (String line : supportList) {
+            drawChromaString(line, (int) ((sr.getScaledWidth() / 2 - fr.getStringWidth(line) / 2) + sr.getScaledWidth() / 4), sY);
+            sY += fr.FONT_HEIGHT + 1;
         }
         super.drawScreen(mouseX, mouseY, partialTicks);
     }
 
     private void drawChromaString(String text, int x, int y) {
+        int xInc = x;
         FontRenderer renderer = Minecraft.getMinecraft().fontRendererObj;
         for (char c : text.toCharArray()) {
-            long dif = (x * 10) - (y * 10);
+            long dif = (xInc * 10) - (y * 10);
             long l = System.currentTimeMillis() - dif;
             float ff = 2000.0F;
             int i = Color.HSBtoRGB((float) (l % (int) ff) / ff, 0.8F, 0.8F);
             String tmp = String.valueOf(c);
-            renderer.drawString(tmp, (float) ((double) x / 1), (float) ((double) y / 1), i, true);
-            x += (double) renderer.getCharWidth(c) * 1;
+            renderer.drawString(tmp, (float) ((double) xInc / 1), (float) ((double) y / 1), i, true);
+            xInc += (double) renderer.getCharWidth(c) * 1;
         }
     }
 
