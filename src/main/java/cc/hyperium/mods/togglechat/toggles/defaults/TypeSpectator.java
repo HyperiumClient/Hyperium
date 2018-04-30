@@ -27,7 +27,7 @@ import java.util.regex.Pattern;
  */
 public class TypeSpectator extends ToggleBase {
 
-    private Pattern spectatorPattern = Pattern.compile("\\[SPECTATOR] (?<rank>\\[.+] )?(?<player>\\S{1,16}): (?<message>.*)");
+    private final Pattern spectatorPattern = Pattern.compile("\\[SPECTATOR] (?<rank>\\[.+] )?(?<player>\\S{1,16}): (?<message>.*)");
 
     private boolean enabled = true;
 
@@ -42,13 +42,13 @@ public class TypeSpectator extends ToggleBase {
     }
 
     @Override
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
+    public boolean isEnabled() {
+        return this.enabled;
     }
 
     @Override
-    public boolean isEnabled() {
-        return this.enabled;
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 
     @Override

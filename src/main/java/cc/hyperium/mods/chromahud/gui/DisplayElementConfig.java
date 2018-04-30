@@ -37,6 +37,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Consumer;
 
 /**
@@ -45,9 +46,9 @@ import java.util.function.Consumer;
 public class DisplayElementConfig extends GuiScreen {
 
     private DisplayElement element;
-    private HashMap<GuiButton, Consumer<GuiButton>> clicks = new HashMap<>();
-    private HashMap<GuiButton, Consumer<GuiButton>> updates = new HashMap<>();
-    private HashMap<String, GuiButton> nameMap = new HashMap<>();
+    private final Map<GuiButton, Consumer<GuiButton>> clicks = new HashMap<>();
+    private final Map<GuiButton, Consumer<GuiButton>> updates = new HashMap<>();
+    private final Map<String, GuiButton> nameMap = new HashMap<>();
     private int ids;
     private int lastX, lastY;
     private DynamicTexture texture;
@@ -129,12 +130,8 @@ public class DisplayElementConfig extends GuiScreen {
         ScaledResolution current = ResolutionUtil.current();
         int start_y = Math.max((int) (current.getScaledHeight_double() * .1) - 20, 5);
         int posX = (int) (current.getScaledWidth_double() * .5) - 100;
-        reg("pos", new GuiButton(nextId(), posX, start_y, "Change Position"), button -> {
-            Minecraft.getMinecraft().displayGuiScreen(new MoveElementGui(mod, element));
-        });
-        reg("items", new GuiButton(nextId(), posX, start_y + 22, "Change Items"), button -> {
-            Minecraft.getMinecraft().displayGuiScreen(new EditItemsGui(element, mod));
-        });
+        reg("pos", new GuiButton(nextId(), posX, start_y, "Change Position"), button -> Minecraft.getMinecraft().displayGuiScreen(new MoveElementGui(mod, element)));
+        reg("items", new GuiButton(nextId(), posX, start_y + 22, "Change Items"), button -> Minecraft.getMinecraft().displayGuiScreen(new EditItemsGui(element, mod)));
 
         //Highlighted
         reg("Highlight", new GuiButton(nextId(), posX, start_y + 22 * 2, "-"), button -> {
@@ -269,10 +266,7 @@ public class DisplayElementConfig extends GuiScreen {
 //                button.displayString = EnumChatFormatting.YELLOW + "Green: " + (element.getData().optInt("green"));
 //            }
 //        });
-        reg("Back", new GuiButton(nextId(), 2, ResolutionUtil.current().getScaledHeight() - 22, 100, 20, "Back"), (guiButton) -> {
-
-            Minecraft.getMinecraft().displayGuiScreen(new GeneralConfigGui(mod));
-        }, (guiButton) -> {
+        reg("Back", new GuiButton(nextId(), 2, ResolutionUtil.current().getScaledHeight() - 22, 100, 20, "Back"), (guiButton) -> Minecraft.getMinecraft().displayGuiScreen(new GeneralConfigGui(mod)), (guiButton) -> {
         });
         reg("Delete", new GuiButton(nextId(), 2, ResolutionUtil.current().getScaledHeight() - 22 * 2, 100, 20, "Delete"), (guiButton) -> {
 
@@ -285,7 +279,7 @@ public class DisplayElementConfig extends GuiScreen {
     }
 
     @Override
-    protected void actionPerformed(GuiButton button) throws IOException {
+    protected void actionPerformed(GuiButton button) {
         Consumer<GuiButton> guiButtonConsumer = clicks.get(button);
         if (guiButtonConsumer != null) {
             guiButtonConsumer.accept(button);
@@ -322,7 +316,7 @@ public class DisplayElementConfig extends GuiScreen {
     }
 
     private void apply(int mouseX, int mouseY) {
-        if(mouseLock)
+        if (mouseLock)
             return;
         if (!Mouse.isButtonDown(0))
             return;

@@ -25,17 +25,15 @@ import java.awt.image.BufferedImage;
  */
 public class GraphicsUtil {
     public static GraphicsUtil INSTANCE = new GraphicsUtil();
-    private Graphics persistantGraphics;
 
     private GraphicsUtil() {
 
     }
 
 
-
     private void createGraphics() {
         BufferedImage image = new BufferedImage(10, 10, BufferedImage.TYPE_INT_RGB);
-        persistantGraphics = image.getGraphics();
+        Graphics persistantGraphics = image.getGraphics();
     }
 
 }

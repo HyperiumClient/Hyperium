@@ -17,7 +17,10 @@
 
 package cc.hyperium.mods;
 
-import com.google.common.base.Preconditions;
+import org.apache.commons.lang3.StringUtils;
+
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * A simple interface which allows a built-in mod
@@ -71,10 +74,11 @@ public abstract class AbstractMod {
          * @param author  the mod author
          */
         public Metadata(AbstractMod mod, String name, String version, String author) {
-            Preconditions.checkArgument(mod != null, "The mod instance cannot be null");
-            Preconditions.checkArgument(name != null && !name.isEmpty(), "Name cannot be null or empty");
-            Preconditions.checkArgument(version != null && !version.isEmpty(), "Version cannot be null or empty");
-            Preconditions.checkArgument(author != null, "Author cannot be null");
+            checkNotNull(mod, "Mod instance cannot be null");
+            checkArgument(!StringUtils.isEmpty(name), "Name cannot be null or empty (" + name + ")");
+            checkArgument(!StringUtils.isEmpty(version), "Version cannot be null or empty (" + version + ")");
+            checkNotNull(author, "Author cannot be null (" + author + ")");
+
             this.mod = mod;
             this.name = name;
             this.author = author;
@@ -119,21 +123,21 @@ public abstract class AbstractMod {
         }
 
         /**
-         * Setter for the mods display name for the configuration menu
-         *
-         * @param name the display name to be set
-         */
-        public void setDisplayName(String name) {
-            this.displayName = name;
-        }
-
-        /**
          * Getter for the mods display name
          *
          * @return the display name
          */
         public String getDisplayName() {
             return this.displayName != null ? this.displayName : getName();
+        }
+
+        /**
+         * Setter for the mods display name for the configuration menu
+         *
+         * @param name the display name to be set
+         */
+        public void setDisplayName(String name) {
+            this.displayName = name;
         }
     }
 }

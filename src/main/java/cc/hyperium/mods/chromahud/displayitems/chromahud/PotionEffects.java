@@ -19,7 +19,6 @@ package cc.hyperium.mods.chromahud.displayitems.chromahud;
 
 
 import cc.hyperium.mods.chromahud.ElementRenderer;
-import cc.hyperium.mods.chromahud.api.Dimension;
 import cc.hyperium.mods.chromahud.api.DisplayItem;
 import cc.hyperium.utils.JsonHolder;
 import net.minecraft.client.Minecraft;
@@ -52,7 +51,7 @@ public class PotionEffects extends DisplayItem {
         List<String> tmp = new ArrayList<>();
         for (PotionEffect potioneffect : effects) {
             Potion potion = Potion.potionTypes[potioneffect.getPotionID()];
-             StringBuilder s1 = new StringBuilder(I18n.format(potion.getName()));
+            StringBuilder s1 = new StringBuilder(I18n.format(potion.getName()));
             if (potioneffect.getAmplifier() == 1) {
                 s1.append(" ").append(I18n.format("enchantment.level.2"));
             } else if (potioneffect.getAmplifier() == 2) {

@@ -17,7 +17,7 @@ import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
 
-public class BlockOverlayRender {
+class BlockOverlayRender {
     @InvokeEvent
     public void onDrawBlockHighlight(final DrawBlockHighlightEvent event) {
         if (Minecraft.getMinecraft().thePlayer == null || Minecraft.getMinecraft().theWorld == null || (!Minecraft.getMinecraft().playerController.getCurrentGameType().equals(WorldSettings.GameType.SURVIVAL) && !Minecraft.getMinecraft().playerController.getCurrentGameType().equals(WorldSettings.GameType.CREATIVE))) {
@@ -33,7 +33,7 @@ public class BlockOverlayRender {
         this.drawOverlay();
     }
 
-    public void drawOverlay() {
+    private void drawOverlay() {
         if (Minecraft.getMinecraft().objectMouseOver == null || !Minecraft.getMinecraft().objectMouseOver.typeOfHit.equals(MovingObjectPosition.MovingObjectType.BLOCK)) {
             return;
         }
@@ -80,7 +80,7 @@ public class BlockOverlayRender {
         GlStateManager.popMatrix();
     }
 
-    public void drawFilledBoundingBox(final AxisAlignedBB box) {
+    private void drawFilledBoundingBox(final AxisAlignedBB box) {
         final Tessellator tessellator = Tessellator.getInstance();
         final WorldRenderer worldRenderer = tessellator.getWorldRenderer();
         worldRenderer.begin(7, DefaultVertexFormats.POSITION);

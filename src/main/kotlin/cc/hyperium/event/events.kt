@@ -20,6 +20,7 @@ package cc.hyperium.event
 import cc.hyperium.event.minigames.Minigame
 import cc.hyperium.mixinsimp.renderer.model.IMixinModelBiped
 import com.mojang.authlib.GameProfile
+import net.minecraft.client.audio.ISound
 import net.minecraft.client.entity.AbstractClientPlayer
 import net.minecraft.client.gui.GuiScreen
 import net.minecraft.client.gui.ScaledResolution
@@ -121,7 +122,7 @@ class RenderHUDEvent(partialTicks: Float)
 /**
  * Invoked once a packet is received by the client, right before it is processed
  */
-class PacketReceivedEvent(var packet : Packet<out INetHandler>)
+class PacketReceivedEvent(var packet: Packet<out INetHandler>)
 
 /**
  * Invoked once a chat message is sent
@@ -265,3 +266,25 @@ class PreCopyPlayerModelAnglesEvent(val entity: AbstractClientPlayer, val model:
  * Edit the player rotation here, if the upperleg and the lowerleg need other roations
  */
 class PostCopyPlayerModelAnglesEvent(val entity: AbstractClientPlayer, val model: IMixinModelBiped)
+
+class SoundPlayEvent(val sound: ISound) : CancellableEvent()
+
+enum class ElementType {
+    ALL,
+    HELMET,
+    PORTAL,
+    CROSSHAIR,
+    BOSS_HEALTH,
+    ARMOR,
+    HEALTH,
+    FOOD,
+    AIR,
+    HOTBAR,
+    EXPERIENCE,
+    TEXT,
+    HEALTH_MOUNT,
+    JUMP_BAR,
+    CHAT,
+    PLAYER_LIST,
+    DEBUG
+}

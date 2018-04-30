@@ -24,6 +24,7 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 @Mixin(C01PacketChatMessage.class)
 public interface MixinC01PacketChatMessage {
 
-    @Accessor void setMessage(String message);
+    @Accessor
+    void setMessage(String message);
 
 }

@@ -33,7 +33,6 @@ import net.minecraft.item.ItemPotion;
 import net.minecraft.item.ItemSkull;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
@@ -74,7 +73,6 @@ public abstract class MixinRenderItem implements IResourceManagerReloadListener 
      *
      * @param stack the item to render
      * @param model the model of the item
-     *
      * @reason Redirects the method to the "better" one
      * @author boomboompower
      */
@@ -90,30 +88,29 @@ public abstract class MixinRenderItem implements IResourceManagerReloadListener 
      * @param stack the item we are rendering
      * @param model the model of the item we will use
      * @param isInv true if the item is being rendered in an inventory
-     *
      * @author boomboompower
      */
-    public void renderItem(ItemStack stack, IBakedModel model, boolean isInv) {
+    private void renderItem(ItemStack stack, IBakedModel model, boolean isInv) {
         if (stack != null) {
             GlStateManager.pushMatrix();
             GlStateManager.scale(0.5F, 0.5F, 0.5F);
-    
+
             boolean isHead = !isInv && stack.getItem() != null && stack.getItem() instanceof ItemSkull;
             double headScale = Hyperium.INSTANCE.getHandlers().getConfigOptions().headScaleFactor;
-            
+
             if (model.isBuiltInRenderer()) {
                 GlStateManager.rotate(180.0F, 0.0F, 1.0F, 0.0F);
                 GlStateManager.translate(-0.5F, -0.5F, -0.5F);
                 GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
                 GlStateManager.enableRescaleNormal();
-                
+
                 // BigHead implementation
                 if (isHead) {
                     GlStateManager.scale(headScale, headScale, headScale);
                 }
-                
+
                 TileEntityItemStackRenderer.instance.renderByItem(stack);
-                
+
                 // BigHead implementation
                 if (isHead) {
                     GlStateManager.scale(1.0 / headScale, 1.0 / headScale, 1.0 / headScale);
@@ -131,7 +128,7 @@ public abstract class MixinRenderItem implements IResourceManagerReloadListener 
 
                     renderedAsPotion = true;
                 }
-    
+
                 // BigHead implementation
                 if (isHead) {
                     GlStateManager.scale(headScale, headScale, headScale);
@@ -144,7 +141,7 @@ public abstract class MixinRenderItem implements IResourceManagerReloadListener 
                 if (!renderedAsPotion && stack.hasEffect()) {
                     this.renderEffect(model); // Render the item with the normal effects
                 }
-                
+
                 // BigHead implementation
                 if (isHead) {
                     GlStateManager.scale(1.0 / headScale, 1.0 / headScale, 1.0 / headScale);
@@ -161,7 +158,6 @@ public abstract class MixinRenderItem implements IResourceManagerReloadListener 
      * @param stack the item to render
      * @param x     the x location of the item
      * @param y     the y location of the item
-     *
      * @reason Changes the code to tell the renderer this is an inventory
      * @author boomboompower
      */
@@ -199,9 +195,9 @@ public abstract class MixinRenderItem implements IResourceManagerReloadListener 
      */
     private void renderEffect(IBakedModel model) {
         GlStateManager.depthMask(false);
-        
+
         GlStateManager.depthFunc(514); // This is for render depth
-        
+
         GlStateManager.disableLighting();
         GlStateManager.blendFunc(768, 1);
         this.textureManager.bindTexture(RES_ITEM_GLINT);
@@ -223,9 +219,9 @@ public abstract class MixinRenderItem implements IResourceManagerReloadListener 
         GlStateManager.matrixMode(5888);
         GlStateManager.blendFunc(770, 771);
         GlStateManager.enableLighting();
-        
+
         GlStateManager.depthFunc(515); // Changes back to the normal depth
-        
+
         GlStateManager.depthMask(true);
         this.textureManager.bindTexture(TextureMap.locationBlocksTexture);
     }

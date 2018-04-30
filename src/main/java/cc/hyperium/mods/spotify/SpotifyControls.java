@@ -18,7 +18,10 @@
 package cc.hyperium.mods.spotify;
 
 import cc.hyperium.Hyperium;
-import cc.hyperium.event.*;
+import cc.hyperium.event.EventBus;
+import cc.hyperium.event.GuiClickEvent;
+import cc.hyperium.event.InvokeEvent;
+import cc.hyperium.event.RenderHUDEvent;
 import cc.hyperium.gui.HyperiumGui;
 import cc.hyperium.gui.settings.items.GeneralSetting;
 import cc.hyperium.integrations.spotify.Spotify;
@@ -29,7 +32,11 @@ import cc.hyperium.utils.BetterJsonObject;
 import cc.hyperium.utils.ChatColor;
 import com.google.gson.JsonObject;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.*;
+import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiChat;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
@@ -55,20 +62,22 @@ import java.net.URL;
 public class SpotifyControls extends AbstractMod {
     public static SpotifyControls instance;
 
-    private int x = 0, y = 0, width = 150, height = 50;
-    private Color bg = new Color(30, 30, 30, 255);
-    private Color progress = new Color(54, 54, 54);
-    private Color highlight = new Color(149, 201, 144);
-    private Color white = Color.WHITE;
-    private Metadata metadata;
+    private int x = 0;
+    private int y = 0;
+    private final int width = 150;
+    private final int height = 50;
+    private final Color bg = new Color(30, 30, 30, 255);
+    private final Color progress = new Color(54, 54, 54);
+    private final Color highlight = new Color(149, 201, 144);
+    private final Color white = Color.WHITE;
+    private final Metadata metadata;
     private long current = 0;
-    private int currTicks = 0;
     private long cachedTime = 0;
     private long systemTime = 0;
     private DynamicTexture pause, play, art;
     private String currentURI = "";
     private BufferedImage imageToGenerate;
-    private File configFile;
+    private final File configFile;
 
     public SpotifyControls() {
         instance = this;
@@ -119,12 +128,12 @@ public class SpotifyControls extends AbstractMod {
         return x;
     }
 
-    public int getY() {
-        return y;
-    }
-
     public void setX(int x) {
         this.x = x;
+    }
+
+    public int getY() {
+        return y;
     }
 
     public void setY(int y) {
@@ -139,7 +148,7 @@ public class SpotifyControls extends AbstractMod {
     }
 
     @InvokeEvent
-    public void onRender(RenderGuiEvent e) {
+    public void onRender(RenderHUDEvent e) {
         while (Minecraft.getSystemTime() > this.systemTime + 1000) {
             this.systemTime += 1000;
 
@@ -159,11 +168,6 @@ public class SpotifyControls extends AbstractMod {
                 renderControls();
             }
         }
-    }
-
-    @InvokeEvent
-    public void onTick(TickEvent e) {
-        currTicks++;
     }
 
     @InvokeEvent
@@ -227,9 +231,6 @@ public class SpotifyControls extends AbstractMod {
 
         long length = info.getTrack().getLength();
 
-        Color bg = new Color(30, 30, 30, 255);
-        Color highlight = new Color(149, 201, 144);
-
         name = fontRenderer.trimStringToWidth(name, (int) ((width - 30) * 0.8));
         artist = fontRenderer.trimStringToWidth(artist, width - 30);
 
@@ -240,7 +241,7 @@ public class SpotifyControls extends AbstractMod {
         this.x = (int) HyperiumGui.clamp(x, 0, sr.getScaledWidth() - 200);
         this.y = (int) HyperiumGui.clamp(y, 0, sr.getScaledHeight() - 50);
 
-        if (imageToGenerate != null){
+        if (imageToGenerate != null) {
             this.art = new DynamicTexture(imageToGenerate);
             imageToGenerate = null;
         }
@@ -264,7 +265,7 @@ public class SpotifyControls extends AbstractMod {
 
         GL11.glPushMatrix();
         GL11.glScalef(1.2f, 1.2f, 1);
-        fontRenderer.drawString(name, (int) Math.floor((x + 5) / 1.2), (int) Math.floor((y + 5) / 1.2), white.getRGB());
+        fontRenderer.drawString(name, (float) ((x + 5) / 1.2), (float) ((y + 5) / 1.2), white.getRGB(), false);
         GL11.glPopMatrix();
 
         fontRenderer.drawString(artist, x + 5, y + 18, white.getRGB());
@@ -306,18 +307,18 @@ public class SpotifyControls extends AbstractMod {
         Tessellator tessellator = Tessellator.getInstance();
         WorldRenderer worldrenderer = tessellator.getWorldRenderer();
         worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
-            worldrenderer.pos(x / imgScale, y / imgScale + 256, 0)
-                    .tex(0, f)
-                    .endVertex();
-            worldrenderer.pos(x / imgScale + 256, y / imgScale + 256, 0)
-                    .tex(f, f)
-                    .endVertex();
-            worldrenderer.pos(x / imgScale + 256, y / imgScale, 0)
-                    .tex(f, 0)
-                    .endVertex();
-            worldrenderer.pos(x / imgScale, y / imgScale, 0)
-                    .tex(0, 0)
-                    .endVertex();
+        worldrenderer.pos(x / imgScale, y / imgScale + 256, 0)
+                .tex(0, f)
+                .endVertex();
+        worldrenderer.pos(x / imgScale + 256, y / imgScale + 256, 0)
+                .tex(f, f)
+                .endVertex();
+        worldrenderer.pos(x / imgScale + 256, y / imgScale, 0)
+                .tex(f, 0)
+                .endVertex();
+        worldrenderer.pos(x / imgScale, y / imgScale, 0)
+                .tex(0, 0)
+                .endVertex();
         tessellator.draw();
 
         GlStateManager.popMatrix();

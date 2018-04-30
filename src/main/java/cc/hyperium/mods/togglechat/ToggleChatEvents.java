@@ -20,22 +20,21 @@ package cc.hyperium.mods.togglechat;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.Priority;
 import cc.hyperium.event.ServerChatEvent;
-import cc.hyperium.utils.ChatColor;
 import cc.hyperium.mods.togglechat.toggles.ToggleBase;
 import cc.hyperium.mods.togglechat.toggles.defaults.TypeMessageSeparator;
-
+import cc.hyperium.utils.ChatColor;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatStyle;
 
 /**
  * Handles all the main ToggleChat events for the lightweight
- *      version of ToggleChat!
+ * version of ToggleChat!
  *
  * @author boomboompower
  */
 public class ToggleChatEvents {
 
-    private ToggleChatMod mod;
+    private final ToggleChatMod mod;
 
     public ToggleChatEvents(ToggleChatMod theMod) {
         this.mod = theMod;
@@ -56,7 +55,7 @@ public class ToggleChatEvents {
                 if (type.isEnabled()) {
                     continue;
                 }
-                
+
                 // We don't want an issue with one toggle bringing
                 // the whole toggle system crashing down in flames.
                 try {
@@ -70,9 +69,9 @@ public class ToggleChatEvents {
                         if (type instanceof TypeMessageSeparator) {
                             // Attempt to keep the formatting
                             ChatStyle style = event.getChat().getChatStyle();
-                            
+
                             String edited = ((TypeMessageSeparator) type).editMessage(formattedText);
-                            
+
                             // Don't bother sending the message if its empty
                             if (!input.equals(edited) && edited.isEmpty()) {
                                 event.setCancelled(true);

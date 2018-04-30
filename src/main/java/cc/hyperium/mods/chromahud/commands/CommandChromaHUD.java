@@ -18,7 +18,6 @@
 package cc.hyperium.mods.chromahud.commands;
 
 import cc.hyperium.commands.BaseCommand;
-import cc.hyperium.commands.CommandException;
 import cc.hyperium.mods.chromahud.ChromaHUD;
 import cc.hyperium.mods.chromahud.gui.GeneralConfigGui;
 
@@ -26,13 +25,13 @@ import cc.hyperium.mods.chromahud.gui.GeneralConfigGui;
  * @author Sk1er
  */
 public class CommandChromaHUD implements BaseCommand {
-    
-    private ChromaHUD mod;
-    
+
+    private final ChromaHUD mod;
+
     public CommandChromaHUD(ChromaHUD modIn) {
         this.mod = modIn;
     }
-    
+
     @Override
     public String getName() {
         return "chromahud";
@@ -44,7 +43,7 @@ public class CommandChromaHUD implements BaseCommand {
     }
 
     @Override
-    public void onExecute(String[] args) throws CommandException {
+    public void onExecute(String[] args) {
         new GeneralConfigGui(this.mod).display();
     }
 }

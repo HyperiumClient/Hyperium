@@ -20,7 +20,12 @@ package cc.hyperium.purchases;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.SpawnpointChangeEvent;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
-import cc.hyperium.purchases.packages.*;
+import cc.hyperium.purchases.packages.DabOnKill;
+import cc.hyperium.purchases.packages.EarsCosmetic;
+import cc.hyperium.purchases.packages.FlipCosmeticPackage;
+import cc.hyperium.purchases.packages.KillTrackerMuscles;
+import cc.hyperium.purchases.packages.ParticleBackgroundCosmetic;
+import cc.hyperium.purchases.packages.WingCosmetic;
 import cc.hyperium.utils.JsonHolder;
 import com.google.gson.JsonObject;
 import net.minecraft.client.Minecraft;
@@ -36,6 +41,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
@@ -44,9 +50,9 @@ public class PurchaseApi {
 
     public final static String url = "https://api.hyperium.cc/purchases/";
     private static final PurchaseApi instance = new PurchaseApi();
-    private ConcurrentHashMap<UUID, HyperiumPurchase> purchasePlayers = new ConcurrentHashMap<>();
-    private HashMap<EnumPurchaseType, Class<? extends AbstractHyperiumPurchase>> purchaseClasses = new HashMap<>();
-    private HashMap<String, UUID> nameToUuid = new HashMap<>();
+    private final Map<UUID, HyperiumPurchase> purchasePlayers = new ConcurrentHashMap<>();
+    private final Map<EnumPurchaseType, Class<? extends AbstractHyperiumPurchase>> purchaseClasses = new HashMap<>();
+    private final Map<String, UUID> nameToUuid = new HashMap<>();
 
     private PurchaseApi() {
         register(EnumPurchaseType.WING_COSMETIC, WingCosmetic.class);
@@ -55,9 +61,7 @@ public class PurchaseApi {
         register(EnumPurchaseType.PARTICLE_BACKGROUND, ParticleBackgroundCosmetic.class);
         register(EnumPurchaseType.FLIP_COSMETIC, FlipCosmeticPackage.class);
         register(EnumPurchaseType.DEADMAU5_COSMETIC, EarsCosmetic.class);
-        getPackageAsync(Minecraft.getMinecraft().getSession().getProfile().getId(), hyperiumPurchase -> {
-            System.out.println("Loaded self packages: " + hyperiumPurchase.getResponse());
-        });
+        getPackageAsync(Minecraft.getMinecraft().getSession().getProfile().getId(), hyperiumPurchase -> System.out.println("Loaded self packages: " + hyperiumPurchase.getResponse()));
 
     }
 
@@ -75,7 +79,7 @@ public class PurchaseApi {
                 if (purchase != null) {
                     purchasePlayers.put(id, purchase);
                 }
-                System.out.println("Cleared purchase cache ("+purchasePlayers.size()+")");
+                System.out.println("Cleared purchase cache (" + purchasePlayers.size() + ")");
             }
         });
 
@@ -142,7 +146,7 @@ public class PurchaseApi {
         return null;
     }
 
-    JsonHolder get(String url) {
+    public JsonHolder get(String url) {
         url = url.replace(" ", "%20");
         System.out.println("Fetching " + url);
         try {
@@ -166,4 +170,8 @@ public class PurchaseApi {
         return new JsonHolder(object);
     }
 
+    public synchronized void refreshSelf() {
+        UUID id = Minecraft.getMinecraft().getSession().getProfile().getId();
+        purchasePlayers.put(id, new HyperiumPurchase(id, get(url + id.toString())));
+    }
 }

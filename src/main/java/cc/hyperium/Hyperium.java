@@ -18,12 +18,22 @@
 package cc.hyperium;
 
 import cc.hyperium.commands.BaseCommand;
-import cc.hyperium.commands.CommandException;
-import cc.hyperium.commands.defaults.*;
+import cc.hyperium.commands.defaults.CommandClearChat;
+import cc.hyperium.commands.defaults.CommandConfigGui;
+import cc.hyperium.commands.defaults.CommandDebug;
+import cc.hyperium.commands.defaults.CommandNameHistory;
+import cc.hyperium.commands.defaults.CommandPlayGame;
+import cc.hyperium.commands.defaults.CommandPrivateMessage;
+import cc.hyperium.commands.defaults.CommandUpdate;
 import cc.hyperium.config.DefaultConfig;
 import cc.hyperium.cosmetics.HyperiumCosmetics;
 import cc.hyperium.cosmetics.WingCosmetic;
-import cc.hyperium.event.*;
+import cc.hyperium.event.EventBus;
+import cc.hyperium.event.GameShutDownEvent;
+import cc.hyperium.event.InitializationEvent;
+import cc.hyperium.event.InvokeEvent;
+import cc.hyperium.event.PreInitializationEvent;
+import cc.hyperium.event.Priority;
 import cc.hyperium.event.minigames.MinigameListener;
 import cc.hyperium.gui.BlurDisableFallback;
 import cc.hyperium.gui.ConfirmationPopup;
@@ -34,7 +44,6 @@ import cc.hyperium.gui.settings.items.GeneralSetting;
 import cc.hyperium.handlers.HyperiumHandlers;
 import cc.hyperium.installer.InstallerFrame;
 import cc.hyperium.integrations.spotify.Spotify;
-import cc.hyperium.integrations.spotify.impl.SpotifyInformation;
 import cc.hyperium.mods.HyperiumModIntegration;
 import cc.hyperium.mods.autogg.AutoGG;
 import cc.hyperium.mods.common.PerspectiveModifierContainer;
@@ -61,6 +70,7 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Hypixel Community Client
@@ -80,7 +90,7 @@ public class Hyperium {
     /**
      * The Hyperium configuration folder
      */
-    public static File folder = new File("hyperium");
+    public static final File folder = new File("hyperium");
 
     /**
      * Instance of default CONFIG
@@ -91,10 +101,9 @@ public class Hyperium {
     private final GeneralStatisticsTracking statTrack = new GeneralStatisticsTracking();
     private final NotificationCenter notification = new NotificationCenter();
     private PerspectiveModifierContainer perspective;
-    private RichPresenceManager richPresenceManager = new RichPresenceManager();
+    private final RichPresenceManager richPresenceManager = new RichPresenceManager();
     private ConfirmationPopup confirmation = new ConfirmationPopup();
     private HyperiumCosmetics cosmetics;
-    private TrayManager trayManager;
     private HyperiumHandlers handlers;
     private HyperiumModIntegration modIntegration;
 
@@ -163,7 +172,7 @@ public class Hyperium {
         LOGGER.info("Hyperium Started!");
         Display.setTitle("Hyperium " + Metadata.getVersion());
 
-        trayManager = new TrayManager();
+        TrayManager trayManager = new TrayManager();
 
         SplashProgress.PROGRESS = 8;
         SplashProgress.CURRENT = "Initializing tray icon";
@@ -190,7 +199,7 @@ public class Hyperium {
         SplashProgress.CURRENT = "Registering commands";
         SplashProgress.update();
         registerCommands();
-        EventBus.INSTANCE.register( PurchaseApi.getInstance());
+        EventBus.INSTANCE.register(PurchaseApi.getInstance());
 
         SplashProgress.PROGRESS = 11;
         SplashProgress.CURRENT = "Loading integrations";
@@ -198,35 +207,7 @@ public class Hyperium {
         modIntegration = new HyperiumModIntegration();
         richPresenceManager.init();
 
-        // spotify thread (>^.^)>
-        Multithreading.runAsync(() -> {
-            try {
-                Spotify spotify = new Spotify();
-                // Uncommented by Kevin because he added the file ^.^
-                spotify.addListener(new Spotify.SpotifyListener() {
-                    @Override
-                    public void onPlay(SpotifyInformation info) {
-                        // This is on a different thread, so we need to use the static getter
-                        Hyperium.INSTANCE.getNotification()
-                                .display("Spotify",
-                                        "Now playing " + info.getTrack().getTrackResource().getName(),
-                                        8
-                                ).setClickedCallback(() -> {
-                                    /*try {
-                                        String path = new File(Hyperium.folder, "openSpotify.vbs").getAbsolutePath();
-
-                                        Runtime.getRuntime().exec(path);
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
-                                    }*/
-                        });
-                    }
-                });
-                spotify.start();
-            } catch (Exception e) {
-                LOGGER.warn("Failed to connect to spotify");
-            }
-        });
+        Multithreading.runAsync(Spotify::load);
 
         Runtime.getRuntime().addShutdownHook(new Thread(this::shutdown));
 
@@ -251,12 +232,7 @@ public class Hyperium {
             networkHandler = new NetworkHandler();
             this.client = new NettyClient(networkHandler);
 
-            while (true) {
-                try {
-                    Thread.sleep(1000L);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+           Multithreading.schedule(() -> {
                 if (this.client.isAdmin()) {
                     getHandlers().getHyperiumCommandHandler().registerCommand(new BaseCommand() {
                         @Override
@@ -270,7 +246,7 @@ public class Hyperium {
                         }
 
                         @Override
-                        public void onExecute(String[] args) throws CommandException {
+                        public void onExecute(String[] args) {
                             StringBuilder builder = new StringBuilder();
                             Iterator<String> iterator = Arrays.stream(args).iterator();
                             while (iterator.hasNext()) {
@@ -282,9 +258,11 @@ public class Hyperium {
 
                         }
                     });
-                    break;
+
                 }
-            }
+
+            }, 1, 1, TimeUnit.SECONDS);
+
         });
     }
 
@@ -297,7 +275,7 @@ public class Hyperium {
         getHandlers().getHyperiumCommandHandler().registerCommand(new CommandClearChat());
         getHandlers().getHyperiumCommandHandler().registerCommand(new CommandNameHistory());
         getHandlers().getHyperiumCommandHandler().registerCommand(new CommandPlayGame());
-        getHandlers().getHyperiumCommandHandler().registerCommand(new CommandBrowser());
+        getHandlers().getHyperiumCommandHandler().registerCommand(new CommandDebug());
         getHandlers().getHyperiumCommandHandler().registerCommand(new CommandUpdate());
     }
 

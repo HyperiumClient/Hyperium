@@ -34,15 +34,15 @@ public class TypeMessages extends ToggleBase {
     public boolean shouldToggle(String message) {
         return message.startsWith("To ") || message.startsWith("From ");
     }
-    
-    @Override
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
 
     @Override
     public boolean isEnabled() {
         return this.enabled;
+    }
+
+    @Override
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 
     @Override

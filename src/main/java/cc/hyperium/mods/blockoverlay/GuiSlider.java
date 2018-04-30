@@ -6,14 +6,13 @@ import net.minecraft.client.renderer.GlStateManager;
 
 import java.text.DecimalFormat;
 
-public class GuiSlider extends GuiButton
-{
+public class GuiSlider extends GuiButton {
     private boolean isDragging;
-    private double minValue;
-    private double maxValue;
+    private final double minValue;
+    private final double maxValue;
     private double sliderValue;
-    private DecimalFormat decimalFormat;
-    private String sliderPrefix;
+    private final DecimalFormat decimalFormat;
+    private final String sliderPrefix;
 
     public GuiSlider(final int buttonId, final int x, final int y, final String sliderPrefix, final int minValue, final int maxValue, final int currentValue) {
         this(buttonId, x, y, sliderPrefix, minValue, maxValue, currentValue, "#");
@@ -45,8 +44,8 @@ public class GuiSlider extends GuiButton
                 this.updateSlider();
             }
             GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
-            this.drawTexturedModalRect(super.xPosition + (int)(this.sliderValue * (super.width - 8)), super.yPosition, 0, 66, 4, 20);
-            this.drawTexturedModalRect(super.xPosition + (int)(this.sliderValue * (super.width - 8)) + 4, super.yPosition, 196, 66, 4, 20);
+            this.drawTexturedModalRect(super.xPosition + (int) (this.sliderValue * (super.width - 8)), super.yPosition, 0, 66, 4, 20);
+            this.drawTexturedModalRect(super.xPosition + (int) (this.sliderValue * (super.width - 8)) + 4, super.yPosition, 196, 66, 4, 20);
         }
     }
 
@@ -66,14 +65,13 @@ public class GuiSlider extends GuiButton
     public void updateSlider() {
         if (this.sliderValue < 0.0) {
             this.sliderValue = 0.0;
-        }
-        else if (this.sliderValue > 1.0) {
+        } else if (this.sliderValue > 1.0) {
             this.sliderValue = 1.0;
         }
         super.displayString = this.sliderPrefix + this.decimalFormat.format(this.sliderValue * (this.maxValue - this.minValue) + this.minValue);
     }
 
     public float getSliderValue() {
-        return (float)this.sliderValue;
+        return (float) this.sliderValue;
     }
 }

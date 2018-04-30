@@ -25,7 +25,7 @@ import cc.hyperium.gui.settings.SettingGui;
 import cc.hyperium.gui.settings.components.SelectionItem;
 import cc.hyperium.netty.NettyClient;
 import cc.hyperium.netty.packet.packets.serverbound.ServerCrossDataPacket;
-import utils.JsonHolder;
+import cc.hyperium.utils.JsonHolder;
 
 import java.util.Arrays;
 
@@ -43,14 +43,13 @@ public class CosmeticSettings extends SettingGui {
     public static int flossDanceSpeed = 4;
     @ConfigOpt
     public static boolean flossDanceToggle = false;
-    
-    private DefaultConfig config;
-    private SelectionItem<String> showEars;
-    private SelectionItem<Integer> dabspeed;
-    private SelectionItem<String> toggledab;
-    private SelectionItem<Integer> flossdancespeed;
-    private SelectionItem<String> toggleflossdance;
-    
+
+    @ConfigOpt
+    public static int flip_type = 1;
+
+
+    private final DefaultConfig config;
+
     public CosmeticSettings(HyperiumGui previous) {
         super("COSMETICS", previous);
         config = Hyperium.CONFIG;
@@ -60,6 +59,7 @@ public class CosmeticSettings extends SettingGui {
     @Override
     protected void pack() {
         super.pack();
+        SelectionItem<String> showEars;
         settingItems.add(showEars = new SelectionItem<>(0, getX(), getDefaultItemY(0), width - getX() * 2, "SHOW EARS", i -> {
             ((SelectionItem) i).nextItem();
             if (Hyperium.INSTANCE.getCosmetics().getDeadmau5Cosmetic().isSelfUnlocked()) {
@@ -76,6 +76,7 @@ public class CosmeticSettings extends SettingGui {
             showEars.addItem("NOT PURCHASED");
             showEars.setSelectedItem("NOT PURCHASED");
         }
+        SelectionItem<Integer> dabspeed;
         settingItems.add(dabspeed = new SelectionItem<>(1, getX(), getDefaultItemY(1), width - getX() * 2, "DAB SPEED", i -> {
             ((SelectionItem) i).nextItem();
             dabSpeed = 15 - (((SelectionItem<Integer>) i).getSelectedItem() * 2);
@@ -85,6 +86,7 @@ public class CosmeticSettings extends SettingGui {
                 dabSpeed == 13 ? 1 : dabSpeed == 11 ? 2 : dabSpeed == 9 ? 3 : dabSpeed == 7 ? 4 : 5
         );
 
+        SelectionItem<String> toggledab;
         settingItems.add(toggledab = new SelectionItem<>(2, getX(), getDefaultItemY(2), width - getX() * 2, "TOGGLE DAB", i -> {
             ((SelectionItem) i).nextItem();
             dabToggle = ((SelectionItem) i).getSelectedItem().equals("ON");
@@ -92,6 +94,7 @@ public class CosmeticSettings extends SettingGui {
         toggledab.addItems(Arrays.asList("ON", "OFF"));
         toggledab.setSelectedItem(dabToggle ? "ON" : "OFF");
 
+        SelectionItem<Integer> flossdancespeed;
         settingItems.add(flossdancespeed = new SelectionItem<>(3, getX(), getDefaultItemY(3), width - getX() * 2, "FLOSS DANCE SPEED", i -> {
             ((SelectionItem) i).nextItem();
             flossDanceSpeed = ((SelectionItem<Integer>) i).getSelectedItem();
@@ -99,6 +102,7 @@ public class CosmeticSettings extends SettingGui {
         flossdancespeed.addItems(Arrays.asList(1, 2, 3, 4, 5));
         flossdancespeed.setSelectedItem(flossDanceSpeed);
 
+        SelectionItem<String> toggleflossdance;
         settingItems.add(toggleflossdance = new SelectionItem<>(4, getX(), getDefaultItemY(4), width - getX() * 2, "TOGGLE FLOSS DANCE", i -> {
             ((SelectionItem) i).nextItem();
             flossDanceToggle = ((SelectionItem) i).getSelectedItem().equals("ON");
@@ -113,6 +117,17 @@ public class CosmeticSettings extends SettingGui {
         settingItems.add(showCosmeticsEveryWhere);
         showCosmeticsEveryWhere.addItems(Arrays.asList("YES", "NO"));
         showCosmeticsEveryWhere.setSelectedItem(Hyperium.INSTANCE.getHandlers().getConfigOptions().showCosmeticsEveryWhere ? "YES" : "NO");
+
+
+        SelectionItem<String> flip_state = new SelectionItem<>(6, getX(), getDefaultItemY(6), width - getX() * 2, "INVERT TYPE", i -> {
+            ((SelectionItem) i).nextItem();
+            flip_type = ((SelectionItem) i).getSelectedItem().equals("ROTATE") ? 2 : 1;
+        });
+        settingItems.add(flip_state);
+        flip_state.addItems(Arrays.asList("INVERT", "ROTATE"));
+        flip_state.setSelectedItem(flip_type == 1 ? "INVERT" : "ROTATE");
+
+
     }
 
     private int getDefaultItemY(int i) {

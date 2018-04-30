@@ -23,10 +23,13 @@ import cc.hyperium.config.ConfigOpt;
 import cc.hyperium.config.DefaultConfig;
 import cc.hyperium.gui.HyperiumGui;
 import cc.hyperium.gui.settings.SettingGui;
+import cc.hyperium.gui.settings.SettingItem;
+import cc.hyperium.gui.settings.components.OnOffSetting;
 import cc.hyperium.gui.settings.components.SelectionItem;
 import net.minecraft.client.Minecraft;
 
 import java.util.Arrays;
+import java.util.function.Consumer;
 
 /**
  * A class containing all the main settings for Hyperium,
@@ -34,11 +37,6 @@ import java.util.Arrays;
  */
 @SuppressWarnings({"unchecked", "FieldCanBeLocal"})
 public class GeneralSetting extends SettingGui {
-
-    /**
-     * The configuration instance, for all the settings below
-     */
-    private DefaultConfig config;
 
     @ConfigOpt
     public static boolean discordRPEnabled = true;
@@ -86,53 +84,15 @@ public class GeneralSetting extends SettingGui {
     public static boolean screenshotOnKillEnabled = false;
     @ConfigOpt
     public static boolean spotifyControlsEnabled = false;
-
-    private SelectionItem<String> discordRP;
-
-    private SelectionItem<String> fullBright;
-
-    private SelectionItem<String> romanNumerals;
-
-    private SelectionItem<String> discordServerDisplay;
-
-    private SelectionItem<String> compactChat;
-
-    private SelectionItem<String> voidflickerfix;
-
-    private SelectionItem<String> framerateLimiter;
-
-    private SelectionItem<String> shinyPots;
-
-    private SelectionItem<String> smartSounds;
-
-    private SelectionItem<String> numberPing;
-
-    private SelectionItem<String> combatParticleFix;
-
-    private SelectionItem<String> perspectiveHold;
-
-    private SelectionItem<String> menuStyleSelection;
-
-    private SelectionItem<String> fullScreenStyle;
-
-    private SelectionItem<String> bossBarTextOnly;
-
-    private SelectionItem<String> staticFov;
-
-    private SelectionItem<String> uploadByDefault;
-
-    private SelectionItem<String> scoreboardNumbers;
-
-    private SelectionItem<String> blurGuiBackgrounds;
-
-    private SelectionItem<String> chromaHudNonHypixel;
-
-    private SelectionItem<String> screenshotOnKill;
-
-    private SelectionItem<String> spotifyControls;
-
-    /** Set to true when a setting is changed, this will trigger a save when the gui is closed */
+    /**
+     * The configuration instance, for all the settings below
+     */
+    private final DefaultConfig config;
+    /**
+     * Set to true when a setting is changed, this will trigger a save when the gui is closed
+     */
     private boolean settingsUpdated;
+    private int currentID = 0;
 
     public GeneralSetting(HyperiumGui previous) {
         super("GENERAL", previous);
@@ -143,117 +103,31 @@ public class GeneralSetting extends SettingGui {
     @Override
     protected void pack() {
         super.pack();
+        currentID = 0;
 
-        this.settingItems.add(this.discordRP = new SelectionItem(0, getX(), getDefaultItemY(0), this.width - getX() * 2, "DISCORD RICH PRESENCE", i -> {
-            ((SelectionItem) i).nextItem();
-            discordRPEnabled = ((SelectionItem) i).getSelectedItem().equals("ON");
-            this.settingsUpdated = true;
-        }));
-        this.discordRP.addDefaultOnOff();
-        this.discordRP.setSelectedItem(discordRPEnabled ? "ON" : "OFF");
+        registerOnOffSetting("DISCORD RICH PRESENCE", discordRPEnabled, on -> discordRPEnabled = on);
+        registerOnOffSetting("DISCORD DISPLAY SERVER", discordServerDisplayEnabled, on -> discordServerDisplayEnabled = on);
+        registerOnOffSetting("FULLBRIGHT", fullbrightEnabled, on -> fullbrightEnabled = on);
+        registerOnOffSetting("ROMAN NUMERALS", romanNumeralsEnabled, on -> romanNumeralsEnabled = on);
+        registerOnOffSetting("COMPACT CHAT", compactChatEnabled, on -> compactChatEnabled = on);
+        registerOnOffSetting("VOID FLICKER FIX", voidflickerfixEnabled, on -> voidflickerfixEnabled = on);
+        registerOnOffSetting("SMART FRAMERATE", framerateLimiterEnabled, on -> framerateLimiterEnabled = on);
+        registerOnOffSetting("SHINY POTS", shinyPotsEnabled, on -> shinyPotsEnabled = on);
+        registerOnOffSetting("BETTER SOUNDS", smartSoundsEnabled, on -> smartSoundsEnabled = on);
+        registerOnOffSetting("PING NUMBER", numberPingEnabled, on -> numberPingEnabled = on);
+        registerOnOffSetting("COMBAT PARTICLE FIX", combatParticleFixEnabled, on -> combatParticleFixEnabled = on);
+        registerOnOffSetting("PERSPECTIVE HOLD", perspectiveHoldDownEnabled, on -> perspectiveHoldDownEnabled = on);
 
-        this.settingItems.add(this.discordServerDisplay = new SelectionItem<>(1, getX(), getDefaultItemY(1), this.width - getX() * 2, "DISCORD DISPLAY SERVER", i -> {
-            ((SelectionItem<String>) i).nextItem();
-            discordServerDisplayEnabled = ((SelectionItem) i).getSelectedItem().equals("ON");
-            this.settingsUpdated = true;
-        }));
-        this.discordServerDisplay.addDefaultOnOff();
-        this.discordServerDisplay.setSelectedItem(discordServerDisplayEnabled ? "ON" : "OFF");
+        SelectionItem<String> item = registerCustomSetting(
+                "MENU STYLE",
+                menuStyle,
+                (i) -> menuStyle = (String) ((SelectionItem) i).getSelectedItem()
+        );
+        Arrays.stream(GuiStyle.values()).forEach(s -> item.addItem(s.toString()));
 
-        this.settingItems.add(this.fullBright = new SelectionItem(2, getX(), getDefaultItemY(2), this.width - getX() * 2, "FULLBRIGHT", i -> {
-            ((SelectionItem) i).nextItem();
-            fullbrightEnabled = ((SelectionItem) i).getSelectedItem().equals("ON");
-            this.settingsUpdated = true;
-        }));
-        this.fullBright.addDefaultOnOff();
-        this.fullBright.setSelectedItem(fullbrightEnabled ? "ON" : "OFF");
+        registerOnOffSetting("WINDOWED FULLSCREEN", windowedFullScreen, on -> {
+            windowedFullScreen = on;
 
-        this.settingItems.add(this.romanNumerals = new SelectionItem(3, getX(), getDefaultItemY(3), this.width - getX() * 2, "ROMAN NUMERALS", i -> {
-            ((SelectionItem) i).nextItem();
-            romanNumeralsEnabled = ((SelectionItem) i).getSelectedItem().equals("ON");
-            this.settingsUpdated = true;
-        }));
-        this.romanNumerals.addDefaultOnOff();
-        this.romanNumerals.setSelectedItem(romanNumeralsEnabled ? "ON" : "OFF");
-
-        this.settingItems.add(this.compactChat = new SelectionItem(4, getX(), getDefaultItemY(4), this.width - getX() * 2, "COMPACT CHAT", i -> {
-            ((SelectionItem) i).nextItem();
-            compactChatEnabled = ((SelectionItem) i).getSelectedItem().equals("ON");
-            this.settingsUpdated = true;
-        }));
-        this.compactChat.addDefaultOnOff();
-        this.compactChat.setSelectedItem(compactChatEnabled ? "ON" : "OFF");
-
-        this.settingItems.add(this.voidflickerfix = new SelectionItem(5, getX(), getDefaultItemY(5), this.width - getX() * 2, "VOID FLICKER FIX", i -> {
-            ((SelectionItem) i).nextItem();
-            voidflickerfixEnabled = ((SelectionItem) i).getSelectedItem().equals("ON");
-            this.settingsUpdated = true;
-        }));
-        this.voidflickerfix.addDefaultOnOff();
-        this.voidflickerfix.setSelectedItem(voidflickerfixEnabled ? "ON" : "OFF");
-
-        this.settingItems.add(this.framerateLimiter = new SelectionItem(6, getX(), getDefaultItemY(6), this.width - getX() * 2, "SMART FRAMERATE", i -> {
-            ((SelectionItem) i).nextItem();
-            framerateLimiterEnabled = ((SelectionItem) i).getSelectedItem().equals("ON");
-            this.settingsUpdated = true;
-        }));
-        this.framerateLimiter.addDefaultOnOff();
-        this.framerateLimiter.setSelectedItem(framerateLimiterEnabled ? "ON" : "OFF");
-
-        this.settingItems.add(this.shinyPots = new SelectionItem(7, getX(), getDefaultItemY(7), this.width - getX() * 2, "SHINY POTS", i -> {
-            ((SelectionItem) i).nextItem();
-            shinyPotsEnabled = ((SelectionItem) i).getSelectedItem().equals("ON");
-            this.settingsUpdated = true;
-        }));
-        this.shinyPots.addDefaultOnOff();
-        this.shinyPots.setSelectedItem(shinyPotsEnabled ? "ON" : "OFF");
-
-        this.settingItems.add(
-                this.smartSounds = new SelectionItem(8, getX(), getDefaultItemY(8), this.width - getX() * 2, "BETTER SOUNDS", i -> {
-                    ((SelectionItem) i).nextItem();
-                    smartSoundsEnabled = ((SelectionItem) i).getSelectedItem().equals("ON");
-                    this.settingsUpdated = true;
-                }));
-        this.smartSounds.addDefaultOnOff();
-        this.smartSounds.setSelectedItem(smartSoundsEnabled ? "ON" : "OFF");
-
-        this.settingItems.add(this.numberPing = new SelectionItem(9, getX(), getDefaultItemY(9), this.width - getX() * 2, "PING NUMBER", i -> {
-            ((SelectionItem) i).nextItem();
-            numberPingEnabled = ((SelectionItem) i).getSelectedItem().equals("ON");
-            this.settingsUpdated = true;
-        }));
-        numberPing.addDefaultOnOff();
-        numberPing.setSelectedItem(numberPingEnabled ? "ON" : "OFF");
-
-        this.settingItems.add(this.combatParticleFix = new SelectionItem(10, getX(), getDefaultItemY(10), this.width - getX() * 2, "COMBAT PARTICLE FIX", i -> {
-            ((SelectionItem) i).nextItem();
-            combatParticleFixEnabled = ((SelectionItem) i).getSelectedItem().equals("ON");
-            this.settingsUpdated = true;
-        }));
-        combatParticleFix.addDefaultOnOff();
-        combatParticleFix.setSelectedItem(combatParticleFixEnabled ? "ON" : "OFF");
-
-        this.settingItems.add(this.perspectiveHold = new SelectionItem(11, getX(), getDefaultItemY(11), this.width - getX() * 2, "PERSPECTIVE HOLD", i -> {
-            ((SelectionItem) i).nextItem();
-            perspectiveHoldDownEnabled = ((SelectionItem) i).getSelectedItem().equals("ON");
-            this.settingsUpdated = true;
-        }));
-        perspectiveHold.addDefaultOnOff();
-        perspectiveHold.setSelectedItem(perspectiveHoldDownEnabled ? "ON" : "OFF");
-
-        this.settingItems.add(this.menuStyleSelection = new SelectionItem(12, getX(), getDefaultItemY(12), this.width - getX() * 2, "MENU STYLE", i -> {
-            ((SelectionItem) i).nextItem();
-            menuStyle = (String) ((SelectionItem) i).getSelectedItem();
-            this.settingsUpdated = true;
-        }));
-        Arrays.stream(GuiStyle.values()).forEach(s -> this.menuStyleSelection.addItem(s.toString()));
-        this.menuStyleSelection.setSelectedItem(menuStyle);
-
-        this.settingItems.add(this.fullScreenStyle = new SelectionItem<>(13, getX(), getDefaultItemY(13),this.width - getX() * 2, "WINDOWED FULLSCREEN", i -> {
-            ((SelectionItem) i).nextItem();
-            windowedFullScreen = ((SelectionItem) i).getSelectedItem().equals("ON");
-            this.settingsUpdated = true;
-            // redo it
             Minecraft.getMinecraft().toggleFullscreen();
             try {
                 // hacky fix to concurrent exception
@@ -262,73 +136,54 @@ public class GeneralSetting extends SettingGui {
                 e.printStackTrace();
             }
             Minecraft.getMinecraft().toggleFullscreen();
-        }));
-        fullScreenStyle.addDefaultOnOff();
-        fullScreenStyle.setSelectedItem(windowedFullScreen ? "ON" : "OFF");
+        });
 
-        this.settingItems.add(this.bossBarTextOnly = new SelectionItem(14, getX(), getDefaultItemY(14), this.width - getX() * 2, "BOSSBAR TEXT ONLY", i -> {
-            ((SelectionItem) i).nextItem();
-            bossBarTextOnlyEnabled = ((SelectionItem) i).getSelectedItem().equals("ON");
-            this.settingsUpdated = true;
-        }));
-        bossBarTextOnly.addDefaultOnOff();
-        bossBarTextOnly.setSelectedItem(bossBarTextOnlyEnabled ? "ON" : "OFF");
+        registerOnOffSetting("BOSSBAR TEXT ONLY", bossBarTextOnlyEnabled, on -> bossBarTextOnlyEnabled = on);
+        registerOnOffSetting("STATIC FOV", staticFovEnabled, on -> staticFovEnabled = on);
+        registerOnOffSetting("UPLOAD SCREENSHOTS BY DEFAULT", uploadScreenshotsByDefault, on -> uploadScreenshotsByDefault = on);
+        registerOnOffSetting("HIDE SCOREBOARD NUMBERS", hideScoreboardNumbers, on -> hideScoreboardNumbers = on);
+        registerOnOffSetting("BLUR GUI BACKGROUNDS", blurGuiBackgroundsEnabled, on -> blurGuiBackgroundsEnabled = on);
+        registerOnOffSetting("DISPLAY CHROMA-HUD ON OTHER SERVERS", chromaHudNonHypixelEnabled, on -> chromaHudNonHypixelEnabled = on);
+        registerOnOffSetting("TAKE SCREENSHOT ON KILL", screenshotOnKillEnabled, on -> screenshotOnKillEnabled = on);
+        registerOnOffSetting("SHOW SPOTIFY CONTROLS", spotifyControlsEnabled, on -> spotifyControlsEnabled = on);
+    }
 
-        this.settingItems.add(this.staticFov = new SelectionItem(15, getX(), getDefaultItemY(15), this.width - getX() * 2, "STATIC FOV", i -> {
-            ((SelectionItem) i).nextItem();
-            staticFovEnabled = ((SelectionItem) i).getSelectedItem().equals("ON");
-            this.settingsUpdated = true;
-        }));
-        staticFov.addDefaultOnOff();
-        staticFov.setSelectedItem(staticFovEnabled ? "ON" : "OFF");
+    private void registerOnOffSetting(String name, boolean enabled, Consumer<Boolean> callback) {
+        OnOffSetting setting = new OnOffSetting(
+                currentID,
+                getX(),
+                getDefaultItemY(currentID),
+                this.width - (getX() * 2),
+                name
+        );
+        setting.setEnabled(enabled).setConsumer(
+                callback.andThen((on) -> settingsUpdated = true)
+        );
 
-        this.settingItems.add(this.uploadByDefault = new SelectionItem(16, getX(), getDefaultItemY(16), this.width - getX() * 2, "UPLOAD SCREENSHOTS BY DEFAULT", i -> {
-            ((SelectionItem) i).nextItem();
-            uploadScreenshotsByDefault = ((SelectionItem) i).getSelectedItem().equals("ON");
-            this.settingsUpdated = true;
-        }));
-        uploadByDefault.addDefaultOnOff();
-        uploadByDefault.setSelectedItem(uploadScreenshotsByDefault ? "ON" : "OFF");
+        this.settingItems.add(setting);
 
-        this.settingItems.add(this.scoreboardNumbers = new SelectionItem<>(17, getX(), getDefaultItemY(17), this.width - getX() * 2, "HIDE SCOREBOARD NUMBERS", i -> {
-            ((SelectionItem) i).nextItem();
-            hideScoreboardNumbers = ((SelectionItem) i).getSelectedItem().equals("ON");
-            this.settingsUpdated = true;
-        }));
-        scoreboardNumbers.addDefaultOnOff();
-        scoreboardNumbers.setSelectedItem(hideScoreboardNumbers ? "ON" : "OFF");
+        currentID++;
+    }
 
-        this.settingItems.add(this.blurGuiBackgrounds = new SelectionItem<>(18, getX(), getDefaultItemY(18), this.width - getX() * 2, "BLUR GUI BACKGROUNDS", i -> {
-            ((SelectionItem) i).nextItem();
-            blurGuiBackgroundsEnabled = ((SelectionItem) i).getSelectedItem().equals("ON");
-            this.settingsUpdated = true;
-        }));
-        blurGuiBackgrounds.addDefaultOnOff();
-        blurGuiBackgrounds.setSelectedItem(blurGuiBackgroundsEnabled ? "ON" : "OFF");
+    private SelectionItem<String> registerCustomSetting(String name, String selected, Consumer<SettingItem> callback) {
+        SelectionItem<String> item = new SelectionItem<>(
+                currentID,
+                getX(),
+                getDefaultItemY(currentID),
+                this.width - (getX() * 2),
+                name,
+                callback.andThen((i) -> {
+                    settingsUpdated = true;
+                    ((SelectionItem) i).nextItem();
+                })
+        );
+        item.setSelectedItem(selected);
 
-        this.settingItems.add(this.chromaHudNonHypixel = new SelectionItem<>(19, getX(), getDefaultItemY(19), this.width - getX() * 2, "DISPLAY CHROMA-HUD ON OTHER SERVERS", i -> {
-            ((SelectionItem) i).nextItem();
-            chromaHudNonHypixelEnabled = ((SelectionItem) i).getSelectedItem().equals("ON");
-            this.settingsUpdated = true;
-        }));
-        chromaHudNonHypixel.addDefaultOnOff();
-        chromaHudNonHypixel.setSelectedItem(chromaHudNonHypixelEnabled ? "ON" : "OFF");
+        this.settingItems.add(item);
 
-        this.settingItems.add(this.screenshotOnKill = new SelectionItem<>(20, getX(), getDefaultItemY(20), this.width - getX() * 2, "TAKE SCREENSHOT ON KILL", i -> {
-            ((SelectionItem) i).nextItem();
-            screenshotOnKillEnabled = ((SelectionItem) i).getSelectedItem().equals("ON");
-            this.settingsUpdated = true;
-        }));
-        screenshotOnKill.addDefaultOnOff();
-        screenshotOnKill.setSelectedItem(screenshotOnKillEnabled ? "ON" : "OFF");
+        currentID++;
 
-        this.settingItems.add(this.spotifyControls = new SelectionItem<>(18, getX(), getDefaultItemY(18), this.width - getX() * 2, "SHOW SPOTIFY CONTROLS", i -> {
-            ((SelectionItem) i).nextItem();
-            spotifyControlsEnabled = ((SelectionItem) i).getSelectedItem().equals("ON");
-            this.settingsUpdated = true;
-        }));
-        spotifyControls.addDefaultOnOff();
-        spotifyControls.setSelectedItem(spotifyControlsEnabled ? "ON" : "OFF");
+        return item;
     }
 
     /**

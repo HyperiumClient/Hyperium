@@ -7,7 +7,7 @@ import cc.hyperium.purchases.EnumPurchaseType;
 /**
  * Created by mitchellkatz on 3/17/18. Designed for production use on Sk1er.club
  */
-public class KillCounterMuscles extends AbstractCosmetic {
+class KillCounterMuscles extends AbstractCosmetic {
     public KillCounterMuscles() {
         super(false, EnumPurchaseType.KILL_TRACKER_MUSCLE, true);
     }

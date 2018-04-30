@@ -37,7 +37,7 @@ public abstract class MixinGuiResourcePack {
 
     @Shadow
     @Final
-    protected Minecraft mc;
+    private Minecraft mc;
 
     @Shadow
     protected abstract int func_183019_a();
@@ -54,8 +54,8 @@ public abstract class MixinGuiResourcePack {
      * @author Kevin Brewster
      */
     @Inject(method = "drawEntry", at = @At("HEAD"), cancellable = true)
-    public void drawEntry(int slotIndex, int x, int y, int listWidth, int slotHeight,
-                          int mouseX, int mouseY, boolean isSelected, CallbackInfo ci) {
+    private void drawEntry(int slotIndex, int x, int y, int listWidth, int slotHeight,
+                           int mouseX, int mouseY, boolean isSelected, CallbackInfo ci) {
         boolean compact = true;
         if (compact) {
             ci.cancel();

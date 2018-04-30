@@ -35,13 +35,11 @@ public class DynoGame extends HyperiumGui {
 
     private final Random random = new Random();
     private final int GAME_LEVEL = 200;
-    private final int GRAVITY = -2;
     private final int DYNO_X = 150;
     private int DELTA_BUSH = 0;
-    private GuiButton restart;
     private boolean dead = false;
     private int score;
-    private List<Bush> bushes = new ArrayList<>();
+    private final List<Bush> bushes = new ArrayList<>();
     private boolean running;
     private int dynoOffset = 0;
     private int dynoVelocity = 0;
@@ -49,11 +47,8 @@ public class DynoGame extends HyperiumGui {
 
     @Override
     protected void pack() {
-        reg("RESTART", restart = new GuiButton(0, ResolutionUtil.current().getScaledWidth() / 2 - 100, 40, "Restart"), guiButton -> {
-            reset();
-        }, guiButton -> {
-            guiButton.visible = dead;
-        });
+        GuiButton restart;
+        reg("RESTART", restart = new GuiButton(0, ResolutionUtil.current().getScaledWidth() / 2 - 100, 40, "Restart"), guiButton -> reset(), guiButton -> guiButton.visible = dead);
     }
 
     @Override
@@ -92,12 +87,13 @@ public class DynoGame extends HyperiumGui {
         if (!dead) {
             for (Bush bush : bushes) {
                 bush.tick();
-                if (bush.hitbox.isMouseOver(DYNO_X, GAME_LEVEL - dynoOffset) || bush.hitbox.isMouseOver(DYNO_X+10, GAME_LEVEL - dynoOffset)) {
+                if (bush.hitbox.isMouseOver(DYNO_X, GAME_LEVEL - dynoOffset) || bush.hitbox.isMouseOver(DYNO_X + 10, GAME_LEVEL - dynoOffset)) {
                     //Hit the box
                     endGame();
                 }
             }
             bushes.removeIf(bush -> bush.xLoc < 100);
+            int GRAVITY = -2;
             dynoVelocity += GRAVITY;
             dynoOffset += dynoVelocity;
             if (dynoOffset < 0) {
@@ -143,7 +139,7 @@ public class DynoGame extends HyperiumGui {
     class Bush {
 
         private int xLoc;
-        private GuiBlock hitbox;
+        private final GuiBlock hitbox;
 
         public Bush(int xLoc) {
             this.xLoc = xLoc;

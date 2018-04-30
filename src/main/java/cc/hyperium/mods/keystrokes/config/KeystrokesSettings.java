@@ -42,7 +42,7 @@ public class KeystrokesSettings {
 
     private boolean mouseButtons = false;
 
-    private boolean showCPS =  false;
+    private boolean showCPS = false;
 
     private boolean showSpacebar = false;
 
@@ -61,16 +61,16 @@ public class KeystrokesSettings {
     private int pressedGreen = 0;
 
     private int pressedBlue = 0;
-    
+
     private boolean leftClick = true;
 
     public KeystrokesSettings(KeystrokesMod mod, File directory) {
         if (!directory.exists()) {
             directory.mkdirs();
         }
-        
+
         this.theMod = mod;
-        
+
         this.configFile = new File(directory, "keystrokes.json");
     }
 
@@ -155,7 +155,7 @@ public class KeystrokesSettings {
         setShowingCPS(object.optBoolean("showCPS"));
         setShowingSpacebar(object.optBoolean("showSpacebar"));
     }
-    
+
     public int getX() {
         return this.x;
     }
@@ -275,15 +275,15 @@ public class KeystrokesSettings {
     public void setChroma(boolean showingChroma) {
         this.chroma = showingChroma;
     }
-    
+
     public boolean isLeftClick() {
         return this.leftClick;
     }
-    
+
     public void setLeftClick(boolean leftClick) {
         this.leftClick = leftClick;
     }
-    
+
     public int getHeight() {
         int height = 50;
 
@@ -305,19 +305,19 @@ public class KeystrokesSettings {
     public int getWidth() {
         return 74; // Hardcoded value
     }
-    
+
     public KeystrokesMod getMod() {
         return this.theMod;
     }
-    
+
     private float capFloat(float valueIn, float minValue, float maxValue) {
         return valueIn < minValue ? minValue : valueIn > maxValue ? maxValue : valueIn;
     }
-    
+
     private double capDouble(double valueIn, double minValue, double maxValue) {
         return valueIn < minValue ? minValue : valueIn > maxValue ? maxValue : valueIn;
     }
-    
+
     private int capInt(int valueIn, int minValue, int maxValue) {
         return valueIn < minValue ? minValue : valueIn > maxValue ? maxValue : valueIn;
     }

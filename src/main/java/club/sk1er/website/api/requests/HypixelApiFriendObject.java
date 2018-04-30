@@ -20,7 +20,7 @@ package club.sk1er.website.api.requests;
 import cc.hyperium.utils.JsonHolder;
 
 public class HypixelApiFriendObject {
-    private JsonHolder data;
+    private final JsonHolder data;
     private int ord = -1;
 
     public HypixelApiFriendObject(JsonHolder data) {
@@ -73,10 +73,8 @@ public class HypixelApiFriendObject {
 
     @Override
     public boolean equals(Object obj) {
-        if(obj == null) return false;
-        if (!(obj instanceof HypixelApiFriendObject)) return false;
-
-        return ((HypixelApiFriendObject) obj).getUuid().equalsIgnoreCase(getUuid());
+        return obj instanceof HypixelApiFriendObject &&
+            ((HypixelApiFriendObject) obj).getUuid().equals(getUuid());
     }
 
     public String getUuid() {

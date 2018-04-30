@@ -20,7 +20,11 @@ package me.semx11.autotip.misc;
 import me.semx11.autotip.Autotip;
 import me.semx11.autotip.util.FileUtil;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -31,7 +35,7 @@ import java.util.stream.Stream;
 public class Writer implements Runnable {
 
     private static String lastDate = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
-    private static String ls = System.lineSeparator();
+    private static final String ls = System.lineSeparator();
 
     public static void execute() {
         Autotip.THREAD_POOL.submit(new Writer());
@@ -66,11 +70,10 @@ public class Writer implements Runnable {
 
             games.forEach(game -> {
                 int sent =
-                        TipTracker.tipsSentEarnings.containsKey(game) ? TipTracker.tipsSentEarnings
-                                .get(game) : 0;
-                int received = TipTracker.tipsReceivedEarnings.containsKey(game)
-                        ? TipTracker.tipsReceivedEarnings.get(
-                        game) : 0;
+                        TipTracker.tipsSentEarnings
+                                .getOrDefault(game, 0);
+                int received = TipTracker.tipsReceivedEarnings.getOrDefault(
+                game, 0);
                 write(dailyStats, game + ":" + sent + ":" + received + ls);
             });
             dailyStats.close();
@@ -79,7 +82,7 @@ public class Writer implements Runnable {
 
             if (new File(Autotip.USER_DIR + "tipped.at").exists()) {
                 try (BufferedReader f = new BufferedReader(
-                        new FileReader(Autotip.USER_DIR + "tipped.at"));) {
+                        new FileReader(Autotip.USER_DIR + "tipped.at"))) {
                     List<String> lines = f.lines().collect(Collectors.toList());
                     if (lines.size() >= 1) {
                         String date = lines.get(0);

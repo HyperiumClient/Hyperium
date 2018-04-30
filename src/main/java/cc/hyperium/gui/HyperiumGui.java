@@ -18,27 +18,48 @@
 package cc.hyperium.gui;
 
 import cc.hyperium.Hyperium;
+import cc.hyperium.gui.settings.items.BackgroundSettings;
 import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
+
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileInputStream;
+import javax.imageio.ImageIO;
+
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.*;
+import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
+import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.util.ResourceLocation;
+
 import org.lwjgl.input.Mouse;
 
 import java.awt.*;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Consumer;
 
 public abstract class HyperiumGui extends GuiScreen {
     
+    private static ResourceLocation background = new ResourceLocation("textures/material/backgrounds/1.png");
+    private static ResourceLocation bgDynamicTexture = null;
+    private static File customImage = new File(Minecraft.getMinecraft().mcDataDir, "customImage.png");
+    private static boolean customBackground = false;
+    private static BufferedImage bgBr = null;
+    
     protected int offset = 0;
     private int idIteration;
-    private HashMap<GuiButton, Consumer<GuiButton>> clicks = new HashMap<>();
-    private HashMap<GuiButton, Consumer<GuiButton>> updates = new HashMap<>();
-    private HashMap<String, GuiButton> nameMap = new HashMap<>();
+    private final Map<GuiButton, Consumer<GuiButton>> clicks = new HashMap<>();
+    private final Map<GuiButton, Consumer<GuiButton>> updates = new HashMap<>();
+    private final Map<String, GuiButton> nameMap = new HashMap<>();
     private boolean drawAlpha = true;
     private int alpha = 100;
     private ScaledResolution lastResolution;
@@ -47,22 +68,6 @@ public abstract class HyperiumGui extends GuiScreen {
 
     public HyperiumGui() {
         lastResolution = ResolutionUtil.current();
-    }
-
-    protected GuiButton getButtonByName(String name) {
-        return nameMap.get(name);
-    }
-
-    public void setDrawAlpha(boolean drawAlpha) {
-        this.drawAlpha = drawAlpha;
-    }
-
-    public void setAlpha(int alpha) {
-        this.alpha = alpha;
-    }
-
-    public int nextId() {
-        return (++idIteration);
     }
 
     @Override
@@ -93,29 +98,20 @@ public abstract class HyperiumGui extends GuiScreen {
     public void initGui() {
         super.initGui();
         rePack();
+    
+        loadCustomBackground();
     }
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+//        drawBackground();
+    
         if (drawAlpha) {
             Gui.drawRect(0, 0, ResolutionUtil.current().getScaledWidth() * ResolutionUtil.current().getScaleFactor(), ResolutionUtil.current().getScaledHeight() * ResolutionUtil.current().getScaleFactor(), new Color(0, 0, 0, alpha).getRGB());
         }
+        
         super.drawScreen(mouseX, mouseY, partialTicks);
     }
-
-    protected void reg(String name, GuiButton button, Consumer<GuiButton> consumer, Consumer<GuiButton> tick) {
-        this.buttonList.add(button);
-        this.clicks.put(button, consumer);
-        this.updates.put(button, tick);
-        this.nameMap.put(name, button);
-    }
-
-    public void rePack() {
-        buttonList.clear();
-        pack();
-    }
-
-    protected abstract void pack();
     
     @Override
     public void handleMouseInput() throws IOException {
@@ -127,11 +123,103 @@ public abstract class HyperiumGui extends GuiScreen {
             offset -= 11;
         }
     }
+    
+   
+    
+    public void setDrawAlpha(boolean drawAlpha) {
+        this.drawAlpha = drawAlpha;
+    }
+    
+    public void setAlpha(int alpha) {
+        this.alpha = alpha;
+    }
+    
+    public int nextId() {
+        return (++idIteration);
+    }
+    
+    public void rePack() {
+        buttonList.clear();
+        pack();
+    }
+    
+    public void show() {
+        Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(this);
+    }
+    
+    protected void reg(String name, GuiButton button, Consumer<GuiButton> consumer, Consumer<GuiButton> tick) {
+        this.buttonList.add(button);
+        this.clicks.put(button, consumer);
+        this.updates.put(button, tick);
+        this.nameMap.put(name, button);
+    }
+    
+    protected GuiButton getButtonByName(String name) {
+        return nameMap.get(name);
+    }
 
+    protected abstract void pack();
+    
+    protected void drawBackground() {
+        if (this.mc != null && this.mc.theWorld == null) {
+            renderHyperiumBackground(ResolutionUtil.current());
+        }
+    
+        if (drawAlpha) {
+            Gui.drawRect(0, 0, ResolutionUtil.current().getScaledWidth() * ResolutionUtil.current().getScaleFactor(), ResolutionUtil.current().getScaledHeight() * ResolutionUtil.current().getScaleFactor(), new Color(0, 0, 0, alpha).getRGB());
+        }
+    }
+    
+    private void renderHyperiumBackground(ScaledResolution sr) {
+        GlStateManager.disableDepth();
+        GlStateManager.depthMask(false);
+        GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+        GlStateManager.disableAlpha();
+        
+        if (customImage.exists() && bgDynamicTexture != null && customBackground) {
+            Minecraft.getMinecraft().getTextureManager().bindTexture(bgDynamicTexture);
+        } else {
+            Minecraft.getMinecraft().getTextureManager().bindTexture(background);
+        }
+    
+        Tessellator tessellator = Tessellator.getInstance();
+        WorldRenderer worldrenderer = tessellator.getWorldRenderer();
+        worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
+        worldrenderer.pos(0.0D, (double) sr.getScaledHeight(), -90.0D).tex(0.0D, 1.0D).endVertex();
+        worldrenderer.pos((double) sr.getScaledWidth(), (double) sr.getScaledHeight(), -90.0D).tex(1.0D, 1.0D).endVertex();
+        worldrenderer.pos((double) sr.getScaledWidth(), 0.0D, -90.0D).tex(1.0D, 0.0D).endVertex();
+        worldrenderer.pos(0.0D, 0.0D, -90.0D).tex(0.0D, 0.0D).endVertex();
+        tessellator.draw();
+        
+        GlStateManager.depthMask(true);
+        GlStateManager.enableDepth();
+        GlStateManager.enableAlpha();
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+        
+//        GlStateManager.pushMatrix();
+    }
+    
+    private void loadCustomBackground() {
+        customBackground = BackgroundSettings.backgroundSelect.equalsIgnoreCase("CUSTOM");
+        
+        if (customImage.exists() && customBackground) {
+            try {
+                bgBr = ImageIO.read(new FileInputStream(customImage));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            if (bgBr != null) {
+                bgDynamicTexture = mc.getRenderManager().renderEngine.getDynamicTextureLocation(customImage.getName(), new DynamicTexture(bgBr));
+            }
+            
+        }
+    }
+    
     public static float clamp(float number, float min, float max) {
         return number < min ? min : number > max ? max : number;
     }
-
+    
     public static float easeOut(float current, float goal, float jump, float speed) {
         if (Math.floor(Math.abs(goal - current) / jump) > 0) {
             return current + (goal - current) / speed;
@@ -139,51 +227,51 @@ public abstract class HyperiumGui extends GuiScreen {
             return goal;
         }
     }
-
+    
     /**
      * Trim a string to a specified width with the specified font renderer
      *
-     * @param str String to trim
-     * @param width width to trim to
-     * @param font Font renderer to get width from, if null then default font renderer is used
+     * @param str            String to trim
+     * @param width          width to trim to
+     * @param font           Font renderer to get width from, if null then default font renderer is used
      * @param appendEllipsis Whether "..." should be appended to the end of the string before returning
+     * @return Trimmed string
      * @throws IllegalArgumentException If <code>width</code> is less than or equal to 0
      * @throws IllegalArgumentException if <code>str</code> is null or has a length less than or equal to 0
-     * @throws IllegalStateException <code>font</code> is null and default couldn't be used
-     * @return Trimmed string
+     * @throws IllegalStateException    <code>font</code> is null and default couldn't be used
      */
     public static String trimString(String str, int width, FontRenderer font, boolean appendEllipsis) {
-        if(width <= 0) {
+        if (width <= 0) {
             throw new IllegalArgumentException("String width cannot be less than or equal to 0.");
-        } else if(str == null || str.length() <= 0) {
+        } else if (str == null || str.length() <= 0) {
             throw new IllegalArgumentException("String cannot be null and cannot have a length less than or equal to 0.");
         } else {
-            if(font == null) {
-                if(Minecraft.getMinecraft() != null && Minecraft.getMinecraft().fontRendererObj != null)
+            if (font == null) {
+                if (Minecraft.getMinecraft() != null && Minecraft.getMinecraft().fontRendererObj != null)
                     font = Minecraft.getMinecraft().fontRendererObj;
                 else
                     throw new IllegalStateException("Param \"font\" is null and default font renderer could not be used!");
             }
-
+            
             // Everything should be fine and dandy if you're at this point...
             final StringBuilder strBuilder = new StringBuilder();
             final String suffix = (appendEllipsis ? "..." : "");
             int currentWidth = font.getStringWidth(suffix);
             // If suffix is already too long
-            if(width < currentWidth) return suffix;
-
+            if (width < currentWidth) return suffix;
+            
             // Loop through each character until too long
-            for(char theChar : str.toCharArray()) {
+            for (char theChar : str.toCharArray()) {
                 final int charWidth = font.getCharWidth(theChar);
                 // If strWidth + next charWidth is too big then return this string, otherwise continue
-                if(width < currentWidth + charWidth) {
+                if (width < currentWidth + charWidth) {
                     return strBuilder.append(suffix).toString();
                 } else {
                     strBuilder.append(theChar);
                     currentWidth += charWidth;
                 }
             }
-
+            
             // Return entire string if we get to this point. strBuilder.toString() should == str
             return strBuilder.toString();
         }
@@ -192,12 +280,11 @@ public abstract class HyperiumGui extends GuiScreen {
     /**
      * Draws an animated rainbow box in the specified range
      *
-     * @param left the x1 position
-     * @param top the y1 position
-     * @param right the x2 position
+     * @param left   the x1 position
+     * @param top    the y1 position
+     * @param right  the x2 position
      * @param bottom the y2 position
-     * @param alpha the alpha the box should be drawn at
-     *
+     * @param alpha  the alpha the box should be drawn at
      * @author boomboompower
      */
     public static void drawChromaBox(int left, int top, int right, int bottom, float alpha) {
@@ -230,18 +317,14 @@ public abstract class HyperiumGui extends GuiScreen {
         Tessellator tessellator = Tessellator.getInstance();
         WorldRenderer worldrenderer = tessellator.getWorldRenderer();
         worldrenderer.begin(7, DefaultVertexFormats.POSITION_COLOR);
-        worldrenderer.pos((double) right, (double)top, (double) 0).color(f1, f2, f3, alpha).endVertex();
-        worldrenderer.pos((double) left, (double)top, (double) 0).color(f1, f2, f3, alpha).endVertex();
-        worldrenderer.pos((double) left, (double)bottom, (double) 0).color(f5, f6, f7, alpha).endVertex();
-        worldrenderer.pos((double) right, (double)bottom, (double) 0).color(f5, f6, f7, alpha).endVertex();
+        worldrenderer.pos((double) right, (double) top, (double) 0).color(f1, f2, f3, alpha).endVertex();
+        worldrenderer.pos((double) left, (double) top, (double) 0).color(f1, f2, f3, alpha).endVertex();
+        worldrenderer.pos((double) left, (double) bottom, (double) 0).color(f5, f6, f7, alpha).endVertex();
+        worldrenderer.pos((double) right, (double) bottom, (double) 0).color(f5, f6, f7, alpha).endVertex();
         tessellator.draw();
         GlStateManager.shadeModel(7424);
         GlStateManager.disableBlend();
         GlStateManager.enableAlpha();
         GlStateManager.enableTexture2D();
-    }
-    
-    public void show() {
-        Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(this);
     }
 }

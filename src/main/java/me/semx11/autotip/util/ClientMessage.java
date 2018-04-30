@@ -21,7 +21,7 @@ import cc.hyperium.utils.ChatColor;
 
 public class ClientMessage {
 
-    private static String prefix =
+    private static final String prefix =
             ChatColor.GOLD + "A" + ChatColor.YELLOW + "T" + ChatColor.DARK_GRAY + " > "
                     + ChatColor.GRAY;
 

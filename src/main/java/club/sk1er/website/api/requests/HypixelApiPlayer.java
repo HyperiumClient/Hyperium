@@ -35,18 +35,15 @@ public class HypixelApiPlayer implements HypixelApiObject {
     public static final DateFormat DMY = new SimpleDateFormat("dd/MM, YYYY");
     public static final DateFormat DMYHHMMSS = new SimpleDateFormat("dd/MM, YYYY HH:mm:ss");
 
-    private JsonHolder player;
-
+    private final JsonHolder player;
 
     public HypixelApiPlayer(JsonHolder holder) {
         this.player = holder;
     }
 
-
     public double getsafTotalXP() {
         return ILeveling.getTotalExpToLevel(getRoot().optInt("oldLevel") + 1) + getRoot().optInt(ILeveling.EXP_FIELD);
     }
-
 
     public int getKarma() {
         return getRoot().optInt("karma");
@@ -184,7 +181,6 @@ public class HypixelApiPlayer implements HypixelApiObject {
             return getRoot().optString("packageRank");
         return "NONE";
     }
-
 
     public boolean isLoaded() {
         return !player.getKeys().isEmpty();

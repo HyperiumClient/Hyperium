@@ -29,9 +29,9 @@ public class ButtonConfig {
         Called when the button is pressed. GuiButton is the gui button instance provided. DisplayItem is the object of that display item
         Load is called on load to initalize to right state
      */
-    private BiConsumer<GuiButton, DisplayItem> action;
-    private GuiButton button;
-    private BiConsumer<GuiButton, DisplayItem> load;
+    private final BiConsumer<GuiButton, DisplayItem> action;
+    private final GuiButton button;
+    private final BiConsumer<GuiButton, DisplayItem> load;
 
     public ButtonConfig(BiConsumer<GuiButton, DisplayItem> action, GuiButton button, BiConsumer<GuiButton, DisplayItem> load) {
         this.action = action;

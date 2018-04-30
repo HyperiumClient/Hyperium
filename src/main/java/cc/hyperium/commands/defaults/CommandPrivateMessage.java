@@ -26,7 +26,6 @@ import cc.hyperium.gui.integrations.HypixelPrivateMessage;
 public class CommandPrivateMessage implements BaseCommand {
 
 
-
     @Override
     public String getName() {
         return "pm";
@@ -34,7 +33,7 @@ public class CommandPrivateMessage implements BaseCommand {
 
     @Override
     public String getUsage() {
-        return "pm <name>";
+        return "/pm <name>";
     }
 
     @Override

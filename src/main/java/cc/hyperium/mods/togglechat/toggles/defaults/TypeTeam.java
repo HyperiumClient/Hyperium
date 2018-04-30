@@ -24,7 +24,7 @@ import java.util.regex.Pattern;
 
 public class TypeTeam extends ToggleBase {
 
-    private Pattern teamPattern = Pattern.compile("\\[TEAM] (?<rank>\\[.+] )?(?<player>\\S{1,16}): (?<message>.*)");
+    private final Pattern teamPattern = Pattern.compile("\\[TEAM] (?<rank>\\[.+] )?(?<player>\\S{1,16}): (?<message>.*)");
 
     private boolean enabled = true;
 
@@ -39,13 +39,13 @@ public class TypeTeam extends ToggleBase {
     }
 
     @Override
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
+    public boolean isEnabled() {
+        return this.enabled;
     }
 
     @Override
-    public boolean isEnabled() {
-        return this.enabled;
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 
     @Override

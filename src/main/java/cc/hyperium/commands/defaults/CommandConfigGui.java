@@ -22,7 +22,6 @@ import cc.hyperium.gui.ModConfigGui;
 import cc.hyperium.utils.ChatColor;
 
 import java.util.Collections;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -41,13 +40,13 @@ public class CommandConfigGui implements BaseCommand {
     public String getUsage() {
         return ChatColor.RED + "Usage: /hyperiumconfig";
     }
-    
+
     @Override
     public List<String> getCommandAliases() {
         // Allow an alias for the main config gui
         return Collections.singletonList("hyperium");
     }
-    
+
     @Override
     public void onExecute(String[] args) {
         new ModConfigGui().show();

@@ -23,7 +23,6 @@ public class DabOnKIllCosmetic extends AbstractCosmetic {
     }
 
 
-
     @InvokeEvent
     public void onKill(KillEvent event) {
         UUID uuid = PurchaseApi.getInstance().nameToUUID(event.getUser());

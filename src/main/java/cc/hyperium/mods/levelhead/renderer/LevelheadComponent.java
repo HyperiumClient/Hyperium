@@ -33,6 +33,7 @@ public class LevelheadComponent {
     private int blue;
     private int alpha;
     private boolean custom;
+
     public LevelheadComponent(String value) {
         this.value = value;
     }
@@ -90,6 +91,10 @@ public class LevelheadComponent {
         return value;
     }
 
+    public void setValue(String value) {
+        this.value = value;
+    }
+
     public boolean isChroma() {
         return chroma;
     }
@@ -104,9 +109,5 @@ public class LevelheadComponent {
 
     public void setCustom(boolean custom) {
         this.custom = custom;
-    }
-
-    public void setValue(String value) {
-        this.value=value;
     }
 }

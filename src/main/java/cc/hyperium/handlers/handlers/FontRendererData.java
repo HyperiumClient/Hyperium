@@ -6,13 +6,15 @@ import cc.hyperium.utils.CachedString;
 import net.minecraft.client.renderer.GLAllocation;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class FontRendererData {
-    public static FontRendererData INSTANCE = new FontRendererData();
-    public HashMap<String, CachedString> normalStringCache = new HashMap<>();
-    public HashMap<String, CachedString> shadowStringCache = new HashMap<>();
+    public static final FontRendererData INSTANCE = new FontRendererData();
+    public final Map<String, CachedString> normalStringCache = new HashMap<>();
+    public final Map<String, CachedString> shadowStringCache = new HashMap<>();
+    public final Map<String, Integer> stringWidthCache = new HashMap<>();
     int e = 0;
-    public HashMap<String, Integer> stringWidthCache = new HashMap<>();
+
     private FontRendererData() {
 
     }
@@ -25,7 +27,7 @@ public class FontRendererData {
             shadowStringCache.forEach((s, cachedString) -> GLAllocation.deleteDisplayLists(cachedString.getListId()));
             normalStringCache.clear();
             shadowStringCache.clear();
-            e=0;
+            e = 0;
         }
     }
 

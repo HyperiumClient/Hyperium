@@ -21,10 +21,10 @@ package cc.hyperium.utils;
  * @author Sk1er
  */
 public class CachedString {
-    private String text;
-    private int listId;
-    private float width;
-    private float height;
+    private final String text;
+    private final int listId;
+    private final float width;
+    private final float height;
 
     public CachedString(String text, int listId, float width, float height) {
         this.text = text;

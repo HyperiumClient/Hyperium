@@ -21,7 +21,11 @@ import cc.hyperium.mods.togglechat.ToggleChatMod;
 import cc.hyperium.mods.togglechat.toggles.ToggleBase;
 import cc.hyperium.utils.BetterJsonObject;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
@@ -31,7 +35,7 @@ public class ToggleChatConfig {
 
     private BetterJsonObject toggleJson = new BetterJsonObject();
 
-    private File toggleFile;
+    private final File toggleFile;
 
     public ToggleChatConfig(ToggleChatMod theMod, File directory) {
         if (!directory.exists()) {
@@ -61,10 +65,10 @@ public class ToggleChatConfig {
             }
 
             for (ToggleBase base : this.
-                theMod.
-                getToggleHandler()
-                .getToggles()
-                .values()) {
+                    theMod.
+                    getToggleHandler()
+                    .getToggles()
+                    .values()) {
                 base.setEnabled(this.toggleJson.has("show" + base.getName().replace(" ", "_")) && this.toggleJson.get("show" + base.getName().replace(" ", "_")).getAsBoolean());
             }
 

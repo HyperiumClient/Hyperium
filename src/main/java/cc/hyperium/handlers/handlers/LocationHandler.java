@@ -26,7 +26,7 @@ import cc.hyperium.netty.NettyClient;
 import cc.hyperium.netty.packet.packets.serverbound.ServerCrossDataPacket;
 import cc.hyperium.netty.packet.packets.serverbound.UpdateLocationPacket;
 import cc.hyperium.utils.ChatColor;
-import utils.JsonHolder;
+import cc.hyperium.utils.JsonHolder;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -35,7 +35,7 @@ public class LocationHandler {
 
     @ConfigOpt
     private String location = "";
-    private Pattern whereami = Pattern.compile("You are currently connected to server (?<server>.+)");
+    private final Pattern whereami = Pattern.compile("You are currently connected to server (?<server>.+)");
     private boolean sendingWhereAmI = false;
     private long ticksInWorld = 0;
 
@@ -78,8 +78,8 @@ public class LocationHandler {
             NettyClient.getClient().write(UpdateLocationPacket.build(Minigame.HOUSING.name()));
         else
             NettyClient.getClient().write(UpdateLocationPacket.build(event.getTo()));
-        if (Hyperium.INSTANCE.getHandlers().getFlipHandler().getSelf())
-            NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("type", "flip_update").put("flipped", true)));
+        if (Hyperium.INSTANCE.getHandlers().getFlipHandler().getSelf() != 0)
+            NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("type", "flip_update").put("flip_state", 1)));
 
     }
 
@@ -87,8 +87,8 @@ public class LocationHandler {
     public void miniGameJoin(JoinMinigameEvent event) {
         if (event.getMinigame() == Minigame.HOUSING) {
             NettyClient.getClient().write(UpdateLocationPacket.build(Minigame.HOUSING.name()));
-            if (Hyperium.INSTANCE.getHandlers().getFlipHandler().getSelf())
-                NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("type", "flip_update").put("flipped", true)));
+            if (Hyperium.INSTANCE.getHandlers().getFlipHandler().getSelf() != 0)
+                NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("type", "flip_update").put("flip_state", 2)));
 
         }
     }
@@ -118,5 +118,10 @@ public class LocationHandler {
 
     public String getLocation() {
         return location;
+    }
+
+    public boolean isLobbyOrHousing() {
+        return Hyperium.INSTANCE.getMinigameListener().getCurrentMinigameName().equalsIgnoreCase("HOUSING") || getLocation().contains("lobby");
+
     }
 }

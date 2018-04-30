@@ -33,7 +33,7 @@ import java.util.UUID;
 public abstract class MixinEntity {
 
     private IChatComponent cachedName;
-    private long nameCacheTime = System.currentTimeMillis();
+    private final long nameCacheTime = System.currentTimeMillis();
 
     @Shadow
     public abstract String getName();
@@ -59,7 +59,7 @@ public abstract class MixinEntity {
     }
 
     @Shadow
-    public Vec3 getLook(float particalTicks) {
+    Vec3 getLook(float particalTicks) {
         return null;
     }
 }

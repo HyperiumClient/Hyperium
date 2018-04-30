@@ -17,6 +17,7 @@
 
 package cc.hyperium.integrations.spotify;
 
+import cc.hyperium.Hyperium;
 import cc.hyperium.integrations.os.OsHelper;
 import cc.hyperium.integrations.spotify.impl.SpotifyInformation;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
@@ -46,11 +47,10 @@ public class Spotify {
     private static final int END_HTTPS_PORT = 4379;
     private static final int START_HTTP_PORT = 4380;
     private static final int END_HTTP_PORT = 4389;
-    private static int localPort = START_HTTPS_PORT;
     public static Spotify instance;
-
+    private static int localPort = START_HTTPS_PORT;
     private final ArrayList<SpotifyListener> listeners = new ArrayList<>();
-    private OkHttpClient client = new OkHttpClient();
+    private final OkHttpClient client = new OkHttpClient();
     private SpotifyInformation status;
 
     private String token;
@@ -67,7 +67,42 @@ public class Spotify {
         this.csrfToken = getCSRFToken();
         this.status = getStatus();
         instance = this;
-        System.out.println("Spotify loaded: " + instance);
+    }
+
+    public static void load() {
+        Spotify spotify = null;
+
+        while (spotify == null) {
+            try {
+                spotify = new Spotify();
+            } catch (Exception ignored) {
+            }
+
+            if (spotify == null) {
+                try {
+                    Thread.sleep(1000 * 5);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        try {
+            spotify.addListener(new Spotify.SpotifyListener() {
+                @Override
+                public void onPlay(SpotifyInformation info) {
+                    Hyperium.INSTANCE.getNotification()
+                            .display("Spotify",
+                                    "Now playing " + info.getTrack().getTrackResource().getName(),
+                                    8
+                            );
+                }
+            });
+
+            spotify.start();
+        } catch (Exception e) {
+            Hyperium.LOGGER.warn("Failed to connect to spotify");
+        }
     }
 
     /**
@@ -95,10 +130,10 @@ public class Spotify {
                 }
                 // this is now 3 seconds old :P
                 this.status = information;
-            } catch(Exception e) {
+            } catch (Exception e) {
                 System.out.println("[SPOTIFY] Exception occurred");
             }
-        }, 3, 1, TimeUnit.SECONDS);
+        }, 3, 3, TimeUnit.SECONDS);
 
 
         // WTF IS THIS SHIT LOL
@@ -154,8 +189,7 @@ public class Spotify {
      */
     private SpotifyInformation getStatus() throws IOException {
         JsonObject obj = get(genSpotifyUrl("/remote/status.json") + "?returnafter=1&returnon=" + RETURN_ON + "&oauth=" + this.token + "&csrf=" + this.csrfToken, true);
-        SpotifyInformation information = new Gson().fromJson(obj, SpotifyInformation.class);
-        return information;
+        return new Gson().fromJson(obj, SpotifyInformation.class);
     }
 
     public void pause(boolean pause) {

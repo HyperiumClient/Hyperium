@@ -18,7 +18,6 @@
 package me.semx11.autotip.util;
 
 import cc.hyperium.utils.ChatColor;
-
 import org.apache.commons.lang3.StringUtils;
 
 public enum MessageOption {

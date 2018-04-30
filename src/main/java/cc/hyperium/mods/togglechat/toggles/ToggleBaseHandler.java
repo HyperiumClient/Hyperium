@@ -20,12 +20,13 @@ package cc.hyperium.mods.togglechat.toggles;
 import cc.hyperium.mods.togglechat.toggles.defaults.*;
 
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class ToggleBaseHandler {
 
-    private LinkedHashMap<String, ToggleBase> toggles = new LinkedHashMap<>();
-    
-    public LinkedHashMap<String, ToggleBase> getToggles() {
+    private final Map<String, ToggleBase> toggles = new LinkedHashMap<>();
+
+    public Map<String, ToggleBase> getToggles() {
         return new LinkedHashMap<>(this.toggles);
     }
 
@@ -35,14 +36,14 @@ public class ToggleBaseHandler {
      * @param toggleBase the developers toggle
      */
     public void addToggle(ToggleBase toggleBase) {
-        if (toggleBase != null && toggleBase.getName() != null)  {
+        if (toggleBase != null && toggleBase.getName() != null) {
             this.toggles.put(toggleBase.getName().toLowerCase().replace(" ", "_"), toggleBase);
         }
     }
 
     /**
      * Run through all bases and check if the
-     *      given text should be toggled
+     * given text should be toggled
      *
      * @param input text to test
      * @return the formatted text
@@ -96,7 +97,7 @@ public class ToggleBaseHandler {
 
     /**
      * Checks to see if the registered parsers contains a parser
-     *      with the given name.
+     * with the given name.
      *
      * @param name The toggle's name to test for
      * @return true if it is registered

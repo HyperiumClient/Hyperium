@@ -183,7 +183,12 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.client.entity.EntityPlayerSP;
-import net.minecraft.client.gui.*;
+import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.GuiGameOver;
+import net.minecraft.client.gui.GuiIngame;
+import net.minecraft.client.gui.GuiMainMenu;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.multiplayer.PlayerControllerMP;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.particle.EffectRenderer;
@@ -224,27 +229,27 @@ public abstract class MixinMinecraft {
     @Shadow
     private static Minecraft theMinecraft;
     @Shadow
-    public int displayHeight;
+    private int displayHeight;
     @Shadow
-    public int displayWidth;
+    private int displayWidth;
     @Shadow
-    public GuiScreen currentScreen;
+    private GuiScreen currentScreen;
     @Shadow
-    public WorldClient theWorld;
+    private WorldClient theWorld;
     @Shadow
-    public EntityPlayerSP thePlayer;
+    private EntityPlayerSP thePlayer;
     @Shadow
-    public GameSettings gameSettings;
+    private GameSettings gameSettings;
     @Shadow
-    public GuiIngame ingameGUI;
+    private GuiIngame ingameGUI;
     @Shadow
-    public boolean skipRenderWorld;
+    private boolean skipRenderWorld;
     @Shadow
-    public MovingObjectPosition objectMouseOver;
+    private MovingObjectPosition objectMouseOver;
     @Shadow
-    public EffectRenderer effectRenderer;
+    private EffectRenderer effectRenderer;
     @Shadow
-    public PlayerControllerMP playerController;
+    private PlayerControllerMP playerController;
     @Shadow
     public FontRenderer fontRendererObj;
     @Shadow
@@ -260,6 +265,9 @@ public abstract class MixinMinecraft {
     private SoundHandler mcSoundHandler;
     @Shadow
     private int leftClickCounter;
+    @Shadow
+    @Final
+    private List<IResourcePack> defaultResourcePacks;
 
     @Shadow
     protected abstract void resize(int width, int height);
@@ -317,7 +325,7 @@ public abstract class MixinMinecraft {
     }
 
     @Inject(method = "runGameLoop", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/achievement/GuiAchievement;updateAchievementWindow()V"))
-    public void onRun(CallbackInfo ci) {
+    private void onRun(CallbackInfo ci) {
         Minecraft.getMinecraft().mcProfiler.profilingEnabled = true;
     }
 
@@ -496,8 +504,6 @@ public abstract class MixinMinecraft {
     @Shadow
     public abstract void func_181536_a(int p_181536_1_, int p_181536_2_, int p_181536_3_, int p_181536_4_, int p_181536_5_, int p_181536_6_, int p_181536_7_, int p_181536_8_, int p_181536_9_, int p_181536_10_);
 
-    @Shadow @Final private List<IResourcePack> defaultResourcePacks;
-
     /**
      * change to splash screen logo
      *
@@ -537,8 +543,8 @@ public abstract class MixinMinecraft {
         SplashProgress.update();
     }
 
-    @Inject(method="loadWorld(Lnet/minecraft/client/multiplayer/WorldClient;)V", at = @At("HEAD"))
-    private void loadWorld(WorldClient worldClient, CallbackInfo ci){
+    @Inject(method = "loadWorld(Lnet/minecraft/client/multiplayer/WorldClient;)V", at = @At("HEAD"))
+    private void loadWorld(WorldClient worldClient, CallbackInfo ci) {
         EventBus.INSTANCE.post(new WorldChangeEvent());
     }
 
@@ -581,8 +587,8 @@ public abstract class MixinMinecraft {
         }
     }
 
-    @Inject(method="runTick",at = @At(value = "INVOKE",target = "Lorg/lwjgl/input/Mouse;getEventButton()I",ordinal = 0))
-    private void runTickMouseButton(CallbackInfo ci){
+    @Inject(method = "runTick", at = @At(value = "INVOKE", target = "Lorg/lwjgl/input/Mouse;getEventButton()I", ordinal = 0))
+    private void runTickMouseButton(CallbackInfo ci) {
         // Actiavtes for EVERY mouse button.
         int i = Mouse.getEventButton();
         EventBus.INSTANCE.post(new MouseButtonEvent(i));

@@ -1,16 +1,15 @@
 package cc.hyperium.internal.addons
 
 import cc.hyperium.Hyperium.LOGGER
-import com.google.common.base.Stopwatch
 import cc.hyperium.internal.addons.misc.AddonLoadException
 import cc.hyperium.internal.addons.strategy.AddonLoaderStrategy
 import cc.hyperium.internal.addons.strategy.DefaultAddonLoader
 import cc.hyperium.internal.addons.strategy.WorkspaceAddonLoader
 import cc.hyperium.internal.addons.translate.InstanceTranslator
 import cc.hyperium.internal.addons.translate.MixinTranslator
+import com.google.common.base.Stopwatch
 import net.minecraft.launchwrapper.Launch
 import java.io.File
-import java.util.*
 
 /**
  * Instance created on the classloader sun.misc.Launcher$AppClassLoader
@@ -34,7 +33,8 @@ object AddonBootstrap {
     /**
      * Addons as resource packs to load
      */
-    @JvmStatic val addonResourcePacks: ArrayList<File?> = ArrayList()
+    @JvmStatic
+    val addonResourcePacks: ArrayList<File?> = ArrayList()
 
     /**
      * All the filtered jars inside of the {@link #modDirectory} folder,
@@ -109,7 +109,7 @@ object AddonBootstrap {
         }
 
         addonManifests.forEach { manifest ->
-            translators.forEach { translator -> translator.translate(manifest)}
+            translators.forEach { translator -> translator.translate(manifest) }
         }
         phase = Phase.INIT
     }

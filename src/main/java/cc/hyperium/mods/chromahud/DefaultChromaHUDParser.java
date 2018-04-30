@@ -27,7 +27,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class DefaultChromaHUDParser implements ChromaHUDParser {
-    private HashMap<String, String> names = new HashMap<>();
+    private final HashMap<String, String> names = new HashMap<>();
 
     public DefaultChromaHUDParser() {
         names.put("CORDS", "Cords");

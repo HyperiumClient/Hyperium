@@ -36,7 +36,6 @@ import me.semx11.autotip.util.Version;
 import net.minecraft.client.Minecraft;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -52,7 +51,7 @@ public class Autotip extends AbstractMod {
             .newCachedThreadPool(new AutotipThreadFactory());
     public static String USER_DIR = "";
 
-    public static Minecraft mc = Minecraft.getMinecraft();
+    public static final Minecraft mc = Minecraft.getMinecraft();
 
     public static MessageOption messageOption = MessageOption.SHOWN;
     public static String playerUUID = "";
@@ -60,21 +59,21 @@ public class Autotip extends AbstractMod {
     public static boolean toggle = true;
 
     public static int totalTipsSent;
-    public static List<String> alreadyTipped = new ArrayList<>();
-    
+    public static final List<String> alreadyTipped = new ArrayList<>();
+
     /**
      * The metadata of Autotip
      */
     private final Metadata meta;
-    
+
     public Autotip() {
         Metadata metadata = new Metadata(this, "Autotip", "2.0.3", "Semx11, 2pi, Sk1er");
-    
+
         metadata.setDisplayName(ChatColor.AQUA + "Autotip");
-    
+
         this.meta = metadata;
     }
-    
+
     public Autotip init() {
         try {
             playerUUID = Minecraft.getMinecraft().getSession().getProfile().getId().toString();
@@ -97,19 +96,17 @@ public class Autotip extends AbstractMod {
 
             FileUtil.getVars();
             Hosts.updateHosts();
-        } catch (IOException e) {
-            e.printStackTrace();
         } catch (NullPointerException e2) {
             Hyperium.LOGGER.debug("[Auto-GG] Invalid UUID detected; Not logged in?.");
         }
         return this;
     }
-    
+
     @Override
     public Metadata getModMetadata() {
         return this.meta;
     }
-    
+
     private void registerEvents(Object... events) {
         Arrays.asList(events).forEach(EventBus.INSTANCE::register);
     }

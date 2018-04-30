@@ -183,12 +183,12 @@ import java.util.regex.Matcher;
  */
 public class WinTrackingChatHandler extends HyperiumChatHandler {
 
-	@Override
-	public boolean chatReceived(IChatComponent component, String text) {
-		Matcher matcher = regexPatterns.get(ChatRegexType.WIN).matcher(text);
-		if (matcher.matches()) {
-		    String winnersString = matcher.group("winners");
-		    String[] winners = winnersString.split(", ");
+    @Override
+    public boolean chatReceived(IChatComponent component, String text) {
+        Matcher matcher = regexPatterns.get(ChatRegexType.WIN).matcher(text);
+        if (matcher.matches()) {
+            String winnersString = matcher.group("winners");
+            String[] winners = winnersString.split(", ");
 
             for (int i = 0; i < winners.length; i++) {
                 String winner = winners[i];
@@ -198,16 +198,16 @@ public class WinTrackingChatHandler extends HyperiumChatHandler {
                 }
             }
             EventBus.INSTANCE.post(new HypixelWinEvent(Arrays.asList(winners)));
-		}
+        }
 
-		// Should actually change the regex tho
-		EntityPlayerSP thePlayer = Minecraft.getMinecraft().thePlayer;
-		if(thePlayer == null)
-			return false;
-		if (text.toLowerCase().contains(thePlayer.getName().toLowerCase() + " winner!")) {
-			EventBus.INSTANCE
-					.post(new HypixelWinEvent(Collections.singletonList(thePlayer.getName())));
-		}
-		return false;
-	}
+        // Should actually change the regex tho
+        EntityPlayerSP thePlayer = Minecraft.getMinecraft().thePlayer;
+        if (thePlayer == null)
+            return false;
+        if (text.toLowerCase().contains(thePlayer.getName().toLowerCase() + " winner!")) {
+            EventBus.INSTANCE
+                    .post(new HypixelWinEvent(Collections.singletonList(thePlayer.getName())));
+        }
+        return false;
+    }
 }

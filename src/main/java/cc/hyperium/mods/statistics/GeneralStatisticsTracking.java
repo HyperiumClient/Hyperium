@@ -27,7 +27,7 @@ import java.util.Date;
 
 public class GeneralStatisticsTracking {
 
-    public static DateFormat format = new SimpleDateFormat("yyyy/MM/dd");
+    public static final DateFormat format = new SimpleDateFormat("yyyy/MM/dd");
 
     // These can be put in a HUD or printed in a command somewhere.
 

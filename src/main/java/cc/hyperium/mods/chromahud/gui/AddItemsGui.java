@@ -43,16 +43,16 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 public class AddItemsGui extends GuiScreen {
-    private ChromaHUD mod;
-    private DisplayElement element;
-    private HashMap<GuiButton, Consumer<GuiButton>> clicks = new HashMap<>();
-    private HashMap<GuiButton, Consumer<GuiButton>> updates = new HashMap<>();
-    private HashMap<String, GuiButton> nameMap = new HashMap<>();
+    private final ChromaHUD mod;
+    private final DisplayElement element;
+    private final Map<GuiButton, Consumer<GuiButton>> clicks = new HashMap<>();
+    private final Map<GuiButton, Consumer<GuiButton>> updates = new HashMap<>();
+    private final Map<String, GuiButton> nameMap = new HashMap<>();
     private int tmpId = 0;
     private boolean adding = true;
     private int offset = 0;
-    private List<DisplayElement> all = new ArrayList<>();
-    private DisplayElement target;
+    private final List<DisplayElement> all = new ArrayList<>();
+    private final DisplayElement target;
     private boolean mouseLock;
 
     public AddItemsGui(ChromaHUD mod, DisplayElement element) {
@@ -87,16 +87,12 @@ public class AddItemsGui extends GuiScreen {
             //On click
             adding = true;
             offset = 0;
-        }, (guiButton) -> {
-            guiButton.enabled = !adding;
-        });
+        }, (guiButton) -> guiButton.enabled = !adding);
         reg("Explore", new GuiButton(nextId(), 2, 23, 100, 20, "Explore"), (guiButton) -> {
             //On click
             adding = false;
             offset = 0;
-        }, (guiButton) -> {
-            guiButton.enabled = adding;
-        });
+        }, (guiButton) -> guiButton.enabled = adding);
 
         reg("Down", new GuiButton(nextId(), 2, 23 + 21 * 2, 100, 20, "Scroll Down"), (guiButton) -> {
             //On click
@@ -110,9 +106,7 @@ public class AddItemsGui extends GuiScreen {
         });
 
 
-        reg("Back", new GuiButton(nextId(), 2, ResolutionUtil.current().getScaledHeight() - 22, 100, 20, "Back"), (guiButton) -> {
-            Minecraft.getMinecraft().displayGuiScreen(new EditItemsGui(element, mod));
-        }, (guiButton) -> {
+        reg("Back", new GuiButton(nextId(), 2, ResolutionUtil.current().getScaledHeight() - 22, 100, 20, "Back"), (guiButton) -> Minecraft.getMinecraft().displayGuiScreen(new EditItemsGui(element, mod)), (guiButton) -> {
         });
 
     }
@@ -125,7 +119,7 @@ public class AddItemsGui extends GuiScreen {
     }
 
     @Override
-    protected void actionPerformed(GuiButton button) throws IOException {
+    protected void actionPerformed(GuiButton button) {
         Consumer<GuiButton> guiButtonConsumer = clicks.get(button);
         if (guiButtonConsumer != null) {
             guiButtonConsumer.accept(button);

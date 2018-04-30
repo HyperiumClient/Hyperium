@@ -29,7 +29,7 @@ public abstract class MixinRender<T extends Entity> {
 
     @Shadow
     @Final
-    protected RenderManager renderManager;
+    private RenderManager renderManager;
 
     @Shadow
     public abstract FontRenderer getFontRendererFromRenderManager();

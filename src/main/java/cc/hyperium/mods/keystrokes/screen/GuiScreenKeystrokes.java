@@ -24,7 +24,6 @@ import cc.hyperium.mods.keystrokes.KeystrokesMod;
 import cc.hyperium.mods.keystrokes.config.KeystrokesSettings;
 import cc.hyperium.mods.keystrokes.screen.impl.GuiSliderFadeTime;
 import cc.hyperium.mods.keystrokes.screen.impl.GuiSliderScale;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -33,7 +32,7 @@ import java.awt.*;
 import java.io.IOException;
 
 public class GuiScreenKeystrokes extends GuiScreen {
-    
+
     //        - 99
     //        - 75
     //        - 51
@@ -42,10 +41,10 @@ public class GuiScreenKeystrokes extends GuiScreen {
     //        + 21
     //        + 45
     //        + 69
-    
+
     private final KeystrokesMod mod;
     private final Minecraft mc;
-    
+
     private GuiButton buttonEnabled;
     private GuiButton buttonShowMouseButtons;
     private GuiButton buttonShowSpacebar;
@@ -54,23 +53,23 @@ public class GuiScreenKeystrokes extends GuiScreen {
     private GuiButton buttonTextColor;
     private GuiButton buttonPressedColor;
     private GuiButton buttonRightClick;
-    
+
     private boolean dragging = false;
     private boolean updated = false;
     private int lastMouseX;
     private int lastMouseY;
-    
+
     public GuiScreenKeystrokes(KeystrokesMod mod) {
         this.mod = mod;
         this.mc = Minecraft.getMinecraft();
     }
-    
+
     @Override
     public void initGui() {
         this.buttonList.clear();
-        
+
         KeystrokesSettings settings = this.mod.getSettings();
-        
+
         this.buttonList.add(this.buttonEnabled = new GuiButton(0, this.width / 2 - 70, this.height / 2 - 80, 140, 20, "Keystrokes: " + (settings.isEnabled() ? "On" : "Off")));
         this.buttonList.add(this.buttonShowMouseButtons = new GuiButton(1, this.width / 2 - 70, this.height / 2 - 58, 140, 20, "Show mouse buttons: " + (settings.isShowingMouseButtons() ? "On" : "Off")));
         this.buttonList.add(this.buttonShowSpacebar = new GuiButton(2, this.width / 2 - 70, this.height / 2 - 36, 140, 20, "Show spacebar: " + (settings.isShowingSpacebar() ? "On" : "Off")));
@@ -79,25 +78,25 @@ public class GuiScreenKeystrokes extends GuiScreen {
         this.buttonList.add(this.buttonTextColor = new GuiButton(5, this.width / 2 - 70, this.height / 2 + 30, 140, 20, "Edit text color"));
         this.buttonList.add(this.buttonPressedColor = new GuiButton(6, this.width / 2 - 70, this.height / 2 + 52, 140, 20, "Edit pressed text color"));
         this.buttonList.add(this.buttonRightClick = new GuiButton(10, this.width / 2 - 70, this.height / 2 + 74, 140, 20, "Click counter: " + (settings.isLeftClick() ? "Left" : "Right")));
-        
+
         this.buttonList.add(new GuiSliderScale(this.mod, 8, this.width / 2 - 70, this.height / 2 + 96, 140, 20, this));
         this.buttonList.add(new GuiSliderFadeTime(this.mod, 9, this.width / 2 - 70, this.height / 2 + 96 + 22, 140, 20, this));
     }
-    
+
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         this.mod.getRenderer().renderKeystrokes();
-        
+
         drawCenteredString(this.mc.fontRendererObj, "KeystrokesMod v4.1", this.width / 2, 5, Color.WHITE.getRGB());
         drawCenteredString(this.mc.fontRendererObj, "Ported by boomboompower", this.width / 2, 16, Color.WHITE.getRGB());
         drawCenteredString(this.mc.fontRendererObj, "<3 from Sk1er", this.width / 2, 27, Color.WHITE.getRGB());
-        
+
         this.buttonTextColor.enabled = !this.mod.getSettings().isChroma();
         this.buttonPressedColor.enabled = !this.mod.getSettings().isChroma();
-        
+
         super.drawScreen(mouseX, mouseY, partialTicks);
     }
-    
+
     @Override
     protected void actionPerformed(GuiButton button) {
         KeystrokesSettings settings = this.mod.getSettings();
@@ -129,82 +128,82 @@ public class GuiScreenKeystrokes extends GuiScreen {
                 break;
             case 5:
                 Minecraft.getMinecraft().displayGuiScreen(new GuiScreenColor(this.mod,
-                    new IScrollable() {
-                        @Override
-                        public double getAmount() {
-                            return settings.getRed();
+                        new IScrollable() {
+                            @Override
+                            public double getAmount() {
+                                return settings.getRed();
+                            }
+
+                            @Override
+                            public void onScroll(double doubleAmount, int intAmount) {
+                                settings.setRed(intAmount);
+                                updated = true;
+                            }
+                        },
+                        new IScrollable() {
+                            @Override
+                            public double getAmount() {
+                                return settings.getGreen();
+                            }
+
+                            @Override
+                            public void onScroll(double doubleAmount, int intAmount) {
+                                settings.setGreen(intAmount);
+                                updated = true;
+                            }
+                        },
+                        new IScrollable() {
+                            @Override
+                            public double getAmount() {
+                                return settings.getBlue();
+                            }
+
+                            @Override
+                            public void onScroll(double doubleAmount, int intAmount) {
+                                settings.setBlue(intAmount);
+                                updated = true;
+                            }
                         }
-                        
-                        @Override
-                        public void onScroll(double doubleAmount, int intAmount) {
-                            settings.setRed(intAmount);
-                            updated = true;
-                        }
-                    },
-                    new IScrollable() {
-                        @Override
-                        public double getAmount() {
-                            return settings.getGreen();
-                        }
-                        
-                        @Override
-                        public void onScroll(double doubleAmount, int intAmount) {
-                            settings.setGreen(intAmount);
-                            updated = true;
-                        }
-                    },
-                    new IScrollable() {
-                        @Override
-                        public double getAmount() {
-                            return settings.getBlue();
-                        }
-                        
-                        @Override
-                        public void onScroll(double doubleAmount, int intAmount) {
-                            settings.setBlue(intAmount);
-                            updated = true;
-                        }
-                    }
                 ));
                 break;
             case 6:
                 Minecraft.getMinecraft().displayGuiScreen(new GuiScreenColor(this.mod,
-                    new IScrollable() {
-                        @Override
-                        public double getAmount() {
-                            return settings.getPressedRed();
+                        new IScrollable() {
+                            @Override
+                            public double getAmount() {
+                                return settings.getPressedRed();
+                            }
+
+                            @Override
+                            public void onScroll(double doubleAmount, int intAmount) {
+                                settings.setPressedRed(intAmount);
+                                updated = true;
+                            }
+                        },
+                        new IScrollable() {
+                            @Override
+                            public double getAmount() {
+                                return settings.getPressedGreen();
+                            }
+
+                            @Override
+                            public void onScroll(double doubleAmount, int intAmount) {
+                                settings.setPressedGreen(intAmount);
+                                updated = true;
+                            }
+                        },
+                        new IScrollable() {
+                            @Override
+                            public double getAmount() {
+                                return settings.getPressedBlue();
+                            }
+
+                            @Override
+                            public void onScroll(double doubleAmount, int intAmount) {
+                                settings.setPressedBlue(intAmount);
+                                updated = true;
+                            }
                         }
-                        
-                        @Override
-                        public void onScroll(double doubleAmount, int intAmount) {
-                            settings.setPressedRed(intAmount);
-                            updated = true;
-                        }
-                    },
-                    new IScrollable() {
-                        @Override
-                        public double getAmount() {
-                            return settings.getPressedGreen();
-                        }
-                        
-                        @Override
-                        public void onScroll(double doubleAmount, int intAmount) {
-                            settings.setPressedGreen(intAmount);
-                            updated = true;
-                        }
-                    },
-                    new IScrollable() {
-                        @Override
-                        public double getAmount() {
-                            return settings.getPressedBlue();
-                        }
-                        
-                        @Override
-                        public void onScroll(double doubleAmount, int intAmount) {
-                            settings.setPressedBlue(intAmount);
-                            updated = true;
-                        }
-                    }
                 ));
                 break;
             case 10:
@@ -215,14 +214,14 @@ public class GuiScreenKeystrokes extends GuiScreen {
                 break;
         }
     }
-    
+
     @Override
     protected void mouseClicked(int mouseX, int mouseY, int button) {
         try {
             super.mouseClicked(mouseX, mouseY, button);
         } catch (IOException ignored) {
         }
-        
+
         if (button == 0) {
             KeystrokesSettings settings = this.mod.getSettings();
             int startX = (int) ((settings.getX() - 4) * settings.getScale());
@@ -236,13 +235,13 @@ public class GuiScreenKeystrokes extends GuiScreen {
             }
         }
     }
-    
+
     @Override
     protected void mouseReleased(int mouseX, int mouseY, int action) {
         super.mouseReleased(mouseX, mouseY, action);
         this.dragging = false;
     }
-    
+
     @Override
     protected void mouseClickMove(int mouseX, int mouseY, int lastButtonClicked, long timeSinceMouseClick) {
         if (this.dragging) {
@@ -254,33 +253,33 @@ public class GuiScreenKeystrokes extends GuiScreen {
             this.updated = true;
         }
     }
-    
+
     @Override
     public void onGuiClosed() {
         if (this.updated) {
             this.mod.getSettings().save();
         }
     }
-    
+
     public void display() {
         EventBus.INSTANCE.register(this);
     }
-    
+
     @InvokeEvent
     public void tick(TickEvent event) {
         EventBus.INSTANCE.unregister(this);
         Minecraft.getMinecraft().displayGuiScreen(this);
     }
-    
+
     @Override
     public boolean doesGuiPauseGame() {
         return false;
     }
-    
+
     public void setUpdated() {
         this.updated = true;
     }
-    
+
     public KeystrokesMod getMod() {
         return this.mod;
     }

@@ -27,11 +27,12 @@
     "gui.MixinGuiScreenBook",
     "gui.MixinInventory",
     "gui.MixinGuiIngame",
+    "gui.MixinGuiOptions",
     "gui.MixinGuiGameOver",
     "gui.MixinGuiPlayerTabOverlay",
     "gui.MixinInventoryParticle",
-    "gui.MixinGuiConfirmOpenLink",
     "gui.MixinGuiUtilRenderComponents",
+    "gui.MixinGuiIngameMenu",
 
     "entity.MixinNetworkPlayerInfo",
     "entity.MixinEntityPlayer",
@@ -61,6 +62,7 @@
     "packet.MixinS19PacketEntityStatus",
     "packet.MixinNetHandlerPlayClient",
     "packet.MixinNetworkManager",
+
     "utils.MixinResourcePackRepository",
 
     "world.MixinChunk",
@@ -69,6 +71,5 @@
     "scoreboard.MixinScoreboard",
 
     "client.resources.MixinAbstractResourcePack"
-
   ]
 }

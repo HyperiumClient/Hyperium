@@ -20,14 +20,12 @@ package cc.hyperium.mixins.world;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.SpawnpointChangeEvent;
 import cc.hyperium.gui.settings.items.GeneralSetting;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldType;
 import net.minecraft.world.storage.WorldInfo;
-
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
@@ -39,7 +37,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(World.class)
 public class MixinWorld {
 
-    @Shadow protected WorldInfo worldInfo;
+    @Shadow
+    private WorldInfo worldInfo;
 
     /**
      * Invoked once the server changes the players spawn point

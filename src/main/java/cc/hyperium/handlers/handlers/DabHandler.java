@@ -11,13 +11,14 @@ import cc.hyperium.mixinsimp.renderer.model.IMixinModelPlayer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 
+import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class DabHandler {
 
     private int dabs;
-    private ConcurrentHashMap<UUID, DabState> dabStates = new ConcurrentHashMap<>();
+    private final Map<UUID, DabState> dabStates = new ConcurrentHashMap<>();
     private float state = 0;
     private boolean right = true;
     private boolean asc = true;
@@ -31,6 +32,9 @@ public class DabHandler {
     @InvokeEvent
     public void onRender(RenderEvent e) {
         dabStates.values().forEach(DabState::update);
+
+        if (state == 100 && get(Minecraft.getMinecraft().thePlayer.getUniqueID()).isDabbing())
+            incDabs();
 
         if (this.systemTime == 0) this.systemTime = Minecraft.getSystemTime();
 
@@ -186,7 +190,7 @@ public class DabHandler {
     }
 
     public class DabState {
-        UUID uuid;
+        final UUID uuid;
         int dabFrames = 0;
         long systemTime;
         boolean toggled;

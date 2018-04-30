@@ -171,7 +171,6 @@ package cc.hyperium.commands.defaults;
 import cc.hyperium.Hyperium;
 import cc.hyperium.commands.BaseCommand;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 

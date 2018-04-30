@@ -23,13 +23,13 @@ import cc.hyperium.event.TickEvent;
 import cc.hyperium.mods.togglechat.ToggleChatMod;
 import cc.hyperium.mods.togglechat.toggles.ToggleBase;
 import cc.hyperium.utils.ChatColor;
-import cc.hyperium.utils.Tuple;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 
 import java.awt.*;
 import java.util.HashMap;
+import java.util.Map;
 
 public class ToggleChatMainGui extends GuiScreen {
 
@@ -43,7 +43,7 @@ public class ToggleChatMainGui extends GuiScreen {
     //        + 69
 
     private final ToggleChatMod main;
-    private final HashMap<GuiButton, Tuple<ToggleBase, String>> data = new HashMap<>();
+    private final Map<GuiButton, ToggleBase> data = new HashMap<>();
 
     private boolean changed = false;
 
@@ -77,8 +77,10 @@ public class ToggleChatMainGui extends GuiScreen {
 
             this.main.getToggleHandler().getToggles().values().stream().skip((this.pageNumber - 1) * 7).limit(7).forEach(baseType -> {
                 GuiButton button = new GuiButton(0, this.width / 2 - 75, position[0], 150, 20, String.format(baseType.getDisplayName(), baseType.getStatus(baseType.isEnabled())));
-                this.data.put(button, new Tuple<>(baseType, baseType.getName().toLowerCase().replace(" ", "_")));
+
+                this.data.put(button, baseType);
                 this.buttonList.add(button);
+
                 position[0] += 24;
             });
 
@@ -117,8 +119,8 @@ public class ToggleChatMainGui extends GuiScreen {
         // Make sure the id is 0 to prevent other buttons being pressed
         if (button.id == 0) {
             for (ToggleBase base : this.main.getToggleHandler().getToggles().values()) {
-                if (this.data.containsKey(button) && base.getName().toLowerCase().replace(" ", "_").equals(this.data.get(button).getSecond())) {
-                    base.setEnabled(!base.isEnabled());
+                if (this.data.containsKey(button) && base.equals(this.data.get(button))) {
+                    base.toggle();
                     button.displayString = (String.format(base.getDisplayName(), base.getStatus(base.isEnabled())));
                     this.changed = true;
                     break;
@@ -147,7 +149,7 @@ public class ToggleChatMainGui extends GuiScreen {
             if (button == null || !this.data.containsKey(button)) continue;
 
             if (button.isMouseOver()) {
-                ToggleBase toggleBase = this.data.get(button).getFirst();
+                ToggleBase toggleBase = this.data.get(button);
 
                 if (!toggleBase.hasDescription()) continue;
 
@@ -159,16 +161,16 @@ public class ToggleChatMainGui extends GuiScreen {
             }
         }
     }
-    
+
     @Override
     public boolean doesGuiPauseGame() {
         return false;
     }
-    
+
     public void display() {
         EventBus.INSTANCE.register(this);
     }
-    
+
     @InvokeEvent
     public void tick(TickEvent e) {
         EventBus.INSTANCE.unregister(this);

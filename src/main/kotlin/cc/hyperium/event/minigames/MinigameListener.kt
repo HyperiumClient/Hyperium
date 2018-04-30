@@ -32,14 +32,14 @@ class MinigameListener {
 
     @InvokeEvent
     fun onTick(event: TickEvent) {
-        if(Minecraft.getMinecraft().theWorld != null) {
+        if (Minecraft.getMinecraft().theWorld != null) {
             if (Hyperium.INSTANCE.handlers.hypixelDetector.isHypixel && Minecraft.getMinecraft().theWorld.scoreboard != null) {
                 if (cooldown <= 0) {
                     cooldown = 3 * 20
                     val minigameName = getScoreboardTitle()
                     val minigames = Minigame.values()
                     minigames.forEach {
-                        if (minigameName.equals(it.scoreName,true) && !minigameName.equals(currentMinigameName, true)) {
+                        if (minigameName.equals(it.scoreName, true) && !minigameName.equals(currentMinigameName, true)) {
                             currentMinigameName = minigameName
                             EventBus.post(JoinMinigameEvent(it))
                         }

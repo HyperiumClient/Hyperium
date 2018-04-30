@@ -24,8 +24,8 @@ import java.io.InputStream;
 
 public class DownloadTask extends SwingWorker<Void, Void> {
     private static final int BUFFER_SIZE = 4096;
-    private String downloadURL;
-    private String saveDirectory;
+    private final String downloadURL;
+    private final String saveDirectory;
     private String fileName;
 
     public DownloadTask(String downloadURL, String saveDirectory) {

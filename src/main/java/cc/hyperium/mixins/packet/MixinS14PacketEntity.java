@@ -28,7 +28,7 @@ import org.spongepowered.asm.mixin.Shadow;
 public class MixinS14PacketEntity {
 
     @Shadow
-    protected int entityId;
+    private int entityId;
 
     /**
      * Fixes npe in internal code because of null worlds

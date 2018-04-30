@@ -65,7 +65,7 @@ public class FileUtil {
             if (exists(user_dir + "tipped.at")) Files.deleteIfExists(Paths.get(oldDir + "tipped.at"));
      */
 
-    public static void getVars() throws IOException {
+    public static void getVars() {
         try {
             File statsDir = new File(Autotip.USER_DIR + "stats");
 

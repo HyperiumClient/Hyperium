@@ -23,4 +23,5 @@ import org.spongepowered.asm.mixin.Mixin;
 import java.io.Serializable;
 
 @Mixin(Framebuffer.class)
-public class MixinFrameBuffer implements Serializable{ }
+public class MixinFrameBuffer implements Serializable {
+}
