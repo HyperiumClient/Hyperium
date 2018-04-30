@@ -13,8 +13,9 @@ import java.awt.*;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.*;
-import java.util.List;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class GuiCredits extends GuiScreen {
 
@@ -129,9 +130,9 @@ public class GuiCredits extends GuiScreen {
 //        drawChromaString("Press \"esc\" to exit.", sr.getScaledWidth() / 2 - fr.getStringWidth("Press \"esc\" to exit.") / 2, 25);
 
         GlStateManager.scale(2, 2, 2);
-        drawChromaString("Developers", (int) (sr.getScaledWidth() / 4 - fr.getStringWidth("Developers") / 2) / 2, 20);
-        drawChromaString("Contributors", (int) ((sr.getScaledWidth() / 4 - fr.getStringWidth("Contributor") / 2) + sr.getScaledWidth() / 4) / 2, 20);
-        drawChromaString("Support Team", (int) (((sr.getScaledWidth() / 4 - fr.getStringWidth("Support Team") / 2) + sr.getScaledWidth() / 2)) / 2, 20);
+        drawChromaString("Developers", (int) (sr.getScaledWidth() / 4 - fr.getStringWidth("Developers")) / 2, 20);
+        drawChromaString("Contributors", (int) ((sr.getScaledWidth() / 4 - fr.getStringWidth("Contributor")) + sr.getScaledWidth() / 4) / 2, 20);
+        drawChromaString("Support Team", (int) (((sr.getScaledWidth() / 4 - fr.getStringWidth("Support Team")) + sr.getScaledWidth() / 2)) / 2, 20);
         GlStateManager.scale(0.5, 0.5, 0.5);
 
         for (String line : devList) {
