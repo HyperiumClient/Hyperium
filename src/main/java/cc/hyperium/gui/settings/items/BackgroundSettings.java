@@ -71,13 +71,26 @@ public class BackgroundSettings extends SettingGui {
     
         this.currentID = 0;
         
-        registerCustomSetting("MENU BACKGROUND", backgroundSelect, i -> refreshBackground()).addItems(Arrays.asList("1", "2", "3", "4", "5", "CUSTOM"));
+        SelectionItem<String> x = registerCustomSetting("MENU BACKGROUND", backgroundSelect, i -> {
+            ((SelectionItem) i).nextItem();
+            
+            backgroundSelect = ((SelectionItem<String>) i).getSelectedItem();
+            
+            refreshBackground();
+        });
+        x.addItems(Arrays.asList("1", "2", "3", "4", "5", "CUSTOM"));
+        x.setSelectedItem(backgroundSelect);
+        
         refreshBackground();
         
         registerOnOffSetting("FAST CHAT", fastChatEnabled, on -> fastChatEnabled = on);
         registerOnOffSetting("FAST CONTAINERS", fastWorldGuiEnabled, on -> fastWorldGuiEnabled = on);
     
-        SelectionItem<String> particlesMode = registerCustomSetting("PARTICLES MODE", backgroundSelect, i -> {});
+        SelectionItem<String> particlesMode = registerCustomSetting("PARTICLES MODE", particlesModeString, i -> {
+            ((SelectionItem) i).nextItem();
+    
+            particlesModeString = ((SelectionItem<String>) i).getSelectedItem();
+        });
     
         if (ParticleOverlay.getOverlay().purchased()) {
             particlesMode.addItems(Arrays.asList("OFF", "PLAIN 1", "PLAIN 2", "CHROMA 1", "CHROMA 2"));
@@ -178,7 +191,7 @@ public class BackgroundSettings extends SettingGui {
             name,
             callback.andThen((i) -> {
                 settingsUpdated = true;
-                ((SelectionItem) i).nextItem();
+//                ((SelectionItem) i).nextItem();
             })
         );
         item.setSelectedItem(selected);
