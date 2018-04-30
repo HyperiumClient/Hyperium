@@ -139,5 +139,4 @@ public class NameHistoryGui extends GuiScreen {
             offset += 1;
         }
     }
-
 }

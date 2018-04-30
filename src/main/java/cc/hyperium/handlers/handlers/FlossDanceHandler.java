@@ -1,10 +1,9 @@
 package cc.hyperium.handlers.handlers;
 
-import java.util.Random;
-import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
-
-import cc.hyperium.event.*;
+import cc.hyperium.event.InvokeEvent;
+import cc.hyperium.event.PreCopyPlayerModelAnglesEvent;
+import cc.hyperium.event.RenderEvent;
+import cc.hyperium.event.WorldChangeEvent;
 import cc.hyperium.gui.HyperiumGui;
 import cc.hyperium.gui.settings.items.CosmeticSettings;
 import cc.hyperium.mixinsimp.renderer.model.IMixinModelBiped;
@@ -12,16 +11,20 @@ import cc.hyperium.mixinsimp.renderer.model.IMixinModelPlayer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 
+import java.util.Random;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
+
 public class FlossDanceHandler {
 
     // x, y, z values
     private final Random random = new Random();
     private final ConcurrentHashMap<UUID, DanceState> danceStates = new ConcurrentHashMap<>();
+    private final float[] randomHeadMovement = new float[3];
     private float state = 0;
     private boolean right = true;
     private boolean asc = true;
     private ArmsDirection armsDirection = ArmsDirection.HORIZONTAL;
-    private final float[] randomHeadMovement = new float[3];
     private long systemTime = 0;
 
     public FlossDanceHandler() {
@@ -81,11 +84,11 @@ public class FlossDanceHandler {
         AbstractClientPlayer entity = event.getEntity();
         IMixinModelBiped player = event.getModel();
 
-		if (player instanceof IMixinModelPlayer) {
-			modify(entity, ((IMixinModelPlayer) player));
-		} else {
-			modify(entity, player);
-		}
+        if (player instanceof IMixinModelPlayer) {
+            modify(entity, ((IMixinModelPlayer) player));
+        } else {
+            modify(entity, player);
+        }
     }
 
     public void modify(AbstractClientPlayer entity, IMixinModelPlayer player) {
@@ -247,8 +250,8 @@ public class FlossDanceHandler {
     }
 
     public class DanceState {
-        boolean reset;
         private final UUID uuid;
+        boolean reset;
         private int danceFrames = 0;
         private long systemTime;
         private boolean toggled;
