@@ -75,9 +75,9 @@ public abstract class AbstractMod {
          */
         public Metadata(AbstractMod mod, String name, String version, String author) {
             checkNotNull(mod, "Mod instance cannot be null");
-            checkArgument(StringUtils.isEmpty(name), "Name cannot be null or empty");
-            checkArgument(StringUtils.isEmpty(version), "Version cannot be null or empty");
-            checkNotNull(author, "Author cannot be null");
+            checkArgument(!StringUtils.isEmpty(name), "Name cannot be null or empty (" + name + ")");
+            checkArgument(!StringUtils.isEmpty(version), "Version cannot be null or empty (" + version + ")");
+            checkNotNull(author, "Author cannot be null (" + author + ")");
 
             this.mod = mod;
             this.name = name;

@@ -146,7 +146,7 @@ public class PurchaseApi {
         return null;
     }
 
-    JsonHolder get(String url) {
+    public JsonHolder get(String url) {
         url = url.replace(" ", "%20");
         System.out.println("Fetching " + url);
         try {
