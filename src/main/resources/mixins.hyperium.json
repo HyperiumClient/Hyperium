@@ -30,6 +30,7 @@
     "gui.MixinGuiPlayerTabOverlay",
     "gui.MixinInventoryParticle",
     "gui.MixinGuiUtilRenderComponents",
+    "gui.MixinGuiIngameMenu",
     "entity.MixinNetworkPlayerInfo",
     "entity.MixinEntityPlayer",
     "entity.MixinEntityPlayerSP",

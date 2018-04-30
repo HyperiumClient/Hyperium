@@ -468,9 +468,6 @@ public abstract class MixinMinecraft {
             this.ingameGUI.getChatGUI().clearChatMessages();
         }
 
-        if (guiScreenIn instanceof GuiIngameMenu)
-            Minecraft.getMinecraft().displayGuiScreen(new cc.hyperium.gui.GuiIngameMenu());
-
         this.currentScreen = guiScreenIn;
 
         if (guiScreenIn != null) {
