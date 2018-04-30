@@ -39,8 +39,6 @@
     "entity.MixinEntity",
     "entity.MixinEntityLivingBase",
     "entity.MixinEntityRenderer",
-    "entity.MixinRenderPlayer",
-    "entity.MixinModelBiped",
     "entity.MixinAbstractClientPlayer",
 
     "profiler.MixinProfiler",
@@ -51,11 +49,12 @@
     "renderer.MixinRendererLivingEntity",
     "renderer.MixinRenderPlayer",
     "renderer.MixinRender",
-    "renderer.MixinDabRender",
     "renderer.MixinFontRenderer",
-    "renderer.MixinModelPlayer",
-
     "renderer.MixinLayerDeadmau5Head",
+    "renderer.model.MixinModelPlayer",
+    "renderer.model.MixinModelBiped",
+    "renderer.model.MixinModelBox",
+
     "packet.MixinC01PacketChatMessage",
     "packet.MixinS2EPacketCloseWindow",
     "packet.MixinS14PacketEntity",
