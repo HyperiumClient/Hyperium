@@ -3,8 +3,8 @@ package cc.hyperium.network;
 import cc.hyperium.Hyperium;
 import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
 import cc.hyperium.netty.INetty;
+import cc.hyperium.utils.JsonHolder;
 import net.minecraft.client.Minecraft;
-import utils.JsonHolder;
 
 import java.util.List;
 import java.util.UUID;

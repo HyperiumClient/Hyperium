@@ -14,7 +14,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.text.DecimalFormat;
 
-public class CosmeticShopGui extends HyperiumGui {
+public class ViewCosmeticsGui extends HyperiumGui {
 
     private int cooldownTicks = 0;
     private DecimalFormat formatter = new DecimalFormat("#,###");
@@ -35,9 +35,7 @@ public class CosmeticShopGui extends HyperiumGui {
         });
         reg("REFRESH", new GuiButton(nextId(), width / 2 - 100, 30, "Refresh purchases"), guiButton -> {
             cooldownTicks = 0;
-            Multithreading.runAsync(() -> {
-                PurchaseApi.getInstance().refreshSelf();
-            });
+            Multithreading.runAsync(() -> PurchaseApi.getInstance().refreshSelf());
         }, guiButton -> {
             cooldownTicks++;
             guiButton.enabled = cooldownTicks >= 20;

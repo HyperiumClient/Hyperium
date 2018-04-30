@@ -126,7 +126,7 @@ public class ModConfigGui extends HyperiumGui {
                 getDefaultItemY(0),
                 width - getX(0) * 2,
                 "COSMETIC SHOP",
-                i -> Minecraft.getMinecraft().displayGuiScreen(new CosmeticShopGui())));
+                i -> Minecraft.getMinecraft().displayGuiScreen(new ViewCosmeticsGui())));
 
 
         button = new CustomFontButton(1, getX(1), getY(), getButtonWidth(), 25, "SETTINGS");

@@ -32,10 +32,10 @@ import cc.hyperium.handlers.handlers.FlossDanceHandler;
 import cc.hyperium.integrations.spotify.Spotify;
 import cc.hyperium.netty.NettyClient;
 import cc.hyperium.netty.packet.packets.serverbound.ServerCrossDataPacket;
+import cc.hyperium.utils.JsonHolder;
 import net.minecraft.client.Minecraft;
 import org.apache.commons.lang3.ArrayUtils;
 import org.lwjgl.input.Keyboard;
-import utils.JsonHolder;
 
 import java.util.HashMap;
 import java.util.Map;

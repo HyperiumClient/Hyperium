@@ -27,6 +27,8 @@ import cc.hyperium.mods.levelhead.renderer.LevelheadComponent;
 import cc.hyperium.mods.levelhead.renderer.LevelheadTag;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.mods.sk1ercommon.Sk1erMod;
+import cc.hyperium.netty.NettyClient;
+import cc.hyperium.netty.packet.packets.serverbound.ServerCrossDataPacket;
 import cc.hyperium.utils.ChatColor;
 import cc.hyperium.utils.JsonHolder;
 import net.minecraft.client.Minecraft;
@@ -34,19 +36,13 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
-import net.minecraft.event.ClickEvent;
-import net.minecraft.event.HoverEvent;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.ChatStyle;
 import net.minecraftforge.fml.client.config.GuiSlider;
 import org.lwjgl.input.Keyboard;
 
 import java.awt.*;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -76,14 +72,13 @@ public class LevelHeadGui extends GuiScreen {
     private final List<GuiButton> sliders = new ArrayList<>();
     private final Map<GuiButton, Consumer<GuiButton>> clicks = new HashMap<>();
     private final Minecraft mc;
+    private final ReentrantLock lock = new ReentrantLock();
+    private final Levelhead mod;
     private GuiButton headerColorButton;
     private GuiButton footerColorButton;
     private GuiButton prefixButton;
     private boolean isCustom = false;
     private GuiTextField textField;
-    private final ReentrantLock lock = new ReentrantLock();
-
-    private final Levelhead mod;
 
     public LevelHeadGui(Levelhead modIn) {
         this.mod = modIn;
@@ -235,24 +230,8 @@ public class LevelHeadGui extends GuiScreen {
                 JsonHolder object = new JsonHolder();
                 object.put("header_obj", this.mod.getHeaderConfig());
                 object.put("footer_obj", this.mod.getFooterConfig());
-                try {
-                    String encode = URLEncoder.encode(object.toString(), "UTF-8");
-                    String url = "https://sk1er.club/user?levelhead_color=" + encode;
-                    ChatComponentText text = new ChatComponentText("Click here to update your custom Levelhead colors");
-                    ChatStyle style = new ChatStyle();
-                    style.setBold(true);
-                    style.setColor(net.minecraft.util.EnumChatFormatting.YELLOW);
-                    style.setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, url));
-                    ChatComponentText valueIn = new ChatComponentText("Please be logged in to your Sk1er.club for this to work. Do /levelhead dumpcache after clicking to see new colors!");
-                    ChatStyle style1 = new ChatStyle();
-                    style1.setColor(net.minecraft.util.EnumChatFormatting.RED);
-                    valueIn.setChatStyle(style1);
-                    style.setChatHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, valueIn));
-                    text.setChatStyle(style);
-                    Minecraft.getMinecraft().thePlayer.addChatComponentMessage(text);
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
+                NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("levelhead_color", true).put("object", object)));
+                GeneralChatHandler.instance().sendMessage("Exported settings!");
                 Minecraft.getMinecraft().displayGuiScreen(null);
             });
         }
