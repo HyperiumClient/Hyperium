@@ -9,9 +9,6 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
 
 import java.awt.*;
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.text.DecimalFormat;
 
 public class ViewCosmeticsGui extends HyperiumGui {
@@ -22,14 +19,7 @@ public class ViewCosmeticsGui extends HyperiumGui {
     @Override
     protected void pack() {
         reg("VISIT", new GuiButton(nextId(), width / 2 - 100, 5, "Purchase cosmetics"), guiButton -> {
-            Desktop desktop = Desktop.getDesktop();
-            if (desktop != null) {
-                try {
-                    desktop.browse(new URL("https://hyperium.sk1er.club").toURI());
-                } catch (IOException | URISyntaxException e) {
-                    e.printStackTrace();
-                }
-            }
+           new ShopGui().show();
         }, guiButton -> {
 
         });
