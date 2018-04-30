@@ -14,15 +14,19 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.Comparator;
+import java.util.List;
 
 public class GuiHyperiumCredits extends GuiScreen {
 
-    private ArrayList<String> devList;
-    private ArrayList<String> contribList;
-    private ArrayList<String> supportList;
+    private List<String> devList;
+    private List<String> contribList;
+    private List<String> supportList;
+
     private GuiScreen prevGui;
+
+    private final Comparator<String> creditComparator = (s1, s2) -> s2.length() - s1.length();
 
     public GuiHyperiumCredits(GuiScreen prevGui) {
         this.prevGui = prevGui;
@@ -30,45 +34,17 @@ public class GuiHyperiumCredits extends GuiScreen {
 
     @Override
     public void initGui() {
-        devList = new ArrayList<>();
-        contribList = new ArrayList<>();
-        supportList = new ArrayList<>();
-        devList.add("Kevin");
-        devList.add("Sk1er");
-        devList.add("BoomBoomPower");
-        devList.add("Cube");
-        devList.add("CoalOres");
+        devList = createCreditsList(
+            "Kevin", "Sk1er", "BoomBoomPower", "Cube", "CoalOres"
+        );
 
-        contribList.add("9Y0");
-        contribList.add("BugFroggy");
-        contribList.add("Disregard");
-        contribList.add("FalseHonesty");
-        contribList.add("KerbyBit");
-        contribList.add("KodingKing");
-        contribList.add("Vatuu Komalia");
+        contribList = createCreditsList(
+            "9Y0", "BugFroggy", "Disregard", "FalseHonesty", "KerbyBit", "KodingKing", "Vatuu Komalia"
+        );
 
-        supportList.add("Deactivation");
-        supportList.add("KenWay");
-        supportList.add("Zezzo");
-
-        Collections.sort(devList, new Comparator<String>() {
-            @Override
-            public int compare(String o1, String o2) {
-                return o2.length() - o1.length();
-            }
-        });
-        Collections.sort(contribList, new Comparator<String>() {
-            @Override
-            public int compare(String o1, String o2) {
-                return o2.length() - o1.length();
-            }
-        });
-        Collections.sort(supportList, new Comparator<String>() {
-            @Override
-            public int compare(String o1, String o2) {
-                return o2.length() - o1.length();
-            }
-        });
+        supportList = createCreditsList(
+            "Deactivation", "KenWay", "Zezzo"
+        );
 
         Method loadShaderMethod = null;
         try {
@@ -91,6 +67,14 @@ public class GuiHyperiumCredits extends GuiScreen {
         }
 
         super.initGui();
+    }
+
+    private List<String> createCreditsList(String... elements)
+    {
+        List<String> credits = new ArrayList<>(Arrays.asList(elements));
+        credits.sort(creditComparator);
+
+        return credits;
     }
 
     @Override
