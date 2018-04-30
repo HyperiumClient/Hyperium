@@ -170,4 +170,8 @@ public class PurchaseApi {
         return new JsonHolder(object);
     }
 
+    public synchronized void refreshSelf() {
+        UUID id = Minecraft.getMinecraft().getSession().getProfile().getId();
+        purchasePlayers.put(id, new HyperiumPurchase(id, get(url + id.toString())));
+    }
 }

@@ -17,12 +17,7 @@
 
 package cc.hyperium.mods.sk1ercommon;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ThreadFactory;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 
@@ -46,8 +41,8 @@ public class Multithreading {
         }
     });
 
-    public static void schedule(Runnable r, long initialDelay, long delay, TimeUnit unit) {
-        RUNNABLE_POOL.scheduleAtFixedRate(r, initialDelay, delay, unit);
+    public static ScheduledFuture<?> schedule(Runnable r, long initialDelay, long delay, TimeUnit unit) {
+       return RUNNABLE_POOL.scheduleAtFixedRate(r, initialDelay, delay, unit);
     }
 
     public static void runAsync(Runnable runnable) {

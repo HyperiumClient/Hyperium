@@ -41,30 +41,28 @@ import java.util.List;
  */
 public class HyperiumHandlers {
 
-    private final LocationHandler locationHandler;
-    private final HypixelDetector hypixelDetector;
-    private final CommandQueue commandQueue;
-    private final ValueHandler valueHandler;
-    private final List<HyperiumChatHandler> chatHandlers;
-    private final GeneralChatHandler generalChatHandler;
-    private final ApiDataHandler dataHandler;
-    private final ResolutionUtil resolutionUtil;
-    private final GuiDisplayHandler guiDisplayHandler;
-    private final KeyBindHandler keybindHandler;
-    private final TimeTrackHandler timeTrackHandler;
-    private final PrivateMessageHandler privateMessageHandler;
-    private final HyperiumCommandHandler commandHandler;
-    private final RemoteResourcesHandler remoteResourcesHandler;
-    private final HyperiumNetwork network;
-    private final BrowserManager browserManager;
-    private final ScoreboardRenderer scoreboardRenderer;
-    private final OtherConfigOptions configOptions;
-    private final DabHandler dabHandler;
-    private final FlossDanceHandler flossDanceHandler;
-    private final GameDataTracking dataTracking;
-    private final QuestTrackingChatHandler questTracking;
-    private final FlipHandler flipHandler;
-
+    private LocationHandler locationHandler;
+    private HypixelDetector hypixelDetector;
+    private CommandQueue commandQueue;
+    private ValueHandler valueHandler;
+    private List<HyperiumChatHandler> chatHandlers;
+    private GeneralChatHandler generalChatHandler;
+    private ApiDataHandler dataHandler;
+    private ResolutionUtil resolutionUtil;
+    private GuiDisplayHandler guiDisplayHandler;
+    private KeyBindHandler keybindHandler;
+    private TimeTrackHandler timeTrackHandler;
+    private PrivateMessageHandler privateMessageHandler;
+    private HyperiumCommandHandler commandHandler;
+    private RemoteResourcesHandler remoteResourcesHandler;
+    private HyperiumNetwork network;
+    private ScoreboardRenderer scoreboardRenderer;
+    private OtherConfigOptions configOptions;
+    private DabHandler dabHandler;
+    private FlossDanceHandler flossDanceHandler;
+    private GameDataTracking dataTracking;
+    private QuestTrackingChatHandler questTracking;
+    private FlipHandler flipHandler;
     public HyperiumHandlers() {
         System.out.println("Loading handlers");
         register(network = new HyperiumNetwork());
@@ -79,7 +77,6 @@ public class HyperiumHandlers {
         register(flipHandler = new FlipHandler());
         register(locationHandler = new LocationHandler());
         register(valueHandler = new ValueHandler());
-        register(browserManager = new BrowserManager());
         register(resolutionUtil = new ResolutionUtil());
         register(guiDisplayHandler = new GuiDisplayHandler());
         register(scoreboardRenderer = new ScoreboardRenderer());
@@ -108,6 +105,7 @@ public class HyperiumHandlers {
         //Command Handler
         register(commandHandler = new HyperiumCommandHandler());
     }
+
 
 
     public FlipHandler getFlipHandler() {
@@ -198,9 +196,6 @@ public class HyperiumHandlers {
     }
 
 
-    public BrowserManager getBrowserManager() {
-        return browserManager;
-    }
 
     public TimeTrackHandler getTimeTrackHandler() {
         return timeTrackHandler;

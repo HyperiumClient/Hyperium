@@ -25,7 +25,7 @@ import cc.hyperium.gui.settings.SettingGui;
 import cc.hyperium.gui.settings.components.SelectionItem;
 import cc.hyperium.netty.NettyClient;
 import cc.hyperium.netty.packet.packets.serverbound.ServerCrossDataPacket;
-import utils.JsonHolder;
+import cc.hyperium.utils.JsonHolder;
 
 import java.util.Arrays;
 

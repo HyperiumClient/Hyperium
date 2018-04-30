@@ -18,20 +18,21 @@
 package cc.hyperium.purchases;
 
 public enum EnumPurchaseType {
-    PARTICLE_BACKGROUND,
-    WING_COSMETIC,
-    KILL_TRACKER_MUSCLE,
-    DAB_ON_KILL,
-    CHROMA_WIN,
-    LEVEL_HEAD,
-    DEAL_WITH_IT,
-    FLIP_COSMETIC,
-    DEADMAU5_COSMETIC,
-    UNKNOWN;
+    PARTICLE_BACKGROUND("Particle Background"),
+    WING_COSMETIC("Wings"),
+    KILL_TRACKER_MUSCLE("Muscle Kill Tracker"),
+    DAB_ON_KILL("Dab on Kill"),
+    CHROMA_WIN("Chroma on Win"),
+    LEVEL_HEAD("Custom Levelhead"),
+    DEAL_WITH_IT("Deal With It Glasses"),
+    FLIP_COSMETIC("Flip Cosmetic"),
+    DEADMAU5_COSMETIC("Ears"),
+    UNKNOWN("Unknown");
 
+    private String displayName;
 
-    EnumPurchaseType() {
-
+    EnumPurchaseType(String displayName) {
+        this.displayName = displayName;
     }
 
     public static EnumPurchaseType parse(String asString) {
@@ -40,6 +41,10 @@ public enum EnumPurchaseType {
         } catch (Exception e) {
             return UNKNOWN;
         }
+    }
+
+    public String getDisplayName() {
+        return displayName;
     }
 
 }

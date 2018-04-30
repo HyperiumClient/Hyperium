@@ -200,14 +200,13 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
-import java.util.Map;
 
 public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
 
 
     private static ResourceLocation background = new ResourceLocation("textures/material/backgrounds/1.png");
     private static boolean customBackground = false;
-    private static final File customImage = new File(Minecraft.getMinecraft().mcDataDir, "customImage.png");
+    private static File customImage = new File(Minecraft.getMinecraft().mcDataDir, "customImage.png");
     private final ResourceLocation exit = new ResourceLocation("textures/material/exit.png");
     private final ResourceLocation people_outline = new ResourceLocation("textures/material/people-outline.png");
     private final ResourceLocation person_outline = new ResourceLocation("textures/material/person-outline.png");
@@ -219,12 +218,13 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
     private int field_92022_t;
     private int field_92024_r;
     private int field_92023_s;
-    private final FontRenderer fontRendererObj = Minecraft.getMinecraft().fontRendererObj;
+    private DynamicTexture viewportTexture;
+    private FontRenderer fontRendererObj = Minecraft.getMinecraft().fontRendererObj;
     private GuiButton hypixelButton;
     private boolean clickedCheckBox = false;
-    private final HyperiumFontRenderer fr = new HyperiumFontRenderer("Arial", Font.PLAIN, 20);
-    private final HyperiumFontRenderer sfr = new HyperiumFontRenderer("Arial", Font.PLAIN, 12);
-    private final Map<String, DynamicTexture> cachedImages = new HashMap<>();
+    private HyperiumFontRenderer fr = new HyperiumFontRenderer("Arial", Font.PLAIN, 20);
+    private HyperiumFontRenderer sfr = new HyperiumFontRenderer("Arial", Font.PLAIN, 12);
+    private HashMap<String, DynamicTexture> cachedImages = new HashMap<>();
     private BufferedImage bgBr = null;
     private ResourceLocation bgDynamicTexture = null;
 
@@ -259,10 +259,12 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
             if (bgDynamicTexture == null)
                 return;
         }
-        DynamicTexture viewportTexture = new DynamicTexture(256, 256);
+
+        this.viewportTexture = new DynamicTexture(256, 256);
         int j = this.height / 4 + 48;
 
         this.addSingleplayerMultiplayerButtons(j - 10, 24);
+        this.buttonList.add(new GuiButton(100, 1, 1, "Cosmetic Shop"));
 
         switch (getStyle()) {
             case DEFAULT:
@@ -377,20 +379,29 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
 
         if (button.id == 17)
             mc.displayGuiScreen(new ChangeBackgroundGui(this));
+        if (button.id == 100) {
+            mc.displayGuiScreen(new ViewCosmeticsGui());
+        }
     }
 
     private void addHyperiumStyleSingleplayerMultiplayerButtons(int p_73969_1_, int p_73969_2_) {
         this.buttonList.add(new GuiButton(1, this.width / 2 - getIntendedWidth(295), this.height / 2 - getIntendedHeight(55), getIntendedWidth(110), getIntendedHeight(110), ""));
         this.buttonList.add(new GuiButton(2, this.width / 2 - getIntendedWidth(175), this.height / 2 - getIntendedHeight(55), getIntendedWidth(110), getIntendedHeight(110), ""));
         this.buttonList.add(new GuiButton(15, this.width / 2 + getIntendedWidth(65), this.height / 2 - getIntendedHeight(55), getIntendedWidth(110), getIntendedHeight(110), ""));
+
+        // Background Gui Button
+        this.buttonList.add(new GuiButton(17, this.width / 2 - 110 / 2, this.height - 20, 110, getIntendedHeight(110), ""));
     }
 
     private void addDefaultStyleSingleplayerMultiplayerButtons(int p_73969_1_, int p_73969_2_) {
         this.buttonList.add(new GuiButton(1, this.width / 2 - 100, p_73969_1_, I18n.format("menu.singleplayer")));
         this.buttonList.add(new GuiButton(2, this.width / 2 - 100, p_73969_1_ + p_73969_2_, I18n.format("menu.multiplayer")));
         //Change realms button ID to 16 to avoid conflicts
-        this.buttonList.add(this.hypixelButton = new GuiButton(16, this.width / 2 - 100, p_73969_1_ + p_73969_2_ * 2, "Join Hypixel"));
-        this.buttonList.add(new GuiButton(15, this.width / 2 - 100, p_73969_1_ + p_73969_2_ * 3, "Hyperium Settings"));
+        this.buttonList.add(this.hypixelButton = new GuiButton(16, this.width / 2 - 100, p_73969_1_ + p_73969_2_ * 2, I18n.format("Join Hypixel")));
+        this.buttonList.add(new GuiButton(15, this.width / 2 - 100, p_73969_1_ + p_73969_2_ * 3, I18n.format("Hyperium Settings")));
+
+        // Background Gui Button
+        this.buttonList.add(new GuiButton(17, this.width / 2 - 100, this.height - 20, I18n.format("Change Menu Background")));
     }
 
     private void addHyperiumStyleOptionsButton(int j) {
@@ -440,6 +451,8 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
         GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_NEAREST);
         GlStateManager.bindTexture(getCachedTexture(Minecraft.getMinecraft().getSession().getPlayerID()).getGlTextureId());
         drawScaledCustomSizeModalRect(width - 155, 10, 0, 0, 30, 30, 30, 30, 30, 30);
+
+        sfr.drawCenteredString("Change menu Background", this.width / 2, this.height - 15, 0xFFFFFF);
 
         // Draw icons on buttons
         TextureManager tm = mc.getTextureManager();
