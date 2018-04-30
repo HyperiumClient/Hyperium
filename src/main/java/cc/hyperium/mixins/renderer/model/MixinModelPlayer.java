@@ -1,11 +1,10 @@
-package cc.hyperium.mixins.renderer;
+package cc.hyperium.mixins.renderer.model;
 
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.PostCopyPlayerModelAnglesEvent;
 import cc.hyperium.event.PreCopyPlayerModelAnglesEvent;
-import cc.hyperium.mixinsimp.renderer.IMixinModelPlayer;
+import cc.hyperium.mixinsimp.renderer.model.IMixinModelPlayer;
 import net.minecraft.client.entity.AbstractClientPlayer;
-import net.minecraft.client.model.ModelBiped;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
@@ -19,20 +18,11 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
 
 @Mixin(ModelPlayer.class)
-public class MixinModelPlayer extends ModelBiped implements IMixinModelPlayer {
+public class MixinModelPlayer extends MixinModelBiped implements IMixinModelPlayer {
 
-	private boolean useSmallArms;
-	
-	private ModelRenderer bipedLeftForeArm;
 	private ModelRenderer bipedLeftForeArmwear;
-
-	private ModelRenderer bipedRightForeArm;
 	private ModelRenderer bipedRightForeArmwear;
-
-	private ModelRenderer bipedLeftLowerLeg;
 	private ModelRenderer bipedLeftLowerLegwear;
-
-	private ModelRenderer bipedRightLowerLeg;
 	private ModelRenderer bipedRightLowerLegwear;
 
     /**
@@ -61,8 +51,6 @@ public class MixinModelPlayer extends ModelBiped implements IMixinModelPlayer {
 
 	@Inject(method = "<init>", at = @At("RETURN"))
 	private void injectModelChanges(float modelSize, boolean useSmallArms, CallbackInfo ci) {
-		this.useSmallArms = useSmallArms;
-		
 		if (useSmallArms) {
 			this.bipedLeftArm = new ModelRenderer(this, 32, 48);
 			this.bipedLeftArm.addBox(-1.0F, -2.0F, -2.0F, 3, 6, 4, modelSize);
@@ -148,8 +136,18 @@ public class MixinModelPlayer extends ModelBiped implements IMixinModelPlayer {
 		this.bipedRightLowerLegwear = new ModelRenderer(this, 0, 38);
 		this.bipedRightLowerLegwear.addBox(-2.0F, 6.0F, -2.0F, 4, 6, 4, modelSize + 0.25F);
 		this.bipedRightLowerLegwear.setRotationPoint(-1.9F, 12.0F, 0.0F);
+
+		fixTopAndBottomOfLimbWrongTextures(
+				this.bipedLeftForeArm, this.bipedLeftForeArmwear, //
+				this.bipedRightForeArm, this.bipedRightForeArmwear, //
+				this.bipedLeftLowerLeg, this.bipedLeftLowerLegwear, //
+				this.bipedRightLowerLeg, this.bipedRightLowerLegwear //
+		);
 	}
 
+	/**
+	 * @author 9Y0, Mojang
+	 */
 	@Overwrite
 	public void render(Entity entityIn, float p_78088_2_, float p_78088_3_, float p_78088_4_, float p_78088_5_, float p_78088_6_, float scale) {
 		super.render(entityIn, p_78088_2_, p_78088_3_, p_78088_4_, p_78088_5_, p_78088_6_, scale);
@@ -166,10 +164,10 @@ public class MixinModelPlayer extends ModelBiped implements IMixinModelPlayer {
 			this.bipedBodyWear.render(scale);
 
 			// Rendering the extra parts we created
-			this.bipedLeftForeArm.render(scale);
 			this.bipedLeftForeArmwear.render(scale);
-			this.bipedRightForeArm.render(scale);
+			this.bipedLeftForeArm.render(scale);
 			this.bipedRightForeArmwear.render(scale);
+			this.bipedRightForeArm.render(scale);
 			this.bipedLeftLowerLeg.render(scale);
 			this.bipedLeftLowerLegwear.render(scale);
 			this.bipedRightLowerLeg.render(scale);
@@ -186,10 +184,10 @@ public class MixinModelPlayer extends ModelBiped implements IMixinModelPlayer {
 			this.bipedBodyWear.render(scale);
 
 			// Rendering the extra parts we created
-			this.bipedLeftForeArm.render(scale);
 			this.bipedLeftForeArmwear.render(scale);
-			this.bipedRightForeArm.render(scale);
+			this.bipedLeftForeArm.render(scale);
 			this.bipedRightForeArmwear.render(scale);
+			this.bipedRightForeArm.render(scale);
 			this.bipedLeftLowerLeg.render(scale);
 			this.bipedLeftLowerLegwear.render(scale);
 			this.bipedRightLowerLeg.render(scale);
@@ -211,22 +209,6 @@ public class MixinModelPlayer extends ModelBiped implements IMixinModelPlayer {
 		this.bipedLeftForeArmwear.render(0.0625F);
 	}
 
-	@Overwrite
-	public void postRenderArm(float scale) {
-		if (this.useSmallArms) {
-			++this.bipedRightArm.rotationPointX;
-			this.bipedRightArm.postRender(scale);
-			--this.bipedRightArm.rotationPointX;
-
-			++this.bipedRightForeArm.rotationPointX;
-			this.bipedRightForeArm.postRender(scale);
-			--this.bipedRightForeArm.rotationPointX;
-		} else {
-			this.bipedRightArm.postRender(scale);
-			this.bipedRightForeArm.postRender(scale);
-		}
-	}
-
 	@Inject(method =  "setRotationAngles", at = @At("RETURN"))
 	private void setRotationAngles(float p_78087_1_, float p_78087_2_, float p_78087_3_, float p_78087_4_, float p_78087_5_, float p_78087_6_, Entity entityIn, CallbackInfo ci) {
         // This should always be the case I guess, but we better be safe
@@ -245,44 +227,22 @@ public class MixinModelPlayer extends ModelBiped implements IMixinModelPlayer {
         copyModelAnglesAndOffest(this.bipedRightLegwear, this.bipedRightLowerLegwear);
 
         if (entityIn instanceof AbstractClientPlayer) {
-            EventBus.INSTANCE.post(new PostCopyPlayerModelAnglesEvent(((AbstractClientPlayer) entityIn),this));
+            EventBus.INSTANCE.post(new PostCopyPlayerModelAnglesEvent(((AbstractClientPlayer) entityIn), this));
         }
 	}
 
 	@Inject(method = "setInvisible", at = @At("RETURN"))
-	private void setInvisble(boolean invisble, CallbackInfo ci) {
-		this.bipedLeftForeArm.showModel = invisble;
+	private void setInvisible(boolean invisble, CallbackInfo ci) {
 		this.bipedLeftForeArmwear.showModel = invisble;
-		this.bipedRightForeArm.showModel = invisble;
 		this.bipedRightForeArmwear.showModel = invisble;
-
-		this.bipedLeftLowerLeg.showModel = invisble;
 		this.bipedLeftLowerLegwear.showModel = invisble;
-		this.bipedRightLowerLeg.showModel = invisble;
 		this.bipedRightLowerLegwear.showModel = invisble;
 	}
 
-    private void copyModelAnglesAndOffest(ModelRenderer src, ModelRenderer dest) {
-        copyModelAngles(src, dest);
-        dest.offsetX = src.offsetX;
-        dest.offsetY = src.offsetY;
-        dest.offsetZ = src.offsetZ;
-    }
-
 	/* Right leg wrappers */
-	@Override
-	public ModelRenderer getBipedRightUpperLeg() {
-		return this.bipedRightLeg;
-	}
-
 	@Override
 	public ModelRenderer getBipedRightUpperLegwear() {
 		return this.bipedRightLegwear;
-	}
-
-	@Override
-	public ModelRenderer getBipedRightLowerLeg() {
-		return this.bipedRightLowerLeg;
 	}
 
 	@Override
@@ -292,18 +252,8 @@ public class MixinModelPlayer extends ModelBiped implements IMixinModelPlayer {
 
 	/* Left leg wrappers */
 	@Override
-	public ModelRenderer getBipedLeftUpperLeg() {
-		return this.bipedLeftLeg;
-	}
-
-	@Override
 	public ModelRenderer getBipedLeftUpperLegwear() {
 		return this.bipedLeftLegwear;
-	}
-
-	@Override
-	public ModelRenderer getBipedLeftLowerLeg() {
-		return this.bipedLeftLowerLeg;
 	}
 
 	@Override
@@ -313,18 +263,8 @@ public class MixinModelPlayer extends ModelBiped implements IMixinModelPlayer {
 
 	/* Right arm wrappers */
 	@Override
-	public ModelRenderer getBipedRightUpperArm() {
-		return this.bipedRightArm;
-	}
-
-	@Override
 	public ModelRenderer getBipedRightUpperArmwear() {
 		return this.bipedRightArmwear;
-	}
-
-	@Override
-	public ModelRenderer getBipedRightForeArm() {
-		return this.bipedRightForeArm;
 	}
 
 	@Override
@@ -334,18 +274,8 @@ public class MixinModelPlayer extends ModelBiped implements IMixinModelPlayer {
 
 	/* Left arm wrappers */
 	@Override
-	public ModelRenderer getBipedLeftUpperArm() {
-		return this.bipedLeftArm;
-	}
-
-	@Override
 	public ModelRenderer getBipedLeftUpperArmwear() {
 		return this.bipedLeftArmwear;
-	}
-
-	@Override
-	public ModelRenderer getBipedLeftForeArm() {
-		return this.bipedLeftForeArm;
 	}
 
 	@Override
@@ -355,23 +285,7 @@ public class MixinModelPlayer extends ModelBiped implements IMixinModelPlayer {
 
 	/* Body wrappers */
 	@Override
-	public ModelRenderer getBipedBody() {
-		return this.bipedBody;
-	}
-
-	@Override
 	public ModelRenderer getBipedBodywear() {
 		return this.bipedBodyWear;
-	}
-
-	/* Head wrappers */
-	@Override
-	public ModelRenderer getBipedHead() {
-		return this.bipedHead;
-	}
-
-	@Override
-	public ModelRenderer getBipedHeadwear() {
-		return this.bipedHeadwear;
 	}
 }
