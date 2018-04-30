@@ -40,6 +40,7 @@ public class ShopGui extends HyperiumGui {
             PurchaseApi.getInstance().refreshSelf();
             personData = PurchaseApi.getInstance().getSelf().getResponse();
             cosmeticCallback = PurchaseApi.getInstance().get("https://api.hyperium.cc/cosmetics/" + Minecraft.getMinecraft().getSession().getProfile().getId().toString().replace("-", ""));
+        purchasing=false;
         });
     }
 
@@ -87,19 +88,22 @@ public class ShopGui extends HyperiumGui {
     @Override
     protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
         super.mouseClicked(mouseX, mouseY, mouseButton);
-
+    boolean f = false;
         for (GuiBoxItem<Runnable> runnableGuiBoxItem : list) {
             if (runnableGuiBoxItem.getBox().isMouseOver(mouseX, mouseY) && mouseButton == 0) {
                 runnableGuiBoxItem.getObject().run();
+                f=true;
             }
         }
+        if(f)
+            list.clear();
     }
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         super.drawScreen(mouseX, mouseY, partialTicks);
         list.clear();
-        int yLevel = 50 + offset;
+        int yLevel = 50 - offset;
         if (personData != null) {
             GlStateManager.scale(2.0F, 2.0F, 2.0F);
             fontRendererObj.drawString("Credits", (width / 2 - fontRendererObj.getStringWidth("Credits")) / 2, (15 + yLevel) / 2, Color.RED.getRGB(), true);

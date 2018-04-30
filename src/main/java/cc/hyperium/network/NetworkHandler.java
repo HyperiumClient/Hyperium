@@ -1,8 +1,10 @@
 package cc.hyperium.network;
 
 import cc.hyperium.Hyperium;
+import cc.hyperium.gui.ShopGui;
 import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
 import cc.hyperium.netty.INetty;
+import cc.hyperium.purchases.PurchaseApi;
 import cc.hyperium.utils.JsonHolder;
 import net.minecraft.client.Minecraft;
 
@@ -27,6 +29,7 @@ public class NetworkHandler implements INetty {
 
     @Override
     public void handleChat(String s) {
+        System.out.println("Chat: " + s);
         GeneralChatHandler.instance().sendMessage(s, false);
     }
 
@@ -50,7 +53,12 @@ public class NetworkHandler implements INetty {
             } else {
                 Hyperium.INSTANCE.getHandlers().getFlipHandler().state(uuid, 0);
             }
-
+        } else if(type.equalsIgnoreCase("refresh_cosmetics")) {
+            if(Minecraft.getMinecraft().currentScreen instanceof ShopGui) {
+                ((ShopGui) Minecraft.getMinecraft().currentScreen).refreshData();
+            } else {
+                PurchaseApi.getInstance().refreshSelf();
+            }
         }
     }
 
