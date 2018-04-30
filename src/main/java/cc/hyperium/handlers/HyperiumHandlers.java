@@ -63,6 +63,7 @@ public class HyperiumHandlers {
     private GameDataTracking dataTracking;
     private QuestTrackingChatHandler questTracking;
     private FlipHandler flipHandler;
+
     public HyperiumHandlers() {
         System.out.println("Loading handlers");
         register(network = new HyperiumNetwork());

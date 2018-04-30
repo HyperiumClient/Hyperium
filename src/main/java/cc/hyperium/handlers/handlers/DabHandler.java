@@ -17,8 +17,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class DabHandler {
 
-    private int dabs;
     private final Map<UUID, DabState> dabStates = new ConcurrentHashMap<>();
+    private int dabs;
     private float state = 0;
     private boolean right = true;
     private boolean asc = true;
