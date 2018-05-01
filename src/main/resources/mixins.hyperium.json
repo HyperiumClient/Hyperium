@@ -33,14 +33,13 @@
     "gui.MixinInventoryParticle",
     "gui.MixinGuiUtilRenderComponents",
     "gui.MixinGuiIngameMenu",
+
     "entity.MixinNetworkPlayerInfo",
     "entity.MixinEntityPlayer",
     "entity.MixinEntityPlayerSP",
     "entity.MixinEntity",
     "entity.MixinEntityLivingBase",
     "entity.MixinEntityRenderer",
-    "entity.MixinRenderPlayer",
-    "entity.MixinModelBiped",
     "entity.MixinAbstractClientPlayer",
 
     "profiler.MixinProfiler",
@@ -51,9 +50,11 @@
     "renderer.MixinRendererLivingEntity",
     "renderer.MixinRenderPlayer",
     "renderer.MixinRender",
-    "renderer.MixinDabRender",
     "renderer.MixinFontRenderer",
     "renderer.MixinLayerDeadmau5Head",
+    "renderer.model.MixinModelPlayer",
+    "renderer.model.MixinModelBiped",
+    "renderer.model.MixinModelBox",
 
     "packet.MixinC01PacketChatMessage",
     "packet.MixinS2EPacketCloseWindow",

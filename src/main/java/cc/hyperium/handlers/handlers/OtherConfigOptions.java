@@ -26,4 +26,7 @@ public class OtherConfigOptions {
 
     @ConfigOpt
     public boolean enableDeadmau5Ears = true;
+
+    @ConfigOpt
+    public boolean friendsFirstIntag = true;
 }

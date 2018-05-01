@@ -217,7 +217,7 @@ public class Levelhead extends AbstractMod {
     }
 
     public LevelheadTag buildTag(JsonHolder object, UUID uuid) {
-        LevelheadTag value = new LevelheadTag(uuid);
+        LevelheadTag value = new LevelheadTag();
         JsonHolder headerObj = new JsonHolder();
         JsonHolder footerObj = new JsonHolder();
         JsonHolder construct = new JsonHolder();
