@@ -151,20 +151,21 @@ public abstract class MixinGuiPlayerTabOverlay extends Gui {
 
         list = list.subList(0, Math.min(list.size(), 80));
 
-
-        ConcurrentLinkedDeque<NetworkPlayerInfo> friends = new ConcurrentLinkedDeque<>();
-        ApiDataHandler dataHandler = Hyperium.INSTANCE.getHandlers().getDataHandler();
-        List<UUID> friendUUIDList = dataHandler.getFriendUUIDList();
-        for (NetworkPlayerInfo networkPlayerInfo : list) {
-            UUID id = networkPlayerInfo.getGameProfile().getId();
-            if (friendUUIDList.contains(id)) {
-                friends.add(networkPlayerInfo);
+        if(Hyperium.INSTANCE.getHandlers().getConfigOptions().friendsFirstIntag) {
+            ConcurrentLinkedDeque<NetworkPlayerInfo> friends = new ConcurrentLinkedDeque<>();
+            ApiDataHandler dataHandler = Hyperium.INSTANCE.getHandlers().getDataHandler();
+            List<UUID> friendUUIDList = dataHandler.getFriendUUIDList();
+            for (NetworkPlayerInfo networkPlayerInfo : list) {
+                UUID id = networkPlayerInfo.getGameProfile().getId();
+                if (friendUUIDList.contains(id)) {
+                    friends.add(networkPlayerInfo);
+                }
             }
+            list.removeAll(friends);
+            friends.addAll(list);
+            list.clear();
+            list.addAll(friends);
         }
-        list.removeAll(friends);
-        friends.addAll(list);
-        list.clear();
-        list.addAll(friends);
 
         int l3 = list.size();
         int i4 = l3;
