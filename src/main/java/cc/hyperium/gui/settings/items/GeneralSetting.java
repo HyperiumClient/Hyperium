@@ -146,6 +146,8 @@ public class GeneralSetting extends SettingGui {
         registerOnOffSetting("DISPLAY CHROMA-HUD ON OTHER SERVERS", chromaHudNonHypixelEnabled, on -> chromaHudNonHypixelEnabled = on);
         registerOnOffSetting("TAKE SCREENSHOT ON KILL", screenshotOnKillEnabled, on -> screenshotOnKillEnabled = on);
         registerOnOffSetting("SHOW SPOTIFY CONTROLS", spotifyControlsEnabled, on -> spotifyControlsEnabled = on);
+        registerOnOffSetting("FRIENDS FIRST IN TAB", Hyperium.INSTANCE.getHandlers().getConfigOptions().friendsFirstIntag, on -> Hyperium.INSTANCE.getHandlers().getConfigOptions().friendsFirstIntag = on);
+
     }
 
     private void registerOnOffSetting(String name, boolean enabled, Consumer<Boolean> callback) {

@@ -82,7 +82,7 @@ public class DabHandler {
     }
 
     public DabState get(UUID uuid) {
-        return dabStates.computeIfAbsent(uuid, DabState::new);
+        return dabStates.computeIfAbsent(uuid, r -> new DabState());
     }
 
     public void startDabbing(UUID uuid) {
@@ -190,13 +190,11 @@ public class DabHandler {
     }
 
     public class DabState {
-        final UUID uuid;
         int dabFrames = 0;
         long systemTime;
         boolean toggled;
 
-        public DabState(UUID uuid) {
-            this.uuid = uuid;
+        public DabState() {
             this.systemTime = Minecraft.getSystemTime();
             this.toggled = false;
         }

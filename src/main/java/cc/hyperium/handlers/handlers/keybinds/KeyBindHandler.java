@@ -41,13 +41,11 @@ public class KeyBindHandler {
     public final HyperiumBind debug = new HyperiumBind("DEBUG", Keyboard.KEY_J) {
         @Override
         public void onPress() {
-            Hyperium.INSTANCE.getHandlers().getConfigOptions().alternateFontRenderer = !Hyperium.INSTANCE.getHandlers().getConfigOptions().alternateFontRenderer;
 
         }
 
         @Override
         public void onRelease() {
-            Hyperium.INSTANCE.getHandlers().getConfigOptions().alternateFontRenderer = !Hyperium.INSTANCE.getHandlers().getConfigOptions().alternateFontRenderer;
         }
     };
 

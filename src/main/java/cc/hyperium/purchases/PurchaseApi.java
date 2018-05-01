@@ -20,12 +20,7 @@ package cc.hyperium.purchases;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.SpawnpointChangeEvent;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
-import cc.hyperium.purchases.packages.DabOnKill;
-import cc.hyperium.purchases.packages.EarsCosmetic;
-import cc.hyperium.purchases.packages.FlipCosmeticPackage;
-import cc.hyperium.purchases.packages.KillTrackerMuscles;
-import cc.hyperium.purchases.packages.ParticleBackgroundCosmetic;
-import cc.hyperium.purchases.packages.WingCosmetic;
+import cc.hyperium.purchases.packages.*;
 import cc.hyperium.utils.JsonHolder;
 import com.google.gson.JsonObject;
 import net.minecraft.client.Minecraft;
@@ -79,6 +74,7 @@ public class PurchaseApi {
                 if (purchase != null) {
                     purchasePlayers.put(id, purchase);
                 }
+                nameToUuid.clear();
                 System.out.println("Cleared purchase cache (" + purchasePlayers.size() + ")");
             }
         });
