@@ -187,8 +187,8 @@ class WingCosmetic : ModelBase() {
     private val data = emptyList<WingData>()
     private val api = PurchaseApi.getInstance()
     private val mc = Minecraft.getMinecraft()
-    private var wing: ModelRenderer? = null
-    private var wingTip: ModelRenderer? = null
+    private val wing: ModelRenderer
+    private val wingTip: ModelRenderer
     private val location = ResourceLocation("textures/cosmetics/wings.png")
 
     init {
@@ -197,16 +197,16 @@ class WingCosmetic : ModelBase() {
         this.setTextureOffset("wingtip.bone", 0, 5)
         this.setTextureOffset("wingtip.skin", -10, 18)
         this.wing = ModelRenderer(this as ModelBase, "wing")
-        this.wing!!.setTextureSize(30, 30)
-        this.wing!!.setRotationPoint(-2.0f, 0.0f, 0.0f)
-        this.wing!!.addBox("bone", -10.0f, -1.0f, -1.0f, 10, 2, 2)
-        this.wing!!.addBox("skin", -10.0f, 0.0f, 0.5f, 10, 0, 10)
+        this.wing.setTextureSize(30, 30)
+        this.wing.setRotationPoint(-2.0f, 0.0f, 0.0f)
+        this.wing.addBox("bone", -10.0f, -1.0f, -1.0f, 10, 2, 2)
+        this.wing.addBox("skin", -10.0f, 0.0f, 0.5f, 10, 0, 10)
         this.wingTip = ModelRenderer(this as ModelBase, "wingtip")
-        this.wingTip!!.setTextureSize(30, 30)
-        this.wingTip!!.setRotationPoint(-10.0f, 0.0f, 0.0f)
-        this.wingTip!!.addBox("bone", -10.0f, -0.5f, -0.5f, 10, 1, 1)
-        this.wingTip!!.addBox("skin", -10.0f, 0.0f, 0.5f, 10, 0, 10)
-        this.wing!!.addChild(this.wingTip)
+        this.wingTip.setTextureSize(30, 30)
+        this.wingTip.setRotationPoint(-10.0f, 0.0f, 0.0f)
+        this.wingTip.addBox("bone", -10.0f, -0.5f, -0.5f, 10, 1, 1)
+        this.wingTip.addBox("skin", -10.0f, 0.0f, 0.5f, 10, 0, 10)
+        this.wing.addChild(this.wingTip)
     }
 
     @InvokeEvent
@@ -242,14 +242,14 @@ class WingCosmetic : ModelBase() {
         for (j in 0..1) {
             GL11.glEnable(2884)
             val f11 = System.currentTimeMillis() % 1000L / 1000.0f * 3.1415927f * 2.0f
-//            this.wing!!.offsetX = player.renderOffsetX
-//            this.wing!!.offsetY = player.renderOffsetY
-//            this.wing!!.offsetZ = player.renderOffsetZ
-            this.wing!!.rotateAngleX = Math.toRadians(-80.0).toFloat() - MathHelper.cos(f11) * 0.2f
-            this.wing!!.rotateAngleY = Math.toRadians(20.0).toFloat() + MathHelper.sin(f11) * 0.4f
-            this.wing!!.rotateAngleZ = Math.toRadians(20.0).toFloat()
-            this.wingTip!!.rotateAngleZ = -(MathHelper.sin((f11 + 2.0f)) + 0.5).toFloat() * 0.75f
-            this.wing!!.render(0.0625f)
+//            this.wing.offsetX = player.renderOffsetX
+//            this.wing.offsetY = player.renderOffsetY
+//            this.wing.offsetZ = player.renderOffsetZ
+            this.wing.rotateAngleX = Math.toRadians(-80.0).toFloat() - MathHelper.cos(f11) * 0.2f
+            this.wing.rotateAngleY = Math.toRadians(20.0).toFloat() + MathHelper.sin(f11) * 0.4f
+            this.wing.rotateAngleZ = Math.toRadians(20.0).toFloat()
+            this.wingTip.rotateAngleZ = -(MathHelper.sin((f11 + 2.0f)) + 0.5).toFloat() * 0.75f
+            this.wing.render(0.0625f)
             GL11.glScalef(-1.0f, 1.0f, 1.0f)
             if (j == 0) {
                 GL11.glCullFace(1028)
