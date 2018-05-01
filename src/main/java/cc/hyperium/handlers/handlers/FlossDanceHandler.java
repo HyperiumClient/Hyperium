@@ -127,6 +127,9 @@ public class FlossDanceHandler {
 
         float heldPercent = state / 100F;
 
+        player.getBipedBody().rotateAngleZ = (float) Math.toRadians((right ? 10f : -10f) * heldPercent);
+        player.getBipedBodywear().rotateAngleZ = (float) Math.toRadians((right ? 10f : -10f) * heldPercent);
+
         player.getBipedRightUpperLeg().rotateAngleZ = (float) Math.toRadians((right ? -10f : 10f) * heldPercent);
         player.getBipedRightUpperLegwear().rotateAngleZ = (float) Math.toRadians((right ? -10f : 10f) * heldPercent);
         player.getBipedLeftUpperLeg().rotateAngleZ = (float) Math.toRadians((right ? -10f : 10f) * heldPercent);
