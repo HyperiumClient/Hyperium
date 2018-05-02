@@ -259,13 +259,15 @@ class DrawBlockHighlightEvent(val context: RenderGlobal, val player: EntityPlaye
  * Get called before the angles of the upperleg gets copied into the lower leg etc
  * Edit the player rotation here, if the upperleg and the lowerleg need the same roations
  */
-class PreCopyPlayerModelAnglesEvent(val entity: AbstractClientPlayer, val model: IMixinModelBiped)
+class PreCopyPlayerModelAnglesEvent(entity: AbstractClientPlayer, model: IMixinModelBiped) : CopyPlayerModelAnglesEvent(entity, model)
 
 /**
  * Get called after the angles of the upperleg gets copied into the lower leg etc
  * Edit the player rotation here, if the upperleg and the lowerleg need other roations
  */
-class PostCopyPlayerModelAnglesEvent(val entity: AbstractClientPlayer, val model: IMixinModelBiped)
+class PostCopyPlayerModelAnglesEvent(entity: AbstractClientPlayer, model: IMixinModelBiped) : CopyPlayerModelAnglesEvent(entity, model)
+
+abstract class CopyPlayerModelAnglesEvent(val entity: AbstractClientPlayer, val model: IMixinModelBiped)
 
 class SoundPlayEvent(val sound: ISound) : CancellableEvent()
 
