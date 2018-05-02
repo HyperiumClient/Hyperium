@@ -19,7 +19,7 @@ package cc.hyperium.handlers.handlers.keybinds.keybinds;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.gui.settings.items.CosmeticSettings;
-import cc.hyperium.handlers.handlers.DabHandler;
+import cc.hyperium.handlers.handlers.animation.DabHandler;
 import cc.hyperium.handlers.handlers.keybinds.HyperiumBind;
 import cc.hyperium.netty.NettyClient;
 import cc.hyperium.netty.packet.packets.serverbound.ServerCrossDataPacket;

@@ -1,4 +1,4 @@
-package cc.hyperium.handlers.handlers;
+package cc.hyperium.handlers.handlers.animation;
 
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.PreCopyPlayerModelAnglesEvent;

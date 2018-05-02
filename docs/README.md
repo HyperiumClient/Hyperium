@@ -135,13 +135,13 @@
 
 [GameDataTracking](classes/cc.hyperium.handlers.handlers.GameDataTracking.md)
 
-[FlossDanceHandler](classes/cc.hyperium.handlers.handlers.FlossDanceHandler.md)
+[FlossDanceHandler](classes/cc.hyperium.handlers.handlers.animation.FlossDanceHandler.md)
 
-[FlossDanceHandler.DanceState](classes/cc.hyperium.handlers.handlers.FlossDanceHandler.DanceState.md)
+[FlossDanceHandler.DanceState](classes/cc.hyperium.handlers.handlers.animation.FlossDanceHandler.DanceState.md)
 
-[DabHandler](classes/cc.hyperium.handlers.handlers.DabHandler.md)
+[DabHandler](classes/cc.hyperium.handlers.handlers.animation.DabHandler.md)
 
-[DabHandler.DabState](classes/cc.hyperium.handlers.handlers.DabHandler.DabState.md)
+[DabHandler.DabState](classes/cc.hyperium.handlers.handlers.animation.DabHandler.DabState.md)
 
 [CommandQueue](classes/cc.hyperium.handlers.handlers.CommandQueue.md)
 
