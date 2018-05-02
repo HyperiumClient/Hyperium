@@ -20,6 +20,8 @@ package cc.hyperium.mods.levelhead.guis;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.TickEvent;
+import cc.hyperium.gui.CustomLevelheadConfigurer;
+import cc.hyperium.gui.GuiBlock;
 import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
 import cc.hyperium.mods.levelhead.Levelhead;
 import cc.hyperium.mods.levelhead.config.LevelheadConfig;
@@ -74,6 +76,7 @@ public class LevelHeadGui extends GuiScreen {
     private final Minecraft mc;
     private final ReentrantLock lock = new ReentrantLock();
     private final Levelhead mod;
+    private GuiBlock customBlock = new GuiBlock(0, 0, 0, 0);
     private GuiButton headerColorButton;
     private GuiButton footerColorButton;
     private GuiButton prefixButton;
@@ -86,7 +89,7 @@ public class LevelHeadGui extends GuiScreen {
     }
 
     private void reg(GuiButton button, Consumer<GuiButton> consumer) {
-        button.yPosition+=30;
+        button.yPosition += 30;
         this.buttonList.add(button);
         this.clicks.put(button, consumer);
     }
@@ -150,7 +153,7 @@ public class LevelHeadGui extends GuiScreen {
         this.textField = new GuiTextField(0, mc.fontRendererObj, this.width / 2 - 155, 65, 150, 20);
 
         //Color rotate
-        reg(this.headerColorButton = new GuiButton(4, this.width / 2 - 155,110, 150, 20, "Rotate Color"), button -> {
+        reg(this.headerColorButton = new GuiButton(4, this.width / 2 - 155, 110, 150, 20, "Rotate Color"), button -> {
             int primaryId = colors.indexOf(removeColorChar(this.mod.getConfig().getHeaderColor()));
             if (++primaryId == colors.length()) {
                 primaryId = 0;
@@ -212,7 +215,7 @@ public class LevelHeadGui extends GuiScreen {
 
     private void updateCustom() {
         lock.lock();
-        reg(new GuiButton(13, this.width / 2 - 155, this.height / 2 - 83 + 110, 310, 20, (isCustom ? ChatColor.YELLOW + "Click to change custom Levelhead." : ChatColor.YELLOW + "Click to purchase a custom Levelhead message")), button -> {
+        reg(new GuiButton(13, this.width / 2 - 155, 205, 310, 20, (isCustom ? ChatColor.YELLOW + "Click to change custom Levelhead." : ChatColor.YELLOW + "Click to purchase a custom Levelhead message")), button -> {
 
             try {
                 if (isCustom) {
@@ -226,7 +229,7 @@ public class LevelHeadGui extends GuiScreen {
 
         });
         if (isCustom) {
-            GuiButton button1 = new GuiButton(16, this.width / 2 - 155, this.height / 2 + 50, 310, 20, ChatColor.YELLOW + "Export these colors to my custom Levelhead");
+            GuiButton button1 = new GuiButton(16, this.width / 2 - 155, 230, 310, 20, ChatColor.YELLOW + "Export these colors to my custom Levelhead");
             reg(button1, button -> {
                 JsonHolder object = new JsonHolder();
                 object.put("header_obj", this.mod.getHeaderConfig());
@@ -240,7 +243,7 @@ public class LevelHeadGui extends GuiScreen {
     }
 
     private void regSlider(GuiSlider slider, Consumer<GuiButton> but) {
-        slider.yPosition+=30;
+        slider.yPosition += 30;
         reg(slider, but);
         sliders.add(slider);
 
@@ -339,6 +342,11 @@ public class LevelHeadGui extends GuiScreen {
     @Override
     protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
         textField.mouseClicked(mouseX, mouseY, mouseButton);
+        if (mouseButton == 0 && customBlock.isMouseOver(mouseX, mouseY)) {
+            new CustomLevelheadConfigurer().show();
+            return;
+        }
+
         if (mouseButton == 0) {
             for (GuiButton guibutton : this.buttonList) {
                 if (guibutton.mousePressed(this.mc, mouseX, mouseY)) {
@@ -387,9 +395,11 @@ public class LevelHeadGui extends GuiScreen {
     }
 
     private void drawTitle(String text) {
-        drawCenteredString(mc.fontRendererObj, ChatColor.YELLOW + "Custom Levelhead Status: " + (isCustom ? ChatColor.GREEN + "Enabled" : ChatColor.RED + "Disabled / Inactive"), this.width / 2,
+        String text1 = ChatColor.YELLOW + "Custom Levelhead Status: " + (isCustom ? ChatColor.GREEN + "Enabled" : ChatColor.RED + "Disabled / Inactive");
+        drawCenteredString(mc.fontRendererObj, text1, this.width / 2,
                 10, Color.WHITE.getRGB());
-
+        int stringWidth = fontRendererObj.getStringWidth(text1);
+        this.customBlock = new GuiBlock(width / 2 - stringWidth / 2, width / 2 + stringWidth / 2, 10, 20);
         drawCenteredString(mc.fontRendererObj, text, this.width / 2, 20, Color.WHITE.getRGB());
         drawHorizontalLine(this.width / 2 - mc.fontRendererObj.getStringWidth(text) / 2 - 5, this.width / 2 + mc.fontRendererObj.getStringWidth(text) / 2 + 5, 30, Color.WHITE.getRGB());
     }

@@ -18,13 +18,7 @@
 package cc.hyperium;
 
 import cc.hyperium.commands.BaseCommand;
-import cc.hyperium.commands.defaults.CommandClearChat;
-import cc.hyperium.commands.defaults.CommandConfigGui;
-import cc.hyperium.commands.defaults.CommandDebug;
-import cc.hyperium.commands.defaults.CommandNameHistory;
-import cc.hyperium.commands.defaults.CommandPlayGame;
-import cc.hyperium.commands.defaults.CommandPrivateMessage;
-import cc.hyperium.commands.defaults.CommandUpdate;
+import cc.hyperium.commands.defaults.*;
 import cc.hyperium.config.DefaultConfig;
 import cc.hyperium.cosmetics.HyperiumCosmetics;
 import cc.hyperium.cosmetics.WingCosmetic;
@@ -271,6 +265,8 @@ public class Hyperium {
      */
     private void registerCommands() {
         getHandlers().getHyperiumCommandHandler().registerCommand(new CommandConfigGui());
+        getHandlers().getHyperiumCommandHandler().registerCommand(new CustomLevelheadCommand());
+
         getHandlers().getHyperiumCommandHandler().registerCommand(new CommandPrivateMessage());
         getHandlers().getHyperiumCommandHandler().registerCommand(new CommandClearChat());
         getHandlers().getHyperiumCommandHandler().registerCommand(new CommandNameHistory());
