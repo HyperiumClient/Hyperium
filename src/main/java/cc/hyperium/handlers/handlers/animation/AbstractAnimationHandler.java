@@ -2,7 +2,6 @@ package cc.hyperium.handlers.handlers.animation;
 
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.Function;
 
 import cc.hyperium.event.*;
 import cc.hyperium.mixinsimp.renderer.model.IMixinModelBiped;
@@ -14,16 +13,11 @@ import net.minecraft.client.model.ModelRenderer;
 public abstract class AbstractAnimationHandler<T extends CopyPlayerModelAnglesEvent> {
 
     private final ConcurrentHashMap<UUID, AnimationState> animationStates = new ConcurrentHashMap<>();
-    private final Function<Float, Float> incrementStateFunction;
 
     protected float state = 0;
     protected boolean right = true;
     protected boolean asc = true;
     protected long systemTime = 0;
-
-    public AbstractAnimationHandler(Function<Float, Float> incrementStateFunction) {
-        this.incrementStateFunction = incrementStateFunction;
-    }
 
     @InvokeEvent
     public void onCopyPlayerModelAngles(T event) {
@@ -40,7 +34,7 @@ public abstract class AbstractAnimationHandler<T extends CopyPlayerModelAnglesEv
         if (this.systemTime == 0) this.systemTime = Minecraft.getSystemTime();
 
         if (this.systemTime < Minecraft.getSystemTime() + (1000 / 120)) {
-            state = incrementStateFunction.apply(state);
+            state = modifyState(state);
 
             this.systemTime += (1000 / 120);
 
@@ -52,6 +46,8 @@ public abstract class AbstractAnimationHandler<T extends CopyPlayerModelAnglesEv
             }
         }
     }
+
+    public abstract float modifyState(float currentState);
 
     @InvokeEvent
     public void swapWorld(WorldChangeEvent event) {
