@@ -20,6 +20,7 @@ package cc.hyperium.mods.chromahud.displayitems.chromahud;
 import cc.hyperium.mods.chromahud.ElementRenderer;
 import cc.hyperium.mods.chromahud.api.DisplayItem;
 import cc.hyperium.utils.JsonHolder;
+import cc.hyperium.utils.RenderUtils;
 import net.minecraft.client.Minecraft;
 
 
@@ -33,13 +34,11 @@ public class FPS extends DisplayItem {
         this.height = 10;
     }
 
-
     @Override
     public void draw(int starX, double startY, boolean ignored) {
-        String string = "FPS: " + Minecraft.getDebugFPS();
+        String string = "FPS: " + RenderUtils.getFPS();
         ElementRenderer.draw(starX, startY, string);
         this.width = Minecraft.getMinecraft().fontRendererObj.getStringWidth(string);
     }
-
 
 }

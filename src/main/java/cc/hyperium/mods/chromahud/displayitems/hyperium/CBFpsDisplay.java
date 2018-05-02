@@ -20,6 +20,7 @@ package cc.hyperium.mods.chromahud.displayitems.hyperium;
 import cc.hyperium.mods.chromahud.ElementRenderer;
 import cc.hyperium.mods.chromahud.api.DisplayItem;
 import cc.hyperium.utils.JsonHolder;
+import cc.hyperium.utils.RenderUtils;
 import net.minecraft.client.Minecraft;
 
 public class CBFpsDisplay extends DisplayItem {
@@ -30,7 +31,7 @@ public class CBFpsDisplay extends DisplayItem {
 
     @Override
     public void draw(int x, double y, boolean config) {
-        String string = Minecraft.getDebugFPS() + " FPS";
+        String string = RenderUtils.getFPS() + " FPS";
         ElementRenderer.draw(x, y, string);
         if (config)
             this.width = Minecraft.getMinecraft().fontRendererObj.getStringWidth(string);

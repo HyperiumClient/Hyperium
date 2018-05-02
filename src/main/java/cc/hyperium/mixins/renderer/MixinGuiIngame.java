@@ -21,6 +21,8 @@ import cc.hyperium.Hyperium;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.RenderHUDEvent;
 import cc.hyperium.mods.chromahud.displayitems.hyperium.ScoreboardDisplay;
+import cc.hyperium.utils.RenderUtils;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiIngame;
 import net.minecraft.client.gui.ScaledResolution;
@@ -32,6 +34,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.util.Iterator;
+
 @Mixin(GuiIngame.class)
 public abstract class MixinGuiIngame {
 
@@ -41,6 +45,13 @@ public abstract class MixinGuiIngame {
     @Inject(method = "renderGameOverlay", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/settings/KeyBinding;isKeyDown()Z"))
     private void renderGameOverlay(float partialTicks, CallbackInfo ci) {
         EventBus.INSTANCE.post(new RenderHUDEvent(partialTicks));
+
+        //Live FPS Counter
+        Iterator<Long> iterator = RenderUtils.getFpsList().iterator();
+        while (iterator.hasNext())
+            if (System.currentTimeMillis() - iterator.next() > 1000L)
+                iterator.remove();
+        RenderUtils.getFpsList().add(System.currentTimeMillis());
     }
 
     /**

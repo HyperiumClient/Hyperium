@@ -22,6 +22,8 @@ import net.minecraft.client.renderer.GlStateManager;
 import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class RenderUtils {
@@ -229,5 +231,15 @@ public class RenderUtils {
         RenderUtils.drawFilledCircle(right, bottom - 4, 4, color);
 
 
+    }
+
+    private static final List<Long> fps = new ArrayList<>();
+
+    public static int getFPS() {
+        return fps.size();
+    }
+
+    public static List<Long> getFpsList() {
+        return fps;
     }
 }
