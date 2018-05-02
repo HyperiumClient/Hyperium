@@ -28,17 +28,13 @@ import org.json.JSONObject;
 import javax.net.ssl.HttpsURLConnection;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.Charset;
@@ -61,6 +57,7 @@ public class InstallerFrame implements PropertyChangeListener {
     private static final int WIDTH = 400;
     private static final int HEIGHT = 160;
     private static final char[] hexCodes = "0123456789ABCDEF".toCharArray();
+    private StringBuilder log = new StringBuilder();
     private JLabel display;
     private JLabel error;
     private JProgressBar progressBar;
@@ -71,7 +68,31 @@ public class InstallerFrame implements PropertyChangeListener {
      * Constructor
      */
     InstallerFrame(String dir, int wam, List<String> components, InstallerConfig frame) {
+        final PrintStream ps = System.out;
+        PrintStream logStream = new PrintStream(new OutputStream() {
+            @Override
+            public void write(int b) {
+                log.append((char) b);
+                ps.append((char) b);
+            }
+        });
+        System.setOut(logStream);
         this.frame = frame;
+        frame.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyChar() == 'l') {
+                    try {
+                        Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+                        clipboard.setContents(new StringSelection(log.toString()), null);
+                        error.setText("LOG COPIED TO THE CLIPBOARD");
+                    }catch (Exception ex){
+                        ex.printStackTrace();
+                        error.setText("FAILED TO COPY THE LOG");
+                    }
+                }
+            }
+        });
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         frame.setSize(WIDTH, HEIGHT);
         frame.setLocation(dim.width / 2 - frame.getSize().width / 2, dim.height / 2 - frame.getSize().height / 2);
