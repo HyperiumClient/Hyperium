@@ -17,6 +17,7 @@
 
 package cc.hyperium.event
 
+import com.google.common.reflect.TypeToken
 import java.util.concurrent.CopyOnWriteArrayList
 
 /**
@@ -36,29 +37,34 @@ object EventBus {
      * @param obj An instance of the class which you would like to register as an event
      */
     fun register(obj: Any) {
-        val clazz = obj.javaClass
-        // iterates though all the methods in the class
-        for (method in clazz.declaredMethods) {
-            // all the informaton and error checking before the method is added such
-            // as if it even is an event before the element even touches the hashmap
-            method.getAnnotation(InvokeEvent::class.java) ?: continue
-            val event = method.parameters.first().type ?: throw
-            IllegalArgumentException("Couldn't find parameter inside of ${method.name}!")
-            val priority = method.getAnnotation(InvokeEvent::class.java).priority
-            method.isAccessible = true
+        // also contains the class itself
+        val superClasses = TypeToken.of(obj.javaClass).types.rawTypes()
 
-            // where the method gets added to the event key inside of the subscription hashmap
-            // the arraylist is either sorted or created before the element is added
-            this.subscriptions.let { subs ->
-                if (subs.containsKey(event)) {
-                    // sorts array on insertion
-                    subs[event]?.add(EventSubscriber(obj, method, priority))
-                    subs[event] = CopyOnWriteArrayList(subs[event]?.sortedByDescending { it.priority.value })
-                } else {
-                    // event hasn't been added before so it creates a new instance
-                    // sorting does not matter here since there is no other elements to compete against
-                    subs[event] = CopyOnWriteArrayList()
-                    subs[event]?.add(EventSubscriber(obj, method, priority))
+        // we also want to loop over the super classes, since declaredMethods only gets method in the class itself
+        for (clazz in superClasses) {
+            // iterates though all the methods in the class
+            for (method in clazz.declaredMethods) {
+                // all the informaton and error checking before the method is added such
+                // as if it even is an event before the element even touches the hashmap
+                method.getAnnotation(InvokeEvent::class.java) ?: continue
+                val event = method.parameters.first().type ?: throw
+                IllegalArgumentException("Couldn't find parameter inside of ${method.name}!")
+                val priority = method.getAnnotation(InvokeEvent::class.java).priority
+                method.isAccessible = true
+
+                // where the method gets added to the event key inside of the subscription hashmap
+                // the arraylist is either sorted or created before the element is added
+                this.subscriptions.let { subs ->
+                    if (subs.containsKey(event)) {
+                        // sorts array on insertion
+                        subs[event]?.add(EventSubscriber(obj, method, priority))
+                        subs[event] = CopyOnWriteArrayList(subs[event]?.sortedByDescending { it.priority.value })
+                    } else {
+                        // event hasn't been added before so it creates a new instance
+                        // sorting does not matter here since there is no other elements to compete against
+                        subs[event] = CopyOnWriteArrayList()
+                        subs[event]?.add(EventSubscriber(obj, method, priority))
+                    }
                 }
             }
         }
