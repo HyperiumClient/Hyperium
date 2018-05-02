@@ -3,17 +3,12 @@ package cc.hyperium.handlers.handlers.animation;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.PreCopyPlayerModelAnglesEvent;
 import cc.hyperium.event.RenderEvent;
-import cc.hyperium.event.WorldChangeEvent;
 import cc.hyperium.gui.HyperiumGui;
 import cc.hyperium.gui.settings.items.CosmeticSettings;
 import cc.hyperium.mixinsimp.renderer.model.IMixinModelBiped;
 import cc.hyperium.mixinsimp.renderer.model.IMixinModelPlayer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
-
-import java.util.Map;
-import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class DabHandler extends AbstractAnimationHandler<PreCopyPlayerModelAnglesEvent> {
 
