@@ -264,7 +264,7 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
         int j = this.height / 4 + 48;
 
         this.addSingleplayerMultiplayerButtons(j - 10, 24);
-        this.buttonList.add(new GuiButton(100, this.width / 2 - 100, this.height - 50, "Cosmetic Shop"));
+        this.buttonList.add(new GuiButton(100, this.width / 2 - 100, this.height - 45, "Cosmetic Shop"));
 
         switch (getStyle()) {
             case DEFAULT:
