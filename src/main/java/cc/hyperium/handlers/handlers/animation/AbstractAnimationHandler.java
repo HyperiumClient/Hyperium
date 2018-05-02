@@ -17,7 +17,7 @@ public abstract class AbstractAnimationHandler<T extends CopyPlayerModelAnglesEv
     protected float state = 0;
     protected boolean right = true;
     protected boolean asc = true;
-    protected long systemTime = 0;
+    private long systemTime = 0;
 
     @InvokeEvent
     public void onCopyPlayerModelAngles(T event) {
@@ -41,10 +41,14 @@ public abstract class AbstractAnimationHandler<T extends CopyPlayerModelAnglesEv
             if (state <= 0) {
                 asc = true;
                 right = !right;
+                onStartOfState();
             } else if (state >= 100) {
                 asc = false;
             }
         }
+    }
+
+    public void onStartOfState() {
     }
 
     public abstract float modifyState(float currentState);
