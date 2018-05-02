@@ -38,12 +38,12 @@ public class NetworkHandler implements INetty {
         String type = jsonHolder.optString("type");
         if (type.equalsIgnoreCase("dab_update"))
             if (jsonHolder.optBoolean("dabbing"))
-                Hyperium.INSTANCE.getHandlers().getDabHandler().get(uuid).ensureDabbingFor(60);
-            else Hyperium.INSTANCE.getHandlers().getDabHandler().get(uuid).stopDabbing();
+                Hyperium.INSTANCE.getHandlers().getDabHandler().get(uuid).ensureAnimationFor(60);
+            else Hyperium.INSTANCE.getHandlers().getDabHandler().get(uuid).stopAnimation();
         else if (type.equalsIgnoreCase("floss_update")) {
             if (jsonHolder.optBoolean("flossing"))
-                Hyperium.INSTANCE.getHandlers().getFlossDanceHandler().get(uuid).ensureDancingFor(60);
-            else Hyperium.INSTANCE.getHandlers().getFlossDanceHandler().get(uuid).stopDancing();
+                Hyperium.INSTANCE.getHandlers().getFlossDanceHandler().get(uuid).ensureAnimationFor(60);
+            else Hyperium.INSTANCE.getHandlers().getFlossDanceHandler().get(uuid).stopAnimation();
         } else if (type.equalsIgnoreCase("flip_update")) {
             boolean flipped = jsonHolder.optBoolean("flipped");
             if (flipped)

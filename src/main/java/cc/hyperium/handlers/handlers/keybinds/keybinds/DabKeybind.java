@@ -19,6 +19,7 @@ package cc.hyperium.handlers.handlers.keybinds.keybinds;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.gui.settings.items.CosmeticSettings;
+import cc.hyperium.handlers.handlers.animation.AbstractAnimationHandler;
 import cc.hyperium.handlers.handlers.animation.DabHandler;
 import cc.hyperium.handlers.handlers.keybinds.HyperiumBind;
 import cc.hyperium.netty.NettyClient;
@@ -39,18 +40,18 @@ public class DabKeybind extends HyperiumBind {
     public void onPress() {
         DabHandler dabHandler = Hyperium.INSTANCE.getHandlers().getDabHandler();
         UUID uuid = (Minecraft.getMinecraft().getSession()).getProfile().getId();
-        DabHandler.DabState currentState = dabHandler.get(uuid);
+        AbstractAnimationHandler.AnimationState currentState = dabHandler.get(uuid);
 
-        if (CosmeticSettings.dabToggle && currentState.isDabbing() && !this.wasPressed()) {
-            dabHandler.get(uuid).setToggled(false);
-            dabHandler.stopDabbing(uuid);
+        if (CosmeticSettings.dabToggle && currentState.isAnimating() && !this.wasPressed()) {
+            currentState.setToggled(false);
+            dabHandler.stopAnimation(uuid);
             NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("type", "dab_update").put("dabbing", false)));
             return;
         }
 
         if (!this.wasPressed()) {
-            dabHandler.get(uuid).setToggled(CosmeticSettings.dabToggle);
-            dabHandler.startDabbing(uuid);
+            currentState.setToggled(CosmeticSettings.dabToggle);
+            dabHandler.stopAnimation(uuid);
         }
         NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("type", "dab_update").put("dabbing", true)));
     }
@@ -60,7 +61,7 @@ public class DabKeybind extends HyperiumBind {
     public void onRelease() {
         if (CosmeticSettings.dabToggle) return;
 
-        Hyperium.INSTANCE.getHandlers().getDabHandler().stopDabbing(Minecraft.getMinecraft().getSession().getProfile().getId());
+        Hyperium.INSTANCE.getHandlers().getDabHandler().stopAnimation(Minecraft.getMinecraft().getSession().getProfile().getId());
         NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("type", "dab_update").put("dabbing", false)));
     }
 }
