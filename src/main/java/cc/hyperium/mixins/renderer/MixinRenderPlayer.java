@@ -17,6 +17,11 @@
 
 package cc.hyperium.mixins.renderer;
 
+import cc.hyperium.event.EntityRenderEvent;
+import cc.hyperium.event.InvokeEvent;
+import cc.hyperium.utils.RenderUtils;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.EntityPlayerSP;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -35,6 +40,8 @@ import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.client.renderer.entity.RendererLivingEntity;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.entity.EntityLivingBase;
+
+import java.util.Iterator;
 
 @Mixin(RenderPlayer.class)
 public abstract class MixinRenderPlayer extends RendererLivingEntity<AbstractClientPlayer> {

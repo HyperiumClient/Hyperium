@@ -23,6 +23,7 @@ class AnimationEventHandler {
     }
 
     private void attemptSwing() {
+
         if (this.mc.thePlayer.getItemInUseCount() > 0) { //TODO: Config option for 1.7 swing animation
             final boolean mouseDown = this.mc.gameSettings.keyBindAttack.isKeyDown() && this.mc.gameSettings.keyBindUseItem.isKeyDown();
             if (mouseDown && this.mc.objectMouseOver != null && this.mc.objectMouseOver.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
