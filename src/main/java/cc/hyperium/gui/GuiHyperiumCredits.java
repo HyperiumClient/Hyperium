@@ -1,126 +1,111 @@
 package cc.hyperium.gui;
 
+import cc.hyperium.mods.sk1ercommon.Multithreading;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.client.renderer.texture.DynamicTexture;
+import org.apache.commons.io.IOUtils;
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 
-import java.awt.*;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.net.URI;
+import java.net.URL;
 import java.util.Comparator;
-import java.util.List;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.StreamSupport;
 
-public class GuiHyperiumCredits extends GuiScreen {
+public class GuiHyperiumCredits extends HyperiumGui {
 
-    private List<String> devList;
-    private List<String> contribList;
-    private List<String> supportList;
-
+    private static LinkedHashMap<String, DynamicTexture> contributors = new LinkedHashMap<>();
+    private static HashMap<String, Integer> commits = new HashMap<>();
+    private static String err = "";
     private GuiScreen prevGui;
+    private int offY = 0;
 
-    private final Comparator<String> creditComparator = (s1, s2) -> s2.length() - s1.length();
+    static {
+        System.setProperty("http.agent", "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.4; en-US; rv:1.9.2.2) Gecko/20100316 Firefox/3.6.2");
+        Multithreading.runAsync(() -> fetch(1));
+    }
+
+    private static void fetch(int tries) {
+        try {
+            String content = IOUtils.toString(URI.create("https://api.github.com/repos/HyperiumClient/Hyperium/stats/contributors"));
+            JsonParser parser = new JsonParser();
+            JsonArray a = parser.parse(content).getAsJsonArray();
+            StreamSupport.stream(a.spliterator(), false).map(JsonElement::getAsJsonObject).filter(o -> o.has("total") & o.get("total").getAsInt() > 20).sorted(Comparator.comparingLong(o -> ((JsonObject) o).get("total").getAsInt()).reversed()).forEach(o -> {
+                JsonObject con = o.get("author").getAsJsonObject();
+                try {
+                    BufferedImage bi = ImageIO.read(new URL(con.get("avatar_url").getAsString() + "?size=20"));
+                    Minecraft.getMinecraft().addScheduledTask(() -> {
+                        DynamicTexture tx = new DynamicTexture(bi);
+                        try {
+                            tx.loadTexture(Minecraft.getMinecraft().getResourceManager());
+                            contributors.put(con.get("login").getAsString(), tx);
+                            commits.put(con.get("login").getAsString(), o.get("total").getAsInt());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }).get();
+                } catch (IOException | InterruptedException | ExecutionException e) {
+                    e.printStackTrace();
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (tries < 5)
+                fetch(tries + 1);
+            else
+                err = e.getMessage();
+        }
+    }
 
     public GuiHyperiumCredits(GuiScreen prevGui) {
         this.prevGui = prevGui;
     }
 
     @Override
-    public void initGui() {
-        devList = createCreditsList(
-            "Kevin", "Sk1er", "BoomBoomPower", "Cube", "CoalOres"
-        );
-
-        contribList = createCreditsList(
-            "9Y0", "BugFroggy", "Disregard", "FalseHonesty", "KerbyBit", "KodingKing", "Vatuu Komalia"
-        );
-
-        supportList = createCreditsList(
-            "Deactivation", "KenWay", "Zezzo"
-        );
-
-        Method loadShaderMethod = null;
-        try {
-            loadShaderMethod = EntityRenderer.class.getDeclaredMethod("loadShader", ResourceLocation.class);
-        } catch (NoSuchMethodException e) {
-            try {
-                loadShaderMethod = EntityRenderer.class.getDeclaredMethod("a", ResourceLocation.class);
-            } catch (NoSuchMethodException e1) {
-                e1.printStackTrace();
-            }
-        }
-
-        if (loadShaderMethod != null) {
-            loadShaderMethod.setAccessible(true);
-            try {
-                loadShaderMethod.invoke(Minecraft.getMinecraft().entityRenderer, new ResourceLocation("shaders/hyperium_extra_blur.json"));
-            } catch (IllegalAccessException | InvocationTargetException e) {
-                e.printStackTrace();
-            }
-        }
-
-        super.initGui();
-    }
-
-    private List<String> createCreditsList(String... elements)
-    {
-        List<String> credits = new ArrayList<>(Arrays.asList(elements));
-        credits.sort(creditComparator);
-
-        return credits;
+    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+        FontRenderer fr = Minecraft.getMinecraft().fontRendererObj;
+        GlStateManager.scale(2f, 2f, 2f);
+        drawCenteredString(fr, err.isEmpty() ? (contributors.isEmpty() ? "Loading contributors..." : "Contributors") : "Error: "+err, width / 4, 20 + offY / 2, 0xFFFFFF);
+        GlStateManager.scale(0.5f, 0.5f, 0.5f);
+        int x = width / 2 - 100;
+        AtomicInteger y = new AtomicInteger(70 + offY);
+        contributors.forEach((c, i) -> {
+            GlStateManager.color(1f, 1f, 1f);
+            GlStateManager.bindTexture(i.getGlTextureId());
+            drawScaledCustomSizeModalRect(x, y.get(), 0, 0, 20, 20, 20, 20, 20, 20);
+            drawString(fr, c, x + 25, y.get(), 0xE0E0E0);
+            drawString(fr, commits.get(c) + " commits", x + 25, y.get() + 10, 0x757575);
+            y.addAndGet(25);
+        });
     }
 
     @Override
-    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-        FontRenderer fr = Minecraft.getMinecraft().fontRendererObj;
-        int yStart = 60;
-        int dY = yStart;
-        int cY = yStart;
-        int sY = yStart;
-        ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
-        drawRect(0, 0, sr.getScaledWidth(), sr.getScaledHeight(), new Color(0, 0, 0, 170).getRGB());
-//        drawChromaString("Press \"esc\" to exit.", sr.getScaledWidth() / 2 - fr.getStringWidth("Press \"esc\" to exit.") / 2, 25);
+    protected void pack() {
 
-        GlStateManager.scale(2, 2, 2);
-        drawChromaString("Developers", (int) (sr.getScaledWidth() / 4 - fr.getStringWidth("Developers")) / 2, 20);
-        drawChromaString("Contributors", (int) ((sr.getScaledWidth() / 4 - fr.getStringWidth("Contributor")) + sr.getScaledWidth() / 4) / 2, 20);
-        drawChromaString("Support Team", (int) (((sr.getScaledWidth() / 4 - fr.getStringWidth("Support Team")) + sr.getScaledWidth() / 2)) / 2, 20);
-        GlStateManager.scale(0.5, 0.5, 0.5);
-
-        for (String line : devList) {
-            drawChromaString(line, (int) ((sr.getScaledWidth() / 2 - fr.getStringWidth(line) / 2) - sr.getScaledWidth() / 4), dY);
-            dY += fr.FONT_HEIGHT + 1;
-        }
-        for (String line : contribList) {
-            drawChromaString(line, sr.getScaledWidth() / 2 - fr.getStringWidth(line) / 2, cY);
-            cY += fr.FONT_HEIGHT + 1;
-        }
-        for (String line : supportList) {
-            drawChromaString(line, (int) ((sr.getScaledWidth() / 2 - fr.getStringWidth(line) / 2) + sr.getScaledWidth() / 4), sY);
-            sY += fr.FONT_HEIGHT + 1;
-        }
-        super.drawScreen(mouseX, mouseY, partialTicks);
     }
 
-    private void drawChromaString(String text, int x, int y) {
-        int xInc = x;
-        FontRenderer renderer = Minecraft.getMinecraft().fontRendererObj;
-        for (char c : text.toCharArray()) {
-            long dif = (xInc * 10) - (y * 10);
-            long l = System.currentTimeMillis() - dif;
-            float ff = 2000.0F;
-            int i = Color.HSBtoRGB((float) (l % (int) ff) / ff, 0.8F, 0.8F);
-            String tmp = String.valueOf(c);
-            renderer.drawString(tmp, (float) ((double) xInc / 1), (float) ((double) y / 1), i, true);
-            xInc += (double) renderer.getCharWidth(c) * 1;
-        }
+    @Override
+    public void handleMouseInput() throws IOException {
+        super.handleMouseInput();
+        int i = Mouse.getEventDWheel();
+        if (i < 0)
+            offY -= 10;
+        else if (i > 0)
+            offY += 10;
     }
 
     @Override

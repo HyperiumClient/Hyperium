@@ -20,18 +20,14 @@ package cc.hyperium.mods.levelhead.renderer;
 
 import cc.hyperium.utils.JsonHolder;
 
-import java.util.UUID;
-
 /**
  * @author Sk1er
  */
 public class LevelheadTag {
     private LevelheadComponent header;
     private LevelheadComponent footer;
-    private final UUID owner;
 
-    public LevelheadTag(UUID owner) {
-        this.owner = owner;
+    public LevelheadTag() {
     }
 
 
@@ -43,9 +39,6 @@ public class LevelheadTag {
         return footer;
     }
 
-    public UUID getOwner() {
-        return owner;
-    }
 
     public void construct(JsonHolder holder) {
         if (header == null) {
