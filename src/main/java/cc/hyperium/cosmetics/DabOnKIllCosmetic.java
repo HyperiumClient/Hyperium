@@ -30,7 +30,7 @@ public class DabOnKIllCosmetic extends AbstractCosmetic {
         if (purchase != null) {
             AbstractHyperiumPurchase dab = purchase.getPurchase(EnumPurchaseType.DAB_ON_KILL);
             if (dab != null) {
-                Hyperium.INSTANCE.getHandlers().getDabHandler().get(uuid).ensureDabbingFor(((DabOnKill) dab).getDuration());
+                Hyperium.INSTANCE.getHandlers().getDabHandler().get(uuid).ensureAnimationFor(((DabOnKill) dab).getDuration());
             }
         }
 
