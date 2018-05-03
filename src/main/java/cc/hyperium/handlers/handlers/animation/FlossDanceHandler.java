@@ -1,6 +1,5 @@
 package cc.hyperium.handlers.handlers.animation;
 
-import cc.hyperium.event.PreCopyPlayerModelAnglesEvent;
 import cc.hyperium.gui.HyperiumGui;
 import cc.hyperium.gui.settings.items.CosmeticSettings;
 import cc.hyperium.mixinsimp.renderer.model.IMixinModelBiped;
@@ -9,7 +8,7 @@ import net.minecraft.client.entity.AbstractClientPlayer;
 
 import java.util.Random;
 
-public class FlossDanceHandler extends AbstractAnimationHandler<PreCopyPlayerModelAnglesEvent> {
+public class FlossDanceHandler extends AbstractPreCopyAnglesAnimationHandler {
 
     private final Random random = new Random();
     private final float[] randomHeadMovement = new float[3]; // x, y, z values
@@ -20,7 +19,7 @@ public class FlossDanceHandler extends AbstractAnimationHandler<PreCopyPlayerMod
     }
 
     @Override
-    public float modifyState(float currentState) {
+    public float modifyState() {
         float speed = CosmeticSettings.flossDanceSpeed * 2;
         return HyperiumGui.clamp(state + (asc ? speed : -speed), 0.0f, 100.0f);
     }
@@ -39,6 +38,10 @@ public class FlossDanceHandler extends AbstractAnimationHandler<PreCopyPlayerMod
 
     @Override
     public void modifyPlayer(AbstractClientPlayer entity, IMixinModelPlayer player, float heldPercent) {
+        if (shouldNotModify(entity, player)) {
+            return;
+        }
+
         player.getBipedBody().rotateAngleZ = (float) Math.toRadians((right ? 10f : -10f) * heldPercent);
         player.getBipedBodywear().rotateAngleZ = (float) Math.toRadians((right ? 10f : -10f) * heldPercent);
 
@@ -71,6 +74,10 @@ public class FlossDanceHandler extends AbstractAnimationHandler<PreCopyPlayerMod
 
     @Override
     public void modifyPlayer(AbstractClientPlayer entity, IMixinModelBiped player, float heldPercent) {
+        if (shouldNotModify(entity, player)) {
+            return;
+        }
+
         player.getBipedBody().rotateAngleZ = (float) Math.toRadians((right ? 10f : -10f) * heldPercent);
 
         player.getBipedRightUpperLeg().rotateAngleZ = (float) Math.toRadians((right ? -10f : 10f) * heldPercent);
@@ -90,6 +97,21 @@ public class FlossDanceHandler extends AbstractAnimationHandler<PreCopyPlayerMod
 
         player.getBipedLeftUpperArm().rotateAngleZ = (float) Math.toRadians((right ? -50f : 50f) * heldPercent);
         player.getBipedLeftUpperArm().rotateAngleX = (float) Math.toRadians((armsDirection == ArmsDirection.BACK ? 30.0f : -30.0f) * heldPercent);
+    }
+
+    private boolean shouldNotModify(AbstractClientPlayer entity, IMixinModelBiped player) {
+        AnimationState animationState = get(entity.getUniqueID());
+        int ticks = animationState.getFrames();
+
+        if (ticks <= 2) {
+            if (animationState.shouldReset()) {
+                resetAnimation(player);
+            }
+
+            return true;
+        }
+
+        return false;
     }
 
     enum ArmsDirection {

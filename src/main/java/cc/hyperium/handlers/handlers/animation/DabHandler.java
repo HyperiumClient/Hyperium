@@ -1,8 +1,5 @@
 package cc.hyperium.handlers.handlers.animation;
 
-import cc.hyperium.event.InvokeEvent;
-import cc.hyperium.event.PreCopyPlayerModelAnglesEvent;
-import cc.hyperium.event.RenderEvent;
 import cc.hyperium.gui.HyperiumGui;
 import cc.hyperium.gui.settings.items.CosmeticSettings;
 import cc.hyperium.mixinsimp.renderer.model.IMixinModelBiped;
@@ -10,18 +7,18 @@ import cc.hyperium.mixinsimp.renderer.model.IMixinModelPlayer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 
-public class DabHandler extends AbstractAnimationHandler<PreCopyPlayerModelAnglesEvent> {
+public class DabHandler extends AbstractPreCopyAnglesAnimationHandler {
 
     private int dabs;
 
-    @InvokeEvent
-    public void onRender(RenderEvent e) {
+    @Override
+    public void onRender() {
         if (state == 100 && get(Minecraft.getMinecraft().thePlayer.getUniqueID()).isAnimating())
             incDabs();
     }
 
     @Override
-    public float modifyState(float currentState) {
+    public float modifyState() {
         return HyperiumGui.clamp(
                 HyperiumGui.easeOut(
                         this.state,
