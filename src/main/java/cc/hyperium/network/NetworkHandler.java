@@ -29,6 +29,8 @@ public class NetworkHandler implements INetty {
 
     @Override
     public void handleChat(String s) {
+        if (s.toLowerCase().contains("reconnecting hyperium connection"))
+            return;
         System.out.println("Chat: " + s);
         GeneralChatHandler.instance().sendMessage(s, false);
     }
@@ -53,8 +55,8 @@ public class NetworkHandler implements INetty {
             } else {
                 Hyperium.INSTANCE.getHandlers().getFlipHandler().state(uuid, 0);
             }
-        } else if(type.equalsIgnoreCase("refresh_cosmetics")) {
-            if(Minecraft.getMinecraft().currentScreen instanceof ShopGui) {
+        } else if (type.equalsIgnoreCase("refresh_cosmetics")) {
+            if (Minecraft.getMinecraft().currentScreen instanceof ShopGui) {
                 ((ShopGui) Minecraft.getMinecraft().currentScreen).refreshData();
             } else {
                 PurchaseApi.getInstance().refreshSelf();
