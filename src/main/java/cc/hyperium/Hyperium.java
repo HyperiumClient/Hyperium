@@ -22,12 +22,7 @@ import cc.hyperium.commands.defaults.*;
 import cc.hyperium.config.DefaultConfig;
 import cc.hyperium.cosmetics.HyperiumCosmetics;
 import cc.hyperium.cosmetics.WingCosmetic;
-import cc.hyperium.event.EventBus;
-import cc.hyperium.event.GameShutDownEvent;
-import cc.hyperium.event.InitializationEvent;
-import cc.hyperium.event.InvokeEvent;
-import cc.hyperium.event.PreInitializationEvent;
-import cc.hyperium.event.Priority;
+import cc.hyperium.event.*;
 import cc.hyperium.event.minigames.MinigameListener;
 import cc.hyperium.gui.BlurDisableFallback;
 import cc.hyperium.gui.ConfirmationPopup;
@@ -226,7 +221,7 @@ public class Hyperium {
             networkHandler = new NetworkHandler();
             this.client = new NettyClient(networkHandler);
 
-           Multithreading.schedule(() -> {
+            Multithreading.schedule(() -> {
                 if (this.client.isAdmin()) {
                     getHandlers().getHyperiumCommandHandler().registerCommand(new BaseCommand() {
                         @Override
@@ -273,6 +268,7 @@ public class Hyperium {
         getHandlers().getHyperiumCommandHandler().registerCommand(new CommandPlayGame());
         getHandlers().getHyperiumCommandHandler().registerCommand(new CommandDebug());
         getHandlers().getHyperiumCommandHandler().registerCommand(new CommandUpdate());
+        getHandlers().getHyperiumCommandHandler().registerCommand(new CommandLogs());
     }
 
     /**
