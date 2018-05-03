@@ -51,7 +51,7 @@ public class DabKeybind extends HyperiumBind {
 
         if (!this.wasPressed()) {
             currentState.setToggled(CosmeticSettings.dabToggle);
-            dabHandler.stopAnimation(uuid);
+            dabHandler.startAnimation(uuid);
         }
         NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("type", "dab_update").put("dabbing", true)));
     }

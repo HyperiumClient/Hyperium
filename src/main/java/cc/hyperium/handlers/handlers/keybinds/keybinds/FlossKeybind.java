@@ -50,7 +50,7 @@ public class FlossKeybind extends HyperiumBind {
 
         if (!this.wasPressed()) {
             currentState.setToggled(CosmeticSettings.flossDanceToggle);
-            flossDanceHandler.stopAnimation(uuid);
+            flossDanceHandler.startAnimation(uuid);
             NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("type", "floss_update").put("flossing", true)));
 
         }
