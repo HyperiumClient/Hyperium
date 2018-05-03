@@ -17,7 +17,7 @@ The Hyperium is a Minecraft modification in development. It will combine many po
 - [MemoryFix](https://prplz.io/memoryfix)
 - [Perspective Mod](https://www.youtube.com/watch?v=7FdMMpzNdUk)
 - [Sidebar Mod](https://www.youtube.com/watch?v=cn9VvT43yRs)
-- [ShadowPlay Integration](https://www.nvidia.com/en-us/geforce/geforce-experience/shadowplay/)
+
 ## Contributing ##
 
 ## Building the project with IntelliJ ##
