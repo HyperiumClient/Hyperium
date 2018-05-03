@@ -10,7 +10,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.model.ModelRenderer;
 
-public abstract class AbstractAnimationHandler<T extends CopyPlayerModelAnglesEvent> {
+public abstract class AbstractAnimationHandler {
 
     private final ConcurrentHashMap<UUID, AnimationState> animationStates = new ConcurrentHashMap<>();
 
@@ -20,21 +20,15 @@ public abstract class AbstractAnimationHandler<T extends CopyPlayerModelAnglesEv
     private long systemTime = 0;
 
     @InvokeEvent
-    public void onCopyPlayerModelAngles(T event) {
-        AbstractClientPlayer entity = event.getEntity();
-        IMixinModelBiped player = event.getModel();
-
-        modify(entity, player);
-    }
-
-    @InvokeEvent
     public void onRender(RenderEvent e) {
         animationStates.values().forEach(AnimationState::update);
+
+        onRender();
 
         if (this.systemTime == 0) this.systemTime = Minecraft.getSystemTime();
 
         if (this.systemTime < Minecraft.getSystemTime() + (1000 / 120)) {
-            state = modifyState(state);
+            state = modifyState();
 
             this.systemTime += (1000 / 120);
 
@@ -48,10 +42,13 @@ public abstract class AbstractAnimationHandler<T extends CopyPlayerModelAnglesEv
         }
     }
 
+    public void onRender() {
+    }
+
     public void onStartOfState() {
     }
 
-    public abstract float modifyState(float currentState);
+    public abstract float modifyState();
 
     @InvokeEvent
     public void swapWorld(WorldChangeEvent event) {
@@ -71,16 +68,11 @@ public abstract class AbstractAnimationHandler<T extends CopyPlayerModelAnglesEv
         get(uuid).stopAnimation();
     }
 
-    private void modify(AbstractClientPlayer entity, IMixinModelBiped player) {
-        AnimationState danceState = get(entity.getUniqueID());
-        int ticks = danceState.frames;
-        resetAnimation(player);
+    protected void modify(AbstractClientPlayer entity, IMixinModelBiped player) {
+        AnimationState animationState = get(entity.getUniqueID());
+        int ticks = animationState.frames;
 
-        if (ticks <= 2) {
-            if (danceState.shouldReset()) {
-                resetAnimation(player);
-            }
-
+        if (ticks <= 0) {
             return;
         }
 
@@ -97,7 +89,7 @@ public abstract class AbstractAnimationHandler<T extends CopyPlayerModelAnglesEv
 
     public abstract void modifyPlayer(AbstractClientPlayer entity, IMixinModelBiped player, float heldPercent);
 
-    private void resetAnimation(IMixinModelBiped player) {
+    protected void resetAnimation(IMixinModelBiped player) {
         resetModelRenderers(
                 player.getBipedHead(), player.getBipedHeadwear(), //
                 player.getBipedBody(), //
@@ -132,7 +124,6 @@ public abstract class AbstractAnimationHandler<T extends CopyPlayerModelAnglesEv
     }
 
     public class AnimationState {
-        private boolean reset;
         private int frames = 0;
         private long systemTime;
         private boolean toggled;
@@ -140,7 +131,6 @@ public abstract class AbstractAnimationHandler<T extends CopyPlayerModelAnglesEv
         public AnimationState() {
             this.systemTime = Minecraft.getSystemTime();
             this.toggled = false;
-            this.reset = true;
         }
 
         private void update() {
@@ -160,7 +150,6 @@ public abstract class AbstractAnimationHandler<T extends CopyPlayerModelAnglesEv
 
         public void ensureAnimationFor(int seconds) {
             frames = Math.max(frames, seconds * 60);
-            reset = true;
         }
 
         public void stopAnimation() {
@@ -177,6 +166,10 @@ public abstract class AbstractAnimationHandler<T extends CopyPlayerModelAnglesEv
 
         public boolean shouldReset() {
             return this.frames == 1;
+        }
+
+        public int getFrames() {
+            return frames;
         }
     }
 }
