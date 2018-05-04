@@ -267,6 +267,11 @@ class PreCopyPlayerModelAnglesEvent(entity: AbstractClientPlayer, model: IMixinM
  */
 class PostCopyPlayerModelAnglesEvent(entity: AbstractClientPlayer, model: IMixinModelBiped) : CopyPlayerModelAnglesEvent(entity, model)
 
+/**
+ * Called when this player attacks an entity
+ */
+class PlayerAttackEntityEvent(uuid: UUID, entity: Entity?)
+
 abstract class CopyPlayerModelAnglesEvent(val entity: AbstractClientPlayer, val model: IMixinModelBiped)
 
 class SoundPlayEvent(val sound: ISound) : CancellableEvent()
