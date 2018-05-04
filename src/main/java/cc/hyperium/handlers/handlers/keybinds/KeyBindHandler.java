@@ -71,6 +71,10 @@ public class KeyBindHandler {
         HyperiumBind pauseSpotify = new HyperiumBind("Pause Spotify", Keyboard.KEY_COMMA) {
             @Override
             public void onPress() {
+                if (Spotify.instance == null) {
+                    return;
+                }
+                
                 Spotify.instance.pause(true);
             }
         };
@@ -78,6 +82,10 @@ public class KeyBindHandler {
         HyperiumBind resumeSpotify = new HyperiumBind("Resume Spotify", Keyboard.KEY_PERIOD) {
             @Override
             public void onPress() {
+                if (Spotify.instance == null) {
+                    return;
+                }
+                
                 Spotify.instance.pause(false);
             }
         };

@@ -18,22 +18,11 @@
 package cc.hyperium;
 
 import cc.hyperium.commands.BaseCommand;
-import cc.hyperium.commands.defaults.CommandClearChat;
-import cc.hyperium.commands.defaults.CommandConfigGui;
-import cc.hyperium.commands.defaults.CommandDebug;
-import cc.hyperium.commands.defaults.CommandNameHistory;
-import cc.hyperium.commands.defaults.CommandPlayGame;
-import cc.hyperium.commands.defaults.CommandPrivateMessage;
-import cc.hyperium.commands.defaults.CommandUpdate;
+import cc.hyperium.commands.defaults.*;
 import cc.hyperium.config.DefaultConfig;
 import cc.hyperium.cosmetics.HyperiumCosmetics;
 import cc.hyperium.cosmetics.WingCosmetic;
-import cc.hyperium.event.EventBus;
-import cc.hyperium.event.GameShutDownEvent;
-import cc.hyperium.event.InitializationEvent;
-import cc.hyperium.event.InvokeEvent;
-import cc.hyperium.event.PreInitializationEvent;
-import cc.hyperium.event.Priority;
+import cc.hyperium.event.*;
 import cc.hyperium.event.minigames.MinigameListener;
 import cc.hyperium.gui.BlurDisableFallback;
 import cc.hyperium.gui.ConfirmationPopup;
@@ -232,7 +221,7 @@ public class Hyperium {
             networkHandler = new NetworkHandler();
             this.client = new NettyClient(networkHandler);
 
-           Multithreading.schedule(() -> {
+            Multithreading.schedule(() -> {
                 if (this.client.isAdmin()) {
                     getHandlers().getHyperiumCommandHandler().registerCommand(new BaseCommand() {
                         @Override
@@ -271,12 +260,15 @@ public class Hyperium {
      */
     private void registerCommands() {
         getHandlers().getHyperiumCommandHandler().registerCommand(new CommandConfigGui());
+        getHandlers().getHyperiumCommandHandler().registerCommand(new CustomLevelheadCommand());
+
         getHandlers().getHyperiumCommandHandler().registerCommand(new CommandPrivateMessage());
         getHandlers().getHyperiumCommandHandler().registerCommand(new CommandClearChat());
         getHandlers().getHyperiumCommandHandler().registerCommand(new CommandNameHistory());
         getHandlers().getHyperiumCommandHandler().registerCommand(new CommandPlayGame());
         getHandlers().getHyperiumCommandHandler().registerCommand(new CommandDebug());
         getHandlers().getHyperiumCommandHandler().registerCommand(new CommandUpdate());
+        getHandlers().getHyperiumCommandHandler().registerCommand(new CommandLogs());
     }
 
     /**

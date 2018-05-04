@@ -52,52 +52,58 @@ class MixinLayerDeadmau5Head {
     @Inject(method = "doRenderLayer", at = @At("HEAD"))
     private void doRenderLayer(AbstractClientPlayer entitylivingbaseIn, float p_177141_2_, float p_177141_3_,
                                float partialTicks, float p_177141_5_, float p_177141_6_, float p_177141_7_, float scale, CallbackInfo ci) {
-        if (entitylivingbaseIn.isInvisible())
-            return;
-        if (entitylivingbaseIn.isInvisibleToPlayer(Minecraft.getMinecraft().thePlayer))
-            return;
-
-        if (!Hyperium.INSTANCE.getHandlers().getConfigOptions().showCosmeticsEveryWhere) {
-            if (!(Hyperium.INSTANCE.getMinigameListener().getCurrentMinigameName().equalsIgnoreCase("HOUSING") || Hyperium.INSTANCE.getHandlers().getLocationHandler().getLocation().contains("lobby")))
+        try {
+            if (entitylivingbaseIn == null)
                 return;
-        }
-        if (Hyperium.INSTANCE.getCosmetics().getDeadmau5Cosmetic().isPurchasedBy(entitylivingbaseIn.getUniqueID()) && !(entitylivingbaseIn.getName().equals("deadmau5"))) {
-            HyperiumPurchase packageIfReady = PurchaseApi.getInstance().getPackageIfReady(entitylivingbaseIn.getUniqueID());
-            if (packageIfReady == null) {
-
+            if (entitylivingbaseIn.isInvisible())
                 return;
+            if (entitylivingbaseIn.isInvisibleToPlayer(Minecraft.getMinecraft().thePlayer))
+                return;
+
+            if (!Hyperium.INSTANCE.getHandlers().getConfigOptions().showCosmeticsEveryWhere) {
+                if (!(Hyperium.INSTANCE.getMinigameListener().getCurrentMinigameName().equalsIgnoreCase("HOUSING") || Hyperium.INSTANCE.getHandlers().getLocationHandler().getLocation().contains("lobby")))
+                    return;
             }
-            AbstractHyperiumPurchase purchase = packageIfReady.getPurchase(EnumPurchaseType.DEADMAU5_COSMETIC);
-            if (purchase == null) {
+            if (Hyperium.INSTANCE.getCosmetics().getDeadmau5Cosmetic().isPurchasedBy(entitylivingbaseIn.getUniqueID()) && !(entitylivingbaseIn.getName().equals("deadmau5"))) {
+                HyperiumPurchase packageIfReady = PurchaseApi.getInstance().getPackageIfReady(entitylivingbaseIn.getUniqueID());
+                if (packageIfReady == null) {
 
-                return;
-            }
-            if (entitylivingbaseIn.getUniqueID() != Minecraft.getMinecraft().thePlayer.getUniqueID()) {
-                if (!((EarsCosmetic) purchase).isEnabled()) {
                     return;
                 }
-            } else if (!Hyperium.INSTANCE.getHandlers().getConfigOptions().enableDeadmau5Ears)
-                return;
-            this.playerRenderer.bindTexture(entitylivingbaseIn.getLocationSkin());
+                AbstractHyperiumPurchase purchase = packageIfReady.getPurchase(EnumPurchaseType.DEADMAU5_COSMETIC);
+                if (purchase == null) {
 
-            for (int i = 0; i < 2; ++i) {
-                float f = entitylivingbaseIn.prevRotationYaw + (entitylivingbaseIn.rotationYaw - entitylivingbaseIn.prevRotationYaw) * partialTicks - (entitylivingbaseIn.prevRenderYawOffset + (entitylivingbaseIn.renderYawOffset - entitylivingbaseIn.prevRenderYawOffset) * partialTicks);
-                float f1 = entitylivingbaseIn.prevRotationPitch + (entitylivingbaseIn.rotationPitch - entitylivingbaseIn.prevRotationPitch) * partialTicks;
-                GlStateManager.pushMatrix();
-                GlStateManager.rotate(f, 0.0F, 1.0F, 0.0F);
-                GlStateManager.rotate(f1, 1.0F, 0.0F, 0.0F);
-                GlStateManager.translate(0.375F * (float) (i * 2 - 1), 0.0F, 0.0F);
-                GlStateManager.translate(0.0F, -0.375F, 0.0F);
-                GlStateManager.rotate(-f1, 1.0F, 0.0F, 0.0F);
-                GlStateManager.rotate(-f, 0.0F, 1.0F, 0.0F);
-                if (entitylivingbaseIn.isSneaking()) {
-                    GlStateManager.translate(0.0F, 0.25, 0.0F);
+                    return;
                 }
-                float f2 = 1.3333334F;
-                GlStateManager.scale(f2, f2, f2);
-                this.playerRenderer.getMainModel().renderDeadmau5Head(0.0625F);
-                GlStateManager.popMatrix();
+                if (entitylivingbaseIn.getUniqueID() != Minecraft.getMinecraft().thePlayer.getUniqueID()) {
+                    if (!((EarsCosmetic) purchase).isEnabled()) {
+                        return;
+                    }
+                } else if (!Hyperium.INSTANCE.getHandlers().getConfigOptions().enableDeadmau5Ears)
+                    return;
+                this.playerRenderer.bindTexture(entitylivingbaseIn.getLocationSkin());
+
+                for (int i = 0; i < 2; ++i) {
+                    float f = entitylivingbaseIn.prevRotationYaw + (entitylivingbaseIn.rotationYaw - entitylivingbaseIn.prevRotationYaw) * partialTicks - (entitylivingbaseIn.prevRenderYawOffset + (entitylivingbaseIn.renderYawOffset - entitylivingbaseIn.prevRenderYawOffset) * partialTicks);
+                    float f1 = entitylivingbaseIn.prevRotationPitch + (entitylivingbaseIn.rotationPitch - entitylivingbaseIn.prevRotationPitch) * partialTicks;
+                    GlStateManager.pushMatrix();
+                    GlStateManager.rotate(f, 0.0F, 1.0F, 0.0F);
+                    GlStateManager.rotate(f1, 1.0F, 0.0F, 0.0F);
+                    GlStateManager.translate(0.375F * (float) (i * 2 - 1), 0.0F, 0.0F);
+                    GlStateManager.translate(0.0F, -0.375F, 0.0F);
+                    GlStateManager.rotate(-f1, 1.0F, 0.0F, 0.0F);
+                    GlStateManager.rotate(-f, 0.0F, 1.0F, 0.0F);
+                    if (entitylivingbaseIn.isSneaking()) {
+                        GlStateManager.translate(0.0F, 0.25, 0.0F);
+                    }
+                    float f2 = 1.3333334F;
+                    GlStateManager.scale(f2, f2, f2);
+                    this.playerRenderer.getMainModel().renderDeadmau5Head(0.0625F);
+                    GlStateManager.popMatrix();
+                }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

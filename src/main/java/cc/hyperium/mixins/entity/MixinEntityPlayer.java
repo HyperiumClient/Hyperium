@@ -18,7 +18,9 @@
 package cc.hyperium.mixins.entity;
 
 import cc.hyperium.event.EventBus;
+import cc.hyperium.event.PlayerAttackEntityEvent;
 import cc.hyperium.event.PlayerSwingEvent;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
@@ -45,5 +47,9 @@ public abstract class MixinEntityPlayer extends EntityLivingBase {
             }
         }
     }
-
+    
+    @Inject(method = "attackTargetEntityWithCurrentItem", at = @At("HEAD"))
+    public void attackTargetEntityWithCurrentItem(Entity targetEntity, CallbackInfo ci) {
+        EventBus.INSTANCE.post(new PlayerAttackEntityEvent(this.entityUniqueID, targetEntity));
+    }
 }
