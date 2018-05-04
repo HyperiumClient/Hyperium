@@ -18,7 +18,7 @@ public class AddonWorkspaceResourcePack extends AbstractResourcePack {
     }
 
     protected InputStream getInputStreamByName(String name) throws IOException {
-        return new BufferedInputStream(new FileInputStream(new File(this.resourcePackFile, name)));
+        return AddonWorkspaceResourcePack.class.getClassLoader().getResourceAsStream("pack.mcmeta");
     }
 
     protected boolean hasResourceName(String name) {
