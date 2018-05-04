@@ -33,12 +33,13 @@ public class HyperiumPurchase {
         System.out.println("Loaded purchases for " + playerUUID + " (" + response + ")");
         this.playerUUID = playerUUID;
         this.response = response;
+        JsonHolder data = PurchaseApi.getInstance().get("https://api.hyperium.cc/purchaseSettings/" + (playerUUID.toString()));
         for (JsonElement nicePackages : response.optJSONArray("hyperium")) {
             String asString = nicePackages.getAsString();
             EnumPurchaseType parse = EnumPurchaseType.parse(asString);
             if (parse != EnumPurchaseType.UNKNOWN)
                 try {
-                    this.purchases.add(PurchaseApi.getInstance().parse(parse, PurchaseApi.getInstance().get(PurchaseApi.url + playerUUID.toString() + "/" + parse.name())));
+                    this.purchases.add(PurchaseApi.getInstance().parse(parse, data.optJSONObject(parse.name().toLowerCase())));
                 } catch (Exception wtf) {
                     wtf.printStackTrace();
                 }
