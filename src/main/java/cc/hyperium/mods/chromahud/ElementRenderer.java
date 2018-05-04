@@ -195,6 +195,7 @@ public class ElementRenderer {
     }
 
     public static void startDrawing(DisplayElement element) {
+        GlStateManager.pushMatrix();
         GlStateManager.scale(element.getScale(), element.getScale(), 0);
         currentScale = element.getScale();
         color = element.getColor();
@@ -203,6 +204,8 @@ public class ElementRenderer {
 
     public static void endDrawing(DisplayElement element) {
         GlStateManager.scale(1.0 / element.getScale(), 1.0 / element.getScale(), 0);
+        
+        GlStateManager.popMatrix();
     }
 
 
