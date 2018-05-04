@@ -36,7 +36,13 @@ public class ViewCosmeticsGui extends HyperiumGui {
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 
         super.drawScreen(mouseX, mouseY, partialTicks);
+    
+        if (PurchaseApi.getInstance() == null || PurchaseApi.getInstance().getSelf() == null || PurchaseApi.getInstance().getSelf().getResponse() == null) {
+            return;
+        }
+        
         JsonHolder response = PurchaseApi.getInstance().getSelf().getResponse();
+        
         GlStateManager.scale(2.0F, 2.0F, 2.0F);
         String credits = "Credits";
         fontRendererObj.drawString(credits, (width / 2 - fontRendererObj.getStringWidth(credits) ) / 2, 65 / 2, Color.RED.getRGB(), true);
