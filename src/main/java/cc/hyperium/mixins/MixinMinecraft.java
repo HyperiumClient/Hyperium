@@ -171,6 +171,7 @@ package cc.hyperium.mixins;
 import cc.hyperium.Hyperium;
 import cc.hyperium.SplashProgress;
 import cc.hyperium.event.*;
+import cc.hyperium.gui.CrashReportGUI;
 import cc.hyperium.gui.settings.items.GeneralSetting;
 import cc.hyperium.handlers.handlers.HypixelDetector;
 import cc.hyperium.internal.addons.AddonBootstrap;
@@ -183,12 +184,8 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.client.entity.EntityPlayerSP;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.GuiGameOver;
-import net.minecraft.client.gui.GuiIngame;
-import net.minecraft.client.gui.GuiMainMenu;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.gui.*;
+import net.minecraft.client.main.GameConfiguration;
 import net.minecraft.client.multiplayer.PlayerControllerMP;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.particle.EffectRenderer;
@@ -197,6 +194,8 @@ import net.minecraft.client.resources.DefaultResourcePack;
 import net.minecraft.client.resources.FileResourcePack;
 import net.minecraft.client.resources.IResourcePack;
 import net.minecraft.client.settings.GameSettings;
+import net.minecraft.crash.CrashReport;
+import net.minecraft.init.Bootstrap;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Timer;
@@ -219,8 +218,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
+import java.lang.management.ManagementFactory;
 import java.nio.ByteBuffer;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Mixin(Minecraft.class)
@@ -504,6 +507,9 @@ public abstract class MixinMinecraft {
     @Shadow
     public abstract void func_181536_a(int p_181536_1_, int p_181536_2_, int p_181536_3_, int p_181536_4_, int p_181536_5_, int p_181536_6_, int p_181536_7_, int p_181536_8_, int p_181536_9_, int p_181536_10_);
 
+    @Shadow
+    public abstract void shutdown();
+
     /**
      * change to splash screen logo
      *
@@ -592,6 +598,71 @@ public abstract class MixinMinecraft {
         // Actiavtes for EVERY mouse button.
         int i = Mouse.getEventButton();
         EventBus.INSTANCE.post(new MouseButtonEvent(i));
+    }
+
+    /**
+     * @author Mojang & Cubxity
+     */
+    @Overwrite
+    public void displayCrashReport(CrashReport crashReportIn) {
+        File file1 = new File(Minecraft.getMinecraft().mcDataDir, "crash-reports");
+        File file2 = new File(file1, "crash-" + (new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss")).format(new Date()) + "-client.txt");
+        Bootstrap.printToSYSOUT(crashReportIn.getCompleteReport());
+
+        int x = CrashReportGUI.handle(crashReportIn);
+
+        if (crashReportIn.getFile() != null)
+            Bootstrap.printToSYSOUT("#@!@# Game crashed! Crash report saved to: #@!@# " + crashReportIn.getFile());
+        else if (crashReportIn.saveToFile(file2))
+            Bootstrap.printToSYSOUT("#@!@# Game crashed! Crash report saved to: #@!@# " + file2.getAbsolutePath());
+        else
+            Bootstrap.printToSYSOUT("#@?@# Game crashed! Crash report could not be saved. #@?@#");
+
+        switch (x) {
+            case 0:
+                System.exit(-1);
+                break;
+            case 1:
+                try {
+                    shutdown();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    System.exit(-1); // if minecraft could not exit normally
+                }
+                break;
+            case 2:
+                try {
+                    StringBuilder cmd = new StringBuilder();
+                    String[] command = System.getProperty("sun.java.command").split(" ");
+                    cmd.append(System.getProperty("java.home")).append(File.separator).append("bin").append(File.separator).append("java ");
+                    ManagementFactory.getRuntimeMXBean().getInputArguments().forEach(s -> {
+                        if (!s.contains("-agentlib"))
+                            cmd.append(s).append(" ");
+                    });
+                    if (command[0].endsWith(".jar"))
+                        cmd.append("-jar ").append(new File(command[0]).getPath()).append(" ");
+                    else
+                        cmd.append("-cp \"").append(System.getProperty("java.class.path")).append("\" ").append(command[0]).append(" ");
+                    for (int i = 1; i < command.length; i++)
+                        cmd.append(command[i]).append(" ");
+                    Runtime.getRuntime().addShutdownHook(new Thread(()->{
+                        try {
+                            System.out.println("## RESTARTING MINECRAFT ##");
+                            System.out.println("cmd="+cmd.toString());
+                            Runtime.getRuntime().exec(cmd.toString());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                            System.out.println("## FAILED TO RESTART MINECRAFT ##");
+                        }
+                    }));
+                    shutdown();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    System.out.println("## FAILED TO RESTART MINECRAFT ##");
+                }
+                break;
+        }
+
     }
 
 
