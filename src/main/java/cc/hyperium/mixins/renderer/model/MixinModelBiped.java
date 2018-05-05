@@ -54,7 +54,6 @@ public class MixinModelBiped extends ModelBase implements IMixinModelBiped {
             this.bipedRightForeArm = new ModelRenderer(this, 40, 22);
             this.bipedRightForeArm.addBox(-3.0F, -2.0F, -2.0F, 4, 6, 4, modelSize);
             this.bipedRightForeArm.setRotationPoint(-5.0F, 2.0F + p_i1149_2_, 0.0F);
-
             this.bipedLeftArm = new ModelRenderer(this, 40, 16);
             this.bipedLeftArm.mirror = true;
             this.bipedLeftArm.addBox(-1.0F, -2.0F, -2.0F, 4, 6, 4, modelSize);

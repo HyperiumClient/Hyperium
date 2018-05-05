@@ -50,8 +50,9 @@
     "renderer.MixinRendererLivingEntity",
     "renderer.MixinRenderPlayer",
     "renderer.MixinRender",
-    "renderer.MixinFontRenderer",
     "renderer.MixinLayerDeadmau5Head",
+
+    "renderer.MixinFontRenderer",
     "renderer.model.MixinModelPlayer",
     "renderer.model.MixinModelBiped",
     "renderer.model.MixinModelBox",

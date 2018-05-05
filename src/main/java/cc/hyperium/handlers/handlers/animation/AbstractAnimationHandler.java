@@ -1,14 +1,16 @@
 package cc.hyperium.handlers.handlers.animation;
 
-import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
-
-import cc.hyperium.event.*;
+import cc.hyperium.event.InvokeEvent;
+import cc.hyperium.event.RenderEvent;
+import cc.hyperium.event.WorldChangeEvent;
 import cc.hyperium.mixinsimp.renderer.model.IMixinModelBiped;
 import cc.hyperium.mixinsimp.renderer.model.IMixinModelPlayer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.model.ModelRenderer;
+
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 public abstract class AbstractAnimationHandler {
 
@@ -83,6 +85,7 @@ public abstract class AbstractAnimationHandler {
         } else {
             modifyPlayer(entity, player, heldPercent);
         }
+
     }
 
     public abstract void modifyPlayer(AbstractClientPlayer entity, IMixinModelPlayer player, float heldPercent);

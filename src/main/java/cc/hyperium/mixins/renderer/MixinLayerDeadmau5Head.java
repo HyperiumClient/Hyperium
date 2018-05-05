@@ -28,6 +28,7 @@ import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.client.renderer.entity.layers.LayerDeadmau5Head;
+import net.minecraft.util.ResourceLocation;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -52,58 +53,85 @@ class MixinLayerDeadmau5Head {
     @Inject(method = "doRenderLayer", at = @At("HEAD"))
     private void doRenderLayer(AbstractClientPlayer entitylivingbaseIn, float p_177141_2_, float p_177141_3_,
                                float partialTicks, float p_177141_5_, float p_177141_6_, float p_177141_7_, float scale, CallbackInfo ci) {
+        int k = 0;
         try {
+
+            k = 1;
             if (entitylivingbaseIn == null)
                 return;
             if (entitylivingbaseIn.isInvisible())
                 return;
             if (entitylivingbaseIn.isInvisibleToPlayer(Minecraft.getMinecraft().thePlayer))
                 return;
-
+            k = 2;
             if (!Hyperium.INSTANCE.getHandlers().getConfigOptions().showCosmeticsEveryWhere) {
                 if (!(Hyperium.INSTANCE.getMinigameListener().getCurrentMinigameName().equalsIgnoreCase("HOUSING") || Hyperium.INSTANCE.getHandlers().getLocationHandler().getLocation().contains("lobby")))
                     return;
             }
-            if (Hyperium.INSTANCE.getCosmetics().getDeadmau5Cosmetic().isPurchasedBy(entitylivingbaseIn.getUniqueID()) && !(entitylivingbaseIn.getName().equals("deadmau5"))) {
+            k = 3;
+            String name = entitylivingbaseIn.getName();
+            if (name == null) {
+                return;
+            }
+            k = 5;
+            if (Hyperium.INSTANCE.getCosmetics().getDeadmau5Cosmetic().isPurchasedBy(entitylivingbaseIn.getUniqueID()) && !(name.equals("deadmau5"))) {
                 HyperiumPurchase packageIfReady = PurchaseApi.getInstance().getPackageIfReady(entitylivingbaseIn.getUniqueID());
                 if (packageIfReady == null) {
-
                     return;
                 }
+                k = 6;
                 AbstractHyperiumPurchase purchase = packageIfReady.getPurchase(EnumPurchaseType.DEADMAU5_COSMETIC);
                 if (purchase == null) {
-
                     return;
                 }
+                k = 7;
                 if (entitylivingbaseIn.getUniqueID() != Minecraft.getMinecraft().thePlayer.getUniqueID()) {
                     if (!((EarsCosmetic) purchase).isEnabled()) {
+                        k = -5;
                         return;
                     }
                 } else if (!Hyperium.INSTANCE.getHandlers().getConfigOptions().enableDeadmau5Ears)
                     return;
-                this.playerRenderer.bindTexture(entitylivingbaseIn.getLocationSkin());
-
+                k = 8;
+                ResourceLocation locationSkin = entitylivingbaseIn.getLocationSkin();
+                if (locationSkin != null)
+                    this.playerRenderer.bindTexture(locationSkin);
+                k = 9;
                 for (int i = 0; i < 2; ++i) {
-                    float f = entitylivingbaseIn.prevRotationYaw + (entitylivingbaseIn.rotationYaw - entitylivingbaseIn.prevRotationYaw) * partialTicks - (entitylivingbaseIn.prevRenderYawOffset + (entitylivingbaseIn.renderYawOffset - entitylivingbaseIn.prevRenderYawOffset) * partialTicks);
-                    float f1 = entitylivingbaseIn.prevRotationPitch + (entitylivingbaseIn.rotationPitch - entitylivingbaseIn.prevRotationPitch) * partialTicks;
-                    GlStateManager.pushMatrix();
-                    GlStateManager.rotate(f, 0.0F, 1.0F, 0.0F);
-                    GlStateManager.rotate(f1, 1.0F, 0.0F, 0.0F);
-                    GlStateManager.translate(0.375F * (float) (i * 2 - 1), 0.0F, 0.0F);
-                    GlStateManager.translate(0.0F, -0.375F, 0.0F);
-                    GlStateManager.rotate(-f1, 1.0F, 0.0F, 0.0F);
-                    GlStateManager.rotate(-f, 0.0F, 1.0F, 0.0F);
-                    if (entitylivingbaseIn.isSneaking()) {
-                        GlStateManager.translate(0.0F, 0.25, 0.0F);
+                    int g = 0;
+                    try {
+                        GlStateManager.pushMatrix();
+                        float f = entitylivingbaseIn.prevRotationYaw + (entitylivingbaseIn.rotationYaw - entitylivingbaseIn.prevRotationYaw) * partialTicks - (entitylivingbaseIn.prevRenderYawOffset + (entitylivingbaseIn.renderYawOffset - entitylivingbaseIn.prevRenderYawOffset) * partialTicks);
+                        float f1 = entitylivingbaseIn.prevRotationPitch + (entitylivingbaseIn.rotationPitch - entitylivingbaseIn.prevRotationPitch) * partialTicks;
+                        g++;
+                        GlStateManager.rotate(f, 0.0F, 1.0F, 0.0F);
+                        GlStateManager.rotate(f1, 1.0F, 0.0F, 0.0F);
+                        GlStateManager.translate(0.375F * (float) (i * 2 - 1), 0.0F, 0.0F);
+                        GlStateManager.translate(0.0F, -0.375F, 0.0F);
+                        GlStateManager.rotate(-f1, 1.0F, 0.0F, 0.0F);
+                        GlStateManager.rotate(-f, 0.0F, 1.0F, 0.0F);
+                        g++;
+                        if (entitylivingbaseIn.isSneaking()) {
+                            GlStateManager.translate(0.0F, 0.25, 0.0F);
+                        }
+                        float f2 = 1.3333334F;
+                        GlStateManager.scale(f2, f2, f2);
+                        g++;
+                        this.playerRenderer.getMainModel().renderDeadmau5Head(0.0625F);
+                        g++;
+                    } catch (Exception e) {
+                        System.out.println("Failed to render deadmau5 at g " + g);
+                        e.printStackTrace();
+                    } finally {
+                        GlStateManager.popMatrix();
+
                     }
-                    float f2 = 1.3333334F;
-                    GlStateManager.scale(f2, f2, f2);
-                    this.playerRenderer.getMainModel().renderDeadmau5Head(0.0625F);
-                    GlStateManager.popMatrix();
                 }
+                k = 10;
             }
         } catch (Exception e) {
             e.printStackTrace();
+            System.out.println("Failed to render deadmau5 at point " + k);
         }
     }
 }
