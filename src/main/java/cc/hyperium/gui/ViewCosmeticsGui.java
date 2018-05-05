@@ -19,7 +19,7 @@ public class ViewCosmeticsGui extends HyperiumGui {
     @Override
     protected void pack() {
         reg("VISIT", new GuiButton(nextId(), width / 2 - 100, 5, "Purchase cosmetics"), guiButton -> {
-           new ShopGui().show();
+            new ShopGui().show();
         }, guiButton -> {
 
         });
@@ -45,7 +45,7 @@ public class ViewCosmeticsGui extends HyperiumGui {
         
         GlStateManager.scale(2.0F, 2.0F, 2.0F);
         String credits = "Credits";
-        fontRendererObj.drawString(credits, (width / 2 - fontRendererObj.getStringWidth(credits) ) / 2, 65 / 2, Color.RED.getRGB(), true);
+        fontRendererObj.drawString(credits, (width / 2 - fontRendererObj.getStringWidth(credits)) / 2, 65 / 2, Color.RED.getRGB(), true);
 
         GlStateManager.scale(.5F, .5F, .5F);
 
@@ -55,7 +55,7 @@ public class ViewCosmeticsGui extends HyperiumGui {
         fontRendererObj.drawString(rem_credits, width / 2 - fontRendererObj.getStringWidth(rem_credits) / 2, 95, Color.RED.getRGB(), true);
 
         GlStateManager.scale(2.0F, 2.0F, 2.0F);
-        fontRendererObj.drawString("Purchased Packages", (width / 2 - fontRendererObj.getStringWidth("Purchased Packages") ) / 2, 115 / 2, Color.RED.getRGB(), true);
+        fontRendererObj.drawString("Purchased Packages", (width / 2 - fontRendererObj.getStringWidth("Purchased Packages")) / 2, 115 / 2, Color.RED.getRGB(), true);
         GlStateManager.scale(.5F, .5F, .5F);
 
         int i = 0;
