@@ -73,8 +73,24 @@ public abstract class AbstractAnimationHandler {
     protected void modify(AbstractClientPlayer entity, IMixinModelBiped player) {
         AnimationState animationState = get(entity.getUniqueID());
         int ticks = animationState.frames;
+        player.getBipedBody().rotateAngleZ = 0F;
+        player.getBipedRightUpperLeg().rotateAngleZ = 0F;
+        player.getBipedLeftUpperLeg().rotateAngleZ = 0F;
+        player.getBipedRightUpperLeg().offsetX = 0F;
+        player.getBipedLeftUpperLeg().offsetX = 0F;
+        player.getBipedHead().rotateAngleZ = 0F;
+        player.getBipedHeadwear().rotateAngleZ = 0F;
+        if(player instanceof IMixinModelPlayer) {
+            IMixinModelPlayer player1 = (IMixinModelPlayer) player;
+            player1.getBipedBodywear().rotateAngleZ = 0F;
+            player1.getBipedRightUpperLegwear().rotateAngleZ = 0F;
+            player1.getBipedLeftUpperLegwear().rotateAngleZ = 0F;
+            player1.getBipedRightUpperLegwear().offsetX = 0F;
+            player1.getBipedLeftUpperLegwear().offsetX = 0F;
 
+        }
         if (ticks <= 0) {
+
             return;
         }
 
