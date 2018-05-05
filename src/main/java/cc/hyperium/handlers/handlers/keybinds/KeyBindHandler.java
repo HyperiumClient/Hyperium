@@ -18,10 +18,7 @@
 package cc.hyperium.handlers.handlers.keybinds;
 
 import cc.hyperium.Hyperium;
-import cc.hyperium.event.GameShutDownEvent;
-import cc.hyperium.event.InvokeEvent;
-import cc.hyperium.event.KeypressEvent;
-import cc.hyperium.event.MouseButtonEvent;
+import cc.hyperium.event.*;
 import cc.hyperium.handlers.handlers.keybinds.keybinds.*;
 import cc.hyperium.integrations.spotify.Spotify;
 import net.minecraft.client.Minecraft;
@@ -105,8 +102,15 @@ public class KeyBindHandler {
                     bind.onPress();
                     bind.setWasPressed(true);
                 }
+            }
+        }
+    }
 
-                if (bind.wasPressed() && !bind.isKeyDown()) {
+    @InvokeEvent
+    public void onKeyRelease(KeyreleaseEvent event){
+        if (Minecraft.getMinecraft().inGameHasFocus && Minecraft.getMinecraft().currentScreen == null) {
+            for (HyperiumBind bind : this.keybinds.values()) {
+                if(event.getKey() == bind.getKeyCode()){
                     bind.onRelease();
                     bind.setWasPressed(false);
                 }
