@@ -185,7 +185,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.*;
-import net.minecraft.client.main.GameConfiguration;
 import net.minecraft.client.multiplayer.PlayerControllerMP;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.particle.EffectRenderer;
@@ -324,7 +323,17 @@ public abstract class MixinMinecraft {
      */
     @Inject(method = "dispatchKeypresses", at = @At(value = "INVOKE_ASSIGN", target = "Lorg/lwjgl/input/Keyboard;getEventKeyState()Z"))
     private void runTickKeyboard(CallbackInfo ci) {
-        EventBus.INSTANCE.post(new KeypressEvent(Keyboard.getEventKey(), Keyboard.isRepeatEvent()));
+        int key = Keyboard.getEventKey();
+        boolean repeat = Keyboard.isRepeatEvent();
+        boolean press = Keyboard.getEventKeyState();
+
+        if(press){
+            // Key has been pressed.
+            EventBus.INSTANCE.post(new KeypressEvent(key, repeat));
+        } else{
+            // Key has been released.
+            EventBus.INSTANCE.post(new KeyreleaseEvent(key,repeat));
+        }
     }
 
     @Inject(method = "runGameLoop", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/achievement/GuiAchievement;updateAchievementWindow()V"))
