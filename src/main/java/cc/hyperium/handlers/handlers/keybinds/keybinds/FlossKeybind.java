@@ -31,37 +31,44 @@ import org.lwjgl.input.Keyboard;
 import java.util.UUID;
 
 public class FlossKeybind extends HyperiumBind {
+
+    boolean down1 = false;
+
     public FlossKeybind() {
         super("Floss dance", Keyboard.KEY_P);
     }
 
     @Override
     public void onPress() {
+        down1 = !down1;
+        if (!down1)
+            return;
         FlossDanceHandler flossDanceHandler = Hyperium.INSTANCE.getHandlers().getFlossDanceHandler();
         UUID uuid = (Minecraft.getMinecraft().getSession()).getProfile().getId();
-        AbstractAnimationHandler.AnimationState currentState = flossDanceHandler.get(uuid);
+        AbstractAnimationHandler.AnimationState animationState = flossDanceHandler.get(uuid);
 
-        if (CosmeticSettings.flossDanceToggle && currentState.isAnimating() && !this.wasPressed()) {
-            currentState.setToggled(false);
+        if (animationState.isAnimating()) {
+            animationState.setToggled(false);
             flossDanceHandler.stopAnimation(uuid);
             NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("type", "floss_update").put("flossing", false)));
+            System.out.println("Stopping");
+
             return;
         }
 
-        if (!this.wasPressed()) {
-            currentState.setToggled(CosmeticSettings.flossDanceToggle);
-            flossDanceHandler.startAnimation(uuid);
-            NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("type", "floss_update").put("flossing", true)));
+        animationState.setToggled(CosmeticSettings.flossDanceToggle);
+        animationState.setToggled(true);
+        NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("type", "floss_update").put("flossing", true)));
+        System.out.println("Starting");
 
-        }
     }
-
 
     @Override
     public void onRelease() {
-        if (CosmeticSettings.flossDanceToggle) return;
-        Hyperium.INSTANCE.getHandlers().getFlossDanceHandler().stopAnimation(Minecraft.getMinecraft().getSession().getProfile().getId());
-        NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("type", "floss_update").put("flossing", false)));
-
+//        justReleased = fal;se
+//        if (CosmeticSettings.flossDanceToggle) return;
+//        Hyperium.INSTANCE.getHandlers().getFlossDanceHandler().stopDancing(Minecraft.getMinecraft().getSession().getProfile().getId());
+//        NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("type", "floss_update").put("flossing", false)));
+//        System.out.println("stopping");
     }
 }
