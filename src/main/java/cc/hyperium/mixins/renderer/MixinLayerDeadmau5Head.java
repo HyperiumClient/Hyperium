@@ -18,7 +18,6 @@
 package cc.hyperium.mixins.renderer;
 
 import cc.hyperium.Hyperium;
-import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
 import cc.hyperium.purchases.AbstractHyperiumPurchase;
 import cc.hyperium.purchases.EnumPurchaseType;
 import cc.hyperium.purchases.HyperiumPurchase;
@@ -54,9 +53,9 @@ class MixinLayerDeadmau5Head {
     @Inject(method = "doRenderLayer", at = @At("HEAD"))
     private void doRenderLayer(AbstractClientPlayer entitylivingbaseIn, float p_177141_2_, float p_177141_3_,
                                float partialTicks, float p_177141_5_, float p_177141_6_, float p_177141_7_, float scale, CallbackInfo ci) {
-        GlStateManager.pushMatrix();
         int k = 0;
         try {
+
             k = 1;
             if (entitylivingbaseIn == null)
                 return;
@@ -99,21 +98,34 @@ class MixinLayerDeadmau5Head {
                     this.playerRenderer.bindTexture(locationSkin);
                 k = 9;
                 for (int i = 0; i < 2; ++i) {
-                    float f = entitylivingbaseIn.prevRotationYaw + (entitylivingbaseIn.rotationYaw - entitylivingbaseIn.prevRotationYaw) * partialTicks - (entitylivingbaseIn.prevRenderYawOffset + (entitylivingbaseIn.renderYawOffset - entitylivingbaseIn.prevRenderYawOffset) * partialTicks);
-                    float f1 = entitylivingbaseIn.prevRotationPitch + (entitylivingbaseIn.rotationPitch - entitylivingbaseIn.prevRotationPitch) * partialTicks;
+                    int g = 0;
+                    try {
+                        GlStateManager.pushMatrix();
+                        float f = entitylivingbaseIn.prevRotationYaw + (entitylivingbaseIn.rotationYaw - entitylivingbaseIn.prevRotationYaw) * partialTicks - (entitylivingbaseIn.prevRenderYawOffset + (entitylivingbaseIn.renderYawOffset - entitylivingbaseIn.prevRenderYawOffset) * partialTicks);
+                        float f1 = entitylivingbaseIn.prevRotationPitch + (entitylivingbaseIn.rotationPitch - entitylivingbaseIn.prevRotationPitch) * partialTicks;
+                        g++;
+                        GlStateManager.rotate(f, 0.0F, 1.0F, 0.0F);
+                        GlStateManager.rotate(f1, 1.0F, 0.0F, 0.0F);
+                        GlStateManager.translate(0.375F * (float) (i * 2 - 1), 0.0F, 0.0F);
+                        GlStateManager.translate(0.0F, -0.375F, 0.0F);
+                        GlStateManager.rotate(-f1, 1.0F, 0.0F, 0.0F);
+                        GlStateManager.rotate(-f, 0.0F, 1.0F, 0.0F);
+                        g++;
+                        if (entitylivingbaseIn.isSneaking()) {
+                            GlStateManager.translate(0.0F, 0.25, 0.0F);
+                        }
+                        float f2 = 1.3333334F;
+                        GlStateManager.scale(f2, f2, f2);
+                        g++;
+                        this.playerRenderer.getMainModel().renderDeadmau5Head(0.0625F);
+                        g++;
+                    } catch (Exception e) {
+                        System.out.println("Failed to render deadmau5 at g " + g);
+                        e.printStackTrace();
+                    } finally {
+                        GlStateManager.popMatrix();
 
-                    GlStateManager.rotate(f, 0.0F, 1.0F, 0.0F);
-                    GlStateManager.rotate(f1, 1.0F, 0.0F, 0.0F);
-                    GlStateManager.translate(0.375F * (float) (i * 2 - 1), 0.0F, 0.0F);
-                    GlStateManager.translate(0.0F, -0.375F, 0.0F);
-                    GlStateManager.rotate(-f1, 1.0F, 0.0F, 0.0F);
-                    GlStateManager.rotate(-f, 0.0F, 1.0F, 0.0F);
-                    if (entitylivingbaseIn.isSneaking()) {
-                        GlStateManager.translate(0.0F, 0.25, 0.0F);
                     }
-                    float f2 = 1.3333334F;
-                    GlStateManager.scale(f2, f2, f2);
-                    this.playerRenderer.getMainModel().renderDeadmau5Head(0.0625F);
                 }
                 k = 10;
             }
@@ -121,6 +133,5 @@ class MixinLayerDeadmau5Head {
             e.printStackTrace();
             System.out.println("Failed to render deadmau5 at point " + k);
         }
-        GlStateManager.popMatrix();
     }
 }
