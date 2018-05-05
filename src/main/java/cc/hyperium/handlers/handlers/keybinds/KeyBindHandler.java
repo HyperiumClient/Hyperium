@@ -23,7 +23,6 @@ import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.KeypressEvent;
 import cc.hyperium.event.MouseButtonEvent;
 import cc.hyperium.handlers.handlers.keybinds.keybinds.*;
-import cc.hyperium.integrations.spotify.Spotify;
 import net.minecraft.client.Minecraft;
 import org.apache.commons.lang3.ArrayUtils;
 import org.lwjgl.input.Keyboard;
@@ -52,6 +51,7 @@ public class KeyBindHandler {
 
     /**
      * Opens GUI on Z key pressed oof - ConorTheOreo
+     * Reformatted toggle Spotify bind - KodingKing
      */
     public KeyBindHandler() {
         this.keyBindConfig = new KeyBindConfig(this, Hyperium.folder);
@@ -65,31 +65,7 @@ public class KeyBindHandler {
         registerKeyBinding(new DabKeybind());
         registerKeyBinding(new FlipKeybind());
         registerKeyBinding(new FlossKeybind());
-
-
-        // Spotify Binds
-        HyperiumBind pauseSpotify = new HyperiumBind("Pause Spotify", Keyboard.KEY_COMMA) {
-            @Override
-            public void onPress() {
-                if (Spotify.instance == null) {
-                    return;
-                }
-                
-                Spotify.instance.pause(true);
-            }
-        };
-        registerKeyBinding(pauseSpotify);
-        HyperiumBind resumeSpotify = new HyperiumBind("Resume Spotify", Keyboard.KEY_PERIOD) {
-            @Override
-            public void onPress() {
-                if (Spotify.instance == null) {
-                    return;
-                }
-                
-                Spotify.instance.pause(false);
-            }
-        };
-        registerKeyBinding(resumeSpotify);
+        registerKeyBinding(new ToggleSpotifyKeybind());
 
         // Populate mouse bind list in accordance with Minecraft's values.
         for (int i = 0; i < 16; i++) {
