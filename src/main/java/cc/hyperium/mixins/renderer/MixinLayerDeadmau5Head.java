@@ -118,8 +118,8 @@ class MixinLayerDeadmau5Head {
                 k = 10;
             }
         } catch (Exception e) {
-            GeneralChatHandler.instance().sendMessage(Integer.toString(k));
             e.printStackTrace();
+            System.out.println("Failed to render deadmau5 at point " + k);
         }
         GlStateManager.popMatrix();
     }
