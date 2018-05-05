@@ -94,6 +94,11 @@ class MouseButtonEvent(val value: Int)
 class KeypressEvent(val key: Int, val isRepeat: Boolean)
 
 /**
+ * Invoked once a key is released
+ */
+class KeyreleaseEvent(val key: Int, val isRepeat: Boolean)
+
+/**
  * Invoked when the spawnpoint has changed
  * This is useful for detecting minigames
  */
