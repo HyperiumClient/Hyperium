@@ -270,7 +270,7 @@ class PostCopyPlayerModelAnglesEvent(entity: AbstractClientPlayer, model: IMixin
 /**
  * Called when this player attacks an entity
  */
-class PlayerAttackEntityEvent(uuid: UUID, entity: Entity?)
+class PlayerAttackEntityEvent(val uuid: UUID, val entity: Entity?)
 
 abstract class CopyPlayerModelAnglesEvent(val entity: AbstractClientPlayer, val model: IMixinModelBiped)
 
