@@ -1,6 +1,7 @@
 package cc.hyperium.network;
 
 import cc.hyperium.Hyperium;
+import cc.hyperium.gui.CustomLevelheadConfigurer;
 import cc.hyperium.gui.ShopGui;
 import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
 import cc.hyperium.netty.INetty;
@@ -61,6 +62,9 @@ public class NetworkHandler implements INetty {
             } else {
                 PurchaseApi.getInstance().refreshSelf();
             }
+        } else if (type.equalsIgnoreCase("custom_levelhead_success")) {
+            if (Minecraft.getMinecraft().currentScreen instanceof CustomLevelheadConfigurer)
+                Minecraft.getMinecraft().displayGuiScreen(null);
         }
     }
 
