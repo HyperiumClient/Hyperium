@@ -35,6 +35,7 @@ import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.*;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.Charset;
@@ -45,7 +46,6 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.jar.JarFile;
-import java.util.regex.Pattern;
 
 /**
  * @author Cubxity
@@ -67,7 +67,7 @@ public class InstallerFrame implements PropertyChangeListener {
     /**
      * Constructor
      */
-    InstallerFrame(String dir, int wam, List<String> components, InstallerConfig frame) {
+    InstallerFrame(String dir, int wam, List<String> components, InstallerConfig frame, String version) {
         final PrintStream ps = System.out;
         PrintStream logStream = new PrintStream(new OutputStream() {
             @Override
@@ -86,7 +86,7 @@ public class InstallerFrame implements PropertyChangeListener {
                         Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
                         clipboard.setContents(new StringSelection(log.toString()), null);
                         error.setText("LOG COPIED TO THE CLIPBOARD");
-                    }catch (Exception ex){
+                    } catch (Exception ex) {
                         ex.printStackTrace();
                         error.setText("FAILED TO COPY THE LOG");
                     }
@@ -97,7 +97,7 @@ public class InstallerFrame implements PropertyChangeListener {
         frame.setSize(WIDTH, HEIGHT);
         frame.setLocation(dim.width / 2 - frame.getSize().width / 2, dim.height / 2 - frame.getSize().height / 2);
         initComponents();
-        install(new File(dir), wam, components);
+        install(new File(dir), wam, components, version);
     }
 
     private static String toHex(byte[] bytes) {
@@ -130,7 +130,7 @@ public class InstallerFrame implements PropertyChangeListener {
     /**
      * Method to do everything
      */
-    private void install(File mc, int wam, List<String> components) {
+    private void install(File mc, int wam, List<String> components, String ver) {
         if (!mc.exists()) {
             display.setText("INSTALLATION FAILED");
             error.setText("NO MINECRAFT INSTALLATION FOUND");
@@ -166,10 +166,8 @@ public class InstallerFrame implements PropertyChangeListener {
         progressBar.setValue(40);
         display.setText("GETTING FILES");
         String versions_url = "https://raw.githubusercontent.com/HyperiumClient/Hyperium-Repo/master/installer/versions.json";
-        ReleaseChannel channel = InstallerMain.releaseChannel;
         AtomicReference<JSONObject> version = new AtomicReference<>();
         String hash = null;
-        File builtJar = null;
         JSONObject versionsJson;
         try {
             versionsJson = new JSONObject(get(versions_url));
@@ -179,7 +177,7 @@ public class InstallerFrame implements PropertyChangeListener {
                 versionsObjects.add((JSONObject) o);
 
             versionsObjects.forEach(o -> {
-                if (o.getString("name").equals(versionsJson.getString(channel != ReleaseChannel.LOCAL ? channel.getRelease() : ReleaseChannel.DEV.getRelease())))
+                if (o.getString("name").equals(ver))
                     version.set(o);
             });
         } catch (IOException ex) {
@@ -189,58 +187,27 @@ public class InstallerFrame implements PropertyChangeListener {
             exit.setVisible(true);
             return;
         }
-        if (channel == ReleaseChannel.LOCAL) {
-            File local = new File(channel.getRelease());
-            if (!local.exists()) {
-                try {
-                    Process p = new ProcessBuilder("git", "clone", "https://github.com/HyperiumClient/Hyperium")
-                            .directory(local.getParentFile())
-                            .inheritIO()
-                            .redirectErrorStream(true)
-                            .start();
-                    if (p.waitFor() != 0)
-                        throw new IOException("Failed to clone Hyperium!");
-                } catch (IOException | InterruptedException e) {
-                    e.printStackTrace();
-                    display.setText("INSTALLATION FAILED");
-                    error.setText("FAILED TO CLONE HYPERIUM REPOSITORY");
-                    exit.setVisible(true);
-                    return;
-                }
-            }
-            progressBar.setValue(60);
-            display.setText("BUILDING LOCAL HYPERIUM");
+        if (ver.equals("LOCAL")) {
+            File local;
             try {
-                Process p = new ProcessBuilder(local.getAbsolutePath() + File.separator + "gradlew" + (System.getProperty("os.name").contains("dows") ? ".bat" : ""), "--no-daemon", "build")
-                        .directory(local)
-                        .inheritIO()
-                        .redirectErrorStream(true)
-                        .start();
-                if (p.waitFor() != 0)
-                    throw new IOException("Failed to build Hyperium!");
-            } catch (IOException | InterruptedException e) {
+                local = new File(InstallerMain.class.getProtectionDomain().getCodeSource().getLocation().toURI());
+                System.out.println("local="+local.getPath());
+            } catch (URISyntaxException e) {
                 e.printStackTrace();
                 display.setText("INSTALLATION FAILED");
-                error.setText("FAILED TO BUILD LOCAL HYPERIUM");
+                error.setText("FAILED TO GET LOCAL JAR");
                 exit.setVisible(true);
                 return;
             }
-            progressBar.setValue(80);
-            display.setText("FINDING JAR...");
-            Pattern jar = Pattern.compile("Hyperium-\\d\\.\\d.jar");
-            builtJar = Arrays.stream(Objects.requireNonNull(new File(new File(local, "build"), "libs").listFiles()))
-                    .filter(f -> jar.matcher(f.getName()).matches())
-                    .min(Comparator.comparingLong(File::lastModified))
-                    .get();
             progressBar.setValue(90);
-            display.setText("COPYING BUILT JAR");
+            display.setText("COPYING FILES...");
             try {
-                new File(new File(mc, "libraries"), "cc/hyperium/Hyperium/" + builtJar.getName().replace("Hyperium-", "").replace(".jar", "")).mkdirs();
-                Files.copy(builtJar, new File(new File(mc, "libraries"), "cc/hyperium/Hyperium/" + builtJar.getName().replace("Hyperium-", "").replace(".jar", "") + File.separator + builtJar.getName()));
+                new File(new File(mc, "libraries"), "cc/hyperium/Hyperium/LOCAL").mkdirs();
+                Files.copy(local, new File(new File(mc, "libraries"), "cc/hyperium/Hyperium/LOCAL" + File.separator + local.getName()));
             } catch (IOException e) {
                 e.printStackTrace();
                 display.setText("INSTALLATION FAILED");
-                error.setText("FAILED TO COPY BUILT JAR");
+                error.setText("FAILED TO COPY LOCAL JAR");
                 return;
             }
         } else {
@@ -408,7 +375,7 @@ public class InstallerFrame implements PropertyChangeListener {
             return;
         }
         JSONObject lib = new JSONObject();
-        lib.put("name", channel == ReleaseChannel.LOCAL ? "cc.hyperium:Hyperium:" + builtJar.getName().replace("Hyperium-", "").replace(".jar", "") : version.get().getString("artifact-name"));
+        lib.put("name", ver.equals("LOCAL") ? "cc.hyperium:Hyperium:LOCAL" : version.get().getString("artifact-name"));
         if (version.get() != null && hash != null)
             lib.put("downloads", new JSONObject().put("artifact", new JSONObject()
                     .put("size", version.get().getLong("size"))
