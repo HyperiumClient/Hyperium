@@ -17,6 +17,8 @@
 
 package cc.hyperium;
 
+import com.sun.glass.ui.Window;
+import javafx.scene.chart.NumberAxis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
@@ -25,8 +27,15 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.shader.Framebuffer;
 import net.minecraft.util.ResourceLocation;
+import org.bridj.Pointer;
+import org.bridj.cpp.com.COMRuntime;
+import org.bridj.cpp.com.shell.ITaskbarList3;
+import org.bridj.jawt.JAWTUtils;
+import org.lwjgl.opengl.Display;
 
 import java.awt.*;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
 public class SplashProgress {
     private static final int MAX = 12;
@@ -39,10 +48,29 @@ public class SplashProgress {
      */
     private static FontRenderer sfr;
 
+    private static ITaskbarList3 taskbar;
+    private static Pointer<?> hwnd;
+
+
     public static void update() {
-        if (ctm == null) {
-        }
-        //drawProgress();
+        if (hwnd != null && taskbar != null)
+            try {
+                System.out.println("DEBUG: Setting progress value: "+PROGRESS+"/"+MAX);
+                taskbar.SetProgressValue((Pointer<Integer>) hwnd, PROGRESS, MAX);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        if(PROGRESS == MAX)
+            finish();
+    }
+
+    public static void finish() {
+        if (taskbar != null)
+            try {
+                taskbar.Release();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
     }
 
     public static void drawSplash(TextureManager tm) {
@@ -73,6 +101,19 @@ public class SplashProgress {
         GlStateManager.enableAlpha();
         GlStateManager.alphaFunc(516, 0.1F);
         Minecraft.getMinecraft().updateDisplay();
+
+        try {
+            taskbar = COMRuntime.newInstance(ITaskbarList3.class);
+            Method m = Display.class.getDeclaredMethod("getImplementation");
+            m.setAccessible(true);
+            Object displayImpl = m.invoke(null);
+            Field f = displayImpl.getClass().getDeclaredField("hwnd");
+            f.setAccessible(true);
+            hwnd = Pointer.pointerToAddress((Long) f.get(displayImpl));
+            taskbar.SetProgressValue((Pointer<Integer>) hwnd, 1, MAX);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
     private static void drawProgress() {
@@ -84,5 +125,4 @@ public class SplashProgress {
         // Progress
         Gui.drawRect(sr.getScaledWidth() / 2 - 75, sr.getScaledHeight() / 2 + 45, (sr.getScaledWidth() / 2 - 75) + ((SplashProgress.PROGRESS / SplashProgress.MAX) * 150), sr.getScaledHeight() / 2 + 55, 0xFFFFFF);
     }
-
 }

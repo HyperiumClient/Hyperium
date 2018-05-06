@@ -213,7 +213,7 @@ public class Hyperium {
         }
         SplashProgress.PROGRESS = 12;
         SplashProgress.CURRENT = "Finished";
-        SplashProgress.update();
+
         cosmetics = new HyperiumCosmetics();
 
         Multithreading.runAsync(() -> {
