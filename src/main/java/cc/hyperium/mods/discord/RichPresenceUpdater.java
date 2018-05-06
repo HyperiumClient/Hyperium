@@ -64,7 +64,7 @@ public class RichPresenceUpdater {
         } else {
             client.sendRichPresence(builder
                     .setSmallImage("compass")
-                    .setLargeImage("16", "Hypixel Network")
+                    .setLargeImage("16", "On a Server")
                     .setState("IGN: " + Minecraft.getMinecraft().getSession().getUsername())
                     .setDetails("On a Minecraft server")
                     .setStartTimestamp(OffsetDateTime.now())
