@@ -39,6 +39,10 @@ Q: ETA?
 
 A: For beta, now! Join the <a href="https://discord.gg/RNyRgtv">Discord</a>! For release, we don't know!
 
+Q: Is there an addon tutorial?
+
+A: Yes, its at https://www.youtube.com/watch?v=RXTIFdoNA8c.
+
 ## Addons ##
 **Requirement:** Built Hyperium, JDK 8+, IDE
 
