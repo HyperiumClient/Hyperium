@@ -17,8 +17,6 @@
 
 package cc.hyperium;
 
-import com.sun.glass.ui.Window;
-import javafx.scene.chart.NumberAxis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
@@ -30,7 +28,6 @@ import net.minecraft.util.ResourceLocation;
 import org.bridj.Pointer;
 import org.bridj.cpp.com.COMRuntime;
 import org.bridj.cpp.com.shell.ITaskbarList3;
-import org.bridj.jawt.JAWTUtils;
 import org.lwjgl.opengl.Display;
 
 import java.awt.*;
@@ -55,18 +52,19 @@ public class SplashProgress {
     public static void update() {
         if (hwnd != null && taskbar != null)
             try {
-                System.out.println("DEBUG: Setting progress value: "+PROGRESS+"/"+MAX);
+                System.out.println("DEBUG: Setting progress value: " + PROGRESS + "/" + MAX);
                 taskbar.SetProgressValue((Pointer<Integer>) hwnd, PROGRESS, MAX);
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
-        if(PROGRESS == MAX)
+        if (PROGRESS == MAX)
             finish();
     }
 
     public static void finish() {
         if (taskbar != null)
             try {
+                taskbar.SetProgressState((Pointer<Integer>) hwnd, ITaskbarList3.TbpFlag.TBPF_NOPROGRESS);
                 taskbar.Release();
             } catch (Exception ex) {
                 ex.printStackTrace();
