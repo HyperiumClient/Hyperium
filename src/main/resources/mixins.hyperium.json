@@ -71,6 +71,7 @@
 
     "scoreboard.MixinScoreboard",
 
+    "client.MixinGameSettings",
     "client.resources.MixinAbstractResourcePack"
   ]
 }
