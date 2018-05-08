@@ -24,6 +24,7 @@ import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.TickEvent;
 import cc.hyperium.gui.ScoreboardRenderer;
 import cc.hyperium.handlers.handlers.*;
+import cc.hyperium.handlers.handlers.animation.CapeHandler;
 import cc.hyperium.handlers.handlers.animation.DabHandler;
 import cc.hyperium.handlers.handlers.animation.FlossDanceHandler;
 import cc.hyperium.handlers.handlers.chat.*;
@@ -46,6 +47,7 @@ public class HyperiumHandlers {
     private LocationHandler locationHandler;
     private HypixelDetector hypixelDetector;
     private CommandQueue commandQueue;
+    private CapeHandler capeHandler;
     private ValueHandler valueHandler;
     private List<HyperiumChatHandler> chatHandlers;
     private GeneralChatHandler generalChatHandler;
@@ -81,6 +83,7 @@ public class HyperiumHandlers {
         register(locationHandler = new LocationHandler());
         register(valueHandler = new ValueHandler());
         register(resolutionUtil = new ResolutionUtil());
+        register(capeHandler = new CapeHandler());
         register(guiDisplayHandler = new GuiDisplayHandler());
         register(scoreboardRenderer = new ScoreboardRenderer());
         register(dataTracking = new GameDataTracking());
@@ -222,5 +225,9 @@ public class HyperiumHandlers {
 
     public FlossDanceHandler getFlossDanceHandler() {
         return flossDanceHandler;
+    }
+
+    public CapeHandler getCapeHandler() {
+        return capeHandler;
     }
 }

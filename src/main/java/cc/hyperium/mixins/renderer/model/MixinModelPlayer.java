@@ -49,6 +49,8 @@ public class MixinModelPlayer extends MixinModelBiped implements IMixinModelPlay
 	@Shadow
 	public ModelRenderer bipedBodyWear;
 
+	@Shadow private ModelRenderer bipedCape;
+
 	@Inject(method = "<init>", at = @At("RETURN"))
 	private void injectModelChanges(float modelSize, boolean useSmallArms, CallbackInfo ci) {
 		if (useSmallArms) {
@@ -287,5 +289,10 @@ public class MixinModelPlayer extends MixinModelBiped implements IMixinModelPlay
 	@Override
 	public ModelRenderer getBipedBodywear() {
 		return this.bipedBodyWear;
+	}
+
+	@Override
+	public ModelRenderer getCape() {
+		return bipedCape;
 	}
 }

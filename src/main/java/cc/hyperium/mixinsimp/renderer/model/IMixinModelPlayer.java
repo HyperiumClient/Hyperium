@@ -38,4 +38,8 @@ public interface IMixinModelPlayer extends IMixinModelBiped {
 
 	/* Body wrappers */
 	ModelRenderer getBipedBodywear();
+
+	ModelRenderer getCape();
+
+
 }
