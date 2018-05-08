@@ -313,7 +313,11 @@ public class ParticleOverlay {
     }
 
     public Mode getMode() {
-        return Mode.valueOf(BackgroundSettings.particlesModeString.replace(" ", "_"));
+        try {
+            return Mode.valueOf(BackgroundSettings.particlesModeString.replace(" ", "_"));
+        } catch (Exception e) {
+            return Mode.OFF;
+        }
     }
 
     public enum Mode {
