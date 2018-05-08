@@ -26,7 +26,7 @@ public class ResolutionUtil {
     private static ScaledResolution resolution;
 
     public static ScaledResolution current() {
-        return resolution;
+        return resolution != null ? resolution : new ScaledResolution(Minecraft.getMinecraft());
     }
 
     @InvokeEvent

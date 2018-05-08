@@ -100,7 +100,14 @@ public class PurchaseApi {
     public HyperiumPurchase getPackageSync(UUID uuid) {
         if (uuid == null)
             return null;
-        return purchasePlayers.computeIfAbsent(uuid, uuid1 -> new HyperiumPurchase(uuid, get(url + uuid.toString())));
+        return purchasePlayers.computeIfAbsent(uuid, uuid1 -> {
+            String s = uuid.toString().replace("-","");
+            if (s.length() == 32 && s.charAt(12) != '4') {
+                return new HyperiumPurchase(uuid,new JsonHolder().put("non_player", true));
+            }
+
+            return new HyperiumPurchase(uuid, get(url + uuid.toString()));
+        });
     }
 
     public HyperiumPurchase getPackageIfReady(UUID uuid) {

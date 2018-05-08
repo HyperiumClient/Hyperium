@@ -2,9 +2,9 @@ package cc.hyperium.installer;
 
 import cc.hyperium.installer.components.MaterialRadioButton;
 import cc.hyperium.installer.components.MotionPanel;
+import cc.hyperium.utils.JsonHolder;
 import com.google.common.io.Files;
-import org.json.JSONArray;
-import org.json.JSONObject;
+import com.google.gson.*;
 
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicSliderUI;
@@ -19,8 +19,11 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 /*
  * Created by Cubxity on 12/04/2018
@@ -28,6 +31,9 @@ import java.util.stream.Collectors;
 class InstallerConfig extends JFrame {
     private static final int WIDTH = 600;
     private static final int HEIGHT = 260;
+    private static final int VERSION = 1; // installer version, change every time when installer system changes
+
+    private HashMap<JRadioButton, JsonArray> dependencies = new HashMap<>();
 
     InstallerConfig() {
         super.frameInit();
@@ -78,6 +84,15 @@ class InstallerConfig extends JFrame {
         exit.setBounds(WIDTH - 185, HEIGHT - 25, 70, 20);
         exit.addActionListener(event -> System.exit(0));
 
+
+        JButton ver = new JButton("Loading version...");
+        ver.setBounds(WIDTH - 375, HEIGHT - 25, 180, 20);
+        ver.setBackground(new Color(255, 254, 254));
+        ver.setForeground(new Color(30, 30, 30));
+        ver.setFont(f);
+        ver.setBorderPainted(false);
+        ver.setFocusPainted(false);
+
         JLabel dirTxt = new JLabel("Minecraft Installation");
         dirTxt.setLocation(5, 22);
         dirTxt.setSize(250, 10);
@@ -86,7 +101,7 @@ class InstallerConfig extends JFrame {
 
         JTextField dir = new JTextField();
         dir.setText(getMinecraftDir().getAbsolutePath());
-        dir.setBounds(200, 22, 395, 14);
+        dir.setBounds(200, 20, 395, 14);
         dir.setFont(f);
         dir.setBorder(BorderFactory.createEmptyBorder());
         dir.setBackground(new Color(25, 25, 25));
@@ -255,31 +270,49 @@ class InstallerConfig extends JFrame {
         cView.add(optifine);
 
         try {
-            JSONObject versions = new JSONObject(InstallerFrame.get("https://raw.githubusercontent.com/HyperiumClient/Hyperium-Repo/master/installer/versions.json"));
-            for (Object o : versions.getJSONArray("addons"))
-                if (o instanceof JSONObject) {
-                    JSONObject j = (JSONObject) o;
-                    JRadioButton b = new MaterialRadioButton("Addon :: " + j.getString("name"));
-                    b.setFont(f);
-                    b.setEnabled(!j.getString("url").isEmpty());
-                    b.addMouseListener(new MouseAdapter() {
-                        @Override
-                        public void mouseExited(MouseEvent e) {
-                            cLabel.setText("Components");
-                            cDesc.setText("Select components you would like it to be installed");
-                        }
+            JsonParser parser = new JsonParser();
+            JsonObject versions = parser.parse(InstallerFrame.get("https://raw.githubusercontent.com/HyperiumClient/Hyperium-Repo/master/installer/versions.json")).getAsJsonObject();
+            for (JsonElement o : versions.getAsJsonArray("addons")) {
+                JsonObject j = o.getAsJsonObject();
+                JRadioButton b = new MaterialRadioButton("Addon :: " + j.get("name").getAsString());
+                b.setFont(f);
+                b.setEnabled(!j.get("url").getAsString().isEmpty());
+                b.addMouseListener(new MouseAdapter() {
 
-                        @Override
-                        public void mouseEntered(MouseEvent e) {
-                            cLabel.setText(j.getString("name") + (j.getBoolean("verified") ? " (Verified)" : ""));
-                            cDesc.setText(j.getString("description") + "\n\nVersion: " + j.getString("version") + "\nAuthor: " + j.getString("author"));
-                        }
-                    });
-                    b.setVerticalAlignment(SwingConstants.TOP);
-                    b.setHorizontalAlignment(SwingConstants.LEFT);
-                    b.setBackground(new Color(28, 28, 28));
-                    cView.add(b);
-                }
+                    @Override
+                    public void mouseExited(MouseEvent e) {
+                        cLabel.setText("Components");
+                        cDesc.setText("Select components you would like it to be installed");
+                    }
+
+                    @Override
+                    public void mouseEntered(MouseEvent e) {
+                        cLabel.setText(j.get("name").getAsString() + (j.get("verified").getAsBoolean() ? " (Verified)" : ""));
+                        cDesc.setText(j.get("description").getAsString() + "\n\nVersion: " + j.get("version") + "\nAuthor: " + j.get("author").getAsString());
+                    }
+
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        ensureDependencies();
+                    }
+                });
+                b.setVerticalAlignment(SwingConstants.TOP);
+                b.setHorizontalAlignment(SwingConstants.LEFT);
+                b.setBackground(new Color(28, 28, 28));
+                dependencies.put(b, j.getAsJsonArray("depends"));
+                cView.add(b);
+            }
+            List<String> versionList = StreamSupport.stream(versions.get("versions").getAsJsonArray().spliterator(), false).filter(e -> e.getAsJsonObject().get("install-min").getAsInt() <= VERSION).map(o -> o.getAsJsonObject().get("name").getAsString()).collect(Collectors.toList());
+            versionList.add("LOCAL");
+            AtomicInteger i = new AtomicInteger();
+            ver.setText(versionList.get(i.get()));
+            ver.addActionListener(e -> {
+                if (i.get() + 1 > versionList.size() - 1)
+                    i.set(0);
+                else
+                    i.addAndGet(1);
+                ver.setText(versionList.get(i.get()));
+            });
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -301,6 +334,7 @@ class InstallerConfig extends JFrame {
         contentPane.add(components);
         contentPane.add(cLabel);
         contentPane.add(cDesc);
+        contentPane.add(ver);
 
         install.addActionListener(e -> {
             System.out.println("Starting to install Hyperium...");
@@ -310,28 +344,28 @@ class InstallerConfig extends JFrame {
             // Save current installer state so next installation will start with same config first
             try {
                 File stateFile = new File(System.getProperty("user.home"), "hinstaller-state.json");
-                JSONObject state = new JSONObject();
+                JsonHolder state = new JsonHolder();
                 state.put("dir", dir.getText());
                 state.put("wam", wam.getValue());
-                JSONArray a = new JSONArray();
-                cs.forEach(a::put);
+                JsonArray a = new JsonArray();
+                cs.forEach(a::add);
                 state.put("components", a);
-                Files.write(state.toString(4), stateFile, Charset.defaultCharset());
+                Files.write(state.toString(), stateFile, Charset.defaultCharset());
             } catch (Exception ex) {
                 ex.printStackTrace();
                 System.err.println("Failed to save current installer state!");
             }
 
-            new Thread(() -> new InstallerFrame(dir.getText(), wam.getValue(), cs, this), "Installer-Thread").start();
+            new Thread(() -> new InstallerFrame(dir.getText(), wam.getValue(), cs, this, ver.getText()), "Installer-Thread").start();
         });
 
         // Load last state if exists
         try {
-            JSONObject state = getLastState();
+            JsonHolder state = getLastState();
             if (state != null) {
-                dir.setText(state.getString("dir"));
-                wam.setValue(state.getInt("wam"));
-                List<String> cs = state.getJSONArray("components").toList().stream().map(o -> (String) o).collect(Collectors.toList());
+                dir.setText(state.optString("dir"));
+                wam.setValue(state.optInt("wam"));
+                List<String> cs = StreamSupport.stream(state.optJSONArray("components").spliterator(), false).map(JsonElement::getAsString).collect(Collectors.toList());
                 for (Component comp : ((JPanel) components.getViewport().getComponent(0)).getComponents()) {
                     JRadioButton b = (JRadioButton) comp;
                     if (cs.contains(b.getText()))
@@ -342,14 +376,15 @@ class InstallerConfig extends JFrame {
             ex.printStackTrace();
             System.err.println("Failed to load last state");
         }
+        ensureDependencies();
     }
 
-    private JSONObject getLastState() {
+    private JsonHolder getLastState() {
         File stateFile = new File(System.getProperty("user.home"), "hinstaller-state.json");
         if (!stateFile.exists())
             return null;
         try {
-            return new JSONObject(Files.toString(stateFile, Charset.defaultCharset()));
+            return new JsonHolder(Files.toString(stateFile, Charset.defaultCharset()));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -367,5 +402,9 @@ class InstallerConfig extends JFrame {
             default:
                 return new File(System.getProperty("user.home"), ".minecraft");
         }
+    }
+
+    private void ensureDependencies() {
+        dependencies.forEach((k, v) -> k.setEnabled(StreamSupport.stream(v.spliterator(), false).map(JsonElement::getAsString).allMatch(dep -> dependencies.keySet().stream().filter(c -> dep.equals(c.getText().replace("Addon :: ", ""))).allMatch(JRadioButton::isSelected))));
     }
 }

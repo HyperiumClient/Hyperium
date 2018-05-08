@@ -117,9 +117,9 @@ public abstract class HyperiumGui extends GuiScreen {
         }
 
     }
-    
-   
-    
+
+
+
     public void setDrawAlpha(boolean drawAlpha) {
         this.drawAlpha = drawAlpha;
     }

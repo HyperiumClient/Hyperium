@@ -188,8 +188,8 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class ParticleOverlay {
     private static ParticleOverlay overlay;
-    private final List<Particle> particles = new ArrayList<>();
     private float h = 0.1F;
+    private final List<Particle> particles = new ArrayList<>();
     private long last;
 
     public ParticleOverlay() {
@@ -313,7 +313,11 @@ public class ParticleOverlay {
     }
 
     public Mode getMode() {
-        return Mode.parse(BackgroundSettings.particlesModeString.replace(" ", "_"));
+        try {
+            return Mode.valueOf(BackgroundSettings.particlesModeString.replace(" ", "_"));
+        } catch (Exception e) {
+            return Mode.OFF;
+        }
     }
 
     public enum Mode {
@@ -321,15 +325,7 @@ public class ParticleOverlay {
         PLAIN_1,
         PLAIN_2,
         CHROMA_1,
-        CHROMA_2;
-
-        public static Mode parse(String in) {
-            try {
-                return valueOf(in);
-            } catch (Exception e) {
-                return OFF;
-            }
-        }
+        CHROMA_2
     }
 
     class Particle {

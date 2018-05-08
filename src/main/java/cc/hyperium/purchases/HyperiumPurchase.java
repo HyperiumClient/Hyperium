@@ -33,6 +33,8 @@ public class HyperiumPurchase {
         System.out.println("Loaded purchases for " + playerUUID + " (" + response + ")");
         this.playerUUID = playerUUID;
         this.response = response;
+        if(response.optBoolean("non_player"))
+            return;
         JsonHolder data = PurchaseApi.getInstance().get("https://api.hyperium.cc/purchaseSettings/" + (playerUUID.toString()));
         for (JsonElement nicePackages : response.optJSONArray("hyperium")) {
             String asString = nicePackages.getAsString();
