@@ -17,8 +17,7 @@
 
 package cc.hyperium;
 
-import com.sun.glass.ui.Window;
-import javafx.scene.chart.NumberAxis;
+import cc.hyperium.utils.HyperiumFontRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
@@ -30,7 +29,6 @@ import net.minecraft.util.ResourceLocation;
 import org.bridj.Pointer;
 import org.bridj.cpp.com.COMRuntime;
 import org.bridj.cpp.com.shell.ITaskbarList3;
-import org.bridj.jawt.JAWTUtils;
 import org.lwjgl.opengl.Display;
 
 import java.awt.*;
@@ -46,27 +44,32 @@ public class SplashProgress {
     /**
      * FontRenderer for drawing splash screen
      */
-    private static FontRenderer sfr;
+    private static HyperiumFontRenderer sfr;
 
     private static ITaskbarList3 taskbar;
     private static Pointer<?> hwnd;
+    private static boolean once = false;
 
 
     public static void update() {
         if (hwnd != null && taskbar != null)
             try {
-                System.out.println("DEBUG: Setting progress value: "+PROGRESS+"/"+MAX);
+                System.out.println("DEBUG: Setting progress value: " + PROGRESS + "/" + MAX);
                 taskbar.SetProgressValue((Pointer<Integer>) hwnd, PROGRESS, MAX);
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
-        if(PROGRESS == MAX)
+        if (PROGRESS == MAX)
             finish();
+        if (Minecraft.getMinecraft() == null || Minecraft.getMinecraft().getLanguageManager() == null)
+            return;
+        drawSplash(Minecraft.getMinecraft().getTextureManager());
     }
 
     public static void finish() {
         if (taskbar != null)
             try {
+                taskbar.SetProgressState((Pointer<Integer>) hwnd, ITaskbarList3.TbpFlag.TBPF_NOPROGRESS);
                 taskbar.Release();
             } catch (Exception ex) {
                 ex.printStackTrace();
@@ -95,14 +98,17 @@ public class SplashProgress {
         tm.bindTexture(splash);
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         Gui.drawScaledCustomSizeModalRect(0, 0, 0, 0, 1920, 1080, scaledresolution.getScaledWidth(), scaledresolution.getScaledHeight(), 1920, 1080);
-        //drawProgress();
+        drawProgress();
         framebuffer.unbindFramebuffer();
         framebuffer.framebufferRender(scaledresolution.getScaledWidth() * i, scaledresolution.getScaledHeight() * i);
         GlStateManager.enableAlpha();
         GlStateManager.alphaFunc(516, 0.1F);
         Minecraft.getMinecraft().updateDisplay();
 
+        if (once)
+            return;
         try {
+            once = true;
             taskbar = COMRuntime.newInstance(ITaskbarList3.class);
             Method m = Display.class.getDeclaredMethod("getImplementation");
             m.setAccessible(true);
@@ -117,12 +123,17 @@ public class SplashProgress {
     }
 
     private static void drawProgress() {
+        if (Minecraft.getMinecraft().gameSettings == null || Minecraft.getMinecraft().getTextureManager() == null)
+            return;
         if (sfr == null)
-            sfr = new FontRenderer(Minecraft.getMinecraft().gameSettings, new ResourceLocation("textures/font/ascii.png"), Minecraft.getMinecraft().getTextureManager(), false);
+            sfr = new HyperiumFontRenderer("Arial", Font.PLAIN, 20);
         ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
+        double nProgress = (double) PROGRESS;
+        double calc = (nProgress / MAX) * 150;
+        sfr.drawString(CURRENT, sr.getScaledWidth() / 2 - sfr.getWidth(CURRENT) / 2, sr.getScaledHeight() / 2 + 60, 0xFFFFFF);
+        // Progress
+        Gui.drawRect(sr.getScaledWidth() / 2 - 75, sr.getScaledHeight() / 2 + 45, sr.getScaledWidth() / 2 + (int) (Math.round(calc) / 2), sr.getScaledHeight() / 2 + 55, new Color(255, 0, 0, 50).getRGB());
         // Bar base
         Gui.drawRect(sr.getScaledWidth() / 2 - 75, sr.getScaledHeight() / 2 + 45, sr.getScaledWidth() / 2 + 75, sr.getScaledHeight() / 2 + 55, new Color(0, 0, 0, 50).getRGB());
-        // Progress
-        Gui.drawRect(sr.getScaledWidth() / 2 - 75, sr.getScaledHeight() / 2 + 45, (sr.getScaledWidth() / 2 - 75) + ((SplashProgress.PROGRESS / SplashProgress.MAX) * 150), sr.getScaledHeight() / 2 + 55, 0xFFFFFF);
     }
 }

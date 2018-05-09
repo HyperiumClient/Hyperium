@@ -6,8 +6,15 @@ import cc.hyperium.internal.addons.AddonBootstrap;
 import cc.hyperium.netty.NettyClient;
 import cc.hyperium.netty.packet.packets.serverbound.ServerCrossDataPacket;
 import cc.hyperium.utils.JsonHolder;
+import com.google.gson.JsonParser;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.init.Bootstrap;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -163,13 +170,20 @@ public class CrashReportGUI extends JDialog {
                 // Addons bootstrap might not be initialized
             }
             if (addons.get().isEmpty())
-                addons.set("error");
+                addons.set("none");
+            String hurl = null;
+
+            if (report != null)
+                hurl = haste(report.getCompleteReport());
+
+            if (report != null && hurl == null)
+                return false;
 
             NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("crash_report", true).put("internal", true).put("crash",
                     new JsonHolder()
-                    .put("crash-full", report == null ? "unavailable" : report.getCompleteReport())
-                    .put("hyperium", Metadata.getVersion())
-                    .put("addons", addons.toString())
+                            .put("crash-full", report == null ? "unavailable" : hurl)
+                            .put("hyperium", Metadata.getVersion())
+                            .put("addons", addons.toString())
             )));
             return true;
         } catch (Exception ex) {
@@ -180,7 +194,23 @@ public class CrashReportGUI extends JDialog {
 
     private boolean copyReport() {
         try {
-            Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new StringSelection(report == null ? "Report unavailable" : report.getCompleteReport()), null);
+            AtomicReference<String> addons = new AtomicReference<>("");
+            try {
+                AddonBootstrap.INSTANCE.getAddonManifests().forEach(m -> addons.getAndUpdate(a -> a + m.getName() + ", "));
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                // Addons bootstrap might not be initialized
+            }
+            if (addons.get().isEmpty())
+                addons.set("none");
+            String hurl = null;
+            if (report != null)
+                hurl = haste(report.getCompleteReport());
+
+            if (report != null && hurl == null)
+                return false;
+            Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new StringSelection((hurl == null ? "Report unavailable" : hurl) + "\n\nHyperium: " + Metadata.getVersion() + "\nAddons: " + addons.get()), null);
+            return true;
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -203,6 +233,22 @@ public class CrashReportGUI extends JDialog {
         if (l.getFontMetrics(f).stringWidth(s) > width)
             return resize(s, width, f.deriveFont(f.getSize() - 1f), l);
         return f;
+    }
+
+    private String haste(String txt) {
+        try {
+            HttpClient hc = HttpClients.createDefault();
+            HttpPost post = new HttpPost("https://hastebin.com/documents");
+            post.setEntity(new StringEntity(txt));
+
+            HttpResponse response = hc.execute(post);
+
+            String result = EntityUtils.toString(response.getEntity());
+            return "http://hastebin.com/" + new JsonParser().parse(result).getAsJsonObject().get("key").getAsString();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public static void main(String[] args) {
