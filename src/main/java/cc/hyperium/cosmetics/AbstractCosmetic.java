@@ -16,21 +16,25 @@ public abstract class AbstractCosmetic {
     private final boolean selfOnly;
     private final EnumPurchaseType purchaseType;
     private final boolean purchasable;
-    private boolean selfUnlocked;
     private final Map<UUID, Boolean> purchasedBy = new ConcurrentHashMap<>();
+    private boolean selfUnlocked;
 
     AbstractCosmetic(boolean selfOnly, EnumPurchaseType purchaseType, boolean purchaseable) {
         this.selfOnly = selfOnly;
         this.purchaseType = purchaseType;
         this.purchasable = purchaseable;
         if (purchaseable) {
-            PurchaseApi.getInstance().getPackageAsync(Minecraft.getMinecraft().getSession().getProfile().getId(), hyperiumPurchase -> {
-                if (hyperiumPurchase == null) {
-                    System.out.println("WARNING COSMETIC NULL");
-                    return;
-                }
-                selfUnlocked = hyperiumPurchase.hasPurchased(purchaseType);
-            });
+            try {
+                PurchaseApi.getInstance().getPackageAsync(Minecraft.getMinecraft().getSession().getProfile().getId(), hyperiumPurchase -> {
+                    if (hyperiumPurchase == null) {
+                        System.out.println("WARNING COSMETIC NULL");
+                        return;
+                    }
+                    selfUnlocked = hyperiumPurchase.hasPurchased(purchaseType);
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
