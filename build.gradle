@@ -117,7 +117,7 @@ repositories {
     jcenter()
 }
 
-processResources.doFirst {
+processResources {
     inputs.files "src/main/resources"
     outputs.dir "build/classes/main"
     copy {
