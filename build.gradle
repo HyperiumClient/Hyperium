@@ -121,8 +121,8 @@ processResources {
     inputs.files "src/main/resources"
     outputs.dir "build/classes/main"
     copy {
-        from(srcFiles)
-        into(destDir)
+        from("src/main/resources")
+        into("build/classes/main")
     }
 }
 
