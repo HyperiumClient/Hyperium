@@ -117,9 +117,9 @@ repositories {
     jcenter()
 }
 
-processResources.doLast {
-    inputs.files "$projectDir/src/main/resources"
-    outputs.dir "$projectDir/build/classes/main"
+processResources.doFirst {
+    inputs.files "src/main/resources"
+    outputs.dir "build/classes/main"
     copy {
         from(srcFiles)
         into(destDir)
