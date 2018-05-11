@@ -117,6 +117,15 @@ repositories {
     jcenter()
 }
 
+processResources.doLast {
+    inputs.files "$projectDir/src/main/resources"
+    outputs.dir "$projectDir/build/classes/main"
+    copy {
+        from(srcFiles)
+        into(destDir)
+    }
+}
+
 jar {
     dependsOn configurations.compile
     from {
