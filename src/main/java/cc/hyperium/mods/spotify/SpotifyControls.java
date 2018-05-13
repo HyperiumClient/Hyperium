@@ -200,15 +200,26 @@ public class SpotifyControls extends AbstractMod {
         FontRenderer fontRenderer = Minecraft.getMinecraft().fontRendererObj;
 
         boolean paused = info.isPlaying();
-        String name = info.getTrack().getTrackResource().getName();
-        String artist = info.getTrack().getArtistResource().getName();
-        String uri = info.getTrack().getTrackResource().getUri();
+        String name = "Not Playing", artist = "", uri = currentURI;
+
+        if (info.getTrack() != null) {
+            if (info.getTrack().getTrackResource() != null) {
+                name = info.getTrack().getTrackResource().getName();
+                uri = info.getTrack().getTrackResource().getUri();
+            }
+
+            if (info.getTrack().getArtistResource() != null) {
+                artist = info.getTrack().getArtistResource().getName();
+            }
+        }
+
+        final String finalURI = uri;
 
         if (!uri.equals(currentURI)) {
             Multithreading.runAsync(() -> {
                 try {
                     JsonObject obj = Spotify.instance.get(
-                            "https://embed.spotify.com/oembed?url=" + uri,
+                            "https://embed.spotify.com/oembed?url=" + finalURI,
                             false
                     );
 
