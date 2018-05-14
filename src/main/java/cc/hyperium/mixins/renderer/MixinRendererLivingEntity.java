@@ -37,6 +37,7 @@ import net.minecraft.client.renderer.entity.layers.LayerBipedArmor;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.MathHelper;
 import org.lwjgl.opengl.GL11;
 import org.spongepowered.asm.mixin.Mixin;
@@ -125,7 +126,7 @@ public abstract class MixinRendererLivingEntity<T extends EntityLivingBase> exte
                     GlStateManager.pushMatrix();
                     float offset = 0;
                     try {
-                        if (Hyperium.INSTANCE.getCosmetics().getDeadmau5Cosmetic().isPurchasedBy(entity.getUniqueID())) {
+                        if ((entity instanceof EntityPlayer) && Hyperium.INSTANCE.getCosmetics().getDeadmau5Cosmetic().isPurchasedBy(entity.getUniqueID())) {
                             HyperiumPurchase packageIfReady = PurchaseApi.getInstance().getPackageIfReady(entity.getUniqueID());
                             if (packageIfReady != null) {
                                 AbstractHyperiumPurchase purchase = packageIfReady.getPurchase(EnumPurchaseType.DEADMAU5_COSMETIC);

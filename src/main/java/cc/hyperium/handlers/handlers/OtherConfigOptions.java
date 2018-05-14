@@ -29,4 +29,6 @@ public class OtherConfigOptions {
 
     @ConfigOpt
     public boolean friendsFirstIntag = true;
+    @ConfigOpt
+    public boolean pingOnDm=true;
 }

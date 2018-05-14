@@ -25,6 +25,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.util.ResourceLocation;
+import org.apache.logging.log4j.Logger;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -33,13 +35,33 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.net.URI;
+import java.util.Set;
 
 @Mixin(GuiScreen.class)
 public abstract class MixinGuiScreen {
 
     @Shadow
-    private Minecraft mc;
+    @Final
+    private static Set<String> PROTOCOLS;
+    @Shadow
+    @Final
+    private static Logger LOGGER;
     private final GuiScreen instance = (GuiScreen) (Object) this;
+    @Shadow
+    private Minecraft mc;
+    @Shadow
+    private URI clickedLinkURI;
+
+
+    @Shadow
+    protected abstract void setText(String newChatText, boolean shouldOverwrite);
+
+    @Shadow
+    protected abstract void openWebLink(URI p_175282_1_);
+
+    @Shadow
+    public abstract void sendChatMessage(String msg, boolean addToChat);
 
     @Inject(method = "drawWorldBackground", at = @At("HEAD"), cancellable = true)
     private void drawWorldBackground(int tint, CallbackInfo ci) {
@@ -88,4 +110,6 @@ public abstract class MixinGuiScreen {
     private void onGuiClosed(CallbackInfo ci) {
         Minecraft.getMinecraft().addScheduledTask(() -> Minecraft.getMinecraft().entityRenderer.stopUseShader());
     }
+
+
 }
