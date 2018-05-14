@@ -117,6 +117,15 @@ repositories {
     jcenter()
 }
 
+processResources {
+    inputs.files "src/main/resources"
+    outputs.dir "build/classes/main"
+    copy {
+        from("src/main/resources")
+        into("build/classes/main")
+    }
+}
+
 jar {
     dependsOn configurations.compile
     from {
