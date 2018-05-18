@@ -74,6 +74,8 @@ public abstract class HyperiumGui extends GuiScreen {
     @Override
     public void updateScreen() {
         ScaledResolution current = ResolutionUtil.current();
+        if(current == null)
+            return;
         if (lastResolution.getScaledWidth() != current.getScaledWidth() || lastResolution.getScaledHeight() != current.getScaledHeight() || lastResolution.getScaleFactor() != current.getScaleFactor())
             rePack();
 
