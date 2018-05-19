@@ -18,14 +18,46 @@
 package cc.hyperium.mixins.entity;
 
 import cc.hyperium.gui.settings.items.GeneralSetting;
+import cc.hyperium.handlers.handlers.animation.CapeHandler;
+import com.mojang.authlib.GameProfile;
 import net.minecraft.client.entity.AbstractClientPlayer;
+import net.minecraft.client.network.NetworkPlayerInfo;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Overwrite;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(AbstractClientPlayer.class)
 public abstract class MixinAbstractClientPlayer {
+
+
+    @Shadow
+    protected abstract NetworkPlayerInfo getPlayerInfo();
+
+    @Inject(method = "<init>", at = @At("RETURN"))
+    private void AbstractPlayer(World worldIn, GameProfile playerProfile, CallbackInfo callbackInfo) {
+
+        CapeHandler.loadCape(playerProfile.getId());
+    }
+
+    /**
+     * @author
+     */
+    @Overwrite
+    public ResourceLocation getLocationCape() {
+
+        if (CapeHandler.hasCape(getPlayerInfo().getGameProfile().getId())) {
+            return CapeHandler.getCape(getPlayerInfo().getGameProfile().getId());
+        } else {
+            NetworkPlayerInfo networkplayerinfo = this.getPlayerInfo();
+            return networkplayerinfo == null ? null : networkplayerinfo.getLocationCape();
+        }
+    }
 
     @Inject(method = "getFovModifier", at = @At("HEAD"), cancellable = true)
     private void getFovModifier(CallbackInfoReturnable<Float> ci) {

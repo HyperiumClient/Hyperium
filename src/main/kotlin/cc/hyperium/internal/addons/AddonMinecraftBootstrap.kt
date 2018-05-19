@@ -2,6 +2,7 @@ package cc.hyperium.internal.addons
 
 import cc.hyperium.Hyperium
 import cc.hyperium.internal.addons.misc.AddonLoadException
+import java.util.concurrent.ConcurrentHashMap
 
 /**
  * Instance created on the classloader {@link net.minecraft.launchwrapper.LaunchClassLoader}
@@ -17,11 +18,11 @@ object AddonMinecraftBootstrap {
         @JvmName("getLoadedAddons") get
 
     @JvmStatic
-    val MISSING_DEPENDENCIES_MAP = HashMap<AddonManifest, ArrayList<String>>()
+    val MISSING_DEPENDENCIES_MAP = ConcurrentHashMap<AddonManifest, ArrayList<String>>()
         @JvmName("getMissingDependenciesMap") get
 
     @JvmStatic
-    val DEPENDENCIES_LOOP_MAP = HashMap<AddonManifest, ArrayList<AddonManifest>>()
+    val DEPENDENCIES_LOOP_MAP = ConcurrentHashMap<AddonManifest, ArrayList<AddonManifest>>()
         @JvmName("getDependenciesLoopMap") get
 
     /**

@@ -32,6 +32,7 @@ import cc.hyperium.gui.settings.items.BackgroundSettings;
 import cc.hyperium.gui.settings.items.CosmeticSettings;
 import cc.hyperium.gui.settings.items.GeneralSetting;
 import cc.hyperium.handlers.HyperiumHandlers;
+import cc.hyperium.handlers.handlers.animation.CapeHandler;
 import cc.hyperium.installer.InstallerFrame;
 import cc.hyperium.integrations.spotify.Spotify;
 import cc.hyperium.mods.HyperiumModIntegration;
