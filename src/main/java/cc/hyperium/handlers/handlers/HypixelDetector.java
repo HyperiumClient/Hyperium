@@ -29,6 +29,7 @@ import cc.hyperium.event.SingleplayerJoinEvent;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
+import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.util.ResourceLocation;
 
@@ -117,7 +118,10 @@ public class HypixelDetector {
                     }
                 }, new Color(200, 150, 50));
 
-        Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.create(new ResourceLocation("zoo"), (float) Minecraft.getMinecraft().thePlayer.posX, (float) Minecraft.getMinecraft().thePlayer.posY, (float) Minecraft.getMinecraft().thePlayer.posZ));
+        SoundHandler soundHandler = Minecraft.getMinecraft().getSoundHandler();
+        if(soundHandler == null || Minecraft.getMinecraft().theWorld==null)
+            return;
+        soundHandler.playSound(PositionedSoundRecord.create(new ResourceLocation("zoo"), (float) Minecraft.getMinecraft().thePlayer.posX, (float) Minecraft.getMinecraft().thePlayer.posY, (float) Minecraft.getMinecraft().thePlayer.posZ));
 
 //        Minecraft.getMinecraft().thePlayer.playSound("hyperium:zoo",1.0F,1.0F);
     }
