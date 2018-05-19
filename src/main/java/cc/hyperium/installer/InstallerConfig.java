@@ -78,6 +78,8 @@ class InstallerConfig extends JFrame {
                 install.setEnabled(true);
             case MacOS:
                 install.setEnabled(false);
+            case Linux:
+                install.setEnabled(true);
         }
 
         JButton exit = new JButton("EXIT");
@@ -161,7 +163,9 @@ class InstallerConfig extends JFrame {
                     install.setEnabled(accept.isSelected());
                 case MacOS:
                     install.setEnabled(!accept.isSelected());
-                }
+                case Linux:
+                    install.setEnabled(true);
+            }
             });
 
         JButton license = new JButton("LICENSE");
