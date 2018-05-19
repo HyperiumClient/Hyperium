@@ -29,19 +29,26 @@ public class HyperiumPurchase {
     private final List<AbstractHyperiumPurchase> purchases = new ArrayList<>();
     private final JsonHolder response;
 
+    public JsonHolder getPurchaseSettings() {
+        return purchaseSettings;
+    }
+
+    private JsonHolder purchaseSettings = new JsonHolder();
+
     public HyperiumPurchase(UUID playerUUID, JsonHolder response) {
         System.out.println("Loaded purchases for " + playerUUID + " (" + response + ")");
         this.playerUUID = playerUUID;
         this.response = response;
-        if(response.optBoolean("non_player"))
+        if (response.optBoolean("non_player"))
             return;
-        JsonHolder data = PurchaseApi.getInstance().get("https://api.hyperium.cc/purchaseSettings/" + (playerUUID.toString()));
+        purchaseSettings = PurchaseApi.getInstance().get("https://api.hyperium.cc/purchaseSettings/" + (playerUUID.toString()));
         for (JsonElement nicePackages : response.optJSONArray("hyperium")) {
             String asString = nicePackages.getAsString();
             EnumPurchaseType parse = EnumPurchaseType.parse(asString);
             if (parse != EnumPurchaseType.UNKNOWN)
                 try {
-                    this.purchases.add(PurchaseApi.getInstance().parse(parse, data.optJSONObject(parse.name().toLowerCase())));
+                    this.purchases.add(PurchaseApi.getInstance().parse(parse, purchaseSettings
+                            .optJSONObject(parse.name().toLowerCase())));
                 } catch (Exception wtf) {
                     wtf.printStackTrace();
                 }
