@@ -73,7 +73,12 @@ class InstallerConfig extends JFrame {
         install.setBorderPainted(false);
         install.setFocusPainted(false);
         install.setBounds(WIDTH - 105, HEIGHT - 25, 100, 20);
-        install.setEnabled(false);
+        switch (InstallerFrame.OsCheck.getOperatingSystemType()) {
+            case Windows:
+                install.setEnabled(true);
+            case MacOS:
+                install.setEnabled(false);
+        }
 
         JButton exit = new JButton("EXIT");
         exit.setBackground(new Color(255, 254, 254));
@@ -150,7 +155,14 @@ class InstallerConfig extends JFrame {
         JRadioButton accept = new MaterialRadioButton("I accept the terms in License agreement and and Privacy Policy");
         accept.setFont(f);
         accept.setBounds(5, HEIGHT - 40, 500, 15);
-        accept.addActionListener(e -> install.setEnabled(accept.isSelected()));
+        accept.addActionListener(e -> {
+            switch (InstallerFrame.OsCheck.getOperatingSystemType()) {
+                case Windows:
+                    install.setEnabled(accept.isSelected());
+                case MacOS:
+                    install.setEnabled(!accept.isSelected());
+                }
+            });
 
         JButton license = new JButton("LICENSE");
         license.setBackground(new Color(255, 254, 254));
