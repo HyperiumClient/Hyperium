@@ -37,18 +37,56 @@ public class CommandDebug implements BaseCommand {
 
     private static final Gson printer = new GsonBuilder().setPrettyPrinting().create();
 
-    @Override
-    public String getName() {
-        return "hyperium_debug";
+    private static void tryChromaHUD(StringBuilder builder) {
+        try {
+            builder.append("ChromaHUD: ").append(printer.toJson(ChromaHUDApi.getInstance().getConfig().getObject()));
+        } catch (Exception e) {
+            builder.append("ChromaHUD: Error");
+        }
     }
 
-    @Override
-    public String getUsage() {
-        return "Usage: /hyperium_debug";
+    private static void tryConfig(StringBuilder builder) {
+        try {
+            Hyperium.CONFIG.save();
+            builder.append("Config: ").append(printer.toJson(Hyperium.CONFIG.getConfig()));
+        } catch (Exception e) {
+            builder.append("Config: Error");
+        }
     }
 
-    @Override
-    public void onExecute(String[] args) {
+    private static void tryKeybinds(StringBuilder builder) {
+        try {
+            builder.append("Keybinds: ").append(printer.toJson(Hyperium.INSTANCE.getHandlers().getKeybindHandler().getKeyBindConfig().getKeyBindJson().getData()));
+        } catch (Exception e) {
+            builder.append("Keybinds: Error");
+        }
+    }
+
+    private static void tryLevelhead(StringBuilder builder) {
+        try {
+            builder.append("Count: ").append(((Levelhead) Hyperium.INSTANCE.getModIntegration().getLevelhead()).count).append("\n");
+            builder.append("Wait: ").append(((Levelhead) Hyperium.INSTANCE.getModIntegration().getLevelhead()).wait).append("\n");
+            builder.append("Hypixel: ").append(HypixelDetector.getInstance().isHypixel()).append("\n");
+            builder.append("Remote Status: ").append(Sk1erMod.getInstance().isEnabled()).append("\n");
+            builder.append("Local Stats: ").append(HypixelDetector.getInstance().isHypixel()).append("\n");
+            builder.append("Header State: ").append(((Levelhead) Hyperium.INSTANCE.getModIntegration().getLevelhead()).getHeaderConfig()).append("\n");
+            builder.append("Footer State: ").append(((Levelhead) Hyperium.INSTANCE.getModIntegration().getLevelhead()).getFooterConfig()).append("\n");
+            builder.append("Callback: ").append(Sk1erMod.getInstance().getResponse()).append("\n");
+        } catch (Exception e) {
+            builder.append("Levelhead: Error");
+        }
+    }
+
+
+    private static void tryLocation(StringBuilder builder) {
+        try {
+            builder.append("Location: ").append(Hyperium.INSTANCE.getHandlers().getLocationHandler().getLocation());
+        } catch (Exception e) {
+            builder.append("Location: Error");
+        }
+    }
+
+    public static String get() {
         StringBuilder builder = new StringBuilder();
         HyperiumPurchase self = PurchaseApi.getInstance().getSelf();
         builder.append("\n");
@@ -61,33 +99,39 @@ public class CommandDebug implements BaseCommand {
         builder.append("Badlion: ").append(HypixelDetector.getInstance().isBadlion());
         builder.append("\n");
         builder.append("\n");
-        Hyperium.CONFIG.save();
-        builder.append("Config: ").append(printer.toJson(Hyperium.CONFIG.getConfig()));
+        tryConfig(builder);
         builder.append("\n");
         builder.append("\n");
-
-        builder.append("ChromaHUD: ").append(printer.toJson(ChromaHUDApi.getInstance().getConfig().getObject()));
+        tryChromaHUD(builder);
         builder.append("\n");
         builder.append("\n");
-        builder.append("Keybinds: ").append(printer.toJson(Hyperium.INSTANCE.getHandlers().getKeybindHandler().getKeyBindConfig().getKeyBindJson().getData()));
+        tryKeybinds(builder);
         builder.append("\n");
         builder.append("\n");
-        builder.append("Location: ").append(Hyperium.INSTANCE.getHandlers().getLocationHandler().getLocation());
+        tryLevelhead(builder);
         builder.append("\n");
         builder.append("\n");
         builder.append("Levelhead");
         builder.append("\n");
 
-        builder.append("Count: ").append(((Levelhead) Hyperium.INSTANCE.getModIntegration().getLevelhead()).count).append("\n");
-        builder.append("Wait: ").append(((Levelhead) Hyperium.INSTANCE.getModIntegration().getLevelhead()).wait).append("\n");
-        builder.append("Hypixel: ").append(HypixelDetector.getInstance().isHypixel()).append("\n");
-        builder.append("Remote Status: ").append(Sk1erMod.getInstance().isEnabled()).append("\n");
-        builder.append("Local Stats: ").append(HypixelDetector.getInstance().isHypixel()).append("\n");
-        builder.append("Header State: ").append(((Levelhead) Hyperium.INSTANCE.getModIntegration().getLevelhead()).getHeaderConfig()).append("\n");
-        builder.append("Footer State: ").append(((Levelhead) Hyperium.INSTANCE.getModIntegration().getLevelhead()).getFooterConfig()).append("\n");
-        builder.append("Callback: ").append(Sk1erMod.getInstance().getResponse()).append("\n");
 
-        String message = builder.toString();
+        return builder.toString();
+    }
+
+
+    @Override
+    public String getName() {
+        return "hyperium_debug";
+    }
+
+    @Override
+    public String getUsage() {
+        return "Usage: /hyperium_debug";
+    }
+
+    @Override
+    public void onExecute(String[] args) {
+        String message = get();
         Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new StringSelection(message), null);
         GeneralChatHandler.instance().sendMessage("Data copied to clipboard. Please paste in hastebin.com (This has been opened), save and send in Discord");
         Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop() : null;

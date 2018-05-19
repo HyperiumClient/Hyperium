@@ -12,7 +12,7 @@
     "MixinScreenShotHelper",
     "MixinEnchantment",
     "MixinFrameBuffer",
-
+  "MixinCrashReport",
     "gui.MixinGuiScreen",
     "gui.MixinGui",
     "gui.MixinGuiConnecting",
