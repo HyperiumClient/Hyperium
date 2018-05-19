@@ -75,11 +75,11 @@ class InstallerConfig extends JFrame {
         install.setBounds(WIDTH - 105, HEIGHT - 25, 100, 20);
         switch (InstallerFrame.OsCheck.getOperatingSystemType()) {
             case Windows:
-                install.setEnabled(true);
-            case MacOS:
                 install.setEnabled(false);
-            case Linux:
+            case MacOS:
                 install.setEnabled(true);
+            case Linux:
+                install.setEnabled(false);
         }
 
         JButton exit = new JButton("EXIT");
@@ -164,7 +164,7 @@ class InstallerConfig extends JFrame {
                 case MacOS:
                     install.setEnabled(!accept.isSelected());
                 case Linux:
-                    install.setEnabled(true);
+                    install.setEnabled(accept.isSelected());
             }
             });
 
