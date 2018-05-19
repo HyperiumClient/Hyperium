@@ -29,6 +29,7 @@ import cc.hyperium.gui.ConfirmationPopup;
 import cc.hyperium.gui.NotificationCenter;
 import cc.hyperium.gui.settings.items.AnimationSettings;
 import cc.hyperium.gui.settings.items.BackgroundSettings;
+import cc.hyperium.gui.settings.items.CosmeticSettings;
 import cc.hyperium.gui.settings.items.GeneralSetting;
 import cc.hyperium.handlers.HyperiumHandlers;
 import cc.hyperium.installer.InstallerFrame;
@@ -179,6 +180,7 @@ public class Hyperium {
         SplashProgress.update();
         CONFIG.register(new GeneralSetting(null));
         CONFIG.register(new AnimationSettings(null));
+        CONFIG.register(new CosmeticSettings(null));
         BackgroundSettings backgroundSettings = new BackgroundSettings(null);
         backgroundSettings.rePack();
         CONFIG.register(backgroundSettings);

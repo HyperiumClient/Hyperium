@@ -41,20 +41,20 @@ import java.util.List;
  */
 public class ElementRenderer {
 
+    private static final List<Long> clicks = new ArrayList<>();
+    private static final List<Long> rClicks = new ArrayList<>();
+    private static final List<Long> mClicks = new ArrayList<>();
     protected static ScaledResolution resolution;
     private static double currentScale = 1.0;
     private static int color;
     private static int[] COLORS = new int[]{16777215, 16711680, 65280, 255, 16776960, 11141290};
     private static boolean display = false;
-    private static final List<Long> clicks = new ArrayList<>();
     private static DisplayElement current;
     private static FontRenderer fontRendererObj = Minecraft.getMinecraft().fontRendererObj;
     private static String cValue;
-    private static final List<Long> rClicks = new ArrayList<>();
-    private static final List<Long> mClicks = new ArrayList<>();
-    boolean last = false;
     private final ChromaHUD mod;
     private final Minecraft minecraft;
+    boolean last = false;
     private boolean rLast = false;
     private boolean mLast = false;
 
@@ -126,7 +126,7 @@ public class ElementRenderer {
                 else
                     fontRendererObj.drawString(string, (int) (x / getCurrentScale() - shift), (int) (ty / getCurrentScale()), getColor(color, x), current.isShadow());
             }
-            ty += 10;
+            ty += 10D * currentScale;
         }
     }
 
@@ -204,7 +204,7 @@ public class ElementRenderer {
 
     public static void endDrawing(DisplayElement element) {
         GlStateManager.scale(1.0 / element.getScale(), 1.0 / element.getScale(), 0);
-        
+
         GlStateManager.popMatrix();
     }
 

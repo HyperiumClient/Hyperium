@@ -37,14 +37,19 @@ public class HTTPDownloadUtil {
     /**
      * Downloads a file from a URL
      *
-     * @param fileURL
-     *            HTTP URL of the file to be downloaded
-     * @throws IOException
-     *           If it fails
+     * @param fileURL HTTP URL of the file to be downloaded
+     * @throws IOException If it fails
      */
     public void downloadFile(String fileURL) throws IOException {
         URL url = new URL(fileURL);
         httpConn = (HttpURLConnection) url.openConnection();
+        httpConn.setRequestMethod("GET");
+        httpConn.setUseCaches(true);
+        httpConn.addRequestProperty("User-Agent", "Mozilla/4.76 Hyperium Installer");
+        httpConn.setReadTimeout(15000);
+        httpConn.setConnectTimeout(15000);
+        httpConn.setDoOutput(true);
+
         int responseCode = httpConn.getResponseCode();
 
         // always check HTTP response code first

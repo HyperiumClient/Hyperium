@@ -30,6 +30,8 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.texture.DynamicTexture;
+import net.minecraft.util.EnumChatFormatting;
+import net.minecraftforge.fml.client.config.GuiSlider;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
@@ -45,10 +47,10 @@ import java.util.function.Consumer;
  */
 public class DisplayElementConfig extends GuiScreen {
 
-    private DisplayElement element;
     private final Map<GuiButton, Consumer<GuiButton>> clicks = new HashMap<>();
     private final Map<GuiButton, Consumer<GuiButton>> updates = new HashMap<>();
     private final Map<String, GuiButton> nameMap = new HashMap<>();
+    private DisplayElement element;
     private int ids;
     private int lastX, lastY;
     private DynamicTexture texture;
@@ -160,16 +162,15 @@ public class DisplayElementConfig extends GuiScreen {
         });
         //*4
 
-//        reg("Scale Slider", new GuiSlider(nextId(), posX, start_y + 22 * 4, 200, 20, "Scale: ", "", 50, 200, element.getScale() * 100D, false, true), button -> {
-//            //clicked
-//            //Toggle between chroma types.
-//
-//        }, button -> {
-//            //on tick
-//            element.setScale(((GuiSlider) button).getValue()/100D);
-//            button.displayString = EnumChatFormatting.YELLOW + "Scale: " + ((GuiSlider) button).getValueInt() + "%";
-//            System.out.println(element.getScale());
-//        });
+        reg("Scale Slider", new GuiSlider(nextId(), 5, 5, 200, 20, "Scale: ", "", 50, 200, element.getScale() * 100D, false, true), button -> {
+            //clicked
+            //Toggle between chroma types.
+
+        }, button -> {
+            //on tick
+            element.setScale(((GuiSlider) button).getValue()/100D);
+            button.displayString = EnumChatFormatting.YELLOW + "Scale: " + ((GuiSlider) button).getValueInt() + "%";
+        });
 
         reg("color", new GuiButton(nextId(), posX, start_y + 22 * 5, "-"), button -> {
             //clicked
@@ -216,56 +217,56 @@ public class DisplayElementConfig extends GuiScreen {
 //    public GuiSlider(int id, int xPos, int yPos, int width, int height, String prefix, String suf, double minVal, double maxVal, double currentVal, boolean showDec, boolean drawStr)
 
         //    public GuiSlider(int id, int xPos, int yPos, int width, int height, String prefix, String suf, double minVal, double maxVal, double currentVal, boolean showDec, boolean drawStr)
-//        reg("redSlider", new GuiSlider(nextId(), posX, start_y + 22 * 6, 200, 20, "Red: ", "", 0, 255, element.getData().optInt("red"), false, true), button -> {
-//            //clicked
-//            //Toggle between chroma types.
-//
-//        }, button -> {
-//            //on tick
-//            if (!element.isRGB()) {
-//                button.enabled = false;
-//                button.visible = false;
-//            } else {
-//                button.visible = true;
-//                button.enabled = true;
-//                element.getData().put("red", ((GuiSlider) button).getValueInt());
-//                button.displayString = EnumChatFormatting.YELLOW + "Red: " + (element.getData().optInt("red"));
-//            }
-//        });
-//
-//
-//        reg("blueSlider", new GuiSlider(nextId(), posX, start_y + 22 * 8, 200, 20, "Blue: ", "", 0, 255, element.getData().optInt("blue"), false, true), button -> {
-//            //clicked
-//            //Toggle between chroma types.
-//
-//        }, button -> {
-//            //on tick
-//            if (!element.isRGB()) {
-//                button.enabled = false;
-//                button.visible = false;
-//            } else {
-//                button.visible = true;
-//                button.enabled = true;
-//                element.getData().put("blue", ((GuiSlider) button).getValueInt());
-//                button.displayString = EnumChatFormatting.YELLOW + "Blue: " + (element.getData().optInt("blue"));
-//            }
-//        });
-//        reg("greenSlider", new GuiSlider(nextId(), posX, start_y + 22 * 7, 200, 20, "Green: ", "", 0, 255, element.getData().optInt("green"), false, true), button -> {
-//            //clicked
-//            //Toggle between chroma types.
-//
-//        }, button -> {
-//            //on tick
-//            if (!element.isRGB()) {
-//                button.enabled = false;
-//                button.visible = false;
-//            } else {
-//                button.visible = true;
-//                button.enabled = true;
-//                element.getData().put("green", ((GuiSlider) button).getValueInt());
-//                button.displayString = EnumChatFormatting.YELLOW + "Green: " + (element.getData().optInt("green"));
-//            }
-//        });
+        reg("redSlider", new GuiSlider(nextId(), posX, start_y + 22 * 6, 200, 20, "Red: ", "", 0, 255, element.getData().optInt("red"), false, true), button -> {
+            //clicked
+            //Toggle between chroma types.
+
+        }, button -> {
+            //on tick
+            if (!element.isRGB()) {
+                button.enabled = false;
+                button.visible = false;
+            } else {
+                button.visible = true;
+                button.enabled = true;
+                element.getData().put("red", ((GuiSlider) button).getValueInt());
+                button.displayString = EnumChatFormatting.YELLOW + "Red: " + (element.getData().optInt("red"));
+            }
+        });
+
+
+        reg("blueSlider", new GuiSlider(nextId(), posX, start_y + 22 * 8, 200, 20, "Blue: ", "", 0, 255, element.getData().optInt("blue"), false, true), button -> {
+            //clicked
+            //Toggle between chroma types.
+
+        }, button -> {
+            //on tick
+            if (!element.isRGB()) {
+                button.enabled = false;
+                button.visible = false;
+            } else {
+                button.visible = true;
+                button.enabled = true;
+                element.getData().put("blue", ((GuiSlider) button).getValueInt());
+                button.displayString = EnumChatFormatting.YELLOW + "Blue: " + (element.getData().optInt("blue"));
+            }
+        });
+        reg("greenSlider", new GuiSlider(nextId(), posX, start_y + 22 * 7, 200, 20, "Green: ", "", 0, 255, element.getData().optInt("green"), false, true), button -> {
+            //clicked
+            //Toggle between chroma types.
+
+        }, button -> {
+            //on tick
+            if (!element.isRGB()) {
+                button.enabled = false;
+                button.visible = false;
+            } else {
+                button.visible = true;
+                button.enabled = true;
+                element.getData().put("green", ((GuiSlider) button).getValueInt());
+                button.displayString = EnumChatFormatting.YELLOW + "Green: " + (element.getData().optInt("green"));
+            }
+        });
         reg("Back", new GuiButton(nextId(), 2, ResolutionUtil.current().getScaledHeight() - 22, 100, 20, "Back"), (guiButton) -> Minecraft.getMinecraft().displayGuiScreen(new GeneralConfigGui(mod)), (guiButton) -> {
         });
         reg("Delete", new GuiButton(nextId(), 2, ResolutionUtil.current().getScaledHeight() - 22 * 2, 100, 20, "Delete"), (guiButton) -> {
@@ -392,7 +393,7 @@ public class DisplayElementConfig extends GuiScreen {
         int size = right - left;
         int bottom = posY(3);
         if (element.isRGB()) {
-            int start_y = Math.max((int) (current.getScaledHeight_double() * .1) - 20, 5) + 22 * 8 + 15;
+            int start_y = Math.max((int) (current.getScaledHeight_double() * .1) - 20, 5) + 22 * 8 + 25;
 
             int left1 = current.getScaledWidth() / 2 - 100;
             int right1 = current.getScaledWidth() / 2 + 100;
