@@ -26,13 +26,9 @@ import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.shader.Framebuffer;
 import net.minecraft.util.ResourceLocation;
 import org.bridj.Pointer;
-import org.bridj.cpp.com.COMRuntime;
 import org.bridj.cpp.com.shell.ITaskbarList3;
-import org.lwjgl.opengl.Display;
 
 import java.awt.*;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 
 public class SplashProgress {
     private static final int MAX = 12;
@@ -106,19 +102,19 @@ public class SplashProgress {
 
         if (once)
             return;
-        try {
-            once = true;
-            taskbar = COMRuntime.newInstance(ITaskbarList3.class);
-            Method m = Display.class.getDeclaredMethod("getImplementation");
-            m.setAccessible(true);
-            Object displayImpl = m.invoke(null);
-            Field f = displayImpl.getClass().getDeclaredField("hwnd");
-            f.setAccessible(true);
-            hwnd = Pointer.pointerToAddress((Long) f.get(displayImpl));
-            taskbar.SetProgressValue((Pointer<Integer>) hwnd, 1, MAX);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+//        try {
+//            once = true;
+//            taskbar = COMRuntime.newInstance(ITaskbarList3.class);
+//            Method m = Display.class.getDeclaredMethod("getImplementation");
+//            m.setAccessible(true);
+//            Object displayImpl = m.invoke(null);
+//            Field f = displayImpl.getClass().getDeclaredField("hwnd");
+//            f.setAccessible(true);
+//            hwnd = Pointer.pointerToAddress((Long) f.get(displayImpl));
+//            taskbar.SetProgressValue((Pointer<Integer>) hwnd, 1, MAX);
+//        } catch (Exception ex) {
+//            ex.printStackTrace();
+//        }
     }
 
     private static void drawProgress() {
