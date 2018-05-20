@@ -1,5 +1,6 @@
 package cc.hyperium.gui;
 
+import cc.hyperium.Hyperium;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
 import cc.hyperium.netty.NettyClient;
@@ -29,6 +30,7 @@ public class CapesGui extends HyperiumGui {
     private boolean purchasing = false;
 
     public CapesGui() {
+        scollMultiplier = 2;
         updatePurchases();
         Multithreading.runAsync(() -> {
             JsonHolder capeAtlas = PurchaseApi.getInstance().getCapeAtlas();
@@ -65,15 +67,15 @@ public class CapesGui extends HyperiumGui {
     protected void pack() {
 
     }
-
+//22x17
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         try {
             if (!texturesImage.isEmpty()) {
                 for (String s : texturesImage.keySet()) {
-                    textures.put(s, new DynamicTexture(texturesImage.get(s)));
+                    if (!textures.containsKey(s))
+                        textures.put(s, new DynamicTexture(texturesImage.get(s)));
                 }
-                texturesImage.clear();
             }
 
             super.drawScreen(mouseX, mouseY, partialTicks);
@@ -100,7 +102,7 @@ public class CapesGui extends HyperiumGui {
             printY += 25;
             printY += 35;
             int scaledWidth = current.getScaledWidth();
-            RenderUtils.drawSmoothRect(scaledWidth / 2 - blockWidth - 16, printY - 4, scaledWidth / 2 + blockWidth + 16, printY + blockHeight * totalRows + 4, new Color(53, 106, 110).getRGB());
+            RenderUtils.drawSmoothRect(scaledWidth / 2 - blockWidth - 16, printY - 4, scaledWidth / 2 + blockWidth + 16, printY + (blockHeight + 16) * totalRows + 4, new Color(53, 106, 110).getRGB());
             for (String s : capeAtlas.getKeys()) {
                 if (pos > blocksPerLine) {
                     pos = 1;
@@ -109,21 +111,22 @@ public class CapesGui extends HyperiumGui {
                 int thisBlocksCenter = pos == 1 ? scaledWidth / 2 - 8 - blockWidth / 2 : scaledWidth / 2 + 8 + blockWidth / 2;
                 int thisTopY = printY + row * (16 + blockHeight);
                 RenderUtils.drawSmoothRect(thisBlocksCenter - blockWidth / 2, thisTopY,
-                        (thisBlocksCenter + blockWidth / 2), printY + blockHeight, Color.WHITE.getRGB());
+                        (thisBlocksCenter + blockWidth / 2), thisTopY + blockHeight, Color.WHITE.getRGB());
                 JsonHolder cape = capeAtlas.optJSONObject(s);
                 DynamicTexture dynamicTexture = textures.get(s);
                 if (dynamicTexture != null) {
+                    int imgW = 120;
+                    int imgH = 128;
                     GlStateManager.bindTexture(dynamicTexture.getGlTextureId());
                     float capeScale = .75F;
-                    int topLeftX = (int) (thisBlocksCenter - blockWidth / (2F / capeScale));
+                    int topLeftX = (int) (thisBlocksCenter - imgW / (2F / capeScale));
                     int topLeftY = thisTopY + 4;
                     GlStateManager.translate(topLeftX, topLeftY, 0);
                     GlStateManager.scale(capeScale, capeScale, capeScale);
-                    drawTexturedModalRect(0, 0, 0, 0, blockWidth, blockHeight);
+                    drawTexturedModalRect(0, 0, imgW/12, 0, imgW, imgH*2);
                     GlStateManager.scale(1F / capeScale, 1F / capeScale, 1F / capeScale);
                     GlStateManager.translate(-topLeftX, -topLeftY, 0);
                 }
-
 
 
                 String nameCape = cape.optString("name");
@@ -171,6 +174,16 @@ public class CapesGui extends HyperiumGui {
                             if (client != null) {
                                 client.write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("set_cape", true).put("value", s)));
                             }
+                            Multithreading.runAsync(() -> {
+                                try {
+                                    Thread.sleep(3000L);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                                //assume this is enough time
+                                PurchaseApi.getInstance().refreshSelf();
+                                Hyperium.INSTANCE.getHandlers().getCapeHandler().deleteCape(Minecraft.getMinecraft().getSession().getProfile().getId());
+                            });
                         });
                         GlStateManager.scale(2F, 2F, 2F);
 
@@ -183,7 +196,7 @@ public class CapesGui extends HyperiumGui {
                     if (jsonHolder.optBoolean("enough")) {
                         String string = "Click to purchase";
                         int stringWidth = fontRendererObj.getStringWidth(string);
-                        int left = thisBlocksCenter - stringWidth;
+                        int left = thisBlocksCenter - stringWidth / 2;
                         int i = thisTopY - 8 + blockHeight / 2 + 64 + 48;
                         fontRendererObj.drawString(string, left, i, new Color(249, 76, 238).getRGB(), true);
                         GuiBlock block = new GuiBlock(left, left + stringWidth, i, i + 10);
@@ -195,6 +208,13 @@ public class CapesGui extends HyperiumGui {
                                 client.write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("cosmetic_purchase", true).put("value", s)));
                             }
                         });
+                    } else {
+                        String string = "Insufficient Credits";
+                        int stringWidth = fontRendererObj.getStringWidth(string);
+                        int left = thisBlocksCenter - stringWidth / 2;
+                        int i = thisTopY - 8 + blockHeight / 2 + 64 + 48;
+                        fontRendererObj.drawString(string, left, i, new Color(249, 9, 0).getRGB(), true);
+
                     }
                 }
                 pos++;

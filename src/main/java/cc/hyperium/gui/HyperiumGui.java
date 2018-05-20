@@ -52,6 +52,7 @@ public abstract class HyperiumGui extends GuiScreen {
     private final Map<String, GuiButton> nameMap = new HashMap<>();
     protected int offset = 0;
     protected HashMap<GuiBlock, Runnable> actions = new HashMap<>();
+    protected int scollMultiplier = 1;
     private int idIteration;
     private boolean drawAlpha = true;
     private int alpha = 100;
@@ -213,7 +214,7 @@ public abstract class HyperiumGui extends GuiScreen {
     protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
         super.mouseClicked(mouseX, mouseY, mouseButton);
         for (GuiBlock block : actions.keySet()) {
-            if (block.isMouseOver(mouseX,mouseY)) {
+            if (block.isMouseOver(mouseX, mouseY)) {
                 actions.get(block).run();
                 return;
             }
@@ -237,10 +238,11 @@ public abstract class HyperiumGui extends GuiScreen {
         super.handleMouseInput();
         int i = Mouse.getEventDWheel();
         if (i < 0) {
-            offset += 11;
+            offset += 11 * scollMultiplier;
         } else if (i > 0) {
-            offset -= 11;
+            offset -= 11 * scollMultiplier;
         }
+
 
     }
 

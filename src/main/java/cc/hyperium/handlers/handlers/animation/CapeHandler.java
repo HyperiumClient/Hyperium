@@ -82,12 +82,9 @@ public class CapeHandler {
     }
 
 
-    public void resetCapes() {
 
-        for (UUID userId : capes.keySet()) {
-            capes.put(userId, null);
-        }
+
+    public void deleteCape(UUID id) {
+        this.capes.remove(id);
     }
-
-
 }
