@@ -45,13 +45,11 @@ public class CapeHandler {
 
             @Override
             public BufferedImage parseUserSkin(BufferedImage image) {
-                System.out.println("Parsed");
                 return CapeUtils.parseCape(image);
             }
 
             @Override
             public void skinAvailable() {
-                System.out.println("Set cape");
                 CapeHandler.this.setCape(uuid, resourceLocation);
             }
         });
@@ -67,17 +65,14 @@ public class CapeHandler {
         if (orDefault == null) {
             Multithreading.runAsync(() -> PurchaseApi.getInstance().getPackageAsync(uuid, hyperiumPurchase -> {
                 String s = hyperiumPurchase.getPurchaseSettings().optJSONObject("cape").optString("type");
-                System.out.println("s = " + s);
                 if (!s.isEmpty()) {
                     JsonHolder jsonHolder = PurchaseApi.getInstance().getCapeAtlas().optJSONObject(s);
                     String url = jsonHolder.optString("url");
-                    System.out.println("url = " + url);
                     if (!url.isEmpty()) {
                         loadCape(uuid, url);
                     }
                 }
             }));
-            System.out.println("Starting load");
             return null;
         }
         if (orDefault.equals(loadingResource)) {
