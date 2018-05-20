@@ -41,18 +41,18 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 public abstract class HyperiumGui extends GuiScreen {
-    
+
     private static ResourceLocation background = new ResourceLocation("textures/material/backgrounds/1.png");
     private static ResourceLocation bgDynamicTexture = null;
     private static File customImage = new File(Minecraft.getMinecraft().mcDataDir, "customImage.png");
     private static boolean customBackground = false;
     private static BufferedImage bgBr = null;
-    
-    protected int offset = 0;
-    private int idIteration;
     private final Map<GuiButton, Consumer<GuiButton>> clicks = new HashMap<>();
     private final Map<GuiButton, Consumer<GuiButton>> updates = new HashMap<>();
     private final Map<String, GuiButton> nameMap = new HashMap<>();
+    protected int offset = 0;
+    protected HashMap<GuiBlock, Runnable> actions = new HashMap<>();
+    private int idIteration;
     private boolean drawAlpha = true;
     private int alpha = 100;
     private ScaledResolution lastResolution;
@@ -63,159 +63,10 @@ public abstract class HyperiumGui extends GuiScreen {
         lastResolution = ResolutionUtil.current();
     }
 
-    @Override
-    protected void actionPerformed(GuiButton button) throws IOException {
-        super.actionPerformed(button);
-        Consumer<GuiButton> guiButtonConsumer = clicks.get(button);
-        if (guiButtonConsumer != null)
-            guiButtonConsumer.accept(button);
-    }
-
-    @Override
-    public void updateScreen() {
-        ScaledResolution current = ResolutionUtil.current();
-        if(current == null)
-            return;
-        if (lastResolution.getScaledWidth() != current.getScaledWidth() || lastResolution.getScaledHeight() != current.getScaledHeight() || lastResolution.getScaleFactor() != current.getScaleFactor())
-            rePack();
-
-        this.lastResolution = current;
-        super.updateScreen();
-        for (GuiButton guiButton : buttonList) {
-            Consumer<GuiButton> guiButtonConsumer = updates.get(guiButton);
-            if (guiButtonConsumer != null) {
-                guiButtonConsumer.accept(guiButton);
-            }
-        }
-    }
-
-    @Override
-    public void initGui() {
-        super.initGui();
-        rePack();
-    
-        loadCustomBackground();
-    }
-
-    @Override
-    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-//        drawBackground();
-    
-        if (drawAlpha) {
-            Gui.drawRect(0, 0, ResolutionUtil.current().getScaledWidth() * ResolutionUtil.current().getScaleFactor(), ResolutionUtil.current().getScaledHeight() * ResolutionUtil.current().getScaleFactor(), new Color(0, 0, 0, alpha).getRGB());
-        }
-        
-        super.drawScreen(mouseX, mouseY, partialTicks);
-    }
-    
-    @Override
-    public void handleMouseInput() throws IOException {
-        super.handleMouseInput();
-        int i = Mouse.getEventDWheel();
-        if (i < 0) {
-            offset += 11;
-        } else if (i > 0) {
-            offset -= 11;
-        }
-
-    }
-
-
-
-    public void setDrawAlpha(boolean drawAlpha) {
-        this.drawAlpha = drawAlpha;
-    }
-    
-    public void setAlpha(int alpha) {
-        this.alpha = alpha;
-    }
-    
-    public int nextId() {
-        return (++idIteration);
-    }
-    
-    public void rePack() {
-        buttonList.clear();
-        pack();
-    }
-    
-    public void show() {
-        Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(this);
-    }
-    
-    protected void reg(String name, GuiButton button, Consumer<GuiButton> consumer, Consumer<GuiButton> tick) {
-        this.buttonList.add(button);
-        this.clicks.put(button, consumer);
-        this.updates.put(button, tick);
-        this.nameMap.put(name, button);
-    }
-    
-    protected GuiButton getButtonByName(String name) {
-        return nameMap.get(name);
-    }
-
-    protected abstract void pack();
-    
-    protected void drawBackground() {
-        if (this.mc != null && this.mc.theWorld == null) {
-            renderHyperiumBackground(ResolutionUtil.current());
-        }
-    
-        if (drawAlpha) {
-            Gui.drawRect(0, 0, ResolutionUtil.current().getScaledWidth() * ResolutionUtil.current().getScaleFactor(), ResolutionUtil.current().getScaledHeight() * ResolutionUtil.current().getScaleFactor(), new Color(0, 0, 0, alpha).getRGB());
-        }
-    }
-    
-    private void renderHyperiumBackground(ScaledResolution sr) {
-        GlStateManager.disableDepth();
-        GlStateManager.depthMask(false);
-        GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
-        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-        GlStateManager.disableAlpha();
-        
-        if (customImage.exists() && bgDynamicTexture != null && customBackground) {
-            Minecraft.getMinecraft().getTextureManager().bindTexture(bgDynamicTexture);
-        } else {
-            Minecraft.getMinecraft().getTextureManager().bindTexture(background);
-        }
-    
-        Tessellator tessellator = Tessellator.getInstance();
-        WorldRenderer worldrenderer = tessellator.getWorldRenderer();
-        worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
-        worldrenderer.pos(0.0D, (double) sr.getScaledHeight(), -90.0D).tex(0.0D, 1.0D).endVertex();
-        worldrenderer.pos((double) sr.getScaledWidth(), (double) sr.getScaledHeight(), -90.0D).tex(1.0D, 1.0D).endVertex();
-        worldrenderer.pos((double) sr.getScaledWidth(), 0.0D, -90.0D).tex(1.0D, 0.0D).endVertex();
-        worldrenderer.pos(0.0D, 0.0D, -90.0D).tex(0.0D, 0.0D).endVertex();
-        tessellator.draw();
-        
-        GlStateManager.depthMask(true);
-        GlStateManager.enableDepth();
-        GlStateManager.enableAlpha();
-        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-        
-//        GlStateManager.pushMatrix();
-    }
-    
-    private void loadCustomBackground() {
-        customBackground = BackgroundSettings.backgroundSelect.equalsIgnoreCase("CUSTOM");
-        
-        if (customImage.exists() && customBackground) {
-            try {
-                bgBr = ImageIO.read(new FileInputStream(customImage));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            if (bgBr != null) {
-                bgDynamicTexture = mc.getRenderManager().renderEngine.getDynamicTextureLocation(customImage.getName(), new DynamicTexture(bgBr));
-            }
-            
-        }
-    }
-    
     public static float clamp(float number, float min, float max) {
         return number < min ? min : number > max ? max : number;
     }
-    
+
     public static float easeOut(float current, float goal, float jump, float speed) {
         if (Math.floor(Math.abs(goal - current) / jump) > 0) {
             return current + (goal - current) / speed;
@@ -223,7 +74,7 @@ public abstract class HyperiumGui extends GuiScreen {
             return goal;
         }
     }
-    
+
     /**
      * Trim a string to a specified width with the specified font renderer
      *
@@ -248,14 +99,14 @@ public abstract class HyperiumGui extends GuiScreen {
                 else
                     throw new IllegalStateException("Param \"font\" is null and default font renderer could not be used!");
             }
-            
+
             // Everything should be fine and dandy if you're at this point...
             final StringBuilder strBuilder = new StringBuilder();
             final String suffix = (appendEllipsis ? "..." : "");
             int currentWidth = font.getStringWidth(suffix);
             // If suffix is already too long
             if (width < currentWidth) return suffix;
-            
+
             // Loop through each character until too long
             for (char theChar : str.toCharArray()) {
                 final int charWidth = font.getCharWidth(theChar);
@@ -267,12 +118,12 @@ public abstract class HyperiumGui extends GuiScreen {
                     currentWidth += charWidth;
                 }
             }
-            
+
             // Return entire string if we get to this point. strBuilder.toString() should == str
             return strBuilder.toString();
         }
     }
-    
+
     /**
      * Draws an animated rainbow box in the specified range
      *
@@ -289,16 +140,16 @@ public abstract class HyperiumGui extends GuiScreen {
             left = right;
             right = i;
         }
-        
+
         if (top < bottom) {
             int j = top;
             top = bottom;
             bottom = j;
         }
-        
+
         int startColor = Color.HSBtoRGB(System.currentTimeMillis() % 5000L / 5000.0f, 0.8f, 0.8f);
         int endColor = Color.HSBtoRGB((System.currentTimeMillis() + 500) % 5000L / 5000.0f, 0.8f, 0.8f);
-        
+
         float f1 = (float) (startColor >> 16 & 255) / 255.0F;
         float f2 = (float) (startColor >> 8 & 255) / 255.0F;
         float f3 = (float) (startColor & 255) / 255.0F;
@@ -322,5 +173,164 @@ public abstract class HyperiumGui extends GuiScreen {
         GlStateManager.disableBlend();
         GlStateManager.enableAlpha();
         GlStateManager.enableTexture2D();
+    }
+
+    @Override
+    protected void actionPerformed(GuiButton button) throws IOException {
+        super.actionPerformed(button);
+        Consumer<GuiButton> guiButtonConsumer = clicks.get(button);
+        if (guiButtonConsumer != null)
+            guiButtonConsumer.accept(button);
+    }
+
+    @Override
+    public void updateScreen() {
+        ScaledResolution current = ResolutionUtil.current();
+        if (current == null)
+            return;
+        if (lastResolution.getScaledWidth() != current.getScaledWidth() || lastResolution.getScaledHeight() != current.getScaledHeight() || lastResolution.getScaleFactor() != current.getScaleFactor())
+            rePack();
+
+        this.lastResolution = current;
+        super.updateScreen();
+        for (GuiButton guiButton : buttonList) {
+            Consumer<GuiButton> guiButtonConsumer = updates.get(guiButton);
+            if (guiButtonConsumer != null) {
+                guiButtonConsumer.accept(guiButton);
+            }
+        }
+    }
+
+    @Override
+    public void initGui() {
+        super.initGui();
+        rePack();
+
+        loadCustomBackground();
+    }
+
+    @Override
+    protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
+        super.mouseClicked(mouseX, mouseY, mouseButton);
+        for (GuiBlock block : actions.keySet()) {
+            if (block.isMouseOver(mouseX,mouseY)) {
+                actions.get(block).run();
+                return;
+            }
+        }
+    }
+
+    @Override
+    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+        actions.clear();
+//        drawBackground();
+
+        if (drawAlpha) {
+            Gui.drawRect(0, 0, ResolutionUtil.current().getScaledWidth() * ResolutionUtil.current().getScaleFactor(), ResolutionUtil.current().getScaledHeight() * ResolutionUtil.current().getScaleFactor(), new Color(0, 0, 0, alpha).getRGB());
+        }
+
+        super.drawScreen(mouseX, mouseY, partialTicks);
+    }
+
+    @Override
+    public void handleMouseInput() throws IOException {
+        super.handleMouseInput();
+        int i = Mouse.getEventDWheel();
+        if (i < 0) {
+            offset += 11;
+        } else if (i > 0) {
+            offset -= 11;
+        }
+
+    }
+
+    public void setDrawAlpha(boolean drawAlpha) {
+        this.drawAlpha = drawAlpha;
+    }
+
+    public void setAlpha(int alpha) {
+        this.alpha = alpha;
+    }
+
+    public int nextId() {
+        return (++idIteration);
+    }
+
+    public void rePack() {
+        buttonList.clear();
+        pack();
+    }
+
+    public void show() {
+        Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(this);
+    }
+
+    protected void reg(String name, GuiButton button, Consumer<GuiButton> consumer, Consumer<GuiButton> tick) {
+        this.buttonList.add(button);
+        this.clicks.put(button, consumer);
+        this.updates.put(button, tick);
+        this.nameMap.put(name, button);
+    }
+
+    protected GuiButton getButtonByName(String name) {
+        return nameMap.get(name);
+    }
+
+    protected abstract void pack();
+
+    protected void drawBackground() {
+        if (this.mc != null && this.mc.theWorld == null) {
+            renderHyperiumBackground(ResolutionUtil.current());
+        }
+
+        if (drawAlpha) {
+            Gui.drawRect(0, 0, ResolutionUtil.current().getScaledWidth() * ResolutionUtil.current().getScaleFactor(), ResolutionUtil.current().getScaledHeight() * ResolutionUtil.current().getScaleFactor(), new Color(0, 0, 0, alpha).getRGB());
+        }
+    }
+
+    private void renderHyperiumBackground(ScaledResolution sr) {
+        GlStateManager.disableDepth();
+        GlStateManager.depthMask(false);
+        GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+        GlStateManager.disableAlpha();
+
+        if (customImage.exists() && bgDynamicTexture != null && customBackground) {
+            Minecraft.getMinecraft().getTextureManager().bindTexture(bgDynamicTexture);
+        } else {
+            Minecraft.getMinecraft().getTextureManager().bindTexture(background);
+        }
+
+        Tessellator tessellator = Tessellator.getInstance();
+        WorldRenderer worldrenderer = tessellator.getWorldRenderer();
+        worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
+        worldrenderer.pos(0.0D, (double) sr.getScaledHeight(), -90.0D).tex(0.0D, 1.0D).endVertex();
+        worldrenderer.pos((double) sr.getScaledWidth(), (double) sr.getScaledHeight(), -90.0D).tex(1.0D, 1.0D).endVertex();
+        worldrenderer.pos((double) sr.getScaledWidth(), 0.0D, -90.0D).tex(1.0D, 0.0D).endVertex();
+        worldrenderer.pos(0.0D, 0.0D, -90.0D).tex(0.0D, 0.0D).endVertex();
+        tessellator.draw();
+
+        GlStateManager.depthMask(true);
+        GlStateManager.enableDepth();
+        GlStateManager.enableAlpha();
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+
+//        GlStateManager.pushMatrix();
+    }
+
+    private void loadCustomBackground() {
+        customBackground = BackgroundSettings.backgroundSelect.equalsIgnoreCase("CUSTOM");
+
+        if (customImage.exists() && customBackground) {
+            try {
+                bgBr = ImageIO.read(new FileInputStream(customImage));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            if (bgBr != null) {
+                bgDynamicTexture = mc.getRenderManager().renderEngine.getDynamicTextureLocation(customImage.getName(), new DynamicTexture(bgBr));
+            }
+
+        }
     }
 }

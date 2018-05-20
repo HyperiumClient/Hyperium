@@ -48,6 +48,7 @@ public class PurchaseApi {
     private final Map<UUID, HyperiumPurchase> purchasePlayers = new ConcurrentHashMap<>();
     private final Map<EnumPurchaseType, Class<? extends AbstractHyperiumPurchase>> purchaseClasses = new HashMap<>();
     private final Map<String, UUID> nameToUuid = new HashMap<>();
+    private JsonHolder capeAtlas = new JsonHolder();
 
     private PurchaseApi() {
         register(EnumPurchaseType.WING_COSMETIC, WingCosmetic.class);
@@ -57,11 +58,17 @@ public class PurchaseApi {
         register(EnumPurchaseType.FLIP_COSMETIC, FlipCosmeticPackage.class);
         register(EnumPurchaseType.DEADMAU5_COSMETIC, EarsCosmetic.class);
         getPackageAsync(Minecraft.getMinecraft().getSession().getProfile().getId(), hyperiumPurchase -> System.out.println("Loaded self packages: " + hyperiumPurchase.getResponse()));
-
+        Multithreading.runAsync(() -> {
+            capeAtlas = get("https://api.hyperium.cc/capeAtlas");
+        });
     }
 
     public static PurchaseApi getInstance() {
         return instance;
+    }
+
+    public JsonHolder getCapeAtlas() {
+        return capeAtlas;
     }
 
     @InvokeEvent
@@ -101,9 +108,9 @@ public class PurchaseApi {
         if (uuid == null)
             return null;
         return purchasePlayers.computeIfAbsent(uuid, uuid1 -> {
-            String s = uuid.toString().replace("-","");
+            String s = uuid.toString().replace("-", "");
             if (s.length() == 32 && s.charAt(12) != '4') {
-                return new HyperiumPurchase(uuid,new JsonHolder().put("non_player", true));
+                return new HyperiumPurchase(uuid, new JsonHolder().put("non_player", true));
             }
 
             return new HyperiumPurchase(uuid, get(url + uuid.toString()));

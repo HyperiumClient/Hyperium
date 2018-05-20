@@ -40,14 +40,14 @@ public class ShopGui extends HyperiumGui {
             PurchaseApi.getInstance().refreshSelf();
             personData = PurchaseApi.getInstance().getSelf().getResponse();
             cosmeticCallback = PurchaseApi.getInstance().get("https://api.hyperium.cc/cosmetics/" + Minecraft.getMinecraft().getSession().getProfile().getId().toString().replace("-", ""));
-        purchasing=false;
+            purchasing = false;
         });
     }
 
     @Override
     protected void pack() {
-        reg("VIEW", new GuiButton(nextId(), 1, 1, 100, 20, "View Cosmetics"), guiButton -> {
-            new ViewCosmeticsGui().show();
+        reg("CAPES", new GuiButton(nextId(), 1, 1, 100, 20, "View Capes"), guiButton -> {
+            new CapesGui().show();
         }, guiButton -> {
 
         });
@@ -88,14 +88,14 @@ public class ShopGui extends HyperiumGui {
     @Override
     protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
         super.mouseClicked(mouseX, mouseY, mouseButton);
-    boolean f = false;
+        boolean f = false;
         for (GuiBoxItem<Runnable> runnableGuiBoxItem : list) {
             if (runnableGuiBoxItem.getBox().isMouseOver(mouseX, mouseY) && mouseButton == 0) {
                 runnableGuiBoxItem.getObject().run();
-                f=true;
+                f = true;
             }
         }
-        if(f)
+        if (f)
             list.clear();
     }
 
@@ -126,6 +126,8 @@ public class ShopGui extends HyperiumGui {
                 for (String s : cosmeticCallback.getKeys()) {
                     yLevel += 10;
                     JsonHolder jsonHolder = cosmeticCallback.optJSONObject(s);
+                    if (jsonHolder.optBoolean("cape"))
+                        return;
                     GlStateManager.scale(1.5F, 1.5F, 1.5F);
                     String name = jsonHolder.optString("name");
                     fontRendererObj.drawString(name, 150 / 2, (yLevel) / 1.5F, Color.RED.getRGB(), true);
@@ -163,9 +165,10 @@ public class ShopGui extends HyperiumGui {
                         }
                     }
                 }
+
+
             } else {
                 fontRendererObj.drawString("Loading cosmetics...", width / 2 - fontRendererObj.getStringWidth("Loading cosmetics...") / 2, 55 + yLevel, Color.RED.getRGB(), true);
-
             }
         } else
             fontRendererObj.drawString("Loading person data...", width / 2 - fontRendererObj.getStringWidth("Loading person data...") / 2, yLevel, Color.RED.getRGB(), true);

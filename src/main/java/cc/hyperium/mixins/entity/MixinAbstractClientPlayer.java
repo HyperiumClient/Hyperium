@@ -17,8 +17,8 @@
 
 package cc.hyperium.mixins.entity;
 
+import cc.hyperium.Hyperium;
 import cc.hyperium.gui.settings.items.GeneralSetting;
-import cc.hyperium.handlers.handlers.animation.CapeHandler;
 import com.mojang.authlib.GameProfile;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.network.NetworkPlayerInfo;
@@ -42,7 +42,8 @@ public abstract class MixinAbstractClientPlayer {
     @Inject(method = "<init>", at = @At("RETURN"))
     private void AbstractPlayer(World worldIn, GameProfile playerProfile, CallbackInfo callbackInfo) {
 
-        CapeHandler.loadCape(playerProfile.getId());
+        //Blank get cape call to get the show on the road
+        Hyperium.INSTANCE.getHandlers().getCapeHandler().getCape(playerProfile.getId());
     }
 
     /**
@@ -51,12 +52,11 @@ public abstract class MixinAbstractClientPlayer {
     @Overwrite
     public ResourceLocation getLocationCape() {
 
-        if (CapeHandler.hasCape(getPlayerInfo().getGameProfile().getId())) {
-            return CapeHandler.getCape(getPlayerInfo().getGameProfile().getId());
-        } else {
-            NetworkPlayerInfo networkplayerinfo = this.getPlayerInfo();
-            return networkplayerinfo == null ? null : networkplayerinfo.getLocationCape();
-        }
+        ResourceLocation cape = Hyperium.INSTANCE.getHandlers().getCapeHandler().getCape(getPlayerInfo().getGameProfile().getId());
+        if (cape != null)
+            return cape;
+        NetworkPlayerInfo networkplayerinfo = this.getPlayerInfo();
+        return networkplayerinfo == null ? null : networkplayerinfo.getLocationCape();
     }
 
     @Inject(method = "getFovModifier", at = @At("HEAD"), cancellable = true)

@@ -380,7 +380,7 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
         if (button.id == 17)
             mc.displayGuiScreen(new ChangeBackgroundGui(this));
         if (button.id == 100) {
-            mc.displayGuiScreen(new ViewCosmeticsGui());
+            mc.displayGuiScreen(new ShopGui());
         }
     }
 

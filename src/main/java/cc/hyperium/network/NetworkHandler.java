@@ -1,6 +1,7 @@
 package cc.hyperium.network;
 
 import cc.hyperium.Hyperium;
+import cc.hyperium.gui.CapesGui;
 import cc.hyperium.gui.CustomLevelheadConfigurer;
 import cc.hyperium.gui.ShopGui;
 import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
@@ -59,6 +60,8 @@ public class NetworkHandler implements INetty {
         } else if (type.equalsIgnoreCase("refresh_cosmetics")) {
             if (Minecraft.getMinecraft().currentScreen instanceof ShopGui) {
                 ((ShopGui) Minecraft.getMinecraft().currentScreen).refreshData();
+            } else if (Minecraft.getMinecraft().currentScreen instanceof CapesGui) {
+                ((CapesGui) Minecraft.getMinecraft().currentScreen).updatePurchases();
             } else {
                 PurchaseApi.getInstance().refreshSelf();
             }
