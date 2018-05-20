@@ -1,6 +1,5 @@
 package cc.hyperium.mixins.client.multiplayer;
 
-import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.multiplayer.ServerList;
@@ -62,7 +61,7 @@ public class MixinServerList {
             }
         } catch (Exception exception) {
             logger.error((String) "Couldn\'t load server list", (Throwable) exception);
-            GeneralChatHandler.instance().sendMessage("Load server list error");
+            System.out.println("Load server list error");
 
         }
     }
@@ -81,7 +80,7 @@ public class MixinServerList {
             CompressedStreamTools.safeWrite(nbttagcompound, new File(this.mc.mcDataDir, "servers.dat"));
         } catch (Exception exception) {
             logger.error((String) "Couldn\'t save server list", (Throwable) exception);
-            GeneralChatHandler.instance().sendMessage("Save server list error");
+            System.out.println("Save server list error");
         }
 
     }
@@ -91,7 +90,7 @@ public class MixinServerList {
         try {
             return (ServerData) this.servers.get(p_78850_1_);
         } catch (Exception e) {
-            GeneralChatHandler.instance().sendMessage("GetServer Data error 1");
+            System.out.println("GetServer Data error 1");
             e.printStackTrace();
         }
         return null;
@@ -102,7 +101,7 @@ public class MixinServerList {
         try {
             this.servers.remove(p_78851_1_);
         } catch (Exception e) {
-            GeneralChatHandler.instance().sendMessage("Remove server data error");
+            System.out.println("Remove server data error");
         }
     }
 
@@ -111,7 +110,7 @@ public class MixinServerList {
         try {
             this.servers.add(p_78849_1_);
         } catch (Exception e) {
-            GeneralChatHandler.instance().sendMessage("Add server data error");
+            System.out.println("Add server data error");
 
         }
     }
@@ -129,7 +128,7 @@ public class MixinServerList {
             this.servers.set(p_78857_2_, serverdata);
             this.saveServerList();
         } catch (Exception e) {
-            GeneralChatHandler.instance().sendMessage("Swap servers error");
+            System.out.println("Swap servers error");
 
         }
     }
@@ -139,7 +138,7 @@ public class MixinServerList {
         try {
             this.servers.set(p_147413_1_, p_147413_2_);
         } catch (Exception e) {
-            GeneralChatHandler.instance().sendMessage("func_147413_a server data error");
+            System.out.println("func_147413_a server data error");
         }
     }
 }

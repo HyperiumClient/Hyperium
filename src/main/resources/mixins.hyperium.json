@@ -29,6 +29,7 @@
     "gui.MixinGuiIngame",
     "gui.MixinGuiOptions",
     "gui.MixinGuiGameOver",
+    "gui.MixinGuiMultiplayer",
     "gui.MixinGuiPlayerTabOverlay",
     "gui.MixinInventoryParticle",
     "gui.MixinGuiUtilRenderComponents",
@@ -73,7 +74,6 @@
     "scoreboard.MixinScoreboard",
 
     "client.MixinGameSettings",
-    "client.resources.MixinAbstractResourcePack",
-    "client.multiplayer.MixinServerList"
+    "client.resources.MixinAbstractResourcePack"
   ]
 }

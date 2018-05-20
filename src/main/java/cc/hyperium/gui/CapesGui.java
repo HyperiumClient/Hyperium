@@ -9,6 +9,7 @@ import cc.hyperium.purchases.PurchaseApi;
 import cc.hyperium.utils.JsonHolder;
 import cc.hyperium.utils.RenderUtils;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.texture.DynamicTexture;
@@ -66,6 +67,20 @@ public class CapesGui extends HyperiumGui {
 
     @Override
     protected void pack() {
+        reg("RESET", new GuiButton(nextId(), 1, 1, "Disable Hyperium Cape"), guiButton -> {
+            NettyClient client = NettyClient.getClient();
+            if (client != null) {
+                client.write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("set_cape", true).put("value", "default")));
+            }
+            JsonHolder purchaseSettings = PurchaseApi.getInstance().getSelf().getPurchaseSettings();
+            if (!purchaseSettings.has("cape")) {
+                purchaseSettings.put("cape", new JsonHolder());
+            }
+            purchaseSettings.optJSONObject("cape").put("type", "default");
+            Hyperium.INSTANCE.getHandlers().getCapeHandler().deleteCape(Minecraft.getMinecraft().getSession().getProfile().getId());
+        }, guiButton -> {
+
+        });
 
     }
 
@@ -103,9 +118,9 @@ public class CapesGui extends HyperiumGui {
             int stringWidth1 = fontRendererObj.getStringWidth(text);
             int i2 = ResolutionUtil.current().getScaledWidth() / 2 - stringWidth1;
             int i3 = printY + 40;
-            fontRendererObj.drawString(text, i2/2
-                    , i3/2, new Color(97, 132, 249).getRGB(), true);
-            GuiBlock block1 = new GuiBlock(i2, i2 + stringWidth1*2, i3, i3 + 15);
+            fontRendererObj.drawString(text, i2 / 2
+                    , i3 / 2, new Color(97, 132, 249).getRGB(), true);
+            GuiBlock block1 = new GuiBlock(i2, i2 + stringWidth1 * 2, i3, i3 + 15);
             GlStateManager.scale(.5F, .5F, .5F);
             actions.put(block1, () -> {
                 Desktop desktop = Desktop.getDesktop();
