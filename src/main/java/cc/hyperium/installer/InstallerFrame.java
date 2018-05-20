@@ -203,7 +203,7 @@ public class InstallerFrame implements PropertyChangeListener {
             display.setText("COPYING FILES...");
             try {
                 new File(new File(mc, "libraries"), "cc/hyperium/Hyperium/LOCAL").mkdirs();
-                Files.copy(local, new File(new File(mc, "libraries"), "cc/hyperium/Hyperium/LOCAL" + File.separator + local.getName()));
+                Files.copy(local, new File(new File(mc, "libraries"), "cc/hyperium/Hyperium/LOCAL" + File.separator + "Hyperium-LOCAL.jar"));
             } catch (IOException e) {
                 e.printStackTrace();
                 display.setText("INSTALLATION FAILED");
@@ -392,7 +392,7 @@ public class InstallerFrame implements PropertyChangeListener {
         json.put("libraries", libs);
         json.put("id", "Hyperium 1.8.9");
         json.put("mainClass", "net.minecraft.launchwrapper.Launch");
-        json.put("minecraftArguments", json.getString("minecraftArguments") + " --tweakClass=" + version.get().getString("tweak-class"));
+        json.put("minecraftArguments", json.getString("minecraftArguments") + " --tweakClass=" + (ver.equals("LOCAL") ? "cc.hyperium.launch.HyperiumTweaker" : version.get().getString("tweak-class")));
 
         JSONObject profiles = launcherProfiles.getJSONObject("profiles");
         Instant instant = Instant.ofEpochMilli(System.currentTimeMillis());

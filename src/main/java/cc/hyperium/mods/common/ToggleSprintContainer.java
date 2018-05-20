@@ -21,6 +21,7 @@ import cc.hyperium.Hyperium;
 import cc.hyperium.config.ConfigOpt;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.KeypressEvent;
+import cc.hyperium.event.TickEvent;
 import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
 import cc.hyperium.handlers.handlers.keybinds.HyperiumBind;
 import cc.hyperium.handlers.handlers.keybinds.KeyBindHandler;
@@ -52,6 +53,15 @@ public class ToggleSprintContainer {
             }
         }
     };
+
+    @InvokeEvent
+    public void onTick(TickEvent e) {
+        if (toggleSprintActive) {
+            ((MixinKeyBinding) Minecraft.getMinecraft().gameSettings.keyBindSprint).setPressed(true);
+        } else {
+            ((MixinKeyBinding) Minecraft.getMinecraft().gameSettings.keyBindSprint).setPressed(false);
+        }
+    }
 
     public ToggleSprintContainer() {
         KeyBindHandler keyBindHandler = Hyperium.INSTANCE.getHandlers().getKeybindHandler();
