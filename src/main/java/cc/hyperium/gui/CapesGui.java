@@ -19,6 +19,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.HashMap;
 
@@ -67,7 +68,8 @@ public class CapesGui extends HyperiumGui {
     protected void pack() {
 
     }
-//22x17
+
+    //22x17
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         try {
@@ -97,8 +99,25 @@ public class CapesGui extends HyperiumGui {
                 s2 = "NONE";
             String text = "Active Cape: " + s2;
             fontRendererObj.drawString(text, (ResolutionUtil.current().getScaledWidth() / 2 - fontRendererObj.getStringWidth(text)) / 2, (printY + 20) / 2, new Color(249, 99, 0).getRGB(), true);
-
+            text = "Need more credits? Click here";
+            int stringWidth1 = fontRendererObj.getStringWidth(text);
+            int i2 = ResolutionUtil.current().getScaledWidth() / 2 - stringWidth1;
+            int i3 = printY + 40;
+            fontRendererObj.drawString(text, i2/2
+                    , i3/2, new Color(97, 132, 249).getRGB(), true);
+            GuiBlock block1 = new GuiBlock(i2, i2 + stringWidth1*2, i3, i3 + 15);
             GlStateManager.scale(.5F, .5F, .5F);
+            actions.put(block1, () -> {
+                Desktop desktop = Desktop.getDesktop();
+                if (desktop != null) {
+                    try {
+                        desktop.browse(new URL("https://purchase.sk1er.club/category/1125808").toURI());
+                    } catch (IOException | URISyntaxException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+
             printY += 25;
             printY += 35;
             int scaledWidth = current.getScaledWidth();
@@ -123,7 +142,7 @@ public class CapesGui extends HyperiumGui {
                     int topLeftY = thisTopY + 4;
                     GlStateManager.translate(topLeftX, topLeftY, 0);
                     GlStateManager.scale(capeScale, capeScale, capeScale);
-                    drawTexturedModalRect(0, 0, imgW/12, 0, imgW, imgH*2);
+                    drawTexturedModalRect(0, 0, imgW / 12, 0, imgW, imgH * 2);
                     GlStateManager.scale(1F / capeScale, 1F / capeScale, 1F / capeScale);
                     GlStateManager.translate(-topLeftX, -topLeftY, 0);
                 }
