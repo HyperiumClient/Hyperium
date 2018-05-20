@@ -58,8 +58,6 @@ public class ToggleSprintContainer {
     public void onTick(TickEvent e) {
         if (toggleSprintActive) {
             ((MixinKeyBinding) Minecraft.getMinecraft().gameSettings.keyBindSprint).setPressed(true);
-        } else {
-            ((MixinKeyBinding) Minecraft.getMinecraft().gameSettings.keyBindSprint).setPressed(false);
         }
     }
 
