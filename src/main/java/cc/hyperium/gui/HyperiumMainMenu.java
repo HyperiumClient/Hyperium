@@ -172,10 +172,11 @@ import cc.hyperium.GuiStyle;
 import cc.hyperium.Metadata;
 import cc.hyperium.gui.settings.items.BackgroundSettings;
 import cc.hyperium.gui.settings.items.GeneralSetting;
+import cc.hyperium.mixinsimp.renderer.gui.IMixinGuiMultiplayer;
 import cc.hyperium.utils.HyperiumFontRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.*;
-import net.minecraft.client.multiplayer.GuiConnecting;
+import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
@@ -368,8 +369,17 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
             case DEFAULT:
                 if (button.id == 15)
                     mc.displayGuiScreen(new ModConfigGui());
-                if (button.id == 16)
-                    Minecraft.getMinecraft().displayGuiScreen(new GuiConnecting(new GuiMainMenu(), Minecraft.getMinecraft(), Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) ? "stuck.hypixel.net" : "mc.hypixel.net", 25565));
+                if (button.id == 16) {
+                    GuiMultiplayer p_i1182_1_ = new GuiMultiplayer(new GuiMainMenu());
+                    p_i1182_1_.initGui();
+                    p_i1182_1_.setWorldAndResolution(Minecraft.getMinecraft(), width, height);
+                    ((IMixinGuiMultiplayer) p_i1182_1_).makeDirectConnect();
+                    String hostName = Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) ? "stuck.hypixel.net" : "mc.hypixel.net";
+//                    Minecraft.getMinecraft().displayGuiScreen(new GuiConnecting(p_i1182_1_, Minecraft.getMinecraft(), hostName, 25565));
+                    ServerData data = new ServerData("hypixel", hostName, false);
+                    ((IMixinGuiMultiplayer) p_i1182_1_).setIp(data);
+                    p_i1182_1_.confirmClicked(true, 0);
+                }
                 break;
             case HYPERIUM:
                 if (button.id == 15)

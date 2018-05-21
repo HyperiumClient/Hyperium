@@ -29,6 +29,7 @@
     "gui.MixinGuiIngame",
     "gui.MixinGuiOptions",
     "gui.MixinGuiGameOver",
+    "gui.MixinGuiMultiplayer",
     "gui.MixinGuiPlayerTabOverlay",
     "gui.MixinInventoryParticle",
     "gui.MixinGuiUtilRenderComponents",
