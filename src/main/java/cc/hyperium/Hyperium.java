@@ -216,7 +216,13 @@ public class Hyperium {
         }
 
         SplashProgress.PROGRESS = 12;
-        SplashProgress.CURRENT = "Finished";
+        SplashProgress.CURRENT = "Reloading resource manager";
+        SplashProgress.update();
+
+        Minecraft.getMinecraft().refreshResources();
+
+        SplashProgress.PROGRESS = 13;
+        SplashProgress.CURRENT = "Finishing";
         SplashProgress.update();
 
         cosmetics = new HyperiumCosmetics();
