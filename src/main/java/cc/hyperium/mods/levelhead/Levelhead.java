@@ -63,6 +63,12 @@ public class Levelhead extends AbstractMod {
     private final Map<UUID, Integer> timeCheck = new HashMap<>();
     private boolean levelHeadInfoFailed = false;
 
+    public static boolean enabledLevelhead = true;
+
+    public static boolean isEnabled() {
+        return enabledLevelhead;
+    }
+
     public Levelhead() {
         Metadata metadata = new Metadata(this, "LevelHead", "4.1.2", "Sk1er");
 
@@ -137,6 +143,11 @@ public class Levelhead extends AbstractMod {
             return false;
         if (player.isSneaking())
             return false;
+
+        if (!enabledLevelhead) {
+            return false;
+        }
+
         return player.getAlwaysRenderNameTagForRender() && !player.getDisplayName().getUnformattedText().isEmpty();
     }
 
