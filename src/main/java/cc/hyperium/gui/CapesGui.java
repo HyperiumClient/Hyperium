@@ -138,6 +138,10 @@ public class CapesGui extends HyperiumGui {
             int scaledWidth = current.getScaledWidth();
             RenderUtils.drawSmoothRect(scaledWidth / 2 - blockWidth - 16, printY - 4, scaledWidth / 2 + blockWidth + 16, printY + (blockHeight + 16) * totalRows + 4, new Color(53, 106, 110).getRGB());
             for (String s : capeAtlas.getKeys()) {
+                JsonHolder cape = capeAtlas.optJSONObject(s);
+                if(cape.optBoolean("private")) {
+                    continue;
+                }
                 if (pos > blocksPerLine) {
                     pos = 1;
                     row++;
@@ -146,7 +150,6 @@ public class CapesGui extends HyperiumGui {
                 int thisTopY = printY + row * (16 + blockHeight);
                 RenderUtils.drawSmoothRect(thisBlocksCenter - blockWidth / 2, thisTopY,
                         (thisBlocksCenter + blockWidth / 2), thisTopY + blockHeight, Color.WHITE.getRGB());
-                JsonHolder cape = capeAtlas.optJSONObject(s);
                 DynamicTexture dynamicTexture = textures.get(s);
                 if (dynamicTexture != null) {
                     int imgW = 120;
