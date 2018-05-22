@@ -78,10 +78,10 @@ class InstallerConfig extends JFrame {
                 install.setVisible(false);
             case MacOS:
                 install.setVisible(true);
+                install.setEnabled(false);
             case Linux:
                 install.setVisible(false);
         }
-        install.setEnabled(false);
 
         JButton exit = new JButton("EXIT");
         exit.setBackground(new Color(255, 254, 254));
