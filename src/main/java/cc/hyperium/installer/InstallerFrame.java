@@ -423,6 +423,7 @@ public class InstallerFrame implements PropertyChangeListener {
         display.setText("INSTALLATION SUCCESS");
         error.setText("OPEN LAUNCHER AND LAUNCH 'Hyperium 1.8.9' PROFILE");
         exit.setVisible(true);
+
     }
 
     private File exportTempOptifine() throws Exception {
