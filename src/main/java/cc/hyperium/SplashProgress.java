@@ -31,7 +31,7 @@ import org.bridj.cpp.com.shell.ITaskbarList3;
 import java.awt.*;
 
 public class SplashProgress {
-    private static final int MAX = 12;
+    private static final int MAX = 13;
     public static int PROGRESS = 0;
     public static String CURRENT = "";
     private static ResourceLocation splash;

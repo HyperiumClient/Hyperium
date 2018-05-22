@@ -26,17 +26,14 @@ import cc.hyperium.gui.HyperiumGui;
 import cc.hyperium.gui.settings.items.GeneralSetting;
 import cc.hyperium.integrations.spotify.Spotify;
 import cc.hyperium.integrations.spotify.impl.SpotifyInformation;
+import cc.hyperium.integrations.spotify.impl.Track;
 import cc.hyperium.mods.AbstractMod;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.utils.BetterJsonObject;
 import cc.hyperium.utils.ChatColor;
 import com.google.gson.JsonObject;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.GuiChat;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.gui.*;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
@@ -61,9 +58,6 @@ import java.net.URL;
  */
 public class SpotifyControls extends AbstractMod {
     public static SpotifyControls instance;
-
-    private int x = 0;
-    private int y = 0;
     private final int width = 150;
     private final int height = 50;
     private final Color bg = new Color(30, 30, 30, 255);
@@ -71,13 +65,15 @@ public class SpotifyControls extends AbstractMod {
     private final Color highlight = new Color(149, 201, 144);
     private final Color white = Color.WHITE;
     private final Metadata metadata;
+    private final File configFile;
+    private int x = 0;
+    private int y = 0;
     private long current = 0;
     private long cachedTime = 0;
     private long systemTime = 0;
     private DynamicTexture pause, play, art;
     private String currentURI = "";
     private BufferedImage imageToGenerate;
-    private final File configFile;
 
     public SpotifyControls() {
         instance = this;
@@ -202,14 +198,15 @@ public class SpotifyControls extends AbstractMod {
         boolean paused = info.isPlaying();
         String name = "Not Playing", artist = "", uri = currentURI;
 
-        if (info.getTrack() != null) {
-            if (info.getTrack().getTrackResource() != null) {
-                name = info.getTrack().getTrackResource().getName();
-                uri = info.getTrack().getTrackResource().getUri();
+        Track track = info.getTrack();
+        if (track != null) {
+            if (track.getTrackResource() != null) {
+                name = track.getTrackResource().getName();
+                uri = track.getTrackResource().getUri();
             }
 
-            if (info.getTrack().getArtistResource() != null) {
-                artist = info.getTrack().getArtistResource().getName();
+            if (track.getArtistResource() != null) {
+                artist = track.getArtistResource().getName();
             }
         }
 
@@ -240,7 +237,9 @@ public class SpotifyControls extends AbstractMod {
             current = cachedTime;
         }
 
-        long length = info.getTrack().getLength();
+        long length = 1;
+        if (track != null)
+            length = track.getLength();
 
         name = fontRenderer.trimStringToWidth(name, (int) ((width - 30) * 0.8));
         artist = fontRenderer.trimStringToWidth(artist, width - 30);
