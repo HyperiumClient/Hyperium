@@ -19,6 +19,7 @@ package cc.hyperium.commands.defaults;
 
 import cc.hyperium.commands.BaseCommand;
 import cc.hyperium.gui.ModConfigGui;
+import cc.hyperium.gui.main.HyperiumMainGui;
 import cc.hyperium.utils.ChatColor;
 
 import java.util.Collections;
@@ -49,6 +50,6 @@ public class CommandConfigGui implements BaseCommand {
 
     @Override
     public void onExecute(String[] args) {
-        new ModConfigGui().show();
+        new HyperiumMainGui().show();
     }
 }
