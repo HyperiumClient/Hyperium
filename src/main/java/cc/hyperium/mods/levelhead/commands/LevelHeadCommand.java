@@ -70,15 +70,11 @@ public class LevelHeadCommand implements BaseCommand {
                 GeneralChatHandler.instance().sendMessage("Stringcache entries: " + prevCache + " -> " + this.mod.levelCache.size());
                 return;
             } else if (args[0].equalsIgnoreCase("toggle")) {
-                if (Levelhead.isEnabled()) {
-                    Levelhead.enabledLevelhead = false;
-                    Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage("Levelhead disabled");
-                    return;
-                } else if (!Levelhead.isEnabled()) {
-                    Levelhead.enabledLevelhead = true;
-                    Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage("Levelhead enabled");
-                    return;
-                }
+                Levelhead.enabledLevelhead = !Levelhead.isEnabled();
+                
+                Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage("Levelhead " + (Levelhead.isEnabled() ? "enabled" : "disabled"));
+                
+                return;
             }
         }
         new LevelHeadGui(this.mod).display();
