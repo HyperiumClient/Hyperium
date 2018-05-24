@@ -51,11 +51,6 @@ public abstract class MixinAbstractClientPlayer {
      */
     @Overwrite
     public ResourceLocation getLocationCape() {
-//        if (Hyperium.INSTANCE.getHandlers().getCapeHandler().getCape(getPlayerInfo().getGameProfile().getId()) == null) {
-//            Hyperium.INSTANCE.getHandlers().getCapeHandler().loadCape(getPlayerInfo().getGameProfile().getId(), "http://s.optifine.net/capes/" + getPlayerInfo().getGameProfile().getName() + ".png");
-//            ResourceLocation rl = Hyperium.INSTANCE.getHandlers().getCapeHandler().getCape(getPlayerInfo().getGameProfile().getId());
-//            return rl;
-//        }
         ResourceLocation cape = Hyperium.INSTANCE.getHandlers().getCapeHandler().getCape(getPlayerInfo().getGameProfile().getId());
         if (cape != null)
             return cape;
