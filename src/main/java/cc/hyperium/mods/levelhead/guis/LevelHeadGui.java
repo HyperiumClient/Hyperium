@@ -311,8 +311,15 @@ public class LevelHeadGui extends GuiScreen {
                 return;
             JsonHolder footer = new JsonHolder().put("level", value).put("strlevel", value + "");
             LevelheadTag tag = this.mod.buildTag(footer, uuid);
-            levelheadTag.reApply(tag);
-
+            if (tag != null)
+                levelheadTag.reApply(tag);
+            else {
+                int primaryId = colors.indexOf(removeColorChar(this.mod.getConfig().getFooterColor()));
+                if (++primaryId == colors.length()) {
+                    primaryId = 0;
+                }
+                this.mod.getConfig().setFooterColor(COLOR_CHAR + colors.charAt(primaryId));
+            }
         });
     }
 
