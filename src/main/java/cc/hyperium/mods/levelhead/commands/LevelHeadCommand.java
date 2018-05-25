@@ -17,6 +17,7 @@
 
 package cc.hyperium.mods.levelhead.commands;
 
+import cc.hyperium.Hyperium;
 import cc.hyperium.commands.BaseCommand;
 import cc.hyperium.handlers.handlers.HypixelDetector;
 import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
@@ -24,6 +25,8 @@ import cc.hyperium.mods.levelhead.Levelhead;
 import cc.hyperium.mods.levelhead.guis.LevelHeadGui;
 import cc.hyperium.mods.sk1ercommon.Sk1erMod;
 import cc.hyperium.utils.ChatColor;
+
+import java.util.logging.Level;
 
 /**
  * Created by Mitchell Katz on 5/8/2017.
@@ -65,6 +68,12 @@ public class LevelHeadCommand implements BaseCommand {
                 this.mod.levelCache.clear();
 
                 GeneralChatHandler.instance().sendMessage("Stringcache entries: " + prevCache + " -> " + this.mod.levelCache.size());
+                return;
+            } else if (args[0].equalsIgnoreCase("toggle")) {
+                Levelhead.enabledLevelhead = !Levelhead.isEnabled();
+                
+                Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage("Levelhead " + (Levelhead.isEnabled() ? "enabled" : "disabled"));
+                
                 return;
             }
         }
