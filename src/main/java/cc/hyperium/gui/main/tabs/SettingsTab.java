@@ -16,7 +16,7 @@ import java.io.IOException;
 /*
  * Created by Cubxity on 20/05/2018
  */
-public class ModsTab extends AbstractTab {
+public class SettingsTab extends AbstractTab {
     private static DynamicTexture ico;
 
     static {
@@ -31,7 +31,7 @@ public class ModsTab extends AbstractTab {
     private GuiBlock block;
     private int y, w;
 
-    public ModsTab(int y, int w) {
+    public SettingsTab(int y, int w) {
         block = new GuiBlock(0, w, y, y + w);
         this.y = y;
         this.w = w;
