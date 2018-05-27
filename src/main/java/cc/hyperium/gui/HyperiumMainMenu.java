@@ -371,7 +371,6 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
                     mc.displayGuiScreen(new ModConfigGui());
                 if (button.id == 16) {
                     GuiMultiplayer p_i1182_1_ = new GuiMultiplayer(new GuiMainMenu());
-                    p_i1182_1_.initGui();
                     p_i1182_1_.setWorldAndResolution(Minecraft.getMinecraft(), width, height);
                     ((IMixinGuiMultiplayer) p_i1182_1_).makeDirectConnect();
                     String hostName = Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) ? "stuck.hypixel.net" : "mc.hypixel.net";
