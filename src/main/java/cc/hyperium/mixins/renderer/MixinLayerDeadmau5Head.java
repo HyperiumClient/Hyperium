@@ -29,7 +29,6 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.client.renderer.entity.layers.LayerDeadmau5Head;
 import net.minecraft.util.ResourceLocation;
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -39,9 +38,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(LayerDeadmau5Head.class)
 class MixinLayerDeadmau5Head {
 
-    @Final
     @Shadow
-    private final RenderPlayer playerRenderer;
+    private RenderPlayer playerRenderer;
 
     public MixinLayerDeadmau5Head(RenderPlayer playerRenderer) {
         this.playerRenderer = playerRenderer;

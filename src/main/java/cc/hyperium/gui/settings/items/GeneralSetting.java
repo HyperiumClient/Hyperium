@@ -77,7 +77,7 @@ public class GeneralSetting extends SettingGui {
     @ConfigOpt
     public static boolean hideScoreboardNumbers = true;
     @ConfigOpt
-    public static boolean blurGuiBackgroundsEnabled = true;
+    public static boolean blurGuiBackgroundsEnabled = false;
     @ConfigOpt
     public static boolean chromaHudNonHypixelEnabled = true;
     @ConfigOpt
