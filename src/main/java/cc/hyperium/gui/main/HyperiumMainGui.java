@@ -63,7 +63,12 @@ public class HyperiumMainGui extends HyperiumGui {
 
         // Draws side pane
         currentTab.drawHighlight();
+        GlStateManager.pushMatrix();
+        GlStateManager.enableBlend();
+        GL11.glColor3f(1.0f, 1.0f, 1.0f);
         tabs.forEach(AbstractTab::drawTabIcon);
+        GlStateManager.disableBlend();
+        GlStateManager.popMatrix();
 
         int pw = width / 15;
         if (pw > 144)
