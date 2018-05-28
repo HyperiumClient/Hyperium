@@ -66,7 +66,7 @@ public class ChangeBackgroundGui extends GuiScreen {
             statusText = "The URL cannot be empty.";
             return;
         }
-        if (!downloadUrlField.getText().endsWith(".png") || !downloadUrlField.getText().startsWith("http")) {
+        if (!(downloadUrlField.getText().endsWith(".png") || downloadUrlField.getText().endsWith(".jpg")) || !downloadUrlField.getText().startsWith("http")) {
             statusText = "Invalid PNG image url";
             return;
         }

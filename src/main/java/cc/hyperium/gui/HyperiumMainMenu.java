@@ -461,7 +461,7 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
         GlStateManager.bindTexture(getCachedTexture(Minecraft.getMinecraft().getSession().getPlayerID()).getGlTextureId());
         drawScaledCustomSizeModalRect(width - 155, 10, 0, 0, 30, 30, 30, 30, 30, 30);
 
-        sfr.drawCenteredString("Change menu Background", this.width / 2, this.height - 15, 0xFFFFFF);
+        sfr.drawCenteredString("Change Menu Background", this.width / 2, this.height - 15, 0xFFFFFF);
 
         // Draw icons on buttons
         TextureManager tm = mc.getTextureManager();
@@ -566,7 +566,6 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
 
         String s4 = "Cubxity, CoalOres and boomboompower";
         this.drawString(this.fontRendererObj, s4, this.width - this.fontRendererObj.getStringWidth(s4) - 2, this.height - 20, -1);
-
         this.hypixelButton.displayString = Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) ? "Fix Hypixel Session" : "Join Hypixel";
 
     }
