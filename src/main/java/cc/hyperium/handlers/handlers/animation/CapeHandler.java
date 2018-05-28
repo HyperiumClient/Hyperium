@@ -2,6 +2,7 @@ package cc.hyperium.handlers.handlers.animation;
 
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.SpawnpointChangeEvent;
+import cc.hyperium.event.WorldChangeEvent;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.purchases.PurchaseApi;
 import cc.hyperium.utils.CapeUtils;
@@ -11,6 +12,7 @@ import net.minecraft.client.renderer.IImageBuffer;
 import net.minecraft.client.renderer.ThreadDownloadImageData;
 import net.minecraft.client.renderer.texture.ITextureObject;
 import net.minecraft.client.renderer.texture.TextureManager;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 
 import java.awt.image.BufferedImage;
@@ -24,7 +26,7 @@ public class CapeHandler {
     private final ResourceLocation loadingResource = new ResourceLocation("");
 
     @InvokeEvent
-    public void worldSwap(SpawnpointChangeEvent event) {
+    public void worldSwap(WorldChangeEvent event) {
         UUID id = Minecraft.getMinecraft().getSession().getProfile().getId();
         ResourceLocation resourceLocation = capes.get(id);
         TextureManager textureManager = Minecraft.getMinecraft().getTextureManager();
@@ -83,9 +85,12 @@ public class CapeHandler {
                     if (!url.isEmpty()) {
                         loadCape(uuid, url);
                     }
+                } else {
+                    EntityPlayer e = Minecraft.getMinecraft().theWorld.getPlayerEntityByUUID(uuid);
+                    loadCape(uuid, "http://s.optifine.net/capes/" + (e != null ? e.getGameProfile().getName() : "") + ".png");
                 }
             }));
-            return null;
+            return capes.get(uuid);
         }
         if (orDefault.equals(loadingResource)) {
             return null;

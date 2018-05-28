@@ -53,7 +53,6 @@ public class KeyBindHandler {
     public KeyBindHandler() {
         this.keyBindConfig = new KeyBindConfig(this, Hyperium.folder);
 
-        this.keyBindConfig.load();
         registerKeyBinding(debug);
         registerKeyBinding(new FriendsKeybind());
         registerKeyBinding(new NamesKeybind());
@@ -63,11 +62,15 @@ public class KeyBindHandler {
         registerKeyBinding(new FlipKeybind());
         registerKeyBinding(new FlossKeybind());
         registerKeyBinding(new ToggleSpotifyKeybind());
+        registerKeyBinding(new ToggleSprintKeybind());
+        registerKeyBinding(new TogglePerspectiveKeybind());
 
         // Populate mouse bind list in accordance with Minecraft's values.
         for (int i = 0; i < 16; i++) {
             mouseBinds.put(i, -100 + i);
         }
+
+        this.keyBindConfig.load();
     }
 
     @InvokeEvent
