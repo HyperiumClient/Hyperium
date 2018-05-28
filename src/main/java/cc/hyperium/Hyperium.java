@@ -32,12 +32,10 @@ import cc.hyperium.gui.settings.items.BackgroundSettings;
 import cc.hyperium.gui.settings.items.CosmeticSettings;
 import cc.hyperium.gui.settings.items.GeneralSetting;
 import cc.hyperium.handlers.HyperiumHandlers;
-import cc.hyperium.handlers.handlers.animation.CapeHandler;
 import cc.hyperium.installer.InstallerFrame;
 import cc.hyperium.integrations.spotify.Spotify;
 import cc.hyperium.mods.HyperiumModIntegration;
 import cc.hyperium.mods.autogg.AutoGG;
-import cc.hyperium.mods.common.PerspectiveModifierContainer;
 import cc.hyperium.mods.common.ToggleSprintContainer;
 import cc.hyperium.mods.crosshair.CrosshairMod;
 import cc.hyperium.mods.discord.RichPresenceManager;
@@ -91,7 +89,6 @@ public class Hyperium {
 
     private final GeneralStatisticsTracking statTrack = new GeneralStatisticsTracking();
     private final NotificationCenter notification = new NotificationCenter();
-    private PerspectiveModifierContainer perspective;
     private final RichPresenceManager richPresenceManager = new RichPresenceManager();
     private ConfirmationPopup confirmation = new ConfirmationPopup();
     private HyperiumCosmetics cosmetics;
@@ -105,6 +102,7 @@ public class Hyperium {
     private Sk1erMod sk1erMod;
     private NettyClient client;
     private NetworkHandler networkHandler;
+
 
     public MinigameListener getMinigameListener() {
         return minigameListener;
@@ -148,7 +146,6 @@ public class Hyperium {
         EventBus.INSTANCE.register(CompactChat.getInstance());
         EventBus.INSTANCE.register(CrosshairMod.getInstance());
         EventBus.INSTANCE.register(CONFIG.register(FPSLimiter.getInstance()));
-        EventBus.INSTANCE.register(perspective = new PerspectiveModifierContainer());
         EventBus.INSTANCE.register(new WingCosmetic());
         EventBus.INSTANCE.register(confirmation = new ConfirmationPopup());
         EventBus.INSTANCE.register(new BlurDisableFallback());
@@ -332,10 +329,6 @@ public class Hyperium {
 
     public NotificationCenter getNotification() {
         return notification;
-    }
-
-    public PerspectiveModifierContainer getPerspective() {
-        return this.perspective;
     }
 
     public boolean isAcceptedTos() {

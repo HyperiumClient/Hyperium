@@ -3,10 +3,14 @@ package cc.hyperium.gui;
 import cc.hyperium.Metadata;
 import cc.hyperium.installer.InstallerMain;
 import cc.hyperium.internal.addons.AddonBootstrap;
+import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.netty.NettyClient;
 import cc.hyperium.netty.packet.packets.serverbound.ServerCrossDataPacket;
 import cc.hyperium.utils.JsonHolder;
 import com.google.gson.JsonParser;
+import me.cubxity.utils.DeobfStack;
+import me.cubxity.utils.Mapping;
+import net.minecraft.client.Minecraft;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.init.Bootstrap;
 import org.apache.http.HttpResponse;
@@ -111,17 +115,22 @@ public class CrashReportGUI extends JDialog {
         report.setFocusPainted(false);
         report.setBounds(2, 208, 196, 20);
         report.addActionListener(e -> {
-            report.setEnabled(false);
-            report.setText("REPORTING...");
-            if (sendReport()) {
-                report.setEnabled(false);
-                report.setText("REPORTED");
-            } else if (copyReport()) {
-                report.setEnabled(false);
-                report.setText("COPIED TO CLIPBOARD");
-            } else {
-                report.setText("FAILED TO REPORT");
-            }
+            Multithreading.runAsync(new Runnable() {
+                @Override
+                public void run() {
+                    report.setEnabled(false);
+                    report.setText("REPORTING...");
+                    if (sendReport()) {
+                        report.setEnabled(false);
+                        report.setText("REPORTED");
+                    } else if (copyReport()) {
+                        report.setEnabled(false);
+                        report.setText("COPIED TO CLIPBOARD");
+                    } else {
+                        report.setText("FAILED TO REPORT");
+                    }
+                }
+            });
         });
 
         JButton restart = new JButton("RESTART");
@@ -173,8 +182,22 @@ public class CrashReportGUI extends JDialog {
                 addons.set("none");
             String hurl = null;
 
-            if (report != null)
-                hurl = haste(report.getCompleteReport());
+            System.out.println("Report: " + report);
+
+            if (report != null) {
+                StringBuilder sb = new StringBuilder();
+                String[] rep = report.getCompleteReport().split("\n");
+                sb.append("Deobfuscated Report");
+                sb.append("Code by Cubxity");
+                sb.append("\n");
+                Mapping mapping = new Mapping("mc_1.8.9");
+                for (String s : rep) {
+                    String l = DeobfStack.deobfLine(s, mapping);
+                    sb.append(l).append("\n");
+                    System.out.println(l);
+                }
+                hurl = haste(sb.toString());
+            }
 
             if (report != null && hurl == null)
                 return false;
