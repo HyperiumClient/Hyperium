@@ -7,7 +7,9 @@ import cc.hyperium.gui.main.tabs.HomeTab;
 import cc.hyperium.gui.main.tabs.InfoTab;
 import cc.hyperium.gui.main.tabs.SettingsTab;
 import cc.hyperium.utils.HyperiumFontRenderer;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
+import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
 import java.io.IOException;
