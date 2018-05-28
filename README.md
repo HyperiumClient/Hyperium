@@ -37,7 +37,7 @@ A: We don't know! However, open beta testing has began at our <a href="https://d
 
 Q: ETA?
 
-A: For beta, now! Join the <a href="https://discord.gg/RNyRgtv">Discord</a>! For release, we don't know!
+A: For beta, now! Join the <a href="https://discord.gg/RNyRgtv">Discord</a> or visit our <a href="hyperium.cc">website</a>! For release, we don't know!
 
 Q: Is there an addon tutorial?
 
@@ -50,13 +50,35 @@ A: Yes, its at https://www.youtube.com/watch?v=RXTIFdoNA8c.
 add Hyperium that you built as dependency for the project
 
 ```java
-package me.cubxity;
+package com.example;
 
-@Addon(modid = "TestMod", version = "1.0 BETA")
-public class TestMod {
+import cc.hyperium.event.*;
+import cc.hyperium.internal.addons.IAddon;
+import net.minecraft.client.Minecraft;
+
+public class AddonExample implements IAddon {
+
+
+    @Override
+    public void onLoad() {
+        System.out.println("Sucesfully loaded Addon!");
+        EventBus.INSTANCE.register(this);
+    }
+
     @InvokeEvent
-    public void init(InitilizationEvent event) {
-        System.out.println("Started!");
+    private void onChatMessage(ChatEvent event) {
+        if(event.getChat().getUnformattedText().contains("secret message!")) {
+            Minecraft.getMinecraft().toggleFullscreen();
+        }
+    }
+
+    @Override
+    public void onClose() {
+        System.out.println("Closing...");
+    }
+    
+    @Override
+    public void sendDebugInfo() {
     }
 }
 ```
@@ -64,9 +86,9 @@ public class TestMod {
 **addon.json**
 ```json
 {
-  "name":"MaiCuteAddon",
+  "name":"Addon Example",
   "version":"1.0",
-  "main":"me.cubxity.TestMod"
+  "mainClass":"com.example.AddonExample"
 }
 ```
 **Examples [here](https://github.com/HyperiumClient/Addon-Workspace)**
