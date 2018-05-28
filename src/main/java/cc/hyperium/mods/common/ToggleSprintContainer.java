@@ -40,17 +40,14 @@ public class ToggleSprintContainer {
     private final HyperiumBind toggleSprint = new HyperiumBind("toggleSprint", Keyboard.KEY_V) {
         @Override
         public void onPress() {
-            press = !press;
-            if (press) {
-                if (ToggleSprintContainer.this.toggleSprintActive) {
-                    GeneralChatHandler.instance().sendMessage("ToggleSprint Disabled!");
-                    ((MixinKeyBinding) Minecraft.getMinecraft().gameSettings.keyBindSprint).setPressed(false);
-                } else {
-                    GeneralChatHandler.instance().sendMessage("ToggleSprint Enabled!");
-                    ((MixinKeyBinding) Minecraft.getMinecraft().gameSettings.keyBindSprint).setPressed(true);
-                }
-                ToggleSprintContainer.this.toggleSprintActive = !ToggleSprintContainer.this.toggleSprintActive;
+            if (ToggleSprintContainer.this.toggleSprintActive) {
+                GeneralChatHandler.instance().sendMessage("ToggleSprint Disabled!");
+                ((MixinKeyBinding) Minecraft.getMinecraft().gameSettings.keyBindSprint).setPressed(false);
+            } else {
+                GeneralChatHandler.instance().sendMessage("ToggleSprint Enabled!");
+                ((MixinKeyBinding) Minecraft.getMinecraft().gameSettings.keyBindSprint).setPressed(true);
             }
+            ToggleSprintContainer.this.toggleSprintActive = !ToggleSprintContainer.this.toggleSprintActive;
         }
     };
 

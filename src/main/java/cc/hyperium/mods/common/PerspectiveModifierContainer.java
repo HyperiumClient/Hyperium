@@ -87,19 +87,16 @@ public class PerspectiveModifierContainer {
 
         @Override
         public void onPress() {
-            press = !press;
             if (GeneralSetting.perspectiveHoldDownEnabled) {
                 onEnable();
                 setEnabled(true);
             } else {
-                if (press) {
-                    setEnabled(!isEnabled());
+                setEnabled(!isEnabled());
 
-                    if (!GeneralSetting.perspectiveHoldDownEnabled && !isEnabled()) {
-                        onDisable();
-                    } else {
-                        onEnable();
-                    }
+                if (!GeneralSetting.perspectiveHoldDownEnabled && !isEnabled()) {
+                    onDisable();
+                } else {
+                    onEnable();
                 }
             }
         }
