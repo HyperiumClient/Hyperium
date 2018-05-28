@@ -90,6 +90,9 @@ public class KeyBindConfig {
 
             for (HyperiumBind bind : this.handler.getKeybinds().values()) {
                 bind.setKeyCode(this.keyBindJson.optInt(bind.getRealDescription(), bind.getDefaultKeyCode()));
+                System.out.println(bind.getKeyDescription());
+                System.out.println("New bind keycode: " + bind.getKeyCode());
+                System.out.println("Default keycode: " + bind.getDefaultKeyCode());
             }
         } else {
             // Config file doesn't exist, yay!
