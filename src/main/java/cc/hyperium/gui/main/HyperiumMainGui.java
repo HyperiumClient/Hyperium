@@ -7,7 +7,9 @@ import cc.hyperium.gui.main.tabs.HomeTab;
 import cc.hyperium.gui.main.tabs.InfoTab;
 import cc.hyperium.gui.main.tabs.SettingsTab;
 import cc.hyperium.utils.HyperiumFontRenderer;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
+import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
 import java.io.IOException;
@@ -63,7 +65,12 @@ public class HyperiumMainGui extends HyperiumGui {
 
         // Draws side pane
         currentTab.drawHighlight();
+        GlStateManager.pushMatrix();
+        GlStateManager.enableBlend();
+        GL11.glColor3f(1.0f, 1.0f, 1.0f);
         tabs.forEach(AbstractTab::drawTabIcon);
+        GlStateManager.disableBlend();
+        GlStateManager.popMatrix();
 
         int pw = width / 15;
         if (pw > 144)
