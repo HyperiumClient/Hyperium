@@ -1,12 +1,13 @@
 package cc.hyperium.gui.main;
 
 import cc.hyperium.gui.HyperiumGui;
-import cc.hyperium.gui.font.Fonts;
 import cc.hyperium.gui.main.components.AbstractTab;
+import cc.hyperium.gui.main.tabs.AddonsTab;
 import cc.hyperium.gui.main.tabs.HomeTab;
 import cc.hyperium.gui.main.tabs.InfoTab;
 import cc.hyperium.gui.main.tabs.SettingsTab;
 import cc.hyperium.utils.HyperiumFontRenderer;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
@@ -30,9 +31,9 @@ public class HyperiumMainGui extends HyperiumGui {
     private List<AbstractTab> tabs;
 
     static {
-        alerts.add(new Alert(null, () -> {
+        alerts.add(new Alert(new ResourceLocation("textures/material/info.png"), () -> {
             System.out.println("Alert clicked!");
-        }, "Test alert pls click kthx"));
+        }, "Test alert pls click kthx", "Test hover"));
     }
 
     public static HyperiumFontRenderer getFr() {
@@ -50,7 +51,8 @@ public class HyperiumMainGui extends HyperiumGui {
         tabs = Arrays.asList(
                 ht,
                 new SettingsTab(height / 2 - pw, pw),
-                new InfoTab(height / 2 - pw, pw)
+                new AddonsTab(height / 2, pw),
+                new InfoTab(height / 2 + pw, pw)
         );
     }
 
@@ -59,11 +61,11 @@ public class HyperiumMainGui extends HyperiumGui {
         drawDefaultBackground();
 
         // Draws side pane
-        currentTab.drawHighlight();
         GlStateManager.pushMatrix();
         GlStateManager.enableBlend();
         GL11.glColor3f(1.0f, 1.0f, 1.0f);
         tabs.forEach(AbstractTab::drawTabIcon);
+        currentTab.drawHighlight();
         GlStateManager.disableBlend();
         GlStateManager.popMatrix();
 
@@ -79,7 +81,7 @@ public class HyperiumMainGui extends HyperiumGui {
             currentAlert = alerts.poll();
 
         if (currentAlert != null)
-            currentAlert.render(fr, width, height);
+            currentAlert.render(fr, width, height, mouseX, mouseY);
 
         // super.drawScreen(mouseX, mouseY, partialTicks);
     }
@@ -108,28 +110,36 @@ public class HyperiumMainGui extends HyperiumGui {
         private ResourceLocation icon;
         private Runnable action;
         private String title;
+        private String hover;
 
-        public Alert(ResourceLocation icon, Runnable action, String title) {
+        public Alert(ResourceLocation icon, Runnable action, String title, String hover) {
             this.icon = icon;
             this.action = action;
             this.title = title;
+            this.hover = hover;
         }
 
-        protected void render(HyperiumFontRenderer fr, int width, int height) {
+        protected void render(HyperiumFontRenderer fr, int width, int height, int mouseX, int mouseY) {
             drawRect(width / 4, height - 20, width - width / 4, height, new Color(0, 0, 0, 40).getRGB());
             fr.drawString(title, width / 4 + 20, height - 20 + (20 - fr.FONT_HEIGHT) / 2, 0xffffff);
 
-            //TODO: Render icon
+            Minecraft.getMinecraft().getTextureManager().bindTexture(icon);
+            drawScaledCustomSizeModalRect(width / 4, height - 20, 0, 0, 144, 144, 20, 20, 144, 144);
+
+            if (width / 4 <= mouseX && height - 20 <= mouseY && width - 20 - width / 4 >= mouseX)
+                drawRect(mouseX, mouseY, mouseX + Minecraft.getMinecraft().fontRendererObj.getStringWidth(hover) + 2, mouseY + 11, new Color(0, 0, 0, 30).getRGB());
+            Minecraft.getMinecraft().fontRendererObj.drawString(hover, mouseX + 1, mouseY + 1, 0xffffff);
+
+
             //TODO: Dismiss icon
         }
 
         void runAction() {
             action.run();
-            dismiss();
         }
 
         void dismiss() {
-
+            currentAlert = null;
         }
     }
 }

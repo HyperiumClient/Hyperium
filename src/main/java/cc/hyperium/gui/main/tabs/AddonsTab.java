@@ -4,20 +4,17 @@ import cc.hyperium.gui.GuiBlock;
 import cc.hyperium.gui.main.components.AbstractTab;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.GuiButton;
 import net.minecraft.util.ResourceLocation;
 
-import java.awt.*;
-
 /*
- * Created by Cubxity on 20/05/2018
+ * Created by Cubxity on 29/05/2018
  */
-public class HomeTab extends AbstractTab {
-    private static final ResourceLocation ico = new ResourceLocation("textures/material/home.png");
+public class AddonsTab extends AbstractTab {
+    private static final ResourceLocation ico = new ResourceLocation("textures/material/extension.png");
     private GuiBlock block;
     private int y, w;
 
-    public HomeTab(int y, int w) {
+    public AddonsTab(int y, int w) {
         block = new GuiBlock(0, w, y, y + w);
         this.y = y;
         this.w = w;
