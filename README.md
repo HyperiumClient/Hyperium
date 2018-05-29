@@ -51,7 +51,7 @@ A: Join the <a href="https://discord.gg/RNyRgtv">Discord</a> and run `-new` in t
 
 Q: My game keeps crashing!
 
-A: If you have reported the issue using the automatic promopt, join the <a href="https://discord.gg/RNyRgtv">Discord</a> and ask a developer to review your issue. If there are non online, please be patient!
+A: If you have reported the issue using the automatic promopt, join the <a href="https://discord.gg/RNyRgtv">Discord</a> and ask a developer to review your issue. If there are none online, please be patient!
 
 ## Addons ##
 **Requirement:** Built Hyperium, JDK 8+, IDE
