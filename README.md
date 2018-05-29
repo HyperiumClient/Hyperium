@@ -68,16 +68,14 @@ import net.minecraft.client.Minecraft;
 
 public class AddonExample implements IAddon {
 
-
     @Override
     public void onLoad() {
-        System.out.println("Sucesfully loaded Addon!");
         EventBus.INSTANCE.register(this);
     }
 
     @InvokeEvent
     private void onChatMessage(ChatEvent event) {
-        if(event.getChat().getUnformattedText().contains("secret message!")) {
+        if (event.getChat().getUnformattedText().contains("secret message!")) {
             Minecraft.getMinecraft().toggleFullscreen();
         }
     }
@@ -96,9 +94,9 @@ public class AddonExample implements IAddon {
 **addon.json**
 ```json
 {
-  "name":"Addon Example",
-  "version":"1.0",
-  "mainClass":"com.example.AddonExample"
+  "name": "Addon Example",
+  "version": "1.0",
+  "mainClass": "com.example.AddonExample"
 }
 ```
 **Examples [here](https://github.com/HyperiumClient/Addon-Workspace)**
