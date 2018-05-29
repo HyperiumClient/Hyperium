@@ -33,7 +33,7 @@ public class HyperiumMainGui extends HyperiumGui {
     static {
         alerts.add(new Alert(new ResourceLocation("textures/material/info.png"), () -> {
             System.out.println("Alert clicked!");
-        }, "Test alert pls click kthx", "Test hover"));
+        }, "Test alert pls click kthx"));
     }
 
     public static HyperiumFontRenderer getFr() {
@@ -80,8 +80,14 @@ public class HyperiumMainGui extends HyperiumGui {
         if (!alerts.isEmpty() && currentAlert == null)
             currentAlert = alerts.poll();
 
+        GlStateManager.pushMatrix();
+        GlStateManager.enableBlend();
+        GL11.glColor3f(1.0f, 1.0f, 1.0f);
+        GL11.glScalef(1f, 1f, 1f);
         if (currentAlert != null)
-            currentAlert.render(fr, width, height, mouseX, mouseY);
+            currentAlert.render(fr, width, height);
+        GlStateManager.disableBlend();
+        GlStateManager.popMatrix();
 
         // super.drawScreen(mouseX, mouseY, partialTicks);
     }
@@ -110,26 +116,19 @@ public class HyperiumMainGui extends HyperiumGui {
         private ResourceLocation icon;
         private Runnable action;
         private String title;
-        private String hover;
 
-        public Alert(ResourceLocation icon, Runnable action, String title, String hover) {
+        public Alert(ResourceLocation icon, Runnable action, String title) {
             this.icon = icon;
             this.action = action;
             this.title = title;
-            this.hover = hover;
         }
 
-        protected void render(HyperiumFontRenderer fr, int width, int height, int mouseX, int mouseY) {
+        protected void render(HyperiumFontRenderer fr, int width, int height) {
             drawRect(width / 4, height - 20, width - width / 4, height, new Color(0, 0, 0, 40).getRGB());
             fr.drawString(title, width / 4 + 20, height - 20 + (20 - fr.FONT_HEIGHT) / 2, 0xffffff);
 
             Minecraft.getMinecraft().getTextureManager().bindTexture(icon);
             drawScaledCustomSizeModalRect(width / 4, height - 20, 0, 0, 144, 144, 20, 20, 144, 144);
-
-            if (width / 4 <= mouseX && height - 20 <= mouseY && width - 20 - width / 4 >= mouseX)
-                drawRect(mouseX, mouseY, mouseX + Minecraft.getMinecraft().fontRendererObj.getStringWidth(hover) + 2, mouseY + 11, new Color(0, 0, 0, 30).getRGB());
-            Minecraft.getMinecraft().fontRendererObj.drawString(hover, mouseX + 1, mouseY + 1, 0xffffff);
-
 
             //TODO: Dismiss icon
         }
