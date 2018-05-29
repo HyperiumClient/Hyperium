@@ -2,6 +2,7 @@ package cc.hyperium.gui.main.components;
 
 import cc.hyperium.gui.GuiBlock;
 import cc.hyperium.gui.font.Fonts;
+import cc.hyperium.gui.main.HyperiumMainGui;
 import cc.hyperium.utils.HyperiumFontRenderer;
 
 /*
@@ -9,7 +10,7 @@ import cc.hyperium.utils.HyperiumFontRenderer;
  */
 public abstract class AbstractTab {
 
-    protected static HyperiumFontRenderer fr = Fonts.ARIAL.getTrueTypeFont();
+    protected static HyperiumFontRenderer fr = HyperiumMainGui.getFr();
 
     public abstract void drawTabIcon();
 

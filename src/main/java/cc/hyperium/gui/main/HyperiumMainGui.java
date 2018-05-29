@@ -20,26 +20,21 @@ import java.util.Queue;
  * Created by Cubxity on 20/05/2018
  */
 public class HyperiumMainGui extends HyperiumGui {
+    private static final HyperiumFontRenderer fr = new HyperiumFontRenderer("Arial", Font.PLAIN, 20);
     private static AbstractTab currentTab = null; // static so it is still the same tab
     private static Queue<Alert> alerts = new ArrayDeque<>(); // static so alert does not disappear until user dismiss it
     private static Alert currentAlert;
 
     private List<AbstractTab> tabs;
-    private HyperiumFontRenderer fr;
-
-    {
-        try {
-            fr = new HyperiumFontRenderer(Font.createFont(Font.TRUETYPE_FONT, Fonts.class.getResourceAsStream("/assets/hyperium/fonts/SegoeUI-Light.ttf")), 0);
-        } catch (FontFormatException | IOException e) {
-            e.printStackTrace();
-            fr = Fonts.ARIAL.getTrueTypeFont(); // backup
-        }
-    }
 
     static {
         alerts.add(new Alert(null, () -> {
             System.out.println("Alert clicked!");
         }, "Test alert pls click kthx"));
+    }
+
+    public static HyperiumFontRenderer getFr() {
+        return fr;
     }
 
     @Override
@@ -79,7 +74,7 @@ public class HyperiumMainGui extends HyperiumGui {
         if (currentAlert != null)
             currentAlert.render(fr, width, height);
 
-        super.drawScreen(mouseX, mouseY, partialTicks);
+        // super.drawScreen(mouseX, mouseY, partialTicks);
     }
 
     @Override
@@ -88,7 +83,7 @@ public class HyperiumMainGui extends HyperiumGui {
         tabs.stream().filter(t -> t.getBlock().isMouseOver(mouseX, mouseY)).findFirst().ifPresent(
                 t -> currentTab = t);
         if (mouseButton == 0)
-            if (currentAlert != null && width / 4 <= mouseX && height - 30 <= mouseY && width - 30 - width / 4 >= mouseX)
+            if (currentAlert != null && width / 4 <= mouseX && height - 20 <= mouseY && width - 20 - width / 4 >= mouseX)
                 currentAlert.runAction();
         //TODO: Dismiss
     }
@@ -114,8 +109,8 @@ public class HyperiumMainGui extends HyperiumGui {
         }
 
         protected void render(HyperiumFontRenderer fr, int width, int height) {
-            drawRect(width / 4, height - 30, width - width / 4, height, new Color(0, 0, 0, 40).getRGB());
-            fr.drawString(title, width / 4 + 30, height - 30 + (30 - fr.FONT_HEIGHT) / 2, 0xffffff);
+            drawRect(width / 4, height - 20, width - width / 4, height, new Color(0, 0, 0, 40).getRGB());
+            fr.drawString(title, width / 4 + 20, height - 20 + (20 - fr.FONT_HEIGHT) / 2, 0xffffff);
 
             //TODO: Render icon
             //TODO: Dismiss icon
