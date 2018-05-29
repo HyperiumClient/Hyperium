@@ -123,13 +123,15 @@ public class HyperiumMainGui extends HyperiumGui {
 
 
             //GlStateManager.scale(1f, 1f, 1f );
-            GlStateManager.pushMatrix();
-            GlStateManager.enableBlend();
-            GlStateManager.color(1f, 1f, 1f);
-            Minecraft.getMinecraft().getTextureManager().bindTexture(icon);
-            drawScaledCustomSizeModalRect(width / 4, height - 20, 0, 0, 144, 144, 20, 20, 144, 144);
-            GlStateManager.disableBlend();
-            GlStateManager.popMatrix();
+            if (icon != null) {
+                GlStateManager.pushMatrix();
+                GlStateManager.enableBlend();
+                GlStateManager.color(1f, 1f, 1f);
+                Minecraft.getMinecraft().getTextureManager().bindTexture(icon);
+                drawScaledCustomSizeModalRect(width / 4, height - 20, 0, 0, 144, 144, 20, 20, 144, 144);
+                GlStateManager.disableBlend();
+                GlStateManager.popMatrix();
+            }
 
             //TODO: Dismiss icon
         }
