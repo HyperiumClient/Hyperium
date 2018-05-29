@@ -128,6 +128,7 @@ public class HyperiumMainGui extends HyperiumGui {
             fr.drawString(title, width / 4 + 20, height - 20 + (20 - fr.FONT_HEIGHT) / 2, 0xffffff);
 
             Minecraft.getMinecraft().getTextureManager().bindTexture(icon);
+            GlStateManager.scale(1f, 1f, 1f );
             drawScaledCustomSizeModalRect(width / 4, height - 20, 0, 0, 144, 144, 20, 20, 144, 144);
 
             //TODO: Dismiss icon
