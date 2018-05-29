@@ -31,7 +31,7 @@ public class HyperiumMainGui extends HyperiumGui {
     private List<AbstractTab> tabs;
 
     static {
-        alerts.add(new Alert(new ResourceLocation("textures/material/info.png"), () -> {
+        alerts.add(new Alert(new ResourceLocation("textures/material/extension.png"), () -> {
             System.out.println("Alert clicked!");
         }, "Test alert pls click kthx"));
     }
@@ -80,14 +80,8 @@ public class HyperiumMainGui extends HyperiumGui {
         if (!alerts.isEmpty() && currentAlert == null)
             currentAlert = alerts.poll();
 
-        GlStateManager.pushMatrix();
-        GlStateManager.enableBlend();
-        GL11.glColor3f(1.0f, 1.0f, 1.0f);
-        GL11.glScalef(1f, 1f, 1f);
         if (currentAlert != null)
             currentAlert.render(fr, width, height);
-        GlStateManager.disableBlend();
-        GlStateManager.popMatrix();
 
         // super.drawScreen(mouseX, mouseY, partialTicks);
     }
@@ -127,9 +121,15 @@ public class HyperiumMainGui extends HyperiumGui {
             drawRect(width / 4, height - 20, width - width / 4, height, new Color(0, 0, 0, 40).getRGB());
             fr.drawString(title, width / 4 + 20, height - 20 + (20 - fr.FONT_HEIGHT) / 2, 0xffffff);
 
+
+            //GlStateManager.scale(1f, 1f, 1f );
+            GlStateManager.pushMatrix();
+            GlStateManager.enableBlend();
+            GlStateManager.color(1f, 1f, 1f);
             Minecraft.getMinecraft().getTextureManager().bindTexture(icon);
-            GlStateManager.scale(1f, 1f, 1f );
             drawScaledCustomSizeModalRect(width / 4, height - 20, 0, 0, 144, 144, 20, 20, 144, 144);
+            GlStateManager.disableBlend();
+            GlStateManager.popMatrix();
 
             //TODO: Dismiss icon
         }
