@@ -20,6 +20,7 @@ package cc.hyperium.mixins.gui;
 import cc.hyperium.Hyperium;
 import cc.hyperium.gui.settings.items.GeneralSetting;
 import cc.hyperium.handlers.handlers.ApiDataHandler;
+import cc.hyperium.utils.ChatColor;
 import com.google.common.collect.Ordering;
 import com.mojang.authlib.GameProfile;
 import net.minecraft.client.Minecraft;
@@ -41,6 +42,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 
+import java.awt.*;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentLinkedDeque;
@@ -73,7 +75,8 @@ public abstract class MixinGuiPlayerTabOverlay extends Gui {
     @Overwrite
     protected void drawPing(int p_175245_1_, int p_175245_2_, int yIn, NetworkPlayerInfo networkPlayerInfoIn) {
         final int ping = networkPlayerInfoIn.getResponseTime();
-
+        final int x = p_175245_2_ + p_175245_1_ - (this.mc.fontRendererObj.getStringWidth(ping + "") >> 1) - 2;
+        final int y = yIn + (this.mc.fontRendererObj.FONT_HEIGHT >> 2);
         if (GeneralSetting.numberPingEnabled) {
             int colour;
 
@@ -93,14 +96,14 @@ public abstract class MixinGuiPlayerTabOverlay extends Gui {
                 colour = 11141120;
             }
 
+
             if (ping >= 0 && ping < 10000) {
                 GlStateManager.pushMatrix();
                 GlStateManager.scale(0.5f, 0.5f, 0.5f);
-                final int x = p_175245_2_ + p_175245_1_ - (this.mc.fontRendererObj.getStringWidth(ping + "") >> 1) - 2;
-                final int y = yIn + (this.mc.fontRendererObj.FONT_HEIGHT >> 2);
                 this.mc.fontRendererObj.drawString(ping + "", (2 * x), (2 * y), colour);
                 GlStateManager.scale(2.0f, 2.0f, 2.0f);
                 GlStateManager.popMatrix();
+
             }
             return;
         }
@@ -126,6 +129,7 @@ public abstract class MixinGuiPlayerTabOverlay extends Gui {
 
         this.zLevel += 100.0F;
         drawTexturedModalRect(p_175245_2_ + p_175245_1_ - 11, yIn, i * 10, 176 + j * 8, 10, 8);
+
         this.zLevel -= 100.0F;
     }
 
@@ -151,7 +155,7 @@ public abstract class MixinGuiPlayerTabOverlay extends Gui {
 
         list = list.subList(0, Math.min(list.size(), 80));
 
-        if(Hyperium.INSTANCE.getHandlers().getConfigOptions().friendsFirstIntag) {
+        if (Hyperium.INSTANCE.getHandlers().getConfigOptions().friendsFirstIntag) {
             ConcurrentLinkedDeque<NetworkPlayerInfo> friends = new ConcurrentLinkedDeque<>();
             ApiDataHandler dataHandler = Hyperium.INSTANCE.getHandlers().getDataHandler();
             List<UUID> friendUUIDList = dataHandler.getFriendUUIDList();
@@ -258,11 +262,20 @@ public abstract class MixinGuiPlayerTabOverlay extends Gui {
                     j2 += 9;
                 }
 
+                int renderX = j2 + this.mc.fontRendererObj.getStringWidth(s1) + 2;
                 if (networkplayerinfo1.getGameType() == WorldSettings.GameType.SPECTATOR) {
                     s1 = EnumChatFormatting.ITALIC + s1;
                     this.mc.fontRendererObj.drawStringWithShadow(s1, (float) j2, (float) k2, -1862270977);
                 } else {
                     this.mc.fontRendererObj.drawStringWithShadow(s1, (float) j2, (float) k2, -1);
+                }
+
+                if (Hyperium.INSTANCE.getHandlers().getConfigOptions().showOnlinePlayers) {
+                    String s = "⚫";
+                    boolean online = Hyperium.INSTANCE.getHandlers().getStatusHandler().isOnline(gameprofile.getId());
+                    String format = online ? ChatColor.GREEN + s : ChatColor.RED + s;
+                    this.mc.fontRendererObj.drawString(format, (renderX), (k2-2), Color.WHITE.getRGB());
+
                 }
 
                 if (scoreObjectiveIn != null && networkplayerinfo1.getGameType() != WorldSettings.GameType.SPECTATOR) {
