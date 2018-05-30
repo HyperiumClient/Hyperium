@@ -84,7 +84,7 @@ class InstallerConfig extends JFrame {
         exit.setFont(f);
         exit.setBorderPainted(false);
         exit.setFocusPainted(false);
-        exit.setBounds(WIDTH - 185, HEIGHT - 25, 70, 20);
+        exit.setBounds(WIDTH - 185, HEIGHT - 25, 71, 20);
         exit.addActionListener(event -> System.exit(0));
 
 
