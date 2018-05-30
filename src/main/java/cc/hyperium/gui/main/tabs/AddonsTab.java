@@ -4,6 +4,7 @@ import cc.hyperium.gui.GuiBlock;
 import cc.hyperium.gui.main.components.AbstractTab;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 
 /*
@@ -33,7 +34,9 @@ public class AddonsTab extends AbstractTab {
 
     @Override
     public void drawHighlight() {
+        GlStateManager.disableBlend();
         Gui.drawRect(0, y, 3, y + w, 0xffffff);
+        GlStateManager.enableBlend();
     }
 
     @Override

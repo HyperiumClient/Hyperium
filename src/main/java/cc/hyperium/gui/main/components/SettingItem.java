@@ -53,7 +53,7 @@ public class SettingItem {
         int h = containerHeight / 4;
         int blockX = topX + w * xIndex + w / 7;
         int blockY = topY + h * yIndex + h / 6;
-        Gui.drawRect(blockX, blockY, blockX + w / 7 * 5, blockY + h / 6 * 4, new Color(0, 0, 0, 70).getRGB());
+        Gui.drawRect(blockX, blockY, blockX + w / 7 * 5, blockY + h / 6 * 4, new Color(0, 0, 0, 120).getRGB());
         HyperiumMainGui.getFr().drawString(title, blockX + 3, blockY + 3, 0xffffff);
         float s = 0.8f;
         GlStateManager.scale(s, s, s);
