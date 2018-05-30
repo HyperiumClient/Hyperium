@@ -17,6 +17,8 @@
 
 package cc.hyperium.mixins.entity;
 
+import cc.hyperium.Hyperium;
+import cc.hyperium.event.DrawBlockHighlightEvent;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.RenderEvent;
 import cc.hyperium.mods.common.PerspectiveModifierContainer;
@@ -30,6 +32,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.passive.EntityAnimal;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.*;
 import org.lwjgl.opengl.Display;
@@ -60,8 +63,10 @@ public abstract class MixinEntityRenderer {
     private MouseFilter mouseFilterYAxis;
     @Shadow
     private MouseFilter mouseFilterXAxis;
+    @Shadow private boolean drawBlockOutline;
     private boolean zoomMode = false;
-//endStartSection
+
+    //endStartSection
     @Inject(method = "updateCameraAndRender", at = @At(value = "INVOKE", target = "Lnet/minecraft/profiler/Profiler;endStartSection(Ljava/lang/String;)V", shift = At.Shift.AFTER))
     private void updateCameraAndRender(float partialTicks, long nano, CallbackInfo ci) {
         EventBus.INSTANCE.post(new RenderEvent());
@@ -175,6 +180,16 @@ public abstract class MixinEntityRenderer {
      * @author CoalOres
      * @reason 360 Perspective
      */
+
+    @Inject(method = "renderWorldPass", at = @At(value = "INVOKE_STRING", target = "Lnet/minecraft/profiler/Profiler;endStartSection(Ljava/lang/String;)V", args = "ldc=outline"), cancellable = true)
+    public void drawOutline(int pass, float part, long nano, CallbackInfo info) {
+        DrawBlockHighlightEvent drawBlockHighlightEvent = new DrawBlockHighlightEvent(((EntityPlayer) this.mc.getRenderViewEntity()), mc.objectMouseOver, part);
+        EventBus.INSTANCE.post(drawBlockHighlightEvent);
+        if(drawBlockHighlightEvent.isCancelled()) {
+            Hyperium.INSTANCE.getHandlers().getConfigOptions().isCancelBox=true;
+
+        }
+    }
 
     @Inject(method = "updateCameraAndRender", at = @At(value = "INVOKE_STRING", target = "Lnet/minecraft/profiler/Profiler;startSection(Ljava/lang/String;)V", args = "ldc=mouse"))
     private void updateCameraAndRender2(float partialTicks, long nanoTime, CallbackInfo ci) {
