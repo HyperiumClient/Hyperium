@@ -67,12 +67,11 @@ archivesBaseName = "Hyperium"
 minecraft {
     version = "1.8.9"
     tweakClass = "cc.hyperium.launch.HyperiumTweaker"
-    mappings = "stable_20"
+    mappings = "s"
     runDir = 'run'
     clientJvmArgs = ["-XX:-DisableExplicitGC"] // fast world loading
     makeObfSourceJar = false
 }
-
 dependencies {
 
     embed('org.spongepowered:mixin:0.7.7-SNAPSHOT') {

@@ -618,6 +618,15 @@ public abstract class MixinMinecraft {
         File file2 = new File(file1, "crash-" + (new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss")).format(new Date()) + "-client.txt");
         Bootstrap.printToSYSOUT(crashReportIn.getCompleteReport());
 
+        try {
+            Display.setFullscreen(false);
+            Display.setDisplayMode(new DisplayMode(720, 480));
+
+
+        } catch (LWJGLException e) {
+            e.printStackTrace();
+        }
+
         int x = CrashReportGUI.handle(crashReportIn);
 
         if (crashReportIn.getFile() != null)
