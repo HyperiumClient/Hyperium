@@ -27,9 +27,8 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 /*
- * Created by Cubxity on 12/04/2018 
+ * Created by Cubxity on 12/04/2018
  */
-
 class InstallerConfig extends JFrame {
     private static final int WIDTH = 600;
     private static final int HEIGHT = 260;
@@ -84,7 +83,7 @@ class InstallerConfig extends JFrame {
         exit.setFont(f);
         exit.setBorderPainted(false);
         exit.setFocusPainted(false);
-        exit.setBounds(WIDTH - 185, HEIGHT - 25, 70, 20);
+        exit.setBounds(WIDTH - 185, HEIGHT - 25, 71, 20);
         exit.addActionListener(event -> System.exit(0));
 
 
