@@ -54,7 +54,7 @@ class InstallerConfig extends JFrame {
         this.setLayout(null);
     }
 
-    private void initializeComponents(){
+    private void initializeComponents() {
         Font f;
         try {
             f = Font.createFont(Font.TRUETYPE_FONT, InstallerMain.class.getResourceAsStream("/assets/hyperium/fonts/Montserrat-Regular.ttf")).deriveFont(12.0F);
@@ -85,7 +85,6 @@ class InstallerConfig extends JFrame {
         exit.setFocusPainted(false);
         exit.setBounds(WIDTH - 185, HEIGHT - 25, 71, 20);
         exit.addActionListener(event -> System.exit(0));
-
 
         JButton ver = new JButton("Loading version...");
         ver.setUI(new BasicButtonUI());
@@ -153,8 +152,7 @@ class InstallerConfig extends JFrame {
         JRadioButton accept = new MaterialRadioButton("I accept the terms in License agreement and and Privacy Policy");
         accept.setFont(f);
         accept.setBounds(5, HEIGHT - 40, 500, 15);
-        accept.addActionListener(e -> {
-            });
+        accept.addActionListener(e -> {});
 
         JButton license = new JButton("LICENSE");
         license.setUI(new BasicButtonUI());
