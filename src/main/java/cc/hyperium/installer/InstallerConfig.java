@@ -155,7 +155,9 @@ class InstallerConfig extends JFrame {
         accept.setFont(f);
         accept.setBounds(5, HEIGHT - 40, 500, 15);
         accept.addActionListener(e -> {
-            });
+            install.setEnabled(accept.isSelected());
+            install.setVisible(true);
+        });
 
         JButton license = new JButton("LICENSE");
         license.setUI(new BasicButtonUI());
@@ -342,7 +344,9 @@ class InstallerConfig extends JFrame {
         contentPane.add(cLabel);
         contentPane.add(cDesc);
         contentPane.add(ver);
-
+        
+        // Fallback enable
+        install.setEnabled(false);
         install.addActionListener(e -> {
             System.out.println("Starting to install Hyperium...");
             Arrays.asList(contentPane.getComponents()).forEach(contentPane::remove);
