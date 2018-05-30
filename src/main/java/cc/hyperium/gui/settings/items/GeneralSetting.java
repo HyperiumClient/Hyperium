@@ -147,6 +147,7 @@ public class GeneralSetting extends SettingGui {
         registerOnOffSetting("TAKE SCREENSHOT ON KILL", screenshotOnKillEnabled, on -> screenshotOnKillEnabled = on);
         registerOnOffSetting("SHOW SPOTIFY CONTROLS", spotifyControlsEnabled, on -> spotifyControlsEnabled = on);
         registerOnOffSetting("FRIENDS FIRST IN TAB", Hyperium.INSTANCE.getHandlers().getConfigOptions().friendsFirstIntag, on -> Hyperium.INSTANCE.getHandlers().getConfigOptions().friendsFirstIntag = on);
+        registerOnOffSetting("SHOW HYPERIUM USERS IN TAB", Hyperium.INSTANCE.getHandlers().getConfigOptions().showOnlinePlayers, on -> Hyperium.INSTANCE.getHandlers().getConfigOptions().showOnlinePlayers = on);
 
     }
 

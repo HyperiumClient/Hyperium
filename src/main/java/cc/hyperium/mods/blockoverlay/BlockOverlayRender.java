@@ -30,6 +30,7 @@ class BlockOverlayRender {
         if (BlockOverlay.mode.equals(BlockOverlayMode.NONE)) {
             return;
         }
+
         this.drawOverlay();
     }
 

@@ -51,6 +51,7 @@
     "renderer.MixinRendererLivingEntity",
     "renderer.MixinRenderPlayer",
     "renderer.MixinRender",
+    "renderer.MixinRenderGlobal",
     "renderer.MixinLayerDeadmau5Head",
 
     "renderer.MixinFontRenderer",

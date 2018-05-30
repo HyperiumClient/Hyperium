@@ -25,11 +25,9 @@ import net.minecraft.client.entity.AbstractClientPlayer
 import net.minecraft.client.gui.GuiScreen
 import net.minecraft.client.gui.ScaledResolution
 import net.minecraft.client.model.ModelBiped
-import net.minecraft.client.renderer.RenderGlobal
 import net.minecraft.client.renderer.entity.RenderManager
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.EntityPlayer
-import net.minecraft.item.ItemStack
 import net.minecraft.network.INetHandler
 import net.minecraft.network.Packet
 import net.minecraft.scoreboard.ScoreObjective
@@ -258,7 +256,7 @@ class EntityRenderEvent(val entityIn: Entity,
  */
 class RenderScoreboardEvent(val x: Double, val y: Double, val objective: ScoreObjective, val resolution: ScaledResolution) : CancellableEvent()
 
-class DrawBlockHighlightEvent(val context: RenderGlobal, val player: EntityPlayer, val target: MovingObjectPosition, val subID: Int, val currentItem: ItemStack?, val partialTicks: Float) : CancellableEvent()
+class DrawBlockHighlightEvent(val player: EntityPlayer, val target: MovingObjectPosition, val partialTicks: Float) : CancellableEvent()
 
 /**
  * Get called before the angles of the upperleg gets copied into the lower leg etc

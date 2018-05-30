@@ -72,7 +72,7 @@ public abstract class MixinGuiMainMenu extends GuiScreen implements GuiYesNoCall
             drawCenteredString(this.fontRendererObj, ChatColor.RED + "By continuing, you acknowledge this client is " + ChatColor.BOLD + "USE AT YOUR OWN RISK", width / 2, 90, Color.WHITE.getRGB());
             drawCenteredString(this.fontRendererObj, ChatColor.RED + "The developers of Hyperium are not responsible for any damages or bans ", width / 2, 100, Color.WHITE.getRGB());
             drawCenteredString(this.fontRendererObj, ChatColor.RED + "to your account while using this client", width / 2, 110, Color.WHITE.getRGB());
-            drawCenteredString(this.fontRendererObj, ChatColor.RED + "By continuing you agree to the privacy policy (http://hyperium.cc/#privacy)", width / 2, 120, Color.WHITE.getRGB());
+            drawCenteredString(this.fontRendererObj, ChatColor.RED + "By continuing you agree to the privacy policy (https://hyperium.cc/#privacy)", width / 2, 120, Color.WHITE.getRGB());
 
             //
             drawCenteredString(this.fontRendererObj, ChatColor.RED + "Please check the box to confirm you agree with these terms", width / 2, 130, Color.WHITE.getRGB());

@@ -53,6 +53,7 @@ public class HyperiumHandlers {
     private GeneralChatHandler generalChatHandler;
     private ApiDataHandler dataHandler;
     private ResolutionUtil resolutionUtil;
+    private StatusHandler statusHandler;
     private GuiDisplayHandler guiDisplayHandler;
     private KeyBindHandler keybindHandler;
     private TimeTrackHandler timeTrackHandler;
@@ -89,6 +90,7 @@ public class HyperiumHandlers {
         register(dataTracking = new GameDataTracking());
         register(privateMessageHandler = new PrivateMessageHandler());
         register(dabHandler = new DabHandler());
+        register(statusHandler = new StatusHandler());
         register(flossDanceHandler = new FlossDanceHandler());
 
         commandQueue = new CommandQueue();
@@ -111,7 +113,6 @@ public class HyperiumHandlers {
         //Command Handler
         register(commandHandler = new HyperiumCommandHandler());
     }
-
 
 
     public FlipHandler getFlipHandler() {
@@ -202,7 +203,6 @@ public class HyperiumHandlers {
     }
 
 
-
     public TimeTrackHandler getTimeTrackHandler() {
         return timeTrackHandler;
     }
@@ -229,5 +229,9 @@ public class HyperiumHandlers {
 
     public CapeHandler getCapeHandler() {
         return capeHandler;
+    }
+
+    public StatusHandler getStatusHandler() {
+        return statusHandler;
     }
 }
