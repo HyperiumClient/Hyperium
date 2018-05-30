@@ -7,6 +7,7 @@ import com.google.common.io.Files;
 import com.google.gson.*;
 
 import javax.swing.*;
+import javax.swing.plaf.basic.BasicButtonUI;
 import javax.swing.plaf.basic.BasicSliderUI;
 import javax.swing.plaf.metal.MetalScrollBarUI;
 import java.awt.*;
@@ -26,8 +27,9 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 /*
- * Created by Cubxity on 12/04/2018
+ * Created by Cubxity on 12/04/2018 
  */
+
 class InstallerConfig extends JFrame {
     private static final int WIDTH = 600;
     private static final int HEIGHT = 260;
@@ -53,7 +55,7 @@ class InstallerConfig extends JFrame {
         this.setLayout(null);
     }
 
-    private void initializeComponents() {
+    private void initializeComponents(){
         Font f;
         try {
             f = Font.createFont(Font.TRUETYPE_FONT, InstallerMain.class.getResourceAsStream("/assets/hyperium/fonts/Montserrat-Regular.ttf")).deriveFont(12.0F);
@@ -67,22 +69,16 @@ class InstallerConfig extends JFrame {
         topPanel.setLayout(null);
 
         JButton install = new JButton("INSTALL");
+        install.setUI(new BasicButtonUI());
         install.setBackground(new Color(255, 254, 254));
         install.setForeground(new Color(30, 30, 30));
         install.setFont(f);
         install.setBorderPainted(false);
         install.setFocusPainted(false);
         install.setBounds(WIDTH - 105, HEIGHT - 25, 100, 20);
-        switch (InstallerFrame.OsCheck.getOperatingSystemType()) {
-            case Windows:
-                install.setEnabled(false);
-            case MacOS:
-                install.setEnabled(true);
-            case Linux:
-                install.setEnabled(false);
-        }
 
         JButton exit = new JButton("EXIT");
+        exit.setUI(new BasicButtonUI());
         exit.setBackground(new Color(255, 254, 254));
         exit.setForeground(new Color(30, 30, 30));
         exit.setFont(f);
@@ -93,6 +89,7 @@ class InstallerConfig extends JFrame {
 
 
         JButton ver = new JButton("Loading version...");
+        ver.setUI(new BasicButtonUI());
         ver.setBounds(WIDTH - 375, HEIGHT - 25, 180, 20);
         ver.setBackground(new Color(255, 254, 254));
         ver.setForeground(new Color(30, 30, 30));
@@ -158,17 +155,10 @@ class InstallerConfig extends JFrame {
         accept.setFont(f);
         accept.setBounds(5, HEIGHT - 40, 500, 15);
         accept.addActionListener(e -> {
-            switch (InstallerFrame.OsCheck.getOperatingSystemType()) {
-                case Windows:
-                    install.setEnabled(accept.isSelected());
-                case MacOS:
-                    install.setEnabled(!accept.isSelected());
-                case Linux:
-                    install.setEnabled(accept.isSelected());
-            }
             });
 
         JButton license = new JButton("LICENSE");
+        license.setUI(new BasicButtonUI());
         license.setBackground(new Color(255, 254, 254));
         license.setForeground(new Color(30, 30, 30));
         license.setFont(f);
@@ -184,6 +174,7 @@ class InstallerConfig extends JFrame {
         });
 
         JButton privacy = new JButton("PRIVACY");
+        privacy.setUI(new BasicButtonUI());
         privacy.setBackground(new Color(255, 254, 254));
         privacy.setForeground(new Color(30, 30, 30));
         privacy.setFont(f);
