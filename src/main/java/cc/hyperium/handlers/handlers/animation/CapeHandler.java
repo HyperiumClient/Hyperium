@@ -1,7 +1,6 @@
 package cc.hyperium.handlers.handlers.animation;
 
 import cc.hyperium.event.InvokeEvent;
-import cc.hyperium.event.SpawnpointChangeEvent;
 import cc.hyperium.event.WorldChangeEvent;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.purchases.PurchaseApi;
@@ -10,6 +9,7 @@ import cc.hyperium.utils.JsonHolder;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IImageBuffer;
 import net.minecraft.client.renderer.ThreadDownloadImageData;
+import net.minecraft.client.renderer.texture.ITextureObject;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
@@ -28,12 +28,24 @@ public class CapeHandler {
     public void worldSwap(WorldChangeEvent event) {
         UUID id = Minecraft.getMinecraft().getSession().getProfile().getId();
         ResourceLocation resourceLocation = capes.get(id);
+        TextureManager textureManager = Minecraft.getMinecraft().getTextureManager();
+
+        for (ResourceLocation location : capes.values()) {
+            if (location != null && location.equals(resourceLocation))
+                continue;
+            ITextureObject texture = textureManager.getTexture(location);
+            if (texture instanceof ThreadDownloadImageData) {
+                //Unlink the buffered image so garbage collector can do its magic
+                ((ThreadDownloadImageData) texture).setBufferedImage(null);
+            }
+            textureManager.deleteTexture(location);
+        }
         capes.clear();
-//        if (resourceLocation != null)
-//            capes.put(id, resourceLocation);
+        if (resourceLocation != null)
+            capes.put(id, resourceLocation);
     }
 
-    public void loadCape(final UUID uuid,  String url) {
+    public void loadCape(final UUID uuid, String url) {
         if (capes.get(uuid) != null && !capes.get(uuid).equals(loadingResource))
             return;
         capes.put(uuid, loadingResource);
@@ -42,7 +54,6 @@ public class CapeHandler {
                 String.format("hyperium/capes/%s.png", new Date().getTime())
         );
         TextureManager textureManager = Minecraft.getMinecraft().getTextureManager();
-        System.out.println("help");
         ThreadDownloadImageData threadDownloadImageData = new ThreadDownloadImageData(null, url, null, new IImageBuffer() {
 
             @Override
@@ -75,7 +86,10 @@ public class CapeHandler {
                     }
                 } else {
                     EntityPlayer e = Minecraft.getMinecraft().theWorld.getPlayerEntityByUUID(uuid);
-                    loadCape(uuid, "http://s.optifine.net/capes/" + (e != null ? e.getGameProfile().getName() : "") + ".png");
+                    
+                    if (e != null) {
+                        loadCape(uuid, "http://s.optifine.net/capes/" + e.getGameProfile().getName() + ".png");
+                    }
                 }
             }));
             return capes.get(uuid);
@@ -85,8 +99,6 @@ public class CapeHandler {
         }
         return orDefault;
     }
-
-
 
 
     public void deleteCape(UUID id) {

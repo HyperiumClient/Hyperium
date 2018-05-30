@@ -3,6 +3,7 @@ package cc.hyperium.mods.blockoverlay;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraftforge.fml.client.config.GuiSlider;
 
 class BlockOverlayColor extends GuiScreen {
     private GuiButton buttonChroma;
@@ -19,11 +20,11 @@ class BlockOverlayColor extends GuiScreen {
 
     public void initGui() {
         super.buttonList.add(this.buttonChroma = new GuiButton(0, super.width / 2 - 100, super.height / 2 - 90, "Chroma: " + (BlockOverlay.isChroma ? "On" : "Off")));
-        super.buttonList.add(this.sliderChroma = new GuiSlider(1, super.width / 2 - 100, super.height / 2 - 60, "Speed: ", 1, 10, BlockOverlay.chromaSpeed));
-        super.buttonList.add(this.sliderRed = new GuiSlider(2, super.width / 2 - 100, super.height / 2 - 60, "Red: ", 0.0f, 1.0f, BlockOverlay.red));
-        super.buttonList.add(this.sliderGreen = new GuiSlider(3, super.width / 2 - 100, super.height / 2 - 30, "Green: ", 0.0f, 1.0f, BlockOverlay.green));
-        super.buttonList.add(this.sliderBlue = new GuiSlider(4, super.width / 2 - 100, super.height / 2, "Blue: ", 0.0f, 1.0f, BlockOverlay.blue));
-        super.buttonList.add(this.sliderAlpha = new GuiSlider(5, super.width / 2 - 100, super.height / 2 + 30, "Alpha: ", 0.0f, 1.0f, BlockOverlay.alpha));
+        super.buttonList.add(this.sliderChroma = new GuiSlider(1, super.width / 2 - 100, super.height / 2 - 60, 200, 20, "Speed: ", "", 1, 10, BlockOverlay.chromaSpeed,true,true));
+        super.buttonList.add(this.sliderRed = new GuiSlider(2, super.width / 2 - 100, super.height / 2 - 60, 200, 20, "Red: ", "", 0.0f, 1.0f, BlockOverlay.red,true,true));
+        super.buttonList.add(this.sliderGreen = new GuiSlider(3, super.width / 2 - 100, super.height / 2 - 30, 200, 20, "Green: ", "", 0.0f, 1.0f, BlockOverlay.green,true,true));
+        super.buttonList.add(this.sliderBlue = new GuiSlider(4, super.width / 2 - 100, super.height / 2, 200, 20, "Blue: ", "", 0.0f, 1.0f, BlockOverlay.blue,true,true));
+        super.buttonList.add(this.sliderAlpha = new GuiSlider(5, super.width / 2 - 100, super.height / 2 + 30, 200, 20, "Alpha: ", "", 0.0f, 1.0f, BlockOverlay.alpha,true,true));
         super.buttonList.add(this.buttonBack = new GuiButton(6, super.width / 2 - 100, super.height / 2 + 80, "Back"));
     }
 
@@ -57,23 +58,23 @@ class BlockOverlayColor extends GuiScreen {
                 break;
             }
             case 1: {
-                BlockOverlay.chromaSpeed = Math.round(this.sliderChroma.getSliderValue() * 9.0f + 1.0f);
+                BlockOverlay.chromaSpeed = Math.round((float) this.sliderChroma.getValue() * 9.0f + 1.0f);
                 break;
             }
             case 2: {
-                BlockOverlay.red = this.sliderRed.getSliderValue();
+                BlockOverlay.red = ((float) this.sliderRed.getValue());
                 break;
             }
             case 3: {
-                BlockOverlay.green = this.sliderGreen.getSliderValue();
+                BlockOverlay.green = (float) this.sliderGreen.getValue();
                 break;
             }
             case 4: {
-                BlockOverlay.blue = this.sliderBlue.getSliderValue();
+                BlockOverlay.blue = (float) this.sliderBlue.getValue();
                 break;
             }
             case 5: {
-                BlockOverlay.alpha = this.sliderAlpha.getSliderValue();
+                BlockOverlay.alpha = (float) this.sliderAlpha.getValue();
                 break;
             }
             case 6: {
@@ -84,11 +85,11 @@ class BlockOverlayColor extends GuiScreen {
     }
 
     public void mouseClickMove(final int mouseX, final int mouseY, final int clickedMouseButton, final long timeSinceLastClick) {
-        BlockOverlay.chromaSpeed = Math.round(this.sliderChroma.getSliderValue() * 9.0f + 1.0f);
-        BlockOverlay.red = this.sliderRed.getSliderValue();
-        BlockOverlay.green = this.sliderGreen.getSliderValue();
-        BlockOverlay.blue = this.sliderBlue.getSliderValue();
-        BlockOverlay.alpha = this.sliderAlpha.getSliderValue();
+        BlockOverlay.chromaSpeed = Math.round(((float) this.sliderChroma.getValue()) * 9.0f + 1.0f);
+        BlockOverlay.red = (float) this.sliderRed.getValue();
+        BlockOverlay.green = (float) this.sliderGreen.getValue();
+        BlockOverlay.blue = (float) this.sliderBlue.getValue();
+        BlockOverlay.alpha = (float) this.sliderAlpha.getValue();
     }
 
     public void onGuiClosed() {

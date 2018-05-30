@@ -338,7 +338,7 @@ public abstract class MixinMinecraft {
 
     @Inject(method = "runGameLoop", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/achievement/GuiAchievement;updateAchievementWindow()V"))
     private void onRun(CallbackInfo ci) {
-        Minecraft.getMinecraft().mcProfiler.profilingEnabled = true;
+
     }
 
     /**
