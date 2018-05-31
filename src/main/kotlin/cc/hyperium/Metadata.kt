@@ -34,4 +34,4 @@ val VERSION
 
 val AUTHORS
     @JvmName("getAuthors")
-    get() = arrayOf("Kevin", "CoalOres", "Sk1er", "VRCube", "boomboompower")
+    get() = arrayOf("Kevin", "CoalOres", "Sk1er", "Cubxity", "boomboompower")
