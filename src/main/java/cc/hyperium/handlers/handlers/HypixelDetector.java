@@ -107,7 +107,7 @@ public class HypixelDetector {
 
     @InvokeEvent
     public void join(JoinHypixelEvent event) {
-        if (GeneralSetting.HypixelZooEnabled == true) {
+        if (GeneralSetting.hypixelZooEnabled == true) {
             System.out.println("Zoo");
 
             Hyperium.INSTANCE.getNotification().display("Welcome to the HYPIXEL ZOO", "Click to visit https://hypixel.net/", 5f,
