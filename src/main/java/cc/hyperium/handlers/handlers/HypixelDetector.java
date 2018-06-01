@@ -124,7 +124,7 @@ public class HypixelDetector {
                 return;
             soundHandler.playSound(PositionedSoundRecord.create(new ResourceLocation("zoo"), (float) Minecraft.getMinecraft().thePlayer.posX, (float) Minecraft.getMinecraft().thePlayer.posY, (float) Minecraft.getMinecraft().thePlayer.posZ));
         }
-
+//        Minecraft.getMinecraft().thePlayer.playSound("hyperium:zoo",1.0F,1.0F);
     @InvokeEvent
     public void serverLeaveEvent(ServerLeaveEvent event) {
         hypixel = false;
