@@ -151,6 +151,7 @@ public class GeneralSetting extends SettingGui {
         registerOnOffSetting("HYPIXEL ZOO SOUND EFFECT ON JOIN", hypixelZooEnabled, on -> hypixelZooEnabled = on);
         registerOnOffSetting("FRIENDS FIRST IN TAB", Hyperium.INSTANCE.getHandlers().getConfigOptions().friendsFirstIntag, on -> Hyperium.INSTANCE.getHandlers().getConfigOptions().friendsFirstIntag = on);
         registerOnOffSetting("SHOW HYPERIUM USERS IN TAB", Hyperium.INSTANCE.getHandlers().getConfigOptions().showOnlinePlayers, on -> Hyperium.INSTANCE.getHandlers().getConfigOptions().showOnlinePlayers = on);
+        registerOnOffSetting("SHOW PLAYERS AS BLOCKS", Hyperium.INSTANCE.getHandlers().getConfigOptions().turnPeopleIntoBlock, on -> Hyperium.INSTANCE.getHandlers().getConfigOptions().turnPeopleIntoBlock = on);
 
     }
 

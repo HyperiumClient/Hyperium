@@ -20,7 +20,6 @@ package cc.hyperium.mixins.renderer;
 import cc.hyperium.Hyperium;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.RenderPlayerEvent;
-import cc.hyperium.handlers.handlers.RenderPlayerAsBlock;
 import cc.hyperium.mixinsimp.renderer.layers.TwoPartLayerBipedArmor;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.model.ModelBase;
@@ -66,7 +65,7 @@ public abstract class MixinRenderPlayer extends RendererLivingEntity<AbstractCli
         if (Hyperium.INSTANCE.getHandlers().getConfigOptions().turnPeopleIntoBlock) {
             try {
                 ci.cancel();
-                RenderPlayerAsBlock.reDraw(entity,x,y,z);
+                Hyperium.INSTANCE.getHandlers().getRenderPlayerAsBlock().reDraw(entity,x,y,z);
             } catch (Exception e) {
                 e.printStackTrace();
             }

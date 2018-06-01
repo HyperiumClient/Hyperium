@@ -67,8 +67,8 @@ public class HyperiumHandlers {
     private FlossDanceHandler flossDanceHandler;
     private GameDataTracking dataTracking;
     private QuestTrackingChatHandler questTracking;
+    private RenderPlayerAsBlock renderPlayerAsBlock;
     private FlipHandler flipHandler;
-
     public HyperiumHandlers() {
         System.out.println("Loading handlers");
         register(network = new HyperiumNetwork());
@@ -83,6 +83,7 @@ public class HyperiumHandlers {
         register(flipHandler = new FlipHandler());
         register(locationHandler = new LocationHandler());
         register(valueHandler = new ValueHandler());
+        register(renderPlayerAsBlock = new RenderPlayerAsBlock());
         register(resolutionUtil = new ResolutionUtil());
         register(capeHandler = new CapeHandler());
         register(guiDisplayHandler = new GuiDisplayHandler());
@@ -114,6 +115,9 @@ public class HyperiumHandlers {
         register(commandHandler = new HyperiumCommandHandler());
     }
 
+    public RenderPlayerAsBlock getRenderPlayerAsBlock() {
+        return renderPlayerAsBlock;
+    }
 
     public FlipHandler getFlipHandler() {
         return flipHandler;
