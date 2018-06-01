@@ -26,6 +26,7 @@ import cc.hyperium.event.ServerJoinEvent;
 import cc.hyperium.event.ServerLeaveEvent;
 import cc.hyperium.event.ServerVerificationMethod;
 import cc.hyperium.event.SingleplayerJoinEvent;
+import cc.hyperium.gui.settings.items.GeneralSetting;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
@@ -107,7 +108,7 @@ public class HypixelDetector {
 
     @InvokeEvent
     public void join(JoinHypixelEvent event) {
-        if (GeneralSetting.hypixelZooEnabled == true) {
+        if (GeneralSetting.hypixelZooEnabled) {
             System.out.println("Zoo");
 
             Hyperium.INSTANCE.getNotification().display("Welcome to the HYPIXEL ZOO", "Click to visit https://hypixel.net/", 5f,
