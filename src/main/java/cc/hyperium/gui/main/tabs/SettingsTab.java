@@ -1,18 +1,18 @@
 package cc.hyperium.gui.main.tabs;
 
 import cc.hyperium.gui.GuiBlock;
+import cc.hyperium.gui.Icons;
+import cc.hyperium.gui.main.HyperiumMainGui;
+import cc.hyperium.gui.main.HyperiumOverlay;
 import cc.hyperium.gui.main.components.AbstractTab;
 import cc.hyperium.gui.main.components.SettingItem;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.util.ResourceLocation;
 
 /*
  * Created by Cubxity on 20/05/2018
  */
 public class SettingsTab extends AbstractTab {
-    private static final ResourceLocation ico = new ResourceLocation("textures/material/settings.png");
     private GuiBlock block;
     private int y, w;
 
@@ -21,12 +21,15 @@ public class SettingsTab extends AbstractTab {
         this.y = y;
         this.w = w;
 
-        items.add(new SettingItem(()->{}, null, "Test", "A description", "A hover test", 0, 0));
+        items.add(new SettingItem(() -> {
+            HyperiumOverlay overlay = new HyperiumOverlay();
+            HyperiumMainGui.INSTANCE.setOverlay(overlay);
+        }, Icons.SETTINGS.getResource(), "Test", "A description", "A hover test", 0, 0));
     }
 
     @Override
     public void drawTabIcon() {
-        Minecraft.getMinecraft().getTextureManager().bindTexture(ico);
+        Icons.SETTINGS.bind();
         Gui.drawScaledCustomSizeModalRect(5, y + 5, 0, 0, 144, 144, w - 10, w - 10, 144, 144);
     }
 

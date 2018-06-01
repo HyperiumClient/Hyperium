@@ -1,6 +1,7 @@
 package cc.hyperium.gui.main;
 
 import cc.hyperium.gui.HyperiumGui;
+import cc.hyperium.gui.Icons;
 import cc.hyperium.gui.main.components.AbstractTab;
 import cc.hyperium.gui.main.tabs.AddonsTab;
 import cc.hyperium.gui.main.tabs.HomeTab;
@@ -10,6 +11,7 @@ import cc.hyperium.utils.HyperiumFontRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
@@ -23,15 +25,17 @@ import java.util.Queue;
  * Created by Cubxity on 20/05/2018
  */
 public class HyperiumMainGui extends HyperiumGui {
+    public static HyperiumMainGui INSTANCE;
     private static final HyperiumFontRenderer fr = new HyperiumFontRenderer("Arial", Font.PLAIN, 20);
     private static AbstractTab currentTab = null; // static so it is still the same tab
     private static Queue<Alert> alerts = new ArrayDeque<>(); // static so alert does not disappear until user dismiss it
     private static Alert currentAlert;
+    private HyperiumOverlay overlay;
 
     private List<AbstractTab> tabs;
 
     static {
-        alerts.add(new Alert(new ResourceLocation("textures/material/extension.png"), () -> {
+        alerts.add(new Alert(Icons.INFO.getResource(), () -> {
             System.out.println("Alert clicked!");
         }, "Test alert pls click kthx"));
     }
@@ -40,8 +44,13 @@ public class HyperiumMainGui extends HyperiumGui {
         return fr;
     }
 
+    public void setOverlay(HyperiumOverlay overlay) {
+        this.overlay = overlay;
+    }
+
     @Override
     protected void pack() {
+        INSTANCE = this;
         int pw = width / 15;
         if (pw > 144)
             pw = 144; // icon res
@@ -58,7 +67,8 @@ public class HyperiumMainGui extends HyperiumGui {
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-        drawDefaultBackground();
+        if (overlay == null && Minecraft.getMinecraft().theWorld != null)
+            drawDefaultBackground();
 
         // Draws side pane
         GlStateManager.pushMatrix();
@@ -83,7 +93,8 @@ public class HyperiumMainGui extends HyperiumGui {
         if (currentAlert != null)
             currentAlert.render(fr, width, height);
 
-        // super.drawScreen(mouseX, mouseY, partialTicks);
+        if (overlay != null)
+            overlay.render(mouseX, mouseY, width, height);
     }
 
     @Override
@@ -94,13 +105,26 @@ public class HyperiumMainGui extends HyperiumGui {
         if (mouseButton == 0)
             if (currentAlert != null && width / 4 <= mouseX && height - 20 <= mouseY && width - 20 - width / 4 >= mouseX)
                 currentAlert.runAction();
-        //TODO: Dismiss
+        if (overlay != null)
+            overlay.handleMouseInput();
     }
 
     @Override
     public void handleMouseInput() throws IOException {
         super.handleMouseInput();
-        tabs.forEach(AbstractTab::handleMouseInput);
+        currentTab.handleMouseInput();
+    }
+
+    @Override
+    public void handleKeyboardInput() throws IOException {
+        if (overlay != null && Keyboard.isKeyDown(Keyboard.KEY_ESCAPE))
+            overlay = null;
+        else
+            super.handleKeyboardInput();
+    }
+
+    public HyperiumOverlay getOverlay() {
+        return overlay;
     }
 
     /**
@@ -128,7 +152,7 @@ public class HyperiumMainGui extends HyperiumGui {
                 GlStateManager.enableBlend();
                 GlStateManager.color(1f, 1f, 1f);
                 Minecraft.getMinecraft().getTextureManager().bindTexture(icon);
-                drawScaledCustomSizeModalRect(width / 4, height - 20, 0, 0, 144, 144, 20, 20, 144, 144);
+                drawScaledCustomSizeModalRect(width / 4 + 2, height - 18, 0, 0, 144, 144, 16, 16, 144, 144);
                 GlStateManager.disableBlend();
                 GlStateManager.popMatrix();
             }
