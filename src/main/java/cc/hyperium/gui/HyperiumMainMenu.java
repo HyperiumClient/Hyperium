@@ -566,7 +566,9 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
 
         String s4 = "Cubxity, CoalOres and boomboompower";
         this.drawString(this.fontRendererObj, s4, this.width - this.fontRendererObj.getStringWidth(s4) - 2, this.height - 20, -1);
-        this.hypixelButton.displayString = Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) ? "Fix Hypixel Session" : "Join Hypixel";
+        GuiButton hypixelButton = this.hypixelButton;
+        if (hypixelButton != null)
+            hypixelButton.displayString = Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) ? "Fix Hypixel Session" : "Join Hypixel";
 
     }
 
