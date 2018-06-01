@@ -43,13 +43,11 @@ public class CrashReportGUI extends JDialog {
         this.report = report;
 
         setModal(true);
-        setTitle("Hyperium crash report");
+        setTitle("Hyperium Crash Report");
         setSize(200, 300);
         setResizable(false);
 
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-
-        setTitle("Hyperium Crash Reporter");
 
         Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
         setLocation(d.width / 2 - getWidth() / 2, d.height / 2 - getHeight() / 2);
