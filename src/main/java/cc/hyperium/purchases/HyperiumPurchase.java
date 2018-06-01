@@ -41,7 +41,7 @@ public class HyperiumPurchase {
         this.response = response;
         if (response.optBoolean("non_player"))
             return;
-        purchaseSettings = PurchaseApi.getInstance().get("https://api.hyperium.cc/`/" + (playerUUID.toString()));
+        purchaseSettings = PurchaseApi.getInstance().get("https://api.hyperium.cc/purchaseSettings/" + (playerUUID.toString()));
         for (JsonElement nicePackages : response.optJSONArray("hyperium")) {
             String asString = nicePackages.getAsString();
             EnumPurchaseType parse = EnumPurchaseType.parse(asString);
