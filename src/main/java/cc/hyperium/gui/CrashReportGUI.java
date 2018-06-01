@@ -1,5 +1,6 @@
 package cc.hyperium.gui;
 
+import cc.hyperium.Hyperium;
 import cc.hyperium.Metadata;
 import cc.hyperium.installer.InstallerMain;
 import cc.hyperium.internal.addons.AddonBootstrap;
@@ -189,6 +190,9 @@ public class CrashReportGUI extends JDialog {
                 String[] rep = report.getCompleteReport().split("\n");
                 sb.append("Deobfuscated Report");
                 sb.append("Code by Cubxity");
+                sb.append("\n");
+                sb.append("Dev environment: ");
+                sb.append(Hyperium.INSTANCE.isDevEnv() ? "Yes" : "No");
                 sb.append("\n");
                 Mapping mapping = new Mapping("mc_1.8.9");
                 for (String s : rep) {

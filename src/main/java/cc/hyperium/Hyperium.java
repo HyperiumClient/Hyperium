@@ -99,6 +99,7 @@ public class Hyperium {
     private boolean acceptedTos = false;
     private boolean fullScreen = false;
     private boolean checkedForUpdate = false;
+    private boolean isDevEnv;
     private Sk1erMod sk1erMod;
     private NettyClient client;
     private NetworkHandler networkHandler;
@@ -106,6 +107,10 @@ public class Hyperium {
 
     public MinigameListener getMinigameListener() {
         return minigameListener;
+    }
+
+    public boolean isDevEnv() {
+        return this.isDevEnv;
     }
 
     @InvokeEvent
@@ -119,6 +124,12 @@ public class Hyperium {
 
     @InvokeEvent(priority = Priority.HIGH)
     public void init(InitializationEvent event) {
+        try {
+            Class.forName("net.minecraft.dispenser.BehaviorProjectileDispense"); // check for random MC class
+            isDevEnv = true;
+        } catch (ClassNotFoundException e) {
+            isDevEnv = false;
+        }
         Minecraft.getMinecraft().mcProfiler.profilingEnabled = false;
 
         // Creates the accounts dir
