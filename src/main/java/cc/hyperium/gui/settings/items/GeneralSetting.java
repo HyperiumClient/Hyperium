@@ -138,7 +138,7 @@ public class GeneralSetting extends SettingGui {
             Minecraft.getMinecraft().toggleFullscreen();
         });
 
-        registerOnOffSetting("BOSSBAR TEXT ONLY", bossBarTextOnlyEnabled, on -> bossBarTextOnlyEnabled = on);
+registerOnOffSetting("BOSSBAR TEXT ONLY", bossBarTextOnlyEnabled, on -> bossBarTextOnlyEnabled = on);
         registerOnOffSetting("STATIC FOV", staticFovEnabled, on -> staticFovEnabled = on);
         registerOnOffSetting("UPLOAD SCREENSHOTS BY DEFAULT", uploadScreenshotsByDefault, on -> uploadScreenshotsByDefault = on);
         registerOnOffSetting("HIDE SCOREBOARD NUMBERS", hideScoreboardNumbers, on -> hideScoreboardNumbers = on);
@@ -146,6 +146,7 @@ public class GeneralSetting extends SettingGui {
         registerOnOffSetting("DISPLAY CHROMA-HUD ON OTHER SERVERS", chromaHudNonHypixelEnabled, on -> chromaHudNonHypixelEnabled = on);
         registerOnOffSetting("TAKE SCREENSHOT ON KILL", screenshotOnKillEnabled, on -> screenshotOnKillEnabled = on);
         registerOnOffSetting("SHOW SPOTIFY CONTROLS", spotifyControlsEnabled, on -> spotifyControlsEnabled = on);
+        registerOnOffSetting("HYPIXEL ZOO SOUND EFFECT ON JOIN", HypixelZooEnabled, on -> HypixelZooEnabled = on);
         registerOnOffSetting("FRIENDS FIRST IN TAB", Hyperium.INSTANCE.getHandlers().getConfigOptions().friendsFirstIntag, on -> Hyperium.INSTANCE.getHandlers().getConfigOptions().friendsFirstIntag = on);
         registerOnOffSetting("SHOW HYPERIUM USERS IN TAB", Hyperium.INSTANCE.getHandlers().getConfigOptions().showOnlinePlayers, on -> Hyperium.INSTANCE.getHandlers().getConfigOptions().showOnlinePlayers = on);
 
