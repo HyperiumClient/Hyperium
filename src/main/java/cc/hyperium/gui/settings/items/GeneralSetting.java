@@ -138,7 +138,7 @@ public class GeneralSetting extends SettingGui {
             Minecraft.getMinecraft().toggleFullscreen();
         });
 
-registerOnOffSetting("BOSSBAR TEXT ONLY", bossBarTextOnlyEnabled, on -> bossBarTextOnlyEnabled = on);
+        registerOnOffSetting("BOSSBAR TEXT ONLY", bossBarTextOnlyEnabled, on -> bossBarTextOnlyEnabled = on);
         registerOnOffSetting("STATIC FOV", staticFovEnabled, on -> staticFovEnabled = on);
         registerOnOffSetting("UPLOAD SCREENSHOTS BY DEFAULT", uploadScreenshotsByDefault, on -> uploadScreenshotsByDefault = on);
         registerOnOffSetting("HIDE SCOREBOARD NUMBERS", hideScoreboardNumbers, on -> hideScoreboardNumbers = on);
