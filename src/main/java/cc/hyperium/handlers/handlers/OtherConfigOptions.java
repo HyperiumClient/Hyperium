@@ -32,4 +32,7 @@ public class OtherConfigOptions {
     @ConfigOpt
     public boolean showOnlinePlayers = true;
     public boolean isCancelBox;
+
+    @ConfigOpt
+    public boolean turnPeopleIntoBlock = false;
 }

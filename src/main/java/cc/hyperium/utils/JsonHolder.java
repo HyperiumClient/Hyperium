@@ -32,7 +32,7 @@ import java.util.stream.Collectors;
  */
 @SuppressWarnings("unused")
 public class JsonHolder {
-    private JsonObject object;
+    private JsonObject object = new JsonObject();
     private boolean parsedCorrectly = true;
 
     public JsonHolder(JsonObject object) {
