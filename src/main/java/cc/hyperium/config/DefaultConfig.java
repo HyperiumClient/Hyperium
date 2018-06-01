@@ -22,6 +22,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -96,6 +97,7 @@ public class DefaultConfig {
 
     private void loadToClassObject(Object object) {
         Class<?> c = object.getClass();
+        if (!config.has(c.getName())) config.add(c.getName(), new JsonObject());
         Arrays.stream(c.getDeclaredFields()).filter(f -> f.isAnnotationPresent(ConfigOpt.class) && config.has(c.getName())).forEach(f -> {
             f.setAccessible(true);
             JsonObject tmp = config.get(c.getName()).getAsJsonObject();
