@@ -105,7 +105,7 @@ public class HypixelDetector {
         });
     }
 
-    @@InvokeEvent
+    @InvokeEvent
     public void join(JoinHypixelEvent event) {
         if (GeneralSetting.HypixelZooEnabled == true) {
             System.out.println("Zoo");
