@@ -105,26 +105,25 @@ public class HypixelDetector {
         });
     }
 
-    @InvokeEvent
+    InvokeEvent
     public void join(JoinHypixelEvent event) {
-        System.out.println("Zoo");
+        if (GeneralSetting.HypixelZooEnabled == true) {
+            System.out.println("Zoo");
 
-        Hyperium.INSTANCE.getNotification().display("Welcome to the HYPIXEL ZOO", "Click to visit https://hypixel.net/", 5f,
-                null, () -> {
-                    try {
-                        Desktop.getDesktop().browse(new URI("https://hypixel.net/"));
-                    } catch (IOException | URISyntaxException e) {
-                        e.printStackTrace();
-                    }
-                }, new Color(200, 150, 50));
+            Hyperium.INSTANCE.getNotification().display("Welcome to the HYPIXEL ZOO", "Click to visit https://hypixel.net/", 5f,
+                    null, () -> {
+                        try {
+                            Desktop.getDesktop().browse(new URI("https://hypixel.net/"));
+                        } catch (IOException | URISyntaxException e) {
+                            e.printStackTrace();
+                        }
+                    }, new Color(200, 150, 50));
 
-        SoundHandler soundHandler = Minecraft.getMinecraft().getSoundHandler();
-        if(soundHandler == null || Minecraft.getMinecraft().theWorld==null)
-            return;
-        soundHandler.playSound(PositionedSoundRecord.create(new ResourceLocation("zoo"), (float) Minecraft.getMinecraft().thePlayer.posX, (float) Minecraft.getMinecraft().thePlayer.posY, (float) Minecraft.getMinecraft().thePlayer.posZ));
-
-//        Minecraft.getMinecraft().thePlayer.playSound("hyperium:zoo",1.0F,1.0F);
-    }
+            SoundHandler soundHandler = Minecraft.getMinecraft().getSoundHandler();
+            if (soundHandler == null || Minecraft.getMinecraft().theWorld == null)
+                return;
+            soundHandler.playSound(PositionedSoundRecord.create(new ResourceLocation("zoo"), (float) Minecraft.getMinecraft().thePlayer.posX, (float) Minecraft.getMinecraft().thePlayer.posY, (float) Minecraft.getMinecraft().thePlayer.posZ));
+        }
 
     @InvokeEvent
     public void serverLeaveEvent(ServerLeaveEvent event) {
