@@ -84,6 +84,8 @@ public class GeneralSetting extends SettingGui {
     public static boolean screenshotOnKillEnabled = false;
     @ConfigOpt
     public static boolean spotifyControlsEnabled = false;
+    @ConfigOpt
+    public static boolean hypixelZooEnabled = false;
     /**
      * The configuration instance, for all the settings below
      */
@@ -146,6 +148,7 @@ public class GeneralSetting extends SettingGui {
         registerOnOffSetting("DISPLAY CHROMA-HUD ON OTHER SERVERS", chromaHudNonHypixelEnabled, on -> chromaHudNonHypixelEnabled = on);
         registerOnOffSetting("TAKE SCREENSHOT ON KILL", screenshotOnKillEnabled, on -> screenshotOnKillEnabled = on);
         registerOnOffSetting("SHOW SPOTIFY CONTROLS", spotifyControlsEnabled, on -> spotifyControlsEnabled = on);
+        registerOnOffSetting("HYPIXEL ZOO SOUND EFFECT ON JOIN", hypixelZooEnabled, on -> hypixelZooEnabled = on);
         registerOnOffSetting("FRIENDS FIRST IN TAB", Hyperium.INSTANCE.getHandlers().getConfigOptions().friendsFirstIntag, on -> Hyperium.INSTANCE.getHandlers().getConfigOptions().friendsFirstIntag = on);
         registerOnOffSetting("SHOW HYPERIUM USERS IN TAB", Hyperium.INSTANCE.getHandlers().getConfigOptions().showOnlinePlayers, on -> Hyperium.INSTANCE.getHandlers().getConfigOptions().showOnlinePlayers = on);
 
