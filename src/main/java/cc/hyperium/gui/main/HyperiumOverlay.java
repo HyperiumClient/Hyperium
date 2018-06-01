@@ -1,7 +1,11 @@
 package cc.hyperium.gui.main;
 
 import cc.hyperium.gui.main.components.OverlayComponent;
+import cc.hyperium.mixins.MixinCrashReport;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.ScaledResolution;
+import org.lwjgl.input.Mouse;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -21,6 +25,15 @@ public class HyperiumOverlay {
     }
 
     public void handleMouseInput() {
-        components.forEach(OverlayComponent::handleMouseInput);
+        final ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
+        int sw = sr.getScaledWidth();
+        int sh = sr.getScaledHeight();
+        final int mx = Mouse.getX() * sw / Minecraft.getMinecraft().displayWidth;
+        final int my = sh - Mouse.getY() * sh / Minecraft.getMinecraft().displayHeight - 1;
+        components.forEach(c -> c.handleMouseInput(mx, my, sr.getScaledWidth() / 6 * 2, sr.getScaledHeight() / 4 + 20 * components.indexOf(c) + offsetY, sr.getScaledWidth() / 6 * 2, 20));
+    }
+
+    public List<OverlayComponent> getComponents() {
+        return components;
     }
 }

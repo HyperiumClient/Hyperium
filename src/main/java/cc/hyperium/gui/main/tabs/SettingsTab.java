@@ -5,6 +5,7 @@ import cc.hyperium.gui.Icons;
 import cc.hyperium.gui.main.HyperiumMainGui;
 import cc.hyperium.gui.main.HyperiumOverlay;
 import cc.hyperium.gui.main.components.AbstractTab;
+import cc.hyperium.gui.main.components.OverlayToggle;
 import cc.hyperium.gui.main.components.SettingItem;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
@@ -23,6 +24,7 @@ public class SettingsTab extends AbstractTab {
 
         items.add(new SettingItem(() -> {
             HyperiumOverlay overlay = new HyperiumOverlay();
+            overlay.getComponents().add(new OverlayToggle("A test toggle", false, b -> {}));
             HyperiumMainGui.INSTANCE.setOverlay(overlay);
         }, Icons.SETTINGS.getResource(), "Test", "A description", "A hover test", 0, 0));
     }
