@@ -569,7 +569,6 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
         GuiButton hypixelButton = this.hypixelButton;
         if (hypixelButton != null)
             hypixelButton.displayString = Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) ? "Fix Hypixel Session" : "Join Hypixel";
-
     }
 
     private GuiStyle getStyle() {

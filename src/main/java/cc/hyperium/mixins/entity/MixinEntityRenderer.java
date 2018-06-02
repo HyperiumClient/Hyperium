@@ -63,7 +63,8 @@ public abstract class MixinEntityRenderer {
     private MouseFilter mouseFilterYAxis;
     @Shadow
     private MouseFilter mouseFilterXAxis;
-    @Shadow private boolean drawBlockOutline;
+    @Shadow
+    private boolean drawBlockOutline;
     private boolean zoomMode = false;
 
     //endStartSection
@@ -83,6 +84,7 @@ public abstract class MixinEntityRenderer {
         double d0 = entity.prevPosX + (entity.posX - entity.prevPosX) * partialTicks;
         double d2 = entity.prevPosY + (entity.posY - entity.prevPosY) * partialTicks + f;
         double d3 = entity.prevPosZ + (entity.posZ - entity.prevPosZ) * partialTicks;
+
         if (entity instanceof EntityLivingBase && ((EntityLivingBase) entity).isPlayerSleeping()) {
             ++f;
             GlStateManager.translate(0.0f, 0.3f, 0.0f);
@@ -185,8 +187,8 @@ public abstract class MixinEntityRenderer {
     public void drawOutline(int pass, float part, long nano, CallbackInfo info) {
         DrawBlockHighlightEvent drawBlockHighlightEvent = new DrawBlockHighlightEvent(((EntityPlayer) this.mc.getRenderViewEntity()), mc.objectMouseOver, part);
         EventBus.INSTANCE.post(drawBlockHighlightEvent);
-        if(drawBlockHighlightEvent.isCancelled()) {
-            Hyperium.INSTANCE.getHandlers().getConfigOptions().isCancelBox=true;
+        if (drawBlockHighlightEvent.isCancelled()) {
+            Hyperium.INSTANCE.getHandlers().getConfigOptions().isCancelBox = true;
 
         }
     }

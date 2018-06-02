@@ -1,5 +1,6 @@
 package cc.hyperium.gui;
 
+import cc.hyperium.Hyperium;
 import cc.hyperium.Metadata;
 import cc.hyperium.installer.InstallerMain;
 import cc.hyperium.internal.addons.AddonBootstrap;
@@ -22,6 +23,7 @@ import org.apache.http.util.EntityUtils;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.plaf.basic.BasicButtonUI;
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
 import java.io.IOException;
@@ -36,14 +38,15 @@ public class CrashReportGUI extends JDialog {
     private CrashReport report;
     private int handle = 0; // 0 - Force stop, 1 - Soft shutdown, 2 - Restart
 
-    private CrashReportGUI(CrashReport report) {
+    CrashReportGUI(CrashReport report) {
         super();
         this.report = report;
 
         setModal(true);
-        setTitle("Hyperium crash report");
+        setTitle("Hyperium Crash Report");
         setSize(200, 300);
         setResizable(false);
+
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
         Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
@@ -52,6 +55,9 @@ public class CrashReportGUI extends JDialog {
         initComponents();
 
         setAlwaysOnTop(true);
+
+        this.setVisible(true);
+        this.setLayout(null);
     }
 
     private void initComponents() {
@@ -108,6 +114,7 @@ public class CrashReportGUI extends JDialog {
         desc.setFont(resize(t, 190, f, desc));
 
         JButton report = new JButton("REPORT");
+        report.setUI(new BasicButtonUI());
         report.setBackground(new Color(255, 254, 254));
         report.setForeground(new Color(30, 30, 30));
         report.setFont(f);
@@ -134,6 +141,7 @@ public class CrashReportGUI extends JDialog {
         });
 
         JButton restart = new JButton("RESTART");
+        restart.setUI(new BasicButtonUI());
         restart.setBackground(new Color(255, 254, 254));
         restart.setForeground(new Color(30, 30, 30));
         restart.setFont(f);
@@ -147,6 +155,7 @@ public class CrashReportGUI extends JDialog {
         });
 
         JButton exit = new JButton("EXIT");
+        exit.setUI(new BasicButtonUI());
         exit.setBackground(new Color(255, 254, 254));
         exit.setForeground(new Color(30, 30, 30));
         exit.setFont(f);
@@ -189,6 +198,9 @@ public class CrashReportGUI extends JDialog {
                 String[] rep = report.getCompleteReport().split("\n");
                 sb.append("Deobfuscated Report");
                 sb.append("Code by Cubxity");
+                sb.append("\n");
+                sb.append("Dev environment: ");
+                sb.append(Hyperium.INSTANCE.isDevEnv() ? "Yes" : "No");
                 sb.append("\n");
                 Mapping mapping = new Mapping("mc_1.8.9");
                 for (String s : rep) {
@@ -276,6 +288,6 @@ public class CrashReportGUI extends JDialog {
 
     public static void main(String[] args) {
         // For testing
-        handle(null);
+        handle(CrashReport.makeCrashReport(null, "Developer Debug"));
     }
 }

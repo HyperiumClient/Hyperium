@@ -58,6 +58,7 @@
     "renderer.model.MixinModelPlayer",
     "renderer.model.MixinModelBiped",
     "renderer.model.MixinModelBox",
+    "renderer.MixinRenderManger",
     "renderer.model.MixinModelRenderer",
 
     "packet.MixinC01PacketChatMessage",

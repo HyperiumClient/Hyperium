@@ -26,6 +26,7 @@ import cc.hyperium.mods.levelhead.Levelhead;
 import cc.hyperium.mods.sk1ercommon.Sk1erMod;
 import cc.hyperium.purchases.HyperiumPurchase;
 import cc.hyperium.purchases.PurchaseApi;
+import cc.hyperium.utils.JsonHolder;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -91,7 +92,11 @@ public class CommandDebug implements BaseCommand {
         HyperiumPurchase self = PurchaseApi.getInstance().getSelf();
         builder.append("\n");
         builder.append("Purchase callback: ");
-        builder.append(printer.toJson(self.getResponse().getObject()));
+        if(self !=null) {
+            JsonHolder response = self.getResponse();
+            if (response != null)
+                builder.append(printer.toJson(response.getObject()));
+        }
         builder.append("\n");
         builder.append("\n");
         builder.append("Hypixel: ").append(HypixelDetector.getInstance().isHypixel());
