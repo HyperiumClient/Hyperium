@@ -1,6 +1,7 @@
 package cc.hyperium.internal.addons.misc
 
 import cc.hyperium.internal.addons.AddonManifest
+import cc.hyperium.internal.addons.OverlayChecker
 import com.google.common.io.Files
 import com.google.gson.Gson
 import com.google.gson.JsonObject
@@ -56,6 +57,7 @@ class AddonManifestParser {
             }
             this.json = json
         } catch (e: Exception) {
+            e.printStackTrace()
             throw AddonLoadException("Exception reading manifest")
         } finally {
             if (jarInputStream != null)
@@ -70,11 +72,15 @@ class AddonManifestParser {
      * @param contents The addons json (addon.json)
      */
     constructor(contents: String) {
+        System.out.println(contents)
         val parser = JsonParser()
         val json = parser.parse(contents).asJsonObject
 
         if (!json.has("version") && !json.has("name") && !json.has("mainClass")) {
-            throw AddonLoadException("Invalid addon manifest ( Must include name, verson and mainClass)")
+            throw AddonLoadException("Invalid addon manifest (Must include name, version and mainClass)")
+        }
+        if (json.has("overlay")) {
+            OverlayChecker.checkOverlayField(json.get("overlay").asString)
         }
         this.json = json
     }
