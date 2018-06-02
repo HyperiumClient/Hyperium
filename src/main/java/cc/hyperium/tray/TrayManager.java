@@ -69,7 +69,7 @@ public class TrayManager {
      */
     @InvokeEvent
     public void onFriendRequest(HypixelFriendRequestEvent event) {
-        if (this.tray != null) {
+        if (this.tray != null && Hyperium.INSTANCE.getHandlers().getConfigOptions().showConfirmationPopup) {
             this.tray.displayMessage("Hypixel", "Friend request from " + event.getFrom(), TrayIcon.MessageType.NONE);
         }
     }
