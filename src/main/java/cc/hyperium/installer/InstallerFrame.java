@@ -27,6 +27,7 @@ import org.json.JSONObject;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.swing.*;
+import javax.swing.plaf.basic.BasicButtonUI;
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
@@ -422,7 +423,7 @@ public class InstallerFrame implements PropertyChangeListener {
         progressBar.setValue(100);
         display.setText("INSTALLATION SUCCESS");
         error.setText("OPEN LAUNCHER AND LAUNCH 'Hyperium 1.8.9' PROFILE");
-        exit.setVisible(true);
+        exit.setEnabled(true);
     }
 
     private File exportTempOptifine() throws Exception {
@@ -489,6 +490,7 @@ public class InstallerFrame implements PropertyChangeListener {
 
         // Exit
         exit = new JButton("EXIT");
+        exit.setUI(new BasicButtonUI());
         exit.setBackground(new Color(255, 254, 254));
         exit.setForeground(new Color(30, 30, 30));
         try {
