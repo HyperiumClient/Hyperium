@@ -1,7 +1,6 @@
 package cc.hyperium.gui.main.components;
 
 import cc.hyperium.utils.RenderUtils;
-import net.minecraft.client.renderer.GlStateManager;
 import org.lwjgl.opengl.GL11;
 
 import java.util.function.Consumer;

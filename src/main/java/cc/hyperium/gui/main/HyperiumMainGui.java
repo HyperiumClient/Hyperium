@@ -1,7 +1,6 @@
 package cc.hyperium.gui.main;
 
 import cc.hyperium.gui.HyperiumGui;
-import cc.hyperium.gui.Icons;
 import cc.hyperium.gui.main.components.AbstractTab;
 import cc.hyperium.gui.main.tabs.AddonsTab;
 import cc.hyperium.gui.main.tabs.HomeTab;
@@ -16,8 +15,7 @@ import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
 import java.io.IOException;
-import java.util.ArrayDeque;
-import java.util.Arrays;
+import java.util.*;
 import java.util.List;
 import java.util.Queue;
 
@@ -26,6 +24,7 @@ import java.util.Queue;
  */
 public class HyperiumMainGui extends HyperiumGui {
     public static HyperiumMainGui INSTANCE;
+    private static List<String> loadedAlerts = new ArrayList<>(); // so old alerts does not shot again
     private static final HyperiumFontRenderer fr = new HyperiumFontRenderer("Arial", Font.PLAIN, 20);
     private static AbstractTab currentTab = null; // static so it is still the same tab
     private static Queue<Alert> alerts = new ArrayDeque<>(); // static so alert does not disappear until user dismiss it
@@ -33,12 +32,6 @@ public class HyperiumMainGui extends HyperiumGui {
     private HyperiumOverlay overlay;
 
     private List<AbstractTab> tabs;
-
-    static {
-        alerts.add(new Alert(Icons.INFO.getResource(), () -> {
-            System.out.println("Alert clicked!");
-        }, "Test alert pls click kthx"));
-    }
 
     public static HyperiumFontRenderer getFr() {
         return fr;
@@ -106,6 +99,8 @@ public class HyperiumMainGui extends HyperiumGui {
         if (mouseButton == 0)
             if (currentAlert != null && width / 4 <= mouseX && height - 20 <= mouseY && width - 20 - width / 4 >= mouseX)
                 currentAlert.runAction();
+            else if (currentAlert != null && mouseX >= width - 20 - width / 4 && mouseX <= width - width / 4 && mouseY >= height - 20)
+                currentAlert.dismiss();
     }
 
     @Override
@@ -168,5 +163,13 @@ public class HyperiumMainGui extends HyperiumGui {
         void dismiss() {
             currentAlert = null;
         }
+    }
+
+    public static Queue<Alert> getAlerts() {
+        return alerts;
+    }
+
+    public static List<String> getLoadedAlerts() {
+        return loadedAlerts;
     }
 }
