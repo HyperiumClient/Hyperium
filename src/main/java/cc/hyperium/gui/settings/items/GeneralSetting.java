@@ -161,6 +161,7 @@ public class GeneralSetting extends SettingGui {
 
     }
 
+
     private void registerOnOffSetting(String name, boolean enabled, Consumer<Boolean> callback) {
         OnOffSetting setting = new OnOffSetting(
                 currentID,
