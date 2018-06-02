@@ -17,7 +17,6 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.HttpClients;
 
 import java.awt.*;
-import java.io.IOException;
 import java.net.URL;
 import java.util.concurrent.TimeUnit;
 
@@ -78,8 +77,7 @@ public class HomeTab extends AbstractTab {
     @Override
     public void drawHighlight() {
         GlStateManager.disableBlend();
-        Gui.drawRect(0, y, 3, y + w, 0xffffff);
-        GlStateManager.enableBlend();
+        Gui.drawRect(0, y, 3, y + w, new Color(255, 255, 255, 100).getRGB());
     }
 
     @Override
