@@ -141,7 +141,9 @@ object AddonMinecraftBootstrap {
 
         for (addon in toLoad) {
             try {
-                OverlayChecker.checkOverlayField(addon.overlay)
+                if (addon.overlay != null) {
+                    OverlayChecker.checkOverlayField(addon.overlay)
+                }
             } catch (e: AddonLoadException) {
                 dontLoad.add(addon)
                 //toLoad.remove(addon)
