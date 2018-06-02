@@ -62,7 +62,7 @@ import java.util.Iterator;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Hypixel Community Client
+ * Hyperium Client
  */
 public class Hyperium {
 
