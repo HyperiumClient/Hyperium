@@ -9,6 +9,8 @@ import cc.hyperium.internal.addons.AddonManifest;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
 
+import java.awt.*;
+
 /*
  * Created by Cubxity on 29/05/2018
  */
@@ -20,7 +22,6 @@ public class AddonsTab extends AbstractTab {
         block = new GuiBlock(0, w, y, y + w);
         this.y = y;
         this.w = w;
-
         int yi = 0, xi = 0;
         for (AddonManifest a : AddonBootstrap.INSTANCE.getAddonManifests()) {
             items.add(new SettingItem(() -> {
@@ -48,7 +49,7 @@ public class AddonsTab extends AbstractTab {
     @Override
     public void drawHighlight() {
         GlStateManager.disableBlend();
-        Gui.drawRect(0, y, 3, y + w, 0xffffff);
+        Gui.drawRect(0, y, 3, y + w, new Color(255, 255, 255, 100).getRGB());
         GlStateManager.enableBlend();
     }
 

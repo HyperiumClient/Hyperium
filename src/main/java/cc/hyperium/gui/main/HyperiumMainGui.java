@@ -68,14 +68,13 @@ public class HyperiumMainGui extends HyperiumGui {
         GlStateManager.enableBlend();
         GL11.glColor3f(1.0f, 1.0f, 1.0f);
         tabs.forEach(AbstractTab::drawTabIcon);
-        currentTab.drawHighlight();
         GlStateManager.disableBlend();
         GlStateManager.popMatrix();
 
         int pw = width / 15;
         if (pw > 144)
             pw = 144; // icon res
-
+        currentTab.drawHighlight();
         drawRect(pw * 2, pw, width - pw * 2, height - pw, new Color(0, 0, 0, 70).getRGB());
 
         currentTab.draw(mouseX, mouseY, pw * 2, pw, width - pw, height - pw);
