@@ -481,7 +481,7 @@ public class InstallerFrame implements PropertyChangeListener {
         error.setSize(400, 10);
         error.setLocation(0, 105);
         try {
-            error.setFont(Font.createFont(Font.TRUETYPE_FONT, InstallerMain.class.getResourceAsStream("/assets/hyperium/fonts/Montserrat-Regular.ttf")).deriveFont(10.0F));
+            error.setFont(Font.createFont(Font.TRUETYPE_FONT, InstallerMain.class.getResourceAsStream("/assets/hyperium/fonts/Montserrat-Regular.ttf")).deriveFont(8.0F));
         } catch (FontFormatException | IOException e) {
             error.setFont(Font.getFont("Arial")); //backup
             e.printStackTrace();
