@@ -33,6 +33,7 @@ import java.awt.datatransfer.StringSelection;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -152,6 +153,13 @@ public class CrashReportGUI extends JDialog {
                     } else {
                         report.setEnabled(false);
                         report.setText("Update Hyperium");
+                        try {
+                            Desktop.getDesktop().browse(new URI("https://hyperium.cc"));
+                        } catch (IOException e1) {
+                            e1.printStackTrace();
+                        } catch (URISyntaxException e1) {
+                            e1.printStackTrace();
+                        }
                     }
                 }
             });
