@@ -49,7 +49,7 @@ public class CrashReportGUI extends JDialog {
     private CrashReport report;
     private int handle = 0; // 0 - // Force stop, 1 - Soft shutdown, 2 - Restart
 
-    private boolean updated;
+    private boolean updated = false;
 
     CrashReportGUI(CrashReport report) {
         super();
@@ -138,7 +138,7 @@ public class CrashReportGUI extends JDialog {
             Multithreading.runAsync(new Runnable() {
                 @Override
                 public void run() {
-                    if (updated) {
+                    if (isUpdated()) {
                         report.setEnabled(false);
                         report.setText("REPORTING...");
                         if (sendReport()) {
@@ -217,16 +217,18 @@ public class CrashReportGUI extends JDialog {
             }
 
             if (Metadata.getBuild().equalsIgnoreCase(latest)) {
-                updated = true;
+                return true;
             } else {
-                updated = false;
+                return false;
             }
 
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return updated;
+
+        return false;
     }
+
 
     private boolean sendReport() {
         try {
