@@ -41,4 +41,9 @@ public class OtherConfigOptions {
 
     @ConfigOpt
     public int maxCps = 2;
+
+    @ConfigOpt
+    public boolean showNotificationCenter = true;
+    @ConfigOpt
+    public boolean showConfirmationPopup = true;
 }

@@ -17,11 +17,8 @@
 
 package cc.hyperium.gui;
 
-import cc.hyperium.event.HypixelFriendRequestEvent;
-import cc.hyperium.event.HypixelPartyInviteEvent;
-import cc.hyperium.event.InvokeEvent;
-import cc.hyperium.event.KeypressEvent;
-import cc.hyperium.event.RenderHUDEvent;
+import cc.hyperium.Hyperium;
+import cc.hyperium.event.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
@@ -80,8 +77,10 @@ public class ConfirmationPopup {
     }
 
     public Confirmation displayConfirmation(String text, Consumer<Boolean> callback, int seconds) {
+
         Confirmation c = new Confirmation(seconds * 60, seconds * 60, text, callback);
-        confirmations.add(c);
+        if (Hyperium.INSTANCE.getHandlers().getConfigOptions().showConfirmationPopup)
+            confirmations.add(c);
         return c;
     }
 
@@ -90,11 +89,11 @@ public class ConfirmationPopup {
     }
 
     class Confirmation {
-        private long framesLeft;
         private final String text;
         private final Consumer<Boolean> callback;
         private final long upperThreshold;
         private final long lowerThreshold;
+        private long framesLeft;
         private float percentComplete;
         private long systemTime;
 

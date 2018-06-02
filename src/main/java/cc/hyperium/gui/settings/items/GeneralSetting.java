@@ -156,6 +156,8 @@ public class GeneralSetting extends SettingGui {
         registerOnOffSetting("SHOW PLAYERS AS BLOCKS", Hyperium.INSTANCE.getHandlers().getConfigOptions().turnPeopleIntoBlock, on -> Hyperium.INSTANCE.getHandlers().getConfigOptions().turnPeopleIntoBlock = on);
         registerOnOffSetting("LIMIT CPS", Hyperium.INSTANCE.getHandlers().getConfigOptions().limitCPS, on -> Hyperium.INSTANCE.getHandlers().getConfigOptions().limitCPS = on);
         registerOnOffSetting("USE OLD RESOURCE PACK GUI (RESTART)", oldResourcePackGui, on -> oldResourcePackGui = on);
+        registerOnOffSetting("SHOW NOTIFICATION CENTER", Hyperium.INSTANCE.getHandlers().getConfigOptions().showNotificationCenter, on -> Hyperium.INSTANCE.getHandlers().getConfigOptions().showNotificationCenter = on);
+        registerOnOffSetting("SHOW CONFIRMATION POPUP", Hyperium.INSTANCE.getHandlers().getConfigOptions().showConfirmationPopup, on -> Hyperium.INSTANCE.getHandlers().getConfigOptions().showConfirmationPopup = on);
 
     }
 

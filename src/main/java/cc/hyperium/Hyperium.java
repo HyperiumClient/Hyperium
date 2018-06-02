@@ -388,7 +388,7 @@ public class Hyperium {
 //        if (!lastStateWindowed) {
 //            Minecraft.getMinecraft().toggleFullscreen();
 //            return;
-//        }ge
+//        }
 //
 //        if (fullScreen) {
 //

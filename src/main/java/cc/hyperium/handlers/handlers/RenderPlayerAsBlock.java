@@ -14,7 +14,7 @@ import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class RenderPlayerAsBlock {
-    public String[] blocks = new String[]{"stone", "sand", "dirt", "snow", "ice"};
+    public String[] blocks = new String[]{"stone", "sand", "dirt", "crafting_table_front","furnace_side","cobblestone","planks_oak","log_oak","red_sand"};
 
     public HashMap<UUID, String> cache = new HashMap<>();
 
