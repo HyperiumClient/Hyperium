@@ -137,6 +137,22 @@ object AddonMinecraftBootstrap {
             return
         }
 
+        val dontLoad: ArrayList<AddonManifest> = ArrayList()
+
+        for (addon in toLoad) {
+            try {
+                OverlayChecker.checkOverlayField(addon.overlay)
+            } catch (e: AddonLoadException) {
+                dontLoad.add(addon)
+                //toLoad.remove(addon)
+                e.printStackTrace()
+            }
+        }
+
+        for (addon in dontLoad) {
+            toLoad.remove(addon)
+        }
+
         val loaded = toLoad
                 .map { Class.forName(it.mainClass).newInstance() }
                 .filter { it is IAddon }

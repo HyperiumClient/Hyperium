@@ -61,4 +61,11 @@ class AddonManifest {
      * @return the names of the dependencies
      */
     val dependencies: List<String> = ArrayList()
+
+    /**
+     * Class where the config for the addon is
+     */
+    val overlay: String? = null
+
+    val author: String? = null
 }
