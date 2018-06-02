@@ -1,7 +1,6 @@
 package cc.hyperium.gui.main;
 
 import cc.hyperium.gui.main.components.OverlayComponent;
-import cc.hyperium.mixins.MixinCrashReport;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
@@ -16,7 +15,7 @@ import java.util.List;
  */
 public class HyperiumOverlay {
     private List<OverlayComponent> components = new ArrayList<>();
-    private int offsetY = 0;
+    private static int offsetY = 0; // static so it saves the last scrolled location
 
     public void render(int mouseX, int mouseY, int w, int h) {
         Gui.drawRect(0, 0, w, h, new Color(0, 0, 0, 100).getRGB()); // bg
@@ -31,6 +30,11 @@ public class HyperiumOverlay {
         final int mx = Mouse.getX() * sw / Minecraft.getMinecraft().displayWidth;
         final int my = sh - Mouse.getY() * sh / Minecraft.getMinecraft().displayHeight - 1;
         components.forEach(c -> c.handleMouseInput(mx, my, sr.getScaledWidth() / 6 * 2, sr.getScaledHeight() / 4 + 20 * components.indexOf(c) + offsetY, sr.getScaledWidth() / 6 * 2, 20));
+        int i = Mouse.getEventDWheel();
+        if (i > 0)
+            offsetY += 5;
+        else if (i < 0)
+            offsetY -= 5;
     }
 
     public List<OverlayComponent> getComponents() {

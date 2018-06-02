@@ -106,14 +106,14 @@ public class HyperiumMainGui extends HyperiumGui {
         if (mouseButton == 0)
             if (currentAlert != null && width / 4 <= mouseX && height - 20 <= mouseY && width - 20 - width / 4 >= mouseX)
                 currentAlert.runAction();
-        if (overlay != null)
-            overlay.handleMouseInput();
     }
 
     @Override
     public void handleMouseInput() throws IOException {
         super.handleMouseInput();
         currentTab.handleMouseInput();
+        if (overlay != null)
+            overlay.handleMouseInput();
     }
 
     @Override

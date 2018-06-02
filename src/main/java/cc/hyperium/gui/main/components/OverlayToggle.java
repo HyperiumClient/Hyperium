@@ -2,6 +2,7 @@ package cc.hyperium.gui.main.components;
 
 import cc.hyperium.utils.RenderUtils;
 import net.minecraft.client.renderer.GlStateManager;
+import org.lwjgl.opengl.GL11;
 
 import java.util.function.Consumer;
 
@@ -20,9 +21,12 @@ public class OverlayToggle extends OverlayComponent {
 
     @Override
     public void render(int mouseX, int mouseY, int overlayX, int overlayY, int w, int h) {
-        GlStateManager.disableBlend();
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glDisable(GL11.GL_TEXTURE_2D);
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         RenderUtils.drawSmoothRect(overlayX + w - 30, overlayY + 2, overlayX + w - 5, overlayY + w - 2, 0xffffff);
-        GlStateManager.enableBlend();
+        GL11.glDisable(GL11.GL_BLEND);
+        GL11.glDisable(GL11.GL_LINE_SMOOTH);
         super.render(mouseX, mouseY, overlayX, overlayY, w, h);
     }
 
