@@ -21,6 +21,8 @@ public class RenderPlayerAsBlock {
     public void reDraw(AbstractClientPlayer entity, double x, double y, double z) {
         World entityWorld = entity.getEntityWorld();
         if (entityWorld != null) {
+            if (entity.isInvisibleToPlayer(Minecraft.getMinecraft().thePlayer))
+                return;
             GlStateManager.pushMatrix();
             GlStateManager.translate(x, y, z);
             GlStateManager.rotate(-entity.getRotationYawHead(), 0.0F, 1.0F, 0.0F);
@@ -50,7 +52,7 @@ public class RenderPlayerAsBlock {
             wr.pos(-0.5, 1.0, 0.5).tex(1.0, 1.0).endVertex();
             wr.pos(0.5, 1.0, 0.5).tex(0.0, 1.0).endVertex();
             wr.pos(0.5, 1.0, -0.5).tex(0.0, 0.0).endVertex();
-            wr.pos(-0.5, 1.0, -0.5).tex(1.0, 0.0).endVertex();
+            wr.pos(-0.5, 0.0, -0.5).tex(1.0, 0.0).endVertex();
             wr.pos(0.5, 0.0, -0.5).tex(1.0, 1.0).endVertex();
             wr.pos(0.5, 0.0, 0.5).tex(0.0, 1.0).endVertex();
             wr.pos(-0.5, 0.0, 0.5).tex(0.0, 0.0).endVertex();
