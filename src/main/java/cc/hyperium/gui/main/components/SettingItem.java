@@ -3,7 +3,6 @@ package cc.hyperium.gui.main.components;
 import cc.hyperium.gui.HyperiumGui;
 import cc.hyperium.gui.Icons;
 import cc.hyperium.gui.main.HyperiumMainGui;
-import cc.hyperium.gui.main.tabs.SettingsTab;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
