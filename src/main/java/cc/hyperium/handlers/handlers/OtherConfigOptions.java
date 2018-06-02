@@ -35,4 +35,10 @@ public class OtherConfigOptions {
 
     @ConfigOpt
     public boolean turnPeopleIntoBlock = false;
+
+    @ConfigOpt
+    public boolean limitCPS = false;
+
+    @ConfigOpt
+    public int maxCps = 2;
 }

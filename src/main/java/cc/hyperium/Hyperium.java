@@ -288,6 +288,7 @@ public class Hyperium {
         getHandlers().getHyperiumCommandHandler().registerCommand(new CommandDebug());
         getHandlers().getHyperiumCommandHandler().registerCommand(new CommandUpdate());
         getHandlers().getHyperiumCommandHandler().registerCommand(new CommandLogs());
+        getHandlers().getHyperiumCommandHandler().registerCommand(new CommandMaxCPS());
     }
 
     /**
