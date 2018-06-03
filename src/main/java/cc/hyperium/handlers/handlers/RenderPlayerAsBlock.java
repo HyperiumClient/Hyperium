@@ -14,13 +14,15 @@ import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class RenderPlayerAsBlock {
-    public String[] blocks = new String[]{"stone", "sand", "dirt", "snow", "ice"};
+    public String[] blocks = new String[]{"stone", "sand", "dirt", "crafting_table_front","furnace_side","cobblestone","planks_oak","log_oak","red_sand"};
 
     public HashMap<UUID, String> cache = new HashMap<>();
 
     public void reDraw(AbstractClientPlayer entity, double x, double y, double z) {
         World entityWorld = entity.getEntityWorld();
         if (entityWorld != null) {
+            if (entity.isInvisibleToPlayer(Minecraft.getMinecraft().thePlayer))
+                return;
             GlStateManager.pushMatrix();
             GlStateManager.translate(x, y, z);
             GlStateManager.rotate(-entity.getRotationYawHead(), 0.0F, 1.0F, 0.0F);
@@ -50,7 +52,7 @@ public class RenderPlayerAsBlock {
             wr.pos(-0.5, 1.0, 0.5).tex(1.0, 1.0).endVertex();
             wr.pos(0.5, 1.0, 0.5).tex(0.0, 1.0).endVertex();
             wr.pos(0.5, 1.0, -0.5).tex(0.0, 0.0).endVertex();
-            wr.pos(-0.5, 1.0, -0.5).tex(1.0, 0.0).endVertex();
+            wr.pos(-0.5, 0.0, -0.5).tex(1.0, 0.0).endVertex();
             wr.pos(0.5, 0.0, -0.5).tex(1.0, 1.0).endVertex();
             wr.pos(0.5, 0.0, 0.5).tex(0.0, 1.0).endVertex();
             wr.pos(-0.5, 0.0, 0.5).tex(0.0, 0.0).endVertex();

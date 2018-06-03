@@ -78,7 +78,7 @@ public class BackgroundSettings extends SettingGui {
             
             refreshBackground();
         });
-        x.addItems(Arrays.asList("1", "2", "3", "4", "5", "CUSTOM"));
+        x.addItems(Arrays.asList("1", "2", "3", "4", "5", "6", "CUSTOM"));
         x.setSelectedItem(backgroundSelect);
         
         refreshBackground();
@@ -131,6 +131,10 @@ public class BackgroundSettings extends SettingGui {
                 break;
             case "5":
                 HyperiumMainMenu.setBackground(new ResourceLocation("textures/material/backgrounds/5.png"));
+                HyperiumMainMenu.setCustomBackground(false);
+                break;
+            case "6":
+                HyperiumMainMenu.setBackground(new ResourceLocation("textures/material/backgrounds/6.png"));
                 HyperiumMainMenu.setCustomBackground(false);
                 break;
             case "CUSTOM":

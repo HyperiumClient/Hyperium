@@ -201,6 +201,7 @@ import net.minecraft.util.Timer;
 import net.minecraft.util.Util;
 import net.minecraft.world.WorldSettings;
 import org.apache.commons.io.IOUtils;
+import org.apache.logging.log4j.Logger;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
@@ -231,6 +232,11 @@ public abstract class MixinMinecraft {
     @Shadow
     private static Minecraft theMinecraft;
     @Shadow
+    @Final
+    private static Logger logger;
+    @Shadow
+    public FontRenderer fontRendererObj;
+    @Shadow
     private int displayHeight;
     @Shadow
     private int displayWidth;
@@ -253,8 +259,6 @@ public abstract class MixinMinecraft {
     @Shadow
     private PlayerControllerMP playerController;
     @Shadow
-    public FontRenderer fontRendererObj;
-    @Shadow
     private int tempDisplayHeight;
     @Shadow
     private int tempDisplayWidth;
@@ -270,6 +274,7 @@ public abstract class MixinMinecraft {
     @Shadow
     @Final
     private List<IResourcePack> defaultResourcePacks;
+    private long lastAttack;
 
     @Shadow
     protected abstract void resize(int width, int height);
@@ -327,12 +332,12 @@ public abstract class MixinMinecraft {
         boolean repeat = Keyboard.isRepeatEvent();
         boolean press = Keyboard.getEventKeyState();
 
-        if(press){
+        if (press) {
             // Key has been pressed.
             EventBus.INSTANCE.post(new KeypressEvent(key, repeat));
-        } else{
+        } else {
             // Key has been released.
-            EventBus.INSTANCE.post(new KeyreleaseEvent(key,repeat));
+            EventBus.INSTANCE.post(new KeyreleaseEvent(key, repeat));
         }
     }
 
@@ -349,6 +354,46 @@ public abstract class MixinMinecraft {
     @Inject(method = "clickMouse", at = @At("RETURN"))
     private void clickMouse(CallbackInfo ci) {
         EventBus.INSTANCE.post(new LeftMouseClickEvent());
+    }
+
+    @Overwrite
+    private void clickMouse() {
+        if (this.leftClickCounter <= 0) {
+            this.thePlayer.swingItem();
+
+            if (this.objectMouseOver == null) {
+                logger.error("Null returned as \'hitResult\', this shouldn\'t happen!");
+
+                if (this.playerController.isNotCreative()) {
+                    this.leftClickCounter = 10;
+                }
+            } else {
+                switch (this.objectMouseOver.typeOfHit) {
+                    case ENTITY:
+                        int maxCps = Hyperium.INSTANCE.getHandlers().getConfigOptions().maxCps;
+                        long delay = 1000 / maxCps;
+                        if (System.currentTimeMillis() - lastAttack > delay) {
+                            this.playerController.attackEntity(this.thePlayer, this.objectMouseOver.entityHit);
+                            lastAttack = System.currentTimeMillis();
+                        }
+                        break;
+                    case BLOCK:
+                        BlockPos blockpos = this.objectMouseOver.getBlockPos();
+
+                        if (this.theWorld.getBlockState(blockpos).getBlock().getMaterial() != Material.air) {
+                            this.playerController.clickBlock(blockpos, this.objectMouseOver.sideHit);
+                            break;
+                        }
+
+                    case MISS:
+                    default:
+
+                        if (this.playerController.isNotCreative()) {
+                            this.leftClickCounter = 10;
+                        }
+                }
+            }
+        }
     }
 
     /**
@@ -663,10 +708,10 @@ public abstract class MixinMinecraft {
                         cmd.append("-cp \"").append(System.getProperty("java.class.path")).append("\" ").append(command[0]).append(" ");
                     for (int i = 1; i < command.length; i++)
                         cmd.append(command[i]).append(" ");
-                    Runtime.getRuntime().addShutdownHook(new Thread(()->{
+                    Runtime.getRuntime().addShutdownHook(new Thread(() -> {
                         try {
                             System.out.println("## RESTARTING MINECRAFT ##");
-                            System.out.println("cmd="+cmd.toString());
+                            System.out.println("cmd=" + cmd.toString());
                             Runtime.getRuntime().exec(cmd.toString());
                         } catch (IOException e) {
                             e.printStackTrace();
