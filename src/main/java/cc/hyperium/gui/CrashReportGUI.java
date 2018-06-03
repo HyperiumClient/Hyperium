@@ -77,6 +77,10 @@ public class CrashReportGUI extends JDialog {
         this.setLayout(null);
     }
 
+    public CrashReportGUI() {
+
+    }
+
     private void initComponents() {
         Container c = getContentPane();
         c.setBackground(new Color(30, 30, 30));
