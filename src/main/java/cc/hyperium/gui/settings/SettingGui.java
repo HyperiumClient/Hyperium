@@ -71,7 +71,7 @@ public class SettingGui extends HyperiumGui {
                 .filter(i -> items - i.id >= offset && (getY() + 28) + (offset + i.id) * 15 >= getY() + 25)
                 .forEach(i -> {
                     i.visible = true;
-                    i.drawItem(mc, mouseX, mouseY, getX() + animation, (getY() + 25) + (offset + i.id) * 15);
+                    i.drawItem(mc, mouseX, mouseY, getX() + animation, (getY() + 25) + (offset + i.id) * 15, 12);
                 });
 
         fontRendererObj.drawString(">", (width - width / 5) - 18, (height / 5) + 5, 0xFFFFFF);
