@@ -2,12 +2,14 @@ package cc.hyperium.gui.main.tabs;
 
 import cc.hyperium.gui.GuiBlock;
 import cc.hyperium.gui.Icons;
+import cc.hyperium.gui.main.HyperiumMainGui;
 import cc.hyperium.gui.main.components.AbstractTab;
 import cc.hyperium.gui.main.components.SettingItem;
 import cc.hyperium.internal.addons.AddonBootstrap;
 import cc.hyperium.internal.addons.AddonManifest;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
+import org.lwjgl.input.Mouse;
 
 import java.awt.*;
 
@@ -15,6 +17,7 @@ import java.awt.*;
  * Created by Cubxity on 29/05/2018
  */
 public class AddonsTab extends AbstractTab {
+    private static int offsetY = 0; // static so it saves the previous location
     private GuiBlock block;
     private int y, w;
 
@@ -48,13 +51,22 @@ public class AddonsTab extends AbstractTab {
 
     @Override
     public void drawHighlight() {
-        GlStateManager.disableBlend();
-        Gui.drawRect(0, y, 3, y + w, new Color(255, 255, 255, 100).getRGB());
-        GlStateManager.enableBlend();
+        Gui.drawRect(0, y, 3, y + w, Color.WHITE.getRGB());
     }
 
     @Override
     public void draw(int mouseX, int mouseY, int topX, int topY, int containerWidth, int containerHeight) {
+        super.draw(mouseX, mouseY, topX, topY, containerWidth, containerHeight);
+    }
 
+    @Override
+    public void handleMouseInput() {
+        super.handleMouseInput();
+        if (HyperiumMainGui.INSTANCE.getOverlay() != null) return;
+        int i = Mouse.getEventDWheel();
+        if (i < 0)
+            offsetY -= 5;
+        else if (i > 0)
+            offsetY += 5;
     }
 }

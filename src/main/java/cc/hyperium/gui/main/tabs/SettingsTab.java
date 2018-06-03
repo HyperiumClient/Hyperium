@@ -8,7 +8,6 @@ import cc.hyperium.gui.main.components.AbstractTab;
 import cc.hyperium.gui.main.components.OverlayToggle;
 import cc.hyperium.gui.main.components.SettingItem;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.renderer.GlStateManager;
 import org.lwjgl.input.Mouse;
 
 import java.awt.*;
@@ -17,7 +16,7 @@ import java.awt.*;
  * Created by Cubxity on 20/05/2018
  */
 public class SettingsTab extends AbstractTab {
-    public static int offsetY = 0; // static so it saves the previous location
+    private static int offsetY = 0; // static so it saves the previous location
     private GuiBlock block;
     private int y, w;
 
@@ -47,9 +46,7 @@ public class SettingsTab extends AbstractTab {
 
     @Override
     public void drawHighlight() {
-        GlStateManager.disableBlend();
-        Gui.drawRect(0, y, 3, y + w, new Color(255, 255, 255, 100).getRGB());
-        GlStateManager.enableBlend();
+        Gui.drawRect(0, y, 3, y + w, Color.WHITE.getRGB());
     }
 
     @Override
@@ -60,6 +57,7 @@ public class SettingsTab extends AbstractTab {
     @Override
     public void handleMouseInput() {
         super.handleMouseInput();
+        if (HyperiumMainGui.INSTANCE.getOverlay() != null) return;
         int i = Mouse.getEventDWheel();
         if (i < 0)
             offsetY -= 5;

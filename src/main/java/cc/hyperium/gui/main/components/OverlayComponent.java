@@ -4,8 +4,6 @@ import cc.hyperium.gui.main.HyperiumMainGui;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
 
-import java.awt.*;
-
 /*
  * Created by Cubxity on 01/06/2018
  */
@@ -14,7 +12,7 @@ public abstract class OverlayComponent {
 
     public void render(int mouseX, int mouseY, int overlayX, int overlayY, int w, int h) {
         if (mouseX >= overlayX && mouseX <= overlayX + w && mouseY >= overlayY && mouseY <= overlayY + h)
-            Gui.drawRect(overlayX, overlayY, overlayX + w, overlayY + h, new Color(0, 0, 0, 40).getRGB());
+            Gui.drawRect(overlayX, overlayY, overlayX + w, overlayY + h, 0x1e000000);
         float s = 0.8f;
         GlStateManager.scale(s, s, s);
         HyperiumMainGui.getFr().drawString(label, overlayX / s + 4, (overlayY + (h - HyperiumMainGui.getFr().FONT_HEIGHT * s) / 2) / s, 0xffffff);

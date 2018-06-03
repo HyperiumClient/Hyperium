@@ -1,5 +1,6 @@
 package cc.hyperium.gui.main;
 
+import cc.hyperium.gui.HyperiumGui;
 import cc.hyperium.gui.main.components.OverlayComponent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -18,7 +19,7 @@ public class HyperiumOverlay {
     private static int offsetY = 0; // static so it saves the last scrolled location
 
     public void render(int mouseX, int mouseY, int w, int h) {
-        Gui.drawRect(0, 0, w, h, new Color(0, 0, 0, 100).getRGB()); // bg
+        HyperiumGui.drawChromaBox(0, 0, w, h, 0.2F); // bg
         Gui.drawRect(w / 6 * 2, h / 4, w / 6 * 4, h / 4 * 3, new Color(30, 30, 30).getRGB());
         components.forEach(c -> c.render(mouseX, mouseY, w / 6 * 2, h / 4 + 20 * components.indexOf(c) + offsetY, w / 6 * 2, 20));
     }
