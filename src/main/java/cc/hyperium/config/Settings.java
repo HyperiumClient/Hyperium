@@ -3,7 +3,8 @@ package cc.hyperium.config;
 import cc.hyperium.GuiStyle;
 import cc.hyperium.Hyperium;
 
-import static cc.hyperium.config.ToggleSetting.Category.*;
+import static cc.hyperium.config.ToggleSetting.Category.IMPROVEMENTS;
+import static cc.hyperium.config.ToggleSetting.Category.INTEGRATIONS;
 
 /*
  * Created by Cubxity on 03/06/2018
@@ -21,7 +22,7 @@ public class Settings {
     public static boolean COMPACT_CHAT = false;
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;voidflickerfixEnabled") @ToggleSetting(name = "Void flicker fix", category = IMPROVEMENTS)
     public static boolean VOID_FLICKER_FIX = true;
-    @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;framerateLimiterEnabled") @ToggleSetting(name = "Fps limiter", category = IMPROVEMENTS)
+    @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;framerateLimiterEnabled") @ToggleSetting(name = "FPS limiter", category = IMPROVEMENTS)
     public static boolean FPS_LIMITER = true;
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;fastchatEnabled") @ToggleSetting(name = "Fast chat")
     public static boolean FASTCHAT = false;
