@@ -23,7 +23,7 @@ public abstract class AbstractTab {
 
     public abstract GuiBlock getBlock();
 
-    public abstract void drawHighlight();
+    public abstract void drawHighlight(float s);
 
     public void handleMouseInput() {
         if (HyperiumMainGui.INSTANCE.getOverlay() == null) {

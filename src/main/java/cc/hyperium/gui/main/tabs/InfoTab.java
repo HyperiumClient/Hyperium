@@ -33,8 +33,8 @@ public class InfoTab extends AbstractTab {
     }
 
     @Override
-    public void drawHighlight() {
-        Gui.drawRect(0, y, 3, y + w, Color.WHITE.getRGB());
+    public void drawHighlight(float s) {
+        Gui.drawRect(0, (int) (y + s * (s * w / 2)), 3, (int) (y + w - s * (w / 2)), Color.WHITE.getRGB());
     }
 
     @Override

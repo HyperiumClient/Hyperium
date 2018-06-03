@@ -35,7 +35,8 @@ public class AddonsTab extends AbstractTab {
                         HyperiumOverlay overlay = (HyperiumOverlay) clazz.newInstance();
                         HyperiumMainGui.INSTANCE.setOverlay(overlay);
                     } catch (Exception e) {
-                        HyperiumMainGui.Alert alert = new HyperiumMainGui.Alert(Icons.ERROR.getResource(), () -> {}, "Failed to load addon's config overlay");
+                        HyperiumMainGui.Alert alert = new HyperiumMainGui.Alert(Icons.ERROR.getResource(), () -> {
+                        }, "Failed to load addon's config overlay");
                         HyperiumMainGui.getAlerts().add(alert);
                         e.printStackTrace(); // in case the check went wrong
                     }
@@ -61,8 +62,8 @@ public class AddonsTab extends AbstractTab {
     }
 
     @Override
-    public void drawHighlight() {
-        Gui.drawRect(0, y, 3, y + w, Color.WHITE.getRGB());
+    public void drawHighlight(float s) {
+        Gui.drawRect(0, (int) (y + s * (s * w / 2)), 3, (int) (y + w - s * (w / 2)), Color.WHITE.getRGB());
     }
 
     @Override

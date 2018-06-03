@@ -31,6 +31,7 @@ public class HyperiumMainGui extends HyperiumGui {
     private static Alert currentAlert;
     private HyperiumOverlay overlay;
     private int tabFade;
+    private float highlightScale = 0f;
 
     private List<AbstractTab> tabs;
 
@@ -71,13 +72,15 @@ public class HyperiumMainGui extends HyperiumGui {
         GL11.glColor3f(1.0f, 1.0f, 1.0f);
         GlStateManager.translate(tabFade, 0, 0);
         tabs.forEach(AbstractTab::drawTabIcon);
-        currentTab.drawHighlight();
         GlStateManager.disableBlend();
         GlStateManager.popMatrix();
 
         int pw = width / 15;
         if (pw > 144)
             pw = 144; // icon res
+
+        currentTab.drawHighlight(1 - highlightScale);
+
         drawRect(pw * 2, pw, width - pw * 2, height - pw, new Color(0, 0, 0, 70).getRGB());
 
         currentTab.draw(mouseX, mouseY, pw * 2, pw, width - pw * 4, height - pw);
@@ -93,6 +96,9 @@ public class HyperiumMainGui extends HyperiumGui {
         if (tabFade < 0)
             tabFade += 2;
         else tabFade = 0;
+
+        if (tabFade == 0 && highlightScale < 1f)
+            highlightScale += 0.08f;
     }
 
     @Override
@@ -100,7 +106,10 @@ public class HyperiumMainGui extends HyperiumGui {
         super.mouseClicked(mouseX, mouseY, mouseButton);
         if (overlay == null)
             tabs.stream().filter(t -> t.getBlock().isMouseOver(mouseX, mouseY)).findFirst().ifPresent(
-                    t -> currentTab = t);
+                    t -> {
+                        currentTab = t;
+                        highlightScale = 0f;
+                    });
         if (mouseButton == 0)
             if (currentAlert != null && width / 4 <= mouseX && height - 20 <= mouseY && width - 20 - width / 4 >= mouseX)
                 currentAlert.runAction();
