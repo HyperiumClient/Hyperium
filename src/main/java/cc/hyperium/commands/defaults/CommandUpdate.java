@@ -179,6 +179,7 @@ import cc.hyperium.update.UpdateUtils;
 import net.minecraft.client.Minecraft;
 import org.lwjgl.input.Keyboard;
 
+import javax.swing.*;
 import java.awt.*;
 import java.io.*;
 import java.net.MalformedURLException;
@@ -243,14 +244,21 @@ public class CommandUpdate implements BaseCommand {
                 });
                 //updateUtils.newBuild + "-Installer.jar";
                 ready = true;
-                confirmationPopup.displayConfirmation("Hyperium Updater \n Would you like to Install now?", accept -> {
-                    Hyperium.INSTANCE.getNotification().display("Hyperium Updater", "Opening installer.", 5);
-                    try {
-                        Runtime.getRuntime().exec(String.valueOf(new File(updateUtils.newBuild + "-Installer.jar")));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }, 5);
+                System.out.println("confirmation");
+                Hyperium.INSTANCE.getNotification().display("Hyperium Updater", "Opening Installer" + updateUtils.newBuild, 5);
+                Runtime.getRuntime().exec(String.valueOf(new File(Minecraft.getMinecraft().mcDataDir + updateUtils.newBuild + "-Installer.jar")));
+                Minecraft.getMinecraft().shutdownMinecraftApplet();
+
+                /*
+                    confirmationPopup.displayConfirmation("Would you like to install the update now?", accept -> {
+                        Hyperium.INSTANCE.getNotification().display("Hyperium Updater", "Opening installer.", 5);
+                        try {
+                            Runtime.getRuntime().exec(String.valueOf(new File(updateUtils.newBuild + "-Installer.jar")));
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }, 5);
+                    */
             } catch (Exception e) {
                 e.printStackTrace();
             }
