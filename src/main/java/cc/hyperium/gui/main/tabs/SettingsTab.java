@@ -50,17 +50,11 @@ public class SettingsTab extends AbstractTab {
         this.y = y;
         this.w = w;
 
-        items.add(new SettingItem(() -> {
-            HyperiumMainGui.INSTANCE.setOverlay(general);
-        }, null, "General", "General settings for hyperium", "click to configure", 0, 0));
+        items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(general), Icons.SETTINGS.getResource(), "General", "General settings for hyperium", "click to configure", 0, 0));
 
-        items.add(new SettingItem(() -> {
-            HyperiumMainGui.INSTANCE.setOverlay(integrations);
-        }, Icons.EXTENSION.getResource(), "Integrations", "Hyperium integrations", "click to configure", 1, 0));
+        items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(integrations), Icons.EXTENSION.getResource(), "Integrations", "Hyperium integrations", "click to configure", 1, 0));
 
-        items.add(new SettingItem(() -> {
-            HyperiumMainGui.INSTANCE.setOverlay(improvements);
-        }, null, "Improvements", "Improvements and bug fixes", "click to configure", 2, 0));
+        items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(improvements), null, "Improvements", "Improvements and bug fixes", "click to configure", 2, 0));
     }
 
     @Override

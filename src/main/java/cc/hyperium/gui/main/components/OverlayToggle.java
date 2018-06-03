@@ -21,7 +21,10 @@ public class OverlayToggle extends OverlayComponent {
     }
 
     @Override
-    public void render(int mouseX, int mouseY, int overlayX, int overlayY, int w, int h) {
+    public boolean render(int mouseX, int mouseY, int overlayX, int overlayY, int w, int h, int overlayH) {
+        if (!super.render(mouseX, mouseY, overlayX, overlayY, w, h, overlayH)) {
+            return false;
+        }
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glDisable(GL11.GL_TEXTURE_2D);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
@@ -29,7 +32,7 @@ public class OverlayToggle extends OverlayComponent {
         RenderUtils.drawFilledCircle(toggle ? overlayX + w - 10 : overlayX + w - 25, overlayY + h / 2, 4, new Color(30, 30, 30).getRGB());
         GL11.glDisable(GL11.GL_BLEND);
         GL11.glDisable(GL11.GL_LINE_SMOOTH);
-        super.render(mouseX, mouseY, overlayX, overlayY, w, h);
+        return true;
     }
 
     @Override
