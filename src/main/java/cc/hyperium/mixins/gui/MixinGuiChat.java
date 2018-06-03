@@ -20,6 +20,7 @@ package cc.hyperium.mixins.gui;
 import cc.hyperium.Hyperium;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.SendChatMessageEvent;
+import cc.hyperium.handlers.handlers.HypixelDetector;
 import cc.hyperium.utils.ChatUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiChat;
