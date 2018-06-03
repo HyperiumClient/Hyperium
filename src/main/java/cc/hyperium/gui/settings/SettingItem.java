@@ -25,7 +25,6 @@ import java.awt.*;
 import java.util.function.Consumer;
 
 public class SettingItem extends GuiButton {
-    protected static final HyperiumFontRenderer fontRenderer = new HyperiumFontRenderer("Arial", Font.PLAIN, 12);
     public final String displayString;
     public Consumer<SettingItem> callback;
     protected final int hoverColor = new Color(0, 0, 0, 30).getRGB();
@@ -44,7 +43,8 @@ public class SettingItem extends GuiButton {
         return super.mousePressed(mc, mouseX, mouseY);
     }
 
-    public void drawItem(Minecraft mc, int mouseX, int mouseY, int x, int y) {
+    public void drawItem(Minecraft mc, int mouseX, int mouseY, int x, int y, int fontsize) {
+        HyperiumFontRenderer fontrender = new HyperiumFontRenderer("Arial", Font.PLAIN, fontsize);
         this.xPosition = x;
         this.yPosition = y;
         if (this.visible) {
@@ -67,8 +67,9 @@ public class SettingItem extends GuiButton {
             } else if (this.hovered) {
                 j = textHoverColor;
             }
-            fontRenderer.drawString(this.displayString, x + 4, y + (this.height - 8) / 2, j);
-            fontRenderer.drawString(">", x + width - 6, y + (this.height - 8) / 2, j);
+            fontrender.drawString(this.displayString, x + 4, y + (this.height - 8) / 2, j);
+            fontrender.drawString(">", x + width - 6, y + (this.height - 8) / 2, j);
+
         }
 
     }

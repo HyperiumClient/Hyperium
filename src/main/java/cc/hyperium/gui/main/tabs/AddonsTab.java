@@ -91,7 +91,8 @@ public class AddonsTab extends AbstractTab {
                 xi++;
         }
 
-        items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(downloadAddons), Icons.DOWNLOAD.getResource(), "Download Addons", "Addon store for Hyperium", "click to configure", 0, 0));
+        items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(downloadAddons), Icons.DOWNLOAD.getResource(), "Download Addons", "Addon store for " +
+                "Hyperium", "click to configure", 0, 0));
     }
 
     @Override
