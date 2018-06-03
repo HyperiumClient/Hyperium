@@ -7,6 +7,7 @@ import cc.hyperium.internal.addons.AddonBootstrap;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.netty.NettyClient;
 import cc.hyperium.netty.packet.packets.serverbound.ServerCrossDataPacket;
+import cc.hyperium.update.UpdateUtils;
 import cc.hyperium.utils.JsonHolder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -51,9 +52,10 @@ import static cc.hyperium.installer.InstallerFrame.get;
  */
 public class CrashReportGUI extends JDialog {
     private CrashReport report;
-    private int handle = 0; // 0 - // Force stop, 1 - Soft shutdown, 2 - Restart
 
-    private boolean updated = false;
+    private UpdateUtils update = new UpdateUtils();
+
+    private int handle = 0; // 0 - // Force stop, 1 - Soft shutdown, 2 - Restart
 
     CrashReportGUI(CrashReport report) {
         super();
@@ -146,7 +148,7 @@ public class CrashReportGUI extends JDialog {
             Multithreading.runAsync(new Runnable() {
                 @Override
                 public void run() {
-                    if (isUpdated()) {
+                    if (update.isUpdated()) {
                         report.setEnabled(false);
                         report.setText("REPORTING...");
                         if (sendReport()) {
@@ -209,47 +211,6 @@ public class CrashReportGUI extends JDialog {
             c.add(error);
         if (discord != null)
             c.add(discord);
-    }
-
-    public boolean isUpdated() {
-        String versions_url = "https://raw.githubusercontent.com/HyperiumClient/Hyperium-Repo/master/installer/versions.json";
-        AtomicReference<JSONObject> version = new AtomicReference<>();
-        String latest = null;
-
-        JSONObject versionsJson;
-        try {
-            versionsJson = new JSONObject(get(versions_url));
-
-            if (versionsJson.has("latest-stable")) {
-                latest = versionsJson.optString("latest-stable");
-            }
-
-            //B(\d{2})
-
-            Pattern pattern = Pattern.compile("B(\\d{2})");
-            Matcher matcher = pattern.matcher(latest);
-
-            if (matcher.find()) {
-                Matcher matcher2 = pattern.matcher(Metadata.getVersion());
-
-                if (matcher2.find()) {
-
-                    if (matcher.group().equalsIgnoreCase(matcher2.group())) {
-                        updated = true;
-                        return true;
-                    } else {
-                        updated = false;
-                        return false;
-                    }
-                }
-            }
-
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return updated;
     }
 
 

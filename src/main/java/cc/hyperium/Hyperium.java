@@ -27,7 +27,7 @@ import cc.hyperium.event.minigames.MinigameListener;
 import cc.hyperium.gui.BlurDisableFallback;
 import cc.hyperium.gui.ConfirmationPopup;
 import cc.hyperium.gui.NotificationCenter;
-import cc.hyperium.gui.UpdateNotification;
+import cc.hyperium.update.UpdateNotification;
 import cc.hyperium.gui.settings.items.AnimationSettings;
 import cc.hyperium.gui.settings.items.BackgroundSettings;
 import cc.hyperium.gui.settings.items.CosmeticSettings;
@@ -162,6 +162,8 @@ public class Hyperium {
         EventBus.INSTANCE.register(confirmation = new ConfirmationPopup());
         EventBus.INSTANCE.register(new BlurDisableFallback());
         EventBus.INSTANCE.register(new UpdateNotification());
+        EventBus.INSTANCE.register(new CommandUpdate());
+
 
         // Register statistics tracking.
         EventBus.INSTANCE.register(statTrack);
