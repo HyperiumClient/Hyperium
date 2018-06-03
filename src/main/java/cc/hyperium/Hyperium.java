@@ -162,6 +162,8 @@ public class Hyperium {
         EventBus.INSTANCE.register(confirmation = new ConfirmationPopup());
         EventBus.INSTANCE.register(new BlurDisableFallback());
         EventBus.INSTANCE.register(new UpdateNotification());
+        EventBus.INSTANCE.register(new CommandUpdate());
+
 
         // Register statistics tracking.
         EventBus.INSTANCE.register(statTrack);
