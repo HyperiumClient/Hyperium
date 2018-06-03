@@ -48,6 +48,8 @@ public class SettingItem {
     }
 
     public void handleMouseInput(int mouseX, int mouseY, int containerWidth, int containerHeight, int topX, int topY) {
+        /*
+        System.out.println("In mouseInput: " + mouseX + " " + mouseY);
         if (Mouse.isButtonDown(0)) {
             int w = containerWidth / 4;
             int h = containerHeight / 4;
@@ -56,6 +58,7 @@ public class SettingItem {
             if (mouseX >= blockX && mouseX <= blockX + w / 7 * 5 && mouseY >= blockY && mouseY <= blockY + h / 6 * 4)
                 onClick.run();
         }
+         */
     }
 
     public void render(int mouseX, int mouseY, int containerWidth, int containerHeight, int topX, int topY) {
@@ -63,14 +66,19 @@ public class SettingItem {
         int h = containerHeight / 4;
         int blockX = topX + w * xIndex + w / 7;
         int blockY = topY + h * yIndex + h / 6;
-        if (mouseX >= blockX && mouseX <= blockX + w / 7 * 5 && mouseY >= blockY && mouseY <= blockY + h / 6 * 4 && HyperiumMainGui.INSTANCE.getOverlay() == null)
+        if (mouseX >= blockX && mouseX <= blockX + w / 7 * 5 && mouseY >= blockY && mouseY <= blockY + h / 6 * 4 && HyperiumMainGui.INSTANCE.getOverlay() == null) {
+            System.out.println("In render: " + mouseX + " " + mouseY);
             HyperiumGui.drawChromaBox(blockX, blockY, blockX + w / 7 * 5, blockY + h / 6 * 4, 0.2f);
-        else {
+        } else {
             Gui.drawRect(blockX, blockY, blockX + w / 7 * 5, blockY + h / 6 * 4, new Color(0, 0, 0, 60).getRGB());
-            GlStateManager.shadeModel(7424);
+            GlStateManager.shadeModel(7424); // for opening from main menu
             GlStateManager.disableBlend();
             GlStateManager.enableAlpha();
             GlStateManager.enableTexture2D();
+        }
+        if (Mouse.isButtonDown(0)) {
+            if (mouseX >= blockX && mouseX <= blockX + w / 7 * 5 && mouseY >= blockY && mouseY <= blockY + h / 6 * 4)
+                onClick.run();
         }
         HyperiumMainGui.getFr().drawString(title, blockX + 3, blockY + 3, 0xffffff);
         float s = 0.8f;

@@ -40,7 +40,7 @@ public class HyperiumOverlay {
         int i = Mouse.getEventDWheel();
         if (i > 0 && offsetY != 0)
             offsetY += 5;
-        else if (i < 0 && (offsetY != ((components.size() + 1) * -5)))
+        else if (i < 0)
             offsetY -= 5;
     }
 
