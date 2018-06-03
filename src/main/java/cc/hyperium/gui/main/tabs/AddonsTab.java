@@ -38,9 +38,10 @@ public class AddonsTab extends AbstractTab {
     private static int offsetY = 0; // static so it saves the previous location
     private GuiBlock block;
     private int y, w;
-    private static HyperiumFontRenderer hfr = new HyperiumFontRenderer("Arial", Font.PLAIN, 40);
+    private static HyperiumFontRenderer hfr = new HyperiumFontRenderer("Arial", Font.PLAIN, 30);
     public String selectedMsg;
     public ArrayList<String> messages;
+    private static HyperiumOverlay downloadAddons = new HyperiumOverlay();
 
     public AddonsTab(int y, int w) {
         messages = new ArrayList<>();
@@ -66,7 +67,7 @@ public class AddonsTab extends AbstractTab {
         block = new GuiBlock(0, w, y, y + w);
         this.y = y;
         this.w = w;
-        int yi = 0, xi = 0;
+        int yi = 0, xi = 1;
         for (AddonManifest a : AddonBootstrap.INSTANCE.getAddonManifests()) {
             items.add(new SettingItem(() -> {
                 if (a.getOverlay() != null) {
@@ -89,6 +90,8 @@ public class AddonsTab extends AbstractTab {
             } else
                 xi++;
         }
+
+        items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(downloadAddons), Icons.DOWNLOAD.getResource(), "Download Addons", "Addon store for Hyperium", "click to configure", 0, 0));
     }
 
     @Override
@@ -117,21 +120,20 @@ public class AddonsTab extends AbstractTab {
         //if addon folder is empty display chosen text
         if (AddonBootstrap.INSTANCE.getAddonManifests().isEmpty()) {
             GlStateManager.scale(1.0, 1.0, 1.0);
-            hfr.drawCenteredStringWithShadow(selectedMsg, topX + 5, topY + 5, new Color(255, 0, 0, 100).getRGB());
+            hfr.drawStringWithShadow(selectedMsg, topX, topY, new Color(255, 0, 0, 100).getRGB());
+
             if (Hyperium.INSTANCE.isDevEnv() && !AddonMinecraftBootstrap.getAddonLoadErrors().isEmpty()) {
                 String stacktrace = ExceptionUtils.getStackTrace(AddonMinecraftBootstrap.getAddonLoadErrors().get(0)); // get stacktrace
                 String[] parts = stacktrace.split("\n");
                 int index = 0;
                 for (String part : parts) {
-                    hfr.drawCenteredStringWithShadow(part, topX + 5, (topY + 5) + (++index * (hfr.FONT_HEIGHT + 10)), new Color(255, 0, 0, 100).getRGB());
+                    hfr.drawStringWithShadow(part, topX + 5, (topY + 5) + (++index * (hfr.FONT_HEIGHT + 10)), new Color(255, 0, 0, 100).getRGB());
                 }
             }
         } else {
             //do shit
         }
-        {
 
-        }
     }
 
     public static String choose(File f) throws FileNotFoundException {
