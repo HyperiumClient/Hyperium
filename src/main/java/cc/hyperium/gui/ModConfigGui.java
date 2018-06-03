@@ -99,7 +99,7 @@ public class ModConfigGui extends HyperiumGui {
                 .filter(i -> items - i.id >= offset && (getY() + 25) + (offset + i.id) * 15 >= getY() + 25)
                 .forEach(i -> {
                     i.visible = true;
-                    i.drawItem(mc, mouseX, mouseY, getX(0), (getY() + 25) + (offset + i.id) * 15);
+                    i.drawItem(mc, mouseX, mouseY, getX(0), (getY() + 25) + (offset + i.id) * 15, 12);
                 });
     }
 

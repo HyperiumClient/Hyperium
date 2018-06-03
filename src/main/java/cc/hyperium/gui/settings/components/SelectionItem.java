@@ -18,8 +18,10 @@
 package cc.hyperium.gui.settings.components;
 
 import cc.hyperium.gui.settings.SettingItem;
+import cc.hyperium.utils.HyperiumFontRenderer;
 import net.minecraft.client.Minecraft;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -69,7 +71,10 @@ public class SelectionItem<T> extends SettingItem {
     }
 
     @Override
-    public void drawItem(Minecraft mc, int mouseX, int mouseY, int x, int y) {
+    public void drawItem(Minecraft mc, int mouseX, int mouseY, int x, int y, int fontsize) {
+        HyperiumFontRenderer fontRenderer = new HyperiumFontRenderer("Arial", Font.PLAIN, fontsize);
+
+
         this.xPosition = x;
         this.yPosition = y;
         if (this.visible) {
