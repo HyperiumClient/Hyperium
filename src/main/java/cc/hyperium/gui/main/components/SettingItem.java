@@ -62,8 +62,8 @@ public class SettingItem {
     }
 
     public void render(int mouseX, int mouseY, int containerWidth, int containerHeight, int topX, int topY) {
-        int w = containerWidth / 4;
-        int h = containerHeight / 4;
+        int w = containerWidth / 3;
+        int h = containerHeight / 3;
         int blockX = topX + w * xIndex + w / 7;
         int blockY = topY + h * yIndex + h / 6;
         if (mouseX >= blockX && mouseX <= blockX + w / 7 * 5 && mouseY >= blockY && mouseY <= blockY + h / 6 * 4 && HyperiumMainGui.INSTANCE.getOverlay() == null) {

@@ -30,6 +30,7 @@ public class HyperiumMainGui extends HyperiumGui {
     private static Queue<Alert> alerts = new ArrayDeque<>(); // static so alert does not disappear until user dismiss it
     private static Alert currentAlert;
     private HyperiumOverlay overlay;
+    private int tabFade;
 
     private List<AbstractTab> tabs;
 
@@ -56,28 +57,30 @@ public class HyperiumMainGui extends HyperiumGui {
                 new AddonsTab(height / 2, pw),
                 new InfoTab(height / 2 + pw, pw)
         );
+        tabFade = -pw;
     }
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-        if (overlay == null)
+        if (Minecraft.getMinecraft().theWorld == null)
             drawDefaultBackground();
 
         // Draws side pane
         GlStateManager.pushMatrix();
         GlStateManager.enableBlend();
         GL11.glColor3f(1.0f, 1.0f, 1.0f);
+        GlStateManager.translate(tabFade, 0, 0);
         tabs.forEach(AbstractTab::drawTabIcon);
+        currentTab.drawHighlight();
         GlStateManager.disableBlend();
         GlStateManager.popMatrix();
 
         int pw = width / 15;
         if (pw > 144)
             pw = 144; // icon res
-        currentTab.drawHighlight();
         drawRect(pw * 2, pw, width - pw * 2, height - pw, new Color(0, 0, 0, 70).getRGB());
 
-        currentTab.draw(mouseX, mouseY, pw * 2, pw, width - pw, height - pw);
+        currentTab.draw(mouseX, mouseY, pw * 2, pw, width - pw * 4, height - pw);
 
         if (!alerts.isEmpty() && currentAlert == null)
             currentAlert = alerts.poll();
@@ -87,6 +90,9 @@ public class HyperiumMainGui extends HyperiumGui {
 
         if (overlay != null)
             overlay.render(mouseX, mouseY, width, height);
+        if (tabFade < 0)
+            tabFade += 2;
+        else tabFade = 0;
     }
 
     @Override
