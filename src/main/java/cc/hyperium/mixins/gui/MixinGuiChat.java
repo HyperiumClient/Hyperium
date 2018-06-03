@@ -41,7 +41,11 @@ public class MixinGuiChat {
 
     @Inject(method = "initGui", at = @At("RETURN"))
     private void init(CallbackInfo ci) {
-        this.inputField.setMaxStringLength(256);
+        if (HypixelDetector.getInstance().isHypixel()) {
+            this.inputField.setMaxStringLength(256);
+        } else {
+            this.inputField.setMaxStringLength(100);
+        }
     }
 
     /**
