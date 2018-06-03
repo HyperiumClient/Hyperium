@@ -135,8 +135,6 @@ public class CosmeticSettings extends SettingGui {
         }));
         fliptoggle.addItems(Arrays.asList("ON", "OFF"));
         fliptoggle.setSelectedItem(flip_toggle ? "ON" : "OFF");
-
-
     }
 
     private int getDefaultItemY(int i) {

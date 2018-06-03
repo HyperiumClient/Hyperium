@@ -27,10 +27,7 @@ import cc.hyperium.event.minigames.MinigameListener;
 import cc.hyperium.gui.BlurDisableFallback;
 import cc.hyperium.gui.ConfirmationPopup;
 import cc.hyperium.gui.NotificationCenter;
-import cc.hyperium.gui.settings.items.AnimationSettings;
-import cc.hyperium.gui.settings.items.BackgroundSettings;
-import cc.hyperium.gui.settings.items.CosmeticSettings;
-import cc.hyperium.gui.settings.items.GeneralSetting;
+import cc.hyperium.gui.settings.items.*;
 import cc.hyperium.handlers.HyperiumHandlers;
 import cc.hyperium.installer.InstallerFrame;
 import cc.hyperium.integrations.spotify.Spotify;
@@ -195,6 +192,7 @@ public class Hyperium {
         BackgroundSettings backgroundSettings = new BackgroundSettings(null);
         backgroundSettings.rePack();
         CONFIG.register(backgroundSettings);
+        CONFIG.register(new HUDSettings(null));
 
         //Register commands.
         SplashProgress.PROGRESS = 10;
