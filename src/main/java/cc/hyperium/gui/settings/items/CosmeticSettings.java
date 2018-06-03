@@ -43,9 +43,10 @@ public class CosmeticSettings extends SettingGui {
     public static int flossDanceSpeed = 4;
     @ConfigOpt
     public static boolean flossDanceToggle = false;
-
     @ConfigOpt
     public static int flip_type = 1;
+    @ConfigOpt
+    public static boolean flip_toggle = false;
 
 
     private final DefaultConfig config;
@@ -126,6 +127,14 @@ public class CosmeticSettings extends SettingGui {
         settingItems.add(flip_state);
         flip_state.addItems(Arrays.asList("INVERT", "ROTATE"));
         flip_state.setSelectedItem(flip_type == 1 ? "INVERT" : "ROTATE");
+
+        SelectionItem<String> fliptoggle;
+        settingItems.add(fliptoggle = new SelectionItem<>(7, getX(), getDefaultItemY(7), width - getX() * 2, "TOGGLE FLIP", i -> {
+            ((SelectionItem) i).nextItem();
+            flip_toggle = ((SelectionItem) i).getSelectedItem().equals("ON");
+        }));
+        fliptoggle.addItems(Arrays.asList("ON", "OFF"));
+        fliptoggle.setSelectedItem(flip_toggle ? "ON" : "OFF");
 
 
     }
