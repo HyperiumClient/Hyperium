@@ -7,15 +7,11 @@ import cc.hyperium.internal.addons.AddonBootstrap;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.netty.NettyClient;
 import cc.hyperium.netty.packet.packets.serverbound.ServerCrossDataPacket;
-import cc.hyperium.update.UpdateUtils;
+import cc.hyperium.utils.UpdateUtils;
 import cc.hyperium.utils.JsonHolder;
-import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.sun.org.apache.xerces.internal.impl.xpath.regex.Match;
-import jdk.nashorn.internal.parser.JSONParser;
 import me.cubxity.utils.DeobfStack;
 import me.cubxity.utils.Mapping;
-import net.minecraft.client.Minecraft;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.init.Bootstrap;
 import org.apache.http.HttpResponse;
@@ -24,28 +20,17 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
-import org.bridj.util.StringUtils;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicButtonUI;
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
-import java.io.FileReader;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import static cc.hyperium.installer.InstallerFrame.get;
 
 /*
  * Created by Cubxity on 04/05/2018

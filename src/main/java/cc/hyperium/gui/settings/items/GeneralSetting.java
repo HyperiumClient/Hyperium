@@ -111,8 +111,8 @@ public class GeneralSetting extends SettingGui {
         super.pack();
         currentID = 0;
 
-        registerOnOffSetting("DISCORD RICH PRESENCE", discordRPEnabled, on -> discordRPEnabled = on);
-        registerOnOffSetting("DISCORD DISPLAY SERVER", discordServerDisplayEnabled, on -> discordServerDisplayEnabled = on);
+        registerOnOffSetting("INTEGRATIONS RICH PRESENCE", discordRPEnabled, on -> discordRPEnabled = on);
+        registerOnOffSetting("INTEGRATIONS DISPLAY SERVER", discordServerDisplayEnabled, on -> discordServerDisplayEnabled = on);
         registerOnOffSetting("FULLBRIGHT", fullbrightEnabled, on -> fullbrightEnabled = on);
         registerOnOffSetting("ROMAN NUMERALS", romanNumeralsEnabled, on -> romanNumeralsEnabled = on);
         registerOnOffSetting("COMPACT CHAT", compactChatEnabled, on -> compactChatEnabled = on);

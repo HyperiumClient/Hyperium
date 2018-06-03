@@ -170,38 +170,26 @@ package cc.hyperium.commands.defaults;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.commands.BaseCommand;
-import cc.hyperium.event.InvokeEvent;
-import cc.hyperium.event.KeypressEvent;
-import cc.hyperium.gui.ConfirmationPopup;
-import cc.hyperium.gui.CrashReportGUI;
+import cc.hyperium.installer.InstallerConfig;
+import cc.hyperium.installer.utils.DownloadTask;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
-import cc.hyperium.update.UpdateUtils;
+import cc.hyperium.utils.UpdateUtils;
+import com.google.gson.JsonObject;
 import net.minecraft.client.Minecraft;
-import org.lwjgl.input.Keyboard;
 
-import javax.swing.*;
-import java.awt.*;
-import java.io.*;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
-import java.nio.channels.Channels;
-import java.nio.channels.ReadableByteChannel;
-import java.nio.charset.StandardCharsets;
-import java.util.Base64;
+import java.io.File;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.StreamSupport;
 
 /*
  * Created by Cubxity on 03/04/2018
  */
 public class CommandUpdate implements BaseCommand {
 
-    UpdateUtils updateUtils = new UpdateUtils();
-    ConfirmationPopup confirmationPopup = new ConfirmationPopup();
-
-    //private File cachesDir = new File(Minecraft.getMinecraft().mcDataDir.getAbsolutePath() + "hyperium/caches/");
-    private boolean ready;
+    private UpdateUtils utils = new UpdateUtils();
 
     @Override
     public String getName() {
@@ -218,78 +206,47 @@ public class CommandUpdate implements BaseCommand {
         return Collections.emptyList();
     }
 
-    /*
-     * By ConorTheDev
-     */
-
     @Override
     public void onExecute(String[] args) {
-        Hyperium.updateQueue = true;
-        if (updateUtils.isUpdated()) {
-            Hyperium.INSTANCE.getNotification().display("Hyperium Updater", "No available updates!", 5);
-        } else {
-            Hyperium.INSTANCE.getNotification().display("Hyperium Updater", "Downloading Update: " + updateUtils.newBuild, 5);
+        if (utils.isUpdated())
+            Hyperium.INSTANCE.getNotification().display("Update", "Hyperium is up to date!", 3);
+        else {
             try {
-                String latestdownload = "https://static.sk1er.club/hyperium_files/Hyperium-0.11.jar";
-                Multithreading.runAsync(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            downloadFile(latestdownload, updateUtils.newBuild + "-Installer.jar");
-                        } catch (IOException e) {
-                            Hyperium.INSTANCE.getNotification().display("Hyperium Updater", "Failed to download update" + updateUtils.newBuild, 5);
-                            e.printStackTrace();
+                Hyperium.INSTANCE.getNotification().display("Update", "Downloading updates...", 3);
+                JsonObject ver = StreamSupport.stream(utils.vJson.optJSONArray("versions").spliterator(), false)
+                        .filter(v -> utils.vJson.optString("latest-stable").equals(v.getAsJsonObject().get("name").getAsString())).findFirst()
+                        .orElseThrow(() -> new IllegalStateException("Couldn't find stable version")).getAsJsonObject();
+                boolean download = ver.get("install-min").getAsInt() > InstallerConfig.VERSION;
+                System.out.println("Download="+download);
+                Multithreading.runAsync(() -> {
+                    try {
+                        File jar;
+                        if (download || Hyperium.INSTANCE.isDevEnv()) { // or else it will break in dev env
+                            DownloadTask task = new DownloadTask(ver.get("url").getAsString(), System.getProperty("java.io.tmpdir"));
+                            task.execute();
+                            task.get();
+                            jar = new File(System.getProperty("java.io.tmpdir"), task.getFileName());
+                        } else {
+                            jar = new File(System.getProperty("sun.java.command").split(" ")[0]);
                         }
+                        Hyperium.INSTANCE.getNotification().display("Update", "Client will restart in 10 secs", 10);
+                        Multithreading.schedule(() -> {
+                            Minecraft.getMinecraft().shutdown();
+                            try {
+                                Runtime.getRuntime().exec(System.getProperty("java.home")+"/bin/java -jar "+jar.getAbsolutePath());
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }, 10, TimeUnit.SECONDS);
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                        Hyperium.INSTANCE.getNotification().display("Update", "Failed to download updates", 3);
                     }
                 });
-                //updateUtils.newBuild + "-Installer.jar";
-                ready = true;
-                System.out.println("confirmation");
-                Hyperium.INSTANCE.getNotification().display("Hyperium Updater", "Opening Installer" + updateUtils.newBuild, 5);
-                Runtime.getRuntime().exec(String.valueOf(new File(updateUtils.newBuild + "-Installer.jar")));
-                Minecraft.getMinecraft().shutdownMinecraftApplet();
-
-                /*
-                    confirmationPopup.displayConfirmation("Would you like to install the update now?", accept -> {
-                        Hyperium.INSTANCE.getNotification().display("Hyperium Updater", "Opening installer.", 5);
-                        try {
-                            Runtime.getRuntime().exec(String.valueOf(new File(updateUtils.newBuild + "-Installer.jar")));
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }, 5);
-                    */
-            } catch (Exception e) {
-                e.printStackTrace();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                Hyperium.INSTANCE.getNotification().display("Update", "Failed to download updates", 3);
             }
-        }
-    }
-
-
-    public void downloadFile(String fromUrl, String localFileName) throws IOException {
-        File localFile = new File(localFileName);
-        if (localFile.exists()) {
-            boolean delete = localFile.delete();
-        }
-        final boolean newFile = localFile.createNewFile();
-        URL url = new URL(fromUrl);
-        OutputStream out = new BufferedOutputStream(new FileOutputStream(localFileName));
-        URLConnection conn = url.openConnection();
-        conn.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:56.0) Gecko/20100101 Firefox/56.0");
-        String encoded = Base64.getEncoder().encodeToString(("username" + ":" + "password").getBytes(StandardCharsets.UTF_8));  //Java 8
-        conn.setRequestProperty("Authorization", "Basic " + encoded);
-        InputStream in = conn.getInputStream();
-        byte[] buffer = new byte[1024];
-
-        int numRead;
-        while ((numRead = in.read(buffer)) != -1) {
-            out.write(buffer, 0, numRead);
-        }
-        if (in != null) {
-            in.close();
-        }
-        if (out != null) {
-            out.close();
         }
     }
 }
