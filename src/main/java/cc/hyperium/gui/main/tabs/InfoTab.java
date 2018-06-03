@@ -34,9 +34,7 @@ public class InfoTab extends AbstractTab {
 
     @Override
     public void drawHighlight() {
-        GlStateManager.disableBlend();
-        Gui.drawRect(0, y, 3, y + w, new Color(255, 255, 255, 100).getRGB());
-        GlStateManager.enableBlend();
+        Gui.drawRect(0, y, 3, y + w, Color.WHITE.getRGB());
     }
 
     @Override

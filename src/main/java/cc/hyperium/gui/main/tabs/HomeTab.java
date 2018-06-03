@@ -1,5 +1,6 @@
 package cc.hyperium.gui.main.tabs;
 
+import cc.hyperium.Metadata;
 import cc.hyperium.gui.GuiBlock;
 import cc.hyperium.gui.Icons;
 import cc.hyperium.gui.main.HyperiumMainGui;
@@ -9,6 +10,7 @@ import cc.hyperium.utils.HyperiumFontRenderer;
 import cc.hyperium.utils.JsonHolder;
 import com.google.common.base.Charsets;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonPrimitive;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
 import org.apache.commons.io.IOUtils;
@@ -38,7 +40,7 @@ public class HomeTab extends AbstractTab {
                 System.out.println(information.toString());
                 for (JsonElement e : information.optJSONArray("alerts")) {
                     JsonHolder alert = new JsonHolder(e.getAsJsonObject());
-                    if (!HyperiumMainGui.getLoadedAlerts().contains(alert.optString("title")) && !alert.optString("title").equals("ALERT FORMAT - THIS WILL BE IGNORED")) {
+                    if (!HyperiumMainGui.getLoadedAlerts().contains(alert.optString("title")) && !alert.optString("title").equals("ALERT FORMAT - THIS WILL BE IGNORED") && alert.optJSONArray("target").contains(new JsonPrimitive(Metadata.getVersion()))) {
                         HyperiumMainGui.getAlerts().add(new HyperiumMainGui.Alert(Icons.valueOf(alert.optString("icon")).getResource(), () -> {
                             if(alert.has("click")) {
                                 try {
@@ -76,8 +78,7 @@ public class HomeTab extends AbstractTab {
 
     @Override
     public void drawHighlight() {
-        GlStateManager.disableBlend();
-        Gui.drawRect(0, y, 3, y + w, new Color(255, 255, 255, 100).getRGB());
+        Gui.drawRect(0, y, 3, y + w, Color.WHITE.getRGB());
     }
 
     @Override
@@ -85,6 +86,7 @@ public class HomeTab extends AbstractTab {
         if (information != null) {
             JsonHolder changelog = new JsonHolder(information.optJSONArray("changelogs").get(0).getAsJsonObject());
 
+            GlStateManager.enableBlend();
             title.drawString(changelog.optString("title"), topX + 5, topY + 5, 0xffffff);
             int i = 25;
             for (JsonElement e : changelog.optJSONArray("description")) {
