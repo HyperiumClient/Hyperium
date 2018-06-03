@@ -88,6 +88,8 @@ public class GeneralSetting extends SettingGui {
     public static boolean hypixelZooEnabled = false;
     @ConfigOpt
     public static boolean oldResourcePackGui = false;
+    @ConfigOpt
+    public static boolean showUpdateNotifications = true;
     /**
      * The configuration instance, for all the settings below
      */
@@ -158,6 +160,8 @@ public class GeneralSetting extends SettingGui {
         registerOnOffSetting("USE OLD RESOURCE PACK GUI (RESTART)", oldResourcePackGui, on -> oldResourcePackGui = on);
         registerOnOffSetting("SHOW NOTIFICATION CENTER", Hyperium.INSTANCE.getHandlers().getConfigOptions().showNotificationCenter, on -> Hyperium.INSTANCE.getHandlers().getConfigOptions().showNotificationCenter = on);
         registerOnOffSetting("SHOW CONFIRMATION POPUP", Hyperium.INSTANCE.getHandlers().getConfigOptions().showConfirmationPopup, on -> Hyperium.INSTANCE.getHandlers().getConfigOptions().showConfirmationPopup = on);
+        registerOnOffSetting("SHOW UPDATE NOTIFICATIONS", showUpdateNotifications, on -> showUpdateNotifications = on);
+
 
     }
 

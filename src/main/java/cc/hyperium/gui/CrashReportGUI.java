@@ -7,9 +7,11 @@ import cc.hyperium.internal.addons.AddonBootstrap;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.netty.NettyClient;
 import cc.hyperium.netty.packet.packets.serverbound.ServerCrossDataPacket;
+import cc.hyperium.update.UpdateUtils;
 import cc.hyperium.utils.JsonHolder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.sun.org.apache.xerces.internal.impl.xpath.regex.Match;
 import jdk.nashorn.internal.parser.JSONParser;
 import me.cubxity.utils.DeobfStack;
 import me.cubxity.utils.Mapping;
@@ -22,6 +24,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.bridj.util.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -39,6 +42,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static cc.hyperium.installer.InstallerFrame.get;
 
@@ -47,9 +52,10 @@ import static cc.hyperium.installer.InstallerFrame.get;
  */
 public class CrashReportGUI extends JDialog {
     private CrashReport report;
-    private int handle = 0; // 0 - // Force stop, 1 - Soft shutdown, 2 - Restart
 
-    private boolean updated = false;
+    private UpdateUtils update = new UpdateUtils();
+
+    private int handle = 0; // 0 - // Force stop, 1 - Soft shutdown, 2 - Restart
 
     CrashReportGUI(CrashReport report) {
         super();
@@ -71,6 +77,10 @@ public class CrashReportGUI extends JDialog {
 
         this.setVisible(true);
         this.setLayout(null);
+    }
+
+    public CrashReportGUI() {
+
     }
 
     private void initComponents() {
@@ -138,7 +148,7 @@ public class CrashReportGUI extends JDialog {
             Multithreading.runAsync(new Runnable() {
                 @Override
                 public void run() {
-                    if (isUpdated()) {
+                    if (update.isUpdated()) {
                         report.setEnabled(false);
                         report.setText("REPORTING...");
                         if (sendReport()) {
@@ -201,32 +211,6 @@ public class CrashReportGUI extends JDialog {
             c.add(error);
         if (discord != null)
             c.add(discord);
-    }
-
-    private boolean isUpdated() {
-        String versions_url = "https://raw.githubusercontent.com/HyperiumClient/Hyperium-Repo/master/installer/versions.json";
-        AtomicReference<JSONObject> version = new AtomicReference<>();
-        String latest = null;
-
-        JSONObject versionsJson;
-        try {
-            versionsJson = new JSONObject(get(versions_url));
-
-            if (versionsJson.has("latest-stable")) {
-                latest = versionsJson.optString("latest-stable");
-            }
-
-            if (Metadata.getBuild().equalsIgnoreCase(latest)) {
-                return true;
-            } else {
-                return false;
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return false;
     }
 
 

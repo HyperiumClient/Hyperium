@@ -20,6 +20,7 @@ package cc.hyperium.mixins.gui;
 import cc.hyperium.Hyperium;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.SendChatMessageEvent;
+import cc.hyperium.handlers.handlers.HypixelDetector;
 import cc.hyperium.utils.ChatUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiChat;
@@ -41,7 +42,11 @@ public class MixinGuiChat {
 
     @Inject(method = "initGui", at = @At("RETURN"))
     private void init(CallbackInfo ci) {
-        this.inputField.setMaxStringLength(256);
+        if (HypixelDetector.getInstance().isHypixel()) {
+            this.inputField.setMaxStringLength(256);
+        } else {
+            this.inputField.setMaxStringLength(100);
+        }
     }
 
     /**
