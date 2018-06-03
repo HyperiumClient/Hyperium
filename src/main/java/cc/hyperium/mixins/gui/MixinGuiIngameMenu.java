@@ -23,8 +23,8 @@ import java.text.DecimalFormat;
 @Mixin(GuiIngameMenu.class)
 public class MixinGuiIngameMenu extends GuiScreen {
 
-    private final DecimalFormat formatter = new DecimalFormat("#,###");
     private static JsonHolder data = new JsonHolder();
+    private final DecimalFormat formatter = new DecimalFormat("#,###");
     private long lastUpdate = 0L;
     private int cooldown = 0;
     private int baseAngle;
@@ -78,7 +78,7 @@ public class MixinGuiIngameMenu extends GuiScreen {
         baseAngle = baseAngle % 360;
         ScaledResolution current = ResolutionUtil.current();
         GlStateManager.translate(current.getScaledWidth() / 2, 10, 0);
-
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         drawCenteredString(fontRendererObj, "Hyperium Stats", 0, 0, new Color(249 / 255F, 76 / 255F, 238 / 255F, 1.0F).getRGB());
         GlStateManager.translate(0F, 10F, 0F);
         GlStateManager.scale(2.0F, 2.0F, 2.0F);
