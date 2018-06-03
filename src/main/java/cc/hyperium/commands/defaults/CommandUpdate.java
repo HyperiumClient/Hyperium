@@ -171,6 +171,7 @@ package cc.hyperium.commands.defaults;
 import cc.hyperium.Hyperium;
 import cc.hyperium.commands.BaseCommand;
 import cc.hyperium.gui.CrashReportGUI;
+import cc.hyperium.update.UpdateUtils;
 import net.minecraft.client.Minecraft;
 
 import java.awt.*;
@@ -178,6 +179,7 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.channels.Channels;
@@ -190,7 +192,10 @@ import java.util.List;
  */
 public class CommandUpdate implements BaseCommand {
 
-    CrashReportGUI crashReportGUI = new CrashReportGUI();
+    UpdateUtils uu = new UpdateUtils();
+
+    private File cachesDir = new File(Minecraft.getMinecraft().mcDataDir.getAbsolutePath() + "hyperium/caches/");
+    private String latestdownload = "https://static.sk1er.club/hyperium_files/Hyperium-0.11.jar";
 
     @Override
     public String getName() {
@@ -213,30 +218,18 @@ public class CommandUpdate implements BaseCommand {
     @Override
     public void onExecute(String[] args) {
         Hyperium.updateQueue = true;
-
-        if (crashReportGUI.isUpdated()) {
-            Hyperium.INSTANCE.getNotification().display("Hyperium Update", "Hyperium is up-to-date!", 5);
+        if (uu.isUpdated()) {
+            Hyperium.INSTANCE.getNotification().display("Hyperium Updater", "No available updates!", 5);
         } else {
-            Hyperium.INSTANCE.getNotification().display("Hyperium Update", "Downloading Hyperium Installer", 5);
-            String url = "https://static.sk1er.club/hyperium_files/Hyperium-0.11.jar";
-
+            Hyperium.INSTANCE.getNotification().display("Hyperium Updater", "Downloading Update: " + uu.newBuild, 5);
+            cachesDir.mkdir();
             try {
-                if(new File(Minecraft.getMinecraft().mcDataDir.getAbsolutePath() + "hyperium/caches/").exists()) {
-                    Folder
-                }
-                download(new File(Minecraft.getMinecraft().mcDataDir.getAbsolutePath() + "hyperium/caches/HyperiumInstaller.jar"), url);
-                Hyperium.INSTANCE.getNotification().display("Hyperium Update", "Installer downloaded successfully!", 5);
-                Desktop.getDesktop().open(new File(Minecraft.getMinecraft().mcDataDir.getAbsolutePath() + "hyperium/caches/HyperiumInstaller.jar"));
-
-            } catch (IOException e) {
-                Hyperium.INSTANCE.getNotification().display("Hyperium Update", "Failed to download.", 5);
-                e.printStackTrace();
+                download(cachesDir, latestdownload);
             } catch (Exception e) {
-                Hyperium.INSTANCE.getNotification().display("Hyperium Update", "Failed to download.", 5);
+                Hyperium.INSTANCE.getNotification().display("Hyperium Updater", "Failed to download update" + uu.newBuild, 5);
                 e.printStackTrace();
             }
         }
-
     }
 
     private void download(File file, String url) throws Exception {
@@ -251,6 +244,5 @@ public class CommandUpdate implements BaseCommand {
                 fout.write(data, 0, count);
         }
     }
-
 }
 
