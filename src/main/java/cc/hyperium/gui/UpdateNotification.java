@@ -4,6 +4,10 @@ import cc.hyperium.Hyperium;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.JoinHypixelEvent;
 
+/*
+    by ConorTheDev
+ */
+
 public class UpdateNotification {
 
     CrashReportGUI crashReportGUI = new CrashReportGUI();
