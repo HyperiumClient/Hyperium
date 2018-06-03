@@ -2,7 +2,6 @@ package cc.hyperium.gui;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
-import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
 import cc.hyperium.netty.NettyClient;
 import cc.hyperium.netty.packet.packets.serverbound.ServerCrossDataPacket;
 import cc.hyperium.purchases.PurchaseApi;
@@ -10,6 +9,7 @@ import cc.hyperium.utils.JsonHolder;
 import cc.hyperium.utils.RenderUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.texture.DynamicTexture;
@@ -22,16 +22,19 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class CapesGui extends HyperiumGui {
 
-    private HashMap<String, DynamicTexture> textures = new HashMap<>();
-    private HashMap<String, BufferedImage> texturesImage = new HashMap<>();
+    private Map<String, DynamicTexture> textures = new ConcurrentHashMap<>();
+    private Map<String, BufferedImage> texturesImage = new ConcurrentHashMap<>();
     private JsonHolder cosmeticCallback = new JsonHolder();
     private boolean purchasing = false;
+    private GuiTextField textField;
 
     public CapesGui() {
+        guiScale = 2;
         scollMultiplier = 2;
         updatePurchases();
         Multithreading.runAsync(() -> {
@@ -96,27 +99,35 @@ public class CapesGui extends HyperiumGui {
             }
 
             super.drawScreen(mouseX, mouseY, partialTicks);
+            int oldScale = mc.gameSettings.guiScale;
+            mc.gameSettings.guiScale = 2;
+            ScaledResolution current = new ScaledResolution(Minecraft.getMinecraft());
+            float v = 2F / (oldScale);
+            GlStateManager.scale(v, v, v);
             final int blockWidth = 128;
             final int blockHeight = 256;
-            final int blocksPerLine = 2;
+            int blocksPerLine = (int) (current.getScaledWidth() / (1.5D * blockWidth));
+            if (blocksPerLine % 2 == 1) {
+                blocksPerLine--;
+            }
             JsonHolder capeAtlas = PurchaseApi.getInstance().getCapeAtlas();
-            ScaledResolution current = ResolutionUtil.current();
 
-            int totalRows = capeAtlas.getKeys().size() / blocksPerLine + (capeAtlas.getKeys().size() % blocksPerLine == 0 ? 0 : 1);
+
+            int totalRows = (int) (capeAtlas.getKeys().size() / blocksPerLine + (capeAtlas.getKeys().size() % blocksPerLine == 0 ? 0 : 1));
             int row = 0;
             int pos = 1;
             int printY = 15 - offset;
             GlStateManager.scale(2F, 2F, 2F);
-            fontRendererObj.drawString("Capes", (ResolutionUtil.current().getScaledWidth() / 2 - fontRendererObj.getStringWidth("Capes")) / 2, printY / 2, new Color(249, 99, 0).getRGB(), true);
+            fontRendererObj.drawString("Capes", (current.getScaledWidth() / 2 - fontRendererObj.getStringWidth("Capes")) / 2, printY / 2, new Color(249, 99, 0).getRGB(), true);
             String s1 = PurchaseApi.getInstance().getSelf().getPurchaseSettings().optJSONObject("cape").optString("type");
             String s2 = capeAtlas.optJSONObject(s1).optString("name");
             if (s2.isEmpty())
                 s2 = "NONE";
             String text = "Active Cape: " + s2;
-            fontRendererObj.drawString(text, (ResolutionUtil.current().getScaledWidth() / 2 - fontRendererObj.getStringWidth(text)) / 2, (printY + 20) / 2, new Color(249, 99, 0).getRGB(), true);
+            fontRendererObj.drawString(text, (current.getScaledWidth() / 2 - fontRendererObj.getStringWidth(text)) / 2, (printY + 20) / 2, new Color(249, 99, 0).getRGB(), true);
             text = "Need more credits? Click here";
             int stringWidth1 = fontRendererObj.getStringWidth(text);
-            int i2 = ResolutionUtil.current().getScaledWidth() / 2 - stringWidth1;
+            int i2 = current.getScaledWidth() / 2 - stringWidth1;
             int i3 = printY + 40;
             fontRendererObj.drawString(text, i2 / 2
                     , i3 / 2, new Color(97, 132, 249).getRGB(), true);
@@ -136,17 +147,18 @@ public class CapesGui extends HyperiumGui {
             printY += 25;
             printY += 35;
             int scaledWidth = current.getScaledWidth();
-            RenderUtils.drawSmoothRect(scaledWidth / 2 - blockWidth - 16, printY - 4, scaledWidth / 2 + blockWidth + 16, printY + (blockHeight + 16) * totalRows + 4, new Color(53, 106, 110).getRGB());
+            RenderUtils.drawSmoothRect(scaledWidth / 2 - (blockWidth + 16) * blocksPerLine / 2, printY - 4, scaledWidth / 2 + (blockWidth + 16) * blocksPerLine / 2, printY + (blockHeight + 16) * totalRows + 4, new Color(53, 106, 110).getRGB());
             for (String s : capeAtlas.getKeys()) {
                 JsonHolder cape = capeAtlas.optJSONObject(s);
-                if(cape.optBoolean("private")) {
+                if (cape.optBoolean("private")) {
                     continue;
                 }
                 if (pos > blocksPerLine) {
                     pos = 1;
                     row++;
                 }
-                int thisBlocksCenter = pos == 1 ? scaledWidth / 2 - 8 - blockWidth / 2 : scaledWidth / 2 + 8 + blockWidth / 2;
+//                int thisBlocksCenter = pos == 1 ? scaledWidth / 2 - 8 - blockWidth / 2 : scaledWidth / 2 + 8 + blockWidth / 2;
+                int thisBlocksCenter = (int) (scaledWidth / 2 - ((blocksPerLine / 2) - pos + .5) * (blockWidth + 16));
                 int thisTopY = printY + row * (16 + blockHeight);
                 RenderUtils.drawSmoothRect(thisBlocksCenter - blockWidth / 2, thisTopY,
                         (thisBlocksCenter + blockWidth / 2), thisTopY + blockHeight, Color.WHITE.getRGB());
@@ -256,9 +268,12 @@ public class CapesGui extends HyperiumGui {
                 }
                 pos++;
             }
+            mc.gameSettings.guiScale = oldScale;
+            GlStateManager.scale(1F / v, 1F / v, 1F / v);
         } catch (Exception e) {
             e.printStackTrace();
         }
+
     }
 
     public void updatePurchases() {

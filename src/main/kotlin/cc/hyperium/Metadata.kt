@@ -35,3 +35,7 @@ val VERSION
 val AUTHORS
     @JvmName("getAuthors")
     get() = arrayOf("Kevin", "CoalOres", "Sk1er", "Cubxity", "boomboompower")
+
+val VERSION_ID
+    @JvmName("getVersionID")
+    get() = 12

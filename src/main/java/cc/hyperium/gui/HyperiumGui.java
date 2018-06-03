@@ -53,6 +53,7 @@ public abstract class HyperiumGui extends GuiScreen {
     protected int offset = 0;
     protected HashMap<GuiBlock, Runnable> actions = new HashMap<>();
     protected int scollMultiplier = 1;
+    protected int guiScale = Minecraft.getMinecraft().gameSettings.guiScale;
     private int idIteration;
     private boolean drawAlpha = true;
     private int alpha = 100;
@@ -213,6 +214,9 @@ public abstract class HyperiumGui extends GuiScreen {
     @Override
     protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
         super.mouseClicked(mouseX, mouseY, mouseButton);
+        mouseX = (int) (mouseX * ((float) Minecraft.getMinecraft().gameSettings.guiScale) / (float) guiScale);
+        mouseY = (int) (mouseY * ((float) Minecraft.getMinecraft().gameSettings.guiScale) / (float) guiScale);
+
         for (GuiBlock block : actions.keySet()) {
             if (block.isMouseOver(mouseX, mouseY)) {
                 actions.get(block).run();
