@@ -13,10 +13,7 @@ public abstract class OverlayComponent {
     public void render(int mouseX, int mouseY, int overlayX, int overlayY, int w, int h) {
         if (mouseX >= overlayX && mouseX <= overlayX + w && mouseY >= overlayY && mouseY <= overlayY + h)
             Gui.drawRect(overlayX, overlayY, overlayX + w, overlayY + h, 0x1e000000);
-        float s = 0.8f;
-        GlStateManager.scale(s, s, s);
-        HyperiumMainGui.getFr().drawString(label, overlayX / s + 4, (overlayY + (h - HyperiumMainGui.getFr().FONT_HEIGHT * s) / 2) / s, 0xffffff);
-        GlStateManager.scale(1.5f, 1.5f, 1.5f);
+        HyperiumMainGui.getFr().drawString(label, overlayX + 4, (overlayY + (h - HyperiumMainGui.getFr().FONT_HEIGHT) / 2), 0xffffff);
     }
 
     public abstract void handleMouseInput(int mouseX, int mouseY, int overlayX, int overlayY, int w, int h);

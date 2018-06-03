@@ -1,24 +1,49 @@
 package cc.hyperium.gui.main.tabs;
 
+import cc.hyperium.config.Settings;
+import cc.hyperium.config.ToggleSetting;
 import cc.hyperium.gui.GuiBlock;
 import cc.hyperium.gui.Icons;
 import cc.hyperium.gui.main.HyperiumMainGui;
 import cc.hyperium.gui.main.HyperiumOverlay;
 import cc.hyperium.gui.main.components.AbstractTab;
-import cc.hyperium.gui.main.components.OverlayToggle;
 import cc.hyperium.gui.main.components.SettingItem;
 import net.minecraft.client.gui.Gui;
 import org.lwjgl.input.Mouse;
 
 import java.awt.*;
+import java.lang.reflect.Field;
 
 /*
  * Created by Cubxity on 20/05/2018
  */
 public class SettingsTab extends AbstractTab {
+    private static HyperiumOverlay general = new HyperiumOverlay();
+    private static HyperiumOverlay integrations = new HyperiumOverlay();
+    private static HyperiumOverlay improvements = new HyperiumOverlay();
+
     private static int offsetY = 0; // static so it saves the previous location
     private GuiBlock block;
     private int y, w;
+
+    static {
+        for (Field f : Settings.class.getFields()) {
+            ToggleSetting a = f.getAnnotation(ToggleSetting.class);
+            if (a != null) {
+                switch (a.category()) {
+                    case GENERAL:
+                        general.addToggle(a.name(), f);
+                        break;
+                    case IMPROVEMENTS:
+                        improvements.addToggle(a.name(), f);
+                        break;
+                    case INTEGRATIONS:
+                        integrations.addToggle(a.name(), f);
+                        break;
+                }
+            }
+        }
+    }
 
     public SettingsTab(int y, int w) {
         block = new GuiBlock(0, w, y, y + w);
@@ -26,11 +51,16 @@ public class SettingsTab extends AbstractTab {
         this.w = w;
 
         items.add(new SettingItem(() -> {
-            HyperiumOverlay overlay = new HyperiumOverlay();
-            overlay.getComponents().add(new OverlayToggle("A test toggle", false, b -> {
-            }));
-            HyperiumMainGui.INSTANCE.setOverlay(overlay);
-        }, Icons.SETTINGS.getResource(), "Test", "A description", "A hover test", 0, 0));
+            HyperiumMainGui.INSTANCE.setOverlay(general);
+        }, null, "General", "General settings for hyperium", "click to configure", 0, 0));
+
+        items.add(new SettingItem(() -> {
+            HyperiumMainGui.INSTANCE.setOverlay(integrations);
+        }, Icons.EXTENSION.getResource(), "Integrations", "Hyperium integrations", "click to configure", 1, 0));
+
+        items.add(new SettingItem(() -> {
+            HyperiumMainGui.INSTANCE.setOverlay(improvements);
+        }, null, "Improvements", "Improvements and bug fixes", "click to configure", 2, 0));
     }
 
     @Override

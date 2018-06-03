@@ -33,5 +33,9 @@ public @interface ConfigOpt {
 
     boolean ignore() default false;
 
+    /**
+     * alternate json key, used for migrating old config
+     */
+    String alt() default "";
 
 }
