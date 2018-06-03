@@ -38,20 +38,40 @@ public class FlipKeybind extends HyperiumBind {
     public void onPress() {
         if (!Hyperium.INSTANCE.getCosmetics().getFlipCosmetic().isSelfUnlocked())
             return;
+<<<<<<< HEAD
         inverted = !inverted;
         int state = inverted ? Settings.FLIP_TYPE : 0;
         Hyperium.INSTANCE.getHandlers().getFlipHandler().state(Minecraft.getMinecraft().getSession().getProfile().getId(), state);
         NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("type", "flip_update").put("flip_state", state)));
         Hyperium.INSTANCE.getHandlers().getFlipHandler().resetTick();
+=======
+        if(CosmeticSettings.flip_toggle) {
+            inverted = !inverted;
+            int state = inverted ? CosmeticSettings.flip_type : 0;
+            Hyperium.INSTANCE.getHandlers().getFlipHandler().state(Minecraft.getMinecraft().getSession().getProfile().getId(), state);
+            NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("type", "flip_update").put("flip_state", state)));
+            Hyperium.INSTANCE.getHandlers().getFlipHandler().resetTick();
+        }
+>>>>>>> 7980987a... flip cosmetic is now toggleable
     }
 
     @Override
     public void onRelease() {
         if (!Hyperium.INSTANCE.getCosmetics().getFlipCosmetic().isSelfUnlocked())
             return;
+<<<<<<< HEAD
         inverted = !inverted;
         int state = inverted ? Settings.FLIP_TYPE : 0;
         Hyperium.INSTANCE.getHandlers().getFlipHandler().state(Minecraft.getMinecraft().getSession().getProfile().getId(), state);
         NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("type", "flip_update").put("flip_state", state)));
+=======
+        else if (!CosmeticSettings.flip_toggle) {
+            inverted = !inverted;
+            int state = inverted ? CosmeticSettings.flip_type : 0;
+            Hyperium.INSTANCE.getHandlers().getFlipHandler().state(Minecraft.getMinecraft().getSession().getProfile().getId(), state);
+            NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("type", "flip_update").put("flip_state", state)));
+        }
+
+>>>>>>> 7980987a... flip cosmetic is now toggleable
     }
 }
