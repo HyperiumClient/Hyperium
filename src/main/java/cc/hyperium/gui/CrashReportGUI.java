@@ -10,6 +10,7 @@ import cc.hyperium.netty.packet.packets.serverbound.ServerCrossDataPacket;
 import cc.hyperium.utils.JsonHolder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.sun.org.apache.xerces.internal.impl.xpath.regex.Match;
 import jdk.nashorn.internal.parser.JSONParser;
 import me.cubxity.utils.DeobfStack;
 import me.cubxity.utils.Mapping;
@@ -22,6 +23,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.bridj.util.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -218,16 +220,26 @@ public class CrashReportGUI extends JDialog {
                 latest = versionsJson.optString("latest-stable");
             }
 
-            String localv = String.valueOf(Pattern.compile("[A-Z]\\d{2}").matcher(Metadata.getVersion()).find());
-            String latestv = String.valueOf(Pattern.compile("[A-Z]\\d{2}").matcher(latest).find());
+            //B(\d{2})
 
-            if (latestv == localv) {
-                updated = true;
-                return true;
-            } else {
-                updated = false;
-                return false;
+            Pattern pattern = Pattern.compile("B(\\d{2})");
+            Matcher matcher = pattern.matcher(latest);
+
+            if (matcher.find()) {
+                Matcher matcher2 = pattern.matcher(Metadata.getVersion());
+
+                if (matcher2.find()) {
+
+                    if (matcher.group().equalsIgnoreCase(matcher2.group())) {
+                        updated = true;
+                        return true;
+                    } else {
+                        updated = false;
+                        return false;
+                    }
+                }
             }
+
 
         } catch (IOException e) {
             e.printStackTrace();
