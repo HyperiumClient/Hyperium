@@ -8,10 +8,20 @@ import cc.hyperium.gui.main.components.AbstractTab;
 import cc.hyperium.gui.main.components.SettingItem;
 import cc.hyperium.internal.addons.AddonBootstrap;
 import cc.hyperium.internal.addons.AddonManifest;
+import cc.hyperium.utils.HyperiumFontRenderer;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.util.ResourceLocation;
 import org.lwjgl.input.Mouse;
 
 import java.awt.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.stream.IntStream;
 
 /*
  * Created by Cubxity on 29/05/2018
@@ -20,6 +30,9 @@ public class AddonsTab extends AbstractTab {
     private static int offsetY = 0; // static so it saves the previous location
     private GuiBlock block;
     private int y, w;
+    private static HyperiumFontRenderer hfr = new HyperiumFontRenderer("Arial", Font.PLAIN, 40);
+    public String selectedMsg;
+    public ArrayList<String> messages;
 
     public AddonsTab(int y, int w) {
         block = new GuiBlock(0, w, y, y + w);
@@ -68,7 +81,47 @@ public class AddonsTab extends AbstractTab {
 
     @Override
     public void draw(int mouseX, int mouseY, int topX, int topY, int containerWidth, int containerHeight) {
+        //choose random line from text
+
+        messages.add("Wow... so sad... you don't have any addons\n" +
+                ":( so 2009! You don't have any addons\n" +
+                "y u have no addon\n" +
+                "add addons pls kthx\n" +
+                "java.lang.ArrayIndexOutOfBoundsException");
+
+        Random random = new Random();
+
+        IntStream.range(0, 5).forEach(
+                a -> selectedMsg = messages.get(random
+                        .nextInt(messages.size())));
+
+        Logger.getLogger("debug").log(Level.FINE, selectedMsg);
+
         super.draw(mouseX, mouseY, topX, topY, containerWidth, containerHeight);
+
+        //if addon folder is empty display chosen text
+        if (AddonBootstrap.INSTANCE.getAddonManifests().isEmpty()) {
+            hfr.drawStringWithShadow(selectedMsg, topX + 5, topY + 5, new Color(255, 0, 0, 100).getRGB());
+        } else {
+            //do shit
+        }
+        {
+
+        }
+    }
+
+    public static String choose(File f) throws FileNotFoundException {
+        String result = null;
+        Random rand = new Random();
+        int n = 0;
+        for (Scanner sc = new Scanner(f); sc.hasNext(); ) {
+            ++n;
+            String line = sc.nextLine();
+            if (rand.nextInt(n) == 0)
+                result = line;
+        }
+
+        return result;
     }
 
     @Override

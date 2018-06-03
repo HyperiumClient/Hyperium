@@ -150,6 +150,18 @@ public class CrashReportGUI extends JDialog {
                         } else {
                             report.setText("FAILED TO REPORT");
                         }
+                    } else if( Hyperium.INSTANCE.isDevEnv()) {
+                        report.setEnabled(false);
+                        report.setText("REPORTING...");
+                        if (sendReport()) {
+                            report.setEnabled(false);
+                            report.setText("REPORTED");
+                        } else if (copyReport()) {
+                            report.setEnabled(false);
+                            report.setText("COPIED TO CLIPBOARD");
+                        } else {
+                            report.setText("FAILED TO REPORT");
+                        }
                     } else {
                         report.setEnabled(false);
                         report.setText("Update Hyperium");
