@@ -246,7 +246,7 @@ public class CommandUpdate implements BaseCommand {
                 ready = true;
                 System.out.println("confirmation");
                 Hyperium.INSTANCE.getNotification().display("Hyperium Updater", "Opening Installer" + updateUtils.newBuild, 5);
-                Runtime.getRuntime().exec(String.valueOf(new File(Minecraft.getMinecraft().mcDataDir + updateUtils.newBuild + "-Installer.jar")));
+                Runtime.getRuntime().exec(String.valueOf(new File(updateUtils.newBuild + "-Installer.jar")));
                 Minecraft.getMinecraft().shutdownMinecraftApplet();
 
                 /*
