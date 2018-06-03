@@ -17,9 +17,9 @@
 
 package cc.hyperium.mixins;
 
+import cc.hyperium.config.Settings;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.SoundPlayEvent;
-import cc.hyperium.gui.settings.items.GeneralSetting;
 import net.minecraft.client.audio.ISound;
 import net.minecraft.client.audio.SoundManager;
 import org.lwjgl.opengl.Display;
@@ -44,7 +44,7 @@ public class MixinSoundManager {
             cancellable = true
     )
     private void playSound(ISound sound, CallbackInfo ci) {
-        if (GeneralSetting.smartSoundsEnabled && !Display.isActive()) {
+        if (Settings.SMART_SOUNDS && !Display.isActive()) {
             ci.cancel(); // does not stop music from being played but whatever
             return;
         }

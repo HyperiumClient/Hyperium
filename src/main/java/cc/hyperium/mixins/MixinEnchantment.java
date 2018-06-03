@@ -17,7 +17,7 @@
 
 package cc.hyperium.mixins;
 
-import cc.hyperium.gui.settings.items.GeneralSetting;
+import cc.hyperium.config.Settings;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.util.StatCollector;
 import org.spongepowered.asm.mixin.Mixin;
@@ -34,7 +34,7 @@ public abstract class MixinEnchantment {
 
     @Inject(method = "getTranslatedName", at = @At("HEAD"), cancellable = true)
     private void getTranslatedName(int level, CallbackInfoReturnable<String> ci) {
-        if (!GeneralSetting.romanNumeralsEnabled) {
+        if (!Settings.ROMAN_NUMERALS) {
             String s = StatCollector.translateToLocal(this.getName());
             //    String binary = "00000000";
             //    binary = binary.substring(Integer.toBinaryString(level).length()) + Integer.toBinaryString(level);

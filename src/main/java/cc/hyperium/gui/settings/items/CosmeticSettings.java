@@ -18,20 +18,14 @@
 package cc.hyperium.gui.settings.items;
 
 import cc.hyperium.Hyperium;
-import cc.hyperium.config.ConfigOpt;
 import cc.hyperium.config.DefaultConfig;
 import cc.hyperium.gui.HyperiumGui;
 import cc.hyperium.gui.settings.SettingGui;
-import cc.hyperium.gui.settings.components.SelectionItem;
-import cc.hyperium.netty.NettyClient;
-import cc.hyperium.netty.packet.packets.serverbound.ServerCrossDataPacket;
-import cc.hyperium.utils.JsonHolder;
-
-import java.util.Arrays;
 
 public class CosmeticSettings extends SettingGui {
 
     // Dab Mod
+    /*
     @ConfigOpt
     public static int dabSpeed = 7;
 
@@ -46,6 +40,7 @@ public class CosmeticSettings extends SettingGui {
 
     @ConfigOpt
     public static int flip_type = 1;
+    */
 
 
     private final DefaultConfig config;
@@ -59,6 +54,7 @@ public class CosmeticSettings extends SettingGui {
     @Override
     protected void pack() {
         super.pack();
+        /*
         SelectionItem<String> showEars;
         settingItems.add(showEars = new SelectionItem<>(0, getX(), getDefaultItemY(0), width - getX() * 2, "SHOW EARS", i -> {
             ((SelectionItem) i).nextItem();
@@ -126,6 +122,7 @@ public class CosmeticSettings extends SettingGui {
         settingItems.add(flip_state);
         flip_state.addItems(Arrays.asList("INVERT", "ROTATE"));
         flip_state.setSelectedItem(flip_type == 1 ? "INVERT" : "ROTATE");
+        */
 
 
     }

@@ -17,18 +17,14 @@
 
 package cc.hyperium.gui.settings.items;
 
-import cc.hyperium.GuiStyle;
 import cc.hyperium.Hyperium;
-import cc.hyperium.config.ConfigOpt;
 import cc.hyperium.config.DefaultConfig;
 import cc.hyperium.gui.HyperiumGui;
 import cc.hyperium.gui.settings.SettingGui;
 import cc.hyperium.gui.settings.SettingItem;
 import cc.hyperium.gui.settings.components.OnOffSetting;
 import cc.hyperium.gui.settings.components.SelectionItem;
-import net.minecraft.client.Minecraft;
 
-import java.util.Arrays;
 import java.util.function.Consumer;
 
 /**
@@ -37,7 +33,7 @@ import java.util.function.Consumer;
  */
 @SuppressWarnings({"unchecked", "FieldCanBeLocal"})
 public class GeneralSetting extends SettingGui {
-
+    /*
     @ConfigOpt
     public static boolean discordRPEnabled = true;
     @ConfigOpt
@@ -88,6 +84,7 @@ public class GeneralSetting extends SettingGui {
     public static boolean hypixelZooEnabled = false;
     @ConfigOpt
     public static boolean oldResourcePackGui = false;
+    */
     /**
      * The configuration instance, for all the settings below
      */
@@ -108,7 +105,7 @@ public class GeneralSetting extends SettingGui {
     protected void pack() {
         super.pack();
         currentID = 0;
-
+        /*
         registerOnOffSetting("DISCORD RICH PRESENCE", discordRPEnabled, on -> discordRPEnabled = on);
         registerOnOffSetting("DISCORD DISPLAY SERVER", discordServerDisplayEnabled, on -> discordServerDisplayEnabled = on);
         registerOnOffSetting("FULLBRIGHT", fullbrightEnabled, on -> fullbrightEnabled = on);
@@ -158,7 +155,7 @@ public class GeneralSetting extends SettingGui {
         registerOnOffSetting("USE OLD RESOURCE PACK GUI (RESTART)", oldResourcePackGui, on -> oldResourcePackGui = on);
         registerOnOffSetting("SHOW NOTIFICATION CENTER", Hyperium.INSTANCE.getHandlers().getConfigOptions().showNotificationCenter, on -> Hyperium.INSTANCE.getHandlers().getConfigOptions().showNotificationCenter = on);
         registerOnOffSetting("SHOW CONFIRMATION POPUP", Hyperium.INSTANCE.getHandlers().getConfigOptions().showConfirmationPopup, on -> Hyperium.INSTANCE.getHandlers().getConfigOptions().showConfirmationPopup = on);
-
+        */
     }
 
 

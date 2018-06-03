@@ -1,7 +1,7 @@
 package cc.hyperium.handlers.handlers.animation;
 
+import cc.hyperium.config.Settings;
 import cc.hyperium.gui.HyperiumGui;
-import cc.hyperium.gui.settings.items.CosmeticSettings;
 import cc.hyperium.mixinsimp.renderer.model.IMixinModelBiped;
 import cc.hyperium.mixinsimp.renderer.model.IMixinModelPlayer;
 import net.minecraft.client.Minecraft;
@@ -24,7 +24,7 @@ public class DabHandler extends AbstractPreCopyAnglesAnimationHandler {
                         this.state,
                         this.asc ? 100.0f : 0.0f,
                         0.01f,
-                        CosmeticSettings.dabSpeed
+                        Settings.DAB_SPEED
                 ),
                 0.0f,
                 100.0f

@@ -18,7 +18,7 @@
 package cc.hyperium.handlers.handlers.keybinds.keybinds;
 
 import cc.hyperium.Hyperium;
-import cc.hyperium.gui.settings.items.CosmeticSettings;
+import cc.hyperium.config.Settings;
 import cc.hyperium.handlers.handlers.keybinds.HyperiumBind;
 import cc.hyperium.netty.NettyClient;
 import cc.hyperium.netty.packet.packets.serverbound.ServerCrossDataPacket;
@@ -39,7 +39,7 @@ public class FlipKeybind extends HyperiumBind {
         if (!Hyperium.INSTANCE.getCosmetics().getFlipCosmetic().isSelfUnlocked())
             return;
         inverted = !inverted;
-        int state = inverted ? CosmeticSettings.flip_type : 0;
+        int state = inverted ? Settings.FLIP_TYPE : 0;
         Hyperium.INSTANCE.getHandlers().getFlipHandler().state(Minecraft.getMinecraft().getSession().getProfile().getId(), state);
         NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("type", "flip_update").put("flip_state", state)));
         Hyperium.INSTANCE.getHandlers().getFlipHandler().resetTick();
@@ -50,7 +50,7 @@ public class FlipKeybind extends HyperiumBind {
         if (!Hyperium.INSTANCE.getCosmetics().getFlipCosmetic().isSelfUnlocked())
             return;
         inverted = !inverted;
-        int state = inverted ? CosmeticSettings.flip_type : 0;
+        int state = inverted ? Settings.FLIP_TYPE : 0;
         Hyperium.INSTANCE.getHandlers().getFlipHandler().state(Minecraft.getMinecraft().getSession().getProfile().getId(), state);
         NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("type", "flip_update").put("flip_state", state)));
     }

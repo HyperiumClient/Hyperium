@@ -18,7 +18,7 @@
 package cc.hyperium.mixins.renderer;
 
 import cc.hyperium.Hyperium;
-import cc.hyperium.gui.settings.items.GeneralSetting;
+import cc.hyperium.config.Settings;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.ItemModelMesher;
@@ -123,7 +123,7 @@ public abstract class MixinRenderItem implements IResourceManagerReloadListener 
 
                 // We want to render our potion effect before
                 // the item is renderer so the effect doesn't obscure the item
-                if (GeneralSetting.shinyPotsEnabled && isInv && stack.getItem() != null && stack.getItem() instanceof ItemPotion) {
+                if (Settings.SHINY_POTS && isInv && stack.getItem() != null && stack.getItem() instanceof ItemPotion) {
                     this.renderPot(model); // Use our renderer instead of the normal one
 
                     renderedAsPotion = true;

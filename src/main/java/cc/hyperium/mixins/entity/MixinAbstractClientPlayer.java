@@ -18,7 +18,7 @@
 package cc.hyperium.mixins.entity;
 
 import cc.hyperium.Hyperium;
-import cc.hyperium.gui.settings.items.GeneralSetting;
+import cc.hyperium.config.Settings;
 import com.mojang.authlib.GameProfile;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.network.NetworkPlayerInfo;
@@ -61,7 +61,7 @@ public abstract class MixinAbstractClientPlayer {
 
     @Inject(method = "getFovModifier", at = @At("HEAD"), cancellable = true)
     private void getFovModifier(CallbackInfoReturnable<Float> ci) {
-        if (GeneralSetting.staticFovEnabled) {
+        if (Settings.STATIC_FOV) {
             ci.setReturnValue(1.0F);
         }
     }
