@@ -77,7 +77,7 @@ public class HyperiumMainGui extends HyperiumGui {
         currentTab.drawHighlight();
         drawRect(pw * 2, pw, width - pw * 2, height - pw, new Color(0, 0, 0, 70).getRGB());
 
-        currentTab.draw(mouseX, mouseY, pw * 2, pw, width - pw, height - pw);
+        currentTab.draw(mouseX, mouseY, pw * 2, pw, width - pw * 4, height - pw);
 
         if (!alerts.isEmpty() && currentAlert == null)
             currentAlert = alerts.poll();
