@@ -39,12 +39,15 @@ public class FlipKeybind extends HyperiumBind {
         if (!Hyperium.INSTANCE.getCosmetics().getFlipCosmetic().isSelfUnlocked())
             return;
 <<<<<<< HEAD
+<<<<<<< HEAD
         inverted = !inverted;
         int state = inverted ? Settings.FLIP_TYPE : 0;
         Hyperium.INSTANCE.getHandlers().getFlipHandler().state(Minecraft.getMinecraft().getSession().getProfile().getId(), state);
         NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("type", "flip_update").put("flip_state", state)));
         Hyperium.INSTANCE.getHandlers().getFlipHandler().resetTick();
 =======
+=======
+>>>>>>> 7980987a... flip cosmetic is now toggleable
         if(CosmeticSettings.flip_toggle) {
             inverted = !inverted;
             int state = inverted ? CosmeticSettings.flip_type : 0;
@@ -52,6 +55,9 @@ public class FlipKeybind extends HyperiumBind {
             NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("type", "flip_update").put("flip_state", state)));
             Hyperium.INSTANCE.getHandlers().getFlipHandler().resetTick();
         }
+<<<<<<< HEAD
+>>>>>>> 7980987a... flip cosmetic is now toggleable
+=======
 >>>>>>> 7980987a... flip cosmetic is now toggleable
     }
 
@@ -60,11 +66,14 @@ public class FlipKeybind extends HyperiumBind {
         if (!Hyperium.INSTANCE.getCosmetics().getFlipCosmetic().isSelfUnlocked())
             return;
 <<<<<<< HEAD
+<<<<<<< HEAD
         inverted = !inverted;
         int state = inverted ? Settings.FLIP_TYPE : 0;
         Hyperium.INSTANCE.getHandlers().getFlipHandler().state(Minecraft.getMinecraft().getSession().getProfile().getId(), state);
         NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("type", "flip_update").put("flip_state", state)));
 =======
+=======
+>>>>>>> 7980987a... flip cosmetic is now toggleable
         else if (!CosmeticSettings.flip_toggle) {
             inverted = !inverted;
             int state = inverted ? CosmeticSettings.flip_type : 0;
@@ -72,6 +81,9 @@ public class FlipKeybind extends HyperiumBind {
             NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("type", "flip_update").put("flip_state", state)));
         }
 
+<<<<<<< HEAD
+>>>>>>> 7980987a... flip cosmetic is now toggleable
+=======
 >>>>>>> 7980987a... flip cosmetic is now toggleable
     }
 }
