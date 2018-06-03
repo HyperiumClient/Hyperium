@@ -39,6 +39,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static cc.hyperium.installer.InstallerFrame.get;
 
@@ -203,7 +205,7 @@ public class CrashReportGUI extends JDialog {
             c.add(discord);
     }
 
-    private boolean isUpdated() {
+    public boolean isUpdated() {
         String versions_url = "https://raw.githubusercontent.com/HyperiumClient/Hyperium-Repo/master/installer/versions.json";
         AtomicReference<JSONObject> version = new AtomicReference<>();
         String latest = null;
@@ -216,9 +218,13 @@ public class CrashReportGUI extends JDialog {
                 latest = versionsJson.optString("latest-stable");
             }
 
-            if (Metadata.getBuild().equalsIgnoreCase(latest)) {
+            String pattern = "[A-Z]\\d{2}\n";
+
+            if (latest.split(pattern) == Metadata.getVersion().split(pattern)) {
+                System.out.println(true);
                 return true;
             } else {
+                System.out.println(false);
                 return false;
             }
 
