@@ -26,7 +26,7 @@ public class OverlayToggle extends OverlayComponent {
         GL11.glDisable(GL11.GL_TEXTURE_2D);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         RenderUtils.drawSmoothRect(overlayX + w - 30, overlayY + 5, overlayX + w - 5, overlayY + h - 5, 0xffffffff);
-        RenderUtils.drawFilledCircle(toggle ? overlayX + w - 25 : overlayX + w - 10, overlayY + h / 2, 4, new Color(30, 30, 30).getRGB());
+        RenderUtils.drawFilledCircle(toggle ? overlayX + w - 10 : overlayX + w - 25, overlayY + h / 2, 4, new Color(30, 30, 30).getRGB());
         GL11.glDisable(GL11.GL_BLEND);
         GL11.glDisable(GL11.GL_LINE_SMOOTH);
         super.render(mouseX, mouseY, overlayX, overlayY, w, h);
