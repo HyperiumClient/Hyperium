@@ -19,6 +19,7 @@ package cc.hyperium.gui;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.event.*;
+import cc.hyperium.gui.settings.items.GeneralSetting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
@@ -37,21 +38,25 @@ public class ConfirmationPopup {
 
     @InvokeEvent
     public void onFriend(HypixelFriendRequestEvent e) {
-        displayConfirmation("Friend request from " + e.getFrom(), accept -> {
-            Minecraft.getMinecraft().thePlayer.sendChatMessage((accept ? "/friend accept " : "/friend deny ") + e.getFrom());
-            currentConfirmation.framesLeft = 0;
-        }, 5);
+        if (Hyperium.INSTANCE.getHandlers().getConfigOptions().showConfirmationPopup) {
+            displayConfirmation("Friend request from " + e.getFrom(), accept -> {
+                Minecraft.getMinecraft().thePlayer.sendChatMessage((accept ? "/friend accept " : "/friend deny ") + e.getFrom());
+                currentConfirmation.framesLeft = 0;
+            }, 5);
+        }
     }
 
     @InvokeEvent
     public void onParty(HypixelPartyInviteEvent e) {
-        displayConfirmation("Party request from " + e.getFrom(), accept -> {
-            if (accept) {
-                Minecraft.getMinecraft().thePlayer.sendChatMessage("/party accept " + e.getFrom());
-            }
+        if (Hyperium.INSTANCE.getHandlers().getConfigOptions().showConfirmationPopup) {
+            displayConfirmation("Party request from " + e.getFrom(), accept -> {
+                if (accept) {
+                    Minecraft.getMinecraft().thePlayer.sendChatMessage("/party accept " + e.getFrom());
+                }
 
-            currentConfirmation.framesLeft = 0;
-        }, 5);
+                currentConfirmation.framesLeft = 0;
+            }, 5);
+        }
     }
 
     @InvokeEvent
