@@ -10,6 +10,7 @@ import cc.hyperium.netty.packet.packets.serverbound.ServerCrossDataPacket;
 import cc.hyperium.utils.JsonHolder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.sun.org.apache.xerces.internal.impl.xpath.regex.Match;
 import jdk.nashorn.internal.parser.JSONParser;
 import me.cubxity.utils.DeobfStack;
 import me.cubxity.utils.Mapping;
@@ -22,6 +23,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.bridj.util.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -39,6 +41,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static cc.hyperium.installer.InstallerFrame.get;
 
@@ -203,7 +207,7 @@ public class CrashReportGUI extends JDialog {
             c.add(discord);
     }
 
-    private boolean isUpdated() {
+    public boolean isUpdated() {
         String versions_url = "https://raw.githubusercontent.com/HyperiumClient/Hyperium-Repo/master/installer/versions.json";
         AtomicReference<JSONObject> version = new AtomicReference<>();
         String latest = null;
@@ -216,17 +220,32 @@ public class CrashReportGUI extends JDialog {
                 latest = versionsJson.optString("latest-stable");
             }
 
-            if (Metadata.getBuild().equalsIgnoreCase(latest)) {
-                return true;
-            } else {
-                return false;
+            //B(\d{2})
+
+            Pattern pattern = Pattern.compile("B(\\d{2})");
+            Matcher matcher = pattern.matcher(latest);
+
+            if (matcher.find()) {
+                Matcher matcher2 = pattern.matcher(Metadata.getVersion());
+
+                if (matcher2.find()) {
+
+                    if (matcher.group().equalsIgnoreCase(matcher2.group())) {
+                        updated = true;
+                        return true;
+                    } else {
+                        updated = false;
+                        return false;
+                    }
+                }
             }
+
 
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        return false;
+        return updated;
     }
 
 

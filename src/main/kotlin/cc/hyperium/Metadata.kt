@@ -32,10 +32,6 @@ val VERSION
     @JvmName("getVersion")
     get() = "1.0 - Beta B12"
 
-val BUILD
-    @JvmName("getBuild")
-    get() = "1.0 B12"
-
 val AUTHORS
     @JvmName("getAuthors")
     get() = arrayOf("Kevin", "CoalOres", "Sk1er", "Cubxity", "boomboompower")
