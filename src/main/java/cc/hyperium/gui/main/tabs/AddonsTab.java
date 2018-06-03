@@ -5,7 +5,6 @@ import cc.hyperium.gui.Icons;
 import cc.hyperium.gui.main.HyperiumMainGui;
 import cc.hyperium.gui.main.HyperiumOverlay;
 import cc.hyperium.gui.main.components.AbstractTab;
-import cc.hyperium.gui.main.components.OverlayToggle;
 import cc.hyperium.gui.main.components.SettingItem;
 import cc.hyperium.internal.addons.AddonBootstrap;
 import cc.hyperium.internal.addons.AddonManifest;
@@ -13,8 +12,6 @@ import net.minecraft.client.gui.Gui;
 import org.lwjgl.input.Mouse;
 
 import java.awt.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /*
  * Created by Cubxity on 29/05/2018
@@ -30,14 +27,6 @@ public class AddonsTab extends AbstractTab {
         this.w = w;
         int yi = 0, xi = 0;
         for (AddonManifest a : AddonBootstrap.INSTANCE.getAddonManifests()) {
-            Matcher m = Pattern.compile("B(\\d{2})").matcher("1.0 B11");
-            m.find();
-            items.add(new SettingItem(() -> {
-                HyperiumOverlay overlay = new HyperiumOverlay();
-                overlay.getComponents().add(new OverlayToggle(m.group(), false, b -> {
-                }));
-                HyperiumMainGui.INSTANCE.setOverlay(overlay);
-            }, Icons.SETTINGS.getResource(), "Test", "A description", "A hover test", 0, 0));
             items.add(new SettingItem(() -> {
                 if (a.getOverlay() != null) {
                     // While loading it has been checked so we don't have to do that here
