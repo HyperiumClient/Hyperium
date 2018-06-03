@@ -27,6 +27,7 @@ import org.json.JSONObject;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.swing.*;
+import javax.swing.plaf.basic.BasicButtonUI;
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
@@ -491,6 +492,7 @@ public class InstallerFrame implements PropertyChangeListener {
 
         // Exit
         exit = new JButton("EXIT");
+        exit.setUI(new BasicButtonUI());
         exit.setBackground(new Color(255, 254, 254));
         exit.setForeground(new Color(30, 30, 30));
         try {
@@ -501,7 +503,7 @@ public class InstallerFrame implements PropertyChangeListener {
         }
         exit.setBorderPainted(false);
         exit.setFocusPainted(false);
-        exit.setBounds((WIDTH - 70) / 2, 130, 70, 20);
+        exit.setBounds((WIDTH - 100) / 2, 130, 100, 20);
         exit.addActionListener(event -> System.exit(0));
         exit.setVisible(false);
 

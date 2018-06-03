@@ -10,7 +10,8 @@ public enum Icons {
     HOME(new ResourceLocation("textures/material/home.png")),
     SETTINGS(new ResourceLocation("textures/material/settings.png")),
     EXTENSION(new ResourceLocation("textures/material/extension.png")),
-    INFO(new ResourceLocation("textures/material/info.png"));
+    INFO(new ResourceLocation("textures/material/info.png")),
+    ERROR(new ResourceLocation("textures/material/error.png"));
     private ResourceLocation res;
 
     Icons(ResourceLocation res) {

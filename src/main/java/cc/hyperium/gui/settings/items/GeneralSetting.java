@@ -86,6 +86,8 @@ public class GeneralSetting extends SettingGui {
     public static boolean spotifyControlsEnabled = false;
     @ConfigOpt
     public static boolean hypixelZooEnabled = false;
+    @ConfigOpt
+    public static boolean oldResourcePackGui = false;
     /**
      * The configuration instance, for all the settings below
      */
@@ -152,8 +154,13 @@ public class GeneralSetting extends SettingGui {
         registerOnOffSetting("FRIENDS FIRST IN TAB", Hyperium.INSTANCE.getHandlers().getConfigOptions().friendsFirstIntag, on -> Hyperium.INSTANCE.getHandlers().getConfigOptions().friendsFirstIntag = on);
         registerOnOffSetting("SHOW HYPERIUM USERS IN TAB", Hyperium.INSTANCE.getHandlers().getConfigOptions().showOnlinePlayers, on -> Hyperium.INSTANCE.getHandlers().getConfigOptions().showOnlinePlayers = on);
         registerOnOffSetting("SHOW PLAYERS AS BLOCKS", Hyperium.INSTANCE.getHandlers().getConfigOptions().turnPeopleIntoBlock, on -> Hyperium.INSTANCE.getHandlers().getConfigOptions().turnPeopleIntoBlock = on);
+        registerOnOffSetting("LIMIT CPS", Hyperium.INSTANCE.getHandlers().getConfigOptions().limitCPS, on -> Hyperium.INSTANCE.getHandlers().getConfigOptions().limitCPS = on);
+        registerOnOffSetting("USE OLD RESOURCE PACK GUI (RESTART)", oldResourcePackGui, on -> oldResourcePackGui = on);
+        registerOnOffSetting("SHOW NOTIFICATION CENTER", Hyperium.INSTANCE.getHandlers().getConfigOptions().showNotificationCenter, on -> Hyperium.INSTANCE.getHandlers().getConfigOptions().showNotificationCenter = on);
+        registerOnOffSetting("SHOW CONFIRMATION POPUP", Hyperium.INSTANCE.getHandlers().getConfigOptions().showConfirmationPopup, on -> Hyperium.INSTANCE.getHandlers().getConfigOptions().showConfirmationPopup = on);
 
     }
+
 
     private void registerOnOffSetting(String name, boolean enabled, Consumer<Boolean> callback) {
         OnOffSetting setting = new OnOffSetting(

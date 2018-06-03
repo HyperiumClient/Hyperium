@@ -3,6 +3,7 @@ package cc.hyperium.gui.main.tabs;
 import cc.hyperium.gui.GuiBlock;
 import cc.hyperium.gui.Icons;
 import cc.hyperium.gui.main.HyperiumMainGui;
+import cc.hyperium.gui.main.HyperiumOverlay;
 import cc.hyperium.gui.main.components.AbstractTab;
 import cc.hyperium.gui.main.components.SettingItem;
 import cc.hyperium.internal.addons.AddonBootstrap;
@@ -28,7 +29,18 @@ public class AddonsTab extends AbstractTab {
         int yi = 0, xi = 0;
         for (AddonManifest a : AddonBootstrap.INSTANCE.getAddonManifests()) {
             items.add(new SettingItem(() -> {
-                //TODO: show the addon config overlay
+                if (a.getOverlay() != null) {
+                    // While loading it has been checked so we don't have to do that here
+                    try {
+                        Class<?> clazz = Class.forName(a.getOverlay());
+                        HyperiumOverlay overlay = (HyperiumOverlay) clazz.newInstance();
+                        HyperiumMainGui.INSTANCE.setOverlay(overlay);
+                    } catch (Exception e) {
+                        HyperiumMainGui.Alert alert = new HyperiumMainGui.Alert(Icons.ERROR.getResource(), () -> {}, "Failed to load addon's config overlay");
+                        HyperiumMainGui.getAlerts().add(alert);
+                        e.printStackTrace(); // in case the check went wrong
+                    }
+                }
             }, Icons.EXTENSION.getResource(), a.getName(), "", "Configure addon", xi, yi));
             if (xi == 3) {
                 xi = 0;

@@ -187,9 +187,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
-import static cc.hyperium.gui.HyperiumGui.clamp;
-import static cc.hyperium.gui.HyperiumGui.easeOut;
-import static cc.hyperium.gui.HyperiumGui.trimString;
+import static cc.hyperium.gui.HyperiumGui.*;
 
 public class NotificationCenter extends Gui {
     /**
@@ -291,17 +289,9 @@ public class NotificationCenter extends Gui {
     public class Notification {
 
         /**
-         * Size of every image. Should always be 256.
-         */
-        private final int imgSize = 256;
-        /**
          * Width of this notification
          */
         final int width = 175;
-        /**
-         * Height of this notification
-         */
-        int height = 40;
         /**
          * Margins between the bottom of the notification and the bottom of the screen
          */
@@ -315,6 +305,36 @@ public class NotificationCenter extends Gui {
          */
         final int topPadding = 5;
         /**
+         * Size of every image. Should always be 256.
+         */
+        private final int imgSize = 256;
+        /**
+         * Maximum number of lines descriptions can span. After this, they will be trimmed
+         *
+         * @see HyperiumGui#trimString(String, int, FontRenderer, boolean)
+         */
+        private final int maxDescriptionLines = 4;
+        /**
+         * Width of the highlight bar
+         */
+        private final int highlightBarWidth = 5;
+        /**
+         * Margins between the highlight bar and the text next to it
+         */
+        private final int highlightBarMargins = 5;
+        /**
+         * Spacing in pixels between each line
+         */
+        private final int lineSpacing = 1;
+        /**
+         * Margins between the top of the image and the title
+         */
+        private final int imgTopMargins = 5;
+        /**
+         * Height of this notification
+         */
+        int height = 40;
+        /**
          * Title text displayed for this notification
          * Max lines is always 1
          */
@@ -325,12 +345,6 @@ public class NotificationCenter extends Gui {
          * @see #maxDescriptionLines
          */
         private String description;
-        /**
-         * Maximum number of lines descriptions can span. After this, they will be trimmed
-         *
-         * @see HyperiumGui#trimString(String, int, FontRenderer, boolean)
-         */
-        private final int maxDescriptionLines = 4;
         /**
          * Ticks left until this notification goes bye-bye
          */
@@ -361,14 +375,6 @@ public class NotificationCenter extends Gui {
          */
         private double imgScale = 0.125;
         /**
-         * Width of the highlight bar
-         */
-        private final int highlightBarWidth = 5;
-        /**
-         * Margins between the highlight bar and the text next to it
-         */
-        private final int highlightBarMargins = 5;
-        /**
          * Color of the highlight next to the notification
          */
         private Color highlightColor = new Color(149, 201, 144);
@@ -376,14 +382,6 @@ public class NotificationCenter extends Gui {
          * Color of the description text
          */
         private Color descriptionColor = new Color(80, 80, 80);
-        /**
-         * Spacing in pixels between each line
-         */
-        private final int lineSpacing = 1;
-        /**
-         * Margins between the top of the image and the title
-         */
-        private final int imgTopMargins = 5;
 
         /**
          * Create a new notification
@@ -554,7 +552,8 @@ public class NotificationCenter extends Gui {
         void render() {
             if (ticksLeft <= 0)
                 return;
-
+            if (!Hyperium.INSTANCE.getHandlers().getConfigOptions().showNotificationCenter)
+                return;
             setDefaultFontRenderer();
 
             final ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());

@@ -63,7 +63,7 @@ import java.util.Iterator;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Hypixel Community Client
+ * Hyperium Client
  */
 public class Hyperium {
 
@@ -283,6 +283,7 @@ public class Hyperium {
         getHandlers().getHyperiumCommandHandler().registerCommand(new CommandDebug());
         getHandlers().getHyperiumCommandHandler().registerCommand(new CommandUpdate());
         getHandlers().getHyperiumCommandHandler().registerCommand(new CommandLogs());
+        getHandlers().getHyperiumCommandHandler().registerCommand(new CommandMaxCPS());
     }
 
     /**
