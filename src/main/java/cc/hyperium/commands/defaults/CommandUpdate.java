@@ -170,7 +170,18 @@ package cc.hyperium.commands.defaults;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.commands.BaseCommand;
+import cc.hyperium.gui.CrashReportGUI;
+import net.minecraft.client.Minecraft;
 
+import java.awt.*;
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.URL;
+import java.net.URLConnection;
+import java.nio.channels.Channels;
+import java.nio.channels.ReadableByteChannel;
 import java.util.Collections;
 import java.util.List;
 
@@ -178,6 +189,9 @@ import java.util.List;
  * Created by Cubxity on 03/04/2018
  */
 public class CommandUpdate implements BaseCommand {
+
+    CrashReportGUI crashReportGUI = new CrashReportGUI();
+
     @Override
     public String getName() {
         return "update";
@@ -193,9 +207,50 @@ public class CommandUpdate implements BaseCommand {
         return Collections.emptyList();
     }
 
+    /*
+     * By ConorTheDev
+     */
     @Override
     public void onExecute(String[] args) {
         Hyperium.updateQueue = true;
-        Hyperium.INSTANCE.getNotification().display("Update", "Update is scheduled after restart", 5);
+
+        if (crashReportGUI.isUpdated()) {
+            Hyperium.INSTANCE.getNotification().display("Hyperium Update", "Hyperium is up-to-date!", 5);
+        } else {
+            Hyperium.INSTANCE.getNotification().display("Hyperium Update", "Downloading Hyperium Installer", 5);
+            String url = "https://static.sk1er.club/hyperium_files/Hyperium-0.11.jar";
+
+            try {
+                if(new File(Minecraft.getMinecraft().mcDataDir.getAbsolutePath() + "hyperium/caches/").exists()) {
+                    Folder
+                }
+                download(new File(Minecraft.getMinecraft().mcDataDir.getAbsolutePath() + "hyperium/caches/HyperiumInstaller.jar"), url);
+                Hyperium.INSTANCE.getNotification().display("Hyperium Update", "Installer downloaded successfully!", 5);
+                Desktop.getDesktop().open(new File(Minecraft.getMinecraft().mcDataDir.getAbsolutePath() + "hyperium/caches/HyperiumInstaller.jar"));
+
+            } catch (IOException e) {
+                Hyperium.INSTANCE.getNotification().display("Hyperium Update", "Failed to download.", 5);
+                e.printStackTrace();
+            } catch (Exception e) {
+                Hyperium.INSTANCE.getNotification().display("Hyperium Update", "Failed to download.", 5);
+                e.printStackTrace();
+            }
+        }
+
     }
+
+    private void download(File file, String url) throws Exception {
+        URLConnection conn = new URL(url).openConnection();
+        conn.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:56.0) Gecko/20100101 Firefox/56.0");
+        if (!file.exists())
+            file.createNewFile();
+        try (BufferedInputStream in = new BufferedInputStream(conn.getInputStream()); FileOutputStream fout = new FileOutputStream(file)) {
+            final byte data[] = new byte[1024];
+            int count;
+            while ((count = in.read(data, 0, 1024)) != -1)
+                fout.write(data, 0, count);
+        }
+    }
+
 }
+
