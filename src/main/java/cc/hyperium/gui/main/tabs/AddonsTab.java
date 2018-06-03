@@ -117,13 +117,13 @@ public class AddonsTab extends AbstractTab {
         //if addon folder is empty display chosen text
         if (AddonBootstrap.INSTANCE.getAddonManifests().isEmpty()) {
             GlStateManager.scale(1.0, 1.0, 1.0);
-            hfr.drawStringWithShadow(selectedMsg, topX + 5, topY + 5, new Color(255, 0, 0, 100).getRGB());
+            hfr.drawCenteredStringWithShadow(selectedMsg, topX + 5, topY + 5, new Color(255, 0, 0, 100).getRGB());
             if (Hyperium.INSTANCE.isDevEnv() && !AddonMinecraftBootstrap.getAddonLoadErrors().isEmpty()) {
                 String stacktrace = ExceptionUtils.getStackTrace(AddonMinecraftBootstrap.getAddonLoadErrors().get(0)); // get stacktrace
                 String[] parts = stacktrace.split("\n");
                 int index = 0;
                 for (String part : parts) {
-                    hfr.drawStringWithShadow(part, topX + 5, (topY + 5) + (++index * (hfr.FONT_HEIGHT + 10)), new Color(255, 0, 0, 100).getRGB());
+                    hfr.drawCenteredStringWithShadow(part, topX + 5, (topY + 5) + (++index * (hfr.FONT_HEIGHT + 10)), new Color(255, 0, 0, 100).getRGB());
                 }
             }
         } else {
