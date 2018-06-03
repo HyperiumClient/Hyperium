@@ -19,6 +19,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.stream.IntStream;
 
 /*
  * Created by Cubxity on 29/05/2018
@@ -28,22 +31,8 @@ public class AddonsTab extends AbstractTab {
     private GuiBlock block;
     private int y, w;
     private static HyperiumFontRenderer hfr = new HyperiumFontRenderer("Arial", Font.PLAIN, 40);
-    public ArrayList<String> messages;
     public String selectedMsg;
-
-    public void loadMessages() {
-
-        String[] strs = {
-          "Wow... so sad... you don't have any addons\n" +
-                  ":( so 2009! You don't have any addons\n" +
-                  "y u have no addon\n" +
-                  "add addons pls kthx\n" +
-                  "java.lang.ArrayIndexOutOfBoundsException"
-        };
-
-        messages.add(String.valueOf(strs));
-
-    }
+    public ArrayList<String> messages;
 
     public AddonsTab(int y, int w) {
         block = new GuiBlock(0, w, y, y + w);
@@ -59,7 +48,8 @@ public class AddonsTab extends AbstractTab {
                         HyperiumOverlay overlay = (HyperiumOverlay) clazz.newInstance();
                         HyperiumMainGui.INSTANCE.setOverlay(overlay);
                     } catch (Exception e) {
-                        HyperiumMainGui.Alert alert = new HyperiumMainGui.Alert(Icons.ERROR.getResource(), () -> {}, "Failed to load addon's config overlay");
+                        HyperiumMainGui.Alert alert = new HyperiumMainGui.Alert(Icons.ERROR.getResource(), () -> {
+                        }, "Failed to load addon's config overlay");
                         HyperiumMainGui.getAlerts().add(alert);
                         e.printStackTrace(); // in case the check went wrong
                     }
@@ -91,10 +81,22 @@ public class AddonsTab extends AbstractTab {
 
     @Override
     public void draw(int mouseX, int mouseY, int topX, int topY, int containerWidth, int containerHeight) {
-        loadMessages();
         //choose random line from text
-        Random rand = new Random();
-        selectedMsg = messages.get(rand.nextInt(messages.size()));
+
+        messages.add("Wow... so sad... you don't have any addons\n" +
+                ":( so 2009! You don't have any addons\n" +
+                "y u have no addon\n" +
+                "add addons pls kthx\n" +
+                "java.lang.ArrayIndexOutOfBoundsException");
+
+        Random random = new Random();
+
+        IntStream.range(0, 5).forEach(
+                a -> selectedMsg = messages.get(random
+                        .nextInt(messages.size())));
+
+        Logger.getLogger("debug").log(Level.FINE, selectedMsg);
+
         super.draw(mouseX, mouseY, topX, topY, containerWidth, containerHeight);
 
         //if addon folder is empty display chosen text
@@ -108,16 +110,14 @@ public class AddonsTab extends AbstractTab {
         }
     }
 
-    public static String choose(File f) throws FileNotFoundException
-    {
+    public static String choose(File f) throws FileNotFoundException {
         String result = null;
         Random rand = new Random();
         int n = 0;
-        for(Scanner sc = new Scanner(f); sc.hasNext(); )
-        {
+        for (Scanner sc = new Scanner(f); sc.hasNext(); ) {
             ++n;
             String line = sc.nextLine();
-            if(rand.nextInt(n) == 0)
+            if (rand.nextInt(n) == 0)
                 result = line;
         }
 
