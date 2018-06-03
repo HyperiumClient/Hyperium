@@ -32,8 +32,20 @@ import java.util.UUID;
 @Mixin(Entity.class)
 public abstract class MixinEntity {
 
-    private IChatComponent cachedName;
     private final long nameCacheTime = System.currentTimeMillis();
+    @Shadow
+    public double posX;
+    @Shadow
+    public double posY;
+    @Shadow
+    public double posZ;
+    @Shadow
+    public double prevPosX;
+    @Shadow
+    public double prevPosY;
+    @Shadow
+    public double prevPosZ;
+    private IChatComponent cachedName;
 
     @Shadow
     public abstract String getName();
@@ -62,4 +74,8 @@ public abstract class MixinEntity {
     Vec3 getLook(float particalTicks) {
         return null;
     }
+
+    @Shadow
+    public abstract float getEyeHeight();
+
 }

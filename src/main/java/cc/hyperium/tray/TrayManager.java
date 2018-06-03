@@ -21,6 +21,7 @@ import cc.hyperium.Hyperium;
 import cc.hyperium.Metadata;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.HypixelFriendRequestEvent;
+import cc.hyperium.event.HypixelPartyInviteEvent;
 import cc.hyperium.event.InvokeEvent;
 import net.minecraft.client.Minecraft;
 
@@ -63,13 +64,25 @@ public class TrayManager {
     }
 
     /**
+     * Party requests
+     *
+     * @param event the event
+     */
+    @InvokeEvent
+    public void onPartyRequest(HypixelPartyInviteEvent event) {
+        if (this.tray != null && Hyperium.INSTANCE.getHandlers().getConfigOptions().showConfirmationPopup) {
+            this.tray.displayMessage("Hypixel", "Party request from " + event.getFrom(), TrayIcon.MessageType.NONE);
+        }
+    }
+
+    /**
      * Friend requests
      *
      * @param event the event
      */
     @InvokeEvent
     public void onFriendRequest(HypixelFriendRequestEvent event) {
-        if (this.tray != null) {
+        if (this.tray != null && Hyperium.INSTANCE.getHandlers().getConfigOptions().showConfirmationPopup) {
             this.tray.displayMessage("Hypixel", "Friend request from " + event.getFrom(), TrayIcon.MessageType.NONE);
         }
     }

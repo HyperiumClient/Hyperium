@@ -17,6 +17,7 @@
 
 package cc.hyperium.mixins.gui;
 
+import cc.hyperium.gui.settings.items.GeneralSetting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
@@ -31,6 +32,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.awt.*;
 import java.util.List;
+
+import static cc.hyperium.gui.settings.items.GeneralSetting.oldResourcePackGui;
 
 @Mixin(ResourcePackListEntry.class)
 public abstract class MixinGuiResourcePack {
@@ -56,50 +59,55 @@ public abstract class MixinGuiResourcePack {
     @Inject(method = "drawEntry", at = @At("HEAD"), cancellable = true)
     private void drawEntry(int slotIndex, int x, int y, int listWidth, int slotHeight,
                            int mouseX, int mouseY, boolean isSelected, CallbackInfo ci) {
-        boolean compact = true;
-        if (compact) {
-            ci.cancel();
-            int i = this.func_183019_a();
+        if(!GeneralSetting.oldResourcePackGui) {
 
-            if (i != 1) {
+            boolean compact = true;
+            if (compact) {
+                ci.cancel();
+                int i = this.func_183019_a();
+
+                if (i != 1) {
+                    GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+                    Gui.drawRect(x - 1, y - 1, x + listWidth - 9, y + slotHeight + 1, -8978432);
+                }
+
                 GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-                Gui.drawRect(x - 1, y - 1, x + listWidth - 9, y + slotHeight + 1, -8978432);
+                String s = this.func_148312_b();
+                String s1 = this.func_148311_a();
+
+                int i1 = this.mc.fontRendererObj.getStringWidth(s);
+
+                if (i1 > 157) {
+                    s = this.mc.fontRendererObj.trimStringToWidth(s, 157 - this.mc.fontRendererObj.getStringWidth("...")) + "...";
+                }
+
+                this.mc.fontRendererObj.drawStringWithShadow(s, (float) (x + 2), (float) (y + 4), 16777215);
+                List<String> list = this.mc.fontRendererObj.listFormattedStringToWidth(s1, 157);
+
+                GL11.glPushMatrix();
+                GL11.glScalef(0.7F, 0.7F, 0.7F);
+
+                StringBuilder msg = new StringBuilder();
+                list.forEach(b -> msg.append(b).append(" "));
+
+                double max = 157 / 0.7;
+                int len = this.mc.fontRendererObj.getStringWidth(msg.toString());
+
+                String info = msg.toString();
+                if (len > max) {
+                    info = this.mc.fontRendererObj.trimStringToWidth(msg.toString(), (int) (max - this.mc.fontRendererObj.getStringWidth("..."))) + "...";
+                }
+                this.mc.fontRendererObj.drawStringWithShadow(info, (float) ((x + 5) / 0.7), (float) ((y + 6 + 10) / 0.7), 8421504);
+
+
+                GL11.glPopMatrix();
+
+                Gui.drawRect(x + 2, y + 12 + 17,
+                        x + listWidth - 10, y + 12 + 18, new Color(94, 98, 94, 235).getRGB());
+
+
             }
-
-            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-            String s = this.func_148312_b();
-            String s1 = this.func_148311_a();
-
-            int i1 = this.mc.fontRendererObj.getStringWidth(s);
-
-            if (i1 > 157) {
-                s = this.mc.fontRendererObj.trimStringToWidth(s, 157 - this.mc.fontRendererObj.getStringWidth("...")) + "...";
-            }
-
-            this.mc.fontRendererObj.drawStringWithShadow(s, (float) (x + 2), (float) (y + 4), 16777215);
-            List<String> list = this.mc.fontRendererObj.listFormattedStringToWidth(s1, 157);
-
-            GL11.glPushMatrix();
-            GL11.glScalef(0.7F, 0.7F, 0.7F);
-
-            StringBuilder msg = new StringBuilder();
-            list.forEach(b -> msg.append(b).append(" "));
-
-            double max = 157 / 0.7;
-            int len = this.mc.fontRendererObj.getStringWidth(msg.toString());
-
-            String info = msg.toString();
-            if (len > max) {
-                info = this.mc.fontRendererObj.trimStringToWidth(msg.toString(), (int) (max - this.mc.fontRendererObj.getStringWidth("..."))) + "...";
-            }
-            this.mc.fontRendererObj.drawStringWithShadow(info, (float) ((x + 5) / 0.7), (float) ((y + 6 + 10) / 0.7), 8421504);
-
-
-            GL11.glPopMatrix();
-
-            Gui.drawRect(x + 2, y + 12 + 17,
-                    x + listWidth - 10, y + 12 + 18, new Color(94, 98, 94, 235).getRGB());
-
+        } else {
 
         }
     }

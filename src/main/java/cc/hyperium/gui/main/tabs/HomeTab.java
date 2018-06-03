@@ -86,7 +86,6 @@ public class HomeTab extends AbstractTab {
         if (information != null) {
             JsonHolder changelog = new JsonHolder(information.optJSONArray("changelogs").get(0).getAsJsonObject());
 
-            GlStateManager.enableBlend();
             title.drawString(changelog.optString("title"), topX + 5, topY + 5, 0xffffff);
             int i = 25;
             for (JsonElement e : changelog.optJSONArray("description")) {
