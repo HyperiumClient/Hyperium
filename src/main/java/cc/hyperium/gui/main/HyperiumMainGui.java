@@ -62,7 +62,7 @@ public class HyperiumMainGui extends HyperiumGui {
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-        if (overlay == null)
+        if (Minecraft.getMinecraft().theWorld == null)
             drawDefaultBackground();
 
         // Draws side pane
