@@ -218,13 +218,14 @@ public class CrashReportGUI extends JDialog {
                 latest = versionsJson.optString("latest-stable");
             }
 
-            String pattern = "[A-Z]\\d{2}\n";
+            String localv = String.valueOf(Pattern.compile("[A-Z]\\d{2}").matcher(Metadata.getVersion()).find());
+            String latestv = String.valueOf(Pattern.compile("[A-Z]\\d{2}").matcher(latest).find());
 
-            if (latest.split(pattern) == Metadata.getVersion().split(pattern)) {
-                System.out.println(true);
+            if (latestv == localv) {
+                updated = true;
                 return true;
             } else {
-                System.out.println(false);
+                updated = false;
                 return false;
             }
 
@@ -232,7 +233,7 @@ public class CrashReportGUI extends JDialog {
             e.printStackTrace();
         }
 
-        return false;
+        return updated;
     }
 
 
