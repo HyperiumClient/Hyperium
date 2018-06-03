@@ -18,7 +18,7 @@
 package cc.hyperium.handlers.handlers.keybinds.keybinds;
 
 import cc.hyperium.Hyperium;
-import cc.hyperium.gui.settings.items.CosmeticSettings;
+import cc.hyperium.config.Settings;
 import cc.hyperium.handlers.handlers.animation.AbstractAnimationHandler;
 import cc.hyperium.handlers.handlers.animation.FlossDanceHandler;
 import cc.hyperium.handlers.handlers.keybinds.HyperiumBind;
@@ -41,7 +41,7 @@ public class FlossKeybind extends HyperiumBind {
         UUID uuid = (Minecraft.getMinecraft().getSession()).getProfile().getId();
         AbstractAnimationHandler.AnimationState currentState = flossDanceHandler.get(uuid);
 
-        if (CosmeticSettings.flossDanceToggle && currentState.isAnimating() && !this.wasPressed()) {
+        if (Settings.FLOSS_TOGGLE && currentState.isAnimating() && !this.wasPressed()) {
             currentState.setToggled(false);
             flossDanceHandler.stopAnimation(uuid);
             NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("type", "floss_update").put("flossing", false)));
@@ -49,7 +49,7 @@ public class FlossKeybind extends HyperiumBind {
         }
 
         if (!this.wasPressed()) {
-            currentState.setToggled(CosmeticSettings.flossDanceToggle);
+            currentState.setToggled(Settings.FLOSS_TOGGLE);
             flossDanceHandler.startAnimation(uuid);
             NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("type", "floss_update").put("flossing", true)));
 
@@ -59,7 +59,7 @@ public class FlossKeybind extends HyperiumBind {
 
     @Override
     public void onRelease() {
-        if (CosmeticSettings.flossDanceToggle) return;
+        if (Settings.FLOSS_TOGGLE) return;
         Hyperium.INSTANCE.getHandlers().getFlossDanceHandler().stopAnimation(Minecraft.getMinecraft().getSession().getProfile().getId());
         NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("type", "floss_update").put("flossing", false)));
 

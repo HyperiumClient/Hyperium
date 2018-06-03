@@ -170,9 +170,9 @@ package cc.hyperium.mixins;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.SplashProgress;
+import cc.hyperium.config.Settings;
 import cc.hyperium.event.*;
 import cc.hyperium.gui.CrashReportGUI;
-import cc.hyperium.gui.settings.items.GeneralSetting;
 import cc.hyperium.handlers.handlers.HypixelDetector;
 import cc.hyperium.internal.addons.AddonBootstrap;
 import cc.hyperium.internal.addons.AddonMinecraftBootstrap;
@@ -426,7 +426,7 @@ public abstract class MixinMinecraft {
     private void displayFix(CallbackInfo ci) throws LWJGLException {
         Display.setFullscreen(false);
         if (this.fullscreen) {
-            if (GeneralSetting.windowedFullScreen) {
+            if (Settings.WINDOWED_FULLSCREEN) {
                 System.setProperty("org.lwjgl.opengl.Window.undecorated", "true");
             } else {
                 Display.setFullscreen(true);
@@ -435,7 +435,7 @@ public abstract class MixinMinecraft {
                 this.displayHeight = Math.max(1, displaymode.getHeight());
             }
         } else {
-            if (GeneralSetting.windowedFullScreen) {
+            if (Settings.WINDOWED_FULLSCREEN) {
                 System.setProperty("org.lwjgl.opengl.Window.undecorated", "false");
             } else {
                 Display.setDisplayMode(new DisplayMode(this.displayWidth, this.displayHeight));
@@ -450,7 +450,7 @@ public abstract class MixinMinecraft {
 
     @Inject(method = "toggleFullscreen", at = @At(value = "INVOKE", target = "Lorg/lwjgl/opengl/Display;setVSyncEnabled(Z)V", shift = At.Shift.AFTER))
     private void fullScreenFix(CallbackInfo ci) throws LWJGLException {
-        if (GeneralSetting.windowedFullScreen) {
+        if (Settings.WINDOWED_FULLSCREEN) {
             if (fullscreen) {
                 System.setProperty("org.lwjgl.opengl.Window.undecorated", "true");
                 Display.setDisplayMode(Display.getDesktopDisplayMode());

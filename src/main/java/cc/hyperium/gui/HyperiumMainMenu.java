@@ -170,8 +170,9 @@ package cc.hyperium.gui;
 
 import cc.hyperium.GuiStyle;
 import cc.hyperium.Metadata;
+import cc.hyperium.config.Settings;
+import cc.hyperium.gui.main.HyperiumMainGui;
 import cc.hyperium.gui.settings.items.BackgroundSettings;
-import cc.hyperium.gui.settings.items.GeneralSetting;
 import cc.hyperium.mixinsimp.renderer.gui.IMixinGuiMultiplayer;
 import cc.hyperium.utils.HyperiumFontRenderer;
 import net.minecraft.client.Minecraft;
@@ -368,7 +369,7 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
         switch (getStyle()) {
             case DEFAULT:
                 if (button.id == 15)
-                    mc.displayGuiScreen(new ModConfigGui());
+                    mc.displayGuiScreen(new HyperiumMainGui());
                 if (button.id == 16) {
                     GuiMultiplayer p_i1182_1_ = new GuiMultiplayer(new GuiMainMenu());
                     p_i1182_1_.setWorldAndResolution(Minecraft.getMinecraft(), width, height);
@@ -572,7 +573,7 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
     }
 
     private GuiStyle getStyle() {
-        return GuiStyle.valueOf(GeneralSetting.menuStyle);
+        return GuiStyle.valueOf(Settings.MENU_STYLE);
     }
 
     private DynamicTexture getCachedTexture(String t) {

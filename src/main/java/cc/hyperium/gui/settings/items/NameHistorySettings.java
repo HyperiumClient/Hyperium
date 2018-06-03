@@ -18,15 +18,15 @@
 package cc.hyperium.gui.settings.items;
 
 import cc.hyperium.Hyperium;
-import cc.hyperium.config.ConfigOpt;
 import cc.hyperium.config.DefaultConfig;
 import cc.hyperium.gui.HyperiumGui;
 import cc.hyperium.gui.settings.SettingGui;
-import cc.hyperium.gui.settings.components.SelectionItem;
 
 public class NameHistorySettings extends SettingGui {
+    /*
     @ConfigOpt
     public static boolean rgbNamesEnabled = false;
+    */
     private final DefaultConfig config;
 
     public NameHistorySettings(HyperiumGui previous) {
@@ -38,6 +38,7 @@ public class NameHistorySettings extends SettingGui {
     @Override
     protected void pack() {
         super.pack();
+        /*
         SelectionItem<String> rgbNames;
         settingItems.add(rgbNames = new SelectionItem<>(0, getX(), getDefaultItemY(0), width - getX() * 2, "RGB NAMES", i -> {
             ((SelectionItem) i).nextItem();
@@ -45,6 +46,7 @@ public class NameHistorySettings extends SettingGui {
         }));
         rgbNames.addDefaultOnOff();
         rgbNames.setSelectedItem(rgbNamesEnabled ? "ON" : "OFF");
+        */
     }
 
     private int getDefaultItemY(int i) {

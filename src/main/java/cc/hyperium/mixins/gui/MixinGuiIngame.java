@@ -17,9 +17,9 @@
 
 package cc.hyperium.mixins.gui;
 
+import cc.hyperium.config.Settings;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.RenderSelectedItemEvent;
-import cc.hyperium.gui.settings.items.GeneralSetting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
@@ -66,7 +66,7 @@ public abstract class MixinGuiIngame extends Gui {
             int i = scaledresolution.getScaledWidth();
             int i1 = 12;
 
-            if (GeneralSetting.bossBarTextOnlyEnabled) {
+            if (Settings.BOSSBAR_TEXT_ONLY) {
                 String s = BossStatus.bossName;
                 this.getFontRenderer().drawStringWithShadow(s, (float) (i / 2 - this.getFontRenderer().getStringWidth(s) / 2), (float) (i1 - 10), 16777215);
                 GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);

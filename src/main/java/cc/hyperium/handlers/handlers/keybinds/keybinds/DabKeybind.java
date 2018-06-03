@@ -18,7 +18,7 @@
 package cc.hyperium.handlers.handlers.keybinds.keybinds;
 
 import cc.hyperium.Hyperium;
-import cc.hyperium.gui.settings.items.CosmeticSettings;
+import cc.hyperium.config.Settings;
 import cc.hyperium.handlers.handlers.animation.AbstractAnimationHandler;
 import cc.hyperium.handlers.handlers.animation.DabHandler;
 import cc.hyperium.handlers.handlers.keybinds.HyperiumBind;
@@ -42,7 +42,7 @@ public class DabKeybind extends HyperiumBind {
         UUID uuid = (Minecraft.getMinecraft().getSession()).getProfile().getId();
         AbstractAnimationHandler.AnimationState currentState = dabHandler.get(uuid);
 
-        if (CosmeticSettings.dabToggle && currentState.isAnimating() && !this.wasPressed()) {
+        if (Settings.DAB_TOGGLE && currentState.isAnimating() && !this.wasPressed()) {
             currentState.setToggled(false);
             dabHandler.stopAnimation(uuid);
             NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("type", "dab_update").put("dabbing", false)));
@@ -50,7 +50,7 @@ public class DabKeybind extends HyperiumBind {
         }
 
         if (!this.wasPressed()) {
-            currentState.setToggled(CosmeticSettings.dabToggle);
+            currentState.setToggled(Settings.DAB_TOGGLE);
             dabHandler.startAnimation(uuid);
         }
         NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("type", "dab_update").put("dabbing", true)));
@@ -59,7 +59,7 @@ public class DabKeybind extends HyperiumBind {
 
     @Override
     public void onRelease() {
-        if (CosmeticSettings.dabToggle) return;
+        if (Settings.DAB_TOGGLE) return;
 
         Hyperium.INSTANCE.getHandlers().getDabHandler().stopAnimation(Minecraft.getMinecraft().getSession().getProfile().getId());
         NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("type", "dab_update").put("dabbing", false)));

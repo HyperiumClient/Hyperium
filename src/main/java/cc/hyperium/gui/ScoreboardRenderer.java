@@ -1,9 +1,9 @@
 package cc.hyperium.gui;
 
 import cc.hyperium.config.ConfigOpt;
+import cc.hyperium.config.Settings;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.RenderScoreboardEvent;
-import cc.hyperium.gui.settings.items.GeneralSetting;
 import cc.hyperium.utils.RenderUtils;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
@@ -71,7 +71,7 @@ public class ScoreboardRenderer {
                 RenderUtils.drawRect(l1 - 2, k, l, k + this.getFontRenderer().FONT_HEIGHT, 1342177280);
                 this.getFontRenderer().drawString(s1, l1, k, 553648127);
 
-                if (!GeneralSetting.hideScoreboardNumbers) {
+                if (!Settings.HIDE_SCOREBOARD_NUMBERS) {
                     this.getFontRenderer().drawString(s2, l - this.getFontRenderer().getStringWidth(s2), k, 553648127);
                 }
 

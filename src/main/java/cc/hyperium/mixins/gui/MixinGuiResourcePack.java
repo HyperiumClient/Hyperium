@@ -17,7 +17,7 @@
 
 package cc.hyperium.mixins.gui;
 
-import cc.hyperium.gui.settings.items.GeneralSetting;
+import cc.hyperium.config.Settings;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
@@ -32,8 +32,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.awt.*;
 import java.util.List;
-
-import static cc.hyperium.gui.settings.items.GeneralSetting.oldResourcePackGui;
 
 @Mixin(ResourcePackListEntry.class)
 public abstract class MixinGuiResourcePack {
@@ -59,7 +57,7 @@ public abstract class MixinGuiResourcePack {
     @Inject(method = "drawEntry", at = @At("HEAD"), cancellable = true)
     private void drawEntry(int slotIndex, int x, int y, int listWidth, int slotHeight,
                            int mouseX, int mouseY, boolean isSelected, CallbackInfo ci) {
-        if(!GeneralSetting.oldResourcePackGui) {
+        if(!Settings.LEGACY_RP) {
 
             boolean compact = true;
             if (compact) {

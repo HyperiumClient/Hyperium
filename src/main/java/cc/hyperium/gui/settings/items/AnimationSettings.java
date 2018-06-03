@@ -26,6 +26,7 @@ import cc.hyperium.gui.settings.components.SelectionItem;
 
 public class AnimationSettings extends SettingGui {
 
+
     @ConfigOpt
     public static boolean oldBlockhit = true;
 
@@ -38,6 +39,7 @@ public class AnimationSettings extends SettingGui {
     public static boolean oldEat = true;
     @ConfigOpt
     public static boolean redArmour = true;
+
     private final DefaultConfig config;
 
 
@@ -49,6 +51,7 @@ public class AnimationSettings extends SettingGui {
 
     @Override
     protected void pack() {
+
         super.pack();
         SelectionItem<String> blockhit;
         settingItems.add(blockhit = new SelectionItem<>(0, getX(), getDefaultItemY(0), width - getX() * 2, "BLOCKHITTING", i -> {
@@ -95,6 +98,7 @@ public class AnimationSettings extends SettingGui {
         redarmour.addItem("1.7");
         redarmour.addItem("1.8");
         redarmour.setSelectedItem(redArmour ? "1.7" : "1.8");
+
 
 
     }

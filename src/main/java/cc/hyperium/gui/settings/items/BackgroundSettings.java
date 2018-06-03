@@ -28,12 +28,12 @@ import cc.hyperium.gui.settings.SettingGui;
 import cc.hyperium.gui.settings.SettingItem;
 import cc.hyperium.gui.settings.components.OnOffSetting;
 import cc.hyperium.gui.settings.components.SelectionItem;
-import java.util.function.Consumer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.function.Consumer;
 
 public class BackgroundSettings extends SettingGui {
 
@@ -50,6 +50,7 @@ public class BackgroundSettings extends SettingGui {
 
     @ConfigOpt
     public static boolean renderOverInventory = true;
+
     private final DefaultConfig config;
     
     private int currentID = 0;
@@ -70,7 +71,7 @@ public class BackgroundSettings extends SettingGui {
         super.pack();
     
         this.currentID = 0;
-        
+
         SelectionItem<String> x = registerCustomSetting("MENU BACKGROUND", backgroundSelect, i -> {
             ((SelectionItem) i).nextItem();
             
@@ -109,6 +110,7 @@ public class BackgroundSettings extends SettingGui {
         registerOnOffSetting("SHOW PARTICLES OVER INVENTORY", renderOverInventory, on -> renderOverInventory = on);
         
         registerCustomSetting("CUSTOM BACKGROUND", "DOWNLOAD", i -> Minecraft.getMinecraft().displayGuiScreen(new ChangeBackgroundGui(this)));
+
     }
 
     private void refreshBackground() {
