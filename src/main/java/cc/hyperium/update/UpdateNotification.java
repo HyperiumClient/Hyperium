@@ -16,10 +16,10 @@ public class UpdateNotification {
 
     @InvokeEvent
     public void sendNotification(JoinHypixelEvent e) {
-        if (!update.isUpdated() && GeneralSetting.showUpdateNotifications) {
+        if (!update.isUpdated() && GeneralSetting.showUpdateNotifications && !Hyperium.INSTANCE.isDevEnv()) {
             Hyperium.INSTANCE.getNotification().display("Hyperium Update", "Hyperium needs an update! Go to https://hyperium.cc", 5);
         } else {
-            System.out.println("updated");
+            System.out.println("up-to-date");
         }
     }
 
