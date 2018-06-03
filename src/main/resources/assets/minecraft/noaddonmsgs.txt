@@ -2,4 +2,5 @@ Wow... so sad... you don't have any addons
 :( so 2009! You don't have any addons
 y u have no addon
 add addons pls kthx
-java.lang.ArrayIndexOutOfBoundsException
+autocheating = best addon
+to install addons put them in .minecraft\addons
