@@ -70,9 +70,18 @@ public class Settings {
     public static boolean FLOSS_TOGGLE = false;
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.CosmeticSettings;flip_type")
     public static int FLIP_TYPE = 1;
+    @ConfigOpt(alt = "cc.hyperium.gui.settings.items.AnimationSettings;oldBlockhit") @ToggleSetting(name = "1.7 blockhitting")
+    public static boolean OLD_BLOCKHIT = true;
+    @ConfigOpt(alt = "cc.hyperium.gui.settings.items.AnimationSettings;oldBow") @ToggleSetting(name = "1.7 bow")
+    public static boolean OLD_BOW = true;
+    @ConfigOpt(alt = "cc.hyperium.gui.settings.items.AnimationSettings;oldRod") @ToggleSetting(name = "1.7 rod")
+    public static boolean OLD_ROD = true;
+    @ConfigOpt(alt = "cc.hyperium.gui.settings.items.AnimationSettings;redArmour") @ToggleSetting(name = "1.7 armour")
+    public static boolean OLD_ARMOUR = true;
+    @ConfigOpt(alt = "cc.hyperium.gui.settings.items.AnimationSettings;oldEat") @ToggleSetting(name = "1.7 eating")
+    public static boolean OLD_EATING = true;
     @ConfigOpt @ToggleSetting(name = "RGB in name history")
     public static boolean NH_RGB_NAMES = false;
-
 
     public static void register() {
         Hyperium.CONFIG.register(new Settings()); // values r static soo whatever

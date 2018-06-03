@@ -18,7 +18,7 @@
 package cc.hyperium.mixins.renderer;
 
 import cc.hyperium.Hyperium;
-import cc.hyperium.gui.settings.items.AnimationSettings;
+import cc.hyperium.config.Settings;
 import cc.hyperium.purchases.AbstractHyperiumPurchase;
 import cc.hyperium.purchases.EnumPurchaseType;
 import cc.hyperium.purchases.HyperiumPurchase;
@@ -75,7 +75,7 @@ public abstract class MixinRendererLivingEntity<T extends EntityLivingBase> exte
     protected void renderLayers(T entitylivingbaseIn, float p_177093_2_, float p_177093_3_, float partialTicks, float p_177093_5_, float p_177093_6_, float p_177093_7_, float p_177093_8_) {
         for (LayerRenderer<T> layerrenderer : this.layerRenderers) {
             boolean f = layerrenderer.shouldCombineTextures();
-            if (AnimationSettings.redArmour && layerrenderer instanceof LayerBipedArmor) {
+            if (Settings.OLD_ARMOUR && layerrenderer instanceof LayerBipedArmor) {
                 f = true;
             }
             boolean flag = this.setBrightness(entitylivingbaseIn, partialTicks, f);
