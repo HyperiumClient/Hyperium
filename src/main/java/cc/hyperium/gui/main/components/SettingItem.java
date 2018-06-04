@@ -10,7 +10,6 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.input.Mouse;
 
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.List;
 
 /*
@@ -18,7 +17,6 @@ import java.util.List;
  */
 public class SettingItem {
     private Runnable onClick;
-    private List<SubItem> subItems = new ArrayList<>();
     private ResourceLocation icon;
     private String title;
     private String desc;
@@ -33,10 +31,6 @@ public class SettingItem {
         this.hover = hover;
         this.xIndex = xIndex;
         this.yIndex = yIndex;
-    }
-
-    public List<SubItem> getSubItems() {
-        return subItems;
     }
 
     public void setDesc(String desc) {
@@ -97,24 +91,6 @@ public class SettingItem {
             GlStateManager.scale(s, s, s);
             HyperiumMainGui.getFr().drawString(hover, (mouseX + 10) / s + 1, mouseY / s + 1, 0xffffff);
             GlStateManager.scale(1.25f, 1.25f, 1.25f);
-        }
-    }
-
-    public static class SubItem {
-        private String label;
-        private boolean toggle;
-
-        public SubItem(String label) {
-            this.label = label;
-            toggle = false;
-        }
-
-        public boolean isToggled() {
-            return toggle;
-        }
-
-        public void setToggle(boolean toggle) {
-            this.toggle = toggle;
         }
     }
 }
