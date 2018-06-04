@@ -7,7 +7,6 @@ import cc.hyperium.gui.Icons;
 import cc.hyperium.gui.main.HyperiumMainGui;
 import cc.hyperium.gui.main.HyperiumOverlay;
 import cc.hyperium.gui.main.components.AbstractTab;
-import cc.hyperium.gui.main.components.SettingItem;
 import cc.hyperium.gui.main.components.WrappingSettingItem;
 import net.minecraft.client.gui.Gui;
 import org.lwjgl.input.Mouse;
@@ -51,11 +50,11 @@ public class SettingsTab extends AbstractTab {
         this.y = y;
         this.w = w;
 
-        items.add(new WrappingSettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(general), Icons.SETTINGS.getResource(), "General", "General settings for hyperium", "click to configure", 0, 0));
+        items.add(new WrappingSettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(general), Icons.SETTINGS.getResource(), "General", "General settings for Hyperium", "click to configure", 0, 0));
 
-        items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(integrations), Icons.EXTENSION.getResource(), "Integrations", "Hyperium integrations", "click to configure", 1, 0));
+        items.add(new WrappingSettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(integrations), Icons.EXTENSION.getResource(), "Integrations", "Hyperium integrations", "Click to configure", 1, 0));
 
-        items.add(new WrappingSettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(improvements), Icons.TOOL.getResource(), "Improvements", "Improvements and bug fixes", "click to configure", 2, 0));
+        items.add(new WrappingSettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(improvements), Icons.TOOL.getResource(), "Improvements", "Improvements and bug fixes", "Click to configure", 2, 0));
     }
 
     @Override
