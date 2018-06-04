@@ -18,6 +18,7 @@ public abstract class AbstractTab {
     protected static HyperiumFontRenderer fr = HyperiumMainGui.getFr();
 
     protected List<SettingItem> items = new ArrayList<>();
+    protected List<SettingItem> witems = new ArrayList<>();
 
     public abstract void drawTabIcon();
 
@@ -36,6 +37,7 @@ public abstract class AbstractTab {
             if (pw > 144)
                 pw = 144; // icon res
             int finalPw = pw;
+            witems.forEach(s -> s.handleMouseInput(mx, my, sr.getScaledWidth() - finalPw, sr.getScaledWidth() - finalPw, finalPw * 2, finalPw));
             items.forEach(s -> s.handleMouseInput(mx, my, sr.getScaledWidth() - finalPw, sr.getScaledWidth() - finalPw, finalPw * 2, finalPw));
         }
     }

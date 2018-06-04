@@ -7,6 +7,7 @@ import cc.hyperium.gui.main.HyperiumMainGui;
 import cc.hyperium.gui.main.HyperiumOverlay;
 import cc.hyperium.gui.main.components.AbstractTab;
 import cc.hyperium.gui.main.components.SettingItem;
+import cc.hyperium.gui.main.components.WrappingSettingItem;
 import cc.hyperium.internal.addons.AddonBootstrap;
 import cc.hyperium.internal.addons.AddonManifest;
 import cc.hyperium.internal.addons.AddonMinecraftBootstrap;
@@ -91,7 +92,7 @@ public class AddonsTab extends AbstractTab {
                 xi++;
         }
 
-        items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(downloadAddons), Icons.DOWNLOAD.getResource(), "Download Addons", "Addon store for \nHyperium", "click to configure", 0, 0));
+        items.add(new WrappingSettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(downloadAddons), Icons.DOWNLOAD.getResource(), "Download Addons", "The Hyperium Add-ons Repo", "click to configure", 0, 0));
     }
 
     @Override
