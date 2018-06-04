@@ -18,6 +18,7 @@ public @interface ToggleSetting {
     enum Category {
         GENERAL,
         IMPROVEMENTS,
-        INTEGRATIONS
+        INTEGRATIONS,
+        COSMETICS;
     }
 }
