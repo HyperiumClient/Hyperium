@@ -21,6 +21,7 @@ public class SettingsTab extends AbstractTab {
     private static HyperiumOverlay general = new HyperiumOverlay();
     private static HyperiumOverlay integrations = new HyperiumOverlay();
     private static HyperiumOverlay improvements = new HyperiumOverlay();
+    private static HyperiumOverlay cosmetics = new HyperiumOverlay();
 
     private static int offsetY = 0; // static so it saves the previous location
     private GuiBlock block;
@@ -40,6 +41,9 @@ public class SettingsTab extends AbstractTab {
                     case INTEGRATIONS:
                         integrations.addToggle(a.name(), f);
                         break;
+                    case COSMETICS:
+                        cosmetics.addToggle(a.name(), f);
+                        break;
                 }
             }
         }
@@ -50,11 +54,13 @@ public class SettingsTab extends AbstractTab {
         this.y = y;
         this.w = w;
 
-        items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(general), Icons.SETTINGS.getResource(), "General", "General settings for hyperium", "click to configure", 0, 0));
+        items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(general), Icons.SETTINGS.getResource(), "General", "General settings for Hyperium", "click to configure", 0, 0));
 
         items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(integrations), Icons.EXTENSION.getResource(), "Integrations", "Hyperium integrations", "click to configure", 1, 0));
 
         items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(improvements), Icons.TOOL.getResource(), "Improvements", "Improvements and bug fixes", "click to configure", 2, 0));
+
+        items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(cosmetics), Icons.COSMETIC.getResource(), "Cosmetics", "Bling out your Minecraft Avatar", "click to configure", 0, 1));
     }
 
     @Override

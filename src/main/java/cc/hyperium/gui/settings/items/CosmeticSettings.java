@@ -37,10 +37,9 @@ public class CosmeticSettings extends SettingGui {
     public static int flossDanceSpeed = 4;
     @ConfigOpt
     public static boolean flossDanceToggle = false;
-
     @ConfigOpt
     public static int flip_type = 1;
-    */
+*/
 
 
     private final DefaultConfig config;
@@ -123,8 +122,6 @@ public class CosmeticSettings extends SettingGui {
         flip_state.addItems(Arrays.asList("INVERT", "ROTATE"));
         flip_state.setSelectedItem(flip_type == 1 ? "INVERT" : "ROTATE");
         */
-
-
     }
 
     private int getDefaultItemY(int i) {

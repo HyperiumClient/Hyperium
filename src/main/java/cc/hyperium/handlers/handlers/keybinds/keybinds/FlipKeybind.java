@@ -19,6 +19,8 @@ package cc.hyperium.handlers.handlers.keybinds.keybinds;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.config.Settings;
+import cc.hyperium.gui.settings.SettingItem;
+import cc.hyperium.gui.settings.items.CosmeticSettings;
 import cc.hyperium.handlers.handlers.keybinds.HyperiumBind;
 import cc.hyperium.netty.NettyClient;
 import cc.hyperium.netty.packet.packets.serverbound.ServerCrossDataPacket;
@@ -28,7 +30,7 @@ import org.lwjgl.input.Keyboard;
 
 public class FlipKeybind extends HyperiumBind {
 
-    public FlipKeybind(){
+    public FlipKeybind() {
         super("Invert (Requires Purchase)", Keyboard.KEY_I);
     }
 
@@ -38,11 +40,18 @@ public class FlipKeybind extends HyperiumBind {
     public void onPress() {
         if (!Hyperium.INSTANCE.getCosmetics().getFlipCosmetic().isSelfUnlocked())
             return;
-        inverted = !inverted;
-        int state = inverted ? Settings.FLIP_TYPE : 0;
-        Hyperium.INSTANCE.getHandlers().getFlipHandler().state(Minecraft.getMinecraft().getSession().getProfile().getId(), state);
-        NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("type", "flip_update").put("flip_state", state)));
-        Hyperium.INSTANCE.getHandlers().getFlipHandler().resetTick();
+        if (Settings.isFlipToggle) {
+            inverted = !inverted;
+            int state = inverted ? Settings.flipType : 0;
+            Hyperium.INSTANCE.getHandlers().getFlipHandler().state(Minecraft.getMinecraft().getSession().getProfile().getId(), state);
+            NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("type", "flip_update").put("flip_state", state)));
+            Hyperium.INSTANCE.getHandlers().getFlipHandler().resetTick();
+        } else if (!Settings.isFlipToggle) {
+            inverted = !inverted;
+            int state = inverted ? Settings.flipType : 0;
+            Hyperium.INSTANCE.getHandlers().getFlipHandler().state(Minecraft.getMinecraft().getSession().getProfile().getId(), state);
+            NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("type", "flip_update").put("flip_state", state)));
+        }
     }
 
     @Override
@@ -54,4 +63,6 @@ public class FlipKeybind extends HyperiumBind {
         Hyperium.INSTANCE.getHandlers().getFlipHandler().state(Minecraft.getMinecraft().getSession().getProfile().getId(), state);
         NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("type", "flip_update").put("flip_state", state)));
     }
+
 }
+
