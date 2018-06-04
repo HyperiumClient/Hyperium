@@ -63,11 +63,7 @@ public class WrappingSettingItem extends SettingItem {
             if (desc.length() > 20) {
                 HyperiumMainGui.getFr().drawString(desc.substring(0, 20), (blockX + 3) / s, (blockY + 15) / s, new Color(160, 160, 160).getRGB());
                 if(String.valueOf(desc.substring(20, 21).charAt(0)) == " ") {
-<<<<<<< HEAD
                     HyperiumMainGui.getFr().drawString(desc.substring(20, desc.length()).replaceFirst(" ", ""), (blockX + 3) / s, (blockY + 23) / s, new Color(160, 160, 160).getRGB());
-=======
-                    HyperiumMainGui.getFr().drawString(desc.substring(20, desc.length()), (blockX) / s, (blockY + 23) / s, new Color(160, 160, 160).getRGB());
->>>>>>> remotes/upstream/new-config
                 } else {
                     HyperiumMainGui.getFr().drawString(desc.substring(20, desc.length()), (blockX + 3) / s, (blockY + 23) / s, new Color(160, 160, 160).getRGB());
                 }
