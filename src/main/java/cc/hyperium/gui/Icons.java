@@ -13,7 +13,8 @@ public enum Icons {
     EXTENSION(new ResourceLocation("textures/material/extension.png")),
     INFO(new ResourceLocation("textures/material/info.png")),
     ERROR(new ResourceLocation("textures/material/error.png")),
-    DOWNLOAD(new ResourceLocation("textures/material/download.png"));
+    DOWNLOAD(new ResourceLocation("textures/material/download.png")),
+    TOOL(new ResourceLocation("textures/material/tools.png"));
 
 
     private ResourceLocation res;
