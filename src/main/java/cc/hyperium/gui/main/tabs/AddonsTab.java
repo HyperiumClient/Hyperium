@@ -70,7 +70,7 @@ public class AddonsTab extends AbstractTab {
         this.w = w;
         int yi = 0, xi = 1;
         for (AddonManifest a : AddonBootstrap.INSTANCE.getAddonManifests()) {
-            items.add(new SettingItem(() -> {
+            items.add(new WrappingSettingItem(() -> {
                 if (a.getOverlay() != null) {
                     // While loading it has been checked so we don't have to do that here
                     try {
