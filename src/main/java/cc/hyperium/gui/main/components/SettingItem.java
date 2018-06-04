@@ -60,10 +60,9 @@ public class SettingItem {
         int h = containerHeight / 3;
         int blockX = topX + w * xIndex + w / 7;
         int blockY = topY + h * yIndex + h / 6;
-        if (mouseX >= blockX && mouseX <= blockX + w / 7 * 5 && mouseY >= blockY && mouseY <= blockY + h / 6 * 4 && HyperiumMainGui.INSTANCE.getOverlay() == null) {
-            System.out.println("In render: " + mouseX + " " + mouseY);
+        if (mouseX >= blockX && mouseX <= blockX + w / 7 * 5 && mouseY >= blockY && mouseY <= blockY + h / 6 * 4 && HyperiumMainGui.INSTANCE.getOverlay() == null)
             HyperiumGui.drawChromaBox(blockX, blockY, blockX + w / 7 * 5, blockY + h / 6 * 4, 0.2f);
-        } else {
+        else {
             Gui.drawRect(blockX, blockY, blockX + w / 7 * 5, blockY + h / 6 * 4, new Color(0, 0, 0, 60).getRGB());
             GlStateManager.shadeModel(7424); // for opening from main menu
             GlStateManager.disableBlend();
