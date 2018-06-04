@@ -127,9 +127,10 @@ public class HyperiumMainGui extends HyperiumGui {
 
     @Override
     public void handleKeyboardInput() throws IOException {
-        if (overlay != null && Keyboard.isKeyDown(Keyboard.KEY_ESCAPE))
+        if (overlay != null && Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)) {
+            overlay.reset();
             overlay = null;
-        else
+        } else
             super.handleKeyboardInput();
     }
 

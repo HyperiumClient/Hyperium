@@ -62,4 +62,11 @@ public class HyperiumOverlay {
             e.printStackTrace();
         }
     }
+
+    public void reset() {
+        components.forEach(c -> {
+            if (c instanceof OverlayToggle)
+                ((OverlayToggle) c).resetStep();
+        });
+    }
 }

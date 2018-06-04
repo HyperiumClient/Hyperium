@@ -46,4 +46,8 @@ public class OverlayToggle extends OverlayComponent {
             step = 1f;
         }
     }
+
+    public void resetStep() {
+        step = 1f;
+    }
 }
