@@ -3,6 +3,7 @@ package cc.hyperium.config;
 import cc.hyperium.GuiStyle;
 import cc.hyperium.Hyperium;
 
+import static cc.hyperium.config.ToggleSetting.Category.COSMETICS;
 import static cc.hyperium.config.ToggleSetting.Category.IMPROVEMENTS;
 import static cc.hyperium.config.ToggleSetting.Category.INTEGRATIONS;
 
@@ -82,6 +83,10 @@ public class Settings {
     public static boolean OLD_EATING = true;
     @ConfigOpt @ToggleSetting(name = "RGB in name history")
     public static boolean NH_RGB_NAMES = false;
+    @ConfigOpt(alt = "cc.hyperium.gui.settings.items.CosmeticSettings;fliptoggle") @ToggleSetting(name = "1.7 eating", category = COSMETICS)
+    public static boolean isFlipToggle = true;
+    @ConfigOpt(alt = "cc.hyperium.gui.settings.items.CosmeticSettings;fliptype") @ToggleSetting(name = "1.7 eating", category = COSMETICS)
+    public static int flipType = 1;
 
     public static void register() {
         Hyperium.CONFIG.register(new Settings()); // values r static soo whatever
