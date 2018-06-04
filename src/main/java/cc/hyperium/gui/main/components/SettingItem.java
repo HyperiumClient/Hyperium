@@ -91,7 +91,10 @@ public class SettingItem {
         GlStateManager.scale(1.25f, 1.25f, 1.25f);
         if (icon != null) {
             Minecraft.getMinecraft().getTextureManager().bindTexture(icon);
-            Gui.drawScaledCustomSizeModalRect(blockX + w / 7 * 5 - 25, blockY, 0, 0, 144, 144, 25, 25, 144, 144);
+            int oldScale = Minecraft.getMinecraft().gameSettings.guiScale;
+            float v = 2F / oldScale;
+            int width = (int) (25 * v);
+            Gui.drawScaledCustomSizeModalRect((blockX + w / 7 * 5 - 25) + (25-width), (blockY - h / 6) + width, 0, 0, 144, 144, width, width, 144, 144);
         }
 
         Icons.INFO.bind();
