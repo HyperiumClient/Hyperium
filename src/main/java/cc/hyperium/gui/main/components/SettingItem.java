@@ -10,7 +10,6 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.input.Mouse;
 
 import java.awt.*;
-import java.util.List;
 
 /*
  * Created by Cubxity on 29/05/2018
@@ -32,6 +31,7 @@ public class SettingItem {
         this.xIndex = xIndex;
         this.yIndex = yIndex;
     }
+
 
     public void setDesc(String desc) {
         this.desc = desc;
@@ -70,10 +70,8 @@ public class SettingItem {
             GlStateManager.enableAlpha();
             GlStateManager.enableTexture2D();
         }
-        if (Mouse.isButtonDown(0)) {
-            if (mouseX >= blockX && mouseX <= blockX + w / 7 * 5 && mouseY >= blockY && mouseY <= blockY + h / 6 * 4)
-                onClick.run();
-        }
+        if (Mouse.isButtonDown(0) && mouseX >= blockX && mouseX <= blockX + w / 7 * 5 && mouseY >= blockY && mouseY <= blockY + h / 6 * 4)
+            onClick.run();
         HyperiumMainGui.getFr().drawString(title, blockX + 3, blockY + 3, 0xffffff);
         float s = 0.8f;
         GlStateManager.scale(s, s, s);
