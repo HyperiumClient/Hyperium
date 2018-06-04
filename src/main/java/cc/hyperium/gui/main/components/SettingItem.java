@@ -75,7 +75,20 @@ public class SettingItem {
         HyperiumMainGui.getFr().drawString(title, blockX + 3, blockY + 3, 0xffffff);
         float s = 0.8f;
         GlStateManager.scale(s, s, s);
-        HyperiumMainGui.getFr().drawString(desc, (blockX + 3) / s, (blockY + 15) / s, new Color(160, 160, 160).getRGB());
+        StringBuilder tmp = new StringBuilder();
+        int offsetY = 15;
+        for (String word : desc.split(" ")) {
+            if (HyperiumMainGui.getFr().getWidth(tmp + word) * s < w / 7 * 5 - (offsetY >= 25 ? 0 : 27))
+                tmp.append(word).append(" ");
+            else {
+                HyperiumMainGui.getFr().drawString(tmp.toString(), (blockX + 3) / s, (blockY + offsetY) / s, new Color(160, 160, 160).getRGB());
+                offsetY += 10;
+                tmp = new StringBuilder();
+                tmp.append(word).append(" ");
+            }
+        }
+        if (tmp.length() > 0)
+            HyperiumMainGui.getFr().drawString(tmp.toString(), (blockX + 3) / s, (blockY + offsetY) / s, new Color(160, 160, 160).getRGB());
         GlStateManager.scale(1.25f, 1.25f, 1.25f);
         if (icon != null) {
             Minecraft.getMinecraft().getTextureManager().bindTexture(icon);

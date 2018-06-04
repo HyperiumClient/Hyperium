@@ -7,7 +7,6 @@ import cc.hyperium.gui.main.HyperiumMainGui;
 import cc.hyperium.gui.main.HyperiumOverlay;
 import cc.hyperium.gui.main.components.AbstractTab;
 import cc.hyperium.gui.main.components.SettingItem;
-import cc.hyperium.gui.main.components.WrappingSettingItem;
 import cc.hyperium.internal.addons.AddonBootstrap;
 import cc.hyperium.internal.addons.AddonManifest;
 import cc.hyperium.internal.addons.AddonMinecraftBootstrap;
@@ -70,7 +69,7 @@ public class AddonsTab extends AbstractTab {
         this.w = w;
         int yi = 0, xi = 1;
         for (AddonManifest a : AddonBootstrap.INSTANCE.getAddonManifests()) {
-            items.add(new WrappingSettingItem(() -> {
+            items.add(new SettingItem(() -> {
                 if (a.getOverlay() != null) {
                     // While loading it has been checked so we don't have to do that here
                     try {
@@ -92,7 +91,7 @@ public class AddonsTab extends AbstractTab {
                 xi++;
         }
 
-        items.add(new WrappingSettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(downloadAddons), Icons.DOWNLOAD.getResource(), "Download Addons", "The Hyperium Add-ons Repo", "click to configure", 0, 0));
+        items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(downloadAddons), Icons.DOWNLOAD.getResource(), "Download Addons", "The Hyperium Add-ons Repo", "click to configure", 0, 0));
     }
 
     @Override
