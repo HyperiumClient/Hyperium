@@ -83,9 +83,9 @@ public class Settings {
     public static boolean OLD_EATING = true;
     @ConfigOpt @ToggleSetting(name = "RGB in name history")
     public static boolean NH_RGB_NAMES = false;
-    @ConfigOpt(alt = "cc.hyperium.gui.settings.items.CosmeticSettings;fliptoggle") @ToggleSetting(name = "1.7 eating", category = COSMETICS)
+    @ConfigOpt(alt = "cc.hyperium.gui.settings.items.CosmeticSettings;fliptoggle") @ToggleSetting(name = "Toggle Flip", category = COSMETICS)
     public static boolean isFlipToggle = true;
-    @ConfigOpt(alt = "cc.hyperium.gui.settings.items.CosmeticSettings;fliptype") @ToggleSetting(name = "1.7 eating", category = COSMETICS)
+    @ConfigOpt(alt = "cc.hyperium.gui.settings.items.CosmeticSettings;flipType") @ToggleSetting(name = "Flip Type", category = COSMETICS)
     public static int flipType = 1;
 
     public static void register() {
