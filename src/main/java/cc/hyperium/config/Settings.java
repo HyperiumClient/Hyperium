@@ -85,8 +85,6 @@ public class Settings {
     public static boolean NH_RGB_NAMES = false;
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.CosmeticSettings;fliptoggle") @ToggleSetting(name = "Toggle Flip", category = COSMETICS)
     public static boolean isFlipToggle = true;
-    @ConfigOpt(alt = "cc.hyperium.gui.settings.items.CosmeticSettings;flipType") @ToggleSetting(name = "Flip Type", category = COSMETICS)
-    public static boolean flipType = 1;
 
     public static void register() {
         Hyperium.CONFIG.register(new Settings()); // values r static soo whatever
