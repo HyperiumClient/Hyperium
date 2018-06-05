@@ -104,7 +104,7 @@ public class MixinItemRenderer {
         if (Settings.OLD_BOW && this.mc != null && this.mc.thePlayer != null &&
                 this.mc.thePlayer.getItemInUse() != null && this.mc.thePlayer.getItemInUse().getItem() != null &&
                 Item.getIdFromItem(this.mc.thePlayer.getItemInUse().getItem()) == 261) {
-            GlStateManager.translate(-0.01f, 0.05f, -0.06f);
+            GlStateManager.translate(0.0f, 0.05f, 0.04f);
         }
 
         if (Settings.OLD_ROD && this.mc != null && this.mc.thePlayer != null && this.mc.thePlayer.getCurrentEquippedItem() != null && this.mc.thePlayer.getCurrentEquippedItem().getItem() != null && Item.getIdFromItem(this.mc.thePlayer.getCurrentEquippedItem().getItem()) == 346) {
