@@ -74,6 +74,10 @@ public class LocationHandler {
 
     @InvokeEvent
     public void serverSwap(ServerSwitchEvent event) {
+        if (NettyClient.getClient() == null) {
+            return;
+        }
+        
         if (Hyperium.INSTANCE.getMinigameListener().getScoreboardTitle().equalsIgnoreCase(Minigame.HOUSING.name()))
             NettyClient.getClient().write(UpdateLocationPacket.build(Minigame.HOUSING.name()));
         else
@@ -85,6 +89,10 @@ public class LocationHandler {
 
     @InvokeEvent
     public void miniGameJoin(JoinMinigameEvent event) {
+        if (NettyClient.getClient() == null) {
+            return;
+        }
+        
         if (event.getMinigame() == Minigame.HOUSING) {
             NettyClient.getClient().write(UpdateLocationPacket.build(Minigame.HOUSING.name()));
             if (Hyperium.INSTANCE.getHandlers().getFlipHandler().getSelf() != 0)
