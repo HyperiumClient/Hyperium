@@ -158,7 +158,6 @@ public class PurchaseApi {
 
     public JsonHolder get(String url) {
         url = url.replace(" ", "%20");
-        System.out.println("Fetching " + url);
         try {
             URL u = new URL(url);
             HttpURLConnection connection = (HttpURLConnection) u.openConnection();

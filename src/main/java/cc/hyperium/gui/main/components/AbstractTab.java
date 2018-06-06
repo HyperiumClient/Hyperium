@@ -45,4 +45,8 @@ public abstract class AbstractTab {
     public void draw(int mouseX, int mouseY, int topX, int topY, int containerWidth, int containerHeight) {
         items.forEach(i -> i.render(mouseX, mouseY, containerWidth, containerHeight, topX, topY));
     }
+
+    public boolean isScrollable() { //TODO: Disable scroll
+        return true;
+    }
 }

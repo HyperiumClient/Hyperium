@@ -28,10 +28,7 @@ import cc.hyperium.event.minigames.MinigameListener;
 import cc.hyperium.gui.BlurDisableFallback;
 import cc.hyperium.gui.ConfirmationPopup;
 import cc.hyperium.gui.NotificationCenter;
-import cc.hyperium.gui.settings.items.AnimationSettings;
-import cc.hyperium.gui.settings.items.BackgroundSettings;
-import cc.hyperium.gui.settings.items.CosmeticSettings;
-import cc.hyperium.gui.settings.items.GeneralSetting;
+import cc.hyperium.gui.settings.items.*;
 import cc.hyperium.handlers.HyperiumHandlers;
 import cc.hyperium.installer.InstallerFrame;
 import cc.hyperium.integrations.spotify.Spotify;
@@ -161,6 +158,8 @@ public class Hyperium {
         EventBus.INSTANCE.register(new WingCosmetic());
         EventBus.INSTANCE.register(confirmation = new ConfirmationPopup());
         EventBus.INSTANCE.register(new BlurDisableFallback());
+        EventBus.INSTANCE.register(new CommandUpdate());
+
 
         // Register statistics tracking.
         EventBus.INSTANCE.register(statTrack);
@@ -188,6 +187,7 @@ public class Hyperium {
         SplashProgress.PROGRESS = 9;
         SplashProgress.CURRENT = "Registering config";
         SplashProgress.update();
+        CONFIG.register(new HUDSettings(null));
         Settings.register();
         //Register commands.
         SplashProgress.PROGRESS = 10;
