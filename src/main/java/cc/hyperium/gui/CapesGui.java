@@ -102,6 +102,8 @@ public class CapesGui extends HyperiumGui {
             int oldScale = mc.gameSettings.guiScale;
             mc.gameSettings.guiScale = 2;
             ScaledResolution current = new ScaledResolution(Minecraft.getMinecraft());
+            mc.gameSettings.guiScale = oldScale;
+
             float v = 2F / (oldScale);
             GlStateManager.scale(v, v, v);
             final int blockWidth = 128;
@@ -268,7 +270,6 @@ public class CapesGui extends HyperiumGui {
                 }
                 pos++;
             }
-            mc.gameSettings.guiScale = oldScale;
             GlStateManager.scale(1F / v, 1F / v, 1F / v);
         } catch (Exception e) {
             e.printStackTrace();
