@@ -654,7 +654,7 @@ public abstract class MixinMinecraft {
         EventBus.INSTANCE.post(new MouseButtonEvent(i));
     }
 
-    /**
+    /**cc
      * @author Mojang & Cubxity
      */
     @Overwrite
@@ -666,7 +666,7 @@ public abstract class MixinMinecraft {
         try {
             Display.setFullscreen(false);
             Display.setDisplayMode(new DisplayMode(720, 480));
-
+            Display.update();
 
         } catch (LWJGLException e) {
             e.printStackTrace();

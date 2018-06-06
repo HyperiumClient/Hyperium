@@ -16,7 +16,7 @@ import java.util.Arrays;
 public class HUDSettings extends SettingGui {
 
     @ConfigOpt
-    public static boolean chromahud_toggle = false;
+    public static boolean chromahud_toggle = true;
 
     private final DefaultConfig config;
 
@@ -31,7 +31,7 @@ public class HUDSettings extends SettingGui {
         super.pack();
 
         SelectionItem<String> chromahudtoggle;
-        settingItems.add(chromahudtoggle = new SelectionItem<>(0, getX(), getDefaultItemY(1), width - getX() * 2, "TOGGLE CHROMAHUD", i -> {
+        settingItems.add(chromahudtoggle = new SelectionItem<>(0, getX(), getDefaultItemY(1), width - getX() * 2, "ENABLE CHROMAHUD", i -> {
             ((SelectionItem) i).nextItem();
             chromahud_toggle = ((SelectionItem) i).getSelectedItem().equals("ON");
         }));
