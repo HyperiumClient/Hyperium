@@ -30,10 +30,10 @@ import java.util.stream.StreamSupport;
  * Created by Cubxity on 12/04/2018 
  */
 
-class InstallerConfig extends JFrame {
+public class InstallerConfig extends JFrame {
     private static final int WIDTH = 600;
     private static final int HEIGHT = 260;
-    private static final int VERSION = 1; // installer version, change every time when installer system changes
+    public static final int VERSION = 1; // installer version, change every time when installer system changes
 
     private HashMap<JRadioButton, JsonArray> dependencies = new HashMap<>();
 
