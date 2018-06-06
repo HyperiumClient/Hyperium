@@ -236,6 +236,15 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
     public static void setBackground(ResourceLocation background) {
         HyperiumMainMenu.background = background;
     }
+    public static boolean FIRST_START  = true;
+    public HyperiumMainMenu() {
+        if(Minecraft.getMinecraft().isFullScreen() && GeneralSetting.windowedFullScreen) {
+            HyperiumMainMenu.FIRST_START=false;
+            Minecraft.getMinecraft().toggleFullscreen();
+            Minecraft.getMinecraft().toggleFullscreen();
+
+        }
+    }
 
     public static void setCustomBackground(boolean customBackground) {
         HyperiumMainMenu.customBackground = customBackground;
