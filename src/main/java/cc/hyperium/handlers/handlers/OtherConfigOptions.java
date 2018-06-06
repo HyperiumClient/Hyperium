@@ -7,13 +7,13 @@ import cc.hyperium.config.ConfigOpt;
  */
 public class OtherConfigOptions {
     @ConfigOpt
-    public final double headScaleFactor = 2.0;
+    public  double headScaleFactor = 2.0;
     @ConfigOpt
-    public final int renderNameDistance = 64;
+    public  int renderNameDistance = 64;
     @ConfigOpt
-    public final boolean shadeNameTags = true;
+    public  boolean shadeNameTags = true;
     @ConfigOpt
-    public final int stringCacheSize = 1000;
+    public  int stringCacheSize = 1000;
     @ConfigOpt
     public boolean hideNameTags = false;
     @ConfigOpt

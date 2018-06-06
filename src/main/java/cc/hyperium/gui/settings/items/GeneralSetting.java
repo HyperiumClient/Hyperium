@@ -161,6 +161,18 @@ public class GeneralSetting extends SettingGui {
         registerOnOffSetting("SHOW NOTIFICATION CENTER", Hyperium.INSTANCE.getHandlers().getConfigOptions().showNotificationCenter, on -> Hyperium.INSTANCE.getHandlers().getConfigOptions().showNotificationCenter = on);
         registerOnOffSetting("SHOW CONFIRMATION POPUP", Hyperium.INSTANCE.getHandlers().getConfigOptions().showConfirmationPopup, on -> Hyperium.INSTANCE.getHandlers().getConfigOptions().showConfirmationPopup = on);
         registerOnOffSetting("SHOW UPDATE NOTIFICATIONS", showUpdateNotifications, on -> showUpdateNotifications = on);
+        SelectionItem<String> scale = registerCustomSetting(
+                "HEAD SCALE",
+                Double.toString(Hyperium.INSTANCE.getHandlers().getConfigOptions().headScaleFactor),
+                (i) -> {
+                    String s = ((SelectionItem) i).getSelectedItem().toString();
+                    System.out.println(s);
+                    Hyperium.INSTANCE.getHandlers().getConfigOptions().headScaleFactor =
+                            Double.parseDouble(s);
+
+                }
+        );
+        scale.addItems(Arrays.asList("1.0", "1.25", "1.5", "1.75", "2.0"));
 
 
     }
