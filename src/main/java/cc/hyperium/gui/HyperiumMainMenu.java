@@ -205,6 +205,7 @@ import java.util.HashMap;
 public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
 
 
+    public static boolean FIRST_START = true;
     private static ResourceLocation background = new ResourceLocation("textures/material/backgrounds/1.png");
     private static boolean customBackground = false;
     private static File customImage = new File(Minecraft.getMinecraft().mcDataDir, "customImage.png");
@@ -229,21 +230,21 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
     private BufferedImage bgBr = null;
     private ResourceLocation bgDynamicTexture = null;
 
+    public HyperiumMainMenu() {
+        if (Minecraft.getMinecraft().isFullScreen() && GeneralSetting.windowedFullScreen && FIRST_START) {
+            HyperiumMainMenu.FIRST_START = false;
+            Minecraft.getMinecraft().toggleFullscreen();
+            Minecraft.getMinecraft().toggleFullscreen();
+
+        }
+    }
+
     public static ResourceLocation getBackground() {
         return background;
     }
 
     public static void setBackground(ResourceLocation background) {
         HyperiumMainMenu.background = background;
-    }
-    public static boolean FIRST_START  = true;
-    public HyperiumMainMenu() {
-        if(Minecraft.getMinecraft().isFullScreen() && GeneralSetting.windowedFullScreen) {
-            HyperiumMainMenu.FIRST_START=false;
-            Minecraft.getMinecraft().toggleFullscreen();
-            Minecraft.getMinecraft().toggleFullscreen();
-
-        }
     }
 
     public static void setCustomBackground(boolean customBackground) {
