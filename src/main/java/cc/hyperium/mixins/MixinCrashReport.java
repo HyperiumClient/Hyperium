@@ -17,7 +17,7 @@ public abstract class MixinCrashReport {
     @Inject(method = "populateEnvironment", at = @At("HEAD"))
     public void add(CallbackInfo info) {
         CrashReportCategory category = makeCategoryDepth("Affected level", 1);
-        category.addCrashSection("Hyperium Version", Metadata.getVersion());
+        category.addCrashSection("Hyperium Version", Metadata.getVersion() + " (" + Metadata.getVersionID() + ")");
         category.addCrashSection("Everything else", CommandDebug.get());
 
 
