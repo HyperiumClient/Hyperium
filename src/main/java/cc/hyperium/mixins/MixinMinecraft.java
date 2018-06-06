@@ -666,8 +666,7 @@ public abstract class MixinMinecraft {
         try {
             Display.setFullscreen(false);
             Display.setDisplayMode(new DisplayMode(720, 480));
-
-
+            Display.update();
         } catch (LWJGLException e) {
             e.printStackTrace();
         }

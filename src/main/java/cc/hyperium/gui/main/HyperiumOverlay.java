@@ -23,7 +23,7 @@ public class HyperiumOverlay {
     private int offsetY = 0;
 
     public void render(int mouseX, int mouseY, int w, int h) {
-        HyperiumGui.drawChromaBox(0, 0, w, h, 0.2F); // bg
+       // HyperiumGui.drawChromaBox(0, 0, w, h, 0.2F); // bg
         Gui.drawRect(w / 6 * 2, h / 4, w / 6 * 4, h / 4 * 3, new Color(30, 30, 30).getRGB());
         for (OverlayComponent c : components) {
             c.render(mouseX, mouseY, w / 6 * 2, h / 4 + 20 * components.indexOf(c) + offsetY, w / 6 * 2, 20, h);
@@ -50,15 +50,23 @@ public class HyperiumOverlay {
 
     public void addToggle(String label, Field f) {
         try {
-            components.add(new OverlayToggle(label, f.getBoolean(null), b -> {
-                try {
-                    f.setBoolean(null, b);
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                }
-                Settings.save();
-            }));
-        } catch (IllegalAccessException e) {
+            Object o = f.get(null);
+            
+            if (o == null) {
+                return;
+            }
+            
+            if (o instanceof Boolean) {
+                components.add(new OverlayToggle(label, (boolean) o, b -> {
+                    try {
+                        f.setBoolean(null, b);
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
+                    Settings.save();
+                }));
+            }
+        } catch (IllegalAccessException | IllegalArgumentException e) {
             e.printStackTrace();
         }
     }
