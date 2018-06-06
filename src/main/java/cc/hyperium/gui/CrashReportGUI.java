@@ -133,7 +133,7 @@ public class CrashReportGUI extends JDialog {
             Multithreading.runAsync(new Runnable() {
                 @Override
                 public void run() {
-                    if (update.isUpdated()) {
+                    if (update.isSupported()) {
                         report.setEnabled(false);
                         report.setText("REPORTING...");
                         if (sendReport()) {

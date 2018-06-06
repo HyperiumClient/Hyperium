@@ -169,10 +169,12 @@
 package cc.hyperium.commands.defaults;
 
 import cc.hyperium.Hyperium;
+import cc.hyperium.Metadata;
 import cc.hyperium.commands.BaseCommand;
 import cc.hyperium.installer.InstallerConfig;
 import cc.hyperium.installer.utils.DownloadTask;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
+import cc.hyperium.utils.JsonHolder;
 import cc.hyperium.utils.UpdateUtils;
 import com.google.gson.JsonObject;
 import net.minecraft.client.Minecraft;
@@ -208,7 +210,7 @@ public class CommandUpdate implements BaseCommand {
 
     @Override
     public void onExecute(String[] args) {
-        if (utils.isUpdated())
+        if (utils.  isAbsoluteLatest())
             Hyperium.INSTANCE.getNotification().display("Update", "Hyperium is up to date!", 3);
         else {
             try {
@@ -217,7 +219,7 @@ public class CommandUpdate implements BaseCommand {
                         .filter(v -> utils.vJson.optString("latest-stable").equals(v.getAsJsonObject().get("name").getAsString())).findFirst()
                         .orElseThrow(() -> new IllegalStateException("Couldn't find stable version")).getAsJsonObject();
                 boolean download = ver.get("install-min").getAsInt() > InstallerConfig.VERSION;
-                System.out.println("Download="+download);
+                System.out.println("Download=" + download);
                 Multithreading.runAsync(() -> {
                     try {
                         File jar;
@@ -229,11 +231,11 @@ public class CommandUpdate implements BaseCommand {
                         } else {
                             jar = new File(System.getProperty("sun.java.command").split(" ")[0]);
                         }
-                        Hyperium.INSTANCE.getNotification().display("Update", "Client will restart in 10 secs", 10);
+                        Hyperium.INSTANCE.getNotification().display("Update", "Client will restart in 10 secs. " + Metadata.getVersion() + " (" + Metadata.getVersionID() + ") -> " + ver.get("name").getAsString() + " (" +new JsonHolder(ver).optInt("release-id") + ") ", 10);
                         Multithreading.schedule(() -> {
                             Minecraft.getMinecraft().shutdown();
                             try {
-                                Runtime.getRuntime().exec(System.getProperty("java.home")+"/bin/java -jar "+jar.getAbsolutePath());
+                                Runtime.getRuntime().exec(System.getProperty("java.home") + "/bin/java -jar " + jar.getAbsolutePath());
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
