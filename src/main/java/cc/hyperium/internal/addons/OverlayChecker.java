@@ -9,7 +9,7 @@ public class OverlayChecker {
      */
     public static void checkOverlayField(String value) throws Throwable {
         Class<?> originClass = Class.forName(value);
-        if (!originClass.isAssignableFrom(HyperiumOverlay.class)) {
+        if (!originClass.isInstance(HyperiumOverlay.class)) {
             throw new AddonLoadException("overlay has to be an instance of HyperiumOverlay");
         }
     }
