@@ -43,6 +43,7 @@ import cc.hyperium.netty.NettyClient;
 import cc.hyperium.network.NetworkHandler;
 import cc.hyperium.purchases.PurchaseApi;
 import cc.hyperium.tray.TrayManager;
+import cc.hyperium.utils.StaffUtils;
 import cc.hyperium.utils.mods.CompactChat;
 import cc.hyperium.utils.mods.FPSLimiter;
 import net.minecraft.client.Minecraft;
@@ -205,6 +206,12 @@ public class Hyperium {
         SplashProgress.CURRENT = "Loading integrations";
         SplashProgress.update();
         modIntegration = new HyperiumModIntegration();
+        try {
+            StaffUtils.clearCache();
+        } catch (IOException e) {
+            e.printStackTrace();
+            LOGGER.warn("Failed to fetch staff");
+        }
         richPresenceManager.init();
 
         Multithreading.runAsync(Spotify::load);
