@@ -12,7 +12,7 @@ import static cc.hyperium.installer.InstallerFrame.get;
  */
 
 public class UpdateUtils {
-    public static UpdateUtils INSTANCE;
+    public static UpdateUtils INSTANCE = new UpdateUtils();
     public JsonHolder vJson;
 
     public boolean isUpdated() {

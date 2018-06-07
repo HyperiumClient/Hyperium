@@ -85,7 +85,7 @@ public class InfoTab extends AbstractTab {
                 HyperiumMainGui.getAlerts().add(new HyperiumMainGui.Alert(Icons.TOOL.getResource(), () -> {
                 }, "Client is up to date!"));
 
-        }), null, "Update", "update the client", "click to update the client if updates are available", 3, 1));
+        }), null, "Update", "update the client", "click to update the client if updates are available", 2, 2));
     }
 
     @Override
