@@ -27,6 +27,14 @@ class AddonManifest {
     var version: String? = null
 
     /**
+     * Description of an Addon
+     *
+     * @return desc
+     */
+
+    val desc: String? = null;
+
+    /**
      * Main Class of an addon
      * e.g.com.example.ExampleAddon
      *
