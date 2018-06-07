@@ -7,7 +7,7 @@ object OverlayChecker {
     @Throws(Throwable::class)
     fun checkOverlayField(value: String) {
         val originClass = Class.forName(value)
-        if (!originClass.isInstance(HyperiumOverlay::class.java)) {
+        if (!originClass.isAssignableFrom(HyperiumOverlay::class.java)) {
             throw AddonLoadException("overlay has to be an instance of HyperiumOverlay")
         }
     }
