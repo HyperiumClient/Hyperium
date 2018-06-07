@@ -9,7 +9,6 @@ object OverlayChecker {
         val originClass = Class.forName(value)
         if (!originClass.isInstance(HyperiumOverlay::class.java)) {
             throw AddonLoadException("overlay has to be an instance of HyperiumOverlay")
-            
         }
     }
 }
