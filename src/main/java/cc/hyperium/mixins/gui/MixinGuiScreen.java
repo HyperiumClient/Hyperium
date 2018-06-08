@@ -20,7 +20,6 @@ package cc.hyperium.mixins.gui;
 import cc.hyperium.config.Settings;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.GuiClickEvent;
-import cc.hyperium.gui.settings.items.BackgroundSettings;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.EntityRenderer;
@@ -65,7 +64,7 @@ public abstract class MixinGuiScreen {
 
     @Inject(method = "drawWorldBackground", at = @At("HEAD"), cancellable = true)
     private void drawWorldBackground(int tint, CallbackInfo ci) {
-        if (this.mc.theWorld != null && BackgroundSettings.fastWorldGuiEnabled) {
+        if (this.mc.theWorld != null && Settings.FAST_CONTAINER) {
             ci.cancel();
         }
     }

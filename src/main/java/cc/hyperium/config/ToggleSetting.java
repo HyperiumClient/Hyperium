@@ -14,11 +14,4 @@ public @interface ToggleSetting {
     String name();
 
     Category category() default Category.GENERAL;
-
-    enum Category {
-        GENERAL,
-        IMPROVEMENTS,
-        INTEGRATIONS,
-        COSMETICS;
-    }
 }

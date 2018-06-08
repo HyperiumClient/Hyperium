@@ -172,7 +172,6 @@ import cc.hyperium.GuiStyle;
 import cc.hyperium.Metadata;
 import cc.hyperium.config.Settings;
 import cc.hyperium.gui.main.HyperiumMainGui;
-import cc.hyperium.gui.settings.items.BackgroundSettings;
 import cc.hyperium.mixinsimp.renderer.gui.IMixinGuiMultiplayer;
 import cc.hyperium.utils.HyperiumFontRenderer;
 import net.minecraft.client.Minecraft;
@@ -258,7 +257,7 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
      */
 
     public void initGui() {
-        customBackground = BackgroundSettings.backgroundSelect.equalsIgnoreCase("CUSTOM");
+        customBackground = Settings.BACKGROUND.equalsIgnoreCase("CUSTOM");
         if (customImage.exists() && customBackground) {
             try {
                 bgBr = ImageIO.read(new FileInputStream(customImage));
@@ -392,7 +391,7 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
                 break;
             case HYPERIUM:
                 if (button.id == 15)
-                    mc.displayGuiScreen(new ModConfigGui());
+                    mc.displayGuiScreen(new HyperiumMainGui());
                 break;
         }
 

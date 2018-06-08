@@ -68,29 +68,54 @@ public class AddonsTab extends AbstractTab {
         this.y = y;
         this.w = w;
         int yi = 0, xi = 1;
-        for (AddonManifest a : AddonBootstrap.INSTANCE.getAddonManifests()) {
-            items.add(new SettingItem(() -> {
-                if (a.getOverlay() != null) {
-                    // While loading it has been checked so we don't have to do that here
-                    try {
-                        Class<?> clazz = Class.forName(a.getOverlay());
-                        HyperiumOverlay overlay = (HyperiumOverlay) clazz.newInstance();
-                        HyperiumMainGui.INSTANCE.setOverlay(overlay);
-                    } catch (Exception e) {
-                        HyperiumMainGui.Alert alert = new HyperiumMainGui.Alert(Icons.ERROR.getResource(), () -> {
-                        }, "Failed to load addon's config overlay");
-                        HyperiumMainGui.getAlerts().add(alert);
-                        e.printStackTrace(); // in case the check went wrong
+        AddonManifest addonManifest = new AddonManifest();
+        if(addonManifest.getDesc() != null) {
+            for (AddonManifest a : AddonBootstrap.INSTANCE.getAddonManifests()) {
+                items.add(new SettingItem(() -> {
+                    if (a.getOverlay() != null) {
+                        // While loading it has been checked so we don't have to do that here
+                        try {
+                            Class<?> clazz = Class.forName(a.getOverlay());
+                            HyperiumOverlay overlay = (HyperiumOverlay) clazz.newInstance();
+                            HyperiumMainGui.INSTANCE.setOverlay(overlay);
+                        } catch (Exception e) {
+                            HyperiumMainGui.Alert alert = new HyperiumMainGui.Alert(Icons.ERROR.getResource(), () -> {
+                            }, "Failed to load addon's config overlay");
+                            HyperiumMainGui.getAlerts().add(alert);
+                            e.printStackTrace(); // in case the check went wrong
+                        }
                     }
-                }
-            }, Icons.EXTENSION.getResource(), a.getName(), "", "Configure addon", xi, yi));
-            if (xi == 3) {
-                xi = 0;
-                yi++;
-            } else
-                xi++;
+                }, Icons.EXTENSION.getResource(), a.getName(), a.getDesc(), "Configure addon", xi, yi));
+                if (xi == 3) {
+                    xi = 0;
+                    yi++;
+                } else
+                    xi++;
+            }
+        } else {
+            for (AddonManifest a : AddonBootstrap.INSTANCE.getAddonManifests()) {
+                items.add(new SettingItem(() -> {
+                    if (a.getOverlay() != null) {
+                        // While loading it has been checked so we don't have to do that here
+                        try {
+                            Class<?> clazz = Class.forName(a.getOverlay());
+                            HyperiumOverlay overlay = (HyperiumOverlay) clazz.newInstance();
+                            HyperiumMainGui.INSTANCE.setOverlay(overlay);
+                        } catch (Exception e) {
+                            HyperiumMainGui.Alert alert = new HyperiumMainGui.Alert(Icons.ERROR.getResource(), () -> {
+                            }, "Failed to load addon's config overlay");
+                            HyperiumMainGui.getAlerts().add(alert);
+                            e.printStackTrace(); // in case the check went wrong
+                        }
+                    }
+                }, Icons.EXTENSION.getResource(), a.getName(), "Addon Description", "Configure addon", xi, yi));
+                if (xi == 3) {
+                    xi = 0;
+                    yi++;
+                } else
+                    xi++;
+            }
         }
-
         items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(downloadAddons), Icons.DOWNLOAD.getResource(), "Download Addons", "The Hyperium Add-ons Repo", "click to configure", 0, 0));
     }
 

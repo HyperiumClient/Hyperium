@@ -170,14 +170,27 @@ package cc.hyperium.commands.defaults;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.commands.BaseCommand;
+import cc.hyperium.installer.InstallerConfig;
+import cc.hyperium.installer.utils.DownloadTask;
+import cc.hyperium.mods.sk1ercommon.Multithreading;
+import cc.hyperium.utils.UpdateUtils;
+import com.google.gson.JsonObject;
+import net.minecraft.client.Minecraft;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.StreamSupport;
 
 /*
  * Created by Cubxity on 03/04/2018
  */
 public class CommandUpdate implements BaseCommand {
+
+    private UpdateUtils utils = UpdateUtils.INSTANCE;
+
     @Override
     public String getName() {
         return "update";
@@ -195,7 +208,46 @@ public class CommandUpdate implements BaseCommand {
 
     @Override
     public void onExecute(String[] args) {
-        Hyperium.updateQueue = true;
-        Hyperium.INSTANCE.getNotification().display("Update", "Update is scheduled after restart", 5);
+        if (utils.isUpdated())
+            Hyperium.INSTANCE.getNotification().display("Update", "Hyperium is up to date!", 3);
+        else {
+            try {
+                Hyperium.INSTANCE.getNotification().display("Update", "Downloading updates...", 3);
+                JsonObject ver = StreamSupport.stream(utils.vJson.optJSONArray("versions").spliterator(), false)
+                        .filter(v -> utils.vJson.optString("latest-stable").equals(v.getAsJsonObject().get("name").getAsString())).findFirst()
+                        .orElseThrow(() -> new IllegalStateException("Couldn't find stable version")).getAsJsonObject();
+                boolean download = ver.get("install-min").getAsInt() > InstallerConfig.VERSION;
+                System.out.println("Download="+download);
+                Multithreading.runAsync(() -> {
+                    try {
+                        File jar;
+                        if (download || Hyperium.INSTANCE.isDevEnv()) { // or else it will break in dev env
+                            DownloadTask task = new DownloadTask(ver.get("url").getAsString(), System.getProperty("java.io.tmpdir"));
+                            task.execute();
+                            task.get();
+                            jar = new File(System.getProperty("java.io.tmpdir"), task.getFileName());
+                        } else {
+                            jar = new File(System.getProperty("sun.java.command").split(" ")[0]);
+                        }
+                        Hyperium.INSTANCE.getNotification().display("Update", "Client will restart in 10 secs", 10);
+                        Multithreading.schedule(() -> {
+                            Minecraft.getMinecraft().shutdown();
+                            try {
+                                Runtime.getRuntime().exec(System.getProperty("java.home")+"/bin/java -jar "+jar.getAbsolutePath());
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }, 10, TimeUnit.SECONDS);
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                        Hyperium.INSTANCE.getNotification().display("Update", "Failed to download updates", 3);
+                    }
+                });
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                Hyperium.INSTANCE.getNotification().display("Update", "Failed to download updates", 3);
+            }
+        }
     }
 }
+

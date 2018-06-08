@@ -42,7 +42,11 @@ public class Multithreading {
     });
 
     public static void schedule(Runnable r, long initialDelay, long delay, TimeUnit unit) {
-       RUNNABLE_POOL.scheduleAtFixedRate(r, initialDelay, delay, unit);
+        RUNNABLE_POOL.scheduleAtFixedRate(r, initialDelay, delay, unit);
+    }
+
+    public static void schedule(Runnable r, long delay, TimeUnit unit) {
+        RUNNABLE_POOL.schedule(r, delay, unit);
     }
 
     public static void runAsync(Runnable runnable) {

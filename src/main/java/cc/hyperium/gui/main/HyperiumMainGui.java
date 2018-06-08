@@ -74,7 +74,7 @@ public class HyperiumMainGui extends HyperiumGui {
         GlStateManager.pushMatrix();
         GlStateManager.enableBlend();
         GL11.glColor3f(1.0f, 1.0f, 1.0f);
-        GlStateManager.translate(- tabFade * pw, 0, 0);
+        GlStateManager.translate(-tabFade * pw, 0, 0);
         tabs.forEach(AbstractTab::drawTabIcon);
         GlStateManager.disableBlend();
         GlStateManager.popMatrix();
@@ -83,7 +83,7 @@ public class HyperiumMainGui extends HyperiumGui {
 
         drawRect(pw * 2, pw, width - pw * 2, height - pw, new Color(0, 0, 0, 70).getRGB());
 
-        currentTab.draw(mouseX, mouseY, pw * 2, pw, width - pw * 4, height - pw);
+        currentTab.draw(mouseX, mouseY, pw * 2, pw, width - pw * 4, height - pw * 2);
 
         if (!alerts.isEmpty() && currentAlert == null)
             currentAlert = alerts.poll();
@@ -145,6 +145,7 @@ public class HyperiumMainGui extends HyperiumGui {
         private ResourceLocation icon;
         private Runnable action;
         private String title;
+        private int step = 0;
 
         public Alert(ResourceLocation icon, Runnable action, String title) {
             this.icon = icon;
@@ -153,9 +154,11 @@ public class HyperiumMainGui extends HyperiumGui {
         }
 
         protected void render(HyperiumFontRenderer fr, int width, int height) {
+            GlStateManager.pushMatrix();
+            GlStateManager.translate(0, (20 - step), 0);
             drawRect(width / 4, height - 20, width - width / 4, height, new Color(0, 0, 0, 40).getRGB());
             fr.drawString(title, width / 4 + 20, height - 20 + (20 - fr.FONT_HEIGHT) / 2, 0xffffff);
-
+            GlStateManager.popMatrix();
 
             //GlStateManager.scale(1f, 1f, 1f );
             if (icon != null) {
@@ -167,6 +170,9 @@ public class HyperiumMainGui extends HyperiumGui {
                 GlStateManager.disableBlend();
                 GlStateManager.popMatrix();
             }
+
+            if (step != 20)
+                step++;
 
             //TODO: Dismiss icon
         }

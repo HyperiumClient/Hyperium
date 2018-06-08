@@ -21,6 +21,7 @@ public class SettingItem {
     private String desc;
     private String hover;
     private int xIndex, yIndex;
+    private boolean lastClicked = false;
 
     public SettingItem(Runnable onClick, ResourceLocation icon, String title, String desc, String hover, int xIndex, int yIndex) {
         this.onClick = onClick;
@@ -69,8 +70,13 @@ public class SettingItem {
             GlStateManager.enableAlpha();
             GlStateManager.enableTexture2D();
         }
-        if (Mouse.isButtonDown(0) && mouseX >= blockX && mouseX <= blockX + w / 7 * 5 && mouseY >= blockY && mouseY <= blockY + h / 6 * 4)
+        if (Mouse.isButtonDown(0) && !lastClicked && mouseX >= blockX && mouseX <= blockX + w / 7 * 5 && mouseY >= blockY && mouseY <= blockY + h / 6 * 4)
             onClick.run();
+
+        if(!lastClicked && Mouse.isButtonDown(0))
+            lastClicked = true;
+        else if(lastClicked && !Mouse.isButtonDown(0))
+            lastClicked = false;
         HyperiumMainGui.getFr().drawString(title, blockX + 3, blockY + 3, 0xffffff);
         float s = 0.8f;
         GlStateManager.scale(s, s, s);

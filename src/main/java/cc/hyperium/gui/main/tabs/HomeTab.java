@@ -5,6 +5,7 @@ import cc.hyperium.gui.GuiBlock;
 import cc.hyperium.gui.Icons;
 import cc.hyperium.gui.main.HyperiumMainGui;
 import cc.hyperium.gui.main.components.AbstractTab;
+import cc.hyperium.gui.main.components.OverlayButton;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.utils.HyperiumFontRenderer;
 import cc.hyperium.utils.JsonHolder;
@@ -27,7 +28,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class HomeTab extends AbstractTab {
     public static JsonHolder information;
-    private static HttpClient hc = HttpClients.createDefault();
+    static HttpClient hc = HttpClients.createDefault();
     private static HyperiumFontRenderer title = new HyperiumFontRenderer("Arial", Font.PLAIN, 40);
     private GuiBlock block;
     private int y, w;
