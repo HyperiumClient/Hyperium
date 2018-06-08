@@ -7,6 +7,7 @@ import cc.hyperium.gui.main.HyperiumOverlay;
 import cc.hyperium.gui.main.components.AbstractTab;
 import cc.hyperium.gui.main.components.SettingItem;
 import cc.hyperium.installer.InstallerFrame;
+import cc.hyperium.mods.sk1ercommon.Multithreading;
 import net.minecraft.client.gui.Gui;
 import org.json.JSONObject;
 
@@ -26,7 +27,7 @@ public class AddonsInstallerTab extends AbstractTab {
 
         this.y = y;
         this.w = w;
-        int yi = 0, xi = 1;
+        int yi = 0, xi = 0;
 
         List<JSONObject> ao = new ArrayList<>();
         JSONObject versionsJson = null;
@@ -35,18 +36,22 @@ public class AddonsInstallerTab extends AbstractTab {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        for (Object o : versionsJson.getJSONArray("addons")) {
-            ao.add((JSONObject) o);
-            System.out.println(ao.add((JSONObject) o));
-        }
+
+        int current = 0;
 
         block = new GuiBlock(0, w, y, y + w);
 
-        items.add(new SettingItem(() -> {
-                    HyperiumMainGui.Alert alert = new HyperiumMainGui.Alert(Icons.ERROR.getResource(), () -> {
-                    }, "Failed to load addon's config overlay");
-                    HyperiumMainGui.getAlerts().add(alert);
-        }, Icons.EXTENSION.getResource(), "Addon Name", "Addon Description", "Configure addon", xi, yi));
+        for (Object o : versionsJson.getJSONArray("addons")) {
+            ao.add((JSONObject) o);
+            items.add(new SettingItem(() -> {
+                //stuff in here AMP MAKE THEM METHODS BOI
+            }, Icons.DOWNLOAD.getResource(), ao.get(current).getString("name"), "Addon Description", "Download Addon", xi, yi));
+            if (xi == 3) {
+                xi = 0;
+                yi++;
+            } else
+                xi++;
+        }
     }
 
     @Override
