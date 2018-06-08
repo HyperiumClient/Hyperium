@@ -24,10 +24,9 @@ import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
 import net.minecraft.client.gui.GuiNewChat;
 
 /**
- * A simple command to clear your chat history & sent commands,
- * simply calls the {@link GuiNewChat#clearChatMessages()} method
+ * A simple command to set the maxcps of the client
  *
- * @author boomboompower
+ * @author Sk1er & ConorTheDev (Fixed bug)
  */
 public class CommandMaxCPS implements BaseCommand {
 
@@ -46,8 +45,13 @@ public class CommandMaxCPS implements BaseCommand {
         if (args.length == 1) {
             try {
                 int i = Integer.parseInt(args[0]);
-                Hyperium.INSTANCE.getHandlers().getConfigOptions().maxCps = i;
-                GeneralChatHandler.instance().sendMessage("Set max CPS to " + i);
+                if(i != 0) {
+                    Hyperium.INSTANCE.getHandlers().getConfigOptions().maxCps = i;
+                    GeneralChatHandler.instance().sendMessage("Set max CPS to " + i);
+                } else {
+                    GeneralChatHandler.instance().sendMessage("Max CPS cannot be " + i);
+
+                }
 
             } catch (Exception e) {
                 GeneralChatHandler.instance().sendMessage(getUsage());
