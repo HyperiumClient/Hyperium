@@ -67,7 +67,7 @@ public class AddonsTab extends AbstractTab {
         block = new GuiBlock(0, w, y, y + w);
         this.y = y;
         this.w = w;
-        int yi = 0, xi = 1;
+        int yi = 0, xi = 0;
         AddonManifest addonManifest = new AddonManifest();
         if(addonManifest.getDesc() != null) {
             for (AddonManifest a : AddonBootstrap.INSTANCE.getAddonManifests()) {
@@ -116,7 +116,6 @@ public class AddonsTab extends AbstractTab {
                     xi++;
             }
         }
-        items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(downloadAddons), Icons.DOWNLOAD.getResource(), "Download Addons", "The Hyperium Add-ons Repo", "click to configure", 0, 0));
     }
 
     @Override

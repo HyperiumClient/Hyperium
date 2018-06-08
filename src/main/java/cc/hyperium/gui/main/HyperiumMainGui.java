@@ -2,10 +2,7 @@ package cc.hyperium.gui.main;
 
 import cc.hyperium.gui.HyperiumGui;
 import cc.hyperium.gui.main.components.AbstractTab;
-import cc.hyperium.gui.main.tabs.AddonsTab;
-import cc.hyperium.gui.main.tabs.HomeTab;
-import cc.hyperium.gui.main.tabs.InfoTab;
-import cc.hyperium.gui.main.tabs.SettingsTab;
+import cc.hyperium.gui.main.tabs.*;
 import cc.hyperium.utils.HyperiumFontRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
@@ -56,7 +53,10 @@ public class HyperiumMainGui extends HyperiumGui {
                 ht,
                 new SettingsTab(height / 2 - pw, pw),
                 new AddonsTab(height / 2, pw),
-                new InfoTab(height / 2 + pw, pw)
+                new InfoTab(height / 2 + pw, pw),
+                new AddonsInstallerTab(height / 2 + pw * 2, pw)
+                //next tab will be:
+                //new tab(height / 2 + pw * 3, pw)
         );
         tabFade = 1f;
     }
