@@ -99,11 +99,10 @@ public class CapesGui extends HyperiumGui {
             }
 
             super.drawScreen(mouseX, mouseY, partialTicks);
-            int oldScale = mc.gameSettings.guiScale;
+            final int oldScale = mc.gameSettings.guiScale;
             mc.gameSettings.guiScale = 2;
             ScaledResolution current = new ScaledResolution(Minecraft.getMinecraft());
             mc.gameSettings.guiScale = oldScale;
-
             float v = 2F / (oldScale);
             GlStateManager.scale(v, v, v);
             final int blockWidth = 128;
