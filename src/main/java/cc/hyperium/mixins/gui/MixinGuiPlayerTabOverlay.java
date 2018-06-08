@@ -25,6 +25,7 @@ import cc.hyperium.utils.StaffUtils;
 import com.google.common.collect.Ordering;
 import com.mojang.authlib.GameProfile;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiPlayerTabOverlay;
 import net.minecraft.client.network.NetHandlerPlayClient;
@@ -268,8 +269,18 @@ public abstract class MixinGuiPlayerTabOverlay extends Gui {
                 if (Hyperium.INSTANCE.getHandlers().getConfigOptions().showOnlinePlayers) {
                     String s = "⚫";
                     boolean online = Hyperium.INSTANCE.getHandlers().getStatusHandler().isOnline(gameprofile.getId());
-                    String format = StaffUtils.isStaff(gameprofile.getId()) ? StaffUtils.getColor(gameprofile.getId()) + s : (online ? ChatColor.GREEN + s : ChatColor.RED + s);
-                    this.mc.fontRendererObj.drawString(format, renderX, (k2-2), Color.WHITE.getRGB());
+                    if (StaffUtils.isStaff(gameprofile.getId())) {
+                        StaffUtils.DotColour colour = StaffUtils.getColor(gameprofile.getId());
+                        if (colour.isChroma) {
+                            drawChromaWaveString(s, renderX, (k2 - 2));
+                        } else {
+                            String format = StaffUtils.getColor(gameprofile.getId()) + s;
+                            this.mc.fontRendererObj.drawString(format, renderX, (k2-2), Color.WHITE.getRGB());
+                        }
+                    } else {
+                        String format = online ? ChatColor.GREEN + s : ChatColor.RED + s;
+                        this.mc.fontRendererObj.drawString(format, renderX, (k2-2), Color.WHITE.getRGB());
+                    }
                 }
 
                 if (networkplayerinfo1.getGameType() == WorldSettings.GameType.SPECTATOR) {
@@ -301,6 +312,19 @@ public abstract class MixinGuiPlayerTabOverlay extends Gui {
                 this.mc.fontRendererObj.drawStringWithShadow(s4, (float) (width / 2 - j5 / 2), (float) k1, -1);
                 k1 += this.mc.fontRendererObj.FONT_HEIGHT;
             }
+        }
+    }
+    private static void drawChromaWaveString(String text, int xIn, int y) {
+        FontRenderer renderer = Minecraft.getMinecraft().fontRendererObj;
+        int x = xIn;
+        for (char c : text.toCharArray()) {
+            long dif = (x * 10) - (y * 10);
+            long l = System.currentTimeMillis() - dif;
+            float ff = 2000.0F;
+            int i = Color.HSBtoRGB((float) (l % (int) ff) / ff, 0.8F, 0.8F);
+            String tmp = String.valueOf(c);
+            renderer.drawString(tmp, (float) ((double) x), (float) ((double) y), i, false);
+            x += (double) renderer.getCharWidth(c);
         }
     }
 }
