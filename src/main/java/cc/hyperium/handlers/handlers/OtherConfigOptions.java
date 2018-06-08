@@ -7,13 +7,13 @@ import cc.hyperium.config.ConfigOpt;
  */
 public class OtherConfigOptions {
     @ConfigOpt
-    public  double headScaleFactor = 2.0;
+    public double headScaleFactor = 2.0;
     @ConfigOpt
-    public  int renderNameDistance = 64;
+    public int renderNameDistance = 64;
     @ConfigOpt
-    public  boolean shadeNameTags = true;
+    public boolean shadeNameTags = true;
     @ConfigOpt
-    public  int stringCacheSize = 1000;
+    public int stringCacheSize = 1000;
     @ConfigOpt
     public boolean hideNameTags = false;
     @ConfigOpt
@@ -46,4 +46,7 @@ public class OtherConfigOptions {
     public boolean showNotificationCenter = true;
     @ConfigOpt
     public boolean showConfirmationPopup = true;
+
+    @ConfigOpt
+    public boolean savePreviusChatMessages = false;
 }

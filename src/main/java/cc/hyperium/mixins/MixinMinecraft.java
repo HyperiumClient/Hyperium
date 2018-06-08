@@ -527,7 +527,9 @@ public abstract class MixinMinecraft {
 
         if (guiScreenIn instanceof GuiMainMenu) {
             this.gameSettings.showDebugInfo = false;
-            this.ingameGUI.getChatGUI().clearChatMessages();
+            if (Hyperium.INSTANCE != null && Hyperium.INSTANCE.getHandlers() != null)
+                if (!Hyperium.INSTANCE.getHandlers().getConfigOptions().savePreviusChatMessages)
+                    this.ingameGUI.getChatGUI().clearChatMessages();
         }
 
         this.currentScreen = guiScreenIn;
@@ -654,7 +656,9 @@ public abstract class MixinMinecraft {
         EventBus.INSTANCE.post(new MouseButtonEvent(i));
     }
 
-    /**cc
+    /**
+     * cc
+     *
      * @author Mojang & Cubxity
      */
     @Overwrite

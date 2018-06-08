@@ -28,6 +28,7 @@ import cc.hyperium.gui.settings.components.OnOffSetting;
 import cc.hyperium.gui.settings.components.SelectionItem;
 import net.minecraft.client.Minecraft;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.function.Consumer;
 
@@ -161,6 +162,13 @@ public class GeneralSetting extends SettingGui {
         registerOnOffSetting("SHOW NOTIFICATION CENTER", Hyperium.INSTANCE.getHandlers().getConfigOptions().showNotificationCenter, on -> Hyperium.INSTANCE.getHandlers().getConfigOptions().showNotificationCenter = on);
         registerOnOffSetting("SHOW CONFIRMATION POPUP", Hyperium.INSTANCE.getHandlers().getConfigOptions().showConfirmationPopup, on -> Hyperium.INSTANCE.getHandlers().getConfigOptions().showConfirmationPopup = on);
         registerOnOffSetting("SHOW UPDATE NOTIFICATIONS", showUpdateNotifications, on -> showUpdateNotifications = on);
+        registerOnOffSetting("PERSISTENT CHAT MESSAGES", Hyperium.INSTANCE.getHandlers().getConfigOptions().savePreviusChatMessages, on -> {
+            Hyperium.INSTANCE.getHandlers().getConfigOptions().savePreviusChatMessages = on;
+            if (!on) {
+                new File(Hyperium.folder, "chat.txt").delete();
+            }
+        });
+
         SelectionItem<String> scale = registerCustomSetting(
                 "HEAD SCALE",
                 Double.toString(Hyperium.INSTANCE.getHandlers().getConfigOptions().headScaleFactor),

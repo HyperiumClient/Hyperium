@@ -50,8 +50,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.Display;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Arrays;
@@ -272,6 +271,22 @@ public class Hyperium {
             }, 1, 1, TimeUnit.SECONDS);
 
         });
+        if (getHandlers().getConfigOptions().savePreviusChatMessages) {
+            File file = new File(folder, "chat.txt");
+            try {
+                FileReader fr = new FileReader(file);
+                BufferedReader bufferedReader = new BufferedReader(fr);
+                String line;
+                while ((line = bufferedReader.readLine()) != null) {
+                    Minecraft.getMinecraft().ingameGUI.getChatGUI().addToSentMessages(line);
+                    System.out.println("Restoring chat message: " + line);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println("Not restoring chat");
+        }
     }
 
     /**
@@ -297,7 +312,21 @@ public class Hyperium {
     private void shutdown() {
         CONFIG.save();
         richPresenceManager.shutdown();
-
+        if (getHandlers().getConfigOptions().savePreviusChatMessages) {
+            File file = new File(folder, "chat.txt");
+            try {
+                file.createNewFile();
+                FileWriter fileWriter = new FileWriter(file);
+                BufferedWriter bw = new BufferedWriter(fileWriter);
+                for (String s : Minecraft.getMinecraft().ingameGUI.getChatGUI().getSentMessages()) {
+                    bw.write(s + "\n");
+                }
+                bw.close();
+                fileWriter.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
         // Tell the modules the game is shutting down
         EventBus.INSTANCE.post(new GameShutDownEvent());
 
