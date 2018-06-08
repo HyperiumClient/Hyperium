@@ -7,18 +7,25 @@ import cc.hyperium.gui.Icons;
 import cc.hyperium.gui.main.HyperiumMainGui;
 import cc.hyperium.gui.main.HyperiumOverlay;
 import cc.hyperium.gui.main.components.AbstractTab;
+import cc.hyperium.gui.main.components.OverlayButton;
 import cc.hyperium.gui.main.components.SettingItem;
 import cc.hyperium.installer.InstallerConfig;
 import cc.hyperium.installer.utils.DownloadTask;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
+import cc.hyperium.utils.JsonHolder;
 import cc.hyperium.utils.UpdateUtils;
+import com.google.common.base.Charsets;
 import com.google.gson.JsonObject;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
+import org.apache.commons.io.IOUtils;
+import org.apache.http.client.methods.HttpGet;
 
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.StreamSupport;
 
@@ -26,9 +33,29 @@ import java.util.stream.StreamSupport;
  * Created by Cubxity on 23/05/2018
  */
 public class InfoTab extends AbstractTab {
-    private HyperiumOverlay licenses = new HyperiumOverlay();
+    private static HyperiumOverlay licenses = new HyperiumOverlay();
     private GuiBlock block;
     private int y, w;
+
+    static {
+        Multithreading.runAsync(() -> {
+            try {
+                HttpGet get = new HttpGet("https://raw.githubusercontent.com/HyperiumClient/Hyperium-Repo/master/files/opensource.json");
+                JsonHolder json = new JsonHolder(IOUtils.toString(HomeTab.hc.execute(get).getEntity().getContent(), Charsets.UTF_8));
+                for (String key : json.getKeys()) {
+                    licenses.getComponents().add(new OverlayButton(key, () -> {
+                        try {
+                            Desktop.getDesktop().browse(new URL(json.optString(key)).toURI());
+                        } catch (IOException | URISyntaxException e) {
+                            e.printStackTrace();
+                        }
+                    }));
+                }
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
+    }
 
     public InfoTab(int y, int w) {
         block = new GuiBlock(0, w, y, y + w);
@@ -61,7 +88,7 @@ public class InfoTab extends AbstractTab {
                                 jar = new File(System.getProperty("sun.java.command").split(" ")[0]);
                             }
                             HyperiumMainGui.getAlerts().add(new HyperiumMainGui.Alert(Icons.ERROR.getResource(), () -> {
-                            },"Client will restart in 10 seconds to update"));
+                            }, "Client will restart in 10 seconds to update"));
                             Multithreading.schedule(() -> {
                                 Minecraft.getMinecraft().shutdown();
                                 try {
@@ -73,13 +100,13 @@ public class InfoTab extends AbstractTab {
                         } catch (Exception ex) {
                             ex.printStackTrace();
                             HyperiumMainGui.getAlerts().add(new HyperiumMainGui.Alert(Icons.ERROR.getResource(), () -> {
-                            },"Update - Failed to download updates"));
+                            }, "Update - Failed to download updates"));
                         }
                     });
                 } catch (Exception ex) {
                     ex.printStackTrace();
                     HyperiumMainGui.getAlerts().add(new HyperiumMainGui.Alert(Icons.ERROR.getResource(), () -> {
-                    },"Update - Failed to download updates"));
+                    }, "Update - Failed to download updates"));
                 }
             } else
                 HyperiumMainGui.getAlerts().add(new HyperiumMainGui.Alert(Icons.TOOL.getResource(), () -> {
