@@ -1,7 +1,5 @@
 package cc.hyperium.gui.main;
 
-import cc.hyperium.config.Settings;
-import cc.hyperium.gui.HyperiumGui;
 import cc.hyperium.gui.main.components.OverlayComponent;
 import cc.hyperium.gui.main.components.OverlayToggle;
 import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
@@ -63,7 +61,6 @@ public class HyperiumOverlay {
                     } catch (IllegalAccessException e) {
                         e.printStackTrace();
                     }
-                    Settings.save();
                 }));
             }
         } catch (IllegalAccessException | IllegalArgumentException e) {

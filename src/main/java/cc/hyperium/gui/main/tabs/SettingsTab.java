@@ -1,5 +1,7 @@
 package cc.hyperium.gui.main.tabs;
 
+import cc.hyperium.config.Category;
+import cc.hyperium.config.SelectorSetting;
 import cc.hyperium.config.Settings;
 import cc.hyperium.config.ToggleSetting;
 import cc.hyperium.gui.GuiBlock;
@@ -7,6 +9,7 @@ import cc.hyperium.gui.Icons;
 import cc.hyperium.gui.main.HyperiumMainGui;
 import cc.hyperium.gui.main.HyperiumOverlay;
 import cc.hyperium.gui.main.components.AbstractTab;
+import cc.hyperium.gui.main.components.OverlaySelector;
 import cc.hyperium.gui.main.components.SettingItem;
 import net.minecraft.client.gui.Gui;
 import org.lwjgl.input.Mouse;
@@ -29,24 +32,24 @@ public class SettingsTab extends AbstractTab {
 
     static {
         for (Field f : Settings.class.getFields()) {
-            ToggleSetting a = f.getAnnotation(ToggleSetting.class);
-            if (a != null) {
-                switch (a.category()) {
-                    case GENERAL:
-                        general.addToggle(a.name(), f);
-                        break;
-                    case IMPROVEMENTS:
-                        improvements.addToggle(a.name(), f);
-                        break;
-                    case INTEGRATIONS:
-                        integrations.addToggle(a.name(), f);
-                        break;
-                    case COSMETICS:
-                        cosmetics.addToggle(a.name(), f);
-                        break;
+            ToggleSetting ts = f.getAnnotation(ToggleSetting.class);
+            SelectorSetting ss = f.getAnnotation(SelectorSetting.class);
+            if (ts != null)
+                getCategory(ts.category()).addToggle(ts.name(), f);
+            else if (ss != null)
+                try {
+                    getCategory(ss.category()).getComponents().add(new OverlaySelector<>(ss.name(), String.valueOf(f.get(null)), si -> {
+                        try {
+                            f.set(null, si);
+                        } catch (IllegalAccessException e) {
+                            e.printStackTrace();
+                        }
+                    }, ss.items()));
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
                 }
-            }
         }
+        Settings.save();
     }
 
     public SettingsTab(int y, int w) {
@@ -93,5 +96,19 @@ public class SettingsTab extends AbstractTab {
             offsetY -= 5;
         else if (i > 0)
             offsetY += 5;
+    }
+
+    private static HyperiumOverlay getCategory(Category category) {
+        switch (category) {
+            case GENERAL:
+                return general;
+            case IMPROVEMENTS:
+                return improvements;
+            case INTEGRATIONS:
+                return integrations;
+            case COSMETICS:
+                return cosmetics;
+        }
+        return general;
     }
 }
