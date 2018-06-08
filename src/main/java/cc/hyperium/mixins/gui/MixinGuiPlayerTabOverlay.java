@@ -21,6 +21,7 @@ import cc.hyperium.Hyperium;
 import cc.hyperium.gui.settings.items.GeneralSetting;
 import cc.hyperium.handlers.handlers.ApiDataHandler;
 import cc.hyperium.utils.ChatColor;
+import cc.hyperium.utils.StaffUtils;
 import com.google.common.collect.Ordering;
 import com.mojang.authlib.GameProfile;
 import net.minecraft.client.Minecraft;
@@ -263,19 +264,19 @@ public abstract class MixinGuiPlayerTabOverlay extends Gui {
                 }
 
                 int renderX = j2 + this.mc.fontRendererObj.getStringWidth(s1) + 2;
+
+                if (Hyperium.INSTANCE.getHandlers().getConfigOptions().showOnlinePlayers) {
+                    String s = "⚫";
+                    boolean online = Hyperium.INSTANCE.getHandlers().getStatusHandler().isOnline(gameprofile.getId());
+                    String format = StaffUtils.isStaff(gameprofile.getId()) ? StaffUtils.getColor(gameprofile.getId()) + s : (online ? ChatColor.GREEN + s : ChatColor.RED + s);
+                    this.mc.fontRendererObj.drawString(format, renderX, (k2-2), Color.WHITE.getRGB());
+                }
+
                 if (networkplayerinfo1.getGameType() == WorldSettings.GameType.SPECTATOR) {
                     s1 = EnumChatFormatting.ITALIC + s1;
                     this.mc.fontRendererObj.drawStringWithShadow(s1, (float) j2, (float) k2, -1862270977);
                 } else {
                     this.mc.fontRendererObj.drawStringWithShadow(s1, (float) j2, (float) k2, -1);
-                }
-
-                if (Hyperium.INSTANCE.getHandlers().getConfigOptions().showOnlinePlayers) {
-                    String s = "⚫";
-                    boolean online = Hyperium.INSTANCE.getHandlers().getStatusHandler().isOnline(gameprofile.getId());
-                    String format = online ? ChatColor.GREEN + s : ChatColor.RED + s;
-                    this.mc.fontRendererObj.drawString(format, (renderX), (k2-2), Color.WHITE.getRGB());
-
                 }
 
                 if (scoreObjectiveIn != null && networkplayerinfo1.getGameType() != WorldSettings.GameType.SPECTATOR) {
