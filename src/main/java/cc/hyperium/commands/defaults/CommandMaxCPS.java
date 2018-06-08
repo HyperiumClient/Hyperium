@@ -45,12 +45,11 @@ public class CommandMaxCPS implements BaseCommand {
         if (args.length == 1) {
             try {
                 int i = Integer.parseInt(args[0]);
-                if(i != 0) {
+                if (i <= 0) {
+                    GeneralChatHandler.instance().sendMessage("Max CPS cannot be " + i);
+                } else {
                     Hyperium.INSTANCE.getHandlers().getConfigOptions().maxCps = i;
                     GeneralChatHandler.instance().sendMessage("Set max CPS to " + i);
-                } else {
-                    GeneralChatHandler.instance().sendMessage("Max CPS cannot be " + i);
-
                 }
 
             } catch (Exception e) {
