@@ -85,6 +85,7 @@ public class AddonsInstallerTab extends AbstractTab {
     public void downloadAddon(String downloadURL, String name) {
         System.out.println(downloadURL);
         try {
+            System.setProperty("http.agent", "Chrome");
             FileUtils.copyURLToFile(new URL(downloadURL), new File(Minecraft.getMinecraft().mcDataDir + "/addons/"));
         } catch (IOException e) {
             HyperiumMainGui.Alert alert = new HyperiumMainGui.Alert(Icons.ERROR.getResource(), null, "Failed to get Addon: " + name);
