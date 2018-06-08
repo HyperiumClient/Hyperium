@@ -1,6 +1,6 @@
 package cc.hyperium.gui;
 
-import cc.hyperium.gui.settings.items.BackgroundSettings;
+import cc.hyperium.config.Settings;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -88,7 +88,7 @@ public class ChangeBackgroundGui extends GuiScreen {
             dis.close();
             fos = new FileOutputStream(new File(Minecraft.getMinecraft().mcDataDir, "customImage.png"));
             fos.write(fileData);
-            BackgroundSettings.backgroundSelect = "CUSTOM";
+            Settings.BACKGROUND = "CUSTOM";
             statusText = "Done!";
             Minecraft.getMinecraft().displayGuiScreen(prevGui);
             fos.close();

@@ -87,6 +87,16 @@ public class Settings {
     public static boolean isFlipToggle = true;
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.CosmeticSettings;fliptype") @ToggleSetting(name = "1.7 eating", category = COSMETICS)
     public static int flipType = 1;
+    @ConfigOpt(alt = "cc.hyperium.gui.settings.items.BackgroundSettings;backgroundSelect")
+    public static String BACKGROUND = "1";
+    @ConfigOpt(alt = "cc.hyperium.gui.settings.items.BackgroundSettings;fastWorldGuiEnabled") @ToggleSetting(name = "Fast container")
+    public static boolean FAST_CONTAINER = false;
+    @ConfigOpt(alt = "cc.hyperium.gui.settings.items.BackgroundSettings;maxParticles")
+    public static int MAX_PARTICLES = 200;
+    @ConfigOpt(alt = "cc.hyperium.gui.settings.items.BackgroundSettings;renderOverInventory") @ToggleSetting(name = "Particles in inventory", category = COSMETICS)
+    public static boolean PARTICLES_INV = true;
+    @ConfigOpt(alt = "cc.hyperium.gui.settings.items.BackgroundSettings;particlesModeString")
+    public static String PARTICLE_MODE = "OFF";
 
     public static void register() {
         Hyperium.CONFIG.register(new Settings()); // values r static soo whatever

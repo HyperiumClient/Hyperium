@@ -168,10 +168,10 @@
 
 package cc.hyperium.gui;
 
+import cc.hyperium.config.Settings;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.TickEvent;
-import cc.hyperium.gui.settings.items.BackgroundSettings;
 import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
 import cc.hyperium.purchases.EnumPurchaseType;
 import cc.hyperium.purchases.HyperiumPurchase;
@@ -193,7 +193,7 @@ public class ParticleOverlay {
     private long last;
 
     public ParticleOverlay() {
-        int max = BackgroundSettings.maxParticles;
+        int max = Settings.MAX_PARTICLES;
         for (int i = 0; i < max; i++) {
             particles.add(new Particle());
         }
@@ -223,7 +223,7 @@ public class ParticleOverlay {
             return;
         try {
             long lines = 0L;
-            float step = (float) (0.01 * (BackgroundSettings.maxParticles / 100));
+            float step = (float) (0.01 * (Settings.MAX_PARTICLES / 100));
             Mode m = getMode();
             if (m == Mode.OFF) return;
             last = System.currentTimeMillis();
@@ -257,7 +257,7 @@ public class ParticleOverlay {
                         boolean flag = false;
                         if (((v1 >= guiLeft && v1 <= guiRight) || (x2 >= guiLeft && x2 <= guiRight))
                                 && ((v2 >= guiTop && v2 <= guiBottom) || (y2 >= guiTop && y2 <= guiBottom))) {
-                            if (!BackgroundSettings.renderOverInventory)
+                            if (!Settings.PARTICLES_INV)
                                 continue;
                             alpha /= 4;
                             flag = true;
@@ -290,7 +290,7 @@ public class ParticleOverlay {
                 if (h >= 1.0F)
                     h = 0.0F;
                 h += step;
-                if (!BackgroundSettings.renderOverInventory)
+                if (!Settings.PARTICLES_INV)
                     continue;
                 w = Math.sqrt(w) / 10D;
                 Gui.drawRect((int) v1, (int) v2, (int) (v1 + w), (int) (v2 + w), Color.WHITE.getRGB());
@@ -314,7 +314,7 @@ public class ParticleOverlay {
 
     public Mode getMode() {
         try {
-            return Mode.valueOf(BackgroundSettings.particlesModeString.replace(" ", "_"));
+            return Mode.valueOf(Settings.PARTICLE_MODE.replace(" ", "_"));
         } catch (Exception e) {
             return Mode.OFF;
         }

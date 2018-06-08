@@ -18,7 +18,7 @@
 package cc.hyperium.gui;
 
 import cc.hyperium.Hyperium;
-import cc.hyperium.gui.settings.items.BackgroundSettings;
+import cc.hyperium.config.Settings;
 import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.*;
@@ -325,7 +325,7 @@ public abstract class HyperiumGui extends GuiScreen {
     }
 
     private void loadCustomBackground() {
-        customBackground = BackgroundSettings.backgroundSelect.equalsIgnoreCase("CUSTOM");
+        customBackground = Settings.BACKGROUND.equalsIgnoreCase("CUSTOM");
 
         if (customImage.exists() && customBackground) {
             try {
