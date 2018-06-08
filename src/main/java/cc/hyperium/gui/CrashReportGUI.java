@@ -82,7 +82,7 @@ public class CrashReportGUI extends JDialog {
         }
         JLabel error = null;
         try {
-            error = new JLabel(new ImageIcon(ImageIO.read(getClass().getResourceAsStream("/assets/hyperium/icons/error.png")).getScaledInstance(100, 100, Image.SCALE_SMOOTH)));
+            error = new JLabel(new ImageIcon(ImageIO.read(getClass().getResourceAsStream("/assets/minecraft/textures/material/error.png")).getScaledInstance(100, 100, Image.SCALE_SMOOTH)));
             error.setHorizontalAlignment(SwingConstants.CENTER);
             error.setBounds(50, 50, 100, 100);
         } catch (IOException e) {

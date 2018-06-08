@@ -39,6 +39,14 @@ public class AddonsInstallerTab extends AbstractTab {
             ao.add((JSONObject) o);
             System.out.println(ao.add((JSONObject) o));
         }
+
+        block = new GuiBlock(0, w, y, y + w);
+
+        items.add(new SettingItem(() -> {
+                    HyperiumMainGui.Alert alert = new HyperiumMainGui.Alert(Icons.ERROR.getResource(), () -> {
+                    }, "Failed to load addon's config overlay");
+                    HyperiumMainGui.getAlerts().add(alert);
+        }, Icons.EXTENSION.getResource(), "Addon Name", "Addon Description", "Configure addon", xi, yi));
     }
 
     @Override
@@ -55,5 +63,10 @@ public class AddonsInstallerTab extends AbstractTab {
     @Override
     public void drawHighlight(float s) {
         Gui.drawRect(0, (int) (y + s * (s * w / 2)), 3, (int) (y + w - s * (w / 2)), Color.WHITE.getRGB());
+    }
+
+    @Override
+    public void draw(int mouseX, int mouseY, int topX, int topY, int containerWidth, int containerHeight) {
+        super.draw(mouseX, mouseY, topX, topY, containerWidth, containerHeight);
     }
 }

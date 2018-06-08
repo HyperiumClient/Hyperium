@@ -155,7 +155,7 @@ public class AddonsTab extends AbstractTab {
                 }
             }
         } else {
-            //do shit
+
         }
 
     }
