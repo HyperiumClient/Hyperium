@@ -64,8 +64,8 @@ public class InfoTab extends AbstractTab {
 
         //TODO: Add buttons to view license in the licenses overlay
 
-        items.add(new SettingItem(() -> new GuiHyperiumCredits(HyperiumMainGui.INSTANCE).show(), null, "Credits", "list of contributors who helped with the client", "Lists of contributor name and amount of commits", 2, 0));
-        items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(licenses), null, "Licenses", "open source licenses", "licenses for open source libraries used in the client", 2, 1));
+        items.add(new SettingItem(() -> new GuiHyperiumCredits(HyperiumMainGui.INSTANCE).show(), null, "Credits", "List of contributors who helped with the client", "Lists of contributor name and amount of commits", 2, 0));
+        items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(licenses), null, "Licenses", "Open Source Licenses", "Licenses for open source libraries used in the client", 2, 1));
         items.add(new SettingItem(() -> Multithreading.runAsync(() -> {
             if (!UpdateUtils.INSTANCE.isUpdated()) {
                 try {

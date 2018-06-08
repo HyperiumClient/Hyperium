@@ -19,9 +19,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
+import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.StreamSupport;
@@ -77,6 +75,7 @@ public class GuiHyperiumCredits extends HyperiumGui {
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+        drawDefaultBackground();
         FontRenderer fr = Minecraft.getMinecraft().fontRendererObj;
         GlStateManager.scale(2f, 2f, 2f);
         drawCenteredString(fr, err.isEmpty() ? (contributors.isEmpty() ? "Loading contributors..." : "Contributors") : "Error: "+err, width / 4, 20 + offY / 2, 0xFFFFFF);
