@@ -54,7 +54,6 @@ public class CommandMaxCPS implements BaseCommand {
 
             } catch (Exception e) {
                 GeneralChatHandler.instance().sendMessage(getUsage());
-
             }
         } else {
             GeneralChatHandler.instance().sendMessage(getUsage());
