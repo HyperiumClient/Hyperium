@@ -45,8 +45,8 @@ public class AddonsInstallerTab extends AbstractTab {
             ao.add((JSONObject) o);
             items.add(new SettingItem(() -> {
                 //stuff in here AMP MAKE THEM METHODS BOI
-            }, Icons.DOWNLOAD.getResource(), ao.get(current).getString("name"), "Addon Description", "Download Addon", xi, yi));
-            if (xi == 3) {
+            }, Icons.DOWNLOAD.getResource(), ao.get(current).getString("name"), ao.get(current).getString("description"), "Download Addon", xi, yi));
+            if (xi == 2) {
                 xi = 0;
                 yi++;
             } else
