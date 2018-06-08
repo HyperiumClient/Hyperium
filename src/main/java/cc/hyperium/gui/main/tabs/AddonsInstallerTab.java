@@ -51,6 +51,7 @@ public class AddonsInstallerTab extends AbstractTab {
                 yi++;
             } else
                 xi++;
+            current++;
         }
     }
 
