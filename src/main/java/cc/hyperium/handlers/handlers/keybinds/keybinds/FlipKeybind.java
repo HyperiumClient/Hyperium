@@ -44,7 +44,7 @@ public class FlipKeybind extends HyperiumBind {
             Hyperium.INSTANCE.getHandlers().getFlipHandler().state(Minecraft.getMinecraft().getSession().getProfile().getId(), state);
             NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("type", "flip_update").put("flip_state", state)));
             Hyperium.INSTANCE.getHandlers().getFlipHandler().resetTick();
-        } else if (!Settings.isFlipToggle) {
+        } else {
             inverted = !inverted;
             int state = inverted ? Settings.flipType : 0;
             Hyperium.INSTANCE.getHandlers().getFlipHandler().state(Minecraft.getMinecraft().getSession().getProfile().getId(), state);
@@ -56,10 +56,14 @@ public class FlipKeybind extends HyperiumBind {
     public void onRelease() {
         if (!Hyperium.INSTANCE.getCosmetics().getFlipCosmetic().isSelfUnlocked())
             return;
-        inverted = !inverted;
-        int state = inverted ? Settings.FLIP_TYPE : 0;
-        Hyperium.INSTANCE.getHandlers().getFlipHandler().state(Minecraft.getMinecraft().getSession().getProfile().getId(), state);
-        NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("type", "flip_update").put("flip_state", state)));
+        if (Settings.isFlipToggle) {
+
+        } else {
+            inverted = !inverted;
+            int state = inverted ? Settings.FLIP_TYPE : 0;
+            Hyperium.INSTANCE.getHandlers().getFlipHandler().state(Minecraft.getMinecraft().getSession().getProfile().getId(), state);
+            NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("type", "flip_update").put("flip_state", state)));
+        }
     }
 
 }
