@@ -86,7 +86,7 @@ public class AddonsTab extends AbstractTab {
                         }
                     }
                 }, Icons.EXTENSION.getResource(), a.getName(), a.getDesc(), "Configure addon", xi, yi));
-                if (xi == 3) {
+                if (xi == 2) {
                     xi = 0;
                     yi++;
                 } else
