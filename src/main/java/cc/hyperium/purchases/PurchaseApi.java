@@ -171,7 +171,7 @@ public class PurchaseApi {
             return new JsonHolder(IOUtils.toString(is, Charset.forName("UTF-8")));
 
         } catch (Exception e) {
-            e.printStackTrace();
+//            e.printStackTrace();
         }
         JsonObject object = new JsonObject();
         object.addProperty("success", false);

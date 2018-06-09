@@ -35,7 +35,9 @@ val VERSION
 val AUTHORS
     @JvmName("getAuthors")
     get() = arrayOf("Kevin", "CoalOres", "Sk1er", "Cubxity", "boomboompower")
-
+/**
+ * @since 12 (Hyperium Build 12)
+ */
 val VERSION_ID
     @JvmName("getVersionID")
-    get() = 12
+    get() = 13
