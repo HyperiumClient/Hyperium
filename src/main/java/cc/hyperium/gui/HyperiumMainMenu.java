@@ -230,15 +230,6 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
     private BufferedImage bgBr = null;
     private ResourceLocation bgDynamicTexture = null;
 
-    public HyperiumMainMenu() {
-        if (Minecraft.getMinecraft().isFullScreen() && GeneralSetting.windowedFullScreen && FIRST_START) {
-            HyperiumMainMenu.FIRST_START = false;
-            Minecraft.getMinecraft().toggleFullscreen();
-            Minecraft.getMinecraft().toggleFullscreen();
-
-        }
-    }
-
     public static ResourceLocation getBackground() {
         return background;
     }
@@ -250,7 +241,6 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
     public static void setCustomBackground(boolean customBackground) {
         HyperiumMainMenu.customBackground = customBackground;
     }
-    public static boolean FIRST_START  = true;
     public HyperiumMainMenu() {
         if(Minecraft.getMinecraft().isFullScreen() && Settings.WINDOWED_FULLSCREEN) {
             HyperiumMainMenu.FIRST_START=false;
