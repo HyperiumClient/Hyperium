@@ -1,7 +1,5 @@
 package cc.hyperium.gui.main.tabs;
 
-import cc.hyperium.Hyperium;
-import cc.hyperium.exceptions.AddonDownloadException;
 import cc.hyperium.gui.GuiBlock;
 import cc.hyperium.gui.Icons;
 import cc.hyperium.gui.main.HyperiumMainGui;
@@ -59,10 +57,8 @@ public class AddonsInstallerTab extends AbstractTab {
                 try {
                     installAddon(ao.get(Current).getString("name"));
                 } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (AddonDownloadException er) {
                     HyperiumMainGui.Alert alert = new HyperiumMainGui.Alert(Icons.ERROR.getResource(), null, "Failed to download Addon: " + ao.get(Current).getString("name"));
-                    er.printStackTrace();
+                    e.printStackTrace();
                 }
             }, Icons.DOWNLOAD.getResource(), ao.get(current).getString("name"), ao.get(current).getString("description"), "Download Addon", xi, yi));
 
@@ -96,7 +92,7 @@ public class AddonsInstallerTab extends AbstractTab {
         super.draw(mouseX, mouseY, topX, topY, containerWidth, containerHeight);
     }
 
-    private void installAddon(String jsonName) throws IOException, AddonDownloadException {
+    private void installAddon(String jsonName) throws IOException {
         JSONObject versionsJson = new JSONObject(InstallerFrame.get("https://raw.githubusercontent.com/HyperiumClient/Hyperium-Repo/master/installer/versions.json"));
         JSONArray addonsArray = versionsJson.getJSONArray("addons");
         List<JSONObject> addonObjects = new ArrayList<>();
@@ -107,7 +103,6 @@ public class AddonsInstallerTab extends AbstractTab {
             if (o.getString("name").equals(jsonName))
                 addon.set(o);
         });
-        if (addon.get() == null) throw new AddonDownloadException("Addon isn't in versions.json");
         Map<File, AddonManifest> installedAddons = new HashMap<>();
         File addonsDir = new File(Minecraft.getMinecraft().mcDataDir, "addons");
         if (addonsDir.exists()) {
@@ -141,7 +136,7 @@ public class AddonsInstallerTab extends AbstractTab {
      * @param output the file to output
      * @throws IOException when downloading fails
      */
-    private void downloadFile(URL url, File output, String name) throws IOException, AddonDownloadException {
+    private void downloadFile(URL url, File output, String name) throws IOException {
         JSONObject versionsJson = new JSONObject(InstallerFrame.get("https://raw.githubusercontent.com/HyperiumClient/Hyperium-Repo/master/installer/versions.json"));
         JSONArray addonsArray = versionsJson.getJSONArray("addons");
         List<JSONObject> addonObjects = new ArrayList<>();
@@ -156,7 +151,7 @@ public class AddonsInstallerTab extends AbstractTab {
             System.out.println("Downloading: " + addon.get().getString("url"));
             File aOut = new File(addonsDir, addon.get().getString("name") + "-" + addon.get().getString("version") + ".jar");
             if (!toHex(checksum(aOut, "SHA-256")).equalsIgnoreCase(addon.get().getString("sha256"))) {
-                throw new AddonDownloadException("SHA256 checksum doesn't match");
+                HyperiumMainGui.Alert alert = new HyperiumMainGui.Alert(Icons.ERROR.getResource(), null, "SHA256 does not match");
             }
         } else {
             HyperiumMainGui.Alert alert = new HyperiumMainGui.Alert(Icons.EXTENSION.getResource(), new Runnable() {
