@@ -1,49 +1,57 @@
 package cc.hyperium.mods.blockoverlay;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraftforge.fml.client.config.GuiSlider;
 
-class BlockOverlayGui extends GuiScreen {
+public class BlockOverlayGui extends GuiScreen {
+    private BlockOverlay mod;
     private GuiButton buttonMode;
-    private GuiButton buttonSettings;
+    private GuiButton buttonColor;
+    private GuiSlider sliderWidth;
 
-    public BlockOverlayGui() {
-        super();
+    public BlockOverlayGui(BlockOverlay mod) {
+        this.mod = mod;
     }
 
     public void initGui() {
-        super.buttonList.add(this.buttonMode = new GuiButton(0, super.width / 2 - 100, super.height / 2 - 15, "Mode: " + BlockOverlay.mode.name));
-        super.buttonList.add(this.buttonSettings = new GuiButton(1, super.width / 2 - 100, super.height / 2 + 15, "Settings"));
+        super.buttonList.add(this.buttonMode = new GuiButton(0, super.width / 2 - 50, super.height / 2 - 35, 100, 20, "Mode: " + this.mod.getSettings().getOverlayMode().getName()));
+        super.buttonList.add(this.buttonColor = new GuiButton(1, super.width / 2 - 50, super.height / 2 - 10, 100, 20, "Color"));
+        super.buttonList.add(this.sliderWidth = new GuiSlider(2, super.width / 2 - 50, super.height / 2 + 15, 100, 20, "Width: ", "", 0.0f, 5.0f, this.mod.getSettings().getLineWidth(), false, true));
     }
 
     public void drawScreen(final int mouseX, final int mouseY, final float partialTicks) {
         super.drawDefaultBackground();
         GlStateManager.pushMatrix();
-        GlStateManager.scale(1.2f, 1.2f, 1.2f);
-        super.drawCenteredString(super.fontRendererObj, "Block Overlay", Math.round((float) (super.width / 2) / 1.2f), Math.round((float) (super.height / 2) / 1.2f) - 50, -1);
+        GlStateManager.scale(1.2f, 1.2f, 0.0f);
+        super.drawCenteredString(super.fontRendererObj, "Block Overlay", Math.round(super.width / 2 / 1.2f), Math.round(super.height / 2 / 1.2f) - 50, -1);
         GlStateManager.popMatrix();
-        this.buttonSettings.enabled = (!BlockOverlay.mode.equals(BlockOverlayMode.NONE) && !BlockOverlay.mode.equals(BlockOverlayMode.DEFAULT));
         this.buttonMode.drawButton(super.mc, mouseX, mouseY);
-        this.buttonSettings.drawButton(super.mc, mouseX, mouseY);
+        this.buttonColor.drawButton(super.mc, mouseX, mouseY);
+        this.sliderWidth.drawButton(super.mc, mouseX, mouseY);
     }
 
     public void actionPerformed(final GuiButton button) {
         switch (button.id) {
-            case 0: {
-                BlockOverlay.mode = BlockOverlayMode.getNextMode(BlockOverlay.mode);
-                this.buttonMode.displayString = "Mode: " + BlockOverlay.mode.name;
+            case 0:
+                this.mod.getSettings().setOverlayMode(BlockOverlayMode.getNextMode(this.mod.getSettings().getOverlayMode()));
+                this.buttonMode.displayString = "Mode: " + this.mod.getSettings().getOverlayMode().getName();
                 break;
-            }
-            case 1: {
-                Minecraft.getMinecraft().displayGuiScreen(new BlockOverlaySettings());
+            case 1:
+                this.mod.mc.displayGuiScreen(new BlockOverlayColor(this.mod));
                 break;
-            }
+            case 2:
+                this.mod.getSettings().setLineWidth((float) this.sliderWidth.getValue());
+                break;
         }
     }
 
+    public void mouseClickMove(final int mouseX, final int mouseY, final int clickedMouseButton, final long timeSinceLastClick) {
+        this.mod.getSettings().setLineWidth((float) this.sliderWidth.getValue());
+    }
+
     public void onGuiClosed() {
-        BlockOverlay.saveConfig();
+        this.mod.getSettings().save();
     }
 }

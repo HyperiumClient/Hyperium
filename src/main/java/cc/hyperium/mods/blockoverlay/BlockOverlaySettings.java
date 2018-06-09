@@ -1,62 +1,161 @@
 package cc.hyperium.mods.blockoverlay;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraftforge.fml.client.config.GuiSlider;
+import cc.hyperium.utils.BetterJsonObject;
 
-public class BlockOverlaySettings extends GuiScreen {
-    private GuiButton buttonColor;
-    private GuiButton buttonRender;
-    private GuiButton buttonBack;
-    private GuiSlider sliderWidth;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.util.stream.Collectors;
 
-    public BlockOverlaySettings() {
-        super();
+public class BlockOverlaySettings {
+    private File configFile;
+
+    private BlockOverlayMode overlayMode = BlockOverlayMode.OUTLINE;
+
+    private boolean alwaysRender = true;
+    private boolean isChroma = false;
+
+    private float lineWidth = 1.5f;
+    private float overlayRed = 1.0f;
+    private float overlayGreen = 1.0f;
+    private float overlayBlue = 1.0f;
+    private float overlayAlpha = 1.0f;
+
+    private int chromaSpeed = 5;
+
+
+    public BlockOverlaySettings(File directory) {
+        if (!directory.exists()) {
+            directory.mkdirs();
+        }
+        this.configFile = new File(directory, "blockoverlay.json");
     }
 
-    public void initGui() {
-        super.buttonList.add(this.sliderWidth = new GuiSlider(0, super.width / 2 - 100, super.height / 2 - 30, 200, 20, "Line width: ", "", 2.0f, 5.0f, BlockOverlay.lineWidth, true, true));
-        super.buttonList.add(this.buttonColor = new GuiButton(1, super.width / 2 - 100, super.height / 2, "Color"));
-        super.buttonList.add(this.buttonRender = new GuiButton(2, super.width / 2 - 100, super.height / 2 + 30, "Always render: " + (BlockOverlay.alwaysRender ? "On" : "Off")));
-        super.buttonList.add(this.buttonBack = new GuiButton(3, super.width / 2 - 100, super.height / 2 + 80, "Back"));
-    }
+    public void load() {
+        try {
+            if (this.configFile.getParentFile().exists() && this.configFile.exists()) {
+                BufferedReader bufferedReader = new BufferedReader(new FileReader(this.configFile));
+                StringBuilder stringBuilder = new StringBuilder();
+                for (String line: bufferedReader.lines().collect(Collectors.toList())) {
+                    stringBuilder.append(line);
+                }
 
-    public void drawScreen(final int mouseX, final int mouseY, final float partialTicks) {
-        super.drawDefaultBackground();
-        this.sliderWidth.drawButton(super.mc, mouseX, mouseY);
-        this.buttonColor.drawButton(super.mc, mouseX, mouseY);
-        this.buttonRender.drawButton(super.mc, mouseX, mouseY);
-        this.buttonBack.drawButton(super.mc, mouseX, mouseY);
-    }
-
-    public void actionPerformed(final GuiButton button) {
-        switch (button.id) {
-            case 0: {
-                BlockOverlay.lineWidth = ((float) this.sliderWidth.getValue()) * 3.0f + 2.0f;
-                break;
+                BetterJsonObject json = new BetterJsonObject(stringBuilder.toString());
+                String overlayMode = json.optString("overlayMode");
+                for (BlockOverlayMode mode: BlockOverlayMode.values()) {
+                    if (mode.getName().equals(overlayMode)) {
+                        this.overlayMode = mode;
+                        break;
+                    }
+                }
+                this.alwaysRender = json.optBoolean("alwaysRender");
+                this.isChroma = json.optBoolean("isChroma");
+                this.lineWidth = (float) json.optDouble("lineWidth");
+                this.overlayRed = (float) json.optDouble("overlayRed");
+                this.overlayGreen = (float) json.optDouble("overlayGreen");
+                this.overlayBlue = (float) json.optDouble("overlayBlue");
+                this.overlayAlpha = (float) json.optDouble("overlayAlpha");
+                this.chromaSpeed = json.optInt("chromaSpeed");
             }
-            case 1: {
-                Minecraft.getMinecraft().displayGuiScreen(new BlockOverlayColor());
-                break;
-            }
-            case 2: {
-                BlockOverlay.alwaysRender = !BlockOverlay.alwaysRender;
-                this.buttonRender.displayString = "Always render: " + (BlockOverlay.alwaysRender ? "On" : "Off");
-                break;
-            }
-            case 3: {
-                Minecraft.getMinecraft().displayGuiScreen(new BlockOverlayGui());
-                break;
-            }
+        } catch (Exception exception) {
+            System.out.println("Error occurred while loading Block Overlay configuration!");
         }
     }
 
-    public void mouseClickMove(final int mouseX, final int mouseY, final int clickedMouseButton, final long timeSinceLastClick) {
-        BlockOverlay.lineWidth = ((float) this.sliderWidth.getValue()) * 3.0f + 2.0f;
+    public void save() {
+        try {
+            if (!this.configFile.getParentFile().exists()) {
+                this.configFile.getParentFile().mkdirs();
+            }
+            if (!this.configFile.exists()) {
+                this.configFile.createNewFile();
+            }
+
+            BetterJsonObject json = new BetterJsonObject();
+            json.addProperty("overlayMode", this.overlayMode.getName());
+            json.addProperty("alwaysRender", this.alwaysRender);
+            json.addProperty("isChroma", this.isChroma);
+            json.addProperty("lineWidth", this.lineWidth);
+            json.addProperty("overlayRed", this.overlayRed);
+            json.addProperty("overlayGreen", this.overlayGreen);
+            json.addProperty("overlayBlue", this.overlayBlue);
+            json.addProperty("overlayAlpha", this.overlayAlpha);
+            json.addProperty("chromaSpeed", this.chromaSpeed);
+            json.writeToFile(this.configFile);
+        } catch (Exception exception) {
+            System.out.println("Error occurred while saving Block Overlay configuration!");
+        }
     }
 
-    public void onGuiClosed() {
-        BlockOverlay.saveConfig();
+    public BlockOverlayMode getOverlayMode() {
+        return this.overlayMode;
+    }
+
+    public void setOverlayMode(BlockOverlayMode overlayMode) {
+        this.overlayMode = overlayMode;
+    }
+
+    public boolean isAlwaysRender() {
+        return this.alwaysRender;
+    }
+
+    public void setAlwaysRender(boolean alwaysRender) {
+        this.alwaysRender = alwaysRender;
+    }
+
+    public boolean isChroma() {
+        return this.isChroma;
+    }
+
+    public void setChroma(boolean chroma) {
+        this.isChroma = chroma;
+    }
+
+    public float getOverlayRed() {
+        return this.overlayRed;
+    }
+
+    public void setOverlayRed(float overlayRed) {
+        this.overlayRed = overlayRed;
+    }
+
+    public float getOverlayGreen() {
+        return this.overlayGreen;
+    }
+
+    public void setOverlayGreen(float overlayGreen) {
+        this.overlayGreen = overlayGreen;
+    }
+
+    public float getOverlayBlue() {
+        return this.overlayBlue;
+    }
+
+    public void setOverlayBlue(float overlayBlue) {
+        this.overlayBlue = overlayBlue;
+    }
+
+    public float getOverlayAlpha() {
+        return this.overlayAlpha;
+    }
+
+    public void setOverlayAlpha(float overlayAlpha) {
+        this.overlayAlpha = overlayAlpha;
+    }
+
+    public int getChromaSpeed() {
+        return this.chromaSpeed;
+    }
+
+    public void setChromaSpeed(int chromaSpeed) {
+        this.chromaSpeed = chromaSpeed;
+    }
+
+    public float getLineWidth() {
+        return this.lineWidth;
+    }
+
+    public void setLineWidth(float lineWidth) {
+        this.lineWidth = lineWidth;
     }
 }
