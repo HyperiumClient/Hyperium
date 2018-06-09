@@ -30,10 +30,6 @@ import java.util.TreeMap;
 
 public class KeyBindHandler {
     private static final Map<Integer, Integer> mouseBinds = new HashMap<>();
-    private final KeyBindConfig keyBindConfig;
-    // Case insensitive treemap
-    private final TreeMap<String, HyperiumBind> keybinds = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
-
     public final HyperiumBind debug = new HyperiumBind("DEBUG", Keyboard.KEY_J) {
         @Override
         public void onPress() {
@@ -44,6 +40,9 @@ public class KeyBindHandler {
         public void onRelease() {
         }
     };
+    private final KeyBindConfig keyBindConfig;
+    // Case insensitive treemap
+    private final TreeMap<String, HyperiumBind> keybinds = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 
 
     /**
@@ -64,6 +63,7 @@ public class KeyBindHandler {
         registerKeyBinding(new ToggleSpotifyKeybind());
         registerKeyBinding(new ToggleSprintKeybind());
         registerKeyBinding(new TogglePerspectiveKeybind());
+        registerKeyBinding(new ClearPopupKeybind());
 
         // Populate mouse bind list in accordance with Minecraft's values.
         for (int i = 0; i < 16; i++) {
@@ -86,10 +86,10 @@ public class KeyBindHandler {
     }
 
     @InvokeEvent
-    public void onKeyRelease(KeyreleaseEvent event){
+    public void onKeyRelease(KeyreleaseEvent event) {
         if (Minecraft.getMinecraft().inGameHasFocus && Minecraft.getMinecraft().currentScreen == null) {
             for (HyperiumBind bind : this.keybinds.values()) {
-                if(event.getKey() == bind.getKeyCode()){
+                if (event.getKey() == bind.getKeyCode()) {
                     bind.onRelease();
                     bind.setWasPressed(false);
                 }

@@ -2,9 +2,6 @@ package cc.hyperium.utils;
 
 import cc.hyperium.Metadata;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import static cc.hyperium.installer.InstallerFrame.get;
 
 /**
@@ -15,20 +12,26 @@ public class UpdateUtils {
     public static UpdateUtils INSTANCE = new UpdateUtils();
     public JsonHolder vJson;
 
-    public boolean isUpdated() {
+    public boolean isSupported() {
         String versions_url = "https://raw.githubusercontent.com/HyperiumClient/Hyperium-Repo/master/installer/versions.json";
-
         JsonHolder json;
         try {
             json = new JsonHolder(get(versions_url));
             this.vJson = json;
+            return Metadata.getVersionID() >= json.optInt("latest-supported");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 
-            String latest = json.optString("latest-stable");
-
-            Matcher remote = Pattern.compile("(?<version>\\d.+\\.\\d.+) B(?<build>\\d.+)").matcher(latest);
-            Matcher local = Pattern.compile("(?<version>\\d.+\\.\\d.+) - (Dev|Beta) B(?<build>\\d.+)").matcher(Metadata.getVersion());
-
-            return Integer.parseInt(local.group("build")) < Integer.parseInt(remote.group("build"));
+    public boolean isAbsoluteLatest() {
+        String versions_url = "https://raw.githubusercontent.com/HyperiumClient/Hyperium-Repo/master/installer/versions.json";
+        JsonHolder json;
+        try {
+            json = new JsonHolder(get(versions_url));
+            this.vJson = json;
+            return Metadata.getVersionID() == new JsonHolder(json.optJSONArray("versions").get(0).getAsJsonObject()).optInt("release-id");
         } catch (Exception e) {
             e.printStackTrace();
         }
