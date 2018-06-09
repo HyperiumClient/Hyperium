@@ -1,6 +1,7 @@
 [ ![Discord](https://canary.discordapp.com/api/guilds/411619823445999637/widget.png) ](https://discord.gg/8GakFcT)
 [ ![Travis-CI](https://travis-ci.org/HyperiumClient/Hyperium.svg?branch=master)](https://travis-ci.org/HyperiumClient/Hyperium)
 # Hyperium (A Community Client for Hypixel - Not affiliated with Hypixel INC, produced by independent developers)
+![Hyperium Logo](https://avatars1.githubusercontent.com/u/36334560?s=200&v=4)
 ## What is Hyperium? ##
 The Hyperium is a Minecraft modification in development. It will combine many popular features in addition to suggestions and ideas from the community to provide a unique experience designed for Hypixel.
 
