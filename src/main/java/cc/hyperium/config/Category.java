@@ -4,5 +4,6 @@ public enum Category {
     GENERAL,
     IMPROVEMENTS,
     INTEGRATIONS,
-    COSMETICS
+    COSMETICS,
+    SPOTIFY
 }

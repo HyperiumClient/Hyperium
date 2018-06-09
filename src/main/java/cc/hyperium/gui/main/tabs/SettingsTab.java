@@ -25,6 +25,7 @@ public class SettingsTab extends AbstractTab {
     private static HyperiumOverlay integrations = new HyperiumOverlay();
     private static HyperiumOverlay improvements = new HyperiumOverlay();
     private static HyperiumOverlay cosmetics = new HyperiumOverlay();
+    private static HyperiumOverlay spotify = new HyperiumOverlay();
 
     private static int offsetY = 0; // static so it saves the previous location
     private GuiBlock block;
@@ -64,6 +65,9 @@ public class SettingsTab extends AbstractTab {
         items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(improvements), Icons.TOOL.getResource(), "Improvements", "Improvements and bug fixes", "click to configure", 2, 0));
 
         items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(cosmetics), Icons.COSMETIC.getResource(), "Cosmetics", "Bling out your Minecraft Avatar", "click to configure", 0, 1));
+
+        items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(spotify), Icons.SPOTIFY.getResource(), "Spotify", "Hyperium Spotify Settings", "click to configure", 1, 1));
+
     }
 
     @Override
@@ -108,6 +112,8 @@ public class SettingsTab extends AbstractTab {
                 return integrations;
             case COSMETICS:
                 return cosmetics;
+            case SPOTIFY:
+                return spotify;
         }
         return general;
     }
