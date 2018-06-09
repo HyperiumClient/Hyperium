@@ -22,6 +22,7 @@ import cc.hyperium.installer.utils.DownloadTask;
 import cc.hyperium.internal.addons.AddonManifest;
 import cc.hyperium.internal.addons.misc.AddonManifestParser;
 import com.google.common.io.Files;
+import org.apache.commons.io.FileUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -192,7 +193,7 @@ public class InstallerFrame implements PropertyChangeListener {
             File local;
             try {
                 local = new File(InstallerMain.class.getProtectionDomain().getCodeSource().getLocation().toURI());
-                System.out.println("local="+local.getPath());
+                System.out.println("local=" + local.getPath());
             } catch (URISyntaxException e) {
                 e.printStackTrace();
                 display.setText("INSTALLATION FAILED");
@@ -213,6 +214,13 @@ public class InstallerFrame implements PropertyChangeListener {
             }
         } else {
             File downloaded;
+            try {
+                File hyperium = new File(mc, "libraries/cc/hyperium/Hyperium");
+                if (hyperium.exists())
+                    FileUtils.deleteDirectory(hyperium);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             try {
                 File dl = new File(
                         new File(
