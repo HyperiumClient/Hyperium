@@ -1,6 +1,7 @@
 package cc.hyperium.gui.main.tabs;
 
 import cc.hyperium.Hyperium;
+import cc.hyperium.exceptions.AddonDownloadException;
 import cc.hyperium.gui.GuiBlock;
 import cc.hyperium.gui.Icons;
 import cc.hyperium.gui.main.HyperiumMainGui;
@@ -8,25 +9,35 @@ import cc.hyperium.gui.main.HyperiumOverlay;
 import cc.hyperium.gui.main.components.AbstractTab;
 import cc.hyperium.gui.main.components.SettingItem;
 import cc.hyperium.installer.InstallerFrame;
+import cc.hyperium.internal.addons.AddonManifest;
+import cc.hyperium.internal.addons.misc.AddonManifestParser;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import org.apache.commons.io.FileUtils;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.awt.*;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
-import java.util.ArrayList;
+import java.nio.channels.Channels;
+import java.nio.channels.ReadableByteChannel;
+import java.security.MessageDigest;
+import java.util.*;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.jar.JarFile;
+import java.util.zip.Checksum;
+
+import static org.apache.commons.io.FileUtils.checksum;
 
 public class AddonsInstallerTab extends AbstractTab {
     private static int offsetY = 0; // static so it saves the previous location
     private int y, w;
     private GuiBlock block;
-
-    String versions_url = "https://raw.githubusercontent.com/HyperiumClient/Hyperium-Repo/master/installer/versions.json";
+    private static final char[] hexCodes = "0123456789ABCDEF".toCharArray();
+    public String versions_url = "https://raw.githubusercontent.com/HyperiumClient/Hyperium-Repo/master/installer/versions.json";
 
     public AddonsInstallerTab(int y, int w) {
 
@@ -50,7 +61,13 @@ public class AddonsInstallerTab extends AbstractTab {
             ao.add((JSONObject) o);
             int Current = current;
             items.add(new SettingItem(() -> {
-                downloadAddon(ao.get(Current).getString("url"), ao.get(Current).getString("name"));
+                try {
+                    installAddon(ao.get(Current).getString("name"));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (AddonDownloadException e) {
+                    e.printStackTrace();
+                }
             }, Icons.DOWNLOAD.getResource(), ao.get(current).getString("name"), ao.get(current).getString("description"), "Download Addon", xi, yi));
             if (xi == 2) {
                 xi = 0;
@@ -82,15 +99,77 @@ public class AddonsInstallerTab extends AbstractTab {
         super.draw(mouseX, mouseY, topX, topY, containerWidth, containerHeight);
     }
 
-    public void downloadAddon(String downloadURL, String name) {
-        System.out.println(downloadURL);
-        try {
-            System.setProperty("http.agent", "Chrome");
-            FileUtils.copyURLToFile(new URL(downloadURL), new File(Minecraft.getMinecraft().mcDataDir + "/addons/"));
-        } catch (IOException e) {
-            HyperiumMainGui.Alert alert = new HyperiumMainGui.Alert(Icons.ERROR.getResource(), null, "Failed to get Addon: " + name);
-            HyperiumMainGui.getAlerts().add(alert);
-            e.printStackTrace();
+    private void installAddon(String jsonName) throws IOException, AddonDownloadException {
+        JSONObject versionsJson = new JSONObject(InstallerFrame.get("https://raw.githubusercontent.com/HyperiumClient/Hyperium-Repo/master/installer/versions.json"));
+        JSONArray addonsArray = versionsJson.getJSONArray("addons");
+        List<JSONObject> addonObjects = new ArrayList<>();
+        for (Object o : addonsArray)
+            addonObjects.add((JSONObject) o);
+        AtomicReference<JSONObject> addon = new AtomicReference<>();
+        addonObjects.forEach(o -> {
+            if (o.getString("name").equals(jsonName))
+                addon.set(o);
+        });
+        if (addon.get() == null) throw new AddonDownloadException("Addon isn't in versions.json");
+        Map<File, AddonManifest> installedAddons = new HashMap<>();
+        File addonsDir = new File(Minecraft.getMinecraft().mcDataDir, "addons");
+        if (addonsDir.exists()) {
+            for (File a : Objects.requireNonNull(addonsDir.listFiles((dir, name) -> name.endsWith(".jar")))) {
+                installedAddons.put(a, new AddonManifestParser(new JarFile(a)).getAddonManifest());
+            }
+        } else addonsDir.mkdirs();
+        installedAddons.forEach((f, m) -> {
+            if (m.getName() != null)
+                if (m.getName().equals(addon.get().getString("name")))
+                    f.delete();
+        });
+        System.out.println("Downloading: " + addon.get().getString("url"));
+        File aOut = new File(addonsDir, addon.get().getString("name") + "-" + addon.get().getString("version") + ".jar");
+        downloadFile(new URL(addon.get().getString("url")), aOut);
+        if (!toHex(checksum(aOut, "SHA-256")).equalsIgnoreCase(addon.get().getString("sha256"))) {
+            throw new AddonDownloadException("SHA256 checksum doesn't match");
         }
     }
+
+    private static String toHex(byte[] bytes) {
+        StringBuilder r = new StringBuilder(bytes.length * 2);
+
+        for (byte b : bytes) {
+            r.append(hexCodes[(b >> 4) & 0xF]);
+            r.append(hexCodes[(b & 0xF)]);
+        }
+
+        return r.toString();
+    }
+
+    /**
+     * Downloads a file.
+     * @param url the URL of the file to download
+     * @param output the file to output
+     * @throws IOException when downloading fails
+     */
+    private void downloadFile(URL url, File output) throws IOException {
+        if (!output.getParentFile().exists()) {
+            output.getParentFile().mkdirs();
+        }
+        ReadableByteChannel rbc = Channels.newChannel(url.openStream());
+        FileOutputStream fos = new FileOutputStream(output);
+        fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
+    }
+
+    private byte[] checksum(File input, String name) {
+        try (InputStream in = new FileInputStream(input)) {
+            MessageDigest digest = MessageDigest.getInstance(name);
+            byte[] block = new byte[4096];
+            int length;
+            while ((length = in.read(block)) > 0) {
+                digest.update(block, 0, length);
+            }
+            return digest.digest();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }
