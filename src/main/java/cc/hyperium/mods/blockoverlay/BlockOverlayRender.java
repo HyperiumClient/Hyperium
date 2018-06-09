@@ -3,7 +3,6 @@ package cc.hyperium.mods.blockoverlay;
 import cc.hyperium.event.DrawBlockHighlightEvent;
 import cc.hyperium.event.InvokeEvent;
 import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderGlobal;
 import net.minecraft.client.renderer.Tessellator;
@@ -15,76 +14,92 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.WorldSettings;
 import org.lwjgl.opengl.GL11;
 
-import java.awt.*;
+import java.awt.Color;
 
-class BlockOverlayRender {
+public class BlockOverlayRender {
+    private BlockOverlay mod;
+
+    public BlockOverlayRender(BlockOverlay mod) {
+        this.mod = mod;
+    }
+
     @InvokeEvent
-    public void onDrawBlockHighlight(final DrawBlockHighlightEvent event) {
-        if (Minecraft.getMinecraft().thePlayer == null || Minecraft.getMinecraft().theWorld == null || (!Minecraft.getMinecraft().playerController.getCurrentGameType().equals(WorldSettings.GameType.SURVIVAL) && !Minecraft.getMinecraft().playerController.getCurrentGameType().equals(WorldSettings.GameType.CREATIVE))) {
-            return;
-        }
-        if (BlockOverlay.mode.equals(BlockOverlayMode.DEFAULT)) {
+    public void onRenderBlockOverlay(DrawBlockHighlightEvent event) {
+        if (this.mod.mc.thePlayer == null || this.mod.mc.theWorld == null || this.mod.getSettings().getOverlayMode() == BlockOverlayMode.DEFAULT) {
             return;
         }
         event.setCancelled(true);
-        if (BlockOverlay.mode.equals(BlockOverlayMode.NONE)) {
+        if (this.mod.getSettings().getOverlayMode() == BlockOverlayMode.NONE) {
             return;
         }
 
-        this.drawOverlay();
+        this.drawOverlay(event.getPartialTicks());
     }
 
-    private void drawOverlay() {
-        if (Minecraft.getMinecraft().objectMouseOver == null || !Minecraft.getMinecraft().objectMouseOver.typeOfHit.equals(MovingObjectPosition.MovingObjectType.BLOCK)) {
+    private void drawOverlay(float partialTicks) {
+        if (this.mod.mc.objectMouseOver == null || this.mod.mc.objectMouseOver.typeOfHit != MovingObjectPosition.MovingObjectType.BLOCK) {
             return;
         }
-        final MovingObjectPosition position = Minecraft.getMinecraft().thePlayer.rayTrace(6.0, 0.0f);
-        if (position == null || !position.typeOfHit.equals(MovingObjectPosition.MovingObjectType.BLOCK)) {
+        MovingObjectPosition position = this.mod.mc.thePlayer.rayTrace(6.0, partialTicks);
+        if (position == null || position.typeOfHit != MovingObjectPosition.MovingObjectType.BLOCK) {
             return;
         }
-        final Block block = Minecraft.getMinecraft().thePlayer.worldObj.getBlockState(position.getBlockPos()).getBlock();
-        if (block == null || block.equals(Blocks.air) || block.equals(Blocks.barrier) || block.equals(Blocks.water) || block.equals(Blocks.flowing_water) || block.equals(Blocks.lava) || block.equals(Blocks.flowing_lava)) {
+        Block block = this.mod.mc.thePlayer.worldObj.getBlockState(position.getBlockPos()).getBlock();
+        if (block == null || block == Blocks.air || block == Blocks.barrier || block == Blocks.water || block == Blocks.flowing_water || block == Blocks.lava || block == Blocks.flowing_lava) {
             return;
         }
+        float lineWidth = this.mod.getSettings().getLineWidth();
+
         GlStateManager.pushMatrix();
-        GlStateManager.depthMask(false);
         GlStateManager.enableBlend();
+        GlStateManager.tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, 1, 0);
+        if (lineWidth != 0.0f) {
+            GL11.glLineWidth(this.mod.getSettings().getLineWidth());
+        }
         GlStateManager.disableTexture2D();
-        GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
-        GL11.glLineWidth(BlockOverlay.lineWidth);
-        final AxisAlignedBB box = block.getSelectedBoundingBox(Minecraft.getMinecraft().theWorld, position.getBlockPos()).offset(-Minecraft.getMinecraft().getRenderManager().viewerPosX, -Minecraft.getMinecraft().getRenderManager().viewerPosY, -Minecraft.getMinecraft().getRenderManager().viewerPosZ).expand(0.0010000000474974513, 0.0010000000474974513, 0.0010000000474974513);
-        if (BlockOverlay.mode.equals(BlockOverlayMode.OUTLINE)) {
-            if (BlockOverlay.isChroma) {
-                final double millis = (double) (System.currentTimeMillis() % (10000L / BlockOverlay.chromaSpeed) / (10000.0f / BlockOverlay.chromaSpeed));
-                final Color color = Color.getHSBColor((float) millis, 0.8f, 0.8f);
-                GL11.glColor4f((float) color.getRed() / 255.0f, (float) color.getGreen() / 255.0f, (float) color.getBlue() / 255.0f, BlockOverlay.alpha);
+        GlStateManager.depthMask(false);
+        AxisAlignedBB box = block.getSelectedBoundingBox(this.mod.mc.theWorld, position.getBlockPos()).expand(0.0020000000949949026D, 0.0020000000949949026D, 0.0020000000949949026D).offset(-this.mod.mc.getRenderManager().viewerPosX, -this.mod.mc.getRenderManager().viewerPosY, -this.mod.mc.getRenderManager().viewerPosZ);
+
+        if (this.mod.getSettings().getOverlayMode() == BlockOverlayMode.OUTLINE) {
+            if (this.mod.getSettings().isChroma()) {
+                float time = System.currentTimeMillis() % (10000L / this.mod.getSettings().getChromaSpeed()) / (10000.0f / this.mod.getSettings().getChromaSpeed());
+                Color color = Color.getHSBColor(time, 1.0f, 1.0f);
+                GL11.glColor4f(color.getRed() / 255.0f, color.getGreen() / 255.0f, color.getBlue() / 255.0f, this.mod.getSettings().getOverlayAlpha());
             } else {
-                GL11.glColor4f(BlockOverlay.red, BlockOverlay.green, BlockOverlay.blue, BlockOverlay.alpha);
+                GL11.glColor4f(this.mod.getSettings().getOverlayRed(), this.mod.getSettings().getOverlayGreen(), this.mod.getSettings().getOverlayBlue(), this.mod.getSettings().getOverlayAlpha());
             }
-            RenderGlobal.drawSelectionBoundingBox(box);
-        } else if (BlockOverlay.isChroma) {
-            final double millis = (double) (System.currentTimeMillis() % (10000L / BlockOverlay.chromaSpeed) / (10000.0f / BlockOverlay.chromaSpeed));
-            final Color color = Color.getHSBColor((float) millis, 0.8f, 0.8f);
-            GL11.glColor4f((float) color.getRed() / 255.0f, (float) color.getGreen() / 255.0f, (float) color.getBlue() / 255.0f, 1.0f);
-            RenderGlobal.drawSelectionBoundingBox(box);
-            GL11.glColor4f((float) color.getRed() / 255.0f, (float) color.getGreen() / 255.0f, (float) color.getBlue() / 255.0f, BlockOverlay.alpha);
+            if (lineWidth != 0.0f) {
+                RenderGlobal.drawSelectionBoundingBox(box);
+            }
+
+        } else if (this.mod.getSettings().isChroma()) {
+            float time = System.currentTimeMillis() % (10000L / this.mod.getSettings().getChromaSpeed()) / (10000.0f / this.mod.getSettings().getChromaSpeed());
+            Color color = Color.getHSBColor(time, 1.0f, 1.0f);
+            if (lineWidth != 0.0f) {
+                GL11.glColor4f(color.getRed() / 255.0f, color.getGreen() / 255.0f, color.getBlue() / 255.0f, 1.0f);
+                RenderGlobal.drawSelectionBoundingBox(box);
+            }
+            GL11.glColor4f(color.getRed() / 255.0f, color.getGreen() / 255.0f, color.getBlue() / 255.0f, this.mod.getSettings().getOverlayAlpha());
             this.drawFilledBoundingBox(box);
         } else {
-            GL11.glColor4f(BlockOverlay.red, BlockOverlay.green, BlockOverlay.blue, 1.0f);
-            RenderGlobal.drawSelectionBoundingBox(box);
-            GL11.glColor4f(BlockOverlay.red, BlockOverlay.green, BlockOverlay.blue, BlockOverlay.alpha);
+            if (lineWidth != 0.0f) {
+                GL11.glColor4f(this.mod.getSettings().getOverlayRed(), this.mod.getSettings().getOverlayGreen(), this.mod.getSettings().getOverlayBlue(), 1.0f);
+                RenderGlobal.drawSelectionBoundingBox(box);
+            }
+            GL11.glColor4f(this.mod.getSettings().getOverlayRed(), this.mod.getSettings().getOverlayGreen(), this.mod.getSettings().getOverlayBlue(), this.mod.getSettings().getOverlayAlpha());
             this.drawFilledBoundingBox(box);
         }
+        GlStateManager.depthMask(true);
         GlStateManager.enableTexture2D();
         GlStateManager.disableBlend();
-        GlStateManager.depthMask(true);
         GlStateManager.popMatrix();
     }
 
-    private void drawFilledBoundingBox(final AxisAlignedBB box) {
-        final Tessellator tessellator = Tessellator.getInstance();
-        final WorldRenderer worldRenderer = tessellator.getWorldRenderer();
-        worldRenderer.begin(7, DefaultVertexFormats.POSITION);
+    private void drawFilledBoundingBox(AxisAlignedBB box) {
+        Tessellator tessellator = Tessellator.getInstance();
+        WorldRenderer worldRenderer = tessellator.getWorldRenderer();
+
+        worldRenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION);
         worldRenderer.pos(box.minX, box.minY, box.minZ).endVertex();
         worldRenderer.pos(box.minX, box.maxY, box.minZ).endVertex();
         worldRenderer.pos(box.maxX, box.minY, box.minZ).endVertex();
@@ -94,7 +109,8 @@ class BlockOverlayRender {
         worldRenderer.pos(box.minX, box.minY, box.maxZ).endVertex();
         worldRenderer.pos(box.minX, box.maxY, box.maxZ).endVertex();
         tessellator.draw();
-        worldRenderer.begin(7, DefaultVertexFormats.POSITION);
+
+        worldRenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION);
         worldRenderer.pos(box.maxX, box.maxY, box.minZ).endVertex();
         worldRenderer.pos(box.maxX, box.minY, box.minZ).endVertex();
         worldRenderer.pos(box.minX, box.maxY, box.minZ).endVertex();
@@ -104,7 +120,8 @@ class BlockOverlayRender {
         worldRenderer.pos(box.maxX, box.maxY, box.maxZ).endVertex();
         worldRenderer.pos(box.maxX, box.minY, box.maxZ).endVertex();
         tessellator.draw();
-        worldRenderer.begin(7, DefaultVertexFormats.POSITION);
+
+        worldRenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION);
         worldRenderer.pos(box.minX, box.maxY, box.minZ).endVertex();
         worldRenderer.pos(box.maxX, box.maxY, box.minZ).endVertex();
         worldRenderer.pos(box.maxX, box.maxY, box.maxZ).endVertex();
@@ -114,7 +131,8 @@ class BlockOverlayRender {
         worldRenderer.pos(box.maxX, box.maxY, box.maxZ).endVertex();
         worldRenderer.pos(box.maxX, box.maxY, box.minZ).endVertex();
         tessellator.draw();
-        worldRenderer.begin(7, DefaultVertexFormats.POSITION);
+
+        worldRenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION);
         worldRenderer.pos(box.minX, box.minY, box.minZ).endVertex();
         worldRenderer.pos(box.maxX, box.minY, box.minZ).endVertex();
         worldRenderer.pos(box.maxX, box.minY, box.maxZ).endVertex();
@@ -124,7 +142,8 @@ class BlockOverlayRender {
         worldRenderer.pos(box.maxX, box.minY, box.maxZ).endVertex();
         worldRenderer.pos(box.maxX, box.minY, box.minZ).endVertex();
         tessellator.draw();
-        worldRenderer.begin(7, DefaultVertexFormats.POSITION);
+
+        worldRenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION);
         worldRenderer.pos(box.minX, box.minY, box.minZ).endVertex();
         worldRenderer.pos(box.minX, box.maxY, box.minZ).endVertex();
         worldRenderer.pos(box.minX, box.minY, box.maxZ).endVertex();
@@ -134,7 +153,8 @@ class BlockOverlayRender {
         worldRenderer.pos(box.maxX, box.minY, box.minZ).endVertex();
         worldRenderer.pos(box.maxX, box.maxY, box.minZ).endVertex();
         tessellator.draw();
-        worldRenderer.begin(7, DefaultVertexFormats.POSITION);
+
+        worldRenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION);
         worldRenderer.pos(box.minX, box.maxY, box.maxZ).endVertex();
         worldRenderer.pos(box.minX, box.minY, box.maxZ).endVertex();
         worldRenderer.pos(box.minX, box.maxY, box.minZ).endVertex();
