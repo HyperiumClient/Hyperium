@@ -4,11 +4,8 @@ import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.RenderPlayerEvent;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.purchases.EnumPurchaseType;
-import cc.hyperium.purchases.HyperiumPurchase;
 import cc.hyperium.purchases.PurchaseApi;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityPlayerSP;
-import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -105,7 +102,8 @@ public class WingsCosmetic extends AbstractCosmetic {
     public void onRenderPlayer(RenderPlayerEvent e) {
         final EntityPlayer player1 = e.getEntity();
         if (player1.equals((Object) this.mc.thePlayer) && !player.isInvisible()) {
-            renderWings(player1, e.getPartialTicks());
+            if (isPurchasedBy(player1.getUniqueID()))
+                renderWings(player1, e.getPartialTicks());
         }
     }
 }
