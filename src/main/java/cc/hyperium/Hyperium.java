@@ -22,7 +22,7 @@ import cc.hyperium.commands.defaults.*;
 import cc.hyperium.config.DefaultConfig;
 import cc.hyperium.config.Settings;
 import cc.hyperium.cosmetics.HyperiumCosmetics;
-import cc.hyperium.cosmetics.WingCosmetic;
+import cc.hyperium.cosmetics.WingsCosmetic;
 import cc.hyperium.event.*;
 import cc.hyperium.event.minigames.MinigameListener;
 import cc.hyperium.gui.BlurDisableFallback;
@@ -154,7 +154,7 @@ public class Hyperium {
         EventBus.INSTANCE.register(CompactChat.getInstance());
         EventBus.INSTANCE.register(CrosshairMod.getInstance());
         EventBus.INSTANCE.register(CONFIG.register(FPSLimiter.getInstance()));
-        EventBus.INSTANCE.register(new WingCosmetic());
+        EventBus.INSTANCE.register(new WingsCosmetic());
         EventBus.INSTANCE.register(confirmation = new ConfirmationPopup());
         EventBus.INSTANCE.register(new BlurDisableFallback());
         EventBus.INSTANCE.register(new CommandUpdate());
