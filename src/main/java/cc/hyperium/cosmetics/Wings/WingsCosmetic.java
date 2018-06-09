@@ -22,7 +22,7 @@ import java.awt.*;
  */
 public class WingsCosmetic extends AbstractCosmetic {
 
-    public int scale = 100;
+    public int scale = 150;
 
     public WingsCosmetic() {
         super(true, EnumPurchaseType.WING_COSMETIC, true);
