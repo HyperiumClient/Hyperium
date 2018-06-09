@@ -15,6 +15,7 @@ public class HyperiumCosmetics {
     private final DabOnKIllCosmetic dabCosmetic;
     private final FlipCosmetic flipCosmetic;
     private final Deadmau5Cosmetic deadmau5Cosmetic;
+    private final WingsCosmetic wingsCosmetic;
 
     public HyperiumCosmetics() {
         register(new KillCounterMuscles());
@@ -24,6 +25,7 @@ public class HyperiumCosmetics {
         DealWithItGlasses dealWithIt;
         register(dealWithIt = new DealWithItGlasses());
         register(deadmau5Cosmetic = new Deadmau5Cosmetic());
+        register(wingsCosmetic = new WingsCosmetic());
     }
 
     private void register(AbstractCosmetic cosmetic) {
@@ -46,4 +48,9 @@ public class HyperiumCosmetics {
     public Deadmau5Cosmetic getDeadmau5Cosmetic() {
         return deadmau5Cosmetic;
     }
+
+    public WingsCosmetic getWingsCosmetic() {
+        return wingsCosmetic;
+    }
+
 }
