@@ -274,7 +274,7 @@ public abstract class MixinGuiPlayerTabOverlay extends Gui {
                         if (colour.isChroma) {
                             drawChromaWaveString(s, renderX, (k2 - 2));
                         } else {
-                            String format = StaffUtils.getColor(gameprofile.getId()) + s;
+                            String format = StaffUtils.getColor(gameprofile.getId()).baseColour + s;
                             this.mc.fontRendererObj.drawString(format, renderX, (k2-2), Color.WHITE.getRGB());
                         }
                     } else {
