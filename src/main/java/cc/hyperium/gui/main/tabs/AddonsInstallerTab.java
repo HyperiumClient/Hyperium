@@ -1,38 +1,31 @@
 package cc.hyperium.gui.main.tabs;
 
-import cc.hyperium.Hyperium;
 import cc.hyperium.exceptions.AddonDownloadException;
 import cc.hyperium.gui.GuiBlock;
 import cc.hyperium.gui.Icons;
-import cc.hyperium.gui.main.HyperiumMainGui;
-import cc.hyperium.gui.main.HyperiumOverlay;
 import cc.hyperium.gui.main.components.AbstractTab;
 import cc.hyperium.gui.main.components.SettingItem;
 import cc.hyperium.installer.InstallerFrame;
+import cc.hyperium.internal.addons.AddonBootstrap;
 import cc.hyperium.internal.addons.AddonManifest;
 import cc.hyperium.internal.addons.misc.AddonManifestParser;
-import cc.hyperium.mods.sk1ercommon.Multithreading;
+import cc.hyperium.utils.Downloader;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
-import org.apache.commons.io.FileUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.awt.*;
 import java.io.*;
 import java.net.URL;
-import java.nio.channels.Channels;
-import java.nio.channels.ReadableByteChannel;
 import java.security.MessageDigest;
 import java.util.*;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.jar.JarFile;
-import java.util.zip.Checksum;
-
-import static org.apache.commons.io.FileUtils.checksum;
 
 public class AddonsInstallerTab extends AbstractTab {
+    public int current;
     private static int offsetY = 0; // static so it saves the previous location
     private int y, w;
     private GuiBlock block;
@@ -60,21 +53,25 @@ public class AddonsInstallerTab extends AbstractTab {
         for (Object o : versionsJson.getJSONArray("addons")) {
             ao.add((JSONObject) o);
             int Current = current;
-            items.add(new SettingItem(() -> {
-                try {
-                    installAddon(ao.get(Current).getString("name"));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (AddonDownloadException e) {
-                    e.printStackTrace();
-                }
-            }, Icons.DOWNLOAD.getResource(), ao.get(current).getString("name"), ao.get(current).getString("description"), "Download Addon", xi, yi));
-            if (xi == 2) {
-                xi = 0;
-                yi++;
-            } else
-                xi++;
-            current++;
+            ArrayList<AddonManifest> a = AddonBootstrap.INSTANCE.getAddonManifests();
+
+            if (!a.get(current).getName().equalsIgnoreCase(ao.get(current).getString("name"))) {
+                items.add(new SettingItem(() -> {
+                    try {
+                        installAddon(ao.get(Current).getString("name"));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (AddonDownloadException e) {
+                        e.printStackTrace();
+                    }
+                }, Icons.DOWNLOAD.getResource(), ao.get(current).getString("name"), ao.get(current).getString("description"), "Download Addon", xi, yi));
+                if (xi == 2) {
+                    xi = 0;
+                    yi++;
+                } else
+                    xi++;
+                current++;
+            }
         }
     }
 
@@ -125,7 +122,7 @@ public class AddonsInstallerTab extends AbstractTab {
         });
         System.out.println("Downloading: " + addon.get().getString("url"));
         File aOut = new File(addonsDir, addon.get().getString("name") + "-" + addon.get().getString("version") + ".jar");
-        downloadFile(new URL(addon.get().getString("url")), aOut);
+        downloadFile(new URL(addon.get().getString("url")), aOut, addon.get().getString("name"));
         if (!toHex(checksum(aOut, "SHA-256")).equalsIgnoreCase(addon.get().getString("sha256"))) {
             throw new AddonDownloadException("SHA256 checksum doesn't match");
         }
@@ -144,17 +141,24 @@ public class AddonsInstallerTab extends AbstractTab {
 
     /**
      * Downloads a file.
-     * @param url the URL of the file to download
+     *
+     * @param url    the URL of the file to download
      * @param output the file to output
      * @throws IOException when downloading fails
      */
-    private void downloadFile(URL url, File output) throws IOException {
+    private void downloadFile(URL url, File output, String name) throws IOException {
+        JSONObject versionsJson = new JSONObject(InstallerFrame.get("https://raw.githubusercontent.com/HyperiumClient/Hyperium-Repo/master/installer/versions.json"));
+        JSONArray addonsArray = versionsJson.getJSONArray("addons");
+        List<JSONObject> addonObjects = new ArrayList<>();
+        for (Object o : addonsArray)
+            addonObjects.add((JSONObject) o);
+        AtomicReference<JSONObject> addon = new AtomicReference<>();
+
         if (!output.getParentFile().exists()) {
             output.getParentFile().mkdirs();
         }
-        ReadableByteChannel rbc = Channels.newChannel(url.openStream());
-        FileOutputStream fos = new FileOutputStream(output);
-        fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
+        Downloader downloader = new Downloader();
+        downloader.download(url, output);
     }
 
     private byte[] checksum(File input, String name) {

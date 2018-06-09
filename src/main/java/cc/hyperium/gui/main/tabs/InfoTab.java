@@ -67,7 +67,7 @@ public class InfoTab extends AbstractTab {
         items.add(new SettingItem(() -> new GuiHyperiumCredits(HyperiumMainGui.INSTANCE).show(), null, "Credits", "List of contributors who helped with the client", "Lists of contributor name and amount of commits", 2, 0));
         items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(licenses), null, "Licenses", "Open Source Licenses", "Licenses for open source libraries used in the client", 2, 1));
         items.add(new SettingItem(() -> Multithreading.runAsync(() -> {
-            if (!UpdateUtils.INSTANCE.isSupported()) {
+            if (!UpdateUtils.INSTANCE.isSupported() ) {
                 try {
                     UpdateUtils utils = UpdateUtils.INSTANCE;
                     Hyperium.INSTANCE.getNotification().display("Update", "Downloading updates...", 3);
