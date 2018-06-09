@@ -20,6 +20,7 @@ import java.util.Queue;
  * Created by Cubxity on 20/05/2018
  */
 public class HyperiumMainGui extends HyperiumGui {
+
     public static HyperiumMainGui INSTANCE;
     private static List<String> loadedAlerts = new ArrayList<>(); // so old alerts does not shot again
     private static final HyperiumFontRenderer fr = new HyperiumFontRenderer("Arial", Font.PLAIN, 20);
@@ -39,6 +40,11 @@ public class HyperiumMainGui extends HyperiumGui {
     public void setOverlay(HyperiumOverlay overlay) {
         this.overlay = overlay;
     }
+
+    public void setTab(AbstractTab tab) {
+        this.currentTab = tab;
+    }
+
 
     @Override
     protected void pack() {
