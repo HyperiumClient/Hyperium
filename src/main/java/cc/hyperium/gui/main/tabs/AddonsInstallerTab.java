@@ -40,7 +40,7 @@ public class AddonsInstallerTab extends AbstractTab {
         this.w = w;
         int yi = 0, xi = 0, current = 0;
 
-        List < JSONObject > ao = new ArrayList < > ();
+        List<JSONObject> ao = new ArrayList<>();
         JSONObject versionsJson = null;
         try {
             versionsJson = new JSONObject(InstallerFrame.get(versions_url));
@@ -50,9 +50,9 @@ public class AddonsInstallerTab extends AbstractTab {
 
         block = new GuiBlock(0, w, y, y + w);
 
-        for (Object o: versionsJson.getJSONArray("addons")) {
+        for (Object o : versionsJson.getJSONArray("addons")) {
             ao.add((JSONObject) o);
-            ArrayList < AddonManifest > addonManifests = AddonBootstrap.INSTANCE.getAddonManifests();
+            ArrayList<AddonManifest> addonManifests = AddonBootstrap.INSTANCE.getAddonManifests();
             int Current = current;
             items.add(new SettingItem(() -> {
                 try {
@@ -87,7 +87,7 @@ public class AddonsInstallerTab extends AbstractTab {
 
     @Override
     public void drawHighlight(float s) {
-        Gui.drawRect(0, (int)(y + s * (s * w / 2)), 3, (int)(y + w - s * (w / 2)), Color.WHITE.getRGB());
+        Gui.drawRect(0, (int) (y + s * (s * w / 2)), 3, (int) (y + w - s * (w / 2)), Color.WHITE.getRGB());
     }
 
     @Override
@@ -98,19 +98,19 @@ public class AddonsInstallerTab extends AbstractTab {
     private void installAddon(String jsonName) throws IOException, AddonDownloadException {
         JSONObject versionsJson = new JSONObject(InstallerFrame.get("https://raw.githubusercontent.com/HyperiumClient/Hyperium-Repo/master/installer/versions.json"));
         JSONArray addonsArray = versionsJson.getJSONArray("addons");
-        List < JSONObject > addonObjects = new ArrayList < > ();
-        for (Object o: addonsArray)
+        List<JSONObject> addonObjects = new ArrayList<>();
+        for (Object o : addonsArray)
             addonObjects.add((JSONObject) o);
-        AtomicReference < JSONObject > addon = new AtomicReference < > ();
+        AtomicReference<JSONObject> addon = new AtomicReference<>();
         addonObjects.forEach(o -> {
             if (o.getString("name").equals(jsonName))
                 addon.set(o);
         });
         if (addon.get() == null) throw new AddonDownloadException("Addon isn't in versions.json");
-        Map < File, AddonManifest > installedAddons = new HashMap < > ();
+        Map<File, AddonManifest> installedAddons = new HashMap<>();
         File addonsDir = new File(Minecraft.getMinecraft().mcDataDir, "addons");
         if (addonsDir.exists()) {
-            for (File a: Objects.requireNonNull(addonsDir.listFiles((dir, name) -> name.endsWith(".jar")))) {
+            for (File a : Objects.requireNonNull(addonsDir.listFiles((dir, name) -> name.endsWith(".jar")))) {
                 installedAddons.put(a, new AddonManifestParser(new JarFile(a)).getAddonManifest());
             }
         } else addonsDir.mkdirs();
@@ -127,11 +127,10 @@ public class AddonsInstallerTab extends AbstractTab {
     private static String toHex(byte[] bytes) {
         StringBuilder r = new StringBuilder(bytes.length * 2);
 
-        for (byte b: bytes) {
+        for (byte b : bytes) {
             r.append(hexCodes[(b >> 4) & 0xF]);
             r.append(hexCodes[(b & 0xF)]);
         }
-
         return r.toString();
     }
 
@@ -145,10 +144,10 @@ public class AddonsInstallerTab extends AbstractTab {
     private void downloadFile(URL url, File output, String name) throws IOException, AddonDownloadException {
         JSONObject versionsJson = new JSONObject(InstallerFrame.get("https://raw.githubusercontent.com/HyperiumClient/Hyperium-Repo/master/installer/versions.json"));
         JSONArray addonsArray = versionsJson.getJSONArray("addons");
-        List < JSONObject > addonObjects = new ArrayList < > ();
-        for (Object o: addonsArray)
+        List<JSONObject> addonObjects = new ArrayList<>();
+        for (Object o : addonsArray)
             addonObjects.add((JSONObject) o);
-        AtomicReference < JSONObject > addon = new AtomicReference < > ();
+        AtomicReference<JSONObject> addon = new AtomicReference<>();
 
         if (!output.getParentFile().exists()) {
             output.getParentFile().mkdirs();
@@ -174,7 +173,7 @@ public class AddonsInstallerTab extends AbstractTab {
             MessageDigest digest = MessageDigest.getInstance(name);
             byte[] block = new byte[4096];
             int length;
-            while ((length = in .read(block)) > 0) {
+            while ((length = in.read(block)) > 0) {
                 digest.update(block, 0, length);
             }
             return digest.digest();
