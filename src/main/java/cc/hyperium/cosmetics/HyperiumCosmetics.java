@@ -1,5 +1,6 @@
 package cc.hyperium.cosmetics;
 
+import cc.hyperium.cosmetics.Wings.WingsCosmetic;
 import cc.hyperium.event.EventBus;
 
 import java.util.ArrayList;
@@ -16,13 +17,14 @@ public class HyperiumCosmetics {
     private final FlipCosmetic flipCosmetic;
     private final Deadmau5Cosmetic deadmau5Cosmetic;
     private final WingsCosmetic wingsCosmetic;
+    private final DealWithItGlasses dealWithIt;
+
 
     public HyperiumCosmetics() {
         register(new KillCounterMuscles());
-        register(this.dabCosmetic = new DabOnKIllCosmetic());
+        register(dabCosmetic = new DabOnKIllCosmetic());
         register(chromaWin = new ChromaWinCosmetic());
         register(flipCosmetic = new FlipCosmetic());
-        DealWithItGlasses dealWithIt;
         register(dealWithIt = new DealWithItGlasses());
         register(deadmau5Cosmetic = new Deadmau5Cosmetic());
         register(wingsCosmetic = new WingsCosmetic());

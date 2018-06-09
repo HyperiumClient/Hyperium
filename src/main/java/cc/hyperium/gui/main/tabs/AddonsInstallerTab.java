@@ -146,23 +146,25 @@ public class AddonsInstallerTab extends AbstractTab {
 
         if (!output.getParentFile().exists()) {
             output.getParentFile().mkdirs();
-            Downloader downloader = new Downloader();
-            downloader.download(url, output);
-            System.out.println("Downloading: " + addon.get().getString("url"));
-            File aOut = new File(addonsDir, addon.get().getString("name") + "-" + addon.get().getString("version") + ".jar");
-            if (!toHex(checksum(aOut, "SHA-256")).equalsIgnoreCase(addon.get().getString("sha256"))) {
-                HyperiumMainGui.Alert alert = new HyperiumMainGui.Alert(Icons.ERROR.getResource(), null, "SHA256 does not match");
-            }
-        } else {
-            HyperiumMainGui.Alert alert = new HyperiumMainGui.Alert(Icons.EXTENSION.getResource(), new Runnable() {
-                @Override
-                public void run() {
-                    HyperiumMainGui hyperiumMainGui = new HyperiumMainGui();
-                    int height = hyperiumMainGui.height;
-                    hyperiumMainGui.setTab(new AddonsTab(height / 2, 144));
+            if (output.exists()) {
+                Downloader downloader = new Downloader();
+                downloader.download(url, output);
+                System.out.println("Downloading: " + addon.get().getString("url"));
+                File aOut = new File(addonsDir, addon.get().getString("name") + "-" + addon.get().getString("version") + ".jar");
+                if (!toHex(checksum(aOut, "SHA-256")).equalsIgnoreCase(addon.get().getString("sha256"))) {
+                    HyperiumMainGui.Alert alert = new HyperiumMainGui.Alert(Icons.ERROR.getResource(), null, "SHA256 does not match");
                 }
-            }, "You already have " + name + " installed!");
-            HyperiumMainGui.getAlerts().add(alert);
+            } else {
+                HyperiumMainGui.Alert alert = new HyperiumMainGui.Alert(Icons.EXTENSION.getResource(), new Runnable() {
+                    @Override
+                    public void run() {
+                        HyperiumMainGui hyperiumMainGui = new HyperiumMainGui();
+                        int height = hyperiumMainGui.height;
+                        hyperiumMainGui.setTab(new AddonsTab(height / 2, 144));
+                    }
+                }, "You already have " + name + " installed!");
+                HyperiumMainGui.getAlerts().add(alert);
+            }
         }
     }
 

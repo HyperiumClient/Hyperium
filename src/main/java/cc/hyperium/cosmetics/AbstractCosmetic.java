@@ -19,7 +19,7 @@ public abstract class AbstractCosmetic {
     private final Map<UUID, Boolean> purchasedBy = new ConcurrentHashMap<>();
     private boolean selfUnlocked;
 
-    AbstractCosmetic(boolean selfOnly, EnumPurchaseType purchaseType, boolean purchaseable) {
+    public AbstractCosmetic(boolean selfOnly, EnumPurchaseType purchaseType, boolean purchaseable) {
         this.selfOnly = selfOnly;
         this.purchaseType = purchaseType;
         this.purchasable = purchaseable;
