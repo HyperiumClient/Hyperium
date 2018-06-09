@@ -2,7 +2,6 @@ package cc.hyperium.cosmetics;
 
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.RenderPlayerEvent;
-import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.purchases.EnumPurchaseType;
 import cc.hyperium.purchases.PurchaseApi;
 import net.minecraft.client.Minecraft;
@@ -48,15 +47,7 @@ public class WingsCosmetic extends AbstractCosmetic {
         this.wingTip.setTextureOffset(-10, 18);
     }
 
-    private Boolean getWingPurchased() {
-        Multithreading.runAsync(new Runnable() {
-            @Override
-            public void run() {
-                //sk1er modify this kthx
-            }
-        });
-        return isPurchased;
-    }
+
 
     private void renderWings(EntityPlayer player, Float partialTicks) {
         double wingsscale = 0.7;
