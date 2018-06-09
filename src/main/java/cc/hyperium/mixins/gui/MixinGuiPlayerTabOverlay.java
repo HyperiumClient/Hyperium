@@ -18,7 +18,7 @@
 package cc.hyperium.mixins.gui;
 
 import cc.hyperium.Hyperium;
-import cc.hyperium.gui.settings.items.GeneralSetting;
+import cc.hyperium.config.Settings;
 import cc.hyperium.handlers.handlers.ApiDataHandler;
 import cc.hyperium.utils.ChatColor;
 import cc.hyperium.utils.StaffUtils;
@@ -79,7 +79,7 @@ public abstract class MixinGuiPlayerTabOverlay extends Gui {
         final int ping = networkPlayerInfoIn.getResponseTime();
         final int x = p_175245_2_ + p_175245_1_ - (this.mc.fontRendererObj.getStringWidth(ping + "") >> 1) - 2;
         final int y = yIn + (this.mc.fontRendererObj.FONT_HEIGHT >> 2);
-        if (GeneralSetting.numberPingEnabled) {
+        if (Settings.NUMBER_PING) {
             int colour;
 
             if (ping > 500) {

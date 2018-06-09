@@ -17,7 +17,7 @@
 
 package cc.hyperium.mixins.renderer;
 
-import cc.hyperium.gui.settings.items.AnimationSettings;
+import cc.hyperium.config.Settings;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -101,18 +101,18 @@ public class MixinItemRenderer {
      */
     @Overwrite
     private void transformFirstPersonItem(float equipProgress, float swingProgress) {
-        if (AnimationSettings.oldBow && this.mc != null && this.mc.thePlayer != null &&
+        if (Settings.OLD_BOW && this.mc != null && this.mc.thePlayer != null &&
                 this.mc.thePlayer.getItemInUse() != null && this.mc.thePlayer.getItemInUse().getItem() != null &&
                 Item.getIdFromItem(this.mc.thePlayer.getItemInUse().getItem()) == 261) {
-            GlStateManager.translate(-0.01f, 0.05f, -0.06f);
+            GlStateManager.translate(0.0f, 0.05f, 0.04f);
         }
 
-        if (AnimationSettings.oldRod && this.mc != null && this.mc.thePlayer != null && this.mc.thePlayer.getCurrentEquippedItem() != null && this.mc.thePlayer.getCurrentEquippedItem().getItem() != null && Item.getIdFromItem(this.mc.thePlayer.getCurrentEquippedItem().getItem()) == 346) {
+        if (Settings.OLD_ROD && this.mc != null && this.mc.thePlayer != null && this.mc.thePlayer.getCurrentEquippedItem() != null && this.mc.thePlayer.getCurrentEquippedItem().getItem() != null && Item.getIdFromItem(this.mc.thePlayer.getCurrentEquippedItem().getItem()) == 346) {
             GlStateManager.translate(0.08f, -0.027f, -0.33f);
             GlStateManager.scale(0.93f, 1.0f, 1.0f);
         }
 
-        if (AnimationSettings.oldBlockhit && this.mc != null && this.mc.thePlayer != null && this.mc.thePlayer.isSwingInProgress && this.mc.thePlayer.getCurrentEquippedItem() != null && !this.mc.thePlayer.isEating() && !this.mc.thePlayer.isBlocking()) {
+        if (Settings.OLD_BLOCKHIT && this.mc != null && this.mc.thePlayer != null && this.mc.thePlayer.isSwingInProgress && this.mc.thePlayer.getCurrentEquippedItem() != null && !this.mc.thePlayer.isEating() && !this.mc.thePlayer.isBlocking()) {
             GlStateManager.scale(0.85f, 0.85f, 0.85f);
             GlStateManager.translate(-0.078f, 0.003f, 0.05f);
         }
@@ -159,7 +159,7 @@ public class MixinItemRenderer {
                     case EAT:
                     case DRINK:
                         this.func_178104_a(abstractclientplayer, partialTicks);
-                        if (AnimationSettings.oldEat) {
+                        if (Settings.OLD_EATING) {
                             this.transformFirstPersonItem(f, f1);
                             break;
                         } else {
@@ -167,7 +167,7 @@ public class MixinItemRenderer {
                             break;
                         }
                     case BLOCK:
-                        if (AnimationSettings.oldBlockhit) {
+                        if (Settings.OLD_BLOCKHIT) {
                             this.transformFirstPersonItem(f, f1);
                             this.func_178103_d();
                             GlStateManager.scale(0.83f, 0.88f, 0.85f);
@@ -180,7 +180,7 @@ public class MixinItemRenderer {
                         }
 
                     case BOW:
-                        if (AnimationSettings.oldBow) {
+                        if (Settings.OLD_BOW) {
                             this.transformFirstPersonItem(f, f1);
                             this.func_178098_a(partialTicks, abstractclientplayer);
                             GlStateManager.translate(0.0F, 0.1F, -0.15F);

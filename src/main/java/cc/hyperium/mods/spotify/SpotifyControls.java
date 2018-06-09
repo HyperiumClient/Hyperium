@@ -18,12 +18,12 @@
 package cc.hyperium.mods.spotify;
 
 import cc.hyperium.Hyperium;
+import cc.hyperium.config.Settings;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.GuiClickEvent;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.RenderHUDEvent;
 import cc.hyperium.gui.HyperiumGui;
-import cc.hyperium.gui.settings.items.GeneralSetting;
 import cc.hyperium.integrations.spotify.Spotify;
 import cc.hyperium.integrations.spotify.impl.SpotifyInformation;
 import cc.hyperium.integrations.spotify.impl.Track;
@@ -157,7 +157,7 @@ public class SpotifyControls extends AbstractMod {
             current++;
         }
 
-        if (GeneralSetting.spotifyControlsEnabled) {
+        if (Settings.SPOTIFY_CONTROLS) {
             GuiScreen currentScreen = Minecraft.getMinecraft().currentScreen;
 
             if (currentScreen == null || currentScreen instanceof GuiChat) {
@@ -168,7 +168,7 @@ public class SpotifyControls extends AbstractMod {
 
     @InvokeEvent
     private void onClick(GuiClickEvent event) {
-        if (!GeneralSetting.spotifyControlsEnabled || Spotify.instance == null || !(event.getGui() instanceof GuiChat)) {
+        if (!Settings.SPOTIFY_CONTROLS || Spotify.instance == null || !(event.getGui() instanceof GuiChat)) {
             return;
         }
 

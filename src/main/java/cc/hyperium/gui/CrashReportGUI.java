@@ -38,7 +38,7 @@ import java.util.concurrent.atomic.AtomicReference;
 public class CrashReportGUI extends JDialog {
     private CrashReport report;
 
-    private UpdateUtils update = new UpdateUtils();
+    private UpdateUtils update = UpdateUtils.INSTANCE;
 
     private int handle = 0; // 0 - // Force stop, 1 - Soft shutdown, 2 - Restart
 
@@ -82,7 +82,7 @@ public class CrashReportGUI extends JDialog {
         }
         JLabel error = null;
         try {
-            error = new JLabel(new ImageIcon(ImageIO.read(getClass().getResourceAsStream("/assets/hyperium/icons/error.png")).getScaledInstance(100, 100, Image.SCALE_SMOOTH)));
+            error = new JLabel(new ImageIcon(ImageIO.read(getClass().getResourceAsStream("/assets/minecraft/textures/material/error.png")).getScaledInstance(100, 100, Image.SCALE_SMOOTH)));
             error.setHorizontalAlignment(SwingConstants.CENTER);
             error.setBounds(50, 50, 100, 100);
         } catch (IOException e) {
@@ -134,6 +134,18 @@ public class CrashReportGUI extends JDialog {
                 @Override
                 public void run() {
                     if (update.isSupported()) {
+                        report.setEnabled(false);
+                        report.setText("REPORTING...");
+                        if (sendReport()) {
+                            report.setEnabled(false);
+                            report.setText("REPORTED");
+                        } else if (copyReport()) {
+                            report.setEnabled(false);
+                            report.setText("COPIED TO CLIPBOARD");
+                        } else {
+                            report.setText("FAILED TO REPORT");
+                        }
+                    } else if( Hyperium.INSTANCE.isDevEnv()) {
                         report.setEnabled(false);
                         report.setText("REPORTING...");
                         if (sendReport()) {

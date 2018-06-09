@@ -17,12 +17,8 @@
 
 package cc.hyperium.utils.mods;
 
-import cc.hyperium.event.ChatEvent;
-import cc.hyperium.event.InvokeEvent;
-import cc.hyperium.event.Priority;
-import cc.hyperium.event.SpawnpointChangeEvent;
-import cc.hyperium.event.TickEvent;
-import cc.hyperium.gui.settings.items.GeneralSetting;
+import cc.hyperium.config.Settings;
+import cc.hyperium.event.*;
 import org.lwjgl.opengl.Display;
 
 public class FPSLimiter {
@@ -48,7 +44,7 @@ public class FPSLimiter {
 
     public boolean limit() {
         long secondsWait = 5;
-        return (!Display.isActive() || limbo) && GeneralSetting.framerateLimiterEnabled && time * 20 >= secondsWait;
+        return (!Display.isActive() || limbo) && Settings.FPS_LIMITER && time * 20 >= secondsWait;
     }
 
     @InvokeEvent(priority = Priority.LOW)

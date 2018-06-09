@@ -17,7 +17,7 @@
 
 package cc.hyperium.mixins.entity;
 
-import cc.hyperium.gui.settings.items.GeneralSetting;
+import cc.hyperium.config.Settings;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.Entity;
@@ -40,7 +40,7 @@ public class MixinEntityPlayerSP {
      */
     @Overwrite
     public void onEnchantmentCritical(Entity entityHit) {
-        if (Minecraft.getMinecraft().isSingleplayer() || !GeneralSetting.combatParticleFixEnabled) {
+        if (Minecraft.getMinecraft().isSingleplayer() || !Settings.CRIT_FIX) {
             this.mc.effectRenderer.emitParticleAtEntity(entityHit, EnumParticleTypes.CRIT_MAGIC);
         }
     }
@@ -53,7 +53,7 @@ public class MixinEntityPlayerSP {
      */
     @Overwrite
     public void onCriticalHit(Entity entityHit) {
-        if (Minecraft.getMinecraft().isSingleplayer() || !GeneralSetting.combatParticleFixEnabled) {
+        if (Minecraft.getMinecraft().isSingleplayer() || !Settings.CRIT_FIX) {
             this.mc.effectRenderer.emitParticleAtEntity(entityHit, EnumParticleTypes.CRIT);
         }
     }

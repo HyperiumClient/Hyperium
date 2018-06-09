@@ -18,15 +18,8 @@
 package cc.hyperium.handlers.handlers;
 
 import cc.hyperium.Hyperium;
-import cc.hyperium.event.EventBus;
-import cc.hyperium.event.InvokeEvent;
-import cc.hyperium.event.JoinBadlionEvent;
-import cc.hyperium.event.JoinHypixelEvent;
-import cc.hyperium.event.ServerJoinEvent;
-import cc.hyperium.event.ServerLeaveEvent;
-import cc.hyperium.event.ServerVerificationMethod;
-import cc.hyperium.event.SingleplayerJoinEvent;
-import cc.hyperium.gui.settings.items.GeneralSetting;
+import cc.hyperium.config.Settings;
+import cc.hyperium.event.*;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
@@ -108,7 +101,7 @@ public class HypixelDetector {
 
     @InvokeEvent
     public void join(JoinHypixelEvent event) {
-        if (GeneralSetting.hypixelZooEnabled) {
+        if (Settings.HYPIXEL_ZOO) {
             System.out.println("Zoo");
 
             Hyperium.INSTANCE.getNotification().display("Welcome to the HYPIXEL ZOO", "Click to visit https://hypixel.net/", 5f,

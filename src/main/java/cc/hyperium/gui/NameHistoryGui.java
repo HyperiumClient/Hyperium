@@ -17,7 +17,7 @@
 
 package cc.hyperium.gui;
 
-import cc.hyperium.gui.settings.items.NameHistorySettings;
+import cc.hyperium.config.Settings;
 import cc.hyperium.utils.HyperiumFontRenderer;
 import me.kbrewster.mojangapi.MojangAPI;
 import me.kbrewster.mojangapi.profile.Name;
@@ -61,7 +61,7 @@ public class NameHistoryGui extends GuiScreen {
         //Text Box
         nameField.drawTextBox();
         int defaultColour = Color.WHITE.getRGB();
-        if (NameHistorySettings.rgbNamesEnabled) {
+        if (Settings.NH_RGB_NAMES) {
             defaultColour = Color.getHSBColor(System.currentTimeMillis() % 1000L / 1000F, 1F, 1F).getRGB();
         }
         for (int i = 0; i < names.size(); i++) {

@@ -17,7 +17,7 @@
 
 package cc.hyperium.mixins.world;
 
-import cc.hyperium.gui.settings.items.GeneralSetting;
+import cc.hyperium.config.Settings;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.EnumSkyBlock;
@@ -39,7 +39,7 @@ public class MixinChunk {
      */
     @Inject(method = "getLightFor", at = @At("HEAD"), cancellable = true)
     private void getLightFor(EnumSkyBlock type, BlockPos pos, CallbackInfoReturnable<Integer> ci) {
-        if (!Minecraft.getMinecraft().isIntegratedServerRunning() && GeneralSetting.fullbrightEnabled) {
+        if (!Minecraft.getMinecraft().isIntegratedServerRunning() && Settings.FULLBRIGHT) {
             ci.setReturnValue(15);
         }
     }
@@ -53,7 +53,7 @@ public class MixinChunk {
      */
     @Inject(method = "getLightSubtracted", at = @At("HEAD"), cancellable = true)
     private void getLightSubtracted(BlockPos pos, int amount, CallbackInfoReturnable<Integer> ci) {
-        if (!Minecraft.getMinecraft().isIntegratedServerRunning() && GeneralSetting.fullbrightEnabled) {
+        if (!Minecraft.getMinecraft().isIntegratedServerRunning() && Settings.FULLBRIGHT) {
             ci.setReturnValue(15);
         }
     }

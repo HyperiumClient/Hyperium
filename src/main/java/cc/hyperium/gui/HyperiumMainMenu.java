@@ -170,8 +170,8 @@ package cc.hyperium.gui;
 
 import cc.hyperium.GuiStyle;
 import cc.hyperium.Metadata;
-import cc.hyperium.gui.settings.items.BackgroundSettings;
-import cc.hyperium.gui.settings.items.GeneralSetting;
+import cc.hyperium.config.Settings;
+import cc.hyperium.gui.main.HyperiumMainGui;
 import cc.hyperium.mixinsimp.renderer.gui.IMixinGuiMultiplayer;
 import cc.hyperium.utils.HyperiumFontRenderer;
 import net.minecraft.client.Minecraft;
@@ -230,15 +230,6 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
     private BufferedImage bgBr = null;
     private ResourceLocation bgDynamicTexture = null;
 
-    public HyperiumMainMenu() {
-        if (Minecraft.getMinecraft().isFullScreen() && GeneralSetting.windowedFullScreen && FIRST_START) {
-            HyperiumMainMenu.FIRST_START = false;
-            Minecraft.getMinecraft().toggleFullscreen();
-            Minecraft.getMinecraft().toggleFullscreen();
-
-        }
-    }
-
     public static ResourceLocation getBackground() {
         return background;
     }
@@ -250,6 +241,14 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
     public static void setCustomBackground(boolean customBackground) {
         HyperiumMainMenu.customBackground = customBackground;
     }
+    public HyperiumMainMenu() {
+        if(Minecraft.getMinecraft().isFullScreen() && Settings.WINDOWED_FULLSCREEN) {
+            HyperiumMainMenu.FIRST_START=false;
+            Minecraft.getMinecraft().toggleFullscreen();
+            Minecraft.getMinecraft().toggleFullscreen();
+
+        }
+    }
 
     /**
      * Override initGui
@@ -258,7 +257,7 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
      */
 
     public void initGui() {
-        customBackground = BackgroundSettings.backgroundSelect.equalsIgnoreCase("CUSTOM");
+        customBackground = Settings.BACKGROUND.equalsIgnoreCase("CUSTOM");
         if (customImage.exists() && customBackground) {
             try {
                 bgBr = ImageIO.read(new FileInputStream(customImage));
@@ -378,7 +377,7 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
         switch (getStyle()) {
             case DEFAULT:
                 if (button.id == 15)
-                    mc.displayGuiScreen(new ModConfigGui());
+                    mc.displayGuiScreen(new HyperiumMainGui());
                 if (button.id == 16) {
                     GuiMultiplayer p_i1182_1_ = new GuiMultiplayer(new GuiMainMenu());
                     p_i1182_1_.setWorldAndResolution(Minecraft.getMinecraft(), width, height);
@@ -392,7 +391,7 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
                 break;
             case HYPERIUM:
                 if (button.id == 15)
-                    mc.displayGuiScreen(new ModConfigGui());
+                    mc.displayGuiScreen(new HyperiumMainGui());
                 break;
         }
 
@@ -582,7 +581,7 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
     }
 
     private GuiStyle getStyle() {
-        return GuiStyle.valueOf(GeneralSetting.menuStyle);
+        return GuiStyle.valueOf(Settings.MENU_STYLE);
     }
 
     private DynamicTexture getCachedTexture(String t) {

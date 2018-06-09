@@ -17,10 +17,10 @@
 
 package cc.hyperium.utils.mods;
 
+import cc.hyperium.config.Settings;
 import cc.hyperium.event.ChatEvent;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.Priority;
-import cc.hyperium.gui.settings.items.GeneralSetting;
 import cc.hyperium.utils.ChatColor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiNewChat;
@@ -43,7 +43,7 @@ public class CompactChat {
 
     @InvokeEvent(priority = Priority.LOW)
     public void onChat(ChatEvent event) {
-        if (GeneralSetting.compactChatEnabled && !event.isCancelled()) {
+        if (Settings.COMPACT_CHAT && !event.isCancelled()) {
             GuiNewChat guiNewChat = Minecraft.getMinecraft().ingameGUI.getChatGUI();
             if (this.lastMessage.equals(event.getChat().getUnformattedText())) {
                 guiNewChat.deleteChatLine(line);

@@ -27,6 +27,14 @@ class AddonManifest {
     var version: String? = null
 
     /**
+     * Description of an Addon
+     *
+     * @return desc
+     */
+
+    val desc: String? = null;
+
+    /**
      * Main Class of an addon
      * e.g.com.example.ExampleAddon
      *
@@ -61,4 +69,11 @@ class AddonManifest {
      * @return the names of the dependencies
      */
     val dependencies: List<String> = ArrayList()
+
+    /**
+     * Class where the config for the addon is
+     */
+    val overlay: String? = null
+
+    val author: String? = null
 }

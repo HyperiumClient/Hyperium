@@ -18,7 +18,7 @@
 package cc.hyperium.handlers.handlers.keybinds.keybinds;
 
 import cc.hyperium.Hyperium;
-import cc.hyperium.gui.settings.items.CosmeticSettings;
+import cc.hyperium.config.Settings;
 import cc.hyperium.handlers.handlers.keybinds.HyperiumBind;
 import cc.hyperium.netty.NettyClient;
 import cc.hyperium.netty.packet.packets.serverbound.ServerCrossDataPacket;
@@ -28,7 +28,7 @@ import org.lwjgl.input.Keyboard;
 
 public class FlipKeybind extends HyperiumBind {
 
-    public FlipKeybind(){
+    public FlipKeybind() {
         super("Invert (Requires Purchase)", Keyboard.KEY_I);
     }
 
@@ -38,12 +38,17 @@ public class FlipKeybind extends HyperiumBind {
     public void onPress() {
         if (!Hyperium.INSTANCE.getCosmetics().getFlipCosmetic().isSelfUnlocked())
             return;
-        if(CosmeticSettings.flip_toggle) {
+        if (Settings.isFlipToggle) {
             inverted = !inverted;
-            int state = inverted ? CosmeticSettings.flip_type : 0;
+            int state = inverted ? Settings.flipType : 0;
             Hyperium.INSTANCE.getHandlers().getFlipHandler().state(Minecraft.getMinecraft().getSession().getProfile().getId(), state);
             NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("type", "flip_update").put("flip_state", state)));
             Hyperium.INSTANCE.getHandlers().getFlipHandler().resetTick();
+        } else if (!Settings.isFlipToggle) {
+            inverted = !inverted;
+            int state = inverted ? Settings.flipType : 0;
+            Hyperium.INSTANCE.getHandlers().getFlipHandler().state(Minecraft.getMinecraft().getSession().getProfile().getId(), state);
+            NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("type", "flip_update").put("flip_state", state)));
         }
     }
 
@@ -51,12 +56,11 @@ public class FlipKeybind extends HyperiumBind {
     public void onRelease() {
         if (!Hyperium.INSTANCE.getCosmetics().getFlipCosmetic().isSelfUnlocked())
             return;
-        else if (!CosmeticSettings.flip_toggle) {
-            inverted = !inverted;
-            int state = inverted ? CosmeticSettings.flip_type : 0;
-            Hyperium.INSTANCE.getHandlers().getFlipHandler().state(Minecraft.getMinecraft().getSession().getProfile().getId(), state);
-            NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("type", "flip_update").put("flip_state", state)));
-        }
-
+        inverted = !inverted;
+        int state = inverted ? Settings.FLIP_TYPE : 0;
+        Hyperium.INSTANCE.getHandlers().getFlipHandler().state(Minecraft.getMinecraft().getSession().getProfile().getId(), state);
+        NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("type", "flip_update").put("flip_state", state)));
     }
+
 }
+

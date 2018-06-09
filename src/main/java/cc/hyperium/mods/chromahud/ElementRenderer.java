@@ -18,12 +18,10 @@
 package cc.hyperium.mods.chromahud;
 
 import cc.hyperium.Hyperium;
+import cc.hyperium.config.Settings;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.RenderHUDEvent;
 import cc.hyperium.event.TickEvent;
-import cc.hyperium.gui.settings.items.CosmeticSettings;
-import cc.hyperium.gui.settings.items.GeneralSetting;
-import cc.hyperium.gui.settings.items.HUDSettings;
 import cc.hyperium.utils.RenderUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -264,7 +262,7 @@ public class ElementRenderer {
     // Middle CPS Counter
 
     public void renderElements() {
-        if (!Hyperium.INSTANCE.getHandlers().getHypixelDetector().isHypixel() && !GeneralSetting.chromaHudNonHypixelEnabled || !HUDSettings.chromahud_toggle)
+        if (!Hyperium.INSTANCE.getHandlers().getHypixelDetector().isHypixel() && !Settings.CHROMAHUD_ALL)
             return;
 
         if (fontRendererObj == null)

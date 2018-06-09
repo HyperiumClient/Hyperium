@@ -1,8 +1,8 @@
 package cc.hyperium.gui;
 
+import cc.hyperium.config.Settings;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.TickEvent;
-import cc.hyperium.gui.settings.items.GeneralSetting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 
@@ -19,7 +19,7 @@ public class BlurDisableFallback {
     @InvokeEvent
     private void onTick(TickEvent event) {
         if (Minecraft.getMinecraft() != null &&
-                GeneralSetting.blurGuiBackgroundsEnabled &&
+                Settings.BLUR_GUI &&
                 Minecraft.getMinecraft().entityRenderer != null &&
                 Minecraft.getMinecraft().entityRenderer.isShaderActive()) {
 

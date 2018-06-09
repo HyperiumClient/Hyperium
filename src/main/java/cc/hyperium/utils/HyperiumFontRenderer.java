@@ -41,12 +41,8 @@ public class HyperiumFontRenderer {
         this(fontName, fontType, size, 0);
     }
 
-    public HyperiumFontRenderer(String fontName, int fontType, int size, float kerning) {
-        String fontName1 = fontName;
-        int fontType1 = fontType;
-        int size1 = size;
-
-        this.unicodeFont = new UnicodeFont(new Font(fontName, fontType, size));
+    public HyperiumFontRenderer(Font font, float kerning) {
+        this.unicodeFont = new UnicodeFont(font);
         this.kerning = kerning;
 
         this.unicodeFont.addAsciiGlyphs();
@@ -76,7 +72,10 @@ public class HyperiumFontRenderer {
 
             this.colorCodes[i] = (red & 255) << 16 | (green & 255) << 8 | blue & 255;
         }
+    }
 
+    public HyperiumFontRenderer(String fontName, int fontType, int size, float kerning) {
+        this(new Font(fontName, fontType, size), kerning);
     }
 
     public int drawString(String text, float x, float y, int color) {

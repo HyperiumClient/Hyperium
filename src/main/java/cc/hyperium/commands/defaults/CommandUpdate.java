@@ -191,7 +191,7 @@ import java.util.stream.StreamSupport;
  */
 public class CommandUpdate implements BaseCommand {
 
-    private UpdateUtils utils = new UpdateUtils();
+    private UpdateUtils utils = UpdateUtils.INSTANCE;
 
     @Override
     public String getName() {
