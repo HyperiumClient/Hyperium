@@ -82,6 +82,7 @@ public class LevelHeadGui extends GuiScreen {
     private GuiButton prefixButton;
     private boolean isCustom = false;
     private GuiTextField textField;
+    private Levelhead levelHead;
 
     public LevelHeadGui(Levelhead modIn) {
         this.mod = modIn;
@@ -420,7 +421,7 @@ public class LevelHeadGui extends GuiScreen {
             LevelheadTag levelheadTag = this.mod.buildTag(new JsonHolder(), null);
             LevelheadComponent header = levelheadTag.getHeader();
             if (header.isChroma())
-                drawCenteredString(renderer, header.getValue(), this.width / 2, 50, Levelhead.getRGBColor());
+                drawCenteredString(renderer, header.getValue(), this.width / 2, 50, levelHead.getRGBColor());
             else if (header.isRgb()) {
 //                GlStateManager.color(header.getRed(), header.getGreen(), header.getBlue(), header.getAlpha());
                 drawCenteredString(renderer, header.getValue(), this.width / 2, 50, new Color(header.getRed(), header.getGreen(), header.getBlue(), header.getAlpha()).getRGB());
@@ -432,7 +433,7 @@ public class LevelHeadGui extends GuiScreen {
             LevelheadComponent footer = levelheadTag.getFooter();
             footer.setValue("5");
             if (footer.isChroma())
-                drawCenteredString(renderer, footer.getValue(), (this.width / 2 + renderer.getStringWidth(header.getValue()) / 2 + 3), 50, Levelhead.getRGBColor());
+                drawCenteredString(renderer, footer.getValue(), (this.width / 2 + renderer.getStringWidth(header.getValue()) / 2 + 3), 50, levelHead.getRGBColor());
             else if (footer.isRgb()) {
                 drawCenteredString(renderer, footer.getValue(), (this.width / 2 + renderer.getStringWidth(header.getValue()) / 2 + 3), 50, new Color(footer.getRed(), footer.getBlue(), footer.getGreen(), footer.getAlpha()).getRGB());
             } else {

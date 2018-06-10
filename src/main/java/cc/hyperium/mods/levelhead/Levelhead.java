@@ -41,8 +41,8 @@ import java.util.List;
 
 public class Levelhead extends AbstractMod {
 
-    public static final String MODID = "LEVEL_HEAD";
-    public static final String VERSION = "Hyperium_1.0-4.1.2";
+    public final String MODID = "LEVEL_HEAD";
+    public final String VERSION = "Hyperium_1.0-4.1.2";
     public final Map<UUID, LevelheadTag> levelCache = new HashMap<>();
     /**
      * The metadata of LevelHead
@@ -68,11 +68,11 @@ public class Levelhead extends AbstractMod {
         this.meta = metadata;
     }
 
-    public static int getRGBColor() {
+    public int getRGBColor() {
         return Color.HSBtoRGB(System.currentTimeMillis() % 1000L / 1000.0f, 0.8f, 0.8f);
     }
 
-    public static int getRGBDarkColor() {
+    public int getRGBDarkColor() {
         return Color.HSBtoRGB(System.currentTimeMillis() % 1000L / 1000.0f, 0.8f, 0.2f);
     }
 
