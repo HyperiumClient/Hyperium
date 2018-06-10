@@ -5,5 +5,6 @@ public enum Category {
     IMPROVEMENTS,
     INTEGRATIONS,
     COSMETICS,
-    SPOTIFY
+    SPOTIFY,
+    WINGS
 }
