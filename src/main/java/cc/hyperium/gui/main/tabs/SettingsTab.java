@@ -4,6 +4,7 @@ import cc.hyperium.config.Category;
 import cc.hyperium.config.SelectorSetting;
 import cc.hyperium.config.Settings;
 import cc.hyperium.config.ToggleSetting;
+import cc.hyperium.cosmetics.Wings.WingsCosmetic;
 import cc.hyperium.gui.GuiBlock;
 import cc.hyperium.gui.Icons;
 import cc.hyperium.gui.main.HyperiumMainGui;
@@ -26,6 +27,8 @@ public class SettingsTab extends AbstractTab {
     private static HyperiumOverlay improvements = new HyperiumOverlay();
     private static HyperiumOverlay cosmetics = new HyperiumOverlay();
     private static HyperiumOverlay spotify = new HyperiumOverlay();
+    private static HyperiumOverlay wings = new HyperiumOverlay();
+
 
     private static int offsetY = 0; // static so it saves the previous location
 
@@ -53,6 +56,7 @@ public class SettingsTab extends AbstractTab {
 
     private GuiBlock block;
     private int y, w;
+    private WingsCosmetic wingsCosmetic = new WingsCosmetic();
 
     public SettingsTab(int y, int w) {
         block = new GuiBlock(0, w, y, y + w);
@@ -69,6 +73,9 @@ public class SettingsTab extends AbstractTab {
 
         items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(spotify), Icons.SPOTIFY.getResource(), "Spotify", "Hyperium Spotify Settings", "click to configure", 1, 1));
 
+        if(wingsCosmetic.isPurchased()) {
+            items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(wings), Icons.COSMETIC.getResource(), "Wings", "Hyperium Wings Settings", "click to configure", 2, 1));
+        }
     }
 
     private static HyperiumOverlay getCategory(Category category) {
@@ -83,6 +90,8 @@ public class SettingsTab extends AbstractTab {
                 return cosmetics;
             case SPOTIFY:
                 return spotify;
+            case WINGS:
+                return wings;
         }
         return general;
     }

@@ -15,11 +15,11 @@ import org.lwjgl.opengl.GL11;
 public class WingsRenderer extends ModelBase {
     AbstractCosmetic abstractCosmetic = new WingsCosmetic();
     private Minecraft mc;
-    private ResourceLocation location = new ResourceLocation("textures/cosmetics/wings/angelwings.png");
     private ModelRenderer wing;
     private ModelRenderer wingTip;
     private boolean playerUsesFullHeight;
     private WingsCosmetic wingsCosmetic = new WingsCosmetic();
+    private ResourceLocation selectedLoc = wingsCosmetic.location;
 
     public WingsRenderer() {
         this.mc = Minecraft.getMinecraft();
@@ -41,7 +41,7 @@ public class WingsRenderer extends ModelBase {
     @InvokeEvent
     public void onRenderPlayer(final RenderPlayerEvent event) {
         final EntityPlayer player = event.getEntity();
-        if (abstractCosmetic.isPurchasedBy(mc.thePlayer.getUniqueID()) || Hyperium.INSTANCE.isDevEnv() && player.equals((Object) this.mc.thePlayer) && !player.isInvisible()) {
+        if (wingsCosmetic.isPurchased() || Hyperium.INSTANCE.isDevEnv() && player.equals((Object) this.mc.thePlayer) && !player.isInvisible()) {
             this.renderWings(player, event.getPartialTicks());
         }
     }
@@ -59,7 +59,7 @@ public class WingsRenderer extends ModelBase {
         }
         final float[] colors = this.wingsCosmetic.getColours();
         GL11.glColor3f(colors[0], colors[1], colors[2]);
-        this.mc.getTextureManager().bindTexture(this.location);
+        this.mc.getTextureManager().bindTexture(this.selectedLoc);
 
         for (int j = 0; j < 2; ++j) {
             GL11.glEnable(2884);
