@@ -41,7 +41,7 @@ public class WingsRenderer extends ModelBase {
     @InvokeEvent
     public void onRenderPlayer(final RenderPlayerEvent event) {
         final EntityPlayer player = event.getEntity();
-        if (wingsCosmetic.isPurchased() || Hyperium.INSTANCE.isDevEnv() && player.equals((Object) this.mc.thePlayer) && !player.isInvisible()) {
+        if (wingsCosmetic.isPurchasedBy(event.getEntity().getUniqueID()) || Hyperium.INSTANCE.isDevEnv() && player.equals((Object) this.mc.thePlayer) && !player.isInvisible()) {
             this.renderWings(player, event.getPartialTicks());
         }
     }
