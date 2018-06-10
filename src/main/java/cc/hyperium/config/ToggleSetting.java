@@ -14,4 +14,6 @@ public @interface ToggleSetting {
     String name();
 
     Category category() default Category.GENERAL;
+
+
 }

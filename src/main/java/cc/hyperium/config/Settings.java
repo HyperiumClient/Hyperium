@@ -137,6 +137,11 @@ public class Settings {
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.BackgroundSettings;renderOverInventory")
     @ToggleSetting(name = "Particles in inventory", category = COSMETICS)
     public static boolean PARTICLES_INV = true;
+
+    @ConfigOpt
+    @ToggleSetting(name = "Show Deadmau ears", category = COSMETICS)
+    public static String EARS_STATE = "ON";
+
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.BackgroundSettings;particlesModeString")
     @SelectorSetting(name = "Particles mode", items =
             {

@@ -1,9 +1,12 @@
 package cc.hyperium.gui.main.tabs;
 
+import cc.hyperium.Hyperium;
 import cc.hyperium.config.Category;
 import cc.hyperium.config.SelectorSetting;
 import cc.hyperium.config.Settings;
 import cc.hyperium.config.ToggleSetting;
+import cc.hyperium.cosmetics.Deadmau5Cosmetic;
+import cc.hyperium.cosmetics.HyperiumCosmetics;
 import cc.hyperium.cosmetics.Wings.WingsCosmetic;
 import cc.hyperium.gui.GuiBlock;
 import cc.hyperium.gui.Icons;
@@ -12,41 +15,77 @@ import cc.hyperium.gui.main.HyperiumOverlay;
 import cc.hyperium.gui.main.components.AbstractTab;
 import cc.hyperium.gui.main.components.OverlaySelector;
 import cc.hyperium.gui.main.components.SettingItem;
+import cc.hyperium.netty.NettyClient;
+import cc.hyperium.netty.packet.packets.serverbound.ServerCrossDataPacket;
+import cc.hyperium.utils.JsonHolder;
 import net.minecraft.client.gui.Gui;
 import org.lwjgl.input.Mouse;
 
 import java.awt.*;
 import java.lang.reflect.Field;
+import java.util.HashMap;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 /*
  * Created by Cubxity on 20/05/2018
  */
 public class SettingsTab extends AbstractTab {
-    private static HyperiumOverlay general = new HyperiumOverlay();
-    private static HyperiumOverlay integrations = new HyperiumOverlay();
-    private static HyperiumOverlay improvements = new HyperiumOverlay();
-    private static HyperiumOverlay cosmetics = new HyperiumOverlay();
-    private static HyperiumOverlay spotify = new HyperiumOverlay();
-    private static HyperiumOverlay wings = new HyperiumOverlay();
-
-
+    private static final HyperiumOverlay general = new HyperiumOverlay();
+    private static final HyperiumOverlay integrations = new HyperiumOverlay();
+    private static final HyperiumOverlay improvements = new HyperiumOverlay();
+    private static final HyperiumOverlay cosmetics = new HyperiumOverlay();
+    private static final HyperiumOverlay spotify = new HyperiumOverlay();
+    private static final HyperiumOverlay wings = new HyperiumOverlay();
+    private static final HashMap<Field, Consumer<Object>> callback = new HashMap<>();
+    private static final HashMap<Field, Supplier<String[]>> customStates = new HashMap<>();
     private static int offsetY = 0; // static so it saves the previous location
 
     static {
+        try {
+            Field earsField = Settings.class.getField("EARS_STATE");
+            callback.put(earsField, o -> {
+                boolean yes = ((String) o).equalsIgnoreCase("YES");
+                NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("ears", yes)));
+            });
+            customStates.put(earsField, () -> {
+                Hyperium instance = Hyperium.INSTANCE;
+                if (instance != null) {
+                    HyperiumCosmetics cosmetics1 = instance.getCosmetics();
+                    if (cosmetics1 != null) {
+                        Deadmau5Cosmetic deadmau5Cosmetic = cosmetics1.getDeadmau5Cosmetic();
+                        if (deadmau5Cosmetic != null) {
+                            if (deadmau5Cosmetic.isSelfUnlocked()) {
+                                return new String[]{"YES", "NO"};
+                            }
+                        }
+                    }
+                }
+                return new String[]{"NOT PURCHASED"};
+            });
+
+
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        }
         for (Field f : Settings.class.getFields()) {
             ToggleSetting ts = f.getAnnotation(ToggleSetting.class);
             SelectorSetting ss = f.getAnnotation(SelectorSetting.class);
-            if (ts != null)
-                getCategory(ts.category()).addToggle(ts.name(), f);
-            else if (ss != null)
+            Consumer<Object> objectConsumer = callback.get(f);
+            if (ts != null) {
+                getCategory(ts.category()).addToggle(ts.name(), f, objectConsumer);
+            } else if (ss != null)
                 try {
+                    Supplier<String[]> supplier = customStates.get(f);
                     getCategory(ss.category()).getComponents().add(new OverlaySelector<>(ss.name(), String.valueOf(f.get(null)), si -> {
+                        if (objectConsumer != null)
+                            objectConsumer.accept(si);
                         try {
                             f.set(null, si);
                         } catch (IllegalAccessException e) {
                             e.printStackTrace();
                         }
-                    }, ss.items()));
+                    }, supplier != null ? supplier : ss::items));
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                 }
@@ -73,7 +112,7 @@ public class SettingsTab extends AbstractTab {
 
         items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(spotify), Icons.SPOTIFY.getResource(), "Spotify", "Hyperium Spotify Settings", "click to configure", 1, 1));
 
-        if(wingsCosmetic.isPurchased()) {
+        if (wingsCosmetic.isPurchased()) {
             items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(wings), Icons.COSMETIC.getResource(), "Wings", "Hyperium Wings Settings", "click to configure", 2, 1));
         }
     }

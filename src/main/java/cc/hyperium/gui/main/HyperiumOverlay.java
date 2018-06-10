@@ -12,6 +12,7 @@ import java.awt.*;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 /*
  * Created by Cubxity on 01/06/2018
@@ -46,7 +47,7 @@ public class HyperiumOverlay {
         return components;
     }
 
-    public void addToggle(String label, Field f) {
+    public void addToggle(String label, Field f, Consumer<Object> objectConsumer) {
         try {
             Object o = f.get(null);
 
@@ -56,6 +57,8 @@ public class HyperiumOverlay {
 
             if (o instanceof Boolean) {
                 components.add(new OverlayToggle(label, (boolean) o, b -> {
+                    if(objectConsumer !=null)
+                        objectConsumer.accept(b);
                     try {
                         f.setBoolean(null, b);
                     } catch (IllegalAccessException e) {
