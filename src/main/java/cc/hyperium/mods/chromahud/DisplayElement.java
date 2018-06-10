@@ -32,13 +32,13 @@ import java.util.List;
  * Created by Mitchell Katz on 5/25/2017.
  */
 public class DisplayElement extends Dimension {
+    private final JsonHolder data;
     private double xloc, yloc;
     private List<DisplayItem> displayItems = new ArrayList<>();
     private double scale = 1;
     private int color;
     private boolean shadow;
     private boolean highlighted;
-    private final JsonHolder data;
     private boolean rightSided = false;
     // Used for rainbox rendering
     private boolean selected;

@@ -57,9 +57,10 @@ public class CustomLevelheadConfigurer extends HyperiumGui {
     protected void pack() {
         int i = ResolutionUtil.current().getScaledWidth() - 20;
 
-        reg("RESET", new GuiButton(nextId(), 5, 55, i / 2, 20, "Reset to default"), button -> NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("levelhead_propose", true).put("reset", true).put("internal",true))), button -> { });
+        reg("RESET", new GuiButton(nextId(), 5, 55, i / 2, 20, "Reset to default"), button -> NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("levelhead_propose", true).put("reset", true).put("internal", true))), button -> {
+        });
         reg("PROPOSE", new GuiButton(nextId(), ResolutionUtil.current().getScaledWidth() / 2 + 5, 55, i / 2, 20, "Send for review"), button -> {
-            ServerCrossDataPacket build = ServerCrossDataPacket.build(new JsonHolder().put("levelhead_propose", true).put("internal",true).put("propose", true).put("header", header.getText()).put("level", level.getText()));
+            ServerCrossDataPacket build = ServerCrossDataPacket.build(new JsonHolder().put("levelhead_propose", true).put("internal", true).put("propose", true).put("header", header.getText()).put("level", level.getText()));
             NettyClient.getClient().write(build);
         }, button -> {
 
@@ -130,7 +131,7 @@ public class CustomLevelheadConfigurer extends HyperiumGui {
                 drawCenteredString(fontRendererObj, s, width / 2, i, Color.WHITE.getRGB());
                 i += 10;
             }
-            drawCenteredString(fontRendererObj, ChatColor.YELLOW+ "It will be reviewed by a Hyperium Admin soon!", width / 2, i , Color.WHITE.getRGB());
+            drawCenteredString(fontRendererObj, ChatColor.YELLOW + "It will be reviewed by a Hyperium Admin soon!", width / 2, i, Color.WHITE.getRGB());
 
 
         }

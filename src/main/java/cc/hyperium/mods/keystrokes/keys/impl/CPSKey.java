@@ -32,9 +32,8 @@ import java.util.List;
 
 public class CPSKey extends IKey {
 
-    private boolean wasPressed = true;
-
     private final List<Long> clicks = new ArrayList<>();
+    private boolean wasPressed = true;
 
     public CPSKey(KeystrokesMod mod, int xOffset, int yOffset) {
         super(mod, xOffset, yOffset);

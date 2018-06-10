@@ -210,7 +210,7 @@ public class CommandUpdate implements BaseCommand {
 
     @Override
     public void onExecute(String[] args) {
-        if (utils.  isAbsoluteLatest())
+        if (utils.isAbsoluteLatest())
             Hyperium.INSTANCE.getNotification().display("Update", "Hyperium is up to date!", 3);
         else {
             try {
@@ -231,7 +231,7 @@ public class CommandUpdate implements BaseCommand {
                         } else {
                             jar = new File(System.getProperty("sun.java.command").split(" ")[0]);
                         }
-                        Hyperium.INSTANCE.getNotification().display("Update", "Client will restart in 10 secs. " + Metadata.getVersion() + " (" + Metadata.getVersionID() + ") -> " + ver.get("name").getAsString() + " (" +new JsonHolder(ver).optInt("release-id") + ") ", 10);
+                        Hyperium.INSTANCE.getNotification().display("Update", "Client will restart in 10 secs. " + Metadata.getVersion() + " (" + Metadata.getVersionID() + ") -> " + ver.get("name").getAsString() + " (" + new JsonHolder(ver).optInt("release-id") + ") ", 10);
                         Multithreading.schedule(() -> {
                             Minecraft.getMinecraft().shutdown();
                             try {

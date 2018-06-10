@@ -21,20 +21,15 @@ import cc.hyperium.mods.skinchanger.SkinChangerMod;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
 public class SkinChangerConfig {
 
-    private JsonObject configJson = new JsonObject();
     private final SkinChangerMod mod;
     private final File configFile;
-
+    private JsonObject configJson = new JsonObject();
     private String skinName = "";
     private String ofCapeName = "";
     private boolean usingCape = false;

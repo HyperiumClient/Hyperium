@@ -26,8 +26,8 @@ import org.lwjgl.opengl.GL11;
 public class GuiButtonIcon extends GuiButton {
     public final int sprite;
     private final ResourceLocation icon;
-    private boolean outline;
     private final float scale;
+    private boolean outline;
 
     public GuiButtonIcon(int buttonID, ResourceLocation icon, int xPos, int yPos, int sprite, float scale) {
         super(buttonID, xPos, yPos, 52, 52, "");

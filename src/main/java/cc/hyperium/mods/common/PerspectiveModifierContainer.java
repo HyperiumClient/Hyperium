@@ -54,7 +54,7 @@ public class PerspectiveModifierContainer {
         modifiedPitch = Minecraft.getMinecraft().thePlayer.cameraPitch;
     }
 
-    public static void setEnabled(boolean enabled){
+    public static void setEnabled(boolean enabled) {
         PerspectiveModifierContainer.enabled = enabled;
     }
 

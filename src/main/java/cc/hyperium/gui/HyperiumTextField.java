@@ -32,6 +32,8 @@ import net.minecraft.util.MathHelper;
 import java.util.function.Predicate;
 
 public class HyperiumTextField extends GuiTextField {
+    public final int xPosition;
+    public final int yPosition;
     private final int id;
     private final HyperiumFontRenderer fontRendererInstance;
     /**
@@ -39,23 +41,22 @@ public class HyperiumTextField extends GuiTextField {
      */
     private final int width;
     private final int height;
-    public final int xPosition;
-    public final int yPosition;
-    /**
-     * Has the current text being edited on the textbox.
-     */
-    private String text = "";
     private final int maxStringLength = 32;
-    private int cursorCounter;
     private final boolean enableBackgroundDrawing = true;
-    /**
-     * If this value is true along with isEnabled, keyTyped will process the keys.
-     */
-    private boolean isFocused;
     /**
      * If this value is true along with isFocused, keyTyped will process the keys.
      */
     private final boolean isEnabled = true;
+    private final Predicate<String> field_175209_y = s -> true;
+    /**
+     * Has the current text being edited on the textbox.
+     */
+    private String text = "";
+    private int cursorCounter;
+    /**
+     * If this value is true along with isEnabled, keyTyped will process the keys.
+     */
+    private boolean isFocused;
     /**
      * The current character index that should be used as start of the rendered text.
      */
@@ -69,7 +70,6 @@ public class HyperiumTextField extends GuiTextField {
      * True if this textbox is visible
      */
     private GuiPageButtonList.GuiResponder guiResponder;
-    private final Predicate<String> field_175209_y = s -> true;
 
     public HyperiumTextField(int componentId, HyperiumFontRenderer fontrendererObj, int x, int y, int par5Width, int par6Height) {
         super(componentId, null, x, y, par5Width, par6Height);

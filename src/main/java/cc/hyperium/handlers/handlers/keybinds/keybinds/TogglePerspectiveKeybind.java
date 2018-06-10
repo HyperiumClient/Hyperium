@@ -23,7 +23,7 @@ import cc.hyperium.mods.common.PerspectiveModifierContainer;
 import org.lwjgl.input.Keyboard;
 
 public class TogglePerspectiveKeybind extends HyperiumBind {
-    public TogglePerspectiveKeybind(){
+    public TogglePerspectiveKeybind() {
         super("perspective", Keyboard.KEY_P);
     }
 

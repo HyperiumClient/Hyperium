@@ -19,7 +19,9 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
-import java.util.*;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.StreamSupport;
@@ -29,12 +31,17 @@ public class GuiHyperiumCredits extends HyperiumGui {
     private static LinkedHashMap<String, DynamicTexture> contributors = new LinkedHashMap<>();
     private static HashMap<String, Integer> commits = new HashMap<>();
     private static String err = "";
-    private GuiScreen prevGui;
-    private int offY = 0;
 
     static {
         System.setProperty("http.agent", "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.4; en-US; rv:1.9.2.2) Gecko/20100316 Firefox/3.6.2");
         Multithreading.runAsync(() -> fetch(1));
+    }
+
+    private GuiScreen prevGui;
+    private int offY = 0;
+
+    public GuiHyperiumCredits(GuiScreen prevGui) {
+        this.prevGui = prevGui;
     }
 
     private static void fetch(int tries) {
@@ -69,16 +76,12 @@ public class GuiHyperiumCredits extends HyperiumGui {
         }
     }
 
-    public GuiHyperiumCredits(GuiScreen prevGui) {
-        this.prevGui = prevGui;
-    }
-
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         drawDefaultBackground();
         FontRenderer fr = Minecraft.getMinecraft().fontRendererObj;
         GlStateManager.scale(2f, 2f, 2f);
-        drawCenteredString(fr, err.isEmpty() ? (contributors.isEmpty() ? "Loading contributors..." : "Contributors") : "Error: "+err, width / 4, 20 + offY / 2, 0xFFFFFF);
+        drawCenteredString(fr, err.isEmpty() ? (contributors.isEmpty() ? "Loading contributors..." : "Contributors") : "Error: " + err, width / 4, 20 + offY / 2, 0xFFFFFF);
         GlStateManager.scale(0.5f, 0.5f, 0.5f);
         int x = width / 2 - 100;
         AtomicInteger y = new AtomicInteger(70 + offY);

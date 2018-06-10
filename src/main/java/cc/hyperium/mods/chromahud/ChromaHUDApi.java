@@ -17,11 +17,7 @@
 
 package cc.hyperium.mods.chromahud;
 
-import cc.hyperium.mods.chromahud.api.ButtonConfig;
-import cc.hyperium.mods.chromahud.api.ChromaHUDParser;
-import cc.hyperium.mods.chromahud.api.DisplayItem;
-import cc.hyperium.mods.chromahud.api.StringConfig;
-import cc.hyperium.mods.chromahud.api.TextConfig;
+import cc.hyperium.mods.chromahud.api.*;
 import cc.hyperium.utils.JsonHolder;
 import com.google.gson.JsonArray;
 
@@ -41,10 +37,10 @@ public class ChromaHUDApi {
     private final List<ChromaHUDParser> parsers = new ArrayList<>();
     private final Map<String, String> names = new HashMap<>();
     private final List<DisplayElement> elements = new ArrayList<>();
-    private boolean posted = false;
     private final Map<String, ArrayList<ButtonConfig>> buttonConfigs = new HashMap<>();
     private final Map<String, ArrayList<TextConfig>> textConfigs = new HashMap<>();
     private final Map<String, ArrayList<StringConfig>> stringConfigs = new HashMap<>();
+    private boolean posted = false;
     private JsonHolder config = new JsonHolder();
 
     private ChromaHUDApi() {

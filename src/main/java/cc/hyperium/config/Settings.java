@@ -75,7 +75,7 @@ public class Settings {
     @ToggleSetting(name = "Screenshot on kill")
     public static boolean SCREENSHOT_KILL = false;
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;spotifyControlsEnabled")
-    @ToggleSetting(name = "Show Spotify controls",  category = SPOTIFY)
+    @ToggleSetting(name = "Show Spotify controls", category = SPOTIFY)
     public static boolean SPOTIFY_CONTROLS = false;
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;hypixelZooEnabled")
     @ToggleSetting(name = "Welcome to the hypixel zoo")

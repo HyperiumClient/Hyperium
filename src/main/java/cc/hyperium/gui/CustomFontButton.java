@@ -27,12 +27,12 @@ import net.minecraft.client.renderer.GlStateManager;
 import java.awt.*;
 
 public class CustomFontButton extends GuiButton {
-    public boolean renderBackground = true;
     private final int hoverColor = new Color(0, 0, 0, 60).getRGB();
     private final int color = new Color(0, 0, 0, 50).getRGB();
     private final int textColor = new Color(255, 255, 255, 255).getRGB();
     private final int textHoverColor = new Color(255, 255, 255, 255).getRGB();
     private final HyperiumFontRenderer fontRenderer = new HyperiumFontRenderer("Arial", Font.PLAIN, 12);
+    public boolean renderBackground = true;
 
     public CustomFontButton(int buttonId, int x, int y, String buttonText) {
         super(buttonId, x, y, buttonText);

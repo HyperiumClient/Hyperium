@@ -74,7 +74,7 @@ public class HypixelApiFriendObject {
     @Override
     public boolean equals(Object obj) {
         return obj instanceof HypixelApiFriendObject &&
-            ((HypixelApiFriendObject) obj).getUuid().equals(getUuid());
+                ((HypixelApiFriendObject) obj).getUuid().equals(getUuid());
     }
 
     public String getUuid() {

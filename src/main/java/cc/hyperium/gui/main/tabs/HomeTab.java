@@ -5,7 +5,6 @@ import cc.hyperium.gui.GuiBlock;
 import cc.hyperium.gui.Icons;
 import cc.hyperium.gui.main.HyperiumMainGui;
 import cc.hyperium.gui.main.components.AbstractTab;
-import cc.hyperium.gui.main.components.OverlayButton;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.utils.HyperiumFontRenderer;
 import cc.hyperium.utils.JsonHolder;
@@ -13,7 +12,6 @@ import com.google.common.base.Charsets;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.renderer.GlStateManager;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
@@ -30,8 +28,6 @@ public class HomeTab extends AbstractTab {
     public static JsonHolder information;
     static HttpClient hc = HttpClients.createDefault();
     private static HyperiumFontRenderer title = new HyperiumFontRenderer("Arial", Font.PLAIN, 40);
-    private GuiBlock block;
-    private int y, w;
 
     static {
         Multithreading.schedule(() -> {
@@ -43,7 +39,7 @@ public class HomeTab extends AbstractTab {
                     JsonHolder alert = new JsonHolder(e.getAsJsonObject());
                     if (!HyperiumMainGui.getLoadedAlerts().contains(alert.optString("title")) && !alert.optString("title").equals("ALERT FORMAT - THIS WILL BE IGNORED") && alert.optJSONArray("target").contains(new JsonPrimitive(Metadata.getVersion()))) {
                         HyperiumMainGui.getAlerts().add(new HyperiumMainGui.Alert(Icons.valueOf(alert.optString("icon")).getResource(), () -> {
-                            if(alert.has("click")) {
+                            if (alert.has("click")) {
                                 try {
                                     Desktop.getDesktop().browse(new URL(alert.optString("click")).toURI());
                                 } catch (Exception ex) {
@@ -59,6 +55,9 @@ public class HomeTab extends AbstractTab {
             }
         }, 0, 10, TimeUnit.MINUTES);
     }
+
+    private GuiBlock block;
+    private int y, w;
 
     public HomeTab(int y, int w) {
         block = new GuiBlock(0, w, y, y + w);

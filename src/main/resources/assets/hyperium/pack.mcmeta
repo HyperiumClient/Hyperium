@@ -1,1 +1,6 @@
-{"pack":{"pack_format":1,"description":"the zoo"}}
+{
+  "pack": {
+    "pack_format": 1,
+    "description": "the zoo"
+  }
+}

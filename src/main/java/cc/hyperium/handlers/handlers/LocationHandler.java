@@ -33,9 +33,9 @@ import java.util.regex.Pattern;
 
 public class LocationHandler {
 
+    private final Pattern whereami = Pattern.compile("You are currently connected to server (?<server>.+)");
     @ConfigOpt
     private String location = "";
-    private final Pattern whereami = Pattern.compile("You are currently connected to server (?<server>.+)");
     private boolean sendingWhereAmI = false;
     private long ticksInWorld = 0;
 
@@ -77,7 +77,7 @@ public class LocationHandler {
         if (NettyClient.getClient() == null) {
             return;
         }
-        
+
         if (Hyperium.INSTANCE.getMinigameListener().getScoreboardTitle().equalsIgnoreCase(Minigame.HOUSING.name()))
             NettyClient.getClient().write(UpdateLocationPacket.build(Minigame.HOUSING.name()));
         else
@@ -92,7 +92,7 @@ public class LocationHandler {
         if (NettyClient.getClient() == null) {
             return;
         }
-        
+
         if (event.getMinigame() == Minigame.HOUSING) {
             NettyClient.getClient().write(UpdateLocationPacket.build(Minigame.HOUSING.name()));
             if (Hyperium.INSTANCE.getHandlers().getFlipHandler().getSelf() != 0)

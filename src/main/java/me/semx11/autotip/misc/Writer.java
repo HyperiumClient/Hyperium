@@ -20,11 +20,7 @@ package me.semx11.autotip.misc;
 import me.semx11.autotip.Autotip;
 import me.semx11.autotip.util.FileUtil;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -34,8 +30,8 @@ import java.util.stream.Stream;
 
 public class Writer implements Runnable {
 
-    private static String lastDate = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
     private static final String ls = System.lineSeparator();
+    private static String lastDate = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
 
     public static void execute() {
         Autotip.THREAD_POOL.submit(new Writer());
@@ -73,7 +69,7 @@ public class Writer implements Runnable {
                         TipTracker.tipsSentEarnings
                                 .getOrDefault(game, 0);
                 int received = TipTracker.tipsReceivedEarnings.getOrDefault(
-                game, 0);
+                        game, 0);
                 write(dailyStats, game + ":" + sent + ":" + received + ls);
             });
             dailyStats.close();

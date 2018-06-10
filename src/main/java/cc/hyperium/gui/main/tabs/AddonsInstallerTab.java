@@ -16,7 +16,10 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.awt.*;
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.security.MessageDigest;
 import java.util.*;
@@ -25,13 +28,13 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.jar.JarFile;
 
 public class AddonsInstallerTab extends AbstractTab {
+    private static final char[] hexCodes = "0123456789ABCDEF".toCharArray();
+    private static int offsetY = 0; // static so it saves the previous location
     public File addonsDir = new File(Minecraft.getMinecraft().mcDataDir, "addons");
     public int current;
-    private static int offsetY = 0; // static so it saves the previous location
+    public String versions_url = "https://raw.githubusercontent.com/HyperiumClient/Hyperium-Repo/master/installer/versions.json";
     private int y, w;
     private GuiBlock block;
-    private static final char[] hexCodes = "0123456789ABCDEF".toCharArray();
-    public String versions_url = "https://raw.githubusercontent.com/HyperiumClient/Hyperium-Repo/master/installer/versions.json";
 
     public AddonsInstallerTab(int y, int w) {
 
@@ -69,6 +72,16 @@ public class AddonsInstallerTab extends AbstractTab {
                 xi++;
             current++;
         }
+    }
+
+    private static String toHex(byte[] bytes) {
+        StringBuilder r = new StringBuilder(bytes.length * 2);
+
+        for (byte b : bytes) {
+            r.append(hexCodes[(b >> 4) & 0xF]);
+            r.append(hexCodes[(b & 0xF)]);
+        }
+        return r.toString();
     }
 
     @Override
@@ -117,16 +130,6 @@ public class AddonsInstallerTab extends AbstractTab {
         });
         File aOut = new File(addonsDir, addon.get().getString("name") + "-" + addon.get().getString("version") + ".jar");
         downloadFile(new URL(addon.get().getString("url")), aOut, addon.get().getString("name"));
-    }
-
-    private static String toHex(byte[] bytes) {
-        StringBuilder r = new StringBuilder(bytes.length * 2);
-
-        for (byte b : bytes) {
-            r.append(hexCodes[(b >> 4) & 0xF]);
-            r.append(hexCodes[(b & 0xF)]);
-        }
-        return r.toString();
     }
 
     /**

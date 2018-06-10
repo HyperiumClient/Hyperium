@@ -63,6 +63,20 @@ public abstract class MixinGuiPlayerTabOverlay extends Gui {
     @Shadow
     private IChatComponent footer;
 
+    private static void drawChromaWaveString(String text, int xIn, int y) {
+        FontRenderer renderer = Minecraft.getMinecraft().fontRendererObj;
+        int x = xIn;
+        for (char c : text.toCharArray()) {
+            long dif = (x * 10) - (y * 10);
+            long l = System.currentTimeMillis() - dif;
+            float ff = 2000.0F;
+            int i = Color.HSBtoRGB((float) (l % (int) ff) / ff, 0.8F, 0.8F);
+            String tmp = String.valueOf(c);
+            renderer.drawString(tmp, (float) ((double) x), (float) ((double) y), i, false);
+            x += (double) renderer.getCharWidth(c);
+        }
+    }
+
     @Shadow
     public abstract String getPlayerName(NetworkPlayerInfo networkPlayerInfoIn);
 
@@ -275,11 +289,11 @@ public abstract class MixinGuiPlayerTabOverlay extends Gui {
                             drawChromaWaveString(s, renderX, (k2 - 2));
                         } else {
                             String format = StaffUtils.getColor(gameprofile.getId()).baseColour + s;
-                            this.mc.fontRendererObj.drawString(format, renderX, (k2-2), Color.WHITE.getRGB());
+                            this.mc.fontRendererObj.drawString(format, renderX, (k2 - 2), Color.WHITE.getRGB());
                         }
                     } else {
                         String format = online ? ChatColor.GREEN + s : ChatColor.RED + s;
-                        this.mc.fontRendererObj.drawString(format, renderX, (k2-2), Color.WHITE.getRGB());
+                        this.mc.fontRendererObj.drawString(format, renderX, (k2 - 2), Color.WHITE.getRGB());
                     }
                 }
 
@@ -312,19 +326,6 @@ public abstract class MixinGuiPlayerTabOverlay extends Gui {
                 this.mc.fontRendererObj.drawStringWithShadow(s4, (float) (width / 2 - j5 / 2), (float) k1, -1);
                 k1 += this.mc.fontRendererObj.FONT_HEIGHT;
             }
-        }
-    }
-    private static void drawChromaWaveString(String text, int xIn, int y) {
-        FontRenderer renderer = Minecraft.getMinecraft().fontRendererObj;
-        int x = xIn;
-        for (char c : text.toCharArray()) {
-            long dif = (x * 10) - (y * 10);
-            long l = System.currentTimeMillis() - dif;
-            float ff = 2000.0F;
-            int i = Color.HSBtoRGB((float) (l % (int) ff) / ff, 0.8F, 0.8F);
-            String tmp = String.valueOf(c);
-            renderer.drawString(tmp, (float) ((double) x), (float) ((double) y), i, false);
-            x += (double) renderer.getCharWidth(c);
         }
     }
 }

@@ -36,10 +36,10 @@ public class MixinResourcePackRepository {
 
     @Final
     @Shadow
-    private final File dirServerResourcepacks = null;
+    private static final Logger logger = LogManager.getLogger();
     @Final
     @Shadow
-    private static final Logger logger = LogManager.getLogger();
+    private final File dirServerResourcepacks = null;
 
     /**
      * @author

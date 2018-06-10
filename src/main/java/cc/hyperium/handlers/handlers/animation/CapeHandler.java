@@ -86,7 +86,7 @@ public class CapeHandler {
                     }
                 } else {
                     EntityPlayer e = Minecraft.getMinecraft().theWorld.getPlayerEntityByUUID(uuid);
-                    
+
                     if (e != null) {
                         loadCape(uuid, "http://s.optifine.net/capes/" + e.getGameProfile().getName() + ".png");
                     }

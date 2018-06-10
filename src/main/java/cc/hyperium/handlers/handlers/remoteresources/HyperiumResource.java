@@ -23,8 +23,8 @@ import java.awt.image.BufferedImage;
 
 public class HyperiumResource {
 
-    private String data;
     private final boolean successfullyLoaded;
+    private String data;
     private JsonHolder asJson = null;
     private BufferedImage image;
 

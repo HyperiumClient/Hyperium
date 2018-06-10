@@ -19,7 +19,6 @@ public enum Icons {
     SPOTIFY(new ResourceLocation("textures/material/spotify.png"));
 
 
-
     private ResourceLocation res;
 
     Icons(ResourceLocation res) {

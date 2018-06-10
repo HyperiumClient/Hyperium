@@ -49,7 +49,7 @@ public class AutoGG extends AbstractMod {
         Multithreading.POOL.submit(() -> {
             try {
                 final String rawTriggers = IOUtils.toString(
-                    new URL("https://gist.githubusercontent.com/minemanpi/72c38b0023f5062a5f3eba02a5132603/raw/triggers.txt")
+                        new URL("https://gist.githubusercontent.com/minemanpi/72c38b0023f5062a5f3eba02a5132603/raw/triggers.txt")
                 );
 
                 triggers = new ArrayList<>(Arrays.asList(rawTriggers.split("\n")));

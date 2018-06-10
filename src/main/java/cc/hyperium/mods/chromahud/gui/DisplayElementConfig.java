@@ -168,7 +168,7 @@ public class DisplayElementConfig extends GuiScreen {
 
         }, button -> {
             //on tick
-            element.setScale(((GuiSlider) button).getValue()/100D);
+            element.setScale(((GuiSlider) button).getValue() / 100D);
             button.displayString = EnumChatFormatting.YELLOW + "Scale: " + ((GuiSlider) button).getValueInt() + "%";
         });
 

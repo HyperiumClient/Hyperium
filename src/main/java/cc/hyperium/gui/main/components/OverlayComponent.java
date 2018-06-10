@@ -11,12 +11,13 @@ public abstract class OverlayComponent {
 
     /**
      * Renders this component
-     * @param mouseX the current X position of the mouse
-     * @param mouseY the current Y position of the mouse
+     *
+     * @param mouseX   the current X position of the mouse
+     * @param mouseY   the current Y position of the mouse
      * @param overlayX the current X of the overlay
      * @param overlayY the current Y of the overlay
-     * @param w the width of this item
-     * @param h the height of this item
+     * @param w        the width of this item
+     * @param h        the height of this item
      * @param overlayH the height of the overlay
      * @return if the item got rendered
      */

@@ -57,7 +57,7 @@ public abstract class MixinGuiResourcePack {
     @Inject(method = "drawEntry", at = @At("HEAD"), cancellable = true)
     private void drawEntry(int slotIndex, int x, int y, int listWidth, int slotHeight,
                            int mouseX, int mouseY, boolean isSelected, CallbackInfo ci) {
-        if(!Settings.LEGACY_RP) {
+        if (!Settings.LEGACY_RP) {
 
             boolean compact = true;
             if (compact) {

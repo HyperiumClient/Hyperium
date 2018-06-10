@@ -17,7 +17,6 @@
 
 package cc.hyperium.mixins.client.resources;
 
-import net.minecraft.client.renderer.texture.TextureUtil;
 import net.minecraft.client.resources.AbstractResourcePack;
 import net.minecraft.client.resources.IResourcePack;
 import net.minecraft.util.ResourceLocation;
@@ -25,7 +24,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
@@ -33,14 +31,15 @@ import java.io.InputStream;
 @Mixin(AbstractResourcePack.class)
 public abstract class MixinAbstractResourcePack implements IResourcePack {
 
-    @Shadow public abstract InputStream getInputStream(ResourceLocation location) throws IOException;
-
     /**
      * @author prplz
      */
 
 
     private static final int IconSize = 64;
+
+    @Shadow
+    public abstract InputStream getInputStream(ResourceLocation location) throws IOException;
 
     @Overwrite
     public BufferedImage getPackImage() throws IOException {

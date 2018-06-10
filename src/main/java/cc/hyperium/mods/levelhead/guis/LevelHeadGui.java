@@ -306,7 +306,7 @@ public class LevelHeadGui extends GuiScreen {
 
     private void updatePeopleToValues() {
         this.mod.levelCache.forEach((uuid, levelheadTag) -> {
-            if(levelheadTag == null)
+            if (levelheadTag == null)
                 return;
             Integer value = this.mod.getTrueLevelCache().get(uuid);
             if (value == null)

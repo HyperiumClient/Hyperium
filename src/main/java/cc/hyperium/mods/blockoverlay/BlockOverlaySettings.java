@@ -36,13 +36,13 @@ public class BlockOverlaySettings {
             if (this.configFile.getParentFile().exists() && this.configFile.exists()) {
                 BufferedReader bufferedReader = new BufferedReader(new FileReader(this.configFile));
                 StringBuilder stringBuilder = new StringBuilder();
-                for (String line: bufferedReader.lines().collect(Collectors.toList())) {
+                for (String line : bufferedReader.lines().collect(Collectors.toList())) {
                     stringBuilder.append(line);
                 }
 
                 BetterJsonObject json = new BetterJsonObject(stringBuilder.toString());
                 String overlayMode = json.optString("overlayMode");
-                for (BlockOverlayMode mode: BlockOverlayMode.values()) {
+                for (BlockOverlayMode mode : BlockOverlayMode.values()) {
                     if (mode.getName().equals(overlayMode)) {
                         this.overlayMode = mode;
                         break;

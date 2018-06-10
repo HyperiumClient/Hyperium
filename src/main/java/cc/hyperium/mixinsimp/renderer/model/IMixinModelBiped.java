@@ -16,31 +16,31 @@ import net.minecraft.client.model.ModelRenderer;
  */
 public interface IMixinModelBiped {
 
-	/* Right leg wrappers */
-	ModelRenderer getBipedRightUpperLeg();
+    /* Right leg wrappers */
+    ModelRenderer getBipedRightUpperLeg();
 
-	ModelRenderer getBipedRightLowerLeg();
+    ModelRenderer getBipedRightLowerLeg();
 
-	/* Left leg wrappers */
-	ModelRenderer getBipedLeftUpperLeg();
+    /* Left leg wrappers */
+    ModelRenderer getBipedLeftUpperLeg();
 
-	ModelRenderer getBipedLeftLowerLeg();
+    ModelRenderer getBipedLeftLowerLeg();
 
-	/* Right arm wrappers */
-	ModelRenderer getBipedRightUpperArm();
+    /* Right arm wrappers */
+    ModelRenderer getBipedRightUpperArm();
 
-	ModelRenderer getBipedRightForeArm();
+    ModelRenderer getBipedRightForeArm();
 
-	/* Left arm wrappers */
-	ModelRenderer getBipedLeftUpperArm();
+    /* Left arm wrappers */
+    ModelRenderer getBipedLeftUpperArm();
 
-	ModelRenderer getBipedLeftForeArm();
+    ModelRenderer getBipedLeftForeArm();
 
-	/* Body wrappers */
-	ModelRenderer getBipedBody();
+    /* Body wrappers */
+    ModelRenderer getBipedBody();
 
-	/* Head wrappers */
-	ModelRenderer getBipedHead();
+    /* Head wrappers */
+    ModelRenderer getBipedHead();
 
-	ModelRenderer getBipedHeadwear();
+    ModelRenderer getBipedHeadwear();
 }

@@ -68,7 +68,7 @@ public abstract class MixinRender<T extends Entity> {
             float offset = 0;
             try {
 
-                if ((entityIn instanceof EntityPlayer) &&Hyperium.INSTANCE.getCosmetics().getDeadmau5Cosmetic().isPurchasedBy(entityIn.getUniqueID())) {
+                if ((entityIn instanceof EntityPlayer) && Hyperium.INSTANCE.getCosmetics().getDeadmau5Cosmetic().isPurchasedBy(entityIn.getUniqueID())) {
                     HyperiumPurchase packageIfReady = PurchaseApi.getInstance().getPackageIfReady(entityIn.getUniqueID());
                     if (packageIfReady != null) {
                         AbstractHyperiumPurchase purchase = packageIfReady.getPurchase(EnumPurchaseType.DEADMAU5_COSMETIC);

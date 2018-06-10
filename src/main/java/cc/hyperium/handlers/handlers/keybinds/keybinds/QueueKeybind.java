@@ -23,7 +23,7 @@ import net.minecraft.client.Minecraft;
 import org.lwjgl.input.Keyboard;
 
 public class QueueKeybind extends HyperiumBind {
-    public QueueKeybind(){
+    public QueueKeybind() {
         super("Queue", Keyboard.KEY_K);
     }
 

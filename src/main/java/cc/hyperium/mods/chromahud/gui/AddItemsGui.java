@@ -48,11 +48,11 @@ public class AddItemsGui extends GuiScreen {
     private final Map<GuiButton, Consumer<GuiButton>> clicks = new HashMap<>();
     private final Map<GuiButton, Consumer<GuiButton>> updates = new HashMap<>();
     private final Map<String, GuiButton> nameMap = new HashMap<>();
+    private final List<DisplayElement> all = new ArrayList<>();
+    private final DisplayElement target;
     private int tmpId = 0;
     private boolean adding = true;
     private int offset = 0;
-    private final List<DisplayElement> all = new ArrayList<>();
-    private final DisplayElement target;
     private boolean mouseLock;
 
     public AddItemsGui(ChromaHUD mod, DisplayElement element) {

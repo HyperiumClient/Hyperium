@@ -16,6 +16,7 @@ public class StatusHandler {
     public void world(WorldChangeEvent event) {
         status.clear();
     }
+
     public boolean isOnline(UUID uuid) {
         if (!status.containsKey(uuid)) {
             status.put(uuid, false);

@@ -47,7 +47,7 @@ public abstract class MixinEntityPlayer extends EntityLivingBase {
             }
         }
     }
-    
+
     @Inject(method = "attackTargetEntityWithCurrentItem", at = @At("HEAD"))
     public void attackTargetEntityWithCurrentItem(Entity targetEntity, CallbackInfo ci) {
         EventBus.INSTANCE.post(new PlayerAttackEntityEvent(this.entityUniqueID, targetEntity));

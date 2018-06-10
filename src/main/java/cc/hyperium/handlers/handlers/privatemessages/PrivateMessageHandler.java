@@ -20,11 +20,7 @@ package cc.hyperium.handlers.handlers.privatemessages;
 
 import cc.hyperium.Hyperium;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class PrivateMessageHandler {
 
@@ -50,7 +46,7 @@ public class PrivateMessageHandler {
 
     public void inboundMessage(String from, String message) {
         if (Hyperium.INSTANCE.getHandlers().getConfigOptions().pingOnDm) {
-            
+
         }
         getChat(from).newMessage(message, from, false);
     }

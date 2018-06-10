@@ -80,7 +80,7 @@ public abstract class AbstractAnimationHandler {
         player.getBipedLeftUpperLeg().offsetX = 0F;
         player.getBipedHead().rotateAngleZ = 0F;
         player.getBipedHeadwear().rotateAngleZ = 0F;
-        if(player instanceof IMixinModelPlayer) {
+        if (player instanceof IMixinModelPlayer) {
             IMixinModelPlayer player1 = (IMixinModelPlayer) player;
             player1.getBipedBodywear().rotateAngleZ = 0F;
             player1.getBipedRightUpperLegwear().rotateAngleZ = 0F;

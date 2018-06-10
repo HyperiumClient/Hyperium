@@ -10,6 +10,7 @@ import java.util.UUID;
 
 public class StaffUtils {
     private static final HashMap<UUID, DotColour> STAFF_CACHE = new HashMap<>();
+
     public static boolean isStaff(UUID uuid) {
         return STAFF_CACHE.keySet().contains(uuid);
     }
@@ -45,6 +46,7 @@ public class StaffUtils {
     public static class DotColour {
         public boolean isChroma = false;
         public ChatColor baseColour;
+
         public DotColour(boolean isChroma, ChatColor baseColour) {
             this.isChroma = isChroma;
             this.baseColour = baseColour;

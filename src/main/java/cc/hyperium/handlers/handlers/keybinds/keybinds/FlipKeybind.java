@@ -28,11 +28,11 @@ import org.lwjgl.input.Keyboard;
 
 public class FlipKeybind extends HyperiumBind {
 
+    private boolean inverted;
+
     public FlipKeybind() {
         super("Invert (Requires Purchase)", Keyboard.KEY_I);
     }
-
-    private boolean inverted;
 
     @Override
     public void onPress() {

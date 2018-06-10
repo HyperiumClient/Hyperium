@@ -35,10 +35,9 @@ public class DefaultConfig {
 
     private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
     private final JsonParser parser = new JsonParser();
-
-    private JsonObject config = new JsonObject();
     private final List<Object> configObjects = new ArrayList<>();
     private final File file;
+    private JsonObject config = new JsonObject();
 
     public DefaultConfig(File configFile) {
         this.file = configFile;
@@ -99,7 +98,7 @@ public class DefaultConfig {
             JsonObject tmp = config.get(c.getName()).getAsJsonObject();
             if (!co.alt().isEmpty() && config.has(co.alt().split(";")[0]) && !tmp.has(f.getName())) {
                 JsonObject ot = config.get(co.alt().split(";")[0]).getAsJsonObject();
-                if(ot.has(co.alt().split(";")[1]))
+                if (ot.has(co.alt().split(";")[1]))
                     tmp.add(f.getName(), ot.get(co.alt().split(";")[1]));
             }
             if (tmp.has(f.getName())) {

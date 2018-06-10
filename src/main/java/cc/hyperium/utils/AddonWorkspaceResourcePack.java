@@ -4,10 +4,8 @@ import com.google.common.collect.Sets;
 import net.minecraft.client.resources.AbstractResourcePack;
 import org.apache.commons.io.filefilter.DirectoryFileFilter;
 
-import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileFilter;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Set;

@@ -36,12 +36,12 @@ import java.util.logging.Logger;
  */
 public class AddonsTab extends AbstractTab {
     private static int offsetY = 0; // static so it saves the previous location
-    private GuiBlock block;
-    private int y, w;
     private static HyperiumFontRenderer hfr = new HyperiumFontRenderer("Arial", Font.PLAIN, 30);
+    private static HyperiumOverlay downloadAddons = new HyperiumOverlay();
     public String selectedMsg;
     public ArrayList<String> messages;
-    private static HyperiumOverlay downloadAddons = new HyperiumOverlay();
+    private GuiBlock block;
+    private int y, w;
 
     public AddonsTab(int y, int w) {
         messages = new ArrayList<>();
@@ -49,7 +49,7 @@ public class AddonsTab extends AbstractTab {
             BufferedReader reader = new BufferedReader(new InputStreamReader(Minecraft.getMinecraft().getResourceManager().getResource(new ResourceLocation("noaddonmsgs.txt")).getInputStream(), Charsets.UTF_8));
 
             String currentMsg;
-            while((currentMsg = reader.readLine()) != null) {
+            while ((currentMsg = reader.readLine()) != null) {
                 currentMsg = currentMsg.trim();
                 if (!currentMsg.isEmpty()) {
                     messages.add(currentMsg);
@@ -69,7 +69,7 @@ public class AddonsTab extends AbstractTab {
         this.w = w;
         int yi = 0, xi = 0;
         AddonManifest addonManifest = new AddonManifest();
-        if(addonManifest.getDesc() != null) {
+        if (addonManifest.getDesc() != null) {
             for (AddonManifest a : AddonBootstrap.INSTANCE.getAddonManifests()) {
                 items.add(new SettingItem(() -> {
                     if (a.getOverlay() != null) {
@@ -118,6 +118,20 @@ public class AddonsTab extends AbstractTab {
         }
     }
 
+    public static String choose(File f) throws FileNotFoundException {
+        String result = null;
+        Random rand = new Random();
+        int n = 0;
+        for (Scanner sc = new Scanner(f); sc.hasNext(); ) {
+            ++n;
+            String line = sc.nextLine();
+            if (rand.nextInt(n) == 0)
+                result = line;
+        }
+
+        return result;
+    }
+
     @Override
     public void drawTabIcon() {
         Icons.EXTENSION.bind();
@@ -158,20 +172,6 @@ public class AddonsTab extends AbstractTab {
 
         }
 
-    }
-
-    public static String choose(File f) throws FileNotFoundException {
-        String result = null;
-        Random rand = new Random();
-        int n = 0;
-        for (Scanner sc = new Scanner(f); sc.hasNext(); ) {
-            ++n;
-            String line = sc.nextLine();
-            if (rand.nextInt(n) == 0)
-                result = line;
-        }
-
-        return result;
     }
 
     @Override

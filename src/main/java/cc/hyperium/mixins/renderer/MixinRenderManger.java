@@ -13,7 +13,8 @@ public class MixinRenderManger implements IMixinRenderManager {
     @Shadow
     private double renderPosY;
 
-    @Shadow private double renderPosZ;
+    @Shadow
+    private double renderPosZ;
 
     @Override
     public double getPosX() {

@@ -24,9 +24,9 @@ import cc.hyperium.mods.common.ToggleSprintContainer;
 import net.minecraft.client.Minecraft;
 import org.lwjgl.input.Keyboard;
 
-public class ToggleSprintKeybind extends HyperiumBind{
+public class ToggleSprintKeybind extends HyperiumBind {
 
-    public ToggleSprintKeybind(){
+    public ToggleSprintKeybind() {
         super("toggleSprint", Keyboard.KEY_V);
     }
 

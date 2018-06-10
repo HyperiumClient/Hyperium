@@ -16,6 +16,7 @@
  */
 
 package cc.hyperium.commands.defaults;
+
 import cc.hyperium.commands.BaseCommand;
 import cc.hyperium.gui.main.HyperiumMainGui;
 import cc.hyperium.utils.ChatColor;

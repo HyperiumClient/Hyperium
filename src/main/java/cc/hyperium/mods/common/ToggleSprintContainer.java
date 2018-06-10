@@ -25,10 +25,9 @@ import net.minecraft.client.Minecraft;
 
 public class ToggleSprintContainer {
 
-    boolean press = false;
-
     @ConfigOpt
     public static boolean toggleSprintActive = false;
+    boolean press = false;
 
     @InvokeEvent
     public void onTick(TickEvent e) {

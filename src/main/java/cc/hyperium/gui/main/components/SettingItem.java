@@ -73,9 +73,9 @@ public class SettingItem {
         if (Mouse.isButtonDown(0) && !lastClicked && mouseX >= blockX && mouseX <= blockX + w / 7 * 5 && mouseY >= blockY && mouseY <= blockY + h / 6 * 4)
             onClick.run();
 
-        if(!lastClicked && Mouse.isButtonDown(0))
+        if (!lastClicked && Mouse.isButtonDown(0))
             lastClicked = true;
-        else if(lastClicked && !Mouse.isButtonDown(0))
+        else if (lastClicked && !Mouse.isButtonDown(0))
             lastClicked = false;
         HyperiumMainGui.getFr().drawString(title, blockX + 3, blockY + 3, 0xffffff);
         float s = 0.8f;
@@ -100,7 +100,7 @@ public class SettingItem {
             int oldScale = Minecraft.getMinecraft().gameSettings.guiScale;
             float v = 2F / oldScale;
             int width = (int) (25 * v);
-            Gui.drawScaledCustomSizeModalRect((blockX + w / 7 * 5 - 25) + (25-width), (blockY - h / 6) + width, 0, 0, 144, 144, width, width, 144, 144);
+            Gui.drawScaledCustomSizeModalRect((blockX + w / 7 * 5 - 25) + (25 - width), (blockY - h / 6) + width, 0, 0, 144, 144, width, width, 144, 144);
         }
 
         Icons.INFO.bind();

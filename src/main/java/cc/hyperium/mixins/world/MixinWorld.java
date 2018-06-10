@@ -82,15 +82,17 @@ public class MixinWorld {
 
     /**
      * Fixes Void Flicker
+     *
      * @author prplz/2pi
      */
     @Overwrite
     public double getHorizon() {
-        if(Settings.VOID_FLICKER_FIX) {
+        if (Settings.VOID_FLICKER_FIX) {
             return 0.0;
         }
         return this.worldInfo.getTerrainType() == WorldType.FLAT ? 0.0D : 63.0D;
     }
+
     /**
      * Removes lightupdates
      *

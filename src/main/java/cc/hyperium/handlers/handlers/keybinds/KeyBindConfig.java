@@ -35,9 +35,9 @@ import java.nio.file.Paths;
 @SuppressWarnings("ResultOfMethodCallIgnored") // Suppress because we don't care
 public class KeyBindConfig {
 
-    private BetterJsonObject keyBindJson = new BetterJsonObject();
     private final KeyBindHandler handler;
     private final File keybindFile;
+    private BetterJsonObject keyBindJson = new BetterJsonObject();
 
     KeyBindConfig(KeyBindHandler handler, File directory) {
         if (!directory.exists()) {

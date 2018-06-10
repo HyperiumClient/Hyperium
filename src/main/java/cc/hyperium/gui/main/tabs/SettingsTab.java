@@ -28,8 +28,6 @@ public class SettingsTab extends AbstractTab {
     private static HyperiumOverlay spotify = new HyperiumOverlay();
 
     private static int offsetY = 0; // static so it saves the previous location
-    private GuiBlock block;
-    private int y, w;
 
     static {
         for (Field f : Settings.class.getFields()) {
@@ -53,6 +51,9 @@ public class SettingsTab extends AbstractTab {
         Settings.save();
     }
 
+    private GuiBlock block;
+    private int y, w;
+
     public SettingsTab(int y, int w) {
         block = new GuiBlock(0, w, y, y + w);
         this.y = y;
@@ -68,6 +69,22 @@ public class SettingsTab extends AbstractTab {
 
         items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(spotify), Icons.SPOTIFY.getResource(), "Spotify", "Hyperium Spotify Settings", "click to configure", 1, 1));
 
+    }
+
+    private static HyperiumOverlay getCategory(Category category) {
+        switch (category) {
+            case GENERAL:
+                return general;
+            case IMPROVEMENTS:
+                return improvements;
+            case INTEGRATIONS:
+                return integrations;
+            case COSMETICS:
+                return cosmetics;
+            case SPOTIFY:
+                return spotify;
+        }
+        return general;
     }
 
     @Override
@@ -100,21 +117,5 @@ public class SettingsTab extends AbstractTab {
             offsetY -= 5;
         else if (i > 0)
             offsetY += 5;
-    }
-
-    private static HyperiumOverlay getCategory(Category category) {
-        switch (category) {
-            case GENERAL:
-                return general;
-            case IMPROVEMENTS:
-                return improvements;
-            case INTEGRATIONS:
-                return integrations;
-            case COSMETICS:
-                return cosmetics;
-            case SPOTIFY:
-                return spotify;
-        }
-        return general;
     }
 }

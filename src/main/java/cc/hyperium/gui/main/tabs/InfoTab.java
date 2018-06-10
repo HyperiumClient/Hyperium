@@ -34,8 +34,6 @@ import java.util.stream.StreamSupport;
  */
 public class InfoTab extends AbstractTab {
     private static HyperiumOverlay licenses = new HyperiumOverlay();
-    private GuiBlock block;
-    private int y, w;
 
     static {
         Multithreading.runAsync(() -> {
@@ -56,6 +54,9 @@ public class InfoTab extends AbstractTab {
             }
         });
     }
+
+    private GuiBlock block;
+    private int y, w;
 
     public InfoTab(int y, int w) {
         block = new GuiBlock(0, w, y, y + w);

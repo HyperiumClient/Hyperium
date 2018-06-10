@@ -76,13 +76,13 @@ public abstract class MixinNetHandlerPlayClient {
         if (this.timeChanger == null) {
             this.timeChanger = (TimeChanger) Hyperium.INSTANCE.getModIntegration().getTimeChanger();
         }
-        
+
         if (this.timeChanger.getTimeType() == null) {
             handleActualPacket(packet);
-            
+
             return;
         }
-        
+
         switch (this.timeChanger.getTimeType()) {
             case DAY:
                 handleActualPacket(new S03PacketTimeUpdate(packet.getWorldTime(), -6000L, true));
@@ -108,9 +108,9 @@ public abstract class MixinNetHandlerPlayClient {
         if (this.gameController == null || this.gameController.theWorld == null) {
             return;
         }
-        
+
         PacketThreadUtil.checkThreadAndEnqueue(packetIn,
-                (INetHandlerPlayClient)  Minecraft.getMinecraft().getNetHandler().getNetworkManager().getNetHandler(), this.gameController);
+                (INetHandlerPlayClient) Minecraft.getMinecraft().getNetHandler().getNetworkManager().getNetHandler(), this.gameController);
         this.gameController.theWorld.setTotalWorldTime(packetIn.getTotalWorldTime());
         this.gameController.theWorld.setWorldTime(packetIn.getWorldTime());
     }

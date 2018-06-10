@@ -10,8 +10,9 @@ import java.util.UUID;
 public class UUIDUtil {
 
     public static String getUUIDWithoutDashes() {
-        return getClientUUID().toString().toLowerCase().replace("-","");
+        return getClientUUID().toString().toLowerCase().replace("-", "");
     }
+
     public static UUID getClientUUID() {
         return Minecraft.getMinecraft().getSession().getProfile().getId();
     }

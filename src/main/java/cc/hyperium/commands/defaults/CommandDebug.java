@@ -92,7 +92,7 @@ public class CommandDebug implements BaseCommand {
         HyperiumPurchase self = PurchaseApi.getInstance().getSelf();
         builder.append("\n");
         builder.append("Purchase callback: ");
-        if(self !=null) {
+        if (self != null) {
             JsonHolder response = self.getResponse();
             if (response != null)
                 builder.append(printer.toJson(response.getObject()));

@@ -28,11 +28,6 @@ public class HyperiumPurchase {
     private final UUID playerUUID;
     private final List<AbstractHyperiumPurchase> purchases = new ArrayList<>();
     private final JsonHolder response;
-
-    public JsonHolder getPurchaseSettings() {
-        return purchaseSettings;
-    }
-
     private JsonHolder purchaseSettings = new JsonHolder();
 
     public HyperiumPurchase(UUID playerUUID, JsonHolder response) {
@@ -53,6 +48,10 @@ public class HyperiumPurchase {
                     wtf.printStackTrace();
                 }
         }
+    }
+
+    public JsonHolder getPurchaseSettings() {
+        return purchaseSettings;
     }
 
     public boolean hasPurchased(EnumPurchaseType type) {

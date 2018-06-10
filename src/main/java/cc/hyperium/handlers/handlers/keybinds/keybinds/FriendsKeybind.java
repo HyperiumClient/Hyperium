@@ -23,7 +23,7 @@ import net.minecraft.client.Minecraft;
 import org.lwjgl.input.Keyboard;
 
 public class FriendsKeybind extends HyperiumBind {
-    public FriendsKeybind(){
+    public FriendsKeybind() {
         super("friends", Keyboard.KEY_L);
     }
 

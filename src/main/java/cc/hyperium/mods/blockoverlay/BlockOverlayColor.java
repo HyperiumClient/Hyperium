@@ -20,7 +20,7 @@ public class BlockOverlayColor extends GuiScreen {
     }
 
     public void initGui() {
-        super.buttonList.add(this.buttonChroma = new GuiButton(0, super.width / 2 - 50, super.height / 2 - 60, 100, 20,"Chroma: " + (this.mod.getSettings().isChroma() ? "On" : "Off")));
+        super.buttonList.add(this.buttonChroma = new GuiButton(0, super.width / 2 - 50, super.height / 2 - 60, 100, 20, "Chroma: " + (this.mod.getSettings().isChroma() ? "On" : "Off")));
         super.buttonList.add(this.sliderChroma = new GuiSlider(1, super.width / 2 - 50, super.height / 2 - 35, 100, 20, "Speed: ", "", 1, 5, this.mod.getSettings().getChromaSpeed(), false, true));
         super.buttonList.add(this.sliderRed = new GuiSlider(2, super.width / 2 - 50, super.height / 2 - 35, 100, 20, "Red: ", "", 0, 255, this.mod.getSettings().getOverlayRed() * 255, false, true));
         super.buttonList.add(this.sliderGreen = new GuiSlider(3, super.width / 2 - 50, super.height / 2 - 10, 100, 20, "Green: ", "", 0, 255, this.mod.getSettings().getOverlayGreen() * 255, false, true));

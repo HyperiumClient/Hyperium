@@ -20,6 +20,6 @@ public class CustomLevelheadCommand implements BaseCommand {
 
     @Override
     public void onExecute(String[] args) throws CommandException {
-new CustomLevelheadConfigurer().show();
+        new CustomLevelheadConfigurer().show();
     }
 }

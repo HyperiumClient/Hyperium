@@ -49,18 +49,14 @@ public class Autotip extends AbstractMod {
     public static final Version VERSION = new Version(VERSION_STRING);
     public static final ExecutorService THREAD_POOL = Executors
             .newCachedThreadPool(new AutotipThreadFactory());
-    public static String USER_DIR = "";
-
     public static final Minecraft mc = Minecraft.getMinecraft();
-
+    public static final List<String> alreadyTipped = new ArrayList<>();
+    public static String USER_DIR = "";
     public static MessageOption messageOption = MessageOption.SHOWN;
     public static String playerUUID = "";
     public static boolean onHypixel = false;
     public static boolean toggle = true;
-
     public static int totalTipsSent;
-    public static final List<String> alreadyTipped = new ArrayList<>();
-
     /**
      * The metadata of Autotip
      */

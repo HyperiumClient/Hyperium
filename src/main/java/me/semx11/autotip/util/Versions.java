@@ -32,8 +32,8 @@ public class Versions {
     private static Versions instance;
 
     private final Version latest;
-    private Version latestBeta;
     private final List<VersionInfo> versions = new ArrayList<>();
+    private Version latestBeta;
 
     private Versions(Version latest) {
         this.latest = latest;

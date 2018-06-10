@@ -4,7 +4,10 @@ import cc.hyperium.installer.components.MaterialRadioButton;
 import cc.hyperium.installer.components.MotionPanel;
 import cc.hyperium.utils.JsonHolder;
 import com.google.common.io.Files;
-import com.google.gson.*;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicButtonUI;
@@ -27,14 +30,13 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 /*
- * Created by Cubxity on 12/04/2018 
+ * Created by Cubxity on 12/04/2018
  */
 
 public class InstallerConfig extends JFrame {
+    public static final int VERSION = 1; // installer version, change every time when installer system changes
     private static final int WIDTH = 600;
     private static final int HEIGHT = 260;
-    public static final int VERSION = 1; // installer version, change every time when installer system changes
-
     private HashMap<JRadioButton, JsonArray> dependencies = new HashMap<>();
 
     InstallerConfig() {
@@ -55,7 +57,7 @@ public class InstallerConfig extends JFrame {
         this.setLayout(null);
     }
 
-    private void initializeComponents(){
+    private void initializeComponents() {
         Font f;
         try {
             f = Font.createFont(Font.TRUETYPE_FONT, InstallerMain.class.getResourceAsStream("/assets/hyperium/fonts/Montserrat-Regular.ttf")).deriveFont(12.0F);
@@ -344,7 +346,7 @@ public class InstallerConfig extends JFrame {
         contentPane.add(cLabel);
         contentPane.add(cDesc);
         contentPane.add(ver);
-        
+
         // Fallback enable
         install.setEnabled(false);
         install.addActionListener(e -> {

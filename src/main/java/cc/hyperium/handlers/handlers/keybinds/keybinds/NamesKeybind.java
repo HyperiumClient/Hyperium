@@ -23,7 +23,7 @@ import cc.hyperium.handlers.handlers.keybinds.HyperiumBind;
 import org.lwjgl.input.Keyboard;
 
 public class NamesKeybind extends HyperiumBind {
-    public NamesKeybind(){
+    public NamesKeybind() {
         super("nameHistory", Keyboard.KEY_H);
     }
 

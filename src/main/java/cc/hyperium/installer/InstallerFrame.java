@@ -58,12 +58,12 @@ public class InstallerFrame implements PropertyChangeListener {
     private static final int WIDTH = 400;
     private static final int HEIGHT = 160;
     private static final char[] hexCodes = "0123456789ABCDEF".toCharArray();
+    private final JFrame frame;
     private StringBuilder log = new StringBuilder();
     private JLabel display;
     private JLabel error;
     private JProgressBar progressBar;
     private JButton exit;
-    private final JFrame frame;
 
     /**
      * Constructor
@@ -193,7 +193,7 @@ public class InstallerFrame implements PropertyChangeListener {
             File local;
             try {
                 local = new File(InstallerMain.class.getProtectionDomain().getCodeSource().getLocation().toURI());
-                System.out.println("local="+local.getPath());
+                System.out.println("local=" + local.getPath());
             } catch (URISyntaxException e) {
                 e.printStackTrace();
                 display.setText("INSTALLATION FAILED");

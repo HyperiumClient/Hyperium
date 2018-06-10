@@ -31,9 +31,9 @@ import java.util.Map;
 
 public class HyperiumFontRenderer {
 
+    public final int FONT_HEIGHT = 9;
     private final UnicodeFont unicodeFont;
     private final int[] colorCodes = new int[32];
-    public final int FONT_HEIGHT = 9;
     private final float kerning;
     private final Map<String, Float> cachedStringWidth = new HashMap<>();
 

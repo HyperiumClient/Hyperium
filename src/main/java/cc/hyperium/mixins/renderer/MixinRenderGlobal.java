@@ -14,8 +14,8 @@ public class MixinRenderGlobal {
 
     @Inject(method = "drawSelectionBox", at = @At("HEAD"), cancellable = true)
     public void drawSelectionBox(EntityPlayer player, MovingObjectPosition movingObjectPositionIn, int p_72731_3_, float partialTicks, CallbackInfo info) {
-        if(Hyperium.INSTANCE.getHandlers().getConfigOptions().isCancelBox) {
-            Hyperium.INSTANCE.getHandlers().getConfigOptions().isCancelBox=false;
+        if (Hyperium.INSTANCE.getHandlers().getConfigOptions().isCancelBox) {
+            Hyperium.INSTANCE.getHandlers().getConfigOptions().isCancelBox = false;
             info.cancel();
         }
     }

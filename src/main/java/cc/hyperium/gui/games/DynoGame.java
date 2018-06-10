@@ -36,10 +36,10 @@ public class DynoGame extends HyperiumGui {
     private final Random random = new Random();
     private final int GAME_LEVEL = 200;
     private final int DYNO_X = 150;
+    private final List<Bush> bushes = new ArrayList<>();
     private int DELTA_BUSH = 0;
     private boolean dead = false;
     private int score;
-    private final List<Bush> bushes = new ArrayList<>();
     private boolean running;
     private int dynoOffset = 0;
     private int dynoVelocity = 0;
@@ -138,8 +138,8 @@ public class DynoGame extends HyperiumGui {
 
     class Bush {
 
-        private int xLoc;
         private final GuiBlock hitbox;
+        private int xLoc;
 
         public Bush(int xLoc) {
             this.xLoc = xLoc;

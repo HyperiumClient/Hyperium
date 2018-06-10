@@ -65,7 +65,7 @@ public abstract class MixinRenderPlayer extends RendererLivingEntity<AbstractCli
         if (Hyperium.INSTANCE.getHandlers().getConfigOptions().turnPeopleIntoBlock) {
             try {
                 ci.cancel();
-                Hyperium.INSTANCE.getHandlers().getRenderPlayerAsBlock().reDraw(entity,x,y,z);
+                Hyperium.INSTANCE.getHandlers().getRenderPlayerAsBlock().reDraw(entity, x, y, z);
             } catch (Exception e) {
                 e.printStackTrace();
             }

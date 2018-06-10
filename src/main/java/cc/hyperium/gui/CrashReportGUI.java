@@ -7,8 +7,8 @@ import cc.hyperium.internal.addons.AddonBootstrap;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.netty.NettyClient;
 import cc.hyperium.netty.packet.packets.serverbound.ServerCrossDataPacket;
-import cc.hyperium.utils.UpdateUtils;
 import cc.hyperium.utils.JsonHolder;
+import cc.hyperium.utils.UpdateUtils;
 import com.google.gson.JsonParser;
 import me.cubxity.utils.DeobfStack;
 import me.cubxity.utils.Mapping;
@@ -66,6 +66,23 @@ public class CrashReportGUI extends JDialog {
 
     public CrashReportGUI() {
 
+    }
+
+    public static int handle(CrashReport report) {
+        try {
+            CrashReportGUI crg = new CrashReportGUI(report);
+            crg.setVisible(true);
+            return crg.handle;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            Bootstrap.printToSYSOUT("## FAILED TO HANDLE CRASH WITH HYPERIUM CRASH REPORT GUI ##");
+        }
+        return 0;
+    }
+
+    public static void main(String[] args) {
+        // For testing
+        handle(CrashReport.makeCrashReport(null, "Developer Debug"));
     }
 
     private void initComponents() {
@@ -145,7 +162,7 @@ public class CrashReportGUI extends JDialog {
                         } else {
                             report.setText("FAILED TO REPORT");
                         }
-                    } else if( Hyperium.INSTANCE.isDevEnv()) {
+                    } else if (Hyperium.INSTANCE.isDevEnv()) {
                         report.setEnabled(false);
                         report.setText("REPORTING...");
                         if (sendReport()) {
@@ -209,7 +226,6 @@ public class CrashReportGUI extends JDialog {
         if (discord != null)
             c.add(discord);
     }
-
 
     private boolean sendReport() {
         try {
@@ -285,18 +301,6 @@ public class CrashReportGUI extends JDialog {
         return false;
     }
 
-    public static int handle(CrashReport report) {
-        try {
-            CrashReportGUI crg = new CrashReportGUI(report);
-            crg.setVisible(true);
-            return crg.handle;
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            Bootstrap.printToSYSOUT("## FAILED TO HANDLE CRASH WITH HYPERIUM CRASH REPORT GUI ##");
-        }
-        return 0;
-    }
-
     private Font resize(String s, int width, Font f, JLabel l) {
         if (l.getFontMetrics(f).stringWidth(s) > width)
             return resize(s, width, f.deriveFont(f.getSize() - 1f), l);
@@ -317,10 +321,5 @@ public class CrashReportGUI extends JDialog {
             e.printStackTrace();
             return null;
         }
-    }
-
-    public static void main(String[] args) {
-        // For testing
-        handle(CrashReport.makeCrashReport(null, "Developer Debug"));
     }
 }

@@ -49,10 +49,10 @@ import java.util.function.Consumer;
  */
 public class GeneralConfigGui extends GuiScreen {
     private final ChromaHUD mod;
+    private final Map<GuiButton, Consumer<GuiButton>> clicks = new HashMap<>();
     private boolean mouseDown;
     private DisplayElement currentElement;
     private GuiButton edit;
-    private final Map<GuiButton, Consumer<GuiButton>> clicks = new HashMap<>();
     private double lastX;
     private double lastY;
     private boolean lastD = false;

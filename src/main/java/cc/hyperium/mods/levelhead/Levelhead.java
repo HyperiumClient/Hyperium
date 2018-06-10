@@ -36,21 +36,21 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.scoreboard.Team;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
-import java.util.UUID;
 
 public class Levelhead extends AbstractMod {
 
     public static final String MODID = "LEVEL_HEAD";
     public static final String VERSION = "Hyperium_1.0-4.1.2";
+    public final Map<UUID, LevelheadTag> levelCache = new HashMap<>();
     /**
      * The metadata of LevelHead
      */
     private final Metadata meta;
-    public final Map<UUID, LevelheadTag> levelCache = new HashMap<>();
+    private final Map<UUID, Integer> trueLevelCache = new HashMap<>();
+    private final java.util.List<UUID> probablyNotFakeWatchdogBoi = new ArrayList<>();
+    private final Map<UUID, Integer> timeCheck = new HashMap<>();
     public UUID userUuid = null;
     public int count = 1;
     public int wait = 60;
@@ -58,9 +58,6 @@ public class Levelhead extends AbstractMod {
     private int updates = 0;
     private Sk1erMod mod;
     private LevelheadConfig config;
-    private final Map<UUID, Integer> trueLevelCache = new HashMap<>();
-    private final java.util.List<UUID> probablyNotFakeWatchdogBoi = new ArrayList<>();
-    private final Map<UUID, Integer> timeCheck = new HashMap<>();
     private boolean levelHeadInfoFailed = false;
 
     public Levelhead() {

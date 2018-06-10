@@ -3,19 +3,18 @@ package cc.hyperium.mixins.renderer.model;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.PostCopyPlayerModelAnglesEvent;
 import cc.hyperium.event.PreCopyPlayerModelAnglesEvent;
+import cc.hyperium.mixinsimp.renderer.model.IMixinModelBiped;
 import cc.hyperium.mixinsimp.renderer.model.IMixinModelBox;
 import net.minecraft.client.entity.AbstractClientPlayer;
+import net.minecraft.client.model.ModelBase;
+import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelBox;
+import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
-
-import cc.hyperium.mixinsimp.renderer.model.IMixinModelBiped;
-import net.minecraft.client.model.ModelBase;
-import net.minecraft.client.model.ModelBiped;
-import net.minecraft.client.model.ModelRenderer;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -23,31 +22,31 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(ModelBiped.class)
 public class MixinModelBiped extends ModelBase implements IMixinModelBiped {
 
-	@Shadow
-	public ModelRenderer bipedHead;
-	@Shadow
-	public ModelRenderer bipedHeadwear;
-	@Shadow
-	public ModelRenderer bipedBody;
-	@Shadow
-	public ModelRenderer bipedRightArm;
-	@Shadow
-	public ModelRenderer bipedLeftArm;
-	@Shadow
-	public ModelRenderer bipedRightLeg;
-	@Shadow
-	public ModelRenderer bipedLeftLeg;
+    @Shadow
+    public ModelRenderer bipedHead;
+    @Shadow
+    public ModelRenderer bipedHeadwear;
+    @Shadow
+    public ModelRenderer bipedBody;
+    @Shadow
+    public ModelRenderer bipedRightArm;
+    @Shadow
+    public ModelRenderer bipedLeftArm;
+    @Shadow
+    public ModelRenderer bipedRightLeg;
+    @Shadow
+    public ModelRenderer bipedLeftLeg;
 
     protected ModelRenderer bipedLeftForeArm;
-	protected ModelRenderer bipedRightForeArm;
-	protected ModelRenderer bipedLeftLowerLeg;
-	protected ModelRenderer bipedRightLowerLeg;
+    protected ModelRenderer bipedRightForeArm;
+    protected ModelRenderer bipedLeftLowerLeg;
+    protected ModelRenderer bipedRightLowerLeg;
 
-	@Inject(method = "<init>(FFII)V", at = @At("RETURN"))
+    @Inject(method = "<init>(FFII)V", at = @At("RETURN"))
     private void injectModelChanges(float modelSize, float p_i1149_2_, int textureWidthIn, int textureHeightIn, CallbackInfo ci) {
         // Doing these checks because other ModelBiped (ModelZombie, ModelArmorStand etc) were messed up
         // The only ModelBiped which isn't extended is armor as far as I know. If not the check should be more specific for armor.
-	    if (getClass().equals(ModelBiped.class)) {
+        if (getClass().equals(ModelBiped.class)) {
             this.bipedRightArm = new ModelRenderer(this, 40, 16);
             this.bipedRightArm.addBox(-3.0F, -2.0F, -2.0F, 4, 6, 4, modelSize);
             this.bipedRightArm.setRotationPoint(-5.0F, 2.0F + p_i1149_2_, 0.0F);
@@ -152,7 +151,7 @@ public class MixinModelBiped extends ModelBase implements IMixinModelBiped {
         GlStateManager.popMatrix();
     }
 
-    @Inject(method =  "setRotationAngles", at = @At("RETURN"))
+    @Inject(method = "setRotationAngles", at = @At("RETURN"))
     private void setRotationAngles(float p_78087_1_, float p_78087_2_, float p_78087_3_, float p_78087_4_, float p_78087_5_, float p_78087_6_, Entity entityIn, CallbackInfo ci) {
         if (getClass().equals(ModelBiped.class)) {
             boolean isPlayer = entityIn instanceof AbstractClientPlayer;
@@ -190,63 +189,63 @@ public class MixinModelBiped extends ModelBase implements IMixinModelBiped {
     }
 
     /* Right leg wrappers */
-	@Override
-	public ModelRenderer getBipedRightUpperLeg() {
-		return this.bipedRightLeg;
-	}
+    @Override
+    public ModelRenderer getBipedRightUpperLeg() {
+        return this.bipedRightLeg;
+    }
 
-	@Override
-	public ModelRenderer getBipedRightLowerLeg() {
-		return this.bipedRightLowerLeg;
-	}
+    @Override
+    public ModelRenderer getBipedRightLowerLeg() {
+        return this.bipedRightLowerLeg;
+    }
 
-	/* Left leg wrappers */
-	@Override
-	public ModelRenderer getBipedLeftUpperLeg() {
-		return this.bipedLeftLeg;
-	}
+    /* Left leg wrappers */
+    @Override
+    public ModelRenderer getBipedLeftUpperLeg() {
+        return this.bipedLeftLeg;
+    }
 
-	@Override
-	public ModelRenderer getBipedLeftLowerLeg() {
-		return this.bipedLeftLowerLeg;
-	}
+    @Override
+    public ModelRenderer getBipedLeftLowerLeg() {
+        return this.bipedLeftLowerLeg;
+    }
 
-	/* Right arm wrappers */
-	@Override
-	public ModelRenderer getBipedRightUpperArm() {
-		return this.bipedRightArm;
-	}
+    /* Right arm wrappers */
+    @Override
+    public ModelRenderer getBipedRightUpperArm() {
+        return this.bipedRightArm;
+    }
 
-	@Override
-	public ModelRenderer getBipedRightForeArm() {
-		return this.bipedRightForeArm;
-	}
+    @Override
+    public ModelRenderer getBipedRightForeArm() {
+        return this.bipedRightForeArm;
+    }
 
-	/* Left arm wrappers */
-	@Override
-	public ModelRenderer getBipedLeftUpperArm() {
-		return this.bipedLeftArm;
-	}
+    /* Left arm wrappers */
+    @Override
+    public ModelRenderer getBipedLeftUpperArm() {
+        return this.bipedLeftArm;
+    }
 
-	@Override
-	public ModelRenderer getBipedLeftForeArm() {
-		return this.bipedLeftForeArm;
-	}
+    @Override
+    public ModelRenderer getBipedLeftForeArm() {
+        return this.bipedLeftForeArm;
+    }
 
-	/* Body wrappers */
-	@Override
-	public ModelRenderer getBipedBody() {
-		return this.bipedBody;
-	}
+    /* Body wrappers */
+    @Override
+    public ModelRenderer getBipedBody() {
+        return this.bipedBody;
+    }
 
-	/* Head wrappers */
-	@Override
-	public ModelRenderer getBipedHead() {
-		return this.bipedHead;
-	}
+    /* Head wrappers */
+    @Override
+    public ModelRenderer getBipedHead() {
+        return this.bipedHead;
+    }
 
-	@Override
-	public ModelRenderer getBipedHeadwear() {
-		return this.bipedHeadwear;
-	}
+    @Override
+    public ModelRenderer getBipedHeadwear() {
+        return this.bipedHeadwear;
+    }
 }

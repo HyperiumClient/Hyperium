@@ -27,11 +27,7 @@ import net.minecraft.client.gui.GuiChat;
 import net.minecraft.command.CommandBase;
 import net.minecraft.util.EnumChatFormatting;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
 
 /**
@@ -88,7 +84,7 @@ public class HyperiumCommandHandler {
 
         // Loop through our commands, if the identifier matches the expected command, active the base
         String[] finalArgs = args;
-        return this.commands.entrySet().stream().filter(e -> commandName.equals(e.getKey())).findFirst().map(e->{
+        return this.commands.entrySet().stream().filter(e -> commandName.equals(e.getKey())).findFirst().map(e -> {
             final BaseCommand baseCommand = e.getValue();
 
             try {
