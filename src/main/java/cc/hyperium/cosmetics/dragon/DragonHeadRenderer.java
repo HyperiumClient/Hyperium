@@ -5,7 +5,7 @@ import cc.hyperium.Hyperium;
 import cc.hyperium.cosmetics.DragonCosmetic;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.RenderPlayerEvent;
-import cc.hyperium.event.TickEvent;
+import cc.hyperium.event.WorldChangeEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
@@ -14,6 +14,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
+import java.util.HashMap;
+import java.util.UUID;
+
 public class DragonHeadRenderer extends ModelBase {
     private Minecraft mc;
     private ModelRenderer jaw;
@@ -21,7 +24,7 @@ public class DragonHeadRenderer extends ModelBase {
     private boolean playerUsesFullHeight;
     private DragonCosmetic dragonCosmetic;
     private ResourceLocation selectedLoc;
-    private EntityPlayer player;
+    private HashMap<UUID, JumpState> timeMap = new HashMap<>();
 
     public DragonHeadRenderer(DragonCosmetic cosmetic) {
         this.dragonCosmetic = cosmetic;
@@ -66,29 +69,35 @@ public class DragonHeadRenderer extends ModelBase {
     }
 
     @InvokeEvent
-    private void onRenderPlayer(final RenderPlayerEvent event) {
-        player = event.getEntity();
-        if (dragonCosmetic.isPurchasedBy(event.getEntity().getUniqueID()) || Hyperium.INSTANCE.isDevEnv() && player.equals((Object) this.mc.thePlayer) && !player.isInvisible()) {
-            this.renderHead(player, event.getPartialTicks());
-        }
+    public void onWorldSwitch(WorldChangeEvent event) {
+        timeMap.clear();
     }
+
     @InvokeEvent
-    private void onTick(final TickEvent event) {
-        if(player != null) {
-            if(player.isAirBorne) {
-                jaw.rotationPointY = jaw.rotationPointY + 50;
-            }
-            jaw.rotationPointY = jaw.rotationPointY - 50;
+    private void onRenderPlayer(final RenderPlayerEvent event) {
+        if (dragonCosmetic.isPurchasedBy(event.getEntity().getUniqueID()) || Hyperium.INSTANCE.isDevEnv() && !event.getEntity().isInvisible()) {
+            GlStateManager.pushMatrix();
+            GlStateManager.translate(event.getX(),event.getY(),event.getZ());
+            this.renderHead(event.getEntity(), event.getPartialTicks());
+            GlStateManager.popMatrix();
         }
+
     }
 
 
     private void renderHead(final EntityPlayer player, final float partialTicks) {
+        JumpState jumpState = timeMap.computeIfAbsent(player.getUniqueID(), uuid -> new JumpState());
+        if (player.isAirBorne && jumpState.onground) {
+            jumpState.onground = false;
+            jumpState.lastOnGround = System.currentTimeMillis();
+        } else if (!jumpState.onground && player.onGround) {
+            jumpState.onground = true;
+            jumpState.lastOnGround = 0L;
+        }
         final double scale = 1.0F;
         final double rotate = this.interpolate(player.rotationYawHead, player.prevRotationYaw, partialTicks);
         final double rotate1 = this.interpolate(player.prevRotationPitch, player.rotationPitch, partialTicks);
 
-        GL11.glPushMatrix();
         GL11.glScaled(-scale, -scale, scale);
         GL11.glRotated(180.0 + rotate, 0.0, 1.0, 0.0);
 
@@ -101,7 +110,22 @@ public class DragonHeadRenderer extends ModelBase {
         }
         final float[] colors = new float[]{1.0f, 1.0f, 1.0f};
 
-
+        if (player.onGround) {
+            jaw.rotateAngleX = 0;
+        } else {
+            long l = System.currentTimeMillis() - jumpState.lastOnGround;
+            double v1 = 250;
+            if (l > v1) {
+                jaw.rotateAngleX = 0;
+            } else {
+                double v = l / v1;
+                if (v < .5) {
+                    jaw.rotateAngleX = (float) Math.toRadians(90F * v);
+                } else {
+                    jaw.rotateAngleX = (float) Math.toRadians(90F * (1.0 - v));
+                }
+            }
+        }
         GL11.glColor3f(colors[0], colors[1], colors[2]);
         this.mc.getTextureManager().bindTexture(this.selectedLoc);
         GL11.glScaled(.4, .4, .4);
@@ -110,7 +134,6 @@ public class DragonHeadRenderer extends ModelBase {
         GL11.glCullFace(1029);
         GL11.glDisable(2884);
         GL11.glColor3f(255.0f, 255.0f, 255.0f);
-        GL11.glPopMatrix();
     }
 
     private float interpolate(final float yaw1, final float yaw2, final float percent) {
@@ -119,5 +142,10 @@ public class DragonHeadRenderer extends ModelBase {
             f += 360.0f;
         }
         return f;
+    }
+
+    private class JumpState {
+        private boolean onground = true;
+        private long lastOnGround = System.currentTimeMillis();
     }
 }
