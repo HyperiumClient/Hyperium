@@ -9,7 +9,6 @@ import cc.hyperium.cosmetics.Deadmau5Cosmetic;
 import cc.hyperium.cosmetics.HyperiumCosmetics;
 import cc.hyperium.cosmetics.Wings.WingsCosmetic;
 import cc.hyperium.gui.GuiBlock;
-import cc.hyperium.gui.HyperiumGui;
 import cc.hyperium.gui.Icons;
 import cc.hyperium.gui.main.HyperiumMainGui;
 import cc.hyperium.gui.main.HyperiumOverlay;
@@ -19,7 +18,6 @@ import cc.hyperium.gui.main.components.SettingItem;
 import cc.hyperium.netty.NettyClient;
 import cc.hyperium.netty.packet.packets.serverbound.ServerCrossDataPacket;
 import cc.hyperium.utils.JsonHolder;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import org.apache.commons.lang3.ArrayUtils;
 import org.lwjgl.input.Mouse;
@@ -170,9 +168,7 @@ public class SettingsTab extends AbstractTab {
         super.handleMouseInput();
         if (HyperiumMainGui.INSTANCE.getOverlay() != null) return;
         int i = Mouse.getEventDWheel();
-        if (Minecraft.getMinecraft().currentScreen instanceof HyperiumGui) {
-            offsetY = -((HyperiumGui) Minecraft.getMinecraft().currentScreen).offset;
-        }
+
         if (i < 0)
             offsetY -= 5;
         else if (i > 0)
