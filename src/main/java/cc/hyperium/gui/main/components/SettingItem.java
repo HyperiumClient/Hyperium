@@ -100,7 +100,7 @@ public class SettingItem {
             int oldScale = Minecraft.getMinecraft().gameSettings.guiScale;
             float v = 2F / oldScale;
             int width = (int) (25 * v);
-            Gui.drawScaledCustomSizeModalRect((blockX + w / 7 * 5 - 25) + (25 - width), (blockY - h / 6) + width, 0, 0, 144, 144, width, width, 144, 144);
+            Gui.drawScaledCustomSizeModalRect((blockX + w / 7 * 5 - 27) + (25 - width), (blockY-14) + width, 0, 0, 144, 144, width, width, 144, 144);
         }
 
         Icons.INFO.bind();

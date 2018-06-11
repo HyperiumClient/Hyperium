@@ -18,6 +18,7 @@
 package cc.hyperium.mixins.renderer;
 
 import cc.hyperium.Hyperium;
+import cc.hyperium.config.Settings;
 import cc.hyperium.purchases.AbstractHyperiumPurchase;
 import cc.hyperium.purchases.EnumPurchaseType;
 import cc.hyperium.purchases.HyperiumPurchase;
@@ -88,7 +89,7 @@ class MixinLayerDeadmau5Head {
                         k = -5;
                         return;
                     }
-                } else if (!Hyperium.INSTANCE.getHandlers().getConfigOptions().enableDeadmau5Ears)
+                } else if (!Settings.EARS_STATE.equalsIgnoreCase("on"))
                     return;
                 k = 8;
                 ResourceLocation locationSkin = entitylivingbaseIn.getLocationSkin();

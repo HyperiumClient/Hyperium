@@ -139,7 +139,7 @@ public class Settings {
     public static boolean PARTICLES_INV = true;
 
     @ConfigOpt
-    @ToggleSetting(name = "Show Deadmau ears", category = COSMETICS)
+    @SelectorSetting(name = "Show Deadmau ears", category = COSMETICS, items = {})
     public static String EARS_STATE = "ON";
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.BackgroundSettings;particlesModeString")

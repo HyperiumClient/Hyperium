@@ -19,6 +19,7 @@ import cc.hyperium.netty.NettyClient;
 import cc.hyperium.netty.packet.packets.serverbound.ServerCrossDataPacket;
 import cc.hyperium.utils.JsonHolder;
 import net.minecraft.client.gui.Gui;
+import org.apache.commons.lang3.ArrayUtils;
 import org.lwjgl.input.Mouse;
 
 import java.awt.*;
@@ -47,6 +48,7 @@ public class SettingsTab extends AbstractTab {
             callback.put(earsField, o -> {
                 boolean yes = ((String) o).equalsIgnoreCase("YES");
                 NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("ears", yes)));
+                System.out.println("Updating ears state: " + o);
             });
             customStates.put(earsField, () -> {
                 Hyperium instance = Hyperium.INSTANCE;
@@ -77,7 +79,11 @@ public class SettingsTab extends AbstractTab {
             } else if (ss != null)
                 try {
                     Supplier<String[]> supplier = customStates.get(f);
-                    getCategory(ss.category()).getComponents().add(new OverlaySelector<>(ss.name(), String.valueOf(f.get(null)), si -> {
+                    Supplier<String[]> supplier1 = supplier != null ? supplier : ss::items;
+                    String current = String.valueOf(f.get(null));
+                    if (!ArrayUtils.contains(supplier1.get(), current))
+                        current = supplier1.get()[0];
+                    getCategory(ss.category()).getComponents().add(new OverlaySelector<>(ss.name(), current, si -> {
                         if (objectConsumer != null)
                             objectConsumer.accept(si);
                         try {
@@ -85,7 +91,7 @@ public class SettingsTab extends AbstractTab {
                         } catch (IllegalAccessException e) {
                             e.printStackTrace();
                         }
-                    }, supplier != null ? supplier : ss::items));
+                    }, supplier1));
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                 }

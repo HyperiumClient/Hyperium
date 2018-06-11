@@ -135,7 +135,7 @@ public abstract class MixinRendererLivingEntity<T extends EntityLivingBase> exte
                                         if (((EarsCosmetic) purchase).isEnabled()) {
                                             offset += .24;
                                         }
-                                    } else if (Hyperium.INSTANCE.getHandlers().getConfigOptions().enableDeadmau5Ears)
+                                    } else if (Settings.EARS_STATE.equalsIgnoreCase("on"))
                                         offset += .24;
                                 }
 

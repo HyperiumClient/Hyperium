@@ -18,6 +18,7 @@
 package cc.hyperium.mods.levelhead.renderer;
 
 import cc.hyperium.Hyperium;
+import cc.hyperium.config.Settings;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.RenderPlayerEvent;
 import cc.hyperium.mods.levelhead.Levelhead;
@@ -80,7 +81,7 @@ public class LevelHeadRender {
                                 if (((EarsCosmetic) purchase).isEnabled()) {
                                     offset += .3;
                                 }
-                            } else if (Hyperium.INSTANCE.getHandlers().getConfigOptions().enableDeadmau5Ears)
+                            } else if (Settings.EARS_STATE.equalsIgnoreCase("on"))
                                 offset += .2;
                         }
 

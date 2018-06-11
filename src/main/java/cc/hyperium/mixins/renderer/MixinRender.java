@@ -1,6 +1,7 @@
 package cc.hyperium.mixins.renderer;
 
 import cc.hyperium.Hyperium;
+import cc.hyperium.config.Settings;
 import cc.hyperium.purchases.AbstractHyperiumPurchase;
 import cc.hyperium.purchases.EnumPurchaseType;
 import cc.hyperium.purchases.HyperiumPurchase;
@@ -77,7 +78,7 @@ public abstract class MixinRender<T extends Entity> {
                                 if (((EarsCosmetic) purchase).isEnabled()) {
                                     offset += .24;
                                 }
-                            } else if (Hyperium.INSTANCE.getHandlers().getConfigOptions().enableDeadmau5Ears)
+                            } else if (Settings.EARS_STATE.equalsIgnoreCase("on"))
                                 offset += .24;
                         }
 
