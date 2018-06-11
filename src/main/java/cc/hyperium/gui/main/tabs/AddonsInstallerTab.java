@@ -6,7 +6,6 @@ import cc.hyperium.gui.main.HyperiumMainGui;
 import cc.hyperium.gui.main.components.AbstractTab;
 import cc.hyperium.gui.main.components.SettingItem;
 import cc.hyperium.installer.InstallerFrame;
-import cc.hyperium.internal.addons.AddonBootstrap;
 import cc.hyperium.internal.addons.AddonManifest;
 import cc.hyperium.internal.addons.misc.AddonManifestParser;
 import cc.hyperium.utils.Downloader;
@@ -54,13 +53,12 @@ public class AddonsInstallerTab extends AbstractTab {
 
         for (Object o : versionsJson.getJSONArray("addons")) {
             ao.add((JSONObject) o);
-            ArrayList<AddonManifest> addonManifests = AddonBootstrap.INSTANCE.getAddonManifests();
             int Current = current;
             items.add(new SettingItem(() -> {
                 try {
                     installAddon(ao.get(Current).getString("name"));
                 } catch (IOException e) {
-                    HyperiumMainGui.Alert alert = new HyperiumMainGui.Alert(Icons.ERROR.getResource(), null, "Failed to download Addon: " + ao.get(Current).getString("name"));
+                    HyperiumMainGui.INSTANCE.getAlerts().add(new HyperiumMainGui.Alert(Icons.ERROR.getResource(), null, "Failed to download Addon: " + ao.get(Current).getString("name")));
                     e.printStackTrace();
                 }
             }, Icons.DOWNLOAD.getResource(), ao.get(current).getString("name"), ao.get(current).getString("description"), "Download Addon", xi, yi));
