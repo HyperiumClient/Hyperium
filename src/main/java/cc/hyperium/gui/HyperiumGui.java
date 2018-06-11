@@ -50,16 +50,14 @@ public abstract class HyperiumGui extends GuiScreen {
     private final Map<GuiButton, Consumer<GuiButton>> clicks = new HashMap<>();
     private final Map<GuiButton, Consumer<GuiButton>> updates = new HashMap<>();
     private final Map<String, GuiButton> nameMap = new HashMap<>();
-    protected int offset = 0;
+    public int offset = 0;
     protected HashMap<GuiBlock, Runnable> actions = new HashMap<>();
-    protected int scollMultiplier = 1;
+    protected double scollMultiplier = 1;
     protected int guiScale = Minecraft.getMinecraft().gameSettings.guiScale;
     private int idIteration;
     private boolean drawAlpha = true;
     private int alpha = 100;
     private ScaledResolution lastResolution;
-    private boolean display = false;
-    private boolean displayed = false;
 
     public HyperiumGui() {
         lastResolution = ResolutionUtil.current();
@@ -242,9 +240,9 @@ public abstract class HyperiumGui extends GuiScreen {
         super.handleMouseInput();
         int i = Mouse.getEventDWheel();
         if (i < 0) {
-            offset += 11 * scollMultiplier;
+            offset += 11*scollMultiplier;
         } else if (i > 0) {
-            offset -= 11 * scollMultiplier;
+            offset -= 11*scollMultiplier;
         }
 
 

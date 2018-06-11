@@ -51,6 +51,7 @@ public class HyperiumMainGui extends HyperiumGui {
 
     @Override
     protected void pack() {
+        scollMultiplier = .5;
         INSTANCE = this;
         int pw = width / 15;
         if (pw > 144)

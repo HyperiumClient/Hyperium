@@ -71,7 +71,9 @@ public class SettingItem {
             GlStateManager.enableTexture2D();
         }
         if (Mouse.isButtonDown(0) && !lastClicked && mouseX >= blockX && mouseX <= blockX + w / 7 * 5 && mouseY >= blockY && mouseY <= blockY + h / 6 * 4)
-            onClick.run();
+            //Added by Sk1er to prevent switching to a different item while in another
+            if (HyperiumMainGui.INSTANCE.getOverlay() ==null)
+                onClick.run();
 
         if (!lastClicked && Mouse.isButtonDown(0))
             lastClicked = true;
@@ -100,7 +102,7 @@ public class SettingItem {
             int oldScale = Minecraft.getMinecraft().gameSettings.guiScale;
             float v = 2F / oldScale;
             int width = (int) (25 * v);
-            Gui.drawScaledCustomSizeModalRect((blockX + w / 7 * 5 - 27) + (25 - width), (blockY-14) + width, 0, 0, 144, 144, width, width, 144, 144);
+            Gui.drawScaledCustomSizeModalRect((blockX + w / 7 * 5 - 27) + (25 - width), (blockY - 14) + width, 0, 0, 144, 144, width, width, 144, 144);
         }
 
         Icons.INFO.bind();

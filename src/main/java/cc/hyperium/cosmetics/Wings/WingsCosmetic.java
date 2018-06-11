@@ -12,7 +12,6 @@ import net.minecraft.util.ResourceLocation;
 
 public class WingsCosmetic extends AbstractCosmetic {
 
-    private AbstractCosmetic abstractCosmetic = this;
     private Minecraft mc = Minecraft.getMinecraft();
     public ResourceLocation location;
 
@@ -37,7 +36,5 @@ public class WingsCosmetic extends AbstractCosmetic {
         this.scale = yourScale;
     }
 
-    public boolean isPurchased() {
-        return abstractCosmetic.isPurchasedBy(mc.thePlayer.getUniqueID());
-    }
+
 }

@@ -9,6 +9,7 @@ import cc.hyperium.cosmetics.Deadmau5Cosmetic;
 import cc.hyperium.cosmetics.HyperiumCosmetics;
 import cc.hyperium.cosmetics.Wings.WingsCosmetic;
 import cc.hyperium.gui.GuiBlock;
+import cc.hyperium.gui.HyperiumGui;
 import cc.hyperium.gui.Icons;
 import cc.hyperium.gui.main.HyperiumMainGui;
 import cc.hyperium.gui.main.HyperiumOverlay;
@@ -18,6 +19,7 @@ import cc.hyperium.gui.main.components.SettingItem;
 import cc.hyperium.netty.NettyClient;
 import cc.hyperium.netty.packet.packets.serverbound.ServerCrossDataPacket;
 import cc.hyperium.utils.JsonHolder;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import org.apache.commons.lang3.ArrayUtils;
 import org.lwjgl.input.Mouse;
@@ -101,25 +103,26 @@ public class SettingsTab extends AbstractTab {
 
     private GuiBlock block;
     private int y, w;
-    private WingsCosmetic wingsCosmetic = new WingsCosmetic();
 
     public SettingsTab(int y, int w) {
         block = new GuiBlock(0, w, y, y + w);
         this.y = y;
         this.w = w;
 
-        items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(general), Icons.SETTINGS.getResource(), "General", "General settings for Hyperium", "click to configure", 0, 0));
+        items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(general), Icons.SETTINGS.getResource(), "General", "General settings for Hyperium", "Click to configure", 0, 0));
 
-        items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(integrations), Icons.EXTENSION.getResource(), "Integrations", "Hyperium integrations", "click to configure", 1, 0));
+        items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(integrations), Icons.EXTENSION.getResource(), "Integrations", "Hyperium integrations", "Click to configure", 1, 0));
 
-        items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(improvements), Icons.TOOL.getResource(), "Improvements", "Improvements and bug fixes", "click to configure", 2, 0));
+        items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(improvements), Icons.TOOL.getResource(), "Improvements", "Improvements and bug fixes", "Click to configure", 2, 0));
 
-        items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(cosmetics), Icons.COSMETIC.getResource(), "Cosmetics", "Bling out your Minecraft Avatar", "click to configure", 0, 1));
+        items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(cosmetics), Icons.COSMETIC.getResource(), "Cosmetics", "Bling out your Minecraft Avatar", "Click to configure", 0, 1));
 
-        items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(spotify), Icons.SPOTIFY.getResource(), "Spotify", "Hyperium Spotify Settings", "click to configure", 1, 1));
+        items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(spotify), Icons.SPOTIFY.getResource(), "Spotify", "Hyperium Spotify Settings", "Click to configure", 1, 1));
 
-        if (wingsCosmetic.isPurchased()) {
-            items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(wings), Icons.COSMETIC.getResource(), "Wings", "Hyperium Wings Settings", "click to configure", 2, 1));
+        //TODO fix this method being async
+        WingsCosmetic wingsCosmetic = Hyperium.INSTANCE.getCosmetics().getWingsCosmetic();
+        if (wingsCosmetic.isSelfUnlocked()) {
+            items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(wings), Icons.COSMETIC.getResource(), "Wings", "Hyperium Wings Settings", "Click to configure", 2, 1));
         }
     }
 
@@ -167,6 +170,9 @@ public class SettingsTab extends AbstractTab {
         super.handleMouseInput();
         if (HyperiumMainGui.INSTANCE.getOverlay() != null) return;
         int i = Mouse.getEventDWheel();
+        if (Minecraft.getMinecraft().currentScreen instanceof HyperiumGui) {
+            offsetY = -((HyperiumGui) Minecraft.getMinecraft().currentScreen).offset;
+        }
         if (i < 0)
             offsetY -= 5;
         else if (i > 0)
