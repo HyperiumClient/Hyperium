@@ -48,7 +48,7 @@ public class WingsRenderer extends ModelBase {
 
     private void renderWings(final EntityPlayer player, final float partialTicks) {
         HyperiumPurchase packageIfReady = PurchaseApi.getInstance().getPackageIfReady(player.getUniqueID());
-        if (packageIfReady == null) {
+        if (packageIfReady == null || true) {
             return;
         }
         String s = packageIfReady.getPurchaseSettings().optJSONObject("wings").optString("type");

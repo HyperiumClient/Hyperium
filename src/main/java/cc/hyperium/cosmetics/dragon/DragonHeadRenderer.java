@@ -8,6 +8,7 @@ import cc.hyperium.event.RenderPlayerEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
@@ -78,10 +79,11 @@ public class DragonHeadRenderer extends ModelBase {
         GL11.glPushMatrix();
         GL11.glScaled(-scale, -scale, scale);
         GL11.glRotated(180.0 + rotate, 0.0, 1.0, 0.0);
-        GL11.glRotated(rotate1, 1.0, 0.0, 0.0);
 
-        GL11.glTranslated(0.0, -(player.height) / scale, 0.0);
-        GL11.glTranslated(0.0, 0.0, 0.2 / scale);
+        GL11.glTranslated(0.0, -(player.height - .4) / scale, 0.0);
+        GlStateManager.translate(0.0D, 0.0D, .05 / scale);
+        GL11.glRotated(rotate1, 1.0D, 0.0D, 0.0D);
+        GL11.glTranslated(0.0, -0.3 / scale, .06);
         if (player.isSneaking()) {
             GL11.glTranslated(0.0, 0.125 / scale, 0.0);
         }
@@ -90,8 +92,7 @@ public class DragonHeadRenderer extends ModelBase {
 
         GL11.glColor3f(colors[0], colors[1], colors[2]);
         this.mc.getTextureManager().bindTexture(this.selectedLoc);
-        GL11.glTranslatef(0F,0F,-.7F);
-        GL11.glScaled(.4,.4,.4);
+        GL11.glScaled(.4, .4, .4);
         this.head.render(.1F);
 
         GL11.glCullFace(1029);
