@@ -169,9 +169,9 @@
 package cc.hyperium.gui;
 
 import cc.hyperium.GuiStyle;
+import cc.hyperium.Hyperium;
 import cc.hyperium.Metadata;
 import cc.hyperium.config.Settings;
-import cc.hyperium.gui.main.HyperiumMainGui;
 import cc.hyperium.mixinsimp.renderer.gui.IMixinGuiMultiplayer;
 import cc.hyperium.utils.HyperiumFontRenderer;
 import net.minecraft.client.Minecraft;
@@ -378,7 +378,7 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
         switch (getStyle()) {
             case DEFAULT:
                 if (button.id == 15)
-                    mc.displayGuiScreen(new HyperiumMainGui());
+                    Hyperium.INSTANCE.getGui().show();
                 if (button.id == 16) {
                     GuiMultiplayer p_i1182_1_ = new GuiMultiplayer(new GuiMainMenu());
                     p_i1182_1_.setWorldAndResolution(Minecraft.getMinecraft(), width, height);
@@ -392,7 +392,7 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
                 break;
             case HYPERIUM:
                 if (button.id == 15)
-                    mc.displayGuiScreen(new HyperiumMainGui());
+                    Hyperium.INSTANCE.getGui().show();
                 break;
         }
 

@@ -32,17 +32,17 @@ import java.util.function.Supplier;
  * Created by Cubxity on 20/05/2018
  */
 public class SettingsTab extends AbstractTab {
-    private static final HyperiumOverlay general = new HyperiumOverlay();
-    private static final HyperiumOverlay integrations = new HyperiumOverlay();
-    private static final HyperiumOverlay improvements = new HyperiumOverlay();
-    private static final HyperiumOverlay cosmetics = new HyperiumOverlay();
-    private static final HyperiumOverlay spotify = new HyperiumOverlay();
-    private static final HyperiumOverlay wings = new HyperiumOverlay();
-    private static final HashMap<Field, Consumer<Object>> callback = new HashMap<>();
-    private static final HashMap<Field, Supplier<String[]>> customStates = new HashMap<>();
-    private static int offsetY = 0; // static so it saves the previous location
+    private final HyperiumOverlay general = new HyperiumOverlay();
+    private final HyperiumOverlay integrations = new HyperiumOverlay();
+    private final HyperiumOverlay improvements = new HyperiumOverlay();
+    private final HyperiumOverlay cosmetics = new HyperiumOverlay();
+    private final HyperiumOverlay spotify = new HyperiumOverlay();
+    private final HyperiumOverlay wings = new HyperiumOverlay();
+    private final HashMap<Field, Consumer<Object>> callback = new HashMap<>();
+    private final HashMap<Field, Supplier<String[]>> customStates = new HashMap<>();
+    private int offsetY = 0;
 
-    static {
+    {
         try {
             Field earsField = Settings.class.getField("EARS_STATE");
             callback.put(earsField, o -> {
@@ -124,7 +124,7 @@ public class SettingsTab extends AbstractTab {
         }
     }
 
-    private static HyperiumOverlay getCategory(Category category) {
+    private HyperiumOverlay getCategory(Category category) {
         switch (category) {
             case GENERAL:
                 return general;

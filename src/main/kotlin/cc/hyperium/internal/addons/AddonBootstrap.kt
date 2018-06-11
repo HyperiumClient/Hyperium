@@ -2,6 +2,7 @@ package cc.hyperium.internal.addons
 
 import cc.hyperium.Hyperium.LOGGER
 import cc.hyperium.internal.addons.misc.AddonLoadException
+import cc.hyperium.internal.addons.misc.AddonManifestParser
 import cc.hyperium.internal.addons.strategy.AddonLoaderStrategy
 import cc.hyperium.internal.addons.strategy.DefaultAddonLoader
 import cc.hyperium.internal.addons.strategy.WorkspaceAddonLoader
@@ -9,7 +10,9 @@ import cc.hyperium.internal.addons.translate.InstanceTranslator
 import cc.hyperium.internal.addons.translate.MixinTranslator
 import com.google.common.base.Stopwatch
 import net.minecraft.launchwrapper.Launch
+import org.apache.commons.io.FileUtils
 import java.io.File
+import java.util.jar.JarFile
 
 /**
  * Instance created on the classloader sun.misc.Launcher$AppClassLoader
@@ -23,6 +26,11 @@ object AddonBootstrap {
      * Directory where all the addonManifests are stored
      */
     private val modDirectory = File("addons")
+
+    /**
+     * Directory where all pending addons are stored
+     */
+    private val pendingDirectory = File("pending-addons")
 
     /**
      * Current (active) environment phase, set to NULL until the
@@ -66,6 +74,11 @@ object AddonBootstrap {
     val addonManifests = ArrayList<AddonManifest>()
 
     /**
+     *
+     */
+    val pendingManifests = ArrayList<AddonManifest>()
+
+    /**
      * Loads of the files inside {@link #modDirectory} folder or
      * creates the directory if not already made and then adds
      * all the valid jar files to {@link #jars}
@@ -98,6 +111,12 @@ object AddonBootstrap {
         Launch.classLoader.addClassLoaderExclusion("cc.hyperium.internal.addons.AddonBootstrap")
         Launch.classLoader.addClassLoaderExclusion("cc.hyperium.internal.addons.AddonManifest")
         Launch.classLoader.addClassLoaderExclusion("me.kbrewster.blazeapi.internal.addons.translate.")
+
+        if (pendingDirectory.exists() && !pendingDirectory.listFiles().isEmpty())
+            pendingDirectory.listFiles().forEach {
+                pendingManifests.add(AddonManifestParser(JarFile(it)).getAddonManifest())
+                FileUtils.moveFile(it, File(modDirectory, it.name))
+            }
 
         with(addonManifests) {
             val workspaceAddon = loadWorkspaceAddon()

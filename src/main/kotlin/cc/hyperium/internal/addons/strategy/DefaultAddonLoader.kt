@@ -34,7 +34,10 @@ class DefaultAddonLoader : AddonLoaderStrategy() {
             AddonBootstrap.addonResourcePacks.add(file)
         }
         val manifest = AddonManifestParser(jar).getAddonManifest()
-
+        if (AddonBootstrap.pendingManifests.stream().anyMatch { it.name.equals(manifest.name) }) {
+            file.delete()
+            return null
+        }
         val uri = file.toURI()
         Launch.classLoader.addURL(uri.toURL())
 
