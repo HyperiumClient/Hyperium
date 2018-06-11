@@ -51,7 +51,9 @@ public class WingsRenderer extends ModelBase {
         if (packageIfReady == null) {
             return;
         }
-        ResourceLocation location = wingsCosmetic.getLocation(packageIfReady.getPurchaseSettings().optJSONObject("wings").optString("type"));
+        String s = packageIfReady.getPurchaseSettings().optJSONObject("wings").optString("type");
+        ResourceLocation location = wingsCosmetic.getLocation(s);
+
         final double scale = this.wingsCosmetic.scale / 100.0;
         final double rotate = this.interpolate(player.prevRenderYawOffset, player.renderYawOffset, partialTicks);
         GL11.glPushMatrix();

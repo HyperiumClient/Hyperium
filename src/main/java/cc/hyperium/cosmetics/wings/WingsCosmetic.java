@@ -42,9 +42,9 @@ public class WingsCosmetic extends AbstractCosmetic {
         if (s == null)
             return dragon;
         switch (s) {
-            case "DRAGON":
+            case "Dragon wings":
                 return dragon;
-            case "ANGEL":
+            case "Angel wings":
                 return angel;
             default:
                 return dragon;
