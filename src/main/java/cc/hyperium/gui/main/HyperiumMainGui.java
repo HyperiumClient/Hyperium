@@ -155,7 +155,7 @@ public class HyperiumMainGui extends HyperiumGui {
     /**
      * Important alerts and announcements from Hyperium team
      */
-    public class Alert {
+    public static class Alert {
         private ResourceLocation icon;
         private Runnable action;
         private String title;
@@ -196,7 +196,7 @@ public class HyperiumMainGui extends HyperiumGui {
         }
 
         void dismiss() {
-            currentAlert = null;
+            HyperiumMainGui.INSTANCE.currentAlert = null;
         }
     }
 }

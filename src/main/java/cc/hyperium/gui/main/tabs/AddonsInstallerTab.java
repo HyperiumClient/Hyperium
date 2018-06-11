@@ -159,7 +159,7 @@ public class AddonsInstallerTab extends AbstractTab {
                 }
             } else {
                 HyperiumMainGui.Alert alert = new HyperiumMainGui.Alert(Icons.EXTENSION.getResource(), () -> {}, "You already have " + name + " installed!");
-                HyperiumMainGui.getAlerts().add(alert);
+                HyperiumMainGui.INSTANCE.getAlerts().add(alert);
             }
         }
     }
