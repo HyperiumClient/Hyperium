@@ -150,7 +150,7 @@ public class Settings {
                     "PLAIN 2",
                     "CHROMA 1",
                     "CHROMA 2"
-            }
+            },category = COSMETICS
     )
     public static String PARTICLE_MODE = "OFF";
 
@@ -159,7 +159,7 @@ public class Settings {
             {
                     "Dragon Wings",
                     "Angel Wings"
-            }
+            }, category = WINGS
     )
     public static String wingsSELECTED = "Dragon Wings";
 

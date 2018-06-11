@@ -24,9 +24,7 @@ import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.TickEvent;
 import cc.hyperium.gui.ScoreboardRenderer;
 import cc.hyperium.handlers.handlers.*;
-import cc.hyperium.handlers.handlers.animation.CapeHandler;
-import cc.hyperium.handlers.handlers.animation.DabHandler;
-import cc.hyperium.handlers.handlers.animation.FlossDanceHandler;
+import cc.hyperium.handlers.handlers.animation.*;
 import cc.hyperium.handlers.handlers.chat.*;
 import cc.hyperium.handlers.handlers.keybinds.KeyBindHandler;
 import cc.hyperium.handlers.handlers.privatemessages.PrivateMessageHandler;
@@ -69,6 +67,12 @@ public class HyperiumHandlers {
     private QuestTrackingChatHandler questTracking;
     private RenderPlayerAsBlock renderPlayerAsBlock;
     private FlipHandler flipHandler;
+    private WakandaForeverPreHandler wakandaForeverPreHandler;
+private WakandaForeverPostHandler wakandaForeverPostHandler;
+
+    public WakandaForeverPostHandler getWakandaForeverPostHandler() {
+        return wakandaForeverPostHandler;
+    }
 
     public HyperiumHandlers() {
         System.out.println("Loading handlers");
@@ -92,6 +96,9 @@ public class HyperiumHandlers {
         register(dataTracking = new GameDataTracking());
         register(privateMessageHandler = new PrivateMessageHandler());
         register(dabHandler = new DabHandler());
+        register(wakandaForeverPreHandler = new WakandaForeverPreHandler());
+        register(wakandaForeverPostHandler = new WakandaForeverPostHandler());
+
         register(statusHandler = new StatusHandler());
         register(flossDanceHandler = new FlossDanceHandler());
 
@@ -114,6 +121,10 @@ public class HyperiumHandlers {
 
         //Command Handler
         register(commandHandler = new HyperiumCommandHandler());
+    }
+
+    public WakandaForeverPreHandler getWakandaForeverPreHandler() {
+        return wakandaForeverPreHandler;
     }
 
     public RenderPlayerAsBlock getRenderPlayerAsBlock() {
