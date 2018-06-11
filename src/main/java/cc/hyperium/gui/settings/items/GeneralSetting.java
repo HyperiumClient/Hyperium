@@ -74,6 +74,8 @@ public class GeneralSetting extends SettingGui {
     @ConfigOpt
     public static boolean staticFovEnabled = false;
     @ConfigOpt
+    public static boolean staticFovSprintModifier = true;
+    @ConfigOpt
     public static boolean uploadScreenshotsByDefault = false;
     @ConfigOpt
     public static boolean hideScoreboardNumbers = true;
@@ -147,6 +149,7 @@ public class GeneralSetting extends SettingGui {
 
         registerOnOffSetting("BOSSBAR TEXT ONLY", bossBarTextOnlyEnabled, on -> bossBarTextOnlyEnabled = on);
         registerOnOffSetting("STATIC FOV", staticFovEnabled, on -> staticFovEnabled = on);
+        registerOnOffSetting("STATIC FOV SPRINT MODIFIER", staticFovSprintModifier, on -> staticFovSprintModifier = on);
         registerOnOffSetting("UPLOAD SCREENSHOTS BY DEFAULT", uploadScreenshotsByDefault, on -> uploadScreenshotsByDefault = on);
         registerOnOffSetting("HIDE SCOREBOARD NUMBERS", hideScoreboardNumbers, on -> hideScoreboardNumbers = on);
         registerOnOffSetting("BLUR GUI BACKGROUNDS", blurGuiBackgroundsEnabled, on -> blurGuiBackgroundsEnabled = on);
