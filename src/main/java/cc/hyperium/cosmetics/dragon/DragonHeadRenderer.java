@@ -8,7 +8,6 @@ import cc.hyperium.event.RenderPlayerEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
@@ -20,6 +19,7 @@ public class DragonHeadRenderer extends ModelBase {
     private boolean playerUsesFullHeight;
     private DragonCosmetic dragonCosmetic;
     private ResourceLocation selectedLoc;
+    private EntityPlayer player;
 
     public DragonHeadRenderer(DragonCosmetic cosmetic) {
         this.dragonCosmetic = cosmetic;
@@ -64,16 +64,26 @@ public class DragonHeadRenderer extends ModelBase {
     }
 
     @InvokeEvent
-    public void onRenderPlayer(final RenderPlayerEvent event) {
-        final EntityPlayer player = event.getEntity();
+    private void onRenderPlayer(final RenderPlayerEvent event) {
+        player = event.getEntity();
         if (dragonCosmetic.isPurchasedBy(event.getEntity().getUniqueID()) || Hyperium.INSTANCE.isDevEnv() && player.equals((Object) this.mc.thePlayer) && !player.isInvisible()) {
-            this.renderWings(player, event.getPartialTicks());
+            this.renderHead(player, event.getPartialTicks());
+        }
+    }
+    @InvokeEvent
+    private void onTick(final TickEvent event) {
+        if(player != null) {
+            if(player.isAirBorne) {
+                jaw.rotationPointY = jaw.rotationPointY + 50;
+            }
+            jaw.rotationPointY = jaw.rotationPointY - 50;
         }
     }
 
-    private void renderWings(final EntityPlayer player, final float partialTicks) {
+
+    private void renderHead(final EntityPlayer player, final float partialTicks) {
         final double scale = 1.0F;
-        final double rotate = this.interpolate(player.prevRotationYawHead, player.rotationYawHead, partialTicks);
+        final double rotate = this.interpolate(player.rotationYawHead, player.prevRotationYaw, partialTicks);
         final double rotate1 = this.interpolate(player.prevRotationPitch, player.rotationPitch, partialTicks);
 
         GL11.glPushMatrix();
@@ -101,7 +111,7 @@ public class DragonHeadRenderer extends ModelBase {
         GL11.glPopMatrix();
     }
 
-    public float interpolate(final float yaw1, final float yaw2, final float percent) {
+    private float interpolate(final float yaw1, final float yaw2, final float percent) {
         float f = (yaw1 + (yaw2 - yaw1) * percent) % 360.0f;
         if (f < 0.0f) {
             f += 360.0f;
