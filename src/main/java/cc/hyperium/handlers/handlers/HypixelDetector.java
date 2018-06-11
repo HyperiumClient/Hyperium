@@ -37,13 +37,9 @@ public class HypixelDetector {
 
     private static final Pattern HYPIXEL_PATTERN =
             Pattern.compile("^(?:(?:(?:.+\\.)?hypixel\\.net)|(?:209\\.222\\.115\\.\\d{1,3})|(?:99\\.198\\.123\\.[123]?\\d?))\\.?(?::\\d{1,5}\\.?)?$", Pattern.CASE_INSENSITIVE);
-    private static final Pattern BADLION_PATTERN =
-            Pattern.compile("^(?:(?:(?:na|eu|sa)\\.badlion\\.net\\.?)|(?:205\\.234\\.159\\.\\d{1,3})|(?:54\\.38\\.220\\.\\d{1,3})|" +
-                    "(?:52\\.67\\.(?:35\\.133|42\\.110))|(?:18\\.231\\.25\\.\\d{1,3}))(?::\\d{1,5}\\.?)?$", Pattern.CASE_INSENSITIVE);
 
     private static HypixelDetector instance;
     private boolean hypixel = false;
-    private boolean badlion = false;
 
     public HypixelDetector() {
         instance = this;
@@ -55,7 +51,6 @@ public class HypixelDetector {
 
     @InvokeEvent
     public void serverJoinEvent(ServerJoinEvent event) {
-        this.badlion = BADLION_PATTERN.matcher(event.getServer()).find();
         this.hypixel = HYPIXEL_PATTERN.matcher(event.getServer()).find();
 
         Multithreading.runAsync(() -> {
@@ -76,9 +71,6 @@ public class HypixelDetector {
             if (hypixel) { // If player is online recognized Hypixel IP
                 EventBus.INSTANCE.post(new JoinHypixelEvent(ServerVerificationMethod.IP));
 
-            } else if (badlion) { // If player is online recognized badlion IP
-                EventBus.INSTANCE.post(new JoinBadlionEvent(ServerVerificationMethod.IP));
-
             } else { // Double check the player isn't online Hypixel
                 if (Minecraft.getMinecraft() != null && Minecraft.getMinecraft().getCurrentServerData() != null) {
                     final ServerData serverData = Minecraft.getMinecraft().getCurrentServerData();
@@ -86,12 +78,7 @@ public class HypixelDetector {
                     if (serverData != null && serverData.serverMOTD != null) {
                         if (serverData.serverMOTD.toLowerCase().contains("hypixel network")) { // Check MOTD for Hypixel
                             this.hypixel = true;
-                            this.badlion = false;
                             EventBus.INSTANCE.post(new JoinHypixelEvent(ServerVerificationMethod.MOTD));
-                        } else if (serverData.serverMOTD.toLowerCase().contains("badlion network")) { // Badlion MOTD check
-                            this.badlion = true;
-                            this.hypixel = false;
-                            EventBus.INSTANCE.post(new JoinBadlionEvent(ServerVerificationMethod.MOTD));
                         }
                     }
                 }
@@ -124,20 +111,16 @@ public class HypixelDetector {
     @InvokeEvent
     public void serverLeaveEvent(ServerLeaveEvent event) {
         hypixel = false;
-        badlion = false;
     }
 
     @InvokeEvent
     public void singlePlayerJoin(SingleplayerJoinEvent event) {
         hypixel = false;
-        badlion = false;
     }
 
     public boolean isHypixel() {
         return hypixel;
     }
 
-    public boolean isBadlion() {
-        return badlion;
-    }
+
 }

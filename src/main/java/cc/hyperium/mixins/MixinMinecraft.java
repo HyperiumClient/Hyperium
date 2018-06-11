@@ -173,7 +173,6 @@ import cc.hyperium.SplashProgress;
 import cc.hyperium.config.Settings;
 import cc.hyperium.event.*;
 import cc.hyperium.gui.CrashReportGUI;
-import cc.hyperium.handlers.handlers.HypixelDetector;
 import cc.hyperium.internal.addons.AddonBootstrap;
 import cc.hyperium.internal.addons.AddonMinecraftBootstrap;
 import cc.hyperium.internal.addons.IAddon;
@@ -609,43 +608,7 @@ public abstract class MixinMinecraft {
     }
 
 
-    /**
-     * @author CoalOres
-     */
-    @Overwrite
-    private void sendClickBlockToController(boolean leftClick) {
-        if (!leftClick) {
-            this.leftClickCounter = 0;
-        }
 
-        if (!HypixelDetector.getInstance().isBadlion()) {
-            // Removes 1.7 block breaking while using item.
-            if (this.leftClickCounter <= 0 && !this.thePlayer.isUsingItem()) {
-                if (leftClick && this.objectMouseOver != null && this.objectMouseOver.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
-                    BlockPos blockpos = this.objectMouseOver.getBlockPos();
-
-                    if (this.theWorld.getBlockState(blockpos).getBlock().getMaterial() != Material.air && this.playerController.onPlayerDamageBlock(blockpos, this.objectMouseOver.sideHit)) {
-                        this.effectRenderer.addBlockHitEffects(blockpos, this.objectMouseOver.sideHit);
-                        this.thePlayer.swingItem();
-                    }
-                } else {
-                    this.playerController.resetBlockRemoving();
-                }
-            }
-        } else {
-            // Keeps 1.7 block breaking while using item.
-            if (leftClick && this.objectMouseOver != null && this.objectMouseOver.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
-                BlockPos blockpos = this.objectMouseOver.getBlockPos();
-
-                if (this.theWorld.getBlockState(blockpos).getBlock().getMaterial() != Material.air && this.playerController.onPlayerDamageBlock(blockpos, this.objectMouseOver.sideHit)) {
-                    this.effectRenderer.addBlockHitEffects(blockpos, this.objectMouseOver.sideHit);
-                    this.thePlayer.swingItem();
-                }
-            } else {
-                this.playerController.resetBlockRemoving();
-            }
-        }
-    }
 
     @Inject(method = "runTick", at = @At(value = "INVOKE", target = "Lorg/lwjgl/input/Mouse;getEventButton()I", ordinal = 0))
     private void runTickMouseButton(CallbackInfo ci) {
