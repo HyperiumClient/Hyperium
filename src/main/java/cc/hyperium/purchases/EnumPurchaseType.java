@@ -19,7 +19,7 @@ package cc.hyperium.purchases;
 
 public enum EnumPurchaseType {
     PARTICLE_BACKGROUND("Particle Background"),
-    WING_COSMETIC("Wings"),
+    WING_COSMETIC("wings"),
     KILL_TRACKER_MUSCLE("Muscle Kill Tracker"),
     DAB_ON_KILL("Dab on Kill"),
     CHROMA_WIN("Chroma on Win"),
@@ -27,6 +27,7 @@ public enum EnumPurchaseType {
     DEAL_WITH_IT("Deal With It Glasses"),
     FLIP_COSMETIC("Flip Cosmetic"),
     DEADMAU5_COSMETIC("Ears"),
+    DRAGON_HEAD("Dragon Head"),
     UNKNOWN("Unknown");
 
     private String displayName;

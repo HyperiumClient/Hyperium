@@ -22,7 +22,6 @@ import cc.hyperium.commands.defaults.*;
 import cc.hyperium.config.DefaultConfig;
 import cc.hyperium.config.Settings;
 import cc.hyperium.cosmetics.HyperiumCosmetics;
-import cc.hyperium.cosmetics.Wings.WingsRenderer;
 import cc.hyperium.event.*;
 import cc.hyperium.event.minigames.MinigameListener;
 import cc.hyperium.gui.BlurDisableFallback;
@@ -235,7 +234,7 @@ public class Hyperium {
         SplashProgress.update();
 
         cosmetics = new HyperiumCosmetics();
-        EventBus.INSTANCE.register(new WingsRenderer());
+
 
         Multithreading.runAsync(() -> {
 

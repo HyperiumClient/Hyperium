@@ -7,7 +7,7 @@ import cc.hyperium.config.Settings;
 import cc.hyperium.config.ToggleSetting;
 import cc.hyperium.cosmetics.Deadmau5Cosmetic;
 import cc.hyperium.cosmetics.HyperiumCosmetics;
-import cc.hyperium.cosmetics.Wings.WingsCosmetic;
+import cc.hyperium.cosmetics.wings.WingsCosmetic;
 import cc.hyperium.gui.GuiBlock;
 import cc.hyperium.gui.Icons;
 import cc.hyperium.gui.main.HyperiumMainGui;
@@ -120,7 +120,7 @@ public class SettingsTab extends AbstractTab {
         //TODO fix this method being async
         WingsCosmetic wingsCosmetic = Hyperium.INSTANCE.getCosmetics().getWingsCosmetic();
         if (wingsCosmetic.isSelfUnlocked()) {
-            items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(wings), Icons.COSMETIC.getResource(), "Wings", "Hyperium Wings Settings", "Click to configure", 2, 1));
+            items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(wings), Icons.COSMETIC.getResource(), "wings", "Hyperium wings Settings", "Click to configure", 2, 1));
         }
     }
 

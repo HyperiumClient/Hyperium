@@ -1,8 +1,7 @@
-package cc.hyperium.cosmetics.Wings;
+package cc.hyperium.cosmetics.wings;
 
 
 import cc.hyperium.Hyperium;
-import cc.hyperium.cosmetics.AbstractCosmetic;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.RenderPlayerEvent;
 import net.minecraft.client.Minecraft;
@@ -13,15 +12,16 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 public class WingsRenderer extends ModelBase {
-    AbstractCosmetic abstractCosmetic = new WingsCosmetic();
     private Minecraft mc;
     private ModelRenderer wing;
     private ModelRenderer wingTip;
     private boolean playerUsesFullHeight;
-    private WingsCosmetic wingsCosmetic = new WingsCosmetic();
-    private ResourceLocation selectedLoc = wingsCosmetic.location;
+    private WingsCosmetic wingsCosmetic;
+    private ResourceLocation selectedLoc;
 
-    public WingsRenderer() {
+    public WingsRenderer(WingsCosmetic cosmetic) {
+        this.wingsCosmetic = cosmetic;
+        selectedLoc = wingsCosmetic.location;
         this.mc = Minecraft.getMinecraft();
         this.setTextureOffset("wing.bone", 0, 0);
         this.setTextureOffset("wing.skin", -10, 8);
@@ -42,7 +42,7 @@ public class WingsRenderer extends ModelBase {
     public void onRenderPlayer(final RenderPlayerEvent event) {
         final EntityPlayer player = event.getEntity();
         if (wingsCosmetic.isPurchasedBy(event.getEntity().getUniqueID()) || Hyperium.INSTANCE.isDevEnv() && player.equals((Object) this.mc.thePlayer) && !player.isInvisible()) {
-            this.renderWings(player, event.getPartialTicks());
+//            this.renderWings(player, event.getPartialTicks());
         }
     }
 
@@ -80,7 +80,7 @@ public class WingsRenderer extends ModelBase {
         GL11.glPopMatrix();
     }
 
-    private float interpolate(final float yaw1, final float yaw2, final float percent) {
+    public float interpolate(final float yaw1, final float yaw2, final float percent) {
         float f = (yaw1 + (yaw2 - yaw1) * percent) % 360.0f;
         if (f < 0.0f) {
             f += 360.0f;

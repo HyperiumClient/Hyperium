@@ -154,14 +154,14 @@ public class Settings {
     )
     public static String PARTICLE_MODE = "OFF";
 
-    @ConfigOpt(alt = "cc.hyperium.cosmetics.Wings.WingsCosmetic;location")
+    @ConfigOpt(alt = "cc.hyperium.cosmetics.wings.WingsCosmetic;location")
     @SelectorSetting(name = "Wing Type", items =
             {
-                    "Dragon Wings",
-                    "Angel Wings"
+                    "Dragon wings",
+                    "Angel wings"
             }, category = WINGS
     )
-    public static String wingsSELECTED = "Dragon Wings";
+    public static String wingsSELECTED = "Dragon wings";
 
     public static void register() {
         Hyperium.CONFIG.register(new Settings()); // values r static soo whatever

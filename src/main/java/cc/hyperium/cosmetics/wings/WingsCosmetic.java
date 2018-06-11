@@ -1,7 +1,8 @@
-package cc.hyperium.cosmetics.Wings;
+package cc.hyperium.cosmetics.wings;
 
 import cc.hyperium.config.Settings;
 import cc.hyperium.cosmetics.AbstractCosmetic;
+import cc.hyperium.event.EventBus;
 import cc.hyperium.purchases.EnumPurchaseType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
@@ -12,19 +13,24 @@ import net.minecraft.util.ResourceLocation;
 
 public class WingsCosmetic extends AbstractCosmetic {
 
-    private Minecraft mc = Minecraft.getMinecraft();
     public ResourceLocation location;
-
     public int scale = 150;
+    private Minecraft mc = Minecraft.getMinecraft();
+    private WingsRenderer wingsRenderer;
 
     public WingsCosmetic() {
         super(true, EnumPurchaseType.WING_COSMETIC, true);
-
-        if (Settings.wingsSELECTED.equals("Dragon Wings")) {
+        if (Settings.wingsSELECTED.equals("Dragon wings")) {
             location = new ResourceLocation("textures/cosmetics/wings/dragonwings.png");
-        } else if (Settings.wingsSELECTED.equals("Angel Wings")) {
+        } else if (Settings.wingsSELECTED.equals("Angel wings")) {
             location = new ResourceLocation("textures/cosmetics/wings/angelwings.png");
         }
+        EventBus.INSTANCE.register(wingsRenderer = new WingsRenderer(this));
+
+    }
+
+    public WingsRenderer getWingsRenderer() {
+        return wingsRenderer;
     }
 
     //add custom colours soon
