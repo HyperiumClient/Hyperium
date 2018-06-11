@@ -30,7 +30,7 @@ object AddonBootstrap {
     /**
      * Directory where all pending addons are stored
      */
-    private val pendingDirectory = File("pending-addons");
+    private val pendingDirectory = File("pending-addons")
 
     /**
      * Current (active) environment phase, set to NULL until the
