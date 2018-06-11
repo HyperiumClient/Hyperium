@@ -4,6 +4,8 @@ package cc.hyperium.cosmetics.wings;
 import cc.hyperium.Hyperium;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.RenderPlayerEvent;
+import cc.hyperium.purchases.HyperiumPurchase;
+import cc.hyperium.purchases.PurchaseApi;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
@@ -17,11 +19,9 @@ public class WingsRenderer extends ModelBase {
     private ModelRenderer wingTip;
     private boolean playerUsesFullHeight;
     private WingsCosmetic wingsCosmetic;
-    private ResourceLocation selectedLoc;
 
     public WingsRenderer(WingsCosmetic cosmetic) {
         this.wingsCosmetic = cosmetic;
-        selectedLoc = wingsCosmetic.location;
         this.mc = Minecraft.getMinecraft();
         this.setTextureOffset("wing.bone", 0, 0);
         this.setTextureOffset("wing.skin", -10, 8);
@@ -42,11 +42,16 @@ public class WingsRenderer extends ModelBase {
     public void onRenderPlayer(final RenderPlayerEvent event) {
         final EntityPlayer player = event.getEntity();
         if (wingsCosmetic.isPurchasedBy(event.getEntity().getUniqueID()) || Hyperium.INSTANCE.isDevEnv() && player.equals((Object) this.mc.thePlayer) && !player.isInvisible()) {
-//            this.renderWings(player, event.getPartialTicks());
+            this.renderWings(player, event.getPartialTicks());
         }
     }
 
     private void renderWings(final EntityPlayer player, final float partialTicks) {
+        HyperiumPurchase packageIfReady = PurchaseApi.getInstance().getPackageIfReady(player.getUniqueID());
+        if (packageIfReady == null) {
+            return;
+        }
+        ResourceLocation location = wingsCosmetic.getLocation(packageIfReady.getPurchaseSettings().optJSONObject("wings").optString("type"));
         final double scale = this.wingsCosmetic.scale / 100.0;
         final double rotate = this.interpolate(player.prevRenderYawOffset, player.renderYawOffset, partialTicks);
         GL11.glPushMatrix();
@@ -59,7 +64,9 @@ public class WingsRenderer extends ModelBase {
         }
         final float[] colors = this.wingsCosmetic.getColours();
         GL11.glColor3f(colors[0], colors[1], colors[2]);
-        this.mc.getTextureManager().bindTexture(this.selectedLoc);
+
+
+        this.mc.getTextureManager().bindTexture(location);
 
         for (int j = 0; j < 2; ++j) {
             GL11.glEnable(2884);

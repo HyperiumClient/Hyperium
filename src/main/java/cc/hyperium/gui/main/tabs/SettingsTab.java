@@ -17,6 +17,7 @@ import cc.hyperium.gui.main.components.OverlaySelector;
 import cc.hyperium.gui.main.components.SettingItem;
 import cc.hyperium.netty.NettyClient;
 import cc.hyperium.netty.packet.packets.serverbound.ServerCrossDataPacket;
+import cc.hyperium.purchases.PurchaseApi;
 import cc.hyperium.utils.JsonHolder;
 import net.minecraft.client.gui.Gui;
 import org.apache.commons.lang3.ArrayUtils;
@@ -41,6 +42,8 @@ public class SettingsTab extends AbstractTab {
     private final HashMap<Field, Consumer<Object>> callback = new HashMap<>();
     private final HashMap<Field, Supplier<String[]>> customStates = new HashMap<>();
     private int offsetY = 0;
+    private GuiBlock block;
+    private int y, w;
 
     {
         try {
@@ -48,7 +51,6 @@ public class SettingsTab extends AbstractTab {
             callback.put(earsField, o -> {
                 boolean yes = ((String) o).equalsIgnoreCase("YES");
                 NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("ears", yes)));
-                System.out.println("Updating ears state: " + o);
             });
             customStates.put(earsField, () -> {
                 Hyperium instance = Hyperium.INSTANCE;
@@ -64,6 +66,13 @@ public class SettingsTab extends AbstractTab {
                     }
                 }
                 return new String[]{"NOT PURCHASED"};
+            });
+            callback.put(Settings.class.getField("wingsSELECTED"), o -> {
+                JsonHolder purchaseSettings = PurchaseApi.getInstance().getSelf().getPurchaseSettings();
+                if (!purchaseSettings.has("wings"))
+                    purchaseSettings.put("wings", new JsonHolder());
+                purchaseSettings.optJSONObject("wings").put("type", o.toString());
+                NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("wings", o.toString())));
             });
 
 
@@ -98,9 +107,6 @@ public class SettingsTab extends AbstractTab {
         }
         Settings.save();
     }
-
-    private GuiBlock block;
-    private int y, w;
 
     public SettingsTab(int y, int w) {
         block = new GuiBlock(0, w, y, y + w);
