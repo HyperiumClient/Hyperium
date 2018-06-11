@@ -36,11 +36,21 @@ public class HyperiumOverlay {
         final int mx = Mouse.getX() * sw / Minecraft.getMinecraft().displayWidth;
         final int my = sh - Mouse.getY() * sh / Minecraft.getMinecraft().displayHeight - 1;
         components.forEach(c -> c.handleMouseInput(mx, my, sr.getScaledWidth() / 6 * 2, sr.getScaledHeight() / 4 + 20 * components.indexOf(c) + offsetY, sr.getScaledWidth() / 6 * 2, 20));
+
         int i = Mouse.getEventDWheel();
         if (i > 0 && offsetY != 0)
             offsetY += 5;
         else if (i < 0)
             offsetY -= 5;
+    }
+
+    public void mouseClicked() {
+        final ScaledResolution sr = ResolutionUtil.current();
+        int sw = sr.getScaledWidth();
+        int sh = sr.getScaledHeight();
+        final int mx = Mouse.getX() * sw / Minecraft.getMinecraft().displayWidth;
+        final int my = sh - Mouse.getY() * sh / Minecraft.getMinecraft().displayHeight - 1;
+        components.forEach(c -> c.mouseClicked(mx, my, sr.getScaledWidth() / 6 * 2, sr.getScaledHeight() / 4 + 20 * components.indexOf(c) + offsetY, sr.getScaledWidth() / 6 * 2, 20));
     }
 
     public List<OverlayComponent> getComponents() {
@@ -57,7 +67,7 @@ public class HyperiumOverlay {
 
             if (o instanceof Boolean) {
                 components.add(new OverlayToggle(label, (boolean) o, b -> {
-                    if(objectConsumer !=null)
+                    if (objectConsumer != null)
                         objectConsumer.accept(b);
                     try {
                         f.setBoolean(null, b);

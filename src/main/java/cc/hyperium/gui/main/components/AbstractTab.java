@@ -15,7 +15,7 @@ import java.util.List;
  */
 public abstract class AbstractTab {
 
-    protected static HyperiumFontRenderer fr = HyperiumMainGui.getFr();
+    protected static HyperiumFontRenderer fr = HyperiumMainGui.INSTANCE.getFr();
 
     protected List<SettingItem> items = new ArrayList<>();
     protected List<SettingItem> witems = new ArrayList<>();

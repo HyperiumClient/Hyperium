@@ -22,7 +22,7 @@ public abstract class OverlayComponent {
      * @return if the item got rendered
      */
     public boolean render(int mouseX, int mouseY, int overlayX, int overlayY, int w, int h, int overlayH) {
-        int textY = (overlayY + (h - HyperiumMainGui.getFr().FONT_HEIGHT) / 2);
+        int textY = (overlayY + (h - HyperiumMainGui.INSTANCE.getFr().FONT_HEIGHT) / 2);
         if (textY < (overlayH / 4)) {
             return false;
         } else if ((textY + h) > (overlayH / 4 * 3)) {
@@ -30,9 +30,14 @@ public abstract class OverlayComponent {
         }
         if (mouseX >= overlayX && mouseX <= overlayX + w && mouseY >= overlayY && mouseY <= overlayY + h)
             Gui.drawRect(overlayX, overlayY, overlayX + w, overlayY + h, 0x1e000000);
-        HyperiumMainGui.getFr().drawString(label, overlayX + 4, (overlayY + (h - HyperiumMainGui.getFr().FONT_HEIGHT) / 2), 0xffffff);
+        HyperiumMainGui.INSTANCE.getFr().drawString(label, overlayX + 4, (overlayY + (h - HyperiumMainGui.INSTANCE.getFr().FONT_HEIGHT) / 2), 0xffffff);
         return true;
     }
 
-    public abstract void handleMouseInput(int mouseX, int mouseY, int overlayX, int overlayY, int w, int h);
+    public abstract void mouseClicked(int mouseX, int mouseY, int overlayX, int overlayY, int w, int h);
+
+    public void handleMouseInput(int mouseX, int mouseY, int overlayX, int overlayY, int w, int h) {
+        
+    }
+
 }

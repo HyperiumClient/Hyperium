@@ -88,7 +88,7 @@ public class InfoTab extends AbstractTab {
                             } else {
                                 jar = new File(System.getProperty("sun.java.command").split(" ")[0]);
                             }
-                            HyperiumMainGui.getAlerts().add(new HyperiumMainGui.Alert(Icons.ERROR.getResource(), () -> {
+                            HyperiumMainGui.INSTANCE.getAlerts().add(new HyperiumMainGui.Alert(Icons.ERROR.getResource(), () -> {
                             }, "Client will restart in 10 seconds to update"));
                             Multithreading.schedule(() -> {
                                 Minecraft.getMinecraft().shutdown();
@@ -100,17 +100,17 @@ public class InfoTab extends AbstractTab {
                             }, 10, TimeUnit.SECONDS);
                         } catch (Exception ex) {
                             ex.printStackTrace();
-                            HyperiumMainGui.getAlerts().add(new HyperiumMainGui.Alert(Icons.ERROR.getResource(), () -> {
+                            HyperiumMainGui.INSTANCE.getAlerts().add(new HyperiumMainGui.Alert(Icons.ERROR.getResource(), () -> {
                             }, "Update - Failed to download updates"));
                         }
                     });
                 } catch (Exception ex) {
                     ex.printStackTrace();
-                    HyperiumMainGui.getAlerts().add(new HyperiumMainGui.Alert(Icons.ERROR.getResource(), () -> {
+                    HyperiumMainGui.INSTANCE.getAlerts().add(new HyperiumMainGui.Alert(Icons.ERROR.getResource(), () -> {
                     }, "Update - Failed to download updates"));
                 }
             } else
-                HyperiumMainGui.getAlerts().add(new HyperiumMainGui.Alert(Icons.TOOL.getResource(), () -> {
+                HyperiumMainGui.INSTANCE.getAlerts().add(new HyperiumMainGui.Alert(Icons.TOOL.getResource(), () -> {
                 }, "Client is up to date!"));
 
         }), null, "Update", "Update the client", "Click to update the client if updates are available", 2, 2));

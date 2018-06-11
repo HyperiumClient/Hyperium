@@ -125,6 +125,9 @@ public class HyperiumMainGui extends HyperiumGui {
                 currentAlert.runAction();
             else if (currentAlert != null && mouseX >= width - 20 - width / 4 && mouseX <= width - width / 4 && mouseY >= height - 20)
                 currentAlert.dismiss();
+
+        if (overlay != null)
+            overlay.mouseClicked();
     }
 
     @Override

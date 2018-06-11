@@ -1,7 +1,6 @@
 package cc.hyperium.gui.main.components;
 
 import cc.hyperium.utils.RenderUtils;
-import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
@@ -39,8 +38,8 @@ public class OverlayToggle extends OverlayComponent {
     }
 
     @Override
-    public void handleMouseInput(int mouseX, int mouseY, int overlayX, int overlayY, int w, int h) {
-        if (Mouse.isButtonDown(0) && mouseX >= overlayX + w - 30 && mouseX <= overlayX + w - 5 && mouseY >= overlayY + 5 && mouseY <= overlayY + h - 5) {
+    public void mouseClicked(int mouseX, int mouseY, int overlayX, int overlayY, int w, int h) {
+        if (mouseX >= overlayX + w - 30 && mouseX <= overlayX + w - 5 && mouseY >= overlayY + 5 && mouseY <= overlayY + h - 5) {
             toggle = !toggle;
             callback.accept(toggle);
             step = 1f;

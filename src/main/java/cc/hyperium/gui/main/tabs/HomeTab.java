@@ -37,8 +37,8 @@ public class HomeTab extends AbstractTab {
                 System.out.println(information.toString());
                 for (JsonElement e : information.optJSONArray("alerts")) {
                     JsonHolder alert = new JsonHolder(e.getAsJsonObject());
-                    if (!HyperiumMainGui.getLoadedAlerts().contains(alert.optString("title")) && !alert.optString("title").equals("ALERT FORMAT - THIS WILL BE IGNORED") && alert.optJSONArray("target").contains(new JsonPrimitive(Metadata.getVersion()))) {
-                        HyperiumMainGui.getAlerts().add(new HyperiumMainGui.Alert(Icons.valueOf(alert.optString("icon")).getResource(), () -> {
+                    if (!HyperiumMainGui.INSTANCE.getLoadedAlerts().contains(alert.optString("title")) && !alert.optString("title").equals("ALERT FORMAT - THIS WILL BE IGNORED") && alert.optJSONArray("target").contains(new JsonPrimitive(Metadata.getVersion()))) {
+                        HyperiumMainGui.INSTANCE.getAlerts().add(new HyperiumMainGui.Alert(Icons.valueOf(alert.optString("icon")).getResource(), () -> {
                             if (alert.has("click")) {
                                 try {
                                     Desktop.getDesktop().browse(new URL(alert.optString("click")).toURI());
@@ -47,7 +47,7 @@ public class HomeTab extends AbstractTab {
                                 }
                             }
                         }, alert.optString("title")));
-                        HyperiumMainGui.getLoadedAlerts().add(alert.optString("title"));
+                        HyperiumMainGui.INSTANCE.getLoadedAlerts().add(alert.optString("title"));
                     }
                 }
             } catch (Exception ex) {

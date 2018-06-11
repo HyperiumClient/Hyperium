@@ -5,5 +5,5 @@ open class OverlayLabel(label: String) : OverlayComponent() {
         this.label = label
     }
 
-    override fun handleMouseInput(mouseX: Int, mouseY: Int, overlayX: Int, overlayY: Int, w: Int, h: Int) {}
+    override fun mouseClicked(mouseX: Int, mouseY: Int, overlayX: Int, overlayY: Int, w: Int, h: Int) {}
 }

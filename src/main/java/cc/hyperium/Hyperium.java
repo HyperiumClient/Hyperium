@@ -101,7 +101,7 @@ public class Hyperium {
     private Sk1erMod sk1erMod;
     private NettyClient client;
     private NetworkHandler networkHandler;
-    private HyperiumMainGui gui = new HyperiumMainGui();
+    private HyperiumMainGui gui;
 
 
     public MinigameListener getMinigameListener() {
@@ -131,6 +131,7 @@ public class Hyperium {
         }
         Minecraft.getMinecraft().mcProfiler.profilingEnabled = false;
 
+
         // Creates the accounts dir
         new File(folder.getAbsolutePath() + "/accounts").mkdirs();
 
@@ -138,7 +139,7 @@ public class Hyperium {
         this.acceptedTos = new File(
                 folder.getAbsolutePath() + "/accounts/" + Minecraft.getMinecraft().getSession()
                         .getPlayerID() + ".lck").exists();
-
+        gui = new HyperiumMainGui();
         SplashProgress.PROGRESS = 5;
         SplashProgress.CURRENT = "Loading handlers";
         SplashProgress.update();

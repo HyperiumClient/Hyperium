@@ -26,11 +26,11 @@ public class ResolutionUtil {
     private static ScaledResolution resolution;
 
     public static ScaledResolution current() {
-        return resolution != null ? resolution : new ScaledResolution(Minecraft.getMinecraft());
+        return resolution != null ? resolution : (resolution = new ScaledResolution(Minecraft.getMinecraft()));
     }
 
     @InvokeEvent
     public void tick(TickEvent event) {
-        resolution = new ScaledResolution(Minecraft.getMinecraft());
+        resolution = null;
     }
 }

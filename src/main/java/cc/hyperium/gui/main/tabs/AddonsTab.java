@@ -81,7 +81,7 @@ public class AddonsTab extends AbstractTab {
                         } catch (Exception e) {
                             HyperiumMainGui.Alert alert = new HyperiumMainGui.Alert(Icons.ERROR.getResource(), () -> {
                             }, "Failed to load addon's config overlay");
-                            HyperiumMainGui.getAlerts().add(alert);
+                            HyperiumMainGui.INSTANCE.getAlerts().add(alert);
                             e.printStackTrace(); // in case the check went wrong
                         }
                     }
@@ -104,7 +104,7 @@ public class AddonsTab extends AbstractTab {
                         } catch (Exception e) {
                             HyperiumMainGui.Alert alert = new HyperiumMainGui.Alert(Icons.ERROR.getResource(), () -> {
                             }, "Failed to load addon's config overlay");
-                            HyperiumMainGui.getAlerts().add(alert);
+                            HyperiumMainGui.INSTANCE.getAlerts().add(alert);
                             e.printStackTrace(); // in case the check went wrong
                         }
                     }
