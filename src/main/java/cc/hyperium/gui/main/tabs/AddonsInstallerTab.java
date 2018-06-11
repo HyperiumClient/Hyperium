@@ -158,14 +158,7 @@ public class AddonsInstallerTab extends AbstractTab {
                     HyperiumMainGui.Alert alert = new HyperiumMainGui.Alert(Icons.ERROR.getResource(), null, "SHA256 does not match");
                 }
             } else {
-                HyperiumMainGui.Alert alert = new HyperiumMainGui.Alert(Icons.EXTENSION.getResource(), new Runnable() {
-                    @Override
-                    public void run() {
-                        HyperiumMainGui hyperiumMainGui = new HyperiumMainGui();
-                        int height = hyperiumMainGui.height;
-                        hyperiumMainGui.setTab(new AddonsTab(height / 2, 144));
-                    }
-                }, "You already have " + name + " installed!");
+                HyperiumMainGui.Alert alert = new HyperiumMainGui.Alert(Icons.EXTENSION.getResource(), () -> {}, "You already have " + name + " installed!");
                 HyperiumMainGui.getAlerts().add(alert);
             }
         }

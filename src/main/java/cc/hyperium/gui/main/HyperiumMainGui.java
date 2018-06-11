@@ -21,27 +21,27 @@ import java.util.Queue;
  */
 public class HyperiumMainGui extends HyperiumGui {
 
-    private static final HyperiumFontRenderer fr = new HyperiumFontRenderer("Arial", Font.PLAIN, 20);
+    private final HyperiumFontRenderer fr = new HyperiumFontRenderer("Arial", Font.PLAIN, 20);
     public static HyperiumMainGui INSTANCE;
-    private static List<String> loadedAlerts = new ArrayList<>(); // so old alerts does not shot again
-    private static AbstractTab currentTab = null; // static so it is still the same tab
-    private static Queue<Alert> alerts = new ArrayDeque<>(); // static so alert does not disappear until user dismiss it
-    private static Alert currentAlert;
+    private List<String> loadedAlerts = new ArrayList<>();
+    private AbstractTab currentTab = null;
+    private Queue<Alert> alerts = new ArrayDeque<>();
+    private Alert currentAlert;
     private HyperiumOverlay overlay;
     private float tabFade;
     private float highlightScale = 0f;
 
     private List<AbstractTab> tabs;
 
-    public static HyperiumFontRenderer getFr() {
+    public HyperiumFontRenderer getFr() {
         return fr;
     }
 
-    public static Queue<Alert> getAlerts() {
+    public Queue<Alert> getAlerts() {
         return alerts;
     }
 
-    public static List<String> getLoadedAlerts() {
+    public List<String> getLoadedAlerts() {
         return loadedAlerts;
     }
 
@@ -155,7 +155,7 @@ public class HyperiumMainGui extends HyperiumGui {
     /**
      * Important alerts and announcements from Hyperium team
      */
-    public static class Alert {
+    public class Alert {
         private ResourceLocation icon;
         private Runnable action;
         private String title;
