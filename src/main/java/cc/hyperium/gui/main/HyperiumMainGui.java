@@ -1,10 +1,12 @@
 package cc.hyperium.gui.main;
 
 import cc.hyperium.gui.HyperiumGui;
+import cc.hyperium.gui.Icons;
 import cc.hyperium.gui.main.components.AbstractTab;
 import cc.hyperium.gui.main.tabs.*;
 import cc.hyperium.utils.HyperiumFontRenderer;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.input.Keyboard;
@@ -21,8 +23,9 @@ import java.util.Queue;
  */
 public class HyperiumMainGui extends HyperiumGui {
 
-    private final HyperiumFontRenderer fr = new HyperiumFontRenderer("Arial", Font.PLAIN, 20);
     public static HyperiumMainGui INSTANCE;
+    private final HyperiumFontRenderer fr = new HyperiumFontRenderer("Arial", Font.PLAIN, 20);
+    private long lastSelectionChange = 0L;
     private List<String> loadedAlerts = new ArrayList<>();
     private AbstractTab currentTab = null;
     private Queue<Alert> alerts = new ArrayDeque<>();
@@ -30,8 +33,11 @@ public class HyperiumMainGui extends HyperiumGui {
     private HyperiumOverlay overlay;
     private float tabFade;
     private float highlightScale = 0f;
-
     private List<AbstractTab> tabs;
+
+    public long getLastSelectionChange() {
+        return lastSelectionChange;
+    }
 
     public HyperiumFontRenderer getFr() {
         return fr;
@@ -101,8 +107,15 @@ public class HyperiumMainGui extends HyperiumGui {
         if (currentAlert != null)
             currentAlert.render(fr, width, height);
 
-        if (overlay != null)
+        if (overlay != null) {
             overlay.render(mouseX, mouseY, width, height);
+            int x = width / 6 * 2;
+            int y = height / 4;
+            Icons.EXIT.bind();
+            Gui.drawRect(x, y - 16, x + 16, y, new Color(0, 0, 0, 100).getRGB());
+            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+            Gui.drawScaledCustomSizeModalRect(x, y - 16, 0, 0, 144, 144, 16, 16, 144, 144);
+        }
         if (tabFade > 0f)
             tabFade -= 0.1f;
         else tabFade = 0f;
@@ -126,14 +139,23 @@ public class HyperiumMainGui extends HyperiumGui {
             else if (currentAlert != null && mouseX >= width - 20 - width / 4 && mouseX <= width - width / 4 && mouseY >= height - 20)
                 currentAlert.dismiss();
 
-        if (overlay != null)
-            overlay.mouseClicked();
+        if (overlay != null) {
+            int x = width / 6 * 2;
+            int y = height / 4;
+            if (mouseX >= x && mouseX <= x + 16 && mouseY >= y - 16 && mouseY <= y) {
+                setOverlay(null);
+            } else
+                overlay.mouseClicked();
+        }
+        if (currentTab != null) {
+            currentTab.mouseClicked(mouseX, mouseY);
+        }
     }
 
     @Override
     public void handleMouseInput() throws IOException {
         super.handleMouseInput();
-        currentTab.handleMouseInput();
+//        currentTab.handleMouseInput();
         if (overlay != null)
             overlay.handleMouseInput();
     }
@@ -153,6 +175,7 @@ public class HyperiumMainGui extends HyperiumGui {
 
     public void setOverlay(HyperiumOverlay overlay) {
         this.overlay = overlay;
+        lastSelectionChange = System.currentTimeMillis();
     }
 
     /**

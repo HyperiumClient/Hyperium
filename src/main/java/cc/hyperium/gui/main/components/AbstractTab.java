@@ -49,4 +49,8 @@ public abstract class AbstractTab {
     public boolean isScrollable() { //TODO: Disable scroll
         return true;
     }
+
+    public void mouseClicked(int x, int y) {
+        items.forEach(settingItem -> settingItem.mouseClicked(x, y));
+    }
 }

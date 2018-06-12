@@ -22,6 +22,8 @@ public class SettingItem {
     private String hover;
     private int xIndex, yIndex;
     private boolean lastClicked = false;
+    private int clickX = -1, clickY = -1;
+
 
     public SettingItem(Runnable onClick, ResourceLocation icon, String title, String desc, String hover, int xIndex, int yIndex) {
         this.onClick = onClick;
@@ -32,7 +34,6 @@ public class SettingItem {
         this.xIndex = xIndex;
         this.yIndex = yIndex;
     }
-
 
     public void setDesc(String desc) {
         this.desc = desc;
@@ -56,6 +57,14 @@ public class SettingItem {
          */
     }
 
+    public void mouseClicked(int mouseX, int mouseY) {
+        if (HyperiumMainGui.INSTANCE.getOverlay() != null) return;
+        if(System.currentTimeMillis()- HyperiumMainGui.INSTANCE.getLastSelectionChange() < 100) return;
+        this.clickX = mouseX;
+        this.clickY = mouseY;
+        System.out.println("Click registed: " + mouseX + " " + mouseY);
+    }
+
     public void render(int mouseX, int mouseY, int containerWidth, int containerHeight, int topX, int topY) {
         int w = containerWidth / 3;
         int h = containerHeight / 3;
@@ -70,15 +79,12 @@ public class SettingItem {
             GlStateManager.enableAlpha();
             GlStateManager.enableTexture2D();
         }
-        if (Mouse.isButtonDown(0) && !lastClicked && mouseX >= blockX && mouseX <= blockX + w / 7 * 5 && mouseY >= blockY && mouseY <= blockY + h / 6 * 4)
+        if (clickX >= blockX && clickX <= blockX + w / 7 * 5 && clickY >= blockY && clickY <= blockY + h / 6 * 4)
             //Added by Sk1er to prevent switching to a different item while in another
-            if (HyperiumMainGui.INSTANCE.getOverlay() ==null)
+            if (HyperiumMainGui.INSTANCE.getOverlay() == null)
                 onClick.run();
 
-        if (!lastClicked && Mouse.isButtonDown(0))
-            lastClicked = true;
-        else if (lastClicked && !Mouse.isButtonDown(0))
-            lastClicked = false;
+        lastClicked = Mouse.isButtonDown(0);
         HyperiumMainGui.INSTANCE.getFr().drawString(title, blockX + 3, blockY + 3, 0xffffff);
         float s = 0.8f;
         GlStateManager.scale(s, s, s);
@@ -113,5 +119,8 @@ public class SettingItem {
             HyperiumMainGui.INSTANCE.getFr().drawString(hover, (mouseX + 10) / s + 1, mouseY / s + 1, 0xffffff);
             GlStateManager.scale(1.25f, 1.25f, 1.25f);
         }
+        this.clickY = -1;
+        this.clickX = -1;
+
     }
 }

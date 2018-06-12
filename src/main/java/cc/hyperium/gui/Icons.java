@@ -14,6 +14,7 @@ public enum Icons {
     INFO(new ResourceLocation("textures/material/info.png")),
     ERROR(new ResourceLocation("textures/material/error.png")),
     DOWNLOAD(new ResourceLocation("textures/material/download.png")),
+    EXIT(new ResourceLocation("textures/material/exit.png")),
     TOOL(new ResourceLocation("textures/material/tools.png")),
     COSMETIC(new ResourceLocation("textures/material/cosmetic.png")),
     SPOTIFY(new ResourceLocation("textures/material/spotify.png"));
