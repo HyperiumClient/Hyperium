@@ -99,7 +99,7 @@ public class HyperiumMainGui extends HyperiumGui {
 
         currentTab.drawHighlight(1 - highlightScale);
 
-        drawRect(pw * 2, pw, width - pw * 2, height - pw, new Color(0, 0, 0, 70).getRGB());
+        drawRect(pw * 2, pw, width - pw * 2, height - pw, new Color(0, 0, 0, currentTab instanceof HomeTab ? 110 : 70).getRGB());
 
         currentTab.draw(mouseX, mouseY, pw * 2, pw, width - pw * 4, height - pw * 2);
 
