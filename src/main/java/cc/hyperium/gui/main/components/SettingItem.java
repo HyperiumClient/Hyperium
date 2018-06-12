@@ -62,7 +62,6 @@ public class SettingItem {
         if(System.currentTimeMillis()- HyperiumMainGui.INSTANCE.getLastSelectionChange() < 100) return;
         this.clickX = mouseX;
         this.clickY = mouseY;
-        System.out.println("Click registed: " + mouseX + " " + mouseY);
     }
 
     public void render(int mouseX, int mouseY, int containerWidth, int containerHeight, int topX, int topY) {
@@ -111,6 +110,7 @@ public class SettingItem {
             Gui.drawScaledCustomSizeModalRect((blockX + w / 7 * 5 - 27) + (25 - width), (blockY - 14) + width, 0, 0, 144, 144, width, width, 144, 144);
         }
 
+        Icons.SETTINGS.bind();
         Icons.INFO.bind();
         Gui.drawScaledCustomSizeModalRect(blockX + w / 7 * 5 - 10, blockY + h / 6 * 4 - 10, 0, 0, 144, 144, 10, 10, 144, 144);
         if (mouseX >= blockX + w / 7 * 5 - 10 && mouseX <= blockX + w / 7 * 5 && mouseY >= blockY + h / 7 * 5 - 10 && mouseY < blockY + h / 7 * 5 && HyperiumMainGui.INSTANCE.getOverlay() == null) {
