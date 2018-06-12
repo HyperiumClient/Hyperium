@@ -64,7 +64,7 @@ public abstract class MixinAbstractClientPlayer {
     @Inject(method = "getFovModifier", at = @At("HEAD"), cancellable = true)
     private void getFovModifier(CallbackInfoReturnable<Float> ci) {
         if (Settings.STATIC_FOV) {
-            if (Minecraft.getMinecraft().thePlayer.isSprinting() && GeneralSetting.staticFovSprintModifier)
+            if (Minecraft.getMinecraft().thePlayer.isSprinting() && Settings.staticFovSprintModifier)
                 ci.setReturnValue((float)(1.0 * ((Minecraft.getMinecraft().thePlayer.getEntityAttribute(SharedMonsterAttributes.movementSpeed).getAttributeValue() / (double)Minecraft.getMinecraft().thePlayer.capabilities.getWalkSpeed() + 1.0D) / 2.0D)));
             else
             ci.setReturnValue(1.0F);

@@ -163,6 +163,10 @@ public class Settings {
     )
     public static String wingsSELECTED = "Dragon wings";
 
+    @ConfigOpt()
+    @ToggleSetting(category = GENERAL,name = "Sprint Bypass Static FOV")
+    public static boolean staticFovSprintModifier;
+
     public static void register() {
         Hyperium.CONFIG.register(new Settings()); // values r static soo whatever
     }

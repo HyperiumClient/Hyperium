@@ -42,7 +42,7 @@ public abstract class AbstractCosmetic {
 
     @InvokeEvent
     public void worldSwich(WorldChangeEvent changeEvent) {
-        UUID id = Minecraft.getMinecraft().getSession().getProfile().getId();
+        UUID id = UUIDUtil.getClientUUID();
         Boolean aBoolean = purchasedBy.get(id);
         purchasedBy.clear();
         if (aBoolean != null)

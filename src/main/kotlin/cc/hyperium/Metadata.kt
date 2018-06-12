@@ -25,6 +25,7 @@ package cc.hyperium
 
 
 val MODID
+
     @JvmName("getModid")
     get() = "Hyperium"
 
