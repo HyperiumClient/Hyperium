@@ -112,16 +112,19 @@ object AddonBootstrap {
         Launch.classLoader.addClassLoaderExclusion("cc.hyperium.internal.addons.AddonManifest")
         Launch.classLoader.addClassLoaderExclusion("me.kbrewster.blazeapi.internal.addons.translate.")
 
-        if (pendingDirectory.exists() && !pendingDirectory.listFiles().isEmpty())
-            pendingDirectory.listFiles().forEach {
-                pendingManifests.add(AddonManifestParser(JarFile(it)).getAddonManifest())
-                with(File(modDirectory, it.name)) {
-                    if(exists())
-                        delete()
+        try {
+            if (pendingDirectory.exists() && !pendingDirectory.listFiles().isEmpty())
+                pendingDirectory.listFiles().forEach {
+                    pendingManifests.add(AddonManifestParser(JarFile(it)).getAddonManifest())
+                    with(File(modDirectory, it.name)) {
+                        if (exists())
+                            delete()
+                    }
+                    FileUtils.moveFile(it, File(modDirectory, it.name))
                 }
-                FileUtils.moveFile(it, File(modDirectory, it.name))
-            }
-
+        } catch (ex: Exception) {
+            ex.printStackTrace()
+        }
         with(addonManifests) {
             val workspaceAddon = loadWorkspaceAddon()
             //TODO: ADD DEV ENVIRONMENT CHECK
