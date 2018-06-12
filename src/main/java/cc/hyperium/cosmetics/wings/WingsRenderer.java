@@ -60,7 +60,7 @@ public class WingsRenderer extends ModelBase {
         GL11.glScaled(-scale, -scale, scale);
         GL11.glRotated(180.0 + rotate, 0.0, 1.0, 0.0);
         GL11.glTranslated(0.0, -(this.playerUsesFullHeight ? 1.45 : 1.25) / scale, 0.0);
-        GL11.glTranslated(0.0, 0.0, 0.2 / scale);
+        GL11.glTranslated(0.0, 0.0, 0.1 / scale);
         if (player.isSneaking()) {
             GL11.glTranslated(0.0, 0.125 / scale, 0.0);
         }

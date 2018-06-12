@@ -179,7 +179,6 @@ import cc.hyperium.internal.addons.IAddon;
 import cc.hyperium.utils.AddonWorkspaceResourcePack;
 import cc.hyperium.utils.Utils;
 import cc.hyperium.utils.mods.FPSLimiter;
-import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -194,7 +193,6 @@ import net.minecraft.client.resources.IResourcePack;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.init.Bootstrap;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Timer;
 import net.minecraft.util.Util;
@@ -355,45 +353,7 @@ public abstract class MixinMinecraft {
         EventBus.INSTANCE.post(new LeftMouseClickEvent());
     }
 
-    @Overwrite
-    private void clickMouse() {
-        if (this.leftClickCounter <= 0) {
-            this.thePlayer.swingItem();
 
-            if (this.objectMouseOver == null) {
-                logger.error("Null returned as \'hitResult\', this shouldn\'t happen!");
-
-                if (this.playerController.isNotCreative()) {
-                    this.leftClickCounter = 10;
-                }
-            } else {
-                switch (this.objectMouseOver.typeOfHit) {
-                    case ENTITY:
-                        int maxCps = Hyperium.INSTANCE.getHandlers().getConfigOptions().maxCps;
-                        long delay = 1000 / maxCps;
-                        if (System.currentTimeMillis() - lastAttack > delay) {
-                            this.playerController.attackEntity(this.thePlayer, this.objectMouseOver.entityHit);
-                            lastAttack = System.currentTimeMillis();
-                        }
-                        break;
-                    case BLOCK:
-                        BlockPos blockpos = this.objectMouseOver.getBlockPos();
-
-                        if (this.theWorld.getBlockState(blockpos).getBlock().getMaterial() != Material.air) {
-                            this.playerController.clickBlock(blockpos, this.objectMouseOver.sideHit);
-                            break;
-                        }
-
-                    case MISS:
-                    default:
-
-                        if (this.playerController.isNotCreative()) {
-                            this.leftClickCounter = 10;
-                        }
-                }
-            }
-        }
-    }
 
     /**
      * Invoked once the player has pressed mouse button 1
