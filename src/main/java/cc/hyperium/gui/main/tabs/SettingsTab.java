@@ -12,6 +12,7 @@ import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.PurchaseLoadEvent;
 import cc.hyperium.gui.GuiBlock;
 import cc.hyperium.gui.Icons;
+import cc.hyperium.gui.ParticleOverlay;
 import cc.hyperium.gui.main.HyperiumMainGui;
 import cc.hyperium.gui.main.HyperiumOverlay;
 import cc.hyperium.gui.main.components.AbstractTab;
@@ -46,6 +47,7 @@ public class SettingsTab extends AbstractTab {
     private final HyperiumOverlay wings = new HyperiumOverlay();
     private final HashMap<Field, Consumer<Object>> callback = new HashMap<>();
     private final HashMap<Field, Supplier<String[]>> customStates = new HashMap<>();
+    boolean loadedSelf = false;
     private int offsetY = 0;
     private GuiBlock block;
     private int y, w;
@@ -71,6 +73,35 @@ public class SettingsTab extends AbstractTab {
                     }
                 }
                 return new String[]{"NOT PURCHASED"};
+            });
+            Field max_particle_string = Settings.class.getField("MAX_PARTICLE_STRING");
+            customStates.put(max_particle_string, () -> {
+                ParticleOverlay overlay = ParticleOverlay.getOverlay();
+                if (overlay.purchased()) {
+                    return new String[]{
+                            "25",
+                            "50",
+                            "100",
+                            "150",
+                            "200",
+                            "250",
+                            "300"};
+                }
+                return new String[]{"NOT PURCHASED"};
+            });
+            callback.put(max_particle_string, o -> {
+                try {
+                    Settings.MAX_PARTICLES = Integer.valueOf(o.toString());
+                } catch (Exception ignored) {
+
+                }
+            });
+            callback.put(Settings.class.getField("HEAD_SCALE_FACTOR_STRING"), o -> {
+                try {
+                    Settings.HEAD_SCALE_FACTOR= Double.valueOf(o.toString());
+                } catch (Exception ignored) {
+
+                }
             });
             callback.put(Settings.class.getField("wingsSELECTED"), o -> {
                 JsonHolder purchaseSettings = PurchaseApi.getInstance().getSelf().getPurchaseSettings();
@@ -131,18 +162,18 @@ public class SettingsTab extends AbstractTab {
         items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(spotify), Icons.SPOTIFY.getResource(), "Spotify", "Hyperium Spotify Settings", "Click to configure", 1, 1));
         //TODO fix this method being async
         WingsCosmetic wingsCosmetic = Hyperium.INSTANCE.getCosmetics().getWingsCosmetic();
-        if(wingsCosmetic.isSelfUnlocked()) {
-            loadedSelf=true;
+        if (wingsCosmetic.isSelfUnlocked()) {
+            loadedSelf = true;
             items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(wings), Icons.COSMETIC.getResource(), "Wings", "Hyperium wings Settings", "Click to configure", 0, 2));
 
         }
 
     }
-    boolean loadedSelf = false;
+
     @InvokeEvent
     public void purchaseLoad(PurchaseLoadEvent event) {
-        if(loadedSelf) return;
-        if(event.getSelf()) {
+        if (loadedSelf) return;
+        if (event.getSelf()) {
             if (event.getPurchase().hasPurchased(EnumPurchaseType.WING_COSMETIC)) {
                 items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(wings), Icons.COSMETIC.getResource(), "Wings", "Hyperium wings Settings", "Click to configure", 0, 2));
             }

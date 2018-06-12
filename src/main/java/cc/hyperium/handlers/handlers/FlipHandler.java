@@ -1,6 +1,7 @@
 package cc.hyperium.handlers.handlers;
 
 import cc.hyperium.Hyperium;
+import cc.hyperium.config.Settings;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.TickEvent;
 import cc.hyperium.event.WorldChangeEvent;
@@ -47,7 +48,7 @@ public class FlipHandler {
     public void transform(EntityLivingBase bat) {
         String s = EnumChatFormatting.getTextWithoutFormattingCodes(bat.getName());
         Integer state = rotateState.get(bat.getUniqueID());
-        if (!Hyperium.INSTANCE.getHandlers().getConfigOptions().showCosmeticsEveryWhere) {
+        if (!Settings.SHOW_COSMETICS_EVERYWHERE) {
             if (Hyperium.INSTANCE.getHandlers().getLocationHandler().isLobbyOrHousing())
                 return;
         }

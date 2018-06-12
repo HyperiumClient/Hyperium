@@ -169,6 +169,7 @@
 package cc.hyperium.gui;
 
 import cc.hyperium.Hyperium;
+import cc.hyperium.config.Settings;
 import cc.hyperium.event.GuiClickEvent;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.RenderHUDEvent;
@@ -552,7 +553,7 @@ public class NotificationCenter extends Gui {
         void render() {
             if (ticksLeft <= 0)
                 return;
-            if (!Hyperium.INSTANCE.getHandlers().getConfigOptions().showNotificationCenter)
+            if (!Settings.SHOW_INGAME_NOTIFICATION_CENTER)
                 return;
             setDefaultFontRenderer();
 

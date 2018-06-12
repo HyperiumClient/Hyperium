@@ -19,6 +19,7 @@ package cc.hyperium.tray;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.Metadata;
+import cc.hyperium.config.Settings;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.HypixelFriendRequestEvent;
 import cc.hyperium.event.HypixelPartyInviteEvent;
@@ -70,7 +71,7 @@ public class TrayManager {
      */
     @InvokeEvent
     public void onPartyRequest(HypixelPartyInviteEvent event) {
-        if (this.tray != null && Hyperium.INSTANCE.getHandlers().getConfigOptions().showConfirmationPopup) {
+        if (this.tray != null && Settings.SHOW_INGAME_CONFIRMATION_POPUP) {
             this.tray.displayMessage("Hypixel", "Party request from " + event.getFrom(), TrayIcon.MessageType.NONE);
         }
     }
@@ -82,7 +83,7 @@ public class TrayManager {
      */
     @InvokeEvent
     public void onFriendRequest(HypixelFriendRequestEvent event) {
-        if (this.tray != null && Hyperium.INSTANCE.getHandlers().getConfigOptions().showConfirmationPopup) {
+        if (this.tray != null && Settings.SHOW_INGAME_CONFIRMATION_POPUP) {
             this.tray.displayMessage("Hypixel", "Friend request from " + event.getFrom(), TrayIcon.MessageType.NONE);
         }
     }

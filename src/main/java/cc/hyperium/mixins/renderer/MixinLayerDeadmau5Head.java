@@ -63,7 +63,7 @@ class MixinLayerDeadmau5Head {
             if (entitylivingbaseIn.isInvisibleToPlayer(Minecraft.getMinecraft().thePlayer))
                 return;
             k = 2;
-            if (!Hyperium.INSTANCE.getHandlers().getConfigOptions().showCosmeticsEveryWhere) {
+            if (!Settings.SHOW_COSMETICS_EVERYWHERE) {
                 if (!(Hyperium.INSTANCE.getMinigameListener().getCurrentMinigameName().equalsIgnoreCase("HOUSING") || Hyperium.INSTANCE.getHandlers().getLocationHandler().getLocation().contains("lobby")))
                     return;
             }

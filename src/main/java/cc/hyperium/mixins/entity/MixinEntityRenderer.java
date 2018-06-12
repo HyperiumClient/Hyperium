@@ -18,6 +18,7 @@
 package cc.hyperium.mixins.entity;
 
 import cc.hyperium.Hyperium;
+import cc.hyperium.config.Settings;
 import cc.hyperium.event.DrawBlockHighlightEvent;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.RenderEvent;
@@ -83,7 +84,7 @@ public abstract class MixinEntityRenderer {
         float f = entity.getEyeHeight();
         double d0 = entity.prevPosX + (entity.posX - entity.prevPosX) * partialTicks;
         double d2 = entity.prevPosY + (entity.posY - entity.prevPosY) * partialTicks + f;
-        if (Hyperium.INSTANCE.getHandlers().getConfigOptions().turnPeopleIntoBlock)
+        if (Settings.TURN_PEOPLE_INTO_BLOCKS)
             d2 -= 1.0;
         double d3 = entity.prevPosZ + (entity.posZ - entity.prevPosZ) * partialTicks;
 
@@ -178,7 +179,7 @@ public abstract class MixinEntityRenderer {
         d2 = entity.prevPosY + (entity.posY - entity.prevPosY) * partialTicks + f;
         d3 = entity.prevPosZ + (entity.posZ - entity.prevPosZ) * partialTicks;
         this.cloudFog = this.mc.renderGlobal.hasCloudFog(d0, d2, d3, partialTicks);
-        if (Hyperium.INSTANCE.getHandlers().getConfigOptions().turnPeopleIntoBlock) {
+        if (Settings.TURN_PEOPLE_INTO_BLOCKS) {
             GlStateManager.translate(0.0F, 1.0F, 0.0F);
         }
     }

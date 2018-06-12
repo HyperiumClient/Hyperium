@@ -274,7 +274,7 @@ public class Hyperium {
             }, 1, 1, TimeUnit.SECONDS);
 
         });
-        if (getHandlers().getConfigOptions().savePreviusChatMessages) {
+        if (Settings.PERSISTENT_CHAT) {
             File file = new File(folder, "chat.txt");
             try {
                 FileReader fr = new FileReader(file);
@@ -306,7 +306,6 @@ public class Hyperium {
         getHandlers().getHyperiumCommandHandler().registerCommand(new CommandDebug());
         getHandlers().getHyperiumCommandHandler().registerCommand(new CommandUpdate());
         getHandlers().getHyperiumCommandHandler().registerCommand(new CommandLogs());
-        getHandlers().getHyperiumCommandHandler().registerCommand(new CommandMaxCPS());
     }
 
     /**
@@ -315,7 +314,7 @@ public class Hyperium {
     private void shutdown() {
         CONFIG.save();
         richPresenceManager.shutdown();
-        if (getHandlers().getConfigOptions().savePreviusChatMessages) {
+        if (Settings.PERSISTENT_CHAT) {
             File file = new File(folder, "chat.txt");
             try {
                 file.createNewFile();

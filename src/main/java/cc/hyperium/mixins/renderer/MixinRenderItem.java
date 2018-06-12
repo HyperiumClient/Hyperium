@@ -17,7 +17,6 @@
 
 package cc.hyperium.mixins.renderer;
 
-import cc.hyperium.Hyperium;
 import cc.hyperium.config.Settings;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
@@ -96,7 +95,7 @@ public abstract class MixinRenderItem implements IResourceManagerReloadListener 
             GlStateManager.scale(0.5F, 0.5F, 0.5F);
 
             boolean isHead = !isInv && stack.getItem() != null && stack.getItem() instanceof ItemSkull;
-            double headScale = Hyperium.INSTANCE.getHandlers().getConfigOptions().headScaleFactor;
+            double headScale = Settings.HEAD_SCALE_FACTOR;
 
             if (model.isBuiltInRenderer()) {
                 GlStateManager.rotate(180.0F, 0.0F, 1.0F, 0.0F);

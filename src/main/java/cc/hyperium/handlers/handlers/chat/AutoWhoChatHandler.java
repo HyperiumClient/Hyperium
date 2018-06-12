@@ -17,27 +17,21 @@
 
 package cc.hyperium.handlers.handlers.chat;
 
-import cc.hyperium.config.ConfigOpt;
+import cc.hyperium.config.Settings;
 import net.minecraft.util.IChatComponent;
 
 public class AutoWhoChatHandler extends HyperiumChatHandler {
-    @ConfigOpt
-    private boolean enabled = true;
+
 
     @Override
     public boolean chatReceived(IChatComponent component, String text) {
         //Idk took this check from 2Pi's AutoWHO
         if (text.equalsIgnoreCase("Teaming is not allowed on Ranked Mode!")) {
+            if(Settings.AUTO_WHO)
             getHyperium().getHandlers().getCommandQueue().queue("/who");
         }
         return false;
     }
 
-    public boolean isEnabled() {
-        return enabled;
-    }
 
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
 }

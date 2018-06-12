@@ -89,7 +89,7 @@ public class HomeTab extends AbstractTab {
             title.drawString(changelog.optString("title"), topX + 5, topY + 5, 0xffffff);
             int i = 25;
             for (JsonElement e : changelog.optJSONArray("description")) {
-                fr.drawStringWithShadow(e.getAsString(), topX + 5, topY + i, new Color(168, 0, 189).getRGB());
+                fr.drawStringWithShadow(   e.getAsString(), topX + 5, topY + i, new Color(168, 0, 189).getRGB());
                 i += 11;
             }
         } else {

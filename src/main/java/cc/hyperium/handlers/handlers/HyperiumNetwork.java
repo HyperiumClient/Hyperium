@@ -21,9 +21,11 @@ import cc.hyperium.Metadata;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.ServerJoinEvent;
 import cc.hyperium.launch.HyperiumTweaker;
+import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.utils.JsonHolder;
 import io.netty.buffer.Unpooled;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.client.C17PacketCustomPayload;
 
@@ -32,13 +34,23 @@ public class HyperiumNetwork {
 
     @InvokeEvent
     public void joinHypixel(ServerJoinEvent event) {
-        Minecraft.getMinecraft().getNetHandler().addToSendQueue(
-                new C17PacketCustomPayload("hyperium",
-                        new PacketBuffer(Unpooled.buffer()).writeString(new JsonHolder()
-                                .put("id", Metadata.getModid())
-                                .put("optifine", HyperiumTweaker.Companion.isUsingOptifine())
-                                .put("forge", HyperiumTweaker.Companion.isUsingForge())
-                                .put("version", Metadata.getVersion()).toString())));
+        Multithreading.runAsync(() -> {
+            NetHandlerPlayClient netHandler;
+            while ((netHandler = Minecraft.getMinecraft().getNetHandler()) == null) {
+                try {
+                    Thread.sleep(500L);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            netHandler.addToSendQueue(
+                    new C17PacketCustomPayload("hyperium",
+                            new PacketBuffer(Unpooled.buffer()).writeString(new JsonHolder()
+                                    .put("id", Metadata.getModid())
+                                    .put("optifine", HyperiumTweaker.Companion.isUsingOptifine())
+                                    .put("forge", HyperiumTweaker.Companion.isUsingForge())
+                                    .put("version", Metadata.getVersion()).toString())));
+        });
     }
 
 }

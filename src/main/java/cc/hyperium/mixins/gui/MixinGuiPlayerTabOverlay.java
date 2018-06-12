@@ -171,7 +171,7 @@ public abstract class MixinGuiPlayerTabOverlay extends Gui {
 
         list = list.subList(0, Math.min(list.size(), 80));
 
-        if (Hyperium.INSTANCE.getHandlers().getConfigOptions().friendsFirstIntag) {
+        if (Settings.FRIENDS_FIRST_IN_TAB) {
             ConcurrentLinkedDeque<NetworkPlayerInfo> friends = new ConcurrentLinkedDeque<>();
             ApiDataHandler dataHandler = Hyperium.INSTANCE.getHandlers().getDataHandler();
             List<UUID> friendUUIDList = dataHandler.getFriendUUIDList();
@@ -280,7 +280,7 @@ public abstract class MixinGuiPlayerTabOverlay extends Gui {
 
                 int renderX = j2 + this.mc.fontRendererObj.getStringWidth(s1) + 2;
 
-                if (Hyperium.INSTANCE.getHandlers().getConfigOptions().showOnlinePlayers) {
+                if (Settings.SHOW_ONLINE_PLAYERS) {
                     String s = "⚫";
                     boolean online = Hyperium.INSTANCE.getHandlers().getStatusHandler().isOnline(gameprofile.getId());
                     if (StaffUtils.isStaff(gameprofile.getId())) {

@@ -18,7 +18,11 @@
 package cc.hyperium.handlers.handlers.privatemessages;
 
 
-import cc.hyperium.Hyperium;
+import cc.hyperium.config.Settings;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.audio.PositionedSoundRecord;
+import net.minecraft.client.audio.SoundHandler;
+import net.minecraft.util.ResourceLocation;
 
 import java.util.*;
 
@@ -45,7 +49,11 @@ public class PrivateMessageHandler {
     }
 
     public void inboundMessage(String from, String message) {
-        if (Hyperium.INSTANCE.getHandlers().getConfigOptions().pingOnDm) {
+        if (Settings.PING_ON_DM) {
+            SoundHandler soundHandler = Minecraft.getMinecraft().getSoundHandler();
+            if (soundHandler != null && Minecraft.getMinecraft().theWorld != null) {
+                soundHandler.playSound(PositionedSoundRecord.create(new ResourceLocation("zoo"), (float) Minecraft.getMinecraft().thePlayer.posX, (float) Minecraft.getMinecraft().thePlayer.posY, (float) Minecraft.getMinecraft().thePlayer.posZ));
+            }
 
         }
         getChat(from).newMessage(message, from, false);

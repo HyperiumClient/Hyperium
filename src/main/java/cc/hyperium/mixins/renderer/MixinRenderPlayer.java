@@ -18,6 +18,7 @@
 package cc.hyperium.mixins.renderer;
 
 import cc.hyperium.Hyperium;
+import cc.hyperium.config.Settings;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.RenderPlayerEvent;
 import cc.hyperium.mixinsimp.renderer.layers.TwoPartLayerBipedArmor;
@@ -62,7 +63,7 @@ public abstract class MixinRenderPlayer extends RendererLivingEntity<AbstractCli
 
     @Inject(method = "doRender", at = @At("HEAD"), cancellable = true)
     private void doRender(AbstractClientPlayer entity, double x, double y, double z, float entityYaw, float partialTicks, CallbackInfo ci) {
-        if (Hyperium.INSTANCE.getHandlers().getConfigOptions().turnPeopleIntoBlock) {
+        if (Settings.TURN_PEOPLE_INTO_BLOCKS) {
             try {
                 ci.cancel();
                 Hyperium.INSTANCE.getHandlers().getRenderPlayerAsBlock().reDraw(entity, x, y, z);
