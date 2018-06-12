@@ -310,7 +310,7 @@ public class Hyperium {
     }
 
     /**
-     * called when Hyperium shutdown
+     * called when Hyperium shuts down
      */
     private void shutdown() {
         CONFIG.save();
