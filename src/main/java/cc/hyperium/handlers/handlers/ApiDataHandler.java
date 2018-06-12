@@ -60,7 +60,10 @@ public class ApiDataHandler {
                                 s +
                                 "/" + Sk1erMod.getInstance().getApIKey())));
                 player.getRoot().put("localCache", System.currentTimeMillis());
+                if (otherPlayers.size() > 1000)
+                    otherPlayers.clear();
                 otherPlayers.put(name.toLowerCase(), player);
+
             });
             return new HypixelApiPlayer(new JsonHolder());
         });

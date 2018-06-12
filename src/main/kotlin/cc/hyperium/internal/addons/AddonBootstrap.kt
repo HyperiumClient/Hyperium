@@ -8,6 +8,7 @@ import cc.hyperium.internal.addons.strategy.DefaultAddonLoader
 import cc.hyperium.internal.addons.strategy.WorkspaceAddonLoader
 import cc.hyperium.internal.addons.translate.InstanceTranslator
 import cc.hyperium.internal.addons.translate.MixinTranslator
+import cc.hyperium.internal.addons.translate.TransformerTranslator
 import com.google.common.base.Stopwatch
 import net.minecraft.launchwrapper.Launch
 import org.apache.commons.io.FileUtils
@@ -65,7 +66,8 @@ object AddonBootstrap {
      */
     internal val translators = arrayListOf(
             InstanceTranslator(),
-            MixinTranslator()
+            MixinTranslator(),
+            TransformerTranslator()
     )
 
     /**

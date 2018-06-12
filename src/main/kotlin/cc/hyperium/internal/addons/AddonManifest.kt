@@ -71,6 +71,12 @@ class AddonManifest {
     val dependencies: List<String> = ArrayList()
 
     /**
+     * If the addon includes a {@link net.minecraft.launchwrapper.IClassTransformer}
+     * you can specify it here.
+     */
+    val transformerClass: String? = null
+
+    /**
      * Class where the config for the addon is
      */
     val overlay: String? = null

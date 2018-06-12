@@ -20,8 +20,10 @@ package cc.hyperium.mixins.entity;
 import cc.hyperium.Hyperium;
 import cc.hyperium.config.Settings;
 import com.mojang.authlib.GameProfile;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.network.NetworkPlayerInfo;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
@@ -62,6 +64,9 @@ public abstract class MixinAbstractClientPlayer {
     @Inject(method = "getFovModifier", at = @At("HEAD"), cancellable = true)
     private void getFovModifier(CallbackInfoReturnable<Float> ci) {
         if (Settings.STATIC_FOV) {
+            if (Minecraft.getMinecraft().thePlayer.isSprinting() && GeneralSetting.staticFovSprintModifier)
+                ci.setReturnValue((float)(1.0 * ((Minecraft.getMinecraft().thePlayer.getEntityAttribute(SharedMonsterAttributes.movementSpeed).getAttributeValue() / (double)Minecraft.getMinecraft().thePlayer.capabilities.getWalkSpeed() + 1.0D) / 2.0D)));
+            else
             ci.setReturnValue(1.0F);
         }
     }

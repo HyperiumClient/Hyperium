@@ -1,5 +1,7 @@
 package cc.hyperium.cosmetics;
 
+import cc.hyperium.event.InvokeEvent;
+import cc.hyperium.event.WorldChangeEvent;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.purchases.EnumPurchaseType;
 import cc.hyperium.purchases.PurchaseApi;
@@ -36,6 +38,15 @@ public abstract class AbstractCosmetic {
                 e.printStackTrace();
             }
         }
+    }
+
+    @InvokeEvent
+    public void worldSwich(WorldChangeEvent changeEvent) {
+        UUID id = Minecraft.getMinecraft().getSession().getProfile().getId();
+        Boolean aBoolean = purchasedBy.get(id);
+        purchasedBy.clear();
+        if (aBoolean != null)
+            purchasedBy.put(id, aBoolean);
     }
 
     public boolean isPurchasedBy(UUID uuid) {
