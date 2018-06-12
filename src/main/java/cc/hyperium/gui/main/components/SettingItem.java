@@ -102,6 +102,8 @@ public class SettingItem {
         if (tmp.length() > 0)
             HyperiumMainGui.INSTANCE.getFr().drawString(tmp.toString(), (blockX + 3) / s, (blockY + offsetY) / s, new Color(160, 160, 160).getRGB());
         GlStateManager.scale(1.25f, 1.25f, 1.25f);
+        Icons.SETTINGS.bind();
+
         if (icon != null) {
             Minecraft.getMinecraft().getTextureManager().bindTexture(icon);
             int oldScale = Minecraft.getMinecraft().gameSettings.guiScale;
@@ -110,7 +112,6 @@ public class SettingItem {
             Gui.drawScaledCustomSizeModalRect((blockX + w / 7 * 5 - 27) + (25 - width), (blockY - 14) + width, 0, 0, 144, 144, width, width, 144, 144);
         }
 
-        Icons.SETTINGS.bind();
         Icons.INFO.bind();
         Gui.drawScaledCustomSizeModalRect(blockX + w / 7 * 5 - 10, blockY + h / 6 * 4 - 10, 0, 0, 144, 144, 10, 10, 144, 144);
         if (mouseX >= blockX + w / 7 * 5 - 10 && mouseX <= blockX + w / 7 * 5 && mouseY >= blockY + h / 7 * 5 - 10 && mouseY < blockY + h / 7 * 5 && HyperiumMainGui.INSTANCE.getOverlay() == null) {

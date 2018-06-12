@@ -178,6 +178,14 @@ public class HyperiumMainGui extends HyperiumGui {
         lastSelectionChange = System.currentTimeMillis();
     }
 
+    public void openDownloadAddons() {
+        for (AbstractTab tab : tabs) {
+            if (tab instanceof AddonsInstallerTab) {
+                currentTab = tab;
+            }
+        }
+    }
+
     /**
      * Important alerts and announcements from Hyperium team
      */

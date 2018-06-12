@@ -1,6 +1,5 @@
 package cc.hyperium.gui.main.tabs;
 
-import cc.hyperium.Hyperium;
 import cc.hyperium.gui.GuiBlock;
 import cc.hyperium.gui.Icons;
 import cc.hyperium.gui.main.HyperiumMainGui;
@@ -9,27 +8,11 @@ import cc.hyperium.gui.main.components.AbstractTab;
 import cc.hyperium.gui.main.components.SettingItem;
 import cc.hyperium.internal.addons.AddonBootstrap;
 import cc.hyperium.internal.addons.AddonManifest;
-import cc.hyperium.internal.addons.AddonMinecraftBootstrap;
 import cc.hyperium.utils.HyperiumFontRenderer;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.util.ResourceLocation;
-import org.apache.commons.io.Charsets;
-import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.lwjgl.input.Mouse;
 
 import java.awt.*;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Random;
-import java.util.Scanner;
-import java.util.concurrent.ThreadLocalRandom;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /*
  * Created by Cubxity on 29/05/2018
@@ -38,32 +21,11 @@ public class AddonsTab extends AbstractTab {
     private static int offsetY = 0; // static so it saves the previous location
     private static HyperiumFontRenderer hfr = new HyperiumFontRenderer("Arial", Font.PLAIN, 30);
     private static HyperiumOverlay downloadAddons = new HyperiumOverlay();
-    public String selectedMsg;
-    public ArrayList<String> messages;
     private GuiBlock block;
     private int y, w;
 
     public AddonsTab(int y, int w) {
-        messages = new ArrayList<>();
-        try {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(Minecraft.getMinecraft().getResourceManager().getResource(new ResourceLocation("noaddonmsgs.txt")).getInputStream(), Charsets.UTF_8));
 
-            String currentMsg;
-            while ((currentMsg = reader.readLine()) != null) {
-                currentMsg = currentMsg.trim();
-                if (!currentMsg.isEmpty()) {
-                    messages.add(currentMsg);
-                }
-            }
-            if (Hyperium.INSTANCE.isDevEnv() && !AddonMinecraftBootstrap.getAddonLoadErrors().isEmpty()) {
-                messages.clear();
-                messages.add("Uh oh, looks like your addon didn't load correctly!");
-            }
-        } catch (Throwable e) {
-            messages.add(e.getClass().getName() + ": " + e.getMessage());
-            e.printStackTrace();
-        }
-        selectedMsg = messages.get(ThreadLocalRandom.current().nextInt(messages.size()));
         block = new GuiBlock(0, w, y, y + w);
         this.y = y;
         this.w = w;
@@ -116,21 +78,13 @@ public class AddonsTab extends AbstractTab {
                     xi++;
             }
         }
-    }
-
-    public static String choose(File f) throws FileNotFoundException {
-        String result = null;
-        Random rand = new Random();
-        int n = 0;
-        for (Scanner sc = new Scanner(f); sc.hasNext(); ) {
-            ++n;
-            String line = sc.nextLine();
-            if (rand.nextInt(n) == 0)
-                result = line;
+        if (items.isEmpty()) {
+            items.add(new SettingItem(() -> {
+                HyperiumMainGui.INSTANCE.openDownloadAddons();
+            }, Icons.DOWNLOAD.getResource(), "Addons", "Download addons", "Click to visit", 0, 0));
         }
-
-        return result;
     }
+
 
     @Override
     public void drawTabIcon() {
@@ -151,26 +105,9 @@ public class AddonsTab extends AbstractTab {
     @Override
     public void draw(int mouseX, int mouseY, int topX, int topY, int containerWidth, int containerHeight) {
 
-        Logger.getLogger("debug").log(Level.FINE, selectedMsg);
-
         super.draw(mouseX, mouseY, topX, topY, containerWidth, containerHeight);
 
-        //if addon folder is empty display chosen text
-        if (AddonBootstrap.INSTANCE.getAddonManifests().isEmpty()) {
-            GlStateManager.scale(1.0, 1.0, 1.0);
-            hfr.drawStringWithShadow(selectedMsg, topX, topY, new Color(255, 0, 0, 100).getRGB());
-
-            if (Hyperium.INSTANCE.isDevEnv() && !AddonMinecraftBootstrap.getAddonLoadErrors().isEmpty()) {
-                String stacktrace = ExceptionUtils.getStackTrace(AddonMinecraftBootstrap.getAddonLoadErrors().get(0)); // get stacktrace
-                String[] parts = stacktrace.split("\n");
-                int index = 0;
-                for (String part : parts) {
-                    hfr.drawStringWithShadow(part, topX + 5, (topY + 5) + (++index * (hfr.FONT_HEIGHT + 10)), new Color(255, 0, 0, 100).getRGB());
-                }
-            }
-        } else {
-
-        }
+        //Nothing special here
 
     }
 
