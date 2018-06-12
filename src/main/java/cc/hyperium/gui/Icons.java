@@ -17,7 +17,8 @@ public enum Icons {
     EXIT(new ResourceLocation("textures/material/exit.png")),
     TOOL(new ResourceLocation("textures/material/tools.png")),
     COSMETIC(new ResourceLocation("textures/material/cosmetic.png")),
-    SPOTIFY(new ResourceLocation("textures/material/spotify.png"));
+    SPOTIFY(new ResourceLocation("textures/material/spotify.png")),
+    CLOSE(new ResourceLocation("textures/material/close.png"));
 
 
     private ResourceLocation res;

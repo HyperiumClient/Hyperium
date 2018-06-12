@@ -115,6 +115,10 @@ object AddonBootstrap {
         if (pendingDirectory.exists() && !pendingDirectory.listFiles().isEmpty())
             pendingDirectory.listFiles().forEach {
                 pendingManifests.add(AddonManifestParser(JarFile(it)).getAddonManifest())
+                with(File(modDirectory, it.name)) {
+                    if(exists())
+                        delete()
+                }
                 FileUtils.moveFile(it, File(modDirectory, it.name))
             }
 
