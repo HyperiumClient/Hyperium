@@ -7,6 +7,7 @@ import cc.hyperium.config.Settings;
 import cc.hyperium.config.ToggleSetting;
 import cc.hyperium.cosmetics.Deadmau5Cosmetic;
 import cc.hyperium.cosmetics.HyperiumCosmetics;
+import cc.hyperium.cosmetics.wings.WingsCosmetic;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.PurchaseLoadEvent;
 import cc.hyperium.gui.GuiBlock;
@@ -129,6 +130,12 @@ public class SettingsTab extends AbstractTab {
 
         items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(spotify), Icons.SPOTIFY.getResource(), "Spotify", "Hyperium Spotify Settings", "Click to configure", 1, 1));
         //TODO fix this method being async
+        WingsCosmetic wingsCosmetic = Hyperium.INSTANCE.getCosmetics().getWingsCosmetic();
+        if(wingsCosmetic.isSelfUnlocked()) {
+            loadedSelf=true;
+            items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(wings), Icons.COSMETIC.getResource(), "Wings", "Hyperium wings Settings", "Click to configure", 0, 2));
+
+        }
 
     }
     boolean loadedSelf = false;
