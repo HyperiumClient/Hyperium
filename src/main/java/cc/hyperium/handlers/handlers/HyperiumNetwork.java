@@ -19,7 +19,7 @@ package cc.hyperium.handlers.handlers;
 
 import cc.hyperium.Metadata;
 import cc.hyperium.event.InvokeEvent;
-import cc.hyperium.event.JoinHypixelEvent;
+import cc.hyperium.event.ServerJoinEvent;
 import cc.hyperium.launch.HyperiumTweaker;
 import cc.hyperium.utils.JsonHolder;
 import io.netty.buffer.Unpooled;
@@ -31,7 +31,7 @@ public class HyperiumNetwork {
 
 
     @InvokeEvent
-    public void joinHypixel(JoinHypixelEvent event) {
+    public void joinHypixel(ServerJoinEvent event) {
         Minecraft.getMinecraft().getNetHandler().addToSendQueue(
                 new C17PacketCustomPayload("hyperium",
                         new PacketBuffer(Unpooled.buffer()).writeString(new JsonHolder()
