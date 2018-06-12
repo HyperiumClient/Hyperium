@@ -59,7 +59,7 @@ public class SettingItem {
 
     public void mouseClicked(int mouseX, int mouseY) {
         if (HyperiumMainGui.INSTANCE.getOverlay() != null) return;
-        if(System.currentTimeMillis()- HyperiumMainGui.INSTANCE.getLastSelectionChange() < 100) return;
+        if (System.currentTimeMillis() - HyperiumMainGui.INSTANCE.getLastSelectionChange() < 100) return;
         this.clickX = mouseX;
         this.clickY = mouseY;
     }
@@ -86,22 +86,25 @@ public class SettingItem {
         lastClicked = Mouse.isButtonDown(0);
         HyperiumMainGui.INSTANCE.getFr().drawString(title, blockX + 3, blockY + 3, 0xffffff);
         float s = 0.8f;
-        GlStateManager.scale(s, s, s);
-        StringBuilder tmp = new StringBuilder();
-        int offsetY = 15;
-        for (String word : desc.split(" ")) {
-            if (HyperiumMainGui.INSTANCE.getFr().getWidth(tmp + word) * s < w / 7 * 5 - (offsetY >= 25 ? 0 : 27))
-                tmp.append(word).append(" ");
-            else {
-                HyperiumMainGui.INSTANCE.getFr().drawString(tmp.toString(), (blockX + 3) / s, (blockY + offsetY) / s, new Color(160, 160, 160).getRGB());
-                offsetY += 10;
-                tmp = new StringBuilder();
-                tmp.append(word).append(" ");
+        if (desc != null) {
+            GlStateManager.scale(s, s, s);
+            StringBuilder tmp = new StringBuilder();
+            int offsetY = 15;
+            for (String word : desc.split(" ")) {
+                if (HyperiumMainGui.INSTANCE.getFr().getWidth(tmp + word) * s < w / 7 * 5 - (offsetY >= 25 ? 0 : 27))
+                    tmp.append(word).append(" ");
+                else {
+                    HyperiumMainGui.INSTANCE.getFr().drawString(tmp.toString(), (blockX + 3) / s, (blockY + offsetY) / s, new Color(160, 160, 160).getRGB());
+                    offsetY += 10;
+                    tmp = new StringBuilder();
+                    tmp.append(word).append(" ");
+                }
             }
+            if (tmp.length() > 0)
+                HyperiumMainGui.INSTANCE.getFr().drawString(tmp.toString(), (blockX + 3) / s, (blockY + offsetY) / s, new Color(160, 160, 160).getRGB());
+            GlStateManager.scale(1.25f, 1.25f, 1.25f);
         }
-        if (tmp.length() > 0)
-            HyperiumMainGui.INSTANCE.getFr().drawString(tmp.toString(), (blockX + 3) / s, (blockY + offsetY) / s, new Color(160, 160, 160).getRGB());
-        GlStateManager.scale(1.25f, 1.25f, 1.25f);
+
         Icons.SETTINGS.bind();
 
         if (icon != null) {
