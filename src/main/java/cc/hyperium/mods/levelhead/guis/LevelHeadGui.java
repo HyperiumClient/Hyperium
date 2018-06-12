@@ -33,6 +33,7 @@ import cc.hyperium.netty.NettyClient;
 import cc.hyperium.netty.packet.packets.serverbound.ServerCrossDataPacket;
 import cc.hyperium.utils.ChatColor;
 import cc.hyperium.utils.JsonHolder;
+import cc.hyperium.utils.UUIDUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
@@ -97,9 +98,9 @@ public class LevelHeadGui extends GuiScreen {
 
     @Override
     public void initGui() {
-        if (Sk1erMod.getInstance().getApIKey() != null && Minecraft.getMinecraft().getSession().getProfile().getId() != null) {
+        if (Sk1erMod.getInstance().getApIKey() != null && UUIDUtil.getClientUUID() != null) {
             Multithreading.runAsync(() -> {
-                String raw = Sk1erMod.getInstance().rawWithAgent("http://sk1er.club/modquery/" + Sk1erMod.getInstance().getApIKey() + "/levelhead/" + Minecraft.getMinecraft().getSession().getProfile().getId().toString().replace("-", ""));
+                String raw = Sk1erMod.getInstance().rawWithAgent("http://sk1er.club/modquery/" + Sk1erMod.getInstance().getApIKey() + "/levelhead/" + UUIDUtil.getClientUUID().toString().replace("-", ""));
                 this.isCustom = new JsonHolder(raw).optBoolean("custom");
                 updateCustom();
             });

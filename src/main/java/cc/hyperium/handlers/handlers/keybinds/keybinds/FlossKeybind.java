@@ -25,6 +25,7 @@ import cc.hyperium.handlers.handlers.keybinds.HyperiumBind;
 import cc.hyperium.netty.NettyClient;
 import cc.hyperium.netty.packet.packets.serverbound.ServerCrossDataPacket;
 import cc.hyperium.utils.JsonHolder;
+import cc.hyperium.utils.UUIDUtil;
 import net.minecraft.client.Minecraft;
 import org.lwjgl.input.Keyboard;
 
@@ -60,7 +61,7 @@ public class FlossKeybind extends HyperiumBind {
     @Override
     public void onRelease() {
         if (Settings.FLOSS_TOGGLE) return;
-        Hyperium.INSTANCE.getHandlers().getFlossDanceHandler().stopAnimation(Minecraft.getMinecraft().getSession().getProfile().getId());
+        Hyperium.INSTANCE.getHandlers().getFlossDanceHandler().stopAnimation(UUIDUtil.getClientUUID());
         NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("type", "floss_update").put("flossing", false)));
 
     }

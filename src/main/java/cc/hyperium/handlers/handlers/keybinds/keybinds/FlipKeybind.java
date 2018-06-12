@@ -23,7 +23,7 @@ import cc.hyperium.handlers.handlers.keybinds.HyperiumBind;
 import cc.hyperium.netty.NettyClient;
 import cc.hyperium.netty.packet.packets.serverbound.ServerCrossDataPacket;
 import cc.hyperium.utils.JsonHolder;
-import net.minecraft.client.Minecraft;
+import cc.hyperium.utils.UUIDUtil;
 import org.lwjgl.input.Keyboard;
 
 public class FlipKeybind extends HyperiumBind {
@@ -41,7 +41,7 @@ public class FlipKeybind extends HyperiumBind {
         if (Settings.isFlipToggle) {
             inverted = !inverted;
             int state = inverted ? Settings.flipType : 0;
-            Hyperium.INSTANCE.getHandlers().getFlipHandler().state(Minecraft.getMinecraft().getSession().getProfile().getId(), state);
+            Hyperium.INSTANCE.getHandlers().getFlipHandler().state(UUIDUtil.getClientUUID(), state);
             NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("type", "flip_update").put("flip_state", state)));
             Hyperium.INSTANCE.getHandlers().getFlipHandler().resetTick();
         }
@@ -54,7 +54,7 @@ public class FlipKeybind extends HyperiumBind {
         if (!Settings.isFlipToggle) {
             inverted = !inverted;
             int state = inverted ? Settings.flipType : 0;
-            Hyperium.INSTANCE.getHandlers().getFlipHandler().state(Minecraft.getMinecraft().getSession().getProfile().getId(), state);
+            Hyperium.INSTANCE.getHandlers().getFlipHandler().state(UUIDUtil.getClientUUID(), state);
             NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("type", "flip_update").put("flip_state", state)));
         }
     }

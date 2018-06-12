@@ -6,6 +6,7 @@ import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.purchases.PurchaseApi;
 import cc.hyperium.utils.CapeUtils;
 import cc.hyperium.utils.JsonHolder;
+import cc.hyperium.utils.UUIDUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IImageBuffer;
 import net.minecraft.client.renderer.ThreadDownloadImageData;
@@ -26,7 +27,7 @@ public class CapeHandler {
 
     @InvokeEvent
     public void worldSwap(WorldChangeEvent event) {
-        UUID id = Minecraft.getMinecraft().getSession().getProfile().getId();
+        UUID id = UUIDUtil.getClientUUID();
         ResourceLocation resourceLocation = capes.get(id);
         TextureManager textureManager = Minecraft.getMinecraft().getTextureManager();
 

@@ -3,7 +3,7 @@ package cc.hyperium.cosmetics;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.purchases.EnumPurchaseType;
 import cc.hyperium.purchases.PurchaseApi;
-import net.minecraft.client.Minecraft;
+import cc.hyperium.utils.UUIDUtil;
 
 import java.util.Map;
 import java.util.UUID;
@@ -25,7 +25,7 @@ public abstract class AbstractCosmetic {
         this.purchasable = purchaseable;
         if (purchaseable) {
             try {
-                PurchaseApi.getInstance().getPackageAsync(Minecraft.getMinecraft().getSession().getProfile().getId(), hyperiumPurchase -> {
+                PurchaseApi.getInstance().getPackageAsync(UUIDUtil.getClientUUID(), hyperiumPurchase -> {
                     if (hyperiumPurchase == null) {
                         System.out.println("WARNING COSMETIC NULL");
                         return;

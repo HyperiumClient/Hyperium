@@ -6,5 +6,6 @@ public enum Category {
     INTEGRATIONS,
     COSMETICS,
     SPOTIFY,
+    ANIMATIONS,
     WINGS
 }

@@ -34,7 +34,7 @@ public class Settings {
     @ToggleSetting(name = "Fast chat")
     public static boolean FASTCHAT = false;
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;shinyPotsEnabled")
-    @ToggleSetting(name = "Shiny pots")
+    @ToggleSetting(name = "Shiny pots",category = ANIMATIONS)
     public static boolean SHINY_POTS = false;
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;smartSoundsEnabled")
     @ToggleSetting(name = "Smart sounds", category = IMPROVEMENTS)
@@ -94,19 +94,19 @@ public class Settings {
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.CosmeticSettings;flip_type")
     public static int FLIP_TYPE = 1;
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.AnimationSettings;oldBlockhit")
-    @ToggleSetting(name = "1.7 blockhitting")
+    @ToggleSetting(name = "1.7 blockhitting",category = ANIMATIONS)
     public static boolean OLD_BLOCKHIT = true;
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.AnimationSettings;oldBow")
-    @ToggleSetting(name = "1.7 bow")
+    @ToggleSetting(name = "1.7 bow",category = ANIMATIONS)
     public static boolean OLD_BOW = true;
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.AnimationSettings;oldRod")
-    @ToggleSetting(name = "1.7 rod")
+    @ToggleSetting(name = "1.7 rod",category = ANIMATIONS)
     public static boolean OLD_ROD = true;
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.AnimationSettings;redArmour")
-    @ToggleSetting(name = "1.7 armour")
+    @ToggleSetting(name = "1.7 armour",category = ANIMATIONS)
     public static boolean OLD_ARMOUR = true;
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.AnimationSettings;oldEat")
-    @ToggleSetting(name = "1.7 eating")
+    @ToggleSetting(name = "1.7 eating",category = ANIMATIONS)
     public static boolean OLD_EATING = true;
     @ConfigOpt
     @ToggleSetting(name = "RGB in name history")

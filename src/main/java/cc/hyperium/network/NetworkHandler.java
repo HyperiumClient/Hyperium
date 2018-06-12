@@ -8,6 +8,7 @@ import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
 import cc.hyperium.netty.INetty;
 import cc.hyperium.purchases.PurchaseApi;
 import cc.hyperium.utils.JsonHolder;
+import cc.hyperium.utils.UUIDUtil;
 import net.minecraft.client.Minecraft;
 
 import java.util.List;
@@ -21,7 +22,7 @@ public class NetworkHandler implements INetty {
 
     @Override
     public UUID getPlayerUUID() {
-        return Minecraft.getMinecraft().getSession().getProfile().getId();
+        return UUIDUtil.getClientUUID();
     }
 
     @Override

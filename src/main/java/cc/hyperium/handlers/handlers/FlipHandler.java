@@ -4,7 +4,7 @@ import cc.hyperium.Hyperium;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.TickEvent;
 import cc.hyperium.event.WorldChangeEvent;
-import net.minecraft.client.Minecraft;
+import cc.hyperium.utils.UUIDUtil;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -32,7 +32,7 @@ public class FlipHandler {
 
     @InvokeEvent
     public void swapWorld(WorldChangeEvent event) {
-        UUID id = Minecraft.getMinecraft().getSession().getProfile().getId();
+        UUID id = UUIDUtil.getClientUUID();
         Integer integer = rotateState.get(id);
         rotateState.clear();
         if (integer != null) {
@@ -68,6 +68,6 @@ public class FlipHandler {
     }
 
     public int getSelf() {
-        return rotateState.getOrDefault(Minecraft.getMinecraft().getSession().getProfile().getId(), 0);
+        return rotateState.getOrDefault(UUIDUtil.getClientUUID(), 0);
     }
 }

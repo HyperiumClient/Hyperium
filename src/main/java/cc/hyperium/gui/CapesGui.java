@@ -7,6 +7,7 @@ import cc.hyperium.netty.packet.packets.serverbound.ServerCrossDataPacket;
 import cc.hyperium.purchases.PurchaseApi;
 import cc.hyperium.utils.JsonHolder;
 import cc.hyperium.utils.RenderUtils;
+import cc.hyperium.utils.UUIDUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
@@ -80,7 +81,7 @@ public class CapesGui extends HyperiumGui {
                 purchaseSettings.put("cape", new JsonHolder());
             }
             purchaseSettings.optJSONObject("cape").put("type", "default");
-            Hyperium.INSTANCE.getHandlers().getCapeHandler().deleteCape(Minecraft.getMinecraft().getSession().getProfile().getId());
+            Hyperium.INSTANCE.getHandlers().getCapeHandler().deleteCape(UUIDUtil.getClientUUID());
         }, guiButton -> {
 
         });
@@ -232,7 +233,7 @@ public class CapesGui extends HyperiumGui {
                                 }
                                 //assume this is enough time
                                 PurchaseApi.getInstance().refreshSelf();
-                                Hyperium.INSTANCE.getHandlers().getCapeHandler().deleteCape(Minecraft.getMinecraft().getSession().getProfile().getId());
+                                Hyperium.INSTANCE.getHandlers().getCapeHandler().deleteCape(UUIDUtil.getClientUUID());
                             });
                         });
                         GlStateManager.scale(2F, 2F, 2F);
@@ -278,7 +279,7 @@ public class CapesGui extends HyperiumGui {
 
     public void updatePurchases() {
         Multithreading.runAsync(() -> {
-            cosmeticCallback = PurchaseApi.getInstance().get("https://api.hyperium.cc/cosmetics/" + Minecraft.getMinecraft().getSession().getProfile().getId().toString().replace("-", ""));
+            cosmeticCallback = PurchaseApi.getInstance().get("https://api.hyperium.cc/cosmetics/" + UUIDUtil.getClientUUID().toString().replace("-", ""));
             purchasing = false;
         });
 

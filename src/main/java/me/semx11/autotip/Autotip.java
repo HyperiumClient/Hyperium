@@ -22,6 +22,7 @@ import cc.hyperium.commands.BaseCommand;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.mods.AbstractMod;
 import cc.hyperium.utils.ChatColor;
+import cc.hyperium.utils.UUIDUtil;
 import me.semx11.autotip.command.AutotipCommand;
 import me.semx11.autotip.command.LimboCommand;
 import me.semx11.autotip.command.TipHistoryCommand;
@@ -72,7 +73,7 @@ public class Autotip extends AbstractMod {
 
     public Autotip init() {
         try {
-            playerUUID = Minecraft.getMinecraft().getSession().getProfile().getId().toString();
+            playerUUID = UUIDUtil.getClientUUID().toString();
             USER_DIR = "mods" + File.separator + "autotip" + File.separator + playerUUID
                     + File.separator;
             this.registerEvents(
