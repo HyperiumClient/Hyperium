@@ -29,6 +29,7 @@ import cc.hyperium.mods.chromahud.displayitems.chromahud.ArmourHud;
 import cc.hyperium.mods.chromahud.displayitems.chromahud.CordsDisplay;
 import cc.hyperium.mods.chromahud.displayitems.chromahud.TextItem;
 import cc.hyperium.mods.chromahud.displayitems.chromahud.TimeHud;
+import cc.hyperium.mods.chromahud.displayitems.hyperium.ToggleSprintStatus;
 import cc.hyperium.mods.chromahud.gui.GeneralConfigGui;
 import cc.hyperium.utils.ChatColor;
 import cc.hyperium.utils.JsonHolder;
@@ -118,6 +119,8 @@ public class ChromaHUD extends AbstractMod {
 
         ChromaHUDApi.getInstance().registerButtonConfig("SCOREBOARD", new ButtonConfig((guiButton, displayItem) -> displayItem.getData().put("numbers", !displayItem.getData().optBoolean("numbers")), new GuiButton(0, 0, 0, "Toggle Number"), (guiButton, displayItem) -> {
         }));
+
+        ChromaHUDApi.getInstance().registerTextConfig("SPRINT_STATUS", new TextConfig((guiTextField, displayItem) -> ((ToggleSprintStatus) displayItem).setSprintEnabledText(guiTextField.getText()), textTextField, (guiTextField, displayItem) -> guiTextField.setText(((ToggleSprintStatus) displayItem).getStatusText())));
 
 
         ChromaHUDApi.getInstance().registerButtonConfig("COINS", new ButtonConfig((guiButton, displayItem) -> {
