@@ -8,9 +8,10 @@ import cc.hyperium.gui.main.components.SettingItem;
 import cc.hyperium.installer.InstallerFrame;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.utils.Downloader;
+import cc.hyperium.utils.JsonHolder;
+import com.google.gson.JsonArray;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.awt.*;
@@ -18,17 +19,15 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.StreamSupport;
 
 public class AddonsInstallerTab extends AbstractTab {
     private static final char[] hexCodes = "0123456789ABCDEF".toCharArray();
-    private static int offsetY = 0; // static so it saves the previous location
-    public File addonsDir = new File(Minecraft.getMinecraft().mcDataDir, "addons");
-    public int current;
     public String versions_url = "https://raw.githubusercontent.com/HyperiumClient/Hyperium-Repo/master/installer/versions.json";
     private int y, w;
     private GuiBlock block;
@@ -39,26 +38,27 @@ public class AddonsInstallerTab extends AbstractTab {
             this.w = w;
             int yi = 0, xi = 0, current = 0;
             List<JSONObject> ao = new ArrayList<>();
-            JSONObject versionsJson = null;
+            JSONObject versionsJson;
             try {
                 versionsJson = new JSONObject(InstallerFrame.get(versions_url));
             } catch (IOException e) {
                 e.printStackTrace();
+                return;
             }
 
             block = new GuiBlock(0, w, y, y + w);
 
             for (Object o : versionsJson.getJSONArray("addons")) {
                 ao.add((JSONObject) o);
-                int Current = current;
-                items.add(new SettingItem(() -> {
+                int finalCurrent = current;
+                items.add(new SettingItem(() -> Multithreading.runAsync(() -> {
                     try {
-                        installAddon(ao.get(Current).getString("name"));
+                        installAddon(ao.get(finalCurrent).getString("name"));
                     } catch (IOException e) {
-                        HyperiumMainGui.INSTANCE.getAlerts().add(new HyperiumMainGui.Alert(Icons.ERROR.getResource(), null, "Failed to download Addon: " + ao.get(Current).getString("name")));
+                        HyperiumMainGui.INSTANCE.getAlerts().add(new HyperiumMainGui.Alert(Icons.ERROR.getResource(), null, "Failed to download Addon: " + ao.get(finalCurrent).getString("name")));
                         e.printStackTrace();
                     }
-                }, Icons.DOWNLOAD.getResource(), ao.get(current).getString("name"), ao.get(current).getString("description"), "Download Addon", xi, yi));
+                }), Icons.DOWNLOAD.getResource(), ao.get(current).getString("name"), ao.get(current).getString("description"), "Download Addon", xi, yi));
 
                 if (xi == 2) {
                     xi = 0;
@@ -82,8 +82,10 @@ public class AddonsInstallerTab extends AbstractTab {
 
     @Override
     public void drawTabIcon() {
-        Icons.DOWNLOAD.bind();
-        Gui.drawScaledCustomSizeModalRect(5, y + 5, 0, 0, 144, 144, w - 10, w - 10, 144, 144);
+        if (HyperiumMainGui.INSTANCE.getCurrentTab() instanceof AddonsInstallerTab) {
+            Icons.DOWNLOAD.bind();
+            Gui.drawScaledCustomSizeModalRect(5, y + 5, 0, 0, 144, 144, w - 10, w - 10, 144, 144);
+        }
     }
 
     @Override
@@ -93,52 +95,37 @@ public class AddonsInstallerTab extends AbstractTab {
 
     @Override
     public void drawHighlight(float s) {
-        Gui.drawRect(0, (int) (y + s * (s * w / 2)), 3, (int) (y + w - s * (w / 2)), Color.WHITE.getRGB());
+        if (HyperiumMainGui.INSTANCE.getCurrentTab().equals(this))
+            Gui.drawRect(0, (int) (y + s * (s * w / 2)), 3, (int) (y + w - s * (w / 2)), Color.WHITE.getRGB());
     }
 
     private void installAddon(String jsonName) throws IOException {
-        JSONObject versionsJson = new JSONObject(InstallerFrame.get("https://raw.githubusercontent.com/HyperiumClient/Hyperium-Repo/master/installer/versions.json"));
-        JSONArray addonsArray = versionsJson.getJSONArray("addons");
-        List<JSONObject> addonObjects = new ArrayList<>();
-        for (Object o : addonsArray)
-            addonObjects.add((JSONObject) o);
-        AtomicReference<JSONObject> addon = new AtomicReference<>(addonObjects.stream().filter(o -> o.getString("name").equals(jsonName)).findFirst().get());
+        JsonArray addons = new JsonHolder(InstallerFrame.get("https://raw.githubusercontent.com/HyperiumClient/Hyperium-Repo/master/installer/versions.json")).optJSONArray("addons");
+        JsonHolder addon = new JsonHolder(StreamSupport.stream(addons.spliterator(), false).filter(o -> o.getAsJsonObject().get("name").getAsString().equals(jsonName)).findFirst().get().getAsJsonObject());
         File addonsDir = new File(Minecraft.getMinecraft().mcDataDir, "pending-addons");
         addonsDir.mkdir();
-        File aOut = new File(addonsDir, addon.get().getString("name") + "-" + addon.get().getString("version") + ".jar");
-        downloadFile(new URL(addon.get().getString("url")), aOut, addon.get().getString("name"));
+        File aOut = new File(addonsDir, addon.optString("name") + "-" + addon.optString("version") + ".jar");
+        downloadFile(aOut, addon);
     }
 
     /**
-     * Downloads a file.
+     * Downloads the addon
      *
-     * @param url    the URL of the file to download
      * @param output the file to output
-     * @throws IOException when downloading fails
      */
-    private void downloadFile(URL url, File output, String name) throws IOException {
-        JSONObject versionsJson = new JSONObject(InstallerFrame.get("https://raw.githubusercontent.com/HyperiumClient/Hyperium-Repo/master/installer/versions.json"));
-        JSONArray addonsArray = versionsJson.getJSONArray("addons");
-        List<JSONObject> addonObjects = new ArrayList<>();
-        for (Object o : addonsArray)
-            addonObjects.add((JSONObject) o);
-        AtomicReference<JSONObject> addon = new AtomicReference<>();
-
-        if (!output.getParentFile().exists()) {
-            output.getParentFile().mkdirs();
-            if (output.exists()) {
-                Downloader downloader = new Downloader();
-                downloader.download(url, output);
-                System.out.println("Downloading: " + addon.get().getString("url"));
-                File aOut = new File(addonsDir, addon.get().getString("name") + "-" + addon.get().getString("version") + ".jar");
-                if (!toHex(checksum(aOut, "SHA-256")).equalsIgnoreCase(addon.get().getString("sha256"))) {
-                    HyperiumMainGui.INSTANCE.getAlerts().add(new HyperiumMainGui.Alert(Icons.ERROR.getResource(), null, "SHA256 does not match"));
-                }
-            } else {
-                HyperiumMainGui.Alert alert = new HyperiumMainGui.Alert(Icons.EXTENSION.getResource(), () -> {
-                }, "You already have " + name + " installed!");
-                HyperiumMainGui.INSTANCE.getAlerts().add(alert);
-            }
+    private void downloadFile(File output, JsonHolder addon) throws MalformedURLException {
+        if (output.exists())
+            HyperiumMainGui.INSTANCE.getAlerts().add(new HyperiumMainGui.Alert(Icons.EXTENSION.getResource(), () -> {
+            }, "You already have " + addon.optString("name") + " up-to-date and installed!"));
+        else {
+            Downloader downloader = new Downloader();
+            System.out.println("Downloading: " + addon.optString("url"));
+            downloader.download(new URL(addon.optString("url")), output);
+            if (!toHex(checksum(output, "SHA-256")).equalsIgnoreCase(addon.optString("sha256"))) {
+                HyperiumMainGui.INSTANCE.getAlerts().add(new HyperiumMainGui.Alert(Icons.ERROR.getResource(), null, "SHA256 does not match"));
+                output.delete(); // we don't want user to get unverified file
+            } else
+                HyperiumMainGui.INSTANCE.getAlerts().add(new HyperiumMainGui.Alert(Icons.EXTENSION.getResource(), null, "Addon was successfully installed"));
         }
     }
 
@@ -155,5 +142,4 @@ public class AddonsInstallerTab extends AbstractTab {
         }
         return null;
     }
-
 }

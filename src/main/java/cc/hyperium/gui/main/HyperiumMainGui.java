@@ -35,6 +35,10 @@ public class HyperiumMainGui extends HyperiumGui {
     private float highlightScale = 0f;
     private List<AbstractTab> tabs;
 
+    public List<AbstractTab> getTabs() {
+        return tabs;
+    }
+
     public long getLastSelectionChange() {
         return lastSelectionChange;
     }
@@ -71,8 +75,6 @@ public class HyperiumMainGui extends HyperiumGui {
                 new AddonsTab(height / 2, pw),
                 new InfoTab(height / 2 + pw, pw),
                 new AddonsInstallerTab(height / 2 + pw * 2, pw)
-                //next tab will be:
-                //new tab(height / 2 + pw * 3, pw)
         );
         tabFade = 1f;
     }
@@ -128,7 +130,7 @@ public class HyperiumMainGui extends HyperiumGui {
     protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
         super.mouseClicked(mouseX, mouseY, mouseButton);
         if (overlay == null)
-            tabs.stream().filter(t -> t.getBlock().isMouseOver(mouseX, mouseY)).findFirst().ifPresent(
+            tabs.stream().filter(t -> t.getBlock().isMouseOver(mouseX, mouseY) && !(t instanceof AddonsInstallerTab)).findFirst().ifPresent(
                     t -> {
                         currentTab = t;
                         highlightScale = 0f;
@@ -178,12 +180,8 @@ public class HyperiumMainGui extends HyperiumGui {
         lastSelectionChange = System.currentTimeMillis();
     }
 
-    public void openDownloadAddons() {
-        for (AbstractTab tab : tabs) {
-            if (tab instanceof AddonsInstallerTab) {
-                currentTab = tab;
-            }
-        }
+    public AbstractTab getCurrentTab() {
+        return currentTab;
     }
 
     /**
@@ -206,18 +204,14 @@ public class HyperiumMainGui extends HyperiumGui {
             GlStateManager.translate(0, (20 - step), 0);
             drawRect(width / 4, height - 20, width - width / 4, height, new Color(0, 0, 0, 40).getRGB());
             fr.drawString(title, width / 4 + 20, height - 20 + (20 - fr.FONT_HEIGHT) / 2, 0xffffff);
-            GlStateManager.popMatrix();
-
-            //GlStateManager.scale(1f, 1f, 1f );
             if (icon != null) {
-                GlStateManager.pushMatrix();
                 GlStateManager.enableBlend();
                 GlStateManager.color(1f, 1f, 1f);
                 Minecraft.getMinecraft().getTextureManager().bindTexture(icon);
                 drawScaledCustomSizeModalRect(width / 4 + 2, height - 18, 0, 0, 144, 144, 16, 16, 144, 144);
                 GlStateManager.disableBlend();
-                GlStateManager.popMatrix();
             }
+            GlStateManager.popMatrix();
 
             if (step != 20)
                 step++;
@@ -226,7 +220,8 @@ public class HyperiumMainGui extends HyperiumGui {
         }
 
         void runAction() {
-            action.run();
+            if (action != null)
+                action.run();
         }
 
         void dismiss() {

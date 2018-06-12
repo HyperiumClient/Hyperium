@@ -8,19 +8,14 @@ import cc.hyperium.gui.main.components.AbstractTab;
 import cc.hyperium.gui.main.components.SettingItem;
 import cc.hyperium.internal.addons.AddonBootstrap;
 import cc.hyperium.internal.addons.AddonManifest;
-import cc.hyperium.utils.HyperiumFontRenderer;
 import net.minecraft.client.gui.Gui;
 import org.lwjgl.input.Mouse;
-
-import java.awt.*;
 
 /*
  * Created by Cubxity on 29/05/2018
  */
 public class AddonsTab extends AbstractTab {
     private static int offsetY = 0; // static so it saves the previous location
-    private static HyperiumFontRenderer hfr = new HyperiumFontRenderer("Arial", Font.PLAIN, 30);
-    private static HyperiumOverlay downloadAddons = new HyperiumOverlay();
     private GuiBlock block;
     private int y, w;
 
@@ -30,59 +25,29 @@ public class AddonsTab extends AbstractTab {
         this.y = y;
         this.w = w;
         int yi = 0, xi = 0;
-        AddonManifest addonManifest = new AddonManifest();
-        if (addonManifest.getDesc() != null) {
-            for (AddonManifest a : AddonBootstrap.INSTANCE.getAddonManifests()) {
-                items.add(new SettingItem(() -> {
-                    if (a.getOverlay() != null) {
-                        // While loading it has been checked so we don't have to do that here
-                        try {
-                            Class<?> clazz = Class.forName(a.getOverlay());
-                            HyperiumOverlay overlay = (HyperiumOverlay) clazz.newInstance();
-                            HyperiumMainGui.INSTANCE.setOverlay(overlay);
-                        } catch (Exception e) {
-                            HyperiumMainGui.Alert alert = new HyperiumMainGui.Alert(Icons.ERROR.getResource(), () -> {
-                            }, "Failed to load addon's config overlay");
-                            HyperiumMainGui.INSTANCE.getAlerts().add(alert);
-                            e.printStackTrace(); // in case the check went wrong
-                        }
-                    }
-                }, Icons.EXTENSION.getResource(), a.getName(), a.getDesc(), "Configure addon", xi, yi));
-                if (xi == 2) {
-                    xi = 0;
-                    yi++;
-                } else
-                    xi++;
-            }
-        } else {
-            for (AddonManifest a : AddonBootstrap.INSTANCE.getAddonManifests()) {
-                items.add(new SettingItem(() -> {
-                    if (a.getOverlay() != null) {
-                        // While loading it has been checked so we don't have to do that here
-                        try {
-                            Class<?> clazz = Class.forName(a.getOverlay());
-                            HyperiumOverlay overlay = (HyperiumOverlay) clazz.newInstance();
-                            HyperiumMainGui.INSTANCE.setOverlay(overlay);
-                        } catch (Exception e) {
-                            HyperiumMainGui.Alert alert = new HyperiumMainGui.Alert(Icons.ERROR.getResource(), () -> {
-                            }, "Failed to load addon's config overlay");
-                            HyperiumMainGui.INSTANCE.getAlerts().add(alert);
-                            e.printStackTrace(); // in case the check went wrong
-                        }
-                    }
-                }, Icons.EXTENSION.getResource(), a.getName(), "Addon Description", "Configure addon", xi, yi));
-                if (xi == 3) {
-                    xi = 0;
-                    yi++;
-                } else
-                    xi++;
-            }
-        }
-        if (items.isEmpty()) {
+        for (AddonManifest a : AddonBootstrap.INSTANCE.getAddonManifests()) {
             items.add(new SettingItem(() -> {
-                HyperiumMainGui.INSTANCE.openDownloadAddons();
-            }, Icons.DOWNLOAD.getResource(), "Addons", "Download addons", "Click to visit", 0, 0));
+                if (a.getOverlay() != null) {
+                    // While loading it has been checked so we don't have to do that here
+                    try {
+                        Class<?> clazz = Class.forName(a.getOverlay());
+                        HyperiumOverlay overlay = (HyperiumOverlay) clazz.newInstance();
+                        HyperiumMainGui.INSTANCE.setOverlay(overlay);
+                    } catch (Exception e) {
+                        HyperiumMainGui.Alert alert = new HyperiumMainGui.Alert(Icons.ERROR.getResource(), () -> {
+                        }, "Failed to load addon's config overlay");
+                        HyperiumMainGui.INSTANCE.getAlerts().add(alert);
+                        e.printStackTrace(); // in case the check went wrong
+                    }
+                }
+            }, Icons.EXTENSION.getResource(), a.getName(), a.getDesc(), "Configure addon", xi, yi));
+            if (xi == 2) {
+                xi = 0;
+                yi++;
+            } else
+                xi++;
         }
+        items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setTab(HyperiumMainGui.INSTANCE.getTabs().get(4)), Icons.DOWNLOAD.getResource(), "Addons", "Download addons", "Click to open menu to download addons", xi, yi));
     }
 
 
@@ -99,16 +64,12 @@ public class AddonsTab extends AbstractTab {
 
     @Override
     public void drawHighlight(float s) {
-        Gui.drawRect(0, (int) (y + s * (s * w / 2)), 3, (int) (y + w - s * (w / 2)), Color.WHITE.getRGB());
+        Gui.drawRect(0, (int) (y + s * (s * w / 2)), 3, (int) (y + w - s * (w / 2)), 0xffffffff);
     }
 
     @Override
     public void draw(int mouseX, int mouseY, int topX, int topY, int containerWidth, int containerHeight) {
-
-        super.draw(mouseX, mouseY, topX, topY, containerWidth, containerHeight);
-
-        //Nothing special here
-
+        super.draw(mouseX, mouseY, topX, topY + offsetY, containerWidth, containerHeight);
     }
 
     @Override
