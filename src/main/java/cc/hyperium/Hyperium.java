@@ -164,6 +164,7 @@ public class Hyperium {
         // Register statistics tracking.
         EventBus.INSTANCE.register(statTrack);
         CONFIG.register(statTrack);
+        CONFIG.register(new ToggleSprintContainer());
 
         SplashProgress.PROGRESS = 7;
         SplashProgress.CURRENT = "Starting Hyperium";
@@ -309,7 +310,7 @@ public class Hyperium {
     }
 
     /**
-     * called when Hyperium shutdown
+     * called when Hyperium shuts down
      */
     private void shutdown() {
         CONFIG.save();

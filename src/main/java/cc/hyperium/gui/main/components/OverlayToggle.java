@@ -13,7 +13,7 @@ import java.util.function.Consumer;
 public class OverlayToggle extends OverlayComponent {
     private boolean toggle;
     private Consumer<Boolean> callback;
-    private float step = 1f;
+    private float step = 0f;
     private float colorStep = 0.5f;
 
     public OverlayToggle(String label, boolean toggle, Consumer<Boolean> callback) {
@@ -36,11 +36,11 @@ public class OverlayToggle extends OverlayComponent {
         GL11.glDisable(GL11.GL_LINE_SMOOTH);
 
         if (step > 0f)
-            step -= 0.13f;
+            step -= 0.1f;
         if (toggle && colorStep < 1f)
-            colorStep+=0.2f;
+            colorStep += 0.2f;
         if (!toggle && colorStep > 0f)
-            colorStep-=0.2f;
+            colorStep -= 0.2f;
         return true;
     }
 
@@ -54,7 +54,7 @@ public class OverlayToggle extends OverlayComponent {
     }
 
     public void resetStep() {
-        step = 1f;
+        step = 0f;
         colorStep = 0.5f;
     }
 }

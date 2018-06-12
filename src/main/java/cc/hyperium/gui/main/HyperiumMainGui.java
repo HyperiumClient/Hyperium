@@ -211,12 +211,12 @@ public class HyperiumMainGui extends HyperiumGui {
                 drawScaledCustomSizeModalRect(width / 4 + 2, height - 18, 0, 0, 144, 144, 16, 16, 144, 144);
                 GlStateManager.disableBlend();
             }
+            Icons.CLOSE.bind();
+            drawScaledCustomSizeModalRect(width - width / 4 - 18, height - 18, 0, 0, 144, 144, 16, 16, 144, 144);
             GlStateManager.popMatrix();
 
             if (step != 20)
                 step++;
-
-            //TODO: Dismiss icon
         }
 
         void runAction() {

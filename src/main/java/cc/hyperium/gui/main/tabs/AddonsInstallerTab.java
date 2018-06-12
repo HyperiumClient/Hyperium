@@ -55,7 +55,7 @@ public class AddonsInstallerTab extends AbstractTab {
                     try {
                         installAddon(ao.get(finalCurrent).getString("name"));
                     } catch (IOException e) {
-                        HyperiumMainGui.INSTANCE.getAlerts().add(new HyperiumMainGui.Alert(Icons.ERROR.getResource(), null, "Failed to download Addon: " + ao.get(finalCurrent).getString("name")));
+                        HyperiumMainGui.INSTANCE.getAlerts().add(new HyperiumMainGui.Alert(Icons.ERROR.getResource(), null, "Failed to download " + ao.get(finalCurrent).getString("name")));
                         e.printStackTrace();
                     }
                 }), Icons.DOWNLOAD.getResource(), ao.get(current).getString("name"), ao.get(current).getString("description"), "Download Addon", xi, yi));
@@ -116,7 +116,7 @@ public class AddonsInstallerTab extends AbstractTab {
     private void downloadFile(File output, JsonHolder addon) throws MalformedURLException {
         if (output.exists())
             HyperiumMainGui.INSTANCE.getAlerts().add(new HyperiumMainGui.Alert(Icons.EXTENSION.getResource(), () -> {
-            }, "You already have " + addon.optString("name") + " up-to-date and installed!"));
+            }, "You already have " + addon.optString("name") + " installed and up to date"));
         else {
             Downloader downloader = new Downloader();
             System.out.println("Downloading: " + addon.optString("url"));

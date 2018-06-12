@@ -46,6 +46,7 @@ public class HyperiumChromaHudParser implements ChromaHUDParser {
         names.put("DCOUNT", "Dabs Counter");
         names.put("PLAYER", "Player Display");
         names.put("DOUBLE_CPS_DISPLAY", "L+R CPS Display");
+        names.put("SPRINT_STATUS", "ToggleSprint Status");
     }
 
     @Override
@@ -75,6 +76,8 @@ public class HyperiumChromaHudParser implements ChromaHUDParser {
                 return new PlayerDisplay(item, ord);
             case "DOUBLE_CPS_DISPLAY":
                 return new DoubleCPSDisplay(item, ord);
+            case "SPRINT_STATUS":
+                return new ToggleSprintStatus(item, ord);
         }
         return null;
     }
