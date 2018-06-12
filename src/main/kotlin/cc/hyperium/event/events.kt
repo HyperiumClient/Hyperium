@@ -19,6 +19,7 @@ package cc.hyperium.event
 
 import cc.hyperium.event.minigames.Minigame
 import cc.hyperium.mixinsimp.renderer.model.IMixinModelBiped
+import cc.hyperium.purchases.HyperiumPurchase
 import com.mojang.authlib.GameProfile
 import net.minecraft.client.audio.ISound
 import net.minecraft.client.entity.AbstractClientPlayer
@@ -274,6 +275,9 @@ class PostCopyPlayerModelAnglesEvent(entity: AbstractClientPlayer, model: IMixin
  * Called when this player attacks an entity
  */
 class PlayerAttackEntityEvent(val uuid: UUID, val entity: Entity?)
+
+class PurchaseLoadEvent(val uuid: UUID, val purchase: HyperiumPurchase, val self: Boolean)
+
 
 abstract class CopyPlayerModelAnglesEvent(val entity: AbstractClientPlayer, val model: IMixinModelBiped)
 

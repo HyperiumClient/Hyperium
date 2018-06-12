@@ -8,6 +8,8 @@ import cc.hyperium.config.ToggleSetting;
 import cc.hyperium.cosmetics.Deadmau5Cosmetic;
 import cc.hyperium.cosmetics.HyperiumCosmetics;
 import cc.hyperium.cosmetics.wings.WingsCosmetic;
+import cc.hyperium.event.InvokeEvent;
+import cc.hyperium.event.PurchaseLoadEvent;
 import cc.hyperium.gui.GuiBlock;
 import cc.hyperium.gui.Icons;
 import cc.hyperium.gui.main.HyperiumMainGui;
@@ -17,6 +19,7 @@ import cc.hyperium.gui.main.components.OverlaySelector;
 import cc.hyperium.gui.main.components.SettingItem;
 import cc.hyperium.netty.NettyClient;
 import cc.hyperium.netty.packet.packets.serverbound.ServerCrossDataPacket;
+import cc.hyperium.purchases.EnumPurchaseType;
 import cc.hyperium.purchases.PurchaseApi;
 import cc.hyperium.utils.JsonHolder;
 import net.minecraft.client.gui.Gui;
@@ -38,6 +41,8 @@ public class SettingsTab extends AbstractTab {
     private final HyperiumOverlay improvements = new HyperiumOverlay();
     private final HyperiumOverlay cosmetics = new HyperiumOverlay();
     private final HyperiumOverlay spotify = new HyperiumOverlay();
+    private final HyperiumOverlay animations = new HyperiumOverlay();
+
     private final HyperiumOverlay wings = new HyperiumOverlay();
     private final HashMap<Field, Consumer<Object>> callback = new HashMap<>();
     private final HashMap<Field, Supplier<String[]>> customStates = new HashMap<>();
@@ -121,12 +126,26 @@ public class SettingsTab extends AbstractTab {
 
         items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(cosmetics), Icons.COSMETIC.getResource(), "Cosmetics", "Bling out your Minecraft Avatar", "Click to configure", 0, 1));
 
-        items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(spotify), Icons.SPOTIFY.getResource(), "Spotify", "Hyperium Spotify Settings", "Click to configure", 1, 1));
+        items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(animations), Icons.COSMETIC.getResource(), "Animations", "Adjust the Minecraft Animations", "Click to configure", 2, 1));
 
+        items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(spotify), Icons.SPOTIFY.getResource(), "Spotify", "Hyperium Spotify Settings", "Click to configure", 1, 1));
         //TODO fix this method being async
         WingsCosmetic wingsCosmetic = Hyperium.INSTANCE.getCosmetics().getWingsCosmetic();
-        if (wingsCosmetic.isSelfUnlocked()) {
-            items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(wings), Icons.COSMETIC.getResource(), "wings", "Hyperium wings Settings", "Click to configure", 2, 1));
+        if(wingsCosmetic.isSelfUnlocked()) {
+            loadedSelf=true;
+            items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(wings), Icons.COSMETIC.getResource(), "Wings", "Hyperium wings Settings", "Click to configure", 0, 2));
+
+        }
+
+    }
+    boolean loadedSelf = false;
+    @InvokeEvent
+    public void purchaseLoad(PurchaseLoadEvent event) {
+        if(loadedSelf) return;
+        if(event.getSelf()) {
+            if (event.getPurchase().hasPurchased(EnumPurchaseType.WING_COSMETIC)) {
+                items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(wings), Icons.COSMETIC.getResource(), "Wings", "Hyperium wings Settings", "Click to configure", 0, 2));
+            }
         }
     }
 
@@ -144,6 +163,8 @@ public class SettingsTab extends AbstractTab {
                 return spotify;
             case WINGS:
                 return wings;
+            case ANIMATIONS:
+                return animations;
         }
         return general;
     }

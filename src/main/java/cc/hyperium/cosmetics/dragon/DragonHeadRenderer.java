@@ -6,12 +6,17 @@ import cc.hyperium.cosmetics.DragonCosmetic;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.RenderPlayerEvent;
 import cc.hyperium.event.WorldChangeEvent;
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.chunk.Chunk;
 import org.lwjgl.opengl.GL11;
 
 import java.util.HashMap;
@@ -77,7 +82,7 @@ public class DragonHeadRenderer extends ModelBase {
     private void onRenderPlayer(final RenderPlayerEvent event) {
         if (dragonCosmetic.isPurchasedBy(event.getEntity().getUniqueID()) || Hyperium.INSTANCE.isDevEnv() && !event.getEntity().isInvisible()) {
             GlStateManager.pushMatrix();
-            GlStateManager.translate(event.getX(),event.getY(),event.getZ());
+            GlStateManager.translate(event.getX(), event.getY(), event.getZ());
             this.renderHead(event.getEntity(), event.getPartialTicks());
             GlStateManager.popMatrix();
         }
@@ -86,14 +91,7 @@ public class DragonHeadRenderer extends ModelBase {
 
 
     private void renderHead(final EntityPlayer player, final float partialTicks) {
-        JumpState jumpState = timeMap.computeIfAbsent(player.getUniqueID(), uuid -> new JumpState());
-        if (player.isAirBorne && jumpState.onground) {
-            jumpState.onground = false;
-            jumpState.lastOnGround = System.currentTimeMillis();
-        } else if (!jumpState.onground && player.onGround) {
-            jumpState.onground = true;
-            jumpState.lastOnGround = 0L;
-        }
+
         final double scale = 1.0F;
         final double rotate = this.interpolate(player.rotationYawHead, player.prevRotationYaw, partialTicks);
         final double rotate1 = this.interpolate(player.prevRotationPitch, player.rotationPitch, partialTicks);
@@ -113,18 +111,25 @@ public class DragonHeadRenderer extends ModelBase {
         if (player.onGround) {
             jaw.rotateAngleX = 0;
         } else {
-            long l = System.currentTimeMillis() - jumpState.lastOnGround;
-            double v1 = 250;
-            if (l > v1) {
-                jaw.rotateAngleX = 0;
-            } else {
-                double v = l / v1;
-                if (v < .5) {
-                    jaw.rotateAngleX = (float) Math.toRadians(90F * v);
-                } else {
-                    jaw.rotateAngleX = (float) Math.toRadians(90F * (1.0 - v));
+            int e = -1;
+            WorldClient theWorld = Minecraft.getMinecraft().theWorld;
+            Chunk chunk = theWorld.getChunkFromBlockCoords(new BlockPos(player.posX, player.posY, player.posZ));
+            for (int i = 0; i < 255; i++) {
+                if (i > player.posY)
+                    break;
+                Block block = chunk.getBlock(new BlockPos(player.posX, i, player.posZ));
+                if (block != null && !block.getMaterial().equals(Material.air))
+                    e = i;
+            }
+            jaw.rotateAngleX = 0;
+            if (e != -1) {
+                double dis = Math.abs(e - player.posY);
+                dis/=4;
+                if (dis != 0) {
+                    jaw.rotateAngleX = (float) ((dis) / (1 + dis)) ;
                 }
             }
+
         }
         GL11.glColor3f(colors[0], colors[1], colors[2]);
         this.mc.getTextureManager().bindTexture(this.selectedLoc);

@@ -17,11 +17,14 @@
 
 package cc.hyperium.purchases;
 
+import cc.hyperium.event.EventBus;
 import cc.hyperium.event.InvokeEvent;
+import cc.hyperium.event.PurchaseLoadEvent;
 import cc.hyperium.event.SpawnpointChangeEvent;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.purchases.packages.*;
 import cc.hyperium.utils.JsonHolder;
+import cc.hyperium.utils.UUIDUtil;
 import com.google.gson.JsonObject;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.WorldClient;
@@ -57,7 +60,7 @@ public class PurchaseApi {
         register(EnumPurchaseType.PARTICLE_BACKGROUND, ParticleBackgroundCosmetic.class);
         register(EnumPurchaseType.FLIP_COSMETIC, FlipCosmeticPackage.class);
         register(EnumPurchaseType.DEADMAU5_COSMETIC, EarsCosmetic.class);
-        getPackageAsync(Minecraft.getMinecraft().getSession().getProfile().getId(), hyperiumPurchase -> System.out.println("Loaded self packages: " + hyperiumPurchase.getResponse()));
+        getPackageAsync(UUIDUtil.getClientUUID(), hyperiumPurchase -> System.out.println("Loaded self packages: " + hyperiumPurchase.getResponse()));
         Multithreading.runAsync(() -> {
             capeAtlas = get("https://api.hyperium.cc/capeAtlas");
         });
@@ -75,7 +78,7 @@ public class PurchaseApi {
     public void worldSwitch(SpawnpointChangeEvent event) {
         Multithreading.runAsync(() -> {
             synchronized (instance) {
-                UUID id = Minecraft.getMinecraft().getSession().getProfile().getId();
+                UUID id = UUIDUtil.getClientUUID();
                 HyperiumPurchase purchase = purchasePlayers.get(id);
                 purchasePlayers.clear();
                 if (purchase != null) {
@@ -110,10 +113,15 @@ public class PurchaseApi {
         return purchasePlayers.computeIfAbsent(uuid, uuid1 -> {
             String s = uuid.toString().replace("-", "");
             if (s.length() == 32 && s.charAt(12) != '4') {
-                return new HyperiumPurchase(uuid, new JsonHolder().put("non_player", true));
+
+                HyperiumPurchase non_player = new HyperiumPurchase(uuid, new JsonHolder().put("non_player", true));
+                EventBus.INSTANCE.post(new PurchaseLoadEvent(uuid, non_player, false));
+                return non_player;
             }
 
-            return new HyperiumPurchase(uuid, get(url + uuid.toString()));
+            HyperiumPurchase hyperiumPurchase = new HyperiumPurchase(uuid, get(url + uuid.toString()));
+            EventBus.INSTANCE.post(new PurchaseLoadEvent(uuid, hyperiumPurchase, uuid.equals(UUIDUtil.getClientUUID())));
+            return hyperiumPurchase;
         });
     }
 
@@ -128,7 +136,7 @@ public class PurchaseApi {
     }
 
     public HyperiumPurchase getSelf() {
-        return getPackageIfReady(Minecraft.getMinecraft().getSession().getProfile().getId());
+        return getPackageIfReady(UUIDUtil.getClientUUID());
     }
 
     public void ensureLoaded(UUID uuid) {
@@ -142,7 +150,7 @@ public class PurchaseApi {
     public AbstractHyperiumPurchase parse(EnumPurchaseType type, JsonHolder data) {
         Class<? extends AbstractHyperiumPurchase> c = purchaseClasses.get(type);
         if (c == null) {
-            throw new NullPointerException(type + " doesn't have a class? ");
+            return null;
         }
         Class[] cArg = new Class[2];
         cArg[0] = EnumPurchaseType.class;
@@ -180,7 +188,9 @@ public class PurchaseApi {
     }
 
     public synchronized void refreshSelf() {
-        UUID id = Minecraft.getMinecraft().getSession().getProfile().getId();
-        purchasePlayers.put(id, new HyperiumPurchase(id, get(url + id.toString())));
+        UUID id = UUIDUtil.getClientUUID();
+        HyperiumPurchase value = new HyperiumPurchase(id, get(url + id.toString()));
+        EventBus.INSTANCE.post(new PurchaseLoadEvent(id, value, true));
+        purchasePlayers.put(id, value);
     }
 }

@@ -42,8 +42,10 @@ public class HyperiumPurchase {
             EnumPurchaseType parse = EnumPurchaseType.parse(asString);
             if (parse != EnumPurchaseType.UNKNOWN)
                 try {
-                    this.purchases.add(PurchaseApi.getInstance().parse(parse, purchaseSettings
-                            .optJSONObject(parse.name().toLowerCase())));
+                    AbstractHyperiumPurchase parse1 = PurchaseApi.getInstance().parse(parse, purchaseSettings
+                            .optJSONObject(parse.name().toLowerCase()));
+                    if (parse1 != null)
+                        this.purchases.add(parse1);
                 } catch (Exception wtf) {
                     wtf.printStackTrace();
                 }

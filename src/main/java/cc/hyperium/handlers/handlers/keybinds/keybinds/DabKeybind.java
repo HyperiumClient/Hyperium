@@ -25,6 +25,7 @@ import cc.hyperium.handlers.handlers.keybinds.HyperiumBind;
 import cc.hyperium.netty.NettyClient;
 import cc.hyperium.netty.packet.packets.serverbound.ServerCrossDataPacket;
 import cc.hyperium.utils.JsonHolder;
+import cc.hyperium.utils.UUIDUtil;
 import net.minecraft.client.Minecraft;
 import org.lwjgl.input.Keyboard;
 
@@ -61,7 +62,7 @@ public class DabKeybind extends HyperiumBind {
     public void onRelease() {
         if (Settings.DAB_TOGGLE) return;
 
-        Hyperium.INSTANCE.getHandlers().getDabHandler().stopAnimation(Minecraft.getMinecraft().getSession().getProfile().getId());
+        Hyperium.INSTANCE.getHandlers().getDabHandler().stopAnimation(UUIDUtil.getClientUUID());
         NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("type", "dab_update").put("dabbing", false)));
     }
 }

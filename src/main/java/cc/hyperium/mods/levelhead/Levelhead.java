@@ -30,6 +30,7 @@ import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.mods.sk1ercommon.Sk1erMod;
 import cc.hyperium.utils.ChatColor;
 import cc.hyperium.utils.JsonHolder;
+import cc.hyperium.utils.UUIDUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.PotionEffect;
@@ -91,7 +92,7 @@ public class Levelhead extends AbstractMod {
         this.config = new LevelheadConfig();
         Hyperium.CONFIG.register(config);
         register(mod);
-        userUuid = Minecraft.getMinecraft().getSession().getProfile().getId();
+        userUuid = UUIDUtil.getClientUUID();
         register(new LevelHeadRender(this), this);
 
         Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(new LevelHeadCommand(this));

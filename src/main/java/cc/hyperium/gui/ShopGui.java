@@ -6,7 +6,7 @@ import cc.hyperium.netty.NettyClient;
 import cc.hyperium.netty.packet.packets.serverbound.ServerCrossDataPacket;
 import cc.hyperium.purchases.PurchaseApi;
 import cc.hyperium.utils.JsonHolder;
-import net.minecraft.client.Minecraft;
+import cc.hyperium.utils.UUIDUtil;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
 
@@ -39,7 +39,7 @@ public class ShopGui extends HyperiumGui {
         Multithreading.runAsync(() -> {
             PurchaseApi.getInstance().refreshSelf();
             personData = PurchaseApi.getInstance().getSelf().getResponse();
-            cosmeticCallback = PurchaseApi.getInstance().get("https://api.hyperium.cc/cosmetics/" + Minecraft.getMinecraft().getSession().getProfile().getId().toString().replace("-", ""));
+            cosmeticCallback = PurchaseApi.getInstance().get("https://api.hyperium.cc/cosmetics/" + UUIDUtil.getClientUUID().toString().replace("-", ""));
             purchasing = false;
         });
     }
