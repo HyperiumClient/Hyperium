@@ -14,7 +14,7 @@ public class Settings {
     public static boolean DISCORD_RP = true;
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;fullbrightEnabled")
-    @ToggleSetting(name = "Fullbright")
+    @ToggleSetting(name = "Fullbright",category = INTEGRATIONS)
     public static boolean FULLBRIGHT = true;
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;romanNumeralsEnabled")
@@ -26,7 +26,7 @@ public class Settings {
     public static boolean DISCORD_RP_SERVER = true;
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;compactChatEnabled")
-    @ToggleSetting(name = "Compact chat")
+    @ToggleSetting(name = "Compact chat",category = INTEGRATIONS)
     public static boolean COMPACT_CHAT = false;
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;voidflickerfixEnabled")
@@ -38,7 +38,7 @@ public class Settings {
     public static boolean FPS_LIMITER = true;
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;fastchatEnabled")
-    @ToggleSetting(name = "Fast chat")
+    @ToggleSetting(name = "Fast chat",category = INTEGRATIONS)
     public static boolean FASTCHAT = false;
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;shinyPotsEnabled")
@@ -50,7 +50,7 @@ public class Settings {
     public static boolean SMART_SOUNDS = false;
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;numberPingEnabled")
-    @ToggleSetting(name = "Number ping")
+    @ToggleSetting(name = "Number ping",category = INTEGRATIONS)
     public static boolean NUMBER_PING = true;
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;combatParticleFixEnabled")
@@ -179,7 +179,7 @@ public class Settings {
     public static double HEAD_SCALE_FACTOR = 1.0;
 
     @ConfigOpt
-    @SelectorSetting(name = "Head Item Scale", category = GENERAL, items = {"1.0", "1.25", "1.5", "1.75", "2.0","2.5"})
+    @SelectorSetting(name = "Head Item Scale", category = ANIMATIONS, items = {"1.0", "1.25", "1.5", "1.75", "2.0","2.5"})
     // Items configured in override
     public static String HEAD_SCALE_FACTOR_STRING = "1.0";
 
