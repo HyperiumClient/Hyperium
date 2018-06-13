@@ -4,10 +4,10 @@ import cc.hyperium.gui.main.HyperiumOverlay
 import cc.hyperium.internal.addons.misc.AddonLoadException
 
 object OverlayChecker {
-    @Throws(Throwable::class)
+    @Throws(AddonLoadException::class)
     fun checkOverlayField(value: String) {
         val originClass = Class.forName(value)
-        if (!originClass.isInstance(HyperiumOverlay::class.java)) {
+        if (HyperiumOverlay::class.java.isInstance(originClass)) {
             throw AddonLoadException("overlay has to be an instance of HyperiumOverlay")
         }
     }
