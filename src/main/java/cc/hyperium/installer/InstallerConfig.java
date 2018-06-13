@@ -40,7 +40,6 @@ public class InstallerConfig extends JFrame {
     private HashMap<JRadioButton, JsonArray> dependencies = new HashMap<>();
 
     InstallerConfig() {
-        super.frameInit();
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         setSize(WIDTH, HEIGHT);
         this.setLocation(dim.width / 2 - getSize().width / 2, dim.height / 2 - getSize().height / 2);
