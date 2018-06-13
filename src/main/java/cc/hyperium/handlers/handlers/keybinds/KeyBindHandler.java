@@ -64,7 +64,6 @@ public class KeyBindHandler {
         registerKeyBinding(new ToggleSprintKeybind());
         registerKeyBinding(new TogglePerspectiveKeybind());
         registerKeyBinding(new ClearPopupKeybind());
-        registerKeyBinding(new WakandaForeverKeybind());
 
         // Populate mouse bind list in accordance with Minecraft's values.
         for (int i = 0; i < 16; i++) {
