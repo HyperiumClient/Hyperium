@@ -1,5 +1,6 @@
 package cc.hyperium.gui.main;
 
+import cc.hyperium.gui.GuiBlock;
 import cc.hyperium.gui.HyperiumGui;
 import cc.hyperium.gui.Icons;
 import cc.hyperium.gui.main.components.AbstractTab;
@@ -34,6 +35,7 @@ public class HyperiumMainGui extends HyperiumGui {
     private float tabFade;
     private float highlightScale = 0f;
     private List<AbstractTab> tabs = new ArrayList<>();
+    private CosmeticsTab cosmeticsTab;
 
     public List<AbstractTab> getTabs() {
         return tabs;
@@ -58,7 +60,6 @@ public class HyperiumMainGui extends HyperiumGui {
     public void setTab(AbstractTab tab) {
         currentTab = tab;
     }
-    private  CosmeticsTab cosmeticsTab;
 
     public CosmeticsTab getCosmeticsTab() {
         return cosmeticsTab;
@@ -137,7 +138,13 @@ public class HyperiumMainGui extends HyperiumGui {
     protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
         super.mouseClicked(mouseX, mouseY, mouseButton);
         if (overlay == null)
-            tabs.stream().filter(t -> t.getBlock().isMouseOver(mouseX, mouseY) && !(t instanceof AddonsInstallerTab)).findFirst().ifPresent(
+            tabs.stream().filter(t -> {
+                GuiBlock block = t.getBlock();
+                if (block != null)
+                    return block.isMouseOver(mouseX, mouseY)
+                            && !(t instanceof AddonsInstallerTab);
+                return false;
+            }).findFirst().ifPresent(
                     t -> {
                         currentTab = t;
                         highlightScale = 0f;
