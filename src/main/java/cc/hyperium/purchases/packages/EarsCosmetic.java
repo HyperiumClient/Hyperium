@@ -12,7 +12,6 @@ public class EarsCosmetic extends AbstractHyperiumPurchase {
 
     public EarsCosmetic(EnumPurchaseType type, JsonHolder data) {
         super(type, data);
-        System.out.println("DATA: " + data);
         enabled = getData().optBoolean("enabled");
     }
 

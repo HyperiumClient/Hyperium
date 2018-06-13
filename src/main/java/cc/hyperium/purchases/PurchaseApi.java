@@ -60,6 +60,8 @@ public class PurchaseApi {
         register(EnumPurchaseType.PARTICLE_BACKGROUND, ParticleBackgroundCosmetic.class);
         register(EnumPurchaseType.FLIP_COSMETIC, FlipCosmeticPackage.class);
         register(EnumPurchaseType.DEADMAU5_COSMETIC, EarsCosmetic.class);
+        register(EnumPurchaseType.DRAGON_HEAD, DragonHeadCosmetic.class);
+
         getPackageAsync(UUIDUtil.getClientUUID(), hyperiumPurchase -> System.out.println("Loaded self packages: " + hyperiumPurchase.getResponse()));
         Multithreading.runAsync(() -> {
             capeAtlas = get("https://api.hyperium.cc/capeAtlas");
