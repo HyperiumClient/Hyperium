@@ -1,6 +1,7 @@
 package cc.hyperium.cosmetics.dragon;
 
 
+import cc.hyperium.config.Settings;
 import cc.hyperium.cosmetics.DragonCosmetic;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.RenderPlayerEvent;
@@ -80,7 +81,7 @@ public class DragonHeadRenderer extends ModelBase {
 
     @InvokeEvent
     private void onRenderPlayer(final RenderPlayerEvent event) {
-        if (dragonCosmetic.isPurchasedBy(event.getEntity().getUniqueID()) && !event.getEntity().isInvisible()) {
+        if (dragonCosmetic.isPurchasedBy(event.getEntity().getUniqueID()) && !event.getEntity().isInvisible() && Settings.SHOW_DRAGON_HEAD) {
             if (PurchaseApi.getInstance().getSelf().getPurchaseSettings().optJSONObject("dragon").optBoolean("disabled"))
                 return;
             GlStateManager.pushMatrix();
