@@ -52,7 +52,7 @@ public class PrivateMessageHandler {
         if (Settings.PING_ON_DM) {
             SoundHandler soundHandler = Minecraft.getMinecraft().getSoundHandler();
             if (soundHandler != null && Minecraft.getMinecraft().theWorld != null) {
-                soundHandler.playSound(PositionedSoundRecord.create(new ResourceLocation("zoo"), (float) Minecraft.getMinecraft().thePlayer.posX, (float) Minecraft.getMinecraft().thePlayer.posY, (float) Minecraft.getMinecraft().thePlayer.posZ));
+                soundHandler.playSound(PositionedSoundRecord.create(new ResourceLocation("note.pling"), (float) Minecraft.getMinecraft().thePlayer.posX, (float) Minecraft.getMinecraft().thePlayer.posY, (float) Minecraft.getMinecraft().thePlayer.posZ));
             }
 
         }

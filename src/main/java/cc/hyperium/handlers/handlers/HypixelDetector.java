@@ -90,7 +90,6 @@ public class HypixelDetector {
     public void join(JoinHypixelEvent event) {
         if (Settings.HYPIXEL_ZOO) {
             System.out.println("Zoo");
-
             Hyperium.INSTANCE.getNotification().display("Welcome to the HYPIXEL ZOO", "Click to visit https://hypixel.net/", 5f,
                     null, () -> {
                         try {
@@ -103,7 +102,7 @@ public class HypixelDetector {
             SoundHandler soundHandler = Minecraft.getMinecraft().getSoundHandler();
             if (soundHandler == null || Minecraft.getMinecraft().theWorld == null)
                 return;
-            soundHandler.playSound(PositionedSoundRecord.create(new ResourceLocation("note.pling"), (float) Minecraft.getMinecraft().thePlayer.posX, (float) Minecraft.getMinecraft().thePlayer.posY, (float) Minecraft.getMinecraft().thePlayer.posZ));
+            soundHandler.playSound(PositionedSoundRecord.create(new ResourceLocation("zoo"), (float) Minecraft.getMinecraft().thePlayer.posX, (float) Minecraft.getMinecraft().thePlayer.posY, (float) Minecraft.getMinecraft().thePlayer.posZ));
         }
 //        Minecraft.getMinecraft().thePlayer.playSound("hyperium:zoo",1.0F,1.0F);
     }
