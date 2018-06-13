@@ -103,6 +103,19 @@ public class SettingItem {
                     tmp.append(word).append(" ");
                 else {
                     HyperiumMainGui.INSTANCE.getFr().drawString(tmp.toString(), (blockX + 3) / s, (blockY + offsetY) / s, new Color(160, 160, 160).getRGB());
+                    
+                    /* Cuts off rendering if the next line will be below the border
+                     *
+                     * Triggers if:
+                     * borderY + lineY divided by the scale is greater than the borders Y height + box height.
+                     * Taken from the rendering code above. This should be changed in the future.
+                     *
+                     * By boom
+                     */
+                    if ((blockY + offsetY) / s - 5 > blockY + h / 6 * 4) {
+                        break;
+                    }
+                    
                     offsetY += 10;
                     tmp = new StringBuilder();
                     tmp.append(word).append(" ");
