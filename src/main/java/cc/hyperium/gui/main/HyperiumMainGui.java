@@ -33,7 +33,7 @@ public class HyperiumMainGui extends HyperiumGui {
     private HyperiumOverlay overlay;
     private float tabFade;
     private float highlightScale = 0f;
-    private List<AbstractTab> tabs;
+    private List<AbstractTab> tabs = new ArrayList<>();
 
     public List<AbstractTab> getTabs() {
         return tabs;
@@ -75,10 +75,9 @@ public class HyperiumMainGui extends HyperiumGui {
         if (currentTab == null)
             currentTab = ht; // Home tab should be selected one by default
 
-        cosmeticsTab = new CosmeticsTab(height / 2 - pw * 2, pw);
         tabs = Arrays.asList(
                 ht,
-                cosmeticsTab,
+                cosmeticsTab = new CosmeticsTab(height / 2 - pw * 2, pw),
                 new SettingsTab(height / 2 - pw, pw),
                 new AddonsTab(height / 2, pw),
                 new InfoTab(height / 2 + pw, pw),
