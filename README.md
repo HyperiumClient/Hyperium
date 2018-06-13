@@ -39,6 +39,7 @@ Q: ETA?
 
 A: For beta, now! Join the <a href="https://discord.gg/RNyRgtv">Discord</a> or visit our <a href="hyperium.cc">website</a>! For release, we don't know!
 
+
 Q: Is there an addon tutorial?
 
 A: Yes, its at https://www.youtube.com/watch?v=RXTIFdoNA8c.
@@ -46,7 +47,7 @@ A: Yes, its at https://www.youtube.com/watch?v=RXTIFdoNA8c.
 
 Q: I found a bug. Where do I report it?
 
-A: Join the <a href="https://discord.gg/RNyRgtv">Discord</a> and run `-new` in the commands channel. Then, explain your issue!
+A: Join the <a href="https://discord.gg/RNyRgtv">Discord</a> and run `-new` in the commands channel. Then explain your issue!
 
 
 Q: My game keeps crashing!
