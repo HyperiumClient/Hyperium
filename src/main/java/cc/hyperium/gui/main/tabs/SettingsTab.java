@@ -21,6 +21,7 @@ import cc.hyperium.gui.main.components.SettingItem;
 import cc.hyperium.netty.NettyClient;
 import cc.hyperium.netty.packet.packets.serverbound.ServerCrossDataPacket;
 import cc.hyperium.purchases.EnumPurchaseType;
+import cc.hyperium.purchases.HyperiumPurchase;
 import cc.hyperium.purchases.PurchaseApi;
 import cc.hyperium.utils.JsonHolder;
 import net.minecraft.client.gui.Gui;
@@ -98,17 +99,36 @@ public class SettingsTab extends AbstractTab {
             });
             callback.put(Settings.class.getField("HEAD_SCALE_FACTOR_STRING"), o -> {
                 try {
-                    Settings.HEAD_SCALE_FACTOR= Double.valueOf(o.toString());
+                    Settings.HEAD_SCALE_FACTOR = Double.valueOf(o.toString());
                 } catch (Exception ignored) {
 
                 }
             });
             callback.put(Settings.class.getField("wingsSELECTED"), o -> {
-                JsonHolder purchaseSettings = PurchaseApi.getInstance().getSelf().getPurchaseSettings();
+                HyperiumPurchase self = PurchaseApi.getInstance().getSelf();
+                if (self == null)
+                    return;
+                JsonHolder purchaseSettings = self.getPurchaseSettings();
                 if (!purchaseSettings.has("wings"))
                     purchaseSettings.put("wings", new JsonHolder());
                 purchaseSettings.optJSONObject("wings").put("type", o.toString());
                 NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("wings", o.toString())));
+            });
+
+            Field flip_type_string = Settings.class.getField("FLIP_TYPE_STRING");
+            customStates.put(flip_type_string, () -> {
+                HyperiumPurchase self = PurchaseApi.getInstance().getSelf();
+                if (self == null || !self.hasPurchased(EnumPurchaseType.FLIP_COSMETIC))
+                    return new String[]{"NOT PURCHASED"};
+                else return new String[]{"FLIP", "ROTATE"};
+            });
+            callback.put(flip_type_string, o -> {
+                String s = o.toString();
+                if (s.equalsIgnoreCase("FLIP")) {
+                    Settings.flipType = 1;
+                } else if (s.equalsIgnoreCase("ROTATE")) {
+                    Settings.flipType = 2;
+                }
             });
 
 

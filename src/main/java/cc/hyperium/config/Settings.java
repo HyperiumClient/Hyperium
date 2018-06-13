@@ -14,7 +14,7 @@ public class Settings {
     public static boolean DISCORD_RP = true;
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;fullbrightEnabled")
-    @ToggleSetting(name = "Fullbright",category = INTEGRATIONS)
+    @ToggleSetting(name = "Fullbright", category = INTEGRATIONS)
     public static boolean FULLBRIGHT = true;
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;romanNumeralsEnabled")
@@ -26,7 +26,7 @@ public class Settings {
     public static boolean DISCORD_RP_SERVER = true;
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;compactChatEnabled")
-    @ToggleSetting(name = "Compact chat",category = INTEGRATIONS)
+    @ToggleSetting(name = "Compact chat", category = INTEGRATIONS)
     public static boolean COMPACT_CHAT = false;
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;voidflickerfixEnabled")
@@ -38,7 +38,7 @@ public class Settings {
     public static boolean FPS_LIMITER = true;
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;fastchatEnabled")
-    @ToggleSetting(name = "Fast chat",category = INTEGRATIONS)
+    @ToggleSetting(name = "Fast chat", category = INTEGRATIONS)
     public static boolean FASTCHAT = false;
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;shinyPotsEnabled")
@@ -50,7 +50,7 @@ public class Settings {
     public static boolean SMART_SOUNDS = false;
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;numberPingEnabled")
-    @ToggleSetting(name = "Number ping",category = INTEGRATIONS)
+    @ToggleSetting(name = "Number ping", category = INTEGRATIONS)
     public static boolean NUMBER_PING = true;
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;combatParticleFixEnabled")
@@ -150,6 +150,10 @@ public class Settings {
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.CosmeticSettings;fliptype")
     public static int flipType = 1;
+
+    @ConfigOpt
+    @SelectorSetting(name = "Flip Type", category = COSMETICS, items = {})//OVERRIDEN
+    public static String FLIP_TYPE_STRING = "FLIP";
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.BackgroundSettings;backgroundSelect")
     @SelectorSetting(name = "Background", items =
             {
@@ -179,7 +183,7 @@ public class Settings {
     public static double HEAD_SCALE_FACTOR = 1.0;
 
     @ConfigOpt
-    @SelectorSetting(name = "Head Item Scale", category = ANIMATIONS, items = {"1.0", "1.25", "1.5", "1.75", "2.0","2.5"})
+    @SelectorSetting(name = "Head Item Scale", category = ANIMATIONS, items = {"1.0", "1.25", "1.5", "1.75", "2.0", "2.5"})
     // Items configured in override
     public static String HEAD_SCALE_FACTOR_STRING = "1.0";
 
@@ -257,9 +261,10 @@ public class Settings {
     public static boolean staticFovSprintModifier;
 
 
-    @ConfigOpt(alt="cc.hyperium.handlers.handlers.chat.AutoWhoChatHandler;enabled")
-    @ToggleSetting(name = "Auto Who",category = INTEGRATIONS)
+    @ConfigOpt(alt = "cc.hyperium.handlers.handlers.chat.AutoWhoChatHandler;enabled")
+    @ToggleSetting(name = "Auto Who", category = INTEGRATIONS)
     public static boolean AUTO_WHO = true;
+
     public static void register() {
         Hyperium.CONFIG.register(new Settings()); // values r static soo whatever
     }

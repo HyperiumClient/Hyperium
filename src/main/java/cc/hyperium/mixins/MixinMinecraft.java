@@ -193,6 +193,7 @@ import net.minecraft.client.resources.IResourcePack;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.init.Bootstrap;
+import net.minecraft.profiler.Profiler;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Timer;
 import net.minecraft.util.Util;
@@ -315,7 +316,9 @@ public abstract class MixinMinecraft {
      */
     @Inject(method = "runTick", at = @At("RETURN"))
     private void runTick(CallbackInfo ci) {
+        mcProfiler.startSection("hyperium_tick");
         EventBus.INSTANCE.post(new TickEvent());
+        mcProfiler.endSection();
     }
 
     /**
@@ -338,10 +341,6 @@ public abstract class MixinMinecraft {
         }
     }
 
-    @Inject(method = "runGameLoop", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/achievement/GuiAchievement;updateAchievementWindow()V"))
-    private void onRun(CallbackInfo ci) {
-
-    }
 
     /**
      * Invoked once the player has pressed mouse button 1
@@ -522,6 +521,8 @@ public abstract class MixinMinecraft {
 
     @Shadow
     public abstract void shutdown();
+
+    @Shadow @Final public Profiler mcProfiler;
 
     /**
      * change to splash screen logo
