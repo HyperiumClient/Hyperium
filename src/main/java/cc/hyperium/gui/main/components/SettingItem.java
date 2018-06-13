@@ -15,6 +15,7 @@ import java.awt.*;
  * Created by Cubxity on 29/05/2018
  */
 public class SettingItem {
+    public int clickX = -1, clickY = -1;
     private Runnable onClick;
     private ResourceLocation icon;
     private String title;
@@ -22,9 +23,6 @@ public class SettingItem {
     private String hover;
     private int xIndex, yIndex;
     private boolean lastClicked = false;
-    private int clickX = -1, clickY = -1;
-
-
     public SettingItem(Runnable onClick, ResourceLocation icon, String title, String desc, String hover, int xIndex, int yIndex) {
         this.onClick = onClick;
         this.icon = icon;
@@ -33,6 +31,10 @@ public class SettingItem {
         this.hover = hover;
         this.xIndex = xIndex;
         this.yIndex = yIndex;
+    }
+
+    public String getTitle() {
+        return title;
     }
 
     public void setDesc(String desc) {
@@ -91,6 +93,12 @@ public class SettingItem {
             StringBuilder tmp = new StringBuilder();
             int offsetY = 15;
             for (String word : desc.split(" ")) {
+                if (word.equalsIgnoreCase("\n")) {
+                    HyperiumMainGui.INSTANCE.getFr().drawString(tmp.toString(), (blockX + 3) / s, (blockY + offsetY) / s, new Color(160, 160, 160).getRGB());
+                    offsetY += 10;
+                    tmp = new StringBuilder();
+                    continue;
+                }
                 if (HyperiumMainGui.INSTANCE.getFr().getWidth(tmp + word) * s < w / 7 * 5 - (offsetY >= 25 ? 0 : 27))
                     tmp.append(word).append(" ");
                 else {
@@ -126,5 +134,9 @@ public class SettingItem {
         this.clickY = -1;
         this.clickX = -1;
 
+    }
+
+    public String getDesc() {
+        return desc;
     }
 }

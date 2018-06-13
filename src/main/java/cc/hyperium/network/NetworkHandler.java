@@ -3,7 +3,7 @@ package cc.hyperium.network;
 import cc.hyperium.Hyperium;
 import cc.hyperium.gui.CapesGui;
 import cc.hyperium.gui.CustomLevelheadConfigurer;
-import cc.hyperium.gui.ShopGui;
+import cc.hyperium.gui.main.HyperiumMainGui;
 import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
 import cc.hyperium.netty.INetty;
 import cc.hyperium.purchases.PurchaseApi;
@@ -59,8 +59,8 @@ public class NetworkHandler implements INetty {
                 Hyperium.INSTANCE.getHandlers().getFlipHandler().state(uuid, 0);
             }
         } else if (type.equalsIgnoreCase("refresh_cosmetics")) {
-            if (Minecraft.getMinecraft().currentScreen instanceof ShopGui) {
-                ((ShopGui) Minecraft.getMinecraft().currentScreen).refreshData();
+            if (Minecraft.getMinecraft().currentScreen instanceof HyperiumMainGui) {
+                ((HyperiumMainGui) Minecraft.getMinecraft().currentScreen).getCosmeticsTab().refreshData();
             } else if (Minecraft.getMinecraft().currentScreen instanceof CapesGui) {
                 ((CapesGui) Minecraft.getMinecraft().currentScreen).updatePurchases();
             } else {

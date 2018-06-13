@@ -58,6 +58,11 @@ public class HyperiumMainGui extends HyperiumGui {
     public void setTab(AbstractTab tab) {
         currentTab = tab;
     }
+    private  CosmeticsTab cosmeticsTab;
+
+    public CosmeticsTab getCosmeticsTab() {
+        return cosmeticsTab;
+    }
 
     @Override
     protected void pack() {
@@ -66,11 +71,14 @@ public class HyperiumMainGui extends HyperiumGui {
         int pw = width / 15;
         if (pw > 144)
             pw = 144; // icon res
-        AbstractTab ht = new HomeTab(height / 2 - (pw * 2), pw);
+        AbstractTab ht = new HomeTab(height / 2 - (pw * 3), pw);
         if (currentTab == null)
             currentTab = ht; // Home tab should be selected one by default
+
+        cosmeticsTab = new CosmeticsTab(height / 2 - pw * 2, pw);
         tabs = Arrays.asList(
                 ht,
+                cosmeticsTab,
                 new SettingsTab(height / 2 - pw, pw),
                 new AddonsTab(height / 2, pw),
                 new InfoTab(height / 2 + pw, pw),

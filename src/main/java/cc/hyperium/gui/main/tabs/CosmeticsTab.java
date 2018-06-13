@@ -1,0 +1,136 @@
+package cc.hyperium.gui.main.tabs;
+
+import cc.hyperium.gui.CapesGui;
+import cc.hyperium.gui.GuiBlock;
+import cc.hyperium.gui.Icons;
+import cc.hyperium.gui.main.components.AbstractTab;
+import cc.hyperium.gui.main.components.SettingItem;
+import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
+import cc.hyperium.mods.sk1ercommon.Multithreading;
+import cc.hyperium.netty.NettyClient;
+import cc.hyperium.netty.packet.packets.serverbound.ServerCrossDataPacket;
+import cc.hyperium.purchases.PurchaseApi;
+import cc.hyperium.utils.JsonHolder;
+import cc.hyperium.utils.UUIDUtil;
+import net.minecraft.client.gui.Gui;
+
+import java.awt.*;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+
+public class CosmeticsTab extends AbstractTab {
+
+    private int y, w;
+
+    private GuiBlock block;
+    private DecimalFormat formatter = new DecimalFormat("#,###");
+    private SettingItem credits;
+    private boolean purchasing = false;
+    private JsonHolder personData = null;
+    private JsonHolder cosmeticCallback = null;
+
+    public CosmeticsTab(int y, int w) {
+        block = new GuiBlock(0, w, y, y + w);
+        this.y = y;
+        this.w = w;
+        rebuild();
+        refreshData();
+    }
+
+    public void rebuild() {
+        ArrayList<SettingItem> settingItems = new ArrayList<>(items);
+        items.clear();
+        items.add(new SettingItem(() -> new CapesGui().show(), Icons.COSMETIC.getResource(), "Capes", "Browse and select Hyperium Capes", "Click to open", 0, 0));
+
+        credits = new SettingItem(() -> {
+            Desktop desktop = Desktop.getDesktop();
+            if (desktop != null) {
+                try {
+                    desktop.browse(new URL("https://purchase.sk1er.club/category/1125808").toURI());
+                } catch (IOException | URISyntaxException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, Icons.COSMETIC.getResource(), "Credits", "", "Credits are used to purchase cosmetics", 1, 0);
+        items.add(credits);
+        int tx = 0;
+        int ty = 1;
+        if (cosmeticCallback != null && !purchasing) {
+            for (String s : cosmeticCallback.getKeys()) {
+                JsonHolder jsonHolder = cosmeticCallback.optJSONObject(s);
+                if (jsonHolder.optBoolean("cape"))
+                    continue;
+                if (tx >= 3) {
+                    ty++;
+                    tx = 0;
+                }
+                String name = jsonHolder.optString("name");
+                String description = jsonHolder.optString("description");
+                int cost = jsonHolder.optInt("cost");
+                boolean purchased = jsonHolder.optBoolean("purchased");
+                boolean enough = jsonHolder.optBoolean("enough");
+                String state = purchased ? "Purchased" : (enough ? "Click to purchase" : "Insufficient credits");
+                SettingItem e = new SettingItem(() -> {
+                    if (!purchased && enough) {
+                        GeneralChatHandler.instance().sendMessage("Attempting to purchase " + s);
+                        purchasing = true;
+                        NettyClient client = NettyClient.getClient();
+                        if (client != null) {
+                            client.write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("cosmetic_purchase", true).put("value", s)));
+                        }
+
+                    }
+                }, Icons.COSMETIC.getResource(), name, description + " \n State: " + state, "Cost: " + cost, tx, ty);
+                items.add(e);
+                for (SettingItem settingItem : settingItems) {
+                    if (settingItem.getTitle().equalsIgnoreCase(name)) {
+                        e.clickY = settingItem.clickY;
+                        e.clickX = settingItem.clickX;
+                    }
+
+                }
+
+                tx++;
+
+            }
+        }
+    }
+
+    @Override
+    public void drawTabIcon() {
+        rebuild();
+        //Used as render tick
+        if (PurchaseApi.getInstance() != null && PurchaseApi.getInstance().getSelf() != null && PurchaseApi.getInstance().getSelf().getResponse() != null) {
+            JsonHolder response = PurchaseApi.getInstance().getSelf().getResponse();
+            credits.setDesc("Total credits: " + formatter.format(response.optInt("total_credits")) + "" + " \n Remaining credits: " + formatter.format(response.optInt("remaining_credits")) + " \n Click to buy more!");
+        }
+
+        Icons.COSMETIC.bind();
+        Gui.drawScaledCustomSizeModalRect(5, y + 5, 0, 0, 144, 144, w - 10, w - 10, 144, 144);
+    }
+
+    @Override
+    public GuiBlock getBlock() {
+        return block;
+    }
+
+    @Override
+    public void drawHighlight(float s) {
+        Gui.drawRect(0, (int) (y + s * (s * w / 2)), 3, (int) (y + w - s * (w / 2)), Color.WHITE.getRGB());
+
+
+    }
+
+    public void refreshData() {
+        Multithreading.runAsync(() -> {
+            PurchaseApi.getInstance().refreshSelf();
+            personData = PurchaseApi.getInstance().getSelf().getResponse();
+            cosmeticCallback = PurchaseApi.getInstance().get("https://api.hyperium.cc/cosmetics/" + UUIDUtil.getClientUUID().toString().replace("-", ""));
+            purchasing = false;
+        });
+    }
+
+}

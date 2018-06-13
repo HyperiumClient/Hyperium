@@ -64,6 +64,7 @@ public class PurchaseApi {
         Multithreading.runAsync(() -> {
             capeAtlas = get("https://api.hyperium.cc/capeAtlas");
         });
+        getSelf();
     }
 
     public static PurchaseApi getInstance() {

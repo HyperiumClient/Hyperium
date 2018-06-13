@@ -23,12 +23,14 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.MessageDigest;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.StreamSupport;
 
 public class AddonsInstallerTab extends AbstractTab {
     private static final char[] hexCodes = "0123456789ABCDEF".toCharArray();
     public String versions_url = "https://raw.githubusercontent.com/HyperiumClient/Hyperium-Repo/master/installer/versions.json";
+    HashMap<Object, Boolean> clicked = new HashMap<>();
     private int y, w;
     private GuiBlock block;
 
@@ -51,14 +53,22 @@ public class AddonsInstallerTab extends AbstractTab {
             for (Object o : versionsJson.getJSONArray("addons")) {
                 ao.add((JSONObject) o);
                 int finalCurrent = current;
-                items.add(new SettingItem(() -> Multithreading.runAsync(() -> {
+                //I know this is hacky nad a memory leak but eh
+                SettingItem e1 = new SettingItem(() -> Multithreading.runAsync(() -> {
+                    if (clicked.containsKey(o))
+                        return;
+                    clicked.put(o, true);
                     try {
                         installAddon(ao.get(finalCurrent).getString("name"));
+                        SettingItem settingItem = items1.get(o);
+                        settingItem.setDesc(settingItem.getDesc() + " \n Downloaded. Restart your game to apply change.");
                     } catch (IOException e) {
                         HyperiumMainGui.INSTANCE.getAlerts().add(new HyperiumMainGui.Alert(Icons.ERROR.getResource(), null, "Failed to download " + ao.get(finalCurrent).getString("name")));
                         e.printStackTrace();
                     }
-                }), Icons.DOWNLOAD.getResource(), ao.get(current).getString("name"), ao.get(current).getString("description"), "Download Addon", xi, yi));
+                }), Icons.DOWNLOAD.getResource(), ao.get(current).getString("name"), ao.get(current).getString("description"), "Download Addon", xi, yi);
+                items1.put(o,e1);
+                items.add(e1);
 
                 if (xi == 2) {
                     xi = 0;
@@ -69,6 +79,7 @@ public class AddonsInstallerTab extends AbstractTab {
             }
         });
     }
+    private HashMap<Object, SettingItem> items1 = new HashMap<>();
 
     private static String toHex(byte[] bytes) {
         StringBuilder r = new StringBuilder(bytes.length * 2);
