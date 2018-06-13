@@ -18,57 +18,57 @@ public class Settings {
     public static boolean FULLBRIGHT = true;
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;romanNumeralsEnabled")
-    @ToggleSetting(name = "Roman numerals")
+    @ToggleSetting(name = "Roman Numerals")
     public static boolean ROMAN_NUMERALS = true;
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;discordServerDisplayEnabled")
-    @ToggleSetting(name = "RP Show server", category = INTEGRATIONS)
+    @ToggleSetting(name = "RP Show Server", category = INTEGRATIONS)
     public static boolean DISCORD_RP_SERVER = true;
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;compactChatEnabled")
-    @ToggleSetting(name = "Compact chat", category = INTEGRATIONS)
+    @ToggleSetting(name = "Compact Chat", category = INTEGRATIONS)
     public static boolean COMPACT_CHAT = false;
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;voidflickerfixEnabled")
-    @ToggleSetting(name = "Void flicker fix", category = IMPROVEMENTS)
+    @ToggleSetting(name = "Void Flicker Fix", category = IMPROVEMENTS)
     public static boolean VOID_FLICKER_FIX = true;
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;framerateLimiterEnabled")
-    @ToggleSetting(name = "FPS limiter", category = IMPROVEMENTS)
+    @ToggleSetting(name = "FPS Limiter (in Limbo)", category = IMPROVEMENTS)
     public static boolean FPS_LIMITER = true;
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;fastchatEnabled")
-    @ToggleSetting(name = "Fast chat", category = INTEGRATIONS)
+    @ToggleSetting(name = "Fast Chat", category = INTEGRATIONS)
     public static boolean FASTCHAT = false;
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;shinyPotsEnabled")
-    @ToggleSetting(name = "Shiny pots", category = ANIMATIONS)
+    @ToggleSetting(name = "Shiny Potions", category = ANIMATIONS)
     public static boolean SHINY_POTS = false;
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;smartSoundsEnabled")
-    @ToggleSetting(name = "Smart sounds", category = IMPROVEMENTS)
+    @ToggleSetting(name = "Smart Sounds", category = IMPROVEMENTS)
     public static boolean SMART_SOUNDS = false;
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;numberPingEnabled")
-    @ToggleSetting(name = "Number ping", category = INTEGRATIONS)
+    @ToggleSetting(name = "Numeric Ping", category = INTEGRATIONS)
     public static boolean NUMBER_PING = true;
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;combatParticleFixEnabled")
-    @ToggleSetting(name = "Crit particle fix", category = IMPROVEMENTS)
+    @ToggleSetting(name = "Crit Particle Fix", category = IMPROVEMENTS)
     public static boolean CRIT_FIX = true;
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;perspectiveHoldDownEnabled")
-    @ToggleSetting(name = "Perspective key hold")
+    @ToggleSetting(name = "Hold Perspective Key")
     public static boolean PERSPECTIVE_HOLD = false;
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;menuStyle")
     public static String MENU_STYLE = GuiStyle.DEFAULT.toString();
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;windowedFullScreen")
-    @ToggleSetting(name = "Windowed fullscreen", category = IMPROVEMENTS)
+    @ToggleSetting(name = "Windowed Fullscreen", category = IMPROVEMENTS)
     public static boolean WINDOWED_FULLSCREEN = false;
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;bossBarTextOnlyEnabled")
-    @ToggleSetting(name = "Bossbar text only")
+    @ToggleSetting(name = "Bossbar - Text Only")
     public static boolean BOSSBAR_TEXT_ONLY = false;
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;staticFovEnabled")
@@ -76,36 +76,36 @@ public class Settings {
     public static boolean STATIC_FOV = false;
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;uploadScreenshotsByDefault")
-    @ToggleSetting(name = "Upload screenshots")
+    @ToggleSetting(name = "Upload Screenshots (by default)")
     public static boolean DEFAULT_UPLOAD_SS = false;
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;hideScoreboardNumbers")
-    @ToggleSetting(name = "Hide scoreboard numbers")
+    @ToggleSetting(name = "Hide Scoreboard Numbers")
     public static boolean HIDE_SCOREBOARD_NUMBERS = true;
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;blurGuiBackgroundsEnabled")
-    @ToggleSetting(name = "Blurred GUI background")
+    @ToggleSetting(name = "Blurred GUI Background")
     public static boolean BLUR_GUI = false;
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;chromaHudNonHypixelEnabled")
-    @ToggleSetting(name = "Enable chromahud on all servers")
+    @ToggleSetting(name = "Chromahud - On All Servers")
     public static boolean CHROMAHUD_ALL = true;
     // enables in non-hypixel
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;screenshotOnKillEnabled")
-    @ToggleSetting(name = "Screenshot on kill")
+    @ToggleSetting(name = "Screenshot On Kill")
     public static boolean SCREENSHOT_KILL = false;
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;spotifyControlsEnabled")
-    @ToggleSetting(name = "Show Spotify controls", category = SPOTIFY)
+    @ToggleSetting(name = "Show Spotify Controls", category = SPOTIFY)
     public static boolean SPOTIFY_CONTROLS = false;
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;hypixelZooEnabled")
-    @ToggleSetting(name = "Welcome to the hypixel zoo")
+    @ToggleSetting(name = "\"Welcome to the Hypixel Zoo!\"")
     public static boolean HYPIXEL_ZOO = true;
 
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;hypixelZooEnabled;oldResourcePackGui")
-    @ToggleSetting(name = "Legacy resource pack GUI")
+    @ToggleSetting(name = "Legacy Resource Pack GUI")
     public static boolean LEGACY_RP = false;
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.CosmeticSettings;dabSpeed")
@@ -121,31 +121,31 @@ public class Settings {
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.CosmeticSettings;flip_type")
     public static int FLIP_TYPE = 1;
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.AnimationSettings;oldBlockhit")
-    @ToggleSetting(name = "1.7 blockhitting", category = ANIMATIONS)
+    @ToggleSetting(name = "1.7 Blockhitting", category = ANIMATIONS)
     public static boolean OLD_BLOCKHIT = true;
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.AnimationSettings;oldBow")
-    @ToggleSetting(name = "1.7 bow", category = ANIMATIONS)
+    @ToggleSetting(name = "1.7 Bow Position", category = ANIMATIONS)
     public static boolean OLD_BOW = true;
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.AnimationSettings;oldRod")
-    @ToggleSetting(name = "1.7 rod", category = ANIMATIONS)
+    @ToggleSetting(name = "1.7 Rod Position", category = ANIMATIONS)
     public static boolean OLD_ROD = true;
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.AnimationSettings;redArmour")
-    @ToggleSetting(name = "1.7 armour", category = ANIMATIONS)
+    @ToggleSetting(name = "1.7 Red Armour (on hit)", category = ANIMATIONS)
     public static boolean OLD_ARMOUR = true;
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.AnimationSettings;oldEat")
-    @ToggleSetting(name = "1.7 eating", category = ANIMATIONS)
+    @ToggleSetting(name = "1.7 Eating", category = ANIMATIONS)
     public static boolean OLD_EATING = true;
 
     @ConfigOpt
-    @ToggleSetting(name = "RGB in name history")
+    @ToggleSetting(name = "Name History RGB")
     public static boolean NH_RGB_NAMES = false;
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.CosmeticSettings;fliptoggle")
-    @ToggleSetting(name = "Flip toggle", category = COSMETICS)
+    @ToggleSetting(name = "Flip - Keybind Toggle", category = COSMETICS)
     public static boolean isFlipToggle = true;
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.CosmeticSettings;fliptype")
@@ -168,7 +168,7 @@ public class Settings {
     )
     public static String BACKGROUND = "4";
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.BackgroundSettings;fastWorldGuiEnabled")
-    @ToggleSetting(name = "Fast container")
+    @ToggleSetting(name = "Transparent Container Backgrounds")
     public static boolean FAST_CONTAINER = false;
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.BackgroundSettings;maxParticles")
@@ -189,12 +189,12 @@ public class Settings {
 
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.BackgroundSettings;renderOverInventory")
-    @ToggleSetting(name = "Particles in inventory", category = COSMETICS)
+    @ToggleSetting(name = "Particles in Inventory", category = COSMETICS)
     public static boolean PARTICLES_INV = true;
 
 
     @ConfigOpt
-    @SelectorSetting(name = "Show Deadmau ears", category = COSMETICS, items = {})
+    @SelectorSetting(name = "Deadmau5 Ears", category = COSMETICS, items = {})
     public static String EARS_STATE = "ON";
 
 
@@ -226,7 +226,7 @@ public class Settings {
     public static boolean SHOW_ONLINE_PLAYERS = true;
 
     @ConfigOpt(alt = "cc.hyperium.handlers.handlers.OtherConfigOptions;turnPeopleIntoBlock")
-    @ToggleSetting(category = COSMETICS, name = "Show players as blocks")
+    @ToggleSetting(category = COSMETICS, name = "Show Players as Blocks")
     public static boolean TURN_PEOPLE_INTO_BLOCKS = false;
 
 
@@ -236,7 +236,7 @@ public class Settings {
 
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.BackgroundSettings;particlesModeString")
-    @SelectorSetting(name = "Particles mode", items =
+    @SelectorSetting(name = "Particles Mode", items =
             {
                     "OFF",
                     "PLAIN 1",
