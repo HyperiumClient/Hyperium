@@ -32,8 +32,8 @@ public class HyperiumMainGui extends HyperiumGui {
     private Queue<Alert> alerts = new ArrayDeque<>();
     private Alert currentAlert;
     private HyperiumOverlay overlay;
-    private float tabFade = 0.0f;
-    private float highlightScale = 0.0f;
+    private float tabFade;
+    private float highlightScale = 0f;
     private List<AbstractTab> tabs = new ArrayList<>();
     private CosmeticsTab cosmeticsTab;
 
