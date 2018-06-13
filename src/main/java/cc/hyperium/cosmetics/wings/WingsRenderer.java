@@ -1,6 +1,7 @@
 package cc.hyperium.cosmetics.wings;
 
 
+import cc.hyperium.config.Settings;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.RenderPlayerEvent;
 import cc.hyperium.purchases.HyperiumPurchase;
@@ -41,7 +42,7 @@ public class WingsRenderer extends ModelBase {
     @InvokeEvent
     public void onRenderPlayer(final RenderPlayerEvent event) {
         final EntityPlayer player = event.getEntity();
-        if (wingsCosmetic.isPurchasedBy(event.getEntity().getUniqueID()) && !player.isInvisible()) {
+        if (wingsCosmetic.isPurchasedBy(event.getEntity().getUniqueID()) && !player.isInvisible() && Settings.SHOW_WINGS) {
             this.renderWings(player, event.getPartialTicks(), event.getX(), event.getY(), event.getZ());
         }
     }
