@@ -1,7 +1,6 @@
 package cc.hyperium.cosmetics.wings;
 
 
-import cc.hyperium.Hyperium;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.RenderPlayerEvent;
 import cc.hyperium.purchases.HyperiumPurchase;
@@ -42,14 +41,14 @@ public class WingsRenderer extends ModelBase {
     @InvokeEvent
     public void onRenderPlayer(final RenderPlayerEvent event) {
         final EntityPlayer player = event.getEntity();
-        if (wingsCosmetic.isPurchasedBy(event.getEntity().getUniqueID()) || Hyperium.INSTANCE.isDevEnv() && player.equals((Object) this.mc.thePlayer) && !player.isInvisible()) {
-            this.renderWings(player, event.getPartialTicks(),event.getX(),event.getY(),event.getZ());
+        if (wingsCosmetic.isPurchasedBy(event.getEntity().getUniqueID()) && !player.isInvisible()) {
+            this.renderWings(player, event.getPartialTicks(), event.getX(), event.getY(), event.getZ());
         }
     }
 
     private void renderWings(final EntityPlayer player, final float partialTicks, double x, double y, double z) {
         HyperiumPurchase packageIfReady = PurchaseApi.getInstance().getPackageIfReady(player.getUniqueID());
-        if (packageIfReady == null ) {
+        if (packageIfReady == null) {
             return;
         }
         String s = packageIfReady.getPurchaseSettings().optJSONObject("wings").optString("type");
@@ -58,7 +57,7 @@ public class WingsRenderer extends ModelBase {
         final double scale = packageIfReady.getPurchaseSettings().optJSONObject("wings").optDouble("scale", this.wingsCosmetic.scale) / 100.0;
         final double rotate = this.interpolate(player.prevRenderYawOffset, player.renderYawOffset, partialTicks);
         GL11.glPushMatrix();
-        GlStateManager.translate(x,y,z);
+        GlStateManager.translate(x, y, z);
         GL11.glScaled(-scale, -scale, scale);
         GL11.glRotated(180.0 + rotate, 0.0, 1.0, 0.0);
         GL11.glTranslated(0.0, -(this.playerUsesFullHeight ? 1.45 : 1.25) / scale, 0.0);
