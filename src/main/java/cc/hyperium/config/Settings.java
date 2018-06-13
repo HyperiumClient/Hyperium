@@ -265,6 +265,11 @@ public class Settings {
     @ToggleSetting(name = "Auto Who", category = INTEGRATIONS)
     public static boolean AUTO_WHO = true;
 
+
+    @ConfigOpt
+    @ToggleSetting(name = "Show Dragon Head", category = COSMETICS)
+    public static boolean SHOW_DRAGON_HEAD = true;
+
     public static void register() {
         Hyperium.CONFIG.register(new Settings()); // values r static soo whatever
     }

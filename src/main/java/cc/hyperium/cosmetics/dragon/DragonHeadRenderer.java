@@ -1,11 +1,11 @@
 package cc.hyperium.cosmetics.dragon;
 
 
-import cc.hyperium.Hyperium;
 import cc.hyperium.cosmetics.DragonCosmetic;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.RenderPlayerEvent;
 import cc.hyperium.event.WorldChangeEvent;
+import cc.hyperium.purchases.PurchaseApi;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
@@ -80,7 +80,9 @@ public class DragonHeadRenderer extends ModelBase {
 
     @InvokeEvent
     private void onRenderPlayer(final RenderPlayerEvent event) {
-        if (dragonCosmetic.isPurchasedBy(event.getEntity().getUniqueID()) || Hyperium.INSTANCE.isDevEnv() && !event.getEntity().isInvisible()) {
+        if (dragonCosmetic.isPurchasedBy(event.getEntity().getUniqueID()) && !event.getEntity().isInvisible()) {
+            if (PurchaseApi.getInstance().getSelf().getPurchaseSettings().optJSONObject("dragon").optBoolean("disabled"))
+                return;
             GlStateManager.pushMatrix();
             GlStateManager.translate(event.getX(), event.getY(), event.getZ());
             this.renderHead(event.getEntity(), event.getPartialTicks());
@@ -124,9 +126,9 @@ public class DragonHeadRenderer extends ModelBase {
             jaw.rotateAngleX = 0;
             if (e != -1) {
                 double dis = Math.abs(e - player.posY);
-                dis/=4;
+                dis /= 4;
                 if (dis != 0) {
-                    jaw.rotateAngleX = (float) ((dis) / (1 + dis)) ;
+                    jaw.rotateAngleX = (float) ((dis) / (1 + dis));
                 }
             }
 

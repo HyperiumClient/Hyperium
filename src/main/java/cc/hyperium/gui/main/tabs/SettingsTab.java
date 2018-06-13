@@ -130,6 +130,15 @@ public class SettingsTab extends AbstractTab {
                     Settings.flipType = 2;
                 }
             });
+            callback.put(Settings.class.getField("SHOW_DRAGON_HEAD"), o -> {
+                boolean yes = (o.toString()).equalsIgnoreCase("true");
+                JsonHolder purchaseSettings = PurchaseApi.getInstance().getSelf().getPurchaseSettings();
+                if (!purchaseSettings.has("dragon"))
+                    purchaseSettings.put("dragon", new JsonHolder());
+                purchaseSettings.optJSONObject("dragon").put("disabled", !yes);
+                NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("dragon_head", yes)));
+
+            });
 
 
         } catch (NoSuchFieldException e) {
