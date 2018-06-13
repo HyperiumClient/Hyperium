@@ -152,7 +152,7 @@ public class InstallerConfig extends JFrame {
             }
         });
 
-        JRadioButton accept = new MaterialRadioButton("I accept the terms in License agreement and and Privacy Policy");
+        JRadioButton accept = new MaterialRadioButton("I accept the terms in License agreement and Privacy Policy");
         accept.setFont(f);
         accept.setBounds(5, HEIGHT - 40, 500, 15);
         accept.addActionListener(e -> {
