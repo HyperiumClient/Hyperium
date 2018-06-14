@@ -139,6 +139,15 @@ public class SettingsTab extends AbstractTab {
                 NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("dragon_head", yes)));
 
             });
+            callback.put(Settings.class.getField("SHOW_WINGS"), o -> {
+                boolean yes = (o.toString()).equalsIgnoreCase("true");
+                JsonHolder purchaseSettings = PurchaseApi.getInstance().getSelf().getPurchaseSettings();
+                if (!purchaseSettings.has("wings"))
+                    purchaseSettings.put("wings", new JsonHolder());
+                purchaseSettings.optJSONObject("wings").put("disabled", !yes);
+                NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("wings_toggle", yes)));
+
+            });
 
 
         } catch (NoSuchFieldException e) {

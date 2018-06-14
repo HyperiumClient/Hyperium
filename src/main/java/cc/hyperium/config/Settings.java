@@ -270,6 +270,11 @@ public class Settings {
     @ToggleSetting(name = "Show Dragon Head", category = COSMETICS)
     public static boolean SHOW_DRAGON_HEAD = true;
 
+    @ConfigOpt
+    @ToggleSetting(name = "Show Wings", category = WINGS)
+    public static boolean SHOW_WINGS = true;
+
+
     public static void register() {
         Hyperium.CONFIG.register(new Settings()); // values r static soo whatever
     }
