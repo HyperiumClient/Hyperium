@@ -87,8 +87,8 @@ public class Hyperium {
     private final GeneralStatisticsTracking statTrack = new GeneralStatisticsTracking();
     private final NotificationCenter notification = new NotificationCenter();
     private final RichPresenceManager richPresenceManager = new RichPresenceManager();
-    private ConfirmationPopup confirmation = new ConfirmationPopup();
-    private HyperiumCosmetics cosmetics;
+    private final ConfirmationPopup confirmation = new ConfirmationPopup();
+    private final HyperiumCosmetics cosmetics  = new HyperiumCosmetics();
     private HyperiumHandlers handlers;
     private HyperiumModIntegration modIntegration;
 
@@ -156,7 +156,7 @@ public class Hyperium {
         EventBus.INSTANCE.register(CompactChat.getInstance());
         EventBus.INSTANCE.register(CrosshairMod.getInstance());
         EventBus.INSTANCE.register(CONFIG.register(FPSLimiter.getInstance()));
-        EventBus.INSTANCE.register(confirmation = new ConfirmationPopup());
+        EventBus.INSTANCE.register(confirmation);
         EventBus.INSTANCE.register(new BlurDisableFallback());
         EventBus.INSTANCE.register(new CommandUpdate());
 
@@ -234,7 +234,6 @@ public class Hyperium {
         SplashProgress.CURRENT = "Finishing";
         SplashProgress.update();
 
-        cosmetics = new HyperiumCosmetics();
 
 
         Multithreading.runAsync(() -> {
