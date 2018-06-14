@@ -17,7 +17,6 @@
 
 package cc.hyperium;
 
-import cc.hyperium.commands.BaseCommand;
 import cc.hyperium.commands.defaults.*;
 import cc.hyperium.config.DefaultConfig;
 import cc.hyperium.config.Settings;
@@ -40,6 +39,8 @@ import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.mods.sk1ercommon.Sk1erMod;
 import cc.hyperium.mods.statistics.GeneralStatisticsTracking;
 import cc.hyperium.netty.NettyClient;
+import cc.hyperium.netty.UniversalNetty;
+import cc.hyperium.network.LoginReplyHandler;
 import cc.hyperium.network.NetworkHandler;
 import cc.hyperium.purchases.PurchaseApi;
 import cc.hyperium.tray.TrayManager;
@@ -54,9 +55,6 @@ import org.lwjgl.opengl.Display;
 import java.io.*;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Hyperium Client
@@ -238,37 +236,8 @@ public class Hyperium {
 
             networkHandler = new NetworkHandler();
             this.client = new NettyClient(networkHandler);
+            UniversalNetty.getInstance().getPacketManager().register(new LoginReplyHandler());
 
-            Multithreading.schedule(() -> {
-                if (this.client.isAdmin()) {
-                    getHandlers().getHyperiumCommandHandler().registerCommand(new BaseCommand() {
-                        @Override
-                        public String getName() {
-                            return "hyperiumadmin";
-                        }
-
-                        @Override
-                        public String getUsage() {
-                            return "/hyperiumadmin";
-                        }
-
-                        @Override
-                        public void onExecute(String[] args) {
-                            StringBuilder builder = new StringBuilder();
-                            Iterator<String> iterator = Arrays.stream(args).iterator();
-                            while (iterator.hasNext()) {
-                                builder.append(iterator.next());
-                                if (iterator.hasNext())
-                                    builder.append(" ");
-                            }
-                            client.dispatchCommand(builder.toString());
-
-                        }
-                    });
-
-                }
-
-            }, 1, 1, TimeUnit.SECONDS);
 
         });
         if (Settings.PERSISTENT_CHAT) {
