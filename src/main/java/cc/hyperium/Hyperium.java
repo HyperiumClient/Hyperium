@@ -88,7 +88,7 @@ public class Hyperium {
     private final NotificationCenter notification = new NotificationCenter();
     private final RichPresenceManager richPresenceManager = new RichPresenceManager();
     private final ConfirmationPopup confirmation = new ConfirmationPopup();
-    private final HyperiumCosmetics cosmetics  = new HyperiumCosmetics();
+    private HyperiumCosmetics cosmetics;
     private HyperiumHandlers handlers;
     private HyperiumModIntegration modIntegration;
 
@@ -128,8 +128,7 @@ public class Hyperium {
         } catch (ClassNotFoundException e) {
             isDevEnv = false;
         }
-        Minecraft.getMinecraft().mcProfiler.profilingEnabled = false;
-
+        cosmetics = new HyperiumCosmetics();
 
         // Creates the accounts dir
         new File(folder.getAbsolutePath() + "/accounts").mkdirs();
@@ -233,7 +232,6 @@ public class Hyperium {
         SplashProgress.PROGRESS = 13;
         SplashProgress.CURRENT = "Finishing";
         SplashProgress.update();
-
 
 
         Multithreading.runAsync(() -> {

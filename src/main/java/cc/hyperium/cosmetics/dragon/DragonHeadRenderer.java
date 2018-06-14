@@ -6,6 +6,7 @@ import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.RenderPlayerEvent;
 import cc.hyperium.event.WorldChangeEvent;
 import cc.hyperium.purchases.PurchaseApi;
+import cc.hyperium.utils.UUIDUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
@@ -95,8 +96,9 @@ public class DragonHeadRenderer extends ModelBase {
     private void renderHead(final EntityPlayer player, final float partialTicks) {
 
         final double scale = 1.0F;
-        final double rotate = this.interpolate(player.rotationYawHead, player.prevRotationYaw, partialTicks);
-        final double rotate1 = this.interpolate(player.prevRotationPitch, player.rotationPitch, partialTicks);
+        boolean flag = player.getUniqueID().equals(UUIDUtil.getClientUUID());
+        final double rotate = flag ? this.interpolate(player.rotationYawHead, player.prevRotationYaw, partialTicks) : player.rotationYawHead;
+        final double rotate1 = flag ? this.interpolate(player.prevRotationPitch, player.rotationPitch, partialTicks) : player.rotationPitch;
 
         GL11.glScaled(-scale, -scale, scale);
         GL11.glRotated(180.0 + rotate, 0.0, 1.0, 0.0);
