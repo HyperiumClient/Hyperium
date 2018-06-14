@@ -190,7 +190,6 @@ public class SettingsTab extends AbstractTab {
 
                 try {
                     Double value = Double.valueOf(f.get(null).toString());
-                    System.out.println("Init to " + value);
                     getCategory(sliderSetting.category()).getComponents().add(new OverlaySlider(sliderSetting.name(), sliderSetting.min(), sliderSetting.max(),
                             value.floatValue(), aFloat -> {
                         if (objectConsumer != null)
