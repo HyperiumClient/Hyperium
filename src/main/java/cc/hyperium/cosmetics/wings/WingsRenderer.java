@@ -55,20 +55,19 @@ public class WingsRenderer extends ModelBase {
         String s = packageIfReady.getPurchaseSettings().optJSONObject("wings").optString("type");
         ResourceLocation location = wingsCosmetic.getLocation(s);
 
-        final double scale = packageIfReady.getPurchaseSettings().optJSONObject("wings").optDouble("scale", this.wingsCosmetic.scale) / 100.0;
+        double v = packageIfReady.getPurchaseSettings().optJSONObject("wings").optDouble("scale", Settings.WINGS_SCALE);
+        final double scale = v / 100.0;
         final double rotate = this.interpolate(player.prevRenderYawOffset, player.renderYawOffset, partialTicks);
-        GL11.glPushMatrix();
+        GlStateManager.pushMatrix();
         GlStateManager.translate(x, y, z);
-        GL11.glScaled(-scale, -scale, scale);
-        GL11.glRotated(180.0 + rotate, 0.0, 1.0, 0.0);
-        GL11.glTranslated(0.0, -(this.playerUsesFullHeight ? 1.45 : 1.25) / scale, 0.0);
-        GL11.glTranslated(0.0, 0.0, 0.1 / scale);
+        GlStateManager.scale(-scale, -scale, scale);
+        GlStateManager.rotate((float) (180.0F + rotate), 0.0F, 1.0F, 0.0F);
+        GlStateManager.translate(0.0, -(this.playerUsesFullHeight ? 1.45 : 1.25) / scale, 0.0);
+        GlStateManager.translate(0.0, 0.0, 0.1 / scale);
         if (player.isSneaking()) {
-            GL11.glTranslated(0.0, 0.125 / scale, 0.0);
+            GlStateManager.translate(0.0, 0.125 / scale, 0.0);
         }
-        final float[] colors = this.wingsCosmetic.getColours();
-        GL11.glColor3f(colors[0], colors[1], colors[2]);
-
+        GlStateManager.color(1.0F, 1.0F, 1.0F);
 
         this.mc.getTextureManager().bindTexture(location);
 
@@ -80,14 +79,13 @@ public class WingsRenderer extends ModelBase {
             this.wing.rotateAngleZ = (float) Math.toRadians(20.0);
             this.wingTip.rotateAngleZ = -(float) (Math.sin(f11 + 2.0f) + 0.5) * 0.75f;
             this.wing.render(0.0625f);
-            GL11.glScalef(-1.0f, 1.0f, 1.0f);
+            GlStateManager.scale(-1.0f, 1.0f, 1.0f);
             if (j == 0) {
                 GL11.glCullFace(1028);
             }
         }
         GL11.glCullFace(1029);
         GL11.glDisable(2884);
-        GL11.glColor3f(255.0f, 255.0f, 255.0f);
         GL11.glPopMatrix();
     }
 

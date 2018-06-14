@@ -17,7 +17,6 @@
 
 package cc.hyperium;
 
-import cc.hyperium.commands.BaseCommand;
 import cc.hyperium.commands.defaults.*;
 import cc.hyperium.config.DefaultConfig;
 import cc.hyperium.config.Settings;
@@ -40,6 +39,8 @@ import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.mods.sk1ercommon.Sk1erMod;
 import cc.hyperium.mods.statistics.GeneralStatisticsTracking;
 import cc.hyperium.netty.NettyClient;
+import cc.hyperium.netty.UniversalNetty;
+import cc.hyperium.network.LoginReplyHandler;
 import cc.hyperium.network.NetworkHandler;
 import cc.hyperium.purchases.PurchaseApi;
 import cc.hyperium.tray.TrayManager;
@@ -54,9 +55,6 @@ import org.lwjgl.opengl.Display;
 import java.io.*;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Hyperium Client
@@ -87,7 +85,7 @@ public class Hyperium {
     private final GeneralStatisticsTracking statTrack = new GeneralStatisticsTracking();
     private final NotificationCenter notification = new NotificationCenter();
     private final RichPresenceManager richPresenceManager = new RichPresenceManager();
-    private ConfirmationPopup confirmation = new ConfirmationPopup();
+    private final ConfirmationPopup confirmation = new ConfirmationPopup();
     private HyperiumCosmetics cosmetics;
     private HyperiumHandlers handlers;
     private HyperiumModIntegration modIntegration;
@@ -128,8 +126,7 @@ public class Hyperium {
         } catch (ClassNotFoundException e) {
             isDevEnv = false;
         }
-        Minecraft.getMinecraft().mcProfiler.profilingEnabled = false;
-
+        cosmetics = new HyperiumCosmetics();
 
         // Creates the accounts dir
         new File(folder.getAbsolutePath() + "/accounts").mkdirs();
@@ -156,7 +153,7 @@ public class Hyperium {
         EventBus.INSTANCE.register(CompactChat.getInstance());
         EventBus.INSTANCE.register(CrosshairMod.getInstance());
         EventBus.INSTANCE.register(CONFIG.register(FPSLimiter.getInstance()));
-        EventBus.INSTANCE.register(confirmation = new ConfirmationPopup());
+        EventBus.INSTANCE.register(confirmation);
         EventBus.INSTANCE.register(new BlurDisableFallback());
         EventBus.INSTANCE.register(new CommandUpdate());
 
@@ -234,44 +231,13 @@ public class Hyperium {
         SplashProgress.CURRENT = "Finishing";
         SplashProgress.update();
 
-        cosmetics = new HyperiumCosmetics();
-
 
         Multithreading.runAsync(() -> {
 
             networkHandler = new NetworkHandler();
             this.client = new NettyClient(networkHandler);
+            UniversalNetty.getInstance().getPacketManager().register(new LoginReplyHandler());
 
-            Multithreading.schedule(() -> {
-                if (this.client.isAdmin()) {
-                    getHandlers().getHyperiumCommandHandler().registerCommand(new BaseCommand() {
-                        @Override
-                        public String getName() {
-                            return "hyperiumadmin";
-                        }
-
-                        @Override
-                        public String getUsage() {
-                            return "/hyperiumadmin";
-                        }
-
-                        @Override
-                        public void onExecute(String[] args) {
-                            StringBuilder builder = new StringBuilder();
-                            Iterator<String> iterator = Arrays.stream(args).iterator();
-                            while (iterator.hasNext()) {
-                                builder.append(iterator.next());
-                                if (iterator.hasNext())
-                                    builder.append(" ");
-                            }
-                            client.dispatchCommand(builder.toString());
-
-                        }
-                    });
-
-                }
-
-            }, 1, 1, TimeUnit.SECONDS);
 
         });
         if (Settings.PERSISTENT_CHAT) {

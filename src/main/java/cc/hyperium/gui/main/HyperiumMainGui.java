@@ -1,5 +1,6 @@
 package cc.hyperium.gui.main;
 
+import cc.hyperium.event.EventBus;
 import cc.hyperium.gui.GuiBlock;
 import cc.hyperium.gui.HyperiumGui;
 import cc.hyperium.gui.Icons;
@@ -67,6 +68,9 @@ public class HyperiumMainGui extends HyperiumGui {
 
     @Override
     protected void pack() {
+        for (AbstractTab tab : tabs) {
+            EventBus.INSTANCE.unregister(tab);
+        }
         scollMultiplier = .5;
         INSTANCE = this;
         int pw = width / 15;
@@ -76,10 +80,13 @@ public class HyperiumMainGui extends HyperiumGui {
         if (currentTab == null)
             currentTab = ht; // Home tab should be selected one by default
 
+        SettingsTab settingsTab = new SettingsTab(height / 2 - pw, pw);
+        EventBus.INSTANCE.register(settingsTab);
+
         tabs = Arrays.asList(
                 ht,
                 cosmeticsTab = new CosmeticsTab(height / 2 - pw * 2, pw),
-                new SettingsTab(height / 2 - pw, pw),
+                settingsTab,
                 new AddonsTab(height / 2, pw),
                 new InfoTab(height / 2 + pw, pw),
                 new AddonsInstallerTab(height / 2 + pw * 2, pw)

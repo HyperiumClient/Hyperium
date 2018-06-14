@@ -1,10 +1,7 @@
 package cc.hyperium.gui.main.tabs;
 
 import cc.hyperium.Hyperium;
-import cc.hyperium.config.Category;
-import cc.hyperium.config.SelectorSetting;
-import cc.hyperium.config.Settings;
-import cc.hyperium.config.ToggleSetting;
+import cc.hyperium.config.*;
 import cc.hyperium.cosmetics.Deadmau5Cosmetic;
 import cc.hyperium.cosmetics.HyperiumCosmetics;
 import cc.hyperium.cosmetics.wings.WingsCosmetic;
@@ -17,6 +14,7 @@ import cc.hyperium.gui.main.HyperiumMainGui;
 import cc.hyperium.gui.main.HyperiumOverlay;
 import cc.hyperium.gui.main.components.AbstractTab;
 import cc.hyperium.gui.main.components.OverlaySelector;
+import cc.hyperium.gui.main.components.OverlaySlider;
 import cc.hyperium.gui.main.components.SettingItem;
 import cc.hyperium.netty.NettyClient;
 import cc.hyperium.netty.packet.packets.serverbound.ServerCrossDataPacket;
@@ -139,6 +137,24 @@ public class SettingsTab extends AbstractTab {
                 NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("dragon_head", yes)));
 
             });
+            callback.put(Settings.class.getField("SHOW_WINGS"), o -> {
+                boolean yes = (o.toString()).equalsIgnoreCase("true");
+                JsonHolder purchaseSettings = PurchaseApi.getInstance().getSelf().getPurchaseSettings();
+                if (!purchaseSettings.has("wings"))
+                    purchaseSettings.put("wings", new JsonHolder());
+                purchaseSettings.optJSONObject("wings").put("disabled", !yes);
+                NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("wings_toggle", yes)));
+            });
+            callback.put(Settings.class.getField("WINGS_SCALE"), o -> {
+                Float o1 = (Float) o;
+                JsonHolder purchaseSettings = PurchaseApi.getInstance().getSelf().getPurchaseSettings();
+                if (!purchaseSettings.has("wings"))
+                    purchaseSettings.put("wings", new JsonHolder());
+                purchaseSettings.optJSONObject("wings").put("scale", o1);
+                Settings.WINGS_SCALE = o1;
+                NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("wings_scale", o1.doubleValue())));
+
+            });
 
 
         } catch (NoSuchFieldException e) {
@@ -147,10 +163,11 @@ public class SettingsTab extends AbstractTab {
         for (Field f : Settings.class.getFields()) {
             ToggleSetting ts = f.getAnnotation(ToggleSetting.class);
             SelectorSetting ss = f.getAnnotation(SelectorSetting.class);
+            SliderSetting sliderSetting = f.getAnnotation(SliderSetting.class);
             Consumer<Object> objectConsumer = callback.get(f);
             if (ts != null) {
                 getCategory(ts.category()).addToggle(ts.name(), f, objectConsumer);
-            } else if (ss != null)
+            } else if (ss != null) {
                 try {
                     Supplier<String[]> supplier = customStates.get(f);
                     Supplier<String[]> supplier1 = supplier != null ? supplier : ss::items;
@@ -169,6 +186,25 @@ public class SettingsTab extends AbstractTab {
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                 }
+            } else if (sliderSetting != null) {
+
+                try {
+                    Double value = Double.valueOf(f.get(null).toString());
+                    getCategory(sliderSetting.category()).getComponents().add(new OverlaySlider(sliderSetting.name(), sliderSetting.min(), sliderSetting.max(),
+                            value.floatValue(), aFloat -> {
+                        if (objectConsumer != null)
+                            objectConsumer.accept(aFloat);
+                        try {
+                            f.set(null, aFloat);
+                        } catch (IllegalAccessException e) {
+                            e.printStackTrace();
+                        }
+                    }));
+
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            }
         }
         Settings.save();
     }

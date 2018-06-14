@@ -81,7 +81,8 @@ public class CosmeticsTab extends AbstractTab {
                         if (client != null) {
                             client.write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("cosmetic_purchase", true).put("value", s)));
                         }
-
+                    } else if(purchased) {
+                        GeneralChatHandler.instance().sendMessage("Already purchased " + name);
                     }
                 }, Icons.COSMETIC.getResource(), name, description + " \n State: " + state, "Cost: " + cost, tx, ty);
                 items.add(e);
@@ -132,5 +133,4 @@ public class CosmeticsTab extends AbstractTab {
             purchasing = false;
         });
     }
-
 }

@@ -14,7 +14,6 @@ public class WingsCosmetic extends AbstractCosmetic {
 
     private final ResourceLocation dragon = new ResourceLocation("textures/cosmetics/wings/dragonwings.png");
     private final ResourceLocation angel = new ResourceLocation("textures/cosmetics/wings/angelwings.png");
-    public int scale = 150;
     private Minecraft mc = Minecraft.getMinecraft();
     private WingsRenderer wingsRenderer;
 
@@ -33,9 +32,6 @@ public class WingsCosmetic extends AbstractCosmetic {
         return new float[]{1.0f, 1.0f, 1.0f};
     }
 
-    public void setScale(int yourScale) {
-        this.scale = yourScale;
-    }
 
 
     public ResourceLocation getLocation(String s) {
