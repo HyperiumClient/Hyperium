@@ -274,6 +274,9 @@ public class Settings {
     @ToggleSetting(name = "Show Wings", category = WINGS)
     public static boolean SHOW_WINGS = true;
 
+    @ConfigOpt
+    @SliderSetting(name = "Wings Scale", min = 50, max = 200, category = WINGS)
+    public static double WINGS_SCALE = 100D;
 
     public static void register() {
         Hyperium.CONFIG.register(new Settings()); // values r static soo whatever
