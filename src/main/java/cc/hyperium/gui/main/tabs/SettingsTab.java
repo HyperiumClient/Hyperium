@@ -42,6 +42,7 @@ public class SettingsTab extends AbstractTab {
     private final HyperiumOverlay cosmetics = new HyperiumOverlay();
     private final HyperiumOverlay spotify = new HyperiumOverlay();
     private final HyperiumOverlay animations = new HyperiumOverlay();
+    private final HyperiumOverlay misc = new HyperiumOverlay();
 
     private final HyperiumOverlay wings = new HyperiumOverlay();
     private final HashMap<Field, Consumer<Object>> callback = new HashMap<>();
@@ -232,13 +233,18 @@ public class SettingsTab extends AbstractTab {
         items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(animations), Icons.COSMETIC.getResource(), "Animations", "Adjust the Minecraft Animations", "Click to configure", 2, 1));
 
         items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(spotify), Icons.SPOTIFY.getResource(), "Spotify", "Hyperium Spotify Settings", "Click to configure", 1, 1));
+
         //TODO fix this method being async
         WingsCosmetic wingsCosmetic = Hyperium.INSTANCE.getCosmetics().getWingsCosmetic();
         if (wingsCosmetic.isSelfUnlocked()) {
             loadedSelf = true;
             items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(wings), Icons.COSMETIC.getResource(), "Wings", "Hyperium wings Settings", "Click to configure", 0, 2));
 
+            items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(misc), Icons.MISC.getResource(), "Miscellaneous", "Other Hyperium Settings", "Click to configure", 1, 2));
+        } else {
+            items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(misc), Icons.MISC.getResource(), "Miscellaneous", "Other Hyperium Settings", "Click to configure", 0, 2));
         }
+
 
     }
 
@@ -268,6 +274,8 @@ public class SettingsTab extends AbstractTab {
                 return wings;
             case ANIMATIONS:
                 return animations;
+            case MISC:
+                return misc;
         }
         return general;
     }
