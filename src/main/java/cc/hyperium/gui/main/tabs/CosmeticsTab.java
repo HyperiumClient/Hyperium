@@ -101,7 +101,6 @@ public class CosmeticsTab extends AbstractTab {
 
     @Override
     public void drawTabIcon() {
-        rebuild();
         //Used as render tick
         if (PurchaseApi.getInstance() != null && PurchaseApi.getInstance().getSelf() != null && PurchaseApi.getInstance().getSelf().getResponse() != null) {
             JsonHolder response = PurchaseApi.getInstance().getSelf().getResponse();
@@ -132,5 +131,4 @@ public class CosmeticsTab extends AbstractTab {
             purchasing = false;
         });
     }
-
 }
