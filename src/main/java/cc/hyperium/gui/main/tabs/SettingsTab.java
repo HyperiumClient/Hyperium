@@ -134,7 +134,10 @@ public class SettingsTab extends AbstractTab {
                 if (!purchaseSettings.has("dragon"))
                     purchaseSettings.put("dragon", new JsonHolder());
                 purchaseSettings.optJSONObject("dragon").put("disabled", !yes);
-                NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("dragon_head", yes)));
+                NettyClient client = NettyClient.getClient();
+
+                if (client != null)
+                    client.write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("dragon_head", yes)));
 
             });
             callback.put(Settings.class.getField("SHOW_WINGS"), o -> {
@@ -143,7 +146,9 @@ public class SettingsTab extends AbstractTab {
                 if (!purchaseSettings.has("wings"))
                     purchaseSettings.put("wings", new JsonHolder());
                 purchaseSettings.optJSONObject("wings").put("disabled", !yes);
-                NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("wings_toggle", yes)));
+                NettyClient client = NettyClient.getClient();
+                if (client != null)
+                    client.write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("wings_toggle", yes)));
             });
             callback.put(Settings.class.getField("WINGS_SCALE"), o -> {
                 Float o1 = (Float) o;
@@ -152,7 +157,9 @@ public class SettingsTab extends AbstractTab {
                     purchaseSettings.put("wings", new JsonHolder());
                 purchaseSettings.optJSONObject("wings").put("scale", o1);
                 Settings.WINGS_SCALE = o1;
-                NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("wings_scale", o1.doubleValue())));
+                NettyClient client = NettyClient.getClient();
+                if (client != null)
+                    client.write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("wings_scale", o1.doubleValue())));
 
             });
 
