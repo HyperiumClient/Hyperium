@@ -23,7 +23,6 @@ public class BlockOverlaySettings {
 
     private int chromaSpeed = 5;
 
-
     public BlockOverlaySettings(File directory) {
         if (!directory.exists()) {
             directory.mkdirs();
