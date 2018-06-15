@@ -73,7 +73,7 @@ class MixinLayerDeadmau5Head {
                 return;
             }
             k = 5;
-            if (Hyperium.INSTANCE.getCosmetics().getDeadmau5Cosmetic().isPurchasedBy(entitylivingbaseIn.getUniqueID()) && !(name.equals("deadmau5"))) {
+            if (Hyperium.INSTANCE.getCosmetics().getDeadmau5Cosmetic().isPurchasedBy(entitylivingbaseIn.getUniqueID())) {
                 HyperiumPurchase packageIfReady = PurchaseApi.getInstance().getPackageIfReady(entitylivingbaseIn.getUniqueID());
                 if (packageIfReady == null) {
                     return;
@@ -89,7 +89,7 @@ class MixinLayerDeadmau5Head {
                         k = -5;
                         return;
                     }
-                } else if (!Settings.EARS_STATE.equalsIgnoreCase("on"))
+                } else if (!Settings.EARS_STATE.equalsIgnoreCase("yes"))
                     return;
                 k = 8;
                 ResourceLocation locationSkin = entitylivingbaseIn.getLocationSkin();
