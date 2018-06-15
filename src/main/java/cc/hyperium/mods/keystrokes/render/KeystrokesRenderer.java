@@ -47,6 +47,10 @@ public class KeystrokesRenderer {
     private final SpaceKey[] spaceKey = new SpaceKey[1];
     private final MouseButton[] mouseButtons = new MouseButton[2];
 
+    public CPSKey [] getCPSKeys() {
+        return this.cpsKeys;
+    }
+
     public KeystrokesRenderer(KeystrokesMod mod) {
         this.mod = mod;
 
@@ -86,6 +90,7 @@ public class KeystrokesRenderer {
             boolean showingMouseButtons = this.mod.getSettings().isShowingMouseButtons();
             boolean showingSpacebar = this.mod.getSettings().isShowingSpacebar();
             boolean showingCPS = this.mod.getSettings().isShowingCPS();
+            boolean showingCPSOnButtons = this.mod.getSettings().isShowingCPSOnButtons();
             ScaledResolution res = new ScaledResolution(this.mc);
 
             int width = this.mod.getSettings().getWidth();
@@ -118,7 +123,7 @@ public class KeystrokesRenderer {
                 this.drawMouseButtons(x, y);
             }
 
-            if (showingCPS) {
+            if (showingCPS && !showingCPSOnButtons) {
                 this.drawCPSKeys(x, y);
             }
 

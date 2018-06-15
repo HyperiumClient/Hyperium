@@ -44,6 +44,8 @@ public class KeystrokesSettings {
 
     private boolean showCPS = false;
 
+    private boolean showCPSOnButtons = false;
+
     private boolean showSpacebar = false;
 
     private double scale = 1;
@@ -130,6 +132,7 @@ public class KeystrokesSettings {
             object.addProperty("chroma", isChroma());
             object.addProperty("mouseButtons", isShowingMouseButtons());
             object.addProperty("showCPS", isShowingCPS());
+            object.addProperty("showCPSOnButtons", isShowingCPSOnButtons());
             object.addProperty("showSpacebar", isShowingSpacebar());
             object.writeToFile(configFile);
         } catch (Exception ex) {
@@ -153,6 +156,7 @@ public class KeystrokesSettings {
         setLeftClick(object.optBoolean("leftClick", true));
         setShowingMouseButtons(object.optBoolean("mouseButtons"));
         setShowingCPS(object.optBoolean("showCPS"));
+        setShowingCPSOnButtons(object.optBoolean("showCPSOnButtons"));
         setShowingSpacebar(object.optBoolean("showSpacebar"));
     }
 
@@ -266,6 +270,14 @@ public class KeystrokesSettings {
 
     public void setShowingCPS(boolean showingCPS) {
         this.showCPS = showingCPS;
+    }
+
+    public boolean isShowingCPSOnButtons() {
+        return this.showCPSOnButtons;
+    }
+
+    public void setShowingCPSOnButtons(boolean showCPSOnButtons) {
+        this.showCPSOnButtons = showCPSOnButtons;
     }
 
     public boolean isChroma() {
