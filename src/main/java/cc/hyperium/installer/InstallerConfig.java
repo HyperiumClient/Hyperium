@@ -40,7 +40,6 @@ public class InstallerConfig extends JFrame {
     private HashMap<JRadioButton, JsonArray> dependencies = new HashMap<>();
 
     InstallerConfig() {
-        super.frameInit();
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         setSize(WIDTH, HEIGHT);
         this.setLocation(dim.width / 2 - getSize().width / 2, dim.height / 2 - getSize().height / 2);
@@ -153,7 +152,7 @@ public class InstallerConfig extends JFrame {
             }
         });
 
-        JRadioButton accept = new MaterialRadioButton("I accept the terms in License agreement and and Privacy Policy");
+        JRadioButton accept = new MaterialRadioButton("I accept the terms in License agreement and Privacy Policy");
         accept.setFont(f);
         accept.setBounds(5, HEIGHT - 40, 500, 15);
         accept.addActionListener(e -> {
