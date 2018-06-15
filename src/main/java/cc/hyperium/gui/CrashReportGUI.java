@@ -231,7 +231,7 @@ public class CrashReportGUI extends JDialog {
         try {
             AtomicReference<String> addons = new AtomicReference<>("");
             try {
-                AddonBootstrap.INSTANCE.getAddonManifests().forEach(m -> addons.getAndUpdate(a -> a + m.getName() + ", "));
+                AddonBootstrap.INSTANCE.getAddonManifests().forEach(m -> addons.getAndUpdate(a -> a + m.getName() + " " + m.getVersion() + ", "));
             } catch (Exception ex) {
                 ex.printStackTrace();
                 // Addons bootstrap might not be initialized
