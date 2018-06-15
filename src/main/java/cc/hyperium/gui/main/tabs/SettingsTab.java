@@ -42,6 +42,7 @@ public class SettingsTab extends AbstractTab {
     private final HyperiumOverlay cosmetics = new HyperiumOverlay();
     private final HyperiumOverlay spotify = new HyperiumOverlay();
     private final HyperiumOverlay animations = new HyperiumOverlay();
+    private final HyperiumOverlay misc = new HyperiumOverlay();
 
     private final HyperiumOverlay wings = new HyperiumOverlay();
     private final HashMap<Field, Consumer<Object>> callback = new HashMap<>();
@@ -56,6 +57,11 @@ public class SettingsTab extends AbstractTab {
             Field earsField = Settings.class.getField("EARS_STATE");
             callback.put(earsField, o -> {
                 boolean yes = ((String) o).equalsIgnoreCase("YES");
+                JsonHolder purchaseSettings = PurchaseApi.getInstance().getSelf().getPurchaseSettings();
+                if (!purchaseSettings.has("deadmau5_cosmetic")) {
+                    purchaseSettings.put("deadmau5_cosmetic", new JsonHolder());
+                }
+                purchaseSettings.optJSONObject("deadmau5_cosmetic").put("enabled", yes);
                 NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("ears", yes)));
             });
             customStates.put(earsField, () -> {
@@ -134,7 +140,10 @@ public class SettingsTab extends AbstractTab {
                 if (!purchaseSettings.has("dragon"))
                     purchaseSettings.put("dragon", new JsonHolder());
                 purchaseSettings.optJSONObject("dragon").put("disabled", !yes);
-                NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("dragon_head", yes)));
+                NettyClient client = NettyClient.getClient();
+
+                if (client != null)
+                    client.write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("dragon_head", yes)));
 
             });
             callback.put(Settings.class.getField("SHOW_WINGS"), o -> {
@@ -143,7 +152,9 @@ public class SettingsTab extends AbstractTab {
                 if (!purchaseSettings.has("wings"))
                     purchaseSettings.put("wings", new JsonHolder());
                 purchaseSettings.optJSONObject("wings").put("disabled", !yes);
-                NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("wings_toggle", yes)));
+                NettyClient client = NettyClient.getClient();
+                if (client != null)
+                    client.write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("wings_toggle", yes)));
             });
             callback.put(Settings.class.getField("WINGS_SCALE"), o -> {
                 Float o1 = (Float) o;
@@ -152,7 +163,9 @@ public class SettingsTab extends AbstractTab {
                     purchaseSettings.put("wings", new JsonHolder());
                 purchaseSettings.optJSONObject("wings").put("scale", o1);
                 Settings.WINGS_SCALE = o1;
-                NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("wings_scale", o1.doubleValue())));
+                NettyClient client = NettyClient.getClient();
+                if (client != null)
+                    client.write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("wings_scale", o1.doubleValue())));
 
             });
 
@@ -231,8 +244,10 @@ public class SettingsTab extends AbstractTab {
             loadedSelf = true;
             items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(wings), Icons.COSMETIC.getResource(), "Wings", "Hyperium wings Settings", "Click to configure", 0, 2));
 
+            items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(misc), Icons.MISC.getResource(), "Miscellaneous", "Other Hyperium Settings", "Click to configure", 1, 2));
+        } else {
+            items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(misc), Icons.MISC.getResource(), "Miscellaneous", "Other Hyperium Settings", "Click to configure", 0, 2));
         }
-
     }
 
     @InvokeEvent
@@ -261,6 +276,8 @@ public class SettingsTab extends AbstractTab {
                 return wings;
             case ANIMATIONS:
                 return animations;
+            case MISC:
+                return misc;
         }
         return general;
     }

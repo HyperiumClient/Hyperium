@@ -31,7 +31,6 @@ public class HyperiumPurchase {
     private JsonHolder purchaseSettings = new JsonHolder();
 
     public HyperiumPurchase(UUID playerUUID, JsonHolder response) {
-        System.out.println("Loaded purchases for " + playerUUID + " (" + response + ")");
         this.playerUUID = playerUUID;
         this.response = response;
         if (response.optBoolean("non_player"))
@@ -47,7 +46,7 @@ public class HyperiumPurchase {
                     if (parse1 != null)
                         this.purchases.add(parse1);
                 } catch (Exception wtf) {
-                    wtf.printStackTrace();
+//                    wtf.printStackTrace();
                 }
         }
     }
