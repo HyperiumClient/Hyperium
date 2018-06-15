@@ -50,6 +50,7 @@ public class GuiScreenKeystrokes extends GuiScreen {
     private GuiButton buttonShowSpacebar;
     private GuiButton buttonToggleChroma;
     private GuiButton buttonShowCPS;
+    private GuiButton buttonShowCPSOnButton;
     private GuiButton buttonTextColor;
     private GuiButton buttonPressedColor;
     private GuiButton buttonRightClick;
@@ -70,17 +71,18 @@ public class GuiScreenKeystrokes extends GuiScreen {
 
         KeystrokesSettings settings = this.mod.getSettings();
 
-        this.buttonList.add(this.buttonEnabled = new GuiButton(0, this.width / 2 - 70, this.height / 2 - 80, 140, 20, "Keystrokes: " + (settings.isEnabled() ? "On" : "Off")));
-        this.buttonList.add(this.buttonShowMouseButtons = new GuiButton(1, this.width / 2 - 70, this.height / 2 - 58, 140, 20, "Show mouse buttons: " + (settings.isShowingMouseButtons() ? "On" : "Off")));
-        this.buttonList.add(this.buttonShowSpacebar = new GuiButton(2, this.width / 2 - 70, this.height / 2 - 36, 140, 20, "Show spacebar: " + (settings.isShowingSpacebar() ? "On" : "Off")));
-        this.buttonList.add(this.buttonShowCPS = new GuiButton(3, this.width / 2 - 70, this.height / 2 - 14, 140, 20, "Show CPS counter: " + (settings.isShowingCPS() ? "On" : "Off")));
-        this.buttonList.add(this.buttonToggleChroma = new GuiButton(4, this.width / 2 - 70, this.height / 2 + 8, 140, 20, "Chroma: " + (settings.isChroma() ? "On" : "Off")));
-        this.buttonList.add(this.buttonTextColor = new GuiButton(5, this.width / 2 - 70, this.height / 2 + 30, 140, 20, "Edit text color"));
-        this.buttonList.add(this.buttonPressedColor = new GuiButton(6, this.width / 2 - 70, this.height / 2 + 52, 140, 20, "Edit pressed text color"));
+        this.buttonList.add(this.buttonEnabled = new GuiButton(0, this.width / 2 - 70, this.height / 2 - 102, 140, 20, "Keystrokes: " + (settings.isEnabled() ? "On" : "Off")));
+        this.buttonList.add(this.buttonShowMouseButtons = new GuiButton(1, this.width / 2 - 70, this.height / 2 - 80, 140, 20, "Show mouse buttons: " + (settings.isShowingMouseButtons() ? "On" : "Off")));
+        this.buttonList.add(this.buttonShowSpacebar = new GuiButton(2, this.width / 2 - 70, this.height / 2 - 58, 140, 20, "Show spacebar: " + (settings.isShowingSpacebar() ? "On" : "Off")));
+        this.buttonList.add(this.buttonShowCPS = new GuiButton(3, this.width / 2 - 70, this.height / 2 - 36, 140, 20, "Show CPS counter: " + (settings.isShowingCPS() ? "On" : "Off")));
+        this.buttonList.add(this.buttonShowCPSOnButton = new GuiButton(4, this.width / 2 - 70, this.height / 2 - 14, 140, 20, "Show CPS on buttons: " + (settings.isShowingCPSOnButtons() ? "On" : "Off")));
+        this.buttonList.add(this.buttonToggleChroma = new GuiButton(5, this.width / 2 - 70, this.height / 2 + 8, 140, 20, "Chroma: " + (settings.isChroma() ? "On" : "Off")));
+        this.buttonList.add(this.buttonTextColor = new GuiButton(6, this.width / 2 - 70, this.height / 2 + 30, 140, 20, "Edit text color"));
+        this.buttonList.add(this.buttonPressedColor = new GuiButton(7, this.width / 2 - 70, this.height / 2 + 52, 140, 20, "Edit pressed text color"));
         this.buttonList.add(this.buttonRightClick = new GuiButton(10, this.width / 2 - 70, this.height / 2 + 74, 140, 20, "Click counter: " + (settings.isLeftClick() ? "Left" : "Right")));
 
         this.buttonList.add(new GuiSliderScale(this.mod, 8, this.width / 2 - 70, this.height / 2 + 96, 140, 20, this));
-        this.buttonList.add(new GuiSliderFadeTime(this.mod, 9, this.width / 2 - 70, this.height / 2 + 96 + 22, 140, 20, this));
+        this.buttonList.add(new GuiSliderFadeTime(this.mod, 9, this.width / 2 - 70, this.height / 2 + 118, 140, 20, this));
     }
 
     @Override
@@ -122,11 +124,16 @@ public class GuiScreenKeystrokes extends GuiScreen {
                 this.updated = true;
                 break;
             case 4:
+                settings.setShowingCPSOnButtons(!settings.isShowingCPSOnButtons());
+                this.buttonShowCPSOnButton.displayString = "Show CPS on buttons: " + (settings.isShowingCPSOnButtons() ? "On" : "Off");
+                this.updated = true;
+                break;
+            case 5:
                 settings.setChroma(!settings.isChroma());
                 this.buttonToggleChroma.displayString = "Chroma: " + (settings.isChroma() ? "On" : "Off");
                 this.updated = true;
                 break;
-            case 5:
+            case 6:
                 Minecraft.getMinecraft().displayGuiScreen(new GuiScreenColor(this.mod,
                         new IScrollable() {
                             @Override
@@ -166,7 +173,7 @@ public class GuiScreenKeystrokes extends GuiScreen {
                         }
                 ));
                 break;
-            case 6:
+            case 7:
                 Minecraft.getMinecraft().displayGuiScreen(new GuiScreenColor(this.mod,
                         new IScrollable() {
                             @Override
@@ -224,6 +231,9 @@ public class GuiScreenKeystrokes extends GuiScreen {
 
         if (button == 0) {
             KeystrokesSettings settings = this.mod.getSettings();
+            if (!settings.isEnabled()) {
+                return;
+            }
             int startX = (int) ((settings.getX() - 4) * settings.getScale());
             int startY = (int) ((settings.getY() - 4) * settings.getScale());
             int endX = (int) (startX + ((settings.getWidth() * settings.getScale())));

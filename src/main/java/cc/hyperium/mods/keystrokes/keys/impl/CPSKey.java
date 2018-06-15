@@ -32,7 +32,8 @@ import java.util.List;
 
 public class CPSKey extends IKey {
 
-    private final List<Long> clicks = new ArrayList<>();
+    private final List<Long> leftClicks = new ArrayList<>();
+    private final List<Long> rightClicks = new ArrayList<>();
     private boolean wasPressed = true;
 
     public CPSKey(KeystrokesMod mod, int xOffset, int yOffset) {
@@ -60,7 +61,7 @@ public class CPSKey extends IKey {
 
         Gui.drawRect(x + this.xOffset, y + yOffset, x + this.xOffset + 70, y + yOffset + 16, new Color(0, 0, 0, 120).getRGB());
 
-        String name = this.getCPS() + " CPS";
+        String name = (this.mod.getSettings().isLeftClick() ? this.getLeftCPS() : this.getRightCPS()) + " CPS";
         if (this.mod.getSettings().isChroma()) {
             drawChromaString(name, ((x + (this.xOffset + 70) / 2) - this.mc.fontRendererObj.getStringWidth(name) / 2), y + (yOffset + 4));
         } else {
@@ -68,27 +69,35 @@ public class CPSKey extends IKey {
         }
     }
 
-    private int getCPS() {
+    protected int getLeftCPS() {
         long time = System.currentTimeMillis();
 
-        this.clicks.removeIf(o -> o + 1000L < time);
+        this.leftClicks.removeIf(o -> o + 1000L < time);
 
-        return this.clicks.size();
+        return this.leftClicks.size();
+    }
+
+    protected int getRightCPS() {
+        long time = System.currentTimeMillis();
+
+        this.rightClicks.removeIf(o -> o + 1000L < time);
+
+        return this.rightClicks.size();
     }
 
     @InvokeEvent
-    public void onClick(LeftMouseClickEvent event) {
-        if (this.mod.getSettings().isLeftClick()) {
+    public void onClickLeft(LeftMouseClickEvent event) {
+        if (this.mod.getSettings().isLeftClick() || this.mod.getSettings().isShowingCPSOnButtons()) {
             Mouse.poll();
-            this.clicks.add(System.currentTimeMillis());
+            this.leftClicks.add(System.currentTimeMillis());
         }
     }
 
     @InvokeEvent
     public void onClickRight(RightMouseClickEvent event) {
-        if (!this.mod.getSettings().isLeftClick()) {
+        if (!this.mod.getSettings().isLeftClick() || this.mod.getSettings().isShowingCPSOnButtons()) {
             Mouse.poll();
-            this.clicks.add(System.currentTimeMillis());
+            this.rightClicks.add(System.currentTimeMillis());
         }
     }
 }

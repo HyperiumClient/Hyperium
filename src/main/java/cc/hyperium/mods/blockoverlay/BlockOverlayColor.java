@@ -66,10 +66,10 @@ public class BlockOverlayColor extends GuiScreen {
                 this.mod.getSettings().setOverlayRed(this.sliderRed.getValueInt() / 255.0f);
                 break;
             case 3:
-                this.mod.getSettings().setOverlayBlue(this.sliderGreen.getValueInt() / 255.0f);
+                this.mod.getSettings().setOverlayGreen(this.sliderGreen.getValueInt() / 255.0f);
                 break;
             case 4:
-                this.mod.getSettings().setOverlayGreen(this.sliderBlue.getValueInt() / 255.0f);
+                this.mod.getSettings().setOverlayBlue(this.sliderBlue.getValueInt() / 255.0f);
                 break;
             case 5:
                 this.mod.getSettings().setOverlayAlpha(this.sliderAlpha.getValueInt() / 255.0f);
