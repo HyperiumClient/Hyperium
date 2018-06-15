@@ -47,7 +47,7 @@ public class HyperiumPurchase {
                     if (parse1 != null)
                         this.purchases.add(parse1);
                 } catch (Exception wtf) {
-                    wtf.printStackTrace();
+//                    wtf.printStackTrace();
                 }
         }
     }
