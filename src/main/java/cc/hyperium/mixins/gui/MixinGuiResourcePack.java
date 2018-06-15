@@ -58,7 +58,6 @@ public abstract class MixinGuiResourcePack {
     private void drawEntry(int slotIndex, int x, int y, int listWidth, int slotHeight,
                            int mouseX, int mouseY, boolean isSelected, CallbackInfo ci) {
         if (!Settings.LEGACY_RP) {
-
             boolean compact = true;
             if (compact) {
                 ci.cancel();
@@ -103,10 +102,10 @@ public abstract class MixinGuiResourcePack {
                 Gui.drawRect(x + 2, y + 12 + 17,
                         x + listWidth - 10, y + 12 + 18, new Color(94, 98, 94, 235).getRGB());
 
-
             }
         } else {
-
+            GL11.glPushMatrix();
+            GL11.glPopMatrix();
         }
     }
 }

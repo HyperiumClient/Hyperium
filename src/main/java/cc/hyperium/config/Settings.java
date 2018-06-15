@@ -199,12 +199,12 @@ public class Settings {
 
 
     @ConfigOpt(alt = "cc.hyperium.handlers.handlers.OtherConfigOptions;SHOW_INGAME_NOTIFICATION_CENTER")
-    @ToggleSetting(category = ANIMATIONS, name = "Show Notification Center")
+    @ToggleSetting(category = MISC, name = "Show Notification Center")
     public static boolean SHOW_INGAME_NOTIFICATION_CENTER = true;
 
 
     @ConfigOpt(alt = "cc.hyperium.handlers.handlers.OtherConfigOptions;SHOW_INGAME_CONFIRMATION_POPUP")
-    @ToggleSetting(category = ANIMATIONS, name = "Show Confirmation Popup")
+    @ToggleSetting(category = MISC, name = "Show Confirmation Popup")
     public static boolean SHOW_INGAME_CONFIRMATION_POPUP = true;
 
     @ConfigOpt(alt = "cc.hyperium.handlers.handlers.OtherConfigOptions;savePreviusChatMessages")
