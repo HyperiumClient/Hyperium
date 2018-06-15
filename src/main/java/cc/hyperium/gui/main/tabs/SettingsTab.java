@@ -56,6 +56,11 @@ public class SettingsTab extends AbstractTab {
             Field earsField = Settings.class.getField("EARS_STATE");
             callback.put(earsField, o -> {
                 boolean yes = ((String) o).equalsIgnoreCase("YES");
+                JsonHolder purchaseSettings = PurchaseApi.getInstance().getSelf().getPurchaseSettings();
+                if (!purchaseSettings.has("deadmau5_cosmetic")) {
+                    purchaseSettings.put("deadmau5_cosmetic", new JsonHolder());
+                }
+                purchaseSettings.optJSONObject("deadmau5_cosmetic").put("enabled", yes);
                 NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("ears", yes)));
             });
             customStates.put(earsField, () -> {
