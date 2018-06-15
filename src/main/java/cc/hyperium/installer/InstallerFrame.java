@@ -70,7 +70,7 @@ public class InstallerFrame implements PropertyChangeListener {
     /**
      * Constructor
      */
-    InstallerFrame(String dir, int wam, List<String> components, InstallerConfig frame, String version) {
+    InstallerFrame(String dir, int wam, List<String> components, InstallerConfig frame, String version, boolean localJre) {
         final PrintStream ps = System.out;
         PrintStream logStream = new PrintStream(new OutputStream() {
             @Override
@@ -101,7 +101,7 @@ public class InstallerFrame implements PropertyChangeListener {
         frame.setSize(WIDTH, HEIGHT);
         frame.setLocation(dim.width / 2 - frame.getSize().width / 2, dim.height / 2 - frame.getSize().height / 2);
         initComponents();
-        install(new File(dir), wam, components, version);
+        install(new File(dir), wam, components, version, localJre);
     }
 
     private static String toHex(byte[] bytes) {
@@ -134,7 +134,7 @@ public class InstallerFrame implements PropertyChangeListener {
     /**
      * Method to do everything
      */
-    private void install(File mc, int wam, List<String> components, String ver) {
+    private void install(File mc, int wam, List<String> components, String ver, boolean localJre) {
         if (!mc.exists()) {
             display.setText("INSTALLATION FAILED");
             error.setText("NO MINECRAFT INSTALLATION FOUND");
@@ -413,14 +413,17 @@ public class InstallerFrame implements PropertyChangeListener {
                 if (profiles.getJSONObject(key).getString("name").equals("Hyperium 1.8.9"))
                     installedUUID = key;
         }
-        profiles.put(installedUUID, new JSONObject()
+        JSONObject profile = new JSONObject()
                 .put("name", "Hyperium 1.8.9")
                 .put("type", "custom")
                 .put("created", instant.toString())
                 .put("lastUsed", instant.toString())
                 .put("lastVersionId", "Hyperium 1.8.9")
                 .put("javaArgs", "-Xms512M -Xmx" + wam + "G -XX:+UnlockExperimentalVMOptions -XX:+UseG1GC -XX:G1NewSizePercent=20 -XX:G1ReservePercent=20 -XX:MaxGCPauseMillis=50 -XX:G1HeapRegionSize=16M -XX:+DisableExplicitGC")
-                .put("icon", Metadata.getIconBase64()));
+                .put("icon", Metadata.getIconBase64());
+        if (localJre)
+            profile.put("javaDir", new File(System.getProperty("java.home"), "bin/javaw" + (OsCheck.detectedOS == OsCheck.OSType.Windows ? ".exe" : "")).getAbsolutePath());
+        profiles.put(installedUUID, profile);
         launcherProfiles.put("profiles", profiles);
         try {
             Files.write(json.toString(), targetJson, Charset.defaultCharset());

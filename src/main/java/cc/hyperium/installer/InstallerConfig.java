@@ -36,7 +36,7 @@ import java.util.stream.StreamSupport;
 public class InstallerConfig extends JFrame {
     public static final int VERSION = 1; // installer version, change every time when installer system changes
     private static final int WIDTH = 600;
-    private static final int HEIGHT = 260;
+    private static final int HEIGHT = 276;
     private HashMap<JRadioButton, JsonArray> dependencies = new HashMap<>();
 
     InstallerConfig() {
@@ -159,6 +159,11 @@ public class InstallerConfig extends JFrame {
             install.setEnabled(accept.isSelected());
             install.setVisible(true);
         });
+
+        JRadioButton localJre = new MaterialRadioButton("Use local java if available");
+        localJre.setFont(f);
+        localJre.setBounds(5, HEIGHT - 56, 500, 15);
+        localJre.setSelected(true);
 
         JButton license = new JButton("LICENSE");
         license.setUI(new BasicButtonUI());
@@ -345,6 +350,7 @@ public class InstallerConfig extends JFrame {
         contentPane.add(cLabel);
         contentPane.add(cDesc);
         contentPane.add(ver);
+        contentPane.add(localJre);
 
         // Fallback enable
         install.setEnabled(false);
@@ -368,7 +374,7 @@ public class InstallerConfig extends JFrame {
                 System.err.println("Failed to save current installer state!");
             }
 
-            new Thread(() -> new InstallerFrame(dir.getText(), wam.getValue(), cs, this, ver.getText()), "Installer-Thread").start();
+            new Thread(() -> new InstallerFrame(dir.getText(), wam.getValue(), cs, this, ver.getText(), localJre.isSelected()), "Installer-Thread").start();
         });
 
         // Load last state if exists
