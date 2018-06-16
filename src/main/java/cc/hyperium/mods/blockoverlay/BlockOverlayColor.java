@@ -83,8 +83,8 @@ public class BlockOverlayColor extends GuiScreen {
     public void mouseClickMove(final int mouseX, final int mouseY, final int clickedMouseButton, final long timeSinceLastClick) {
         this.mod.getSettings().setChromaSpeed(this.sliderChroma.getValueInt());
         this.mod.getSettings().setOverlayRed(this.sliderRed.getValueInt() / 255.0f);
-        this.mod.getSettings().setOverlayBlue(this.sliderGreen.getValueInt() / 255.0f);
-        this.mod.getSettings().setOverlayGreen(this.sliderBlue.getValueInt() / 255.0f);
+        this.mod.getSettings().setOverlayGreen(this.sliderGreen.getValueInt() / 255.0f);
+        this.mod.getSettings().setOverlayBlue(this.sliderBlue.getValueInt() / 255.0f);
         this.mod.getSettings().setOverlayAlpha(this.sliderAlpha.getValueInt() / 255.0f);
     }
 
