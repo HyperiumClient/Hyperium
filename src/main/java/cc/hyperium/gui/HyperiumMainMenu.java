@@ -175,7 +175,17 @@ import cc.hyperium.config.Settings;
 import cc.hyperium.mixinsimp.renderer.gui.IMixinGuiMultiplayer;
 import cc.hyperium.utils.HyperiumFontRenderer;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.*;
+import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiLanguage;
+import net.minecraft.client.gui.GuiMainMenu;
+import net.minecraft.client.gui.GuiMultiplayer;
+import net.minecraft.client.gui.GuiOptions;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.GuiSelectWorld;
+import net.minecraft.client.gui.GuiYesNo;
+import net.minecraft.client.gui.GuiYesNoCallback;
+import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
@@ -194,7 +204,8 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
 import javax.imageio.ImageIO;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
@@ -223,6 +234,7 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
     private DynamicTexture viewportTexture;
     private FontRenderer fontRendererObj = Minecraft.getMinecraft().fontRendererObj;
     private GuiButton hypixelButton;
+    private GuiButton invadedButton;
     private boolean clickedCheckBox = false;
     private HyperiumFontRenderer fr = new HyperiumFontRenderer("Arial", Font.PLAIN, 20);
     private HyperiumFontRenderer sfr = new HyperiumFontRenderer("Arial", Font.PLAIN, 12);
@@ -374,7 +386,16 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
                 this.mc.displayGuiScreen(guiyesno);
             }
         }
-
+        if (button.id == 25) {
+            GuiMultiplayer p_i1182_1_ = new GuiMultiplayer(new GuiMainMenu());
+            p_i1182_1_.setWorldAndResolution(Minecraft.getMinecraft(), width, height);
+            ((IMixinGuiMultiplayer) p_i1182_1_).makeDirectConnect();
+            String hostName = "invadedlands.net";
+//                    Minecraft.getMinecraft().displayGuiScreen(new GuiConnecting(p_i1182_1_, Minecraft.getMinecraft(), hostName, 25565));
+            ServerData data = new ServerData("invadedlands", hostName, false);
+            ((IMixinGuiMultiplayer) p_i1182_1_).setIp(data);
+            p_i1182_1_.confirmClicked(true, 0);
+        }
         switch (getStyle()) {
             case DEFAULT:
                 if (button.id == 15)
@@ -388,6 +409,9 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
                     ServerData data = new ServerData("hypixel", hostName, false);
                     ((IMixinGuiMultiplayer) p_i1182_1_).setIp(data);
                     p_i1182_1_.confirmClicked(true, 0);
+                }
+                if (button.id == 18) {
+
                 }
                 break;
             case HYPERIUM:
@@ -416,7 +440,9 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
         this.buttonList.add(new GuiButton(1, this.width / 2 - 100, p_73969_1_, I18n.format("menu.singleplayer")));
         this.buttonList.add(new GuiButton(2, this.width / 2 - 100, p_73969_1_ + p_73969_2_, I18n.format("menu.multiplayer")));
         //Change realms button ID to 16 to avoid conflicts
-        this.buttonList.add(this.hypixelButton = new GuiButton(16, this.width / 2 - 100, p_73969_1_ + p_73969_2_ * 2, "Join Hypixel"));
+        this.buttonList.add(this.hypixelButton = new GuiButton(16, this.width / 2 - 100, p_73969_1_ + p_73969_2_ * 2, 95, 20, "Join Hypixel"));
+        this.buttonList.add(this.invadedButton = new GuiButton(25, this.width / 2 + 5, p_73969_1_ + p_73969_2_ * 2, 95, 20, "Join Invaded"));
+
         this.buttonList.add(new GuiButton(15, this.width / 2 - 100, p_73969_1_ + p_73969_2_ * 3, "Hyperium Settings"));
 
         // Background Gui Button
