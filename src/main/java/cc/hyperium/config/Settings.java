@@ -141,6 +141,10 @@ public class Settings {
     public static boolean OLD_EATING = true;
 
     @ConfigOpt
+    @ToggleSetting(name = "1.7 Sneaking Animation", category = ANIMATIONS)
+    public static boolean OLD_SNEAKING = false;
+
+    @ConfigOpt
     @ToggleSetting(name = "Name History RGB")
     public static boolean NH_RGB_NAMES = false;
 
