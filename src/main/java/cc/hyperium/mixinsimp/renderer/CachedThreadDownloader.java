@@ -11,8 +11,17 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class CachedThreadDownloader {
+    private static final AtomicInteger counter = new AtomicInteger();
+    private static final ExecutorService THREAD_POOL = Executors.newFixedThreadPool(100, r -> {
+        Thread thread = new Thread("Texture Downloader #" + counter.getAndIncrement());
+        thread.setDaemon(true);
+        return thread;
+    });
 
     private BufferedImage image;
     private String imageUrl;
@@ -37,7 +46,8 @@ public class CachedThreadDownloader {
             httpurlconnection.setDoInput(true);
             httpurlconnection.setDoOutput(false);
             httpurlconnection.connect();
-
+            httpurlconnection.setConnectTimeout(15000);
+            httpurlconnection.setReadTimeout(15000);
             if (httpurlconnection.getResponseCode() / 100 == 2) {
                 BufferedImage bufferedimage;
 
@@ -64,11 +74,16 @@ public class CachedThreadDownloader {
         }
     }
 
-    public Runnable create() {
-        return () -> {
-            download();
-            base.setBufferedImage(image);
-        };
+    public void process() {
+
+        THREAD_POOL.execute(() -> {
+            try {
+                download();
+                base.setBufferedImage(image);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
 
 
     }

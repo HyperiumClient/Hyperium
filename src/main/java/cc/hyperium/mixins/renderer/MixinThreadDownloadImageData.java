@@ -11,8 +11,6 @@ import org.spongepowered.asm.mixin.Shadow;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Mixin(ThreadDownloadImageData.class)
@@ -34,7 +32,6 @@ public abstract class MixinThreadDownloadImageData {
     @Shadow
     @Final
     private IImageBuffer imageBuffer;
-    private static final ExecutorService THREAD_POOL = Executors.newFixedThreadPool(100, r -> new Thread("Texture Downloader #" + threadDownloadCounter.getAndIncrement()));
 
     @Shadow
     public abstract void setBufferedImage(BufferedImage bufferedImageIn);
@@ -45,7 +42,7 @@ public abstract class MixinThreadDownloadImageData {
     @Overwrite
     protected void loadTextureFromServer() {
         CachedThreadDownloader cachedThreadDownloader = new CachedThreadDownloader(imageUrl, cacheFile, imageBuffer, (ThreadDownloadImageData) (Object) this);
-        Runnable runnable = cachedThreadDownloader.create();
-        THREAD_POOL.execute(runnable);
+        cachedThreadDownloader.process();
+
     }
 }
