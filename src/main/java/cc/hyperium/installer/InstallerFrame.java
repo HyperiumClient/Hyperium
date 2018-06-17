@@ -421,8 +421,11 @@ public class InstallerFrame implements PropertyChangeListener {
                 .put("lastVersionId", "Hyperium 1.8.9")
                 .put("javaArgs", "-Xms512M -Xmx" + wam + "G -XX:+UnlockExperimentalVMOptions -XX:+UseG1GC -XX:G1NewSizePercent=20 -XX:G1ReservePercent=20 -XX:MaxGCPauseMillis=50 -XX:G1HeapRegionSize=16M -XX:+DisableExplicitGC")
                 .put("icon", Metadata.getIconBase64());
-        if (localJre)
-            profile.put("javaDir", new File(System.getProperty("java.home"), "bin/javaw" + (OsCheck.detectedOS == OsCheck.OSType.Windows ? ".exe" : "")).getAbsolutePath());
+        if (localJre) {
+            if (System.getProperty("java.version").startsWith("1.8")) {
+                profile.put("javaDir", new File(System.getProperty("java.home"), "bin/javaw" + (OsCheck.detectedOS == OsCheck.OSType.Windows ? ".exe" : "")).getAbsolutePath());
+            }
+        }
         profiles.put(installedUUID, profile);
         launcherProfiles.put("profiles", profiles);
         try {
