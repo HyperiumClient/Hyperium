@@ -45,4 +45,4 @@ val ICON_BASE64
  */
 val VERSION_ID
     @JvmName("getVersionID")
-    get() = 19
+    get() = 20
