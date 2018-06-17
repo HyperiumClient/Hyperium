@@ -28,24 +28,50 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import javax.net.ssl.HttpsURLConnection;
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JProgressBar;
+import javax.swing.SwingConstants;
 import javax.swing.plaf.basic.BasicButtonUI;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.FontFormatException;
+import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.PrintStream;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.time.Instant;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.jar.JarFile;
@@ -421,8 +447,16 @@ public class InstallerFrame implements PropertyChangeListener {
                 .put("lastVersionId", "Hyperium 1.8.9")
                 .put("javaArgs", "-Xms512M -Xmx" + wam + "G -XX:+UnlockExperimentalVMOptions -XX:+UseG1GC -XX:G1NewSizePercent=20 -XX:G1ReservePercent=20 -XX:MaxGCPauseMillis=50 -XX:G1HeapRegionSize=16M -XX:+DisableExplicitGC")
                 .put("icon", Metadata.getIconBase64());
-        if (localJre)
-            profile.put("javaDir", new File(System.getProperty("java.home"), "bin/javaw" + (OsCheck.detectedOS == OsCheck.OSType.Windows ? ".exe" : "")).getAbsolutePath());
+        if (localJre) {
+            if (System.getProperty("java.version").startsWith("1.8")) {
+                if (System.getProperty("sun.arch.data.model", "").equalsIgnoreCase("64")) {
+                    File file = new File(System.getProperty("java.home"), "bin/java" + (OsCheck.detectedOS == OsCheck.OSType.Windows ? "w.exe" : ""));
+                    if (file.exists())
+                        profile.put("javaDir", file.getAbsolutePath());
+                    else System.out.println(file.getAbsolutePath());
+                }
+            }
+        }
         profiles.put(installedUUID, profile);
         launcherProfiles.put("profiles", profiles);
         try {

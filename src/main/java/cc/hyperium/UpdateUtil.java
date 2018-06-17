@@ -15,7 +15,7 @@ public class UpdateUtil {
     }
 
     public static void main(String[] args) {
-
+        System.getProperties().forEach((o, o2) -> System.out.println(o +" -> " + o2));
         String fileName = "Hyperium";
         String ver = JOptionPane.showInputDialog(null, "Enter version", "");
         final File file = new File("build\\libs\\"+fileName + "-" + ver + ".jar");

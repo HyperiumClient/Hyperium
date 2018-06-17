@@ -53,6 +53,7 @@
     "renderer.MixinLayerDeadmau5Head",
     "renderer.MixinFontRenderer",
     "renderer.model.MixinModelPlayer",
+    "renderer.MixinThreadDownloadImageData",
     "renderer.model.MixinModelBiped",
     "renderer.model.MixinModelBox",
     "renderer.MixinRenderManger",
