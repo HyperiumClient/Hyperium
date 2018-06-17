@@ -58,6 +58,7 @@
     "renderer.model.MixinModelBox",
     "renderer.MixinRenderManger",
     "renderer.model.MixinModelRenderer",
+    "renderer.entity.layer.MixinLayerHeldItem",
     
     "packet.MixinC01PacketChatMessage",
     "packet.MixinS2EPacketCloseWindow",

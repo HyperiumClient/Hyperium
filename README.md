@@ -24,6 +24,10 @@ The Hyperium is a Minecraft modification in development. It will combine many po
 
 If you don't know how, you shouldn't. Go join our beta in <a href="https://discord.gg/RNyRgtv">Discord</a>, or wait for release!
 
+## Code Style ##
+
+We use [Google's Java Code style](https://google.github.io/styleguide/javaguide.html) for Hyperium. It would be appreciated if you follow this as well.
+
 ## FAQ ##
 Q: Please help, I can't build Hyperium!
 

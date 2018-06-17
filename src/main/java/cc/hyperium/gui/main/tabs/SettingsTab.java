@@ -1,7 +1,11 @@
 package cc.hyperium.gui.main.tabs;
 
 import cc.hyperium.Hyperium;
-import cc.hyperium.config.*;
+import cc.hyperium.config.Category;
+import cc.hyperium.config.SelectorSetting;
+import cc.hyperium.config.Settings;
+import cc.hyperium.config.SliderSetting;
+import cc.hyperium.config.ToggleSetting;
 import cc.hyperium.cosmetics.Deadmau5Cosmetic;
 import cc.hyperium.cosmetics.HyperiumCosmetics;
 import cc.hyperium.cosmetics.wings.WingsCosmetic;
@@ -16,21 +20,21 @@ import cc.hyperium.gui.main.components.AbstractTab;
 import cc.hyperium.gui.main.components.OverlaySelector;
 import cc.hyperium.gui.main.components.OverlaySlider;
 import cc.hyperium.gui.main.components.SettingItem;
+import cc.hyperium.mods.glintcolorizer.gui.GlintColorizerSettings;
 import cc.hyperium.netty.NettyClient;
 import cc.hyperium.netty.packet.packets.serverbound.ServerCrossDataPacket;
 import cc.hyperium.purchases.EnumPurchaseType;
 import cc.hyperium.purchases.HyperiumPurchase;
 import cc.hyperium.purchases.PurchaseApi;
 import cc.hyperium.utils.JsonHolder;
-import net.minecraft.client.gui.Gui;
-import org.apache.commons.lang3.ArrayUtils;
-import org.lwjgl.input.Mouse;
-
-import java.awt.*;
+import java.awt.Color;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
+import net.minecraft.client.gui.Gui;
+import org.apache.commons.lang3.ArrayUtils;
+import org.lwjgl.input.Mouse;
 
 /*
  * Created by Cubxity on 20/05/2018
@@ -43,6 +47,7 @@ public class SettingsTab extends AbstractTab {
     private final HyperiumOverlay spotify = new HyperiumOverlay();
     private final HyperiumOverlay animations = new HyperiumOverlay();
     private final HyperiumOverlay misc = new HyperiumOverlay();
+    private final GlintColorizerSettings glintcolorizer = new GlintColorizerSettings();
 
     private final HyperiumOverlay wings = new HyperiumOverlay();
     private final HashMap<Field, Consumer<Object>> callback = new HashMap<>();
@@ -238,15 +243,17 @@ public class SettingsTab extends AbstractTab {
         items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(animations), Icons.COSMETIC.getResource(), "Animations", "Adjust the Minecraft Animations", "Click to configure", 2, 1));
 
         items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(spotify), Icons.SPOTIFY.getResource(), "Spotify", "Hyperium Spotify Settings", "Click to configure", 1, 1));
+
+        items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(glintcolorizer), Icons.EXTENSION.getResource(), "GlintColorizer", "GlintColorizer settings", "Click to configure", 0, 2));
         //TODO fix this method being async
         WingsCosmetic wingsCosmetic = Hyperium.INSTANCE.getCosmetics().getWingsCosmetic();
         if (wingsCosmetic.isSelfUnlocked()) {
             loadedSelf = true;
-            items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(wings), Icons.COSMETIC.getResource(), "Wings", "Hyperium wings Settings", "Click to configure", 0, 2));
+            items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(wings), Icons.COSMETIC.getResource(), "Wings", "Hyperium wings Settings", "Click to configure", 1, 2));
 
-            items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(misc), Icons.MISC.getResource(), "Miscellaneous", "Other Hyperium Settings", "Click to configure", 1, 2));
+            items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(misc), Icons.MISC.getResource(), "Miscellaneous", "Other Hyperium Settings", "Click to configure", 2, 2));
         } else {
-            items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(misc), Icons.MISC.getResource(), "Miscellaneous", "Other Hyperium Settings", "Click to configure", 0, 2));
+          items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(misc), Icons.MISC.getResource(), "Miscellaneous", "Other Hyperium Settings", "Click to configure", 1, 2));
         }
     }
 
