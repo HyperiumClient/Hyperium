@@ -1,9 +1,16 @@
 package cc.hyperium.config;
 
+import static cc.hyperium.config.Category.ANIMATIONS;
+import static cc.hyperium.config.Category.COSMETICS;
+import static cc.hyperium.config.Category.GENERAL;
+import static cc.hyperium.config.Category.IMPROVEMENTS;
+import static cc.hyperium.config.Category.INTEGRATIONS;
+import static cc.hyperium.config.Category.MISC;
+import static cc.hyperium.config.Category.SPOTIFY;
+import static cc.hyperium.config.Category.WINGS;
+
 import cc.hyperium.GuiStyle;
 import cc.hyperium.Hyperium;
-
-import static cc.hyperium.config.Category.*;
 
 /*
  * Created by Cubxity on 03/06/2018
@@ -143,6 +150,14 @@ public class Settings {
     @ConfigOpt
     @ToggleSetting(name = "1.7 Sneaking Animation", category = ANIMATIONS)
     public static boolean OLD_SNEAKING = false;
+
+    @ConfigOpt
+    @ToggleSetting(name = "1.7 Blocking", category = ANIMATIONS)
+    public static boolean OLD_BLOCKING = false;
+
+    @ConfigOpt
+    @ToggleSetting(name = "1.7 Item Held", category = ANIMATIONS)
+    public static boolean OLD_ITEM_HELD = false;
 
     @ConfigOpt
     @ToggleSetting(name = "Name History RGB")
