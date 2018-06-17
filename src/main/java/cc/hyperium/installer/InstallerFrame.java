@@ -449,9 +449,10 @@ public class InstallerFrame implements PropertyChangeListener {
                 .put("icon", Metadata.getIconBase64());
         if (localJre) {
             if (System.getProperty("java.version").startsWith("1.8")) {
-                File file = new File(System.getProperty("java.home"), "bin/javaw" + (OsCheck.detectedOS == OsCheck.OSType.Windows ? ".exe" : ""));
+                File file = new File(System.getProperty("java.home"), "bin/java" + (OsCheck.detectedOS == OsCheck.OSType.Windows ? "w.exe" : ""));
                 if (file.exists())
                     profile.put("javaDir", file.getAbsolutePath());
+                else System.out.println(file.getAbsolutePath());
             }
         }
         profiles.put(installedUUID, profile);
