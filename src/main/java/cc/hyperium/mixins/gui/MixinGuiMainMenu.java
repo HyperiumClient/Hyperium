@@ -33,8 +33,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.lwjgl.input.Mouse;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.awt.*;
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -51,8 +54,8 @@ public abstract class MixinGuiMainMenu extends GuiScreen implements GuiYesNoCall
      *
      * @author Cubxity
      */
-    @Overwrite
-    public void initGui() {
+    @Inject(method = "initGui", at = @At("RETURN"))
+    public void initGui(CallbackInfo info) {
         if (Hyperium.INSTANCE.isAcceptedTos()) {
             Minecraft.getMinecraft().displayGuiScreen(new HyperiumMainMenu());
         }

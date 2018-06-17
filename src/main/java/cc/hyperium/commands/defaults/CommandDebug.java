@@ -99,7 +99,9 @@ public class CommandDebug implements BaseCommand {
         }
         builder.append("\n");
         builder.append("\n");
-        builder.append("Hypixel: ").append(HypixelDetector.getInstance().isHypixel());
+        HypixelDetector instance = HypixelDetector.getInstance();
+        if(instance!=null)
+        builder.append("Hypixel: ").append(instance.isHypixel());
         builder.append("\n");
         builder.append("\n");
         builder.append("\n");

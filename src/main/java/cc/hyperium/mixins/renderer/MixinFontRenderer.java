@@ -1,6 +1,7 @@
 package cc.hyperium.mixins.renderer;
 
 import cc.hyperium.Hyperium;
+import cc.hyperium.handlers.HyperiumHandlers;
 import cc.hyperium.handlers.handlers.FontRendererData;
 import net.minecraft.client.gui.FontRenderer;
 import org.spongepowered.asm.mixin.Mixin;
@@ -23,8 +24,10 @@ public abstract class MixinFontRenderer {
             return 0;
         } else {
 
-            if (FontRendererData.INSTANCE.stringWidthCache.size() > Hyperium.INSTANCE.getHandlers().getConfigOptions().stringCacheSize)
-                FontRendererData.INSTANCE.stringWidthCache.clear();
+            HyperiumHandlers handlers = Hyperium.INSTANCE.getHandlers();
+            if (handlers != null)
+                if (FontRendererData.INSTANCE.stringWidthCache.size() > handlers.getConfigOptions().stringCacheSize)
+                    FontRendererData.INSTANCE.stringWidthCache.clear();
             return FontRendererData.INSTANCE.stringWidthCache.computeIfAbsent(text, (text1) -> {
                 int i = 0;
                 boolean flag = false;
