@@ -5,7 +5,12 @@ import cc.hyperium.gui.GuiBlock;
 import cc.hyperium.gui.HyperiumGui;
 import cc.hyperium.gui.Icons;
 import cc.hyperium.gui.main.components.AbstractTab;
-import cc.hyperium.gui.main.tabs.*;
+import cc.hyperium.gui.main.tabs.AddonsInstallerTab;
+import cc.hyperium.gui.main.tabs.AddonsTab;
+import cc.hyperium.gui.main.tabs.CosmeticsTab;
+import cc.hyperium.gui.main.tabs.HomeTab;
+import cc.hyperium.gui.main.tabs.InfoTab;
+import cc.hyperium.gui.main.tabs.SettingsTab;
 import cc.hyperium.utils.HyperiumFontRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -14,9 +19,12 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Font;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Queue;
 
@@ -92,6 +100,12 @@ public class HyperiumMainGui extends HyperiumGui {
                 new AddonsInstallerTab(height / 2 + pw * 2, pw)
         );
         tabFade = 1f;
+    }
+
+    @Override
+    public void show() {
+        super.show();
+        pack();
     }
 
     @Override
