@@ -31,7 +31,7 @@ import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.item.ItemStack;
 import org.lwjgl.input.Mouse;
 
-import java.awt.*;
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -249,6 +249,8 @@ public class ElementRenderer {
         if (!this.minecraft.inGameHasFocus || this.minecraft.gameSettings.showDebugInfo) {
             return;
         }
+        if (!Settings.SHOW_CHROMAHUD)
+            return;
 //        if (!MiscUtil.shouldRenderHUD())
 //            return;
 //        GlStateManager.color(1.0F,1.0F,1.0F,1.0F);

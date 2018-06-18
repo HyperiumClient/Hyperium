@@ -1,5 +1,8 @@
 package cc.hyperium.config;
 
+import cc.hyperium.GuiStyle;
+import cc.hyperium.Hyperium;
+
 import static cc.hyperium.config.Category.ANIMATIONS;
 import static cc.hyperium.config.Category.COSMETICS;
 import static cc.hyperium.config.Category.GENERAL;
@@ -8,9 +11,6 @@ import static cc.hyperium.config.Category.INTEGRATIONS;
 import static cc.hyperium.config.Category.MISC;
 import static cc.hyperium.config.Category.SPOTIFY;
 import static cc.hyperium.config.Category.WINGS;
-
-import cc.hyperium.GuiStyle;
-import cc.hyperium.Hyperium;
 
 /*
  * Created by Cubxity on 03/06/2018
@@ -297,6 +297,10 @@ public class Settings {
     @SliderSetting(name = "Wings Scale", min = 50, max = 200, category = WINGS)
     public static double WINGS_SCALE = 100D;
 
+
+    @ConfigOpt
+    @ToggleSetting(name = "Show ChromaHUD",category = INTEGRATIONS)
+    public static boolean SHOW_CHROMAHUD= true;
     public static void register() {
         Hyperium.CONFIG.register(new Settings()); // values r static soo whatever
     }
