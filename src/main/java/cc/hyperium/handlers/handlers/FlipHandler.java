@@ -69,6 +69,9 @@ public class FlipHandler {
     }
 
     public int getSelf() {
-        return rotateState.getOrDefault(UUIDUtil.getClientUUID(), 0);
+        return get(UUIDUtil.getClientUUID());
+    }
+    public int get(UUID uuid) {
+        return rotateState.getOrDefault(uuid, 0);
     }
 }
