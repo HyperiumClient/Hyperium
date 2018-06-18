@@ -67,12 +67,7 @@ public class HyperiumHandlers {
     private QuestTrackingChatHandler questTracking;
     private RenderPlayerAsBlock renderPlayerAsBlock;
     private FlipHandler flipHandler;
-    private WakandaForeverPreHandler wakandaForeverPreHandler;
-private WakandaForeverPostHandler wakandaForeverPostHandler;
 
-    public WakandaForeverPostHandler getWakandaForeverPostHandler() {
-        return wakandaForeverPostHandler;
-    }
 
     public HyperiumHandlers() {
         System.out.println("Loading handlers");
@@ -96,8 +91,6 @@ private WakandaForeverPostHandler wakandaForeverPostHandler;
         register(dataTracking = new GameDataTracking());
         register(privateMessageHandler = new PrivateMessageHandler());
         register(dabHandler = new DabHandler());
-        register(wakandaForeverPreHandler = new WakandaForeverPreHandler());
-        register(wakandaForeverPostHandler = new WakandaForeverPostHandler());
 
         register(statusHandler = new StatusHandler());
         register(flossDanceHandler = new FlossDanceHandler());
@@ -123,9 +116,6 @@ private WakandaForeverPostHandler wakandaForeverPostHandler;
         register(commandHandler = new HyperiumCommandHandler());
     }
 
-    public WakandaForeverPreHandler getWakandaForeverPreHandler() {
-        return wakandaForeverPreHandler;
-    }
 
     public RenderPlayerAsBlock getRenderPlayerAsBlock() {
         return renderPlayerAsBlock;
