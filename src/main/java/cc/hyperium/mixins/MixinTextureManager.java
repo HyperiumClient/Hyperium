@@ -19,20 +19,33 @@ package cc.hyperium.mixins;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.utils.Utils;
+import net.minecraft.client.renderer.texture.ITextureObject;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.util.ResourceLocation;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Overwrite;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Mixin(TextureManager.class)
 public class MixinTextureManager {
+
+    @Shadow
+    @Final
+    private Map<ResourceLocation, ITextureObject> mapTextureObjects;
+
+    @Shadow
+    @Final
+    private Map<String, Integer> mapTextureCounters;
 
     @Inject(method = "<init>", at = @At("RETURN"))
     public void mod(IResourceManager resourceManager, CallbackInfo info) {
@@ -43,11 +56,22 @@ public class MixinTextureManager {
             Field modifiersField = Field.class.getDeclaredField("modifiers");
             modifiersField.setAccessible(true);
             modifiersField.setInt(mapTextureObjects, mapTextureObjects.getModifiers() & ~Modifier.FINAL);
+            Map<ResourceLocation, ITextureObject> map = this.mapTextureObjects;
             mapTextureObjects.set((TextureManager) (Object) this, new ConcurrentHashMap<>());
+            for (ResourceLocation location : map.keySet()) {
+                this.mapTextureObjects.put(location,map.get(location));
+            }
 
         } catch (NoSuchFieldException | IllegalAccessException e) {
             e.printStackTrace();
         }
+    }
+
+    @Overwrite
+    public ITextureObject getTexture(ResourceLocation textureLocation) {
+        if(textureLocation==null)
+            return null;
+        return (ITextureObject) this.mapTextureObjects.get(textureLocation);
     }
 
     @Inject(method = "onResourceManagerReload", at = @At("HEAD"))
