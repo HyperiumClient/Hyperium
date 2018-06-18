@@ -45,7 +45,7 @@ public abstract class MixinAbstractClientPlayer {
     private void AbstractPlayer(World worldIn, GameProfile playerProfile, CallbackInfo callbackInfo) {
 
         //Blank get cape call to get the show on the road
-        Hyperium.INSTANCE.getHandlers().getCapeHandler().getCape(playerProfile.getId());
+        Hyperium.INSTANCE.getHandlers().getCapeHandler().getCape((AbstractClientPlayer)(Object)this);
     }
 
     /**
@@ -54,7 +54,7 @@ public abstract class MixinAbstractClientPlayer {
     @Overwrite
     public ResourceLocation getLocationCape() {
 
-        ResourceLocation cape = Hyperium.INSTANCE.getHandlers().getCapeHandler().getCape(getPlayerInfo().getGameProfile().getId());
+        ResourceLocation cape = Hyperium.INSTANCE.getHandlers().getCapeHandler().getCape((AbstractClientPlayer)(Object)this);
         if (cape != null)
             return cape;
         NetworkPlayerInfo networkplayerinfo = this.getPlayerInfo();

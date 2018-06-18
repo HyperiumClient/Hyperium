@@ -23,7 +23,7 @@ public class CachedThreadDownloader {
             60L, TimeUnit.SECONDS,
             new SynchronousQueue<>(),
             r -> {
-                Thread thread = new Thread("Texture Downloader #" + counter.getAndIncrement());
+                Thread thread = new Thread(r, "Texture Downloader #" + counter.getAndIncrement());
                 thread.setDaemon(true);
                 return thread;
             });

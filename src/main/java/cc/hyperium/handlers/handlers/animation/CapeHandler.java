@@ -3,16 +3,17 @@ package cc.hyperium.handlers.handlers.animation;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.WorldChangeEvent;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
+import cc.hyperium.purchases.HyperiumPurchase;
 import cc.hyperium.purchases.PurchaseApi;
 import cc.hyperium.utils.CapeUtils;
 import cc.hyperium.utils.JsonHolder;
 import cc.hyperium.utils.UUIDUtil;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.renderer.IImageBuffer;
 import net.minecraft.client.renderer.ThreadDownloadImageData;
 import net.minecraft.client.renderer.texture.ITextureObject;
 import net.minecraft.client.renderer.texture.TextureManager;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 
 import java.awt.image.BufferedImage;
@@ -67,6 +68,7 @@ public class CapeHandler {
                 CapeHandler.this.setCape(uuid, resourceLocation);
             }
         });
+
         textureManager.loadTexture(resourceLocation, threadDownloadImageData);
     }
 
@@ -74,25 +76,24 @@ public class CapeHandler {
         capes.put(uuid, resourceLocation);
     }
 
-    public ResourceLocation getCape(final UUID uuid) {
+    public ResourceLocation getCape(final AbstractClientPlayer player) {
+        UUID uuid = player.getUniqueID();
         ResourceLocation orDefault = capes.getOrDefault(uuid, null);
         if (orDefault == null) {
-            Multithreading.runAsync(() -> PurchaseApi.getInstance().getPackageAsync(uuid, hyperiumPurchase -> {
+            Multithreading.runAsync(() -> {
+                HyperiumPurchase hyperiumPurchase = PurchaseApi.getInstance().getPackageSync(uuid);
                 String s = hyperiumPurchase.getPurchaseSettings().optJSONObject("cape").optString("type");
                 if (!s.isEmpty()) {
                     JsonHolder jsonHolder = PurchaseApi.getInstance().getCapeAtlas().optJSONObject(s);
                     String url = jsonHolder.optString("url");
                     if (!url.isEmpty()) {
                         loadCape(uuid, url);
-                    }
-                } else {
-                    EntityPlayer e = Minecraft.getMinecraft().theWorld.getPlayerEntityByUUID(uuid);
-
-                    if (e != null) {
-                        loadCape(uuid, "http://s.optifine.net/capes/" + e.getGameProfile().getName() + ".png");
+                        return;
                     }
                 }
-            }));
+                loadCape(uuid, "http://s.optifine.net/capes/" + player.getGameProfile().getName() + ".png");
+
+            });
             return capes.get(uuid);
         }
         if (orDefault.equals(loadingResource)) {
