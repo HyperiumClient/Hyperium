@@ -112,16 +112,6 @@ public class ArmourHud extends DisplayItem {
         if (hand && heldItem != null && armourOnTop)
             items.add(heldItem);
 
-        for (ItemStack is : Minecraft.getMinecraft().thePlayer.inventory.mainInventory) {
-            if (is != null) {
-                if (is.getUnlocalizedName().equalsIgnoreCase("item.bow")) {
-                    items.add(is);
-                    break;
-                }
-
-            }
-
-        }
 
 
         return items;
