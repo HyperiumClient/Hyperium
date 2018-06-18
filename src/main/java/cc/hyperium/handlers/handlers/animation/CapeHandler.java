@@ -60,6 +60,7 @@ public class CapeHandler {
 
             @Override
             public BufferedImage parseUserSkin(BufferedImage image) {
+                System.out.println(image);
                 return CapeUtils.parseCape(image);
             }
 

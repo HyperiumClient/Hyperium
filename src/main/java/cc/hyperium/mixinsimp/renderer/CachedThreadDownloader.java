@@ -33,6 +33,7 @@ public class CachedThreadDownloader {
     private File cacheFile;
     private IImageBuffer imageBuffer;
     private ThreadDownloadImageData base;
+    private int code;
 
     public CachedThreadDownloader(String imageUrl, File cacheFile, IImageBuffer imageBuffer, ThreadDownloadImageData base) {
         this.imageUrl = imageUrl;
@@ -53,7 +54,9 @@ public class CachedThreadDownloader {
             httpurlconnection.connect();
             httpurlconnection.setConnectTimeout(15000);
             httpurlconnection.setReadTimeout(15000);
-            if (httpurlconnection.getResponseCode() / 100 == 2) {
+            int responseCode = httpurlconnection.getResponseCode();
+            this.code = responseCode;
+            if (responseCode / 100 == 2) {
                 BufferedImage bufferedimage;
 
                 if (cacheFile != null) {
@@ -85,7 +88,8 @@ public class CachedThreadDownloader {
         THREAD_POOL.execute(() -> {
             try {
                 download();
-                base.setBufferedImage(image);
+                if (code != 404)
+                    base.setBufferedImage(image);
             } catch (Exception e) {
                 e.printStackTrace();
             }
