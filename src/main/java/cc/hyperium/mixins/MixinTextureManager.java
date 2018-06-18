@@ -17,6 +17,7 @@
 
 package cc.hyperium.mixins;
 
+import cc.hyperium.Hyperium;
 import cc.hyperium.utils.Utils;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.resources.IResourceManager;
@@ -26,8 +27,28 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.util.concurrent.ConcurrentHashMap;
+
 @Mixin(TextureManager.class)
 public class MixinTextureManager {
+
+    @Inject(method = "<init>", at = @At("RETURN"))
+    public void mod(IResourceManager resourceManager, CallbackInfo info) {
+        try {
+            System.out.println(Hyperium.INSTANCE.isDevEnv());
+            Field mapTextureObjects = TextureManager.class.getDeclaredField(/*Hyperium.INSTANCE.isDevEnv() ?*/ "mapTextureObjects"/*:  "b"*/);
+            mapTextureObjects.setAccessible(true);
+            Field modifiersField = Field.class.getDeclaredField("modifiers");
+            modifiersField.setAccessible(true);
+            modifiersField.setInt(mapTextureObjects, mapTextureObjects.getModifiers() & ~Modifier.FINAL);
+            mapTextureObjects.set((TextureManager) (Object) this, new ConcurrentHashMap<>());
+
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
 
     @Inject(method = "onResourceManagerReload", at = @At("HEAD"))
     private void onResourceManagerReload(IResourceManager resourceManager, CallbackInfo ci) {

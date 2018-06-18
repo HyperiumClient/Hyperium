@@ -12,16 +12,21 @@ import java.io.File;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.SynchronousQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class CachedThreadDownloader {
     private static final AtomicInteger counter = new AtomicInteger();
-    private static final ExecutorService THREAD_POOL = Executors.newFixedThreadPool(100, r -> {
-        Thread thread = new Thread("Texture Downloader #" + counter.getAndIncrement());
-        thread.setDaemon(true);
-        return thread;
-    });
+    private static final ExecutorService THREAD_POOL = new ThreadPoolExecutor(0, 100,
+            60L, TimeUnit.SECONDS,
+            new SynchronousQueue<>(),
+            r -> {
+                Thread thread = new Thread("Texture Downloader #" + counter.getAndIncrement());
+                thread.setDaemon(true);
+                return thread;
+            });
 
     private BufferedImage image;
     private String imageUrl;
@@ -65,6 +70,7 @@ public class CachedThreadDownloader {
                 return;
             }
         } catch (Exception exception) {
+            exception.printStackTrace();
             return;
         } finally {
             if (httpurlconnection != null) {
