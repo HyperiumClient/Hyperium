@@ -86,7 +86,7 @@ object Utils {
                     val purchase = packageIfReady.getPurchase(EnumPurchaseType.DEADMAU5_COSMETIC)
                     if (purchase != null) {
                         if (entity.getUniqueID() !== Minecraft.getMinecraft().thePlayer.uniqueID) {
-                            if ((purchase as EarsCosmetic).isEnabled) {
+                            if (purchase is EarsCosmetic && purchase.isEnabled) {
                                 return .24f
                             }
                         } else if (Settings.EARS_STATE.equals("on", ignoreCase = true))
