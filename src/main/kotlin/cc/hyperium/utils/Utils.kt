@@ -17,7 +17,15 @@
 
 package cc.hyperium.utils
 
+import cc.hyperium.Hyperium
+import cc.hyperium.config.Settings
+import cc.hyperium.purchases.EnumPurchaseType
+import cc.hyperium.purchases.PurchaseApi
+import cc.hyperium.purchases.packages.EarsCosmetic
 import net.minecraft.client.Minecraft
+import net.minecraft.entity.Entity
+import net.minecraft.entity.EntityLivingBase
+import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.util.ResourceLocation
 import org.lwjgl.BufferUtils
 import org.lwjgl.input.Cursor
@@ -68,6 +76,28 @@ object Utils {
         } catch (e: Exception) {
         }
 
+    }
+
+    fun <T : Entity> calculateDeadmauEarsOffset(entity: T): Float {
+        try {
+            if (entity is EntityPlayer && Hyperium.INSTANCE.cosmetics.deadmau5Cosmetic.isPurchasedBy(entity.getUniqueID())) {
+                val packageIfReady = PurchaseApi.getInstance().getPackageIfReady(entity.getUniqueID())
+                if (packageIfReady != null) {
+                    val purchase = packageIfReady.getPurchase(EnumPurchaseType.DEADMAU5_COSMETIC)
+                    if (purchase != null) {
+                        if (entity.getUniqueID() !== Minecraft.getMinecraft().thePlayer.uniqueID) {
+                            if ((purchase as EarsCosmetic).isEnabled) {
+                                return .24f
+                            }
+                        } else if (Settings.EARS_STATE.equals("on", ignoreCase = true))
+                            return .24f
+                    }
+                }
+            }
+        } catch (ignored: Exception) {
+
+        }
+        return 0f
     }
 
     fun countSubstrings(s: String, sub: String): Int {

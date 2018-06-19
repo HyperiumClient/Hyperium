@@ -7,6 +7,7 @@ import cc.hyperium.purchases.EnumPurchaseType;
 import cc.hyperium.purchases.HyperiumPurchase;
 import cc.hyperium.purchases.PurchaseApi;
 import cc.hyperium.purchases.packages.EarsCosmetic;
+import cc.hyperium.utils.Utils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.GlStateManager;
@@ -66,27 +67,7 @@ public abstract class MixinRender<T extends Entity> {
             float f = 1.6F;
             float f1 = 0.016666668F * f;
             GlStateManager.pushMatrix();
-            float offset = 0;
-            try {
-
-                if ((entityIn instanceof EntityPlayer) && Hyperium.INSTANCE.getCosmetics().getDeadmau5Cosmetic().isPurchasedBy(entityIn.getUniqueID())) {
-                    HyperiumPurchase packageIfReady = PurchaseApi.getInstance().getPackageIfReady(entityIn.getUniqueID());
-                    if (packageIfReady != null) {
-                        AbstractHyperiumPurchase purchase = packageIfReady.getPurchase(EnumPurchaseType.DEADMAU5_COSMETIC);
-                        if (purchase != null) {
-                            if (entityIn.getUniqueID() != Minecraft.getMinecraft().thePlayer.getUniqueID()) {
-                                if (((EarsCosmetic) purchase).isEnabled()) {
-                                    offset += .24;
-                                }
-                            } else if (Settings.EARS_STATE.equalsIgnoreCase("on"))
-                                offset += .24;
-                        }
-
-                    }
-                }
-            } catch (Exception e) {
-//                e.printStackTrace();
-            }
+            float offset = Utils.INSTANCE.calculateDeadmauEarsOffset(entityIn);
             GlStateManager.translate((float) x + 0.0F, (float) y + offset + entityIn.height + 0.5F, (float) z);
             GL11.glNormal3f(0.0F, 1.0F, 0.0F);
             GlStateManager.rotate(-this.renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
