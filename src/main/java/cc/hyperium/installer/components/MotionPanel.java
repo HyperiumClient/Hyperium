@@ -30,8 +30,6 @@ public class MotionPanel extends JPanel {
     private Point initialClick;
 
     public MotionPanel(final JFrame parent) {
-        JFrame parent1 = parent;
-
         addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
                 initialClick = e.getPoint();
