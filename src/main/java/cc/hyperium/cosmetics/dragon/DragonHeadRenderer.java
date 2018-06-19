@@ -5,8 +5,8 @@ import cc.hyperium.cosmetics.DragonCosmetic;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.RenderPlayerEvent;
 import cc.hyperium.event.WorldChangeEvent;
+import cc.hyperium.purchases.HyperiumPurchase;
 import cc.hyperium.purchases.PurchaseApi;
-import cc.hyperium.utils.UUIDUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
@@ -82,7 +82,10 @@ public class DragonHeadRenderer extends ModelBase {
     @InvokeEvent
     private void onRenderPlayer(final RenderPlayerEvent event) {
         if (dragonCosmetic.isPurchasedBy(event.getEntity().getUniqueID()) && !event.getEntity().isInvisible()) {
-            if (PurchaseApi.getInstance().getSelf().getPurchaseSettings().optJSONObject("dragon").optBoolean("disabled"))
+            HyperiumPurchase packageIfReady = PurchaseApi.getInstance().getPackageIfReady(event.getEntity().getUniqueID());
+            if (packageIfReady == null)
+                return;
+            if (packageIfReady.getPurchaseSettings().optJSONObject("dragon").optBoolean("disabled"))
                 return;
             GlStateManager.pushMatrix();
             GlStateManager.translate(event.getX(), event.getY(), event.getZ());
@@ -96,9 +99,8 @@ public class DragonHeadRenderer extends ModelBase {
     private void renderHead(final EntityPlayer player, final float partialTicks) {
 
         final double scale = 1.0F;
-        boolean flag = player.getUniqueID().equals(UUIDUtil.getClientUUID());
-        final double rotate = flag ? this.interpolate(player.rotationYawHead, player.prevRotationYaw, partialTicks) : player.rotationYawHead;
-        final double rotate1 = flag ? this.interpolate(player.prevRotationPitch, player.rotationPitch, partialTicks) : player.rotationPitch;
+        final double rotate = this.interpolate(player.prevRotationYawHead, player.rotationYawHead, partialTicks);
+        final double rotate1 = this.interpolate(player.prevRotationPitch, player.rotationPitch, partialTicks);
 
         GL11.glScaled(-scale, -scale, scale);
         GL11.glRotated(180.0 + rotate, 0.0, 1.0, 0.0);
@@ -137,7 +139,7 @@ public class DragonHeadRenderer extends ModelBase {
         }
         GL11.glColor3f(colors[0], colors[1], colors[2]);
         this.mc.getTextureManager().bindTexture(this.selectedLoc);
-        GL11.glScaled(.4, .4, .4);
+        GL11.glScaled(.5, .5, .5);
         this.head.render(.1F);
 
         GL11.glCullFace(1029);
