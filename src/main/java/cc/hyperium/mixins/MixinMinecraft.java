@@ -488,6 +488,7 @@ public abstract class MixinMinecraft {
         }
 
         GuiScreen old = this.currentScreen;
+
         GuiOpenEvent event = new GuiOpenEvent(guiScreenIn);
 
         EventBus.INSTANCE.post(event);
@@ -498,6 +499,8 @@ public abstract class MixinMinecraft {
         if (old != null && guiScreenIn != old) {
             old.onGuiClosed();
         }
+        if(old !=null)
+            EventBus.INSTANCE.unregister(old);
 
         if (guiScreenIn instanceof GuiMainMenu) {
             this.gameSettings.showDebugInfo = false;

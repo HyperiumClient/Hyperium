@@ -18,6 +18,9 @@
 package cc.hyperium.gui.integrations;
 
 import cc.hyperium.Hyperium;
+import cc.hyperium.event.EventBus;
+import cc.hyperium.event.FriendRemoveEvent;
+import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.gui.GuiBlock;
 import cc.hyperium.gui.GuiBoxItem;
 import cc.hyperium.gui.HyperiumGui;
@@ -26,19 +29,23 @@ import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
 import cc.hyperium.utils.ChatColor;
 import cc.hyperium.utils.JsonHolder;
 import club.sk1er.website.api.requests.HypixelApiFriendObject;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
+import net.minecraft.util.EnumChatFormatting;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
-import java.awt.*;
+import java.awt.Color;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Predicate;
 
 
@@ -58,7 +65,7 @@ public class HypixelFriendsGui extends HyperiumGui {
 
     public HypixelFriendsGui() {
         rebuildFriends();
-
+        EventBus.INSTANCE.register(this);
 
     }
 
@@ -283,6 +290,23 @@ public class HypixelFriendsGui extends HyperiumGui {
 //        }
     }
 
+    @InvokeEvent
+    public void onRemove(FriendRemoveEvent evemt) {
+        System.out.println(evemt.getFullName() + " - " + evemt.getName());
+        JsonHolder friends = Hyperium.INSTANCE.getHandlers().getDataHandler().getFriends();
+        String key = null;
+        for (Map.Entry<String, JsonElement> stringJsonElementEntry : friends.getObject().entrySet()) {
+            if(!(stringJsonElementEntry.getValue() instanceof JsonObject))
+                continue;
+            String display = stringJsonElementEntry.getValue().getAsJsonObject().get("display").getAsString();
+
+            if(EnumChatFormatting.getTextWithoutFormattingCodes(display).contains(evemt.getFullName()))
+                key=stringJsonElementEntry.getKey();
+        }
+        if(key !=null)
+            friends.remove(key);
+    }
+
     enum FriendSortType implements Comparator<HypixelApiFriendObject> {
 
         ALPHABETICAL {
@@ -334,6 +358,8 @@ public class HypixelFriendsGui extends HyperiumGui {
             all.sort(type);
             working = all;
         }
+
+
 
         public void removeIf(Predicate<? super HypixelApiFriendObject> e) {
             reset();
