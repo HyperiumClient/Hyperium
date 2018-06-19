@@ -49,6 +49,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.charset.Charset;
 
 
 /**
@@ -105,7 +106,7 @@ public class SpotifyControls extends AbstractMod {
         }
 
         try {
-            BetterJsonObject obj = new BetterJsonObject(FileUtils.readFileToString(configFile));
+            BetterJsonObject obj = new BetterJsonObject(FileUtils.readFileToString(configFile, Charset.defaultCharset()));
             this.x = obj.get("x").getAsInt();
             this.y = obj.get("y").getAsInt();
         } catch (IOException e) {
