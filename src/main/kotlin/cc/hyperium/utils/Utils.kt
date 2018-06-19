@@ -24,7 +24,6 @@ import cc.hyperium.purchases.PurchaseApi
 import cc.hyperium.purchases.packages.EarsCosmetic
 import net.minecraft.client.Minecraft
 import net.minecraft.entity.Entity
-import net.minecraft.entity.EntityLivingBase
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.util.ResourceLocation
 import org.lwjgl.BufferUtils
@@ -97,8 +96,8 @@ object Utils {
                     }
                 }
             }
-        } catch (ignored: Exception) {
-
+        } catch (e: NullPointerException) {
+            e.printStackTrace()
         }
         return 0f
     }
