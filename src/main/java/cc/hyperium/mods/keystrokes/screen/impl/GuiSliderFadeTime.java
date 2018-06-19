@@ -39,16 +39,8 @@ public class GuiSliderFadeTime extends GuiSlider {
     public void updateSlider() {
         super.updateSlider();
         this.settings.setFadeTime((float) (getValue() / 100.0D));
-
         this.keystrokesGui.setUpdated();
-
-        if (getValue() < 10) {
-            this.displayString = this.dispString + "Slow";
-        } else if (getValue() > 20) {
-            this.displayString = this.dispString + "Fast";
-        } else {
-            this.displayString = this.dispString + "Normal";
-        }
+        updateDisplayString();
     }
 
     @Override
@@ -59,6 +51,11 @@ public class GuiSliderFadeTime extends GuiSlider {
             setValue(this.minValue);
         }
 
+        updateDisplayString();
+        super.drawButton(mc, mouseX, mouseY);
+    }
+
+    private void updateDisplayString() {
         if (getValue() < 10) {
             this.displayString = this.dispString + "Slow";
         } else if (getValue() > 20) {
@@ -66,6 +63,6 @@ public class GuiSliderFadeTime extends GuiSlider {
         } else {
             this.displayString = this.dispString + "Normal";
         }
-        super.drawButton(mc, mouseX, mouseY);
     }
+
 }
