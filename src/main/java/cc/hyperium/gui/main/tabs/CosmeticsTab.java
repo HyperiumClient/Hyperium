@@ -75,6 +75,7 @@ public class CosmeticsTab extends AbstractTab {
                 String state = purchased ? "Purchased" : (enough ? "Click to purchase" : "Insufficient credits");
                 SettingItem e = new SettingItem(() -> {
                     if (!purchased && enough) {
+                        refreshData();
                         GeneralChatHandler.instance().sendMessage("Attempting to purchase " + s);
                         purchasing = true;
                         NettyClient client = NettyClient.getClient();

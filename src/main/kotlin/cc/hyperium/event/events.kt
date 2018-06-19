@@ -278,6 +278,7 @@ class PlayerAttackEntityEvent(val uuid: UUID, val entity: Entity?)
 
 class PurchaseLoadEvent(val uuid: UUID, val purchase: HyperiumPurchase, val self: Boolean)
 
+class FriendRemoveEvent(val fullName: String, val name: String)
 
 abstract class CopyPlayerModelAnglesEvent(val entity: AbstractClientPlayer, val model: IMixinModelBiped)
 

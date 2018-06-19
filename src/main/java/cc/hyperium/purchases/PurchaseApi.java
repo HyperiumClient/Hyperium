@@ -204,9 +204,12 @@ public class PurchaseApi {
     }
 
     public void reload(UUID uuid) {
-        if(!purchasePlayers.containsKey(uuid))
-            return;
+        System.out.println("reloading " + uuid);
+        System.out.println("Reloading 1" + uuid);
         purchasePlayers.remove(uuid);
         ensureLoaded(uuid);
     }
+
+
+
 }
