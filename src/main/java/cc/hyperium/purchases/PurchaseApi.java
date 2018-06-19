@@ -22,7 +22,13 @@ import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.PurchaseLoadEvent;
 import cc.hyperium.event.SpawnpointChangeEvent;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
-import cc.hyperium.purchases.packages.*;
+import cc.hyperium.purchases.packages.DabOnKill;
+import cc.hyperium.purchases.packages.DragonHeadCosmetic;
+import cc.hyperium.purchases.packages.EarsCosmetic;
+import cc.hyperium.purchases.packages.FlipCosmeticPackage;
+import cc.hyperium.purchases.packages.KillTrackerMuscles;
+import cc.hyperium.purchases.packages.ParticleBackgroundCosmetic;
+import cc.hyperium.purchases.packages.WingCosmetic;
 import cc.hyperium.utils.JsonHolder;
 import cc.hyperium.utils.UUIDUtil;
 import com.google.gson.JsonObject;
@@ -195,5 +201,12 @@ public class PurchaseApi {
         HyperiumPurchase value = new HyperiumPurchase(id, get(url + id.toString()));
         EventBus.INSTANCE.post(new PurchaseLoadEvent(id, value, true));
         purchasePlayers.put(id, value);
+    }
+
+    public void reload(UUID uuid) {
+        if(!purchasePlayers.containsKey(uuid))
+            return;
+        purchasePlayers.remove(uuid);
+        ensureLoaded(uuid);
     }
 }
