@@ -1,12 +1,6 @@
 package cc.hyperium.mixins.renderer;
 
 import cc.hyperium.Hyperium;
-import cc.hyperium.config.Settings;
-import cc.hyperium.purchases.AbstractHyperiumPurchase;
-import cc.hyperium.purchases.EnumPurchaseType;
-import cc.hyperium.purchases.HyperiumPurchase;
-import cc.hyperium.purchases.PurchaseApi;
-import cc.hyperium.purchases.packages.EarsCosmetic;
 import cc.hyperium.utils.Utils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -17,7 +11,6 @@ import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
 import org.lwjgl.opengl.GL11;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
