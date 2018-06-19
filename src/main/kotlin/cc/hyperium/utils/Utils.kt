@@ -78,6 +78,9 @@ object Utils {
 
     }
 
+    /*
+    * @return the entity name offset
+    * */
     fun <T : Entity> calculateDeadmauEarsOffset(entity: T): Float {
         try {
             if (entity is EntityPlayer && Hyperium.INSTANCE.cosmetics.deadmau5Cosmetic.isPurchasedBy(entity.getUniqueID())) {
