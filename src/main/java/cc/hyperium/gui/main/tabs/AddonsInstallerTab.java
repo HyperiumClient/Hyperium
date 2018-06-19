@@ -14,7 +14,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import org.json.JSONObject;
 
-import java.awt.*;
+import java.awt.Color;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -33,6 +33,7 @@ public class AddonsInstallerTab extends AbstractTab {
     HashMap<Object, Boolean> clicked = new HashMap<>();
     private int y, w;
     private GuiBlock block;
+    private HashMap<Object, SettingItem> items1 = new HashMap<>();
 
     public AddonsInstallerTab(int y, int w) {
         Multithreading.runAsync(() -> {
@@ -67,7 +68,7 @@ public class AddonsInstallerTab extends AbstractTab {
                         e.printStackTrace();
                     }
                 }), Icons.DOWNLOAD.getResource(), ao.get(current).getString("name"), ao.get(current).getString("description"), "Download Addon", xi, yi);
-                items1.put(o,e1);
+                items1.put(o, e1);
                 items.add(e1);
 
                 if (xi == 2) {
@@ -79,7 +80,6 @@ public class AddonsInstallerTab extends AbstractTab {
             }
         });
     }
-    private HashMap<Object, SettingItem> items1 = new HashMap<>();
 
     private static String toHex(byte[] bytes) {
         StringBuilder r = new StringBuilder(bytes.length * 2);

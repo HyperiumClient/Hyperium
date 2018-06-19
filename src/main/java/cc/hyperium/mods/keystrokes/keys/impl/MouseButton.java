@@ -23,7 +23,7 @@ import net.minecraft.client.gui.Gui;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
-import java.awt.*;
+import java.awt.Color;
 
 public class MouseButton extends IKey {
 
@@ -80,7 +80,7 @@ public class MouseButton extends IKey {
                 this.mc.fontRendererObj.drawString(name, x + this.xOffset + 8, y + this.yOffset + 4, pressed ? pressedColor : colorN);
                 GL11.glPushMatrix();
                 GL11.glScalef(0.5f, 0.5f, 0.0f);
-                    this.mc.fontRendererObj.drawString((name.equals(BUTTONS[0]) ? this.mod.getRenderer().getCPSKeys()[0].getLeftCPS() : this.mod.getRenderer().getCPSKeys()[0].getRightCPS()) + " CPS", Math.round(x / 0.5f + this.xOffset / 0.5f + 10 / 0.5f), Math.round(y / 0.5f + this.yOffset / 0.5f + 14 / 0.5f), pressed ? pressedColor : colorN);
+                this.mc.fontRendererObj.drawString((name.equals(BUTTONS[0]) ? this.mod.getRenderer().getCPSKeys()[0].getLeftCPS() : this.mod.getRenderer().getCPSKeys()[0].getRightCPS()) + " CPS", Math.round(x / 0.5f + this.xOffset / 0.5f + 10 / 0.5f), Math.round(y / 0.5f + this.yOffset / 0.5f + 14 / 0.5f), pressed ? pressedColor : colorN);
                 GL11.glPopMatrix();
             }
         } else {

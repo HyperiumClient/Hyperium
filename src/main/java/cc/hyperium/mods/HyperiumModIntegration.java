@@ -199,12 +199,12 @@ public class HyperiumModIntegration {
         return this.killScreenshot;
     }
 
-  /**
-   * A getter for the running GlintColorizer instance
-   *
-   * @return the running GlintColorizer instance
-   */
-  public AbstractMod getGlintColorizer() {
-    return this.glintcolorizer;
-  }
+    /**
+     * A getter for the running GlintColorizer instance
+     *
+     * @return the running GlintColorizer instance
+     */
+    public AbstractMod getGlintColorizer() {
+        return this.glintcolorizer;
+    }
 }

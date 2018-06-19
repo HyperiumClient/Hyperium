@@ -45,7 +45,7 @@ public abstract class MixinAbstractClientPlayer {
     private void AbstractPlayer(World worldIn, GameProfile playerProfile, CallbackInfo callbackInfo) {
 
         //Blank get cape call to get the show on the road
-        Hyperium.INSTANCE.getHandlers().getCapeHandler().getCape((AbstractClientPlayer)(Object)this);
+        Hyperium.INSTANCE.getHandlers().getCapeHandler().getCape((AbstractClientPlayer) (Object) this);
     }
 
     /**
@@ -54,7 +54,7 @@ public abstract class MixinAbstractClientPlayer {
     @Overwrite
     public ResourceLocation getLocationCape() {
 
-        ResourceLocation cape = Hyperium.INSTANCE.getHandlers().getCapeHandler().getCape((AbstractClientPlayer)(Object)this);
+        ResourceLocation cape = Hyperium.INSTANCE.getHandlers().getCapeHandler().getCape((AbstractClientPlayer) (Object) this);
         if (cape != null)
             return cape;
         NetworkPlayerInfo networkplayerinfo = this.getPlayerInfo();
@@ -65,9 +65,9 @@ public abstract class MixinAbstractClientPlayer {
     private void getFovModifier(CallbackInfoReturnable<Float> ci) {
         if (Settings.STATIC_FOV) {
             if (Minecraft.getMinecraft().thePlayer.isSprinting() && Settings.staticFovSprintModifier)
-                ci.setReturnValue((float)(1.0 * ((Minecraft.getMinecraft().thePlayer.getEntityAttribute(SharedMonsterAttributes.movementSpeed).getAttributeValue() / (double)Minecraft.getMinecraft().thePlayer.capabilities.getWalkSpeed() + 1.0D) / 2.0D)));
+                ci.setReturnValue((float) (1.0 * ((Minecraft.getMinecraft().thePlayer.getEntityAttribute(SharedMonsterAttributes.movementSpeed).getAttributeValue() / (double) Minecraft.getMinecraft().thePlayer.capabilities.getWalkSpeed() + 1.0D) / 2.0D)));
             else
-            ci.setReturnValue(1.0F);
+                ci.setReturnValue(1.0F);
         }
     }
 }

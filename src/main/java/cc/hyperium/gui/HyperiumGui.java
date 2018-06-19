@@ -22,7 +22,11 @@ import cc.hyperium.config.Settings;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.*;
+import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
@@ -32,7 +36,7 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.input.Mouse;
 
 import javax.imageio.ImageIO;
-import java.awt.*;
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
@@ -74,12 +78,6 @@ public abstract class HyperiumGui extends GuiScreen {
         } else {
             return goal;
         }
-    }
-
-    @Override
-    public void onGuiClosed() {
-        super.onGuiClosed();
-        EventBus.INSTANCE.unregister(this);
     }
 
     /**
@@ -183,6 +181,12 @@ public abstract class HyperiumGui extends GuiScreen {
     }
 
     @Override
+    public void onGuiClosed() {
+        super.onGuiClosed();
+        EventBus.INSTANCE.unregister(this);
+    }
+
+    @Override
     protected void actionPerformed(GuiButton button) throws IOException {
         super.actionPerformed(button);
         Consumer<GuiButton> guiButtonConsumer = clicks.get(button);
@@ -247,9 +251,9 @@ public abstract class HyperiumGui extends GuiScreen {
         super.handleMouseInput();
         int i = Mouse.getEventDWheel();
         if (i < 0) {
-            offset += 11*scollMultiplier;
+            offset += 11 * scollMultiplier;
         } else if (i > 0) {
-            offset -= 11*scollMultiplier;
+            offset -= 11 * scollMultiplier;
         }
 
 

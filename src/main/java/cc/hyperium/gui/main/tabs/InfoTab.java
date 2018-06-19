@@ -21,7 +21,8 @@ import net.minecraft.client.gui.Gui;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.client.methods.HttpGet;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;

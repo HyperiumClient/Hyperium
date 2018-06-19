@@ -113,7 +113,6 @@ public class ArmourHud extends DisplayItem {
             items.add(heldItem);
 
 
-
         return items;
     }
 

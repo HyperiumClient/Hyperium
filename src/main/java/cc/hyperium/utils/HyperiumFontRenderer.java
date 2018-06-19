@@ -23,7 +23,7 @@ import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.font.effects.ColorEffect;
 
-import java.awt.*;
+import java.awt.Font;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

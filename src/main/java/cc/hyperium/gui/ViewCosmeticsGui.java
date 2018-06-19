@@ -8,7 +8,7 @@ import com.google.gson.JsonElement;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
 
-import java.awt.*;
+import java.awt.Color;
 import java.text.DecimalFormat;
 
 public class ViewCosmeticsGui extends HyperiumGui {

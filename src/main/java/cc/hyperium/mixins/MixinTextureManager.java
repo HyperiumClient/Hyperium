@@ -30,8 +30,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class MixinTextureManager {
 
 
-
-
     @Inject(method = "onResourceManagerReload", at = @At("HEAD"))
     private void onResourceManagerReload(IResourceManager resourceManager, CallbackInfo ci) {
         Utils.INSTANCE.setCursor(new ResourceLocation("textures/cursor.png"));

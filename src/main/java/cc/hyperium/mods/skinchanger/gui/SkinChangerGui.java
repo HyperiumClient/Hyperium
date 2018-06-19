@@ -29,7 +29,7 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
 import org.lwjgl.input.Keyboard;
 
-import java.awt.*;
+import java.awt.Color;
 import java.io.IOException;
 
 public class SkinChangerGui extends GuiScreen {

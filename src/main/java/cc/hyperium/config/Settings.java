@@ -299,8 +299,9 @@ public class Settings {
 
 
     @ConfigOpt
-    @ToggleSetting(name = "Show ChromaHUD",category = INTEGRATIONS)
-    public static boolean SHOW_CHROMAHUD= true;
+    @ToggleSetting(name = "Show ChromaHUD", category = INTEGRATIONS)
+    public static boolean SHOW_CHROMAHUD = true;
+
     public static void register() {
         Hyperium.CONFIG.register(new Settings()); // values r static soo whatever
     }

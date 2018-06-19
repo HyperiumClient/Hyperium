@@ -15,15 +15,15 @@ public class UpdateUtil {
     }
 
     public static void main(String[] args) {
-        System.getProperties().forEach((o, o2) -> System.out.println(o +" -> " + o2));
+        System.getProperties().forEach((o, o2) -> System.out.println(o + " -> " + o2));
         String fileName = "Hyperium";
         String ver = JOptionPane.showInputDialog(null, "Enter version", "");
-        final File file = new File("build\\libs\\"+fileName + "-" + ver + ".jar");
+        final File file = new File("build\\libs\\" + fileName + "-" + ver + ".jar");
         System.out.println(file.getAbsolutePath());
         final long size = file.length();
         final String sha1 = toHex(checksum(file, "SHA1")).toLowerCase();
         final String sha2 = toHex(checksum(file, "SHA-256")).toLowerCase();
-        JTextArea textarea= new JTextArea("Size: " + size + "\n" +
+        JTextArea textarea = new JTextArea("Size: " + size + "\n" +
                 "Sha1: " + sha1 + " \n" +
                 "Sha256: " + sha2);
         textarea.setEditable(true);

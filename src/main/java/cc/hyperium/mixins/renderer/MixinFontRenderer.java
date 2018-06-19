@@ -78,7 +78,6 @@ public abstract class MixinFontRenderer {
     public abstract int getCharWidth(char character);
 
 
-
     @Shadow
     protected abstract float func_181559_a(char ch, boolean italic);
 
@@ -92,7 +91,6 @@ public abstract class MixinFontRenderer {
 
     @Shadow
     public abstract int drawString(String text, float x, float y, int color, boolean dropShadow);
-
 
 
     public void setColor(float red, float g, float b, float a) {

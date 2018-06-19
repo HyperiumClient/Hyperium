@@ -18,7 +18,7 @@
 package cc.hyperium.mods.crosshair;
 
 
-import java.awt.*;
+import java.awt.Color;
 
 public class Crosshair extends CrosshairType {
 

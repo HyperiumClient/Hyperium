@@ -10,7 +10,8 @@ import cc.hyperium.utils.UUIDUtil;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Desktop;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;

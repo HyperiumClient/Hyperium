@@ -69,7 +69,7 @@ public class NetworkHandler implements INetty {
         } else if (type.equalsIgnoreCase("custom_levelhead_success")) {
             if (Minecraft.getMinecraft().currentScreen instanceof CustomLevelheadConfigurer)
                 Minecraft.getMinecraft().displayGuiScreen(null);
-        } else if(type.equalsIgnoreCase("cache_update")) {
+        } else if (type.equalsIgnoreCase("cache_update")) {
             PurchaseApi.getInstance().reload(UUID.fromString(jsonHolder.optString("uuid")));
         }
     }
