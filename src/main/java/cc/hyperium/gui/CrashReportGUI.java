@@ -64,10 +64,6 @@ public class CrashReportGUI extends JDialog {
         this.setLayout(null);
     }
 
-    public CrashReportGUI() {
-
-    }
-
     public static int handle(CrashReport report) {
         try {
             CrashReportGUI crg = new CrashReportGUI(report);
@@ -146,48 +142,29 @@ public class CrashReportGUI extends JDialog {
         report.setBorderPainted(false);
         report.setFocusPainted(false);
         report.setBounds(2, 208, 196, 20);
-        report.addActionListener(e -> {
-            Multithreading.runAsync(new Runnable() {
-                @Override
-                public void run() {
-                    if (update.isSupported()) {
-                        report.setEnabled(false);
-                        report.setText("REPORTING...");
-                        if (sendReport()) {
-                            report.setEnabled(false);
-                            report.setText("REPORTED");
-                        } else if (copyReport()) {
-                            report.setEnabled(false);
-                            report.setText("COPIED TO CLIPBOARD");
-                        } else {
-                            report.setText("FAILED TO REPORT");
-                        }
-                    } else if (Hyperium.INSTANCE.isDevEnv()) {
-                        report.setEnabled(false);
-                        report.setText("REPORTING...");
-                        if (sendReport()) {
-                            report.setEnabled(false);
-                            report.setText("REPORTED");
-                        } else if (copyReport()) {
-                            report.setEnabled(false);
-                            report.setText("COPIED TO CLIPBOARD");
-                        } else {
-                            report.setText("FAILED TO REPORT");
-                        }
-                    } else {
-                        report.setEnabled(false);
-                        report.setText("Update Hyperium");
-                        try {
-                            Desktop.getDesktop().browse(new URI("https://hyperium.cc"));
-                        } catch (IOException e1) {
-                            e1.printStackTrace();
-                        } catch (URISyntaxException e1) {
-                            e1.printStackTrace();
-                        }
-                    }
+        report.addActionListener(e -> Multithreading.runAsync(() -> {
+            if (update.isSupported() || Hyperium.INSTANCE.isDevEnv()) {
+                report.setEnabled(false);
+                report.setText("REPORTING...");
+                if (sendReport()) {
+                    report.setEnabled(false);
+                    report.setText("REPORTED");
+                } else if (copyReport()) {
+                    report.setEnabled(false);
+                    report.setText("COPIED TO CLIPBOARD");
+                } else {
+                    report.setText("FAILED TO REPORT");
                 }
-            });
-        });
+            } else {
+                report.setEnabled(false);
+                report.setText("Update Hyperium");
+                try {
+                    Desktop.getDesktop().browse(new URI("https://hyperium.cc"));
+                } catch (IOException | URISyntaxException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        }));
 
         JButton restart = new JButton("RESTART");
         restart.setUI(new BasicButtonUI());
