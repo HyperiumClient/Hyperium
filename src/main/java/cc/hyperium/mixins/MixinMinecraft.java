@@ -594,7 +594,14 @@ public abstract class MixinMinecraft {
     private void runTickMouseButton(CallbackInfo ci) {
         // Actiavtes for EVERY mouse button.
         int i = Mouse.getEventButton();
-        EventBus.INSTANCE.post(new MouseButtonEvent(i));
+        boolean state = Mouse.getEventButtonState();
+        if(state){
+            // Mouse clicked.
+            EventBus.INSTANCE.post(new MouseButtonEvent(i,true));
+        } else{
+            // Mouse released.
+            EventBus.INSTANCE.post(new MouseButtonEvent(i,false));
+        }
     }
 
     /**

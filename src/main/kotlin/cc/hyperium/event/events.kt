@@ -85,7 +85,7 @@ class RightMouseClickEvent
 /**
  * Invoked once a mouse button is pressed
  */
-class MouseButtonEvent(val value: Int)
+class MouseButtonEvent(val value: Int, val state: Boolean)
 
 /**
  * Invoked once a key is pressed
