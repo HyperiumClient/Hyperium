@@ -20,7 +20,7 @@ package cc.hyperium.gui;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 
-import java.awt.*;
+import java.awt.Color;
 
 public class HyperiumSlider extends GuiButton {
     private final int x;

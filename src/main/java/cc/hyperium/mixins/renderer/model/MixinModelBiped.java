@@ -47,7 +47,6 @@ public class MixinModelBiped extends ModelBase implements IMixinModelBiped {
     public boolean isSneak;
     @Shadow
     public boolean aimedBow;
-
     protected ModelRenderer bipedLeftForeArm;
     protected ModelRenderer bipedRightForeArm;
     protected ModelRenderer bipedLeftLowerLeg;

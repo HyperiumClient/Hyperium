@@ -27,6 +27,7 @@ public class CachedThreadDownloader {
                 thread.setDaemon(true);
                 return thread;
             });
+
     static {
         ((ThreadPoolExecutor) THREAD_POOL).setRejectedExecutionHandler((r, executor) -> {
             // this will block if the queue is full

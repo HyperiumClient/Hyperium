@@ -27,8 +27,8 @@ public class AutoWhoChatHandler extends HyperiumChatHandler {
     public boolean chatReceived(IChatComponent component, String text) {
         //Idk took this check from 2Pi's AutoWHO
         if (text.equalsIgnoreCase("Teaming is not allowed on Ranked Mode!")) {
-            if(Settings.AUTO_WHO)
-            getHyperium().getHandlers().getCommandQueue().queue("/who");
+            if (Settings.AUTO_WHO)
+                getHyperium().getHandlers().getCommandQueue().queue("/who");
         }
         return false;
     }

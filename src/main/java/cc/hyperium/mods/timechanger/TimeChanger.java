@@ -22,7 +22,11 @@ import cc.hyperium.event.EventBus;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.TickEvent;
 import cc.hyperium.mods.AbstractMod;
-import cc.hyperium.mods.timechanger.commands.*;
+import cc.hyperium.mods.timechanger.commands.CommandTimeChangerDay;
+import cc.hyperium.mods.timechanger.commands.CommandTimeChangerFastTime;
+import cc.hyperium.mods.timechanger.commands.CommandTimeChangerNight;
+import cc.hyperium.mods.timechanger.commands.CommandTimeChangerReset;
+import cc.hyperium.mods.timechanger.commands.CommandTimeChangerSunset;
 import cc.hyperium.utils.ChatColor;
 import net.minecraft.client.Minecraft;
 

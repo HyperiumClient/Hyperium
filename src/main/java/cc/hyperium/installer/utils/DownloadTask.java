@@ -17,7 +17,7 @@
 
 package cc.hyperium.installer.utils;
 
-import javax.swing.*;
+import javax.swing.SwingWorker;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;

@@ -37,7 +37,7 @@ public abstract class OverlayComponent {
     public abstract void mouseClicked(int mouseX, int mouseY, int overlayX, int overlayY, int w, int h);
 
     public void handleMouseInput(int mouseX, int mouseY, int overlayX, int overlayY, int w, int h) {
-        
+
     }
 
 }

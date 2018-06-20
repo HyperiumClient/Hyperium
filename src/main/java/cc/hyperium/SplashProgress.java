@@ -28,7 +28,8 @@ import net.minecraft.util.ResourceLocation;
 import org.bridj.Pointer;
 import org.bridj.cpp.com.shell.ITaskbarList3;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Font;
 
 public class SplashProgress {
     private static final int MAX = 13;
@@ -125,7 +126,7 @@ public class SplashProgress {
         ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
         double nProgress = (double) PROGRESS;
         double calc = (nProgress / MAX) * 150;
-        sfr.drawString(CURRENT, sr.getScaledWidth() / 2 - sfr.getWidth(CURRENT) / 2, sr.getScaledHeight() / 2 + 60, 0xFFFFFF);
+        sfr.drawString(CURRENT, sr.getScaledWidth() / 2 - sfr.getWidth(CURRENT) / 2, sr.getScaledHeight() / 2 + 60, new Color(0, 150, 250).getRGB());
         // Progress
         Gui.drawRect(sr.getScaledWidth() / 2 - 75, sr.getScaledHeight() / 2 + 45, sr.getScaledWidth() / 2 + (int) (Math.round(calc) / 2), sr.getScaledHeight() / 2 + 55, new Color(255, 0, 0, 50).getRGB());
         // Bar base

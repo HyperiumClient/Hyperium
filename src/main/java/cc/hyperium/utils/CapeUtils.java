@@ -1,6 +1,6 @@
 package cc.hyperium.utils;
 
-import java.awt.*;
+import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
 public class CapeUtils {

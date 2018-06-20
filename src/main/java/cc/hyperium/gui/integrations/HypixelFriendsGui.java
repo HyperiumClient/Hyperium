@@ -295,14 +295,14 @@ public class HypixelFriendsGui extends HyperiumGui {
         JsonHolder friends = Hyperium.INSTANCE.getHandlers().getDataHandler().getFriends();
         String key = null;
         for (Map.Entry<String, JsonElement> stringJsonElementEntry : friends.getObject().entrySet()) {
-            if(!(stringJsonElementEntry.getValue() instanceof JsonObject))
+            if (!(stringJsonElementEntry.getValue() instanceof JsonObject))
                 continue;
             String display = stringJsonElementEntry.getValue().getAsJsonObject().get("display").getAsString();
 
-            if(EnumChatFormatting.getTextWithoutFormattingCodes(display).contains(evemt.getFullName()))
-                key=stringJsonElementEntry.getKey();
+            if (EnumChatFormatting.getTextWithoutFormattingCodes(display).contains(evemt.getFullName()))
+                key = stringJsonElementEntry.getKey();
         }
-        if(key !=null)
+        if (key != null)
             friends.remove(key);
     }
 
@@ -357,7 +357,6 @@ public class HypixelFriendsGui extends HyperiumGui {
             all.sort(type);
             working = all;
         }
-
 
 
         public void removeIf(Predicate<? super HypixelApiFriendObject> e) {

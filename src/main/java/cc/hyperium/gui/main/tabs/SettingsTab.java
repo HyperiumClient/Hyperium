@@ -27,14 +27,15 @@ import cc.hyperium.purchases.EnumPurchaseType;
 import cc.hyperium.purchases.HyperiumPurchase;
 import cc.hyperium.purchases.PurchaseApi;
 import cc.hyperium.utils.JsonHolder;
+import net.minecraft.client.gui.Gui;
+import org.apache.commons.lang3.ArrayUtils;
+import org.lwjgl.input.Mouse;
+
 import java.awt.Color;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
-import net.minecraft.client.gui.Gui;
-import org.apache.commons.lang3.ArrayUtils;
-import org.lwjgl.input.Mouse;
 
 /*
  * Created by Cubxity on 20/05/2018
@@ -253,7 +254,7 @@ public class SettingsTab extends AbstractTab {
 
             items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(misc), Icons.MISC.getResource(), "Miscellaneous", "Other Hyperium Settings", "Click to configure", 2, 2));
         } else {
-          items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(misc), Icons.MISC.getResource(), "Miscellaneous", "Other Hyperium Settings", "Click to configure", 1, 2));
+            items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(misc), Icons.MISC.getResource(), "Miscellaneous", "Other Hyperium Settings", "Click to configure", 1, 2));
         }
     }
 

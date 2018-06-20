@@ -47,10 +47,6 @@ public class KeystrokesRenderer {
     private final SpaceKey[] spaceKey = new SpaceKey[1];
     private final MouseButton[] mouseButtons = new MouseButton[2];
 
-    public CPSKey [] getCPSKeys() {
-        return this.cpsKeys;
-    }
-
     public KeystrokesRenderer(KeystrokesMod mod) {
         this.mod = mod;
 
@@ -65,6 +61,10 @@ public class KeystrokesRenderer {
 
         this.mouseButtons[0] = new MouseButton(mod, 0, 2, 50);
         this.mouseButtons[1] = new MouseButton(mod, 1, 38, 50);
+    }
+
+    public CPSKey[] getCPSKeys() {
+        return this.cpsKeys;
     }
 
     @InvokeEvent

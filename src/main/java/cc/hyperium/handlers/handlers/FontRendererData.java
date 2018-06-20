@@ -2,7 +2,7 @@ package cc.hyperium.handlers.handlers;
 
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.TickEvent;
-import cc.hyperium.utils.CachedString;
+import cc.hyperium.mixinsimp.renderer.CachedString;
 import net.minecraft.client.renderer.GLAllocation;
 
 import java.util.HashMap;

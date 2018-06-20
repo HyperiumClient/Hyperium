@@ -292,6 +292,8 @@ public abstract class MixinMinecraft {
     @Final
     private List<IResourcePack> defaultResourcePacks;
     private long lastAttack;
+    @Shadow
+    private boolean enableGLErrorChecking;
 
     @Shadow
     protected abstract void resize(int width, int height);
@@ -324,6 +326,7 @@ public abstract class MixinMinecraft {
      */
     @Inject(method = "startGame", at = @At("RETURN"))
     private void init(CallbackInfo ci) {
+        enableGLErrorChecking = false;
         EventBus.INSTANCE.register(Hyperium.INSTANCE);
         EventBus.INSTANCE.post(new InitializationEvent());
     }
@@ -491,7 +494,7 @@ public abstract class MixinMinecraft {
         if (old != null && guiScreenIn != old) {
             old.onGuiClosed();
         }
-        if(old !=null)
+        if (old != null)
             EventBus.INSTANCE.unregister(old);
 
         if (guiScreenIn instanceof GuiMainMenu) {

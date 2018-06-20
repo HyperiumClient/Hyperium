@@ -33,7 +33,6 @@ public class WingsCosmetic extends AbstractCosmetic {
     }
 
 
-
     public ResourceLocation getLocation(String s) {
         if (s == null)
             return dragon;
