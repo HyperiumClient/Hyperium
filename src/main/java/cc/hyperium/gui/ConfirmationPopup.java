@@ -18,14 +18,18 @@
 package cc.hyperium.gui;
 
 import cc.hyperium.config.Settings;
-import cc.hyperium.event.*;
+import cc.hyperium.event.HypixelFriendRequestEvent;
+import cc.hyperium.event.HypixelPartyInviteEvent;
+import cc.hyperium.event.InvokeEvent;
+import cc.hyperium.event.KeypressEvent;
+import cc.hyperium.event.RenderHUDEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import org.lwjgl.input.Keyboard;
 
-import java.awt.*;
+import java.awt.Color;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.function.Consumer;

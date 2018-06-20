@@ -30,7 +30,8 @@ import cc.hyperium.utils.JsonHolder;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import java.awt.*;
+import java.awt.Desktop;
+import java.awt.Toolkit;
 import java.awt.datatransfer.StringSelection;
 import java.net.URL;
 
@@ -99,7 +100,9 @@ public class CommandDebug implements BaseCommand {
         }
         builder.append("\n");
         builder.append("\n");
-        builder.append("Hypixel: ").append(HypixelDetector.getInstance().isHypixel());
+        HypixelDetector instance = HypixelDetector.getInstance();
+        if (instance != null)
+            builder.append("Hypixel: ").append(instance.isHypixel());
         builder.append("\n");
         builder.append("\n");
         builder.append("\n");

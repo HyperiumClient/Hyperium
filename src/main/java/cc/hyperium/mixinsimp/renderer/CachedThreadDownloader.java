@@ -12,22 +12,39 @@ import java.io.File;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.SynchronousQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class CachedThreadDownloader {
     private static final AtomicInteger counter = new AtomicInteger();
-    private static final ExecutorService THREAD_POOL = Executors.newFixedThreadPool(100, r -> {
-        Thread thread = new Thread("Texture Downloader #" + counter.getAndIncrement());
-        thread.setDaemon(true);
-        return thread;
-    });
+    private static final ExecutorService THREAD_POOL = new ThreadPoolExecutor(0, 100,
+            60L, TimeUnit.SECONDS,
+            new SynchronousQueue<>(),
+            r -> {
+                Thread thread = new Thread(r, "Texture Downloader #" + counter.getAndIncrement());
+                thread.setDaemon(true);
+                return thread;
+            });
+
+    static {
+        ((ThreadPoolExecutor) THREAD_POOL).setRejectedExecutionHandler((r, executor) -> {
+            // this will block if the queue is full
+            try {
+                executor.getQueue().put(r);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
+    }
 
     private BufferedImage image;
     private String imageUrl;
     private File cacheFile;
     private IImageBuffer imageBuffer;
     private ThreadDownloadImageData base;
+    private int code;
 
     public CachedThreadDownloader(String imageUrl, File cacheFile, IImageBuffer imageBuffer, ThreadDownloadImageData base) {
         this.imageUrl = imageUrl;
@@ -48,7 +65,9 @@ public class CachedThreadDownloader {
             httpurlconnection.connect();
             httpurlconnection.setConnectTimeout(15000);
             httpurlconnection.setReadTimeout(15000);
-            if (httpurlconnection.getResponseCode() / 100 == 2) {
+            int responseCode = httpurlconnection.getResponseCode();
+            this.code = responseCode;
+            if (responseCode / 100 == 2) {
                 BufferedImage bufferedimage;
 
                 if (cacheFile != null) {
@@ -65,6 +84,7 @@ public class CachedThreadDownloader {
                 return;
             }
         } catch (Exception exception) {
+            exception.printStackTrace();
             return;
         } finally {
             if (httpurlconnection != null) {
@@ -79,7 +99,8 @@ public class CachedThreadDownloader {
         THREAD_POOL.execute(() -> {
             try {
                 download();
-                base.setBufferedImage(image);
+                if (code != 404)
+                    base.setBufferedImage(image);
             } catch (Exception e) {
                 e.printStackTrace();
             }

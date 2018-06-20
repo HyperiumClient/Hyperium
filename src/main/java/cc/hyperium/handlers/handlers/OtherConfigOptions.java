@@ -11,6 +11,4 @@ public class OtherConfigOptions {
     public boolean isCancelBox;
 
 
-
-
 }

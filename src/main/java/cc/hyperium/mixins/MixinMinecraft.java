@@ -171,7 +171,18 @@ package cc.hyperium.mixins;
 import cc.hyperium.Hyperium;
 import cc.hyperium.SplashProgress;
 import cc.hyperium.config.Settings;
-import cc.hyperium.event.*;
+import cc.hyperium.event.EventBus;
+import cc.hyperium.event.GuiOpenEvent;
+import cc.hyperium.event.InitializationEvent;
+import cc.hyperium.event.KeypressEvent;
+import cc.hyperium.event.KeyreleaseEvent;
+import cc.hyperium.event.LeftMouseClickEvent;
+import cc.hyperium.event.MouseButtonEvent;
+import cc.hyperium.event.PreInitializationEvent;
+import cc.hyperium.event.RightMouseClickEvent;
+import cc.hyperium.event.SingleplayerJoinEvent;
+import cc.hyperium.event.TickEvent;
+import cc.hyperium.event.WorldChangeEvent;
 import cc.hyperium.gui.CrashReportGUI;
 import cc.hyperium.internal.addons.AddonBootstrap;
 import cc.hyperium.internal.addons.AddonMinecraftBootstrap;
@@ -182,7 +193,12 @@ import cc.hyperium.utils.mods.FPSLimiter;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.client.entity.EntityPlayerSP;
-import net.minecraft.client.gui.*;
+import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.GuiGameOver;
+import net.minecraft.client.gui.GuiIngame;
+import net.minecraft.client.gui.GuiMainMenu;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.multiplayer.PlayerControllerMP;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.particle.EffectRenderer;
@@ -235,6 +251,9 @@ public abstract class MixinMinecraft {
     @Shadow
     public FontRenderer fontRendererObj;
     @Shadow
+    @Final
+    public Profiler mcProfiler;
+    @Shadow
     private int displayHeight;
     @Shadow
     private int displayWidth;
@@ -273,6 +292,8 @@ public abstract class MixinMinecraft {
     @Final
     private List<IResourcePack> defaultResourcePacks;
     private long lastAttack;
+    @Shadow
+    private boolean enableGLErrorChecking;
 
     @Shadow
     protected abstract void resize(int width, int height);
@@ -305,6 +326,7 @@ public abstract class MixinMinecraft {
      */
     @Inject(method = "startGame", at = @At("RETURN"))
     private void init(CallbackInfo ci) {
+        enableGLErrorChecking = false;
         EventBus.INSTANCE.register(Hyperium.INSTANCE);
         EventBus.INSTANCE.post(new InitializationEvent());
     }
@@ -341,7 +363,6 @@ public abstract class MixinMinecraft {
         }
     }
 
-
     /**
      * Invoked once the player has pressed mouse button 1
      *
@@ -351,8 +372,6 @@ public abstract class MixinMinecraft {
     private void clickMouse(CallbackInfo ci) {
         EventBus.INSTANCE.post(new LeftMouseClickEvent());
     }
-
-
 
     /**
      * Invoked once the player has pressed mouse button 1
@@ -472,6 +491,7 @@ public abstract class MixinMinecraft {
         }
 
         GuiScreen old = this.currentScreen;
+
         GuiOpenEvent event = new GuiOpenEvent(guiScreenIn);
 
         EventBus.INSTANCE.post(event);
@@ -482,10 +502,13 @@ public abstract class MixinMinecraft {
         if (old != null && guiScreenIn != old) {
             old.onGuiClosed();
         }
+        if (old != null)
+            EventBus.INSTANCE.unregister(old);
 
         if (guiScreenIn instanceof GuiMainMenu) {
             this.gameSettings.showDebugInfo = false;
-            this.ingameGUI.getChatGUI().clearChatMessages();
+            if (!Settings.PERSISTENT_CHAT)
+                this.ingameGUI.getChatGUI().clearChatMessages();
         }
 
         this.currentScreen = guiScreenIn;
@@ -521,8 +544,6 @@ public abstract class MixinMinecraft {
 
     @Shadow
     public abstract void shutdown();
-
-    @Shadow @Final public Profiler mcProfiler;
 
     /**
      * change to splash screen logo
@@ -567,8 +588,6 @@ public abstract class MixinMinecraft {
     private void loadWorld(WorldClient worldClient, CallbackInfo ci) {
         EventBus.INSTANCE.post(new WorldChangeEvent());
     }
-
-
 
 
     @Inject(method = "runTick", at = @At(value = "INVOKE", target = "Lorg/lwjgl/input/Mouse;getEventButton()I", ordinal = 0))

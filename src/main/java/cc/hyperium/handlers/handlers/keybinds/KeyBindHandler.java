@@ -18,8 +18,22 @@
 package cc.hyperium.handlers.handlers.keybinds;
 
 import cc.hyperium.Hyperium;
-import cc.hyperium.event.*;
-import cc.hyperium.handlers.handlers.keybinds.keybinds.*;
+import cc.hyperium.event.GameShutDownEvent;
+import cc.hyperium.event.InvokeEvent;
+import cc.hyperium.event.KeypressEvent;
+import cc.hyperium.event.KeyreleaseEvent;
+import cc.hyperium.event.MouseButtonEvent;
+import cc.hyperium.handlers.handlers.keybinds.keybinds.ClearPopupKeybind;
+import cc.hyperium.handlers.handlers.keybinds.keybinds.DabKeybind;
+import cc.hyperium.handlers.handlers.keybinds.keybinds.FlipKeybind;
+import cc.hyperium.handlers.handlers.keybinds.keybinds.FlossKeybind;
+import cc.hyperium.handlers.handlers.keybinds.keybinds.FriendsKeybind;
+import cc.hyperium.handlers.handlers.keybinds.keybinds.GuiKeybind;
+import cc.hyperium.handlers.handlers.keybinds.keybinds.NamesKeybind;
+import cc.hyperium.handlers.handlers.keybinds.keybinds.QueueKeybind;
+import cc.hyperium.handlers.handlers.keybinds.keybinds.TogglePerspectiveKeybind;
+import cc.hyperium.handlers.handlers.keybinds.keybinds.ToggleSpotifyKeybind;
+import cc.hyperium.handlers.handlers.keybinds.keybinds.ToggleSprintKeybind;
 import net.minecraft.client.Minecraft;
 import org.apache.commons.lang3.ArrayUtils;
 import org.lwjgl.input.Keyboard;

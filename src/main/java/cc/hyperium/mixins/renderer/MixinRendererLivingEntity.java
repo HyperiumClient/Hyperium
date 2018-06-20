@@ -33,7 +33,6 @@ import net.minecraft.client.renderer.culling.ICamera;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.RendererLivingEntity;
-import net.minecraft.client.renderer.entity.layers.LayerBipedArmor;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.EntityLivingBase;
@@ -75,7 +74,7 @@ public abstract class MixinRendererLivingEntity<T extends EntityLivingBase> exte
     protected void renderLayers(T entitylivingbaseIn, float p_177093_2_, float p_177093_3_, float partialTicks, float p_177093_5_, float p_177093_6_, float p_177093_7_, float p_177093_8_) {
         for (LayerRenderer<T> layerrenderer : this.layerRenderers) {
             boolean f = layerrenderer.shouldCombineTextures();
-            if (Settings.OLD_ARMOUR && layerrenderer instanceof LayerBipedArmor) {
+            if (Settings.OLD_ARMOUR) {
                 f = true;
             }
             boolean flag = this.setBrightness(entitylivingbaseIn, partialTicks, f);

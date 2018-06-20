@@ -1,6 +1,7 @@
 package cc.hyperium.cosmetics.wings;
 
 
+import cc.hyperium.Hyperium;
 import cc.hyperium.config.Settings;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.RenderPlayerEvent;
@@ -15,6 +16,7 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 public class WingsRenderer extends ModelBase {
+
     private Minecraft mc;
     private ModelRenderer wing;
     private ModelRenderer wingTip;
@@ -29,57 +31,101 @@ public class WingsRenderer extends ModelBase {
         this.setTextureOffset("wingtip.bone", 0, 5);
         this.setTextureOffset("wingtip.skin", -10, 18);
         (this.wing = new ModelRenderer((ModelBase) this, "wing")).setTextureSize(30, 30);
-        this.wing.setRotationPoint(-2.0f, 0.0f, 0.0f);
-        this.wing.addBox("bone", -10.0f, -1.0f, -1.0f, 10, 2, 2);
-        this.wing.addBox("skin", -10.0f, 0.0f, 0.5f, 10, 0, 10);
+        this.wing.setRotationPoint(-2.0F, 0.0F, 0.0F);
+        this.wing.addBox("bone", -10.0F, -1.0F, -1.0F, 10, 2, 2);
+        this.wing.addBox("skin", -10.0F, 0.0F, 0.5F, 10, 0, 10);
         (this.wingTip = new ModelRenderer((ModelBase) this, "wingtip")).setTextureSize(30, 30);
-        this.wingTip.setRotationPoint(-10.0f, 0.0f, 0.0f);
-        this.wingTip.addBox("bone", -10.0f, -0.5f, -0.5f, 10, 1, 1);
-        this.wingTip.addBox("skin", -10.0f, 0.0f, 0.5f, 10, 0, 10);
+        this.wingTip.setRotationPoint(-10.0F, 0.0F, 0.0F);
+        this.wingTip.addBox("bone", -10.0F, -0.5F, -0.5F, 10, 1, 1);
+        this.wingTip.addBox("skin", -10.0F, 0.0F, 0.5F, 10, 0, 10);
         this.wing.addChild(this.wingTip);
     }
 
     @InvokeEvent
-    public void onRenderPlayer(final RenderPlayerEvent event) {
+    public void onRenderPlayer(RenderPlayerEvent event) {
         final EntityPlayer player = event.getEntity();
-        if (wingsCosmetic.isPurchasedBy(event.getEntity().getUniqueID()) && !player.isInvisible()) {
+        if (wingsCosmetic.isPurchasedBy(event.getEntity().getUniqueID()) && !player.isInvisible() && Settings.SHOW_WINGS) {
             this.renderWings(player, event.getPartialTicks(), event.getX(), event.getY(), event.getZ());
         }
     }
 
-    private void renderWings(final EntityPlayer player, final float partialTicks, double x, double y, double z) {
-        HyperiumPurchase packageIfReady = PurchaseApi.getInstance().getPackageIfReady(player.getUniqueID());
+    private void renderWings(EntityPlayer player, float partialTicks, double x, double y, double z) {
+        HyperiumPurchase packageIfReady = PurchaseApi.getInstance()
+                .getPackageIfReady(player.getUniqueID());
         if (packageIfReady == null) {
             return;
         }
         String s = packageIfReady.getPurchaseSettings().optJSONObject("wings").optString("type");
         ResourceLocation location = wingsCosmetic.getLocation(s);
 
-        double v = packageIfReady.getPurchaseSettings().optJSONObject("wings").optDouble("scale", Settings.WINGS_SCALE);
-        final double scale = v / 100.0;
-        final double rotate = this.interpolate(player.prevRenderYawOffset, player.renderYawOffset, partialTicks);
+        // Wings scale as defined in the settings.
+        double v = packageIfReady.getPurchaseSettings().optJSONObject("wings")
+                .optDouble("scale", Settings.WINGS_SCALE);
+        double scale = v / 100.0;
+        double rotate = this
+                .interpolate(player.prevRenderYawOffset, player.renderYawOffset, partialTicks);
+
         GlStateManager.pushMatrix();
         GlStateManager.translate(x, y, z);
+
+
         GlStateManager.scale(-scale, -scale, scale);
         GlStateManager.rotate((float) (180.0F + rotate), 0.0F, 1.0F, 0.0F);
-        GlStateManager.translate(0.0, -(this.playerUsesFullHeight ? 1.45 : 1.25) / scale, 0.0);
-        GlStateManager.translate(0.0, 0.0, 0.1 / scale);
-        if (player.isSneaking()) {
-            GlStateManager.translate(0.0, 0.125 / scale, 0.0);
+
+        // Height of the player.
+        float scaledPlayerHeight = (float) (1.85F / scale);
+
+        // Height of the wings from the feet.
+        float scaledHeight = (float) ((this.playerUsesFullHeight ? 1.45 : 1.25) / scale);
+
+        // Moves the wings to the top of the player's head then backward slightly (away from the centre).
+        GlStateManager.translate(0.0F, -scaledHeight, 0.0F);
+        GlStateManager.translate(0.0F, 0.0F, 0.15F / scale);
+
+        // Takes into account player flip cosmetic.
+        int rotateState = Hyperium.INSTANCE.getHandlers().getFlipHandler().get(player.getUniqueID());
+
+        if (player.isSneaking() && rotateState == 0) {
+            GlStateManager.translate(0.0F, 0.125 / scale, 0.0F);
+        } else if (player.isSneaking() && rotateState == 1) {
+            GlStateManager.translate(0.0F, -0.125 / scale, 0.0F);
         }
+
+
+        if (rotateState == 2) {
+            // Spinning rotate mode.
+
+            // Translate to centre of the player.
+            float difference = scaledHeight - (scaledPlayerHeight / 2);
+            GlStateManager.translate(0.0F, difference, 0.0F);
+
+            // Rotate.
+            double l = System.currentTimeMillis() % (360 * 1.75) / 1.75;
+            GlStateManager.rotate((float) -l, 0.1F, 0.0F, 0.0F);
+
+            //Translate back up to the correct position.
+            GlStateManager.translate(0.0F, -difference, 0.0F);
+        } else if (rotateState == 1) {
+            // Flip rotate mode.
+            float difference = scaledPlayerHeight - scaledHeight;
+
+            GlStateManager.rotate(180.0F, 0.0F, 0.0F, 1.0F);
+            GlStateManager.translate(0.0F, -scaledHeight + difference, 0.0F);
+        }
+
         GlStateManager.color(1.0F, 1.0F, 1.0F);
 
         this.mc.getTextureManager().bindTexture(location);
 
         for (int j = 0; j < 2; ++j) {
             GL11.glEnable(2884);
-            final float f11 = System.currentTimeMillis() % 1000L / 1000.0f * 3.1415927f * 2.0f;
-            this.wing.rotateAngleX = (float) Math.toRadians(-80.0) - (float) Math.cos(f11) * 0.2f;
-            this.wing.rotateAngleY = (float) Math.toRadians(20.0) + (float) Math.sin(f11) * 0.4f;
+            float f11 = System.currentTimeMillis() % 1000L / 1000.0f * 3.1415927f * 2.0F;
+            this.wing.rotateAngleX = (float) Math.toRadians(-80.0) - (float) Math.cos(f11) * 0.2F;
+            this.wing.rotateAngleY = (float) Math.toRadians(20.0) + (float) Math.sin(f11) * 0.4F;
             this.wing.rotateAngleZ = (float) Math.toRadians(20.0);
-            this.wingTip.rotateAngleZ = -(float) (Math.sin(f11 + 2.0f) + 0.5) * 0.75f;
-            this.wing.render(0.0625f);
-            GlStateManager.scale(-1.0f, 1.0f, 1.0f);
+            this.wingTip.rotateAngleZ = -(float) (Math.sin(f11 + 2.0F) + 0.5) * 0.75F;
+            this.wing.render(0.0625F);
+            GlStateManager.scale(-1.0F, 1.0F, 1.0F);
             if (j == 0) {
                 GL11.glCullFace(1028);
             }
@@ -89,10 +135,10 @@ public class WingsRenderer extends ModelBase {
         GL11.glPopMatrix();
     }
 
-    public float interpolate(final float yaw1, final float yaw2, final float percent) {
-        float f = (yaw1 + (yaw2 - yaw1) * percent) % 360.0f;
-        if (f < 0.0f) {
-            f += 360.0f;
+    public float interpolate(float yaw1, float yaw2, final float percent) {
+        float f = (yaw1 + (yaw2 - yaw1) * percent) % 360.0F;
+        if (f < 0.0F) {
+            f += 360.0F;
         }
         return f;
     }

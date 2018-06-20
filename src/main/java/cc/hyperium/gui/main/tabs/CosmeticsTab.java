@@ -14,7 +14,8 @@ import cc.hyperium.utils.JsonHolder;
 import cc.hyperium.utils.UUIDUtil;
 import net.minecraft.client.gui.Gui;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Desktop;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -75,13 +76,14 @@ public class CosmeticsTab extends AbstractTab {
                 String state = purchased ? "Purchased" : (enough ? "Click to purchase" : "Insufficient credits");
                 SettingItem e = new SettingItem(() -> {
                     if (!purchased && enough) {
+                        refreshData();
                         GeneralChatHandler.instance().sendMessage("Attempting to purchase " + s);
                         purchasing = true;
                         NettyClient client = NettyClient.getClient();
                         if (client != null) {
                             client.write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("cosmetic_purchase", true).put("value", s)));
                         }
-                    } else if(purchased) {
+                    } else if (purchased) {
                         GeneralChatHandler.instance().sendMessage("Already purchased " + name);
                     }
                 }, Icons.COSMETIC.getResource(), name, description + " \n State: " + state, "Cost: " + cost, tx, ty);

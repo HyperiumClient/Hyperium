@@ -20,7 +20,11 @@ package me.semx11.autotip.misc;
 import me.semx11.autotip.Autotip;
 import me.semx11.autotip.util.FileUtil;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;

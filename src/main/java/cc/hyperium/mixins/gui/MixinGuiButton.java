@@ -27,7 +27,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 
-import java.awt.*;
+import java.awt.Color;
 
 import static cc.hyperium.gui.HyperiumGui.clamp;
 import static cc.hyperium.gui.HyperiumGui.easeOut;

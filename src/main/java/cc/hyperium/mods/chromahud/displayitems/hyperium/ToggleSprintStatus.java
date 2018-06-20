@@ -8,6 +8,7 @@ import net.minecraft.util.StringUtils;
 
 public class ToggleSprintStatus extends DisplayItem {
     private String sprintEnabledText;
+
     public ToggleSprintStatus(JsonHolder data, int ordinal) {
         super(data, ordinal);
         this.sprintEnabledText = data.optString("sprintEnabledText");

@@ -26,7 +26,7 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.settings.KeyBinding;
 import org.lwjgl.input.Keyboard;
 
-import java.awt.*;
+import java.awt.Color;
 
 public class SpaceKey extends IKey {
 

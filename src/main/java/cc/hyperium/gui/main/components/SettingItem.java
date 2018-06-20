@@ -9,7 +9,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.input.Mouse;
 
-import java.awt.*;
+import java.awt.Color;
 
 /*
  * Created by Cubxity on 29/05/2018
@@ -95,7 +95,7 @@ public class SettingItem {
                     HyperiumMainGui.INSTANCE.getFr().drawString(tmp.toString(), (blockX + 3) / s, (blockY + offsetY) / s, new Color(160, 160, 160).getRGB());
                     offsetY += 10;
                     tmp = new StringBuilder();
-                    float v = (blockY + offsetY+5)/s;
+                    float v = (blockY + offsetY + 5) / s;
                     float v1 = bottom / s;
                     if (v > v1) {
                         tmp = new StringBuilder();
@@ -117,7 +117,7 @@ public class SettingItem {
                      * By boom
                      */
                     offsetY += 10;
-                    float v = (blockY + offsetY+5)/s;
+                    float v = (blockY + offsetY + 5) / s;
                     float v1 = bottom / s;
                     if (v > v1) {
                         tmp = new StringBuilder();

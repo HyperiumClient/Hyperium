@@ -20,6 +20,7 @@ package cc.hyperium.mods;
 import cc.hyperium.mods.autogg.AutoGG;
 import cc.hyperium.mods.blockoverlay.BlockOverlay;
 import cc.hyperium.mods.chromahud.ChromaHUD;
+import cc.hyperium.mods.glintcolorizer.GlintColorizer;
 import cc.hyperium.mods.hgames.HGames;
 import cc.hyperium.mods.keystrokes.KeystrokesMod;
 import cc.hyperium.mods.killscreenshot.KillScreenshot;
@@ -50,6 +51,7 @@ public class HyperiumModIntegration {
     private final AbstractMod autotip;
     private final AbstractMod autogg;
     private final AbstractMod hgames;
+    private final AbstractMod glintcolorizer;
 
     public HyperiumModIntegration() {
         // ChromaHud implementation
@@ -93,6 +95,9 @@ public class HyperiumModIntegration {
 
         // Spotify Controls Implementation
         AbstractMod spotifyControls = new SpotifyControls().init();
+
+        // Glint Colorizer implementation
+        this.glintcolorizer = new GlintColorizer().init();
     }
 
     /**
@@ -192,5 +197,14 @@ public class HyperiumModIntegration {
      */
     public AbstractMod getKillScreenshot() {
         return this.killScreenshot;
+    }
+
+    /**
+     * A getter for the running GlintColorizer instance
+     *
+     * @return the running GlintColorizer instance
+     */
+    public AbstractMod getGlintColorizer() {
+        return this.glintcolorizer;
     }
 }

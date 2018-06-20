@@ -24,7 +24,7 @@ import com.google.gson.JsonArray;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 
-import java.awt.*;
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -68,12 +68,13 @@ public class DisplayElement extends Dimension {
         this.highlighted = object.optBoolean("highlighted");
         double brightness = data.optDouble("brightness");
         this.color = data.optInt("color");
-        recalculateColor();
-        this.rightSided = data.optBoolean("right_side");
         this.chroma = data.optBoolean("chroma");
+        this.rightSided = data.optBoolean("right_side");
         this.rgb = data.optBoolean("rgb");
         this.color_pallet = data.optBoolean("color_pallet");
         this.static_chroma = data.optBoolean("static_chroma");
+        recalculateColor();
+
     }
 
     public static DisplayElement blank() {

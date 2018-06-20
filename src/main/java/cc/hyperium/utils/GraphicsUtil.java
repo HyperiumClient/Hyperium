@@ -17,7 +17,8 @@
 
 package cc.hyperium.utils;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
 /**
@@ -42,7 +43,7 @@ public class GraphicsUtil {
     }
 
     public Color transitionOfHueRange(double percentage, int startHue, int endHue) {
-        return transitionOfHueRange(percentage, startHue, endHue,  1.0F, 0.5F);
+        return transitionOfHueRange(percentage, startHue, endHue, 1.0F, 0.5F);
     }
 
     private Color hslColorToRgb(double hue, double saturation, double lightness) {

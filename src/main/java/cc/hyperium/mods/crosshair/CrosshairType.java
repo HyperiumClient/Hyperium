@@ -19,7 +19,7 @@ package cc.hyperium.mods.crosshair;
 
 import net.minecraft.client.Minecraft;
 
-import java.awt.*;
+import java.awt.Color;
 
 public abstract class CrosshairType {
 
