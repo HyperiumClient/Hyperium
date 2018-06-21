@@ -3,14 +3,7 @@ package cc.hyperium.config;
 import cc.hyperium.GuiStyle;
 import cc.hyperium.Hyperium;
 
-import static cc.hyperium.config.Category.ANIMATIONS;
-import static cc.hyperium.config.Category.COSMETICS;
-import static cc.hyperium.config.Category.GENERAL;
-import static cc.hyperium.config.Category.IMPROVEMENTS;
-import static cc.hyperium.config.Category.INTEGRATIONS;
-import static cc.hyperium.config.Category.MISC;
-import static cc.hyperium.config.Category.SPOTIFY;
-import static cc.hyperium.config.Category.WINGS;
+import static cc.hyperium.config.Category.*;
 
 /*
  * Created by Cubxity on 03/06/2018
@@ -162,6 +155,12 @@ public class Settings {
     @ConfigOpt
     @ToggleSetting(name = "Name History RGB")
     public static boolean NH_RGB_NAMES = false;
+
+
+    @ConfigOpt
+    @ToggleSetting(name = "Optimized Font Renderer (BETA)", category = IMPROVEMENTS)
+    public static boolean OPTIMIZED_FONT_RENDERER = true;
+
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.CosmeticSettings;fliptoggle")
     @ToggleSetting(name = "Flip - Keybind Toggle", category = COSMETICS)
