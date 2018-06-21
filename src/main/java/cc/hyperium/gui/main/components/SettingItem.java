@@ -166,4 +166,68 @@ public class SettingItem {
     public void setDesc(String desc) {
         this.desc = desc;
     }
+
+    public int getClickX() {
+        return clickX;
+    }
+
+    public void setClickX(int clickX) {
+        this.clickX = clickX;
+    }
+
+    public int getClickY() {
+        return clickY;
+    }
+
+    public void setClickY(int clickY) {
+        this.clickY = clickY;
+    }
+
+    public Runnable getOnClick() {
+        return onClick;
+    }
+
+    public void setOnClick(Runnable onClick) {
+        this.onClick = onClick;
+    }
+
+    public ResourceLocation getIcon() {
+        return icon;
+    }
+
+    public void setIcon(ResourceLocation icon) {
+        this.icon = icon;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getHover() {
+        return hover;
+    }
+
+    public int getxIndex() {
+        return xIndex;
+    }
+
+    public void setxIndex(int xIndex) {
+        this.xIndex = xIndex;
+    }
+
+    public int getyIndex() {
+        return yIndex;
+    }
+
+    public void setyIndex(int yIndex) {
+        this.yIndex = yIndex;
+    }
+
+    public boolean isLastClicked() {
+        return lastClicked;
+    }
+
+    public void setLastClicked(boolean lastClicked) {
+        this.lastClicked = lastClicked;
+    }
 }
