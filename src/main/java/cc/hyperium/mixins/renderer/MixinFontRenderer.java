@@ -28,10 +28,6 @@ import java.util.Random;
 @Mixin(FontRenderer.class)
 public abstract class MixinFontRenderer {
 
-
-    @Shadow
-    @Final
-    private static ResourceLocation[] unicodePageLocations;
     @Shadow
     public int FONT_HEIGHT;
     @Shadow
@@ -39,8 +35,6 @@ public abstract class MixinFontRenderer {
     @Shadow
     @Final
     private TextureManager renderEngine;
-    @Shadow
-    private int[] charWidth;
     @Shadow
     private int[] colorCode;
     @Shadow
