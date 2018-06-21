@@ -19,14 +19,7 @@ package cc.hyperium.handlers.handlers;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.config.ConfigOpt;
-import cc.hyperium.event.ChatEvent;
-import cc.hyperium.event.EventBus;
-import cc.hyperium.event.InvokeEvent;
-import cc.hyperium.event.JoinMinigameEvent;
-import cc.hyperium.event.ServerJoinEvent;
-import cc.hyperium.event.ServerSwitchEvent;
-import cc.hyperium.event.SpawnpointChangeEvent;
-import cc.hyperium.event.TickEvent;
+import cc.hyperium.event.*;
 import cc.hyperium.event.minigames.Minigame;
 import cc.hyperium.handlers.HyperiumHandlers;
 import cc.hyperium.netty.NettyClient;
@@ -49,6 +42,10 @@ public class LocationHandler {
     @InvokeEvent
     public void serverJoinEvent(ServerJoinEvent event) {
         NettyClient.getClient().write(UpdateLocationPacket.build(event.getServer()));
+    }
+    @InvokeEvent
+    public void serverJoinEvent(ServerLeaveEvent event) {
+        NettyClient.getClient().write(UpdateLocationPacket.build("offline"));
     }
 
     @InvokeEvent
