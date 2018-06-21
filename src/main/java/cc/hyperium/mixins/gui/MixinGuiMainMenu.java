@@ -53,7 +53,7 @@ public abstract class MixinGuiMainMenu extends GuiScreen implements GuiYesNoCall
      */
     @Overwrite
     public void initGui() {
-        if (!Hyperium.INSTANCE.isAcceptedTos()) {
+        if (Hyperium.INSTANCE.isAcceptedTos()) {
             drawDefaultBackground();
         }
     }
