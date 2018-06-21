@@ -53,8 +53,8 @@ public abstract class MixinGuiMainMenu extends GuiScreen implements GuiYesNoCall
      */
     @Overwrite
     public void initGui() {
-        if (Hyperium.INSTANCE.isAcceptedTos()) {
-            Minecraft.getMinecraft().displayGuiScreen(new HyperiumMainMenu());
+        if (!Hyperium.INSTANCE.isAcceptedTos()) {
+            drawDefaultBackground();
         }
     }
 
