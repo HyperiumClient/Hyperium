@@ -22,10 +22,11 @@ import cc.hyperium.installer.components.MotionPanel;
 import cc.hyperium.installer.utils.DownloadTask;
 import cc.hyperium.internal.addons.AddonManifest;
 import cc.hyperium.internal.addons.misc.AddonManifestParser;
+import cc.hyperium.utils.JsonHolder;
 import com.google.common.io.Files;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import org.apache.commons.io.FileUtils;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.swing.*;
@@ -170,18 +171,18 @@ public class InstallerFrame implements PropertyChangeListener {
         progressBar.setValue(40);
         display.setText("GETTING FILES");
         String versions_url = "https://raw.githubusercontent.com/HyperiumClient/Hyperium-Repo/master/installer/versions.json";
-        AtomicReference<JSONObject> version = new AtomicReference<>();
+        AtomicReference<JsonHolder> version = new AtomicReference<>();
         String hash = null;
-        JSONObject versionsJson;
+        JsonHolder versionsJson;
         try {
-            versionsJson = new JSONObject(get(versions_url));
-            JSONArray versionsArray = versionsJson.getJSONArray("versions");
-            List<JSONObject> versionsObjects = new ArrayList<>();
-            for (Object o : versionsArray)
-                versionsObjects.add((JSONObject) o);
+            versionsJson = new JsonHolder(get(versions_url));
+            JsonArray versionsArray = versionsJson.optJSONArray("versions");
+            List<JsonHolder> versionsObjects = new ArrayList<>();
+            for (JsonElement o : versionsArray)
+                versionsObjects.add(new JsonHolder(o.getAsJsonObject()));
 
             versionsObjects.forEach(o -> {
-                if (o.getString("name").equals(ver))
+                if (o.optString("name").equals(ver))
                     version.set(o);
             });
         } catch (IOException ex) {
@@ -228,12 +229,12 @@ public class InstallerFrame implements PropertyChangeListener {
                         new File(
                                 mc,
                                 "libraries"),
-                        version.get().getString("path").replaceAll("/Hyperium-\\d\\.\\d\\.jar", ""));
+                        version.get().optString("path").replaceAll("/Hyperium-\\d\\.\\d\\.jar", ""));
                 System.out.println("Download dest folder = " + dl.getAbsolutePath());
                 //noinspection ResultOfMethodCallIgnored
                 dl.mkdirs();
                 DownloadTask task = new DownloadTask(
-                        version.get().getString("url"),
+                        version.get().optString("url"),
                         dl.getAbsolutePath());
                 task.addPropertyChangeListener(this);
                 task.execute();
@@ -250,8 +251,8 @@ public class InstallerFrame implements PropertyChangeListener {
 
             display.setText("VERIFYING FILE");
             hash = toHex(checksum(downloaded, "SHA-256")).toLowerCase();
-            System.out.println("SHA-256 Checksum = " + hash + " Expected: " + version.get().getString("sha256"));
-            if (!hash.equals(version.get().getString("sha256"))) {
+            System.out.println("SHA-256 Checksum = " + hash + " Expected: " + version.get().optString("sha256"));
+            if (!hash.equals(version.get().optString("sha256"))) {
                 display.setText("INSTALLATION FAILED");
                 error.setText("FILE'S SHA256 CHECKSUM DOES NOT MATCH");
                 exit.setVisible(true);
@@ -259,7 +260,7 @@ public class InstallerFrame implements PropertyChangeListener {
             }
             hash = toHex(checksum(downloaded, "SHA1")).toLowerCase();
             System.out.println("SHA-1 Checksum = " + hash);
-            if (!hash.equals(version.get().getString("sha1"))) {
+            if (!hash.equals(version.get().optString("sha1"))) {
                 display.setText("INSTALLATION FAILED");
                 error.setText("FILE'S SHA1 CHECKSUM DOES NOT MATCH");
                 exit.setVisible(true);
@@ -331,13 +332,13 @@ public class InstallerFrame implements PropertyChangeListener {
                 }
         } else addonsDir.mkdirs();
         try {
-            List<JSONObject> ao = new ArrayList<>();
-            for (Object o : versionsJson.getJSONArray("addons"))
-                ao.add((JSONObject) o);
+            List<JsonHolder> ao = new ArrayList<>();
+            for (JsonElement o : versionsJson.optJSONArray("addons"))
+                ao.add(new JsonHolder(o.getAsJsonObject()));
             for (String comp : components) {
                 if (comp.startsWith("Addon :: ")) {
                     String aid = comp.replace("Addon :: ", "");
-                    Optional<JSONObject> addon = ao.stream().filter(jo -> jo.getString("name").equals(aid)).findAny();
+                    Optional<JsonHolder> addon = ao.stream().filter(jo -> jo.optString("name").equals(aid)).findAny();
                     if (addon.isPresent()) {
                         installedAddons.forEach((f, m) -> {
                             if (m.getName() != null)
@@ -346,10 +347,10 @@ public class InstallerFrame implements PropertyChangeListener {
                                         System.err.println("Failed to delete: " + f.getAbsolutePath());
                         });
                         try {
-                            System.out.println("Downloading: " + addon.get().getString("url"));
-                            File aOut = new File(addonsDir, aid + "-" + addon.get().getString("version") + ".jar");
-                            download(aOut, addon.get().getString("url"));
-                            if (!toHex(checksum(aOut, "SHA-256")).equalsIgnoreCase(addon.get().getString("sha256"))) {
+                            System.out.println("Downloading: " + addon.get().optString("url"));
+                            File aOut = new File(addonsDir, aid + "-" + addon.get().optString("version") + ".jar");
+                            download(aOut, addon.get().optString("url"));
+                            if (!toHex(checksum(aOut, "SHA-256")).equalsIgnoreCase(addon.get().optString("sha256"))) {
                                 display.setText("INSTALLATION FAILED");
                                 error.setText("COMPONENT'S SHA256 DOES NOT MATCH");
                                 exit.setVisible(true);
@@ -376,46 +377,46 @@ public class InstallerFrame implements PropertyChangeListener {
         progressBar.setValue(99);
         display.setText("CREATING PROFILE");
         //noinspection ResultOfMethodCallIgnored
-        JSONObject json;
-        JSONObject launcherProfiles;
+        JsonHolder json;
+        JsonHolder launcherProfiles;
         try {
-            json = new JSONObject(Files.toString(targetJson, Charset.defaultCharset()));
-            launcherProfiles = new JSONObject(Files.toString(new File(mc, "launcher_profiles.json"), Charset.defaultCharset()));
+            json = new JsonHolder(Files.toString(targetJson, Charset.defaultCharset()));
+            launcherProfiles = new JsonHolder(Files.toString(new File(mc, "launcher_profiles.json"), Charset.defaultCharset()));
         } catch (IOException e) {
             e.printStackTrace();
             display.setText("INSTALLATION FAILED");
             error.setText("FAILED TO READ JSON FILES");
             return;
         }
-        JSONObject lib = new JSONObject();
-        lib.put("name", ver.equals("LOCAL") ? "cc.hyperium:Hyperium:LOCAL" : version.get().getString("artifact-name"));
+        JsonHolder lib = new JsonHolder();
+        lib.put("name", ver.equals("LOCAL") ? "cc.hyperium:Hyperium:LOCAL" : version.get().optString("artifact-name"));
         if (version.get() != null && hash != null)
-            lib.put("downloads", new JSONObject().put("artifact", new JSONObject()
-                    .put("size", version.get().getLong("size"))
+            lib.put("downloads", new JsonHolder().put("artifact", new JsonHolder()
+                    .put("size", version.get().optLong("size"))
                     .put("sha1", hash)
-                    .put("path", version.get().getString("path"))
-                    .put("url", version.get().getString("url"))
+                    .put("path", version.get().optString("path"))
+                    .put("url", version.get().optString("url"))
             ));
-        JSONArray libs = json.getJSONArray("libraries");
-        libs.put(lib);
-        libs.put(new JSONObject().put("name", "net.minecraft:launchwrapper:1.7"));
+        JsonArray libs = json.optJSONArray("libraries");
+        libs.add(lib.getObject());
+        libs.add(new JsonHolder().put("name", "net.minecraft:launchwrapper:1.7").getObject());
         if (components.contains("Optifine"))
-            libs.put(new JSONObject().put("name", "optifine:OptiFine:1.8.9_HD_U_I7"));
-        versionsJson.getJSONArray("libs").forEach(libs::put);
+            libs.add(new JsonHolder().put("name", "optifine:OptiFine:1.8.9_HD_U_I7").getObject());
+        versionsJson.optJSONArray("libs").forEach(libs::add);
         json.put("libraries", libs);
         json.put("id", "Hyperium 1.8.9");
         json.put("mainClass", "net.minecraft.launchwrapper.Launch");
-        json.put("minecraftArguments", json.getString("minecraftArguments") + " --tweakClass=" + (ver.equals("LOCAL") ? "cc.hyperium.launch.HyperiumTweaker" : version.get().getString("tweak-class")));
+        json.put("minecraftArguments", json.optString("minecraftArguments") + " --tweakClass=" + (ver.equals("LOCAL") ? "cc.hyperium.launch.HyperiumTweaker" : version.get().optString("tweak-class")));
 
-        JSONObject profiles = launcherProfiles.getJSONObject("profiles");
+        JsonHolder profiles = launcherProfiles.optJSONObject("profiles");
         Instant instant = Instant.ofEpochMilli(System.currentTimeMillis());
         String installedUUID = UUID.randomUUID().toString();
-        for (String key : profiles.keySet()) {
-            if (profiles.getJSONObject(key).has("name"))
-                if (profiles.getJSONObject(key).getString("name").equals("Hyperium 1.8.9"))
+        for (String key : profiles.getKeys()) {
+            if (profiles.optJSONObject(key).has("name"))
+                if (profiles.optJSONObject(key).optString("name").equals("Hyperium 1.8.9"))
                     installedUUID = key;
         }
-        JSONObject profile = new JSONObject()
+        JsonHolder profile = new JsonHolder()
                 .put("name", "Hyperium 1.8.9")
                 .put("type", "custom")
                 .put("created", instant.toString())
