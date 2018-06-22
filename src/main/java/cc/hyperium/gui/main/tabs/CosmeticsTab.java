@@ -14,13 +14,12 @@ import cc.hyperium.utils.JsonHolder;
 import cc.hyperium.utils.UUIDUtil;
 import net.minecraft.client.gui.Gui;
 
-import java.awt.Color;
-import java.awt.Desktop;
+import java.awt.*;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
+import java.util.HashMap;
 
 public class CosmeticsTab extends AbstractTab {
 
@@ -32,18 +31,14 @@ public class CosmeticsTab extends AbstractTab {
     private boolean purchasing = false;
     private JsonHolder personData = null;
     private JsonHolder cosmeticCallback = null;
+    private HashMap<String, SettingItem> cosmetics = new HashMap<>();
+    private int tx = 0;
+    private int ty = 1;
 
     public CosmeticsTab(int y, int w) {
         block = new GuiBlock(0, w, y, y + w);
         this.y = y;
         this.w = w;
-        rebuild();
-        refreshData();
-    }
-
-    public void rebuild() {
-        ArrayList<SettingItem> settingItems = new ArrayList<>(items);
-        items.clear();
         items.add(new SettingItem(() -> new CapesGui().show(), Icons.COSMETIC.getResource(), "Capes", "Browse and select Hyperium Capes", "Click to open", 0, 0));
 
         credits = new SettingItem(() -> {
@@ -57,24 +52,29 @@ public class CosmeticsTab extends AbstractTab {
             }
         }, Icons.COSMETIC.getResource(), "Credits", "", "Credits are used to purchase cosmetics", 1, 0);
         items.add(credits);
-        int tx = 0;
-        int ty = 1;
+
+
+        rebuild();
+        refreshData();
+    }
+
+    public void rebuild() {
+
+
         if (cosmeticCallback != null && !purchasing) {
             for (String s : cosmeticCallback.getKeys()) {
+
                 JsonHolder jsonHolder = cosmeticCallback.optJSONObject(s);
                 if (jsonHolder.optBoolean("cape"))
                     continue;
-                if (tx >= 3) {
-                    ty++;
-                    tx = 0;
-                }
+
                 String name = jsonHolder.optString("name");
                 String description = jsonHolder.optString("description");
                 int cost = jsonHolder.optInt("cost");
                 boolean purchased = jsonHolder.optBoolean("purchased");
                 boolean enough = jsonHolder.optBoolean("enough");
                 String state = purchased ? "Purchased" : (enough ? "Click to purchase" : "Insufficient credits");
-                SettingItem e = new SettingItem(() -> {
+                Runnable runnable = () -> {
                     if (!purchased && enough) {
                         refreshData();
                         GeneralChatHandler.instance().sendMessage("Attempting to purchase " + s);
@@ -86,17 +86,24 @@ public class CosmeticsTab extends AbstractTab {
                     } else if (purchased) {
                         GeneralChatHandler.instance().sendMessage("Already purchased " + name);
                     }
-                }, Icons.COSMETIC.getResource(), name, description + " \n State: " + state, "Cost: " + cost, tx, ty);
-                items.add(e);
-                for (SettingItem settingItem : settingItems) {
-                    if (settingItem.getTitle().equalsIgnoreCase(name)) {
-                        e.clickY = settingItem.clickY;
-                        e.clickX = settingItem.clickX;
+                };
+                SettingItem settingItem = cosmetics.computeIfAbsent(s, s1 -> {
+
+                    if (tx >= 3) {
+                        ty++;
+                        tx = 0;
                     }
 
-                }
+                    SettingItem e = new SettingItem(runnable, Icons.COSMETIC.getResource(), name, description + " \n State: " + state, "Cost: " + cost, tx, ty);
+                    items.add(e);
+                    tx++;
+                    return e;
 
-                tx++;
+
+                });
+                settingItem.setDesc(description);
+                settingItem.setTitle(name);
+                settingItem.setOnClick(runnable);
 
             }
         }

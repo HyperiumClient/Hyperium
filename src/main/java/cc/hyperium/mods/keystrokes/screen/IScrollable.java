@@ -24,5 +24,5 @@ public interface IScrollable {
 
     double getAmount();
 
-    public void onScroll(double doubleAmount, int intAmount);
+    void onScroll(double doubleAmount, int intAmount);
 }

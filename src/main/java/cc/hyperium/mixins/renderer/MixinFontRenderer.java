@@ -1,6 +1,7 @@
 package cc.hyperium.mixins.renderer;
 
 import cc.hyperium.Hyperium;
+import cc.hyperium.config.Settings;
 import cc.hyperium.handlers.HyperiumHandlers;
 import cc.hyperium.handlers.handlers.FontRendererData;
 import cc.hyperium.mixinsimp.renderer.CachedString;
@@ -27,10 +28,6 @@ import java.util.Random;
 @Mixin(FontRenderer.class)
 public abstract class MixinFontRenderer {
 
-
-    @Shadow
-    @Final
-    private static ResourceLocation[] unicodePageLocations;
     @Shadow
     public int FONT_HEIGHT;
     @Shadow
@@ -38,8 +35,6 @@ public abstract class MixinFontRenderer {
     @Shadow
     @Final
     private TextureManager renderEngine;
-    @Shadow
-    private int[] charWidth;
     @Shadow
     private int[] colorCode;
     @Shadow
@@ -103,7 +98,7 @@ public abstract class MixinFontRenderer {
     @Overwrite
     private void renderStringAtPos(String text, boolean shadow) {
         //Full speed ahead
-        boolean optimize = FontFixValues.INSTANCE.opt;
+        boolean optimize = Settings.OPTIMIZED_FONT_RENDERER;
         FontFixValues instance = FontFixValues.INSTANCE;
         Map<StringHash, CachedString> stringCache = instance.stringCache;
 

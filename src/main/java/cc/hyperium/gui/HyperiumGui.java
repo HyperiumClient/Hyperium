@@ -237,7 +237,6 @@ public abstract class HyperiumGui extends GuiScreen {
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         actions.clear();
-//        drawBackground();
 
         if (drawAlpha) {
             Gui.drawRect(0, 0, ResolutionUtil.current().getScaledWidth() * ResolutionUtil.current().getScaleFactor(), ResolutionUtil.current().getScaledHeight() * ResolutionUtil.current().getScaleFactor(), new Color(0, 0, 0, alpha).getRGB());

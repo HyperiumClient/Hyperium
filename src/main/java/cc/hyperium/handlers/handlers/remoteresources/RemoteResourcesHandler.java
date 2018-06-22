@@ -290,7 +290,7 @@ public class RemoteResourcesHandler {
 
     public enum ResourceType {
         TEXT,
-        IMAGE;
+        IMAGE
     }
 
     class ResourceFrame {

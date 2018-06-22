@@ -43,7 +43,7 @@ public class SettingItem {
     }
 
     public void handleMouseInput(int mouseX, int mouseY, int containerWidth, int containerHeight, int topX, int topY) {
-        /*
+/*
         System.out.println("In mouseInput: " + mouseX + " " + mouseY);
         if (Mouse.isButtonDown(0)) {
             int w = containerWidth / 4;
@@ -53,7 +53,7 @@ public class SettingItem {
             if (mouseX >= blockX && mouseX <= blockX + w / 7 * 5 && mouseY >= blockY && mouseY <= blockY + h / 6 * 4)
                 onClick.run();
         }
-         */
+*/
     }
 
     public void mouseClicked(int mouseX, int mouseY) {
@@ -69,8 +69,9 @@ public class SettingItem {
         int blockX = topX + w * xIndex + w / 7;
         int blockY = topY + h * yIndex + h / 6;
         int bottom = blockY + h / 6 * 4;
-        if (mouseX >= blockX && mouseX <= blockX + w / 7 * 5 && mouseY >= blockY && mouseY <= bottom && HyperiumMainGui.INSTANCE.getOverlay() == null)
+        if (mouseX >= blockX && mouseX <= blockX + w / 7 * 5 && mouseY >= blockY && mouseY <= bottom && HyperiumMainGui.INSTANCE.getOverlay() == null) {
             HyperiumGui.drawChromaBox(blockX, blockY, blockX + w / 7 * 5, bottom, 0.2f);
+        }
         else {
             Gui.drawRect(blockX, blockY, blockX + w / 7 * 5, bottom, new Color(0, 0, 0, 60).getRGB());
             GlStateManager.shadeModel(7424); // for opening from main menu
@@ -78,11 +79,12 @@ public class SettingItem {
             GlStateManager.enableAlpha();
             GlStateManager.enableTexture2D();
         }
-        if (clickX >= blockX && clickX <= blockX + w / 7 * 5 && clickY >= blockY && clickY <= bottom)
+        if (clickX >= blockX && clickX <= blockX + w / 7 * 5 && clickY >= blockY && clickY <= bottom) {
             //Added by Sk1er to prevent switching to a different item while in another
-            if (HyperiumMainGui.INSTANCE.getOverlay() == null)
+            if (HyperiumMainGui.INSTANCE.getOverlay() == null) {
                 onClick.run();
-
+            }
+        }
         lastClicked = Mouse.isButtonDown(0);
         HyperiumMainGui.INSTANCE.getFr().drawString(title, blockX + 3, blockY + 3, 0xffffff);
         float s = 0.8f;
@@ -163,5 +165,69 @@ public class SettingItem {
 
     public void setDesc(String desc) {
         this.desc = desc;
+    }
+
+    public int getClickX() {
+        return clickX;
+    }
+
+    public void setClickX(int clickX) {
+        this.clickX = clickX;
+    }
+
+    public int getClickY() {
+        return clickY;
+    }
+
+    public void setClickY(int clickY) {
+        this.clickY = clickY;
+    }
+
+    public Runnable getOnClick() {
+        return onClick;
+    }
+
+    public void setOnClick(Runnable onClick) {
+        this.onClick = onClick;
+    }
+
+    public ResourceLocation getIcon() {
+        return icon;
+    }
+
+    public void setIcon(ResourceLocation icon) {
+        this.icon = icon;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getHover() {
+        return hover;
+    }
+
+    public int getxIndex() {
+        return xIndex;
+    }
+
+    public void setxIndex(int xIndex) {
+        this.xIndex = xIndex;
+    }
+
+    public int getyIndex() {
+        return yIndex;
+    }
+
+    public void setyIndex(int yIndex) {
+        this.yIndex = yIndex;
+    }
+
+    public boolean isLastClicked() {
+        return lastClicked;
+    }
+
+    public void setLastClicked(boolean lastClicked) {
+        this.lastClicked = lastClicked;
     }
 }

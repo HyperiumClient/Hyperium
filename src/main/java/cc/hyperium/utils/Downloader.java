@@ -27,8 +27,7 @@ public class Downloader {
                 .build();
         try {
             HttpGet get = new HttpGet(url.toURI()); // we're using GET but it could be via POST as well
-            File downloaded = httpclient.execute(get, new FileDownloadResponseHandler(dstFile));
-            return downloaded;
+            return httpclient.execute(get, new FileDownloadResponseHandler(dstFile));
         } catch (Exception e) {
             throw new IllegalStateException(e);
         } finally {

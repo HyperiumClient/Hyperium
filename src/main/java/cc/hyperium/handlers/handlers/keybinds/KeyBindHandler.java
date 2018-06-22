@@ -119,14 +119,15 @@ public class KeyBindHandler {
                 for (HyperiumBind bind : this.keybinds.values()) {
                     // Gets Minecraft value of the mouse value and checks to see if it matches a keybind.
                     if (mouseBinds.get(event.getValue()) == bind.getKeyCode()) {
-                        bind.onPress();
-                        bind.setWasPressed(true);
+                        if(event.getState()){
+                            bind.onPress();
+                            bind.setWasPressed(true);
+                        } else{
+                            bind.onRelease();
+                            bind.setWasPressed(false);
+                        }
                     }
 
-                    if (bind.wasPressed() && !bind.isKeyDown()) {
-                        bind.onRelease();
-                        bind.setWasPressed(false);
-                    }
                 }
             }
         }

@@ -31,7 +31,6 @@ public class FontFixValues {
         e++;
         if (e >= 20) {
             e = 0;
-            System.out.println(time + " - " + count);
             count = 0;
             time = 0;
             for (StringHash hash : obfuscated) {

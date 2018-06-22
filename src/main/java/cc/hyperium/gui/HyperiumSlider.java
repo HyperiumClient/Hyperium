@@ -31,7 +31,6 @@ public class HyperiumSlider extends GuiButton {
 
     public HyperiumSlider(int id, int x, int y, int width, int height) {
         super(id, x, y, width, height, "");
-        int id1 = id;
         this.x = x;
         this.y = y;
         this.width = width;

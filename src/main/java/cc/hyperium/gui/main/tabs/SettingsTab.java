@@ -163,6 +163,9 @@ public class SettingsTab extends AbstractTab {
                     client.write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("wings_toggle", yes)));
             });
             callback.put(Settings.class.getField("WINGS_SCALE"), o -> {
+                if (PurchaseApi.getInstance() == null || PurchaseApi.getInstance().getSelf() == null || PurchaseApi.getInstance().getSelf().getPurchaseSettings() == null) {
+                    return;
+                }
                 Float o1 = (Float) o;
                 JsonHolder purchaseSettings = PurchaseApi.getInstance().getSelf().getPurchaseSettings();
                 if (!purchaseSettings.has("wings"))

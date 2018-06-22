@@ -18,7 +18,7 @@
 package cc.hyperium.handlers.handlers.keybinds;
 
 import net.minecraft.client.settings.KeyBinding;
-import org.apache.commons.lang3.text.WordUtils;
+import org.apache.commons.text.WordUtils;
 
 /**
  * Our implementation of the normal Minecraft KeyBinding, uses anonymous
