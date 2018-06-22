@@ -28,50 +28,24 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import javax.net.ssl.HttpsURLConnection;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JProgressBar;
-import javax.swing.SwingConstants;
+import javax.swing.*;
 import javax.swing.plaf.basic.BasicButtonUI;
-import java.awt.Color;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.FontFormatException;
-import java.awt.Toolkit;
+import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.PrintStream;
+import java.io.*;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.jar.JarFile;
@@ -346,13 +320,15 @@ public class InstallerFrame implements PropertyChangeListener {
         Map<File, AddonManifest> installedAddons = new HashMap<>();
         File addonsDir = new File(mc, "addons");
         if (addonsDir.exists()) {
-            for (File a : Objects.requireNonNull(addonsDir.listFiles((dir, name) -> name.endsWith(".jar")))) {
-                try {
-                    installedAddons.put(a, new AddonManifestParser(new JarFile(a)).getAddonManifest());
-                } catch (IOException e) {
-                    e.printStackTrace();
+            File[] files = addonsDir.listFiles((dir, name) -> name.endsWith(".jar"));
+            if (files != null)
+                for (File a : files) {
+                    try {
+                        installedAddons.put(a, new AddonManifestParser(new JarFile(a)).getAddonManifest());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
-            }
         } else addonsDir.mkdirs();
         try {
             List<JSONObject> ao = new ArrayList<>();
