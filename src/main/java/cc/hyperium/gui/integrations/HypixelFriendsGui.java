@@ -215,7 +215,6 @@ public class HypixelFriendsGui extends HyperiumGui {
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-        int mouseY1 = mouseY;
         selectedBoxes.clear();
         friendListBoxes.clear();
         friends.removeIf(hypixelApiFriendObject -> !hypixelApiFriendObject.getDisplay().toLowerCase().contains(textField.getText().toLowerCase()));

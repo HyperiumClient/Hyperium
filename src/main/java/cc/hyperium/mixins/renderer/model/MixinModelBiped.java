@@ -130,12 +130,8 @@ public class MixinModelBiped extends ModelBase implements IMixinModelBiped {
             this.bipedHeadwear.render(scale);
 
             // Adding our parts
-            if (getClass().equals(ModelBiped.class)) {
-                this.bipedLeftForeArm.render(scale);
-                this.bipedRightForeArm.render(scale);
-                this.bipedLeftLowerLeg.render(scale);
-                this.bipedRightLowerLeg.render(scale);
-            }
+            if (getClass().equals(ModelBiped.class))
+                renderBiped(scale);
         } else {
             if (entityIn.isSneaking()) {
                 GlStateManager.translate(0.0F, 0.2F, 0.0F);
@@ -150,15 +146,18 @@ public class MixinModelBiped extends ModelBase implements IMixinModelBiped {
             this.bipedHeadwear.render(scale);
 
             // Adding our parts
-            if (getClass().equals(ModelBiped.class)) {
-                this.bipedLeftForeArm.render(scale);
-                this.bipedRightForeArm.render(scale);
-                this.bipedLeftLowerLeg.render(scale);
-                this.bipedRightLowerLeg.render(scale);
-            }
+            if (getClass().equals(ModelBiped.class))
+                renderBiped(scale);
         }
 
         GlStateManager.popMatrix();
+    }
+
+    private void renderBiped(float scale) {
+        this.bipedLeftForeArm.render(scale);
+        this.bipedRightForeArm.render(scale);
+        this.bipedLeftLowerLeg.render(scale);
+        this.bipedRightLowerLeg.render(scale);
     }
 
     @Overwrite

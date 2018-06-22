@@ -36,7 +36,6 @@ public class ArrowCount extends DisplayItem {
 
     public ArrowCount(JsonHolder data, int ordinal) {
         super(data, ordinal);
-        JsonHolder data1 = data;
         this.height = 16;
         this.width = 16;
     }

@@ -183,7 +183,7 @@ public class FileUtil {
                     if (lines.size() >= 1) {
                         String date = lines.get(0);
                         if (Objects.equals(date, getDate())) {
-                            lines.stream().skip(1).forEach(line -> Autotip.alreadyTipped.add(line));
+                            lines.stream().skip(1).forEach(Autotip.alreadyTipped::add);
                         } else {
                             executeWriter = true;
                         }

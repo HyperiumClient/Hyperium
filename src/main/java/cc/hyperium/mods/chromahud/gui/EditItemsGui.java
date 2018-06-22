@@ -190,14 +190,13 @@ public class EditItemsGui extends GuiScreen {
             DisplayItem item1 = null;
             //Check X range first since it is easy
             ScaledResolution current = ResolutionUtil.current();
-            int tmpY = mouseY;
             int xCenter = current.getScaledWidth() / 2;
             if (mouseX >= xCenter - 80 && mouseX <= xCenter + 80) {
                 //now some super janky code
                 int yPosition = 40;
 
                 for (DisplayItem displayItem : element.getDisplayItems()) {
-                    if (tmpY >= yPosition && tmpY <= yPosition + 20) {
+                    if (mouseY >= yPosition && mouseY <= yPosition + 20) {
                         item1 = displayItem;
                         break;
                     }

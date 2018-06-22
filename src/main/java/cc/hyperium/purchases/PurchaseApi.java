@@ -69,9 +69,7 @@ public class PurchaseApi {
         register(EnumPurchaseType.DRAGON_HEAD, DragonHeadCosmetic.class);
 
         getPackageAsync(UUIDUtil.getClientUUID(), hyperiumPurchase -> System.out.println("Loaded self packages: " + hyperiumPurchase.getResponse()));
-        Multithreading.runAsync(() -> {
-            capeAtlas = get("https://api.hyperium.cc/capeAtlas");
-        });
+        Multithreading.runAsync(() -> capeAtlas = get("https://api.hyperium.cc/capeAtlas"));
         getSelf();
     }
 
