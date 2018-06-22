@@ -147,10 +147,8 @@ public class ChromaHUDApi {
      *
      * @param config Config data from file
      */
-    void post(JsonHolder config) {
+    public void post(JsonHolder config) {
         this.config = config;
-        if (posted)
-            throw new IllegalStateException("Already posted!");
         this.posted = true;
         elements.clear();
         JsonArray displayElements = config.optJSONArray("elements");

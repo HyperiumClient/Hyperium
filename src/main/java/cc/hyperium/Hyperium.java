@@ -17,24 +17,11 @@
 
 package cc.hyperium;
 
-import cc.hyperium.commands.defaults.CommandClearChat;
-import cc.hyperium.commands.defaults.CommandConfigGui;
-import cc.hyperium.commands.defaults.CommandDebug;
-import cc.hyperium.commands.defaults.CommandLogs;
-import cc.hyperium.commands.defaults.CommandNameHistory;
-import cc.hyperium.commands.defaults.CommandPlayGame;
-import cc.hyperium.commands.defaults.CommandPrivateMessage;
-import cc.hyperium.commands.defaults.CommandUpdate;
-import cc.hyperium.commands.defaults.CustomLevelheadCommand;
+import cc.hyperium.commands.defaults.*;
 import cc.hyperium.config.DefaultConfig;
 import cc.hyperium.config.Settings;
 import cc.hyperium.cosmetics.HyperiumCosmetics;
-import cc.hyperium.event.EventBus;
-import cc.hyperium.event.GameShutDownEvent;
-import cc.hyperium.event.InitializationEvent;
-import cc.hyperium.event.InvokeEvent;
-import cc.hyperium.event.PreInitializationEvent;
-import cc.hyperium.event.Priority;
+import cc.hyperium.event.*;
 import cc.hyperium.event.minigames.MinigameListener;
 import cc.hyperium.gui.BlurDisableFallback;
 import cc.hyperium.gui.ConfirmationPopup;
@@ -66,12 +53,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.Display;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
 import java.net.URLClassLoader;
 
@@ -84,23 +66,19 @@ public class Hyperium {
      * The hyperium instance
      */
     public static final Hyperium INSTANCE = new Hyperium();
-
     /**
      * Instance of the global mod LOGGER
      */
     public final static Logger LOGGER = LogManager.getLogger(Metadata.getModid());
-
     /**
      * The Hyperium configuration folder
      */
     public static final File folder = new File("hyperium");
-
     /**
      * Instance of default CONFIG
      */
     public static final DefaultConfig CONFIG = new DefaultConfig(new File(folder, "CONFIG.json"));
     public static boolean updateQueue = false;
-
     private final GeneralStatisticsTracking statTrack = new GeneralStatisticsTracking();
     private final NotificationCenter notification = new NotificationCenter();
     private final RichPresenceManager richPresenceManager = new RichPresenceManager();
@@ -108,7 +86,6 @@ public class Hyperium {
     private HyperiumCosmetics cosmetics;
     private HyperiumHandlers handlers;
     private HyperiumModIntegration modIntegration;
-
     private MinigameListener minigameListener;
     private boolean acceptedTos = false;
     private boolean fullScreen = false;
@@ -118,7 +95,14 @@ public class Hyperium {
     private NettyClient client;
     private NetworkHandler networkHandler;
     private HyperiumMainGui gui;
+    /**
+     * @param event initialize Hyperium
+     */
+    private boolean firstLaunch = false;
 
+    public boolean isFirstLaunch() {
+        return firstLaunch;
+    }
 
     public MinigameListener getMinigameListener() {
         return minigameListener;
@@ -133,10 +117,6 @@ public class Hyperium {
         EventBus.INSTANCE.register(new AutoGG());
     }
 
-    /**
-     * @param event initialize Hyperium
-     */
-
     @InvokeEvent(priority = Priority.HIGH)
     public void init(InitializationEvent event) {
         try {
@@ -148,7 +128,8 @@ public class Hyperium {
         cosmetics = new HyperiumCosmetics();
 
         // Creates the accounts dir
-        new File(folder.getAbsolutePath() + "/accounts").mkdirs();
+        firstLaunch = new File(folder.getAbsolutePath() + "/accounts").mkdirs();
+
 
         // Has the user accepted the TOS of the client?
         this.acceptedTos = new File(

@@ -172,6 +172,7 @@ import cc.hyperium.GuiStyle;
 import cc.hyperium.Hyperium;
 import cc.hyperium.Metadata;
 import cc.hyperium.config.Settings;
+import cc.hyperium.handlers.handlers.SettingsMigrator;
 import cc.hyperium.mixinsimp.renderer.gui.IMixinGuiMultiplayer;
 import cc.hyperium.utils.HyperiumFontRenderer;
 import net.minecraft.client.Minecraft;
@@ -247,7 +248,9 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
             HyperiumMainMenu.FIRST_START = false;
             Minecraft.getMinecraft().toggleFullscreen();
             Minecraft.getMinecraft().toggleFullscreen();
-
+        }
+        if(Hyperium.INSTANCE.isFirstLaunch()) {
+            new SettingsMigrator().migrate();
         }
     }
 

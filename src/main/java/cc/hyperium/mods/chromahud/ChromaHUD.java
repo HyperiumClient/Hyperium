@@ -168,7 +168,7 @@ public class ChromaHUD extends AbstractMod {
     }
 
 
-    private void setup() {
+    public void setup() {
         JsonHolder data = new JsonHolder();
         try {
             if (!suggestedConfigurationFile.exists()) {
