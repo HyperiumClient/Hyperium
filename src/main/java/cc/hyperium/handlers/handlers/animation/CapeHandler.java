@@ -17,7 +17,6 @@ import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.util.ResourceLocation;
 
 import java.awt.image.BufferedImage;
-import java.util.Date;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.ReentrantLock;
@@ -55,7 +54,7 @@ public class CapeHandler {
         capes.put(uuid, loadingResource);
 
         ResourceLocation resourceLocation = new ResourceLocation(
-                String.format("hyperium/capes/%s.png", new Date().getTime())
+                String.format("hyperium/capes/%s.png", System.nanoTime())
         );
 
 
