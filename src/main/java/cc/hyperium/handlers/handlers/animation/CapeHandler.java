@@ -20,9 +20,11 @@ import java.awt.image.BufferedImage;
 import java.util.Date;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class CapeHandler {
 
+    public static final ReentrantLock LOCK = new ReentrantLock();
     private final ConcurrentHashMap<UUID, ResourceLocation> capes = new ConcurrentHashMap<>();
     private final ResourceLocation loadingResource = new ResourceLocation("");
 
@@ -55,6 +57,8 @@ public class CapeHandler {
         ResourceLocation resourceLocation = new ResourceLocation(
                 String.format("hyperium/capes/%s.png", new Date().getTime())
         );
+
+
         TextureManager textureManager = Minecraft.getMinecraft().getTextureManager();
         ThreadDownloadImageData threadDownloadImageData = new ThreadDownloadImageData(null, url, null, new IImageBuffer() {
 
@@ -68,8 +72,14 @@ public class CapeHandler {
                 CapeHandler.this.setCape(uuid, resourceLocation);
             }
         });
+        try {
+            LOCK.lock();
+            textureManager.loadTexture(resourceLocation, threadDownloadImageData);
+        } catch (Exception e) {
 
-        textureManager.loadTexture(resourceLocation, threadDownloadImageData);
+        } finally {
+            LOCK.unlock();
+        }
     }
 
     public void setCape(UUID uuid, ResourceLocation resourceLocation) {
