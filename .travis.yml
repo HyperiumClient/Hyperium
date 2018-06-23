@@ -10,7 +10,7 @@ after_failure:
 before-deploy:
   - git config --local user.name "HyperiumDeploy"
   - git config --local user.email "hyperiumclient@gmail.com"
-  - git tag $TRAVIS_JOB_NUMBER
+  - git tag -a $TRAVIS_JOB_NUMBER
 deploy:
   provider: releases
   api_key: $GIT_TOKEN
@@ -18,5 +18,5 @@ deploy:
   file_glob: true
   file: build/libs/*
   on:
-    repo: https://github.com/HyperiumClient/Hyperium
+    repo: HyperiumClient/Hyperium
     tags: true
