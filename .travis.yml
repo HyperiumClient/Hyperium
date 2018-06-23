@@ -10,7 +10,7 @@ after_failure:
 before_deploy:
   - git config --local user.name "HyperiumDeploy"
   - git config --local user.email "hyperiumclient@gmail.com"
-  - git tag -m $TRAVIS_BUILD_NUMBER
+  - git tag -d $TRAVIS_BUILD_NUMBER
 deploy:
   provider: releases
   api_key:
