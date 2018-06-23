@@ -13,10 +13,10 @@ before_deploy:
   - git tag -a $TRAVIS_JOB_NUMBER
 deploy:
   provider: releases
-  api_key: $GIT_TOKEN
-  skip_cleanup: true
+  api_key:
+    secure: $GIT_SECURE
   file_glob: true
   file: build/libs/*
   on:
     repo: HyperiumClient/Hyperium
-    tags: true
+
