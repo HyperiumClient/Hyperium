@@ -1,6 +1,5 @@
 package cc.hyperium.mixins.client.multiplayer;
 
-import cc.hyperium.C;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.multiplayer.ServerList;
@@ -21,7 +20,6 @@ public class MixinServerList {
     @Shadow
     @Final
     private static Logger logger;
-    private final ServerData INVADED = new ServerData(C.RED + "InvadedLands", "invadedlands.net", false);
     @Shadow
     @Final
     private List<ServerData> servers;
@@ -46,9 +44,6 @@ public class MixinServerList {
         serverlist.saveServerList();
     }
 
-    /**
-     * @author Sk1er
-     */
     @Overwrite
     public void loadServerList() {
         try {
@@ -60,7 +55,7 @@ public class MixinServerList {
             }
 
             NBTTagList nbttaglist = nbttagcompound.getTagList("servers", 10);
-            servers.add(INVADED);
+
             for (int i = 0; i < nbttaglist.tagCount(); ++i) {
                 this.servers.add(ServerData.getServerDataFromNBTCompound(nbttaglist.getCompoundTagAt(i)));
             }
@@ -75,7 +70,7 @@ public class MixinServerList {
     public void saveServerList() {
         try {
             NBTTagList nbttaglist = new NBTTagList();
-            this.servers.remove(INVADED);
+
             for (ServerData serverdata : this.servers) {
                 nbttaglist.appendTag(serverdata.getNBTCompound());
             }
@@ -103,12 +98,8 @@ public class MixinServerList {
 
     @Overwrite
     public void removeServerData(int p_78851_1_) {
-        if (p_78851_1_ == 0)
-            return;
         try {
-            ServerData remove = this.servers.remove(p_78851_1_);
-            if (remove.equals(INVADED))
-                this.servers.add(0, INVADED);
+            this.servers.remove(p_78851_1_);
         } catch (Exception e) {
             System.out.println("Remove server data error");
         }
@@ -131,13 +122,8 @@ public class MixinServerList {
 
     @Overwrite
     public void swapServers(int p_78857_1_, int p_78857_2_) {
-        if (p_78857_1_ == 0 || p_78857_2_ == 0)
-            return;
         try {
             ServerData serverdata = this.getServerData(p_78857_1_);
-            ServerData serverData1 = this.getServerData(p_78857_2_);
-            if (serverdata.equals(INVADED) || serverData1.equals(INVADED))
-                return;
             this.servers.set(p_78857_1_, this.getServerData(p_78857_2_));
             this.servers.set(p_78857_2_, serverdata);
             this.saveServerList();
@@ -149,7 +135,6 @@ public class MixinServerList {
 
     @Overwrite
     public void func_147413_a(int p_147413_1_, ServerData p_147413_2_) {
-
         try {
             this.servers.set(p_147413_1_, p_147413_2_);
         } catch (Exception e) {

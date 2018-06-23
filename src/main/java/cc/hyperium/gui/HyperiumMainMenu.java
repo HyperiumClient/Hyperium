@@ -235,7 +235,6 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
     private DynamicTexture viewportTexture;
     private FontRenderer fontRendererObj = Minecraft.getMinecraft().fontRendererObj;
     private GuiButton hypixelButton;
-    private GuiButton invadedButton;
     private boolean clickedCheckBox = false;
     private HyperiumFontRenderer fr = new HyperiumFontRenderer("Arial", Font.PLAIN, 20);
     private HyperiumFontRenderer sfr = new HyperiumFontRenderer("Arial", Font.PLAIN, 12);
@@ -389,16 +388,7 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
                 this.mc.displayGuiScreen(guiyesno);
             }
         }
-        if (button.id == 25) {
-            GuiMultiplayer p_i1182_1_ = new GuiMultiplayer(new GuiMainMenu());
-            p_i1182_1_.setWorldAndResolution(Minecraft.getMinecraft(), width, height);
-            ((IMixinGuiMultiplayer) p_i1182_1_).makeDirectConnect();
-            String hostName = "invadedlands.net";
-//                    Minecraft.getMinecraft().displayGuiScreen(new GuiConnecting(p_i1182_1_, Minecraft.getMinecraft(), hostName, 25565));
-            ServerData data = new ServerData("invadedlands", hostName, false);
-            ((IMixinGuiMultiplayer) p_i1182_1_).setIp(data);
-            p_i1182_1_.confirmClicked(true, 0);
-        }
+
         switch (getStyle()) {
             case DEFAULT:
                 if (button.id == 15)
@@ -443,8 +433,7 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
         this.buttonList.add(new GuiButton(1, this.width / 2 - 100, p_73969_1_, I18n.format("menu.singleplayer")));
         this.buttonList.add(new GuiButton(2, this.width / 2 - 100, p_73969_1_ + p_73969_2_, I18n.format("menu.multiplayer")));
         //Change realms button ID to 16 to avoid conflicts
-        this.buttonList.add(this.hypixelButton = new GuiButton(16, this.width / 2 - 100, p_73969_1_ + p_73969_2_ * 2, 95, 20, "Join Hypixel"));
-        this.buttonList.add(this.invadedButton = new GuiButton(25, this.width / 2 + 5, p_73969_1_ + p_73969_2_ * 2, 95, 20, "Join Invaded"));
+        this.buttonList.add(this.hypixelButton = new GuiButton(16, this.width / 2 - 100, p_73969_1_ + p_73969_2_ * 2, 200, 20, "Join Hypixel"));
 
         this.buttonList.add(new GuiButton(15, this.width / 2 - 100, p_73969_1_ + p_73969_2_ * 3, "Hyperium Settings"));
 
