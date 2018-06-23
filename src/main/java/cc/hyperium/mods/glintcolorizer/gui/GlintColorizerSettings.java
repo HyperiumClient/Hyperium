@@ -3,12 +3,19 @@ package cc.hyperium.mods.glintcolorizer.gui;
 import cc.hyperium.gui.main.HyperiumOverlay;
 import cc.hyperium.gui.main.components.OverlaySlider;
 import cc.hyperium.mods.glintcolorizer.Colors;
-
+import cc.hyperium.mods.glintcolorizer.GlintColorizer;
 import java.lang.reflect.Field;
 
 public class GlintColorizerSettings extends HyperiumOverlay {
     public GlintColorizerSettings() {
         try {
+            this.addToggle("Enabled", GlintColorizer.class.getField("enabled"), (b) -> {
+              if ((boolean) b) {
+                Colors.setonepoint8color(Colors.glintR, Colors.glintG, Colors.glintB);
+              } else {
+                Colors.onepoint8glintcolorI = -8372020;
+              }
+            });
             this.addToggle("Chroma", Colors.class.getField("chroma"), null);
             addSlider("Red", Colors.class.getField("glintR"), 255, 0, true);
             addSlider("Green", Colors.class.getField("glintG"), 255, 0, true);
