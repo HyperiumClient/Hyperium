@@ -7,3 +7,15 @@ after_failure:
   - wget https://raw.githubusercontent.com/k3rn31p4nic/travis-ci-discord-webhook/master/send.sh
   - chmod +x send.sh
   - ./send.sh failure $WEBHOOK_URL
+before_deploy:
+  - git config --local user.name "HyperiumDeploy"
+  - git config --local user.email "hyperiumclient@gmail.com"
+  - git tag -a $TRAVIS_BUILD_NUMBER -m "Automated beta build"
+deploy:
+  provider: releases
+  api_key: $GIT_TOKEN
+  file_glob: true
+  file: build/libs/*
+  on:
+    repo: HyperiumClient/Hyperium
+

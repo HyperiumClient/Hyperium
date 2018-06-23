@@ -87,28 +87,47 @@ public class CapeHandler {
 
     public ResourceLocation getCape(final AbstractClientPlayer player) {
         UUID uuid = player.getUniqueID();
-        ResourceLocation orDefault = capes.getOrDefault(uuid, null);
-        if (orDefault == null) {
-            Multithreading.runAsync(() -> {
-                HyperiumPurchase hyperiumPurchase = PurchaseApi.getInstance().getPackageSync(uuid);
-                String s = hyperiumPurchase.getPurchaseSettings().optJSONObject("cape").optString("type");
-                if (!s.isEmpty()) {
-                    JsonHolder jsonHolder = PurchaseApi.getInstance().getCapeAtlas().optJSONObject(s);
-                    String url = jsonHolder.optString("url");
-                    if (!url.isEmpty()) {
-                        loadCape(uuid, url);
-                        return;
-                    }
-                }
-                loadCape(uuid, "http://s.optifine.net/capes/" + player.getGameProfile().getName() + ".png");
 
-            });
-            return capes.get(uuid);
-        }
-        if (orDefault.equals(loadingResource)) {
+        if(isRealPlayer(uuid)) {
+            ResourceLocation orDefault = capes.getOrDefault(uuid, null);
+            if (orDefault == null) {
+                Multithreading.runAsync(() -> {
+                    HyperiumPurchase hyperiumPurchase = PurchaseApi.getInstance()
+                        .getPackageSync(uuid);
+                    String s = hyperiumPurchase.getPurchaseSettings().optJSONObject("cape")
+                        .optString("type");
+                    if (!s.isEmpty()) {
+                        JsonHolder jsonHolder = PurchaseApi.getInstance().getCapeAtlas()
+                            .optJSONObject(s);
+                        String url = jsonHolder.optString("url");
+                        if (!url.isEmpty()) {
+                            loadCape(uuid, url);
+                            return;
+                        }
+                    }
+                    loadCape(uuid,
+                        "http://s.optifine.net/capes/" + player.getGameProfile().getName()
+                            + ".png");
+                });
+                return capes.get(uuid);
+            }
+
+            if (orDefault.equals(loadingResource)) {
+                return null;
+            }
+            return orDefault;
+        } else{
             return null;
         }
-        return orDefault;
+    }
+
+    public boolean isRealPlayer(UUID uuid){
+        String s = uuid.toString().replace("-", "");
+        if (s.length() == 32 && s.charAt(12) != '4') {
+            return false;
+        } else{
+            return true;
+        }
     }
 
 

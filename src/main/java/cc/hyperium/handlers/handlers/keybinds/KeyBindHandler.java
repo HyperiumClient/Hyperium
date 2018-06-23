@@ -151,7 +151,7 @@ public class KeyBindHandler {
 
     /**
      * Registers a Hyperium KeyBinding here & in the game code so it shows up in the
-     * controls menu, allowing the user to modify the keyblind
+     * controls menu, allowing the user to modify the keybind
      *
      * @param bind the hyperium key we wish to register
      */
