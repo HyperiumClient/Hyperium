@@ -13,8 +13,7 @@ before_deploy:
   - git tag -a $TRAVIS_BUILD_NUMBER -m "Automated beta build"
 deploy:
   provider: releases
-  api_key:
-    secure: $GIT_SECURE
+  api_key: $GIT_TOKEN
   file_glob: true
   file: build/libs/*
   on:
