@@ -1,4 +1,6 @@
 language: java
+script:
+  - ./gradlew build
 after_success:
   - wget https://raw.githubusercontent.com/k3rn31p4nic/travis-ci-discord-webhook/master/send.sh
   - chmod +x send.sh
@@ -7,3 +9,13 @@ after_failure:
   - wget https://raw.githubusercontent.com/k3rn31p4nic/travis-ci-discord-webhook/master/send.sh
   - chmod +x send.sh
   - ./send.sh failure $WEBHOOK_URL
+before-deploy:
+  - git config --local user.name "HyperiumDeploy"
+  - git config --local user.email "hyperiumclient@gmail.com"
+  - git tag $TRAVIS_JOB_NUMBER
+deploy:
+  provider: releases
+  api_key: $GIT_TOKEN
+  skip_cleanup: true
+  on:
+    tags: true
