@@ -180,6 +180,7 @@ import cc.hyperium.utils.RenderUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiMainMenu;
+import net.minecraft.client.gui.inventory.GuiInventory;
 
 import java.awt.Color;
 import java.util.ArrayList;
@@ -226,6 +227,9 @@ public class ParticleOverlay {
             float step = (float) (0.01 * (Settings.MAX_PARTICLES / 100));
             Mode m = getMode();
             if (m == Mode.OFF) return;
+             if(!Settings.PARTICLES_INV && Minecraft.getMinecraft().currentScreen instanceof GuiInventory)
+                 return;
+
             last = System.currentTimeMillis();
             for (Particle particle : particles) {
                 double w = 1;
