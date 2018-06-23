@@ -15,5 +15,8 @@ deploy:
   provider: releases
   api_key: $GIT_TOKEN
   skip_cleanup: true
+  file_glob: true
+  file: build/libs/*
   on:
+    repo: https://github.com/HyperiumClient/Hyperium
     tags: true
