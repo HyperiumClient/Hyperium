@@ -59,6 +59,7 @@
     "renderer.MixinRenderItem",
     "renderer.MixinRenderManger",
     "renderer.MixinRenderPlayer",
+    "renderer.MixinLayerCape",
     "renderer.MixinThreadDownloadImageData",
     "renderer.entity.layer.MixinLayerHeldItem",
     "renderer.model.MixinModelBiped",

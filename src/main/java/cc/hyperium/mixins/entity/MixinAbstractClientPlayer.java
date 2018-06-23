@@ -53,7 +53,6 @@ public abstract class MixinAbstractClientPlayer {
      */
     @Overwrite
     public ResourceLocation getLocationCape() {
-
         ResourceLocation cape = Hyperium.INSTANCE.getHandlers().getCapeHandler().getCape((AbstractClientPlayer) (Object) this);
         if (cape != null)
             return cape;
