@@ -18,7 +18,7 @@
 package cc.hyperium.utils.eastereggs.eastereggplayerdata;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.passive.EntityPig;
+import net.minecraft.entity.monster.EntityBlaze;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.PotionEffect;
 
@@ -29,7 +29,7 @@ import net.minecraft.potion.PotionEffect;
  */
 public class EasterEggConorTheDev {
     public static Entity renderEvent(EntityPlayer player) {
-        EntityPig disguise = new EntityPig(player.worldObj);
+        EntityBlaze disguise = new EntityBlaze(player.worldObj);
         disguise.ticksExisted = 1;
         disguise.posX = player.posX;
         disguise.lastTickPosX = player.lastTickPosX;
