@@ -45,6 +45,7 @@ import cc.hyperium.network.LoginReplyHandler;
 import cc.hyperium.network.NetworkHandler;
 import cc.hyperium.purchases.PurchaseApi;
 import cc.hyperium.tray.TrayManager;
+import cc.hyperium.utils.eastereggs.EasterEggs;
 import cc.hyperium.utils.StaffUtils;
 import cc.hyperium.utils.mods.CompactChat;
 import cc.hyperium.utils.mods.FPSLimiter;
@@ -204,6 +205,7 @@ public class Hyperium {
             LOGGER.warn("Failed to fetch staff");
         }
         richPresenceManager.init();
+        EventBus.INSTANCE.register(new EasterEggs());
 
         Multithreading.runAsync(Spotify::load);
 
