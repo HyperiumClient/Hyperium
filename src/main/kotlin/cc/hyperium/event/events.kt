@@ -261,7 +261,7 @@ class EntityRenderEvent(val entityIn: Entity,
 class LivingDeathEvent(val entity: EntityLivingBase, val source: DamageSource)
 
 /**
- * EntityJoinWorldEvent is fired when an Entity joins the world.
+ * ArrowLooseEvent is fired when a player stops using a bow.
  **/
 class ArrowLooseEvent(val player: EntityPlayer, val bow: ItemStack, val charge: Int)
 
