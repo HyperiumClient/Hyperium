@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(EntityPlayerMP.class)
 public abstract class MixinEntityPlayerMP {
     /**
-     * Death cannot cancel...
+     * Death cannot be cancelled...
      * @author SiroQ
      **/
     @Inject(method = "onDeath",at = @At("HEAD"))

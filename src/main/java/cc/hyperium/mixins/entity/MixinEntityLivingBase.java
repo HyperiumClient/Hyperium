@@ -48,7 +48,7 @@ public abstract class MixinEntityLivingBase extends MixinEntity {
 
 
     /**
-     * Death cannot cancel...
+     * Death cannot be cancelled...
      * @author SiroQ
      **/
     @Inject(method = "onDeath",at = @At("HEAD"))

@@ -21,7 +21,7 @@ public abstract class MixinItemBow {
      * @author SiroQ
      **/
     @Inject(method = "onPlayerStoppedUsing",at = @At("HEAD"))
-    private void onDeath(ItemStack stack, World worldIn, EntityPlayer playerIn, int timeLeft, CallbackInfo ci){
+    private void onPlayerStoppedUsing(ItemStack stack, World worldIn, EntityPlayer playerIn, int timeLeft, CallbackInfo ci){
         EventBus.INSTANCE.post(new ArrowLooseEvent(playerIn,stack,timeLeft));
     }
 }

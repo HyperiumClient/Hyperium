@@ -23,11 +23,13 @@ import cc.hyperium.event.EventBus;
 import cc.hyperium.event.SpawnpointChangeEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldType;
 import net.minecraft.world.storage.WorldInfo;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
@@ -37,12 +39,19 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.Collection;
+import java.util.List;
 
 @Mixin(World.class)
 public class MixinWorld {
 
     @Shadow
     private WorldInfo worldInfo;
+
+    @Shadow
+    public List<TileEntity> loadedTileEntityList;
+
+
+    @Shadow @Final public List<Entity> loadedEntityList;
 
     /**
      * Invoked once the server changes the players spawn point
@@ -158,7 +167,9 @@ public class MixinWorld {
     @Inject(method = "loadEntities", at = @At("HEAD"))
     private void loadEntities(Collection<Entity> entityCollection, CallbackInfo ci){
         for (Entity entity : entityCollection) {
-            EventBus.INSTANCE.post(new EntityJoinWorldEvent(entity,(World)(Object)this));
+            if (!loadedEntityList.contains(entity)) {
+                EventBus.INSTANCE.post(new EntityJoinWorldEvent(entity,(World)(Object)this));
+            }
         }
     }
     /**
@@ -173,8 +184,10 @@ public class MixinWorld {
      * It's for EntityJoinWorldEvent
      * @author SiroQ
      **/
-    @Inject(method = "joinEntityInSurroundings", at = @At("HEAD"))
+    @Inject(method = "joinEntityInSurroundings", at = @At(value = "HEAD"))
     private void joinEntityInSurroundings(Entity entityIn, CallbackInfo ci){
-        EventBus.INSTANCE.post(new EntityJoinWorldEvent(entityIn,(World)(Object)this));
+        if (!this.loadedEntityList.contains(entityIn)) {
+            EventBus.INSTANCE.post(new EntityJoinWorldEvent(entityIn, (World) (Object) this));
+        }
     }
 }

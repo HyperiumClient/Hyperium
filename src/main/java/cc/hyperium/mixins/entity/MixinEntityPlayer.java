@@ -84,7 +84,7 @@ public abstract class MixinEntityPlayer extends EntityLivingBase {
     }
 
     /**
-     * Death cannot cancel...
+     * Death cannot be cancelled...
      * @author SiroQ
      **/
     @Inject(method = "onDeath",at = @At("HEAD"))
