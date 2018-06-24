@@ -102,12 +102,9 @@ public class EasterEggs {
             */
 
             //KenWay
-            //Commented due to lack of IGN
-            /*
-            if (player.getName().equalsIgnoreCase("")) {
+            if (player.getName().equalsIgnoreCase("KenWayTheGod")) {
                 renderManager.renderEntitySimple(EasterEggKenWay.renderEvent(player), event.getPartialTicks());
             }
-            */
 
             //Kevin
             //Commented due to lack of IGN
