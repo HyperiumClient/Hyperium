@@ -185,7 +185,7 @@ public abstract class MixinNetHandlerPlayClient {
                 if ("REGISTER".equalsIgnoreCase(packetIn.getChannelName())) {
                     if (message.contains("Hyperium")) {
                         PacketBuffer buffer = new PacketBuffer(Unpooled.buffer());
-                        buffer.writeString("Hyperium-" + Metadata.getVersion() + "-" + Metadata.getVersionID());
+                        buffer.writeString("Hyperium;" + Metadata.getVersion() + ";" + Metadata.getVersionID());
                         addToSendQueue(new C17PacketCustomPayload("REGISTER", buffer));
                     }
                 }
