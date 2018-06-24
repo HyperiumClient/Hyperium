@@ -13,22 +13,34 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.Vec3;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Created by mitchellkatz on 6/23/18. Designed for production use on Sk1er.club
  */
 public class ParticleAuraHandler {
 
+    private final ArrayList<EnumParticleTypes> particleTypes = new ArrayList<>();
     private HashMap<UUID, ParticleAura> auras = new HashMap<>();
     private HashMap<String, AbstractAnimation> animations = new HashMap<>();
 
-
     public ParticleAuraHandler() {
+        particleTypes.addAll(Arrays.asList(EnumParticleTypes.values()));
+        particleTypes.remove(EnumParticleTypes.BARRIER);
         animations.put("triple_helix", new TripleHelixAnimation());
         animations.put("double_helix", new DoubleHelixAnimation());
+    }
+
+    public HashMap<UUID, ParticleAura> getAuras() {
+        return auras;
+    }
+
+    public HashMap<String, AbstractAnimation> getAnimations() {
+        return animations;
+    }
+
+    public ArrayList<EnumParticleTypes> getParticleTypes() {
+        return particleTypes;
     }
 
     @InvokeEvent
@@ -58,11 +70,9 @@ public class ParticleAuraHandler {
     @InvokeEvent
     public void renderPlayer(TickEvent event) {
         for (EntityPlayer entity : Minecraft.getMinecraft().theWorld.playerEntities) {
-
-
             ParticleAura particleAura = auras.get(entity.getUniqueID());
             if (entity.equals(Minecraft.getMinecraft().thePlayer)) {
-                particleAura = new ParticleAura(EnumParticleTypes.HEART, new TripleHelixAnimation());
+                particleAura = new ParticleAura(EnumParticleTypes.NOTE, new TripleHelixAnimation());
             }
             if (particleAura != null) {
                 double x = entity.posX;
