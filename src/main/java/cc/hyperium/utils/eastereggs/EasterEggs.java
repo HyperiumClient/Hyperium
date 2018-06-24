@@ -18,6 +18,7 @@
 package cc.hyperium.utils.eastereggs;
 
 import cc.hyperium.Hyperium;
+import cc.hyperium.config.Settings;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.RenderPlayerEvent;
 import cc.hyperium.handlers.handlers.HypixelDetector;
@@ -34,7 +35,7 @@ import net.minecraft.entity.player.EntityPlayer;
 public class EasterEggs {
     @InvokeEvent
     private void onRender(RenderPlayerEvent event) {
-        if (HypixelDetector.getInstance().isHypixel() && Hyperium.INSTANCE.getHandlers().getLocationHandler().getLocation().contains("lobby")) {
+        if (HypixelDetector.getInstance().isHypixel() && Hyperium.INSTANCE.getHandlers().getLocationHandler().getLocation().contains("lobby") && Settings.SUPERSECRETSETTINGSV2) {
             EntityPlayer player = event.getEntity();
             player.setInvisible(true);
             RenderManager renderManager = Minecraft.getMinecraft().getRenderManager();
