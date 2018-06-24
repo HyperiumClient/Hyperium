@@ -18,7 +18,7 @@
 package cc.hyperium.utils.eastereggs.eastereggplayerdata;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.monster.EntityCreeper;
+import net.minecraft.entity.monster.EntityIronGolem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.PotionEffect;
 
@@ -29,7 +29,7 @@ import net.minecraft.potion.PotionEffect;
  */
 public class EasterEggZezzo {
     public static Entity renderEvent(EntityPlayer player) {
-        EntityCreeper disguise = new EntityCreeper(player.worldObj);
+        EntityIronGolem disguise = new EntityIronGolem(player.worldObj);
         disguise.ticksExisted = 1;
         disguise.posX = player.posX;
         disguise.lastTickPosX = player.lastTickPosX;
