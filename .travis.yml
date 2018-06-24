@@ -25,3 +25,4 @@ deploy:
   on:
     repo: HyperiumClient/Hyperium
     prerelease: true
+if: tag IS blank
