@@ -317,6 +317,15 @@ public class Settings {
     @ConfigOpt
     @ToggleSetting(name = "Show ChromaHUD", category = INTEGRATIONS)
     public static boolean SHOW_CHROMAHUD = true;
+    
+    @ConfigOpt
+    @SelectorSetting(name = "Main Menu Style", items =
+        {
+            "HYPERIUM",
+            "DEFAULT"
+        }, category = MISC
+    )
+    public static String MENU_STYLE = GuiStyle.DEFAULT.toString();
 
 
     @ConfigOpt
