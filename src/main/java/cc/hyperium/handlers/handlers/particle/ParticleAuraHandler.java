@@ -2,16 +2,22 @@ package cc.hyperium.handlers.handlers.particle;
 
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.PurchaseLoadEvent;
-import cc.hyperium.event.TickEvent;
+import cc.hyperium.event.RenderPlayerEvent;
 import cc.hyperium.event.WorldChangeEvent;
 import cc.hyperium.handlers.handlers.particle.animations.DoubleHelixAnimation;
 import cc.hyperium.handlers.handlers.particle.animations.ExplodeAnimation;
 import cc.hyperium.handlers.handlers.particle.animations.TripleHelixAnimation;
+import cc.hyperium.mixinsimp.renderer.client.particle.IMixinEffectRenderer;
 import cc.hyperium.utils.JsonHolder;
 import cc.hyperium.utils.UUIDUtil;
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.client.entity.AbstractClientPlayer;
+import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.client.particle.EntityFX;
+import net.minecraft.client.particle.IParticleFactory;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 
 import java.util.*;
@@ -71,27 +77,51 @@ public class ParticleAuraHandler {
     }
 
     @InvokeEvent
-    public void renderPlayer(TickEvent event) {
-        for (EntityPlayer entity : Minecraft.getMinecraft().theWorld.playerEntities) {
-            ParticleAura particleAura = auras.get(entity.getUniqueID());
-            if (entity.equals(Minecraft.getMinecraft().thePlayer)) {
-                particleAura = new ParticleAura(EnumParticleTypes.NOTE, new TripleHelixAnimation());
-            }
-            if (particleAura != null) {
-                double x = entity.posX;
-                double y = entity.posY;
-                double z = entity.posZ;
-                List<Vec3> render = particleAura.render(entity, x, y, z);
-                for (Vec3 vec3 : render) {
-                    entity.getEntityWorld().spawnParticle(particleAura.getType(),
-                            vec3.xCoord,
-                            vec3.yCoord,
-                            vec3.zCoord, 0, 0, 0);
+    public void renderPlayer(RenderPlayerEvent event) {
+        AbstractClientPlayer entity = event.getEntity();
+        ParticleAura particleAura = auras.get(entity.getUniqueID());
+        if (entity.equals(Minecraft.getMinecraft().thePlayer)) {
+            particleAura = new ParticleAura(EnumParticleTypes.NOTE, new TripleHelixAnimation());
+        }
+        if (particleAura != null) {
+            double x = entity.posX;
+            double y = entity.posY;
+            double z = entity.posZ;
+            List<Vec3> render = particleAura.render(entity, x, y, z);
+            for (Vec3 vec3 : render) {
+                Map<Integer, IParticleFactory> particleMap = ((IMixinEffectRenderer) Minecraft.getMinecraft().effectRenderer).getParticleMap();
+                int particleID = particleAura.getType().getParticleID();
+                IParticleFactory iParticleFactory = particleMap.get(particleID);
+                if (iParticleFactory != null) {
+                    EntityFX entityFX = iParticleFactory.getEntityFX(particleID, entity.getEntityWorld(), vec3.xCoord, vec3.yCoord, vec3.zCoord, 1.0D, 1.0D, 1.0D);
+                    entityFX.onUpdate();
+                    /*
+                     float f = 0.017453292F;
+        float f1 = MathHelper.cos(entityIn.rotationYaw * 0.017453292F);
+        float f2 = MathHelper.sin(entityIn.rotationYaw * 0.017453292F);
+        float f3 = -f2 * MathHelper.sin(entityIn.rotationPitch * 0.017453292F);
+        float f4 = f1 * MathHelper.sin(entityIn.rotationPitch * 0.017453292F);
+        float f5 = MathHelper.cos(entityIn.rotationPitch * 0.017453292F);
+                    entityfx.renderParticle(worldrenderer, entityIn, p_78872_2_, f1, f5, f2, f3, f4);
+
+                     */
+                    EntityPlayerSP entityIn = Minecraft.getMinecraft().thePlayer;
+                    float f1 = MathHelper.cos(entityIn.rotationYaw * 0.017453292F);
+                    float f2 = MathHelper.sin(entityIn.rotationYaw * 0.017453292F);
+                    float f3 = -f2 * MathHelper.sin(entityIn.rotationPitch * 0.017453292F);
+                    float f4 = f1 * MathHelper.sin(entityIn.rotationPitch * 0.017453292F);
+                    float f5 = MathHelper.cos(entityIn.rotationPitch * 0.017453292F);
+                    entityFX.renderParticle(Tessellator.getInstance().getWorldRenderer(), entityIn
+                            ,event.getPartialTicks(),f1,f5,f2,f3,f4);
+
                 }
+                entity.getEntityWorld().spawnParticle(particleAura.getType(),
+                        vec3.xCoord,
+                        vec3.yCoord,
+                        vec3.zCoord, 0, 0, 0);
             }
         }
-
-
     }
+
 
 }

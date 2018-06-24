@@ -15,6 +15,7 @@
     "client.MixinClientBrand",
     "client.MixinGameSettings",
     "client.multiplayer.MixinServerList",
+    "client.particle.MixinEffectRenderer",
     "client.resources.MixinAbstractResourcePack",
     "entity.MixinAbstractClientPlayer",
     "entity.MixinEntity",
