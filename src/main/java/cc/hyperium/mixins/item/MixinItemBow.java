@@ -2,12 +2,9 @@ package cc.hyperium.mixins.item;
 
 import cc.hyperium.event.ArrowLooseEvent;
 import cc.hyperium.event.EventBus;
-import cc.hyperium.event.LivingDeathEvent;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

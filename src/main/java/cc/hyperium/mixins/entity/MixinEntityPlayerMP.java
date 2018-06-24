@@ -3,7 +3,6 @@ package cc.hyperium.mixins.entity;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.LivingDeathEvent;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.DamageSource;
 import org.spongepowered.asm.mixin.Mixin;
