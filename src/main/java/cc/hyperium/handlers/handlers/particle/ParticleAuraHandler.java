@@ -5,6 +5,7 @@ import cc.hyperium.event.PurchaseLoadEvent;
 import cc.hyperium.event.TickEvent;
 import cc.hyperium.event.WorldChangeEvent;
 import cc.hyperium.handlers.handlers.particle.animations.DoubleHelixAnimation;
+import cc.hyperium.handlers.handlers.particle.animations.ExplodeAnimation;
 import cc.hyperium.handlers.handlers.particle.animations.TripleHelixAnimation;
 import cc.hyperium.utils.JsonHolder;
 import cc.hyperium.utils.UUIDUtil;
@@ -30,6 +31,7 @@ public class ParticleAuraHandler {
         animations.put("triple_helix", new TripleHelixAnimation());
         animations.put("double_helix", new DoubleHelixAnimation());
         animations.put("quad_helix", new DoubleHelixAnimation());
+        animations.put("explode", new ExplodeAnimation());
     }
 
     public HashMap<UUID, ParticleAura> getAuras() {
@@ -90,10 +92,6 @@ public class ParticleAuraHandler {
         }
 
 
-    }
-
-    protected double interpolate(final double currentPos, final double prevPos, final float percent) {
-        return prevPos + (currentPos - prevPos) * percent;
     }
 
 }
