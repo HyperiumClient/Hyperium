@@ -21,7 +21,7 @@ public class DoubleHelixAnimation extends AbstractAnimation {
         l *= Math.PI;
 
         List<Vec3> list = new ArrayList<>();
-
+        y += player.getEyeHeight();
         Vec3 vec3 = new Vec3(x, y, z);
         list.add(vec3.addVector(MathHelper.cos((float) l), 0, MathHelper.sin(((float) l))));
         l += Math.PI;

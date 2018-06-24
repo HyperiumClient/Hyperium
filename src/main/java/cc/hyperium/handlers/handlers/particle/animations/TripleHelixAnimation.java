@@ -18,15 +18,15 @@ public class TripleHelixAnimation extends AbstractAnimation {
     @Override
     public List<Vec3> render(float partialTicks, EnumParticleTypes type, EntityPlayer player, double x, double y, double z) {
         double l = (System.currentTimeMillis() % 1000) / 1000D;
-        l *= Math.PI *2/ 3 ;
+        l *= Math.PI * 2 / 3;
 
         List<Vec3> list = new ArrayList<>();
-
+        y += player.getEyeHeight();
         Vec3 vec3 = new Vec3(x, y, z);
         list.add(vec3.addVector(MathHelper.cos((float) l), 0, MathHelper.sin(((float) l))));
-        l += Math.PI *2/ 3;
+        l += Math.PI * 2 / 3;
         list.add(vec3.addVector(MathHelper.cos((float) l), 0, MathHelper.sin(((float) l))));
-        l += Math.PI *2/ 3;
+        l += Math.PI * 2 / 3;
         list.add(vec3.addVector(MathHelper.cos((float) l), 0, MathHelper.sin(((float) l))));
 
         return list;
