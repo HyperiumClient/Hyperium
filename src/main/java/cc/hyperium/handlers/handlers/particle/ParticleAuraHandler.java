@@ -29,6 +29,7 @@ public class ParticleAuraHandler {
         particleTypes.remove(EnumParticleTypes.BARRIER);
         animations.put("triple_helix", new TripleHelixAnimation());
         animations.put("double_helix", new DoubleHelixAnimation());
+        animations.put("quad_helix", new DoubleHelixAnimation());
     }
 
     public HashMap<UUID, ParticleAura> getAuras() {
