@@ -1,5 +1,6 @@
 package cc.hyperium.installer;
 
+import cc.hyperium.Metadata;
 import cc.hyperium.installer.components.MaterialRadioButton;
 import cc.hyperium.installer.components.MotionPanel;
 import cc.hyperium.utils.JsonHolder;
@@ -9,39 +10,11 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-import javax.swing.JScrollPane;
-import javax.swing.JSlider;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
-import javax.swing.UIManager;
-import javax.swing.WindowConstants;
+import javax.swing.*;
 import javax.swing.plaf.basic.BasicButtonUI;
 import javax.swing.plaf.basic.BasicSliderUI;
 import javax.swing.plaf.metal.MetalScrollBarUI;
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Desktop;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.FontFormatException;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
-import java.awt.RenderingHints;
-import java.awt.Stroke;
-import java.awt.Toolkit;
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Ellipse2D;
@@ -125,6 +98,7 @@ public class InstallerConfig extends JFrame {
         ver.setFont(f);
         ver.setBorderPainted(false);
         ver.setFocusPainted(false);
+
 
         JLabel dirTxt = new JLabel("Minecraft Installation");
         dirTxt.setLocation(5, 22);
@@ -303,8 +277,8 @@ public class InstallerConfig extends JFrame {
             public void mouseEntered(MouseEvent e) {
                 cLabel.setText("Optifine");
                 cDesc.setText("Optifine is a Minecraft optimization mod.\n" +
-                        "It allows Minecraft to run faster and look better with full support for HD textures and many configuration options.\n\n" +
-                        "Read more about Optifine: http://www.minecraftforum.net/topic/249637-");
+                    "It allows Minecraft to run faster and look better with full support for HD textures and many configuration options.\n\n" +
+                    "Read more about Optifine: http://www.minecraftforum.net/topic/249637-");
             }
         });
         optifine.setVerticalAlignment(SwingConstants.TOP);
@@ -356,6 +330,10 @@ public class InstallerConfig extends JFrame {
                     i.addAndGet(1);
                 ver.setText(versionList.get(i.get()));
             });
+            if(Metadata.isDevelopment()) {
+                ver.setText("LOCAL");
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -454,3 +432,4 @@ public class InstallerConfig extends JFrame {
         dependencies.forEach((k, v) -> k.setEnabled(StreamSupport.stream(v.spliterator(), false).map(JsonElement::getAsString).allMatch(dep -> dependencies.keySet().stream().filter(c -> dep.equals(c.getText().replace("Addon :: ", ""))).allMatch(JRadioButton::isSelected))));
     }
 }
+
