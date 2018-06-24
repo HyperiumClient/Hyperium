@@ -44,7 +44,7 @@ public class EasterEggs {
             /*
             if (player.getName().equalsIgnoreCase("9y0")) {
                 renderManager.renderEntitySimple(EasterEgg9y0.renderEvent(player), event.getPartialTicks());
-        }
+            }
             */
 
             //Amp
@@ -123,12 +123,9 @@ public class EasterEggs {
             */
 
             //Matt
-            //Commented due to lack of IGN
-            /*
-            if (player.getName().equalsIgnoreCase("")) {
+            if (player.getName().equalsIgnoreCase("M0F")) {
                 renderManager.renderEntitySimple(EasterEggMatt.renderEvent(player), event.getPartialTicks());
             }
-            */
 
             //Sk1er
             //Commented due to lack of mob
