@@ -19,6 +19,7 @@ package cc.hyperium.mixins.entity;
 
 import cc.hyperium.config.Settings;
 import cc.hyperium.event.EventBus;
+import cc.hyperium.event.LivingDeathEvent;
 import cc.hyperium.event.PlayerAttackEntityEvent;
 import cc.hyperium.event.PlayerSwingEvent;
 import net.minecraft.entity.Entity;
@@ -28,6 +29,7 @@ import net.minecraft.event.ClickEvent;
 import net.minecraft.scoreboard.ScorePlayerTeam;
 import net.minecraft.scoreboard.Team;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
@@ -79,6 +81,15 @@ public abstract class MixinEntityPlayer extends EntityLivingBase {
     @Inject(method = "attackTargetEntityWithCurrentItem", at = @At("HEAD"))
     public void attackTargetEntityWithCurrentItem(Entity targetEntity, CallbackInfo ci) {
         EventBus.INSTANCE.post(new PlayerAttackEntityEvent(this.entityUniqueID, targetEntity));
+    }
+
+    /**
+     * Death cannot cancel...
+     * @author SiroQ
+     **/
+    @Inject(method = "onDeath",at = @At("HEAD"))
+    private void onDeath(DamageSource source,CallbackInfo ci){
+        EventBus.INSTANCE.post(new LivingDeathEvent((EntityLivingBase) (Object) this,source));
     }
 
     /**

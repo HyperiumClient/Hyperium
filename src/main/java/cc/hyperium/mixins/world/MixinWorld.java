@@ -18,9 +18,11 @@
 package cc.hyperium.mixins.world;
 
 import cc.hyperium.config.Settings;
+import cc.hyperium.event.EntityJoinWorldEvent;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.SpawnpointChangeEvent;
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.Entity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
@@ -33,6 +35,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+import java.util.Collection;
 
 @Mixin(World.class)
 public class MixinWorld {
@@ -145,5 +149,32 @@ public class MixinWorld {
         if (!Minecraft.getMinecraft().isIntegratedServerRunning() && Settings.FULLBRIGHT) {
             ci.setReturnValue(15);
         }
+    }
+
+    /**
+     * It's for EntityJoinWorldEvent
+     * @author SiroQ
+     **/
+    @Inject(method = "loadEntities", at = @At("HEAD"))
+    private void loadEntities(Collection<Entity> entityCollection, CallbackInfo ci){
+        for (Entity entity : entityCollection) {
+            EventBus.INSTANCE.post(new EntityJoinWorldEvent(entity,(World)(Object)this));
+        }
+    }
+    /**
+     * It's for EntityJoinWorldEvent
+     * @author SiroQ
+     **/
+    @Inject(method = "spawnEntityInWorld", at = @At("HEAD"))
+    private void spawnEntityInWorld(Entity entityIn, CallbackInfoReturnable<Integer> ci){
+        EventBus.INSTANCE.post(new EntityJoinWorldEvent(entityIn,(World)(Object)this));
+    }
+    /**
+     * It's for EntityJoinWorldEvent
+     * @author SiroQ
+     **/
+    @Inject(method = "joinEntityInSurroundings", at = @At("HEAD"))
+    private void joinEntityInSurroundings(Entity entityIn, CallbackInfo ci){
+        EventBus.INSTANCE.post(new EntityJoinWorldEvent(entityIn,(World)(Object)this));
     }
 }
