@@ -68,7 +68,7 @@ public class ParticleAuraHandler {
             double z = interpolate(entity.posZ, entity.prevPosZ, event.getPartialTicks());
             List<Vec3> render = particleAura.render(event.getPartialTicks(), event.getEntity(), x, y, z);
             for (Vec3 vec3 : render) {
-                entity.getEntityWorld().spawnParticle(EnumParticleTypes.HEART,
+                entity.getEntityWorld().spawnParticle(particleAura.getType(),
                         vec3.xCoord,
                         vec3.yCoord,
                         vec3.zCoord, 0, 0, 0);
