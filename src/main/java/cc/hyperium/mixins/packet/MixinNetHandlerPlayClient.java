@@ -18,28 +18,46 @@
 package cc.hyperium.mixins.packet;
 
 import cc.hyperium.Hyperium;
+import cc.hyperium.Metadata;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.ServerChatEvent;
 import cc.hyperium.mods.timechanger.TimeChanger;
+import com.google.common.base.Charsets;
 import com.google.common.collect.ObjectArrays;
+import io.netty.buffer.Unpooled;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiMerchant;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.GuiScreenBook;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.IMerchant;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
 import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
+import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.PacketThreadUtil;
 import net.minecraft.network.play.INetHandlerPlayClient;
+import net.minecraft.network.play.client.C17PacketCustomPayload;
 import net.minecraft.network.play.server.S02PacketChat;
 import net.minecraft.network.play.server.S03PacketTimeUpdate;
 import net.minecraft.network.play.server.S0BPacketAnimation;
+import net.minecraft.network.play.server.S3FPacketCustomPayload;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.village.MerchantRecipeList;
+import org.apache.logging.log4j.Logger;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
+
+import java.io.IOException;
 
 /**
  * Provides code that may be used in mods that require it
@@ -149,6 +167,65 @@ public abstract class MixinNetHandlerPlayClient {
             }
         }
     }
+    /**
+     * @author
+     */
+    @Overwrite
+    public void handleCustomPayload(S3FPacketCustomPayload packetIn) {
+
+
+        PacketThreadUtil.checkThreadAndEnqueue(packetIn, (NetHandlerPlayClient) (Object) this, this.gameController);
+        PacketBuffer packetBuffer = packetIn.getBufferData();
+        try {
+            int readableBytes = packetBuffer.readableBytes();
+            if (readableBytes > 0) {
+                byte[] payload = new byte[readableBytes];
+                packetBuffer.readBytes(payload);
+                String message = new String(payload, Charsets.UTF_8);
+                if ("REGISTER".equalsIgnoreCase(packetIn.getChannelName())) {
+                    if (message.contains("Hyperium")) {
+                        PacketBuffer buffer = new PacketBuffer(Unpooled.buffer());
+                        buffer.writeString("Hyperium-" + Metadata.getVersion() + "-" + Metadata.getVersionID());
+                        addToSendQueue(new C17PacketCustomPayload("REGISTER", buffer));
+                    }
+                }
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+
+        if ("MC|TrList".equals(packetIn.getChannelName())) {
+            PacketBuffer packetbuffer = packetIn.getBufferData();
+
+            try {
+                int i = packetbuffer.readInt();
+                GuiScreen guiscreen = this.gameController.currentScreen;
+
+                if (guiscreen != null && guiscreen instanceof GuiMerchant && i == this.gameController.thePlayer.openContainer.windowId) {
+                    IMerchant imerchant = ((GuiMerchant) guiscreen).getMerchant();
+                    MerchantRecipeList merchantrecipelist = MerchantRecipeList.readFromBuf(packetbuffer);
+                    imerchant.setRecipes(merchantrecipelist);
+                }
+            } catch (IOException ioexception) {
+                logger.error((String) "Couldn\'t load trade info", (Throwable) ioexception);
+            } finally {
+                packetbuffer.release();
+            }
+        } else if ("MC|Brand".equals(packetIn.getChannelName())) {
+            this.gameController.thePlayer.setClientBrand(packetIn.getBufferData().readStringFromBuffer(32767));
+        } else if ("MC|BOpen".equals(packetIn.getChannelName())) {
+            ItemStack itemstack = this.gameController.thePlayer.getCurrentEquippedItem();
+
+            if (itemstack != null && itemstack.getItem() == Items.written_book) {
+                this.gameController.displayGuiScreen(new GuiScreenBook(this.gameController.thePlayer, itemstack, false));
+            }
+        }
+    }
+
+    @Shadow @Final private static Logger logger;
+
+    @Shadow public abstract void addToSendQueue(Packet p_147297_1_);
 
     /**
      * Allows detection of incoming chat packets from the server (includes actionbars)
