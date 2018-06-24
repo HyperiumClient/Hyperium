@@ -115,12 +115,9 @@ public class EasterEggs {
             */
 
             //KodingKing
-            //Commented due to lack of IGN
-            /*
-            if (player.getName().equalsIgnoreCase("")) {
+            if (player.getName().equalsIgnoreCase("KodingKing")) {
                 renderManager.renderEntitySimple(EasterEggKodingKing.renderEvent(player), event.getPartialTicks());
             }
-            */
 
             //Matt
             if (player.getName().equalsIgnoreCase("M0F")) {
