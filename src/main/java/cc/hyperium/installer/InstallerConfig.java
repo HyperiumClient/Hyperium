@@ -330,6 +330,9 @@ public class InstallerConfig extends JFrame {
                     i.addAndGet(1);
                 ver.setText(versionList.get(i.get()));
             });
+            if(Metadata.isDevelopment()) {
+                ver.setText("LOCAL");
+            }
 
         } catch (Exception e) {
             e.printStackTrace();

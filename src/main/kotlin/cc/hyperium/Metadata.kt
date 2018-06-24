@@ -30,7 +30,7 @@ val MODID
 
 val VERSION
     @JvmName("getVersion")
-    get() = "1.0 - Beta B14"
+    get() = "1.0 - Beta B15"
 
 val AUTHORS
     @JvmName("getAuthors")
@@ -45,7 +45,7 @@ val ICON_BASE64
  */
 val VERSION_ID
     @JvmName("getVersionID")
-    get() = 18
+    get() = 21
 
 /**
  *@since 15 (Hyperium Build 15)
