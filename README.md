@@ -31,7 +31,7 @@ We use [Google's Java Code style](https://google.github.io/styleguide/javaguide.
 ## FAQ ##
 Q: Please help, I can't build Hyperium!
 
-A: Wait for a new beta or release! 
+A: If you don't know how to build a project please wait for a new beta or release! 
 
 
 Q: Release, when?
@@ -59,51 +59,8 @@ Q: My game keeps crashing!
 A: If you have reported the issue using the automatic promopt, join the <a href="https://discord.gg/RNyRgtv">Discord</a> and ask a developer to review your issue. If there are none online, please be patient!
 
 ## Addons ##
-**Requirement:** Built Hyperium, JDK 8+, IDE
+Clone the <a href="https://github.com/HyperiumClient/Addon-Workspace">Addon Workspace</a> and get coding!
 
-**Dependency:**
-add Hyperium that you built as dependency for the project
-
-```java
-package com.example;
-
-import cc.hyperium.event.*;
-import cc.hyperium.internal.addons.IAddon;
-import net.minecraft.client.Minecraft;
-
-public class AddonExample implements IAddon {
-
-    @Override
-    public void onLoad() {
-        EventBus.INSTANCE.register(this);
-    }
-
-    @InvokeEvent
-    private void onChatMessage(ChatEvent event) {
-        if (event.getChat().getUnformattedText().contains("secret message!")) {
-            Minecraft.getMinecraft().toggleFullscreen();
-        }
-    }
-
-    @Override
-    public void onClose() {
-        System.out.println("Closing...");
-    }
-    
-    @Override
-    public void sendDebugInfo() {
-    }
-}
-```
-
-**addon.json**
-```json
-{
-  "name": "Addon Example",
-  "version": "1.0",
-  "mainClass": "com.example.AddonExample"
-}
-```
 **Examples [here](https://github.com/HyperiumClient/Addon-Workspace)**
 ## Developers ##
 [![](https://cdn.discordapp.com/avatars/376817315830038530/87dd80c68e0598ea39af4e0472b299b7.png)](https://github.com/Sk1er)
