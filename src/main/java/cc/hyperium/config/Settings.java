@@ -61,10 +61,6 @@ public class Settings {
     @ToggleSetting(name = "Hold Perspective Key")
     public static boolean PERSPECTIVE_HOLD = false;
 
-    @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;menuStyle")
-    @ToggleSetting(name = "Main Menu Style", category = IMPROVEMENTS)
-    public static String MENU_STYLE = GuiStyle.DEFAULT.toString();
-
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;windowedFullScreen")
     @ToggleSetting(name = "Windowed Fullscreen", category = IMPROVEMENTS)
     public static boolean WINDOWED_FULLSCREEN = false;
@@ -302,6 +298,15 @@ public class Settings {
     @ConfigOpt
     @ToggleSetting(name = "Show ChromaHUD", category = INTEGRATIONS)
     public static boolean SHOW_CHROMAHUD = true;
+
+    @ConfigOpt
+    @SelectorSetting(name = "Main Menu Style", items =
+        {
+            "HYPERIUM",
+            "DEFAULT"
+        }, category = MISC
+    )
+    public static String MENU_STYLE = GuiStyle.DEFAULT.toString();
 
     public static void register() {
         Hyperium.CONFIG.register(new Settings()); // values r static soo whatever
