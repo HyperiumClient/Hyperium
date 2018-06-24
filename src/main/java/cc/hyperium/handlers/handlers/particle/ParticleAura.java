@@ -29,8 +29,8 @@ public class ParticleAura {
     }
 
 
-    public List<Vec3> render(float partialTicks, EntityPlayer entityPlayer, double x, double y, double z) {
-        return animation.render(partialTicks, type, entityPlayer,x,y,z);
+    public List<Vec3> render( EntityPlayer entityPlayer, double x, double y, double z) {
+        return animation.render(type, entityPlayer,x,y,z);
 
     }
 }

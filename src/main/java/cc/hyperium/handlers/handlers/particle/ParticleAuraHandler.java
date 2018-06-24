@@ -2,14 +2,14 @@ package cc.hyperium.handlers.handlers.particle;
 
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.PurchaseLoadEvent;
-import cc.hyperium.event.RenderPlayerEvent;
+import cc.hyperium.event.TickEvent;
 import cc.hyperium.event.WorldChangeEvent;
 import cc.hyperium.handlers.handlers.particle.animations.DoubleHelixAnimation;
 import cc.hyperium.handlers.handlers.particle.animations.TripleHelixAnimation;
 import cc.hyperium.utils.JsonHolder;
 import cc.hyperium.utils.UUIDUtil;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.AbstractClientPlayer;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.Vec3;
 
@@ -56,22 +56,25 @@ public class ParticleAuraHandler {
     }
 
     @InvokeEvent
-    public void renderPlayer(RenderPlayerEvent event) {
-        AbstractClientPlayer entity = event.getEntity();
-        ParticleAura particleAura = auras.get(entity.getUniqueID());
-        if (entity.equals(Minecraft.getMinecraft().thePlayer)) {
-            particleAura = new ParticleAura(EnumParticleTypes.HEART, new TripleHelixAnimation());
-        }
-        if (particleAura != null) {
-            double x = interpolate(entity.posX, entity.prevPosX, event.getPartialTicks());
-            double y = interpolate(entity.posY, entity.prevPosY, event.getPartialTicks());
-            double z = interpolate(entity.posZ, entity.prevPosZ, event.getPartialTicks());
-            List<Vec3> render = particleAura.render(event.getPartialTicks(), event.getEntity(), x, y, z);
-            for (Vec3 vec3 : render) {
-                entity.getEntityWorld().spawnParticle(particleAura.getType(),
-                        vec3.xCoord,
-                        vec3.yCoord,
-                        vec3.zCoord, 0, 0, 0);
+    public void renderPlayer(TickEvent event) {
+        for (EntityPlayer entity : Minecraft.getMinecraft().theWorld.playerEntities) {
+
+
+            ParticleAura particleAura = auras.get(entity.getUniqueID());
+            if (entity.equals(Minecraft.getMinecraft().thePlayer)) {
+                particleAura = new ParticleAura(EnumParticleTypes.HEART, new TripleHelixAnimation());
+            }
+            if (particleAura != null) {
+                double x = entity.posX;
+                double y = entity.posY;
+                double z = entity.posZ;
+                List<Vec3> render = particleAura.render(entity, x, y, z);
+                for (Vec3 vec3 : render) {
+                    entity.getEntityWorld().spawnParticle(particleAura.getType(),
+                            vec3.xCoord,
+                            vec3.yCoord,
+                            vec3.zCoord, 0, 0, 0);
+                }
             }
         }
 

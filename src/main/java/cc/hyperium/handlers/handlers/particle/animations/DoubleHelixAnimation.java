@@ -16,7 +16,7 @@ public class DoubleHelixAnimation extends AbstractAnimation {
 
 
     @Override
-    public List<Vec3> render(float partialTicks, EnumParticleTypes type, EntityPlayer player, double x, double y, double z) {
+    public List<Vec3> render(EnumParticleTypes type, EntityPlayer player, double x, double y, double z) {
         double l = (System.currentTimeMillis() % 1000) / 1000D;
         l *= Math.PI;
 

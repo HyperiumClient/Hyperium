@@ -11,7 +11,7 @@ import java.util.List;
  */
 public abstract class AbstractAnimation {
 
-    public abstract List<Vec3> render(float partialTicks, EnumParticleTypes type, EntityPlayer player, double x, double y, double z);
+    public abstract List<Vec3> render(EnumParticleTypes type, EntityPlayer player, double x, double y, double z);
 
 
 }
