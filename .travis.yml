@@ -11,16 +11,13 @@ before_deploy:
   - git config --local user.name "HyperiumDeploy"
   - git config --local user.email "hyperiumclient@gmail.com"
   - git tag -a $TRAVIS_BUILD_NUMBER -m "Automated beta build"
-  - cd ..
-  - git clone https://$GIT_TOKEN@github.com/HyperiumClient/Hyperium-Repo.git
-  - git tag -a $TRAVIS_BUILD_NUMBER -m "Automated beta build"
-  - "git push https://$GIT_TOKEN@github.com/HyperiumClient/Hyperium-Repo.git HEAD:master --follow-tags"
-  - cd ../Hyperium
+  - "git push https://$GIT_TOKEN@github.com/HyperiumClient/Hyperium.git HEAD:master --follow-tags"
 deploy:
   provider: releases
   api_key: $GIT_TOKEN
+  skip_cleanup: true
   file_glob: true
   file: $TRAVIS_BUILD_DIR/build/libs/*
   on:
-    repo: HyperiumClient/Hyperium-Repo
-
+    repo: HyperiumClient/Hyperium
+    prerelease: true
