@@ -12,7 +12,7 @@ before_deploy:
   - git config --local user.email "hyperiumclient@gmail.com"
   - git config --local core.askPass $GIT_TOKEN
   - git tag -a $TRAVIS_BUILD_NUMBER -m "Automated beta build"
-  - git push --follow-tags
+  - "git push origin HEAD:master --follow-tags"
 deploy:
   provider: releases
   api_key: $GIT_TOKEN
