@@ -157,7 +157,7 @@ public class Settings {
 
     @ConfigOpt
     @ToggleSetting(name = "Optimized Font Renderer (BETA)", category = IMPROVEMENTS)
-    public static boolean OPTIMIZED_FONT_RENDERER = true;
+    public static boolean OPTIMIZED_FONT_RENDERER = false;
 
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.CosmeticSettings;fliptoggle")
@@ -293,7 +293,6 @@ public class Settings {
     @ConfigOpt
     @SliderSetting(name = "Wings Scale", min = 50, max = 200, category = WINGS)
     public static double WINGS_SCALE = 100D;
-
 
     @ConfigOpt
     @ToggleSetting(name = "Show ChromaHUD", category = INTEGRATIONS)
