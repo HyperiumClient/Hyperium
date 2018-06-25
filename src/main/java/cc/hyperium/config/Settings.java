@@ -78,8 +78,8 @@ public class Settings {
     @ToggleSetting(name = "Hold Perspective Key")
     public static boolean PERSPECTIVE_HOLD = false;
 
-    @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;menuStyle")
-    public static String MENU_STYLE = GuiStyle.DEFAULT.toString();
+
+
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;windowedFullScreen")
     @ToggleSetting(name = "Windowed Fullscreen", category = IMPROVEMENTS)
     public static boolean WINDOWED_FULLSCREEN = false;
