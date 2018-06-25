@@ -6,7 +6,7 @@ import cc.hyperium.event.RenderPlayerEvent;
 import cc.hyperium.event.WorldChangeEvent;
 import cc.hyperium.handlers.handlers.particle.animations.DoubleHelixAnimation;
 import cc.hyperium.handlers.handlers.particle.animations.ExplodeAnimation;
-import cc.hyperium.handlers.handlers.particle.animations.QuadHelixAnimation;
+import cc.hyperium.handlers.handlers.particle.animations.StaticTrailAnimation;
 import cc.hyperium.handlers.handlers.particle.animations.TripleHelixAnimation;
 import cc.hyperium.handlers.handlers.particle.particle.ChromaRedstoneParticle;
 import cc.hyperium.mixinsimp.renderer.IMixinEntityFx;
@@ -81,13 +81,13 @@ public class ParticleAuraHandler {
         AbstractClientPlayer entity = event.getEntity();
         ParticleAura particleAura = auras.get(entity.getUniqueID());
         if (entity.equals(Minecraft.getMinecraft().thePlayer)) {
-            particleAura = new ParticleAura(new ChromaRedstoneParticle(), new QuadHelixAnimation(), 5);
+            particleAura = new ParticleAura(new ChromaRedstoneParticle(), new StaticTrailAnimation(), 5);
         }
 
         if (particleAura != null) {
-            double x = entity.posX;
-            double y = entity.posY;
-            double z = entity.posZ;
+            double x = entity.prevPosX + (entity.posX - entity.prevPosX) * event.getPartialTicks();
+            double y = entity.posY + (entity.posY - entity.prevPosY) * event.getPartialTicks();
+            double z = entity.posZ + (entity.posZ - entity.prevPosZ) * event.getPartialTicks();
             List<Vec3> render = particleAura.render(entity, x, y, z);
             for (Vec3 vec3 : render) {
                 IParticle type = particleAura.getType();
