@@ -307,6 +307,14 @@ public class Settings {
     )
     public static String MENU_STYLE = GuiStyle.DEFAULT.toString();
 
+    @ConfigOpt
+    @ToggleSetting(name = "Motion Blur Enabled", category = MISC)
+    public static boolean MOTION_BLUR_ENABLED = false;
+
+    @ConfigOpt
+    @SliderSetting(name = "Motion Blur Amount", category = MISC, min = 1F, max = 7F)
+    public static double MOTION_BLUR_AMOUNT = 4.0F;
+
     public static void register() {
         Hyperium.CONFIG.register(new Settings()); // values r static soo whatever
     }
