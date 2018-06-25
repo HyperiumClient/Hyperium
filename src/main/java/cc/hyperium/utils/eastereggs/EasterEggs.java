@@ -87,12 +87,11 @@ public class EasterEggs {
             }
 
             //False
-            //Commented due to lack of IGN
-            /*
-            if (player.getName().equalsIgnoreCase("")) {
+
+            if (player.getName().equalsIgnoreCase("FalseHonesty")) {
                 renderManager.renderEntitySimple(EasterEggFalseHonesty.renderEvent(player), event.getPartialTicks());
             }
-            */
+
 
             //JJ
             //Commented due to lack of IGN
@@ -108,12 +107,10 @@ public class EasterEggs {
             }
 
             //Kevin
-            //Commented due to lack of IGN
-            /*
-            if (player.getName().equalsIgnoreCase("")) {
+
+            if (player.getName().equalsIgnoreCase("TheDestinyPig")) {
                 renderManager.renderEntitySimple(EasterEggKevin.renderEvent(player), event.getPartialTicks());
             }
-            */
 
             //KodingKing
             if (player.getName().equalsIgnoreCase("KodingKing")) {
