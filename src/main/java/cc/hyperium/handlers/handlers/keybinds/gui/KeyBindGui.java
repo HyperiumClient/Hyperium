@@ -201,6 +201,7 @@ public class KeyBindGui extends GuiScreen {
       }
     }
 
+    keyBindList.drawScreen(mouseX,mouseY,partialTicks);
     this.buttonReset.enabled = !flag;
     super.drawScreen(mouseX, mouseY, partialTicks);
   }

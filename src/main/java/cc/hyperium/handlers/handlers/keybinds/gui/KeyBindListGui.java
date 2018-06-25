@@ -299,6 +299,7 @@ public class KeyBindListGui extends GuiListExtended {
 
   @Override
   public void drawScreen(int mouseXIn, int mouseYIn, float p_148128_3_) {
+    super.drawScreen(mouseXIn,mouseYIn,p_148128_3_);
     // TODO: Make a better GUI.
   }
 }
