@@ -16,6 +16,8 @@ import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.client.particle.IParticleFactory;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.WorldRenderer;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
@@ -81,7 +83,7 @@ public class ParticleAuraHandler {
         AbstractClientPlayer entity = event.getEntity();
         ParticleAura particleAura = auras.get(entity.getUniqueID());
         if (entity.equals(Minecraft.getMinecraft().thePlayer)) {
-            particleAura = new ParticleAura(EnumParticleTypes.NOTE, new TripleHelixAnimation());
+            particleAura = new ParticleAura(EnumParticleTypes.CRIT, new ExplodeAnimation());
         }
         if (particleAura != null) {
             double x = entity.posX;
@@ -111,14 +113,17 @@ public class ParticleAuraHandler {
                     float f3 = -f2 * MathHelper.sin(entityIn.rotationPitch * 0.017453292F);
                     float f4 = f1 * MathHelper.sin(entityIn.rotationPitch * 0.017453292F);
                     float f5 = MathHelper.cos(entityIn.rotationPitch * 0.017453292F);
-                    entityFX.renderParticle(Tessellator.getInstance().getWorldRenderer(), entityIn
+                    WorldRenderer worldRenderer = Tessellator.getInstance().getWorldRenderer();
+                    worldRenderer.begin(7, DefaultVertexFormats.PARTICLE_POSITION_TEX_COLOR_LMAP);
+                    entityFX.renderParticle(worldRenderer, entityIn
                             ,event.getPartialTicks(),f1,f5,f2,f3,f4);
+                    Tessellator.getInstance().draw();
 
                 }
-                entity.getEntityWorld().spawnParticle(particleAura.getType(),
-                        vec3.xCoord,
-                        vec3.yCoord,
-                        vec3.zCoord, 0, 0, 0);
+//                entity.getEntityWorld().spawnParticle(particleAura.getType(),
+//                        vec3.xCoord,
+//                        vec3.yCoord,
+//                        vec3.zCoord, 0, 0, 0);
             }
         }
     }
