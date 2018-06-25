@@ -166,214 +166,71 @@
  * Library.
  */
 
-package cc.hyperium.gui;
+package cc.hyperium.mixins.renderer;
 
-import cc.hyperium.config.Settings;
-import cc.hyperium.event.EventBus;
-import cc.hyperium.event.InvokeEvent;
-import cc.hyperium.event.TickEvent;
-import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
-import cc.hyperium.purchases.EnumPurchaseType;
-import cc.hyperium.purchases.HyperiumPurchase;
-import cc.hyperium.purchases.PurchaseApi;
-import cc.hyperium.utils.RenderUtils;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.GuiMainMenu;
-import net.minecraft.client.gui.inventory.GuiInventory;
+import net.minecraft.client.entity.AbstractClientPlayer;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.entity.RenderPlayer;
+import net.minecraft.client.renderer.entity.layers.LayerCape;
+import net.minecraft.entity.player.EnumPlayerModelParts;
+import net.minecraft.util.MathHelper;
+import net.minecraft.util.ResourceLocation;
+import org.spongepowered.asm.mixin.Final;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Overwrite;
+import org.spongepowered.asm.mixin.Shadow;
 
-import java.awt.Color;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
+@Mixin(LayerCape.class)
+public class MixinLayerCape {
 
-public class ParticleOverlay {
-    private static ParticleOverlay overlay;
-    private final List<Particle> particles = new ArrayList<>();
-    private float h = 0.1F;
-    private long last;
+  @Shadow @Final private RenderPlayer playerRenderer;
 
-    public ParticleOverlay() {
-        int max = Settings.MAX_PARTICLES;
-        for (int i = 0; i < max; i++) {
-            particles.add(new Particle());
-        }
+  /**
+   * @author CoalOres
+   *
+   * More efficient as it only makes one call to the getLocationCape method every time.
+   */
+  @Overwrite
+  public void doRenderLayer(AbstractClientPlayer entitylivingbaseIn, float p_177141_2_, float p_177141_3_, float partialTicks, float p_177141_5_, float p_177141_6_, float p_177141_7_, float scale)
+  {
+    ResourceLocation locationCape = entitylivingbaseIn.getLocationCape();
+    if (entitylivingbaseIn.hasPlayerInfo() && !entitylivingbaseIn.isInvisible() && entitylivingbaseIn.isWearing(EnumPlayerModelParts.CAPE) && locationCape != null)
+    {
+      GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+      this.playerRenderer.bindTexture(locationCape);
+      GlStateManager.pushMatrix();
+      GlStateManager.translate(0.0F, 0.0F, 0.125F);
+      double d0 = entitylivingbaseIn.prevChasingPosX + (entitylivingbaseIn.chasingPosX - entitylivingbaseIn.prevChasingPosX) * (double)partialTicks - (entitylivingbaseIn.prevPosX + (entitylivingbaseIn.posX - entitylivingbaseIn.prevPosX) * (double)partialTicks);
+      double d1 = entitylivingbaseIn.prevChasingPosY + (entitylivingbaseIn.chasingPosY - entitylivingbaseIn.prevChasingPosY) * (double)partialTicks - (entitylivingbaseIn.prevPosY + (entitylivingbaseIn.posY - entitylivingbaseIn.prevPosY) * (double)partialTicks);
+      double d2 = entitylivingbaseIn.prevChasingPosZ + (entitylivingbaseIn.chasingPosZ - entitylivingbaseIn.prevChasingPosZ) * (double)partialTicks - (entitylivingbaseIn.prevPosZ + (entitylivingbaseIn.posZ - entitylivingbaseIn.prevPosZ) * (double)partialTicks);
+      float f = entitylivingbaseIn.prevRenderYawOffset + (entitylivingbaseIn.renderYawOffset - entitylivingbaseIn.prevRenderYawOffset) * partialTicks;
+      double d3 = (double)MathHelper.sin(f * (float)Math.PI / 180.0F);
+      double d4 = (double)(-MathHelper.cos(f * (float)Math.PI / 180.0F));
+      float f1 = (float)d1 * 10.0F;
+      f1 = MathHelper.clamp_float(f1, -6.0F, 32.0F);
+      float f2 = (float)(d0 * d3 + d2 * d4) * 100.0F;
+      float f3 = (float)(d0 * d4 - d2 * d3) * 100.0F;
+
+      if (f2 < 0.0F)
+      {
+        f2 = 0.0F;
+      }
+
+      float f4 = entitylivingbaseIn.prevCameraYaw + (entitylivingbaseIn.cameraYaw - entitylivingbaseIn.prevCameraYaw) * partialTicks;
+      f1 = f1 + MathHelper.sin((entitylivingbaseIn.prevDistanceWalkedModified + (entitylivingbaseIn.distanceWalkedModified - entitylivingbaseIn.prevDistanceWalkedModified) * partialTicks) * 6.0F) * 32.0F * f4;
+
+      if (entitylivingbaseIn.isSneaking())
+      {
+        f1 += 25.0F;
+      }
+
+      GlStateManager.rotate(6.0F + f2 / 2.0F + f1, 1.0F, 0.0F, 0.0F);
+      GlStateManager.rotate(f3 / 2.0F, 0.0F, 0.0F, 1.0F);
+      GlStateManager.rotate(-f3 / 2.0F, 0.0F, 1.0F, 0.0F);
+      GlStateManager.rotate(180.0F, 0.0F, 1.0F, 0.0F);
+      this.playerRenderer.getMainModel().renderCape(0.0625F);
+      GlStateManager.popMatrix();
     }
+  }
 
-    public static void reload() {
-        overlay = null;
-        System.gc();
-        getOverlay();
-    }
-
-    public static ParticleOverlay getOverlay() {
-        if (overlay == null) {
-            overlay = new ParticleOverlay();
-            EventBus.INSTANCE.register(overlay);
-        }
-        return overlay;
-    }
-
-    public boolean purchased() {
-        HyperiumPurchase self = PurchaseApi.getInstance().getSelf();
-        return self != null && self.hasPurchased(EnumPurchaseType.PARTICLE_BACKGROUND);
-    }
-
-    public void render(int mouseX, int mouseY, int guiLeft, int guiTop, int guiRight, int guiBottom) {
-        if (!purchased())
-            return;
-        try {
-            long lines = 0L;
-            float step = (float) (0.01 * (Settings.MAX_PARTICLES / 100));
-            Mode m = getMode();
-            if (m == Mode.OFF) return;
-             if(!Settings.PARTICLES_INV && Minecraft.getMinecraft().currentScreen instanceof GuiInventory)
-                 return;
-
-            last = System.currentTimeMillis();
-            for (Particle particle : particles) {
-                double w = 1;
-
-                float v1 = ((float) ResolutionUtil.current().getScaledWidth_double()) * particle.x;
-                float v2 = ((float) ResolutionUtil.current().getScaledHeight_double()) * particle.y;
-                double mouseDis = Math.pow(v1 - mouseX, 2) + Math.pow(v2 - mouseY, 2);
-                int i = ResolutionUtil.current().getScaledWidth() / 12;
-                if (mouseDis < Math.pow(i, 2)) {
-                    float xVec = Math.min(500F, (float) i / (mouseX - v1));
-                    float yVec = Math.min(500F, (float) i / (mouseY - v2));
-                    v1 -= xVec;
-                    v2 -= yVec;
-                    particle.regenerateVector();
-                }
-
-                particle.x = v1 / (float) ResolutionUtil.current().getScaledWidth_double();
-                particle.y = v2 / (float) ResolutionUtil.current().getScaledHeight_double();
-                int potentialMax = Minecraft.getMinecraft().currentScreen instanceof GuiMainMenu ? 255 : 150;
-                for (Particle particle1 : particles) {
-                    double v = particle.distSqTo(particle1);
-                    //Threshold for line
-                    if (v < 0.02) {
-                        double lineStrength = Math.min(10000.0D, 1.0D / v) / 100D;
-                        float x2 = ((float) ResolutionUtil.current().getScaledWidth_double()) * particle1.x;
-                        float y2 = ((float) ResolutionUtil.current().getScaledHeight_double()) * particle1.y;
-                        double alpha = 100 + ((0.02 / 155) * v);
-//
-                        boolean flag = false;
-                        if (((v1 >= guiLeft && v1 <= guiRight) || (x2 >= guiLeft && x2 <= guiRight))
-                                && ((v2 >= guiTop && v2 <= guiBottom) || (y2 >= guiTop && y2 <= guiBottom))) {
-                            if (!Settings.PARTICLES_INV)
-                                continue;
-                            alpha /= 4;
-                            flag = true;
-                        }
-
-
-                        int color = Color.HSBtoRGB(h, 0.8F, 0.8F);
-                        Color eee = new Color(color);
-                        eee = new Color(eee.getRed(), eee.getBlue(), eee.getGreen(), flag ? 255 / 4 : 255);
-                        switch (m) {
-                            case PLAIN_1:
-                                RenderUtils.drawLine(v1, v2, x2, y2, (float) lineStrength, new Color(255, 255, 255, (int) alpha).getRGB());
-                                break;
-                            case PLAIN_2:
-                                RenderUtils.drawLine(v1, v2, x2, y2, 1F, new Color(255, 255, 255, (int) alpha).getRGB());
-                                break;
-                            case CHROMA_1:
-                                RenderUtils.drawLine(v1, v2, x2, y2, (float) lineStrength, eee.getRGB());
-                                break;
-                            case CHROMA_2:
-                                RenderUtils.drawLine(v1, v2, x2, y2, 1F, eee.getRGB());
-                                break;
-                        }
-                        lines++;
-                        w += lineStrength;
-                    }
-                }
-
-
-                if (h >= 1.0F)
-                    h = 0.0F;
-                h += step;
-                if (!Settings.PARTICLES_INV)
-                    continue;
-                w = Math.sqrt(w) / 10D;
-                Gui.drawRect((int) v1, (int) v2, (int) (v1 + w), (int) (v2 + w), Color.WHITE.getRGB());
-
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    @InvokeEvent
-    public void tick(TickEvent event) {
-        if (!purchased())
-            return;
-        if (System.currentTimeMillis() - last < 1000)
-            for (Particle particle : particles) {
-                particle.update();
-            }
-
-    }
-
-    public Mode getMode() {
-        try {
-            return Mode.valueOf(Settings.PARTICLE_MODE.replace(" ", "_"));
-        } catch (Exception e) {
-            return Mode.OFF;
-        }
-    }
-
-    public enum Mode {
-        OFF,
-        PLAIN_1,
-        PLAIN_2,
-        CHROMA_1,
-        CHROMA_2
-    }
-
-    class Particle {
-        float x;
-        float y;
-        float xVec;
-        float yVec;
-
-        public Particle() {
-            x = (float) ThreadLocalRandom.current().nextDouble(0, 1);
-            y = (float) ThreadLocalRandom.current().nextDouble(0, 1);
-            regenerateVector();
-        }
-
-        public void regenerateVector() {
-            xVec = (float) ThreadLocalRandom.current().nextDouble(-.003, .003);
-            yVec = (float) ThreadLocalRandom.current().nextDouble(-.003, .003);
-
-        }
-
-        public void update() {
-            x += xVec;
-            if (x > 1.0)
-                x = x - 1.0F;
-            if (x < 0)
-                x = 1.0F - x;
-            y += yVec;
-            if (y > 1.0)
-                y = y - 1.0F;
-            if (y < 0)
-                y = 1.0F - y;
-
-        }
-
-        public double distSqTo(Particle other) {
-            return Math.pow(other.x - this.x, 2) + Math.pow(other.y - this.y, 2);
-        }
-
-        public float getX() {
-            return x;
-        }
-
-        public float getY() {
-            return y;
-        }
-    }
 }
