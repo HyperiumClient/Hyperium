@@ -15,6 +15,7 @@ import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.client.particle.IParticleFactory;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
@@ -85,7 +86,11 @@ public class ParticleAuraHandler {
         if (entity.equals(Minecraft.getMinecraft().thePlayer)) {
             particleAura = new ParticleAura(EnumParticleTypes.CRIT, new ExplodeAnimation());
         }
+
         if (particleAura != null) {
+            GlStateManager.enableBlend();
+            GlStateManager.blendFunc(770, 771);
+            GlStateManager.alphaFunc(516, 0.003921569F);
             double x = entity.posX;
             double y = entity.posY;
             double z = entity.posZ;
@@ -113,6 +118,7 @@ public class ParticleAuraHandler {
                     float f3 = -f2 * MathHelper.sin(entityIn.rotationPitch * 0.017453292F);
                     float f4 = f1 * MathHelper.sin(entityIn.rotationPitch * 0.017453292F);
                     float f5 = MathHelper.cos(entityIn.rotationPitch * 0.017453292F);
+                    GlStateManager.color(1.0F,1.0F,1.0F,1.0F);
                     WorldRenderer worldRenderer = Tessellator.getInstance().getWorldRenderer();
                     worldRenderer.begin(7, DefaultVertexFormats.PARTICLE_POSITION_TEX_COLOR_LMAP);
                     entityFX.renderParticle(worldRenderer, entityIn
@@ -125,6 +131,9 @@ public class ParticleAuraHandler {
 //                        vec3.yCoord,
 //                        vec3.zCoord, 0, 0, 0);
             }
+            GlStateManager.depthMask(true);
+            GlStateManager.disableBlend();
+            GlStateManager.alphaFunc(516, 0.1F);
         }
     }
 
