@@ -26,5 +26,4 @@ public interface MixinKeyBinding {
 
     @Accessor
     void setPressed(boolean pressed);
-
 }
