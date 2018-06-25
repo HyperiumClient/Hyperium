@@ -8,14 +8,13 @@ import cc.hyperium.handlers.handlers.particle.animations.DoubleHelixAnimation;
 import cc.hyperium.handlers.handlers.particle.animations.ExplodeAnimation;
 import cc.hyperium.handlers.handlers.particle.animations.QuadHelixAnimation;
 import cc.hyperium.handlers.handlers.particle.animations.TripleHelixAnimation;
+import cc.hyperium.handlers.handlers.particle.particle.ChromaRedstoneParticle;
 import cc.hyperium.mixinsimp.renderer.IMixinEntityFx;
-import cc.hyperium.mixinsimp.renderer.client.particle.IMixinEffectRenderer;
 import cc.hyperium.utils.JsonHolder;
 import cc.hyperium.utils.UUIDUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.particle.EntityFX;
-import net.minecraft.client.particle.IParticleFactory;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.Vec3;
 
@@ -29,8 +28,10 @@ public class ParticleAuraHandler {
     private final ArrayList<EnumParticleTypes> particleTypes = new ArrayList<>();
     private HashMap<UUID, ParticleAura> auras = new HashMap<>();
     private HashMap<String, AbstractAnimation> animations = new HashMap<>();
+    private EnumMap<EnumParticleType, IParticle> renderEngines = new EnumMap<>(EnumParticleType.class);
 
     public ParticleAuraHandler() {
+        renderEngines.put(EnumParticleType.CHROMA_DUST, new ChromaRedstoneParticle());
         particleTypes.addAll(Arrays.asList(EnumParticleTypes.values()));
         particleTypes.remove(EnumParticleTypes.BARRIER);
         animations.put("triple_helix", new TripleHelixAnimation());
@@ -57,12 +58,12 @@ public class ParticleAuraHandler {
         if (!purchaseSettings.has("particle"))
             return;
         JsonHolder data = purchaseSettings.optJSONObject("particle");
-        EnumParticleTypes id = EnumParticleTypes.getParticleFromId(data.optInt("particle_type"));
         AbstractAnimation particle_animation = animations.get(data.optString("particle_animation"));
+        EnumParticleType type = EnumParticleType.valueOf(data.optString("type"));
         if (particle_animation == null)
             return;
 
-        auras.put(purchaseLoadEvent.getUuid(), new ParticleAura(id, particle_animation, data.optInt("max_age", 2)));
+        auras.put(purchaseLoadEvent.getUuid(), new ParticleAura(renderEngines.get(type), particle_animation, data.optInt("max_age", 2)));
 
     }
 
@@ -80,7 +81,7 @@ public class ParticleAuraHandler {
         AbstractClientPlayer entity = event.getEntity();
         ParticleAura particleAura = auras.get(entity.getUniqueID());
         if (entity.equals(Minecraft.getMinecraft().thePlayer)) {
-            particleAura = new ParticleAura(EnumParticleTypes.CRIT, new QuadHelixAnimation(), 200);
+            particleAura = new ParticleAura(new ChromaRedstoneParticle(), new QuadHelixAnimation(), 200);
         }
 
         if (particleAura != null) {
@@ -89,11 +90,9 @@ public class ParticleAuraHandler {
             double z = entity.posZ;
             List<Vec3> render = particleAura.render(entity, x, y, z);
             for (Vec3 vec3 : render) {
-                Map<Integer, IParticleFactory> particleMap = ((IMixinEffectRenderer) Minecraft.getMinecraft().effectRenderer).getParticleMap();
-                int particleID = particleAura.getType().getParticleID();
-                IParticleFactory iParticleFactory = particleMap.get(particleID);
-                if (iParticleFactory != null) {
-                    EntityFX entityFX = iParticleFactory.getEntityFX(particleID, entity.getEntityWorld(), vec3.xCoord, vec3.yCoord, vec3.zCoord, 1.0D, 1.0D, 1.0D);
+                IParticle type = particleAura.getType();
+                if (type != null) {
+                    EntityFX entityFX = type.spawn(entity.worldObj, vec3.xCoord, vec3.yCoord, vec3.zCoord);
                     entityFX.onUpdate();
                     int particleMaxAge = particleAura.getParticleMaxAge();
                     ((IMixinEntityFx) entityFX).setMaxAge(particleMaxAge);

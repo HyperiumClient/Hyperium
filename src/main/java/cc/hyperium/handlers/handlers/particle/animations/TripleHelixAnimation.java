@@ -2,7 +2,6 @@ package cc.hyperium.handlers.handlers.particle.animations;
 
 import cc.hyperium.handlers.handlers.particle.AbstractAnimation;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 
@@ -16,7 +15,7 @@ public class TripleHelixAnimation extends AbstractAnimation {
 
 
     @Override
-    public List<Vec3> render(EnumParticleTypes type, EntityPlayer player, double x, double y, double z) {
+    public List<Vec3> render(EntityPlayer player, double x, double y, double z) {
         double l = (System.currentTimeMillis() % 1000) / 1000D;
         l *= Math.PI * 2 / 3;
 

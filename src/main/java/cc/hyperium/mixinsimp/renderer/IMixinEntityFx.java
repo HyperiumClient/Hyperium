@@ -8,4 +8,10 @@ public interface IMixinEntityFx {
 
     void setMaxAge(int age);
 
+    void setParticleRed(float red);
+
+    void setParticleGreen(float green);
+
+    void setParticleBlue(float blue);
 }
+

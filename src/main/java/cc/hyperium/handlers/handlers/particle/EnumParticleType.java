@@ -5,5 +5,5 @@ package cc.hyperium.handlers.handlers.particle;
  */
 public enum EnumParticleType {
 
-
+    CHROMA_DUST
 }
