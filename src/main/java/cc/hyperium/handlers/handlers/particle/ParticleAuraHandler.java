@@ -81,7 +81,7 @@ public class ParticleAuraHandler {
         AbstractClientPlayer entity = event.getEntity();
         ParticleAura particleAura = auras.get(entity.getUniqueID());
         if (entity.equals(Minecraft.getMinecraft().thePlayer)) {
-            particleAura = new ParticleAura(new ChromaRedstoneParticle(), new QuadHelixAnimation(), 200);
+            particleAura = new ParticleAura(new ChromaRedstoneParticle(), new QuadHelixAnimation(), 5);
         }
 
         if (particleAura != null) {

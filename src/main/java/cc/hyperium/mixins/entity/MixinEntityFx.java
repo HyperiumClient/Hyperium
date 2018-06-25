@@ -10,6 +10,10 @@ import org.spongepowered.asm.mixin.Shadow;
  */
 @Mixin(EntityFX.class)
 public class MixinEntityFx implements IMixinEntityFx {
+
+
+    @Shadow
+    protected float particleGravity;
     @Shadow
     protected int particleMaxAge;
     @Shadow
@@ -18,6 +22,10 @@ public class MixinEntityFx implements IMixinEntityFx {
     protected float particleGreen;
     @Shadow
     protected float particleBlue;
+
+    public void setParticleGravity(float particleGravity) {
+        this.particleGravity = particleGravity;
+    }
 
     @Override
     public void setMaxAge(int age) {

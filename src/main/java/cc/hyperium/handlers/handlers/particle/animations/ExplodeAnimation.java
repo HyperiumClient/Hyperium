@@ -14,8 +14,8 @@ public class ExplodeAnimation extends AbstractAnimation {
     @Override
     public List<Vec3> render(EntityPlayer player, double x, double y, double z) {
         ArrayList<Vec3> vec3s = new ArrayList<>();
-        Vec3 base = new Vec3(x, y + player.getEyeHeight(), z);
-        double l = 1.0 - System.currentTimeMillis() % 2000 / 1000D;
+        Vec3 base = new Vec3(x, y + 1.8F, z);
+        double l = 1.0 - System.currentTimeMillis() % 1000 / 500D;
 
         double magnitude = Math.pow(l, 2);
         float baseAngle = player.getRotationYawHead();

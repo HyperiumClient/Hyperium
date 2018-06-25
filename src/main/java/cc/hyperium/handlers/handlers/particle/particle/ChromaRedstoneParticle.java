@@ -19,14 +19,15 @@ public class ChromaRedstoneParticle implements IParticle {
     @Override
     public EntityFX spawn(World world, double x, double y, double z) {
         Map<Integer, IParticleFactory> particleMap = ((IMixinEffectRenderer) Minecraft.getMinecraft().effectRenderer).getParticleMap();
-        IParticleFactory iParticleFactory = particleMap.get(EnumParticleTypes.CLOUD.getParticleID());
-        EntityFX entityFX = iParticleFactory.getEntityFX(EnumParticleTypes.HEART.getParticleID(), world, x, y, z, 0.0F,-0.01F,0.0F, 0);
+        IParticleFactory iParticleFactory = particleMap.get(EnumParticleTypes.REDSTONE.getParticleID());
+        EntityFX entityFX = iParticleFactory.getEntityFX(EnumParticleTypes.HEART.getParticleID(), world, x, y, z, 0.0F,-0.1F,0.0F, 0);
         int i = Color.HSBtoRGB(System.currentTimeMillis() % 1000L / 1000.0f, 0.8f, 0.8f);
         Color color = new Color(i);
         IMixinEntityFx e = (IMixinEntityFx) entityFX;
         e.setParticleRed(color.getRed());
         e.setParticleGreen(color.getGreen());
         e.setParticleBlue(color.getBlue());
+        e.setParticleGravity(10);
         return entityFX;
     }
 }

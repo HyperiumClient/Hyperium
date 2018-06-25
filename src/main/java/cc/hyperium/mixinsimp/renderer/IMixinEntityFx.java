@@ -13,5 +13,7 @@ public interface IMixinEntityFx {
     void setParticleGreen(float green);
 
     void setParticleBlue(float blue);
+
+    void setParticleGravity(float gravity);
 }
 
