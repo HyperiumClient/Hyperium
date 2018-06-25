@@ -4,10 +4,7 @@ import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.PurchaseLoadEvent;
 import cc.hyperium.event.RenderPlayerEvent;
 import cc.hyperium.event.WorldChangeEvent;
-import cc.hyperium.handlers.handlers.particle.animations.DoubleHelixAnimation;
-import cc.hyperium.handlers.handlers.particle.animations.ExplodeAnimation;
-import cc.hyperium.handlers.handlers.particle.animations.StaticTrailAnimation;
-import cc.hyperium.handlers.handlers.particle.animations.TripleHelixAnimation;
+import cc.hyperium.handlers.handlers.particle.animations.*;
 import cc.hyperium.handlers.handlers.particle.particle.ChromaRedstoneParticle;
 import cc.hyperium.mixinsimp.renderer.IMixinEntityFx;
 import cc.hyperium.utils.JsonHolder;
@@ -34,9 +31,10 @@ public class ParticleAuraHandler {
         renderEngines.put(EnumParticleType.CHROMA_DUST, new ChromaRedstoneParticle());
         particleTypes.addAll(Arrays.asList(EnumParticleTypes.values()));
         particleTypes.remove(EnumParticleTypes.BARRIER);
-        animations.put("triple_helix", new TripleHelixAnimation());
-        animations.put("double_helix", new DoubleHelixAnimation());
-        animations.put("quad_helix", new DoubleHelixAnimation());
+        animations.put("triple_helix", new TripleTwirlAnimation());
+        animations.put("double_helix", new DoubleTwirlAnimation());
+        animations.put("quad_helix", new DoubleTwirlAnimation());
+        animations.put("static_tail", new StaticTrailAnimation());
         animations.put("explode", new ExplodeAnimation());
     }
 
@@ -81,7 +79,7 @@ public class ParticleAuraHandler {
         AbstractClientPlayer entity = event.getEntity();
         ParticleAura particleAura = auras.get(entity.getUniqueID());
         if (entity.equals(Minecraft.getMinecraft().thePlayer)) {
-            particleAura = new ParticleAura(new ChromaRedstoneParticle(), new StaticTrailAnimation(), 5);
+            particleAura = new ParticleAura(new ChromaRedstoneParticle(), new DoubleHelix(), 5);
         }
 
         if (particleAura != null) {
@@ -93,7 +91,6 @@ public class ParticleAuraHandler {
                 IParticle type = particleAura.getType();
                 if (type != null) {
                     EntityFX entityFX = type.spawn(entity.worldObj, vec3.xCoord, vec3.yCoord, vec3.zCoord);
-                    entityFX.onUpdate();
                     int particleMaxAge = particleAura.getParticleMaxAge();
                     ((IMixinEntityFx) entityFX).setMaxAge(particleMaxAge);
                     Minecraft.getMinecraft().effectRenderer.addEffect(entityFX);

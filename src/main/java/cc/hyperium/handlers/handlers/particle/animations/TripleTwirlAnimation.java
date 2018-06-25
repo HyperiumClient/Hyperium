@@ -11,19 +11,21 @@ import java.util.List;
 /**
  * Created by mitchellkatz on 6/23/18. Designed for production use on Sk1er.club
  */
-public class DoubleHelixAnimation extends AbstractAnimation {
+public class TripleTwirlAnimation extends AbstractAnimation {
 
 
     @Override
     public List<Vec3> render(EntityPlayer player, double x, double y, double z) {
         double l = (System.currentTimeMillis() % 1000) / 1000D;
-        l *= Math.PI;
+        l *= Math.PI * 2 / 3;
 
         List<Vec3> list = new ArrayList<>();
-        y += 1.5;
+        y += 1.8;
         Vec3 vec3 = new Vec3(x, y, z);
         list.add(vec3.addVector(MathHelper.cos((float) l), 0, MathHelper.sin(((float) l))));
-        l += Math.PI;
+        l += Math.PI * 2 / 3;
+        list.add(vec3.addVector(MathHelper.cos((float) l), 0, MathHelper.sin(((float) l))));
+        l += Math.PI * 2 / 3;
         list.add(vec3.addVector(MathHelper.cos((float) l), 0, MathHelper.sin(((float) l))));
 
         return list;
