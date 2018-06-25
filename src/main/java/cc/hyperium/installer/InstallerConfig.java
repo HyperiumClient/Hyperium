@@ -15,6 +15,8 @@ import javax.swing.plaf.basic.BasicButtonUI;
 import javax.swing.plaf.basic.BasicSliderUI;
 import javax.swing.plaf.metal.MetalScrollBarUI;
 import java.awt.*;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Ellipse2D;
@@ -113,6 +115,21 @@ public class InstallerConfig extends JFrame {
         dir.setBorder(BorderFactory.createEmptyBorder());
         dir.setBackground(new Color(25, 25, 25));
         dir.setForeground(Color.WHITE);
+        dir.addFocusListener(new FocusListener() {
+
+            @Override
+            public void focusGained(FocusEvent e) {
+
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                if (!new File(dir.getText()).exists()) {
+                    JOptionPane.showMessageDialog(null,
+                            "Minecraft Dir Does Not Exist", "Hyperium Installer", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
 
         JLabel wamTxt = new JLabel("Ram to allocate (1GB)");
         wamTxt.setLocation(5, 44);
@@ -277,8 +294,8 @@ public class InstallerConfig extends JFrame {
             public void mouseEntered(MouseEvent e) {
                 cLabel.setText("Optifine");
                 cDesc.setText("Optifine is a Minecraft optimization mod.\n" +
-                    "It allows Minecraft to run faster and look better with full support for HD textures and many configuration options.\n\n" +
-                    "Read more about Optifine: http://www.minecraftforum.net/topic/249637-");
+                        "It allows Minecraft to run faster and look better with full support for HD textures and many configuration options.\n\n" +
+                        "Read more about Optifine: http://www.minecraftforum.net/topic/249637-");
             }
         });
         optifine.setVerticalAlignment(SwingConstants.TOP);
@@ -330,7 +347,7 @@ public class InstallerConfig extends JFrame {
                     i.addAndGet(1);
                 ver.setText(versionList.get(i.get()));
             });
-            if(Metadata.isDevelopment()) {
+            if (Metadata.isDevelopment()) {
                 ver.setText("LOCAL");
             }
 
