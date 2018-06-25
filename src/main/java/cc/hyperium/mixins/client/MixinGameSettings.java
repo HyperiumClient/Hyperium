@@ -15,7 +15,7 @@ public abstract class MixinGameSettings {
      * @author boomboompower
      * @reason Hyperium keybinds
      */
-    @Overwrite
+    /*@Overwrite
     public void setOptionKeyBinding(KeyBinding binding, int value) {
         binding.setKeyCode(value);
 
@@ -24,7 +24,7 @@ public abstract class MixinGameSettings {
         } else {
             this.saveOptions();
         }
-    }
+    }*/
 
     @Shadow
     public abstract void saveOptions();

@@ -13,7 +13,7 @@
     "MixinSoundManager",
     "MixinTextureManager",
     "client.MixinClientBrand",
-    "client.MixinGameSettings",
+    //"client.MixinGameSettings",
     "client.multiplayer.MixinServerList",
     "client.resources.MixinAbstractResourcePack",
     "entity.MixinAbstractClientPlayer",

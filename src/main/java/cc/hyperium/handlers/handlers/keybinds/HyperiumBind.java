@@ -27,7 +27,7 @@ import org.apache.commons.text.WordUtils;
  * @author CoalOres
  * @author boomboompower
  */
-public class HyperiumBind extends KeyBinding {
+public class HyperiumBind {
 
     /**
      * The default key code
@@ -44,10 +44,7 @@ public class HyperiumBind extends KeyBinding {
     }
 
     public HyperiumBind(String description, int key, String category) {
-        super(description, key, category);
-
         this.defaultKeyCode = key;
-
         this.description = description;
         this.key = key;
     }
@@ -57,7 +54,6 @@ public class HyperiumBind extends KeyBinding {
      *
      * @return the key code
      */
-    @Override
     public int getKeyCode() {
         return this.key;
     }
@@ -68,11 +64,8 @@ public class HyperiumBind extends KeyBinding {
      *
      * @param key the key
      */
-    @Override
     public void setKeyCode(int key) {
         this.key = key;
-
-        super.setKeyCode(key);
     }
 
     /**
@@ -90,7 +83,6 @@ public class HyperiumBind extends KeyBinding {
      *
      * @return the keys description
      */
-    @Override
     public String getKeyDescription() {
         String message = this.description;
 
@@ -148,5 +140,9 @@ public class HyperiumBind extends KeyBinding {
 
     public void onRelease() {
         // We want these to be changed
+    }
+
+    public void resetBind(){
+        this.key = this.defaultKeyCode;
     }
 }

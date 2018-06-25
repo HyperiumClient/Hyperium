@@ -34,6 +34,7 @@ import cc.hyperium.handlers.handlers.keybinds.keybinds.QueueKeybind;
 import cc.hyperium.handlers.handlers.keybinds.keybinds.TogglePerspectiveKeybind;
 import cc.hyperium.handlers.handlers.keybinds.keybinds.ToggleSpotifyKeybind;
 import cc.hyperium.handlers.handlers.keybinds.keybinds.ToggleSprintKeybind;
+import java.util.Collection;
 import net.minecraft.client.Minecraft;
 import org.apache.commons.lang3.ArrayUtils;
 import org.lwjgl.input.Keyboard;
@@ -159,9 +160,6 @@ public class KeyBindHandler {
         this.keybinds.put(bind.getRealDescription(), bind);
 
         this.keyBindConfig.attemptKeyBindLoad(bind);
-
-        Minecraft.getMinecraft().gameSettings.keyBindings = ArrayUtils
-                .add(Minecraft.getMinecraft().gameSettings.keyBindings, bind);
     }
 
     /**
@@ -182,4 +180,6 @@ public class KeyBindHandler {
     protected TreeMap<String, HyperiumBind> getKeybinds() {
         return this.keybinds;
     }
+
+    public Collection<HyperiumBind> getHyperiumBinds(){return this.keybinds.values();}
 }
