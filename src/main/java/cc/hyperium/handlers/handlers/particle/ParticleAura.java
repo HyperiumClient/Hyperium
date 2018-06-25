@@ -13,11 +13,18 @@ public class ParticleAura {
 
     private EnumParticleTypes type;
     private AbstractAnimation animation;
+    private int particleMaxAge;
 
-    public ParticleAura(EnumParticleTypes type, AbstractAnimation animation) {
+    public ParticleAura(EnumParticleTypes type, AbstractAnimation animation, int particleMaxAge) {
 
         this.type = type;
         this.animation = animation;
+        this.particleMaxAge = particleMaxAge;
+
+    }
+
+    public int getParticleMaxAge() {
+        return particleMaxAge;
     }
 
     public EnumParticleTypes getType() {
@@ -29,8 +36,8 @@ public class ParticleAura {
     }
 
 
-    public List<Vec3> render( EntityPlayer entityPlayer, double x, double y, double z) {
-        return animation.render(type, entityPlayer,x,y,z);
+    public List<Vec3> render(EntityPlayer entityPlayer, double x, double y, double z) {
+        return animation.render(type, entityPlayer, x, y, z);
 
     }
 }
