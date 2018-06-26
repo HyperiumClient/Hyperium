@@ -18,6 +18,7 @@
 package cc.hyperium.integrations.spotify;
 
 import cc.hyperium.Hyperium;
+import cc.hyperium.config.Settings;
 import cc.hyperium.integrations.os.OsHelper;
 import cc.hyperium.integrations.spotify.impl.SpotifyInformation;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
@@ -91,11 +92,13 @@ public class Spotify {
             spotify.addListener(new Spotify.SpotifyListener() {
                 @Override
                 public void onPlay(SpotifyInformation info) {
-                    Hyperium.INSTANCE.getNotification()
-                            .display("Spotify",
-                                    "Now playing " + info.getTrack().getTrackResource().getName(),
-                                    8
-                            );
+                    if (Settings.SPOTIFY_NOTIFICATIONS) {
+                        Hyperium.INSTANCE.getNotification()
+                                .display("Spotify",
+                                        "Now playing " + info.getTrack().getTrackResource().getName(),
+                                        8
+                                );
+                    }
                 }
             });
 
