@@ -631,6 +631,5 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
         if (keyCode == Keyboard.KEY_B) {
             Minecraft.getMinecraft().displayGuiScreen(new ChangeBackgroundGui(this));
         }
-        super.keyTyped(typedChar, keyCode);
     }
 }
