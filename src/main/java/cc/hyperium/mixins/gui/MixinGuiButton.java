@@ -66,6 +66,7 @@ public abstract class MixinGuiButton extends Gui {
     @Overwrite
     public void drawButton(Minecraft mc, int mouseX, int mouseY) {
         if (!this.visible) return;
+        mc.getTextureManager().bindTexture(buttonTextures);
 
         this.hovered = mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;
         this.mouseDragged(mc, mouseX, mouseY);
