@@ -24,15 +24,21 @@ class OverlaySlider(label: String, private val minVal: Float, private val maxVal
         if (!super.render(mouseX, mouseY, overlayX, overlayY, w, h, overlayH))
             return false
         val left = (overlayX + w - 105).toFloat()
+
         val fr = HyperiumMainGui.INSTANCE.fr
         var s = value.toString()
-        if(round)
+        if (round)
             s = Math.round(value).toString()
         val toFloat = (overlayY + h / 2).toFloat()
         fr.drawString(s, left - 5 - fr.getWidth(s), toFloat - 5, 0xFFFFFFFF.toInt())
         val rightSide = (overlayX + w - 5).toFloat()
         RenderUtils.drawLine(left, toFloat, rightSide, (overlayY + h / 2).toFloat(), 2f, 0xFFFFFFFF.toInt())
-        RenderUtils.drawFilledCircle((overlayX + w - 135 + (100 / (maxVal - minVal)) * value).toInt(), overlayY + h / 2, 5f, 0xffffffff.toInt())
+        var d = (value - minVal) / (maxVal - minVal)*100
+        var toInt = (left + d).toInt()
+        RenderUtils.drawFilledCircle(toInt, overlayY + h / 2, 5f, 0xffffffff.toInt())
+        if (label == "Wings Scale") {
+            println(d.toString() + " " + value.toString())
+        }
         return true
     }
 }
