@@ -51,9 +51,8 @@ public class LocationHandler {
     public void serverJoinEvent(ServerJoinEvent event) {
         NettyClient client = NettyClient.getClient();
         if (client != null) {
-            String server = event.getServer();
-            this.location = server;
-            client.write(UpdateLocationPacket.build(server));
+            this.location = event.getServer();
+            client.write(UpdateLocationPacket.build("Other"));
         }
     }
 
