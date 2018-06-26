@@ -144,7 +144,7 @@ public abstract class MixinGuiPlayerTabOverlay extends Gui {
         }
 
         this.zLevel += 100.0F;
-        drawTexturedModalRect(p_175245_2_ + p_175245_1_ - 11, yIn, i * 10, 176 + j * 8, 10, 8);
+        drawTexturedModalRect(p_175245_2_ + p_175245_1_ - 5, yIn, i * 10, 176 + j * 8, 10, 8);
 
         this.zLevel -= 100.0F;
     }
