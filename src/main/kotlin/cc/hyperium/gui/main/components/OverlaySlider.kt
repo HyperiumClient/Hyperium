@@ -36,9 +36,6 @@ class OverlaySlider(label: String, private val minVal: Float, private val maxVal
         var d = (value - minVal) / (maxVal - minVal)*100
         var toInt = (left + d).toInt()
         RenderUtils.drawFilledCircle(toInt, overlayY + h / 2, 5f, 0xffffffff.toInt())
-        if (label == "Wings Scale") {
-            println(d.toString() + " " + value.toString())
-        }
         return true
     }
 }
