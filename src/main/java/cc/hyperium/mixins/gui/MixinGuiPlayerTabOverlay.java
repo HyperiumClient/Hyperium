@@ -116,7 +116,7 @@ public abstract class MixinGuiPlayerTabOverlay extends Gui {
             if (ping >= 0 && ping < 10000) {
                 GlStateManager.pushMatrix();
                 GlStateManager.scale(0.5f, 0.5f, 0.5f);
-                this.mc.fontRendererObj.drawString(ping + "", (2 * x), (2 * y), colour);
+                this.mc.fontRendererObj.drawString("   " + ping + "", (2 * x), (2 * y), colour);
                 GlStateManager.scale(2.0f, 2.0f, 2.0f);
                 GlStateManager.popMatrix();
 
@@ -250,7 +250,7 @@ public abstract class MixinGuiPlayerTabOverlay extends Gui {
             int i5 = k4 % i4;
             int j2 = j1 + l4 * i1 + l4 * 5;
             int k2 = k1 + i5 * 9;
-            drawRect(j2, k2, j2 + i1, k2 + 8, 553648127);
+            drawRect(j2, k2, j2 + i1 + 6, k2 + 8, 553648127);
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
             GlStateManager.enableAlpha();
             GlStateManager.enableBlend();
