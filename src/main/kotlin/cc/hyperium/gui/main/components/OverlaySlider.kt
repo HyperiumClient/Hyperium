@@ -5,7 +5,7 @@ import cc.hyperium.utils.RenderUtils
 import org.lwjgl.input.Mouse
 import java.util.function.Consumer
 
-class OverlaySlider(label: String, private val minVal: Float, private val maxVal: Float, var value: Float, var update: Consumer<Float>) : OverlayLabel(label) {
+class OverlaySlider(label: String, private val minVal: Float, private val maxVal: Float, var value: Float, var update: Consumer<Float>, var round: Boolean) : OverlayLabel(label) {
     override fun handleMouseInput(mouseX: Int, mouseY: Int, overlayX: Int, overlayY: Int, w: Int, h: Int) {
         if (mouseX >= overlayX + w - 105 && mouseX <= overlayX + w - 5 && mouseY >= overlayY && mouseY <= overlayY + h) {
             if (!Mouse.isButtonDown(0))
@@ -25,7 +25,9 @@ class OverlaySlider(label: String, private val minVal: Float, private val maxVal
             return false
         val left = (overlayX + w - 105).toFloat()
         val fr = HyperiumMainGui.INSTANCE.fr
-        val s = value.toString()
+        var s = value.toString()
+        if(round)
+            s = Math.round(value).toString()
         val toFloat = (overlayY + h / 2).toFloat()
         fr.drawString(s, left - 5 - fr.getWidth(s), toFloat - 5, 0xFFFFFFFF.toInt())
         val rightSide = (overlayX + w - 5).toFloat()

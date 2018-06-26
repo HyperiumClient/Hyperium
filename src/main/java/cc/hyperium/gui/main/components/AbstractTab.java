@@ -25,7 +25,7 @@ public abstract class AbstractTab {
     public abstract GuiBlock getBlock();
 
     public abstract void drawHighlight(float s);
-
+    private int yOffset;
     public void handleMouseInput() {
         if (HyperiumMainGui.INSTANCE.getOverlay() == null) {
             final ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
