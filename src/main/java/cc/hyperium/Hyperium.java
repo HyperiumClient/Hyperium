@@ -45,8 +45,8 @@ import cc.hyperium.network.LoginReplyHandler;
 import cc.hyperium.network.NetworkHandler;
 import cc.hyperium.purchases.PurchaseApi;
 import cc.hyperium.tray.TrayManager;
-import cc.hyperium.utils.eastereggs.EasterEggs;
 import cc.hyperium.utils.StaffUtils;
+import cc.hyperium.utils.eastereggs.EasterEggs;
 import cc.hyperium.utils.mods.CompactChat;
 import cc.hyperium.utils.mods.FPSLimiter;
 import net.minecraft.client.Minecraft;
@@ -272,6 +272,8 @@ public class Hyperium {
         getHandlers().getHyperiumCommandHandler().registerCommand(new CommandPlayGame());
         getHandlers().getHyperiumCommandHandler().registerCommand(new CommandDebug());
         getHandlers().getHyperiumCommandHandler().registerCommand(new CommandUpdate());
+        if (isDevEnv)
+            getHandlers().getHyperiumCommandHandler().registerCommand(new DevTestCommand());
         getHandlers().getHyperiumCommandHandler().registerCommand(new CommandLogs());
     }
 
