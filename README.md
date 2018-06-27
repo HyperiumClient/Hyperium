@@ -41,7 +41,7 @@ A: We don't know! However, open beta testing has began at our <a href="https://d
 
 Q: ETA?
 
-A: For beta, now! Join the <a href="https://discord.gg/RNyRgtv">Discord</a> or visit our <a href="hyperium.cc">website</a>! For release, we don't know!
+A: For beta, now! Join the [Discord](https://discord.gg/RNyRgtv) or visit our [website](https://hyperium.cc)! For release, we don't know!
 
 
 Q: Is there an addon tutorial?
@@ -51,7 +51,7 @@ A: Yes, its at https://www.youtube.com/watch?v=RXTIFdoNA8c.
 
 Q: I found a bug. Where do I report it?
 
-A: Join the <a href="https://discord.gg/RNyRgtv">Discord</a> and run `-new` in the commands channel. Then explain your issue!
+A: Join the [Discord](https://discord.gg/RNyRgtv) and run `-new` in the commands channel. Then explain your issue!
 
 
 Q: My game keeps crashing!
@@ -59,7 +59,7 @@ Q: My game keeps crashing!
 A: If you have reported the issue using the automatic promopt, join the <a href="https://discord.gg/RNyRgtv">Discord</a> and ask a developer to review your issue. If there are none online, please be patient!
 
 ## Addons ##
-Clone the <a href="https://github.com/HyperiumClient/Addon-Workspace">Addon Workspace</a> and get coding!
+Clone the [Addon Workspace](https://github.com/HyperiumClient/Addon-Workspace) and get coding!
 
 **Examples [here](https://github.com/HyperiumClient/Addon-Workspace)**
 ## Developers ##
