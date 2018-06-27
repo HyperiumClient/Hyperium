@@ -5,11 +5,13 @@ import cc.hyperium.gui.Icons;
 import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
 import cc.hyperium.utils.HyperiumFontRenderer;
 import cc.hyperium.utils.RenderUtils;
+import cc.hyperium.utils.SimpleAnimValue;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Font;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,11 +20,12 @@ import java.util.List;
  */
 public class PurchaseCarousel {
 
-    private final HyperiumFontRenderer fr = new HyperiumFontRenderer("Arial", Font.PLAIN, 20);
+    private final HyperiumFontRenderer fr = new HyperiumFontRenderer("Arial", Font.PLAIN, 60);
     private int index;
     private CarouselItem[] items;
     private List<GuiBlock> leftActions = new ArrayList<>();
     private List<GuiBlock> rightActions = new ArrayList<>();
+    private SimpleAnimValue slideAnim = new SimpleAnimValue((long) 1, 0, 1);
 
     private PurchaseCarousel(int index, CarouselItem[] items) {
         if (items.length == 0)
@@ -36,6 +39,7 @@ public class PurchaseCarousel {
     }
 
     public void mouseClicked(int x, int y) {
+        slideAnim = new SimpleAnimValue(1000L, 0, 1.0F);
         for (GuiBlock left : leftActions) {
             if (left != null && x >= left.getLeft() && x <= left.getRight() && y >= left.getTop() && y <= left.getBottom()) {
                 index--;
@@ -57,6 +61,14 @@ public class PurchaseCarousel {
         }
     }
 
+    public void rotateRight() {
+        slideAnim = new SimpleAnimValue(500L, 0, 1);
+    }
+
+    public void rotateLeft() {
+
+    }
+
     public void render(int centerX, int centerY) {
         ScaledResolution current = ResolutionUtil.current();
         int totalWidth = current.getScaledWidth() / 3;
@@ -76,16 +88,23 @@ public class PurchaseCarousel {
         int objRight = centerX + mainWidth / 2;
         RenderUtils.drawSmoothRect(objLeft, centerY - mainHeight / 2, objRight, objBottom, 10, new Color(23, 23, 23, 255).getRGB());
         CarouselItem item = items[index];
-        fr.drawString(item.getName(), objLeft + 5, objBottom - 30, Color.WHITE.getRGB());
+        GlStateManager.scale(.5, .5, .5);
 
-        RenderUtils.drawSmoothRect(objLeft + 5, objBottom - 15, objLeft + 40, objBottom - 5, 3, Color.WHITE.getRGB());
+        int barHeight = 16;
+        fr.drawString(item.getName(), (objLeft + 5) * 2, (objBottom - 50) * 2, Color.WHITE.getRGB());
+        int purchaseRight = (objLeft + 50) * 2;
+        RenderUtils.drawSmoothRect((objLeft + 5) * 2, (objBottom - 20) * 2, purchaseRight, (objBottom - 20 + barHeight) * 2, 10, Color.WHITE.getRGB());
+
         GlStateManager.scale(2 / 3F, 2 / 3F, 2 / 3F);
-        fr.drawString(item.isPurchased() ? "Purchased" : "Purchase", (objLeft + 7) * 3 / 2, (objBottom - 15) * 3 / 2, new Color(23, 23, 23, 255).getRGB());
+        fr.drawString(item.isPurchased() ? "Purchased" : "Purchase", (objLeft + 7) * 3, (objBottom - 18) * 3, new Color(23, 23, 23, 255).getRGB());
         GlStateManager.scale(3 / 2F, 3 / 2f, 3 / 2F);
 
+        RenderUtils.drawFilledCircle(purchaseRight + barHeight * 2, (objBottom - 12) * 2, barHeight, Color.WHITE.getRGB());
+        GlStateManager.color(0, 0, 0);
+        Icons.DOWNLOAD.bind();
         Icons.SETTINGS.bind();
-        Gui.drawScaledCustomSizeModalRect(objRight - 40, objBottom - 16, 0, 0, 144, 144, 10, 10, 144, 144);
-
+        Gui.drawScaledCustomSizeModalRect(purchaseRight + barHeight, (objBottom - 20) * 2, 0, 0, 144, 144, barHeight * 2, barHeight * 2, 144, 144);
+        GlStateManager.scale(2.0, 2.0, 2.0);
     }
 
 
