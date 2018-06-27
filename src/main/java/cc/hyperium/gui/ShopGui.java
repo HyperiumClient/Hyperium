@@ -47,9 +47,7 @@ public class ShopGui extends HyperiumGui {
 
     @Override
     protected void pack() {
-        reg("CAPES", new GuiButton(nextId(), 1, 1, 100, 20, "View Capes"), guiButton -> {
-            new CapesGui().show();
-        }, guiButton -> {
+        reg("CAPES", new GuiButton(nextId(), 1, 1, 100, 20, "View Capes"), guiButton -> new CapesGui().show(), guiButton -> {
 
         });
         reg("WEB", new GuiButton(nextId(), 1, 21, 100, 20, "Open in browser"), guiButton -> {

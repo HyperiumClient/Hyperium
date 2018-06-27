@@ -184,6 +184,7 @@ import cc.hyperium.event.SingleplayerJoinEvent;
 import cc.hyperium.event.TickEvent;
 import cc.hyperium.event.WorldChangeEvent;
 import cc.hyperium.gui.CrashReportGUI;
+import cc.hyperium.gui.HyperiumMainMenu;
 import cc.hyperium.internal.addons.AddonBootstrap;
 import cc.hyperium.internal.addons.AddonMinecraftBootstrap;
 import cc.hyperium.internal.addons.IAddon;
@@ -196,7 +197,6 @@ import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiGameOver;
 import net.minecraft.client.gui.GuiIngame;
-import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.multiplayer.PlayerControllerMP;
@@ -214,7 +214,6 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Timer;
 import net.minecraft.util.Util;
 import net.minecraft.world.WorldSettings;
-import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
@@ -454,21 +453,13 @@ public abstract class MixinMinecraft {
     @Overwrite
     private void setWindowIcon() {
         if (Util.getOSType() != Util.EnumOS.OSX) {
-            InputStream inputstream = null;
-            InputStream inputstream1 = null;
-            try {
-                inputstream = Minecraft.class.getResourceAsStream("/assets/hyperium/icons/icon-16x.png");
-                inputstream1 = Minecraft.class.getResourceAsStream("/assets/hyperium/icons/icon-32x.png");
-
-                if (inputstream != null && inputstream1 != null) {
-                    Display.setIcon(new ByteBuffer[]{Utils.INSTANCE.readImageToBuffer(inputstream),
-                            Utils.INSTANCE.readImageToBuffer(inputstream1)});
-                }
-            } catch (Exception ex) {
-                Hyperium.LOGGER.error("Couldn't set Windows Icon", ex);
-            } finally {
-                IOUtils.closeQuietly(inputstream);
-                IOUtils.closeQuietly(inputstream1);
+            try (InputStream inputStream16x = Minecraft.class.getResourceAsStream("/assets/hyperium/icons/icon-16x.png");
+                 InputStream inputStream32x = Minecraft.class.getResourceAsStream("/assets/hyperium/icons/icon-32x.png")) {
+                ByteBuffer[] icons = new ByteBuffer[]{Utils.INSTANCE.readImageToBuffer(inputStream16x),
+                        Utils.INSTANCE.readImageToBuffer(inputStream32x)};
+                Display.setIcon(icons);
+            } catch (Exception e) {
+                Hyperium.LOGGER.error("Couldn't set Windows Icon", e);
             }
         }
     }
@@ -485,7 +476,7 @@ public abstract class MixinMinecraft {
         }
 
         if (guiScreenIn == null && this.theWorld == null) {
-            guiScreenIn = new GuiMainMenu();
+            guiScreenIn = new HyperiumMainMenu();
         } else if (guiScreenIn == null && this.thePlayer.getHealth() <= 0.0F) {
             guiScreenIn = new GuiGameOver();
         }
@@ -505,7 +496,7 @@ public abstract class MixinMinecraft {
         if (old != null)
             EventBus.INSTANCE.unregister(old);
 
-        if (guiScreenIn instanceof GuiMainMenu) {
+        if (guiScreenIn instanceof HyperiumMainMenu) {
             this.gameSettings.showDebugInfo = false;
             if (!Settings.PERSISTENT_CHAT)
                 this.ingameGUI.getChatGUI().clearChatMessages();
@@ -595,12 +586,12 @@ public abstract class MixinMinecraft {
         // Actiavtes for EVERY mouse button.
         int i = Mouse.getEventButton();
         boolean state = Mouse.getEventButtonState();
-        if(state){
+        if (state) {
             // Mouse clicked.
-            EventBus.INSTANCE.post(new MouseButtonEvent(i,true));
-        } else{
+            EventBus.INSTANCE.post(new MouseButtonEvent(i, true));
+        } else {
             // Mouse released.
-            EventBus.INSTANCE.post(new MouseButtonEvent(i,false));
+            EventBus.INSTANCE.post(new MouseButtonEvent(i, false));
         }
     }
 

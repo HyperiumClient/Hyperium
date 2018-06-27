@@ -19,12 +19,7 @@ package cc.hyperium.mixins.renderer;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.config.Settings;
-import cc.hyperium.purchases.AbstractHyperiumPurchase;
-import cc.hyperium.purchases.EnumPurchaseType;
-import cc.hyperium.purchases.HyperiumPurchase;
-import cc.hyperium.purchases.PurchaseApi;
-import cc.hyperium.purchases.packages.EarsCosmetic;
-import net.minecraft.client.Minecraft;
+import cc.hyperium.utils.Utils;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
@@ -36,7 +31,6 @@ import net.minecraft.client.renderer.entity.RendererLivingEntity;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.MathHelper;
 import org.lwjgl.opengl.GL11;
 import org.spongepowered.asm.mixin.Mixin;
@@ -123,26 +117,7 @@ public abstract class MixinRendererLivingEntity<T extends EntityLivingBase> exte
                 if (entity.isSneaking()) {
                     FontRenderer fontrenderer = this.getFontRendererFromRenderManager();
                     GlStateManager.pushMatrix();
-                    float offset = 0;
-                    try {
-                        if ((entity instanceof EntityPlayer) && Hyperium.INSTANCE.getCosmetics().getDeadmau5Cosmetic().isPurchasedBy(entity.getUniqueID())) {
-                            HyperiumPurchase packageIfReady = PurchaseApi.getInstance().getPackageIfReady(entity.getUniqueID());
-                            if (packageIfReady != null) {
-                                AbstractHyperiumPurchase purchase = packageIfReady.getPurchase(EnumPurchaseType.DEADMAU5_COSMETIC);
-                                if (purchase != null) {
-                                    if (entity.getUniqueID() != Minecraft.getMinecraft().thePlayer.getUniqueID()) {
-                                        if (((EarsCosmetic) purchase).isEnabled()) {
-                                            offset += .24;
-                                        }
-                                    } else if (Settings.EARS_STATE.equalsIgnoreCase("on"))
-                                        offset += .24;
-                                }
-
-                            }
-                        }
-                    } catch (Exception ignored) {
-
-                    }
+                    float offset = Utils.INSTANCE.calculateDeadmauEarsOffset(entity);
                     GlStateManager.translate((float) x, (float) y + offset + entity.height + 0.5F - (entity.isChild() ? entity.height / 2.0F : 0.0F), (float) z);
                     GL11.glNormal3f(0.0F, 1.0F, 0.0F);
                     GlStateManager.rotate(-this.renderManager.playerViewY, 0.0F, 1.0F, 0.0F);

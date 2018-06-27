@@ -2,7 +2,7 @@
 [ ![Travis-CI](https://travis-ci.org/HyperiumClient/Hyperium.svg?branch=master)](https://travis-ci.org/HyperiumClient/Hyperium)
 # Hyperium (A Community Client for Hypixel - Not affiliated with Hypixel INC, produced by independent developers)
 ## What is Hyperium? ##
-The Hyperium is a Minecraft modification in development. It will combine many popular features in addition to suggestions and ideas from the community to provide a unique experience designed for Hypixel.
+Hyperium is a Minecraft modification in development. It will combine many popular features in addition to suggestions and ideas from the community to provide a unique experience designed for Hypixel.
 
 ## Features ##
 - [ChromaHUD](https://www.youtube.com/watch?v=eyh6pcsGMpo)
@@ -31,7 +31,7 @@ We use [Google's Java Code style](https://google.github.io/styleguide/javaguide.
 ## FAQ ##
 Q: Please help, I can't build Hyperium!
 
-A: Wait for a new beta or release! 
+A: If you don't know how to build a project please wait for a new beta or release! 
 
 
 Q: Release, when?
@@ -41,7 +41,7 @@ A: We don't know! However, open beta testing has began at our <a href="https://d
 
 Q: ETA?
 
-A: For beta, now! Join the <a href="https://discord.gg/RNyRgtv">Discord</a> or visit our <a href="hyperium.cc">website</a>! For release, we don't know!
+A: For beta, now! Join the [Discord](https://discord.gg/RNyRgtv) or visit our [website](https://hyperium.cc)! For release, we don't know!
 
 
 Q: Is there an addon tutorial?
@@ -51,7 +51,7 @@ A: Yes, its at https://www.youtube.com/watch?v=RXTIFdoNA8c.
 
 Q: I found a bug. Where do I report it?
 
-A: Join the <a href="https://discord.gg/RNyRgtv">Discord</a> and run `-new` in the commands channel. Then explain your issue!
+A: Join the [Discord](https://discord.gg/RNyRgtv) and run `-new` in the commands channel. Then explain your issue!
 
 
 Q: My game keeps crashing!
@@ -59,51 +59,8 @@ Q: My game keeps crashing!
 A: If you have reported the issue using the automatic promopt, join the <a href="https://discord.gg/RNyRgtv">Discord</a> and ask a developer to review your issue. If there are none online, please be patient!
 
 ## Addons ##
-**Requirement:** Built Hyperium, JDK 8+, IDE
+Clone the [Addon Workspace](https://github.com/HyperiumClient/Addon-Workspace) and get coding!
 
-**Dependency:**
-add Hyperium that you built as dependency for the project
-
-```java
-package com.example;
-
-import cc.hyperium.event.*;
-import cc.hyperium.internal.addons.IAddon;
-import net.minecraft.client.Minecraft;
-
-public class AddonExample implements IAddon {
-
-    @Override
-    public void onLoad() {
-        EventBus.INSTANCE.register(this);
-    }
-
-    @InvokeEvent
-    private void onChatMessage(ChatEvent event) {
-        if (event.getChat().getUnformattedText().contains("secret message!")) {
-            Minecraft.getMinecraft().toggleFullscreen();
-        }
-    }
-
-    @Override
-    public void onClose() {
-        System.out.println("Closing...");
-    }
-    
-    @Override
-    public void sendDebugInfo() {
-    }
-}
-```
-
-**addon.json**
-```json
-{
-  "name": "Addon Example",
-  "version": "1.0",
-  "mainClass": "com.example.AddonExample"
-}
-```
 **Examples [here](https://github.com/HyperiumClient/Addon-Workspace)**
 ## Developers ##
 [![](https://cdn.discordapp.com/avatars/376817315830038530/87dd80c68e0598ea39af4e0472b299b7.png)](https://github.com/Sk1er)

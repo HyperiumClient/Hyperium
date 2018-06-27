@@ -17,21 +17,49 @@
 
 package cc.hyperium.mixins;
 
+import cc.hyperium.handlers.handlers.animation.CapeHandler;
 import cc.hyperium.utils.Utils;
+import net.minecraft.client.renderer.texture.ITextureObject;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.util.ResourceLocation;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Overwrite;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(TextureManager.class)
-public class MixinTextureManager {
+import java.util.Map;
 
+@Mixin(TextureManager.class)
+public abstract class MixinTextureManager {
+
+
+    @Shadow
+    @Final
+    private Map<ResourceLocation, ITextureObject> mapTextureObjects;
+
+    @Shadow
+    public abstract boolean loadTexture(ResourceLocation textureLocation, ITextureObject textureObj);
 
     @Inject(method = "onResourceManagerReload", at = @At("HEAD"))
     private void onResourceManagerReload(IResourceManager resourceManager, CallbackInfo ci) {
         Utils.INSTANCE.setCursor(new ResourceLocation("textures/cursor.png"));
+    }
+
+    @Overwrite
+    public void onResourceManagerReload(IResourceManager resourceManager) {
+        CapeHandler.LOCK.lock();
+        try {
+            for (Map.Entry<ResourceLocation, ITextureObject> entry : this.mapTextureObjects.entrySet()) {
+                this.loadTexture((ResourceLocation) entry.getKey(), (ITextureObject) entry.getValue());
+            }
+        } catch (Exception e) {
+
+        } finally {
+            CapeHandler.LOCK.unlock();
+        }
     }
 }

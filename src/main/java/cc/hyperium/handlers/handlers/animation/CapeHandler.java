@@ -17,12 +17,13 @@ import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.util.ResourceLocation;
 
 import java.awt.image.BufferedImage;
-import java.util.Date;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class CapeHandler {
 
+    public static final ReentrantLock LOCK = new ReentrantLock();
     private final ConcurrentHashMap<UUID, ResourceLocation> capes = new ConcurrentHashMap<>();
     private final ResourceLocation loadingResource = new ResourceLocation("");
 
@@ -53,8 +54,10 @@ public class CapeHandler {
         capes.put(uuid, loadingResource);
 
         ResourceLocation resourceLocation = new ResourceLocation(
-                String.format("hyperium/capes/%s.png", new Date().getTime())
+                String.format("hyperium/capes/%s.png", System.nanoTime())
         );
+
+
         TextureManager textureManager = Minecraft.getMinecraft().getTextureManager();
         ThreadDownloadImageData threadDownloadImageData = new ThreadDownloadImageData(null, url, null, new IImageBuffer() {
 
@@ -68,8 +71,14 @@ public class CapeHandler {
                 CapeHandler.this.setCape(uuid, resourceLocation);
             }
         });
+        try {
+            LOCK.lock();
+            textureManager.loadTexture(resourceLocation, threadDownloadImageData);
+        } catch (Exception e) {
 
-        textureManager.loadTexture(resourceLocation, threadDownloadImageData);
+        } finally {
+            LOCK.unlock();
+        }
     }
 
     public void setCape(UUID uuid, ResourceLocation resourceLocation) {
@@ -78,28 +87,47 @@ public class CapeHandler {
 
     public ResourceLocation getCape(final AbstractClientPlayer player) {
         UUID uuid = player.getUniqueID();
-        ResourceLocation orDefault = capes.getOrDefault(uuid, null);
-        if (orDefault == null) {
-            Multithreading.runAsync(() -> {
-                HyperiumPurchase hyperiumPurchase = PurchaseApi.getInstance().getPackageSync(uuid);
-                String s = hyperiumPurchase.getPurchaseSettings().optJSONObject("cape").optString("type");
-                if (!s.isEmpty()) {
-                    JsonHolder jsonHolder = PurchaseApi.getInstance().getCapeAtlas().optJSONObject(s);
-                    String url = jsonHolder.optString("url");
-                    if (!url.isEmpty()) {
-                        loadCape(uuid, url);
-                        return;
-                    }
-                }
-                loadCape(uuid, "http://s.optifine.net/capes/" + player.getGameProfile().getName() + ".png");
 
-            });
-            return capes.get(uuid);
-        }
-        if (orDefault.equals(loadingResource)) {
+        if(isRealPlayer(uuid)) {
+            ResourceLocation orDefault = capes.getOrDefault(uuid, null);
+            if (orDefault == null) {
+                Multithreading.runAsync(() -> {
+                    HyperiumPurchase hyperiumPurchase = PurchaseApi.getInstance()
+                        .getPackageSync(uuid);
+                    String s = hyperiumPurchase.getPurchaseSettings().optJSONObject("cape")
+                        .optString("type");
+                    if (!s.isEmpty()) {
+                        JsonHolder jsonHolder = PurchaseApi.getInstance().getCapeAtlas()
+                            .optJSONObject(s);
+                        String url = jsonHolder.optString("url");
+                        if (!url.isEmpty()) {
+                            loadCape(uuid, url);
+                            return;
+                        }
+                    }
+                    loadCape(uuid,
+                        "http://s.optifine.net/capes/" + player.getGameProfile().getName()
+                            + ".png");
+                });
+                return capes.get(uuid);
+            }
+
+            if (orDefault.equals(loadingResource)) {
+                return null;
+            }
+            return orDefault;
+        } else{
             return null;
         }
-        return orDefault;
+    }
+
+    public boolean isRealPlayer(UUID uuid){
+        String s = uuid.toString().replace("-", "");
+        if (s.length() == 32 && s.charAt(12) != '4') {
+            return false;
+        } else{
+            return true;
+        }
     }
 
 

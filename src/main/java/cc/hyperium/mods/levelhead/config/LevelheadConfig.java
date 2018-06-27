@@ -26,47 +26,61 @@ import cc.hyperium.utils.ChatColor;
  */
 public class LevelheadConfig {
 
-    @ConfigOpt
+    @ConfigOpt(alt = "club.sk1er.mods.levelhead.config.LevelheadConfig;enabled")
     private boolean enabled = true;
-    @ConfigOpt
+
+    @ConfigOpt(alt = "club.sk1er.mods.levelhead.config.LevelheadConfig;showSelf")
     private boolean showSelf = true;
-    @ConfigOpt
+
+    @ConfigOpt(alt = "club.sk1er.mods.levelhead.config.LevelheadConfig;renderDistance")
     private int renderDistance = 64;
 
-    @ConfigOpt
+    @ConfigOpt(alt = "club.sk1er.mods.levelhead.config.LevelheadConfig;purgeSize")
     private int purgeSize = 500;
 
-    @ConfigOpt
+    @ConfigOpt(alt = "club.sk1er.mods.levelhead.config.LevelheadConfig;headerChroma")
     private boolean headerChroma = false;
-    @ConfigOpt
+
+    @ConfigOpt(alt = "club.sk1er.mods.levelhead.config.LevelheadConfig;headerRgb")
     private boolean headerRgb = false;
-    @ConfigOpt
+
+    @ConfigOpt(alt = "club.sk1er.mods.levelhead.config.LevelheadConfig;headerColor")
     private String headerColor = ChatColor.AQUA.toString();
-    @ConfigOpt
+
+    @ConfigOpt(alt = "club.sk1er.mods.levelhead.config.LevelheadConfig;headerRed")
     private int headerRed = 255;
-    @ConfigOpt
+
+    @ConfigOpt(alt = "club.sk1er.mods.levelhead.config.LevelheadConfig;headerGreen")
     private int headerGreen = 255;
-    @ConfigOpt
+
+    @ConfigOpt(alt = "club.sk1er.mods.levelhead.config.LevelheadConfig;headerBlue")
     private int headerBlue = 250;
-    @ConfigOpt
+
+    @ConfigOpt(alt = "club.sk1er.mods.levelhead.config.LevelheadConfig;headerAlpha")
     private double headerAlpha = 1.0;
-    @ConfigOpt
+
+    @ConfigOpt(alt = "club.sk1er.mods.levelhead.config.LevelheadConfig;customHeader")
     private String customHeader = "Level";
 
-
-    @ConfigOpt
+    @ConfigOpt(alt = "club.sk1er.mods.levelhead.config.LevelheadConfig;footerChroma")
     private boolean footerChroma = false;
-    @ConfigOpt
+
+    @ConfigOpt(alt = "club.sk1er.mods.levelhead.config.LevelheadConfig;footerRgb")
     private boolean footerRgb = false;
-    @ConfigOpt
+
+    @ConfigOpt(alt = "club.sk1er.mods.levelhead.config.LevelheadConfig;footerColor")
     private String footerColor = ChatColor.YELLOW.toString();
-    @ConfigOpt
+
+    @ConfigOpt(alt = "club.sk1er.mods.levelhead.config.LevelheadConfig;footerRed")
     private int footerRed = 255;
-    @ConfigOpt
+
+    @ConfigOpt(alt = "club.sk1er.mods.levelhead.config.LevelheadConfig;footerGreen")
     private int footerGreen = 255;
-    @ConfigOpt
+
+    @ConfigOpt(alt = "club.sk1er.mods.levelhead.config.LevelheadConfig;footerBlue")
     private int footerBlue = 250;
-    @ConfigOpt
+
+    @ConfigOpt(alt = "club.sk1er.mods.levelhead.config.LevelheadConfig;footerAlpha")
     private double footerAlpha = 1.0;
 
 

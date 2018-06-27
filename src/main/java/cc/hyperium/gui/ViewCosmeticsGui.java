@@ -18,9 +18,7 @@ public class ViewCosmeticsGui extends HyperiumGui {
 
     @Override
     protected void pack() {
-        reg("VISIT", new GuiButton(nextId(), width / 2 - 100, 5, "Purchase cosmetics"), guiButton -> {
-            new ShopGui().show();
-        }, guiButton -> {
+        reg("VISIT", new GuiButton(nextId(), width / 2 - 100, 5, "Purchase cosmetics"), guiButton -> new ShopGui().show(), guiButton -> {
 
         });
         reg("REFRESH", new GuiButton(nextId(), width / 2 - 100, 30, "Refresh purchases"), guiButton -> {

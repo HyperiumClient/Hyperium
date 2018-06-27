@@ -61,8 +61,6 @@ public class Settings {
     @ToggleSetting(name = "Hold Perspective Key")
     public static boolean PERSPECTIVE_HOLD = false;
 
-    @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;menuStyle")
-    public static String MENU_STYLE = GuiStyle.DEFAULT.toString();
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;windowedFullScreen")
     @ToggleSetting(name = "Windowed Fullscreen", category = IMPROVEMENTS)
     public static boolean WINDOWED_FULLSCREEN = false;
@@ -159,7 +157,7 @@ public class Settings {
 
     @ConfigOpt
     @ToggleSetting(name = "Optimized Font Renderer (BETA)", category = IMPROVEMENTS)
-    public static boolean OPTIMIZED_FONT_RENDERER = true;
+    public static boolean OPTIMIZED_FONT_RENDERER = false;
 
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.CosmeticSettings;fliptoggle")
@@ -296,10 +294,30 @@ public class Settings {
     @SliderSetting(name = "Wings Scale", min = 50, max = 200, category = WINGS)
     public static double WINGS_SCALE = 100D;
 
-
     @ConfigOpt
     @ToggleSetting(name = "Show ChromaHUD", category = INTEGRATIONS)
     public static boolean SHOW_CHROMAHUD = true;
+
+    @ConfigOpt
+    @SelectorSetting(name = "Main Menu Style", items =
+        {
+            "HYPERIUM",
+            "DEFAULT"
+        }, category = MISC
+    )
+    public static String MENU_STYLE = GuiStyle.DEFAULT.toString();
+
+    @ConfigOpt
+    @ToggleSetting(name = "Motion Blur Enabled", category = MISC)
+    public static boolean MOTION_BLUR_ENABLED = false;
+
+    @ConfigOpt
+    @SliderSetting(name = "Motion Blur Amount", category = MISC, min = 1F, max = 7F)
+    public static double MOTION_BLUR_AMOUNT = 4.0F;
+
+    @ConfigOpt
+    @ToggleSetting(name = "Spotify Notifications", category = SPOTIFY)
+    public static boolean SPOTIFY_NOTIFICATIONS = true;
 
     public static void register() {
         Hyperium.CONFIG.register(new Settings()); // values r static soo whatever

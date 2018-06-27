@@ -72,7 +72,6 @@ public class FPSLimiter {
 
 
     public int getFpsLimit() {
-        int fpsLimit = 30;
-        return fpsLimit;
+        return 30;
     }
 }
