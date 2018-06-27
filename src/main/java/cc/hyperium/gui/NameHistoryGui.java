@@ -36,6 +36,14 @@ import java.util.UUID;
 
 public class NameHistoryGui extends GuiScreen {
 
+    public NameHistoryGui() {
+
+    }
+
+    public NameHistoryGui(String name) {
+        getNames(name);
+    }
+
     final List<String> names = new ArrayList<>();
     private final HyperiumFontRenderer fontRenderer = new HyperiumFontRenderer("Arial", Font.PLAIN, 16);
     private HyperiumTextField nameField;
@@ -51,10 +59,10 @@ public class NameHistoryGui extends GuiScreen {
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         super.drawScreen(mouseX, mouseY, partialTicks);
         //BG
-        drawRect(width / 5 - 1, height / 5 - 1, width - width / 5, height / 5 + 31 + (names.size() * 11), new Color(0, 0, 0, 100).getRGB());
+        drawRect(width / 5 - 1, height / 5 - 1, width - width / 5, height / 5 + 33 + (names.size() * 10), new Color(0, 0, 0, 100).getRGB());
 
         //TITLE BG
-        drawRect(width / 5 - 1, height / 5 - 1, width - width / 5, height / 5 + 32, new Color(0, 0, 0, 150).getRGB());
+        drawRect(width / 5 - 1, height / 5 - 1, width - width / 5, height / 5 + 33, new Color(0, 0, 0, 150).getRGB());
 
         //TITLE
         fontRenderer.drawCenteredStringWithShadow("NAME HISTORY", width / 2, height / 5, Color.WHITE.getRGB());
@@ -68,7 +76,7 @@ public class NameHistoryGui extends GuiScreen {
         for (int i = 0; i < names.size(); i++) {
 
             float xPos = width / 2 - (115 / 2);
-            float yPos = height / 5 + 30 + 5 + (i * 10) + offset;
+            float yPos = height / 5 + 33 + (i * 10) + offset;
 
             // Check if names have been scrolled outside of bounding box.
             if (yPos < (height / 5) + 32) {
