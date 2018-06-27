@@ -18,7 +18,6 @@
 package cc.hyperium.handlers.handlers;
 
 import cc.hyperium.Hyperium;
-import cc.hyperium.config.ConfigOpt;
 import cc.hyperium.event.ChatEvent;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.InvokeEvent;
@@ -42,7 +41,6 @@ import java.util.regex.Pattern;
 public class LocationHandler {
 
     private final Pattern whereami = Pattern.compile("You are currently connected to server (?<server>.+)");
-    @ConfigOpt
     private String location = "";
     private boolean sendingWhereAmI = false;
     private long ticksInWorld = 0;
@@ -51,9 +49,8 @@ public class LocationHandler {
     public void serverJoinEvent(ServerJoinEvent event) {
         NettyClient client = NettyClient.getClient();
         if (client != null) {
-            String server = event.getServer();
-            this.location = server;
-            client.write(UpdateLocationPacket.build(server));
+            this.location = event.getServer();
+            client.write(UpdateLocationPacket.build("Other"));
         }
     }
 

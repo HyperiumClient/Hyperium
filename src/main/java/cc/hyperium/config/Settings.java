@@ -315,6 +315,10 @@ public class Settings {
     @SliderSetting(name = "Motion Blur Amount", category = MISC, min = 1F, max = 7F)
     public static double MOTION_BLUR_AMOUNT = 4.0F;
 
+    @ConfigOpt
+    @ToggleSetting(name = "Spotify Notifications", category = SPOTIFY)
+    public static boolean SPOTIFY_NOTIFICATIONS = true;
+
     public static void register() {
         Hyperium.CONFIG.register(new Settings()); // values r static soo whatever
     }

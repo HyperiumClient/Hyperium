@@ -36,7 +36,7 @@ public class GlintColorizerSettings extends HyperiumOverlay {
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                 }
-            }));
+            },true));
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
