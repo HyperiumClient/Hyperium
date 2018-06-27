@@ -342,7 +342,7 @@ public class Settings {
 
     @ConfigOpt
     @ToggleSetting(name = "Super Secret Settings v2", category = MISC)
-    public static boolean SUPERSECRETSETTINGSV2 = true;
+    public static boolean SUPERSECRETSETTINGSV2 = false;
 
 
     public static void register() {
