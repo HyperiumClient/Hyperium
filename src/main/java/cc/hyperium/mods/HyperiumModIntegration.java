@@ -25,6 +25,7 @@ import cc.hyperium.mods.hgames.HGames;
 import cc.hyperium.mods.keystrokes.KeystrokesMod;
 import cc.hyperium.mods.killscreenshot.KillScreenshot;
 import cc.hyperium.mods.levelhead.Levelhead;
+import cc.hyperium.mods.motionblur.MotionBlurMod;
 import cc.hyperium.mods.oldanimations.OldAnimations;
 import cc.hyperium.mods.skinchanger.SkinChangerMod;
 import cc.hyperium.mods.spotify.SpotifyControls;
@@ -46,6 +47,7 @@ public class HyperiumModIntegration {
     private final AbstractMod utilities;
     private final AbstractMod levelhead;
     private final AbstractMod killScreenshot;
+    private final AbstractMod motionBlurMod;
 
     private final AbstractMod chromaHUD;
     private final AbstractMod autotip;
@@ -98,6 +100,8 @@ public class HyperiumModIntegration {
 
         // Glint Colorizer implementation
         this.glintcolorizer = new GlintColorizer().init();
+
+        this.motionBlurMod = new MotionBlurMod().init();
     }
 
     /**

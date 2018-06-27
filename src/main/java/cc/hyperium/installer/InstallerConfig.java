@@ -1,5 +1,6 @@
 package cc.hyperium.installer;
 
+import cc.hyperium.Metadata;
 import cc.hyperium.installer.components.MaterialRadioButton;
 import cc.hyperium.installer.components.MotionPanel;
 import cc.hyperium.utils.JsonHolder;
@@ -9,39 +10,13 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-import javax.swing.JScrollPane;
-import javax.swing.JSlider;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
-import javax.swing.UIManager;
-import javax.swing.WindowConstants;
+import javax.swing.*;
 import javax.swing.plaf.basic.BasicButtonUI;
 import javax.swing.plaf.basic.BasicSliderUI;
 import javax.swing.plaf.metal.MetalScrollBarUI;
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Desktop;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.FontFormatException;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
-import java.awt.RenderingHints;
-import java.awt.Stroke;
-import java.awt.Toolkit;
+import java.awt.*;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Ellipse2D;
@@ -126,6 +101,7 @@ public class InstallerConfig extends JFrame {
         ver.setBorderPainted(false);
         ver.setFocusPainted(false);
 
+
         JLabel dirTxt = new JLabel("Minecraft Installation");
         dirTxt.setLocation(5, 22);
         dirTxt.setSize(250, 10);
@@ -139,6 +115,21 @@ public class InstallerConfig extends JFrame {
         dir.setBorder(BorderFactory.createEmptyBorder());
         dir.setBackground(new Color(25, 25, 25));
         dir.setForeground(Color.WHITE);
+        dir.addFocusListener(new FocusListener() {
+
+            @Override
+            public void focusGained(FocusEvent e) {
+
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                if (!new File(dir.getText()).exists()) {
+                    JOptionPane.showMessageDialog(null,
+                            "Minecraft Dir Does Not Exist", "Hyperium Installer", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
 
         JLabel wamTxt = new JLabel("Ram to allocate (1GB)");
         wamTxt.setLocation(5, 44);
@@ -356,6 +347,10 @@ public class InstallerConfig extends JFrame {
                     i.addAndGet(1);
                 ver.setText(versionList.get(i.get()));
             });
+            if (Metadata.isDevelopment()) {
+                ver.setText("LOCAL");
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -454,3 +449,4 @@ public class InstallerConfig extends JFrame {
         dependencies.forEach((k, v) -> k.setEnabled(StreamSupport.stream(v.spliterator(), false).map(JsonElement::getAsString).allMatch(dep -> dependencies.keySet().stream().filter(c -> dep.equals(c.getText().replace("Addon :: ", ""))).allMatch(JRadioButton::isSelected))));
     }
 }
+

@@ -243,7 +243,7 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
     private ResourceLocation bgDynamicTexture = null;
 
     public HyperiumMainMenu() {
-        if (Minecraft.getMinecraft().isFullScreen() && Settings.WINDOWED_FULLSCREEN) {
+        if (Minecraft.getMinecraft().isFullScreen() && Settings.WINDOWED_FULLSCREEN && !FIRST_START) {
             HyperiumMainMenu.FIRST_START = false;
             Minecraft.getMinecraft().toggleFullscreen();
             Minecraft.getMinecraft().toggleFullscreen();

@@ -23,13 +23,36 @@ import cc.hyperium.event.EventBus;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.TickEvent;
 import cc.hyperium.gui.ScoreboardRenderer;
-import cc.hyperium.handlers.handlers.*;
+import cc.hyperium.handlers.handlers.ApiDataHandler;
+import cc.hyperium.handlers.handlers.CommandQueue;
+import cc.hyperium.handlers.handlers.FlipHandler;
+import cc.hyperium.handlers.handlers.FontRendererData;
+import cc.hyperium.handlers.handlers.GameDataTracking;
+import cc.hyperium.handlers.handlers.GuiDisplayHandler;
+import cc.hyperium.handlers.handlers.HyperiumNetwork;
+import cc.hyperium.handlers.handlers.HypixelDetector;
+import cc.hyperium.handlers.handlers.LocationHandler;
+import cc.hyperium.handlers.handlers.OtherConfigOptions;
+import cc.hyperium.handlers.handlers.RenderPlayerAsBlock;
+import cc.hyperium.handlers.handlers.StatusHandler;
+import cc.hyperium.handlers.handlers.TimeTrackHandler;
+import cc.hyperium.handlers.handlers.ValueHandler;
 import cc.hyperium.handlers.handlers.animation.CapeHandler;
 import cc.hyperium.handlers.handlers.animation.DabHandler;
 import cc.hyperium.handlers.handlers.animation.FlossDanceHandler;
-import cc.hyperium.handlers.handlers.chat.*;
+import cc.hyperium.handlers.handlers.chat.AutoWhoChatHandler;
+import cc.hyperium.handlers.handlers.chat.FriendRequestChatHandler;
+import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
+import cc.hyperium.handlers.handlers.chat.GuildPartyChatParser;
+import cc.hyperium.handlers.handlers.chat.HyperiumChatHandler;
+import cc.hyperium.handlers.handlers.chat.PartyInviteChatHandler;
+import cc.hyperium.handlers.handlers.chat.PrivateMessageReader;
+import cc.hyperium.handlers.handlers.chat.QuestTrackingChatHandler;
+import cc.hyperium.handlers.handlers.chat.RankedRatingChatHandler;
+import cc.hyperium.handlers.handlers.chat.WinTrackingChatHandler;
 import cc.hyperium.handlers.handlers.keybinds.KeyBindHandler;
 import cc.hyperium.handlers.handlers.particle.ParticleAuraHandler;
+import cc.hyperium.handlers.handlers.mixin.LayerDeadmau5HeadHandler;
 import cc.hyperium.handlers.handlers.privatemessages.PrivateMessageHandler;
 import cc.hyperium.handlers.handlers.remoteresources.RemoteResourcesHandler;
 import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
@@ -71,7 +94,7 @@ public class HyperiumHandlers {
     private QuestTrackingChatHandler questTracking;
     private RenderPlayerAsBlock renderPlayerAsBlock;
     private FlipHandler flipHandler;
-
+    private LayerDeadmau5HeadHandler layerDeadmau5HeadHandler;
 
     public HyperiumHandlers() {
         System.out.println("Loading handlers");
@@ -87,6 +110,8 @@ public class HyperiumHandlers {
         register(flipHandler = new FlipHandler());
         register(locationHandler = new LocationHandler());
         register(valueHandler = new ValueHandler());
+        register(layerDeadmau5HeadHandler = new LayerDeadmau5HeadHandler());
+
         register(renderPlayerAsBlock = new RenderPlayerAsBlock());
         register(resolutionUtil = new ResolutionUtil());
         register(capeHandler = new CapeHandler());
@@ -120,6 +145,9 @@ public class HyperiumHandlers {
         register(commandHandler = new HyperiumCommandHandler());
     }
 
+    public LayerDeadmau5HeadHandler getLayerDeadmau5HeadHandler() {
+        return layerDeadmau5HeadHandler;
+    }
 
     public RenderPlayerAsBlock getRenderPlayerAsBlock() {
         return renderPlayerAsBlock;
