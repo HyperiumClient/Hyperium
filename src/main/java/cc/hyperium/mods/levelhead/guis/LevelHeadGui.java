@@ -236,7 +236,9 @@ public class LevelHeadGui extends GuiScreen {
                 JsonHolder object = new JsonHolder();
                 object.put("header_obj", this.mod.getHeaderConfig());
                 object.put("footer_obj", this.mod.getFooterConfig());
-                NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("levelhead_color", true).put("object", object)));
+                NettyClient client = NettyClient.getClient();
+                if(client!=null)
+                client.write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("levelhead_color", true).put("object", object)));
                 GeneralChatHandler.instance().sendMessage("Exported settings!");
                 Minecraft.getMinecraft().displayGuiScreen(null);
             });

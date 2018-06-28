@@ -25,7 +25,7 @@ public class QueueModGui extends HyperiumGui {
             coolDown = 100;
             NettyClient client = NettyClient.getClient();
             if (client != null) {
-                NettyClient.getClient().write(UpdateQueuePacket.build(selected));
+               client.write(UpdateQueuePacket.build(selected));
             }
         }, guiButton -> guiButton.enabled = coolDown == 0);
         reg("QUEUE1", new GuiButton(nextId(), width - 201, height - 42, "Clear Queue"), guiButton -> {

@@ -42,7 +42,9 @@ public class FlipKeybind extends HyperiumBind {
             inverted = !inverted;
             int state = inverted ? Settings.flipType : 0;
             Hyperium.INSTANCE.getHandlers().getFlipHandler().state(UUIDUtil.getClientUUID(), state);
-            NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("type", "flip_update").put("flip_state", state)));
+            NettyClient client = NettyClient.getClient();
+            if (client != null)
+                client.write(ServerCrossDataPacket.build(new JsonHolder().put("type", "flip_update").put("flip_state", state)));
             Hyperium.INSTANCE.getHandlers().getFlipHandler().resetTick();
         }
     }
@@ -55,7 +57,10 @@ public class FlipKeybind extends HyperiumBind {
             inverted = !inverted;
             int state = inverted ? Settings.flipType : 0;
             Hyperium.INSTANCE.getHandlers().getFlipHandler().state(UUIDUtil.getClientUUID(), state);
-            NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("type", "flip_update").put("flip_state", state)));
+            NettyClient client = NettyClient.getClient();
+
+            if (client != null)
+                client.write(ServerCrossDataPacket.build(new JsonHolder().put("type", "flip_update").put("flip_state", state)));
         }
     }
 

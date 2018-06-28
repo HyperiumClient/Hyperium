@@ -38,7 +38,7 @@ public class CommandNameHistory implements BaseCommand {
 
     @Override
     public String getUsage() {
-        return "/namehistory";
+        return "/namehistory <player>";
     }
 
     @Override
@@ -48,6 +48,12 @@ public class CommandNameHistory implements BaseCommand {
 
     @Override
     public void onExecute(String[] args) {
-        Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new NameHistoryGui());
+        if (args.length == 0) {
+            Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new NameHistoryGui());
+        } else if (args.length == 1) {
+            Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new NameHistoryGui(args[0]));
+        } else {
+            Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage("Usage: " + this.getUsage());
+        }
     }
 }
