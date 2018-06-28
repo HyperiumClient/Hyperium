@@ -32,7 +32,6 @@ public class GuiHyperiumCredits extends HyperiumGui {
     private static LinkedHashMap<String, DynamicTexture> contributors = new LinkedHashMap<>();
     private static HashMap<String, Integer> commits = new HashMap<>();
     private static String err = "";
-    public boolean loaded = false;
 
     static {
         System.setProperty("http.agent", "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.4; en-US; rv:1.9.2.2) Gecko/20100316 Firefox/3.6.2");
@@ -95,7 +94,6 @@ public class GuiHyperiumCredits extends HyperiumGui {
             drawString(fr, commits.get(c) + " commits", x + 25, y.get() + 10, 0x757575);
             y.addAndGet(25);
         });
-        loaded = true;
     }
 
     @Override
@@ -107,14 +105,12 @@ public class GuiHyperiumCredits extends HyperiumGui {
     public void handleMouseInput() throws IOException {
         super.handleMouseInput();
         int i = Mouse.getEventDWheel();
-        if(!loaded) {
 
-        } else {
-            if (i < 0)
-                offY -= 10;
-            else if (i > 0)
-                offY += 10;
-        }
+        if (i < 0)
+            offY -= 10;
+        else if (i > 0)
+            offY += 10;
+
     }
 
     @Override
