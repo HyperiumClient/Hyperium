@@ -54,11 +54,16 @@ public class CustomLevelheadConfigurer extends HyperiumGui {
     protected void pack() {
         int i = ResolutionUtil.current().getScaledWidth() - 20;
 
-        reg("RESET", new GuiButton(nextId(), 5, 55, i / 2, 20, "Reset to default"), button -> NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("levelhead_propose", true).put("reset", true).put("internal", true))), button -> {
+        NettyClient client1 = NettyClient.getClient();
+        reg("RESET", new GuiButton(nextId(), 5, 55, i / 2, 20, "Reset to default"), button -> {
+            if (client1 != null)
+                client1.write(ServerCrossDataPacket.build(new JsonHolder().put("levelhead_propose", true).put("reset", true).put("internal", true)));
+        }, button -> {
         });
         reg("PROPOSE", new GuiButton(nextId(), ResolutionUtil.current().getScaledWidth() / 2 + 5, 55, i / 2, 20, "Send for review"), button -> {
             ServerCrossDataPacket build = ServerCrossDataPacket.build(new JsonHolder().put("levelhead_propose", true).put("internal", true).put("propose", true).put("header", header.getText()).put("level", level.getText()));
-            NettyClient.getClient().write(build);
+            if (client1 != null)
+                client1.write(build);
         }, button -> {
 
         });

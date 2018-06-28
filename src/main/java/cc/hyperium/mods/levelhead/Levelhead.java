@@ -138,7 +138,7 @@ public class Levelhead extends AbstractMod {
             return false;
         if (player.isSneaking())
             return false;
-        return player.getAlwaysRenderNameTagForRender() && !player.getDisplayName().getUnformattedText().isEmpty();
+        return player.getAlwaysRenderNameTagForRender() && !player.getName().isEmpty();
     }
 
     private boolean renderFromTeam(EntityPlayer player) {

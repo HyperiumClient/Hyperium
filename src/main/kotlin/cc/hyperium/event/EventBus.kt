@@ -37,10 +37,11 @@ object EventBus {
      * @param obj An instance of the class which you would like to register as an event
      */
     fun register(obj: Any) {
+        println("reg: " + obj.javaClass.name)
         // also contains the class itself
         val superClasses = TypeToken.of(obj.javaClass).types.rawTypes()
 
-        // we also want to loop over the super classes, since declaredMethods only gets method in the class itself
+        // we also want to loop over the super classes, since declaredMethods only gets method in the class itself`
         for (clazz in superClasses) {
             // iterates though all the methods in the class
             for (method in clazz.declaredMethods) {

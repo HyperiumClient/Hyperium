@@ -252,7 +252,9 @@ public class CrashReportGUI extends JDialog {
             if (report != null && hurl == null)
                 return false;
 
-            NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("crash_report", true).put("internal", true).put("crash",
+            NettyClient client = NettyClient.getClient();
+            if(client!=null)
+            client.write(ServerCrossDataPacket.build(new JsonHolder().put("crash_report", true).put("internal", true).put("crash",
                     new JsonHolder()
                             .put("crash-full", report == null ? "unavailable" : hurl)
                             .put("hyperium", Metadata.getVersion())
