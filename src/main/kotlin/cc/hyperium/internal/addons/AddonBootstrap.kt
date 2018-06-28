@@ -153,7 +153,7 @@ object AddonBootstrap {
      */
     private fun loadAddons(loader: AddonLoaderStrategy): List<AddonManifest> {
         val addons = ArrayList<AddonManifest>()
-        var pendings = pendingDirectory.listFiles();
+        var pendings = if(pendingDirectory.exists()) pendingDirectory.listFiles() else arrayOf()
         try {
             if (pendingDirectory.exists())
                 pendings.forEach { pendingManifests.add(AddonManifestParser(JarFile(it)).getAddonManifest()) }
