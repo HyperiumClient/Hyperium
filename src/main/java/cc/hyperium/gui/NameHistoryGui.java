@@ -36,11 +36,14 @@ import java.util.UUID;
 
 public class NameHistoryGui extends GuiScreen {
 
-    public NameHistoryGui() {
+    private String name;
 
+    public NameHistoryGui() {
+        this("");
     }
 
     public NameHistoryGui(String name) {
+        this.name = name;
         getNames(name);
     }
 
@@ -53,6 +56,7 @@ public class NameHistoryGui extends GuiScreen {
     public void initGui() {
         super.initGui();
         nameField = new HyperiumTextField(1, fontRenderer, width / 2 - (115 / 2), height / 5 + 10, 115, 20);
+        nameField.setText(name);
     }
 
     @Override
@@ -101,6 +105,7 @@ public class NameHistoryGui extends GuiScreen {
             getNames(nameField.getText());
         }
         nameField.textboxKeyTyped(typedChar, keyCode);
+        name = nameField.getText();
         super.keyTyped(typedChar, keyCode);
     }
 
@@ -113,6 +118,9 @@ public class NameHistoryGui extends GuiScreen {
     public void getNames(String username) {
         offset = 0;
         try {
+            if (username.equals("")) {
+                return;
+            }
             UUID uuid = MojangAPI.getUUID(username);
             for (Name history : MojangAPI.getNameHistory(uuid)) {
                 String name = history.getName();
