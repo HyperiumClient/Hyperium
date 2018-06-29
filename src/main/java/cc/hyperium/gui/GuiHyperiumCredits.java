@@ -105,10 +105,12 @@ public class GuiHyperiumCredits extends HyperiumGui {
     public void handleMouseInput() throws IOException {
         super.handleMouseInput();
         int i = Mouse.getEventDWheel();
+
         if (i < 0)
             offY -= 10;
         else if (i > 0)
             offY += 10;
+
     }
 
     @Override

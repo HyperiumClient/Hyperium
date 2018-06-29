@@ -170,8 +170,9 @@ public class Settings {
     @ConfigOpt
     @SelectorSetting(name = "Flip Type", category = COSMETICS, items = {})//OVERRIDEN
     public static String FLIP_TYPE_STRING = "FLIP";
+
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.BackgroundSettings;backgroundSelect")
-    @SelectorSetting(name = "Background", items =
+    @SelectorSetting(name = "Background", category = MISC, items =
             {
                     "1",
                     "2",
@@ -179,9 +180,11 @@ public class Settings {
                     "4",
                     "5",
                     "6",
-                    "CUSTOM"
+                    "CUSTOM",
+                    "DEFAULT"
             }
     )
+
     public static String BACKGROUND = "4";
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.BackgroundSettings;fastWorldGuiEnabled")
     @ToggleSetting(name = "Transparent Container Backgrounds")
