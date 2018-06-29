@@ -67,6 +67,8 @@
     "renderer.model.MixinModelPlayer",
     "renderer.model.MixinModelRenderer",
     "scoreboard.MixinScoreboard",
+    "utils.MixinChatComponentStyle",
+    "utils.MixinChatStyle",
     "utils.MixinResourcePackRepository",
     "world.MixinChunk",
     "world.MixinWorld"

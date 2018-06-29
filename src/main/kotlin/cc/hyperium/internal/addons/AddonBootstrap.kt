@@ -48,7 +48,7 @@ object AddonBootstrap {
     /**
      * All the filtered jars inside of the {@link #modDirectory} folder,
      */
-    private val jars: ArrayList<File>
+    private lateinit var jars: ArrayList<File>
 
     /**
      * Method of loading all the valid addonManifests to the classloader
@@ -114,19 +114,6 @@ object AddonBootstrap {
         Launch.classLoader.addClassLoaderExclusion("cc.hyperium.internal.addons.AddonManifest")
         Launch.classLoader.addClassLoaderExclusion("me.kbrewster.blazeapi.internal.addons.translate.")
 
-        try {
-            if (pendingDirectory.exists() && !pendingDirectory.listFiles().isEmpty())
-                pendingDirectory.listFiles().forEach {
-                    pendingManifests.add(AddonManifestParser(JarFile(it)).getAddonManifest())
-                    with(File(modDirectory, it.name)) {
-                        if (exists())
-                            delete()
-                    }
-                    FileUtils.moveFile(it, File(modDirectory, it.name))
-                }
-        } catch (ex: Exception) {
-            ex.printStackTrace()
-        }
         with(addonManifests) {
             val workspaceAddon = loadWorkspaceAddon()
             //TODO: ADD DEV ENVIRONMENT CHECK
@@ -166,6 +153,13 @@ object AddonBootstrap {
      */
     private fun loadAddons(loader: AddonLoaderStrategy): List<AddonManifest> {
         val addons = ArrayList<AddonManifest>()
+        var pendings = if(pendingDirectory.exists()) pendingDirectory.listFiles() else arrayOf()
+        try {
+            if (pendingDirectory.exists())
+                pendings.forEach { pendingManifests.add(AddonManifestParser(JarFile(it)).getAddonManifest()) }
+        } catch (ex: Exception) {
+            ex.printStackTrace()
+        }
         val benchmark = Stopwatch.createStarted()
         LOGGER.info("Starting to load external jars...")
         for (jar in jars) {
@@ -174,6 +168,18 @@ object AddonBootstrap {
                 addons.add(addon)
             } catch (e: Exception) {
                 LOGGER.error("Could not load {}!", jar.name)
+                e.printStackTrace()
+            }
+        }
+        pendingManifests.clear()
+        for(jar in pendings) {
+            val dest = File(modDirectory, jar.name)
+            FileUtils.moveFile(jar, dest)
+            try {
+                val addon = loadAddon(loader, dest) ?: continue
+                addons.add(addon)
+            } catch (e: Exception) {
+                LOGGER.error("Could not load {}!", dest.name)
                 e.printStackTrace()
             }
         }

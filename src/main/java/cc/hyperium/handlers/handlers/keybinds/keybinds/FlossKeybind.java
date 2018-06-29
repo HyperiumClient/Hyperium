@@ -42,17 +42,20 @@ public class FlossKeybind extends HyperiumBind {
         UUID uuid = (Minecraft.getMinecraft().getSession()).getProfile().getId();
         AbstractAnimationHandler.AnimationState currentState = flossDanceHandler.get(uuid);
 
+        NettyClient client = NettyClient.getClient();
         if (Settings.FLOSS_TOGGLE && currentState.isAnimating() && !this.wasPressed()) {
             currentState.setToggled(false);
             flossDanceHandler.stopAnimation(uuid);
-            NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("type", "floss_update").put("flossing", false)));
+            if (client != null)
+                client.write(ServerCrossDataPacket.build(new JsonHolder().put("type", "floss_update").put("flossing", false)));
             return;
         }
 
         if (!this.wasPressed()) {
             currentState.setToggled(Settings.FLOSS_TOGGLE);
             flossDanceHandler.startAnimation(uuid);
-            NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("type", "floss_update").put("flossing", true)));
+            if (client != null)
+                client.write(ServerCrossDataPacket.build(new JsonHolder().put("type", "floss_update").put("flossing", true)));
 
         }
     }
@@ -62,7 +65,9 @@ public class FlossKeybind extends HyperiumBind {
     public void onRelease() {
         if (Settings.FLOSS_TOGGLE) return;
         Hyperium.INSTANCE.getHandlers().getFlossDanceHandler().stopAnimation(UUIDUtil.getClientUUID());
-        NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("type", "floss_update").put("flossing", false)));
+        NettyClient client = NettyClient.getClient();
+        if (client != null)
+            client.write(ServerCrossDataPacket.build(new JsonHolder().put("type", "floss_update").put("flossing", false)));
 
     }
 }

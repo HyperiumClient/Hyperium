@@ -18,6 +18,7 @@
 package cc.hyperium.mixins.entity;
 
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.event.HoverEvent;
 import net.minecraft.util.ChatComponentText;
@@ -32,7 +33,7 @@ import java.util.UUID;
 @Mixin(Entity.class)
 public abstract class MixinEntity {
 
-    private final long nameCacheTime = System.currentTimeMillis();
+    private long nameCacheTime = System.currentTimeMillis();
     @Shadow
     public double posX;
     @Shadow
@@ -63,9 +64,12 @@ public abstract class MixinEntity {
     public IChatComponent getDisplayName() {
         if (cachedName == null || System.currentTimeMillis() - nameCacheTime > 50L) {
             ChatComponentText chatcomponenttext = new ChatComponentText(this.getName());
-            chatcomponenttext.getChatStyle().setChatHoverEvent(this.getHoverEvent());
+            //not needed otherwise
+            if (Minecraft.getMinecraft().isIntegratedServerRunning())
+                chatcomponenttext.getChatStyle().setChatHoverEvent(this.getHoverEvent());
             chatcomponenttext.getChatStyle().setInsertion(this.getUniqueID().toString());
             this.cachedName = chatcomponenttext;
+            nameCacheTime=System.currentTimeMillis();
         }
         return cachedName;
     }
