@@ -32,14 +32,15 @@ public class ParticleGui extends HyperiumGui {
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         super.drawScreen(mouseX, mouseY, partialTicks);
         ScaledResolution current = ResolutionUtil.current();
-        particleType.render(current.getScaledWidth() / 5, current.getScaledHeight() / 2);
+        particleType.render(current.getScaledWidth() / 5, current.getScaledHeight() / 2, mouseX, mouseY);
 
-        particleAnimation.render(current.getScaledWidth() *4 / 5 , current.getScaledHeight() / 2);
+        particleAnimation.render(current.getScaledWidth() * 4 / 5, current.getScaledHeight() / 2, mouseX, mouseY);
     }
 
     @Override
     protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
         super.mouseClicked(mouseX, mouseY, mouseButton);
-        particleType.mouseClicked(0,0);
+        particleType.mouseClicked(mouseX, mouseY, width / 5);
+        particleAnimation.mouseClicked(mouseX, mouseY, width * 4 / 5);
     }
 }

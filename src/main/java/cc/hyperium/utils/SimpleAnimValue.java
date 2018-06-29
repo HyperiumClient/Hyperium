@@ -26,7 +26,10 @@ public class SimpleAnimValue {
      * @return the current animation value
      */
     public float getValue() {
-        return Math.max(start + (System.currentTimeMillis() - startMs) * (duration / (end - start)), end);
+        if (end - start == 0)
+            return end;
+        float v = start + (float) (System.currentTimeMillis() - startMs) * ((float) duration / (end - start));
+        return end > start ? Math.min(v, end) : Math.max(v, end);
     }
 
     /**

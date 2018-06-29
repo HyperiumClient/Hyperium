@@ -1,6 +1,5 @@
 package cc.hyperium.gui.carousel;
 
-import cc.hyperium.gui.GuiBlock;
 import cc.hyperium.gui.Icons;
 import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
 import cc.hyperium.utils.HyperiumFontRenderer;
@@ -10,10 +9,7 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.util.ArrayList;
-import java.util.List;
+import java.awt.*;
 
 /**
  * Created by mitchellkatz on 6/25/18. Designed for production use on Sk1er.club
@@ -23,53 +19,55 @@ public class PurchaseCarousel {
     private final HyperiumFontRenderer fr = new HyperiumFontRenderer("Arial", Font.PLAIN, 60);
     private int index;
     private CarouselItem[] items;
-    private List<GuiBlock> leftActions = new ArrayList<>();
-    private List<GuiBlock> rightActions = new ArrayList<>();
-    private SimpleAnimValue slideAnim = new SimpleAnimValue((long) 1, 0, 1);
+    private SimpleAnimValue anim = new SimpleAnimValue((long) 1, 0, 1);
+    private SimpleAnimValue larrow = new SimpleAnimValue(0L, 0.5f, 0.5f);
+    private SimpleAnimValue rarrow = new SimpleAnimValue(0L, 0.5f, 0.5f);
+    private boolean lhover = false;
+    private boolean rhover = false;
 
     private PurchaseCarousel(int index, CarouselItem[] items) {
         if (items.length == 0)
             throw new IllegalArgumentException("Items must have at least 1 item in it");
         this.index = index;
         this.items = items;
+
+        ScaledResolution current = ResolutionUtil.current();
+        int totalWidth = current.getScaledWidth() / 3;
+        int panel = totalWidth / 5;
     }
 
     public static PurchaseCarousel create(int index, CarouselItem... items) {
         return new PurchaseCarousel(index, items);
     }
 
-    public void mouseClicked(int x, int y) {
-        slideAnim = new SimpleAnimValue(1000L, 0, 1.0F);
-        for (GuiBlock left : leftActions) {
-            if (left != null && x >= left.getLeft() && x <= left.getRight() && y >= left.getTop() && y <= left.getBottom()) {
-                index--;
-                if (index < 0)
-                    index = items.length - 1;
-                return;
-            }
-        }
-        for (GuiBlock right : rightActions) {
-            if (right != null && x >= right.getLeft() && x <= right.getRight() && y >= right.getTop() && y <= right.getBottom()) {
-                index++;
-                if (index > items.length - 1)
-                    index = 0;
-                return;
-            }
-        }
+    public void mouseClicked(int x, int y, int cx) {
         for (CarouselItem item : items) {
             item.mouseClicked(x, y);
+        }
+
+        ScaledResolution current = ResolutionUtil.current();
+        int totalWidth = current.getScaledWidth() / 3;
+        int panel = totalWidth / 5;
+        int mainWidth = panel * 3;
+        int cy = current.getScaledHeight() / 2;
+        int lx = cx - mainWidth / 2;
+        int rx = cx + mainWidth / 2;
+        if (x >= lx - 8 && x <= lx && y >= cy - 5 && y <= cy + 5) {
+            //System.out.println("left");
+        } else if (x >= rx && x <= rx + 8 && y >= cy - 5 && y <= cy + 5) {
+            //System.out.println("right");
         }
     }
 
     public void rotateRight() {
-        slideAnim = new SimpleAnimValue(500L, 0, 1);
+
     }
 
     public void rotateLeft() {
 
     }
 
-    public void render(int centerX, int centerY) {
+    public void render(int centerX, int centerY, int mouseX, int mouseY) {
         ScaledResolution current = ResolutionUtil.current();
         int totalWidth = current.getScaledWidth() / 3;
         int panel = totalWidth / 5;
@@ -104,7 +102,35 @@ public class PurchaseCarousel {
         Icons.DOWNLOAD.bind();
         Icons.SETTINGS.bind();
         Gui.drawScaledCustomSizeModalRect(purchaseRight + barHeight, (objBottom - 20) * 2, 0, 0, 144, 144, barHeight * 2, barHeight * 2, 144, 144);
+
         GlStateManager.scale(2.0, 2.0, 2.0);
+        if (mouseX >= objLeft - 8 && mouseX <= objLeft && mouseY >= centerY - 5 && mouseY <= centerY + 5) {
+            if (!lhover) {
+                lhover = true;
+                larrow = new SimpleAnimValue(500L, larrow.getValue(), 0.3f);
+            }
+        } else if (lhover) {
+            lhover = false;
+            larrow = new SimpleAnimValue(500L, larrow.getValue(), 0.5f);
+        }
+        float v = larrow.getValue();
+        GlStateManager.scale(v, v, v);
+        fr.drawCenteredString("<", (objLeft - 5) / v, centerY / v - 10, 0xffffff);
+        GlStateManager.scale(1 / v, 1 / v, 1 / v);
+        if (mouseX >= objRight && mouseX <= objRight + 8 && mouseY >= centerY - 5 && mouseY <= centerY + 5) {
+            if (!rhover) {
+                rhover = true;
+                rarrow = new SimpleAnimValue(500L, rarrow.getValue(), 0.3f);
+            }
+        } else if (rhover) {
+            rhover = false;
+            rarrow = new SimpleAnimValue(500L, rarrow.getValue(), 0.5f);
+        }
+        v = rarrow.getValue();
+        //System.out.println(v);
+        GlStateManager.scale(v, v, v);
+        fr.drawCenteredString(">", (objRight + 5) / v, centerY / v - 10, 0xffffff);
+        GlStateManager.scale(1 / v, 1 / v, 1 / v);
     }
 
 
