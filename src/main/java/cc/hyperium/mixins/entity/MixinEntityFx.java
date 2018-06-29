@@ -16,12 +16,6 @@ public class MixinEntityFx implements IMixinEntityFx {
     protected float particleGravity;
     @Shadow
     protected int particleMaxAge;
-    @Shadow
-    protected float particleRed;
-    @Shadow
-    protected float particleGreen;
-    @Shadow
-    protected float particleBlue;
 
     public void setParticleGravity(float particleGravity) {
         this.particleGravity = particleGravity;
@@ -32,15 +26,5 @@ public class MixinEntityFx implements IMixinEntityFx {
         this.particleMaxAge = age;
     }
 
-    public void setParticleRed(float particleRed) {
-        this.particleRed = particleRed;
-    }
 
-    public void setParticleGreen(float particleGreen) {
-        this.particleGreen = particleGreen;
-    }
-
-    public void setParticleBlue(float particleBlue) {
-        this.particleBlue = particleBlue;
-    }
 }
