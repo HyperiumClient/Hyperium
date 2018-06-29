@@ -86,5 +86,6 @@ public abstract class MixinRenderPlayer extends RendererLivingEntity<AbstractCli
         ModelPlayer modelplayer = this.getMainModel();
         modelplayer.isRiding = modelplayer.isSneak = false;
     }
+
 }
 

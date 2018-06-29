@@ -18,14 +18,21 @@
 package cc.hyperium.mixins.world;
 
 import cc.hyperium.config.Settings;
+import cc.hyperium.event.EntityJoinWorldEvent;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.SpawnpointChangeEvent;
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldType;
+import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.storage.WorldInfo;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
@@ -34,11 +41,24 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import java.util.Collection;
+import java.util.List;
+
 @Mixin(World.class)
 public class MixinWorld {
 
     @Shadow
     private WorldInfo worldInfo;
+
+    @Shadow
+    public List<TileEntity> loadedTileEntityList;
+
+
+    @Shadow @Final public List<Entity> loadedEntityList;
+
+    @Shadow @Final public boolean isRemote;
+
+    @Shadow protected IChunkProvider chunkProvider;
 
     /**
      * Invoked once the server changes the players spawn point
@@ -145,5 +165,51 @@ public class MixinWorld {
         if (!Minecraft.getMinecraft().isIntegratedServerRunning() && Settings.FULLBRIGHT) {
             ci.setReturnValue(15);
         }
+    }
+
+    /**
+     * It's for EntityJoinWorldEvent
+     * @author SiroQ
+     **/
+    @Inject(method = "loadEntities", at = @At("HEAD"))
+    private void loadEntities(Collection<Entity> entityCollection, CallbackInfo ci){
+        for (Entity entity : entityCollection) {
+            if (!loadedEntityList.contains(entity)) {
+                EventBus.INSTANCE.post(new EntityJoinWorldEvent(entity,(World)(Object)this));
+            }
+        }
+    }
+    /**
+     * It's for EntityJoinWorldEvent
+     * @author SiroQ
+     **/
+    @Inject(method = "spawnEntityInWorld", at = @At("HEAD"))
+    private void spawnEntityInWorld(Entity entityIn, CallbackInfoReturnable<Integer> ci){
+        if (!isRemote && (entityIn == null)) {
+            return;
+        }
+        int i = MathHelper.floor_double(entityIn.posX / 16.0D);
+        int j = MathHelper.floor_double(entityIn.posZ / 16.0D);
+        boolean flag = entityIn.forceSpawn;
+        if (entityIn instanceof EntityPlayer) {
+            flag = true;
+        }
+        if (flag && isChunkLoaded(i, j, true)) {
+            EventBus.INSTANCE.post(new EntityJoinWorldEvent(entityIn,(World)(Object)this));
+        }
+    }
+    /**
+     * It's for EntityJoinWorldEvent
+     * @author SiroQ
+     **/
+    @Inject(method = "joinEntityInSurroundings", at = @At(value = "HEAD"))
+    private void joinEntityInSurroundings(Entity entityIn, CallbackInfo ci){
+        if (!this.loadedEntityList.contains(entityIn)) {
+            EventBus.INSTANCE.post(new EntityJoinWorldEvent(entityIn, (World) (Object) this));
+        }
+    }
+
+    protected boolean isChunkLoaded(int x, int z, boolean allowEmpty) {
+        return chunkProvider.chunkExists(x, z) && (allowEmpty || !chunkProvider.provideChunk(x, z).isEmpty());
     }
 }

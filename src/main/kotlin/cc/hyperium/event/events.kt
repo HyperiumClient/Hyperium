@@ -28,11 +28,15 @@ import net.minecraft.client.gui.ScaledResolution
 import net.minecraft.client.model.ModelBiped
 import net.minecraft.client.renderer.entity.RenderManager
 import net.minecraft.entity.Entity
+import net.minecraft.entity.EntityLiving
+import net.minecraft.entity.EntityLivingBase
 import net.minecraft.entity.player.EntityPlayer
+import net.minecraft.item.ItemStack
 import net.minecraft.network.INetHandler
 import net.minecraft.network.Packet
 import net.minecraft.scoreboard.ScoreObjective
 import net.minecraft.util.*
+import net.minecraft.world.World
 import java.lang.reflect.Method
 import java.util.*
 
@@ -251,6 +255,20 @@ class EntityRenderEvent(val entityIn: Entity,
                         val model: ModelBiped, val p_78088_2_: Float,
                         val p_78088_3_: Float, val p_78088_4_: Float,
                         val p_78088_5_: Float, val p_78088_6_: Float, val scale: Float) : CancellableEvent()
+/**
+ * LivingDeathEvent is fired when an Entity dies.
+ */
+class LivingDeathEvent(val entity: EntityLivingBase, val source: DamageSource)
+
+/**
+ * ArrowLooseEvent is fired when a player stops using a bow.
+ **/
+class ArrowLooseEvent(val player: EntityPlayer, val bow: ItemStack, val charge: Int)
+
+/**
+ * EntityJoinWorldEvent is fired when an Entity joins the world.
+ **/
+class EntityJoinWorldEvent(val entity: Entity,val world: World)
 
 /**
  * Invoked when the scoreboard is rendered
