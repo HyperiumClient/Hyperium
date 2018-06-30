@@ -348,6 +348,10 @@ public class Settings {
     public static boolean SUPERSECRETSETTINGSV2 = false;
 
 
+    @ConfigOpt
+    @ToggleSetting(name = "Update Notifications in Hyperium Settings", category = MISC)
+    public static boolean UPDATE_NOTIFICATIONS = true;
+
     public static void register() {
         Hyperium.CONFIG.register(new Settings()); // values r static soo whatever
     }

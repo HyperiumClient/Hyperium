@@ -73,6 +73,8 @@
     "utils.MixinChatStyle",
     "utils.MixinResourcePackRepository",
     "world.MixinChunk",
-    "world.MixinWorld"
+    "world.MixinWorld",
+    "item.MixinItemBow",
+    "entity.MixinEntityPlayerMP"
   ]
 }

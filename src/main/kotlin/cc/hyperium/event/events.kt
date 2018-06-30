@@ -28,7 +28,10 @@ import net.minecraft.client.gui.ScaledResolution
 import net.minecraft.client.model.ModelBiped
 import net.minecraft.client.renderer.entity.RenderManager
 import net.minecraft.entity.Entity
+import net.minecraft.entity.EntityLivingBase
 import net.minecraft.entity.player.EntityPlayer
+import net.minecraft.entity.projectile.EntityArrow
+import net.minecraft.item.ItemStack
 import net.minecraft.network.INetHandler
 import net.minecraft.network.Packet
 import net.minecraft.scoreboard.ScoreObjective
@@ -225,12 +228,6 @@ class RenderSelectedItemEvent(val scaledRes: ScaledResolution)
 class JoinHypixelEvent(val method: ServerVerificationMethod)
 
 /**
- * Called when the player joins badlion
- * @param method method used to verify the player is online Badlion
- */
-class JoinBadlionEvent(val method: ServerVerificationMethod)
-
-/**
  * All the methods used by HypixelDetector to detect Hypixel or Badlion
  * This is used by the above two events
  */
@@ -279,6 +276,12 @@ class PlayerAttackEntityEvent(val uuid: UUID, val entity: Entity?)
 class PurchaseLoadEvent(val uuid: UUID, val purchase: HyperiumPurchase, val self: Boolean)
 
 class FriendRemoveEvent(val fullName: String, val name: String)
+
+class EntityJoinWorldEvent(val entity: Entity)
+
+class ArrowShootEvent(val arrow: EntityArrow, val charge: Int, val bow: ItemStack)
+
+class LivingDeathEvent(val entity: EntityLivingBase, val cause: DamageSource)
 
 abstract class CopyPlayerModelAnglesEvent(val entity: AbstractClientPlayer, val model: IMixinModelBiped)
 
