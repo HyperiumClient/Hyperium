@@ -10,7 +10,6 @@ import cc.hyperium.handlers.handlers.particle.animations.ExplodeAnimation;
 import cc.hyperium.handlers.handlers.particle.animations.QuadTwirlAnimation;
 import cc.hyperium.handlers.handlers.particle.animations.StaticTrailAnimation;
 import cc.hyperium.handlers.handlers.particle.animations.TripleTwirlAnimation;
-import cc.hyperium.handlers.handlers.particle.particle.ExplosionParticle;
 import cc.hyperium.mixinsimp.renderer.IMixinEntityFx;
 import cc.hyperium.utils.JsonHolder;
 import cc.hyperium.utils.UUIDUtil;
@@ -42,11 +41,13 @@ public class ParticleAuraHandler {
         for (EnumParticleType enumParticleType : EnumParticleType.values()) {
             renderEngines.put(enumParticleType, enumParticleType.getParticle());
         }
-        animations.put("Triple Twirl", new TripleTwirlAnimation());
+        animations.put("Double Helix", new DoubleHelix());
         animations.put("Double Twirl", new DoubleTwirlAnimation());
+        animations.put("Triple Twirl", new TripleTwirlAnimation());
         animations.put("Quad Twirl", new QuadTwirlAnimation());
         animations.put("Static Trail", new StaticTrailAnimation());
         animations.put("Explode", new ExplodeAnimation());
+
     }
 
     public EnumMap<EnumParticleType, IParticle> getRenderEngines() {
@@ -67,20 +68,23 @@ public class ParticleAuraHandler {
 
     @InvokeEvent
     public void loadPurchaseEvent(PurchaseLoadEvent purchaseLoadEvent) {
+        auras.remove(purchaseLoadEvent.getPurchase().getPlayerUUID());
         JsonHolder purchaseSettings = purchaseLoadEvent.getPurchase().getPurchaseSettings();
-        if (!purchaseSettings.has("particle"))
+        if (!purchaseSettings.has("particle")) {
             return;
+        }
         JsonHolder data = purchaseSettings.optJSONObject("particle");
         AbstractAnimation particle_animation = animations.get(data.optString("particle_animation"));
-        EnumParticleType type = EnumParticleType.valueOf(data.optString("type"));
-        if (particle_animation == null)
+        EnumParticleType type = EnumParticleType.parse(data.optString("type"));
+        if (particle_animation == null || type == null) {
             return;
+        }
 
         boolean rgb = data.optBoolean("rgb");
         boolean chroma = data.optBoolean("chroma");
         ParticleAura max_age = new ParticleAura(renderEngines.get(type), particle_animation, data.optInt("max_age", 2), chroma, rgb);
         max_age.setRgb(data.optInt("red"), data.optInt("green"), data.optInt("blue"));
-        auras.put(purchaseLoadEvent.getUuid(), max_age);
+        auras.put(purchaseLoadEvent.getPurchase().getPlayerUUID(), max_age);
 
 
     }
@@ -96,11 +100,11 @@ public class ParticleAuraHandler {
 
     @InvokeEvent
     public void renderPlayer(RenderPlayerEvent event) {
+        if(Minecraft.getMinecraft().isGamePaused())
+            return;
         AbstractClientPlayer entity = event.getEntity();
         ParticleAura particleAura = auras.get(entity.getUniqueID());
-        if (entity.equals(Minecraft.getMinecraft().thePlayer)) {
-            particleAura = new ParticleAura(new ExplosionParticle(), new DoubleHelix(), 2, true, false);
-        }
+
 
         if (particleAura != null) {
             double x = entity.prevPosX + (entity.posX - entity.prevPosX) * event.getPartialTicks();

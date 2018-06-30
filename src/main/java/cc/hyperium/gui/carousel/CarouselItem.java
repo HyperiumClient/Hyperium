@@ -8,34 +8,42 @@ import java.util.function.Consumer;
 public class CarouselItem {
 
     private boolean purchased;
+    private boolean active;
     private String name;
     private Consumer<CarouselItem> onPurchase;
-    private Consumer<CarouselItem> onClick;
     private Consumer<CarouselItem> onSettingsClick;
+    private Consumer<CarouselItem> onActivate;
 
     public CarouselItem(String name, boolean purchased) {
-        this(name, purchased, carouselItem -> {
+        this(name, purchased, false, carouselItem -> {
         }, carouselItem -> {
         }, carouselItem -> {
+
         });
     }
 
-    public CarouselItem(String name, boolean purchased, Consumer<CarouselItem> onPurchase, Consumer<CarouselItem> onClick, Consumer<CarouselItem> onSettingsClick) {
+    public Consumer<CarouselItem> getOnActivate() {
+        return onActivate;
+    }
+
+    public CarouselItem(String name, boolean purchased, boolean active, Consumer<CarouselItem> onPurchase, Consumer<CarouselItem> onSettingsClick, Consumer<CarouselItem> onActivate) {
         this.purchased = purchased;
         this.name = name;
+        this.active = active;
 
         this.onPurchase = onPurchase;
-        this.onClick = onClick;
         this.onSettingsClick = onSettingsClick;
+        this.onActivate = onActivate;
+    }
+
+    public boolean isActive() {
+        return active;
     }
 
     public Consumer<CarouselItem> getOnPurchase() {
         return onPurchase;
     }
 
-    public Consumer<CarouselItem> getOnClick() {
-        return onClick;
-    }
 
     public Consumer<CarouselItem> getOnSettingsClick() {
         return onSettingsClick;
@@ -49,7 +57,8 @@ public class CarouselItem {
         return name;
     }
 
-    public void mouseClicked(int x, int y) {
 
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }

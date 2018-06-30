@@ -19,6 +19,7 @@ package cc.hyperium.purchases;
 
 import cc.hyperium.utils.JsonHolder;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonPrimitive;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,6 +75,16 @@ public class HyperiumPurchase {
 
     public boolean hasPurchased(EnumPurchaseType type) {
         return getPurchase(type) != null;
+    }
+
+    public boolean hasPurchased(String key) {
+        if (isEverything())
+            return true;
+        for (JsonElement element : response.optJSONArray("hyperium")) {
+            if(element instanceof JsonPrimitive && element.getAsString().equalsIgnoreCase(key))
+                return true;
+        }
+        return false;
     }
 
     public List<AbstractHyperiumPurchase> getPurchases() {

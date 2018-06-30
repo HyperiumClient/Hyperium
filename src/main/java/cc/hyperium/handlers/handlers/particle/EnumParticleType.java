@@ -1,6 +1,5 @@
 package cc.hyperium.handlers.handlers.particle;
 
-import cc.hyperium.handlers.handlers.particle.particle.BlockCrackParticle;
 import cc.hyperium.handlers.handlers.particle.particle.CloudParticle;
 import cc.hyperium.handlers.handlers.particle.particle.CritParticle;
 import cc.hyperium.handlers.handlers.particle.particle.ExplosionParticle;
@@ -8,7 +7,6 @@ import cc.hyperium.handlers.handlers.particle.particle.FireworkSparkParticle;
 import cc.hyperium.handlers.handlers.particle.particle.FlameParticle;
 import cc.hyperium.handlers.handlers.particle.particle.FootstepParticle;
 import cc.hyperium.handlers.handlers.particle.particle.HeartParticle;
-import cc.hyperium.handlers.handlers.particle.particle.ItemCrackParticle;
 import cc.hyperium.handlers.handlers.particle.particle.LavaDripParticle;
 import cc.hyperium.handlers.handlers.particle.particle.LavaParticle;
 import cc.hyperium.handlers.handlers.particle.particle.NoteParticle;
@@ -38,7 +36,6 @@ import cc.hyperium.handlers.handlers.particle.particle.WaterDropParticle;
  */
 public enum EnumParticleType {
 
-    BLOCK_CRACK("Block Crack", new BlockCrackParticle()),
     CLOUD("Cloud Particle", new CloudParticle()),
     CRIT("Crit Particle", new CritParticle()),
     EXPLOSION("Explosion Particle", new ExplosionParticle()),
@@ -46,7 +43,6 @@ public enum EnumParticleType {
     FLAME("Flame Particle", new FlameParticle()),
     FOOTSTEP("Footstep Particle", new FootstepParticle()),
     HEART("Heart Particle", new HeartParticle()),
-    ITEM_CRACK("Item Crack Particle", new ItemCrackParticle()),
     LAVA_DRIP("Lava Drip Particle", new LavaDripParticle()),
     LAVA("Lava Particle", new LavaParticle()),
     NOTE("Note Block Particle", new NoteParticle()),
@@ -82,6 +78,15 @@ public enum EnumParticleType {
 
     }
 
+    public static EnumParticleType parse(String key) {
+
+        try {
+            return valueOf(key);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
     public String getName() {
         return name;
     }
@@ -90,3 +95,4 @@ public enum EnumParticleType {
         return particle;
     }
 }
+
