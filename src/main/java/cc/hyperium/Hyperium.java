@@ -17,11 +17,26 @@
 
 package cc.hyperium;
 
-import cc.hyperium.commands.defaults.*;
+import cc.hyperium.commands.defaults.CommandClearChat;
+import cc.hyperium.commands.defaults.CommandConfigGui;
+import cc.hyperium.commands.defaults.CommandDebug;
+import cc.hyperium.commands.defaults.CommandLogs;
+import cc.hyperium.commands.defaults.CommandNameHistory;
+import cc.hyperium.commands.defaults.CommandParticleAuras;
+import cc.hyperium.commands.defaults.CommandPlayGame;
+import cc.hyperium.commands.defaults.CommandPrivateMessage;
+import cc.hyperium.commands.defaults.CommandUpdate;
+import cc.hyperium.commands.defaults.CustomLevelheadCommand;
+import cc.hyperium.commands.defaults.DevTestCommand;
 import cc.hyperium.config.DefaultConfig;
 import cc.hyperium.config.Settings;
 import cc.hyperium.cosmetics.HyperiumCosmetics;
-import cc.hyperium.event.*;
+import cc.hyperium.event.EventBus;
+import cc.hyperium.event.GameShutDownEvent;
+import cc.hyperium.event.InitializationEvent;
+import cc.hyperium.event.InvokeEvent;
+import cc.hyperium.event.PreInitializationEvent;
+import cc.hyperium.event.Priority;
 import cc.hyperium.event.minigames.MinigameListener;
 import cc.hyperium.gui.BlurDisableFallback;
 import cc.hyperium.gui.ConfirmationPopup;
@@ -53,7 +68,12 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.Display;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.net.URL;
 import java.net.URLClassLoader;
 
@@ -272,6 +292,7 @@ public class Hyperium {
         if (isDevEnv)
             getHandlers().getHyperiumCommandHandler().registerCommand(new DevTestCommand());
         getHandlers().getHyperiumCommandHandler().registerCommand(new CommandLogs());
+        getHandlers().getHyperiumCommandHandler().registerCommand(new CommandParticleAuras());
     }
 
     /**
