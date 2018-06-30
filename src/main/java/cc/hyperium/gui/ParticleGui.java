@@ -50,13 +50,13 @@ public class ParticleGui extends HyperiumGui {
     public void initGui() {
         EventBus.INSTANCE.register(this);
         super.initGui();
-        rebuild();
+        queueBuild=true;
     }
-
+    private boolean queueBuild = false;
     @InvokeEvent
     public void loadPurchaseEvent(PurchaseLoadEvent event) {
         if (event.getSelf()) {
-            rebuild();
+            queueBuild=true;
         }
     }
 
@@ -220,6 +220,12 @@ public class ParticleGui extends HyperiumGui {
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+        if(queueBuild) {
+            queueBuild=false;
+            rebuild();
+
+        }
+
         GlStateManager.scale(2.0, 2.0, 2.0);
         HyperiumPurchase self = PurchaseApi.getInstance().getSelf();
         if (self != null) {
