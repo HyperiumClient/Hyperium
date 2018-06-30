@@ -42,6 +42,8 @@ import java.util.Queue;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.StreamSupport;
 
+import static cc.hyperium.installer.InstallerFrame.get;
+
 /*
  * Created by Cubxity on 20/05/2018
  */
@@ -156,9 +158,18 @@ public class HyperiumMainGui extends HyperiumGui {
 
         if(UpdateUtils.INSTANCE.isAbsoluteLatest() && !show && Settings.UPDATE_NOTIFICATIONS) {
             Alert alert = new Alert(Icons.ERROR.getResource(), () -> {
+                String versions_url = "https://raw.githubusercontent.com/HyperiumClient/Hyperium-Repo/master/installer/versions.json";
+                JsonHolder vJson = null;
                 try {
-                    JsonObject ver = StreamSupport.stream(utils.vJson.optJSONArray("versions").spliterator(), false)
-                            .filter(v -> utils.vJson.optString("latest-stable").equals(v.getAsJsonObject().get("name").getAsString())).findFirst()
+                    vJson = new JsonHolder(get(versions_url));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    Hyperium.INSTANCE.getNotification().display("Update", "Downloading updates...", 3);
+                    JsonHolder finalVJson = vJson;
+                    JsonObject ver = StreamSupport.stream(vJson.optJSONArray("versions").spliterator(), false)
+                            .filter(v -> finalVJson.optString("latest-stable").equals(v.getAsJsonObject().get("name").getAsString())).findFirst()
                             .orElseThrow(() -> new IllegalStateException("Couldn't find stable version")).getAsJsonObject();
                     boolean download = ver.get("install-min").getAsInt() > InstallerConfig.VERSION;
                     System.out.println("Download=" + download);
@@ -173,6 +184,7 @@ public class HyperiumMainGui extends HyperiumGui {
                             } else {
                                 jar = new File(System.getProperty("sun.java.command").split(" ")[0]);
                             }
+                            Hyperium.INSTANCE.getNotification().display("Update", "Client will restart in 10 secs. " + Metadata.getVersion() + " (" + Metadata.getVersionID() + ") -> " + ver.get("name").getAsString() + " (" + new JsonHolder(ver).optInt("release-id") + ") ", 10);
                             Multithreading.schedule(() -> {
                                 Minecraft.getMinecraft().shutdown();
                                 try {
