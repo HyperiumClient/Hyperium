@@ -250,7 +250,6 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
         if (Minecraft.getMinecraft().isFullScreen() && Settings.WINDOWED_FULLSCREEN && !FIRST_START) {
             HyperiumMainMenu.FIRST_START = false;
             Minecraft.getMinecraft().toggleFullscreen();
-            Minecraft.getMinecraft().toggleFullscreen();
         }
         if (Hyperium.INSTANCE.isFirstLaunch()) {
             new SettingsMigrator().migrate();
@@ -402,7 +401,6 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
                     p_i1182_1_.setWorldAndResolution(Minecraft.getMinecraft(), width, height);
                     ((IMixinGuiMultiplayer) p_i1182_1_).makeDirectConnect();
                     String hostName = Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) ? "stuck.hypixel.net" : "mc.hypixel.net";
-//                    Minecraft.getMinecraft().displayGuiScreen(new GuiConnecting(p_i1182_1_, Minecraft.getMinecraft(), hostName, 25565));
                     ServerData data = new ServerData("hypixel", hostName, false);
                     ((IMixinGuiMultiplayer) p_i1182_1_).setIp(data);
                     p_i1182_1_.confirmClicked(true, 0);
@@ -536,18 +534,6 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
         GlStateManager.disableAlpha();
         if (customImage.exists() && bgDynamicTexture != null && customBackground) {
             Minecraft.getMinecraft().getTextureManager().bindTexture(bgDynamicTexture);
-
-//                GL11.glBegin(GL11.GL_QUADS);
-//                GL11.glTexCoord2f(0, 0);
-//                GL11.glVertex2f(0, 0);
-//                GL11.glTexCoord2f(1, 0);
-//                GL11.glVertex2f(sr.getScaledWidth(), 0);
-//                GL11.glTexCoord2f(1, 1);
-//                GL11.glVertex2f(sr.getScaledWidth(), sr.getScaledHeight());
-//                GL11.glTexCoord2f(0, 1);
-//                GL11.glVertex2f(0, 100 + sr.getScaledHeight());
-//                GL11.glEnd();
-
             Tessellator tessellator = Tessellator.getInstance();
             WorldRenderer worldrenderer = tessellator.getWorldRenderer();
             worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
