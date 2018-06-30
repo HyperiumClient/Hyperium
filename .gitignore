@@ -6,3 +6,5 @@ run/
 src/api/
 src/test/
 .idea/
+gradle/
+gradlew
