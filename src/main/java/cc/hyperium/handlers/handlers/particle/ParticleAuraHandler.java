@@ -1,5 +1,6 @@
 package cc.hyperium.handlers.handlers.particle;
 
+import cc.hyperium.config.Settings;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.PurchaseLoadEvent;
 import cc.hyperium.event.RenderPlayerEvent;
@@ -7,6 +8,7 @@ import cc.hyperium.event.WorldChangeEvent;
 import cc.hyperium.handlers.handlers.particle.animations.DoubleHelix;
 import cc.hyperium.handlers.handlers.particle.animations.DoubleTwirlAnimation;
 import cc.hyperium.handlers.handlers.particle.animations.ExplodeAnimation;
+import cc.hyperium.handlers.handlers.particle.animations.LoadingSignAnimation;
 import cc.hyperium.handlers.handlers.particle.animations.QuadTwirlAnimation;
 import cc.hyperium.handlers.handlers.particle.animations.StaticTrailAnimation;
 import cc.hyperium.handlers.handlers.particle.animations.TripleTwirlAnimation;
@@ -47,6 +49,7 @@ public class ParticleAuraHandler {
         animations.put("Quad Twirl", new QuadTwirlAnimation());
         animations.put("Static Trail", new StaticTrailAnimation());
         animations.put("Explode", new ExplodeAnimation());
+        animations.put("Vortex of doom", new LoadingSignAnimation());
 
     }
 
@@ -75,6 +78,8 @@ public class ParticleAuraHandler {
         }
         JsonHolder data = purchaseSettings.optJSONObject("particle");
         AbstractAnimation particle_animation = animations.get(data.optString("particle_animation"));
+//        AbstractAnimation particle_animation = animations.get("Loading Sign");
+
         EnumParticleType type = EnumParticleType.parse(data.optString("type"));
         if (particle_animation == null || type == null) {
             return;
@@ -100,11 +105,11 @@ public class ParticleAuraHandler {
 
     @InvokeEvent
     public void renderPlayer(RenderPlayerEvent event) {
-        if(Minecraft.getMinecraft().isGamePaused())
+        if (Minecraft.getMinecraft().isGamePaused())
             return;
+        if(!Settings.SHOW_PARTICLES) return;
         AbstractClientPlayer entity = event.getEntity();
         ParticleAura particleAura = auras.get(entity.getUniqueID());
-
 
         if (particleAura != null) {
             double x = entity.prevPosX + (entity.posX - entity.prevPosX) * event.getPartialTicks();

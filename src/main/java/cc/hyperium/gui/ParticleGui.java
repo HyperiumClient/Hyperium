@@ -170,7 +170,7 @@ public class ParticleGui extends HyperiumGui {
 
         ParticleAuraHandler particleAuraHandler = Hyperium.INSTANCE.getHandlers().getParticleAuraHandler();
         HashMap<String, AbstractAnimation> animations = particleAuraHandler.getAnimations();
-        String[] keys = new String[]{"Double Twirl","Double Helix","Triple Twirl","Quad Twirl","Static Trail","Explode"};
+        String[] keys = new String[]{"Double Twirl","Double Helix","Triple Twirl","Quad Twirl","Static Trail","Explode","Vortex of doom"};
         CarouselItem[] animationItems = new CarouselItem[animations.size()];
         int c = 0;
         int g = 0;

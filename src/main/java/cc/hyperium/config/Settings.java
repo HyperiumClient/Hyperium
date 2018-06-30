@@ -127,6 +127,13 @@ public class Settings {
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.CosmeticSettings;dabSpeed")
     public static int DAB_SPEED = 7;
+
+
+    @ConfigOpt
+    @ToggleSetting(category = COSMETICS,name = "Show Particle Auras")
+    public static boolean SHOW_PARTICLES= true;
+
+
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.CosmeticSettings;dabToggle")
     public static boolean DAB_TOGGLE = false;
 
