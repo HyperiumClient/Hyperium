@@ -48,6 +48,7 @@ public class ParticleGui extends HyperiumGui {
 
     @Override
     public void initGui() {
+        EventBus.INSTANCE.register(this);
         super.initGui();
         rebuild();
     }
