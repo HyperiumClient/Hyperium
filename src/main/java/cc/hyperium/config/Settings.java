@@ -1,3 +1,20 @@
+/*
+ *     Copyright (C) 2018  Hyperium <https://hyperium.cc/>
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU Lesser General Public License as published
+ *     by the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU Lesser General Public License for more details.
+ *
+ *     You should have received a copy of the GNU Lesser General Public License
+ *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package cc.hyperium.config;
 
 import cc.hyperium.GuiStyle;
@@ -60,6 +77,8 @@ public class Settings {
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;perspectiveHoldDownEnabled")
     @ToggleSetting(name = "Hold Perspective Key")
     public static boolean PERSPECTIVE_HOLD = false;
+
+
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;windowedFullScreen")
     @ToggleSetting(name = "Windowed Fullscreen", category = IMPROVEMENTS)
@@ -310,6 +329,7 @@ public class Settings {
     )
     public static String MENU_STYLE = GuiStyle.DEFAULT.toString();
 
+
     @ConfigOpt
     @ToggleSetting(name = "Motion Blur Enabled", category = MISC)
     public static boolean MOTION_BLUR_ENABLED = false;
@@ -321,6 +341,12 @@ public class Settings {
     @ConfigOpt
     @ToggleSetting(name = "Spotify Notifications", category = SPOTIFY)
     public static boolean SPOTIFY_NOTIFICATIONS = true;
+
+
+    @ConfigOpt
+    @ToggleSetting(name = "Super Secret Settings v2", category = MISC)
+    public static boolean SUPERSECRETSETTINGSV2 = false;
+
 
     public static void register() {
         Hyperium.CONFIG.register(new Settings()); // values r static soo whatever

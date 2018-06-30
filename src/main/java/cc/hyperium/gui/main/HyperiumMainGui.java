@@ -33,7 +33,7 @@ import java.util.Queue;
  */
 public class HyperiumMainGui extends HyperiumGui {
 
-    public static HyperiumMainGui INSTANCE;
+    public static HyperiumMainGui INSTANCE = new HyperiumMainGui();
     private final HyperiumFontRenderer fr = new HyperiumFontRenderer("Arial", Font.PLAIN, 20);
     private long lastSelectionChange = 0L;
     private List<String> loadedAlerts = new ArrayList<>();
@@ -80,7 +80,6 @@ public class HyperiumMainGui extends HyperiumGui {
             EventBus.INSTANCE.unregister(tab);
         }
         scollMultiplier = .5;
-        INSTANCE = this;
         int pw = width / 15;
         if (pw > 144)
             pw = 144; // icon res

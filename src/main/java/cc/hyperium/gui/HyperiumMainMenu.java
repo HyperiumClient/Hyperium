@@ -172,6 +172,7 @@ import cc.hyperium.GuiStyle;
 import cc.hyperium.Hyperium;
 import cc.hyperium.Metadata;
 import cc.hyperium.config.Settings;
+import cc.hyperium.gui.main.HyperiumMainGui;
 import cc.hyperium.handlers.handlers.SettingsMigrator;
 import cc.hyperium.mixinsimp.renderer.gui.IMixinGuiMultiplayer;
 import cc.hyperium.utils.HyperiumFontRenderer;
@@ -247,7 +248,7 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
     private static final ResourceLocation[] titlePanoramaPaths = new ResourceLocation[]{new ResourceLocation("textures/gui/title/background/panorama_0.png"), new ResourceLocation("textures/gui/title/background/panorama_1.png"), new ResourceLocation("textures/gui/title/background/panorama_2.png"), new ResourceLocation("textures/gui/title/background/panorama_3.png"), new ResourceLocation("textures/gui/title/background/panorama_4.png"), new ResourceLocation("textures/gui/title/background/panorama_5.png")};
 
     public HyperiumMainMenu() {
-        if (Minecraft.getMinecraft().isFullScreen() && Settings.WINDOWED_FULLSCREEN && !FIRST_START) {
+        if (Minecraft.getMinecraft().isFullScreen() && Settings.WINDOWED_FULLSCREEN && FIRST_START) {
             HyperiumMainMenu.FIRST_START = false;
             Minecraft.getMinecraft().toggleFullscreen();
             Minecraft.getMinecraft().toggleFullscreen();
@@ -396,7 +397,7 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
         switch (getStyle()) {
             case DEFAULT:
                 if (button.id == 15)
-                    Hyperium.INSTANCE.getGui().show();
+                    HyperiumMainGui.INSTANCE.show();
                 if (button.id == 16) {
                     GuiMultiplayer p_i1182_1_ = new GuiMultiplayer(new GuiMainMenu());
                     p_i1182_1_.setWorldAndResolution(Minecraft.getMinecraft(), width, height);
@@ -413,7 +414,7 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
                 break;
             case HYPERIUM:
                 if (button.id == 15)
-                    Hyperium.INSTANCE.getGui().show();
+                    HyperiumMainGui.INSTANCE.show();
                 break;
         }
 

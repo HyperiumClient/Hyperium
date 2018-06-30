@@ -219,18 +219,23 @@ public class RenderUtils {
     }
 
     public static void drawSmoothRect(int left, int top, int right, int bottom, int color) {
-        left += 4;
-        right -= 4;
+        drawSmoothRect(left, top, right, bottom, 4, color);
+
+    }
+
+    public static void drawSmoothRect(int left, int top, int right, int bottom, int circleSize, int color) {
+        left += circleSize;
+        right -= circleSize;
         Gui.drawRect(left, top, right, bottom, color);
-        Gui.drawRect(left - 4, top + 3, left, bottom - 3, color);
-        Gui.drawRect(right, top + 3, right + 4, bottom - 3, color);
+        int i = circleSize - 1;
+        Gui.drawRect(left - circleSize, top + i, left, bottom - i, color);
+        Gui.drawRect(right, top + i, right + circleSize, bottom - i, color);
 
-        RenderUtils.drawFilledCircle(left, top + 4, 4, color);
-        RenderUtils.drawFilledCircle(left, bottom - 4, 4, color);
+        RenderUtils.drawFilledCircle(left, top + circleSize, circleSize, color);
+        RenderUtils.drawFilledCircle(left, bottom - circleSize, circleSize, color);
 
-        RenderUtils.drawFilledCircle(right, top + 4, 4, color);
-        RenderUtils.drawFilledCircle(right, bottom - 4, 4, color);
-
+        RenderUtils.drawFilledCircle(right, top + circleSize, circleSize, color);
+        RenderUtils.drawFilledCircle(right, bottom - circleSize, circleSize, color);
 
     }
 

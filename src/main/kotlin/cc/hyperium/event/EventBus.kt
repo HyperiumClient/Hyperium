@@ -18,6 +18,7 @@
 package cc.hyperium.event
 
 import com.google.common.reflect.TypeToken
+import java.lang.reflect.InvocationTargetException
 import java.util.concurrent.CopyOnWriteArrayList
 
 /**
@@ -114,6 +115,9 @@ object EventBus {
                     try {
                         sub.method.invoke(sub.instance, event)
                     } catch (e: Exception) {
+                        if (e is InvocationTargetException) {
+                            e.targetException.printStackTrace()
+                        }
                         e.printStackTrace()
                     }
                 }
