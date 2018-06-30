@@ -170,10 +170,11 @@ public class ParticleGui extends HyperiumGui {
 
         ParticleAuraHandler particleAuraHandler = Hyperium.INSTANCE.getHandlers().getParticleAuraHandler();
         HashMap<String, AbstractAnimation> animations = particleAuraHandler.getAnimations();
+        String[] keys = new String[]{"Double Twirl","Double Helix","Triple Twirl","Quad Twirl","Static Trail","Explode"};
         CarouselItem[] animationItems = new CarouselItem[animations.size()];
         int c = 0;
         int g = 0;
-        for (String s : animations.keySet()) {
+        for (String s : keys) {
             final boolean flag = self.hasPurchased("ANIMATION_" + s.replace(" ", "_".toUpperCase()));
 
             boolean flag1 = particle.optString("particle_animation").equalsIgnoreCase(s);
@@ -237,6 +238,9 @@ public class ParticleGui extends HyperiumGui {
         GlStateManager.scale(.5, .5, .5);
         s = "You must purchase at least 1 particle and 1 animation for it to show";
         fontRendererObj.drawString(s, ResolutionUtil.current().getScaledWidth() / 2 - fontRendererObj.getStringWidth(s) / 2, 50, Color.MAGENTA.getRGB(), true);
+        s="The Double Twirl animation is free.";
+        fontRendererObj.drawString(s, ResolutionUtil.current().getScaledWidth() / 2 - fontRendererObj.getStringWidth(s) / 2, 61, Color.MAGENTA.getRGB(), true);
+
         s = "Preview";
         GlStateManager.scale(2.0, 2.0, 2.0);
         int stringWidth = fontRendererObj.getStringWidth(s);
