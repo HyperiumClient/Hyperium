@@ -1,5 +1,6 @@
 package cc.hyperium.mods.motionblur;
 
+import cc.hyperium.Hyperium;
 import cc.hyperium.commands.BaseCommand;
 import cc.hyperium.config.Settings;
 import java.lang.reflect.InvocationTargetException;
@@ -19,18 +20,18 @@ public class MotionBlurCommand implements BaseCommand {
 
   public void onExecute(String[] args) {
     if (args.length != 1) {
-      mc.thePlayer.addChatMessage(new ChatComponentText("Usage: /motionblur <0 - 7>."));
+      Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage("Usage: /motionblur <0 - 7>.");
     } else {
       if (MotionBlurMod.isFastRenderEnabled()) {
-        mc.thePlayer.addChatMessage(new ChatComponentText(
-            "Motion blur does not work if Fast Render is enabled, please disable it in Options > Video Settings > Performance."));
+        Hyperium.INSTANCE.getHandlers().getGeneralChatHandler()
+            .sendMessage("Motion blur does not work if Fast Render is enabled, please disable it in Options > Video Settings > Performance.");
         return;
       }
 
       int amount = NumberUtils.toInt(args[0], -1);
 
       if (amount < 0 || amount > 7) {
-        mc.thePlayer.addChatMessage(new ChatComponentText("Invalid amount."));
+        Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage("Invalid motion blur amount.");
         return;
       }
 
@@ -40,14 +41,15 @@ public class MotionBlurCommand implements BaseCommand {
 
         try {
           MotionBlurMod.applyShader();
-          mc.thePlayer.addChatMessage(new ChatComponentText("Motion blur enabled."));
+          Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage("Motion blur enabled.");
         } catch (Throwable var5) {
-          mc.thePlayer.addChatMessage(new ChatComponentText("Failed to enable Motion blur."));
+          Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage("Failed to enable motion blur.");
           var5.printStackTrace();
         }
       } else {
         Settings.MOTION_BLUR_ENABLED = false;
         clearShaders();
+        Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage("Motion blur disabled.");
       }
     }
   }
