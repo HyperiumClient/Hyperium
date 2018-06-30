@@ -197,14 +197,15 @@ public class Hyperium {
         SplashProgress.CURRENT = "Loading integrations";
         SplashProgress.update();
         modIntegration = new HyperiumModIntegration();
-        try {
-            StaffUtils.clearCache();
-        } catch (IOException e) {
-            e.printStackTrace();
-            LOGGER.warn("Failed to fetch staff");
-        }
-        richPresenceManager.init();
-
+        Multithreading.runAsync(() -> {
+            try {
+                StaffUtils.clearCache();
+            } catch (IOException e) {
+                e.printStackTrace();
+                LOGGER.warn("Failed to fetch staff");
+            }
+        });
+        Multithreading.runAsync(richPresenceManager::init);
         Multithreading.runAsync(Spotify::load);
 
         Runtime.getRuntime().addShutdownHook(new Thread(this::shutdown));
@@ -225,15 +226,13 @@ public class Hyperium {
         SplashProgress.CURRENT = "Reloading resource manager";
         SplashProgress.update();
 
-        Minecraft.getMinecraft().refreshResources();
+        Multithreading.runAsync(() -> Minecraft.getMinecraft().refreshResources());
 
         SplashProgress.PROGRESS = 13;
         SplashProgress.CURRENT = "Finishing";
         SplashProgress.update();
 
-
         Multithreading.runAsync(() -> {
-
             networkHandler = new NetworkHandler();
             this.client = new NettyClient(networkHandler);
             UniversalNetty.getInstance().getPacketManager().register(new LoginReplyHandler());
@@ -261,16 +260,20 @@ public class Hyperium {
      * register the commands
      */
     private void registerCommands() {
-        getHandlers().getHyperiumCommandHandler().registerCommand(new CommandConfigGui());
-        getHandlers().getHyperiumCommandHandler().registerCommand(new CustomLevelheadCommand());
+        Multithreading.runAsync(() -> {
+            getHandlers().getHyperiumCommandHandler().registerCommand(new CommandConfigGui());
+            getHandlers().getHyperiumCommandHandler().registerCommand(new CustomLevelheadCommand());
+            getHandlers().getHyperiumCommandHandler().registerCommand(new CommandPrivateMessage());
+            getHandlers().getHyperiumCommandHandler().registerCommand(new CommandClearChat());
+            getHandlers().getHyperiumCommandHandler().registerCommand(new CommandNameHistory());
+        });
+        Multithreading.runAsync(() -> {
+            getHandlers().getHyperiumCommandHandler().registerCommand(new CommandPlayGame());
+            getHandlers().getHyperiumCommandHandler().registerCommand(new CommandDebug());
+            getHandlers().getHyperiumCommandHandler().registerCommand(new CommandUpdate());
+            getHandlers().getHyperiumCommandHandler().registerCommand(new CommandLogs());
+        });
 
-        getHandlers().getHyperiumCommandHandler().registerCommand(new CommandPrivateMessage());
-        getHandlers().getHyperiumCommandHandler().registerCommand(new CommandClearChat());
-        getHandlers().getHyperiumCommandHandler().registerCommand(new CommandNameHistory());
-        getHandlers().getHyperiumCommandHandler().registerCommand(new CommandPlayGame());
-        getHandlers().getHyperiumCommandHandler().registerCommand(new CommandDebug());
-        getHandlers().getHyperiumCommandHandler().registerCommand(new CommandUpdate());
-        getHandlers().getHyperiumCommandHandler().registerCommand(new CommandLogs());
     }
 
     /**
