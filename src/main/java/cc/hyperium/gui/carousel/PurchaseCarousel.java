@@ -9,7 +9,8 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Font;
 
 /**
  * Created by mitchellkatz on 6/25/18. Designed for production use on Sk1er.club
@@ -53,18 +54,22 @@ public class PurchaseCarousel {
         int lx = cx - mainWidth / 2;
         int rx = cx + mainWidth / 2;
         if (x >= lx - 8 && x <= lx && y >= cy - 5 && y <= cy + 5) {
-            //System.out.println("left");
+            rotateLeft();
         } else if (x >= rx && x <= rx + 8 && y >= cy - 5 && y <= cy + 5) {
-            //System.out.println("right");
+            rotateRight();
         }
     }
 
     public void rotateRight() {
-
+        index++;
+        if (index > items.length - 1)
+            index = 0;
     }
 
     public void rotateLeft() {
-
+        index--;
+        if (index < 0)
+            index = items.length - 1;
     }
 
     public void render(int centerX, int centerY, int mouseX, int mouseY) {
