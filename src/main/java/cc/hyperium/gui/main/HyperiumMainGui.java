@@ -184,7 +184,6 @@ public class HyperiumMainGui extends HyperiumGui {
                             } else {
                                 jar = new File(System.getProperty("sun.java.command").split(" ")[0]);
                             }
-                            Hyperium.INSTANCE.getNotification().display("Update", "Client will restart in 10 secs. " + Metadata.getVersion() + " (" + Metadata.getVersionID() + ") -> " + ver.get("name").getAsString() + " (" + new JsonHolder(ver).optInt("release-id") + ") ", 10);
                             Multithreading.schedule(() -> {
                                 Minecraft.getMinecraft().shutdown();
                                 try {
