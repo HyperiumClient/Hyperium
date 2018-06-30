@@ -18,14 +18,22 @@
 package cc.hyperium.mixins.world;
 
 import cc.hyperium.config.Settings;
+import cc.hyperium.event.EntityJoinWorldEvent;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.SpawnpointChangeEvent;
+import java.util.Collection;
+import java.util.List;
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldType;
+import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.storage.WorldInfo;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
@@ -35,12 +43,26 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(World.class)
-public class MixinWorld {
+public abstract class MixinWorld {
 
     @Shadow
     private WorldInfo worldInfo;
 
-    /**
+  @Shadow @Final public List<Entity> loadedEntityList;
+
+  @Shadow public abstract Chunk getChunkFromChunkCoords(int p_getChunkFromChunkCoords_1_,
+      int p_getChunkFromChunkCoords_2_);
+
+  @Shadow protected abstract boolean isChunkLoaded(int p_isChunkLoaded_1_, int p_isChunkLoaded_2_,
+      boolean p_isChunkLoaded_3_);
+
+  @Shadow @Final public List<EntityPlayer> playerEntities;
+
+  @Shadow public abstract void updateAllPlayersSleepingFlag();
+
+  @Shadow protected abstract void onEntityAdded(Entity p_onEntityAdded_1_);
+
+  /**
      * Invoked once the server changes the players spawn point
      *
      * @param pos the new spawn position
@@ -146,4 +168,70 @@ public class MixinWorld {
             ci.setReturnValue(15);
         }
     }
+
+    /**
+     * @author Amplifiable
+     * @reason Events
+     */
+    @Overwrite
+    public void joinEntityInSurroundings(Entity entity) {
+      int lvt_2_1_ = MathHelper.floor_double(entity.posX / 16.0D);
+      int lvt_3_1_ = MathHelper.floor_double(entity.posZ / 16.0D);
+      int lvt_4_1_ = 2;
+
+      for(int lvt_5_1_ = lvt_2_1_ - lvt_4_1_; lvt_5_1_ <= lvt_2_1_ + lvt_4_1_; ++lvt_5_1_) {
+        for(int lvt_6_1_ = lvt_3_1_ - lvt_4_1_; lvt_6_1_ <= lvt_3_1_ + lvt_4_1_; ++lvt_6_1_) {
+          this.getChunkFromChunkCoords(lvt_5_1_, lvt_6_1_);
+        }
+      }
+
+      if (!this.loadedEntityList.contains(entity)) {
+        this.loadedEntityList.add(entity);
+        EventBus.INSTANCE.post(new EntityJoinWorldEvent(entity));
+      }
+    }
+
+  /**
+   * @author Amplifiable
+   * @reason Events
+   */
+  @Overwrite
+  public boolean spawnEntityInWorld(Entity entity) {
+    int lvt_2_1_ = MathHelper.floor_double(entity.posX / 16.0D);
+    int lvt_3_1_ = MathHelper.floor_double(entity.posZ / 16.0D);
+    boolean lvt_4_1_ = entity.forceSpawn;
+    if (entity instanceof EntityPlayer) {
+      lvt_4_1_ = true;
+    }
+
+    if (!lvt_4_1_ && !this.isChunkLoaded(lvt_2_1_, lvt_3_1_, true)) {
+      return false;
+    } else {
+      if (entity instanceof EntityPlayer) {
+        EntityPlayer lvt_5_1_ = (EntityPlayer)entity;
+        this.playerEntities.add(lvt_5_1_);
+        this.updateAllPlayersSleepingFlag();
+      }
+
+      EventBus.INSTANCE.post(new EntityJoinWorldEvent(entity));
+
+      this.getChunkFromChunkCoords(lvt_2_1_, lvt_3_1_).addEntity(entity);
+      this.loadedEntityList.add(entity);
+      this.onEntityAdded(entity);
+      return true;
+    }
+  }
+  /**
+   * @author Amplifiable
+   * @reason Events
+   */
+  @Overwrite
+  public void loadEntities(Collection<Entity> entityCollection) {
+    this.loadedEntityList.addAll(entityCollection);
+
+    for (Entity lvt_3_1_ : entityCollection) {
+      EventBus.INSTANCE.post(new EntityJoinWorldEvent(lvt_3_1_));
+      this.onEntityAdded(lvt_3_1_);
+    }
+  }
 }
