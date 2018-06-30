@@ -322,6 +322,10 @@ public class Settings {
     @ToggleSetting(name = "Spotify Notifications", category = SPOTIFY)
     public static boolean SPOTIFY_NOTIFICATIONS = true;
 
+    @ConfigOpt
+    @ToggleSetting(name = "Update Notifications in Hyperium Settings", category = MISC)
+    public static boolean UPDATE_NOTIFICATIONS = true;
+
     public static void register() {
         Hyperium.CONFIG.register(new Settings()); // values r static soo whatever
     }

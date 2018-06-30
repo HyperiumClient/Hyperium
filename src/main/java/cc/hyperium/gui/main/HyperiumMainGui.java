@@ -1,5 +1,6 @@
 package cc.hyperium.gui.main;
 
+import cc.hyperium.config.Settings;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.gui.GuiBlock;
 import cc.hyperium.gui.HyperiumGui;
@@ -12,6 +13,8 @@ import cc.hyperium.gui.main.tabs.HomeTab;
 import cc.hyperium.gui.main.tabs.InfoTab;
 import cc.hyperium.gui.main.tabs.SettingsTab;
 import cc.hyperium.utils.HyperiumFontRenderer;
+import cc.hyperium.utils.JsonHolder;
+import cc.hyperium.utils.UpdateUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
@@ -19,9 +22,10 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
-import java.awt.Color;
-import java.awt.Font;
+import java.awt.*;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -45,6 +49,7 @@ public class HyperiumMainGui extends HyperiumGui {
     private float highlightScale = 0f;
     private List<AbstractTab> tabs = new ArrayList<>();
     private CosmeticsTab cosmeticsTab;
+    public boolean show = false;
 
     public List<AbstractTab> getTabs() {
         return tabs;
@@ -137,6 +142,18 @@ public class HyperiumMainGui extends HyperiumGui {
 
         if (currentAlert != null)
             currentAlert.render(fr, width, height);
+
+        if(UpdateUtils.INSTANCE.isAbsoluteLatest() && !show && Settings.UPDATE_NOTIFICATIONS) {
+            Alert alert = new Alert(Icons.ERROR.getResource(), () -> {
+                try {
+                    Desktop.getDesktop().browse(new URI("https://hyperium.cc"));
+                } catch (URISyntaxException | IOException e) {
+                    e.printStackTrace();
+                }
+            }, "Hyperium Update! Click here to download.");
+            alerts.add(alert);
+            show = true;
+        }
 
         if (overlay != null) {
             overlay.render(mouseX, mouseY, width, height);
