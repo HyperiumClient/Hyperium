@@ -1,5 +1,9 @@
 package cc.hyperium.gui.main;
 
+import cc.hyperium.Hyperium;
+import cc.hyperium.Metadata;
+import cc.hyperium.UpdateUtil;
+import cc.hyperium.config.Settings;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.gui.GuiBlock;
 import cc.hyperium.gui.HyperiumGui;
@@ -11,7 +15,13 @@ import cc.hyperium.gui.main.tabs.CosmeticsTab;
 import cc.hyperium.gui.main.tabs.HomeTab;
 import cc.hyperium.gui.main.tabs.InfoTab;
 import cc.hyperium.gui.main.tabs.SettingsTab;
+import cc.hyperium.installer.InstallerConfig;
+import cc.hyperium.installer.utils.DownloadTask;
+import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.utils.HyperiumFontRenderer;
+import cc.hyperium.utils.JsonHolder;
+import cc.hyperium.utils.UpdateUtils;
+import com.google.gson.JsonObject;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
@@ -21,12 +31,19 @@ import org.lwjgl.opengl.GL11;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.io.File;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Queue;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.StreamSupport;
+
+import static cc.hyperium.installer.InstallerFrame.get;
 
 /*
  * Created by Cubxity on 20/05/2018
@@ -45,6 +62,8 @@ public class HyperiumMainGui extends HyperiumGui {
     private float highlightScale = 0f;
     private List<AbstractTab> tabs = new ArrayList<>();
     private CosmeticsTab cosmeticsTab;
+    public boolean show = false;
+    public UpdateUtils utils;
 
     public List<AbstractTab> getTabs() {
         return tabs;
@@ -137,6 +156,55 @@ public class HyperiumMainGui extends HyperiumGui {
 
         if (currentAlert != null)
             currentAlert.render(fr, width, height);
+
+        if(UpdateUtils.INSTANCE.isAbsoluteLatest() && !show && Settings.UPDATE_NOTIFICATIONS) {
+            Alert alert = new Alert(Icons.ERROR.getResource(), () -> {
+                String versions_url = "https://raw.githubusercontent.com/HyperiumClient/Hyperium-Repo/master/installer/versions.json";
+                JsonHolder vJson = null;
+                try {
+                    vJson = new JsonHolder(get(versions_url));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    Hyperium.INSTANCE.getNotification().display("Update", "Downloading updates...", 3);
+                    JsonHolder finalVJson = vJson;
+                    JsonObject ver = StreamSupport.stream(vJson.optJSONArray("versions").spliterator(), false)
+                            .filter(v -> finalVJson.optString("latest-stable").equals(v.getAsJsonObject().get("name").getAsString())).findFirst()
+                            .orElseThrow(() -> new IllegalStateException("Couldn't find stable version")).getAsJsonObject();
+                    boolean download = ver.get("install-min").getAsInt() > InstallerConfig.VERSION;
+                    System.out.println("Download=" + download);
+                    Multithreading.runAsync(() -> {
+                        try {
+                            File jar;
+                            if (download || Hyperium.INSTANCE.isDevEnv()) { // or else it will break in dev env
+                                DownloadTask task = new DownloadTask(ver.get("url").getAsString(), System.getProperty("java.io.tmpdir"));
+                                task.execute();
+                                task.get();
+                                jar = new File(System.getProperty("java.io.tmpdir"), task.getFileName());
+                            } else {
+                                jar = new File(System.getProperty("sun.java.command").split(" ")[0]);
+                            }
+                            Multithreading.schedule(() -> {
+                                Minecraft.getMinecraft().shutdown();
+                                try {
+                                    Runtime.getRuntime().exec(System.getProperty("java.home") + "/bin/java -jar " + jar.getAbsolutePath());
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }, 10, TimeUnit.SECONDS);
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                        }
+                    });
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+
+            }, "Hyperium Update! Click here to download.");
+            alerts.add(alert);
+            show = true;
+        }
 
         if (overlay != null) {
             overlay.render(mouseX, mouseY, width, height);
