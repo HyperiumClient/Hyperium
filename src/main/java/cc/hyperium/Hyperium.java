@@ -26,7 +26,6 @@ import cc.hyperium.event.minigames.MinigameListener;
 import cc.hyperium.gui.BlurDisableFallback;
 import cc.hyperium.gui.ConfirmationPopup;
 import cc.hyperium.gui.NotificationCenter;
-import cc.hyperium.gui.main.HyperiumMainGui;
 import cc.hyperium.handlers.HyperiumHandlers;
 import cc.hyperium.installer.InstallerFrame;
 import cc.hyperium.integrations.spotify.Spotify;
@@ -95,7 +94,6 @@ public class Hyperium {
     private Sk1erMod sk1erMod;
     private NettyClient client;
     private NetworkHandler networkHandler;
-    private HyperiumMainGui gui;
     /**
      * @param event initialize Hyperium
      */
@@ -136,7 +134,6 @@ public class Hyperium {
         this.acceptedTos = new File(
                 folder.getAbsolutePath() + "/accounts/" + Minecraft.getMinecraft().getSession()
                         .getPlayerID() + ".lck").exists();
-        gui = new HyperiumMainGui();
         SplashProgress.PROGRESS = 5;
         SplashProgress.CURRENT = "Loading handlers";
         SplashProgress.update();
@@ -368,9 +365,6 @@ public class Hyperium {
         return cosmetics;
     }
 
-    public HyperiumMainGui getGui() {
-        return gui;
-    }
 
     // Does not appear to be used
 //    public void toggleFullscreen() {
