@@ -19,14 +19,12 @@ package me.semx11.autotip.event;
 
 import cc.hyperium.event.ChatEvent;
 import cc.hyperium.event.InvokeEvent;
-import cc.hyperium.gui.main.components.OverlayButton;
 import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
 import me.semx11.autotip.Autotip;
 import me.semx11.autotip.command.LimboCommand;
 import me.semx11.autotip.misc.TipTracker;
 import me.semx11.autotip.misc.Writer;
-import net.minecraft.client.Minecraft;
-import net.minecraft.util.ChatComponentText;
+import me.semx11.autotip.util.MessageOption;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -47,7 +45,6 @@ public class ChatListener {
 
         if (Autotip.toggle) {
             if (msg.equals("Slow down! You can only use /tip every few seconds.")
-                    || msg.equals("/limbo for more information.")
                     || msg.equals("Still processing your most recent request!")
                     || msg.equals("You are not allowed to use commands as a spectator!")
                     || msg.equals("You cannot give yourself tips!")
@@ -62,6 +59,10 @@ public class ChatListener {
 
             Matcher tippedMatcher = this.tippedPattern.matcher(msg);
             if (tippedMatcher.matches()) {
+                if (Autotip.messageOption == MessageOption.HIDDEN) {
+                    event.setCancelled(true);
+                }
+
                 int tips = Integer.parseInt(tippedMatcher.group("tips"));
                 TipTracker.tipsSent += tips;
 
@@ -85,9 +86,10 @@ public class ChatListener {
 
         if (LimboCommand.executed) {
             if (msg.equals("A kick occurred in your connection, so you have been routed to limbo!")
-                    || msg.equals("Illegal characters in chat")) {
+                    || msg.equals("Illegal characters in chat")
+                    || msg.equals("You were spawned in Limbo.")) {
                 event.setCancelled(true);
-            } else if (msg.equals("You were spawned in Limbo.")) {
+            } else if (msg.equals("/limbo for more information.")) {
                 event.setCancelled(true);
                 LimboCommand.executed = false;
             }
