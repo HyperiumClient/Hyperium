@@ -114,7 +114,7 @@ public class ParticleAuraHandler {
         if(!Settings.SHOW_PARTICLES) return;
         AbstractClientPlayer entity = event.getEntity();
         ParticleAura particleAura = auras.get(entity.getUniqueID());
-        if (particleAura != null) {
+        if (particleAura != null && !entity.isInvisible()) {
             double x = entity.prevPosX + (entity.posX - entity.prevPosX) * event.getPartialTicks();
             double y = entity.posY + (entity.posY - entity.prevPosY) * event.getPartialTicks();
             double z = entity.posZ + (entity.posZ - entity.prevPosZ) * event.getPartialTicks();

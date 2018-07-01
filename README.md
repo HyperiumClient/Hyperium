@@ -2,51 +2,57 @@
 [ ![Travis-CI](https://travis-ci.org/HyperiumClient/Hyperium.svg?branch=master)](https://travis-ci.org/HyperiumClient/Hyperium)
 # Hyperium (A Community Client for Hypixel - Not affiliated with Hypixel INC, produced by independent developers)
 ## What is Hyperium? ##
-Hyperium is a Minecraft modification in development. It will combine many popular features in addition to suggestions and ideas from the community to provide a unique experience designed for Hypixel.
+Hyperium is a Minecraft modification in development. It will combine many popular features, in addition to suggestions and ideas from the community, in order to provide a unique experience designed for Hypixel.
 
 ## Features ##
-- [ChromaHUD](https://www.youtube.com/watch?v=eyh6pcsGMpo)
-- [Keystrokes v4](https://www.youtube.com/watch?v=tA1SmI8nfY4)
-- [MouseDelayFix](https://prplz.io/mousedelayfix)
-- [NoCloseMyChat](https://hypixel.net/threads/1260752/)
 - [1.7 Animations](https://www.youtube.com/watch?v=9-LoFff-3fI)
-- [Levelhead](https://sk1er.club/levelhead)
 - [AutoGG](https://www.youtube.com/watch?v=1eETPGuSQWA)
 - [AutoWho](https://www.youtube.com/watch?v=osJW53GA_1I)
-- [ToggleChat](https://www.youtube.com/watch?v=guD8kAk-Wn4)
+- [BlockOverlay](https://www.youtube.com/watch?v=_ELFA5jtNQM)
+- [ChromaHUD](https://www.youtube.com/watch?v=eyh6pcsGMpo)
+- [FastChat](https://www.youtube.com/watch?v=vsibdTVYTB4)
+- [GlintColorizer](https://www.youtube.com/watch?v=80foSiVvUiI)
+- [Keystrokes v4](https://www.youtube.com/watch?v=tA1SmI8nfY4)
+- [Levelhead](https://sk1er.club/levelhead)
 - [MemoryFix](https://prplz.io/memoryfix)
+- MotionBlur
+- [MouseDelayFix](https://prplz.io/mousedelayfix)
+- [NoCloseMyChat](https://hypixel.net/threads/1260752/)
 - [Perspective Mod](https://www.youtube.com/watch?v=7FdMMpzNdUk)
+- ShinyPots
 - [Sidebar Mod](https://www.youtube.com/watch?v=cn9VvT43yRs)
-
-## Contributing ##
+- Spotify Controls
+- [TimeChanger](https://www.youtube.com/watch?v=PbhXIPecOSA)
+- [ToggleChat](https://www.youtube.com/watch?v=guD8kAk-Wn4)
+- [VoidFlickerFix](https://www.youtube.com/watch?v=klV4d1B6ysk)
 
 ## Building the project with IntelliJ ##
 
-If you don't know how, you shouldn't. Go join our beta in <a href="https://discord.gg/RNyRgtv">Discord</a>, or wait for release!
+If you don't know how, then you shouldn't try. Join our beta in <a href="https://discord.gg/RNyRgtv">Discord</a>, or wait for releases!
 
 ## Code Style ##
 
-We use [Google's Java Code style](https://google.github.io/styleguide/javaguide.html) for Hyperium. It would be appreciated if you follow this as well.
+We use [Google's Java Code style](https://google.github.io/styleguide/javaguide.html) for Hyperium. It would be appreciated if you followed this as well.
 
 ## FAQ ##
 Q: Please help, I can't build Hyperium!
 
-A: If you don't know how to build a project please wait for a new beta or release! 
+A: If you don't know how to build a project, please wait for a new beta or release! 
 
 
-Q: Release, when?
+Q: When is the official release?
 
-A: We don't know! However, open beta testing has began at our <a href="https://discord.gg/RNyRgtv">Discord</a>!
-
-
-Q: ETA?
-
-A: For beta, now! Join the [Discord](https://discord.gg/RNyRgtv) or visit our [website](https://hyperium.cc)! For release, we don't know!
+A: We don't know! However, open beta testing is underway at our <a href="https://discord.gg/RNyRgtv">Discord</a>!
 
 
-Q: Is there an addon tutorial?
+Q: Can I use Hyperium now?
 
-A: Yes, its at https://www.youtube.com/watch?v=RXTIFdoNA8c.
+A: Beta versions, yes! Join the [Discord](https://discord.gg/RNyRgtv) or visit our [website](https://hyperium.cc)!
+
+
+Q: Is there a tutorial to create addons?
+
+A: Yes, simply [follow this nice video](https://www.youtube.com/watch?v=RXTIFdoNA8c).
 
 
 Q: I found a bug. Where do I report it?
@@ -56,12 +62,12 @@ A: Join the [Discord](https://discord.gg/RNyRgtv) and run `-new` in the commands
 
 Q: My game keeps crashing!
 
-A: If you have reported the issue using the automatic promopt, join the <a href="https://discord.gg/RNyRgtv">Discord</a> and ask a developer to review your issue. If there are none online, please be patient!
+A: If you have reported the issue using the automatic prompt, join the <a href="https://discord.gg/RNyRgtv">Discord</a> and ask a developer to review your issue. Please be patient if there are no developers online!
 
 ## Addons ##
 Clone the [Addon Workspace](https://github.com/HyperiumClient/Addon-Workspace) and get coding!
 
-**Examples [here](https://github.com/HyperiumClient/Addon-Workspace)**
+**An example is [here](https://github.com/HyperiumClient/Addon-Workspace)**
 ## Developers ##
 [![](https://cdn.discordapp.com/avatars/376817315830038530/87dd80c68e0598ea39af4e0472b299b7.png)](https://github.com/Sk1er)
 [![](https://cdn.discordapp.com/avatars/248159137370734601/8a8b49df90cda7ccd55f28c1f5293ad6.png)](https://github.com/CoalCoding)
