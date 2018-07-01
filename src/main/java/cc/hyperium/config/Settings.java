@@ -382,6 +382,9 @@ public class Settings {
     })
     public static String MAX_WORLD_PARTICLES_STRING = "10000";
 
+    @ConfigOpt
+    public static int LIFETIME_KARMA = 0;
+
     public static void register() {
         Hyperium.CONFIG.register(new Settings()); // values r static soo whatever
     }
