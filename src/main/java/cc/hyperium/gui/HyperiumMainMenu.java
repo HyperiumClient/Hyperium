@@ -251,6 +251,8 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
         if (Minecraft.getMinecraft().isFullScreen() && Settings.WINDOWED_FULLSCREEN && FIRST_START) {
             HyperiumMainMenu.FIRST_START = false;
             Minecraft.getMinecraft().toggleFullscreen();
+            Minecraft.getMinecraft().toggleFullscreen();
+
         }
         if (Hyperium.INSTANCE.isFirstLaunch()) {
             new SettingsMigrator().migrate();
