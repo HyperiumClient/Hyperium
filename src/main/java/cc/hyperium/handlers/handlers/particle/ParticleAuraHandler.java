@@ -127,7 +127,7 @@ public class ParticleAuraHandler {
                     if (particleAura.isChroma()) {
                         int i = Color.HSBtoRGB(System.currentTimeMillis() % 1000L / 1000.0f, 0.8f, 0.8f);
                         Color color = new Color(i);
-                        entityFX.setRBGColorF(color.getRed() / 255F, color.getBlue() / 255F, color.getBlue() / 255F);
+                        entityFX.setRBGColorF(color.getRed() / 255F, color.getGreen() / 255F, color.getBlue() / 255F);
                     } else if (particleAura.isRgb()) {
                         entityFX.setRBGColorF(particleAura.getRed() / 255F, particleAura.getBlue() / 255F, particleAura.getBlue() / 255F);
                     }
