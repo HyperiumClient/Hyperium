@@ -10,6 +10,7 @@ Hyperium is a Minecraft modification in development. It will combine many popula
 - [AutoWho](https://www.youtube.com/watch?v=osJW53GA_1I)
 - [BlockOverlay](https://www.youtube.com/watch?v=_ELFA5jtNQM)
 - [ChromaHUD](https://www.youtube.com/watch?v=eyh6pcsGMpo)
+- [FastChat](https://www.youtube.com/watch?v=vsibdTVYTB4)
 - [GlintColorizer](https://www.youtube.com/watch?v=80foSiVvUiI)
 - [Keystrokes v4](https://www.youtube.com/watch?v=tA1SmI8nfY4)
 - [Levelhead](https://sk1er.club/levelhead)
@@ -18,10 +19,12 @@ Hyperium is a Minecraft modification in development. It will combine many popula
 - [MouseDelayFix](https://prplz.io/mousedelayfix)
 - [NoCloseMyChat](https://hypixel.net/threads/1260752/)
 - [Perspective Mod](https://www.youtube.com/watch?v=7FdMMpzNdUk)
+- ShinyPots
 - [Sidebar Mod](https://www.youtube.com/watch?v=cn9VvT43yRs)
 - Spotify Controls
 - [TimeChanger](https://www.youtube.com/watch?v=PbhXIPecOSA)
 - [ToggleChat](https://www.youtube.com/watch?v=guD8kAk-Wn4)
+- [VoidFlickerFix](https://www.youtube.com/watch?v=klV4d1B6ysk)
 
 ## Building the project with IntelliJ ##
 
