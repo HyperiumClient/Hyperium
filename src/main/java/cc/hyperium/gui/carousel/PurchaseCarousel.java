@@ -180,7 +180,7 @@ public class PurchaseCarousel {
             float width = fr.getWidth(s);
             float x = centerX  - width / 4;
             int i = centerY - mainHeight / 2 + 35;
-            activeBlock = new GuiBlock((int) x, (int) (x  + width), i, i + 10);
+            activeBlock = new GuiBlock((int) x, (int) (x  + width*2), i, i + 10);
 
             fr.drawString(s, x/e, i / e, Color.GREEN.getRGB());
         }
