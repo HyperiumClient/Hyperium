@@ -17,6 +17,7 @@
 
 package cc.hyperium.handlers.handlers.keybinds.keybinds;
 
+import cc.hyperium.config.Settings;
 import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
 import cc.hyperium.handlers.handlers.keybinds.HyperiumBind;
 import cc.hyperium.mixins.MixinKeyBinding;
@@ -33,10 +34,14 @@ public class ToggleSprintKeybind extends HyperiumBind {
     @Override
     public void onPress() {
         if (ToggleSprintContainer.toggleSprintActive) {
-            GeneralChatHandler.instance().sendMessage("ToggleSprint Disabled!");
+            if (Settings.SPRINT_PERSPECTIVE_MESSAGES) {
+                GeneralChatHandler.instance().sendMessage("ToggleSprint Disabled!");
+            }
             ((MixinKeyBinding) Minecraft.getMinecraft().gameSettings.keyBindSprint).setPressed(false);
         } else {
-            GeneralChatHandler.instance().sendMessage("ToggleSprint Enabled!");
+            if (Settings.SPRINT_PERSPECTIVE_MESSAGES) {
+                GeneralChatHandler.instance().sendMessage("ToggleSprint Enabled!");
+            }
             ((MixinKeyBinding) Minecraft.getMinecraft().gameSettings.keyBindSprint).setPressed(true);
         }
         ToggleSprintContainer.toggleSprintActive = !ToggleSprintContainer.toggleSprintActive;
