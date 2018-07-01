@@ -2,12 +2,13 @@ package cc.hyperium.handlers.handlers.particle.animations;
 
 import cc.hyperium.handlers.handlers.particle.AbstractAnimation;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class LoadingSignAnimation extends AbstractAnimation {
+public class VortexOfDoomAnimation extends AbstractAnimation {
     @Override
     public List<Vec3> render(EntityPlayer player, double x, double y, double z) {
         ArrayList<Vec3> vec3s = new ArrayList<>();
@@ -19,11 +20,11 @@ public class LoadingSignAnimation extends AbstractAnimation {
         } else {
             l = -(Math.pow(l - 2, 2) - 2) / 2;
         }
-        l*=2;
+        l *= 2;
         for (int i = 0; i < 40; i++) {
             double v = Math.PI / 40 * i * 2;
             for (int j = 0; j < 6; j++) {
-                vec3s.add(base.addVector(Math.sin(v + l * Math.sqrt(j)), -.2 * j, Math.cos(v + l * Math.sqrt(j))));
+                vec3s.add(base.addVector(MathHelper.sin((float) (v + l * j / 2.5D)), -.2 * j, MathHelper.cos((float) (v + l * j / 2.5D))));
             }
         }
 

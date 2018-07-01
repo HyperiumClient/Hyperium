@@ -2,6 +2,7 @@ package cc.hyperium.handlers.handlers.particle.animations;
 
 import cc.hyperium.handlers.handlers.particle.AbstractAnimation;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 
 import java.util.ArrayList;
@@ -24,7 +25,7 @@ public class TornadoAnimation extends AbstractAnimation {
             v2 *= Math.PI * 2;
             for (int j = 0; j < 15; j++) {
                 double v1 = Math.PI * 2D * j / 15D+ v2;
-                vec3s.add(base.addVector(v * Math.sin(v1), i / 10D, v * Math.cos(v1)));
+                vec3s.add(base.addVector(v * MathHelper.sin((float) v1), i / 10D, v * MathHelper.cos((float) v1)));
             }
         }
         return vec3s;

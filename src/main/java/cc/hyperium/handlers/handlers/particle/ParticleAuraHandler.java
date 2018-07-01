@@ -8,7 +8,7 @@ import cc.hyperium.event.WorldChangeEvent;
 import cc.hyperium.handlers.handlers.particle.animations.DoubleHelix;
 import cc.hyperium.handlers.handlers.particle.animations.DoubleTwirlAnimation;
 import cc.hyperium.handlers.handlers.particle.animations.ExplodeAnimation;
-import cc.hyperium.handlers.handlers.particle.animations.LoadingSignAnimation;
+import cc.hyperium.handlers.handlers.particle.animations.VortexOfDoomAnimation;
 import cc.hyperium.handlers.handlers.particle.animations.QuadTwirlAnimation;
 import cc.hyperium.handlers.handlers.particle.animations.StaticTrailAnimation;
 import cc.hyperium.handlers.handlers.particle.animations.TornadoAnimation;
@@ -50,7 +50,7 @@ public class ParticleAuraHandler {
         animations.put("Quad Twirl", new QuadTwirlAnimation());
         animations.put("Static Trail", new StaticTrailAnimation());
         animations.put("Explode", new ExplodeAnimation());
-        animations.put("Vortex of doom", new LoadingSignAnimation());
+        animations.put("Vortex of doom", new VortexOfDoomAnimation());
         animations.put("Tornado",new TornadoAnimation());
 
     }
