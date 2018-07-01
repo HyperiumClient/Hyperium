@@ -11,6 +11,7 @@ import cc.hyperium.handlers.handlers.particle.animations.ExplodeAnimation;
 import cc.hyperium.handlers.handlers.particle.animations.LoadingSignAnimation;
 import cc.hyperium.handlers.handlers.particle.animations.QuadTwirlAnimation;
 import cc.hyperium.handlers.handlers.particle.animations.StaticTrailAnimation;
+import cc.hyperium.handlers.handlers.particle.animations.TornadoAnimation;
 import cc.hyperium.handlers.handlers.particle.animations.TripleTwirlAnimation;
 import cc.hyperium.mixinsimp.renderer.IMixinEntityFx;
 import cc.hyperium.utils.JsonHolder;
@@ -50,6 +51,7 @@ public class ParticleAuraHandler {
         animations.put("Static Trail", new StaticTrailAnimation());
         animations.put("Explode", new ExplodeAnimation());
         animations.put("Vortex of doom", new LoadingSignAnimation());
+        animations.put("Tornado",new TornadoAnimation());
 
     }
 
@@ -78,7 +80,7 @@ public class ParticleAuraHandler {
         }
         JsonHolder data = purchaseSettings.optJSONObject("particle");
         AbstractAnimation particle_animation = animations.get(data.optString("particle_animation"));
-//        AbstractAnimation particle_animation = animations.get("Loading Sign");
+//        AbstractAnimation particle_animation = animations.get("Tornado");
 
         EnumParticleType type = EnumParticleType.parse(data.optString("type"));
         if (particle_animation == null || type == null) {
