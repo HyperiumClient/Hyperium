@@ -109,6 +109,8 @@ public class ParticleAuraHandler {
     public void renderPlayer(RenderPlayerEvent event) {
         if (Minecraft.getMinecraft().isGamePaused())
             return;
+        if(event.getEntity().isInvisible())
+            return;
         if(!Settings.SHOW_PARTICLES) return;
         AbstractClientPlayer entity = event.getEntity();
         ParticleAura particleAura = auras.get(entity.getUniqueID());

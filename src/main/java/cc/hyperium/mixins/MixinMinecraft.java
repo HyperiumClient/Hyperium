@@ -179,12 +179,14 @@ import cc.hyperium.event.KeyreleaseEvent;
 import cc.hyperium.event.LeftMouseClickEvent;
 import cc.hyperium.event.MouseButtonEvent;
 import cc.hyperium.event.PreInitializationEvent;
+import cc.hyperium.event.RenderPlayerEvent;
 import cc.hyperium.event.RightMouseClickEvent;
 import cc.hyperium.event.SingleplayerJoinEvent;
 import cc.hyperium.event.TickEvent;
 import cc.hyperium.event.WorldChangeEvent;
 import cc.hyperium.gui.CrashReportGUI;
 import cc.hyperium.gui.HyperiumMainMenu;
+import cc.hyperium.handlers.HyperiumHandlers;
 import cc.hyperium.internal.addons.AddonBootstrap;
 import cc.hyperium.internal.addons.AddonMinecraftBootstrap;
 import cc.hyperium.internal.addons.IAddon;
@@ -202,6 +204,7 @@ import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.multiplayer.PlayerControllerMP;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.particle.EffectRenderer;
+import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.resources.DefaultResourcePack;
 import net.minecraft.client.resources.FileResourcePack;
@@ -316,6 +319,17 @@ public abstract class MixinMinecraft {
         }
         AddonMinecraftBootstrap.init();
         EventBus.INSTANCE.post(new PreInitializationEvent());
+    }
+
+    @Inject(method = "runGameLoop", at = @At("HEAD"))
+    public void loop(CallbackInfo info) {
+        if(inGameHasFocus && theWorld!=null && Settings.SHOW_PART_1ST_PERSON) {
+            HyperiumHandlers handlers = Hyperium.INSTANCE.getHandlers();
+            if (handlers != null) {
+
+                handlers.getParticleAuraHandler().renderPlayer(new RenderPlayerEvent(thePlayer,renderManager,0,0,0,timer.renderPartialTicks));
+            }
+        }
     }
 
     /**
@@ -535,6 +549,12 @@ public abstract class MixinMinecraft {
 
     @Shadow
     public abstract void shutdown();
+
+    @Shadow public boolean inGameHasFocus;
+
+    @Shadow private Timer timer;
+
+    @Shadow private RenderManager renderManager;
 
     /**
      * change to splash screen logo
