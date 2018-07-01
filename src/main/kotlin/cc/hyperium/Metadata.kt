@@ -41,7 +41,7 @@ val AUTHORS
  */
 val VERSION_ID
     @JvmName("getVersionID")
-    get() = 22
+    get() = 23
 
 val ICON_BASE64
     @JvmName("getIconBase64")
