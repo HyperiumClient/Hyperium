@@ -30,6 +30,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ActiveRenderInfo;
 import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.client.shader.ShaderGroup;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.passive.EntityAnimal;
@@ -39,6 +41,7 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MouseFilter;
 import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
 import org.lwjgl.opengl.Display;
 import org.spongepowered.asm.mixin.Mixin;
@@ -70,7 +73,11 @@ public abstract class MixinEntityRenderer {
     private MouseFilter mouseFilterXAxis;
     @Shadow
     private boolean drawBlockOutline;
-    private boolean zoomMode = false;
+
+    @Shadow protected abstract void loadShader(ResourceLocation resourceLocationIn);
+
+  @Shadow private ShaderGroup theShaderGroup;
+  private boolean zoomMode = false;
 
     //endStartSection
     @Inject(method = "updateCameraAndRender", at = @At(value = "INVOKE", target = "Lnet/minecraft/profiler/Profiler;endStartSection(Ljava/lang/String;)V", shift = At.Shift.AFTER))
@@ -233,6 +240,18 @@ public abstract class MixinEntityRenderer {
                     }
                 }
             }
+        }
+    }
+
+    public void motionBlurApplyShader(ResourceLocation resourceLocation) {
+      if (OpenGlHelper.shadersSupported) {
+        this.loadShader(resourceLocation);
+      }
+    }
+
+    public void clearShaders(){
+        if(this.theShaderGroup != null){
+            this.theShaderGroup.deleteShaderGroup();
         }
     }
 }

@@ -52,6 +52,7 @@ import cc.hyperium.handlers.handlers.chat.RankedRatingChatHandler;
 import cc.hyperium.handlers.handlers.chat.WinTrackingChatHandler;
 import cc.hyperium.handlers.handlers.keybinds.KeyBindHandler;
 import cc.hyperium.handlers.handlers.mixin.LayerDeadmau5HeadHandler;
+import cc.hyperium.handlers.handlers.particle.ParticleAuraHandler;
 import cc.hyperium.handlers.handlers.privatemessages.PrivateMessageHandler;
 import cc.hyperium.handlers.handlers.remoteresources.RemoteResourcesHandler;
 import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
@@ -88,12 +89,12 @@ public class HyperiumHandlers {
     private OtherConfigOptions configOptions;
     private DabHandler dabHandler;
     private FlossDanceHandler flossDanceHandler;
+    private ParticleAuraHandler particleAuraHandler;
     private GameDataTracking dataTracking;
     private QuestTrackingChatHandler questTracking;
     private RenderPlayerAsBlock renderPlayerAsBlock;
     private FlipHandler flipHandler;
     private LayerDeadmau5HeadHandler layerDeadmau5HeadHandler;
-
     public HyperiumHandlers() {
         System.out.println("Loading handlers");
         register(network = new HyperiumNetwork());
@@ -118,7 +119,7 @@ public class HyperiumHandlers {
         register(dataTracking = new GameDataTracking());
         register(privateMessageHandler = new PrivateMessageHandler());
         register(dabHandler = new DabHandler());
-
+        register(particleAuraHandler = new ParticleAuraHandler());
         register(statusHandler = new StatusHandler());
         register(flossDanceHandler = new FlossDanceHandler());
 
@@ -141,6 +142,10 @@ public class HyperiumHandlers {
 
         //Command Handler
         register(commandHandler = new HyperiumCommandHandler());
+    }
+
+    public ParticleAuraHandler getParticleAuraHandler() {
+        return particleAuraHandler;
     }
 
     public LayerDeadmau5HeadHandler getLayerDeadmau5HeadHandler() {

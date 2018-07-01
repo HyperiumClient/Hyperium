@@ -15,7 +15,9 @@
     "client.MixinClientBrand",
     "client.MixinGameSettings",
     "client.multiplayer.MixinServerList",
+    "client.particle.MixinEffectRenderer",
     "client.resources.MixinAbstractResourcePack",
+    "entity.MixinEntityFx",
     "entity.MixinAbstractClientPlayer",
     "entity.MixinEntity",
     "entity.MixinEntityLivingBase",
@@ -71,6 +73,8 @@
     "utils.MixinChatStyle",
     "utils.MixinResourcePackRepository",
     "world.MixinChunk",
-    "world.MixinWorld"
+    "world.MixinWorld",
+    "item.MixinItemBow",
+    "entity.MixinEntityPlayerMP"
   ]
 }

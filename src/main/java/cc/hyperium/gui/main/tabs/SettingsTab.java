@@ -103,6 +103,13 @@ public class SettingsTab extends AbstractTab {
                 }
                 return new String[]{"NOT PURCHASED"};
             });
+            callback.put(Settings.class.getField("MAX_WORLD_PARTICLES_STRING"), o -> {
+                try {
+                    Settings.MAX_WORLD_PARTICLES_INT = Integer.valueOf(o.toString());
+                } catch (Exception ignored) {
+
+                }
+            });
             callback.put(max_particle_string, o -> {
                 try {
                     Settings.MAX_PARTICLES = Integer.valueOf(o.toString());

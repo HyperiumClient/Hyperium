@@ -202,8 +202,11 @@ public class PurchaseApi {
     }
 
     public void reload(UUID uuid) {
+        if (uuid.equals(UUIDUtil.getClientUUID())) {
+            refreshSelf();
+            return;
+        }
         System.out.println("reloading " + uuid);
-        System.out.println("Reloading 1" + uuid);
         purchasePlayers.remove(uuid);
         ensureLoaded(uuid);
     }
