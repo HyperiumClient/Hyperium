@@ -43,10 +43,11 @@ public class DabKeybind extends HyperiumBind {
         UUID uuid = (Minecraft.getMinecraft().getSession()).getProfile().getId();
         AbstractAnimationHandler.AnimationState currentState = dabHandler.get(uuid);
 
+        NettyClient client = NettyClient.getClient();
         if (Settings.DAB_TOGGLE && currentState.isAnimating() && !this.wasPressed()) {
             currentState.setToggled(false);
             dabHandler.stopAnimation(uuid);
-            NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("type", "dab_update").put("dabbing", false)));
+            if(client!=null)client.write(ServerCrossDataPacket.build(new JsonHolder().put("type", "dab_update").put("dabbing", false)));
             return;
         }
 
@@ -54,7 +55,8 @@ public class DabKeybind extends HyperiumBind {
             currentState.setToggled(Settings.DAB_TOGGLE);
             dabHandler.startAnimation(uuid);
         }
-        NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("type", "dab_update").put("dabbing", true)));
+        if(client!=null)
+        client.write(ServerCrossDataPacket.build(new JsonHolder().put("type", "dab_update").put("dabbing", true)));
     }
 
 
@@ -63,6 +65,8 @@ public class DabKeybind extends HyperiumBind {
         if (Settings.DAB_TOGGLE) return;
 
         Hyperium.INSTANCE.getHandlers().getDabHandler().stopAnimation(UUIDUtil.getClientUUID());
-        NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("type", "dab_update").put("dabbing", false)));
+        NettyClient client = NettyClient.getClient();
+        if(client!=null)
+            client.write(ServerCrossDataPacket.build(new JsonHolder().put("type", "dab_update").put("dabbing", false)));
     }
 }

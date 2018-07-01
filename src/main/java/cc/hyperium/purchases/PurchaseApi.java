@@ -106,7 +106,7 @@ public class PurchaseApi {
         if (theWorld == null)
             return null;
         for (EntityPlayer playerEntity : theWorld.playerEntities) {
-            if (playerEntity.getName().equalsIgnoreCase(name) || EnumChatFormatting.getTextWithoutFormattingCodes(playerEntity.getDisplayName().getUnformattedText()).equalsIgnoreCase(name)) {
+            if (playerEntity.getName().equalsIgnoreCase(name) || EnumChatFormatting.getTextWithoutFormattingCodes(playerEntity.getName()).equalsIgnoreCase(name)) {
                 nameToUuid.put(name.toLowerCase(), playerEntity.getUniqueID());
                 return playerEntity.getUniqueID();
             }
@@ -202,8 +202,11 @@ public class PurchaseApi {
     }
 
     public void reload(UUID uuid) {
+        if (uuid.equals(UUIDUtil.getClientUUID())) {
+            refreshSelf();
+            return;
+        }
         System.out.println("reloading " + uuid);
-        System.out.println("Reloading 1" + uuid);
         purchasePlayers.remove(uuid);
         ensureLoaded(uuid);
     }

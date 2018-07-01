@@ -18,29 +18,14 @@
 package cc.hyperium.handlers.handlers.keybinds;
 
 import cc.hyperium.Hyperium;
-import cc.hyperium.event.GameShutDownEvent;
-import cc.hyperium.event.InvokeEvent;
-import cc.hyperium.event.KeypressEvent;
-import cc.hyperium.event.KeyreleaseEvent;
-import cc.hyperium.event.MouseButtonEvent;
-import cc.hyperium.handlers.handlers.keybinds.keybinds.ClearPopupKeybind;
-import cc.hyperium.handlers.handlers.keybinds.keybinds.DabKeybind;
-import cc.hyperium.handlers.handlers.keybinds.keybinds.FlipKeybind;
-import cc.hyperium.handlers.handlers.keybinds.keybinds.FlossKeybind;
-import cc.hyperium.handlers.handlers.keybinds.keybinds.FriendsKeybind;
-import cc.hyperium.handlers.handlers.keybinds.keybinds.GuiKeybind;
-import cc.hyperium.handlers.handlers.keybinds.keybinds.NamesKeybind;
-import cc.hyperium.handlers.handlers.keybinds.keybinds.QueueKeybind;
-import cc.hyperium.handlers.handlers.keybinds.keybinds.TogglePerspectiveKeybind;
-import cc.hyperium.handlers.handlers.keybinds.keybinds.ToggleSpotifyKeybind;
-import cc.hyperium.handlers.handlers.keybinds.keybinds.ToggleSprintKeybind;
+import cc.hyperium.event.*;
+import cc.hyperium.handlers.handlers.keybinds.keybinds.*;
 import net.minecraft.client.Minecraft;
 import org.apache.commons.lang3.ArrayUtils;
 import org.lwjgl.input.Keyboard;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.TreeMap;
 
 public class KeyBindHandler {
     private static final Map<Integer, Integer> mouseBinds = new HashMap<>();
@@ -56,7 +41,7 @@ public class KeyBindHandler {
     };
     private final KeyBindConfig keyBindConfig;
     // Case insensitive treemap
-    private final TreeMap<String, HyperiumBind> keybinds = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+    private final Map<String, HyperiumBind> keybinds = new HashMap<>();
 
 
     /**
@@ -119,10 +104,10 @@ public class KeyBindHandler {
                 for (HyperiumBind bind : this.keybinds.values()) {
                     // Gets Minecraft value of the mouse value and checks to see if it matches a keybind.
                     if (mouseBinds.get(event.getValue()) == bind.getKeyCode()) {
-                        if(event.getState()){
+                        if (event.getState()) {
                             bind.onPress();
                             bind.setWasPressed(true);
-                        } else{
+                        } else {
                             bind.onRelease();
                             bind.setWasPressed(false);
                         }
@@ -179,7 +164,7 @@ public class KeyBindHandler {
      *
      * @return the keybinds
      */
-    protected TreeMap<String, HyperiumBind> getKeybinds() {
+    protected Map<String, HyperiumBind> getKeybinds() {
         return this.keybinds;
     }
 }

@@ -1,5 +1,7 @@
 package cc.hyperium;
 
+import cc.hyperium.handlers.handlers.particle.EnumParticleType;
+
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import java.io.File;
@@ -15,7 +17,9 @@ public class UpdateUtil {
     }
 
     public static void main(String[] args) {
-        System.getProperties().forEach((o, o2) -> System.out.println(o + " -> " + o2));
+        for (EnumParticleType type : EnumParticleType.values()) {
+            System.out.println("PARTICLE_" + type.name()+"(300, \"" +type.getName()+" Particle\", \"Add option for " + type.getName()+" particle in particle auras\", \"\", true),");
+        }
         String fileName = "Hyperium";
         String ver = JOptionPane.showInputDialog(null, "Enter version", "");
         final File file = new File("build\\libs\\" + fileName + "-" + ver + ".jar");

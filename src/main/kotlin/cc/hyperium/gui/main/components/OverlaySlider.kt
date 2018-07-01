@@ -6,13 +6,18 @@ import org.lwjgl.input.Mouse
 import java.util.function.Consumer
 
 class OverlaySlider(label: String, private val minVal: Float, private val maxVal: Float, var value: Float, var update: Consumer<Float>, var round: Boolean) : OverlayLabel(label) {
+    var updated = false;
     override fun handleMouseInput(mouseX: Int, mouseY: Int, overlayX: Int, overlayY: Int, w: Int, h: Int) {
-        if (mouseX >= overlayX + w - 105 && mouseX <= overlayX + w - 5 && mouseY >= overlayY && mouseY <= overlayY + h) {
-            if (!Mouse.isButtonDown(0))
-                return
+        if (mouseX >= overlayX + w - 105 && mouseX <= overlayX + w - 5 && mouseY >= overlayY && mouseY <= overlayY + h && Mouse.isButtonDown(0)) {
+
             val fx = mouseX - (overlayX + w - 105)
             value = fx / 100F * (maxVal - minVal) + minVal
-            update.accept(value)
+            updated = false;
+        } else {
+            if(!updated) {
+                updated = true;
+                update.accept(value)
+            }
         }
     }
 
@@ -33,7 +38,7 @@ class OverlaySlider(label: String, private val minVal: Float, private val maxVal
         fr.drawString(s, left - 5 - fr.getWidth(s), toFloat - 5, 0xFFFFFFFF.toInt())
         val rightSide = (overlayX + w - 5).toFloat()
         RenderUtils.drawLine(left, toFloat, rightSide, (overlayY + h / 2).toFloat(), 2f, 0xFFFFFFFF.toInt())
-        var d = (value - minVal) / (maxVal - minVal)*100
+        var d = (value - minVal) / (maxVal - minVal) * 100
         var toInt = (left + d).toInt()
         RenderUtils.drawFilledCircle(toInt, overlayY + h / 2, 5f, 0xffffffff.toInt())
         return true

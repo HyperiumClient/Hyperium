@@ -68,7 +68,10 @@ public class SettingsTab extends AbstractTab {
                     purchaseSettings.put("deadmau5_cosmetic", new JsonHolder());
                 }
                 purchaseSettings.optJSONObject("deadmau5_cosmetic").put("enabled", yes);
-                NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("ears", yes)));
+                NettyClient client = NettyClient.getClient();
+                if (client!=null) {
+                    client.write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("ears", yes)));
+                }
             });
             customStates.put(earsField, () -> {
                 Hyperium instance = Hyperium.INSTANCE;
@@ -100,6 +103,13 @@ public class SettingsTab extends AbstractTab {
                 }
                 return new String[]{"NOT PURCHASED"};
             });
+            callback.put(Settings.class.getField("MAX_WORLD_PARTICLES_STRING"), o -> {
+                try {
+                    Settings.MAX_WORLD_PARTICLES_INT = Integer.valueOf(o.toString());
+                } catch (Exception ignored) {
+
+                }
+            });
             callback.put(max_particle_string, o -> {
                 try {
                     Settings.MAX_PARTICLES = Integer.valueOf(o.toString());
@@ -122,7 +132,9 @@ public class SettingsTab extends AbstractTab {
                 if (!purchaseSettings.has("wings"))
                     purchaseSettings.put("wings", new JsonHolder());
                 purchaseSettings.optJSONObject("wings").put("type", o.toString());
-                NettyClient.getClient().write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("wings", o.toString())));
+                NettyClient client = NettyClient.getClient();
+                if(client!=null)
+                client.write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("wings", o.toString())));
             });
 
             Field flip_type_string = Settings.class.getField("FLIP_TYPE_STRING");

@@ -1,9 +1,33 @@
+/*
+ *     Copyright (C) 2018  Hyperium <https://hyperium.cc/>
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU Lesser General Public License as published
+ *     by the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU Lesser General Public License for more details.
+ *
+ *     You should have received a copy of the GNU Lesser General Public License
+ *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package cc.hyperium.config;
 
 import cc.hyperium.GuiStyle;
 import cc.hyperium.Hyperium;
 
-import static cc.hyperium.config.Category.*;
+import static cc.hyperium.config.Category.ANIMATIONS;
+import static cc.hyperium.config.Category.COSMETICS;
+import static cc.hyperium.config.Category.GENERAL;
+import static cc.hyperium.config.Category.IMPROVEMENTS;
+import static cc.hyperium.config.Category.INTEGRATIONS;
+import static cc.hyperium.config.Category.MISC;
+import static cc.hyperium.config.Category.SPOTIFY;
+import static cc.hyperium.config.Category.WINGS;
 
 /*
  * Created by Cubxity on 03/06/2018
@@ -61,6 +85,7 @@ public class Settings {
     @ToggleSetting(name = "Hold Perspective Key")
     public static boolean PERSPECTIVE_HOLD = false;
 
+
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;windowedFullScreen")
     @ToggleSetting(name = "Windowed Fullscreen", category = IMPROVEMENTS)
     public static boolean WINDOWED_FULLSCREEN = false;
@@ -108,6 +133,13 @@ public class Settings {
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.CosmeticSettings;dabSpeed")
     public static int DAB_SPEED = 7;
+
+
+    @ConfigOpt
+    @ToggleSetting(category = COSMETICS, name = "Show Particle Auras")
+    public static boolean SHOW_PARTICLES = true;
+
+
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.CosmeticSettings;dabToggle")
     public static boolean DAB_TOGGLE = false;
 
@@ -170,8 +202,9 @@ public class Settings {
     @ConfigOpt
     @SelectorSetting(name = "Flip Type", category = COSMETICS, items = {})//OVERRIDEN
     public static String FLIP_TYPE_STRING = "FLIP";
+
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.BackgroundSettings;backgroundSelect")
-    @SelectorSetting(name = "Background", items =
+    @SelectorSetting(name = "Background", category = MISC, items =
             {
                     "1",
                     "2",
@@ -179,9 +212,11 @@ public class Settings {
                     "4",
                     "5",
                     "6",
-                    "CUSTOM"
+                    "CUSTOM",
+                    "DEFAULT"
             }
     )
+
     public static String BACKGROUND = "4";
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.BackgroundSettings;fastWorldGuiEnabled")
     @ToggleSetting(name = "Transparent Container Backgrounds")
@@ -303,12 +338,13 @@ public class Settings {
 
     @ConfigOpt
     @SelectorSetting(name = "Main Menu Style", items =
-        {
-            "HYPERIUM",
-            "DEFAULT"
-        }, category = MISC
+            {
+                    "HYPERIUM",
+                    "DEFAULT"
+            }, category = MISC
     )
     public static String MENU_STYLE = GuiStyle.DEFAULT.toString();
+
 
     @ConfigOpt
     @ToggleSetting(name = "Motion Blur Enabled", category = MISC)
@@ -321,6 +357,33 @@ public class Settings {
     @ConfigOpt
     @ToggleSetting(name = "Spotify Notifications", category = SPOTIFY)
     public static boolean SPOTIFY_NOTIFICATIONS = true;
+
+
+    @ConfigOpt
+    @ToggleSetting(name = "Super Secret Settings v2", category = MISC)
+    public static boolean SUPERSECRETSETTINGSV2 = false;
+
+
+    @ConfigOpt
+    @ToggleSetting(name = "Update Notifications in Hyperium Settings", category = MISC)
+    public static boolean UPDATE_NOTIFICATIONS = true;
+
+    @ConfigOpt
+    public static int MAX_WORLD_PARTICLES_INT = 10000;
+
+    @ConfigOpt
+    @SelectorSetting(category = IMPROVEMENTS, name = "Max World Particles", items = {
+            "1000",
+            "2000",
+            "4000",
+            "6000",
+            "8000",
+            "10000",
+            "20000",
+            "50000",
+
+    })
+    public static String MAX_WORLD_PARTICLES_STRING = "10000";
 
     public static void register() {
         Hyperium.CONFIG.register(new Settings()); // values r static soo whatever
