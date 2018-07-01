@@ -49,7 +49,8 @@ public class EasterEggs {
             */
 
             //Amp
-            if (player.getName().equalsIgnoreCase("Amplifiable")) {
+            if (player.getUniqueID().equals("4be70fcd-07f9-497b-ab6d-76e3ad1b41b3")) {
+
                 renderManager.renderEntitySimple(EasterEggAmplifiable.renderEvent(player), event.getPartialTicks());
             player.setInvisible(true);}
 
@@ -62,63 +63,60 @@ public class EasterEggs {
             */
 
             //Chachy
-            if (player.getName().equalsIgnoreCase("ChachyOreo")) {
+            if (player.getUniqueID().equals("d7e06198-b78a-435e-8e35-5f2706e254f9")) {
                 renderManager.renderEntitySimple(EasterEggChachy.renderEvent(player), event.getPartialTicks());
             player.setInvisible(true);}
 
             //Coal
-            if (player.getName().equalsIgnoreCase("CoalOres")) {
+            if (player.getUniqueID().equals("1e7ccd18-4cea-4fbf-a52e-b5e2e3092832")) {
                 renderManager.renderEntitySimple(EasterEggCoalOres.renderEvent(player), event.getPartialTicks());
             player.setInvisible(true);}
 
             //Conor
-            if (player.getName().equalsIgnoreCase("ConorTheDabLord")) {
+            if (player.getUniqueID().equals("5348cef1-4828-4bed-91a5-15cdeb0b52db")) {
                 renderManager.renderEntitySimple(EasterEggConorTheDev.renderEvent(player), event.getPartialTicks());
             player.setInvisible(true);}
 
             //Cubed
-            if (player.getName().equalsIgnoreCase("U_9")) {
+            if (player.getUniqueID().equals("4ad76e80-d3dc-4039-8acf-6464bb7c4a76")) {
                 renderManager.renderEntitySimple(EasterEggCubedChaos.renderEvent(player), event.getPartialTicks());
             player.setInvisible(true);}
 
             //Cube
-            if (player.getName().equalsIgnoreCase("Cubxity")) {
+            if (player.getUniqueID().equals("eac14100-2676-4a6d-9dea-85437b2c133d")) {
                 renderManager.renderEntitySimple(EasterEggCubxity.renderEvent(player), event.getPartialTicks());
             player.setInvisible(true);}
 
             //False
 
-            if (player.getName().equalsIgnoreCase("FalseHonesty")) {
+            if (player.getUniqueID().equals("02f62a6b-e748-4546-b9ff-26e3ab4b1076")) {
                 renderManager.renderEntitySimple(EasterEggFalseHonesty.renderEvent(player), event.getPartialTicks());
             player.setInvisible(true);}
 
 
             //JJ
-            //Commented due to lack of IGN
-            /*
-            if (player.getName().equalsIgnoreCase("")) {
+            if (player.getUniqueID().equals("635bbf4c-9212-4903-bb17-29bb1179358d")) {
                 renderManager.renderEntitySimple(EasterEggJJ.renderEvent(player), event.getPartialTicks());
             player.setInvisible(true);}
-            */
+
 
             //KenWay
-            if (player.getName().equalsIgnoreCase("KenWayTheGod")) {
+            if (player.getUniqueID().equals("e3ccb241-00fd-48e0-b1a3-9066430e7a77")) {
                 renderManager.renderEntitySimple(EasterEggKenWay.renderEvent(player), event.getPartialTicks());
             player.setInvisible(true);}
 
             //Kevin
-
-            if (player.getName().equalsIgnoreCase("TheDestinyPig")) {
+            if (player.getName().equalsIgnoreCase("8233b1e5-bd74-441b-aa34-ee812263cca9")) {
                 renderManager.renderEntitySimple(EasterEggKevin.renderEvent(player), event.getPartialTicks());
             player.setInvisible(true);}
 
             //KodingKing
-            if (player.getName().equalsIgnoreCase("KodingKing")) {
+            if (player.getUniqueID().equals("75cff0a1-c5f5-4528-9c9f-48f87570065a")) {
                 renderManager.renderEntitySimple(EasterEggKodingKing.renderEvent(player), event.getPartialTicks());
             player.setInvisible(true);}
 
             //Matt
-            if (player.getName().equalsIgnoreCase("M0F")) {
+            if (player.getUniqueID().equals("b191dbfd-b6fe-4669-a948-c0398ef08a7d")) {
                 renderManager.renderEntitySimple(EasterEggMatt.renderEvent(player), event.getPartialTicks());
             player.setInvisible(true);}
 
@@ -131,7 +129,7 @@ public class EasterEggs {
             */
 
             //Zezzo
-            if (player.getName().equalsIgnoreCase("Zezzo")) {
+            if (player.getUniqueID().equals("7c84bd05-f9c5-4bf8-b03c-0963be88ef81")) {
                 renderManager.renderEntitySimple(EasterEggZezzo.renderEvent(player), event.getPartialTicks());
             player.setInvisible(true);}
         }
