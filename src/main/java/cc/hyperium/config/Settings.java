@@ -20,7 +20,14 @@ package cc.hyperium.config;
 import cc.hyperium.GuiStyle;
 import cc.hyperium.Hyperium;
 
-import static cc.hyperium.config.Category.*;
+import static cc.hyperium.config.Category.ANIMATIONS;
+import static cc.hyperium.config.Category.COSMETICS;
+import static cc.hyperium.config.Category.GENERAL;
+import static cc.hyperium.config.Category.IMPROVEMENTS;
+import static cc.hyperium.config.Category.INTEGRATIONS;
+import static cc.hyperium.config.Category.MISC;
+import static cc.hyperium.config.Category.SPOTIFY;
+import static cc.hyperium.config.Category.WINGS;
 
 /*
  * Created by Cubxity on 03/06/2018
@@ -79,7 +86,6 @@ public class Settings {
     public static boolean PERSPECTIVE_HOLD = false;
 
 
-
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;windowedFullScreen")
     @ToggleSetting(name = "Windowed Fullscreen", category = IMPROVEMENTS)
     public static boolean WINDOWED_FULLSCREEN = false;
@@ -130,8 +136,8 @@ public class Settings {
 
 
     @ConfigOpt
-    @ToggleSetting(category = COSMETICS,name = "Show Particle Auras")
-    public static boolean SHOW_PARTICLES= true;
+    @ToggleSetting(category = COSMETICS, name = "Show Particle Auras")
+    public static boolean SHOW_PARTICLES = true;
 
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.CosmeticSettings;dabToggle")
@@ -329,10 +335,10 @@ public class Settings {
 
     @ConfigOpt
     @SelectorSetting(name = "Main Menu Style", items =
-        {
-            "HYPERIUM",
-            "DEFAULT"
-        }, category = MISC
+            {
+                    "HYPERIUM",
+                    "DEFAULT"
+            }, category = MISC
     )
     public static String MENU_STYLE = GuiStyle.DEFAULT.toString();
 
@@ -358,6 +364,23 @@ public class Settings {
     @ConfigOpt
     @ToggleSetting(name = "Update Notifications in Hyperium Settings", category = MISC)
     public static boolean UPDATE_NOTIFICATIONS = true;
+
+    @ConfigOpt
+    public static int MAX_WORLD_PARTICLES_INT = 10000;
+
+    @ConfigOpt
+    @SelectorSetting(category = IMPROVEMENTS, name = "Max World Particles", items = {
+            "1000",
+            "2000",
+            "4000",
+            "6000",
+            "8000",
+            "10000",
+            "20000",
+            "50000",
+
+    })
+    public static String MAX_WORLD_PARTICLES_STRING = "10000";
 
     public static void register() {
         Hyperium.CONFIG.register(new Settings()); // values r static soo whatever
