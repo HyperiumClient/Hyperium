@@ -1,20 +1,13 @@
 package cc.hyperium.gui.main;
 
 import cc.hyperium.Hyperium;
-import cc.hyperium.Metadata;
-import cc.hyperium.UpdateUtil;
 import cc.hyperium.config.Settings;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.gui.GuiBlock;
 import cc.hyperium.gui.HyperiumGui;
 import cc.hyperium.gui.Icons;
 import cc.hyperium.gui.main.components.AbstractTab;
-import cc.hyperium.gui.main.tabs.AddonsInstallerTab;
-import cc.hyperium.gui.main.tabs.AddonsTab;
-import cc.hyperium.gui.main.tabs.CosmeticsTab;
-import cc.hyperium.gui.main.tabs.HomeTab;
-import cc.hyperium.gui.main.tabs.InfoTab;
-import cc.hyperium.gui.main.tabs.SettingsTab;
+import cc.hyperium.gui.main.tabs.*;
 import cc.hyperium.installer.InstallerConfig;
 import cc.hyperium.installer.utils.DownloadTask;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
@@ -29,15 +22,10 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
-import java.awt.Color;
-import java.awt.Font;
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
 import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.TimeUnit;
@@ -259,7 +247,7 @@ public class HyperiumMainGui extends HyperiumGui {
     @Override
     public void handleMouseInput() throws IOException {
         super.handleMouseInput();
-//        currentTab.handleMouseInput();
+        currentTab.handleMouseInput();
         if (overlay != null)
             overlay.handleMouseInput();
     }

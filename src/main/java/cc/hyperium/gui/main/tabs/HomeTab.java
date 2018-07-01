@@ -16,10 +16,9 @@ import org.apache.commons.io.IOUtils;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.HttpClients;
+import org.lwjgl.input.Mouse;
 
-import java.awt.Color;
-import java.awt.Desktop;
-import java.awt.Font;
+import java.awt.*;
 import java.net.URL;
 import java.util.concurrent.TimeUnit;
 
@@ -30,6 +29,7 @@ public class HomeTab extends AbstractTab {
     public static JsonHolder information;
     static HttpClient hc = HttpClients.createDefault();
     private static HyperiumFontRenderer title = new HyperiumFontRenderer("Arial", Font.PLAIN, 40);
+    private int offset = 0;
 
     static {
         Multithreading.schedule(() -> {
@@ -91,11 +91,23 @@ public class HomeTab extends AbstractTab {
             title.drawString(changelog.optString("title"), topX + 5, topY + 5, 0xffffff);
             int i = 25;
             for (JsonElement e : changelog.optJSONArray("description")) {
-                fr.drawStringWithShadow(e.getAsString(), topX + 5, topY + i, new Color(168, 0, 189).getRGB());
+                if (topY + i + offset + 9 < topY + containerHeight && topY + 25 < topY + i + offset)
+                    fr.drawStringWithShadow(e.getAsString(), topX + 5, topY + i + offset, new Color(168, 0, 189).getRGB());
                 i += 11;
             }
         } else {
             title.drawString("Loading...", topX + 5, topY + 5, 0xffffff);
         }
+    }
+
+    @Override
+    public void handleMouseInput() {
+        super.handleMouseInput();
+        int i = Mouse.getDWheel();
+
+        if (i > 0)
+            offset += 11;
+        else if (i < 0)
+            offset -= 11;
     }
 }
