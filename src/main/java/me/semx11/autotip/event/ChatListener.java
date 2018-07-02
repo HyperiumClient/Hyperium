@@ -20,12 +20,10 @@ package me.semx11.autotip.event;
 import cc.hyperium.event.ChatEvent;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
-import cc.hyperium.utils.ChatColor;
 import me.semx11.autotip.Autotip;
 import me.semx11.autotip.command.LimboCommand;
 import me.semx11.autotip.misc.TipTracker;
 import me.semx11.autotip.misc.Writer;
-import me.semx11.autotip.util.ClientMessage;
 import me.semx11.autotip.util.MessageOption;
 
 import java.util.regex.Matcher;
@@ -33,12 +31,8 @@ import java.util.regex.Pattern;
 
 public class ChatListener {
 
-    private final Pattern xpPattern = Pattern.compile("\\+50 experience \\(Gave a player a /tip\\)");
-    private final Pattern playerPattern = Pattern.compile("You tipped (?<player>\\w+) in .*");
-    private final Pattern coinPattern = Pattern.compile(
-            "\\+(?<coins>\\d+) coins for you in (?<game>.+) for being generous :\\)");
-    private final Pattern earnedPattern = Pattern.compile(
-            "You earned (?<coins>\\d+) coins and (?<xp>\\d+) experience from (?<game>.+) tips in the last minute!");
+    private final Pattern tippedPattern = Pattern.compile("You tipped (?<tips>\\d+) player.*");
+    private final Pattern coinPattern = Pattern.compile(".+\\+(?<coins>\\d+) (?<game>.+) Coin.*");
 
     @InvokeEvent
     public void onChat(ChatEvent event) {
@@ -48,13 +42,13 @@ public class ChatListener {
         }
 
         String msg = GeneralChatHandler.strip(event.getChat());
-        MessageOption mOption = Autotip.messageOption;
 
         if (Autotip.toggle) {
             if (msg.equals("Slow down! You can only use /tip every few seconds.")
                     || msg.equals("Still processing your most recent request!")
                     || msg.equals("You are not allowed to use commands as a spectator!")
-                    || msg.equals("You cannot tip yourself!")
+                    || msg.equals("You cannot give yourself tips!")
+                    || msg.startsWith("You already tipped everyone that has boosters active")
                     || msg.startsWith("You can only use the /tip command")
                     || msg.startsWith("You can't tip the same person")
                     || msg.startsWith("You've already tipped someone in the past hour in ")
@@ -63,59 +57,42 @@ public class ChatListener {
                 event.setCancelled(true);
             }
 
-            if (xpPattern.matcher(msg).matches()) {
-                event.setCancelled(mOption.equals(MessageOption.COMPACT) || mOption.equals(MessageOption.HIDDEN));
-                return;
-            }
+            Matcher tippedMatcher = this.tippedPattern.matcher(msg);
+            if (tippedMatcher.matches()) {
+                if (Autotip.messageOption == MessageOption.HIDDEN) {
+                    event.setCancelled(true);
+                }
 
-            Matcher playerMatcher = playerPattern.matcher(msg);
-            if (playerMatcher.matches()) {
-                TipTracker.addTip(playerMatcher.group("player"));
-                event.setCancelled(mOption.equals(MessageOption.HIDDEN));
-                return;
-            }
+                int tips = Integer.parseInt(tippedMatcher.group("tips"));
+                TipTracker.tipsSent += tips;
 
-            Matcher coinMatcher = coinPattern.matcher(msg);
-            if (coinMatcher.matches()) {
-                int coins = Integer.parseInt(coinMatcher.group("coins"));
-                String game = coinMatcher.group("game");
+                String[] rewards = event.getChat().getChatStyle().getChatHoverEvent().getValue().getFormattedText().split("\n");
 
-                TipTracker.tipsSentEarnings.merge(game, coins, (a, b) -> a + b);
-                event.setCancelled(mOption.equals(MessageOption.COMPACT) || mOption.equals(MessageOption.HIDDEN));
+                for (int i = 2; i < rewards.length; i++) {
+                    Matcher coinMatcher = this.coinPattern.matcher(rewards[i]);
 
-                return;
-            }
+                    if (coinMatcher.matches()) {
+                        int coins = Integer.parseInt(coinMatcher.group("coins"));
+                        String game = coinMatcher.group("game");
+                        TipTracker.tipsSentEarnings.merge(game, coins, (a, b) -> a + b);
+                    }
+                }
 
-            Matcher earnedMatcher = earnedPattern.matcher(msg);
-            if (earnedMatcher.matches()) {
-                int coins = Integer.parseInt(earnedMatcher.group("coins"));
-                int xp = Integer.parseInt(earnedMatcher.group("xp"));
-                String game = earnedMatcher.group("game");
-
-                TipTracker.tipsReceivedEarnings.merge(game, coins, (a, b) -> a + b);
-                TipTracker.tipsReceived += xp / 60;
                 Writer.execute();
 
-                if (mOption.equals(MessageOption.COMPACT)) {
-                    ClientMessage.sendRaw(
-                            String.format("%sEarned %s%d coins%s and %s%d experience%s in %s.",
-                                    ChatColor.GREEN, ChatColor.YELLOW, coins,
-                                    ChatColor.GREEN, ChatColor.BLUE, xp,
-                                    ChatColor.GREEN, game
-                            ));
-                }
-                event.setCancelled(mOption.equals(MessageOption.COMPACT) || mOption.equals(MessageOption.HIDDEN));
-                System.out
-                        .println("Earned " + coins + " coins and " + xp + " experience in " + game);
                 return;
             }
         }
 
-        if (LimboCommand.executed && msg.startsWith("A kick occurred in your connection") &&
-                msg.contains("Illegal characters")) {
-            event.setCancelled(true);
-            LimboCommand.executed = false;
+        if (LimboCommand.executed) {
+            if (msg.equals("A kick occurred in your connection, so you have been routed to limbo!")
+                    || msg.equals("Illegal characters in chat")
+                    || msg.equals("You were spawned in Limbo.")) {
+                event.setCancelled(true);
+            } else if (msg.equals("/limbo for more information.")) {
+                event.setCancelled(true);
+                LimboCommand.executed = false;
+            }
         }
-
     }
 }

@@ -17,6 +17,7 @@
 
 package cc.hyperium.mods.common;
 
+import cc.hyperium.config.Settings;
 import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
 import net.minecraft.client.Minecraft;
 
@@ -35,7 +36,9 @@ public class PerspectiveModifierContainer {
 
     public static void onEnable() {
         Minecraft.getMinecraft().gameSettings.thirdPersonView = 1;
-        GeneralChatHandler.instance().sendMessage("Enabled 360 Degree Perspective.");
+        if (Settings.SPRINT_PERSPECTIVE_MESSAGES) {
+            GeneralChatHandler.instance().sendMessage("Enabled 360 Degree Perspective.");
+        }
 
         modifiedYaw = Minecraft.getMinecraft().thePlayer.cameraYaw;
         modifiedPitch = Minecraft.getMinecraft().thePlayer.cameraPitch;
@@ -47,7 +50,9 @@ public class PerspectiveModifierContainer {
         //((MixinKeyBinding) this.perspective).setPressed(false);
 
         Minecraft.getMinecraft().gameSettings.thirdPersonView = 0;
-        GeneralChatHandler.instance().sendMessage("Disabled 360 Degree Perspective.");
+        if (Settings.SPRINT_PERSPECTIVE_MESSAGES) {
+            GeneralChatHandler.instance().sendMessage("Disabled 360 Degree Perspective.");
+        }
 
         // Reset the states anyway
         modifiedYaw = Minecraft.getMinecraft().thePlayer.cameraYaw;

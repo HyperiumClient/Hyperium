@@ -76,7 +76,6 @@ public abstract class MixinFontRenderer {
     @Shadow
     protected abstract float func_181559_a(char ch, boolean italic);
 
-
     @Shadow
     protected abstract ResourceLocation getUnicodePageLocation(int page);
 
@@ -115,6 +114,8 @@ public abstract class MixinFontRenderer {
             long l1 = System.nanoTime();
             FontFixValues.INSTANCE.incTime(l1 - l);
             if (cachedString != null) {
+
+
                 GlStateManager.color(this.red, this.blue, this.green, alpha);
                 renderEngine.bindTexture(this.locationFontTexture);
                 GlStateManager.callList(cachedString.getListId());
@@ -132,6 +133,9 @@ public abstract class MixinFontRenderer {
         }
         boolean hasObf = false;
         CachedString value = new CachedString(text, list, this.posX - posX, this.posY - posY);
+        GlStateManager.rotate(90, 0.0F, 1.0F, 0.0F);
+        this.func_181559_a('.', this.italicStyle);
+        GlStateManager.rotate(-90, 0.0F, 1.0F, 0.0F);
 
         for (int i = 0; i < text.length(); ++i) {
             char c0 = text.charAt(i);

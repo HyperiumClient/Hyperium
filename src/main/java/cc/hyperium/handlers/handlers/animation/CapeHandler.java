@@ -32,20 +32,25 @@ public class CapeHandler {
         UUID id = UUIDUtil.getClientUUID();
         ResourceLocation resourceLocation = capes.get(id);
         TextureManager textureManager = Minecraft.getMinecraft().getTextureManager();
+        try {
+            LOCK.lock();
 
-        for (ResourceLocation location : capes.values()) {
-            if (location != null && location.equals(resourceLocation))
-                continue;
-            ITextureObject texture = textureManager.getTexture(location);
-            if (texture instanceof ThreadDownloadImageData) {
-                //Unlink the buffered image so garbage collector can do its magic
-                ((ThreadDownloadImageData) texture).setBufferedImage(null);
+            for (ResourceLocation location : capes.values()) {
+                if (location != null && location.equals(resourceLocation))
+                    continue;
+                ITextureObject texture = textureManager.getTexture(location);
+                if (texture instanceof ThreadDownloadImageData) {
+                    //Unlink the buffered image so garbage collector can do its magic
+                    ((ThreadDownloadImageData) texture).setBufferedImage(null);
+                }
+                textureManager.deleteTexture(location);
             }
-            textureManager.deleteTexture(location);
+            capes.clear();
+            if (resourceLocation != null)
+                capes.put(id, resourceLocation);
+        } finally {
+            LOCK.unlock();
         }
-        capes.clear();
-        if (resourceLocation != null)
-            capes.put(id, resourceLocation);
     }
 
     public void loadCape(final UUID uuid, String url) {
@@ -88,17 +93,17 @@ public class CapeHandler {
     public ResourceLocation getCape(final AbstractClientPlayer player) {
         UUID uuid = player.getUniqueID();
 
-        if(isRealPlayer(uuid)) {
+        if (isRealPlayer(uuid)) {
             ResourceLocation orDefault = capes.getOrDefault(uuid, null);
             if (orDefault == null) {
                 Multithreading.runAsync(() -> {
                     HyperiumPurchase hyperiumPurchase = PurchaseApi.getInstance()
-                        .getPackageSync(uuid);
+                            .getPackageSync(uuid);
                     String s = hyperiumPurchase.getPurchaseSettings().optJSONObject("cape")
-                        .optString("type");
+                            .optString("type");
                     if (!s.isEmpty()) {
                         JsonHolder jsonHolder = PurchaseApi.getInstance().getCapeAtlas()
-                            .optJSONObject(s);
+                                .optJSONObject(s);
                         String url = jsonHolder.optString("url");
                         if (!url.isEmpty()) {
                             loadCape(uuid, url);
@@ -106,8 +111,8 @@ public class CapeHandler {
                         }
                     }
                     loadCape(uuid,
-                        "http://s.optifine.net/capes/" + player.getGameProfile().getName()
-                            + ".png");
+                            "http://s.optifine.net/capes/" + player.getGameProfile().getName()
+                                    + ".png");
                 });
                 return capes.get(uuid);
             }
@@ -116,16 +121,16 @@ public class CapeHandler {
                 return null;
             }
             return orDefault;
-        } else{
+        } else {
             return null;
         }
     }
 
-    public boolean isRealPlayer(UUID uuid){
+    public boolean isRealPlayer(UUID uuid) {
         String s = uuid.toString().replace("-", "");
         if (s.length() == 32 && s.charAt(12) != '4') {
             return false;
-        } else{
+        } else {
             return true;
         }
     }
