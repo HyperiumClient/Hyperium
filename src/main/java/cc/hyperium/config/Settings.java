@@ -240,7 +240,7 @@ public class Settings {
 
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.BackgroundSettings;renderOverInventory")
-    @ToggleSetting(name = "Particles in Inventory", category = COSMETICS)
+    @ToggleSetting(name = "Particles In Inventory", category = COSMETICS)
     public static boolean PARTICLES_INV = true;
 
 
@@ -277,12 +277,12 @@ public class Settings {
     public static boolean SHOW_ONLINE_PLAYERS = true;
 
     @ConfigOpt(alt = "cc.hyperium.handlers.handlers.OtherConfigOptions;turnPeopleIntoBlock")
-    @ToggleSetting(category = COSMETICS, name = "Show Players as Blocks")
+    @ToggleSetting(category = COSMETICS, name = "Show Players As Blocks")
     public static boolean TURN_PEOPLE_INTO_BLOCKS = false;
 
 
     @ConfigOpt(alt = "cc.hyperium.handlers.handlers.OtherConfigOptions;pingOnDm")
-    @ToggleSetting(category = GENERAL, name = "Ping on DM")
+    @ToggleSetting(category = GENERAL, name = "Ping On DM")
     public static boolean PING_ON_DM = true;
 
 
@@ -311,6 +311,9 @@ public class Settings {
     @ToggleSetting(category = GENERAL, name = "Sprint Bypass Static FOV")
     public static boolean staticFovSprintModifier;
 
+    @ConfigOpt()
+    @ToggleSetting(category = GENERAL, name = "Sprint And Perspective Messages")
+    public static boolean SPRINT_PERSPECTIVE_MESSAGES;
 
     @ConfigOpt(alt = "cc.hyperium.handlers.handlers.chat.AutoWhoChatHandler;enabled")
     @ToggleSetting(name = "Auto Who", category = INTEGRATIONS)
