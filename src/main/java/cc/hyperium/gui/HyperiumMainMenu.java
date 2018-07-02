@@ -458,7 +458,7 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
 
 
     private void drawHyperiumStyleScreen(int mouseX, int mouseY, float partialTicks) {
-        if(Settings.BACKGROUND.equals("DEFAULT")) {
+        if(Settings.BACKGROUND.equals("PANORAMA")) {
             GlStateManager.disableAlpha();
             this.renderSkybox(mouseX, mouseY, partialTicks);
             GlStateManager.enableAlpha();
@@ -530,6 +530,18 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
     }
 
     private void renderHyperiumBackground(ScaledResolution p_180476_1_) {
+        switch(Settings.BACKGROUND) {
+            case "GALAXY 1":
+                setBackground(new ResourceLocation("textures/material/backgrounds/1.png"));
+                break;
+            case "INK BLAST":
+                setBackground(new ResourceLocation("textures/material/backgrounds/2.png"));
+                break;
+            case "COLOR BLAST":
+                setBackground(new ResourceLocation("textures/material/backgrounds/3.png"));
+                break;
+        }
+
         GlStateManager.disableDepth();
         GlStateManager.depthMask(false);
         GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
@@ -573,7 +585,7 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
     }
 
     private void drawDefaultStyleScreen(int mouseX, int mouseY, float partialTicks) {
-        if(Settings.BACKGROUND.equals("DEFAULT")) {
+        if(Settings.BACKGROUND.equals("PANORAMA")) {
             GlStateManager.disableAlpha();
             this.renderSkybox(mouseX, mouseY, partialTicks);
             GlStateManager.enableAlpha();
