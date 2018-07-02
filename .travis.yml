@@ -12,7 +12,7 @@ before_deploy:
   - git config --local user.email "hyperiumclient@gmail.com"
   - git tag -a $TRAVIS_BUILD_NUMBER -m "Automated beta build"
   - "git push https://$GIT_TOKEN@github.com/HyperiumClient/Hyperium.git HEAD:master --follow-tags"
-  - echo $TRAVIS_BUILD_NUMBER > $TRAVIS_BUILD_DIR/build/libs/build.txt
+  - echo $TRAVIS_BUILD_NUMBER > $TRAVIS_BUILD_DIR/libs/build.txt
 after_deploy:
   - wget https://gist.githubusercontent.com/Cubxity/457736a7bcbfe6d6f3ae2a5db04c0806/raw/fb8184fac9d8dca6f733a952c2e9d1965609aee9/deploy-hook.sh
   - chmod +x deploy-hook.sh
