@@ -1,11 +1,7 @@
 package cc.hyperium.gui.main.tabs;
 
 import cc.hyperium.Hyperium;
-import cc.hyperium.config.Category;
-import cc.hyperium.config.SelectorSetting;
-import cc.hyperium.config.Settings;
-import cc.hyperium.config.SliderSetting;
-import cc.hyperium.config.ToggleSetting;
+import cc.hyperium.config.*;
 import cc.hyperium.cosmetics.Deadmau5Cosmetic;
 import cc.hyperium.cosmetics.HyperiumCosmetics;
 import cc.hyperium.cosmetics.wings.WingsCosmetic;
@@ -31,7 +27,7 @@ import net.minecraft.client.gui.Gui;
 import org.apache.commons.lang3.ArrayUtils;
 import org.lwjgl.input.Mouse;
 
-import java.awt.Color;
+import java.awt.*;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.function.Consumer;
@@ -54,7 +50,6 @@ public class SettingsTab extends AbstractTab {
     private final HashMap<Field, Consumer<Object>> callback = new HashMap<>();
     private final HashMap<Field, Supplier<String[]>> customStates = new HashMap<>();
     boolean loadedSelf = false;
-    private int offsetY = 0;
     private GuiBlock block;
     private int y, w;
 
@@ -69,7 +64,7 @@ public class SettingsTab extends AbstractTab {
                 }
                 purchaseSettings.optJSONObject("deadmau5_cosmetic").put("enabled", yes);
                 NettyClient client = NettyClient.getClient();
-                if (client!=null) {
+                if (client != null) {
                     client.write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("ears", yes)));
                 }
             });
@@ -133,8 +128,8 @@ public class SettingsTab extends AbstractTab {
                     purchaseSettings.put("wings", new JsonHolder());
                 purchaseSettings.optJSONObject("wings").put("type", o.toString());
                 NettyClient client = NettyClient.getClient();
-                if(client!=null)
-                client.write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("wings", o.toString())));
+                if (client != null)
+                    client.write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("wings", o.toString())));
             });
 
             Field flip_type_string = Settings.class.getField("FLIP_TYPE_STRING");
@@ -323,7 +318,7 @@ public class SettingsTab extends AbstractTab {
 
     @Override
     public void draw(int mouseX, int mouseY, int topX, int topY, int containerWidth, int containerHeight) {
-        super.draw(mouseX, mouseY, topX, topY + offsetY, containerWidth, containerHeight);
+        super.draw(mouseX, mouseY, topX, topY, containerWidth, containerHeight);
     }
 
     @Override
@@ -331,10 +326,9 @@ public class SettingsTab extends AbstractTab {
         super.handleMouseInput();
         if (HyperiumMainGui.INSTANCE.getOverlay() != null) return;
         int i = Mouse.getEventDWheel();
-
         if (i < 0)
-            offsetY -= 5;
+            offsetY += 1;
         else if (i > 0)
-            offsetY += 5;
+            offsetY -= 1;
     }
 }

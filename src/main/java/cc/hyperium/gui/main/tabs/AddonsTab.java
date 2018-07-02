@@ -15,7 +15,6 @@ import org.lwjgl.input.Mouse;
  * Created by Cubxity on 29/05/2018
  */
 public class AddonsTab extends AbstractTab {
-    private static int offsetY = 0; // static so it saves the previous location
     private GuiBlock block;
     private int y, w;
 
@@ -69,7 +68,7 @@ public class AddonsTab extends AbstractTab {
 
     @Override
     public void draw(int mouseX, int mouseY, int topX, int topY, int containerWidth, int containerHeight) {
-        super.draw(mouseX, mouseY, topX, topY + offsetY, containerWidth, containerHeight);
+        super.draw(mouseX, mouseY, topX, topY, containerWidth, containerHeight);
     }
 
     @Override
@@ -78,8 +77,8 @@ public class AddonsTab extends AbstractTab {
         if (HyperiumMainGui.INSTANCE.getOverlay() != null) return;
         int i = Mouse.getEventDWheel();
         if (i < 0)
-            offsetY -= 5;
+            offsetY += 1;
         else if (i > 0)
-            offsetY += 5;
+            offsetY -= 1;
     }
 }

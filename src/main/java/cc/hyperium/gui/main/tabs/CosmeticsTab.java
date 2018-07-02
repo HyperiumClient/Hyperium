@@ -4,6 +4,7 @@ import cc.hyperium.gui.CapesGui;
 import cc.hyperium.gui.GuiBlock;
 import cc.hyperium.gui.Icons;
 import cc.hyperium.gui.ParticleGui;
+import cc.hyperium.gui.main.HyperiumMainGui;
 import cc.hyperium.gui.main.components.AbstractTab;
 import cc.hyperium.gui.main.components.SettingItem;
 import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
@@ -14,6 +15,7 @@ import cc.hyperium.purchases.PurchaseApi;
 import cc.hyperium.utils.JsonHolder;
 import cc.hyperium.utils.UUIDUtil;
 import net.minecraft.client.gui.Gui;
+import org.lwjgl.input.Mouse;
 
 import java.awt.Color;
 import java.awt.Desktop;
@@ -145,5 +147,16 @@ public class CosmeticsTab extends AbstractTab {
             cosmeticCallback = PurchaseApi.getInstance().get("https://api.hyperium.cc/cosmetics/" + UUIDUtil.getClientUUID().toString().replace("-", ""));
             purchasing = false;
         });
+    }
+
+    @Override
+    public void handleMouseInput() {
+        super.handleMouseInput();
+        if (HyperiumMainGui.INSTANCE.getOverlay() != null) return;
+        int i = Mouse.getEventDWheel();
+        if (i < 0)
+            offsetY -= 1;
+        else if (i > 0)
+            offsetY += 1;
     }
 }
