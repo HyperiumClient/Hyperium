@@ -148,15 +148,4 @@ public class CosmeticsTab extends AbstractTab {
             purchasing = false;
         });
     }
-
-    @Override
-    public void handleMouseInput() {
-        super.handleMouseInput();
-        if (HyperiumMainGui.INSTANCE.getOverlay() != null) return;
-        int i = Mouse.getEventDWheel();
-        if (i < 0)
-            offsetY += 1;
-        else if (i > 0)
-            offsetY -= 1;
-    }
 }

@@ -320,15 +320,4 @@ public class SettingsTab extends AbstractTab {
     public void draw(int mouseX, int mouseY, int topX, int topY, int containerWidth, int containerHeight) {
         super.draw(mouseX, mouseY, topX, topY, containerWidth, containerHeight);
     }
-
-    @Override
-    public void handleMouseInput() {
-        super.handleMouseInput();
-        if (HyperiumMainGui.INSTANCE.getOverlay() != null) return;
-        int i = Mouse.getEventDWheel();
-        if (i < 0)
-            offsetY += 1;
-        else if (i > 0)
-            offsetY -= 1;
-    }
 }

@@ -41,6 +41,13 @@ public abstract class AbstractTab {
             int finalPw = pw;
             witems.forEach(s -> s.handleMouseInput(mx, my, sr.getScaledWidth() - finalPw, sr.getScaledWidth() - finalPw, finalPw * 2, finalPw));
             items.forEach(s -> s.handleMouseInput(mx, my, sr.getScaledWidth() - finalPw, sr.getScaledWidth() - finalPw, finalPw * 2, finalPw));
+
+            // Scrolling.
+            int i = Mouse.getEventDWheel();
+            if (i > 0)
+                offsetY += 1;
+            else if (i < 0)
+                offsetY -= 1;
         }
     }
 

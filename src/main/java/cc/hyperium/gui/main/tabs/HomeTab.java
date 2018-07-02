@@ -72,8 +72,7 @@ public class HomeTab extends AbstractTab {
             }
         }, 0, 10, TimeUnit.MINUTES);
     }
-
-    private int offset = 0;
+    
     private GuiBlock block;
     private int y, w;
 
@@ -108,8 +107,8 @@ public class HomeTab extends AbstractTab {
                 for (String item : items) {
                     boolean second = false;
                     for (String s : fr.splitString(item, containerWidth - 10)) {
-                        if (topY + i + offset + 9 < topY + containerHeight && topY + 25 < topY + i + offset) {
-                            fr.drawStringWithShadow(s, topX + 5  + (second ? 20 :0), topY + i + offset, new Color(168, 0, 189).getRGB());
+                        if (topY + i + offsetY + 9 < topY + containerHeight && topY + 25 < topY + i + offsetY) {
+                            fr.drawStringWithShadow(s, topX + 5  + (second ? 20 :0), topY + i + offsetY, new Color(168, 0, 189).getRGB());
                         }
                         i += 11;
                         second=true;
@@ -126,10 +125,9 @@ public class HomeTab extends AbstractTab {
     public void handleMouseInput() {
         super.handleMouseInput();
         int i = Mouse.getDWheel();
-
         if (i > 0)
-            offset += 11;
+            offsetY += 10;
         else if (i < 0)
-            offset -= 11;
+            offsetY -= 10;
     }
 }
