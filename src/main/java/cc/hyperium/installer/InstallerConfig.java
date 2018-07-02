@@ -350,8 +350,9 @@ public class InstallerConfig extends JFrame {
 
                     @Override
                     public void mouseEntered(MouseEvent e) {
+                        String addonVersion = j.get("version").getAsString().substring(0, j.get("version").getAsString().length());
                         cLabel.setText(j.get("name").getAsString() + (j.get("verified").getAsBoolean() ? " (Verified)" : ""));
-                        cDesc.setText(j.get("description").getAsString() + "\n\nVersion: " + j.get("version") + "\nAuthor: " + j.get("author").getAsString());
+                        cDesc.setText(j.get("description").getAsString() + "\n\nVersion: " + addonVersion + "\nAuthor: " + j.get("author").getAsString());
                     }
 
                     @Override
