@@ -206,18 +206,15 @@ public class Settings {
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.BackgroundSettings;backgroundSelect")
     @SelectorSetting(name = "Background", category = MISC, items =
             {
-                    "1",
-                    "2",
-                    "3",
-                    "4",
-                    "5",
-                    "6",
-                    "CUSTOM",
-                    "DEFAULT"
+                    "GALAXY 1",
+                    "INK BLAST",
+                    "COLOR BLAST",
+                    "PANORAMA",
+                    "CUSTOM"
             }
     )
 
-    public static String BACKGROUND = "4";
+    public static String BACKGROUND = "GALAXY 1";
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.BackgroundSettings;fastWorldGuiEnabled")
     @ToggleSetting(name = "Transparent Container Backgrounds")
     public static boolean FAST_CONTAINER = false;
@@ -397,3 +394,4 @@ public class Settings {
         Hyperium.CONFIG.save();
     }
 }
+
