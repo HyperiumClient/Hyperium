@@ -336,10 +336,10 @@ public class InstallerConfig extends JFrame {
             JsonParser parser = new JsonParser();
             JsonObject versions = parser.parse(InstallerFrame.get("https://raw.githubusercontent.com/HyperiumClient/Hyperium-Repo/master/installer/versions.json")).getAsJsonObject();
             for (JsonElement o : versions.getAsJsonArray("addons")) {
-                JsonObject j = o.getAsJsonObject();
-                JRadioButton b = new MaterialRadioButton("Addon :: " + j.get("name").getAsString());
+                JsonHolder j = new JsonHolder(o.getAsJsonObject());
+                JRadioButton b = new MaterialRadioButton("Addon :: " + j.optString("name"));
                 b.setFont(f);
-                b.setEnabled(!j.get("url").getAsString().isEmpty());
+                b.setEnabled(!j.optString("url").isEmpty());
                 b.addMouseListener(new MouseAdapter() {
 
                     @Override
@@ -350,8 +350,8 @@ public class InstallerConfig extends JFrame {
 
                     @Override
                     public void mouseEntered(MouseEvent e) {
-                        cLabel.setText(j.get("name").getAsString() + (j.get("verified").getAsBoolean() ? " (Verified)" : ""));
-                        cDesc.setText(j.get("description").getAsString() + "\n\nVersion: " + j.get("version") + "\nAuthor: " + j.get("author").getAsString());
+                        cLabel.setText(j.optString("name") + (j.optBoolean("verified") ? " (Verified)" : ""));
+                        cDesc.setText(j.optString("description") + "\n\nVersion: " + j.optString("version") + "\nAuthor: " + j.optString("author"));
                     }
 
                     @Override
@@ -362,7 +362,7 @@ public class InstallerConfig extends JFrame {
                 b.setVerticalAlignment(SwingConstants.TOP);
                 b.setHorizontalAlignment(SwingConstants.LEFT);
                 b.setBackground(new Color(28, 28, 28));
-                dependencies.put(b, j.getAsJsonArray("depends"));
+                dependencies.put(b, j.optJSONArray("depends"));
                 cView.add(b);
             }
             List<String> versionList = StreamSupport.stream(versions.get("versions").getAsJsonArray().spliterator(), false).filter(e -> e.getAsJsonObject().get("install-min").getAsInt() <= VERSION).map(o -> o.getAsJsonObject().get("name").getAsString()).collect(Collectors.toList());
