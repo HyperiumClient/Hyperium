@@ -74,6 +74,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLClassLoader;
 
@@ -81,7 +83,6 @@ import java.net.URLClassLoader;
  * Hyperium Client
  */
 public class Hyperium {
-
     /**
      * The hyperium instance
      */
@@ -98,6 +99,7 @@ public class Hyperium {
      * Instance of default CONFIG
      */
     public static final DefaultConfig CONFIG = new DefaultConfig(new File(folder, "CONFIG.json"));
+    public static String BUILD_ID = "RELEASE " + Metadata.getVersionID();
     public static boolean updateQueue = false;
     private final GeneralStatisticsTracking statTrack = new GeneralStatisticsTracking();
     private final NotificationCenter notification = new NotificationCenter();
@@ -138,6 +140,17 @@ public class Hyperium {
 
     @InvokeEvent(priority = Priority.HIGH)
     public void init(InitializationEvent event) {
+        InputStream resourceAsStream = getClass().getResourceAsStream("/build.txt");
+        try {
+            if (resourceAsStream != null) {
+                BufferedReader br = new BufferedReader(new InputStreamReader(resourceAsStream));
+                BUILD_ID = br.readLine();
+                br.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        System.out.println("Hyperium running build " + BUILD_ID);
         try {
             Class.forName("net.minecraft.dispenser.BehaviorProjectileDispense"); // check for random MC class
             isDevEnv = true;
