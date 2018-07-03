@@ -20,8 +20,6 @@ import net.minecraft.util.ResourceLocation;
 import javax.imageio.ImageIO;
 import javax.imageio.ImageReader;
 import javax.imageio.stream.ImageInputStream;
-import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -137,29 +135,7 @@ public class CapeHandler {
 
             BufferedImage bufferedImage = new BufferedImage(read.getWidth(), read.getHeight(), BufferedImage.TYPE_INT_ARGB);
             bufferedImage.getGraphics().drawImage(base, 0, 0, null);
-            int baseWidth = 10;
-            int baseHeight = 16;
-
-
-            double scaleFac = 1;
-            for (int j = 0; j < 8; j++) {
-                if (baseWidth * Math.pow(2, j) > bufferedImage.getWidth()) {
-                    scaleFac = Math.pow(2, j);
-                    break;
-                }
-            }
-
-            int width = (int) (22 * scaleFac);
-            int height = (int) (17 * scaleFac);
-            BufferedImage formatted = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-            Graphics graphics = formatted.getGraphics();
-            graphics.setColor(Color.RED);
-            graphics.fillRect(0, 0, width, height);
-            graphics.drawImage(bufferedImage, (int) scaleFac, (int) scaleFac, (int) (scaleFac + baseWidth * scaleFac), (int) (scaleFac + baseHeight * scaleFac), null);
-            File outputfile = new File(CACHE_DIR, i + ".png");
-            ImageIO.write(formatted, "png", outputfile);
-            System.out.println(bufferedImage.getWidth() + " " + bufferedImage.getHeight());
-            images.add(CapeUtils.parseCape(formatted));
+            images.add(bufferedImage);
         }
 
 
