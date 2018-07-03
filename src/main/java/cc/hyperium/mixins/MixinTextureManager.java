@@ -17,7 +17,7 @@
 
 package cc.hyperium.mixins;
 
-import cc.hyperium.handlers.handlers.animation.CapeHandler;
+import cc.hyperium.handlers.handlers.animation.cape.CapeHandler;
 import cc.hyperium.utils.Utils;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.texture.ITextureObject;

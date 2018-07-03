@@ -37,7 +37,7 @@ import cc.hyperium.handlers.handlers.RenderPlayerAsBlock;
 import cc.hyperium.handlers.handlers.StatusHandler;
 import cc.hyperium.handlers.handlers.TimeTrackHandler;
 import cc.hyperium.handlers.handlers.ValueHandler;
-import cc.hyperium.handlers.handlers.animation.CapeHandler;
+import cc.hyperium.handlers.handlers.animation.cape.CapeHandler;
 import cc.hyperium.handlers.handlers.animation.DabHandler;
 import cc.hyperium.handlers.handlers.animation.FlossDanceHandler;
 import cc.hyperium.handlers.handlers.chat.AutoWhoChatHandler;

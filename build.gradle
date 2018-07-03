@@ -98,6 +98,10 @@ dependencies {
 
     embed fileTree(dir: 'libs', include: 'Netty Client.jar')
     compile fileTree(dir: 'libs', include: '*.jar')
+
+    compile 'com.googlecode.mp4parser:isoparser:1.1.21'
+    compile 'org.jcodec:jcodec:0.2.2'
+    compile 'org.jcodec:jcodec-javase:0.2.2'
 }
 
 
