@@ -72,7 +72,7 @@ public class HomeTab extends AbstractTab {
             }
         }, 0, 10, TimeUnit.MINUTES);
     }
-    
+
     private GuiBlock block;
     private int y, w;
 

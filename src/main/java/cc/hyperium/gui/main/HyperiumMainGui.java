@@ -144,51 +144,8 @@ public class HyperiumMainGui extends HyperiumGui {
         if (currentAlert != null)
             currentAlert.render(fr, width, height);
 
-        if(UpdateUtils.INSTANCE.isAbsoluteLatest() && !show && Settings.UPDATE_NOTIFICATIONS) {
-            Alert alert = new Alert(Icons.ERROR.getResource(), () -> {
-                String versions_url = "https://raw.githubusercontent.com/HyperiumClient/Hyperium-Repo/master/installer/versions.json";
-                JsonHolder vJson = null;
-                try {
-                    vJson = new JsonHolder(get(versions_url));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                try {
-                    Hyperium.INSTANCE.getNotification().display("Update", "Downloading updates...", 3);
-                    JsonHolder finalVJson = vJson;
-                    JsonObject ver = StreamSupport.stream(vJson.optJSONArray("versions").spliterator(), false)
-                            .filter(v -> finalVJson.optString("latest-stable").equals(v.getAsJsonObject().get("name").getAsString())).findFirst()
-                            .orElseThrow(() -> new IllegalStateException("Couldn't find stable version")).getAsJsonObject();
-                    boolean download = ver.get("install-min").getAsInt() > InstallerConfig.VERSION;
-                    System.out.println("Download=" + download);
-                    Multithreading.runAsync(() -> {
-                        try {
-                            File jar;
-                            if (download || Hyperium.INSTANCE.isDevEnv()) { // or else it will break in dev env
-                                DownloadTask task = new DownloadTask(ver.get("url").getAsString(), System.getProperty("java.io.tmpdir"));
-                                task.execute();
-                                task.get();
-                                jar = new File(System.getProperty("java.io.tmpdir"), task.getFileName());
-                            } else {
-                                jar = new File(System.getProperty("sun.java.command").split(" ")[0]);
-                            }
-                            Multithreading.schedule(() -> {
-                                Minecraft.getMinecraft().shutdown();
-                                try {
-                                    Runtime.getRuntime().exec(System.getProperty("java.home") + "/bin/java -jar " + jar.getAbsolutePath());
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                            }, 10, TimeUnit.SECONDS);
-                        } catch (Exception ex) {
-                            ex.printStackTrace();
-                        }
-                    });
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-
-            }, "Hyperium Update! Click here to download.");
+        if(!isLatestVersion() && !show && Settings.UPDATE_NOTIFICATIONS) {
+                Alert alert = new Alert(Icons.ERROR.getResource(), () -> downloadLatest(), "Hyperium Update! Click here to download.");
             alerts.add(alert);
             show = true;
         }
@@ -208,6 +165,54 @@ public class HyperiumMainGui extends HyperiumGui {
 
         if (tabFade == 0f && highlightScale < 1f)
             highlightScale += 0.08f;
+    }
+
+    public boolean isLatestVersion(){
+        return Hyperium.INSTANCE.isLatestVersion;
+    }
+
+    public void downloadLatest(){
+        String versions_url = "https://raw.githubusercontent.com/HyperiumClient/Hyperium-Repo/master/installer/versions.json";
+        JsonHolder vJson = null;
+        try {
+            vJson = new JsonHolder(get(versions_url));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            Hyperium.INSTANCE.getNotification().display("Update", "Downloading updates...", 3);
+            JsonHolder finalVJson = vJson;
+            JsonObject ver = StreamSupport.stream(vJson.optJSONArray("versions").spliterator(), false)
+                .filter(v -> finalVJson.optString("latest-stable").equals(v.getAsJsonObject().get("name").getAsString())).findFirst()
+                .orElseThrow(() -> new IllegalStateException("Couldn't find stable version")).getAsJsonObject();
+            boolean download = ver.get("install-min").getAsInt() > InstallerConfig.VERSION;
+            System.out.println("Download=" + download);
+            Multithreading.runAsync(() -> {
+                try {
+                    File jar;
+                    if (download || Hyperium.INSTANCE.isDevEnv()) { // or else it will break in dev env
+                        DownloadTask task = new DownloadTask(ver.get("url").getAsString(), System.getProperty("java.io.tmpdir"));
+                        task.execute();
+                        task.get();
+                        jar = new File(System.getProperty("java.io.tmpdir"), task.getFileName());
+                    } else {
+                        jar = new File(System.getProperty("sun.java.command").split(" ")[0]);
+                    }
+                    Multithreading.schedule(() -> {
+                        Minecraft.getMinecraft().shutdown();
+                        try {
+                            Runtime.getRuntime().exec(System.getProperty("java.home") + "/bin/java -jar " + jar.getAbsolutePath());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }, 10, TimeUnit.SECONDS);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            });
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
     @Override

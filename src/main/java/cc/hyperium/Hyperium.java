@@ -60,6 +60,7 @@ import cc.hyperium.network.NetworkHandler;
 import cc.hyperium.purchases.PurchaseApi;
 import cc.hyperium.tray.TrayManager;
 import cc.hyperium.utils.StaffUtils;
+import cc.hyperium.utils.UpdateUtils;
 import cc.hyperium.utils.eastereggs.EasterEggs;
 import cc.hyperium.utils.mods.CompactChat;
 import cc.hyperium.utils.mods.FPSLimiter;
@@ -98,6 +99,7 @@ public class Hyperium {
     /**
      * Instance of default CONFIG
      */
+
     public static final DefaultConfig CONFIG = new DefaultConfig(new File(folder, "CONFIG.json"));
     public static String BUILD_ID = "RELEASE " + Metadata.getVersionID();
     public static boolean updateQueue = false;
@@ -116,6 +118,9 @@ public class Hyperium {
     private Sk1erMod sk1erMod;
     private NettyClient client;
     private NetworkHandler networkHandler;
+
+    public boolean isLatestVersion;
+    
     /**
      * @param event initialize Hyperium
      */
@@ -287,6 +292,8 @@ public class Hyperium {
         } else {
             System.out.println("Not restoring chat");
         }
+
+        isLatestVersion = UpdateUtils.INSTANCE.isAbsoluteLatest();
     }
 
     /**
