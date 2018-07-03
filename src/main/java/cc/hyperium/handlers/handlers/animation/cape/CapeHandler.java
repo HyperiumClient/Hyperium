@@ -16,6 +16,9 @@ import net.minecraft.client.renderer.IImageBuffer;
 import net.minecraft.client.renderer.ThreadDownloadImageData;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.util.ResourceLocation;
+import org.lwjgl.LWJGLException;
+import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.SharedDrawable;
 
 import javax.imageio.ImageIO;
 import javax.imageio.ImageReader;
@@ -27,6 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -36,8 +40,38 @@ public class CapeHandler {
     private final ConcurrentHashMap<UUID, ICape> capes = new ConcurrentHashMap<>();
     private final ResourceLocation loadingResource = new ResourceLocation("");
     private final File CACHE_DIR;
+    private ConcurrentLinkedQueue<Runnable> actions = new ConcurrentLinkedQueue<>();
+    private SharedDrawable drawable;
+
 
     public CapeHandler() {
+        try {
+            drawable = new SharedDrawable(Display.getDrawable());
+            Multithreading.runAsync(() -> {
+                try {
+                    drawable.makeCurrent();
+                } catch (LWJGLException e) {
+                    e.printStackTrace();
+                }
+                while (true) {
+                    Runnable poll;
+                    while ((poll = actions.poll()) != null) {
+                        try {
+                            poll.run();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    try {
+                        Thread.sleep(100L);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        } catch (LWJGLException e) {
+            e.printStackTrace();
+        }
 
         CACHE_DIR = new File(Hyperium.folder, "CACHE_DIR");
         CACHE_DIR.mkdir();
@@ -139,30 +173,28 @@ public class CapeHandler {
         }
 
 
-        Minecraft.getMinecraft().addScheduledTask(() -> {
-            ArrayList<ResourceLocation> locations = new ArrayList<>();
-            TextureManager textureManager = Minecraft.getMinecraft().getTextureManager();
-            int i = 0;
-            try {
-
-                for (BufferedImage image : images) {
-
+        ArrayList<ResourceLocation> locations = new ArrayList<>();
+        TextureManager textureManager = Minecraft.getMinecraft().getTextureManager();
+        final int[] i = {0};
+        try {
+            for (BufferedImage image : images) {
+                actions.add(() -> {
                     ResourceLocation resourceLocation = new ResourceLocation(
-                            String.format("hyperium/dynamic_capes/%s_%s.png", uuid, i));
+                            String.format("hyperium/dynamic_capes/%s_%s.png", uuid, i[0]));
                     locations.add(resourceLocation);
 
                     CapeTexture capeTexture = new CapeTexture(image);
                     textureManager.loadTexture(resourceLocation, capeTexture);
-                    i++;
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
+                    i[0]++;
+                });
+
             }
-            setCape(uuid, new DynamicCape(locations, frames, frames));
-        });
-
-
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        actions.add(() -> setCape(uuid, new DynamicCape(locations, frames, frames)));
     }
+
 
     public ResourceLocation getCape(final AbstractClientPlayer player) {
         UUID uuid = player.getUniqueID();
@@ -174,11 +206,8 @@ public class CapeHandler {
                     HyperiumPurchase hyperiumPurchase = PurchaseApi.getInstance()
                             .getPackageSync(uuid);
                     JsonHolder holder = hyperiumPurchase.getPurchaseSettings().optJSONObject("cape");
-                    holder.put("type", "CUSTOM");
-                    holder.put("url", "https://static.sk1er.club/hyperium_files/lego10.gif");
-                    String s = holder
-                            .optString("type");
-                    if (s.equalsIgnoreCase("CUSTOM")) {
+                    String s = holder.optString("type");
+                    if (s.equalsIgnoreCase("CUSTOM_GIF")) {
                         String url = holder.optString("url");
                         if (!url.isEmpty()) {
                             try {
@@ -188,6 +217,9 @@ public class CapeHandler {
                             }
                             return;
                         }
+                    } else if (s.equalsIgnoreCase("CUSTOM_IMAGE")) {
+                        loadStaticCape(uuid, holder.optString("url"));
+                        return;
                     } else if (!s.isEmpty()) {
                         JsonHolder jsonHolder = PurchaseApi.getInstance().getCapeAtlas()
                                 .optJSONObject(s);
