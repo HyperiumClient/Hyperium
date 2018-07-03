@@ -16,15 +16,10 @@ import net.minecraft.client.renderer.IImageBuffer;
 import net.minecraft.client.renderer.ThreadDownloadImageData;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.util.ResourceLocation;
-import org.jcodec.api.FrameGrab;
-import org.jcodec.api.JCodecException;
-import org.jcodec.common.DemuxerTrackMeta;
-import org.jcodec.common.JCodecUtil;
-import org.jcodec.common.io.NIOUtils;
-import org.jcodec.common.model.Picture;
-import org.jcodec.scale.AWTUtil;
 
 import javax.imageio.ImageIO;
+import javax.imageio.ImageReader;
+import javax.imageio.stream.ImageInputStream;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -109,33 +104,45 @@ public class CapeHandler {
         capes.put(uuid, cape);
     }
 
-    public void loadDynamicCape(final UUID uuid, String url) throws IOException, ExecutionException, InterruptedException, JCodecException {
+    public void loadDynamicCape(final UUID uuid, String url) throws IOException, ExecutionException, InterruptedException {
         if (capes.get(uuid) != null && !capes.get(uuid).equals(NullCape.INSTANCE))
             return;
         capes.put(uuid, NullCape.INSTANCE);
+
+//
         DownloadTask task = new DownloadTask(
                 url,
                 CACHE_DIR.getAbsolutePath());
         task.execute();
         task.get();
-        File downloaded = new File(CACHE_DIR, task.getFileName());
-        FrameGrab grab = FrameGrab.createFrameGrab(NIOUtils.readableChannel(downloaded));
-        DemuxerTrackMeta dtm = JCodecUtil.createDemuxer(JCodecUtil.detectFormat(downloaded), downloaded).getVideoTracks().get(0).getMeta();
-        int totalFrames = dtm.getTotalFrames();
-        double totalDuration = dtm.getTotalDuration();
-        TextureManager textureManager = Minecraft.getMinecraft().getTextureManager();
         List<BufferedImage> images = new ArrayList<>();
 
-        for (int i = 0; i < totalFrames; i++) {
-            grab.seekToFramePrecise(i);
-            Picture nativeFrame = grab.getNativeFrame();
-            BufferedImage convert = AWTUtil.toBufferedImage(nativeFrame);
-            images.add(convert);
-            File outputfile = new File(CACHE_DIR, i + ".png");
-            ImageIO.write(convert, "png", outputfile);
+        ImageReader reader = ImageIO.getImageReadersByFormatName("gif").next();
+        ImageInputStream stream = ImageIO.createImageInputStream(new File(CACHE_DIR, task.getFileName()));
+        System.out.println(stream == null);
+        reader.setInput(stream);
+
+        int frames = reader.getNumImages(true);
+        BufferedImage base = null;
+        for (int i = 0; i < frames; i++) {
+            BufferedImage read = reader.read(i);
+            if (base == null)
+                base = read;
+            else {
+                base.getGraphics().drawImage(read, 0, 0, null);
+            }
+            File outputfile = new File(CACHE_DIR,i+".png");
+            ImageIO.write(base, "png", outputfile);
+
+            BufferedImage bufferedImage = new BufferedImage(read.getWidth(), read.getHeight(), BufferedImage.TYPE_INT_ARGB);
+            bufferedImage.getGraphics().drawImage(base,0,0,null);
+            images.add(bufferedImage);
         }
+
+
         Minecraft.getMinecraft().addScheduledTask(() -> {
             ArrayList<ResourceLocation> locations = new ArrayList<>();
+            TextureManager textureManager = Minecraft.getMinecraft().getTextureManager();
             int i = 0;
             try {
 
@@ -152,7 +159,7 @@ public class CapeHandler {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            setCape(uuid, new DynamicCape(locations, totalDuration, totalFrames));
+            setCape(uuid, new DynamicCape(locations, frames, frames));
         });
 
 
@@ -169,7 +176,7 @@ public class CapeHandler {
                             .getPackageSync(uuid);
                     JsonHolder holder = hyperiumPurchase.getPurchaseSettings().optJSONObject("cape");
                     holder.put("type", "CUSTOM");
-                    holder.put("url", "https://static.sk1er.club/hyperium_files/lego6.mp4");
+                    holder.put("url", "https://static.sk1er.club/hyperium_files/lego10.gif");
                     String s = holder
                             .optString("type");
                     if (s.equalsIgnoreCase("CUSTOM")) {
@@ -177,7 +184,7 @@ public class CapeHandler {
                         if (!url.isEmpty()) {
                             try {
                                 loadDynamicCape(uuid, url);
-                            } catch (IOException | ExecutionException | InterruptedException | JCodecException e) {
+                            } catch (IOException | ExecutionException | InterruptedException e) {
                                 e.printStackTrace();
                             }
                             return;
