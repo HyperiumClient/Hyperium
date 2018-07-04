@@ -192,7 +192,7 @@ public class SpotifyControls extends AbstractMod {
 
         play.updateDynamicTexture();
     }
-
+    public int concatNameCount = 0;
     public void renderControls() {
         if (Spotify.instance == null) {
             return;
@@ -283,22 +283,20 @@ public class SpotifyControls extends AbstractMod {
         GL11.glScalef(1.2f, 1.2f, 1);
 
         if(name.length() > 16) {
-            int concatNameCount = 0;
-            int concatNameCount2 = 0;
+            int concatNameCount2 = concatNameCount + 16;
             String name2 = track.getTrackResource().getName();
             String concatName = name2 + "    " + name2;
             Minecraft.getMinecraft().fontRendererObj.drawString(concatName.substring(concatNameCount, concatNameCount + 16), (float) ((x + 5) / 1.2), (float) ((y + 5) / 1.2), white.getRGB(), false);
             if(System.currentTimeMillis() % 100 == 0){
                 concatNameCount++;
-                concatNameCount2 = concatNameCount2 + 16;
+                concatNameCount2 = concatNameCount + 16;
 
                 /* debug */
-                //System.out.println(concatNameCount);
-                //System.out.println(concatNameCount2);
+                System.out.println(concatNameCount);
+                System.out.println(concatNameCount2);
             }
             if(concatNameCount2 == concatName.length()) {
-                //dont think this is needed, if it is uncomment it <3 - Conor
-                //concatNameCount = 0;
+                concatNameCount = 0;
                 concatNameCount2 = 0;
             }
         } else {
