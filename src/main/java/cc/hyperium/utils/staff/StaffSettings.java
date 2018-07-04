@@ -16,7 +16,7 @@ public class StaffSettings {
         if (easterEggEntityPath != null)
             this.easterEggEntityPath = easterEggEntityPath;
         else
-            easterEggEntityPath = "None";
+            this.easterEggEntityPath = "None";
     }
 
     public StaffUtils.DotColour getDotColour() {
@@ -28,6 +28,6 @@ public class StaffSettings {
     }
 
     public boolean hasEasterEggEntityPath() {
-        return easterEggEntityPath.equalsIgnoreCase("None");
+        return !easterEggEntityPath.equalsIgnoreCase("None");
     }
 }
