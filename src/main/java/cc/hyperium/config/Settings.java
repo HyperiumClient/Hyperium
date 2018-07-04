@@ -313,7 +313,7 @@ public class Settings {
 
     @ConfigOpt()
     @ToggleSetting(category = GENERAL, name = "Sprint And Perspective Messages")
-    public static boolean SPRINT_PERSPECTIVE_MESSAGES;
+    public static boolean SPRINT_PERSPECTIVE_MESSAGES = true;
 
     @ConfigOpt(alt = "cc.hyperium.handlers.handlers.chat.AutoWhoChatHandler;enabled")
     @ToggleSetting(name = "Auto Who", category = INTEGRATIONS)
