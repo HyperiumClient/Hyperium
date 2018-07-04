@@ -389,6 +389,10 @@ public class Settings {
     @ToggleSetting(name = "Show particle in 1st person", category = COSMETICS)
     public static boolean SHOW_PART_1ST_PERSON = false;
 
+    @ConfigOpt
+    @ToggleSetting(name = "Always show super secret settings", category = MISC)
+    public static boolean ALWAYS_SHOW_SUPER_SECRET_SETTINGS = false;
+
     public static void register() {
         Hyperium.CONFIG.register(new Settings()); // values r static soo whatever
     }

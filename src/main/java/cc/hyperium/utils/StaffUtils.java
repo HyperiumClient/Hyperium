@@ -42,7 +42,7 @@ public class StaffUtils {
             } else {
                 colour = new DotColour(false, ChatColor.valueOf(colourStr));
             }
-            staff.put(uuid, new StaffSettings(colour, item.getString("entityPath")));
+            staff.put(uuid, new StaffSettings(colour, item.has("entityPath") ? item.getString("entityPath") : null));
         }
         return staff;
     }
