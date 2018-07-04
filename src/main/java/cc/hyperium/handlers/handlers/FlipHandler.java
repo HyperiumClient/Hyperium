@@ -34,6 +34,9 @@ public class FlipHandler {
     @InvokeEvent
     public void swapWorld(WorldChangeEvent event) {
         UUID id = UUIDUtil.getClientUUID();
+        if(id == null){
+            return;
+        }
         Integer integer = rotateState.get(id);
         rotateState.clear();
         if (integer != null) {

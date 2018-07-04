@@ -30,6 +30,9 @@ public class CapeHandler {
     @InvokeEvent
     public void worldSwap(WorldChangeEvent event) {
         UUID id = UUIDUtil.getClientUUID();
+        if(id == null){
+            return;
+        }
         ResourceLocation resourceLocation = capes.get(id);
         TextureManager textureManager = Minecraft.getMinecraft().getTextureManager();
         try {
