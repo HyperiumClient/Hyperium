@@ -111,14 +111,14 @@ public class CapeHandler {
         ResourceLocation resourceLocation = new ResourceLocation(
                 String.format("hyperium/capes/%s.png", System.nanoTime())
         );
-
+        System.out.println("downloading " + url);
 
         TextureManager textureManager = Minecraft.getMinecraft().getTextureManager();
         ThreadDownloadImageData threadDownloadImageData = new ThreadDownloadImageData(null, url, null, new IImageBuffer() {
 
             @Override
             public BufferedImage parseUserSkin(BufferedImage image) {
-                return reforamt ? CapeUtils.parseCape(image) : image;
+                return   CapeUtils.parseCape(image) ;
             }
 
             @Override
