@@ -24,6 +24,8 @@ import javax.imageio.ImageIO;
 import javax.imageio.ImageReader;
 import javax.imageio.stream.ImageInputStream;
 import java.awt.image.BufferedImage;
+import java.awt.image.ColorModel;
+import java.awt.image.WritableRaster;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -167,9 +169,7 @@ public class CapeHandler {
             }
 
 
-            BufferedImage bufferedImage = new BufferedImage(read.getWidth(), read.getHeight(), BufferedImage.TYPE_INT_ARGB);
-            bufferedImage.getGraphics().drawImage(base, 0, 0, null);
-            images.add(bufferedImage);
+            images.add(clone(base));
         }
 
 
@@ -218,20 +218,20 @@ public class CapeHandler {
                             return;
                         }
                     } else if (s.equalsIgnoreCase("CUSTOM_IMAGE")) {
-                        loadStaticCape(uuid, holder.optString("url"),false);
+                        loadStaticCape(uuid, holder.optString("url"), false);
                         return;
                     } else if (!s.isEmpty()) {
                         JsonHolder jsonHolder = PurchaseApi.getInstance().getCapeAtlas()
                                 .optJSONObject(s);
                         String url = jsonHolder.optString("url");
                         if (!url.isEmpty()) {
-                            loadStaticCape(uuid, url,true);
+                            loadStaticCape(uuid, url, true);
                             return;
                         }
                     }
                     loadStaticCape(uuid,
                             "http://s.optifine.net/capes/" + player.getGameProfile().getName()
-                                    + ".png",true);
+                                    + ".png", true);
                 });
                 return capes.getOrDefault(uuid, NullCape.INSTANCE).get();
             }
@@ -257,5 +257,12 @@ public class CapeHandler {
 
     public void deleteCape(UUID id) {
         this.capes.remove(id);
+    }
+
+    private BufferedImage clone(BufferedImage bi) {
+        ColorModel cm = bi.getColorModel();
+        boolean isAlpha = cm.isAlphaPremultiplied();
+        WritableRaster writableRaster = bi.copyData(null);
+        return new BufferedImage(cm, writableRaster, isAlpha, null);
     }
 }
