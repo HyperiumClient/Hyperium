@@ -239,12 +239,13 @@ public class Hyperium {
             e.printStackTrace();
             LOGGER.warn("Failed to fetch staff");
         }
-        richPresenceManager.init();
         EventBus.INSTANCE.register(new EasterEggs());
 
         Multithreading.runAsync(Spotify::load);
 
         Runtime.getRuntime().addShutdownHook(new Thread(this::shutdown));
+
+        richPresenceManager.init();
 
         if (acceptedTos) {
             sk1erMod = new Sk1erMod("hyperium", Metadata.getVersion(), object -> {

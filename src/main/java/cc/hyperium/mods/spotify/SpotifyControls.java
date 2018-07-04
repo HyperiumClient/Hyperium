@@ -23,6 +23,7 @@ import cc.hyperium.event.EventBus;
 import cc.hyperium.event.GuiClickEvent;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.RenderHUDEvent;
+import cc.hyperium.event.TickEvent;
 import cc.hyperium.gui.HyperiumGui;
 import cc.hyperium.integrations.spotify.Spotify;
 import cc.hyperium.integrations.spotify.impl.SpotifyInformation;
@@ -280,7 +281,30 @@ public class SpotifyControls extends AbstractMod {
 
         GL11.glPushMatrix();
         GL11.glScalef(1.2f, 1.2f, 1);
-        fontRenderer.drawString(name, (float) ((x + 5) / 1.2), (float) ((y + 5) / 1.2), white.getRGB(), false);
+
+        if(name.length() > 16) {
+            int concatNameCount = 0;
+            int concatNameCount2 = 0;
+            String name2 = track.getTrackResource().getName();
+            String concatName = name2 + "    " + name2;
+            Minecraft.getMinecraft().fontRendererObj.drawString(concatName.substring(concatNameCount, concatNameCount + 16), (float) ((x + 5) / 1.2), (float) ((y + 5) / 1.2), white.getRGB(), false);
+            if(System.currentTimeMillis() % 100 == 0){
+                concatNameCount++;
+                concatNameCount2 = concatNameCount2 + 16;
+
+                /* debug */
+                //System.out.println(concatNameCount);
+                //System.out.println(concatNameCount2);
+            }
+            if(concatNameCount2 == concatName.length()) {
+                //dont think this is needed, if it is uncomment it <3 - Conor
+                //concatNameCount = 0;
+                concatNameCount2 = 0;
+            }
+        } else {
+            fontRenderer.drawString(name, (float) ((x + 5) / 1.2), (float) ((y + 5) / 1.2), white.getRGB(), false);
+        }
+
         GL11.glPopMatrix();
 
         fontRenderer.drawString(artist, x + 5, y + 18, white.getRGB());
