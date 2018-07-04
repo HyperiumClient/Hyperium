@@ -305,7 +305,6 @@ public class SpotifyControls extends AbstractMod {
             fontRenderer.drawString(name, (float) ((x + 5) / 1.2), (float) ((y + 5) / 1.2), white.getRGB(), false);
         }
 
-        //fontRenderer.drawString(name, (float) ((x + 5) / 1.2), (float) ((y + 5) / 1.2), white.getRGB(), false);
         GL11.glPopMatrix();
 
         fontRenderer.drawString(artist, x + 5, y + 18, white.getRGB());
