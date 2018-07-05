@@ -1,6 +1,7 @@
 package cc.hyperium.gui.main;
 
 import cc.hyperium.Hyperium;
+import cc.hyperium.Metadata;
 import cc.hyperium.config.Settings;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.gui.GuiBlock;
@@ -144,7 +145,7 @@ public class HyperiumMainGui extends HyperiumGui {
         if (currentAlert != null)
             currentAlert.render(fr, width, height);
 
-        if(!isLatestVersion() && !show && Settings.UPDATE_NOTIFICATIONS) {
+        if(!isLatestVersion() && !show && Settings.UPDATE_NOTIFICATIONS && !Metadata.isDevelopment()) {
                 Alert alert = new Alert(Icons.ERROR.getResource(), () -> downloadLatest(), "Hyperium Update! Click here to download.");
             alerts.add(alert);
             show = true;
