@@ -80,7 +80,7 @@ public abstract class MixinGuiScreen {
 
     @Inject(method = "initGui", at = @At("HEAD"))
     private void initGui(CallbackInfo ci) {
-        if (Settings.BLUR_GUI) {
+        if (Settings.BLUR_GUI && !Settings.FAST_CONTAINER) {
             Minecraft.getMinecraft().addScheduledTask(() -> {
                 Method loadShaderMethod = null;
                 try {
