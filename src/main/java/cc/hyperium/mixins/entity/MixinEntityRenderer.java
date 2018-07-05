@@ -44,6 +44,7 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
 import org.lwjgl.opengl.Display;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
@@ -77,7 +78,12 @@ public abstract class MixinEntityRenderer {
     @Shadow protected abstract void loadShader(ResourceLocation resourceLocationIn);
 
   @Shadow private ShaderGroup theShaderGroup;
-  private boolean zoomMode = false;
+    @Shadow private int shaderIndex;
+    @Shadow @Final public static int shaderCount;
+
+    @Shadow public abstract void stopUseShader();
+
+    private boolean zoomMode = false;
 
     //endStartSection
     @Inject(method = "updateCameraAndRender", at = @At(value = "INVOKE", target = "Lnet/minecraft/profiler/Profiler;endStartSection(Ljava/lang/String;)V", shift = At.Shift.AFTER))
@@ -250,8 +256,13 @@ public abstract class MixinEntityRenderer {
     }
 
     public void clearShaders(){
-        if(this.theShaderGroup != null){
-            this.theShaderGroup.deleteShaderGroup();
-        }
+        this.stopUseShader();
+    }
+
+    @Inject(method = "activateNextShader",at=@At("HEAD"))
+    public void activateNextShader(CallbackInfo ci){
+        System.out.println("Called activate next shader!");
+        System.out.println(this.shaderIndex);
+        System.out.println(this.shaderCount);
     }
 }

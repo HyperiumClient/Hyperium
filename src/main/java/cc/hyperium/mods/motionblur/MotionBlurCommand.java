@@ -48,7 +48,7 @@ public class MotionBlurCommand implements BaseCommand {
         }
       } else {
         Settings.MOTION_BLUR_ENABLED = false;
-        clearShaders();
+        Minecraft.getMinecraft().entityRenderer.stopUseShader();
         Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage("Motion blur disabled.");
       }
     }
@@ -60,15 +60,5 @@ public class MotionBlurCommand implements BaseCommand {
 
   public String getUsage() {
     return "/motionblur <0 - 7>";
-  }
-
-  public void clearShaders(){
-    Method method = Reflection
-        .getMethod(EntityRenderer.class, new String[]{"clearShaders"},null);
-    try {
-      method.invoke(Minecraft.getMinecraft().entityRenderer);
-    } catch (IllegalAccessException | InvocationTargetException e) {
-      e.printStackTrace();
-    }
   }
 }
