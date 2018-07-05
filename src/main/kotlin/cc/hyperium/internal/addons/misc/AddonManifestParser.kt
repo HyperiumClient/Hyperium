@@ -72,7 +72,6 @@ class AddonManifestParser {
      * @param contents The addons json (addon.json)
      */
     constructor(contents: String) {
-        System.out.println(contents)
         val parser = JsonParser()
         val json = parser.parse(contents).asJsonObject
 
