@@ -3,6 +3,8 @@ package cc.hyperium.gui.main.tabs;
 import cc.hyperium.gui.CapesGui;
 import cc.hyperium.gui.GuiBlock;
 import cc.hyperium.gui.Icons;
+import cc.hyperium.gui.ParticleGui;
+import cc.hyperium.gui.main.HyperiumMainGui;
 import cc.hyperium.gui.main.components.AbstractTab;
 import cc.hyperium.gui.main.components.SettingItem;
 import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
@@ -13,8 +15,10 @@ import cc.hyperium.purchases.PurchaseApi;
 import cc.hyperium.utils.JsonHolder;
 import cc.hyperium.utils.UUIDUtil;
 import net.minecraft.client.gui.Gui;
+import org.lwjgl.input.Mouse;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Desktop;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -53,6 +57,10 @@ public class CosmeticsTab extends AbstractTab {
         }, Icons.COSMETIC.getResource(), "Credits", "", "Credits are used to purchase cosmetics", 1, 0);
         items.add(credits);
 
+        SettingItem auras = new SettingItem(() -> {
+            new ParticleGui().show();
+        }, Icons.COSMETIC.getResource(), "Auras", "Browse Particle Auras", "Browse Particle Auras", 2, 0);
+        items.add(auras);
 
         rebuild();
         refreshData();

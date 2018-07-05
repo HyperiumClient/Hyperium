@@ -230,4 +230,6 @@ public class SettingItem {
     public void setLastClicked(boolean lastClicked) {
         this.lastClicked = lastClicked;
     }
+
+
 }

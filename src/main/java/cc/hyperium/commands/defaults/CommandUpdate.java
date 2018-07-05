@@ -231,7 +231,8 @@ public class CommandUpdate implements BaseCommand {
                         } else {
                             jar = new File(System.getProperty("sun.java.command").split(" ")[0]);
                         }
-                        Hyperium.INSTANCE.getNotification().display("Update", "Client will restart in 10 secs. " + Metadata.getVersion() + " (" + Metadata.getVersionID() + ") -> " + ver.get("name").getAsString() + " (" + new JsonHolder(ver).optInt("release-id") + ") ", 10);
+                        Hyperium.INSTANCE.getNotification().display("Update", "Client will restart in 10 secs. " + Metadata.getVersion() + " (" + Metadata.getVersionID() + ") -> " + ver.get("name").getAsString() + " (" + new JsonHolder(ver).optInt("release-id") + ") ", 4);
+                        Hyperium.INSTANCE.getNotification().display("Update", "If it doesn't open, open it in: " + jar.getAbsolutePath(), 10);
                         Multithreading.schedule(() -> {
                             Minecraft.getMinecraft().shutdown();
                             try {

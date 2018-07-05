@@ -3,47 +3,17 @@ package cc.hyperium.installer;
 import cc.hyperium.installer.components.MaterialRadioButton;
 import cc.hyperium.installer.components.MotionPanel;
 import cc.hyperium.utils.JsonHolder;
-import cc.hyperium.utils.UpdateUtils;
 import com.google.common.io.Files;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-import javax.swing.JScrollPane;
-import javax.swing.JSlider;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
-import javax.swing.UIManager;
-import javax.swing.WindowConstants;
+import javax.swing.*;
 import javax.swing.plaf.basic.BasicButtonUI;
 import javax.swing.plaf.basic.BasicSliderUI;
 import javax.swing.plaf.metal.MetalScrollBarUI;
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Desktop;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.FontFormatException;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
-import java.awt.RenderingHints;
-import java.awt.Stroke;
-import java.awt.Toolkit;
+import java.awt.*;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
@@ -119,17 +89,6 @@ public class InstallerConfig extends JFrame {
         exit.setFocusPainted(false);
         exit.setBounds(WIDTH - 185, HEIGHT - 25, 70, 20);
         exit.addActionListener(event -> System.exit(0));
-
-
-        JButton ver = new JButton("Loading version...");
-        ver.setUI(new BasicButtonUI());
-        ver.setBounds(WIDTH - 375, HEIGHT - 25, 180, 20);
-        ver.setBackground(new Color(255, 254, 254));
-        ver.setForeground(new Color(30, 30, 30));
-        ver.setFont(f);
-        ver.setBorderPainted(false);
-        ver.setFocusPainted(false);
-
 
         JLabel dirTxt = new JLabel("Minecraft Installation");
         dirTxt.setLocation(5, 22);
@@ -336,10 +295,10 @@ public class InstallerConfig extends JFrame {
             JsonParser parser = new JsonParser();
             JsonObject versions = parser.parse(InstallerFrame.get("https://raw.githubusercontent.com/HyperiumClient/Hyperium-Repo/master/installer/versions.json")).getAsJsonObject();
             for (JsonElement o : versions.getAsJsonArray("addons")) {
-                JsonObject j = o.getAsJsonObject();
-                JRadioButton b = new MaterialRadioButton("Addon :: " + j.get("name").getAsString());
+                JsonHolder j = new JsonHolder(o.getAsJsonObject());
+                JRadioButton b = new MaterialRadioButton("Addon :: " + j.optString("name"));
                 b.setFont(f);
-                b.setEnabled(!j.get("url").getAsString().isEmpty());
+                b.setEnabled(!j.optString("url").isEmpty());
                 b.addMouseListener(new MouseAdapter() {
 
                     @Override
@@ -350,8 +309,8 @@ public class InstallerConfig extends JFrame {
 
                     @Override
                     public void mouseEntered(MouseEvent e) {
-                        cLabel.setText(j.get("name").getAsString() + (j.get("verified").getAsBoolean() ? " (Verified)" : ""));
-                        cDesc.setText(j.get("description").getAsString() + "\n\nVersion: " + j.get("version") + "\nAuthor: " + j.get("author").getAsString());
+                        cLabel.setText(j.optString("name") + (j.optBoolean("verified") ? " (Verified)" : ""));
+                        cDesc.setText(j.optString("description") + "\n\nVersion: " + j.optString("version") + "\nAuthor: " + j.optString("author"));
                     }
 
                     @Override
@@ -362,23 +321,12 @@ public class InstallerConfig extends JFrame {
                 b.setVerticalAlignment(SwingConstants.TOP);
                 b.setHorizontalAlignment(SwingConstants.LEFT);
                 b.setBackground(new Color(28, 28, 28));
-                dependencies.put(b, j.getAsJsonArray("depends"));
+                dependencies.put(b, j.optJSONArray("depends"));
                 cView.add(b);
             }
             List<String> versionList = StreamSupport.stream(versions.get("versions").getAsJsonArray().spliterator(), false).filter(e -> e.getAsJsonObject().get("install-min").getAsInt() <= VERSION).map(o -> o.getAsJsonObject().get("name").getAsString()).collect(Collectors.toList());
             versionList.add("LOCAL");
             AtomicInteger i = new AtomicInteger();
-            ver.setText(versionList.get(i.get()));
-            ver.addActionListener(e -> {
-                if (i.get() + 1 > versionList.size() - 1)
-                    i.set(0);
-                else
-                    i.addAndGet(1);
-                ver.setText(versionList.get(i.get()));
-            });
-            if (UpdateUtils.INSTANCE.isAbsoluteLatest()) {
-                ver.setText("LOCAL");
-            }
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -401,7 +349,6 @@ public class InstallerConfig extends JFrame {
         contentPane.add(components);
         contentPane.add(cLabel);
         contentPane.add(cDesc);
-        contentPane.add(ver);
         contentPane.add(localJre);
 
         // Fallback enable
@@ -426,7 +373,7 @@ public class InstallerConfig extends JFrame {
                 System.err.println("Failed to save current installer state!");
             }
 
-            new Thread(() -> new InstallerFrame(dir.getText(), wam.getValue(), cs, this, ver.getText(), localJre.isSelected()), "Installer-Thread").start();
+            new Thread(() -> new InstallerFrame(dir.getText(), wam.getValue(), cs, this, localJre.isSelected()), "Installer-Thread").start();
         });
 
         // Load last state if exists

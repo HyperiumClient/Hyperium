@@ -43,6 +43,9 @@ public abstract class AbstractCosmetic {
     @InvokeEvent
     public void worldSwitch(WorldChangeEvent changeEvent) {
         UUID id = UUIDUtil.getClientUUID();
+        if(id == null){
+            return;
+        }
         Boolean aBoolean = purchasedBy.get(id);
         purchasedBy.clear();
         if (aBoolean != null)

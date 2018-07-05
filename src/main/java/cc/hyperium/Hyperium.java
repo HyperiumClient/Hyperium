@@ -17,16 +17,30 @@
 
 package cc.hyperium;
 
-import cc.hyperium.commands.defaults.*;
+import cc.hyperium.commands.defaults.CommandClearChat;
+import cc.hyperium.commands.defaults.CommandConfigGui;
+import cc.hyperium.commands.defaults.CommandDebug;
+import cc.hyperium.commands.defaults.CommandLogs;
+import cc.hyperium.commands.defaults.CommandNameHistory;
+import cc.hyperium.commands.defaults.CommandParticleAuras;
+import cc.hyperium.commands.defaults.CommandPlayGame;
+import cc.hyperium.commands.defaults.CommandPrivateMessage;
+import cc.hyperium.commands.defaults.CommandUpdate;
+import cc.hyperium.commands.defaults.CustomLevelheadCommand;
+import cc.hyperium.commands.defaults.DevTestCommand;
 import cc.hyperium.config.DefaultConfig;
 import cc.hyperium.config.Settings;
 import cc.hyperium.cosmetics.HyperiumCosmetics;
-import cc.hyperium.event.*;
+import cc.hyperium.event.EventBus;
+import cc.hyperium.event.GameShutDownEvent;
+import cc.hyperium.event.InitializationEvent;
+import cc.hyperium.event.InvokeEvent;
+import cc.hyperium.event.PreInitializationEvent;
+import cc.hyperium.event.Priority;
 import cc.hyperium.event.minigames.MinigameListener;
 import cc.hyperium.gui.BlurDisableFallback;
 import cc.hyperium.gui.ConfirmationPopup;
 import cc.hyperium.gui.NotificationCenter;
-import cc.hyperium.gui.main.HyperiumMainGui;
 import cc.hyperium.handlers.HyperiumHandlers;
 import cc.hyperium.installer.InstallerFrame;
 import cc.hyperium.integrations.spotify.Spotify;
@@ -46,6 +60,8 @@ import cc.hyperium.network.NetworkHandler;
 import cc.hyperium.purchases.PurchaseApi;
 import cc.hyperium.tray.TrayManager;
 import cc.hyperium.utils.StaffUtils;
+import cc.hyperium.utils.UpdateUtils;
+import cc.hyperium.utils.eastereggs.EasterEggs;
 import cc.hyperium.utils.mods.CompactChat;
 import cc.hyperium.utils.mods.FPSLimiter;
 import net.minecraft.client.Minecraft;
@@ -53,7 +69,14 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.Display;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLClassLoader;
 
@@ -61,7 +84,6 @@ import java.net.URLClassLoader;
  * Hyperium Client
  */
 public class Hyperium {
-
     /**
      * The hyperium instance
      */
@@ -77,7 +99,9 @@ public class Hyperium {
     /**
      * Instance of default CONFIG
      */
+
     public static final DefaultConfig CONFIG = new DefaultConfig(new File(folder, "CONFIG.json"));
+    public static String BUILD_ID = "RELEASE " + Metadata.getVersionID();
     public static boolean updateQueue = false;
     private final GeneralStatisticsTracking statTrack = new GeneralStatisticsTracking();
     private final NotificationCenter notification = new NotificationCenter();
@@ -94,7 +118,9 @@ public class Hyperium {
     private Sk1erMod sk1erMod;
     private NettyClient client;
     private NetworkHandler networkHandler;
-    private HyperiumMainGui gui;
+
+    public boolean isLatestVersion;
+    
     /**
      * @param event initialize Hyperium
      */
@@ -119,6 +145,17 @@ public class Hyperium {
 
     @InvokeEvent(priority = Priority.HIGH)
     public void init(InitializationEvent event) {
+        InputStream resourceAsStream = getClass().getResourceAsStream("/build.txt");
+        try {
+            if (resourceAsStream != null) {
+                BufferedReader br = new BufferedReader(new InputStreamReader(resourceAsStream));
+                BUILD_ID = br.readLine();
+                br.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        System.out.println("Hyperium running build " + BUILD_ID);
         try {
             Class.forName("net.minecraft.dispenser.BehaviorProjectileDispense"); // check for random MC class
             isDevEnv = true;
@@ -135,7 +172,6 @@ public class Hyperium {
         this.acceptedTos = new File(
                 folder.getAbsolutePath() + "/accounts/" + Minecraft.getMinecraft().getSession()
                         .getPlayerID() + ".lck").exists();
-        gui = new HyperiumMainGui();
         SplashProgress.PROGRESS = 5;
         SplashProgress.CURRENT = "Loading handlers";
         SplashProgress.update();
@@ -203,11 +239,13 @@ public class Hyperium {
             e.printStackTrace();
             LOGGER.warn("Failed to fetch staff");
         }
-        richPresenceManager.init();
+        EventBus.INSTANCE.register(new EasterEggs());
 
         Multithreading.runAsync(Spotify::load);
 
         Runtime.getRuntime().addShutdownHook(new Thread(this::shutdown));
+
+        richPresenceManager.init();
 
         if (acceptedTos) {
             sk1erMod = new Sk1erMod("hyperium", Metadata.getVersion(), object -> {
@@ -255,6 +293,8 @@ public class Hyperium {
         } else {
             System.out.println("Not restoring chat");
         }
+
+        isLatestVersion = UpdateUtils.INSTANCE.isAbsoluteLatest();
     }
 
     /**
@@ -270,7 +310,10 @@ public class Hyperium {
         getHandlers().getHyperiumCommandHandler().registerCommand(new CommandPlayGame());
         getHandlers().getHyperiumCommandHandler().registerCommand(new CommandDebug());
         getHandlers().getHyperiumCommandHandler().registerCommand(new CommandUpdate());
+        if (isDevEnv)
+            getHandlers().getHyperiumCommandHandler().registerCommand(new DevTestCommand());
         getHandlers().getHyperiumCommandHandler().registerCommand(new CommandLogs());
+        getHandlers().getHyperiumCommandHandler().registerCommand(new CommandParticleAuras());
     }
 
     /**
@@ -364,9 +407,6 @@ public class Hyperium {
         return cosmetics;
     }
 
-    public HyperiumMainGui getGui() {
-        return gui;
-    }
 
     // Does not appear to be used
 //    public void toggleFullscreen() {

@@ -86,6 +86,9 @@ public class PurchaseApi {
         Multithreading.runAsync(() -> {
             synchronized (instance) {
                 UUID id = UUIDUtil.getClientUUID();
+                if(id == null){
+                    return;
+                }
                 HyperiumPurchase purchase = purchasePlayers.get(id);
                 purchasePlayers.clear();
                 if (purchase != null) {
@@ -202,8 +205,11 @@ public class PurchaseApi {
     }
 
     public void reload(UUID uuid) {
+        if (uuid.equals(UUIDUtil.getClientUUID())) {
+            refreshSelf();
+            return;
+        }
         System.out.println("reloading " + uuid);
-        System.out.println("Reloading 1" + uuid);
         purchasePlayers.remove(uuid);
         ensureLoaded(uuid);
     }

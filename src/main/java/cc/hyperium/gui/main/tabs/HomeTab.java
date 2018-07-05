@@ -9,6 +9,7 @@ import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.utils.HyperiumFontRenderer;
 import cc.hyperium.utils.JsonHolder;
 import com.google.common.base.Charsets;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
 import net.minecraft.client.gui.Gui;
@@ -16,20 +17,25 @@ import org.apache.commons.io.IOUtils;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.HttpClients;
+import org.lwjgl.input.Mouse;
 
 import java.awt.Color;
 import java.awt.Desktop;
 import java.awt.Font;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /*
  * Created by Cubxity on 20/05/2018
  */
 public class HomeTab extends AbstractTab {
+    private static final List<String> items = new ArrayList<>();
+    private static final HyperiumFontRenderer title = new HyperiumFontRenderer("Arial", Font.PLAIN, 40);
     public static JsonHolder information;
     static HttpClient hc = HttpClients.createDefault();
-    private static HyperiumFontRenderer title = new HyperiumFontRenderer("Arial", Font.PLAIN, 40);
+    private static String strTitle;
 
     static {
         Multithreading.schedule(() -> {
@@ -37,6 +43,14 @@ public class HomeTab extends AbstractTab {
                 HttpGet get = new HttpGet("https://raw.githubusercontent.com/HyperiumClient/Hyperium-Repo/master/files/information.json");
                 information = new JsonHolder(IOUtils.toString(hc.execute(get).getEntity().getContent(), Charsets.UTF_8));
                 System.out.println(information.toString());
+                synchronized (title) {
+                    JsonHolder changelog = new JsonHolder(information.optJSONArray("changelogs").get(0).getAsJsonObject());
+                    JsonArray description = changelog.optJSONArray("description");
+                    for (JsonElement element : description) {
+                        items.add(element.getAsString());
+                    }
+                    strTitle = changelog.optString("title");
+                }
                 for (JsonElement e : information.optJSONArray("alerts")) {
                     JsonHolder alert = new JsonHolder(e.getAsJsonObject());
                     if (!HyperiumMainGui.INSTANCE.getLoadedAlerts().contains(alert.optString("title")) && !alert.optString("title").equals("ALERT FORMAT - THIS WILL BE IGNORED") && alert.optJSONArray("target").contains(new JsonPrimitive(Metadata.getVersion()))) {
@@ -52,6 +66,7 @@ public class HomeTab extends AbstractTab {
                         HyperiumMainGui.INSTANCE.getLoadedAlerts().add(alert.optString("title"));
                     }
                 }
+
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
@@ -85,17 +100,34 @@ public class HomeTab extends AbstractTab {
 
     @Override
     public void draw(int mouseX, int mouseY, int topX, int topY, int containerWidth, int containerHeight) {
-        if (information != null) {
-            JsonHolder changelog = new JsonHolder(information.optJSONArray("changelogs").get(0).getAsJsonObject());
+        synchronized (title) {
+            if (information != null && title != null) {
+                HomeTab.title.drawString(strTitle, topX + 5, topY + 5, 0xffffff);
+                int i = 25;
+                for (String item : items) {
+                    boolean second = false;
+                    for (String s : fr.splitString(item, containerWidth - 10)) {
+                        if (topY + i + offsetY + 9 < topY + containerHeight && topY + 25 < topY + i + offsetY) {
+                            fr.drawStringWithShadow(s, topX + 5 + (second ? 20 : 0), topY + i + offsetY, new Color(168, 0, 189).getRGB());
+                        }
+                        i += 11;
+                        second = true;
+                    }
+                }
 
-            title.drawString(changelog.optString("title"), topX + 5, topY + 5, 0xffffff);
-            int i = 25;
-            for (JsonElement e : changelog.optJSONArray("description")) {
-                fr.drawStringWithShadow(e.getAsString(), topX + 5, topY + i, new Color(168, 0, 189).getRGB());
-                i += 11;
+            } else {
+                title.drawString("Loading...", topX + 5, topY + 5, 0xffffff);
             }
-        } else {
-            title.drawString("Loading...", topX + 5, topY + 5, 0xffffff);
         }
+    }
+
+    @Override
+    public void handleMouseInput() {
+        super.handleMouseInput();
+        int i = Mouse.getDWheel();
+        if (i > 0)
+            offsetY += 10;
+        else if (i < 0)
+            offsetY -= 10;
     }
 }

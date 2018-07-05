@@ -29,16 +29,16 @@ public class FontFixValues {
 
         opt = true;
         e++;
+        for (StringHash hash : obfuscated) {
+            CachedString cachedString = stringCache.get(hash);
+            stringCache.remove(hash);
+            if (cachedString != null)
+                GLAllocation.deleteDisplayLists(cachedString.getListId());
+        }
         if (e >= 20) {
             e = 0;
             count = 0;
             time = 0;
-            for (StringHash hash : obfuscated) {
-                CachedString cachedString = stringCache.get(hash);
-                stringCache.remove(hash);
-                if (cachedString != null)
-                    GLAllocation.deleteDisplayLists(cachedString.getListId());
-            }
             if (stringCache.size() > max) {
                 for (CachedString cachedString : stringCache.values()) {
                     GLAllocation.deleteDisplayLists(cachedString.getListId());

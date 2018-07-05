@@ -7,6 +7,8 @@ after_failure:
   - wget https://raw.githubusercontent.com/k3rn31p4nic/travis-ci-discord-webhook/master/send.sh
   - chmod +x send.sh
   - ./send.sh failure $WEBHOOK_URL
+before_install:
+  - echo $TRAVIS_BUILD_NUMBER > $TRAVIS_BUILD_DIR/src/main/resources/build.txt
 before_deploy:
   - git config --local user.name "HyperiumDeploy"
   - git config --local user.email "hyperiumclient@gmail.com"

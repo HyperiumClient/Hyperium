@@ -25,7 +25,9 @@ public abstract class AbstractTab {
     public abstract GuiBlock getBlock();
 
     public abstract void drawHighlight(float s);
-    private int yOffset;
+
+    protected int offsetY;
+
     public void handleMouseInput() {
         if (HyperiumMainGui.INSTANCE.getOverlay() == null) {
             final ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
@@ -39,11 +41,22 @@ public abstract class AbstractTab {
             int finalPw = pw;
             witems.forEach(s -> s.handleMouseInput(mx, my, sr.getScaledWidth() - finalPw, sr.getScaledWidth() - finalPw, finalPw * 2, finalPw));
             items.forEach(s -> s.handleMouseInput(mx, my, sr.getScaledWidth() - finalPw, sr.getScaledWidth() - finalPw, finalPw * 2, finalPw));
+
+            // Scrolling.
+            int i = Mouse.getEventDWheel();
+            if (i > 0)
+                offsetY += 1;
+            else if (i < 0)
+                offsetY -= 1;
         }
     }
 
     public void draw(int mouseX, int mouseY, int topX, int topY, int containerWidth, int containerHeight) {
-        items.forEach(i -> i.render(mouseX, mouseY, containerWidth, containerHeight, topX, topY));
+        items.stream().filter(i -> {
+            int oty = topY + offsetY * (containerHeight / 3);
+            int iy = oty + i.getyIndex() * (containerHeight / 3);
+            return iy >= topY && topY + containerHeight >= iy + containerHeight / 3;
+        }).forEach(i -> i.render(mouseX, mouseY, containerWidth, containerHeight, topX, topY + offsetY * (containerHeight / 3)));
     }
 
     public boolean isScrollable() { //TODO: Disable scroll

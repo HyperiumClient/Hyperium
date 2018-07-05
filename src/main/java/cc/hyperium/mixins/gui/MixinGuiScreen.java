@@ -80,7 +80,7 @@ public abstract class MixinGuiScreen {
 
     @Inject(method = "initGui", at = @At("HEAD"))
     private void initGui(CallbackInfo ci) {
-        if (Settings.BLUR_GUI) {
+        if (Settings.BLUR_GUI && !Settings.FAST_CONTAINER) {
             Minecraft.getMinecraft().addScheduledTask(() -> {
                 Method loadShaderMethod = null;
                 try {
@@ -107,7 +107,10 @@ public abstract class MixinGuiScreen {
 
     @Inject(method = "onGuiClosed", at = @At("HEAD"))
     private void onGuiClosed(CallbackInfo ci) {
-        Minecraft.getMinecraft().addScheduledTask(() -> Minecraft.getMinecraft().entityRenderer.stopUseShader());
+        if(Settings.BLUR_GUI) {
+            Minecraft.getMinecraft()
+                .addScheduledTask(() -> Minecraft.getMinecraft().entityRenderer.stopUseShader());
+        }
     }
 
 

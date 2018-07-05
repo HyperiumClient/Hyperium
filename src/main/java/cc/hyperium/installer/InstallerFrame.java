@@ -19,14 +19,12 @@ package cc.hyperium.installer;
 
 import cc.hyperium.Metadata;
 import cc.hyperium.installer.components.MotionPanel;
-import cc.hyperium.installer.utils.DownloadTask;
 import cc.hyperium.internal.addons.AddonManifest;
 import cc.hyperium.internal.addons.misc.AddonManifestParser;
 import cc.hyperium.utils.JsonHolder;
 import com.google.common.io.Files;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-import org.apache.commons.io.FileUtils;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.swing.*;
@@ -47,8 +45,6 @@ import java.security.MessageDigest;
 import java.time.Instant;
 import java.util.*;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.atomic.AtomicReference;
 import java.util.jar.JarFile;
 
 /**
@@ -71,7 +67,7 @@ public class InstallerFrame implements PropertyChangeListener {
     /**
      * Constructor
      */
-    InstallerFrame(String dir, int wam, List<String> components, InstallerConfig frame, String version, boolean localJre) {
+    InstallerFrame(String dir, int wam, List<String> components, InstallerConfig frame, boolean localJre) {
         final PrintStream ps = System.out;
         PrintStream logStream = new PrintStream(new OutputStream() {
             @Override
@@ -102,7 +98,7 @@ public class InstallerFrame implements PropertyChangeListener {
         frame.setSize(WIDTH, HEIGHT);
         frame.setLocation(dim.width / 2 - frame.getSize().width / 2, dim.height / 2 - frame.getSize().height / 2);
         initComponents();
-        install(new File(dir), wam, components, version, localJre);
+        install(new File(dir), wam, components, localJre);
     }
 
     private static String toHex(byte[] bytes) {
@@ -135,7 +131,7 @@ public class InstallerFrame implements PropertyChangeListener {
     /**
      * Method to do everything
      */
-    private void install(File mc, int wam, List<String> components, String ver, boolean localJre) {
+    private void install(File mc, int wam, List<String> components, boolean localJre) {
         if (!mc.exists()) {
             display.setText("INSTALLATION FAILED");
             error.setText("NO MINECRAFT INSTALLATION FOUND");
@@ -171,20 +167,9 @@ public class InstallerFrame implements PropertyChangeListener {
         progressBar.setValue(40);
         display.setText("GETTING FILES");
         String versions_url = "https://raw.githubusercontent.com/HyperiumClient/Hyperium-Repo/master/installer/versions.json";
-        AtomicReference<JsonHolder> version = new AtomicReference<>();
-        String hash = null;
         JsonHolder versionsJson;
         try {
             versionsJson = new JsonHolder(get(versions_url));
-            JsonArray versionsArray = versionsJson.optJSONArray("versions");
-            List<JsonHolder> versionsObjects = new ArrayList<>();
-            for (JsonElement o : versionsArray)
-                versionsObjects.add(new JsonHolder(o.getAsJsonObject()));
-
-            versionsObjects.forEach(o -> {
-                if (o.optString("name").equals(ver))
-                    version.set(o);
-            });
         } catch (IOException ex) {
             ex.printStackTrace();
             display.setText("INSTALLATION FAILED");
@@ -192,81 +177,31 @@ public class InstallerFrame implements PropertyChangeListener {
             exit.setVisible(true);
             return;
         }
-        if (ver.equals("LOCAL")) {
-            File local;
-            try {
-                local = new File(InstallerMain.class.getProtectionDomain().getCodeSource().getLocation().toURI());
-                System.out.println("local=" + local.getPath());
-            } catch (URISyntaxException e) {
-                e.printStackTrace();
-                display.setText("INSTALLATION FAILED");
-                error.setText("FAILED TO GET LOCAL JAR");
-                exit.setVisible(true);
-                return;
-            }
-            progressBar.setValue(90);
-            display.setText("COPYING FILES...");
-            try {
-                new File(new File(mc, "libraries"), "cc/hyperium/Hyperium/LOCAL").mkdirs();
-                Files.copy(local, new File(new File(mc, "libraries"), "cc/hyperium/Hyperium/LOCAL" + File.separator + "Hyperium-LOCAL.jar"));
-            } catch (IOException e) {
-                e.printStackTrace();
-                display.setText("INSTALLATION FAILED");
-                error.setText("FAILED TO COPY LOCAL JAR");
-                return;
-            }
-        } else {
-            File downloaded;
-            try {
-                File hyperium = new File(mc, "libraries/cc/hyperium/Hyperium");
-                if (hyperium.exists())
-                    FileUtils.deleteDirectory(hyperium);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            try {
-                File dl = new File(
-                        new File(
-                                mc,
-                                "libraries"),
-                        version.get().optString("path").replaceAll("/Hyperium-\\d\\.\\d\\.jar", ""));
-                System.out.println("Download dest folder = " + dl.getAbsolutePath());
-                //noinspection ResultOfMethodCallIgnored
-                dl.mkdirs();
-                DownloadTask task = new DownloadTask(
-                        version.get().optString("url"),
-                        dl.getAbsolutePath());
-                task.addPropertyChangeListener(this);
-                task.execute();
-                task.get();
-                downloaded = new File(dl, task.getFileName());
-                System.out.println("Download dest file = " + downloaded.getAbsolutePath());
-            } catch (InterruptedException | ExecutionException ex) {
-                ex.printStackTrace();
-                display.setText("INSTALLATION FAILED");
-                error.setText("FAILED TO GATHER REQUIRED FILES");
-                exit.setVisible(true);
-                return;
-            }
 
-            display.setText("VERIFYING FILE");
-            hash = toHex(checksum(downloaded, "SHA-256")).toLowerCase();
-            System.out.println("SHA-256 Checksum = " + hash + " Expected: " + version.get().optString("sha256"));
-            if (!hash.equals(version.get().optString("sha256"))) {
-                display.setText("INSTALLATION FAILED");
-                error.setText("FILE'S SHA256 CHECKSUM DOES NOT MATCH");
-                exit.setVisible(true);
-                return;
-            }
-            hash = toHex(checksum(downloaded, "SHA1")).toLowerCase();
-            System.out.println("SHA-1 Checksum = " + hash);
-            if (!hash.equals(version.get().optString("sha1"))) {
-                display.setText("INSTALLATION FAILED");
-                error.setText("FILE'S SHA1 CHECKSUM DOES NOT MATCH");
-                exit.setVisible(true);
-                return;
-            }
+        File local;
+        try {
+            local = new File(InstallerMain.class.getProtectionDomain().getCodeSource().getLocation().toURI());
+            System.out.println("local=" + local.getPath());
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+            display.setText("INSTALLATION FAILED");
+            error.setText("FAILED TO GET LOCAL JAR");
+            exit.setVisible(true);
+            return;
         }
+        progressBar.setValue(90);
+        display.setText("COPYING FILES...");
+        try {
+            new File(new File(mc, "libraries"), "cc/hyperium/Hyperium/LOCAL").mkdirs();
+            Files.copy(local, new File(new File(mc, "libraries"), "cc/hyperium/Hyperium/LOCAL" + File.separator + "Hyperium-LOCAL.jar"));
+        } catch (IOException e) {
+            e.printStackTrace();
+            display.setText("INSTALLATION FAILED");
+            error.setText("FAILED TO COPY LOCAL JAR");
+            return;
+        }
+
+
         File optifine = null;
         if (components.contains("Optifine")) {
             try {
@@ -286,10 +221,15 @@ public class InstallerFrame implements PropertyChangeListener {
         target.mkdir();
         File targetJson = new File(target, "Hyperium 1.8.9.json");
         File targetJar = new File(target, "Hyperium 1.8.9.jar");
-        try {
+        try
+
+        {
             Files.copy(originJson, targetJson);
             Files.copy(originJar, targetJar);
-        } catch (IOException e) {
+        } catch (
+                IOException e)
+
+        {
             e.printStackTrace();
             display.setText("INSTALLATION FAILED");
             error.setText("FAILED TO COPY FILES FROM VERSION '1.8.9'");
@@ -298,7 +238,9 @@ public class InstallerFrame implements PropertyChangeListener {
         }
         progressBar.setValue(95);
         display.setText("INSTALLING COMPONENTS");
-        if (components.contains("Optifine")) {
+        if (components.contains("Optifine"))
+
+        {
             File optifineLibDir = new File(mc, "libraries/optifine/OptiFine/1.8.9_HD_U_I7");
             optifineLibDir.mkdirs();
             File optifineLib = new File(optifineLibDir, "OptiFine-1.8.9_HD_U_I7.jar");
@@ -318,9 +260,12 @@ public class InstallerFrame implements PropertyChangeListener {
                 return;
             }
         }
+
         Map<File, AddonManifest> installedAddons = new HashMap<>();
         File addonsDir = new File(mc, "addons");
-        if (addonsDir.exists()) {
+        if (addonsDir.exists())
+
+        {
             File[] files = addonsDir.listFiles((dir, name) -> name.endsWith(".jar"));
             if (files != null)
                 for (File a : files) {
@@ -331,7 +276,9 @@ public class InstallerFrame implements PropertyChangeListener {
                     }
                 }
         } else addonsDir.mkdirs();
-        try {
+        try
+
+        {
             List<JsonHolder> ao = new ArrayList<>();
             for (JsonElement o : versionsJson.optJSONArray("addons"))
                 ao.add(new JsonHolder(o.getAsJsonObject()));
@@ -367,7 +314,10 @@ public class InstallerFrame implements PropertyChangeListener {
                     } else System.err.println(comp + " is not found");
                 }
             }
-        } catch (Exception ex) {
+        } catch (
+                Exception ex)
+
+        {
             ex.printStackTrace();
             display.setText("INSTALLATION FAILED");
             error.setText("FAILED TO INSTALL COMPONENTS");
@@ -379,35 +329,37 @@ public class InstallerFrame implements PropertyChangeListener {
         //noinspection ResultOfMethodCallIgnored
         JsonHolder json;
         JsonHolder launcherProfiles;
-        try {
+        try
+
+        {
             json = new JsonHolder(Files.toString(targetJson, Charset.defaultCharset()));
             launcherProfiles = new JsonHolder(Files.toString(new File(mc, "launcher_profiles.json"), Charset.defaultCharset()));
-        } catch (IOException e) {
+        } catch (
+                IOException e)
+
+        {
             e.printStackTrace();
             display.setText("INSTALLATION FAILED");
             error.setText("FAILED TO READ JSON FILES");
             return;
         }
+
         JsonHolder lib = new JsonHolder();
-        lib.put("name", ver.equals("LOCAL") ? "cc.hyperium:Hyperium:LOCAL" : version.get().optString("artifact-name"));
-        if (version.get() != null && hash != null)
-            lib.put("downloads", new JsonHolder().put("artifact", new JsonHolder()
-                    .put("size", version.get().optLong("size"))
-                    .put("sha1", hash)
-                    .put("path", version.get().optString("path"))
-                    .put("url", version.get().optString("url"))
-            ));
+        lib.put("name", "cc.hyperium:Hyperium:LOCAL");
         JsonArray libs = json.optJSONArray("libraries");
         libs.add(lib.getObject());
-        libs.add(new JsonHolder().put("name", "net.minecraft:launchwrapper:1.7").getObject());
+        libs.add(new JsonHolder()
+                .put("name", "net.minecraft:launchwrapper:1.7")
+                .getObject());
         if (components.contains("Optifine"))
-            libs.add(new JsonHolder().put("name", "optifine:OptiFine:1.8.9_HD_U_I7").getObject());
+            libs.add(new JsonHolder()
+                    .put("name", "optifine:OptiFine:1.8.9_HD_U_I7")
+                    .getObject());
         versionsJson.optJSONArray("libs").forEach(libs::add);
         json.put("libraries", libs);
         json.put("id", "Hyperium 1.8.9");
         json.put("mainClass", "net.minecraft.launchwrapper.Launch");
-        json.put("minecraftArguments", json.optString("minecraftArguments") + " --tweakClass=" + (ver.equals("LOCAL") ? "cc.hyperium.launch.HyperiumTweaker" : version.get().optString("tweak-class")));
-
+        json.put("minecraftArguments", json.optString("minecraftArguments") + " --tweakClass=cc.hyperium.launch.HyperiumTweaker");
         JsonHolder profiles = launcherProfiles.optJSONObject("profiles");
         Instant instant = Instant.ofEpochMilli(System.currentTimeMillis());
         String installedUUID = UUID.randomUUID().toString();

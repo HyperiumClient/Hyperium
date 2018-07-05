@@ -28,8 +28,12 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.util.concurrent.locks.ReentrantLock;
+
 @Mixin(SoundManager.class)
 public class MixinSoundManager {
+
+    private ReentrantLock lock = new ReentrantLock();
 
     /**
      * Sound will not play unless the window is active while the out of
@@ -48,13 +52,42 @@ public class MixinSoundManager {
             ci.cancel(); // does not stop music from being played but whatever
             return;
         }
-
         SoundPlayEvent e = new SoundPlayEvent(sound);
         EventBus.INSTANCE.post(e);
 
         if (e.isCancelled()) {
             ci.cancel();
         }
+    }
+
+    @Inject(method = "updateAllSounds", at = @At("HEAD"))
+    public void startUpdate(CallbackInfo info) {
+        lock.lock();
+    }
+
+    @Inject(method = "updateAllSounds", at = @At("TAIL"))
+    public void endUpdate(CallbackInfo info) {
+        lock.unlock();
+    }
+
+
+    @Inject(method = "playSound", at = @At("HEAD"))
+    public void startPlaySound(CallbackInfo info) {
+        lock.lock();
+    }
+
+    @Inject(method = "playSound", at = @At("TAIL"))
+    public void endPlaySound(CallbackInfo info) {
+        lock.unlock();
+    }
+    @Inject(method = "stopAllSounds", at = @At("HEAD"))
+    public void startStopAllSounds(CallbackInfo info) {
+        lock.lock();
+    }
+
+    @Inject(method = "stopAllSounds", at = @At("TAIL"))
+    public void endStopAllSounds(CallbackInfo info) {
+        lock.unlock();
     }
 
 }

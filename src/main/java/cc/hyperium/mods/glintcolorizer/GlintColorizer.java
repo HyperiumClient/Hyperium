@@ -1,6 +1,7 @@
 package cc.hyperium.mods.glintcolorizer;
 
 import cc.hyperium.Hyperium;
+import cc.hyperium.config.ConfigOpt;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.TickEvent;
@@ -11,11 +12,13 @@ import net.minecraft.client.Minecraft;
 public class GlintColorizer extends AbstractMod {
 
     private static Minecraft mc = Minecraft.getMinecraft();
+    @ConfigOpt
     public static boolean enabled = false;
 
     @Override
     public AbstractMod init() {
         Hyperium.CONFIG.register(new Colors());
+        Hyperium.CONFIG.register(this);
         EventBus.INSTANCE.register(this);
         return this;
     }
