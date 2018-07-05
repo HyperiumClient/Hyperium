@@ -101,17 +101,17 @@ public class HomeTab extends AbstractTab {
     @Override
     public void draw(int mouseX, int mouseY, int topX, int topY, int containerWidth, int containerHeight) {
         synchronized (title) {
-            if (information != null) {
+            if (information != null && title != null) {
                 HomeTab.title.drawString(strTitle, topX + 5, topY + 5, 0xffffff);
                 int i = 25;
                 for (String item : items) {
                     boolean second = false;
                     for (String s : fr.splitString(item, containerWidth - 10)) {
                         if (topY + i + offsetY + 9 < topY + containerHeight && topY + 25 < topY + i + offsetY) {
-                            fr.drawStringWithShadow(s, topX + 5  + (second ? 20 :0), topY + i + offsetY, new Color(168, 0, 189).getRGB());
+                            fr.drawStringWithShadow(s, topX + 5 + (second ? 20 : 0), topY + i + offsetY, new Color(168, 0, 189).getRGB());
                         }
                         i += 11;
-                        second=true;
+                        second = true;
                     }
                 }
 

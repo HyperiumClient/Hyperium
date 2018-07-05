@@ -290,10 +290,6 @@ public class SpotifyControls extends AbstractMod {
             if(System.currentTimeMillis() % 100 == 0){
                 concatNameCount++;
                 concatNameCount2 = concatNameCount + 16;
-
-                /* debug */
-                System.out.println(concatNameCount);
-                System.out.println(concatNameCount2);
             }
             if(concatNameCount2 == concatName.length()) {
                 concatNameCount = 0;
