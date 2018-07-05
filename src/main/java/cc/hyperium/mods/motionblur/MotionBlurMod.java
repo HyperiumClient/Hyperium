@@ -60,9 +60,12 @@ public class MotionBlurMod extends AbstractMod {
 
   @InvokeEvent
   public void onClientTick(TickEvent event) {
-    if (Settings.MOTION_BLUR_ENABLED && !Minecraft.getMinecraft().entityRenderer
-        .isShaderActive()) {
+    if (Settings.MOTION_BLUR_ENABLED && !Minecraft.getMinecraft().entityRenderer.isShaderActive() && isFastRenderEnabled()) {
       applyShader();
+    } else {
+      if(this.mc.theWorld != null) {
+        Hyperium.INSTANCE.getNotification().display("MotionBlur", "Please disable fast render for Motion Blur to work", 5);
+      }
     }
 
     if (this.domainResourceManagers == null) {
