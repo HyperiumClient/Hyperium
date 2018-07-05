@@ -60,7 +60,7 @@ public class MotionBlurMod extends AbstractMod {
 
   @InvokeEvent
   public void onClientTick(TickEvent event) {
-    if (Settings.MOTION_BLUR_ENABLED && !Minecraft.getMinecraft().entityRenderer.isShaderActive() && isFastRenderEnabled()) {
+    if (Settings.MOTION_BLUR_ENABLED && !Minecraft.getMinecraft().entityRenderer.isShaderActive() && !isFastRenderEnabled()) {
       applyShader();
     } else {
       if(this.mc.theWorld != null) {
