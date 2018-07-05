@@ -49,6 +49,9 @@ public class HyperiumNetwork {
             JsonObject addons = new JsonObject();
             for(AddonManifest addonmanifest : AddonBootstrap.INSTANCE.getAddonManifests()){
                 String addonname = addonmanifest.getName();
+                if(addonname == null){
+                    addonname = addonmanifest.getMainClass();
+                }
                 if(addonname != null) {
                     JsonObject addon = new JsonObject();
                     addon.addProperty("version", addonmanifest.getVersion());
