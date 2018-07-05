@@ -77,13 +77,10 @@ public abstract class MixinEntityRenderer {
 
     @Shadow protected abstract void loadShader(ResourceLocation resourceLocationIn);
 
-  @Shadow private ShaderGroup theShaderGroup;
-    @Shadow private int shaderIndex;
-    @Shadow @Final public static int shaderCount;
+    @Shadow private ShaderGroup theShaderGroup;
 
     @Shadow public abstract void stopUseShader();
 
-    private boolean zoomMode = false;
 
     //endStartSection
     @Inject(method = "updateCameraAndRender", at = @At(value = "INVOKE", target = "Lnet/minecraft/profiler/Profiler;endStartSection(Ljava/lang/String;)V", shift = At.Shift.AFTER))
@@ -257,12 +254,5 @@ public abstract class MixinEntityRenderer {
 
     public void clearShaders(){
         this.stopUseShader();
-    }
-
-    @Inject(method = "activateNextShader",at=@At("HEAD"))
-    public void activateNextShader(CallbackInfo ci){
-        System.out.println("Called activate next shader!");
-        System.out.println(this.shaderIndex);
-        System.out.println(this.shaderCount);
     }
 }
