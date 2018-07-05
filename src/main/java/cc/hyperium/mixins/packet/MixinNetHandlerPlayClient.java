@@ -21,9 +21,13 @@ import cc.hyperium.Hyperium;
 import cc.hyperium.Metadata;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.ServerChatEvent;
+import cc.hyperium.internal.addons.AddonBootstrap;
+import cc.hyperium.internal.addons.AddonManifest;
 import cc.hyperium.mods.timechanger.TimeChanger;
+import cc.hyperium.utils.JsonHolder;
 import com.google.common.base.Charsets;
 import com.google.common.collect.ObjectArrays;
+import com.google.gson.JsonObject;
 import io.netty.buffer.Unpooled;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiMerchant;
@@ -188,6 +192,23 @@ public abstract class MixinNetHandlerPlayClient {
                         buffer.writeString("Hyperium;" + Metadata.getVersion() + ";" + Metadata.getVersionID());
                         addToSendQueue(new C17PacketCustomPayload("REGISTER", buffer));
                     }
+                }
+                if("hyperium|Addons".equalsIgnoreCase(packetIn.getChannelName())){
+                    PacketBuffer buffer = new PacketBuffer(Unpooled.buffer());
+                    JsonHolder addons = new JsonHolder();
+                    for(AddonManifest addonmanifest : AddonBootstrap.INSTANCE.getAddonManifests()){
+                        String addonname = addonmanifest.getName();
+                        if(addonname == null){
+                            addonname = addonmanifest.getMainClass();
+                        }
+                        if(addonname != null) {
+                            JsonObject addon = new JsonObject();
+                            addon.addProperty("version", addonmanifest.getVersion());
+                            addons.put(addonname, addon);
+                        }
+                    }
+                    buffer.writeString(addons.toString());
+                    addToSendQueue(new C17PacketCustomPayload("hyperium|Addons", buffer));
                 }
             }
         } catch (Exception ex) {

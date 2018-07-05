@@ -20,12 +20,9 @@ package cc.hyperium.handlers.handlers;
 import cc.hyperium.Metadata;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.ServerJoinEvent;
-import cc.hyperium.internal.addons.AddonBootstrap;
-import cc.hyperium.internal.addons.AddonManifest;
 import cc.hyperium.launch.HyperiumTweaker;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.utils.JsonHolder;
-import com.google.gson.JsonObject;
 import io.netty.buffer.Unpooled;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.network.NetHandlerPlayClient;
@@ -46,25 +43,12 @@ public class HyperiumNetwork {
                     e.printStackTrace();
                 }
             }
-            JsonObject addons = new JsonObject();
-            for(AddonManifest addonmanifest : AddonBootstrap.INSTANCE.getAddonManifests()){
-                String addonname = addonmanifest.getName();
-                if(addonname == null){
-                    addonname = addonmanifest.getMainClass();
-                }
-                if(addonname != null) {
-                    JsonObject addon = new JsonObject();
-                    addon.addProperty("version", addonmanifest.getVersion());
-                    addons.add(addonname, addon);
-                }
-            }
             netHandler.addToSendQueue(
                     new C17PacketCustomPayload("hyperium",
                             new PacketBuffer(Unpooled.buffer()).writeString(new JsonHolder()
                                     .put("id", Metadata.getModid())
                                     .put("optifine", HyperiumTweaker.Companion.isUsingOptifine())
                                     .put("forge", HyperiumTweaker.Companion.isUsingForge())
-                                    .put("addons", addons)
                                     .put("version", Metadata.getVersion()).toString())));
         });
     }
