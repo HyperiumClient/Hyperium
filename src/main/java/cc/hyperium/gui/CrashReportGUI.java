@@ -155,7 +155,7 @@ public class CrashReportGUI extends JDialog {
         report.setFocusPainted(false);
         report.setBounds(2, 208, 196, 20);
         report.addActionListener(e -> Multithreading.runAsync(() -> {
-            if (update.isSupported() || Hyperium.INSTANCE.isDevEnv()) {
+            if (update.isSupported() || Hyperium.INSTANCE.isDevEnv() || Metadata.isDevelopment()) {
                 report.setEnabled(false);
                 report.setText("REPORTING...");
                 if (sendReport()) {
