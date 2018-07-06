@@ -29,6 +29,7 @@ public class MixinServerList {
 
     @Overwrite
     public static void func_147414_b(ServerData p_147414_0_) {
+        //TODO: Move to new class.
         ServerList serverlist = new ServerList(Minecraft.getMinecraft());
         serverlist.loadServerList();
 
