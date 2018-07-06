@@ -118,7 +118,7 @@ public class CapeHandler {
 
             @Override
             public BufferedImage parseUserSkin(BufferedImage image) {
-                return   CapeUtils.parseCape(image) ;
+                return CapeUtils.parseCape(image);
             }
 
             @Override
@@ -185,6 +185,7 @@ public class CapeHandler {
 
                     CapeTexture capeTexture = new CapeTexture(image);
                     textureManager.loadTexture(resourceLocation, capeTexture);
+                    capeTexture.clearTextureData();
                     i[0]++;
                 });
 
@@ -202,6 +203,7 @@ public class CapeHandler {
         if (isRealPlayer(uuid)) {
             ICape cape = capes.getOrDefault(uuid, null);
             if (cape == null) {
+                setCape(player.getUniqueID(), NullCape.INSTANCE);
                 Multithreading.runAsync(() -> {
                     HyperiumPurchase hyperiumPurchase = PurchaseApi.getInstance()
                             .getPackageSync(uuid);
