@@ -193,7 +193,10 @@ public class CapeHandler {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        actions.add(() -> setCape(uuid, new DynamicCape(locations, frames, frames)));
+        actions.add(() -> {
+            setCape(uuid, new DynamicCape(locations, frames, frames));
+            System.gc();
+        });
     }
 
 
