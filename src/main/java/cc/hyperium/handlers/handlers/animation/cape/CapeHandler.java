@@ -140,7 +140,7 @@ public class CapeHandler {
         capes.put(uuid, cape);
     }
 
-    public void loadDynamicCape(final UUID uuid, String url) throws IOException, ExecutionException, InterruptedException {
+    public synchronized void loadDynamicCape(final UUID uuid, String url) throws IOException, ExecutionException, InterruptedException {
         if (capes.get(uuid) != null && !capes.get(uuid).equals(NullCape.INSTANCE))
             return;
         capes.put(uuid, NullCape.INSTANCE);

@@ -17,6 +17,7 @@
 
 package cc.hyperium.purchases;
 
+import cc.hyperium.Hyperium;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.PurchaseLoadEvent;
@@ -86,7 +87,7 @@ public class PurchaseApi {
         Multithreading.runAsync(() -> {
             synchronized (instance) {
                 UUID id = UUIDUtil.getClientUUID();
-                if(id == null){
+                if (id == null) {
                     return;
                 }
                 HyperiumPurchase purchase = purchasePlayers.get(id);
@@ -207,11 +208,14 @@ public class PurchaseApi {
     public void reload(UUID uuid) {
         if (uuid.equals(UUIDUtil.getClientUUID())) {
             refreshSelf();
-            return;
+            Hyperium.INSTANCE.getHandlers().getCapeHandler().deleteCape(uuid);
         }
         System.out.println("reloading " + uuid);
         purchasePlayers.remove(uuid);
-        ensureLoaded(uuid);
+        getPackageSync(uuid);
+        Hyperium.INSTANCE.getHandlers().getCapeHandler().deleteCape(uuid);
+
+
     }
 
 
