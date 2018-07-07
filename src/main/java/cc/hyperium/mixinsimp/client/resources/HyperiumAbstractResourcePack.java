@@ -184,7 +184,6 @@ public class HyperiumAbstractResourcePack {
     }
 
     public BufferedImage getPackImage(int IconSize) throws IOException {
-        System.out.println("Got pack image!");
         BufferedImage originalIcon = TextureUtil.readBufferedImage(((IMixinAbstractResourcePack) parent).callGetInputStreamByName("pack.png"));
         if (originalIcon == null) {
             return null;

@@ -166,7 +166,7 @@
  * Library.
  */
 
-package cc.hyperium.mixinsimp.client.entity;
+package cc.hyperium.mixinsimp.entity;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.config.Settings;

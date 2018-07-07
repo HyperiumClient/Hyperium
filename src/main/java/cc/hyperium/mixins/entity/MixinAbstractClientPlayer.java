@@ -17,7 +17,7 @@
 
 package cc.hyperium.mixins.entity;
 
-import cc.hyperium.mixinsimp.client.entity.HyperiumAbstractClientPlayer;
+import cc.hyperium.mixinsimp.entity.HyperiumAbstractClientPlayer;
 import com.mojang.authlib.GameProfile;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.network.NetworkPlayerInfo;

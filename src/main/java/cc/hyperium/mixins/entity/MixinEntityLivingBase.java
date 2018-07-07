@@ -17,9 +17,7 @@
 
 package cc.hyperium.mixins.entity;
 
-import cc.hyperium.event.EventBus;
-import cc.hyperium.event.LivingDeathEvent;
-import net.minecraft.client.entity.EntityPlayerSP;
+import cc.hyperium.mixinsimp.entity.HyperiumEntityLivingBase;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Vec3;
@@ -32,22 +30,21 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(EntityLivingBase.class)
 public abstract class MixinEntityLivingBase extends MixinEntity {
 
+    private HyperiumEntityLivingBase hyperiumEntityLivingBase = new HyperiumEntityLivingBase(
+        (EntityLivingBase) (Object) this);
+
     /**
-     * MouseDelayFix
-     * Fixes bug MC-67665
+     * MouseDelayFix Fixes bug MC-67665
      *
      * @author prplz
      */
     @Inject(method = "getLook", at = @At("HEAD"), cancellable = true)
     private void getLook(float partialTicks, CallbackInfoReturnable<Vec3> ci) {
-        EntityLivingBase base = (EntityLivingBase) (Object) this;
-        if (base instanceof EntityPlayerSP) {
-            ci.setReturnValue(super.getLook(partialTicks));
-        }
+        hyperiumEntityLivingBase.getLook(partialTicks, ci);
     }
 
     @Inject(method = "onDeath", at = @At("HEAD"))
-  private void onDeath(DamageSource source, CallbackInfo ci) {
-      EventBus.INSTANCE.post(new LivingDeathEvent((EntityLivingBase) (Object) this, source));
+    private void onDeath(DamageSource source, CallbackInfo ci) {
+        hyperiumEntityLivingBase.onDeath(source);
     }
 }
