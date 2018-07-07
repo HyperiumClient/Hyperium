@@ -190,7 +190,7 @@ public class HyperiumAbstractClientPlayer {
     }
 
     public ResourceLocation getLocationCape(){
-        ResourceLocation cape = Hyperium.INSTANCE.getHandlers().getCapeHandler().getCape((AbstractClientPlayer) (Object) this);
+        ResourceLocation cape = Hyperium.INSTANCE.getHandlers().getCapeHandler().getCape(parent);
         if (cape != null)
             return cape;
         NetworkPlayerInfo networkplayerinfo = ((IMixinAbstractClientPlayer) parent).callGetPlayerInfo();
