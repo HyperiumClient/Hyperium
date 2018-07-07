@@ -60,8 +60,10 @@ public class CachedThreadDownloader {
 
         try {
             httpurlconnection = (HttpURLConnection) (new URL(imageUrl)).openConnection(Minecraft.getMinecraft().getProxy());
+            httpurlconnection.setRequestProperty("User-Agent","Hyperium Client");
             httpurlconnection.setDoInput(true);
             httpurlconnection.setDoOutput(false);
+            httpurlconnection.setUseCaches(true);
             httpurlconnection.connect();
             httpurlconnection.setConnectTimeout(15000);
             httpurlconnection.setReadTimeout(15000);
@@ -84,7 +86,7 @@ public class CachedThreadDownloader {
                 return;
             }
         } catch (Exception exception) {
-            exception.printStackTrace();
+            exception.printStackTrace(System.out);
             return;
         } finally {
             if (httpurlconnection != null) {
