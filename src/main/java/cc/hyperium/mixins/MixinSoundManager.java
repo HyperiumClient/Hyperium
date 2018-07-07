@@ -17,23 +17,18 @@
 
 package cc.hyperium.mixins;
 
-import cc.hyperium.config.Settings;
-import cc.hyperium.event.EventBus;
-import cc.hyperium.event.SoundPlayEvent;
+import cc.hyperium.mixinsimp.HyperiumSoundManager;
 import net.minecraft.client.audio.ISound;
 import net.minecraft.client.audio.SoundManager;
-import org.lwjgl.opengl.Display;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.util.concurrent.locks.ReentrantLock;
-
 @Mixin(SoundManager.class)
 public class MixinSoundManager {
 
-    private ReentrantLock lock = new ReentrantLock();
+    private HyperiumSoundManager hyperiumSoundManager = new HyperiumSoundManager((SoundManager) (Object) this);
 
     /**
      * Sound will not play unless the window is active while the out of
@@ -48,46 +43,39 @@ public class MixinSoundManager {
             cancellable = true
     )
     private void playSound(ISound sound, CallbackInfo ci) {
-        if (Settings.SMART_SOUNDS && !Display.isActive()) {
-            ci.cancel(); // does not stop music from being played but whatever
-            return;
-        }
-        SoundPlayEvent e = new SoundPlayEvent(sound);
-        EventBus.INSTANCE.post(e);
-
-        if (e.isCancelled()) {
-            ci.cancel();
-        }
+        hyperiumSoundManager.playSound(sound, ci);
     }
 
     @Inject(method = "updateAllSounds", at = @At("HEAD"))
     public void startUpdate(CallbackInfo info) {
-        lock.lock();
+        hyperiumSoundManager.startUpdate(info);
     }
 
     @Inject(method = "updateAllSounds", at = @At("TAIL"))
     public void endUpdate(CallbackInfo info) {
-        lock.unlock();
+        hyperiumSoundManager.endUpdate(info);
     }
 
 
     @Inject(method = "playSound", at = @At("HEAD"))
     public void startPlaySound(CallbackInfo info) {
-        lock.lock();
+        hyperiumSoundManager.startPlaySound(info);
     }
 
     @Inject(method = "playSound", at = @At("TAIL"))
     public void endPlaySound(CallbackInfo info) {
-        lock.unlock();
+        hyperiumSoundManager.endPlaySound(info);
     }
+
     @Inject(method = "stopAllSounds", at = @At("HEAD"))
     public void startStopAllSounds(CallbackInfo info) {
-        lock.lock();
+        hyperiumSoundManager.startStopAllSounds(info);
     }
 
     @Inject(method = "stopAllSounds", at = @At("TAIL"))
     public void endStopAllSounds(CallbackInfo info) {
-        lock.unlock();
+        hyperiumSoundManager.endStopAllSounds(info);
+
     }
 
 }

@@ -5,6 +5,7 @@
   "refmap": "mixin.hyperium.refmap.json",
   "verbose": true,
   "mixins": [
+    "IMixinMinecraft",
     "MixinCrashReport",
     "MixinEnchantment",
     "MixinKeyBinding",
@@ -17,11 +18,12 @@
     "client.multiplayer.MixinServerList",
     "client.particle.MixinEffectRenderer",
     "client.resources.MixinAbstractResourcePack",
-    "entity.MixinEntityFx",
     "entity.MixinAbstractClientPlayer",
     "entity.MixinEntity",
+    "entity.MixinEntityFx",
     "entity.MixinEntityLivingBase",
     "entity.MixinEntityPlayer",
+    "entity.MixinEntityPlayerMP",
     "entity.MixinEntityPlayerSP",
     "entity.MixinEntityRenderer",
     "entity.MixinNetworkPlayerInfo",
@@ -45,6 +47,7 @@
     "gui.MixinGuiUtilRenderComponents",
     "gui.MixinInventory",
     "gui.MixinInventoryParticle",
+    "item.MixinItemBow",
     "packet.MixinC01PacketChatMessage",
     "packet.MixinNetHandlerPlayClient",
     "packet.MixinNetworkManager",
@@ -54,6 +57,7 @@
     "renderer.MixinFontRenderer",
     "renderer.MixinGuiIngame",
     "renderer.MixinItemRenderer",
+    "renderer.MixinLayerCape",
     "renderer.MixinLayerDeadmau5Head",
     "renderer.MixinRender",
     "renderer.MixinRendererLivingEntity",
@@ -61,7 +65,6 @@
     "renderer.MixinRenderItem",
     "renderer.MixinRenderManger",
     "renderer.MixinRenderPlayer",
-    "renderer.MixinLayerCape",
     "renderer.MixinThreadDownloadImageData",
     "renderer.entity.layer.MixinLayerHeldItem",
     "renderer.model.MixinModelBiped",
@@ -72,9 +75,8 @@
     "utils.MixinChatComponentStyle",
     "utils.MixinChatStyle",
     "utils.MixinResourcePackRepository",
+    "world.IMixinWorld",
     "world.MixinChunk",
-    "world.MixinWorld",
-    "item.MixinItemBow",
-    "entity.MixinEntityPlayerMP"
+    "world.MixinWorld"
   ]
 }
