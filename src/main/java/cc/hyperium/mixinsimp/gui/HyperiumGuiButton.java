@@ -4,16 +4,21 @@ import static cc.hyperium.gui.HyperiumGui.clamp;
 import static cc.hyperium.gui.HyperiumGui.easeOut;
 
 import cc.hyperium.mixins.gui.MixinGuiButton2;
+import java.awt.Color;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
 
 public class HyperiumGuiButton {
+  private final int hoverColor = new Color(0, 0, 0, 120).getRGB();
+  private final int color = new Color(0, 0, 0, 70).getRGB();
+  private final int textColor = new Color(255, 255, 255, 255).getRGB();
+  private final int textHoverColor = new Color(255, 255, 255, 255).getRGB();
+  private final FontRenderer fontRenderer = Minecraft.getMinecraft().fontRendererObj;
   private GuiButton parent;
   private long systemTime = Minecraft.getSystemTime();
   private float selectPercent = 0.0f;
-  private final FontRenderer fontRenderer = Minecraft.getMinecraft().fontRendererObj;
   public HyperiumGuiButton(GuiButton parent) {
     this.parent = parent;
   }
@@ -45,7 +50,7 @@ public class HyperiumGuiButton {
         parent.yPosition,
         (int) ((parent.xPosition + parent.getButtonWidth()) - (selectPercent * 7)),
         parent.yPosition + parentA.getHeight(),
-        parentA.isHovered() ? parentA.getHoverColor() : parentA.getColor()
+        parentA.isHovered() ? hoverColor : color
     );
 
         /*// TODO RECT COLORS
@@ -59,13 +64,13 @@ public class HyperiumGuiButton {
                     color);
         }*/
 
-    int j = parentA.getTextColor();
+    int j = textColor;
 
     boolean enabled = true;
     if (!enabled) {
       j = 10526880;
     } else if (parentA.isHovered()) {
-      j = parentA.getTextHoverColor();
+      j = textHoverColor;
     }
     parent.drawCenteredString(fontRenderer, parent.displayString, parent.xPosition + parent.getButtonWidth() / 2, parent.yPosition + (parentA.getHeight() - 8) / 2, j);
   }

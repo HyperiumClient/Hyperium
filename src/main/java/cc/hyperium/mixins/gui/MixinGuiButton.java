@@ -18,9 +18,7 @@
 package cc.hyperium.mixins.gui;
 
 import cc.hyperium.mixinsimp.gui.HyperiumGuiButton;
-import java.awt.Color;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.util.ResourceLocation;
@@ -35,11 +33,6 @@ public abstract class MixinGuiButton extends Gui {
     @Shadow
     @Final
     protected static ResourceLocation buttonTextures;
-    private final int hoverColor = new Color(0, 0, 0, 120).getRGB();
-    private final int color = new Color(0, 0, 0, 70).getRGB();
-    private final int textColor = new Color(255, 255, 255, 255).getRGB();
-    private final int textHoverColor = new Color(255, 255, 255, 255).getRGB();
-    private final FontRenderer fontRenderer = Minecraft.getMinecraft().fontRendererObj;
     @Shadow
     public boolean visible;
     @Shadow
