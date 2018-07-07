@@ -55,6 +55,7 @@
     "packet.MixinS19PacketEntityStatus",
     "packet.MixinS2EPacketCloseWindow",
     "renderer.IMixinRenderItem",
+    "renderer.IMixinRenderItem2",
     "renderer.MixinFontRenderer",
     "renderer.MixinGuiIngame",
     "renderer.MixinItemRenderer",

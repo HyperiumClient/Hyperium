@@ -2,6 +2,7 @@ package cc.hyperium.mixinsimp.renderer;
 
 import cc.hyperium.config.Settings;
 import cc.hyperium.mixins.renderer.IMixinRenderItem;
+import cc.hyperium.mixins.renderer.IMixinRenderItem2;
 import cc.hyperium.mods.glintcolorizer.Colors;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
@@ -40,7 +41,7 @@ public class HyperiumRenderItem {
         GlStateManager.enableBlend();
         GlStateManager.blendFunc(770, 771);
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-        ((IMixinRenderItem) parent).setupGuiTransform(x, y, ibakedmodel.isGui3d());
+        ((IMixinRenderItem) parent).callSetupGuiTransform(x, y, ibakedmodel.isGui3d());
         ibakedmodel.getItemCameraTransforms()
                 .applyTransform(ItemCameraTransforms.TransformType.GUI);
 
@@ -99,7 +100,7 @@ public class HyperiumRenderItem {
                 }
 
                 // Normal item renderer
-                ((IMixinRenderItem) parent).renderModel(model, stack);
+                ((IMixinRenderItem2) parent).callRenderModel(model, stack);
 
                 // Prevent double-rendering of the items effects
                 if (!renderedAsPotion && stack.hasEffect()) {
@@ -132,14 +133,14 @@ public class HyperiumRenderItem {
         float f = (float) (Minecraft.getSystemTime() % 3000L) / 3000.0F / 8.0F;
         GlStateManager.translate(f, 0.0F, 0.0F);
         GlStateManager.rotate(-50.0F, 0.0F, 0.0F, 1.0F);
-        ((IMixinRenderItem) parent).renderModel(model, -8372020);
+        ((IMixinRenderItem) parent).callRenderModel(model, -8372020);
         GlStateManager.popMatrix();
         GlStateManager.pushMatrix();
         GlStateManager.scale(8.0F, 8.0F, 8.0F);
         float f1 = (float) (Minecraft.getSystemTime() % 4873L) / 4873.0F / 8.0F;
         GlStateManager.translate(-f1, 0.0F, 0.0F);
         GlStateManager.rotate(10.0F, 0.0F, 0.0F, 1.0F);
-        ((IMixinRenderItem) parent).renderModel(model, -8372020);
+        ((IMixinRenderItem) parent).callRenderModel(model, -8372020);
         GlStateManager.popMatrix();
         GlStateManager.matrixMode(5888);
         GlStateManager.blendFunc(770, 771);
@@ -168,14 +169,14 @@ public class HyperiumRenderItem {
         float f = (float) (Minecraft.getSystemTime() % 3000L) / 3000.0F / 8.0F; // Animates the effect
         GlStateManager.translate(f, 0.0F, 0.0F);
         GlStateManager.rotate(-50.0F, 0.0F, 0.0F, 1.0F);
-        ((IMixinRenderItem) parent).renderModel(model, Colors.onepoint8glintcolorI);
+        ((IMixinRenderItem) parent).callRenderModel(model, Colors.onepoint8glintcolorI);
         GlStateManager.popMatrix();
         GlStateManager.pushMatrix();
         GlStateManager.scale(8.0F, 8.0F, 8.0F);
         float f1 = (float) (Minecraft.getSystemTime() % 4873L) / 4873.0F / 8.0F;
         GlStateManager.translate(-f1, 0.0F, 0.0F);
         GlStateManager.rotate(10.0F, 0.0F, 0.0F, 1.0F);
-        ((IMixinRenderItem) parent).renderModel(model, Colors.onepoint8glintcolorI);
+        ((IMixinRenderItem) parent).callRenderModel(model, Colors.onepoint8glintcolorI);
         GlStateManager.popMatrix();
         GlStateManager.matrixMode(5888);
         GlStateManager.blendFunc(770, 771);
