@@ -17,13 +17,10 @@
 
 package cc.hyperium.mixins.entity;
 
-import cc.hyperium.Hyperium;
-import cc.hyperium.config.Settings;
+import cc.hyperium.mixinsimp.client.entity.HyperiumAbstractClientPlayer;
 import com.mojang.authlib.GameProfile;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.network.NetworkPlayerInfo;
-import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
@@ -37,6 +34,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(AbstractClientPlayer.class)
 public abstract class MixinAbstractClientPlayer {
 
+    private HyperiumAbstractClientPlayer hyperiumAbstractClientPlayer = new HyperiumAbstractClientPlayer((AbstractClientPlayer) (Object) this);
 
     @Shadow
     protected abstract NetworkPlayerInfo getPlayerInfo();
@@ -45,7 +43,7 @@ public abstract class MixinAbstractClientPlayer {
     private void AbstractPlayer(World worldIn, GameProfile playerProfile, CallbackInfo callbackInfo) {
 
         //Blank get cape call to get the show on the road
-        Hyperium.INSTANCE.getHandlers().getCapeHandler().getCape((AbstractClientPlayer) (Object) this);
+        hyperiumAbstractClientPlayer.init();
     }
 
     /**
@@ -53,20 +51,11 @@ public abstract class MixinAbstractClientPlayer {
      */
     @Overwrite
     public ResourceLocation getLocationCape() {
-        ResourceLocation cape = Hyperium.INSTANCE.getHandlers().getCapeHandler().getCape((AbstractClientPlayer) (Object) this);
-        if (cape != null)
-            return cape;
-        NetworkPlayerInfo networkplayerinfo = this.getPlayerInfo();
-        return networkplayerinfo == null ? null : networkplayerinfo.getLocationCape();
+        return hyperiumAbstractClientPlayer.getLocationCape();
     }
 
     @Inject(method = "getFovModifier", at = @At("HEAD"), cancellable = true)
     private void getFovModifier(CallbackInfoReturnable<Float> ci) {
-        if (Settings.STATIC_FOV) {
-            if (Minecraft.getMinecraft().thePlayer.isSprinting() && Settings.staticFovSprintModifier)
-                ci.setReturnValue((float) (1.0 * ((Minecraft.getMinecraft().thePlayer.getEntityAttribute(SharedMonsterAttributes.movementSpeed).getAttributeValue() / (double) Minecraft.getMinecraft().thePlayer.capabilities.getWalkSpeed() + 1.0D) / 2.0D)));
-            else
-                ci.setReturnValue(1.0F);
-        }
+        hyperiumAbstractClientPlayer.getFovModifier(ci);
     }
 }

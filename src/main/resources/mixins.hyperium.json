@@ -18,6 +18,7 @@
     "client.multiplayer.MixinServerList",
     "client.particle.MixinEffectRenderer",
     "client.resources.MixinAbstractResourcePack",
+    "client.resources.IMixinAbstractResourcePack",
     "entity.MixinAbstractClientPlayer",
     "entity.MixinEntity",
     "entity.MixinEntityFx",
