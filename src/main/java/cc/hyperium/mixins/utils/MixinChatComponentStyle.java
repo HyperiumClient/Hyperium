@@ -18,18 +18,18 @@ public abstract class MixinChatComponentStyle implements IChatComponent {
     @Shadow
     public abstract ChatStyle getChatStyle();
 
-    @Inject(method = "setChatStyle", at = @At("HEAD"))
+    @Inject(method = "setChatStyle", at = @At("HEAD"),cancellable = true)
     public void setChatStyle(ChatStyle style, CallbackInfoReturnable<IChatComponent> ci) {
         hyperiumChatComponentStyle.invalidateCache();
     }
 
 
-    @Inject(method = "getFormattedText", at = @At("HEAD"))
+    @Inject(method = "getFormattedText", at = @At("HEAD"),cancellable = true)
     public void getFormatedTextHeader(CallbackInfoReturnable<String> string) {
         hyperiumChatComponentStyle.getFormatedTextHeader(string);
     }
 
-    @Inject(method = "getFormattedText", at = @At("RETURN"))
+    @Inject(method = "getFormattedText", at = @At("RETURN"),cancellable = true)
     public void getFormatedTextReturn(CallbackInfoReturnable<String> string) {
         hyperiumChatComponentStyle.getFormatedTextReturn(string);
     }

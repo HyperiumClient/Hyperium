@@ -9,7 +9,7 @@ public class HyperiumThreadDownloadImageData {
 
 
     public void loadTextureFromServer(String imageUrl, File cacheFile, IImageBuffer imageBuffer, ThreadDownloadImageData threadDownloadImageData) {
-        CachedThreadDownloader cachedThreadDownloader = new CachedThreadDownloader(imageUrl, cacheFile, imageBuffer, (ThreadDownloadImageData) (Object) this);
+        CachedThreadDownloader cachedThreadDownloader = new CachedThreadDownloader(imageUrl, cacheFile, imageBuffer, threadDownloadImageData);
         cachedThreadDownloader.process();
     }
 }
