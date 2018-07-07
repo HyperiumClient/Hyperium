@@ -60,6 +60,8 @@
     "renderer.MixinGuiIngame",
     "renderer.MixinItemRenderer",
     "renderer.MixinLayerCape",
+    "renderer.IMixinRenderLivingEntity",
+    "renderer.IMixinRender",
     "renderer.MixinLayerDeadmau5Head",
     "renderer.MixinRender",
     "renderer.MixinRendererLivingEntity",

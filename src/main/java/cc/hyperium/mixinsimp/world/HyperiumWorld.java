@@ -93,7 +93,6 @@ public class HyperiumWorld {
 
 
     public boolean spawnEntityInWorld(Entity entity) {
-        System.out.println("spawn");
         int lvt_2_1_ = MathHelper.floor_double(entity.posX / 16.0D);
         int lvt_3_1_ = MathHelper.floor_double(entity.posZ / 16.0D);
         boolean lvt_4_1_ = entity.forceSpawn;
