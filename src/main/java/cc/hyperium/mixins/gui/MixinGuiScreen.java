@@ -17,100 +17,45 @@
 
 package cc.hyperium.mixins.gui;
 
-import cc.hyperium.config.Settings;
-import cc.hyperium.event.EventBus;
-import cc.hyperium.event.GuiClickEvent;
+import cc.hyperium.mixinsimp.gui.HyperiumGuiScreen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.renderer.EntityRenderer;
-import net.minecraft.util.ResourceLocation;
-import org.apache.logging.log4j.Logger;
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.net.URI;
-import java.util.Set;
-
 @Mixin(GuiScreen.class)
 public abstract class MixinGuiScreen {
 
     @Shadow
-    @Final
-    private static Set<String> PROTOCOLS;
-    @Shadow
-    @Final
-    private static Logger LOGGER;
-    private final GuiScreen instance = (GuiScreen) (Object) this;
-    @Shadow
     private Minecraft mc;
-    @Shadow
-    private URI clickedLinkURI;
-
 
     @Shadow
     protected abstract void setText(String newChatText, boolean shouldOverwrite);
 
-    @Shadow
-    protected abstract void openWebLink(URI p_175282_1_);
 
-    @Shadow
-    public abstract void sendChatMessage(String msg, boolean addToChat);
+    private HyperiumGuiScreen hyperiumGuiScreen = new HyperiumGuiScreen((GuiScreen) (Object) this);
 
     @Inject(method = "drawWorldBackground", at = @At("HEAD"), cancellable = true)
     private void drawWorldBackground(int tint, CallbackInfo ci) {
-        if (this.mc.theWorld != null && Settings.FAST_CONTAINER) {
-            ci.cancel();
-        }
+        hyperiumGuiScreen.drawWorldBackground(tint,this.mc,ci);
     }
 
     @Inject(method = "mouseClicked", at = @At("HEAD"), cancellable = true)
     private void mouseClicked(int mouseX, int mouseY, int mouseButton, CallbackInfo ci) {
-        final GuiClickEvent event = new GuiClickEvent(mouseX, mouseY, mouseButton, instance);
-        EventBus.INSTANCE.post(event);
-        if (event.isCancelled()) {
-            ci.cancel();
-        }
+        hyperiumGuiScreen.mouseClicked(mouseX,mouseY,mouseButton,ci);
     }
 
     @Inject(method = "initGui", at = @At("HEAD"))
     private void initGui(CallbackInfo ci) {
-        if (Settings.BLUR_GUI && !Settings.FAST_CONTAINER) {
-            Minecraft.getMinecraft().addScheduledTask(() -> {
-                Method loadShaderMethod = null;
-                try {
-                    loadShaderMethod = EntityRenderer.class.getDeclaredMethod("loadShader", ResourceLocation.class);
-                } catch (NoSuchMethodException e) {
-                    try {
-                        loadShaderMethod = EntityRenderer.class.getDeclaredMethod("a", ResourceLocation.class);
-                    } catch (NoSuchMethodException e1) {
-                        e1.printStackTrace();
-                    }
-                }
-
-                if (loadShaderMethod != null) {
-                    loadShaderMethod.setAccessible(true);
-                    try {
-                        loadShaderMethod.invoke(Minecraft.getMinecraft().entityRenderer, new ResourceLocation("shaders/hyperium_blur.json"));
-                    } catch (IllegalAccessException | InvocationTargetException e) {
-                        e.printStackTrace();
-                    }
-                }
-            });
-        }
+        hyperiumGuiScreen.initGui(ci);
     }
 
     @Inject(method = "onGuiClosed", at = @At("HEAD"))
     private void onGuiClosed(CallbackInfo ci) {
-        if(Settings.BLUR_GUI) {
-            Minecraft.getMinecraft()
-                .addScheduledTask(() -> Minecraft.getMinecraft().entityRenderer.stopUseShader());
-        }
+        hyperiumGuiScreen.onGuiClosed(ci);
     }
 
 
