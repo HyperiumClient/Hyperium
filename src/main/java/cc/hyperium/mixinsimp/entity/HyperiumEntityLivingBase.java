@@ -24,6 +24,6 @@ public class HyperiumEntityLivingBase {
     }
 
     public void onDeath(DamageSource source) {
-        EventBus.INSTANCE.post(new LivingDeathEvent((EntityLivingBase) (Object) this, source));
+        EventBus.INSTANCE.post(new LivingDeathEvent(parent, source));
     }
 }
