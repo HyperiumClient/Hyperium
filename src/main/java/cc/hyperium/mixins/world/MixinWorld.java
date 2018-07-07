@@ -21,12 +21,9 @@ import cc.hyperium.event.EntityJoinWorldEvent;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.mixinsimp.world.HyperiumWorld;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.EnumSkyBlock;
-import net.minecraft.world.IWorldAccess;
 import net.minecraft.world.World;
-import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.storage.WorldInfo;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -46,25 +43,11 @@ public abstract class MixinWorld {
     @Shadow
     @Final
     public List<Entity> loadedEntityList;
-    @Shadow
-    @Final
-    public List<EntityPlayer> playerEntities;
-    @Shadow
-    protected List<IWorldAccess> worldAccesses;
+
     @Shadow
     private WorldInfo worldInfo;
     private HyperiumWorld hyperiumWorld = new HyperiumWorld((World) (Object) this);
 
-    @Shadow
-    public abstract Chunk getChunkFromChunkCoords(int p_getChunkFromChunkCoords_1_,
-                                                  int p_getChunkFromChunkCoords_2_);
-
-    @Shadow
-    protected abstract boolean isChunkLoaded(int p_isChunkLoaded_1_, int p_isChunkLoaded_2_,
-                                             boolean p_isChunkLoaded_3_);
-
-    @Shadow
-    public abstract void updateAllPlayersSleepingFlag();
 
     /**
      * Invoked once the server changes the players spawn point
