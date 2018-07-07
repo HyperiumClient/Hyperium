@@ -17,6 +17,8 @@ import net.minecraft.world.storage.WorldInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import java.util.Collection;
+
 public class HyperiumWorld {
 
     private World parent;
@@ -91,6 +93,7 @@ public class HyperiumWorld {
 
 
     public boolean spawnEntityInWorld(Entity entity) {
+        System.out.println("spawn");
         int lvt_2_1_ = MathHelper.floor_double(entity.posX / 16.0D);
         int lvt_3_1_ = MathHelper.floor_double(entity.posZ / 16.0D);
         boolean lvt_4_1_ = entity.forceSpawn;
@@ -98,7 +101,7 @@ public class HyperiumWorld {
             lvt_4_1_ = true;
         }
 
-        if (!lvt_4_1_ && !((IMixinWorld) parent).isChunkLoaded(lvt_2_1_, lvt_3_1_, true)) {
+        if (!lvt_4_1_ && !((IMixinWorld) parent).callIsChunkLoaded(lvt_2_1_, lvt_3_1_, true)) {
             return false;
         } else {
             if (entity instanceof EntityPlayer) {
@@ -111,8 +114,13 @@ public class HyperiumWorld {
 
             parent.getChunkFromChunkCoords(lvt_2_1_, lvt_3_1_).addEntity(entity);
             parent.loadedEntityList.add(entity);
-            ((IMixinWorld) parent).onEntityAdded(entity);
+            ((IMixinWorld) parent).callOnEntityAdded(entity);
             return true;
+        }
+    }
+    public void loadEntities(Collection<Entity> entityCollection) {
+        for (Entity lvt_3_1_ : entityCollection) {
+            EventBus.INSTANCE.post(new EntityJoinWorldEvent(lvt_3_1_));
         }
     }
 }

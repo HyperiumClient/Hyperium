@@ -17,8 +17,6 @@
 
 package cc.hyperium.mixins.world;
 
-import cc.hyperium.event.EntityJoinWorldEvent;
-import cc.hyperium.event.EventBus;
 import cc.hyperium.mixinsimp.world.HyperiumWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.BlockPos;
@@ -163,16 +161,9 @@ public abstract class MixinWorld {
      * @author Amplifiable
      * @reason Events
      */
-    @Overwrite
-    public void loadEntities(Collection<Entity> entityCollection) {
-        this.loadedEntityList.addAll(entityCollection);
-
-        for (Entity lvt_3_1_ : entityCollection) {
-            EventBus.INSTANCE.post(new EntityJoinWorldEvent(lvt_3_1_));
-            this.onEntityAdded(lvt_3_1_);
-        }
+    @Inject(method = "loadEntities", at = @At(value = "INVOKE", target = "Ljava/util/List;addAll(Ljava/util/Collection;)Z", shift = At.Shift.AFTER))
+    public void loadEntities(Collection<Entity> entityCollection, CallbackInfo info) {
+       hyperiumWorld.loadEntities(entityCollection);
     }
 
-    @Shadow
-    protected abstract void onEntityAdded(Entity entityIn);
 }
