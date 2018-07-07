@@ -17,10 +17,7 @@
 
 package cc.hyperium.mixins.renderer;
 
-import cc.hyperium.Hyperium;
-import cc.hyperium.event.EventBus;
-import cc.hyperium.event.RenderHUDEvent;
-import cc.hyperium.mods.chromahud.displayitems.hyperium.ScoreboardDisplay;
+import cc.hyperium.mixinsimp.renderer.HyperiumGuiIngame;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiIngame;
 import net.minecraft.client.gui.ScaledResolution;
@@ -35,12 +32,15 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(GuiIngame.class)
 public abstract class MixinGuiIngame {
 
+
+    private HyperiumGuiIngame hyperiumGuiIngame = new HyperiumGuiIngame();
+
     @Shadow
     public abstract FontRenderer getFontRenderer();
 
     @Inject(method = "renderGameOverlay", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/settings/KeyBinding;isKeyDown()Z"))
     private void renderGameOverlay(float partialTicks, CallbackInfo ci) {
-        EventBus.INSTANCE.post(new RenderHUDEvent(partialTicks));
+        hyperiumGuiIngame.renderGameOverlay(partialTicks, ci);
     }
 
     /**
@@ -50,10 +50,6 @@ public abstract class MixinGuiIngame {
      */
     @Overwrite
     private void renderScoreboard(ScoreObjective objective, ScaledResolution resolution) {
-        //For *extra* scoreboards
-        ScoreboardDisplay.p_180475_1_ = objective;
-        ScoreboardDisplay.p_180475_2_ = resolution;
-
-        Hyperium.INSTANCE.getHandlers().getScoreboardRenderer().render(objective, resolution);
+        hyperiumGuiIngame.renderScoreboard(objective, resolution);
     }
 }
