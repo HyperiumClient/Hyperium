@@ -12,14 +12,14 @@ public class HyperiumEntityLivingBase {
 
     private EntityLivingBase parent;
 
-    public HyperiumEntityLivingBase(EntityLivingBase parent){
+    public HyperiumEntityLivingBase(EntityLivingBase parent) {
         this.parent = parent;
     }
 
-    public void getLook(float partialTicks, CallbackInfoReturnable<Vec3> ci) {
+    public void getLook(float partialTicks, CallbackInfoReturnable<Vec3> ci, Vec3 look) {
         EntityLivingBase base = parent;
         if (base instanceof EntityPlayerSP) {
-            ci.setReturnValue(parent.getLook(partialTicks));
+            ci.setReturnValue(look);
         }
     }
 

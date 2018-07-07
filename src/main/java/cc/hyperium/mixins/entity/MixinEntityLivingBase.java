@@ -40,7 +40,7 @@ public abstract class MixinEntityLivingBase extends MixinEntity {
      */
     @Inject(method = "getLook", at = @At("HEAD"), cancellable = true)
     private void getLook(float partialTicks, CallbackInfoReturnable<Vec3> ci) {
-        hyperiumEntityLivingBase.getLook(partialTicks, ci);
+        hyperiumEntityLivingBase.getLook(partialTicks, ci,super.getLook(partialTicks));
     }
 
     @Inject(method = "onDeath", at = @At("HEAD"))

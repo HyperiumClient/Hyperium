@@ -19,13 +19,14 @@ package cc.hyperium.mixins.entity;
 
 
 import cc.hyperium.mixinsimp.entity.HyperiumEntity;
-import java.util.UUID;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.util.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
+
+import java.util.UUID;
 
 @Mixin(Entity.class)
 public abstract class MixinEntity {

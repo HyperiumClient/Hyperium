@@ -68,6 +68,9 @@ public abstract class MixinEntityPlayer extends EntityLivingBase {
         return hyperiumEntityPlayer.getEyeHeight();
     }
 
+    /**
+     * @author Sk1er
+     */
     @Overwrite
     public IChatComponent getDisplayName() {
         return hyperiumEntityPlayer.getDisplayName();

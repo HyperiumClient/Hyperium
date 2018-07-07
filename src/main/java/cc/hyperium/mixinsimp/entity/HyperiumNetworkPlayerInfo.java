@@ -17,7 +17,7 @@ public class HyperiumNetworkPlayerInfo {
     }
 
     public ResourceLocation getLocationCape(GameProfile gameProfile, ResourceLocation locationCape) {
-        ResourceLocation cape = parent.getLocationCape();
+        ResourceLocation cape = locationCape;
 
         if (cape == null) {
             ((IMixinNetworkPlayerInfo)parent).callLoadPlayerTextures();
