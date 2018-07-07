@@ -27,7 +27,7 @@
     "entity.MixinEntityPlayerSP",
     "entity.MixinEntityRenderer",
     "entity.MixinNetworkPlayerInfo",
-    "gui.MixinGui",
+    "gui.MixinGuiButton2",
     "gui.MixinGuiButton",
     "gui.MixinGuiChat",
     "gui.MixinGuiConnecting",
