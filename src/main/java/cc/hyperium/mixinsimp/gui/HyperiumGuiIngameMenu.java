@@ -2,7 +2,6 @@ package cc.hyperium.mixinsimp.gui;
 
 import cc.hyperium.gui.GuiHyperiumCredits;
 import cc.hyperium.gui.GuiIngameMultiplayer;
-import cc.hyperium.mixins.gui.MixinGuiIngameMenu2;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
 import cc.hyperium.purchases.PurchaseApi;
@@ -19,6 +18,11 @@ import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.renderer.GlStateManager;
 
 public class HyperiumGuiIngameMenu {
+  private static JsonHolder data = new JsonHolder();
+  private final DecimalFormat formatter = new DecimalFormat("#,###");
+  private long lastUpdate = 0L;
+  private int cooldown = 0;
+  private int baseAngle;
   private GuiIngameMenu parent;
   public HyperiumGuiIngameMenu(GuiIngameMenu parent) {
     this.parent = parent;
@@ -40,14 +44,13 @@ public class HyperiumGuiIngameMenu {
     if (button.id == 10 && Minecraft.getMinecraft().theWorld.isRemote)
       Minecraft.getMinecraft().displayGuiScreen(new GuiIngameMultiplayer(Minecraft.getMinecraft().currentScreen));
   }
-  public void draw(int mouseX, int mouseY, float partialTicks, long lastUpdate, int baseAngle, FontRenderer fontRendererObj, JsonHolder data, DecimalFormat formatter) {
+  public void draw(int mouseX, int mouseY, float partialTicks, FontRenderer fontRendererObj) {
     GlStateManager.pushMatrix();
     if (System.currentTimeMillis() - lastUpdate > 2000L) {
       refreshData();
 
     }
-    MixinGuiIngameMenu2 parentA = (MixinGuiIngameMenu2) parent;
-    parentA.setBaseAngle(baseAngle % 360);
+    baseAngle %= 360;
     ScaledResolution current = ResolutionUtil.current();
     GlStateManager.translate(current.getScaledWidth() / 2, 10, 0);
     GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
@@ -99,10 +102,19 @@ public class HyperiumGuiIngameMenu {
   }
 
   private synchronized void refreshData() {
-    ((MixinGuiIngameMenu2) parent).setLastUpdate(System.currentTimeMillis() * 2);
+    lastUpdate = System.currentTimeMillis() * 2;
     Multithreading.runAsync(() -> {
-      ((MixinGuiIngameMenu2) parent).setData(PurchaseApi.getInstance().get("https://api.hyperium.cc/users"));
-      ((MixinGuiIngameMenu2) parent).setLastUpdate(System.currentTimeMillis());
+      data = PurchaseApi.getInstance().get("https://api.hyperium.cc/users");
+      lastUpdate = System.currentTimeMillis();
     });
+  }
+  public void update() {
+    cooldown++;
+    if (cooldown > 40) {
+      baseAngle += 9;
+      if (cooldown >= 50) {
+        cooldown = 0;
+      }
+    }
   }
 }

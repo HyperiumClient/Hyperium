@@ -19,12 +19,4 @@ public interface MixinGuiButton2 {
   void callMouseDragged(Minecraft mc, int mouseX, int mouseY);
   @Accessor
   boolean isHovered();
-  @Accessor
-  int getColor();
-  @Accessor
-  int getHoverColor();
-  @Accessor
-  int getTextColor();
-  @Accessor
-  int getTextHoverColor();
 }
