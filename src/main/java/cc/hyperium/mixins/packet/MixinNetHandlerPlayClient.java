@@ -23,6 +23,7 @@ import cc.hyperium.event.EventBus;
 import cc.hyperium.event.ServerChatEvent;
 import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
 import cc.hyperium.mods.timechanger.TimeChanger;
+import cc.hyperium.network.LoginReplyHandler;
 import com.google.common.base.Charsets;
 import com.google.common.collect.ObjectArrays;
 import io.netty.buffer.Unpooled;
@@ -195,7 +196,7 @@ public abstract class MixinNetHandlerPlayClient {
                 String message = new String(payload, Charsets.UTF_8);
 
                 EntityPlayerSP thePlayer = Minecraft.getMinecraft().thePlayer;
-                if (Hyperium.INSTANCE.isDevEnv() && thePlayer != null && (thePlayer.getName().equalsIgnoreCase("Sk1er")))
+                if (Hyperium.INSTANCE.isDevEnv() && thePlayer != null && (thePlayer.getName().equalsIgnoreCase("Sk1er")) || LoginReplyHandler.SHOW_MESSAGES)
                     GeneralChatHandler.instance().sendMessage("Packet message on channel " + packetIn.getChannelName() + " -> " + message);
                 if ("REGISTER".equalsIgnoreCase(packetIn.getChannelName())) {
                     if (message.contains("Hyperium")) {
