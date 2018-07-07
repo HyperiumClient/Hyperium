@@ -23,6 +23,7 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiIngame;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.scoreboard.ScoreObjective;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
@@ -37,15 +38,24 @@ public abstract class MixinGuiIngame extends Gui {
     @Shadow
     @Final
     private Minecraft mc;
+    private HyperiumGuiIngame hyperiumGuiIngame = new HyperiumGuiIngame((GuiIngame) (Object) this);
 
     @Shadow
     public abstract FontRenderer getFontRenderer();
 
-    private HyperiumGuiIngame hyperiumGuiIngame = new HyperiumGuiIngame();
+    @Inject(method = "renderGameOverlay", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/settings/KeyBinding;isKeyDown()Z"))
+    private void renderGameOverlay(float partialTicks, CallbackInfo ci) {
+        hyperiumGuiIngame.renderGameOverlay(partialTicks, ci);
+    }
 
     @Inject(method = "renderSelectedItem", at = @At(value = "RETURN", target = "Lnet/minecraft/client/renderer/GlStateManager;popMatrix()V"))
     private void onRenderSelectedItem(ScaledResolution p_181551_1_, CallbackInfo ci) {
         hyperiumGuiIngame.renderSelectedItem(p_181551_1_);
+    }
+
+    @Overwrite
+    private void renderScoreboard(ScoreObjective objective, ScaledResolution resolution) {
+        hyperiumGuiIngame.renderScoreboard(objective, resolution);
     }
 
     /**
