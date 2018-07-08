@@ -93,13 +93,13 @@ public class CapeHandler {
             LOCK.lock();
 
             for (ICape cape : capes.values()) {
-//                if (selfCape != null && selfCape.equals(cape))
-//                    continue;
+                if (selfCape != null && selfCape.equals(cape))
+                    continue;
                 cape.delete(Minecraft.getMinecraft().getTextureManager());
             }
             capes.clear();
-//            if (selfCape != null)
-//                capes.put(id, selfCape);
+            if (selfCape != null)
+                capes.put(id, selfCape);
         } finally {
             LOCK.unlock();
         }
