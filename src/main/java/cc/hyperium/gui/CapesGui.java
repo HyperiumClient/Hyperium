@@ -86,6 +86,18 @@ public class CapesGui extends HyperiumGui {
         }, guiButton -> {
 
         });
+        reg("CUSTOM", new GuiButton(nextId(), 1, 22, "Custom Cape"), guiButton -> {
+            Desktop desktop = Desktop.getDesktop();
+            if (desktop != null) {
+                try {
+                    desktop.browse(new URL("https://capes.hyperium.cc").toURI());
+                } catch (IOException | URISyntaxException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, guiButton -> {
+
+        });
 
     }
 

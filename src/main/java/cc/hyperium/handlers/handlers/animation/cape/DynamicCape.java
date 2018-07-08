@@ -10,35 +10,30 @@ public class DynamicCape implements ICape {
 
 
     private List<ResourceLocation> locations;
-    private double totalDuration;
+    private double delay;
     private int totalFrames;
     private int frame;
+    private int totalms;
 
-    public DynamicCape(List<ResourceLocation> locations, double totalDuration, int totalFrames) {
-        System.out.println("Created");
+    public DynamicCape(List<ResourceLocation> locations, int delay, int totalFrames) {
         this.locations = locations;
-        this.totalDuration = totalDuration;
+        this.delay = delay;
         this.totalFrames = totalFrames;
+        //Gif delay is in 10's of ms
+        totalms = delay * totalFrames;
     }
 
     public List<ResourceLocation> getLocations() {
         return locations;
     }
 
-    public double getTotalDuration() {
-        return totalDuration;
-    }
-
-    public int getTotalFrames() {
-        return totalFrames;
-    }
 
     @Override
     public ResourceLocation get() {
-        frame++;
-        if (frame >= locations.size()-1)
-            frame = 0;
-        return locations.get(frame);
+        if (totalms == 0)
+            return null;
+        double percent = (double) (System.currentTimeMillis() % totalms) / totalms;
+        return locations.get((int) (percent * (double) totalFrames));
     }
 
     @Override
