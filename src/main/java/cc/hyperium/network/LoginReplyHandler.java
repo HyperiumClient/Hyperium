@@ -11,6 +11,8 @@ import java.util.Arrays;
 import java.util.Iterator;
 
 public class LoginReplyHandler implements PacketHandler<LoginReplyPacket> {
+    public static boolean SHOW_MESSAGES = false;
+
     @Override
     public void handle(LoginReplyPacket loginReplyPacket) {
         if (loginReplyPacket.isAdmin()) {
@@ -27,6 +29,9 @@ public class LoginReplyHandler implements PacketHandler<LoginReplyPacket> {
 
                 @Override
                 public void onExecute(String[] args) {
+                    if (args.length == 1 && args[0].equalsIgnoreCase("show_messages")) {
+                        SHOW_MESSAGES = !SHOW_MESSAGES;
+                    }
                     StringBuilder builder = new StringBuilder();
                     Iterator<String> iterator = Arrays.stream(args).iterator();
                     while (iterator.hasNext()) {
@@ -34,6 +39,7 @@ public class LoginReplyHandler implements PacketHandler<LoginReplyPacket> {
                         if (iterator.hasNext())
                             builder.append(" ");
                     }
+
                     NettyClient.getClient().dispatchCommand(builder.toString());
 
                 }
