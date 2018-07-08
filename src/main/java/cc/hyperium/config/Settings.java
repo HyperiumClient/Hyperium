@@ -301,8 +301,7 @@ public class Settings {
     @ConfigOpt(alt = "cc.hyperium.cosmetics.wings.WingsCosmetic;location")
     @SelectorSetting(name = "Wing Type", items =
             {
-                    "Dragon wings",
-                    "Angel wings"
+                    "Dragon wings"
             }, category = WINGS
     )
     public static String wingsSELECTED = "Dragon wings";
