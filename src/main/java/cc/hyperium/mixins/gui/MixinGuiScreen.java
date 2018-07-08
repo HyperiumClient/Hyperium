@@ -50,7 +50,7 @@ public abstract class MixinGuiScreen {
 
     @Inject(method = "initGui", at = @At("HEAD"))
     private void initGui(CallbackInfo ci) {
-        hyperiumGuiScreen.initGui(ci);
+        hyperiumGuiScreen.initGui();
     }
 
     @Inject(method = "onGuiClosed", at = @At("HEAD"))

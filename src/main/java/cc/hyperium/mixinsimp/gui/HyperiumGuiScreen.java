@@ -32,7 +32,7 @@ public class HyperiumGuiScreen {
         }
     }
 
-    public void initGui(CallbackInfo ci) {
+    public void initGui() {
         if (Settings.BLUR_GUI && !Settings.FAST_CONTAINER) {
             Minecraft.getMinecraft().addScheduledTask(() -> {
                 Method loadShaderMethod = null;

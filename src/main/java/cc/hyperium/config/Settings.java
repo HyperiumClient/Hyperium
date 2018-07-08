@@ -17,9 +17,6 @@
 
 package cc.hyperium.config;
 
-import cc.hyperium.GuiStyle;
-import cc.hyperium.Hyperium;
-
 import static cc.hyperium.config.Category.ANIMATIONS;
 import static cc.hyperium.config.Category.COSMETICS;
 import static cc.hyperium.config.Category.GENERAL;
@@ -28,6 +25,9 @@ import static cc.hyperium.config.Category.INTEGRATIONS;
 import static cc.hyperium.config.Category.MISC;
 import static cc.hyperium.config.Category.SPOTIFY;
 import static cc.hyperium.config.Category.WINGS;
+
+import cc.hyperium.GuiStyle;
+import cc.hyperium.Hyperium;
 
 /*
  * Created by Cubxity on 03/06/2018
@@ -193,7 +193,7 @@ public class Settings {
 
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.CosmeticSettings;fliptoggle")
-    @ToggleSetting(name = "Flip - Keybind Toggle", category = COSMETICS)
+    @ToggleSetting(name = "Flip - Toggle Mode", category = COSMETICS)
     public static boolean isFlipToggle = true;
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.CosmeticSettings;fliptype")
