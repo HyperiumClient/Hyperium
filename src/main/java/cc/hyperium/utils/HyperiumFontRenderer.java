@@ -79,6 +79,9 @@ public class HyperiumFontRenderer {
     }
 
     public int drawString(String text, float x, float y, int color) {
+        if(text == null)
+            return 0;
+
         x *= 2.0F;
         y *= 2.0F;
         float originalX = x;

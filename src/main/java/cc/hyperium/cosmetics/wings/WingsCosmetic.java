@@ -13,7 +13,6 @@ import net.minecraft.util.ResourceLocation;
 public class WingsCosmetic extends AbstractCosmetic {
 
     private final ResourceLocation dragon = new ResourceLocation("textures/cosmetics/wings/dragonwings.png");
-    private final ResourceLocation angel = new ResourceLocation("textures/cosmetics/wings/angelwings.png");
     private Minecraft mc = Minecraft.getMinecraft();
     private WingsRenderer wingsRenderer;
 
@@ -39,8 +38,6 @@ public class WingsCosmetic extends AbstractCosmetic {
         switch (s) {
             case "Dragon wings":
                 return dragon;
-            case "Angel wings":
-                return angel;
             default:
                 return dragon;
         }

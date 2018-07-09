@@ -21,20 +21,26 @@ import cc.hyperium.Hyperium;
 import cc.hyperium.Metadata;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.ServerChatEvent;
+
+import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
 import cc.hyperium.internal.addons.AddonBootstrap;
 import cc.hyperium.internal.addons.AddonManifest;
 import cc.hyperium.mods.timechanger.TimeChanger;
+import cc.hyperium.network.LoginReplyHandler;
 import cc.hyperium.utils.JsonHolder;
+
 import com.google.common.base.Charsets;
 import com.google.common.collect.ObjectArrays;
 import com.google.gson.JsonObject;
 import io.netty.buffer.Unpooled;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.GuiMerchant;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiScreenBook;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.network.NetHandlerPlayClient;
+import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IMerchant;
@@ -62,6 +68,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 
 import java.io.IOException;
+import java.util.Map;
+import java.util.UUID;
 
 /**
  * Provides code that may be used in mods that require it
@@ -70,10 +78,15 @@ import java.io.IOException;
 public abstract class MixinNetHandlerPlayClient {
 
     @Shadow
+    @Final
+    private static Logger logger;
+    @Shadow
+    @Final
+    private Map<UUID, NetworkPlayerInfo> playerInfoMap;
+    @Shadow
     private WorldClient clientWorldController;
     @Shadow
     private Minecraft gameController;
-
     private TimeChanger timeChanger = (TimeChanger) Hyperium.INSTANCE.getModIntegration().getTimeChanger();
 
     /**
@@ -171,6 +184,7 @@ public abstract class MixinNetHandlerPlayClient {
             }
         }
     }
+
     /**
      * @author
      */
@@ -183,9 +197,13 @@ public abstract class MixinNetHandlerPlayClient {
         try {
             int readableBytes = packetBuffer.readableBytes();
             if (readableBytes > 0) {
-                byte[] payload = new byte[readableBytes];
+                byte[] payload = new byte[readableBytes - 1];
                 packetBuffer.readBytes(payload);
                 String message = new String(payload, Charsets.UTF_8);
+
+                EntityPlayerSP thePlayer = Minecraft.getMinecraft().thePlayer;
+                if (LoginReplyHandler.SHOW_MESSAGES)
+                    GeneralChatHandler.instance().sendMessage("Packet message on channel " + packetIn.getChannelName() + " -> " + message);
                 if ("REGISTER".equalsIgnoreCase(packetIn.getChannelName())) {
                     if (message.contains("Hyperium")) {
                         PacketBuffer buffer = new PacketBuffer(Unpooled.buffer());
@@ -244,9 +262,8 @@ public abstract class MixinNetHandlerPlayClient {
         }
     }
 
-    @Shadow @Final private static Logger logger;
-
-    @Shadow public abstract void addToSendQueue(Packet p_147297_1_);
+    @Shadow
+    public abstract void addToSendQueue(Packet p_147297_1_);
 
     /**
      * Allows detection of incoming chat packets from the server (includes actionbars)

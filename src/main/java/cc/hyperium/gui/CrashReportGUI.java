@@ -155,7 +155,9 @@ public class CrashReportGUI extends JDialog {
         report.setFocusPainted(false);
         report.setBounds(2, 208, 196, 20);
         report.addActionListener(e -> Multithreading.runAsync(() -> {
-            if (update.isSupported() || Hyperium.INSTANCE.isDevEnv()) {
+            if (!update.isSupported() || !Metadata.isDevelopment()) {
+                report.setText("Outdated Build");
+            } else {
                 report.setEnabled(false);
                 report.setText("REPORTING...");
                 if (sendReport()) {
@@ -166,14 +168,6 @@ public class CrashReportGUI extends JDialog {
                     report.setText("COPIED TO CLIPBOARD");
                 } else {
                     report.setText("FAILED TO REPORT");
-                }
-            } else {
-                report.setEnabled(false);
-                report.setText("Update Hyperium");
-                try {
-                    Desktop.getDesktop().browse(new URI("https://hyperium.cc"));
-                } catch (IOException | URISyntaxException e1) {
-                    e1.printStackTrace();
                 }
             }
         }));
@@ -253,13 +247,13 @@ public class CrashReportGUI extends JDialog {
                 return false;
 
             NettyClient client = NettyClient.getClient();
-            if(client!=null)
-            client.write(ServerCrossDataPacket.build(new JsonHolder().put("crash_report", true).put("internal", true).put("crash",
-                    new JsonHolder()
-                            .put("crash-full", report == null ? "unavailable" : hurl)
-                            .put("hyperium", Metadata.getVersion())
-                            .put("addons", addons.toString())
-            )));
+            if (client != null)
+                client.write(ServerCrossDataPacket.build(new JsonHolder().put("crash_report", true).put("internal", true).put("crash",
+                        new JsonHolder()
+                                .put("crash-full", report == null ? "unavailable" : hurl)
+                                .put("hyperium", Metadata.getVersion())
+                                .put("addons", addons.toString())
+                )));
             return true;
         } catch (Exception ex) {
             ex.printStackTrace();

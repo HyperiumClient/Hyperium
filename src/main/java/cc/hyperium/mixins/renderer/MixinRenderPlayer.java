@@ -17,10 +17,7 @@
 
 package cc.hyperium.mixins.renderer;
 
-import cc.hyperium.Hyperium;
-import cc.hyperium.config.Settings;
-import cc.hyperium.event.EventBus;
-import cc.hyperium.event.RenderPlayerEvent;
+import cc.hyperium.mixinsimp.renderer.HyperiumRenderPlayer;
 import cc.hyperium.mixinsimp.renderer.layers.TwoPartLayerBipedArmor;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.model.ModelBase;
@@ -39,6 +36,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(RenderPlayer.class)
 public abstract class MixinRenderPlayer extends RendererLivingEntity<AbstractClientPlayer> {
+
+    private HyperiumRenderPlayer hyperiumRenderPlayer = new HyperiumRenderPlayer((RenderPlayer) (Object) this);
 
     public MixinRenderPlayer(RenderManager renderManagerIn, ModelBase modelBaseIn, float shadowSizeIn) {
         super(renderManagerIn, modelBaseIn, shadowSizeIn);
@@ -63,16 +62,7 @@ public abstract class MixinRenderPlayer extends RendererLivingEntity<AbstractCli
 
     @Inject(method = "doRender", at = @At("HEAD"), cancellable = true)
     private void doRender(AbstractClientPlayer entity, double x, double y, double z, float entityYaw, float partialTicks, CallbackInfo ci) {
-        if (Settings.TURN_PEOPLE_INTO_BLOCKS) {
-            try {
-                ci.cancel();
-                Hyperium.INSTANCE.getHandlers().getRenderPlayerAsBlock().reDraw(entity, x, y, z);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        } else
-            EventBus.INSTANCE.post(new RenderPlayerEvent(entity, renderManager, x, y, z, partialTicks));
-
+        hyperiumRenderPlayer.doRender(entity, x, y, z, entityYaw, partialTicks, ci, renderManager);
     }
 
     /**
@@ -83,8 +73,7 @@ public abstract class MixinRenderPlayer extends RendererLivingEntity<AbstractCli
      */
     @Inject(method = "renderRightArm", at = @At(value = "FIELD", ordinal = 3))
     private void onUpdateTimer(AbstractClientPlayer clientPlayer, CallbackInfo ci) {
-        ModelPlayer modelplayer = this.getMainModel();
-        modelplayer.isRiding = modelplayer.isSneak = false;
+        hyperiumRenderPlayer.onUpdateTimer(clientPlayer, ci);
     }
 }
 

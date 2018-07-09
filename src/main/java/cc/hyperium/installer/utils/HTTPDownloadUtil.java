@@ -51,7 +51,6 @@ public class HTTPDownloadUtil {
         httpConn.setDoOutput(true);
 
         int responseCode = httpConn.getResponseCode();
-
         // always check HTTP response code first
         if (responseCode == HttpURLConnection.HTTP_OK) {
             String disposition = httpConn.getHeaderField("Content-Disposition");

@@ -17,11 +17,8 @@
 
 package cc.hyperium.mixins.utils;
 
+import cc.hyperium.mixinsimp.HyperiumResourcePackRepository;
 import net.minecraft.client.resources.ResourcePackRepository;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.filefilter.TrueFileFilter;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -34,22 +31,16 @@ import java.io.File;
 @Mixin(ResourcePackRepository.class)
 public class MixinResourcePackRepository {
 
-    @Final
-    @Shadow
-    private static final Logger logger = LogManager.getLogger();
+
     @Final
     @Shadow
     private final File dirServerResourcepacks = null;
-
+    private HyperiumResourcePackRepository hyperiumResourcePackRepository = new HyperiumResourcePackRepository();
     /**
      * @author
      */
     @Inject(method = "func_183028_i", at = @At("HEAD"), cancellable = true)
     private void func_183028_i(CallbackInfo callbackInfo) {
-        try {
-            FileUtils.listFiles(this.dirServerResourcepacks, TrueFileFilter.TRUE, null);
-        } catch (Exception e) {
-            callbackInfo.cancel();
-        }
+        hyperiumResourcePackRepository.func_183028_i(callbackInfo,dirServerResourcepacks);
     }
 }

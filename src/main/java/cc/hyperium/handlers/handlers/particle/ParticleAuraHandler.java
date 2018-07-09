@@ -8,12 +8,12 @@ import cc.hyperium.event.WorldChangeEvent;
 import cc.hyperium.handlers.handlers.particle.animations.DoubleHelix;
 import cc.hyperium.handlers.handlers.particle.animations.DoubleTwirlAnimation;
 import cc.hyperium.handlers.handlers.particle.animations.ExplodeAnimation;
-import cc.hyperium.handlers.handlers.particle.animations.VortexOfDoomAnimation;
 import cc.hyperium.handlers.handlers.particle.animations.QuadTwirlAnimation;
 import cc.hyperium.handlers.handlers.particle.animations.StaticTrailAnimation;
 import cc.hyperium.handlers.handlers.particle.animations.TornadoAnimation;
 import cc.hyperium.handlers.handlers.particle.animations.TripleTwirlAnimation;
-import cc.hyperium.mixinsimp.renderer.IMixinEntityFx;
+import cc.hyperium.handlers.handlers.particle.animations.VortexOfDoomAnimation;
+import cc.hyperium.mixins.entity.IMixinEntityFx;
 import cc.hyperium.utils.JsonHolder;
 import cc.hyperium.utils.UUIDUtil;
 import net.minecraft.client.Minecraft;
@@ -134,7 +134,7 @@ public class ParticleAuraHandler {
                         entityFX.setRBGColorF(particleAura.getRed() / 255F, particleAura.getBlue() / 255F, particleAura.getBlue() / 255F);
                     }
                     e.setParticleGravity(10);
-                    e.setMaxAge(particleMaxAge);
+                    e.setParticleMaxAge(particleMaxAge);
                     Minecraft.getMinecraft().effectRenderer.addEffect(entityFX);
                 }
             }

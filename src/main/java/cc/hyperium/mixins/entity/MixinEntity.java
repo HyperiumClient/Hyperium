@@ -18,10 +18,8 @@
 package cc.hyperium.mixins.entity;
 
 
-import net.minecraft.client.Minecraft;
+import cc.hyperium.mixinsimp.entity.HyperiumEntity;
 import net.minecraft.entity.Entity;
-import net.minecraft.event.HoverEvent;
-import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.util.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
@@ -33,53 +31,29 @@ import java.util.UUID;
 @Mixin(Entity.class)
 public abstract class MixinEntity {
 
-    private long nameCacheTime = System.currentTimeMillis();
     @Shadow
     public double posX;
     @Shadow
     public double posY;
-    @Shadow
-    public double posZ;
-    @Shadow
-    public double prevPosX;
-    @Shadow
-    public double prevPosY;
-    @Shadow
-    public double prevPosZ;
-    private IChatComponent cachedName;
 
     @Shadow
     public abstract String getName();
 
     @Shadow
-    protected abstract HoverEvent getHoverEvent();
-
-    @Shadow
     public abstract UUID getUniqueID();
+
+    private HyperiumEntity hyperiumEntity = new HyperiumEntity((Entity) (Object) this);
 
     /**
      * @author Sk1er
      */
     @Overwrite
     public IChatComponent getDisplayName() {
-        if (cachedName == null || System.currentTimeMillis() - nameCacheTime > 50L) {
-            ChatComponentText chatcomponenttext = new ChatComponentText(this.getName());
-            //not needed otherwise
-            if (Minecraft.getMinecraft().isIntegratedServerRunning())
-                chatcomponenttext.getChatStyle().setChatHoverEvent(this.getHoverEvent());
-            chatcomponenttext.getChatStyle().setInsertion(this.getUniqueID().toString());
-            this.cachedName = chatcomponenttext;
-            nameCacheTime=System.currentTimeMillis();
-        }
-        return cachedName;
+        return hyperiumEntity.getDisplayName();
     }
 
     @Shadow
     Vec3 getLook(float particalTicks) {
         return null;
     }
-
-    @Shadow
-    public abstract float getEyeHeight();
-
 }

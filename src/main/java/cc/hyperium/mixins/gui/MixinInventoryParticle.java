@@ -17,8 +17,7 @@
 
 package cc.hyperium.mixins.gui;
 
-import cc.hyperium.gui.ParticleOverlay;
-import net.minecraft.client.Minecraft;
+import cc.hyperium.mixinsimp.gui.HyperiumInventoryParticle;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -37,14 +36,10 @@ public class MixinInventoryParticle {
     @Shadow
     private int xSize;
 
+    private HyperiumInventoryParticle hyperiumInventoryParticle = new HyperiumInventoryParticle((GuiContainer) (Object) this);
+
     @Inject(method = "drawScreen", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/inventory/GuiContainer;drawGuiContainerBackgroundLayer(FII)V"))
     private void draw(int mouseX, int mouseY, float partialTicks, CallbackInfo ci) {
-
-        ParticleOverlay overlay = ParticleOverlay.getOverlay();
-        if (overlay.getMode() == ParticleOverlay.Mode.OFF)
-            return;
-
-        overlay.render(mouseX, mouseY, guiLeft - (Minecraft.getMinecraft().thePlayer.getActivePotionEffects().isEmpty() ? 0 : xSize * 3 / 4), guiTop - 5, guiLeft + (240 * 4 / 5), guiTop + (240 * 4 / 5 - 10));
-
+        hyperiumInventoryParticle.draw(mouseX,mouseY,partialTicks,this.guiLeft,this.xSize,this.guiTop,ci);
     }
 }

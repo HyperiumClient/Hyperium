@@ -71,6 +71,7 @@ public class NetworkHandler implements INetty {
                 Minecraft.getMinecraft().displayGuiScreen(null);
         } else if (type.equalsIgnoreCase("cache_update")) {
             PurchaseApi.getInstance().reload(UUID.fromString(jsonHolder.optString("uuid")));
+
         }
     }
 
