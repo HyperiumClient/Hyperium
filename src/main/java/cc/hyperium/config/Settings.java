@@ -17,6 +17,9 @@
 
 package cc.hyperium.config;
 
+import cc.hyperium.GuiStyle;
+import cc.hyperium.Hyperium;
+
 import static cc.hyperium.config.Category.ANIMATIONS;
 import static cc.hyperium.config.Category.COSMETICS;
 import static cc.hyperium.config.Category.GENERAL;
@@ -25,9 +28,6 @@ import static cc.hyperium.config.Category.INTEGRATIONS;
 import static cc.hyperium.config.Category.MISC;
 import static cc.hyperium.config.Category.SPOTIFY;
 import static cc.hyperium.config.Category.WINGS;
-
-import cc.hyperium.GuiStyle;
-import cc.hyperium.Hyperium;
 
 /*
  * Created by Cubxity on 03/06/2018
@@ -392,6 +392,10 @@ public class Settings {
     @ToggleSetting(name = "Always show super secret settings", category = MISC)
     public static boolean ALWAYS_SHOW_SUPER_SECRET_SETTINGS = false;
 
+
+    @ConfigOpt
+    @ToggleSetting(name = "Show Hit Distances")
+    public static boolean SHOW_HIT_DISTANCES = false;
     public static void register() {
         Hyperium.CONFIG.register(new Settings()); // values r static soo whatever
     }

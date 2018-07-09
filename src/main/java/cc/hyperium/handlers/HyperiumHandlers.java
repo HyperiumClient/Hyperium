@@ -54,6 +54,7 @@ import cc.hyperium.handlers.handlers.keybinds.KeyBindHandler;
 import cc.hyperium.handlers.handlers.mixin.LayerDeadmau5HeadHandler;
 import cc.hyperium.handlers.handlers.particle.ParticleAuraHandler;
 import cc.hyperium.handlers.handlers.privatemessages.PrivateMessageHandler;
+import cc.hyperium.handlers.handlers.reach.ReachDisplay;
 import cc.hyperium.handlers.handlers.remoteresources.RemoteResourcesHandler;
 import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
 import net.minecraft.client.Minecraft;
@@ -93,6 +94,7 @@ public class HyperiumHandlers {
     private GameDataTracking dataTracking;
     private QuestTrackingChatHandler questTracking;
     private RenderPlayerAsBlock renderPlayerAsBlock;
+    private ReachDisplay reachDisplay;
     private FlipHandler flipHandler;
     private LayerDeadmau5HeadHandler layerDeadmau5HeadHandler;
     public HyperiumHandlers() {
@@ -107,6 +109,7 @@ public class HyperiumHandlers {
         register(keybindHandler = new KeyBindHandler());
         register(hypixelDetector = new HypixelDetector());
         register(flipHandler = new FlipHandler());
+        register(reachDisplay = new ReachDisplay());
         register(locationHandler = new LocationHandler());
         register(valueHandler = new ValueHandler());
         register(layerDeadmau5HeadHandler = new LayerDeadmau5HeadHandler());
@@ -274,5 +277,9 @@ public class HyperiumHandlers {
 
     public StatusHandler getStatusHandler() {
         return statusHandler;
+    }
+
+    public ReachDisplay getReachDisplay() {
+        return reachDisplay;
     }
 }
