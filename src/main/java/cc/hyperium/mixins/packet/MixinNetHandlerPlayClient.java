@@ -21,17 +21,13 @@ import cc.hyperium.Hyperium;
 import cc.hyperium.Metadata;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.ServerChatEvent;
-
 import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
 import cc.hyperium.internal.addons.AddonBootstrap;
 import cc.hyperium.internal.addons.AddonManifest;
 import cc.hyperium.mods.timechanger.TimeChanger;
 import cc.hyperium.network.LoginReplyHandler;
-import cc.hyperium.utils.JsonHolder;
-
 import com.google.common.base.Charsets;
 import com.google.common.collect.ObjectArrays;
-import com.google.gson.JsonObject;
 import io.netty.buffer.Unpooled;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -68,6 +64,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -209,24 +206,23 @@ public abstract class MixinNetHandlerPlayClient {
                         PacketBuffer buffer = new PacketBuffer(Unpooled.buffer());
                         buffer.writeString("Hyperium;" + Metadata.getVersion() + ";" + Metadata.getVersionID());
                         addToSendQueue(new C17PacketCustomPayload("REGISTER", buffer));
-                    }
-                }
-                if("hyperium|Addons".equalsIgnoreCase(packetIn.getChannelName())){
-                    PacketBuffer buffer = new PacketBuffer(Unpooled.buffer());
-                    JsonHolder addons = new JsonHolder();
-                    for(AddonManifest addonmanifest : AddonBootstrap.INSTANCE.getAddonManifests()){
-                        String addonname = addonmanifest.getName();
-                        if(addonname == null){
-                            addonname = addonmanifest.getMainClass();
+                        PacketBuffer addonbuffer = new PacketBuffer(Unpooled.buffer());
+                        List<AddonManifest> addons = AddonBootstrap.INSTANCE.getAddonManifests();
+                        addonbuffer.writeInt(addons.size());
+                        for(AddonManifest addonmanifest : addons){
+                            String addonName = addonmanifest.getName();
+                            String version = addonmanifest.getVersion();
+                            if(addonName == null){
+                                addonName = addonmanifest.getMainClass();
+                            }
+                            if(version == null){
+                                version = "unknown";
+                            }
+                            addonbuffer.writeString(addonName);
+                            addonbuffer.writeString(version);
                         }
-                        if(addonname != null) {
-                            JsonObject addon = new JsonObject();
-                            addon.addProperty("version", addonmanifest.getVersion());
-                            addons.put(addonname, addon);
-                        }
+                        addToSendQueue(new C17PacketCustomPayload("hyperium|Addons", addonbuffer));
                     }
-                    buffer.writeString(addons.toString());
-                    addToSendQueue(new C17PacketCustomPayload("hyperium|Addons", buffer));
                 }
             }
         } catch (Exception ex) {
