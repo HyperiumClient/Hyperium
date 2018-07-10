@@ -14,7 +14,10 @@ public class CapeUtils {
     public static BufferedImage parseCape(final BufferedImage img) {
         int imageWidth = 64;
         int imageHeight = 32;
-        for (int srcWidth = img.getWidth(), srcHeight = img.getHeight(); imageWidth < srcWidth || imageHeight < srcHeight; imageWidth *= 2, imageHeight *= 2) {
+        int srcWidth = img.getWidth(), srcHeight = img.getHeight();
+        while (imageWidth < srcWidth || imageHeight < srcHeight) {
+            imageWidth *= 2;
+            imageHeight *= 2;
         }
         final BufferedImage imgNew = new BufferedImage(imageWidth, imageHeight, 2);
         final Graphics g = imgNew.getGraphics();

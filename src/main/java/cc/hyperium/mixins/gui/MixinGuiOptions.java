@@ -1,5 +1,6 @@
 package cc.hyperium.mixins.gui;
 
+import cc.hyperium.mixinsimp.gui.HyperiumGuiOptions;
 import net.minecraft.client.gui.GuiOptions;
 import net.minecraft.client.gui.GuiScreen;
 import org.spongepowered.asm.mixin.Mixin;
@@ -10,15 +11,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(GuiOptions.class)
 public class MixinGuiOptions extends GuiScreen {
 
+    private HyperiumGuiOptions hyperiumGuiOptions = new HyperiumGuiOptions((GuiOptions) (Object) this);
+
     /**
      * @reason Snap done to bottom of the screen
      */
     @Inject(method = "initGui", at = @At(value = "RETURN"))
     public void initGui(CallbackInfo c) {
-        this.buttonList.forEach(b -> {
-            if (b.id == 200) {
-                b.yPosition = this.height - 30;
-            }
-        });
+        hyperiumGuiOptions.initGui(this.buttonList);
     }
 }

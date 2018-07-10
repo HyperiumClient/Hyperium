@@ -15,22 +15,39 @@ public class BlurDisableFallback {
      * Last screen known to to be displayed to this object
      */
     private GuiScreen lastKnownScreen;
+    private boolean initialBlur = Settings.BLUR_GUI;
+    private boolean loadedBlur = false;
 
     @InvokeEvent
     private void onTick(TickEvent event) {
-        if (Minecraft.getMinecraft() != null &&
-                Settings.BLUR_GUI &&
-                Minecraft.getMinecraft().entityRenderer != null &&
-                Minecraft.getMinecraft().entityRenderer.isShaderActive()) {
+        Minecraft mc = Minecraft.getMinecraft();
 
-            final GuiScreen currentScreen = Minecraft.getMinecraft().currentScreen;
+        // Clear shaders on disable.
+        if (mc != null && mc.entityRenderer != null) {
+            if(loadedBlur == false){
+                // Loads blur setting for first time.
+                loadedBlur = true;
+                initialBlur = Settings.BLUR_GUI;
+            }
+            if(Settings.BLUR_GUI == false && Settings.BLUR_GUI != initialBlur){
+                // Blur was just disabled.
+                mc.addScheduledTask(() ->
+                    mc.entityRenderer.stopUseShader());
+            }
+
+            initialBlur = Settings.BLUR_GUI;
+        }
+
+        if (mc != null && Settings.BLUR_GUI && mc.entityRenderer != null && mc.entityRenderer.isShaderActive()) {
+            GuiScreen currentScreen = mc.currentScreen;
 
             if (lastKnownScreen != currentScreen) {
-                if (currentScreen == null) // Disable shaders if screen just closed
-                    Minecraft.getMinecraft().addScheduledTask(() ->
-                            Minecraft.getMinecraft().entityRenderer.stopUseShader());
+                if (currentScreen == null) { // Disable shaders if screen just closed
+                    mc.addScheduledTask(() ->
+                        mc.entityRenderer.stopUseShader());
+                }
 
-                lastKnownScreen = Minecraft.getMinecraft().currentScreen;
+                lastKnownScreen = mc.currentScreen;
             }
         }
     }

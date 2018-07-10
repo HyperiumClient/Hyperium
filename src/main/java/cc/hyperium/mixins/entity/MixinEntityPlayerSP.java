@@ -17,17 +17,18 @@
 
 package cc.hyperium.mixins.entity;
 
-import cc.hyperium.config.Settings;
+import cc.hyperium.mixinsimp.entity.HyperiumEntityPlayerSP;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.EnumParticleTypes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 
 @Mixin(EntityPlayerSP.class)
 public class MixinEntityPlayerSP {
+
+    private HyperiumEntityPlayerSP hyperiumEntityPlayerSP = new HyperiumEntityPlayerSP((EntityPlayerSP) (Object) this);
 
     @Shadow
     private Minecraft mc;
@@ -40,9 +41,7 @@ public class MixinEntityPlayerSP {
      */
     @Overwrite
     public void onEnchantmentCritical(Entity entityHit) {
-        if (Minecraft.getMinecraft().isSingleplayer() || !Settings.CRIT_FIX) {
-            this.mc.effectRenderer.emitParticleAtEntity(entityHit, EnumParticleTypes.CRIT_MAGIC);
-        }
+        hyperiumEntityPlayerSP.onEnchantmentCritical(entityHit,this.mc);
     }
 
     /**
@@ -53,8 +52,6 @@ public class MixinEntityPlayerSP {
      */
     @Overwrite
     public void onCriticalHit(Entity entityHit) {
-        if (Minecraft.getMinecraft().isSingleplayer() || !Settings.CRIT_FIX) {
-            this.mc.effectRenderer.emitParticleAtEntity(entityHit, EnumParticleTypes.CRIT);
-        }
+        hyperiumEntityPlayerSP.onCriticalHit(entityHit,mc);
     }
 }

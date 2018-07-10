@@ -17,12 +17,7 @@
 
 package cc.hyperium.mixins.gui;
 
-import cc.hyperium.Hyperium;
-import cc.hyperium.event.EventBus;
-import cc.hyperium.event.SendChatMessageEvent;
-import cc.hyperium.handlers.handlers.HypixelDetector;
-import cc.hyperium.utils.ChatUtil;
-import net.minecraft.client.Minecraft;
+import cc.hyperium.mixinsimp.gui.HyperiumGuiChat;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.util.EnumChatFormatting;
@@ -36,17 +31,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(GuiChat.class)
 public class MixinGuiChat {
 
-    private final Minecraft mc = Minecraft.getMinecraft();
     @Shadow
     private GuiTextField inputField;
 
+    private HyperiumGuiChat hyperiumGuiChat = new HyperiumGuiChat((GuiChat) (Object) this);
+
     @Inject(method = "initGui", at = @At("RETURN"))
     private void init(CallbackInfo ci) {
-        if (HypixelDetector.getInstance().isHypixel()) {
-            this.inputField.setMaxStringLength(256);
-        } else {
-            this.inputField.setMaxStringLength(100);
-        }
+        hyperiumGuiChat.init(inputField);
     }
 
     /**
@@ -59,20 +51,12 @@ public class MixinGuiChat {
      */
     @Inject(method = "keyTyped", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiChat;sendChatMessage(Ljava/lang/String;)V", shift = At.Shift.BEFORE), cancellable = true)
     private void keyTyped(char typedChar, int keyCode, CallbackInfo ci) {
-        String msg = this.inputField.getText().trim();
-        SendChatMessageEvent event = new SendChatMessageEvent(msg);
-        EventBus.INSTANCE.post(event);
-        if (!event.isCancelled()) {
-            ChatUtil.sendMessage(msg);
-        }
-        this.mc.ingameGUI.getChatGUI().addToSentMessages(event.getMessage());
-        this.mc.displayGuiScreen(null);
-        ci.cancel();
+        hyperiumGuiChat.keyTyped(inputField, ci);
     }
 
     @Inject(method = "sendAutocompleteRequest", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/NetHandlerPlayClient;addToSendQueue(Lnet/minecraft/network/Packet;)V", shift = At.Shift.BEFORE))
     private void onSendAutocompleteRequest(String leftOfCursor, String fullInput, CallbackInfo ci) {
-        Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().autoComplete(leftOfCursor);
+        hyperiumGuiChat.onSendAutocompleteRequest(leftOfCursor);
     }
 
     @ModifyArg(method = "onAutocompleteResponse", at = @At(value = "INVOKE", target = "Ljava/lang/String;equalsIgnoreCase(Ljava/lang/String;)Z"))

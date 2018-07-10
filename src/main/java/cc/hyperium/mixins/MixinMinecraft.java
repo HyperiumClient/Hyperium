@@ -168,78 +168,35 @@
 
 package cc.hyperium.mixins;
 
-import cc.hyperium.Hyperium;
 import cc.hyperium.SplashProgress;
-import cc.hyperium.config.Settings;
-import cc.hyperium.event.EventBus;
-import cc.hyperium.event.GuiOpenEvent;
-import cc.hyperium.event.InitializationEvent;
-import cc.hyperium.event.KeypressEvent;
-import cc.hyperium.event.KeyreleaseEvent;
-import cc.hyperium.event.LeftMouseClickEvent;
-import cc.hyperium.event.MouseButtonEvent;
-import cc.hyperium.event.PreInitializationEvent;
-import cc.hyperium.event.RenderPlayerEvent;
-import cc.hyperium.event.RightMouseClickEvent;
-import cc.hyperium.event.SingleplayerJoinEvent;
-import cc.hyperium.event.TickEvent;
-import cc.hyperium.event.WorldChangeEvent;
-import cc.hyperium.gui.CrashReportGUI;
-import cc.hyperium.gui.HyperiumMainMenu;
-import cc.hyperium.handlers.HyperiumHandlers;
-import cc.hyperium.internal.addons.AddonBootstrap;
-import cc.hyperium.internal.addons.AddonMinecraftBootstrap;
-import cc.hyperium.internal.addons.IAddon;
-import cc.hyperium.utils.AddonWorkspaceResourcePack;
-import cc.hyperium.utils.Utils;
-import cc.hyperium.utils.mods.FPSLimiter;
+import cc.hyperium.mixinsimp.HyperiumMinecraft;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.GuiGameOver;
 import net.minecraft.client.gui.GuiIngame;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.multiplayer.PlayerControllerMP;
+import net.minecraft.client.gui.achievement.GuiAchievement;
 import net.minecraft.client.multiplayer.WorldClient;
-import net.minecraft.client.particle.EffectRenderer;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.resources.DefaultResourcePack;
-import net.minecraft.client.resources.FileResourcePack;
 import net.minecraft.client.resources.IResourcePack;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.crash.CrashReport;
-import net.minecraft.init.Bootstrap;
 import net.minecraft.profiler.Profiler;
-import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Timer;
-import net.minecraft.util.Util;
 import net.minecraft.world.WorldSettings;
-import org.apache.logging.log4j.Logger;
 import org.lwjgl.LWJGLException;
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Mouse;
-import org.lwjgl.opengl.Display;
-import org.lwjgl.opengl.DisplayMode;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.gen.Accessor;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.lang.management.ManagementFactory;
-import java.nio.ByteBuffer;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 @Mixin(Minecraft.class)
@@ -248,13 +205,14 @@ public abstract class MixinMinecraft {
     @Shadow
     private static Minecraft theMinecraft;
     @Shadow
-    @Final
-    private static Logger logger;
-    @Shadow
     public FontRenderer fontRendererObj;
     @Shadow
     @Final
     public Profiler mcProfiler;
+    @Shadow
+    public boolean inGameHasFocus;
+    @Shadow
+    public GuiAchievement guiAchievement;
     @Shadow
     private int displayHeight;
     @Shadow
@@ -272,16 +230,6 @@ public abstract class MixinMinecraft {
     @Shadow
     private boolean skipRenderWorld;
     @Shadow
-    private MovingObjectPosition objectMouseOver;
-    @Shadow
-    private EffectRenderer effectRenderer;
-    @Shadow
-    private PlayerControllerMP playerController;
-    @Shadow
-    private int tempDisplayHeight;
-    @Shadow
-    private int tempDisplayWidth;
-    @Shadow
     private boolean fullscreen;
     @Shadow
     @Final
@@ -289,22 +237,18 @@ public abstract class MixinMinecraft {
     @Shadow
     private SoundHandler mcSoundHandler;
     @Shadow
-    private int leftClickCounter;
-    @Shadow
     @Final
     private List<IResourcePack> defaultResourcePacks;
-    private long lastAttack;
     @Shadow
     private boolean enableGLErrorChecking;
-
+    private HyperiumMinecraft hyperiumMinecraft = new HyperiumMinecraft((Minecraft) (Object) this);
     @Shadow
-    protected abstract void resize(int width, int height);
-
+    private Timer timer;
     @Shadow
-    public abstract void updateDisplay();
+    private RenderManager renderManager;
 
-    @Accessor
-    public abstract Timer getTimer();
+    protected MixinMinecraft() {
+    }
 
     /**
      * Invoked once the game is launching
@@ -313,23 +257,12 @@ public abstract class MixinMinecraft {
      */
     @Inject(method = "startGame", at = @At("HEAD"))
     private void preinit(CallbackInfo ci) {
-        this.defaultResourcePacks.add(this.mcDefaultResourcePack);
-        for (File file : AddonBootstrap.getAddonResourcePacks()) {
-            this.defaultResourcePacks.add(file == null ? new AddonWorkspaceResourcePack() : new FileResourcePack(file));
-        }
-        AddonMinecraftBootstrap.init();
-        EventBus.INSTANCE.post(new PreInitializationEvent());
+        hyperiumMinecraft.preinit(ci, defaultResourcePacks, mcDefaultResourcePack, defaultResourcePacks);
     }
 
     @Inject(method = "runGameLoop", at = @At("HEAD"))
     public void loop(CallbackInfo info) {
-        if(inGameHasFocus && theWorld!=null && Settings.SHOW_PART_1ST_PERSON) {
-            HyperiumHandlers handlers = Hyperium.INSTANCE.getHandlers();
-            if (handlers != null) {
-
-                handlers.getParticleAuraHandler().renderPlayer(new RenderPlayerEvent(thePlayer,renderManager,0,0,0,timer.renderPartialTicks));
-            }
-        }
+        hyperiumMinecraft.loop(info, inGameHasFocus, theWorld, thePlayer, renderManager, timer);
     }
 
     /**
@@ -339,9 +272,9 @@ public abstract class MixinMinecraft {
      */
     @Inject(method = "startGame", at = @At("RETURN"))
     private void init(CallbackInfo ci) {
+        //Accessor not needed since its only set once
         enableGLErrorChecking = false;
-        EventBus.INSTANCE.register(Hyperium.INSTANCE);
-        EventBus.INSTANCE.post(new InitializationEvent());
+        hyperiumMinecraft.startGame(ci);
     }
 
     /**
@@ -351,9 +284,7 @@ public abstract class MixinMinecraft {
      */
     @Inject(method = "runTick", at = @At("RETURN"))
     private void runTick(CallbackInfo ci) {
-        mcProfiler.startSection("hyperium_tick");
-        EventBus.INSTANCE.post(new TickEvent());
-        mcProfiler.endSection();
+        hyperiumMinecraft.runTick(ci, mcProfiler);
     }
 
     /**
@@ -363,17 +294,7 @@ public abstract class MixinMinecraft {
      */
     @Inject(method = "dispatchKeypresses", at = @At(value = "INVOKE_ASSIGN", target = "Lorg/lwjgl/input/Keyboard;getEventKeyState()Z"))
     private void runTickKeyboard(CallbackInfo ci) {
-        int key = Keyboard.getEventKey();
-        boolean repeat = Keyboard.isRepeatEvent();
-        boolean press = Keyboard.getEventKeyState();
-
-        if (press) {
-            // Key has been pressed.
-            EventBus.INSTANCE.post(new KeypressEvent(key, repeat));
-        } else {
-            // Key has been released.
-            EventBus.INSTANCE.post(new KeyreleaseEvent(key, repeat));
-        }
+        hyperiumMinecraft.runTickKeyboard(ci);
     }
 
     /**
@@ -383,7 +304,7 @@ public abstract class MixinMinecraft {
      */
     @Inject(method = "clickMouse", at = @At("RETURN"))
     private void clickMouse(CallbackInfo ci) {
-        EventBus.INSTANCE.post(new LeftMouseClickEvent());
+        hyperiumMinecraft.clickMouse(ci);
     }
 
     /**
@@ -393,7 +314,7 @@ public abstract class MixinMinecraft {
      */
     @Inject(method = "rightClickMouse", at = @At("RETURN"))
     private void rightClickMouse(CallbackInfo ci) {
-        EventBus.INSTANCE.post(new RightMouseClickEvent());
+        hyperiumMinecraft.rightClickMouse(ci);
     }
 
     /**
@@ -403,7 +324,7 @@ public abstract class MixinMinecraft {
      */
     @Inject(method = "launchIntegratedServer", at = @At("HEAD"))
     private void launchIntegratedServer(String folderName, String worldName, WorldSettings worldSettingsIn, CallbackInfo ci) {
-        EventBus.INSTANCE.post(new SingleplayerJoinEvent());
+        hyperiumMinecraft.launchIntegratedServer(folderName, worldName, worldSettingsIn, ci);
     }
 
     /**
@@ -414,49 +335,12 @@ public abstract class MixinMinecraft {
      */
     @Inject(method = "setInitialDisplayMode", at = @At(value = "HEAD"), cancellable = true)
     private void displayFix(CallbackInfo ci) throws LWJGLException {
-        Display.setFullscreen(false);
-        if (this.fullscreen) {
-            if (Settings.WINDOWED_FULLSCREEN) {
-                System.setProperty("org.lwjgl.opengl.Window.undecorated", "true");
-            } else {
-                Display.setFullscreen(true);
-                DisplayMode displaymode = Display.getDisplayMode();
-                this.displayWidth = Math.max(1, displaymode.getWidth());
-                this.displayHeight = Math.max(1, displaymode.getHeight());
-            }
-        } else {
-            if (Settings.WINDOWED_FULLSCREEN) {
-                System.setProperty("org.lwjgl.opengl.Window.undecorated", "false");
-            } else {
-                Display.setDisplayMode(new DisplayMode(this.displayWidth, this.displayHeight));
-            }
-        }
-        Display.setResizable(false);
-        Display.setResizable(true);
-
-        // effectively overwrites the method
-        ci.cancel();
+        hyperiumMinecraft.displayFix(ci, fullscreen, displayWidth, displayHeight);
     }
 
     @Inject(method = "toggleFullscreen", at = @At(value = "INVOKE", target = "Lorg/lwjgl/opengl/Display;setVSyncEnabled(Z)V", shift = At.Shift.AFTER))
     private void fullScreenFix(CallbackInfo ci) throws LWJGLException {
-        if (Settings.WINDOWED_FULLSCREEN) {
-            if (fullscreen) {
-                System.setProperty("org.lwjgl.opengl.Window.undecorated", "true");
-                Display.setDisplayMode(Display.getDesktopDisplayMode());
-                Display.setLocation(0, 0);
-                Display.setFullscreen(false);
-            } else {
-                System.setProperty("org.lwjgl.opengl.Window.undecorated", "false");
-                Display.setDisplayMode(new DisplayMode(this.displayWidth, this.displayHeight));
-
-            }
-        } else {
-            Display.setFullscreen(this.fullscreen);
-            System.setProperty("org.lwjgl.opengl.Window.undecorated", "false");
-        }
-        Display.setResizable(false);
-        Display.setResizable(true);
+        hyperiumMinecraft.fullScreenFix(ci, fullscreen, displayWidth, displayHeight);
     }
 
     /**
@@ -466,16 +350,7 @@ public abstract class MixinMinecraft {
      */
     @Overwrite
     private void setWindowIcon() {
-        if (Util.getOSType() != Util.EnumOS.OSX) {
-            try (InputStream inputStream16x = Minecraft.class.getResourceAsStream("/assets/hyperium/icons/icon-16x.png");
-                 InputStream inputStream32x = Minecraft.class.getResourceAsStream("/assets/hyperium/icons/icon-32x.png")) {
-                ByteBuffer[] icons = new ByteBuffer[]{Utils.INSTANCE.readImageToBuffer(inputStream16x),
-                        Utils.INSTANCE.readImageToBuffer(inputStream32x)};
-                Display.setIcon(icons);
-            } catch (Exception e) {
-                Hyperium.LOGGER.error("Couldn't set Windows Icon", e);
-            }
-        }
+        hyperiumMinecraft.setWindowIcon();
     }
 
     /**
@@ -485,76 +360,19 @@ public abstract class MixinMinecraft {
      */
     @Overwrite
     public void displayGuiScreen(GuiScreen guiScreenIn) {
-        if (this.currentScreen != null) {
-            this.currentScreen.onGuiClosed();
-        }
-
-        if (guiScreenIn == null && this.theWorld == null) {
-            guiScreenIn = new HyperiumMainMenu();
-        } else if (guiScreenIn == null && this.thePlayer.getHealth() <= 0.0F) {
-            guiScreenIn = new GuiGameOver();
-        }
-
-        GuiScreen old = this.currentScreen;
-
-        GuiOpenEvent event = new GuiOpenEvent(guiScreenIn);
-
-        EventBus.INSTANCE.post(event);
-
-        if (event.isCancelled()) return;
-
-        guiScreenIn = event.getGui();
-        if (old != null && guiScreenIn != old) {
-            old.onGuiClosed();
-        }
-        if (old != null)
-            EventBus.INSTANCE.unregister(old);
-
-        if (guiScreenIn instanceof HyperiumMainMenu) {
-            this.gameSettings.showDebugInfo = false;
-            if (!Settings.PERSISTENT_CHAT)
-                this.ingameGUI.getChatGUI().clearChatMessages();
-        }
-
-        this.currentScreen = guiScreenIn;
-
-        if (guiScreenIn != null) {
-            this.setIngameNotInFocus();
-            ScaledResolution scaledresolution = new ScaledResolution(theMinecraft);
-            int i = scaledresolution.getScaledWidth();
-            int j = scaledresolution.getScaledHeight();
-            guiScreenIn.setWorldAndResolution(theMinecraft, i, j);
-            this.skipRenderWorld = false;
-        } else {
-            this.mcSoundHandler.resumeSounds();
-            this.setIngameFocus();
-        }
+        hyperiumMinecraft.displayGuiScreen(guiScreenIn, currentScreen, theWorld, thePlayer, gameSettings, ingameGUI);
     }
 
     @Inject(method = "getLimitFramerate", at = @At("HEAD"), cancellable = true)
     private void getLimitFramerate(CallbackInfoReturnable<Integer> ci) {
-        if (FPSLimiter.shouldLimitFramerate()) {
-            ci.setReturnValue(FPSLimiter.getInstance().getFpsLimit());
-        }
+        hyperiumMinecraft.getLimitFramerate(ci);
     }
-
-    @Shadow
-    public abstract void setIngameNotInFocus();
-
-    @Shadow
-    public abstract void setIngameFocus();
-
-    @Shadow
-    public abstract void func_181536_a(int p_181536_1_, int p_181536_2_, int p_181536_3_, int p_181536_4_, int p_181536_5_, int p_181536_6_, int p_181536_7_, int p_181536_8_, int p_181536_9_, int p_181536_10_);
 
     @Shadow
     public abstract void shutdown();
 
-    @Shadow public boolean inGameHasFocus;
-
-    @Shadow private Timer timer;
-
-    @Shadow private RenderManager renderManager;
+    @Shadow
+    public abstract void run();
 
     /**
      * change to splash screen logo
@@ -569,50 +387,33 @@ public abstract class MixinMinecraft {
 
     @Inject(method = "startGame", at = @At("HEAD"))
     private void onStartGame(CallbackInfo ci) {
-        SplashProgress.PROGRESS = 1;
-        SplashProgress.CURRENT = "Starting game";
-        SplashProgress.update();
+        hyperiumMinecraft.onStartGame(ci);
     }
 
     @Inject(method = "startGame", at = @At(value = "INVOKE", target = "java/util/List.add(Ljava/lang/Object;)Z", shift = At.Shift.BEFORE))
     private void onLoadDefaultResourcePack(CallbackInfo ci) {
-        SplashProgress.PROGRESS = 2;
-        SplashProgress.CURRENT = "Loading resource";
-        SplashProgress.update();
+        hyperiumMinecraft.onLoadDefaultResourcePack(ci);
     }
 
     @Inject(method = "startGame", at = @At(value = "INVOKE", target = "net/minecraft/client/Minecraft.createDisplay()V", shift = At.Shift.BEFORE))
     private void onCreateDisplay(CallbackInfo ci) {
-        SplashProgress.PROGRESS = 3;
-        SplashProgress.CURRENT = "Creating display";
-        SplashProgress.update();
+        hyperiumMinecraft.onCreateDisplay(ci);
     }
 
     @Inject(method = "startGame", at = @At(value = "INVOKE", target = "net/minecraft/client/renderer/OpenGlHelper.initializeTextures()V", shift = At.Shift.BEFORE))
     private void onLoadTexture(CallbackInfo ci) {
-        SplashProgress.PROGRESS = 4;
-        SplashProgress.CURRENT = "Initializing textures";
-        SplashProgress.update();
+        hyperiumMinecraft.onLoadTexture(ci);
     }
 
     @Inject(method = "loadWorld(Lnet/minecraft/client/multiplayer/WorldClient;)V", at = @At("HEAD"))
     private void loadWorld(WorldClient worldClient, CallbackInfo ci) {
-        EventBus.INSTANCE.post(new WorldChangeEvent());
+        hyperiumMinecraft.loadWorld(worldClient, ci);
     }
 
 
     @Inject(method = "runTick", at = @At(value = "INVOKE", target = "Lorg/lwjgl/input/Mouse;getEventButton()I", ordinal = 0))
     private void runTickMouseButton(CallbackInfo ci) {
-        // Actiavtes for EVERY mouse button.
-        int i = Mouse.getEventButton();
-        boolean state = Mouse.getEventButtonState();
-        if (state) {
-            // Mouse clicked.
-            EventBus.INSTANCE.post(new MouseButtonEvent(i, true));
-        } else {
-            // Mouse released.
-            EventBus.INSTANCE.post(new MouseButtonEvent(i, false));
-        }
+        hyperiumMinecraft.runTickMouseButton(ci);
     }
 
     /**
@@ -620,77 +421,13 @@ public abstract class MixinMinecraft {
      */
     @Overwrite
     public void displayCrashReport(CrashReport crashReportIn) {
-        File file1 = new File(Minecraft.getMinecraft().mcDataDir, "crash-reports");
-        File file2 = new File(file1, "crash-" + (new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss")).format(new Date()) + "-client.txt");
-        Bootstrap.printToSYSOUT(crashReportIn.getCompleteReport());
-
-        try {
-            Display.setFullscreen(false);
-            Display.setDisplayMode(new DisplayMode(720, 480));
-            Display.update();
-        } catch (LWJGLException e) {
-            e.printStackTrace();
-        }
-
-        int x = CrashReportGUI.handle(crashReportIn);
-
-        if (crashReportIn.getFile() != null)
-            Bootstrap.printToSYSOUT("#@!@# Game crashed! Crash report saved to: #@!@# " + crashReportIn.getFile());
-        else if (crashReportIn.saveToFile(file2))
-            Bootstrap.printToSYSOUT("#@!@# Game crashed! Crash report saved to: #@!@# " + file2.getAbsolutePath());
-        else
-            Bootstrap.printToSYSOUT("#@?@# Game crashed! Crash report could not be saved. #@?@#");
-
-        switch (x) {
-            case 0:
-                System.exit(-1);
-                break;
-            case 1:
-                try {
-                    shutdown();
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                    System.exit(-1); // if minecraft could not exit normally
-                }
-                break;
-            case 2:
-                try {
-                    StringBuilder cmd = new StringBuilder();
-                    String[] command = System.getProperty("sun.java.command").split(" ");
-                    cmd.append(System.getProperty("java.home")).append(File.separator).append("bin").append(File.separator).append("java ");
-                    ManagementFactory.getRuntimeMXBean().getInputArguments().forEach(s -> {
-                        if (!s.contains("-agentlib"))
-                            cmd.append(s).append(" ");
-                    });
-                    if (command[0].endsWith(".jar"))
-                        cmd.append("-jar ").append(new File(command[0]).getPath()).append(" ");
-                    else
-                        cmd.append("-cp \"").append(System.getProperty("java.class.path")).append("\" ").append(command[0]).append(" ");
-                    for (int i = 1; i < command.length; i++)
-                        cmd.append(command[i]).append(" ");
-                    Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-                        try {
-                            System.out.println("## RESTARTING MINECRAFT ##");
-                            System.out.println("cmd=" + cmd.toString());
-                            Runtime.getRuntime().exec(cmd.toString());
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                            System.out.println("## FAILED TO RESTART MINECRAFT ##");
-                        }
-                    }));
-                    shutdown();
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                    System.out.println("## FAILED TO RESTART MINECRAFT ##");
-                }
-                break;
-        }
+        hyperiumMinecraft.displayCrashReport(crashReportIn);
 
     }
 
 
     @Inject(method = "shutdown", at = @At("HEAD"))
     private void shutdown(CallbackInfo ci) {
-        AddonMinecraftBootstrap.getLoadedAddons().forEach(IAddon::onClose);
+        hyperiumMinecraft.shutdown(ci);
     }
 }

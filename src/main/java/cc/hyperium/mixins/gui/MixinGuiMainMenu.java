@@ -17,29 +17,12 @@
 
 package cc.hyperium.mixins.gui;
 
-import cc.hyperium.Hyperium;
-import cc.hyperium.gui.GuiAddonError;
-import cc.hyperium.gui.GuiBlock;
-import cc.hyperium.gui.GuiTos;
-import cc.hyperium.gui.HyperiumMainMenu;
-import cc.hyperium.internal.addons.AddonManifest;
-import cc.hyperium.internal.addons.AddonMinecraftBootstrap;
-import cc.hyperium.utils.ChatColor;
-import cc.hyperium.utils.RenderUtils;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
+import cc.hyperium.mixinsimp.gui.HyperiumGuiMainMenu;
 import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiYesNoCallback;
-import org.apache.commons.lang3.StringUtils;
-import org.lwjgl.input.Mouse;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
-
-import java.awt.Color;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @Mixin(GuiMainMenu.class)
 public abstract class MixinGuiMainMenu extends GuiScreen implements GuiYesNoCallback {
@@ -48,6 +31,8 @@ public abstract class MixinGuiMainMenu extends GuiScreen implements GuiYesNoCall
 
     private boolean clickedCheckBox = false;
 
+    private HyperiumGuiMainMenu hyperiumGuiMainMenu = new HyperiumGuiMainMenu((GuiMainMenu) (Object) this);
+
     /**
      * Override initGui
      *
@@ -55,9 +40,7 @@ public abstract class MixinGuiMainMenu extends GuiScreen implements GuiYesNoCall
      */
     @Overwrite
     public void initGui() {
-        if (Hyperium.INSTANCE.isAcceptedTos()) {
-            drawDefaultBackground();
-        }
+        hyperiumGuiMainMenu.initGui();
     }
 
 
@@ -68,13 +51,7 @@ public abstract class MixinGuiMainMenu extends GuiScreen implements GuiYesNoCall
      */
     @Overwrite
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-        super.drawScreen(mouseX, mouseY, partialTicks);
-        if (!Hyperium.INSTANCE.isAcceptedTos()) {
-            Minecraft.getMinecraft().displayGuiScreen(new GuiTos());
-        } else if (!AddonMinecraftBootstrap.getDependenciesLoopMap().isEmpty() || !AddonMinecraftBootstrap.getMissingDependenciesMap().isEmpty()) {
-            Minecraft.getMinecraft().displayGuiScreen(new GuiAddonError());
-        } else {
-            Minecraft.getMinecraft().displayGuiScreen(new HyperiumMainMenu());
-        }
+        super.drawScreen(mouseX,mouseY,partialTicks);
+        hyperiumGuiMainMenu.drawScreen(mouseX,mouseY,partialTicks);
     }
 }
