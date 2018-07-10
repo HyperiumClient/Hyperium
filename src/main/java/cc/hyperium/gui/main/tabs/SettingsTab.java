@@ -1,7 +1,11 @@
 package cc.hyperium.gui.main.tabs;
 
 import cc.hyperium.Hyperium;
-import cc.hyperium.config.*;
+import cc.hyperium.config.Category;
+import cc.hyperium.config.SelectorSetting;
+import cc.hyperium.config.Settings;
+import cc.hyperium.config.SliderSetting;
+import cc.hyperium.config.ToggleSetting;
 import cc.hyperium.cosmetics.Deadmau5Cosmetic;
 import cc.hyperium.cosmetics.HyperiumCosmetics;
 import cc.hyperium.cosmetics.wings.WingsCosmetic;
@@ -16,6 +20,7 @@ import cc.hyperium.gui.main.components.AbstractTab;
 import cc.hyperium.gui.main.components.OverlaySelector;
 import cc.hyperium.gui.main.components.OverlaySlider;
 import cc.hyperium.gui.main.components.SettingItem;
+import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
 import cc.hyperium.mods.glintcolorizer.gui.GlintColorizerSettings;
 import cc.hyperium.netty.NettyClient;
 import cc.hyperium.netty.packet.packets.serverbound.ServerCrossDataPacket;
@@ -25,9 +30,8 @@ import cc.hyperium.purchases.PurchaseApi;
 import cc.hyperium.utils.JsonHolder;
 import net.minecraft.client.gui.Gui;
 import org.apache.commons.lang3.ArrayUtils;
-import org.lwjgl.input.Mouse;
 
-import java.awt.*;
+import java.awt.Color;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.function.Consumer;
@@ -58,7 +62,12 @@ public class SettingsTab extends AbstractTab {
             Field earsField = Settings.class.getField("EARS_STATE");
             callback.put(earsField, o -> {
                 boolean yes = ((String) o).equalsIgnoreCase("YES");
-                JsonHolder purchaseSettings = PurchaseApi.getInstance().getSelf().getPurchaseSettings();
+                HyperiumPurchase self = PurchaseApi.getInstance().getSelf();
+                if (self == null) {
+                    GeneralChatHandler.instance().sendMessage("Error: Could not update cosmetic state because your purchase profile is not loaded.");
+                    return;
+                }
+                JsonHolder purchaseSettings = self.getPurchaseSettings();
                 if (!purchaseSettings.has("deadmau5_cosmetic")) {
                     purchaseSettings.put("deadmau5_cosmetic", new JsonHolder());
                 }
@@ -149,7 +158,12 @@ public class SettingsTab extends AbstractTab {
             });
             callback.put(Settings.class.getField("SHOW_DRAGON_HEAD"), o -> {
                 boolean yes = (o.toString()).equalsIgnoreCase("true");
-                JsonHolder purchaseSettings = PurchaseApi.getInstance().getSelf().getPurchaseSettings();
+                HyperiumPurchase self = PurchaseApi.getInstance().getSelf();
+                if (self == null) {
+                    GeneralChatHandler.instance().sendMessage("Error: Could not update cosmetic state because your purchase profile is not loaded.");
+                    return;
+                }
+                JsonHolder purchaseSettings = self.getPurchaseSettings();
                 if (!purchaseSettings.has("dragon"))
                     purchaseSettings.put("dragon", new JsonHolder());
                 purchaseSettings.optJSONObject("dragon").put("disabled", !yes);
@@ -161,7 +175,12 @@ public class SettingsTab extends AbstractTab {
             });
             callback.put(Settings.class.getField("SHOW_WINGS"), o -> {
                 boolean yes = (o.toString()).equalsIgnoreCase("true");
-                JsonHolder purchaseSettings = PurchaseApi.getInstance().getSelf().getPurchaseSettings();
+                HyperiumPurchase self = PurchaseApi.getInstance().getSelf();
+                if (self == null) {
+                    GeneralChatHandler.instance().sendMessage("Error: Could not update cosmetic state because your purchase profile is not loaded.");
+                    return;
+                }
+                JsonHolder purchaseSettings = self.getPurchaseSettings();
                 if (!purchaseSettings.has("wings"))
                     purchaseSettings.put("wings", new JsonHolder());
                 purchaseSettings.optJSONObject("wings").put("disabled", !yes);
@@ -174,7 +193,12 @@ public class SettingsTab extends AbstractTab {
                     return;
                 }
                 Float o1 = (Float) o;
-                JsonHolder purchaseSettings = PurchaseApi.getInstance().getSelf().getPurchaseSettings();
+                HyperiumPurchase self = PurchaseApi.getInstance().getSelf();
+                if (self == null) {
+                    GeneralChatHandler.instance().sendMessage("Error: Could not update cosmetic state because your purchase profile is not loaded.");
+                    return;
+                }
+                JsonHolder purchaseSettings = self.getPurchaseSettings();
                 if (!purchaseSettings.has("wings"))
                     purchaseSettings.put("wings", new JsonHolder());
                 purchaseSettings.optJSONObject("wings").put("scale", o1);
