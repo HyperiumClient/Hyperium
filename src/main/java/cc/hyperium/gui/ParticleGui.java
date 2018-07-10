@@ -21,14 +21,13 @@ import cc.hyperium.purchases.HyperiumPurchase;
 import cc.hyperium.purchases.PurchaseApi;
 import cc.hyperium.utils.JsonHolder;
 import cc.hyperium.utils.UUIDUtil;
+import java.awt.Color;
+import java.io.IOException;
+import java.util.HashMap;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import org.lwjgl.input.Keyboard;
-
-import java.awt.Color;
-import java.io.IOException;
-import java.util.HashMap;
 
 /**
  * Created by mitchellkatz on 6/25/18. Designed for production use on Sk1er.club
@@ -64,6 +63,10 @@ public class ParticleGui extends HyperiumGui {
 
     private void rebuild() {
         EnumParticleType[] values = EnumParticleType.values();
+        if(values == null){
+            return;
+        }
+
         int length = values.length;
         HyperiumPurchase self = PurchaseApi.getInstance().getSelf();
         if (self == null) {
