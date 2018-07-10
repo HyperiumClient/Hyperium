@@ -4,6 +4,8 @@ import cc.hyperium.handlers.handlers.animation.cape.CapeHandler;
 import cc.hyperium.utils.Utils;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.texture.ITextureObject;
+import net.minecraft.client.renderer.texture.ITickable;
+import net.minecraft.client.renderer.texture.ITickableTextureObject;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.renderer.texture.TextureUtil;
 import net.minecraft.client.resources.IResourceManager;
@@ -15,6 +17,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class HyperiumTextureManager {
@@ -23,10 +26,19 @@ public class HyperiumTextureManager {
     private TextureManager parent;
 
 
-    private HashMap<String, DynamicTexture> textures = new HashMap<>();
-
+    private HashMap<String, ITextureObject> textures = new HashMap<>();
     public HyperiumTextureManager(TextureManager parent) {
         this.parent = parent;
+    }
+
+    public boolean loadTickableTexture(ResourceLocation textureLocation, ITickableTextureObject textureObj, List<ITickable> listTickables) {
+        if (parent.loadTexture(textureLocation, textureObj)) {
+            listTickables.add(textureObj);
+            textures.put(textureLocation.toString(),textureObj);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public void onResourceManagerReload(IResourceManager resourceManager, Map<ResourceLocation, ITextureObject> mapTextureObjects) {
@@ -44,9 +56,9 @@ public class HyperiumTextureManager {
     }
 
     public boolean loadTexture(ResourceLocation textureLocation, ITextureObject textureObj, IResourceManager theResourceManager, Map<ResourceLocation, ITextureObject> mapTextureObjects, Logger logger) {
-        DynamicTexture dynamicTexture = textures.get(textureLocation.toString());
-        if (dynamicTexture != null) {
-            textureObj = dynamicTexture;
+        ITextureObject textureCopy = textures.get(textureLocation.toString());
+        if (textureCopy != null) {
+            textureObj = textureCopy;
         }
         boolean flag = true;
 
