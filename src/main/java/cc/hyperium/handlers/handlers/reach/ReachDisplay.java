@@ -4,6 +4,7 @@ import cc.hyperium.config.Settings;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.PlayerAttackEntityEvent;
 import cc.hyperium.event.RenderEntitiesEvent;
+import cc.hyperium.event.TickEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.FontRenderer;
@@ -13,6 +14,7 @@ import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
@@ -25,7 +27,9 @@ import java.util.List;
 public class ReachDisplay {
 
 
+    public static double dis = 0.0;
     private List<Hit> hits = new ArrayList<>();
+    private boolean locked = true;
 
     @InvokeEvent
     public void renderWorld(RenderEntitiesEvent event) {
@@ -41,9 +45,9 @@ public class ReachDisplay {
             EntityPlayerSP entity = Minecraft.getMinecraft().thePlayer;
             float partialTicks = event.getPartialTicks();
 
-            double d0 = entity.lastTickPosX + (entity.posX - entity.lastTickPosX) * (double)partialTicks;
-            double d1 = entity.lastTickPosY + (entity.posY - entity.lastTickPosY) * (double)partialTicks;
-            double d2 = entity.lastTickPosZ + (entity.posZ - entity.lastTickPosZ) * (double)partialTicks;
+            double d0 = entity.lastTickPosX + (entity.posX - entity.lastTickPosX) * (double) partialTicks;
+            double d1 = entity.lastTickPosY + (entity.posY - entity.lastTickPosY) * (double) partialTicks;
+            double d2 = entity.lastTickPosZ + (entity.posZ - entity.lastTickPosZ) * (double) partialTicks;
 
             GlStateManager.translate(hit.pos.xCoord - d0, hit.pos.yCoord - d1, hit.pos.zCoord - d2);
             GL11.glNormal3f(0.0F, 1.0F, 0.0F);
@@ -84,9 +88,21 @@ public class ReachDisplay {
     }
 
     @InvokeEvent
+    public void tickEvent(TickEvent event) {
+        locked = false;
+    }
+
+    @InvokeEvent
     public void attacc(PlayerAttackEntityEvent entityEvent) {
-        if(!Settings.SHOW_HIT_DISTANCES)
+        if (!Settings.SHOW_HIT_DISTANCES)
             return;
+        if (!(entityEvent.getEntity() instanceof EntityLivingBase))
+            return;
+        if (((EntityLivingBase) entityEvent.getEntity()).hurtTime > 0)
+            return;
+        if (locked)
+            return;
+        locked = true;
         EntityPlayerSP entity = Minecraft.getMinecraft().thePlayer;
         double d0 = 6;
         Vec3 vec3 = entity.getPositionEyes(0.0F);
@@ -107,8 +123,7 @@ public class ReachDisplay {
             return;
         }
         Vec3 vec33 = movingobjectposition.hitVec;
-        hits.add(new Hit(vec33, vec3.distanceTo(vec33)));
-        System.out.println(vec33);
+        hits.add(new Hit(vec33, dis));
 
     }
 
@@ -120,7 +135,7 @@ public class ReachDisplay {
 
         Hit(Vec3 pos, double distance) {
             this.pos = pos;
-            this.distance = Math.round(distance*100D)/100D;
+            this.distance = Math.round(distance * 100D) / 100D;
         }
     }
 }
