@@ -148,16 +148,28 @@ public class CapeHandler {
         capes.put(uuid, NullCape.INSTANCE);
 
         File file = new File(CACHE_DIR, uuid.toString());
-        if (file.exists())
-            FileUtils.deleteDirectory(file);
-         file.mkdirs();
-        DownloadTask task = new DownloadTask(
-                url,
-                file.getAbsolutePath());
-        task.execute();
-        task.get();
+        JsonHolder holder = Utils.get("https://api.hyperium.cc/cape/" + uuid.toString());
+
+        file.mkdirs();
+        File file1 = new File(file, "cache.txt");
+        boolean fetch = true;
+        if (file1.exists()) {
+            String s = FileUtils.readFileToString(file1, "UTF-8");
+            if (s.equalsIgnoreCase(url)) {
+                fetch = false;
+            }
+        }
+        if (fetch) {
+            DownloadTask task = new DownloadTask(
+                    url,
+                    file.getAbsolutePath());
+            task.execute();
+            task.get();
+            unzip(new File(file, task.getFileName()).getAbsolutePath(), file.getAbsolutePath());
+            file1.createNewFile();
+            FileUtils.write(file1,url);
+        }
         List<BufferedImage> images = new ArrayList<>();
-        unzip(new File(file, task.getFileName()).getAbsolutePath(), file.getAbsolutePath());
         int img = 0;
         File tmp;
         while ((tmp = new File(file, "img" + img + ".png")).exists()) {
@@ -186,7 +198,6 @@ public class CapeHandler {
             e.printStackTrace();
         }
         int finalImg = img;
-        JsonHolder holder = Utils.get("https://api.hyperium.cc/cape/" + uuid.toString());
 
         actions.add(() -> {
             setCape(uuid, new DynamicCape(locations, holder.optInt("delay"), finalImg));
