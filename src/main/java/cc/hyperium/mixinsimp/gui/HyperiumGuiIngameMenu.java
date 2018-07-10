@@ -16,6 +16,7 @@ import net.minecraft.client.gui.GuiIngameMenu;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.server.MinecraftServer;
 
 public class HyperiumGuiIngameMenu {
   private static JsonHolder data = new JsonHolder();
@@ -27,12 +28,14 @@ public class HyperiumGuiIngameMenu {
   public HyperiumGuiIngameMenu(GuiIngameMenu parent) {
     this.parent = parent;
   }
+
   public void initGui(List<GuiButton> buttonList) {
     buttonList.add(new GuiButton(8, parent.width - 200, parent.height - 20, 200, 20, "Credits"));
-//        this.buttonList.get(3).displayString = Minecraft.getMinecraft().getIntegratedServer().getPublic() ? "Change Server" : this.buttonList.get(3).displayString;
-//        this.buttonList.get(3).enabled = Minecraft.getMinecraft().getIntegratedServer().getPublic() ? true : this.buttonList.get(3).enabled;
     WorldClient theWorld = Minecraft.getMinecraft().theWorld;
-    if (theWorld != null && theWorld.isRemote) {
+
+    // Used to detect if the player is on a singleplayer world or a multiplayer world.
+    MinecraftServer integratedServer = Minecraft.getMinecraft().getIntegratedServer();
+    if (theWorld != null && (integratedServer == null)) {
       GuiButton oldButton = buttonList.remove(3);
       GuiButton newButton = new GuiButton(10, oldButton.xPosition, oldButton.yPosition, oldButton.getButtonWidth(), 20, "Server List");
       buttonList.add(newButton);
