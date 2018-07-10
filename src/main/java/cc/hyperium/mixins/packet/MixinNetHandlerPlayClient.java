@@ -22,6 +22,8 @@ import cc.hyperium.Metadata;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.ServerChatEvent;
 import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
+import cc.hyperium.internal.addons.AddonBootstrap;
+import cc.hyperium.internal.addons.AddonManifest;
 import cc.hyperium.mods.timechanger.TimeChanger;
 import cc.hyperium.network.LoginReplyHandler;
 import com.google.common.base.Charsets;
@@ -62,6 +64,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -203,6 +206,22 @@ public abstract class MixinNetHandlerPlayClient {
                         PacketBuffer buffer = new PacketBuffer(Unpooled.buffer());
                         buffer.writeString("Hyperium;" + Metadata.getVersion() + ";" + Metadata.getVersionID());
                         addToSendQueue(new C17PacketCustomPayload("REGISTER", buffer));
+                        PacketBuffer addonbuffer = new PacketBuffer(Unpooled.buffer());
+                        List<AddonManifest> addons = AddonBootstrap.INSTANCE.getAddonManifests();
+                        addonbuffer.writeInt(addons.size());
+                        for(AddonManifest addonmanifest : addons){
+                            String addonName = addonmanifest.getName();
+                            String version = addonmanifest.getVersion();
+                            if(addonName == null){
+                                addonName = addonmanifest.getMainClass();
+                            }
+                            if(version == null){
+                                version = "unknown";
+                            }
+                            addonbuffer.writeString(addonName);
+                            addonbuffer.writeString(version);
+                        }
+                        addToSendQueue(new C17PacketCustomPayload("hyperium|Addons", addonbuffer));
                     }
                 }
             }
