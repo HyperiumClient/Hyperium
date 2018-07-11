@@ -5,21 +5,32 @@ import cc.hyperium.mixins.renderer.IMixinRenderItem;
 import cc.hyperium.mixins.renderer.IMixinRenderItem2;
 import cc.hyperium.mods.glintcolorizer.Colors;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.GLAllocation;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.tileentity.TileEntityItemStackRenderer;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.resources.model.IBakedModel;
 import net.minecraft.item.ItemPotion;
 import net.minecraft.item.ItemSkull;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
+import org.lwjgl.opengl.GL11;
+
+import java.util.HashMap;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class HyperiumRenderItem {
     private static final ResourceLocation RES_ITEM_GLINT = new ResourceLocation("textures/misc/enchanted_item_glint.png");
 
     private RenderItem parent;
+    private HashMap<CachedItem, Integer> cache = new HashMap<>();
+    private ConcurrentLinkedQueue<CachedItem> queue = new ConcurrentLinkedQueue<>();
 
     public HyperiumRenderItem(RenderItem parent) {
         this.parent = parent;
@@ -186,6 +197,46 @@ public class HyperiumRenderItem {
 
         GlStateManager.depthMask(true);
         ((IMixinRenderItem) parent).getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
+    }
+
+    public void renderModel(IBakedModel model, int color, ItemStack stack) {
+        int i = 0;
+        CachedItem cachedItem = null;
+        if (Settings.OPTIMIZED_ITEM_RENDERER) {
+            if (cache.size() > 500) {
+                for (int c = 0; c < 50; c++) {
+                    CachedItem poll = queue.poll();
+                    Integer integer = cache.get(poll);
+                    GL11.glDeleteLists(integer, 1);
+                    cache.remove(poll);
+                }
+                System.out.println("e");
+            }
+
+            cachedItem = new CachedItem(model, color, stack != null ? stack.getUnlocalizedName() : "", stack != null ? stack.getItemDamage() : 0, stack != null ? stack.getMetadata() : 0, stack != null ? stack.getTagCompound() : null);
+            Integer integer = cache.get(cachedItem);
+            if (integer != null) {
+                GlStateManager.callList(integer);
+                return;
+            }
+            queue.add(cachedItem);
+            i = GLAllocation.generateDisplayLists(1);
+            GL11.glNewList(i, GL11.GL_COMPILE_AND_EXECUTE);
+        }
+        Tessellator tessellator = Tessellator.getInstance();
+        WorldRenderer worldrenderer = tessellator.getWorldRenderer();
+        worldrenderer.begin(7, DefaultVertexFormats.ITEM);
+
+        for (EnumFacing enumfacing : EnumFacing.values()) {
+            ((IMixinRenderItem) parent).callRenderQuads(worldrenderer, model.getFaceQuads(enumfacing), color, stack);
+        }
+
+        ((IMixinRenderItem) parent).callRenderQuads(worldrenderer, model.getGeneralQuads(), color, stack);
+        tessellator.draw();
+        if (Settings.OPTIMIZED_ITEM_RENDERER) {
+            GL11.glEndList();
+            cache.put(cachedItem, i);
+        }
     }
 
 }

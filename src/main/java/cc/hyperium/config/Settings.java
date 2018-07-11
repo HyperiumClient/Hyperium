@@ -86,6 +86,10 @@ public class Settings {
     public static boolean PERSPECTIVE_HOLD = false;
 
 
+    @ConfigOpt
+    @ToggleSetting(category = IMPROVEMENTS,name = "Optimized Item Renderer (BETA)")
+    public static boolean OPTIMIZED_ITEM_RENDERER = false;
+
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;windowedFullScreen")
     @ToggleSetting(name = "Windowed Fullscreen", category = IMPROVEMENTS)
     public static boolean WINDOWED_FULLSCREEN = false;

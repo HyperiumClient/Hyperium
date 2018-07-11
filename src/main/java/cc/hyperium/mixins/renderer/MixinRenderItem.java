@@ -36,15 +36,7 @@ public abstract class MixinRenderItem implements IResourceManagerReloadListener 
 
     private HyperiumRenderItem hyperiumRenderItem = new HyperiumRenderItem((RenderItem) (Object) this);
 
-    /**
-     * A custom method which includes a "isInv" parameter, this specifies if the item being rendered
-     * is in an inventory
-     *
-     * @param stack the item we are rendering
-     * @param model the model of the item we will use
-     * @param isInv true if the item is being rendered in an inventory
-     * @author boomboompower
-     */
+
 
     /**
      * Overrides the normal method to use our custom one
@@ -57,6 +49,15 @@ public abstract class MixinRenderItem implements IResourceManagerReloadListener 
     @Overwrite
     public void renderItem(ItemStack stack, IBakedModel model) {
         hyperiumRenderItem.renderItem(stack, model, false);
+    }
+
+
+    /**
+     * @author Sk1er
+     */
+    @Overwrite
+    private void renderModel(IBakedModel model, int color, ItemStack stack) {
+       hyperiumRenderItem.renderModel(model, color, stack);
     }
 
     /**
@@ -72,9 +73,6 @@ public abstract class MixinRenderItem implements IResourceManagerReloadListener 
     public void renderItemIntoGUI(ItemStack stack, int x, int y) {
         hyperiumRenderItem.renderItemIntoGUI(stack, x, y);
     }
-
-
-
 
 
 }

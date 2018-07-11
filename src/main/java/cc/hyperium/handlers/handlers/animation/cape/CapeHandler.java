@@ -79,16 +79,13 @@ public class CapeHandler {
 
         CACHE_DIR = new File(Hyperium.folder, "CACHE_DIR");
         CACHE_DIR.mkdir();
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            CACHE_DIR.delete();
-        }));
+        Runtime.getRuntime().addShutdownHook(new Thread(CACHE_DIR::delete));
     }
 
     @InvokeEvent
     public void worldSwap(WorldChangeEvent event) {
         UUID id = UUIDUtil.getClientUUID();
-        ICape selfCape = capes.get(id);
-        TextureManager textureManager = Minecraft.getMinecraft().getTextureManager();
+        ICape selfCape = id == null ? null : capes.get(id);
         try {
             LOCK.lock();
 
