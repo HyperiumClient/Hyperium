@@ -19,6 +19,7 @@
     "client.particle.MixinEffectRenderer",
     "client.resources.MixinAbstractResourcePack",
     "client.resources.IMixinAbstractResourcePack",
+    "client.MixinLoadingScreen",
     "entity.MixinAbstractClientPlayer",
     "entity.IMixinAbstractClientPlayer",
     "entity.MixinEntity",
