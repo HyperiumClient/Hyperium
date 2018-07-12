@@ -17,40 +17,32 @@
 
 package cc.hyperium.mixins.entity;
 
-import cc.hyperium.Hyperium;
-import cc.hyperium.config.Settings;
-import cc.hyperium.event.DrawBlockHighlightEvent;
-import cc.hyperium.event.EventBus;
-import cc.hyperium.event.RenderEvent;
-import cc.hyperium.mods.common.PerspectiveModifierContainer;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockBed;
-import net.minecraft.block.state.IBlockState;
+import cc.hyperium.handlers.handlers.reach.ReachDisplay;
+import cc.hyperium.mixinsimp.entity.HyperiumEntityRenderer;
+import com.google.common.base.Predicates;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.ActiveRenderInfo;
 import net.minecraft.client.renderer.EntityRenderer;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.shader.ShaderGroup;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.passive.EntityAnimal;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
+import net.minecraft.entity.item.EntityItemFrame;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.EntitySelectors;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MouseFilter;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
-import org.lwjgl.opengl.Display;
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import java.util.List;
 
 @Mixin(EntityRenderer.class)
 public abstract class MixinEntityRenderer {
@@ -74,18 +66,22 @@ public abstract class MixinEntityRenderer {
     private MouseFilter mouseFilterXAxis;
     @Shadow
     private boolean drawBlockOutline;
+    @Shadow
+    private ShaderGroup theShaderGroup;
+    @Shadow
+    private Entity pointedEntity;
+    private HyperiumEntityRenderer hyperiumEntityRenderer = new HyperiumEntityRenderer((EntityRenderer) (Object) this);
 
-    @Shadow protected abstract void loadShader(ResourceLocation resourceLocationIn);
+    @Shadow
+    protected abstract void loadShader(ResourceLocation resourceLocationIn);
 
-    @Shadow private ShaderGroup theShaderGroup;
-
-    @Shadow public abstract void stopUseShader();
-
+    @Shadow
+    public abstract void stopUseShader();
 
     //endStartSection
     @Inject(method = "updateCameraAndRender", at = @At(value = "INVOKE", target = "Lnet/minecraft/profiler/Profiler;endStartSection(Ljava/lang/String;)V", shift = At.Shift.AFTER))
     private void updateCameraAndRender(float partialTicks, long nano, CallbackInfo ci) {
-        EventBus.INSTANCE.post(new RenderEvent());
+        hyperiumEntityRenderer.updateCameraAndRender();
     }
 
     /**
@@ -93,109 +89,8 @@ public abstract class MixinEntityRenderer {
      * @reason 360 Perspective
      */
     @Overwrite
-    private void orientCamera(final float partialTicks) {
-        final Entity entity = this.mc.getRenderViewEntity();
-        float f = entity.getEyeHeight();
-        double d0 = entity.prevPosX + (entity.posX - entity.prevPosX) * partialTicks;
-        double d2 = entity.prevPosY + (entity.posY - entity.prevPosY) * partialTicks + f;
-        if (Settings.TURN_PEOPLE_INTO_BLOCKS)
-            d2 -= 1.0;
-        double d3 = entity.prevPosZ + (entity.posZ - entity.prevPosZ) * partialTicks;
-
-        if (entity instanceof EntityLivingBase && ((EntityLivingBase) entity).isPlayerSleeping()) {
-            ++f;
-            GlStateManager.translate(0.0f, 0.3f, 0.0f);
-            if (!this.mc.gameSettings.debugCamEnable) {
-                final BlockPos blockpos = new BlockPos(entity);
-                final IBlockState iblockstate = this.mc.theWorld.getBlockState(blockpos);
-                Block block = iblockstate.getBlock();
-
-                if (block == Blocks.bed) {
-                    int j = iblockstate.getValue(BlockBed.FACING).getHorizontalIndex();
-                    GlStateManager.rotate((float) (j * 90), 0.0F, 1.0F, 0.0F);
-                }
-                GlStateManager.rotate(entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw) * partialTicks + 180.0f, 0.0f, -1.0f, 0.0f);
-                GlStateManager.rotate(entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * partialTicks, -1.0f, 0.0f, 0.0f);
-            }
-        } else if (this.mc.gameSettings.thirdPersonView > 0) {
-            double d4 = this.thirdPersonDistanceTemp + (this.thirdPersonDistance - this.thirdPersonDistanceTemp) * partialTicks;
-            if (this.mc.gameSettings.debugCamEnable) {
-                GlStateManager.translate(0.0f, 0.0f, (float) (-d4));
-            } else {
-                float f2 = entity.rotationYaw;
-                float f3 = entity.rotationPitch;
-                if (PerspectiveModifierContainer.enabled) {
-                    f2 = PerspectiveModifierContainer.modifiedYaw;
-                    f3 = PerspectiveModifierContainer.modifiedPitch;
-                }
-                if (this.mc.gameSettings.thirdPersonView == 2) {
-                    f3 += 180.0f;
-                }
-                final double d5 = -MathHelper.sin(f2 / 180.0f * 3.1415927f) * MathHelper.cos(f3 / 180.0f * 3.1415927f) * d4;
-                final double d6 = MathHelper.cos(f2 / 180.0f * 3.1415927f) * MathHelper.cos(f3 / 180.0f * 3.1415927f) * d4;
-                final double d7 = -MathHelper.sin(f3 / 180.0f * 3.1415927f) * d4;
-                for (int i = 0; i < 8; ++i) {
-                    float f4 = (i & 0x1) * 2 - 1;
-                    float f5 = (i >> 1 & 0x1) * 2 - 1;
-                    float f6 = (i >> 2 & 0x1) * 2 - 1;
-                    f4 *= 0.1f;
-                    f5 *= 0.1f;
-                    f6 *= 0.1f;
-                    final MovingObjectPosition movingobjectposition = this.mc.theWorld.rayTraceBlocks(new Vec3(d0 + f4, d2 + f5, d3 + f6), new Vec3(d0 - d5 + f4 + f6, d2 - d7 + f5, d3 - d6 + f6));
-                    if (movingobjectposition != null) {
-                        final double d8 = movingobjectposition.hitVec.distanceTo(new Vec3(d0, d2, d3));
-                        if (d8 < d4) {
-                            d4 = d8;
-                        }
-                    }
-                }
-                if (this.mc.gameSettings.thirdPersonView == 2) {
-                    GlStateManager.rotate(180.0f, 0.0f, 1.0f, 0.0f);
-                }
-                if (PerspectiveModifierContainer.enabled) {
-                    GlStateManager.rotate(PerspectiveModifierContainer.modifiedPitch - f3, 1.0f, 0.0f, 0.0f);
-                    GlStateManager.rotate(PerspectiveModifierContainer.modifiedYaw - f2, 0.0f, 1.0f, 0.0f);
-                    GlStateManager.translate(0.0f, 0.0f, (float) (-d4));
-                    GlStateManager.rotate(f2 - PerspectiveModifierContainer.modifiedYaw, 0.0f, 1.0f, 0.0f);
-                    GlStateManager.rotate(f3 - PerspectiveModifierContainer.modifiedPitch, 1.0f, 0.0f, 0.0f);
-                } else {
-                    GlStateManager.rotate(entity.rotationPitch - f3, 1.0f, 0.0f, 0.0f);
-                    GlStateManager.rotate(entity.rotationYaw - f2, 0.0f, 1.0f, 0.0f);
-                    GlStateManager.translate(0.0f, 0.0f, (float) (-d4));
-                    GlStateManager.rotate(f2 - entity.rotationYaw, 0.0f, 1.0f, 0.0f);
-                    GlStateManager.rotate(f3 - entity.rotationPitch, 1.0f, 0.0f, 0.0f);
-                }
-            }
-        } else {
-            GlStateManager.translate(0.0f, 0.0f, -0.1f);
-        }
-        if (!this.mc.gameSettings.debugCamEnable) {
-            float yaw = entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw) * partialTicks + 180.0f;
-            final float pitch = entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * partialTicks;
-            final float roll = 0.0f;
-            if (entity instanceof EntityAnimal) {
-                final EntityAnimal entityanimal = (EntityAnimal) entity;
-                yaw = entityanimal.prevRotationYawHead + (entityanimal.rotationYawHead - entityanimal.prevRotationYawHead) * partialTicks + 180.0f;
-            }
-            final Block block = ActiveRenderInfo.getBlockAtEntityViewpoint(this.mc.theWorld, entity, partialTicks);
-            if (PerspectiveModifierContainer.enabled) {
-                GlStateManager.rotate(roll, 0.0f, 0.0f, 1.0f);
-                GlStateManager.rotate(PerspectiveModifierContainer.modifiedPitch, 1.0f, 0.0f, 0.0f);
-                GlStateManager.rotate(PerspectiveModifierContainer.modifiedYaw + 180.0f, 0.0f, 1.0f, 0.0f);
-            } else {
-                GlStateManager.rotate(roll, 0.0f, 0.0f, 1.0f);
-                GlStateManager.rotate(pitch, 1.0f, 0.0f, 0.0f);
-                GlStateManager.rotate(yaw, 0.0f, 1.0f, 0.0f);
-            }
-        }
-        GlStateManager.translate(0.0f, -f, 0.0f);
-        d0 = entity.prevPosX + (entity.posX - entity.prevPosX) * partialTicks;
-        d2 = entity.prevPosY + (entity.posY - entity.prevPosY) * partialTicks + f;
-        d3 = entity.prevPosZ + (entity.posZ - entity.prevPosZ) * partialTicks;
-        this.cloudFog = this.mc.renderGlobal.hasCloudFog(d0, d2, d3, partialTicks);
-        if (Settings.TURN_PEOPLE_INTO_BLOCKS) {
-            GlStateManager.translate(0.0F, 1.0F, 0.0F);
-        }
+    private void orientCamera(float partialTicks) {
+        hyperiumEntityRenderer.orientCamera(partialTicks, this.thirdPersonDistanceTemp, this.thirdPersonDistance, this.cloudFog, this.mc);
     }
 
     /**
@@ -205,54 +100,112 @@ public abstract class MixinEntityRenderer {
 
     @Inject(method = "renderWorldPass", at = @At(value = "INVOKE_STRING", target = "Lnet/minecraft/profiler/Profiler;endStartSection(Ljava/lang/String;)V", args = "ldc=outline"), cancellable = true)
     public void drawOutline(int pass, float part, long nano, CallbackInfo info) {
-        DrawBlockHighlightEvent drawBlockHighlightEvent = new DrawBlockHighlightEvent(((EntityPlayer) this.mc.getRenderViewEntity()), mc.objectMouseOver, part);
-        EventBus.INSTANCE.post(drawBlockHighlightEvent);
-        if (drawBlockHighlightEvent.isCancelled()) {
-            Hyperium.INSTANCE.getHandlers().getConfigOptions().isCancelBox = true;
-
-        }
+        hyperiumEntityRenderer.drawOutline(part, this.mc);
     }
 
     @Inject(method = "updateCameraAndRender", at = @At(value = "INVOKE_STRING", target = "Lnet/minecraft/profiler/Profiler;startSection(Ljava/lang/String;)V", args = "ldc=mouse"))
     private void updateCameraAndRender2(float partialTicks, long nanoTime, CallbackInfo ci) {
-        boolean flag2 = Display.isActive();
-        if (Minecraft.getMinecraft().inGameHasFocus && flag2) {
-            if (PerspectiveModifierContainer.enabled && Minecraft.getMinecraft().gameSettings.thirdPersonView != 1) {
-                PerspectiveModifierContainer.onDisable();
-                PerspectiveModifierContainer.setEnabled(false);
-            }
+        hyperiumEntityRenderer.updateCameraAndRender2();
+    }
 
-            if (PerspectiveModifierContainer.enabled) {
-                Minecraft.getMinecraft().mouseHelper.mouseXYChange();
-
-                float f = Minecraft.getMinecraft().gameSettings.mouseSensitivity * 0.6F + 0.2F;
-                float f1 = f * f * f * 8.0F;
-                float f2 = (float) Minecraft.getMinecraft().mouseHelper.deltaX * f1;
-                float f3 = (float) Minecraft.getMinecraft().mouseHelper.deltaY * f1;
-
-                // Modifying pitch and yaw values.
-                PerspectiveModifierContainer.modifiedYaw += f2 / 8.0F;
-                PerspectiveModifierContainer.modifiedPitch += f3 / 8.0F;
-
-                // Checking if pitch exceeds maximum range.
-                if (Math.abs(PerspectiveModifierContainer.modifiedPitch) > 90.0F) {
-                    if (PerspectiveModifierContainer.modifiedPitch > 0.0F) {
-                        PerspectiveModifierContainer.modifiedPitch = 90.0F;
-                    } else {
-                        PerspectiveModifierContainer.modifiedPitch = -90.0F;
-                    }
-                }
-            }
+    // Motion Blur Methods
+    public void motionBlurApplyShader(ResourceLocation resourceLocation) {
+        if (OpenGlHelper.shadersSupported) {
+            this.loadShader(resourceLocation);
         }
     }
 
-    public void motionBlurApplyShader(ResourceLocation resourceLocation) {
-      if (OpenGlHelper.shadersSupported) {
-        this.loadShader(resourceLocation);
-      }
+    public void clearShaders() {
+        this.stopUseShader();
     }
 
-    public void clearShaders(){
-        this.stopUseShader();
+    /**
+     * @author Sk1er (added forward for distance)
+     */
+    @Overwrite
+    public void getMouseOver(float partialTicks) {
+        Entity entity = this.mc.getRenderViewEntity();
+        if (entity != null) {
+            if (this.mc.theWorld != null) {
+                this.mc.mcProfiler.startSection("pick");
+                this.mc.pointedEntity = null;
+                double d0 = (double) this.mc.playerController.getBlockReachDistance();
+                this.mc.objectMouseOver = entity.rayTrace(d0, partialTicks);
+                double d1 = d0;
+                Vec3 vec3 = entity.getPositionEyes(partialTicks);
+                boolean flag = false;
+                int i = 3;
+
+                if (this.mc.playerController.extendedReach()) {
+                    d0 = 6.0D;
+                    d1 = 6.0D;
+                } else {
+                    if (d0 > 3.0D) {
+                        flag = true;
+                    }
+                }
+
+                if (this.mc.objectMouseOver != null) {
+                    d1 = this.mc.objectMouseOver.hitVec.distanceTo(vec3);
+                }
+
+                Vec3 vec31 = entity.getLook(partialTicks);
+                Vec3 vec32 = vec3.addVector(vec31.xCoord * d0, vec31.yCoord * d0, vec31.zCoord * d0);
+                this.pointedEntity = null;
+                Vec3 vec33 = null;
+                float f = 1.0F;
+                List<Entity> list = this.mc.theWorld.getEntitiesInAABBexcluding(entity, entity.getEntityBoundingBox().addCoord(vec31.xCoord * d0, vec31.yCoord * d0, vec31.zCoord * d0).expand((double) f, (double) f, (double) f), Predicates.and(EntitySelectors.NOT_SPECTATING, Entity::canBeCollidedWith));
+                double d2 = d1;
+
+                for (int j = 0; j < list.size(); ++j) {
+                    Entity entity1 = (Entity) list.get(j);
+                    float f1 = entity1.getCollisionBorderSize();
+                    AxisAlignedBB axisalignedbb = entity1.getEntityBoundingBox().expand((double) f1, (double) f1, (double) f1);
+                    MovingObjectPosition movingobjectposition = axisalignedbb.calculateIntercept(vec3, vec32);
+
+                    if (axisalignedbb.isVecInside(vec3)) {
+                        if (d2 >= 0.0D) {
+                            this.pointedEntity = entity1;
+                            vec33 = movingobjectposition == null ? vec3 : movingobjectposition.hitVec;
+                            d2 = 0.0D;
+                        }
+                    } else if (movingobjectposition != null) {
+                        double d3 = vec3.distanceTo(movingobjectposition.hitVec);
+
+                        if (d3 < d2 || d2 == 0.0D) {
+                            if (entity1 == entity.ridingEntity) {
+                                if (d2 == 0.0D) {
+                                    this.pointedEntity = entity1;
+                                    vec33 = movingobjectposition.hitVec;
+                                }
+                            } else {
+                                this.pointedEntity = entity1;
+                                vec33 = movingobjectposition.hitVec;
+                                d2 = d3;
+                            }
+                        }
+                    }
+                }
+                double v = 0;
+
+                if (this.pointedEntity != null && flag && (v = vec3.distanceTo(vec33)) > 3.0D) {
+                    this.pointedEntity = null;
+                    this.mc.objectMouseOver = new MovingObjectPosition(MovingObjectPosition.MovingObjectType.MISS, vec33, (EnumFacing) null, new BlockPos(vec33));
+                }
+                if (v != 0 || this.pointedEntity != null)
+                    ReachDisplay.dis = v;
+
+
+                if (this.pointedEntity != null && (d2 < d1 || this.mc.objectMouseOver == null)) {
+                    this.mc.objectMouseOver = new MovingObjectPosition(this.pointedEntity, vec33);
+
+                    if (this.pointedEntity instanceof EntityLivingBase || this.pointedEntity instanceof EntityItemFrame) {
+                        this.mc.pointedEntity = this.pointedEntity;
+                    }
+                }
+
+                this.mc.mcProfiler.endSection();
+            }
+        }
     }
 }

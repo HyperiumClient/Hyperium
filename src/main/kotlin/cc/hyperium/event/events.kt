@@ -271,7 +271,7 @@ class PostCopyPlayerModelAnglesEvent(entity: AbstractClientPlayer, model: IMixin
 /**
  * Called when this player attacks an entity
  */
-class PlayerAttackEntityEvent(val uuid: UUID, val entity: Entity?)
+class PlayerAttackEntityEvent(val uuid: UUID, val entity: Entity)
 
 class PurchaseLoadEvent(val uuid: UUID, val purchase: HyperiumPurchase, val self: Boolean)
 
@@ -287,6 +287,10 @@ abstract class CopyPlayerModelAnglesEvent(val entity: AbstractClientPlayer, val 
 
 class SoundPlayEvent(val sound: ISound) : CancellableEvent()
 
+/**
+ * Called when entities are about to be rendered in the world
+ */
+class RenderEntitiesEvent(val partialTicks: Float)
 enum class ElementType {
     ALL,
     HELMET,

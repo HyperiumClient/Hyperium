@@ -101,7 +101,7 @@ public class HomeTab extends AbstractTab {
     @Override
     public void draw(int mouseX, int mouseY, int topX, int topY, int containerWidth, int containerHeight) {
         synchronized (title) {
-            if (information != null && title != null) {
+            if (information != null && strTitle != null) {
                 HomeTab.title.drawString(strTitle, topX + 5, topY + 5, 0xffffff);
                 int i = 25;
                 for (String item : items) {

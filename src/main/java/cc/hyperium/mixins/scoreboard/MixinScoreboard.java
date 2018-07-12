@@ -17,6 +17,7 @@
 
 package cc.hyperium.mixins.scoreboard;
 
+import cc.hyperium.mixinsimp.scoreboard.HyperiumScoreboard;
 import net.minecraft.scoreboard.ScorePlayerTeam;
 import net.minecraft.scoreboard.Scoreboard;
 import org.spongepowered.asm.mixin.Final;
@@ -37,6 +38,9 @@ public abstract class MixinScoreboard {
     @Final
     private Map<String, ScorePlayerTeam> teamMemberships;
 
+
+    private HyperiumScoreboard hyperiumScoreboard = new HyperiumScoreboard((Scoreboard) (Object) this);
+
     /**
      * Fix NPE's
      *
@@ -44,19 +48,7 @@ public abstract class MixinScoreboard {
      */
     @Overwrite
     public void removeTeam(ScorePlayerTeam team) {
-        if (team == null) {
-            return;
-        }
-
-        if (team.getRegisteredName() != null) {
-            this.teams.remove(team.getRegisteredName());
-        }
-
-        for (String s : team.getMembershipCollection()) {
-            this.teamMemberships.remove(s);
-        }
-
-        this.func_96513_c(team);
+        hyperiumScoreboard.removeTeam(team, teams, teamMemberships);
     }
 
     @Shadow

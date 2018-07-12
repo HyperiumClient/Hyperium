@@ -5,6 +5,7 @@ import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.WorldChangeEvent;
 import cc.hyperium.installer.utils.DownloadTask;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
+import cc.hyperium.netty.utils.Utils;
 import cc.hyperium.purchases.HyperiumPurchase;
 import cc.hyperium.purchases.PurchaseApi;
 import cc.hyperium.utils.CapeUtils;
@@ -16,17 +17,16 @@ import net.minecraft.client.renderer.IImageBuffer;
 import net.minecraft.client.renderer.ThreadDownloadImageData;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.util.ResourceLocation;
+import org.apache.commons.io.FileUtils;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.SharedDrawable;
 
 import javax.imageio.ImageIO;
-import javax.imageio.ImageReader;
-import javax.imageio.stream.ImageInputStream;
 import java.awt.image.BufferedImage;
-import java.awt.image.ColorModel;
-import java.awt.image.WritableRaster;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +35,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 public class CapeHandler {
 
@@ -77,27 +79,24 @@ public class CapeHandler {
 
         CACHE_DIR = new File(Hyperium.folder, "CACHE_DIR");
         CACHE_DIR.mkdir();
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            CACHE_DIR.delete();
-        }));
+        Runtime.getRuntime().addShutdownHook(new Thread(CACHE_DIR::delete));
     }
 
     @InvokeEvent
     public void worldSwap(WorldChangeEvent event) {
         UUID id = UUIDUtil.getClientUUID();
-        ICape selfCape = capes.get(id);
-        TextureManager textureManager = Minecraft.getMinecraft().getTextureManager();
+        ICape selfCape = id == null ? null : capes.get(id);
         try {
             LOCK.lock();
 
             for (ICape cape : capes.values()) {
-//                if (selfCape != null && selfCape.equals(cape))
-//                    continue;
+                if (selfCape != null && selfCape.equals(cape))
+                    continue;
                 cape.delete(Minecraft.getMinecraft().getTextureManager());
             }
             capes.clear();
-//            if (selfCape != null)
-//                capes.put(id, selfCape);
+            if (selfCape != null)
+                capes.put(id, selfCape);
         } finally {
             LOCK.unlock();
         }
@@ -145,33 +144,35 @@ public class CapeHandler {
             return;
         capes.put(uuid, NullCape.INSTANCE);
 
-//
-        DownloadTask task = new DownloadTask(
-                url,
-                CACHE_DIR.getAbsolutePath());
-        task.execute();
-        task.get();
-        List<BufferedImage> images = new ArrayList<>();
+        File file = new File(CACHE_DIR, uuid.toString());
+        JsonHolder holder = Utils.get("https://api.hyperium.cc/cape/" + uuid.toString());
 
-        ImageReader reader = ImageIO.getImageReadersByFormatName("gif").next();
-        ImageInputStream stream = ImageIO.createImageInputStream(new File(CACHE_DIR, task.getFileName()));
-        System.out.println(stream == null);
-        reader.setInput(stream);
-
-        int frames = reader.getNumImages(true);
-        BufferedImage base = null;
-        for (int i = 0; i < frames; i++) {
-            BufferedImage read = reader.read(i);
-            if (base == null)
-                base = read;
-            else {
-                base.getGraphics().drawImage(read, 0, 0, null);
+        file.mkdirs();
+        File file1 = new File(file, "cache.txt");
+        boolean fetch = true;
+        if (file1.exists()) {
+            String s = FileUtils.readFileToString(file1, "UTF-8");
+            if (s.equalsIgnoreCase(url)) {
+                fetch = false;
             }
-
-
-            images.add(clone(base));
         }
-
+        if (fetch) {
+            DownloadTask task = new DownloadTask(
+                    url,
+                    file.getAbsolutePath());
+            task.execute();
+            task.get();
+            unzip(new File(file, task.getFileName()).getAbsolutePath(), file.getAbsolutePath());
+            file1.createNewFile();
+            FileUtils.write(file1,url);
+        }
+        List<BufferedImage> images = new ArrayList<>();
+        int img = 0;
+        File tmp;
+        while ((tmp = new File(file, "img" + img + ".png")).exists()) {
+            images.add(ImageIO.read(tmp));
+            img++;
+        }
 
         ArrayList<ResourceLocation> locations = new ArrayList<>();
         TextureManager textureManager = Minecraft.getMinecraft().getTextureManager();
@@ -180,7 +181,7 @@ public class CapeHandler {
             for (BufferedImage image : images) {
                 actions.add(() -> {
                     ResourceLocation resourceLocation = new ResourceLocation(
-                            String.format("hyperium/dynamic_capes/%s_%s.png", uuid, i[0]));
+                            String.format("hyperium/dynamic_capes/%s_%s.png", file.getName(), i[0]));
                     locations.add(resourceLocation);
 
                     CapeTexture capeTexture = new CapeTexture(image);
@@ -193,9 +194,10 @@ public class CapeHandler {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        int finalImg = img;
+
         actions.add(() -> {
-            setCape(uuid, new DynamicCape(locations, frames, frames));
-            System.gc();
+            setCape(uuid, new DynamicCape(locations, holder.optInt("delay"), finalImg));
         });
     }
 
@@ -264,10 +266,40 @@ public class CapeHandler {
         this.capes.remove(id);
     }
 
-    private BufferedImage clone(BufferedImage bi) {
-        ColorModel cm = bi.getColorModel();
-        boolean isAlpha = cm.isAlphaPremultiplied();
-        WritableRaster writableRaster = bi.copyData(null);
-        return new BufferedImage(cm, writableRaster, isAlpha, null);
+    private void unzip(String zipFilePath, String destDir) {
+        File dir = new File(destDir);
+        // create output directory if it doesn't exist
+        if (!dir.exists()) dir.mkdirs();
+        FileInputStream fis;
+        //buffer for read and write data to file
+        byte[] buffer = new byte[1024];
+        try {
+            fis = new FileInputStream(zipFilePath);
+            ZipInputStream zis = new ZipInputStream(fis);
+            ZipEntry ze = zis.getNextEntry();
+            while (ze != null) {
+                String fileName = ze.getName();
+                File newFile = new File(destDir + File.separator + fileName);
+                System.out.println("Unzipping to " + newFile.getAbsolutePath());
+                //create directories for sub directories in zip
+                new File(newFile.getParent()).mkdirs();
+                FileOutputStream fos = new FileOutputStream(newFile);
+                int len;
+                while ((len = zis.read(buffer)) > 0) {
+                    fos.write(buffer, 0, len);
+                }
+                fos.close();
+                //close this ZipEntry
+                zis.closeEntry();
+                ze = zis.getNextEntry();
+            }
+            //close last ZipEntry
+            zis.closeEntry();
+            zis.close();
+            fis.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 }

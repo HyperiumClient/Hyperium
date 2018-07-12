@@ -1,16 +1,15 @@
 package cc.hyperium.mixins.client.particle;
 
-import cc.hyperium.config.Settings;
+import cc.hyperium.mixinsimp.client.particle.HyperiumEffectRenderer;
 import cc.hyperium.mixinsimp.renderer.client.particle.IMixinEffectRenderer;
+import java.util.List;
+import java.util.Map;
 import net.minecraft.client.particle.EffectRenderer;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.client.particle.IParticleFactory;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
-
-import java.util.List;
-import java.util.Map;
 
 /**
  * Created by mitchellkatz on 6/24/18. Designed for production use on Sk1er.club
@@ -23,16 +22,11 @@ public class MixinEffectRenderer implements IMixinEffectRenderer {
     @Shadow
     private List<EntityFX>[][] fxLayers;
 
+    private HyperiumEffectRenderer hyperiumEffectRenderer = new HyperiumEffectRenderer();
+
     @Overwrite
     public void addEffect(EntityFX effect) {
-        int i = effect.getFXLayer();
-        int j = effect.getAlpha() != 1.0F ? 0 : 1;
-
-        if (this.fxLayers[i][j].size() >= Settings.MAX_WORLD_PARTICLES_INT) {
-            this.fxLayers[i][j].remove(0);
-        }
-
-        this.fxLayers[i][j].add(effect);
+       hyperiumEffectRenderer.addEffect(this.fxLayers,effect);
     }
 
     @Override

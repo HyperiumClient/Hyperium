@@ -17,13 +17,9 @@
 
 package cc.hyperium.mixins.entity;
 
-import cc.hyperium.event.EventBus;
-import cc.hyperium.event.PlayerGetCapeEvent;
-import cc.hyperium.event.PlayerGetSkinEvent;
+import cc.hyperium.mixinsimp.entity.HyperiumNetworkPlayerInfo;
 import com.mojang.authlib.GameProfile;
 import net.minecraft.client.network.NetworkPlayerInfo;
-import net.minecraft.client.resources.DefaultPlayerSkin;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -42,7 +38,7 @@ public abstract class MixinNetworkPlayerInfo {
     @Shadow
     private ResourceLocation locationCape;
 
-    private EntityPlayer thePlayer;
+    private HyperiumNetworkPlayerInfo hyperiumNetworkPlayerInfo = new HyperiumNetworkPlayerInfo((NetworkPlayerInfo) (Object) this);
 
     /**
      * Allow for better cape customization
@@ -51,19 +47,7 @@ public abstract class MixinNetworkPlayerInfo {
      */
     @Overwrite
     public ResourceLocation getLocationCape() {
-        ResourceLocation cape = this.locationCape;
-
-        if (cape == null) {
-            this.loadPlayerTextures();
-        }
-
-        PlayerGetCapeEvent event = new PlayerGetCapeEvent(this.gameProfile, cape);
-
-        EventBus.INSTANCE.post(event);
-
-        cape = event.getCape();
-
-        return this.locationCape = cape;
+        return hyperiumNetworkPlayerInfo.getLocationCape(this.gameProfile,this.locationCape);
     }
 
     /**
@@ -73,25 +57,6 @@ public abstract class MixinNetworkPlayerInfo {
      */
     @Overwrite
     public ResourceLocation getLocationSkin() {
-        ResourceLocation skin = this.locationSkin;
-
-        if (skin == null) {
-            this.loadPlayerTextures();
-        }
-
-        PlayerGetSkinEvent event = new PlayerGetSkinEvent(this.gameProfile, skin);
-
-        EventBus.INSTANCE.post(event);
-
-        skin = event.getSkin();
-
-        return this.locationSkin = normalizeSkin(skin);
+        return hyperiumNetworkPlayerInfo.getLocationSkin(gameProfile,locationSkin);
     }
-
-    private ResourceLocation normalizeSkin(ResourceLocation skin) {
-        return (skin != null ? skin : DefaultPlayerSkin.getDefaultSkin(this.gameProfile.getId()));
-    }
-
-    @Shadow
-    protected abstract void loadPlayerTextures();
 }

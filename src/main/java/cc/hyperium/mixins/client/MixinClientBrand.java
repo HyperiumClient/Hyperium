@@ -1,5 +1,6 @@
 package cc.hyperium.mixins.client;
 
+import cc.hyperium.mixinsimp.client.HyperiumClientBrand;
 import net.minecraft.client.ClientBrandRetriever;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
@@ -9,6 +10,6 @@ public class MixinClientBrand {
 
     @Overwrite
     public static String getClientModName() {
-        return "hyperium";
+        return HyperiumClientBrand.getClientModName();
     }
 }

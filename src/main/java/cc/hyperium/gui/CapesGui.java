@@ -1,9 +1,11 @@
 package cc.hyperium.gui;
 
 import cc.hyperium.Hyperium;
+import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.netty.NettyClient;
 import cc.hyperium.netty.packet.packets.serverbound.ServerCrossDataPacket;
+import cc.hyperium.purchases.HyperiumPurchase;
 import cc.hyperium.purchases.PurchaseApi;
 import cc.hyperium.utils.JsonHolder;
 import cc.hyperium.utils.RenderUtils;
@@ -77,12 +79,29 @@ public class CapesGui extends HyperiumGui {
             if (client != null) {
                 client.write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("set_cape", true).put("value", "default")));
             }
-            JsonHolder purchaseSettings = PurchaseApi.getInstance().getSelf().getPurchaseSettings();
+            HyperiumPurchase self = PurchaseApi.getInstance().getSelf();
+            if(self ==null) {
+                GeneralChatHandler.instance().sendMessage("Unable to reset your cape: Your profile is not loaded");
+                return;
+            }
+            JsonHolder purchaseSettings = self.getPurchaseSettings();
             if (!purchaseSettings.has("cape")) {
                 purchaseSettings.put("cape", new JsonHolder());
             }
             purchaseSettings.optJSONObject("cape").put("type", "default");
             Hyperium.INSTANCE.getHandlers().getCapeHandler().deleteCape(UUIDUtil.getClientUUID());
+        }, guiButton -> {
+
+        });
+        reg("CUSTOM", new GuiButton(nextId(), 1, 22, "Custom Cape"), guiButton -> {
+            Desktop desktop = Desktop.getDesktop();
+            if (desktop != null) {
+                try {
+                    desktop.browse(new URL("https://capes.hyperium.cc").toURI());
+                } catch (IOException | URISyntaxException e) {
+                    e.printStackTrace();
+                }
+            }
         }, guiButton -> {
 
         });

@@ -17,8 +17,7 @@
 
 package cc.hyperium.mixins.gui;
 
-import cc.hyperium.event.EventBus;
-import cc.hyperium.event.ServerJoinEvent;
+import cc.hyperium.mixinsimp.gui.HyperiumGuiConnecting;
 import net.minecraft.client.multiplayer.GuiConnecting;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -27,6 +26,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(GuiConnecting.class)
 public class MixinGuiConnecting {
+
+    private HyperiumGuiConnecting hyperiumGuiConnecting = new HyperiumGuiConnecting();
 
     /**
      * Invoked once the player is connecting to a server
@@ -37,6 +38,6 @@ public class MixinGuiConnecting {
      */
     @Inject(method = "connect", at = @At("HEAD"))
     private void connect(String ip, int port, CallbackInfo ci) {
-        EventBus.INSTANCE.post(new ServerJoinEvent(ip, port));
+        hyperiumGuiConnecting.connect(ip, port);
     }
 }

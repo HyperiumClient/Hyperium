@@ -17,19 +17,17 @@
 
 package cc.hyperium.mixins.gui;
 
-import net.minecraft.client.Minecraft;
+import cc.hyperium.mixinsimp.gui.HyperiumInventory;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.InventoryEffectRenderer;
 import net.minecraft.inventory.Container;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
-import org.spongepowered.asm.mixin.Shadow;
 
 @Mixin(InventoryEffectRenderer.class)
 public abstract class MixinInventory extends GuiContainer {
 
-    @Shadow
-    private boolean hasActivePotionEffects;
+    private HyperiumInventory hyperiumInventory = new HyperiumInventory((InventoryEffectRenderer) (Object) this);
 
     public MixinInventory(Container inventorySlotsIn) {
         super(inventorySlotsIn);
@@ -42,8 +40,7 @@ public abstract class MixinInventory extends GuiContainer {
      */
     @Overwrite
     protected void updateActivePotionEffects() {
-        this.hasActivePotionEffects = !Minecraft.getMinecraft().thePlayer.getActivePotionEffects().isEmpty();
-        this.guiLeft = (this.width - this.xSize) / 2;
+        hyperiumInventory.updateActivePotionEffects(this.xSize);
     }
 
 }

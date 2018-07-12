@@ -17,8 +17,7 @@
 
 package cc.hyperium.mixins.world;
 
-import cc.hyperium.config.Settings;
-import net.minecraft.client.Minecraft;
+import cc.hyperium.mixinsimp.world.HyperiumChunk;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.chunk.Chunk;
@@ -30,6 +29,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(Chunk.class)
 public class MixinChunk {
 
+
+    private HyperiumChunk hyperiumChunk = new HyperiumChunk();
+
     /**
      * Used in fullbright module
      *
@@ -39,9 +41,7 @@ public class MixinChunk {
      */
     @Inject(method = "getLightFor", at = @At("HEAD"), cancellable = true)
     private void getLightFor(EnumSkyBlock type, BlockPos pos, CallbackInfoReturnable<Integer> ci) {
-        if (!Minecraft.getMinecraft().isIntegratedServerRunning() && Settings.FULLBRIGHT) {
-            ci.setReturnValue(15);
-        }
+        hyperiumChunk.getLightFor(type, pos, ci);
     }
 
 
@@ -53,8 +53,6 @@ public class MixinChunk {
      */
     @Inject(method = "getLightSubtracted", at = @At("HEAD"), cancellable = true)
     private void getLightSubtracted(BlockPos pos, int amount, CallbackInfoReturnable<Integer> ci) {
-        if (!Minecraft.getMinecraft().isIntegratedServerRunning() && Settings.FULLBRIGHT) {
-            ci.setReturnValue(15);
-        }
+        hyperiumChunk.getLightSubtracted(pos, amount, ci);
     }
 }

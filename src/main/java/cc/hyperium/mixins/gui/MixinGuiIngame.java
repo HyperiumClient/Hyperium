@@ -17,16 +17,13 @@
 
 package cc.hyperium.mixins.gui;
 
-import cc.hyperium.config.Settings;
-import cc.hyperium.event.EventBus;
-import cc.hyperium.event.RenderSelectedItemEvent;
+import cc.hyperium.mixinsimp.gui.HyperiumGuiIngame;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiIngame;
 import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.entity.boss.BossStatus;
+import net.minecraft.scoreboard.ScoreObjective;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
@@ -41,13 +38,24 @@ public abstract class MixinGuiIngame extends Gui {
     @Shadow
     @Final
     private Minecraft mc;
+    private HyperiumGuiIngame hyperiumGuiIngame = new HyperiumGuiIngame((GuiIngame) (Object) this);
 
     @Shadow
     public abstract FontRenderer getFontRenderer();
 
+    @Inject(method = "renderGameOverlay", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/settings/KeyBinding;isKeyDown()Z"))
+    private void renderGameOverlay(float partialTicks, CallbackInfo ci) {
+        hyperiumGuiIngame.renderGameOverlay(partialTicks, ci);
+    }
+
     @Inject(method = "renderSelectedItem", at = @At(value = "RETURN", target = "Lnet/minecraft/client/renderer/GlStateManager;popMatrix()V"))
     private void onRenderSelectedItem(ScaledResolution p_181551_1_, CallbackInfo ci) {
-        EventBus.INSTANCE.post(new RenderSelectedItemEvent(p_181551_1_));
+        hyperiumGuiIngame.renderSelectedItem(p_181551_1_);
+    }
+
+    @Overwrite
+    private void renderScoreboard(ScoreObjective objective, ScaledResolution resolution) {
+        hyperiumGuiIngame.renderScoreboard(objective, resolution);
     }
 
     /**
@@ -58,36 +66,6 @@ public abstract class MixinGuiIngame extends Gui {
      */
     @Overwrite
     private void renderBossHealth() {
-        if (BossStatus.bossName != null && BossStatus.statusBarTime > 0) {
-            --BossStatus.statusBarTime;
-
-            FontRenderer fontrenderer = this.mc.fontRendererObj;
-            ScaledResolution scaledresolution = new ScaledResolution(this.mc);
-            int i = scaledresolution.getScaledWidth();
-            int i1 = 12;
-
-            if (Settings.BOSSBAR_TEXT_ONLY) {
-                String s = BossStatus.bossName;
-                this.getFontRenderer().drawStringWithShadow(s, (float) (i / 2 - this.getFontRenderer().getStringWidth(s) / 2), (float) (i1 - 10), 16777215);
-                GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-                this.mc.getTextureManager().bindTexture(icons);
-                return;
-            }
-
-            int j = 182;
-            int k = i / 2 - j / 2;
-            int l = (int) (BossStatus.healthScale * (float) (j + 1));
-            this.drawTexturedModalRect(k, i1, 0, 74, j, 5);
-            this.drawTexturedModalRect(k, i1, 0, 74, j, 5);
-
-            if (l > 0) {
-                this.drawTexturedModalRect(k, i1, 0, 79, l, 5);
-            }
-
-            String s = BossStatus.bossName;
-            this.getFontRenderer().drawStringWithShadow(s, (float) (i / 2 - this.getFontRenderer().getStringWidth(s) / 2), (float) (i1 - 10), 16777215);
-            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-            this.mc.getTextureManager().bindTexture(icons);
-        }
+        hyperiumGuiIngame.renderBossHealth();
     }
 }

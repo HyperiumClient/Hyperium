@@ -21,14 +21,13 @@ import cc.hyperium.purchases.HyperiumPurchase;
 import cc.hyperium.purchases.PurchaseApi;
 import cc.hyperium.utils.JsonHolder;
 import cc.hyperium.utils.UUIDUtil;
+import java.awt.Color;
+import java.io.IOException;
+import java.util.HashMap;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import org.lwjgl.input.Keyboard;
-
-import java.awt.Color;
-import java.io.IOException;
-import java.util.HashMap;
 
 /**
  * Created by mitchellkatz on 6/25/18. Designed for production use on Sk1er.club
@@ -42,6 +41,8 @@ public class ParticleGui extends HyperiumGui {
     private PurchaseCarousel particleAnimation;
     private int credits;
     private GuiBlock previewBlock = null;
+    private boolean queueBuild = false;
+
     public ParticleGui() {
 
     }
@@ -50,20 +51,28 @@ public class ParticleGui extends HyperiumGui {
     public void initGui() {
         EventBus.INSTANCE.register(this);
         super.initGui();
-        queueBuild=true;
+        queueBuild = true;
     }
-    private boolean queueBuild = false;
+
     @InvokeEvent
     public void loadPurchaseEvent(PurchaseLoadEvent event) {
         if (event.getSelf()) {
-            queueBuild=true;
+            queueBuild = true;
         }
     }
 
     private void rebuild() {
         EnumParticleType[] values = EnumParticleType.values();
+        if(values == null){
+            return;
+        }
+
         int length = values.length;
         HyperiumPurchase self = PurchaseApi.getInstance().getSelf();
+        if (self == null) {
+            queueBuild = true;
+            return;
+        }
         JsonHolder purchaseSettings = self.getPurchaseSettings();
         if (!purchaseSettings.has("particle"))
             purchaseSettings.put("particle", new JsonHolder());
@@ -113,24 +122,24 @@ public class ParticleGui extends HyperiumGui {
                     //Rebuild auto called on purchase update
                 }, () -> new String[]{"DEFAULT", "RGB", "CHROMA"}));
                 overlay.getComponents().add(new OverlaySlider("Red", 0, 255, particle.optInt("red", 255), aFloat -> {
-                    particle.put("red",aFloat);
-                    EventBus.INSTANCE.post(new PurchaseLoadEvent(UUIDUtil.getClientUUID(),self,true));
+                    particle.put("red", aFloat);
+                    EventBus.INSTANCE.post(new PurchaseLoadEvent(UUIDUtil.getClientUUID(), self, true));
                     NettyClient client = NettyClient.getClient();
                     if (client != null) {
                         client.write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("particle_update", true).put("red", aFloat.intValue())));
                     }
                 }, true));
                 overlay.getComponents().add(new OverlaySlider("Green", 0, 255, particle.optInt("green", 255), aFloat -> {
-                    particle.put("green",aFloat);
-                    EventBus.INSTANCE.post(new PurchaseLoadEvent(UUIDUtil.getClientUUID(),self,true));
+                    particle.put("green", aFloat);
+                    EventBus.INSTANCE.post(new PurchaseLoadEvent(UUIDUtil.getClientUUID(), self, true));
                     NettyClient client = NettyClient.getClient();
                     if (client != null) {
                         client.write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("particle_update", true).put("green", aFloat.intValue())));
                     }
                 }, true));
                 overlay.getComponents().add(new OverlaySlider("Blue", 0, 255, particle.optInt("blue", 255), aFloat -> {
-                    particle.put("blue",aFloat);
-                    EventBus.INSTANCE.post(new PurchaseLoadEvent(UUIDUtil.getClientUUID(),self,true));
+                    particle.put("blue", aFloat);
+                    EventBus.INSTANCE.post(new PurchaseLoadEvent(UUIDUtil.getClientUUID(), self, true));
                     NettyClient client = NettyClient.getClient();
                     if (client != null) {
                         client.write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("particle_update", true).put("blue", aFloat.intValue())));
@@ -170,7 +179,7 @@ public class ParticleGui extends HyperiumGui {
 
         ParticleAuraHandler particleAuraHandler = Hyperium.INSTANCE.getHandlers().getParticleAuraHandler();
         HashMap<String, AbstractAnimation> animations = particleAuraHandler.getAnimations();
-        String[] keys = new String[]{"Double Twirl","Tornado","Double Helix","Triple Twirl","Quad Twirl","Static Trail","Explode","Vortex of doom"};
+        String[] keys = new String[]{"Double Twirl", "Tornado", "Double Helix", "Triple Twirl", "Quad Twirl", "Static Trail", "Explode", "Vortex of doom"};
         CarouselItem[] animationItems = new CarouselItem[animations.size()];
         int c = 0;
         int g = 0;
@@ -221,8 +230,8 @@ public class ParticleGui extends HyperiumGui {
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-        if(queueBuild) {
-            queueBuild=false;
+        if (queueBuild) {
+            queueBuild = false;
             rebuild();
 
         }
@@ -238,7 +247,7 @@ public class ParticleGui extends HyperiumGui {
         GlStateManager.scale(.5, .5, .5);
         s = "You must purchase at least 1 particle and 1 animation for it to show";
         fontRendererObj.drawString(s, ResolutionUtil.current().getScaledWidth() / 2 - fontRendererObj.getStringWidth(s) / 2, 50, Color.MAGENTA.getRGB(), true);
-        s="The Double Twirl animation is free.";
+        s = "The Double Twirl animation is free.";
         fontRendererObj.drawString(s, ResolutionUtil.current().getScaledWidth() / 2 - fontRendererObj.getStringWidth(s) / 2, 61, Color.MAGENTA.getRGB(), true);
 
         s = "Preview";
@@ -248,7 +257,7 @@ public class ParticleGui extends HyperiumGui {
         int y1 = ResolutionUtil.current().getScaledHeight() / 4;
         fontRendererObj.drawString(s, x1, y1, Color.MAGENTA.getRGB(), true);
         GlStateManager.scale(.5, .5, .5);
-        this.previewBlock = new GuiBlock(x1 * 2, x1 * 2 + stringWidth*2, y1*2, y1*2 + 20);
+        this.previewBlock = new GuiBlock(x1 * 2, x1 * 2 + stringWidth * 2, y1 * 2, y1 * 2 + 20);
         super.drawScreen(mouseX, mouseY, partialTicks);
         ScaledResolution current = ResolutionUtil.current();
         particleType.render(current.getScaledWidth() / 5, current.getScaledHeight() / 2, mouseX, mouseY);

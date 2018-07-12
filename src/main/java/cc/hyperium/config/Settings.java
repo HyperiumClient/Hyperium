@@ -86,6 +86,10 @@ public class Settings {
     public static boolean PERSPECTIVE_HOLD = false;
 
 
+    @ConfigOpt
+    @ToggleSetting(category = IMPROVEMENTS,name = "Optimized Item Renderer (BETA)")
+    public static boolean OPTIMIZED_ITEM_RENDERER = false;
+
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;windowedFullScreen")
     @ToggleSetting(name = "Windowed Fullscreen", category = IMPROVEMENTS)
     public static boolean WINDOWED_FULLSCREEN = false;
@@ -193,7 +197,7 @@ public class Settings {
 
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.CosmeticSettings;fliptoggle")
-    @ToggleSetting(name = "Flip - Keybind Toggle", category = COSMETICS)
+    @ToggleSetting(name = "Flip - Toggle Mode", category = COSMETICS)
     public static boolean isFlipToggle = true;
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.CosmeticSettings;fliptype")
@@ -301,8 +305,7 @@ public class Settings {
     @ConfigOpt(alt = "cc.hyperium.cosmetics.wings.WingsCosmetic;location")
     @SelectorSetting(name = "Wing Type", items =
             {
-                    "Dragon wings",
-                    "Angel wings"
+                    "Dragon wings"
             }, category = WINGS
     )
     public static String wingsSELECTED = "Dragon wings";
@@ -393,6 +396,10 @@ public class Settings {
     @ToggleSetting(name = "Always show super secret settings", category = MISC)
     public static boolean ALWAYS_SHOW_SUPER_SECRET_SETTINGS = false;
 
+
+    @ConfigOpt
+    @ToggleSetting(name = "Show Hit Distances")
+    public static boolean SHOW_HIT_DISTANCES = false;
     public static void register() {
         Hyperium.CONFIG.register(new Settings()); // values r static soo whatever
     }
