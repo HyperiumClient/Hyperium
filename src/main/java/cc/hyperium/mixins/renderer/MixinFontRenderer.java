@@ -133,9 +133,9 @@ public abstract class MixinFontRenderer {
         }
         boolean hasObf = false;
         CachedString value = new CachedString(text, list, this.posX - posX, this.posY - posY);
-        GlStateManager.rotate(90, 0.0F, 1.0F, 0.0F);
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 0.0F);
         this.func_181559_a('.', this.italicStyle);
-        GlStateManager.rotate(-90, 0.0F, 1.0F, 0.0F);
+        GlStateManager.color(red, blue, green, alpha);
 
         for (int i = 0; i < text.length(); ++i) {
             char c0 = text.charAt(i);
