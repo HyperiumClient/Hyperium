@@ -140,7 +140,13 @@ public class CapesGui extends HyperiumGui {
             int printY = 60 - offset;
             GlStateManager.scale(2F, 2F, 2F);
             fontRendererObj.drawString("Capes", (scaledWidth / 2 - fontRendererObj.getStringWidth("Capes")) / 2, printY / 2, new Color(249, 99, 0).getRGB(), true);
-            String s1 = PurchaseApi.getInstance().getSelf().getPurchaseSettings().optJSONObject("cape").optString("type");
+            String s1;
+            try {
+                s1 = PurchaseApi.getInstance().getSelf().getPurchaseSettings()
+                    .optJSONObject("cape").optString("type");
+            } catch (NullPointerException e){
+                return;
+            }
             String s2 = capeAtlas.optJSONObject(s1).optString("name");
             if (s2.isEmpty())
                 s2 = "NONE";

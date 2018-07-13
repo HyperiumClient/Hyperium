@@ -21,6 +21,15 @@ import cc.hyperium.Hyperium;
 import cc.hyperium.config.Settings;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
+import java.awt.Color;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Consumer;
+import javax.imageio.ImageIO;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
@@ -34,16 +43,6 @@ import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.input.Mouse;
-
-import javax.imageio.ImageIO;
-import java.awt.Color;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.function.Consumer;
 
 public abstract class HyperiumGui extends GuiScreen {
 
@@ -223,8 +222,11 @@ public abstract class HyperiumGui extends GuiScreen {
     @Override
     protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
         super.mouseClicked(mouseX, mouseY, mouseButton);
-        mouseX = (int) (mouseX * ((float) Minecraft.getMinecraft().gameSettings.guiScale) / (float) guiScale);
-        mouseY = (int) (mouseY * ((float) Minecraft.getMinecraft().gameSettings.guiScale) / (float) guiScale);
+        ScaledResolution current = new ScaledResolution(Minecraft.getMinecraft());
+        float scaleFactor = 1F / current.getScaleFactor();
+
+        mouseX = (int) (mouseX * ((float) Minecraft.getMinecraft().gameSettings.guiScale) * scaleFactor);
+        mouseY = (int) (mouseY * ((float) Minecraft.getMinecraft().gameSettings.guiScale) * scaleFactor);
 
         for (GuiBlock block : actions.keySet()) {
             if (block.isMouseOver(mouseX, mouseY)) {
