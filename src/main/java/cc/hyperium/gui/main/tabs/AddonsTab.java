@@ -9,7 +9,6 @@ import cc.hyperium.gui.main.components.SettingItem;
 import cc.hyperium.internal.addons.AddonBootstrap;
 import cc.hyperium.internal.addons.AddonManifest;
 import net.minecraft.client.gui.Gui;
-import org.lwjgl.input.Mouse;
 
 /*
  * Created by Cubxity on 29/05/2018
@@ -64,6 +63,11 @@ public class AddonsTab extends AbstractTab {
     @Override
     public void drawHighlight(float s) {
         Gui.drawRect(0, (int) (y + s * (s * w / 2)), 3, (int) (y + w - s * (w / 2)), 0xffffffff);
+    }
+
+    @Override
+    public String getTitle() {
+        return "Addons";
     }
 
     @Override

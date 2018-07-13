@@ -139,6 +139,11 @@ public class CosmeticsTab extends AbstractTab {
         Gui.drawRect(0, (int) (y + s * (s * w / 2)), 3, (int) (y + w - s * (w / 2)), Color.WHITE.getRGB());
     }
 
+    @Override
+    public String getTitle() {
+        return "Cosmetics";
+    }
+
     public void refreshData() {
         Multithreading.runAsync(() -> {
             PurchaseApi.getInstance().refreshSelf();

@@ -56,7 +56,7 @@ public abstract class AbstractTab {
             checkPos();
         }
     }
-
+    public abstract String getTitle();
     private void checkPos() {
         if (this instanceof HomeTab)
             return;

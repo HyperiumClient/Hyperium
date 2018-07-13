@@ -8,25 +8,36 @@ import cc.hyperium.gui.GuiBlock;
 import cc.hyperium.gui.HyperiumGui;
 import cc.hyperium.gui.Icons;
 import cc.hyperium.gui.main.components.AbstractTab;
-import cc.hyperium.gui.main.tabs.*;
+import cc.hyperium.gui.main.tabs.AddonsInstallerTab;
+import cc.hyperium.gui.main.tabs.AddonsTab;
+import cc.hyperium.gui.main.tabs.CosmeticsTab;
+import cc.hyperium.gui.main.tabs.HomeTab;
+import cc.hyperium.gui.main.tabs.InfoTab;
+import cc.hyperium.gui.main.tabs.ModsTab;
+import cc.hyperium.gui.main.tabs.SettingsTab;
 import cc.hyperium.installer.InstallerConfig;
 import cc.hyperium.installer.utils.DownloadTask;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
+import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
 import cc.hyperium.utils.HyperiumFontRenderer;
 import cc.hyperium.utils.JsonHolder;
 import cc.hyperium.utils.UpdateUtils;
 import com.google.gson.JsonObject;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Font;
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.TimeUnit;
@@ -41,6 +52,8 @@ public class HyperiumMainGui extends HyperiumGui {
 
     public static HyperiumMainGui INSTANCE = new HyperiumMainGui();
     private final HyperiumFontRenderer fr = new HyperiumFontRenderer("Arial", Font.PLAIN, 20);
+    public boolean show = false;
+    public UpdateUtils utils;
     private long lastSelectionChange = 0L;
     private List<String> loadedAlerts = new ArrayList<>();
     private AbstractTab currentTab = null;
@@ -51,8 +64,6 @@ public class HyperiumMainGui extends HyperiumGui {
     private float highlightScale = 0f;
     private List<AbstractTab> tabs = new ArrayList<>();
     private CosmeticsTab cosmeticsTab;
-    public boolean show = false;
-    public UpdateUtils utils;
 
     public List<AbstractTab> getTabs() {
         return tabs;
@@ -98,13 +109,15 @@ public class HyperiumMainGui extends HyperiumGui {
         SettingsTab settingsTab = new SettingsTab(height / 2 - pw, pw);
         EventBus.INSTANCE.register(settingsTab);
 
+        ModsTab modsTab = new ModsTab(height / 2, pw);
         tabs = Arrays.asList(
                 ht,
                 cosmeticsTab = new CosmeticsTab(height / 2 - pw * 2, pw),
                 settingsTab,
-                new AddonsTab(height / 2, pw),
-                new InfoTab(height / 2 + pw, pw),
-                new AddonsInstallerTab(height / 2 + pw * 2, pw)
+                modsTab,
+                new AddonsTab(height / 2 + pw, pw),
+                new InfoTab(height / 2 + pw * 2, pw),
+                new AddonsInstallerTab(height / 2 + pw * 3, pw)
         );
         tabFade = 1f;
     }
@@ -124,6 +137,10 @@ public class HyperiumMainGui extends HyperiumGui {
         if (pw > 144)
             pw = 144; // icon res
 
+        GlStateManager.scale(3, 3, 0);
+        ScaledResolution current = ResolutionUtil.current();
+        fontRendererObj.drawString(currentTab.getTitle(), current.getScaledWidth()/2/3-fontRendererObj.getStringWidth(currentTab.getTitle())/2,15/3,Color.WHITE.getRGB(),true);
+GlStateManager.scale(1/3F,1/3F,1/3F);
         // Draws side pane
         GlStateManager.pushMatrix();
         GlStateManager.enableBlend();
@@ -145,8 +162,8 @@ public class HyperiumMainGui extends HyperiumGui {
         if (currentAlert != null)
             currentAlert.render(fr, width, height);
 
-        if(!isLatestVersion() && !show && Settings.UPDATE_NOTIFICATIONS && !Metadata.isDevelopment()) {
-                Alert alert = new Alert(Icons.ERROR.getResource(), () -> downloadLatest(), "Hyperium Update! Click here to download.");
+        if (!isLatestVersion() && !show && Settings.UPDATE_NOTIFICATIONS && !Metadata.isDevelopment()) {
+            Alert alert = new Alert(Icons.ERROR.getResource(), () -> downloadLatest(), "Hyperium Update! Click here to download.");
             alerts.add(alert);
             show = true;
         }
@@ -155,7 +172,7 @@ public class HyperiumMainGui extends HyperiumGui {
             overlay.render(mouseX, mouseY, width, height);
             int x = width / 6 * 2;
             int y = height / 4;
-           Icons.EXIT.bind();
+            Icons.EXIT.bind();
             Gui.drawRect(x, y - 16, x + 16, y, new Color(0, 0, 0, 100).getRGB());
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
             Gui.drawScaledCustomSizeModalRect(x, y - 16, 0, 0, 144, 144, 16, 16, 144, 144);
@@ -168,11 +185,11 @@ public class HyperiumMainGui extends HyperiumGui {
             highlightScale += 0.08f;
     }
 
-    public boolean isLatestVersion(){
+    public boolean isLatestVersion() {
         return Hyperium.INSTANCE.isLatestVersion;
     }
 
-    public void downloadLatest(){
+    public void downloadLatest() {
         String versions_url = "https://raw.githubusercontent.com/HyperiumClient/Hyperium-Repo/master/installer/versions.json";
         JsonHolder vJson = null;
         try {
@@ -184,8 +201,8 @@ public class HyperiumMainGui extends HyperiumGui {
             Hyperium.INSTANCE.getNotification().display("Update", "Downloading updates...", 3);
             JsonHolder finalVJson = vJson;
             JsonObject ver = StreamSupport.stream(vJson.optJSONArray("versions").spliterator(), false)
-                .filter(v -> finalVJson.optString("latest-stable").equals(v.getAsJsonObject().get("name").getAsString())).findFirst()
-                .orElseThrow(() -> new IllegalStateException("Couldn't find stable version")).getAsJsonObject();
+                    .filter(v -> finalVJson.optString("latest-stable").equals(v.getAsJsonObject().get("name").getAsString())).findFirst()
+                    .orElseThrow(() -> new IllegalStateException("Couldn't find stable version")).getAsJsonObject();
             boolean download = ver.get("install-min").getAsInt() > InstallerConfig.VERSION;
             System.out.println("Download=" + download);
             Multithreading.runAsync(() -> {

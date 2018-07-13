@@ -27,13 +27,15 @@ import cc.hyperium.purchases.EnumPurchaseType;
 import cc.hyperium.purchases.HyperiumPurchase;
 import cc.hyperium.purchases.PurchaseApi;
 import cc.hyperium.utils.JsonHolder;
+import net.minecraft.client.gui.Gui;
+import net.minecraft.client.renderer.GlStateManager;
+import org.apache.commons.lang3.ArrayUtils;
+
 import java.awt.Color;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
-import net.minecraft.client.gui.Gui;
-import org.apache.commons.lang3.ArrayUtils;
 
 /*
  * Created by Cubxity on 20/05/2018
@@ -316,6 +318,7 @@ public class SettingsTab extends AbstractTab {
     @Override
     public void drawTabIcon() {
         Icons.SETTINGS.bind();
+        GlStateManager.color(1.0F,1.0F,1.0F);
         Gui.drawScaledCustomSizeModalRect(5, y + 5, 0, 0, 144, 144, w - 10, w - 10, 144, 144);
     }
 
@@ -327,6 +330,11 @@ public class SettingsTab extends AbstractTab {
     @Override
     public void drawHighlight(float s) {
         Gui.drawRect(0, (int) (y + s * (s * w / 2)), 3, (int) (y + w - s * (w / 2)), Color.WHITE.getRGB());
+    }
+
+    @Override
+    public String getTitle() {
+        return "Settings";
     }
 
     @Override

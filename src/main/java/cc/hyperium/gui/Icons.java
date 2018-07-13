@@ -21,7 +21,7 @@ public enum Icons {
     CLOSE(new ResourceLocation("textures/material/close.png")),
     FA_UP_ARROW(new ResourceLocation("textures/material/fa_up_arrow.png")),
     FA_DOWN_ARROW(new ResourceLocation("textures/material/fa_down_arrow.png")),
-
+    FA_WRENCH(new ResourceLocation("textures/material/fa_wrench.png")),
     MISC(new ResourceLocation("textures/material/misc.png"));
 
 

@@ -110,6 +110,11 @@ public class AddonsInstallerTab extends AbstractTab {
             Gui.drawRect(0, (int) (y + s * (s * w / 2)), 3, (int) (y + w - s * (w / 2)), Color.WHITE.getRGB());
     }
 
+    @Override
+    public String getTitle() {
+        return "Addon Installer";
+    }
+
     private void installAddon(String jsonName) throws IOException {
         JsonArray addons = new JsonHolder(InstallerFrame.get("https://raw.githubusercontent.com/HyperiumClient/Hyperium-Repo/master/installer/versions.json")).optJSONArray("addons");
         JsonHolder addon = new JsonHolder(StreamSupport.stream(addons.spliterator(), false).filter(o -> o.getAsJsonObject().get("name").getAsString().equals(jsonName)).findFirst().get().getAsJsonObject());
