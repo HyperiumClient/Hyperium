@@ -129,5 +129,11 @@ public class HomeTab extends AbstractTab {
             offsetY += 10;
         else if (i < 0)
             offsetY -= 10;
+
+       if(offsetY > 10)
+           offsetY = 10;
+       if(offsetY < -10*(items.size()-1)) {
+           offsetY= -10*(items.size()-1);
+       }
     }
 }

@@ -3,6 +3,7 @@ package cc.hyperium.gui.main.components;
 import cc.hyperium.gui.GuiBlock;
 import cc.hyperium.gui.Icons;
 import cc.hyperium.gui.main.HyperiumMainGui;
+import cc.hyperium.gui.main.tabs.HomeTab;
 import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
 import cc.hyperium.utils.HyperiumFontRenderer;
 import net.minecraft.client.Minecraft;
@@ -57,6 +58,8 @@ public abstract class AbstractTab {
     }
 
     private void checkPos() {
+        if (this instanceof HomeTab)
+            return;
         int max = 0;
         for (SettingItem item : items) {
             max = Math.max(max, item.getyIndex());
@@ -108,21 +111,21 @@ public abstract class AbstractTab {
         }
         ScaledResolution current = ResolutionUtil.current();
         int i = current.getScaledWidth() / 30;
-        if(offsetY < 0) {
+        if (offsetY < 0) {
             int x2 = current.getScaledWidth() / 2 - i / 2;
             int i5 = current.getScaledHeight() / 30;
-            GuiBlock block = new GuiBlock(x2, x2 + i5*2, i5, i5 + i5*2);
-            if (block.isMouseOver(x,y)) {
+            GuiBlock block = new GuiBlock(x2, x2 + i5 * 2, i5, i5 + i5 * 2);
+            if (block.isMouseOver(x, y)) {
                 offsetY++;
                 checkPos();
             }
         }
-        if(offsetY > -max) {
+        if (offsetY > -max) {
             int x1 = current.getScaledWidth() / 2 - i / 2;
             int i5 = current.getScaledHeight() / 30;
             int y1 = current.getScaledHeight() - current.getScaledHeight() / 30 - i;
-            GuiBlock block = new GuiBlock(x1, x1 + i5*2, y1, y1 + i5*2);
-            if (block.isMouseOver(x,y)) {
+            GuiBlock block = new GuiBlock(x1, x1 + i5 * 2, y1, y1 + i5 * 2);
+            if (block.isMouseOver(x, y)) {
                 offsetY--;
                 checkPos();
             }
