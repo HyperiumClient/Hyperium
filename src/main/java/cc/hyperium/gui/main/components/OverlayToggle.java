@@ -48,7 +48,8 @@ public class OverlayToggle extends OverlayComponent {
     public void mouseClicked(int mouseX, int mouseY, int overlayX, int overlayY, int w, int h) {
         if (mouseX >= overlayX + w - 30 && mouseX <= overlayX + w - 5 && mouseY >= overlayY + 5 && mouseY <= overlayY + h - 5) {
             toggle = !toggle;
-            callback.accept(toggle);
+            if (callback != null)
+                callback.accept(toggle);
             step = 1f;
         }
     }
