@@ -3,16 +3,15 @@ package cc.hyperium.gui.main;
 import cc.hyperium.gui.main.components.OverlayComponent;
 import cc.hyperium.gui.main.components.OverlayToggle;
 import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.ScaledResolution;
-import org.lwjgl.input.Mouse;
-
 import java.awt.Color;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.ScaledResolution;
+import org.lwjgl.input.Mouse;
 
 /*
  * Created by Cubxity on 01/06/2018
@@ -57,7 +56,7 @@ public class HyperiumOverlay {
         return components;
     }
 
-    public void addToggle(String label, Field f, Consumer<Object> objectConsumer) {
+    public void addToggle(String label, Field f, Consumer<Object> objectConsumer, boolean enabled) {
         try {
             Object o = f.get(null);
 
@@ -74,7 +73,7 @@ public class HyperiumOverlay {
                     } catch (IllegalAccessException e) {
                         e.printStackTrace();
                     }
-                }));
+                },enabled));
             }
         } catch (IllegalAccessException | IllegalArgumentException e) {
             e.printStackTrace();

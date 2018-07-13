@@ -8,7 +8,6 @@ import cc.hyperium.config.SliderSetting;
 import cc.hyperium.config.ToggleSetting;
 import cc.hyperium.cosmetics.Deadmau5Cosmetic;
 import cc.hyperium.cosmetics.HyperiumCosmetics;
-import cc.hyperium.cosmetics.wings.WingsCosmetic;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.PurchaseLoadEvent;
 import cc.hyperium.gui.GuiBlock;
@@ -28,14 +27,13 @@ import cc.hyperium.purchases.EnumPurchaseType;
 import cc.hyperium.purchases.HyperiumPurchase;
 import cc.hyperium.purchases.PurchaseApi;
 import cc.hyperium.utils.JsonHolder;
-import net.minecraft.client.gui.Gui;
-import org.apache.commons.lang3.ArrayUtils;
-
 import java.awt.Color;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
+import net.minecraft.client.gui.Gui;
+import org.apache.commons.lang3.ArrayUtils;
 
 /*
  * Created by Cubxity on 20/05/2018
@@ -48,9 +46,9 @@ public class SettingsTab extends AbstractTab {
     private final HyperiumOverlay spotify = new HyperiumOverlay();
     private final HyperiumOverlay animations = new HyperiumOverlay();
     private final HyperiumOverlay misc = new HyperiumOverlay();
+    private final HyperiumOverlay mods = new HyperiumOverlay();
     private final GlintColorizerSettings glintcolorizer = new GlintColorizerSettings();
 
-    private final HyperiumOverlay wings = new HyperiumOverlay();
     private final HashMap<Field, Consumer<Object>> callback = new HashMap<>();
     private final HashMap<Field, Supplier<String[]>> customStates = new HashMap<>();
     boolean loadedSelf = false;
@@ -107,6 +105,48 @@ public class SettingsTab extends AbstractTab {
                 }
                 return new String[]{"NOT PURCHASED"};
             });
+
+            Field show_wings_string = Settings.class.getField("SHOW_WINGS");
+            customStates.put(show_wings_string, () -> {
+                HyperiumPurchase self = PurchaseApi.getInstance().getSelf();
+                if(self != null && self.hasPurchased(EnumPurchaseType.WING_COSMETIC)){
+                    return new String[]{
+                        "ON",
+                        "OFF"
+                    };
+                }
+
+                return new String[]{"NOT PURCHASED"};
+            });
+
+            callback.put(show_wings_string, o-> {
+               try {
+                   Settings.SHOW_WINGS = String.valueOf(o);
+               } catch (Exception ignored){
+
+               }
+            });
+
+            Field show_dragonhead_string = Settings.class.getField("SHOW_DRAGON_HEAD");
+            customStates.put(show_dragonhead_string, () -> {
+                HyperiumPurchase self = PurchaseApi.getInstance().getSelf();
+                if(self != null && self.hasPurchased(EnumPurchaseType.DRAGON_HEAD)){
+                    return new String[]{
+                        "ON",
+                        "OFF"
+                    };
+                }
+
+                return new String[]{"NOT PURCHASED"};
+            });
+            callback.put(show_dragonhead_string, o -> {
+                try {
+                    Settings.SHOW_DRAGON_HEAD = String.valueOf(o);
+                } catch (Exception ignored){
+
+                }
+            });
+
             callback.put(Settings.class.getField("MAX_WORLD_PARTICLES_STRING"), o -> {
                 try {
                     Settings.MAX_WORLD_PARTICLES_INT = Integer.valueOf(o.toString());
@@ -128,19 +168,6 @@ public class SettingsTab extends AbstractTab {
 
                 }
             });
-            callback.put(Settings.class.getField("wingsSELECTED"), o -> {
-                HyperiumPurchase self = PurchaseApi.getInstance().getSelf();
-                if (self == null)
-                    return;
-                JsonHolder purchaseSettings = self.getPurchaseSettings();
-                if (!purchaseSettings.has("wings"))
-                    purchaseSettings.put("wings", new JsonHolder());
-                purchaseSettings.optJSONObject("wings").put("type", o.toString());
-                NettyClient client = NettyClient.getClient();
-                if (client != null)
-                    client.write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("wings", o.toString())));
-            });
-
             Field flip_type_string = Settings.class.getField("FLIP_TYPE_STRING");
             customStates.put(flip_type_string, () -> {
                 HyperiumPurchase self = PurchaseApi.getInstance().getSelf();
@@ -155,38 +182,6 @@ public class SettingsTab extends AbstractTab {
                 } else if (s.equalsIgnoreCase("ROTATE")) {
                     Settings.flipType = 2;
                 }
-            });
-            callback.put(Settings.class.getField("SHOW_DRAGON_HEAD"), o -> {
-                boolean yes = (o.toString()).equalsIgnoreCase("true");
-                HyperiumPurchase self = PurchaseApi.getInstance().getSelf();
-                if (self == null) {
-                    GeneralChatHandler.instance().sendMessage("Error: Could not update cosmetic state because your purchase profile is not loaded.");
-                    return;
-                }
-                JsonHolder purchaseSettings = self.getPurchaseSettings();
-                if (!purchaseSettings.has("dragon"))
-                    purchaseSettings.put("dragon", new JsonHolder());
-                purchaseSettings.optJSONObject("dragon").put("disabled", !yes);
-                NettyClient client = NettyClient.getClient();
-
-                if (client != null)
-                    client.write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("dragon_head", yes)));
-
-            });
-            callback.put(Settings.class.getField("SHOW_WINGS"), o -> {
-                boolean yes = (o.toString()).equalsIgnoreCase("true");
-                HyperiumPurchase self = PurchaseApi.getInstance().getSelf();
-                if (self == null) {
-                    GeneralChatHandler.instance().sendMessage("Error: Could not update cosmetic state because your purchase profile is not loaded.");
-                    return;
-                }
-                JsonHolder purchaseSettings = self.getPurchaseSettings();
-                if (!purchaseSettings.has("wings"))
-                    purchaseSettings.put("wings", new JsonHolder());
-                purchaseSettings.optJSONObject("wings").put("disabled", !yes);
-                NettyClient client = NettyClient.getClient();
-                if (client != null)
-                    client.write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("wings_toggle", yes)));
             });
             callback.put(Settings.class.getField("WINGS_SCALE"), o -> {
                 if (PurchaseApi.getInstance() == null || PurchaseApi.getInstance().getSelf() == null || PurchaseApi.getInstance().getSelf().getPurchaseSettings() == null) {
@@ -219,7 +214,7 @@ public class SettingsTab extends AbstractTab {
             SliderSetting sliderSetting = f.getAnnotation(SliderSetting.class);
             Consumer<Object> objectConsumer = callback.get(f);
             if (ts != null) {
-                getCategory(ts.category()).addToggle(ts.name(), f, objectConsumer);
+                getCategory(ts.category()).addToggle(ts.name(), f, objectConsumer,ts.enabled());
             } else if (ss != null) {
                 try {
                     Supplier<String[]> supplier = customStates.get(f);
@@ -235,7 +230,7 @@ public class SettingsTab extends AbstractTab {
                         } catch (IllegalAccessException e) {
                             e.printStackTrace();
                         }
-                    }, supplier1));
+                    }, supplier1,ss.enabled()));
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                 }
@@ -280,25 +275,19 @@ public class SettingsTab extends AbstractTab {
         items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(spotify), Icons.SPOTIFY.getResource(), "Spotify", "Hyperium Spotify Settings", "Click to configure", 1, 1));
 
         items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(glintcolorizer), Icons.EXTENSION.getResource(), "GlintColorizer", "GlintColorizer settings", "Click to configure", 0, 2));
-        //TODO fix this method being async
-        WingsCosmetic wingsCosmetic = Hyperium.INSTANCE.getCosmetics().getWingsCosmetic();
-        if (wingsCosmetic.isSelfUnlocked()) {
-            loadedSelf = true;
-            items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(wings), Icons.COSMETIC.getResource(), "Wings", "Hyperium wings Settings", "Click to configure", 1, 2));
 
-            items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(misc), Icons.MISC.getResource(), "Miscellaneous", "Other Hyperium Settings", "Click to configure", 2, 2));
-        } else {
-            items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(misc), Icons.MISC.getResource(), "Miscellaneous", "Other Hyperium Settings", "Click to configure", 1, 2));
-        }
+        items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(mods), Icons.EXTENSION.getResource(), "Mods", "Hyperium mod settings", "Click to configure", 1, 2));
+
+        items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(misc), Icons.MISC.getResource(), "Miscellaneous", "Other Hyperium Settings", "Click to configure", 2, 2));
     }
 
     @InvokeEvent
     public void purchaseLoad(PurchaseLoadEvent event) {
         if (loadedSelf) return;
         if (event.getSelf()) {
-            if (event.getPurchase().hasPurchased(EnumPurchaseType.WING_COSMETIC)) {
+            /*if (event.getPurchase().hasPurchased(EnumPurchaseType.WING_COSMETIC)) {
                 items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(wings), Icons.COSMETIC.getResource(), "Wings", "Hyperium wings Settings", "Click to configure", 0, 2));
-            }
+            }*/
         }
     }
 
@@ -314,10 +303,10 @@ public class SettingsTab extends AbstractTab {
                 return cosmetics;
             case SPOTIFY:
                 return spotify;
-            case WINGS:
-                return wings;
             case ANIMATIONS:
                 return animations;
+            case MODS:
+                return mods;
             case MISC:
                 return misc;
         }

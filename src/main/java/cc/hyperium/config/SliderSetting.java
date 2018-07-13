@@ -18,4 +18,6 @@ public @interface SliderSetting {
     boolean round() default true;
 
     Category category() default Category.GENERAL;
+
+    boolean enabled() default true;
 }

@@ -28,9 +28,11 @@ public abstract class OverlayComponent {
         } else if ((textY + h) > (overlayH / 4 * 3)) {
             return false;
         }
-        if (mouseX >= overlayX && mouseX <= overlayX + w && mouseY >= overlayY && mouseY <= overlayY + h)
+        if (mouseX >= overlayX && mouseX <= overlayX + w && mouseY >= overlayY && mouseY <= overlayY + h) {
             Gui.drawRect(overlayX, overlayY, overlayX + w, overlayY + h, 0x1e000000);
-        HyperiumMainGui.INSTANCE.getFr().drawString(label, overlayX + 4, (overlayY + (h - HyperiumMainGui.INSTANCE.getFr().FONT_HEIGHT) / 2), 0xffffff);
+        }
+        HyperiumMainGui.INSTANCE.getFr().drawString(label, overlayX + 4,
+            (overlayY + (h - HyperiumMainGui.INSTANCE.getFr().FONT_HEIGHT) / 2), 0xffffff);
         return true;
     }
 

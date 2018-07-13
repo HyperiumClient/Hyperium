@@ -7,6 +7,6 @@ public enum Category {
     COSMETICS,
     SPOTIFY,
     ANIMATIONS,
-    WINGS,
-    MISC
+    MISC,
+    MODS
 }

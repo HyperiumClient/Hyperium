@@ -1,12 +1,15 @@
 package cc.hyperium.cosmetics.dragon;
 
 
+import cc.hyperium.config.Settings;
 import cc.hyperium.cosmetics.DragonCosmetic;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.RenderPlayerEvent;
 import cc.hyperium.event.WorldChangeEvent;
 import cc.hyperium.purchases.HyperiumPurchase;
 import cc.hyperium.purchases.PurchaseApi;
+import java.util.HashMap;
+import java.util.UUID;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
@@ -19,9 +22,6 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.chunk.Chunk;
 import org.lwjgl.opengl.GL11;
-
-import java.util.HashMap;
-import java.util.UUID;
 
 public class DragonHeadRenderer extends ModelBase {
     private Minecraft mc;
@@ -81,7 +81,7 @@ public class DragonHeadRenderer extends ModelBase {
 
     @InvokeEvent
     private void onRenderPlayer(final RenderPlayerEvent event) {
-        if (dragonCosmetic.isPurchasedBy(event.getEntity().getUniqueID()) && !event.getEntity().isInvisible()) {
+        if (dragonCosmetic.isPurchasedBy(event.getEntity().getUniqueID()) && !event.getEntity().isInvisible() && Settings.SHOW_DRAGON_HEAD.equals("ON")) {
             HyperiumPurchase packageIfReady = PurchaseApi.getInstance().getPackageIfReady(event.getEntity().getUniqueID());
             if (packageIfReady == null)
                 return;

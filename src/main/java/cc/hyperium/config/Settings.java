@@ -17,17 +17,17 @@
 
 package cc.hyperium.config;
 
-import cc.hyperium.GuiStyle;
-import cc.hyperium.Hyperium;
-
 import static cc.hyperium.config.Category.ANIMATIONS;
 import static cc.hyperium.config.Category.COSMETICS;
 import static cc.hyperium.config.Category.GENERAL;
 import static cc.hyperium.config.Category.IMPROVEMENTS;
 import static cc.hyperium.config.Category.INTEGRATIONS;
 import static cc.hyperium.config.Category.MISC;
+import static cc.hyperium.config.Category.MODS;
 import static cc.hyperium.config.Category.SPOTIFY;
-import static cc.hyperium.config.Category.WINGS;
+
+import cc.hyperium.GuiStyle;
+import cc.hyperium.Hyperium;
 
 /*
  * Created by Cubxity on 03/06/2018
@@ -187,7 +187,7 @@ public class Settings {
     public static boolean OLD_ITEM_HELD = false;
 
     @ConfigOpt
-    @ToggleSetting(name = "Name History RGB")
+    @ToggleSetting(name = "Name History RGB",category = MODS)
     public static boolean NH_RGB_NAMES = false;
 
 
@@ -225,6 +225,18 @@ public class Settings {
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.BackgroundSettings;fastWorldGuiEnabled")
     @ToggleSetting(name = "Transparent Container Backgrounds")
     public static boolean FAST_CONTAINER = false;
+
+    @ConfigOpt(alt = "cc.hyperium.gui.settings.items.BackgroundSettings;particlesModeString")
+    @SelectorSetting(name = "Particles Mode", items =
+        {
+            "OFF",
+            "PLAIN 1",
+            "PLAIN 2",
+            "CHROMA 1",
+            "CHROMA 2"
+        }, category = COSMETICS
+    )
+    public static String PARTICLE_MODE = "OFF";
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.BackgroundSettings;maxParticles")
     public static int MAX_PARTICLES = 200;
@@ -289,27 +301,6 @@ public class Settings {
     @ToggleSetting(category = GENERAL, name = "Ping On DM")
     public static boolean PING_ON_DM = true;
 
-
-    @ConfigOpt(alt = "cc.hyperium.gui.settings.items.BackgroundSettings;particlesModeString")
-    @SelectorSetting(name = "Particles Mode", items =
-            {
-                    "OFF",
-                    "PLAIN 1",
-                    "PLAIN 2",
-                    "CHROMA 1",
-                    "CHROMA 2"
-            }, category = COSMETICS
-    )
-    public static String PARTICLE_MODE = "OFF";
-
-    @ConfigOpt(alt = "cc.hyperium.cosmetics.wings.WingsCosmetic;location")
-    @SelectorSetting(name = "Wing Type", items =
-            {
-                    "Dragon wings"
-            }, category = WINGS
-    )
-    public static String wingsSELECTED = "Dragon wings";
-
     @ConfigOpt()
     @ToggleSetting(category = GENERAL, name = "Sprint Bypass Static FOV")
     public static boolean staticFovSprintModifier;
@@ -324,15 +315,15 @@ public class Settings {
 
 
     @ConfigOpt
-    @ToggleSetting(name = "Show Dragon Head", category = COSMETICS)
-    public static boolean SHOW_DRAGON_HEAD = true;
+    @SelectorSetting(name = "Show Dragon Head", items = {}, category = COSMETICS)
+    public static String SHOW_DRAGON_HEAD = "OFF";
 
     @ConfigOpt
-    @ToggleSetting(name = "Show Wings", category = WINGS)
-    public static boolean SHOW_WINGS = true;
+    @SelectorSetting(name = "Show Wings", items = {}, category = COSMETICS)
+    public static String SHOW_WINGS = "ON";
 
     @ConfigOpt
-    @SliderSetting(name = "Wings Scale", min = 50, max = 200, category = WINGS)
+    @SliderSetting(name = "Wings Scale", min = 50, max = 200, category = COSMETICS)
     public static double WINGS_SCALE = 100D;
 
     @ConfigOpt
@@ -350,11 +341,11 @@ public class Settings {
 
 
     @ConfigOpt
-    @ToggleSetting(name = "Motion Blur Enabled", category = MISC)
+    @ToggleSetting(name = "Motion Blur Enabled", category = MODS)
     public static boolean MOTION_BLUR_ENABLED = false;
 
     @ConfigOpt
-    @SliderSetting(name = "Motion Blur Amount", category = MISC, min = 1F, max = 7F)
+    @SliderSetting(name = "Motion Blur Amount", category = MODS, min = 1F, max = 7F)
     public static double MOTION_BLUR_AMOUNT = 4.0F;
 
     @ConfigOpt

@@ -15,8 +15,8 @@ public class GlintColorizerSettings extends HyperiumOverlay {
               } else {
                 Colors.onepoint8glintcolorI = -8372020;
               }
-            });
-            this.addToggle("Chroma", Colors.class.getField("chroma"), null);
+            },true);
+            this.addToggle("Chroma", Colors.class.getField("chroma"), null,true);
             addSlider("Red", Colors.class.getField("glintR"), 255, 0, true);
             addSlider("Green", Colors.class.getField("glintG"), 255, 0, true);
             addSlider("Blue", Colors.class.getField("glintB"), 255, 0, true);
