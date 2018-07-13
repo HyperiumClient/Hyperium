@@ -19,14 +19,13 @@ public abstract class AbstractTab {
 
     protected List<SettingItem> items = new ArrayList<>();
     protected List<SettingItem> witems = new ArrayList<>();
+    protected int offsetY;
 
     public abstract void drawTabIcon();
 
     public abstract GuiBlock getBlock();
 
     public abstract void drawHighlight(float s);
-
-    protected int offsetY;
 
     public void handleMouseInput() {
         if (HyperiumMainGui.INSTANCE.getOverlay() == null) {
@@ -42,12 +41,21 @@ public abstract class AbstractTab {
             witems.forEach(s -> s.handleMouseInput(mx, my, sr.getScaledWidth() - finalPw, sr.getScaledWidth() - finalPw, finalPw * 2, finalPw));
             items.forEach(s -> s.handleMouseInput(mx, my, sr.getScaledWidth() - finalPw, sr.getScaledWidth() - finalPw, finalPw * 2, finalPw));
 
+            int max=0;
+            for (SettingItem item : items) {
+                max = Math.max(max, item.getyIndex());
+            }
             // Scrolling.
             int i = Mouse.getEventDWheel();
             if (i > 0)
                 offsetY += 1;
             else if (i < 0)
                 offsetY -= 1;
+
+            if (offsetY > 0)
+                offsetY = 0;
+            if (offsetY < -max)
+                offsetY = -max;
         }
     }
 
