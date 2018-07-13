@@ -1,6 +1,7 @@
 package cc.hyperium.gui.main.components;
 
 import cc.hyperium.gui.main.HyperiumMainGui;
+import java.awt.Color;
 import net.minecraft.client.gui.Gui;
 
 /*
@@ -8,6 +9,11 @@ import net.minecraft.client.gui.Gui;
  */
 public abstract class OverlayComponent {
     String label;
+    boolean enabled;
+
+    public OverlayComponent(boolean enabled){
+        this.enabled = enabled;
+    }
 
     /**
      * Renders this component
@@ -31,8 +37,13 @@ public abstract class OverlayComponent {
         if (mouseX >= overlayX && mouseX <= overlayX + w && mouseY >= overlayY && mouseY <= overlayY + h) {
             Gui.drawRect(overlayX, overlayY, overlayX + w, overlayY + h, 0x1e000000);
         }
-        HyperiumMainGui.INSTANCE.getFr().drawString(label, overlayX + 4,
-            (overlayY + (h - HyperiumMainGui.INSTANCE.getFr().FONT_HEIGHT) / 2), 0xffffff);
+        if(enabled) {
+            HyperiumMainGui.INSTANCE.getFr().drawString(label, overlayX + 4,
+                (overlayY + (h - HyperiumMainGui.INSTANCE.getFr().FONT_HEIGHT) / 2), 0xffffff);
+        } else{
+            HyperiumMainGui.INSTANCE.getFr().drawString(label, overlayX + 4,
+                (overlayY + (h - HyperiumMainGui.INSTANCE.getFr().FONT_HEIGHT) / 2), new Color(169,169,169).getRGB());
+        }
         return true;
     }
 

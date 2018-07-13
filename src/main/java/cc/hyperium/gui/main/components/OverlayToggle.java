@@ -1,11 +1,9 @@
 package cc.hyperium.gui.main.components;
 
-import cc.hyperium.gui.main.HyperiumMainGui;
 import cc.hyperium.utils.GraphicsUtil;
 import cc.hyperium.utils.RenderUtils;
 import java.awt.Color;
 import java.util.function.Consumer;
-import net.minecraft.client.gui.Gui;
 import org.lwjgl.opengl.GL11;
 
 /*
@@ -16,13 +14,12 @@ public class OverlayToggle extends OverlayComponent {
     private Consumer<Boolean> callback;
     private float step = 0f;
     private float colorStep = 0.5f;
-    private boolean enabled = true;
 
     public OverlayToggle(String label, boolean toggle, Consumer<Boolean> callback, boolean enabled) {
+        super(enabled);
         this.label = label;
         this.toggle = toggle;
         this.callback = callback;
-        this.enabled = enabled;
 
         if(enabled){
             this.toggle = toggle;
@@ -33,24 +30,8 @@ public class OverlayToggle extends OverlayComponent {
 
     @Override
     public boolean render(int mouseX, int mouseY, int overlayX, int overlayY, int w, int h, int overlayH) {
-        // Render name of setting as text.
-        int textY = (overlayY + (h - HyperiumMainGui.INSTANCE.getFr().FONT_HEIGHT) / 2);
-        if (textY < (overlayH / 4)) {
+        if (!super.render(mouseX, mouseY, overlayX, overlayY, w, h, overlayH))
             return false;
-        } else if ((textY + h) > (overlayH / 4 * 3)) {
-            return false;
-        }
-        if (mouseX >= overlayX && mouseX <= overlayX + w && mouseY >= overlayY && mouseY <= overlayY + h) {
-            Gui.drawRect(overlayX, overlayY, overlayX + w, overlayY + h, 0x1e000000);
-        }
-        if(enabled) {
-            HyperiumMainGui.INSTANCE.getFr().drawString(label, overlayX + 4,
-                (overlayY + (h - HyperiumMainGui.INSTANCE.getFr().FONT_HEIGHT) / 2), 0xffffff);
-        } else {
-            HyperiumMainGui.INSTANCE.getFr().drawString(label, overlayX + 4,
-                (overlayY + (h - HyperiumMainGui.INSTANCE.getFr().FONT_HEIGHT) / 2), 0xA9A9A9);
-        }
-
         // Render toggle button.
         if(enabled) {
             GL11.glEnable(GL11.GL_BLEND);

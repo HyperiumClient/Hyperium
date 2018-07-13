@@ -1,6 +1,6 @@
 package cc.hyperium.gui.main.components
 
-open class OverlayLabel(label: String) : OverlayComponent() {
+open class OverlayLabel(label: String, enabled: Boolean) : OverlayComponent(enabled) {
     init {
         this.label = label
     }

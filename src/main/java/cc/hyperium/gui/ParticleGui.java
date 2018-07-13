@@ -120,7 +120,7 @@ public class ParticleGui extends HyperiumGui {
                         client.write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("particle_update", true).put("color_type", s1)));
                     }
                     //Rebuild auto called on purchase update
-                }, () -> new String[]{"DEFAULT", "RGB", "CHROMA"},true));
+                }, () -> new String[]{"DEFAULT", "RGB", "CHROMA"}));
                 overlay.getComponents().add(new OverlaySlider("Red", 0, 255, particle.optInt("red", 255), aFloat -> {
                     particle.put("red", aFloat);
                     EventBus.INSTANCE.post(new PurchaseLoadEvent(UUIDUtil.getClientUUID(), self, true));

@@ -247,7 +247,7 @@ public class SettingsTab extends AbstractTab {
                         } catch (IllegalAccessException e) {
                             e.printStackTrace();
                         }
-                    }, sliderSetting.round()));
+                    }, sliderSetting.round(),sliderSetting.enabled()));
 
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
