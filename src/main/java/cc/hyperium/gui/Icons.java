@@ -19,6 +19,9 @@ public enum Icons {
     COSMETIC(new ResourceLocation("textures/material/cosmetic.png")),
     SPOTIFY(new ResourceLocation("textures/material/spotify.png")),
     CLOSE(new ResourceLocation("textures/material/close.png")),
+    FA_UP_ARROW(new ResourceLocation("textures/material/fa_up_arrow.png")),
+    FA_DOWN_ARROW(new ResourceLocation("textures/material/fa_down_arrow.png")),
+
     MISC(new ResourceLocation("textures/material/misc.png"));
 
 

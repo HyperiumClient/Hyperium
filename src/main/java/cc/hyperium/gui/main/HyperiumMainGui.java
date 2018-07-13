@@ -155,7 +155,7 @@ public class HyperiumMainGui extends HyperiumGui {
             overlay.render(mouseX, mouseY, width, height);
             int x = width / 6 * 2;
             int y = height / 4;
-            Icons.EXIT.bind();
+           Icons.EXIT.bind();
             Gui.drawRect(x, y - 16, x + 16, y, new Color(0, 0, 0, 100).getRGB());
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
             Gui.drawScaledCustomSizeModalRect(x, y - 16, 0, 0, 144, 144, 16, 16, 144, 144);
