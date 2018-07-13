@@ -85,9 +85,8 @@ public class Settings {
     @ToggleSetting(name = "Hold Perspective Key")
     public static boolean PERSPECTIVE_HOLD = false;
 
-
     @ConfigOpt
-    @ToggleSetting(category = IMPROVEMENTS,name = "Optimized Item Renderer (BETA)")
+    @ToggleSetting(category = IMPROVEMENTS, name = "Optimized Item Renderer (BETA)")
     public static boolean OPTIMIZED_ITEM_RENDERER = false;
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;windowedFullScreen")
@@ -99,7 +98,7 @@ public class Settings {
     public static boolean BOSSBAR_TEXT_ONLY = false;
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;staticFovEnabled")
-    @ToggleSetting(name = "Static FOV")
+    @ToggleSetting(name = "Static FOV", category = IMPROVEMENTS)
     public static boolean STATIC_FOV = false;
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;uploadScreenshotsByDefault")
@@ -107,7 +106,7 @@ public class Settings {
     public static boolean DEFAULT_UPLOAD_SS = false;
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;hideScoreboardNumbers")
-    @ToggleSetting(name = "Hide Scoreboard Numbers")
+    @ToggleSetting(name = "Hide Scoreboard Numbers", category = IMPROVEMENTS)
     public static boolean HIDE_SCOREBOARD_NUMBERS = true;
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;blurGuiBackgroundsEnabled")
@@ -130,19 +129,16 @@ public class Settings {
     @ToggleSetting(name = "\"Welcome to the Hypixel Zoo!\"")
     public static boolean HYPIXEL_ZOO = true;
 
-
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;hypixelZooEnabled;oldResourcePackGui")
-    @ToggleSetting(name = "Legacy Resource Pack GUI")
+    @ToggleSetting(name = "Legacy Resource Pack GUI", category = IMPROVEMENTS)
     public static boolean LEGACY_RP = false;
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.CosmeticSettings;dabSpeed")
     public static int DAB_SPEED = 7;
 
-
     @ConfigOpt
     @ToggleSetting(category = COSMETICS, name = "Show Particle Auras")
     public static boolean SHOW_PARTICLES = true;
-
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.CosmeticSettings;dabToggle")
     public static boolean DAB_TOGGLE = false;
@@ -187,14 +183,12 @@ public class Settings {
     public static boolean OLD_ITEM_HELD = false;
 
     @ConfigOpt
-    @ToggleSetting(name = "Name History RGB",category = MODS)
+    @ToggleSetting(name = "Name History RGB", category = MODS)
     public static boolean NH_RGB_NAMES = false;
-
 
     @ConfigOpt
     @ToggleSetting(name = "Optimized Font Renderer (BETA)", category = IMPROVEMENTS)
     public static boolean OPTIMIZED_FONT_RENDERER = false;
-
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.CosmeticSettings;fliptoggle")
     @ToggleSetting(name = "Flip - Toggle Mode", category = COSMETICS)
@@ -228,13 +222,13 @@ public class Settings {
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.BackgroundSettings;particlesModeString")
     @SelectorSetting(name = "Particles Mode", items =
-        {
-            "OFF",
-            "PLAIN 1",
-            "PLAIN 2",
-            "CHROMA 1",
-            "CHROMA 2"
-        }, category = COSMETICS
+            {
+                    "OFF",
+                    "PLAIN 1",
+                    "PLAIN 2",
+                    "CHROMA 1",
+                    "CHROMA 2"
+            }, category = COSMETICS
     )
     public static String PARTICLE_MODE = "OFF";
 
@@ -244,7 +238,6 @@ public class Settings {
     @ConfigOpt
     @SelectorSetting(name = "Max Particles", category = COSMETICS, items = {"200"}) // Items configured in override
     public static String MAX_PARTICLE_STRING = "200";
-
 
     @ConfigOpt()
     public static double HEAD_SCALE_FACTOR = 1.0;
@@ -259,11 +252,9 @@ public class Settings {
     @ToggleSetting(name = "Particles In Inventory", category = COSMETICS)
     public static boolean PARTICLES_INV = true;
 
-
     @ConfigOpt
     @SelectorSetting(name = "Deadmau5 Ears", category = COSMETICS, items = {})
     public static String EARS_STATE = "ON";
-
 
     @ConfigOpt(alt = "cc.hyperium.handlers.handlers.OtherConfigOptions;SHOW_INGAME_NOTIFICATION_CENTER")
     @ToggleSetting(category = MISC, name = "Show Notification Center")
@@ -387,10 +378,10 @@ public class Settings {
     @ToggleSetting(name = "Always show super secret settings", category = MISC)
     public static boolean ALWAYS_SHOW_SUPER_SECRET_SETTINGS = false;
 
-
     @ConfigOpt
-    @ToggleSetting(name = "Show Hit Distances")
+    @ToggleSetting(name = "Show Hit Distances", category = IMPROVEMENTS)
     public static boolean SHOW_HIT_DISTANCES = false;
+
     public static void register() {
         Hyperium.CONFIG.register(new Settings()); // values r static soo whatever
     }
