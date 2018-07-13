@@ -379,7 +379,7 @@ public class Settings {
     public static boolean ALWAYS_SHOW_SUPER_SECRET_SETTINGS = false;
 
     @ConfigOpt
-    @ToggleSetting(name = "Show Hit Distances" , category = IMPROVEMENTS)
+    @ToggleSetting(name = "Show Hit Distances", category = IMPROVEMENTS)
     public static boolean SHOW_HIT_DISTANCES = false;
 
     public static void register() {
