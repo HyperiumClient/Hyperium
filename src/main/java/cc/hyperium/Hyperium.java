@@ -107,6 +107,7 @@ public class Hyperium {
     private final NotificationCenter notification = new NotificationCenter();
     private final RichPresenceManager richPresenceManager = new RichPresenceManager();
     private final ConfirmationPopup confirmation = new ConfirmationPopup();
+    public boolean isLatestVersion;
     private HyperiumCosmetics cosmetics;
     private HyperiumHandlers handlers;
     private HyperiumModIntegration modIntegration;
@@ -118,13 +119,14 @@ public class Hyperium {
     private Sk1erMod sk1erMod;
     private NettyClient client;
     private NetworkHandler networkHandler;
-
-    public boolean isLatestVersion;
-    
     /**
      * @param event initialize Hyperium
      */
     private boolean firstLaunch = false;
+
+    public NetworkHandler getNetworkHandler() {
+        return networkHandler;
+    }
 
     public boolean isFirstLaunch() {
         return firstLaunch;
@@ -273,6 +275,7 @@ public class Hyperium {
         Multithreading.runAsync(() -> {
 
             networkHandler = new NetworkHandler();
+            CONFIG.register(networkHandler);
             this.client = new NettyClient(networkHandler);
             UniversalNetty.getInstance().getPacketManager().register(new LoginReplyHandler());
         });

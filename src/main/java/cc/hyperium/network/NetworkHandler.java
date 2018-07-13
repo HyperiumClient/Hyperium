@@ -1,6 +1,9 @@
 package cc.hyperium.network;
 
 import cc.hyperium.Hyperium;
+import cc.hyperium.config.ConfigOpt;
+import cc.hyperium.config.PostConfigHandler;
+import cc.hyperium.config.PreSaveHandler;
 import cc.hyperium.gui.CapesGui;
 import cc.hyperium.gui.CustomLevelheadConfigurer;
 import cc.hyperium.gui.main.HyperiumMainGui;
@@ -11,10 +14,25 @@ import cc.hyperium.utils.JsonHolder;
 import cc.hyperium.utils.UUIDUtil;
 import net.minecraft.client.Minecraft;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class NetworkHandler implements INetty {
+public class NetworkHandler implements INetty, PostConfigHandler, PreSaveHandler {
+
+    @ConfigOpt
+    public boolean log = false;
+    private boolean post = false;
+    private List<String> verboseLogs = new ArrayList<>();
+
+    public boolean isLog() {
+        return log;
+    }
+
+    public void setLog(boolean log) {
+        this.log = log;
+    }
+
     @Override
     public String getSession() {
         return Minecraft.getMinecraft().getSession().getToken();
@@ -85,5 +103,31 @@ public class NetworkHandler implements INetty {
     @Override
     public void setLeader(String s) {
         Hyperium.INSTANCE.getConfirmation().setAcceptFrom(s);
+    }
+
+    public boolean isPost() {
+        return post;
+    }
+
+    public List<String> getVerboseLogs() {
+        return verboseLogs;
+    }
+
+    @Override
+    public void addVerboseLog(String s) {
+        if (log)
+            verboseLogs.add(s);
+    }
+
+    @Override
+    public void postUpdate() {
+        if (log)
+            post = true;
+    }
+
+    @Override
+    public void preSave() {
+        if (post)
+            log = false;
     }
 }

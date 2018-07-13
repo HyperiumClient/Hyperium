@@ -19,21 +19,22 @@ package cc.hyperium.commands.defaults;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.commands.BaseCommand;
+import cc.hyperium.gui.CrashReportGUI;
 import cc.hyperium.handlers.handlers.HypixelDetector;
 import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
 import cc.hyperium.mods.chromahud.ChromaHUDApi;
 import cc.hyperium.mods.levelhead.Levelhead;
 import cc.hyperium.mods.sk1ercommon.Sk1erMod;
+import cc.hyperium.network.NetworkHandler;
 import cc.hyperium.purchases.HyperiumPurchase;
 import cc.hyperium.purchases.PurchaseApi;
 import cc.hyperium.utils.JsonHolder;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import java.awt.Desktop;
 import java.awt.Toolkit;
 import java.awt.datatransfer.StringSelection;
-import java.net.URL;
+import java.util.List;
 
 public class CommandDebug implements BaseCommand {
 
@@ -105,6 +106,14 @@ public class CommandDebug implements BaseCommand {
             builder.append("Hypixel: ").append(instance.isHypixel());
         builder.append("\n");
         builder.append("\n");
+        builder.append("\n\n");
+        NetworkHandler networkHandler = Hyperium.INSTANCE.getNetworkHandler();
+        List<String> verboseLogs = networkHandler.getVerboseLogs();
+        for (String verboseLog : verboseLogs) {
+            builder.append(verboseLog);
+            builder.append("\n");
+        }
+        builder.append(verboseLogs);
         builder.append("\n");
         tryConfig(builder);
         builder.append("\n");
@@ -138,18 +147,15 @@ public class CommandDebug implements BaseCommand {
 
     @Override
     public void onExecute(String[] args) {
-        String message = get();
-        Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new StringSelection(message), null);
-        GeneralChatHandler.instance().sendMessage("Data copied to clipboard. Please paste in hastebin.com (This has been opened), save and send in Discord");
-        Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop() : null;
-        if (desktop != null && desktop.isSupported(Desktop.Action.BROWSE)) {
-            try {
-                desktop.browse(new URL("https://hastebin.com").toURI());
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        if (args.length == 1 && args[0].equalsIgnoreCase("log")) {
+            Hyperium.INSTANCE.getNetworkHandler().setLog(true);
+            GeneralChatHandler.instance().sendMessage("Enable logging, please restart your game to begin. It will be auto disabled after the next launch");
+            return;
         }
+        String message = get();
+        String haste = CrashReportGUI.haste(message);
+        Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new StringSelection(haste), null);
+        GeneralChatHandler.instance().sendMessage("Link copied (" + haste + ")");
 
     }
 }

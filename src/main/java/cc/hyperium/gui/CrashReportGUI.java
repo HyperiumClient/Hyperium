@@ -39,7 +39,6 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.datatransfer.StringSelection;
 import java.io.IOException;
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.concurrent.atomic.AtomicReference;
@@ -292,7 +291,7 @@ public class CrashReportGUI extends JDialog {
         return f;
     }
 
-    private String haste(String txt) {
+    public static String haste(String txt) {
         try {
             HttpClient hc = HttpClients.createDefault();
             HttpPost post = new HttpPost("https://hastebin.com/documents");

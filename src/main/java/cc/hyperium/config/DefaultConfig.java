@@ -84,8 +84,12 @@ public class DefaultConfig {
     }
 
     public Object register(Object object) {
+        if(object instanceof PreConfigHandler)
+            ((PreConfigHandler) object).preUpdate();
         configObjects.add(object);
         loadToClass(object);
+        if(object instanceof  PostConfigHandler)
+            ((PostConfigHandler) object).postUpdate();
         return object;
     }
 
@@ -120,6 +124,9 @@ public class DefaultConfig {
     }
 
     private void loadToJson(Object object) {
+        if (object instanceof PreSaveHandler) {
+            ((PreSaveHandler) object).preSave();
+        }
         Class<?> c = object.getClass();
         Arrays.stream(c.getDeclaredFields()).filter(f -> f.isAnnotationPresent(ConfigOpt.class) && config.has(c.getName())).forEach(f -> {
             f.setAccessible(true);
