@@ -47,7 +47,10 @@ public class SettingsTab extends AbstractTab {
     private final HyperiumOverlay misc = new HyperiumOverlay("Misc");
     private final HyperiumOverlay mods = new HyperiumOverlay("Modds ??? do we need ?? ");
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> 51b061f1... Added Accent Colour Option! (needs to be a bit more widespread but I can't find anwhere else to use it xD
 
     private final ColourOptions colourOptions = new ColourOptions();
     private final GlintColorizerSettings glintcolorizer = new GlintColorizerSettings();
@@ -85,6 +88,9 @@ public class SettingsTab extends AbstractTab {
 
         items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(colourOptions), Icons.TOOL.getResource(), "GUI Options", "Accent Colours, etc.", "Click to configure", 0, 3));
 
+<<<<<<< HEAD
+>>>>>>> 51b061f1... Added Accent Colour Option! (needs to be a bit more widespread but I can't find anwhere else to use it xD
+=======
 >>>>>>> 51b061f1... Added Accent Colour Option! (needs to be a bit more widespread but I can't find anwhere else to use it xD
         try {
             Field earsField = Settings.class.getField("EARS_STATE");
