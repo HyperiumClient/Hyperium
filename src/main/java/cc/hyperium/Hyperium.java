@@ -288,7 +288,6 @@ public class Hyperium {
                 String line;
                 while ((line = bufferedReader.readLine()) != null) {
                     Minecraft.getMinecraft().ingameGUI.getChatGUI().addToSentMessages(line);
-                    System.out.println("Restoring chat message: " + line);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
