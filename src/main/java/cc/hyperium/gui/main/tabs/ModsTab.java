@@ -108,8 +108,6 @@ public class ModsTab extends AbstractTab {
                                 Double value = Double.valueOf(f.get(o).toString());
                                 getCategory(sliderSetting.category()).getComponents().add(new OverlaySlider(sliderSetting.name(), sliderSetting.min(), sliderSetting.max(),
                                         value.floatValue(), aFloat -> {
-                                    if (objectConsumer != null)
-                                        objectConsumer.accept(aFloat);
                                     try {
                                         if (sliderSetting.isInt()) {
                                             f.set(o, aFloat.intValue());
@@ -118,6 +116,8 @@ public class ModsTab extends AbstractTab {
                                     } catch (IllegalAccessException e) {
                                         e.printStackTrace();
                                     }
+                                    if (objectConsumer != null)
+                                        objectConsumer.accept(aFloat);
                                 }, sliderSetting.round(), sliderSetting.enabled()));
 
                             } catch (IllegalAccessException e) {
