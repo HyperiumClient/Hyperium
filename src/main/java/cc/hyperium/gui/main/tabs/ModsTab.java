@@ -18,6 +18,7 @@ import cc.hyperium.mods.blockoverlay.BlockOverlay;
 import cc.hyperium.mods.blockoverlay.BlockOverlayGui;
 import cc.hyperium.mods.chromahud.ChromaHUD;
 import cc.hyperium.mods.chromahud.gui.GeneralConfigGui;
+import cc.hyperium.mods.keystrokes.screen.GuiScreenKeystrokes;
 import cc.hyperium.mods.levelhead.Levelhead;
 import cc.hyperium.mods.levelhead.guis.LevelHeadGui;
 import cc.hyperium.mods.motionblur.MotionBlurMod;
@@ -55,6 +56,7 @@ public class ModsTab extends AbstractTab {
         items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(motionblur), Icons.SETTINGS.getResource(), "Motion Blur", "Motion Blur Settings \n /motionblur", "Click to configure", 0, 1));
         items.add(new SettingItem(() -> Minecraft.getMinecraft().displayGuiScreen(new BlockOverlayGui(((BlockOverlay) Hyperium.INSTANCE.getModIntegration().getBlockOverlay()))), Icons.SETTINGS.getResource(), "Block Overlay", "Block overlay settings \n /blockoverlay ", "Click to configure", 1, 1));
         items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(chromahud), Icons.SETTINGS.getResource(), "ChromaHUD", "ChromaHUD settings \n /chromahud", "Click to configure", 2, 1));
+        items.add(new SettingItem(() -> Minecraft.getMinecraft().displayGuiScreen(new GuiScreenKeystrokes(Hyperium.INSTANCE.getModIntegration().getKeystrokesMod())), Icons.SETTINGS.getResource(), "Keystrokes", "Keystrokes settings \n /keystrokesmod", "Click to configure", 0, 2));
 
         try {
             callback.put(Autotip.class.getDeclaredField("TIP_MESSAGE_STRING"), o -> Autotip.messageOption = MessageOption.valueOf(o.toString()));
@@ -148,6 +150,8 @@ public class ModsTab extends AbstractTab {
             new GeneralConfigGui(((ChromaHUD) Hyperium.INSTANCE.getModIntegration().getChromaHUD())).display();
         }));
 
+
+
     }
 
     private HyperiumOverlay getCategory(Category settingsCategory) {
@@ -162,6 +166,7 @@ public class ModsTab extends AbstractTab {
                 return motionblur;
             case CHROMAHUD:
                 return chromahud;
+
         }
         throw new IllegalArgumentException(settingsCategory + " Cannot be used in mods!");
     }

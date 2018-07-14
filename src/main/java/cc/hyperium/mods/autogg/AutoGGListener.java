@@ -37,12 +37,12 @@ public class AutoGGListener {
             // The GGThread in an anonymous class
             Multithreading.POOL.submit(() -> {
                 try {
-                    Thread.sleep(((AutoGG) Hyperium.INSTANCE.getModIntegration().getAutoGG()).getConfig().getDelay() * 1000);
+                    Thread.sleep(Hyperium.INSTANCE.getModIntegration().getAutoGG().getConfig().getDelay() * 1000);
                     Minecraft.getMinecraft().thePlayer.sendChatMessage("/achat gg");
                     Thread.sleep(2000L);
 
                     // We are referring to it from a different thread, thus we need to do this
-                    ((AutoGG) Hyperium.INSTANCE.getModIntegration().getAutoGG()).setRunning(false);
+                    Hyperium.INSTANCE.getModIntegration().getAutoGG().setRunning(false);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

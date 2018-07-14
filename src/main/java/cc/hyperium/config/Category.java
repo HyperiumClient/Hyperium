@@ -17,5 +17,6 @@ public enum Category {
     LEVEL_HEAD,
     VANILLA_ENCHANTMENTS,
     CHROMAHUD,
+    KEYSTROKES,
     MOTION_BLUR,
 }

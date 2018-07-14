@@ -40,215 +40,139 @@ import me.semx11.autotip.Autotip;
  */
 public class HyperiumModIntegration {
 
-    private final AbstractMod keystrokesMod;
-    private final AbstractMod timeChanger;
-    private final AbstractMod skinChanger;
-    private final AbstractMod toggleChat;
-    private final AbstractMod utilities;
-    private final AbstractMod levelhead;
-    private final AbstractMod killScreenshot;
-    private final AbstractMod motionBlurMod;
-
-    private final AbstractMod chromaHUD;
-    private final AbstractMod autotip;
-    private final AbstractMod autogg;
-    private final AbstractMod hgames;
-    private final AbstractMod glintcolorizer;
-    private AbstractMod blockOverlay;
-    private AbstractMod spotifyControls;
-    private AbstractMod motionBlur;
-    private AbstractMod oldanimations;
+    private final KeystrokesMod keystrokesMod;
+    private final TimeChanger timeChanger;
+    private final SkinChangerMod skinChanger;
+    private final ToggleChatMod toggleChat;
+    private final UtilitiesMod utilities;
+    private final Levelhead levelhead;
+    private final KillScreenshot killScreenshot;
+    private final ChromaHUD chromaHUD;
+    private final Autotip autotip;
+    private final AutoGG autogg;
+    private final HGames hgames;
+    private final GlintColorizer glintcolorizer;
+    private final BlockOverlay blockOverlay;
+    private final SpotifyControls spotifyControls;
+    private final MotionBlurMod motionBlur;
+    private final OldAnimations oldanimations;
 
     public HyperiumModIntegration() {
         // ChromaHud implementation
-        this.chromaHUD = new ChromaHUD().init();
+        this.chromaHUD = ((ChromaHUD) new ChromaHUD().init());
 
         // LevelHead implementation
-        this.levelhead = new Levelhead().init();
+        this.levelhead = ((Levelhead) new Levelhead().init());
 
         // Utilities implementation
-        this.utilities = new UtilitiesMod().init();
+        this.utilities = ((UtilitiesMod) new UtilitiesMod().init());
 
         // ToggleChat implementation
-        this.toggleChat = new ToggleChatMod().init();
+        this.toggleChat = ((ToggleChatMod) new ToggleChatMod().init());
 
         // SkinChanger implementation
-        this.skinChanger = new SkinChangerMod().init();
+        this.skinChanger = ((SkinChangerMod) new SkinChangerMod().init());
 
         // TimeChanger implementation
-        this.timeChanger = new TimeChanger().init();
+        this.timeChanger = ((TimeChanger) new TimeChanger().init());
 
         // KeystrokesMod implementation
-        this.keystrokesMod = new KeystrokesMod().init();
+        this.keystrokesMod = ((KeystrokesMod) new KeystrokesMod().init());
 
         // Autotip implementation
         this.autotip = new Autotip().init();
 
         // AutoGG implementation
-        this.autogg = new AutoGG().init();
+        this.autogg = ((AutoGG) new AutoGG().init());
 
         // HGames implementation
-        this.hgames = new HGames().init();
+        this.hgames = ((HGames) new HGames().init());
 
         // Old Animations implementation
 
-        this.oldanimations = new OldAnimations().init();
+        this.oldanimations = ((OldAnimations) new OldAnimations().init());
 
         // Block Overlay implementation
-        this.blockOverlay = new BlockOverlay().init();
+        this.blockOverlay = ((BlockOverlay) new BlockOverlay().init());
 
         // Kill Screenshot implementation
-        this.killScreenshot = new KillScreenshot().init();
+        this.killScreenshot = ((KillScreenshot) new KillScreenshot().init());
 
         // Spotify Controls Implementation
-        this.spotifyControls = new SpotifyControls().init();
+        this.spotifyControls = ((SpotifyControls) new SpotifyControls().init());
 
         //Motion Blur
-        this.motionBlur = new MotionBlurMod().init();
+        this.motionBlur = ((MotionBlurMod) new MotionBlurMod().init());
 
         // Glint Colorizer implementation
-        this.glintcolorizer = new GlintColorizer().init();
+        this.glintcolorizer = ((GlintColorizer) new GlintColorizer().init());
 
-        this.motionBlurMod = new MotionBlurMod().init();
+
     }
 
-    public AbstractMod getMotionBlurMod() {
-        return motionBlurMod;
+    public KeystrokesMod getKeystrokesMod() {
+        return keystrokesMod;
     }
 
-    public AbstractMod getAutogg() {
-        return autogg;
-    }
-
-    public AbstractMod getHgames() {
-        return hgames;
-    }
-
-    public AbstractMod getGlintcolorizer() {
-        return glintcolorizer;
-    }
-
-    public AbstractMod getBlockOverlay() {
-        return blockOverlay;
-    }
-
-    public AbstractMod getSpotifyControls() {
-        return spotifyControls;
-    }
-
-    public AbstractMod getOldanimations() {
-        return oldanimations;
-    }
-
-    /**
-     * A getter for the running Autotip instance
-     *
-     * @return the running Autotip instance
-     */
-    public AbstractMod getAutotip() {
-        return this.autotip;
-    }
-
-    /**
-     * A getter for the running AutoGG instance
-     *
-     * @return the running AutoGG instance
-     */
-    public AbstractMod getAutoGG() {
-        return this.autogg;
-    }
-
-    public AbstractMod getMotionBlur() {
-        return this.motionBlurMod;
-    }
-
-    /**
-     * A getter for the running HGames instance
-     *
-     * @return the running HGames instance
-     */
-    public AbstractMod getHGames() {
-        return this.hgames;
-    }
-
-    /**
-     * A getter for the running ChromeHUD instance
-     *
-     * @return the running ChromeHUD instance
-     */
-    public AbstractMod getChromaHUD() {
-        return this.chromaHUD;
-    }
-
-    /**
-     * A getter for the running LevelHead instance
-     *
-     * @return the running LevelHead instance
-     */
-    public AbstractMod getLevelhead() {
-        return this.levelhead;
-    }
-
-    /**
-     * A getter for the running Utilities instance
-     *
-     * @return the running Utilities instance
-     */
-    public AbstractMod getUtilities() {
-        return this.utilities;
-    }
-
-    /**
-     * A getter for the running TimeChanger instance
-     *
-     * @return the running TimeChanger instance
-     */
-    public AbstractMod getTimeChanger() {
+    public TimeChanger getTimeChanger() {
         return timeChanger;
     }
 
-    /**
-     * A getter for the running SkinChanger instance
-     *
-     * @return the running SkinChanger instance
-     */
-    public AbstractMod getSkinChanger() {
-        return this.skinChanger;
+    public SkinChangerMod getSkinChanger() {
+        return skinChanger;
     }
 
-    /**
-     * A getter for the running ToggleChat instance
-     *
-     * @return the running ToggleChat instance
-     */
-    public AbstractMod getToggleChat() {
-        return this.toggleChat;
+    public ToggleChatMod getToggleChat() {
+        return toggleChat;
     }
 
-    /**
-     * A getter for the running KeystrokesMod instance
-     *
-     * @return the running KeystrokesMod instance
-     */
-    public AbstractMod getKeystrokesMod() {
-        return this.keystrokesMod;
+    public UtilitiesMod getUtilities() {
+        return utilities;
     }
 
-    /**
-     * A getter for the running KillScreenshot instance
-     *
-     * @return the running KillScreenshot instance
-     */
-    public AbstractMod getKillScreenshot() {
-        return this.killScreenshot;
+    public Levelhead getLevelhead() {
+        return levelhead;
     }
 
-    /**
-     * A getter for the running GlintColorizer instance
-     *
-     * @return the running GlintColorizer instance
-     */
-    public AbstractMod getGlintColorizer() {
-        return this.glintcolorizer;
+    public KillScreenshot getKillScreenshot() {
+        return killScreenshot;
     }
+
+    public ChromaHUD getChromaHUD() {
+        return chromaHUD;
+    }
+
+    public Autotip getAutotip() {
+        return autotip;
+    }
+
+    public AutoGG getAutoGG() {
+        return autogg;
+    }
+
+    public HGames getHGames() {
+        return hgames;
+    }
+
+    public GlintColorizer getGlintcolorizer() {
+        return glintcolorizer;
+    }
+
+    public BlockOverlay getBlockOverlay() {
+        return blockOverlay;
+    }
+
+    public SpotifyControls getSpotifyControls() {
+        return spotifyControls;
+    }
+
+    public MotionBlurMod getMotionBlur() {
+        return motionBlur;
+    }
+
+    public OldAnimations getOldanimations() {
+        return oldanimations;
+    }
+
+
 }
