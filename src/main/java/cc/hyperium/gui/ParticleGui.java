@@ -22,6 +22,8 @@ import cc.hyperium.purchases.PurchaseApi;
 import cc.hyperium.utils.JsonHolder;
 import cc.hyperium.utils.UUIDUtil;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiYesNo;
+import net.minecraft.client.gui.GuiYesNoCallback;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import org.lwjgl.input.Keyboard;
@@ -33,12 +35,12 @@ import java.util.HashMap;
 /**
  * Created by mitchellkatz on 6/25/18. Designed for production use on Sk1er.club
  */
-public class ParticleGui extends HyperiumGui {
+public class ParticleGui extends HyperiumGui implements GuiYesNoCallback {
 
+    private HashMap<Integer, Runnable> ids = new HashMap<>();
+    private int purchaseIds = 0;
     private HyperiumOverlay overlay;
-
     private PurchaseCarousel particleType;
-
     private PurchaseCarousel particleAnimation;
     private int credits;
     private GuiBlock previewBlock = null;
@@ -46,6 +48,18 @@ public class ParticleGui extends HyperiumGui {
 
     public ParticleGui() {
 
+    }
+
+    @Override
+    public void confirmClicked(boolean result, int id) {
+        super.confirmClicked(result, id);
+        if (result) {
+            Runnable runnable = ids.get(id);
+            if (runnable != null) {
+                runnable.run();
+            }
+        }
+        Minecraft.getMinecraft().displayGuiScreen(this);
     }
 
     @Override
@@ -64,7 +78,7 @@ public class ParticleGui extends HyperiumGui {
 
     private void rebuild() {
         EnumParticleType[] values = EnumParticleType.values();
-        if(values == null){
+        if (values == null) {
             return;
         }
 
@@ -91,11 +105,19 @@ public class ParticleGui extends HyperiumGui {
                         GeneralChatHandler.instance().sendMessage("Insufficient credits");
                         return;
                     }
-                    GeneralChatHandler.instance().sendMessage("Attempting to purchase " + value.getName());
-                    NettyClient client = NettyClient.getClient();
-                    if (client != null) {
-                        client.write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("cosmetic_purchase", true).put("value", "PARTICLE_" + value.name())));
-                    }
+
+                    int i4 = ++purchaseIds;
+                    GuiYesNo gui = new GuiYesNo(this, "Purchase " + value.getName(), "", i4);
+                    Minecraft.getMinecraft().displayGuiScreen(gui);
+                    ids.put(i4, () -> {
+                        GeneralChatHandler.instance().sendMessage("Attempting to purchase " + value.getName());
+                        NettyClient client = NettyClient.getClient();
+                        if (client != null) {
+                            client.write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("cosmetic_purchase", true).put("value", "PARTICLE_" + value.name())));
+                        }
+                    });
+
+
                 } else {
                     GeneralChatHandler.instance().sendMessage("Already purchased " + value.getName());
                 }
@@ -196,11 +218,19 @@ public class ParticleGui extends HyperiumGui {
                         GeneralChatHandler.instance().sendMessage("Insufficient credits");
                         return;
                     }
-                    GeneralChatHandler.instance().sendMessage("Attempting to purchase " + s);
-                    NettyClient client = NettyClient.getClient();
-                    if (client != null) {
-                        client.write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("cosmetic_purchase", true).put("value", "ANIMATION_" + s.replace(" ", "_").toUpperCase())));
-                    }
+
+                    int i4 = ++purchaseIds;
+                    GuiYesNo gui = new GuiYesNo(this, "Purchase " + s, "", i4);
+                    Minecraft.getMinecraft().displayGuiScreen(gui);
+
+                    ids.put(i4, () -> {
+                        GeneralChatHandler.instance().sendMessage("Attempting to purchase " + s);
+                        NettyClient client = NettyClient.getClient();
+                        if (client != null) {
+                            client.write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("cosmetic_purchase", true).put("value", "ANIMATION_" + s.replace(" ", "_").toUpperCase())));
+                        }
+                    });
+
                 } else {
                     GeneralChatHandler.instance().sendMessage("Already purchased " + s);
                 }

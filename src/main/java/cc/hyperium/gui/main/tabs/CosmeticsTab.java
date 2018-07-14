@@ -4,6 +4,7 @@ import cc.hyperium.gui.CapesGui;
 import cc.hyperium.gui.GuiBlock;
 import cc.hyperium.gui.Icons;
 import cc.hyperium.gui.ParticleGui;
+import cc.hyperium.gui.main.HyperiumMainGui;
 import cc.hyperium.gui.main.components.AbstractTab;
 import cc.hyperium.gui.main.components.SettingItem;
 import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
@@ -13,7 +14,10 @@ import cc.hyperium.netty.packet.packets.serverbound.ServerCrossDataPacket;
 import cc.hyperium.purchases.PurchaseApi;
 import cc.hyperium.utils.JsonHolder;
 import cc.hyperium.utils.UUIDUtil;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiYesNo;
+import net.minecraft.client.gui.GuiYesNoCallback;
 
 import java.awt.Color;
 import java.awt.Desktop;
@@ -23,7 +27,7 @@ import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.HashMap;
 
-public class CosmeticsTab extends AbstractTab {
+public class CosmeticsTab extends AbstractTab implements GuiYesNoCallback {
 
     private int y, w;
 
@@ -36,6 +40,8 @@ public class CosmeticsTab extends AbstractTab {
     private HashMap<String, SettingItem> cosmetics = new HashMap<>();
     private int tx = 0;
     private int ty = 1;
+    private HashMap<Integer, Runnable> ids = new HashMap<>();
+    private int purchaseIds = 0;
 
     public CosmeticsTab(int y, int w) {
         block = new GuiBlock(0, w, y, y + w);
@@ -82,13 +88,19 @@ public class CosmeticsTab extends AbstractTab {
                 String state = purchased ? "Purchased" : (enough ? "Click to purchase" : "Insufficient credits");
                 Runnable runnable = () -> {
                     if (!purchased && enough) {
-                        refreshData();
-                        GeneralChatHandler.instance().sendMessage("Attempting to purchase " + s);
-                        purchasing = true;
-                        NettyClient client = NettyClient.getClient();
-                        if (client != null) {
-                            client.write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("cosmetic_purchase", true).put("value", s)));
-                        }
+                        int i4 = ++purchaseIds;
+                        GuiYesNo gui = new GuiYesNo(this, "Purchase " + s, "", i4);
+                        Minecraft.getMinecraft().displayGuiScreen(gui);
+                        ids.put(i4, () -> {
+                            refreshData();
+                            GeneralChatHandler.instance().sendMessage("Attempting to purchase " + s);
+                            purchasing = true;
+                            NettyClient client = NettyClient.getClient();
+                            if (client != null) {
+                                client.write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("cosmetic_purchase", true).put("value", s)));
+                            }
+                        });
+
                     } else if (purchased) {
                         GeneralChatHandler.instance().sendMessage("Already purchased " + name);
                     }
@@ -114,6 +126,18 @@ public class CosmeticsTab extends AbstractTab {
 
             }
         }
+    }
+
+    @Override
+    public void confirmClicked(boolean result, int id) {
+
+        if (result) {
+            Runnable runnable = ids.get(id);
+            if (runnable != null) {
+                runnable.run();
+            }
+        }
+        Minecraft.getMinecraft().displayGuiScreen(HyperiumMainGui.INSTANCE);
     }
 
     @Override
@@ -152,4 +176,5 @@ public class CosmeticsTab extends AbstractTab {
             purchasing = false;
         });
     }
+
 }

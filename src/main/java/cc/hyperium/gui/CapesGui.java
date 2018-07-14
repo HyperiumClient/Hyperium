@@ -10,6 +10,16 @@ import cc.hyperium.purchases.PurchaseApi;
 import cc.hyperium.utils.JsonHolder;
 import cc.hyperium.utils.RenderUtils;
 import cc.hyperium.utils.UUIDUtil;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiTextField;
+import net.minecraft.client.gui.GuiYesNo;
+import net.minecraft.client.gui.GuiYesNoCallback;
+import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.texture.DynamicTexture;
+
+import javax.imageio.ImageIO;
 import java.awt.Color;
 import java.awt.Desktop;
 import java.awt.image.BufferedImage;
@@ -18,23 +28,19 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import javax.imageio.ImageIO;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiTextField;
-import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.texture.DynamicTexture;
 
-public class CapesGui extends HyperiumGui {
+public class CapesGui extends HyperiumGui implements GuiYesNoCallback {
 
     private Map<String, DynamicTexture> textures = new ConcurrentHashMap<>();
     private Map<String, BufferedImage> texturesImage = new ConcurrentHashMap<>();
     private JsonHolder cosmeticCallback = new JsonHolder();
     private boolean purchasing = false;
     private GuiTextField textField;
+    private HashMap<Integer, Runnable> ids = new HashMap<>();
+    private int purchaseIds = 0;
 
     public CapesGui() {
         guiScale = 2;
@@ -72,6 +78,18 @@ public class CapesGui extends HyperiumGui {
     }
 
     @Override
+    public void confirmClicked(boolean result, int id) {
+        super.confirmClicked(result, id);
+        if (result) {
+            Runnable runnable = ids.get(id);
+            if (runnable != null) {
+                runnable.run();
+            }
+        }
+        Minecraft.getMinecraft().displayGuiScreen(this);
+    }
+
+    @Override
     protected void pack() {
         reg("RESET", new GuiButton(nextId(), 1, 1, "Disable Hyperium Cape"), guiButton -> {
             NettyClient client = NettyClient.getClient();
@@ -79,7 +97,7 @@ public class CapesGui extends HyperiumGui {
                 client.write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("set_cape", true).put("value", "default")));
             }
             HyperiumPurchase self = PurchaseApi.getInstance().getSelf();
-            if(self ==null) {
+            if (self == null) {
                 GeneralChatHandler.instance().sendMessage("Unable to reset your cape: Your profile is not loaded");
                 return;
             }
@@ -143,8 +161,8 @@ public class CapesGui extends HyperiumGui {
             String s1;
             try {
                 s1 = PurchaseApi.getInstance().getSelf().getPurchaseSettings()
-                    .optJSONObject("cape").optString("type");
-            } catch (NullPointerException e){
+                        .optJSONObject("cape").optString("type");
+            } catch (NullPointerException e) {
                 return;
             }
             String s2 = capeAtlas.optJSONObject(s1).optString("name");
@@ -239,6 +257,8 @@ public class CapesGui extends HyperiumGui {
                         string = "Make Active";
                         GuiBlock block = new GuiBlock(i, i + stringWidth * 2, i1, i1 + 20);
                         actions.put(block, () -> {
+
+
                             JsonHolder purchaseSettings = PurchaseApi.getInstance().getSelf().getPurchaseSettings();
                             if (!purchaseSettings.has("cape")) {
                                 purchaseSettings.put("cape", new JsonHolder());
@@ -259,8 +279,8 @@ public class CapesGui extends HyperiumGui {
                                 Hyperium.INSTANCE.getHandlers().getCapeHandler().deleteCape(UUIDUtil.getClientUUID());
                             });
                         });
-                        GlStateManager.scale(2F, 2F, 2F);
 
+                        GlStateManager.scale(2F, 2F, 2F);
                         fontRendererObj.drawString(string, i / 2, i1 / 2, new Color(249, 55, 241).getRGB(), true);
                         GlStateManager.scale(.5F, .5F, .5F);
                     }
@@ -275,12 +295,20 @@ public class CapesGui extends HyperiumGui {
                         fontRendererObj.drawString(string, left, i, new Color(249, 76, 238).getRGB(), true);
                         GuiBlock block = new GuiBlock(left, left + stringWidth, i, i + 10);
                         actions.put(block, () -> {
-                            System.out.println("Attempting to purchase " + s);
-                            purchasing = true;
-                            NettyClient client = NettyClient.getClient();
-                            if (client != null) {
-                                client.write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("cosmetic_purchase", true).put("value", s)));
-                            }
+
+                            int i4 = ++purchaseIds;
+                            GuiYesNo gui = new GuiYesNo(this, "Purchase " + s, "", i4);
+                            Minecraft.getMinecraft().displayGuiScreen(gui);
+
+                            ids.put(i4, () -> {
+                                System.out.println("Attempting to purchase " + s);
+                                purchasing = true;
+                                NettyClient client = NettyClient.getClient();
+                                if (client != null) {
+                                    client.write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("cosmetic_purchase", true).put("value", s)));
+                                }
+                            });
+
                         });
                     } else {
                         String string = "Insufficient Credits";
