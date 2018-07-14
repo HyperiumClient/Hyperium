@@ -25,6 +25,7 @@ import cc.hyperium.commands.defaults.CommandLogs;
 import cc.hyperium.commands.defaults.CommandMessage;
 import cc.hyperium.commands.defaults.CommandNameHistory;
 import cc.hyperium.commands.defaults.CommandParticleAuras;
+import cc.hyperium.commands.defaults.CommandParty;
 import cc.hyperium.commands.defaults.CommandPing;
 import cc.hyperium.commands.defaults.CommandPlayGame;
 import cc.hyperium.commands.defaults.CommandPrivateMessage;
@@ -320,6 +321,8 @@ public class Hyperium {
             getHandlers().getHyperiumCommandHandler().registerCommand(new DevTestCommand());
         getHandlers().getHyperiumCommandHandler().registerCommand(new CommandLogs());
         getHandlers().getHyperiumCommandHandler().registerCommand(new CommandPing());
+        getHandlers().getHyperiumCommandHandler().registerCommand(new CommandParty());
+
         getHandlers().getHyperiumCommandHandler().registerCommand(new CommandMessage());
         getHandlers().getHyperiumCommandHandler().registerCommand(new CommandParticleAuras());
     }
