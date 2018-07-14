@@ -8,6 +8,7 @@ import cc.hyperium.config.SliderSetting;
 import cc.hyperium.config.ToggleSetting;
 import cc.hyperium.cosmetics.Deadmau5Cosmetic;
 import cc.hyperium.cosmetics.HyperiumCosmetics;
+import cc.hyperium.gui.ColourOptions;
 import cc.hyperium.gui.GuiBlock;
 import cc.hyperium.gui.Icons;
 import cc.hyperium.gui.ParticleOverlay;
@@ -18,6 +19,7 @@ import cc.hyperium.gui.main.components.OverlaySelector;
 import cc.hyperium.gui.main.components.OverlaySlider;
 import cc.hyperium.gui.main.components.SettingItem;
 import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
+import cc.hyperium.mods.glintcolorizer.gui.GlintColorizerSettings;
 import cc.hyperium.netty.NettyClient;
 import cc.hyperium.netty.packet.packets.serverbound.ServerCrossDataPacket;
 import cc.hyperium.purchases.EnumPurchaseType;
@@ -46,6 +48,8 @@ public class SettingsTab extends AbstractTab {
     private final HyperiumOverlay misc = new HyperiumOverlay("Misc");
     private final HyperiumOverlay mods = new HyperiumOverlay("Modds ??? do we need ?? ");
 
+    private final ColourOptions colourOptions = new ColourOptions();
+
     private final HashMap<Field, Consumer<Object>> callback = new HashMap<>();
     private final HashMap<Field, Supplier<String[]>> customStates = new HashMap<>();
     private GuiBlock block;
@@ -65,13 +69,12 @@ public class SettingsTab extends AbstractTab {
 
         items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(cosmetics), Icons.COSMETIC.getResource(), "Cosmetics", "Bling out your Minecraft Avatar", "Click to configure", 0, 1));
 
-
-        items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(spotify), Icons.SPOTIFY.getResource(), "Spotify", "Hyperium Spotify Settings", "Click to configure", 1, 1));
-
-
-        items.add(new SettingItem(() ->HyperiumMainGui.INSTANCE.setTab(HyperiumMainGui.INSTANCE.getModsTab()), Icons.EXTENSION.getResource(), "Mods", "Hyperium mod settings", "Click to configure", 1, 2));
+        items.add(new SettingItem(() ->HyperiumMainGui.INSTANCE.setTab(HyperiumMainGui.INSTANCE.getModsTab()), Icons.EXTENSION.getResource(), "Mods", "Hyperium mod settings", "Click to configure", 1, 1));
 
         items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(misc), Icons.MISC.getResource(), "Miscellaneous", "Other Hyperium Settings", "Click to configure", 2, 1));
+
+        items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(colourOptions), Icons.TOOL.getResource(), "GUI Options", "Accent Colours, etc.", "Click to configure", 0, 2));
+
         try {
             Field earsField = Settings.class.getField("EARS_STATE");
             callback.put(earsField, o -> {

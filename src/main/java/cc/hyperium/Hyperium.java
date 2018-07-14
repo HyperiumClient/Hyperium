@@ -43,6 +43,7 @@ import cc.hyperium.event.PreInitializationEvent;
 import cc.hyperium.event.Priority;
 import cc.hyperium.event.minigames.MinigameListener;
 import cc.hyperium.gui.BlurDisableFallback;
+import cc.hyperium.gui.ColourOptions;
 import cc.hyperium.gui.ConfirmationPopup;
 import cc.hyperium.gui.NotificationCenter;
 import cc.hyperium.handlers.HyperiumHandlers;
@@ -228,6 +229,7 @@ public class Hyperium {
         SplashProgress.CURRENT = "Registering config";
         SplashProgress.update();
         Settings.register();
+        Hyperium.CONFIG.register(new ColourOptions());
         //Register commands.
         SplashProgress.PROGRESS = 10;
         SplashProgress.CURRENT = "Registering commands";
