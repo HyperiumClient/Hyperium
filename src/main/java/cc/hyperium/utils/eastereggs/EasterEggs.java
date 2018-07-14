@@ -37,7 +37,7 @@ public class EasterEggs {
     @InvokeEvent
     private void onRender(RenderPlayerEvent event) {
         UUID id = event.getEntity().getUniqueID();
-        if (!StaffUtils.isStaff(id) || !StaffUtils.hasEasterEggEntityPath(id))
+        if (!StaffUtils.isStaff(id) || !StaffUtils.hasEasterEggEntityPath(id) && !StaffUtils.getEasterEggEntityPath(id).equals("none"))
             return;
         if (((HypixelDetector.getInstance().isHypixel() && Hyperium.INSTANCE.getHandlers().getLocationHandler().getLocation().contains("lobby")) || Settings.ALWAYS_SHOW_SUPER_SECRET_SETTINGS) && Settings.SUPERSECRETSETTINGSV2) {
             Minecraft.getMinecraft().getRenderManager().renderEntitySimple(EasterEggEntity.getEntity(event.getEntity(), StaffUtils.getEasterEggEntityPath(id)), event.getPartialTicks());
