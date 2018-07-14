@@ -9,7 +9,6 @@ class OverlaySlider @JvmOverloads constructor(label: String, private val minVal:
     var updated = false;
     override fun handleMouseInput(mouseX: Int, mouseY: Int, overlayX: Int, overlayY: Int, w: Int, h: Int) {
         if (mouseX >= overlayX + w - 105 && mouseX <= overlayX + w - 5 && mouseY >= overlayY && mouseY <= overlayY + h && Mouse.isButtonDown(0)) {
-
             val fx = mouseX - (overlayX + w - 105)
             value = fx / 100F * (maxVal - minVal) + minVal
             updated = false;

@@ -1,6 +1,7 @@
 package cc.hyperium.handlers.handlers.hud;
 
 import cc.hyperium.config.Settings;
+import cc.hyperium.event.EventBus;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.RenderHUDEvent;
 import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
@@ -27,6 +28,10 @@ public class VanillaEnhancementsHud {
     Most of code adapted from Orange Marshall's Vanilla Enhancements
      */
     private Minecraft mc = Minecraft.getMinecraft();
+
+    public VanillaEnhancementsHud() {
+        EventBus.INSTANCE.register(new NetworkInfo());
+    }
 
     @InvokeEvent
     public void renderArrowCount(RenderHUDEvent event) {
