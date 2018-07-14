@@ -19,6 +19,7 @@ package cc.hyperium;
 
 import cc.hyperium.commands.defaults.CommandClearChat;
 import cc.hyperium.commands.defaults.CommandConfigGui;
+import cc.hyperium.commands.defaults.CommandCoords;
 import cc.hyperium.commands.defaults.CommandDebug;
 import cc.hyperium.commands.defaults.CommandLogs;
 import cc.hyperium.commands.defaults.CommandNameHistory;
@@ -312,6 +313,7 @@ public class Hyperium {
         getHandlers().getHyperiumCommandHandler().registerCommand(new CommandPlayGame());
         getHandlers().getHyperiumCommandHandler().registerCommand(new CommandDebug());
         getHandlers().getHyperiumCommandHandler().registerCommand(new CommandUpdate());
+        getHandlers().getHyperiumCommandHandler().registerCommand(new CommandCoords());
         if (isDevEnv)
             getHandlers().getHyperiumCommandHandler().registerCommand(new DevTestCommand());
         getHandlers().getHyperiumCommandHandler().registerCommand(new CommandLogs());
