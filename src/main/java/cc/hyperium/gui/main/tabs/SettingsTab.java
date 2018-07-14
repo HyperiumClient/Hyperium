@@ -232,11 +232,11 @@ public class SettingsTab extends AbstractTab {
                 Consumer<Object> objectConsumer = callback.get(f);
                 if (ts != null) {
                     if (ts.mods())
-                        return;
+                        continue;
                     getCategory(ts.category()).addToggle(ts.name(), f, objectConsumer, ts.enabled(), o);
                 } else if (ss != null) {
                     if (ss.mods())
-                        return;
+                        continue;
                     try {
                         Supplier<String[]> supplier = customStates.get(f);
                         Supplier<String[]> supplier1 = supplier != null ? supplier : ss::items;
@@ -257,7 +257,7 @@ public class SettingsTab extends AbstractTab {
                     }
                 } else if (sliderSetting != null) {
                     if (sliderSetting.mods())
-                        return;
+                        continue;
                     try {
                         Double value = Double.valueOf(f.get(o).toString());
                         getCategory(sliderSetting.category()).getComponents().add(new OverlaySlider(sliderSetting.name(), sliderSetting.min(), sliderSetting.max(),
