@@ -2,6 +2,7 @@ package cc.hyperium.mods.motionblur;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.commands.BaseCommand;
+import cc.hyperium.config.Settings;
 import net.minecraft.client.Minecraft;
 import org.apache.commons.lang3.math.NumberUtils;
 
@@ -31,8 +32,8 @@ public class MotionBlurCommand implements BaseCommand {
       }
 
       if (amount != 0) {
-        MotionBlurMod.enabled = true;
-        MotionBlurMod.motionBlurIntensity = (float) amount;
+        Settings.MOTION_BLUR_ENABLED = true;
+        Settings.MOTION_BLUR_AMOUNT = (float) amount;
 
         try {
           MotionBlurMod.applyShader();
@@ -42,7 +43,7 @@ public class MotionBlurCommand implements BaseCommand {
           var5.printStackTrace();
         }
       } else {
-        MotionBlurMod.enabled = false;
+        Settings.MOTION_BLUR_ENABLED = false;
         Minecraft.getMinecraft().entityRenderer.stopUseShader();
         Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage("Motion blur disabled.");
       }

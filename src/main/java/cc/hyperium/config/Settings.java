@@ -17,9 +17,6 @@
 
 package cc.hyperium.config;
 
-import cc.hyperium.GuiStyle;
-import cc.hyperium.Hyperium;
-
 import static cc.hyperium.config.Category.ANIMATIONS;
 import static cc.hyperium.config.Category.CHROMAHUD;
 import static cc.hyperium.config.Category.COSMETICS;
@@ -30,6 +27,9 @@ import static cc.hyperium.config.Category.MISC;
 import static cc.hyperium.config.Category.MODS;
 import static cc.hyperium.config.Category.SPOTIFY;
 import static cc.hyperium.config.Category.VANILLA_ENCHANTMENTS;
+
+import cc.hyperium.GuiStyle;
+import cc.hyperium.Hyperium;
 
 /*
  * Created by Cubxity on 03/06/2018
@@ -316,6 +316,14 @@ public class Settings {
     @ConfigOpt
     @ToggleSetting(name = "Show Hit Distances", category = IMPROVEMENTS)
     public static boolean SHOW_HIT_DISTANCES = false;
+
+    @ConfigOpt
+    @ToggleSetting(name="Enabled", category = Category.MOTION_BLUR, mods=true)
+    public static boolean MOTION_BLUR_ENABLED = false;
+
+    @ConfigOpt
+    @SliderSetting(name="Motion Blur Intensity", min=0F,max=7F, category = Category.MOTION_BLUR, mods=true)
+    public static double MOTION_BLUR_AMOUNT = 4.0F;
 
     private Settings() {
 

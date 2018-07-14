@@ -1,9 +1,7 @@
 package cc.hyperium.mods.motionblur;
 
 import cc.hyperium.Hyperium;
-import cc.hyperium.config.Category;
-import cc.hyperium.config.SliderSetting;
-import cc.hyperium.config.ToggleSetting;
+import cc.hyperium.config.Settings;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.TickEvent;
@@ -24,12 +22,6 @@ public class MotionBlurMod extends AbstractMod {
 
   private Minecraft mc;
   private Map domainResourceManagers;
-
-  @ToggleSetting(name = "Enabled", category = Category.MOTION_BLUR, mods=true)
-  public static boolean enabled = false;
-
-  @SliderSetting(name = "Motion Blur Intensity", min = 0F, max=7F, category = Category.MOTION_BLUR, mods=true)
-  public static float motionBlurIntensity = 0F;
 
   public static boolean isFastRenderEnabled() {
     try {
@@ -68,7 +60,7 @@ public class MotionBlurMod extends AbstractMod {
 
   @InvokeEvent
   public void onClientTick(TickEvent event) {
-    if (enabled && !Minecraft.getMinecraft().entityRenderer.isShaderActive() && !isFastRenderEnabled()) {
+    if (Settings.MOTION_BLUR_ENABLED && !Minecraft.getMinecraft().entityRenderer.isShaderActive() && !isFastRenderEnabled()) {
       applyShader();
     }
     if (this.domainResourceManagers == null) {

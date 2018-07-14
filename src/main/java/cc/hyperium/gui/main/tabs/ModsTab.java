@@ -3,6 +3,7 @@ package cc.hyperium.gui.main.tabs;
 import cc.hyperium.Hyperium;
 import cc.hyperium.config.Category;
 import cc.hyperium.config.SelectorSetting;
+import cc.hyperium.config.Settings;
 import cc.hyperium.config.SliderSetting;
 import cc.hyperium.config.ToggleSetting;
 import cc.hyperium.gui.GuiBlock;
@@ -23,17 +24,16 @@ import cc.hyperium.mods.levelhead.Levelhead;
 import cc.hyperium.mods.levelhead.guis.LevelHeadGui;
 import cc.hyperium.mods.motionblur.MotionBlurMod;
 import cc.hyperium.mods.togglechat.gui.ToggleChatMainGui;
-import me.semx11.autotip.Autotip;
-import me.semx11.autotip.util.MessageOption;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
-import org.apache.commons.lang3.ArrayUtils;
-
 import java.awt.Color;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
+import me.semx11.autotip.Autotip;
+import me.semx11.autotip.util.MessageOption;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Gui;
+import org.apache.commons.lang3.ArrayUtils;
 
 public class ModsTab extends AbstractTab {
     private final HyperiumOverlay autotip = new HyperiumOverlay("Autotip");
@@ -67,15 +67,15 @@ public class ModsTab extends AbstractTab {
 
         try {
             callback.put(Autotip.class.getDeclaredField("TIP_MESSAGE_STRING"), o -> Autotip.messageOption = MessageOption.valueOf(o.toString()));
-            callback.put(MotionBlurMod.class.getDeclaredField("enabled"), o -> {
+            callback.put(Settings.class.getDeclaredField("MOTION_BLUR_ENABLED"), o -> {
                 if (!((boolean) o)) {
                     // If it's been disabled, remove the blur shader.
                     Minecraft.getMinecraft().addScheduledTask(() ->
                             Minecraft.getMinecraft().entityRenderer.stopUseShader());
                 }
             });
-            callback.put(MotionBlurMod.class.getDeclaredField("motionBlurIntensity"), o -> {
-                if (MotionBlurMod.enabled) {
+            callback.put(Settings.class.getDeclaredField("MOTION_BLUR_AMOUNT"), o -> {
+                if (Settings.MOTION_BLUR_ENABLED) {
                     // Update motion blur with new intensity.
                     MotionBlurMod.applyShader();
                 }
