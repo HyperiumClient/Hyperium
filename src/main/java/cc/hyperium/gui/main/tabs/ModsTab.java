@@ -15,6 +15,7 @@ import cc.hyperium.gui.main.components.OverlayLabel;
 import cc.hyperium.gui.main.components.OverlaySelector;
 import cc.hyperium.gui.main.components.OverlaySlider;
 import cc.hyperium.gui.main.components.SettingItem;
+import cc.hyperium.integrations.spotify.Spotify;
 import cc.hyperium.mods.blockoverlay.BlockOverlayGui;
 import cc.hyperium.mods.chromahud.ChromaHUD;
 import cc.hyperium.mods.chromahud.gui.GeneralConfigGui;
@@ -23,6 +24,7 @@ import cc.hyperium.mods.keystrokes.screen.GuiScreenKeystrokes;
 import cc.hyperium.mods.levelhead.Levelhead;
 import cc.hyperium.mods.levelhead.guis.LevelHeadGui;
 import cc.hyperium.mods.motionblur.MotionBlurMod;
+import cc.hyperium.mods.spotify.SpotifyGui;
 import cc.hyperium.mods.togglechat.gui.ToggleChatMainGui;
 import java.awt.Color;
 import java.lang.reflect.Field;
@@ -64,6 +66,13 @@ public class ModsTab extends AbstractTab {
         items.add(new SettingItem(() -> Minecraft.getMinecraft().displayGuiScreen(new ToggleChatMainGui(Hyperium.INSTANCE.getModIntegration().getToggleChat(),0)), Icons.SETTINGS.getResource(), "Toggle chat", "Toggle chat settings \n /tc", "Click to configure", 1, 2));
         items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(glintcolorizer), Icons.EXTENSION.getResource(), "GlintColorizer", "GlintColorizer settings", "Click to configure", 2, 2));
         items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(animations), Icons.COSMETIC.getResource(), "1.7 Animations", "Adjust the Minecraft Animations", "Click to configure",0, 3));
+        items.add(new SettingItem(() -> {
+                if(Spotify.instance != null) {
+                    new SpotifyGui().display();
+                } else{
+                    Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage("Unable to load spotify!");
+                }
+            },Icons.SETTINGS.getResource(),"Spotify","Adjust Spotify Settings","Click to configure",1,3));
 
         try {
             callback.put(Autotip.class.getDeclaredField("TIP_MESSAGE_STRING"), o -> Autotip.messageOption = MessageOption.valueOf(o.toString()));
