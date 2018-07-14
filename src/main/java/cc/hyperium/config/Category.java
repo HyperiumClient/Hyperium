@@ -15,5 +15,5 @@ public enum Category {
     //Mods
     AUTOTIP,
     LEVEL_HEAD,
-
+    VANILLA_ENCHANTMENTS,
 }

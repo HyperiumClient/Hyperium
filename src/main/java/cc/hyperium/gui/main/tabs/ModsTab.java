@@ -30,6 +30,7 @@ import java.util.function.Supplier;
 public class ModsTab extends AbstractTab {
     private final HyperiumOverlay autotip = new HyperiumOverlay("Autotip");
     private final HyperiumOverlay levelhead = new HyperiumOverlay("Levelhead");
+    private final HyperiumOverlay vanilla = new HyperiumOverlay("Vanilla Enhancements");
 
     private final HashMap<Field, Consumer<Object>> callback = new HashMap<>();
     private final HashMap<Field, Supplier<String[]>> customStates = new HashMap<>();
@@ -42,6 +43,7 @@ public class ModsTab extends AbstractTab {
         this.w = w;
         items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(autotip), Icons.SETTINGS.getResource(), "Autotip", "Autotip Settings \n /autotip", "Click to configure", 0, 0));
         items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(levelhead), Icons.SETTINGS.getResource(), "Levelhead", "Levelhead Settings \n /levelhead", "Click to configure", 1, 0));
+        items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(vanilla), Icons.SETTINGS.getResource(), "Vanilla Enhancements", "Vanilla Enhancements", "Click to configure", 2, 0));
 
         try {
             callback.put(Autotip.class.getDeclaredField("TIP_MESSAGE_STRING"), o -> Autotip.messageOption = MessageOption.valueOf(o.toString()));
@@ -126,6 +128,8 @@ public class ModsTab extends AbstractTab {
                 return autotip;
             case LEVEL_HEAD:
                 return levelhead;
+            case VANILLA_ENCHANTMENTS:
+                return vanilla;
         }
         throw new IllegalArgumentException(settingsCategory + " Cannot be used in mods!");
     }

@@ -28,6 +28,7 @@ import static cc.hyperium.config.Category.INTEGRATIONS;
 import static cc.hyperium.config.Category.MISC;
 import static cc.hyperium.config.Category.MODS;
 import static cc.hyperium.config.Category.SPOTIFY;
+import static cc.hyperium.config.Category.VANILLA_ENCHANTMENTS;
 
 /*
  * Created by Cubxity on 03/06/2018
@@ -64,9 +65,17 @@ public class Settings {
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;smartSoundsEnabled")
     @ToggleSetting(name = "Smart Sounds", category = IMPROVEMENTS)
     public static boolean SMART_SOUNDS = false;
+
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;numberPingEnabled")
-    @ToggleSetting(name = "Numeric Ping", category = INTEGRATIONS)
+    @ToggleSetting(name = "Numeric Ping", category = VANILLA_ENCHANTMENTS, mods = true)
     public static boolean NUMBER_PING = true;
+    @ConfigOpt
+    @ToggleSetting(name = "Arrow Count When Holding Bow", category = VANILLA_ENCHANTMENTS, mods = true)
+    public static boolean ARROW_COUNT = true;
+
+
+
+
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;combatParticleFixEnabled")
     @ToggleSetting(name = "Crit Particle Fix", category = IMPROVEMENTS)
     public static boolean CRIT_FIX = true;
