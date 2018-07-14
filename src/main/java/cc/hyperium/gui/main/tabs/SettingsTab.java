@@ -252,7 +252,7 @@ public class SettingsTab extends AbstractTab {
                             if (objectConsumer != null)
                                 objectConsumer.accept(si);
                             try {
-                                f.set(null, si);
+                                f.set(o, si);
                             } catch (IllegalAccessException e) {
                                 e.printStackTrace();
                             }
@@ -270,7 +270,7 @@ public class SettingsTab extends AbstractTab {
                             if (objectConsumer != null)
                                 objectConsumer.accept(aFloat);
                             try {
-                                f.set(null, aFloat);
+                                f.set(o, aFloat);
                             } catch (IllegalAccessException e) {
                                 e.printStackTrace();
                             }

@@ -20,5 +20,8 @@ public @interface SliderSetting {
     Category category() default Category.GENERAL;
 
     boolean enabled() default true;
+
     boolean mods() default false;
+
+    boolean isInt() default false;
 }

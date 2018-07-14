@@ -14,5 +14,6 @@ public enum Category {
 
     //Mods
     AUTOTIP,
+    LEVEL_HEAD,
 
 }

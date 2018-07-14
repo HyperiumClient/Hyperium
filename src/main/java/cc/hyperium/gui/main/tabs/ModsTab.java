@@ -1,5 +1,6 @@
 package cc.hyperium.gui.main.tabs;
 
+import cc.hyperium.Hyperium;
 import cc.hyperium.config.Category;
 import cc.hyperium.config.SelectorSetting;
 import cc.hyperium.config.SliderSetting;
@@ -9,9 +10,14 @@ import cc.hyperium.gui.Icons;
 import cc.hyperium.gui.main.HyperiumMainGui;
 import cc.hyperium.gui.main.HyperiumOverlay;
 import cc.hyperium.gui.main.components.AbstractTab;
+import cc.hyperium.gui.main.components.OverlayLabel;
 import cc.hyperium.gui.main.components.OverlaySelector;
 import cc.hyperium.gui.main.components.OverlaySlider;
 import cc.hyperium.gui.main.components.SettingItem;
+import cc.hyperium.mods.levelhead.Levelhead;
+import cc.hyperium.mods.levelhead.guis.LevelHeadGui;
+import me.semx11.autotip.Autotip;
+import me.semx11.autotip.util.MessageOption;
 import net.minecraft.client.gui.Gui;
 import org.apache.commons.lang3.ArrayUtils;
 
@@ -23,6 +29,8 @@ import java.util.function.Supplier;
 
 public class ModsTab extends AbstractTab {
     private final HyperiumOverlay autotip = new HyperiumOverlay("Autotip");
+    private final HyperiumOverlay levelhead = new HyperiumOverlay("Levelhead");
+
     private final HashMap<Field, Consumer<Object>> callback = new HashMap<>();
     private final HashMap<Field, Supplier<String[]>> customStates = new HashMap<>();
     private GuiBlock block;
@@ -33,6 +41,13 @@ public class ModsTab extends AbstractTab {
         this.y = y;
         this.w = w;
         items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(autotip), Icons.SETTINGS.getResource(), "Autotip", "Autotip Settings \n /autotip", "Click to configure", 0, 0));
+        items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(levelhead), Icons.SETTINGS.getResource(), "Levelhead", "Levelhead Settings \n /levelhead", "Click to configure", 1, 0));
+
+        try {
+            callback.put(Autotip.class.getDeclaredField("TIP_MESSAGE_STRING"), o -> Autotip.messageOption = MessageOption.valueOf(o.toString()));
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        }
         try {
             for (Object o : HyperiumMainGui.INSTANCE.getSettingsObjects()) {
                 for (Field f : o.getClass().getDeclaredFields()) {
@@ -60,7 +75,7 @@ public class ModsTab extends AbstractTab {
                                 if (objectConsumer != null)
                                     objectConsumer.accept(si);
                                 try {
-                                    f.set(null, si);
+                                    f.set(o, si);
                                 } catch (IllegalAccessException e) {
                                     e.printStackTrace();
                                 }
@@ -78,7 +93,10 @@ public class ModsTab extends AbstractTab {
                                     if (objectConsumer != null)
                                         objectConsumer.accept(aFloat);
                                     try {
-                                        f.set(null, aFloat);
+                                        if (sliderSetting.isInt()) {
+                                            f.set(o, aFloat.intValue());
+                                        } else
+                                            f.set(o, aFloat);
                                     } catch (IllegalAccessException e) {
                                         e.printStackTrace();
                                     }
@@ -95,13 +113,19 @@ public class ModsTab extends AbstractTab {
             e.printStackTrace();
 
         }
-
+        levelhead.getComponents().add(new OverlayLabel("Run /levelhead or click here to access more settings", true, () -> {
+            new LevelHeadGui(((Levelhead) Hyperium.INSTANCE.getModIntegration().getLevelhead())).display();
+        }));
+        autotip.getComponents().add(new OverlayLabel("Run /autotip to access more settings and features", true, () -> {
+        }));
     }
 
     private HyperiumOverlay getCategory(Category settingsCategory) {
         switch (settingsCategory) {
             case AUTOTIP:
                 return autotip;
+            case LEVEL_HEAD:
+                return levelhead;
         }
         throw new IllegalArgumentException(settingsCategory + " Cannot be used in mods!");
     }

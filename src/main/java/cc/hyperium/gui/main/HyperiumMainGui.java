@@ -17,6 +17,7 @@ import cc.hyperium.gui.main.tabs.ModsTab;
 import cc.hyperium.gui.main.tabs.SettingsTab;
 import cc.hyperium.installer.InstallerConfig;
 import cc.hyperium.installer.utils.DownloadTask;
+import cc.hyperium.mods.levelhead.Levelhead;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
 import cc.hyperium.utils.HyperiumFontRenderer;
@@ -69,6 +70,7 @@ public class HyperiumMainGui extends HyperiumGui {
     public HyperiumMainGui() {
         settingsObjects.add(Settings.INSTNACE);
         settingsObjects.add(Hyperium.INSTANCE.getModIntegration().getAutotip());
+        settingsObjects.add(((Levelhead) Hyperium.INSTANCE.getModIntegration().getLevelhead()).getConfig());
     }
 
     public List<AbstractTab> getTabs() {
@@ -188,7 +190,7 @@ public class HyperiumMainGui extends HyperiumGui {
             int stringWidth = fontRendererObj.getStringWidth(overlay.getName());
             int x1 = ResolutionUtil.current().getScaledWidth() / 4 - stringWidth / 2;
             int y1 = y / 2 - 10;
-            Gui.drawRect(x1-1,y1-1,x1+stringWidth+1,y1+9,new Color(30, 30, 30,255).getRGB());
+            Gui.drawRect(x1 - 1, y1 - 1, x1 + stringWidth + 1, y1 + 9, new Color(30, 30, 30, 255).getRGB());
             fontRendererObj.drawString(overlay.getName(), x1, y1, Color.WHITE.getRGB(), true);
 
             GlStateManager.scale(.5, .5, .5);

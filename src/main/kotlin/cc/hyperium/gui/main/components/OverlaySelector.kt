@@ -5,7 +5,7 @@ import java.awt.Color
 import java.util.function.Consumer
 import java.util.function.Supplier
 
-class OverlaySelector<T> @JvmOverloads constructor(label: String, var selected: T, val callback: Consumer<T>, val items: Supplier<Array<T>>, var enabled: Boolean = true) : OverlayLabel(label,enabled) {
+class OverlaySelector<T> @JvmOverloads constructor(label: String, var selected: T, val callback: Consumer<T>, val items: Supplier<Array<T>>, var enabled: Boolean = true) : OverlayLabel(label,enabled, Runnable {  }) {
 
     override fun render(mouseX: Int, mouseY: Int, overlayX: Int, overlayY: Int, w: Int, h: Int, overlayH: Int): Boolean {
         if (!super.render(mouseX, mouseY, overlayX, overlayY, w, h, overlayH))

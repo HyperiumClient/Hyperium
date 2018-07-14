@@ -5,7 +5,7 @@ import cc.hyperium.utils.RenderUtils
 import org.lwjgl.input.Mouse
 import java.util.function.Consumer
 
-class OverlaySlider @JvmOverloads constructor(label: String, private val minVal: Float, private val maxVal: Float, var value: Float, var update: Consumer<Float>, var round: Boolean, val enabled: Boolean = true) : OverlayLabel(label,enabled) {
+class OverlaySlider @JvmOverloads constructor(label: String, private val minVal: Float, private val maxVal: Float, var value: Float, var update: Consumer<Float>, var round: Boolean, val enabled: Boolean = true) : OverlayLabel(label, enabled, Runnable { }) {
     var updated = false;
     override fun handleMouseInput(mouseX: Int, mouseY: Int, overlayX: Int, overlayY: Int, w: Int, h: Int) {
         if (mouseX >= overlayX + w - 105 && mouseX <= overlayX + w - 5 && mouseY >= overlayY && mouseY <= overlayY + h && Mouse.isButtonDown(0)) {
@@ -14,7 +14,7 @@ class OverlaySlider @JvmOverloads constructor(label: String, private val minVal:
             value = fx / 100F * (maxVal - minVal) + minVal
             updated = false;
         } else {
-            if(!updated) {
+            if (!updated) {
                 updated = true;
                 update.accept(value)
             }
