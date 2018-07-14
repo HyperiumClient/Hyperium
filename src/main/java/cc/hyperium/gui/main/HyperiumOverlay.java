@@ -26,6 +26,9 @@ public class HyperiumOverlay {
         this.name = name;
     }
 
+    public HyperiumOverlay() {
+        this("");
+    }
     public String getName() {
         return name;
     }
