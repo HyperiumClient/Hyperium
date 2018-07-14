@@ -69,10 +69,20 @@ public class Settings {
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;numberPingEnabled")
     @ToggleSetting(name = "Numeric Ping", category = VANILLA_ENCHANTMENTS, mods = true)
     public static boolean NUMBER_PING = true;
+
+
     @ConfigOpt
     @ToggleSetting(name = "Arrow Count When Holding Bow", category = VANILLA_ENCHANTMENTS, mods = true)
     public static boolean ARROW_COUNT = true;
 
+
+    @ConfigOpt
+    @ToggleSetting(name = "Show Enchantments above hotbar", category = VANILLA_ENCHANTMENTS, mods = true)
+    public static boolean ENCHANTMENTS_ABOVE_HOTBAR = true;
+
+    @ConfigOpt
+    @ToggleSetting(name = "Show Attack Damage above hotbar", category = VANILLA_ENCHANTMENTS, mods = true)
+    public static boolean DAMAGE_ABOVE_HOTBAR = true;
 
 
 
