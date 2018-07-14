@@ -8,6 +8,7 @@ import java.lang.reflect.Field;
 
 public class GlintColorizerSettings extends HyperiumOverlay {
     public GlintColorizerSettings() {
+        super("Glint Colorizer");
         try {
             this.addToggle("Enabled", GlintColorizer.class.getField("enabled"), (b) -> {
               if ((boolean) b) {
@@ -15,8 +16,8 @@ public class GlintColorizerSettings extends HyperiumOverlay {
               } else {
                 Colors.onepoint8glintcolorI = -8372020;
               }
-            },true);
-            this.addToggle("Chroma", Colors.class.getField("chroma"), null,true);
+            },true,this);
+            this.addToggle("Chroma", Colors.class.getField("chroma"), null,true,this);
             addSlider("Red", Colors.class.getField("glintR"), 255, 0, true);
             addSlider("Green", Colors.class.getField("glintG"), 255, 0, true);
             addSlider("Blue", Colors.class.getField("glintB"), 255, 0, true);

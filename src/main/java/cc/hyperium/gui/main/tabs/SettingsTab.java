@@ -8,8 +8,6 @@ import cc.hyperium.config.SliderSetting;
 import cc.hyperium.config.ToggleSetting;
 import cc.hyperium.cosmetics.Deadmau5Cosmetic;
 import cc.hyperium.cosmetics.HyperiumCosmetics;
-import cc.hyperium.event.InvokeEvent;
-import cc.hyperium.event.PurchaseLoadEvent;
 import cc.hyperium.gui.GuiBlock;
 import cc.hyperium.gui.Icons;
 import cc.hyperium.gui.ParticleOverlay;
@@ -41,23 +39,44 @@ import java.util.function.Supplier;
  * Created by Cubxity on 20/05/2018
  */
 public class SettingsTab extends AbstractTab {
-    private final HyperiumOverlay general = new HyperiumOverlay();
-    private final HyperiumOverlay integrations = new HyperiumOverlay();
-    private final HyperiumOverlay improvements = new HyperiumOverlay();
-    private final HyperiumOverlay cosmetics = new HyperiumOverlay();
-    private final HyperiumOverlay spotify = new HyperiumOverlay();
-    private final HyperiumOverlay animations = new HyperiumOverlay();
-    private final HyperiumOverlay misc = new HyperiumOverlay();
-    private final HyperiumOverlay mods = new HyperiumOverlay();
+    private final HyperiumOverlay general = new HyperiumOverlay("General");
+    private final HyperiumOverlay integrations = new HyperiumOverlay("Integrations");
+    private final HyperiumOverlay improvements = new HyperiumOverlay("Improvements");
+    private final HyperiumOverlay cosmetics = new HyperiumOverlay("Cosmetics");
+    private final HyperiumOverlay spotify = new HyperiumOverlay("Spotify");
+    private final HyperiumOverlay animations = new HyperiumOverlay("Animations");
+    private final HyperiumOverlay misc = new HyperiumOverlay("Misc");
+    private final HyperiumOverlay mods = new HyperiumOverlay("Modds ??? do we need ?? ");
     private final GlintColorizerSettings glintcolorizer = new GlintColorizerSettings();
 
     private final HashMap<Field, Consumer<Object>> callback = new HashMap<>();
     private final HashMap<Field, Supplier<String[]>> customStates = new HashMap<>();
-    boolean loadedSelf = false;
     private GuiBlock block;
     private int y, w;
 
-    {
+
+    public SettingsTab(int y, int w) {
+        block = new GuiBlock(0, w, y, y + w);
+        this.y = y;
+        this.w = w;
+
+        items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(general), Icons.SETTINGS.getResource(), "General", "General settings for Hyperium", "Click to configure", 0, 0));
+
+        items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(integrations), Icons.EXTENSION.getResource(), "Integrations", "Hyperium integrations", "Click to configure", 1, 0));
+
+        items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(improvements), Icons.TOOL.getResource(), "Improvements", "Improvements and bug fixes", "Click to configure", 2, 0));
+
+        items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(cosmetics), Icons.COSMETIC.getResource(), "Cosmetics", "Bling out your Minecraft Avatar", "Click to configure", 0, 1));
+
+        items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(animations), Icons.COSMETIC.getResource(), "Animations", "Adjust the Minecraft Animations", "Click to configure", 2, 1));
+
+        items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(spotify), Icons.SPOTIFY.getResource(), "Spotify", "Hyperium Spotify Settings", "Click to configure", 1, 1));
+
+        items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(glintcolorizer), Icons.EXTENSION.getResource(), "GlintColorizer", "GlintColorizer settings", "Click to configure", 0, 2));
+
+        items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(mods), Icons.EXTENSION.getResource(), "Mods", "Hyperium mod settings", "Click to configure", 1, 2));
+
+        items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(misc), Icons.MISC.getResource(), "Miscellaneous", "Other Hyperium Settings", "Click to configure", 2, 2));
         try {
             Field earsField = Settings.class.getField("EARS_STATE");
             callback.put(earsField, o -> {
@@ -111,31 +130,31 @@ public class SettingsTab extends AbstractTab {
             Field show_wings_string = Settings.class.getField("SHOW_WINGS");
             customStates.put(show_wings_string, () -> {
                 HyperiumPurchase self = PurchaseApi.getInstance().getSelf();
-                if(self != null && self.hasPurchased(EnumPurchaseType.WING_COSMETIC)){
+                if (self != null && self.hasPurchased(EnumPurchaseType.WING_COSMETIC)) {
                     return new String[]{
-                        "ON",
-                        "OFF"
+                            "ON",
+                            "OFF"
                     };
                 }
 
                 return new String[]{"NOT PURCHASED"};
             });
 
-            callback.put(show_wings_string, o-> {
-               try {
-                   Settings.SHOW_WINGS = String.valueOf(o);
-               } catch (Exception ignored){
+            callback.put(show_wings_string, o -> {
+                try {
+                    Settings.SHOW_WINGS = String.valueOf(o);
+                } catch (Exception ignored) {
 
-               }
+                }
             });
 
             Field show_dragonhead_string = Settings.class.getField("SHOW_DRAGON_HEAD");
             customStates.put(show_dragonhead_string, () -> {
                 HyperiumPurchase self = PurchaseApi.getInstance().getSelf();
-                if(self != null && self.hasPurchased(EnumPurchaseType.DRAGON_HEAD)){
+                if (self != null && self.hasPurchased(EnumPurchaseType.DRAGON_HEAD)) {
                     return new String[]{
-                        "ON",
-                        "OFF"
+                            "ON",
+                            "OFF"
                     };
                 }
 
@@ -144,7 +163,7 @@ public class SettingsTab extends AbstractTab {
             callback.put(show_dragonhead_string, o -> {
                 try {
                     Settings.SHOW_DRAGON_HEAD = String.valueOf(o);
-                } catch (Exception ignored){
+                } catch (Exception ignored) {
 
                 }
             });
@@ -210,91 +229,66 @@ public class SettingsTab extends AbstractTab {
         } catch (NoSuchFieldException e) {
             e.printStackTrace();
         }
-        for (Field f : Settings.class.getFields()) {
-            ToggleSetting ts = f.getAnnotation(ToggleSetting.class);
-            SelectorSetting ss = f.getAnnotation(SelectorSetting.class);
-            SliderSetting sliderSetting = f.getAnnotation(SliderSetting.class);
-            Consumer<Object> objectConsumer = callback.get(f);
-            if (ts != null) {
-                getCategory(ts.category()).addToggle(ts.name(), f, objectConsumer,ts.enabled());
-            } else if (ss != null) {
-                try {
-                    Supplier<String[]> supplier = customStates.get(f);
-                    Supplier<String[]> supplier1 = supplier != null ? supplier : ss::items;
-                    String current = String.valueOf(f.get(null));
-                    if (!ArrayUtils.contains(supplier1.get(), current))
-                        current = supplier1.get()[0];
-                    getCategory(ss.category()).getComponents().add(new OverlaySelector<>(ss.name(), current, si -> {
-                        if (objectConsumer != null)
-                            objectConsumer.accept(si);
-                        try {
-                            f.set(null, si);
-                        } catch (IllegalAccessException e) {
-                            e.printStackTrace();
-                        }
-                    }, supplier1,ss.enabled()));
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                }
-            } else if (sliderSetting != null) {
+        for (Object o : HyperiumMainGui.INSTANCE.getSettingsObjects()) {
+            for (Field f : o.getClass().getDeclaredFields()) {
+                ToggleSetting ts = f.getAnnotation(ToggleSetting.class);
+                SelectorSetting ss = f.getAnnotation(SelectorSetting.class);
+                SliderSetting sliderSetting = f.getAnnotation(SliderSetting.class);
+                Consumer<Object> objectConsumer = callback.get(f);
+                if (ts != null) {
+                    if (ts.mods())
+                        return;
+                    getCategory(ts.category()).addToggle(ts.name(), f, objectConsumer, ts.enabled(), o);
+                } else if (ss != null) {
+                    if (ss.mods())
+                        return;
+                    try {
+                        Supplier<String[]> supplier = customStates.get(f);
+                        Supplier<String[]> supplier1 = supplier != null ? supplier : ss::items;
+                        String current = String.valueOf(f.get(o));
+                        if (!ArrayUtils.contains(supplier1.get(), current))
+                            current = supplier1.get()[0];
+                        getCategory(ss.category()).getComponents().add(new OverlaySelector<>(ss.name(), current, si -> {
+                            if (objectConsumer != null)
+                                objectConsumer.accept(si);
+                            try {
+                                f.set(null, si);
+                            } catch (IllegalAccessException e) {
+                                e.printStackTrace();
+                            }
+                        }, supplier1, ss.enabled()));
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
+                } else if (sliderSetting != null) {
+                    if (sliderSetting.mods())
+                        return;
+                    try {
+                        Double value = Double.valueOf(f.get(o).toString());
+                        getCategory(sliderSetting.category()).getComponents().add(new OverlaySlider(sliderSetting.name(), sliderSetting.min(), sliderSetting.max(),
+                                value.floatValue(), aFloat -> {
+                            if (objectConsumer != null)
+                                objectConsumer.accept(aFloat);
+                            try {
+                                f.set(null, aFloat);
+                            } catch (IllegalAccessException e) {
+                                e.printStackTrace();
+                            }
+                        }, sliderSetting.round(), sliderSetting.enabled()));
 
-                try {
-                    Double value = Double.valueOf(f.get(null).toString());
-                    getCategory(sliderSetting.category()).getComponents().add(new OverlaySlider(sliderSetting.name(), sliderSetting.min(), sliderSetting.max(),
-                            value.floatValue(), aFloat -> {
-                        if (objectConsumer != null)
-                            objectConsumer.accept(aFloat);
-                        try {
-                            f.set(null, aFloat);
-                        } catch (IllegalAccessException e) {
-                            e.printStackTrace();
-                        }
-                    }, sliderSetting.round(),sliderSetting.enabled()));
-
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }
+
         Settings.save();
     }
 
-    public SettingsTab(int y, int w) {
-        block = new GuiBlock(0, w, y, y + w);
-        this.y = y;
-        this.w = w;
 
-        items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(general), Icons.SETTINGS.getResource(), "General", "General settings for Hyperium", "Click to configure", 0, 0));
-
-        items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(integrations), Icons.EXTENSION.getResource(), "Integrations", "Hyperium integrations", "Click to configure", 1, 0));
-
-        items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(improvements), Icons.TOOL.getResource(), "Improvements", "Improvements and bug fixes", "Click to configure", 2, 0));
-
-        items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(cosmetics), Icons.COSMETIC.getResource(), "Cosmetics", "Bling out your Minecraft Avatar", "Click to configure", 0, 1));
-
-        items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(animations), Icons.COSMETIC.getResource(), "Animations", "Adjust the Minecraft Animations", "Click to configure", 2, 1));
-
-        items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(spotify), Icons.SPOTIFY.getResource(), "Spotify", "Hyperium Spotify Settings", "Click to configure", 1, 1));
-
-        items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(glintcolorizer), Icons.EXTENSION.getResource(), "GlintColorizer", "GlintColorizer settings", "Click to configure", 0, 2));
-
-        items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(mods), Icons.EXTENSION.getResource(), "Mods", "Hyperium mod settings", "Click to configure", 1, 2));
-
-        items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(misc), Icons.MISC.getResource(), "Miscellaneous", "Other Hyperium Settings", "Click to configure", 2, 2));
-    }
-
-    @InvokeEvent
-    public void purchaseLoad(PurchaseLoadEvent event) {
-        if (loadedSelf) return;
-        if (event.getSelf()) {
-            /*if (event.getPurchase().hasPurchased(EnumPurchaseType.WING_COSMETIC)) {
-                items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(wings), Icons.COSMETIC.getResource(), "Wings", "Hyperium wings Settings", "Click to configure", 0, 2));
-            }*/
-        }
-    }
-
-    private HyperiumOverlay getCategory(Category category) {
-        switch (category) {
+    private HyperiumOverlay getCategory(Category settingsCategory) {
+        switch (settingsCategory) {
             case GENERAL:
                 return general;
             case IMPROVEMENTS:
@@ -318,7 +312,7 @@ public class SettingsTab extends AbstractTab {
     @Override
     public void drawTabIcon() {
         Icons.SETTINGS.bind();
-        GlStateManager.color(1.0F,1.0F,1.0F);
+        GlStateManager.color(1.0F, 1.0F, 1.0F);
         Gui.drawScaledCustomSizeModalRect(5, y + 5, 0, 0, 144, 144, w - 10, w - 10, 144, 144);
     }
 

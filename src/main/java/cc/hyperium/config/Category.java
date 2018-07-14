@@ -1,6 +1,8 @@
 package cc.hyperium.config;
 
 public enum Category {
+
+    //Settings Tab
     GENERAL,
     IMPROVEMENTS,
     INTEGRATIONS,
@@ -8,5 +10,9 @@ public enum Category {
     SPOTIFY,
     ANIMATIONS,
     MISC,
-    MODS
+    MODS,
+
+    //Mods
+    AUTOTIP,
+
 }

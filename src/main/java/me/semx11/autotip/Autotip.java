@@ -19,6 +19,8 @@ package me.semx11.autotip;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.commands.BaseCommand;
+import cc.hyperium.config.Category;
+import cc.hyperium.config.ToggleSetting;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.mods.AbstractMod;
 import cc.hyperium.utils.ChatColor;
@@ -30,6 +32,7 @@ import me.semx11.autotip.event.ChatListener;
 import me.semx11.autotip.event.HypixelListener;
 import me.semx11.autotip.event.Tipper;
 import me.semx11.autotip.misc.AutotipThreadFactory;
+import me.semx11.autotip.misc.Writer;
 import me.semx11.autotip.util.FileUtil;
 import me.semx11.autotip.util.Hosts;
 import me.semx11.autotip.util.MessageOption;
@@ -56,6 +59,7 @@ public class Autotip extends AbstractMod {
     public static MessageOption messageOption = MessageOption.SHOWN;
     public static String playerUUID = "";
     public static boolean onHypixel = false;
+    @ToggleSetting(name = "Enable", category = Category.AUTOTIP, mods = true)
     public static boolean toggle = true;
     public static int totalTipsSent;
     /**
@@ -69,6 +73,7 @@ public class Autotip extends AbstractMod {
         metadata.setDisplayName(ChatColor.AQUA + "Autotip");
 
         this.meta = metadata;
+        Runtime.getRuntime().addShutdownHook(new Thread(Writer::execute));
     }
 
     public Autotip init() {

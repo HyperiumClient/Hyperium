@@ -64,6 +64,12 @@ public class HyperiumMainGui extends HyperiumGui {
     private float highlightScale = 0f;
     private List<AbstractTab> tabs = new ArrayList<>();
     private CosmeticsTab cosmeticsTab;
+    private List<Object> settingsObjects = new ArrayList<>();
+
+    public HyperiumMainGui() {
+        settingsObjects.add(Settings.INSTNACE);
+        settingsObjects.add(Hyperium.INSTANCE.getModIntegration().getAutotip());
+    }
 
     public List<AbstractTab> getTabs() {
         return tabs;
@@ -128,6 +134,10 @@ public class HyperiumMainGui extends HyperiumGui {
         pack();
     }
 
+    public List<Object> getSettingsObjects() {
+        return settingsObjects;
+    }
+
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         if (Minecraft.getMinecraft().theWorld == null)
@@ -139,8 +149,8 @@ public class HyperiumMainGui extends HyperiumGui {
 
         GlStateManager.scale(3, 3, 0);
         ScaledResolution current = ResolutionUtil.current();
-        fontRendererObj.drawString(currentTab.getTitle(), current.getScaledWidth()/2/3-fontRendererObj.getStringWidth(currentTab.getTitle())/2,15/3,Color.WHITE.getRGB(),true);
-GlStateManager.scale(1/3F,1/3F,1/3F);
+        fontRendererObj.drawString(currentTab.getTitle(), current.getScaledWidth() / 2 / 3 - fontRendererObj.getStringWidth(currentTab.getTitle()) / 2, 15 / 3, Color.WHITE.getRGB(), true);
+        GlStateManager.scale(1 / 3F, 1 / 3F, 1 / 3F);
         // Draws side pane
         GlStateManager.pushMatrix();
         GlStateManager.enableBlend();
@@ -163,15 +173,25 @@ GlStateManager.scale(1/3F,1/3F,1/3F);
             currentAlert.render(fr, width, height);
 
         if (!isLatestVersion() && !show && Settings.UPDATE_NOTIFICATIONS && !Metadata.isDevelopment()) {
-            Alert alert = new Alert(Icons.ERROR.getResource(), () -> downloadLatest(), "Hyperium Update! Click here to download.");
+            Alert alert = new Alert(Icons.ERROR.getResource(), this::downloadLatest, "Hyperium Update! Click here to download.");
             alerts.add(alert);
             show = true;
         }
 
         if (overlay != null) {
+            int y = height / 4;
+
+
             overlay.render(mouseX, mouseY, width, height);
             int x = width / 6 * 2;
-            int y = height / 4;
+            GlStateManager.scale(2, 2, 2);
+            int stringWidth = fontRendererObj.getStringWidth(overlay.getName());
+            int x1 = ResolutionUtil.current().getScaledWidth() / 4 - stringWidth / 2;
+            int y1 = y / 2 - 10;
+            Gui.drawRect(x1-1,y1-1,x1+stringWidth+1,y1+9,new Color(30, 30, 30,255).getRGB());
+            fontRendererObj.drawString(overlay.getName(), x1, y1, Color.WHITE.getRGB(), true);
+
+            GlStateManager.scale(.5, .5, .5);
             Icons.EXIT.bind();
             Gui.drawRect(x, y - 16, x + 16, y, new Color(0, 0, 0, 100).getRGB());
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);

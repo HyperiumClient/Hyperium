@@ -35,7 +35,7 @@ import java.util.stream.StreamSupport;
  * Created by Cubxity on 23/05/2018
  */
 public class InfoTab extends AbstractTab {
-    private static HyperiumOverlay licenses = new HyperiumOverlay();
+    private static HyperiumOverlay licenses = new HyperiumOverlay("Licenses");
 
     static {
         Multithreading.runAsync(() -> {

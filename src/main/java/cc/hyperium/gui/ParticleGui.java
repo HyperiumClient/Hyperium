@@ -21,13 +21,14 @@ import cc.hyperium.purchases.HyperiumPurchase;
 import cc.hyperium.purchases.PurchaseApi;
 import cc.hyperium.utils.JsonHolder;
 import cc.hyperium.utils.UUIDUtil;
-import java.awt.Color;
-import java.io.IOException;
-import java.util.HashMap;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import org.lwjgl.input.Keyboard;
+
+import java.awt.Color;
+import java.io.IOException;
+import java.util.HashMap;
 
 /**
  * Created by mitchellkatz on 6/25/18. Designed for production use on Sk1er.club
@@ -102,7 +103,7 @@ public class ParticleGui extends HyperiumGui {
             }, carouselItem -> {
                 if (!flag)
                     return;
-                overlay = new HyperiumOverlay();
+                overlay = new HyperiumOverlay("Particles");
                 String s = particle.optBoolean("rgb") ? "RGB" : particle.optBoolean("chroma") ? "CHROMA" : "DEFAULT";
                 overlay.getComponents().add(new OverlaySelector<>("Color Type", s, s1 -> {
                     if (s1.equals("DEFAULT")) {
