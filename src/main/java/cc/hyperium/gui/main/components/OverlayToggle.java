@@ -1,5 +1,6 @@
 package cc.hyperium.gui.main.components;
 
+import cc.hyperium.gui.ColourOptions;
 import cc.hyperium.utils.GraphicsUtil;
 import cc.hyperium.utils.RenderUtils;
 import java.awt.Color;
@@ -37,7 +38,8 @@ public class OverlayToggle extends OverlayComponent {
             GL11.glEnable(GL11.GL_BLEND);
             GL11.glDisable(GL11.GL_TEXTURE_2D);
             GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-            int color = GraphicsUtil.INSTANCE.transitionOfHueRange(colorStep, 1, 88, 0.7F, 0.7F).getRGB();
+            int color = GraphicsUtil.INSTANCE.transitionOfHueRange(colorStep, 1, getHue(ColourOptions.accent_r, ColourOptions.accent_g, ColourOptions.accent_b), 0.7F, 0.7F).getRGB();
+            //int color = GraphicsUtil.INSTANCE.transitionOfHueRange(colorStep, 1, 88, 0.7F, 0.7F).getRGB();
             RenderUtils
                 .drawSmoothRect(overlayX + w - 30, overlayY + 5, overlayX + w - 5, overlayY + h - 5,
                     color);
@@ -80,5 +82,34 @@ public class OverlayToggle extends OverlayComponent {
     public void resetStep() {
         step = 0f;
         colorStep = 0.5f;
+    }
+
+    /**
+     * @author ConorTheDev
+     */
+    private int getHue(int red, int green, int blue) {
+
+        float min = Math.min(Math.min(red, green), blue);
+        float max = Math.max(Math.max(red, green), blue);
+
+        if (min == max) {
+            return 0;
+        }
+
+        float hue = 0f;
+        if (max == red) {
+            hue = (green - blue) / (max - min);
+
+        } else if (max == green) {
+            hue = 2f + (blue - red) / (max - min);
+
+        } else {
+            hue = 4f + (red - green) / (max - min);
+        }
+
+        hue = hue * 60;
+        if (hue < 0) hue = hue + 360;
+
+        return Math.round(hue);
     }
 }
