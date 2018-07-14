@@ -54,6 +54,10 @@ public class HyperiumModIntegration {
     private final AbstractMod autogg;
     private final AbstractMod hgames;
     private final AbstractMod glintcolorizer;
+    private AbstractMod blockOverlay;
+    private AbstractMod spotifyControls;
+    private AbstractMod motionBlur;
+    private AbstractMod oldanimations;
 
     public HyperiumModIntegration() {
         // ChromaHud implementation
@@ -87,24 +91,53 @@ public class HyperiumModIntegration {
         this.hgames = new HGames().init();
 
         // Old Animations implementation
-        AbstractMod oldanimations = new OldAnimations().init();
+
+        this.oldanimations = new OldAnimations().init();
 
         // Block Overlay implementation
-        AbstractMod blockOverlay = new BlockOverlay().init();
+        this.blockOverlay = new BlockOverlay().init();
 
         // Kill Screenshot implementation
         this.killScreenshot = new KillScreenshot().init();
 
         // Spotify Controls Implementation
-        AbstractMod spotifyControls = new SpotifyControls().init();
+        this.spotifyControls = new SpotifyControls().init();
 
         //Motion Blur
-        AbstractMod motionBlur = new MotionBlurMod().init();
+        this.motionBlur = new MotionBlurMod().init();
 
         // Glint Colorizer implementation
         this.glintcolorizer = new GlintColorizer().init();
 
         this.motionBlurMod = new MotionBlurMod().init();
+    }
+
+    public AbstractMod getMotionBlurMod() {
+        return motionBlurMod;
+    }
+
+    public AbstractMod getAutogg() {
+        return autogg;
+    }
+
+    public AbstractMod getHgames() {
+        return hgames;
+    }
+
+    public AbstractMod getGlintcolorizer() {
+        return glintcolorizer;
+    }
+
+    public AbstractMod getBlockOverlay() {
+        return blockOverlay;
+    }
+
+    public AbstractMod getSpotifyControls() {
+        return spotifyControls;
+    }
+
+    public AbstractMod getOldanimations() {
+        return oldanimations;
     }
 
     /**
@@ -125,7 +158,9 @@ public class HyperiumModIntegration {
         return this.autogg;
     }
 
-    public AbstractMod getMotionBlur(){return this.motionBlurMod;}
+    public AbstractMod getMotionBlur() {
+        return this.motionBlurMod;
+    }
 
     /**
      * A getter for the running HGames instance

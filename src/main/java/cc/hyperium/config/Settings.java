@@ -21,6 +21,7 @@ import cc.hyperium.GuiStyle;
 import cc.hyperium.Hyperium;
 
 import static cc.hyperium.config.Category.ANIMATIONS;
+import static cc.hyperium.config.Category.CHROMAHUD;
 import static cc.hyperium.config.Category.COSMETICS;
 import static cc.hyperium.config.Category.GENERAL;
 import static cc.hyperium.config.Category.IMPROVEMENTS;
@@ -272,7 +273,7 @@ public class Settings {
     @SliderSetting(name = "Wings Scale", min = 50, max = 200, category = COSMETICS)
     public static double WINGS_SCALE = 100D;
     @ConfigOpt
-    @ToggleSetting(name = "Show ChromaHUD", category = INTEGRATIONS)
+    @ToggleSetting(name = "Show ChromaHUD", category = CHROMAHUD,mods = true)
     public static boolean SHOW_CHROMAHUD = true;
     @ConfigOpt
     @SelectorSetting(name = "Main Menu Style", items =

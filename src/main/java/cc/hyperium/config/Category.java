@@ -16,5 +16,6 @@ public enum Category {
     AUTOTIP,
     LEVEL_HEAD,
     VANILLA_ENCHANTMENTS,
+    CHROMAHUD,
     MOTION_BLUR,
 }

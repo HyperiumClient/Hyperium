@@ -119,7 +119,7 @@ public class CosmeticsTab extends AbstractTab implements GuiYesNoCallback {
 
 
                 });
-                settingItem.setDesc(description + (purchased ? "" : "\nCost: " + cost));
+                settingItem.setDesc(description + (purchased ? "" : " \nCost: " + cost));
 
                 settingItem.setTitle(name);
                 settingItem.setOnClick(runnable);

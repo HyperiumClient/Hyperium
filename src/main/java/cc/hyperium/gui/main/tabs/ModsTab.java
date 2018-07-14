@@ -14,6 +14,10 @@ import cc.hyperium.gui.main.components.OverlayLabel;
 import cc.hyperium.gui.main.components.OverlaySelector;
 import cc.hyperium.gui.main.components.OverlaySlider;
 import cc.hyperium.gui.main.components.SettingItem;
+import cc.hyperium.mods.blockoverlay.BlockOverlay;
+import cc.hyperium.mods.blockoverlay.BlockOverlayGui;
+import cc.hyperium.mods.chromahud.ChromaHUD;
+import cc.hyperium.mods.chromahud.gui.GeneralConfigGui;
 import cc.hyperium.mods.levelhead.Levelhead;
 import cc.hyperium.mods.levelhead.guis.LevelHeadGui;
 import cc.hyperium.mods.motionblur.MotionBlurMod;
@@ -34,6 +38,7 @@ public class ModsTab extends AbstractTab {
     private final HyperiumOverlay levelhead = new HyperiumOverlay("Levelhead");
     private final HyperiumOverlay vanilla = new HyperiumOverlay("Vanilla Enhancements");
     private final HyperiumOverlay motionblur = new HyperiumOverlay("Motion Blur");
+    private final HyperiumOverlay chromahud = new HyperiumOverlay("ChromaHUD");
 
     private final HashMap<Field, Consumer<Object>> callback = new HashMap<>();
     private final HashMap<Field, Supplier<String[]>> customStates = new HashMap<>();
@@ -47,19 +52,21 @@ public class ModsTab extends AbstractTab {
         items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(autotip), Icons.SETTINGS.getResource(), "Autotip", "Autotip Settings \n /autotip", "Click to configure", 0, 0));
         items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(levelhead), Icons.SETTINGS.getResource(), "Levelhead", "Levelhead Settings \n /levelhead", "Click to configure", 1, 0));
         items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(vanilla), Icons.SETTINGS.getResource(), "Vanilla Enhancements", "Vanilla Enhancements", "Click to configure", 2, 0));
-        items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(motionblur), Icons.SETTINGS.getResource(), "Motion Blur","Motion Blur Settings \n /motionblur","Click to configure",0,1));
+        items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(motionblur), Icons.SETTINGS.getResource(), "Motion Blur", "Motion Blur Settings \n /motionblur", "Click to configure", 0, 1));
+        items.add(new SettingItem(() -> Minecraft.getMinecraft().displayGuiScreen(new BlockOverlayGui(((BlockOverlay) Hyperium.INSTANCE.getModIntegration().getBlockOverlay()))), Icons.SETTINGS.getResource(), "Block Overlay", "Block overlay settings \n /blockoverlay ", "Click to configure", 1, 1));
+        items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(chromahud), Icons.SETTINGS.getResource(), "ChromaHUD", "ChromaHUD settings \n /chromahud", "Click to configure", 2, 1));
 
         try {
             callback.put(Autotip.class.getDeclaredField("TIP_MESSAGE_STRING"), o -> Autotip.messageOption = MessageOption.valueOf(o.toString()));
             callback.put(MotionBlurMod.class.getDeclaredField("enabled"), o -> {
-                if(!((boolean) o)) {
+                if (!((boolean) o)) {
                     // If it's been disabled, remove the blur shader.
                     Minecraft.getMinecraft().addScheduledTask(() ->
-                        Minecraft.getMinecraft().entityRenderer.stopUseShader());
+                            Minecraft.getMinecraft().entityRenderer.stopUseShader());
                 }
             });
             callback.put(MotionBlurMod.class.getDeclaredField("motionBlurIntensity"), o -> {
-                if (MotionBlurMod.enabled){
+                if (MotionBlurMod.enabled) {
                     // Update motion blur with new intensity.
                     MotionBlurMod.applyShader();
                 }
@@ -137,6 +144,10 @@ public class ModsTab extends AbstractTab {
         }));
         autotip.getComponents().add(new OverlayLabel("Run /autotip to access more settings and features", true, () -> {
         }));
+        chromahud.getComponents().add(new OverlayLabel("Run /chromahud or click here to access more settings", true, () -> {
+            new GeneralConfigGui(((ChromaHUD) Hyperium.INSTANCE.getModIntegration().getChromaHUD())).display();
+        }));
+
     }
 
     private HyperiumOverlay getCategory(Category settingsCategory) {
@@ -148,7 +159,9 @@ public class ModsTab extends AbstractTab {
             case VANILLA_ENCHANTMENTS:
                 return vanilla;
             case MOTION_BLUR:
-                return  motionblur;
+                return motionblur;
+            case CHROMAHUD:
+                return chromahud;
         }
         throw new IllegalArgumentException(settingsCategory + " Cannot be used in mods!");
     }
