@@ -19,6 +19,7 @@ import cc.hyperium.gui.main.components.OverlaySelector;
 import cc.hyperium.gui.main.components.OverlaySlider;
 import cc.hyperium.gui.main.components.SettingItem;
 import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
+import cc.hyperium.mods.glintcolorizer.gui.GlintColorizerSettings;
 import cc.hyperium.netty.NettyClient;
 import cc.hyperium.netty.packet.packets.serverbound.ServerCrossDataPacket;
 import cc.hyperium.purchases.EnumPurchaseType;
@@ -48,8 +49,6 @@ public class SettingsTab extends AbstractTab {
     private final HyperiumOverlay mods = new HyperiumOverlay("Modds ??? do we need ?? ");
 
     private final ColourOptions colourOptions = new ColourOptions();
-    private final GlintColorizerSettings glintcolorizer = new GlintColorizerSettings();
->>>>>>> 51b061f1... Added Accent Colour Option! (needs to be a bit more widespread but I can't find anwhere else to use it xD
 
     private final HashMap<Field, Consumer<Object>> callback = new HashMap<>();
     private final HashMap<Field, Supplier<String[]>> customStates = new HashMap<>();
@@ -76,9 +75,6 @@ public class SettingsTab extends AbstractTab {
 
         items.add(new SettingItem(() ->HyperiumMainGui.INSTANCE.setTab(HyperiumMainGui.INSTANCE.getModsTab()), Icons.EXTENSION.getResource(), "Mods", "Hyperium mod settings", "Click to configure", 1, 2));
 
-<<<<<<< HEAD
-        items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(misc), Icons.MISC.getResource(), "Miscellaneous", "Other Hyperium Settings", "Click to configure", 2, 1));
-=======
         items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(misc), Icons.MISC.getResource(), "Miscellaneous", "Other Hyperium Settings", "Click to configure", 2, 2));
 
         items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(colourOptions), Icons.TOOL.getResource(), "GUI Options", "Accent Colours, etc.", "Click to configure", 0, 3));
