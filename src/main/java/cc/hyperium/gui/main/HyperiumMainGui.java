@@ -1,7 +1,5 @@
 package cc.hyperium.gui.main;
 
-import static cc.hyperium.installer.InstallerFrame.get;
-
 import cc.hyperium.Hyperium;
 import cc.hyperium.Metadata;
 import cc.hyperium.config.Settings;
@@ -19,13 +17,20 @@ import cc.hyperium.gui.main.tabs.ModsTab;
 import cc.hyperium.gui.main.tabs.SettingsTab;
 import cc.hyperium.installer.InstallerConfig;
 import cc.hyperium.installer.utils.DownloadTask;
-import cc.hyperium.mods.levelhead.Levelhead;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
 import cc.hyperium.utils.HyperiumFontRenderer;
 import cc.hyperium.utils.JsonHolder;
 import cc.hyperium.utils.UpdateUtils;
 import com.google.gson.JsonObject;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.util.ResourceLocation;
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.opengl.GL11;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.io.File;
@@ -37,13 +42,8 @@ import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.StreamSupport;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.util.ResourceLocation;
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.opengl.GL11;
+
+import static cc.hyperium.installer.InstallerFrame.get;
 
 /*
  * Created by Cubxity on 20/05/2018
@@ -70,7 +70,7 @@ public class HyperiumMainGui extends HyperiumGui {
         settingsObjects.add(Settings.INSTNACE);
         settingsObjects.add(Hyperium.INSTANCE.getModIntegration().getAutotip());
         settingsObjects.add(Hyperium.INSTANCE.getModIntegration().getMotionBlur());
-        settingsObjects.add(((Levelhead) Hyperium.INSTANCE.getModIntegration().getLevelhead()).getConfig());
+        settingsObjects.add(Hyperium.INSTANCE.getModIntegration().getLevelhead().getConfig());
     }
 
     public List<AbstractTab> getTabs() {
