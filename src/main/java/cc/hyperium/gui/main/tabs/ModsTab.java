@@ -17,16 +17,17 @@ import cc.hyperium.gui.main.components.SettingItem;
 import cc.hyperium.mods.levelhead.Levelhead;
 import cc.hyperium.mods.levelhead.guis.LevelHeadGui;
 import cc.hyperium.mods.motionblur.MotionBlurMod;
-import java.awt.Color;
-import java.lang.reflect.Field;
-import java.util.HashMap;
-import java.util.function.Consumer;
-import java.util.function.Supplier;
 import me.semx11.autotip.Autotip;
 import me.semx11.autotip.util.MessageOption;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import org.apache.commons.lang3.ArrayUtils;
+
+import java.awt.Color;
+import java.lang.reflect.Field;
+import java.util.HashMap;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 public class ModsTab extends AbstractTab {
     private final HyperiumOverlay autotip = new HyperiumOverlay("Autotip");
@@ -46,7 +47,7 @@ public class ModsTab extends AbstractTab {
         items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(autotip), Icons.SETTINGS.getResource(), "Autotip", "Autotip Settings \n /autotip", "Click to configure", 0, 0));
         items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(levelhead), Icons.SETTINGS.getResource(), "Levelhead", "Levelhead Settings \n /levelhead", "Click to configure", 1, 0));
         items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(vanilla), Icons.SETTINGS.getResource(), "Vanilla Enhancements", "Vanilla Enhancements", "Click to configure", 2, 0));
-        items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(motionblur), Icons.SETTINGS.getResource(), "Motion Blur","Motion Blur Settings \n /motionblur","Click to configure",2,0));
+        items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(motionblur), Icons.SETTINGS.getResource(), "Motion Blur","Motion Blur Settings \n /motionblur","Click to configure",0,1));
 
         try {
             callback.put(Autotip.class.getDeclaredField("TIP_MESSAGE_STRING"), o -> Autotip.messageOption = MessageOption.valueOf(o.toString()));
