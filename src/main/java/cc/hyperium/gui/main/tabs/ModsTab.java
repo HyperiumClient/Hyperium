@@ -16,21 +16,23 @@ import cc.hyperium.gui.main.components.OverlaySlider;
 import cc.hyperium.gui.main.components.SettingItem;
 import cc.hyperium.mods.levelhead.Levelhead;
 import cc.hyperium.mods.levelhead.guis.LevelHeadGui;
-import me.semx11.autotip.Autotip;
-import me.semx11.autotip.util.MessageOption;
-import net.minecraft.client.gui.Gui;
-import org.apache.commons.lang3.ArrayUtils;
-
+import cc.hyperium.mods.motionblur.MotionBlurMod;
 import java.awt.Color;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
+import me.semx11.autotip.Autotip;
+import me.semx11.autotip.util.MessageOption;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Gui;
+import org.apache.commons.lang3.ArrayUtils;
 
 public class ModsTab extends AbstractTab {
     private final HyperiumOverlay autotip = new HyperiumOverlay("Autotip");
     private final HyperiumOverlay levelhead = new HyperiumOverlay("Levelhead");
     private final HyperiumOverlay vanilla = new HyperiumOverlay("Vanilla Enhancements");
+    private final HyperiumOverlay motionblur = new HyperiumOverlay("Motion Blur");
 
     private final HashMap<Field, Consumer<Object>> callback = new HashMap<>();
     private final HashMap<Field, Supplier<String[]>> customStates = new HashMap<>();
@@ -44,9 +46,23 @@ public class ModsTab extends AbstractTab {
         items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(autotip), Icons.SETTINGS.getResource(), "Autotip", "Autotip Settings \n /autotip", "Click to configure", 0, 0));
         items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(levelhead), Icons.SETTINGS.getResource(), "Levelhead", "Levelhead Settings \n /levelhead", "Click to configure", 1, 0));
         items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(vanilla), Icons.SETTINGS.getResource(), "Vanilla Enhancements", "Vanilla Enhancements", "Click to configure", 2, 0));
+        items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(motionblur), Icons.SETTINGS.getResource(), "Motion Blur","Motion Blur Settings \n /motionblur","Click to configure",2,0));
 
         try {
             callback.put(Autotip.class.getDeclaredField("TIP_MESSAGE_STRING"), o -> Autotip.messageOption = MessageOption.valueOf(o.toString()));
+            callback.put(MotionBlurMod.class.getDeclaredField("enabled"), o -> {
+                if(!((boolean) o)) {
+                    // If it's been disabled, remove the blur shader.
+                    Minecraft.getMinecraft().addScheduledTask(() ->
+                        Minecraft.getMinecraft().entityRenderer.stopUseShader());
+                }
+            });
+            callback.put(MotionBlurMod.class.getDeclaredField("motionBlurIntensity"), o -> {
+                if (MotionBlurMod.enabled){
+                    // Update motion blur with new intensity.
+                    MotionBlurMod.applyShader();
+                }
+            });
         } catch (NoSuchFieldException e) {
             e.printStackTrace();
         }
@@ -92,8 +108,6 @@ public class ModsTab extends AbstractTab {
                                 Double value = Double.valueOf(f.get(o).toString());
                                 getCategory(sliderSetting.category()).getComponents().add(new OverlaySlider(sliderSetting.name(), sliderSetting.min(), sliderSetting.max(),
                                         value.floatValue(), aFloat -> {
-                                    if (objectConsumer != null)
-                                        objectConsumer.accept(aFloat);
                                     try {
                                         if (sliderSetting.isInt()) {
                                             f.set(o, aFloat.intValue());
@@ -102,6 +116,8 @@ public class ModsTab extends AbstractTab {
                                     } catch (IllegalAccessException e) {
                                         e.printStackTrace();
                                     }
+                                    if (objectConsumer != null)
+                                        objectConsumer.accept(aFloat);
                                 }, sliderSetting.round(), sliderSetting.enabled()));
 
                             } catch (IllegalAccessException e) {
@@ -130,6 +146,8 @@ public class ModsTab extends AbstractTab {
                 return levelhead;
             case VANILLA_ENCHANTMENTS:
                 return vanilla;
+            case MOTION_BLUR:
+                return  motionblur;
         }
         throw new IllegalArgumentException(settingsCategory + " Cannot be used in mods!");
     }
