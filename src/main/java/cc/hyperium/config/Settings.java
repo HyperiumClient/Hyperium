@@ -61,7 +61,7 @@ public class Settings {
     @ToggleSetting(name = "Fast Chat", category = INTEGRATIONS)
     public static boolean FASTCHAT = false;
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;shinyPotsEnabled")
-    @ToggleSetting(name = "Shiny Potions", category = ANIMATIONS)
+    @ToggleSetting(name = "Shiny Potions", category = ANIMATIONS,mods = true)
     public static boolean SHINY_POTS = false;
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;smartSoundsEnabled")
     @ToggleSetting(name = "Smart Sounds", category = IMPROVEMENTS)
@@ -144,28 +144,28 @@ public class Settings {
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.CosmeticSettings;flip_type")
     public static int FLIP_TYPE = 1;
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.AnimationSettings;oldBlockhit")
-    @ToggleSetting(name = "1.7 Blockhitting", category = ANIMATIONS)
+    @ToggleSetting(name = "1.7 Blockhitting", category = ANIMATIONS,mods = true)
     public static boolean OLD_BLOCKHIT = true;
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.AnimationSettings;oldBow")
-    @ToggleSetting(name = "1.7 Bow Position", category = ANIMATIONS)
+    @ToggleSetting(name = "1.7 Bow Position", category = ANIMATIONS,mods =true)
     public static boolean OLD_BOW = true;
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.AnimationSettings;oldRod")
-    @ToggleSetting(name = "1.7 Rod Position", category = ANIMATIONS)
+    @ToggleSetting(name = "1.7 Rod Position", category = ANIMATIONS,mods = true)
     public static boolean OLD_ROD = true;
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.AnimationSettings;redArmour")
-    @ToggleSetting(name = "1.7 Red Armour (on hit)", category = ANIMATIONS)
+    @ToggleSetting(name = "1.7 Red Armour (on hit)", category = ANIMATIONS,mods = true)
     public static boolean OLD_ARMOUR = true;
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.AnimationSettings;oldEat")
-    @ToggleSetting(name = "1.7 Eating", category = ANIMATIONS)
+    @ToggleSetting(name = "1.7 Eating", category = ANIMATIONS,mods = true)
     public static boolean OLD_EATING = true;
     @ConfigOpt
-    @ToggleSetting(name = "1.7 Sneaking Animation", category = ANIMATIONS)
+    @ToggleSetting(name = "1.7 Sneaking Animation", category = ANIMATIONS,mods = true)
     public static boolean OLD_SNEAKING = false;
     @ConfigOpt
-    @ToggleSetting(name = "1.7 Blocking", category = ANIMATIONS)
+    @ToggleSetting(name = "1.7 Blocking", category = ANIMATIONS,mods = true)
     public static boolean OLD_BLOCKING = false;
     @ConfigOpt
-    @ToggleSetting(name = "1.7 Item Held", category = ANIMATIONS)
+    @ToggleSetting(name = "1.7 Item Held", category = ANIMATIONS,mods = true)
     public static boolean OLD_ITEM_HELD = false;
     @ConfigOpt
     @ToggleSetting(name = "Name History RGB", category = MODS)

@@ -43,7 +43,6 @@ public class SettingsTab extends AbstractTab {
     private final HyperiumOverlay improvements = new HyperiumOverlay("Improvements");
     private final HyperiumOverlay cosmetics = new HyperiumOverlay("Cosmetics");
     private final HyperiumOverlay spotify = new HyperiumOverlay("Spotify");
-    private final HyperiumOverlay animations = new HyperiumOverlay("Animations");
     private final HyperiumOverlay misc = new HyperiumOverlay("Misc");
     private final HyperiumOverlay mods = new HyperiumOverlay("Modds ??? do we need ?? ");
 
@@ -66,7 +65,6 @@ public class SettingsTab extends AbstractTab {
 
         items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(cosmetics), Icons.COSMETIC.getResource(), "Cosmetics", "Bling out your Minecraft Avatar", "Click to configure", 0, 1));
 
-        items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(animations), Icons.COSMETIC.getResource(), "Animations", "Adjust the Minecraft Animations", "Click to configure", 2, 1));
 
         items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(spotify), Icons.SPOTIFY.getResource(), "Spotify", "Hyperium Spotify Settings", "Click to configure", 1, 1));
 
@@ -296,8 +294,7 @@ public class SettingsTab extends AbstractTab {
                 return cosmetics;
             case SPOTIFY:
                 return spotify;
-            case ANIMATIONS:
-                return animations;
+
             case MODS:
                 return mods;
             case MISC:

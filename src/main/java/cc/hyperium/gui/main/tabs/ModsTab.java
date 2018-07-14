@@ -41,6 +41,8 @@ public class ModsTab extends AbstractTab {
     private final HyperiumOverlay vanilla = new HyperiumOverlay("Vanilla Enhancements");
     private final HyperiumOverlay motionblur = new HyperiumOverlay("Motion Blur");
     private final HyperiumOverlay chromahud = new HyperiumOverlay("ChromaHUD");
+    private final HyperiumOverlay animations = new HyperiumOverlay("Animations");
+
     private final GlintColorizerSettings glintcolorizer = new GlintColorizerSettings();
 
     private final HashMap<Field, Consumer<Object>> callback = new HashMap<>();
@@ -61,6 +63,7 @@ public class ModsTab extends AbstractTab {
         items.add(new SettingItem(() -> Minecraft.getMinecraft().displayGuiScreen(new GuiScreenKeystrokes(Hyperium.INSTANCE.getModIntegration().getKeystrokesMod())), Icons.SETTINGS.getResource(), "Keystrokes", "Keystrokes settings \n /keystrokesmod", "Click to configure", 0, 2));
         items.add(new SettingItem(() -> Minecraft.getMinecraft().displayGuiScreen(new ToggleChatMainGui(Hyperium.INSTANCE.getModIntegration().getToggleChat(),0)), Icons.SETTINGS.getResource(), "Toggle chat", "Toggle chat settings \n /tc", "Click to configure", 1, 2));
         items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(glintcolorizer), Icons.EXTENSION.getResource(), "GlintColorizer", "GlintColorizer settings", "Click to configure", 2, 2));
+        items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(animations), Icons.COSMETIC.getResource(), "1.7 Animations", "Adjust the Minecraft Animations", "Click to configure",0, 3));
 
         try {
             callback.put(Autotip.class.getDeclaredField("TIP_MESSAGE_STRING"), o -> Autotip.messageOption = MessageOption.valueOf(o.toString()));
@@ -170,6 +173,8 @@ public class ModsTab extends AbstractTab {
                 return motionblur;
             case CHROMAHUD:
                 return chromahud;
+                case ANIMATIONS:
+                return animations;
 
         }
         throw new IllegalArgumentException(settingsCategory + " Cannot be used in mods!");
