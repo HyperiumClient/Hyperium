@@ -3,6 +3,7 @@ package cc.hyperium.gui.main.components
 import cc.hyperium.gui.main.HyperiumMainGui
 import cc.hyperium.utils.RenderUtils
 import org.lwjgl.input.Mouse
+import java.awt.Color
 import java.util.function.Consumer
 
 class OverlaySlider @JvmOverloads constructor(label: String, private val minVal: Float, private val maxVal: Float, var value: Float, var update: Consumer<Float>, var round: Boolean, val enabled: Boolean = true) : OverlayLabel(label, enabled, Runnable { }) {
@@ -34,12 +35,18 @@ class OverlaySlider @JvmOverloads constructor(label: String, private val minVal:
         if (round)
             s = Math.round(value).toString()
         val toFloat = (overlayY + h / 2).toFloat()
-        fr.drawString(s, left - 5 - fr.getWidth(s), toFloat - 5, 0xFFFFFFFF.toInt())
+
+        var color = 0xFFFFFFFF.toInt();
+
+        if(!super.enabled){
+            color = Color(169, 169, 169).rgb
+        }
+        fr.drawString(s, left - 5 - fr.getWidth(s), toFloat - 5, color)
         val rightSide = (overlayX + w - 5).toFloat()
-        RenderUtils.drawLine(left, toFloat, rightSide, (overlayY + h / 2).toFloat(), 2f, 0xFFFFFFFF.toInt())
+        RenderUtils.drawLine(left, toFloat, rightSide, (overlayY + h / 2).toFloat(), 2f, color)
         var d = (value - minVal) / (maxVal - minVal) * 100
         var toInt = (left + d).toInt()
-        RenderUtils.drawFilledCircle(toInt, overlayY + h / 2, 5f, 0xffffffff.toInt())
+        RenderUtils.drawFilledCircle(toInt, overlayY + h / 2, 5f, color)
         return true
     }
 }

@@ -17,9 +17,6 @@
 
 package cc.hyperium.config;
 
-import cc.hyperium.GuiStyle;
-import cc.hyperium.Hyperium;
-
 import static cc.hyperium.config.Category.ANIMATIONS;
 import static cc.hyperium.config.Category.COSMETICS;
 import static cc.hyperium.config.Category.GENERAL;
@@ -29,6 +26,9 @@ import static cc.hyperium.config.Category.MISC;
 import static cc.hyperium.config.Category.MODS;
 import static cc.hyperium.config.Category.SPOTIFY;
 import static cc.hyperium.config.Category.VANILLA_ENCHANTMENTS;
+
+import cc.hyperium.GuiStyle;
+import cc.hyperium.Hyperium;
 
 /*
  * Created by Cubxity on 03/06/2018
@@ -282,12 +282,6 @@ public class Settings {
             }, category = MISC
     )
     public static String MENU_STYLE = GuiStyle.DEFAULT.toString();
-    @ConfigOpt
-    @ToggleSetting(name = "Motion Blur Enabled", category = MODS)
-    public static boolean MOTION_BLUR_ENABLED = false;
-    @ConfigOpt
-    @SliderSetting(name = "Motion Blur Amount", category = MODS, min = 1F, max = 7F)
-    public static double MOTION_BLUR_AMOUNT = 4.0F;
     @ConfigOpt
     @ToggleSetting(name = "Spotify Notifications", category = SPOTIFY)
     public static boolean SPOTIFY_NOTIFICATIONS = true;

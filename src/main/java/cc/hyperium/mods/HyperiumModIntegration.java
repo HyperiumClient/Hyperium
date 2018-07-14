@@ -98,6 +98,9 @@ public class HyperiumModIntegration {
         // Spotify Controls Implementation
         AbstractMod spotifyControls = new SpotifyControls().init();
 
+        //Motion Blur
+        AbstractMod motionBlur = new MotionBlurMod().init();
+
         // Glint Colorizer implementation
         this.glintcolorizer = new GlintColorizer().init();
 
@@ -121,6 +124,8 @@ public class HyperiumModIntegration {
     public AbstractMod getAutoGG() {
         return this.autogg;
     }
+
+    public AbstractMod getMotionBlur(){return this.motionBlurMod;}
 
     /**
      * A getter for the running HGames instance
