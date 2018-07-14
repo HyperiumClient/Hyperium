@@ -69,15 +69,11 @@ public class SettingsTab extends AbstractTab {
 
         items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(cosmetics), Icons.COSMETIC.getResource(), "Cosmetics", "Bling out your Minecraft Avatar", "Click to configure", 0, 1));
 
+        items.add(new SettingItem(() ->HyperiumMainGui.INSTANCE.setTab(HyperiumMainGui.INSTANCE.getModsTab()), Icons.EXTENSION.getResource(), "Mods", "Hyperium mod settings", "Click to configure", 1, 1));
 
-        items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(spotify), Icons.SPOTIFY.getResource(), "Spotify", "Hyperium Spotify Settings", "Click to configure", 1, 1));
+        items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(misc), Icons.MISC.getResource(), "Miscellaneous", "Other Hyperium Settings", "Click to configure", 2, 1));
 
-
-        items.add(new SettingItem(() ->HyperiumMainGui.INSTANCE.setTab(HyperiumMainGui.INSTANCE.getModsTab()), Icons.EXTENSION.getResource(), "Mods", "Hyperium mod settings", "Click to configure", 1, 2));
-
-        items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(misc), Icons.MISC.getResource(), "Miscellaneous", "Other Hyperium Settings", "Click to configure", 2, 2));
-
-        items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(colourOptions), Icons.TOOL.getResource(), "GUI Options", "Accent Colours, etc.", "Click to configure", 0, 3));
+        items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(colourOptions), Icons.TOOL.getResource(), "GUI Options", "Accent Colours, etc.", "Click to configure", 0, 2));
 
         try {
             Field earsField = Settings.class.getField("EARS_STATE");
