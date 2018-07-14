@@ -18,7 +18,6 @@ import cc.hyperium.gui.main.components.OverlaySelector;
 import cc.hyperium.gui.main.components.OverlaySlider;
 import cc.hyperium.gui.main.components.SettingItem;
 import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
-import cc.hyperium.mods.glintcolorizer.gui.GlintColorizerSettings;
 import cc.hyperium.netty.NettyClient;
 import cc.hyperium.netty.packet.packets.serverbound.ServerCrossDataPacket;
 import cc.hyperium.purchases.EnumPurchaseType;
@@ -47,7 +46,6 @@ public class SettingsTab extends AbstractTab {
     private final HyperiumOverlay animations = new HyperiumOverlay("Animations");
     private final HyperiumOverlay misc = new HyperiumOverlay("Misc");
     private final HyperiumOverlay mods = new HyperiumOverlay("Modds ??? do we need ?? ");
-    private final GlintColorizerSettings glintcolorizer = new GlintColorizerSettings();
 
     private final HashMap<Field, Consumer<Object>> callback = new HashMap<>();
     private final HashMap<Field, Supplier<String[]>> customStates = new HashMap<>();
@@ -72,7 +70,6 @@ public class SettingsTab extends AbstractTab {
 
         items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(spotify), Icons.SPOTIFY.getResource(), "Spotify", "Hyperium Spotify Settings", "Click to configure", 1, 1));
 
-        items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(glintcolorizer), Icons.EXTENSION.getResource(), "GlintColorizer", "GlintColorizer settings", "Click to configure", 0, 2));
 
         items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(mods), Icons.EXTENSION.getResource(), "Mods", "Hyperium mod settings", "Click to configure", 1, 2));
 
