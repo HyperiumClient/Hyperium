@@ -17,6 +17,9 @@
 
 package cc.hyperium.config;
 
+import cc.hyperium.GuiStyle;
+import cc.hyperium.Hyperium;
+
 import static cc.hyperium.config.Category.ANIMATIONS;
 import static cc.hyperium.config.Category.CHROMAHUD;
 import static cc.hyperium.config.Category.COSMETICS;
@@ -27,9 +30,6 @@ import static cc.hyperium.config.Category.MISC;
 import static cc.hyperium.config.Category.MODS;
 import static cc.hyperium.config.Category.SPOTIFY;
 import static cc.hyperium.config.Category.VANILLA_ENCHANTMENTS;
-
-import cc.hyperium.GuiStyle;
-import cc.hyperium.Hyperium;
 
 /*
  * Created by Cubxity on 03/06/2018
@@ -61,7 +61,7 @@ public class Settings {
     @ToggleSetting(name = "Fast Chat", category = INTEGRATIONS)
     public static boolean FASTCHAT = false;
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;shinyPotsEnabled")
-    @ToggleSetting(name = "Shiny Potions", category = ANIMATIONS,mods = true)
+    @ToggleSetting(name = "Shiny Potions", category = ANIMATIONS, mods = true)
     public static boolean SHINY_POTS = false;
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;smartSoundsEnabled")
     @ToggleSetting(name = "Smart Sounds", category = IMPROVEMENTS)
@@ -84,7 +84,6 @@ public class Settings {
     @ConfigOpt
     @ToggleSetting(name = "Show Attack Damage above hotbar", category = VANILLA_ENCHANTMENTS, mods = true)
     public static boolean DAMAGE_ABOVE_HOTBAR = true;
-
 
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;combatParticleFixEnabled")
@@ -144,28 +143,28 @@ public class Settings {
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.CosmeticSettings;flip_type")
     public static int FLIP_TYPE = 1;
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.AnimationSettings;oldBlockhit")
-    @ToggleSetting(name = "1.7 Blockhitting", category = ANIMATIONS,mods = true)
+    @ToggleSetting(name = "1.7 Blockhitting", category = ANIMATIONS, mods = true)
     public static boolean OLD_BLOCKHIT = true;
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.AnimationSettings;oldBow")
-    @ToggleSetting(name = "1.7 Bow Position", category = ANIMATIONS,mods =true)
+    @ToggleSetting(name = "1.7 Bow Position", category = ANIMATIONS, mods = true)
     public static boolean OLD_BOW = true;
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.AnimationSettings;oldRod")
-    @ToggleSetting(name = "1.7 Rod Position", category = ANIMATIONS,mods = true)
+    @ToggleSetting(name = "1.7 Rod Position", category = ANIMATIONS, mods = true)
     public static boolean OLD_ROD = true;
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.AnimationSettings;redArmour")
-    @ToggleSetting(name = "1.7 Red Armour (on hit)", category = ANIMATIONS,mods = true)
+    @ToggleSetting(name = "1.7 Red Armour (on hit)", category = ANIMATIONS, mods = true)
     public static boolean OLD_ARMOUR = true;
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.AnimationSettings;oldEat")
-    @ToggleSetting(name = "1.7 Eating", category = ANIMATIONS,mods = true)
+    @ToggleSetting(name = "1.7 Eating", category = ANIMATIONS, mods = true)
     public static boolean OLD_EATING = true;
     @ConfigOpt
-    @ToggleSetting(name = "1.7 Sneaking Animation", category = ANIMATIONS,mods = true)
+    @ToggleSetting(name = "1.7 Sneaking Animation", category = ANIMATIONS, mods = true)
     public static boolean OLD_SNEAKING = false;
     @ConfigOpt
-    @ToggleSetting(name = "1.7 Blocking", category = ANIMATIONS,mods = true)
+    @ToggleSetting(name = "1.7 Blocking", category = ANIMATIONS, mods = true)
     public static boolean OLD_BLOCKING = false;
     @ConfigOpt
-    @ToggleSetting(name = "1.7 Item Held", category = ANIMATIONS,mods = true)
+    @ToggleSetting(name = "1.7 Item Held", category = ANIMATIONS, mods = true)
     public static boolean OLD_ITEM_HELD = false;
     @ConfigOpt
     @ToggleSetting(name = "Name History RGB", category = MODS)
@@ -273,7 +272,7 @@ public class Settings {
     @SliderSetting(name = "Wings Scale", min = 50, max = 200, category = COSMETICS)
     public static double WINGS_SCALE = 100D;
     @ConfigOpt
-    @ToggleSetting(name = "Show ChromaHUD", category = CHROMAHUD,mods = true)
+    @ToggleSetting(name = "Show ChromaHUD", category = CHROMAHUD, mods = true)
     public static boolean SHOW_CHROMAHUD = true;
     @ConfigOpt
     @SelectorSetting(name = "Main Menu Style", items =
@@ -318,11 +317,11 @@ public class Settings {
     public static boolean SHOW_HIT_DISTANCES = false;
 
     @ConfigOpt
-    @ToggleSetting(name="Enabled", category = Category.MOTION_BLUR, mods=true)
+    @ToggleSetting(name = "Enabled", category = Category.MOTION_BLUR, mods = true)
     public static boolean MOTION_BLUR_ENABLED = false;
 
     @ConfigOpt
-    @SliderSetting(name="Motion Blur Intensity", min=0F,max=7F, category = Category.MOTION_BLUR, mods=true)
+    @SliderSetting(name = "Motion Blur Intensity", min = 0F, max = 7F, category = Category.MOTION_BLUR, mods = true)
     public static double MOTION_BLUR_AMOUNT = 4.0F;
 
     private Settings() {

@@ -26,16 +26,17 @@ import cc.hyperium.mods.levelhead.guis.LevelHeadGui;
 import cc.hyperium.mods.motionblur.MotionBlurMod;
 import cc.hyperium.mods.spotify.SpotifyGui;
 import cc.hyperium.mods.togglechat.gui.ToggleChatMainGui;
-import java.awt.Color;
-import java.lang.reflect.Field;
-import java.util.HashMap;
-import java.util.function.Consumer;
-import java.util.function.Supplier;
 import me.semx11.autotip.Autotip;
 import me.semx11.autotip.util.MessageOption;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import org.apache.commons.lang3.ArrayUtils;
+
+import java.awt.Color;
+import java.lang.reflect.Field;
+import java.util.HashMap;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 public class ModsTab extends AbstractTab {
     private final HyperiumOverlay autotip = new HyperiumOverlay("Autotip");
@@ -60,19 +61,28 @@ public class ModsTab extends AbstractTab {
         items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(levelhead), Icons.SETTINGS.getResource(), "Levelhead", "Levelhead Settings \n /levelhead", "Click to configure", 1, 0));
         items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(vanilla), Icons.SETTINGS.getResource(), "Vanilla Enhancements", "Vanilla Enhancements", "Click to configure", 2, 0));
         items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(motionblur), Icons.SETTINGS.getResource(), "Motion Blur", "Motion Blur Settings \n /motionblur", "Click to configure", 0, 1));
-        items.add(new SettingItem(() -> Minecraft.getMinecraft().displayGuiScreen(new BlockOverlayGui(Hyperium.INSTANCE.getModIntegration().getBlockOverlay())), Icons.SETTINGS.getResource(), "Block Overlay", "Block overlay settings \n /blockoverlay ", "Click to configure", 1, 1));
-        items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(chromahud), Icons.SETTINGS.getResource(), "ChromaHUD", "ChromaHUD settings \n /chromahud", "Click to configure", 2, 1));
-        items.add(new SettingItem(() -> Minecraft.getMinecraft().displayGuiScreen(new GuiScreenKeystrokes(Hyperium.INSTANCE.getModIntegration().getKeystrokesMod())), Icons.SETTINGS.getResource(), "Keystrokes", "Keystrokes settings \n /keystrokesmod", "Click to configure", 0, 2));
-        items.add(new SettingItem(() -> Minecraft.getMinecraft().displayGuiScreen(new ToggleChatMainGui(Hyperium.INSTANCE.getModIntegration().getToggleChat(),0)), Icons.SETTINGS.getResource(), "Toggle chat", "Toggle chat settings \n /tc", "Click to configure", 1, 2));
-        items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(glintcolorizer), Icons.EXTENSION.getResource(), "GlintColorizer", "GlintColorizer settings", "Click to configure", 2, 2));
-        items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(animations), Icons.COSMETIC.getResource(), "1.7 Animations", "Adjust the Minecraft Animations", "Click to configure",0, 3));
         items.add(new SettingItem(() -> {
-                if(Spotify.instance != null) {
-                    new SpotifyGui().display();
-                } else{
-                    Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage("Unable to load spotify!");
-                }
-            },Icons.SETTINGS.getResource(),"Spotify","Adjust Spotify Settings","Click to configure",1,3));
+            if (Minecraft.getMinecraft().thePlayer != null)
+                Minecraft.getMinecraft().displayGuiScreen(new BlockOverlayGui(Hyperium.INSTANCE.getModIntegration().getBlockOverlay()));
+        }, Icons.SETTINGS.getResource(), "Block Overlay", "Block overlay settings \n /blockoverlay ", "Click to configure", 1, 1));
+        items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(chromahud), Icons.SETTINGS.getResource(), "ChromaHUD", "ChromaHUD settings \n /chromahud", "Click to configure", 2, 1));
+        items.add(new SettingItem(() -> {
+            if (Minecraft.getMinecraft().thePlayer != null)
+                Minecraft.getMinecraft().displayGuiScreen(new GuiScreenKeystrokes(Hyperium.INSTANCE.getModIntegration().getKeystrokesMod()));
+        }, Icons.SETTINGS.getResource(), "Keystrokes", "Keystrokes settings \n /keystrokesmod", "Click to configure", 0, 2));
+        items.add(new SettingItem(() -> {
+            if (Minecraft.getMinecraft().thePlayer != null)
+                Minecraft.getMinecraft().displayGuiScreen(new ToggleChatMainGui(Hyperium.INSTANCE.getModIntegration().getToggleChat(), 0));
+        }, Icons.SETTINGS.getResource(), "Toggle chat", "Toggle chat settings \n /tc", "Click to configure", 1, 2));
+        items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(glintcolorizer), Icons.EXTENSION.getResource(), "GlintColorizer", "GlintColorizer settings", "Click to configure", 2, 2));
+        items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(animations), Icons.COSMETIC.getResource(), "1.7 Animations", "Adjust the Minecraft Animations", "Click to configure", 0, 3));
+        items.add(new SettingItem(() -> {
+            if (Spotify.instance != null) {
+                new SpotifyGui().display();
+            } else {
+                Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage("Unable to load spotify!");
+            }
+        }, Icons.SETTINGS.getResource(), "Spotify", "Adjust Spotify Settings", "Click to configure", 1, 3));
 
         try {
             callback.put(Autotip.class.getDeclaredField("TIP_MESSAGE_STRING"), o -> Autotip.messageOption = MessageOption.valueOf(o.toString()));
@@ -157,15 +167,17 @@ public class ModsTab extends AbstractTab {
             e.printStackTrace();
 
         }
+
         levelhead.getComponents().add(new OverlayLabel("Run /levelhead or click here to access more settings", true, () -> {
-            new LevelHeadGui(((Levelhead) Hyperium.INSTANCE.getModIntegration().getLevelhead())).display();
+            if (Minecraft.getMinecraft().thePlayer != null)
+                new LevelHeadGui(((Levelhead) Hyperium.INSTANCE.getModIntegration().getLevelhead())).display();
         }));
         autotip.getComponents().add(new OverlayLabel("Run /autotip to access more settings and features", true, () -> {
         }));
         chromahud.getComponents().add(new OverlayLabel("Run /chromahud or click here to access more settings", true, () -> {
-            new GeneralConfigGui(((ChromaHUD) Hyperium.INSTANCE.getModIntegration().getChromaHUD())).display();
+            if (Minecraft.getMinecraft().thePlayer != null)
+                new GeneralConfigGui(((ChromaHUD) Hyperium.INSTANCE.getModIntegration().getChromaHUD())).display();
         }));
-
 
 
     }
@@ -182,7 +194,7 @@ public class ModsTab extends AbstractTab {
                 return motionblur;
             case CHROMAHUD:
                 return chromahud;
-                case ANIMATIONS:
+            case ANIMATIONS:
                 return animations;
 
         }

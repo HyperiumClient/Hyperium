@@ -419,6 +419,7 @@ public class Hyperium {
     }
 
 
+
     // Does not appear to be used
 //    public void toggleFullscreen() {
 //        boolean windowed = GeneralSetting.windowedFullScreen;

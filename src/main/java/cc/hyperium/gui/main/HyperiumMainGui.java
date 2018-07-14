@@ -117,7 +117,8 @@ public class HyperiumMainGui extends HyperiumGui {
         SettingsTab settingsTab = new SettingsTab(height / 2 - pw, pw);
         EventBus.INSTANCE.register(settingsTab);
 
-        ModsTab modsTab = new ModsTab(height / 2, pw);
+
+        modsTab = new ModsTab(height / 2, pw);
         tabs = Arrays.asList(
                 ht,
                 cosmeticsTab = new CosmeticsTab(height / 2 - pw * 2, pw),
@@ -135,7 +136,7 @@ public class HyperiumMainGui extends HyperiumGui {
         super.show();
         pack();
     }
-
+private ModsTab modsTab;
     public List<Object> getSettingsObjects() {
         return settingsObjects;
     }
@@ -317,6 +318,10 @@ public class HyperiumMainGui extends HyperiumGui {
 
     public AbstractTab getCurrentTab() {
         return currentTab;
+    }
+
+    public AbstractTab getModsTab() {
+        return modsTab;
     }
 
     /**
