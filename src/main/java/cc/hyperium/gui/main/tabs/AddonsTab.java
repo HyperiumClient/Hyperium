@@ -45,7 +45,7 @@ public class AddonsTab extends AbstractTab {
             } else
                 xi++;
         }
-        items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setTab(HyperiumMainGui.INSTANCE.getTabs().get(5)), Icons.DOWNLOAD.getResource(), "Addons", "Download addons", "Click to open menu to download addons", xi, yi));
+        items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setTab(HyperiumMainGui.INSTANCE.getTabs().get(6)), Icons.DOWNLOAD.getResource(), "Addons", "Download addons", "Click to open menu to download addons", xi, yi));
     }
 
 
