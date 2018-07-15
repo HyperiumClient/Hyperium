@@ -169,6 +169,7 @@ public class HyperiumHandlers {
 
     public void postInit() {
         generalChatHandler.post();
+        dataHandler.post();
     }
 
     public GameDataTracking getDataTracking() {

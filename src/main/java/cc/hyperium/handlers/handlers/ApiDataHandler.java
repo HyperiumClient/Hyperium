@@ -42,6 +42,9 @@ public class ApiDataHandler {
     private List<UUID> friendUUIDList = new ArrayList<>();
 
     public ApiDataHandler() {
+
+    }
+    public void post() {
         Multithreading.schedule(() -> {
             try {
                 if (Hyperium.INSTANCE.getHandlers().getHypixelDetector().isHypixel())

@@ -3,9 +3,10 @@ package cc.hyperium.gui.main.components;
 import cc.hyperium.gui.ColourOptions;
 import cc.hyperium.utils.GraphicsUtil;
 import cc.hyperium.utils.RenderUtils;
+import org.lwjgl.opengl.GL11;
+
 import java.awt.Color;
 import java.util.function.Consumer;
-import org.lwjgl.opengl.GL11;
 
 /*
  * Created by Cubxity on 01/06/2018

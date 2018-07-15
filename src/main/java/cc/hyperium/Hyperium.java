@@ -152,6 +152,7 @@ public class Hyperium {
 
     @InvokeEvent(priority = Priority.HIGH)
     public void init(InitializationEvent event) {
+
         InputStream resourceAsStream = getClass().getResourceAsStream("/build.txt");
         try {
             if (resourceAsStream != null) {
