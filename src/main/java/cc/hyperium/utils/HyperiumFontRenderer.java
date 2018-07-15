@@ -32,6 +32,7 @@ import java.util.Map;
 public class HyperiumFontRenderer {
 
     public final int FONT_HEIGHT = 9;
+    private final float ANTI_ALIASING_FACTOR = 3.0f;
     private final UnicodeFont unicodeFont;
     private final int[] colorCodes = new int[32];
     private final float kerning;
@@ -42,7 +43,7 @@ public class HyperiumFontRenderer {
     }
 
     public HyperiumFontRenderer(Font font, float kerning) {
-        this.unicodeFont = new UnicodeFont(font);
+        this.unicodeFont = new UnicodeFont(new Font(font.getName(), font.getStyle(), (int) (font.getSize() * ANTI_ALIASING_FACTOR)));
         this.kerning = kerning;
 
         this.unicodeFont.addAsciiGlyphs();
@@ -79,16 +80,19 @@ public class HyperiumFontRenderer {
     }
 
     public int drawString(String text, float x, float y, int color) {
-        if(text == null)
+        if (text == null)
             return 0;
 
         x *= 2.0F;
         y *= 2.0F;
+
         float originalX = x;
 
         GL11.glPushMatrix();
+        GlStateManager.scale(1 / ANTI_ALIASING_FACTOR, 1 / ANTI_ALIASING_FACTOR, 1 / ANTI_ALIASING_FACTOR);
         GL11.glScaled(0.5F, 0.5F, 0.5F);
-
+        x *= ANTI_ALIASING_FACTOR;
+        y *= ANTI_ALIASING_FACTOR;
         float red = (float) (color >> 16 & 255) / 255.0F;
         float green = (float) (color >> 8 & 255) / 255.0F;
         float blue = (float) (color & 255) / 255.0F;
@@ -119,7 +123,7 @@ public class HyperiumFontRenderer {
             if (c != '\247' && (index == 0 || index == characters.length - 1 || characters[index - 1] != '\247')) {
                 //Line causing error
                 unicodeFont.drawString(x, y, Character.toString(c), new org.newdawn.slick.Color(currentColor));
-                x += (getWidth(Character.toString(c)) * 2.0F);
+                x += (getWidth(Character.toString(c)) * 2.0F * ANTI_ALIASING_FACTOR);
             } else if (c == ' ') {
                 x += unicodeFont.getSpaceWidth();
             } else if (c == '\247' && index != characters.length - 1) {
@@ -168,7 +172,7 @@ public class HyperiumFontRenderer {
                 width += unicodeFont.getWidth(Character.toString(c)) + this.kerning;
             }
 
-            return width / 2.0F;
+            return width / 2.0F / ANTI_ALIASING_FACTOR;
         });
 
     }

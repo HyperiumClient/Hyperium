@@ -19,10 +19,14 @@ package cc.hyperium;
 
 import cc.hyperium.commands.defaults.CommandClearChat;
 import cc.hyperium.commands.defaults.CommandConfigGui;
+import cc.hyperium.commands.defaults.CommandCoords;
 import cc.hyperium.commands.defaults.CommandDebug;
 import cc.hyperium.commands.defaults.CommandLogs;
+import cc.hyperium.commands.defaults.CommandMessage;
 import cc.hyperium.commands.defaults.CommandNameHistory;
 import cc.hyperium.commands.defaults.CommandParticleAuras;
+import cc.hyperium.commands.defaults.CommandParty;
+import cc.hyperium.commands.defaults.CommandPing;
 import cc.hyperium.commands.defaults.CommandPlayGame;
 import cc.hyperium.commands.defaults.CommandPrivateMessage;
 import cc.hyperium.commands.defaults.CommandUpdate;
@@ -39,6 +43,7 @@ import cc.hyperium.event.PreInitializationEvent;
 import cc.hyperium.event.Priority;
 import cc.hyperium.event.minigames.MinigameListener;
 import cc.hyperium.gui.BlurDisableFallback;
+import cc.hyperium.gui.ColourOptions;
 import cc.hyperium.gui.ConfirmationPopup;
 import cc.hyperium.gui.NotificationCenter;
 import cc.hyperium.handlers.HyperiumHandlers;
@@ -224,6 +229,7 @@ public class Hyperium {
         SplashProgress.CURRENT = "Registering config";
         SplashProgress.update();
         Settings.register();
+        Hyperium.CONFIG.register(new ColourOptions());
         //Register commands.
         SplashProgress.PROGRESS = 10;
         SplashProgress.CURRENT = "Registering commands";
@@ -288,7 +294,6 @@ public class Hyperium {
                 String line;
                 while ((line = bufferedReader.readLine()) != null) {
                     Minecraft.getMinecraft().ingameGUI.getChatGUI().addToSentMessages(line);
-                    System.out.println("Restoring chat message: " + line);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -313,9 +318,14 @@ public class Hyperium {
         getHandlers().getHyperiumCommandHandler().registerCommand(new CommandPlayGame());
         getHandlers().getHyperiumCommandHandler().registerCommand(new CommandDebug());
         getHandlers().getHyperiumCommandHandler().registerCommand(new CommandUpdate());
+        getHandlers().getHyperiumCommandHandler().registerCommand(new CommandCoords());
         if (isDevEnv)
             getHandlers().getHyperiumCommandHandler().registerCommand(new DevTestCommand());
         getHandlers().getHyperiumCommandHandler().registerCommand(new CommandLogs());
+        getHandlers().getHyperiumCommandHandler().registerCommand(new CommandPing());
+        getHandlers().getHyperiumCommandHandler().registerCommand(new CommandParty());
+
+        getHandlers().getHyperiumCommandHandler().registerCommand(new CommandMessage());
         getHandlers().getHyperiumCommandHandler().registerCommand(new CommandParticleAuras());
     }
 
@@ -409,6 +419,7 @@ public class Hyperium {
     public HyperiumCosmetics getCosmetics() {
         return cosmetics;
     }
+
 
 
     // Does not appear to be used

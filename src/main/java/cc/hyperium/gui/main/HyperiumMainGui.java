@@ -12,12 +12,14 @@ import cc.hyperium.gui.main.tabs.*;
 import cc.hyperium.installer.api.entities.InstallerManifest;
 import cc.hyperium.installer.api.entities.VersionManifest;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
+import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
 import cc.hyperium.utils.DownloadTask;
 import cc.hyperium.utils.HyperiumFontRenderer;
 import cc.hyperium.utils.InstallerUtils;
 import cc.hyperium.utils.UpdateUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.input.Keyboard;
@@ -38,6 +40,8 @@ public class HyperiumMainGui extends HyperiumGui {
 
     public static HyperiumMainGui INSTANCE = new HyperiumMainGui();
     private final HyperiumFontRenderer fr = new HyperiumFontRenderer("Arial", Font.PLAIN, 20);
+    public boolean show = false;
+    public UpdateUtils utils;
     private long lastSelectionChange = 0L;
     private List<String> loadedAlerts = new ArrayList<>();
     private AbstractTab currentTab = null;
@@ -48,8 +52,14 @@ public class HyperiumMainGui extends HyperiumGui {
     private float highlightScale = 0f;
     private List<AbstractTab> tabs = new ArrayList<>();
     private CosmeticsTab cosmeticsTab;
-    public boolean show = false;
-    public UpdateUtils utils;
+    private List<Object> settingsObjects = new ArrayList<>();
+
+    public HyperiumMainGui() {
+        settingsObjects.add(Settings.INSTNACE);
+        settingsObjects.add(Hyperium.INSTANCE.getModIntegration().getAutotip());
+        settingsObjects.add(Hyperium.INSTANCE.getModIntegration().getMotionBlur());
+        settingsObjects.add(Hyperium.INSTANCE.getModIntegration().getLevelhead().getConfig());
+    }
 
     public List<AbstractTab> getTabs() {
         return tabs;
@@ -95,13 +105,16 @@ public class HyperiumMainGui extends HyperiumGui {
         SettingsTab settingsTab = new SettingsTab(height / 2 - pw, pw);
         EventBus.INSTANCE.register(settingsTab);
 
+
+        modsTab = new ModsTab(height / 2, pw);
         tabs = Arrays.asList(
                 ht,
                 cosmeticsTab = new CosmeticsTab(height / 2 - pw * 2, pw),
                 settingsTab,
-                new AddonsTab(height / 2, pw),
-                new InfoTab(height / 2 + pw, pw),
-                new AddonsInstallerTab(height / 2 + pw * 2, pw)
+                modsTab,
+                new AddonsTab(height / 2 + pw, pw),
+                new InfoTab(height / 2 + pw * 2, pw),
+                new AddonsInstallerTab(height / 2 + pw * 3, pw)
         );
         tabFade = 1f;
     }
@@ -110,6 +123,10 @@ public class HyperiumMainGui extends HyperiumGui {
     public void show() {
         super.show();
         pack();
+    }
+    private ModsTab modsTab;
+    public List<Object> getSettingsObjects() {
+        return settingsObjects;
     }
 
     @Override
@@ -121,6 +138,10 @@ public class HyperiumMainGui extends HyperiumGui {
         if (pw > 144)
             pw = 144; // icon res
 
+        GlStateManager.scale(3, 3, 0);
+        ScaledResolution current = ResolutionUtil.current();
+        fontRendererObj.drawString(currentTab.getTitle(), current.getScaledWidth() / 2 / 3 - fontRendererObj.getStringWidth(currentTab.getTitle()) / 2, 15 / 3, Color.WHITE.getRGB(), true);
+        GlStateManager.scale(1 / 3F, 1 / 3F, 1 / 3F);
         // Draws side pane
         GlStateManager.pushMatrix();
         GlStateManager.enableBlend();
@@ -149,9 +170,19 @@ public class HyperiumMainGui extends HyperiumGui {
         }
 
         if (overlay != null) {
+            int y = height / 4;
+
+
             overlay.render(mouseX, mouseY, width, height);
             int x = width / 6 * 2;
-            int y = height / 4;
+            GlStateManager.scale(2, 2, 2);
+            int stringWidth = fontRendererObj.getStringWidth(overlay.getName());
+            int x1 = ResolutionUtil.current().getScaledWidth() / 4 - stringWidth / 2;
+            int y1 = y / 2 - 10;
+            Gui.drawRect(x1 - 1, y1 - 1, x1 + stringWidth + 1, y1 + 9, new Color(30, 30, 30, 255).getRGB());
+            fontRendererObj.drawString(overlay.getName(), x1, y1, Color.WHITE.getRGB(), true);
+
+            GlStateManager.scale(.5, .5, .5);
             Icons.EXIT.bind();
             Gui.drawRect(x, y - 16, x + 16, y, new Color(0, 0, 0, 100).getRGB());
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
@@ -266,6 +297,10 @@ public class HyperiumMainGui extends HyperiumGui {
 
     public AbstractTab getCurrentTab() {
         return currentTab;
+    }
+
+    public AbstractTab getModsTab() {
+        return modsTab;
     }
 
     /**

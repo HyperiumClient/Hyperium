@@ -44,7 +44,7 @@ public class WingsRenderer extends ModelBase {
     @InvokeEvent
     public void onRenderPlayer(RenderPlayerEvent event) {
         EntityPlayer player = event.getEntity();
-        if (wingsCosmetic.isPurchasedBy(event.getEntity().getUniqueID()) && !player.isInvisible() && Settings.SHOW_WINGS) {
+        if (wingsCosmetic.isPurchasedBy(event.getEntity().getUniqueID()) && !player.isInvisible() && (Settings.SHOW_WINGS.equals("ON"))) {
             this.renderWings(player, event.getPartialTicks(), event.getX(), event.getY(), event.getZ());
         }
     }

@@ -22,6 +22,10 @@ import cc.hyperium.commands.BaseCommand;
 import cc.hyperium.commands.CommandException;
 import cc.hyperium.commands.CommandUsageException;
 import cc.hyperium.gui.integrations.HypixelPrivateMessage;
+import cc.hyperium.handlers.handlers.hud.TabCompletionUtil;
+import net.minecraft.client.Minecraft;
+
+import java.util.List;
 
 public class CommandPrivateMessage implements BaseCommand {
 
@@ -44,4 +48,19 @@ public class CommandPrivateMessage implements BaseCommand {
             new HypixelPrivateMessage(Hyperium.INSTANCE.getHandlers().getPrivateMessageHandler().getChat(args[0])).show();
         }
     }
+
+    @Override
+    public List<String> onTabComplete(String[] args) {
+        List<String> tabUsernames = TabCompletionUtil.getTabUsernames();
+        if (Hyperium.INSTANCE.getHandlers().getHypixelDetector().isHypixel())
+            for (String s : Hyperium.INSTANCE.getHandlers().getDataHandler().getFriends().getKeys()) {
+                String name = Hyperium.INSTANCE.getHandlers().getDataHandler().getFriends().optJSONObject(s).optString("name");
+                if (!name.isEmpty())
+                    tabUsernames.add(name);
+            }
+        tabUsernames.remove(Minecraft.getMinecraft().getSession().getUsername());
+        return TabCompletionUtil.getListOfStringsMatchingLastWord(args, tabUsernames);
+    }
+
+
 }

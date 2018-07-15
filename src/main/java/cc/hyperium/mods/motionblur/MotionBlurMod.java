@@ -58,7 +58,6 @@ public class MotionBlurMod extends AbstractMod {
     return new Metadata(this, "Motion Blur Mod", "1.0", "Chachy, Amp, Koding");
   }
 
-  private boolean checked = false;
   @InvokeEvent
   public void onClientTick(TickEvent event) {
     if (Settings.MOTION_BLUR_ENABLED && !Minecraft.getMinecraft().entityRenderer.isShaderActive() && !isFastRenderEnabled()) {

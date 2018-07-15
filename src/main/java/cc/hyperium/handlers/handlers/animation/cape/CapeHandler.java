@@ -29,7 +29,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -51,28 +50,7 @@ public class CapeHandler {
     public CapeHandler() {
         try {
             drawable = new SharedDrawable(Display.getDrawable());
-            Multithreading.runAsync(() -> {
-                try {
-                    drawable.makeCurrent();
-                } catch (LWJGLException e) {
-                    e.printStackTrace();
-                }
-                while (true) {
-                    Runnable poll;
-                    while ((poll = actions.poll()) != null) {
-                        try {
-                            poll.run();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    try {
-                        Thread.sleep(100L);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            });
+
         } catch (LWJGLException e) {
             e.printStackTrace();
         }
@@ -164,41 +142,47 @@ public class CapeHandler {
             task.get();
             unzip(new File(file, task.getFileName()).getAbsolutePath(), file.getAbsolutePath());
             file1.createNewFile();
-            FileUtils.write(file1,url);
+            FileUtils.write(file1, url);
         }
-        List<BufferedImage> images = new ArrayList<>();
         int img = 0;
-        File tmp;
-        while ((tmp = new File(file, "img" + img + ".png")).exists()) {
-            images.add(ImageIO.read(tmp));
-            img++;
-        }
-
-        ArrayList<ResourceLocation> locations = new ArrayList<>();
-        TextureManager textureManager = Minecraft.getMinecraft().getTextureManager();
-        final int[] i = {0};
         try {
-            for (BufferedImage image : images) {
-                actions.add(() -> {
+            drawable.makeCurrent();
+
+            File tmp;
+            ArrayList<ResourceLocation> locations = new ArrayList<>();
+            TextureManager textureManager = Minecraft.getMinecraft().getTextureManager();
+            final int[] i = {0};
+
+            while ((tmp = new File(file, "img" + img + ".png")).exists()) {
+                System.out.println("processing frame: " + i[0]);
+                try {
+                    BufferedImage read = ImageIO.read(tmp);
                     ResourceLocation resourceLocation = new ResourceLocation(
                             String.format("hyperium/dynamic_capes/%s_%s.png", file.getName(), i[0]));
                     locations.add(resourceLocation);
-
-                    CapeTexture capeTexture = new CapeTexture(image);
+                    CapeTexture capeTexture = new CapeTexture(read);
                     textureManager.loadTexture(resourceLocation, capeTexture);
                     capeTexture.clearTextureData();
+                    img++;
                     i[0]++;
-                });
-
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        int finalImg = img;
 
-        actions.add(() -> {
+
+            int finalImg = img;
             setCape(uuid, new DynamicCape(locations, holder.optInt("delay"), finalImg));
-        });
+        } catch (LWJGLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                drawable.releaseContext();
+            } catch (LWJGLException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 
 

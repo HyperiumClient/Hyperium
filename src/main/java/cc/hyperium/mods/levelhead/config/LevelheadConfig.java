@@ -18,7 +18,10 @@
 package cc.hyperium.mods.levelhead.config;
 
 
+import cc.hyperium.config.Category;
 import cc.hyperium.config.ConfigOpt;
+import cc.hyperium.config.SliderSetting;
+import cc.hyperium.config.ToggleSetting;
 import cc.hyperium.utils.ChatColor;
 
 /**
@@ -27,61 +30,66 @@ import cc.hyperium.utils.ChatColor;
 public class LevelheadConfig {
 
     @ConfigOpt(alt = "club.sk1er.mods.levelhead.config.LevelheadConfig;enabled")
-    private boolean enabled = true;
+    @ToggleSetting(category = Category.LEVEL_HEAD, mods = true, name = "Enable")
+    public boolean enabled = true;
 
     @ConfigOpt(alt = "club.sk1er.mods.levelhead.config.LevelheadConfig;showSelf")
-    private boolean showSelf = true;
+    @ToggleSetting(category = Category.LEVEL_HEAD, mods = true, name = "Show Self")
+    public boolean showSelf = true;
 
     @ConfigOpt(alt = "club.sk1er.mods.levelhead.config.LevelheadConfig;renderDistance")
-    private int renderDistance = 64;
+    @SliderSetting(name = "Render Distance", mods = true, category = Category.LEVEL_HEAD, min = 5, max = 64,isInt = true)
+    public int renderDistance = 64;
 
     @ConfigOpt(alt = "club.sk1er.mods.levelhead.config.LevelheadConfig;purgeSize")
-    private int purgeSize = 500;
+    @SliderSetting(name = "Cache Size", mods = true, category = Category.LEVEL_HEAD, min = 150, max = 5000,isInt = true)
+    public int purgeSize = 500;
+
 
     @ConfigOpt(alt = "club.sk1er.mods.levelhead.config.LevelheadConfig;headerChroma")
-    private boolean headerChroma = false;
+    public boolean headerChroma = false;
 
     @ConfigOpt(alt = "club.sk1er.mods.levelhead.config.LevelheadConfig;headerRgb")
-    private boolean headerRgb = false;
+    public boolean headerRgb = false;
 
     @ConfigOpt(alt = "club.sk1er.mods.levelhead.config.LevelheadConfig;headerColor")
-    private String headerColor = ChatColor.AQUA.toString();
+    public String headerColor = ChatColor.AQUA.toString();
 
     @ConfigOpt(alt = "club.sk1er.mods.levelhead.config.LevelheadConfig;headerRed")
-    private int headerRed = 255;
+    public int headerRed = 255;
 
     @ConfigOpt(alt = "club.sk1er.mods.levelhead.config.LevelheadConfig;headerGreen")
-    private int headerGreen = 255;
+    public int headerGreen = 255;
 
     @ConfigOpt(alt = "club.sk1er.mods.levelhead.config.LevelheadConfig;headerBlue")
-    private int headerBlue = 250;
+    public int headerBlue = 250;
 
     @ConfigOpt(alt = "club.sk1er.mods.levelhead.config.LevelheadConfig;headerAlpha")
-    private double headerAlpha = 1.0;
+    public double headerAlpha = 1.0;
 
     @ConfigOpt(alt = "club.sk1er.mods.levelhead.config.LevelheadConfig;customHeader")
-    private String customHeader = "Level";
+    public String customHeader = "Level";
 
     @ConfigOpt(alt = "club.sk1er.mods.levelhead.config.LevelheadConfig;footerChroma")
-    private boolean footerChroma = false;
+    public boolean footerChroma = false;
 
     @ConfigOpt(alt = "club.sk1er.mods.levelhead.config.LevelheadConfig;footerRgb")
-    private boolean footerRgb = false;
+    public boolean footerRgb = false;
 
     @ConfigOpt(alt = "club.sk1er.mods.levelhead.config.LevelheadConfig;footerColor")
-    private String footerColor = ChatColor.YELLOW.toString();
+    public String footerColor = ChatColor.YELLOW.toString();
 
     @ConfigOpt(alt = "club.sk1er.mods.levelhead.config.LevelheadConfig;footerRed")
-    private int footerRed = 255;
+    public int footerRed = 255;
 
     @ConfigOpt(alt = "club.sk1er.mods.levelhead.config.LevelheadConfig;footerGreen")
-    private int footerGreen = 255;
+    public int footerGreen = 255;
 
     @ConfigOpt(alt = "club.sk1er.mods.levelhead.config.LevelheadConfig;footerBlue")
-    private int footerBlue = 250;
+    public int footerBlue = 250;
 
     @ConfigOpt(alt = "club.sk1er.mods.levelhead.config.LevelheadConfig;footerAlpha")
-    private double footerAlpha = 1.0;
+    public double footerAlpha = 1.0;
 
 
     public boolean isFooterChroma() {

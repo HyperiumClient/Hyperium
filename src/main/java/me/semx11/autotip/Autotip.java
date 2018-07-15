@@ -19,6 +19,9 @@ package me.semx11.autotip;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.commands.BaseCommand;
+import cc.hyperium.config.Category;
+import cc.hyperium.config.SelectorSetting;
+import cc.hyperium.config.ToggleSetting;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.mods.AbstractMod;
 import cc.hyperium.utils.ChatColor;
@@ -30,6 +33,7 @@ import me.semx11.autotip.event.ChatListener;
 import me.semx11.autotip.event.HypixelListener;
 import me.semx11.autotip.event.Tipper;
 import me.semx11.autotip.misc.AutotipThreadFactory;
+import me.semx11.autotip.misc.Writer;
 import me.semx11.autotip.util.FileUtil;
 import me.semx11.autotip.util.Hosts;
 import me.semx11.autotip.util.MessageOption;
@@ -48,15 +52,18 @@ public class Autotip extends AbstractMod {
     public static final String MODID = "autotip";
     public static final String VERSION_STRING = "2.0.3";
     public static final Version VERSION = new Version(VERSION_STRING);
-    public static final ExecutorService THREAD_POOL = Executors
-            .newCachedThreadPool(new AutotipThreadFactory());
+    public static final ExecutorService THREAD_POOL = Executors.newCachedThreadPool(new AutotipThreadFactory());
     public static final Minecraft mc = Minecraft.getMinecraft();
     public static final List<String> alreadyTipped = new ArrayList<>();
     public static String USER_DIR = "";
     public static MessageOption messageOption = MessageOption.SHOWN;
     public static String playerUUID = "";
     public static boolean onHypixel = false;
+    @ToggleSetting(name = "Enable", category = Category.AUTOTIP, mods = true)
     public static boolean toggle = true;
+
+    @SelectorSetting(name = "Tip Messages", category = Category.AUTOTIP, mods = true, items = {"SHOWN", "COMPACT", "HIDDEN"})
+    public static String TIP_MESSAGE_STRING = "SHOWN";
     public static int totalTipsSent;
     /**
      * The metadata of Autotip
@@ -69,6 +76,7 @@ public class Autotip extends AbstractMod {
         metadata.setDisplayName(ChatColor.AQUA + "Autotip");
 
         this.meta = metadata;
+        Runtime.getRuntime().addShutdownHook(new Thread(Writer::execute));
     }
 
     public Autotip init() {

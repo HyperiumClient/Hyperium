@@ -80,6 +80,11 @@ public class AddonsInstallerTab extends AbstractTab {
             Gui.drawRect(0, (int) (y + s * (s * w / 2)), 3, (int) (y + w - s * (w / 2)), Color.WHITE.getRGB());
     }
 
+    @Override
+    public String getTitle() {
+        return "Addon Installer";
+    }
+
     private void installAddon(String jsonName) throws IOException {
         AddonManifest addon = Arrays.stream(InstallerUtils.getManifest().getAddons()).filter(o -> o.getName().equals(jsonName)).findFirst().get();
         File addonsDir = new File(Minecraft.getMinecraft().mcDataDir, "pending-addons");

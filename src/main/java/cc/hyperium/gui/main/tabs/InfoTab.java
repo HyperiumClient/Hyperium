@@ -26,6 +26,7 @@ import org.apache.http.client.methods.HttpGet;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.concurrent.TimeUnit;
@@ -34,7 +35,7 @@ import java.util.concurrent.TimeUnit;
  * Created by Cubxity on 23/05/2018
  */
 public class InfoTab extends AbstractTab {
-    private static HyperiumOverlay licenses = new HyperiumOverlay();
+    private static HyperiumOverlay licenses = new HyperiumOverlay("Licenses");
 
     static {
         Multithreading.runAsync(() -> {
@@ -65,6 +66,33 @@ public class InfoTab extends AbstractTab {
         this.w = w;
 
         //TODO: Add buttons to view license in the licenses overlay
+
+
+        items.add(new SettingItem(() -> {
+            Desktop desktop = Desktop.getDesktop();
+            if (desktop != null) {
+                if (desktop.isSupported(Desktop.Action.BROWSE)) {
+                    try {
+                        desktop.browse(new URI("https://hyperium.cc"));
+                    } catch (IOException | URISyntaxException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }, null, "Website", "Website: Hyperium.cc \n Click to visit", "Browse Website", 0, 0));
+
+        items.add(new SettingItem(() -> {
+            Desktop desktop = Desktop.getDesktop();
+            if (desktop != null) {
+                if (desktop.isSupported(Desktop.Action.BROWSE)) {
+                    try {
+                        desktop.browse(new URI("https://hyperium.cc/discord"));
+                    } catch (IOException | URISyntaxException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }, null, "Discord", "Click to join Discord", "Click to join Discord", 0, 1));
 
         items.add(new SettingItem(() -> new GuiHyperiumCredits(HyperiumMainGui.INSTANCE).show(), null, "Credits", "List of contributors who helped with the client", "Lists of contributor name and amount of commits", 2, 0));
         items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(licenses), null, "Licenses", "Open Source Licenses", "Licenses for open source libraries used in the client", 2, 1));
@@ -128,6 +156,11 @@ public class InfoTab extends AbstractTab {
     @Override
     public void drawHighlight(float s) {
         Gui.drawRect(0, (int) (y + s * (s * w / 2)), 3, (int) (y + w - s * (w / 2)), Color.WHITE.getRGB());
+    }
+
+    @Override
+    public String getTitle() {
+        return "Info";
     }
 
     @Override

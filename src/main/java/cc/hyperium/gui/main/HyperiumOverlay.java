@@ -20,6 +20,18 @@ import java.util.function.Consumer;
 public class HyperiumOverlay {
     private List<OverlayComponent> components = new ArrayList<>();
     private int offsetY = 0;
+    private String name;
+
+    public HyperiumOverlay(String name) {
+        this.name = name;
+    }
+
+    public HyperiumOverlay() {
+        this("");
+    }
+    public String getName() {
+        return name;
+    }
 
     public void render(int mouseX, int mouseY, int w, int h) {
         // HyperiumGui.drawChromaBox(0, 0, w, h, 0.2F); // bg
@@ -57,9 +69,9 @@ public class HyperiumOverlay {
         return components;
     }
 
-    public void addToggle(String label, Field f, Consumer<Object> objectConsumer) {
+    public void addToggle(String label, Field f, Consumer<Object> objectConsumer, boolean enabled, Object object) {
         try {
-            Object o = f.get(null);
+            Object o = f.get(object);
 
             if (o == null) {
                 return;
@@ -70,11 +82,11 @@ public class HyperiumOverlay {
                     if (objectConsumer != null)
                         objectConsumer.accept(b);
                     try {
-                        f.setBoolean(null, b);
+                        f.setBoolean(object, b);
                     } catch (IllegalAccessException e) {
                         e.printStackTrace();
                     }
-                }));
+                }, enabled));
             }
         } catch (IllegalAccessException | IllegalArgumentException e) {
             e.printStackTrace();

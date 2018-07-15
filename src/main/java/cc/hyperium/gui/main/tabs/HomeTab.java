@@ -136,4 +136,9 @@ public class HomeTab extends AbstractTab {
            offsetY= -10*(items.size()-1);
        }
     }
+
+    @Override
+    public String getTitle() {
+        return "Home";
+    }
 }
