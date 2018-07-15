@@ -1,18 +1,28 @@
 package cc.hyperium.mods.autogg.config;
 
 import cc.hyperium.Hyperium;
+import cc.hyperium.config.Category;
 import cc.hyperium.config.ConfigOpt;
+import cc.hyperium.config.SliderSetting;
+import cc.hyperium.config.ToggleSetting;
+
+import static cc.hyperium.config.Category.AUTO_GG;
 
 /**
  * Minified config class for AutoGG, uses Hyperium's config things
  */
 public class AutoGGConfig {
 
-    @ConfigOpt
-    private int delay = 1;
 
     @ConfigOpt
-    private boolean toggled = true;
+    @ToggleSetting(name = "Hide GG's at end of game", mods = true, category = AUTO_GG)
+    public boolean ANTI_GG = false;
+    @ConfigOpt
+    @SliderSetting(name = "Delay", min = 0, max = 5, round = true, isInt = true, category = Category.AUTO_GG, mods = true)
+    public int delay = 1;
+    @ConfigOpt
+    @ToggleSetting(name = "Enable", mods = true, category = Category.AUTO_GG)
+    public boolean toggled = true;
 
     public AutoGGConfig() {
         Hyperium.CONFIG.register(this);

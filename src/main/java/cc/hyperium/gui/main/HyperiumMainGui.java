@@ -73,6 +73,7 @@ public class HyperiumMainGui extends HyperiumGui {
                 return;
             }
             settingsObjects.add(Hyperium.INSTANCE.getModIntegration().getAutotip());
+            settingsObjects.add(Hyperium.INSTANCE.getModIntegration().getAutoGG().getConfig());
             settingsObjects.add(Hyperium.INSTANCE.getModIntegration().getMotionBlur());
             settingsObjects.add(Hyperium.INSTANCE.getModIntegration().getLevelhead().getConfig());
         } catch (Exception e) {

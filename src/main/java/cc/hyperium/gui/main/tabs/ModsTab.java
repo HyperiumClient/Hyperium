@@ -34,6 +34,7 @@ import org.apache.commons.lang3.ArrayUtils;
 
 import java.awt.Color;
 import java.lang.reflect.Field;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
@@ -45,6 +46,7 @@ public class ModsTab extends AbstractTab {
     private final HyperiumOverlay motionblur = new HyperiumOverlay("Motion Blur");
     private final HyperiumOverlay chromahud = new HyperiumOverlay("ChromaHUD");
     private final HyperiumOverlay animations = new HyperiumOverlay("Animations");
+    private final HyperiumOverlay autoGG = new HyperiumOverlay("AutoGG");
 
     private final GlintColorizerSettings glintcolorizer = new GlintColorizerSettings();
 
@@ -83,7 +85,21 @@ public class ModsTab extends AbstractTab {
                 Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage("Unable to load spotify!");
             }
         }, Icons.SETTINGS.getResource(), "Spotify", "Adjust Spotify Settings", "Click to configure", 1, 3));
+        items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(autoGG), Icons.SETTINGS.getResource(), "AutoGG", "AutoGG \n /autogg", "Click to configure", 2, 3));
 
+
+        int x1 = 0;
+        int y1 = 0;
+        items.sort(Comparator.comparing(SettingItem::getTitle));
+        for (SettingItem item : items) {
+            item.setxIndex(x1);
+            item.setyIndex(y1);
+            x1++;
+            if (x1 == 3) {
+                y1++;
+                x1 = 0;
+            }
+        }
         try {
             callback.put(Autotip.class.getDeclaredField("TIP_MESSAGE_STRING"), o -> Autotip.messageOption = MessageOption.valueOf(o.toString()));
             callback.put(Settings.class.getDeclaredField("MOTION_BLUR_ENABLED"), o -> {
@@ -194,6 +210,8 @@ public class ModsTab extends AbstractTab {
                 return motionblur;
             case CHROMAHUD:
                 return chromahud;
+            case AUTO_GG:
+                return autoGG;
             case ANIMATIONS:
                 return animations;
 

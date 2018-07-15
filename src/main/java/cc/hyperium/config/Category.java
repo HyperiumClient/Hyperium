@@ -14,6 +14,7 @@ public enum Category {
 
     //Mods
     AUTOTIP,
+    AUTO_GG,
     LEVEL_HEAD,
     VANILLA_ENCHANTMENTS,
     CHROMAHUD,

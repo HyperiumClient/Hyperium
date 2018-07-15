@@ -3,6 +3,7 @@ package cc.hyperium.mods.autogg;
 import cc.hyperium.Hyperium;
 import cc.hyperium.event.ChatEvent;
 import cc.hyperium.event.InvokeEvent;
+import cc.hyperium.event.WorldChangeEvent;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.utils.ChatColor;
 import net.minecraft.client.Minecraft;
@@ -14,13 +15,26 @@ public class AutoGGListener {
 
     private final Minecraft mc = Minecraft.getMinecraft();
     private final AutoGG mod;
+    boolean invoked = false;
+
 
     public AutoGGListener(AutoGG mod) {
         this.mod = mod;
     }
 
     @InvokeEvent
+    public void worldSwap(WorldChangeEvent event) {
+        invoked = false;
+    }
+
+    @InvokeEvent
     public void onChat(final ChatEvent event) {
+        if (this.mod
+                .getConfig().ANTI_GG && invoked) {
+            if (event.getChat().getUnformattedText().toLowerCase().endsWith("gg") ||
+                    event.getChat().getUnformattedText().endsWith("Good Game"))
+                event.setCancelled(true);
+        }
         // Make sure the mod is enabled
         if (
 //            !this.mod.isHypixel() ||
@@ -33,7 +47,7 @@ public class AutoGGListener {
 
         if (this.mod.getTriggers().stream().anyMatch(unformattedMessage::contains) && unformattedMessage.startsWith(" ")) {
             this.mod.setRunning(true);
-
+            invoked = true;
             // The GGThread in an anonymous class
             Multithreading.POOL.submit(() -> {
                 try {

@@ -21,6 +21,7 @@ import cc.hyperium.GuiStyle;
 import cc.hyperium.Hyperium;
 
 import static cc.hyperium.config.Category.ANIMATIONS;
+import static cc.hyperium.config.Category.AUTO_GG;
 import static cc.hyperium.config.Category.CHROMAHUD;
 import static cc.hyperium.config.Category.COSMETICS;
 import static cc.hyperium.config.Category.GENERAL;
@@ -323,6 +324,9 @@ public class Settings {
     @ConfigOpt
     @SliderSetting(name = "Motion Blur Intensity", min = 0F, max = 7F, category = Category.MOTION_BLUR, mods = true)
     public static double MOTION_BLUR_AMOUNT = 4.0F;
+
+
+
 
     private Settings() {
 
