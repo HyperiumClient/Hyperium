@@ -222,11 +222,8 @@ public abstract class HyperiumGui extends GuiScreen {
     @Override
     protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
         super.mouseClicked(mouseX, mouseY, mouseButton);
-        ScaledResolution current = new ScaledResolution(Minecraft.getMinecraft());
-        float scaleFactor = 1F / current.getScaleFactor();
-
-        mouseX = (int) (mouseX * ((float) Minecraft.getMinecraft().gameSettings.guiScale) * scaleFactor);
-        mouseY = (int) (mouseY * ((float) Minecraft.getMinecraft().gameSettings.guiScale) * scaleFactor);
+        mouseX = (int) (mouseX * ((float) Minecraft.getMinecraft().gameSettings.guiScale) / (float) guiScale);
+        mouseY = (int) (mouseY * ((float) Minecraft.getMinecraft().gameSettings.guiScale) / (float) guiScale);
 
         for (GuiBlock block : actions.keySet()) {
             if (block.isMouseOver(mouseX, mouseY)) {
