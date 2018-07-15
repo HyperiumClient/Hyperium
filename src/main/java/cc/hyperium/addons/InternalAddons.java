@@ -5,7 +5,8 @@ import cc.hyperium.event.EventBus;
 
 public class InternalAddons {
     //CustomRP
-    EventBus.INSTANCE.register(new CustomRP());
+    private CustomRP customrp;
+    EventBus.INSTANCE.register((customrp = new CustomRP()));
 
 
     public InternalAddons() {
