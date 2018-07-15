@@ -29,6 +29,7 @@ public class HyperiumOverlay {
     public HyperiumOverlay() {
         this("");
     }
+
     public String getName() {
         return name;
     }
@@ -67,6 +68,10 @@ public class HyperiumOverlay {
 
     public List<OverlayComponent> getComponents() {
         return components;
+    }
+
+    public void addToggle(String label, Field f, Consumer<Object> objectConsumer, boolean enabled) {
+        addToggle(label, f, objectConsumer, enabled, null);
     }
 
     public void addToggle(String label, Field f, Consumer<Object> objectConsumer, boolean enabled, Object object) {
