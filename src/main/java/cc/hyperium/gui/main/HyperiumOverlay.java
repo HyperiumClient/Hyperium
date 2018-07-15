@@ -70,6 +70,9 @@ public class HyperiumOverlay {
         return components;
     }
 
+    public void addToggle(String label, Field f, Consumer<Object> objectConsumer) {
+        addToggle(label, f, objectConsumer, true);
+    }
     public void addToggle(String label, Field f, Consumer<Object> objectConsumer, boolean enabled) {
         addToggle(label, f, objectConsumer, enabled, null);
     }
