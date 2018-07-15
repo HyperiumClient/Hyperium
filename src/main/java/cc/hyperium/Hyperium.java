@@ -17,6 +17,7 @@
 
 package cc.hyperium;
 
+import cc.hyperium.addons.InternalAddons;
 import cc.hyperium.commands.defaults.CommandClearChat;
 import cc.hyperium.commands.defaults.CommandConfigGui;
 import cc.hyperium.commands.defaults.CommandCoords;
@@ -123,6 +124,7 @@ public class Hyperium {
     private boolean isDevEnv;
     private Sk1erMod sk1erMod;
     private NettyClient client;
+    private InternalAddons internalAddons;
     private NetworkHandler networkHandler;
     /**
      * @param event initialize Hyperium
@@ -267,6 +269,7 @@ public class Hyperium {
             });
             sk1erMod.checkStatus();
         }
+        internalAddons = new InternalAddons();
 
         SplashProgress.PROGRESS = 12;
         SplashProgress.CURRENT = "Reloading resource manager";
@@ -421,6 +424,9 @@ public class Hyperium {
         return cosmetics;
     }
 
+    public InternalAddons getInternalAddons() {
+        return internalAddons;
+    }
 
 
     // Does not appear to be used
