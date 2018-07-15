@@ -1,6 +1,5 @@
 package cc.hyperium.utils;
 
-import cc.hyperium.installer.InstallerFrame;
 import cc.hyperium.utils.staff.StaffSettings;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -30,7 +29,7 @@ public class StaffUtils {
 
     private static HashMap<UUID, StaffSettings> getStaff() throws IOException {
         HashMap<UUID, StaffSettings> staff = new HashMap<>();
-        String content = InstallerFrame.get("https://raw.githubusercontent.com/HyperiumClient/Hyperium-Repo/master/files/staff.json");
+        String content = InstallerUtils.getRaw("https://raw.githubusercontent.com/HyperiumClient/Hyperium-Repo/master/files/staff.json");
         JSONArray array = new JSONArray(content);
         for (int i = 0; i < array.length(); i++) {
             JSONObject item = array.getJSONObject(i);

@@ -96,6 +96,7 @@ dependencies {
 
     embed "com.github.KevinPriv:MojangAPI:1.0"
     embed 'com.github.Cubxity:DeobfStack:1.2'
+    embed 'com.github.HyperiumClient:Installer:d8c4086ef0'
 
     embed fileTree(dir: 'libs', include: 'Netty Client.jar')
     compile fileTree(dir: 'libs', include: '*.jar')
@@ -145,7 +146,7 @@ jar {
             "TweakClass": 'cc.hyperium.launch.HyperiumTweaker',
             "TweakOrder": 0,
             "Manifest-Version": 1.0,
-            'Main-Class': 'cc.hyperium.installer.InstallerMain'
+            'Main-Class': 'cc.hyperium.installer.InstallerStart'
     )
     configurations.embed.each { dep ->
         from(project.zipTree(dep)) {

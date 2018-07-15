@@ -8,21 +8,15 @@ import cc.hyperium.gui.GuiBlock;
 import cc.hyperium.gui.HyperiumGui;
 import cc.hyperium.gui.Icons;
 import cc.hyperium.gui.main.components.AbstractTab;
-import cc.hyperium.gui.main.tabs.AddonsInstallerTab;
-import cc.hyperium.gui.main.tabs.AddonsTab;
-import cc.hyperium.gui.main.tabs.CosmeticsTab;
-import cc.hyperium.gui.main.tabs.HomeTab;
-import cc.hyperium.gui.main.tabs.InfoTab;
-import cc.hyperium.gui.main.tabs.ModsTab;
-import cc.hyperium.gui.main.tabs.SettingsTab;
-import cc.hyperium.installer.InstallerConfig;
-import cc.hyperium.installer.utils.DownloadTask;
+import cc.hyperium.gui.main.tabs.*;
+import cc.hyperium.installer.api.entities.InstallerManifest;
+import cc.hyperium.installer.api.entities.VersionManifest;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
+import cc.hyperium.utils.DownloadTask;
 import cc.hyperium.utils.HyperiumFontRenderer;
-import cc.hyperium.utils.JsonHolder;
+import cc.hyperium.utils.InstallerUtils;
 import cc.hyperium.utils.UpdateUtils;
-import com.google.gson.JsonObject;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
@@ -31,19 +25,13 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
-import java.awt.Color;
-import java.awt.Font;
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
 import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.StreamSupport;
-
-import static cc.hyperium.installer.InstallerFrame.get;
 
 /*
  * Created by Cubxity on 20/05/2018
@@ -136,7 +124,7 @@ public class HyperiumMainGui extends HyperiumGui {
         super.show();
         pack();
     }
-private ModsTab modsTab;
+    private ModsTab modsTab;
     public List<Object> getSettingsObjects() {
         return settingsObjects;
     }
@@ -176,7 +164,7 @@ private ModsTab modsTab;
             currentAlert.render(fr, width, height);
 
         if (!isLatestVersion() && !show && Settings.UPDATE_NOTIFICATIONS && !Metadata.isDevelopment()) {
-            Alert alert = new Alert(Icons.ERROR.getResource(), this::downloadLatest, "Hyperium Update! Click here to download.");
+            Alert alert = new Alert(Icons.ERROR.getResource(), () -> downloadLatest(), "Hyperium Update! Click here to download.");
             alerts.add(alert);
             show = true;
         }
@@ -213,26 +201,17 @@ private ModsTab modsTab;
     }
 
     public void downloadLatest() {
-        String versions_url = "https://raw.githubusercontent.com/HyperiumClient/Hyperium-Repo/master/installer/versions.json";
-        JsonHolder vJson = null;
-        try {
-            vJson = new JsonHolder(get(versions_url));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
         try {
             Hyperium.INSTANCE.getNotification().display("Update", "Downloading updates...", 3);
-            JsonHolder finalVJson = vJson;
-            JsonObject ver = StreamSupport.stream(vJson.optJSONArray("versions").spliterator(), false)
-                    .filter(v -> finalVJson.optString("latest-stable").equals(v.getAsJsonObject().get("name").getAsString())).findFirst()
-                    .orElseThrow(() -> new IllegalStateException("Couldn't find stable version")).getAsJsonObject();
-            boolean download = ver.get("install-min").getAsInt() > InstallerConfig.VERSION;
+            InstallerManifest manifest = InstallerUtils.getManifest();
+            VersionManifest ver = manifest.getVersions()[0];
+            boolean download = ver.getId() > Metadata.getVersionID();
             System.out.println("Download=" + download);
             Multithreading.runAsync(() -> {
                 try {
                     File jar;
                     if (download || Hyperium.INSTANCE.isDevEnv()) { // or else it will break in dev env
-                        DownloadTask task = new DownloadTask(ver.get("url").getAsString(), System.getProperty("java.io.tmpdir"));
+                        DownloadTask task = new DownloadTask(ver.getUrl(), System.getProperty("java.io.tmpdir"));
                         task.execute();
                         task.get();
                         jar = new File(System.getProperty("java.io.tmpdir"), task.getFileName());
