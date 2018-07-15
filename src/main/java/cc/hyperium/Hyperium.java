@@ -42,7 +42,6 @@ import cc.hyperium.gui.BlurDisableFallback;
 import cc.hyperium.gui.ConfirmationPopup;
 import cc.hyperium.gui.NotificationCenter;
 import cc.hyperium.handlers.HyperiumHandlers;
-import cc.hyperium.installer.InstallerFrame;
 import cc.hyperium.integrations.spotify.Spotify;
 import cc.hyperium.mixinsimp.renderer.FontFixValues;
 import cc.hyperium.mods.HyperiumModIntegration;
@@ -59,6 +58,7 @@ import cc.hyperium.network.LoginReplyHandler;
 import cc.hyperium.network.NetworkHandler;
 import cc.hyperium.purchases.PurchaseApi;
 import cc.hyperium.tray.TrayManager;
+import cc.hyperium.utils.InstallerUtils;
 import cc.hyperium.utils.StaffUtils;
 import cc.hyperium.utils.UpdateUtils;
 import cc.hyperium.utils.eastereggs.EasterEggs;
@@ -347,7 +347,7 @@ public class Hyperium {
 
         if (updateQueue) {
             try {
-                boolean windows = InstallerFrame.OsCheck.getOperatingSystemType() == InstallerFrame.OsCheck.OSType.Windows;
+                boolean windows = InstallerUtils.getOS() == InstallerUtils.OSType.Windows;
                 //Class<?> c = getClass();
                 //String n = c.getName().replace('.', '/');
                 String cs = "";
