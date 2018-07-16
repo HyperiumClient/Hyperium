@@ -11,9 +11,6 @@ public class Overlay extends HyperiumOverlay {
 
     public Overlay() {
         try {
-            this.getComponents().add(new OverlayButton("Check for updates", () -> {
-                AddonUpdateChecker.updateCheck();
-            }));
             this.getComponents().add(new OverlayButton("RESET", () -> {
                 Mode.set("addon");
             }));
