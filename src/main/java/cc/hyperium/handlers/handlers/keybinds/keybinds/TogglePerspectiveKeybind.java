@@ -32,7 +32,6 @@ public class TogglePerspectiveKeybind extends HyperiumBind {
     public void onPress() {
         PerspectiveModifierHandler perspectiveHandler = Hyperium.INSTANCE.getHandlers().getPerspectiveHandler();
 
-        System.out.println("Enabled: " + PerspectiveModifierHandler.enabled);
         if (Settings.PERSPECTIVE_HOLD) {
             perspectiveHandler.onEnable();
         } else {
