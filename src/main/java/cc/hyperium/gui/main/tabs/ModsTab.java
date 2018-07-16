@@ -16,6 +16,7 @@ import cc.hyperium.gui.main.components.OverlaySelector;
 import cc.hyperium.gui.main.components.OverlaySlider;
 import cc.hyperium.gui.main.components.SettingItem;
 import cc.hyperium.integrations.spotify.Spotify;
+import cc.hyperium.mods.autofriend.AutofriendMod;
 import cc.hyperium.mods.blockoverlay.BlockOverlayGui;
 import cc.hyperium.mods.chromahud.ChromaHUD;
 import cc.hyperium.mods.chromahud.gui.GeneralConfigGui;
@@ -198,7 +199,11 @@ public class ModsTab extends AbstractTab {
                 new GeneralConfigGui(((ChromaHUD) Hyperium.INSTANCE.getModIntegration().getChromaHUD())).display();
         }));
 
-
+        if (!AutofriendMod.recent.toString().equals("[]")) {
+            autoFriend.getComponents().add(new OverlayLabel(AutofriendMod.recent.toString().replace("[]", "")));
+        } else {
+            autoFriend.getComponents().add(new OverlayLabel("No recent friend requests!"));
+        }
     }
 
     private HyperiumOverlay getCategory(Category settingsCategory) {
