@@ -24,30 +24,33 @@ import net.minecraft.client.Minecraft;
 /**
  * The perspective mod handler
  */
-public class PerspectiveModifierContainer {
+public class PerspectiveModifierHandler {
 
     /**
      * This class requires massive improvements, this will be worked on and fixed in a later release
      */
-    public static float modifiedYaw;
-    public static float modifiedPitch;
+    public float modifiedYaw;
+    public float modifiedPitch;
 
     public static boolean enabled = false;
 
-    public static void onEnable() {
+    public void onEnable() {
+        this.enabled = true;
+        if(Minecraft.getMinecraft().gameSettings.thirdPersonView == 2){
+            this.modifiedYaw = Minecraft.getMinecraft().thePlayer.rotationYaw + 180.0F;
+            this.modifiedPitch = -Minecraft.getMinecraft().thePlayer.rotationPitch;
+        } else {
+            this.modifiedPitch = Minecraft.getMinecraft().thePlayer.rotationPitch;
+            this.modifiedYaw = Minecraft.getMinecraft().thePlayer.rotationYaw;
+        }
         Minecraft.getMinecraft().gameSettings.thirdPersonView = 1;
         if (Settings.SPRINT_PERSPECTIVE_MESSAGES) {
             GeneralChatHandler.instance().sendMessage("Enabled 360 Degree Perspective.");
         }
-
-        modifiedYaw = Minecraft.getMinecraft().thePlayer.cameraYaw;
-        modifiedPitch = Minecraft.getMinecraft().thePlayer.cameraPitch;
     }
 
-    public static void onDisable() {
-        PerspectiveModifierContainer.enabled = false;
-
-        //((MixinKeyBinding) this.perspective).setPressed(false);
+    public void onDisable() {
+        this.enabled = false;
 
         Minecraft.getMinecraft().gameSettings.thirdPersonView = 0;
         if (Settings.SPRINT_PERSPECTIVE_MESSAGES) {
@@ -55,12 +58,8 @@ public class PerspectiveModifierContainer {
         }
 
         // Reset the states anyway
-        modifiedYaw = Minecraft.getMinecraft().thePlayer.cameraYaw;
-        modifiedPitch = Minecraft.getMinecraft().thePlayer.cameraPitch;
-    }
-
-    public static void setEnabled(boolean enabled) {
-        PerspectiveModifierContainer.enabled = enabled;
+        this.modifiedYaw = Minecraft.getMinecraft().thePlayer.rotationYaw;
+        modifiedPitch = Minecraft.getMinecraft().thePlayer.rotationPitch;
     }
 
 }

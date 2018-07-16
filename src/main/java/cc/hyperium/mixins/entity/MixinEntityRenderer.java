@@ -20,6 +20,7 @@ package cc.hyperium.mixins.entity;
 import cc.hyperium.handlers.handlers.reach.ReachDisplay;
 import cc.hyperium.mixinsimp.entity.HyperiumEntityRenderer;
 import com.google.common.base.Predicates;
+import java.util.List;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.client.renderer.OpenGlHelper;
@@ -41,8 +42,6 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
-import java.util.List;
 
 @Mixin(EntityRenderer.class)
 public abstract class MixinEntityRenderer {
@@ -105,7 +104,7 @@ public abstract class MixinEntityRenderer {
 
     @Inject(method = "updateCameraAndRender", at = @At(value = "INVOKE_STRING", target = "Lnet/minecraft/profiler/Profiler;startSection(Ljava/lang/String;)V", args = "ldc=mouse"))
     private void updateCameraAndRender2(float partialTicks, long nanoTime, CallbackInfo ci) {
-        hyperiumEntityRenderer.updateCameraAndRender2();
+        hyperiumEntityRenderer.updatePerspectiveCamera();
     }
 
     // Motion Blur Methods
