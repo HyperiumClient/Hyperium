@@ -36,14 +36,14 @@ public abstract class AbstractAddon {
         private String displayName;
 
         public Metadata(AbstractAddon addon, String name) {
-            this(mod, name, "1.0");
+            this(addon, name, "1.0");
         }
 
         public Metadata(AbstractAddon addon, String name, String version) {
             this(addon, name, version, "");
         }
 
-        public Metadata(AbstractMod mod, String name, String version, String author) {
+        public Metadata(AbstractAddon addon, String name, String version, String author) {
             checkNotNull(addon, "Addon instance cannot be null");
             checkArgument(!StringUtils.isEmpty(name), "Name cannot be null or empty (" + name + ")");
             checkArgument(!StringUtils.isEmpty(version), "Version cannot be null or empty (" + version + ")");
