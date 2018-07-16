@@ -1,8 +1,9 @@
 package cc.hyperium.addons.customrp;
 
 import cc.hyperium.Hyperium;
+import cc.hyperium.addons.AbstractAddon;
 import cc.hyperium.event.*;
-import cc.hyperium.internal.addons.IAddon;
+import cc.hyperium.utils.ChatColor;
 import com.jagrosh.discordipc.IPCClient;
 import com.jagrosh.discordipc.IPCListener;
 import com.jagrosh.discordipc.entities.DiscordBuild;
@@ -13,20 +14,21 @@ import cc.hyperium.addons.customrp.utils.RichPresenceUpdater;
 
 import static com.jagrosh.discordipc.entities.pipe.PipeStatus.CONNECTED;
 
-public class CustomRP implements IAddon {
+public class CustomRP extends AbstractAddon {
     private IPCClient client;
 
     @Override
-    public void onLoad() {
-        System.out.println("[CustomRP] Addon loaded");
+    public AbstractAddon init() {
         EventBus.INSTANCE.register(this);
-        EventBus.INSTANCE.register(new AddonUpdateChecker());
-        Hyperium.CONFIG.register(new Config());
+        return this;
     }
 
-    @InvokeEvent
-    public void init(InitializationEvent event) {
-        RichPresenceUpdater.callCustomRPUpdate();
+    @Override
+    public Metadata getAddonMetadata() {
+        AbstractAddon.Metadata metadata = new AbstractAddon.Metadata(this, "CustomRP", "1.4.0", "SHARDcoder");
+        metadata.setDisplayName(ChatColor.DARK_GRAY + "CustomRP");
+
+        return metadata;
     }
 
     @InvokeEvent(priority = Priority.HIGH)
@@ -44,8 +46,17 @@ public class CustomRP implements IAddon {
         }
     }
 
-    @Override
-    public void onClose() {
+    @InvokeEvent
+    public void initMedPriority(InitializationEvent event) {
+        RichPresenceUpdater.callCustomRPUpdate();
+        System.out.println("[CustomRP] Addon loaded");
+        EventBus.INSTANCE.register(this);
+        EventBus.INSTANCE.register(new AddonUpdateChecker());
+        Hyperium.CONFIG.register(new Config());
+    }
+
+
+    public void shutdown() {
         System.out.println("[CustomRP] Addon closed");
 
         try {
@@ -55,9 +66,5 @@ public class CustomRP implements IAddon {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-    
-    @Override
-    public void sendDebugInfo() {
     }
 }
