@@ -27,6 +27,7 @@ import cc.hyperium.mods.killscreenshot.KillScreenshot;
 import cc.hyperium.mods.levelhead.Levelhead;
 import cc.hyperium.mods.motionblur.MotionBlurMod;
 import cc.hyperium.mods.oldanimations.OldAnimations;
+import cc.hyperium.mods.playtime.PlayTime;
 import cc.hyperium.mods.skinchanger.SkinChangerMod;
 import cc.hyperium.mods.spotify.SpotifyControls;
 import cc.hyperium.mods.timechanger.TimeChanger;
@@ -56,6 +57,7 @@ public class HyperiumModIntegration {
     private final SpotifyControls spotifyControls;
     private final MotionBlurMod motionBlur;
     private final OldAnimations oldanimations;
+    private final PlayTime playTime;
 
     public HyperiumModIntegration() {
         // ChromaHud implementation
@@ -107,7 +109,8 @@ public class HyperiumModIntegration {
         // Glint Colorizer implementation
         this.glintcolorizer = ((GlintColorizer) new GlintColorizer().init());
 
-
+        //Play Time addon port
+        this.playTime = (PlayTime) new PlayTime().init();
     }
 
     public KeystrokesMod getKeystrokesMod() {
@@ -174,5 +177,15 @@ public class HyperiumModIntegration {
         return oldanimations;
     }
 
+    public AutoGG getAutogg() {
+        return autogg;
+    }
 
+    public HGames getHgames() {
+        return hgames;
+    }
+
+    public PlayTime getPlayTime() {
+        return playTime;
+    }
 }
