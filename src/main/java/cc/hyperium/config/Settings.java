@@ -324,6 +324,14 @@ public class Settings {
     @SliderSetting(name = "Motion Blur Intensity", min = 0F, max = 7F, category = Category.MOTION_BLUR, mods = true)
     public static double MOTION_BLUR_AMOUNT = 4.0F;
 
+    @ConfigOpt
+    @ToggleSetting(name = "Enabled", category = Category.AUTOFRIEND, mods = true)
+    public static boolean AUTOFRIEND_TOGGLE = true;
+
+    @ConfigOpt
+    @ToggleSetting(name = "Show Friend Messages", category = Category.AUTOFRIEND, mods = true)
+    public static boolean AUTOFRIEND_MESSAGES = true;
+
     private Settings() {
 
     }
