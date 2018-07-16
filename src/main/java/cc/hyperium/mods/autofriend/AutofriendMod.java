@@ -6,9 +6,8 @@ import cc.hyperium.event.EventBus;
 import cc.hyperium.event.HypixelFriendRequestEvent;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.mods.AbstractMod;
-import cc.hyperium.mods.autofriend.confog.AutofriendConfig;
+import cc.hyperium.mods.autofriend.config.AutofriendConfig;
 import net.minecraft.client.Minecraft;
-import net.minecraft.command.CommandHandler;
 
 import java.io.File;
 import java.io.FileWriter;
