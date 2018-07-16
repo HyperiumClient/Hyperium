@@ -33,6 +33,7 @@
     "entity.IMixinEntityFx",
     "entity.IMixinEntityRenderer",
     "entity.IMixinNetworkPlayerInfo",
+    "entity.MixinRenderFish",
     "gui.MixinGuiButton2",
     "gui.MixinGuiButton",
     "gui.MixinGuiChat",
