@@ -9,7 +9,6 @@ import com.jagrosh.discordipc.IPCListener;
 import com.jagrosh.discordipc.entities.DiscordBuild;
 import com.jagrosh.discordipc.exceptions.NoDiscordClientException;
 import cc.hyperium.addons.customrp.config.Config;
-import cc.hyperium.addons.customrp.utils.AddonUpdateChecker;
 import cc.hyperium.addons.customrp.utils.RichPresenceUpdater;
 
 import static com.jagrosh.discordipc.entities.pipe.PipeStatus.CONNECTED;
