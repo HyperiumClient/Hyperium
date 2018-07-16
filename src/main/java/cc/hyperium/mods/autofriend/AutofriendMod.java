@@ -1,6 +1,7 @@
 package cc.hyperium.mods.autofriend;
 
 import cc.hyperium.Hyperium;
+import cc.hyperium.config.Settings;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.HypixelFriendRequestEvent;
 import cc.hyperium.event.InvokeEvent;
@@ -53,7 +54,7 @@ public class AutofriendMod extends AbstractMod {
     @InvokeEvent
     public void friendRequestEvent(final HypixelFriendRequestEvent event) {
         String name = event.getFrom();
-        if (blacklist.stream().noneMatch((Predicate<? super String>) name::equalsIgnoreCase) && AutofriendConfig.toggle) {
+        if (blacklist.stream().noneMatch((Predicate<? super String>) name::equalsIgnoreCase) && Settings.AUTOFRIEND_TOGGLE) {
             if (!name.equalsIgnoreCase(blacklist.toString())) {
                 System.out.println("Friending " + name);
             }
@@ -67,7 +68,7 @@ public class AutofriendMod extends AbstractMod {
         if (blacklistFile.exists()) {
             blacklist = Files.readAllLines(Paths.get(blacklistFile.toURI()));
             if (blacklist.get(0).equals("true") || blacklist.get(0).equals("false")) {
-                AutofriendConfig.messages = Boolean.parseBoolean(blacklist.get(0));
+                Settings.AUTOFRIEND_MESSAGES = Boolean.parseBoolean(blacklist.get(0));
                 blacklist.remove(0);
             }
             else {
@@ -83,7 +84,7 @@ public class AutofriendMod extends AbstractMod {
         try {
             final File blacklistFile = new File("config/autofriend.cfg");
             final FileWriter writer = new FileWriter(blacklistFile);
-            writer.write(Boolean.toString(AutofriendConfig.messages));
+            writer.write(Boolean.toString(Settings.AUTOFRIEND_MESSAGES));
             for (final String str : blacklist) {
                 writer.write(System.lineSeparator() + str);
             }
