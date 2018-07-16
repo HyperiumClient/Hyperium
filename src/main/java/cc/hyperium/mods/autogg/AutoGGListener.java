@@ -29,10 +29,8 @@ public class AutoGGListener {
 
     @InvokeEvent
     public void onChat(final ChatEvent event) {
-        if (this.mod
-                .getConfig().ANTI_GG && invoked) {
-            if (event.getChat().getUnformattedText().toLowerCase().endsWith("gg") ||
-                    event.getChat().getUnformattedText().endsWith("Good Game"))
+        if (this.mod.getConfig().ANTI_GG && invoked) {
+            if (event.getChat().getUnformattedText().toLowerCase().endsWith("gg") || event.getChat().getUnformattedText().endsWith("Good Game"))
                 event.setCancelled(true);
         }
         // Make sure the mod is enabled

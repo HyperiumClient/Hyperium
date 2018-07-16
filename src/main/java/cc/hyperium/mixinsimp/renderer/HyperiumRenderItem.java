@@ -210,13 +210,13 @@ public class HyperiumRenderItem {
                     GL11.glDeleteLists(integer, 1);
                     cache.remove(poll);
                 }
-                System.out.println("e");
             }
 
             cachedItem = new CachedItem(model, color, stack != null ? stack.getUnlocalizedName() : "", stack != null ? stack.getItemDamage() : 0, stack != null ? stack.getMetadata() : 0, stack != null ? stack.getTagCompound() : null);
             Integer integer = cache.get(cachedItem);
             if (integer != null) {
                 GlStateManager.callList(integer);
+                GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
                 return;
             }
             queue.add(cachedItem);
