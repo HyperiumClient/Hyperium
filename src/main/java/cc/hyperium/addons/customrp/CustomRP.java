@@ -51,7 +51,6 @@ public class CustomRP extends AbstractAddon {
         RichPresenceUpdater.callCustomRPUpdate();
         System.out.println("[CustomRP] Addon loaded");
         EventBus.INSTANCE.register(this);
-        EventBus.INSTANCE.register(new AddonUpdateChecker());
         Hyperium.CONFIG.register(new Config());
     }
 
