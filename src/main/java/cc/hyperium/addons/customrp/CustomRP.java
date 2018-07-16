@@ -18,20 +18,7 @@ public class CustomRP extends AbstractAddon {
 
     @Override
     public AbstractAddon init() {
-        EventBus.INSTANCE.register(this);
-        return this;
-    }
-
-    @Override
-    public Metadata getAddonMetadata() {
-        AbstractAddon.Metadata metadata = new AbstractAddon.Metadata(this, "CustomRP", "1.4.0", "SHARDcoder");
-        metadata.setDisplayName(ChatColor.DARK_GRAY + "CustomRP");
-
-        return metadata;
-    }
-
-    @InvokeEvent(priority = Priority.HIGH)
-    public void initHighPriority(InitializationEvent event) {
+        //High Priority
         this.client = new IPCClient(412963310867054602L);
         this.client.setListener(new IPCListener() {
             @Override
@@ -43,16 +30,24 @@ public class CustomRP extends AbstractAddon {
             client.connect(DiscordBuild.ANY); } catch (NoDiscordClientException e) {
             Hyperium.LOGGER.warn("[CustomRP] No Discord clients found");
         }
-    }
-
-    @InvokeEvent
-    public void initMedPriority(InitializationEvent event) {
+        
+        //Medium priority
         RichPresenceUpdater.callCustomRPUpdate();
         System.out.println("[CustomRP] Addon loaded");
         EventBus.INSTANCE.register(this);
         Hyperium.CONFIG.register(new Config());
+        
+        EventBus.INSTANCE.register(this);
+        return this;
     }
 
+    @Override
+    public Metadata getAddonMetadata() {
+        AbstractAddon.Metadata metadata = new AbstractAddon.Metadata(this, "CustomRP", "1.4.0", "SHARDcoder");
+        metadata.setDisplayName(ChatColor.DARK_GRAY + "CustomRP");
+
+        return metadata;
+    }
 
     public void shutdown() {
         System.out.println("[CustomRP] Addon closed");
