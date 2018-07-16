@@ -51,6 +51,7 @@ import cc.hyperium.handlers.HyperiumHandlers;
 import cc.hyperium.integrations.spotify.Spotify;
 import cc.hyperium.mixinsimp.renderer.FontFixValues;
 import cc.hyperium.mods.HyperiumModIntegration;
+import cc.hyperium.mods.autofriend.command.AutofriendCommand;
 import cc.hyperium.mods.autogg.AutoGG;
 import cc.hyperium.mods.common.ToggleSprintContainer;
 import cc.hyperium.mods.crosshair.CrosshairMod;
@@ -331,6 +332,7 @@ public class Hyperium {
 
         getHandlers().getHyperiumCommandHandler().registerCommand(new CommandMessage());
         getHandlers().getHyperiumCommandHandler().registerCommand(new CommandParticleAuras());
+        getHandlers().getHyperiumCommandHandler().registerCommand(new AutofriendCommand());
     }
 
     /**
