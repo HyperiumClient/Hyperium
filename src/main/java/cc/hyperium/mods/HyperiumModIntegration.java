@@ -17,6 +17,7 @@
 
 package cc.hyperium.mods;
 
+import cc.hyperium.mods.autofriend.AutofriendMod;
 import cc.hyperium.mods.autogg.AutoGG;
 import cc.hyperium.mods.blockoverlay.BlockOverlay;
 import cc.hyperium.mods.chromahud.ChromaHUD;
@@ -57,6 +58,7 @@ public class HyperiumModIntegration {
     private final SpotifyControls spotifyControls;
     private final MotionBlurMod motionBlur;
     private final OldAnimations oldanimations;
+    private final AutofriendMod autofriend;
     private final PlayTime playTime;
 
     public HyperiumModIntegration() {
@@ -108,6 +110,9 @@ public class HyperiumModIntegration {
 
         // Glint Colorizer implementation
         this.glintcolorizer = ((GlintColorizer) new GlintColorizer().init());
+
+        //Autofriend implementation
+        this.autofriend = ((AutofriendMod) new AutofriendMod().init());
 
         //Play Time addon port
         this.playTime = (PlayTime) new PlayTime().init();
@@ -177,12 +182,8 @@ public class HyperiumModIntegration {
         return oldanimations;
     }
 
-    public AutoGG getAutogg() {
-        return autogg;
-    }
-
-    public HGames getHgames() {
-        return hgames;
+    public AutofriendMod getAutofriend() {
+        return autofriend;
     }
 
     public PlayTime getPlayTime() {

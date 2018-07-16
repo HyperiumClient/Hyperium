@@ -47,6 +47,8 @@ public class ModsTab extends AbstractTab {
     private final HyperiumOverlay chromahud = new HyperiumOverlay("ChromaHUD");
     private final HyperiumOverlay animations = new HyperiumOverlay("Animations");
     private final HyperiumOverlay autoGG = new HyperiumOverlay("AutoGG");
+    private final HyperiumOverlay autoFriend = new HyperiumOverlay("AutoFriend");
+
 
     private final GlintColorizerSettings glintcolorizer = new GlintColorizerSettings();
 
@@ -86,6 +88,7 @@ public class ModsTab extends AbstractTab {
             }
         }, Icons.SETTINGS.getResource(), "Spotify", "Adjust Spotify Settings", "Click to configure", 1, 3));
         items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(autoGG), Icons.SETTINGS.getResource(), "AutoGG", "AutoGG \n /autogg", "Click to configure", 2, 3));
+        items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(autoFriend), Icons.SETTINGS.getResource(), "AutoFriend", "AutoFriend automatically accepts friend requests", "Click to configure", 0, 4));
 
 
         int x1 = 0;
@@ -214,6 +217,8 @@ public class ModsTab extends AbstractTab {
                 return autoGG;
             case ANIMATIONS:
                 return animations;
+            case AUTOFRIEND:
+                return autoFriend;
 
         }
         throw new IllegalArgumentException(settingsCategory + " Cannot be used in mods!");

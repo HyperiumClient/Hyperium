@@ -325,9 +325,6 @@ public class Settings {
     @SliderSetting(name = "Motion Blur Intensity", min = 0F, max = 7F, category = Category.MOTION_BLUR, mods = true)
     public static double MOTION_BLUR_AMOUNT = 4.0F;
 
-
-
-
     private Settings() {
 
     }
