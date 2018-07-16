@@ -4,7 +4,6 @@ import cc.hyperium.gui.main.HyperiumOverlay;
 import cc.hyperium.gui.main.components.OverlayButton;
 import cc.hyperium.gui.main.components.OverlaySelector;
 import cc.hyperium.addons.customrp.utils.Mode;
-import cc.hyperium.addons.customrp.utils.AddonUpdateChecker;
 
 public class Overlay extends HyperiumOverlay {
     boolean buttonMode = true;
