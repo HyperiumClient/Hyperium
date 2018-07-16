@@ -17,11 +17,7 @@
 
 package cc.hyperium.config;
 
-import cc.hyperium.GuiStyle;
-import cc.hyperium.Hyperium;
-
 import static cc.hyperium.config.Category.ANIMATIONS;
-import static cc.hyperium.config.Category.AUTO_GG;
 import static cc.hyperium.config.Category.CHROMAHUD;
 import static cc.hyperium.config.Category.COSMETICS;
 import static cc.hyperium.config.Category.GENERAL;
@@ -31,6 +27,9 @@ import static cc.hyperium.config.Category.MISC;
 import static cc.hyperium.config.Category.MODS;
 import static cc.hyperium.config.Category.SPOTIFY;
 import static cc.hyperium.config.Category.VANILLA_ENCHANTMENTS;
+
+import cc.hyperium.GuiStyle;
+import cc.hyperium.Hyperium;
 
 /*
  * Created by Cubxity on 03/06/2018
@@ -122,7 +121,7 @@ public class Settings {
     @ToggleSetting(name = "Screenshot On Kill")
     public static boolean SCREENSHOT_KILL = false;
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;spotifyControlsEnabled")
-    @ToggleSetting(name = "Show Spotify Controls", category = SPOTIFY)
+    @ToggleSetting(name = "Show Spotify Controls", category = SPOTIFY, mods=true)
     public static boolean SPOTIFY_CONTROLS = false;
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;hypixelZooEnabled")
     @ToggleSetting(name = "\"Welcome to the Hypixel Zoo!\"")

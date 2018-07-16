@@ -470,7 +470,7 @@
 ## cc.hyperium.mods.common ##
 [ToggleSprintContainer](classes/cc.hyperium.mods.common.ToggleSprintContainer.md)
 
-[PerspectiveModifierContainer](classes/cc.hyperium.mods.common.PerspectiveModifierContainer.md)
+[PerspectiveModifierContainer](classes/cc.hyperium.mods.common.PerspectiveModifierHandler.md)
 
 ## cc.hyperium.mods.crosshair ##
 [CrosshairType](classes/cc.hyperium.mods.crosshair.CrosshairType.md)

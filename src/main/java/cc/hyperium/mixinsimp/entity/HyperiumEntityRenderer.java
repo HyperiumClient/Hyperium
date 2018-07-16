@@ -6,7 +6,7 @@ import cc.hyperium.event.DrawBlockHighlightEvent;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.RenderEvent;
 import cc.hyperium.mixins.entity.IMixinEntityRenderer;
-import cc.hyperium.mods.common.PerspectiveModifierContainer;
+import cc.hyperium.mods.common.PerspectiveModifierHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBed;
 import net.minecraft.block.state.IBlockState;
@@ -36,7 +36,8 @@ public class HyperiumEntityRenderer {
     }
     
     public void orientCamera(float partialTicks, float thirdPersonDistanceTemp, float thirdPersonDistance, boolean cloudFog, Minecraft mc){
-        final Entity entity = mc.getRenderViewEntity();
+        PerspectiveModifierHandler perspectiveHandler = Hyperium.INSTANCE.getHandlers().getPerspectiveHandler();
+        Entity entity = mc.getRenderViewEntity();
         float f = entity.getEyeHeight();
         double d0 = entity.prevPosX + (entity.posX - entity.prevPosX) * partialTicks;
         double d2 = entity.prevPosY + (entity.posY - entity.prevPosY) * partialTicks + f;
@@ -66,9 +67,9 @@ public class HyperiumEntityRenderer {
             } else {
                 float f2 = entity.rotationYaw;
                 float f3 = entity.rotationPitch;
-                if (PerspectiveModifierContainer.enabled) {
-                    f2 = PerspectiveModifierContainer.modifiedYaw;
-                    f3 = PerspectiveModifierContainer.modifiedPitch;
+                if (perspectiveHandler.enabled) {
+                    f2 = perspectiveHandler.modifiedYaw;
+                    f3 = perspectiveHandler.modifiedPitch;
                 }
                 if (mc.gameSettings.thirdPersonView == 2) {
                     f3 += 180.0f;
@@ -94,12 +95,12 @@ public class HyperiumEntityRenderer {
                 if (mc.gameSettings.thirdPersonView == 2) {
                     GlStateManager.rotate(180.0f, 0.0f, 1.0f, 0.0f);
                 }
-                if (PerspectiveModifierContainer.enabled) {
-                    GlStateManager.rotate(PerspectiveModifierContainer.modifiedPitch - f3, 1.0f, 0.0f, 0.0f);
-                    GlStateManager.rotate(PerspectiveModifierContainer.modifiedYaw - f2, 0.0f, 1.0f, 0.0f);
+                if (perspectiveHandler.enabled) {
+                    GlStateManager.rotate(perspectiveHandler.modifiedPitch - f3, 1.0f, 0.0f, 0.0f);
+                    GlStateManager.rotate(perspectiveHandler.modifiedYaw - f2, 0.0f, 1.0f, 0.0f);
                     GlStateManager.translate(0.0f, 0.0f, (float) (-d4));
-                    GlStateManager.rotate(f2 - PerspectiveModifierContainer.modifiedYaw, 0.0f, 1.0f, 0.0f);
-                    GlStateManager.rotate(f3 - PerspectiveModifierContainer.modifiedPitch, 1.0f, 0.0f, 0.0f);
+                    GlStateManager.rotate(f2 - perspectiveHandler.modifiedYaw, 0.0f, 1.0f, 0.0f);
+                    GlStateManager.rotate(f3 - perspectiveHandler.modifiedPitch, 1.0f, 0.0f, 0.0f);
                 } else {
                     GlStateManager.rotate(entity.rotationPitch - f3, 1.0f, 0.0f, 0.0f);
                     GlStateManager.rotate(entity.rotationYaw - f2, 0.0f, 1.0f, 0.0f);
@@ -119,12 +120,10 @@ public class HyperiumEntityRenderer {
                 final EntityAnimal entityanimal = (EntityAnimal) entity;
                 yaw = entityanimal.prevRotationYawHead + (entityanimal.rotationYawHead - entityanimal.prevRotationYawHead) * partialTicks + 180.0f;
             }
-            //Block block = ActiveRenderInfo
-              //  .getBlockAtEntityViewpoint(mc.theWorld, entity, partialTicks);
-            if (PerspectiveModifierContainer.enabled) {
+            if (perspectiveHandler.enabled) {
                 GlStateManager.rotate(roll, 0.0f, 0.0f, 1.0f);
-                GlStateManager.rotate(PerspectiveModifierContainer.modifiedPitch, 1.0f, 0.0f, 0.0f);
-                GlStateManager.rotate(PerspectiveModifierContainer.modifiedYaw + 180.0f, 0.0f, 1.0f, 0.0f);
+                GlStateManager.rotate(perspectiveHandler.modifiedPitch, 1.0f, 0.0f, 0.0f);
+                GlStateManager.rotate(perspectiveHandler.modifiedYaw + 180.0f, 0.0f, 1.0f, 0.0f);
             } else {
                 GlStateManager.rotate(roll, 0.0f, 0.0f, 1.0f);
                 GlStateManager.rotate(pitch, 1.0f, 0.0f, 0.0f);
@@ -152,15 +151,15 @@ public class HyperiumEntityRenderer {
         }
     }
 
-    public void updateCameraAndRender2(){
+    public void updatePerspectiveCamera(){
+        PerspectiveModifierHandler perspectiveHandler = Hyperium.INSTANCE.getHandlers().getPerspectiveHandler();
         boolean flag2 = Display.isActive();
         if (Minecraft.getMinecraft().inGameHasFocus && flag2) {
-            if (PerspectiveModifierContainer.enabled && Minecraft.getMinecraft().gameSettings.thirdPersonView != 1) {
-                PerspectiveModifierContainer.onDisable();
-                PerspectiveModifierContainer.setEnabled(false);
+            if (perspectiveHandler.enabled && Minecraft.getMinecraft().gameSettings.thirdPersonView != 1) {
+                perspectiveHandler.onDisable();
             }
 
-            if (PerspectiveModifierContainer.enabled) {
+            if (perspectiveHandler.enabled) {
                 Minecraft.getMinecraft().mouseHelper.mouseXYChange();
 
                 float f = Minecraft.getMinecraft().gameSettings.mouseSensitivity * 0.6F + 0.2F;
@@ -169,15 +168,15 @@ public class HyperiumEntityRenderer {
                 float f3 = (float) Minecraft.getMinecraft().mouseHelper.deltaY * f1;
 
                 // Modifying pitch and yaw values.
-                PerspectiveModifierContainer.modifiedYaw += f2 / 8.0F;
-                PerspectiveModifierContainer.modifiedPitch += f3 / 8.0F;
+                perspectiveHandler.modifiedYaw += f2 / 8.0F;
+                perspectiveHandler.modifiedPitch += f3 / 8.0F;
 
                 // Checking if pitch exceeds maximum range.
-                if (Math.abs(PerspectiveModifierContainer.modifiedPitch) > 90.0F) {
-                    if (PerspectiveModifierContainer.modifiedPitch > 0.0F) {
-                        PerspectiveModifierContainer.modifiedPitch = 90.0F;
+                if (Math.abs(perspectiveHandler.modifiedPitch) > 90.0F) {
+                    if (perspectiveHandler.modifiedPitch > 0.0F) {
+                        perspectiveHandler.modifiedPitch = 90.0F;
                     } else {
-                        PerspectiveModifierContainer.modifiedPitch = -90.0F;
+                        perspectiveHandler.modifiedPitch = -90.0F;
                     }
                 }
             }
