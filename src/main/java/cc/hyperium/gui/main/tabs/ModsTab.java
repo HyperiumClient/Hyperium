@@ -48,6 +48,7 @@ public class ModsTab extends AbstractTab {
     private final HyperiumOverlay animations = new HyperiumOverlay("Animations");
     private final HyperiumOverlay autoGG = new HyperiumOverlay("AutoGG");
     private final HyperiumOverlay spotify = new HyperiumOverlay("Spotify");
+    private final HyperiumOverlay autoFriend = new HyperiumOverlay("AutoFriend");
 
     private final GlintColorizerSettings glintcolorizer = new GlintColorizerSettings();
 
@@ -81,6 +82,7 @@ public class ModsTab extends AbstractTab {
         items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(animations), Icons.COSMETIC.getResource(), "1.7 Animations", "Adjust the Minecraft Animations", "Click to configure", 0, 3));
         items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(spotify), Icons.SETTINGS.getResource(), "Spotify Settings", "Adjust Spotify integration settings","Click to configure",1,3));
         items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(autoGG), Icons.SETTINGS.getResource(), "AutoGG", "AutoGG \n /autogg", "Click to configure", 2, 3));
+        items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(autoFriend), Icons.SETTINGS.getResource(), "AutoFriend", "AutoFriend automatically accepts friend requests", "Click to configure", 0, 4));
 
 
         int x1 = 0;
@@ -219,6 +221,8 @@ public class ModsTab extends AbstractTab {
                 return animations;
             case SPOTIFY:
                 return spotify;
+            case AUTOFRIEND:
+                return autoFriend;
 
         }
         throw new IllegalArgumentException(settingsCategory + " Cannot be used in mods!");
