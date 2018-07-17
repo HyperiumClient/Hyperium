@@ -91,6 +91,12 @@ public class CommandDebug implements BaseCommand {
 
     public static String get() {
         StringBuilder builder = new StringBuilder();
+        PurchaseApi api = PurchaseApi.getInstance();
+
+        if (api == null) {
+            return "";
+        }
+
         HyperiumPurchase self = PurchaseApi.getInstance().getSelf();
         builder.append("\n");
         builder.append("Purchase callback: ");
