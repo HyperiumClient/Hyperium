@@ -326,7 +326,7 @@ public class Settings {
 
     @ConfigOpt
     @ToggleSetting(name = "Enabled", category = Category.AUTOFRIEND, mods = true)
-    public static boolean AUTOFRIEND_TOGGLE = true;
+    public static boolean AUTOFRIEND_TOGGLE = false;
 
     @ConfigOpt
     @ToggleSetting(name = "Show Friend Messages", category = Category.AUTOFRIEND, mods = true)
