@@ -19,11 +19,12 @@ package cc.hyperium.mods.keystrokes.keys.impl;
 
 import cc.hyperium.mods.keystrokes.KeystrokesMod;
 import cc.hyperium.mods.keystrokes.keys.IKey;
+import java.awt.Color;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.settings.KeyBinding;
 import org.lwjgl.input.Keyboard;
-
-import java.awt.Color;
 
 public class Key extends IKey {
 
@@ -61,6 +62,7 @@ public class Key extends IKey {
         }
 
         Gui.drawRect(x + this.xOffset, y + this.yOffset, x + this.xOffset + 22, y + this.yOffset + 22, new Color(0, 0, 0, 120).getRGB() + (color << 16) + (color << 8) + color);
+        int keyWidth = 22;
 
         int red = textColor >> 16 & 255;
         int green = textColor >> 8 & 255;
@@ -68,10 +70,41 @@ public class Key extends IKey {
 
         int colorN = new Color(0, 0, 0).getRGB() + ((int) ((double) red * textBrightness) << 16) + ((int) ((double) green * textBrightness) << 8) + (int) ((double) blue * textBrightness);
 
-        if (this.mod.getSettings().isChroma()) {
-            drawChromaString(name, x + this.xOffset + 8, y + this.yOffset + 8);
-        } else {
-            this.mc.fontRendererObj.drawString(name, x + this.xOffset + 8, y + this.yOffset + 8, pressed ? pressedColor : colorN);
+        FontRenderer fontRenderer = this.mc.fontRendererObj;
+        int stringWidth = fontRenderer.getStringWidth(name);
+        float scaleFactor = 1.0F;
+
+        // Check if text will overflow outside of the box.
+        if(stringWidth > keyWidth){
+            scaleFactor = (float) keyWidth / stringWidth;
         }
+
+        GlStateManager.pushMatrix();
+
+        float xPos = (x + this.xOffset + 8);
+        float yPos = (y + this.yOffset + 8);
+
+        GlStateManager.scale(scaleFactor,scaleFactor,1.0F);
+
+
+        if(scaleFactor != 1.0F){
+            float scaleFactoRec = 1/scaleFactor;
+
+            // Text has been scaled down to fit the box so draw at start of box.
+            xPos = ((x + this.xOffset) * scaleFactoRec) + 1;
+
+            // Scale Y value.
+            yPos *= scaleFactoRec;
+
+        } else if(name.length() > 1){
+            xPos -= stringWidth/4;
+        }
+
+        if (this.mod.getSettings().isChroma()) {
+            drawChromaString(name, (int) xPos, (int) yPos);
+        } else {
+            this.mc.fontRendererObj.drawString(name, (int) xPos, (int) yPos, pressed ? pressedColor : colorN);
+        }
+        GlStateManager.popMatrix();
     }
 }
