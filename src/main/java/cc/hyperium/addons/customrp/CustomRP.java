@@ -45,6 +45,8 @@ public class CustomRP extends AbstractAddon {
     public Metadata getAddonMetadata() {
         AbstractAddon.Metadata metadata = new AbstractAddon.Metadata(this, "CustomRP", "1.4.0", "SHARDcoder");
         metadata.setDisplayName(ChatColor.DARK_GRAY + "CustomRP");
+        metadata.setOverlayClassPath("cc.hyperium.addons.customrp.gui.Overlay");
+        metadata.setDescription("Customise the Rich Presence of Hyperium");
 
         return metadata;
     }
