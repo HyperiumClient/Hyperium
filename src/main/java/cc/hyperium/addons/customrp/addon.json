@@ -1,7 +1,0 @@
-{
-  "name":"CustomRP addon",
-  "version":"1.4.0",
-  "mainClass":"cc.hyperium.addons.customrp.CustomRP",
-  "desc":"Customise the Rich Presence of Hyperium",
-  "overlay":"cc.hyperium.addons.customrp.gui.Overlay"
-}
