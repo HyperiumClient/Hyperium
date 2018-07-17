@@ -120,7 +120,7 @@ public class SpotifyControls extends AbstractMod {
             BetterJsonObject obj = new BetterJsonObject(FileUtils.readFileToString(configFile, Charset.defaultCharset()));
             this.x = obj.optDouble("x");
             this.y = obj.optDouble("y");
-            this.scale = obj.optDouble("scale");
+            this.scale = obj.optDouble("scale", 1);
         } catch (IOException e) {
             e.printStackTrace();
         }
