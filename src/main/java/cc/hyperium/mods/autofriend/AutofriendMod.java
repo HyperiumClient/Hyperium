@@ -17,20 +17,16 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
-import java.util.regex.Pattern;
 
 public class AutofriendMod extends AbstractMod {
 
     private Minecraft mc = Minecraft.getMinecraft();
-    private boolean hypixel = false;
     public static List<String> blacklist;
     public static List<String> recent;
-    private Pattern friend;
 
     public AutofriendMod() {
         blacklist = new ArrayList<String>();
         recent = new ArrayList<String>();
-        friend = Pattern.compile("§m----------------------------------------------------Friend request from (?<name>.+)\\[ACCEPT\\] - \\[DENY\\] - \\[IGNORE\\].*");
     }
 
     @Override
