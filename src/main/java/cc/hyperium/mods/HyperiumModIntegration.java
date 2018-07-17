@@ -17,6 +17,7 @@
 
 package cc.hyperium.mods;
 
+import cc.hyperium.mods.autofriend.AutofriendMod;
 import cc.hyperium.mods.autogg.AutoGG;
 import cc.hyperium.mods.blockoverlay.BlockOverlay;
 import cc.hyperium.mods.chromahud.ChromaHUD;
@@ -26,7 +27,9 @@ import cc.hyperium.mods.keystrokes.KeystrokesMod;
 import cc.hyperium.mods.killscreenshot.KillScreenshot;
 import cc.hyperium.mods.levelhead.Levelhead;
 import cc.hyperium.mods.motionblur.MotionBlurMod;
+import cc.hyperium.mods.nickhider.NickHider;
 import cc.hyperium.mods.oldanimations.OldAnimations;
+import cc.hyperium.mods.playtime.PlayTime;
 import cc.hyperium.mods.skinchanger.SkinChangerMod;
 import cc.hyperium.mods.spotify.SpotifyControls;
 import cc.hyperium.mods.timechanger.TimeChanger;
