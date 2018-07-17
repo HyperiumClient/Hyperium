@@ -2,6 +2,7 @@ package cc.hyperium.mods.blockoverlay;
 
 import cc.hyperium.event.DrawBlockHighlightEvent;
 import cc.hyperium.event.InvokeEvent;
+import java.awt.Color;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderGlobal;
@@ -12,8 +13,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MovingObjectPosition;
 import org.lwjgl.opengl.GL11;
-
-import java.awt.Color;
 
 public class BlockOverlayRender {
     private BlockOverlay mod;
@@ -33,6 +32,7 @@ public class BlockOverlayRender {
         }
 
         this.drawOverlay(event.getPartialTicks());
+        GL11.glLineWidth(1.0F);
     }
 
     private void drawOverlay(float partialTicks) {
@@ -88,6 +88,7 @@ public class BlockOverlayRender {
             GL11.glColor4f(this.mod.getSettings().getOverlayRed(), this.mod.getSettings().getOverlayGreen(), this.mod.getSettings().getOverlayBlue(), this.mod.getSettings().getOverlayAlpha());
             this.drawFilledBoundingBox(box);
         }
+
         GlStateManager.depthMask(true);
         GlStateManager.enableTexture2D();
         GlStateManager.disableBlend();

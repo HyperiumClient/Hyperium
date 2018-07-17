@@ -57,13 +57,13 @@ import cc.hyperium.handlers.handlers.particle.ParticleAuraHandler;
 import cc.hyperium.handlers.handlers.privatemessages.PrivateMessageHandler;
 import cc.hyperium.handlers.handlers.reach.ReachDisplay;
 import cc.hyperium.handlers.handlers.remoteresources.RemoteResourcesHandler;
+import cc.hyperium.mods.common.PerspectiveModifierHandler;
 import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
+import java.util.ArrayList;
+import java.util.List;
 import net.minecraft.client.Minecraft;
 import net.minecraft.command.ICommandManager;
 import net.minecraft.server.integrated.IntegratedServer;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * A class containing most of Hyperium's internal handlers
@@ -99,6 +99,7 @@ public class HyperiumHandlers {
     private ReachDisplay reachDisplay;
     private FlipHandler flipHandler;
     private LayerDeadmau5HeadHandler layerDeadmau5HeadHandler;
+    private PerspectiveModifierHandler perspectiveHandler;
 
     public HyperiumHandlers() {
         System.out.println("Loading handlers");
@@ -109,6 +110,7 @@ public class HyperiumHandlers {
         register(configOptions = new OtherConfigOptions());
         register(FontRendererData.INSTANCE);
         register(generalChatHandler = new GeneralChatHandler(chatHandlers));
+        register(perspectiveHandler = new PerspectiveModifierHandler());
         register(keybindHandler = new KeyBindHandler());
         register(hypixelDetector = new HypixelDetector());
         register(flipHandler = new FlipHandler());
@@ -287,4 +289,6 @@ public class HyperiumHandlers {
     public ReachDisplay getReachDisplay() {
         return reachDisplay;
     }
+
+    public PerspectiveModifierHandler getPerspectiveHandler(){return perspectiveHandler;}
 }

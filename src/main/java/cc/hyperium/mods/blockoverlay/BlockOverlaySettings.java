@@ -1,7 +1,6 @@
 package cc.hyperium.mods.blockoverlay;
 
 import cc.hyperium.utils.BetterJsonObject;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -15,7 +14,7 @@ public class BlockOverlaySettings {
     private boolean alwaysRender = true;
     private boolean isChroma = false;
 
-    private float lineWidth = 1.5f;
+    private float lineWidth = 1.0f;
     private float overlayRed = 1.0f;
     private float overlayGreen = 1.0f;
     private float overlayBlue = 1.0f;

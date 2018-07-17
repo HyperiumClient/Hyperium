@@ -26,7 +26,6 @@ import cc.hyperium.mods.keystrokes.KeystrokesMod;
 import cc.hyperium.mods.killscreenshot.KillScreenshot;
 import cc.hyperium.mods.levelhead.Levelhead;
 import cc.hyperium.mods.motionblur.MotionBlurMod;
-import cc.hyperium.mods.nickhider.NickHider;
 import cc.hyperium.mods.oldanimations.OldAnimations;
 import cc.hyperium.mods.skinchanger.SkinChangerMod;
 import cc.hyperium.mods.spotify.SpotifyControls;
@@ -57,6 +56,8 @@ public class HyperiumModIntegration {
     private final SpotifyControls spotifyControls;
     private final MotionBlurMod motionBlur;
     private final OldAnimations oldanimations;
+    private final AutofriendMod autofriend;
+    private final PlayTime playTime;
 
     public HyperiumModIntegration() {
         // ChromaHud implementation
@@ -110,6 +111,11 @@ public class HyperiumModIntegration {
         NickHider nickHider = new NickHider();
         nickHider.init();
 
+        //Autofriend implementation
+        this.autofriend = ((AutofriendMod) new AutofriendMod().init());
+
+        //Play Time addon port
+        this.playTime = (PlayTime) new PlayTime().init();
     }
 
     public KeystrokesMod getKeystrokesMod() {
@@ -176,5 +182,11 @@ public class HyperiumModIntegration {
         return oldanimations;
     }
 
+    public AutofriendMod getAutofriend() {
+        return autofriend;
+    }
 
+    public PlayTime getPlayTime() {
+        return playTime;
+    }
 }

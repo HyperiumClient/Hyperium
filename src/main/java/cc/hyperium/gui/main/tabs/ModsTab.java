@@ -11,6 +11,7 @@ import cc.hyperium.gui.Icons;
 import cc.hyperium.gui.main.HyperiumMainGui;
 import cc.hyperium.gui.main.HyperiumOverlay;
 import cc.hyperium.gui.main.components.AbstractTab;
+import cc.hyperium.gui.main.components.OverlayButton;
 import cc.hyperium.gui.main.components.OverlayLabel;
 import cc.hyperium.gui.main.components.OverlaySelector;
 import cc.hyperium.gui.main.components.OverlaySlider;
@@ -47,6 +48,8 @@ public class ModsTab extends AbstractTab {
     private final HyperiumOverlay chromahud = new HyperiumOverlay("ChromaHUD");
     private final HyperiumOverlay animations = new HyperiumOverlay("Animations");
     private final HyperiumOverlay autoGG = new HyperiumOverlay("AutoGG");
+    private final HyperiumOverlay autoFriend = new HyperiumOverlay("AutoFriend");
+    private final HyperiumOverlay spotify = new HyperiumOverlay("Spotify");
 
     private final GlintColorizerSettings glintcolorizer = new GlintColorizerSettings();
 
@@ -78,14 +81,9 @@ public class ModsTab extends AbstractTab {
         }, Icons.SETTINGS.getResource(), "Toggle chat", "Toggle chat settings \n /tc", "Click to configure", 1, 2));
         items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(glintcolorizer), Icons.EXTENSION.getResource(), "GlintColorizer", "GlintColorizer settings", "Click to configure", 2, 2));
         items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(animations), Icons.COSMETIC.getResource(), "1.7 Animations", "Adjust the Minecraft Animations", "Click to configure", 0, 3));
-        items.add(new SettingItem(() -> {
-            if (Spotify.instance != null) {
-                new SpotifyGui().display();
-            } else {
-                Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage("Unable to load spotify!");
-            }
-        }, Icons.SETTINGS.getResource(), "Spotify", "Adjust Spotify Settings", "Click to configure", 1, 3));
+        items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(spotify), Icons.SETTINGS.getResource(), "Spotify Settings", "Adjust Spotify integration settings", "Click to configure", 1, 3));
         items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(autoGG), Icons.SETTINGS.getResource(), "AutoGG", "AutoGG \n /autogg", "Click to configure", 2, 3));
+        items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(autoFriend), Icons.SETTINGS.getResource(), "AutoFriend", "AutoFriend automatically accepts friend requests", "Click to configure", 0, 4));
 
 
         int x1 = 0;
@@ -194,7 +192,13 @@ public class ModsTab extends AbstractTab {
             if (Minecraft.getMinecraft().thePlayer != null)
                 new GeneralConfigGui(((ChromaHUD) Hyperium.INSTANCE.getModIntegration().getChromaHUD())).display();
         }));
-
+        spotify.getComponents().add(new OverlayButton("Move Player", () -> {
+            if (Spotify.instance != null) {
+                new SpotifyGui().display();
+            } else {
+                Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage("Unable to load spotify!");
+            }
+        }));
 
     }
 
@@ -214,6 +218,10 @@ public class ModsTab extends AbstractTab {
                 return autoGG;
             case ANIMATIONS:
                 return animations;
+            case SPOTIFY:
+                return spotify;
+            case AUTOFRIEND:
+                return autoFriend;
 
         }
         throw new IllegalArgumentException(settingsCategory + " Cannot be used in mods!");
