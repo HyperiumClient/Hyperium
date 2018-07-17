@@ -194,7 +194,7 @@ public class ModsTab extends AbstractTab {
         }));
         spotify.getComponents().add(new OverlayButton("Move Player", () -> {
             if (Spotify.instance != null) {
-                new SpotifyGui().display();
+                new SpotifyGui().show();
             } else {
                 Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage("Unable to load spotify!");
             }

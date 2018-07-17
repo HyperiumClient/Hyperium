@@ -23,7 +23,6 @@ import cc.hyperium.event.EventBus;
 import cc.hyperium.event.GuiClickEvent;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.RenderHUDEvent;
-import cc.hyperium.event.TickEvent;
 import cc.hyperium.gui.HyperiumGui;
 import cc.hyperium.integrations.spotify.Spotify;
 import cc.hyperium.integrations.spotify.impl.SpotifyInformation;
@@ -34,11 +33,7 @@ import cc.hyperium.utils.BetterJsonObject;
 import cc.hyperium.utils.ChatColor;
 import com.google.gson.JsonObject;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.GuiChat;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.gui.*;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
@@ -49,7 +44,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.lwjgl.opengl.GL11;
 
 import javax.imageio.ImageIO;
-import java.awt.Color;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -291,10 +286,8 @@ public class SpotifyControls extends AbstractMod {
                 concatNameCount++;
                 concatNameCount2 = concatNameCount + 16;
             }
-            if(concatNameCount2 == concatName.length()) {
+            if(concatNameCount2 == concatName.length())
                 concatNameCount = 0;
-                concatNameCount2 = 0;
-            }
         } else {
             fontRenderer.drawString(name, (float) ((x + 5) / 1.2), (float) ((y + 5) / 1.2), white.getRGB(), false);
         }

@@ -17,19 +17,20 @@
 
 package cc.hyperium.mods.spotify;
 
-import cc.hyperium.event.EventBus;
-import cc.hyperium.event.InvokeEvent;
-import cc.hyperium.event.TickEvent;
 import cc.hyperium.gui.HyperiumGui;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
 
 import java.io.IOException;
 
-public class SpotifyGui extends GuiScreen {
+public class SpotifyGui extends HyperiumGui {
     private int lastMouseX, lastMouseY;
     private boolean dragging = false;
+
+    @Override
+    protected void pack() {
+
+    }
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
@@ -42,8 +43,8 @@ public class SpotifyGui extends GuiScreen {
         if (this.dragging) {
             int diffX = mouseX - lastMouseX, diffY = mouseY - lastMouseY;
             int newX = controls.getX() + diffX, newY = controls.getY() + diffY;
-            newX = (int) HyperiumGui.clamp(newX, 0, sr.getScaledWidth() - 200);
-            newY = (int) HyperiumGui.clamp(newY, 0, sr.getScaledHeight() - 50);
+            newX = (int) clamp(newX, 0, sr.getScaledWidth() - 200);
+            newY = (int) clamp(newY, 0, sr.getScaledHeight() - 50);
 
             controls.setX(newX);
             controls.setY(newY);
@@ -80,15 +81,5 @@ public class SpotifyGui extends GuiScreen {
         super.onGuiClosed();
 
         SpotifyControls.instance.save();
-    }
-
-    public void display() {
-        EventBus.INSTANCE.register(this);
-    }
-
-    @InvokeEvent
-    public void tick(TickEvent event) {
-        EventBus.INSTANCE.unregister(this);
-        Minecraft.getMinecraft().displayGuiScreen(this);
     }
 }

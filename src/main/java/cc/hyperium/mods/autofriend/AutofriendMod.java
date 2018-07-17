@@ -1,12 +1,10 @@
 package cc.hyperium.mods.autofriend;
 
-import cc.hyperium.Hyperium;
 import cc.hyperium.config.Settings;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.HypixelFriendRequestEvent;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.mods.AbstractMod;
-import cc.hyperium.mods.autofriend.config.AutofriendConfig;
 import net.minecraft.client.Minecraft;
 
 import java.io.File;
@@ -31,7 +29,6 @@ public class AutofriendMod extends AbstractMod {
 
     @Override
     public AbstractMod init() {
-        Hyperium.CONFIG.register(new AutofriendConfig());
         EventBus.INSTANCE.register(this);
         try {
             getBlacklist();
@@ -65,12 +62,10 @@ public class AutofriendMod extends AbstractMod {
             if (blacklist.get(0).equals("true") || blacklist.get(0).equals("false")) {
                 Settings.AUTOFRIEND_MESSAGES = Boolean.parseBoolean(blacklist.get(0));
                 blacklist.remove(0);
-            }
-            else {
+            } else {
                 writeBlacklist();
             }
-        }
-        else {
+        } else {
             writeBlacklist();
         }
     }
@@ -84,8 +79,7 @@ public class AutofriendMod extends AbstractMod {
                 writer.write(System.lineSeparator() + str);
             }
             writer.close();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
