@@ -1,5 +1,7 @@
 package cc.hyperium.gui.main.tabs;
 
+import cc.hyperium.addons.AbstractAddon;
+import cc.hyperium.addons.customrp.CustomRP;
 import cc.hyperium.gui.GuiBlock;
 import cc.hyperium.gui.Icons;
 import cc.hyperium.gui.main.HyperiumMainGui;
@@ -42,9 +44,37 @@ public class AddonsTab extends AbstractTab {
             if (xi == 2) {
                 xi = 0;
                 yi++;
-            } else
+            } else {
                 xi++;
+            }
         }
+
+
+        //CustomRP
+        AbstractAddon customRP = new CustomRP();
+        items.add(new SettingItem(() -> {
+            if (customRP.getAddonMetadata().getOverlayClassPath() != null) {
+                try {
+                    Class<?> clazz = Class.forName(customRP.getAddonMetadata().getOverlayClassPath());
+                    HyperiumOverlay overlay = (HyperiumOverlay) clazz.newInstance();
+                    HyperiumMainGui.INSTANCE.setOverlay(overlay);
+                } catch (Exception e) {
+                    HyperiumMainGui.Alert alert = new HyperiumMainGui.Alert(Icons.ERROR.getResource(), () -> {
+                    }, "Failed to load addon's config overlay");
+                    HyperiumMainGui.INSTANCE.getAlerts().add(alert);
+                    e.printStackTrace(); // in case the check went wrong
+                }
+            }
+        }, Icons.EXTENSION.getResource(), customRP.getAddonMetadata().getName(), customRP.getAddonMetadata().getDescription(), "Configure addon", xi, yi));
+        if (xi == 2) {
+            xi = 0;
+            yi++;
+        } else {
+            xi++;
+        }
+
+
+        //Download addons button
         items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setTab(HyperiumMainGui.INSTANCE.getTabs().get(6)), Icons.DOWNLOAD.getResource(), "Addons", "Download addons", "Click to open menu to download addons", xi, yi));
     }
 
