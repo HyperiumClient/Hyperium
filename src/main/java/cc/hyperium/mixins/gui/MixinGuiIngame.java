@@ -17,17 +17,13 @@
 
 package cc.hyperium.mixins.gui;
 
-import cc.hyperium.addons.customcrosshair.crosshair.Crosshair;
 import cc.hyperium.mixinsimp.gui.HyperiumGuiIngame;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiIngame;
 import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.scoreboard.ScoreObjective;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.MovingObjectPosition;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
@@ -35,6 +31,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(GuiIngame.class)
 public abstract class MixinGuiIngame extends Gui {
@@ -72,40 +69,12 @@ public abstract class MixinGuiIngame extends Gui {
     private void renderBossHealth() {
         hyperiumGuiIngame.renderBossHealth();
     }
-    
-    @Overwrite
-    protected boolean showCrosshair() {
-        if (!Crosshair.showVanillaCrosshair) {
-            return false;
-        }
-        if (this.mc.gameSettings.showDebugInfo && !this.mc.thePlayer.hasReducedDebug() && !this.mc.gameSettings.reducedDebugInfo)
-        {
-            return false;
-        }
-        else if (this.mc.playerController.isSpectator())
-        {
-            if (this.mc.pointedEntity != null)
-            {
-                return true;
-            }
-            else
-            {
-                if (this.mc.objectMouseOver != null && this.mc.objectMouseOver.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK)
-                {
-                    BlockPos blockpos = this.mc.objectMouseOver.getBlockPos();
 
-                    if (this.mc.theWorld.getTileEntity(blockpos) instanceof IInventory)
-                    {
-                        return true;
-                    }
-                }
-
-                return false;
-            }
-        }
-        else
-        {
-            return true;
-        }
+    /**
+     * Disables the normal crosshair if custom crosshair is active.
+     */
+    @Inject(method = "showCrosshair",at=@At("HEAD"),cancellable = true)
+    protected void showCrosshair(CallbackInfoReturnable<Boolean> ci) {
+        hyperiumGuiIngame.showCrosshair(ci);
     }
 }
