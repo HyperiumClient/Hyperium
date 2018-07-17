@@ -7,6 +7,7 @@ import cc.hyperium.handlers.handlers.FontRendererData;
 import cc.hyperium.mixinsimp.renderer.CachedString;
 import cc.hyperium.mixinsimp.renderer.FontFixValues;
 import cc.hyperium.mixinsimp.renderer.StringHash;
+import cc.hyperium.mods.nickhider.NickHider;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.GLAllocation;
 import net.minecraft.client.renderer.GlStateManager;
@@ -20,6 +21,9 @@ import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
 import java.util.Locale;
 import java.util.Map;
@@ -289,6 +293,21 @@ public abstract class MixinFontRenderer {
                 this.posX += (float) ((int) f);
             }
         }
+    }
+    @ModifyArg(method = "renderString", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/FontRenderer;renderStringAtPos(Ljava/lang/String;Z)V"))
+    public String mod(String in) {
+        if (NickHider.INSTANCE == null) { // When mod hasn't initialized yet.
+            return in;
+        }
+        return NickHider.INSTANCE.apply(in);
+    }
+
+    @ModifyVariable(method = "getStringWidth", at =@At(value = "HEAD"))
+    public String modWidth(String in) {
+        if (NickHider.INSTANCE == null) { // When mod hasn't initialized yet.
+            return in;
+        }
+        return NickHider.INSTANCE.apply(in);
     }
 
     /**

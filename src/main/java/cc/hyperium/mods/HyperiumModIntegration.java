@@ -26,6 +26,7 @@ import cc.hyperium.mods.keystrokes.KeystrokesMod;
 import cc.hyperium.mods.killscreenshot.KillScreenshot;
 import cc.hyperium.mods.levelhead.Levelhead;
 import cc.hyperium.mods.motionblur.MotionBlurMod;
+import cc.hyperium.mods.nickhider.NickHider;
 import cc.hyperium.mods.oldanimations.OldAnimations;
 import cc.hyperium.mods.skinchanger.SkinChangerMod;
 import cc.hyperium.mods.spotify.SpotifyControls;
@@ -106,7 +107,8 @@ public class HyperiumModIntegration {
 
         // Glint Colorizer implementation
         this.glintcolorizer = ((GlintColorizer) new GlintColorizer().init());
-
+        NickHider nickHider = new NickHider();
+        nickHider.init();
 
     }
 
