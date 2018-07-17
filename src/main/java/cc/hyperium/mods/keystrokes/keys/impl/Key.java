@@ -88,15 +88,16 @@ public class Key extends IKey {
 
 
         if(scaleFactor != 1.0F){
-            float scaleFactoRec = 1/scaleFactor;
+            float scaleFactorRec = 1/scaleFactor;
 
             // Text has been scaled down to fit the box so draw at start of box.
-            xPos = ((x + this.xOffset) * scaleFactoRec) + 1;
+            xPos = ((x + this.xOffset) * scaleFactorRec) + 1;
 
             // Scale Y value.
-            yPos *= scaleFactoRec;
+            yPos *= scaleFactorRec;
 
         } else if(name.length() > 1){
+            // Centres text if it fits in the box but is longer than one character.
             xPos -= stringWidth/4;
         }
 
