@@ -146,6 +146,7 @@ public class NickHider {
         String name1 = Minecraft.getMinecraft().getSession().getProfile().getName();
         usedNicks.remove(name1);
         remap(name1, name);
+        cache.clear();
     }
 
     public List<Nick> getNicks() {
