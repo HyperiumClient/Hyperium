@@ -219,11 +219,8 @@ public class NickHider {
             for (Nick nick : nicks) {
                 base = nick.pattern.matcher(base).replaceAll(nick.newName);
             }
-
             return base;
         });
-
-
     }
 
     public boolean isEnabled() {
