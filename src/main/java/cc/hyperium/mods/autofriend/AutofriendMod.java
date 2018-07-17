@@ -73,6 +73,19 @@ public class AutofriendMod extends AbstractMod {
     public static void writeBlacklist() {
         try {
             final File blacklistFile = new File("config/autofriend.cfg");
+
+            if (!blacklistFile.getParentFile().exists()) {
+                if (!blacklistFile.getParentFile().mkdirs()) {
+                    return;
+                }
+            }
+
+            if (!blacklistFile.exists()) {
+                if (!blacklistFile.createNewFile()) {
+                    return;
+                }
+            }
+
             final FileWriter writer = new FileWriter(blacklistFile);
             writer.write(Boolean.toString(Settings.AUTOFRIEND_MESSAGES));
             for (final String str : blacklist) {
