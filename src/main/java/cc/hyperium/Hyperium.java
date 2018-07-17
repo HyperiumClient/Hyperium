@@ -245,6 +245,7 @@ public class Hyperium {
         SplashProgress.CURRENT = "Loading integrations";
         SplashProgress.update();
         modIntegration = new HyperiumModIntegration();
+        internalAddons = new InternalAddons();
         try {
             StaffUtils.clearCache();
         } catch (IOException e) {
@@ -270,7 +271,6 @@ public class Hyperium {
             });
             sk1erMod.checkStatus();
         }
-        internalAddons = new InternalAddons();
 
         SplashProgress.PROGRESS = 12;
         SplashProgress.CURRENT = "Reloading resource manager";
