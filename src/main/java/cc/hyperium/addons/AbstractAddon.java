@@ -33,7 +33,10 @@ public abstract class AbstractAddon {
         private final String name;
         private final String version;
 
+        private String description;
         private String displayName;
+
+        private String overlayClassPath;
 
         public Metadata(AbstractAddon addon, String name) {
             this(addon, name, "1.0");
@@ -76,8 +79,24 @@ public abstract class AbstractAddon {
             return this.displayName != null ? this.displayName : getName();
         }
 
+        public String getDescription() {
+            return this.description != null ? this.description : "";
+        }
+
+        public String getOverlayClassPath() {
+            return this.overlayClassPath;
+        }
+
         public void setDisplayName(String name) {
             this.displayName = name;
+        }
+
+        public void setDescription(String description) {
+            this.description = description;
+        }
+
+        public void setOverlayClassPath(String classPath) {
+            this.overlayClassPath = classPath;
         }
     }
 }
