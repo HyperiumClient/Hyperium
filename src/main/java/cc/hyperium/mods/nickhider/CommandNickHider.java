@@ -83,5 +83,6 @@ public class CommandNickHider implements BaseCommand {
 
         } else
             sendMessage("/nickhider <toggle,skin,self,pseudo>");
+        NickHider.INSTANCE.reset();
     }
 }

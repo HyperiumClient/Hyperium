@@ -198,12 +198,13 @@ public class NickHider {
         key = key.toLowerCase();
         if (usedNicks.contains(key))
             return;
-        usedNicks.add(key);
-        if (key.isEmpty() || key.contains(" "))
+        if(key.isEmpty() || key.contains(" "))
             return;
+        usedNicks.add(key);
         remaps.put(key, newKey);
         Nick nick = new Nick(Pattern.compile(key.toLowerCase(), Pattern.CASE_INSENSITIVE), key, newKey);
         nicks.add(nick);
+       cache.clear();
     }
 
     public String apply(String input) {
@@ -212,9 +213,9 @@ public class NickHider {
         if (!config.isEnabled())
             return input;
         if (cache.size() > 5000)
-            cache.clear();
+           cache.clear();
         return cache.computeIfAbsent(input, s -> {
-            String base = new String(input);
+            String base = input;
             for (Nick nick : nicks) {
                 base = nick.pattern.matcher(base).replaceAll(nick.newName);
             }
