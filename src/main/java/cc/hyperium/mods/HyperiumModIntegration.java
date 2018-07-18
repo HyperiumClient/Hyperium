@@ -21,6 +21,7 @@ import cc.hyperium.mods.autofriend.AutofriendMod;
 import cc.hyperium.mods.autogg.AutoGG;
 import cc.hyperium.mods.blockoverlay.BlockOverlay;
 import cc.hyperium.mods.chromahud.ChromaHUD;
+import cc.hyperium.mods.fortnitecompass.FortniteCompassMod;
 import cc.hyperium.mods.glintcolorizer.GlintColorizer;
 import cc.hyperium.mods.hgames.HGames;
 import cc.hyperium.mods.keystrokes.KeystrokesMod;
@@ -60,6 +61,7 @@ public class HyperiumModIntegration {
     private final OldAnimations oldanimations;
     private final AutofriendMod autofriend;
     private final PlayTime playTime;
+    private final FortniteCompassMod fncompass;
 
     public HyperiumModIntegration() {
         // ChromaHud implementation
@@ -116,6 +118,9 @@ public class HyperiumModIntegration {
 
         //Play Time addon port
         this.playTime = (PlayTime) new PlayTime().init();
+
+        this.fncompass = (FortniteCompassMod) new FortniteCompassMod().init();
+
     }
 
     public KeystrokesMod getKeystrokesMod() {
@@ -188,5 +193,9 @@ public class HyperiumModIntegration {
 
     public PlayTime getPlayTime() {
         return playTime;
+    }
+
+    public FortniteCompassMod getFncompass() {
+        return fncompass;
     }
 }

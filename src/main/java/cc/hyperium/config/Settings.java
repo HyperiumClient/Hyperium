@@ -332,6 +332,30 @@ public class Settings {
     @ToggleSetting(name = "Show Friend Messages", category = Category.AUTOFRIEND, mods = true)
     public static boolean AUTOFRIEND_MESSAGES = true;
 
+    @ConfigOpt
+    @ToggleSetting(name = "Enabled", category = Category.FNCOMPASS, mods = true)
+    public static boolean FNCOMPASS_ENABLED = true;
+
+    @ConfigOpt
+    @ToggleSetting(name = "Show Background", category = Category.FNCOMPASS, mods = true)
+    public static boolean FNCOMPASS_BACKGROUND = true;
+
+    @ConfigOpt
+    @ToggleSetting(name = "Chroma", category = Category.FNCOMPASS, mods = true)
+    public static boolean FNCOMPASS_CHROMA = false;
+
+    @ConfigOpt
+    @ToggleSetting(name = "Shadow", category = Category.FNCOMPASS, mods = true)
+    public static boolean FNCOMPASS_SHADOW = true;
+
+    @ConfigOpt
+    @SelectorSetting(category = Category.FNCOMPASS, name = "Details", items = {
+            "0",
+            "1",
+            "2"
+    })
+    public static int FNCOMPASS_DETAILS = 2;
+
     private Settings() {
 
     }
