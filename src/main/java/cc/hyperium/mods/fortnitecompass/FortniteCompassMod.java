@@ -29,7 +29,7 @@ public class FortniteCompassMod extends AbstractMod {
     public static int width = 184;
     public static int height = 20;
 
-    private Minecraft mc;
+    private Minecraft mc = Minecraft.getMinecraft();
     private FontRenderer fr;
 
     @Override

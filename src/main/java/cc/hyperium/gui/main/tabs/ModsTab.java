@@ -52,6 +52,8 @@ public class ModsTab extends AbstractTab {
     private final HyperiumOverlay autoFriend = new HyperiumOverlay("AutoFriend");
     private final HyperiumOverlay spotify = new HyperiumOverlay("Spotify");
     private final HyperiumOverlay utils = new HyperiumOverlay("Utilities");
+    private final HyperiumOverlay fncompass = new HyperiumOverlay("Fornite Compass");
+
 
     private final GlintColorizerSettings glintcolorizer = new GlintColorizerSettings();
 
@@ -88,6 +90,8 @@ public class ModsTab extends AbstractTab {
         items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(autoFriend), Icons.SETTINGS.getResource(), "AutoFriend", "AutoFriend automatically accepts friend requests", "Click to configure", 0, 4));
         items.add(new SettingItem(() -> Minecraft.getMinecraft().displayGuiScreen(new GuiEditCrosshair()),Icons.SETTINGS.getResource(),"Custom Crosshair","Custom Crosshair Settings","Click to configure",1,4));
         items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(utils), Icons.SETTINGS.getResource(), "Utilities", "Togglesprint","", 2, 3));
+        items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(fncompass), Icons.SETTINGS.getResource(), "Fortnite Compass", "Fortnite Compass displays the compass from Fortnite in Minecraft!","", 2, 3));
+
 
 
         int x1 = 0;
@@ -231,6 +235,8 @@ public class ModsTab extends AbstractTab {
                 return autoFriend;
             case UTILITIES:
                 return utils;
+            case FNCOMPASS:
+                return fncompass;
 
         }
         throw new IllegalArgumentException(settingsCategory + " Cannot be used in mods!");
