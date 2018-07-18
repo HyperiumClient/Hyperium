@@ -7,6 +7,7 @@ import cc.hyperium.event.RenderEvent;
 import cc.hyperium.internal.addons.annotations.Instance;
 import cc.hyperium.mixins.gui.MixinGuiScreenBook;
 import cc.hyperium.mods.sk1ercommon.Sk1erMod;
+import com.google.common.collect.ObjectArrays;
 import com.google.gson.Gson;
 import com.mojang.authlib.GameProfile;
 import net.minecraft.client.Minecraft;
@@ -38,7 +39,7 @@ public class NickHider {
     public static NickHider INSTANCE;
     private final Pattern newNick = Pattern.compile("We've generated a random username for you: \\s*(?<nick>\\S+)");
     private final List<Nick> nicks = new ArrayList<>();
-    private File suggestedConfigurationFile = new File(Hyperium.folder,"nick_data.json");
+    private File suggestedConfigurationFile = new File(Hyperium.folder, "nick_data.json");
     private HashMap<String, String> cache = new HashMap<>();
     private HashMap<String, String> remaps = new HashMap<>();
     private Set<String> usedNicks = new HashSet<>();
@@ -46,6 +47,7 @@ public class NickHider {
     private NickHiderConfig config;
     private boolean forceDown = false;
     private boolean extendedUse = false;
+    private String override = null;
 
     public NickHider() {
         INSTANCE = this;
@@ -131,7 +133,7 @@ public class NickHider {
                     Matcher matcher = newNick.matcher(textWithoutFormattingCodes);
                     if (matcher.find()) {
                         String nick = matcher.group("nick");
-                        remap(nick, Minecraft.getMinecraft().getSession().getProfile().getName());
+                        remap(nick, override == null ? Minecraft.getMinecraft().getSession().getProfile().getName() : override);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -143,10 +145,34 @@ public class NickHider {
     }
 
     public void setOwnName(String name) {
+        override = name;
         String name1 = Minecraft.getMinecraft().getSession().getProfile().getName();
         usedNicks.remove(name1.toLowerCase());
+        nicks.removeIf(nick -> nick.oldName.equalsIgnoreCase(name1));
         remap(name1, name);
-        cache.clear();
+    }
+
+    public String out(String chat) {
+        for (Nick nick : nicks) {
+            chat = Pattern.compile(nick.newName, Pattern.CASE_INSENSITIVE).matcher(chat).replaceAll(nick.oldName);
+        }
+        return chat;
+    }
+
+    public String[] tabComplete(String[] in, String soFar) {
+        String[] split = soFar.split(" ");
+        String tmp = (String) split[split.length - 1];
+        List<String> tmp1 = new ArrayList<>();
+        for (Nick nick : nicks) {
+            if (nick.newName.toLowerCase().startsWith(tmp.toLowerCase()))
+                tmp1.add(nick.newName);
+
+        }
+        String[] re = new String[tmp1.size()];
+        for (int i = 0; i < tmp1.size(); i++) {
+            re[i] = tmp1.get(i);
+        }
+        return ObjectArrays.concat(in, re, String.class);
     }
 
     public List<Nick> getNicks() {
@@ -170,7 +196,7 @@ public class NickHider {
             GameProfile gameProfile = networkPlayerInfo.getGameProfile();
             if (gameProfile.getId() != null && gameProfile.getId().equals(Minecraft.getMinecraft().getSession().getProfile().getId())) {
                 if (!gameProfile.getName().equalsIgnoreCase(Minecraft.getMinecraft().getSession().getProfile().getName())) {
-                    remap(gameProfile.getName(), Minecraft.getMinecraft().getSession().getProfile().getName());
+                    remap(gameProfile.getName(), override == null ? Minecraft.getMinecraft().getSession().getProfile().getName() : override);
                 }
             } else if (!config.isSelfOnly()) {
                 remap(gameProfile.getName(), getPseudo(gameProfile.getName()));
@@ -198,13 +224,13 @@ public class NickHider {
         key = key.toLowerCase();
         if (usedNicks.contains(key))
             return;
-        if(key.isEmpty() || key.contains(" "))
+        if (key.isEmpty() || key.contains(" "))
             return;
         usedNicks.add(key);
         remaps.put(key, newKey);
         Nick nick = new Nick(Pattern.compile(key.toLowerCase(), Pattern.CASE_INSENSITIVE), key, newKey);
         nicks.add(nick);
-       cache.clear();
+        cache.clear();
     }
 
     public String apply(String input) {
@@ -213,7 +239,7 @@ public class NickHider {
         if (!config.isEnabled())
             return input;
         if (cache.size() > 5000)
-           cache.clear();
+            cache.clear();
         return cache.computeIfAbsent(input, s -> {
             String base = input;
             for (Nick nick : nicks) {

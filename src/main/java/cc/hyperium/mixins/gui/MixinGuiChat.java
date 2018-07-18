@@ -18,6 +18,7 @@
 package cc.hyperium.mixins.gui;
 
 import cc.hyperium.mixinsimp.gui.HyperiumGuiChat;
+import cc.hyperium.mods.nickhider.NickHider;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.util.EnumChatFormatting;
@@ -26,6 +27,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(GuiChat.class)
@@ -70,5 +72,13 @@ public class MixinGuiChat {
     @ModifyArg(method = {"autocompletePlayerNames", "onAutocompleteResponse"}, at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiTextField;writeText(Ljava/lang/String;)V"))
     private String removeChatFormattingOfCompletion(String completion) {
         return EnumChatFormatting.getTextWithoutFormattingCodes(completion);
+    }
+
+    @ModifyVariable(method = "onAutocompleteResponse",at=@At("HEAD"))
+    public String[] remap(String[] in) {
+        if (NickHider.INSTANCE == null) {
+            return in;
+        }
+        return NickHider.INSTANCE.tabComplete(in,this.inputField.getText());
     }
 }
