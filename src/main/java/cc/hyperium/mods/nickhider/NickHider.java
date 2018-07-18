@@ -144,7 +144,7 @@ public class NickHider {
 
     public void setOwnName(String name) {
         String name1 = Minecraft.getMinecraft().getSession().getProfile().getName();
-        usedNicks.remove(name1);
+        usedNicks.remove(name1.toLowerCase());
         remap(name1, name);
         cache.clear();
     }
