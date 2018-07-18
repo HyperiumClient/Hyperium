@@ -21,5 +21,6 @@ public enum Category {
     CHROMAHUD,
     KEYSTROKES,
     MOTION_BLUR,
-    AUTOFRIEND
+    AUTOFRIEND,
+    FNCOMPASS
 }
