@@ -20,10 +20,8 @@ package cc.hyperium.mods.spotify;
 import cc.hyperium.Hyperium;
 import cc.hyperium.config.Settings;
 import cc.hyperium.event.EventBus;
-import cc.hyperium.event.GuiClickEvent;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.RenderHUDEvent;
-import cc.hyperium.event.TickEvent;
 import cc.hyperium.gui.HyperiumGui;
 import cc.hyperium.integrations.spotify.Spotify;
 import cc.hyperium.integrations.spotify.impl.SpotifyInformation;
@@ -32,10 +30,11 @@ import cc.hyperium.mods.AbstractMod;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.utils.BetterJsonObject;
 import cc.hyperium.utils.ChatColor;
+
 import com.google.gson.JsonObject;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
@@ -44,9 +43,9 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.lwjgl.opengl.GL11;
 
 import javax.imageio.ImageIO;
 import java.awt.Color;
@@ -63,7 +62,13 @@ import java.nio.charset.Charset;
  * @author FalseHonesty
  */
 public class SpotifyControls extends AbstractMod {
+
     public static SpotifyControls instance;
+
+    private double x = 0;
+    private double y = 0;
+    private double scale = 1;
+
     private final int width = 150;
     private final int height = 50;
     private final Color bg = new Color(30, 30, 30, 255);
@@ -72,11 +77,12 @@ public class SpotifyControls extends AbstractMod {
     private final Color white = Color.WHITE;
     private final Metadata metadata;
     private final File configFile;
-    private int x = 0;
-    private int y = 0;
+
     private long current = 0;
     private long cachedTime = 0;
     private long systemTime = 0;
+    public int concatNameCount = 0;
+
     private DynamicTexture pause, play, art;
     private String currentURI = "";
     private BufferedImage imageToGenerate;
@@ -112,8 +118,9 @@ public class SpotifyControls extends AbstractMod {
 
         try {
             BetterJsonObject obj = new BetterJsonObject(FileUtils.readFileToString(configFile, Charset.defaultCharset()));
-            this.x = obj.get("x").getAsInt();
-            this.y = obj.get("y").getAsInt();
+            this.x = obj.optDouble("x");
+            this.y = obj.optDouble("y");
+            this.scale = obj.optDouble("scale", 1);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -124,29 +131,6 @@ public class SpotifyControls extends AbstractMod {
         EventBus.INSTANCE.register(this);
         Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(new SpotifyCommand());
         return this;
-    }
-
-    public int getX() {
-        return x;
-    }
-
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
-    }
-
-    public void save() {
-        BetterJsonObject obj = new BetterJsonObject();
-        obj.addProperty("x", this.x);
-        obj.addProperty("y", this.y);
-        obj.writeToFile(configFile);
     }
 
     @InvokeEvent
@@ -172,31 +156,15 @@ public class SpotifyControls extends AbstractMod {
         }
     }
 
-    @InvokeEvent
-    private void onClick(GuiClickEvent event) {
-        if (!Settings.SPOTIFY_CONTROLS || Spotify.instance == null || !(event.getGui() instanceof GuiChat)) {
-            return;
-        }
-
-        int mx = event.getMouseX(), my = event.getMouseY();
-
-        // If the click is inside of our controls panel...
-        if (mx > x && mx < x + width + 50 && my > y && my < y + height) {
-            event.setCancelled(true);
-
-            int playX = x + 175, playY = y + 5;
-            if (mx > playX && mx < playX + 20 && my > playY && my < playY + 20) {
-                Spotify.instance.pause(Spotify.instance.getCachedStatus().isPlaying());
-            }
-        }
-
-        play.updateDynamicTexture();
-    }
-    public int concatNameCount = 0;
     public void renderControls() {
         if (Spotify.instance == null) {
             return;
         }
+
+        Double realScale = this.scale;
+
+        GlStateManager.pushMatrix();
+        GlStateManager.scale(realScale, realScale, 1);
 
         SpotifyInformation info = Spotify.instance.getCachedStatus();
         FontRenderer fontRenderer = Minecraft.getMinecraft().fontRendererObj;
@@ -250,12 +218,13 @@ public class SpotifyControls extends AbstractMod {
         name = fontRenderer.trimStringToWidth(name, (int) ((width - 30) * 0.8));
         artist = fontRenderer.trimStringToWidth(artist, width - 30);
 
-        int x = this.x, y = this.y;
+        double x = (this.x / realScale);
+        double y = (this.y / realScale);
 
         ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
 
-        this.x = (int) HyperiumGui.clamp(x, 0, sr.getScaledWidth() - 200);
-        this.y = (int) HyperiumGui.clamp(y, 0, sr.getScaledHeight() - 50);
+        this.x = (int) HyperiumGui.clamp((float) (x * realScale), 0, (float) (sr.getScaledWidth() - getWidthWithScale()) + 1);
+        this.y = (int) HyperiumGui.clamp((float) (y * realScale), 0, (float) (sr.getScaledHeight() - getHeightWithScale()) + 1);
 
         if (imageToGenerate != null) {
             this.art = new DynamicTexture(imageToGenerate);
@@ -263,25 +232,18 @@ public class SpotifyControls extends AbstractMod {
         }
 
         if (art != null) {
-            drawImage(
-                    art,
-                    x,
-                    y,
-                    50
+            drawImage(art, x, y, 50
             );
         } else {
-            Gui.drawRect(
-                    x, y, x + 50, y + 50, progress.getRGB()
-            );
+            drawRectDouble(x, y, x + 50, y + 50, progress.getRGB());
         }
 
         x += 50;
 
-        Gui.drawRect(x, y, x + width, y + height, bg.getRGB());
+        drawRectDouble(x, y, x + width, y + height, bg.getRGB());
 
-        GL11.glPushMatrix();
-        GL11.glScalef(1.2f, 1.2f, 1);
-
+        GlStateManager.pushMatrix();
+        GlStateManager.scale(1.2f, 1.2f, 1);
         if(name.length() > 16) {
             int concatNameCount2 = concatNameCount + 16;
             String name2 = track.getTrackResource().getName();
@@ -291,31 +253,29 @@ public class SpotifyControls extends AbstractMod {
                 concatNameCount++;
                 concatNameCount2 = concatNameCount + 16;
             }
-            if(concatNameCount2 == concatName.length()) {
+            if(concatNameCount2 == concatName.length())
                 concatNameCount = 0;
-                concatNameCount2 = 0;
-            }
         } else {
             fontRenderer.drawString(name, (float) ((x + 5) / 1.2), (float) ((y + 5) / 1.2), white.getRGB(), false);
         }
+        fontRenderer.drawString(name, (float) ((x + 5) / 1.2), (float) ((y + 5) / 1.2), white.getRGB(), false);
+        GlStateManager.popMatrix();
 
-        GL11.glPopMatrix();
-
-        fontRenderer.drawString(artist, x + 5, y + 18, white.getRGB());
+        fontRenderer.drawString(artist, (float) (x + 5), (float) (y + 18), white.getRGB(), false);
 
         String currTimestamp = current / 60 + ":" + StringUtils.leftPad(String.valueOf(current % 60), 2, "0");
         int currTimestampWidth = fontRenderer.getStringWidth(currTimestamp);
-        fontRenderer.drawString(currTimestamp, x + 5, y + 35, white.getRGB());
+        fontRenderer.drawString(currTimestamp, (float) (x + 5), (float) (y + 35), white.getRGB(), false);
 
         float percentComplete = (float) current / (float) length;
-        int barX = x + currTimestampWidth + 10;
-        int barY = y + 35;
+        double barX = x + currTimestampWidth + 10;
+        double barY = y + 35;
 
-        Gui.drawRect(barX, barY, barX + 80, barY + 8, progress.getRGB());
-        Gui.drawRect(barX, barY, (int) (barX + (80 * percentComplete)), barY + 8, highlight.getRGB());
+        drawRectDouble(barX, barY, barX + 80, barY + 8, progress.getRGB());
+        drawRectDouble(barX, barY, (int) (barX + (80 * percentComplete)), barY + 8, highlight.getRGB());
 
         String endTimestamp = length / 60 + ":" + StringUtils.leftPad(String.valueOf(length % 60), 2, "0");
-        fontRenderer.drawString(endTimestamp, barX + 80 + 5, barY, white.getRGB());
+        fontRenderer.drawString(endTimestamp, (float) (barX + 80 + 5), (float) (barY), white.getRGB(), false);
 
         if (pause != null && play != null) {
             drawImage(
@@ -325,9 +285,36 @@ public class SpotifyControls extends AbstractMod {
                     20
             );
         }
+
+        GlStateManager.popMatrix();
     }
 
-    private void drawImage(DynamicTexture texture, int x, int y, int imgSize) {
+    /* It was broken so I've temporarily disabled it
+    @InvokeEvent
+    private void onClick(GuiClickEvent event) {
+        if (!Settings.SPOTIFY_CONTROLS || Spotify.instance == null || !(event.getGui() instanceof GuiChat)) {
+            return;
+        }
+
+        double mx = event.getMouseX();
+        double my = event.getMouseY();
+
+        // If the click is inside of our controls panel...
+        if (mx > x && mx < x + width + 50 && my > y && my < y + height) {
+            event.setCancelled(true);
+
+            double playX = x + 175;
+            double playY = y + 5;
+
+            if (mx > playX && mx < playX + 20 && my > playY && my < playY + 20) {
+                Spotify.instance.pause(Spotify.instance.getCachedStatus().isPlaying());
+            }
+        }
+
+        play.updateDynamicTexture();
+    }*/
+
+    private void drawImage(DynamicTexture texture, double x, double y, int imgSize) {
         float imgScale = (float) imgSize / (float) 256;
 
         GlStateManager.pushMatrix();
@@ -357,6 +344,39 @@ public class SpotifyControls extends AbstractMod {
         GlStateManager.popMatrix();
     }
 
+    public void drawRectDouble(double left, double top, double right, double bottom, int color) {
+        if (left < right) {
+            double i = left;
+            left = right;
+            right = i;
+        }
+
+        if (top < bottom) {
+            double j = top;
+            top = bottom;
+            bottom = j;
+        }
+
+        float f3 = (float)(color >> 24 & 255) / 255.0F;
+        float f = (float)(color >> 16 & 255) / 255.0F;
+        float f1 = (float)(color >> 8 & 255) / 255.0F;
+        float f2 = (float)(color & 255) / 255.0F;
+        Tessellator tessellator = Tessellator.getInstance();
+        WorldRenderer worldrenderer = tessellator.getWorldRenderer();
+        GlStateManager.enableBlend();
+        GlStateManager.disableTexture2D();
+        GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
+        GlStateManager.color(f, f1, f2, f3);
+        worldrenderer.begin(7, DefaultVertexFormats.POSITION);
+        worldrenderer.pos(left, bottom, 0.0D).endVertex();
+        worldrenderer.pos(right, bottom, 0.0D).endVertex();
+        worldrenderer.pos(right, top, 0.0D).endVertex();
+        worldrenderer.pos(left, top, 0.0D).endVertex();
+        tessellator.draw();
+        GlStateManager.enableTexture2D();
+        GlStateManager.disableBlend();
+    }
+
     @Override
     public Metadata getModMetadata() {
         return this.metadata;
@@ -366,5 +386,70 @@ public class SpotifyControls extends AbstractMod {
     protected void finalize() {
         save();
     }
-}
 
+    public void setScale(double scale) {
+        if (scale < 0.5) {
+            scale = 0.5;
+        } else if (scale > 1.5) {
+            scale = 1.5;
+        }
+
+        this.scale = scale;
+    }
+
+    public double getScale() {
+        return this.scale;
+    }
+
+    public double getX() {
+        return x;
+    }
+
+    public void setX(double x) {
+        this.x = x;
+    }
+
+    public double getY() {
+        return y;
+    }
+
+    public void setY(double y) {
+        this.y = y;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    /**
+     * Multiplies the width by the scale
+     *
+     * 1.335 is a magic value that makes the scale more accurate
+     *
+     * @return the visible width of the controls
+     */
+    public double getWidthWithScale() {
+        return (width * scale) * 1.335;
+    }
+
+    /**
+     * Multiplies the height by the scale
+     *
+     * @return the visible height of the controls
+     */
+    public double getHeightWithScale() {
+        return height * scale;
+    }
+
+    public void save() {
+        BetterJsonObject obj = new BetterJsonObject();
+        obj.addProperty("x", this.x);
+        obj.addProperty("y", this.y);
+        obj.addProperty("scale", this.scale);
+        obj.writeToFile(configFile);
+    }
+}

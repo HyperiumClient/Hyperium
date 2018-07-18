@@ -52,6 +52,6 @@ public class SpotifyCommand implements BaseCommand {
             return;
         }
 
-        new SpotifyGui().display();
+        new SpotifyGui().show();
     }
 }

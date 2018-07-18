@@ -18,9 +18,12 @@
 package cc.hyperium.mixins.entity;
 
 import cc.hyperium.mixinsimp.entity.HyperiumAbstractClientPlayer;
+import cc.hyperium.mods.nickhider.NickHider;
 import com.mojang.authlib.GameProfile;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.network.NetworkPlayerInfo;
+import net.minecraft.client.resources.DefaultPlayerSkin;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
@@ -32,9 +35,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(AbstractClientPlayer.class)
-public abstract class MixinAbstractClientPlayer {
+public abstract class MixinAbstractClientPlayer extends EntityPlayer {
 
     private HyperiumAbstractClientPlayer hyperiumAbstractClientPlayer = new HyperiumAbstractClientPlayer((AbstractClientPlayer) (Object) this);
+
+    public MixinAbstractClientPlayer(World worldIn, GameProfile gameProfileIn) {
+        super(worldIn, gameProfileIn);
+    }
 
     @Shadow
     protected abstract NetworkPlayerInfo getPlayerInfo();
@@ -57,5 +64,24 @@ public abstract class MixinAbstractClientPlayer {
     @Inject(method = "getFovModifier", at = @At("HEAD"), cancellable = true)
     private void getFovModifier(CallbackInfoReturnable<Float> ci) {
         hyperiumAbstractClientPlayer.getFovModifier(ci);
+    }
+
+
+
+
+    @Inject(method = "getLocationSkin()Lnet/minecraft/util/ResourceLocation;", at = @At("HEAD"), cancellable = true)
+    public void getLocationSkin(CallbackInfoReturnable<ResourceLocation> locationCallbackInfoReturnable) {
+        NickHider instance = NickHider.INSTANCE;
+        if (instance != null && instance.isHideSkins()) {
+            locationCallbackInfoReturnable.setReturnValue(DefaultPlayerSkin.getDefaultSkin(getUniqueID()));
+        }
+    }
+
+    @Inject(method = "getLocationCape", at = @At("HEAD"), cancellable = true)
+    public void getLocationCape(CallbackInfoReturnable<ResourceLocation> locationCallbackInfoReturnable) {
+        NickHider instance = NickHider.INSTANCE;
+        if (instance != null && instance.isHideSkins()) {
+            locationCallbackInfoReturnable.setReturnValue(null);
+        }
     }
 }

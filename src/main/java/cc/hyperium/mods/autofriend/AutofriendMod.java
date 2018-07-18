@@ -1,12 +1,10 @@
 package cc.hyperium.mods.autofriend;
 
-import cc.hyperium.Hyperium;
 import cc.hyperium.config.Settings;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.HypixelFriendRequestEvent;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.mods.AbstractMod;
-import cc.hyperium.mods.autofriend.config.AutofriendConfig;
 import net.minecraft.client.Minecraft;
 
 import java.io.File;
@@ -17,25 +15,20 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
-import java.util.regex.Pattern;
 
 public class AutofriendMod extends AbstractMod {
 
     private Minecraft mc = Minecraft.getMinecraft();
-    private boolean hypixel = false;
     public static List<String> blacklist;
     public static List<String> recent;
-    private Pattern friend;
 
     public AutofriendMod() {
         blacklist = new ArrayList<String>();
         recent = new ArrayList<String>();
-        friend = Pattern.compile("§m----------------------------------------------------Friend request from (?<name>.+)\\[ACCEPT\\] - \\[DENY\\] - \\[IGNORE\\].*");
     }
 
     @Override
     public AbstractMod init() {
-        Hyperium.CONFIG.register(new AutofriendConfig());
         EventBus.INSTANCE.register(this);
         try {
             getBlacklist();
@@ -69,12 +62,10 @@ public class AutofriendMod extends AbstractMod {
             if (blacklist.get(0).equals("true") || blacklist.get(0).equals("false")) {
                 Settings.AUTOFRIEND_MESSAGES = Boolean.parseBoolean(blacklist.get(0));
                 blacklist.remove(0);
-            }
-            else {
+            } else {
                 writeBlacklist();
             }
-        }
-        else {
+        } else {
             writeBlacklist();
         }
     }
@@ -82,14 +73,26 @@ public class AutofriendMod extends AbstractMod {
     public static void writeBlacklist() {
         try {
             final File blacklistFile = new File("config/autofriend.cfg");
+
+            if (!blacklistFile.getParentFile().exists()) {
+                if (!blacklistFile.getParentFile().mkdirs()) {
+                    return;
+                }
+            }
+
+            if (!blacklistFile.exists()) {
+                if (!blacklistFile.createNewFile()) {
+                    return;
+                }
+            }
+
             final FileWriter writer = new FileWriter(blacklistFile);
             writer.write(Boolean.toString(Settings.AUTOFRIEND_MESSAGES));
             for (final String str : blacklist) {
                 writer.write(System.lineSeparator() + str);
             }
             writer.close();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

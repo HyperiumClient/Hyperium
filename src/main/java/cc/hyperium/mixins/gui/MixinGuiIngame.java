@@ -31,6 +31,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(GuiIngame.class)
 public abstract class MixinGuiIngame extends Gui {
@@ -67,5 +68,13 @@ public abstract class MixinGuiIngame extends Gui {
     @Overwrite
     private void renderBossHealth() {
         hyperiumGuiIngame.renderBossHealth();
+    }
+
+    /**
+     * Disables the normal crosshair if custom crosshair is active.
+     */
+    @Inject(method = "showCrosshair",at=@At("HEAD"),cancellable = true)
+    protected void showCrosshair(CallbackInfoReturnable<Boolean> ci) {
+        hyperiumGuiIngame.showCrosshair(ci);
     }
 }

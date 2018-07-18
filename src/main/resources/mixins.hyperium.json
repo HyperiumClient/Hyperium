@@ -50,6 +50,7 @@
     "gui.MixinGuiOptions",
     "gui.MixinGuiPlayerTabOverlay",
     "gui.MixinGuiResourcePack",
+    "gui.MixinGuiScreenBook",
     "gui.MixinGuiScreen",
     "gui.MixinGuiUtilRenderComponents",
     "gui.MixinInventory",

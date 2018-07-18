@@ -1,6 +1,7 @@
 package cc.hyperium.mixinsimp.gui;
 
 import cc.hyperium.Hyperium;
+import cc.hyperium.addons.customcrosshair.main.CustomCrosshairAddon;
 import cc.hyperium.config.Settings;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.RenderHUDEvent;
@@ -15,6 +16,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.boss.BossStatus;
 import net.minecraft.scoreboard.ScoreObjective;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 public class HyperiumGuiIngame {
     private GuiIngame parent;
@@ -68,6 +70,12 @@ public class HyperiumGuiIngame {
             parent.getFontRenderer().drawStringWithShadow(s, (float) (i / 2 - parent.getFontRenderer().getStringWidth(s) / 2), (float) (i1 - 10), 16777215);
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
             Minecraft.getMinecraft().getTextureManager().bindTexture(Gui.icons);
+        }
+    }
+
+    public void showCrosshair(CallbackInfoReturnable<Boolean> ci){
+        if (CustomCrosshairAddon.getCrosshairMod().getCrosshair().getEnabled()) {
+            ci.setReturnValue(false);
         }
     }
 }
