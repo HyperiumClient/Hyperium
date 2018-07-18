@@ -100,6 +100,9 @@ public abstract class MixinFontRenderer {
     @Overwrite
     private void renderStringAtPos(String text, boolean shadow) {
         //Full speed ahead
+        //Should help fix issues
+        renderEngine.bindTexture(this.getUnicodePageLocation(0));
+        renderEngine.bindTexture(this.locationFontTexture);
         boolean optimize = Settings.OPTIMIZED_FONT_RENDERER;
         FontFixValues instance = FontFixValues.INSTANCE;
         Map<StringHash, CachedString> stringCache = instance.stringCache;

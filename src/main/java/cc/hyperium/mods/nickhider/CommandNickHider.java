@@ -67,7 +67,7 @@ public class CommandNickHider implements BaseCommand {
         } else if (args.length == 3) {
             String arg = args[0];
             String arg1 = args[1];
-            String arg2 = args[2];
+            String arg2 = args[2]+"*";
             if (!NickHider.INSTANCE.isExtendedUse()) {
                 sendMessage("You cannot use this command.");
                 return;

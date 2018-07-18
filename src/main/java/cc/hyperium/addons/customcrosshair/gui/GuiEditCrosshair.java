@@ -1,17 +1,22 @@
 package cc.hyperium.addons.customcrosshair.gui;
 
 import cc.hyperium.addons.customcrosshair.crosshair.Crosshair;
-import cc.hyperium.addons.customcrosshair.gui.items.*;
+import cc.hyperium.addons.customcrosshair.gui.items.Button;
+import cc.hyperium.addons.customcrosshair.gui.items.EditColourButton;
+import cc.hyperium.addons.customcrosshair.gui.items.GuiItem;
+import cc.hyperium.addons.customcrosshair.gui.items.HelpButton;
+import cc.hyperium.addons.customcrosshair.gui.items.Scrollbar;
+import cc.hyperium.addons.customcrosshair.gui.items.Slider;
+import cc.hyperium.addons.customcrosshair.gui.items.Tickbox;
 import cc.hyperium.addons.customcrosshair.main.CustomCrosshairAddon;
 import cc.hyperium.addons.customcrosshair.utils.GuiGraphics;
 import cc.hyperium.addons.customcrosshair.utils.GuiTheme;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiScreen;
-import org.lwjgl.input.Mouse;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiScreen;
+import org.lwjgl.input.Mouse;
 
 public class GuiEditCrosshair extends ModGuiScreen
 {
@@ -60,14 +65,13 @@ public class GuiEditCrosshair extends ModGuiScreen
         this.tickbox_enabled.getHelpText().add("Enables or disables the crosshair mod.");
         this.itemList.add(this.editColour_crosshair = new EditColourButton(this, 6, "Crosshair Colour", 0, 0, 100, 20, this.crosshair.getColour()));
         this.editColour_crosshair.getHelpText().add("Changes the main colour of the crosshair.");
-        this.itemList.add(this.slider_crosshairType = new Slider(this, 5, "Crosshair Type", 0, 0, 120, 10, 0, 4));
+        this.itemList.add(this.slider_crosshairType = new Slider(this, 5, "Crosshair Type", 0, 0, 120, 10, 0, 3));
         this.slider_crosshairType.setValue(this.crosshair.getCrosshairTypeID());
         this.slider_crosshairType.getHelpText().add("Changes the crosshair type.");
         this.slider_crosshairType.getHelpText().add("[0 = Cross]");
         this.slider_crosshairType.getHelpText().add("[1 = Circle]");
         this.slider_crosshairType.getHelpText().add("[2 = Square]");
-        this.slider_crosshairType.getHelpText().add("[3 = Default]");
-        this.slider_crosshairType.getHelpText().add("[4 = Arrow]");
+        this.slider_crosshairType.getHelpText().add("[3 = Arrow]");
         this.itemList.add(this.tickbox_visibleDefault = new Tickbox(this, 18, "Crosshair Visible", 0, 0) {
             @Override
             public void mouseClicked(final int mouseX, final int mouseY) {

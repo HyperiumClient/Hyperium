@@ -7,7 +7,6 @@ import cc.hyperium.addons.customcrosshair.utils.RGBA;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.RenderHUDEvent;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
@@ -71,7 +70,7 @@ public class Crosshair {
 
     @InvokeEvent
     public void onRenderTick(RenderHUDEvent event) {
-        if (this.mc.theWorld != null && this.mc.currentScreen == null) {
+        if (this.mc.theWorld != null && this.mc.currentScreen == null && this.enabled) {
             CustomCrosshairAddon.getCrosshairMod().getCrosshair().drawCrosshair();
         }
     }
@@ -98,9 +97,6 @@ public class Crosshair {
         if (!this.getEnabled() && !this.mc.gameSettings.hideGUI) {
             if (this.mc.gameSettings.showDebugInfo) {
                 this.drawDebugAxisCrosshair(screenWidth, screenHeight);
-            }
-            else {
-                this.drawDefaultCrosshair(screenWidth, screenHeight);
             }
         }
         if (this.getEnabled() && ((this.mc.gameSettings.thirdPersonView > 0 && this.getVisibleThirdPerson()) || this.mc.gameSettings.thirdPersonView <= 0) && ((this.mc.gameSettings.hideGUI && this.getVisibleHiddenGui()) || !this.mc.gameSettings.hideGUI) && ((this.mc.thePlayer.isSpectator() && this.getVisibleSpectator()) || !this.mc.thePlayer.isSpectator())) {
@@ -147,10 +143,6 @@ public class Crosshair {
                         this.drawSquareCrosshair(screenWidth, screenHeight, renderGap, renderColour);
                         break;
                     }
-                    case DEFAULT: {
-                        this.drawDefaultCrosshair(screenWidth, screenHeight);
-                        break;
-                    }
                     case ARROW: {
                         this.drawArrowCrosshair(screenWidth, screenHeight, renderGap, renderColour);
                         break;
@@ -160,7 +152,7 @@ public class Crosshair {
                         break;
                     }
                 }
-                if (this.getDot() && this.getCrosshairType() != CrosshairType.DEFAULT) {
+                if (this.getDot()) {
                     GuiGraphics.drawFilledRectangle(screenWidth, screenHeight, screenWidth + 1, screenHeight + 1, this.getDotColour());
                 }
             }
@@ -218,16 +210,6 @@ public class Crosshair {
         GuiGraphics.drawRectangle(screenWidth - renderGap, screenHeight - renderGap, screenWidth + renderGap, screenHeight + renderGap, renderColour);
     }
 
-    private void drawDefaultCrosshair(int screenWidth, int screenHeight) {
-        GlStateManager.tryBlendFuncSeparate(775, 769, 1, 0);
-        GlStateManager.enableAlpha();
-        GlStateManager.enableBlend();
-        this.mc.getTextureManager().bindTexture(Gui.icons);
-        GuiGraphics.drawTexturedRectangle(screenWidth - 7, screenHeight - 7, 0, 0, 16, 16);
-        GlStateManager.disableAlpha();
-        GlStateManager.disableBlend();
-    }
-
     private void drawArrowCrosshair(int screenWidth, int screenHeight, int renderGap, RGBA renderColour) {
         GL11.glDisable(2848);
         GL11.glDisable(2832);
@@ -281,11 +263,8 @@ public class Crosshair {
             case SQUARE: {
                 return 2;
             }
-            case DEFAULT: {
-                return 3;
-            }
             case ARROW: {
-                return 4;
+                return 3;
             }
             default: {
                 return 0;
@@ -300,9 +279,6 @@ public class Crosshair {
             }
             case SQUARE: {
                 return "SQUARE";
-            }
-            case DEFAULT: {
-                return "DEFAULT";
             }
             case ARROW: {
                 return "ARROW";
@@ -328,10 +304,6 @@ public class Crosshair {
                 break;
             }
             case 3: {
-                this.setCrosshairType(CrosshairType.DEFAULT);
-                break;
-            }
-            case 4: {
                 this.setCrosshairType(CrosshairType.ARROW);
                 break;
             }
@@ -495,7 +467,6 @@ public class Crosshair {
         CROSS,
         CIRCLE,
         SQUARE,
-        DEFAULT,
-        ARROW;
+        ARROW
     }
 }

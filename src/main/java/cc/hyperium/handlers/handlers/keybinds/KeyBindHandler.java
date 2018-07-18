@@ -18,8 +18,22 @@
 package cc.hyperium.handlers.handlers.keybinds;
 
 import cc.hyperium.Hyperium;
-import cc.hyperium.event.*;
-import cc.hyperium.handlers.handlers.keybinds.keybinds.*;
+import cc.hyperium.event.GameShutDownEvent;
+import cc.hyperium.event.InvokeEvent;
+import cc.hyperium.event.KeypressEvent;
+import cc.hyperium.event.KeyreleaseEvent;
+import cc.hyperium.event.MouseButtonEvent;
+import cc.hyperium.handlers.handlers.keybinds.keybinds.ClearPopupKeybind;
+import cc.hyperium.handlers.handlers.keybinds.keybinds.DabKeybind;
+import cc.hyperium.handlers.handlers.keybinds.keybinds.FlipKeybind;
+import cc.hyperium.handlers.handlers.keybinds.keybinds.FlossKeybind;
+import cc.hyperium.handlers.handlers.keybinds.keybinds.FriendsKeybind;
+import cc.hyperium.handlers.handlers.keybinds.keybinds.GuiKeybind;
+import cc.hyperium.handlers.handlers.keybinds.keybinds.NamesKeybind;
+import cc.hyperium.handlers.handlers.keybinds.keybinds.QueueKeybind;
+import cc.hyperium.handlers.handlers.keybinds.keybinds.TogglePerspectiveKeybind;
+import cc.hyperium.handlers.handlers.keybinds.keybinds.ToggleSpotifyKeybind;
+import cc.hyperium.handlers.handlers.keybinds.keybinds.ToggleSprintKeybind;
 import net.minecraft.client.Minecraft;
 import org.apache.commons.lang3.ArrayUtils;
 import org.lwjgl.input.Keyboard;
@@ -42,7 +56,7 @@ public class KeyBindHandler {
     private final KeyBindConfig keyBindConfig;
     // Case insensitive treemap
     private final Map<String, HyperiumBind> keybinds = new HashMap<>();
-
+    private ToggleSprintKeybind bind;
 
     /**
      * Opens GUI on Z key pressed oof - ConorTheOreo
@@ -60,7 +74,8 @@ public class KeyBindHandler {
         registerKeyBinding(new FlipKeybind());
         registerKeyBinding(new FlossKeybind());
         registerKeyBinding(new ToggleSpotifyKeybind());
-        registerKeyBinding(new ToggleSprintKeybind());
+        bind = new ToggleSprintKeybind();
+        registerKeyBinding(bind);
         registerKeyBinding(new TogglePerspectiveKeybind());
         registerKeyBinding(new ClearPopupKeybind());
 
@@ -70,6 +85,10 @@ public class KeyBindHandler {
         }
 
         this.keyBindConfig.load();
+    }
+
+    public ToggleSprintKeybind getBind() {
+        return bind;
     }
 
     @InvokeEvent

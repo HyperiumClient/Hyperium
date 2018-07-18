@@ -1,5 +1,6 @@
 package cc.hyperium.internal.addons.strategy
 
+import cc.hyperium.BLACKLISTED
 import cc.hyperium.internal.addons.AddonBootstrap
 import cc.hyperium.internal.addons.AddonManifest
 import cc.hyperium.internal.addons.misc.AddonLoadException
@@ -34,7 +35,7 @@ class DefaultAddonLoader : AddonLoaderStrategy() {
             AddonBootstrap.addonResourcePacks.add(file)
         }
         val manifest = AddonManifestParser(jar).getAddonManifest()
-        if (AddonBootstrap.pendingManifests.stream().anyMatch { it.name.equals(manifest.name) }) {
+        if (BLACKLISTED.contains(manifest.name) || AddonBootstrap.pendingManifests.stream().anyMatch { it.name.equals(manifest.name) }) {
             file.delete()
             return null
         }
