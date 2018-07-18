@@ -335,7 +335,7 @@ public class Settings {
 
     @ConfigOpt
     @ToggleSetting(name = "Enabled", category = Category.FNCOMPASS, mods = true)
-    public static boolean FNCOMPASS_ENABLED = true;
+    public static boolean FNCOMPASS_ENABLED = false;
 
     @ConfigOpt
     @ToggleSetting(name = "Show Background", category = Category.FNCOMPASS, mods = true)
