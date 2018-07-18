@@ -17,6 +17,9 @@
 
 package cc.hyperium.config;
 
+import cc.hyperium.GuiStyle;
+import cc.hyperium.Hyperium;
+
 import static cc.hyperium.config.Category.ANIMATIONS;
 import static cc.hyperium.config.Category.CHROMAHUD;
 import static cc.hyperium.config.Category.COSMETICS;
@@ -26,10 +29,8 @@ import static cc.hyperium.config.Category.INTEGRATIONS;
 import static cc.hyperium.config.Category.MISC;
 import static cc.hyperium.config.Category.MODS;
 import static cc.hyperium.config.Category.SPOTIFY;
+import static cc.hyperium.config.Category.UTILITIES;
 import static cc.hyperium.config.Category.VANILLA_ENCHANTMENTS;
-
-import cc.hyperium.GuiStyle;
-import cc.hyperium.Hyperium;
 
 /*
  * Created by Cubxity on 03/06/2018
@@ -336,6 +337,9 @@ public class Settings {
 
     }
 
+    @ConfigOpt
+    @ToggleSetting(name = "Togglesprint",enabled = true,category = UTILITIES,mods = true)
+    public static boolean ENABLE_TOGGLE_SPRINT = true;
     public static void register() {
 
         Hyperium.CONFIG.register(INSTNACE); // values r static soo whatever

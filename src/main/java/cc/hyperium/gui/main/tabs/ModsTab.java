@@ -39,6 +39,7 @@ import me.semx11.autotip.util.MessageOption;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import org.apache.commons.lang3.ArrayUtils;
+import org.lwjgl.input.Keyboard;
 
 public class ModsTab extends AbstractTab {
     private final HyperiumOverlay autotip = new HyperiumOverlay("Autotip");
@@ -50,6 +51,7 @@ public class ModsTab extends AbstractTab {
     private final HyperiumOverlay autoGG = new HyperiumOverlay("AutoGG");
     private final HyperiumOverlay autoFriend = new HyperiumOverlay("AutoFriend");
     private final HyperiumOverlay spotify = new HyperiumOverlay("Spotify");
+    private final HyperiumOverlay utils = new HyperiumOverlay("Utilities");
 
     private final GlintColorizerSettings glintcolorizer = new GlintColorizerSettings();
 
@@ -85,6 +87,7 @@ public class ModsTab extends AbstractTab {
         items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(autoGG), Icons.SETTINGS.getResource(), "AutoGG", "AutoGG \n /autogg", "Click to configure", 2, 3));
         items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(autoFriend), Icons.SETTINGS.getResource(), "AutoFriend", "AutoFriend automatically accepts friend requests", "Click to configure", 0, 4));
         items.add(new SettingItem(() -> Minecraft.getMinecraft().displayGuiScreen(new GuiEditCrosshair()),Icons.SETTINGS.getResource(),"Custom Crosshair","Custom Crosshair Settings","Click to configure",1,4));
+        items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(utils), Icons.SETTINGS.getResource(), "Utilities", "Togglesprint","", 2, 3));
 
 
         int x1 = 0;
@@ -189,6 +192,8 @@ public class ModsTab extends AbstractTab {
         }));
         autotip.getComponents().add(new OverlayLabel("Run /autotip to access more settings and features", true, () -> {
         }));
+        utils.getComponents().add(new OverlayLabel("Toggle sprint is current bound to " + Keyboard.getKeyName(Hyperium.INSTANCE.getHandlers().getKeybindHandler().getBind().getKeyCode()), true, () -> {
+        }));
         chromahud.getComponents().add(new OverlayLabel("Run /chromahud or click here to access more settings", true, () -> {
             if (Minecraft.getMinecraft().thePlayer != null)
                 new GeneralConfigGui(((ChromaHUD) Hyperium.INSTANCE.getModIntegration().getChromaHUD())).display();
@@ -200,6 +205,7 @@ public class ModsTab extends AbstractTab {
                 Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage("Unable to load spotify!");
             }
         }));
+
 
     }
 
@@ -223,6 +229,8 @@ public class ModsTab extends AbstractTab {
                 return spotify;
             case AUTOFRIEND:
                 return autoFriend;
+            case UTILITIES:
+                return utils;
 
         }
         throw new IllegalArgumentException(settingsCategory + " Cannot be used in mods!");
