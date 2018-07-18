@@ -1,6 +1,7 @@
 package cc.hyperium.gui.main.tabs;
 
 import cc.hyperium.Hyperium;
+import cc.hyperium.addons.customcrosshair.gui.GuiEditCrosshair;
 import cc.hyperium.config.Category;
 import cc.hyperium.config.SelectorSetting;
 import cc.hyperium.config.Settings;
@@ -27,18 +28,17 @@ import cc.hyperium.mods.levelhead.guis.LevelHeadGui;
 import cc.hyperium.mods.motionblur.MotionBlurMod;
 import cc.hyperium.mods.spotify.SpotifyGui;
 import cc.hyperium.mods.togglechat.gui.ToggleChatMainGui;
-import me.semx11.autotip.Autotip;
-import me.semx11.autotip.util.MessageOption;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
-import org.apache.commons.lang3.ArrayUtils;
-
 import java.awt.Color;
 import java.lang.reflect.Field;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
+import me.semx11.autotip.Autotip;
+import me.semx11.autotip.util.MessageOption;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Gui;
+import org.apache.commons.lang3.ArrayUtils;
 
 public class ModsTab extends AbstractTab {
     private final HyperiumOverlay autotip = new HyperiumOverlay("Autotip");
@@ -84,6 +84,7 @@ public class ModsTab extends AbstractTab {
         items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(spotify), Icons.SETTINGS.getResource(), "Spotify Settings", "Adjust Spotify integration settings", "Click to configure", 1, 3));
         items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(autoGG), Icons.SETTINGS.getResource(), "AutoGG", "AutoGG \n /autogg", "Click to configure", 2, 3));
         items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(autoFriend), Icons.SETTINGS.getResource(), "AutoFriend", "AutoFriend automatically accepts friend requests", "Click to configure", 0, 4));
+        items.add(new SettingItem(() -> Minecraft.getMinecraft().displayGuiScreen(new GuiEditCrosshair()),Icons.SETTINGS.getResource(),"Custom Crosshair","Custom Crosshair Settings","Click to configure",1,4));
 
 
         int x1 = 0;
