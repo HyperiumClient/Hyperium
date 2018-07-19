@@ -34,12 +34,11 @@ import cc.hyperium.handlers.handlers.keybinds.keybinds.QueueKeybind;
 import cc.hyperium.handlers.handlers.keybinds.keybinds.TogglePerspectiveKeybind;
 import cc.hyperium.handlers.handlers.keybinds.keybinds.ToggleSpotifyKeybind;
 import cc.hyperium.handlers.handlers.keybinds.keybinds.ToggleSprintKeybind;
+import java.util.HashMap;
+import java.util.Map;
 import net.minecraft.client.Minecraft;
 import org.apache.commons.lang3.ArrayUtils;
 import org.lwjgl.input.Keyboard;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class KeyBindHandler {
     private static final Map<Integer, Integer> mouseBinds = new HashMap<>();
@@ -185,5 +184,24 @@ public class KeyBindHandler {
      */
     protected Map<String, HyperiumBind> getKeybinds() {
         return this.keybinds;
+    }
+
+    public void releaseAllKeybinds(){
+        if(!keybinds.isEmpty()) {
+            for (Map.Entry<String, HyperiumBind> map : keybinds.entrySet()) {
+                HyperiumBind bind = map.getValue();
+                System.out.println("Testing Bind: " + bind.getKeyDescription());
+                if(bind.wasPressed()){
+                    bind.onRelease();
+                    bind.setWasPressed(false);
+                    return;
+                }
+
+                if(bind.isKeyDown()){
+                    bind.onRelease();
+                    return;
+                }
+            }
+        }
     }
 }

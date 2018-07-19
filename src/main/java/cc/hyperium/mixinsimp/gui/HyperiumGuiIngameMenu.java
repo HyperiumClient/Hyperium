@@ -1,5 +1,6 @@
 package cc.hyperium.mixinsimp.gui;
 
+import cc.hyperium.Hyperium;
 import cc.hyperium.gui.GuiHyperiumCredits;
 import cc.hyperium.gui.GuiIngameMultiplayer;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
@@ -30,6 +31,7 @@ public class HyperiumGuiIngameMenu {
   }
 
   public void initGui(List<GuiButton> buttonList) {
+    Hyperium.INSTANCE.getHandlers().getKeybindHandler().releaseAllKeybinds();
     buttonList.add(new GuiButton(8, parent.width - 200, parent.height - 20, 200, 20, "Credits"));
     WorldClient theWorld = Minecraft.getMinecraft().theWorld;
 
