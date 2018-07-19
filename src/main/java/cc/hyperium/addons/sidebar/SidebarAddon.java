@@ -5,11 +5,9 @@ import cc.hyperium.addons.AbstractAddon;
 import cc.hyperium.addons.sidebar.commands.CommandSidebar;
 import cc.hyperium.addons.sidebar.config.Configuration;
 import cc.hyperium.addons.sidebar.gui.GuiSidebar;
-import cc.hyperium.addons.sidebar.versions.UpdateChecker;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.RenderScoreboardEvent;
-import cc.hyperium.mods.sk1ercommon.Multithreading;
 import net.minecraft.client.Minecraft;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -27,7 +25,6 @@ public class SidebarAddon extends AbstractAddon {
     @Override
     public AbstractAddon init() {
         EventBus.INSTANCE.register(this);
-        Multithreading.runAsync(new UpdateChecker());
         Minecraft mc = Minecraft.getMinecraft();
         Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(new CommandSidebar(this));
         this.saveFile = new File(mc.mcDataDir, "hyperium/sidebaraddon.json");
