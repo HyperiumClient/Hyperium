@@ -69,7 +69,7 @@ public class Mode {
             case "addon":
                 Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage(ChatColor.translateAlternateColorCodes('&', "&8[CustomRP] &fPreview of '" + mode + "'\n\n" +
                                 "&cHyperium\n" +
-                                "&bCustomRP Addon v[version]\n" +
+                                "&bCustomRP [Internal]\n" +
                                 "&bPlaying a game\n" +
                                 "&b[time]\n")
                         , false);
@@ -77,7 +77,7 @@ public class Mode {
             case "evowels":
                 Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage(ChatColor.translateAlternateColorCodes('&', "&8[CustomRP] &fPreview of '" + mode + "'\n\n" +
                                 "&cHyperium\n" +
-                                "&bCestemRP edden v[version]\n" +
+                                "&bCestemRP [enternel]\n" +
                                 "&beGN: [IGN but vowels are es]\n" +
                                 "&b[time]\n")
                         , false);
@@ -85,7 +85,7 @@ public class Mode {
             case "eall":
                 Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage(ChatColor.translateAlternateColorCodes('&', "&8[CustomRP] &fPreview of '" + mode + "'\n\n" +
                                 "&cHyperium\n" +
-                                "&beeeeeeee eeeee e[version]\n" +
+                                "&beeeeeeee [eeeeeeee]\n" +
                                 "&beee: [IGN but every character is e]\n" +
                                 "&b[time]\n")
                         , false);
@@ -93,7 +93,7 @@ public class Mode {
             case "sellout":
                 Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage(ChatColor.translateAlternateColorCodes('&', "&8[CustomRP] &fPreview of '" + mode + "'\n\n" +
                                 "&cHyperium\n" +
-                                "&bCustomRP Addon v[version]\n" +
+                                "&bCustomRP [Internal]\n" +
                                 "&bSubscribe to [IGN]\n" +
                                 "&b[time]\n")
                         , false);
@@ -101,7 +101,7 @@ public class Mode {
             case "bestcoder":
                 Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage(ChatColor.translateAlternateColorCodes('&', "&8[CustomRP] &fPreview of '" + mode + "'\n\n" +
                                 "&cHyperium\n" +
-                                "&bCustomRP Addon v[version]\n" +
+                                "&bCustomRP [Internal]\n" +
                                 "&b[IGN] best coder\n" +
                                 "&b[time]\n")
                         , false);
@@ -109,7 +109,7 @@ public class Mode {
             case "merch":
                 Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage(ChatColor.translateAlternateColorCodes('&', "&8[CustomRP] &fPreview of '" + mode + "'\n\n" +
                                 "&cHyperium\n" +
-                                "&bCustomRP Addon v[version]\n" +
+                                "&bCustomRP [Internal]\n" +
                                 "&bBuy [IGN]'s merch\n" +
                                 "&b[time]\n")
                         , false);
@@ -117,7 +117,7 @@ public class Mode {
             case "respects":
                 Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage(ChatColor.translateAlternateColorCodes('&', "&8[CustomRP] &fPreview of '" + mode + "'\n\n" +
                                 "&cHyperium\n" +
-                                "&bCustomRP Addon v[version]\n" +
+                                "&bCustomRP [Internal]\n" +
                                 "&bPress [F] to pay respects\n" +
                                 "&b[time]\n")
                         , false);
@@ -125,7 +125,7 @@ public class Mode {
             case "sleepy":
                 Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage(ChatColor.translateAlternateColorCodes('&', "&8[CustomRP] &fPreview of '" + mode + "'\n\n" +
                                 "&cHyperium\n" +
-                                "&bCustomRP Addon v[version]\n" +
+                                "&bCustomRP [Internal]\n" +
                                 "&b[IGN] sleepy\n" +
                                 "&b[time]\n")
                         , false);
@@ -133,7 +133,7 @@ public class Mode {
             default:
                 Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage(ChatColor.translateAlternateColorCodes('&', "&8[CustomRP] &fPreview of '" + mode + "'\n\n" +
                                 "&cHyperium\n" +
-                                "&bCustomRP Addon v[version]\n" +
+                                "&bCustomRP [Internal]\n" +
                                 "&bPlaying a game\n" +
                                 "&b[time]\n")
                         , false);

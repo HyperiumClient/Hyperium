@@ -36,7 +36,7 @@ public class RichPresenceUpdater {
                         .setSmallImage("compass")
                         .setLargeImage("hyperium", "Hyperium Client")
                         .setState("Playing a game")
-                        .setDetails("CustomRP Addon")
+                        .setDetails("CustomRP [Internal]")
                         .setStartTimestamp(OffsetDateTime.now())
                         .build());
             } else if (Config.customRPMode.equalsIgnoreCase("eVowels")) {
@@ -46,7 +46,7 @@ public class RichPresenceUpdater {
                         .setSmallImage("compass")
                         .setLargeImage("hyperium", "Hyperium Client")
                         .setState("eGN: " + eIfiedUsername)
-                        .setDetails("CestemRP edden")
+                        .setDetails("CestemRP [enternel]")
                         .setStartTimestamp(OffsetDateTime.now())
                         .build());
             } else if (Config.customRPMode.equalsIgnoreCase("eAll")) {
@@ -56,7 +56,7 @@ public class RichPresenceUpdater {
                         .setSmallImage("compass")
                         .setLargeImage("hyperium", "Hyperium Client")
                         .setState("eee: " + allEUsername)
-                        .setDetails("eeeeeeee eeeee")
+                        .setDetails("eeeeeeee [eeeeeeee]")
                         .setStartTimestamp(OffsetDateTime.now())
                         .build());
             } else if (Config.customRPMode.equalsIgnoreCase("sellout")) {
@@ -66,7 +66,7 @@ public class RichPresenceUpdater {
                         .setSmallImage("compass")
                         .setLargeImage("hyperium", "Hyperium Client")
                         .setState("Sub to " + Minecraft.getMinecraft().getSession().getUsername())
-                        .setDetails("CustomRP Addon")
+                        .setDetails("CustomRP [Internal]")
                         .setStartTimestamp(OffsetDateTime.now())
                         .build());
             } else if (Config.customRPMode.equalsIgnoreCase("bestCoder")) {
@@ -76,7 +76,7 @@ public class RichPresenceUpdater {
                         .setSmallImage("compass")
                         .setLargeImage("hyperium", "Hyperium Client")
                         .setState(Minecraft.getMinecraft().getSession().getUsername() + " best coder")
-                        .setDetails("CustomRP Addon")
+                        .setDetails("CustomRP [Internal]")
                         .setStartTimestamp(OffsetDateTime.now())
                         .build());
             } else if (Config.customRPMode.equalsIgnoreCase("merch")) {
@@ -87,7 +87,7 @@ public class RichPresenceUpdater {
                             .setSmallImage("compass")
                             .setLargeImage("hyperium", "Hyperium Client")
                             .setState("Buy " + Minecraft.getMinecraft().getSession().getUsername() + "' merch")
-                            .setDetails("CustomRP Addon")
+                            .setDetails("CustomRP [Internal]")
                             .setStartTimestamp(OffsetDateTime.now())
                             .build());
                 } else {
@@ -97,7 +97,7 @@ public class RichPresenceUpdater {
                             .setSmallImage("compass")
                             .setLargeImage("hyperium", "Hyperium Client")
                             .setState("Buy " + Minecraft.getMinecraft().getSession().getUsername() + "'s merch")
-                            .setDetails("CustomRP Addon")
+                            .setDetails("CustomRP [Internal]")
                             .setStartTimestamp(OffsetDateTime.now())
                             .build());
                 }
@@ -108,7 +108,7 @@ public class RichPresenceUpdater {
                         .setSmallImage("compass")
                         .setLargeImage("hyperium", "Hyperium Client")
                         .setState("Press [F] to pay respects")
-                        .setDetails("CustomRP Addon")
+                        .setDetails("CustomRP [Internal]")
                         .setStartTimestamp(OffsetDateTime.now())
                         .build());
             } else if (Config.customRPMode.equalsIgnoreCase("sleepy")) {
@@ -118,7 +118,7 @@ public class RichPresenceUpdater {
                         .setSmallImage("compass")
                         .setLargeImage("hyperium", "Hyperium Client")
                         .setState(Minecraft.getMinecraft().getSession().getUsername() + " sleepy")
-                        .setDetails("CustomRP Addon")
+                        .setDetails("CustomRP [Internal]")
                         .setStartTimestamp(OffsetDateTime.now())
                         .build());
             } else {
