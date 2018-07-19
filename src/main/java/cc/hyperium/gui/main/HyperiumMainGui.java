@@ -67,7 +67,7 @@ public class HyperiumMainGui extends HyperiumGui {
 
     public HyperiumMainGui() {
         try {
-            settingsObjects.add(Settings.INSTNACE);
+            settingsObjects.add(Settings.INSTANCE);
             if (Hyperium.INSTANCE.getModIntegration() == null) {
                 GeneralChatHandler.instance().sendMessage("Something wen't really wrong while loading...");
                 return;
