@@ -28,7 +28,6 @@ import static cc.hyperium.config.Category.IMPROVEMENTS;
 import static cc.hyperium.config.Category.INTEGRATIONS;
 import static cc.hyperium.config.Category.MISC;
 import static cc.hyperium.config.Category.MODS;
-import static cc.hyperium.config.Category.REACH;
 import static cc.hyperium.config.Category.SPOTIFY;
 import static cc.hyperium.config.Category.UTILITIES;
 import static cc.hyperium.config.Category.VANILLA_ENCHANTMENTS;
@@ -358,7 +357,11 @@ public class Settings {
     })
     public static int FNCOMPASS_DETAILS = 2;
 
+    @ToggleSetting(name = "Show user dots on nametags", category = INTEGRATIONS)
+    public static boolean SHOW_DOTS_ON_NAME_TAGS = false;
 
+    private Settings() {
+    }
     @ConfigOpt
     @SelectorSetting(name = "Color Type", mods = true, category = REACH, items = {"RGB", "CHROMA"})
     public static String REACH_COLOR_TYPE = "RGB";
@@ -380,9 +383,7 @@ public class Settings {
     @ToggleSetting(name = "Togglesprint", enabled = true, category = UTILITIES, mods = true)
     public static boolean ENABLE_TOGGLE_SPRINT = true;
 
-    private Settings() {
 
-    }
 
     public static void register() {
 
