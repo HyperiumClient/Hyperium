@@ -56,9 +56,11 @@ public class UpdateChecker implements Runnable {
 
     @InvokeEvent
     public void join(ServerJoinEvent event) {
+        /*
         if(!Objects.equals(getLatestVersion(), SidebarAddon.VERSION)) {
             Minecraft.getMinecraft().thePlayer.addChatMessage(ChatUtils.of("SidebarMod needs an update! Version: " + getLatestVersion() + "." + " Go to: https://github.com/Amplifiable2/SidebarAddon/releases to download the latest release.").setColor(EnumChatFormatting.GREEN).setBold(false).build());
         }
+        */
     }
 
     private boolean isLatestVersion() {
