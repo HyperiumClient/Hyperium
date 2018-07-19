@@ -28,6 +28,7 @@ import static cc.hyperium.config.Category.IMPROVEMENTS;
 import static cc.hyperium.config.Category.INTEGRATIONS;
 import static cc.hyperium.config.Category.MISC;
 import static cc.hyperium.config.Category.MODS;
+import static cc.hyperium.config.Category.REACH;
 import static cc.hyperium.config.Category.SPOTIFY;
 import static cc.hyperium.config.Category.UTILITIES;
 import static cc.hyperium.config.Category.VANILLA_ENCHANTMENTS;
@@ -122,7 +123,7 @@ public class Settings {
     @ToggleSetting(name = "Screenshot On Kill")
     public static boolean SCREENSHOT_KILL = false;
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;spotifyControlsEnabled")
-    @ToggleSetting(name = "Show Spotify Controls", category = SPOTIFY, mods=true)
+    @ToggleSetting(name = "Show Spotify Controls", category = SPOTIFY, mods = true)
     public static boolean SPOTIFY_CONTROLS = false;
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;hypixelZooEnabled")
     @ToggleSetting(name = "\"Welcome to the Hypixel Zoo!\"")
@@ -314,7 +315,7 @@ public class Settings {
     @ToggleSetting(name = "Always show super secret settings", category = MISC)
     public static boolean ALWAYS_SHOW_SUPER_SECRET_SETTINGS = false;
     @ConfigOpt
-    @ToggleSetting(name = "Show Hit Distances", category = IMPROVEMENTS)
+    @ToggleSetting(name = "Show Hit Distances", category = REACH,mods = true)
     public static boolean SHOW_HIT_DISTANCES = false;
 
     @ConfigOpt
@@ -357,13 +358,32 @@ public class Settings {
     })
     public static int FNCOMPASS_DETAILS = 2;
 
+
+    @ConfigOpt
+    @SelectorSetting(name = "Color Type", mods = true, category = REACH, items = {"RGB", "CHROMA"})
+    public static String REACH_COLOR_TYPE = "RGB";
+
+
+    @ConfigOpt
+    @SliderSetting(name = "Red", mods = true, category = REACH, isInt = true, min = 0, max = 255, round = true)
+    public static int REACH_RED = 255;
+
+    @ConfigOpt
+    @SliderSetting(name = "Blue", mods = true, category = REACH, isInt = true, min = 0, max = 255, round = true)
+    public static int REACH_BLUE = 0;
+
+    @ConfigOpt
+    @SliderSetting(name = "Green", mods = true, category = REACH, isInt = true, min = 0, max = 255, round = true)
+    public static int REACH_GREEN = 255;
+
+    @ConfigOpt
+    @ToggleSetting(name = "Togglesprint", enabled = true, category = UTILITIES, mods = true)
+    public static boolean ENABLE_TOGGLE_SPRINT = true;
+
     private Settings() {
 
     }
 
-    @ConfigOpt
-    @ToggleSetting(name = "Togglesprint",enabled = true,category = UTILITIES,mods = true)
-    public static boolean ENABLE_TOGGLE_SPRINT = true;
     public static void register() {
 
         Hyperium.CONFIG.register(INSTNACE); // values r static soo whatever

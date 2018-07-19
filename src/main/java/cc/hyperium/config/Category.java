@@ -17,6 +17,7 @@ public enum Category {
     AUTO_GG,
     UTILITIES,
     LEVEL_HEAD,
+    REACH,
     VANILLA_ENCHANTMENTS,
     CHROMAHUD,
     KEYSTROKES,
