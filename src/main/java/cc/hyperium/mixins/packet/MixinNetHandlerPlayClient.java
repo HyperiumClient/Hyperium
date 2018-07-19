@@ -61,12 +61,14 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 /**
  * Provides code that may be used in mods that require it
@@ -185,11 +187,8 @@ public abstract class MixinNetHandlerPlayClient {
     /**
      * @author
      */
-    @Overwrite
-    public void handleCustomPayload(S3FPacketCustomPayload packetIn) {
-
-
-        PacketThreadUtil.checkThreadAndEnqueue(packetIn, (NetHandlerPlayClient) (Object) this, this.gameController);
+    @Inject(method = "handleCustomPayload", at = @At("RETURN"))
+    public void handleCustomPayload(S3FPacketCustomPayload packetIn, CallbackInfo ci) {
         PacketBuffer packetBuffer = packetIn.getBufferData();
         try {
             int readableBytes = packetBuffer.readableBytes();
@@ -227,34 +226,6 @@ public abstract class MixinNetHandlerPlayClient {
             }
         } catch (Exception ex) {
             ex.printStackTrace();
-        }
-
-
-        if ("MC|TrList".equals(packetIn.getChannelName())) {
-            PacketBuffer packetbuffer = packetIn.getBufferData();
-
-            try {
-                int i = packetbuffer.readInt();
-                GuiScreen guiscreen = this.gameController.currentScreen;
-
-                if (guiscreen != null && guiscreen instanceof GuiMerchant && i == this.gameController.thePlayer.openContainer.windowId) {
-                    IMerchant imerchant = ((GuiMerchant) guiscreen).getMerchant();
-                    MerchantRecipeList merchantrecipelist = MerchantRecipeList.readFromBuf(packetbuffer);
-                    imerchant.setRecipes(merchantrecipelist);
-                }
-            } catch (IOException ioexception) {
-                logger.error((String) "Couldn\'t load trade info", (Throwable) ioexception);
-            } finally {
-                packetbuffer.release();
-            }
-        } else if ("MC|Brand".equals(packetIn.getChannelName())) {
-            this.gameController.thePlayer.setClientBrand(packetIn.getBufferData().readStringFromBuffer(32767));
-        } else if ("MC|BOpen".equals(packetIn.getChannelName())) {
-            ItemStack itemstack = this.gameController.thePlayer.getCurrentEquippedItem();
-
-            if (itemstack != null && itemstack.getItem() == Items.written_book) {
-                this.gameController.displayGuiScreen(new GuiScreenBook(this.gameController.thePlayer, itemstack, false));
-            }
         }
     }
 
