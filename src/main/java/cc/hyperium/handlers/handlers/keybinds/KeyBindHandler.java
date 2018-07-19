@@ -190,13 +190,13 @@ public class KeyBindHandler {
         if(!keybinds.isEmpty()) {
             for (Map.Entry<String, HyperiumBind> map : keybinds.entrySet()) {
                 HyperiumBind bind = map.getValue();
-                System.out.println("Testing Bind: " + bind.getKeyDescription());
                 if(bind.wasPressed()){
                     bind.onRelease();
                     bind.setWasPressed(false);
                     return;
                 }
 
+                // If bind is being held.
                 if(bind.isKeyDown()){
                     bind.onRelease();
                     return;

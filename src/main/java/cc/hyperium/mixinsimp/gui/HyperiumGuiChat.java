@@ -19,7 +19,6 @@ public class HyperiumGuiChat {
     Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().autoComplete(leftOfCursor);
   }
   public void init(GuiTextField inputField) {
-    Hyperium.INSTANCE.getHandlers().getKeybindHandler().releaseAllKeybinds();
     if (HypixelDetector.getInstance().isHypixel()) {
       inputField.setMaxStringLength(256);
     } else {

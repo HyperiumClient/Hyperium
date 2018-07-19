@@ -1,6 +1,5 @@
 package cc.hyperium.mixinsimp.gui;
 
-import cc.hyperium.Hyperium;
 import cc.hyperium.config.Settings;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.GuiClickEvent;
@@ -34,7 +33,6 @@ public class HyperiumGuiScreen {
     }
 
     public void initGui() {
-        Hyperium.INSTANCE.getHandlers().getKeybindHandler().releaseAllKeybinds();
         if (Settings.BLUR_GUI && !Settings.FAST_CONTAINER) {
             Minecraft.getMinecraft().addScheduledTask(() -> {
                 Method loadShaderMethod = null;
