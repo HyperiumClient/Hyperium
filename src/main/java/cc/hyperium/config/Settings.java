@@ -358,7 +358,7 @@ public class Settings {
     public static int FNCOMPASS_DETAILS = 2;
 
     @ToggleSetting(name = "Show user dots on nametags", category = INTEGRATIONS)
-    public static boolean SHOW_DOTS_ON_NAME_TAGS = true;
+    public static boolean SHOW_DOTS_ON_NAME_TAGS = false;
 
     private Settings() {
 
