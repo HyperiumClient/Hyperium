@@ -8,11 +8,11 @@ import cc.hyperium.Metadata;
 
 public class UpdateUtils {
     public static UpdateUtils INSTANCE = new UpdateUtils();
-    public JsonHolder vJson;
+    public cc.hyperium.installer.utils.JsonHolder vJson;
 
     public boolean isSupported() {
         String versions_url = "https://raw.githubusercontent.com/HyperiumClient/Hyperium-Repo/master/installer/versions.json";
-        JsonHolder json;
+        cc.hyperium.installer.utils.JsonHolder json;
         try {
             json = InstallerUtils.get(versions_url);
             this.vJson = json;
@@ -25,7 +25,7 @@ public class UpdateUtils {
 
     public boolean isAbsoluteLatest() {
         String versions_url = "https://raw.githubusercontent.com/HyperiumClient/Hyperium-Repo/master/installer/versions.json";
-        JsonHolder json;
+        cc.hyperium.installer.utils.JsonHolder json;
         try {
             json = InstallerUtils.get(versions_url);
             this.vJson = json;
