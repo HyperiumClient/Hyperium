@@ -74,14 +74,6 @@ public class HyperiumGuiIngame {
     }
 
     public void showCrosshair(CallbackInfoReturnable<Boolean> ci){
-        if(CustomCrosshairAddon.getCrosshairMod() == null){
-            return;
-        }
-
-        if(CustomCrosshairAddon.getCrosshairMod().getCrosshair() == null){
-            return;
-        }
-
         if (CustomCrosshairAddon.getCrosshairMod().getCrosshair().getEnabled()) {
             ci.setReturnValue(false);
         }
