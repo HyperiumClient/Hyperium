@@ -173,14 +173,27 @@ import java.util.List;
 import net.minecraft.client.particle.EntityFX;
 
 public class HyperiumEffectRenderer {
-    public void addEffect(List<EntityFX>[][] fxLayers, EntityFX effect) {
-        int i = effect.getFXLayer();
-        int j = effect.getAlpha() != 1.0F ? 0 : 1;
+
+    private List<EntityFX>[][] fxLayerDuplicate;
+    private int i;
+    private int j;
+
+    public void addEffectBefore(List<EntityFX>[][] fxLayers, EntityFX effect) {
+        i = effect.getFXLayer();
+        j = effect.getAlpha() != 1.0F ? 0 : 1;
+
+        fxLayerDuplicate = fxLayers;
 
         if (fxLayers[i][j].size() >= Settings.MAX_WORLD_PARTICLES_INT) {
             fxLayers[i][j].remove(0);
         }
+    }
 
-        fxLayers[i][j].add(effect);
+    public void addEffectAfter(List<EntityFX>[][] fxLayers, EntityFX effect) {
+        int size = fxLayers[i][j].size();
+        if (size >= 4000 && !(size >= Settings.MAX_WORLD_PARTICLES_INT)) {
+            // Would have been removed by Minecraft but not by the setting, so add it back in.
+            fxLayers[i][j].add(0,fxLayerDuplicate[i][j].get(0));
+        }
     }
 }
