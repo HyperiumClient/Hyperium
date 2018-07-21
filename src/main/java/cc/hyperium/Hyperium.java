@@ -18,21 +18,7 @@
 package cc.hyperium;
 
 import cc.hyperium.addons.InternalAddons;
-import cc.hyperium.commands.defaults.CommandClearChat;
-import cc.hyperium.commands.defaults.CommandConfigGui;
-import cc.hyperium.commands.defaults.CommandCoords;
-import cc.hyperium.commands.defaults.CommandDebug;
-import cc.hyperium.commands.defaults.CommandLogs;
-import cc.hyperium.commands.defaults.CommandMessage;
-import cc.hyperium.commands.defaults.CommandNameHistory;
-import cc.hyperium.commands.defaults.CommandParticleAuras;
-import cc.hyperium.commands.defaults.CommandParty;
-import cc.hyperium.commands.defaults.CommandPing;
-import cc.hyperium.commands.defaults.CommandPlayGame;
-import cc.hyperium.commands.defaults.CommandPrivateMessage;
-import cc.hyperium.commands.defaults.CommandUpdate;
-import cc.hyperium.commands.defaults.CustomLevelheadCommand;
-import cc.hyperium.commands.defaults.DevTestCommand;
+import cc.hyperium.commands.defaults.*;
 import cc.hyperium.config.DefaultConfig;
 import cc.hyperium.config.Settings;
 import cc.hyperium.cosmetics.HyperiumCosmetics;
@@ -48,7 +34,6 @@ import cc.hyperium.gui.ColourOptions;
 import cc.hyperium.gui.ConfirmationPopup;
 import cc.hyperium.gui.NotificationCenter;
 import cc.hyperium.handlers.HyperiumHandlers;
-import cc.hyperium.handlers.handlers.purchase.ChargebackStopper;
 import cc.hyperium.integrations.spotify.Spotify;
 import cc.hyperium.mixinsimp.renderer.FontFixValues;
 import cc.hyperium.mods.HyperiumModIntegration;
@@ -178,7 +163,7 @@ public class Hyperium {
 
         // Creates the accounts dir
         firstLaunch = new File(folder.getAbsolutePath() + "/accounts").mkdirs();
-new ChargebackStopper();
+
 
         // Has the user accepted the TOS of the client?
         this.acceptedTos = new File(
@@ -334,6 +319,8 @@ new ChargebackStopper();
         getHandlers().getHyperiumCommandHandler().registerCommand(new CommandMessage());
         getHandlers().getHyperiumCommandHandler().registerCommand(new CommandParticleAuras());
         getHandlers().getHyperiumCommandHandler().registerCommand(new AutofriendCommand());
+
+        getHandlers().getHyperiumCommandHandler().registerCommand(new CommandRichPresenceMode());
     }
 
     /**

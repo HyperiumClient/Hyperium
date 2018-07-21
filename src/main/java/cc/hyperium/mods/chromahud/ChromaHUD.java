@@ -208,7 +208,7 @@ public class ChromaHUD extends AbstractMod {
         boolean enabled = true;
         master.put("enabled", enabled);
         JsonArray elementArray = new JsonArray();
-        master.putArray("elements", elementArray);
+        master.put("elements", elementArray);
         for (DisplayElement element : getDisplayElements()) {
             JsonHolder tmp = element.getData();
             JsonArray items = new JsonArray();
@@ -219,7 +219,7 @@ public class ChromaHUD extends AbstractMod {
             }
             elementArray.add(tmp.getObject());
 
-            tmp.putArray("items", items);
+            tmp.put("items", items);
         }
         try {
             if (!suggestedConfigurationFile.exists())

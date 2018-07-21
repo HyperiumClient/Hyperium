@@ -452,6 +452,14 @@ public class Settings {
     @ToggleSetting(name = "Togglesprint", category = UTILITIES, mods = true)
     public static boolean ENABLE_TOGGLE_SPRINT = true;
 
+    @ConfigOpt
+    @ToggleSetting(name = "Custom Discord RP", category = INTEGRATIONS)
+    public static boolean CUSTOM_DISCORD_RP = false;
+
+    @ConfigOpt(alt = "cc.hyperium.addons.customrp.Config;customRPMode")
+    @ToggleSetting(name = "Custom Discord RP", category = INTEGRATIONS)
+    public static String CUSTOM_RP_MODE = "reset";
+
 
     public static void register() {
         Hyperium.CONFIG.register(INSTANCE);
