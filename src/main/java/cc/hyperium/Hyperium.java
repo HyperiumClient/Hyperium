@@ -18,21 +18,7 @@
 package cc.hyperium;
 
 import cc.hyperium.addons.InternalAddons;
-import cc.hyperium.commands.defaults.CommandClearChat;
-import cc.hyperium.commands.defaults.CommandConfigGui;
-import cc.hyperium.commands.defaults.CommandCoords;
-import cc.hyperium.commands.defaults.CommandDebug;
-import cc.hyperium.commands.defaults.CommandLogs;
-import cc.hyperium.commands.defaults.CommandMessage;
-import cc.hyperium.commands.defaults.CommandNameHistory;
-import cc.hyperium.commands.defaults.CommandParticleAuras;
-import cc.hyperium.commands.defaults.CommandParty;
-import cc.hyperium.commands.defaults.CommandPing;
-import cc.hyperium.commands.defaults.CommandPlayGame;
-import cc.hyperium.commands.defaults.CommandPrivateMessage;
-import cc.hyperium.commands.defaults.CommandUpdate;
-import cc.hyperium.commands.defaults.CustomLevelheadCommand;
-import cc.hyperium.commands.defaults.DevTestCommand;
+import cc.hyperium.commands.defaults.*;
 import cc.hyperium.config.DefaultConfig;
 import cc.hyperium.config.Settings;
 import cc.hyperium.cosmetics.HyperiumCosmetics;
@@ -333,6 +319,8 @@ public class Hyperium {
         getHandlers().getHyperiumCommandHandler().registerCommand(new CommandMessage());
         getHandlers().getHyperiumCommandHandler().registerCommand(new CommandParticleAuras());
         getHandlers().getHyperiumCommandHandler().registerCommand(new AutofriendCommand());
+
+        getHandlers().getHyperiumCommandHandler().registerCommand(new CommandRichPresenceMode());
     }
 
     /**
