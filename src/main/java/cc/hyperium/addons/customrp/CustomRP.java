@@ -51,7 +51,6 @@ public class CustomRP extends AbstractAddon {
     }
 
     public void shutdown() {
-
         try {
             if (this.client != null && this.client.getStatus() == CONNECTED) {
                 this.client.close();
