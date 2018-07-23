@@ -5,62 +5,19 @@ import cc.hyperium.utils.ChatColor;
 import cc.hyperium.addons.customrp.config.Config;
 
 import java.awt.*;
+import java.util.Arrays;
 import java.util.function.Supplier;
 
 public class Mode {
-    public static Supplier<String[]> modes = new Supplier<String[]>() {
-        @Override
-        public String[] get() {
-            String[] internalModes = {"addon", "eVowels", "eAll", "sellout", "bestCoder", "merch", "respects", "sleepy"};
-            return internalModes;
-        }
-    };
+    public static Supplier<String[]> modes = () -> new String[]{"Addon", "E-Vowels", "E-All", "Sellout", "BestCoder", "Merch", "Respects", "Sleepy"};
 
     public static void set(String mode) {
-        switch (mode.toLowerCase()) {
-            case "addon":
-                Config.customRPMode = "addon";
-                RichPresenceUpdater.callCustomRPUpdate();
-                Hyperium.INSTANCE.getNotification().display("CustomRP", "Mode set to\n    '" + mode + "'", 1.5F, null, null, Color.CYAN);
-                break;
-            case "evowels":
-                Config.customRPMode = "eVowels";
-                RichPresenceUpdater.callCustomRPUpdate();
-                Hyperium.INSTANCE.getNotification().display("CustomRP", "Mode set to\n    '" + mode + "'", 1.5F, null, null, Color.CYAN);
-                break;
-            case "eall":
-                Config.customRPMode = "eAll";
-                RichPresenceUpdater.callCustomRPUpdate();
-                Hyperium.INSTANCE.getNotification().display("CustomRP", "Mode set to\n    '" + mode + "'", 1.5F, null, null, Color.CYAN);
-                break;
-            case "sellout":
-                Config.customRPMode = "sellout";
-                RichPresenceUpdater.callCustomRPUpdate();
-                Hyperium.INSTANCE.getNotification().display("CustomRP", "Mode set to\n    '" + mode + "'", 1.5F, null, null, Color.CYAN);
-                break;
-            case "bestcoder":
-                Config.customRPMode = "bestCoder";
-                RichPresenceUpdater.callCustomRPUpdate();
-                Hyperium.INSTANCE.getNotification().display("CustomRP", "Mode set to\n    '" + mode + "'", 1.5F, null, null, Color.CYAN);
-                break;
-            case "merch":
-                Config.customRPMode = "merch";
-                RichPresenceUpdater.callCustomRPUpdate();
-                Hyperium.INSTANCE.getNotification().display("CustomRP", "Mode set to\n    '" + mode + "'", 1.5F, null, null, Color.CYAN);
-                break;
-            case "respects":
-                Config.customRPMode = "respects";
-                RichPresenceUpdater.callCustomRPUpdate();
-                Hyperium.INSTANCE.getNotification().display("CustomRP", "Mode set to\n    '" + mode + "'", 1.5F, null, null, Color.CYAN);
-                break;
-            case "sleepy":
-                Config.customRPMode = "sleepy";
-                RichPresenceUpdater.callCustomRPUpdate();
-                Hyperium.INSTANCE.getNotification().display("CustomRP", "Mode set to\n    '" + mode + "'", 1.5F, null, null, Color.CYAN);
-                break;
-            default:
-                Hyperium.INSTANCE.getNotification().display("CustomRP", "Invalid mode:\n    '" + mode + "'", 1.5F, null, null, Color.CYAN);
-                break;
+        if (!Arrays.asList(modes.get()).contains(mode))
+            Hyperium.INSTANCE.getNotification().display("CustomRP", "Invalid mode:\n    '" + mode + "'", 1.5F, null, null, Color.CYAN);
+        else {
+            Config.CUSTOM_RP_MODE = mode;
+            RichPresenceUpdater.callCustomRPUpdate();
+            Hyperium.INSTANCE.getNotification().display("CustomRP", "Mode set to\n    '" + mode + "'", 1.5F, null, null, Color.CYAN);
         }
     }
 
@@ -74,19 +31,19 @@ public class Mode {
                                 "&b[time]\n")
                         , false);
                 break;
-            case "evowels":
+            case "e-vowels":
                 Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage(ChatColor.translateAlternateColorCodes('&', "&8[CustomRP] &fPreview of '" + mode + "'\n\n" +
                                 "&cHyperium\n" +
-                                "&bCestemRP [enternel]\n" +
-                                "&beGN: [IGN but vowels are es]\n" +
+                                "&bCestemRP [Enternel]\n" +
+                                "&bEGN: " + EUtils.geteIfiedUsername() + "\n" +
                                 "&b[time]\n")
                         , false);
                 break;
-            case "eall":
+            case "e-all":
                 Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage(ChatColor.translateAlternateColorCodes('&', "&8[CustomRP] &fPreview of '" + mode + "'\n\n" +
                                 "&cHyperium\n" +
-                                "&beeeeeeee [eeeeeeee]\n" +
-                                "&beee: [IGN but every character is e]\n" +
+                                "&bEeeeeeEE [Eeeeeeee]\n" +
+                                "&bEEE: " + EUtils.getAllEUsername() + "\n" +
                                 "&b[time]\n")
                         , false);
                 break;
@@ -94,7 +51,7 @@ public class Mode {
                 Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage(ChatColor.translateAlternateColorCodes('&', "&8[CustomRP] &fPreview of '" + mode + "'\n\n" +
                                 "&cHyperium\n" +
                                 "&bCustomRP [Internal]\n" +
-                                "&bSubscribe to [IGN]\n" +
+                                "&bSubscribe to " + EUtils.getUsername() + "\n" +
                                 "&b[time]\n")
                         , false);
                 break;
@@ -102,7 +59,7 @@ public class Mode {
                 Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage(ChatColor.translateAlternateColorCodes('&', "&8[CustomRP] &fPreview of '" + mode + "'\n\n" +
                                 "&cHyperium\n" +
                                 "&bCustomRP [Internal]\n" +
-                                "&b[IGN] best coder\n" +
+                                "&b" + EUtils.getUsername() + " best coder\n" +
                                 "&b[time]\n")
                         , false);
                 break;
@@ -110,7 +67,7 @@ public class Mode {
                 Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage(ChatColor.translateAlternateColorCodes('&', "&8[CustomRP] &fPreview of '" + mode + "'\n\n" +
                                 "&cHyperium\n" +
                                 "&bCustomRP [Internal]\n" +
-                                "&bBuy [IGN]'s merch\n" +
+                                "&bBuy " + EUtils.getUsername() + "'s merch\n" +
                                 "&b[time]\n")
                         , false);
                 break;
@@ -126,7 +83,7 @@ public class Mode {
                 Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage(ChatColor.translateAlternateColorCodes('&', "&8[CustomRP] &fPreview of '" + mode + "'\n\n" +
                                 "&cHyperium\n" +
                                 "&bCustomRP [Internal]\n" +
-                                "&b[IGN] sleepy\n" +
+                                "&b" + EUtils.getUsername() + " sleepy\n" +
                                 "&b[time]\n")
                         , false);
                 break;
