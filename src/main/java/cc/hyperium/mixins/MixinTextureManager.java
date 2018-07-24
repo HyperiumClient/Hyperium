@@ -42,9 +42,7 @@ public abstract class MixinTextureManager {
     @Final
     private static Logger logger;
     private HyperiumTextureManager hyperiumTextureManager = new HyperiumTextureManager((TextureManager) (Object) this);
-    @Shadow
-    @Final
-    private Map<ResourceLocation, ITextureObject> mapTextureObjects;
+
     @Shadow
     private IResourceManager theResourceManager;
 
@@ -53,7 +51,9 @@ public abstract class MixinTextureManager {
     private Map<String, Integer> mapTextureCounters;
 
 
-    @Shadow @Final private List<ITickable> listTickables;
+    @Shadow
+    @Final
+    private List<ITickable> listTickables;
 
     /**
      * @author Sk1er
@@ -61,7 +61,7 @@ public abstract class MixinTextureManager {
      */
     @Overwrite
     public boolean loadTexture(ResourceLocation textureLocation, ITextureObject textureObj) {
-        return hyperiumTextureManager.loadTexture(textureLocation, textureObj, theResourceManager,mapTextureObjects,logger);
+        return hyperiumTextureManager.loadTexture(textureLocation, textureObj, theResourceManager, logger);
     }
 
     @Overwrite
@@ -83,8 +83,26 @@ public abstract class MixinTextureManager {
      */
     @Overwrite
     public void onResourceManagerReload(IResourceManager resourceManager) {
-        hyperiumTextureManager.onResourceManagerReload(resourceManager, mapTextureObjects);
+        hyperiumTextureManager.onResourceManagerReload(resourceManager);
     }
 
+    @Overwrite
+    public void bindTexture(ResourceLocation resource) {
+        hyperiumTextureManager.bindTexture(resource);
+    }
 
+    @Overwrite
+    public ITextureObject getTexture(ResourceLocation textureLocation) {
+        return hyperiumTextureManager.getTexture(textureLocation);
+    }
+
+    @Overwrite
+    public void tick() {
+        hyperiumTextureManager.tick(listTickables);
+    }
+
+    @Overwrite
+    public void deleteTexture(ResourceLocation textureLocation) {
+        hyperiumTextureManager.deleteTexture(textureLocation);
+    }
 }

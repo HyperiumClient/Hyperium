@@ -2,10 +2,12 @@ package cc.hyperium.mixinsimp;
 
 import cc.hyperium.handlers.handlers.animation.cape.CapeHandler;
 import cc.hyperium.utils.Utils;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.texture.ITextureObject;
 import net.minecraft.client.renderer.texture.ITickable;
 import net.minecraft.client.renderer.texture.ITickableTextureObject;
+import net.minecraft.client.renderer.texture.SimpleTexture;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.renderer.texture.TextureUtil;
 import net.minecraft.client.resources.IResourceManager;
@@ -27,6 +29,7 @@ public class HyperiumTextureManager {
 
 
     private HashMap<String, ITextureObject> textures = new HashMap<>();
+
     public HyperiumTextureManager(TextureManager parent) {
         this.parent = parent;
     }
@@ -34,18 +37,24 @@ public class HyperiumTextureManager {
     public boolean loadTickableTexture(ResourceLocation textureLocation, ITickableTextureObject textureObj, List<ITickable> listTickables) {
         if (parent.loadTexture(textureLocation, textureObj)) {
             listTickables.add(textureObj);
-            textures.put(textureLocation.toString(),textureObj);
+            textures.put(textureLocation.toString(), textureObj);
             return true;
         } else {
             return false;
         }
     }
 
-    public void onResourceManagerReload(IResourceManager resourceManager, Map<ResourceLocation, ITextureObject> mapTextureObjects) {
+    public void onResourceManagerReload(IResourceManager resourceManager) {
         CapeHandler.LOCK.lock();
         try {
-            for (Map.Entry<ResourceLocation, ITextureObject> entry : mapTextureObjects.entrySet()) {
-                parent.loadTexture(entry.getKey(), entry.getValue());
+            for (Map.Entry<String, ITextureObject> entry : textures.entrySet()) {
+                String key = entry.getKey();
+                ResourceLocation location;
+                if (key.contains(":")) {
+                    String[] split = key.split(":");
+                    location = new ResourceLocation(split[0], split[1]);
+                } else location = new ResourceLocation(key);
+                parent.loadTexture(location, entry.getValue());
             }
             Utils.INSTANCE.setCursor(new ResourceLocation("textures/cursor.png"));
         } catch (Exception e) {
@@ -55,7 +64,7 @@ public class HyperiumTextureManager {
         }
     }
 
-    public boolean loadTexture(ResourceLocation textureLocation, ITextureObject textureObj, IResourceManager theResourceManager, Map<ResourceLocation, ITextureObject> mapTextureObjects, Logger logger) {
+    public boolean loadTexture(ResourceLocation textureLocation, ITextureObject textureObj, IResourceManager theResourceManager, Logger logger) {
         ITextureObject textureCopy = textures.get(textureLocation.toString());
         if (textureCopy != null) {
             textureObj = textureCopy;
@@ -67,7 +76,7 @@ public class HyperiumTextureManager {
         } catch (IOException ioexception) {
             logger.warn("Failed to load texture: " + textureLocation, ioexception);
             textureObj = TextureUtil.missingTexture;
-            mapTextureObjects.put(textureLocation, textureObj);
+            textures.put(textureLocation.toString(), textureObj);
             flag = false;
         } catch (Throwable throwable) {
             CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Registering texture");
@@ -78,7 +87,7 @@ public class HyperiumTextureManager {
             throw new ReportedException(crashreport);
         }
 
-        mapTextureObjects.put(textureLocation, textureObj);
+        textures.put(textureLocation.toString(), textureObj);
         return flag;
     }
 
@@ -99,5 +108,39 @@ public class HyperiumTextureManager {
         return resourcelocation;
     }
 
+    public void bindTexture(ResourceLocation resource) {
+        ITextureObject itextureobject = (ITextureObject) textures.get(resource.toString());
+
+        if (itextureobject == null) {
+            itextureobject = new SimpleTexture(resource);
+            parent.loadTexture(resource, itextureobject);
+        }
+
+        GlStateManager.bindTexture(itextureobject.getGlTextureId());
+    }
+
+
+    public ITextureObject getTexture(ResourceLocation textureLocation) {
+        if (textureLocation == null) {
+            return null;
+        }
+        return (ITextureObject) textures.get(textureLocation.toString());
+    }
+
+    public void tick(List<ITickable> listTickables) {
+        for (ITickable itickable : listTickables) {
+            itickable.tick();
+        }
+    }
+
+    public void deleteTexture(ResourceLocation textureLocation) {
+        ITextureObject itextureobject = this.getTexture(textureLocation);
+
+        if (itextureobject != null) {
+            TextureUtil.deleteTexture(itextureobject.getGlTextureId());
+            textures.remove(textureLocation.toString());
+
+        }
+    }
 
 }
