@@ -12,6 +12,8 @@ public class Mode {
     public static Supplier<String[]> modes = () -> new String[]{"Addon", "E-Vowels", "E-All", "Sellout", "BestCoder", "Merch", "Respects", "Sleepy"};
 
     public static void set(String mode) {
+        if(mode ==null)
+            return;
         if (!Arrays.asList(modes.get()).contains(mode))
             Hyperium.INSTANCE.getNotification().display("CustomRP", "Invalid mode:\n    '" + mode + "'", 1.5F, null, null, Color.CYAN);
         else {
@@ -22,6 +24,8 @@ public class Mode {
     }
 
     public static void preview(String mode) {
+        if(mode == null)
+            return;
         switch (mode.toLowerCase()) {
             case "addon":
                 Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage(ChatColor.translateAlternateColorCodes('&', "&8[CustomRP] &fPreview of '" + mode + "'\n\n" +
