@@ -182,6 +182,7 @@ import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.resources.DefaultResourcePack;
 import net.minecraft.client.resources.IResourcePack;
+import net.minecraft.client.resources.ResourcePackRepository;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.profiler.Profiler;
@@ -246,6 +247,10 @@ public abstract class MixinMinecraft {
     private Timer timer;
     @Shadow
     private RenderManager renderManager;
+    @Shadow
+    private ResourcePackRepository mcResourcePackRepository;
+    @Shadow
+    private long systemTime;
 
     protected MixinMinecraft() {
     }
@@ -374,6 +379,9 @@ public abstract class MixinMinecraft {
     @Shadow
     public abstract void run();
 
+    @Shadow
+    public abstract boolean isCallingFromMinecraftThread();
+
     /**
      * change to splash screen logo
      *
@@ -410,6 +418,11 @@ public abstract class MixinMinecraft {
         hyperiumMinecraft.loadWorld(worldClient, ci);
     }
 
+    @Inject(method = "loadWorld(Lnet/minecraft/client/multiplayer/WorldClient;Ljava/lang/String;)V", at = @At(value = "INVOKE", target = "Ljava/lang/System;gc()V"), cancellable = true)
+    public void fixGarbageCollection(WorldClient worldClientIn, String loadingMessage, CallbackInfo info) {
+        systemTime = 0;
+        info.cancel();
+    }
 
     @Inject(method = "runTick", at = @At(value = "INVOKE", target = "Lorg/lwjgl/input/Mouse;getEventButton()I", ordinal = 0))
     private void runTickMouseButton(CallbackInfo ci) {
