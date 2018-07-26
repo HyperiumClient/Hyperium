@@ -149,7 +149,6 @@ public class HyperiumTextureManager {
             for (EntityPlayer playerEntity : theWorld.playerEntities) {
                 ResourceLocation locationSkin = ((AbstractClientPlayer) playerEntity).getLocationSkin();
                 if (locationSkin != null) {
-                    System.out.println("Deleting skin for " + playerEntity.getName());
                     deleteTexture(locationSkin);
                 }
                 ResourceLocation locationCape = ((AbstractClientPlayer) playerEntity).getLocationCape();
@@ -158,7 +157,6 @@ public class HyperiumTextureManager {
                     ResourceLocation cape = capeHandler.getCape(((AbstractClientPlayer) playerEntity));
                     if (cape != null && cape.equals(locationCape))
                         return;
-                    System.out.println("Deleting cape for " + playerEntity.getName());
                     deleteTexture(locationCape);
                 }
             }
@@ -170,10 +168,8 @@ public class HyperiumTextureManager {
 
         if (itextureobject != null) {
             TextureUtil.deleteTexture(itextureobject.getGlTextureId());
-            ITextureObject remove = textures.remove(textureLocation.toString());
-            if (remove != null) {
-                System.out.println("Successfully deleted: " + textureLocation.toString());
-            } else System.out.println("Failed to delete: " + textureLocation.toString());
+          textures.remove(textureLocation.toString());
+
         }
     }
 
