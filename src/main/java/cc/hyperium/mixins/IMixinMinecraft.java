@@ -4,6 +4,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
+import org.spongepowered.asm.mixin.gen.Invoker;
 
 @Mixin(Minecraft.class)
 public interface IMixinMinecraft {
@@ -17,4 +18,7 @@ public interface IMixinMinecraft {
 
     @Accessor
     void setCurrentScreen(GuiScreen screen);
+
+    @Invoker
+    void callResize(int width, int height);
 }

@@ -30,6 +30,7 @@ import cc.hyperium.commands.defaults.CommandParty;
 import cc.hyperium.commands.defaults.CommandPing;
 import cc.hyperium.commands.defaults.CommandPlayGame;
 import cc.hyperium.commands.defaults.CommandPrivateMessage;
+import cc.hyperium.commands.defaults.CommandResize;
 import cc.hyperium.commands.defaults.CommandUpdate;
 import cc.hyperium.commands.defaults.CustomLevelheadCommand;
 import cc.hyperium.commands.defaults.DevTestCommand;
@@ -178,7 +179,7 @@ public class Hyperium {
 
         // Creates the accounts dir
         firstLaunch = new File(folder.getAbsolutePath() + "/accounts").mkdirs();
-new ChargebackStopper();
+        new ChargebackStopper();
 
         // Has the user accepted the TOS of the client?
         this.acceptedTos = new File(
@@ -330,6 +331,7 @@ new ChargebackStopper();
         getHandlers().getHyperiumCommandHandler().registerCommand(new CommandLogs());
         getHandlers().getHyperiumCommandHandler().registerCommand(new CommandPing());
         getHandlers().getHyperiumCommandHandler().registerCommand(new CommandParty());
+        getHandlers().getHyperiumCommandHandler().registerCommand(new CommandResize());
 
         getHandlers().getHyperiumCommandHandler().registerCommand(new CommandMessage());
         getHandlers().getHyperiumCommandHandler().registerCommand(new CommandParticleAuras());
