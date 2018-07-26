@@ -5,10 +5,13 @@ import cc.hyperium.event.EventBus;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.WorldChangeEvent;
 import cc.hyperium.handlers.handlers.animation.cape.CapeHandler;
+import cc.hyperium.mixins.entity.IMixinAbstractClientPlayer;
+import cc.hyperium.mixins.entity.IMixinNetworkPlayerInfo;
 import cc.hyperium.utils.Utils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.multiplayer.WorldClient;
+import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.texture.ITextureObject;
@@ -147,8 +150,14 @@ public class HyperiumTextureManager {
         WorldClient theWorld = Minecraft.getMinecraft().theWorld;
         if (theWorld != null) {
             for (EntityPlayer playerEntity : theWorld.playerEntities) {
-                if(playerEntity.equals(Minecraft.getMinecraft().thePlayer))
+                if (playerEntity.equals(Minecraft.getMinecraft().thePlayer))
                     return;
+                NetworkPlayerInfo networkPlayerInfo = ((IMixinAbstractClientPlayer) playerEntity).callGetPlayerInfo();
+                if (networkPlayerInfo == null)
+                    return;
+                ((IMixinNetworkPlayerInfo) networkPlayerInfo).setPlayerTexturesLoaded(false);
+                ((IMixinNetworkPlayerInfo) networkPlayerInfo).setLocationCape(null);
+                ((IMixinNetworkPlayerInfo) networkPlayerInfo).setLocationSkin(null);
                 ResourceLocation locationSkin = ((AbstractClientPlayer) playerEntity).getLocationSkin();
                 if (locationSkin != null) {
                     deleteTexture(locationSkin);
@@ -170,7 +179,7 @@ public class HyperiumTextureManager {
 
         if (itextureobject != null) {
             TextureUtil.deleteTexture(itextureobject.getGlTextureId());
-          textures.remove(textureLocation.toString());
+            textures.remove(textureLocation.toString());
 
         }
     }

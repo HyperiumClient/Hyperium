@@ -6,9 +6,12 @@ import cc.hyperium.event.EntityJoinWorldEvent;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.SpawnpointChangeEvent;
 import cc.hyperium.handlers.handlers.animation.cape.CapeHandler;
+import cc.hyperium.mixins.entity.IMixinAbstractClientPlayer;
+import cc.hyperium.mixins.entity.IMixinNetworkPlayerInfo;
 import cc.hyperium.mixins.world.IMixinWorld;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
+import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.BlockPos;
@@ -132,8 +135,15 @@ public class HyperiumWorld {
         if (entity == null)
             return;
         if (entity instanceof EntityPlayer) {
-            if(entity.equals(Minecraft.getMinecraft().thePlayer))
+            if (entity.equals(Minecraft.getMinecraft().thePlayer))
                 return;
+            NetworkPlayerInfo networkPlayerInfo = ((IMixinAbstractClientPlayer) entity).callGetPlayerInfo();
+            if (networkPlayerInfo == null)
+                return;
+            ((IMixinNetworkPlayerInfo) networkPlayerInfo).setPlayerTexturesLoaded(false);
+            ((IMixinNetworkPlayerInfo)networkPlayerInfo).setLocationCape(null);
+            ((IMixinNetworkPlayerInfo)networkPlayerInfo).setLocationSkin(null);
+
             ResourceLocation locationSkin = ((AbstractClientPlayer) entity).getLocationSkin();
             if (locationSkin != null) {
                 Minecraft.getMinecraft().getTextureManager().deleteTexture(locationSkin);
