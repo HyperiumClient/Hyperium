@@ -100,7 +100,9 @@ public class NickHider {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        } else this.config = new NickHiderConfig();
+        }
+        if(config == null)
+            this.config = new NickHiderConfig();
 
         EventBus.INSTANCE.register(this);
         Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(new CommandNickHider());
