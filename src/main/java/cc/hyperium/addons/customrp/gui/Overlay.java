@@ -9,8 +9,6 @@ import cc.hyperium.gui.main.components.OverlaySelector;
 
 public class Overlay extends HyperiumOverlay {
 
-    private String localMode;
-
     public Overlay() {
         try {
             this.addToggle("Enabled", Config.class.getDeclaredField("ENABLED"), o -> {
@@ -18,9 +16,9 @@ public class Overlay extends HyperiumOverlay {
                 RichPresenceUpdater.callCustomRPUpdate();
             }, true);
             this.getComponents().add(new OverlayButton("RESET", () -> Mode.set("Addon")));
-            this.getComponents().add(new OverlaySelector<>("Mode: ", Mode.modes.get()[0], a -> localMode = a, Mode.modes));
-            this.getComponents().add(new OverlayButton("Set", () -> Mode.set(localMode)));
-            this.getComponents().add(new OverlayButton("Preview", () -> Mode.preview(localMode)));
+            this.getComponents().add(new OverlaySelector<>("Mode: ", Mode.modes.get()[0], a -> Config.CUSTOM_RP_MODE = a, Mode.modes));
+            this.getComponents().add(new OverlayButton("Set", () -> Mode.set(Config.CUSTOM_RP_MODE)));
+            this.getComponents().add(new OverlayButton("Preview", () -> Mode.preview(Config.CUSTOM_RP_MODE)));
         } catch (Exception exception) {
             exception.printStackTrace();
         }
