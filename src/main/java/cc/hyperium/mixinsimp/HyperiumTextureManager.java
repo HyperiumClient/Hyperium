@@ -147,6 +147,8 @@ public class HyperiumTextureManager {
         WorldClient theWorld = Minecraft.getMinecraft().theWorld;
         if (theWorld != null) {
             for (EntityPlayer playerEntity : theWorld.playerEntities) {
+                if(playerEntity.equals(Minecraft.getMinecraft().thePlayer))
+                    return;
                 ResourceLocation locationSkin = ((AbstractClientPlayer) playerEntity).getLocationSkin();
                 if (locationSkin != null) {
                     deleteTexture(locationSkin);
