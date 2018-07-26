@@ -26,14 +26,6 @@ import cc.hyperium.mixins.IMixinMinecraft;
 import cc.hyperium.utils.AddonWorkspaceResourcePack;
 import cc.hyperium.utils.Utils;
 import cc.hyperium.utils.mods.FPSLimiter;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.lang.management.ManagementFactory;
-import java.nio.ByteBuffer;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.GuiGameOver;
@@ -59,6 +51,15 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.management.ManagementFactory;
+import java.nio.ByteBuffer;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 
 public class HyperiumMinecraft {
 
