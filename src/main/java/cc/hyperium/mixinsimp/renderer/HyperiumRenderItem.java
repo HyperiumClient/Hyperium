@@ -207,8 +207,10 @@ public class HyperiumRenderItem {
                 for (int c = 0; c < 50; c++) {
                     CachedItem poll = queue.poll();
                     Integer integer = cache.get(poll);
-                    GL11.glDeleteLists(integer, 1);
-                    cache.remove(poll);
+                    if(integer !=null) {
+                        GL11.glDeleteLists(integer, 1);
+                        cache.remove(poll);
+                    }
                 }
             }
 
