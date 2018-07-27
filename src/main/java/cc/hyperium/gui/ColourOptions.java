@@ -1,12 +1,12 @@
 package cc.hyperium.gui;
 
 import cc.hyperium.config.ConfigOpt;
+import cc.hyperium.config.Settings;
 import cc.hyperium.gui.main.HyperiumOverlay;
 import cc.hyperium.gui.main.components.OverlayButton;
 import cc.hyperium.gui.main.components.OverlayLabel;
 import cc.hyperium.gui.main.components.OverlaySlider;
 import cc.hyperium.mods.glintcolorizer.Colors;
-
 import java.lang.reflect.Field;
 
 public class ColourOptions extends HyperiumOverlay {
@@ -18,11 +18,6 @@ public class ColourOptions extends HyperiumOverlay {
     @ConfigOpt
     public static int accent_b = 0;
 
-    /*
-    public static int hr = 30;
-    public static int hg = 30;
-    public static int hb = 30;
-    */
 
     public static boolean toggle = true;
 
@@ -61,12 +56,6 @@ public class ColourOptions extends HyperiumOverlay {
             addSlider("Red", this.getClass().getField("accent_r"), 255, 0, true);
             addSlider("Green", this.getClass().getField("accent_g"), 255, 0, true);
             addSlider("Blue", this.getClass().getField("accent_b"), 255, 0, true);
-            /*
-            addLabel("Hover Colour:");
-            addSlider("Red", this.getClass().getField("hr"), 255, 0, true);
-            addSlider("Green", this.getClass().getField("hg"), 255, 0, true);
-            addSlider("Blue", this.getClass().getField("hb"), 255, 0, true);
-            */
             addToggle("Example: ", this.getClass().getField("toggle"), null, true, this);
             this.getComponents().add(new OverlayButton("Reset to default colours", () -> {
                 try {
@@ -77,6 +66,8 @@ public class ColourOptions extends HyperiumOverlay {
                     e.printStackTrace();
                 }
             }));
+            addLabel("Name History: ");
+            addToggle("RGB Names",Settings.class.getField("NH_RGB_NAMES"),null,true,this);
         } catch (NoSuchFieldException e) {
             e.printStackTrace();
         }
