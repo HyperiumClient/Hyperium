@@ -4,6 +4,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IImageBuffer;
 import net.minecraft.client.renderer.ThreadDownloadImageData;
 import net.minecraft.client.renderer.texture.TextureUtil;
+import net.minecraft.util.ResourceLocation;
 import org.apache.commons.io.FileUtils;
 
 import javax.imageio.ImageIO;
@@ -45,12 +46,14 @@ public class CachedThreadDownloader {
     private IImageBuffer imageBuffer;
     private ThreadDownloadImageData base;
     private int code;
+    private ResourceLocation location;
 
-    public CachedThreadDownloader(String imageUrl, File cacheFile, IImageBuffer imageBuffer, ThreadDownloadImageData base) {
+    public CachedThreadDownloader(String imageUrl, File cacheFile, IImageBuffer imageBuffer, ThreadDownloadImageData base, ResourceLocation location) {
         this.imageUrl = imageUrl;
         this.cacheFile = cacheFile;
         this.imageBuffer = imageBuffer;
         this.base = base;
+        this.location = location;
     }
 
     public void download() {
@@ -60,7 +63,7 @@ public class CachedThreadDownloader {
 
         try {
             httpurlconnection = (HttpURLConnection) (new URL(imageUrl)).openConnection(Minecraft.getMinecraft().getProxy());
-            httpurlconnection.setRequestProperty("User-Agent","Hyperium Client");
+            httpurlconnection.setRequestProperty("User-Agent", "Hyperium Client");
             httpurlconnection.setDoInput(true);
             httpurlconnection.setDoOutput(false);
             httpurlconnection.setUseCaches(true);
@@ -103,6 +106,9 @@ public class CachedThreadDownloader {
                 download();
                 if (code != 404)
                     base.setBufferedImage(image);
+                else {
+                    Minecraft.getMinecraft().getTextureManager().deleteTexture(location);
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
