@@ -58,8 +58,6 @@
 
 [ModConfigGui](classes/cc.hyperium.gui.ModConfigGui.md)
 
-[HyperiumTextField](classes/cc.hyperium.gui.HyperiumTextField.md)
-
 [HyperiumSlider](classes/cc.hyperium.gui.HyperiumSlider.md)
 
 [HyperiumMainMenu](classes/cc.hyperium.gui.HyperiumMainMenu.md)
