@@ -35,6 +35,7 @@ public class FontFixValues {
             if (cachedString != null)
                 GLAllocation.deleteDisplayLists(cachedString.getListId());
         }
+        obfuscated.clear();
         if (e >= 20) {
             e = 0;
             count = 0;
