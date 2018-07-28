@@ -67,6 +67,7 @@ import cc.hyperium.network.LoginReplyHandler;
 import cc.hyperium.network.NetworkHandler;
 import cc.hyperium.purchases.PurchaseApi;
 import cc.hyperium.tray.TrayManager;
+import cc.hyperium.utils.HyperiumScheduler;
 import cc.hyperium.utils.InstallerUtils;
 import cc.hyperium.utils.StaffUtils;
 import cc.hyperium.utils.UpdateUtils;
@@ -133,6 +134,7 @@ public class Hyperium {
      * @param event initialize Hyperium
      */
     private boolean firstLaunch = false;
+    private HyperiumScheduler scheduler;
 
     public NetworkHandler getNetworkHandler() {
         return networkHandler;
@@ -155,9 +157,13 @@ public class Hyperium {
         EventBus.INSTANCE.register(new AutoGG());
     }
 
+    public HyperiumScheduler getScheduler() {
+        return scheduler;
+    }
+
     @InvokeEvent(priority = Priority.HIGH)
     public void init(InitializationEvent event) {
-
+        scheduler = new HyperiumScheduler();
         InputStream resourceAsStream = getClass().getResourceAsStream("/build.txt");
         try {
             if (resourceAsStream != null) {

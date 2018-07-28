@@ -135,27 +135,35 @@ public class HyperiumWorld {
         if (entity == null)
             return;
         if (entity instanceof EntityPlayer) {
-            if (entity.equals(Minecraft.getMinecraft().thePlayer))
-                return;
-            NetworkPlayerInfo networkPlayerInfo = ((IMixinAbstractClientPlayer) entity).callGetPlayerInfo();
-            if (networkPlayerInfo == null)
-                return;
-            ((IMixinNetworkPlayerInfo) networkPlayerInfo).setPlayerTexturesLoaded(false);
-            ((IMixinNetworkPlayerInfo)networkPlayerInfo).setLocationCape(null);
-            ((IMixinNetworkPlayerInfo)networkPlayerInfo).setLocationSkin(null);
-
-            ResourceLocation locationSkin = ((AbstractClientPlayer) entity).getLocationSkin();
-            if (locationSkin != null) {
-                Minecraft.getMinecraft().getTextureManager().deleteTexture(locationSkin);
-            }
-            ResourceLocation locationCape = ((AbstractClientPlayer) entity).getLocationCape();
-            if (locationCape != null) {
-                CapeHandler capeHandler = Hyperium.INSTANCE.getHandlers().getCapeHandler();
-                ResourceLocation cape = capeHandler.getCape(((AbstractClientPlayer) entity));
-                if (cape != null && cape.equals(locationCape))
+            Hyperium.INSTANCE.getScheduler().schedule(2, () -> {
+                if (entity.equals(Minecraft.getMinecraft().thePlayer)) {
                     return;
-                Minecraft.getMinecraft().getTextureManager().deleteTexture(locationCape);
-            }
+                }
+                NetworkPlayerInfo networkPlayerInfo = ((IMixinAbstractClientPlayer) entity).callGetPlayerInfo();
+                if (networkPlayerInfo == null)
+                    return;
+                if (Minecraft.getMinecraft().getNetHandler().getPlayerInfoMap().contains(networkPlayerInfo)) {
+                    return;
+                }
+
+                ((IMixinNetworkPlayerInfo) networkPlayerInfo).setPlayerTexturesLoaded(false);
+                ((IMixinNetworkPlayerInfo) networkPlayerInfo).setLocationCape(null);
+                ((IMixinNetworkPlayerInfo) networkPlayerInfo).setLocationSkin(null);
+
+                ResourceLocation locationSkin = ((AbstractClientPlayer) entity).getLocationSkin();
+                if (locationSkin != null) {
+                    Minecraft.getMinecraft().getTextureManager().deleteTexture(locationSkin);
+                }
+                ResourceLocation locationCape = ((AbstractClientPlayer) entity).getLocationCape();
+                if (locationCape != null) {
+                    CapeHandler capeHandler = Hyperium.INSTANCE.getHandlers().getCapeHandler();
+                    ResourceLocation cape = capeHandler.getCape(((AbstractClientPlayer) entity));
+                    if (cape != null && cape.equals(locationCape))
+                        return;
+                    Minecraft.getMinecraft().getTextureManager().deleteTexture(locationCape);
+                }
+            });
+
         }
     }
 }

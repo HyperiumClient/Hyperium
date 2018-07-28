@@ -190,7 +190,7 @@ public class HyperiumTextureManager {
                     }
 
                     //Delete maps from that wold + server icons since we don't need them while on a server
-                    if (split[1].startsWith("dynamic/map") || split[1].startsWith("servers/") || split[1].startsWith("capeof/") || s.startsWith("minecraft:dynamic/map"))
+                    if (split[1].startsWith("dynamic/map") || split[1].startsWith("capeof/") || s.startsWith("minecraft:dynamic/map"))
                         deleteTexture(textureLocation);
                 }
 
