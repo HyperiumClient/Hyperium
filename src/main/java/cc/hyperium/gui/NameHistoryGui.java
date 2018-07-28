@@ -19,12 +19,6 @@ package cc.hyperium.gui;
 
 import cc.hyperium.config.Settings;
 import cc.hyperium.utils.HyperiumFontRenderer;
-import me.kbrewster.mojangapi.MojangAPI;
-import me.kbrewster.mojangapi.profile.Name;
-import net.minecraft.client.gui.GuiScreen;
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Mouse;
-
 import java.awt.Color;
 import java.awt.Font;
 import java.io.IOException;
@@ -33,6 +27,12 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import me.kbrewster.mojangapi.MojangAPI;
+import me.kbrewster.mojangapi.profile.Name;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.GuiTextField;
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 
 public class NameHistoryGui extends GuiScreen {
 
@@ -47,29 +47,34 @@ public class NameHistoryGui extends GuiScreen {
         getNames(name);
     }
 
-    final List<String> names = new ArrayList<>();
+    List<String> names = new ArrayList<>();
     private final HyperiumFontRenderer fontRenderer = new HyperiumFontRenderer("Arial", Font.PLAIN, 16);
-    private HyperiumTextField nameField;
+    private GuiTextField nameField;
     private int offset = 0;
 
     @Override
     public void initGui() {
         super.initGui();
-        nameField = new HyperiumTextField(1, fontRenderer, width / 2 - (115 / 2), height / 5 + 10, 115, 20);
+        nameField = new GuiTextField(1,mc.fontRendererObj,width / 2 - (115 / 2), height / 5 + 10, 115, 20);
         nameField.setText(name);
     }
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         super.drawScreen(mouseX, mouseY, partialTicks);
+        int left = width/5 -1;
+        int top = height / 5 - 1;
+        int right = width - width/5;
+        int bottom = height / 5 + 33;
+        
         //BG
-        drawRect(width / 5 - 1, height / 5 - 1, width - width / 5, height / 5 + 33 + (names.size() * 10), new Color(0, 0, 0, 100).getRGB());
+        drawRect(left, top, right, bottom + (names.size() * 10), new Color(0, 0, 0, 100).getRGB());
 
         //TITLE BG
-        drawRect(width / 5 - 1, height / 5 - 1, width - width / 5, height / 5 + 33, new Color(0, 0, 0, 150).getRGB());
+        drawRect(left, top, right, bottom, new Color(0, 0, 0, 150).getRGB());
 
         //TITLE
-        fontRenderer.drawCenteredStringWithShadow("NAME HISTORY", width / 2, height / 5, Color.WHITE.getRGB());
+        fontRenderer.drawCenteredString("NAME HISTORY", width / 2, height / 5, Color.WHITE.getRGB());
 
         //Text Box
         nameField.drawTextBox();
@@ -80,7 +85,7 @@ public class NameHistoryGui extends GuiScreen {
         for (int i = 0; i < names.size(); i++) {
 
             float xPos = width / 2 - (115 / 2);
-            float yPos = height / 5 + 33 + (i * 10) + offset;
+            float yPos = bottom + (i * 10) + offset;
 
             // Check if names have been scrolled outside of bounding box.
             if (yPos < (height / 5) + 32) {
@@ -145,7 +150,6 @@ public class NameHistoryGui extends GuiScreen {
         int i = Mouse.getEventDWheel();
         if (i < 0) {
             // works out length of scrollable area
-
             int length = height / 5 - (int) (names.size() * fontRenderer.getHeight("s"));
 
             if (offset - length + 1 > -names.size() && length <= names.size()) {
