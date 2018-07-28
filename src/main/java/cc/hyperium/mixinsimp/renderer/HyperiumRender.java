@@ -63,11 +63,7 @@ public class HyperiumRender<T extends Entity> {
             GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
             Tessellator tessellator = Tessellator.getInstance();
             WorldRenderer worldrenderer = tessellator.getWorldRenderer();
-            int i = 0;
 
-            if (str.equals("deadmau5")) {
-                i = -10;
-            }
 
             int j = fontrenderer.getStringWidth(str) / 2;
             GlStateManager.disableTexture2D();

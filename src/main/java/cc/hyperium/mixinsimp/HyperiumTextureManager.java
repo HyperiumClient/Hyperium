@@ -139,6 +139,7 @@ public class HyperiumTextureManager {
         return textures.get(textureLocation.toString());
     }
 
+    //TODO make this a process them async
     public void tick(List<ITickable> listTickables) {
         for (ITickable itickable : listTickables) {
             itickable.tick();
@@ -189,7 +190,7 @@ public class HyperiumTextureManager {
                     }
 
                     //Delete maps from that wold + server icons since we don't need them while on a server
-                    if (split[1].startsWith("dynamic/map") || split[1].startsWith("servers/"))
+                    if (split[1].startsWith("dynamic/map") || split[1].startsWith("servers/") || split[1].startsWith("capeof/") || s.startsWith("minecraft:dynamic/map"))
                         deleteTexture(textureLocation);
                 }
 
@@ -211,8 +212,8 @@ public class HyperiumTextureManager {
         if (itextureobject != null) {
             TextureUtil.deleteTexture(itextureobject.getGlTextureId());
         }
-        if(textureLocation!=null)
-        textures.remove(textureLocation.toString());
+        if (textureLocation != null)
+            textures.remove(textureLocation.toString());
     }
 
 }

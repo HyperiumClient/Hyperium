@@ -326,8 +326,7 @@ public class Hyperium {
         getHandlers().getHyperiumCommandHandler().registerCommand(new CommandDebug());
         getHandlers().getHyperiumCommandHandler().registerCommand(new CommandUpdate());
         getHandlers().getHyperiumCommandHandler().registerCommand(new CommandCoords());
-        if (isDevEnv)
-            getHandlers().getHyperiumCommandHandler().registerCommand(new DevTestCommand());
+        getHandlers().getHyperiumCommandHandler().registerCommand(new DevTestCommand());
         getHandlers().getHyperiumCommandHandler().registerCommand(new CommandLogs());
         getHandlers().getHyperiumCommandHandler().registerCommand(new CommandPing());
         getHandlers().getHyperiumCommandHandler().registerCommand(new CommandParty());
