@@ -174,8 +174,10 @@ import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.client.renderer.entity.layers.LayerCape;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(LayerCape.class)
 public class MixinLayerCape {
@@ -185,14 +187,9 @@ public class MixinLayerCape {
     @Final
     private RenderPlayer playerRenderer;
 
-    /**
-     * @author CoalOres
-     * <p>
-     * More efficient as it only makes one call to the getLocationCape method every time.
-     */
-    @Overwrite
-    public void doRenderLayer(AbstractClientPlayer entitylivingbaseIn, float p_177141_2_, float p_177141_3_, float partialTicks, float p_177141_5_, float p_177141_6_, float p_177141_7_, float scale) {
-        hyperiumLayerCape.doRenderLayer(entitylivingbaseIn, p_177141_2_, p_177141_3_, partialTicks, p_177141_5_, p_177141_6_, p_177141_7_, scale,playerRenderer);
+    @Inject(method="doRenderLayer",at=@At(value = "INVOKE",target = "Lnet/minecraft/client/model/ModelPlayer;renderCape(F)V",ordinal = 0))
+    public void doRenderLayer(AbstractClientPlayer entitylivingbaseIn, float p_177141_2_, float p_177141_3_, float partialTicks, float p_177141_5_, float p_177141_6_, float p_177141_7_, float scale, CallbackInfo ci) {
+        hyperiumLayerCape.doRenderLayer(entitylivingbaseIn);
     }
 
 }
