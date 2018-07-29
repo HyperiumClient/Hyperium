@@ -33,9 +33,7 @@ import net.minecraft.client.gui.GuiIngame;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.multiplayer.WorldClient;
-import net.minecraft.client.renderer.GLAllocation;
 import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.client.renderer.texture.TextureUtil;
 import net.minecraft.client.resources.DefaultResourcePack;
 import net.minecraft.client.resources.FileResourcePack;
 import net.minecraft.client.resources.IResourcePack;
@@ -229,6 +227,10 @@ public class HyperiumMinecraft {
         } else {
             parent.getSoundHandler().resumeSounds();
             parent.setIngameFocus();
+        }
+
+        if(Hyperium.INSTANCE.getHandlers() != null) {
+            Hyperium.INSTANCE.getHandlers().getKeybindHandler().releaseAllKeybinds();
         }
     }
 

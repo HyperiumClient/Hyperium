@@ -214,11 +214,6 @@ public class ParticleGui extends HyperiumGui implements GuiYesNoCallback {
                 g = c;
             animationItems[c] = new CarouselItem(s, flag, flag1, carouselItem -> {
                 if (!flag) {
-                    if (credits < 300) {
-                        GeneralChatHandler.instance().sendMessage("Insufficient credits");
-                        return;
-                    }
-
                     int i4 = ++purchaseIds;
                     GuiYesNo gui = new GuiYesNo(this, "Purchase " + s, "", i4);
                     Minecraft.getMinecraft().displayGuiScreen(gui);

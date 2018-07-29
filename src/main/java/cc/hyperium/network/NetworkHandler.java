@@ -1,5 +1,6 @@
 package cc.hyperium.network;
 
+import cc.hyperium.C;
 import cc.hyperium.Hyperium;
 import cc.hyperium.config.ConfigOpt;
 import cc.hyperium.config.PostConfigHandler;
@@ -53,6 +54,7 @@ public class NetworkHandler implements INetty, PostConfigHandler, PreSaveHandler
         if (s.toLowerCase().contains("reconnecting hyperium connection"))
             return;
         System.out.println("Chat: " + s);
+        s = s.replace("&", C.COLOR_CODE_SYMBOL);
         GeneralChatHandler.instance().sendMessage(s, false);
     }
 

@@ -1,7 +1,10 @@
 package cc.hyperium.mixinsimp.renderer;
 
 import cc.hyperium.Hyperium;
+import cc.hyperium.config.Settings;
 import cc.hyperium.mixins.renderer.IMixinRender;
+import cc.hyperium.utils.ChatColor;
+import cc.hyperium.utils.StaffUtils;
 import cc.hyperium.utils.Utils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -12,7 +15,11 @@ import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import org.lwjgl.opengl.GL11;
+
+import java.awt.*;
+import java.util.UUID;
 
 public class HyperiumRender<T extends Entity> {
 
@@ -56,11 +63,7 @@ public class HyperiumRender<T extends Entity> {
             GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
             Tessellator tessellator = Tessellator.getInstance();
             WorldRenderer worldrenderer = tessellator.getWorldRenderer();
-            int i = 0;
 
-            if (str.equals("deadmau5")) {
-                i = -10;
-            }
 
             int j = fontrenderer.getStringWidth(str) / 2;
             GlStateManager.disableTexture2D();
@@ -77,10 +80,43 @@ public class HyperiumRender<T extends Entity> {
             GlStateManager.enableDepth();
             GlStateManager.depthMask(true);
             fontrenderer.drawString(str, -fontrenderer.getStringWidth(str) / 2, 0, -1);
+
+            if (Settings.SHOW_ONLINE_PLAYERS && Settings.SHOW_DOTS_ON_NAME_TAGS && entityIn instanceof EntityPlayer) {
+                String s = "⚫";
+                UUID gameProfileId = ((EntityPlayer) entityIn).getGameProfile().getId();
+                boolean online = Hyperium.INSTANCE.getHandlers().getStatusHandler().isOnline(gameProfileId);
+                if (StaffUtils.isStaff(gameProfileId)) {
+                    StaffUtils.DotColour colour = StaffUtils.getColor(gameProfileId);
+                    if (colour.isChroma) {
+                        drawChromaWaveString(s, (fontrenderer.getStringWidth(str) + fontrenderer.getStringWidth(s)) / 2, -2);
+                    } else {
+                        String format = StaffUtils.getColor(gameProfileId).baseColour + s;
+                        fontrenderer.drawString(format, (fontrenderer.getStringWidth(str) + fontrenderer.getStringWidth(s)) / 2, -2, Color.WHITE.getRGB());
+                    }
+                } else {
+                    String format = online ? ChatColor.GREEN + s : ChatColor.RED + s;
+                    fontrenderer.drawString(format, (fontrenderer.getStringWidth(str) + fontrenderer.getStringWidth(s)) / 2, -2, Color.WHITE.getRGB());
+                }
+            }
+
             GlStateManager.enableLighting();
             GlStateManager.disableBlend();
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
             GlStateManager.popMatrix();
+        }
+    }
+
+    private static void drawChromaWaveString(String text, int xIn, int y) {
+        FontRenderer renderer = Minecraft.getMinecraft().fontRendererObj;
+        int x = xIn;
+        for (char c : text.toCharArray()) {
+            long dif = (x * 10) - (y * 10);
+            long l = System.currentTimeMillis() - dif;
+            float ff = 2000.0F;
+            int i = Color.HSBtoRGB((float) (l % (int) ff) / ff, 0.8F, 0.8F);
+            String tmp = String.valueOf(c);
+            renderer.drawString(tmp, (float) ((double) x), (float) ((double) y), i, false);
+            x += (double) renderer.getCharWidth(c);
         }
     }
 }

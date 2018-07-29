@@ -6,8 +6,7 @@ import cc.hyperium.event.EventBus;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.TickEvent;
 import cc.hyperium.mods.AbstractMod;
-
-import java.awt.*;
+import java.awt.Color;
 
 public class GlintColorizer extends AbstractMod {
 
@@ -19,6 +18,7 @@ public class GlintColorizer extends AbstractMod {
         Hyperium.CONFIG.register(new Colors());
         Hyperium.CONFIG.register(this);
         EventBus.INSTANCE.register(this);
+        Colors.setonepoint8color(Colors.glintR,Colors.glintG,Colors.glintB);
         return this;
     }
 

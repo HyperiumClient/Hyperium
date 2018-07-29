@@ -61,7 +61,7 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 compileJava.options.encoding = 'UTF-8'
 
-version = "0.20"
+version = "0.21"
 group = "cc.hyperium"
 archivesBaseName = "Hyperium"
 
@@ -96,7 +96,7 @@ dependencies {
 
     embed "com.github.KevinPriv:MojangAPI:1.0"
     embed 'com.github.Cubxity:DeobfStack:1.2'
-    embed 'com.github.HyperiumClient:Installer:d8c4086ef0'
+    embed 'com.github.HyperiumClient:Installer:1.3'
 
     embed fileTree(dir: 'libs', include: 'Netty Client.jar')
     compile fileTree(dir: 'libs', include: '*.jar')

@@ -28,6 +28,12 @@ import cc.hyperium.mods.levelhead.guis.LevelHeadGui;
 import cc.hyperium.mods.motionblur.MotionBlurMod;
 import cc.hyperium.mods.spotify.SpotifyGui;
 import cc.hyperium.mods.togglechat.gui.ToggleChatMainGui;
+import me.semx11.autotip.Autotip;
+import me.semx11.autotip.util.MessageOption;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Gui;
+import org.apache.commons.lang3.ArrayUtils;
+import org.lwjgl.input.Keyboard;
 
 import java.awt.Color;
 import java.lang.reflect.Field;
@@ -35,13 +41,6 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
-
-import me.semx11.autotip.Autotip;
-import me.semx11.autotip.util.MessageOption;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
-import org.apache.commons.lang3.ArrayUtils;
-import org.lwjgl.input.Keyboard;
 
 public class ModsTab extends AbstractTab {
     private final HyperiumOverlay autotip = new HyperiumOverlay("Autotip");
@@ -55,6 +54,7 @@ public class ModsTab extends AbstractTab {
     private final HyperiumOverlay spotify = new HyperiumOverlay("Spotify");
     private final HyperiumOverlay utils = new HyperiumOverlay("Utilities");
     private final HyperiumOverlay fncompass = new HyperiumOverlay("Fornite Compass");
+    private final HyperiumOverlay reach = new HyperiumOverlay("Reach Display");
 
 
     private final GlintColorizerSettings glintcolorizer = new GlintColorizerSettings();
@@ -72,6 +72,8 @@ public class ModsTab extends AbstractTab {
         items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(levelhead), Icons.SETTINGS.getResource(), "Levelhead", "Levelhead Settings \n /levelhead", "Click to configure", 1, 0));
         items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(vanilla), Icons.SETTINGS.getResource(), "Vanilla Enhancements", "Vanilla Enhancements", "Click to configure", 2, 0));
         items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(motionblur), Icons.SETTINGS.getResource(), "Motion Blur", "Motion Blur Settings \n /motionblur", "Click to configure", 0, 1));
+        items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(reach), Icons.SETTINGS.getResource(), "Reach Display", "Reach Display Settings", "Click to configure", 0, 1));
+
         items.add(new SettingItem(() -> {
             if (Minecraft.getMinecraft().thePlayer != null)
                 Minecraft.getMinecraft().displayGuiScreen(new BlockOverlayGui(Hyperium.INSTANCE.getModIntegration().getBlockOverlay()));
@@ -236,6 +238,8 @@ public class ModsTab extends AbstractTab {
                 return autoFriend;
             case UTILITIES:
                 return utils;
+            case REACH:
+                return reach;
             case FNCOMPASS:
                 return fncompass;
 

@@ -10,25 +10,6 @@ import cc.hyperium.netty.packet.packets.serverbound.ServerCrossDataPacket;
 import cc.hyperium.utils.JsonHolder;
 import cc.hyperium.utils.UpdateUtils;
 import com.google.gson.JsonParser;
-import me.cubxity.utils.DeobfStack;
-import me.cubxity.utils.Mapping;
-import net.minecraft.crash.CrashReport;
-import net.minecraft.init.Bootstrap;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
-
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
-import javax.swing.WindowConstants;
-import javax.swing.plaf.basic.BasicButtonUI;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Desktop;
@@ -42,6 +23,24 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.concurrent.atomic.AtomicReference;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
+import javax.swing.WindowConstants;
+import javax.swing.plaf.basic.BasicButtonUI;
+import me.cubxity.utils.DeobfStack;
+import me.cubxity.utils.Mapping;
+import net.minecraft.crash.CrashReport;
+import net.minecraft.init.Bootstrap;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
 
 /*
  * Created by Cubxity on 04/05/2018
@@ -78,7 +77,6 @@ public class CrashReportGUI extends JDialog {
     public static int handle(CrashReport report) {
         try {
             CrashReportGUI crg = new CrashReportGUI(report);
-            crg.setVisible(true);
             return crg.handle;
         } catch (Exception ex) {
             ex.printStackTrace();

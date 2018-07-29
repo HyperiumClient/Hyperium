@@ -32,7 +32,7 @@ public class PerspectiveModifierHandler {
     public float modifiedYaw;
     public float modifiedPitch;
 
-    public static boolean enabled = false;
+    public boolean enabled = false;
 
     public void onEnable() {
         this.enabled = true;
@@ -50,6 +50,10 @@ public class PerspectiveModifierHandler {
     }
 
     public void onDisable() {
+        if(!enabled){
+            // Prevents being disabled twice by different methods.
+            return;
+        }
         this.enabled = false;
 
         Minecraft.getMinecraft().gameSettings.thirdPersonView = 0;

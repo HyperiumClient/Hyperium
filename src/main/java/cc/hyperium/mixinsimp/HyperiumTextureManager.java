@@ -1,51 +1,72 @@
 package cc.hyperium.mixinsimp;
 
+import cc.hyperium.Hyperium;
+import cc.hyperium.event.EventBus;
+import cc.hyperium.event.InvokeEvent;
+import cc.hyperium.event.WorldChangeEvent;
 import cc.hyperium.handlers.handlers.animation.cape.CapeHandler;
+import cc.hyperium.mixins.entity.IMixinAbstractClientPlayer;
+import cc.hyperium.mixins.entity.IMixinNetworkPlayerInfo;
 import cc.hyperium.utils.Utils;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.AbstractClientPlayer;
+import net.minecraft.client.multiplayer.WorldClient;
+import net.minecraft.client.network.NetworkPlayerInfo;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.texture.ITextureObject;
 import net.minecraft.client.renderer.texture.ITickable;
 import net.minecraft.client.renderer.texture.ITickableTextureObject;
+import net.minecraft.client.renderer.texture.SimpleTexture;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.renderer.texture.TextureUtil;
 import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ReportedException;
 import net.minecraft.util.ResourceLocation;
 import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class HyperiumTextureManager {
 
 
+    public static HyperiumTextureManager INSTANCE;
     private TextureManager parent;
+    private ConcurrentHashMap<String, ITextureObject> textures = new ConcurrentHashMap<>();
 
-
-    private HashMap<String, ITextureObject> textures = new HashMap<>();
     public HyperiumTextureManager(TextureManager parent) {
+        INSTANCE = this;
         this.parent = parent;
+        EventBus.INSTANCE.register(this);
     }
 
     public boolean loadTickableTexture(ResourceLocation textureLocation, ITickableTextureObject textureObj, List<ITickable> listTickables) {
         if (parent.loadTexture(textureLocation, textureObj)) {
             listTickables.add(textureObj);
-            textures.put(textureLocation.toString(),textureObj);
+            textures.put(textureLocation.toString(), textureObj);
             return true;
         } else {
             return false;
         }
     }
 
-    public void onResourceManagerReload(IResourceManager resourceManager, Map<ResourceLocation, ITextureObject> mapTextureObjects) {
+    public void onResourceManagerReload(IResourceManager resourceManager) {
         CapeHandler.LOCK.lock();
         try {
-            for (Map.Entry<ResourceLocation, ITextureObject> entry : mapTextureObjects.entrySet()) {
-                parent.loadTexture(entry.getKey(), entry.getValue());
+            for (Map.Entry<String, ITextureObject> entry : textures.entrySet()) {
+                String key = entry.getKey();
+                ResourceLocation location;
+                if (key.contains(":")) {
+                    String[] split = key.split(":");
+                    location = new ResourceLocation(split[0], split[1]);
+                } else location = new ResourceLocation(key);
+                parent.loadTexture(location, entry.getValue());
             }
             Utils.INSTANCE.setCursor(new ResourceLocation("textures/cursor.png"));
         } catch (Exception e) {
@@ -55,7 +76,7 @@ public class HyperiumTextureManager {
         }
     }
 
-    public boolean loadTexture(ResourceLocation textureLocation, ITextureObject textureObj, IResourceManager theResourceManager, Map<ResourceLocation, ITextureObject> mapTextureObjects, Logger logger) {
+    public boolean loadTexture(ResourceLocation textureLocation, ITextureObject textureObj, IResourceManager theResourceManager, Logger logger) {
         ITextureObject textureCopy = textures.get(textureLocation.toString());
         if (textureCopy != null) {
             textureObj = textureCopy;
@@ -67,7 +88,7 @@ public class HyperiumTextureManager {
         } catch (IOException ioexception) {
             logger.warn("Failed to load texture: " + textureLocation, ioexception);
             textureObj = TextureUtil.missingTexture;
-            mapTextureObjects.put(textureLocation, textureObj);
+            textures.put(textureLocation.toString(), textureObj);
             flag = false;
         } catch (Throwable throwable) {
             CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Registering texture");
@@ -78,7 +99,7 @@ public class HyperiumTextureManager {
             throw new ReportedException(crashreport);
         }
 
-        mapTextureObjects.put(textureLocation, textureObj);
+        textures.put(textureLocation.toString(), textureObj);
         return flag;
     }
 
@@ -99,5 +120,100 @@ public class HyperiumTextureManager {
         return resourcelocation;
     }
 
+    public void bindTexture(ResourceLocation resource) {
+        ITextureObject itextureobject = (ITextureObject) textures.get(resource.toString());
+
+        if (itextureobject == null) {
+            itextureobject = new SimpleTexture(resource);
+            parent.loadTexture(resource, itextureobject);
+        }
+
+        GlStateManager.bindTexture(itextureobject.getGlTextureId());
+    }
+
+
+    public ITextureObject getTexture(ResourceLocation textureLocation) {
+        if (textureLocation == null) {
+            return null;
+        }
+        return textures.get(textureLocation.toString());
+    }
+
+    //TODO make this a process them async
+    public void tick(List<ITickable> listTickables) {
+        for (ITickable itickable : listTickables) {
+            itickable.tick();
+        }
+    }
+
+    @InvokeEvent
+    public void worldSwitch(WorldChangeEvent event) {
+        try {
+            WorldClient theWorld = Minecraft.getMinecraft().theWorld;
+            if (theWorld != null) {
+                for (EntityPlayer playerEntity : theWorld.playerEntities) {
+                    if (playerEntity.equals(Minecraft.getMinecraft().thePlayer))
+                        continue;
+                    NetworkPlayerInfo networkPlayerInfo = ((IMixinAbstractClientPlayer) playerEntity).callGetPlayerInfo();
+                    if (networkPlayerInfo == null)
+                        continue;
+                    ((IMixinNetworkPlayerInfo) networkPlayerInfo).setPlayerTexturesLoaded(false);
+                    ((IMixinNetworkPlayerInfo) networkPlayerInfo).setLocationCape(null);
+                    ((IMixinNetworkPlayerInfo) networkPlayerInfo).setLocationSkin(null);
+                    ResourceLocation locationSkin = ((AbstractClientPlayer) playerEntity).getLocationSkin();
+                    if (locationSkin != null) {
+                        deleteTexture(locationSkin);
+                    }
+                    ResourceLocation locationCape = ((AbstractClientPlayer) playerEntity).getLocationCape();
+                    if (locationCape != null) {
+                        CapeHandler capeHandler = Hyperium.INSTANCE.getHandlers().getCapeHandler();
+                        ResourceLocation cape = capeHandler.getCape(((AbstractClientPlayer) playerEntity));
+                        if (cape != null && cape.equals(locationCape))
+                            continue;
+                        deleteTexture(locationCape);
+                    }
+                }
+            }
+            for (String s : textures.keySet()) {
+                if (s.contains(":")) {
+                    String[] split = s.split(":");
+                    if (split.length < 2)
+                        continue;
+                    ResourceLocation textureLocation = new ResourceLocation(split[0], split[1]);
+                    if (split[1].startsWith("skins/")) {
+                        ResourceLocation locationCape = Minecraft.getMinecraft().thePlayer.getLocationCape();
+                        if (s.equalsIgnoreCase(Minecraft.getMinecraft().thePlayer.getLocationSkin().toString())
+                                || s.equalsIgnoreCase(locationCape == null ? "null" : locationCape.toString())) {
+                            continue;
+                        }
+                        deleteTexture(textureLocation);
+                    }
+
+                    //Delete maps from that wold + server icons since we don't need them while on a server
+                    if (split[1].startsWith("dynamic/map") || split[1].startsWith("capeof/") || s.startsWith("minecraft:dynamic/map"))
+                        deleteTexture(textureLocation);
+                }
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        System.out.println(textures.size());
+    }
+
+    public void print() {
+        for (String s : textures.keySet()) {
+            System.out.println(s + " -> " + textures.get(s).getClass());
+        }
+    }
+
+    public void deleteTexture(ResourceLocation textureLocation) {
+        ITextureObject itextureobject = this.getTexture(textureLocation);
+        if (itextureobject != null) {
+            TextureUtil.deleteTexture(itextureobject.getGlTextureId());
+        }
+        if (textureLocation != null)
+            textures.remove(textureLocation.toString());
+    }
 
 }

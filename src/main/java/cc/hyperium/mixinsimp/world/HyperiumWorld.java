@@ -1,15 +1,22 @@
 package cc.hyperium.mixinsimp.world;
 
+import cc.hyperium.Hyperium;
 import cc.hyperium.config.Settings;
 import cc.hyperium.event.EntityJoinWorldEvent;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.SpawnpointChangeEvent;
+import cc.hyperium.handlers.handlers.animation.cape.CapeHandler;
+import cc.hyperium.mixins.entity.IMixinAbstractClientPlayer;
+import cc.hyperium.mixins.entity.IMixinNetworkPlayerInfo;
 import cc.hyperium.mixins.world.IMixinWorld;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.AbstractClientPlayer;
+import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldType;
@@ -117,9 +124,46 @@ public class HyperiumWorld {
             return true;
         }
     }
+
     public void loadEntities(Collection<Entity> entityCollection) {
         for (Entity lvt_3_1_ : entityCollection) {
             EventBus.INSTANCE.post(new EntityJoinWorldEvent(lvt_3_1_));
+        }
+    }
+
+    public void removeEntity(Entity entity) {
+        if (entity == null)
+            return;
+        if (entity instanceof EntityPlayer) {
+            Hyperium.INSTANCE.getScheduler().schedule(2, () -> {
+                if (entity.equals(Minecraft.getMinecraft().thePlayer)) {
+                    return;
+                }
+                NetworkPlayerInfo networkPlayerInfo = ((IMixinAbstractClientPlayer) entity).callGetPlayerInfo();
+                if (networkPlayerInfo == null)
+                    return;
+                if (Minecraft.getMinecraft().getNetHandler().getPlayerInfoMap().contains(networkPlayerInfo)) {
+                    return;
+                }
+
+                ((IMixinNetworkPlayerInfo) networkPlayerInfo).setPlayerTexturesLoaded(false);
+                ((IMixinNetworkPlayerInfo) networkPlayerInfo).setLocationCape(null);
+                ((IMixinNetworkPlayerInfo) networkPlayerInfo).setLocationSkin(null);
+
+                ResourceLocation locationSkin = ((AbstractClientPlayer) entity).getLocationSkin();
+                if (locationSkin != null) {
+                    Minecraft.getMinecraft().getTextureManager().deleteTexture(locationSkin);
+                }
+                ResourceLocation locationCape = ((AbstractClientPlayer) entity).getLocationCape();
+                if (locationCape != null) {
+                    CapeHandler capeHandler = Hyperium.INSTANCE.getHandlers().getCapeHandler();
+                    ResourceLocation cape = capeHandler.getCape(((AbstractClientPlayer) entity));
+                    if (cape != null && cape.equals(locationCape))
+                        return;
+                    Minecraft.getMinecraft().getTextureManager().deleteTexture(locationCape);
+                }
+            });
+
         }
     }
 }

@@ -10,6 +10,15 @@ import cc.hyperium.mods.sk1ercommon.Sk1erMod;
 import com.google.common.collect.ObjectArrays;
 import com.google.gson.Gson;
 import com.mojang.authlib.GameProfile;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.GuiScreen;
@@ -20,16 +29,6 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IChatComponent;
 import org.apache.commons.io.FileUtils;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class NickHider {
     public static final String MOD_ID = "nick_hider";
@@ -100,7 +99,10 @@ public class NickHider {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        } else this.config = new NickHiderConfig();
+        }
+        if(config == null) {
+            this.config = new NickHiderConfig();
+        }
 
         EventBus.INSTANCE.register(this);
         Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(new CommandNickHider());
@@ -234,6 +236,9 @@ public class NickHider {
     }
 
     public String apply(String input) {
+        if(config == null){
+            config = new NickHiderConfig();
+        }
         if (forceDown)
             return input;
         if (!config.isEnabled())

@@ -30,6 +30,7 @@ import cc.hyperium.commands.defaults.CommandParty;
 import cc.hyperium.commands.defaults.CommandPing;
 import cc.hyperium.commands.defaults.CommandPlayGame;
 import cc.hyperium.commands.defaults.CommandPrivateMessage;
+import cc.hyperium.commands.defaults.CommandResize;
 import cc.hyperium.commands.defaults.CommandUpdate;
 import cc.hyperium.commands.defaults.CustomLevelheadCommand;
 import cc.hyperium.commands.defaults.DevTestCommand;
@@ -48,6 +49,7 @@ import cc.hyperium.gui.ColourOptions;
 import cc.hyperium.gui.ConfirmationPopup;
 import cc.hyperium.gui.NotificationCenter;
 import cc.hyperium.handlers.HyperiumHandlers;
+import cc.hyperium.handlers.handlers.purchase.ChargebackStopper;
 import cc.hyperium.integrations.spotify.Spotify;
 import cc.hyperium.mixinsimp.renderer.FontFixValues;
 import cc.hyperium.mods.HyperiumModIntegration;
@@ -65,6 +67,7 @@ import cc.hyperium.network.LoginReplyHandler;
 import cc.hyperium.network.NetworkHandler;
 import cc.hyperium.purchases.PurchaseApi;
 import cc.hyperium.tray.TrayManager;
+import cc.hyperium.utils.HyperiumScheduler;
 import cc.hyperium.utils.InstallerUtils;
 import cc.hyperium.utils.StaffUtils;
 import cc.hyperium.utils.UpdateUtils;
@@ -131,6 +134,7 @@ public class Hyperium {
      * @param event initialize Hyperium
      */
     private boolean firstLaunch = false;
+    private HyperiumScheduler scheduler;
 
     public NetworkHandler getNetworkHandler() {
         return networkHandler;
@@ -153,9 +157,13 @@ public class Hyperium {
         EventBus.INSTANCE.register(new AutoGG());
     }
 
+    public HyperiumScheduler getScheduler() {
+        return scheduler;
+    }
+
     @InvokeEvent(priority = Priority.HIGH)
     public void init(InitializationEvent event) {
-
+        scheduler = new HyperiumScheduler();
         InputStream resourceAsStream = getClass().getResourceAsStream("/build.txt");
         try {
             if (resourceAsStream != null) {
@@ -177,7 +185,7 @@ public class Hyperium {
 
         // Creates the accounts dir
         firstLaunch = new File(folder.getAbsolutePath() + "/accounts").mkdirs();
-
+        new ChargebackStopper();
 
         // Has the user accepted the TOS of the client?
         this.acceptedTos = new File(
@@ -324,11 +332,11 @@ public class Hyperium {
         getHandlers().getHyperiumCommandHandler().registerCommand(new CommandDebug());
         getHandlers().getHyperiumCommandHandler().registerCommand(new CommandUpdate());
         getHandlers().getHyperiumCommandHandler().registerCommand(new CommandCoords());
-        if (isDevEnv)
-            getHandlers().getHyperiumCommandHandler().registerCommand(new DevTestCommand());
+        getHandlers().getHyperiumCommandHandler().registerCommand(new DevTestCommand());
         getHandlers().getHyperiumCommandHandler().registerCommand(new CommandLogs());
         getHandlers().getHyperiumCommandHandler().registerCommand(new CommandPing());
         getHandlers().getHyperiumCommandHandler().registerCommand(new CommandParty());
+        getHandlers().getHyperiumCommandHandler().registerCommand(new CommandResize());
 
         getHandlers().getHyperiumCommandHandler().registerCommand(new CommandMessage());
         getHandlers().getHyperiumCommandHandler().registerCommand(new CommandParticleAuras());

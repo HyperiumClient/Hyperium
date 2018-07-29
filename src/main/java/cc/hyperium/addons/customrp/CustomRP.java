@@ -33,7 +33,6 @@ public class CustomRP extends AbstractAddon {
         
         //Medium priority
         RichPresenceUpdater.callCustomRPUpdate();
-        System.out.println("[CustomRP] Addon loaded");
         EventBus.INSTANCE.register(this);
         Hyperium.CONFIG.register(new Config());
         
@@ -52,8 +51,6 @@ public class CustomRP extends AbstractAddon {
     }
 
     public void shutdown() {
-        System.out.println("[CustomRP] Addon closed");
-
         try {
             if (this.client != null && this.client.getStatus() == CONNECTED) {
                 this.client.close();

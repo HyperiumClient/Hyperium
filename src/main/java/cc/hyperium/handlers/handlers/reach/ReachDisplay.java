@@ -1,5 +1,6 @@
 package cc.hyperium.handlers.handlers.reach;
 
+import cc.hyperium.Hyperium;
 import cc.hyperium.config.Settings;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.PlayerAttackEntityEvent;
@@ -77,7 +78,7 @@ public class ReachDisplay {
             tessellator.draw();
             GlStateManager.enableTexture2D();
 
-            fontrenderer.drawString(string, -j, 0, Color.RED.getRGB(), true);
+            fontrenderer.drawString(string, -j, 0, Settings.REACH_COLOR_TYPE.equalsIgnoreCase("RGB") ? new Color(Settings.REACH_RED, Settings.REACH_GREEN, Settings.REACH_BLUE).getRGB() : Hyperium.INSTANCE.getModIntegration().getLevelhead().getRGBColor(), true);
             GlStateManager.enableLighting();
             GlStateManager.disableBlend();
             GlStateManager.depthMask(true);
