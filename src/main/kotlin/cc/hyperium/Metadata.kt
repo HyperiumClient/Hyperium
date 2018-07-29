@@ -30,7 +30,7 @@ val MODID
 
 val VERSION
     @JvmName("getVersion")
-    get() = "1.0 - Beta B21"
+    get() = "1.0 - Beta B21.1"
 
 val AUTHORS
     @JvmName("getAuthors")
@@ -41,7 +41,7 @@ val AUTHORS
  */
 val VERSION_ID
     @JvmName("getVersionID")
-    get() = 31
+    get() = 32
 
 val ICON_BASE64
     @JvmName("getIconBase64")
@@ -52,7 +52,7 @@ val ICON_BASE64
  */
 val DEVELOPMENT
     @JvmName("isDevelopment")
-    get() = true
+    get() = false
 
 /**
  * List of addons that are ported internally, addons in this list will not be loaded
