@@ -50,8 +50,9 @@ public class HyperiumLayerCape {
             GlStateManager.rotate(f3 / 2.0F, 0.0F, 0.0F, 1.0F);
             GlStateManager.rotate(-f3 / 2.0F, 0.0F, 1.0F, 0.0F);
             GlStateManager.rotate(180.0F, 0.0F, 1.0F, 0.0F);
-            if (entitylivingbaseIn.isSneaking())
-                GlStateManager.translate(0, 0, .08);
+            if (entitylivingbaseIn.isSneaking()) {
+                GlStateManager.translate(0, 0, .1);
+            }
             playerRenderer.getMainModel().renderCape(0.0625F);
             GlStateManager.popMatrix();
         }
