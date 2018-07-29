@@ -355,7 +355,7 @@ public class Settings {
             "1",
             "2"
     })
-    public static int FNCOMPASS_DETAILS = 2;
+    public static String FNCOMPASS_DETAILS = "2";
 
     private Settings() {
 

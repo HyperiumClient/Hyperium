@@ -47,7 +47,7 @@ public class Crosshair {
     public Crosshair() {
         this.mc = Minecraft.getMinecraft();
         this.setCrosshairType(CrosshairType.CROSS);
-        this.setEnabled(true);
+        this.setEnabled(false);
         this.setColour(new RGBA(255, 255, 255, 255));
         this.setVisibleDefault(true);
         this.setVisibleHiddenGui(true);
