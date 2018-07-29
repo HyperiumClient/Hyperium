@@ -69,19 +69,19 @@ public class FortniteCompassMod extends AbstractMod {
             colorDirection = (colorMarker = Color.HSBtoRGB((float) (System.currentTimeMillis() % 3000L) / 3000.0F, 1.0F, 1.0F));
         }
         renderMarker();
-        if (Settings.FNCOMPASS_DETAILS >= 0) {
+        if (Integer.parseInt(Settings.FNCOMPASS_DETAILS) >= 0) {
             drawDirection("S", 0, 1.5D);
             drawDirection("W", 90, 1.5D);
             drawDirection("N", 180, 1.5D);
             drawDirection("E", 270, 1.5D);
         }
-        if (Settings.FNCOMPASS_DETAILS >= 1) {
+        if (Integer.parseInt(Settings.FNCOMPASS_DETAILS) >= 1) {
             drawDirection("SW", 45, 1.0D);
             drawDirection("NW", 135, 1.0D);
             drawDirection("NE", 225, 1.0D);
             drawDirection("SE", 315, 1.0D);
         }
-        if (Settings.FNCOMPASS_DETAILS >= 2) {
+        if (Integer.parseInt(Settings.FNCOMPASS_DETAILS) >= 2) {
             drawDirection("15", 15, 0.75D);
             drawDirection("30", 30, 0.75D);
             drawDirection("60", 60, 0.75D);
