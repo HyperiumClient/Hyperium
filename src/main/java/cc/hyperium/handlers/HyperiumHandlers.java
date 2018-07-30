@@ -39,6 +39,7 @@ import cc.hyperium.handlers.handlers.TimeTrackHandler;
 import cc.hyperium.handlers.handlers.ValueHandler;
 import cc.hyperium.handlers.handlers.animation.DabHandler;
 import cc.hyperium.handlers.handlers.animation.FlossDanceHandler;
+import cc.hyperium.handlers.handlers.animation.TPoseHandler;
 import cc.hyperium.handlers.handlers.animation.cape.CapeHandler;
 import cc.hyperium.handlers.handlers.chat.AutoWhoChatHandler;
 import cc.hyperium.handlers.handlers.chat.FriendRequestChatHandler;
@@ -100,6 +101,7 @@ public class HyperiumHandlers {
     private FlipHandler flipHandler;
     private LayerDeadmau5HeadHandler layerDeadmau5HeadHandler;
     private PerspectiveModifierHandler perspectiveHandler;
+    private TPoseHandler tPoseHandler;
 
     public HyperiumHandlers() {
         System.out.println("Loading handlers");
@@ -131,6 +133,7 @@ public class HyperiumHandlers {
         register(particleAuraHandler = new ParticleAuraHandler());
         register(statusHandler = new StatusHandler());
         register(flossDanceHandler = new FlossDanceHandler());
+        register(tPoseHandler = new TPoseHandler());
 
         commandQueue = new CommandQueue();
         dataHandler = new ApiDataHandler();
@@ -291,4 +294,8 @@ public class HyperiumHandlers {
     }
 
     public PerspectiveModifierHandler getPerspectiveHandler(){return perspectiveHandler;}
+
+    public TPoseHandler getTPoseHandler() {
+        return tPoseHandler;
+    }
 }

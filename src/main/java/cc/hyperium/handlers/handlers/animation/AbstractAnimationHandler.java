@@ -152,6 +152,10 @@ public abstract class AbstractAnimationHandler {
             this.toggled = false;
         }
 
+        public boolean isToggled() {
+            return toggled;
+        }
+
         private void update() {
             while (this.systemTime < Minecraft.getSystemTime() + (1000 / 60)) {
                 this.frames--;
