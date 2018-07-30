@@ -139,7 +139,7 @@ public class HyperiumWorld {
                 if (entity.equals(Minecraft.getMinecraft().thePlayer)) {
                     return;
                 }
-                NetworkPlayerInfo networkPlayerInfo = ((IMixinAbstractClientPlayer) entity).callGetPlayerInfo();
+                NetworkPlayerInfo networkPlayerInfo = ((IMixinAbstractClientPlayer) ((AbstractClientPlayer) entity)).callGetPlayerInfo();
                 if (networkPlayerInfo == null)
                     return;
                 if (Minecraft.getMinecraft().getNetHandler().getPlayerInfoMap().contains(networkPlayerInfo)) {
