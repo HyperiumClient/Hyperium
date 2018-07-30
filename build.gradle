@@ -61,7 +61,7 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 compileJava.options.encoding = 'UTF-8'
 
-version = "0.21.1"
+version = "0.22"
 group = "cc.hyperium"
 archivesBaseName = "Hyperium"
 
