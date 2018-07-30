@@ -13,6 +13,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemSword;
 import net.minecraft.util.MathHelper;
 
 public class HyperiumItemRenderer {
@@ -67,6 +68,8 @@ public class HyperiumItemRenderer {
         if (itemToRender != null) {
             if (itemToRender.getItem() == Items.filled_map) {
                 ((IMixinItemRenderer) parent).callRenderItemMap(abstractclientplayer, f2, f, f1);
+            } else if((itemToRender.getItem() instanceof ItemSword) && !this.mc.thePlayer.isBlocking() && Settings.CUSTOM_SWING_ANIMATION)  {
+                transformFirstPersonItem(f, f1);
             } else if (abstractclientplayer.getItemInUseCount() > 0) {
                 EnumAction enumaction = itemToRender.getItemUseAction();
 
