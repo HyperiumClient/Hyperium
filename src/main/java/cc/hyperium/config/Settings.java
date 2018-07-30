@@ -163,6 +163,9 @@ public class Settings {
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.CosmeticSettings;dabToggle")
     public static boolean DAB_TOGGLE = false;
 
+    @ConfigOpt(alt = "cc.hyperium.gui.settings.items.CosmeticSettings;tPoseToggle")
+    public static boolean TPOSE_TOGGLE = false;
+
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.CosmeticSettings;flossDanceSpeed")
     public static int FLOSS_SPEED = 4;
 

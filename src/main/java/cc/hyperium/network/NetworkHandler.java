@@ -61,7 +61,11 @@ public class NetworkHandler implements INetty, PostConfigHandler, PreSaveHandler
     @Override
     public void handleCrossClientData(UUID uuid, JsonHolder jsonHolder) {
         String type = jsonHolder.optString("type");
-        if (type.equalsIgnoreCase("dab_update"))
+        if (type.equalsIgnoreCase("tpose_update"))
+            if (jsonHolder.optBoolean("posing"))
+                Hyperium.INSTANCE.getHandlers().getTPoseHandler().get(uuid).ensureAnimationFor(60);
+            else Hyperium.INSTANCE.getHandlers().getTPoseHandler().stopAnimation(uuid);
+        else if (type.equalsIgnoreCase("dab_update"))
             if (jsonHolder.optBoolean("dabbing"))
                 Hyperium.INSTANCE.getHandlers().getDabHandler().get(uuid).ensureAnimationFor(60);
             else Hyperium.INSTANCE.getHandlers().getDabHandler().get(uuid).stopAnimation();

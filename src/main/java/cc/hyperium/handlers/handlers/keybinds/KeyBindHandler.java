@@ -31,9 +31,11 @@ import cc.hyperium.handlers.handlers.keybinds.keybinds.FriendsKeybind;
 import cc.hyperium.handlers.handlers.keybinds.keybinds.GuiKeybind;
 import cc.hyperium.handlers.handlers.keybinds.keybinds.NamesKeybind;
 import cc.hyperium.handlers.handlers.keybinds.keybinds.QueueKeybind;
+import cc.hyperium.handlers.handlers.keybinds.keybinds.TPoseKeybind;
 import cc.hyperium.handlers.handlers.keybinds.keybinds.TogglePerspectiveKeybind;
 import cc.hyperium.handlers.handlers.keybinds.keybinds.ToggleSpotifyKeybind;
 import cc.hyperium.handlers.handlers.keybinds.keybinds.ToggleSprintKeybind;
+
 import java.util.HashMap;
 import java.util.Map;
 import net.minecraft.client.Minecraft;
@@ -77,6 +79,7 @@ public class KeyBindHandler {
         registerKeyBinding(bind);
         registerKeyBinding(new TogglePerspectiveKeybind());
         registerKeyBinding(new ClearPopupKeybind());
+        registerKeyBinding(new TPoseKeybind());
 
         // Populate mouse bind list in accordance with Minecraft's values.
         for (int i = 0; i < 16; i++) {
