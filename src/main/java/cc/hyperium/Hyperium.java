@@ -57,7 +57,6 @@ import cc.hyperium.mods.HyperiumModIntegration;
 import cc.hyperium.mods.autofriend.command.AutofriendCommand;
 import cc.hyperium.mods.autogg.AutoGG;
 import cc.hyperium.mods.common.ToggleSprintContainer;
-import cc.hyperium.mods.crosshair.CrosshairMod;
 import cc.hyperium.mods.discord.RichPresenceManager;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.mods.sk1ercommon.Sk1erMod;
@@ -212,7 +211,6 @@ public class Hyperium {
         EventBus.INSTANCE.register(notification);
 
         EventBus.INSTANCE.register(CompactChat.getInstance());
-        EventBus.INSTANCE.register(CrosshairMod.getInstance());
         EventBus.INSTANCE.register(CONFIG.register(FPSLimiter.getInstance()));
         EventBus.INSTANCE.register(confirmation);
         EventBus.INSTANCE.register(new BlurDisableFallback());
