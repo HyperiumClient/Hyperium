@@ -53,7 +53,7 @@ public class GuiHyperiumCredits extends HyperiumGui {
             StreamSupport.stream(a.spliterator(), false).map(JsonElement::getAsJsonObject).filter(o -> o.has("total") & o.get("total").getAsInt() > 20).sorted(Comparator.comparingLong(o -> ((JsonObject) o).get("total").getAsInt()).reversed()).forEach(o -> {
                 JsonObject con = o.get("author").getAsJsonObject();
                 try {
-                    BufferedImage bi = ImageIO.read(new URL(con.get("avatar_url").getAsString() + "?size=20"));
+                    BufferedImage bi = ImageIO.read(new URL(con.get("avatar_url").getAsString() + "&size=20"));
                     Minecraft.getMinecraft().addScheduledTask(() -> {
                         DynamicTexture tx = new DynamicTexture(bi);
                         try {
