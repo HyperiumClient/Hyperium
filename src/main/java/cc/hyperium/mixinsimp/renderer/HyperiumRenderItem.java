@@ -3,6 +3,7 @@ package cc.hyperium.mixinsimp.renderer;
 import cc.hyperium.config.Settings;
 import cc.hyperium.mixins.renderer.IMixinRenderItem;
 import cc.hyperium.mixins.renderer.IMixinRenderItem2;
+import cc.hyperium.mixinsimp.client.GlStateModifier;
 import cc.hyperium.mods.glintcolorizer.Colors;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GLAllocation;
@@ -218,8 +219,7 @@ public class HyperiumRenderItem {
             Integer integer = cache.get(cachedItem);
             if (integer != null) {
                 GlStateManager.callList(integer);
-                GlStateManager.color(0.0F, 0.0F, 0.0F, 0.0F);
-                GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+                GlStateModifier.INSTANCE.resetColor();
                 return;
             }
             queue.add(cachedItem);
