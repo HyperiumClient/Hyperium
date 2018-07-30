@@ -23,17 +23,8 @@ import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.KeypressEvent;
 import cc.hyperium.event.KeyreleaseEvent;
 import cc.hyperium.event.MouseButtonEvent;
-import cc.hyperium.handlers.handlers.keybinds.keybinds.ClearPopupKeybind;
-import cc.hyperium.handlers.handlers.keybinds.keybinds.DabKeybind;
-import cc.hyperium.handlers.handlers.keybinds.keybinds.FlipKeybind;
-import cc.hyperium.handlers.handlers.keybinds.keybinds.FlossKeybind;
-import cc.hyperium.handlers.handlers.keybinds.keybinds.FriendsKeybind;
-import cc.hyperium.handlers.handlers.keybinds.keybinds.GuiKeybind;
-import cc.hyperium.handlers.handlers.keybinds.keybinds.NamesKeybind;
-import cc.hyperium.handlers.handlers.keybinds.keybinds.QueueKeybind;
-import cc.hyperium.handlers.handlers.keybinds.keybinds.TogglePerspectiveKeybind;
-import cc.hyperium.handlers.handlers.keybinds.keybinds.ToggleSpotifyKeybind;
-import cc.hyperium.handlers.handlers.keybinds.keybinds.ToggleSprintKeybind;
+import cc.hyperium.handlers.handlers.keybinds.keybinds.*;
+
 import java.util.HashMap;
 import java.util.Map;
 import net.minecraft.client.Minecraft;
@@ -77,6 +68,7 @@ public class KeyBindHandler {
         registerKeyBinding(bind);
         registerKeyBinding(new TogglePerspectiveKeybind());
         registerKeyBinding(new ClearPopupKeybind());
+        registerKeyBinding(new TPoseKeybind());
 
         // Populate mouse bind list in accordance with Minecraft's values.
         for (int i = 0; i < 16; i++) {
