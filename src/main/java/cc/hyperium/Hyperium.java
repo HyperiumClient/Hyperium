@@ -22,6 +22,7 @@ import cc.hyperium.commands.defaults.CommandClearChat;
 import cc.hyperium.commands.defaults.CommandConfigGui;
 import cc.hyperium.commands.defaults.CommandCoords;
 import cc.hyperium.commands.defaults.CommandDebug;
+import cc.hyperium.commands.defaults.CommandGarbageCollect;
 import cc.hyperium.commands.defaults.CommandLogs;
 import cc.hyperium.commands.defaults.CommandMessage;
 import cc.hyperium.commands.defaults.CommandNameHistory;
@@ -74,6 +75,11 @@ import cc.hyperium.utils.UpdateUtils;
 import cc.hyperium.utils.eastereggs.EasterEggs;
 import cc.hyperium.utils.mods.CompactChat;
 import cc.hyperium.utils.mods.FPSLimiter;
+import net.minecraft.client.Minecraft;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.lwjgl.opengl.Display;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -84,10 +90,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLClassLoader;
-import net.minecraft.client.Minecraft;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.lwjgl.opengl.Display;
 
 /**
  * Hyperium Client
@@ -144,7 +146,7 @@ public class Hyperium {
         return firstLaunch;
     }
 
-    public boolean isOptifineInstalled(){
+    public boolean isOptifineInstalled() {
         return optifineInstalled;
     }
 
@@ -322,12 +324,12 @@ public class Hyperium {
         isLatestVersion = UpdateUtils.INSTANCE.isAbsoluteLatest();
 
         // Check if Optifine is installed.
-        try{
+        try {
             Class.forName("optifine.OptiFineTweaker");
-            optifineInstalled =  true;
+            optifineInstalled = true;
             System.out.println("Optifine installation detected!");
-        } catch (ClassNotFoundException e){
-            optifineInstalled =  false;
+        } catch (ClassNotFoundException e) {
+            optifineInstalled = false;
         }
     }
 
@@ -350,7 +352,7 @@ public class Hyperium {
         getHandlers().getHyperiumCommandHandler().registerCommand(new CommandPing());
         getHandlers().getHyperiumCommandHandler().registerCommand(new CommandParty());
         getHandlers().getHyperiumCommandHandler().registerCommand(new CommandResize());
-
+        getHandlers().getHyperiumCommandHandler().registerCommand(new CommandGarbageCollect());
         getHandlers().getHyperiumCommandHandler().registerCommand(new CommandMessage());
         getHandlers().getHyperiumCommandHandler().registerCommand(new CommandParticleAuras());
         getHandlers().getHyperiumCommandHandler().registerCommand(new AutofriendCommand());

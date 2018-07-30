@@ -181,8 +181,10 @@ public class HyperiumTextureManager {
                         continue;
                     ResourceLocation textureLocation = new ResourceLocation(split[0], split[1]);
                     if (split[1].startsWith("skins/")) {
-                        ResourceLocation locationCape = Minecraft.getMinecraft().thePlayer.getLocationCape();
-                        if (s.equalsIgnoreCase(Minecraft.getMinecraft().thePlayer.getLocationSkin().toString())
+
+                        ResourceLocation locationCape = Minecraft.getMinecraft().thePlayer != null ? Minecraft.getMinecraft().thePlayer.getLocationCape() : null;
+                        ResourceLocation locationSkin =  Minecraft.getMinecraft().thePlayer != null ?Minecraft.getMinecraft().thePlayer.getLocationSkin() : null;
+                        if (s.equalsIgnoreCase(locationSkin == null ? "null" : locationSkin.toString())
                                 || s.equalsIgnoreCase(locationCape == null ? "null" : locationCape.toString())) {
                             continue;
                         }
