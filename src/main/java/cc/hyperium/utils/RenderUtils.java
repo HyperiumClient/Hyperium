@@ -84,46 +84,11 @@ public class RenderUtils {
     }
 
     public static void drawRect(float g, float h, float i, float j, Color c) {
-        GL11.glEnable(3042);
-        GL11.glDisable(3553);
-        GL11.glBlendFunc(770, 771);
-        GL11.glEnable(2848);
-        GL11.glPushMatrix();
-        glColor(c);
-        GL11.glBegin(7);
-        GL11.glVertex2d(i, h);
-        GL11.glVertex2d(g, h);
-        GL11.glVertex2d(g, j);
-        GL11.glVertex2d(i, j);
-        GL11.glEnd();
-        GL11.glPopMatrix();
-        GL11.glEnable(3553);
-        GL11.glDisable(3042);
-        GL11.glDisable(2848);
+        Gui.drawRect((int) g, (int) h, (int) i, (int) j, c.getRGB());
     }
 
     public static void drawRect(float g, float h, float i, float j, int col1) {
-        float f = (col1 >> 24 & 0xFF) / 255.0F;
-        float f2 = (col1 >> 16 & 0xFF) / 255.0F;
-        float f3 = (col1 >> 8 & 0xFF) / 255.0F;
-        float f4 = (col1 & 0xFF) / 255.0F;
-        GL11.glEnable(3042);
-        GL11.glDisable(3553);
-        GL11.glBlendFunc(770, 771);
-        GL11.glEnable(2848);
-        GL11.glPushMatrix();
-        GlStateManager.color(f2, f3, f4, f);
-        GL11.glBegin(7);
-        GL11.glVertex2d(i, h);
-        GL11.glVertex2d(g, h);
-        GL11.glVertex2d(g, j);
-        GL11.glVertex2d(i, j);
-        GL11.glEnd();
-        GL11.glPopMatrix();
-        GL11.glEnable(3553);
-        GL11.glDisable(3042);
-        GL11.glDisable(2848);
-        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+        Gui.drawRect((int) g, (int) h, (int) i, (int) j, col1);
     }
 
     public static void drawBorderedRect(float x, float y, float x2, float y2, float l1, int col1, int col2) {
