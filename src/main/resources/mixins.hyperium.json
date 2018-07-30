@@ -17,6 +17,7 @@
     "client.MixinGameSettings",
     "client.multiplayer.MixinServerList",
     "client.particle.MixinEffectRenderer",
+    "client.IMixinGlstateManager",
     "client.resources.MixinAbstractResourcePack",
     "client.resources.IMixinAbstractResourcePack",
     "client.MixinLoadingScreen",

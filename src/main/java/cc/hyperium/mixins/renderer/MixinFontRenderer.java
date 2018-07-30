@@ -11,6 +11,7 @@ import cc.hyperium.mods.nickhider.NickHider;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.GLAllocation;
 import net.minecraft.client.renderer.GlStateManager;
+import cc.hyperium.mixinsimp.client.GlStateModifier;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.texture.TextureManager;
@@ -101,8 +102,7 @@ public abstract class MixinFontRenderer {
     private void renderStringAtPos(String text, boolean shadow) {
         //Full speed ahead
         //Should help fix issues
-        renderEngine.bindTexture(this.getUnicodePageLocation(0));
-        renderEngine.bindTexture(this.locationFontTexture);
+        GlStateModifier.INSTANCE.reset();
         boolean optimize = Settings.OPTIMIZED_FONT_RENDERER;
         FontFixValues instance = FontFixValues.INSTANCE;
         Map<StringHash, CachedString> stringCache = instance.stringCache;
@@ -123,11 +123,10 @@ public abstract class MixinFontRenderer {
 
 
                 GlStateManager.color(this.red, this.blue, this.green, alpha);
-                renderEngine.bindTexture(this.locationFontTexture);
+//                renderEngine.bindTexture(this.locationFontTexture);
                 GlStateManager.callList(cachedString.getListId());
                 //Call so states in game know the texture was changed. Otherwise the game won't know the active texture was changed on the GPU
-                renderEngine.bindTexture(this.getUnicodePageLocation(0));
-                renderEngine.bindTexture(this.locationFontTexture);
+                GlStateModifier.INSTANCE.reset();
                 GlStateManager.color(this.red, this.blue, this.green, alpha);
                 GlStateManager.translate(-posX, -posY, 0F);
                 this.posY = posY + cachedString.getHeight();
@@ -296,6 +295,7 @@ public abstract class MixinFontRenderer {
             }
         }
     }
+
     @ModifyVariable(method = "renderString", at = @At(value = "HEAD"))
     public String mod(String in) {
         if (NickHider.INSTANCE == null) { // When mod hasn't initialized yet.
@@ -304,7 +304,7 @@ public abstract class MixinFontRenderer {
         return NickHider.INSTANCE.apply(in);
     }
 
-    @ModifyVariable(method = "getStringWidth", at =@At(value = "HEAD"))
+    @ModifyVariable(method = "getStringWidth", at = @At(value = "HEAD"))
     public String modWidth(String in) {
         if (NickHider.INSTANCE == null) { // When mod hasn't initialized yet.
             return in;
