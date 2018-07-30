@@ -169,6 +169,7 @@
 package cc.hyperium.mixins;
 
 import cc.hyperium.SplashProgress;
+import cc.hyperium.config.Settings;
 import cc.hyperium.mixinsimp.HyperiumMinecraft;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.SoundHandler;
@@ -420,6 +421,8 @@ public abstract class MixinMinecraft {
 
     @Inject(method = "loadWorld(Lnet/minecraft/client/multiplayer/WorldClient;Ljava/lang/String;)V", at = @At(value = "INVOKE", target = "Ljava/lang/System;gc()V"), cancellable = true)
     public void fixGarbageCollection(WorldClient worldClientIn, String loadingMessage, CallbackInfo info) {
+        if (!Settings.FAST_WORLD_LOADING)
+            return;
         systemTime = 0;
         info.cancel();
     }

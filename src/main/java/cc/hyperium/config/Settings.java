@@ -17,6 +17,9 @@
 
 package cc.hyperium.config;
 
+import cc.hyperium.GuiStyle;
+import cc.hyperium.Hyperium;
+
 import static cc.hyperium.config.Category.ANIMATIONS;
 import static cc.hyperium.config.Category.CHROMAHUD;
 import static cc.hyperium.config.Category.COSMETICS;
@@ -28,9 +31,6 @@ import static cc.hyperium.config.Category.REACH;
 import static cc.hyperium.config.Category.SPOTIFY;
 import static cc.hyperium.config.Category.UTILITIES;
 import static cc.hyperium.config.Category.VANILLA_ENCHANTMENTS;
-
-import cc.hyperium.GuiStyle;
-import cc.hyperium.Hyperium;
 
 /*
  * Created by Cubxity on 03/06/2018
@@ -360,6 +360,9 @@ public class Settings {
     public static boolean UPDATE_NOTIFICATIONS = true;
 
     @ConfigOpt
+    @ToggleSetting(name = "Fast World Switching (May increase memory usage)", category = IMPROVEMENTS)
+    public static boolean FAST_WORLD_LOADING = false;
+    @ConfigOpt
     public static int MAX_WORLD_PARTICLES_INT = 10000;
 
     @ConfigOpt
@@ -385,7 +388,7 @@ public class Settings {
     public static boolean ALWAYS_SHOW_SUPER_SECRET_SETTINGS = false;
 
     @ConfigOpt
-    @ToggleSetting(name = "Show Hit Distances", category = REACH,mods = true)
+    @ToggleSetting(name = "Show Hit Distances", category = REACH, mods = true)
     public static boolean SHOW_HIT_DISTANCES = false;
 
     @ConfigOpt
@@ -452,14 +455,14 @@ public class Settings {
     public static boolean ENABLE_TOGGLE_SPRINT = true;
 
 
+    private Settings() {
+    }
+
     public static void register() {
         Hyperium.CONFIG.register(INSTANCE);
     }
 
     public static void save() {
         Hyperium.CONFIG.save();
-    }
-
-    private Settings() {
     }
 }
