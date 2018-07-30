@@ -33,7 +33,7 @@ public class HyperiumGuiIngameMenu {
 
   public void initGui(List<GuiButton> buttonList) {
     buttonList.add(new GuiButton(8, parent.width - 200, parent.height - 20, 200, 20, "Credits"));
-    buttonList.add(new GuiButton(9, parent.width / 2 - 100, parent.height / 4 + 72 -16, "Hyperium Settings"));
+    buttonList.add(new GuiButton(9, parent.width / 2 - 100, parent.height / 4 + 56, "Hyperium Settings"));
     WorldClient theWorld = Minecraft.getMinecraft().theWorld;
 
     // Used to detect if the player is on a singleplayer world or a multiplayer world.
