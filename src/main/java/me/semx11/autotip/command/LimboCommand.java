@@ -40,7 +40,7 @@ public class LimboCommand implements BaseCommand {
     public void onExecute(String[] args) {
         if (Autotip.onHypixel) {
             executed = true;
-            Autotip.mc.thePlayer.sendChatMessage(ChatColor.RED.toString());
+            Autotip.mc.thePlayer.sendChatMessage("/achat " +ChatColor.RED.toString());
         } else {
             ClientMessage.send(ChatColor.RED + "You must be on Hypixel to use this command!");
         }
