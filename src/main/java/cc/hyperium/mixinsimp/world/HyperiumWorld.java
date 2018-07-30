@@ -148,12 +148,18 @@ public class HyperiumWorld {
                 if (Minecraft.getMinecraft().getNetHandler().getPlayerInfoMap().contains(networkPlayerInfo)) {
                     return;
                 }
+                //Check to see if someone else has the same skin as the entity that left to stop unloading when someone still has it.
+                for (NetworkPlayerInfo playerInfo : Minecraft.getMinecraft().getNetHandler().getPlayerInfoMap()) {
+                    if(playerInfo !=null && playerInfo.hasLocationSkin() && playerInfo.getLocationCape().equals(networkPlayerInfo.getLocationCape()))
+                        return;
+                }
 
                 ((IMixinNetworkPlayerInfo) networkPlayerInfo).setPlayerTexturesLoaded(false);
                 ((IMixinNetworkPlayerInfo) networkPlayerInfo).setLocationCape(null);
                 ((IMixinNetworkPlayerInfo) networkPlayerInfo).setLocationSkin(null);
 
                 ResourceLocation locationSkin = ((AbstractClientPlayer) entity).getLocationSkin();
+
                 if (locationSkin != null) {
                     Minecraft.getMinecraft().getTextureManager().deleteTexture(locationSkin);
                 }
