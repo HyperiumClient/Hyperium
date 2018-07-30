@@ -2,6 +2,7 @@ package cc.hyperium.mixinsimp.client;
 
 import cc.hyperium.mixins.client.IMixinGlstateManager;
 import me.semx11.autotip.util.ReflectionUtil;
+import me.semx11.autotip.util.ReflectionUtil.UnableToAccessFieldException;
 import net.minecraft.client.renderer.GlStateManager;
 
 import java.lang.reflect.Field;
@@ -10,14 +11,14 @@ public class GlStateModifier implements IGlStateModifier {
 
     public static final IGlStateModifier INSTANCE = new GlStateModifier();
     private Object[] theArray;
-    private GlStateManager stateManager = new GlStateManager();
+    //private GlStateManager stateManager;
     private Field textureNamefield;
     private Field redColorField = null;
     private Object colorStateObject = null;
 
 
     private GlStateModifier() {
-
+        //stateManager = new GlStateManager();
     }
 
     public void setTexture(int id) {
@@ -49,11 +50,19 @@ public class GlStateModifier implements IGlStateModifier {
                 textureNamefield.setAccessible(true);
         }
 
-        if (theArray == null || textureNamefield == null) {
+        int activeTextureUnit;
+
+        try {
+            activeTextureUnit = ReflectionUtil.getPrivateValue(GlStateManager.class, null, "activeTextureUnit", "field_179162_o");
+        } catch (UnableToAccessFieldException rip) {
+            activeTextureUnit = -1;
+        }
+
+        if (theArray == null || textureNamefield == null || activeTextureUnit == -1) {
             System.out.println("Hey staff team if you see this, there was no hope but this message band aids it so hello. ");
             return;
         }
-        Object o = theArray[((IMixinGlstateManager) stateManager).getActiveTextureUnit()];
+        Object o = theArray[activeTextureUnit];
 
         try {
             textureNamefield.set(o, id);
