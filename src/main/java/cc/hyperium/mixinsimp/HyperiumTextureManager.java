@@ -1,6 +1,7 @@
 package cc.hyperium.mixinsimp;
 
 import cc.hyperium.Hyperium;
+import cc.hyperium.config.Settings;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.WorldChangeEvent;
@@ -8,6 +9,10 @@ import cc.hyperium.handlers.handlers.animation.cape.CapeHandler;
 import cc.hyperium.mixins.entity.IMixinAbstractClientPlayer;
 import cc.hyperium.mixins.entity.IMixinNetworkPlayerInfo;
 import cc.hyperium.utils.Utils;
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.multiplayer.WorldClient;
@@ -27,11 +32,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ReportedException;
 import net.minecraft.util.ResourceLocation;
 import org.apache.logging.log4j.Logger;
-
-import java.io.IOException;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class HyperiumTextureManager {
 
@@ -148,59 +148,75 @@ public class HyperiumTextureManager {
 
     @InvokeEvent
     public void worldSwitch(WorldChangeEvent event) {
-        try {
-            WorldClient theWorld = Minecraft.getMinecraft().theWorld;
-            if (theWorld != null) {
-                for (EntityPlayer playerEntity : theWorld.playerEntities) {
-                    if (playerEntity.equals(Minecraft.getMinecraft().thePlayer))
-                        continue;
-                    NetworkPlayerInfo networkPlayerInfo = ((IMixinAbstractClientPlayer) playerEntity).callGetPlayerInfo();
-                    if (networkPlayerInfo == null)
-                        continue;
-                    ((IMixinNetworkPlayerInfo) networkPlayerInfo).setPlayerTexturesLoaded(false);
-                    ((IMixinNetworkPlayerInfo) networkPlayerInfo).setLocationCape(null);
-                    ((IMixinNetworkPlayerInfo) networkPlayerInfo).setLocationSkin(null);
-                    ResourceLocation locationSkin = ((AbstractClientPlayer) playerEntity).getLocationSkin();
-                    if (locationSkin != null) {
-                        deleteTexture(locationSkin);
-                    }
-                    ResourceLocation locationCape = ((AbstractClientPlayer) playerEntity).getLocationCape();
-                    if (locationCape != null) {
-                        CapeHandler capeHandler = Hyperium.INSTANCE.getHandlers().getCapeHandler();
-                        ResourceLocation cape = capeHandler.getCape(((AbstractClientPlayer) playerEntity));
-                        if (cape != null && cape.equals(locationCape))
+        // Experimental feature.
+        if(Settings.OPTIMIZED_TEXTURE_LOADING) {
+            try {
+                WorldClient theWorld = Minecraft.getMinecraft().theWorld;
+                if (theWorld != null) {
+                    for (EntityPlayer playerEntity : theWorld.playerEntities) {
+                        if (playerEntity.equals(Minecraft.getMinecraft().thePlayer))
                             continue;
-                        deleteTexture(locationCape);
-                    }
-                }
-            }
-            for (String s : textures.keySet()) {
-                if (s.contains(":")) {
-                    String[] split = s.split(":");
-                    if (split.length < 2)
-                        continue;
-                    ResourceLocation textureLocation = new ResourceLocation(split[0], split[1]);
-                    if (split[1].startsWith("skins/")) {
-
-                        ResourceLocation locationCape = Minecraft.getMinecraft().thePlayer != null ? Minecraft.getMinecraft().thePlayer.getLocationCape() : null;
-                        ResourceLocation locationSkin =  Minecraft.getMinecraft().thePlayer != null ?Minecraft.getMinecraft().thePlayer.getLocationSkin() : null;
-                        if (s.equalsIgnoreCase(locationSkin == null ? "null" : locationSkin.toString())
-                                || s.equalsIgnoreCase(locationCape == null ? "null" : locationCape.toString())) {
+                        NetworkPlayerInfo networkPlayerInfo = ((IMixinAbstractClientPlayer) playerEntity)
+                            .callGetPlayerInfo();
+                        if (networkPlayerInfo == null)
                             continue;
+                        ((IMixinNetworkPlayerInfo) networkPlayerInfo)
+                            .setPlayerTexturesLoaded(false);
+                        ((IMixinNetworkPlayerInfo) networkPlayerInfo).setLocationCape(null);
+                        ((IMixinNetworkPlayerInfo) networkPlayerInfo).setLocationSkin(null);
+                        ResourceLocation locationSkin = ((AbstractClientPlayer) playerEntity)
+                            .getLocationSkin();
+                        if (locationSkin != null) {
+                            deleteTexture(locationSkin);
                         }
-                        deleteTexture(textureLocation);
+                        ResourceLocation locationCape = ((AbstractClientPlayer) playerEntity)
+                            .getLocationCape();
+                        if (locationCape != null) {
+                            CapeHandler capeHandler = Hyperium.INSTANCE.getHandlers()
+                                .getCapeHandler();
+                            ResourceLocation cape = capeHandler
+                                .getCape(((AbstractClientPlayer) playerEntity));
+                            if (cape != null && cape.equals(locationCape))
+                                continue;
+                            deleteTexture(locationCape);
+                        }
+                    }
+                }
+                for (String s : textures.keySet()) {
+                    if (s.contains(":")) {
+                        String[] split = s.split(":");
+                        if (split.length < 2)
+                            continue;
+                        ResourceLocation textureLocation = new ResourceLocation(split[0], split[1]);
+                        if (split[1].startsWith("skins/")) {
+
+                            ResourceLocation locationCape =
+                                Minecraft.getMinecraft().thePlayer != null ? Minecraft
+                                    .getMinecraft().thePlayer.getLocationCape() : null;
+                            ResourceLocation locationSkin =
+                                Minecraft.getMinecraft().thePlayer != null ? Minecraft
+                                    .getMinecraft().thePlayer.getLocationSkin() : null;
+                            if (s.equalsIgnoreCase(
+                                locationSkin == null ? "null" : locationSkin.toString())
+                                || s.equalsIgnoreCase(
+                                locationCape == null ? "null" : locationCape.toString())) {
+                                continue;
+                            }
+                            deleteTexture(textureLocation);
+                        }
+
+                        //Delete maps from that wold + server icons since we don't need them while on a server
+                        if (split[1].startsWith("dynamic/map") || split[1].startsWith("capeof/")
+                            || s.startsWith("minecraft:dynamic/map"))
+                            deleteTexture(textureLocation);
                     }
 
-                    //Delete maps from that wold + server icons since we don't need them while on a server
-                    if (split[1].startsWith("dynamic/map") || split[1].startsWith("capeof/") || s.startsWith("minecraft:dynamic/map"))
-                        deleteTexture(textureLocation);
                 }
-
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(textures.size());
         }
-        System.out.println(textures.size());
     }
 
     public void print() {
