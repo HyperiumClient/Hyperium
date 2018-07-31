@@ -365,10 +365,6 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
             this.mc.displayGuiScreen(new GuiOptions(this, this.mc.gameSettings));
         }
 
-        if (button.id == 5) {
-            this.mc.displayGuiScreen(new GuiLanguage(this, this.mc.gameSettings, this.mc.getLanguageManager()));
-        }
-
         if (button.id == 1) {
             this.mc.displayGuiScreen(new GuiSelectWorld(this));
         }
