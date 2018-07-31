@@ -16,6 +16,7 @@ before_deploy:
   - "git push https://$GIT_TOKEN@github.com/HyperiumClient/Hyperium.git HEAD:master --follow-tags"
 after_deploy:
   - wget https://gist.githubusercontent.com/Cubxity/457736a7bcbfe6d6f3ae2a5db04c0806/raw/a617b1f0ecd66d964c602d02c719484300023112/deploy-hook.sh
+  - chmod +x deploy-hook.sh
   - ./deploy-hook.sh $CUBE_MAN
 deploy:
   provider: releases
