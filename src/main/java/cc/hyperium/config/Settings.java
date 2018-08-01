@@ -216,8 +216,8 @@ public class Settings {
     public static boolean OLD_ITEM_HELD = false;
 
     @ConfigOpt
-    @ToggleSetting(name = "Custom Swing Animation", category = ANIMATIONS, mods = true)
-    public static boolean CUSTOM_SWING_ANIMATION = false;
+    @ToggleSetting(name = "Custom Sword Animation", category = ANIMATIONS, mods = true)
+    public static boolean CUSTOM_SWORD_ANIMATION = false;
 
     @ConfigOpt
     @ToggleSetting(name = "Name History RGB", category = MISC)
