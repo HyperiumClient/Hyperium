@@ -1,6 +1,7 @@
 package cc.hyperium.mixins.gui;
 
 import cc.hyperium.mixinsimp.gui.HyperiumGuiOptions;
+import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiOptions;
 import net.minecraft.client.gui.GuiScreen;
 import org.spongepowered.asm.mixin.Mixin;
@@ -19,5 +20,13 @@ public class MixinGuiOptions extends GuiScreen {
     @Inject(method = "initGui", at = @At(value = "RETURN"))
     public void initGui(CallbackInfo c) {
         hyperiumGuiOptions.initGui(this.buttonList);
+    }
+
+    /**
+     * @reason Add Hyperium Setting button
+     */
+    @Inject(method = "actionPerformed", at = @At("RETURN"))
+    public void actionPerformed(GuiButton button,CallbackInfo c) {
+        hyperiumGuiOptions.actionPerformed(button);
     }
 }
