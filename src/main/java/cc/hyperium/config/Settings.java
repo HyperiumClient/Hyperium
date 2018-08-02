@@ -17,9 +17,6 @@
 
 package cc.hyperium.config;
 
-import cc.hyperium.GuiStyle;
-import cc.hyperium.Hyperium;
-
 import static cc.hyperium.config.Category.ANIMATIONS;
 import static cc.hyperium.config.Category.CHROMAHUD;
 import static cc.hyperium.config.Category.COSMETICS;
@@ -31,6 +28,9 @@ import static cc.hyperium.config.Category.REACH;
 import static cc.hyperium.config.Category.SPOTIFY;
 import static cc.hyperium.config.Category.UTILITIES;
 import static cc.hyperium.config.Category.VANILLA_ENCHANTMENTS;
+
+import cc.hyperium.GuiStyle;
+import cc.hyperium.Hyperium;
 
 /*
  * Created by Cubxity on 03/06/2018
@@ -107,6 +107,14 @@ public class Settings {
     @ConfigOpt
     @ToggleSetting(category = IMPROVEMENTS, name = "Optimized Item Renderer (BETA)")
     public static boolean OPTIMIZED_ITEM_RENDERER = false;
+
+    @ConfigOpt
+    @ToggleSetting(name = "Optimized Texture Loading (BETA)", category = IMPROVEMENTS)
+    public static boolean OPTIMIZED_TEXTURE_LOADING = false;
+
+    @ConfigOpt
+    @ToggleSetting(name = "Optimized Font Renderer (BETA)", category = IMPROVEMENTS)
+    public static boolean OPTIMIZED_FONT_RENDERER = false;
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;windowedFullScreen")
     @ToggleSetting(name = "Windowed Fullscreen", category = IMPROVEMENTS)
@@ -214,10 +222,6 @@ public class Settings {
     @ConfigOpt
     @ToggleSetting(name = "Name History RGB", category = MISC)
     public static boolean NH_RGB_NAMES = false;
-
-    @ConfigOpt
-    @ToggleSetting(name = "Optimized Font Renderer (BETA)", category = IMPROVEMENTS)
-    public static boolean OPTIMIZED_FONT_RENDERER = false;
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.CosmeticSettings;fliptoggle")
     @ToggleSetting(name = "Flip - Toggle Mode", category = COSMETICS)
@@ -355,8 +359,12 @@ public class Settings {
     public static String MENU_STYLE = GuiStyle.DEFAULT.name();
 
     @ConfigOpt
-    @ToggleSetting(name = "Spotify Notifications", category = SPOTIFY)
+    @ToggleSetting(name = "Spotify Notifications", category = SPOTIFY, mods = true)
     public static boolean SPOTIFY_NOTIFICATIONS = true;
+
+    @ConfigOpt
+    @ToggleSetting(name = "Force Spotify to Never Load", category = SPOTIFY, mods = true)
+    public static boolean SPOTIFY_FORCE_DISABLE = false;
 
     @ConfigOpt
     @ToggleSetting(name = "Super Secret Settings v2", category = MISC)
@@ -460,7 +468,6 @@ public class Settings {
     @ConfigOpt
     @ToggleSetting(name = "Togglesprint", category = UTILITIES, mods = true)
     public static boolean ENABLE_TOGGLE_SPRINT = true;
-
 
     private Settings() {
     }

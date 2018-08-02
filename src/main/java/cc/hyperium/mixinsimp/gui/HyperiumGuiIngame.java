@@ -1,7 +1,7 @@
 package cc.hyperium.mixinsimp.gui;
 
 import cc.hyperium.Hyperium;
-import cc.hyperium.addons.customcrosshair.main.CustomCrosshairAddon;
+import cc.hyperium.addons.customcrosshair.CustomCrosshairAddon;
 import cc.hyperium.config.Settings;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.RenderHUDEvent;
@@ -74,11 +74,11 @@ public class HyperiumGuiIngame {
     }
 
     public void showCrosshair(CallbackInfoReturnable<Boolean> ci){
-        if(CustomCrosshairAddon.getCrosshairMod() == null){
+        if (CustomCrosshairAddon.getCrosshairMod() == null){
             return;
         }
 
-        if(CustomCrosshairAddon.getCrosshairMod().getCrosshair() == null){
+        if (CustomCrosshairAddon.getCrosshairMod().getCrosshair() == null){
             return;
         }
 
