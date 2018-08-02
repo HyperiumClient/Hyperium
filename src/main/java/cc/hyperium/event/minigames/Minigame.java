@@ -37,4 +37,16 @@ public enum Minigame {
         this.dbName = dbName;
         this.id = id;
     }
+
+    public String getScoreName() {
+        return scoreName;
+    }
+
+    public String getDbName() {
+        return dbName;
+    }
+
+    public int getId() {
+        return id;
+    }
 }

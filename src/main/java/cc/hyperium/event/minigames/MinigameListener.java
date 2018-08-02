@@ -11,7 +11,7 @@ public class MinigameListener {
 
     private int cooldown = 3 * 20;
 
-    String currentMinigameName = "";
+    private String currentMinigameName = "";
 
     @InvokeEvent
     public void onTick(TickEvent event) {
@@ -45,4 +45,7 @@ public class MinigameListener {
         return "";
     }
 
+    public String getCurrentMinigameName() {
+        return this.currentMinigameName;
+    }
 }
