@@ -1,7 +1,8 @@
 package cc.hyperium.gui.main.tabs;
 
 import cc.hyperium.Hyperium;
-import cc.hyperium.addons.customcrosshair.gui.GuiEditCrosshair;
+import cc.hyperium.addons.customcrosshair.gui.GuiCustomCrosshairEditCrosshair;
+import cc.hyperium.addons.customcrosshair.CustomCrosshairAddon;
 import cc.hyperium.config.Category;
 import cc.hyperium.config.SelectorSetting;
 import cc.hyperium.config.Settings;
@@ -92,7 +93,7 @@ public class ModsTab extends AbstractTab {
         items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(spotify), Icons.SETTINGS.getResource(), "Spotify Settings", "Adjust Spotify integration settings", "Click to configure", 1, 3));
         items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(autoGG), Icons.SETTINGS.getResource(), "AutoGG", "AutoGG \n /autogg", "Click to configure", 2, 3));
         items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(autoFriend), Icons.SETTINGS.getResource(), "AutoFriend", "AutoFriend automatically accepts friend requests", "Click to configure", 0, 4));
-        items.add(new SettingItem(() -> Minecraft.getMinecraft().displayGuiScreen(new GuiEditCrosshair()), Icons.SETTINGS.getResource(), "Custom Crosshair", "Custom Crosshair Settings", "Click to configure", 1, 4));
+        items.add(new SettingItem(() -> Minecraft.getMinecraft().displayGuiScreen(new GuiCustomCrosshairEditCrosshair(CustomCrosshairAddon.getCrosshairMod())), Icons.SETTINGS.getResource(), "Custom Crosshair", "Custom Crosshair Settings", "Click to configure", 1, 4));
         items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(utils), Icons.SETTINGS.getResource(), "Utilities", "Togglesprint", "", 2, 3));
         items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(fncompass), Icons.SETTINGS.getResource(), "Fortnite Compass", "Fortnite Compass displays the compass from Fortnite in Minecraft!", "", 2, 3));
 

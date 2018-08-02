@@ -359,8 +359,12 @@ public class Settings {
     public static String MENU_STYLE = GuiStyle.DEFAULT.name();
 
     @ConfigOpt
-    @ToggleSetting(name = "Spotify Notifications", category = SPOTIFY)
+    @ToggleSetting(name = "Spotify Notifications", category = SPOTIFY, mods = true)
     public static boolean SPOTIFY_NOTIFICATIONS = true;
+
+    @ConfigOpt
+    @ToggleSetting(name = "Force Spotify to Never Load", category = SPOTIFY, mods = true)
+    public static boolean SPOTIFY_FORCE_DISABLE = false;
 
     @ConfigOpt
     @ToggleSetting(name = "Super Secret Settings v2", category = MISC)
