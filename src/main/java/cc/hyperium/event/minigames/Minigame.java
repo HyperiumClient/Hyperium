@@ -1,23 +1,7 @@
-/*
- *     Copyright (C) 2018  Hyperium <https://hyperium.cc/>
- *
- *     This program is free software: you can redistribute it and/or modify
- *     it under the terms of the GNU Lesser General Public License as published
- *     by the Free Software Foundation, either version 3 of the License, or
- *     (at your option) any later version.
- *
- *     This program is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *     GNU Lesser General Public License for more details.
- *
- *     You should have received a copy of the GNU Lesser General Public License
- *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
+package cc.hyperium.event.minigames;
 
-package cc.hyperium.event.minigames
+public enum Minigame {
 
-enum class Minigame(val scoreName: String, val dbName: String, val id: Int) {
     QUAKECRAFT("Quakecraft", "Quake", 2),
     WALLS("Walls", "Walls", 3),
     PAINTBALL("Paintball", "Paintball", 2),
@@ -43,4 +27,14 @@ enum class Minigame(val scoreName: String, val dbName: String, val id: Int) {
     MURDER_MYSTERY("Murder Mystery", "MurderMystery", 17),
     BUILD_BATTLE("Build Battle", "BuildBattle", 7),
     DUELS("Duels", "Duels", 7);
+
+    public final String scoreName;
+    public final String dbName;
+    public final int id;
+
+    private Minigame(String scoreName, String dbName, int id) {
+        this.scoreName = scoreName;
+        this.dbName = dbName;
+        this.id = id;
+    }
 }
