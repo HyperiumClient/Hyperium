@@ -9,12 +9,8 @@ import net.minecraft.client.entity.AbstractClientPlayer;
 
 public class TPoseHandler extends AbstractPreCopyAnglesAnimationHandler {
 
-    private int total;
-
     @Override
     public void onRender() {
-        if (state == 100 && get(Minecraft.getMinecraft().thePlayer.getUniqueID()).isAnimating())
-            incDabs();
         if (!get(Minecraft.getMinecraft().thePlayer.getUniqueID()).isAnimating() && get(Minecraft.getMinecraft().thePlayer.getUniqueID()).shouldReset())
             state = 0.0f;
     }
