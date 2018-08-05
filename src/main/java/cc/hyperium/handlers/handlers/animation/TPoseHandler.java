@@ -33,13 +33,7 @@ public class TPoseHandler extends AbstractPreCopyAnglesAnimationHandler {
         );
     }
 
-    public int getDabs() {
-        return total;
-    }
 
-    public void incDabs() {
-        total++;
-    }
 
     @Override
     public void modifyPlayer(AbstractClientPlayer entity, IMixinModelPlayer player, float heldPercent) {
