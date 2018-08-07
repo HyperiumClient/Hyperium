@@ -17,6 +17,10 @@
 
 package cc.hyperium.handlers.handlers.keybinds;
 
+import cc.hyperium.Hyperium;
+import java.util.ArrayList;
+import java.util.List;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import org.apache.commons.text.WordUtils;
 
@@ -27,11 +31,12 @@ import org.apache.commons.text.WordUtils;
  * @author CoalOres
  * @author boomboompower
  */
-public class HyperiumBind extends KeyBinding {
+public class HyperiumBind{
 
     /**
      * The default key code
      */
+
     private final int defaultKeyCode;
 
     private final String description;
@@ -39,13 +44,13 @@ public class HyperiumBind extends KeyBinding {
 
     private boolean wasPressed;
 
+    private boolean conflicted = false;
+
     public HyperiumBind(String description, int key) {
         this(description, key, "Hyperium");
     }
 
     public HyperiumBind(String description, int key, String category) {
-        super(description, key, category);
-
         this.defaultKeyCode = key;
 
         this.description = description;
@@ -57,7 +62,6 @@ public class HyperiumBind extends KeyBinding {
      *
      * @return the key code
      */
-    @Override
     public int getKeyCode() {
         return this.key;
     }
@@ -68,11 +72,8 @@ public class HyperiumBind extends KeyBinding {
      *
      * @param key the key
      */
-    @Override
     public void setKeyCode(int key) {
         this.key = key;
-
-        super.setKeyCode(key);
     }
 
     /**
@@ -90,7 +91,6 @@ public class HyperiumBind extends KeyBinding {
      *
      * @return the keys description
      */
-    @Override
     public String getKeyDescription() {
         String message = this.description;
 
@@ -121,6 +121,18 @@ public class HyperiumBind extends KeyBinding {
     }
 
     /**
+     * Setter for the conflicted variable, if true it means the
+     * bind is conflicting with another.
+     */
+    public void setConflicted(boolean conflicted) {
+        this.conflicted = conflicted;
+    }
+
+    public boolean isConflicted(){
+        return  this.conflicted;
+    }
+
+    /**
      * Was the the last event on the key a key press?
      *
      * @return true if the key was last pressed
@@ -148,5 +160,34 @@ public class HyperiumBind extends KeyBinding {
 
     public void onRelease() {
         // We want these to be changed
+    }
+
+    public void detectConflicts(){
+        setConflicted(false);
+
+        int currentKeyCode = this.getKeyCode();
+
+        List<HyperiumBind> otherBinds = new ArrayList<>(Hyperium.INSTANCE.getHandlers().getKeybindHandler().getKeybinds().values());
+        otherBinds.remove(this);
+
+        // Check for conflicts with Minecraft binds.
+        for (KeyBinding keyBinding : Minecraft.getMinecraft().gameSettings.keyBindings){
+            int keyCode = keyBinding.getKeyCode();
+
+            if(currentKeyCode == keyCode){
+                // There is a conflict!
+                setConflicted(true);
+            }
+        }
+
+        // Check for conflicts with other Hyperium binds.
+        for (HyperiumBind hyperiumBind :otherBinds){
+            int keyCode = hyperiumBind.getKeyCode();
+
+            if(currentKeyCode == keyCode){
+                // There is a conflict!
+                setConflicted(true);
+            }
+        }
     }
 }

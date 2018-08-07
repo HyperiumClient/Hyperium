@@ -53,17 +53,6 @@ public class HyperiumGuiButton {
         parentA.isHovered() ? hoverColor : color
     );
 
-        /*// TODO RECT COLORS
-        if (this.hovered) {
-            drawRect(this.xPosition, this.yPosition,
-                    this.xPosition + this.width, this.yPosition + this.height,
-                    hoverColor);
-        } else {
-            drawRect(this.xPosition, this.yPosition,
-                    this.xPosition + this.width, this.yPosition + this.height,
-                    color);
-        }*/
-
     int j = textColor;
 
     boolean enabled = true;
