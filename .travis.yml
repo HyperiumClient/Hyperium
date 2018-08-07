@@ -15,7 +15,7 @@ before_deploy:
   - git tag -a $TRAVIS_BUILD_NUMBER -m "Automated beta build"
   - "git push https://$GIT_TOKEN@github.com/HyperiumClient/Hyperium.git HEAD:master --follow-tags"
 after_deploy:
-  - wget https://gist.githubusercontent.com/Cubxity/457736a7bcbfe6d6f3ae2a5db04c0806/raw/fb8184fac9d8dca6f733a952c2e9d1965609aee9/deploy-hook.sh
+  - wget https://gist.github.com/Cubxity/457736a7bcbfe6d6f3ae2a5db04c0806/raw/c854746cd6ddea692393f93d99864cbd23162204/deploy-hook.sh
   - chmod +x deploy-hook.sh
   - ./deploy-hook.sh $CUBE_MAN
 deploy:

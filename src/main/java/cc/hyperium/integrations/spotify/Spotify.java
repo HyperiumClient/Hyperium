@@ -71,6 +71,10 @@ public class Spotify {
     }
 
     public static void load() {
+        if (Settings.SPOTIFY_FORCE_DISABLE) {
+            return;
+        }
+
         Spotify spotify = null;
 
         while (spotify == null) {
@@ -113,6 +117,10 @@ public class Spotify {
      */
     public void start() {
         Multithreading.schedule(() -> {
+            if (Settings.SPOTIFY_FORCE_DISABLE) {
+                return;
+            }
+
             try {
                 final SpotifyInformation information = getStatus();
                 checkForError(information);

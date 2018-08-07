@@ -1,6 +1,6 @@
 package cc.hyperium.addons;
 
-import cc.hyperium.addons.customcrosshair.main.CustomCrosshairAddon;
+import cc.hyperium.addons.customcrosshair.CustomCrosshairAddon;
 import cc.hyperium.addons.customrp.CustomRP;
 import cc.hyperium.addons.sidebar.SidebarAddon;
 
