@@ -10,10 +10,7 @@ import cc.hyperium.installer.api.entities.InstallerManifest;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.utils.Downloader;
 import cc.hyperium.utils.InstallerUtils;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
-
-import java.awt.*;
+import java.awt.Color;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -21,6 +18,8 @@ import java.net.URL;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Gui;
 
 public class AddonsInstallerTab extends AbstractTab {
     private int y, w;
@@ -63,10 +62,8 @@ public class AddonsInstallerTab extends AbstractTab {
 
     @Override
     public void drawTabIcon() {
-        if (HyperiumMainGui.INSTANCE.getCurrentTab() instanceof AddonsInstallerTab) {
-            Icons.DOWNLOAD.bind();
-            Gui.drawScaledCustomSizeModalRect(5, y + 5, 0, 0, 144, 144, w - 10, w - 10, 144, 144);
-        }
+        Icons.DOWNLOAD.bind();
+        Gui.drawScaledCustomSizeModalRect(5, y + 5, 0, 0, 144, 144, w - 10, w - 10, 144, 144);
     }
 
     @Override

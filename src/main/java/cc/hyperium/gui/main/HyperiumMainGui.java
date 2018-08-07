@@ -13,6 +13,7 @@ import cc.hyperium.gui.main.tabs.AddonsTab;
 import cc.hyperium.gui.main.tabs.CosmeticsTab;
 import cc.hyperium.gui.main.tabs.HomeTab;
 import cc.hyperium.gui.main.tabs.InfoTab;
+import cc.hyperium.gui.main.tabs.KeybindsTab;
 import cc.hyperium.gui.main.tabs.ModsTab;
 import cc.hyperium.gui.main.tabs.SettingsTab;
 import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
@@ -24,14 +25,6 @@ import cc.hyperium.utils.DownloadTask;
 import cc.hyperium.utils.HyperiumFontRenderer;
 import cc.hyperium.utils.InstallerUtils;
 import cc.hyperium.utils.UpdateUtils;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.util.ResourceLocation;
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.opengl.GL11;
-
 import java.awt.Color;
 import java.awt.Font;
 import java.io.File;
@@ -42,6 +35,13 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.TimeUnit;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.util.ResourceLocation;
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.opengl.GL11;
 
 /*
  * Created by Cubxity on 20/05/2018
@@ -69,7 +69,7 @@ public class HyperiumMainGui extends HyperiumGui {
         try {
             settingsObjects.add(Settings.INSTANCE);
             if (Hyperium.INSTANCE.getModIntegration() == null) {
-                GeneralChatHandler.instance().sendMessage("Something wen't really wrong while loading...");
+                GeneralChatHandler.instance().sendMessage("Something went really wrong while loading...");
                 return;
             }
             settingsObjects.add(Hyperium.INSTANCE.getModIntegration().getAutotip());
@@ -126,7 +126,6 @@ public class HyperiumMainGui extends HyperiumGui {
         SettingsTab settingsTab = new SettingsTab(height / 2 - pw, pw);
         EventBus.INSTANCE.register(settingsTab);
 
-
         modsTab = new ModsTab(height / 2, pw);
         tabs = Arrays.asList(
                 ht,
@@ -134,8 +133,9 @@ public class HyperiumMainGui extends HyperiumGui {
                 settingsTab,
                 modsTab,
                 new AddonsTab(height / 2 + pw, pw),
-                new InfoTab(height / 2 + pw * 2, pw),
-                new AddonsInstallerTab(height / 2 + pw * 3, pw)
+                new InfoTab(height / 2 + (pw * 2), pw),
+                new KeybindsTab(height / 2 + (pw * 3), pw)
+                //new AddonsInstallerTab(height / 2 + (pw * 3), pw) ,
         );
         tabFade = 1f;
     }
