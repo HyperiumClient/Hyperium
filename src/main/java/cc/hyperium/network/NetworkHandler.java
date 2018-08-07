@@ -62,11 +62,12 @@ public class NetworkHandler implements INetty, PostConfigHandler, PreSaveHandler
         IChatComponent chatComponent = new ChatComponentText("");
         for (String s1 : s.split(" ")) {
             ChatComponentText iChatComponents = new ChatComponentText(s1 + " ");
-            if(s1.contains(".") && !s1.startsWith(".") && !s1.endsWith(".")) {
+            if (s1.contains(".") && !s1.startsWith(".") && !s1.endsWith(".")) {
                 ChatStyle chatStyle = new ChatStyle();
-                chatStyle.setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL,s1.startsWith("http") ? s1 : "http://"+s1));
+                chatStyle.setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, s1.startsWith("http") ? s1 : "http://" + s1));
                 iChatComponents.setChatStyle(chatStyle);
             }
+            chatComponent.appendSibling(iChatComponents);
         }
         GeneralChatHandler.instance().sendMessage(chatComponent);
     }
