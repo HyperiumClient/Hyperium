@@ -80,7 +80,7 @@ public class CapeHandler {
         }
     }
 
-    public void loadStaticCape(final UUID uuid, String url, boolean reforamt) {
+    public void loadStaticCape(final UUID uuid, String url) {
         if (capes.get(uuid) != null && !capes.get(uuid).equals(NullCape.INSTANCE))
             return;
         capes.put(uuid, NullCape.INSTANCE);
@@ -208,20 +208,20 @@ public class CapeHandler {
                             return;
                         }
                     } else if (s.equalsIgnoreCase("CUSTOM_IMAGE")) {
-                        loadStaticCape(uuid, holder.optString("url"), false);
+                        loadStaticCape(uuid, holder.optString("url"));
                         return;
                     } else if (!s.isEmpty()) {
                         JsonHolder jsonHolder = PurchaseApi.getInstance().getCapeAtlas()
                                 .optJSONObject(s);
                         String url = jsonHolder.optString("url");
                         if (!url.isEmpty()) {
-                            loadStaticCape(uuid, url, true);
+                            loadStaticCape(uuid, url);
                             return;
                         }
                     }
                     loadStaticCape(uuid,
                             "http://s.optifine.net/capes/" + player.getGameProfile().getName()
-                                    + ".png", true);
+                                    + ".png");
                 });
                 return capes.getOrDefault(uuid, NullCape.INSTANCE).get();
             }

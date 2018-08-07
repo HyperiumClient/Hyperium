@@ -75,7 +75,7 @@ public class CommandNickHider implements BaseCommand {
             if (arg.equalsIgnoreCase("set")) {
                 NickHider.INSTANCE.getNicks().removeIf(nick -> nick.oldName.equalsIgnoreCase(arg1));
                 NickHider.INSTANCE.getUsedNicks().remove(arg.toLowerCase());
-                NickHider.INSTANCE.remap(arg, arg2);
+                NickHider.INSTANCE.remap(arg1, arg2);
                 sendMessage("Remapped!");
             } else {
                 sendMessage("/nickhider <toggle,skin,self,pseudo>");
