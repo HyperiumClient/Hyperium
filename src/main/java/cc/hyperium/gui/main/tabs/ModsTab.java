@@ -1,8 +1,8 @@
 package cc.hyperium.gui.main.tabs;
 
 import cc.hyperium.Hyperium;
-import cc.hyperium.addons.customcrosshair.gui.GuiCustomCrosshairEditCrosshair;
 import cc.hyperium.addons.customcrosshair.CustomCrosshairAddon;
+import cc.hyperium.addons.customcrosshair.gui.GuiCustomCrosshairEditCrosshair;
 import cc.hyperium.config.Category;
 import cc.hyperium.config.SelectorSetting;
 import cc.hyperium.config.Settings;
@@ -29,19 +29,19 @@ import cc.hyperium.mods.levelhead.guis.LevelHeadGui;
 import cc.hyperium.mods.motionblur.MotionBlurMod;
 import cc.hyperium.mods.spotify.SpotifyGui;
 import cc.hyperium.mods.togglechat.gui.ToggleChatMainGui;
-import me.semx11.autotip.Autotip;
-import me.semx11.autotip.util.MessageOption;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
-import org.apache.commons.lang3.ArrayUtils;
-import org.lwjgl.input.Keyboard;
-
 import java.awt.Color;
 import java.lang.reflect.Field;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
+import me.semx11.autotip.Autotip;
+import me.semx11.autotip.util.MessageOption;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Gui;
+import org.apache.commons.lang3.ArrayUtils;
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 
 public class ModsTab extends AbstractTab {
     private final HyperiumOverlay autotip = new HyperiumOverlay("Autotip");
@@ -200,7 +200,7 @@ public class ModsTab extends AbstractTab {
         }));
         autotip.getComponents().add(new OverlayLabel("Run /autotip to access more settings and features", true, () -> {
         }));
-        utils.getComponents().add(new OverlayLabel("Toggle sprint is current bound to " + Keyboard.getKeyName(Hyperium.INSTANCE.getHandlers().getKeybindHandler().getBind().getKeyCode()), true, () -> {
+        utils.getComponents().add(new OverlayLabel("Toggle sprint is current bound to " + getBindName(Hyperium.INSTANCE.getHandlers().getKeybindHandler().getBind().getKeyCode()), true, () -> {
         }));
         chromahud.getComponents().add(new OverlayLabel("Run /chromahud or click here to access more settings", true, () -> {
             if (Minecraft.getMinecraft().thePlayer != null)
@@ -273,5 +273,13 @@ public class ModsTab extends AbstractTab {
     @Override
     public void draw(int mouseX, int mouseY, int topX, int topY, int containerWidth, int containerHeight) {
         super.draw(mouseX, mouseY, topX, topY, containerWidth, containerHeight);
+    }
+
+    private String getBindName(int keyCode){
+        if(keyCode < 0){
+            return Mouse.getButtonName(keyCode + 100);
+        } else{
+            return Keyboard.getKeyName(keyCode);
+        }
     }
 }
