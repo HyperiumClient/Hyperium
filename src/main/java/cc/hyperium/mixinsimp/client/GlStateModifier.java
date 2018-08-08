@@ -52,13 +52,13 @@ public class GlStateModifier implements IGlStateModifier {
         int activeTextureUnit;
 
         try {
-            activeTextureUnit = ReflectionUtil.getPrivateValue(GlStateManager.class, null, "activeTextureUnit", "field_179162_o");
+            activeTextureUnit = ReflectionUtil.getPrivateValue(GlStateManager.class, null, "activeTextureUnit", "field_179162_o","o");
         } catch (UnableToAccessFieldException rip) {
             activeTextureUnit = -1;
         }
 
         if (theArray == null || textureNamefield == null || activeTextureUnit == -1) {
-//            System.out.println("Hey staff team if you see this, there was no hope but this message band aids it so hello. ");
+            System.out.println("Hey staff team if you see this, there was no hope but this message band aids it so hello. ");
             return;
         }
         Object o = theArray[activeTextureUnit];
@@ -120,8 +120,10 @@ public class GlStateModifier implements IGlStateModifier {
             if (redColorField != null)
                 redColorField.setAccessible(true);
         }
-        if (colorStateObject == null || redColorField == null)
+        if (colorStateObject == null || redColorField == null) {
+            System.out.println("No hope v2");
             return;
+        }
         try {
             redColorField.set(colorStateObject, -1);
         } catch (IllegalAccessException e) {
