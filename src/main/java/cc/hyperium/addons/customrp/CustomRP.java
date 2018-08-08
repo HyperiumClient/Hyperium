@@ -27,7 +27,7 @@ public class CustomRP extends AbstractAddon {
             }
         });
         try {
-            client.connect(DiscordBuild.ANY); } catch (NoDiscordClientException e) {
+            client.connect(DiscordBuild.ANY); } catch (RuntimeException | NoDiscordClientException e) {
             Hyperium.LOGGER.warn("[CustomRP] No Discord clients found");
         }
         

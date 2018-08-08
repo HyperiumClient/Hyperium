@@ -17,17 +17,13 @@ import org.lwjgl.input.Mouse;
 
 public class GuiCustomCrosshairEditCrosshair extends CustomCrosshairScreen {
 
-    private CCTickbox tickbox_enabled;
     private CCTickbox tickbox_visibleDefault;
-    private CCEditColourButton editColour_crosshair;
     private CCTickbox tickbox_visibleHiddenGui;
     private CCTickbox tickbox_visibleDebug;
     private CCTickbox tickbox_visibleSpectator;
     private CCTickbox tickbox_visibleThirdPerson;
     private CCTickbox tickbox_outline;
-    private CCEditColourButton editColour_outline;
     private CCTickbox tickbox_dot;
-    private CCEditColourButton editColour_dot;
     private CCSlider slider_crosshairType;
     private CCSlider slider_width;
     private CCSlider slider_height;
@@ -49,26 +45,22 @@ public class GuiCustomCrosshairEditCrosshair extends CustomCrosshairScreen {
 
     public void initGui() {
         this.itemList.clear();
-        this.tickbox_enabled = new CCTickbox(this, 0, "Enabled", 0, 0) {
-            @Override
-            public void mouseClicked(final int mouseX, final int mouseY) {
-                super.mouseClicked(mouseX, mouseY);
-
-                if (addon.getCrosshair() != null) {
-                    addon.getCrosshair().setEnabled(
-                        GuiCustomCrosshairEditCrosshair.this.tickbox_enabled.getChecked());
-                }
+        CCTickbox tickbox_enabled = new CCTickbox(this, 0, "Enabled", 0, 0).setCallback((checked) -> {
+            if (addon.getCrosshair() != null) {
+                addon.getCrosshair().setEnabled(checked);
             }
-        };
+        });
 
         this.itemList.add(tickbox_enabled);
 
-        this.tickbox_enabled.setChecked(this.addon.getCrosshair().getEnabled());
-        this.tickbox_enabled.getHelpText().add("Enables or disables the crosshair mod.");
+        tickbox_enabled.setChecked(this.addon.getCrosshair().getEnabled());
+        tickbox_enabled.getHelpText().add("Enables or disables the crosshair mod.");
+
+        CCEditColourButton editColour_crosshair;
         this.itemList.add(
-            this.editColour_crosshair = new CCEditColourButton(addon, this, 6, "Crosshair Colour",
+            editColour_crosshair = new CCEditColourButton(addon, this, 6, "Crosshair Colour",
                 0, 0, 100, 20, this.addon.getCrosshair().getColour()));
-        this.editColour_crosshair.getHelpText().add("Changes the main colour of the crosshair.");
+        editColour_crosshair.getHelpText().add("Changes the main colour of the crosshair.");
         this.itemList.add(
             this.slider_crosshairType = new CCSlider(this, 5, "Crosshair Type", 0, 0, 120, 10, 0,
                 3));
@@ -151,10 +143,11 @@ public class GuiCustomCrosshairEditCrosshair extends CustomCrosshairScreen {
         });
         this.tickbox_outline.setChecked(this.addon.getCrosshair().getOutline());
         this.tickbox_outline.getHelpText().add("Draws a black outline around the crosshair.");
+        CCEditColourButton editColour_outline;
         this.itemList.add(
-            this.editColour_outline = new CCEditColourButton(addon, this, 7, "Outline Colour", 0, 0,
+            editColour_outline = new CCEditColourButton(addon, this, 7, "Outline Colour", 0, 0,
                 100, 20, this.addon.getCrosshair().getOutlineColour()));
-        this.editColour_outline.getHelpText().add("Changes the outline colour of the crosshair.");
+        editColour_outline.getHelpText().add("Changes the outline colour of the crosshair.");
         this.itemList.add(this.tickbox_dot = new CCTickbox(this, 4, "Dot", 0, 0) {
             @Override
             public void mouseClicked(final int mouseX, final int mouseY) {
@@ -165,10 +158,11 @@ public class GuiCustomCrosshairEditCrosshair extends CustomCrosshairScreen {
         });
         this.tickbox_dot.setChecked(this.addon.getCrosshair().getDot());
         this.tickbox_dot.getHelpText().add("Draws a white dot in the centre of the screen.");
+        CCEditColourButton editColour_dot;
         this.itemList.add(
-            this.editColour_dot = new CCEditColourButton(addon, this, 7, "Dot Colour", 0, 0, 100,
+            editColour_dot = new CCEditColourButton(addon, this, 7, "Dot Colour", 0, 0, 100,
                 20, this.addon.getCrosshair().getDotColour()));
-        this.editColour_dot.getHelpText().add("Changes the dot colour of the crosshair.");
+        editColour_dot.getHelpText().add("Changes the dot colour of the crosshair.");
         this.itemList
             .add(this.slider_width = new CCSlider(this, 10, "Width", 0, 0, 150, 10, 1, 50));
         this.slider_width.setValue(this.addon.getCrosshair().getWidth());

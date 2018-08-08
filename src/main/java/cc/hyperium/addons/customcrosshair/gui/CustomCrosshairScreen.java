@@ -11,16 +11,13 @@ import java.util.List;
 
 public class CustomCrosshairScreen extends GuiScreen {
 
-    public List<CCGuiItem> itemList;
-    public List<String> toolTip;
+    public List<CCGuiItem> itemList = new ArrayList<>();
+    public List<String> toolTip = new ArrayList<>();
 
     protected CustomCrosshairAddon addon;
 
     public CustomCrosshairScreen(CustomCrosshairAddon addon) {
         this.addon = addon;
-
-        this.itemList = new ArrayList<>();
-        this.toolTip = new ArrayList<>();
     }
 
     @Override
