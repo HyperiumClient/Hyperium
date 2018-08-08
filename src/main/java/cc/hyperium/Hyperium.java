@@ -305,15 +305,18 @@ public class Hyperium {
         EventBus.INSTANCE.register(FontFixValues.INSTANCE);
         if (Settings.PERSISTENT_CHAT) {
             File file = new File(folder, "chat.txt");
-            try {
-                FileReader fr = new FileReader(file);
-                BufferedReader bufferedReader = new BufferedReader(fr);
-                String line;
-                while ((line = bufferedReader.readLine()) != null) {
-                    Minecraft.getMinecraft().ingameGUI.getChatGUI().addToSentMessages(line);
+
+            if (file.exists()) {
+                try {
+                    FileReader fr = new FileReader(file);
+                    BufferedReader bufferedReader = new BufferedReader(fr);
+                    String line;
+                    while ((line = bufferedReader.readLine()) != null) {
+                        Minecraft.getMinecraft().ingameGUI.getChatGUI().addToSentMessages(line);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
             }
         } else {
             System.out.println("Not restoring chat");
