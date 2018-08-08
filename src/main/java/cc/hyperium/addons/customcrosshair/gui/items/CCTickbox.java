@@ -5,6 +5,9 @@ import java.awt.Color;
 import net.minecraft.client.gui.GuiScreen;
 
 public class CCTickbox extends CCGuiItem {
+
+    private CCCallback callback;
+
     private boolean checked;
 
     public CCTickbox(final GuiScreen screen) {
@@ -20,6 +23,10 @@ public class CCTickbox extends CCGuiItem {
     @Override
     public void mouseClicked(final int mouseX, final int mouseY) {
         this.toggleChecked();
+
+        if (this.callback != null) {
+            this.callback.run(getChecked());
+        }
     }
 
     @Override
@@ -32,6 +39,12 @@ public class CCTickbox extends CCGuiItem {
             CustomCrosshairGraphics
                 .drawFilledRectangle(this.getPosX() + 2, this.getPosY() + 2, this.getPosX() + this.getWidth() - 1, this.getPosY() + this.getHeight() - 1, new Color(50, 255, 50, 255));
         }
+    }
+
+    public CCTickbox setCallback(CCCallback callback) {
+        this.callback = callback;
+
+        return this;
     }
 
     public boolean getChecked() {

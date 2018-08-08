@@ -40,13 +40,11 @@ public class RichPresenceManager {
         });
         try {
             client.connect(DiscordBuild.ANY);
-        } catch (NoDiscordClientException e) {
+        } catch (NoDiscordClientException | RuntimeException e) {
             Hyperium.LOGGER.warn("no discord clients found");
         }
 
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            this.client.close();
-        }));
+        Runtime.getRuntime().addShutdownHook(new Thread(this::shutdown));
     }
 
     public void shutdown() {
