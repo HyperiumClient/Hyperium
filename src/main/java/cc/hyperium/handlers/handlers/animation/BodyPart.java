@@ -1,4 +1,4 @@
-package cc.hyperium.handlers.handlers.animation.fortnite;
+package cc.hyperium.handlers.handlers.animation;
 
 public class BodyPart {
     public float rotationPointX;

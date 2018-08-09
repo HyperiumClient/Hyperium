@@ -40,6 +40,7 @@ import cc.hyperium.handlers.handlers.ValueHandler;
 import cc.hyperium.handlers.handlers.animation.DabHandler;
 import cc.hyperium.handlers.handlers.animation.FlossDanceHandler;
 import cc.hyperium.handlers.handlers.animation.TPoseHandler;
+import cc.hyperium.handlers.handlers.animation.TwerkDance;
 import cc.hyperium.handlers.handlers.animation.cape.CapeHandler;
 import cc.hyperium.handlers.handlers.animation.fortnite.FortniteDefaultDance;
 import cc.hyperium.handlers.handlers.chat.AutoWhoChatHandler;
@@ -105,6 +106,11 @@ public class HyperiumHandlers {
     private PerspectiveModifierHandler perspectiveHandler;
     private TPoseHandler tPoseHandler;
     private FortniteDefaultDance fortniteDefaultDance;
+    private TwerkDance twerkDance;
+
+    public TwerkDance getTwerkDance() {
+        return twerkDance;
+    }
 
     public HyperiumHandlers() {
         System.out.println("Loading handlers");
@@ -133,7 +139,7 @@ public class HyperiumHandlers {
         register(dataTracking = new GameDataTracking());
         register(privateMessageHandler = new PrivateMessageHandler());
         register(dabHandler = new DabHandler());
-
+        register(twerkDance = new TwerkDance());
         register(particleAuraHandler = new ParticleAuraHandler());
         register(statusHandler = new StatusHandler());
         register(flossDanceHandler = new FlossDanceHandler());

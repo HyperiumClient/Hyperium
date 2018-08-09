@@ -36,6 +36,7 @@ import cc.hyperium.handlers.handlers.keybinds.keybinds.TPoseKeybind;
 import cc.hyperium.handlers.handlers.keybinds.keybinds.TogglePerspectiveKeybind;
 import cc.hyperium.handlers.handlers.keybinds.keybinds.ToggleSpotifyKeybind;
 import cc.hyperium.handlers.handlers.keybinds.keybinds.ToggleSprintKeybind;
+import cc.hyperium.handlers.handlers.keybinds.keybinds.TwerkDanceKeybind;
 import net.minecraft.client.Minecraft;
 import org.lwjgl.input.Keyboard;
 
@@ -79,6 +80,7 @@ public class KeyBindHandler {
         registerKeyBinding(bind);
         registerKeyBinding(new TogglePerspectiveKeybind());
         registerKeyBinding(new FortniteDefaultDanceKeybind());
+        registerKeyBinding(new TwerkDanceKeybind());
         registerKeyBinding(new ClearPopupKeybind());
         registerKeyBinding(new TPoseKeybind());
 

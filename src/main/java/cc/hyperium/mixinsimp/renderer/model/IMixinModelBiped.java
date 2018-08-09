@@ -43,4 +43,6 @@ public interface IMixinModelBiped {
     ModelRenderer getBipedHead();
 
     ModelRenderer getBipedHeadwear();
+
+    ModelRenderer getButt();
 }
