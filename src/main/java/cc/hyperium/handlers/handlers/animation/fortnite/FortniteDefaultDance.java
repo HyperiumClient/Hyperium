@@ -25,6 +25,7 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Scanner;
 import java.util.UUID;
 
 public class FortniteDefaultDance extends AbstractPreCopyAnglesAnimationHandler {
@@ -39,45 +40,49 @@ public class FortniteDefaultDance extends AbstractPreCopyAnglesAnimationHandler 
     }
 
     public static void main(String[] args) {
-        int time = 500;
-        String in = "/summon armor_stand ~ ~ ~ {ShowArms:1b,Pose:{RightArm:[276f,0f,0f]}}";
-        JsonHolder out = new JsonHolder();
-        out.put("time", time);
-        try {
-            String[] meme = in.split(" ");
-            IChatComponent ichatcomponent = CommandBase.getChatComponentFromNthArg(null, meme, 5);
-            NBTTagCompound tagFromJson = JsonToNBT.getTagFromJson(ichatcomponent.getUnformattedText());
-            NBTTagCompound pose = (NBTTagCompound) tagFromJson.getTag("Pose");
-            HashMap<String, String> mappigns = new HashMap<>();
-            mappigns.put("Body", "chest");
-            mappigns.put("Head", "head");
-            mappigns.put("LeftLeg", "leftUpperLeg");
-            mappigns.put("RightLeg", "rightUpperLeg");
-            mappigns.put("LeftArm", "leftUpperARm");
-            mappigns.put("RightArm", "rightUpperArm");
-            for (String s : mappigns.keySet()) {
-                JsonHolder holder = new JsonHolder();
-                NBTTagList tag = (NBTTagList) pose.getTag(s);
-                if (tag == null)
-                    continue;
-                String[] obj = {"X", "Y", "Z"};
-                for (int i = 0; i < 3; i++) {
-                    float floatAt = tag.getFloatAt(i);
-                    if (floatAt != 0) {
-                        if (floatAt > 180) {
-                            floatAt -= 360;
+        Scanner scanner = new Scanner(System.in);
+        while (true) {
+
+            int time = 18;
+            String in = scanner.nextLine();
+            JsonHolder out = new JsonHolder();
+            out.put("time", time);
+            try {
+                String[] meme = in.split(" ");
+                IChatComponent ichatcomponent = CommandBase.getChatComponentFromNthArg(null, meme, 5);
+                NBTTagCompound tagFromJson = JsonToNBT.getTagFromJson(ichatcomponent.getUnformattedText());
+                NBTTagCompound pose = (NBTTagCompound) tagFromJson.getTag("Pose");
+                HashMap<String, String> mappigns = new HashMap<>();
+                mappigns.put("Body", "chest");
+                mappigns.put("Head", "head");
+                mappigns.put("LeftLeg", "leftUpperLeg");
+                mappigns.put("RightLeg", "rightUpperLeg");
+                mappigns.put("LeftArm", "leftUpperArm");
+                mappigns.put("RightArm", "rightUpperArm");
+                for (String s : mappigns.keySet()) {
+                    JsonHolder holder = new JsonHolder();
+                    NBTTagList tag = (NBTTagList) pose.getTag(s);
+                    if (tag == null)
+                        continue;
+                    String[] obj = {"X", "Y", "Z"};
+                    for (int i = 0; i < 3; i++) {
+                        float floatAt = tag.getFloatAt(i);
+                        if (floatAt != 0) {
+                            if (floatAt > 180) {
+                                floatAt -= 360;
+                            }
+                            holder.put("rotateAngle" + obj[i], ((float) Math.toRadians(floatAt)));
                         }
-                        holder.put("rotateAngle" + obj[i], ((float) Math.toRadians(floatAt - 360)));
+                    }
+                    if (holder.getKeys().size() != 0) {
+                        out.put(mappigns.get(s), holder);
                     }
                 }
-                if (holder.getKeys().size() != 0) {
-                    out.put(mappigns.get(s), holder);
-                }
+            } catch (CommandException | NBTException e) {
+                e.printStackTrace();
             }
-        } catch (CommandException | NBTException e) {
-            e.printStackTrace();
+            System.out.println(out);
         }
-        System.out.println(out);
 
     }
 
@@ -98,8 +103,8 @@ public class FortniteDefaultDance extends AbstractPreCopyAnglesAnimationHandler 
         }
         for (JsonElement element : holder.optJSONArray("frames")) {
             JsonHolder h = new JsonHolder(element.getAsJsonObject());
-            AnimationFrame frame = new AnimationFrame(h.optInt("time"));
-            frame.name = h.optInt("time")+"";
+            AnimationFrame frame = new AnimationFrame(frame(h.optInt("time")));
+            frame.name = h.optInt("time") + "";
             for (String s : h.getKeys()) {
                 if (!s.equalsIgnoreCase("time")) {
                     try {
