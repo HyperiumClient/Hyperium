@@ -3,11 +3,25 @@ package cc.hyperium.handlers.handlers.animation.fortnite;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.WorldChangeEvent;
 import cc.hyperium.handlers.handlers.animation.AbstractPreCopyAnglesAnimationHandler;
+import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
 import cc.hyperium.mixinsimp.renderer.model.IMixinModelBiped;
 import cc.hyperium.mixinsimp.renderer.model.IMixinModelPlayer;
+import cc.hyperium.utils.JsonHolder;
+import com.google.gson.JsonElement;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.command.CommandBase;
+import net.minecraft.command.CommandException;
+import net.minecraft.nbt.JsonToNBT;
+import net.minecraft.nbt.NBTException;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.util.IChatComponent;
+import org.apache.commons.io.FileUtils;
 
+import java.io.File;
+import java.io.IOException;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -24,54 +38,92 @@ public class FortniteDefaultDance extends AbstractPreCopyAnglesAnimationHandler 
         generateFrames();
     }
 
+    public static void main(String[] args) {
+        int time = 500;
+        String in = "/summon armor_stand ~ ~ ~ {ShowArms:1b,Pose:{RightArm:[276f,0f,0f]}}";
+        JsonHolder out = new JsonHolder();
+        out.put("time", time);
+        try {
+            String[] meme = in.split(" ");
+            IChatComponent ichatcomponent = CommandBase.getChatComponentFromNthArg(null, meme, 5);
+            NBTTagCompound tagFromJson = JsonToNBT.getTagFromJson(ichatcomponent.getUnformattedText());
+            NBTTagCompound pose = (NBTTagCompound) tagFromJson.getTag("Pose");
+            HashMap<String, String> mappigns = new HashMap<>();
+            mappigns.put("Body", "chest");
+            mappigns.put("Head", "head");
+            mappigns.put("LeftLeg", "leftUpperLeg");
+            mappigns.put("RightLeg", "rightUpperLeg");
+            mappigns.put("LeftArm", "leftUpperARm");
+            mappigns.put("RightArm", "rightUpperArm");
+            for (String s : mappigns.keySet()) {
+                JsonHolder holder = new JsonHolder();
+                NBTTagList tag = (NBTTagList) pose.getTag(s);
+                if (tag == null)
+                    continue;
+                String[] obj = {"X", "Y", "Z"};
+                for (int i = 0; i < 3; i++) {
+                    float floatAt = tag.getFloatAt(i);
+                    if (floatAt != 0) {
+                        if (floatAt > 180) {
+                            floatAt -= 360;
+                        }
+                        holder.put("rotateAngle" + obj[i], ((float) Math.toRadians(floatAt - 360)));
+                    }
+                }
+                if (holder.getKeys().size() != 0) {
+                    out.put(mappigns.get(s), holder);
+                }
+            }
+        } catch (CommandException | NBTException e) {
+            e.printStackTrace();
+        }
+        System.out.println(out);
+
+    }
+
+    //THE EPITOME OF PAIN. FOR YOUR OWN GOOD, DO NOT ATTEMPT
     public void generateFrames() {
         frames.clear();
-        AnimationFrame zero = new AnimationFrame(0);
-        zero.name = "Zero";
-        frames.add(zero);
+        JsonHolder holder = null;
+        try {
+            File file = new File("fortnite_dance.json");
+            System.out.println(file.getAbsolutePath());
+            holder = new JsonHolder(FileUtils.readFileToString(file));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if (holder == null) {
+            GeneralChatHandler.instance().sendMessage("An error occurred while loading fortnite dance json");
+            return;
+        }
+        for (JsonElement element : holder.optJSONArray("frames")) {
+            JsonHolder h = new JsonHolder(element.getAsJsonObject());
+            AnimationFrame frame = new AnimationFrame(h.optInt("time"));
+            frame.name = h.optInt("time")+"";
+            for (String s : h.getKeys()) {
+                if (!s.equalsIgnoreCase("time")) {
+                    try {
+                        Field declaredField1 = frame.getClass().getDeclaredField(s);
+                        declaredField1.setAccessible(true);
+                        BodyPart bodyPart = (BodyPart) declaredField1.get(frame);
+                        JsonHolder holder1 = h.optJSONObject(s);
+                        for (String s1 : holder1.getKeys()) {
+                            Field declaredField = bodyPart.getClass().getDeclaredField(s1);
+                            declaredField.setAccessible(true);
+                            float f = (float) holder1.optDouble(s1);
+                            declaredField.setFloat(bodyPart, f);
+                        }
+                    } catch (IllegalAccessException | NoSuchFieldException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+//            System.out.println("adding frame " + frame);
+            this.frames.add(frame);
+        }
 
 
-        AnimationFrame one = new AnimationFrame(frame(10));
-        one.getRightUpperArm().rotateAngleX = ((float) Math.toRadians(-85));
-        one.getLeftUpperArm().rotateAngleX = ((float) Math.toRadians(-85));
-        one.getLeftUpperArm().rotateAngleZ = ((float) Math.toRadians(-25));
-        one.name = "One";
-        frames.add(one);
-
-
-        AnimationFrame two = new AnimationFrame(frame(13));
-        two.getRightUpperArm().rotateAngleX = ((float) Math.toRadians(-85));
-        two.getLeftUpperArm().rotateAngleX = ((float) Math.toRadians(-85));
-        two.getLeftUpperArm().rotateAngleY = ((float) Math.toRadians(35));
-        two.getRightUpperArm().rotateAngleY = ((float) Math.toRadians(-35));
-        two.name = "Two";
-        frames.add(two);
-
-
-        AnimationFrame three = new AnimationFrame(frame(22));
-        three.getChest().rotateAngleZ = (float) Math.toRadians(354 - 360);
-        three.getHead().rotateAngleZ = (float) Math.toRadians(328 - 360);
-        three.getRightUpperLeg().rotateAngleX = (float) Math.toRadians(319 - 360);
-        three.getLeftUpperArm().rotateAngleX = radians(253 - 360);
-        three.getLeftUpperArm().rotateAngleY = radians(352 - 360);
-        three.getRightUpperArm().rotateAngleX = radians(257 - 360);
-        three.getRightUpperArm().rotateAngleY = radians(5);
-        three.getLeftUpperLeg().offsetY = -.075F;
-        three.getLeftUpperLeg().offsetX = .075F;
-
-        three.getRightUpperLeg().offsetY = .075F;
-        three.getRightUpperLeg().offsetX = .075F;
-        three.name = "Three";
-        frames.add(three);
-
-        AnimationFrame four = new AnimationFrame(frame(28));
-        four.name = "four";
-        four.getRightUpperArm().rotateAngleX = radians(-5);
-        four.getRightUpperLeg().rotateAngleX = radians(-25);
-
-        four.getLeftUpperLeg().rotateAngleY = radians(-12);
-        four.getLeftUpperLeg().rotateAngleZ = radians(-15);
-        frames.add(four);
+//
         duration = frames.get(frames.size() - 1).getTime();
     }
 
@@ -129,10 +181,11 @@ public class FortniteDefaultDance extends AbstractPreCopyAnglesAnimationHandler 
         long l = next.getTime() - prev.getTime();
         float percent = v / (float) l;
 
-//        percent =1.0F;
-//        next = frames.get(4);
-//        System.out.println(prev.name+" -> " + next.name+ " " +percent);
-        //Right upper arm
+
+//        next = frames.get(frames.size() - 1);
+//        percent = 1.0F;
+        System.out.println(prev.name + " -> " + next.name + " " + percent);
+//        Right upper arm
         adjust(player.getBipedRightUpperArmwear(), prev.getRightUpperArm().calc(percent, next.getRightUpperArm()));
         adjust(player.getBipedRightUpperArm(), prev.getRightUpperArm().calc(percent, next.getRightUpperArm()));
 

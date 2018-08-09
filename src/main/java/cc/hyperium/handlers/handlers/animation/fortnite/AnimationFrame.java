@@ -2,6 +2,7 @@ package cc.hyperium.handlers.handlers.animation.fortnite;
 
 public class AnimationFrame {
 
+    public String name;
     private long time;
     private BodyPart leftUpperArm = new BodyPart();
     private BodyPart leftLowerArm = new BodyPart();
@@ -13,10 +14,26 @@ public class AnimationFrame {
     private BodyPart leftLowerLeg = new BodyPart();
     private BodyPart rightUpperLeg = new BodyPart();
     private BodyPart rightLowerLeg = new BodyPart();
-    public String name;
-
     public AnimationFrame(long time) {
         this.time = time;
+    }
+
+    @Override
+    public String toString() {
+        return "AnimationFrame{" +
+                "time=" + time +
+                ", leftUpperArm=" + leftUpperArm +
+                ", leftLowerArm=" + leftLowerArm +
+                ", rightUpperArm=" + rightUpperArm +
+                ", rightLowerArm=" + rightLowerArm +
+                ", chest=" + chest +
+                ", head=" + head +
+                ", leftUpperLeg=" + leftUpperLeg +
+                ", leftLowerLeg=" + leftLowerLeg +
+                ", rightUpperLeg=" + rightUpperLeg +
+                ", rightLowerLeg=" + rightLowerLeg +
+                ", name='" + name + '\'' +
+                '}';
     }
 
     public long getTime() {
