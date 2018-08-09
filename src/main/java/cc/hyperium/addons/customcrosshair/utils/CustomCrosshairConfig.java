@@ -2,13 +2,13 @@ package cc.hyperium.addons.customcrosshair.utils;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.addons.customcrosshair.CustomCrosshairAddon;
-
 import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,13 +20,16 @@ public class CustomCrosshairConfig {
     
     public CustomCrosshairConfig(CustomCrosshairAddon addon) {
         this.crosshairMod = addon;
+        if(!saveFile.exists()){
+            try {
+                saveFile.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
     
     public boolean readSaveFile() {
-        if (!this.saveFile.exists()) {
-            return false;
-        }
-        
         try {
             final FileReader fileReader = new FileReader(this.saveFile);
             final BufferedReader bufferedReader = new BufferedReader(fileReader);
@@ -170,6 +173,7 @@ public class CustomCrosshairConfig {
             return true;
         }
         catch (Exception readingException) {
+            readingException.printStackTrace();
             return false;
         }
     }
@@ -219,6 +223,7 @@ public class CustomCrosshairConfig {
             bufferedWriter.close();
             return true;
         } catch (Exception exceptionWriting) {
+            exceptionWriting.printStackTrace();
             return false;
         }
     }
