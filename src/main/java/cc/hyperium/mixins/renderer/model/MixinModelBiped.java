@@ -90,7 +90,7 @@ public class MixinModelBiped extends ModelBase implements IMixinModelBiped {
             this.bipedLeftLowerLeg.setRotationPoint(1.9F, 12.0F + p_i1149_2_, 0.0F);
             this.butt = new ModelRenderer(this, 16, 16+8);
             this.butt.addBox(-4.0F, 0.0F, -2.0F, 8, 4, 4, modelSize);
-            this.butt.setRotationPoint(0.0F, 0.0F + p_i1149_2_, 0.0F);
+            this.butt.setRotationPoint(0.0F, 12.0F, 0.0F);
 
 
             fixTopAndBottomOfLimbWrongTextures(this.bipedLeftForeArm, this.bipedRightForeArm, this.bipedLeftLowerLeg, this.bipedRightLowerLeg);

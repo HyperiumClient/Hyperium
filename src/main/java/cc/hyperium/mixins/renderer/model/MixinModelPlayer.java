@@ -108,8 +108,8 @@ public class MixinModelPlayer extends MixinModelBiped implements IMixinModelPlay
             this.bipedRightForeArmwear.setRotationPoint(-5.0F, 2.0F, 10.0F);
         }
         this.butt = new ModelRenderer(this, 16, 16+8);
-        this.butt.addBox(-4.0F, 8.0F, 0.0F, 8, 4, 4, modelSize);
-        this.butt.setRotationPoint(0.0F, 0.0F + 0.0F, 0.0F);
+        this.butt.addBox(-4.0F,0.0F, 0.0F, 8, 4, 4, modelSize);
+        this.butt.setRotationPoint(0,16, 0);
 
         this.bipedLeftLeg = new ModelRenderer(this, 16, 48);
         this.bipedLeftLeg.addBox(-2.0F, 0.0F, -2.0F, 4, 6, 4, modelSize);

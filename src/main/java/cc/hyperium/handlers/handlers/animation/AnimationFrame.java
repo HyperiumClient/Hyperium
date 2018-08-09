@@ -14,8 +14,14 @@ public class AnimationFrame {
     private BodyPart leftLowerLeg = new BodyPart();
     private BodyPart rightUpperLeg = new BodyPart();
     private BodyPart rightLowerLeg = new BodyPart();
+    private BodyPart butt = new BodyPart();
+
     public AnimationFrame(long time) {
         this.time = time;
+    }
+
+    public BodyPart getButt() {
+        return butt;
     }
 
     @Override
