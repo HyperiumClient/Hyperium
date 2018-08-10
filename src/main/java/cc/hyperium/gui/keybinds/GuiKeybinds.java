@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
 public class GuiKeybinds extends HyperiumGui {
@@ -177,7 +178,7 @@ public class GuiKeybinds extends HyperiumGui {
             for (int i = 0; i < keybindEntries.size(); i++){
                 KeybindEntry entry = keybindEntries.get(i);
                 if(!entry.isVisible()){
-                    return;
+                    continue;
                 }
                 KeybindButton button = entry.getKeybindButton();
 
@@ -242,9 +243,29 @@ public class GuiKeybinds extends HyperiumGui {
     }
 
     public void detectAllConflicts(){
-        for (GuiButton button : buttonList){
-            KeybindButton keybindButton = (KeybindButton) button;
+        for (KeybindEntry entry : keybindEntries){
+            KeybindButton keybindButton = entry.getKeybindButton();
             keybindButton.detectConflicts();
         }
+    }
+
+    private boolean areKeysListening(){
+        for (KeybindEntry entry : keybindEntries){
+            KeybindButton btn = entry.getKeybindButton();
+            if(btn.isListening()){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    protected void keyTyped(char typedChar, int keyCode) throws IOException {
+        if(keyCode == Keyboard.KEY_ESCAPE){
+            if(areKeysListening()){
+                return;
+            }
+        }
+        super.keyTyped(typedChar, keyCode);
     }
 }

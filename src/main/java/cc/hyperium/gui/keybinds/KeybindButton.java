@@ -40,6 +40,10 @@ public class KeybindButton extends GuiButton {
         }
     }
 
+    public boolean isListening(){
+        return listening;
+    }
+
     private String getName(int keyCode){
         if(keyCode < 0){
             return Mouse.getButtonName(keyCode + 100);
@@ -52,9 +56,7 @@ public class KeybindButton extends GuiButton {
     public void keyEvent(KeypressEvent event){
         if(listening){
             if(event.getKey() == Keyboard.KEY_ESCAPE){
-                // Stop listening.
-                listening = false;
-                setText(getName(btnBind.getKeyCode()));
+                setBindKey(0);
             } else {
                 setBindKey(event.getKey());
             }

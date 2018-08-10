@@ -167,6 +167,11 @@ public class HyperiumBind{
 
         int currentKeyCode = this.getKeyCode();
 
+        if(currentKeyCode == 0){
+            // Allow multiple binds to be set to NONE.
+            return;
+        }
+
         List<HyperiumBind> otherBinds = new ArrayList<>(Hyperium.INSTANCE.getHandlers().getKeybindHandler().getKeybinds().values());
         otherBinds.remove(this);
 
