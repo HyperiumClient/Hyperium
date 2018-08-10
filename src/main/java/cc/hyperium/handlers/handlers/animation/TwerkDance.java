@@ -164,8 +164,8 @@ public class TwerkDance extends AbstractPreCopyAnglesAnimationHandler {
 
     @Override
     public void modifyPlayer(AbstractClientPlayer entity, IMixinModelPlayer player, float heldPercent) {
-//        if (!loaded)
-//            return;
+        if (!loaded)
+            return;
         Long aLong = states.get(entity.getUniqueID());
         if (aLong == null || aLong == 0) {
             resetAnimation(player);
