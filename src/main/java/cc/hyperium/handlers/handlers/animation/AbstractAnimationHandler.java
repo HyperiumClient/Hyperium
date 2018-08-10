@@ -70,7 +70,7 @@ public abstract class AbstractAnimationHandler {
         get(uuid).stopAnimation();
     }
 
-    protected void modify(AbstractClientPlayer entity, IMixinModelBiped player) {
+    protected void modify(AbstractClientPlayer entity, IMixinModelBiped player, boolean pre) {
         AnimationState animationState = get(entity.getUniqueID());
         int ticks = animationState.frames;
         player.getBipedBody().rotateAngleZ = 0F;
@@ -80,6 +80,8 @@ public abstract class AbstractAnimationHandler {
         player.getBipedLeftUpperLeg().offsetX = 0F;
         player.getBipedHead().rotateAngleZ = 0F;
         player.getBipedHeadwear().rotateAngleZ = 0F;
+
+
         if (player instanceof IMixinModelPlayer) {
             IMixinModelPlayer player1 = (IMixinModelPlayer) player;
             player1.getBipedBodywear().rotateAngleZ = 0F;
@@ -89,8 +91,55 @@ public abstract class AbstractAnimationHandler {
             player1.getBipedLeftUpperLegwear().offsetX = 0F;
 
         }
-        if (ticks <= 0) {
 
+        if (ticks <= 0) {
+            if (pre) {
+                player.getBipedBody().offsetZ = 0;
+                player.getBipedLeftLowerLeg().offsetZ = 0;
+                player.getBipedRightLowerLeg().offsetZ = 0;
+                player.getBipedRightUpperLeg().offsetZ = 0;
+                player.getBipedLeftUpperLeg().offsetZ = 0;
+                player.getBipedRightUpperArm().offsetZ = 0;
+                player.getBipedLeftUpperArm().offsetZ = 0;
+
+                player.getBipedBody().offsetY = 0;
+                player.getBipedLeftLowerLeg().offsetY = 0;
+                player.getBipedRightLowerLeg().offsetY = 0;
+                player.getBipedRightUpperLeg().offsetY = 0;
+                player.getBipedLeftUpperLeg().offsetY = 0;
+                player.getBipedRightUpperArm().offsetY = 0;
+                player.getBipedLeftUpperArm().offsetY = 0;
+
+
+                player.getBipedHead().offsetZ = 0;
+                player.getBipedHead().offsetY = 0;
+                player.getBipedHeadwear().offsetZ = 0;
+                player.getBipedHeadwear().offsetY = 0;
+                player.getBipedRightForeArm().offsetY = 0;
+                player.getBipedRightForeArm().offsetX = 0;
+
+                if (player instanceof IMixinModelPlayer) {
+                    IMixinModelPlayer player1 = (IMixinModelPlayer) player;
+                    player1.getBipedLeftUpperArmwear().offsetY = 0;
+                    player1.getBipedRightUpperArmwear().offsetY = 0;
+                    player1.getBipedBodywear().offsetY=0;
+                    player1.getBipedLeftUpperLegwear().offsetY=0;
+                    player1.getBipedLeftLowerLegwear().offsetY=0;
+                    player1.getBipedRightUpperLegwear().offsetY=0;
+                    player1.getBipedRightLowerLegwear().offsetY=0;
+
+
+                    player1.getBipedLeftUpperArmwear().offsetZ = 0;
+                    player1.getBipedRightUpperArmwear().offsetZ = 0;
+                    player1.getBipedBodywear().offsetZ=0;
+                    player1.getBipedLeftUpperLegwear().offsetZ=0;
+                    player1.getBipedLeftLowerLegwear().offsetZ=0;
+                    player1.getBipedRightUpperLegwear().offsetZ=0;
+                    player1.getBipedRightLowerLegwear().offsetZ=0;
+
+
+                }
+            }
             return;
         }
 
@@ -156,6 +205,10 @@ public abstract class AbstractAnimationHandler {
             return toggled;
         }
 
+        public void setToggled(boolean toggled) {
+            this.toggled = toggled;
+        }
+
         private void update() {
             while (this.systemTime < Minecraft.getSystemTime() + (1000 / 60)) {
                 this.frames--;
@@ -181,10 +234,6 @@ public abstract class AbstractAnimationHandler {
 
         public boolean isAnimating() {
             return frames > 0;
-        }
-
-        public void setToggled(boolean toggled) {
-            this.toggled = toggled;
         }
 
         public boolean shouldReset() {

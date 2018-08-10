@@ -18,11 +18,11 @@ import net.minecraft.nbt.NBTException;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.IChatComponent;
-import org.apache.commons.io.IOUtils;
+import org.apache.commons.io.FileUtils;
 
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -91,7 +91,8 @@ public class TwerkDance extends AbstractPreCopyAnglesAnimationHandler {
         frames.clear();
         JsonHolder holder = null;
         try {
-            holder = new JsonHolder(IOUtils.toString(new URL("https://static.sk1er.club/hyperium/twerk.json")));
+//            holder = new JsonHolder(IOUtils.toString(new URL("https://static.sk1er.club/hyperium/twerk.json")));
+            holder = new JsonHolder(FileUtils.readFileToString(new File("twerk.json")));
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -159,11 +160,12 @@ public class TwerkDance extends AbstractPreCopyAnglesAnimationHandler {
         AbstractClientPlayer entity = event.getEntity();
         IMixinModelBiped player = event.getModel();
         player.getButt().showModel = false;
-        modify(entity, player);
+        modify(entity, player, false);
     }
 
     @Override
     public void modifyPlayer(AbstractClientPlayer entity, IMixinModelPlayer player, float heldPercent) {
+        generateFrames();
         if (!loaded)
             return;
         Long aLong = states.get(entity.getUniqueID());
@@ -173,7 +175,7 @@ public class TwerkDance extends AbstractPreCopyAnglesAnimationHandler {
 
             return;
         }
-        player.getButt().showModel=true;
+        player.getButt().showModel = true;
         long current = System.currentTimeMillis();
         long timeSinceStart = current - aLong;
         if (timeSinceStart > duration)
@@ -284,7 +286,6 @@ public class TwerkDance extends AbstractPreCopyAnglesAnimationHandler {
             return;
         Long aLong = states.get(entity.getUniqueID());
         if (aLong == null || aLong == 0) {
-            resetAnimation(player);
             return;
         }
         long current = System.currentTimeMillis();

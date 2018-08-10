@@ -5,7 +5,6 @@ import cc.hyperium.event.WorldChangeEvent;
 import cc.hyperium.handlers.handlers.animation.AbstractPreCopyAnglesAnimationHandler;
 import cc.hyperium.handlers.handlers.animation.AnimationFrame;
 import cc.hyperium.handlers.handlers.animation.BodyPart;
-import cc.hyperium.handlers.handlers.animation.TwerkDance;
 import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
 import cc.hyperium.mixinsimp.renderer.model.IMixinModelBiped;
 import cc.hyperium.mixinsimp.renderer.model.IMixinModelPlayer;
@@ -22,7 +21,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Scanner;
 import java.util.UUID;
 
 public class FortniteDefaultDance extends AbstractPreCopyAnglesAnimationHandler {
@@ -38,8 +36,64 @@ public class FortniteDefaultDance extends AbstractPreCopyAnglesAnimationHandler 
     }
 
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        TwerkDance.Frame(scanner);
+        boolean big = false;
+        for (int i = 0; i < 40; i++) {
+            big=!big;
+            System.out.println(",\n" +
+                    "    {\n" +
+                    "      \"time\": "+(20+5*i)+",\n" +
+                    "      \"leftUpperLeg\": {\n" +
+                    "        \"rotateAngleX\": -1.1693706512451172,\n" +
+                    "        \"offsetY\": 0.3\n" +
+                    "      },\n" +
+                    "      \"rightUpperLeg\": {\n" +
+                    "        \"rotateAngleX\": -1.1693706512451172,\n" +
+                    "        \"offsetY\": 0.3\n" +
+                    "      },\n" +
+                    "      \"chest\": {\n" +
+                    "        \"rotateAngleX\": 0.471238911151886,\n" +
+                    "        \"offsetZ\": -0.3,\n" +
+                    "        \"offsetY\": 0.3\n" +
+                    "      },\n" +
+                    "      \"head\": {\n" +
+                    "        \"offsetZ\": -0.3,\n" +
+                    "        \"offsetY\": 0.3\n" +
+                    "      },\n" +
+                    "      \"leftUpperArm\": {\n" +
+                    "        \"offsetZ\": -0.25,\n" +
+                    "        \"offsetY\": 0.4\n" +
+                    "      },\n" +
+                    "      \"rightUpperArm\": {\n" +
+                    "        \"offsetZ\": -0.25,\n" +
+                    "        \"offsetY\": 0.4\n" +
+                    "      },\n" +
+                    "      \"leftLowerArm\": {\n" +
+                    "        \"offsetZ\": -0.25,\n" +
+                    "        \"offsetY\": 0.4\n" +
+                    "      },\n" +
+                    "      \"rightLowerArm\": {\n" +
+                    "        \"offsetZ\": -0.25,\n" +
+                    "        \"offsetY\": 0.4\n" +
+                    "      },\n" +
+                    "      \"leftLowerLeg\": {\n" +
+                    "        \"rotateAngleX\": 0.0001,\n" +
+                    "        \"offsetZ\": -0.25,\n" +
+                    "        \"offsetY\": 0.01\n" +
+                    "      },\n" +
+                    "      \"rightLowerLeg\": {\n" +
+                    "        \"rotateAngleX\": 0.0001,\n" +
+                    "        \"offsetZ\": -0.25,\n" +
+                    "        \"offsetY\": 0.01\n" +
+                    "      },\n" +
+                    "      \"butt\": {\n" +
+                    "        \"offsetY\": -0.05,\n" +
+                    "        \"offsetZ\": -0.1,\n" +
+                    "        \"rotateAngleX\": "+(big ? "1.0": "0.01")+"\n" +
+                    "      }\n" +
+                    "    }");
+        }
+//        Scanner scanner = new Scanner(System.in);
+//        TwerkDance.Frame(scanner);
 
     }
 

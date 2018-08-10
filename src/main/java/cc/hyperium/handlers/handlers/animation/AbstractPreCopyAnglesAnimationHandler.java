@@ -12,6 +12,6 @@ public abstract class AbstractPreCopyAnglesAnimationHandler extends AbstractAnim
         AbstractClientPlayer entity = event.getEntity();
         IMixinModelBiped player = event.getModel();
 
-        modify(entity, player);
+        modify(entity, player,true);
     }
 }
