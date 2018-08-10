@@ -14,6 +14,10 @@ import cc.hyperium.purchases.PurchaseApi;
 import cc.hyperium.utils.JsonHolder;
 import cc.hyperium.utils.UUIDUtil;
 import net.minecraft.client.Minecraft;
+import net.minecraft.event.ClickEvent;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.ChatStyle;
+import net.minecraft.util.IChatComponent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,13 +59,29 @@ public class NetworkHandler implements INetty, PostConfigHandler, PreSaveHandler
             return;
         System.out.println("Chat: " + s);
         s = s.replace("&", C.COLOR_CODE_SYMBOL);
-        GeneralChatHandler.instance().sendMessage(s, false);
+        IChatComponent chatComponent = new ChatComponentText("");
+        for (String s1 : s.split(" ")) {
+            ChatComponentText iChatComponents = new ChatComponentText(s1 + " ");
+            if (s1.contains(".") && !s1.startsWith(".") && !s1.endsWith(".")) {
+                ChatStyle chatStyle = new ChatStyle();
+                chatStyle.setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, s1.startsWith("http") ? s1 : "http://" + s1));
+                iChatComponents.setChatStyle(chatStyle);
+            }
+            chatComponent.appendSibling(iChatComponents);
+        }
+        GeneralChatHandler.instance().sendMessage(chatComponent);
     }
 
     @Override
     public void handleCrossClientData(UUID uuid, JsonHolder jsonHolder) {
         String type = jsonHolder.optString("type");
-        if (type.equalsIgnoreCase("tpose_update"))
+        if (type.equalsIgnoreCase("fortnite_default_dance")) {
+            Hyperium.INSTANCE.getHandlers().getFortniteDefaultDance().startAnimation(uuid);
+            Hyperium.INSTANCE.getHandlers().getFortniteDefaultDance().getStates().put(uuid, System.currentTimeMillis());
+        } else if (type.equalsIgnoreCase("twerk_dance")) {
+            Hyperium.INSTANCE.getHandlers().getTwerkDance().startAnimation(uuid);
+            Hyperium.INSTANCE.getHandlers().getTwerkDance().getStates().put(uuid, System.currentTimeMillis());
+        } else if (type.equalsIgnoreCase("tpose_update"))
             if (jsonHolder.optBoolean("posing"))
                 Hyperium.INSTANCE.getHandlers().getTPoseHandler().get(uuid).ensureAnimationFor(60);
             else Hyperium.INSTANCE.getHandlers().getTPoseHandler().stopAnimation(uuid);

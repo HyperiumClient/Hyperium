@@ -165,10 +165,10 @@ public abstract class MixinWorld {
     public void loadEntities(Collection<Entity> entityCollection, CallbackInfo info) {
        hyperiumWorld.loadEntities(entityCollection);
     }
-    @Inject(method = "removeEntity",at=@At("HEAD"))
-    public void loadEntity(Entity entity, CallbackInfo info) {
-        hyperiumWorld.removeEntity(entity);
-    }
+//    @Inject(method = "removeEntity",at=@At("HEAD"))
+//    public void loadEntity(Entity entity, CallbackInfo info) {
+//        hyperiumWorld.removeEntity(entity);
+//    }
 
 
 }

@@ -30,7 +30,7 @@ val MODID
 
 val VERSION
     @JvmName("getVersion")
-    get() = "1.0 - Beta B22"
+    get() = "1.0 - Beta B23"
 
 val AUTHORS
     @JvmName("getAuthors")
@@ -41,7 +41,7 @@ val AUTHORS
  */
 val VERSION_ID
     @JvmName("getVersionID")
-    get() = 33
+    get() = 34
 
 val ICON_BASE64
     @JvmName("getIconBase64")

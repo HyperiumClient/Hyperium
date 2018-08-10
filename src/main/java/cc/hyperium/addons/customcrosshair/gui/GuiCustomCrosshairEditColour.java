@@ -125,5 +125,18 @@ public class GuiCustomCrosshairEditColour extends CustomCrosshairScreen {
         }
         super.mouseReleased(mouseX, mouseY, mouseButton);
     }
+
+    @Override
+    public void onGuiClosed() {
+        String lowerTitle = this.title.toLowerCase();
+
+        if (lowerTitle.contains("dot")) {
+            this.addon.getCrosshair().setDotColour(this.editColour);
+        } else if (lowerTitle.contains("outline")) {
+            this.addon.getCrosshair().setOutlineColour(this.editColour);
+        } else {
+            this.addon.getCrosshair().setColour(this.editColour);
+        }
+    }
 }
 

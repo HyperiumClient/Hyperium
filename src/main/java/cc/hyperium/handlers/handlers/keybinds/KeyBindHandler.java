@@ -27,6 +27,7 @@ import cc.hyperium.handlers.handlers.keybinds.keybinds.ClearPopupKeybind;
 import cc.hyperium.handlers.handlers.keybinds.keybinds.DabKeybind;
 import cc.hyperium.handlers.handlers.keybinds.keybinds.FlipKeybind;
 import cc.hyperium.handlers.handlers.keybinds.keybinds.FlossKeybind;
+import cc.hyperium.handlers.handlers.keybinds.keybinds.FortniteDefaultDanceKeybind;
 import cc.hyperium.handlers.handlers.keybinds.keybinds.FriendsKeybind;
 import cc.hyperium.handlers.handlers.keybinds.keybinds.GuiKeybind;
 import cc.hyperium.handlers.handlers.keybinds.keybinds.NamesKeybind;
@@ -35,12 +36,12 @@ import cc.hyperium.handlers.handlers.keybinds.keybinds.TPoseKeybind;
 import cc.hyperium.handlers.handlers.keybinds.keybinds.TogglePerspectiveKeybind;
 import cc.hyperium.handlers.handlers.keybinds.keybinds.ToggleSpotifyKeybind;
 import cc.hyperium.handlers.handlers.keybinds.keybinds.ToggleSprintKeybind;
+import cc.hyperium.handlers.handlers.keybinds.keybinds.TwerkDanceKeybind;
+import net.minecraft.client.Minecraft;
+import org.lwjgl.input.Keyboard;
 
 import java.util.HashMap;
 import java.util.Map;
-import net.minecraft.client.Minecraft;
-import org.apache.commons.lang3.ArrayUtils;
-import org.lwjgl.input.Keyboard;
 
 public class KeyBindHandler {
     private static final Map<Integer, Integer> mouseBinds = new HashMap<>();
@@ -78,6 +79,8 @@ public class KeyBindHandler {
         bind = new ToggleSprintKeybind();
         registerKeyBinding(bind);
         registerKeyBinding(new TogglePerspectiveKeybind());
+        registerKeyBinding(new FortniteDefaultDanceKeybind());
+        registerKeyBinding(new TwerkDanceKeybind());
         registerKeyBinding(new ClearPopupKeybind());
         registerKeyBinding(new TPoseKeybind());
 
@@ -97,6 +100,9 @@ public class KeyBindHandler {
     public void onKeyPress(KeypressEvent event) {
         if (Minecraft.getMinecraft().inGameHasFocus && Minecraft.getMinecraft().currentScreen == null) {
             for (HyperiumBind bind : this.keybinds.values()) {
+                if (bind.isConflicted()) {
+                    continue;
+                }
                 if (event.getKey() == bind.getKeyCode()) {
                     bind.onPress();
                     bind.setWasPressed(true);
@@ -109,6 +115,9 @@ public class KeyBindHandler {
     public void onKeyRelease(KeyreleaseEvent event) {
         if (Minecraft.getMinecraft().inGameHasFocus && Minecraft.getMinecraft().currentScreen == null) {
             for (HyperiumBind bind : this.keybinds.values()) {
+                if (bind.isConflicted()) {
+                    continue;
+                }
                 if (event.getKey() == bind.getKeyCode()) {
                     bind.onRelease();
                     bind.setWasPressed(false);
@@ -123,6 +132,9 @@ public class KeyBindHandler {
         if (event.getValue() >= 0) {
             if (Minecraft.getMinecraft().inGameHasFocus && Minecraft.getMinecraft().currentScreen == null) {
                 for (HyperiumBind bind : this.keybinds.values()) {
+                    if (bind.isConflicted()) {
+                        continue;
+                    }
                     // Gets Minecraft value of the mouse value and checks to see if it matches a keybind.
                     if (mouseBinds.get(event.getValue()) == bind.getKeyCode()) {
                         if (event.getState()) {
@@ -165,9 +177,6 @@ public class KeyBindHandler {
         this.keybinds.put(bind.getRealDescription(), bind);
 
         this.keyBindConfig.attemptKeyBindLoad(bind);
-
-        Minecraft.getMinecraft().gameSettings.keyBindings = ArrayUtils
-                .add(Minecraft.getMinecraft().gameSettings.keyBindings, bind);
     }
 
     /**
@@ -185,22 +194,22 @@ public class KeyBindHandler {
      *
      * @return the keybinds
      */
-    protected Map<String, HyperiumBind> getKeybinds() {
+    public Map<String, HyperiumBind> getKeybinds() {
         return this.keybinds;
     }
 
-    public void releaseAllKeybinds(){
-        if(!keybinds.isEmpty()) {
+    public void releaseAllKeybinds() {
+        if (!keybinds.isEmpty()) {
             for (Map.Entry<String, HyperiumBind> map : keybinds.entrySet()) {
                 HyperiumBind bind = map.getValue();
-                if(bind.wasPressed()){
+                if (bind.wasPressed()) {
                     bind.onRelease();
                     bind.setWasPressed(false);
                     return;
                 }
 
                 // If bind is being held.
-                if(bind.isKeyDown()){
+                if (bind.wasPressed()) {
                     bind.onRelease();
                     return;
                 }

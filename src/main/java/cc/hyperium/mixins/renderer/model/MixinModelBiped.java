@@ -51,6 +51,7 @@ public class MixinModelBiped extends ModelBase implements IMixinModelBiped {
     protected ModelRenderer bipedRightForeArm;
     protected ModelRenderer bipedLeftLowerLeg;
     protected ModelRenderer bipedRightLowerLeg;
+    protected ModelRenderer butt;
 
     @Inject(method = "<init>(FFII)V", at = @At("RETURN"))
     private void injectModelChanges(float modelSize, float p_i1149_2_, int textureWidthIn, int textureHeightIn, CallbackInfo ci) {
@@ -87,6 +88,10 @@ public class MixinModelBiped extends ModelBase implements IMixinModelBiped {
             this.bipedLeftLowerLeg.mirror = true;
             this.bipedLeftLowerLeg.addBox(-2.0F, 6.0F, -2.0F, 4, 6, 4, modelSize);
             this.bipedLeftLowerLeg.setRotationPoint(1.9F, 12.0F + p_i1149_2_, 0.0F);
+            this.butt = new ModelRenderer(this, 16, 16+8);
+            this.butt.addBox(-4.0F, 0.0F, -2.0F, 8, 4, 4, modelSize);
+            this.butt.setRotationPoint(0.0F, 12.0F, 0.0F);
+
 
             fixTopAndBottomOfLimbWrongTextures(this.bipedLeftForeArm, this.bipedRightForeArm, this.bipedLeftLowerLeg, this.bipedRightLowerLeg);
         }
@@ -105,6 +110,11 @@ public class MixinModelBiped extends ModelBase implements IMixinModelBiped {
         }
     }
 
+    @Override
+    public ModelRenderer getButt() {
+        return butt;
+    }
+
     /**
      * @author 9Y0, Mojang
      */
@@ -112,7 +122,6 @@ public class MixinModelBiped extends ModelBase implements IMixinModelBiped {
     public void render(Entity entityIn, float p_78088_2_, float p_78088_3_, float p_78088_4_, float p_78088_5_, float p_78088_6_, float scale) {
         this.setRotationAngles(p_78088_2_, p_78088_3_, p_78088_4_, p_78088_5_, p_78088_6_, scale, entityIn);
         GlStateManager.pushMatrix();
-
         if (this.isChild) {
             float f = 2.0F;
             GlStateManager.scale(1.5F / f, 1.5F / f, 1.5F / f);
@@ -158,6 +167,8 @@ public class MixinModelBiped extends ModelBase implements IMixinModelBiped {
         this.bipedRightForeArm.render(scale);
         this.bipedLeftLowerLeg.render(scale);
         this.bipedRightLowerLeg.render(scale);
+        this.butt.render(scale);
+
     }
 
     @Overwrite

@@ -143,7 +143,7 @@ public abstract class AbstractAnimationHandler {
     }
 
     public class AnimationState {
-        private int frames = 0;
+        public int frames = 0;
         private long systemTime;
         private boolean toggled;
 

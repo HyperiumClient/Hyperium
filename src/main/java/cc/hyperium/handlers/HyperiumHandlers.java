@@ -40,7 +40,9 @@ import cc.hyperium.handlers.handlers.ValueHandler;
 import cc.hyperium.handlers.handlers.animation.DabHandler;
 import cc.hyperium.handlers.handlers.animation.FlossDanceHandler;
 import cc.hyperium.handlers.handlers.animation.TPoseHandler;
+import cc.hyperium.handlers.handlers.animation.TwerkDance;
 import cc.hyperium.handlers.handlers.animation.cape.CapeHandler;
+import cc.hyperium.handlers.handlers.animation.fortnite.FortniteDefaultDance;
 import cc.hyperium.handlers.handlers.chat.AutoWhoChatHandler;
 import cc.hyperium.handlers.handlers.chat.FriendRequestChatHandler;
 import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
@@ -60,11 +62,12 @@ import cc.hyperium.handlers.handlers.reach.ReachDisplay;
 import cc.hyperium.handlers.handlers.remoteresources.RemoteResourcesHandler;
 import cc.hyperium.mods.common.PerspectiveModifierHandler;
 import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
-import java.util.ArrayList;
-import java.util.List;
 import net.minecraft.client.Minecraft;
 import net.minecraft.command.ICommandManager;
 import net.minecraft.server.integrated.IntegratedServer;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A class containing most of Hyperium's internal handlers
@@ -102,6 +105,12 @@ public class HyperiumHandlers {
     private LayerDeadmau5HeadHandler layerDeadmau5HeadHandler;
     private PerspectiveModifierHandler perspectiveHandler;
     private TPoseHandler tPoseHandler;
+    private FortniteDefaultDance fortniteDefaultDance;
+    private TwerkDance twerkDance;
+
+    public TwerkDance getTwerkDance() {
+        return twerkDance;
+    }
 
     public HyperiumHandlers() {
         System.out.println("Loading handlers");
@@ -130,11 +139,12 @@ public class HyperiumHandlers {
         register(dataTracking = new GameDataTracking());
         register(privateMessageHandler = new PrivateMessageHandler());
         register(dabHandler = new DabHandler());
+        register(twerkDance = new TwerkDance());
         register(particleAuraHandler = new ParticleAuraHandler());
         register(statusHandler = new StatusHandler());
         register(flossDanceHandler = new FlossDanceHandler());
         register(tPoseHandler = new TPoseHandler());
-
+        register(fortniteDefaultDance = new FortniteDefaultDance());
         commandQueue = new CommandQueue();
         dataHandler = new ApiDataHandler();
         timeTrackHandler = new TimeTrackHandler();
@@ -248,6 +258,14 @@ public class HyperiumHandlers {
         return privateMessageHandler;
     }
 
+    public TPoseHandler gettPoseHandler() {
+        return tPoseHandler;
+    }
+
+    public FortniteDefaultDance getFortniteDefaultDance() {
+        return fortniteDefaultDance;
+    }
+
     public HyperiumCommandHandler getHyperiumCommandHandler() {
         return commandHandler;
     }
@@ -293,7 +311,9 @@ public class HyperiumHandlers {
         return reachDisplay;
     }
 
-    public PerspectiveModifierHandler getPerspectiveHandler(){return perspectiveHandler;}
+    public PerspectiveModifierHandler getPerspectiveHandler() {
+        return perspectiveHandler;
+    }
 
     public TPoseHandler getTPoseHandler() {
         return tPoseHandler;

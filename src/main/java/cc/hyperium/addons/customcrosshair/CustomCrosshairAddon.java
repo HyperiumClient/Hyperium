@@ -33,8 +33,7 @@ public class CustomCrosshairAddon extends AbstractAddon {
             this.config.writeSaveFileDefault();
         }
 
-        Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler()
-            .registerCommand(new CommandCustomCrosshair(this));
+        Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(new CommandCustomCrosshair(this));
 
         EventBus.INSTANCE.register(this.crosshair);
 

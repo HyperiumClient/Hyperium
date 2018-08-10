@@ -1,6 +1,5 @@
 package cc.hyperium.mixinsimp.client;
 
-import cc.hyperium.mixins.client.IMixinGlstateManager;
 import me.semx11.autotip.util.ReflectionUtil;
 import me.semx11.autotip.util.ReflectionUtil.UnableToAccessFieldException;
 import net.minecraft.client.renderer.GlStateManager;
@@ -53,7 +52,7 @@ public class GlStateModifier implements IGlStateModifier {
         int activeTextureUnit;
 
         try {
-            activeTextureUnit = ReflectionUtil.getPrivateValue(GlStateManager.class, null, "activeTextureUnit", "field_179162_o");
+            activeTextureUnit = ReflectionUtil.getPrivateValue(GlStateManager.class, null, "activeTextureUnit", "field_179162_o","o");
         } catch (UnableToAccessFieldException rip) {
             activeTextureUnit = -1;
         }
@@ -121,8 +120,10 @@ public class GlStateModifier implements IGlStateModifier {
             if (redColorField != null)
                 redColorField.setAccessible(true);
         }
-        if (colorStateObject == null || redColorField == null)
+        if (colorStateObject == null || redColorField == null) {
+            System.out.println("No hope v2");
             return;
+        }
         try {
             redColorField.set(colorStateObject, -1);
         } catch (IllegalAccessException e) {

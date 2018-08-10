@@ -30,8 +30,8 @@ public class CCGuiItem {
         this.width = width;
         this.height = height;
         this.displayText = displayText;
+        this.helpText = new ArrayList<>();
         this.setCurrentScreen(screen);
-        this.helpText = new ArrayList<String>();
     }
 
     public void mouseClicked(final int mouseX, final int mouseY) {
