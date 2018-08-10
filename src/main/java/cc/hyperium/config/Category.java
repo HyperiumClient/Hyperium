@@ -15,6 +15,7 @@ public enum Category {
     //Mods
     AUTOTIP,
     AUTO_GG,
+    AUTO_TPA,
     UTILITIES,
     LEVEL_HEAD,
     REACH,
