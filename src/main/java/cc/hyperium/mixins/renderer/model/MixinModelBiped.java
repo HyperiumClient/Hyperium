@@ -203,6 +203,7 @@ public class MixinModelBiped extends ModelBase implements IMixinModelBiped {
             this.bipedLeftLeg.render(scale);
             this.bipedHeadwear.render(scale);
 
+
             // Adding our parts
             if (getClass().equals(ModelBiped.class))
                 renderBiped(scale);
@@ -219,6 +220,8 @@ public class MixinModelBiped extends ModelBase implements IMixinModelBiped {
         this.butt.render(scale);
         this.bipedLeftLowerLeg_adj.render(scale);
         this.bipedRightLowerLeg_adj.render(scale);
+        this.bipedLeftForeArm_adj.render(scale);
+        this.bipedRightForeArm_adj.render(scale);
     }
 
     @Overwrite

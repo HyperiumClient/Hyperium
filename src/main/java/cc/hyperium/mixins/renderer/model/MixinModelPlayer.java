@@ -111,7 +111,7 @@ public class MixinModelPlayer extends MixinModelBiped implements IMixinModelPlay
             this.bipedLeftForeArm.setRotationPoint(5.0F, 2.0F, 0.0F);
 
             this.bipedLeftForeArm_adj = new ModelRenderer(this, 32, 54);
-            this.bipedLeftForeArm_adj.addBox(-1.0F,0, -2.0F, 4, 6, 4, modelSize);
+            this.bipedLeftForeArm_adj.addBox(-1.0F, 0, -2.0F, 4, 6, 4, modelSize);
             this.bipedLeftForeArm_adj.setRotationPoint(5.0F, 2.0F, 0.0F);
 
 
@@ -130,7 +130,7 @@ public class MixinModelPlayer extends MixinModelBiped implements IMixinModelPlay
             this.bipedRightForeArm.setRotationPoint(-5.0F, 2.0F, 0.0F);
 
             this.bipedRightForeArm_adj = new ModelRenderer(this, 40, 22);
-            this.bipedRightForeArm_adj.addBox(-3.0F,0.0F, -2.0F, 4, 6, 4, modelSize);
+            this.bipedRightForeArm_adj.addBox(-3.0F, 0.0F, -2.0F, 4, 6, 4, modelSize);
             this.bipedRightForeArm_adj.setRotationPoint(-5.0F, 2.0F, 0.0F);
 
 
@@ -214,7 +214,6 @@ public class MixinModelPlayer extends MixinModelBiped implements IMixinModelPlay
         bipedRightForeArm_adjArmwear.showModel = false;
 
 
-
         this.butt.showModel = false;
         fixTopAndBottomOfLimbWrongTextures(
                 this.bipedLeftForeArm, this.bipedLeftForeArmwear, //
@@ -269,6 +268,12 @@ public class MixinModelPlayer extends MixinModelBiped implements IMixinModelPlay
             this.bipedLeftLowerLeg_adj.render(scale);
             this.bipedRightLowerLeg_adjArmwear.render(scale);
             this.bipedLeftLowerLeg_adjArmwear.render(scale);
+
+            this.bipedLeftForeArm_adj.render(scale);
+            this.bipedRightForeArm_adj.render(scale);
+            this.bipedLeftForeArm_adjArmwear.render(scale);
+            this.bipedRightForeArm_adjArmwear.render(scale);
+
             this.butt.render(scale);
         } else {
             if (entityIn.isSneaking()) {
@@ -294,6 +299,12 @@ public class MixinModelPlayer extends MixinModelBiped implements IMixinModelPlay
             this.bipedLeftLowerLeg_adj.render(scale);
             this.bipedRightLowerLeg_adjArmwear.render(scale);
             this.bipedLeftLowerLeg_adjArmwear.render(scale);
+
+            this.bipedLeftForeArm_adj.render(scale);
+            this.bipedRightForeArm_adj.render(scale);
+            this.bipedLeftForeArm_adjArmwear.render(scale);
+            this.bipedRightForeArm_adjArmwear.render(scale);
+
             this.butt.render(scale);
         }
 
