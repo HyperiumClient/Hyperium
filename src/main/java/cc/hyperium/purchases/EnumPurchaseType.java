@@ -26,6 +26,7 @@ public enum EnumPurchaseType {
     LEVEL_HEAD("Custom Levelhead"),
     DEAL_WITH_IT("Deal With It Glasses"),
     FLIP_COSMETIC("Flip Cosmetic"),
+    BUTT("Butt"),
     DEADMAU5_COSMETIC("Ears"),
     DRAGON_HEAD("Dragon Head"),
     UNKNOWN("Unknown");

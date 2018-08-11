@@ -2,6 +2,8 @@ package cc.hyperium.handlers.handlers.animation;
 
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.PostCopyPlayerModelAnglesEvent;
+import cc.hyperium.event.PreCopyPlayerModelAnglesEvent;
+import cc.hyperium.event.Priority;
 import cc.hyperium.event.WorldChangeEvent;
 import cc.hyperium.mixinsimp.renderer.model.IMixinModelBiped;
 import cc.hyperium.mixinsimp.renderer.model.IMixinModelPlayer;
@@ -84,7 +86,8 @@ public abstract class AnimatedDance extends AbstractPreCopyAnglesAnimationHandle
         HashMap<String, Boolean> visibility = new HashMap<>();
         for (JsonElement element : data.optJSONArray("frames")) {
             JsonHolder h = new JsonHolder(element.getAsJsonObject());
-            AnimationFrame frame = new AnimationFrame(frame(h.optInt("time")));
+            int time = h.optInt("time");
+            AnimationFrame frame = new AnimationFrame(frame(time));
             frame.name = h.optInt("time") + "";
             for (String s : h.getKeys()) {
                 visibility.put(s, true);
@@ -98,7 +101,7 @@ public abstract class AnimatedDance extends AbstractPreCopyAnglesAnimationHandle
                             Field declaredField = bodyPart.getClass().getDeclaredField(s1);
                             declaredField.setAccessible(true);
                             if (s1.equalsIgnoreCase("visible")) {
-                                boolean visible = data.optBoolean("visible");
+                                boolean visible = holder1.optBoolean("visible");
                                 visibility.put(s, visible);
                                 declaredField.setBoolean(bodyPart, visible);
                             } else {
@@ -107,6 +110,7 @@ public abstract class AnimatedDance extends AbstractPreCopyAnglesAnimationHandle
                             }
                         }
                         bodyPart.getClass().getDeclaredField("visible").setBoolean(bodyPart, visibility.get(s));
+                        System.out.println("Vis for " + s + " -> " + visibility.get(s) + " " + time);
                     } catch (IllegalAccessException | NoSuchFieldException e) {
                         e.printStackTrace();
                     }
@@ -124,6 +128,18 @@ public abstract class AnimatedDance extends AbstractPreCopyAnglesAnimationHandle
 
     public long frame(int frame) {
         return frame * 1000 / 30;
+    }
+
+
+    //Hide these. If they are needed in this render then animation system will make them visible.
+    @InvokeEvent(priority = Priority.HIGH)
+    public void preCopyAngles(PreCopyPlayerModelAnglesEvent event) {
+        event.getModel().getLeftLowerLeg_adj().showModel = false;
+        event.getModel().getRightLowerLeg_adj().showModel = false;
+        if (event.getModel() instanceof IMixinModelPlayer) {
+            ((IMixinModelPlayer) event.getModel()).getBipedLeftLowerLeg_adjLegwear().showModel = false;
+            ((IMixinModelPlayer) event.getModel()).getBipedRightLowerLeg_adjLegwear().showModel = false;
+        }
     }
 
     @InvokeEvent
@@ -231,14 +247,18 @@ public abstract class AnimatedDance extends AbstractPreCopyAnglesAnimationHandle
         adjust(player.getBipedBody(), prev.getChest().calc(percent, next.getChest()));
         adjust(player.getBipedBodywear(), prev.getChest().calc(percent, next.getChest()));
 
-        adjust(player.getLeftLowerLeg_adj(),prev.getLeftLowerLeg_adj().calc(percent,next.getLeftLowerLeg_adj()));
-        adjust(player.getBipedLeftLowerLeg_adjLegwear(),prev.getLeftLowerLeg_adj().calc(percent,next.getLeftLowerLeg_adj()));
+        adjust(player.getLeftLowerLeg_adj(), prev.getLeftLowerLeg_adj().calc(percent, next.getLeftLowerLeg_adj()));
+        adjust(player.getBipedLeftLowerLeg_adjLegwear(), prev.getLeftLowerLeg_adj().calc(percent, next.getLeftLowerLeg_adj()));
 
-        adjust(player.getRightLowerLeg_adj(),prev.getRightLowerLeg_adj().calc(percent,next.getRightLowerLeg_adj()));
-        adjust(player.getBipedRightLowerLeg_adjLegwear(),prev.getRightLowerLeg_adj().calc(percent,next.getRightLowerLeg_adj()));
+        adjust(player.getRightLowerLeg_adj(), prev.getRightLowerLeg_adj().calc(percent, next.getRightLowerLeg_adj()));
+        adjust(player.getBipedRightLowerLeg_adjLegwear(), prev.getRightLowerLeg_adj().calc(percent, next.getRightLowerLeg_adj()));
 
 
         adjust(player.getButt(), prev.getButt().calc(percent, next.getButt()));
+
+        System.out.println(player.getRightLowerLeg_adj().offsetZ);
+        System.out.println(player.getRightLowerLeg_adj().showModel);
+
 
     }
 
@@ -269,6 +289,7 @@ public abstract class AnimatedDance extends AbstractPreCopyAnglesAnimationHandle
 
         if (part.offsetZ != 0)
             renderer.offsetZ = part.offsetZ;
+
         renderer.showModel = part.visible;
 
 
@@ -340,9 +361,9 @@ public abstract class AnimatedDance extends AbstractPreCopyAnglesAnimationHandle
         //Chest
         adjust(player.getBipedBody(), prev.getChest().calc(percent, next.getChest()));
 
-        adjust(player.getLeftLowerLeg_adj(),prev.getLeftLowerLeg_adj().calc(percent,next.getLeftLowerLeg_adj()));
+        adjust(player.getLeftLowerLeg_adj(), prev.getLeftLowerLeg_adj().calc(percent, next.getLeftLowerLeg_adj()));
 
-        adjust(player.getRightLowerLeg_adj(),prev.getRightLowerLeg_adj().calc(percent,next.getRightLowerLeg_adj()));
+        adjust(player.getRightLowerLeg_adj(), prev.getRightLowerLeg_adj().calc(percent, next.getRightLowerLeg_adj()));
 
     }
 }

@@ -23,6 +23,7 @@ import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.PurchaseLoadEvent;
 import cc.hyperium.event.SpawnpointChangeEvent;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
+import cc.hyperium.purchases.packages.ButtCosmetic;
 import cc.hyperium.purchases.packages.DabOnKill;
 import cc.hyperium.purchases.packages.DragonHeadCosmetic;
 import cc.hyperium.purchases.packages.EarsCosmetic;
@@ -68,6 +69,7 @@ public class PurchaseApi {
         register(EnumPurchaseType.FLIP_COSMETIC, FlipCosmeticPackage.class);
         register(EnumPurchaseType.DEADMAU5_COSMETIC, EarsCosmetic.class);
         register(EnumPurchaseType.DRAGON_HEAD, DragonHeadCosmetic.class);
+        register(EnumPurchaseType.BUTT, ButtCosmetic.class);
 
         getPackageAsync(UUIDUtil.getClientUUID(), hyperiumPurchase -> System.out.println("Loaded self packages: " + hyperiumPurchase.getResponse()));
         Multithreading.runAsync(() -> capeAtlas = get("https://api.hyperium.cc/capeAtlas"));

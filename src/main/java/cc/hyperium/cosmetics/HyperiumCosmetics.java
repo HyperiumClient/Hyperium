@@ -19,17 +19,23 @@ public class HyperiumCosmetics {
     private final WingsCosmetic wingsCosmetic;
     private final DealWithItGlasses dealWithIt;
     private final DragonCosmetic dragonCosmetic;
+    private final ButtCosmetic buttCosmetic;
 
     public HyperiumCosmetics() {
         register(new KillCounterMuscles());
         register(dabCosmetic = new DabOnKIllCosmetic());
 
         register(chromaWin = new ChromaWinCosmetic());
+        register(buttCosmetic = new ButtCosmetic());
         register(flipCosmetic = new FlipCosmetic());
         register(dealWithIt = new DealWithItGlasses());
         register(deadmau5Cosmetic = new Deadmau5Cosmetic());
         register(wingsCosmetic = new WingsCosmetic());
         register(dragonCosmetic = new DragonCosmetic());
+    }
+
+    public ButtCosmetic getButtCosmetic() {
+        return buttCosmetic;
     }
 
     public DragonCosmetic getDragonCosmetic() {

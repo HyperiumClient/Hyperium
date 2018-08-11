@@ -20,7 +20,7 @@ public class AnimationFrame {
 
     public AnimationFrame(long time) {
         this.time = time;
-//        butt.visible = false;
+        butt.visible = false;
     }
 
     public String getName() {
