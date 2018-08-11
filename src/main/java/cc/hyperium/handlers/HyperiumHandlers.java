@@ -43,6 +43,7 @@ import cc.hyperium.handlers.handlers.animation.TPoseHandler;
 import cc.hyperium.handlers.handlers.animation.TwerkDance;
 import cc.hyperium.handlers.handlers.animation.cape.CapeHandler;
 import cc.hyperium.handlers.handlers.animation.fortnite.FortniteDefaultDance;
+import cc.hyperium.handlers.handlers.animation.fortnite.FortniteHypeDance;
 import cc.hyperium.handlers.handlers.chat.AutoWhoChatHandler;
 import cc.hyperium.handlers.handlers.chat.FriendRequestChatHandler;
 import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
@@ -107,10 +108,7 @@ public class HyperiumHandlers {
     private TPoseHandler tPoseHandler;
     private FortniteDefaultDance fortniteDefaultDance;
     private TwerkDance twerkDance;
-
-    public TwerkDance getTwerkDance() {
-        return twerkDance;
-    }
+    private FortniteHypeDance fortniteHypeDance;
 
     public HyperiumHandlers() {
         System.out.println("Loading handlers");
@@ -145,6 +143,7 @@ public class HyperiumHandlers {
         register(flossDanceHandler = new FlossDanceHandler());
         register(tPoseHandler = new TPoseHandler());
         register(fortniteDefaultDance = new FortniteDefaultDance());
+        register(fortniteHypeDance = new FortniteHypeDance());
         commandQueue = new CommandQueue();
         dataHandler = new ApiDataHandler();
         timeTrackHandler = new TimeTrackHandler();
@@ -164,6 +163,14 @@ public class HyperiumHandlers {
 
         //Command Handler
         register(commandHandler = new HyperiumCommandHandler());
+    }
+
+    public FortniteHypeDance getFortniteHypeDance() {
+        return fortniteHypeDance;
+    }
+
+    public TwerkDance getTwerkDance() {
+        return twerkDance;
     }
 
     public ParticleAuraHandler getParticleAuraHandler() {

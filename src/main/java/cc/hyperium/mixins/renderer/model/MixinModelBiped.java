@@ -52,6 +52,8 @@ public class MixinModelBiped extends ModelBase implements IMixinModelBiped {
     protected ModelRenderer bipedLeftLowerLeg;
     protected ModelRenderer bipedRightLowerLeg;
     protected ModelRenderer butt;
+    protected ModelRenderer bipedLeftLowerLeg_adj;
+    protected ModelRenderer bipedRightLowerLeg_adj;
 
     @Inject(method = "<init>(FFII)V", at = @At("RETURN"))
     private void injectModelChanges(float modelSize, float p_i1149_2_, int textureWidthIn, int textureHeightIn, CallbackInfo ci) {
@@ -80,6 +82,11 @@ public class MixinModelBiped extends ModelBase implements IMixinModelBiped {
             this.bipedRightLowerLeg.addBox(-2.0F, 6.0F, -2.0F, 4, 6, 4, modelSize);
             this.bipedRightLowerLeg.setRotationPoint(-1.9F, 12.0F + p_i1149_2_, 0.0F);
 
+            this.bipedRightLowerLeg_adj = new ModelRenderer(this, 0, 22);
+            this.bipedRightLowerLeg_adj.addBox(-2.0F, 0, -2.0F, 4, 6, 4, modelSize);
+            this.bipedRightLowerLeg_adj.setRotationPoint(-1.9F, 12.0F + p_i1149_2_, 0.0F);
+
+
             this.bipedLeftLeg = new ModelRenderer(this, 0, 16);
             this.bipedLeftLeg.mirror = true;
             this.bipedLeftLeg.addBox(-2.0F, 0.0F, -2.0F, 4, 6, 4, modelSize);
@@ -88,12 +95,21 @@ public class MixinModelBiped extends ModelBase implements IMixinModelBiped {
             this.bipedLeftLowerLeg.mirror = true;
             this.bipedLeftLowerLeg.addBox(-2.0F, 6.0F, -2.0F, 4, 6, 4, modelSize);
             this.bipedLeftLowerLeg.setRotationPoint(1.9F, 12.0F + p_i1149_2_, 0.0F);
-            this.butt = new ModelRenderer(this, 16, 16+8);
+
+
+            this.bipedLeftLowerLeg_adj = new ModelRenderer(this, 0, 22);
+            this.bipedLeftLowerLeg_adj.mirror = true;
+            this.bipedLeftLowerLeg_adj.addBox(-2.0F, 0, -2.0F, 4, 6, 4, modelSize);
+            this.bipedLeftLowerLeg_adj.setRotationPoint(1.9F, 12.0F + p_i1149_2_, 0.0F);
+
+            this.butt = new ModelRenderer(this, 16, 16 + 8);
             this.butt.addBox(-4.0F, 0.0F, -2.0F, 8, 4, 4, modelSize);
             this.butt.setRotationPoint(0.0F, 12.0F, 0.0F);
 
-
-            fixTopAndBottomOfLimbWrongTextures(this.bipedLeftForeArm, this.bipedRightForeArm, this.bipedLeftLowerLeg, this.bipedRightLowerLeg);
+            this.bipedRightLowerLeg_adj.showModel = false;
+            this.bipedLeftLowerLeg_adj.showModel = false;
+            this.butt.showModel=false;
+            fixTopAndBottomOfLimbWrongTextures(this.bipedLeftForeArm, this.bipedRightForeArm, this.bipedLeftLowerLeg, this.bipedRightLowerLeg, this.bipedRightLowerLeg_adj, this.bipedLeftLowerLeg_adj);
         }
     }
 
@@ -113,6 +129,16 @@ public class MixinModelBiped extends ModelBase implements IMixinModelBiped {
     @Override
     public ModelRenderer getButt() {
         return butt;
+    }
+
+    @Override
+    public ModelRenderer getRightLowerLeg_adj() {
+        return this.bipedRightLowerLeg_adj;
+    }
+
+    @Override
+    public ModelRenderer getLeftLowerLeg_adj() {
+        return this.bipedLeftLowerLeg_adj;
     }
 
     /**
@@ -137,6 +163,7 @@ public class MixinModelBiped extends ModelBase implements IMixinModelBiped {
             this.bipedRightLeg.render(scale);
             this.bipedLeftLeg.render(scale);
             this.bipedHeadwear.render(scale);
+
 
             // Adding our parts
             if (getClass().equals(ModelBiped.class))
@@ -168,7 +195,8 @@ public class MixinModelBiped extends ModelBase implements IMixinModelBiped {
         this.bipedLeftLowerLeg.render(scale);
         this.bipedRightLowerLeg.render(scale);
         this.butt.render(scale);
-
+        this.bipedLeftLowerLeg_adj.render(scale);
+        this.bipedRightLowerLeg_adj.render(scale);
     }
 
     @Overwrite
@@ -320,6 +348,9 @@ public class MixinModelBiped extends ModelBase implements IMixinModelBiped {
             this.bipedRightForeArm.showModel = invisible;
             this.bipedLeftLowerLeg.showModel = invisible;
             this.bipedRightLowerLeg.showModel = invisible;
+            this.butt.showModel = invisible;
+            this.bipedLeftLowerLeg_adj.showModel = invisible;
+            this.bipedRightLowerLeg_adj.showModel = invisible;
         }
     }
 

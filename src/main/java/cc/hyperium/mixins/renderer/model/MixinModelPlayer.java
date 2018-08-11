@@ -47,6 +47,8 @@ public class MixinModelPlayer extends MixinModelBiped implements IMixinModelPlay
     private ModelRenderer bipedRightLowerLegwear;
     @Shadow
     private ModelRenderer bipedCape;
+    private ModelRenderer bipedRightLowerLeg_adjArmwear;
+    private ModelRenderer bipedLeftLowerLeg_adjArmwear;
 
     @Inject(method = "<init>", at = @At("RETURN"))
     private void injectModelChanges(float modelSize, boolean useSmallArms, CallbackInfo ci) {
@@ -107,9 +109,10 @@ public class MixinModelPlayer extends MixinModelBiped implements IMixinModelPlay
             this.bipedRightForeArmwear.addBox(-3.0F, 4.0F, -2.0F, 4, 6, 4, modelSize + 0.25F);
             this.bipedRightForeArmwear.setRotationPoint(-5.0F, 2.0F, 10.0F);
         }
-        this.butt = new ModelRenderer(this, 16, 16+8);
-        this.butt.addBox(-4.0F,0.0F, 0.0F, 8, 4, 4, modelSize);
-        this.butt.setRotationPoint(0,16, 0);
+        this.butt = new ModelRenderer(this, 16, 16 + 8);
+        this.butt.addBox(-4.0F, 0.0F, 0.0F, 8, 4, 4, modelSize);
+        this.butt.setRotationPoint(0, 16, 0);
+        this.butt.showModel = false;
 
         this.bipedLeftLeg = new ModelRenderer(this, 16, 48);
         this.bipedLeftLeg.addBox(-2.0F, 0.0F, -2.0F, 4, 6, 4, modelSize);
@@ -139,11 +142,38 @@ public class MixinModelPlayer extends MixinModelBiped implements IMixinModelPlay
         this.bipedRightLowerLegwear.addBox(-2.0F, 6.0F, -2.0F, 4, 6, 4, modelSize + 0.25F);
         this.bipedRightLowerLegwear.setRotationPoint(-1.9F, 12.0F, 0.0F);
 
+        this.bipedLeftLowerLeg_adj = new ModelRenderer(this, 0, 22);
+        this.bipedLeftLowerLeg_adj.mirror = true;
+        this.bipedLeftLowerLeg_adj.addBox(-2.0F, 0, -2.0F, 4, 6, 4, modelSize);
+        this.bipedLeftLowerLeg_adj.setRotationPoint(1.9F, 12.0F, 0.0F);
+
+        this.bipedRightLowerLeg_adj = new ModelRenderer(this, 0, 22);
+        this.bipedRightLowerLeg_adj.addBox(-2.0F, 0, -2.0F, 4, 6, 4, modelSize);
+        this.bipedRightLowerLeg_adj.setRotationPoint(-1.9F, 12.0F, 0.0F);
+
+
+        this.bipedLeftLowerLeg_adjArmwear = new ModelRenderer(this, 0, 54);
+        this.bipedLeftLowerLeg_adjArmwear.addBox(-2.0F, 0, -2.0F, 4, 6, 4, modelSize + 0.25F);
+        this.bipedLeftLowerLeg_adjArmwear.setRotationPoint(1.9F, 12.0F, 0.0F);
+
+        this.bipedRightLowerLeg_adjArmwear = new ModelRenderer(this, 0, 38);
+        this.bipedRightLowerLeg_adjArmwear.addBox(-2.0F, 0, -2.0F, 4, 6, 4, modelSize + 0.25F);
+        this.bipedRightLowerLeg_adjArmwear.setRotationPoint(-1.9F, 12.0F, 0.0F);
+
+//
+        this.bipedRightLowerLeg_adjArmwear.showModel = false;
+        this.bipedLeftLowerLeg_adjArmwear.showModel = false;
+        this.bipedRightLowerLeg_adj.showModel = false;
+        this.bipedLeftLowerLeg_adj.showModel = false;
+
+        this.butt.showModel=false;
         fixTopAndBottomOfLimbWrongTextures(
                 this.bipedLeftForeArm, this.bipedLeftForeArmwear, //
                 this.bipedRightForeArm, this.bipedRightForeArmwear, //
                 this.bipedLeftLowerLeg, this.bipedLeftLowerLegwear, //
-                this.bipedRightLowerLeg, this.bipedRightLowerLegwear //
+                this.bipedRightLowerLeg, this.bipedRightLowerLegwear, //
+                this.bipedLeftLowerLeg_adj, bipedRightLowerLeg_adj,
+                bipedLeftLowerLeg_adjArmwear, bipedRightLowerLeg_adjArmwear
         );
     }
 
@@ -174,6 +204,10 @@ public class MixinModelPlayer extends MixinModelBiped implements IMixinModelPlay
             this.bipedLeftLowerLegwear.render(scale);
             this.bipedRightLowerLeg.render(scale);
             this.bipedRightLowerLegwear.render(scale);
+            this.bipedRightLowerLeg_adj.render(scale);
+            this.bipedLeftLowerLeg_adj.render(scale);
+            this.bipedRightLowerLeg_adjArmwear.render(scale);
+            this.bipedLeftLowerLeg_adjArmwear.render(scale);
             this.butt.render(scale);
         } else {
             if (entityIn.isSneaking()) {
@@ -195,6 +229,10 @@ public class MixinModelPlayer extends MixinModelBiped implements IMixinModelPlay
             this.bipedLeftLowerLegwear.render(scale);
             this.bipedRightLowerLeg.render(scale);
             this.bipedRightLowerLegwear.render(scale);
+            this.bipedRightLowerLeg_adj.render(scale);
+            this.bipedLeftLowerLeg_adj.render(scale);
+            this.bipedRightLowerLeg_adjArmwear.render(scale);
+            this.bipedLeftLowerLeg_adjArmwear.render(scale);
             this.butt.render(scale);
         }
 
@@ -241,6 +279,10 @@ public class MixinModelPlayer extends MixinModelBiped implements IMixinModelPlay
         this.bipedRightForeArmwear.showModel = invisble;
         this.bipedLeftLowerLegwear.showModel = invisble;
         this.bipedRightLowerLegwear.showModel = invisble;
+        this.bipedRightLowerLeg_adjArmwear.showModel = invisble;
+        this.bipedLeftLowerLeg_adjArmwear.showModel = invisble;
+        this.butt.showModel = invisble;
+
     }
 
     /* Right leg wrappers */
@@ -296,5 +338,15 @@ public class MixinModelPlayer extends MixinModelBiped implements IMixinModelPlay
     @Override
     public ModelRenderer getCape() {
         return bipedCape;
+    }
+
+    @Override
+    public ModelRenderer getBipedRightLowerLeg_adjLegwear() {
+        return bipedRightLowerLeg_adjArmwear;
+    }
+
+    @Override
+    public ModelRenderer getBipedLeftLowerLeg_adjLegwear() {
+        return bipedLeftLowerLeg_adjArmwear;
     }
 }

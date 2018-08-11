@@ -10,7 +10,7 @@ public class BodyPart {
     public float offsetX;
     public float offsetY;
     public float offsetZ;
-
+    public boolean visible = true;
 
     public BodyPart calc(float percent, BodyPart next) {
         BodyPart bodyPart = new BodyPart();
@@ -23,7 +23,7 @@ public class BodyPart {
         bodyPart.offsetX = interpolate(this.offsetX, next.offsetX, percent);
         bodyPart.offsetY = interpolate(this.offsetY, next.offsetY, percent);
         bodyPart.offsetZ = interpolate(this.offsetZ, next.offsetZ, percent);
-
+        bodyPart.visible = this.visible;
         return bodyPart;
     }
 

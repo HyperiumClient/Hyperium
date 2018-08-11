@@ -14,10 +14,25 @@ public class AnimationFrame {
     private BodyPart leftLowerLeg = new BodyPart();
     private BodyPart rightUpperLeg = new BodyPart();
     private BodyPart rightLowerLeg = new BodyPart();
+    private BodyPart leftLowerLeg_adj = new BodyPart();
+    private BodyPart rightLowerLeg_adj = new BodyPart();
     private BodyPart butt = new BodyPart();
 
     public AnimationFrame(long time) {
         this.time = time;
+//        butt.visible = false;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public BodyPart getLeftLowerLeg_adj() {
+        return leftLowerLeg_adj;
+    }
+
+    public BodyPart getRightLowerLeg_adj() {
+        return rightLowerLeg_adj;
     }
 
     public BodyPart getButt() {

@@ -6,15 +6,24 @@ import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Scanner;
 
-public class FortniteDefaultDance extends AnimatedDance {
+public class FortniteHypeDance extends AnimatedDance {
 
+
+    public FortniteHypeDance() {
+        super();
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        AnimatedDance.Frame(scanner);
+    }
 
     @Override
     public JsonHolder getData() {
         try {
-//            return new JsonHolder(IOUtils.toString(new URL("https://static.sk1er.club/hyperium/fortnite_dance.json")));
-            return new JsonHolder(FileUtils.readFileToString(new File("fortnite_dance.json")));
+            return new JsonHolder(FileUtils.readFileToString(new File("hype.json")));
         } catch (IOException e) {
             e.printStackTrace();
         }
