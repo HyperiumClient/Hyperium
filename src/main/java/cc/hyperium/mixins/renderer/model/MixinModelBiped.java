@@ -54,6 +54,8 @@ public class MixinModelBiped extends ModelBase implements IMixinModelBiped {
     protected ModelRenderer butt;
     protected ModelRenderer bipedLeftLowerLeg_adj;
     protected ModelRenderer bipedRightLowerLeg_adj;
+    protected ModelRenderer bipedRightForeArm_adj;
+    protected ModelRenderer bipedLeftForeArm_adj;
 
     @Inject(method = "<init>(FFII)V", at = @At("RETURN"))
     private void injectModelChanges(float modelSize, float p_i1149_2_, int textureWidthIn, int textureHeightIn, CallbackInfo ci) {
@@ -98,7 +100,6 @@ public class MixinModelBiped extends ModelBase implements IMixinModelBiped {
 
 
             this.bipedLeftLowerLeg_adj = new ModelRenderer(this, 0, 22);
-            this.bipedLeftLowerLeg_adj.mirror = true;
             this.bipedLeftLowerLeg_adj.addBox(-2.0F, 0, -2.0F, 4, 6, 4, modelSize);
             this.bipedLeftLowerLeg_adj.setRotationPoint(1.9F, 12.0F + p_i1149_2_, 0.0F);
 
@@ -106,11 +107,32 @@ public class MixinModelBiped extends ModelBase implements IMixinModelBiped {
             this.butt.addBox(-4.0F, 0.0F, -2.0F, 8, 4, 4, modelSize);
             this.butt.setRotationPoint(0.0F, 12.0F, 0.0F);
 
+            this.bipedLeftForeArm_adj = new ModelRenderer(this, 40, 22);
+            this.bipedLeftForeArm_adj.addBox(-1.0F, 0, -2.0F, 4, 6, 4, modelSize);
+            this.bipedLeftForeArm_adj.setRotationPoint(5.0F, 2.0F + p_i1149_2_, 0.0F);
+
+            this.bipedRightForeArm_adj = new ModelRenderer(this, 40, 22);
+            this.bipedRightForeArm_adj.addBox(-3.0F, 0, -2.0F, 4, 6, 4, modelSize);
+            this.bipedRightForeArm_adj.setRotationPoint(-5.0F, 2.0F + p_i1149_2_, 0.0F);
+
+
             this.bipedRightLowerLeg_adj.showModel = false;
             this.bipedLeftLowerLeg_adj.showModel = false;
-            this.butt.showModel=false;
-            fixTopAndBottomOfLimbWrongTextures(this.bipedLeftForeArm, this.bipedRightForeArm, this.bipedLeftLowerLeg, this.bipedRightLowerLeg, this.bipedRightLowerLeg_adj, this.bipedLeftLowerLeg_adj);
+            this.butt.showModel = false;
+            fixTopAndBottomOfLimbWrongTextures(this.bipedLeftForeArm, this.bipedRightForeArm, this.bipedLeftLowerLeg,
+                    this.bipedRightLowerLeg, this.bipedRightLowerLeg_adj, this.bipedLeftLowerLeg_adj,
+                    bipedRightForeArm_adj, bipedLeftForeArm_adj);
         }
+    }
+
+    @Override
+    public ModelRenderer getRightForearm_adj() {
+        return bipedRightForeArm_adj;
+    }
+
+    @Override
+    public ModelRenderer getLeftForearm_adj() {
+        return bipedLeftForeArm_adj;
     }
 
     /**

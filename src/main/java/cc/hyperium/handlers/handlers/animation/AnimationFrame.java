@@ -16,11 +16,21 @@ public class AnimationFrame {
     private BodyPart rightLowerLeg = new BodyPart();
     private BodyPart leftLowerLeg_adj = new BodyPart();
     private BodyPart rightLowerLeg_adj = new BodyPart();
+    private BodyPart rightLowerArm_adj = new BodyPart();
+    private BodyPart leftLowerArm_adj = new BodyPart();
     private BodyPart butt = new BodyPart();
 
     public AnimationFrame(long time) {
         this.time = time;
         butt.visible = false;
+    }
+
+    public BodyPart getRightLowerArm_adj() {
+        return rightLowerArm_adj;
+    }
+
+    public BodyPart getLeftLowerArm_adj() {
+        return leftLowerArm_adj;
     }
 
     public String getName() {

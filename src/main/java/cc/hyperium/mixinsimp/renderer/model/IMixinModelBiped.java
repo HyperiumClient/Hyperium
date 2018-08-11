@@ -50,4 +50,10 @@ public interface IMixinModelBiped {
 
     ModelRenderer getLeftLowerLeg_adj();
 
+    ModelRenderer getRightForearm_adj();
+
+    ModelRenderer getLeftForearm_adj();
+
+
+
 }

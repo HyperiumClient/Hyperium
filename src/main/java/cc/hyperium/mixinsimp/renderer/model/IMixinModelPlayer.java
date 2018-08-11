@@ -45,4 +45,7 @@ public interface IMixinModelPlayer extends IMixinModelBiped {
 
     ModelRenderer getBipedLeftLowerLeg_adjLegwear();
 
+    ModelRenderer getBipedRightForeArm_adjArmwear();
+
+    ModelRenderer getBipedLeftForeArm_adjArmwear();
 }
