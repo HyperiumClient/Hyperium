@@ -152,7 +152,9 @@ public class CrashReportGUI extends JDialog {
         report.setFocusPainted(false);
         report.setBounds(2, 208, 196, 20);
         report.addActionListener(e -> Multithreading.runAsync(() -> {
-            if (!update.isSupported() || !Metadata.isDevelopment()) {
+            // Need a better solution, we miss a lot of valid reports
+            // And it'd be better to get as much info as possible
+            if (false) { //!update.isSupported() || !Metadata.isDevelopment()) {
                 report.setText("Outdated Build");
             } else {
                 report.setEnabled(false);
