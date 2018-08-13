@@ -4,7 +4,6 @@ import cc.hyperium.Hyperium;
 import cc.hyperium.gui.HyperiumGui;
 import cc.hyperium.gui.main.HyperiumMainGui;
 import cc.hyperium.handlers.handlers.keybinds.HyperiumBind;
-import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
 import cc.hyperium.utils.HyperiumFontRenderer;
 import java.awt.Color;
 import java.awt.Font;
@@ -35,7 +34,6 @@ public class GuiKeybinds extends HyperiumGui {
     private int rightGui;
     private int bottomGui;
 
-    private float scaleFactor;
     private boolean autoGuiScale = false;
 
     public GuiKeybinds(){
@@ -58,12 +56,28 @@ public class GuiKeybinds extends HyperiumGui {
 
         scrollOffset = 0;
 
+        // Measurements of the GUI.
         int fixedWidth = 485;
         int fixedHeight = 300;
 
-        scaleFactor = 3F / ResolutionUtil.current().getScaleFactor();
-        fixedHeight *= scaleFactor;
-        fixedWidth *= scaleFactor;
+
+        // Measurements of the screen on which the GUI was intended to be drawn.
+        int intendedWidth = 640;
+        int intendedHeight = 360;
+
+        int currentWidth = width;
+        int currentHeight = height;
+
+        float widthScaleFactor = (float) currentWidth / intendedWidth;
+        float heightScaleFactor = (float) currentHeight / intendedHeight;
+
+        fixedHeight *= heightScaleFactor;
+        fixedWidth *= widthScaleFactor;
+
+
+        if(fixedWidth < 2 * (150 + buttonWidth)){
+            numColumns = 1;
+        }
 
         int difference = width - fixedWidth;
         int calculatedGap = difference / 2;
@@ -95,11 +109,12 @@ public class GuiKeybinds extends HyperiumGui {
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+        drawDefaultBackground();
         drawCenteredString(fontRendererObj,"Hyperium Keybinds",width/2,topGui-10,Color.WHITE.getRGB());
         drawRect(leftGui,topGui,rightGui, bottomGui, new Color(30,30,30,100).getRGB());
 
         // Divide entries into columns.
-        List<List<KeybindEntry>> entries = divideList(keybindEntries);
+        List<List<KeybindEntry>> entries = divideList(keybindEntries,numColumns);
         for (int column = 0; column < numColumns; column++){
             List<KeybindEntry> subEntries = entries.get(column);
 
@@ -142,25 +157,23 @@ public class GuiKeybinds extends HyperiumGui {
         return false;
     }
 
-    private List<List<KeybindEntry>> divideList(List<KeybindEntry> inputList){
-        List<List<KeybindEntry>> output = new ArrayList<>();
-        List<KeybindEntry> firstHalf = new ArrayList<>();
-        List<KeybindEntry> secondHalf = new ArrayList<>();
-
-        boolean x = false;
-        for (KeybindEntry entry: inputList){
-            x = !x;
-            if(x){
-                firstHalf.add(entry);
-            } else{
-                secondHalf.add(entry);
-            }
+    private List<List<KeybindEntry>> divideList(List<KeybindEntry> inputList, int number){
+        List<List<KeybindEntry>> partitions = new ArrayList<>(number);
+        for (int i = 0; i < number; i++){
+            partitions.add(new ArrayList<>());
         }
 
-        output.add(firstHalf);
-        output.add(secondHalf);
+        int counter = 0;
+        for (KeybindEntry entry: inputList){
+            if(counter >= number){
+                counter = 0;
+            }
 
-        return output;
+            partitions.get(counter).add(entry);
+            counter++;
+        }
+
+        return partitions;
     }
 
     @Override
@@ -209,7 +222,7 @@ public class GuiKeybinds extends HyperiumGui {
         int i = Mouse.getEventDWheel();
         if (i < 0) {
             // works out length of scrollable area
-            int size = keybindEntries.size()/2;
+            int size = keybindEntries.size()/numColumns;
             int length = 10 - (int) (size * sfr.getHeight("s"));
 
             if (scrollOffset - length + 1 > -size && length <= size) {
