@@ -21,19 +21,7 @@ package cc.hyperium.mods.chromahud;
 import cc.hyperium.mods.chromahud.api.ChromaHUDDescription;
 import cc.hyperium.mods.chromahud.api.ChromaHUDParser;
 import cc.hyperium.mods.chromahud.api.DisplayItem;
-import cc.hyperium.mods.chromahud.displayitems.hyperium.CBCpsDisplay;
-import cc.hyperium.mods.chromahud.displayitems.hyperium.CBFpsDisplay;
-import cc.hyperium.mods.chromahud.displayitems.hyperium.CoinsDisplay;
-import cc.hyperium.mods.chromahud.displayitems.hyperium.DabCounter;
-import cc.hyperium.mods.chromahud.displayitems.hyperium.DoubleCPSDisplay;
-import cc.hyperium.mods.chromahud.displayitems.hyperium.HyperiumInfoDisplay;
-import cc.hyperium.mods.chromahud.displayitems.hyperium.HypixelDisplay;
-import cc.hyperium.mods.chromahud.displayitems.hyperium.LocationDisplay;
-import cc.hyperium.mods.chromahud.displayitems.hyperium.MinigameDisplay;
-import cc.hyperium.mods.chromahud.displayitems.hyperium.PlayerDisplay;
-import cc.hyperium.mods.chromahud.displayitems.hyperium.RatingDisplay;
-import cc.hyperium.mods.chromahud.displayitems.hyperium.ScoreboardDisplay;
-import cc.hyperium.mods.chromahud.displayitems.hyperium.ToggleSprintStatus;
+import cc.hyperium.mods.chromahud.displayitems.hyperium.*;
 import cc.hyperium.utils.JsonHolder;
 
 import java.util.HashMap;
@@ -59,6 +47,7 @@ public class HyperiumChromaHudParser implements ChromaHUDParser {
         names.put("PLAYER", "Player Display");
         names.put("DOUBLE_CPS_DISPLAY", "L+R CPS Display");
         names.put("SPRINT_STATUS", "ToggleSprint Status");
+        names.put("MEMORY", "Memory Display");
     }
 
     @Override
@@ -90,6 +79,8 @@ public class HyperiumChromaHudParser implements ChromaHUDParser {
                 return new DoubleCPSDisplay(item, ord);
             case "SPRINT_STATUS":
                 return new ToggleSprintStatus(item, ord);
+            case "MEMORY":
+                return new MemoryDisplay(item, ord);
         }
         return null;
     }
