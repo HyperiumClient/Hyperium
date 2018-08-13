@@ -25,6 +25,7 @@ Hyperium is a Minecraft modification in development. It will combine many popula
 - [TimeChanger](https://www.youtube.com/watch?v=PbhXIPecOSA)
 - [ToggleChat](https://www.youtube.com/watch?v=guD8kAk-Wn4)
 - [VoidFlickerFix](https://www.youtube.com/watch?v=klV4d1B6ysk)
+- [Performia](https://github.com/Sk1er/Performia)
 
 ## Building the project with IntelliJ ##
 
