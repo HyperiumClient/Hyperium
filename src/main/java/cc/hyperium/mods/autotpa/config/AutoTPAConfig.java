@@ -21,7 +21,7 @@ public class AutoTPAConfig {
     }
 
     /**
-     * Getter for the AutoGG delay
+     * Getter for the AutoTPA delay
      *
      * @return the delay, capped into the limitations
      */
@@ -30,9 +30,9 @@ public class AutoTPAConfig {
     }
 
     /**
-     * Sets the delay of the AutoGG
+     * Sets the delay of the AutoTPA
      *
-     * @param delay the delay of AutoGG, capped within limitations
+     * @param delay the delay of AutoTPA, capped within limitations
      */
     public void setDelay(int delay) {
         if (delay >= 0 && this.delay <= 5) {
@@ -50,7 +50,7 @@ public class AutoTPAConfig {
     /**
      * Getter for the toggled method, true for enabled
      *
-     * @return true if AutoGG is enabled
+     * @return true if AutoTPA is enabled
      */
     public boolean isToggled() {
         return this.toggled;
