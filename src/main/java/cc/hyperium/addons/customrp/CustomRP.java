@@ -2,7 +2,9 @@ package cc.hyperium.addons.customrp;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.addons.AbstractAddon;
+import cc.hyperium.addons.customrp.utils.Mode;
 import cc.hyperium.event.*;
+import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.utils.ChatColor;
 import com.jagrosh.discordipc.IPCClient;
 import com.jagrosh.discordipc.IPCListener;
@@ -35,8 +37,7 @@ public class CustomRP extends AbstractAddon {
         RichPresenceUpdater.callCustomRPUpdate();
         EventBus.INSTANCE.register(this);
         Hyperium.CONFIG.register(new Config());
-        
-        EventBus.INSTANCE.register(this);
+
         return this;
     }
 
@@ -48,6 +49,19 @@ public class CustomRP extends AbstractAddon {
         metadata.setDescription("Customise the Rich Presence of Hyperium");
 
         return metadata;
+    }
+
+    @InvokeEvent
+    public void init(InitializationEvent event) {
+        Multithreading.POOL.submit(() -> {
+            try {
+                Thread.sleep(2500L);
+
+                Mode.set(Config.CUSTOM_RP_MODE);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     public void shutdown() {
