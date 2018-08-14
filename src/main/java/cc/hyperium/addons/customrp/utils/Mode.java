@@ -38,16 +38,16 @@ public class Mode {
             case "e-vowels":
                 Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage(ChatColor.translateAlternateColorCodes('&', "&8[CustomRP] &fPreview of '" + mode + "'\n\n" +
                                 "&cHyperium\n" +
-                                "&bCestemRP [Enternel]\n" +
-                                "&bEGN: " + EUtils.geteIfiedUsername() + "\n" +
+                                "&bCestemRP [enternel]\n" +
+                                "&beGN: " + EUtils.geteIfiedUsername() + "\n" +
                                 "&b[time]\n")
                         , false);
                 break;
             case "e-all":
                 Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage(ChatColor.translateAlternateColorCodes('&', "&8[CustomRP] &fPreview of '" + mode + "'\n\n" +
                                 "&cHyperium\n" +
-                                "&bEeeeeeEE [Eeeeeeee]\n" +
-                                "&bEEE: " + EUtils.getAllEUsername() + "\n" +
+                                "&beeeeeeee [eeeeeeee]\n" +
+                                "&beee: " + EUtils.getAllEUsername() + "\n" +
                                 "&b[time]\n")
                         , false);
                 break;
