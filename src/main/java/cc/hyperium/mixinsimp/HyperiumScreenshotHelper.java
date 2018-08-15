@@ -1,8 +1,12 @@
 package cc.hyperium.mixinsimp;
 
+import cc.hyperium.Hyperium;
 import cc.hyperium.config.Settings;
+import cc.hyperium.handlers.handlers.keybinds.HyperiumBind;
 import cc.hyperium.utils.ChatColor;
 import cc.hyperium.utils.mods.AsyncScreenshotSaver;
+import java.io.File;
+import java.nio.IntBuffer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
@@ -12,10 +16,8 @@ import net.minecraft.util.IChatComponent;
 import net.minecraft.util.ScreenShotHelper;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
-
-import java.io.File;
-import java.nio.IntBuffer;
 
 public class HyperiumScreenshotHelper {
 
@@ -51,7 +53,13 @@ public class HyperiumScreenshotHelper {
         pixelBuffer.get(pixelValues);
 
         if (!Settings.DEFAULT_UPLOAD_SS) {
-            upload = Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT);
+            HyperiumBind uploadBind = Hyperium.INSTANCE.getHandlers().getKeybindHandler().getBinding("Upload Screenshot");
+            int keyCode = uploadBind.getKeyCode();
+            if(keyCode < 0){
+                upload = Mouse.isButtonDown(keyCode + 100);
+            } else{
+                upload = Keyboard.isKeyDown(keyCode);
+            }
         }
         new Thread(new AsyncScreenshotSaver(width, height, pixelValues, Minecraft.getMinecraft().getFramebuffer(), new File(Minecraft.getMinecraft().mcDataDir, "screenshots"), upload)).start();
         if (!upload) return new ChatComponentText(ChatColor.RED + "[Hyperium] " + ChatColor.WHITE + "Capturing...");

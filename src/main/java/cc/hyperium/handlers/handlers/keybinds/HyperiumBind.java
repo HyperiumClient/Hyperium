@@ -45,6 +45,7 @@ public class HyperiumBind{
     private boolean wasPressed;
 
     private boolean conflicted = false;
+    protected boolean conflictExempt = false;
 
     public HyperiumBind(String description, int key) {
         this(description, key, "Hyperium");
@@ -167,7 +168,7 @@ public class HyperiumBind{
 
         int currentKeyCode = this.getKeyCode();
 
-        if(currentKeyCode == 0){
+        if(currentKeyCode == 0 || conflictExempt){
             // Allow multiple binds to be set to NONE.
             return;
         }
