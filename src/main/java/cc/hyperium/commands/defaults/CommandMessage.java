@@ -37,14 +37,17 @@ public class CommandMessage implements BaseCommand {
     @Override
     public List<String> onTabComplete(String[] args) {
         List<String> tabUsernames = TabCompletionUtil.getTabUsernames();
+        addTabHypixel(tabUsernames);
+        tabUsernames.remove(Minecraft.getMinecraft().getSession().getUsername());
+        return TabCompletionUtil.getListOfStringsMatchingLastWord(args, tabUsernames);
+    }
+
+    static void addTabHypixel(List<String> tabUsernames) {
         if (Hyperium.INSTANCE.getHandlers().getHypixelDetector().isHypixel())
             for (String s : Hyperium.INSTANCE.getHandlers().getDataHandler().getFriends().getKeys()) {
                 String name = Hyperium.INSTANCE.getHandlers().getDataHandler().getFriends().optJSONObject(s).optString("name");
                 if (!name.isEmpty())
                     tabUsernames.add(name);
             }
-        tabUsernames.remove(Minecraft.getMinecraft().getSession().getUsername());
-        return TabCompletionUtil.getListOfStringsMatchingLastWord(args, tabUsernames);
     }
-
 }

@@ -52,12 +52,7 @@ public class CommandPrivateMessage implements BaseCommand {
     @Override
     public List<String> onTabComplete(String[] args) {
         List<String> tabUsernames = TabCompletionUtil.getTabUsernames();
-        if (Hyperium.INSTANCE.getHandlers().getHypixelDetector().isHypixel())
-            for (String s : Hyperium.INSTANCE.getHandlers().getDataHandler().getFriends().getKeys()) {
-                String name = Hyperium.INSTANCE.getHandlers().getDataHandler().getFriends().optJSONObject(s).optString("name");
-                if (!name.isEmpty())
-                    tabUsernames.add(name);
-            }
+        CommandMessage.addTabHypixel(tabUsernames);
         tabUsernames.remove(Minecraft.getMinecraft().getSession().getUsername());
         return TabCompletionUtil.getListOfStringsMatchingLastWord(args, tabUsernames);
     }
