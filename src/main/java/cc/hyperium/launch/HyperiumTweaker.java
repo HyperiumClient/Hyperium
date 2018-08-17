@@ -135,6 +135,10 @@ public class HyperiumTweaker implements ITweaker {
     }
 
     private void addArg(String args, File file) {
+        if (file == null) {
+            return;
+        }
+
         addArg(args, file.getAbsolutePath());
     }
 
