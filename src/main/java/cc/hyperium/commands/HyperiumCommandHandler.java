@@ -17,11 +17,21 @@
 
 package cc.hyperium.commands;
 
+import cc.hyperium.Hyperium;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.SendChatMessageEvent;
 import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
 import cc.hyperium.utils.ChatColor;
 import com.google.common.collect.Lists;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Set;
+import java.util.TreeSet;
+import java.util.stream.Collectors;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.command.CommandBase;
@@ -41,6 +51,9 @@ import java.util.Map.Entry;
  */
 public class HyperiumCommandHandler {
 
+    // If a command is in this
+    private final Set<String> disabledCommands = new TreeSet<>(String.CASE_INSENSITIVE_ORDER);
+
     private final Map<String, BaseCommand> commands = new HashMap<>();
 
     private final GeneralChatHandler chatHandler;
@@ -51,6 +64,8 @@ public class HyperiumCommandHandler {
     public HyperiumCommandHandler() {
         this.mc = Minecraft.getMinecraft();
         this.chatHandler = GeneralChatHandler.instance();
+
+        loadDisabledCommands();
     }
 
     @InvokeEvent
@@ -72,7 +87,7 @@ public class HyperiumCommandHandler {
      * @return Whether the command was successfully executed
      */
     public boolean executeCommand(String command) {
-        final String commandLine = command.startsWith("/") ? command.substring(1, command.length()) : command;
+        final String commandLine = command.startsWith("/") ? command.substring(1) : command;
         String commandName;
         String[] args = new String[]{};
 
@@ -84,6 +99,11 @@ public class HyperiumCommandHandler {
             // SpotifyInformation: If command is "/print hello 2", commandName will equal "print" and args will equal ["hello","2"]
         } else {
             commandName = commandLine;
+        }
+
+        // Disabled commands will be ignored
+        if (isCommandDisabled(commandName)) {
+            return false;
         }
 
         // Loop through our commands, if the identifier matches the expected command, active the base
@@ -136,6 +156,46 @@ public class HyperiumCommandHandler {
             if (entry.getValue().equals(command)) {
                 this.commands.remove(entry.getKey());
             }
+        }
+    }
+
+    /**
+     * Returns true if this command is in the disabled list. Used to ignore commands
+     *
+     * @param input the command to check
+     * @return true if the command should be ignored
+     */
+    public boolean isCommandDisabled(String input) {
+        if (input == null || input.isEmpty() || input.trim().isEmpty() ||
+            input.equalsIgnoreCase("disablecommand") || input.equalsIgnoreCase("hyperium")) {
+            return false;
+        }
+
+        return this.disabledCommands.contains(input.trim());
+    }
+
+    /**
+     * If this command is already disabled, we'll remove it from the disabled list
+     * and return false to indicate the command is not disabled anymore. If the list
+     * does not contain the command we'll add it and return true to indicate it now is.
+     *
+     * @param input the command to add to the ignored list
+     * @return true if now disabled or false if it no longer is
+     */
+    public boolean addOrRemoveCommand(String input) {
+        if (input == null || input.isEmpty() || input.trim().isEmpty() ||
+            input.equalsIgnoreCase("disablecommand") || input.equalsIgnoreCase("hyperium")) {
+            return false;
+        }
+
+        input = input.trim();
+
+        if (isCommandDisabled(input)) {
+            this.disabledCommands.remove(input);
+            return false;
+        } else {
+            this.disabledCommands.add(input);
+            return true;
         }
     }
 
@@ -208,5 +268,61 @@ public class HyperiumCommandHandler {
 
     public void clear() {
         this.commands.clear();
+    }
+
+    @SuppressWarnings("ResultOfMethodCallIgnored")
+    public void loadDisabledCommands() {
+        File disabledCommandFile = new File(Hyperium.folder, "disabledcommands.txt");
+
+        try {
+            if (!disabledCommandFile.getParentFile().exists()) {
+                if (!disabledCommandFile.getParentFile().mkdirs()) {
+                    return;
+                }
+            }
+
+            if (!disabledCommandFile.exists()) {
+                disabledCommandFile.createNewFile();
+                return;
+            }
+
+            FileReader fileReader = new FileReader(disabledCommandFile);
+            BufferedReader reader = new BufferedReader(fileReader);
+
+            this.disabledCommands.addAll(reader.lines().collect(Collectors.toList()));
+
+            reader.close();
+            fileReader.close();
+        } catch (IOException ignored) {
+        }
+    }
+
+    public void saveDisabledCommands() {
+        File disabledCommandFile = new File(Hyperium.folder, "disabledcommands.txt");
+
+        try {
+            if (!disabledCommandFile.getParentFile().exists()) {
+                if (!disabledCommandFile.getParentFile().mkdirs()) {
+                    return;
+                }
+            }
+
+            if (!disabledCommandFile.exists()) {
+                if (!disabledCommandFile.createNewFile()) {
+                    return;
+                }
+            }
+
+            FileWriter fileWriter = new FileWriter(disabledCommandFile);
+            BufferedWriter writer = new BufferedWriter(fileWriter);
+
+            for (String s : this.disabledCommands) {
+                writer.write(s + System.lineSeparator());
+            }
+
+            writer.close();
+            fileWriter.close();
+        } catch (IOException ignored) {
+        }
     }
 }

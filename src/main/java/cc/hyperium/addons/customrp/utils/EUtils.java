@@ -11,11 +11,12 @@ public class EUtils {
 
         eIfiedUsername = username
                 .replaceAll("a|i|o|u", "e")
-                .replaceAll("A|I|O|U", "E");
+                .replaceAll("A|E|I|O|U", "e");
 
         allEUsername = username
-                .replaceAll("[A-Z]", "E")
-                .replaceAll("[a-z]", "e");
+                .replaceAll("[A-Z]", "e")
+                .replaceAll("[a-z]", "e")
+                .replaceAll("[0-9]", "e");
     }
 
     public static String getUsername() {

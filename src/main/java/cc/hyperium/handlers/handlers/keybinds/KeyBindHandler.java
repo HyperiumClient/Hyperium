@@ -38,11 +38,11 @@ import cc.hyperium.handlers.handlers.keybinds.keybinds.TogglePerspectiveKeybind;
 import cc.hyperium.handlers.handlers.keybinds.keybinds.ToggleSpotifyKeybind;
 import cc.hyperium.handlers.handlers.keybinds.keybinds.ToggleSprintKeybind;
 import cc.hyperium.handlers.handlers.keybinds.keybinds.TwerkDanceKeybind;
-import net.minecraft.client.Minecraft;
-import org.lwjgl.input.Keyboard;
-
+import cc.hyperium.handlers.handlers.keybinds.keybinds.UploadScreenshotKeybind;
 import java.util.HashMap;
 import java.util.Map;
+import net.minecraft.client.Minecraft;
+import org.lwjgl.input.Keyboard;
 
 public class KeyBindHandler {
     private static final Map<Integer, Integer> mouseBinds = new HashMap<>();
@@ -85,6 +85,7 @@ public class KeyBindHandler {
         registerKeyBinding(new TwerkDanceKeybind());
         registerKeyBinding(new ClearPopupKeybind());
         registerKeyBinding(new TPoseKeybind());
+        registerKeyBinding(new UploadScreenshotKeybind());
 
         // Populate mouse bind list in accordance with Minecraft's values.
         for (int i = 0; i < 16; i++) {

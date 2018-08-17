@@ -24,7 +24,7 @@ import org.lwjgl.input.Keyboard;
 public class ClearPopupKeybind extends HyperiumBind {
 
     public ClearPopupKeybind() {
-        super("Clear Title", Keyboard.KEY_U);
+        super("Clear Title", Keyboard.KEY_M);
     }
 
     @Override

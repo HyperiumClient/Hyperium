@@ -32,8 +32,8 @@ public class RichPresenceUpdater {
                 client.sendRichPresence(builder
                         .setSmallImage("compass")
                         .setLargeImage("hyperium", "Hyperium Client")
-                        .setState("EGN: " + EUtils.geteIfiedUsername())
-                        .setDetails("CestemRP [Enternel]")
+                        .setState("eGN: " + EUtils.geteIfiedUsername())
+                        .setDetails("CestemRP [enternel]")
                         .setStartTimestamp(OffsetDateTime.now())
                         .build());
             } else if (Config.CUSTOM_RP_MODE.equalsIgnoreCase("E-All")) {
@@ -42,8 +42,8 @@ public class RichPresenceUpdater {
                 client.sendRichPresence(builder
                         .setSmallImage("compass")
                         .setLargeImage("hyperium", "Hyperium Client")
-                        .setState("EEE: " + EUtils.getAllEUsername())
-                        .setDetails("EeeeeeEE [Eeeeeeee]")
+                        .setState("eee: " + EUtils.getAllEUsername())
+                        .setDetails("eeeeeeee [eeeeeeee]")
                         .setStartTimestamp(OffsetDateTime.now())
                         .build());
             } else if (Config.CUSTOM_RP_MODE.equalsIgnoreCase("sellout")) {

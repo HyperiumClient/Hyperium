@@ -3,19 +3,19 @@ package cc.hyperium.mods.autofriend.command;
 import cc.hyperium.commands.BaseCommand;
 import cc.hyperium.mods.autofriend.AutoFriendUtils;
 import cc.hyperium.mods.autofriend.AutofriendMod;
+import java.util.regex.Pattern;
 import net.minecraft.client.Minecraft;
 import net.minecraft.event.ClickEvent;
 import net.minecraft.event.HoverEvent;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 
-import java.util.regex.Pattern;
-
 public class AutofriendCommand implements BaseCommand {
 
     private Pattern username;
     private AutofriendMod mod;
     private Minecraft mc = Minecraft.getMinecraft();
+    private String usage = "/autofriend blacklist add/remove <username>";
 
     public AutofriendCommand() {
         this.username = Pattern.compile("\\w{1,16}");
@@ -36,12 +36,16 @@ public class AutofriendCommand implements BaseCommand {
 
     @Override
     public String getUsage() {
-        return "/autofriend blacklist add/remove <username>";
+        return usage;
     }
 
     @Override
     public void onExecute(String[] args) {
-        if (args[0].equals("blacklist")) {
+        if(args.length == 0){
+            this.throwError("Unknown usage! Usage: " + usage);
+            return;
+        }
+        if (args[0].equalsIgnoreCase("blacklist")) {
             if (args.length == 1 || (!args[1].equals("add") && !args[1].equals("remove"))) {
                 if (AutofriendMod.blacklist.size() > 0) {
                     int page = 1;
@@ -64,7 +68,7 @@ public class AutofriendCommand implements BaseCommand {
                 } else {
                     this.throwError("You haven't blacklisted anyone");
                 }
-            } else if (args[1].equals("add") || args[1].equals("remove")) {
+            } else if (args[1].equalsIgnoreCase("add") || args[1].equalsIgnoreCase("remove")) {
                 if (args.length > 2 && this.username.matcher(args[2]).matches()) {
                     if (args[1].equals("add")) {
                         AutofriendMod.blacklist.add(args[2]);
@@ -74,11 +78,11 @@ public class AutofriendCommand implements BaseCommand {
                     this.sendMessage(EnumChatFormatting.BLUE + (args[1].equals("add") ? ("Added " + EnumChatFormatting.RED + args[2] + EnumChatFormatting.BLUE + " to") : ("Removed " + EnumChatFormatting.GREEN + args[2] + EnumChatFormatting.BLUE + " from")) + " your blacklist.");
                     AutofriendMod.writeBlacklist();
                 } else {
-                    this.throwError("Invalid username. Usage: /autofriend blacklist add/remove <username>");
+                    this.throwError("Invalid username. Usage: " + usage);
                 }
             }
         } else {
-            this.throwError("Unknown usage! Usage: /autofriend blacklist add/remove <username>");
+            this.throwError("Unknown usage! Usage: " + usage);
         }
     }
 }
