@@ -24,6 +24,7 @@ import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.TickEvent;
 import cc.hyperium.gui.ScoreboardRenderer;
 import cc.hyperium.handlers.handlers.ApiDataHandler;
+import cc.hyperium.handlers.handlers.BroadcastEvents;
 import cc.hyperium.handlers.handlers.CommandQueue;
 import cc.hyperium.handlers.handlers.FlipHandler;
 import cc.hyperium.handlers.handlers.FontRendererData;
@@ -144,6 +145,7 @@ public class HyperiumHandlers {
         register(tPoseHandler = new TPoseHandler());
         register(fortniteDefaultDance = new FortniteDefaultDance());
         register(fortniteHypeDance = new FortniteHypeDance());
+        register(broadcastEvents = new BroadcastEvents());
         commandQueue = new CommandQueue();
         dataHandler = new ApiDataHandler();
         timeTrackHandler = new TimeTrackHandler();
@@ -164,7 +166,7 @@ public class HyperiumHandlers {
         //Command Handler
         register(commandHandler = new HyperiumCommandHandler());
     }
-
+    private BroadcastEvents broadcastEvents;
     public FortniteHypeDance getFortniteHypeDance() {
         return fortniteHypeDance;
     }

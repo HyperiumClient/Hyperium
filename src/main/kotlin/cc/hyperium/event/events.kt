@@ -287,10 +287,16 @@ abstract class CopyPlayerModelAnglesEvent(val entity: AbstractClientPlayer, val 
 
 class SoundPlayEvent(val sound: ISound) : CancellableEvent()
 
+
+class LevelupEvent(val level: Int)
+
+class AchievementGetEvent(val achievement: String)
+
 /**
  * Called when entities are about to be rendered in the world
  */
 class RenderEntitiesEvent(val partialTicks: Float)
+
 enum class ElementType {
     ALL,
     HELMET,
