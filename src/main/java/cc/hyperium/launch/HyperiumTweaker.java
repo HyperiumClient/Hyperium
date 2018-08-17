@@ -41,6 +41,8 @@ import java.util.Map;
  */
 public class HyperiumTweaker implements ITweaker {
 
+    public static HyperiumTweaker INSTANCE;
+
     private ArrayList<String> args = new ArrayList<>();
 
     private boolean isRunningForge = Launch.classLoader.getTransformers().stream()
@@ -51,6 +53,10 @@ public class HyperiumTweaker implements ITweaker {
 
     private boolean FORGE = false;
     private boolean OPTIFINE = false;
+
+    public HyperiumTweaker() {
+        INSTANCE = this;
+    }
 
     @Override
     public void acceptOptions(List<String> args, File gameDir, final File assetsDir,
@@ -111,6 +117,14 @@ public class HyperiumTweaker implements ITweaker {
         } else {
             return args.toArray(new String[] {});
         }
+    }
+
+    public boolean isUsingForge() {
+        return FORGE;
+    }
+
+    public boolean isUsingOptifine() {
+        return OPTIFINE;
     }
 
     private void addArg(String label, String value) {
