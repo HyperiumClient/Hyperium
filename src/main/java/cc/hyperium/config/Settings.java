@@ -479,6 +479,9 @@ public class Settings {
     public static boolean BROADCAST_ACHIEVEMENTS= true;
 
 
+    @ConfigOpt
+    @SelectorSetting(name = "Show Butt",category = COSMETICS,items = {"YES","NO"})
+    public static String SHOW_BUTT = "YES";
 
     private Settings() {
     }

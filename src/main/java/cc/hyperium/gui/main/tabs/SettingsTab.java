@@ -19,7 +19,6 @@ import cc.hyperium.gui.main.components.OverlaySelector;
 import cc.hyperium.gui.main.components.OverlaySlider;
 import cc.hyperium.gui.main.components.SettingItem;
 import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
-import cc.hyperium.mods.glintcolorizer.gui.GlintColorizerSettings;
 import cc.hyperium.netty.NettyClient;
 import cc.hyperium.netty.packet.packets.serverbound.ServerCrossDataPacket;
 import cc.hyperium.purchases.EnumPurchaseType;
@@ -29,6 +28,7 @@ import cc.hyperium.utils.JsonHolder;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
 import org.apache.commons.lang3.ArrayUtils;
+import sun.nio.ch.Net;
 
 import java.awt.Color;
 import java.lang.reflect.Field;
@@ -69,7 +69,7 @@ public class SettingsTab extends AbstractTab {
 
         items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(cosmetics), Icons.COSMETIC.getResource(), "Cosmetics", "Bling out your Minecraft Avatar", "Click to configure", 0, 1));
 
-        items.add(new SettingItem(() ->HyperiumMainGui.INSTANCE.setTab(HyperiumMainGui.INSTANCE.getModsTab()), Icons.EXTENSION.getResource(), "Mods", "Hyperium mod settings", "Click to configure", 1, 1));
+        items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setTab(HyperiumMainGui.INSTANCE.getModsTab()), Icons.EXTENSION.getResource(), "Mods", "Hyperium mod settings", "Click to configure", 1, 1));
 
         items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(misc), Icons.MISC.getResource(), "Miscellaneous", "Other Hyperium Settings", "Click to configure", 2, 1));
 
@@ -108,6 +108,32 @@ public class SettingsTab extends AbstractTab {
                     }
                 }
                 return new String[]{"NOT PURCHASED"};
+            });
+            customStates.put(Settings.class.getField("SHOW_BUTT"), () -> {
+                HyperiumPurchase self = PurchaseApi.getInstance().getSelf();
+                if (self != null && self.hasPurchased(EnumPurchaseType.BUTT)) {
+                    return new String[]{
+                            "YES",
+                            "NO"
+                    };
+                }
+
+                return new String[]{"NOT PURCHASED"};
+            });
+            callback.put(Settings.class.getField("SHOW_BUTT"),o -> {
+                boolean yes = !((String) o).equalsIgnoreCase("YES");
+                HyperiumPurchase self = PurchaseApi.getInstance().getSelf();
+                if(self !=null) {
+                    JsonHolder purchaseSettings = self.getPurchaseSettings();
+                    purchaseSettings.put("butt",new JsonHolder());
+                    purchaseSettings.optJSONObject("butt").put("disabled",yes);
+                }
+                NettyClient client = NettyClient.getClient();
+                if (client != null) {
+                    JsonHolder put = new JsonHolder().put("internal", true).put("butt_disabled", yes);
+                    client.write(ServerCrossDataPacket.build(put));
+                }
+
             });
             Field max_particle_string = Settings.class.getField("MAX_PARTICLE_STRING");
             customStates.put(max_particle_string, () -> {
