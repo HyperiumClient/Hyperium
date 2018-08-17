@@ -195,7 +195,7 @@ public class ParticleGui extends HyperiumGui implements GuiYesNoCallback {
             e.printStackTrace();
         }
         if (particles[spot].isPurchased()) {
-            particles[spot].setActive(true);
+            particles[spot].setPurchased(true);
         }
         particleType = PurchaseCarousel.create(spot, particles);
 
