@@ -12,7 +12,11 @@ public class ButtCosmetic extends AbstractCosmetic {
 
     @InvokeEvent(priority = Priority.HIGH)
     public void preCopy(PreCopyPlayerModelAnglesEvent event) {
-        event.getModel().getButt().showModel = isPurchasedBy(event.getEntity().getUniqueID());
+
+        boolean purchasedBy = isPurchasedBy(event.getEntity().getUniqueID());
+        event.getModel().getButt().showModel = purchasedBy;
+        event.getModel().getButt().offsetY = event.getEntity().isSneaking() ? -.45F : -.4F;
+       event.getModel().getButt().offsetZ = event.getEntity().isSneaking() ? .3F : 0F;
 
     }
 }

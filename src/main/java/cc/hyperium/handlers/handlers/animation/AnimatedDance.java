@@ -246,23 +246,22 @@ public abstract class AnimatedDance extends AbstractPreCopyAnglesAnimationHandle
         adjust(player.getBipedBody(), prev.getChest().calc(percent, next.getChest()));
         adjust(player.getBipedBodywear(), prev.getChest().calc(percent, next.getChest()));
 
-        adjust(player.getLeftLowerLeg_adj(), prev.getLeftLowerLeg_adj().calc(percent, next.getLeftLowerLeg_adj()));
-        adjust(player.getBipedLeftLowerLeg_adjLegwear(), prev.getLeftLowerLeg_adj().calc(percent, next.getLeftLowerLeg_adj()));
-
-        adjust(player.getRightLowerLeg_adj(), prev.getRightLowerLeg_adj().calc(percent, next.getRightLowerLeg_adj()));
-        adjust(player.getBipedRightLowerLeg_adjLegwear(), prev.getRightLowerLeg_adj().calc(percent, next.getRightLowerLeg_adj()));
-
-
-
-
-        adjust(player.getRightForearm_adj(), prev.getRightLowerArm_adj().calc(percent, next.getRightLowerArm_adj()));
-        adjust(player.getBipedRightForeArm_adjArmwear(), prev.getRightLowerArm_adj().calc(percent, next.getRightLowerArm_adj()));
-
-        adjust(player.getLeftForearm_adj(), prev.getLeftLowerArm_adj().calc(percent, next.getLeftLowerArm_adj()));
-        adjust(player.getBipedLeftForeArm_adjArmwear(), prev.getLeftLowerArm_adj().calc(percent, next.getLeftLowerArm_adj()));
+//        adjust(player.getLeftLowerLeg_adj(), prev.getLeftLowerLeg_adj().calc(percent, next.getLeftLowerLeg_adj()));
+//        adjust(player.getBipedLeftLowerLeg_adjLegwear(), prev.getLeftLowerLeg_adj().calc(percent, next.getLeftLowerLeg_adj()));
+//
+//        adjust(player.getRightLowerLeg_adj(), prev.getRightLowerLeg_adj().calc(percent, next.getRightLowerLeg_adj()));
+//        adjust(player.getBipedRightLowerLeg_adjLegwear(), prev.getRightLowerLeg_adj().calc(percent, next.getRightLowerLeg_adj()));
+//
+//
+//
+//
+//        adjust(player.getRightForearm_adj(), prev.getRightLowerArm_adj().calc(percent, next.getRightLowerArm_adj()));
+//        adjust(player.getBipedRightForeArm_adjArmwear(), prev.getRightLowerArm_adj().calc(percent, next.getRightLowerArm_adj()));
+//
+//        adjust(player.getLeftForearm_adj(), prev.getLeftLowerArm_adj().calc(percent, next.getLeftLowerArm_adj()));
+//        adjust(player.getBipedLeftForeArm_adjArmwear(), prev.getLeftLowerArm_adj().calc(percent, next.getLeftLowerArm_adj()));
 
         adjust(player.getButt(), prev.getButt().calc(percent, next.getButt()));
-
 
 
     }
@@ -365,16 +364,16 @@ public abstract class AnimatedDance extends AbstractPreCopyAnglesAnimationHandle
 
         //Chest
         adjust(player.getBipedBody(), prev.getChest().calc(percent, next.getChest()));
-
-        adjust(player.getLeftLowerLeg_adj(), prev.getLeftLowerLeg_adj().calc(percent, next.getLeftLowerLeg_adj()));
-
-        adjust(player.getRightLowerLeg_adj(), prev.getRightLowerLeg_adj().calc(percent, next.getRightLowerLeg_adj()));
-
-
-
-        adjust(player.getRightForearm_adj(), prev.getRightLowerArm_adj().calc(percent, next.getRightLowerArm_adj()));
-
-        adjust(player.getLeftForearm_adj(), prev.getLeftLowerArm_adj().calc(percent, next.getLeftLowerArm_adj()));
+//
+//        adjust(player.getLeftLowerLeg_adj(), prev.getLeftLowerLeg_adj().calc(percent, next.getLeftLowerLeg_adj()));
+//
+//        adjust(player.getRightLowerLeg_adj(), prev.getRightLowerLeg_adj().calc(percent, next.getRightLowerLeg_adj()));
+//
+//
+//
+//        adjust(player.getRightForearm_adj(), prev.getRightLowerArm_adj().calc(percent, next.getRightLowerArm_adj()));
+//
+//        adjust(player.getLeftForearm_adj(), prev.getLeftLowerArm_adj().calc(percent, next.getLeftLowerArm_adj()));
 
     }
 }

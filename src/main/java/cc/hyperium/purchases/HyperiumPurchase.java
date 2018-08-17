@@ -74,10 +74,13 @@ public class HyperiumPurchase {
     }
 
     public boolean hasPurchased(EnumPurchaseType type) {
+        if (isEverything())
+            return true;
         return getPurchase(type) != null;
     }
 
     public boolean hasPurchased(String key) {
+
         if (isEverything())
             return true;
         for (JsonElement element : response.optJSONArray("hyperium")) {
