@@ -50,15 +50,15 @@ public class CustomCrosshairConfig {
                     int blue = this.crosshairMod.getCrosshair().getColour().getBlue();
                     int alpha = this.crosshairMod.getCrosshair().getColour().getAlpha();
 
-                    int outlineRed = this.crosshairMod.getCrosshair().getColour().getRed();
-                    int outlineGreen = this.crosshairMod.getCrosshair().getColour().getGreen();
-                    int outlineBlue = this.crosshairMod.getCrosshair().getColour().getBlue();
-                    int outlineAlpha = this.crosshairMod.getCrosshair().getColour().getAlpha();
+                    int outlineRed = this.crosshairMod.getCrosshair().getOutlineColour().getRed();
+                    int outlineGreen = this.crosshairMod.getCrosshair().getOutlineColour().getGreen();
+                    int outlineBlue = this.crosshairMod.getCrosshair().getOutlineColour().getBlue();
+                    int outlineAlpha = this.crosshairMod.getCrosshair().getOutlineColour().getAlpha();
 
-                    int dotRed = this.crosshairMod.getCrosshair().getColour().getRed();
-                    int dotGreen = this.crosshairMod.getCrosshair().getColour().getGreen();
-                    int dotBlue = this.crosshairMod.getCrosshair().getColour().getBlue();
-                    int dotAlpha = this.crosshairMod.getCrosshair().getColour().getAlpha();
+                    int dotRed = this.crosshairMod.getCrosshair().getDotColour().getRed();
+                    int dotGreen = this.crosshairMod.getCrosshair().getDotColour().getGreen();
+                    int dotBlue = this.crosshairMod.getCrosshair().getDotColour().getBlue();
+                    int dotAlpha = this.crosshairMod.getCrosshair().getDotColour().getAlpha();
 
                     final String attribute = splitted[0].toLowerCase().trim();
                     final String value = splitted[1].toLowerCase().trim();
