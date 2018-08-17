@@ -69,6 +69,7 @@
     "packet.MixinNetworkManager",
     "packet.MixinS14PacketEntity",
     "packet.MixinS19PacketEntityStatus",
+    "packet.MixinS19PacketEntityHeadLook",
     "packet.MixinS2EPacketCloseWindow",
     "renderer.IMixinItemRenderer",
     "renderer.IMixinRender",

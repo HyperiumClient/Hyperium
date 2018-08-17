@@ -22,6 +22,7 @@ import cc.hyperium.commands.defaults.CommandClearChat;
 import cc.hyperium.commands.defaults.CommandConfigGui;
 import cc.hyperium.commands.defaults.CommandCoords;
 import cc.hyperium.commands.defaults.CommandDebug;
+import cc.hyperium.commands.defaults.CommandDisableCommand;
 import cc.hyperium.commands.defaults.CommandGarbageCollect;
 import cc.hyperium.commands.defaults.CommandLogs;
 import cc.hyperium.commands.defaults.CommandMessage;
@@ -356,6 +357,7 @@ public class Hyperium {
         getHandlers().getHyperiumCommandHandler().registerCommand(new CommandGarbageCollect());
         getHandlers().getHyperiumCommandHandler().registerCommand(new CommandMessage());
         getHandlers().getHyperiumCommandHandler().registerCommand(new CommandParticleAuras());
+        getHandlers().getHyperiumCommandHandler().registerCommand(new CommandDisableCommand());
         getHandlers().getHyperiumCommandHandler().registerCommand(new AutofriendCommand());
     }
 

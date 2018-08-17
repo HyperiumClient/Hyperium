@@ -93,25 +93,27 @@ public class HyperiumWorld {
 
 
     public boolean spawnEntityInWorld(Entity entity) {
-        int lvt_2_1_ = MathHelper.floor_double(entity.posX / 16.0D);
-        int lvt_3_1_ = MathHelper.floor_double(entity.posZ / 16.0D);
-        boolean lvt_4_1_ = entity.forceSpawn;
+        int x = MathHelper.floor_double(entity.posX / 16.0D);
+        int z = MathHelper.floor_double(entity.posZ / 16.0D);
+
+        boolean forceSpawned = entity.forceSpawn;
+
         if (entity instanceof EntityPlayer) {
-            lvt_4_1_ = true;
+            forceSpawned = true;
         }
 
-        if (!lvt_4_1_ && !((IMixinWorld) parent).callIsChunkLoaded(lvt_2_1_, lvt_3_1_, true)) {
+        if (!forceSpawned && !((IMixinWorld) parent).callIsChunkLoaded(x, z, true)) {
             return false;
         } else {
             if (entity instanceof EntityPlayer) {
-                EntityPlayer lvt_5_1_ = (EntityPlayer) entity;
-                parent.playerEntities.add(lvt_5_1_);
+                EntityPlayer entityplayer = (EntityPlayer) entity;
+                parent.playerEntities.add(entityplayer);
                 parent.updateAllPlayersSleepingFlag();
             }
 
             EventBus.INSTANCE.post(new EntityJoinWorldEvent(entity));
 
-            parent.getChunkFromChunkCoords(lvt_2_1_, lvt_3_1_).addEntity(entity);
+            parent.getChunkFromChunkCoords(x, z).addEntity(entity);
             parent.loadedEntityList.add(entity);
             ((IMixinWorld) parent).callOnEntityAdded(entity);
             return true;
