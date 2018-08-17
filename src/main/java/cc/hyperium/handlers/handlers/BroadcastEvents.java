@@ -1,12 +1,12 @@
 package cc.hyperium.handlers.handlers;
 
+import cc.hyperium.Hyperium;
 import cc.hyperium.config.Settings;
 import cc.hyperium.event.AchievementGetEvent;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.LevelupEvent;
 import cc.hyperium.event.ServerChatEvent;
-import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
 import me.lpk.util.StringUtils;
 import net.minecraft.util.EnumChatFormatting;
 
@@ -24,14 +24,14 @@ public class BroadcastEvents {
     @InvokeEvent
     public void levelUp(LevelupEvent event) {
         if (Settings.BROADCAST_LEVELUPS) {
-            GeneralChatHandler.instance().sendMessage("/gchat Levelup! I am now Hypixel Level: " + event.getLevel());
+            Hyperium.INSTANCE.getHandlers().getCommandQueue().queue("/gchat Levelup! I am now Hypixel Level: " + event.getLevel());
         }
     }
 
     @InvokeEvent
     public void acheivementGet(AchievementGetEvent event) {
         if (Settings.BROADCAST_ACHIEVEMENTS) {
-            GeneralChatHandler.instance().sendMessage("/gchat Achievement unlocked! I unlocked the " + event.getAchievement() + " achievement");
+            Hyperium.INSTANCE.getHandlers().getCommandQueue().queue("/gchat Achievement unlocked! I unlocked the " + event.getAchievement() + " achievement");
         }
     }
 
