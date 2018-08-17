@@ -30,7 +30,6 @@ import cc.hyperium.handlers.handlers.keybinds.keybinds.FlossKeybind;
 import cc.hyperium.handlers.handlers.keybinds.keybinds.FortniteDefaultDanceKeybind;
 import cc.hyperium.handlers.handlers.keybinds.keybinds.FriendsKeybind;
 import cc.hyperium.handlers.handlers.keybinds.keybinds.GuiKeybind;
-import cc.hyperium.handlers.handlers.keybinds.keybinds.HypeDanceKeybind;
 import cc.hyperium.handlers.handlers.keybinds.keybinds.NamesKeybind;
 import cc.hyperium.handlers.handlers.keybinds.keybinds.QueueKeybind;
 import cc.hyperium.handlers.handlers.keybinds.keybinds.TPoseKeybind;
@@ -39,10 +38,11 @@ import cc.hyperium.handlers.handlers.keybinds.keybinds.ToggleSpotifyKeybind;
 import cc.hyperium.handlers.handlers.keybinds.keybinds.ToggleSprintKeybind;
 import cc.hyperium.handlers.handlers.keybinds.keybinds.TwerkDanceKeybind;
 import cc.hyperium.handlers.handlers.keybinds.keybinds.UploadScreenshotKeybind;
-import java.util.HashMap;
-import java.util.Map;
 import net.minecraft.client.Minecraft;
 import org.lwjgl.input.Keyboard;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class KeyBindHandler {
     private static final Map<Integer, Integer> mouseBinds = new HashMap<>();
@@ -75,7 +75,6 @@ public class KeyBindHandler {
         registerKeyBinding(new QueueKeybind());
         registerKeyBinding(new DabKeybind());
         registerKeyBinding(new FlipKeybind());
-        registerKeyBinding(new HypeDanceKeybind());
         registerKeyBinding(new FlossKeybind());
         registerKeyBinding(new ToggleSpotifyKeybind());
         bind = new ToggleSprintKeybind();

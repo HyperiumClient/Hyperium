@@ -110,7 +110,6 @@ public abstract class AnimatedDance extends AbstractPreCopyAnglesAnimationHandle
                             }
                         }
                         bodyPart.getClass().getDeclaredField("visible").setBoolean(bodyPart, visibility.get(s));
-                        System.out.println("Vis for " + s + " -> " + visibility.get(s) + " " + time);
                     } catch (IllegalAccessException | NoSuchFieldException e) {
                         e.printStackTrace();
                     }
@@ -168,7 +167,7 @@ public abstract class AnimatedDance extends AbstractPreCopyAnglesAnimationHandle
 
     @Override
     public void modifyPlayer(AbstractClientPlayer entity, IMixinModelPlayer player, float heldPercent) {
-        generateFrames(getData());
+
         if (!loaded)
             return;
         Long aLong = states.get(entity.getUniqueID());
