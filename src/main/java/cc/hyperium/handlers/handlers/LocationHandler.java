@@ -18,6 +18,7 @@
 package cc.hyperium.handlers.handlers;
 
 import cc.hyperium.Hyperium;
+import cc.hyperium.config.Settings;
 import cc.hyperium.event.ChatEvent;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.InvokeEvent;
@@ -51,7 +52,8 @@ public class LocationHandler {
         if (client != null) {
             this.location = event.getServer();
             client.write(UpdateLocationPacket.build("Other"));
-            client.write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("server_update", event.getServer() + ":" + event.getPort())));
+            if (Settings.SEND_SERVER)
+                client.write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("server_update", event.getServer() + ":" + event.getPort())));
 
         }
     }
@@ -62,7 +64,8 @@ public class LocationHandler {
         NettyClient client = NettyClient.getClient();
         if (client != null) {
             client.write(UpdateLocationPacket.build("offline"));
-            client.write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("server_update", "Offline")));
+            if (Settings.SEND_SERVER)
+                client.write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("server_update", "Offline")));
         }
     }
 

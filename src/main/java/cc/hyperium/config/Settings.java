@@ -472,16 +472,20 @@ public class Settings {
 
     @ConfigOpt
     @ToggleSetting(name = "Broadcast Levelups")
-    public static boolean BROADCAST_LEVELUPS= true;
+    public static boolean BROADCAST_LEVELUPS = true;
 
     @ConfigOpt
     @ToggleSetting(name = "Broadcast Achievements")
-    public static boolean BROADCAST_ACHIEVEMENTS= true;
+    public static boolean BROADCAST_ACHIEVEMENTS = true;
 
 
     @ConfigOpt
-    @SelectorSetting(name = "Show Butt",category = COSMETICS,items = {"YES","NO"})
+    @SelectorSetting(name = "Show Butt", category = COSMETICS, items = {"YES", "NO"})
     public static String SHOW_BUTT = "YES";
+
+    @ConfigOpt
+    @ToggleSetting(name = "Send Current Server", category = GENERAL)
+    public static boolean SEND_SERVER = true;
 
     private Settings() {
     }
