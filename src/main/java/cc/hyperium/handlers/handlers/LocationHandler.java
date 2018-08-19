@@ -51,6 +51,8 @@ public class LocationHandler {
         if (client != null) {
             this.location = event.getServer();
             client.write(UpdateLocationPacket.build("Other"));
+            client.write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("server_update", event.getServer() + ":" + event.getPort())));
+
         }
     }
 
@@ -60,6 +62,7 @@ public class LocationHandler {
         NettyClient client = NettyClient.getClient();
         if (client != null) {
             client.write(UpdateLocationPacket.build("offline"));
+            client.write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("server_update", "Offline")));
         }
     }
 
