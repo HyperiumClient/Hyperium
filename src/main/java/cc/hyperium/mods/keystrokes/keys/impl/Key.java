@@ -25,6 +25,7 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.settings.KeyBinding;
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 
 public class Key extends IKey {
 
@@ -37,11 +38,33 @@ public class Key extends IKey {
         this.key = key;
     }
 
+    private String getKeyOrMouseName(int keyCode){
+        if(keyCode < 0){
+            String openglName = Mouse.getButtonName(keyCode+100);
+            if(openglName.equalsIgnoreCase("button0")){
+                return "LMB";
+            } else if(openglName.equalsIgnoreCase("button1")){
+                return "RMB";
+            }
+            return openglName;
+        } else{
+            return Keyboard.getKeyName(keyCode);
+        }
+    }
+
+    private boolean isKeyOrMouseDown(int keyCode){
+        if(keyCode < 0){
+            return Mouse.isButtonDown(keyCode + 100);
+        } else{
+            return Keyboard.isKeyDown(keyCode);
+        }
+    }
+
     @Override
     public void renderKey(int x, int y) {
         Keyboard.poll();
-        boolean pressed = Keyboard.isKeyDown(this.key.getKeyCode());
-        String name = Keyboard.getKeyName(this.key.getKeyCode());
+        boolean pressed = isKeyOrMouseDown(this.key.getKeyCode());
+        String name = getKeyOrMouseName(this.key.getKeyCode());
         if (pressed != this.wasPressed) {
             this.wasPressed = pressed;
             this.lastPress = System.currentTimeMillis();
