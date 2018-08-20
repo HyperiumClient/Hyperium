@@ -171,7 +171,9 @@ public class HyperiumModIntegration {
         return autogg;
     }
 
-    public AutoTPA getAutoTPA(){ return autoTPA;}
+    public AutoTPA getAutoTPA() {
+        return autoTPA;
+    }
 
     public HGames getHGames() {
         return hgames;
