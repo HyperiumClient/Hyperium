@@ -19,6 +19,7 @@ package cc.hyperium.mods;
 
 import cc.hyperium.mods.autofriend.AutofriendMod;
 import cc.hyperium.mods.autogg.AutoGG;
+import cc.hyperium.mods.autotpa.AutoTPA;
 import cc.hyperium.mods.blockoverlay.BlockOverlay;
 import cc.hyperium.mods.chromahud.ChromaHUD;
 import cc.hyperium.mods.fortnitecompass.FortniteCompassMod;
@@ -55,6 +56,7 @@ public class HyperiumModIntegration {
     private final ChromaHUD chromaHUD;
     private final Autotip autotip;
     private final AutoGG autogg;
+    private final AutoTPA autoTPA;
     private final HGames hgames;
     private final GlintColorizer glintcolorizer;
     private final BlockOverlay blockOverlay;
@@ -93,6 +95,9 @@ public class HyperiumModIntegration {
 
         // AutoGG implementation
         this.autogg = ((AutoGG) new AutoGG().init());
+
+        // AutoTPA implementation
+        this.autoTPA = (AutoTPA)new AutoTPA().init();
 
         // HGames implementation
         this.hgames = ((HGames) new HGames().init());
@@ -167,6 +172,10 @@ public class HyperiumModIntegration {
 
     public AutoGG getAutoGG() {
         return autogg;
+    }
+
+    public AutoTPA getAutoTPA() {
+        return autoTPA;
     }
 
     public HGames getHGames() {

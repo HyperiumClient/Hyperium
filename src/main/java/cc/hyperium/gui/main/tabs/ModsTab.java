@@ -53,6 +53,7 @@ public class ModsTab extends AbstractTab {
     private final HyperiumOverlay chromahud = new HyperiumOverlay("ChromaHUD");
     private final HyperiumOverlay animations = new HyperiumOverlay("Animations");
     private final HyperiumOverlay autoGG = new HyperiumOverlay("AutoGG");
+    private final HyperiumOverlay autoTPA = new HyperiumOverlay("AutoTPA");
     private final HyperiumOverlay autoFriend = new HyperiumOverlay("AutoFriend");
     private final HyperiumOverlay spotify = new HyperiumOverlay("Spotify");
     private final HyperiumOverlay utils = new HyperiumOverlay("Utilities");
@@ -94,6 +95,7 @@ public class ModsTab extends AbstractTab {
         items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(animations), Icons.COSMETIC.getResource(), "1.7 Animations", "Adjust the Minecraft Animations", "Click to configure", 0, 3));
         items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(spotify), Icons.SETTINGS.getResource(), "Spotify Settings", "Adjust Spotify integration settings", "Click to configure", 1, 3));
         items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(autoGG), Icons.SETTINGS.getResource(), "AutoGG", "AutoGG \n /autogg", "Click to configure", 2, 3));
+        items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(autoTPA), Icons.SETTINGS.getResource(), "AutoTPA", "AutoTPA \n /autotpa", "Click to configure", 2, 3));
         items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(autoFriend), Icons.SETTINGS.getResource(), "AutoFriend", "AutoFriend automatically accepts friend requests", "Click to configure", 0, 4));
         items.add(new SettingItem(() -> Minecraft.getMinecraft().displayGuiScreen(new GuiCustomCrosshairEditCrosshair(CustomCrosshairAddon.getCrosshairMod())), Icons.SETTINGS.getResource(), "Custom Crosshair", "Custom Crosshair Settings", "Click to configure", 1, 4));
         items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(utils), Icons.SETTINGS.getResource(), "Utilities", "Togglesprint", "", 2, 3));
@@ -238,6 +240,8 @@ public class ModsTab extends AbstractTab {
                 return chromahud;
             case AUTO_GG:
                 return autoGG;
+            case AUTO_TPA:
+                return autoTPA;
             case ANIMATIONS:
                 return animations;
             case SPOTIFY:
