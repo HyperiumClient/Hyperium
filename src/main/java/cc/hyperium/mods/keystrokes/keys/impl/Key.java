@@ -19,12 +19,13 @@ package cc.hyperium.mods.keystrokes.keys.impl;
 
 import cc.hyperium.mods.keystrokes.KeystrokesMod;
 import cc.hyperium.mods.keystrokes.keys.IKey;
-import java.awt.Color;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.settings.KeyBinding;
 import org.lwjgl.input.Keyboard;
+
+import java.awt.Color;
 
 public class Key extends IKey {
 
@@ -37,13 +38,21 @@ public class Key extends IKey {
         this.key = key;
     }
 
+    private int isSelfDown() {
+        try {
+            return Keyboard.isKeyDown(this.key.getKeyCode()) ? 1 : 0;
+        } catch (Exception e) {
+            return -1;
+        }
+    }
+
     @Override
     public void renderKey(int x, int y) {
         Keyboard.poll();
-        boolean pressed = Keyboard.isKeyDown(this.key.getKeyCode());
+        int pressed = isSelfDown();
         String name = Keyboard.getKeyName(this.key.getKeyCode());
-        if (pressed != this.wasPressed) {
-            this.wasPressed = pressed;
+        if ((pressed == 1) != this.wasPressed) {
+            this.wasPressed = pressed == 1;
             this.lastPress = System.currentTimeMillis();
         }
 
@@ -53,12 +62,16 @@ public class Key extends IKey {
         double textBrightness;
         int color;
 
-        if (pressed) {
+        if (pressed==1) {
             color = Math.min(255, (int) ((this.mod.getSettings().getFadeTime() * 5) * (System.currentTimeMillis() - this.lastPress)));
             textBrightness = Math.max(0.0D, 1.0D - (double) (System.currentTimeMillis() - this.lastPress) / (this.mod.getSettings().getFadeTime() * 5));
-        } else {
+        } else if(pressed == 0){
             color = Math.max(0, 255 - (int) ((this.mod.getSettings().getFadeTime() * 5) * (System.currentTimeMillis() - this.lastPress)));
             textBrightness = Math.min(1.0D, (double) (System.currentTimeMillis() - this.lastPress) / (this.mod.getSettings().getFadeTime() * 5));
+        } else {
+            color = 255;
+            textBrightness = Math.min(1.0D, (double) (System.currentTimeMillis() - this.lastPress) / (this.mod.getSettings().getFadeTime() * 5));
+
         }
 
         Gui.drawRect(x + this.xOffset, y + this.yOffset, x + this.xOffset + 22, y + this.yOffset + 22, new Color(0, 0, 0, 120).getRGB() + (color << 16) + (color << 8) + color);
@@ -75,7 +88,7 @@ public class Key extends IKey {
         float scaleFactor = 1.0F;
 
         // Check if text will overflow outside of the box.
-        if(stringWidth > keyWidth){
+        if (stringWidth > keyWidth) {
             scaleFactor = (float) keyWidth / stringWidth;
         }
 
@@ -84,11 +97,11 @@ public class Key extends IKey {
         float xPos = (x + this.xOffset + 8);
         float yPos = (y + this.yOffset + 8);
 
-        GlStateManager.scale(scaleFactor,scaleFactor,1.0F);
+        GlStateManager.scale(scaleFactor, scaleFactor, 1.0F);
 
 
-        if(scaleFactor != 1.0F){
-            float scaleFactorRec = 1/scaleFactor;
+        if (scaleFactor != 1.0F) {
+            float scaleFactorRec = 1 / scaleFactor;
 
             // Text has been scaled down to fit the box so draw at start of box.
             xPos = ((x + this.xOffset) * scaleFactorRec) + 1;
@@ -96,15 +109,15 @@ public class Key extends IKey {
             // Scale Y value.
             yPos *= scaleFactorRec;
 
-        } else if(name.length() > 1){
+        } else if (name.length() > 1) {
             // Centres text if it fits in the box but is longer than one character.
-            xPos -= stringWidth/4;
+            xPos -= stringWidth / 4;
         }
 
         if (this.mod.getSettings().isChroma()) {
             drawChromaString(name, (int) xPos, (int) yPos);
         } else {
-            this.mc.fontRendererObj.drawString(name, (int) xPos, (int) yPos, pressed ? pressedColor : colorN);
+            this.mc.fontRendererObj.drawString(name, (int) xPos, (int) yPos, pressed ==1 ? pressedColor : (pressed == 0 ?colorN : Color.RED.getRGB()));
         }
         GlStateManager.popMatrix();
     }
