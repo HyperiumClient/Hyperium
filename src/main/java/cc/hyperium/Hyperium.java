@@ -112,7 +112,7 @@ public class Hyperium {
      */
 
     public static final DefaultConfig CONFIG = new DefaultConfig(new File(folder, "CONFIG.json"));
-    private static String BUILD_ID = "RELEASE " + Metadata.getVersionID();
+    public static final String BUILD_ID = "RELEASE " + Metadata.getVersionID();
     private static boolean updateQueue = false;
     private final GeneralStatisticsTracking statTrack = new GeneralStatisticsTracking();
     private final NotificationCenter notification = new NotificationCenter();
