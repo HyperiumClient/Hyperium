@@ -18,6 +18,7 @@
 package cc.hyperium.mixins.world;
 
 import cc.hyperium.mixinsimp.world.HyperiumWorld;
+import java.util.List;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.EnumSkyBlock;
@@ -31,9 +32,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-
-import java.util.Collection;
-import java.util.List;
 
 @Mixin(World.class)
 public abstract class MixinWorld {
@@ -139,32 +137,6 @@ public abstract class MixinWorld {
         hyperiumWorld.getLight(pos, checkNeighbors, ci);
     }
 
-    /**
-     * @author Amplifiable
-     * @reason Events
-     */
-    @Overwrite
-    public void joinEntityInSurroundings(Entity entity) {
-        hyperiumWorld.joinEntityInSurroundings(entity);
-    }
-
-    /**
-     * @author Amplifiable
-     * @reason Events
-     */
-    @Overwrite
-    public boolean spawnEntityInWorld(Entity entity) {
-        return hyperiumWorld.spawnEntityInWorld(entity);
-    }
-
-    /**
-     * @author Amplifiable
-     * @reason Events
-     */
-    @Inject(method = "loadEntities", at = @At(value = "INVOKE", target = "Ljava/util/List;addAll(Ljava/util/Collection;)Z", shift = At.Shift.AFTER))
-    public void loadEntities(Collection<Entity> entityCollection, CallbackInfo info) {
-       hyperiumWorld.loadEntities(entityCollection);
-    }
 //    @Inject(method = "removeEntity",at=@At("HEAD"))
 //    public void loadEntity(Entity entity, CallbackInfo info) {
 //        hyperiumWorld.removeEntity(entity);

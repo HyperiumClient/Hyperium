@@ -277,8 +277,6 @@ class PurchaseLoadEvent(val uuid: UUID, val purchase: HyperiumPurchase, val self
 
 class FriendRemoveEvent(val fullName: String, val name: String)
 
-class EntityJoinWorldEvent(val entity: Entity)
-
 class ArrowShootEvent(val arrow: EntityArrow, val charge: Int, val bow: ItemStack)
 
 class LivingDeathEvent(val entity: EntityLivingBase, val cause: DamageSource)
