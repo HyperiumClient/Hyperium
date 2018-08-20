@@ -33,6 +33,7 @@ import cc.hyperium.mods.oldanimations.OldAnimations;
 import cc.hyperium.mods.playtime.PlayTime;
 import cc.hyperium.mods.skinchanger.SkinChangerMod;
 import cc.hyperium.mods.spotify.SpotifyControls;
+import cc.hyperium.mods.tabtoggle.TabToggleMod;
 import cc.hyperium.mods.timechanger.TimeChanger;
 import cc.hyperium.mods.togglechat.ToggleChatMod;
 import cc.hyperium.mods.utilities.UtilitiesMod;
@@ -63,6 +64,7 @@ public class HyperiumModIntegration {
     private final AutofriendMod autofriend;
     private final PlayTime playTime;
     private final FortniteCompassMod fncompass;
+    private final TabToggleMod tabToggle;
 
     public HyperiumModIntegration() {
         // ChromaHud implementation
@@ -124,6 +126,7 @@ public class HyperiumModIntegration {
 
         this.fncompass = (FortniteCompassMod) new FortniteCompassMod().init();
 
+        this.tabToggle = (TabToggleMod) new TabToggleMod().init();
     }
 
     public KeystrokesMod getKeystrokesMod() {
@@ -200,5 +203,9 @@ public class HyperiumModIntegration {
 
     public FortniteCompassMod getFncompass() {
         return fncompass;
+    }
+
+    public TabToggleMod getTabToggle() {
+        return tabToggle;
     }
 }
