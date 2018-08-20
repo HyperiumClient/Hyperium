@@ -141,7 +141,7 @@ public class DynoGame extends HyperiumGui {
         private final GuiBlock hitbox;
         private int xLoc;
 
-        public Bush(int xLoc) {
+        Bush(int xLoc) {
             this.xLoc = xLoc;
             hitbox = new GuiBlock(xLoc - 10, xLoc + 10, GAME_LEVEL - 20, GAME_LEVEL);
         }
