@@ -30,7 +30,7 @@ val MODID
 
 val VERSION
     @JvmName("getVersion")
-    get() = "1.0 - Beta B23.1"
+    get() = "1.0 - Beta B24"
 
 val AUTHORS
     @JvmName("getAuthors")
