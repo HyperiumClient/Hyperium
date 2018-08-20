@@ -17,6 +17,7 @@ import cc.hyperium.gui.main.components.OverlayButton;
 import cc.hyperium.gui.main.components.OverlayLabel;
 import cc.hyperium.gui.main.components.OverlaySelector;
 import cc.hyperium.gui.main.components.OverlaySlider;
+import cc.hyperium.gui.main.components.OverlayToggle;
 import cc.hyperium.gui.main.components.SettingItem;
 import cc.hyperium.integrations.spotify.Spotify;
 import cc.hyperium.mods.blockoverlay.BlockOverlayGui;
@@ -28,6 +29,7 @@ import cc.hyperium.mods.levelhead.Levelhead;
 import cc.hyperium.mods.levelhead.guis.LevelHeadGui;
 import cc.hyperium.mods.motionblur.MotionBlurMod;
 import cc.hyperium.mods.spotify.SpotifyGui;
+import cc.hyperium.mods.tabtoggle.TabToggleSettings;
 import cc.hyperium.mods.togglechat.gui.ToggleChatMainGui;
 import java.awt.Color;
 import java.lang.reflect.Field;
@@ -51,6 +53,7 @@ public class ModsTab extends AbstractTab {
     private final HyperiumOverlay chromahud = new HyperiumOverlay("ChromaHUD");
     private final HyperiumOverlay animations = new HyperiumOverlay("Animations");
     private final HyperiumOverlay autoGG = new HyperiumOverlay("AutoGG");
+    private final HyperiumOverlay autoTPA = new HyperiumOverlay("AutoTPA");
     private final HyperiumOverlay autoFriend = new HyperiumOverlay("AutoFriend");
     private final HyperiumOverlay spotify = new HyperiumOverlay("Spotify");
     private final HyperiumOverlay utils = new HyperiumOverlay("Utilities");
@@ -92,6 +95,7 @@ public class ModsTab extends AbstractTab {
         items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(animations), Icons.COSMETIC.getResource(), "1.7 Animations", "Adjust the Minecraft Animations", "Click to configure", 0, 3));
         items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(spotify), Icons.SETTINGS.getResource(), "Spotify Settings", "Adjust Spotify integration settings", "Click to configure", 1, 3));
         items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(autoGG), Icons.SETTINGS.getResource(), "AutoGG", "AutoGG \n /autogg", "Click to configure", 2, 3));
+        items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(autoTPA), Icons.SETTINGS.getResource(), "AutoTPA", "AutoTPA \n /autotpa", "Click to configure", 2, 3));
         items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(autoFriend), Icons.SETTINGS.getResource(), "AutoFriend", "AutoFriend automatically accepts friend requests", "Click to configure", 0, 4));
         items.add(new SettingItem(() -> Minecraft.getMinecraft().displayGuiScreen(new GuiCustomCrosshairEditCrosshair(CustomCrosshairAddon.getCrosshairMod())), Icons.SETTINGS.getResource(), "Custom Crosshair", "Custom Crosshair Settings", "Click to configure", 1, 4));
         items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(utils), Icons.SETTINGS.getResource(), "Utilities", "Togglesprint", "", 2, 3));
@@ -202,6 +206,11 @@ public class ModsTab extends AbstractTab {
         }));
         utils.getComponents().add(new OverlayLabel("Toggle sprint is current bound to " + getBindName(Hyperium.INSTANCE.getHandlers().getKeybindHandler().getBind().getKeyCode()), true, () -> {
         }));
+        utils.getComponents().add(new OverlayToggle("Tab toggle enabled", TabToggleSettings.ENABLED, aBoolean -> {
+          TabToggleSettings.ENABLED = aBoolean;
+          if (!aBoolean)
+            TabToggleSettings.TAB_TOGGLED = false;
+        }, true));
         chromahud.getComponents().add(new OverlayLabel("Run /chromahud or click here to access more settings", true, () -> {
             if (Minecraft.getMinecraft().thePlayer != null)
                 new GeneralConfigGui(((ChromaHUD) Hyperium.INSTANCE.getModIntegration().getChromaHUD())).display();
@@ -231,6 +240,8 @@ public class ModsTab extends AbstractTab {
                 return chromahud;
             case AUTO_GG:
                 return autoGG;
+            case AUTO_TPA:
+                return autoTPA;
             case ANIMATIONS:
                 return animations;
             case SPOTIFY:

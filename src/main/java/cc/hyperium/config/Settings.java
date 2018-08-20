@@ -234,6 +234,9 @@ public class Settings {
     @SelectorSetting(name = "Flip Type", category = COSMETICS, items = {})//OVERRIDEN
     public static String FLIP_TYPE_STRING = "FLIP";
 
+    @ConfigOpt(alt = "cc.hyperium.gui.settings.items.CosmeticSettings;tposetoggle")
+    @ToggleSetting(name = "TPose - Toggle Mode", category = COSMETICS)
+    public static boolean TPOSE_TOGGLE_MODE = true;
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.BackgroundSettings;backgroundSelect")
     @SelectorSetting(name = "Background", category = MISC, items =

@@ -10,8 +10,16 @@ import cc.hyperium.purchases.PurchaseApi;
 import cc.hyperium.utils.JsonHolder;
 import cc.hyperium.utils.RenderUtils;
 import cc.hyperium.utils.UUIDUtil;
-import java.awt.Color;
-import java.awt.Desktop;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiTextField;
+import net.minecraft.client.gui.GuiYesNoCallback;
+import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.texture.DynamicTexture;
+
+import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,15 +28,8 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
-import javax.imageio.ImageIO;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiTextField;
-import net.minecraft.client.gui.GuiYesNoCallback;
-import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.texture.DynamicTexture;
 
 public class CapesGui extends HyperiumGui implements GuiYesNoCallback {
 
@@ -329,7 +330,7 @@ public class CapesGui extends HyperiumGui implements GuiYesNoCallback {
     public void updatePurchases() {
         Multithreading.runAsync(() -> {
             cosmeticCallback = PurchaseApi.getInstance().get(
-                "https://api.hyperium.cc/cosmetics/" + UUIDUtil.getClientUUID().toString()
+                "https://api.hyperium.cc/cosmetics/" + Objects.requireNonNull(UUIDUtil.getClientUUID()).toString()
                     .replace("-", ""));
             purchasing = false;
         });

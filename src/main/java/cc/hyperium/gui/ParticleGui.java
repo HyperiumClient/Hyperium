@@ -31,6 +31,7 @@ import org.lwjgl.input.Keyboard;
 import java.awt.Color;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Objects;
 
 /**
  * Created by mitchellkatz on 6/25/18. Designed for production use on Sk1er.club
@@ -146,7 +147,7 @@ public class ParticleGui extends HyperiumGui implements GuiYesNoCallback {
                 }, () -> new String[]{"DEFAULT", "RGB", "CHROMA"}));
                 overlay.getComponents().add(new OverlaySlider("Red", 0, 255, particle.optInt("red", 255), aFloat -> {
                     particle.put("red", aFloat);
-                    EventBus.INSTANCE.post(new PurchaseLoadEvent(UUIDUtil.getClientUUID(), self, true));
+                    EventBus.INSTANCE.post(new PurchaseLoadEvent(Objects.requireNonNull(UUIDUtil.getClientUUID()), self, true));
                     NettyClient client = NettyClient.getClient();
                     if (client != null) {
                         client.write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("particle_update", true).put("red", aFloat.intValue())));
@@ -154,7 +155,7 @@ public class ParticleGui extends HyperiumGui implements GuiYesNoCallback {
                 }, true));
                 overlay.getComponents().add(new OverlaySlider("Green", 0, 255, particle.optInt("green", 255), aFloat -> {
                     particle.put("green", aFloat);
-                    EventBus.INSTANCE.post(new PurchaseLoadEvent(UUIDUtil.getClientUUID(), self, true));
+                    EventBus.INSTANCE.post(new PurchaseLoadEvent(Objects.requireNonNull(UUIDUtil.getClientUUID()), self, true));
                     NettyClient client = NettyClient.getClient();
                     if (client != null) {
                         client.write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("particle_update", true).put("green", aFloat.intValue())));
@@ -162,7 +163,7 @@ public class ParticleGui extends HyperiumGui implements GuiYesNoCallback {
                 }, true));
                 overlay.getComponents().add(new OverlaySlider("Blue", 0, 255, particle.optInt("blue", 255), aFloat -> {
                     particle.put("blue", aFloat);
-                    EventBus.INSTANCE.post(new PurchaseLoadEvent(UUIDUtil.getClientUUID(), self, true));
+                    EventBus.INSTANCE.post(new PurchaseLoadEvent(Objects.requireNonNull(UUIDUtil.getClientUUID()), self, true));
                     NettyClient client = NettyClient.getClient();
                     if (client != null) {
                         client.write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("particle_update", true).put("blue", aFloat.intValue())));
@@ -332,10 +333,10 @@ public class ParticleGui extends HyperiumGui implements GuiYesNoCallback {
                 }
                 PurchaseApi.getInstance().getSelf().getPurchaseSettings().merge(oldsettings, true);
 
-                EventBus.INSTANCE.post(new PurchaseLoadEvent(UUIDUtil.getClientUUID(), self, true));
+                EventBus.INSTANCE.post(new PurchaseLoadEvent(Objects.requireNonNull(UUIDUtil.getClientUUID()), self, true));
                 new ParticleGui().show();
             });
-            EventBus.INSTANCE.post(new PurchaseLoadEvent(UUIDUtil.getClientUUID(), self, true));
+            EventBus.INSTANCE.post(new PurchaseLoadEvent(Objects.requireNonNull(UUIDUtil.getClientUUID()), self, true));
 
             return;
         }

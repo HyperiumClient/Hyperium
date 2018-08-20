@@ -24,12 +24,12 @@ public class BlurDisableFallback {
 
         // Clear shaders on disable.
         if (mc != null && mc.entityRenderer != null) {
-            if(loadedBlur == false){
+            if(!loadedBlur){
                 // Loads blur setting for first time.
                 loadedBlur = true;
                 initialBlur = Settings.BLUR_GUI;
             }
-            if(Settings.BLUR_GUI == false && Settings.BLUR_GUI != initialBlur){
+            if(!Settings.BLUR_GUI && Settings.BLUR_GUI != initialBlur){
                 // Blur was just disabled.
                 mc.addScheduledTask(() ->
                     mc.entityRenderer.stopUseShader());
