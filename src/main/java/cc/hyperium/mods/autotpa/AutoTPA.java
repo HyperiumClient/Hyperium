@@ -10,6 +10,7 @@ import cc.hyperium.mods.autotpa.commands.AutoTPACommand;
 import cc.hyperium.mods.autotpa.config.AutoTPAConfig;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.utils.ChatColor;
+
 import org.apache.commons.io.IOUtils;
 
 import java.net.URL;
@@ -19,6 +20,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class AutoTPA extends AbstractMod {
+    
     private static String trigger;
     private final Metadata meta;
     private AutoTPAConfig config;
@@ -36,8 +38,10 @@ public class AutoTPA extends AbstractMod {
         Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(new AutoTPACommand(this));
         Multithreading.POOL.submit(() -> {
             try {
+                // This file will probably be moved away from your
+                // github and into the hyperium repo in the future. 
                 trigger = IOUtils.toString(
-                        new URL("https://gist.githubusercontent.com/SiroQ/d9fa3fd8c5ef76ded5365c2cecdb28e4/raw/126b845dbb0d4570600c9135005d2c7891e1ee36/tpatrigger.txt"),
+                        new URL("https://gist.githubusercontent.com/SiroQ/d9fa3fd8c5ef76ded5365c2cecdb28e4/raw/tpatrigger.txt"),
                         Charset.forName("UTF-8")
                 );
             } catch (Exception e) {
