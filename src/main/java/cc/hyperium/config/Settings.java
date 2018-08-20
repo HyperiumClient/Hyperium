@@ -17,9 +17,6 @@
 
 package cc.hyperium.config;
 
-import cc.hyperium.GuiStyle;
-import cc.hyperium.Hyperium;
-
 import static cc.hyperium.config.Category.ANIMATIONS;
 import static cc.hyperium.config.Category.CHROMAHUD;
 import static cc.hyperium.config.Category.COSMETICS;
@@ -31,6 +28,9 @@ import static cc.hyperium.config.Category.REACH;
 import static cc.hyperium.config.Category.SPOTIFY;
 import static cc.hyperium.config.Category.UTILITIES;
 import static cc.hyperium.config.Category.VANILLA_ENCHANTMENTS;
+
+import cc.hyperium.GuiStyle;
+import cc.hyperium.Hyperium;
 
 /*
  * Created by Cubxity on 03/06/2018
@@ -168,6 +168,10 @@ public class Settings {
     @ToggleSetting(category = COSMETICS, name = "Show Particle Auras")
     public static boolean SHOW_PARTICLES = true;
 
+    @ConfigOpt(alt = "cc.hyperium.handlers.handlers.OtherConfigOptions;showCosmeticsEveryWhere")
+    @ToggleSetting(category = COSMETICS, name = "Show Cosmetics Everywhere")
+    public static boolean SHOW_COSMETICS_EVERYWHERE = true;
+
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.CosmeticSettings;dabToggle")
     public static boolean DAB_TOGGLE = false;
 
@@ -303,10 +307,6 @@ public class Settings {
     @ConfigOpt(alt = "cc.hyperium.handlers.handlers.OtherConfigOptions;savePreviusChatMessages")
     @ToggleSetting(category = GENERAL, name = "Persistent Chat Messages")
     public static boolean PERSISTENT_CHAT = false;
-
-    @ConfigOpt(alt = "cc.hyperium.handlers.handlers.OtherConfigOptions;showCosmeticsEveryWhere")
-    @ToggleSetting(category = COSMETICS, name = "Show Cosmetics Everywhere")
-    public static boolean SHOW_COSMETICS_EVERYWHERE = true;
 
     @ConfigOpt(alt = "cc.hyperium.handlers.handlers.OtherConfigOptions;friendsFirstIntag")
     @ToggleSetting(category = GENERAL, name = "Friends First In Tab")
