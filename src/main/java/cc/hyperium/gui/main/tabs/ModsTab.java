@@ -17,6 +17,7 @@ import cc.hyperium.gui.main.components.OverlayButton;
 import cc.hyperium.gui.main.components.OverlayLabel;
 import cc.hyperium.gui.main.components.OverlaySelector;
 import cc.hyperium.gui.main.components.OverlaySlider;
+import cc.hyperium.gui.main.components.OverlayToggle;
 import cc.hyperium.gui.main.components.SettingItem;
 import cc.hyperium.integrations.spotify.Spotify;
 import cc.hyperium.mods.blockoverlay.BlockOverlayGui;
@@ -28,6 +29,7 @@ import cc.hyperium.mods.levelhead.Levelhead;
 import cc.hyperium.mods.levelhead.guis.LevelHeadGui;
 import cc.hyperium.mods.motionblur.MotionBlurMod;
 import cc.hyperium.mods.spotify.SpotifyGui;
+import cc.hyperium.mods.tabtoggle.TabToggleSettings;
 import cc.hyperium.mods.togglechat.gui.ToggleChatMainGui;
 import java.awt.Color;
 import java.lang.reflect.Field;
@@ -202,6 +204,11 @@ public class ModsTab extends AbstractTab {
         }));
         utils.getComponents().add(new OverlayLabel("Toggle sprint is current bound to " + getBindName(Hyperium.INSTANCE.getHandlers().getKeybindHandler().getBind().getKeyCode()), true, () -> {
         }));
+        utils.getComponents().add(new OverlayToggle("Tab toggle enabled", TabToggleSettings.ENABLED, aBoolean -> {
+          TabToggleSettings.ENABLED = aBoolean;
+          if (!aBoolean)
+            TabToggleSettings.TAB_TOGGLED = false;
+        }, true));
         chromahud.getComponents().add(new OverlayLabel("Run /chromahud or click here to access more settings", true, () -> {
             if (Minecraft.getMinecraft().thePlayer != null)
                 new GeneralConfigGui(((ChromaHUD) Hyperium.INSTANCE.getModIntegration().getChromaHUD())).display();
