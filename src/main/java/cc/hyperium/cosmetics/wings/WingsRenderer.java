@@ -44,8 +44,16 @@ public class WingsRenderer extends ModelBase {
     @InvokeEvent
     public void onRenderPlayer(RenderPlayerEvent event) {
         EntityPlayer player = event.getEntity();
-        if (wingsCosmetic.isPurchasedBy(event.getEntity().getUniqueID()) && !player.isInvisible() && (Settings.SHOW_WINGS.equals("ON"))) {
-            this.renderWings(player, event.getPartialTicks(), event.getX(), event.getY(), event.getZ());
+        if (wingsCosmetic.isPurchasedBy(event.getEntity().getUniqueID()) && !player.isInvisible()) {
+            if(player == mc.thePlayer){
+                // Will only render your wings if you have them enabled.
+                if(Settings.SHOW_WINGS.equalsIgnoreCase("ON")){
+                    this.renderWings(player, event.getPartialTicks(), event.getX(), event.getY(), event.getZ());
+                }
+            } else {
+                this.renderWings(player, event.getPartialTicks(), event.getX(), event.getY(),
+                    event.getZ());
+            }
         }
     }
 

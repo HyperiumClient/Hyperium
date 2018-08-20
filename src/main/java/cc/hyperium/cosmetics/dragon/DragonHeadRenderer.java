@@ -80,17 +80,29 @@ public class DragonHeadRenderer extends ModelBase {
     }
 
     @InvokeEvent
-    private void onRenderPlayer(final RenderPlayerEvent event) {
-        if (dragonCosmetic.isPurchasedBy(event.getEntity().getUniqueID()) && !event.getEntity().isInvisible() && Settings.SHOW_DRAGON_HEAD.equals("ON")) {
+    private void onRenderPlayer(RenderPlayerEvent event) {
+        EntityPlayer entity = event.getEntity();
+        if (dragonCosmetic.isPurchasedBy(entity.getUniqueID()) && !entity.isInvisible() && Settings.SHOW_DRAGON_HEAD.equals("ON")) {
             HyperiumPurchase packageIfReady = PurchaseApi.getInstance().getPackageIfReady(event.getEntity().getUniqueID());
             if (packageIfReady == null)
                 return;
             if (packageIfReady.getPurchaseSettings().optJSONObject("dragon").optBoolean("disabled"))
                 return;
-            GlStateManager.pushMatrix();
-            GlStateManager.translate(event.getX(), event.getY(), event.getZ());
-            this.renderHead(event.getEntity(), event.getPartialTicks());
-            GlStateManager.popMatrix();
+
+            if(entity == mc.thePlayer){
+                // Will only render your dragon head if you have it enabled.
+                if(Settings.SHOW_DRAGON_HEAD.equalsIgnoreCase("ON")){
+                    GlStateManager.pushMatrix();
+                    GlStateManager.translate(event.getX(), event.getY(), event.getZ());
+                    this.renderHead(event.getEntity(), event.getPartialTicks());
+                    GlStateManager.popMatrix();
+                }
+            } else {
+                GlStateManager.pushMatrix();
+                GlStateManager.translate(event.getX(), event.getY(), event.getZ());
+                this.renderHead(event.getEntity(), event.getPartialTicks());
+                GlStateManager.popMatrix();
+            }
         }
 
     }
