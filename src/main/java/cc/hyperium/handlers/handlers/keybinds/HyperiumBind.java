@@ -188,6 +188,9 @@ public class HyperiumBind{
 
         // Check for conflicts with other Hyperium binds.
         for (HyperiumBind hyperiumBind :otherBinds){
+            if(hyperiumBind.conflictExempt){
+                continue;
+            }
             int keyCode = hyperiumBind.getKeyCode();
 
             if(currentKeyCode == keyCode){

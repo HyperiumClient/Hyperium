@@ -43,6 +43,9 @@ public class WingsRenderer extends ModelBase {
 
     @InvokeEvent
     public void onRenderPlayer(RenderPlayerEvent event) {
+        if(!Settings.SHOW_COSMETICS_EVERYWHERE && !Hyperium.INSTANCE.getHandlers().getLocationHandler().isLobbyOrHousing()){
+            return;
+        }
         EntityPlayer player = event.getEntity();
         if (wingsCosmetic.isPurchasedBy(event.getEntity().getUniqueID()) && !player.isInvisible()) {
             if(player == mc.thePlayer){
