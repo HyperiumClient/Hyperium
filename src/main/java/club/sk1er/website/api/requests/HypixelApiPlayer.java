@@ -17,6 +17,7 @@
 
 package club.sk1er.website.api.requests;
 
+import cc.hyperium.Hyperium;
 import cc.hyperium.utils.JsonHolder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -70,7 +71,7 @@ public class HypixelApiPlayer implements HypixelApiObject {
     }
 
     public boolean isValid() {
-        return player != null && !player.isNull("player");
+        return player != null && !player.isNull("player") && player.has("player");
     }
 
     @Override
@@ -115,6 +116,13 @@ public class HypixelApiPlayer implements HypixelApiObject {
         return getRoot().optInt("points");
     }
 
+    public boolean isInGuild() {
+        return getGuild().isValid();
+    }
+
+    public HypixelApiGuild getGuild() {
+        return Hyperium.INSTANCE.getHandlers().getDataHandler().getGuild(getUUID());
+    }
 
     public int getTotalCoins() {
         return getRoot().optInt("coins");
@@ -183,7 +191,7 @@ public class HypixelApiPlayer implements HypixelApiObject {
     }
 
     public boolean isLoaded() {
-        return !player.getKeys().isEmpty();
+        return !player.optBoolean("unloaded");
     }
 
     public String getDisplayString() {

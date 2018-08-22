@@ -22,6 +22,7 @@ import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.mods.sk1ercommon.Sk1erMod;
 import cc.hyperium.utils.JsonHolder;
+import club.sk1er.website.api.requests.HypixelApiGuild;
 import club.sk1er.website.api.requests.HypixelApiPlayer;
 import net.minecraft.client.Minecraft;
 
@@ -40,10 +41,12 @@ public class ApiDataHandler {
     private JsonHolder friends = new JsonHolder();
     private HypixelApiPlayer player = new HypixelApiPlayer(new JsonHolder());
     private List<UUID> friendUUIDList = new ArrayList<>();
+    private ConcurrentHashMap<String, HypixelApiGuild> guilds = new ConcurrentHashMap<>();
 
     public ApiDataHandler() {
 
     }
+
     public void post() {
         Multithreading.schedule(() -> {
             try {
@@ -58,17 +61,16 @@ public class ApiDataHandler {
     public HypixelApiPlayer getPlayer(String name) {
         return otherPlayers.computeIfAbsent(name.toLowerCase(), s -> {
             Multithreading.runAsync(() -> {
-                HypixelApiPlayer player = new HypixelApiPlayer(new JsonHolder(Sk1erMod.getInstance().
-                        rawWithAgent("https://sk1er.club/data/" +
-                                s +
-                                "/" + Sk1erMod.getInstance().getApIKey())));
+                String raw = Sk1erMod.getInstance().
+                        rawWithAgent("https://sk1er.club/data/" + s);
+                HypixelApiPlayer player = new HypixelApiPlayer(new JsonHolder(raw));
                 player.getRoot().put("localCache", System.currentTimeMillis());
                 if (otherPlayers.size() > 1000)
                     otherPlayers.clear();
                 otherPlayers.put(name.toLowerCase(), player);
 
             });
-            return new HypixelApiPlayer(new JsonHolder());
+            return new HypixelApiPlayer(new JsonHolder().put("unloaded", true));
         });
 
     }
@@ -109,7 +111,6 @@ public class ApiDataHandler {
         return friends;
     }
 
-
     private void refreshPlayer() {
         if (player.getRoot().optBoolean("fetching"))
             return;
@@ -132,5 +133,19 @@ public class ApiDataHandler {
         if (System.currentTimeMillis() - player.getRoot().optLong("localCache") > 1000 * 60 * 5)
             refreshPlayer();
         return player;
+    }
+
+    public HypixelApiGuild getGuild(String uuid) {
+        return guilds.computeIfAbsent(uuid.toLowerCase(), s -> {
+            Multithreading.runAsync(() -> {
+                String raw = Sk1erMod.getInstance().
+                        rawWithAgent("https://sk1er.club/modquery//guild/player/" + s);
+                HypixelApiGuild guild = new HypixelApiGuild(new JsonHolder(raw));
+                guild.getRoot().put("localCache", System.currentTimeMillis());
+                guilds.put(uuid.toLowerCase(), guild);
+            });
+            return new HypixelApiGuild(new JsonHolder().put("unloaded", true));
+        });
+
     }
 }

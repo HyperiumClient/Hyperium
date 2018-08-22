@@ -38,6 +38,7 @@ import cc.hyperium.handlers.handlers.keybinds.keybinds.ToggleSpotifyKeybind;
 import cc.hyperium.handlers.handlers.keybinds.keybinds.ToggleSprintKeybind;
 import cc.hyperium.handlers.handlers.keybinds.keybinds.TwerkDanceKeybind;
 import cc.hyperium.handlers.handlers.keybinds.keybinds.UploadScreenshotKeybind;
+import cc.hyperium.handlers.handlers.keybinds.keybinds.ViewStatsKeybind;
 import net.minecraft.client.Minecraft;
 import org.lwjgl.input.Keyboard;
 
@@ -75,6 +76,7 @@ public class KeyBindHandler {
         registerKeyBinding(new QueueKeybind());
         registerKeyBinding(new DabKeybind());
         registerKeyBinding(new FlipKeybind());
+        registerKeyBinding(new ViewStatsKeybind());
         registerKeyBinding(new FlossKeybind());
         registerKeyBinding(new ToggleSpotifyKeybind());
         bind = new ToggleSprintKeybind();

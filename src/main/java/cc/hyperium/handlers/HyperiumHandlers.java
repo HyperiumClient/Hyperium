@@ -35,6 +35,7 @@ import cc.hyperium.handlers.handlers.HypixelDetector;
 import cc.hyperium.handlers.handlers.LocationHandler;
 import cc.hyperium.handlers.handlers.OtherConfigOptions;
 import cc.hyperium.handlers.handlers.RenderPlayerAsBlock;
+import cc.hyperium.handlers.handlers.stats.StatsHandler;
 import cc.hyperium.handlers.handlers.StatusHandler;
 import cc.hyperium.handlers.handlers.TimeTrackHandler;
 import cc.hyperium.handlers.handlers.ValueHandler;
@@ -109,7 +110,9 @@ public class HyperiumHandlers {
     private TPoseHandler tPoseHandler;
     private FortniteDefaultDance fortniteDefaultDance;
     private TwerkDance twerkDance;
+    private StatsHandler statsHandler;
     private FortniteHypeDance fortniteHypeDance;
+    private BroadcastEvents broadcastEvents;
 
     public HyperiumHandlers() {
         System.out.println("Loading handlers");
@@ -145,6 +148,7 @@ public class HyperiumHandlers {
         register(tPoseHandler = new TPoseHandler());
         register(fortniteDefaultDance = new FortniteDefaultDance());
         register(fortniteHypeDance = new FortniteHypeDance());
+        register(statsHandler = new StatsHandler());
         register(broadcastEvents = new BroadcastEvents());
         commandQueue = new CommandQueue();
         dataHandler = new ApiDataHandler();
@@ -166,7 +170,11 @@ public class HyperiumHandlers {
         //Command Handler
         register(commandHandler = new HyperiumCommandHandler());
     }
-    private BroadcastEvents broadcastEvents;
+
+    public StatsHandler getStatsHandler() {
+        return statsHandler;
+    }
+
     public FortniteHypeDance getFortniteHypeDance() {
         return fortniteHypeDance;
     }
