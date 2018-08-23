@@ -202,6 +202,10 @@ public class HypixelApiPlayer implements HypixelApiObject {
         return Rank.get(getRankForMod().toUpperCase());
     }
 
+    public int getFriendCount() {
+        return getRoot().optInt("friends");
+    }
+
     enum Rank {
         ADMIN,
         MODERATOR,

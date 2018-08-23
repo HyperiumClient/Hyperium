@@ -18,6 +18,7 @@
 package cc.hyperium;
 
 import cc.hyperium.addons.InternalAddons;
+import cc.hyperium.commands.HyperiumCommandHandler;
 import cc.hyperium.commands.defaults.CommandClearChat;
 import cc.hyperium.commands.defaults.CommandConfigGui;
 import cc.hyperium.commands.defaults.CommandCoords;
@@ -33,6 +34,7 @@ import cc.hyperium.commands.defaults.CommandPing;
 import cc.hyperium.commands.defaults.CommandPlayGame;
 import cc.hyperium.commands.defaults.CommandPrivateMessage;
 import cc.hyperium.commands.defaults.CommandResize;
+import cc.hyperium.commands.defaults.CommandStats;
 import cc.hyperium.commands.defaults.CommandUpdate;
 import cc.hyperium.commands.defaults.CustomLevelheadCommand;
 import cc.hyperium.commands.defaults.DevTestCommand;
@@ -52,6 +54,7 @@ import cc.hyperium.gui.ConfirmationPopup;
 import cc.hyperium.gui.NotificationCenter;
 import cc.hyperium.handlers.HyperiumHandlers;
 import cc.hyperium.handlers.handlers.purchase.ChargebackStopper;
+import cc.hyperium.handlers.handlers.stats.PlayerStatsGui;
 import cc.hyperium.integrations.spotify.Spotify;
 import cc.hyperium.mixinsimp.renderer.FontFixValues;
 import cc.hyperium.mods.HyperiumModIntegration;
@@ -169,6 +172,7 @@ public class Hyperium {
 
     @InvokeEvent(priority = Priority.HIGH)
     public void init(InitializationEvent event) {
+        new PlayerStatsGui(null); //Don't remove, we need to generate some stuff with Gl context
         scheduler = new HyperiumScheduler();
         InputStream resourceAsStream = getClass().getResourceAsStream("/build.txt");
         try {
@@ -339,26 +343,27 @@ public class Hyperium {
      * register the commands
      */
     private void registerCommands() {
-        getHandlers().getHyperiumCommandHandler().registerCommand(new CommandConfigGui());
-        getHandlers().getHyperiumCommandHandler().registerCommand(new CustomLevelheadCommand());
-
-        getHandlers().getHyperiumCommandHandler().registerCommand(new CommandPrivateMessage());
-        getHandlers().getHyperiumCommandHandler().registerCommand(new CommandClearChat());
-        getHandlers().getHyperiumCommandHandler().registerCommand(new CommandNameHistory());
-        getHandlers().getHyperiumCommandHandler().registerCommand(new CommandPlayGame());
-        getHandlers().getHyperiumCommandHandler().registerCommand(new CommandDebug());
-        getHandlers().getHyperiumCommandHandler().registerCommand(new CommandUpdate());
-        getHandlers().getHyperiumCommandHandler().registerCommand(new CommandCoords());
-        getHandlers().getHyperiumCommandHandler().registerCommand(new DevTestCommand());
-        getHandlers().getHyperiumCommandHandler().registerCommand(new CommandLogs());
-        getHandlers().getHyperiumCommandHandler().registerCommand(new CommandPing());
-        getHandlers().getHyperiumCommandHandler().registerCommand(new CommandParty());
-        getHandlers().getHyperiumCommandHandler().registerCommand(new CommandResize());
-        getHandlers().getHyperiumCommandHandler().registerCommand(new CommandGarbageCollect());
-        getHandlers().getHyperiumCommandHandler().registerCommand(new CommandMessage());
-        getHandlers().getHyperiumCommandHandler().registerCommand(new CommandParticleAuras());
-        getHandlers().getHyperiumCommandHandler().registerCommand(new CommandDisableCommand());
-        getHandlers().getHyperiumCommandHandler().registerCommand(new AutofriendCommand());
+        HyperiumCommandHandler hyperiumCommandHandler = getHandlers().getHyperiumCommandHandler();
+        hyperiumCommandHandler.registerCommand(new CommandConfigGui());
+        hyperiumCommandHandler.registerCommand(new CustomLevelheadCommand());
+        hyperiumCommandHandler.registerCommand(new CommandPrivateMessage());
+        hyperiumCommandHandler.registerCommand(new CommandClearChat());
+        hyperiumCommandHandler.registerCommand(new CommandNameHistory());
+        hyperiumCommandHandler.registerCommand(new CommandPlayGame());
+        hyperiumCommandHandler.registerCommand(new CommandDebug());
+        hyperiumCommandHandler.registerCommand(new CommandUpdate());
+        hyperiumCommandHandler.registerCommand(new CommandCoords());
+        hyperiumCommandHandler.registerCommand(new DevTestCommand());
+        hyperiumCommandHandler.registerCommand(new CommandLogs());
+        hyperiumCommandHandler.registerCommand(new CommandPing());
+        hyperiumCommandHandler.registerCommand(new CommandStats());
+        hyperiumCommandHandler.registerCommand(new CommandParty());
+        hyperiumCommandHandler.registerCommand(new CommandResize());
+        hyperiumCommandHandler.registerCommand(new CommandGarbageCollect());
+        hyperiumCommandHandler.registerCommand(new CommandMessage());
+        hyperiumCommandHandler.registerCommand(new CommandParticleAuras());
+        hyperiumCommandHandler.registerCommand(new CommandDisableCommand());
+        hyperiumCommandHandler.registerCommand(new AutofriendCommand());
     }
 
     /**

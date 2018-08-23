@@ -1,7 +1,31 @@
 package club.sk1er.website.utils;
 
+import java.text.DecimalFormat;
+
 public class WebsiteUtils {
 
+    public static String comma(Number number) {
+        DecimalFormat formatter = new DecimalFormat("#,###");
+        return formatter.format(number);
+    }
+
+    public static String buildRatio(int a, int b) {
+
+        double c = (double) a;
+        double d = (double) b;
+        if (a + b == 0) {
+            return "0";
+        }
+        if (b == 0) {
+            return Character.toString('\u221e');
+        }
+        if (a == 0) {
+            return "0";
+        }
+        double e = c / d;
+        DecimalFormat df = new DecimalFormat("#.###");
+        return df.format(e);
+    }
 
     public static String getColor(String in) {
         String color = "";

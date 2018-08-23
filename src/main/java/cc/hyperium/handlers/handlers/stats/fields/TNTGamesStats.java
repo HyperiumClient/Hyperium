@@ -1,6 +1,7 @@
 package cc.hyperium.handlers.handlers.stats.fields;
 
 import cc.hyperium.handlers.handlers.stats.AbstractHypixelStats;
+import net.hypixel.api.GameType;
 
 public class TNTGamesStats extends AbstractHypixelStats {
     @Override
@@ -10,6 +11,6 @@ public class TNTGamesStats extends AbstractHypixelStats {
 
     @Override
     public String getName() {
-        return "TNT Games";
+        return GameType.TNTGAMES.getName();
     }
 }

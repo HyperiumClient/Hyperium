@@ -34,7 +34,7 @@ public class ViewStatsKeybind extends HyperiumBind {
     public void onPress() {
         Entity pointedEntity = Minecraft.getMinecraft().pointedEntity;
         if (pointedEntity instanceof EntityPlayer) {
-            Hyperium.INSTANCE.getHandlers().getStatsHandler().initStatsViewer(((EntityPlayer) pointedEntity));
+            Hyperium.INSTANCE.getHandlers().getStatsHandler().initStatsViewer(pointedEntity.getName());
         }
     }
 

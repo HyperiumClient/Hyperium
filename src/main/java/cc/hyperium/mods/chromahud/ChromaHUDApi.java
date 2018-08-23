@@ -94,7 +94,7 @@ public class ChromaHUDApi {
     /**
      * Register a text CONFIG
      *
-     * @param type   String ID for DisplayItem to show and activate on for CONFIG
+     * @param type   String ID for StatsDisplayItem to show and activate on for CONFIG
      * @param config Config object
      */
     public void registerTextConfig(String type, TextConfig config) {
@@ -107,7 +107,7 @@ public class ChromaHUDApi {
     /**
      * Register a String CONFIG
      *
-     * @param type   String ID for DisplayItem to show and activate on for CONFIG
+     * @param type   String ID for StatsDisplayItem to show and activate on for CONFIG
      * @param config Config object
      */
     public void registerStringConfig(String type, StringConfig config) {
@@ -120,7 +120,7 @@ public class ChromaHUDApi {
     /**
      * Register a button CONFIG
      *
-     * @param type   String ID for DisplayItem to show and activate on for CONFIG
+     * @param type   String ID for StatsDisplayItem to show and activate on for CONFIG
      * @param config Config object
      */
     public void registerButtonConfig(String type, ButtonConfig config) {
@@ -170,12 +170,12 @@ public class ChromaHUDApi {
     }
 
     /**
-     * Parse DisplayItem from CONFIG
+     * Parse StatsDisplayItem from CONFIG
      *
      * @param type type of item
      * @param ord  ordinal inside element
      * @param item Other JSON data that is stored
-     * @return DisplayItem instance created, null if the system was unable to resolve type
+     * @return StatsDisplayItem instance created, null if the system was unable to resolve type
      */
     public DisplayItem parse(String type, int ord, JsonHolder item) {
         for (ChromaHUDParser parser : parsers) {
@@ -190,10 +190,10 @@ public class ChromaHUDApi {
     }
 
     /**
-     * ID -> Human readable name for a DisplayItem
+     * ID -> Human readable name for a StatsDisplayItem
      *
-     * @param type type of DisplayItem to retrieve name for
-     * @return Display name of DisplayItem
+     * @param type type of StatsDisplayItem to retrieve name for
+     * @return Display name of StatsDisplayItem
      */
     public String getName(String type) {
         return names.getOrDefault(type, type);

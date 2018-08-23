@@ -1,6 +1,7 @@
 package cc.hyperium.handlers.handlers.stats.fields;
 
 import cc.hyperium.handlers.handlers.stats.AbstractHypixelStats;
+import net.hypixel.api.GameType;
 
 public class UHCStats extends AbstractHypixelStats {
     @Override
@@ -10,6 +11,6 @@ public class UHCStats extends AbstractHypixelStats {
 
     @Override
     public String getName() {
-        return "UHC";
+        return GameType.UHC.getName();
     }
 }
