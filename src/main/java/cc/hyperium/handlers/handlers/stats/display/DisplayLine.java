@@ -21,7 +21,7 @@ public class DisplayLine extends StatsDisplayItem {
     public DisplayLine(String value, int color, int scale) {
         this.value = value;
         this.color = color;
-        width = Minecraft.getMinecraft().fontRendererObj.getStringWidth(value);
+        width = Minecraft.getMinecraft().fontRendererObj.getStringWidth(value)*scale;
         height = 10 * scale;
         this.scale = scale;
     }

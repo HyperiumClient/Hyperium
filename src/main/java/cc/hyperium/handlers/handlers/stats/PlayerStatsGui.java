@@ -126,8 +126,10 @@ public class PlayerStatsGui extends HyperiumGui {
         if (!flag && flag2)
             focused = null;
 
-        if (focused != null && new GuiBlock(200, 200 + 64, 73, 73 + 64).isMouseOver(mouseX, mouseY)) {
+        ScaledResolution current = ResolutionUtil.current();
+        if (focused != null && new GuiBlock((int) (current.getScaledWidth() / 2 - 22 - 64), (int) (current.getScaledWidth() / 2 - 22), 73, 73 + 64).isMouseOver(mouseX, mouseY)) {
             focused = null;
+            offset = 0;
         }
         if (flag2)
             if (mouseButton == 0) {
@@ -135,6 +137,7 @@ public class PlayerStatsGui extends HyperiumGui {
                     if (location.get(abstractHypixelStats).isMouseOver(mouseX, mouseY)) {
                         focused = abstractHypixelStats;
                         hovered = null;
+                        offset = 0;
                     }
                 }
             }
@@ -273,18 +276,21 @@ public class PlayerStatsGui extends HyperiumGui {
             Icons.EXTENSION.bind();
             GlStateModifier.INSTANCE.reset();
             Icons.EXIT.bind();
-            GlStateManager.translate(200, 73, 0);
-            GlStateManager.scale(4, 4, 4);
-            drawScaledCustomSizeModalRect(0, 0, 0, 0, 144, 144, 16, 16, 144, 144);
+            float scale = 4.0F;
+            GlStateManager.scale(scale, scale, scale);
+            GlStateManager.translate(current.getScaledWidth() / 2 / scale - 90 / scale, (73) / scale, 0);
+            GlStateManager.rotate(180, 0.0F, 0.0F, 1.0F);
+            GlStateManager.translate(-16, -16, 0);
+            drawScaledCustomSizeModalRect(0, 0, 0, 0, 64, 64, 16, 16, 64, 64);
             GlStateManager.popMatrix();
-            int printY = 94 - offset;
+            int printY = 55 - offset;
 
             for (StatsDisplayItem statsDisplayItem : deepStats) {
                 GlStateManager.pushMatrix();
                 GlStateManager.resetColor();
                 GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
                 int y = (int) ((95)) + printY;
-                if (y > 73+64)
+                if (y > 73 + 64 && y < current.getScaledHeight()-50)
                     statsDisplayItem.draw(current.getScaledWidth() / 2 - statsDisplayItem.width / 2, y);
                 printY += statsDisplayItem.height;
                 GlStateManager.popMatrix();
