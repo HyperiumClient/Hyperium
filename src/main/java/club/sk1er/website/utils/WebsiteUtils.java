@@ -1,5 +1,7 @@
 package club.sk1er.website.utils;
 
+import com.google.gson.JsonObject;
+
 import java.text.DecimalFormat;
 
 public class WebsiteUtils {
@@ -68,5 +70,30 @@ public class WebsiteUtils {
                 break;
         }
         return color;
+    }
+
+    public static long get(JsonObject tmp, String path) {
+        try {
+            if (path.contains("#")) {
+                long max = path.split("#").length;
+                long cur = 0;
+                JsonObject curent = tmp;
+                for (String s : path.split("#")) {
+                    if (cur >= max - 1) {
+                        return (curent.has(s) ? curent.get(s).getAsLong() : 0);
+                    } else {
+                        curent = curent.has(s) ? curent.get(s).getAsJsonObject() : new JsonObject();
+                    }
+                    cur++;
+                }
+            } else {
+                return tmp.has(path) ? tmp.get(path).getAsLong() : 0;
+
+            }
+
+            return 0;
+        } catch (Exception e) {
+            return 0;
+        }
     }
 }

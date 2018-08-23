@@ -6,6 +6,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.EnumChatFormatting;
 
 import java.awt.Color;
+import java.util.List;
 
 public class DisplayTable extends StatsDisplayItem {
     private String[][] rows;
@@ -13,6 +14,19 @@ public class DisplayTable extends StatsDisplayItem {
 
     public DisplayTable(String[]... rows) {
         this.rows = rows;
+        build();
+    }
+
+    public DisplayTable(List<String[]> strings) {
+        String[][] data = new String[strings.size()][];
+        for (int i = 0; i < strings.size(); i++) {
+            data[i] = strings.get(i);
+        }
+        this.rows = data;
+        build();
+    }
+
+    private void build() {
         int columns = rows[0].length;
         rowSpacing = new int[columns];
 
@@ -22,14 +36,13 @@ public class DisplayTable extends StatsDisplayItem {
          */
         for (String[] row : rows) {
             for (int i = 0; i < columns; i++) {
-                rowSpacing[i] = Math.max(rowSpacing[i], Minecraft.getMinecraft().fontRendererObj.getStringWidth(row[i])+15);
+                rowSpacing[i] = Math.max(rowSpacing[i], Minecraft.getMinecraft().fontRendererObj.getStringWidth(row[i]) + 15);
             }
         }
         for (int i : rowSpacing) {
             width += i;
         }
         this.height = 11 * rows.length;
-
     }
 
     @Override

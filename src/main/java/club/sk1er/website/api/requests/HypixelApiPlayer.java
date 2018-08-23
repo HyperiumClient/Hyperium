@@ -19,6 +19,7 @@ package club.sk1er.website.api.requests;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.utils.JsonHolder;
+import club.sk1er.website.utils.WebsiteUtils;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import net.hypixel.api.GameType;
@@ -204,6 +205,10 @@ public class HypixelApiPlayer implements HypixelApiObject {
 
     public int getFriendCount() {
         return getRoot().optInt("friends");
+    }
+
+    public long getInt(String path) {
+        return WebsiteUtils.get(getRoot().getObject(), path);
     }
 
     enum Rank {

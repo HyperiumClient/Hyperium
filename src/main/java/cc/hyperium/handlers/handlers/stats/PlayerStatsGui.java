@@ -257,6 +257,7 @@ public class PlayerStatsGui extends HyperiumGui {
             }
         } else {
             List<StatsDisplayItem> deepStats = focused.getDeepStats(player);
+
             DynamicTexture dynamicTexture = logos.get(focused);
             GlStateManager.resetColor();
             GlStateManager.pushMatrix();
@@ -267,6 +268,7 @@ public class PlayerStatsGui extends HyperiumGui {
             drawTexturedModalRect(0, 0, 0, 0, 128 * 2, 128 * 2);
             GlStateManager.popMatrix();
 
+            GlStateManager.pushMatrix();
             drawScaledText(focused.getName(), current.getScaledWidth() / 2, 60, 2.0, Color.RED.getRGB(), true, true);
             Icons.EXTENSION.bind();
             GlStateModifier.INSTANCE.reset();
@@ -275,13 +277,17 @@ public class PlayerStatsGui extends HyperiumGui {
             GlStateManager.scale(4, 4, 4);
             drawScaledCustomSizeModalRect(0, 0, 0, 0, 144, 144, 16, 16, 144, 144);
             GlStateManager.popMatrix();
-            int printY = 69 - offset;
+            int printY = 94 - offset;
 
             for (StatsDisplayItem statsDisplayItem : deepStats) {
-                if (printY > 70)
-                    statsDisplayItem.draw(current.getScaledWidth() / 2 - statsDisplayItem.width / 2,
-                            (int) ((95)) + printY);
+                GlStateManager.pushMatrix();
+                GlStateManager.resetColor();
+                GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+                int y = (int) ((95)) + printY;
+                if (y > 73+64)
+                    statsDisplayItem.draw(current.getScaledWidth() / 2 - statsDisplayItem.width / 2, y);
                 printY += statsDisplayItem.height;
+                GlStateManager.popMatrix();
             }
         }
 

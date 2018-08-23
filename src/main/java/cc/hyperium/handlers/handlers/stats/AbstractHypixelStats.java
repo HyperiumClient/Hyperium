@@ -42,7 +42,7 @@ public abstract class AbstractHypixelStats {
         return EnumChatFormatting.BOLD + bold + EnumChatFormatting.GRAY + rest;
     }
 
-    public String bold(String bold, int rest) {
+    public String bold(String bold, long rest) {
         return EnumChatFormatting.BOLD + bold + EnumChatFormatting.GRAY + WebsiteUtils.comma(rest);
     }
 
