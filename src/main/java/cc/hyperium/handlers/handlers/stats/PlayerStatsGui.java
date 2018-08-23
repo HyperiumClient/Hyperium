@@ -127,14 +127,14 @@ public class PlayerStatsGui extends HyperiumGui {
             focused = null;
 
         if (focused != null && new GuiBlock(200, 200 + 64, 73, 73 + 64).isMouseOver(mouseX, mouseY)) {
-            focused =null;
+            focused = null;
         }
         if (flag2)
             if (mouseButton == 0) {
                 for (AbstractHypixelStats abstractHypixelStats : location.keySet()) {
                     if (location.get(abstractHypixelStats).isMouseOver(mouseX, mouseY)) {
                         focused = abstractHypixelStats;
-                        hovered=null;
+                        hovered = null;
                     }
                 }
             }
@@ -275,6 +275,14 @@ public class PlayerStatsGui extends HyperiumGui {
             GlStateManager.scale(4, 4, 4);
             drawScaledCustomSizeModalRect(0, 0, 0, 0, 144, 144, 16, 16, 144, 144);
             GlStateManager.popMatrix();
+            int printY = 69 - offset;
+
+            for (StatsDisplayItem statsDisplayItem : deepStats) {
+                if (printY > 70)
+                    statsDisplayItem.draw(current.getScaledWidth() / 2 - statsDisplayItem.width / 2,
+                            (int) ((95)) + printY);
+                printY += statsDisplayItem.height;
+            }
         }
 
     }

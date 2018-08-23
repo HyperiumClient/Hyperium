@@ -2,6 +2,7 @@ package cc.hyperium.handlers.handlers.stats.fields;
 
 import cc.hyperium.handlers.handlers.stats.AbstractHypixelStats;
 import cc.hyperium.handlers.handlers.stats.display.DisplayLine;
+import cc.hyperium.handlers.handlers.stats.display.DisplayTable;
 import cc.hyperium.handlers.handlers.stats.display.StatsDisplayItem;
 import club.sk1er.website.api.requests.HypixelApiPlayer;
 
@@ -33,5 +34,12 @@ public class GeneralStats extends AbstractHypixelStats {
         items.add(new DisplayLine(bold("Total Wins: ", player.getTotalWins()), Color.WHITE.getRGB()));
 
         return items;
+    }
+
+    @Override
+    public List<StatsDisplayItem> getDeepStats(HypixelApiPlayer player) {
+        ArrayList<StatsDisplayItem> statsDisplayItems = new ArrayList<>();
+        statsDisplayItems.add(new DisplayTable(new String[]{"Hello", "World", "Sk1er"}, new String[]{"Sk1er is the", "Best", "Quester"}));
+        return statsDisplayItems;
     }
 }
