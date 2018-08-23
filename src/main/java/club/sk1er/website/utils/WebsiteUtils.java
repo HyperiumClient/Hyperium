@@ -98,50 +98,35 @@ public class WebsiteUtils {
     }
 
     public static void main(String[] args) {
-        String in = "  handler.write(\"<h4>Farm Hunt</h4>\");\n" +
-                "        handler.write(strongBr(\"Poop collected: \", arcade.optInt(\"poop_collected\")));\n" +
-                "        handler.write(strongBr(\"Farm Hunt Wins: \", arcade.optInt(\"wins_farm_hunt\")));\n" +
-                "        handler.write(\"<br><h4>Bounty Hunters</h4>\");\n" +
-                "        handler.write(strongBr(\"Wins: \", arcade.optInt(\"wins_oneinthequiver\")));\n" +
-                "        handler.write(strongBr(\"Deaths: \", arcade.optInt(\"deaths_oneinthequiver\")));\n" +
-                "        handler.write(strongBr(\"Bounty Kills: \", arcade.optInt(\"bounty_kills_oneinthequiver\")));\n" +
-                "        handler.write(strongBr(\"Kills: \", arcade.optInt(\"kills_oneinthequiver\")));\n" +
-                "        handler.write(\"<br><h4>Blocking Dead</h4>\");\n" +
-                "        handler.write(strongBr(\"Kills: \", arcade.optInt(\"kills_dayone\")));\n" +
-                "        handler.write(strongBr(\"Headshots: \", arcade.optInt(\"headshots_dayone\")));\n" +
-                "        handler.write(strongBr(\"Wins: \", arcade.optInt(\"wins_dayone\")));\n" +
-                "        handler.write(strongBr(\"Melee Weapon: \", arcade.optString(\"melee_weapon\").toLowerCase().replace(\"_\", \" \")));\n" +
-                "        String SOCCOR_FOOTBALL = (handler.optStringHeader(\"Cf-ipcountry\").equalsIgnoreCase(\"US\") || handler.optStringHeader(\"Cf-ipcountry\").equalsIgnoreCase(\"CA\")) ? \"Soccer\" : \"Football\";\n" +
-                "        handler.write(\"<br><h4>\" + SOCCOR_FOOTBALL + \"</h4>\");\n" +
-                "        handler.write(strongBr(\"Wins: \", arcade.optInt(\"wins_soccer\")));\n" +
-                "        handler.write(strongBr(\"Goals: \", arcade.optInt(\"goals_soccer\")));\n" +
-                "        handler.write(strongBr(\"Power Kicks: \", arcade.optInt(\"powerkicks_soccer\")));\n" +
-                "        handler.write(\"<br><h4>Mini Walls</h4>\");\n" +
-                "        handler.write(strongBr(\"Arrows hit: \", arcade.optInt(\"arrows_hit_mini_walls\")));\n" +
-                "        handler.write(strongBr(\"Kills: \", arcade.optInt(\"kills_mini_walls\")));\n" +
-                "        handler.write(strongBr(\"Final Kills: \", arcade.optInt(\"final_kills_mini_walls\")));\n" +
-                "        handler.write(strongBr(\"Wins: \", arcade.optInt(\"wins_mini_walls\")));\n" +
-                "        handler.write(strongBr(\"Deaths: \", arcade.optInt(\"deaths_mini_walls\")));\n" +
-                "        handler.write(strongBr(\"Wither Damage: \", arcade.optInt(\"wither_damage_mini_walls\")));\n" +
-                "        handler.write(strongBr(\"Wither Kills: \", arcade.optInt(\"wither_kills_mini_walls\")));\n" +
-                "        handler.write(\"<br>\");\n" +
-                "        handler.write(strongBr(\"Hole in the Wall Record : \", arcade.optInt(\"hitw_record_q\")));\n" +
-                "        handler.write(strongBr(\"Total Hole in the Walls Rounds: \", arcade.optInt(\"rounds_hole_in_the_wall\")));\n" +
-                "        handler.write(strongBr(\"Hypixel Says Rounds: \", arcade.optInt(\"rounds_simon_says\")));\n" +
-                "        handler.write(strongBr(\"Hypixel Says Wins: \", arcade.optInt(\"wins_simon_says\")));\n" +
-                "        handler.write(strongBr(\"Kills throwout: \", arcade.optInt(\"kills_throw_out\")));\n" +
-                "        handler.write(strongBr(\"Death throwout: \", arcade.optInt(\"deaths_throw_out\")));\n" +
-                "        handler.write(strongBr(\"Kills dragon wars: \", arcade.optInt(\"kills_dragonwars2\")));\n" +
-                "        handler.write(strongBr(\"Wins dragon wars: \", arcade.optInt(\"wins_dragonwars2\")));\n" +
-                "        handler.write(strongBr(\"Build Battle wins: \", arcade.optInt(\"wins_buildbattle\")));\n" +
-                "        handler.write(strongBr(\"Max Creeper Attack Wave: \", arcade.optInt(\"max_wave\")));\n" +
-                "        handler.write(strongBr(\"Party Games 1 wins: \", arcade.optInt(\"wins_party\")));\n" +
-                "        handler.write(strongBr(\"Party Games 2 wins: \", arcade.optInt(\"wins_party_2\")));\n" +
-                "        handler.write(strongBr(\"Party Games 3 wins: \", arcade.optInt(\"wins_party_3\")));";
-
+        String in = " handler.write(strongBr(\"Bedwars level: \", getUtils().getBedwarsLevel(bedwars.optInt(\"Experience\") + bedwars.optInt(\"Experience_new\"))));\n" +
+                "        handler.write(strongBr(\"Beds Broken: \", bedwars.optInt(\"beds_broken_bedwars\")));\n" +
+                "        handler.writeLine(1);\n" +
+                "        handler.write(strongBr(\"Final Kills: \", bedwars.optInt(\"final_kills_bedwars\")));\n" +
+                "        handler.write(strongBr(\"Final Deaths: \", bedwars.optInt(\"final_deaths_bedwars\")));\n" +
+                "        handler.write(strongBr(\"Final K/D: \", getUtils().buildRatio(bedwars.optInt(\"final_kills_bedwars\"), bedwars.optInt(\"final_deaths_bedwars\"))));\n" +
+                "        handler.write(strongBr(\"Final Kill / Normal deaths: \", getUtils().buildRatio(bedwars.optInt(\"final_kills_bedwars\"), bedwars.optInt(\"deaths_bedwars\"))));\n";
         for (String s : in.split("\n")) {
-            s = s.replace("handler.write(", "items.add(new DisplayLine(").replace(";", ");").replace("strongBr","bold").replace("<br>","");
+            s = s.replace("handler.write(", "items.add(new DisplayLine(").replace(";", ");").replace("strongBr", "bold").replace("<br>", "");
             System.out.println(s);
         }
     }
+
+    public static double getBedwarsLevel(double exp) {
+        // first few levels are different
+        if (exp < 500) {
+            return 0;
+        } else if (exp < 1500) {
+            return 1;
+        } else if (exp < 3500) {
+            return 2;
+        } else if (exp < 5500) {
+            return 3;
+        } else if (exp < 9000) {
+            return 4;
+        }
+
+        exp -= 9000;
+        return exp / 5000 + 4;
+    }
+
 }

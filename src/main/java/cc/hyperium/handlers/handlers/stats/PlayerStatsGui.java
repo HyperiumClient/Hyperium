@@ -241,8 +241,9 @@ public class PlayerStatsGui extends HyperiumGui {
                 GuiBlock block = location.get(hovered);
                 int xOffset = 0;
                 int yRenderOffset = 16;
-                if (block.getRight() + (width + yRenderOffset) * 2 > current.getScaledWidth()) {
-                    xOffset = current.getScaledWidth() - 50 - block.getRight() + (width - yRenderOffset) * 2;
+                int rightSide = block.getRight() + (width + yRenderOffset) * 2;
+                if (rightSide > current.getScaledWidth()) {
+                    xOffset = rightSide - current.getScaledWidth();
                 }
                 float scale = 2.0F;
                 GlStateManager.scale(scale, scale, scale);
@@ -290,7 +291,7 @@ public class PlayerStatsGui extends HyperiumGui {
                 GlStateManager.resetColor();
                 GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
                 int y = (int) ((95)) + printY;
-                if (y > 73 + 64 && y < current.getScaledHeight()-50)
+                if (y > 73 + 64 && y < current.getScaledHeight() - 50)
                     statsDisplayItem.draw(current.getScaledWidth() / 2 - statsDisplayItem.width / 2, y);
                 printY += statsDisplayItem.height;
                 GlStateManager.popMatrix();
