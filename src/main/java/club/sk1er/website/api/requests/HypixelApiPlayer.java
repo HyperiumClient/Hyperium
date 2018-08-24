@@ -122,7 +122,7 @@ public class HypixelApiPlayer implements HypixelApiObject {
     }
 
     public HypixelApiGuild getGuild() {
-        return Hyperium.INSTANCE.getHandlers().getDataHandler().getGuild(getUUID());
+        return Hyperium.INSTANCE.getHandlers().getDataHandler().getGuildByPlayer(getUUID());
     }
 
     public int getTotalCoins() {

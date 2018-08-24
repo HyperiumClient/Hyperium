@@ -41,7 +41,8 @@ public class ApiDataHandler {
     private JsonHolder friends = new JsonHolder();
     private HypixelApiPlayer player = new HypixelApiPlayer(new JsonHolder());
     private List<UUID> friendUUIDList = new ArrayList<>();
-    private ConcurrentHashMap<String, HypixelApiGuild> guilds = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<String, HypixelApiGuild> guilds_player = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<String, HypixelApiGuild> guilds_name = new ConcurrentHashMap<>();
 
     public ApiDataHandler() {
 
@@ -62,7 +63,7 @@ public class ApiDataHandler {
         return otherPlayers.computeIfAbsent(name.toLowerCase(), s -> {
             Multithreading.runAsync(() -> {
                 String raw = Sk1erMod.getInstance().
-                        rawWithAgent("https://sk1er.club/data/" + s);
+                        rawWithAgent("https://api.sk1er.club/player/" + s);
                 HypixelApiPlayer player = new HypixelApiPlayer(new JsonHolder(raw));
                 player.getRoot().put("localCache", System.currentTimeMillis());
                 if (otherPlayers.size() > 1000)
@@ -86,7 +87,7 @@ public class ApiDataHandler {
         Multithreading.runAsync(() -> {
             try {
                 friends = new JsonHolder(Sk1erMod.getInstance().
-                        rawWithAgent("https://sk1er.club/modquery/" + Sk1erMod.getInstance().getApIKey() + "/friends/" +
+                        rawWithAgent("https://api.sk1er.club/friends/" +
                                 Minecraft.getMinecraft().getSession().getPlayerID()))
                         .put("localCache", System.currentTimeMillis());
                 friendUUIDList = new ArrayList<>();
@@ -118,7 +119,7 @@ public class ApiDataHandler {
         Multithreading.runAsync(() -> {
             try {
                 player = new HypixelApiPlayer(new JsonHolder(Sk1erMod.getInstance().
-                        rawWithAgent("https://sk1er.club/data/" +
+                        rawWithAgent("https://api.sk1er.club/player/" +
                                 Minecraft.getMinecraft().getSession().getPlayerID() +
                                 "/" + Sk1erMod.getInstance().getApIKey())));
                 player.getRoot().put("localCache", System.currentTimeMillis());
@@ -135,17 +136,29 @@ public class ApiDataHandler {
         return player;
     }
 
-    public HypixelApiGuild getGuild(String uuid) {
-        return guilds.computeIfAbsent(uuid.toLowerCase(), s -> {
+    public HypixelApiGuild getGuildByPlayer(String uuid) {
+        return guilds_player.computeIfAbsent(uuid.toLowerCase(), s -> {
             Multithreading.runAsync(() -> {
                 String raw = Sk1erMod.getInstance().
-                        rawWithAgent("https://sk1er.club/modquery//guild/player/" + s);
+                        rawWithAgent("https://api.sk1er.club/guild/player/" + s);
                 HypixelApiGuild guild = new HypixelApiGuild(new JsonHolder(raw));
                 guild.getRoot().put("localCache", System.currentTimeMillis());
-                guilds.put(uuid.toLowerCase(), guild);
+                guilds_player.put(uuid.toLowerCase(), guild);
             });
             return new HypixelApiGuild(new JsonHolder().put("unloaded", true));
         });
+    }
 
+    public HypixelApiGuild getGuildByName(String name) {
+        return guilds_name.computeIfAbsent(name, s -> {
+            Multithreading.runAsync(() -> {
+                String raw = Sk1erMod.getInstance().
+                        rawWithAgent("https://api.sk1er.club/guild/name/" + s.replace(" ", "+"));
+                HypixelApiGuild guild = new HypixelApiGuild(new JsonHolder(raw));
+                guild.getRoot().put("localCache", System.currentTimeMillis());
+                guilds_name.put(name.toLowerCase(), guild);
+            });
+            return new HypixelApiGuild(new JsonHolder().put("unloaded", true));
+        });
     }
 }
