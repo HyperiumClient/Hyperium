@@ -13,6 +13,9 @@ import java.util.Date;
 import java.util.List;
 import net.hypixel.api.GameType;
 
+/**
+ * @author KodingKing
+ */
 public class SkyWarsStats extends AbstractHypixelStats {
 
   @Override

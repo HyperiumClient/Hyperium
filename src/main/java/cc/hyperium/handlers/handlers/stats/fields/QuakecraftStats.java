@@ -11,6 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 import net.hypixel.api.GameType;
 
+/**
+ * @author KodingKing
+ */
 public class QuakecraftStats extends AbstractHypixelStats {
 
   @Override

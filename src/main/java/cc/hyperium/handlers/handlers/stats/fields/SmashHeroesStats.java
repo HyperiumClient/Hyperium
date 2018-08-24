@@ -10,6 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 import net.hypixel.api.GameType;
 
+/**
+ * @author KodingKing
+ */
 public class SmashHeroesStats extends AbstractHypixelStats {
     @Override
     public String getImage() {

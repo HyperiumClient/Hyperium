@@ -13,6 +13,9 @@ import java.util.List;
 import java.util.TimeZone;
 import net.hypixel.api.GameType;
 
+/**
+ * @author KodingKing
+ */
 public class PaintballStats extends AbstractHypixelStats {
     @Override
     public String getImage() {
