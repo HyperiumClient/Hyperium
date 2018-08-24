@@ -25,12 +25,12 @@ public class OMGItsASk1er extends AbstractMod {
 
     @Override
     public Metadata getModMetadata() {
-        return new Metadata(this, "Autofriend Mod", "1.0", "ConorTheDev & 2PI");
+        return new Metadata(this, "Skeppy says things mod", "1.0.0", "SHARDcoder");
     }
 
     @InvokeEvent
     public void onSk1erRenderEvent(RenderPlayerEvent event) {
-        if (event.getEntity().getName().equalsIgnoreCase("sk1er") && Hyperium.INSTANCE.getHandlers().getLocationHandler().getLocation().contains("obby") && Hyperium.INSTANCE.getHandlers().getHypixelDetector().isHypixel() && Settings.OMG_ITS_A_SK1ER) {
+        if (event.getEntity().getName().equalsIgnoreCase("Sk1er") && Hyperium.INSTANCE.getHandlers().getLocationHandler().getLocation().contains("obby") && Hyperium.INSTANCE.getHandlers().getHypixelDetector().isHypixel() && Settings.OMG_ITS_A_SK1ER) {
             if (prevLobbyName != Hyperium.INSTANCE.getHandlers().getLocationHandler().getLocation()) {
                 prevLobbyName = Hyperium.INSTANCE.getHandlers().getLocationHandler().getLocation();
                 Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.create(new ResourceLocation("omgitsask1er"), (float) Minecraft.getMinecraft().thePlayer.posX, (float) Minecraft.getMinecraft().thePlayer.posY, (float) Minecraft.getMinecraft().thePlayer.posZ));
