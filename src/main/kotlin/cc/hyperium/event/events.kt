@@ -49,65 +49,7 @@ data class EventSubscriber(val instance: Any, val method: Method, val priority: 
  * The first parameter of the method should be the event it is calling
  */
 annotation class InvokeEvent(val priority: Priority = Priority.NORMAL)
-/**
- * Invoked once a key is pressed
- */
-class KeypressEvent(val key: Int, val isRepeat: Boolean)
 
-/**
- * Invoked once a key is released
- */
-class KeyreleaseEvent(val key: Int, val isRepeat: Boolean)
-
-/**
- * Invoked when the spawnpoint has changed
- * This is useful for detecting minigames
- */
-class SpawnpointChangeEvent(val blockPos: BlockPos)
-
-/**
- * Invoked when the hud of the client is rendered
- */
-class RenderHUDEvent(partialTicks: Float)
-
-/**
- * Invoked once a packet is received by the client, right before it is processed
- */
-class PacketReceivedEvent(var packet: Packet<out INetHandler>)
-
-/**
- * Invoked once a chat message is sent
- */
-class ChatEvent(var chat: IChatComponent) : CancellableEvent()
-
-/**
- * Invoked when a chat packet is received, will not detect messages directly printed to the chat
- */
-class ServerChatEvent(val type: Byte, var chat: IChatComponent) : CancellableEvent()
-
-/**
- * Invoked when the player presses the enter key in the GuiChat class
- *
- * @param message the message the player is sending
- */
-class SendChatMessageEvent(val message: String) : CancellableEvent()
-
-/**
- * Invoked when a gui screen is opened
- *
- * @param gui the gui that is being opened
- */
-class GuiOpenEvent(var gui: GuiScreen?) : CancellableEvent()
-
-/**
- * Invoked when a user clicks within a GuiScreen.
- *
- * @param mouseX x position of the mouse on click
- * @param mouseY y position of the mouse on click
- * @param button Mouse button clicked (0 = left, 1 = right, 2 = middle)
- * @param gui GUI that detected the click
- */
-class GuiClickEvent(var mouseX: Int, var mouseY: Int, var button: Int, var gui: GuiScreen?) : CancellableEvent()
 
 /**
  * Invoked when a players cape is grabbed from the game
@@ -129,11 +71,6 @@ class PlayerGetSkinEvent(val profile: GameProfile, var skin: ResourceLocation?)
  * Invoked once player swings
  */
 class PlayerSwingEvent(val player: UUID, val posVec: Vec3, val lookVec: Vec3, val pos: BlockPos)
-
-/**
- * Invoked when player joins a minigame on Hypixel
- */
-class JoinMinigameEvent(val minigame: Minigame)
 
 /**
  * Invoked when a player model is rendered

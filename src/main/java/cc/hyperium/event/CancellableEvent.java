@@ -1,6 +1,6 @@
 package cc.hyperium.event;
 
-public class CancellableEvent {
+public class CancellableEvent extends Event {
 
     private boolean cancelled;
 
