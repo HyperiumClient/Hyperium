@@ -98,6 +98,7 @@ public class Sk1erMod {
 
 
     public String rawWithAgent(String url) {
+        System.out.println("Fetching " + url);
         if (!Hyperium.INSTANCE.isAcceptedTos())
             return new JsonHolder().put("success", false).put("cause", "TOS_NOT_ACCEPTED").toString();
         url = url.replace(" ", "%20");

@@ -4,7 +4,6 @@ import cc.hyperium.utils.JsonHolder;
 import club.sk1er.website.utils.WebsiteUtils;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,8 +20,8 @@ public class HypixelApiGuild implements HypixelApiObject {
     }
 
     @Override
-    public JsonObject getData() {
-        return guild.getObject();
+    public JsonHolder getData() {
+        return guild;
     }
 
     public boolean isValid() {
