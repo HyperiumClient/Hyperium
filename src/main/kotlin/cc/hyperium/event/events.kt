@@ -49,47 +49,6 @@ data class EventSubscriber(val instance: Any, val method: Method, val priority: 
  * The first parameter of the method should be the event it is calling
  */
 annotation class InvokeEvent(val priority: Priority = Priority.NORMAL)
-
-/**
- * Invoked once the client has started
- */
-class PreInitializationEvent
-
-/**
- * Invoked once the client has started
- */
-class InitializationEvent
-
-/**
- * Invoked once the player has joined a server
- */
-class ServerJoinEvent(val server: String, val port: Int)
-
-/**
- * Invoked once the player has left a server
- */
-class ServerLeaveEvent
-
-/**
- * Invoked when the world is changed
- */
-class WorldChangeEvent
-
-/**
- * Invoked once left mouse is pressed
- */
-class LeftMouseClickEvent
-
-/**
- * Invoked once right mouse is pressed
- */
-class RightMouseClickEvent
-
-/**
- * Invoked once a mouse button is pressed
- */
-class MouseButtonEvent(val value: Int, val state: Boolean)
-
 /**
  * Invoked once a key is pressed
  */
@@ -105,21 +64,6 @@ class KeyreleaseEvent(val key: Int, val isRepeat: Boolean)
  * This is useful for detecting minigames
  */
 class SpawnpointChangeEvent(val blockPos: BlockPos)
-
-/**
- * Invoked every tick
- */
-class TickEvent
-
-/**
- * Invoked every frame; used to render in the ingame GUI
- */
-class RenderGuiEvent
-
-/**
- * Invoked every frame; used to render in the 3D space
- */
-class RenderEvent
 
 /**
  * Invoked when the hud of the client is rendered
@@ -182,11 +126,6 @@ class PlayerGetCapeEvent(val profile: GameProfile, var cape: ResourceLocation?)
 class PlayerGetSkinEvent(val profile: GameProfile, var skin: ResourceLocation?)
 
 /**
- * Invoked once the player has joined singleplayer
- */
-class SingleplayerJoinEvent
-
-/**
  * Invoked once player swings
  */
 class PlayerSwingEvent(val player: UUID, val posVec: Vec3, val lookVec: Vec3, val pos: BlockPos)
@@ -234,11 +173,6 @@ class JoinHypixelEvent(val method: ServerVerificationMethod)
 enum class ServerVerificationMethod {
     IP, MOTD
 }
-
-/**
- * Called when the game is shutting down, use this to save your configs
- */
-class GameShutDownEvent
 
 class ServerSwitchEvent(val from: String, val to: String)
 
