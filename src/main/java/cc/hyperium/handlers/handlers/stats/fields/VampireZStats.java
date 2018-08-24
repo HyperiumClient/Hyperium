@@ -9,6 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 import net.hypixel.api.GameType;
 
+/**
+ * @author KodingKing
+ */
 public class VampireZStats extends AbstractHypixelStats {
     @Override
     public String getImage() {
