@@ -11,12 +11,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.util.ResourceLocation;
 
-/*
- * @author SHARDcoder
- *
- * Created by SHARDcoder for use in Hyperium
- */
-
 public class OMGItsASk1er extends AbstractMod {
     String prevLobbyName = "";
 
