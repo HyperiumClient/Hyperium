@@ -490,6 +490,10 @@ public class Settings {
     @ToggleSetting(name = "Send Current Server", category = GENERAL)
     public static boolean SEND_SERVER = true;
 
+    @ConfigOpt
+    @ToggleSetting(name = "Send guild welcome message", category = INTEGRATIONS)
+    public static boolean SEND_GUILD_WELCOME_MESSAGE = true;
+
     private Settings() {
     }
 
