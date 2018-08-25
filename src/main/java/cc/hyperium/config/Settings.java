@@ -492,7 +492,7 @@ public class Settings {
     public static boolean SEND_SERVER = true;
 
     @ConfigOpt
-    @ToggleSetting(name = "Skeppy reacts to Sk1er", category = MODS, mods = true)
+    @ToggleSetting(name = "Skeppy reacts to Sk1er", category = INTEGRATIONS, mods = true)
     public static boolean OMG_ITS_A_SK1ER = true;
 
     private Settings() {
