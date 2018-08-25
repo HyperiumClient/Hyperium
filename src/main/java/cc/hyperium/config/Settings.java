@@ -24,6 +24,7 @@ import static cc.hyperium.config.Category.GENERAL;
 import static cc.hyperium.config.Category.IMPROVEMENTS;
 import static cc.hyperium.config.Category.INTEGRATIONS;
 import static cc.hyperium.config.Category.MISC;
+import static cc.hyperium.config.Category.MODS;
 import static cc.hyperium.config.Category.REACH;
 import static cc.hyperium.config.Category.SPOTIFY;
 import static cc.hyperium.config.Category.UTILITIES;
