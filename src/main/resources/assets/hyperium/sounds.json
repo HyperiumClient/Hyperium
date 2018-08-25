@@ -2030,5 +2030,14 @@
         "stream": false
       }
     ]
+  },
+  "omgitsask1er": {
+    "category": "ambient",
+    "sounds": [
+      {
+        "name": "omgitsask1er",
+        "stream": false
+      }
+    ]
   }
 }
