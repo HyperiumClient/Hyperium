@@ -9,22 +9,12 @@ import cc.hyperium.handlers.handlers.animation.cape.CapeHandler;
 import cc.hyperium.mixins.entity.IMixinAbstractClientPlayer;
 import cc.hyperium.mixins.entity.IMixinNetworkPlayerInfo;
 import cc.hyperium.utils.Utils;
-import java.io.IOException;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.texture.DynamicTexture;
-import net.minecraft.client.renderer.texture.ITextureObject;
-import net.minecraft.client.renderer.texture.ITickable;
-import net.minecraft.client.renderer.texture.ITickableTextureObject;
-import net.minecraft.client.renderer.texture.SimpleTexture;
-import net.minecraft.client.renderer.texture.TextureManager;
-import net.minecraft.client.renderer.texture.TextureUtil;
+import net.minecraft.client.renderer.texture.*;
 import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
@@ -32,6 +22,11 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ReportedException;
 import net.minecraft.util.ResourceLocation;
 import org.apache.logging.log4j.Logger;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class HyperiumTextureManager {
 
@@ -62,15 +57,31 @@ public class HyperiumTextureManager {
             for (Map.Entry<String, ITextureObject> entry : textures.entrySet()) {
                 String key = entry.getKey();
                 ResourceLocation location;
+
                 if (key.contains(":")) {
                     String[] split = key.split(":");
                     location = new ResourceLocation(split[0], split[1]);
                 } else location = new ResourceLocation(key);
+
+                String name = location.getResourcePath();
+
+                // Prevent conflicts with Optifine.
+                if(name.startsWith("mcpatcher/") || name.startsWith("optifine/")){
+                    ITextureObject textureObject = (ITextureObject) textures.get(location);
+
+                    if(textureObject instanceof AbstractTexture){
+                        AbstractTexture abstractTexture = (AbstractTexture) textureObject;
+                        abstractTexture.deleteGlTexture();
+                    }
+
+                    continue;
+                }
+
                 parent.loadTexture(location, entry.getValue());
             }
             Utils.INSTANCE.setCursor(new ResourceLocation("textures/cursor.png"));
         } catch (Exception e) {
-
+            e.printStackTrace();
         } finally {
             CapeHandler.LOCK.unlock();
         }
