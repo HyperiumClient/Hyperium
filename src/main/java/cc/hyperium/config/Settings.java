@@ -503,6 +503,9 @@ public class Settings {
     @ConfigOpt
     public static boolean AUTO_DAB_THIRD_PERSON = true;
 
+    @ConfigOpt
+    public static boolean AUTO_NICO = false;
+
     private Settings() {
     }
 
