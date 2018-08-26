@@ -2039,5 +2039,32 @@
         "stream": false
       }
     ]
+  },
+  "nico-cheating": {
+    "category": "ambient",
+    "sounds": [
+      {
+        "name": "nico-cheating",
+        "stream": false
+      }
+    ]
+  },
+  "nico-oof": {
+    "category": "ambient",
+    "sounds": [
+      {
+        "name": "nico-oof",
+        "stream": false
+      }
+    ]
+  },
+  "nico-yeet": {
+    "category": "ambient",
+    "sounds": [
+      {
+        "name": "nico-yeet",
+        "stream": false
+      }
+    ]
   }
 }

@@ -2,6 +2,7 @@ package cc.hyperium.gui.main.tabs;
 
 import cc.hyperium.addons.AbstractAddon;
 import cc.hyperium.addons.autodab.AutoDab;
+import cc.hyperium.addons.autonico.AutoNico;
 import cc.hyperium.addons.customrp.CustomRP;
 import cc.hyperium.gui.GuiBlock;
 import cc.hyperium.gui.Icons;
@@ -91,6 +92,30 @@ public class AddonsTab extends AbstractTab {
                 }
             }
         }, Icons.EXTENSION.getResource(), autoDab.getAddonMetadata().getName(), autoDab.getAddonMetadata().getDescription(), "Configure addon", xi, yi));
+        if (xi == 2) {
+            xi = 0;
+            yi++;
+        } else {
+            xi++;
+        }
+
+
+        //AutoNico
+        AbstractAddon autoNico = new AutoNico();
+        items.add(new SettingItem(() -> {
+            if (autoNico.getAddonMetadata().getOverlayClassPath() != null) {
+                try {
+                    Class<?> clazz = Class.forName(autoNico.getAddonMetadata().getOverlayClassPath());
+                    HyperiumOverlay overlay = (HyperiumOverlay) clazz.newInstance();
+                    HyperiumMainGui.INSTANCE.setOverlay(overlay);
+                } catch (Exception e) {
+                    HyperiumMainGui.Alert alert = new HyperiumMainGui.Alert(Icons.ERROR.getResource(), () -> {
+                    }, "Failed to load addon's config overlay");
+                    HyperiumMainGui.INSTANCE.getAlerts().add(alert);
+                    e.printStackTrace(); // in case the check went wrong
+                }
+            }
+        }, Icons.EXTENSION.getResource(), autoNico.getAddonMetadata().getName(), autoNico.getAddonMetadata().getDescription(), "Configure addon", xi, yi));
         if (xi == 2) {
             xi = 0;
             yi++;
