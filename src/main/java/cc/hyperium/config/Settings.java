@@ -161,9 +161,6 @@ public class Settings {
     @ToggleSetting(name = "Legacy Resource Pack GUI", category = IMPROVEMENTS)
     public static boolean LEGACY_RP = false;
 
-    @ConfigOpt(alt = "cc.hyperium.gui.settings.items.CosmeticSettings;dabSpeed")
-    public static int DAB_SPEED = 7;
-
     @ConfigOpt
     @ToggleSetting(category = COSMETICS, name = "Show Particle Auras")
     public static boolean SHOW_PARTICLES = true;
@@ -177,9 +174,6 @@ public class Settings {
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.CosmeticSettings;tPoseToggle")
     public static boolean TPOSE_TOGGLE = false;
-
-    @ConfigOpt(alt = "cc.hyperium.gui.settings.items.CosmeticSettings;flossDanceSpeed")
-    public static int FLOSS_SPEED = 4;
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.CosmeticSettings;flossDanceToggle")
     public static boolean FLOSS_TOGGLE = false;
@@ -370,10 +364,6 @@ public class Settings {
     public static boolean SPOTIFY_FORCE_DISABLE = false;
 
     @ConfigOpt
-    @ToggleSetting(name = "Super Secret Settings v2", category = MISC)
-    public static boolean SUPERSECRETSETTINGSV2 = false;
-
-    @ConfigOpt
     @ToggleSetting(name = "Update Notifications in Hyperium Settings", category = MISC)
     public static boolean UPDATE_NOTIFICATIONS = true;
 
@@ -491,6 +481,9 @@ public class Settings {
     public static boolean SEND_SERVER = true;
 
     @ConfigOpt
+    @ToggleSetting(name = "Send guild welcome message", category = INTEGRATIONS)
+    public static boolean SEND_GUILD_WELCOME_MESSAGE = true;
+
     @ToggleSetting(name = "Skeppy reacts to Sk1er", category = INTEGRATIONS, mods = true)
     public static boolean OMG_ITS_A_SK1ER = true;
 
