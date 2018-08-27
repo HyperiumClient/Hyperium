@@ -24,7 +24,7 @@ public class DabHandler extends AbstractPreCopyAnglesAnimationHandler {
                         this.state,
                         this.asc ? 100.0f : 0.0f,
                         0.01f,
-                        Settings.DAB_SPEED
+                        5
                 ),
                 0.0f,
                 100.0f

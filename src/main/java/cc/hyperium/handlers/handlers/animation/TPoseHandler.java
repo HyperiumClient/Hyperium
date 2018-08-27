@@ -22,7 +22,7 @@ public class TPoseHandler extends AbstractPreCopyAnglesAnimationHandler {
                         this.state,
                         100.0f,
                         0.01f,
-                        Settings.DAB_SPEED
+                        5
                 ),
                 0.0f,
                 100.0f
