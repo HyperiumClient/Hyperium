@@ -365,10 +365,6 @@ public class Settings {
     public static boolean SPOTIFY_FORCE_DISABLE = false;
 
     @ConfigOpt
-    @ToggleSetting(name = "Super Secret Settings v2", category = MISC)
-    public static boolean SUPERSECRETSETTINGSV2 = false;
-
-    @ConfigOpt
     @ToggleSetting(name = "Update Notifications in Hyperium Settings", category = MISC)
     public static boolean UPDATE_NOTIFICATIONS = true;
 
