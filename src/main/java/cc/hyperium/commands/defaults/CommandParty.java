@@ -4,34 +4,30 @@ import cc.hyperium.Hyperium;
 import cc.hyperium.commands.BaseCommand;
 import cc.hyperium.commands.CommandException;
 import cc.hyperium.handlers.handlers.hud.TabCompletionUtil;
+import net.minecraft.client.Minecraft;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import net.minecraft.client.Minecraft;
 
 public class CommandParty implements BaseCommand {
     @Override
     public String getName() {
-        return "p";
-    }
-
-    @Override
-    public List<String> getCommandAliases() {
-        return Arrays.asList("p","party");
+        return "party";
     }
 
     @Override
     public String getUsage() {
-        return "/p <command>";
+        return "/party <command>";
     }
 
     @Override
     public void onExecute(String[] args) throws CommandException {
         StringBuilder builder = new StringBuilder();
         for (int i = 0; i < args.length; i++) {
-            builder.append(args[i]).append(" ");
+            builder.append(" ").append(args[i]);
         }
-        Hyperium.INSTANCE.getHandlers().getCommandQueue().queue("/party " + builder.toString());
+        Hyperium.INSTANCE.getHandlers().getCommandQueue().queue("/party" + builder.toString());
     }
 
     @Override
