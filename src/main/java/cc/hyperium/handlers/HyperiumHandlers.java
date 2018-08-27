@@ -34,7 +34,6 @@ import cc.hyperium.handlers.handlers.HyperiumNetwork;
 import cc.hyperium.handlers.handlers.HypixelDetector;
 import cc.hyperium.handlers.handlers.LocationHandler;
 import cc.hyperium.handlers.handlers.OtherConfigOptions;
-import cc.hyperium.handlers.handlers.RenderPlayerAsBlock;
 import cc.hyperium.handlers.handlers.StatusHandler;
 import cc.hyperium.handlers.handlers.TimeTrackHandler;
 import cc.hyperium.handlers.handlers.ValueHandler;
@@ -98,7 +97,6 @@ public class HyperiumHandlers {
   private GameDataTracking dataTracking;
   private VanillaEnhancementsHud vanillaEnhancementsHud;
   private QuestTrackingChatHandler questTracking;
-  private RenderPlayerAsBlock renderPlayerAsBlock;
   private ReachDisplay reachDisplay;
   private FlipHandler flipHandler;
   private LayerDeadmau5HeadHandler layerDeadmau5HeadHandler;
@@ -126,7 +124,6 @@ public class HyperiumHandlers {
     register(valueHandler = new ValueHandler());
     register(layerDeadmau5HeadHandler = new LayerDeadmau5HeadHandler());
 
-    register(renderPlayerAsBlock = new RenderPlayerAsBlock());
     register(resolutionUtil = new ResolutionUtil());
     register(capeHandler = new CapeHandler());
     register(guiDisplayHandler = new GuiDisplayHandler());
@@ -179,10 +176,6 @@ public class HyperiumHandlers {
 
   public LayerDeadmau5HeadHandler getLayerDeadmau5HeadHandler() {
     return layerDeadmau5HeadHandler;
-  }
-
-  public RenderPlayerAsBlock getRenderPlayerAsBlock() {
-    return renderPlayerAsBlock;
   }
 
   public FlipHandler getFlipHandler() {
