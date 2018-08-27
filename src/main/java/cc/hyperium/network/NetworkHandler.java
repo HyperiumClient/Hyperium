@@ -107,7 +107,7 @@ public class NetworkHandler implements INetty, PostConfigHandler, PreSaveHandler
             }
         } else if (type.equalsIgnoreCase("refresh_cosmetics")) {
             if (Minecraft.getMinecraft().currentScreen instanceof HyperiumMainGui) {
-                ((HyperiumMainGui) Minecraft.getMinecraft().currentScreen).getCosmeticsTab().refreshData();
+                //TODO: reset cosmetic on cosmetic tab
             } else if (Minecraft.getMinecraft().currentScreen instanceof CapesGui) {
                 ((CapesGui) Minecraft.getMinecraft().currentScreen).updatePurchases();
             } else {
