@@ -5,6 +5,7 @@ import cc.hyperium.mixins.renderer.IMixinRenderItem;
 import cc.hyperium.mixins.renderer.IMixinRenderItem2;
 import cc.hyperium.mixinsimp.client.GlStateModifier;
 import cc.hyperium.mods.glintcolorizer.Colors;
+import cc.hyperium.mods.itemphysic.physics.ClientPhysic;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GLAllocation;
 import net.minecraft.client.renderer.GlStateManager;

@@ -91,6 +91,7 @@
     "renderer.model.MixinModelBox",
     "renderer.model.MixinModelPlayer",
     "renderer.model.MixinModelRenderer",
+    "renderer.entity.MixinRenderEntityItem",
     "scoreboard.MixinScoreboard",
     "utils.MixinChatComponentStyle",
     "utils.MixinChatStyle",

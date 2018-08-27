@@ -506,6 +506,10 @@ public class Settings {
     @ConfigOpt
     public static boolean AUTO_NICO = false;
 
+    @ConfigOpt
+    @ToggleSetting(name = "Item Physics", category = GENERAL)
+    public static boolean ITEM_PHYSIC_ENABLED = false;
+
     private Settings() {
     }
 

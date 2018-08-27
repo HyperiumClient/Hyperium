@@ -25,6 +25,7 @@ import cc.hyperium.mods.chromahud.ChromaHUD;
 import cc.hyperium.mods.fortnitecompass.FortniteCompassMod;
 import cc.hyperium.mods.glintcolorizer.GlintColorizer;
 import cc.hyperium.mods.hgames.HGames;
+import cc.hyperium.mods.itemphysic.ItemPhysicMod;
 import cc.hyperium.mods.keystrokes.KeystrokesMod;
 import cc.hyperium.mods.killscreenshot.KillScreenshot;
 import cc.hyperium.mods.levelhead.Levelhead;
@@ -69,6 +70,7 @@ public class HyperiumModIntegration {
     private final FortniteCompassMod fncompass;
     private final TabToggleMod tabToggle;
     private final OMGItsASk1er omgItsASk1er;
+    private final ItemPhysicMod itemPhysicMod;
 
     public HyperiumModIntegration() {
         // ChromaHud implementation
@@ -136,6 +138,8 @@ public class HyperiumModIntegration {
         this.tabToggle = (TabToggleMod) new TabToggleMod().init();
 
         this.omgItsASk1er = (OMGItsASk1er) new OMGItsASk1er().init();
+
+        this.itemPhysicMod = (ItemPhysicMod) new ItemPhysicMod().init();
     }
 
     public KeystrokesMod getKeystrokesMod() {
@@ -224,5 +228,9 @@ public class HyperiumModIntegration {
 
     public OMGItsASk1er getOMGItsASk1er() {
         return omgItsASk1er;
+    }
+
+    public ItemPhysicMod getItemPhysicMod() {
+        return itemPhysicMod;
     }
 }
