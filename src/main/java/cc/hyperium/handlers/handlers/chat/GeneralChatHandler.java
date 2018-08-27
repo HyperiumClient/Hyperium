@@ -24,15 +24,16 @@ import cc.hyperium.event.TickEvent;
 import cc.hyperium.utils.ChatColor;
 import cc.hyperium.utils.JsonHolder;
 import com.google.gson.JsonParser;
+import net.minecraft.client.Minecraft;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.IChatComponent;
+
 import java.io.InputStreamReader;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.regex.Pattern;
-import net.minecraft.client.Minecraft;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.IChatComponent;
 
 /**
  * @author Sk1er
@@ -101,7 +102,8 @@ public class GeneralChatHandler {
         e.printStackTrace();
       }
     }
-    event.setCancelled(state);
+    if(state)
+    event.setCancelled(true);
   }
 
   public void post() {
