@@ -31,6 +31,10 @@ public class CommandParty implements BaseCommand {
     }
 
     @Override
+    public boolean tabOnly() {
+        return true;
+    }
+    @Override
     public List<String> onTabComplete(String[] args) {
         if (!Hyperium.INSTANCE.getHandlers().getHypixelDetector().isHypixel())
             return new ArrayList<>();

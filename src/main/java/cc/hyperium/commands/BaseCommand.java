@@ -54,4 +54,8 @@ public interface BaseCommand {
     default List<String> onTabComplete(String[] args) {
         return null;
     }
+
+    default boolean tabOnly () {
+        return false;
+    }
 }

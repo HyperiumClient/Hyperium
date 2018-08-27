@@ -23,26 +23,26 @@ import cc.hyperium.event.SendChatMessageEvent;
 import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
 import cc.hyperium.utils.ChatColor;
 import com.google.common.collect.Lists;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiChat;
+import net.minecraft.command.CommandBase;
+import net.minecraft.util.EnumChatFormatting;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Set;
-import java.util.TreeSet;
-import java.util.stream.Collectors;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiChat;
-import net.minecraft.command.CommandBase;
-import net.minecraft.util.EnumChatFormatting;
-
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
+import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 /**
  * This is our custom client-side command implementation, it handles most of the
@@ -108,7 +108,7 @@ public class HyperiumCommandHandler {
 
         // Loop through our commands, if the identifier matches the expected command, active the base
         String[] finalArgs = args;
-        return this.commands.entrySet().stream().filter(e -> commandName.equals(e.getKey())).findFirst().map(e -> {
+        return this.commands.entrySet().stream().filter(e -> commandName.equals(e.getKey()) && !e.getValue().tabOnly()).findFirst().map(e -> {
             final BaseCommand baseCommand = e.getValue();
 
             try {
@@ -167,7 +167,7 @@ public class HyperiumCommandHandler {
      */
     public boolean isCommandDisabled(String input) {
         if (input == null || input.isEmpty() || input.trim().isEmpty() ||
-            input.equalsIgnoreCase("disablecommand") || input.equalsIgnoreCase("hyperium")) {
+                input.equalsIgnoreCase("disablecommand") || input.equalsIgnoreCase("hyperium")) {
             return false;
         }
 
@@ -184,7 +184,7 @@ public class HyperiumCommandHandler {
      */
     public boolean addOrRemoveCommand(String input) {
         if (input == null || input.isEmpty() || input.trim().isEmpty() ||
-            input.equalsIgnoreCase("disablecommand") || input.equalsIgnoreCase("hyperium")) {
+                input.equalsIgnoreCase("disablecommand") || input.equalsIgnoreCase("hyperium")) {
             return false;
         }
 
