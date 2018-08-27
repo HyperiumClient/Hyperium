@@ -137,33 +137,9 @@ public class Hyperium {
   private boolean firstLaunch = false;
   private HyperiumScheduler scheduler;
 
-  public NetworkHandler getNetworkHandler() {
-    return networkHandler;
-  }
-
-  public boolean isFirstLaunch() {
-    return firstLaunch;
-  }
-
-  public boolean isOptifineInstalled() {
-    return optifineInstalled;
-  }
-
-  public MinigameListener getMinigameListener() {
-    return minigameListener;
-  }
-
-  public boolean isDevEnv() {
-    return this.isDevEnv;
-  }
-
   @InvokeEvent
   public void preinit(PreInitializationEvent event) {
     EventBus.INSTANCE.register(new AutoGG());
-  }
-
-  public HyperiumScheduler getScheduler() {
-    return scheduler;
   }
 
   @InvokeEvent(priority = Priority.HIGH)
@@ -454,6 +430,30 @@ public class Hyperium {
 
   public InternalAddons getInternalAddons() {
     return internalAddons;
+  }
+  
+  public NetworkHandler getNetworkHandler() {
+    return networkHandler;
+  }
+
+  public boolean isFirstLaunch() {
+    return firstLaunch;
+  }
+
+  public boolean isOptifineInstalled() {
+    return optifineInstalled;
+  }
+
+  public MinigameListener getMinigameListener() {
+    return minigameListener;
+  }
+
+  public boolean isDevEnv() {
+    return this.isDevEnv;
+  }
+  
+  public HyperiumScheduler getScheduler() {
+    return scheduler;
   }
 
   // Does not appear to be used
