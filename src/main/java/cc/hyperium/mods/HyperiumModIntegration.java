@@ -25,7 +25,6 @@ import cc.hyperium.mods.fortnitecompass.FortniteCompassMod;
 import cc.hyperium.mods.glintcolorizer.GlintColorizer;
 import cc.hyperium.mods.hgames.HGames;
 import cc.hyperium.mods.keystrokes.KeystrokesMod;
-import cc.hyperium.mods.killscreenshot.KillScreenshot;
 import cc.hyperium.mods.levelhead.Levelhead;
 import cc.hyperium.mods.motionblur.MotionBlurMod;
 import cc.hyperium.mods.nickhider.NickHider;
@@ -52,7 +51,6 @@ public class HyperiumModIntegration {
   private final ToggleChatMod toggleChat;
   private final UtilitiesMod utilities;
   private final Levelhead levelhead;
-  private final KillScreenshot killScreenshot;
   private final ChromaHUD chromaHUD;
   private final Autotip autotip;
   private final AutoGG autogg;
@@ -106,9 +104,6 @@ public class HyperiumModIntegration {
     // Block Overlay implementation
     this.blockOverlay = ((BlockOverlay) new BlockOverlay().init());
 
-    // Kill Screenshot implementation
-    this.killScreenshot = ((KillScreenshot) new KillScreenshot().init());
-
     // Spotify Controls Implementation
     this.spotifyControls = ((SpotifyControls) new SpotifyControls().init());
 
@@ -155,10 +150,6 @@ public class HyperiumModIntegration {
 
   public Levelhead getLevelhead() {
     return levelhead;
-  }
-
-  public KillScreenshot getKillScreenshot() {
-    return killScreenshot;
   }
 
   public ChromaHUD getChromaHUD() {
