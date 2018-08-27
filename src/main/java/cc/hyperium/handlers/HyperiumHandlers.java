@@ -35,7 +35,6 @@ import cc.hyperium.handlers.handlers.HypixelDetector;
 import cc.hyperium.handlers.handlers.LocationHandler;
 import cc.hyperium.handlers.handlers.OtherConfigOptions;
 import cc.hyperium.handlers.handlers.StatusHandler;
-import cc.hyperium.handlers.handlers.TimeTrackHandler;
 import cc.hyperium.handlers.handlers.ValueHandler;
 import cc.hyperium.handlers.handlers.animation.DabHandler;
 import cc.hyperium.handlers.handlers.animation.FlossDanceHandler;
@@ -85,7 +84,6 @@ public class HyperiumHandlers {
   private StatusHandler statusHandler;
   private GuiDisplayHandler guiDisplayHandler;
   private KeyBindHandler keybindHandler;
-  private TimeTrackHandler timeTrackHandler;
   private PrivateMessageHandler privateMessageHandler;
   private HyperiumCommandHandler commandHandler;
   private HyperiumNetwork network;
@@ -141,7 +139,6 @@ public class HyperiumHandlers {
     register(broadcastEvents = new BroadcastEvents());
     commandQueue = new CommandQueue();
     dataHandler = new ApiDataHandler();
-    timeTrackHandler = new TimeTrackHandler();
     //Chat Handlers
     System.out.println("Loading chat handlers");
     registerChatHandler(new RankedRatingChatHandler());
@@ -270,10 +267,6 @@ public class HyperiumHandlers {
 
   public HyperiumCommandHandler getHyperiumCommandHandler() {
     return commandHandler;
-  }
-
-  public TimeTrackHandler getTimeTrackHandler() {
-    return timeTrackHandler;
   }
 
   public ScoreboardRenderer getScoreboardRenderer() {
