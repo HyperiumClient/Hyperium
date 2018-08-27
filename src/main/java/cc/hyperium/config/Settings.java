@@ -162,9 +162,6 @@ public class Settings {
     @ToggleSetting(name = "Legacy Resource Pack GUI", category = IMPROVEMENTS)
     public static boolean LEGACY_RP = false;
 
-    @ConfigOpt(alt = "cc.hyperium.gui.settings.items.CosmeticSettings;dabSpeed")
-    public static int DAB_SPEED = 7;
-
     @ConfigOpt
     @ToggleSetting(category = COSMETICS, name = "Show Particle Auras")
     public static boolean SHOW_PARTICLES = true;
@@ -178,9 +175,6 @@ public class Settings {
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.CosmeticSettings;tPoseToggle")
     public static boolean TPOSE_TOGGLE = false;
-
-    @ConfigOpt(alt = "cc.hyperium.gui.settings.items.CosmeticSettings;flossDanceSpeed")
-    public static int FLOSS_SPEED = 4;
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.CosmeticSettings;flossDanceToggle")
     public static boolean FLOSS_TOGGLE = false;
