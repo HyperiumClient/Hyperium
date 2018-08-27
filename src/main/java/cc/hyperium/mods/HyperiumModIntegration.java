@@ -30,7 +30,6 @@ import cc.hyperium.mods.levelhead.Levelhead;
 import cc.hyperium.mods.motionblur.MotionBlurMod;
 import cc.hyperium.mods.nickhider.NickHider;
 import cc.hyperium.mods.oldanimations.OldAnimations;
-import cc.hyperium.mods.omgitsask1er.OMGItsASk1er;
 import cc.hyperium.mods.playtime.PlayTime;
 import cc.hyperium.mods.skinchanger.SkinChangerMod;
 import cc.hyperium.mods.spotify.SpotifyControls;
@@ -65,7 +64,6 @@ public class HyperiumModIntegration {
     private final PlayTime playTime;
     private final FortniteCompassMod fncompass;
     private final TabToggleMod tabToggle;
-    private final OMGItsASk1er omgItsASk1er;
     private final ItemPhysicMod itemPhysicMod;
 
   public HyperiumModIntegration() {
@@ -126,8 +124,6 @@ public class HyperiumModIntegration {
     this.fncompass = (FortniteCompassMod) new FortniteCompassMod().init();
 
     this.tabToggle = (TabToggleMod) new TabToggleMod().init();
-
-    this.omgItsASk1er = (OMGItsASk1er) new OMGItsASk1er().init();
     
     this.itemPhysicMod = (ItemPhysicMod) new ItemPhysicMod().init();
   }
@@ -207,12 +203,8 @@ public class HyperiumModIntegration {
   public TabToggleMod getTabToggle() {
     return tabToggle;
   }
-    
+
   public ItemPhysicMod getItemPhysicMod() {
      return itemPhysicMod;
-  }
-  
-  public OMGItsASk1er getOMGItsASk1er() {
-    return omgItsASk1er;
   }
 }

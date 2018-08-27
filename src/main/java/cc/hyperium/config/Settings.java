@@ -17,6 +17,9 @@
 
 package cc.hyperium.config;
 
+import cc.hyperium.GuiStyle;
+import cc.hyperium.Hyperium;
+
 import static cc.hyperium.config.Category.ANIMATIONS;
 import static cc.hyperium.config.Category.CHROMAHUD;
 import static cc.hyperium.config.Category.COSMETICS;
@@ -28,9 +31,6 @@ import static cc.hyperium.config.Category.REACH;
 import static cc.hyperium.config.Category.SPOTIFY;
 import static cc.hyperium.config.Category.UTILITIES;
 import static cc.hyperium.config.Category.VANILLA_ENCHANTMENTS;
-
-import cc.hyperium.GuiStyle;
-import cc.hyperium.Hyperium;
 
 /*
  * Created by Cubxity on 03/06/2018
@@ -484,8 +484,7 @@ public class Settings {
     @ToggleSetting(name = "Send guild welcome message", category = INTEGRATIONS)
     public static boolean SEND_GUILD_WELCOME_MESSAGE = true;
 
-    @ToggleSetting(name = "Skeppy reacts to Sk1er", category = INTEGRATIONS, mods = true)
-    public static boolean OMG_ITS_A_SK1ER = true;
+
 
     @ConfigOpt
     public static boolean AUTO_DAB_ENABLED = false;
