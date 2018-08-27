@@ -491,6 +491,9 @@ public class Settings {
     public static boolean SEND_SERVER = true;
 
     @ConfigOpt
+    @ToggleSetting(name = "Send guild welcome message", category = INTEGRATIONS)
+    public static boolean SEND_GUILD_WELCOME_MESSAGE = true;
+
     @ToggleSetting(name = "Skeppy reacts to Sk1er", category = INTEGRATIONS, mods = true)
     public static boolean OMG_ITS_A_SK1ER = true;
 
