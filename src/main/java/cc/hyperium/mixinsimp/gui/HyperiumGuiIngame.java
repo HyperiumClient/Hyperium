@@ -28,8 +28,9 @@ public class HyperiumGuiIngame {
     public void renderSelectedItem(ScaledResolution sr) {
         EventBus.INSTANCE.post(new RenderSelectedItemEvent(sr));
     }
-    public void renderGameOverlay(float partialTicks, CallbackInfo ci) {
-        EventBus.INSTANCE.post(new RenderHUDEvent(partialTicks));
+
+    public void renderXP(float part, CallbackInfo ci) {
+        EventBus.INSTANCE.post(new RenderHUDEvent(part));
     }
 
     public void renderScoreboard(ScoreObjective objective, ScaledResolution resolution) {
@@ -39,6 +40,7 @@ public class HyperiumGuiIngame {
 
         Hyperium.INSTANCE.getHandlers().getScoreboardRenderer().render(objective, resolution);
     }
+
     public void renderBossHealth() {
         if (BossStatus.bossName != null && BossStatus.statusBarTime > 0) {
             --BossStatus.statusBarTime;
@@ -73,12 +75,12 @@ public class HyperiumGuiIngame {
         }
     }
 
-    public void showCrosshair(CallbackInfoReturnable<Boolean> ci){
-        if (CustomCrosshairAddon.getCrosshairMod() == null){
+    public void showCrosshair(CallbackInfoReturnable<Boolean> ci) {
+        if (CustomCrosshairAddon.getCrosshairMod() == null) {
             return;
         }
 
-        if (CustomCrosshairAddon.getCrosshairMod().getCrosshair() == null){
+        if (CustomCrosshairAddon.getCrosshairMod().getCrosshair() == null) {
             return;
         }
 
