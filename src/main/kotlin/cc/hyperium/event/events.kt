@@ -116,9 +116,9 @@ class ServerSwitchEvent(val from: String, val to: String)
 class KillEvent(val user: String)
 
 class EntityRenderEvent(val entityIn: Entity,
-                        val model: ModelBiped, val p_78088_2_: Float,
-                        val p_78088_3_: Float, val p_78088_4_: Float,
-                        val p_78088_5_: Float, val p_78088_6_: Float, val scale: Float) : CancellableEvent()
+                        val posX: Float,
+                        val posY: Float, val posZ: Float,
+                        val pitch: Float, val yaw: Float, val scale: Float) : CancellableEvent()
 
 /**
  * Invoked when the scoreboard is rendered
