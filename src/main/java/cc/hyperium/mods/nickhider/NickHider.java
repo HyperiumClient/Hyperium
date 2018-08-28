@@ -9,8 +9,12 @@ import cc.hyperium.mixins.gui.MixinGuiScreenBook;
 import cc.hyperium.mods.sk1ercommon.Sk1erMod;
 import com.google.common.collect.ObjectArrays;
 import com.google.gson.Gson;
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonParser;
 import com.mojang.authlib.GameProfile;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,6 +23,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.GuiScreen;
@@ -94,13 +99,36 @@ public class NickHider {
         sk1erMod.checkStatus();
         if (suggestedConfigurationFile.exists()) {
             try {
-                String s = FileUtils.readFileToString(suggestedConfigurationFile);
-                this.config = new Gson().fromJson(s, NickHiderConfig.class);
+                FileReader baseReader = new FileReader(this.suggestedConfigurationFile);
+                BufferedReader bufferedReader = new BufferedReader(baseReader);
+
+                StringBuilder lines = new StringBuilder();
+
+                for (String line : bufferedReader.lines().collect(Collectors.toList())) {
+                    lines.append(line);
+                }
+
+                baseReader.close();
+                bufferedReader.close();
+
+                boolean broken = false;
+
+                try {
+                    new JsonParser().parse(lines.toString().trim());
+                } catch (JsonParseException e) {
+                    broken = true;
+                }
+
+                if (!broken) {
+                    this.config = new Gson().fromJson(lines.toString().trim(), NickHiderConfig.class);
+                }
             } catch (IOException e) {
-                e.printStackTrace();
+                this.config = null;
+
+                FileUtils.deleteQuietly(this.suggestedConfigurationFile);
             }
         }
-        if(config == null) {
+        if (config == null) {
             this.config = new NickHiderConfig();
         }
 
@@ -163,7 +191,7 @@ public class NickHider {
 
     public String[] tabComplete(String[] in, String soFar) {
         String[] split = soFar.split(" ");
-        String tmp = (String) split[split.length - 1];
+        String tmp = split[split.length - 1];
         List<String> tmp1 = new ArrayList<>();
         for (Nick nick : nicks) {
             if (nick.newName.toLowerCase().startsWith(tmp.toLowerCase()))

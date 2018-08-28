@@ -24,6 +24,7 @@ import cc.hyperium.mods.chromahud.ChromaHUD;
 import cc.hyperium.mods.fortnitecompass.FortniteCompassMod;
 import cc.hyperium.mods.glintcolorizer.GlintColorizer;
 import cc.hyperium.mods.hgames.HGames;
+import cc.hyperium.mods.itemphysic.ItemPhysicMod;
 import cc.hyperium.mods.keystrokes.KeystrokesMod;
 import cc.hyperium.mods.levelhead.Levelhead;
 import cc.hyperium.mods.motionblur.MotionBlurMod;
@@ -44,25 +45,26 @@ import me.semx11.autotip.Autotip;
  */
 public class HyperiumModIntegration {
 
-  private final KeystrokesMod keystrokesMod;
-  private final TimeChanger timeChanger;
-  private final SkinChangerMod skinChanger;
-  private final ToggleChatMod toggleChat;
-  private final UtilitiesMod utilities;
-  private final Levelhead levelhead;
-  private final ChromaHUD chromaHUD;
-  private final Autotip autotip;
-  private final AutoGG autogg;
-  private final HGames hgames;
-  private final GlintColorizer glintcolorizer;
-  private final BlockOverlay blockOverlay;
-  private final SpotifyControls spotifyControls;
-  private final MotionBlurMod motionBlur;
-  private final OldAnimations oldanimations;
-  private final AutofriendMod autofriend;
-  private final PlayTime playTime;
-  private final FortniteCompassMod fncompass;
-  private final TabToggleMod tabToggle;
+    private final KeystrokesMod keystrokesMod;
+    private final TimeChanger timeChanger;
+    private final SkinChangerMod skinChanger;
+    private final ToggleChatMod toggleChat;
+    private final UtilitiesMod utilities;
+    private final Levelhead levelhead;
+    private final ChromaHUD chromaHUD;
+    private final Autotip autotip;
+    private final AutoGG autogg;
+    private final HGames hgames;
+    private final GlintColorizer glintcolorizer;
+    private final BlockOverlay blockOverlay;
+    private final SpotifyControls spotifyControls;
+    private final MotionBlurMod motionBlur;
+    private final OldAnimations oldanimations;
+    private final AutofriendMod autofriend;
+    private final PlayTime playTime;
+    private final FortniteCompassMod fncompass;
+    private final TabToggleMod tabToggle;
+    private final ItemPhysicMod itemPhysicMod;
 
   public HyperiumModIntegration() {
     // ChromaHud implementation
@@ -122,7 +124,8 @@ public class HyperiumModIntegration {
     this.fncompass = (FortniteCompassMod) new FortniteCompassMod().init();
 
     this.tabToggle = (TabToggleMod) new TabToggleMod().init();
-
+    
+    this.itemPhysicMod = (ItemPhysicMod) new ItemPhysicMod().init();
   }
 
   public KeystrokesMod getKeystrokesMod() {
@@ -201,5 +204,7 @@ public class HyperiumModIntegration {
     return tabToggle;
   }
 
-
+  public ItemPhysicMod getItemPhysicMod() {
+     return itemPhysicMod;
+  }
 }

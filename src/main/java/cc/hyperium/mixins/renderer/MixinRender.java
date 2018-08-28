@@ -1,5 +1,7 @@
 package cc.hyperium.mixins.renderer;
 
+import cc.hyperium.event.EntityRenderEvent;
+import cc.hyperium.event.EventBus;
 import cc.hyperium.mixinsimp.renderer.HyperiumRender;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.entity.Render;
@@ -9,6 +11,9 @@ import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 /**
  * @author Sk1er
@@ -46,6 +51,11 @@ public abstract class MixinRender<T extends Entity> {
     @Overwrite
     protected void renderLivingLabel(T entityIn, String str, double x, double y, double z, int maxDistance) {
         hyperiumRender.renderLivingLabel(entityIn, str, x, y, z, maxDistance, renderManager);
+    }
+
+    @Inject(method = "doRender", at = @At("HEAD"))
+    private void doRender(T entity, double x, double y, double z, float entityYaw, float partialTicks, CallbackInfo callbackInfo) {
+        EventBus.INSTANCE.post(new EntityRenderEvent(entity, (float) x, (float) y, (float) z, entity.rotationPitch, entityYaw, 1.0F));
     }
 
 
