@@ -74,6 +74,7 @@ import cc.hyperium.purchases.PurchaseApi;
 import cc.hyperium.tray.TrayManager;
 import cc.hyperium.utils.HyperiumScheduler;
 import cc.hyperium.utils.InstallerUtils;
+import cc.hyperium.utils.LaunchUtil;
 import cc.hyperium.utils.StaffUtils;
 import cc.hyperium.utils.UpdateUtils;
 import cc.hyperium.utils.mods.CompactChat;
@@ -369,28 +370,7 @@ public class Hyperium {
         LOGGER.info("Shutting down Hyperium..");
 
         if (updateQueue) {
-            try {
-                boolean windows = InstallerUtils.getOS() == InstallerUtils.OSType.Windows;
-                //Class<?> c = getClass();
-                //String n = c.getName().replace('.', '/');
-                String cs = "";
-                for (URL u : ((URLClassLoader) getClass().getClassLoader()).getURLs()) {
-                    if (u.getPath().contains("Hyperium")) {
-                        cs = u.getPath();
-                    }
-                }
-                System.out.println("cs=" + cs);
-                Runtime.getRuntime().exec(new String[]{
-                        windows ? "cmd" : "bash",
-                        windows ? "/c" : "-c",
-                        "java",
-                        "-jar",
-                        cs,
-                        Minecraft.getMinecraft().mcDataDir.getAbsolutePath()
-                });
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            LaunchUtil.launch();
         }
     }
 
