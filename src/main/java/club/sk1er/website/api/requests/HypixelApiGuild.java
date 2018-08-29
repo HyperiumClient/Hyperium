@@ -6,6 +6,8 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -13,6 +15,7 @@ import java.util.List;
  */
 public class HypixelApiGuild implements HypixelApiObject {
     private JsonHolder guild;
+    private List<GuildRank> ranks;
 
     public HypixelApiGuild(JsonHolder master) {
 
@@ -25,20 +28,19 @@ public class HypixelApiGuild implements HypixelApiObject {
     }
 
     public boolean isValid() {
-        return !guild.isNull("guild");
+        return guild.has("guild");
     }
 
     public JsonHolder getRoot() {
         return guild.optJSONObject("guild");
     }
 
-
     public String getName() {
         return getRoot().optString("name");
     }
 
     public boolean isLoaded() {
-        return !guild.optBoolean("unloaded");
+        return guild.optBoolean("loaded");
     }
 
     public String getID() {
@@ -111,6 +113,49 @@ public class HypixelApiGuild implements HypixelApiObject {
         return meme;
     }
 
+    public int getLevelPosition() {
+        return getRoot().optInt("level_pos");
+    }
+
+    public List<GuildPlayer> getInOrder() {
+        List<GuildPlayer> players = new ArrayList<>();
+        for (JsonElement element : getMembers()) {
+            players.add(new GuildPlayer(new JsonHolder(element.getAsJsonObject())));
+        }
+        players.sort(Comparator.comparingInt(o -> getPriorityForRank(o.getRank())));
+        Collections.reverse(players);
+        return players;
+    }
+
+    public int getWins(String item) {
+        JsonHolder holder = getRoot().optJSONObject("games");
+        return holder.optInt(item);
+    }
+
+    public int getPriorityForRank(String rank) {
+        for (GuildRank guildRank : getCustomRanks()) {
+            if (guildRank.name.equals(rank)) {
+                return guildRank.priority;
+            }
+        }
+        return -1;
+    }
+
+    public List<GuildRank> getCustomRanks() {
+        if (ranks == null) {
+            ranks = new ArrayList<>();
+            ranks.add(new GuildRank("GUILDMASTER", Integer.MAX_VALUE));
+            ranks.add(new GuildRank("OFFICER", 4));
+            ranks.add(new GuildRank("MEMBER", 3));
+
+            for (JsonElement element : getRoot().optJSONArray("ranks")) {
+                JsonHolder holder = new JsonHolder(element.getAsJsonObject());
+                ranks.add(new GuildRank(holder.optString("name"), holder.optInt("priority")));
+            }
+        }
+        return ranks;
+    }
+
     public class GuildPlayer {
         private JsonHolder object;
 
@@ -124,6 +169,34 @@ public class HypixelApiGuild implements HypixelApiObject {
 
         public long getJoinLong() {
             return object.optLong("joined");
+        }
+
+        public String getDisplay() {
+            return object.optString("displayname");
+        }
+
+        public String getRank() {
+            return object.optString("rank");
+        }
+    }
+
+    public class GuildRank {
+        private String name;
+        private int priority;
+
+        public GuildRank(String name, int priority) {
+
+            this.name = name;
+            this.priority = priority;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+
+        public int getPriority() {
+            return priority;
         }
     }
 }

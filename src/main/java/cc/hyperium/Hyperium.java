@@ -25,6 +25,7 @@ import cc.hyperium.commands.defaults.CommandCoords;
 import cc.hyperium.commands.defaults.CommandDebug;
 import cc.hyperium.commands.defaults.CommandDisableCommand;
 import cc.hyperium.commands.defaults.CommandGarbageCollect;
+import cc.hyperium.commands.defaults.CommandGuild;
 import cc.hyperium.commands.defaults.CommandLogs;
 import cc.hyperium.commands.defaults.CommandMessage;
 import cc.hyperium.commands.defaults.CommandNameHistory;
@@ -337,6 +338,7 @@ public class Hyperium {
         hyperiumCommandHandler.registerCommand(new CommandParticleAuras());
         hyperiumCommandHandler.registerCommand(new CommandDisableCommand());
         hyperiumCommandHandler.registerCommand(new AutofriendCommand());
+        hyperiumCommandHandler.registerCommand(new CommandGuild());
     }
 
 
