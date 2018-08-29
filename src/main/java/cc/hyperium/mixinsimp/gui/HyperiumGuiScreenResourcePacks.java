@@ -1,8 +1,6 @@
 package cc.hyperium.mixinsimp.gui;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.*;
-import net.minecraft.client.resources.I18n;
 
 import java.util.List;
 
