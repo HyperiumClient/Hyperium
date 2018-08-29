@@ -51,7 +51,7 @@ public class ApiDataHandler {
     private List<Leaderboard> leaderboards;
 
     public ApiDataHandler() {
-
+        getLeaderboards();
     }
 
     public void post() {
