@@ -55,7 +55,6 @@
     "gui.MixinGuiNewChat",
     "gui.MixinGuiOptions",
     "gui.MixinGuiPlayerTabOverlay",
-    "gui.MixinGuiResourcePack",
     "gui.MixinGuiScreen",
     "gui.MixinGuiScreenBook",
     "gui.MixinGuiScreenResourcePacks",
