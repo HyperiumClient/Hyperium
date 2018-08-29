@@ -48,15 +48,14 @@ public class WingsRenderer extends ModelBase {
         }
         EntityPlayer player = event.getEntity();
         if (wingsCosmetic.isPurchasedBy(event.getEntity().getUniqueID()) && !player.isInvisible()) {
-            if(player == mc.thePlayer){
-                // Will only render your wings if you have them enabled.
-                if(Settings.SHOW_WINGS.equalsIgnoreCase("ON")){
-                    this.renderWings(player, event.getPartialTicks(), event.getX(), event.getY(), event.getZ());
-                }
-            } else {
-                this.renderWings(player, event.getPartialTicks(), event.getX(), event.getY(),
-                    event.getZ());
+            HyperiumPurchase packageIfReady = PurchaseApi.getInstance().getPackageIfReady(event.getEntity().getUniqueID());
+            if (packageIfReady == null)
+                return;
+            if (packageIfReady.getPurchaseSettings().optJSONObject("wings").optBoolean("disabled")) {
+                return;
             }
+
+            this.renderWings(player, event.getPartialTicks(), event.getX(), event.getY(), event.getZ());
         }
     }
 
