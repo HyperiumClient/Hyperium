@@ -75,7 +75,6 @@ import cc.hyperium.utils.HyperiumScheduler;
 import cc.hyperium.utils.InstallerUtils;
 import cc.hyperium.utils.StaffUtils;
 import cc.hyperium.utils.UpdateUtils;
-import cc.hyperium.utils.eastereggs.EasterEggs;
 import cc.hyperium.utils.mods.CompactChat;
 import cc.hyperium.utils.mods.FPSLimiter;
 import net.minecraft.client.Minecraft;
@@ -99,77 +98,55 @@ import java.net.URLClassLoader;
  */
 public class Hyperium {
 
-  /**
-   * The hyperium instance
-   */
-  public static final Hyperium INSTANCE = new Hyperium();
-  /**
-   * Instance of the global mod LOGGER
-   */
-  public final static Logger LOGGER = LogManager.getLogger(Metadata.getModid());
-  /**
-   * The Hyperium configuration folder
-   */
-  public static final File folder = new File("hyperium");
-  /**
-   * Instance of default CONFIG
-   */
+    /**
+     * The hyperium instance
+     */
+    public static final Hyperium INSTANCE = new Hyperium();
+    /**
+     * Instance of the global mod LOGGER
+     */
+    public final static Logger LOGGER = LogManager.getLogger(Metadata.getModid());
+    /**
+     * The Hyperium configuration folder
+     */
+    public static final File folder = new File("hyperium");
+    /**
+     * Instance of default CONFIG
+     */
 
-  public static final DefaultConfig CONFIG = new DefaultConfig(new File(folder, "CONFIG.json"));
-  public static String BUILD_ID = "RELEASE " + Metadata.getVersionID();
-  private static boolean updateQueue = false;
-  private final GeneralStatisticsTracking statTrack = new GeneralStatisticsTracking();
-  private final NotificationCenter notification = new NotificationCenter();
-  private final RichPresenceManager richPresenceManager = new RichPresenceManager();
-  private final ConfirmationPopup confirmation = new ConfirmationPopup();
-  public boolean isLatestVersion;
-  private HyperiumCosmetics cosmetics;
-  private HyperiumHandlers handlers;
-  private HyperiumModIntegration modIntegration;
-  private MinigameListener minigameListener;
-  private boolean acceptedTos = false;
-  private boolean fullScreen = false;
-  private boolean checkedForUpdate = false;
-  private boolean optifineInstalled = false;
-  private boolean isDevEnv;
-  private Sk1erMod sk1erMod;
-  private NettyClient client;
-  private InternalAddons internalAddons;
-  private NetworkHandler networkHandler;
-  /**
-   * @param event initialize Hyperium
-   */
-  private boolean firstLaunch = false;
-  private HyperiumScheduler scheduler;
+    public static final DefaultConfig CONFIG = new DefaultConfig(new File(folder, "CONFIG.json"));
+    public static String BUILD_ID = "RELEASE " + Metadata.getVersionID();
+    private static boolean updateQueue = false;
+    private final GeneralStatisticsTracking statTrack = new GeneralStatisticsTracking();
+    private final NotificationCenter notification = new NotificationCenter();
+    private final RichPresenceManager richPresenceManager = new RichPresenceManager();
+    private final ConfirmationPopup confirmation = new ConfirmationPopup();
+    public boolean isLatestVersion;
+    private HyperiumCosmetics cosmetics;
+    private HyperiumHandlers handlers;
+    private HyperiumModIntegration modIntegration;
+    private MinigameListener minigameListener;
+    private boolean acceptedTos = false;
+    private boolean fullScreen = false;
+    private boolean checkedForUpdate = false;
+    private boolean optifineInstalled = false;
+    private boolean isDevEnv;
+    private Sk1erMod sk1erMod;
+    private NettyClient client;
+    private InternalAddons internalAddons;
+    private NetworkHandler networkHandler;
+    /**
+     * @param event initialize Hyperium
+     */
+    private boolean firstLaunch = false;
+    private HyperiumScheduler scheduler;
 
-    public NetworkHandler getNetworkHandler() {
-        return networkHandler;
-    }
-
-    public boolean isFirstLaunch() {
-        return firstLaunch;
-    }
-
-    public boolean isOptifineInstalled() {
-        return optifineInstalled;
-    }
-
-    public MinigameListener getMinigameListener() {
-        return minigameListener;
-    }
-
-    public boolean isDevEnv() {
-        return this.isDevEnv;
-    }
 
     @InvokeEvent
     public void preinit(PreInitializationEvent event) {
         EventBus.INSTANCE.register(new AutoGG());
     }
 
-    public HyperiumScheduler getScheduler() {
-        return scheduler;
-    }
 
     @InvokeEvent(priority = Priority.HIGH)
     public void init(InitializationEvent event) {
@@ -270,7 +247,6 @@ public class Hyperium {
             e.printStackTrace();
             LOGGER.warn("Failed to fetch staff");
         }
-        EventBus.INSTANCE.register(new EasterEggs());
 
         Multithreading.runAsync(Spotify::load);
 
@@ -326,15 +302,15 @@ public class Hyperium {
 
         isLatestVersion = UpdateUtils.INSTANCE.isAbsoluteLatest();
 
-    // Check if Optifine is installed.
-    try {
-      Class.forName("optifine.OptiFineTweaker");
-      optifineInstalled = true;
-      System.out.println("Optifine installation detected!");
-    } catch (ClassNotFoundException e) {
-      optifineInstalled = false;
+        // Check if Optifine is installed.
+        try {
+            Class.forName("optifine.OptiFineTweaker");
+            optifineInstalled = true;
+            System.out.println("Optifine installation detected!");
+        } catch (ClassNotFoundException e) {
+            optifineInstalled = false;
+        }
     }
-  }
 
     /**
      * register the commands
@@ -388,105 +364,105 @@ public class Hyperium {
         // Tell the modules the game is shutting down
         EventBus.INSTANCE.post(new GameShutDownEvent());
 
-    LOGGER.info("Shutting down Hyperium..");
+        LOGGER.info("Shutting down Hyperium..");
 
-    if (updateQueue) {
-      try {
-        boolean windows = InstallerUtils.getOS() == InstallerUtils.OSType.Windows;
-        //Class<?> c = getClass();
-        //String n = c.getName().replace('.', '/');
-        String cs = "";
-        for (URL u : ((URLClassLoader) getClass().getClassLoader()).getURLs()) {
-          if (u.getPath().contains("Hyperium")) {
-            cs = u.getPath();
-          }
+        if (updateQueue) {
+            try {
+                boolean windows = InstallerUtils.getOS() == InstallerUtils.OSType.Windows;
+                //Class<?> c = getClass();
+                //String n = c.getName().replace('.', '/');
+                String cs = "";
+                for (URL u : ((URLClassLoader) getClass().getClassLoader()).getURLs()) {
+                    if (u.getPath().contains("Hyperium")) {
+                        cs = u.getPath();
+                    }
+                }
+                System.out.println("cs=" + cs);
+                Runtime.getRuntime().exec(new String[]{
+                        windows ? "cmd" : "bash",
+                        windows ? "/c" : "-c",
+                        "java",
+                        "-jar",
+                        cs,
+                        Minecraft.getMinecraft().mcDataDir.getAbsolutePath()
+                });
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-        System.out.println("cs=" + cs);
-        Runtime.getRuntime().exec(new String[]{
-            windows ? "cmd" : "bash",
-            windows ? "/c" : "-c",
-            "java",
-            "-jar",
-            cs,
-            Minecraft.getMinecraft().mcDataDir.getAbsolutePath()
-        });
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
     }
-  }
 
-  public GeneralStatisticsTracking getStatTrack() {
-    return this.statTrack;
-  }
-
-  public HyperiumHandlers getHandlers() {
-    return handlers;
-  }
-
-  public HyperiumModIntegration getModIntegration() {
-    return modIntegration;
-  }
-
-  public NotificationCenter getNotification() {
-    return notification;
-  }
-
-  public boolean isAcceptedTos() {
-    return acceptedTos;
-  }
-
-  public void acceptTos() {
-    acceptedTos = true;
-    if (sk1erMod == null) {
-      sk1erMod = new Sk1erMod("hyperium", Metadata.getVersion());
-      sk1erMod.checkStatus();
+    public GeneralStatisticsTracking getStatTrack() {
+        return this.statTrack;
     }
-    try {
-      new File(folder.getAbsolutePath() + "/accounts/" + Minecraft.getMinecraft().getSession()
-          .getPlayerID() + ".lck").createNewFile();
-    } catch (IOException e) {
-      e.printStackTrace();
+
+    public HyperiumHandlers getHandlers() {
+        return handlers;
     }
-  }
 
-  public ConfirmationPopup getConfirmation() {
-    return confirmation;
-  }
+    public HyperiumModIntegration getModIntegration() {
+        return modIntegration;
+    }
 
-  public HyperiumCosmetics getCosmetics() {
-    return cosmetics;
-  }
+    public NotificationCenter getNotification() {
+        return notification;
+    }
 
-  public InternalAddons getInternalAddons() {
-    return internalAddons;
-  }
+    public boolean isAcceptedTos() {
+        return acceptedTos;
+    }
 
-  public NetworkHandler getNetworkHandler() {
-    return networkHandler;
-  }
+    public void acceptTos() {
+        acceptedTos = true;
+        if (sk1erMod == null) {
+            sk1erMod = new Sk1erMod("hyperium", Metadata.getVersion());
+            sk1erMod.checkStatus();
+        }
+        try {
+            new File(folder.getAbsolutePath() + "/accounts/" + Minecraft.getMinecraft().getSession()
+                    .getPlayerID() + ".lck").createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
-  public boolean isFirstLaunch() {
-    return firstLaunch;
-  }
+    public ConfirmationPopup getConfirmation() {
+        return confirmation;
+    }
 
-  public boolean isOptifineInstalled() {
-    return optifineInstalled;
-  }
+    public HyperiumCosmetics getCosmetics() {
+        return cosmetics;
+    }
 
-  public MinigameListener getMinigameListener() {
-    return minigameListener;
-  }
+    public InternalAddons getInternalAddons() {
+        return internalAddons;
+    }
 
-  public boolean isDevEnv() {
-    return this.isDevEnv;
-  }
+    public NetworkHandler getNetworkHandler() {
+        return networkHandler;
+    }
 
-  public HyperiumScheduler getScheduler() {
-    return scheduler;
-  }
+    public boolean isFirstLaunch() {
+        return firstLaunch;
+    }
 
-  // Does not appear to be used
+    public boolean isOptifineInstalled() {
+        return optifineInstalled;
+    }
+
+    public MinigameListener getMinigameListener() {
+        return minigameListener;
+    }
+
+    public boolean isDevEnv() {
+        return this.isDevEnv;
+    }
+
+    public HyperiumScheduler getScheduler() {
+        return scheduler;
+    }
+
+    // Does not appear to be used
 //    public void toggleFullscreen() {
 //        boolean windowed = GeneralSetting.windowedFullScreen;
 //        boolean lastStateWindowed = false;

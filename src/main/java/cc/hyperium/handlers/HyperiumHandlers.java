@@ -34,7 +34,6 @@ import cc.hyperium.handlers.handlers.HyperiumNetwork;
 import cc.hyperium.handlers.handlers.HypixelDetector;
 import cc.hyperium.handlers.handlers.LocationHandler;
 import cc.hyperium.handlers.handlers.OtherConfigOptions;
-import cc.hyperium.handlers.handlers.RenderPlayerAsBlock;
 import cc.hyperium.handlers.handlers.stats.StatsHandler;
 import cc.hyperium.handlers.handlers.StatusHandler;
 import cc.hyperium.handlers.handlers.ValueHandler;
