@@ -114,7 +114,7 @@ public class CustomLevelheadConfigurer extends HyperiumGui {
                 drawCenteredString(fontRendererObj, s, width / 2, i, Color.WHITE.getRGB());
                 i += 10;
             }
-            header = fontRendererObj.listFormattedStringToWidth(ChatColor.YELLOW + "Level: " + ChatColor.AQUA + levelhead_propose.optString("true_footer"), width - 20);
+            header = fontRendererObj.listFormattedStringToWidth(ChatColor.YELLOW + "Level: " + ChatColor.AQUA + levelhead_propose.optString("strlevel"), width - 20);
             for (String s : header) {
                 drawCenteredString(fontRendererObj, s, width / 2, i, Color.WHITE.getRGB());
                 i += 10;

@@ -17,9 +17,10 @@
 
 package club.sk1er.website.api.requests;
 
+import cc.hyperium.Hyperium;
 import cc.hyperium.utils.JsonHolder;
+import club.sk1er.website.utils.WebsiteUtils;
 import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 import net.hypixel.api.GameType;
 import net.hypixel.api.util.ILeveling;
 
@@ -70,12 +71,12 @@ public class HypixelApiPlayer implements HypixelApiObject {
     }
 
     public boolean isValid() {
-        return player != null && !player.isNull("player");
+        return player != null && !player.isNull("player") && player.has("player");
     }
 
     @Override
-    public JsonObject getData() {
-        return player.getObject();
+    public JsonHolder getData() {
+        return player;
     }
 
     public JsonArray getAliases() {
@@ -115,6 +116,13 @@ public class HypixelApiPlayer implements HypixelApiObject {
         return getRoot().optInt("points");
     }
 
+    public boolean isInGuild() {
+        return getGuild().isValid();
+    }
+
+    public HypixelApiGuild getGuild() {
+        return Hyperium.INSTANCE.getHandlers().getDataHandler().getGuildByPlayer(getUUID());
+    }
 
     public int getTotalCoins() {
         return getRoot().optInt("coins");
@@ -182,9 +190,7 @@ public class HypixelApiPlayer implements HypixelApiObject {
         return "NONE";
     }
 
-    public boolean isLoaded() {
-        return !player.getKeys().isEmpty();
-    }
+
 
     public String getDisplayString() {
         return getRoot().optString("display");
@@ -192,6 +198,14 @@ public class HypixelApiPlayer implements HypixelApiObject {
 
     public Rank getRank() {
         return Rank.get(getRankForMod().toUpperCase());
+    }
+
+    public int getFriendCount() {
+        return getRoot().optInt("friends");
+    }
+
+    public long getInt(String path) {
+        return WebsiteUtils.get(getRoot().getObject(), path);
     }
 
     enum Rank {

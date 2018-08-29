@@ -60,7 +60,7 @@ public class TypeTeam extends ToggleBase {
                 "&9[TEAM] &b[MVP] Player&r: Hi",
                 "",
                 "Useful for large",
-                "team games"
+                "team fields"
         );
     }
 }

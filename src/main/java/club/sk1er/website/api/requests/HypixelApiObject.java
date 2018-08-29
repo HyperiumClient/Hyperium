@@ -17,7 +17,8 @@
 
 package club.sk1er.website.api.requests;
 
-import com.google.gson.JsonObject;
+
+import cc.hyperium.utils.JsonHolder;
 
 /**
  * @author Sk1er
@@ -26,5 +27,9 @@ public interface HypixelApiObject {
 
     boolean isValid();
 
-    JsonObject getData();
+    JsonHolder getData();
+
+    default boolean isLoaded() {
+        return getData().optBoolean("loaded");
+    }
 }

@@ -118,7 +118,7 @@ public class TypeEasy extends ToggleBase {
             case "I sometimes try to say bad things and then this happens :(":
             case "I heard you like minecraft, so I built a computer so you can minecraft, while minecrafting in your minecraft.":
             case "What happens if I add chocolate milk to macaroni and cheese?":
-            case "You're a great person! Do you want to play some Hypixel games with me?":
+            case "You're a great person! Do you want to play some Hypixel fields with me?":
             case "Pls give me doggo memes!":
             case "I enjoy long walks on the beach and playing Hypixel":
             case "I have really enjoyed playing with you! <3":
