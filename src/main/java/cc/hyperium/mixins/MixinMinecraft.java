@@ -128,7 +128,7 @@ public abstract class MixinMinecraft {
     @Inject(method = "startGame", at = @At("RETURN"))
     private void init(CallbackInfo ci) {
         //Accessor not needed since its only set once
-        enableGLErrorChecking = false;
+//        enableGLErrorChecking = false;
         hyperiumMinecraft.startGame(ci);
     }
 

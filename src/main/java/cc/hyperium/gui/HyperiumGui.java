@@ -21,15 +21,6 @@ import cc.hyperium.Hyperium;
 import cc.hyperium.config.Settings;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
-import java.awt.Color;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.function.Consumer;
-import javax.imageio.ImageIO;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
@@ -43,6 +34,16 @@ import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.input.Mouse;
+
+import javax.imageio.ImageIO;
+import java.awt.Color;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Consumer;
 
 public abstract class HyperiumGui extends GuiScreen {
 
@@ -345,5 +346,13 @@ public abstract class HyperiumGui extends GuiScreen {
             }
 
         }
+    }
+
+    public void drawScaledText(String text, int trueX, int trueY, double scaleFac, int color, boolean shadow, boolean centered) {
+        GlStateManager.pushMatrix();
+        GlStateManager.scale(scaleFac, scaleFac, scaleFac);
+        fontRendererObj.drawString(text, (float) (((double) trueX ) / scaleFac)- (centered ? fontRendererObj.getStringWidth(text) / 2: 0), (float) (((double) trueY) / scaleFac), color, shadow);
+        GlStateManager.scale(1 / scaleFac, 1 / scaleFac, 1 / scaleFac);
+        GlStateManager.popMatrix();
     }
 }

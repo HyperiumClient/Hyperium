@@ -26,7 +26,7 @@ import java.util.function.BiConsumer;
  */
 public class ButtonConfig {
     /*
-        Called when the button is pressed. GuiButton is the gui button instance provided. DisplayItem is the object of that display item
+        Called when the button is pressed. GuiButton is the gui button instance provided. StatsDisplayItem is the object of that display item
         Load is called on load to initalize to right state
      */
     private final BiConsumer<GuiButton, DisplayItem> action;

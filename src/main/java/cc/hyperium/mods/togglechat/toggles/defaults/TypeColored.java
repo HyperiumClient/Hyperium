@@ -56,7 +56,7 @@ public class TypeColored extends ToggleBase {
     public LinkedList<String> getDescription() {
         return asLinked(
                 "Disables colored chat",
-                "messages in multiple games",
+                "messages in multiple fields",
                 "",
                 "Toggles things like these",
                 "&e[YELLOW]",
@@ -64,7 +64,7 @@ public class TypeColored extends ToggleBase {
                 "&a[GREEN]",
                 "&c[RED]",
                 "",
-                "This is good for games",
+                "This is good for fields",
                 "such as paintball"
         );
     }
