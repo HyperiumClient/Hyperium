@@ -2,7 +2,7 @@ package cc.hyperium.mixinsimp.gui;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.config.Settings;
-import cc.hyperium.handlers.handlers.ApiDataHandler;
+import cc.hyperium.handlers.handlers.data.ApiDataHandler;
 import cc.hyperium.mixins.gui.IMixinGui;
 import cc.hyperium.mixins.gui.IMixinGuiPlayerTabOverlay;
 import cc.hyperium.utils.ChatColor;
