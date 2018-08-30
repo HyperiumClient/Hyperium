@@ -1,0 +1,436 @@
+[
+  {
+    "arcade": [
+      {
+        "arcade_specialist": [
+          {
+            "text": "Play 20 games of arcade",
+            "goal": "20",
+            "id": "play"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "arena": [
+      {
+        "arena_weekly_play": [
+          {
+            "text": "Play 50 games",
+            "goal": "50",
+            "id": "arena_weekly_play"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "bedwars": [
+      {
+        "bedwars_weekly_bed_elims": [
+          {
+            "text": "Break 25 beds in bedwars",
+            "goal": "25",
+            "id": "bedwars_bed_elims"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "blitz": [
+      {
+        "blitz_weekly_master": [
+          {
+            "text": "Play 30 games of Blitz",
+            "goal": "30",
+            "id": "blitz_games_played"
+          },
+          {
+            "text": "Kill 50 players in Blitz",
+            "goal": "50",
+            "id": "killblitz10"
+          },
+          {
+            "text": "Win 10 games of Blitz",
+            "goal": "10",
+            "id": "winblitz"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "build_battle": [
+      {
+        "build_battle_weekly": [
+          {
+            "text": "Play 30 games",
+            "goal": "30",
+            "id": "play"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "cvc": [
+      {
+        "cvc_kill_weekly": [
+          {
+            "text": "Get 1500 points in Deathmatch",
+            "goal": "1500",
+            "id": "cvc_play_weekly_2"
+          },
+          {
+            "text": "Kill 100 players in Defusal",
+            "goal": "100",
+            "id": "cvc_play_weekly"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "crazy_walls": [
+      {
+        "crazy_walls_weekly": [
+          {
+            "text": "Play 30 games of Crazy Walls",
+            "goal": "30",
+            "id": "crazy_walls_weekly_play"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "duels": [
+      {
+        "duels_weekly_wins": [
+          {
+            "text": "Win 50 duels",
+            "goal": "50",
+            "id": "win"
+          }
+        ]
+      },
+      {
+        "duels_weekly_kills": [
+          {
+            "text": "Kill 100 players",
+            "goal": "100",
+            "id": "kill"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "mega_walls": [
+      {
+        "mega_walls_weekly": [
+          {
+            "text": "Kill 25 players",
+            "goal": "25",
+            "id": "mega_walls_kill_weekly"
+          },
+          {
+            "text": "Play 15 games",
+            "goal": "15",
+            "id": "mega_walls_play_weekly"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "murder_mystery": [
+      {
+        "mm_weekly_wins": [
+          {
+            "text": "Win 15 games in any mode",
+            "goal": "15",
+            "id": "mm_weekly_win"
+          }
+        ]
+      },
+      {
+        "mm_weekly_murderer_kills": [
+          {
+            "text": "Kill 25 players as murderer",
+            "goal": "25",
+            "id": "mm_weekly_kills_as_murderer"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "paintball": [
+      {
+        "paintball_expert": [
+          {
+            "text": "Kill 750 players",
+            "goal": "750",
+            "id": "kill"
+          },
+          {
+            "text": "Play 30 games",
+            "goal": "30",
+            "id": "play"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "quake": [
+      {
+        "quake_weekly_play": [
+          {
+            "text": "Play 20 games",
+            "goal": "20",
+            "id": "quake_weekly_play"
+          },
+          {
+            "text": "Get 10 killstreaks",
+            "goal": "10",
+            "id": "quake_weekly_streak"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "skyclash": [
+      {
+        "skyclash_weekly_kills": [
+          {
+            "text": "Kill 150 players",
+            "goal": "150",
+            "id": "kill"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "skywars": [
+      {
+        "skywars_weekly_kills": [
+          {
+            "text": "Kill 150 players in any mode",
+            "goal": "150",
+            "id": "skywars_weekly_kills"
+          }
+        ]
+      },
+      {
+        "skywars_weekly_arcade_win_all": [
+          {
+            "text": "Win 10 games in any lab mode",
+            "goal": "10",
+            "id": "skywars_arcade_weekly_win"
+          }
+        ]
+      },
+      {
+        "skywars_weekly_free_loot_chest": [
+          {
+            "text": "Win 1 game in Solo or Team mode",
+            "goal": "1",
+            "id": ""
+          }
+        ]
+      },
+      {
+        "skywars_weekly_hard_chest": [
+          {
+            "text": "Win 7 games in Solo or Teams mode",
+            "goal": "7",
+            "id": "skywars_weekly_hard_loot_chest"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "smash": [
+      {
+        "supersmash_weekly_kills": [
+          {
+            "text": "Kill 150 enemy heroes",
+            "goal": "150",
+            "id": "supersmash_weekly_kills"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "speed_uhc": [
+      {
+        "uhc_madness": [
+          {
+            "text": "Kill 100 players",
+            "goal": "100",
+            "id": "kill"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "tkr": [
+      {
+        "gingerbread_mastery": [
+          {
+            "text": "Complete 50 races",
+            "goal": "50",
+            "id": "gingerbread_races_completed"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "tnt": [
+      {
+        "tnt_tntrun_weekly": [
+          {
+            "text": "Walk 2000 blocks",
+            "goal": "2000",
+            "id": "tnt_tntrun_weekly"
+          }
+        ]
+      },
+      {
+        "tnt_pvprun_weekly": [
+          {
+            "text": "Get 25 kills",
+            "goal": "25",
+            "id": "tnt_pvprun_weekly"
+          }
+        ]
+      },
+      {
+        "tnt_bowspleef_weekly": [
+          {
+            "text": "Survive longer than a total of 200 players",
+            "goal": "200",
+            "id": "tnt_bowspleef_weekly"
+          }
+        ]
+      },
+      {
+        "tnt_tnttag_weekly": [
+          {
+            "text": "Survive 50 rounds",
+            "goal": "50",
+            "id": "tnt_tnttag_weekly"
+          }
+        ]
+      },
+      {
+        "tnt_wizards_weekly": [
+          {
+            "text": "Kill 150 players",
+            "goal": "150",
+            "id": "tnt_wizards_weekly_kills"
+          },
+          {
+            "text": "Win 15 games",
+            "goal": "15",
+            "id": "tnt_wizards_weekly_win"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "the_pit": [
+      {
+        "prototype_pit_weekly_gold": [
+          {
+            "text": "Collect 10,000 gold",
+            "goal": "10000",
+            "id": "prototype_pit_weekly_gold"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "uhc": [
+      {
+        "uhc_weekly": [
+          {
+            "text": "Kill 20 players in UHC Champions",
+            "goal": "20",
+            "id": "uhc_kills"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "vampirez": [
+      {
+        "vampirez_weekly_win": [
+          {
+            "text": "Win 12 games as a Human",
+            "goal": "12",
+            "id": "vampirez_weekly_win_survivor"
+          }
+        ]
+      },
+      {
+        "vampirez_weekly_kill": [
+          {
+            "text": "Kill 25 vampires in VampireZ",
+            "goal": "25",
+            "id": "vampirez_weekly_kill_vampire"
+          },
+          {
+            "text": "Kill 130 humans in VampireZ",
+            "goal": "130",
+            "id": "vampirez_weekly_kill_zombie"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "walls": [
+      {
+        "walls_weekly": [
+          {
+            "text": "Play 12 games of Walls",
+            "goal": "12",
+            "id": "walls_weekly_play"
+          },
+          {
+            "text": "Kill a total of 50 players",
+            "goal": "50",
+            "id": "walls_weekly_kills"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "warlords": [
+      {
+        "warlords_dedication": [
+          {
+            "text": "Complete 30 matches with at least 10 kills/assists",
+            "goal": "30",
+            "id": "warlords_weekly_dedi"
+          }
+        ]
+      }
+    ]
+  }
+]
