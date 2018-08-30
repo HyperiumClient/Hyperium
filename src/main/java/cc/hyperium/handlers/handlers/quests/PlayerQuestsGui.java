@@ -4,7 +4,6 @@ import cc.hyperium.gui.GuiBlock;
 import cc.hyperium.gui.HyperiumGui;
 import cc.hyperium.gui.Icons;
 import cc.hyperium.handlers.handlers.stats.AbstractHypixelStats;
-import cc.hyperium.handlers.handlers.stats.GuildStatsGui;
 import cc.hyperium.handlers.handlers.stats.display.StatsDisplayItem;
 import cc.hyperium.handlers.handlers.stats.fields.*;
 import cc.hyperium.mixinsimp.client.GlStateModifier;
@@ -13,6 +12,7 @@ import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
 import cc.hyperium.utils.RenderUtils;
 import club.sk1er.website.api.requests.HypixelApiGuild;
 import club.sk1er.website.api.requests.HypixelApiPlayer;
+import club.sk1er.website.utils.WebsiteUtils;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
@@ -34,13 +34,12 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class PlayerQuestsGui extends HyperiumGui {
 
+    private static Map<AbstractHypixelStats, DynamicTexture> logos = new HashMap<>();
     private HypixelApiPlayer player;
     private AbstractHypixelStats hovered;
     private AbstractHypixelStats focused;
-
     private List<AbstractHypixelStats> fields = new ArrayList<>();
     private Map<AbstractHypixelStats, BufferedImage> texturesImage = new ConcurrentHashMap<>();
-    private static Map<AbstractHypixelStats, DynamicTexture> logos = new HashMap<>();
     private ConcurrentHashMap<AbstractHypixelStats, GuiBlock> location = new ConcurrentHashMap<>();
 
     //TODO make only generate once
@@ -89,6 +88,19 @@ public class PlayerQuestsGui extends HyperiumGui {
                     }
             });
 
+        }
+    }
+
+    public static void print(ScaledResolution current, List<StatsDisplayItem> deepStats, int printY) {
+        for (StatsDisplayItem statsDisplayItem : deepStats) {
+            GlStateManager.pushMatrix();
+            GlStateManager.resetColor();
+            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+            int y = (int) ((95)) + printY;
+            if (y > 73 + 64 && y < current.getScaledHeight() - 50)
+                statsDisplayItem.draw(current.getScaledWidth() / 2 - statsDisplayItem.width / 2, y);
+            printY += statsDisplayItem.height;
+            GlStateManager.popMatrix();
         }
     }
 
@@ -151,7 +163,9 @@ public class PlayerQuestsGui extends HyperiumGui {
         ScaledResolution current = ResolutionUtil.current();
         HypixelApiGuild guild = player.getGuild();
         boolean isInGuild = guild.isLoaded() && guild.isValid();
-        drawScaledText(player.getDisplayString() + (isInGuild ? " " + guild.getFormatedTag() : ""), current.getScaledWidth() / 2, 30, 3, Color.WHITE.getRGB(), true, true);
+        drawScaledText(player.getDisplayString() + (isInGuild ? " " + guild.getFormatedTag() : ""), current.getScaledWidth() / 2, 20, 3, Color.WHITE.getRGB(), true, true);
+        drawScaledText("Quests Completed: " + WebsiteUtils.comma(player.getTotalQuests()), current.getScaledWidth() / 2, 50, 3, Color.WHITE.getRGB(), true, true);
+
         if (focused == null) {
             final int blockWidth = 64 + 32;
             int blocksPerLine = (int) (current.getScaledWidth() / (1.2D * blockWidth));
@@ -195,6 +209,25 @@ public class PlayerQuestsGui extends HyperiumGui {
                     GlStateManager.pushMatrix();
                     GlStateManager.translate(startX + x * blockWidth + 24, y1, 0);
                     drawScaledText(field.getName(), 0, 0, 1.0, Color.RED.getRGB(), true, true);
+                    GlStateManager.translate(0, blockWidth/2F+15, 0);
+                    boolean dailyDone = field.getTotalDaily() == field.getCompletedDaily();
+                    boolean weeklyDone = field.getCompletedWeekly() == field.getTotalWeekly();
+                    int color;
+                    if (!dailyDone && !weeklyDone) {
+                        color = Color.RED.getRGB();
+                    } else {
+                        if (dailyDone) {
+                            color = Color.ORANGE.getRGB();
+                        } else color = Color.GREEN.getRGB();
+                    }
+                    String percent = "";
+                    float done = field.getCompletedDaily() + field.getCompletedWeekly();
+                    float total = field.getTotalDaily() + field.getTotalWeekly();
+                    if (total == 0)
+                        percent = "Error";
+                    else percent = Float.toString(done / total * 100F);
+                    drawScaledText(percent, 0, 0, 1.0, color, true, true);
+
                     GlStateManager.popMatrix();
                 }
             }
@@ -257,19 +290,6 @@ public class PlayerQuestsGui extends HyperiumGui {
             print(current, deepStats, printY);
         }
 
-    }
-
-    public static void print(ScaledResolution current, List<StatsDisplayItem> deepStats, int printY) {
-        for (StatsDisplayItem statsDisplayItem : deepStats) {
-            GlStateManager.pushMatrix();
-            GlStateManager.resetColor();
-            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-            int y = (int) ((95)) + printY;
-            if (y > 73 + 64 && y < current.getScaledHeight() - 50)
-                statsDisplayItem.draw(current.getScaledWidth() / 2 - statsDisplayItem.width / 2, y);
-            printY += statsDisplayItem.height;
-            GlStateManager.popMatrix();
-        }
     }
 
 
