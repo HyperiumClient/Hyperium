@@ -22,6 +22,7 @@ import cc.hyperium.mixinsimp.renderer.layers.TwoPartLayerBipedArmor;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelPlayer;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.client.renderer.entity.RendererLivingEntity;
@@ -62,6 +63,8 @@ public abstract class MixinRenderPlayer extends RendererLivingEntity<AbstractCli
 
     @Inject(method = "doRender", at = @At("HEAD"), cancellable = true)
     private void doRender(AbstractClientPlayer entity, double x, double y, double z, float entityYaw, float partialTicks, CallbackInfo ci) {
+        GlStateManager.resetColor();
+
         hyperiumRenderPlayer.doRender(entity, x, y, z, entityYaw, partialTicks, ci, renderManager);
     }
 

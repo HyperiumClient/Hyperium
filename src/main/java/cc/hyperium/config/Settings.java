@@ -95,6 +95,10 @@ public class Settings {
     @ToggleSetting(name = "Show Attack Damage above hotbar", category = VANILLA_ENCHANTMENTS, mods = true)
     public static boolean DAMAGE_ABOVE_HOTBAR = true;
 
+    @ConfigOpt
+    @ToggleSetting(name = "Multi-byte input (Input fix)", category = VANILLA_ENCHANTMENTS, mods = true)
+    public static boolean INPUT_FIX = false;
+
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;combatParticleFixEnabled")
     @ToggleSetting(name = "Crit Particle Fix", category = IMPROVEMENTS)
@@ -156,10 +160,6 @@ public class Settings {
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;hypixelZooEnabled")
     @ToggleSetting(name = "\"Welcome to the Hypixel Zoo!\"")
     public static boolean HYPIXEL_ZOO = true;
-
-    @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;hypixelZooEnabled;oldResourcePackGui")
-    @ToggleSetting(name = "Legacy Resource Pack GUI", category = IMPROVEMENTS)
-    public static boolean LEGACY_RP = false;
 
     @ConfigOpt
     @ToggleSetting(category = COSMETICS, name = "Show Particle Auras")
