@@ -27,6 +27,11 @@ public class SpeedUHCStats extends AbstractHypixelStats {
   }
 
   @Override
+  public GameType getGameType() {
+    return GameType.SPEED_UHC;
+  }
+
+  @Override
   public List<StatsDisplayItem> getPreview(HypixelApiPlayer player) {
     List<StatsDisplayItem> stats = new ArrayList<>();
     JsonHolder speedUhc = player.getStats(GameType.SPEED_UHC);

@@ -23,6 +23,11 @@ public class ArcadeStats extends AbstractHypixelStats {
     }
 
     @Override
+    public GameType getGameType() {
+        return GameType.ARCADE;
+    }
+
+    @Override
     public List<StatsDisplayItem> getPreview(HypixelApiPlayer player) {
         ArrayList<StatsDisplayItem> items = new ArrayList<>();
         items.add(new DisplayLine(bold("Coins: ", player.getStats(GameType.ARCADE).optInt("coins"))));

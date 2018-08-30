@@ -7,12 +7,18 @@ import cc.hyperium.handlers.handlers.stats.display.StatsDisplayItem;
 import cc.hyperium.utils.JsonHolder;
 import club.sk1er.website.Pet;
 import club.sk1er.website.api.requests.HypixelApiPlayer;
+import net.hypixel.api.GameType;
 
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
 public class GeneralStats extends AbstractHypixelStats {
+    @Override
+    public GameType getGameType() {
+        return GameType.UNKNOWN;
+    }
+
     @Override
     public String getImage() {
         return "General";

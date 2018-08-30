@@ -28,6 +28,11 @@ public class UHCStats extends AbstractHypixelStats {
     }
 
     @Override
+    public GameType getGameType() {
+        return GameType.UHC;
+    }
+
+    @Override
     public List<StatsDisplayItem> getPreview(HypixelApiPlayer player) {
         List<StatsDisplayItem> stats = new ArrayList<>();
         JsonHolder UHC = player.getStats(GameType.UHC);

@@ -23,7 +23,7 @@ import cc.hyperium.event.EventBus;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.TickEvent;
 import cc.hyperium.gui.ScoreboardRenderer;
-import cc.hyperium.handlers.handlers.ApiDataHandler;
+import cc.hyperium.handlers.handlers.data.ApiDataHandler;
 import cc.hyperium.handlers.handlers.BroadcastEvents;
 import cc.hyperium.handlers.handlers.CommandQueue;
 import cc.hyperium.handlers.handlers.FlipHandler;

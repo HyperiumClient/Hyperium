@@ -15,7 +15,7 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package cc.hyperium.handlers.handlers;
+package cc.hyperium.handlers.handlers.data;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.Metadata;
@@ -54,9 +54,23 @@ public class ApiDataHandler {
     private final ConcurrentHashMap<String, HypixelApiGuild> guilds_player = new ConcurrentHashMap<>();
     private final ConcurrentHashMap<String, HypixelApiGuild> guilds_name = new ConcurrentHashMap<>();
     private List<Leaderboard> leaderboards;
+    private JsonHolder quests;
 
     public ApiDataHandler() {
+        //start preloading data
+        getLeaderboards();
+        getQuests();
 
+    }
+
+    public JsonHolder getQuests() {
+        if (quests == null) {
+            quests = new JsonHolder();
+            Multithreading.runAsync(() -> {
+                quests = new JsonHolder(getUrl("https://api.hyperium.cc/quests"));
+            });
+        }
+        return quests;
     }
 
     public void post() {

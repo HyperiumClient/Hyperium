@@ -25,6 +25,11 @@ public class BlitzStats extends AbstractHypixelStats {
     }
 
     @Override
+    public GameType getGameType() {
+        return GameType.SURVIVAL_GAMES;
+    }
+
+    @Override
     public List<StatsDisplayItem> getPreview(HypixelApiPlayer player) {
         ArrayList<StatsDisplayItem> items = new ArrayList<>();
         JsonHolder stats = player.getStats(GameType.SURVIVAL_GAMES);
