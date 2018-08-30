@@ -4,7 +4,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 
 public class NickHiderConfig {
     private String pseudo_key = RandomStringUtils.random(6, true, true);
-    private boolean enabled = true;
+    private boolean enabled = false;
     private boolean selfOnly = true;
     private boolean hideSkins = false;
 
