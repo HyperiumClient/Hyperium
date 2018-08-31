@@ -1,17 +1,14 @@
 package cc.hyperium.gui.hyperium.components;
 
-import cc.hyperium.utils.SimpleAnimValue;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.renderer.GlStateManager;
 
-import java.awt.Color;
 import java.util.List;
 
 /*
  * Created by Cubxity on 27/08/2018
  */
 public abstract class AbstractTabComponent {
-    private SimpleAnimValue hoverAnim = new SimpleAnimValue(0L, 0f, 0f);
-
     protected List<String> tags;
     protected AbstractTab tab;
     private boolean fc = false; // search query cache
@@ -31,12 +28,11 @@ public abstract class AbstractTabComponent {
         return 20;
     }
 
-    public void render(int x, int y, int width) {
-        if (hover && hoverAnim.getValue() == 0f)
-            hoverAnim = new SimpleAnimValue(1000L, hoverAnim.getValue(), 1f);
-        else if (!hover && hoverAnim.getValue() == 1f)
-            hoverAnim = new SimpleAnimValue(1000L, hoverAnim.getValue(), 0f);
-        Gui.drawRect(x, y, x + width, y + 20, new Color(0, 0, 0, 10).getRGB()); //TODO: someone help
+    public void render(int x, int y, int width, int mouseX, int mouseY) {
+        GlStateManager.pushMatrix();
+        if (hover)
+            Gui.drawRect(x, y, x + width, y + 20,  0xa0000000);
+        GlStateManager.popMatrix();
     }
 
     public boolean filter(String s) {

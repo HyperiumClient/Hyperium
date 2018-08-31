@@ -16,7 +16,7 @@ import java.util.Map;
  */
 public abstract class AbstractTab {
     protected List<AbstractTabComponent> components = new ArrayList<>();
-    private Map<AbstractTabComponent, Boolean> clickStates = new HashMap<>();
+    protected Map<AbstractTabComponent, Boolean> clickStates = new HashMap<>();
     protected HyperiumMainGui gui;
     protected String title;
     private int scroll = 0;
@@ -35,7 +35,7 @@ public abstract class AbstractTab {
 
         y += scroll * 20;
         for (AbstractTabComponent comp : components) {
-            comp.render(x, y, width);
+            comp.render(x, y, width, mx, my);
 
             if (mx >= x && mx <= x + width && my >= y && my <= y + comp.getHeight()) {
                 comp.hover = true;

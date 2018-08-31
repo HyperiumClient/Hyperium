@@ -23,7 +23,9 @@ public enum Icons {
     FA_DOWN_ARROW(new ResourceLocation("textures/material/fa_down_arrow.png")),
     FA_WRENCH(new ResourceLocation("textures/material/fa_wrench.png")),
     FA_KEYBOARD(new ResourceLocation("textures/material/fa_keyboard.png")),
-    MISC(new ResourceLocation("textures/material/misc.png"));
+    MISC(new ResourceLocation("textures/material/misc.png")),
+    ARROW_DOWN(new ResourceLocation("textures/material/arrow_down.png")),
+    ARROW_RIGHT(new ResourceLocation("textures/material/arrow_right.png"));
 
 
     private ResourceLocation res;
