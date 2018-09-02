@@ -226,7 +226,6 @@ public class HyperiumTextureManager {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            System.out.println(textures.size());
         }
     }
 
