@@ -77,6 +77,10 @@ public class HypixelApiFriendObject {
                 ((HypixelApiFriendObject) obj).getUuid().equals(getUuid());
     }
 
+    public long getLogoff() {
+        return data.optLong("logoff");
+    }
+
     public String getUuid() {
         return data.optString("uuid");
     }
