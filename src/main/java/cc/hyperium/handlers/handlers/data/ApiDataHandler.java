@@ -19,6 +19,8 @@ package cc.hyperium.handlers.handlers.data;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.Metadata;
+import cc.hyperium.event.InvokeEvent;
+import cc.hyperium.event.JoinHypixelEvent;
 import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
 import cc.hyperium.handlers.handlers.data.leaderboards.Leaderboard;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
@@ -57,10 +59,14 @@ public class ApiDataHandler {
     private JsonHolder quests;
 
     public ApiDataHandler() {
-        //start preloading data
+
+    }
+
+    @InvokeEvent
+    public void joinHypixel(JoinHypixelEvent event) {
         getLeaderboards();
         getQuests();
-
+        getPlayer();
     }
 
     public JsonHolder getQuests() {
