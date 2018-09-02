@@ -25,6 +25,11 @@ public class BedWarsStats extends AbstractHypixelStats {
     }
 
     @Override
+    public GameType getGameType() {
+        return GameType.BEDWARS;
+    }
+
+    @Override
     public List<StatsDisplayItem> getPreview(HypixelApiPlayer player) {
         ArrayList<StatsDisplayItem> items = new ArrayList<>();
         JsonHolder bedwars = player.getStats(GameType.BEDWARS);

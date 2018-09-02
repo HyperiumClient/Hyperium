@@ -14,6 +14,11 @@ import net.hypixel.api.GameType;
  */
 public class VampireZStats extends AbstractHypixelStats {
     @Override
+    public GameType getGameType() {
+        return GameType.VAMPIREZ;
+    }
+
+    @Override
     public String getImage() {
         return "VampireZ-64";
     }

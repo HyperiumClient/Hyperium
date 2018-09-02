@@ -98,7 +98,6 @@ public class PurchaseApi {
                     purchasePlayers.put(id, purchase);
                 }
                 nameToUuid.clear();
-                System.out.println("Cleared purchase cache (" + purchasePlayers.size() + ")");
             }
         });
 

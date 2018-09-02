@@ -256,7 +256,8 @@ public class ElementRenderer {
 //        GlStateManager.color(1.0F,1.0F,1.0F,1.0F);
 
         renderElements();
-
+        GlStateManager.resetColor();
+        GlStateManager.color(1.0F,1.0F,1.0F,1.0F);
 //        GlStateManager.color(1.0F,1.0F,1.0F,1.0F);
 
     }

@@ -45,7 +45,9 @@ public class HypixelApiPlayer implements HypixelApiObject {
     public double getsafTotalXP() {
         return ILeveling.getTotalExpToLevel(getRoot().optInt("oldLevel") + 1) + getRoot().optInt(ILeveling.EXP_FIELD);
     }
-
+    public JsonHolder getQuests() {
+        return getRoot().optJSONObject("quests");
+    }
     public int getKarma() {
         return getRoot().optInt("karma");
     }

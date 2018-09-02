@@ -22,6 +22,7 @@ import cc.hyperium.purchases.PurchaseApi;
 import cc.hyperium.utils.JsonHolder;
 import cc.hyperium.utils.UUIDUtil;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiYesNo;
 import net.minecraft.client.gui.GuiYesNoCallback;
 import net.minecraft.client.gui.ScaledResolution;
@@ -252,7 +253,14 @@ public class ParticleGui extends HyperiumGui implements GuiYesNoCallback {
 
     @Override
     protected void pack() {
+        reg("RESET", new GuiButton(nextId(), 1, 1, "Disable Particles"), button -> {
+            NettyClient client = NettyClient.getClient();
+            if (client != null) {
+                client.write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("particle_reset", true)));
+            }
+        }, button -> {
 
+        });
     }
 
     @Override
@@ -297,7 +305,8 @@ public class ParticleGui extends HyperiumGui implements GuiYesNoCallback {
     }
 
     @Override
-    protected void mouseClicked(int mouseX, int mouseY, int mouseButton) {
+    protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
+        super.mouseClicked(mouseX, mouseY, mouseButton);
         if (previewBlock != null && previewBlock.isMouseOver(mouseX, mouseY) && overlay == null) {
             Minecraft.getMinecraft().displayGuiScreen(null);
             Minecraft.getMinecraft().gameSettings.thirdPersonView = 2;

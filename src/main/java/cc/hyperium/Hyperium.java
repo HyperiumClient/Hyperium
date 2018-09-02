@@ -19,26 +19,7 @@ package cc.hyperium;
 
 import cc.hyperium.addons.InternalAddons;
 import cc.hyperium.commands.HyperiumCommandHandler;
-import cc.hyperium.commands.defaults.CommandClearChat;
-import cc.hyperium.commands.defaults.CommandConfigGui;
-import cc.hyperium.commands.defaults.CommandCoords;
-import cc.hyperium.commands.defaults.CommandDebug;
-import cc.hyperium.commands.defaults.CommandDisableCommand;
-import cc.hyperium.commands.defaults.CommandGarbageCollect;
-import cc.hyperium.commands.defaults.CommandGuild;
-import cc.hyperium.commands.defaults.CommandLogs;
-import cc.hyperium.commands.defaults.CommandMessage;
-import cc.hyperium.commands.defaults.CommandNameHistory;
-import cc.hyperium.commands.defaults.CommandParticleAuras;
-import cc.hyperium.commands.defaults.CommandParty;
-import cc.hyperium.commands.defaults.CommandPing;
-import cc.hyperium.commands.defaults.CommandPlayGame;
-import cc.hyperium.commands.defaults.CommandPrivateMessage;
-import cc.hyperium.commands.defaults.CommandResize;
-import cc.hyperium.commands.defaults.CommandStats;
-import cc.hyperium.commands.defaults.CommandUpdate;
-import cc.hyperium.commands.defaults.CustomLevelheadCommand;
-import cc.hyperium.commands.defaults.DevTestCommand;
+import cc.hyperium.commands.defaults.*;
 import cc.hyperium.config.DefaultConfig;
 import cc.hyperium.config.Settings;
 import cc.hyperium.cosmetics.HyperiumCosmetics;
@@ -74,6 +55,7 @@ import cc.hyperium.purchases.PurchaseApi;
 import cc.hyperium.tray.TrayManager;
 import cc.hyperium.utils.HyperiumScheduler;
 import cc.hyperium.utils.InstallerUtils;
+import cc.hyperium.utils.LaunchUtil;
 import cc.hyperium.utils.StaffUtils;
 import cc.hyperium.utils.UpdateUtils;
 import cc.hyperium.utils.mods.CompactChat;
@@ -338,6 +320,7 @@ public class Hyperium {
         hyperiumCommandHandler.registerCommand(new CommandParticleAuras());
         hyperiumCommandHandler.registerCommand(new CommandDisableCommand());
         hyperiumCommandHandler.registerCommand(new AutofriendCommand());
+        hyperiumCommandHandler.registerCommand(new CommandQuests());
         hyperiumCommandHandler.registerCommand(new CommandGuild());
     }
 
@@ -369,28 +352,7 @@ public class Hyperium {
         LOGGER.info("Shutting down Hyperium..");
 
         if (updateQueue) {
-            try {
-                boolean windows = InstallerUtils.getOS() == InstallerUtils.OSType.Windows;
-                //Class<?> c = getClass();
-                //String n = c.getName().replace('.', '/');
-                String cs = "";
-                for (URL u : ((URLClassLoader) getClass().getClassLoader()).getURLs()) {
-                    if (u.getPath().contains("Hyperium")) {
-                        cs = u.getPath();
-                    }
-                }
-                System.out.println("cs=" + cs);
-                Runtime.getRuntime().exec(new String[]{
-                        windows ? "cmd" : "bash",
-                        windows ? "/c" : "-c",
-                        "java",
-                        "-jar",
-                        cs,
-                        Minecraft.getMinecraft().mcDataDir.getAbsolutePath()
-                });
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            LaunchUtil.launch();
         }
     }
 

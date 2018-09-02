@@ -28,7 +28,6 @@ import cc.hyperium.utils.JsonHolder;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
 import org.apache.commons.lang3.ArrayUtils;
-import sun.nio.ch.Net;
 
 import java.awt.Color;
 import java.lang.reflect.Field;
@@ -167,6 +166,23 @@ public class SettingsTab extends AbstractTab {
             callback.put(show_wings_string, o -> {
                 try {
                     Settings.SHOW_WINGS = String.valueOf(o);
+
+                    // Update on netty.
+                    String update = String.valueOf(o);
+                    boolean packetUpdate;
+
+                    if (update.equalsIgnoreCase("on")){
+                        packetUpdate = true;
+                    } else{
+                        packetUpdate = false;
+                    }
+
+                    ServerCrossDataPacket packet = ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("wings_toggle", packetUpdate));
+
+                    NettyClient client = NettyClient.getClient();
+                    if (client != null) {
+                        client.write(packet);
+                    }
                 } catch (Exception ignored) {
 
                 }
@@ -187,6 +203,23 @@ public class SettingsTab extends AbstractTab {
             callback.put(show_dragonhead_string, o -> {
                 try {
                     Settings.SHOW_DRAGON_HEAD = String.valueOf(o);
+
+                    String update = String.valueOf(o);
+
+                    boolean packetUpdate;
+                    // Update on netty.
+                    if (update.equalsIgnoreCase("on")){
+                        packetUpdate = true;
+                    } else{
+                        packetUpdate = false;
+                    }
+
+                    ServerCrossDataPacket packet = ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("dragon_head", packetUpdate));
+
+                    NettyClient client = NettyClient.getClient();
+                    if (client != null) {
+                        client.write(packet);
+                    }
                 } catch (Exception ignored) {
 
                 }

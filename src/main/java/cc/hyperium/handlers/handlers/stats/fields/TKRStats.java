@@ -25,6 +25,11 @@ public class TKRStats extends AbstractHypixelStats {
   }
 
   @Override
+  public GameType getGameType() {
+    return GameType.GINGERBREAD;
+  }
+
+  @Override
   public List<StatsDisplayItem> getPreview(HypixelApiPlayer player) {
     List<StatsDisplayItem> stats = new ArrayList<>();
     JsonHolder gingerBread = player.getStats(GameType.GINGERBREAD);

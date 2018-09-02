@@ -90,7 +90,7 @@ public class HypixelFriendsGui extends HyperiumGui {
             sortType = FriendSortType.values()[ord];
             rebuildFriends();
             this.friends.sort(sortType);
-        }, guiButton -> guiButton.displayString = "Sort by: " + sortType.name());
+        }, guiButton -> guiButton.displayString = "Sort by: " + sortType.getName());
 
 
         reg("PARTY", new GuiButton(nextId(), ResolutionUtil.current().getScaledWidth() - 153, 23 + 21, 150, 20, "Party Selected"), guiButton -> {
@@ -308,13 +308,13 @@ public class HypixelFriendsGui extends HyperiumGui {
 
     enum FriendSortType implements Comparator<HypixelApiFriendObject> {
 
-        ALPHABETICAL {
+        ALPHABETICAL("Alphabetical") {
             @Override
             public int compare(HypixelApiFriendObject o1, HypixelApiFriendObject o2) {
                 return o1.getName().compareTo(o2.getName());
             }
         },
-        RANK {
+        RANK("Rank") {
             @Override
             public int compare(HypixelApiFriendObject o1, HypixelApiFriendObject o2) {
                 int compare = Integer.compare(o1.rankOrdinal(), o2.rankOrdinal());
@@ -324,17 +324,33 @@ public class HypixelFriendsGui extends HyperiumGui {
                 return compare;
             }
         },
-        DATE_ADDED {
+        DATE_ADDED("Date Added") {
             @Override
             public int compare(HypixelApiFriendObject o1, HypixelApiFriendObject o2) {
                 return Long.compare(o1.getAddedOn(), o2.getAddedOn());
             }
-        }, NONE {
+        }, LOGOFF("Latest Logoff") {
+            @Override
+            public int compare(HypixelApiFriendObject o1, HypixelApiFriendObject o2) {
+                //Reverse it so most recent is first.
+                return Long.compare(o1.getLogoff(), o2.getLogoff()) * -1;
+            }
+        }, NONE("NONE") {
             @Override
             public int compare(HypixelApiFriendObject o1, HypixelApiFriendObject o2) {
                 return 0;
             }
-        },
+        },;
+        String name;
+
+        FriendSortType(String name) {
+            this.name = name;
+
+        }
+
+        public String getName() {
+            return name;
+        }
 
     }
 

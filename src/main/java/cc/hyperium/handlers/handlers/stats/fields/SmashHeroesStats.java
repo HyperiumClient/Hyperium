@@ -25,6 +25,11 @@ public class SmashHeroesStats extends AbstractHypixelStats {
     }
 
     @Override
+    public GameType getGameType() {
+        return GameType.SUPER_SMASH;
+    }
+
+    @Override
     public List<StatsDisplayItem> getPreview(HypixelApiPlayer player) {
         List<StatsDisplayItem> stats = new ArrayList<>();
         JsonHolder smashHeroes = player.getStats(GameType.SUPER_SMASH);

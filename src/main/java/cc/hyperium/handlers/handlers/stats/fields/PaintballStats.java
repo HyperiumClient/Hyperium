@@ -28,6 +28,11 @@ public class PaintballStats extends AbstractHypixelStats {
     }
 
     @Override
+    public GameType getGameType() {
+        return GameType.PAINTBALL;
+    }
+
+    @Override
     public List<StatsDisplayItem> getPreview(HypixelApiPlayer player) {
         List<StatsDisplayItem> stats = new ArrayList<>();
         JsonHolder paintball = player.getStats(GameType.PAINTBALL);

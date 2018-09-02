@@ -25,6 +25,11 @@ public class ArenaStats extends AbstractHypixelStats {
     }
 
     @Override
+    public GameType getGameType() {
+        return GameType.ARENA;
+    }
+
+    @Override
     public List<StatsDisplayItem> getPreview(HypixelApiPlayer player) {
         ArrayList<StatsDisplayItem> items = new ArrayList<>();
         JsonHolder arena = player.getStats(GameType.ARENA);

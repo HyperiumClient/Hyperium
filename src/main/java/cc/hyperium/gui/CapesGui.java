@@ -275,16 +275,7 @@ public class CapesGui extends HyperiumGui implements GuiYesNoCallback {
                             if (client != null) {
                                 client.write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("set_cape", true).put("value", s)));
                             }
-                            Multithreading.runAsync(() -> {
-                                try {
-                                    Thread.sleep(3000L);
-                                } catch (InterruptedException e) {
-                                    e.printStackTrace();
-                                }
-                                //assume this is enough time
-                                PurchaseApi.getInstance().refreshSelf();
-                                Hyperium.INSTANCE.getHandlers().getCapeHandler().deleteCape(UUIDUtil.getClientUUID());
-                            });
+                            Hyperium.INSTANCE.getHandlers().getCapeHandler().deleteCape(UUIDUtil.getClientUUID());
                         });
                         GlStateManager.scale(2F, 2F, 2F);
 

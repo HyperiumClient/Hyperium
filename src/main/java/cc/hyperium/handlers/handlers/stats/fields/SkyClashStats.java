@@ -28,6 +28,11 @@ public class SkyClashStats extends AbstractHypixelStats {
   }
 
   @Override
+  public GameType getGameType() {
+    return GameType.SKYCLASH;
+  }
+
+  @Override
   public List<StatsDisplayItem> getPreview(HypixelApiPlayer player) {
     List<StatsDisplayItem> stats = new ArrayList<>();
     JsonHolder skyClash = player.getStats(GameType.SKYCLASH);

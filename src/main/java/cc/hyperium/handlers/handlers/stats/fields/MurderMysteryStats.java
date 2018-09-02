@@ -27,6 +27,11 @@ public class MurderMysteryStats extends AbstractHypixelStats {
   }
 
   @Override
+  public GameType getGameType() {
+    return GameType.MURDER_MYSTERY;
+  }
+
+  @Override
   public List<StatsDisplayItem> getPreview(HypixelApiPlayer player) {
     List<StatsDisplayItem> preview = new ArrayList<>();
     JsonHolder stats = player.getStats(GameType.MURDER_MYSTERY);

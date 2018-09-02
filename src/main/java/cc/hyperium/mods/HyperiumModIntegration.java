@@ -31,7 +31,6 @@ import cc.hyperium.mods.motionblur.MotionBlurMod;
 import cc.hyperium.mods.nickhider.NickHider;
 import cc.hyperium.mods.oldanimations.OldAnimations;
 import cc.hyperium.mods.playtime.PlayTime;
-import cc.hyperium.mods.skinchanger.SkinChangerMod;
 import cc.hyperium.mods.spotify.SpotifyControls;
 import cc.hyperium.mods.tabtoggle.TabToggleMod;
 import cc.hyperium.mods.timechanger.TimeChanger;
@@ -47,7 +46,6 @@ public class HyperiumModIntegration {
 
     private final KeystrokesMod keystrokesMod;
     private final TimeChanger timeChanger;
-    private final SkinChangerMod skinChanger;
     private final ToggleChatMod toggleChat;
     private final UtilitiesMod utilities;
     private final Levelhead levelhead;
@@ -78,9 +76,6 @@ public class HyperiumModIntegration {
 
     // ToggleChat implementation
     this.toggleChat = ((ToggleChatMod) new ToggleChatMod().init());
-
-    // SkinChanger implementation
-    this.skinChanger = ((SkinChangerMod) new SkinChangerMod().init());
 
     // TimeChanger implementation
     this.timeChanger = ((TimeChanger) new TimeChanger().init());
@@ -134,10 +129,6 @@ public class HyperiumModIntegration {
 
   public TimeChanger getTimeChanger() {
     return timeChanger;
-  }
-
-  public SkinChangerMod getSkinChanger() {
-    return skinChanger;
   }
 
   public ToggleChatMod getToggleChat() {

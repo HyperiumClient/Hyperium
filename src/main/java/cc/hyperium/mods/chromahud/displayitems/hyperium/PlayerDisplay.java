@@ -34,9 +34,10 @@ public class PlayerDisplay extends DisplayItem {
         GlStateManager.depthFunc(519);
         GlStateManager.disableCull();
 
-        GlStateManager.rotate(150,0,1.0F,0);
+        GlStateManager.rotate(30,0,1.0F,0);
         GuiInventory.drawEntityOnScreen(0, 0, 50, 0, 0, Minecraft.getMinecraft().thePlayer);
         GlStateManager.depthFunc(515);
-
+GlStateManager.resetColor();
+GlStateManager.color(1.0F,1.0F,1.0F,1.0F);
     }
 }

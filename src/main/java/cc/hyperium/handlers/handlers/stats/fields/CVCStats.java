@@ -24,6 +24,11 @@ public class CVCStats extends AbstractHypixelStats {
     }
 
     @Override
+    public GameType getGameType() {
+        return GameType.MCGO;
+    }
+
+    @Override
     public List<StatsDisplayItem> getPreview(HypixelApiPlayer player) {
         JsonHolder stats = player.getStats(GameType.MCGO);
         ArrayList<StatsDisplayItem> items = new ArrayList<>();

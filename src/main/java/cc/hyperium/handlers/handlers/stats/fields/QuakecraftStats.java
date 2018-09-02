@@ -27,6 +27,11 @@ public class QuakecraftStats extends AbstractHypixelStats {
   }
 
   @Override
+  public GameType getGameType() {
+    return GameType.QUAKECRAFT;
+  }
+
+  @Override
   public List<StatsDisplayItem> getPreview(HypixelApiPlayer player) {
     List<StatsDisplayItem> stats = new ArrayList<>();
     JsonHolder quakeCraft = player.getStats(GameType.QUAKECRAFT);

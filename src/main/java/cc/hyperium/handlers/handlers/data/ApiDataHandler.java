@@ -15,10 +15,12 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package cc.hyperium.handlers.handlers;
+package cc.hyperium.handlers.handlers.data;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.Metadata;
+import cc.hyperium.event.InvokeEvent;
+import cc.hyperium.event.JoinHypixelEvent;
 import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
 import cc.hyperium.handlers.handlers.data.leaderboards.Leaderboard;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
@@ -54,9 +56,27 @@ public class ApiDataHandler {
     private final ConcurrentHashMap<String, HypixelApiGuild> guilds_player = new ConcurrentHashMap<>();
     private final ConcurrentHashMap<String, HypixelApiGuild> guilds_name = new ConcurrentHashMap<>();
     private List<Leaderboard> leaderboards;
+    private JsonHolder quests;
 
     public ApiDataHandler() {
 
+    }
+
+    @InvokeEvent
+    public void joinHypixel(JoinHypixelEvent event) {
+        getLeaderboards();
+        getQuests();
+        getPlayer();
+    }
+
+    public JsonHolder getQuests() {
+        if (quests == null) {
+            quests = new JsonHolder();
+            Multithreading.runAsync(() -> {
+                quests = new JsonHolder(getUrl("https://api.hyperium.cc/quests"));
+            });
+        }
+        return quests;
     }
 
     public void post() {

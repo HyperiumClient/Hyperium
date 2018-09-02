@@ -27,6 +27,11 @@ public class DuelsStats extends AbstractHypixelStats {
     }
 
     @Override
+    public GameType getGameType() {
+        return GameType.DUELS;
+    }
+
+    @Override
     public List<StatsDisplayItem> getPreview(HypixelApiPlayer player) {
         List<StatsDisplayItem> preview = super.getPreview(player);
         preview.add(new DisplayLine(""));

@@ -25,6 +25,11 @@ public class TNTGamesStats extends AbstractHypixelStats {
     }
 
     @Override
+    public GameType getGameType() {
+        return GameType.TNTGAMES;
+    }
+
+    @Override
     public List<StatsDisplayItem> getPreview(HypixelApiPlayer player) {
         List<StatsDisplayItem> stats = new ArrayList<>();
         JsonHolder tntGames = player.getStats(GameType.TNTGAMES);

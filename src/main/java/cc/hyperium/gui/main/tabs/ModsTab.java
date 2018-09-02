@@ -58,7 +58,7 @@ public class ModsTab extends AbstractTab {
     private final HyperiumOverlay spotify = new HyperiumOverlay("Spotify");
     private final HyperiumOverlay utils = new HyperiumOverlay("Utilities");
     private final HyperiumOverlay fncompass = new HyperiumOverlay("Fornite Compass");
-    private final HyperiumOverlay reach = new HyperiumOverlay("Reach Display");
+    private final HyperiumOverlay reach = new HyperiumOverlay("Reach Display", false);
 
 
     private final GlintColorizerSettings glintcolorizer = new GlintColorizerSettings();

@@ -13,6 +13,10 @@ import net.hypixel.api.GameType;
  * @author KodingKing
  */
 public class MegaWallsStats extends AbstractHypixelStats {
+  @Override
+  public GameType getGameType() {
+    return GameType.WALLS3;
+  }
 
   @Override
   public String getImage() {
