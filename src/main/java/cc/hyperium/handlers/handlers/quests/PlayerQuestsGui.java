@@ -5,7 +5,28 @@ import cc.hyperium.gui.HyperiumGui;
 import cc.hyperium.gui.Icons;
 import cc.hyperium.handlers.handlers.stats.AbstractHypixelStats;
 import cc.hyperium.handlers.handlers.stats.display.StatsDisplayItem;
-import cc.hyperium.handlers.handlers.stats.fields.*;
+import cc.hyperium.handlers.handlers.stats.fields.ArcadeStats;
+import cc.hyperium.handlers.handlers.stats.fields.ArenaStats;
+import cc.hyperium.handlers.handlers.stats.fields.BedWarsStats;
+import cc.hyperium.handlers.handlers.stats.fields.BlitzStats;
+import cc.hyperium.handlers.handlers.stats.fields.BuildBattleStats;
+import cc.hyperium.handlers.handlers.stats.fields.CVCStats;
+import cc.hyperium.handlers.handlers.stats.fields.CrazyWallsStats;
+import cc.hyperium.handlers.handlers.stats.fields.DuelsStats;
+import cc.hyperium.handlers.handlers.stats.fields.MegaWallsStats;
+import cc.hyperium.handlers.handlers.stats.fields.MurderMysteryStats;
+import cc.hyperium.handlers.handlers.stats.fields.PaintballStats;
+import cc.hyperium.handlers.handlers.stats.fields.QuakecraftStats;
+import cc.hyperium.handlers.handlers.stats.fields.SkyClashStats;
+import cc.hyperium.handlers.handlers.stats.fields.SkyWarsStats;
+import cc.hyperium.handlers.handlers.stats.fields.SmashHeroesStats;
+import cc.hyperium.handlers.handlers.stats.fields.SpeedUHCStats;
+import cc.hyperium.handlers.handlers.stats.fields.TKRStats;
+import cc.hyperium.handlers.handlers.stats.fields.TNTGamesStats;
+import cc.hyperium.handlers.handlers.stats.fields.UHCStats;
+import cc.hyperium.handlers.handlers.stats.fields.VampireZStats;
+import cc.hyperium.handlers.handlers.stats.fields.WallsStats;
+import cc.hyperium.handlers.handlers.stats.fields.WarlordsStats;
 import cc.hyperium.mixinsimp.client.GlStateModifier;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
@@ -19,7 +40,8 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 
 import javax.imageio.ImageIO;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Desktop;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
@@ -209,7 +231,7 @@ public class PlayerQuestsGui extends HyperiumGui {
                     GlStateManager.pushMatrix();
                     GlStateManager.translate(startX + x * blockWidth + 24, y1, 0);
                     drawScaledText(field.getName(), 0, 0, 1.0, Color.RED.getRGB(), true, true);
-                    GlStateManager.translate(0, blockWidth/2F+15, 0);
+                    GlStateManager.translate(0, blockWidth / 2F + 15, 0);
                     boolean dailyDone = field.getTotalDaily() == field.getCompletedDaily();
                     boolean weeklyDone = field.getCompletedWeekly() == field.getTotalWeekly();
                     int color;
@@ -246,11 +268,15 @@ public class PlayerQuestsGui extends HyperiumGui {
                 if (rightSide > current.getScaledWidth()) {
                     xOffset = rightSide - current.getScaledWidth();
                 }
+
                 float scale = 2.0F;
                 GlStateManager.scale(scale, scale, scale);
                 int left = block.getRight() - xOffset + yRenderOffset;
                 int top = block.getTop();
                 int printY = 0;
+                if (top + height*2 > current.getScaledHeight()) {
+                    top = current.getScaledHeight()-height*2-50;
+                }
                 RenderUtils.drawRect((left - 3) / scale, (top - 3) / scale, (left + (width + 3) * scale) / scale, (top + (height + 3) * scale) / scale,
                         new Color(0, 0, 0, 175).getRGB());
 
