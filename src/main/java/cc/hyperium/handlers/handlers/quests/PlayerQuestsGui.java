@@ -111,6 +111,10 @@ public class PlayerQuestsGui extends HyperiumGui {
             });
 
         }
+        //Init
+        for (AbstractHypixelStats field : fields) {
+            field.getQuests(player);
+        }
     }
 
     public static void print(ScaledResolution current, List<StatsDisplayItem> deepStats, int printY) {
@@ -198,7 +202,15 @@ public class PlayerQuestsGui extends HyperiumGui {
             int x = -1;
             int y = 0;
             hovered = null;
+            float totalDaily = 0;
+            float completedDaily = 0;
+            float totalWeekly = 0;
+            float completedWeekly = 0;
             for (AbstractHypixelStats field : fields) {
+                totalDaily += field.getTotalDaily();
+                completedDaily += field.getCompletedDaily();
+                totalWeekly += field.getTotalWeekly();
+                completedWeekly += field.getCompletedWeekly();
                 DynamicTexture dynamicTexture = logos.get(field);
                 x++;
                 if (x > blocksPerLine) {
@@ -234,25 +246,29 @@ public class PlayerQuestsGui extends HyperiumGui {
                     GlStateManager.translate(0, blockWidth / 2F + 15, 0);
                     boolean dailyDone = field.getTotalDaily() == field.getCompletedDaily();
                     boolean weeklyDone = field.getCompletedWeekly() == field.getTotalWeekly();
-                    int color;
-                    if (!dailyDone && !weeklyDone) {
-                        color = Color.RED.getRGB();
-                    } else {
-                        if (dailyDone) {
-                            color = Color.ORANGE.getRGB();
-                        } else color = Color.GREEN.getRGB();
-                    }
-                    String percent = "";
-                    float done = field.getCompletedDaily() + field.getCompletedWeekly();
-                    float total = field.getTotalDaily() + field.getTotalWeekly();
-                    if (total == 0)
-                        percent = "Error";
-                    else percent = Float.toString(done / total * 100F);
-                    drawScaledText(percent, 0, 0, 1.0, color, true, true);
+
+                    float dailyPercent = field.getCompletedDaily() / ((float) field.getTotalDaily()) * 100F;
+                    String percent = (int) field.getCompletedDaily() + "/" + (int) field.getTotalDaily() + " (" + dailyPercent + "%)";
+                    float hue = dailyPercent / 100F / 3F;
+                    drawScaledText(percent, 0, 0, 1.0, Color.HSBtoRGB(hue, 1.0F, 1.0F), true, true);
+                    GlStateManager.translate(0, 10, 0);
+                    float weeklyPercent = field.getCompletedWeekly() / ((float) field.getTotalWeekly()) * 100F;
+                    percent = (int) field.getCompletedWeekly() + "/" + (int) field.getTotalWeekly() + " (" + weeklyPercent + "%)";
+                    drawScaledText(percent, 0, 0, 1.0, Color.HSBtoRGB(weeklyPercent/100F/3F, 1.0F, 1.0F), true, true);
+
 
                     GlStateManager.popMatrix();
                 }
             }
+            if (totalDaily == 0)
+                totalDaily = 1;
+            if (totalWeekly == 0)
+                totalWeekly = 1;
+            float dailyPercent = completedDaily / totalDaily * 100F;
+            drawScaledText("Daily Quests: " + (int) completedDaily + "/" + (int) totalDaily + " (" + dailyPercent + "%)", 5, 25, 1.5,Color.HSBtoRGB(dailyPercent/100F/3F, 1.0F, 1.0F), true, false);
+            float weeklyPercent = completedWeekly / totalWeekly * 100F;
+            drawScaledText("Weekly Quests: " + (int) completedWeekly + "/" + (int) totalWeekly + " (" + weeklyPercent + "%)", 5, 40, 1.5, Color.HSBtoRGB(weeklyPercent/100F/3F, 1.0F, 1.0F), true, false);
+
             if (hovered != null) {
                 List<StatsDisplayItem> preview = hovered.getQuests(player);
                 int width = 0;
@@ -274,8 +290,8 @@ public class PlayerQuestsGui extends HyperiumGui {
                 int left = block.getRight() - xOffset + yRenderOffset;
                 int top = block.getTop();
                 int printY = 0;
-                if (top + height*2 > current.getScaledHeight()) {
-                    top = current.getScaledHeight()-height*2-50;
+                if (top + height * 2 > current.getScaledHeight()) {
+                    top = current.getScaledHeight() - height * 2 - 50;
                 }
                 RenderUtils.drawRect((left - 3) / scale, (top - 3) / scale, (left + (width + 3) * scale) / scale, (top + (height + 3) * scale) / scale,
                         new Color(0, 0, 0, 175).getRGB());
