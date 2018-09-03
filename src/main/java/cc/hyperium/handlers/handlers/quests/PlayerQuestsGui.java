@@ -177,54 +177,52 @@ public class PlayerQuestsGui extends HyperiumGui {
         ScaledResolution current = ResolutionUtil.current();
         HypixelApiGuild guild = player.getGuild();
         boolean isInGuild = guild.isLoaded() && guild.isValid();
-        drawScaledText(player.getDisplayString() + (isInGuild ? " " + guild.getFormatedTag() : ""), current.getScaledWidth() / 2, 20, 3, Color.WHITE.getRGB(), true, true);
+        double leftTextScale = 1.25;
+        drawScaledText(player.getDisplayString() + (isInGuild ? " " + guild.getFormatedTag() : ""), 5, 10, leftTextScale, Color.WHITE.getRGB(), true, false);
         String s1 = "Quests Completed: ";
-        drawScaledText(s1, 5, 55, 1.5, Color.CYAN.getRGB(), true, false);
-        drawScaledText(WebsiteUtils.comma(player.getTotalQuests()), (int) (5 + fontRendererObj.getStringWidth(s1) * 1.5), 55, 1.5, Color.YELLOW.getRGB(), true, false);
+        drawScaledText(s1, 5, 55, leftTextScale, Color.CYAN.getRGB(), true, false);
+        drawScaledText(WebsiteUtils.comma(player.getTotalQuests()), (int) (5 + fontRendererObj.getStringWidth(s1) * leftTextScale), 55, leftTextScale, Color.YELLOW.getRGB(), true, false);
+
+
 
         if (focused == null) {
+            float scaleMod = 4 / 5F;
+            GlStateManager.scale(scaleMod, scaleMod, scaleMod);
             final int blockWidth = 64 + 32;
             int blocksPerLine = (int) (current.getScaledWidth() / (1.2D * blockWidth));
             if (blocksPerLine % 2 == 1) {
                 blocksPerLine--;
             }
-            final int startX = ResolutionUtil.current().getScaledWidth() / 2 - (blocksPerLine * blockWidth / 2);
-            int x = -1;
+            final int startX = ResolutionUtil.current().getScaledWidth() / 2 - (blocksPerLine * blockWidth / 2) + 15;
+            int x = 0;
             int y = 0;
             hovered = null;
-            float totalDaily = 0;
-            float completedDaily = 0;
-            float totalWeekly = 0;
-            float completedWeekly = 0;
+
             for (AbstractHypixelStats field : fields) {
                 field.getQuests(player);
-                totalDaily += field.getTotalDaily();
-                completedDaily += field.getCompletedDaily();
 
-                totalWeekly += field.getTotalWeekly();
-                completedWeekly += field.getCompletedWeekly();
                 DynamicTexture dynamicTexture = logos.get(field);
                 x++;
-                if (x > blocksPerLine) {
-                    x = 0;
+                if (x > blocksPerLine + 2) {
+                    x = 1;
                     y++;
                 }
                 if (dynamicTexture != null) {
                     //Render Image
 
-                    double spaceing = 1.2;
-                    int y1 = (int) (100 + (y * blockWidth * spaceing) - 10 - offset);
-                    if (y1 < 70)
-                        continue;
+                    double spacing = 1.1;
+                    int offsetY = 35;
+                    int y1 = (int) (offsetY + (y * blockWidth * spacing) - 10 - offset);
                     GlStateManager.pushMatrix();
                     GlStateManager.resetColor();
                     GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-                    int y2 = (int) ((100 + y * blockWidth * spaceing) - offset);
+                    int y2 = (int) ((offsetY + y * blockWidth * spacing) - offset);
                     int x1 = startX + x * blockWidth;
-                    GuiBlock value = new GuiBlock(x1, x1 + blockWidth / 2, y2, y2 + blockWidth / 2);
+                    GuiBlock value = new GuiBlock((int) (x1 * scaleMod), (int) ((x1 + blockWidth / 2) * scaleMod), (int) (y2 * scaleMod), (int) ((y2 + blockWidth / 2) * scaleMod));
                     if (value.isMouseOver(mouseX, mouseY)) {
                         hovered = field;
                     }
+//                    value.scalePosition(1/10F);
                     location.put(field, value);
                     GlStateManager.translate(x1, y2, 0);
                     GlStateManager.bindTexture(dynamicTexture.getGlTextureId());
@@ -239,7 +237,7 @@ public class PlayerQuestsGui extends HyperiumGui {
                     int size = strings.size() - 1;
                     GlStateManager.translate(0, -size * 10, 0);
                     for (String string : strings) {
-                        drawScaledText(C.BOLD + string, 0, 0, 1.0, new Color(200, 0, 0).getRGB(), true, true);
+                        drawScaledText(C.BOLD + string, 0, 0, 1.0, Color.YELLOW.getRGB(), true, true);
                         GlStateManager.translate(0, 10, 0);
                     }
                     GlStateManager.translate(0, blockWidth / 2F + 5, 0);
@@ -257,24 +255,8 @@ public class PlayerQuestsGui extends HyperiumGui {
                     GlStateManager.popMatrix();
                 }
             }
-            if (totalDaily == 0)
-                totalDaily = 1;
-            if (totalWeekly == 0)
-                totalWeekly = 1;
-//            float dailyPercent = Math.round(completedDaily / totalDaily * 100F);
-//            drawScaledText("Daily Quests: " + (int) completedDaily + "/" + (int) totalDaily + " (" + (int) dailyPercent + "%)", 5, 25, 1.5, Color.HSBtoRGB(dailyPercent / 100F / 3F, 1.0F, 1.0F), true, false);
-//            float weeklyPercent = Math.round(completedWeekly / totalWeekly * 100F);
-//            drawScaledText("Weekly Quests: " + (int) completedWeekly + "/" + (int) totalWeekly + " (" + (int) weeklyPercent + "%)", 5, 40, 1.5, Color.HSBtoRGB(weeklyPercent / 100F / 3F, 1.0F, 1.0F), true, false);
+            GlStateManager.scale(1 / scaleMod, 1 / scaleMod, 1 / scaleMod);
 
-            float dailyPercent = Math.round(completedDaily / totalDaily * 100F);
-            String s = "Daily Quests: ";
-            drawScaledText(s, 5, 25, 1.5, Color.CYAN.getRGB(), true, false);
-            drawScaledText((int) completedDaily + "/" + (int) totalDaily + " (" + (int) dailyPercent + "%)", (int) (5 + fontRendererObj.getStringWidth(s) * 1.5), 25, 1.5, Color.HSBtoRGB(dailyPercent / 100F / 3F, 1.0F, 1.0F), true, false);
-
-            float weeklyPercent = Math.round(completedWeekly / totalWeekly * 100F);
-            String text = "Weekly Quests: ";
-            drawScaledText(text, 5, 40, 1.5, Color.CYAN.getRGB(), true, false);
-            drawScaledText((int) completedWeekly + "/" + (int) totalWeekly + " (" + (int) weeklyPercent + "%)", (int) (5 + fontRendererObj.getStringWidth(text) * 1.5), 40, 1.5, Color.HSBtoRGB(weeklyPercent / 100F / 3F, 1.0F, 1.0F), true, false);
 
             if (hovered != null) {
                 List<StatsDisplayItem> preview = hovered.getQuests(player);
@@ -292,7 +274,7 @@ public class PlayerQuestsGui extends HyperiumGui {
                     xOffset = rightSide - current.getScaledWidth();
                 }
 
-                float scale = 1.5F;
+                float scale = 1.25F;
                 GlStateManager.scale(scale, scale, scale);
                 int left = block.getRight() - xOffset + yRenderOffset;
                 int top = block.getTop();
@@ -300,6 +282,8 @@ public class PlayerQuestsGui extends HyperiumGui {
                 if (top + height * 2 > current.getScaledHeight()) {
                     top = current.getScaledHeight() - height * 2 - 50;
                 }
+                left = 5;
+                top = 80;
                 RenderUtils.drawRect((left - 3) / scale, (top - 3) / scale, (left + (width + 3) * scale) / scale, (top + (height + 3) * scale) / scale,
                         new Color(0, 0, 0, 175).getRGB());
 
@@ -338,6 +322,34 @@ public class PlayerQuestsGui extends HyperiumGui {
 
             print(current, deepStats, printY);
         }
+
+        float totalDaily = 0;
+        float completedDaily = 0;
+        float totalWeekly = 0;
+        float completedWeekly = 0;
+        for (AbstractHypixelStats field : fields) {
+            field.getQuests(player);
+            totalDaily += field.getTotalDaily();
+            completedDaily += field.getCompletedDaily();
+
+            totalWeekly += field.getTotalWeekly();
+            completedWeekly += field.getCompletedWeekly();
+        }
+        if (totalDaily == 0)
+            totalDaily = 1;
+        if (totalWeekly == 0)
+            totalWeekly = 1;
+
+        float dailyPercent = Math.round(completedDaily / totalDaily * 100F);
+        String s = "Daily Quests: ";
+        drawScaledText(s, 5, 25, leftTextScale, Color.CYAN.getRGB(), true, false);
+        drawScaledText((int) completedDaily + "/" + (int) totalDaily + " (" + (int) dailyPercent + "%)", (int) (5 + fontRendererObj.getStringWidth(s) * leftTextScale), 25, leftTextScale, Color.HSBtoRGB(dailyPercent / 100F / 3F, 1.0F, 1.0F), true, false);
+
+        float weeklyPercent = Math.round(completedWeekly / totalWeekly * 100F);
+        String text = "Weekly Quests: ";
+        drawScaledText(text, 5, 40, leftTextScale, Color.CYAN.getRGB(), true, false);
+        drawScaledText((int) completedWeekly + "/" + (int) totalWeekly + " (" + (int) weeklyPercent + "%)", (int) (5 + fontRendererObj.getStringWidth(text) * leftTextScale), 40, leftTextScale, Color.HSBtoRGB(weeklyPercent / 100F / 3F, 1.0F, 1.0F), true, false);
+
 
     }
 

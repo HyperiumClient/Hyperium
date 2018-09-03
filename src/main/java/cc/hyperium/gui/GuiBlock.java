@@ -122,6 +122,20 @@ public class GuiBlock {
         return suc;
     }
 
+    public void translate(int x, int y) {
+        left += x;
+        right += x;
+        top += y;
+        bottom += y;
+    }
+
+    public void scalePosition(float amount) {
+        this.left *= amount;
+        this.right *= amount;
+        this.top *= amount;
+        this.bottom *= amount;
+    }
+
     public boolean drawString(String string, FontRenderer fontRenderer, boolean shadow, boolean center, int xOffset, int yOffset, boolean scaleToFitX, boolean scaleToFixY, int color, boolean sideLeft) {
         int stringWidth = fontRenderer.getStringWidth(string);
         int x;
