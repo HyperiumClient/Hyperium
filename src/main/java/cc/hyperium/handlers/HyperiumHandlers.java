@@ -27,7 +27,6 @@ import cc.hyperium.handlers.handlers.BroadcastEvents;
 import cc.hyperium.handlers.handlers.CommandQueue;
 import cc.hyperium.handlers.handlers.FlipHandler;
 import cc.hyperium.handlers.handlers.FontRendererData;
-import cc.hyperium.handlers.handlers.GameDataTracking;
 import cc.hyperium.handlers.handlers.GuiDisplayHandler;
 import cc.hyperium.handlers.handlers.HyperiumNetwork;
 import cc.hyperium.handlers.handlers.HypixelDetector;
@@ -41,7 +40,6 @@ import cc.hyperium.handlers.handlers.animation.TPoseHandler;
 import cc.hyperium.handlers.handlers.animation.TwerkDance;
 import cc.hyperium.handlers.handlers.animation.cape.CapeHandler;
 import cc.hyperium.handlers.handlers.animation.fortnite.FortniteDefaultDance;
-import cc.hyperium.handlers.handlers.animation.fortnite.FortniteHypeDance;
 import cc.hyperium.handlers.handlers.chat.AutoWhoChatHandler;
 import cc.hyperium.handlers.handlers.chat.FriendRequestChatHandler;
 import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
@@ -95,7 +93,6 @@ public class HyperiumHandlers {
     private DabHandler dabHandler;
     private FlossDanceHandler flossDanceHandler;
     private ParticleAuraHandler particleAuraHandler;
-    private GameDataTracking dataTracking;
     private VanillaEnhancementsHud vanillaEnhancementsHud;
     private QuestTrackingChatHandler questTracking;
     private ReachDisplay reachDisplay;
@@ -107,7 +104,6 @@ public class HyperiumHandlers {
     private HypixelGuiAugmenter hypixelGuiAugmenter;
     private TwerkDance twerkDance;
     private StatsHandler statsHandler;
-    private FortniteHypeDance fortniteHypeDance;
     private BroadcastEvents broadcastEvents;
 
     public HyperiumHandlers() {
@@ -132,7 +128,6 @@ public class HyperiumHandlers {
         register(capeHandler = new CapeHandler());
         register(guiDisplayHandler = new GuiDisplayHandler());
         register(scoreboardRenderer = new ScoreboardRenderer());
-        register(dataTracking = new GameDataTracking());
         register(privateMessageHandler = new PrivateMessageHandler());
         register(dabHandler = new DabHandler());
         register(twerkDance = new TwerkDance());
@@ -143,7 +138,6 @@ public class HyperiumHandlers {
         register(flossDanceHandler = new FlossDanceHandler());
         register(tPoseHandler = new TPoseHandler());
         register(fortniteDefaultDance = new FortniteDefaultDance());
-        register(fortniteHypeDance = new FortniteHypeDance());
         register(statsHandler = new StatsHandler());
         register(broadcastEvents = new BroadcastEvents());
         commandQueue = new CommandQueue();
@@ -174,10 +168,6 @@ public class HyperiumHandlers {
         return statsHandler;
     }
 
-    public FortniteHypeDance getFortniteHypeDance() {
-        return fortniteHypeDance;
-    }
-
     public TwerkDance getTwerkDance() {
         return twerkDance;
     }
@@ -199,9 +189,6 @@ public class HyperiumHandlers {
         dataHandler.post();
     }
 
-    public GameDataTracking getDataTracking() {
-        return dataTracking;
-    }
 
     public HyperiumNetwork getNetwork() {
         return network;

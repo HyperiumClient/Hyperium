@@ -78,9 +78,6 @@ public class NetworkHandler implements INetty, PostConfigHandler, PreSaveHandler
         if (type.equalsIgnoreCase("fortnite_default_dance")) {
             Hyperium.INSTANCE.getHandlers().getFortniteDefaultDance().startAnimation(uuid);
             Hyperium.INSTANCE.getHandlers().getFortniteDefaultDance().getStates().put(uuid, System.currentTimeMillis());
-        }else if (type.equalsIgnoreCase("fortnite_hype_dance")) {
-            Hyperium.INSTANCE.getHandlers().getFortniteHypeDance().startAnimation(uuid);
-            Hyperium.INSTANCE.getHandlers().getFortniteHypeDance().getStates().put(uuid, System.currentTimeMillis());
         } else if (type.equalsIgnoreCase("twerk_dance")) {
             Hyperium.INSTANCE.getHandlers().getTwerkDance().startAnimation(uuid);
             Hyperium.INSTANCE.getHandlers().getTwerkDance().getStates().put(uuid, System.currentTimeMillis());
