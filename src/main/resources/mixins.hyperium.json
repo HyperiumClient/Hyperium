@@ -51,6 +51,7 @@
     "gui.MixinGuiGameOver",
     "gui.MixinGuiIngame",
     "gui.MixinGuiIngameMenu",
+    "gui.MixinGuiInventory",
     "gui.MixinGuiMainMenu",
     "gui.MixinGuiMultiplayer",
     "gui.MixinGuiNewChat",

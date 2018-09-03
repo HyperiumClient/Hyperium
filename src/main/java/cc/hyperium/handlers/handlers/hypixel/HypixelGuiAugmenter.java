@@ -7,6 +7,7 @@ import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.gui.integrations.HypixelFriendsGui;
 import cc.hyperium.handlers.handlers.quests.PlayerQuestsGui;
 import cc.hyperium.mixins.gui.IMixinGuiScreen;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -20,7 +21,7 @@ public class HypixelGuiAugmenter {
 
     public HypixelGuiAugmenter() {
         lobbyAdds.put(new GuiButton(500001, 1, 1, "View Quests"), button -> {
-            new PlayerQuestsGui(Hyperium.INSTANCE.getHandlers().getDataHandler().getPlayer());
+            new PlayerQuestsGui(Hyperium.INSTANCE.getHandlers().getDataHandler().getPlayer()).show();
         });
         lobbyAdds.put(new GuiButton(500002, 1, 22, "View Friends"), button -> {
             new HypixelFriendsGui().show();
@@ -42,7 +43,19 @@ public class HypixelGuiAugmenter {
 
     }
 
-
+    private boolean shouldDoTheThing() {
+        GuiScreen gui = Minecraft.getMinecraft().currentScreen;
+        if (Hyperium.INSTANCE.getHandlers().getHypixelDetector().isHypixel()) {
+            String location = Hyperium.INSTANCE.getHandlers().getLocationHandler().getLocation();
+            if (location.toLowerCase().contains("lobby")) {
+                //in a lobby
+                if (gui instanceof GuiContainer) {
+                  return true;
+                }
+            }
+        }
+        return false;
+    }
     public void modifyLobbyGui(GuiScreen screen) {
         if (screen == null)
             return;
@@ -52,12 +65,11 @@ public class HypixelGuiAugmenter {
         }
     }
 
+
     @InvokeEvent
     public void actionPerformed(ActionPerformedEvent event) {
-        System.out.println("Performed");
         Consumer<GuiButton> guiButtonConsumer = lobbyAdds.get(event.getButton());
         if (guiButtonConsumer != null) {
-            System.out.println("Running");
             guiButtonConsumer.accept(event.getButton());
         }
     }
