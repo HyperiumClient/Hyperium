@@ -243,7 +243,7 @@ public class PlayerQuestsGui extends HyperiumGui {
 
                     GlStateManager.pushMatrix();
                     GlStateManager.translate(startX + x * blockWidth + 24, y1, 0);
-                    drawScaledText(field.getName(), 0, 0, 1.0, Color.RED.getRGB(), true, true);
+                    drawScaledText(field.getName(), 0, 0, 1.0,new Color(200,0,0).getRGB(), true, true);
                     GlStateManager.translate(0, blockWidth / 2F + 15, 0);
 
                     float dailyPercent = Math.round(field.getCompletedDaily() / ((float) field.getTotalDaily()) * 100F);
