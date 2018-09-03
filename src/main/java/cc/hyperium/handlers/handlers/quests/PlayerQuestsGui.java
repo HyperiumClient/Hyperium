@@ -207,6 +207,7 @@ public class PlayerQuestsGui extends HyperiumGui {
             float totalWeekly = 0;
             float completedWeekly = 0;
             for (AbstractHypixelStats field : fields) {
+                field.getQuests(player);
                 totalDaily += field.getTotalDaily();
                 completedDaily += field.getCompletedDaily();
                 totalWeekly += field.getTotalWeekly();
@@ -244,16 +245,14 @@ public class PlayerQuestsGui extends HyperiumGui {
                     GlStateManager.translate(startX + x * blockWidth + 24, y1, 0);
                     drawScaledText(field.getName(), 0, 0, 1.0, Color.RED.getRGB(), true, true);
                     GlStateManager.translate(0, blockWidth / 2F + 15, 0);
-                    boolean dailyDone = field.getTotalDaily() == field.getCompletedDaily();
-                    boolean weeklyDone = field.getCompletedWeekly() == field.getTotalWeekly();
 
-                    float dailyPercent = field.getCompletedDaily() / ((float) field.getTotalDaily()) * 100F;
-                    String percent = (int) field.getCompletedDaily() + "/" + (int) field.getTotalDaily() + " (" + dailyPercent + "%)";
+                    float dailyPercent = Math.round(field.getCompletedDaily() / ((float) field.getTotalDaily()) * 100F);
+                    String percent = (int) field.getCompletedDaily() + "/" + (int) field.getTotalDaily() + " (" + (int)dailyPercent + "%)";
                     float hue = dailyPercent / 100F / 3F;
                     drawScaledText(percent, 0, 0, 1.0, Color.HSBtoRGB(hue, 1.0F, 1.0F), true, true);
                     GlStateManager.translate(0, 10, 0);
-                    float weeklyPercent = field.getCompletedWeekly() / ((float) field.getTotalWeekly()) * 100F;
-                    percent = (int) field.getCompletedWeekly() + "/" + (int) field.getTotalWeekly() + " (" + weeklyPercent + "%)";
+                    float weeklyPercent = Math.round(field.getCompletedWeekly() / ((float) field.getTotalWeekly()) * 100F);
+                    percent = (int) field.getCompletedWeekly() + "/" + (int) field.getTotalWeekly() + " (" + (int)weeklyPercent + "%)";
                     drawScaledText(percent, 0, 0, 1.0, Color.HSBtoRGB(weeklyPercent/100F/3F, 1.0F, 1.0F), true, true);
 
 
@@ -264,10 +263,10 @@ public class PlayerQuestsGui extends HyperiumGui {
                 totalDaily = 1;
             if (totalWeekly == 0)
                 totalWeekly = 1;
-            float dailyPercent = completedDaily / totalDaily * 100F;
-            drawScaledText("Daily Quests: " + (int) completedDaily + "/" + (int) totalDaily + " (" + dailyPercent + "%)", 5, 25, 1.5,Color.HSBtoRGB(dailyPercent/100F/3F, 1.0F, 1.0F), true, false);
-            float weeklyPercent = completedWeekly / totalWeekly * 100F;
-            drawScaledText("Weekly Quests: " + (int) completedWeekly + "/" + (int) totalWeekly + " (" + weeklyPercent + "%)", 5, 40, 1.5, Color.HSBtoRGB(weeklyPercent/100F/3F, 1.0F, 1.0F), true, false);
+            float dailyPercent = Math.round(completedDaily / totalDaily * 100F);
+            drawScaledText("Daily Quests: " + (int) completedDaily + "/" + (int) totalDaily + " (" + (int)dailyPercent + "%)", 5, 25, 1.5,Color.HSBtoRGB(dailyPercent/100F/3F, 1.0F, 1.0F), true, false);
+            float weeklyPercent = Math.round(completedWeekly / totalWeekly * 100F);
+            drawScaledText("Weekly Quests: " + (int) completedWeekly + "/" + (int) totalWeekly + " (" + (int)weeklyPercent + "%)", 5, 40, 1.5, Color.HSBtoRGB(weeklyPercent/100F/3F, 1.0F, 1.0F), true, false);
 
             if (hovered != null) {
                 List<StatsDisplayItem> preview = hovered.getQuests(player);
@@ -333,6 +332,9 @@ public class PlayerQuestsGui extends HyperiumGui {
         }
 
     }
+
+
+
 
 
 }
