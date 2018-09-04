@@ -60,18 +60,18 @@ public class HyperiumMainGui extends HyperiumGui {
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         int yg = height / 10;  // Y grid
-        int xg = width / 10;   // X grid
+        int xg = width / 11;   // X grid
 
         if (Minecraft.getMinecraft().theWorld == null)
             drawDefaultBackground(); //TODO: Make it draw custom background
 
         // Header
-        drawRect(xg, yg, xg * 9, yg * 2, 0x64000000);
-        drawRect(xg, yg * 2, xg * 9, yg * 9, 0x28000000);
+        drawRect(xg, yg, xg * 10, yg * 2, 0x64000000);
+        drawRect(xg, yg * 2, xg * 10, yg * 9, 0x28000000);
         title.drawCenteredString(currentTab.getTitle().toUpperCase(), width / 2, yg + (yg / 2 - 8), 0xffffff);
 
         // Body
-        currentTab.render(xg, yg * 2, xg * 8, yg * 8);
+        currentTab.render(xg, yg * 2, xg * 9, yg * 8);
 
         // Footer
         smol.drawString(Metadata.getVersion(), width - smol.getWidth(Metadata.getVersion()) - 1, height - 10, 0xffffffff);
