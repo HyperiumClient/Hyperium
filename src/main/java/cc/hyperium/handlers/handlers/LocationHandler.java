@@ -19,10 +19,10 @@ package cc.hyperium.handlers.handlers;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.config.Settings;
-import cc.hyperium.event.ChatEvent;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.JoinMinigameEvent;
+import cc.hyperium.event.ServerChatEvent;
 import cc.hyperium.event.ServerJoinEvent;
 import cc.hyperium.event.ServerLeaveEvent;
 import cc.hyperium.event.ServerSwitchEvent;
@@ -70,7 +70,7 @@ public class LocationHandler {
     }
 
     @InvokeEvent
-    public void chatRecieve(ChatEvent event) {
+    public void chatRecieve(ServerChatEvent event) {
         if (!Hyperium.INSTANCE.getHandlers().getHypixelDetector().isHypixel())
             return;
         String raw = ChatColor.stripColor(event.getChat().getUnformattedText());
@@ -96,6 +96,7 @@ public class LocationHandler {
         }
         this.location = to;
         if (sendingWhereAmI) {
+            System.out.println("canceling");
             sendingWhereAmI = false;
             event.setCancelled(true);
         }
