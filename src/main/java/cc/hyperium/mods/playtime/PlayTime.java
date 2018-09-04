@@ -1,25 +1,24 @@
 package cc.hyperium.mods.playtime;
 
 import cc.hyperium.Hyperium;
-import cc.hyperium.event.*;
-import cc.hyperium.internal.addons.IAddon;
+import cc.hyperium.config.Settings;
+import cc.hyperium.event.EventBus;
+import cc.hyperium.event.InvokeEvent;
+import cc.hyperium.event.TickEvent;
 import cc.hyperium.mods.AbstractMod;
 
-import java.sql.Time;
-import java.time.Duration;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Timer;
-import java.util.TimerTask;
-
-public class PlayTime extends AbstractMod  {
+public class PlayTime extends AbstractMod {
+    static long startSysTime;
+    static long startConfigTime;
+    static long sessionPlayTime;
+    static long totalPlayTime;
 
     @Override
     public AbstractMod init() {
+        startConfigTime = Settings.TOTAL_PLAYTIME;
+        EventBus.INSTANCE.register(this);
         Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(new PlayTimeCommand());
+        Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(new TotalPlayTimeCommand());
         startSysTime = System.currentTimeMillis();
         return this;
     }
@@ -29,6 +28,10 @@ public class PlayTime extends AbstractMod  {
         return new Metadata(this, "Play Time", "1.0", "SHARDCoder");
     }
 
-    static long startSysTime;
-
+    @InvokeEvent
+    public void tickEvent(TickEvent event) {
+        Settings.TOTAL_PLAYTIME = startConfigTime + (System.currentTimeMillis() - PlayTime.startSysTime);
+        sessionPlayTime = (System.currentTimeMillis() - PlayTime.startSysTime) / 1000;
+        totalPlayTime = Settings.TOTAL_PLAYTIME / 1000;
+    }
 }

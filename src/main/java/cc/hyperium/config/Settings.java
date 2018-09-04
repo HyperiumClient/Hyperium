@@ -502,6 +502,9 @@ public class Settings {
     @ToggleSetting(name = "Item Physics", category = GENERAL)
     public static boolean ITEM_PHYSIC_ENABLED = false;
 
+    @ConfigOpt
+    public static long TOTAL_PLAYTIME = 0;
+
     private Settings() {
     }
 
