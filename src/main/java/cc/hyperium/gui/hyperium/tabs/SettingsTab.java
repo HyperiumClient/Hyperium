@@ -13,6 +13,10 @@ public class SettingsTab extends AbstractTab {
     public SettingsTab(HyperiumMainGui gui) {
         super(gui, "Settings");
         components.add(new CollapsibleTabComponent(this, Collections.emptyList(), "General")
+                .addChild(new CollapsibleTabComponent(this, Collections.emptyList(), "Test child"))
+                .addChild(new CollapsibleTabComponent(this, Collections.emptyList(), "Test child"))
+                .addChild(new CollapsibleTabComponent(this, Collections.emptyList(), "Test child"))
+                .addChild(new CollapsibleTabComponent(this, Collections.emptyList(), "Test child"))
                 .addChild(new CollapsibleTabComponent(this, Collections.emptyList(), "Test child")));
         components.add(new CollapsibleTabComponent(this, Collections.emptyList(), "General 2")
                 .addChild(new CollapsibleTabComponent(this, Collections.emptyList(), "Test child")));

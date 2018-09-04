@@ -21,6 +21,7 @@ import java.util.List;
  */
 public class HyperiumMainGui extends HyperiumGui {
     private static int tabIndex = 0; // save tab position
+    private int initialGuiScale;
 
     private HyperiumFontRenderer smol = new HyperiumFontRenderer(Settings.GUI_FONT, Font.PLAIN, 14);
     private HyperiumFontRenderer font = new HyperiumFontRenderer(Settings.GUI_FONT, Font.PLAIN, 20);
@@ -31,6 +32,13 @@ public class HyperiumMainGui extends HyperiumGui {
     private AbstractTab currentTab;
 
     public HyperiumMainGui() {
+        initialGuiScale = Minecraft.getMinecraft().gameSettings.guiScale;
+        // Adjust if GUI scale is on automatic.
+        if (Minecraft.getMinecraft().gameSettings.guiScale == 0)
+            Minecraft.getMinecraft().gameSettings.guiScale = 3;
+
+        guiScale = 2;
+        scollMultiplier = 2;
         setTab(tabIndex);
     }
 
@@ -94,5 +102,9 @@ public class HyperiumMainGui extends HyperiumGui {
     public void onGuiClosed() {
         super.onGuiClosed();
         Minecraft.getMinecraft().entityRenderer.stopUseShader();
+        if (initialGuiScale == 0) {
+            // User was on automatic so return to that scale.
+            Minecraft.getMinecraft().gameSettings.guiScale = 0;
+        }
     }
 }

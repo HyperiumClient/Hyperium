@@ -37,14 +37,15 @@ public class CollapsibleTabComponent extends AbstractTabComponent {
         y += 20;
         x += 10;
         width -= 10;
+        boolean r = false; // left right column stuff
         for (AbstractTabComponent comp : childs) {
-            comp.render(x, y, width, mouseX, mouseY);
+            comp.render(r ? x + width / 2 : x, y, width / 2, mouseX, mouseY);
 
-            if (mouseX >= x && mouseX <= x + width && mouseY >= y && mouseY <= y + comp.getHeight()) {
+            if (mouseX >= (r ? x + width / 2 : x) && mouseX <= (r ? x + width / 2 : x) + width / 2 && mouseY >= y && mouseY <= y + comp.getHeight()) {
                 comp.hover = true;
                 if (Mouse.isButtonDown(0)) {
                     if (!tab.clickStates.computeIfAbsent(comp, ignored -> false)) {
-                        comp.onClick(mouseX, mouseY - y /* Make the Y relevant to the component */);
+                        comp.onClick(r ? mouseX - width / 2 : mouseX, mouseY - y /* Make the Y relevant to the component */);
                         tab.clickStates.put(comp, true);
                     }
                 } else if (tab.clickStates.computeIfAbsent(comp, ignored -> false))
@@ -52,7 +53,9 @@ public class CollapsibleTabComponent extends AbstractTabComponent {
             } else
                 comp.hover = false;
 
-            y += comp.getHeight();
+            if (r)
+                y += comp.getHeight();
+            r = !r;
         }
     }
 
