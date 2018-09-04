@@ -35,12 +35,12 @@ public class HypixelGuiAugmenter {
             if (location.toLowerCase().contains("lobby")) {
                 //in a lobby
                 if (gui instanceof GuiContainer) {
-//                    modifyLobbyGui(gui);
+                    modifyLobbyGui(gui);
                 }
             }
         }
 
-        modifyLobbyGui(gui);
+//        modifyLobbyGui(gui);
     }
 
 
