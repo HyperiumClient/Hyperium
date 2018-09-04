@@ -50,9 +50,7 @@ public class HypixelGuiAugmenter {
         for (GuiButton guiButton : lobbyAdds.keySet()) {
             ((IMixinGuiScreen) screen).getButtonList().add(guiButton);
             guiButton.visible = true;
-            System.out.println("adding " + guiButton);
         }
-        System.out.println("e");
     }
 
     @InvokeEvent

@@ -37,7 +37,6 @@ public class HyperiumGuiScreen {
     }
 
     public boolean actionPerformed(GuiButton button) {
-        System.out.println("eg");
         ActionPerformedEvent event = new ActionPerformedEvent(parent, button);
         EventBus.INSTANCE.post(event);
         return event.isCancelled();

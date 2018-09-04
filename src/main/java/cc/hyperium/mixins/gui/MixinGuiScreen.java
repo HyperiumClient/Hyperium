@@ -64,7 +64,6 @@ public abstract class MixinGuiScreen {
 
     @Inject(method = "actionPerformed", at = @At("HEAD"), cancellable = true)
     private void actionPerformed(GuiButton button, CallbackInfo info) {
-        System.out.println("k");
         if (hyperiumGuiScreen.actionPerformed(button))
             info.cancel();
     }
