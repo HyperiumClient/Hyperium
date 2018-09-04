@@ -21,23 +21,23 @@ public class PlayerDisplay extends DisplayItem {
 
     @Override
     public void draw(int x, double y, boolean config) {
+        GlStateManager.pushMatrix();
         GlStateManager.color(1, 1, 1);
 //
         GlStateManager.translate(x, y, 5);
-        final int mouseX = 0;
-        final int mouseY = 0;
         RenderHelper.enableStandardItemLighting();
         GlStateManager.enableAlpha();
 
         GlStateManager.shadeModel(7424);
-        GlStateManager.alphaFunc(516, 0.1F);
-        GlStateManager.depthFunc(519);
-        GlStateManager.disableCull();
+        GlStateManager.enableAlpha();
+        GlStateManager.enableDepth();
 
-        GlStateManager.rotate(30,0,1.0F,0);
+        GlStateManager.rotate(30, 0, 1.0F, 0);
         GuiInventory.drawEntityOnScreen(0, 0, 50, 0, 0, Minecraft.getMinecraft().thePlayer);
         GlStateManager.depthFunc(515);
-GlStateManager.resetColor();
-GlStateManager.color(1.0F,1.0F,1.0F,1.0F);
+        GlStateManager.resetColor();
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+        GlStateManager.disableDepth();
+        GlStateManager.popMatrix();
     }
 }

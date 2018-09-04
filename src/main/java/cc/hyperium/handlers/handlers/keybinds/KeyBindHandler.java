@@ -29,6 +29,7 @@ import cc.hyperium.handlers.handlers.keybinds.keybinds.FlipKeybind;
 import cc.hyperium.handlers.handlers.keybinds.keybinds.FlossKeybind;
 import cc.hyperium.handlers.handlers.keybinds.keybinds.FortniteDefaultDanceKeybind;
 import cc.hyperium.handlers.handlers.keybinds.keybinds.FriendsKeybind;
+import cc.hyperium.handlers.handlers.keybinds.keybinds.GuiDanceKeybind;
 import cc.hyperium.handlers.handlers.keybinds.keybinds.GuiKeybind;
 import cc.hyperium.handlers.handlers.keybinds.keybinds.NamesKeybind;
 import cc.hyperium.handlers.handlers.keybinds.keybinds.QueueKeybind;
@@ -87,6 +88,7 @@ public class KeyBindHandler {
         registerKeyBinding(new TwerkDanceKeybind());
         registerKeyBinding(new ClearPopupKeybind());
         registerKeyBinding(new TPoseKeybind());
+        registerKeyBinding(new GuiDanceKeybind());
         registerKeyBinding(new UploadScreenshotKeybind());
         registerKeyBinding(new RearCamKeybind());
 

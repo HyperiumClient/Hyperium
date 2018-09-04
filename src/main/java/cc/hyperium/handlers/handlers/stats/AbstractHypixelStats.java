@@ -120,6 +120,7 @@ public abstract class AbstractHypixelStats {
                         for (JsonElement task : tasks) {
                             JsonHolder task1 = new JsonHolder(task.getAsJsonObject());
                             String line = task1.optString("text") + (task1.has("id") ? " (" + objectives.optInt(task1.optString("id")) + "/" + task1.optInt("goal") + ")" : "") + "";
+                          if(!completed)
                             statsDisplayItems.add(new DisplayLine("  - " + line));
                         }
                     }

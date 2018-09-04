@@ -251,6 +251,9 @@ public class PlayerStatsGui extends HyperiumGui {
                 int left = block.getRight() - xOffset + yRenderOffset;
                 int top = block.getTop();
                 int printY = 0;
+                if (top + height*2 > current.getScaledHeight()) {
+                    top = current.getScaledHeight()-height*2-50;
+                }
                 RenderUtils.drawRect((left - 3) / scale, (top - 3) / scale, (left + (width + 3) * scale) / scale, (top + (height + 3) * scale) / scale,
                         new Color(0, 0, 0, 175).getRGB());
 

@@ -17,6 +17,7 @@
 
 package cc.hyperium.mixins;
 
+import cc.hyperium.Metadata;
 import cc.hyperium.SplashProgress;
 import cc.hyperium.config.Settings;
 import cc.hyperium.mixinsimp.HyperiumMinecraft;
@@ -128,7 +129,7 @@ public abstract class MixinMinecraft {
     @Inject(method = "startGame", at = @At("RETURN"))
     private void init(CallbackInfo ci) {
         //Accessor not needed since its only set once
-//        enableGLErrorChecking = false;
+        enableGLErrorChecking = Metadata.isDevelopment();
         hyperiumMinecraft.startGame(ci);
     }
 

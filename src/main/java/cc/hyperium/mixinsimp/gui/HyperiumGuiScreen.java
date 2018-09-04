@@ -4,6 +4,8 @@ import cc.hyperium.config.Settings;
 import cc.hyperium.event.ActionPerformedEvent;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.GuiClickEvent;
+import cc.hyperium.event.GuiDrawScreenEvent;
+import cc.hyperium.event.GuiKeyTypedEvent;
 import cc.hyperium.event.InitGuiEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
@@ -67,6 +69,14 @@ public class HyperiumGuiScreen {
                 }
             });
         }
+    }
+
+    public void keyTyped(char typedChar, int keyCode) {
+        EventBus.INSTANCE.post(new GuiKeyTypedEvent(parent, typedChar, keyCode));
+    }
+
+    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+        EventBus.INSTANCE.post(new GuiDrawScreenEvent(parent, mouseX, mouseY, partialTicks));
     }
 
     public void onGuiClosed(CallbackInfo ci) {
