@@ -69,11 +69,6 @@ public class MixinGuiScreenResourcePacks extends GuiScreen {
     if (this.searchField != null) {
       this.searchField.mouseClicked(mouseX, mouseY, mouseButton);
     }
-  }
-
-  @Override
-  public void updateScreen() {
-    super.updateScreen();
 
     if (this.searchField == null || this.searchField.getText().isEmpty()) {
       this.availableResourcePacksList = new GuiResourcePackAvailable(this.mc, 200, this.height,

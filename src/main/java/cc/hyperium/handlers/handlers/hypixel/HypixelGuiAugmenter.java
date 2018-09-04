@@ -37,7 +37,7 @@ public class HypixelGuiAugmenter {
                 }
             }
         }
-
+//        modifyLobbyGui(gui);
     }
 
     private boolean shouldDoTheThing() {
