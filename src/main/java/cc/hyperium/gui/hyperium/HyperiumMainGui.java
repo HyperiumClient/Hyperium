@@ -24,7 +24,7 @@ public class HyperiumMainGui extends HyperiumGui {
     private int initialGuiScale;
 
     private HyperiumFontRenderer smol = new HyperiumFontRenderer(Settings.GUI_FONT, Font.PLAIN, 14);
-    private HyperiumFontRenderer font = new HyperiumFontRenderer(Settings.GUI_FONT, Font.PLAIN, 20);
+    private HyperiumFontRenderer font = new HyperiumFontRenderer(Settings.GUI_FONT, Font.PLAIN, 16);
     private HyperiumFontRenderer title = new HyperiumFontRenderer(Settings.GUI_FONT, Font.PLAIN, 30);
     private List<AbstractTab> tabs = Arrays.asList(
             new SettingsTab(this)

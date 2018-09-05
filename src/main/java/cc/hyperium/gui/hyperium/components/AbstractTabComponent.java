@@ -25,13 +25,13 @@ public abstract class AbstractTabComponent {
     }
 
     public int getHeight() {
-        return 20;
+        return 18;
     }
 
     public void render(int x, int y, int width, int mouseX, int mouseY) {
         GlStateManager.pushMatrix();
         if (hover)
-            Gui.drawRect(x, y, x + width, y + 20,  0xa0000000);
+            Gui.drawRect(x, y, x + width, y + 18,  0xa0000000);
         GlStateManager.popMatrix();
     }
 

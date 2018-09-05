@@ -25,7 +25,7 @@ public class CollapsibleTabComponent extends AbstractTabComponent {
     @Override
     public void render(int x, int y, int width, int mouseX, int mouseY) {
         super.render(x, y, width, mouseX, mouseY);
-        tab.gui.getFont().drawString(label.toUpperCase(), x + 3, y + 4, 0xffffff);
+        tab.gui.getFont().drawString(label.toUpperCase(), x + 3, y + 5, 0xffffff);
         GlStateManager.bindTexture(0);
         if (collapsed)
             Icons.ARROW_RIGHT.bind();
@@ -34,7 +34,7 @@ public class CollapsibleTabComponent extends AbstractTabComponent {
         Gui.drawScaledCustomSizeModalRect(x + width - 20, y, 0, 0, 144, 144, 20, 20, 144, 144);
 
         if (collapsed) return;
-        y += 20;
+        y += 18;
         x += 10;
         width -= 10;
         boolean r = false; // left right column stuff
@@ -62,9 +62,14 @@ public class CollapsibleTabComponent extends AbstractTabComponent {
     @Override
     public int getHeight() {
         if (collapsed)
-            return 20;
-        else
-            return 20 + childs.stream().flatMapToInt(c -> IntStream.of(c.getHeight())).sum();
+            return 18;
+        else {
+            final boolean[] l = {true};
+            return 18 + childs.stream().flatMapToInt(c -> {
+                l[0] = !l[0];
+                return IntStream.of(l[0] ? 0 : c.getHeight());
+            }).sum();
+        }
     }
 
     public CollapsibleTabComponent addChild(AbstractTabComponent component) {
@@ -75,7 +80,7 @@ public class CollapsibleTabComponent extends AbstractTabComponent {
 
     @Override
     public void onClick(int x, int y) {
-        if (y < 20)
+        if (y < 18)
             collapsed = !collapsed;
     }
 }

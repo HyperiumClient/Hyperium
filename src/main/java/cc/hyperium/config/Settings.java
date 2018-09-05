@@ -486,7 +486,7 @@ public class Settings {
 
     @ConfigOpt
     @ToggleSetting(name = "Gui Font", category = GENERAL)
-    public static String GUI_FONT = "Roboto Condensed";
+    public static String GUI_FONT = "Roboto";
 
     private Settings() {
     }

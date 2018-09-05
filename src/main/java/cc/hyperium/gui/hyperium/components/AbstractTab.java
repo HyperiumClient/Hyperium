@@ -33,11 +33,11 @@ public abstract class AbstractTab {
         final int mx = Mouse.getX() * sw / Minecraft.getMinecraft().displayWidth;           // Mouse X
         final int my = sh - Mouse.getY() * sh / Minecraft.getMinecraft().displayHeight - 1; // Mouse Y
 
-        y += scroll * 20;
+        y += scroll * 18;
         for (AbstractTabComponent comp : components) {
             comp.render(x, y, width, mx, my);
 
-            if (mx >= x && mx <= x + width && my >= y && my <= y + comp.getHeight()) {
+            if (mx >= x && mx <= x + width && my > y && my <= y + comp.getHeight()) {
                 comp.hover = true;
                 if (Mouse.isButtonDown(0)) {
                     if (!clickStates.computeIfAbsent(comp, ignored -> false)) {
