@@ -99,9 +99,9 @@ public abstract class AbstractHypixelStats {
                     JsonHolder item = new JsonHolder(jsonElement.getAsJsonObject());
                     if (item.getKeys().size() == 1) {
                         String quest_backend = item.getKeys().get(0);
-                        StringBuilder tmp = new StringBuilder(quest_backend);
+                        StringBuilder tmp = new StringBuilder(Hyperium.INSTANCE.getHandlers().getDataHandler().getFrontendName(quest_backend));
                         //TODO get quest names
-                        JsonHolder playerQuestData = player.getQuests().optJSONObject(quest_backend);
+                        JsonHolder playerQuestData = player.getQuests().optJSONObject(Hyperium.INSTANCE.getHandlers().getDataHandler().getFrontendName(quest_backend));
                         long last_completed = playerQuestData.optLong("last_completed");
                         tmp.append(": ");
                         boolean completed = daily ? isToday(last_completed) : isWeek(last_completed);
