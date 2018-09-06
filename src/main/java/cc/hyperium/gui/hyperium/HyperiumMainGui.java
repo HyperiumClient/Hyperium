@@ -11,6 +11,7 @@ import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.util.ResourceLocation;
 
 import java.awt.Font;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
@@ -106,5 +107,11 @@ public class HyperiumMainGui extends HyperiumGui {
             // User was on automatic so return to that scale.
             Minecraft.getMinecraft().gameSettings.guiScale = 0;
         }
+    }
+
+    @Override
+    public void handleMouseInput() throws IOException {
+        super.handleMouseInput();
+        currentTab.handleMouseInput();
     }
 }
