@@ -120,8 +120,6 @@ public class MixinGuiScreenResourcePacks extends GuiScreen {
         this.selectedResourcePacksList.drawScreen(mouseX, mouseY, partialTicks);
         this.drawCenteredString(this.fontRendererObj, I18n.format("resourcePack.title"), this.width / 2,
                 16, 16777215);
-        this.drawCenteredString(this.fontRendererObj, I18n.format("resourcePack.folderInfo"),
-                this.width / 2 - 102, this.height - 26, 8421504);
 
         this.searchField.drawTextBox();
 
