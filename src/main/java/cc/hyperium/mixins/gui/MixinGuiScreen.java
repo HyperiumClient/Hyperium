@@ -21,7 +21,9 @@ import cc.hyperium.mixinsimp.gui.HyperiumGuiScreen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
+import org.lwjgl.input.Keyboard;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -41,6 +43,21 @@ public abstract class MixinGuiScreen {
 
     @Shadow
     protected abstract void actionPerformed(GuiButton button) throws IOException;
+
+    @Shadow protected abstract void keyTyped(char typedChar, int keyCode) throws IOException;
+
+    /**
+     * @reason Fix input bug (MC-2781)
+     * @author SiroQ
+     **/
+    @Overwrite
+    public void handleKeyboardInput() throws IOException{
+        char character = Keyboard.getEventCharacter();
+        if (Keyboard.getEventKey() == 0 && character >= 32 || Keyboard.getEventKeyState()) {
+            this.keyTyped(character, Keyboard.getEventKey());
+        }
+        this.mc.dispatchKeypresses();
+    }
 
     @Inject(method = "drawWorldBackground", at = @At("HEAD"), cancellable = true)
     private void drawWorldBackground(int tint, CallbackInfo ci) {
