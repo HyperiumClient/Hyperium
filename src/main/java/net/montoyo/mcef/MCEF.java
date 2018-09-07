@@ -34,7 +34,7 @@ public class MCEF {
 
         String mirror = "";
 
-        ENABLE_EXAMPLE = false;
+        ENABLE_EXAMPLE = true;
         HOME_PAGE = "https://hyperium.cc";
         DISABLE_GPU_RENDERING = true;
         CHECK_VRAM_LEAK = true;
@@ -42,7 +42,6 @@ public class MCEF {
         PROXY.onPreInit();
         PROXY.onInit();
     }
-
 
 
 }

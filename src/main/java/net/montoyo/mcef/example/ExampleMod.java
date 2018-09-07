@@ -23,7 +23,16 @@ public class ExampleMod implements IDisplayHandler, IJSQueryHandler {
     public static ExampleMod INSTANCE;
 
     public ScreenCfg hudBrowser = null;
-    private HyperiumBind key = new HyperiumBind("Open Browser", Keyboard.KEY_F10, "key.categories.misc");
+    private HyperiumBind key = new HyperiumBind("Open Browser", Keyboard.KEY_RBRACKET, "key.categories.misc"){
+        @Override
+        public void onPress() {
+            if (!(mc.currentScreen instanceof BrowserScreen)) {
+                //Display the web browser UI.
+                mc.displayGuiScreen(hasBackup() ? backup : new BrowserScreen());
+                backup = null;
+            }
+        }
+    };
     private Minecraft mc = Minecraft.getMinecraft();
     private BrowserScreen backup = null;
     private API api;
@@ -80,15 +89,7 @@ public class ExampleMod implements IDisplayHandler, IJSQueryHandler {
             return null;
     }
 
-    @InvokeEvent
-    public void onTick(TickEvent ev) {
-        //Check if our key was pressed
-        if (key.wasPressed() && !(mc.currentScreen instanceof BrowserScreen)) {
-            //Display the web browser UI.
-            mc.displayGuiScreen(hasBackup() ? backup : new BrowserScreen());
-            backup = null;
-        }
-    }
+
 
     @Override
     public void onAddressChange(IBrowser browser, String url) {
