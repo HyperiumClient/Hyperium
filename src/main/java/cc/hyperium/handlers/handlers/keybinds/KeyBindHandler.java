@@ -33,6 +33,7 @@ import cc.hyperium.handlers.handlers.keybinds.keybinds.GuiDanceKeybind;
 import cc.hyperium.handlers.handlers.keybinds.keybinds.GuiKeybind;
 import cc.hyperium.handlers.handlers.keybinds.keybinds.NamesKeybind;
 import cc.hyperium.handlers.handlers.keybinds.keybinds.QueueKeybind;
+import cc.hyperium.handlers.handlers.keybinds.keybinds.RearCamKeybind;
 import cc.hyperium.handlers.handlers.keybinds.keybinds.TPoseKeybind;
 import cc.hyperium.handlers.handlers.keybinds.keybinds.TogglePerspectiveKeybind;
 import cc.hyperium.handlers.handlers.keybinds.keybinds.ToggleSpotifyKeybind;
@@ -89,6 +90,7 @@ public class KeyBindHandler {
         registerKeyBinding(new TPoseKeybind());
         registerKeyBinding(new GuiDanceKeybind());
         registerKeyBinding(new UploadScreenshotKeybind());
+        registerKeyBinding(new RearCamKeybind());
 
         // Populate mouse bind list in accordance with Minecraft's values.
         for (int i = 0; i < 16; i++) {

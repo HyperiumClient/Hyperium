@@ -30,8 +30,10 @@ import cc.hyperium.utils.UUIDUtil;
 import club.sk1er.website.api.requests.HypixelApiFriends;
 import club.sk1er.website.api.requests.HypixelApiGuild;
 import club.sk1er.website.api.requests.HypixelApiPlayer;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import net.hypixel.api.GameType;
 import org.apache.commons.io.IOUtils;
 
 import java.io.InputStream;
@@ -60,6 +62,38 @@ public class ApiDataHandler {
 
     public ApiDataHandler() {
 
+    }
+
+    private static List<thing> thng2(JsonArray array) {
+        ArrayList<thing> strings = new ArrayList<>();
+        for (JsonElement jsonElement : array) {
+            JsonHolder jsonHolder = new JsonHolder(jsonElement.getAsJsonObject());
+            for (String key : jsonHolder.getKeys()) {
+                for (JsonElement element : jsonHolder.optJSONArray(key)) {
+                    JsonHolder jsonHolder1 = new JsonHolder(element.getAsJsonObject());
+                    List<String> keys = jsonHolder1.getKeys();
+                    for (String s : keys) {
+                        strings.add(new thing(s, "", GameType.valueOf(key.toUpperCase())));
+                    }
+                }
+            }
+        }
+        return strings;
+    }
+
+    public static void main(String[] args) throws InterruptedException {
+
+        ApiDataHandler apiDataHandler = new ApiDataHandler();
+        apiDataHandler.getQuests();
+        Thread.sleep(1000L);
+        JsonHolder quests = apiDataHandler.getQuests();
+
+        List<thing> daily = thng2(quests.optJSONArray("daily"));
+        daily.addAll(thng2(quests.optJSONArray("weekly")));
+        for (thing thing : daily) {
+            System.out.println(thing.toString());
+            System.out.println(",");
+        }
     }
 
     @InvokeEvent
@@ -263,4 +297,34 @@ public class ApiDataHandler {
 
     }
 
+    public String getFrontendName(String backend) {
+        return getQuests().optJSONObject("names").optJSONObject(backend).optString("name", backend);
+    }
+
+    public String getBackendName(String frontend, GameType game) {
+        return getQuests().getObject().entrySet().stream().filter(obj -> {
+            JsonObject asJsonObject = obj.getValue().getAsJsonObject();
+            return asJsonObject.get("name").getAsString().equalsIgnoreCase(frontend) && asJsonObject.get("game").getAsString().equalsIgnoreCase(game.name());
+        }).map(Map.Entry::getKey).findFirst().orElse(frontend);
+    }
+
+    static class thing {
+        String backend;
+        String frontend;
+        GameType game;
+
+        public thing(String backend, String frontend, GameType game) {
+            this.backend = backend;
+            this.frontend = frontend;
+            this.game = game;
+        }
+
+        @Override
+        public String toString() {
+            JsonHolder values1 = new JsonHolder();
+            values1.put("name", frontend);
+            values1.put("game", game.name());
+            return "\""+ backend+"\":{\"name\":\"\",\"game\":\""+game.name()+"\"}";
+        }
+    }
 }
