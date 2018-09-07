@@ -7,6 +7,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
+import me.semx11.autotip.util.ReflectionUtil;
 import net.minecraft.client.gui.GuiResourcePackAvailable;
 import net.minecraft.client.gui.GuiResourcePackSelected;
 import net.minecraft.client.gui.GuiScreen;
@@ -60,20 +61,6 @@ public class MixinGuiScreenResourcePacks extends GuiScreen {
     if (this.searchField != null) {
       this.searchField.textboxKeyTyped(typedChar, keyCode);
     }
-  }
-
-  @Override
-  protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
-    super.mouseClicked(mouseX, mouseY, mouseButton);
-
-    if (this.searchField != null) {
-      this.searchField.mouseClicked(mouseX, mouseY, mouseButton);
-    }
-  }
-
-  @Override
-  public void updateScreen() {
-    super.updateScreen();
 
     if (this.searchField == null || this.searchField.getText().isEmpty()) {
       this.availableResourcePacksList = new GuiResourcePackAvailable(this.mc, 200, this.height,
@@ -85,8 +72,9 @@ public class MixinGuiScreenResourcePacks extends GuiScreen {
           Arrays
               .asList(this.availablePacksClone.getList().stream().filter(resourcePackListEntry -> {
                 try {
-                  Method nameMethod = resourcePackListEntry.getClass()
-                      .getDeclaredMethod("func_148312_b");
+                  Method nameMethod = ReflectionUtil
+                      .findDeclaredMethod(resourcePackListEntry.getClass(),
+                          new String[]{"func_148312_b", "c"});
                   nameMethod.setAccessible(true);
                   String name = ChatColor
                       .stripColor((String) nameMethod.invoke(resourcePackListEntry))
@@ -105,13 +93,22 @@ public class MixinGuiScreenResourcePacks extends GuiScreen {
 
                   return name.startsWith(text) || name.contains(text) || name
                       .equalsIgnoreCase(text);
-                } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+                } catch (IllegalAccessException | InvocationTargetException e) {
                   e.printStackTrace();
                   return true;
                 }
               }).toArray(ResourcePackListEntry[]::new)));
       this.availableResourcePacksList.setSlotXBoundsFromLeft(this.width / 2 - 4 - 200);
       this.availableResourcePacksList.registerScrollButtons(7, 8);
+    }
+  }
+
+  @Override
+  protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
+    super.mouseClicked(mouseX, mouseY, mouseButton);
+
+    if (this.searchField != null) {
+      this.searchField.mouseClicked(mouseX, mouseY, mouseButton);
     }
   }
 
