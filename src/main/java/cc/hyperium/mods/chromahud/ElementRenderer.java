@@ -26,7 +26,9 @@ import cc.hyperium.utils.RenderUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.item.ItemStack;
 import org.lwjgl.input.Mouse;
@@ -196,14 +198,14 @@ public class ElementRenderer {
 
     public static void startDrawing(DisplayElement element) {
         GlStateManager.pushMatrix();
-        GlStateManager.scale(element.getScale(), element.getScale(), 0);
+        GlStateManager.scale(element.getScale(), element.getScale(), 1.0 / element.getScale());
         currentScale = element.getScale();
         color = element.getColor();
         current = element;
     }
 
     public static void endDrawing(DisplayElement element) {
-        GlStateManager.scale(1.0 / element.getScale(), 1.0 / element.getScale(), 0);
+        GlStateManager.scale(1.0 / element.getScale(), 1.0 / element.getScale(), 1.0 / element.getScale());
 
         GlStateManager.popMatrix();
     }
@@ -246,6 +248,7 @@ public class ElementRenderer {
     @InvokeEvent
     public void onRenderTick(RenderHUDEvent event) {
         resolution = new ScaledResolution(Minecraft.getMinecraft());
+
         if (!this.minecraft.inGameHasFocus || this.minecraft.gameSettings.showDebugInfo) {
             return;
         }
