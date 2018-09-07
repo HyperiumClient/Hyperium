@@ -292,6 +292,7 @@ public abstract class MixinMinecraft {
     }
 
 
+
     @Inject(method = "shutdown", at = @At("HEAD"))
     private void shutdown(CallbackInfo ci) {
         hyperiumMinecraft.shutdown(ci);

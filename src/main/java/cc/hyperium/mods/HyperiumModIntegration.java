@@ -37,13 +37,13 @@ import cc.hyperium.mods.timechanger.TimeChanger;
 import cc.hyperium.mods.togglechat.ToggleChatMod;
 import cc.hyperium.mods.utilities.UtilitiesMod;
 import me.semx11.autotip.Autotip;
+import net.montoyo.mcef.MCEF;
 
 /**
  * Basic inbuilt mod handler, including many community mods such as ChromaHUD, LevelHead and
  * ToggleChat
  */
 public class HyperiumModIntegration {
-
     private final KeystrokesMod keystrokesMod;
     private final TimeChanger timeChanger;
     private final ToggleChatMod toggleChat;
@@ -63,139 +63,145 @@ public class HyperiumModIntegration {
     private final FortniteCompassMod fncompass;
     private final TabToggleMod tabToggle;
     private final ItemPhysicMod itemPhysicMod;
+    private final MCEF mcef;
+    public HyperiumModIntegration() {
+        // ChromaHud implementation
+        this.chromaHUD = ((ChromaHUD) new ChromaHUD().init());
+        this.mcef = new MCEF();
+        mcef.init();
 
-  public HyperiumModIntegration() {
-    // ChromaHud implementation
-    this.chromaHUD = ((ChromaHUD) new ChromaHUD().init());
+        // LevelHead implementation
+        this.levelhead = ((Levelhead) new Levelhead().init());
 
-    // LevelHead implementation
-    this.levelhead = ((Levelhead) new Levelhead().init());
+        // Utilities implementation
+        this.utilities = ((UtilitiesMod) new UtilitiesMod().init());
 
-    // Utilities implementation
-    this.utilities = ((UtilitiesMod) new UtilitiesMod().init());
+        // ToggleChat implementation
+        this.toggleChat = ((ToggleChatMod) new ToggleChatMod().init());
 
-    // ToggleChat implementation
-    this.toggleChat = ((ToggleChatMod) new ToggleChatMod().init());
+        // TimeChanger implementation
+        this.timeChanger = ((TimeChanger) new TimeChanger().init());
 
-    // TimeChanger implementation
-    this.timeChanger = ((TimeChanger) new TimeChanger().init());
+        // KeystrokesMod implementation
+        this.keystrokesMod = ((KeystrokesMod) new KeystrokesMod().init());
 
-    // KeystrokesMod implementation
-    this.keystrokesMod = ((KeystrokesMod) new KeystrokesMod().init());
+        // Autotip implementation
+        this.autotip = new Autotip().init();
 
-    // Autotip implementation
-    this.autotip = new Autotip().init();
+        // AutoGG implementation
+        this.autogg = ((AutoGG) new AutoGG().init());
 
-    // AutoGG implementation
-    this.autogg = ((AutoGG) new AutoGG().init());
+        // HGames implementation
+        this.hgames = ((HGames) new HGames().init());
 
-    // HGames implementation
-    this.hgames = ((HGames) new HGames().init());
+        // Old Animations implementation
 
-    // Old Animations implementation
+        this.oldanimations = ((OldAnimations) new OldAnimations().init());
 
-    this.oldanimations = ((OldAnimations) new OldAnimations().init());
+        // Block Overlay implementation
+        this.blockOverlay = ((BlockOverlay) new BlockOverlay().init());
 
-    // Block Overlay implementation
-    this.blockOverlay = ((BlockOverlay) new BlockOverlay().init());
+        // Spotify Controls Implementation
+        this.spotifyControls = ((SpotifyControls) new SpotifyControls().init());
 
-    // Spotify Controls Implementation
-    this.spotifyControls = ((SpotifyControls) new SpotifyControls().init());
+        //Motion Blur
+        this.motionBlur = ((MotionBlurMod) new MotionBlurMod().init());
 
-    //Motion Blur
-    this.motionBlur = ((MotionBlurMod) new MotionBlurMod().init());
+        // Glint Colorizer implementation
+        this.glintcolorizer = ((GlintColorizer) new GlintColorizer().init());
+        NickHider nickHider = new NickHider();
+        nickHider.init();
 
-    // Glint Colorizer implementation
-    this.glintcolorizer = ((GlintColorizer) new GlintColorizer().init());
-    NickHider nickHider = new NickHider();
-    nickHider.init();
+        //Autofriend implementation
+        this.autofriend = ((AutofriendMod) new AutofriendMod().init());
 
-    //Autofriend implementation
-    this.autofriend = ((AutofriendMod) new AutofriendMod().init());
+        //Play Time addon port
+        this.playTime = (PlayTime) new PlayTime().init();
 
-    //Play Time addon port
-    this.playTime = (PlayTime) new PlayTime().init();
+        this.fncompass = (FortniteCompassMod) new FortniteCompassMod().init();
 
-    this.fncompass = (FortniteCompassMod) new FortniteCompassMod().init();
+        this.tabToggle = (TabToggleMod) new TabToggleMod().init();
 
-    this.tabToggle = (TabToggleMod) new TabToggleMod().init();
-    
-    this.itemPhysicMod = (ItemPhysicMod) new ItemPhysicMod().init();
-  }
+        this.itemPhysicMod = (ItemPhysicMod) new ItemPhysicMod().init();
+    }
 
-  public KeystrokesMod getKeystrokesMod() {
-    return keystrokesMod;
-  }
+    public MCEF getMcef() {
+        return mcef;
+    }
 
-  public TimeChanger getTimeChanger() {
-    return timeChanger;
-  }
+    public KeystrokesMod getKeystrokesMod() {
+        return keystrokesMod;
+    }
 
-  public ToggleChatMod getToggleChat() {
-    return toggleChat;
-  }
+    public TimeChanger getTimeChanger() {
+        return timeChanger;
+    }
 
-  public UtilitiesMod getUtilities() {
-    return utilities;
-  }
+    public ToggleChatMod getToggleChat() {
+        return toggleChat;
+    }
 
-  public Levelhead getLevelhead() {
-    return levelhead;
-  }
+    public UtilitiesMod getUtilities() {
+        return utilities;
+    }
 
-  public ChromaHUD getChromaHUD() {
-    return chromaHUD;
-  }
+    public Levelhead getLevelhead() {
+        return levelhead;
+    }
 
-  public Autotip getAutotip() {
-    return autotip;
-  }
+    public ChromaHUD getChromaHUD() {
+        return chromaHUD;
+    }
 
-  public AutoGG getAutoGG() {
-    return autogg;
-  }
+    public Autotip getAutotip() {
+        return autotip;
+    }
 
-  public HGames getHGames() {
-    return hgames;
-  }
+    public AutoGG getAutoGG() {
+        return autogg;
+    }
 
-  public GlintColorizer getGlintcolorizer() {
-    return glintcolorizer;
-  }
+    public HGames getHGames() {
+        return hgames;
+    }
 
-  public BlockOverlay getBlockOverlay() {
-    return blockOverlay;
-  }
+    public GlintColorizer getGlintcolorizer() {
+        return glintcolorizer;
+    }
 
-  public SpotifyControls getSpotifyControls() {
-    return spotifyControls;
-  }
+    public BlockOverlay getBlockOverlay() {
+        return blockOverlay;
+    }
 
-  public MotionBlurMod getMotionBlur() {
-    return motionBlur;
-  }
+    public SpotifyControls getSpotifyControls() {
+        return spotifyControls;
+    }
 
-  public OldAnimations getOldanimations() {
-    return oldanimations;
-  }
+    public MotionBlurMod getMotionBlur() {
+        return motionBlur;
+    }
 
-  public AutofriendMod getAutofriend() {
-    return autofriend;
-  }
+    public OldAnimations getOldanimations() {
+        return oldanimations;
+    }
 
-  public PlayTime getPlayTime() {
-    return playTime;
-  }
+    public AutofriendMod getAutofriend() {
+        return autofriend;
+    }
 
-  public FortniteCompassMod getFncompass() {
-    return fncompass;
-  }
+    public PlayTime getPlayTime() {
+        return playTime;
+    }
 
-  public TabToggleMod getTabToggle() {
-    return tabToggle;
-  }
+    public FortniteCompassMod getFncompass() {
+        return fncompass;
+    }
 
-  public ItemPhysicMod getItemPhysicMod() {
-     return itemPhysicMod;
-  }
+    public TabToggleMod getTabToggle() {
+        return tabToggle;
+    }
+
+    public ItemPhysicMod getItemPhysicMod() {
+        return itemPhysicMod;
+    }
 }
