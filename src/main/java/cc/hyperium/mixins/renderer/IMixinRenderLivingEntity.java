@@ -1,6 +1,7 @@
 package cc.hyperium.mixins.renderer;
 
 import net.minecraft.client.renderer.entity.RendererLivingEntity;
+import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.entity.EntityLivingBase;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Invoker;
@@ -20,4 +21,6 @@ public interface IMixinRenderLivingEntity<T extends EntityLivingBase> {
     @Invoker
     boolean callCanRenderName(T entity);
 
-    }
+    @Invoker
+    <V extends EntityLivingBase, U extends LayerRenderer<V>> boolean callAddLayer(U layer);
+}

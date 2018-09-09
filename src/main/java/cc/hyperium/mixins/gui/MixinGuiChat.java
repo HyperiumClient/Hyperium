@@ -43,19 +43,6 @@ public class MixinGuiChat {
         hyperiumGuiChat.init(inputField);
     }
 
-    /**
-     * Invoked when the player presses the enter key in the chat gui (before any processing is done)
-     *
-     * @param typedChar the typed char
-     * @param keyCode   the key code
-     * @param ci        {@see org.spongepowered.asm.mixin.injection.callback.CallbackInfo}
-     * @author boomboompower
-     */
-    @Inject(method = "keyTyped", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiChat;sendChatMessage(Ljava/lang/String;)V", shift = At.Shift.BEFORE), cancellable = true)
-    private void keyTyped(char typedChar, int keyCode, CallbackInfo ci) {
-        hyperiumGuiChat.keyTyped(inputField, ci);
-    }
-
     @Inject(method = "sendAutocompleteRequest", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/NetHandlerPlayClient;addToSendQueue(Lnet/minecraft/network/Packet;)V", shift = At.Shift.BEFORE))
     private void onSendAutocompleteRequest(String leftOfCursor, String fullInput, CallbackInfo ci) {
         hyperiumGuiChat.onSendAutocompleteRequest(leftOfCursor);

@@ -34,6 +34,7 @@
     "entity.MixinEntityRenderer",
     "entity.MixinNetworkPlayerInfo",
     "entity.MixinRenderFish",
+    "entity.MixinEntityItem",
     "gui.IMixinGui",
     "gui.IMixinGuiContainer",
     "gui.IMixinGuiNewChat",
@@ -64,6 +65,7 @@
     "gui.MixinInventory",
     "gui.MixinInventoryParticle",
     "item.MixinItemBow",
+    "item.MixinItemStack",
     "packet.MixinC01PacketChatMessage",
     "packet.MixinNetHandlerPlayClient",
     "packet.MixinNetworkManager",
@@ -97,6 +99,7 @@
     "utils.MixinChatComponentStyle",
     "utils.MixinChatStyle",
     "utils.MixinResourcePackRepository",
+    "utils.MixinMultiMap",
     "world.MixinChunk",
     "world.MixinWorld"
   ]
