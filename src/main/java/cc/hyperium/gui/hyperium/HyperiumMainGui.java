@@ -79,7 +79,7 @@ public class HyperiumMainGui extends HyperiumGui {
         // Header
         drawRect(xg, yg, xg * 10, yg * 2, 0x64000000);
         drawRect(xg, yg * 2, xg * 10, yg * 9, 0x28000000);
-        title.drawCenteredString(currentTab.getTitle().toUpperCase(), width / 2, yg + (yg / 2 - 8), 0xffffff);
+        title.drawCenteredString(currentTab.getTitle().toUpperCase(), width / 2F, yg + (yg / 2F - 8), 0xffffff);
 
         // Body
         currentTab.render(xg, yg * 2, xg * 9, yg * 8);
