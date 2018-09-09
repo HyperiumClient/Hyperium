@@ -22,7 +22,7 @@ object DefaultLoader {
         if (toDownload.exists()) {
             val content = FileLib.read(toDownload)
 
-            for (module in content.split(",".toRegex())) {
+            for (module in content!!.split(",".toRegex())) {
                 if ("\n" == module || "" == module) continue
 
                 importModule(module, false)

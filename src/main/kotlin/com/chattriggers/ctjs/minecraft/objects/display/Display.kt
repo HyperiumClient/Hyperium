@@ -30,7 +30,10 @@ abstract class Display {
         this.renderY = config.getOption("renderY", 0).toFloat()
 
         this.backgroundColor = config.getOption("backgroundColor", 0x50000000).toInt()
-        this.textColor = config.getOption("textColor", 0xffffffff).toInt()
+
+        try {
+            this.textColor = config.getOption("textColor", 0xffffffff).toInt()
+        } catch (e: Exception) { }
 
         this.setBackground(config.getOption("background", DisplayHandler.Background.NONE))
         this.setAlign(config.getOption("align", DisplayHandler.Align.RIGHT))

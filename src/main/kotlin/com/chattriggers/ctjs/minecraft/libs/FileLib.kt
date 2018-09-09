@@ -1,10 +1,8 @@
 package com.chattriggers.ctjs.minecraft.libs
 
 import com.chattriggers.ctjs.utils.config.Config
-import org.apache.commons.io.FileUtils
 import java.io.*
 import java.net.URL
-import java.nio.charset.Charset
 import java.util.zip.ZipEntry
 import java.util.zip.ZipInputStream
 
@@ -29,7 +27,7 @@ object FileLib {
      */
     @JvmStatic
     fun write(fileLocation: String, toWrite: String) {
-        FileUtils.write(File(fileLocation), toWrite, Charset.defaultCharset())
+        File(fileLocation).writeText(toWrite)
     }
 
     /**
@@ -53,10 +51,7 @@ object FileLib {
      * @return the string in the file
      */
     @JvmStatic
-    fun read(fileLocation: String): String {
-        val file = File(fileLocation)
-        return read(file)
-    }
+    fun read(fileLocation: String) = read(File(fileLocation))
 
     /**
      * Reads a file from anywhere on the system using java.io.File.
@@ -65,8 +60,12 @@ object FileLib {
      * @return the string in the file
      */
     @JvmStatic
-    fun read(file: File): String {
-        return FileUtils.readFileToString(file, Charset.defaultCharset())
+    fun read(file: File): String? {
+        return try {
+            file.readText()
+        } catch (e: Exception) {
+            null
+        }
     }
 
     /**

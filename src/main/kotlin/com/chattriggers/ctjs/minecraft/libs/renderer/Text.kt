@@ -57,6 +57,8 @@ class Text(private var string: String, private var x: Float = 0f, private var y:
         this.lines = Renderer.getFontRenderer().listFormattedStringToWidth(this.string, this.width)
     }
 
+    fun getLines() = lines
+
     fun getMaxLines() = this.maxLines
     fun setMaxLines(maxLines: Int) = apply { this.maxLines = maxLines }
 

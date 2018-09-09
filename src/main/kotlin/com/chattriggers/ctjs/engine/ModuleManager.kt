@@ -9,6 +9,9 @@ import com.chattriggers.ctjs.utils.console.Console
 import java.io.File
 
 object ModuleManager {
+    const val DEFAULT_MODULES = "PMManager"
+
+
     val loaders = mutableListOf<ILoader>()
     val generalConsole = Console(null)
     var cachedModules = listOf<Module>()
@@ -35,6 +38,15 @@ object ModuleManager {
         loaders.forEach {
             it.load(modules)
         }
+
+        DEFAULT_MODULES.split(",").map {
+            it.trim()
+        }.forEach { module ->
+            if (!modules.any { it.name.equals(module, ignoreCase = true) }) {
+                importModule(module)
+            }
+        }
+        //TODO: DEFAULT MODULES !!!!1!1!!!1!!11!!!1!!!!
     }
 
     fun load(module: Module) {

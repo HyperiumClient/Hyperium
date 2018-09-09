@@ -170,9 +170,9 @@ class ItemTooltipEvent(val item: ItemStack, val toolTip: List<String>) : Event()
 
 class RenderWorldEvent(val partialTicks: Float) : Event()
 
-class WorldLoadEvent() : Event()
+class WorldLoadEvent : Event()
 
-class WorldUnloadEvent() : Event()
+class WorldUnloadEvent : Event()
 
 enum class ElementType {
     ALL,
