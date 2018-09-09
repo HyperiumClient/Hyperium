@@ -24,8 +24,7 @@ import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.font.effects.ColorEffect;
 
-import java.awt.Font;
-import java.awt.FontFormatException;
+import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,36 +34,20 @@ import java.util.Map;
 public class HyperiumFontRenderer {
 
     public final int FONT_HEIGHT = 9;
-    private final float ANTI_ALIASING_FACTOR = 3.0f;
-    private UnicodeFont unicodeFont;
     private final int[] colorCodes = new int[32];
     private final float kerning;
     private final Map<String, Float> cachedStringWidth = new HashMap<>();
+    private float antiAliasingFactor;
+    private UnicodeFont unicodeFont;
 
     public HyperiumFontRenderer(String fontName, int fontType, int size) {
         this(fontName, fontType, size, 0);
     }
 
-    private Font getFontByName(String name) throws IOException, FontFormatException {
-        if(name.equalsIgnoreCase("roboto condensed") || name.equalsIgnoreCase("roboto")){
-            return getFontFromInput("/assets/hyperium/fonts/RobotoCondensed-Regular.ttf");
-        } else if(name.equalsIgnoreCase("montserrat")){
-            return getFontFromInput("/assets/hyperium/fonts/Montserrat-Regular.ttf");
-        } else if(name.equalsIgnoreCase("segoeui") || name.equalsIgnoreCase("segoeui light")){
-            return getFontFromInput("/assets/hyperium/fonts/SegoeUI-Light.ttf");
-        } else{
-            // Need to return the default font.
-            return getFontFromInput("/assets/hyperium/fonts/SegoeUI-Light.ttf");
-        }
-    }
-
-    private Font getFontFromInput(String path) throws IOException, FontFormatException {
-        return Font.createFont(Font.TRUETYPE_FONT, InstallerMain.class.getResourceAsStream(path));
-    }
-
-    public HyperiumFontRenderer(String fontName, float fontSize, float kerning) {
+    public HyperiumFontRenderer(String fontName, float fontSize, float kerning, float antiAliasingFactor) {
+        this.antiAliasingFactor = antiAliasingFactor;
         try {
-            this.unicodeFont = new UnicodeFont(getFontByName(fontName).deriveFont(fontSize* ANTI_ALIASING_FACTOR));
+            this.unicodeFont = new UnicodeFont(getFontByName(fontName).deriveFont(fontSize * this.antiAliasingFactor));
         } catch (FontFormatException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -101,8 +84,9 @@ public class HyperiumFontRenderer {
         }
     }
 
-    public HyperiumFontRenderer(Font font, float kerning) {
-        this.unicodeFont = new UnicodeFont(new Font(font.getName(), font.getStyle(), (int) (font.getSize() * ANTI_ALIASING_FACTOR)));
+    public HyperiumFontRenderer(Font font, float kerning, float antiAliasingFactor) {
+        this.antiAliasingFactor = antiAliasingFactor;
+        this.unicodeFont = new UnicodeFont(new Font(font.getName(), font.getStyle(), (int) (font.getSize() * antiAliasingFactor)));
         this.kerning = kerning;
 
         this.unicodeFont.addAsciiGlyphs();
@@ -135,7 +119,24 @@ public class HyperiumFontRenderer {
     }
 
     public HyperiumFontRenderer(String fontName, int fontType, int size, float kerning) {
-        this(new Font(fontName, fontType, size), kerning);
+        this(new Font(fontName, fontType, size), kerning, 3.0F);
+    }
+
+    private Font getFontByName(String name) throws IOException, FontFormatException {
+        if (name.equalsIgnoreCase("roboto condensed") || name.equalsIgnoreCase("roboto")) {
+            return getFontFromInput("/assets/hyperium/fonts/RobotoCondensed-Regular.ttf");
+        } else if (name.equalsIgnoreCase("montserrat")) {
+            return getFontFromInput("/assets/hyperium/fonts/Montserrat-Regular.ttf");
+        } else if (name.equalsIgnoreCase("segoeui") || name.equalsIgnoreCase("segoeui light")) {
+            return getFontFromInput("/assets/hyperium/fonts/SegoeUI-Light.ttf");
+        } else {
+            // Need to return the default font.
+            return getFontFromInput("/assets/hyperium/fonts/SegoeUI-Light.ttf");
+        }
+    }
+
+    private Font getFontFromInput(String path) throws IOException, FontFormatException {
+        return Font.createFont(Font.TRUETYPE_FONT, InstallerMain.class.getResourceAsStream(path));
     }
 
     public int drawString(String text, float x, float y, int color) {
@@ -148,10 +149,10 @@ public class HyperiumFontRenderer {
         float originalX = x;
 
         GL11.glPushMatrix();
-        GlStateManager.scale(1 / ANTI_ALIASING_FACTOR, 1 / ANTI_ALIASING_FACTOR, 1 / ANTI_ALIASING_FACTOR);
+        GlStateManager.scale(1 / antiAliasingFactor, 1 / antiAliasingFactor, 1 / antiAliasingFactor);
         GL11.glScaled(0.5F, 0.5F, 0.5F);
-        x *= ANTI_ALIASING_FACTOR;
-        y *= ANTI_ALIASING_FACTOR;
+        x *= antiAliasingFactor;
+        y *= antiAliasingFactor;
         float red = (float) (color >> 16 & 255) / 255.0F;
         float green = (float) (color >> 8 & 255) / 255.0F;
         float blue = (float) (color & 255) / 255.0F;
@@ -182,7 +183,7 @@ public class HyperiumFontRenderer {
             if (c != '\247' && (index == 0 || index == characters.length - 1 || characters[index - 1] != '\247')) {
                 //Line causing error
                 unicodeFont.drawString(x, y, Character.toString(c), new org.newdawn.slick.Color(currentColor));
-                x += (getWidth(Character.toString(c)) * 2.0F * ANTI_ALIASING_FACTOR);
+                x += (getWidth(Character.toString(c)) * 2.0F * antiAliasingFactor);
             } else if (c == ' ') {
                 x += unicodeFont.getSpaceWidth();
             } else if (c == '\247' && index != characters.length - 1) {
@@ -231,7 +232,7 @@ public class HyperiumFontRenderer {
                 width += unicodeFont.getWidth(Character.toString(c)) + this.kerning;
             }
 
-            return width / 2.0F / ANTI_ALIASING_FACTOR;
+            return width / 2.0F / antiAliasingFactor;
         });
 
     }

@@ -32,9 +32,9 @@ public class HyperiumMainGui extends HyperiumGui {
     private AbstractTab currentTab;
 
     public HyperiumMainGui() {
-        smol = new HyperiumFontRenderer(Settings.GUI_FONT,14.0F,0);
-        font = new HyperiumFontRenderer(Settings.GUI_FONT,16.0F,0);
-        title = new HyperiumFontRenderer(Settings.GUI_FONT,30.0F,0);
+        smol = new HyperiumFontRenderer(Settings.GUI_FONT, 14.0F, 0, 10.0F);
+        font = new HyperiumFontRenderer(Settings.GUI_FONT, 16.0F, 0, 10.0F);
+        title = new HyperiumFontRenderer(Settings.GUI_FONT, 30.0F, 0, 10.0F);
         initialGuiScale = Minecraft.getMinecraft().gameSettings.guiScale;
         // Adjust if GUI scale is on automatic.
         if (Minecraft.getMinecraft().gameSettings.guiScale == 0)
