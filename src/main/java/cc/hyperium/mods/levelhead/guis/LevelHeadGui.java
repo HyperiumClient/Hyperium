@@ -217,7 +217,7 @@ public class LevelHeadGui extends GuiScreen {
 
     private void updateCustom() {
         lock.lock();
-        reg(new GuiButton(13, this.width / 2 - 155, 205+25, 310, 20, (isCustom ? ChatColor.YELLOW + "Click to change custom Levelhead." : ChatColor.YELLOW + "Click to purchase a custom Levelhead message")), button -> {
+        reg(new GuiButton(13, this.width / 2 - 155, this.height - 44, 310, 20, (isCustom ? ChatColor.YELLOW + "Click to change custom Levelhead." : ChatColor.YELLOW + "Click to purchase a custom Levelhead message")), button -> {
 
             try {
                 if (isCustom) {
@@ -231,7 +231,7 @@ public class LevelHeadGui extends GuiScreen {
 
         });
         if (isCustom) {
-            GuiButton button1 = new GuiButton(16, this.width / 2 - 155, 230+25, 310, 20, ChatColor.YELLOW + "Export these colors to my custom Levelhead");
+            GuiButton button1 = new GuiButton(16, this.width / 2 - 155, this.height - 22, 310, 20, ChatColor.YELLOW + "Export these colors to my custom Levelhead");
             reg(button1, button -> {
                 JsonHolder object = new JsonHolder();
                 object.put("header_obj", this.mod.getHeaderConfig());
