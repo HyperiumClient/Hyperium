@@ -44,9 +44,9 @@ public abstract class MixinGuiIngame extends Gui {
     @Shadow
     public abstract FontRenderer getFontRenderer();
 
-    @Inject(method = "renderGameOverlay", at = @At(value = "INVOKE",target = "Lnet/minecraft/client/entity/EntityPlayerSP;isRidingHorse()Z"))
+    @Inject(method = "renderGameOverlay", at = @At(value = "INVOKE",target = "Lnet/minecraft/client/settings/KeyBinding;isKeyDown()Z"))
     private void renderGameOverlay(float partialTicks, CallbackInfo ci) {
-        hyperiumGuiIngame.renderXP(partialTicks, ci);
+        hyperiumGuiIngame.renderGameOverlay(partialTicks, ci);
     }
 
     @Inject(method = "renderSelectedItem", at = @At(value = "RETURN", target = "Lnet/minecraft/client/renderer/GlStateManager;popMatrix()V"))

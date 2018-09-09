@@ -220,8 +220,10 @@ public class MixinModelBiped extends ModelBase implements IMixinModelBiped {
         this.butt.render(scale);
         this.bipedLeftLowerLeg_adj.render(scale);
         this.bipedRightLowerLeg_adj.render(scale);
-        this.bipedLeftForeArm_adj.render(scale);
-        this.bipedRightForeArm_adj.render(scale);
+        /*It causes two bugs so I disabled it, If need it, enable again and please fix skin bug when player wearing boots.
+          After some tests, I felt it not needed... If it wrong sorry.*/
+        /*this.bipedLeftForeArm_adj.render(scale);
+        this.bipedRightForeArm_adj.render(scale);*/
     }
 
     @Overwrite

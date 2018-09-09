@@ -31,7 +31,7 @@ public class HyperiumGuiIngame {
         EventBus.INSTANCE.post(new RenderSelectedItemEvent(sr));
     }
 
-    public void renderXP(float part, CallbackInfo ci) {
+    public void renderGameOverlay(float part, CallbackInfo ci) {
         EventBus.INSTANCE.post(new RenderHUDEvent(part));
     }
 
