@@ -10,7 +10,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.util.ResourceLocation;
 
-import java.awt.Font;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -24,15 +23,18 @@ public class HyperiumMainGui extends HyperiumGui {
     private static int tabIndex = 0; // save tab position
     private int initialGuiScale;
 
-    private HyperiumFontRenderer smol = new HyperiumFontRenderer(Settings.GUI_FONT, Font.PLAIN, 14);
-    private HyperiumFontRenderer font = new HyperiumFontRenderer(Settings.GUI_FONT, Font.PLAIN, 16);
-    private HyperiumFontRenderer title = new HyperiumFontRenderer(Settings.GUI_FONT, Font.PLAIN, 30);
+    private HyperiumFontRenderer smol;
+    private HyperiumFontRenderer font;
+    private HyperiumFontRenderer title;
     private List<AbstractTab> tabs = Arrays.asList(
             new SettingsTab(this)
     );
     private AbstractTab currentTab;
 
     public HyperiumMainGui() {
+        smol = new HyperiumFontRenderer(Settings.GUI_FONT,14.0F,0);
+        font = new HyperiumFontRenderer(Settings.GUI_FONT,16.0F,0);
+        title = new HyperiumFontRenderer(Settings.GUI_FONT,30.0F,0);
         initialGuiScale = Minecraft.getMinecraft().gameSettings.guiScale;
         // Adjust if GUI scale is on automatic.
         if (Minecraft.getMinecraft().gameSettings.guiScale == 0)
@@ -68,8 +70,8 @@ public class HyperiumMainGui extends HyperiumGui {
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-        int yg = height / 10;  // Y grid
-        int xg = width / 11;   // X grid
+        int yg = (height / 10);  // Y grid
+        int xg = (width / 11);   // X grid
 
         if (Minecraft.getMinecraft().theWorld == null)
             drawDefaultBackground(); //TODO: Make it draw custom background

@@ -17,6 +17,7 @@
 
 package cc.hyperium.utils;
 
+import cc.hyperium.installer.InstallerMain;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.StringUtils;
 import org.lwjgl.opengl.GL11;
@@ -24,6 +25,8 @@ import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.font.effects.ColorEffect;
 
 import java.awt.Font;
+import java.awt.FontFormatException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -33,13 +36,69 @@ public class HyperiumFontRenderer {
 
     public final int FONT_HEIGHT = 9;
     private final float ANTI_ALIASING_FACTOR = 3.0f;
-    private final UnicodeFont unicodeFont;
+    private UnicodeFont unicodeFont;
     private final int[] colorCodes = new int[32];
     private final float kerning;
     private final Map<String, Float> cachedStringWidth = new HashMap<>();
 
     public HyperiumFontRenderer(String fontName, int fontType, int size) {
         this(fontName, fontType, size, 0);
+    }
+
+    private Font getFontByName(String name) throws IOException, FontFormatException {
+        if(name.equalsIgnoreCase("roboto condensed") || name.equalsIgnoreCase("roboto")){
+            return getFontFromInput("/assets/hyperium/fonts/RobotoCondensed-Regular.ttf");
+        } else if(name.equalsIgnoreCase("montserrat")){
+            return getFontFromInput("/assets/hyperium/fonts/Montserrat-Regular.ttf");
+        } else if(name.equalsIgnoreCase("segoeui") || name.equalsIgnoreCase("segoeui light")){
+            return getFontFromInput("/assets/hyperium/fonts/SegoeUI-Light.ttf");
+        } else{
+            // Need to return the default font.
+            return getFontFromInput("/assets/hyperium/fonts/SegoeUI-Light.ttf");
+        }
+    }
+
+    private Font getFontFromInput(String path) throws IOException, FontFormatException {
+        return Font.createFont(Font.TRUETYPE_FONT, InstallerMain.class.getResourceAsStream(path));
+    }
+
+    public HyperiumFontRenderer(String fontName, float fontSize, float kerning) {
+        try {
+            this.unicodeFont = new UnicodeFont(getFontByName(fontName).deriveFont(fontSize* ANTI_ALIASING_FACTOR));
+        } catch (FontFormatException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        this.kerning = kerning;
+
+        this.unicodeFont.addAsciiGlyphs();
+        this.unicodeFont.getEffects().add(new ColorEffect(java.awt.Color.WHITE));
+
+        try {
+            this.unicodeFont.loadGlyphs();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        for (int i = 0; i < 32; i++) {
+            int shadow = (i >> 3 & 1) * 85;
+            int red = (i >> 2 & 1) * 170 + shadow;
+            int green = (i >> 1 & 1) * 170 + shadow;
+            int blue = (i & 1) * 170 + shadow;
+
+            if (i == 6) {
+                red += 85;
+            }
+
+            if (i >= 16) {
+                red /= 4;
+                green /= 4;
+                blue /= 4;
+            }
+
+            this.colorCodes[i] = (red & 255) << 16 | (green & 255) << 8 | blue & 255;
+        }
     }
 
     public HyperiumFontRenderer(Font font, float kerning) {
