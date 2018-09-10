@@ -166,6 +166,8 @@ class AchievementGetEvent(val achievement: String)
  */
 class RenderEntitiesEvent(val partialTicks: Float)
 
+class RenderTickEvent()
+
 enum class ElementType {
     ALL,
     HELMET,

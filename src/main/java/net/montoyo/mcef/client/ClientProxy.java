@@ -3,6 +3,7 @@ package net.montoyo.mcef.client;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.RenderGuiEvent;
+import cc.hyperium.event.RenderTickEvent;
 import net.minecraft.client.Minecraft;
 import net.montoyo.mcef.BaseProxy;
 import net.montoyo.mcef.MCEF;
@@ -241,7 +242,7 @@ public class ClientProxy extends BaseProxy {
     }
 
     @InvokeEvent
-    public void onTick(RenderGuiEvent ev) {
+    public void onTick(RenderTickEvent ev) {
         mc.mcProfiler.startSection("MCEF");
 
         for (CefBrowserOsr b : browsers)

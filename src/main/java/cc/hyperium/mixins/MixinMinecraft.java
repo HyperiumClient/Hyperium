@@ -20,6 +20,8 @@ package cc.hyperium.mixins;
 import cc.hyperium.Metadata;
 import cc.hyperium.SplashProgress;
 import cc.hyperium.config.Settings;
+import cc.hyperium.event.EventBus;
+import cc.hyperium.event.RenderTickEvent;
 import cc.hyperium.mixinsimp.HyperiumMinecraft;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.SoundHandler;
@@ -296,5 +298,10 @@ public abstract class MixinMinecraft {
     @Inject(method = "shutdown", at = @At("HEAD"))
     private void shutdown(CallbackInfo ci) {
         hyperiumMinecraft.shutdown(ci);
+    }
+
+    @Inject(method = "runGameLoop", at = @At(value = "FIELD", target = "Lnet/minecraft/client/Minecraft;skipRenderWorld:Z", shift = At.Shift.AFTER))
+    private void runGameLoop(CallbackInfo callbackInfo) {
+        EventBus.INSTANCE.post(new RenderTickEvent());
     }
 }
