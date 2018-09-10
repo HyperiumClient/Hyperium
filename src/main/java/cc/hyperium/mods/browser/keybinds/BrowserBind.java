@@ -19,6 +19,6 @@ public class BrowserBind extends HyperiumBind {
     public void onPress() {
         if (Minecraft.getMinecraft().currentScreen instanceof GuiBrowser)
             return;
-        Hyperium.INSTANCE.getModIntegration().getBrowserMod().showBrowser(null);
+        Hyperium.INSTANCE.getModIntegration().getBrowserMod().showBrowser();
     }
 }

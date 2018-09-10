@@ -2,7 +2,6 @@ package net.montoyo.mcef.client;
 
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.InvokeEvent;
-import cc.hyperium.event.RenderGuiEvent;
 import cc.hyperium.event.RenderTickEvent;
 import net.minecraft.client.Minecraft;
 import net.montoyo.mcef.BaseProxy;
@@ -11,7 +10,6 @@ import net.montoyo.mcef.api.IBrowser;
 import net.montoyo.mcef.api.IDisplayHandler;
 import net.montoyo.mcef.api.IJSQueryHandler;
 import net.montoyo.mcef.api.IScheme;
-import net.montoyo.mcef.example.ExampleMod;
 import net.montoyo.mcef.remote.RemoteConfig;
 import net.montoyo.mcef.utilities.IProgressListener;
 import net.montoyo.mcef.utilities.Log;
@@ -49,12 +47,9 @@ public class ClientProxy extends BaseProxy {
     private CefClient cefClient;
     private CefMessageRouter cefRouter;
     private String updateStr;
-    private ExampleMod exampleMod;
 
     @Override
     public void onPreInit() {
-        exampleMod = new ExampleMod();
-        exampleMod.onPreInit(); //Do it even if example mod is disabled because it registers the "mod://" scheme
     }
 
     @Override
@@ -189,8 +184,6 @@ public class ClientProxy extends BaseProxy {
 
 
         EventBus.INSTANCE.register(this);
-        if (MCEF.ENABLE_EXAMPLE)
-            exampleMod.onInit();
 
         Log.info("MCEF loaded successfuly.");
     }
@@ -221,8 +214,6 @@ public class ClientProxy extends BaseProxy {
 
     @Override
     public void openExampleBrowser(String url) {
-        if (MCEF.ENABLE_EXAMPLE)
-            exampleMod.showScreen(url);
     }
 
     @Override

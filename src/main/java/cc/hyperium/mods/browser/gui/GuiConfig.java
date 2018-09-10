@@ -1,12 +1,12 @@
 package cc.hyperium.mods.browser.gui;
 
 import cc.hyperium.Hyperium;
+import cc.hyperium.config.ConfigOpt;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.montoyo.mcef.api.IBrowser;
-import net.montoyo.mcef.example.ExampleMod;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
@@ -16,30 +16,32 @@ import org.lwjgl.opengl.GL11;
  */
 public class GuiConfig extends GuiScreen {
 
+    @ConfigOpt
+    public static int x = 10;
+    @ConfigOpt
+    public static int y = 10;
+    @ConfigOpt
+    public static int width = 320;
+    @ConfigOpt
+    public static int height = 180;
+    @ConfigOpt
+    public static int offsetX = 0;
+    @ConfigOpt
+    public static int offsetY = 0;
+    public static boolean drawSquare = true;
     public IBrowser browser;
-    private int width = 320;
-    private int height = 180;
-    public int x = 10;
-    public int y = 10;
-    private int offsetX = 0;
-    private int offsetY = 0;
     private boolean dragging = false;
     private boolean resizing = false;
-    private boolean drawSquare = true;
 
-    public GuiConfig(IBrowser b, String vId) {
+    public GuiConfig(IBrowser b) {
         browser = b;
-        if(vId != null)
-            b.loadURL("https://www.youtube.com/embed/" + vId + "?autoplay=1");
-
-        b.resize(width, height);
     }
 
     @Override
     public void handleInput() {
-        while(Keyboard.next()) {
-            if(Keyboard.getEventKey() == Keyboard.KEY_ESCAPE) {
-                drawSquare = false;
+        while (Keyboard.next()) {
+            if (Keyboard.getEventKey() == Keyboard.KEY_ESCAPE || Keyboard.getEventKey() == Keyboard.KEY_RETURN) {
+                drawSquare=false;
                 Hyperium.INSTANCE.getModIntegration().getBrowserMod().hudBrowser = this;
                 browser.injectMouseMove(-10, -10, 0, true);
                 mc.displayGuiScreen(null);
@@ -47,33 +49,33 @@ public class GuiConfig extends GuiScreen {
             }
         }
 
-        while(Mouse.next()) {
+        while (Mouse.next()) {
             int btn = Mouse.getEventButton();
             boolean pressed = Mouse.getEventButtonState();
             int sx = Mouse.getEventX();
             int sy = mc.displayHeight - Mouse.getEventY();
 
-            if(btn == 1 && pressed && sx >= x && sy >= y && sx < x + width && sy < y + height) {
+            if (btn == 1 && pressed && sx >= x && sy >= y && sx < x + width && sy < y + height) {
                 browser.injectMouseMove(sx - x, sy - y, 0, false);
                 browser.injectMouseButton(sx - x, sy - y, 0, 1, true, 1);
                 browser.injectMouseButton(sx - x, sy - y, 0, 1, false, 1);
-            } else if(dragging) {
-                if(btn == 0 && !pressed)
+            } else if (dragging) {
+                if (btn == 0 && !pressed)
                     dragging = false;
                 else {
                     x = sx + offsetX;
                     y = sy + offsetY;
                 }
-            } else if(resizing) {
-                if(btn == 0 && !pressed) {
+            } else if (resizing) {
+                if (btn == 0 && !pressed) {
                     resizing = false;
                     browser.resize(width, height);
                 } else {
                     int w = sx - x;
                     int h = sy - y;
 
-                    if(w >= 32 && h >= 18) {
-                        if(h >= w) {
+                    if (w >= 32 && h >= 18) {
+                        if (h >= w) {
                             double dw = ((double) h) * (16.0 / 9.0);
                             width = (int) dw;
                             height = h;
@@ -84,11 +86,11 @@ public class GuiConfig extends GuiScreen {
                         }
                     }
                 }
-            } else if(pressed && btn == 0 && sx >= x && sy >= y && sx < x + width && sy < y + height) { //In browser rect
+            } else if (pressed && btn == 0 && sx >= x && sy >= y && sx < x + width && sy < y + height) { //In browser rect
                 dragging = true;
                 offsetX = x - sx;
                 offsetY = y - sy;
-            } else if(pressed && btn == 0 && sx >= x + width && sy >= y + height && sx < x + width + 10 && sy < y + height + 10) //In resize rect
+            } else if (pressed && btn == 0 && sx >= x + width && sy >= y + height && sx < x + width + 10 && sy < y + height + 10) //In resize rect
                 resizing = true;
         }
     }

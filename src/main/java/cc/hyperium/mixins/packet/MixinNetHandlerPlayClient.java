@@ -31,18 +31,12 @@ import com.google.common.collect.ObjectArrays;
 import io.netty.buffer.Unpooled;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
-import net.minecraft.client.gui.GuiMerchant;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.GuiScreenBook;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.IMerchant;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
@@ -54,7 +48,7 @@ import net.minecraft.network.play.server.S03PacketTimeUpdate;
 import net.minecraft.network.play.server.S0BPacketAnimation;
 import net.minecraft.network.play.server.S3FPacketCustomPayload;
 import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.village.MerchantRecipeList;
+import net.minecraft.util.IChatComponent;
 import org.apache.logging.log4j.Logger;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -63,12 +57,11 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 /**
  * Provides code that may be used in mods that require it
@@ -245,9 +238,12 @@ public abstract class MixinNetHandlerPlayClient {
      */
     @Overwrite
     public void handleChat(S02PacketChat packetIn) {
+        System.out.println(IChatComponent.Serializer.componentToJson(packetIn.getChatComponent()));
+
         PacketThreadUtil.checkThreadAndEnqueue(packetIn, (INetHandlerPlayClient) getNetworkManager().getNetHandler(), this.gameController);
 
-        ServerChatEvent event = new ServerChatEvent(packetIn.getType(), packetIn.getChatComponent());
+        ServerChatEvent event = new
+                ServerChatEvent(packetIn.getType(), packetIn.getChatComponent());
 
         EventBus.INSTANCE.post(event);
 

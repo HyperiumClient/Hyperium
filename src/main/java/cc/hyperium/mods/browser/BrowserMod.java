@@ -1,21 +1,16 @@
 package cc.hyperium.mods.browser;
 
 import cc.hyperium.Hyperium;
+import cc.hyperium.config.ConfigOpt;
 import cc.hyperium.event.EventBus;
-import cc.hyperium.event.GuiOpenEvent;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.RenderHUDEvent;
-import cc.hyperium.event.ServerLeaveEvent;
 import cc.hyperium.handlers.handlers.keybinds.HyperiumBind;
-import cc.hyperium.mixinsimp.gui.HyperiumGuiMainMenu;
 import cc.hyperium.mods.AbstractMod;
 import cc.hyperium.mods.browser.gui.GuiBrowser;
 import cc.hyperium.mods.browser.gui.GuiConfig;
 import cc.hyperium.mods.browser.keybinds.BrowserBind;
-import java.util.Arrays;
-import java.util.List;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiMainMenu;
 import net.montoyo.mcef.MCEF;
 import net.montoyo.mcef.api.API;
 import net.montoyo.mcef.api.IBrowser;
@@ -27,6 +22,9 @@ import org.apache.commons.lang3.tuple.ImmutableTriple;
 import org.apache.commons.lang3.tuple.Triple;
 import org.lwjgl.input.Keyboard;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * @author Koding
  */
@@ -37,6 +35,9 @@ public class BrowserMod extends AbstractMod implements IDisplayHandler, IJSQuery
     private GuiBrowser backup;
     public GuiConfig hudBrowser;
 
+
+    @ConfigOpt
+    public String homePage = "https://hyperium.cc";
     @Override
     public AbstractMod init() {
         EventBus.INSTANCE.register(this);
@@ -52,6 +53,8 @@ public class BrowserMod extends AbstractMod implements IDisplayHandler, IJSQuery
             api.registerDisplayHandler(this);
             api.registerJSQueryHandler(this);
         }
+        browserGui = new GuiBrowser(homePage);
+
 
 //        addShortcutKeys();
 
@@ -143,17 +146,18 @@ public class BrowserMod extends AbstractMod implements IDisplayHandler, IJSQuery
 
     }
 
-    public void showBrowser(String url) {
+    public void showBrowser() {
         if (Minecraft.getMinecraft().currentScreen instanceof GuiBrowser) {
-            ((GuiBrowser) Minecraft.getMinecraft().currentScreen).loadURL(url);
+            ((GuiBrowser) Minecraft.getMinecraft().currentScreen).loadURL(homePage);
         } else if (backup != null) {
             Minecraft.getMinecraft().displayGuiScreen(backup);
-            backup.loadURL(url);
-            backup = null;
+            backup.loadURL(null);
         } else {
-            Minecraft.getMinecraft().displayGuiScreen(new GuiBrowser(url));
+
+            Minecraft.getMinecraft().displayGuiScreen(browserGui);
         }
     }
+    GuiBrowser browserGui;
 
     @InvokeEvent
     private void onRenderHud(RenderHUDEvent e) {
@@ -162,17 +166,6 @@ public class BrowserMod extends AbstractMod implements IDisplayHandler, IJSQuery
         }
     }
 
-    @InvokeEvent
-    private void onDisconnect(GuiOpenEvent e) {
-        if (Minecraft.getMinecraft().thePlayer != null || Minecraft.getMinecraft().getCurrentServerData() != null)
-            return;
-        if (hudBrowser != null)
-            hudBrowser.browser.close();
-        hudBrowser = null;
-        if (backup != null)
-            backup.browser.close();
-        backup = null;
-    }
 
     public MCEF getMcef() {
         return mcef;

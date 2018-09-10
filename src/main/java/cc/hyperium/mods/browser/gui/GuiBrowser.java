@@ -1,14 +1,6 @@
 package cc.hyperium.mods.browser.gui;
 
 import cc.hyperium.Hyperium;
-import java.awt.Color;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -18,32 +10,27 @@ import net.montoyo.mcef.MCEF;
 import net.montoyo.mcef.api.API;
 import net.montoyo.mcef.api.IBrowser;
 import net.montoyo.mcef.api.MCEFApi;
-import org.apache.commons.lang3.tuple.MutableTriple;
-import org.apache.commons.lang3.tuple.Triple;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
+
+import java.awt.Color;
+import java.io.IOException;
 
 /**
  * @author Koding
  */
 public class GuiBrowser extends GuiScreen {
 
-    public IBrowser browser = null;
+    private static GuiConfig persistentConfigGui;
+    public static IBrowser browser = null;
     private GuiButton back = null;
     private GuiButton fwd = null;
     private GuiButton go = null;
     private GuiButton close = null;
-    private GuiButton vidMode = null;
+    private GuiButton pip = null;
     private GuiTextField url = null;
     private String urlToLoad, title;
 
-    private static final String YT_REGEX1 = "^https?://(?:www\\.)?youtube\\.com/watch\\?v=([a-zA-Z0-9_\\-]+)";
-    private static final String YT_REGEX2 = "^https?://(?:www\\.)?youtu\\.be/([a-zA-Z0-9_\\-]+)";
-    private static final String YT_REGEX3 = "^https?://(?:www\\.)?youtube\\.com/embed/([a-zA-Z0-9_\\-]+)(\\?.+)?";
-
-    public GuiBrowser() {
-        urlToLoad = MCEF.HOME_PAGE;
-    }
 
     public GuiBrowser(String url) {
         urlToLoad = (url == null) ? MCEF.HOME_PAGE : url;
@@ -79,8 +66,8 @@ public class GuiBrowser extends GuiScreen {
             buttonList.add(fwd = (new GuiButton(1, 20, 10, 20, 20, ">")));
             buttonList.add(go = (new GuiButton(2, width - 60, 10, 20, 20, "Go")));
             buttonList.add(close = (new GuiButton(3, width - 20, 10, 20, 20, "X")));
-            buttonList.add(vidMode = (new GuiButton(4, width - 40, 10, 20, 20, "YT")));
-            vidMode.enabled = false;
+            buttonList.add(pip = (new GuiButton(4, width - 40, 10, 20, 20, "PIP")));
+            pip.enabled = true;
 
             url = new GuiTextField(5, fontRendererObj, 40, 10, width - 100, 20);
             url.setMaxStringLength(65535);
@@ -89,10 +76,10 @@ public class GuiBrowser extends GuiScreen {
             buttonList.add(fwd);
             buttonList.add(go);
             buttonList.add(close);
-            buttonList.add(vidMode);
+            buttonList.add(pip);
 
             //Handle resizing
-            vidMode.xPosition = width - 40;
+            pip.xPosition = width - 40;
             go.xPosition = width - 60;
             close.xPosition = width - 20;
 
@@ -100,6 +87,10 @@ public class GuiBrowser extends GuiScreen {
             url = new GuiTextField(5, fontRendererObj, 40, 10, width - 100, 20);
             url.setMaxStringLength(65535);
             url.setText(old);
+        }
+        if (persistentConfigGui == null) {
+            persistentConfigGui = new GuiConfig(browser);
+            Hyperium.CONFIG.register(persistentConfigGui);
         }
     }
 
@@ -135,8 +126,8 @@ public class GuiBrowser extends GuiScreen {
         Gui.drawRect(0, 0, width, 10, new Color(0, 0, 0, 100).getRGB());
         if (title != null) {
             fontRendererObj
-                .drawString(title, 5, (10f - fontRendererObj.FONT_HEIGHT) / 2, Color.WHITE.getRGB(),
-                    true);
+                    .drawString(title, 5, (10f - fontRendererObj.FONT_HEIGHT) / 2, Color.WHITE.getRGB(),
+                            true);
         }
 
         //Renders the browser if itsn't null
@@ -152,22 +143,22 @@ public class GuiBrowser extends GuiScreen {
     @Override
     public void onGuiClosed() {
         //Make sure to close the browser when you don't need it anymore.
-        if (Hyperium.INSTANCE.getModIntegration().getBrowserMod().getBackup() == null
-            && browser != null) {
-            browser.close();
-        }
+//        if (Hyperium.INSTANCE.getModIntegration().getBrowserMod().getBackup() == null
+//                && browser != null) {
+//            browser.close();
+//        }
 
         Keyboard.enableRepeatEvents(false);
     }
 
     @Override
+    protected void keyTyped(char typedChar, int keyCode) throws IOException {
+        //Stop escape from breaking the menu if you need to press it.
+    }
+
+    @Override
     public void handleInput() {
         while (Keyboard.next()) {
-            if (Keyboard.getEventKey() == Keyboard.KEY_ESCAPE) {
-                Hyperium.INSTANCE.getModIntegration().getBrowserMod().setBackup(this);
-                mc.displayGuiScreen(null);
-                return;
-            }
 
             boolean pressed = Keyboard.getEventKeyState();
             boolean focused = url.isFocused();
@@ -175,7 +166,7 @@ public class GuiBrowser extends GuiScreen {
             int num = Keyboard.getEventKey();
 
             if (browser != null
-                && !focused) { //Inject events into browser. TODO: Handle keyboard mods.
+                    && !focused) { //Inject events into browser. TODO: Handle keyboard mods.
                 if (key != '.' && key != ';' && key != ',') { //Workaround
                     if (pressed) {
                         browser.injectKeyPressed(key, 0);
@@ -235,8 +226,6 @@ public class GuiBrowser extends GuiScreen {
     public void onUrlChanged(IBrowser b, String newUrl) {
         if (b == browser && url != null) {
             url.setText(newUrl);
-            vidMode.enabled =
-                newUrl.matches(YT_REGEX1) || newUrl.matches(YT_REGEX2) || newUrl.matches(YT_REGEX3);
         }
     }
 
@@ -257,22 +246,12 @@ public class GuiBrowser extends GuiScreen {
             Hyperium.INSTANCE.getModIntegration().getBrowserMod().setBackup(null);
             mc.displayGuiScreen(null);
         } else if (src.id == 4) {
-            String loc = browser.getURL();
-            String vId = null;
-            boolean redo = false;
 
-            if (loc.matches(YT_REGEX1)) {
-                vId = loc.replaceFirst(YT_REGEX1, "$1");
-            } else if (loc.matches(YT_REGEX2)) {
-                vId = loc.replaceFirst(YT_REGEX2, "$1");
-            } else if (loc.matches(YT_REGEX3)) {
-                redo = true;
-            }
+            Hyperium.INSTANCE.getModIntegration().getBrowserMod().setBackup(this);
+            browser.resize(GuiConfig.width, GuiConfig.height);
+            GuiConfig.drawSquare = true;
+            mc.displayGuiScreen(persistentConfigGui);
 
-            if (vId != null || redo) {
-                Hyperium.INSTANCE.getModIntegration().getBrowserMod().setBackup(this);
-                mc.displayGuiScreen(new GuiConfig(browser, null));
-            }
         }
 //        } else if (src.id == 6) {
 //            try {
@@ -288,4 +267,6 @@ public class GuiBrowser extends GuiScreen {
         this.title = title;
 //        tabs.get(selectedTabIndex).setMiddle(title);
     }
+
+
 }
