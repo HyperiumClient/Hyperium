@@ -74,21 +74,6 @@ public class GuiBrowser extends GuiScreen {
         Keyboard.enableRepeatEvents(true);
         buttonList.clear();
 
-        String loc = browser.getURL();
-        String vId = null;
-
-        if (loc.matches(YT_REGEX1)) {
-            vId = loc.replaceFirst(YT_REGEX1, "$1");
-        } else if (loc.matches(YT_REGEX2)) {
-            vId = loc.replaceFirst(YT_REGEX2, "$1");
-        } else if (loc.matches(YT_REGEX3)) {
-            vId = loc.replaceFirst(YT_REGEX3, "$1");
-        }
-
-        if (vId != null) {
-            browser.loadURL("https://youtube.com/watch?v=" + vId);
-        }
-
         if (url == null) {
             buttonList.add(back = (new GuiButton(0, 0, 10, 20, 20, "<")));
             buttonList.add(fwd = (new GuiButton(1, 20, 10, 20, 20, ">")));
@@ -264,38 +249,8 @@ public class GuiBrowser extends GuiScreen {
 
         if (src.id == 0) {
             browser.goBack();
-
-            String loc = browser.getURL();
-            String vId = null;
-
-            if (loc.matches(YT_REGEX1)) {
-                vId = loc.replaceFirst(YT_REGEX1, "$1");
-            } else if (loc.matches(YT_REGEX2)) {
-                vId = loc.replaceFirst(YT_REGEX2, "$1");
-            } else if (loc.matches(YT_REGEX3)) {
-                vId = loc.replaceFirst(YT_REGEX3, "$1");
-            }
-
-            if (vId != null) {
-                browser.goBack();
-            }
         } else if (src.id == 1) {
             browser.goForward();
-
-            String loc = browser.getURL();
-            String vId = null;
-
-            if (loc.matches(YT_REGEX1)) {
-                vId = loc.replaceFirst(YT_REGEX1, "$1");
-            } else if (loc.matches(YT_REGEX2)) {
-                vId = loc.replaceFirst(YT_REGEX2, "$1");
-            } else if (loc.matches(YT_REGEX3)) {
-                vId = loc.replaceFirst(YT_REGEX3, "$1");
-            }
-
-            if (vId != null) {
-                browser.goForward();
-            }
         } else if (src.id == 2) {
             browser.loadURL(url.getText());
         } else if (src.id == 3) {
@@ -316,7 +271,7 @@ public class GuiBrowser extends GuiScreen {
 
             if (vId != null || redo) {
                 Hyperium.INSTANCE.getModIntegration().getBrowserMod().setBackup(this);
-                mc.displayGuiScreen(new GuiConfig(browser, vId));
+                mc.displayGuiScreen(new GuiConfig(browser, null));
             }
         }
 //        } else if (src.id == 6) {
