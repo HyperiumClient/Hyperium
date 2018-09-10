@@ -164,11 +164,13 @@ public class BrowserMod extends AbstractMod implements IDisplayHandler, IJSQuery
 
     @InvokeEvent
     private void onDisconnect(GuiOpenEvent e) {
-        if (!(e.getGui() instanceof GuiMainMenu))
+        if (Minecraft.getMinecraft().thePlayer != null || Minecraft.getMinecraft().getCurrentServerData() != null)
             return;
-        hudBrowser.browser.close();
+        if (hudBrowser != null)
+            hudBrowser.browser.close();
         hudBrowser = null;
-        backup.browser.close();
+        if (backup != null)
+            backup.browser.close();
         backup = null;
     }
 
