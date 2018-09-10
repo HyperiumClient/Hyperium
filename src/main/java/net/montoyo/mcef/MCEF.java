@@ -17,7 +17,7 @@ public class MCEF {
 
     public static MCEF INSTANCE = new MCEF();
 
-    public static BaseProxy PROXY = new ClientProxy();
+    public static ClientProxy PROXY = new ClientProxy();
 
     //Called by Minecraft.run() if the ShutdownPatcher succeeded
     public static void onMinecraftShutdown() {

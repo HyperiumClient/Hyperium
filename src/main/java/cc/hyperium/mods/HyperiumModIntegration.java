@@ -20,6 +20,7 @@ package cc.hyperium.mods;
 import cc.hyperium.mods.autofriend.AutofriendMod;
 import cc.hyperium.mods.autogg.AutoGG;
 import cc.hyperium.mods.blockoverlay.BlockOverlay;
+import cc.hyperium.mods.browser.BrowserMod;
 import cc.hyperium.mods.chromahud.ChromaHUD;
 import cc.hyperium.mods.fortnitecompass.FortniteCompassMod;
 import cc.hyperium.mods.glintcolorizer.GlintColorizer;
@@ -63,12 +64,11 @@ public class HyperiumModIntegration {
     private final FortniteCompassMod fncompass;
     private final TabToggleMod tabToggle;
     private final ItemPhysicMod itemPhysicMod;
-    private final MCEF mcef;
+    private final BrowserMod browserMod;
+
     public HyperiumModIntegration() {
         // ChromaHud implementation
         this.chromaHUD = ((ChromaHUD) new ChromaHUD().init());
-        this.mcef = new MCEF();
-        mcef.init();
 
         // LevelHead implementation
         this.levelhead = ((Levelhead) new Levelhead().init());
@@ -123,10 +123,8 @@ public class HyperiumModIntegration {
         this.tabToggle = (TabToggleMod) new TabToggleMod().init();
 
         this.itemPhysicMod = (ItemPhysicMod) new ItemPhysicMod().init();
-    }
 
-    public MCEF getMcef() {
-        return mcef;
+        this.browserMod = (BrowserMod) new BrowserMod().init();
     }
 
     public KeystrokesMod getKeystrokesMod() {
@@ -203,5 +201,9 @@ public class HyperiumModIntegration {
 
     public ItemPhysicMod getItemPhysicMod() {
         return itemPhysicMod;
+    }
+
+    public BrowserMod getBrowserMod() {
+        return browserMod;
     }
 }
