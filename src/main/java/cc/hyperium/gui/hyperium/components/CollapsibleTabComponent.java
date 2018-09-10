@@ -43,6 +43,8 @@ public class CollapsibleTabComponent extends AbstractTabComponent {
 
             if (mouseX >= (r ? x + width / 2 : x) && mouseX <= (r ? x + width / 2 : x) + width / 2 && mouseY >= y && mouseY <= y + comp.getHeight()) {
                 comp.hover = true;
+                comp.mouseEvent(r ? mouseX - width / 2 - x : mouseX - x, mouseY - y /* Make the Y relevant to the component */);
+
                 if (Mouse.isButtonDown(0)) {
                     if (!tab.clickStates.computeIfAbsent(comp, ignored -> false)) {
                         comp.onClick(r ? mouseX - width / 2 : mouseX, mouseY - y /* Make the Y relevant to the component */);
@@ -83,4 +85,6 @@ public class CollapsibleTabComponent extends AbstractTabComponent {
         if (y < 18)
             collapsed = !collapsed;
     }
+
+
 }
