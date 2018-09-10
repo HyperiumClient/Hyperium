@@ -2,9 +2,12 @@ package cc.hyperium.mods.browser;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.event.EventBus;
+import cc.hyperium.event.GuiOpenEvent;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.RenderHUDEvent;
+import cc.hyperium.event.ServerLeaveEvent;
 import cc.hyperium.handlers.handlers.keybinds.HyperiumBind;
+import cc.hyperium.mixinsimp.gui.HyperiumGuiMainMenu;
 import cc.hyperium.mods.AbstractMod;
 import cc.hyperium.mods.browser.gui.GuiBrowser;
 import cc.hyperium.mods.browser.gui.GuiConfig;
@@ -12,6 +15,7 @@ import cc.hyperium.mods.browser.keybinds.BrowserBind;
 import java.util.Arrays;
 import java.util.List;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiMainMenu;
 import net.montoyo.mcef.MCEF;
 import net.montoyo.mcef.api.API;
 import net.montoyo.mcef.api.IBrowser;
@@ -156,6 +160,16 @@ public class BrowserMod extends AbstractMod implements IDisplayHandler, IJSQuery
         if (hudBrowser != null) {
             hudBrowser.drawScreen(0, 0, e.getPartialTicks());
         }
+    }
+
+    @InvokeEvent
+    private void onDisconnect(GuiOpenEvent e) {
+        if (!(e.getGui() instanceof GuiMainMenu))
+            return;
+        hudBrowser.browser.close();
+        hudBrowser = null;
+        backup.browser.close();
+        backup = null;
     }
 
     public MCEF getMcef() {

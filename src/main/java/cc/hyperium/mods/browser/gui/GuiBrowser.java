@@ -28,7 +28,7 @@ import org.lwjgl.input.Mouse;
  */
 public class GuiBrowser extends GuiScreen {
 
-    private IBrowser browser = null;
+    public IBrowser browser = null;
     private GuiButton back = null;
     private GuiButton fwd = null;
     private GuiButton go = null;
@@ -37,9 +37,9 @@ public class GuiBrowser extends GuiScreen {
     private GuiTextField url = null;
     private String urlToLoad, title;
 
-    private static final String YT_REGEX1 = "^https?://(?:www\\.)?youtube\\.com/watch\\?v=([a-zA-Z0-9_\\-]+)$";
-    private static final String YT_REGEX2 = "^https?://(?:www\\.)?youtu\\.be/([a-zA-Z0-9_\\-]+)$";
-    private static final String YT_REGEX3 = "^https?://(?:www\\.)?youtube\\.com/embed/([a-zA-Z0-9_\\-]+)(\\?.+)?$";
+    private static final String YT_REGEX1 = "^https?://(?:www\\.)?youtube\\.com/watch\\?v=([a-zA-Z0-9_\\-]+)";
+    private static final String YT_REGEX2 = "^https?://(?:www\\.)?youtu\\.be/([a-zA-Z0-9_\\-]+)";
+    private static final String YT_REGEX3 = "^https?://(?:www\\.)?youtube\\.com/embed/([a-zA-Z0-9_\\-]+)(\\?.+)?";
 
     public GuiBrowser() {
         urlToLoad = MCEF.HOME_PAGE;
