@@ -3,17 +3,21 @@ package cc.hyperium.gui.hyperium.components;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 /*
  * Created by Cubxity on 27/08/2018
  */
 public abstract class AbstractTabComponent {
+    public boolean hover;
     protected List<String> tags;
     protected AbstractTab tab;
     private boolean fc = false; // search query cache
     private String sc = "";  // filter cache
-    public boolean hover;
+    private List<Consumer<Object>> stateChanges = new ArrayList<>();
+    private boolean enabled = true;
 
     /**
      * @param tab  the tab that this component will be added on
@@ -31,7 +35,7 @@ public abstract class AbstractTabComponent {
     public void render(int x, int y, int width, int mouseX, int mouseY) {
         GlStateManager.pushMatrix();
         if (hover)
-            Gui.drawRect(x, y, x + width, y + 18,  0xa0000000);
+            Gui.drawRect(x, y, x + width, y + 18, 0xa0000000);
         GlStateManager.popMatrix();
     }
 
@@ -42,6 +46,26 @@ public abstract class AbstractTabComponent {
     }
 
     public void onClick(int x, int y) {
+
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public void registerStateChange(Consumer<Object> objectConsumer) {
+        stateChanges.add(objectConsumer);
+    }
+
+    protected void stateChange(Object o) {
+        stateChanges.forEach(tmp -> tmp.accept(o));
+    }
+
+    public void mouseEvent(int x, int y) {
 
     }
 }

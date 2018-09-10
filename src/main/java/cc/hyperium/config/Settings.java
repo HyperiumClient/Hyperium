@@ -495,7 +495,7 @@ public class Settings {
     public static boolean OMG_ITS_A_SK1ER = true;
 
     @ConfigOpt
-    @ToggleSetting(name = "Gui Font", category = GENERAL)
+//    @ToggleSetting(name = "Gui Font", category = GENERAL)
     public static String GUI_FONT = "Roboto Condensed";
 
     private Settings() {

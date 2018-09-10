@@ -17,11 +17,11 @@ import java.util.Map;
  * Created by Cubxity on 27/08/2018
  */
 public abstract class AbstractTab {
-    private SimpleAnimValue scrollAnim = new SimpleAnimValue(0L, 0f, 0f);
     protected List<AbstractTabComponent> components = new ArrayList<>();
     protected Map<AbstractTabComponent, Boolean> clickStates = new HashMap<>();
     protected HyperiumMainGui gui;
     protected String title;
+    private SimpleAnimValue scrollAnim = new SimpleAnimValue(0L, 0f, 0f);
     private int scroll = 0;
 
     public AbstractTab(HyperiumMainGui gui, String title) {
@@ -38,7 +38,7 @@ public abstract class AbstractTab {
 
         GL11.glEnable(GL11.GL_SCISSOR_TEST);
         int sf = sr.getScaleFactor();
-        GL11.glScissor(x * sf, (y - yg) * sf, width * sf, height * sf - (yg + 8) * sf);
+        GL11.glScissor(x * sf, yg*sf+18, width * sf, height * sf - (yg + 8) * sf);
         final int mx = Mouse.getX() * sw / Minecraft.getMinecraft().displayWidth;           // Mouse X
         final int my = sh - Mouse.getY() * sh / Minecraft.getMinecraft().displayHeight - 1; // Mouse Y
 
@@ -50,6 +50,8 @@ public abstract class AbstractTab {
 
             if (mx >= x && mx <= x + width && my > y && my <= y + comp.getHeight()) {
                 comp.hover = true;
+                //For slider
+                comp.mouseEvent(mx-xg, my - y /* Make the Y relevant to the component */);
                 if (Mouse.isButtonDown(0)) {
                     if (!clickStates.computeIfAbsent(comp, ignored -> false)) {
                         comp.onClick(mx, my - y /* Make the Y relevant to the component */);
@@ -73,5 +75,8 @@ public abstract class AbstractTab {
             scroll++;
         else if (Mouse.getEventDWheel() < 0)
             scroll--;
+        if (scroll > 0)
+            scroll = 0;
+
     }
 }

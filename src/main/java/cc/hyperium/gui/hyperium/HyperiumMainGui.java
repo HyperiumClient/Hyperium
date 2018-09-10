@@ -115,5 +115,6 @@ public class HyperiumMainGui extends HyperiumGui {
     public void handleMouseInput() throws IOException {
         super.handleMouseInput();
         currentTab.handleMouseInput();
+
     }
 }

@@ -1,6 +1,7 @@
 package cc.hyperium.gui.hyperium.components;
 
 import cc.hyperium.gui.Icons;
+import cc.hyperium.mixinsimp.client.GlStateModifier;
 import cc.hyperium.utils.HyperiumFontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
@@ -68,11 +69,12 @@ public class ToggleComponent extends AbstractTabComponent {
         float halfwayDown = y + 9 * lines.size();
 
         int toggleW = 26;
-        float statX = farSide - toggleW-5;
+        float statX = farSide - toggleW - 5;
+        GlStateModifier.INSTANCE.reset();
         if (state)
             Icons.TOGGLE_ON.bind();
         else Icons.TOGGLE_OFF.bind();
-        Gui.drawScaledCustomSizeModalRect((int) statX, y+3, 0, 0, 121, 54, toggleW, 13, 121, 54);
+        Gui.drawScaledCustomSizeModalRect((int) statX, y + 3, 0, 0, 121, 54, toggleW, 13, 121, 54);
 
 
     }
@@ -89,6 +91,7 @@ public class ToggleComponent extends AbstractTabComponent {
         if (y < 18 * lines.size()) {
             setState(!state);
             this.state = getStateFromField(); //Call from reflection to ensure they never desync. Better have it fail and stay off than the user think its a diff tate
+            stateChange(this.state);
         }
 
 

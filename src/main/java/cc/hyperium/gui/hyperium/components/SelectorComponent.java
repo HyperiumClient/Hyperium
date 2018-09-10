@@ -101,7 +101,9 @@ public class SelectorComponent extends AbstractTabComponent {
             currentIndex++;
             if (currentIndex > strings.length - 1)
                 currentIndex = 0;
-            setValue(strings[currentIndex]);
+            String string = strings[currentIndex];
+            setValue(string);
+            stateChange(string);
         }
 
 
