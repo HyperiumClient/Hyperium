@@ -1,6 +1,14 @@
 package cc.hyperium.mods.browser.gui;
 
 import cc.hyperium.Hyperium;
+import java.awt.Color;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -10,10 +18,10 @@ import net.montoyo.mcef.MCEF;
 import net.montoyo.mcef.api.API;
 import net.montoyo.mcef.api.IBrowser;
 import net.montoyo.mcef.api.MCEFApi;
+import org.apache.commons.lang3.tuple.MutableTriple;
+import org.apache.commons.lang3.tuple.Triple;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
-
-import java.awt.*;
 
 /**
  * @author Koding
@@ -24,7 +32,7 @@ public class GuiBrowser extends GuiScreen {
     private GuiButton back = null;
     private GuiButton fwd = null;
     private GuiButton go = null;
-    private GuiButton min = null;
+    private GuiButton close = null;
     private GuiButton vidMode = null;
     private GuiTextField url = null;
     private String urlToLoad, title;
@@ -48,8 +56,9 @@ public class GuiBrowser extends GuiScreen {
         if (browser == null) {
             //Grab the API and make sure it isn't null.
             API api = MCEFApi.getAPI();
-            if (api == null)
+            if (api == null) {
                 return;
+            }
 
             //Create a browser and resize it to fit the screen
             browser = api.createBrowser((urlToLoad == null) ? MCEF.HOME_PAGE : urlToLoad, false);
@@ -57,8 +66,9 @@ public class GuiBrowser extends GuiScreen {
         }
 
         //Resize the browser if window size changed
-        if (browser != null)
+        if (browser != null) {
             browser.resize(mc.displayWidth, mc.displayHeight - scaleY(30));
+        }
 
         //Create GUI
         Keyboard.enableRepeatEvents(true);
@@ -67,12 +77,13 @@ public class GuiBrowser extends GuiScreen {
         String loc = browser.getURL();
         String vId = null;
 
-        if (loc.matches(YT_REGEX1))
+        if (loc.matches(YT_REGEX1)) {
             vId = loc.replaceFirst(YT_REGEX1, "$1");
-        else if (loc.matches(YT_REGEX2))
+        } else if (loc.matches(YT_REGEX2)) {
             vId = loc.replaceFirst(YT_REGEX2, "$1");
-        else if (loc.matches(YT_REGEX3))
+        } else if (loc.matches(YT_REGEX3)) {
             vId = loc.replaceFirst(YT_REGEX3, "$1");
+        }
 
         if (vId != null) {
             browser.loadURL("https://youtube.com/watch?v=" + vId);
@@ -82,24 +93,23 @@ public class GuiBrowser extends GuiScreen {
             buttonList.add(back = (new GuiButton(0, 0, 10, 20, 20, "<")));
             buttonList.add(fwd = (new GuiButton(1, 20, 10, 20, 20, ">")));
             buttonList.add(go = (new GuiButton(2, width - 60, 10, 20, 20, "Go")));
-            buttonList.add(min = (new GuiButton(3, width - 20, 10, 20, 20, "_")));
+            buttonList.add(close = (new GuiButton(3, width - 20, 10, 20, 20, "X")));
             buttonList.add(vidMode = (new GuiButton(4, width - 40, 10, 20, 20, "YT")));
             vidMode.enabled = false;
 
             url = new GuiTextField(5, fontRendererObj, 40, 10, width - 100, 20);
             url.setMaxStringLength(65535);
-            //url.setText("mod://mcef/home.html");
         } else {
             buttonList.add(back);
             buttonList.add(fwd);
             buttonList.add(go);
-            buttonList.add(min);
+            buttonList.add(close);
             buttonList.add(vidMode);
 
             //Handle resizing
             vidMode.xPosition = width - 40;
             go.xPosition = width - 60;
-            min.xPosition = width - 20;
+            close.xPosition = width - 20;
 
             String old = url.getText();
             url = new GuiTextField(5, fontRendererObj, 40, 10, width - 100, 20);
@@ -114,10 +124,11 @@ public class GuiBrowser extends GuiScreen {
     }
 
     public void loadURL(String url) {
-        if (browser == null)
+        if (browser == null) {
             urlToLoad = url;
-        else
+        } else {
             browser.loadURL(url);
+        }
     }
 
     @Override
@@ -129,16 +140,19 @@ public class GuiBrowser extends GuiScreen {
     }
 
     @Override
-    public void drawScreen(int i1, int i2, float f) {
+    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         //Render the URL box first because it overflows a bit
         url.drawTextBox();
 
         //Render buttons
-        super.drawScreen(i1, i2, f);
+        super.drawScreen(mouseX, mouseY, partialTicks);
 
         Gui.drawRect(0, 0, width, 10, new Color(0, 0, 0, 100).getRGB());
-        if (title != null)
-            fontRendererObj.drawString(title, 5, (10f - fontRendererObj.FONT_HEIGHT) / 2, Color.WHITE.getRGB(), true);
+        if (title != null) {
+            fontRendererObj
+                .drawString(title, 5, (10f - fontRendererObj.FONT_HEIGHT) / 2, Color.WHITE.getRGB(),
+                    true);
+        }
 
         //Renders the browser if itsn't null
         if (browser != null) {
@@ -153,8 +167,10 @@ public class GuiBrowser extends GuiScreen {
     @Override
     public void onGuiClosed() {
         //Make sure to close the browser when you don't need it anymore.
-        if (Hyperium.INSTANCE.getModIntegration().getBrowserMod().getBackup() == null && browser != null)
+        if (Hyperium.INSTANCE.getModIntegration().getBrowserMod().getBackup() == null
+            && browser != null) {
             browser.close();
+        }
 
         Keyboard.enableRepeatEvents(false);
     }
@@ -163,6 +179,7 @@ public class GuiBrowser extends GuiScreen {
     public void handleInput() {
         while (Keyboard.next()) {
             if (Keyboard.getEventKey() == Keyboard.KEY_ESCAPE) {
+                Hyperium.INSTANCE.getModIntegration().getBrowserMod().setBackup(this);
                 mc.displayGuiScreen(null);
                 return;
             }
@@ -172,23 +189,27 @@ public class GuiBrowser extends GuiScreen {
             char key = Keyboard.getEventCharacter();
             int num = Keyboard.getEventKey();
 
-            if (browser != null && !focused) { //Inject events into browser. TODO: Handle keyboard mods.
+            if (browser != null
+                && !focused) { //Inject events into browser. TODO: Handle keyboard mods.
                 if (key != '.' && key != ';' && key != ',') { //Workaround
-                    if (pressed)
+                    if (pressed) {
                         browser.injectKeyPressed(key, 0);
-                    else
+                    } else {
                         browser.injectKeyReleased(key, 0);
+                    }
                 }
 
-                if (key != Keyboard.CHAR_NONE)
+                if (key != Keyboard.CHAR_NONE) {
                     browser.injectKeyTyped(key, 0);
+                }
             }
 
             //Forward event to text box.
-            if (!pressed && focused && num == Keyboard.KEY_RETURN)
+            if (!pressed && focused && num == Keyboard.KEY_RETURN) {
                 actionPerformed(go);
-            else if (pressed)
+            } else if (pressed) {
                 url.textboxKeyTyped(key, num);
+            }
         }
 
         while (Mouse.next()) {
@@ -201,12 +222,13 @@ public class GuiBrowser extends GuiScreen {
             if (browser != null) { //Inject events into browser. TODO: Handle mods & leaving.
                 int y = mc.displayHeight - sy - scaleY(30); //Don't forget to flip Y axis.
 
-                if (wheel != 0)
+                if (wheel != 0) {
                     browser.injectMouseWheel(sx, y, 0, 1, wheel);
-                else if (btn == -1)
+                } else if (btn == -1) {
                     browser.injectMouseMove(sx, y, 0, y < 0);
-                else
+                } else {
                     browser.injectMouseButton(sx, y, 0, btn + 1, pressed, 1);
+                }
             }
 
             if (pressed) { //Forward events to GUI.
@@ -228,15 +250,17 @@ public class GuiBrowser extends GuiScreen {
     public void onUrlChanged(IBrowser b, String newUrl) {
         if (b == browser && url != null) {
             url.setText(newUrl);
-            vidMode.enabled = newUrl.matches(YT_REGEX1) || newUrl.matches(YT_REGEX2) || newUrl.matches(YT_REGEX3);
+            vidMode.enabled =
+                newUrl.matches(YT_REGEX1) || newUrl.matches(YT_REGEX2) || newUrl.matches(YT_REGEX3);
         }
     }
 
     //Handle button clicks
     @Override
     protected void actionPerformed(GuiButton src) {
-        if (browser == null)
+        if (browser == null) {
             return;
+        }
 
         if (src.id == 0) {
             browser.goBack();
@@ -244,12 +268,13 @@ public class GuiBrowser extends GuiScreen {
             String loc = browser.getURL();
             String vId = null;
 
-            if (loc.matches(YT_REGEX1))
+            if (loc.matches(YT_REGEX1)) {
                 vId = loc.replaceFirst(YT_REGEX1, "$1");
-            else if (loc.matches(YT_REGEX2))
+            } else if (loc.matches(YT_REGEX2)) {
                 vId = loc.replaceFirst(YT_REGEX2, "$1");
-            else if (loc.matches(YT_REGEX3))
+            } else if (loc.matches(YT_REGEX3)) {
                 vId = loc.replaceFirst(YT_REGEX3, "$1");
+            }
 
             if (vId != null) {
                 browser.goBack();
@@ -260,41 +285,52 @@ public class GuiBrowser extends GuiScreen {
             String loc = browser.getURL();
             String vId = null;
 
-            if (loc.matches(YT_REGEX1))
+            if (loc.matches(YT_REGEX1)) {
                 vId = loc.replaceFirst(YT_REGEX1, "$1");
-            else if (loc.matches(YT_REGEX2))
+            } else if (loc.matches(YT_REGEX2)) {
                 vId = loc.replaceFirst(YT_REGEX2, "$1");
-            else if (loc.matches(YT_REGEX3))
+            } else if (loc.matches(YT_REGEX3)) {
                 vId = loc.replaceFirst(YT_REGEX3, "$1");
+            }
 
             if (vId != null) {
                 browser.goForward();
             }
-        } else if (src.id == 2)
+        } else if (src.id == 2) {
             browser.loadURL(url.getText());
-        else if (src.id == 3) {
-            Hyperium.INSTANCE.getModIntegration().getBrowserMod().setBackup(this);
+        } else if (src.id == 3) {
+            Hyperium.INSTANCE.getModIntegration().getBrowserMod().setBackup(null);
             mc.displayGuiScreen(null);
         } else if (src.id == 4) {
             String loc = browser.getURL();
             String vId = null;
             boolean redo = false;
 
-            if (loc.matches(YT_REGEX1))
+            if (loc.matches(YT_REGEX1)) {
                 vId = loc.replaceFirst(YT_REGEX1, "$1");
-            else if (loc.matches(YT_REGEX2))
+            } else if (loc.matches(YT_REGEX2)) {
                 vId = loc.replaceFirst(YT_REGEX2, "$1");
-            else if (loc.matches(YT_REGEX3))
+            } else if (loc.matches(YT_REGEX3)) {
                 redo = true;
+            }
 
             if (vId != null || redo) {
                 Hyperium.INSTANCE.getModIntegration().getBrowserMod().setBackup(this);
                 mc.displayGuiScreen(new GuiConfig(browser, vId));
             }
         }
+//        } else if (src.id == 6) {
+//            try {
+//                tabs.add(new MutableTriple<>(new URL(MCEF.HOME_PAGE), "", ""));
+//                selectedTabIndex = tabs.size() - 1;
+//            } catch (MalformedURLException e) {
+//                e.printStackTrace();
+//            }
+//        }
     }
 
     public void onTitleChanged(IBrowser browser, String title) {
         this.title = title;
+//        tabs.get(selectedTabIndex).setMiddle(title);
     }
 }

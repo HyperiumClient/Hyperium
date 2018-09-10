@@ -16,7 +16,7 @@ import org.lwjgl.opengl.GL11;
  */
 public class GuiConfig extends GuiScreen {
 
-    private IBrowser browser;
+    public IBrowser browser;
     private int width = 320;
     private int height = 180;
     public int x = 10;
