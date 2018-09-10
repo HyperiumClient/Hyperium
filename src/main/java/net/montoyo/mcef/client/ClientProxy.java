@@ -283,7 +283,7 @@ public class ClientProxy extends BaseProxy {
         try {
             //Yea sometimes, this is needed for some reasons.
             Thread.sleep(100);
-        } catch (Throwable t) {
+        } catch (Throwable ignored) {
         }
 
         cefApp.N_Shutdown();

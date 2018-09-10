@@ -41,6 +41,7 @@ import net.minecraft.crash.CrashReport;
 import net.minecraft.profiler.Profiler;
 import net.minecraft.util.Timer;
 import net.minecraft.world.WorldSettings;
+import net.montoyo.mcef.MCEF;
 import org.lwjgl.LWJGLException;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
