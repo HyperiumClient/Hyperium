@@ -12,6 +12,9 @@ import net.minecraft.client.Minecraft;
 import net.montoyo.mcef.MCEF;
 import net.montoyo.mcef.api.*;
 
+/**
+ * @author Koding
+ */
 public class BrowserMod extends AbstractMod implements IDisplayHandler, IJSQueryHandler {
 
     private MCEF mcef;

@@ -6,6 +6,9 @@ import cc.hyperium.mods.browser.gui.GuiBrowser;
 import net.minecraft.client.Minecraft;
 import org.lwjgl.input.Keyboard;
 
+/**
+ * @author Koding
+ */
 public class BrowserBind extends HyperiumBind {
 
     public BrowserBind() {

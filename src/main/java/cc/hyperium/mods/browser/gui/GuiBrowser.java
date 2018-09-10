@@ -15,6 +15,9 @@ import org.lwjgl.input.Mouse;
 
 import java.awt.*;
 
+/**
+ * @author Koding
+ */
 public class GuiBrowser extends GuiScreen {
 
     private IBrowser browser = null;
