@@ -356,7 +356,6 @@ public class Hyperium {
         if (updateQueue) {
             LaunchUtil.launch();
         }
-        MCEF.onMinecraftShutdown();
     }
 
     public GeneralStatisticsTracking getStatTrack() {
