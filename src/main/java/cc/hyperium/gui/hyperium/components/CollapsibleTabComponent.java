@@ -6,20 +6,42 @@ import net.minecraft.client.renderer.GlStateManager;
 import org.lwjgl.input.Mouse;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
-import java.util.stream.IntStream;
 
 /*
  * Created by Cubxity on 27/08/2018
  */
 public class CollapsibleTabComponent extends AbstractTabComponent {
-    private List<AbstractTabComponent> childs = new ArrayList<>();
+    private List<AbstractTabComponent> children = new ArrayList<>();
     private boolean collapsed = true;
     private String label;
+    private CollapsibleTabComponent parent;
 
     public CollapsibleTabComponent(AbstractTab tab, List<String> tags, String label) {
         super(tab, tags);
         this.label = label;
+    }
+
+    public CollapsibleTabComponent getParent() {
+        return parent;
+    }
+
+    public void setParent(CollapsibleTabComponent parent) {
+        this.parent = parent;
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public boolean isCollapsed() {
+
+        return collapsed;
+    }
+
+    public List<AbstractTabComponent> getChildren() {
+        return children;
     }
 
     @Override
@@ -38,10 +60,14 @@ public class CollapsibleTabComponent extends AbstractTabComponent {
         x += 10;
         width -= 10;
         boolean r = false; // left right column stuff
-        for (AbstractTabComponent comp : childs) {
-            comp.render(r ? x + width / 2 : x, y, width / 2, mouseX, mouseY);
+        int prevH = 0;
+        for (AbstractTabComponent comp : children) {
 
-            if (mouseX >= (r ? x + width / 2 : x) && mouseX <= (r ? x + width / 2 : x) + width / 2 && mouseY >= y && mouseY <= y + comp.getHeight()) {
+            if (parent != null)
+                r = false;
+            comp.render(r ? x + width / 2 : x, y, parent != null ? width : width / 2, mouseX, mouseY);
+
+            if (mouseX >= (r ? x + width / 2 : x) && mouseX <= (r ? x + width / 2 : x) + (parent !=null ? width :width / 2) && mouseY >= y && mouseY <= y + comp.getHeight()) {
                 comp.hover = true;
                 comp.mouseEvent(r ? mouseX - width / 2 - x : mouseX - x, mouseY - y /* Make the Y relevant to the component */);
 
@@ -55,9 +81,14 @@ public class CollapsibleTabComponent extends AbstractTabComponent {
             } else
                 comp.hover = false;
 
-            if (r)
-                y += comp.getHeight();
+            boolean b = r || parent != null;
+            if (b) {
+                y += Math.max(comp.getHeight(), prevH);
+                prevH = 0;
+            }
             r = !r;
+//            if (b)
+            prevH = comp.getHeight();
         }
     }
 
@@ -66,16 +97,35 @@ public class CollapsibleTabComponent extends AbstractTabComponent {
         if (collapsed)
             return 18;
         else {
-            final boolean[] l = {true};
-            return 18 + childs.stream().flatMapToInt(c -> {
-                l[0] = !l[0];
-                return IntStream.of(l[0] ? 0 : c.getHeight());
-            }).sum();
+            if (parent != null) {
+                int h = 18;
+                for (AbstractTabComponent child : children) {
+                    h += child.getHeight();
+                }
+                return h;
+            }
+
+
+            Iterator<AbstractTabComponent> iterator = children.iterator();
+            boolean right = true;
+            int leftHeight = 0;
+            int compH = 18;
+            while (iterator.hasNext()) {
+                right = !right;
+                AbstractTabComponent next = iterator.next();
+                int height = next.getHeight();
+                if (right) {
+                    compH += Math.max(leftHeight, height);
+                    leftHeight = 0;
+                } else leftHeight = height;
+            }
+            compH+=leftHeight;
+            return compH;
         }
     }
 
     public CollapsibleTabComponent addChild(AbstractTabComponent component) {
-        childs.add(component);
+        children.add(component);
         tags.addAll(component.tags);
         return this;
     }

@@ -1,5 +1,6 @@
 package cc.hyperium.gui.hyperium;
 
+import cc.hyperium.Hyperium;
 import cc.hyperium.Metadata;
 import cc.hyperium.config.Settings;
 import cc.hyperium.gui.HyperiumGui;
@@ -13,6 +14,7 @@ import net.minecraft.util.ResourceLocation;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -26,12 +28,17 @@ public class HyperiumMainGui extends HyperiumGui {
     private HyperiumFontRenderer smol;
     private HyperiumFontRenderer font;
     private HyperiumFontRenderer title;
-    private List<AbstractTab> tabs = Arrays.asList(
-            new SettingsTab(this)
-    );
+    private List<AbstractTab> tabs;
     private AbstractTab currentTab;
+    private List<Object> settingsObjects = new ArrayList<>();
 
     public HyperiumMainGui() {
+        settingsObjects.add(Settings.INSTANCE);
+        settingsObjects.add(Hyperium.INSTANCE.getModIntegration().getAutotip());
+        settingsObjects.add(Hyperium.INSTANCE.getModIntegration().getAutoGG().getConfig());
+        settingsObjects.add(Hyperium.INSTANCE.getModIntegration().getAutoTPA().getConfig());
+        settingsObjects.add(Hyperium.INSTANCE.getModIntegration().getMotionBlur());
+        settingsObjects.add(Hyperium.INSTANCE.getModIntegration().getLevelhead().getConfig());
         smol = new HyperiumFontRenderer(Settings.GUI_FONT, 14.0F, 0, 10.0F);
         font = new HyperiumFontRenderer(Settings.GUI_FONT, 16.0F, 0, 10.0F);
         title = new HyperiumFontRenderer(Settings.GUI_FONT, 30.0F, 0, 10.0F);
@@ -40,9 +47,20 @@ public class HyperiumMainGui extends HyperiumGui {
         if (Minecraft.getMinecraft().gameSettings.guiScale == 0)
             Minecraft.getMinecraft().gameSettings.guiScale = 3;
 
+        tabs = Arrays.asList(
+                new SettingsTab(this)
+        );
         guiScale = 2;
         scollMultiplier = 2;
         setTab(tabIndex);
+
+
+
+
+    }
+
+    public List<Object> getSettingsObjects() {
+        return settingsObjects;
     }
 
     @Override

@@ -29,6 +29,9 @@ public class ToggleComponent extends AbstractTabComponent {
     }
 
     private boolean getStateFromField() {
+        if(field == null) {
+            System.out.println(this.label);
+        }
         try {
             return field.getBoolean(parentObj);
         } catch (IllegalAccessException e) {

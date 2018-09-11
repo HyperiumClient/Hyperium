@@ -6,7 +6,7 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
 import org.lwjgl.input.Mouse;
 
-import java.awt.*;
+import java.awt.Color;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +29,7 @@ public class SliderComponent extends AbstractTabComponent {
     private int width;
     private int x;
     private int y;
+    private boolean wasDown = false;
 
     public SliderComponent(AbstractTab tab, List<String> tags, String label, Field field, Object parentObj, float minVal, float maxVal, boolean isInteger, boolean round) {
         super(tab, tags);
@@ -39,6 +40,8 @@ public class SliderComponent extends AbstractTabComponent {
         this.maxVal = maxVal;
         this.isInteger = isInteger;
         this.round = round;
+        if (!field.isAccessible())
+            field.setAccessible(true);
     }
 
     private double getDouble() {
@@ -93,27 +96,6 @@ public class SliderComponent extends AbstractTabComponent {
             font.drawString(line.toUpperCase(), x + 3, y + 5 + 17 * line1, 0xffffff);
             line1++;
         }
-        /*
-          val left = (overlayX + w - 105).toFloat()
-
-        val fr = HyperiumMainGui.INSTANCE.fr
-        var s = value.toString()
-        if (round)
-            s = Math.round(value).toString()
-        val toFloat = (overlayY + h / 2).toFloat()
-
-        var color = 0xFFFFFFFF.toInt();
-
-        if(!super.enabled){
-            color = Color(169, 169, 169).rgb
-        }
-        fr.drawString(s, left - 5 - fr.getWidth(s), toFloat - 5, color)
-        val rightSide = (overlayX + w - 5).toFloat()
-        RenderUtils.drawLine(left, toFloat, rightSide, (overlayY + h / 2).toFloat(), 2f, color)
-        var d = (value - minVal) / (maxVal - minVal) * 100
-        var toInt = (left + d).toInt()
-        RenderUtils.drawFilledCircle(toInt, overlayY + h / 2, 5f, color)
-         */
         int left = x + width / 2;
         String s = Double.toString(round ? Math.round(currentValue) : currentValue);
 
@@ -123,16 +105,18 @@ public class SliderComponent extends AbstractTabComponent {
         font.drawString(s, left - 8 - font.getWidth(s), y + 4, Color.WHITE.getRGB());
         double d = (currentValue - minVal) / (maxVal - minVal) * width / 2;
         int toInt = (int) (left + d);
-
         this.width = width;
         RenderUtils.drawFilledCircle(toInt, y + 9, 5f, Color.WHITE.getRGB());
+        if (!Mouse.isButtonDown(0) && wasDown) {
+            wasDown = false;
+            super.stateChange(this.currentValue);
+        }
     }
 
     @Override
     public int getHeight() {
         return 18 * lines.size();
     }
-
 
     @Override
     public void onClick(int x, int y) {
@@ -141,19 +125,19 @@ public class SliderComponent extends AbstractTabComponent {
 
     @Override
     public void mouseEvent(int mouseX, int mouseY) {
-        System.out.println(mouseX);
         if (Mouse.isButtonDown(0)) {
+            wasDown = true;
             int left = width / 2;
             int rightSide = width - 5;
 
-            mouseX-=left;
-            rightSide-=left;
+            mouseX -= left;
+            rightSide -= left;
             double percent = (double) mouseX / (double) rightSide;
             if (percent < 0)
                 percent = 0;
             if (percent > 1.0)
                 percent = 1.0;
-            this.currentValue = percent * maxVal;
+            this.currentValue = minVal + percent * (double) (maxVal - minVal);
         }
 
     }
