@@ -29,8 +29,20 @@ public class SelectorComponent extends AbstractTabComponent {
     }
 
     public String getCurrentValue() {
+
         try {
-            return ((String) field.get(parentObj));
+            String s = (String) field.get(parentObj);
+            String[] strings = values.get();
+            for (String s1 : strings) {
+                if (s1.equalsIgnoreCase(s))
+                    return s;
+            }
+            //Not found
+            if (strings.length == 0)
+                return "Error 4";
+            String string = strings[0];
+            setValue(string);
+            return string;
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
@@ -64,7 +76,7 @@ public class SelectorComponent extends AbstractTabComponent {
 
         int line1 = 0;
         for (String line : lines) {
-            font.drawString(line.replaceAll("_"," ").toUpperCase(), x + 3, y + 5 + 17 * line1, 0xffffff);
+            font.drawString(line.replaceAll("_", " ").toUpperCase(), x + 3, y + 5 + 17 * line1, 0xffffff);
             line1++;
         }
 
@@ -94,6 +106,7 @@ public class SelectorComponent extends AbstractTabComponent {
     @Override
     public void onClick(int x, int y) {
         if (y < 18 * lines.size()) {
+            String currentValue = getCurrentValue();
             int currentIndex = getCurrentIndex();
             String[] strings = values.get();
             if (strings.length == 0)
@@ -103,7 +116,8 @@ public class SelectorComponent extends AbstractTabComponent {
                 currentIndex = 0;
             String string = strings[currentIndex];
             setValue(string);
-            stateChange(string);
+            if (!getCurrentValue().equalsIgnoreCase(currentValue))
+                stateChange(string);
         }
 
 

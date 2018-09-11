@@ -35,6 +35,7 @@ import cc.hyperium.handlers.handlers.HypixelDetector;
 import cc.hyperium.handlers.handlers.LocationHandler;
 import cc.hyperium.handlers.handlers.OtherConfigOptions;
 import cc.hyperium.handlers.handlers.RenderPlayerAsBlock;
+import cc.hyperium.handlers.handlers.SettingsHandler;
 import cc.hyperium.handlers.handlers.StatusHandler;
 import cc.hyperium.handlers.handlers.TimeTrackHandler;
 import cc.hyperium.handlers.handlers.ValueHandler;
@@ -110,10 +111,13 @@ public class HyperiumHandlers {
     private FortniteDefaultDance fortniteDefaultDance;
     private TwerkDance twerkDance;
     private FortniteHypeDance fortniteHypeDance;
+    private SettingsHandler settingsHandler;
+    private BroadcastEvents broadcastEvents;
 
     public HyperiumHandlers() {
         System.out.println("Loading handlers");
         register(network = new HyperiumNetwork());
+        settingsHandler = new SettingsHandler();
 
         this.remoteResourcesHandler = new RemoteResourcesHandler();
         chatHandlers = new ArrayList<>();
@@ -166,7 +170,11 @@ public class HyperiumHandlers {
         //Command Handler
         register(commandHandler = new HyperiumCommandHandler());
     }
-    private BroadcastEvents broadcastEvents;
+
+    public SettingsHandler getSettingsHandler() {
+        return settingsHandler;
+    }
+
     public FortniteHypeDance getFortniteHypeDance() {
         return fortniteHypeDance;
     }

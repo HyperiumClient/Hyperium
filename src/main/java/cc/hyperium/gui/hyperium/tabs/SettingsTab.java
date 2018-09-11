@@ -26,8 +26,6 @@ import java.util.function.Supplier;
  * Created by Cubxity on 30/08/2018
  */
 public class SettingsTab extends AbstractTab {
-    private HashMap<Field, Supplier<String[]>> customStates = new HashMap<>();
-    private HashMap<Field, List<Consumer<Object>>> callbacks = new HashMap<>();
 
     public SettingsTab(HyperiumMainGui gui) {
         super(gui, "Settings");
@@ -42,7 +40,7 @@ public class SettingsTab extends AbstractTab {
                 ToggleSetting ts = f.getAnnotation(ToggleSetting.class);
                 SelectorSetting ss = f.getAnnotation(SelectorSetting.class);
                 SliderSetting sliderSetting = f.getAnnotation(SliderSetting.class);
-                List<Consumer<Object>> objectConsumer = callbacks.get(f);
+                List<Consumer<Object>> objectConsumer = gui.getCallbacks().get(f);
                 AbstractTabComponent tabComponent = null;
                 Category category = null;
                 boolean mods = false;
@@ -51,7 +49,7 @@ public class SettingsTab extends AbstractTab {
                     category = ts.category();
                     mods = ts.mods();
                 } else if (ss != null) {
-                    Supplier<String[]> supplier = customStates.getOrDefault(f, ss::items);
+                    Supplier<String[]> supplier = gui.getCustomStates().getOrDefault(f, ss::items);
                     tabComponent = new SelectorComponent(this, Collections.emptyList(), ss.name(), f, o, supplier);
                     category = ss.category();
                     mods = ss.mods();

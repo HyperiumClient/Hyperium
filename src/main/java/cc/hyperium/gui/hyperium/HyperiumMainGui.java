@@ -7,6 +7,7 @@ import cc.hyperium.config.Settings;
 import cc.hyperium.gui.HyperiumGui;
 import cc.hyperium.gui.hyperium.components.AbstractTab;
 import cc.hyperium.gui.hyperium.tabs.SettingsTab;
+import cc.hyperium.handlers.handlers.SettingsHandler;
 import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
 import cc.hyperium.utils.HyperiumFontRenderer;
 import net.minecraft.client.Minecraft;
@@ -19,11 +20,15 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 /*
  * Created by Cubxity on 27/08/2018
@@ -32,13 +37,15 @@ public class HyperiumMainGui extends HyperiumGui {
     public static HyperiumMainGui INSTANCE = new HyperiumMainGui();
     private static int tabIndex = 0; // save tab position
     private int initialGuiScale;
+    private HashMap<Field, Supplier<String[]>> customStates = new HashMap<>();
+    private HashMap<Field, List<Consumer<Object>>> callbacks = new HashMap<>();
+    private List<Object> settingsObjects = new ArrayList<>();
 
     private HyperiumFontRenderer smol;
     private HyperiumFontRenderer font;
     private HyperiumFontRenderer title;
     private List<AbstractTab> tabs;
     private AbstractTab currentTab;
-    private List<Object> settingsObjects = new ArrayList<>();
     private List<RGBFieldSet> rgbFields = new ArrayList<>();
 
     public HyperiumMainGui() {
@@ -51,6 +58,17 @@ public class HyperiumMainGui extends HyperiumGui {
         settingsObjects.add(Hyperium.INSTANCE.getModIntegration().getAutoTPA().getConfig());
         settingsObjects.add(Hyperium.INSTANCE.getModIntegration().getMotionBlur());
         settingsObjects.add(Hyperium.INSTANCE.getModIntegration().getLevelhead().getConfig());
+        SettingsHandler settingsHandler = Hyperium.INSTANCE.getHandlers().getSettingsHandler();
+        settingsObjects.addAll(settingsHandler.getSettingsObjects());
+        HashMap<Field, List<Consumer<Object>>> call1 = settingsHandler.getcallbacks();
+        for (Field field : call1.keySet()) {
+            callbacks.computeIfAbsent(field, tmp -> new ArrayList<>()).addAll(call1.get(field));
+        }
+
+        HashMap<Field, Supplier<String[]>> customStates = settingsHandler.getCustomStates();
+        for (Field field : customStates.keySet()) {
+            this.customStates.put(field, customStates.get(field));
+        }
         try {
             rgbFields.add(new RGBFieldSet(Settings.class.getDeclaredField("REACH_RED"),
                     Settings.class.getDeclaredField("REACH_GREEN"),
@@ -71,6 +89,14 @@ public class HyperiumMainGui extends HyperiumGui {
         setTab(tabIndex);
 
 
+    }
+
+    public HashMap<Field, Supplier<String[]>> getCustomStates() {
+        return customStates;
+    }
+
+    public HashMap<Field, List<Consumer<Object>>> getCallbacks() {
+        return callbacks;
     }
 
     public List<RGBFieldSet> getRgbFields() {
