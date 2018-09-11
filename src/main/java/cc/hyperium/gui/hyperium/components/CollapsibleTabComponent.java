@@ -47,7 +47,7 @@ public class CollapsibleTabComponent extends AbstractTabComponent {
     @Override
     public void render(int x, int y, int width, int mouseX, int mouseY) {
         super.render(x, y, width, mouseX, mouseY);
-        tab.gui.getFont().drawString(label.toUpperCase(), x + 3, y + 5, 0xffffff);
+        tab.gui.getFont().drawString(label.replaceAll("_"," ").toUpperCase(), x + 3, y + 5, 0xffffff);
         GlStateManager.bindTexture(0);
         if (collapsed)
             Icons.ARROW_RIGHT.bind();

@@ -31,12 +31,6 @@ import cc.hyperium.mods.motionblur.MotionBlurMod;
 import cc.hyperium.mods.spotify.SpotifyGui;
 import cc.hyperium.mods.tabtoggle.TabToggleSettings;
 import cc.hyperium.mods.togglechat.gui.ToggleChatMainGui;
-import java.awt.Color;
-import java.lang.reflect.Field;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.function.Consumer;
-import java.util.function.Supplier;
 import me.semx11.autotip.Autotip;
 import me.semx11.autotip.util.MessageOption;
 import net.minecraft.client.Minecraft;
@@ -44,6 +38,13 @@ import net.minecraft.client.gui.Gui;
 import org.apache.commons.lang3.ArrayUtils;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
+
+import java.awt.Color;
+import java.lang.reflect.Field;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 public class ModsTab extends AbstractTab {
     private final HyperiumOverlay autotip = new HyperiumOverlay("Autotip");
@@ -232,7 +233,7 @@ public class ModsTab extends AbstractTab {
                 return autotip;
             case LEVEL_HEAD:
                 return levelhead;
-            case VANILLA_ENCHANTMENTS:
+            case VANILLA_ENHANCEMENTS:
                 return vanilla;
             case MOTION_BLUR:
                 return motionblur;

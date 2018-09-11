@@ -21,15 +21,6 @@ import cc.hyperium.Hyperium;
 import cc.hyperium.config.Settings;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
-import java.awt.Color;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.function.Consumer;
-import javax.imageio.ImageIO;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
@@ -44,12 +35,22 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.input.Mouse;
 
+import javax.imageio.ImageIO;
+import java.awt.Color;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Consumer;
+
 public abstract class HyperiumGui extends GuiScreen {
 
-    private static ResourceLocation background = new ResourceLocation("textures/material/backgrounds/1.png");
-    private static ResourceLocation bgDynamicTexture = null;
-    private static File customImage = new File(Minecraft.getMinecraft().mcDataDir, "customImage.png");
-    private static boolean customBackground = false;
+    public static ResourceLocation background = new ResourceLocation("textures/material/backgrounds/1.png");
+    public static ResourceLocation bgDynamicTexture = null;
+    public static File customImage = new File(Minecraft.getMinecraft().mcDataDir, "customImage.png");
+    public static boolean customBackground = false;
     private static BufferedImage bgBr = null;
     private final Map<GuiButton, Consumer<GuiButton>> clicks = new HashMap<>();
     private final Map<GuiButton, Consumer<GuiButton>> updates = new HashMap<>();
