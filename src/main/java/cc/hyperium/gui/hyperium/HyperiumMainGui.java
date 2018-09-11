@@ -2,6 +2,7 @@ package cc.hyperium.gui.hyperium;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.Metadata;
+import cc.hyperium.config.Category;
 import cc.hyperium.config.Settings;
 import cc.hyperium.gui.HyperiumGui;
 import cc.hyperium.gui.hyperium.components.AbstractTab;
@@ -38,6 +39,7 @@ public class HyperiumMainGui extends HyperiumGui {
     private List<AbstractTab> tabs;
     private AbstractTab currentTab;
     private List<Object> settingsObjects = new ArrayList<>();
+    private List<RGBFieldSet> rgbFields = new ArrayList<>();
 
     public HyperiumMainGui() {
         smol = new HyperiumFontRenderer(Settings.GUI_FONT, 14.0F, 0, 3.0F);
@@ -49,6 +51,13 @@ public class HyperiumMainGui extends HyperiumGui {
         settingsObjects.add(Hyperium.INSTANCE.getModIntegration().getAutoTPA().getConfig());
         settingsObjects.add(Hyperium.INSTANCE.getModIntegration().getMotionBlur());
         settingsObjects.add(Hyperium.INSTANCE.getModIntegration().getLevelhead().getConfig());
+        try {
+            rgbFields.add(new RGBFieldSet(Settings.class.getDeclaredField("REACH_RED"),
+                    Settings.class.getDeclaredField("REACH_GREEN"),
+                    Settings.class.getDeclaredField("REACH_BLUE"), Category.REACH, true, Settings.INSTANCE));
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        }
         initialGuiScale = Minecraft.getMinecraft().gameSettings.guiScale;
         // Adjust if GUI scale is on automatic.
         if (Minecraft.getMinecraft().gameSettings.guiScale == 0)
@@ -62,8 +71,10 @@ public class HyperiumMainGui extends HyperiumGui {
         setTab(tabIndex);
 
 
+    }
 
-
+    public List<RGBFieldSet> getRgbFields() {
+        return rgbFields;
     }
 
     public List<Object> getSettingsObjects() {
@@ -121,7 +132,7 @@ public class HyperiumMainGui extends HyperiumGui {
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         GlStateManager.disableAlpha();
 
-        if(Settings.BACKGROUND.equalsIgnoreCase("default")){
+        if (Settings.BACKGROUND.equalsIgnoreCase("default")) {
             drawDefaultBackground();
         } else {
             if (customImage.exists() && bgDynamicTexture != null && customBackground) {

@@ -138,6 +138,9 @@ public class SliderComponent extends AbstractTabComponent {
             if (percent > 1.0)
                 percent = 1.0;
             this.currentValue = minVal + percent * (double) (maxVal - minVal);
+            if(isInteger) {
+                setInt((int) currentValue);
+            } else setDouble(currentValue);
         }
 
     }
