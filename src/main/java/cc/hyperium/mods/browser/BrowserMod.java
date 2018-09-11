@@ -1,15 +1,22 @@
 package cc.hyperium.mods.browser;
 
 import cc.hyperium.Hyperium;
+import cc.hyperium.commands.BaseCommand;
+import cc.hyperium.commands.CommandException;
 import cc.hyperium.config.ConfigOpt;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.RenderHUDEvent;
+import cc.hyperium.event.TickEvent;
 import cc.hyperium.handlers.handlers.keybinds.HyperiumBind;
 import cc.hyperium.mods.AbstractMod;
 import cc.hyperium.mods.browser.gui.GuiBrowser;
 import cc.hyperium.mods.browser.gui.GuiConfig;
 import cc.hyperium.mods.browser.keybinds.BrowserBind;
+import java.util.ArrayDeque;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Queue;
 import net.minecraft.client.Minecraft;
 import net.montoyo.mcef.MCEF;
 import net.montoyo.mcef.api.API;
@@ -22,9 +29,6 @@ import org.apache.commons.lang3.tuple.ImmutableTriple;
 import org.apache.commons.lang3.tuple.Triple;
 import org.lwjgl.input.Keyboard;
 
-import java.util.Arrays;
-import java.util.List;
-
 /**
  * @author Koding
  */
@@ -35,9 +39,11 @@ public class BrowserMod extends AbstractMod implements IDisplayHandler, IJSQuery
     private GuiBrowser backup;
     public GuiConfig hudBrowser;
 
-
     @ConfigOpt
     public String homePage = "https://hyperium.cc";
+
+    private Queue<Runnable> delayedRunnableQueue = new ArrayDeque<>();
+
     @Override
     public AbstractMod init() {
         EventBus.INSTANCE.register(this);
@@ -55,8 +61,8 @@ public class BrowserMod extends AbstractMod implements IDisplayHandler, IJSQuery
         }
         browserGui = new GuiBrowser(homePage);
 
-
 //        addShortcutKeys();
+        registerCommands();
 
         return this;
     }
@@ -64,6 +70,80 @@ public class BrowserMod extends AbstractMod implements IDisplayHandler, IJSQuery
     @Override
     public Metadata getModMetadata() {
         return new Metadata(this, "Browser", "1.0", "KodingKing");
+    }
+
+    private void registerCommands() {
+        Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(
+            new BaseCommand() {
+                @Override
+                public String getName() {
+                    return "browse";
+                }
+
+                @Override
+                public String getUsage() {
+                    return "browse <url>";
+                }
+
+                @Override
+                public void onExecute(String[] args) throws CommandException {
+                    if (args.length == 0) {
+                        throw new CommandException("Enter a URL to browse to.");
+                    } else {
+                        delayedRunnableQueue.add(() -> {
+                            showBrowser();
+
+                            String url = String.join("%20", args);
+                            if (backup == null) {
+                                browserGui.loadURL(url);
+                            } else {
+                                backup.loadURL(url);
+                            }
+                        });
+                    }
+                }
+            });
+
+        List<Triple<String, String, String>> commands = Arrays.asList(
+            new ImmutableTriple<>("google", "Enter a search query.",
+                "https://google.com/search?q=%QUERY%"),
+            new ImmutableTriple<>("youtube", "Enter a search query.",
+                "https://youtube.com/search?q=%QUERY%")
+        );
+
+        for (Triple<String, String, String> command : commands) {
+            Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(
+                new BaseCommand() {
+                    @Override
+                    public String getName() {
+                        return command.getLeft();
+                    }
+
+                    @Override
+                    public String getUsage() {
+                        return getName() + " <query>";
+                    }
+
+                    @Override
+                    public void onExecute(String[] args) throws CommandException {
+                        if (args.length == 0) {
+                            throw new CommandException(command.getMiddle());
+                        } else {
+                            delayedRunnableQueue.add(() -> {
+                                showBrowser();
+
+                                String url = command.getRight()
+                                    .replace("%QUERY%", String.join("%20", args));
+                                if (backup == null) {
+                                    browserGui.loadURL(url);
+                                } else {
+                                    backup.loadURL(url);
+                                }
+                            });
+                        }
+                    }
+                });
+        }
     }
 
     private void addShortcutKeys() {
@@ -153,10 +233,10 @@ public class BrowserMod extends AbstractMod implements IDisplayHandler, IJSQuery
             Minecraft.getMinecraft().displayGuiScreen(backup);
             backup.loadURL(null);
         } else {
-
             Minecraft.getMinecraft().displayGuiScreen(browserGui);
         }
     }
+
     GuiBrowser browserGui;
 
     @InvokeEvent
@@ -166,6 +246,14 @@ public class BrowserMod extends AbstractMod implements IDisplayHandler, IJSQuery
         }
     }
 
+    @InvokeEvent
+    private void onTick(TickEvent e) {
+        Runnable toRun = delayedRunnableQueue.poll();
+        if (toRun == null) {
+            return;
+        }
+        toRun.run();
+    }
 
     public MCEF getMcef() {
         return mcef;

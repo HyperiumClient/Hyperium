@@ -1,6 +1,7 @@
 package cc.hyperium.mods.browser.gui;
 
 import cc.hyperium.Hyperium;
+import cc.hyperium.mods.browser.util.BrowserUtil;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -100,6 +101,7 @@ public class GuiBrowser extends GuiScreen {
     }
 
     public void loadURL(String url) {
+        this.url.setText(url);
         if (browser == null) {
             urlToLoad = url;
         } else {
@@ -169,14 +171,14 @@ public class GuiBrowser extends GuiScreen {
                     && !focused) { //Inject events into browser. TODO: Handle keyboard mods.
                 if (key != '.' && key != ';' && key != ',') { //Workaround
                     if (pressed) {
-                        browser.injectKeyPressed(key, 0);
+                        browser.injectKeyPressed(key, BrowserUtil.getModifierInt());
                     } else {
-                        browser.injectKeyReleased(key, 0);
+                        browser.injectKeyReleased(key, BrowserUtil.getModifierInt());
                     }
                 }
 
                 if (key != Keyboard.CHAR_NONE) {
-                    browser.injectKeyTyped(key, 0);
+                    browser.injectKeyTyped(key, BrowserUtil.getModifierInt());
                 }
             }
 
@@ -199,11 +201,11 @@ public class GuiBrowser extends GuiScreen {
                 int y = mc.displayHeight - sy - scaleY(30); //Don't forget to flip Y axis.
 
                 if (wheel != 0) {
-                    browser.injectMouseWheel(sx, y, 0, 1, wheel);
+                    browser.injectMouseWheel(sx, y, BrowserUtil.getModifierInt(), 1, wheel);
                 } else if (btn == -1) {
-                    browser.injectMouseMove(sx, y, 0, y < 0);
+                    browser.injectMouseMove(sx, y, BrowserUtil.getModifierInt(), y < 0);
                 } else {
-                    browser.injectMouseButton(sx, y, 0, btn + 1, pressed, 1);
+                    browser.injectMouseButton(sx, y, BrowserUtil.getModifierInt(), btn + 1, pressed, 1);
                 }
             }
 
