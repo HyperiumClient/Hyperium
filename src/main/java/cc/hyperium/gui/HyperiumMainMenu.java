@@ -172,7 +172,7 @@ import cc.hyperium.GuiStyle;
 import cc.hyperium.Hyperium;
 import cc.hyperium.Metadata;
 import cc.hyperium.config.Settings;
-import cc.hyperium.gui.main.HyperiumMainGui;
+import cc.hyperium.gui.hyperium.HyperiumMainGui;
 import cc.hyperium.handlers.handlers.SettingsMigrator;
 import cc.hyperium.mixinsimp.renderer.gui.IMixinGuiMultiplayer;
 import cc.hyperium.utils.HyperiumFontRenderer;

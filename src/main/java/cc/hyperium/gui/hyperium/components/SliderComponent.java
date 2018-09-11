@@ -6,7 +6,7 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
 import org.lwjgl.input.Mouse;
 
-import java.awt.*;
+import java.awt.Color;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
@@ -90,7 +90,7 @@ public class SliderComponent extends AbstractTabComponent {
 
         int line1 = 0;
         for (String line : lines) {
-            font.drawString(line.toUpperCase(), x + 3, y + 5 + 17 * line1, 0xffffff);
+            font.drawString(line.replaceAll("_"," ").toUpperCase(), x + 3, y + 5 + 17 * line1, 0xffffff);
             line1++;
         }
         /*

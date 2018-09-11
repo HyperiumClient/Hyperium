@@ -5,9 +5,15 @@ import cc.hyperium.config.Settings;
 import cc.hyperium.gui.HyperiumGui;
 import cc.hyperium.gui.hyperium.components.AbstractTab;
 import cc.hyperium.gui.hyperium.tabs.SettingsTab;
+import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
 import cc.hyperium.utils.HyperiumFontRenderer;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.EntityRenderer;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.WorldRenderer;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
 
 import java.io.IOException;
@@ -20,6 +26,7 @@ import java.util.List;
  * Created by Cubxity on 27/08/2018
  */
 public class HyperiumMainGui extends HyperiumGui {
+    public static HyperiumMainGui INSTANCE = new HyperiumMainGui();
     private static int tabIndex = 0; // save tab position
     private int initialGuiScale;
 
@@ -32,9 +39,9 @@ public class HyperiumMainGui extends HyperiumGui {
     private AbstractTab currentTab;
 
     public HyperiumMainGui() {
-        smol = new HyperiumFontRenderer(Settings.GUI_FONT, 14.0F, 0, 10.0F);
-        font = new HyperiumFontRenderer(Settings.GUI_FONT, 16.0F, 0, 10.0F);
-        title = new HyperiumFontRenderer(Settings.GUI_FONT, 30.0F, 0, 10.0F);
+        smol = new HyperiumFontRenderer(Settings.GUI_FONT, 14.0F, 0, 3.0F);
+        font = new HyperiumFontRenderer(Settings.GUI_FONT, 16.0F, 0, 3.0F);
+        title = new HyperiumFontRenderer(Settings.GUI_FONT, 30.0F, 0, 3.0F);
         initialGuiScale = Minecraft.getMinecraft().gameSettings.guiScale;
         // Adjust if GUI scale is on automatic.
         if (Minecraft.getMinecraft().gameSettings.guiScale == 0)
@@ -73,8 +80,9 @@ public class HyperiumMainGui extends HyperiumGui {
         int yg = (height / 10);  // Y grid
         int xg = (width / 11);   // X grid
 
-        if (Minecraft.getMinecraft().theWorld == null)
-            drawDefaultBackground(); //TODO: Make it draw custom background
+        if (Minecraft.getMinecraft().theWorld == null) {
+            renderHyperiumBackground(ResolutionUtil.current());
+        }
 
         // Header
         drawRect(xg, yg, xg * 10, yg * 2, 0x64000000);
@@ -86,6 +94,38 @@ public class HyperiumMainGui extends HyperiumGui {
 
         // Footer
         smol.drawString(Metadata.getVersion(), width - smol.getWidth(Metadata.getVersion()) - 1, height - 10, 0xffffffff);
+    }
+
+    private void renderHyperiumBackground(ScaledResolution sr) {
+        GlStateManager.disableDepth();
+        GlStateManager.depthMask(false);
+        GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+        GlStateManager.disableAlpha();
+
+        if(Settings.BACKGROUND.equalsIgnoreCase("default")){
+            drawDefaultBackground();
+        } else {
+            if (customImage.exists() && bgDynamicTexture != null && customBackground) {
+                Minecraft.getMinecraft().getTextureManager().bindTexture(bgDynamicTexture);
+            } else {
+                Minecraft.getMinecraft().getTextureManager().bindTexture(background);
+            }
+
+            Tessellator tessellator = Tessellator.getInstance();
+            WorldRenderer worldrenderer = tessellator.getWorldRenderer();
+            worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
+            worldrenderer.pos(0.0D, (double) sr.getScaledHeight(), -90.0D).tex(0.0D, 1.0D).endVertex();
+            worldrenderer.pos((double) sr.getScaledWidth(), (double) sr.getScaledHeight(), -90.0D).tex(1.0D, 1.0D).endVertex();
+            worldrenderer.pos((double) sr.getScaledWidth(), 0.0D, -90.0D).tex(1.0D, 0.0D).endVertex();
+            worldrenderer.pos(0.0D, 0.0D, -90.0D).tex(0.0D, 0.0D).endVertex();
+            tessellator.draw();
+        }
+
+        GlStateManager.depthMask(true);
+        GlStateManager.enableDepth();
+        GlStateManager.enableAlpha();
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
     }
 
     public HyperiumFontRenderer getFont() {

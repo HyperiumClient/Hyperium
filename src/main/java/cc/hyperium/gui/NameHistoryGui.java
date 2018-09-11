@@ -17,8 +17,14 @@
 
 package cc.hyperium.gui;
 
-import cc.hyperium.config.Settings;
 import cc.hyperium.utils.HyperiumFontRenderer;
+import me.kbrewster.mojangapi.MojangAPI;
+import me.kbrewster.mojangapi.profile.Name;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.GuiTextField;
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.io.IOException;
@@ -27,12 +33,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import me.kbrewster.mojangapi.MojangAPI;
-import me.kbrewster.mojangapi.profile.Name;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.GuiTextField;
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Mouse;
 
 public class NameHistoryGui extends GuiScreen {
 
@@ -79,9 +79,6 @@ public class NameHistoryGui extends GuiScreen {
         //Text Box
         nameField.drawTextBox();
         int defaultColour = Color.WHITE.getRGB();
-        if (Settings.NH_RGB_NAMES) {
-            defaultColour = Color.getHSBColor(System.currentTimeMillis() % 1000L / 1000F, 1F, 1F).getRGB();
-        }
         for (int i = 0; i < names.size(); i++) {
 
             float xPos = width / 2 - (115 / 2);

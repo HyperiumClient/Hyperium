@@ -30,7 +30,7 @@ import static cc.hyperium.config.Category.MISC;
 import static cc.hyperium.config.Category.REACH;
 import static cc.hyperium.config.Category.SPOTIFY;
 import static cc.hyperium.config.Category.UTILITIES;
-import static cc.hyperium.config.Category.VANILLA_ENCHANTMENTS;
+import static cc.hyperium.config.Category.VANILLA_ENHANCEMENTS;
 
 /*
  * Created by Cubxity on 03/06/2018
@@ -80,20 +80,24 @@ public class Settings {
     public static boolean SMART_SOUNDS = false;
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;numberPingEnabled")
-    @ToggleSetting(name = "Numeric Ping", category = VANILLA_ENCHANTMENTS, mods = true)
+    @ToggleSetting(name = "Numeric Ping", category = VANILLA_ENHANCEMENTS, mods = true)
     public static boolean NUMBER_PING = true;
 
     @ConfigOpt
-    @ToggleSetting(name = "Arrow Count When Holding Bow", category = VANILLA_ENCHANTMENTS, mods = true)
+    @ToggleSetting(name = "Arrow Count When Holding Bow", category = VANILLA_ENHANCEMENTS, mods = true)
     public static boolean ARROW_COUNT = true;
 
     @ConfigOpt
-    @ToggleSetting(name = "Show Enchantments above hotbar", category = VANILLA_ENCHANTMENTS, mods = true)
+    @ToggleSetting(name = "Show Enchantments above hotbar", category = VANILLA_ENHANCEMENTS, mods = true)
     public static boolean ENCHANTMENTS_ABOVE_HOTBAR = true;
 
     @ConfigOpt
-    @ToggleSetting(name = "Show Attack Damage above hotbar", category = VANILLA_ENCHANTMENTS, mods = true)
+    @ToggleSetting(name = "Show Attack Damage above hotbar", category = VANILLA_ENHANCEMENTS, mods = true)
     public static boolean DAMAGE_ABOVE_HOTBAR = true;
+
+    @ConfigOpt
+    @ToggleSetting(name = "Multi-byte input (Input fix)", category = VANILLA_ENHANCEMENTS, mods = true)
+    public static boolean INPUT_FIX = false;
 
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;combatParticleFixEnabled")
@@ -157,13 +161,6 @@ public class Settings {
     @ToggleSetting(name = "\"Welcome to the Hypixel Zoo!\"")
     public static boolean HYPIXEL_ZOO = true;
 
-    @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;hypixelZooEnabled;oldResourcePackGui")
-    @ToggleSetting(name = "Legacy Resource Pack GUI", category = IMPROVEMENTS)
-    public static boolean LEGACY_RP = false;
-
-    @ConfigOpt(alt = "cc.hyperium.gui.settings.items.CosmeticSettings;dabSpeed")
-    public static int DAB_SPEED = 7;
-
     @ConfigOpt
     @ToggleSetting(category = COSMETICS, name = "Show Particle Auras")
     public static boolean SHOW_PARTICLES = true;
@@ -177,9 +174,6 @@ public class Settings {
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.CosmeticSettings;tPoseToggle")
     public static boolean TPOSE_TOGGLE = false;
-
-    @ConfigOpt(alt = "cc.hyperium.gui.settings.items.CosmeticSettings;flossDanceSpeed")
-    public static int FLOSS_SPEED = 4;
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.CosmeticSettings;flossDanceToggle")
     public static boolean FLOSS_TOGGLE = false;
@@ -222,10 +216,6 @@ public class Settings {
     @ConfigOpt
     @ToggleSetting(name = "Custom Sword Animation", category = ANIMATIONS, mods = true)
     public static boolean CUSTOM_SWORD_ANIMATION = false;
-
-    @ConfigOpt
-    @ToggleSetting(name = "Name History RGB", category = MISC)
-    public static boolean NH_RGB_NAMES = false;
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.CosmeticSettings;fliptoggle")
     @ToggleSetting(name = "Flip - Toggle Mode", category = COSMETICS)
@@ -370,10 +360,6 @@ public class Settings {
     public static boolean SPOTIFY_FORCE_DISABLE = false;
 
     @ConfigOpt
-    @ToggleSetting(name = "Super Secret Settings v2", category = MISC)
-    public static boolean SUPERSECRETSETTINGSV2 = false;
-
-    @ConfigOpt
     @ToggleSetting(name = "Update Notifications in Hyperium Settings", category = MISC)
     public static boolean UPDATE_NOTIFICATIONS = true;
 
@@ -491,8 +477,26 @@ public class Settings {
     public static boolean SEND_SERVER = true;
 
     @ConfigOpt
-    @ToggleSetting(name = "Skeppy reacts to Sk1er", category = INTEGRATIONS, mods = true)
-    public static boolean OMG_ITS_A_SK1ER = true;
+    @ToggleSetting(name = "Send guild welcome message", category = INTEGRATIONS)
+    public static boolean SEND_GUILD_WELCOME_MESSAGE = true;
+
+
+
+    @ConfigOpt
+    public static boolean AUTO_DAB_ENABLED = false;
+
+    @ConfigOpt
+    public static int AUTO_DAB_LENGTH = 5;
+
+    @ConfigOpt
+    public static boolean AUTO_DAB_THIRD_PERSON = true;
+
+    @ConfigOpt
+    public static boolean AUTO_NICO = false;
+
+    @ConfigOpt
+    @ToggleSetting(name = "Item Physics", category = GENERAL)
+    public static boolean ITEM_PHYSIC_ENABLED = false;
 
     @ConfigOpt
 //    @ToggleSetting(name = "Gui Font", category = GENERAL)
