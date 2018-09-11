@@ -32,11 +32,13 @@ import java.awt.Color;
 import java.awt.Font;
 
 public class SplashProgress {
-    private static final int MAX = 13;
+    public static final int DEFAULT_MAX = 13;
+    public static int MAX = DEFAULT_MAX;
     public static int PROGRESS = 0;
     public static String CURRENT = "";
     private static ResourceLocation splash;
     private static TextureManager ctm;
+    public static boolean CANCEL_IF_MAX = true;
     /**
      * FontRenderer for drawing splash screen
      */
@@ -46,7 +48,6 @@ public class SplashProgress {
     private static Pointer<?> hwnd;
     private static boolean once = false;
 
-
     public static void update() {
         if (hwnd != null && taskbar != null)
             try {
@@ -55,7 +56,7 @@ public class SplashProgress {
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
-        if (PROGRESS == MAX)
+        if (PROGRESS == MAX && CANCEL_IF_MAX)
             finish();
         if (Minecraft.getMinecraft() == null || Minecraft.getMinecraft().getLanguageManager() == null)
             return;

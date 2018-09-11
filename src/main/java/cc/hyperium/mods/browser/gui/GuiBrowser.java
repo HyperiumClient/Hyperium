@@ -167,6 +167,11 @@ public class GuiBrowser extends GuiScreen {
             char key = Keyboard.getEventCharacter();
             int num = Keyboard.getEventKey();
 
+            if (num == Keyboard.KEY_L && BrowserUtil.getModifierInt() == 2 && pressed) {
+                url.setFocused(true);
+                return;
+            }
+
             if (browser != null
                     && !focused) { //Inject events into browser. TODO: Handle keyboard mods.
                 if (key != '.' && key != ';' && key != ',') { //Workaround
