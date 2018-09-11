@@ -1,6 +1,5 @@
 package cc.hyperium.handlers.handlers.animation;
 
-import cc.hyperium.config.Settings;
 import cc.hyperium.gui.HyperiumGui;
 import cc.hyperium.mixinsimp.renderer.model.IMixinModelBiped;
 import cc.hyperium.mixinsimp.renderer.model.IMixinModelPlayer;
@@ -20,7 +19,7 @@ public class FlossDanceHandler extends AbstractPreCopyAnglesAnimationHandler {
 
     @Override
     public float modifyState() {
-        float speed = Settings.FLOSS_SPEED * 2;
+        float speed = 10;
         return HyperiumGui.clamp(state + (asc ? speed : -speed), 0.0f, 100.0f);
     }
 

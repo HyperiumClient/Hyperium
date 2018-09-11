@@ -1,6 +1,5 @@
 package cc.hyperium.handlers.handlers.animation;
 
-import cc.hyperium.config.Settings;
 import cc.hyperium.gui.HyperiumGui;
 import cc.hyperium.mixinsimp.renderer.model.IMixinModelBiped;
 import cc.hyperium.mixinsimp.renderer.model.IMixinModelPlayer;
@@ -24,7 +23,7 @@ public class DabHandler extends AbstractPreCopyAnglesAnimationHandler {
                         this.state,
                         this.asc ? 100.0f : 0.0f,
                         0.01f,
-                        Settings.DAB_SPEED
+                        5
                 ),
                 0.0f,
                 100.0f

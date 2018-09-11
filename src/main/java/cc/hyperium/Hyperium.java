@@ -72,7 +72,6 @@ import cc.hyperium.utils.HyperiumScheduler;
 import cc.hyperium.utils.InstallerUtils;
 import cc.hyperium.utils.StaffUtils;
 import cc.hyperium.utils.UpdateUtils;
-import cc.hyperium.utils.eastereggs.EasterEggs;
 import cc.hyperium.utils.mods.CompactChat;
 import cc.hyperium.utils.mods.FPSLimiter;
 import net.minecraft.client.Minecraft;
@@ -265,7 +264,6 @@ public class Hyperium {
             e.printStackTrace();
             LOGGER.warn("Failed to fetch staff");
         }
-        EventBus.INSTANCE.register(new EasterEggs());
 
         Multithreading.runAsync(Spotify::load);
 

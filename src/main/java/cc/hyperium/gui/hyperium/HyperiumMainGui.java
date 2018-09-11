@@ -6,14 +6,21 @@ import cc.hyperium.config.Settings;
 import cc.hyperium.gui.HyperiumGui;
 import cc.hyperium.gui.hyperium.components.AbstractTab;
 import cc.hyperium.gui.hyperium.tabs.SettingsTab;
+import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
 import cc.hyperium.utils.HyperiumFontRenderer;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.EntityRenderer;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.WorldRenderer;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -28,9 +35,7 @@ public class HyperiumMainGui extends HyperiumGui {
     private HyperiumFontRenderer smol;
     private HyperiumFontRenderer font;
     private HyperiumFontRenderer title;
-    private List<AbstractTab> tabs = Arrays.asList(
-            new SettingsTab(this)
-    );
+    private List<AbstractTab> tabs;
     private AbstractTab currentTab;
     private List<Object> settingsObjects = new ArrayList<>();
 

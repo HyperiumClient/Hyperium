@@ -19,7 +19,7 @@ public enum Category {
     UTILITIES("Utilities"),
     LEVEL_HEAD("Levelhead"),
     REACH("Reach Display"),
-    VANILLA_ENCHANTMENTS("Vanilla Enhancements"),
+    VANILLA_ENHANCEMENTS("Vanilla Enhancements"),
     CHROMAHUD("ChromaHUD"),
     KEYSTROKES("Keystrokes"),
     MOTION_BLUR("Motion Blur"),

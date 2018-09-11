@@ -31,7 +31,6 @@ import cc.hyperium.mods.levelhead.Levelhead;
 import cc.hyperium.mods.motionblur.MotionBlurMod;
 import cc.hyperium.mods.nickhider.NickHider;
 import cc.hyperium.mods.oldanimations.OldAnimations;
-import cc.hyperium.mods.omgitsask1er.OMGItsASk1er;
 import cc.hyperium.mods.playtime.PlayTime;
 import cc.hyperium.mods.skinchanger.SkinChangerMod;
 import cc.hyperium.mods.spotify.SpotifyControls;
@@ -68,7 +67,6 @@ public class HyperiumModIntegration {
     private final PlayTime playTime;
     private final FortniteCompassMod fncompass;
     private final TabToggleMod tabToggle;
-    private final OMGItsASk1er omgItsASk1er;
 
     public HyperiumModIntegration() {
         // ChromaHud implementation
@@ -135,7 +133,6 @@ public class HyperiumModIntegration {
 
         this.tabToggle = (TabToggleMod) new TabToggleMod().init();
 
-        this.omgItsASk1er = (OMGItsASk1er) new OMGItsASk1er().init();
     }
 
     public KeystrokesMod getKeystrokesMod() {
@@ -222,7 +219,4 @@ public class HyperiumModIntegration {
         return tabToggle;
     }
 
-    public OMGItsASk1er getOMGItsASk1er() {
-        return omgItsASk1er;
-    }
 }
