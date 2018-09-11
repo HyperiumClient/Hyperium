@@ -1,5 +1,6 @@
 package net.montoyo.mcef.utilities;
 
+import cc.hyperium.mods.sk1ercommon.Multithreading;
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -14,13 +15,13 @@ import java.util.zip.ZipInputStream;
 import net.montoyo.mcef.remote.Mirror;
 
 public class Util {
-    
+
     private static final DummyProgressListener DPH = new DummyProgressListener();
     private static final String HEX = "0123456789abcdef";
-    
+
     /**
      * Clamps d between min and max.
-     * 
+     *
      * @param d The value to clamp.
      * @param min The minimum.
      * @param max The maximum.
@@ -34,17 +35,17 @@ public class Util {
         else
             return d;
     }
-    
+
     /**
      * Extracts a ZIP archive into a folder.
-     * 
+     *
      * @param zip The ZIP archive file to extract.
      * @param out The output directory for the ZIP content.
      * @return true if the extraction was successful.
      */
     public static boolean extract(File zip, File out) {
         ZipInputStream zis;
-        
+
         try {
             zis = new ZipInputStream(new FileInputStream(zip));
         } catch(FileNotFoundException e) {
@@ -52,27 +53,27 @@ public class Util {
             e.printStackTrace();
             return false;
         }
-        
+
         try {
             ZipEntry ze;
             while((ze = zis.getNextEntry()) != null) {
                 if(ze.isDirectory())
                     continue;
-                
+
                 File dst = new File(out, ze.getName());
                 delete(dst);
                 mkdirs(dst);
-                
+
                 FileOutputStream fos = new FileOutputStream(dst);
                 byte[] data = new byte[65536];
                 int read;
-                
+
                 while((read = zis.read(data)) > 0)
                     fos.write(data, 0, read);
-                
+
                 close(fos);
             }
-            
+
             return true;
         } catch(FileNotFoundException e) {
             Log.error("Couldn't extract a file from %s. Maybe you're missing some permissions?", zip.getName());
@@ -81,21 +82,21 @@ public class Util {
         } catch(IOException e) {
             Log.error("IOException while extracting %s.", zip.getName());
             e.printStackTrace();
-            return false;    
+            return false;
         } finally {
             close(zis);
         }
     }
-    
+
     /**
      * Returns the SHA-1 checksum of a file.
-     * 
+     *
      * @param fle The file to be hashed.
      * @return The hash of the file or null if an error occurred.
      */
     public static String hash(File fle) {
         FileInputStream fis;
-        
+
         try {
             fis = new FileInputStream(fle);
         } catch(FileNotFoundException e) {
@@ -103,29 +104,29 @@ public class Util {
             e.printStackTrace();
             return null;
         }
-        
+
         try {
             MessageDigest sha = MessageDigest.getInstance("SHA-1");
             sha.reset();
-            
+
             int read = 0;
             byte buffer[] = new byte[65536];
-            
+
             while((read = fis.read(buffer)) > 0)
                 sha.update(buffer, 0, read);
-            
+
             byte digest[] = sha.digest();
             String hash = "";
-            
+
             for(int i = 0; i < digest.length; i++) {
                 int b = digest[i] & 0xFF;
                 int left = b >>> 4;
                 int right = b & 0x0F;
-                
+
                 hash += HEX.charAt(left);
                 hash += HEX.charAt(right);
             }
-            
+
             return hash;
         } catch(IOException e) {
             Log.error("IOException while hashing file %s", fle.getName());
@@ -139,10 +140,10 @@ public class Util {
             close(fis);
         }
     }
-    
+
     /**
      * Downloads a remote resource.
-     * 
+     *
      * @param res The filename of the resource relative to the mirror root.
      * @param dst The destination file.
      * @param gzip Also extract the content using GZipInputStream.
@@ -151,13 +152,15 @@ public class Util {
      */
     public static boolean download(String res, File dst, boolean gzip, IProgressListener ph) {
         String err = "Couldn't download " + dst.getName() + "!";
-        
+
         ph = secure(ph);
         ph.onTaskChanged("Downloading " + dst.getName());
-        
+
         SizedInputStream sis = openStream(res, err);
         if(sis == null)
             return false;
+
+        long contentLength = sis.getContentLength();
 
         InputStream is;
         if(gzip) {
@@ -171,10 +174,10 @@ public class Util {
             }
         } else
             is = sis;
-        
+
         delete(dst);
         mkdirs(dst);
-        
+
         FileOutputStream fos;
         try {
             fos = new FileOutputStream(dst);
@@ -184,25 +187,20 @@ public class Util {
             close(is);
             return false;
         }
-        
-        int read;
-        byte[] data = new byte[65536];
-        double total = (double) sis.getContentLength();
-        double cur = .0d;
-        
+
+        Download download = new Download(is, fos, contentLength);
+
         try {
-            while((read = is.read(data)) > 0) {
-                fos.write(data, 0, read);
-                
-                cur += (double) sis.resetLengthCounter();
-                ph.onProgressed(cur / total * 100.d);
+            while (download.getStatus() == Download.DOWNLOADING) {
+                try {
+                    Thread.sleep(10);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                ph.onProgressed(Math.min(download.getProgress(), 100));
             }
-            
+
             return true;
-        } catch(IOException e) {
-            Log.error("%s IOException while downloading.", err);
-            e.printStackTrace();
-            return false;
         } finally {
             close(is);
             close(fos);
@@ -220,11 +218,11 @@ public class Util {
     public static boolean download(String res, File dst, IProgressListener ph) {
         return download(res, dst, false, ph);
     }
-    
+
     /**
      * Convenience function. Secures a progress listener.
      * If pl is null, then a dummy empty progress listener will be returned.
-     * 
+     *
      * @param pl The progress handler to secure.
      * @return A progress handler that is never null.
      * @see IProgressListener
@@ -232,27 +230,27 @@ public class Util {
     public static IProgressListener secure(IProgressListener pl) {
         return (pl == null) ? DPH : pl;
     }
-    
+
     /**
      * Renames a file using a string.
-     * 
+     *
      * @param src The file to rename.
      * @param name The new name of the file.
      * @return the new file or null if it failed.
      */
     public static File rename(File src, String name) {
         File ret = new File(src.getParentFile(), name);
-        
+
         if(src.renameTo(ret))
             return ret;
         else
             return null;
     }
-    
+
     /**
      * Makes sure that the directory in which the file is exists.
      * If this one doesn't exist, i'll be created.
-     * 
+     *
      * @param f The file.
      */
     public static void mkdirs(File f) {
@@ -260,44 +258,44 @@ public class Util {
         if(!p.exists())
             p.mkdirs();
     }
-    
+
     /**
      * Tries to delete a file in an advanced way.
      * Does a warning in log if it couldn't delete it neither rename it.
-     * 
+     *
      * @param f The file to be deleted.
      * @see #delete(File)
      */
     public static void delete(String f) {
         delete(new File(f));
     }
-    
+
     /**
      * Tries to delete a file in an advanced way.
      * Does a warning in log if it couldn't delete it neither rename it.
-     * 
+     *
      * @param f The file to be deleted.
      * @see #delete(String)
      */
     public static void delete(File f) {
         if(!f.exists() || f.delete())
             return;
-        
+
         File mv = new File(f.getParentFile(), "deleteme" + ((int) (Math.random() * 100000.d)));
-        if(f.renameTo(mv)) {    
+        if(f.renameTo(mv)) {
             if(!mv.delete())
                 mv.deleteOnExit();
-            
+
             return;
         }
-        
+
         Log.warning("Couldn't delete file! If there's any problems, please try to remove it yourself. Path: %s", f.getAbsolutePath());
     }
-    
+
     /**
      * Tries to open an InputStream to the following remote resource.
-     * Automatically handles broken mirrors and other errors. 
-     * 
+     * Automatically handles broken mirrors and other errors.
+     *
      * @param res The resource filename relative to the root of the mirror.
      * @param err An error string in case it fails.
      * @return The opened input stream.
@@ -305,7 +303,7 @@ public class Util {
     public static SizedInputStream openStream(String res, String err) {
         while(Mirror.getCurrent() != null) {
             HttpURLConnection conn;
-            
+
             try {
                 conn = Mirror.getCurrent().getResource(res);
             } catch(MalformedURLException e) {
@@ -317,7 +315,7 @@ public class Util {
                 e.printStackTrace();
                 return null;
             }
-            
+
             try {
                 long len = -1;
                 boolean failed = true;
@@ -340,28 +338,28 @@ public class Util {
                 return new SizedInputStream(conn.getInputStream(), len);
             } catch(IOException e) {
                 int rc;
-                
+
                 try {
                     rc = conn.getResponseCode();
                 } catch(IOException ie) {
                     Log.error("%s Couldn't even get the HTTP response code!", err);
                     return null;
                 }
-                
+
                 Log.error("%s HTTP response is %d; trying with another mirror.", err, rc);
             }
-            
+
             Mirror.markAsBroken();
         }
-        
+
         Log.error("%s All mirrors seems broken.", err);
         return null;
     }
-    
+
     /**
      * Calls "close" on the specified object without throwing any exceptions.
      * This is usefull with input and output streams.
-     * 
+     *
      * @param o The object to call close on.
      */
     public static void close(Object o) {

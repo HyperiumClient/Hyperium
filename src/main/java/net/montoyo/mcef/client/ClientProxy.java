@@ -3,6 +3,16 @@ package net.montoyo.mcef.client;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.RenderTickEvent;
+import cc.hyperium.mods.browser.HyperiumProgressListener;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import net.minecraft.client.Minecraft;
 import net.montoyo.mcef.BaseProxy;
 import net.montoyo.mcef.MCEF;
@@ -24,19 +34,9 @@ import org.cef.browser.CefMessageRouter;
 import org.cef.browser.CefMessageRouter.CefMessageRouterConfig;
 import org.cef.browser.CefRenderer;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 public class ClientProxy extends BaseProxy {
 
-    public static String ROOT = ".";
+    public static String ROOT;
     public static boolean VIRTUAL = false;
     private final ArrayList<CefBrowserOsr> browsers = new ArrayList<>();
     private final Minecraft mc = Minecraft.getMinecraft();
@@ -57,29 +57,31 @@ public class ClientProxy extends BaseProxy {
         if (MCEF.DISABLE_GPU_RENDERING) {
             Log.info("GPU rendering is disabled because the new launcher sucks.");
             appHandler.setArgs(new String[]{"--disable-gpu"});
-        } else
+        } else {
             appHandler.setArgs(new String[0]);
+        }
 
-        boolean enableForgeSplash = false;
+        ROOT = mc.mcDataDir.getAbsolutePath() + File.separator + "MCEF";
+        ROOT = ROOT.replace("." + File.separator, "");
 
-        ROOT = mc.mcDataDir.getAbsolutePath().replaceAll("\\\\", "/");
-        if (ROOT.endsWith("."))
-            ROOT = ROOT.substring(0, ROOT.length() - 1);
-
-        if (ROOT.endsWith("/"))
-            ROOT = ROOT.substring(0, ROOT.length() - 1);
+        File rootDir = new File(ROOT);
+        if (!rootDir.exists())
+            rootDir.mkdirs();
 
         File fileListing = new File(new File(ROOT), "config");
+        if (!fileListing.exists())
+            fileListing.mkdirs();
 
-        IProgressListener ipl;
+        IProgressListener ipl = new HyperiumProgressListener();
         RemoteConfig cfg = new RemoteConfig();
-        ipl = new UpdateFrame();
 
         cfg.load();
         File[] resourceArray = cfg.getResourceArray();
 
-        if (!cfg.updateFileListing(fileListing, false))
-            Log.warning("There was a problem while establishing file list. Uninstall may not delete all files.");
+        if (!cfg.updateFileListing(fileListing, false)) {
+            Log.warning(
+                "There was a problem while establishing file list. Uninstall may not delete all files.");
+        }
 
         if (!cfg.downloadMissing(ipl)) {
             Log.warning("Going in virtual mode; couldn't download resources.");
@@ -87,14 +89,17 @@ public class ClientProxy extends BaseProxy {
             return;
         }
 
-        if (!cfg.updateFileListing(fileListing, true))
-            Log.warning("There was a problem while updating file list. Uninstall may not delete all files.");
+        if (!cfg.updateFileListing(fileListing, true)) {
+            Log.warning(
+                "There was a problem while updating file list. Uninstall may not delete all files.");
+        }
 
         updateStr = cfg.getUpdateString();
         ipl.onProgressEnd();
 
-        if (VIRTUAL)
+        if (VIRTUAL) {
             return;
+        }
 
         Log.info("Now adding \"%s\" to java.library.path", ROOT);
 
@@ -124,24 +129,28 @@ public class ClientProxy extends BaseProxy {
         }
 
         String exeSuffix;
-        if (OS.isWindows())
+        if (OS.isWindows()) {
             exeSuffix = ".exe";
-        else
+        } else {
             exeSuffix = "";
+        }
 
         CefSettings settings = new CefSettings();
         settings.windowless_rendering_enabled = true;
         settings.background_color = settings.new ColorType(0, 255, 255, 255);
         settings.locales_dir_path = (new File(ROOT, "MCEFLocales")).getAbsolutePath();
         settings.cache_path = (new File(ROOT, "MCEFCache")).getAbsolutePath();
-        settings.browser_subprocess_path = (new File(ROOT, "jcef_helper" + exeSuffix)).getAbsolutePath(); //Temporary fix
+        settings.browser_subprocess_path = (new File(ROOT, "jcef_helper" + exeSuffix))
+            .getAbsolutePath(); //Temporary fix
         //settings.log_severity = CefSettings.LogSeverity.LOGSEVERITY_VERBOSE;
 
         try {
             ArrayList<String> libs = new ArrayList<>();
 
             if (OS.isWindows()) {
-                libs.add(System.getProperty("sun.arch.data.model").equals("64") ? "d3dcompiler_47.dll" : "d3dcompiler_43.dll");
+                libs.add(
+                    System.getProperty("sun.arch.data.model").equals("64") ? "d3dcompiler_47.dll"
+                        : "d3dcompiler_43.dll");
                 libs.add("libGLESv2.dll");
                 libs.add("libEGL.dll");
                 libs.add("libcef.dll");
@@ -181,8 +190,6 @@ public class ClientProxy extends BaseProxy {
         cefClient.addMessageRouter(cefRouter);
         cefClient.addDisplayHandler(displayHandler);
 
-
-
         EventBus.INSTANCE.register(this);
 
         Log.info("MCEF loaded successfuly.");
@@ -194,8 +201,9 @@ public class ClientProxy extends BaseProxy {
 
     @Override
     public IBrowser createBrowser(String url, boolean transp) {
-        if (VIRTUAL)
+        if (VIRTUAL) {
             return new VirtualBrowser();
+        }
 
         CefBrowserOsr ret = (CefBrowserOsr) cefClient.createBrowser(url, true, transp);
         browsers.add(ret);
@@ -218,12 +226,14 @@ public class ClientProxy extends BaseProxy {
 
     @Override
     public void registerJSQueryHandler(IJSQueryHandler iqh) {
-        if (!VIRTUAL)
+        if (!VIRTUAL) {
             cefRouter.addHandler(new MessageRouter(iqh), false);
+        }
     }
 
     @Override
-    public void registerScheme(String name, Class<? extends IScheme> schemeClass, boolean std, boolean local, boolean displayIsolated) {
+    public void registerScheme(String name, Class<? extends IScheme> schemeClass, boolean std,
+        boolean local, boolean displayIsolated) {
         appHandler.registerScheme(name, schemeClass, std, local, displayIsolated);
     }
 
@@ -236,8 +246,9 @@ public class ClientProxy extends BaseProxy {
     public void onTick(RenderTickEvent ev) {
         mc.mcProfiler.startSection("MCEF");
 
-        for (CefBrowserOsr b : browsers)
+        for (CefBrowserOsr b : browsers) {
             b.mcefUpdate();
+        }
 
         displayHandler.update();
         mc.mcProfiler.endSection();
@@ -256,20 +267,23 @@ public class ClientProxy extends BaseProxy {
 
     @Override
     public void onShutdown() {
-        if (VIRTUAL)
+        if (VIRTUAL) {
             return;
+        }
 
         Log.info("Shutting down JCEF...");
         CefBrowserOsr.CLEANUP = false; //Workaround
 
-        for (CefBrowserOsr b : browsers)
+        for (CefBrowserOsr b : browsers) {
             b.close();
+        }
 
         browsers.clear();
         cefClient.dispose();
 
-        if (MCEF.CHECK_VRAM_LEAK)
+        if (MCEF.CHECK_VRAM_LEAK) {
             CefRenderer.dumpVRAMLeak();
+        }
 
         try {
             //Yea sometimes, this is needed for some reasons.
@@ -287,26 +301,30 @@ public class ClientProxy extends BaseProxy {
         mimeTypeMap.clear();
 
         try {
-            BufferedReader br = new BufferedReader(new InputStreamReader(ClientProxy.class.getResourceAsStream("/assets/mcef/mime.types")));
+            BufferedReader br = new BufferedReader(new InputStreamReader(
+                ClientProxy.class.getResourceAsStream("/assets/mcef/mime.types")));
 
             while (true) {
                 cLine++;
                 line = br.readLine();
-                if (line == null)
+                if (line == null) {
                     break;
+                }
 
                 line = line.trim();
                 if (!line.startsWith("#")) {
                     Matcher m = p.matcher(line);
-                    if (!m.matches())
+                    if (!m.matches()) {
                         continue;
+                    }
 
                     mimeTypeMap.put(m.group(2), m.group(1));
                     if (m.groupCount() >= 4 && !m.group(3).isEmpty()) {
                         mimeTypeMap.put(m.group(3), m.group(1));
 
-                        if (m.groupCount() >= 5 && !m.group(4).isEmpty())
+                        if (m.groupCount() >= 5 && !m.group(4).isEmpty()) {
                             mimeTypeMap.put(m.group(4), m.group(1));
+                        }
                     }
                 }
             }
@@ -324,8 +342,9 @@ public class ClientProxy extends BaseProxy {
     public String mimeTypeFromExtension(String ext) {
         ext = ext.toLowerCase();
         String ret = mimeTypeMap.get(ext);
-        if (ret != null)
+        if (ret != null) {
             return ret;
+        }
 
         //If the mimeTypeMap couldn't be loaded, fall back to common things
         switch (ext) {

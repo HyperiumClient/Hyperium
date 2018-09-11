@@ -1,5 +1,6 @@
 package net.montoyo.mcef.remote;
 
+import cc.hyperium.Hyperium;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -59,7 +60,9 @@ public enum Mirror {
      * @throws IOException if an I/O exception occurs.
      */
     public HttpURLConnection getResource(String name) throws MalformedURLException, IOException {
-        HttpURLConnection ret = (HttpURLConnection) (new URL((MCEF.FORCE_MIRROR == null ? url : MCEF.FORCE_MIRROR) + '/' + name)).openConnection();
+        String downloadUrl = (MCEF.FORCE_MIRROR == null ? url : MCEF.FORCE_MIRROR) + '/' + name;
+        Hyperium.LOGGER.info("Downloading " + name + " from " + downloadUrl);
+        HttpURLConnection ret = (HttpURLConnection) (new URL(downloadUrl)).openConnection();
         ret.setConnectTimeout(30000);
         ret.setReadTimeout(15000);
         ret.setRequestProperty("User-Agent", "MCEF");

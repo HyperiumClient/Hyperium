@@ -13,6 +13,13 @@ public class FileListing {
 
     public FileListing(File dir) {
         location = new File(dir, "mcefFiles.lst");
+//        if (!location.exists()) {
+//            try {
+//                location.createNewFile();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
 
         if(location.exists())
             load();
@@ -30,6 +37,8 @@ public class FileListing {
     }
 
     private void unsafeLoad() throws Throwable {
+        if (!location.exists())
+            return;
         BufferedReader br = new BufferedReader(new FileReader(location));
         String line;
 
