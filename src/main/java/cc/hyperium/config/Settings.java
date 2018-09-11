@@ -24,6 +24,7 @@ import static cc.hyperium.config.Category.ANIMATIONS;
 import static cc.hyperium.config.Category.CHROMAHUD;
 import static cc.hyperium.config.Category.COSMETICS;
 import static cc.hyperium.config.Category.GENERAL;
+import static cc.hyperium.config.Category.HYPIXEL;
 import static cc.hyperium.config.Category.IMPROVEMENTS;
 import static cc.hyperium.config.Category.INTEGRATIONS;
 import static cc.hyperium.config.Category.MISC;
@@ -158,7 +159,7 @@ public class Settings {
     public static boolean SPOTIFY_CONTROLS = false;
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;hypixelZooEnabled")
-    @ToggleSetting(name = "\"Welcome to the Hypixel Zoo!\"")
+    @ToggleSetting(name = "\"Welcome to the Hypixel Zoo!\"",category = HYPIXEL)
     public static boolean HYPIXEL_ZOO = true;
 
     @ConfigOpt
@@ -299,7 +300,7 @@ public class Settings {
     public static boolean PERSISTENT_CHAT = false;
 
     @ConfigOpt(alt = "cc.hyperium.handlers.handlers.OtherConfigOptions;friendsFirstIntag")
-    @ToggleSetting(category = GENERAL, name = "Friends First In Tab")
+    @ToggleSetting(category = HYPIXEL, name = "Friends First In Tab")
     public static boolean FRIENDS_FIRST_IN_TAB = true;
 
     @ConfigOpt(alt = "cc.hyperium.handlers.handlers.OtherConfigOptions;showOnlinePlayers")
@@ -311,7 +312,7 @@ public class Settings {
     public static boolean TURN_PEOPLE_INTO_BLOCKS = false;
 
     @ConfigOpt(alt = "cc.hyperium.handlers.handlers.OtherConfigOptions;pingOnDm")
-    @ToggleSetting(category = GENERAL, name = "Ping On DM")
+    @ToggleSetting(category = HYPIXEL, name = "Ping On DM")
     public static boolean PING_ON_DM = true;
 
     @ConfigOpt()
@@ -460,11 +461,11 @@ public class Settings {
 
 
     @ConfigOpt
-    @ToggleSetting(name = "Broadcast Levelups")
+    @ToggleSetting(name = "Broadcast Levelups",category = HYPIXEL)
     public static boolean BROADCAST_LEVELUPS = true;
 
     @ConfigOpt
-    @ToggleSetting(name = "Broadcast Achievements")
+    @ToggleSetting(name = "Broadcast Achievements",category = HYPIXEL)
     public static boolean BROADCAST_ACHIEVEMENTS = true;
 
 

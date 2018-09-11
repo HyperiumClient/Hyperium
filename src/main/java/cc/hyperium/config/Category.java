@@ -11,6 +11,7 @@ public enum Category {
     ANIMATIONS("Animations"),
     MISC("Misc"),
     MODS("Mods"),
+    HYPIXEL("Hypixel"),
 
     //Mods
     AUTOTIP("Autotip"),
