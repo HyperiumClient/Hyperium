@@ -49,6 +49,6 @@ public class CommandConfigGui implements BaseCommand {
 
     @Override
     public void onExecute(String[] args) {
-        new HyperiumMainGui().show();
+        HyperiumMainGui.INSTANCE.show();
     }
 }
