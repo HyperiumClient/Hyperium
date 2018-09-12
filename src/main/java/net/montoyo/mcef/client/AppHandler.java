@@ -6,6 +6,7 @@ import net.montoyo.mcef.utilities.Log;
 
 import org.cef.CefApp;
 import org.cef.browser.CefBrowser;
+import org.cef.browser.CefFrame;
 import org.cef.callback.CefSchemeHandlerFactory;
 import org.cef.callback.CefSchemeRegistrar;
 import org.cef.handler.CefAppHandlerAdapter;
@@ -35,6 +36,10 @@ public class AppHandler extends CefAppHandlerAdapter {
 
     private final HashMap<String, SchemeData> schemeMap = new HashMap<>();
 
+    public AppHandler(String[] args) {
+        super(args);
+    }
+
     public void registerScheme(String name, Class<? extends IScheme> cls, boolean std, boolean local, boolean dispIsolated) {
         schemeMap.put(name, new SchemeData(cls, std, local, dispIsolated));
     }
@@ -48,7 +53,7 @@ public class AppHandler extends CefAppHandlerAdapter {
         int cnt = 0;
 
         for(Map.Entry<String, SchemeData> entry : schemeMap.entrySet()) {
-            if(reg.addCustomScheme(entry.getKey(), entry.getValue().std, entry.getValue().local, entry.getValue().dispIsolated))
+            if(reg.addCustomScheme(entry.getKey(), entry.getValue().std, entry.getValue().local, entry.getValue().dispIsolated, true, false, false))
                 cnt++;
             else
                 Log.error("Could not register scheme %s", entry.getKey());
@@ -74,7 +79,7 @@ public class AppHandler extends CefAppHandlerAdapter {
         }
 
         @Override
-        public CefResourceHandler create(CefBrowser browser, String schemeName, CefRequest request) {
+        public CefResourceHandler create(CefBrowser browser, CefFrame frame, String schemeName, CefRequest request) {
             try {
                 return new SchemeResourceHandler(cls.newInstance());
             } catch(Throwable t) {

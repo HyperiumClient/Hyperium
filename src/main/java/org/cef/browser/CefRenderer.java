@@ -22,7 +22,6 @@ import org.lwjgl.opengl.GL11;
 
 public class CefRenderer {
 
-
     private static final ArrayList<Integer> GL_TEXTURES;
     public int[] texture_id_;
     private boolean transparent_;

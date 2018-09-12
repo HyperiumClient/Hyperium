@@ -7,19 +7,18 @@
 package org.cef.browser;
 
 import java.awt.Component;
+import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
-import java.awt.Point;
-import java.awt.Rectangle;
 import java.nio.ByteBuffer;
-
 import net.montoyo.mcef.MCEF;
 import net.montoyo.mcef.api.IBrowser;
 import net.montoyo.mcef.api.IStringVisitor;
-import net.montoyo.mcef.client.ClientProxy;
 import net.montoyo.mcef.client.StringVisitor;
 import net.montoyo.mcef.utilities.Log;
+import org.cef.CefClient;
 import org.cef.DummyComponent;
 import org.cef.callback.CefDragData;
 import org.cef.handler.CefClientHandler;
@@ -27,11 +26,11 @@ import org.cef.handler.CefRenderHandler;
 import org.lwjgl.BufferUtils;
 
 /**
- * This class represents an off-screen rendered browser.
- * The visibility of this class is "package". To create a new
- * CefBrowser instance, please use CefBrowserFactory.
+ * This class represents an off-screen rendered browser. The visibility of this class is "package".
+ * To create a new CefBrowser instance, please use CefBrowserFactory.
  */
 public class CefBrowserOsr extends CefBrowser_N implements CefRenderHandler, IBrowser {
+
     private CefRenderer renderer_;
     private Rectangle browser_rect_ = new Rectangle(0, 0, 1, 1);  // Work around CEF issue #1437.
     private CefClientHandler clientHandler_;
@@ -45,19 +44,19 @@ public class CefBrowserOsr extends CefBrowser_N implements CefRenderHandler, IBr
     public static boolean CLEANUP = true;
 
     CefBrowserOsr(CefClientHandler clientHandler,
-                  String url,
-                  boolean transparent,
-                  CefRequestContext context) {
+        String url,
+        boolean transparent,
+        CefRequestContext context) {
         this(clientHandler, url, transparent, context, null, null);
     }
 
     private CefBrowserOsr(CefClientHandler clientHandler,
-                          String url,
-                          boolean transparent,
-                          CefRequestContext context,
-                          CefBrowserOsr parent,
-                          Point inspectAt) {
-        super();
+        String url,
+        boolean transparent,
+        CefRequestContext context,
+        CefBrowserOsr parent,
+        Point inspectAt) {
+        super(MCEF.PROXY.cefClient, url, context, parent, inspectAt);
         isTransparent_ = transparent;
         renderer_ = new CefRenderer(transparent);
         clientHandler_ = clientHandler;
@@ -65,6 +64,12 @@ public class CefBrowserOsr extends CefBrowser_N implements CefRenderHandler, IBr
         context_ = context;
         parent_ = parent;
         createGLCanvas();
+    }
+
+    @Override
+    protected CefBrowser_N createDevToolsBrowser(CefClient client, String url,
+        CefRequestContext context, CefBrowser_N parent, Point inspectAt) {
+        return null;
     }
 
     @Override
@@ -84,20 +89,21 @@ public class CefBrowserOsr extends CefBrowser_N implements CefRenderHandler, IBr
 
     @Override
     public synchronized void close() {
-        if (context_ != null)
+        if (context_ != null) {
             context_.dispose();
+        }
         if (parent_ != null) {
             parent_.closeDevTools();
             parent_.devTools_ = null;
             parent_ = null;
         }
 
-        if(CLEANUP) {
-            ((ClientProxy) MCEF.PROXY).removeBrowser(this);
+        if (CLEANUP) {
+            MCEF.PROXY.removeBrowser(this);
             renderer_.cleanup();
         }
 
-        super.close();
+        super.close(false);
     }
 
     @Override
@@ -109,11 +115,11 @@ public class CefBrowserOsr extends CefBrowser_N implements CefRenderHandler, IBr
     public synchronized CefBrowser getDevTools(Point inspectAt) {
         if (devTools_ == null) {
             devTools_ = new CefBrowserOsr(clientHandler_,
-                    url_,
-                    isTransparent_,
-                    context_,
-                    this,
-                    inspectAt);
+                url_,
+                isTransparent_,
+                context_,
+                this,
+                inspectAt);
         }
         return devTools_;
     }
@@ -155,6 +161,7 @@ public class CefBrowserOsr extends CefBrowser_N implements CefRenderHandler, IBr
     }
 
     private static class PaintData {
+
         private ByteBuffer buffer;
         private int width;
         private int height;
@@ -166,21 +173,28 @@ public class CefBrowserOsr extends CefBrowser_N implements CefRenderHandler, IBr
     private final PaintData paintData = new PaintData();
 
     @Override
-    public void onPaint(CefBrowser browser, boolean popup, Rectangle[] dirtyRects, ByteBuffer buffer, int width, int height) {
-        if(popup)
+    public void onPaint(CefBrowser browser, boolean popup, Rectangle[] dirtyRects,
+        ByteBuffer buffer, int width, int height) {
+        if (popup) {
             return;
+        }
 
         final int size = (width * height) << 2;
 
-        synchronized(paintData) {
-            if(buffer.limit() > size)
+        synchronized (paintData) {
+            if (buffer.limit() > size) {
                 Log.warning("Skipping MCEF browser frame, data is too heavy"); //TODO: Don't spam
-            else {
-                if(paintData.hasFrame) //The previous frame was not uploaded to GL texture, so we skip it and render this on instead
+            } else {
+                if (paintData.hasFrame) //The previous frame was not uploaded to GL texture, so we skip it and render this on instead
+                {
                     paintData.fullReRender = true;
+                }
 
-                if(paintData.buffer == null || size != paintData.buffer.capacity()) //This only happens when the browser gets resized
+                if (paintData.buffer == null || size != paintData.buffer
+                    .capacity()) //This only happens when the browser gets resized
+                {
                     paintData.buffer = BufferUtils.createByteBuffer(size);
+                }
 
                 paintData.buffer.position(0);
                 paintData.buffer.limit(buffer.limit());
@@ -197,9 +211,10 @@ public class CefBrowserOsr extends CefBrowser_N implements CefRenderHandler, IBr
     }
 
     public void mcefUpdate() {
-        synchronized(paintData) {
-            if(paintData.hasFrame) {
-                renderer_.onPaint(false, paintData.dirtyRects, paintData.buffer, paintData.width, paintData.height, paintData.fullReRender);
+        synchronized (paintData) {
+            if (paintData.hasFrame) {
+                renderer_.onPaint(false, paintData.dirtyRects, paintData.buffer, paintData.width,
+                    paintData.height, paintData.fullReRender);
                 paintData.hasFrame = false;
                 paintData.fullReRender = false;
             }
@@ -213,13 +228,16 @@ public class CefBrowserOsr extends CefBrowser_N implements CefRenderHandler, IBr
 
     @Override
     public void injectMouseMove(int x, int y, int mods, boolean left) {
-        MouseEvent ev = new MouseEvent(dc_, left ? MouseEvent.MOUSE_EXITED : MouseEvent.MOUSE_MOVED, 0, mods, x, y, 0, false);
+        MouseEvent ev = new MouseEvent(dc_, left ? MouseEvent.MOUSE_EXITED : MouseEvent.MOUSE_MOVED,
+            0, mods, x, y, 0, false);
         sendMouseEvent(ev);
     }
 
     @Override
     public void injectMouseButton(int x, int y, int mods, int btn, boolean pressed, int ccnt) {
-        MouseEvent ev = new MouseEvent(dc_, pressed ? MouseEvent.MOUSE_PRESSED : MouseEvent.MOUSE_RELEASED, 0, mods, x, y, ccnt, false, btn);
+        MouseEvent ev = new MouseEvent(dc_,
+            pressed ? MouseEvent.MOUSE_PRESSED : MouseEvent.MOUSE_RELEASED, 0, mods, x, y, ccnt,
+            false, btn);
         sendMouseEvent(ev);
     }
 
@@ -243,7 +261,8 @@ public class CefBrowserOsr extends CefBrowser_N implements CefRenderHandler, IBr
 
     @Override
     public void injectMouseWheel(int x, int y, int mods, int amount, int rot) {
-        MouseWheelEvent ev = new MouseWheelEvent(dc_, MouseEvent.MOUSE_WHEEL, 0, mods, x, y, 0, false, MouseWheelEvent.WHEEL_UNIT_SCROLL, amount, rot);
+        MouseWheelEvent ev = new MouseWheelEvent(dc_, MouseEvent.MOUSE_WHEEL, 0, mods, x, y, 0,
+            false, MouseWheelEvent.WHEEL_UNIT_SCROLL, amount, rot);
         sendMouseWheelEvent(ev);
     }
 
@@ -253,10 +272,10 @@ public class CefBrowserOsr extends CefBrowser_N implements CefRenderHandler, IBr
 
     @Override
     public boolean startDragging(CefBrowser browser,
-                                 CefDragData dragData,
-                                 int mask,
-                                 int x,
-                                 int y) {
+        CefDragData dragData,
+        int mask,
+        int x,
+        int y) {
         // TODO(JCEF) Prepared for DnD support using OSR mode.
         return false;
     }
