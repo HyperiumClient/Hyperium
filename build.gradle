@@ -144,7 +144,8 @@ jar {
 
 jar {
     manifest.attributes(
-            "MixinConfigs": 'mixins.hyperium.json, mixins.ctjs.json',
+            //"MixinConfigs": 'mixins.hyperium.json, mixins.ctjs.json',
+            "MixinConfigs": 'mixins.hyperium.json',
             "TweakClass": 'cc.hyperium.launch.HyperiumTweaker',
             "TweakOrder": 0,
             "Manifest-Version": 1.0,
