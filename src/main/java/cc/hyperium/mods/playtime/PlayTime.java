@@ -8,10 +8,10 @@ import cc.hyperium.event.TickEvent;
 import cc.hyperium.mods.AbstractMod;
 
 public class PlayTime extends AbstractMod {
-    static long startSysTime;
-    static long startConfigTime;
-    static long sessionPlayTime;
-    static long totalPlayTime;
+    long startSysTime;
+    long startConfigTime;
+    static long sessionPlayTime; //  Static for command
+    static long totalPlayTime; //    Static for command
 
     @Override
     public AbstractMod init() {
@@ -30,8 +30,8 @@ public class PlayTime extends AbstractMod {
 
     @InvokeEvent
     public void tickEvent(TickEvent event) {
-        Settings.TOTAL_PLAYTIME = startConfigTime + (System.currentTimeMillis() - PlayTime.startSysTime);
-        sessionPlayTime = (System.currentTimeMillis() - PlayTime.startSysTime) / 1000;
+        Settings.TOTAL_PLAYTIME = startConfigTime + (System.currentTimeMillis() - startSysTime);
+        sessionPlayTime = (System.currentTimeMillis() - startSysTime) / 1000;
         totalPlayTime = Settings.TOTAL_PLAYTIME / 1000;
     }
 }
