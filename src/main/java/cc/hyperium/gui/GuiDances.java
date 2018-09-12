@@ -98,6 +98,7 @@ public class GuiDances extends HyperiumGui {
                 });
             }
         });
+        if (Hyperium.INSTANCE.getCosmetics().getFlipCosmetic().isSelfUnlocked())
         this.handlers.put("Flip", () -> {
             int state = Settings.flipType;
             Hyperium.INSTANCE.getHandlers().getFlipHandler().state(UUIDUtil.getClientUUID(), state);
