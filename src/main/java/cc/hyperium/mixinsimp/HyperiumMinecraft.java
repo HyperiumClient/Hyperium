@@ -65,7 +65,7 @@ public class HyperiumMinecraft {
         }
         AddonMinecraftBootstrap.init();
 
-        CTJS.loadIntoJVM();
+        //CTJS.loadIntoJVM();
 
         EventBus.INSTANCE.post(new PreInitializationEvent());
     }

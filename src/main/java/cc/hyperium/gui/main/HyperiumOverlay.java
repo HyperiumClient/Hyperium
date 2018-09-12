@@ -3,24 +3,20 @@ package cc.hyperium.gui.main;
 import cc.hyperium.gui.main.components.OverlayComponent;
 import cc.hyperium.gui.main.components.OverlayToggle;
 import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.TreeSet;
+import java.awt.Color;
+import java.lang.reflect.Field;
+import java.util.List;
+import java.util.function.Consumer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import org.lwjgl.input.Mouse;
 
-import java.awt.Color;
-import java.lang.reflect.Field;
-import java.util.function.Consumer;
-
 /*
  * Created by Cubxity on 01/06/2018
  */
 public class HyperiumOverlay {
-    private Collection<OverlayComponent> components;
+    private List<OverlayComponent> components;
     private int offsetY = 0;
     private String name;
 
@@ -35,7 +31,7 @@ public class HyperiumOverlay {
     public HyperiumOverlay(String name, boolean alphabetic) {
         this.name = name;
 
-        this.components = alphabetic ? new TreeSet<>(new OverlayComparator()) : new ArrayList<>();
+        this.components = new ListCompatibilityHack(alphabetic);
     }
 
     public String getName() {
@@ -83,7 +79,7 @@ public class HyperiumOverlay {
         components.forEach(c -> c.mouseClicked(mx, my, sr.getScaledWidth() / 6 * 2, sr.getScaledHeight() / 4 + 20 * counter[0]++ + offsetY, sr.getScaledWidth() / 6 * 2, 20));
     }
 
-    public Collection<OverlayComponent> getComponents() {
+    public List<OverlayComponent> getComponents() {
         return components;
     }
 
@@ -123,25 +119,5 @@ public class HyperiumOverlay {
             if (c instanceof OverlayToggle)
                 ((OverlayToggle) c).resetStep();
         });
-    }
-
-    class OverlayComparator implements Comparator<OverlayComponent> {
-
-        @Override
-        public int compare(OverlayComponent first, OverlayComponent second) {
-            if (first == null && second == null) {
-                return 0;
-            }
-
-            if (first == null) {
-                return 1;
-            }
-
-            if (second == null) {
-                return -1;
-            }
-
-            return first.getLabel().compareTo(second.getLabel());
-        }
     }
 }
