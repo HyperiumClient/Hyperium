@@ -57,6 +57,7 @@
     "gui.MixinGuiMultiplayer",
     "gui.MixinGuiNewChat",
     "gui.MixinGuiOptions",
+    "gui.MixinGuiOverlayDebug",
     "gui.MixinGuiPlayerTabOverlay",
     "gui.MixinGuiScreen",
     "gui.MixinGuiScreenBook",
