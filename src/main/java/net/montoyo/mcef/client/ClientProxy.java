@@ -169,33 +169,16 @@ public class ClientProxy extends BaseProxy {
             ArrayList<String> libs = new ArrayList<>();
 
             if (OS.isWindows()) {
-                libs.add(
-                    System.getProperty("sun.arch.data.model").equals("64") ? "d3dcompiler_47.dll"
-                        : "d3dcompiler_43.dll");
-//                libs.add("libGLESv2.dll");
-//                libs.add("libEGL.dll");
                 libs.add("jawt");
                 libs.add("libcef");
                 libs.add("chrome_elf");
-//                libs.add("jcef.dll");
             } else {
-//                libs.add("libcef.so");
-//                libs.add("libjcef.so");
                 libs.add("cef");
             }
 
             libs.add("jcef");
 
             for (String lib : libs) {
-//                File f = new File(ROOT, lib);
-//                try {
-//                    f = f.getCanonicalFile();
-//                } catch (IOException ex) {
-//                    f = f.getAbsoluteFile();
-//                }
-//
-//                System.load(f.getPath());
-
                 String loadName = lib;
                 if (loadName.contains(".")) {
                     loadName = loadName.substring(0, loadName.length() - loadName.split("[.]")[1].length() - 1);
