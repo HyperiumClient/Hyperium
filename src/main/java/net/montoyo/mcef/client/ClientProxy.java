@@ -10,7 +10,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.minecraft.client.Minecraft;
@@ -42,9 +44,9 @@ public class ClientProxy extends BaseProxy {
     private final Minecraft mc = Minecraft.getMinecraft();
     private final DisplayHandler displayHandler = new DisplayHandler();
     private final HashMap<String, String> mimeTypeMap = new HashMap<>();
-    private final AppHandler appHandler = new AppHandler();
+    private AppHandler appHandler;
     private CefApp cefApp;
-    private CefClient cefClient;
+    public CefClient cefClient;
     private CefMessageRouter cefRouter;
     private String updateStr;
 
@@ -56,21 +58,24 @@ public class ClientProxy extends BaseProxy {
     public void onInit() {
         if (MCEF.DISABLE_GPU_RENDERING) {
             Log.info("GPU rendering is disabled because the new launcher sucks.");
-            appHandler.setArgs(new String[]{"--disable-gpu"});
+            appHandler = new AppHandler(new String[]{"--disable-gpu"});
         } else {
-            appHandler.setArgs(new String[0]);
+            appHandler = new AppHandler(new String[0]);
         }
 
-        ROOT = mc.mcDataDir.getAbsolutePath() + File.separator + "MCEF";
+//        ROOT = mc.mcDataDir.getAbsolutePath() + File.separator + "MCEF";
+        ROOT = mc.mcDataDir.getAbsolutePath();
         ROOT = ROOT.replace("." + File.separator, "");
 
         File rootDir = new File(ROOT);
-        if (!rootDir.exists())
+        if (!rootDir.exists()) {
             rootDir.mkdirs();
+        }
 
         File fileListing = new File(new File(ROOT), "config");
-        if (!fileListing.exists())
+        if (!fileListing.exists()) {
             fileListing.mkdirs();
+        }
 
         IProgressListener ipl = new HyperiumProgressListener();
         RemoteConfig cfg = new RemoteConfig();
@@ -104,15 +109,31 @@ public class ClientProxy extends BaseProxy {
         Log.info("Now adding \"%s\" to java.library.path", ROOT);
 
         try {
-            Field pathsField = ClassLoader.class.getDeclaredField("usr_paths");
-            pathsField.setAccessible(true);
+            String paths = System.getProperty("java.library.path");
 
-            String[] paths = (String[]) pathsField.get(null);
-            String[] newList = new String[paths.length + 1];
+            String jreHome = System.getProperty("java.home");
+            if (jreHome.contains("jdk")) {
+                List<String> split = new ArrayList<>(Arrays.asList(jreHome.split(
+                    "[" + (File.separator.equalsIgnoreCase("\\") ? "\\\\" : File.separator)
+                        + "]")));
+                split.remove(split.size() - 1);
+                jreHome = String.join(File.separator, split.toArray(new String[0])) + File.separator
+                    + "jre" + File.separator + "bin";
+            }
+            paths += ";" + jreHome;
 
-            System.arraycopy(paths, 0, newList, 1, paths.length);
-            newList[0] = ROOT.replace('/', File.separatorChar);
-            pathsField.set(null, newList);
+            String newRoot = ROOT.replace('/', File.separatorChar);
+            if (newRoot.endsWith("."))
+                newRoot = newRoot.substring(0, newRoot.length() - 1);
+            paths += ";" + newRoot;
+
+            System.setProperty("java.library.path", paths);
+
+            Field sysPathsField = ClassLoader.class.getDeclaredField("sys_paths");
+            sysPathsField.setAccessible(true);
+            sysPathsField.set(null, null);
+
+            System.out.println(paths);
         } catch (Exception e) {
             Log.error("Failed to do it! Entering virtual mode...");
             e.printStackTrace();
@@ -151,24 +172,35 @@ public class ClientProxy extends BaseProxy {
                 libs.add(
                     System.getProperty("sun.arch.data.model").equals("64") ? "d3dcompiler_47.dll"
                         : "d3dcompiler_43.dll");
-                libs.add("libGLESv2.dll");
-                libs.add("libEGL.dll");
-                libs.add("libcef.dll");
-                libs.add("jcef.dll");
+//                libs.add("libGLESv2.dll");
+//                libs.add("libEGL.dll");
+                libs.add("jawt");
+                libs.add("libcef");
+                libs.add("chrome_elf");
+//                libs.add("jcef.dll");
             } else {
-                libs.add("libcef.so");
-                libs.add("libjcef.so");
+//                libs.add("libcef.so");
+//                libs.add("libjcef.so");
+                libs.add("cef");
             }
 
-            for (String lib : libs) {
-                File f = new File(ROOT, lib);
-                try {
-                    f = f.getCanonicalFile();
-                } catch (IOException ex) {
-                    f = f.getAbsoluteFile();
-                }
+            libs.add("jcef");
 
-                System.load(f.getPath());
+            for (String lib : libs) {
+//                File f = new File(ROOT, lib);
+//                try {
+//                    f = f.getCanonicalFile();
+//                } catch (IOException ex) {
+//                    f = f.getAbsoluteFile();
+//                }
+//
+//                System.load(f.getPath());
+
+                String loadName = lib;
+                if (loadName.contains(".")) {
+                    loadName = loadName.substring(0, loadName.length() - loadName.split("[.]")[1].length() - 1);
+                }
+                System.loadLibrary(loadName);
             }
 
             cefApp = CefApp.getInstance(settings);

@@ -1,15 +1,15 @@
 package net.montoyo.mcef.client;
 
+import java.util.ArrayList;
 import net.montoyo.mcef.api.IDisplayHandler;
-
+import org.cef.CefSettings;
 import org.cef.browser.CefBrowser;
 import org.cef.browser.CefBrowserOsr;
+import org.cef.browser.CefFrame;
 import org.cef.handler.CefDisplayHandler;
 
-import java.util.ArrayList;
-
 public class DisplayHandler implements CefDisplayHandler {
-    
+
     private final ArrayList<IDisplayHandler> list = new ArrayList<>();
     private final ArrayList<EventData> queue = new ArrayList<>();
 
@@ -35,7 +35,7 @@ public class DisplayHandler implements CefDisplayHandler {
         }
 
         private void execute(IDisplayHandler idh) {
-            switch(type) {
+            switch (type) {
                 case ADDRESS_CHANGE:
                     idh.onAddressChange((CefBrowserOsr) browser, data);
                     break;
@@ -57,22 +57,22 @@ public class DisplayHandler implements CefDisplayHandler {
     }
 
     @Override
-    public void onAddressChange(CefBrowser browser, String url) {
-        synchronized(queue) {
+    public void onAddressChange(CefBrowser browser, CefFrame frame, String url) {
+        synchronized (queue) {
             queue.add(new EventData(browser, url, EventType.ADDRESS_CHANGE));
         }
     }
 
     @Override
     public void onTitleChange(CefBrowser browser, String title) {
-        synchronized(queue) {
+        synchronized (queue) {
             queue.add(new EventData(browser, title, EventType.TITLE_CHANGE));
         }
     }
 
     @Override
     public boolean onTooltip(CefBrowser browser, String text) {
-        synchronized(queue) {
+        synchronized (queue) {
             queue.add(new EventData(browser, text, EventType.TOOLTIP));
         }
 
@@ -81,13 +81,14 @@ public class DisplayHandler implements CefDisplayHandler {
 
     @Override
     public void onStatusMessage(CefBrowser browser, String value) {
-        synchronized(queue) {
+        synchronized (queue) {
             queue.add(new EventData(browser, value, EventType.STATUS_MESSAGE));
         }
     }
 
     @Override
-    public boolean onConsoleMessage(CefBrowser browser, String message, String source, int line) {
+    public boolean onConsoleMessage(CefBrowser browser, CefSettings.LogSeverity level,
+        String message, String source, int line) {
         return false;
     }
 
@@ -96,12 +97,13 @@ public class DisplayHandler implements CefDisplayHandler {
     }
 
     public void update() {
-        synchronized(queue) {
-            while(!queue.isEmpty()) {
+        synchronized (queue) {
+            while (!queue.isEmpty()) {
                 EventData ed = queue.remove(0);
 
-                for(IDisplayHandler idh : list)
+                for (IDisplayHandler idh : list) {
                     ed.execute(idh);
+                }
             }
         }
     }
