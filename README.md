@@ -26,6 +26,7 @@ Hyperium is a Minecraft client, currently in its development stage. It will comb
 - [ToggleChat](https://www.youtube.com/watch?v=guD8kAk-Wn4)
 - [VoidFlickerFix](https://www.youtube.com/watch?v=klV4d1B6ysk)
 - [Performia](https://github.com/Sk1er/Performia)
+- [Resource Exploit Fix](https://github.com/Sk1er/Resource-Exploit-Fix) 
 
 ## Building the project with IntelliJ ##
 
