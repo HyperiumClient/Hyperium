@@ -130,18 +130,18 @@ public abstract class MixinGuiIngame extends Gui {
 
             this.mc.mcProfiler.startSection("armor");
 
-            for (int armorPostion = 0; armorPostion < 10; ++armorPostion) {
+            for (int armorPosition = 0; armorPosition < 10; ++armorPosition) {
                 if (armorValue > 0) {
-                    int j3 = widthLeft + armorPostion * 8;
-                    if (armorPostion * 2 + 1 < armorValue) {
+                    int j3 = widthLeft + armorPosition * 8;
+                    if (armorPosition * 2 + 1 < armorValue) {
                         this.drawTexturedModalRect(j3, heartHeight, 34, 9, 9, 9);
                     }
 
-                    if (armorPostion * 2 + 1 == armorValue) {
+                    if (armorPosition * 2 + 1 == armorValue) {
                         this.drawTexturedModalRect(j3, heartHeight, 25, 9, 9, 9);
                     }
 
-                    if (armorPostion * 2 + 1 > armorValue) {
+                    if (armorPosition * 2 + 1 > armorValue) {
                         this.drawTexturedModalRect(j3, heartHeight, 16, 9, 9, 9);
                     }
                 }
