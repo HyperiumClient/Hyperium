@@ -49,10 +49,10 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.PacketThreadUtil;
 import net.minecraft.network.play.INetHandlerPlayClient;
 import net.minecraft.network.play.client.C17PacketCustomPayload;
-import net.minecraft.network.play.server.S02PacketChat;
-import net.minecraft.network.play.server.S03PacketTimeUpdate;
-import net.minecraft.network.play.server.S0BPacketAnimation;
-import net.minecraft.network.play.server.S3FPacketCustomPayload;
+import net.minecraft.network.play.client.C19PacketResourcePackStatus;
+import net.minecraft.network.play.server.*;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.village.MerchantRecipeList;
 import org.apache.logging.log4j.Logger;
@@ -65,6 +65,8 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -228,7 +230,42 @@ public abstract class MixinNetHandlerPlayClient {
             ex.printStackTrace();
         }
     }
+    @Shadow
+    @Final
+    private NetworkManager netManager;
 
+    @Inject(method = "handleResourcePack", at = @At("HEAD"), cancellable = true)
+    private void handle(S48PacketResourcePackSend packetIn, CallbackInfo info) {
+        if (!validateResourcePackUrl(packetIn.getURL(), packetIn.getHash()))
+            info.cancel();
+    }
+
+    private boolean validateResourcePackUrl(String url, String hash) {
+        try {
+            URI uri = new URI(url);
+            String scheme = uri.getScheme();
+            boolean isLevelProtocol = "level".equals(scheme);
+
+            if (!"http".equals(scheme) && !"https".equals(scheme) && !isLevelProtocol) {
+                netManager.sendPacket(new C19PacketResourcePackStatus(hash, C19PacketResourcePackStatus.Action.FAILED_DOWNLOAD));
+                throw new URISyntaxException(url, "Wrong protocol");
+            }
+
+            if (isLevelProtocol && (url.contains("..") || !url.endsWith("/resources.zip"))) {
+                System.out.println("Malicious server tried to access " + url);
+                EntityPlayerSP thePlayer = Minecraft.getMinecraft().thePlayer;
+                if (thePlayer != null) {
+                    thePlayer.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + EnumChatFormatting.BOLD.toString() + "[WARNING] The current server has attempted to be malicious but we have stopped them."));
+                }
+                throw new URISyntaxException(url, "Invalid levelstorage resourcepack path");
+            }
+
+            return true;
+        } catch (URISyntaxException e) {
+
+            return false;
+        }
+    }
     @Shadow
     public abstract void addToSendQueue(Packet p_147297_1_);
 
