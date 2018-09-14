@@ -31,18 +31,12 @@ import com.google.common.collect.ObjectArrays;
 import io.netty.buffer.Unpooled;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
-import net.minecraft.client.gui.GuiMerchant;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.GuiScreenBook;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.IMerchant;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
@@ -54,7 +48,6 @@ import net.minecraft.network.play.server.*;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.village.MerchantRecipeList;
 import org.apache.logging.log4j.Logger;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -64,9 +57,11 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 
-import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -245,12 +240,11 @@ public abstract class MixinNetHandlerPlayClient {
             URI uri = new URI(url);
             String scheme = uri.getScheme();
             boolean isLevelProtocol = "level".equals(scheme);
-
             if (!"http".equals(scheme) && !"https".equals(scheme) && !isLevelProtocol) {
                 netManager.sendPacket(new C19PacketResourcePackStatus(hash, C19PacketResourcePackStatus.Action.FAILED_DOWNLOAD));
                 throw new URISyntaxException(url, "Wrong protocol");
             }
-
+            url = URLDecoder.decode(url.substring("level://".length()), StandardCharsets.UTF_8.toString());
             if (isLevelProtocol && (url.contains("..") || !url.endsWith("/resources.zip"))) {
                 System.out.println("Malicious server tried to access " + url);
                 EntityPlayerSP thePlayer = Minecraft.getMinecraft().thePlayer;
@@ -259,16 +253,16 @@ public abstract class MixinNetHandlerPlayClient {
                 }
                 throw new URISyntaxException(url, "Invalid levelstorage resourcepack path");
             }
-
             return true;
         } catch (URISyntaxException e) {
-
             return false;
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
         }
+        return false;
     }
     @Shadow
     public abstract void addToSendQueue(Packet p_147297_1_);
-
     /**
      * Allows detection of incoming chat packets from the server (includes actionbars)
      * <p>
