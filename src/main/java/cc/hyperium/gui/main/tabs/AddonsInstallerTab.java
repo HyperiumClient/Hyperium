@@ -15,7 +15,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import net.minecraft.client.Minecraft;
@@ -83,7 +82,7 @@ public class AddonsInstallerTab extends AbstractTab {
     }
 
     private void installAddon(String jsonName) throws IOException {
-        AddonManifest addon = Arrays.stream(InstallerUtils.getManifest().getAddons()).filter(o -> o.getName().equals(jsonName)).findFirst().get();
+        AddonManifest addon = InstallerUtils.getManifest().getAddons().stream().filter(o -> o.getName().equals(jsonName)).findFirst().get();
         File addonsDir = new File(Minecraft.getMinecraft().mcDataDir, "pending-addons");
         addonsDir.mkdir();
         File aOut = new File(addonsDir, addon.getName() + "-" + addon.getVersion() + ".jar");
