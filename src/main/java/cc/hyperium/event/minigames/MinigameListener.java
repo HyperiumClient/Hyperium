@@ -5,6 +5,7 @@ import cc.hyperium.event.EventBus;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.JoinMinigameEvent;
 import cc.hyperium.event.TickEvent;
+import cc.hyperium.utils.ChatColor;
 import net.minecraft.client.Minecraft;
 
 public class MinigameListener {
@@ -24,7 +25,6 @@ public class MinigameListener {
                     for (Minigame m : Minigame.values()) {
                         if (minigameName.equalsIgnoreCase(m.scoreName) && !minigameName.equalsIgnoreCase(this.currentMinigameName)) {
                             this.currentMinigameName = minigameName;
-
                             EventBus.INSTANCE.post(new JoinMinigameEvent(m));
                         }
                     }
@@ -37,10 +37,10 @@ public class MinigameListener {
 
     public String getScoreboardTitle() {
         if (Minecraft.getMinecraft().theWorld.getScoreboard().getObjectiveInDisplaySlot(1) != null) {
-            return Minecraft.getMinecraft().theWorld.getScoreboard()
+            return ChatColor.stripColor(Minecraft.getMinecraft().theWorld.getScoreboard()
                 .getObjectiveInDisplaySlot(1)
                 .getDisplayName().trim()
-                .replace("\u00A7[0-9a-zA-Z]", "");
+                .replace("\u00A7[0-9a-zA-Z]", ""));
         }
         return "";
     }
