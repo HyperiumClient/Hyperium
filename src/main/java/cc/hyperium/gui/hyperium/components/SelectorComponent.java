@@ -84,8 +84,7 @@ public class SelectorComponent extends AbstractTabComponent {
         int farSide = x + width;
         String val = getCurrentValue();
         float statX = farSide - 5 - font.getWidth(val);
-        font.drawString(val, statX, (float) y, Color.WHITE.getRGB());
-
+        font.drawString(val, statX, y + 5, Color.WHITE.getRGB());
 
     }
 
