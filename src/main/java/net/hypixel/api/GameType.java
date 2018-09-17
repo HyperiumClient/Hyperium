@@ -43,7 +43,7 @@ public enum GameType {
     MURDER_MYSTERY("Murder Mystery", "MurderMystery", 59),
     BUILD_BATTLE("Build Battle", "BuildBattle", 60),
     DUELS("Duels", "Duels", 61),
-    THE_PIT("The Pit","PIT",101);
+    THE_PIT("The Pit", "PIT", 101);
 
     private static final GameType[] v = values();
 
@@ -100,6 +100,16 @@ public enum GameType {
         } catch (Exception e) {
             return fromDatabase(mostRecentGameType);
         }
+    }
+
+    public String getQuestName() {
+        if (this == MURDER_MYSTERY)
+            return "murdermystery";
+        if (this == QUAKECRAFT)
+            return "quake";
+        if (this == SURVIVAL_GAMES)
+            return "hungergames";
+        return name().toLowerCase().replace("_","");
     }
 
     public String getDbName() {
