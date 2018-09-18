@@ -1,18 +1,15 @@
 package net.montoyo.mcef.utilities;
 
-import cc.hyperium.mods.sk1ercommon.Multithreading;
+import org.apache.commons.compress.archivers.zip.ZipArchiveInputStream;
+
 import java.io.*;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.zip.GZIPInputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
-
-import net.montoyo.mcef.remote.Mirror;
 
 public class Util {
 
@@ -22,15 +19,15 @@ public class Util {
     /**
      * Clamps d between min and max.
      *
-     * @param d The value to clamp.
+     * @param d   The value to clamp.
      * @param min The minimum.
      * @param max The maximum.
      * @return The clamped value.
      */
     public static double clamp(double d, double min, double max) {
-        if(d < min)
+        if (d < min)
             return min;
-        else if(d > max)
+        else if (d > max)
             return max;
         else
             return d;
@@ -48,7 +45,7 @@ public class Util {
 
         try {
             zis = new ZipInputStream(new FileInputStream(zip));
-        } catch(FileNotFoundException e) {
+        } catch (FileNotFoundException e) {
             Log.error("Couldn't extract %s: File not found.", zip.getName());
             e.printStackTrace();
             return false;
@@ -56,8 +53,8 @@ public class Util {
 
         try {
             ZipEntry ze;
-            while((ze = zis.getNextEntry()) != null) {
-                if(ze.isDirectory())
+            while ((ze = zis.getNextEntry()) != null) {
+                if (ze.isDirectory())
                     continue;
 
                 File dst = new File(out, ze.getName());
@@ -68,18 +65,18 @@ public class Util {
                 byte[] data = new byte[65536];
                 int read;
 
-                while((read = zis.read(data)) > 0)
+                while ((read = zis.read(data)) > 0)
                     fos.write(data, 0, read);
 
                 close(fos);
             }
 
             return true;
-        } catch(FileNotFoundException e) {
+        } catch (FileNotFoundException e) {
             Log.error("Couldn't extract a file from %s. Maybe you're missing some permissions?", zip.getName());
             e.printStackTrace();
             return false;
-        } catch(IOException e) {
+        } catch (IOException e) {
             Log.error("IOException while extracting %s.", zip.getName());
             e.printStackTrace();
             return false;
@@ -99,7 +96,7 @@ public class Util {
 
         try {
             fis = new FileInputStream(fle);
-        } catch(FileNotFoundException e) {
+        } catch (FileNotFoundException e) {
             Log.error("Couldn't hash %s: File not found.", fle.getName());
             e.printStackTrace();
             return null;
@@ -112,13 +109,13 @@ public class Util {
             int read = 0;
             byte buffer[] = new byte[65536];
 
-            while((read = fis.read(buffer)) > 0)
+            while ((read = fis.read(buffer)) > 0)
                 sha.update(buffer, 0, read);
 
             byte digest[] = sha.digest();
             String hash = "";
 
-            for(int i = 0; i < digest.length; i++) {
+            for (int i = 0; i < digest.length; i++) {
                 int b = digest[i] & 0xFF;
                 int left = b >>> 4;
                 int right = b & 0x0F;
@@ -128,11 +125,11 @@ public class Util {
             }
 
             return hash;
-        } catch(IOException e) {
+        } catch (IOException e) {
             Log.error("IOException while hashing file %s", fle.getName());
             e.printStackTrace();
             return null;
-        } catch(NoSuchAlgorithmException e) {
+        } catch (NoSuchAlgorithmException e) {
             Log.error("Holy crap this shouldn't happen. SHA-1 not found!!!!");
             e.printStackTrace();
             return null;
@@ -144,10 +141,10 @@ public class Util {
     /**
      * Downloads a remote resource.
      *
-     * @param res The filename of the resource relative to the mirror root.
-     * @param dst The destination file.
+     * @param res  The filename of the resource relative to the mirror root.
+     * @param dst  The destination file.
      * @param gzip Also extract the content using GZipInputStream.
-     * @param ph The progress handler. May be null.
+     * @param ph   The progress handler. May be null.
      * @return true if the download was successful.
      */
     public static boolean download(String res, File dst, boolean gzip, IProgressListener ph) {
@@ -157,21 +154,15 @@ public class Util {
         ph.onTaskChanged("Downloading " + dst.getName());
 
         SizedInputStream sis = openStream(res, err);
-        if(sis == null)
+        if (sis == null)
             return false;
 
         long contentLength = sis.getContentLength();
 
+        gzip = false;
         InputStream is;
-        if(gzip) {
-            try {
-                is = new GZIPInputStream(sis);
-            } catch(IOException e) {
-                Log.error("Couldn't create GZIPInputStream: IOException.");
-                e.printStackTrace();
-                close(sis);
-                return false;
-            }
+        if (gzip) {
+            is = new ZipArchiveInputStream(sis);
         } else
             is = sis;
 
@@ -181,7 +172,7 @@ public class Util {
         FileOutputStream fos;
         try {
             fos = new FileOutputStream(dst);
-        } catch(FileNotFoundException e) {
+        } catch (FileNotFoundException e) {
             Log.error("%s Couldn't open the destination file. Maybe you're missing rights.", err);
             e.printStackTrace();
             close(is);
@@ -234,14 +225,14 @@ public class Util {
     /**
      * Renames a file using a string.
      *
-     * @param src The file to rename.
+     * @param src  The file to rename.
      * @param name The new name of the file.
      * @return the new file or null if it failed.
      */
     public static File rename(File src, String name) {
         File ret = new File(src.getParentFile(), name);
 
-        if(src.renameTo(ret))
+        if (src.renameTo(ret))
             return ret;
         else
             return null;
@@ -255,7 +246,7 @@ public class Util {
      */
     public static void mkdirs(File f) {
         File p = f.getParentFile();
-        if(!p.exists())
+        if (!p.exists())
             p.mkdirs();
     }
 
@@ -278,12 +269,12 @@ public class Util {
      * @see #delete(String)
      */
     public static void delete(File f) {
-        if(!f.exists() || f.delete())
+        if (!f.exists() || f.delete())
             return;
 
         File mv = new File(f.getParentFile(), "deleteme" + ((int) (Math.random() * 100000.d)));
-        if(f.renameTo(mv)) {
-            if(!mv.delete())
+        if (f.renameTo(mv)) {
+            if (!mv.delete())
                 mv.deleteOnExit();
 
             return;
@@ -301,56 +292,49 @@ public class Util {
      * @return The opened input stream.
      */
     public static SizedInputStream openStream(String res, String err) {
-        while(Mirror.getCurrent() != null) {
-            HttpURLConnection conn;
+        HttpURLConnection conn;
 
-            try {
-                conn = Mirror.getCurrent().getResource(res);
-            } catch(MalformedURLException e) {
-                Log.error("%s Is the mirror list broken?", err);
-                e.printStackTrace();
-                return null;
-            } catch(IOException e) {
-                Log.error("%s Is your antivirus or firewall blocking the connection?", err);
-                e.printStackTrace();
-                return null;
-            }
-
-            try {
-                long len = -1;
-                boolean failed = true;
-
-                //Java 6 support
-                try {
-                    Method m = HttpURLConnection.class.getMethod("getContentLengthLong");
-                    len = (Long) m.invoke(conn);
-                    failed = false;
-                } catch(NoSuchMethodException me) {
-                } catch(IllegalAccessException ae) {
-                } catch(InvocationTargetException te) {
-                    if(te.getTargetException() instanceof IOException)
-                        throw (IOException) te.getTargetException();
-                }
-
-                if(failed)
-                    len = (long) conn.getContentLength();
-
-                return new SizedInputStream(conn.getInputStream(), len);
-            } catch(IOException e) {
-                int rc;
-
-                try {
-                    rc = conn.getResponseCode();
-                } catch(IOException ie) {
-                    Log.error("%s Couldn't even get the HTTP response code!", err);
-                    return null;
-                }
-
-                Log.error("%s HTTP response is %d; trying with another mirror.", err, rc);
-            }
-
-            Mirror.markAsBroken();
+        try {
+            HttpURLConnection ret = (HttpURLConnection) (new URL("https://static.sk1er.club/browser/" + res)).openConnection();
+            ret.setConnectTimeout(30000);
+            ret.setReadTimeout(15000);
+            ret.setRequestProperty("User-Agent", "Hyperium");
+            conn = ret;
+        } catch (MalformedURLException e) {
+            Log.error("%s Is the mirror list broken?", err);
+            e.printStackTrace();
+            return null;
+        } catch (IOException e) {
+            Log.error("%s Is your antivirus or firewall blocking the connection?", err);
+            e.printStackTrace();
+            return null;
         }
+
+        try {
+            long len = -1;
+            boolean failed = true;
+
+            //Java 6 support
+            len = conn.getHeaderFieldLong("Content-Length", -1);
+            System.out.println("Con Len: " + len);
+            if (len == -1)
+                len = (long) conn.getContentLength();
+            System.out.println("Con Len: " + len);
+
+            return new SizedInputStream(conn.getInputStream(), len);
+        } catch (IOException e) {
+            int rc;
+
+            try {
+                rc = conn.getResponseCode();
+            } catch (IOException ie) {
+                Log.error("%s Couldn't even get the HTTP response code!", err);
+                return null;
+            }
+
+            Log.error("%s HTTP response is %d; trying with another mirror.", err, rc);
+        }
+
 
         Log.error("%s All mirrors seems broken.", err);
         return null;
@@ -365,7 +349,8 @@ public class Util {
     public static void close(Object o) {
         try {
             o.getClass().getMethod("close").invoke(o);
-        } catch(Throwable t) {}
+        } catch (Throwable t) {
+        }
     }
 
 }

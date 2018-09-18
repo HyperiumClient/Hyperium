@@ -1,20 +1,10 @@
 package net.montoyo.mcef.client;
 
+import cc.hyperium.Hyperium;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.RenderTickEvent;
 import cc.hyperium.mods.browser.HyperiumProgressListener;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import net.minecraft.client.Minecraft;
 import net.montoyo.mcef.BaseProxy;
 import net.montoyo.mcef.MCEF;
@@ -36,6 +26,17 @@ import org.cef.browser.CefMessageRouter;
 import org.cef.browser.CefMessageRouter.CefMessageRouterConfig;
 import org.cef.browser.CefRenderer;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.InputStreamReader;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class ClientProxy extends BaseProxy {
 
     public static String ROOT;
@@ -44,9 +45,9 @@ public class ClientProxy extends BaseProxy {
     private final Minecraft mc = Minecraft.getMinecraft();
     private final DisplayHandler displayHandler = new DisplayHandler();
     private final HashMap<String, String> mimeTypeMap = new HashMap<>();
+    public CefClient cefClient;
     private AppHandler appHandler;
     private CefApp cefApp;
-    public CefClient cefClient;
     private CefMessageRouter cefRouter;
     private String updateStr;
 
@@ -64,8 +65,7 @@ public class ClientProxy extends BaseProxy {
         }
 
 //        ROOT = mc.mcDataDir.getAbsolutePath() + File.separator + "MCEF";
-        ROOT = mc.mcDataDir.getAbsolutePath();
-        ROOT = ROOT.replace("." + File.separator, "");
+        ROOT = Hyperium.folder.getAbsolutePath() + File.separator + "libs";
 
         File rootDir = new File(ROOT);
         if (!rootDir.exists()) {
@@ -85,7 +85,7 @@ public class ClientProxy extends BaseProxy {
 
         if (!cfg.updateFileListing(fileListing, false)) {
             Log.warning(
-                "There was a problem while establishing file list. Uninstall may not delete all files.");
+                    "There was a problem while establishing file list. Uninstall may not delete all files.");
         }
 
         if (!cfg.downloadMissing(ipl)) {
@@ -96,7 +96,7 @@ public class ClientProxy extends BaseProxy {
 
         if (!cfg.updateFileListing(fileListing, true)) {
             Log.warning(
-                "There was a problem while updating file list. Uninstall may not delete all files.");
+                    "There was a problem while updating file list. Uninstall may not delete all files.");
         }
 
         updateStr = cfg.getUpdateString();
@@ -123,10 +123,11 @@ public class ClientProxy extends BaseProxy {
             paths += ";" + jreHome;
 
             String newRoot = ROOT.replace('/', File.separatorChar);
+            newRoot += File.separatorChar + RemoteConfig.PLATFORM + "-natives";
             if (newRoot.endsWith("."))
                 newRoot = newRoot.substring(0, newRoot.length() - 1);
             paths += ";" + newRoot;
-
+            System.out.println("CEF resources root: " + newRoot);
             System.setProperty("java.library.path", paths);
 
             Field sysPathsField = ClassLoader.class.getDeclaredField("sys_paths");
@@ -248,7 +249,7 @@ public class ClientProxy extends BaseProxy {
 
     @Override
     public void registerScheme(String name, Class<? extends IScheme> schemeClass, boolean std,
-        boolean local, boolean displayIsolated) {
+                               boolean local, boolean displayIsolated) {
         appHandler.registerScheme(name, schemeClass, std, local, displayIsolated);
     }
 
@@ -317,7 +318,7 @@ public class ClientProxy extends BaseProxy {
 
         try {
             BufferedReader br = new BufferedReader(new InputStreamReader(
-                ClientProxy.class.getResourceAsStream("/assets/mcef/mime.types")));
+                    ClientProxy.class.getResourceAsStream("/assets/mcef/mime.types")));
 
             while (true) {
                 cLine++;

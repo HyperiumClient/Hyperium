@@ -8,16 +8,14 @@ import java.util.Observable;
 // This class downloads a file from a URL.
 class Download extends Observable implements Runnable {
 
-    // Max size of download buffer.
-    private static final int MAX_BUFFER_SIZE = 1024;
-
     // These are the status codes.
     public static final int DOWNLOADING = 0;
     public static final int PAUSED = 1;
     public static final int COMPLETE = 2;
     public static final int CANCELLED = 3;
     public static final int ERROR = 4;
-
+    // Max size of download buffer.
+    private static final int MAX_BUFFER_SIZE = 1024;
     private InputStream is; // download URL
     private long size; // size of download in bytes
     private int downloaded; // number of bytes downloaded
@@ -95,7 +93,7 @@ class Download extends Observable implements Runnable {
         try {
   /* Set the size for this download if it
      hasn't been already set. */
-
+            System.out.println(size);
             stream = is;
             while (status == DOWNLOADING) {
     /* Size buffer according to how much of the
@@ -110,8 +108,10 @@ class Download extends Observable implements Runnable {
                 // Read from server into buffer.
                 int read = stream.read(buffer);
                 if (read == -1) {
+                    System.out.println("broke " + buffer.length);
                     break;
                 }
+                System.out.println("not broke " + buffer.length);
 
                 // Write buffer to file.
                 output.write(buffer, 0, read);
@@ -133,6 +133,7 @@ class Download extends Observable implements Runnable {
                 try {
                     output.close();
                 } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
 
@@ -141,6 +142,7 @@ class Download extends Observable implements Runnable {
                 try {
                     stream.close();
                 } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
         }

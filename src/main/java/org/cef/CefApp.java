@@ -4,110 +4,22 @@
 
 package org.cef;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.FilenameFilter;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.HashSet;
-import javax.swing.SwingUtilities;
-import javax.swing.Timer;
 import org.cef.callback.CefSchemeHandlerFactory;
 import org.cef.handler.CefAppHandler;
 import org.cef.handler.CefAppHandlerAdapter;
+
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.HashSet;
 
 /**
  * Exposes static methods for managing the global CEF context.
  */
 public class CefApp extends CefAppHandlerAdapter {
-
-    public final class CefVersion {
-
-        public final int JCEF_COMMIT_NUMBER;
-
-        public final int CEF_VERSION_MAJOR;
-        public final int CEF_COMMIT_NUMBER;
-
-        public final int CHROME_VERSION_MAJOR;
-        public final int CHROME_VERSION_MINOR;
-        public final int CHROME_VERSION_BUILD;
-        public final int CHROME_VERSION_PATCH;
-
-        private CefVersion(int jcefCommitNo, int cefMajor, int cefCommitNo, int chrMajor,
-            int chrMin, int chrBuild, int chrPatch) {
-            JCEF_COMMIT_NUMBER = jcefCommitNo;
-
-            CEF_VERSION_MAJOR = cefMajor;
-            CEF_COMMIT_NUMBER = cefCommitNo;
-
-            CHROME_VERSION_MAJOR = chrMajor;
-            CHROME_VERSION_MINOR = chrMin;
-            CHROME_VERSION_BUILD = chrBuild;
-            CHROME_VERSION_PATCH = chrPatch;
-        }
-
-        public String getJcefVersion() {
-            return CEF_VERSION_MAJOR + "." + CHROME_VERSION_BUILD + "." + JCEF_COMMIT_NUMBER;
-        }
-
-        public String getCefVersion() {
-            return CEF_VERSION_MAJOR + "." + CHROME_VERSION_BUILD + "." + CEF_COMMIT_NUMBER;
-        }
-
-        public String getChromeVersion() {
-            return CHROME_VERSION_MAJOR + "." + CHROME_VERSION_MINOR + "." + CHROME_VERSION_BUILD
-                + "." + CHROME_VERSION_PATCH;
-        }
-
-        @Override
-        public String toString() {
-            return "JCEF Version = " + getJcefVersion() + "\n"
-                + "CEF Version = " + getCefVersion() + "\n"
-                + "Chromium Version = " + getChromeVersion();
-        }
-    }
-
-    /**
-     * The CefAppState gives you a hint if the CefApp is already usable or not usable any more. See
-     * values for details.
-     */
-    public enum CefAppState {
-        /**
-         * No CefApp instance was created yet. Call getInstance() to create a new one.
-         */
-        NONE,
-
-        /**
-         * CefApp is new created but not initialized yet. No CefClient and no CefBrowser was created
-         * until now.
-         */
-        NEW,
-
-        /**
-         * CefApp is in its initializing process. Please wait until initializing is finished.
-         */
-        INITIALIZING,
-
-        /**
-         * CefApp is up and running. At least one CefClient was created and the message loop is
-         * running. You can use all classes and methods of JCEF now.
-         */
-        INITIALIZED,
-
-        /**
-         * CefApp is in its shutdown process. All CefClients and CefBrowser instances will be
-         * disposed. No new CefClient or CefBrowser is allowed to be created. The message loop will
-         * be performed until all CefClients and all CefBrowsers are disposed completely.
-         */
-        SHUTTING_DOWN,
-
-        /**
-         * CefApp is terminated and can't be used any more. You can shutdown the application safely
-         * now.
-         */
-        TERMINATED
-    }
 
     /**
      * According the singleton pattern, this attribute keeps one single object of this class.
@@ -118,10 +30,9 @@ public class CefApp extends CefAppHandlerAdapter {
     private Timer workTimer_ = null;
     private HashSet<CefClient> clients_ = new HashSet<CefClient>();
     private CefSettings settings_ = null;
-
     /**
      * To get an instance of this class, use the method getInstance() instead of this CTOR.
-     *
+     * <p>
      * The CTOR is called by getInstance() as needed and loads all required JCEF libraries.
      */
     private CefApp(String[] args, CefSettings settings) throws UnsatisfiedLinkError {
@@ -166,7 +77,7 @@ public class CefApp extends CefAppHandlerAdapter {
      * Assign an AppHandler to CefApp. The AppHandler can be used to evaluate application arguments,
      * to register your own schemes and to hook into the shutdown sequence. See CefAppHandler for
      * more details.
-     *
+     * <p>
      * This method must be called before CefApp is initialized. CefApp will be initialized
      * automatically if you call createClient() the first time.
      *
@@ -194,16 +105,16 @@ public class CefApp extends CefAppHandlerAdapter {
     }
 
     public static synchronized CefApp getInstance(CefSettings settings)
-        throws UnsatisfiedLinkError {
+            throws UnsatisfiedLinkError {
         return getInstance(null, settings);
     }
 
     public static synchronized CefApp getInstance(String[] args, CefSettings settings)
-        throws UnsatisfiedLinkError {
+            throws UnsatisfiedLinkError {
         if (settings != null) {
             if (getState() != CefAppState.NONE && getState() != CefAppState.NEW) {
                 throw new IllegalStateException("Settings can only be passed to CEF"
-                    + " before createClient is called the first time.");
+                        + " before createClient is called the first time.");
             }
         }
         if (self == null) {
@@ -214,23 +125,6 @@ public class CefApp extends CefAppHandlerAdapter {
             setState(CefAppState.NEW);
         }
         return self;
-    }
-
-    public final void setSettings(CefSettings settings) throws IllegalStateException {
-        if (getState() != CefAppState.NONE && getState() != CefAppState.NEW) {
-            throw new IllegalStateException("Settings can only be passed to CEF"
-                + " before createClient is called the first time.");
-        }
-        settings_ = settings.clone();
-    }
-
-    public final CefVersion getVersion() {
-        try {
-            return N_GetVersion();
-        } catch (UnsatisfiedLinkError ule) {
-            ule.printStackTrace();
-        }
-        return null;
     }
 
     /**
@@ -257,6 +151,23 @@ public class CefApp extends CefAppHandlerAdapter {
                 }
             }
         });
+    }
+
+    public final void setSettings(CefSettings settings) throws IllegalStateException {
+        if (getState() != CefAppState.NONE && getState() != CefAppState.NEW) {
+            throw new IllegalStateException("Settings can only be passed to CEF"
+                    + " before createClient is called the first time.");
+        }
+        settings_ = settings.clone();
+    }
+
+    public final CefVersion getVersion() {
+        try {
+            return N_GetVersion();
+        } catch (UnsatisfiedLinkError ule) {
+            ule.printStackTrace();
+        }
+        return null;
     }
 
     /**
@@ -333,7 +244,7 @@ public class CefApp extends CefAppHandlerAdapter {
      * thread in the browser process.
      */
     public boolean registerSchemeHandlerFactory(
-        String schemeName, String domainName, CefSchemeHandlerFactory factory) {
+            String schemeName, String domainName, CefSchemeHandlerFactory factory) {
         try {
             return N_RegisterSchemeHandlerFactory(schemeName, domainName, factory);
         } catch (Exception err) {
@@ -382,7 +293,7 @@ public class CefApp extends CefAppHandlerAdapter {
                 public void run() {
                     String library_path = getJcefLibPath();
                     System.out.println("initialize on " + Thread.currentThread()
-                        + " with library path " + library_path);
+                            + " with library path " + library_path);
 
                     CefSettings settings = settings_ != null ? settings_ : new CefSettings();
 
@@ -390,9 +301,9 @@ public class CefApp extends CefAppHandlerAdapter {
                     if (OS.isMacintosh()) {
                         if (settings.browser_subprocess_path == null) {
                             Path path = Paths.get(library_path,
-                                "../Frameworks/jcef Helper.app/Contents/MacOS/jcef Helper");
+                                    "../Frameworks/jcef Helper.app/Contents/MacOS/jcef Helper");
                             settings.browser_subprocess_path =
-                                path.normalize().toAbsolutePath().toString();
+                                    path.normalize().toAbsolutePath().toString();
                         }
                     } else if (OS.isWindows()) {
                         if (settings.browser_subprocess_path == null) {
@@ -437,7 +348,7 @@ public class CefApp extends CefAppHandlerAdapter {
             @Override
             public void run() {
                 CefAppHandler handler =
-                    (CefAppHandler) ((appHandler_ == null) ? this : appHandler_);
+                        (CefAppHandler) ((appHandler_ == null) ? this : appHandler_);
                 if (!handler.onBeforeTerminate()) {
                     dispose();
                 }
@@ -529,14 +440,9 @@ public class CefApp extends CefAppHandlerAdapter {
         String[] paths = library_path.split(System.getProperty("path.separator"));
         for (String path : paths) {
             File dir = new File(path);
-            String[] found = dir.list(new FilenameFilter() {
-                @Override
-                public boolean accept(File dir, String name) {
-                    return (name.equalsIgnoreCase("libjcef.dylib")
-                        || name.equalsIgnoreCase("libjcef.so")
-                        || name.equalsIgnoreCase("jcef.dll"));
-                }
-            });
+            String[] found = dir.list((dir1, name) -> (name.equalsIgnoreCase("libjcef.dylib")
+                    || name.equalsIgnoreCase("libjcef.so")
+                    || name.equalsIgnoreCase("jcef.dll")));
             if (found != null && found.length != 0) {
                 return path;
             }
@@ -547,7 +453,7 @@ public class CefApp extends CefAppHandlerAdapter {
     public final native boolean N_PreInitialize();
 
     public final native boolean N_Initialize(
-        String pathToJavaDLL, CefAppHandler appHandler, CefSettings settings);
+            String pathToJavaDLL, CefAppHandler appHandler, CefSettings settings);
 
     public final native void N_Shutdown();
 
@@ -556,7 +462,94 @@ public class CefApp extends CefAppHandlerAdapter {
     public final native CefVersion N_GetVersion();
 
     public final native boolean N_RegisterSchemeHandlerFactory(
-        String schemeName, String domainName, CefSchemeHandlerFactory factory);
+            String schemeName, String domainName, CefSchemeHandlerFactory factory);
 
     public final native boolean N_ClearSchemeHandlerFactories();
+
+    /**
+     * The CefAppState gives you a hint if the CefApp is already usable or not usable any more. See
+     * values for details.
+     */
+    public enum CefAppState {
+        /**
+         * No CefApp instance was created yet. Call getInstance() to create a new one.
+         */
+        NONE,
+
+        /**
+         * CefApp is new created but not initialized yet. No CefClient and no CefBrowser was created
+         * until now.
+         */
+        NEW,
+
+        /**
+         * CefApp is in its initializing process. Please wait until initializing is finished.
+         */
+        INITIALIZING,
+
+        /**
+         * CefApp is up and running. At least one CefClient was created and the message loop is
+         * running. You can use all classes and methods of JCEF now.
+         */
+        INITIALIZED,
+
+        /**
+         * CefApp is in its shutdown process. All CefClients and CefBrowser instances will be
+         * disposed. No new CefClient or CefBrowser is allowed to be created. The message loop will
+         * be performed until all CefClients and all CefBrowsers are disposed completely.
+         */
+        SHUTTING_DOWN,
+
+        /**
+         * CefApp is terminated and can't be used any more. You can shutdown the application safely
+         * now.
+         */
+        TERMINATED
+    }
+
+    public final class CefVersion {
+
+        public final int JCEF_COMMIT_NUMBER;
+
+        public final int CEF_VERSION_MAJOR;
+        public final int CEF_COMMIT_NUMBER;
+
+        public final int CHROME_VERSION_MAJOR;
+        public final int CHROME_VERSION_MINOR;
+        public final int CHROME_VERSION_BUILD;
+        public final int CHROME_VERSION_PATCH;
+
+        private CefVersion(int jcefCommitNo, int cefMajor, int cefCommitNo, int chrMajor,
+                           int chrMin, int chrBuild, int chrPatch) {
+            JCEF_COMMIT_NUMBER = jcefCommitNo;
+
+            CEF_VERSION_MAJOR = cefMajor;
+            CEF_COMMIT_NUMBER = cefCommitNo;
+
+            CHROME_VERSION_MAJOR = chrMajor;
+            CHROME_VERSION_MINOR = chrMin;
+            CHROME_VERSION_BUILD = chrBuild;
+            CHROME_VERSION_PATCH = chrPatch;
+        }
+
+        public String getJcefVersion() {
+            return CEF_VERSION_MAJOR + "." + CHROME_VERSION_BUILD + "." + JCEF_COMMIT_NUMBER;
+        }
+
+        public String getCefVersion() {
+            return CEF_VERSION_MAJOR + "." + CHROME_VERSION_BUILD + "." + CEF_COMMIT_NUMBER;
+        }
+
+        public String getChromeVersion() {
+            return CHROME_VERSION_MAJOR + "." + CHROME_VERSION_MINOR + "." + CHROME_VERSION_BUILD
+                    + "." + CHROME_VERSION_PATCH;
+        }
+
+        @Override
+        public String toString() {
+            return "JCEF Version = " + getJcefVersion() + "\n"
+                    + "CEF Version = " + getCefVersion() + "\n"
+                    + "Chromium Version = " + getChromeVersion();
+        }
+    }
 }
