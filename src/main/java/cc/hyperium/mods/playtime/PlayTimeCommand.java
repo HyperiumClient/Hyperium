@@ -8,7 +8,11 @@ import java.util.Collections;
 import java.util.List;
 
 public class PlayTimeCommand implements BaseCommand {
-    PlayTime playTime = new PlayTime();
+    PlayTime playTime;
+
+    public PlayTimeCommand(PlayTime playTime) {
+        this.playTime = playTime;
+    }
 
     @Override
     public String getName() {
