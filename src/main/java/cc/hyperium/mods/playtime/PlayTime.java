@@ -10,8 +10,8 @@ import cc.hyperium.mods.AbstractMod;
 public class PlayTime extends AbstractMod {
     long startSysTime;
     long startConfigTime;
-    long sessionPlayTime; //  Static for command
-    long totalPlayTime; //    Static for command
+    long sessionPlayTime;
+    long totalPlayTime;
 
     @Override
     public AbstractMod init() {
