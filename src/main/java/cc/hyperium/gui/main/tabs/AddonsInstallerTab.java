@@ -15,7 +15,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -84,7 +83,7 @@ public class AddonsInstallerTab extends AbstractTab {
     }
 
     private void installAddon(String jsonName) throws IOException {
-        Optional<AddonManifest> optional = Arrays.stream(InstallerUtils.getManifest().getAddons()).filter(o -> o.getName().equals(jsonName)).findFirst();
+        Optional<AddonManifest> optional = InstallerUtils.getManifest().getAddons().stream().filter(o -> o.getName().equals(jsonName)).findFirst();
 
         if (!optional.isPresent()) {
             return;
