@@ -16,14 +16,15 @@ import org.lwjgl.input.Mouse;
 
 import java.awt.Color;
 import java.io.IOException;
+import java.net.URLEncoder;
 
 /**
  * @author Koding
  */
 public class GuiBrowser extends GuiScreen {
 
-    private static GuiConfig persistentConfigGui;
     public static IBrowser browser = null;
+    private static GuiConfig persistentConfigGui;
     private GuiButton back = null;
     private GuiButton fwd = null;
     private GuiButton go = null;
@@ -101,7 +102,9 @@ public class GuiBrowser extends GuiScreen {
     }
 
     public void loadURL(String url) {
-        this.url.setText(url);
+        if (url != null)
+
+            this.url.setText(url);
         if (browser == null) {
             urlToLoad = url;
         } else {
@@ -169,6 +172,7 @@ public class GuiBrowser extends GuiScreen {
 
             if (num == Keyboard.KEY_L && BrowserUtil.getModifierInt() == 2 && pressed) {
                 url.setFocused(true);
+                url.setSelectionPos(0);
                 return;
             }
 
@@ -248,7 +252,13 @@ public class GuiBrowser extends GuiScreen {
         } else if (src.id == 1) {
             browser.goForward();
         } else if (src.id == 2) {
-            browser.loadURL(url.getText());
+            String text = url.getText();
+            if (!text.contains(".")) {
+                final String tmpurl = text;
+                text = "http://google.com/search?q=" + URLEncoder.encode(tmpurl);
+                url.setText(text);
+            }
+            browser.loadURL(text);
         } else if (src.id == 3) {
             Hyperium.INSTANCE.getModIntegration().getBrowserMod().setBackup(null);
             mc.displayGuiScreen(null);
@@ -260,19 +270,10 @@ public class GuiBrowser extends GuiScreen {
             mc.displayGuiScreen(persistentConfigGui);
 
         }
-//        } else if (src.id == 6) {
-//            try {
-//                tabs.add(new MutableTriple<>(new URL(MCEF.HOME_PAGE), "", ""));
-//                selectedTabIndex = tabs.size() - 1;
-//            } catch (MalformedURLException e) {
-//                e.printStackTrace();
-//            }
-//        }
     }
 
     public void onTitleChanged(IBrowser browser, String title) {
         this.title = title;
-//        tabs.get(selectedTabIndex).setMiddle(title);
     }
 
 
