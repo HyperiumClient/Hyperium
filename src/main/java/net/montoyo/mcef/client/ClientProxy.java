@@ -173,12 +173,11 @@ public class ClientProxy extends BaseProxy {
 
             if (OS.isWindows()) {
                 libs.add("jawt");
-                libs.add("libcef");
                 libs.add("chrome_elf");
+                libs.add("libcef");
             } else {
                 libs.add("cef");
             }
-
             libs.add("jcef");
 
             for (String lib : libs) {
