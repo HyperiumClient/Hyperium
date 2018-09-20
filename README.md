@@ -28,6 +28,7 @@ Hyperium is a Minecraft client, currently in its development stage. It will comb
 - [Performia](https://github.com/Sk1er/Performia)
 - [Resource Exploit Fix](https://github.com/Sk1er/Resource-Exploit-Fix) 
 - Bossbar Mod
+- Ingame Browser
 
 ## Building the project with IntelliJ ##
 
