@@ -1,4 +1,4 @@
-package cc.hyperium.animations;
+package cc.hyperium.mixins.renderer.entity.layer;
 
 import cc.hyperium.config.Settings;
 import net.minecraft.block.Block;
@@ -15,8 +15,13 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 
 public class OldBlocking {
-    public static void doRenderLayer(EntityLivingBase entitylivingbaseIn, float p_177141_2_, float p_177141_3_, float partialTicks, float p_177141_5_, float p_177141_6_, float p_177141_7_, float scale, RendererLivingEntity<?> livingEntityRenderer) {
+
+    /**
+     * May require additional cleanups, however it's fine for the moment.
+     */
+    protected void doRenderLayer(EntityLivingBase entitylivingbaseIn, RendererLivingEntity<?> livingEntityRenderer) {
         ItemStack itemstack = entitylivingbaseIn.getHeldItem();
+        
         if (itemstack != null) {
             GlStateManager.pushMatrix();
             if (livingEntityRenderer.getMainModel().isChild) {
@@ -26,7 +31,6 @@ public class OldBlocking {
                 GlStateManager.scale(f, f, f);
             }
             Label_0327:
-            {
                 if (entitylivingbaseIn instanceof EntityPlayer) {
                     if (Settings.OLD_BLOCKING) {
                         if (((EntityPlayer) entitylivingbaseIn).isBlocking()) {
@@ -34,15 +38,18 @@ public class OldBlocking {
                                 ((ModelBiped) livingEntityRenderer.getMainModel()).postRenderArm(0.0325f);
                                 GlStateManager.scale(1.05f, 1.05f, 1.05f);
                                 GlStateManager.translate(-0.58f, 0.32f, -0.07f);
-                                GlStateManager.rotate(-24405.0f, 137290.0f, -2009900.0f, -2654900.0f);
+                                GlStateManager
+                                    .rotate(-24405.0f, 137290.0f, -2009900.0f, -2654900.0f);
                             } else {
                                 ((ModelBiped) livingEntityRenderer.getMainModel()).postRenderArm(0.0325f);
                                 GlStateManager.scale(1.05f, 1.05f, 1.05f);
                                 GlStateManager.translate(-0.45f, 0.25f, -0.07f);
-                                GlStateManager.rotate(-24405.0f, 137290.0f, -2009900.0f, -2654900.0f);
+                                GlStateManager
+                                    .rotate(-24405.0f, 137290.0f, -2009900.0f, -2654900.0f);
                             }
                         } else {
-                            ((ModelBiped) livingEntityRenderer.getMainModel()).postRenderArm(0.0625f);
+                            ((ModelBiped) livingEntityRenderer.getMainModel())
+                                .postRenderArm(0.0625f);
                         }
                     } else {
                         ((ModelBiped) livingEntityRenderer.getMainModel()).postRenderArm(0.0625f);
@@ -65,12 +72,13 @@ public class OldBlocking {
                     ((ModelBiped) livingEntityRenderer.getMainModel()).postRenderArm(0.0625f);
                     GlStateManager.translate(-0.0625f, 0.4375f, 0.0625f);
                 }
-            }
             if (entitylivingbaseIn instanceof EntityPlayer && ((EntityPlayer) entitylivingbaseIn).fishEntity != null) {
                 itemstack = new ItemStack(Items.fishing_rod, 0);
             }
+
             Item item = itemstack.getItem();
             Minecraft minecraft = Minecraft.getMinecraft();
+
             if (item instanceof ItemBlock && Block.getBlockFromItem(item).getRenderType() == 2) {
                 GlStateManager.translate(0.0f, 0.1875f, -0.3125f);
                 GlStateManager.rotate(20.0f, 1.0f, 0.0f, 0.0f);
