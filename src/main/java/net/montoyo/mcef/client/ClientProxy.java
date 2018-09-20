@@ -186,7 +186,12 @@ public class ClientProxy extends BaseProxy {
                 if (loadName.contains(".")) {
                     loadName = loadName.substring(0, loadName.length() - loadName.split("[.]")[1].length() - 1);
                 }
-                System.loadLibrary(loadName);
+                try {
+                    System.loadLibrary(loadName);
+                    System.out.println("Loaded " + loadName);
+                } catch (UnsatisfiedLinkError error) {
+                    error.printStackTrace();
+                }
             }
 
             cefApp = CefApp.getInstance(settings);
