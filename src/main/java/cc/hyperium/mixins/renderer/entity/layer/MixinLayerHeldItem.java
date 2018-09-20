@@ -1,5 +1,6 @@
 package cc.hyperium.mixins.renderer.entity.layer;
 
+import cc.hyperium.mods.oldanimations.OldBlocking;
 import net.minecraft.client.renderer.entity.RendererLivingEntity;
 import net.minecraft.client.renderer.entity.layers.LayerHeldItem;
 import net.minecraft.entity.EntityLivingBase;

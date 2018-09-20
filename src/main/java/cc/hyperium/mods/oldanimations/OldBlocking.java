@@ -1,4 +1,4 @@
-package cc.hyperium.mixins.renderer.entity.layer;
+package cc.hyperium.mods.oldanimations;
 
 import cc.hyperium.config.Settings;
 import net.minecraft.block.Block;
@@ -19,7 +19,7 @@ public class OldBlocking {
     /**
      * May require additional cleanups, however it's fine for the moment.
      */
-    protected void doRenderLayer(EntityLivingBase entitylivingbaseIn, RendererLivingEntity<?> livingEntityRenderer) {
+    public void doRenderLayer(EntityLivingBase entitylivingbaseIn, RendererLivingEntity<?> livingEntityRenderer) {
         ItemStack itemstack = entitylivingbaseIn.getHeldItem();
         
         if (itemstack != null) {
