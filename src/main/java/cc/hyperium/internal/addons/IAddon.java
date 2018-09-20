@@ -1,4 +1,4 @@
-package cc.hyperium.internal.addons
+package cc.hyperium.internal.addons;
 
 /**
  * Interface of which the main class
@@ -7,24 +7,25 @@ package cc.hyperium.internal.addons
  * @since 1.0
  * @author Kevin Brewster
  */
-interface IAddon {
+public interface IAddon {
 
     /**
      * Invoked once the plugin has successfully loaded
      * {@see cc.hyperium.internal.addons.AddonMinecraftBootstrap#init}
      */
-    fun onLoad()
+    public void onLoad();
 
     /**
      * Invoked once the game has been closed
      * this is executed at the start of {@link net.minecraft.client.Minecraft#shutdown}
      */
-    fun onClose()
+    public void onClose();
 
 
     /**
-     * Invoked on debug call
+     * Invoked on debug call. Can be used to add things into crash reports
+     *
+     * This does not need to be overriden if it's not needed
      */
-    fun sendDebugInfo()
-
+    public default void sendDebugInfo() { }
 }
