@@ -27,6 +27,9 @@ import net.minecraft.client.gui.ScaledResolution;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
+import net.minecraft.client.gui.inventory.GuiInventory;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.RenderHelper;
 
 /**
  * Created by Mitchell Katz on 5/25/2017.

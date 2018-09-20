@@ -3,19 +3,7 @@ package cc.hyperium.mixinsimp;
 import cc.hyperium.Hyperium;
 import cc.hyperium.SplashProgress;
 import cc.hyperium.config.Settings;
-import cc.hyperium.event.EventBus;
-import cc.hyperium.event.GuiOpenEvent;
-import cc.hyperium.event.InitializationEvent;
-import cc.hyperium.event.KeypressEvent;
-import cc.hyperium.event.KeyreleaseEvent;
-import cc.hyperium.event.LeftMouseClickEvent;
-import cc.hyperium.event.MouseButtonEvent;
-import cc.hyperium.event.PreInitializationEvent;
-import cc.hyperium.event.RenderPlayerEvent;
-import cc.hyperium.event.RightMouseClickEvent;
-import cc.hyperium.event.SingleplayerJoinEvent;
-import cc.hyperium.event.TickEvent;
-import cc.hyperium.event.WorldChangeEvent;
+import cc.hyperium.event.*;
 import cc.hyperium.gui.CrashReportGUI;
 import cc.hyperium.gui.HyperiumMainMenu;
 import cc.hyperium.handlers.HyperiumHandlers;
@@ -26,6 +14,7 @@ import cc.hyperium.mixins.IMixinMinecraft;
 import cc.hyperium.utils.AddonWorkspaceResourcePack;
 import cc.hyperium.utils.Utils;
 import cc.hyperium.utils.mods.FPSLimiter;
+import com.chattriggers.ctjs.CTJS;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -61,6 +50,15 @@ import org.lwjgl.opengl.DisplayMode;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.management.ManagementFactory;
+import java.nio.ByteBuffer;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+
 public class HyperiumMinecraft {
 
     private Minecraft parent;
@@ -77,6 +75,9 @@ public class HyperiumMinecraft {
                 .add(file == null ? new AddonWorkspaceResourcePack() : new FileResourcePack(file));
         }
         AddonMinecraftBootstrap.init();
+
+        //CTJS.loadIntoJVM();
+
         EventBus.INSTANCE.post(new PreInitializationEvent());
     }
 
@@ -282,6 +283,10 @@ public class HyperiumMinecraft {
     }
 
     public void loadWorld(WorldClient worldClient, CallbackInfo ci) {
+        if (Minecraft.getMinecraft().theWorld != null) {
+            new WorldUnloadEvent().post();
+        }
+
         EventBus.INSTANCE.post(new WorldChangeEvent());
     }
 

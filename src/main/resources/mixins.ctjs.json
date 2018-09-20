@@ -1,0 +1,19 @@
+{
+  "package": "com.chattriggers.ctjs.minecraft.mixins",
+  "refmap": "mixins.ctjs.refmap.json",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "MixinGuiChat",
+    "MixinGuiScreen",
+    "MixinScreenShotHelper",
+    "MixinMinecraft",
+    "MixinGuiMainMenu",
+    "MixinCrashReport",
+    "MixinEntityFX",
+    "MixinEntityPlayer",
+    "MixinSoundHandler",
+    "MixinSoundSystem",
+    "MixinGuiNewChat",
+    "MixinGuiScreenBook"
+  ]
+}

@@ -151,7 +151,15 @@ public class HyperiumEntityRenderer {
         }
     }
 
-    public void updatePerspectiveCamera(){
+    public void updatePerspectiveCamera() {
+        if (Hyperium.INSTANCE.getHandlers() == null) {
+            return;
+        }
+        
+        if (Hyperium.INSTANCE.getHandlers().getPerspectiveHandler() == null) {
+            return;
+        }
+        
         PerspectiveModifierHandler perspectiveHandler = Hyperium.INSTANCE.getHandlers().getPerspectiveHandler();
         boolean flag2 = Display.isActive();
         if (Minecraft.getMinecraft().inGameHasFocus && flag2) {

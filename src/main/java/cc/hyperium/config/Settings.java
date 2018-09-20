@@ -204,6 +204,14 @@ public class Settings {
     public static boolean OLD_ITEM_HELD = false;
 
     @ConfigOpt
+    @ToggleSetting(name = "1.7 Debug", category = ANIMATIONS, mods = true)
+    public static boolean OLD_DEBUG = false;
+
+    @ConfigOpt
+    @ToggleSetting(name = "1.7 Health", category = ANIMATIONS, mods = true)
+    public static boolean OLD_HEALTH = false;
+
+    @ConfigOpt
     @ToggleSetting(name = "Custom Sword Animation", category = ANIMATIONS, mods = true)
     public static boolean CUSTOM_SWORD_ANIMATION = false;
 

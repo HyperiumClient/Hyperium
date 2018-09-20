@@ -26,6 +26,9 @@ public class AutoGGConfig {
     @ConfigOpt
     @ToggleSetting(name = "Say Good Game instead of GG", mods = true, category = AUTO_GG)
     public boolean sayGoodGameInsteadOfGG = false;
+    @ConfigOpt
+    @ToggleSetting(name = "Say Lowercase", mods = true, category = AUTO_GG)
+    public boolean lowercase = false;
 
     public AutoGGConfig() {
         Hyperium.CONFIG.register(this);

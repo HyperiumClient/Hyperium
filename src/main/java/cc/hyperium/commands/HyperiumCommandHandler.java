@@ -61,6 +61,8 @@ public class HyperiumCommandHandler {
 
     private String[] latestAutoComplete;
 
+    public boolean runningCommand = false;
+
     public HyperiumCommandHandler() {
         this.mc = Minecraft.getMinecraft();
         this.chatHandler = GeneralChatHandler.instance();
@@ -76,7 +78,11 @@ public class HyperiumCommandHandler {
             // It is one of our commands, we'll cancel the event so it isn't
             // sent to the server, and we'll close the currently opened gui
             event.setCancelled(true);
-            this.mc.displayGuiScreen(null);
+
+            if (runningCommand) {
+                this.mc.displayGuiScreen(null);
+                runningCommand = false;
+            }
         }
     }
 
@@ -324,5 +330,9 @@ public class HyperiumCommandHandler {
             fileWriter.close();
         } catch (IOException ignored) {
         }
+    }
+
+    public Map<String, BaseCommand> getCommands() {
+        return commands;
     }
 }

@@ -29,6 +29,7 @@ import net.minecraft.client.model.ModelBiped
 import net.minecraft.client.renderer.entity.RenderManager
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityLivingBase
+import net.minecraft.entity.item.EntityItem
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.entity.projectile.EntityArrow
 import net.minecraft.item.ItemStack
@@ -167,6 +168,18 @@ class AchievementGetEvent(val achievement: String)
 class RenderEntitiesEvent(val partialTicks: Float)
 
 class RenderTickEvent()
+
+class ItemPickupEvent(val player: EntityPlayer, val item: EntityItem) : Event()
+
+class ItemTossEvent(val player: EntityPlayer, val item: EntityItem) : Event()
+
+class ItemTooltipEvent(val item: ItemStack, val toolTip: List<String>) : Event()
+
+class RenderWorldEvent(val partialTicks: Float) : Event()
+
+class WorldLoadEvent : Event()
+
+class WorldUnloadEvent : Event()
 
 enum class ElementType {
     ALL,
