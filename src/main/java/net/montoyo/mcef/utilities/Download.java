@@ -111,7 +111,6 @@ class Download extends Observable implements Runnable {
                     System.out.println("broke " + buffer.length);
                     break;
                 }
-                System.out.println("not broke " + buffer.length);
 
                 // Write buffer to file.
                 output.write(buffer, 0, read);
