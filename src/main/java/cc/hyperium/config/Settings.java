@@ -159,6 +159,10 @@ public class Settings {
     @ToggleSetting(category = COSMETICS, name = "Show Cosmetics Everywhere")
     public static boolean SHOW_COSMETICS_EVERYWHERE = true;
 
+    @ConfigOpt
+    @ToggleSetting(category = COSMETICS, name = "Load optifine capes")
+    public static boolean LOAD_OPTIFINE_CAPES = true;
+
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.CosmeticSettings;dabToggle")
     public static boolean DAB_TOGGLE = false;
 
