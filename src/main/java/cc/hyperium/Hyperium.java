@@ -61,6 +61,7 @@ import cc.hyperium.utils.UpdateUtils;
 import cc.hyperium.utils.mods.CompactChat;
 import cc.hyperium.utils.mods.FPSLimiter;
 import net.minecraft.client.Minecraft;
+import net.montoyo.mcef.MCEF;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.Display;
@@ -304,6 +305,7 @@ public class Hyperium {
         hyperiumCommandHandler.registerCommand(new CustomLevelheadCommand());
         hyperiumCommandHandler.registerCommand(new CommandPrivateMessage());
         hyperiumCommandHandler.registerCommand(new CommandClearChat());
+        hyperiumCommandHandler.registerCommand(new CommandBrowse());
         hyperiumCommandHandler.registerCommand(new CommandNameHistory());
         hyperiumCommandHandler.registerCommand(new CommandPlayGame());
         hyperiumCommandHandler.registerCommand(new CommandDebug());

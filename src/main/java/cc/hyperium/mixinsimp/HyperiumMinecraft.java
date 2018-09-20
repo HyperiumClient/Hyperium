@@ -15,6 +15,14 @@ import cc.hyperium.utils.AddonWorkspaceResourcePack;
 import cc.hyperium.utils.Utils;
 import cc.hyperium.utils.mods.FPSLimiter;
 import com.chattriggers.ctjs.CTJS;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.management.ManagementFactory;
+import java.nio.ByteBuffer;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.GuiGameOver;
@@ -33,6 +41,7 @@ import net.minecraft.profiler.Profiler;
 import net.minecraft.util.Timer;
 import net.minecraft.util.Util;
 import net.minecraft.world.WorldSettings;
+import net.montoyo.mcef.MCEF;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
@@ -58,10 +67,12 @@ public class HyperiumMinecraft {
         this.parent = parent;
     }
 
-    public void preinit(CallbackInfo ci, List<IResourcePack> defaultResourcePacks, DefaultResourcePack mcDefaultResourcePack, List<IResourcePack> resourcePacks) {
+    public void preinit(CallbackInfo ci, List<IResourcePack> defaultResourcePacks,
+        DefaultResourcePack mcDefaultResourcePack, List<IResourcePack> resourcePacks) {
         defaultResourcePacks.add(mcDefaultResourcePack);
         for (File file : AddonBootstrap.getAddonResourcePacks()) {
-            defaultResourcePacks.add(file == null ? new AddonWorkspaceResourcePack() : new FileResourcePack(file));
+            defaultResourcePacks
+                .add(file == null ? new AddonWorkspaceResourcePack() : new FileResourcePack(file));
         }
         AddonMinecraftBootstrap.init();
 
@@ -70,12 +81,15 @@ public class HyperiumMinecraft {
         EventBus.INSTANCE.post(new PreInitializationEvent());
     }
 
-    public void loop(CallbackInfo info, boolean inGameHasFocus, WorldClient theWorld, EntityPlayerSP thePlayer, RenderManager renderManager, Timer timer) {
+    public void loop(CallbackInfo info, boolean inGameHasFocus, WorldClient theWorld,
+        EntityPlayerSP thePlayer, RenderManager renderManager, Timer timer) {
         if (inGameHasFocus && theWorld != null && Settings.SHOW_PART_1ST_PERSON) {
             HyperiumHandlers handlers = Hyperium.INSTANCE.getHandlers();
             if (handlers != null) {
 
-                handlers.getParticleAuraHandler().renderPlayer(new RenderPlayerEvent(thePlayer, renderManager, 0, 0, 0, timer.renderPartialTicks));
+                handlers.getParticleAuraHandler().renderPlayer(
+                    new RenderPlayerEvent(thePlayer, renderManager, 0, 0, 0,
+                        timer.renderPartialTicks));
             }
         }
     }
@@ -113,11 +127,13 @@ public class HyperiumMinecraft {
         EventBus.INSTANCE.post(new RightMouseClickEvent());
     }
 
-    public void launchIntegratedServer(String folderName, String worldName, WorldSettings worldSettingsIn, CallbackInfo ci) {
+    public void launchIntegratedServer(String folderName, String worldName,
+        WorldSettings worldSettingsIn, CallbackInfo ci) {
         EventBus.INSTANCE.post(new SingleplayerJoinEvent());
     }
 
-    public void displayFix(CallbackInfo ci, boolean fullscreen, int displayWidth, int displayHeight) throws LWJGLException {
+    public void displayFix(CallbackInfo ci, boolean fullscreen, int displayWidth, int displayHeight)
+        throws LWJGLException {
         Display.setFullscreen(false);
         if (fullscreen) {
             if (Settings.WINDOWED_FULLSCREEN) {
@@ -142,7 +158,8 @@ public class HyperiumMinecraft {
         ci.cancel();
     }
 
-    public void fullScreenFix(CallbackInfo ci, boolean fullscreen, int displayWidth, int displayHeight) throws LWJGLException {
+    public void fullScreenFix(CallbackInfo ci, boolean fullscreen, int displayWidth,
+        int displayHeight) throws LWJGLException {
         if (Settings.WINDOWED_FULLSCREEN) {
             if (fullscreen) {
                 System.setProperty("org.lwjgl.opengl.Window.undecorated", "true");
@@ -164,10 +181,13 @@ public class HyperiumMinecraft {
 
     public void setWindowIcon() {
         if (Util.getOSType() != Util.EnumOS.OSX) {
-            try (InputStream inputStream16x = Minecraft.class.getResourceAsStream("/assets/hyperium/icons/icon-16x.png");
-                 InputStream inputStream32x = Minecraft.class.getResourceAsStream("/assets/hyperium/icons/icon-32x.png")) {
-                ByteBuffer[] icons = new ByteBuffer[]{Utils.INSTANCE.readImageToBuffer(inputStream16x),
-                        Utils.INSTANCE.readImageToBuffer(inputStream32x)};
+            try (InputStream inputStream16x = Minecraft.class
+                .getResourceAsStream("/assets/hyperium/icons/icon-16x.png");
+                InputStream inputStream32x = Minecraft.class
+                    .getResourceAsStream("/assets/hyperium/icons/icon-32x.png")) {
+                ByteBuffer[] icons = new ByteBuffer[]{
+                    Utils.INSTANCE.readImageToBuffer(inputStream16x),
+                    Utils.INSTANCE.readImageToBuffer(inputStream32x)};
                 Display.setIcon(icons);
             } catch (Exception e) {
                 Hyperium.LOGGER.error("Couldn't set Windows Icon", e);
@@ -175,7 +195,9 @@ public class HyperiumMinecraft {
         }
     }
 
-    public void displayGuiScreen(GuiScreen guiScreenIn, GuiScreen currentScreen, WorldClient theWorld, EntityPlayerSP thePlayer, GameSettings gameSettings, GuiIngame ingameGUI) {
+    public void displayGuiScreen(GuiScreen guiScreenIn, GuiScreen currentScreen,
+        WorldClient theWorld, EntityPlayerSP thePlayer, GameSettings gameSettings,
+        GuiIngame ingameGUI) {
         if (currentScreen != null) {
             currentScreen.onGuiClosed();
         }
@@ -192,19 +214,23 @@ public class HyperiumMinecraft {
 
         EventBus.INSTANCE.post(event);
 
-        if (event.isCancelled()) return;
+        if (event.isCancelled()) {
+            return;
+        }
 
         guiScreenIn = event.getGui();
         if (old != null && guiScreenIn != old) {
             old.onGuiClosed();
         }
-        if (old != null)
+        if (old != null) {
             EventBus.INSTANCE.unregister(old);
+        }
 
         if (guiScreenIn instanceof HyperiumMainMenu) {
             gameSettings.showDebugInfo = false;
-            if (!Settings.PERSISTENT_CHAT)
+            if (!Settings.PERSISTENT_CHAT) {
                 ingameGUI.getChatGUI().clearChatMessages();
+            }
         }
 
         ((IMixinMinecraft) parent).setCurrentScreen(guiScreenIn);
@@ -221,7 +247,7 @@ public class HyperiumMinecraft {
             parent.setIngameFocus();
         }
 
-        if(Hyperium.INSTANCE.getHandlers() != null) {
+        if (Hyperium.INSTANCE.getHandlers() != null) {
             Hyperium.INSTANCE.getHandlers().getKeybindHandler().releaseAllKeybinds();
         }
     }
@@ -280,7 +306,9 @@ public class HyperiumMinecraft {
 
     public void displayCrashReport(CrashReport crashReportIn) {
         File file1 = new File(Minecraft.getMinecraft().mcDataDir, "crash-reports");
-        File file2 = new File(file1, "crash-" + (new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss")).format(new Date()) + "-client.txt");
+        File file2 = new File(file1,
+            "crash-" + (new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss")).format(new Date())
+                + "-client.txt");
         Bootstrap.printToSYSOUT(crashReportIn.getCompleteReport());
 
         try {
@@ -293,12 +321,15 @@ public class HyperiumMinecraft {
 
         int x = CrashReportGUI.handle(crashReportIn);
 
-        if (crashReportIn.getFile() != null)
-            Bootstrap.printToSYSOUT("#@!@# Game crashed! Crash report saved to: #@!@# " + crashReportIn.getFile());
-        else if (crashReportIn.saveToFile(file2))
-            Bootstrap.printToSYSOUT("#@!@# Game crashed! Crash report saved to: #@!@# " + file2.getAbsolutePath());
-        else
+        if (crashReportIn.getFile() != null) {
+            Bootstrap.printToSYSOUT(
+                "#@!@# Game crashed! Crash report saved to: #@!@# " + crashReportIn.getFile());
+        } else if (crashReportIn.saveToFile(file2)) {
+            Bootstrap.printToSYSOUT(
+                "#@!@# Game crashed! Crash report saved to: #@!@# " + file2.getAbsolutePath());
+        } else {
             Bootstrap.printToSYSOUT("#@?@# Game crashed! Crash report could not be saved. #@?@#");
+        }
 
         switch (x) {
             case 0:
@@ -316,17 +347,22 @@ public class HyperiumMinecraft {
                 try {
                     StringBuilder cmd = new StringBuilder();
                     String[] command = System.getProperty("sun.java.command").split(" ");
-                    cmd.append(System.getProperty("java.home")).append(File.separator).append("bin").append(File.separator).append("java ");
+                    cmd.append(System.getProperty("java.home")).append(File.separator).append("bin")
+                        .append(File.separator).append("java ");
                     ManagementFactory.getRuntimeMXBean().getInputArguments().forEach(s -> {
-                        if (!s.contains("-agentlib"))
+                        if (!s.contains("-agentlib")) {
                             cmd.append(s).append(" ");
+                        }
                     });
-                    if (command[0].endsWith(".jar"))
+                    if (command[0].endsWith(".jar")) {
                         cmd.append("-jar ").append(new File(command[0]).getPath()).append(" ");
-                    else
-                        cmd.append("-cp \"").append(System.getProperty("java.class.path")).append("\" ").append(command[0]).append(" ");
-                    for (int i = 1; i < command.length; i++)
+                    } else {
+                        cmd.append("-cp \"").append(System.getProperty("java.class.path"))
+                            .append("\" ").append(command[0]).append(" ");
+                    }
+                    for (int i = 1; i < command.length; i++) {
                         cmd.append(command[i]).append(" ");
+                    }
                     Runtime.getRuntime().addShutdownHook(new Thread(() -> {
                         try {
                             System.out.println("## RESTARTING MINECRAFT ##");
@@ -346,8 +382,10 @@ public class HyperiumMinecraft {
         }
 
     }
+
     public void shutdown(CallbackInfo ci) {
         AddonMinecraftBootstrap.getLoadedAddons().forEach(IAddon::onClose);
+        MCEF.onMinecraftShutdown();
     }
 
 

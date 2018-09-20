@@ -298,14 +298,25 @@ public class ApiDataHandler {
     }
 
     public String getFrontendName(String backend) {
-        return getQuests().optJSONObject("names").optJSONObject(backend).optString("name", backend);
+        JsonHolder quests = getQuests().optJSONObject("quests");
+        for (String key : quests.getKeys()) {
+            for (JsonElement jsonElement : quests.optJSONArray(key)) {
+                JsonHolder jsonHolder = new JsonHolder(jsonElement.getAsJsonObject());
+                if (jsonHolder.optString("id").equalsIgnoreCase(backend))
+                    return jsonHolder.optString("name", backend);
+            }
+        }
+        return backend;
     }
 
     public String getBackendName(String frontend, GameType game) {
-        return getQuests().getObject().entrySet().stream().filter(obj -> {
-            JsonObject asJsonObject = obj.getValue().getAsJsonObject();
-            return asJsonObject.get("name").getAsString().equalsIgnoreCase(frontend) && asJsonObject.get("game").getAsString().equalsIgnoreCase(game.name());
-        }).map(Map.Entry::getKey).findFirst().orElse(frontend);
+        for (JsonElement jsonElement : getQuests().optJSONArray(game.name().toLowerCase())) {
+            JsonHolder jsonHolder = new JsonHolder(jsonElement.getAsJsonObject());
+            if (jsonHolder.optString("name").toLowerCase().endsWith(frontend.toLowerCase())) {
+                return jsonHolder.optString("id");
+            }
+        }
+        return game.name() + "_" + frontend.toLowerCase().replace(" ", "_");
     }
 
     static class thing {
@@ -324,7 +335,7 @@ public class ApiDataHandler {
             JsonHolder values1 = new JsonHolder();
             values1.put("name", frontend);
             values1.put("game", game.name());
-            return "\""+ backend+"\":{\"name\":\"\",\"game\":\""+game.name()+"\"}";
+            return "\"" + backend + "\":{\"name\":\"\",\"game\":\"" + game.name() + "\"}";
         }
     }
 }

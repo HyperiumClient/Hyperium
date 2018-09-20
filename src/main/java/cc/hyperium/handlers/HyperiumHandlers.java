@@ -23,33 +23,15 @@ import cc.hyperium.event.EventBus;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.TickEvent;
 import cc.hyperium.gui.ScoreboardRenderer;
-import cc.hyperium.handlers.handlers.BroadcastEvents;
-import cc.hyperium.handlers.handlers.CommandQueue;
-import cc.hyperium.handlers.handlers.FlipHandler;
-import cc.hyperium.handlers.handlers.FontRendererData;
-import cc.hyperium.handlers.handlers.GuiDisplayHandler;
-import cc.hyperium.handlers.handlers.HyperiumNetwork;
-import cc.hyperium.handlers.handlers.HypixelDetector;
-import cc.hyperium.handlers.handlers.LocationHandler;
-import cc.hyperium.handlers.handlers.OtherConfigOptions;
-import cc.hyperium.handlers.handlers.StatusHandler;
-import cc.hyperium.handlers.handlers.ValueHandler;
+import cc.hyperium.handlers.handlers.*;
 import cc.hyperium.handlers.handlers.animation.DabHandler;
 import cc.hyperium.handlers.handlers.animation.FlossDanceHandler;
 import cc.hyperium.handlers.handlers.animation.TPoseHandler;
 import cc.hyperium.handlers.handlers.animation.TwerkDance;
 import cc.hyperium.handlers.handlers.animation.cape.CapeHandler;
 import cc.hyperium.handlers.handlers.animation.fortnite.FortniteDefaultDance;
-import cc.hyperium.handlers.handlers.chat.AutoWhoChatHandler;
-import cc.hyperium.handlers.handlers.chat.FriendRequestChatHandler;
-import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
-import cc.hyperium.handlers.handlers.chat.GuildPartyChatParser;
-import cc.hyperium.handlers.handlers.chat.HyperiumChatHandler;
-import cc.hyperium.handlers.handlers.chat.PartyInviteChatHandler;
-import cc.hyperium.handlers.handlers.chat.PrivateMessageReader;
-import cc.hyperium.handlers.handlers.chat.QuestTrackingChatHandler;
-import cc.hyperium.handlers.handlers.chat.RankedRatingChatHandler;
-import cc.hyperium.handlers.handlers.chat.WinTrackingChatHandler;
+import cc.hyperium.handlers.handlers.browser.BrowserHandler;
+import cc.hyperium.handlers.handlers.chat.*;
 import cc.hyperium.handlers.handlers.data.ApiDataHandler;
 import cc.hyperium.handlers.handlers.hud.VanillaEnhancementsHud;
 import cc.hyperium.handlers.handlers.hypixel.HypixelGuiAugmenter;
@@ -140,6 +122,9 @@ public class HyperiumHandlers {
         register(fortniteDefaultDance = new FortniteDefaultDance());
         register(statsHandler = new StatsHandler());
         register(broadcastEvents = new BroadcastEvents());
+        if (Hyperium.INSTANCE.isDevEnv()) {
+            register(BrowserHandler.INSTNACE);
+        }
         commandQueue = new CommandQueue();
         dataHandler = new ApiDataHandler();
         //Chat Handlers
@@ -159,6 +144,8 @@ public class HyperiumHandlers {
         //Command Handler
         register(commandHandler = new HyperiumCommandHandler());
     }
+
+
 
     public HypixelGuiAugmenter getHypixelGuiAugmenter() {
         return hypixelGuiAugmenter;

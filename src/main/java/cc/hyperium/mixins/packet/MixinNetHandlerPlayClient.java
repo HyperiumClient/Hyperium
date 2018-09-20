@@ -48,6 +48,7 @@ import net.minecraft.network.play.server.*;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.IChatComponent;
 import org.apache.logging.log4j.Logger;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -56,6 +57,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
@@ -263,6 +265,7 @@ public abstract class MixinNetHandlerPlayClient {
     }
     @Shadow
     public abstract void addToSendQueue(Packet p_147297_1_);
+
     /**
      * Allows detection of incoming chat packets from the server (includes actionbars)
      * <p>
@@ -278,7 +281,8 @@ public abstract class MixinNetHandlerPlayClient {
     public void handleChat(S02PacketChat packetIn) {
         PacketThreadUtil.checkThreadAndEnqueue(packetIn, (INetHandlerPlayClient) getNetworkManager().getNetHandler(), this.gameController);
 
-        ServerChatEvent event = new ServerChatEvent(packetIn.getType(), packetIn.getChatComponent());
+        ServerChatEvent event = new
+                ServerChatEvent(packetIn.getType(), packetIn.getChatComponent());
 
         EventBus.INSTANCE.post(event);
 

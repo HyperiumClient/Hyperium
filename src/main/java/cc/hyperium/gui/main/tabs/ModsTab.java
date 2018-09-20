@@ -204,7 +204,7 @@ public class ModsTab extends AbstractTab {
         }));
         autotip.getComponents().add(new OverlayLabel("Run /autotip to access more settings and features", true, () -> {
         }));
-        utils.getComponents().add(new OverlayLabel("Toggle sprint is current bound to " + getBindName(Hyperium.INSTANCE.getHandlers().getKeybindHandler().getBind().getKeyCode()), true, () -> {
+        utils.getComponents().add(new OverlayLabel("Toggle sprint is current bound to " + getBindName(Hyperium.INSTANCE.getHandlers().getKeybindHandler().getToggleSprintBind().getKeyCode()), true, () -> {
         }));
         utils.getComponents().add(new OverlayToggle("Tab toggle enabled", TabToggleSettings.ENABLED, aBoolean -> {
           TabToggleSettings.ENABLED = aBoolean;

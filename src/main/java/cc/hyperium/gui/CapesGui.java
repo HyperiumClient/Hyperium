@@ -1,6 +1,7 @@
 package cc.hyperium.gui;
 
 import cc.hyperium.Hyperium;
+import cc.hyperium.handlers.handlers.browser.BrowserHandler;
 import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.netty.NettyClient;
@@ -135,6 +136,7 @@ public class CapesGui extends HyperiumGui implements GuiYesNoCallback {
     //22x17
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+
         try {
             if (!texturesImage.isEmpty()) {
                 for (String s : texturesImage.keySet()) {

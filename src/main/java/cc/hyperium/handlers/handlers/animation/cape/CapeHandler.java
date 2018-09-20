@@ -1,6 +1,7 @@
 package cc.hyperium.handlers.handlers.animation.cape;
 
 import cc.hyperium.Hyperium;
+import cc.hyperium.config.Settings;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.WorldChangeEvent;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
@@ -219,9 +220,10 @@ public class CapeHandler {
                             return;
                         }
                     }
-                    loadStaticCape(uuid,
-                            "http://s.optifine.net/capes/" + player.getGameProfile().getName()
-                                    + ".png");
+
+                    if (Settings.LOAD_OPTIFINE_CAPES) {
+                        loadStaticCape(uuid, "http://s.optifine.net/capes/" + player.getGameProfile().getName() + ".png");
+                    }
                 });
                 return capes.getOrDefault(uuid, NullCape.INSTANCE).get();
             }

@@ -20,17 +20,7 @@ package cc.hyperium.config;
 import cc.hyperium.GuiStyle;
 import cc.hyperium.Hyperium;
 
-import static cc.hyperium.config.Category.ANIMATIONS;
-import static cc.hyperium.config.Category.CHROMAHUD;
-import static cc.hyperium.config.Category.COSMETICS;
-import static cc.hyperium.config.Category.GENERAL;
-import static cc.hyperium.config.Category.IMPROVEMENTS;
-import static cc.hyperium.config.Category.INTEGRATIONS;
-import static cc.hyperium.config.Category.MISC;
-import static cc.hyperium.config.Category.REACH;
-import static cc.hyperium.config.Category.SPOTIFY;
-import static cc.hyperium.config.Category.UTILITIES;
-import static cc.hyperium.config.Category.VANILLA_ENCHANTMENTS;
+import static cc.hyperium.config.Category.*;
 
 /*
  * Created by Cubxity on 03/06/2018
@@ -168,6 +158,10 @@ public class Settings {
     @ConfigOpt(alt = "cc.hyperium.handlers.handlers.OtherConfigOptions;showCosmeticsEveryWhere")
     @ToggleSetting(category = COSMETICS, name = "Show Cosmetics Everywhere")
     public static boolean SHOW_COSMETICS_EVERYWHERE = true;
+
+    @ConfigOpt
+    @ToggleSetting(category = COSMETICS, name = "Load optifine capes")
+    public static boolean LOAD_OPTIFINE_CAPES = true;
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.CosmeticSettings;dabToggle")
     public static boolean DAB_TOGGLE = false;
@@ -493,7 +487,6 @@ public class Settings {
     public static boolean SEND_GUILD_WELCOME_MESSAGE = true;
 
 
-
     @ConfigOpt
     public static boolean AUTO_DAB_ENABLED = false;
 
@@ -506,9 +499,18 @@ public class Settings {
     @ConfigOpt
     public static boolean AUTO_NICO = false;
 
+
+    @ConfigOpt
+    @ToggleSetting(name = "Show Browser", category = IMPROVEMENTS)
+    public static boolean SHOW_BROWSER = false;
+
+
     @ConfigOpt
     @ToggleSetting(name = "Item Physics", category = GENERAL)
     public static boolean ITEM_PHYSIC_ENABLED = false;
+
+    @ConfigOpt
+    public static long TOTAL_PLAYTIME = 0;
 
     private Settings() {
     }

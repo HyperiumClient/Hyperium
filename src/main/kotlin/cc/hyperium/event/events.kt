@@ -17,12 +17,15 @@
 
 package cc.hyperium.event
 
+import cc.hyperium.event.minigames.Minigame
 import cc.hyperium.mixinsimp.renderer.model.IMixinModelBiped
 import cc.hyperium.purchases.HyperiumPurchase
 import com.mojang.authlib.GameProfile
 import net.minecraft.client.audio.ISound
 import net.minecraft.client.entity.AbstractClientPlayer
+import net.minecraft.client.gui.GuiScreen
 import net.minecraft.client.gui.ScaledResolution
+import net.minecraft.client.model.ModelBiped
 import net.minecraft.client.renderer.entity.RenderManager
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityLivingBase
@@ -30,6 +33,8 @@ import net.minecraft.entity.item.EntityItem
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.entity.projectile.EntityArrow
 import net.minecraft.item.ItemStack
+import net.minecraft.network.INetHandler
+import net.minecraft.network.Packet
 import net.minecraft.scoreboard.ScoreObjective
 import net.minecraft.util.*
 import java.lang.reflect.Method
@@ -161,6 +166,8 @@ class AchievementGetEvent(val achievement: String)
  * Called when entities are about to be rendered in the world
  */
 class RenderEntitiesEvent(val partialTicks: Float)
+
+class RenderTickEvent()
 
 class ItemPickupEvent(val player: EntityPlayer, val item: EntityItem) : Event()
 
