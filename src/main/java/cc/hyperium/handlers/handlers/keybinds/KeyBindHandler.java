@@ -62,7 +62,7 @@ public class KeyBindHandler {
     private final KeyBindConfig keyBindConfig;
     // Case insensitive treemap
     private final Map<String, HyperiumBind> keybinds = new HashMap<>();
-    private ToggleSprintKeybind bind;
+    private ToggleSprintKeybind toggleSprintKeybind;
 
     /**
      * Opens GUI on Z key pressed oof - ConorTheOreo
@@ -81,8 +81,7 @@ public class KeyBindHandler {
         registerKeyBinding(new ViewStatsKeybind());
         registerKeyBinding(new FlossKeybind());
         registerKeyBinding(new ToggleSpotifyKeybind());
-        bind = new ToggleSprintKeybind();
-        registerKeyBinding(bind);
+        registerKeyBinding(toggleSprintKeybind = new ToggleSprintKeybind());
         registerKeyBinding(new TogglePerspectiveKeybind());
         registerKeyBinding(new FortniteDefaultDanceKeybind());
         registerKeyBinding(new TwerkDanceKeybind());
@@ -98,10 +97,6 @@ public class KeyBindHandler {
         }
 
         this.keyBindConfig.load();
-    }
-
-    public ToggleSprintKeybind getBind() {
-        return bind;
     }
 
     @InvokeEvent
@@ -188,6 +183,26 @@ public class KeyBindHandler {
     }
 
     /**
+     * Removes a keybind from the registry. Unbinds this key and removes it
+     *
+     * @param bind the hyperium key we want to remove
+     */
+    public void unregisterKeyBinding(HyperiumBind bind) {
+        if (bind.wasPressed()) {
+            bind.onRelease();
+            bind.setWasPressed(false);
+        }
+
+        // If bind is being held.
+        if (bind.wasPressed()) {
+            bind.onRelease();
+            return;
+        }
+
+        this.keybinds.remove(bind.getRealDescription());
+    }
+
+    /**
      * Getter for the amazing KeyBind config
      *
      * @return the keybind config
@@ -204,6 +219,10 @@ public class KeyBindHandler {
      */
     public Map<String, HyperiumBind> getKeybinds() {
         return this.keybinds;
+    }
+
+    public ToggleSprintKeybind getToggleSprintBind() {
+        return toggleSprintKeybind;
     }
 
     public void releaseAllKeybinds() {

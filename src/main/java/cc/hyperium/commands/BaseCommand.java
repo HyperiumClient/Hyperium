@@ -51,11 +51,22 @@ public interface BaseCommand {
      */
     void onExecute(String[] args) throws CommandException;
 
+    /**
+     * Called when the player clicks tab in the chat menu, used to provide suggestions for a commands arguments
+     *
+     * @param args the arguments the player has entered
+     * @return a String List containing all viable tab completions
+     */
     default List<String> onTabComplete(String[] args) {
         return null;
     }
 
-    default boolean tabOnly () {
+    /**
+     * Tells the command handler not to register the command, and to use {@link #onTabComplete(String[])}
+     *
+     * @return true if this command should not be executed
+     */
+    default boolean tabOnly() {
         return false;
     }
 }
