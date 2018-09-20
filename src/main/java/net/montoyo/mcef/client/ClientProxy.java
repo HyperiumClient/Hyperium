@@ -114,16 +114,18 @@ public class ClientProxy extends BaseProxy {
             String jreHome = System.getProperty("java.home");
             if (jreHome.contains("jdk")) {
                 List<String> split = new ArrayList<>(Arrays.asList(jreHome.split(
-                    "[" + (File.separator.equalsIgnoreCase("\\") ? "\\\\" : File.separator)
-                        + "]")));
+                        "[" + (File.separator.equalsIgnoreCase("\\") ? "\\\\" : File.separator)
+                                + "]")));
                 split.remove(split.size() - 1);
                 jreHome = String.join(File.separator, split.toArray(new String[0])) + File.separator
-                    + "jre" + File.separator + "bin";
+                        + "jre" + File.separator + "bin";
             }
             paths += ";" + jreHome;
 
             String newRoot = ROOT.replace('/', File.separatorChar);
-            newRoot += File.separatorChar + RemoteConfig.PLATFORM + "-natives";
+            if (OS.isMacintosh()) {
+                newRoot += File.separatorChar + RemoteConfig.PLATFORM + ("-natives");
+            }
             if (newRoot.endsWith("."))
                 newRoot = newRoot.substring(0, newRoot.length() - 1);
             paths += ";" + newRoot;
@@ -163,7 +165,7 @@ public class ClientProxy extends BaseProxy {
         settings.locales_dir_path = (new File(ROOT, "MCEFLocales")).getAbsolutePath();
         settings.cache_path = (new File(ROOT, "MCEFCache")).getAbsolutePath();
         settings.browser_subprocess_path = (new File(ROOT, "jcef_helper" + exeSuffix))
-            .getAbsolutePath(); //Temporary fix
+                .getAbsolutePath(); //Temporary fix
         //settings.log_severity = CefSettings.LogSeverity.LOGSEVERITY_VERBOSE;
 
         try {
