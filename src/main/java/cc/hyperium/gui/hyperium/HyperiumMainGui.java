@@ -5,12 +5,15 @@ import cc.hyperium.Metadata;
 import cc.hyperium.config.Category;
 import cc.hyperium.config.Settings;
 import cc.hyperium.gui.HyperiumGui;
+import cc.hyperium.gui.Icons;
 import cc.hyperium.gui.hyperium.components.AbstractTab;
 import cc.hyperium.gui.hyperium.tabs.SettingsTab;
 import cc.hyperium.handlers.handlers.SettingsHandler;
+import cc.hyperium.mixinsimp.client.GlStateModifier;
 import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
 import cc.hyperium.utils.HyperiumFontRenderer;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.client.renderer.GlStateManager;
@@ -142,6 +145,22 @@ public class HyperiumMainGui extends HyperiumGui {
         // Header
         drawRect(xg, yg, xg * 10, yg * 2, 0x64000000);
         drawRect(xg, yg * 2, xg * 10, yg * 9, 0x28000000);
+        GlStateModifier.INSTANCE.reset();
+        Icons.ARROW_RIGHT.bind();
+        GlStateManager.pushMatrix();
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+        GlStateManager.translate(xg * 2, yg * 2, 0);
+        GlStateManager.rotate(180, 0.0F, 0.0F, 1.0F);
+        Gui.drawScaledCustomSizeModalRect(0, 0, 0, 0, 144, 144, yg, yg, 144, 144);
+        GlStateManager.popMatrix();
+
+        Icons.ARROW_RIGHT.bind();
+        GlStateManager.pushMatrix();
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+        GlStateManager.translate(xg * 9, yg, 0);
+        Gui.drawScaledCustomSizeModalRect(0, 0, 0, 0, 144, 144, yg, yg, 144, 144);
+        GlStateManager.popMatrix();
+
         title.drawCenteredString(currentTab.getTitle().toUpperCase(), width / 2F, yg + (yg / 2F - 8), 0xffffff);
 
         // Body
@@ -149,6 +168,30 @@ public class HyperiumMainGui extends HyperiumGui {
 
         // Footer
         smol.drawString(Metadata.getVersion(), width - smol.getWidth(Metadata.getVersion()) - 1, height - 10, 0xffffffff);
+    }
+
+    @Override
+    protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
+        super.mouseClicked(mouseX, mouseY, mouseButton);
+        int yg = (height / 10);  // Y grid
+        int xg = (width / 11);   // X grid
+
+        if (mouseY >= yg && mouseY <= yg * 2) {
+            int size = tabs.size();
+            int i = tabs.indexOf(currentTab);
+            if (mouseX > xg && mouseX < xg * 4) {
+                i--;
+                if (i < 0)
+                    i = size - 1;
+                setTab(i);
+            }
+            if (mouseX > xg * 7 && mouseX < xg * 10) {
+                i++;
+                if (i > size - 1)
+                    i = 0;
+                setTab(i);
+            }
+        }
     }
 
     private void renderHyperiumBackground(ScaledResolution sr) {
@@ -210,6 +253,5 @@ public class HyperiumMainGui extends HyperiumGui {
     public void handleMouseInput() throws IOException {
         super.handleMouseInput();
         currentTab.handleMouseInput();
-
     }
 }
