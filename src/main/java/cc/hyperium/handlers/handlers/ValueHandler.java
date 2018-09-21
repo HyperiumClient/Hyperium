@@ -18,6 +18,8 @@
 package cc.hyperium.handlers.handlers;
 
 import cc.hyperium.config.ConfigOpt;
+import cc.hyperium.event.InvokeEvent;
+import cc.hyperium.event.RankedRatingChangeEvent;
 
 /**
  * @author Sk1er
@@ -27,29 +29,23 @@ public class ValueHandler {
     private int rankedRating;
     @ConfigOpt
     private int deltaRankedRating;
-    private int lastTexture;
+
+
+    @InvokeEvent
+    public void rankedRatingChange(RankedRatingChangeEvent event) {
+        this.rankedRating = event.getRating();
+        this.deltaRankedRating = event.getDelta();
+    }
 
     public int getDeltaRankedRating() {
         return deltaRankedRating;
     }
 
-    public void setDeltaRankedRating(int deltaRankedRating) {
-        this.deltaRankedRating = deltaRankedRating;
-    }
 
     public int getRankedRating() {
         return rankedRating;
     }
 
-    public void setRankedRating(int rankedRating) {
-        this.rankedRating = rankedRating;
-    }
 
-    public int getLastTexture() {
-        return lastTexture;
-    }
 
-    public void setLastTexture(int lastTexture) {
-        this.lastTexture = lastTexture;
-    }
 }

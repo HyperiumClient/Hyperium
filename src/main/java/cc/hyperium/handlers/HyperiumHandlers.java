@@ -41,6 +41,7 @@ import cc.hyperium.handlers.handlers.particle.ParticleAuraHandler;
 import cc.hyperium.handlers.handlers.privatemessages.PrivateMessageHandler;
 import cc.hyperium.handlers.handlers.reach.ReachDisplay;
 import cc.hyperium.handlers.handlers.stats.StatsHandler;
+import cc.hyperium.handlers.handlers.tracking.HypixelValueTracking;
 import cc.hyperium.mods.common.PerspectiveModifierHandler;
 import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
 import net.minecraft.client.Minecraft;
@@ -87,6 +88,7 @@ public class HyperiumHandlers {
     private TwerkDance twerkDance;
     private StatsHandler statsHandler;
     private BroadcastEvents broadcastEvents;
+    private HypixelValueTracking hypixelValueTracking;
 
     public HyperiumHandlers() {
         System.out.println("Loading handlers");
@@ -105,7 +107,7 @@ public class HyperiumHandlers {
         register(vanillaEnhancementsHud = new VanillaEnhancementsHud());
         register(valueHandler = new ValueHandler());
         register(layerDeadmau5HeadHandler = new LayerDeadmau5HeadHandler());
-
+        register(hypixelValueTracking = new HypixelValueTracking());
         register(resolutionUtil = new ResolutionUtil());
         register(capeHandler = new CapeHandler());
         register(guiDisplayHandler = new GuiDisplayHandler());
@@ -145,7 +147,9 @@ public class HyperiumHandlers {
         register(commandHandler = new HyperiumCommandHandler());
     }
 
-
+    public HypixelValueTracking getHypixelValueTracking() {
+        return hypixelValueTracking;
+    }
 
     public HypixelGuiAugmenter getHypixelGuiAugmenter() {
         return hypixelGuiAugmenter;
