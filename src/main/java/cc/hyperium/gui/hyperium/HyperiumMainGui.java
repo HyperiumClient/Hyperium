@@ -7,6 +7,7 @@ import cc.hyperium.config.Settings;
 import cc.hyperium.gui.HyperiumGui;
 import cc.hyperium.gui.Icons;
 import cc.hyperium.gui.hyperium.components.AbstractTab;
+import cc.hyperium.gui.hyperium.tabs.NewsTab;
 import cc.hyperium.gui.hyperium.tabs.SettingsTab;
 import cc.hyperium.handlers.handlers.SettingsHandler;
 import cc.hyperium.mixinsimp.client.GlStateModifier;
@@ -85,8 +86,9 @@ public class HyperiumMainGui extends HyperiumGui {
             Minecraft.getMinecraft().gameSettings.guiScale = 3;
 
         tabs = Arrays.asList(
-                new SettingsTab(this)
-        );
+                new SettingsTab(this),
+                new NewsTab(this)
+                );
         guiScale = 2;
         scollMultiplier = 2;
         setTab(tabIndex);

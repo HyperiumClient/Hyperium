@@ -44,6 +44,10 @@ public class CollapsibleTabComponent extends AbstractTabComponent {
         return children;
     }
 
+    public void setCollapsed(boolean collapsed) {
+        this.collapsed = collapsed;
+    }
+
     @Override
     public void render(int x, int y, int width, int mouseX, int mouseY) {
         super.render(x, y, width, mouseX, mouseY);
