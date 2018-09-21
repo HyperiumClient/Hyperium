@@ -75,6 +75,7 @@ import cc.hyperium.utils.UpdateUtils;
 import cc.hyperium.utils.mods.CompactChat;
 import cc.hyperium.utils.mods.FPSLimiter;
 import net.minecraft.client.Minecraft;
+import net.minecraft.crash.CrashReport;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.Display;
@@ -168,168 +169,172 @@ public class Hyperium {
 
     @InvokeEvent(priority = Priority.HIGH)
     public void init(InitializationEvent event) {
-        scheduler = new HyperiumScheduler();
-        InputStream resourceAsStream = getClass().getResourceAsStream("/build.txt");
         try {
-            if (resourceAsStream != null) {
-                BufferedReader br = new BufferedReader(new InputStreamReader(resourceAsStream));
-                BUILD_ID = br.readLine();
-                br.close();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        System.out.println("Hyperium running build " + BUILD_ID);
-        try {
-            Class.forName("net.minecraft.dispenser.BehaviorProjectileDispense"); // check for random MC class
-            isDevEnv = true;
-        } catch (ClassNotFoundException e) {
-            isDevEnv = false;
-        }
-        cosmetics = new HyperiumCosmetics();
-
-        // Creates the accounts dir
-        firstLaunch = new File(folder.getAbsolutePath() + "/accounts").mkdirs();
-        new ChargebackStopper();
-
-        // Has the user accepted the TOS of the client?
-        this.acceptedTos = new File(
-                folder.getAbsolutePath() + "/accounts/" + Minecraft.getMinecraft().getSession()
-                        .getPlayerID() + ".lck").exists();
-        SplashProgress.PROGRESS = 5;
-        SplashProgress.CURRENT = "Loading handlers";
-        SplashProgress.update();
-        handlers = new HyperiumHandlers();
-        handlers.postInit();
-
-        SplashProgress.PROGRESS = 6;
-        SplashProgress.CURRENT = "Registering listeners";
-        SplashProgress.update();
-        minigameListener = new MinigameListener();
-        EventBus.INSTANCE.register(minigameListener);
-        EventBus.INSTANCE.register(new ToggleSprintContainer());
-        EventBus.INSTANCE.register(notification);
-
-        EventBus.INSTANCE.register(CompactChat.getInstance());
-        EventBus.INSTANCE.register(CONFIG.register(FPSLimiter.getInstance()));
-        EventBus.INSTANCE.register(confirmation);
-        EventBus.INSTANCE.register(new BlurDisableFallback());
-        EventBus.INSTANCE.register(new CommandUpdate());
-
-
-        // Register statistics tracking.
-        EventBus.INSTANCE.register(statTrack);
-        CONFIG.register(statTrack);
-        CONFIG.register(new ToggleSprintContainer());
-
-        SplashProgress.PROGRESS = 7;
-        SplashProgress.CURRENT = "Starting Hyperium";
-        SplashProgress.update();
-        LOGGER.info("Hyperium Started!");
-        Display.setTitle("Hyperium " + Metadata.getVersion());
-
-        TrayManager trayManager = new TrayManager();
-
-        SplashProgress.PROGRESS = 8;
-        SplashProgress.CURRENT = "Initializing tray icon";
-        SplashProgress.update();
-        try {
-            trayManager.init();
-        } catch (Exception e) {
-            e.printStackTrace();
-            LOGGER.warn("Failed to hookup TrayIcon");
-        }
-
-        // instance does not need to be saved as shit is static ^.^
-        SplashProgress.PROGRESS = 9;
-        SplashProgress.CURRENT = "Registering config";
-        SplashProgress.update();
-        Settings.register();
-        Hyperium.CONFIG.register(new ColourOptions());
-        //Register commands.
-        SplashProgress.PROGRESS = 10;
-        SplashProgress.CURRENT = "Registering commands";
-        SplashProgress.update();
-        registerCommands();
-        EventBus.INSTANCE.register(PurchaseApi.getInstance());
-
-        SplashProgress.PROGRESS = 11;
-        SplashProgress.CURRENT = "Loading integrations";
-        SplashProgress.update();
-        modIntegration = new HyperiumModIntegration();
-        internalAddons = new InternalAddons();
-        try {
-            StaffUtils.clearCache();
-        } catch (IOException e) {
-            e.printStackTrace();
-            LOGGER.warn("Failed to fetch staff");
-        }
-
-        Multithreading.runAsync(Spotify::load);
-
-        Runtime.getRuntime().addShutdownHook(new Thread(this::shutdown));
-
-        richPresenceManager.init();
-
-        if (acceptedTos) {
-            sk1erMod = new Sk1erMod("hyperium", Metadata.getVersion(), object -> {
-                //Callback
-                if (object.has("enabled") && !object.optBoolean("enabled")) {
-                    //Disable stuff
-                    // EventBus.INSTANCE.disable(); dont think this is needed?
-                    getHandlers().getHyperiumCommandHandler().clear();
+            scheduler = new HyperiumScheduler();
+            InputStream resourceAsStream = getClass().getResourceAsStream("/build.txt");
+            try {
+                if (resourceAsStream != null) {
+                    BufferedReader br = new BufferedReader(new InputStreamReader(resourceAsStream));
+                    BUILD_ID = br.readLine();
+                    br.close();
                 }
-            });
-            sk1erMod.checkStatus();
-        }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            System.out.println("Hyperium running build " + BUILD_ID);
+            try {
+                Class.forName("net.minecraft.dispenser.BehaviorProjectileDispense"); // check for random MC class
+                isDevEnv = true;
+            } catch (ClassNotFoundException e) {
+                isDevEnv = false;
+            }
+            cosmetics = new HyperiumCosmetics();
 
-        SplashProgress.PROGRESS = 12;
-        SplashProgress.CURRENT = "Reloading resource manager";
-        SplashProgress.update();
+            // Creates the accounts dir
+            firstLaunch = new File(folder.getAbsolutePath() + "/accounts").mkdirs();
+            new ChargebackStopper();
 
-        Minecraft.getMinecraft().refreshResources();
+            // Has the user accepted the TOS of the client?
+            this.acceptedTos = new File(
+                    folder.getAbsolutePath() + "/accounts/" + Minecraft.getMinecraft().getSession()
+                            .getPlayerID() + ".lck").exists();
+            SplashProgress.PROGRESS = 5;
+            SplashProgress.CURRENT = "Loading handlers";
+            SplashProgress.update();
+            handlers = new HyperiumHandlers();
+            handlers.postInit();
 
-        SplashProgress.PROGRESS = 13;
-        SplashProgress.CURRENT = "Finishing";
-        SplashProgress.update();
+            SplashProgress.PROGRESS = 6;
+            SplashProgress.CURRENT = "Registering listeners";
+            SplashProgress.update();
+            minigameListener = new MinigameListener();
+            EventBus.INSTANCE.register(minigameListener);
+            EventBus.INSTANCE.register(new ToggleSprintContainer());
+            EventBus.INSTANCE.register(notification);
+
+            EventBus.INSTANCE.register(CompactChat.getInstance());
+            EventBus.INSTANCE.register(CONFIG.register(FPSLimiter.getInstance()));
+            EventBus.INSTANCE.register(confirmation);
+            EventBus.INSTANCE.register(new BlurDisableFallback());
+            EventBus.INSTANCE.register(new CommandUpdate());
 
 
-        Multithreading.runAsync(() -> {
+            // Register statistics tracking.
+            EventBus.INSTANCE.register(statTrack);
+            CONFIG.register(statTrack);
+            CONFIG.register(new ToggleSprintContainer());
 
-            networkHandler = new NetworkHandler();
-            CONFIG.register(networkHandler);
-            this.client = new NettyClient(networkHandler);
-            UniversalNetty.getInstance().getPacketManager().register(new LoginReplyHandler());
-        });
-        EventBus.INSTANCE.register(FontFixValues.INSTANCE);
-        if (Settings.PERSISTENT_CHAT) {
-            File file = new File(folder, "chat.txt");
+            SplashProgress.PROGRESS = 7;
+            SplashProgress.CURRENT = "Starting Hyperium";
+            SplashProgress.update();
+            LOGGER.info("Hyperium Started!");
+            Display.setTitle("Hyperium " + Metadata.getVersion());
 
-            if (file.exists()) {
-                try {
-                    FileReader fr = new FileReader(file);
-                    BufferedReader bufferedReader = new BufferedReader(fr);
-                    String line;
-                    while ((line = bufferedReader.readLine()) != null) {
-                        Minecraft.getMinecraft().ingameGUI.getChatGUI().addToSentMessages(line);
+            TrayManager trayManager = new TrayManager();
+
+            SplashProgress.PROGRESS = 8;
+            SplashProgress.CURRENT = "Initializing tray icon";
+            SplashProgress.update();
+            try {
+                trayManager.init();
+            } catch (Exception e) {
+                e.printStackTrace();
+                LOGGER.warn("Failed to hookup TrayIcon");
+            }
+
+            // instance does not need to be saved as shit is static ^.^
+            SplashProgress.PROGRESS = 9;
+            SplashProgress.CURRENT = "Registering config";
+            SplashProgress.update();
+            Settings.register();
+            Hyperium.CONFIG.register(new ColourOptions());
+            //Register commands.
+            SplashProgress.PROGRESS = 10;
+            SplashProgress.CURRENT = "Registering commands";
+            SplashProgress.update();
+            registerCommands();
+            EventBus.INSTANCE.register(PurchaseApi.getInstance());
+
+            SplashProgress.PROGRESS = 11;
+            SplashProgress.CURRENT = "Loading integrations";
+            SplashProgress.update();
+            modIntegration = new HyperiumModIntegration();
+            internalAddons = new InternalAddons();
+            try {
+                StaffUtils.clearCache();
+            } catch (IOException e) {
+                e.printStackTrace();
+                LOGGER.warn("Failed to fetch staff");
+            }
+
+            Multithreading.runAsync(Spotify::load);
+
+            Runtime.getRuntime().addShutdownHook(new Thread(this::shutdown));
+
+            richPresenceManager.init();
+
+            if (acceptedTos) {
+                sk1erMod = new Sk1erMod("hyperium", Metadata.getVersion(), object -> {
+                    //Callback
+                    if (object.has("enabled") && !object.optBoolean("enabled")) {
+                        //Disable stuff
+                        // EventBus.INSTANCE.disable(); dont think this is needed?
+                        getHandlers().getHyperiumCommandHandler().clear();
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                });
+                sk1erMod.checkStatus();
             }
-        } else {
-            System.out.println("Not restoring chat");
-        }
 
-        isLatestVersion = UpdateUtils.INSTANCE.isAbsoluteLatest();
+            SplashProgress.PROGRESS = 12;
+            SplashProgress.CURRENT = "Reloading resource manager";
+            SplashProgress.update();
 
-        // Check if Optifine is installed.
-        try {
-            Class.forName("optifine.OptiFineTweaker");
-            optifineInstalled = true;
-            System.out.println("Optifine installation detected!");
-        } catch (ClassNotFoundException e) {
-            optifineInstalled = false;
+            Minecraft.getMinecraft().refreshResources();
+
+            SplashProgress.PROGRESS = 13;
+            SplashProgress.CURRENT = "Finishing";
+            SplashProgress.update();
+
+
+            Multithreading.runAsync(() -> {
+
+                networkHandler = new NetworkHandler();
+                CONFIG.register(networkHandler);
+                this.client = new NettyClient(networkHandler);
+                UniversalNetty.getInstance().getPacketManager().register(new LoginReplyHandler());
+            });
+            EventBus.INSTANCE.register(FontFixValues.INSTANCE);
+            if (Settings.PERSISTENT_CHAT) {
+                File file = new File(folder, "chat.txt");
+
+                if (file.exists()) {
+                    try {
+                        FileReader fr = new FileReader(file);
+                        BufferedReader bufferedReader = new BufferedReader(fr);
+                        String line;
+                        while ((line = bufferedReader.readLine()) != null) {
+                            Minecraft.getMinecraft().ingameGUI.getChatGUI().addToSentMessages(line);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            } else {
+                System.out.println("Not restoring chat");
+            }
+
+            isLatestVersion = UpdateUtils.INSTANCE.isAbsoluteLatest();
+
+            // Check if Optifine is installed.
+            try {
+                Class.forName("optifine.OptiFineTweaker");
+                optifineInstalled = true;
+                System.out.println("Optifine installation detected!");
+            } catch (ClassNotFoundException e) {
+                optifineInstalled = false;
+            }
+        } catch (Throwable t) {
+            Minecraft.getMinecraft().crashed(new CrashReport("Hyperium Startup Failure", t));
         }
     }
 
