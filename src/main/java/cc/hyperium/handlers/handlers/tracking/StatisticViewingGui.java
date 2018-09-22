@@ -13,6 +13,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -21,7 +22,7 @@ import java.util.concurrent.TimeUnit;
 public class StatisticViewingGui extends HyperiumGui {
 
     private static ValueTrackingType currentType = ValueTrackingType.COINS;
-    private final int DATA_POINTS = 100;
+    private final int DATA_POINTS = 200;
     int timeFac = 0;
     private long masterTimeOne = System.currentTimeMillis() - TimeUnit.HOURS.toMillis(1);
     private long masterTimeTwo = System.currentTimeMillis();
@@ -43,6 +44,7 @@ public class StatisticViewingGui extends HyperiumGui {
 
         masterDataSet = Hyperium.INSTANCE.getHandlers().getHypixelValueTracking().getItemsBetween(masterTimeOne, masterTimeTwo);
 
+        //Put data into different slots based on time
         ArrayList<ValueTrackingItem> tmp = new ArrayList<>(masterDataSet);
         masterDataSet.clear();
         long delta = (masterTimeTwo - masterTimeOne) / DATA_POINTS;
@@ -51,8 +53,43 @@ public class StatisticViewingGui extends HyperiumGui {
             itemMap.computeIfAbsent((int) ((valueTrackingItem.getTime() - masterTimeOne) / delta), integer -> new ArrayList<>()).add(valueTrackingItem);
         }
 
+        //Handle data collision
+        HashMap<Integer, List<ValueTrackingItem>> dataPoints = new HashMap<>();
         for (int integer = 0; integer < DATA_POINTS; integer++) {
+
             List<ValueTrackingItem> valueTrackingItems = itemMap.get(integer);
+            if (valueTrackingItems == null) // No data = no collision
+                continue;
+            HashMap<ValueTrackingType, List<ValueTrackingItem>> map = new HashMap<>();
+            for (ValueTrackingItem valueTrackingItem : valueTrackingItems) {
+                map.computeIfAbsent(valueTrackingItem.getType(), valueTrackingType -> new ArrayList<>()).add(valueTrackingItem);
+            }
+            for (ValueTrackingType type : map.keySet()) {
+                if (type.getCompressionType() == CompressionType.SUM) {
+                    int sum = 0;
+                    for (ValueTrackingItem valueTrackingItem : valueTrackingItems) {
+                        if (valueTrackingItem.getType() == type)
+                            sum += valueTrackingItem.getValue();
+                    }
+                    ValueTrackingItem e = new ValueTrackingItem(type, sum, masterTimeOne + delta * (long) integer);
+                    dataPoints.computeIfAbsent(integer, integer1 -> new ArrayList<>()).add(e);
+                    masterDataSet.add(e);
+                } else if (type.getCompressionType() == CompressionType.MAX) {
+                    int max = -Integer.MAX_VALUE;
+                    for (ValueTrackingItem valueTrackingItem : valueTrackingItems) {
+                        if (valueTrackingItem.getType() == type)
+                            max = Math.max(max, valueTrackingItem.getValue());
+                    }
+                    ValueTrackingItem e = new ValueTrackingItem(type, max, masterTimeOne + delta * (long) integer);
+                    dataPoints.computeIfAbsent(integer, integer1 -> new ArrayList<>()).add(e);
+                    masterDataSet.add(e);
+                }
+            }
+        }
+
+        //Fill in missing data
+        for (int integer = 0; integer < DATA_POINTS; integer++) {
+            List<ValueTrackingItem> valueTrackingItems = dataPoints.get(integer);
             if (valueTrackingItems == null) {
                 for (ValueTrackingType type : types) {
                     MissingDataHandling missingDataHandling = type.getMissingDataHandling();
@@ -64,24 +101,28 @@ public class StatisticViewingGui extends HyperiumGui {
                         int lI = 0;
                         ValueTrackingItem right = null;
                         int rI = DATA_POINTS - 1;
+                        OUTSIDE1:
                         for (int j = integer; j >= 0; j--) {
-                            List<ValueTrackingItem> tmp1 = itemMap.get(j);
+                            List<ValueTrackingItem> tmp1 = dataPoints.get(j);
                             if (tmp1 != null) {
                                 for (ValueTrackingItem valueTrackingItem : tmp1) {
                                     if (valueTrackingItem.getType() == type) {
                                         left = valueTrackingItem;
                                         lI = j;
+                                        break OUTSIDE1;
                                     }
                                 }
                             }
                         }
+                        OUTSIDE2:
                         for (int j = integer; j < DATA_POINTS; j++) {
-                            List<ValueTrackingItem> tmp1 = itemMap.get(j);
+                            List<ValueTrackingItem> tmp1 = dataPoints.get(j);
                             if (tmp1 != null) {
                                 for (ValueTrackingItem valueTrackingItem : tmp1) {
                                     if (valueTrackingItem.getType() == type) {
                                         right = valueTrackingItem;
                                         rI = j;
+                                        break OUTSIDE2;
                                     }
                                 }
                             }
@@ -90,12 +131,13 @@ public class StatisticViewingGui extends HyperiumGui {
                             masterDataSet.add(new ValueTrackingItem(type, 0, masterTimeOne + delta * (long) integer));
                             continue;
                         }
+                        if (right == null) {
+                            right = new ValueTrackingItem(type, left.getValue(), masterTimeTwo);
+                        }
                         if (left == null) {
                             left = new ValueTrackingItem(type, 0, masterTimeOne);
                         }
-                        if (right == null) {
-                            right = new ValueTrackingItem(type, 0, masterTimeTwo);
-                        }
+
                         int delta1 = right.getValue() - left.getValue();
                         rI -= lI;
                         int temp = integer - lI;
@@ -106,28 +148,9 @@ public class StatisticViewingGui extends HyperiumGui {
                     }
 
                 }
-                continue;
-            }
-            HashMap<ValueTrackingType, List<ValueTrackingItem>> map = new HashMap<>();
-            for (ValueTrackingItem valueTrackingItem : valueTrackingItems) {
-                map.computeIfAbsent(valueTrackingItem.getType(), valueTrackingType -> new ArrayList<>()).add(valueTrackingItem);
-            }
-            for (ValueTrackingType type : map.keySet()) {
-                if (type.getCompressionType() == CompressionType.SUM) {
-                    int sum = 0;
-                    for (ValueTrackingItem valueTrackingItem : valueTrackingItems) {
-                        sum += valueTrackingItem.getValue();
-                    }
-                    masterDataSet.add(new ValueTrackingItem(type, sum, masterTimeOne + delta * (long) integer));
-                } else if (type.getCompressionType() == CompressionType.MAX) {
-                    int max = -Integer.MAX_VALUE;
-                    for (ValueTrackingItem valueTrackingItem : valueTrackingItems) {
-                        max = Math.max(max, valueTrackingItem.getValue());
-                    }
-                    masterDataSet.add(new ValueTrackingItem(type, max, masterTimeOne + delta * (long) integer));
-                }
             }
         }
+        masterDataSet.sort(Comparator.comparingLong(ValueTrackingItem::getTime));
     }
 
     @Override
@@ -248,7 +271,7 @@ public class StatisticViewingGui extends HyperiumGui {
             GL11.glLineWidth(6);
             int x2 = chartWidth;
             int y2 = yPos;
-            if (i + 1 < size - 1) {
+            if (i + 1 < size ) {
                 ValueTrackingItem valueTrackingItem1 = currentDataSet.get(i + 1);
                 long time1 = valueTrackingItem1.getTime();
                 time1 -= masterTimeOne;
@@ -281,7 +304,7 @@ public class StatisticViewingGui extends HyperiumGui {
             int yPos = (int) ((double) closest.getValue() / (double) max * (double) yg * 5D);
 
             yPos = (yg * 5 - yPos);
-            RenderUtils.drawFilledCircle(xPos, yPos , 4, Color.RED.getRGB());
+            RenderUtils.drawFilledCircle(xPos, yPos, 4, Color.RED.getRGB());
             List<String> lines = new ArrayList<>();
             lines.add(df.format(new Date(closest.getTime())));
             lines.add("Value: " + closest.getValue());

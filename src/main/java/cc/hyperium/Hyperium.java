@@ -38,7 +38,7 @@ import cc.hyperium.commands.defaults.CommandPrivateMessage;
 import cc.hyperium.commands.defaults.CommandQuests;
 import cc.hyperium.commands.defaults.CommandResize;
 import cc.hyperium.commands.defaults.CommandStats;
-import cc.hyperium.commands.defaults.CommandTest;
+import cc.hyperium.commands.defaults.CommandStatistics;
 import cc.hyperium.commands.defaults.CommandUpdate;
 import cc.hyperium.commands.defaults.CustomLevelheadCommand;
 import cc.hyperium.commands.defaults.DevTestCommand;
@@ -342,7 +342,7 @@ public class Hyperium {
         hyperiumCommandHandler.registerCommand(new AutofriendCommand());
         hyperiumCommandHandler.registerCommand(new CommandQuests());
         hyperiumCommandHandler.registerCommand(new CommandGuild());
-        hyperiumCommandHandler.registerCommand(new CommandTest());
+        hyperiumCommandHandler.registerCommand(new CommandStatistics());
     }
 
 

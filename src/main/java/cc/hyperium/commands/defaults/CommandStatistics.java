@@ -21,21 +21,20 @@ package cc.hyperium.commands.defaults;
 import cc.hyperium.commands.BaseCommand;
 import cc.hyperium.handlers.handlers.tracking.StatisticViewingGui;
 
-public class CommandTest implements BaseCommand {
+public class CommandStatistics implements BaseCommand {
 
     @Override
     public String getName() {
-        return "test";
+        return "statistics";
     }
 
     @Override
     public String getUsage() {
-        return "/test";
+        return "/statistics";
     }
 
     @Override
     public void onExecute(String[] args) {
-
         new StatisticViewingGui().show();
     }
 }
