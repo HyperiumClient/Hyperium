@@ -54,9 +54,9 @@ public class CollapsibleTabComponent extends AbstractTabComponent {
         tab.gui.getFont().drawString(label.replaceAll("_"," ").toUpperCase(), x + 3, y + 5, 0xffffff);
         GlStateManager.bindTexture(0);
         if (collapsed)
-            Icons.ARROW_RIGHT.bind();
+            Icons.ARROW_UP_ALT.bind();
         else
-            Icons.ARROW_DOWN.bind();
+            Icons.ARROW_DOWN_ALT.bind();
         Gui.drawScaledCustomSizeModalRect(x + width - 20, y, 0, 0, 144, 144, 20, 20, 144, 144);
 
         if (collapsed) return;
