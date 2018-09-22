@@ -135,7 +135,7 @@ public class StatisticViewingGui extends HyperiumGui {
                             right = new ValueTrackingItem(type, left.getValue(), masterTimeTwo);
                         }
                         if (left == null) {
-                            left = new ValueTrackingItem(type, 0, masterTimeOne);
+                            left = new ValueTrackingItem(type, right.getValue(), masterTimeOne);
                         }
 
                         int delta1 = right.getValue() - left.getValue();

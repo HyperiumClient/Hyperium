@@ -86,7 +86,6 @@ public class HypixelValueTracking {
     }
 
     private void saveFile(File file, String data) {
-        System.out.println("Saving " + file.getAbsolutePath());
         try {
             FileUtils.write(file, data, "UTF-8");
         } catch (IOException e) {
