@@ -18,13 +18,8 @@
 package cc.hyperium.commands.defaults;
 
 
-import cc.hyperium.Hyperium;
 import cc.hyperium.commands.BaseCommand;
 import cc.hyperium.handlers.handlers.tracking.StatisticViewingGui;
-import cc.hyperium.handlers.handlers.tracking.ValueTrackingType;
-
-import java.util.concurrent.ThreadLocalRandom;
-import java.util.concurrent.TimeUnit;
 
 public class CommandTest implements BaseCommand {
 
@@ -40,15 +35,7 @@ public class CommandTest implements BaseCommand {
 
     @Override
     public void onExecute(String[] args) {
-        long l = System.currentTimeMillis();
-        long l1 = l - TimeUnit.DAYS.toMillis(1);
-        System.out.println(l);
-        System.out.println(l1);
-        for (int i = 0; i < (args.length != 0 ? 500 : 0); i++) {
-            long time = ThreadLocalRandom.current().nextLong(l1, l);
-            Hyperium.INSTANCE.getHandlers().getHypixelValueTracking().post(ValueTrackingType.COINS, ThreadLocalRandom.current().nextInt(1000),
-                    time);
-        }
+
         new StatisticViewingGui().show();
     }
 }
