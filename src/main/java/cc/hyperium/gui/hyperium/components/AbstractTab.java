@@ -33,12 +33,12 @@ public abstract class AbstractTab {
         ScaledResolution sr = ResolutionUtil.current();
         int sw = sr.getScaledWidth();
         int sh = sr.getScaledHeight();
-        int yg = height / 10;  // Y grid
-        int xg = width / 11;   // X grid
+        int yg = height / 8;  // Y grid
+        int xg = width / 9 ;   // X grid
 
         GL11.glEnable(GL11.GL_SCISSOR_TEST);
         int sf = sr.getScaleFactor();
-        GL11.glScissor(x * sf, yg*sf+18, width * sf, height * sf - (yg + 8) * sf);
+        GL11.glScissor(x * sf, yg * sf + yg, width * sf, height * sf - yg * sf);
         final int mx = Mouse.getX() * sw / Minecraft.getMinecraft().displayWidth;           // Mouse X
         final int my = sh - Mouse.getY() * sh / Minecraft.getMinecraft().displayHeight - 1; // Mouse Y
 
@@ -51,7 +51,7 @@ public abstract class AbstractTab {
             if (mx >= x && mx <= x + width && my > y && my <= y + comp.getHeight()) {
                 comp.hover = true;
                 //For slider
-                comp.mouseEvent(mx-xg, my - y /* Make the Y relevant to the component */);
+                comp.mouseEvent(mx - xg, my - y /* Make the Y relevant to the component */);
                 if (Mouse.isButtonDown(0)) {
                     if (!clickStates.computeIfAbsent(comp, ignored -> false)) {
                         comp.onClick(mx, my - y /* Make the Y relevant to the component */);
