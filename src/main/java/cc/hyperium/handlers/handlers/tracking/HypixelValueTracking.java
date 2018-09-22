@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -50,6 +51,7 @@ public class HypixelValueTracking implements JsonDeserializer<ValueTrackingItem>
             items.addAll(allItemsOnDay.stream().filter(valueTrackingItem -> valueTrackingItem.getTime() > first && valueTrackingItem.getTime() < second).collect(Collectors.toList()));
             current += TimeUnit.DAYS.toMillis(1);
         }
+        items.sort(Comparator.comparingLong(ValueTrackingItem::getTime));
         return items;
     }
 
@@ -93,7 +95,7 @@ public class HypixelValueTracking implements JsonDeserializer<ValueTrackingItem>
         try {
             return new JsonHolder(FileUtils.readFileToString(file, "UTF-8"));
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
         return new JsonHolder();
 
