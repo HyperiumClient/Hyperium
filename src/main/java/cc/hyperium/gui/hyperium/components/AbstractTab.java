@@ -33,12 +33,12 @@ public abstract class AbstractTab {
         ScaledResolution sr = ResolutionUtil.current();
         int sw = sr.getScaledWidth();
         int sh = sr.getScaledHeight();
-        int yg = height / 8;  // Y grid
-        int xg = width / 9 ;   // X grid
+        int yg = height / 9;  // Y grid
+        int xg = width / 10;   // X grid
 
         GL11.glEnable(GL11.GL_SCISSOR_TEST);
         int sf = sr.getScaleFactor();
-        GL11.glScissor(x * sf, yg * sf + yg, width * sf, height * sf - yg * sf);
+        GL11.glScissor(x * sf, yg * sf, width * sf, height * sf - yg * sf);
         final int mx = Mouse.getX() * sw / Minecraft.getMinecraft().displayWidth;           // Mouse X
         final int my = sh - Mouse.getY() * sh / Minecraft.getMinecraft().displayHeight - 1; // Mouse Y
 
