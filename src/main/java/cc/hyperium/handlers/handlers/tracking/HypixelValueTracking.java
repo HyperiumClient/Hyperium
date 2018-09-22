@@ -5,14 +5,17 @@ import cc.hyperium.event.HypixelGetCoinsEvent;
 import cc.hyperium.event.HypixelGetXPEvent;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.RankedRatingChangeEvent;
+import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.utils.JsonHolder;
-import com.google.gson.*;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
@@ -20,13 +23,15 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
-public class HypixelValueTracking implements JsonDeserializer<ValueTrackingItem>, JsonSerializer<ValueTrackingItem> {
+public class HypixelValueTracking {
 
-    private final Gson GSON = new GsonBuilder().registerTypeAdapter(ValueTrackingItem.class, this).create();
+    private final Gson GSON = new GsonBuilder().create();
     private List<ValueTrackingItem> currentCache = new ArrayList<>();
 
     public HypixelValueTracking() {
         Multithreading.schedule(() -> {
+            if (currentCache.isEmpty())
+                return;
             ArrayList<ValueTrackingItem> values = new ArrayList<>(currentCache);
             currentCache.clear();
             File current = getCurrent();
@@ -37,10 +42,10 @@ public class HypixelValueTracking implements JsonDeserializer<ValueTrackingItem>
             }
             JsonArray data = jsonHolder.optJSONArray("data");
             for (ValueTrackingItem value : values) {
-                data.add(GSON.toJson(value));
+                data.add(new JsonHolder(GSON.toJson(value)).getObject());
             }
-            saveFile(current, data.toString());
-        }, 1, 1, TimeUnit.MINUTES);
+            saveFile(current, jsonHolder.toString());
+        }, 1, 1, TimeUnit.SECONDS);
     }
 
     public List<ValueTrackingItem> getItemsBetween(long first, long second) {
@@ -60,7 +65,7 @@ public class HypixelValueTracking implements JsonDeserializer<ValueTrackingItem>
         JsonHolder jsonHolder = readFile(getFileOnDay(day));
         ArrayList<ValueTrackingItem> valueTrackingItems = new ArrayList<>();
         for (JsonElement data : jsonHolder.optJSONArray("data")) {
-            valueTrackingItems.add(GSON.fromJson(data, ValueTrackingItem.class));
+            valueTrackingItems.add(GSON.fromJson(data.getAsJsonObject(), ValueTrackingItem.class));
         }
         return valueTrackingItems;
 
@@ -68,7 +73,7 @@ public class HypixelValueTracking implements JsonDeserializer<ValueTrackingItem>
 
     private File getFileOnDay(long day) {
         Date time = new Date(day);
-        File year_file = new File(Hyperium.folder, Integer.toString(time.getYear()));
+        File year_file = new File(Hyperium.folder,/* "stats" + File.pathSeparator + UUIDUtil.getClientUUID() + File.pathSeparator + */Integer.toString(time.getYear()));
         if (!year_file.exists()) {
             year_file.mkdirs();
         }
@@ -81,6 +86,7 @@ public class HypixelValueTracking implements JsonDeserializer<ValueTrackingItem>
     }
 
     private void saveFile(File file, String data) {
+        System.out.println("Saving " + file.getAbsolutePath());
         try {
             FileUtils.write(file, data, "UTF-8");
         } catch (IOException e) {
@@ -121,18 +127,13 @@ public class HypixelValueTracking implements JsonDeserializer<ValueTrackingItem>
     }
 
     public void post(ValueTrackingType t, int value) {
-        currentCache.add(new ValueTrackingItem(t, value, System.currentTimeMillis()));
+        post(t, value, System.currentTimeMillis());
+    }
+
+    public void post(ValueTrackingType item, int value, long time) {
+        GeneralChatHandler.instance().sendMessage(item.getDisplay() + "+" + value);
+        currentCache.add(new ValueTrackingItem(item, value, time));
     }
 
 
-    @Override
-    public ValueTrackingItem deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-        JsonHolder jsonHolder = new JsonHolder(json.getAsJsonObject());
-        return new ValueTrackingItem(ValueTrackingType.parse(jsonHolder.optString("type")), jsonHolder.optInt("amount"), jsonHolder.optInt("time"));
-    }
-
-    @Override
-    public JsonElement serialize(ValueTrackingItem src, Type typeOfSrc, JsonSerializationContext context) {
-        return new JsonHolder().put("type", src.getType().name()).put("amount", src.getValue()).put("time", src.getTime()).getObject();
-    }
 }

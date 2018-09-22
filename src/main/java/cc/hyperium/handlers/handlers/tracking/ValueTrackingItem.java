@@ -22,4 +22,13 @@ public class ValueTrackingItem {
     public long getTime() {
         return time;
     }
+
+    @Override
+    public String toString() {
+        return "ValueTrackingItem{" +
+                "type=" + type +
+                ", value=" + value +
+                ", time=" + time +
+                '}';
+    }
 }
