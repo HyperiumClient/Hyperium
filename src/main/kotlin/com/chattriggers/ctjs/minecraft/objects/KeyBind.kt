@@ -3,10 +3,12 @@ package com.chattriggers.ctjs.minecraft.objects
 import cc.hyperium.Hyperium
 import cc.hyperium.handlers.handlers.keybinds.HyperiumBind
 import com.chattriggers.ctjs.minecraft.wrappers.Client
+import com.chattriggers.ctjs.utils.kotlin.External
 import net.minecraft.client.settings.KeyBinding
 import org.apache.commons.lang3.ArrayUtils
 import java.util.*
 
+@External
 class KeyBind {
     private var keyBinding: HyperiumBind
     private var isCustom: Boolean = false
@@ -61,21 +63,21 @@ class KeyBind {
      *
      * @return whether or not the key is pressed
      */
-    fun isKeyDown() = keyBinding.wasPressed()
+    fun isKeyDown(): Boolean = keyBinding.wasPressed()
 
     /**
      * Returns true on the initial key press. For continuous querying use [.isKeyDown].
      *
      * @return whether or not the key has just been pressed
      */
-    fun isPressed() = isFirstDown
+    fun isPressed(): Boolean = isFirstDown
 
     /**
      * Gets the key code of the key.
      *
      * @return the integer key code
      */
-    fun getKeyCode() = keyBinding.keyCode
+    fun getKeyCode(): Int = keyBinding.keyCode
 
     /**
      * Sets the state of the key.

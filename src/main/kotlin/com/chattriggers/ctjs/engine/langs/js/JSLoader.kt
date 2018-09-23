@@ -13,7 +13,6 @@ import jdk.nashorn.api.scripting.NashornScriptEngineFactory
 import jdk.nashorn.api.scripting.ScriptObjectMirror
 import jdk.nashorn.internal.objects.Global
 import net.minecraft.client.Minecraft
-import org.apache.commons.io.FileUtils
 import java.io.File
 import java.net.URL
 import java.net.URLClassLoader
@@ -27,6 +26,7 @@ object JSLoader : ILoader {
     private val cachedModules = mutableListOf<Module>()
     private var scriptEngine: NashornScriptEngine
     private val console = Console(this)
+    private val toRemove = mutableListOf<OnTrigger>()
 
     init {
         scriptEngine = instanceScriptEngine(listOf())
@@ -43,7 +43,7 @@ object JSLoader : ILoader {
             it.toURI().toURL()
         }
 
-        instanceScriptEngine(jars)
+        scriptEngine = instanceScriptEngine(jars)
 
         val script = saveResource(
                 "/providedLibs.js",
@@ -62,7 +62,7 @@ object JSLoader : ILoader {
         val combinedScript = modules.map {
             it.getFilesWithExtension(".js")
         }.flatten().joinToString(separator = "\n") {
-            FileUtils.readFileToString(it)
+            it.readText()
         }
 
         try {
@@ -82,7 +82,7 @@ object JSLoader : ILoader {
         cachedModules.add(module)
 
         val script = module.getFilesWithExtension(".js").joinToString(separator = "\n") {
-            FileUtils.readFileToString(it)
+            it.readText()
         }
 
         try {
@@ -93,7 +93,10 @@ object JSLoader : ILoader {
         }
     }
 
-    override fun exec(type: TriggerType, vararg args: Any) {
+    override fun exec(type: TriggerType, vararg args: Any?) {
+        triggers.removeAll(toRemove)
+        toRemove.clear()
+        
         triggers.filter {
             it.type == type
         }.forEach {
@@ -121,7 +124,7 @@ object JSLoader : ILoader {
         return "js"
     }
 
-    override fun trigger(trigger: OnTrigger, method: Any, vararg args: Any) {
+    override fun trigger(trigger: OnTrigger, method: Any, vararg args: Any?) {
         try {
             if (method is String) {
                 callNamedMethod(method, *args)
@@ -135,7 +138,7 @@ object JSLoader : ILoader {
     }
 
     override fun removeTrigger(trigger: OnTrigger) {
-        triggers.remove(trigger)
+        toRemove.add(trigger)
     }
 
     override fun getModules(): List<Module> {
@@ -146,7 +149,7 @@ object JSLoader : ILoader {
         return console
     }
 
-    private fun callActualMethod(method: Any, vararg args: Any) {
+    private fun callActualMethod(method: Any, vararg args: Any?) {
         val som: ScriptObjectMirror = if (method is ScriptObjectMirror) {
             method
         } else {
@@ -167,7 +170,7 @@ object JSLoader : ILoader {
         som.call(som, *args)
     }
 
-    private fun callNamedMethod(method: String, vararg args: Any) {
+    private fun callNamedMethod(method: String, vararg args: Any?) {
         scriptEngine.invokeFunction(method, *args)
     }
 

@@ -88,7 +88,7 @@ class OnChatTrigger(method: Any, type: TriggerType, loader: ILoader) : OnTrigger
      * Argument 2 (ClientChatReceivedEvent) the chat event fired
      * @param args list of arguments as described
      */
-    override fun trigger(vararg args: Any) {
+    override fun trigger(vararg args: Any?) {
         if (args[0] !is String || args[1] !is ServerChatEvent)
             throw IllegalArgumentException("Argument 1 must be a String, Argument 2 must be a ClientChatReceivedEvent")
 

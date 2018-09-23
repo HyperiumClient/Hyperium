@@ -7,13 +7,17 @@ import com.chattriggers.ctjs.minecraft.wrappers.Client
 import com.chattriggers.ctjs.triggers.OnRegularTrigger
 import com.chattriggers.ctjs.triggers.OnTrigger
 import com.chattriggers.ctjs.triggers.TriggerType
+import com.chattriggers.ctjs.utils.kotlin.External
+import com.chattriggers.ctjs.utils.kotlin.NotAbstract
 import jdk.nashorn.api.scripting.ScriptObjectMirror
 import org.lwjgl.input.Mouse
 import org.lwjgl.util.vector.Vector2f
 
+@External
+@NotAbstract
 abstract class DisplayLine {
     private lateinit var text: Text
-    private var textWidth = 0
+    private var textWidth = 0f
     private var textColor: Int? = null
     private var backgroundColor: Int? = null
 
@@ -48,22 +52,22 @@ abstract class DisplayLine {
         return this.getOrDefault(key, default).toString()
     }
 
-    fun getText() = this.text
+    fun getText(): Text = this.text
     fun setText(text: String) = apply {
         this.text = Renderer.text(text)
-        this.textWidth = (Renderer.getStringWidth(text) * this.text.getScale()).toInt()
+        this.textWidth = Renderer.getStringWidth(text) * this.text.getScale()
     }
 
-    fun getTextWidth() = this.textWidth
+    fun getTextWidth(): Float = this.textWidth
 
     fun setShadow(shadow: Boolean) = apply { this.text.setShadow(shadow) }
 
     fun setScale(scale: Float) = apply {
         this.text.setScale(scale)
-        this.textWidth = Math.ceil((Renderer.getStringWidth(text.getString()) * scale).toDouble()).toInt()
+        this.textWidth = Renderer.getStringWidth(text.getString()) * scale
     }
 
-    fun getAlign() = this.align
+    fun getAlign(): DisplayHandler.Align? = this.align
     fun setAlign(align: Any?) = apply {
         this.align = when (align) {
             is String -> DisplayHandler.Align.valueOf(align.toUpperCase())
@@ -72,7 +76,7 @@ abstract class DisplayLine {
         }
     }
 
-    fun getBackground() = this.background
+    fun getBackground(): DisplayHandler.Background? = this.background
     fun setBackground(background: Any?) = apply {
         this.background = when (background) {
             is String -> DisplayHandler.Background.valueOf(background.toUpperCase().replace(" ", "_"))
@@ -241,4 +245,10 @@ abstract class DisplayLine {
     }
 
     internal abstract fun getLoader(): ILoader
+
+    override fun toString() =
+            "DisplayLine{" +
+                    "text=$text, textColor=$textColor, align=$align, " +
+                    "background=$background, backgroundColor=$backgroundColor, " +
+                    "}"
 }

@@ -1,7 +1,9 @@
 package com.chattriggers.ctjs.utils.config
 
 import com.chattriggers.ctjs.minecraft.libs.ChatLib
+import com.chattriggers.ctjs.minecraft.libs.renderer.Rectangle
 import com.chattriggers.ctjs.minecraft.libs.renderer.Renderer
+import com.chattriggers.ctjs.minecraft.libs.renderer.Text
 import com.chattriggers.ctjs.minecraft.wrappers.Client
 import net.minecraft.client.gui.GuiTextField
 import java.io.File
@@ -57,10 +59,10 @@ class ConfigString
 
         val middle = Renderer.screen.getWidth() / 2
 
-        Renderer.rectangle(-0x80000000, (middle - 105 + this.x).toFloat(), (this.y - 5).toFloat(), 210f, 45f)
+        Rectangle(-0x80000000, (middle - 105 + this.x).toFloat(), (this.y - 5).toFloat(), 210f, 45f)
                 .setShadow(-0x30000000, 3f, 3f)
                 .draw()
-        Renderer.text(this.name!!, (middle - 100 + this.x).toFloat(), this.y.toFloat()).draw()
+        Text(this.name!!, (middle - 100 + this.x).toFloat(), this.y.toFloat()).draw()
 
         //#if MC<=10809
         this.textField!!.xPosition = middle - 100 + this.x

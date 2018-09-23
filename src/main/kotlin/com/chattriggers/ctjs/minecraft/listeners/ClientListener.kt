@@ -10,6 +10,7 @@ import com.chattriggers.ctjs.triggers.TriggerType
 import com.chattriggers.ctjs.utils.kotlin.KotlinListener
 import net.minecraft.entity.player.EntityPlayerMP
 import org.lwjgl.input.Mouse
+import org.lwjgl.opengl.GL11
 import paulscode.sound.Vector3D
 
 @KotlinListener
@@ -89,7 +90,9 @@ object ClientListener {
 
     @InvokeEvent
     fun onRenderGameOverlay(event: RenderHUDEvent) {
+        GL11.glPushMatrix()
         TriggerType.RENDER_OVERLAY.trigger(event)
+        GL11.glPopMatrix()
         TriggerType.STEP.triggerAll()
 
         handleMouseInput()

@@ -1,7 +1,9 @@
 package com.chattriggers.ctjs.utils.config
 
 import com.chattriggers.ctjs.minecraft.libs.MathLib
+import com.chattriggers.ctjs.minecraft.libs.renderer.Rectangle
 import com.chattriggers.ctjs.minecraft.libs.renderer.Renderer
+import com.chattriggers.ctjs.minecraft.libs.renderer.Text
 import com.chattriggers.ctjs.minecraft.wrappers.Client
 import net.minecraft.client.gui.GuiButton
 import java.awt.Color
@@ -52,13 +54,13 @@ open class ConfigColor
 
         val middle = Renderer.screen.getWidth() / 2
 
-        Renderer.rectangle(-0x80000000, (middle - 105 + this.x).toFloat(), (this.y - 5).toFloat(), 210f, 65f)
+        Rectangle(-0x80000000, (middle - 105 + this.x).toFloat(), (this.y - 5).toFloat(), 210f, 65f)
                 .setShadow(-0x30000000, 3f, 3f)
                 .draw()
-        Renderer.text(this.name!!, (middle - 100 + this.x).toFloat(), this.y.toFloat()).draw()
+        Text(this.name!!, (middle - 100 + this.x).toFloat(), this.y.toFloat()).draw()
 
         // red slider
-        Renderer.rectangle(-0x560000, (middle - 100 + this.x).toFloat(), (this.y + 19).toFloat(), 155f, 3f)
+        Rectangle(-0x560000, (middle - 100 + this.x).toFloat(), (this.y + 19).toFloat(), 155f, 3f)
                 .setOutline(-0x1000000, 1f)
                 .draw()
 
@@ -71,7 +73,7 @@ open class ConfigColor
         //#endif
 
         // green slider
-        Renderer.rectangle(-0xff7800, (middle - 100 + this.x).toFloat(), (this.y + 34).toFloat(), 155f, 3f)
+        Rectangle(-0xff7800, (middle - 100 + this.x).toFloat(), (this.y + 34).toFloat(), 155f, 3f)
                 .setOutline(-0x1000000, 1f)
                 .draw()
 
@@ -84,7 +86,7 @@ open class ConfigColor
         //#endif
 
         // blue slider
-        Renderer.rectangle(-0xffff34, (middle - 100 + this.x).toFloat(), (this.y + 49).toFloat(), 155f, 3f)
+        Rectangle(-0xffff34, (middle - 100 + this.x).toFloat(), (this.y + 49).toFloat(), 155f, 3f)
                 .setOutline(-0x1000000, 1f)
                 .draw()
         //#if MC<=10809
@@ -96,7 +98,7 @@ open class ConfigColor
         //#endif
 
         // color preview
-        Renderer.rectangle(this.value.rgb, (middle + this.x + 60).toFloat(), (this.y + 15).toFloat(), 40f, 40f)
+        Rectangle(this.value.rgb, (middle + this.x + 60).toFloat(), (this.y + 15).toFloat(), 40f, 40f)
                 .setOutline(-0x1000000, 1f)
                 .draw()
 

@@ -49,7 +49,7 @@ open class Block {
         this.blockPos = blockPos
     }
 
-    fun getID() = MCBlock.getIdFromBlock(block)
+    fun getID(): Int = MCBlock.getIdFromBlock(block)
 
     /**
      * Gets the block's registry name.<br>
@@ -67,7 +67,7 @@ open class Block {
      *
      * @return the block's unlocalized name
      */
-    fun getUnlocalizedName() = block.unlocalizedName
+    fun getUnlocalizedName(): String = block.unlocalizedName
 
     /**
      * Gets the block's localized name.<br>
@@ -93,33 +93,12 @@ open class Block {
 
     fun getDefaultState(): IBlockState = block.defaultState
 
-    /**
-     * Gets the block's x position.<br>
-     * 0 by default.
-     *
-     * @return the block's x position
-     */
-    fun getX() = blockPos.x
+    fun getX(): Int = blockPos.x
+    fun getY(): Int = blockPos.y
+    fun getZ(): Int = blockPos.z
 
-    /**
-     * Gets the block's y position.<br>
-     * 0 by default.
-     *
-     * @return the block's y position
-     */
-    fun getY() = blockPos.y
-
-    /**
-     * Gets the block's z position.<br>
-     * 0 by default.
-     *
-     * @return the block's z position
-     */
-    fun getZ() = blockPos.z
-
-    fun getMetadata() = block.getMetaFromState(getState())
-
-    fun getDefaultMetadata() = block.getMetaFromState(getDefaultState())
+    fun getMetadata(): Int = block.getMetaFromState(getState())
+    fun getDefaultMetadata(): Int = block.getMetaFromState(getDefaultState())
 
     fun canProvidePower(): Boolean {
         //#if MC<=10809
@@ -131,22 +110,22 @@ open class Block {
         //#endif
     }
 
-    fun isPowered() = World.getWorld()!!.isBlockPowered(blockPos)
+    fun isPowered(): Boolean = World.getWorld()!!.isBlockPowered(blockPos)
 
-    fun getRedstoneStrength() = World.getWorld()!!.getStrongPower(blockPos)
+    fun getRedstoneStrength(): Int = World.getWorld()!!.getStrongPower(blockPos)
 
     /**
      * Checks whether the block can be mined with the tool in the player's hand
      *
      * @return whether the block can be mined
      */
-    fun canBeHarvested() = Player.getPlayer()?.canHarvestBlock(block)
+    fun canBeHarvested(): Boolean = Player.getPlayer()?.canHarvestBlock(block) ?: false
 
-    fun canBeHarvestedWith(item: Item) = item.canHarvest(this)
+    fun canBeHarvestedWith(item: Item): Boolean = item.canHarvest(this)
 
     fun isTranslucent(): Boolean {
         return this.block.isTranslucent
     }
 
-    override fun toString() = "Block{name=${getRegistryName()}, x=${getX()}, y=${getY()}, z=${getZ()}}"
+    override fun toString(): String = "Block{name=${getRegistryName()}, x=${getX()}, y=${getY()}, z=${getZ()}}"
 }

@@ -15,8 +15,8 @@ class Image(var image: BufferedImage?) {
         EventBus.INSTANCE.register(this)
     }
 
-    fun getTextureWidth() = this.textureWidth
-    fun getTextureHeight() = this.textureHeight
+    fun getTextureWidth(): Int = this.textureWidth
+    fun getTextureHeight(): Int = this.textureHeight
     fun getTexture(): DynamicTexture = this.texture
 
     @InvokeEvent

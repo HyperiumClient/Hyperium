@@ -5,11 +5,15 @@ import com.chattriggers.ctjs.minecraft.wrappers.Client
 import com.chattriggers.ctjs.minecraft.wrappers.Player
 import com.chattriggers.ctjs.triggers.OnRegularTrigger
 import com.chattriggers.ctjs.triggers.TriggerType
+import com.chattriggers.ctjs.utils.kotlin.External
+import com.chattriggers.ctjs.utils.kotlin.NotAbstract
 import net.minecraft.client.gui.GuiButton
 import net.minecraft.client.gui.GuiScreen
 import net.minecraft.client.renderer.GlStateManager
 import org.lwjgl.input.Mouse
 
+@External
+@NotAbstract
 abstract class Gui : GuiScreen() {
     private var onDraw: OnRegularTrigger? = null
     private var onClick: OnRegularTrigger? = null
@@ -23,16 +27,19 @@ abstract class Gui : GuiScreen() {
 
     var doesPauseGame = false
 
-    fun open() = GuiHandler.openGui(this)
+    fun open() {
+        GuiHandler.openGui(this)
+    }
+
     fun close() {
         if (isOpen()) Player.getPlayer()?.closeScreen()
     }
 
-    fun isOpen() = Client.getMinecraft().currentScreen === this
+    fun isOpen(): Boolean = Client.getMinecraft().currentScreen === this
 
-    fun isControlDown() = GuiScreen.isCtrlKeyDown()
-    fun isShiftDown() = GuiScreen.isShiftKeyDown()
-    fun isAltDown() = GuiScreen.isAltKeyDown()
+    fun isControlDown(): Boolean = GuiScreen.isCtrlKeyDown()
+    fun isShiftDown(): Boolean = GuiScreen.isShiftKeyDown()
+    fun isAltDown(): Boolean = GuiScreen.isAltKeyDown()
 
     /**
      * Registers a method to be ran while gui is open.<br></br>

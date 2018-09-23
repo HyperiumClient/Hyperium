@@ -4,6 +4,7 @@ import com.chattriggers.ctjs.minecraft.wrappers.Client
 import com.chattriggers.ctjs.minecraft.wrappers.Player
 import com.chattriggers.ctjs.minecraft.wrappers.objects.Entity
 import com.chattriggers.ctjs.minecraft.wrappers.objects.block.Block
+import com.chattriggers.ctjs.utils.kotlin.External
 import net.minecraft.client.renderer.GlStateManager
 import net.minecraft.client.renderer.RenderHelper
 import net.minecraft.enchantment.Enchantment
@@ -21,6 +22,7 @@ import net.minecraft.item.Item as MCItem
 //$$ import com.chattriggers.ctjs.minecraft.wrappers.World
 //#endif
 
+@External
 class Item {
     val item: MCItem
     var itemStack: ItemStack
@@ -86,7 +88,7 @@ class Item {
     }
     /* End of constructors */
 
-    fun getID() = MCItem.getIdFromItem(item)
+    fun getID(): Int = MCItem.getIdFromItem(item)
 
     fun setStackSize(stackSize: Int) = apply {
         itemStack = ItemStack(item, stackSize)
@@ -106,7 +108,7 @@ class Item {
      *
      * @return the item's unlocalized name
      */
-    fun getUnlocalizedName() = item.unlocalizedName
+    fun getUnlocalizedName(): String = item.unlocalizedName
 
     /**
      * Gets the item's registry name.<br>
@@ -134,38 +136,38 @@ class Item {
         }
     }
 
-    fun isEnchantable() = itemStack.isItemEnchantable
+    fun isEnchantable(): Boolean = itemStack.isItemEnchantable
 
-    fun isEnchanted() = itemStack.isItemEnchanted
+    fun isEnchanted(): Boolean = itemStack.isItemEnchanted
 
-    fun getItemNBT() = itemStack.writeToNBT(NBTTagCompound()).toString()
+    fun getItemNBT(): String = itemStack.writeToNBT(NBTTagCompound()).toString()
 
-    fun getMetadata() = itemStack.metadata
+    fun getMetadata(): Int = itemStack.metadata
 
-    fun canPlaceOn(block: Block) = itemStack.canPlaceOn(block.block)
+    fun canPlaceOn(block: Block): Boolean = itemStack.canPlaceOn(block.block)
 
     fun canHarvest(block: Block): Boolean {
         return this.itemStack.canHarvestBlock(block.block)
     }
 
-    fun canDestroy(block: Block) = itemStack.canDestroy(block.block)
+    fun canDestroy(block: Block): Boolean = itemStack.canDestroy(block.block)
 
     /**
      * Gets the items durability, i.e. the number of uses left
      *
      * @return the items durability
      */
-    fun getDurability() = getMaxDamage() - getDamage()
+    fun getDurability(): Int = getMaxDamage() - getDamage()
 
-    fun getDamage() = itemStack.itemDamage
+    fun getDamage(): Int = itemStack.itemDamage
 
     fun setDamage(damage: Int) = apply {
         itemStack.itemDamage = damage
     }
 
-    fun getMaxDamage() = itemStack.maxDamage
+    fun getMaxDamage(): Int = itemStack.maxDamage
 
-    fun isDamagable() = itemStack.isItemStackDamageable
+    fun isDamagable(): Boolean = itemStack.isItemStackDamageable
 
     fun getLore(): List<String> {
         //#if MC<=10809

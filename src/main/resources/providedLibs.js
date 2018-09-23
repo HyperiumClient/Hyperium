@@ -16,7 +16,12 @@ var Priority = Java.type("com.chattriggers.ctjs.triggers.OnTrigger.Priority");
 // Libraries
 var ChatLib = Java.type("com.chattriggers.ctjs.minecraft.libs.ChatLib");
 var EventLib = Java.type("com.chattriggers.ctjs.minecraft.libs.EventLib");
+
 var Renderer = Java.type("com.chattriggers.ctjs.minecraft.libs.renderer.Renderer");
+var Shape = Java.type("com.chattriggers.ctjs.minecraft.libs.renderer.Shape");
+var Rectangle = Java.type("com.chattriggers.ctjs.minecraft.libs.renderer.Rectangle");
+var Text = Java.type("com.chattriggers.ctjs.minecraft.libs.renderer.Text");
+
 var Tessellator = Java.type("com.chattriggers.ctjs.minecraft.libs.Tessellator").INSTANCE;
 var FileLib = Java.type("com.chattriggers.ctjs.minecraft.libs.FileLib");
 var MathLib = Java.type("com.chattriggers.ctjs.minecraft.libs.MathLib");
@@ -42,7 +47,7 @@ var Server = Java.type("com.chattriggers.ctjs.minecraft.wrappers.Server");
 var Inventory = Java.type("com.chattriggers.ctjs.minecraft.wrappers.objects.inventory.Inventory");
 var TabList = Java.type("com.chattriggers.ctjs.minecraft.wrappers.TabList");
 var Scoreboard = Java.type("com.chattriggers.ctjs.minecraft.wrappers.Scoreboard");
-var CPS = Java.type("com.chattriggers.ctjs.minecraft.objects.CPS");
+var CPS = Java.type("com.chattriggers.ctjs.minecraft.wrappers.CPS");
 var Item = Java.type("com.chattriggers.ctjs.minecraft.wrappers.objects.inventory.Item");
 var Block = Java.type("com.chattriggers.ctjs.minecraft.wrappers.objects.block.Block");
 var Sign = Java.type("com.chattriggers.ctjs.minecraft.wrappers.objects.block.Sign");
@@ -51,6 +56,15 @@ var Action = Java.type("com.chattriggers.ctjs.minecraft.wrappers.objects.invento
 var ClickAction = Java.type("com.chattriggers.ctjs.minecraft.wrappers.objects.inventory.action.ClickAction");
 var DragAction = Java.type("com.chattriggers.ctjs.minecraft.wrappers.objects.inventory.action.DragAction");
 var KeyAction = Java.type("com.chattriggers.ctjs.minecraft.wrappers.objects.inventory.action.KeyAction");
+
+// Triggers
+var OnChatTrigger = Java.type("com.chattriggers.ctjs.triggers.OnChatTrigger");
+var OnCommandTrigger = Java.type("com.chattriggers.ctjs.triggers.OnCommandTrigger");
+var OnRegularTrigger = Java.type("com.chattriggers.ctjs.triggers.OnRegularTrigger");
+var OnRenderTrigger = Java.type("com.chattriggers.ctjs.triggers.OnRenderTrigger");
+var OnSoundPlayTrigger = Java.type("com.chattriggers.ctjs.triggers.OnSoundPlayTrigger");
+var OnStepTrigger = Java.type("com.chattriggers.ctjs.triggers.OnStepTrigger");
+var OnTrigger = Java.type("com.chattriggers.ctjs.triggers.OnTrigger");
 
 // Misc
 var Console = Java.type("com.chattriggers.ctjs.engine.langs.js.JSLoader").INSTANCE.getConsole();

@@ -10,11 +10,13 @@ import com.chattriggers.ctjs.minecraft.objects.message.Message
 import com.chattriggers.ctjs.minecraft.objects.message.TextComponent
 import com.chattriggers.ctjs.minecraft.wrappers.Client
 import com.chattriggers.ctjs.minecraft.wrappers.Player
+import com.chattriggers.ctjs.utils.kotlin.External
 import com.chattriggers.ctjs.utils.kotlin.times
 import jdk.nashorn.api.scripting.ScriptObjectMirror
 import net.minecraft.client.gui.ChatLine
 import java.util.regex.Pattern
 
+@External
 object ChatLib {
     /**
      * Prints text in the chat.
@@ -138,7 +140,9 @@ object ChatLib {
      * @return the unformatted string
      */
     @JvmStatic
-    fun removeFormatting(text: String) = text.replace("[\\u00a7&][0-9a-fklmnor]".toRegex(), "")
+    fun removeFormatting(text: String): String {
+        return text.replace("[\\u00a7&][0-9a-fklmnor]".toRegex(), "")
+    }
 
     /**
      * Replaces Minecraft formatted text with normal formatted text
@@ -147,7 +151,9 @@ object ChatLib {
      * @return the unformatted string
      */
     @JvmStatic
-    fun replaceFormatting(text: String) = text.replace("\\u00a7(?![^0-9a-fklmnor]|$)".toRegex(), "&")
+    fun replaceFormatting(text: String): String {
+        return text.replace("\\u00a7(?![^0-9a-fklmnor]|$)".toRegex(), "&")
+    }
 
     /**
      * Get a message that will be perfectly centered in chat.

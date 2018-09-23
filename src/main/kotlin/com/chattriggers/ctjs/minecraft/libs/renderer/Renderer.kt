@@ -6,6 +6,7 @@ import com.chattriggers.ctjs.minecraft.libs.MathLib
 import com.chattriggers.ctjs.minecraft.wrappers.Client
 import com.chattriggers.ctjs.minecraft.wrappers.Player
 import com.chattriggers.ctjs.minecraft.wrappers.objects.PlayerMP
+import com.chattriggers.ctjs.utils.kotlin.External
 import com.chattriggers.ctjs.utils.kotlin.MCTessellator
 import com.chattriggers.ctjs.utils.kotlin.getRenderer
 import net.minecraft.client.gui.FontRenderer
@@ -15,11 +16,13 @@ import net.minecraft.client.renderer.OpenGlHelper
 import net.minecraft.client.renderer.RenderHelper
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats
 import net.minecraft.entity.EntityLivingBase
+import org.lwjgl.opengl.GL11
 import java.io.File
 import java.net.URL
 import java.util.*
 import javax.imageio.ImageIO
 
+@External
 object Renderer {
     var colorized = false
 
@@ -104,17 +107,17 @@ object Renderer {
 
     @JvmStatic
     fun translate(x: Float, y: Float) {
-        GlStateManager.translate(x.toDouble(), y.toDouble(), 0.toDouble())
+        GL11.glTranslated(x.toDouble(), y.toDouble(), 0.0)
     }
 
     @JvmStatic @JvmOverloads
     fun scale(scaleX: Float, scaleY: Float = scaleX) {
-        GlStateManager.scale(scaleX, scaleY, 1f)
+        GL11.glScalef(scaleX, scaleY, 1f)
     }
 
     @JvmStatic
     fun rotate(angle: Float) {
-        GlStateManager.rotate(angle, 0f, 0f, 1f)
+        GL11.glRotatef(angle, 0f, 0f, 1f)
     }
 
     @JvmStatic @JvmOverloads
@@ -131,14 +134,46 @@ object Renderer {
 
     @JvmStatic
     fun image(name: String, url: String): Image? = loadImage(name, url)
+
     @JvmStatic
-    fun text(text: String, x: Float, y: Float) = Text(text, x, y)
+    @Deprecated(
+            message="Replaced with Text object",
+            replaceWith = ReplaceWith(
+                    expression = "Text(text, x, y)",
+                    imports = ["com.chattriggers.ctjs.minecraft.libs.renderer.Text"]
+            )
+    )
+    fun text(text: String, x: Float, y: Float): Text = Text(text, x, y)
+
     @JvmStatic
-    fun text(text: String) = Text(text)
+    @Deprecated(
+            message="Replaced with Text object",
+            replaceWith = ReplaceWith(
+                    expression = "Text(text)",
+                    imports = ["com.chattriggers.ctjs.minecraft.libs.renderer.Text"]
+            )
+    )
+    fun text(text: String): Text = Text(text)
+
     @JvmStatic
-    fun rectangle(color: Int, x: Float, y: Float, width: Float, height: Float) = Rectangle(color, x, y, width, height)
+    @Deprecated(
+            message="Replaced with Rectangle object",
+            replaceWith = ReplaceWith(
+                    expression = "Rectangle(color, x, y, width, height)",
+                    imports = ["com.chattriggers.ctjs.minecraft.libs.renderer.Rectangle"]
+            )
+    )
+    fun rectangle(color: Int, x: Float, y: Float, width: Float, height: Float): Rectangle = Rectangle(color, x, y, width, height)
+
     @JvmStatic
-    fun shape(color: Int) = Shape(color)
+    @Deprecated(
+            message="Replaced with Shape object",
+            replaceWith = ReplaceWith(
+                    expression = "Shape(color)",
+                    imports = ["com.chattriggers.ctjs.minecraft.libs.renderer.Shape"]
+            )
+    )
+    fun shape(color: Int): Shape = Shape(color)
 
     private fun loadImage(name: String, url: String): Image? {
         val resourceFile = File(CTJS.assetsDir, name)
@@ -166,11 +201,6 @@ object Renderer {
         if (pos[1] > pos[3])
             Collections.swap(pos, 1, 3)
 
-        val a = (color shr 24 and 255).toFloat() / 255.0f
-        val r = (color shr 16 and 255).toFloat() / 255.0f
-        val g = (color shr 8 and 255).toFloat() / 255.0f
-        val b = (color and 255).toFloat() / 255.0f
-
         GlStateManager.enableBlend()
         GlStateManager.disableTexture2D()
 
@@ -178,8 +208,13 @@ object Renderer {
         val worldRenderer = tessellator.getRenderer()
 
         GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0)
-        if (!Renderer.colorized)
+        if (!Renderer.colorized) {
+            val a = (color shr 24 and 255).toFloat() / 255.0f
+            val r = (color shr 16 and 255).toFloat() / 255.0f
+            val g = (color shr 8 and 255).toFloat() / 255.0f
+            val b = (color and 255).toFloat() / 255.0f
             GlStateManager.color(r, g, b, a)
+        }
         worldRenderer.begin(7, DefaultVertexFormats.POSITION)
         worldRenderer.pos(pos[0].toDouble(), pos[3].toDouble(), 0.0).endVertex()
         worldRenderer.pos(pos[2].toDouble(), pos[3].toDouble(), 0.0).endVertex()
@@ -188,6 +223,121 @@ object Renderer {
         tessellator.draw()
         GlStateManager.color(1f, 1f, 1f, 1f)
 
+        GlStateManager.enableTexture2D()
+        GlStateManager.disableBlend()
+
+        finishDraw()
+    }
+
+    @JvmStatic @JvmOverloads
+    fun drawShape(color: Int, vararg vertexes: List<Float>, drawMode: Int = 7) {
+        GlStateManager.enableBlend()
+        GlStateManager.disableTexture2D()
+
+        val tessellator = MCTessellator.getInstance()
+        val worldRenderer = tessellator.getRenderer()
+
+        GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0)
+        if (!Renderer.colorized) {
+            val a = (color shr 24 and 255).toFloat() / 255.0f
+            val r = (color shr 16 and 255).toFloat() / 255.0f
+            val g = (color shr 8 and 255).toFloat() / 255.0f
+            val b = (color and 255).toFloat() / 255.0f
+            GlStateManager.color(r, g, b, a)
+        }
+
+        worldRenderer.begin(drawMode, DefaultVertexFormats.POSITION)
+
+        vertexes.forEach {
+            if (it.size == 2) {
+                worldRenderer.pos(it[0].toDouble(), it[1].toDouble(), 0.0).endVertex()
+            }
+        }
+
+        tessellator.draw()
+
+        GlStateManager.color(1f, 1f, 1f, 1f)
+        GlStateManager.enableTexture2D()
+        GlStateManager.disableBlend()
+
+        finishDraw()
+    }
+
+    @JvmStatic @JvmOverloads
+    fun drawLine(color: Int, x1: Float, y1: Float, x2: Float, y2: Float, thickness: Float, drawMode: Int = 9) {
+        val theta = -Math.atan2((y2 - y1).toDouble(), (x2 - x1).toDouble())
+        val i = Math.sin(theta).toFloat() * (thickness / 2)
+        val j = Math.cos(theta).toFloat() * (thickness / 2)
+
+        GlStateManager.enableBlend()
+        GlStateManager.disableTexture2D()
+
+        val tessellator = MCTessellator.getInstance()
+        val worldRenderer = tessellator.getRenderer()
+
+        GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0)
+        if (!Renderer.colorized) {
+            val a = (color shr 24 and 255).toFloat() / 255.0f
+            val r = (color shr 16 and 255).toFloat() / 255.0f
+            val g = (color shr 8 and 255).toFloat() / 255.0f
+            val b = (color and 255).toFloat() / 255.0f
+            GlStateManager.color(r, g, b, a)
+        }
+
+        worldRenderer.begin(drawMode, DefaultVertexFormats.POSITION)
+
+        worldRenderer.pos((x1 + i).toDouble(), (y1 + j).toDouble(), 0.0).endVertex()
+        worldRenderer.pos((x2 + i).toDouble(), (y2 + j).toDouble(), 0.0).endVertex()
+        worldRenderer.pos((x2 - i).toDouble(), (y2 - j).toDouble(), 0.0).endVertex()
+        worldRenderer.pos((x1 - i).toDouble(), (y1 - j).toDouble(), 0.0).endVertex()
+
+        tessellator.draw()
+
+        GlStateManager.color(1f, 1f, 1f, 1f)
+        GlStateManager.enableTexture2D()
+        GlStateManager.disableBlend()
+
+        finishDraw()
+    }
+
+    @JvmStatic @JvmOverloads
+    fun drawCircle(color: Int, x: Float, y: Float, radius: Float, steps: Int, drawMode: Int = 5) {
+        val theta = 2 * Math.PI / steps
+        val cos = Math.cos(theta).toFloat()
+        val sin = Math.sin(theta).toFloat()
+
+        var xHolder: Float
+        var circleX = 1f
+        var circleY = 0f
+
+        val tessellator = MCTessellator.getInstance()
+        val worldRenderer = tessellator.getRenderer()
+
+        GlStateManager.enableBlend()
+        GlStateManager.disableTexture2D()
+        GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0)
+        if (!Renderer.colorized) {
+            val a = (color shr 24 and 255).toFloat() / 255.0f
+            val r = (color shr 16 and 255).toFloat() / 255.0f
+            val g = (color shr 8 and 255).toFloat() / 255.0f
+            val b = (color and 255).toFloat() / 255.0f
+            GlStateManager.color(r, g, b, a)
+        }
+
+        worldRenderer.begin(drawMode, DefaultVertexFormats.POSITION)
+
+        for (i in 0 .. steps) {
+            worldRenderer.pos(x.toDouble(), y.toDouble(), 0.0).endVertex()
+            worldRenderer.pos((circleX * radius + x).toDouble(), (circleY * radius + y).toDouble(), 0.0).endVertex()
+            xHolder = circleX
+            circleX = cos * circleX - sin * circleY
+            circleY = sin * xHolder + cos * circleY
+            worldRenderer.pos((circleX * radius + x).toDouble(), (circleY * radius + y).toDouble(), 0.0).endVertex()
+        }
+
+        tessellator.draw()
+
+        GlStateManager.color(1f, 1f, 1f, 1f)
         GlStateManager.enableTexture2D()
         GlStateManager.disableBlend()
 
@@ -291,16 +441,16 @@ object Renderer {
     @JvmStatic
     fun finishDraw() {
         this.colorized = false
-        GlStateManager.popMatrix()
-        GlStateManager.pushMatrix()
+        GL11.glPopMatrix()
+        GL11.glPushMatrix()
     }
 
     object screen {
         @JvmStatic
-        fun getWidth() = ScaledResolution(Client.getMinecraft()).scaledWidth
+        fun getWidth(): Int = ScaledResolution(Client.getMinecraft()).scaledWidth
         @JvmStatic
-        fun getHeight() = ScaledResolution(Client.getMinecraft()).scaledHeight
+        fun getHeight(): Int = ScaledResolution(Client.getMinecraft()).scaledHeight
         @JvmStatic
-        fun getScale() = ScaledResolution(Client.getMinecraft()).scaleFactor
+        fun getScale(): Int = ScaledResolution(Client.getMinecraft()).scaleFactor
     }
 }

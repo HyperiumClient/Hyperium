@@ -1,7 +1,9 @@
 package com.chattriggers.ctjs.minecraft.libs.renderer
 
+import com.chattriggers.ctjs.utils.kotlin.External
 import org.lwjgl.util.vector.Vector2f
 
+@External
 class Rectangle(
         private var color: Int,
         private var x: Float,
@@ -12,27 +14,27 @@ class Rectangle(
     private var shadow = Shadow(this)
     private var outline = Outline(this)
 
-    fun getColor() = this.color
+    fun getColor(): Int = this.color
     fun setColor(color: Int) = apply { this.color = color }
 
-    fun getX() = this.x
+    fun getX(): Float = this.x
     fun setX(x: Float) = apply { this.x = x }
 
-    fun getY() = this.y
+    fun getY(): Float = this.y
     fun setY(y: Float) = apply { this.y = y }
 
-    fun getWidth() = this.width
+    fun getWidth(): Float = this.width
     fun setWidth(width: Float) = apply { this.width = width }
 
-    fun getHeight() = this.height
+    fun getHeight(): Float = this.height
     fun setHeight(height: Float) = apply { this.height = height }
 
-    fun isShadow() = this.shadow.on
+    fun isShadow(): Boolean = this.shadow.on
     fun setShadow(shadow: Boolean) = apply { this.shadow.on = shadow }
 
-    fun getShadowOffset() = this.shadow.offset
-    fun getShadowOffsetX() = this.shadow.offset.x
-    fun getShadowOffsetY() = this.shadow.offset.y
+    fun getShadowOffset(): Vector2f = this.shadow.offset
+    fun getShadowOffsetX(): Float = this.shadow.offset.x
+    fun getShadowOffsetY(): Float = this.shadow.offset.y
     fun setShadowOffset(x: Float, y: Float) = apply {
         this.shadow.offset.x = x
         this.shadow.offset.y = y
@@ -40,7 +42,7 @@ class Rectangle(
     fun setShadowOffsetX(x: Float) = apply { this.shadow.offset.x = x }
     fun setShadowOffsetY(y: Float) = apply { this.shadow.offset.y = y }
 
-    fun getShadowColor() = this.shadow.color
+    fun getShadowColor(): Int = this.shadow.color
     fun setShadowColor(color: Int) = apply { this.shadow.color = color }
 
     fun setShadow(color: Int, x: Float, y: Float) = apply {
@@ -49,13 +51,13 @@ class Rectangle(
         setShadowOffset(x, y)
     }
 
-    fun getOutline() = this.outline.on
+    fun getOutline(): Boolean = this.outline.on
     fun setOutline(outline: Boolean) = apply { this.outline.on = outline }
 
-    fun getOutlineColor() = this.outline.color
+    fun getOutlineColor(): Int = this.outline.color
     fun setOutlineColor(color: Int) = apply { this.outline.color = color }
 
-    fun getThickness() = this.outline.thickness
+    fun getThickness(): Float = this.outline.thickness
     fun setThickness(thickness: Float) = apply { this.outline.thickness = thickness }
 
     fun setOutline(color: Int, thickness: Float) = apply {
@@ -68,7 +70,6 @@ class Rectangle(
         this.shadow.draw()
         this.outline.draw()
         Renderer.drawRect(this.color, this.x, this.y, this.width, this.height)
-        Renderer.finishDraw()
     }
 
     private class Shadow(

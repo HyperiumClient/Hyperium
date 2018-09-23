@@ -7,6 +7,7 @@ import com.chattriggers.ctjs.minecraft.wrappers.objects.block.Block
 import com.chattriggers.ctjs.minecraft.wrappers.objects.block.Sign
 import com.chattriggers.ctjs.minecraft.wrappers.objects.inventory.Inventory
 import com.chattriggers.ctjs.minecraft.wrappers.objects.inventory.Item
+import com.chattriggers.ctjs.utils.kotlin.External
 import com.chattriggers.ctjs.utils.kotlin.MathHelper
 import com.chattriggers.ctjs.utils.kotlin.RayTraceType
 import net.minecraft.block.BlockSign
@@ -15,6 +16,7 @@ import net.minecraft.client.network.NetworkPlayerInfo
 import net.minecraft.scoreboard.ScorePlayerTeam
 import java.util.stream.Collectors
 
+@External
 object Player {
     /**
      * Gets Minecraft's EntityPlayerSP object representing the user
@@ -27,13 +29,13 @@ object Player {
     }
 
     @JvmStatic
-    fun getX() = getPlayer()?.posX ?: 0f
+    fun getX(): Double = getPlayer()?.posX ?: 0.0
 
     @JvmStatic
-    fun getY() = getPlayer()?.posY ?: 0f
+    fun getY(): Double = getPlayer()?.posY ?: 0.0
 
     @JvmStatic
-    fun getZ() = getPlayer()?.posZ ?: 0f
+    fun getZ(): Double = getPlayer()?.posZ ?: 0.0
 
     /**
      * Gets the player's x motion.
@@ -42,7 +44,7 @@ object Player {
      * @return the player's x motion
      */
     @JvmStatic
-    fun getMotionX() = getPlayer()?.motionX ?: 0f
+    fun getMotionX(): Double = getPlayer()?.motionX ?: 0.0
 
     /**
      * Gets the player's y motion.
@@ -51,7 +53,7 @@ object Player {
      * @return the player's y motion
      */
     @JvmStatic
-    fun getMotionY() = getPlayer()?.motionY ?: 0f
+    fun getMotionY(): Double = getPlayer()?.motionY ?: 0.0
 
     /**
      * Gets the player's z motion.
@@ -60,7 +62,7 @@ object Player {
      * @return the player's z motion
      */
     @JvmStatic
-    fun getMotionZ() = getPlayer()?.motionZ ?: 0f
+    fun getMotionZ(): Double = getPlayer()?.motionZ ?: 0.0
 
     /**
      * Gets the player's camera pitch.
@@ -68,7 +70,7 @@ object Player {
      * @return the player's camera pitch
      */
     @JvmStatic
-    fun getPitch() = MathHelper.
+    fun getPitch(): Float = MathHelper.
             //#if MC<=10809
             wrapAngleTo180_float(getPlayer()?.rotationPitch ?: 0f)
             //#else
@@ -81,7 +83,7 @@ object Player {
      * @return the player's camera yaw
      */
     @JvmStatic
-    fun getYaw() = MathHelper.
+    fun getYaw(): Float = MathHelper.
             //#if MC<=10809
             wrapAngleTo180_float(getPlayer()?.rotationYaw ?: 0f)
             //#else
@@ -94,7 +96,7 @@ object Player {
      * @return the yaw
      */
     @JvmStatic
-    fun getRawYaw() = getPlayer()?.rotationYaw ?: 0
+    fun getRawYaw(): Float = getPlayer()?.rotationYaw ?: 0f
 
     /**
      * Gets the player's username.
@@ -108,16 +110,16 @@ object Player {
     fun getUUID(): String = Client.getMinecraft().session.profile.id.toString()
 
     @JvmStatic
-    fun getHP() = getPlayer()?.health ?: 0
+    fun getHP(): Float = getPlayer()?.health ?: 0f
 
     @JvmStatic
-    fun getHunger() = getPlayer()?.foodStats?.foodLevel ?: 0
+    fun getHunger(): Int = getPlayer()?.foodStats?.foodLevel ?: 0
 
     @JvmStatic
-    fun getSaturation() = getPlayer()?.foodStats?.foodLevel ?: 0
+    fun getSaturation(): Int = getPlayer()?.foodStats?.foodLevel ?: 0
 
     @JvmStatic
-    fun getArmorPoints() = getPlayer()?.totalArmorValue ?: 0
+    fun getArmorPoints(): Int = getPlayer()?.totalArmorValue ?: 0
 
     /**
      * Gets the player's air level.<br></br>
@@ -129,13 +131,13 @@ object Player {
      * @return the player's air level
      */
     @JvmStatic
-    fun getAirLevel() = getPlayer()?.air ?: 0
+    fun getAirLevel(): Int = getPlayer()?.air ?: 0
 
     @JvmStatic
-    fun getXPLevel() = getPlayer()?.experienceLevel ?: 0
+    fun getXPLevel(): Int = getPlayer()?.experienceLevel ?: 0
 
     @JvmStatic
-    fun getXPProgress() = getPlayer()?.experience ?: 0
+    fun getXPProgress(): Float = getPlayer()?.experience ?: 0f
 
     @JvmStatic
     fun getBiome(): String {
@@ -159,13 +161,13 @@ object Player {
      * @return the light level at the player's current position
      */
     @JvmStatic
-    fun getLightLevel() = World.getWorld()?.getLight(getPlayer()?.position) ?: 0
+    fun getLightLevel(): Int = World.getWorld()?.getLight(getPlayer()?.position) ?: 0
 
     @JvmStatic
-    fun isSneaking() = getPlayer()?.isSneaking ?: false
+    fun isSneaking(): Boolean = getPlayer()?.isSneaking ?: false
 
     @JvmStatic
-    fun isSprinting() = getPlayer()?.isSprinting ?: false
+    fun isSprinting(): Boolean = getPlayer()?.isSprinting ?: false
 
     /**
      * Checks if player can be pushed by water.
@@ -173,10 +175,10 @@ object Player {
      * @return true if the player is flying, false otherwise
      */
     @JvmStatic
-    fun isFlying() = !(getPlayer()?.isPushedByWater ?: true)
+    fun isFlying(): Boolean = !(getPlayer()?.isPushedByWater ?: true)
 
     @JvmStatic
-    fun isSleeping() = getPlayer()?.isPlayerSleeping ?: false
+    fun isSleeping(): Boolean = getPlayer()?.isPlayerSleeping ?: false
 
     /**
      * Gets the direction the player is facing.
@@ -237,7 +239,7 @@ object Player {
     }
 
     @JvmStatic
-    fun getHeldItem() = Item(getPlayer()?.inventory?.getCurrentItem())
+    fun getHeldItem(): Item = Item(getPlayer()?.inventory?.getCurrentItem())
 
     /**
      * Gets the inventory of the player, i.e. the inventory accessed by 'e'.
@@ -245,7 +247,7 @@ object Player {
      * @return the player's inventory
      */
     @JvmStatic
-    fun getInventory() = Inventory(getPlayer()!!.inventory)
+    fun getInventory(): Inventory = Inventory(getPlayer()!!.inventory)
 
     /**
      * Gets the display name for the player,
@@ -253,7 +255,7 @@ object Player {
      * @return the display name
      */
     @JvmStatic
-    fun getDisplayName() = TextComponent(getPlayerName(getPlayerInfo()))
+    fun getDisplayName(): TextComponent = TextComponent(getPlayerName(getPlayerInfo()))
 
     /**
      * Sets the name for this player shown in tab list
@@ -273,7 +275,7 @@ object Player {
             ScorePlayerTeam.formatPlayerName(networkPlayerInfoIn.playerTeam, networkPlayerInfoIn.gameProfile.name)
     }
 
-    private fun getPlayerInfo() = Client.getConnection().getPlayerInfo(getPlayer()!!.uniqueID)
+    private fun getPlayerInfo(): NetworkPlayerInfo = Client.getConnection().getPlayerInfo(getPlayer()!!.uniqueID)
 
     /**
      * Gets the inventory the user currently has open, i.e. a chest.
@@ -281,35 +283,31 @@ object Player {
      * @return the currently opened inventory
      */
     @JvmStatic
-    fun getOpenedInventory() = Inventory(getPlayer()!!.openContainer)
+    fun getOpenedInventory(): Inventory = Inventory(getPlayer()!!.openContainer)
 
     object armor {
         /**
          * @return the item in the player's helmet slot
          */
         @JvmStatic
-        val helmet: Item
-            get() = getInventory().getStackInSlot(39)
+        fun getHelmet(): Item = getInventory().getStackInSlot(39)
 
         /**
          * @return the item in the player's chestplate slot
          */
         @JvmStatic
-        val chestplate: Item
-            get() = getInventory().getStackInSlot(38)
+        fun getChestplate(): Item = getInventory().getStackInSlot(38)
 
         /**
          * @return the item in the player's leggings slot
          */
         @JvmStatic
-        val leggings: Item
-            get() = getInventory().getStackInSlot(37)
+        fun getLeggings(): Item = getInventory().getStackInSlot(37)
 
         /**
          * @return the item in the player's boots slot
          */
         @JvmStatic
-        val boots: Item
-            get() = getInventory().getStackInSlot(36)
+        fun getBoots(): Item = getInventory().getStackInSlot(36)
     }
 }

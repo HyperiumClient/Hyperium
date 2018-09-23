@@ -2,7 +2,9 @@ package com.chattriggers.ctjs.triggers
 
 import com.chattriggers.ctjs.engine.ILoader
 import com.chattriggers.ctjs.minecraft.wrappers.Client
+import com.chattriggers.ctjs.utils.kotlin.External
 
+@External
 class OnStepTrigger(method: Any, loader: ILoader) : OnTrigger(method, TriggerType.STEP, loader) {
     private var fps: Long = 60L
     private var delay: Long? = null
@@ -31,7 +33,7 @@ class OnStepTrigger(method: Any, loader: ILoader) : OnTrigger(method, TriggerTyp
         this.systemTime = Client.getSystemTime() - this.delay!! * 1000
     }
 
-    override fun trigger(vararg args: Any) {
+    override fun trigger(vararg args: Any?) {
         if (this.delay == null) {
             // run trigger based on set fps value (60 per second by default)
             while (this.systemTime < Client.getSystemTime() + 1000 / this.fps) {

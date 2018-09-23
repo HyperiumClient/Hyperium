@@ -1,5 +1,6 @@
 package com.chattriggers.ctjs.minecraft.wrappers
 
+import com.chattriggers.ctjs.utils.kotlin.External
 import com.chattriggers.ctjs.utils.kotlin.GameType
 import com.google.common.collect.ComparisonChain
 import com.google.common.collect.Ordering
@@ -8,6 +9,7 @@ import net.minecraft.scoreboard.ScorePlayerTeam
 import java.util.ArrayList
 import java.util.Comparator
 
+@External
 object TabList {
     /**
      * Gets names set in scoreboard objectives

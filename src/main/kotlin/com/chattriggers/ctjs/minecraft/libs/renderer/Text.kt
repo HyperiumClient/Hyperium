@@ -2,8 +2,10 @@ package com.chattriggers.ctjs.minecraft.libs.renderer
 
 import com.chattriggers.ctjs.minecraft.libs.ChatLib
 import com.chattriggers.ctjs.minecraft.objects.display.DisplayHandler
+import com.chattriggers.ctjs.utils.kotlin.External
 import net.minecraft.client.renderer.GlStateManager
 
+@External
 class Text(private var string: String, private var x: Float = 0f, private var y: Float = 0f) {
     private var lines = mutableListOf<String>()
 
@@ -21,22 +23,22 @@ class Text(private var string: String, private var x: Float = 0f, private var y:
         updateFormatting()
     }
 
-    fun getString() = this.string
+    fun getString(): String = this.string
     fun setString(string: String) = apply { this.string = string }
 
-    fun getColor() = this.color
+    fun getColor(): Int = this.color
     fun setColor(color: Int) = apply { this.color = fixAlpha(color) }
 
-    fun getFormatted() = this.formatted
+    fun getFormatted(): Boolean = this.formatted
     fun setFormatted(formatted: Boolean) = apply {
         this.formatted = formatted
         updateFormatting()
     }
 
-    fun getShadow() = this.shadow
+    fun getShadow(): Boolean = this.shadow
     fun setShadow(shadow: Boolean) = apply  { this.shadow = shadow }
 
-    fun getAlign() = this.align
+    fun getAlign(): DisplayHandler.Align = this.align
     fun setAlign(align: Any) = apply {
         this.align = when (align) {
             is String -> DisplayHandler.Align.valueOf(align.toUpperCase())
@@ -45,24 +47,24 @@ class Text(private var string: String, private var x: Float = 0f, private var y:
         }
     }
 
-    fun getX() = this.x
+    fun getX(): Float = this.x
     fun setX(x: Float) = apply { this.x = x }
 
-    fun getY() = this.y
+    fun getY(): Float = this.y
     fun setY(y: Float) = apply { this.y = y }
 
-    fun getWidth() = this.width
+    fun getWidth(): Int = this.width
     fun setWidth(width: Int) = apply {
         this.width = width
         this.lines = Renderer.getFontRenderer().listFormattedStringToWidth(this.string, this.width)
     }
 
-    fun getLines() = lines
+    fun getLines(): List<String> = lines
 
-    fun getMaxLines() = this.maxLines
+    fun getMaxLines(): Int = this.maxLines
     fun setMaxLines(maxLines: Int) = apply { this.maxLines = maxLines }
 
-    fun getScale() = this.scale
+    fun getScale(): Float = this.scale
     fun setScale(scale: Float) = apply { this.scale = scale }
 
     fun getMaxWidth(): Int {
@@ -130,4 +132,12 @@ class Text(private var string: String, private var x: Float = 0f, private var y:
             else -> newX
         }
     }
+
+    override fun toString() =
+            "Text{" +
+                    "string=$string, x=$x, y=$y, " +
+                    "lines=$lines, color=$color, scale=$scale" +
+                    "formatted=$formatted, shadow=$shadow, align=$align, " +
+                    "width=$width, maxLines=$maxLines" +
+                    "}"
 }

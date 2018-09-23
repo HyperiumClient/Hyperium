@@ -3,7 +3,7 @@ package com.chattriggers.ctjs.minecraft.objects.display
 import cc.hyperium.event.InvokeEvent
 import cc.hyperium.event.RenderHUDEvent
 import com.chattriggers.ctjs.utils.kotlin.KotlinListener
-import net.minecraft.client.renderer.GlStateManager
+import org.lwjgl.opengl.GL11
 
 @KotlinListener
 object DisplayHandler {
@@ -14,9 +14,9 @@ object DisplayHandler {
 
     @InvokeEvent
     fun renderDisplays(event: RenderHUDEvent) {
-        GlStateManager.pushMatrix()
+        GL11.glPushMatrix()
         this.displays.forEach(Display::render)
-        GlStateManager.popMatrix()
+        GL11.glPopMatrix()
     }
 
     enum class Background {

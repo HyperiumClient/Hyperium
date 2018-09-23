@@ -4,9 +4,11 @@ import com.chattriggers.ctjs.minecraft.wrappers.objects.inventory.action.Action
 import com.chattriggers.ctjs.minecraft.wrappers.objects.inventory.action.ClickAction
 import com.chattriggers.ctjs.minecraft.wrappers.objects.inventory.action.DragAction
 import com.chattriggers.ctjs.minecraft.wrappers.objects.inventory.action.DropAction
+import com.chattriggers.ctjs.utils.kotlin.External
 import net.minecraft.inventory.Container
 import net.minecraft.inventory.IInventory
 
+@External
 class Inventory {
     val inventory: IInventory?
     val container: Container?
@@ -28,7 +30,7 @@ class Inventory {
      *
      * @return the size of the Inventory
      */
-    fun getSize() = inventory?.sizeInventory ?: container!!.inventoryItemStacks.size
+    fun getSize(): Int = inventory?.sizeInventory ?: container!!.inventoryItemStacks.size
 
     /**
      * Gets the item in any slot, starting from 0.
@@ -36,7 +38,11 @@ class Inventory {
      * @param slot the slot index
      * @return the Item in that slot
      */
-    fun getStackInSlot(slot: Int) = if (this.inventory == null) Item(container!!.getSlot(slot).stack) else Item(inventory.getStackInSlot(slot))
+    fun getStackInSlot(slot: Int): Item {
+        return if (this.inventory == null)
+            Item(container!!.getSlot(slot).stack)
+        else Item(inventory.getStackInSlot(slot))
+    }
 
     /**
      * Returns the window identifier number of this Inventory.
@@ -44,7 +50,7 @@ class Inventory {
      *
      * @return the window id
      */
-    fun getWindowId() = container?.windowId ?: -1
+    fun getWindowId(): Int = container?.windowId ?: -1
 
     fun doAction(action: Action) {
         action.complete()
@@ -57,7 +63,10 @@ class Inventory {
      * @param item the item for checking
      * @return whether or not it can be shift clicked in
      */
-    fun isItemValidForSlot(slot: Int, item: Item) = inventory == null || inventory.isItemValidForSlot(slot, item.itemStack)
+    fun isItemValidForSlot(slot: Int, item: Item): Boolean  {
+        return inventory == null
+                || inventory.isItemValidForSlot(slot, item.itemStack)
+    }
 
     /**
      * Checks whether the inventory contains the given item.
@@ -65,7 +74,11 @@ class Inventory {
      * @param item the item to check for
      * @return whether or not the inventory contains the item
      */
-    fun contains(item: Item) = (0 until getSize()).map { getStackInSlot(it) }.contains(item)
+    fun contains(item: Item): Boolean {
+        return (0 until getSize()).map {
+            getStackInSlot(it)
+        }.contains(item)
+    }
 
     /**
      * Gets the index of any item in the inventory, and returns the slot number.
@@ -74,7 +87,11 @@ class Inventory {
      * @param item the item to check for
      * @return the index of the given item
      */
-    fun indexOf(item: Item) = (0 until getSize()).map { getStackInSlot(it) }.find { it == item }
+    fun indexOf(item: Item): Int {
+        return (0 until getSize()).map {
+            getStackInSlot(it)
+        }.indexOf(item)
+    }
 
     /**
      * Returns true if this Inventory wraps a Container object
@@ -82,7 +99,7 @@ class Inventory {
      *
      * @return if this is a container
      */
-    fun isContainer() = container != null
+    fun isContainer(): Boolean = container != null
 
     /**
      * Shorthand for {@link ClickAction}
@@ -138,9 +155,9 @@ class Inventory {
      *
      * @return the name of the inventory
      */
-    fun getName() = inventory?.name ?: "container"
+    fun getName(): String = inventory?.name ?: "container"
 
     fun getClassName(): String = inventory?.javaClass?.simpleName ?: container!!.javaClass.simpleName
 
-    override fun toString() = "Inventory{${getClassName()}}"
+    override fun toString(): String = "Inventory{${getClassName()}}"
 }

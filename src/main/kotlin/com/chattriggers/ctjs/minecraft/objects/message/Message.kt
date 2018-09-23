@@ -6,8 +6,10 @@ import com.chattriggers.ctjs.minecraft.wrappers.Client
 import com.chattriggers.ctjs.minecraft.wrappers.Player
 import com.chattriggers.ctjs.utils.kotlin.BaseTextComponent
 import com.chattriggers.ctjs.utils.kotlin.ChatPacket
+import com.chattriggers.ctjs.utils.kotlin.External
 import com.chattriggers.ctjs.utils.kotlin.ITextComponent
 
+@External
 class Message {
     private lateinit var chatMessage: ITextComponent
 
@@ -70,15 +72,15 @@ class Message {
      *
      * @return the message parts
      */
-    fun getMessageParts() = this.messageParts
+    fun getMessageParts(): List<TextComponent> = this.messageParts
 
-    fun getChatLineId() = this.chatLineId
+    fun getChatLineId(): Int = this.chatLineId
     fun setChatLineId(id: Int) = apply { this.chatLineId = id }
 
-    fun isRecursive() = this.recursive
+    fun isRecursive(): Boolean = this.recursive
     fun setRecursive(recursive: Boolean) = apply { this.recursive = recursive }
 
-    fun isFormatted() = this.formatted
+    fun isFormatted(): Boolean = this.formatted
     fun setFormatted(formatted: Boolean) = apply { this.formatted = formatted }
 
     /**
@@ -122,7 +124,7 @@ class Message {
         }
     }
 
-    fun clone() = copy()
+    fun clone(): Message = copy()
     fun copy(): Message {
         val copy = Message(this.messageParts)
                 .setChatLineId(this.chatLineId)

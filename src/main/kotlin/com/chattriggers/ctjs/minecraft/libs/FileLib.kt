@@ -1,11 +1,13 @@
 package com.chattriggers.ctjs.minecraft.libs
 
 import com.chattriggers.ctjs.utils.config.Config
+import com.chattriggers.ctjs.utils.kotlin.External
 import java.io.*
 import java.net.URL
 import java.util.zip.ZipEntry
 import java.util.zip.ZipInputStream
 
+@External
 object FileLib {
     /**
      * Writes a file to folder in modules.
@@ -15,8 +17,9 @@ object FileLib {
      * @param toWrite    string to write in file
      */
     @JvmStatic
-    fun write(importName: String, fileName: String, toWrite: String) =
+    fun write(importName: String, fileName: String, toWrite: String) {
         write(Config.modulesFolder + "/" + importName + "/" + fileName, toWrite)
+    }
 
     /**
      * Writes a file to anywhere on the system.<br></br>
@@ -39,7 +42,7 @@ object FileLib {
      * @return the string in the file
      */
     @JvmStatic
-    fun read(importName: String, fileName: String) =
+    fun read(importName: String, fileName: String): String? =
         read(Config.modulesFolder + "/" + importName + "/" + fileName)
 
     /**
@@ -51,7 +54,9 @@ object FileLib {
      * @return the string in the file
      */
     @JvmStatic
-    fun read(fileLocation: String) = read(File(fileLocation))
+    fun read(fileLocation: String): String? {
+        return read(File(fileLocation))
+    }
 
     /**
      * Reads a file from anywhere on the system using java.io.File.

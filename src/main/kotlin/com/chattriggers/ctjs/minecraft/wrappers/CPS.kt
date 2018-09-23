@@ -1,4 +1,4 @@
-package com.chattriggers.ctjs.minecraft.objects
+package com.chattriggers.ctjs.minecraft.wrappers
 
 import cc.hyperium.event.InvokeEvent
 import cc.hyperium.event.MouseButtonEvent
@@ -19,43 +19,7 @@ object CPS {
     private var rightClicksMax = 0
 
     @InvokeEvent
-    fun update(event: RenderHUDEvent) = clickCalc()
-
-    @InvokeEvent
-    fun click(event: MouseButtonEvent) {
-        if (event.state) {
-            when (event.value) {
-                0 -> CPS.addLeftClicks()
-                1 -> CPS.addRightClicks()
-            }
-        }
-    }
-
-    @JvmStatic fun getLeftClicksMax() = this.leftClicksMax
-    @JvmStatic fun getRightClicksMax() = this.rightClicksMax
-
-    @JvmStatic fun getLeftClicks() = this.leftClicks.size
-    @JvmStatic fun getRightClicks() = this.rightClicks.size
-
-    @JvmStatic
-    fun getLeftClicksAverage(): Int {
-        if (this.leftClicksAverage.isEmpty()) return 0
-
-        var clicks = 0.0
-        for (click in this.leftClicksAverage) clicks += click
-        return Math.round(clicks / this.leftClicksAverage.size).toInt()
-    }
-
-    @JvmStatic
-    fun getRightClicksAverage(): Int {
-        if (this.rightClicksAverage.isEmpty()) return 0
-
-        var clicks = 0.0
-        for (click in this.rightClicksAverage) clicks += click
-        return Math.round(clicks / this.rightClicksAverage.size).toInt()
-    }
-
-    private fun clickCalc() {
+    fun update(event: RenderHUDEvent) {
         while (Client.getSystemTime() > sysTime + 50L) {
             sysTime += 50L
 
@@ -70,8 +34,43 @@ object CPS {
 
             clearOldLeft()
             clearOldRight()
+
+            findMax()
         }
-        findMax()
+    }
+
+    @InvokeEvent
+    fun click(event: MouseButtonEvent) {
+        if (event.state) {
+            when (event.value) {
+                0 -> leftClicks.add(20)
+                1 -> rightClicks.add(20)
+            }
+        }
+    }
+
+    @JvmStatic fun getLeftClicksMax(): Int = leftClicksMax
+    @JvmStatic fun getRightClicksMax(): Int = rightClicksMax
+
+    @JvmStatic fun getLeftClicks(): Int = leftClicks.size
+    @JvmStatic fun getRightClicks(): Int = rightClicks.size
+
+    @JvmStatic
+    fun getLeftClicksAverage(): Int {
+        if (leftClicksAverage.isEmpty()) return 0
+
+        var clicks = 0.0
+        for (click in leftClicksAverage) clicks += click
+        return Math.round(clicks / leftClicksAverage.size).toInt()
+    }
+
+    @JvmStatic
+    fun getRightClicksAverage(): Int {
+        if (rightClicksAverage.isEmpty()) return 0
+
+        var clicks = 0.0
+        for (click in rightClicksAverage) clicks += click
+        return Math.round(clicks / rightClicksAverage.size).toInt()
     }
 
     private fun limitAverage(average: MutableList<Double>) {
@@ -96,9 +95,6 @@ object CPS {
         if (leftClicks.size > leftClicksMax) leftClicksMax = leftClicks.size
         if (rightClicks.size > rightClicksMax) rightClicksMax = rightClicks.size
     }
-
-    private fun addLeftClicks() = leftClicks.add(20)
-    private fun addRightClicks() = rightClicks.add(20)
 
     private fun decreaseClicks(clicks: MutableList<Int>) {
         if (clicks.isNotEmpty()) {

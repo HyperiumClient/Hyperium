@@ -3,6 +3,7 @@ package com.chattriggers.ctjs.minecraft.wrappers
 import com.chattriggers.ctjs.minecraft.libs.renderer.Renderer
 import cc.hyperium.mixins.gui.IMixinGuiChat
 import com.chattriggers.ctjs.minecraft.objects.KeyBind
+import com.chattriggers.ctjs.utils.kotlin.External
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiChat
 import net.minecraft.client.gui.GuiNewChat
@@ -11,6 +12,7 @@ import net.minecraft.client.network.NetHandlerPlayClient
 import org.lwjgl.input.Mouse
 import org.lwjgl.opengl.Display
 
+@External
 object Client {
     /**
      * Gets Minecraft's Minecraft object
@@ -18,7 +20,7 @@ object Client {
      * @return The Minecraft object
      */
     @JvmStatic
-    fun getMinecraft() = Minecraft.getMinecraft()!!
+    fun getMinecraft(): Minecraft = Minecraft.getMinecraft()!!
 
     /**
      * Gets Minecraft's NetHandlerPlayClient object
@@ -38,10 +40,10 @@ object Client {
     fun getChatGUI(): GuiNewChat? = getMinecraft().ingameGUI?.chatGUI
 
     @JvmStatic
-    fun isInChat() = getMinecraft().currentScreen is GuiChat
+    fun isInChat(): Boolean = getMinecraft().currentScreen is GuiChat
 
     @JvmStatic
-    fun isInTab() =  getMinecraft().gameSettings.keyBindPlayerList.isKeyDown
+    fun isInTab(): Boolean =  getMinecraft().gameSettings.keyBindPlayerList.isKeyDown
 
     /**
      * Gets whether or not the Minecraft window is active
@@ -50,7 +52,7 @@ object Client {
      * @return true if the game is active, false otherwise
      */
     @JvmStatic
-    fun isTabbedIn() = Display.isActive()
+    fun isTabbedIn(): Boolean = Display.isActive()
 
     /**
      * Get the [KeyBind] from an already existing
@@ -98,27 +100,27 @@ object Client {
     }
 
     @JvmStatic
-    fun getFPS() = Minecraft.getDebugFPS()
+    fun getFPS(): Int = Minecraft.getDebugFPS()
 
     @JvmStatic
-    fun getVersion() = getMinecraft().version
+    fun getVersion(): String = getMinecraft().version
 
     @JvmStatic
-    fun getMaxMemory() = Runtime.getRuntime().maxMemory()
+    fun getMaxMemory(): Long = Runtime.getRuntime().maxMemory()
 
     @JvmStatic
-    fun getTotalMemory() = Runtime.getRuntime().totalMemory()
+    fun getTotalMemory(): Long = Runtime.getRuntime().totalMemory()
 
     @JvmStatic
-    fun getFreeMemory() = Runtime.getRuntime().freeMemory()
+    fun getFreeMemory(): Long = Runtime.getRuntime().freeMemory()
 
     @JvmStatic
-    fun getMemoryUsage() = Math.round(
+    fun getMemoryUsage(): Int = Math.round(
             (getTotalMemory() - getFreeMemory()) * 100 / getMaxMemory().toFloat()
     )
 
     @JvmStatic
-    fun getSystemTime() = Minecraft.getSystemTime()
+    fun getSystemTime(): Long = Minecraft.getSystemTime()
 
     @JvmStatic
     fun getMouseX(): Float {
@@ -137,7 +139,7 @@ object Client {
     }
 
     @JvmStatic
-    fun isInGui() = gui.get() != null
+    fun isInGui(): Boolean = gui.get() != null
 
     /**
      * Gets the chat message currently typed into the chat gui.
@@ -172,7 +174,7 @@ object Client {
          * @return the class name of the current gui
          */
         @JvmStatic
-        fun getClassName() = get()?.javaClass?.simpleName ?: "null"
+        fun getClassName(): String = get()?.javaClass?.simpleName ?: "null"
 
         /**
          * Gets the Minecraft gui class that is currently open
@@ -193,15 +195,12 @@ object Client {
 
     object camera {
         @JvmStatic
-        val x: Double
-            get() = Client.getMinecraft().renderManager.viewerPosX
+        fun getX(): Double = Client.getMinecraft().renderManager.viewerPosX
 
         @JvmStatic
-        val y: Double
-            get() = Client.getMinecraft().renderManager.viewerPosY
+        fun getY(): Double = Client.getMinecraft().renderManager.viewerPosY
 
         @JvmStatic
-        val z: Double
-            get() = Client.getMinecraft().renderManager.viewerPosZ
+        fun getZ(): Double = Client.getMinecraft().renderManager.viewerPosZ
     }
 }

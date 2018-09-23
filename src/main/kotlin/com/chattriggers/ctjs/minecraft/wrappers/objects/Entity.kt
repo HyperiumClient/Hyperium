@@ -1,10 +1,12 @@
 package com.chattriggers.ctjs.minecraft.wrappers.objects
 
+import com.chattriggers.ctjs.utils.kotlin.External
 import com.chattriggers.ctjs.utils.kotlin.MCEntity
 import com.chattriggers.ctjs.utils.kotlin.MathHelper
 import net.minecraft.entity.EntityLivingBase
 import java.util.*
 
+@External
 open class Entity(val entity: MCEntity) {
     fun getX() = entity.posX
 
@@ -18,7 +20,7 @@ open class Entity(val entity: MCEntity) {
      *
      * @return the entity's pitch
      */
-    fun getPitch() =
+    fun getPitch(): Double =
         MathHelper.wrapAngleTo180_float(this.entity.rotationPitch).toDouble()
 
     /**
@@ -27,7 +29,7 @@ open class Entity(val entity: MCEntity) {
      *
      * @return the entity's yaw
      */
-    fun getYaw() =
+    fun getYaw(): Double =
         MathHelper.wrapAngleTo180_float(this.entity.rotationYaw).toDouble()
 
     /**
@@ -36,7 +38,7 @@ open class Entity(val entity: MCEntity) {
      *
      * @return the player's x motion
      */
-    fun getMotionX() = this.entity.motionX
+    fun getMotionX(): Double = this.entity.motionX
 
     /**
      * Gets the entity's y motion.
@@ -44,7 +46,7 @@ open class Entity(val entity: MCEntity) {
      *
      * @return the player's y motion
      */
-    fun getMotionY() = this.entity.motionY
+    fun getMotionY(): Double = this.entity.motionY
 
     /**
      * Gets the entity's z motion.
@@ -52,15 +54,18 @@ open class Entity(val entity: MCEntity) {
      *
      * @return the player's z motion
      */
-    fun getMotionZ() = this.entity.motionZ
+    fun getMotionZ(): Double = this.entity.motionZ
 
     /**
      * Gets the entity's health, -1 if not a living entity
      *
      * @return the entity's health
      */
-    fun getHP() = if (this.entity is EntityLivingBase) this.entity.health
-                  else -1f
+    fun getHP(): Float {
+        return if (this.entity is EntityLivingBase)
+            this.entity.health
+        else -1f
+    }
 
     fun getRiding(): Entity? {
         val riding = this.entity.ridingEntity
@@ -89,21 +94,21 @@ open class Entity(val entity: MCEntity) {
      *
      * @return whether or not an entity is dead
      */
-    fun isDead() = this.entity.isDead
+    fun isDead(): Boolean = this.entity.isDead
 
     /**
      * Gets the entire width of the entity's hitbox
      *
      * @return the entity's width
      */
-    fun getWidth() = this.entity.width
+    fun getWidth(): Float = this.entity.width
 
     /**
      * Gets the entire height of the entity's hitbox
      *
      * @return the entity's height
      */
-    fun getHeight() = this.entity.height
+    fun getHeight(): Float = this.entity.height
 
     /**
      * Gets the height of the eyes on the entity,
@@ -112,7 +117,7 @@ open class Entity(val entity: MCEntity) {
      *
      * @return the height of the entity's eyes
      */
-    fun getEyeHeight() = this.entity.eyeHeight
+    fun getEyeHeight(): Float = this.entity.eyeHeight
 
     /**
      * Gets the name of the entity, could be "Villager",
@@ -127,7 +132,7 @@ open class Entity(val entity: MCEntity) {
      *
      * @return the entity's class name
      */
-    fun getClassName() = this.entity.javaClass.simpleName
+    fun getClassName(): String = this.entity.javaClass.simpleName
 
     /**
      * Gets the Java UUID object of this entity.
@@ -135,7 +140,7 @@ open class Entity(val entity: MCEntity) {
      *
      * @return the entity's uuid
      */
-    fun getUUID() = this.entity.uniqueID
+    fun getUUID(): UUID = this.entity.uniqueID
 
     override fun toString(): String {
         return ("Entity{"

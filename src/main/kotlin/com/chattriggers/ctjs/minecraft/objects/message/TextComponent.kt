@@ -3,6 +3,7 @@ package com.chattriggers.ctjs.minecraft.objects.message
 import com.chattriggers.ctjs.minecraft.libs.ChatLib
 import com.chattriggers.ctjs.utils.kotlin.*
 
+@External
 class TextComponent {
 
     lateinit var chatComponentText: ITextComponent
@@ -35,13 +36,13 @@ class TextComponent {
         this.hoverValue = hoverEvent?.value?.formattedText
     }
 
-    fun getText() = this.text
+    fun getText(): String = this.text
     fun setText(text: String) = apply {
         this.text = text
         reInstance()
     }
 
-    fun isFormatted() = this.formatted
+    fun isFormatted(): Boolean = this.formatted
     fun setFormatted(formatted: Boolean) = apply {
         this.formatted = formatted
         reInstance()
@@ -53,13 +54,13 @@ class TextComponent {
         reInstanceClick()
     }
 
-    fun getClickAction() = this.clickAction
+    fun getClickAction(): String? = this.clickAction
     fun setClickAction(action: String) = apply {
         this.clickAction = action
         reInstanceClick()
     }
 
-    fun getClickValue() = this.clickValue
+    fun getClickValue(): String? = this.clickValue
     fun setClickValue(value: String) = apply {
         this.clickValue = value
         reInstanceClick()
@@ -71,13 +72,13 @@ class TextComponent {
         reInstanceHover()
     }
 
-    fun getHoverAction() = this.hoverAction
+    fun getHoverAction(): String? = this.hoverAction
     fun setHoverAction(action: String) = apply {
         this.hoverAction = action
         reInstanceHover()
     }
 
-    fun getHoverValue() = this.hoverValue
+    fun getHoverValue(): String? = this.hoverValue
     fun setHoverValue(value: String) = apply {
         this.hoverValue = value
         reInstanceHover()

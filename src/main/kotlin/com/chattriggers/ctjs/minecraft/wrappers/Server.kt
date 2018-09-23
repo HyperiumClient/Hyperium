@@ -1,5 +1,8 @@
 package com.chattriggers.ctjs.minecraft.wrappers
 
+import com.chattriggers.ctjs.utils.kotlin.External
+
+@External
 object Server {
     /**
      * Gets the current server's IP, or "localhost" if the player

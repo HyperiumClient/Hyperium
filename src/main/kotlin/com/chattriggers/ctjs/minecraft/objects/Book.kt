@@ -5,6 +5,7 @@ import com.chattriggers.ctjs.minecraft.objects.gui.GuiHandler
 import com.chattriggers.ctjs.minecraft.objects.message.Message
 import com.chattriggers.ctjs.minecraft.wrappers.Client
 import com.chattriggers.ctjs.minecraft.wrappers.Player
+import com.chattriggers.ctjs.utils.kotlin.External
 import com.chattriggers.ctjs.utils.kotlin.TextComponentSerializer
 import net.minecraft.client.gui.GuiScreenBook
 import net.minecraft.init.Items
@@ -14,6 +15,7 @@ import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.nbt.NBTTagList
 import net.minecraft.nbt.NBTTagString
 
+@External
 class Book(bookName: String) {
     private var bookScreen: GuiScreenBook? = null
     private val book: ItemStack
@@ -38,7 +40,7 @@ class Book(bookName: String) {
      * @param message the entire message for what the page should be
      * @return the current book to allow method chaining
      */
-    fun addPage(message: Message): Book {
+    fun addPage(message: Message) = apply {
         val pages = bookData["pages"] as NBTTagList
 
         pages.appendTag(NBTTagString(
@@ -48,8 +50,6 @@ class Book(bookName: String) {
         ))
 
         updateBookScreen(pages)
-
-        return this
     }
 
     /**
@@ -58,10 +58,8 @@ class Book(bookName: String) {
      * @param message a simple string to make the page
      * @return the current book to allow method chaining
      */
-    fun addPage(message: String): Book {
+    fun addPage(message: String) = apply {
         addPage(Message(message))
-
-        return this
     }
 
     /**
@@ -71,7 +69,7 @@ class Book(bookName: String) {
      * @param message    the message to set the page to
      * @return the current book to allow method chaining
      */
-    fun setPage(pageNumber: Int, message: Message): Book {
+    fun setPage(pageNumber: Int, message: Message) = apply {
         val pages = bookData.getTag("pages") as NBTTagList
 
         pages.set(pageNumber, NBTTagString(
@@ -81,8 +79,6 @@ class Book(bookName: String) {
         ))
 
         updateBookScreen(pages)
-
-        return this
     }
 
     fun updateBookScreen(pages: NBTTagList) {

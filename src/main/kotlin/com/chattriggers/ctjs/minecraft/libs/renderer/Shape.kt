@@ -1,16 +1,18 @@
 package com.chattriggers.ctjs.minecraft.libs.renderer
 
+import com.chattriggers.ctjs.utils.kotlin.External
 import com.chattriggers.ctjs.utils.kotlin.MCTessellator
 import com.chattriggers.ctjs.utils.kotlin.getRenderer
 import net.minecraft.client.renderer.GlStateManager
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats
 import org.lwjgl.util.vector.Vector2f
 
+@External
 class Shape(private var color: Int) {
     private var vertexes = mutableListOf<Vector2f>()
     private var drawMode = 9
 
-    fun copy() = clone()
+    fun copy(): Shape = clone()
     fun clone(): Shape {
         val clone = Shape(this.color)
         clone.vertexes.addAll(this.vertexes)
@@ -18,10 +20,10 @@ class Shape(private var color: Int) {
         return clone
     }
 
-    fun getColor() = this.color
+    fun getColor(): Int = this.color
     fun setColor(color: Int) = apply { this.color = color }
 
-    fun getDrawMode() = this.drawMode
+    fun getDrawMode(): Int = this.drawMode
     /**
      * Sets the GL draw mode of the shape. Possible draw modes are:<br>
      * 0 = points<br>
@@ -37,6 +39,7 @@ class Shape(private var color: Int) {
      */
     fun setDrawMode(drawMode: Int) = apply { this.drawMode = drawMode }
 
+    fun getVertexes(): List<Vector2f> = this.vertexes
     fun addVertex(x: Float, y: Float) = apply { this.vertexes.add(Vector2f(x, y)) }
     fun insertVertex(index: Int, x: Float, y: Float) = apply { this.vertexes.add(index, Vector2f(x, y)) }
     fun removeVertex(index: Int) = apply { this.vertexes.removeAt(index) }
@@ -51,20 +54,10 @@ class Shape(private var color: Int) {
         val i = Math.sin(theta).toFloat() * (thickness / 2)
         val j = Math.cos(theta).toFloat() * (thickness / 2)
 
-        val ax = x1 + i
-        val ay = y1 + j
-        val dx = x1 - i
-        val dy = y1 - j
-
-        val bx = x2 + i
-        val by = y2 + j
-        val cx = x2 - i
-        val cy = y2 - j
-
-        this.vertexes.add(Vector2f(ax, ay))
-        this.vertexes.add(Vector2f(bx, by))
-        this.vertexes.add(Vector2f(cx, cy))
-        this.vertexes.add(Vector2f(dx, dy))
+        this.vertexes.add(Vector2f(x1 + i, y1 + j))
+        this.vertexes.add(Vector2f(x2 + i, y2 + j))
+        this.vertexes.add(Vector2f(x2 - i, y2 - j))
+        this.vertexes.add(Vector2f(x1 - i, y1 - j))
 
         this.drawMode = 9
     }

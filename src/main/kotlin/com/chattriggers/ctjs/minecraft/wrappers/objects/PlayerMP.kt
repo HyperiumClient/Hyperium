@@ -4,10 +4,12 @@ import cc.hyperium.mixinsimp.entity.IMixinEntityPlayer
 import com.chattriggers.ctjs.minecraft.objects.message.TextComponent
 import com.chattriggers.ctjs.minecraft.wrappers.Client
 import com.chattriggers.ctjs.minecraft.wrappers.objects.inventory.Item
+import com.chattriggers.ctjs.utils.kotlin.External
 import net.minecraft.client.network.NetworkPlayerInfo
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.scoreboard.ScorePlayerTeam
 
+@External
 class PlayerMP(val player: EntityPlayer) : Entity(player) {
     fun isSpectator() = this.player.isSpectator
 
@@ -64,7 +66,7 @@ class PlayerMP(val player: EntityPlayer) : Entity(player) {
             )
     }
 
-    private fun getPlayerInfo() = Client.getConnection().getPlayerInfo(this.player.uniqueID)
+    private fun getPlayerInfo(): NetworkPlayerInfo = Client.getConnection().getPlayerInfo(this.player.uniqueID)
 
     override fun toString(): String {
         return "PlayerMP{name:" + getName() +

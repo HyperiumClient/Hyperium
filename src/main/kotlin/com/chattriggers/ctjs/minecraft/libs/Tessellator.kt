@@ -4,6 +4,7 @@ import com.chattriggers.ctjs.minecraft.libs.renderer.Image
 import com.chattriggers.ctjs.minecraft.libs.renderer.Renderer
 import com.chattriggers.ctjs.minecraft.wrappers.Client
 import com.chattriggers.ctjs.minecraft.wrappers.Player
+import com.chattriggers.ctjs.utils.kotlin.External
 import com.chattriggers.ctjs.utils.kotlin.MCTessellator
 import com.chattriggers.ctjs.utils.kotlin.getRenderer
 import net.minecraft.client.Minecraft
@@ -11,6 +12,7 @@ import net.minecraft.client.renderer.GlStateManager
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats
 import org.lwjgl.opengl.GL11
 
+@External
 object Tessellator {
     private var tessellator = MCTessellator.getInstance()
     private var worldRenderer = this.tessellator.getRenderer()
@@ -42,7 +44,7 @@ object Tessellator {
     @JvmStatic
     @JvmOverloads
     fun begin(drawMode: Int = GL11.GL_QUADS, textured: Boolean = true) = apply {
-        GlStateManager.pushMatrix()
+        GL11.glPushMatrix()
 
         GlStateManager.enableBlend()
         GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0)
@@ -83,7 +85,7 @@ object Tessellator {
      */
     @JvmStatic
     fun rotate(angle: Float, x: Float, y: Float, z: Float) = apply {
-        GlStateManager.rotate(angle, x, y, z)
+        GL11.glRotatef(angle, x, y, z)
     }
 
     /**
@@ -97,7 +99,7 @@ object Tessellator {
      */
     @JvmStatic
     fun translate(x: Float, y: Float, z: Float) = apply {
-        GlStateManager.translate(x, y, z)
+        GL11.glTranslatef(x, y, z)
     }
 
     /**
@@ -112,7 +114,7 @@ object Tessellator {
     @JvmStatic
     @JvmOverloads
     fun scale(x: Float, y: Float = x, z: Float = x) = apply {
-        GlStateManager.scale(x, y, z)
+        GL11.glScalef(x, y, z)
     }
 
     /**
@@ -164,7 +166,7 @@ object Tessellator {
 
         GlStateManager.disableBlend()
 
-        GlStateManager.popMatrix()
+        GL11.glPopMatrix()
     }
 
     /**

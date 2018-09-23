@@ -11,12 +11,12 @@ import java.io.File
 interface ILoader {
     fun load(modules: List<Module>)
     fun load(module: Module)
-    fun exec(type: TriggerType, vararg args: Any)
+    fun exec(type: TriggerType, vararg args: Any?)
     fun eval(code: String): Any?
     fun addTrigger(trigger: OnTrigger)
     fun clearTriggers()
     fun getLanguageName(): String
-    fun trigger(trigger: OnTrigger, method: Any, vararg args: Any)
+    fun trigger(trigger: OnTrigger, method: Any, vararg args: Any?)
     fun removeTrigger(trigger: OnTrigger)
     fun getModules(): List<Module>
     fun getConsole(): Console
