@@ -86,6 +86,12 @@ public class SliderComponent extends AbstractTabComponent {
         lines.clear();
         lines = font.splitString(label, (width) / 4); //16 for icon, 3 for render offset and then some more
 
+        if (currentValue < minVal) {
+            currentValue = minVal;
+        } else if (currentValue > maxVal) {
+            currentValue = maxVal;
+        }
+
         GlStateManager.pushMatrix();
         if (hover)
             Gui.drawRect(x, y, x + width, y + 18 * lines.size(), 0xa0000000);
