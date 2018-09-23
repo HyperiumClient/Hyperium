@@ -105,8 +105,6 @@ dependencies {
 
 }
 
-
-
 mixin {
     // Specify "notch" or "searge" here
     defaultObfuscationEnv notch

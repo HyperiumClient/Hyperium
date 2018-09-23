@@ -39,7 +39,7 @@ object UriScheme {
 
 
 
-            val value = """\"$javaProgram\" - cp \"$cp\" com.chattriggers.ctjs.loader.UriScheme \"%1\""""
+            val value = """\"$javaProgram\" -cp \"$cp\" com.chattriggers.ctjs.loader.UriScheme \"%1\""""
 
             regAdd(
                     ("\\shell\\open\\command /f /ve /d " +
