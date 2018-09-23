@@ -15,32 +15,26 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package cc.hyperium.mods.chromahud.displayitems.hyperium;
-
-import cc.hyperium.mods.chromahud.ElementRenderer;
-import cc.hyperium.mods.chromahud.api.DisplayItem;
-import cc.hyperium.mods.statistics.GeneralStatisticsTracking;
-import cc.hyperium.utils.JsonHolder;
-
-/**
- * @author Sk1er
- */
-public class CoinsDisplay extends DisplayItem {
+package cc.hyperium.commands.defaults;
 
 
-    public CoinsDisplay(JsonHolder data, int ordinal) {
-        super(data, ordinal);
-        this.height = 10;
+import cc.hyperium.commands.BaseCommand;
+import cc.hyperium.handlers.handlers.tracking.StatisticViewingGui;
+
+public class CommandStatistics implements BaseCommand {
+
+    @Override
+    public String getName() {
+        return "statistics";
     }
 
     @Override
-    public void draw(int x, double y, boolean config) {
+    public String getUsage() {
+        return "/statistics";
+    }
 
-        String render = null;
-        render = "Daily Coins: " + GeneralStatisticsTracking.dailyCoins;
-
-
-        ElementRenderer.draw(x, y, render);
-        this.width = config ? ElementRenderer.getFontRenderer().getStringWidth(render) : 0;
+    @Override
+    public void onExecute(String[] args) {
+        new StatisticViewingGui().show();
     }
 }
