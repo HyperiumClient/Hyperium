@@ -89,7 +89,7 @@ public class HyperiumMainGui extends HyperiumGui {
         tabs = Arrays.asList(
                 new SettingsTab(this),
                 new NewsTab(this)
-                );
+        );
         guiScale = 2;
         scollMultiplier = 2;
         setTab(tabIndex);
@@ -144,20 +144,6 @@ public class HyperiumMainGui extends HyperiumGui {
         drawRect(xg, yg, xg * 10, yg * 2, 0x64000000);
         drawRect(xg, yg * 2, xg * 10, yg * 9, 0x28000000);
         GlStateModifier.INSTANCE.reset();
-        Icons.ARROW_RIGHT.bind();
-        GlStateManager.pushMatrix();
-        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-        GlStateManager.translate(xg * 2, yg * 2, 0);
-        GlStateManager.rotate(180, 0.0F, 0.0F, 1.0F);
-        Gui.drawScaledCustomSizeModalRect(0, 0, 0, 0, 144, 144, yg, yg, 144, 144);
-        GlStateManager.popMatrix();
-
-        Icons.ARROW_RIGHT.bind();
-        GlStateManager.pushMatrix();
-        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-        GlStateManager.translate(xg * 9, yg, 0);
-        Gui.drawScaledCustomSizeModalRect(0, 0, 0, 0, 144, 144, yg, yg, 144, 144);
-        GlStateManager.popMatrix();
 
         title.drawCenteredString(currentTab.getTitle().toUpperCase(), width / 2F, yg + (yg / 2F - 8), 0xffffff);
 
@@ -166,6 +152,15 @@ public class HyperiumMainGui extends HyperiumGui {
 
         // Footer
         smol.drawString(Metadata.getVersion(), width - smol.getWidth(Metadata.getVersion()) - 1, height - 10, 0xffffffff);
+
+        // Tab switcher
+        Icons.ARROW_LEFT.bind();
+        GlStateManager.pushMatrix();
+        Gui.drawScaledCustomSizeModalRect(width / 2 - xg, yg * 9, 0, 0, 144, 144, yg / 2, yg / 2, 144, 144);
+        Icons.ARROW_RIGHT.bind();
+        Gui.drawScaledCustomSizeModalRect(width / 2 + xg / 2, yg * 9, 0, 0, 144, 144, yg / 2, yg / 2, 144, 144);
+        GlStateManager.popMatrix();
+
     }
 
     @Override
@@ -174,16 +169,18 @@ public class HyperiumMainGui extends HyperiumGui {
         int yg = (height / 10);  // Y grid
         int xg = (width / 11);   // X grid
 
-        if (mouseY >= yg && mouseY <= yg * 2) {
+        if (mouseY >= yg * 9 && mouseY <= yg * 10) {
             int size = tabs.size();
             int i = tabs.indexOf(currentTab);
-            if (mouseX > xg && mouseX < xg * 4) {
+            int ix = width / 2 - xg;
+            if (mouseX >= ix && mouseX <= ix + xg / 2) {
                 i--;
                 if (i < 0)
                     i = size - 1;
                 setTab(i);
             }
-            if (mouseX > xg * 7 && mouseX < xg * 10) {
+            ix = width / 2 + xg / 2;
+            if (mouseX >= ix && mouseX <= ix + xg / 2) {
                 i++;
                 if (i > size - 1)
                     i = 0;

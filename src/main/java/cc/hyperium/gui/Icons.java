@@ -27,6 +27,7 @@ public enum Icons {
     ARROW_DOWN(new ResourceLocation("textures/material/arrow_down.png")),
     ARROW_DOWN_ALT(new ResourceLocation("textures/material/arrow_down_alt.png")),
     ARROW_UP_ALT(new ResourceLocation("textures/material/arrow_up_alt.png")),
+    ARROW_LEFT(new ResourceLocation("textures/material/arrow_left.png")),
     ARROW_RIGHT(new ResourceLocation("textures/material/arrow_right.png")),
     TOGGLE_OFF(new ResourceLocation("textures/material/toggle_off.png")),
     TOGGLE_ON(new ResourceLocation("textures/material/toggle_on.png"));
