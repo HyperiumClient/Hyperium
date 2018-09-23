@@ -55,7 +55,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.management.ManagementFactory;
 import java.nio.ByteBuffer;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -317,38 +316,29 @@ public class HyperiumMinecraft {
                 }
                 break;
             case 2:
+               launchMinecraft();
+               break;
+        }
+    }
+
+    public void launchMinecraft(){
+        try {
+            String cmd = Hyperium.INSTANCE.getLaunchCommand(true);
+            Runtime.getRuntime().addShutdownHook(new Thread(() -> {
                 try {
-                    StringBuilder cmd = new StringBuilder();
-                    String[] command = System.getProperty("sun.java.command").split(" ");
-                    cmd.append(System.getProperty("java.home")).append(File.separator).append("bin").append(File.separator).append("java ");
-                    ManagementFactory.getRuntimeMXBean().getInputArguments().forEach(s -> {
-                        if (!s.contains("-agentlib"))
-                            cmd.append(s).append(" ");
-                    });
-                    if (command[0].endsWith(".jar"))
-                        cmd.append("-jar ").append(new File(command[0]).getPath()).append(" ");
-                    else
-                        cmd.append("-cp \"").append(System.getProperty("java.class.path")).append("\" ").append(command[0]).append(" ");
-                    for (int i = 1; i < command.length; i++)
-                        cmd.append(command[i]).append(" ");
-                    Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-                        try {
-                            System.out.println("## RESTARTING MINECRAFT ##");
-                            System.out.println("cmd=" + cmd.toString());
-                            Runtime.getRuntime().exec(cmd.toString());
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                            System.out.println("## FAILED TO RESTART MINECRAFT ##");
-                        }
-                    }));
-                    parent.shutdown();
-                } catch (Exception ex) {
-                    ex.printStackTrace();
+                    System.out.println("## RESTARTING MINECRAFT ##");
+                    System.out.println("cmd=" + cmd);
+                    Runtime.getRuntime().exec(cmd);
+                } catch (IOException e) {
+                    e.printStackTrace();
                     System.out.println("## FAILED TO RESTART MINECRAFT ##");
                 }
-                break;
+            }));
+            parent.shutdown();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            System.out.println("## FAILED TO RESTART MINECRAFT ##");
         }
-
     }
     public void shutdown(CallbackInfo ci) {
         AddonMinecraftBootstrap.getLoadedAddons().forEach(IAddon::onClose);

@@ -10,16 +10,15 @@ import cc.hyperium.installer.api.entities.InstallerManifest;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.utils.Downloader;
 import cc.hyperium.utils.InstallerUtils;
+import net.minecraft.client.gui.Gui;
+
 import java.awt.Color;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
 
 public class AddonsInstallerTab extends AbstractTab {
     private int y, w;
@@ -83,11 +82,11 @@ public class AddonsInstallerTab extends AbstractTab {
     }
 
     private void installAddon(String jsonName) throws IOException {
-        AddonManifest addon = Arrays.stream(InstallerUtils.getManifest().getAddons()).filter(o -> o.getName().equals(jsonName)).findFirst().get();
+        /*AddonManifest addon = Arrays.stream(InstallerUtils.getManifest().getAddons()).filter(o -> o.getName().equals(jsonName)).findFirst().get();
         File addonsDir = new File(Minecraft.getMinecraft().mcDataDir, "pending-addons");
         addonsDir.mkdir();
         File aOut = new File(addonsDir, addon.getName() + "-" + addon.getVersion() + ".jar");
-        downloadFile(aOut, addon);
+        downloadFile(aOut, addon);*/
     }
 
     /**

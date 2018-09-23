@@ -88,8 +88,12 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.management.ManagementFactory;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 
 /**
  * Hyperium Client
@@ -444,6 +448,67 @@ public class Hyperium {
             new File(folder.getAbsolutePath() + "/accounts/" + Minecraft.getMinecraft().getSession().getPlayerID() + ".lck").createNewFile();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    public String getLaunchCommand(boolean copyNatives){
+        StringBuilder cmd = new StringBuilder();
+        String[] command = System.getProperty("sun.java.command").split(" ");
+
+        String javaPath = System.getProperty("java.home") + File.separator + "bin" + File.separator + "java";
+        cmd.append(quoteSpaces(javaPath) + " ");
+
+        ManagementFactory.getRuntimeMXBean().getInputArguments().forEach(s -> {
+            if(s.contains("library.path")){
+                String nativePath = s.split("=")[1];
+                File hyperiumNativeFolder = new File(Hyperium.folder.getPath() + File.separator + "natives");
+                if(copyNatives) {
+                    copyNatives(nativePath,hyperiumNativeFolder);
+                }
+
+                cmd.append(quoteSpaces("-Djava.library.path=" + hyperiumNativeFolder.getAbsolutePath())).append(" ");
+            } else {
+                cmd.append(quoteSpaces(s)).append(" ");
+            }
+        });
+
+        if (command[0].endsWith(".jar")) {
+            cmd.append("-jar ").append(quoteSpaces(new File(command[0]).getPath())).append(" ");
+        } else {
+            cmd.append("-cp ").append(quoteSpaces(System.getProperty("java.class.path"))).append(" ").append(command[0]).append(" ");
+        }
+        for (int i = 1; i < command.length; i++) {
+            cmd.append(quoteSpaces(command[i])).append(" ");
+        }
+
+        return cmd.toString();
+    }
+
+    public void copyNatives(String nativePath, File newFolder){
+        if(!newFolder.exists()){
+            newFolder.mkdir();
+        }
+
+        File tempNatives = new File(nativePath);
+        if(!tempNatives.exists()){
+            System.out.println("Error - Natives are missing.");
+        } else{
+            System.out.println("Copying natives to hyperium folder.");
+            try {
+                for (File fileEntry : tempNatives.listFiles()){
+                    Files.copy(fileEntry.toPath(), Paths.get(newFolder.getPath() + File.separator + fileEntry.getName()), StandardCopyOption.REPLACE_EXISTING);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private String quoteSpaces(String argument){
+        if(argument.contains(" ")){
+            return  "\"" + argument + "\"";
+        } else {
+            return argument;
         }
     }
 
