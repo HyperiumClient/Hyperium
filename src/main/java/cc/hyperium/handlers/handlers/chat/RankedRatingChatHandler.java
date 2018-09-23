@@ -17,10 +17,13 @@
 
 package cc.hyperium.handlers.handlers.chat;
 
+import cc.hyperium.event.EventBus;
+import cc.hyperium.event.RankedRatingChangeEvent;
 import cc.hyperium.utils.SafeNumberParsing;
 import net.minecraft.util.IChatComponent;
 
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author Sk1er
@@ -29,10 +32,13 @@ public class RankedRatingChatHandler extends HyperiumChatHandler {
 
     @Override
     public boolean chatReceived(IChatComponent component, String text) {
-        Matcher matcher = regexPatterns.get(ChatRegexType.SKYWARS_RATING).matcher(text);
+        text = text.trim();
+        Pattern pattern = regexPatterns.get(ChatRegexType.SKYWARS_RATING);
+        Matcher matcher = pattern.matcher(text);
         if (matcher.matches()) {
-            getHyperium().getHandlers().getValueHandler().setRankedRating(SafeNumberParsing.safeParseInt(matcher.group("rating"), getHyperium().getHandlers().getValueHandler().getRankedRating()));
-            getHyperium().getHandlers().getValueHandler().setDeltaRankedRating(SafeNumberParsing.safeParseInt(matcher.group("change"), getHyperium().getHandlers().getValueHandler().getDeltaRankedRating()));
+            int rating = SafeNumberParsing.safeParseInt(matcher.group("rating"), getHyperium().getHandlers().getValueHandler().getRankedRating());
+            int change = SafeNumberParsing.safeParseInt(matcher.group("change"), getHyperium().getHandlers().getValueHandler().getDeltaRankedRating());
+            EventBus.INSTANCE.post(new RankedRatingChangeEvent(rating, change));
         }
         return false;
     }

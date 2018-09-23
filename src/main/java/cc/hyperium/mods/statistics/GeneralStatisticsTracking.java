@@ -19,6 +19,8 @@ package cc.hyperium.mods.statistics;
 
 import cc.hyperium.config.ConfigOpt;
 import cc.hyperium.event.ChatEvent;
+import cc.hyperium.event.EventBus;
+import cc.hyperium.event.HypixelGetCoinsEvent;
 import cc.hyperium.event.InvokeEvent;
 
 import java.text.DateFormat;
@@ -53,6 +55,7 @@ public class GeneralStatisticsTracking {
             int coins = Integer.parseInt(line.split("\\+")[1].split(" coins")[0]);
 
             // Increment coin counters.
+            EventBus.INSTANCE.post(new HypixelGetCoinsEvent(coins));
             lifetimeCoins += coins;
             monthlyCoins += coins;
             dailyCoins += coins;
