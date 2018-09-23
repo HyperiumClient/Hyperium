@@ -1,6 +1,6 @@
 package com.chattriggers.ctjs.minecraft.objects
 
-import com.chattriggers.ctjs.minecraft.mixins.MixinGuiScreenBook
+import cc.hyperium.mixins.gui.MixinGuiScreenBook
 import com.chattriggers.ctjs.minecraft.objects.gui.GuiHandler
 import com.chattriggers.ctjs.minecraft.objects.message.Message
 import com.chattriggers.ctjs.minecraft.wrappers.Client
@@ -90,9 +90,7 @@ class Book(bookName: String) {
         bookData["pages"] = pages
         book.tagCompound = bookData
 
-        (bookScreen as? MixinGuiScreenBook)?.setBookPages(
-                pages
-        )
+        (bookScreen as? MixinGuiScreenBook)?.bookPages = pages
     }
 
     @JvmOverloads

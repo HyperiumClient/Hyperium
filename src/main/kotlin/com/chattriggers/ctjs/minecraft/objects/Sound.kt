@@ -1,15 +1,6 @@
 package com.chattriggers.ctjs.minecraft.objects
 
-import com.chattriggers.ctjs.CTJS
-import com.chattriggers.ctjs.minecraft.imixins.IMixinSoundManager
-import com.chattriggers.ctjs.minecraft.mixins.MixinSoundHandler
-import com.chattriggers.ctjs.minecraft.wrappers.Client
-import com.chattriggers.ctjs.minecraft.wrappers.Player
-import com.chattriggers.ctjs.minecraft.wrappers.World
-import com.chattriggers.ctjs.utils.kotlin.SoundCategory
 import jdk.nashorn.api.scripting.ScriptObjectMirror
-import paulscode.sound.SoundSystem
-import java.io.File
 import java.net.MalformedURLException
 
 /**
@@ -42,12 +33,12 @@ import java.net.MalformedURLException
  * @param config the JavaScript config object
  */
 class Sound(private val config: ScriptObjectMirror) {
-    private var sndSystem: SoundSystem? = null
-    private val source: String = config["source"] as String
+    /*private var sndSystem: SoundSystem? = null
+    private val source: String = config["source"] as String*/
     var isListening = false
 
     init {
-        if (World.isLoaded()) {
+        /*if (World.isLoaded()) {
             loadSndSystem()
 
             try {
@@ -60,11 +51,11 @@ class Sound(private val config: ScriptObjectMirror) {
             isListening = true
         }
 
-        CTJS.sounds.add(this)
+        CTJS.sounds.add(this)*/
     }
 
     fun onWorldLoad() {
-        isListening = false
+        /*isListening = false
 
         println("Loading sound system")
         loadSndSystem()
@@ -76,18 +67,18 @@ class Sound(private val config: ScriptObjectMirror) {
         } catch (exc: MalformedURLException) {
             exc.printStackTrace()
         }
-
+*/
     }
 
     private fun loadSndSystem() {
-        val sndManager = (Client.getMinecraft().soundHandler as MixinSoundHandler).sndManager
+        /*val sndManager = (Client.getMinecraft().soundHandler as MixinSoundHandler).sndManager
 
-        sndSystem = (sndManager as IMixinSoundManager).soundSystem
+        sndSystem = (sndManager as IMixinSoundManager).soundSystem*/
     }
 
     @Throws(MalformedURLException::class)
     private fun bootstrap() {
-        val configMap = config as? Map<String, *> ?: return
+        /*val configMap = config as? Map<String, *> ?: return
 
         val source = config["source"]?.toString()
         val priority = configMap.getOrDefault("priority", false) as Boolean
@@ -139,7 +130,7 @@ class Sound(private val config: ScriptObjectMirror) {
 
         if (config.hasMember("category")) {
             setCategory(config["category"] as String)
-        }
+        }*/
     }
 
     /**
@@ -149,8 +140,8 @@ class Sound(private val config: ScriptObjectMirror) {
      * @param category the category
      */
     fun setCategory(category: String) = apply {
-        val category1 = SoundCategory.valueOf(category.toUpperCase())
-        setVolume(Client.getMinecraft().gameSettings.getSoundLevel(category1))
+        /*val category1 = SoundCategory.valueOf(category.toUpperCase())
+        setVolume(Client.getMinecraft().gameSettings.getSoundLevel(category1))*/
     }
 
     /**
@@ -159,7 +150,7 @@ class Sound(private val config: ScriptObjectMirror) {
      *
      * @param volume New volume, float value ( 0.0f - 1.0f ).
      */
-    fun setVolume(volume: Float) = apply { sndSystem!!.setVolume(this.source, volume) }
+    fun setVolume(volume: Float) = apply { /*sndSystem!!.setVolume(this.source, volume)*/ }
 
     /**
      * Updates the position of this sound
@@ -168,14 +159,14 @@ class Sound(private val config: ScriptObjectMirror) {
      * @param y the y coordinate
      * @param z the z coordinate
      */
-    fun setPosition(x: Float, y: Float, z: Float) = apply { sndSystem!!.setPosition(this.source, x, y, z) }
+    fun setPosition(x: Float, y: Float, z: Float) = apply { /*sndSystem!!.setPosition(this.source, x, y, z)*/ }
 
     /**
      * Sets this sound's pitch.
      *
      * @param pitch A float value ( 0.5f - 2.0f ).
      */
-    fun setPitch(pitch: Float) = apply { sndSystem!!.setPitch(this.source, pitch) }
+    fun setPitch(pitch: Float) = apply { /*sndSystem!!.setPitch(this.source, pitch)*/ }
 
     /**
      * Sets the attenuation (fade out over space) of the song.
@@ -186,25 +177,25 @@ class Sound(private val config: ScriptObjectMirror) {
      *
      * @param model the model
      */
-    fun setAttenuation(model: Int) = apply { sndSystem!!.setAttenuation(this.source, model) }
+    fun setAttenuation(model: Int) = apply { /*sndSystem!!.setAttenuation(this.source, model)*/ }
 
     /**
      * Plays/resumes the sound
      */
-    fun play() { sndSystem!!.play(this.source) }
+    fun play() { /*sndSystem!!.play(this.source)*/ }
 
     /**
      * Pauses the sound, to be resumed later
      */
-    fun pause() { sndSystem!!.pause(this.source) }
+    fun pause() { /*sndSystem!!.pause(this.source)*/ }
 
     /**
      * Completely stops the song
      */
-    fun stop() { sndSystem!!.stop(this.source) }
+    fun stop() { /*sndSystem!!.stop(this.source)*/ }
 
     /**
      * I really don't know what this does
      */
-    fun rewind() { sndSystem!!.rewind(this.source) }
+    fun rewind() { /*sndSystem!!.rewind(this.source)*/ }
 }

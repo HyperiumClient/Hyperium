@@ -1,4 +1,4 @@
-package com.chattriggers.ctjs.minecraft.imixins;
+package cc.hyperium.mixinsimp.entity;
 
 public interface IMixinEntityPlayer {
     void setDisplayName(String name);

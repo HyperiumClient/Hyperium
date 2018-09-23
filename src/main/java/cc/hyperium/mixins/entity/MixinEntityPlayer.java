@@ -19,6 +19,8 @@ package cc.hyperium.mixins.entity;
 
 import cc.hyperium.event.ItemTossEvent;
 import cc.hyperium.mixinsimp.entity.HyperiumEntityPlayer;
+import cc.hyperium.mixinsimp.entity.IMixinEntityPlayer;
+import com.mojang.authlib.GameProfile;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
@@ -37,7 +39,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(EntityPlayer.class)
-public abstract class MixinEntityPlayer extends EntityLivingBase {
+public abstract class MixinEntityPlayer extends EntityLivingBase implements IMixinEntityPlayer {
 
     public MixinEntityPlayer(World worldIn) {
         super(worldIn);
@@ -45,14 +47,17 @@ public abstract class MixinEntityPlayer extends EntityLivingBase {
 
     @Shadow
     public abstract boolean isPlayerSleeping();
-
     @Shadow
     public abstract Team getTeam();
-
     @Shadow
     public abstract String getName();
 
     private HyperiumEntityPlayer hyperiumEntityPlayer = new HyperiumEntityPlayer((EntityPlayer) (Object) this);
+
+    @Inject(method = "<init>", at = @At("RETURN"))
+    private void init(World worldIn, GameProfile gameProfileIn, CallbackInfo ci) {
+        setDisplayName(getName());
+    }
 
     @Inject(method = "updateEntityActionState", at = @At("RETURN"))
     private void onUpdate(CallbackInfo ci) {
@@ -90,5 +95,10 @@ public abstract class MixinEntityPlayer extends EntityLivingBase {
         if (cir.getReturnValue() == null) return;
 
         new ItemTossEvent((EntityPlayer) (Object) this, cir.getReturnValue()).post();
+    }
+
+    @Override
+    public void setDisplayName(String name) {
+        hyperiumEntityPlayer.setName(name);
     }
 }

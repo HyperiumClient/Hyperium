@@ -1,6 +1,6 @@
 package com.chattriggers.ctjs.minecraft.wrappers.objects
 
-import com.chattriggers.ctjs.minecraft.imixins.IMixinEntityPlayer
+import cc.hyperium.mixinsimp.entity.IMixinEntityPlayer
 import com.chattriggers.ctjs.minecraft.objects.message.TextComponent
 import com.chattriggers.ctjs.minecraft.wrappers.Client
 import com.chattriggers.ctjs.minecraft.wrappers.objects.inventory.Item

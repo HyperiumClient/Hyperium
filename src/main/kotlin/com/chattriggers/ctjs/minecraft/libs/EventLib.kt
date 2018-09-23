@@ -1,6 +1,7 @@
 package com.chattriggers.ctjs.minecraft.libs
 
 import cc.hyperium.event.CancellableEvent
+import com.chattriggers.ctjs.utils.Cancellable
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable
 
@@ -24,6 +25,8 @@ object EventLib {
                 event.cancel()
             }
             is CancellableEvent ->
+                event.isCancelled = true
+            is Cancellable ->
                 event.isCancelled = true
             else -> throw IllegalArgumentException()
         }

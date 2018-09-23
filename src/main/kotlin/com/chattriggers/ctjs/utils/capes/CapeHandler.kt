@@ -13,13 +13,17 @@ object CapeHandler {
     var special: Special
 
     init {
-        this.special = Gson().fromJson(
-                FileLib.getUrlContent("http://167.99.3.229/tracker/special.json"),
-                Special::class.java
-        )
+        try {
+            this.special = Gson().fromJson(
+                    FileLib.getUrlContent("http://167.99.3.229/tracker/special.json"),
+                    Special::class.java
+            )
 
-        bindTexture("http://167.99.3.229/assets/images/supporter_cape.png", "capes/ct/supporter")
-        bindTexture("http://167.99.3.229/assets/images/developer_cape.png", "capes/ct/developer")
+            bindTexture("http://167.99.3.229/assets/images/supporter_cape.png", "capes/ct/supporter")
+            bindTexture("http://167.99.3.229/assets/images/developer_cape.png", "capes/ct/developer")
+        } catch (e: Exception) {
+            this.special = Special(arrayOf(), arrayOf())
+        }
     }
 
     fun getCapeResource(player: AbstractClientPlayer): ResourceLocation? {
