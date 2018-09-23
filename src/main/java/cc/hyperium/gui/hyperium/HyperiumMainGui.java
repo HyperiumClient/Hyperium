@@ -13,6 +13,7 @@ import cc.hyperium.handlers.handlers.SettingsHandler;
 import cc.hyperium.mixinsimp.client.GlStateModifier;
 import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
 import cc.hyperium.utils.HyperiumFontRenderer;
+import me.semx11.autotip.util.ReflectionUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
@@ -53,9 +54,9 @@ public class HyperiumMainGui extends HyperiumGui {
     private List<RGBFieldSet> rgbFields = new ArrayList<>();
 
     public HyperiumMainGui() {
-        smol = new HyperiumFontRenderer(Settings.GUI_FONT, 14.0F, 0, 3.0F);
-        font = new HyperiumFontRenderer(Settings.GUI_FONT, 16.0F, 0, 3.0F);
-        title = new HyperiumFontRenderer(Settings.GUI_FONT, 30.0F, 0, 3.0F);
+        smol = new HyperiumFontRenderer(Settings.GUI_FONT, 14.0F, 0, 1.0F);
+        font = new HyperiumFontRenderer(Settings.GUI_FONT, 16.0F, 0, 1.0F);
+        title = new HyperiumFontRenderer(Settings.GUI_FONT, 30.0F, 0, 1.0F);
         settingsObjects.add(Settings.INSTANCE);
         settingsObjects.add(Hyperium.INSTANCE.getModIntegration().getAutotip());
         settingsObjects.add(Hyperium.INSTANCE.getModIntegration().getAutoGG().getConfig());
@@ -116,13 +117,8 @@ public class HyperiumMainGui extends HyperiumGui {
     protected void pack() {
         Method loadShaderMethod = null;
         try {
-            loadShaderMethod = EntityRenderer.class.getDeclaredMethod("loadShader", ResourceLocation.class);
-        } catch (NoSuchMethodException e) {
-            try {
-                loadShaderMethod = EntityRenderer.class.getDeclaredMethod("a", ResourceLocation.class);
-            } catch (NoSuchMethodException e1) {
-                e1.printStackTrace();
-            }
+            loadShaderMethod = ReflectionUtil.findDeclaredMethod(EntityRenderer.class, new String[] {"loadShader", "a"}, ResourceLocation.class);
+        } catch (Exception ignored) {
         }
 
         if (loadShaderMethod != null) {
