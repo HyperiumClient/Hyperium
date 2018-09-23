@@ -13,6 +13,7 @@ import java.util.List;
  * Created by Cubxity on 27/08/2018
  */
 public class CollapsibleTabComponent extends AbstractTabComponent {
+
     private List<AbstractTabComponent> children = new ArrayList<>();
     private boolean collapsed = true;
     private String label;
@@ -51,46 +52,62 @@ public class CollapsibleTabComponent extends AbstractTabComponent {
     @Override
     public void render(int x, int y, int width, int mouseX, int mouseY) {
         super.render(x, y, width, mouseX, mouseY);
-        tab.gui.getFont().drawString(label.replaceAll("_"," ").toUpperCase(), x + 3, y + 5, 0xffffff);
+
+        tab.gui.getFont().drawString(label.replaceAll("_", " ").toUpperCase(), x + 3, y + 5, 0xffffff);
+
         GlStateManager.bindTexture(0);
-        if (collapsed)
+
+        if (collapsed) {
             Icons.ARROW_UP_ALT.bind();
-        else
+        } else {
             Icons.ARROW_DOWN_ALT.bind();
+        }
+
         Gui.drawScaledCustomSizeModalRect(x + width - 20, y, 0, 0, 144, 144, 20, 20, 144, 144);
 
-        if (collapsed) return;
+        if (collapsed) {
+            return;
+        }
+
         y += 18;
         x += 10;
         width -= 10;
-        boolean r = false; // left right column stuff
+
+        boolean right = false; // left right column stuff
         int prevH = 0;
+
         for (AbstractTabComponent comp : children) {
 
-            if (parent != null)
-                r = false;
-            comp.render(r ? x + width / 2 : x, y, parent != null ? width : width / 2, mouseX, mouseY);
+            if (parent != null) {
+                right = false;
+            }
 
-            if (mouseX >= (r ? x + width / 2 : x) && mouseX <= (r ? x + width / 2 : x) + (parent !=null ? width :width / 2) && mouseY >= y && mouseY <= y + comp.getHeight()) {
+            comp.render(right ? x + width / 2 : x, y, parent != null ? width : width / 2, mouseX, mouseY);
+
+            if (mouseX >= (right ? x + width / 2 : x) && mouseX <= (right ? x + width / 2 : x) + (parent != null ? width : width / 2) && mouseY >= y && mouseY <= y + comp.getHeight()) {
                 comp.hover = true;
-                comp.mouseEvent(r ? mouseX - width / 2 - x : mouseX - x, mouseY - y /* Make the Y relevant to the component */);
+                comp.mouseEvent(right ? mouseX - width / 2 - x : mouseX - x, mouseY - y /* Make the Y relevant to the component */);
 
                 if (Mouse.isButtonDown(0)) {
                     if (!tab.clickStates.computeIfAbsent(comp, ignored -> false)) {
-                        comp.onClick(r ? mouseX - width / 2 : mouseX, mouseY - y /* Make the Y relevant to the component */);
+                        comp.onClick(right ? mouseX - width / 2 : mouseX,
+                            mouseY - y /* Make the Y relevant to the component */);
                         tab.clickStates.put(comp, true);
                     }
-                } else if (tab.clickStates.computeIfAbsent(comp, ignored -> false))
+                } else if (tab.clickStates.computeIfAbsent(comp, ignored -> false)) {
                     tab.clickStates.put(comp, false);
-            } else
+                }
+            } else {
                 comp.hover = false;
+            }
 
-            boolean b = r || parent != null;
+            boolean b = right || parent != null;
             if (b) {
                 y += Math.max(comp.getHeight(), prevH);
                 prevH = 0;
             }
-            r = !r;
+            right = !right;
+
 //            if (b)
             prevH = comp.getHeight();
         }
@@ -98,9 +115,9 @@ public class CollapsibleTabComponent extends AbstractTabComponent {
 
     @Override
     public int getHeight() {
-        if (collapsed)
+        if (collapsed) {
             return 18;
-        else {
+        } else {
             if (parent != null) {
                 int h = 18;
                 for (AbstractTabComponent child : children) {
@@ -108,7 +125,6 @@ public class CollapsibleTabComponent extends AbstractTabComponent {
                 }
                 return h;
             }
-
 
             Iterator<AbstractTabComponent> iterator = children.iterator();
             boolean right = true;
@@ -121,9 +137,11 @@ public class CollapsibleTabComponent extends AbstractTabComponent {
                 if (right) {
                     compH += Math.max(leftHeight, height);
                     leftHeight = 0;
-                } else leftHeight = height;
+                } else {
+                    leftHeight = height;
+                }
             }
-            compH+=leftHeight;
+            compH += leftHeight;
             return compH;
         }
     }
@@ -136,8 +154,9 @@ public class CollapsibleTabComponent extends AbstractTabComponent {
 
     @Override
     public void onClick(int x, int y) {
-        if (y < 18)
+        if (y < 18) {
             collapsed = !collapsed;
+        }
     }
 
 
