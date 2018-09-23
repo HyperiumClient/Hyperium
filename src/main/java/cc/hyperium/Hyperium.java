@@ -23,12 +23,7 @@ import cc.hyperium.commands.defaults.*;
 import cc.hyperium.config.DefaultConfig;
 import cc.hyperium.config.Settings;
 import cc.hyperium.cosmetics.HyperiumCosmetics;
-import cc.hyperium.event.EventBus;
-import cc.hyperium.event.GameShutDownEvent;
-import cc.hyperium.event.InitializationEvent;
-import cc.hyperium.event.InvokeEvent;
-import cc.hyperium.event.PreInitializationEvent;
-import cc.hyperium.event.Priority;
+import cc.hyperium.event.*;
 import cc.hyperium.event.minigames.MinigameListener;
 import cc.hyperium.gui.BlurDisableFallback;
 import cc.hyperium.gui.ColourOptions;
@@ -54,28 +49,17 @@ import cc.hyperium.network.NetworkHandler;
 import cc.hyperium.purchases.PurchaseApi;
 import cc.hyperium.tray.TrayManager;
 import cc.hyperium.utils.HyperiumScheduler;
-import cc.hyperium.utils.InstallerUtils;
 import cc.hyperium.utils.LaunchUtil;
 import cc.hyperium.utils.StaffUtils;
 import cc.hyperium.utils.UpdateUtils;
 import cc.hyperium.utils.mods.CompactChat;
 import cc.hyperium.utils.mods.FPSLimiter;
 import net.minecraft.client.Minecraft;
-import net.montoyo.mcef.MCEF;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.Display;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.net.URLClassLoader;
+import java.io.*;
 
 /**
  * Hyperium Client
@@ -102,7 +86,7 @@ public class Hyperium {
     public static String BUILD_ID = "RELEASE " + Metadata.getVersionID();
     private static boolean updateQueue = false;
     private final GeneralStatisticsTracking statTrack = new GeneralStatisticsTracking();
-    private final NotificationCenter notification = new NotificationCenter();
+    private NotificationCenter notification;
     private final RichPresenceManager richPresenceManager = new RichPresenceManager();
     private final ConfirmationPopup confirmation = new ConfirmationPopup();
     public boolean isLatestVersion;
@@ -135,6 +119,7 @@ public class Hyperium {
     @InvokeEvent(priority = Priority.HIGH)
     public void init(InitializationEvent event) {
         new PlayerStatsGui(null); //Don't remove, we need to generate some stuff with Gl context
+        notification = new NotificationCenter();
         scheduler = new HyperiumScheduler();
         InputStream resourceAsStream = getClass().getResourceAsStream("/build.txt");
         try {

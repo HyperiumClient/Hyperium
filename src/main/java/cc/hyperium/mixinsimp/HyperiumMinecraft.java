@@ -15,14 +15,6 @@ import cc.hyperium.utils.AddonWorkspaceResourcePack;
 import cc.hyperium.utils.Utils;
 import cc.hyperium.utils.mods.FPSLimiter;
 import com.chattriggers.ctjs.CTJS;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.lang.management.ManagementFactory;
-import java.nio.ByteBuffer;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.GuiGameOver;
@@ -76,7 +68,7 @@ public class HyperiumMinecraft {
         }
         AddonMinecraftBootstrap.init();
 
-        //CTJS.loadIntoJVM();
+        CTJS.loadIntoJVM();
 
         EventBus.INSTANCE.post(new PreInitializationEvent());
     }
@@ -309,6 +301,7 @@ public class HyperiumMinecraft {
         File file2 = new File(file1,
             "crash-" + (new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss")).format(new Date())
                 + "-client.txt");
+        crashReportIn.saveToFile(file2);
         Bootstrap.printToSYSOUT(crashReportIn.getCompleteReport());
 
         try {
@@ -317,6 +310,9 @@ public class HyperiumMinecraft {
             Display.update();
         } catch (LWJGLException e) {
             e.printStackTrace();
+        } catch (Exception e) {
+            System.out.println("Display not created yet. This is going to cause issues.");
+            throw e;
         }
 
         int x = CrashReportGUI.handle(crashReportIn);
