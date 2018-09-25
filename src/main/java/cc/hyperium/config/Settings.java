@@ -506,11 +506,22 @@ public class Settings {
 
 
     @ConfigOpt
-    @ToggleSetting(name = "Item Physics", category = GENERAL)
+    @ToggleSetting(name = "Item Physics", mods = true, category = ITEM_PHYSIC)
     public static boolean ITEM_PHYSIC_ENABLED = false;
 
     @ConfigOpt
     public static long TOTAL_PLAYTIME = 0;
+
+    @ConfigOpt
+    @SelectorSetting(name = "Main Menu Server", category = GENERAL, items = {
+        "HYPIXEL",
+        "HIVE",
+        "MINEPLEX",
+        "CUBECRAFT",
+        "MINESAGA",
+        "SKYCADE"
+    })
+    public static String MAIN_MENU_SERVER = "HYPIXEL";
 
     private Settings() {
     }

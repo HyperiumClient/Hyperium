@@ -257,7 +257,7 @@ public class Hyperium {
         SplashProgress.CURRENT = "Reloading resource manager";
         SplashProgress.update();
 
-        Minecraft.getMinecraft().refreshResources();
+//        Minecraft.getMinecraft().refreshResources();
 
         SplashProgress.PROGRESS = 13;
         SplashProgress.CURRENT = "Finishing";
