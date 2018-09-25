@@ -24,5 +24,6 @@ public enum Category {
     KEYSTROKES,
     MOTION_BLUR,
     AUTOFRIEND,
-    FNCOMPASS
+    FNCOMPASS,
+    ITEM_PHYSIC
 }

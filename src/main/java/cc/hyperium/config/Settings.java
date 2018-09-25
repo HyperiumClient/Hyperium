@@ -506,7 +506,7 @@ public class Settings {
 
 
     @ConfigOpt
-    @ToggleSetting(name = "Item Physics", category = GENERAL)
+    @ToggleSetting(name = "Item Physics", mods = true, category = ITEM_PHYSIC)
     public static boolean ITEM_PHYSIC_ENABLED = false;
 
     @ConfigOpt
