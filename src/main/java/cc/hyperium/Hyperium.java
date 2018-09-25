@@ -37,15 +37,20 @@ import cc.hyperium.commands.defaults.CommandPlayGame;
 import cc.hyperium.commands.defaults.CommandPrivateMessage;
 import cc.hyperium.commands.defaults.CommandQuests;
 import cc.hyperium.commands.defaults.CommandResize;
-import cc.hyperium.commands.defaults.CommandStats;
 import cc.hyperium.commands.defaults.CommandStatistics;
+import cc.hyperium.commands.defaults.CommandStats;
 import cc.hyperium.commands.defaults.CommandUpdate;
 import cc.hyperium.commands.defaults.CustomLevelheadCommand;
 import cc.hyperium.commands.defaults.DevTestCommand;
 import cc.hyperium.config.DefaultConfig;
 import cc.hyperium.config.Settings;
 import cc.hyperium.cosmetics.HyperiumCosmetics;
-import cc.hyperium.event.*;
+import cc.hyperium.event.EventBus;
+import cc.hyperium.event.GameShutDownEvent;
+import cc.hyperium.event.InitializationEvent;
+import cc.hyperium.event.InvokeEvent;
+import cc.hyperium.event.PreInitializationEvent;
+import cc.hyperium.event.Priority;
 import cc.hyperium.event.minigames.MinigameListener;
 import cc.hyperium.gui.BlurDisableFallback;
 import cc.hyperium.gui.ColourOptions;
@@ -81,7 +86,14 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.Display;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 /**
  * Hyperium Client
@@ -108,10 +120,10 @@ public class Hyperium {
     public static String BUILD_ID = "RELEASE " + Metadata.getVersionID();
     private static boolean updateQueue = false;
     private final GeneralStatisticsTracking statTrack = new GeneralStatisticsTracking();
-    private NotificationCenter notification;
     private final RichPresenceManager richPresenceManager = new RichPresenceManager();
     private final ConfirmationPopup confirmation = new ConfirmationPopup();
     public boolean isLatestVersion;
+    private NotificationCenter notification;
     private HyperiumCosmetics cosmetics;
     private HyperiumHandlers handlers;
     private HyperiumModIntegration modIntegration;
@@ -140,7 +152,7 @@ public class Hyperium {
 
     @InvokeEvent(priority = Priority.HIGH)
     public void init(InitializationEvent event) {
-        new PlayerStatsGui(null); //Don't remove, we need to generate some stuff with Gl context
+        Multithreading.runAsync(() -> new PlayerStatsGui(null));//Don't remove, we need to generate some stuff with Gl context
         notification = new NotificationCenter();
         scheduler = new HyperiumScheduler();
         InputStream resourceAsStream = getClass().getResourceAsStream("/build.txt");
@@ -232,12 +244,15 @@ public class Hyperium {
         SplashProgress.update();
         modIntegration = new HyperiumModIntegration();
         internalAddons = new InternalAddons();
-        try {
-            StaffUtils.clearCache();
-        } catch (IOException e) {
-            e.printStackTrace();
-            LOGGER.warn("Failed to fetch staff");
-        }
+        Multithreading.runAsync(() -> {
+            try {
+                StaffUtils.clearCache();
+            } catch (IOException e) {
+                e.printStackTrace();
+                LOGGER.warn("Failed to fetch staff");
+            }
+
+        });
 
         Multithreading.runAsync(Spotify::load);
 
@@ -271,27 +286,34 @@ public class Hyperium {
             this.client = new NettyClient(networkHandler);
             UniversalNetty.getInstance().getPacketManager().register(new LoginReplyHandler());
         });
-        EventBus.INSTANCE.register(FontFixValues.INSTANCE);
-        if (Settings.PERSISTENT_CHAT) {
-            File file = new File(folder, "chat.txt");
 
-            if (file.exists()) {
-                try {
-                    FileReader fr = new FileReader(file);
-                    BufferedReader bufferedReader = new BufferedReader(fr);
-                    String line;
-                    while ((line = bufferedReader.readLine()) != null) {
-                        Minecraft.getMinecraft().ingameGUI.getChatGUI().addToSentMessages(line);
+        Multithreading.runAsync(() -> {
+                    EventBus.INSTANCE.register(FontFixValues.INSTANCE);
+                    if (Settings.PERSISTENT_CHAT) {
+                        File file = new File(folder, "chat.txt");
+
+                        if (file.exists()) {
+                            try {
+                                FileReader fr = new FileReader(file);
+                                BufferedReader bufferedReader = new BufferedReader(fr);
+                                String line;
+                                while ((line = bufferedReader.readLine()) != null) {
+                                    Minecraft.getMinecraft().ingameGUI.getChatGUI().addToSentMessages(line);
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    } else {
+                        System.out.println("Not restoring chat");
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
                 }
-            }
-        } else {
-            System.out.println("Not restoring chat");
-        }
 
-        isLatestVersion = UpdateUtils.INSTANCE.isAbsoluteLatest();
+        );
+
+        Multithreading.runAsync(() -> {
+            isLatestVersion = UpdateUtils.INSTANCE.isAbsoluteLatest();
+        });
 
         // Check if Optifine is installed.
         try {

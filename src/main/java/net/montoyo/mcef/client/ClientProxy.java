@@ -83,10 +83,7 @@ public class ClientProxy extends BaseProxy {
         cfg.load();
         File[] resourceArray = cfg.getResourceArray();
 
-        if (!cfg.updateFileListing(fileListing, false)) {
-            Log.warning(
-                    "There was a problem while establishing file list. Uninstall may not delete all files.");
-        }
+
 
         if (!cfg.downloadMissing(ipl)) {
             Log.warning("Going in virtual mode; couldn't download resources.");
@@ -94,10 +91,6 @@ public class ClientProxy extends BaseProxy {
             return;
         }
 
-        if (!cfg.updateFileListing(fileListing, true)) {
-            Log.warning(
-                    "There was a problem while updating file list. Uninstall may not delete all files.");
-        }
 
         updateStr = cfg.getUpdateString();
         ipl.onProgressEnd();

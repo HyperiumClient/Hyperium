@@ -120,7 +120,6 @@ public class RemoteConfig {
             for (Resource r : resources) {
                 if (!r.download(ipl))
                     return false;
-                System.out.println("Extraction: " + r.extract(ipl));
 
             }
 
