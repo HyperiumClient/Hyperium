@@ -512,6 +512,17 @@ public class Settings {
     @ConfigOpt
     public static long TOTAL_PLAYTIME = 0;
 
+    @ConfigOpt
+    @SelectorSetting(name = "Main Menu Server", category = GENERAL, items = {
+        "HYPIXEL",
+        "HIVE",
+        "MINEPLEX",
+        "CUBECRAFT",
+        "MINESAGA",
+        "SKYCADE"
+    })
+    public static String MAIN_MENU_SERVER = "HYPIXEL";
+
     private Settings() {
     }
 
