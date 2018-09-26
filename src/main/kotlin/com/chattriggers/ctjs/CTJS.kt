@@ -54,9 +54,6 @@ object CTJS {
 
         UriScheme.installUriScheme()
         UriScheme.createSocketListener()
-
-        val sha256uuid = DigestUtils.sha256Hex(Player.getUUID())
-        FileLib.getUrlContent("https://www.chattriggers.com/tracker/?uuid=$sha256uuid")
     }
 
     @InvokeEvent
@@ -66,6 +63,9 @@ object CTJS {
         }
 
         registerHooks()
+
+        val sha256uuid = DigestUtils.sha256Hex(Player.getUUID())
+        FileLib.getUrlContent("https://www.chattriggers.com/tracker/?uuid=$sha256uuid")
 
         (Client.getMinecraft().renderManager as IMixinRenderManager).skinMap.values.forEach {
             (it as IMixinRenderLivingEntity<*>).callAddLayer(LayerCape(it))
