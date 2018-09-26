@@ -22,15 +22,12 @@ import kotlin.reflect.jvm.isAccessible
 @ModuleLoader
 object JSLoader : ILoader {
     private val triggers = mutableListOf<OnTrigger>()
+    private val toRemove = mutableListOf<OnTrigger>()
+    override val console by lazy { Console(this) }
+
     private var global: Global? = null
     private val cachedModules = mutableListOf<Module>()
-    private var scriptEngine: NashornScriptEngine
-    private val console = Console(this)
-    private val toRemove = mutableListOf<OnTrigger>()
-
-    init {
-        scriptEngine = instanceScriptEngine(listOf())
-    }
+    private lateinit var scriptEngine: NashornScriptEngine
 
     override fun load(modules: List<Module>) {
         cachedModules.clear()
@@ -143,10 +140,6 @@ object JSLoader : ILoader {
 
     override fun getModules(): List<Module> {
         return cachedModules
-    }
-
-    override fun getConsole(): Console {
-        return console
     }
 
     private fun callActualMethod(method: Any, vararg args: Any?) {

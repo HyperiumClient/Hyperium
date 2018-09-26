@@ -41,7 +41,7 @@ abstract class XMLHttpRequest {
             this.conn = url.openConnection() as HttpURLConnection
             this.conn?.requestMethod = method
         } catch (e: Exception) {
-            getLoader().getConsole().printStackTrace(e)
+            getLoader().console.printStackTrace(e)
         }
     }
 
@@ -75,7 +75,7 @@ abstract class XMLHttpRequest {
                 sendPost(*parameters)
             }
         } catch (e: Exception) {
-            getLoader().getConsole().printStackTrace(e)
+            getLoader().console.printStackTrace(e)
         }
     }
 
@@ -92,7 +92,7 @@ abstract class XMLHttpRequest {
                 sendGet()
             }
         } catch (e: Exception) {
-            getLoader().getConsole().printStackTrace(e)
+            getLoader().console.printStackTrace(e)
         }
     }
 
@@ -134,7 +134,7 @@ abstract class XMLHttpRequest {
 
             sendGet()
         } catch (e: Exception) {
-            getLoader().getConsole().printStackTrace(e)
+            getLoader().console.printStackTrace(e)
         }
     }
 
@@ -159,7 +159,7 @@ abstract class XMLHttpRequest {
 
             this.methodCallback.trigger(this)
         } catch (e: Exception) {
-            getLoader().getConsole().printStackTrace(e)
+            getLoader().console.printStackTrace(e)
         }
 
     }

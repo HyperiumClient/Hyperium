@@ -13,7 +13,7 @@ object ModuleManager {
 
 
     val loaders = mutableListOf<ILoader>()
-    val generalConsole = Console(null)
+    val generalConsole by lazy { Console(null) }
     var cachedModules = listOf<Module>()
 
     fun importModule(moduleName: String) {
@@ -75,6 +75,6 @@ object ModuleManager {
     fun getConsole(language: String): Console {
         return loaders.firstOrNull {
             it.getLanguageName() == language
-        }?.getConsole() ?: generalConsole
+        }?.console ?: generalConsole
     }
 }

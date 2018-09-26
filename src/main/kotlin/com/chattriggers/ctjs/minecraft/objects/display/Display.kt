@@ -38,10 +38,10 @@ abstract class Display {
         this.textColor = config.getOption("textColor", 0xffffffff.toInt()).toInt()
 
         this.setBackground(config.getOption("background", DisplayHandler.Background.NONE))
-        this.setAlign(config.getOption("align", DisplayHandler.Align.RIGHT))
+        this.setAlign(config.getOption("align", DisplayHandler.Align.LEFT))
         this.setOrder(config.getOption("order", DisplayHandler.Order.DOWN))
 
-        this.minWidth = config.getOption("minWidth", 0).toFloat()
+        this.minWidth = config.getOption("minWidth", 0f).toFloat()
 
         DisplayHandler.registerDisplay(this)
     }
@@ -63,6 +63,7 @@ abstract class Display {
         return this
     }
 
+    fun getBackground(): DisplayHandler.Background = this.background
     fun setBackground(background: Any): Display {
         this.background = when (background) {
             is String -> DisplayHandler.Background.valueOf(background.toUpperCase().replace(" ", "_"))
@@ -72,6 +73,7 @@ abstract class Display {
         return this
     }
 
+    fun getAlign(): DisplayHandler.Align = this.align
     fun setAlign(align: Any): Display {
         this.align = when (align) {
             is String -> DisplayHandler.Align.valueOf(align.toUpperCase())
@@ -81,6 +83,7 @@ abstract class Display {
         return this
     }
 
+    fun getOrder(): DisplayHandler.Order = this.order
     fun setOrder(order: Any): Display {
         this.order = when (order) {
             is String -> DisplayHandler.Order.valueOf(order.toUpperCase())
@@ -201,4 +204,15 @@ abstract class Display {
     }
 
     internal abstract fun createDisplayLine(text: String): DisplayLine
+
+    override fun toString() =
+            "Display{" +
+                    "shouldRender=$shouldRender, " +
+                    "renderX=$renderX, renderY=$renderY, " +
+                    "background=$background, backgroundColor=$backgroundColor, " +
+                    "textColor=$textColor, align=$align, order=$order, " +
+                    "minWidth=$minWidth, width=$width, height=$height, " +
+                    "lines=$lines" +
+                    "}"
+
 }

@@ -81,8 +81,13 @@ object FileLib {
      * @return the string stored in the url content
      */
     @JvmStatic @JvmOverloads
-    fun getUrlContent(theUrl: String, userAgent: String? = null): String {
-        return URL(theUrl).readText()
+    fun getUrlContent(theUrl: String, userAgent: String? = "Mozilla/5.0"): String {
+        val conn = URL(theUrl).openConnection()
+        conn.setRequestProperty("User-Agent", userAgent)
+
+        return conn.getInputStream().use {
+            it.readBytes().toString()
+        }
     }
 
     @JvmStatic

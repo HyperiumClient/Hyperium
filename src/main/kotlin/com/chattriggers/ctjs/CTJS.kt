@@ -23,6 +23,7 @@ import org.apache.commons.codec.digest.DigestUtils
 import org.reflections.Reflections
 import java.io.File
 import java.io.FileReader
+import kotlin.concurrent.thread
 
 object CTJS {
     lateinit var assetsDir: File
@@ -45,7 +46,9 @@ object CTJS {
         pictures.mkdirs()
         assetsDir = pictures
 
-        setupConfig()
+        thread(start = true) {
+            loadConfig()
+        }
 
         AnnotationHandler.subscribeAutomatic()
 
@@ -53,12 +56,15 @@ object CTJS {
         UriScheme.createSocketListener()
 
         val sha256uuid = DigestUtils.sha256Hex(Player.getUUID())
-        FileLib.getUrlContent("http://167.99.3.229/tracker/?uuid=$sha256uuid")
+        FileLib.getUrlContent("https://www.chattriggers.com/tracker/?uuid=$sha256uuid")
     }
 
     @InvokeEvent
     fun init(event: InitializationEvent) {
-        ModuleManager.load(true)
+        thread(start = true) {
+            ModuleManager.load(true)
+        }
+
         registerHooks()
 
         (Client.getMinecraft().renderManager as IMixinRenderManager).skinMap.values.forEach {
@@ -66,16 +72,12 @@ object CTJS {
         }
     }
 
-    fun setupConfig() {
-        loadConfig()
-    }
-
     fun saveConfig() {
         val file = File(this.configLocation, "ChatTriggers.json")
         Config.save(file)
     }
 
-    private fun loadConfig(): Boolean {
+    internal fun loadConfig(): Boolean {
         try {
             val parser = JsonParser()
             val obj = parser.parse(

@@ -9,6 +9,7 @@ import org.apache.commons.io.FileUtils
 import java.io.File
 
 interface ILoader {
+    val console: Console
     fun load(modules: List<Module>)
     fun load(module: Module)
     fun exec(type: TriggerType, vararg args: Any?)
@@ -19,7 +20,6 @@ interface ILoader {
     fun trigger(trigger: OnTrigger, method: Any, vararg args: Any?)
     fun removeTrigger(trigger: OnTrigger)
     fun getModules(): List<Module>
-    fun getConsole(): Console
 
     companion object {
         internal val modulesFolder = File(Config.modulesFolder)

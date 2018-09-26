@@ -85,6 +85,16 @@ abstract class DisplayLine {
         }
     }
 
+    fun getBackgroundColor(): Int? = this.backgroundColor
+    fun setBackgroundColor(color: Int) = apply {
+        this.backgroundColor = color
+    }
+
+    fun setTextColor(): Int? = this.textColor
+    fun setTextColor(color: Int) = apply {
+        this.textColor = color
+    }
+
     fun registerClicked(method: Any) = run {
         this.onClicked = OnRegularTrigger(method, TriggerType.OTHER, getLoader())
         this.onClicked

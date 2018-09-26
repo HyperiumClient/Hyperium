@@ -10,7 +10,6 @@ import com.chattriggers.ctjs.minecraft.libs.FileLib
 import com.google.gson.Gson
 import org.apache.commons.io.FileUtils
 import java.io.File
-import java.io.IOException
 import java.net.URL
 
 object DefaultLoader {
@@ -126,10 +125,9 @@ object DefaultLoader {
 
                     val newMetadataFile = File(dir, "updateMeta.json")
 
-                    FileUtils.copyURLToFile(
-                            URL("http://167.99.3.229/downloads/metadata/${metadata.fileName}"),
-                            newMetadataFile
-                    )
+                    val connection = URL("https://www.chattriggers.com/downloads/metadata/${metadata.fileName}").openConnection()
+                    connection.setRequestProperty("User-Agent", "Mozilla/5.0")
+                    FileUtils.copyInputStreamToFile(connection.getInputStream(), newMetadataFile)
 
                     val currVersion = metadata.version
 
@@ -146,6 +144,7 @@ object DefaultLoader {
                     newMetadataFile.delete()
                 }
             } catch (e: Exception) {
+                ModuleManager.generalConsole.printStackTrace(e)
                 ModuleManager.generalConsole.out.println("Can't find page for ${dir.name}")
             }
 
@@ -169,8 +168,9 @@ object DefaultLoader {
     private fun downloadModule(name: String, existCheck: Boolean): Boolean {
         if (existCheck) {
             try {
-                URL("http://167.99.3.229/downloads/metadata/$name").openStream()
+                FileLib.getUrlContent("https://www.chattriggers.com/downloads/metadata/$name")
             } catch (e: Exception) {
+                ModuleManager.generalConsole.printStackTrace(e)
                 return false
             }
         }
@@ -178,16 +178,15 @@ object DefaultLoader {
         try {
             val downloadZip = File(modulesFolder, "currDownload.zip")
 
-            FileUtils.copyURLToFile(
-                    URL("http://167.99.3.229/downloads/scripts/$name"),
-                    downloadZip
-            )
+            val connection = URL("https://www.chattriggers.com/downloads/scripts/$name").openConnection()
+            connection.setRequestProperty("User-Agent", "Mozilla/5.0")
+            FileUtils.copyInputStreamToFile(connection.getInputStream(), downloadZip)
 
             FileLib.unzip(downloadZip.absolutePath, modulesFolder.absolutePath)
 
             downloadZip.delete()
-        } catch (exception: IOException) {
-            ModuleManager.generalConsole.printStackTrace(exception)
+        } catch (e: Exception) {
+            ModuleManager.generalConsole.printStackTrace(e)
             return false
         }
 
