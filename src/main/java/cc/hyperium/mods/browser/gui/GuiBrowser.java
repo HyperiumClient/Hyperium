@@ -174,6 +174,8 @@ public class GuiBrowser extends GuiScreen {
                 url.setFocused(true);
                 url.setSelectionPos(0);
                 return;
+            }else if(num == Keyboard.KEY_F11 && pressed){
+                mc.toggleFullscreen();
             }
 
             if (browser != null
