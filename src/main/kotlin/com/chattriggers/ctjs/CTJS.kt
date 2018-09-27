@@ -7,6 +7,7 @@ import cc.hyperium.event.InvokeEvent
 import cc.hyperium.event.PreInitializationEvent
 import cc.hyperium.mixins.renderer.IMixinRenderLivingEntity
 import cc.hyperium.mixinsimp.renderer.IMixinRenderManager
+import cc.hyperium.mods.sk1ercommon.Multithreading
 import com.chattriggers.ctjs.commands.CTCommand
 import com.chattriggers.ctjs.engine.ModuleManager
 import com.chattriggers.ctjs.minecraft.libs.FileLib
@@ -46,9 +47,8 @@ object CTJS {
         pictures.mkdirs()
         assetsDir = pictures
 
-        thread(start = true) {
-            loadConfig()
-        }
+        Multithreading.runAsync(thread {   loadConfig() })
+
 
         AnnotationHandler.subscribeAutomatic()
 
@@ -58,14 +58,15 @@ object CTJS {
 
     @InvokeEvent
     fun init(event: InitializationEvent) {
-        thread(start = true) {
-            ModuleManager.load(true)
-        }
+        Multithreading.runAsync(thread { ModuleManager.load(true) })
+
 
         registerHooks()
+        Multithreading.runAsync(thread {
+            val sha256uuid = DigestUtils.sha256Hex(Player.getUUID())
+            FileLib.getUrlContent("https://www.chattriggers.com/tracker/?uuid=$sha256uuid")
+        })
 
-        val sha256uuid = DigestUtils.sha256Hex(Player.getUUID())
-        FileLib.getUrlContent("https://www.chattriggers.com/tracker/?uuid=$sha256uuid")
 
         (Client.getMinecraft().renderManager as IMixinRenderManager).skinMap.values.forEach {
             (it as IMixinRenderLivingEntity<*>).callAddLayer(LayerCape(it))
@@ -108,5 +109,6 @@ object CTJS {
     }
 
     @JvmStatic
-    fun loadIntoJVM() {}
+    fun loadIntoJVM() {
+    }
 }
