@@ -36,7 +36,7 @@ class OnStepTrigger(method: Any, loader: ILoader) : OnTrigger(method, TriggerTyp
     override fun trigger(vararg args: Any?) {
         if (this.delay == null) {
             // run trigger based on set fps value (60 per second by default)
-            while (this.systemTime < Client.getSystemTime() + 1000 / Math.min(1, this.fps)) {
+            while (this.systemTime < Client.getSystemTime() + 1000 / this.fps) {
                 callMethod(++this.elapsed)
                 this.systemTime += 1000 / this.fps
             }
