@@ -43,7 +43,7 @@ public class WingsRenderer extends ModelBase {
 
     @InvokeEvent
     public void onRenderPlayer(RenderPlayerEvent event) {
-        if(!Settings.SHOW_COSMETICS_EVERYWHERE && !Hyperium.INSTANCE.getHandlers().getLocationHandler().isLobbyOrHousing()){
+        if (!Settings.SHOW_COSMETICS_EVERYWHERE && !Hyperium.INSTANCE.getHandlers().getLocationHandler().isLobbyOrHousing()) {
             return;
         }
         EntityPlayer player = event.getEntity();
@@ -51,7 +51,7 @@ public class WingsRenderer extends ModelBase {
             HyperiumPurchase packageIfReady = PurchaseApi.getInstance().getPackageIfReady(event.getEntity().getUniqueID());
             if (packageIfReady == null)
                 return;
-            if (packageIfReady.getPurchaseSettings().optJSONObject("wings").optBoolean("disabled")) {
+            if (packageIfReady.getCachedSettings().isWingsDisabled()) {
                 return;
             }
 
@@ -65,12 +65,11 @@ public class WingsRenderer extends ModelBase {
         if (packageIfReady == null) {
             return;
         }
-        String s = packageIfReady.getPurchaseSettings().optJSONObject("wings").optString("type");
+        String s = packageIfReady.getCachedSettings().getWingsType();
         ResourceLocation location = wingsCosmetic.getLocation(s);
 
         // Wings scale as defined in the settings.
-        double v = packageIfReady.getPurchaseSettings().optJSONObject("wings")
-                .optDouble("scale", Settings.WINGS_SCALE);
+        double v = packageIfReady.getCachedSettings().getWingsScale();
         double scale = v / 100.0;
         double rotate = this
                 .interpolate(player.prevRenderYawOffset, player.renderYawOffset, partialTicks);

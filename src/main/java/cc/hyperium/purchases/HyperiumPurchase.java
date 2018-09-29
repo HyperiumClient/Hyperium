@@ -31,6 +31,7 @@ public class HyperiumPurchase {
     private final JsonHolder response;
     private JsonHolder purchaseSettings = new JsonHolder();
     private boolean everything = false;
+    private PurchaseSettings cachedSettings;
 
     public HyperiumPurchase(UUID playerUUID, JsonHolder response) {
         this.playerUUID = playerUUID;
@@ -40,6 +41,7 @@ public class HyperiumPurchase {
         everything = (response.optLong("everything") > System.currentTimeMillis());
 
         purchaseSettings = PurchaseApi.getInstance().get("https://api.hyperium.cc/purchaseSettings/" + (playerUUID.toString()));
+        cachedSettings = new PurchaseSettings(getPurchaseSettings());
         for (JsonElement nicePackages : response.optJSONArray("hyperium")) {
             String asString = nicePackages.getAsString();
             EnumPurchaseType parse = EnumPurchaseType.parse(asString);
@@ -65,6 +67,14 @@ public class HyperiumPurchase {
         }
     }
 
+    public void refreshCachedSettings() {
+        this.cachedSettings = new PurchaseSettings(getPurchaseSettings());
+    }
+
+    public PurchaseSettings getCachedSettings() {
+        return cachedSettings;
+    }
+
     public boolean isEverything() {
         return everything;
     }
@@ -84,7 +94,7 @@ public class HyperiumPurchase {
         if (isEverything())
             return true;
         for (JsonElement element : response.optJSONArray("hyperium")) {
-            if(element instanceof JsonPrimitive && element.getAsString().equalsIgnoreCase(key))
+            if (element instanceof JsonPrimitive && element.getAsString().equalsIgnoreCase(key))
                 return true;
         }
         return false;

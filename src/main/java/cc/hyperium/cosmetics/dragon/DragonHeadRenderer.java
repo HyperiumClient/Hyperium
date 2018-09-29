@@ -86,7 +86,7 @@ public class DragonHeadRenderer extends ModelBase {
             HyperiumPurchase packageIfReady = PurchaseApi.getInstance().getPackageIfReady(event.getEntity().getUniqueID());
             if (packageIfReady == null)
                 return;
-            if (packageIfReady.getPurchaseSettings().optJSONObject("dragon").optBoolean("disabled")) {
+            if (packageIfReady.getCachedSettings().isDragonHeadDisabled()) {
                 return;
             }
 

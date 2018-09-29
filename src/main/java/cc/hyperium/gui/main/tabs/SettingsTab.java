@@ -275,6 +275,7 @@ public class SettingsTab extends AbstractTab {
                 if (!purchaseSettings.has("wings"))
                     purchaseSettings.put("wings", new JsonHolder());
                 purchaseSettings.optJSONObject("wings").put("scale", o1);
+                self.refreshCachedSettings();
                 Settings.WINGS_SCALE = o1;
                 NettyClient client = NettyClient.getClient();
                 if (client != null)
