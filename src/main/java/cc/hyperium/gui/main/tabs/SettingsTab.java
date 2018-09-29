@@ -95,14 +95,12 @@ public class SettingsTab extends AbstractTab {
             });
             customStates.put(earsField, () -> {
                 Hyperium instance = Hyperium.INSTANCE;
-                if (instance != null) {
-                    HyperiumCosmetics cosmetics1 = instance.getCosmetics();
-                    if (cosmetics1 != null) {
-                        Deadmau5Cosmetic deadmau5Cosmetic = cosmetics1.getDeadmau5Cosmetic();
-                        if (deadmau5Cosmetic != null) {
-                            if (deadmau5Cosmetic.isSelfUnlocked()) {
-                                return new String[]{"YES", "NO"};
-                            }
+                HyperiumCosmetics cosmetics1 = instance.getCosmetics();
+                if (cosmetics1 != null) {
+                    Deadmau5Cosmetic deadmau5Cosmetic = cosmetics1.getDeadmau5Cosmetic();
+                    if (deadmau5Cosmetic != null) {
+                        if (deadmau5Cosmetic.isSelfUnlocked()) {
+                            return new String[]{"YES", "NO"};
                         }
                     }
                 }
