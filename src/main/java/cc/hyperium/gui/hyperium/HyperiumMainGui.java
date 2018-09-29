@@ -9,6 +9,7 @@ import cc.hyperium.gui.Icons;
 import cc.hyperium.gui.hyperium.components.AbstractTab;
 import cc.hyperium.gui.hyperium.tabs.NewsTab;
 import cc.hyperium.gui.hyperium.tabs.SettingsTab;
+import cc.hyperium.gui.hyperium.tabs.UpdateTab;
 import cc.hyperium.handlers.handlers.SettingsHandler;
 import cc.hyperium.mixinsimp.client.GlStateModifier;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
@@ -115,7 +116,8 @@ public class HyperiumMainGui extends HyperiumGui {
 
         tabs = Arrays.asList(
                 new SettingsTab(this),
-                new NewsTab(this)
+                new NewsTab(this),
+                new UpdateTab(this)
         );
         guiScale = 2;
         scollMultiplier = 2;
@@ -148,7 +150,7 @@ public class HyperiumMainGui extends HyperiumGui {
     protected void pack() {
         Method loadShaderMethod = null;
         try {
-            loadShaderMethod = ReflectionUtil.findDeclaredMethod(EntityRenderer.class, new String[] {"loadShader", "a"}, ResourceLocation.class);
+            loadShaderMethod = ReflectionUtil.findDeclaredMethod(EntityRenderer.class, new String[]{"loadShader", "a"}, ResourceLocation.class);
         } catch (Exception ignored) {
         }
 
@@ -192,7 +194,7 @@ public class HyperiumMainGui extends HyperiumGui {
         title.drawCenteredString(currentTab.getTitle().toUpperCase(), width / 2F, yg + (yg / 2F - 8), 0xffffff);
 
         // Body
-        currentTab.render(xg, yg * 2, xg * 9, yg * 8);
+        currentTab.render(xg, yg * 2, xg * 9, yg * 7);
 
         // Footer
         smol.drawString(Metadata.getVersion(), width - smol.getWidth(Metadata.getVersion()) - 1, height - 10, 0xffffffff);
