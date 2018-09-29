@@ -5,7 +5,6 @@ import cc.hyperium.event.HypixelGetCoinsEvent;
 import cc.hyperium.event.HypixelGetXPEvent;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.RankedRatingChangeEvent;
-import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.utils.JsonHolder;
 import com.google.gson.Gson;
@@ -130,7 +129,6 @@ public class HypixelValueTracking {
     }
 
     public void post(ValueTrackingType item, int value, long time) {
-        GeneralChatHandler.instance().sendMessage(item.getDisplay() + "+" + value);
         currentCache.add(new ValueTrackingItem(item, value, time));
     }
 

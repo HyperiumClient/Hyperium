@@ -38,7 +38,6 @@ import cc.hyperium.handlers.handlers.hypixel.HypixelGuiAugmenter;
 import cc.hyperium.handlers.handlers.keybinds.KeyBindHandler;
 import cc.hyperium.handlers.handlers.mixin.LayerDeadmau5HeadHandler;
 import cc.hyperium.handlers.handlers.particle.ParticleAuraHandler;
-import cc.hyperium.handlers.handlers.privatemessages.PrivateMessageHandler;
 import cc.hyperium.handlers.handlers.reach.ReachDisplay;
 import cc.hyperium.handlers.handlers.stats.StatsHandler;
 import cc.hyperium.handlers.handlers.tracking.HypixelValueTracking;
@@ -68,7 +67,6 @@ public class HyperiumHandlers {
     private StatusHandler statusHandler;
     private GuiDisplayHandler guiDisplayHandler;
     private KeyBindHandler keybindHandler;
-    private PrivateMessageHandler privateMessageHandler;
     private HyperiumCommandHandler commandHandler;
     private HyperiumNetwork network;
     private ScoreboardRenderer scoreboardRenderer;
@@ -112,7 +110,6 @@ public class HyperiumHandlers {
         register(capeHandler = new CapeHandler());
         register(guiDisplayHandler = new GuiDisplayHandler());
         register(scoreboardRenderer = new ScoreboardRenderer());
-        register(privateMessageHandler = new PrivateMessageHandler());
         register(dabHandler = new DabHandler());
         register(twerkDance = new TwerkDance());
         register(particleAuraHandler = new ParticleAuraHandler());
@@ -133,8 +130,6 @@ public class HyperiumHandlers {
         System.out.println("Loading chat handlers");
         registerChatHandler(new RankedRatingChatHandler());
         registerChatHandler(new AutoWhoChatHandler());
-        registerChatHandler(new PrivateMessageReader());
-        registerChatHandler(new GuildPartyChatParser());
         registerChatHandler(questTracking = new QuestTrackingChatHandler());
         registerChatHandler(new WinTrackingChatHandler());
         registerChatHandler(new FriendRequestChatHandler());
@@ -246,9 +241,6 @@ public class HyperiumHandlers {
         return keybindHandler;
     }
 
-    public PrivateMessageHandler getPrivateMessageHandler() {
-        return privateMessageHandler;
-    }
 
     public TPoseHandler gettPoseHandler() {
         return tPoseHandler;

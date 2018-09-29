@@ -150,11 +150,7 @@ public class HypixelFriendsGui extends HyperiumGui {
                 guiButton.displayString = "Remove (Hold down)";
             }
         });
-        reg("MESSAGE", new GuiButton(nextId(), ResolutionUtil.current().getScaledWidth() - 153, 23 + 21 * 3, 150, 20, "Message"), guiButton -> {
-            if (selectedItem == null)
-                return;
-            Minecraft.getMinecraft().displayGuiScreen(new HypixelPrivateMessage(Hyperium.INSTANCE.getHandlers().getPrivateMessageHandler().getChat(selectedItem.getObject().getName())));
-        }, (button) -> button.enabled = this.selectedItem != null);
+
     }
 
     @Override

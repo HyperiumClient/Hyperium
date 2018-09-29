@@ -34,7 +34,6 @@ import cc.hyperium.commands.defaults.CommandParticleAuras;
 import cc.hyperium.commands.defaults.CommandParty;
 import cc.hyperium.commands.defaults.CommandPing;
 import cc.hyperium.commands.defaults.CommandPlayGame;
-import cc.hyperium.commands.defaults.CommandPrivateMessage;
 import cc.hyperium.commands.defaults.CommandQuests;
 import cc.hyperium.commands.defaults.CommandResize;
 import cc.hyperium.commands.defaults.CommandStatistics;
@@ -332,7 +331,6 @@ public class Hyperium {
         HyperiumCommandHandler hyperiumCommandHandler = getHandlers().getHyperiumCommandHandler();
         hyperiumCommandHandler.registerCommand(new CommandConfigGui());
         hyperiumCommandHandler.registerCommand(new CustomLevelheadCommand());
-        hyperiumCommandHandler.registerCommand(new CommandPrivateMessage());
         hyperiumCommandHandler.registerCommand(new CommandClearChat());
         hyperiumCommandHandler.registerCommand(new CommandBrowse());
         hyperiumCommandHandler.registerCommand(new CommandNameHistory());
