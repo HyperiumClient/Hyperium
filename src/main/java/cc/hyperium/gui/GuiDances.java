@@ -248,14 +248,11 @@ public class GuiDances extends HyperiumGui {
 
         if (lastFoc == null && foc != null) {
             handlers.get(foc).accept(false);
-            System.out.println("1");
         } else if (lastFoc != null && foc == null) {
             cancel.get(lastFoc).run();
-            System.out.println("2");
         } else if (lastFoc != null && !lastFoc.equalsIgnoreCase(foc)) {
             cancel.get(lastFoc).run();
             handlers.get(foc).accept(false);
-            System.out.println("3");
         }
         GlStateManager.pushMatrix();
         GlStateManager.color(1, 1, 1);
