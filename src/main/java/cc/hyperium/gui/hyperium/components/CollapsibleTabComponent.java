@@ -8,6 +8,7 @@ import org.lwjgl.input.Mouse;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /*
  * Created by Cubxity on 27/08/2018
@@ -18,6 +19,7 @@ public class CollapsibleTabComponent extends AbstractTabComponent {
     private boolean collapsed = true;
     private String label;
     private CollapsibleTabComponent parent;
+    private String tmpf;
 
     public CollapsibleTabComponent(AbstractTab tab, List<String> tags, String label) {
         super(tab, tags);
@@ -76,7 +78,7 @@ public class CollapsibleTabComponent extends AbstractTabComponent {
         boolean right = false; // left right column stuff
         int prevH = 0;
 
-        for (AbstractTabComponent comp : children) {
+        for (AbstractTabComponent comp : tmpf == null ? children : children.stream().filter(c -> c.filter(tmpf)).collect(Collectors.toList())) {
 
             if (parent != null) {
                 right = false;
@@ -91,7 +93,7 @@ public class CollapsibleTabComponent extends AbstractTabComponent {
                 if (Mouse.isButtonDown(0)) {
                     if (!tab.clickStates.computeIfAbsent(comp, ignored -> false)) {
                         comp.onClick(right ? mouseX - width / 2 : mouseX,
-                            mouseY - y /* Make the Y relevant to the component */);
+                                mouseY - y /* Make the Y relevant to the component */);
                         tab.clickStates.put(comp, true);
                     }
                 } else if (tab.clickStates.computeIfAbsent(comp, ignored -> false)) {
@@ -118,6 +120,7 @@ public class CollapsibleTabComponent extends AbstractTabComponent {
         if (collapsed) {
             return 18;
         } else {
+            List<AbstractTabComponent> children = this.tmpf == null ? this.children : this.children.stream().filter(c -> c.filter(tmpf)).collect(Collectors.toList());
             if (parent != null) {
                 int h = 18;
                 for (AbstractTabComponent child : children) {
@@ -142,6 +145,7 @@ public class CollapsibleTabComponent extends AbstractTabComponent {
                 }
             }
             compH += leftHeight;
+            tmpf = null;
             return compH;
         }
     }
@@ -159,5 +163,11 @@ public class CollapsibleTabComponent extends AbstractTabComponent {
         }
     }
 
-
+    @Override
+    public boolean filter(String s) {
+        boolean b = super.filter(s);
+        if (b)
+            tmpf = s;
+        return b;
+    }
 }

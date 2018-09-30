@@ -159,4 +159,8 @@ public class UpdateTab extends AbstractTab {
             }
         }
     }
+
+    public boolean isBusy() {
+        return dl != null;
+    }
 }

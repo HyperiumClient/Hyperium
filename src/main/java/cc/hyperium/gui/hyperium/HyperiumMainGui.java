@@ -12,16 +12,12 @@ import cc.hyperium.gui.hyperium.tabs.SettingsTab;
 import cc.hyperium.gui.hyperium.tabs.UpdateTab;
 import cc.hyperium.handlers.handlers.SettingsHandler;
 import cc.hyperium.mixinsimp.client.GlStateModifier;
-import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
-import cc.hyperium.utils.DownloadTask;
 import cc.hyperium.utils.HyperiumFontRenderer;
-import cc.hyperium.utils.VersionAPIUtils;
-import com.google.gson.JsonObject;
 import me.semx11.autotip.util.ReflectionUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.client.renderer.GlStateManager;
@@ -36,14 +32,7 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Queue;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -64,18 +53,11 @@ public class HyperiumMainGui extends HyperiumGui {
     private List<AbstractTab> tabs;
     private AbstractTab currentTab;
     private List<RGBFieldSet> rgbFields = new ArrayList<>();
-    private VersionAPIUtils apiUtils;
 
     private Alert currentAlert;
     public boolean show = false;
 
-    private AtomicInteger downloadProgress = new AtomicInteger();
-    private boolean showingInstallDialog = false;
-
-    private GuiButton installButton;
-    private GuiButton cancelButton;
-
-    private boolean downloading = false;
+    private GuiTextField searchField;
 
     private File jar;
 
@@ -122,8 +104,9 @@ public class HyperiumMainGui extends HyperiumGui {
         guiScale = 2;
         scollMultiplier = 2;
         setTab(tabIndex);
-
-        apiUtils = new VersionAPIUtils();
+        int yg = (height / 10);  // Y grid
+        int xg = (width / 11);   // X grid
+        searchField = new GuiTextField(0, fontRendererObj, xg * 10 - 110, yg + (yg / 2 - 10), 100, 20);
     }
 
     public HashMap<Field, Supplier<String[]>> getCustomStates() {
@@ -163,17 +146,6 @@ public class HyperiumMainGui extends HyperiumGui {
             }
         }
 
-        int x = width/2;
-        int y = height/2;
-
-        int buttonWidth = fontRendererObj.getStringWidth("Install with current settings.") + 10;
-        int buttonWidth2 = fontRendererObj.getStringWidth("Abort.") + 10;
-        installButton = new GuiButton(1337,x - 100,y,buttonWidth,20,"Install with current settings.");
-        cancelButton = new GuiButton(1338,(x + 100) - buttonWidth2,y,buttonWidth2,20,"Abort.");
-
-        buttonList.add(installButton);
-        buttonList.add(cancelButton);
-
         show = false;
     }
 
@@ -189,11 +161,13 @@ public class HyperiumMainGui extends HyperiumGui {
         // Header
         drawRect(xg, yg, xg * 10, yg * 2, 0x64000000);
         drawRect(xg, yg * 2, xg * 10, yg * 9, 0x28000000);
+        searchField.drawTextBox();
         GlStateModifier.INSTANCE.reset();
 
         title.drawCenteredString(currentTab.getTitle().toUpperCase(), width / 2F, yg + (yg / 2F - 8), 0xffffff);
 
         // Body
+        currentTab.setFilter(searchField.getText().isEmpty() ? null : searchField.getText());
         currentTab.render(xg, yg * 2, xg * 9, yg * 7);
 
         // Footer
@@ -214,49 +188,11 @@ public class HyperiumMainGui extends HyperiumGui {
         if (currentAlert != null)
             currentAlert.render(font, width, height);
 
-        if (!isLatestVersion() && !show && Settings.UPDATE_NOTIFICATIONS && !Metadata.isDevelopment() && !downloading && !showingInstallDialog) {
+        if (!isLatestVersion() && !show && Settings.UPDATE_NOTIFICATIONS && !Metadata.isDevelopment() && !((UpdateTab) tabs.get(2)).isBusy()) {
             System.out.println("Sending alert...");
-            Alert alert = new Alert(Icons.ERROR.getResource(), () -> downloadLatest(), "Hyperium Update! Click here to download.");
+            Alert alert = new Alert(Icons.ERROR.getResource(), () -> setTab(2), "Hyperium Update! Click here to download.");
             alerts.add(alert);
             show = true;
-        }
-
-        if (downloadProgress.get() > 0) {
-            drawDownloadNotification();
-            drawProgressBar((width - xg * 2) - 30, this.height - 20);
-        }
-
-        if (showingInstallDialog) {
-            drawInstallDialog();
-            installButton.drawButton(mc, mouseX, mouseY);
-            cancelButton.drawButton(mc, mouseX, mouseY);
-        }
-
-    }
-
-    @Override
-    protected void actionPerformed(GuiButton button) throws IOException {
-        if(button.id == 1338){
-            showingInstallDialog = false;
-            downloadProgress.set(0);
-        } else if(button.id == 1337){
-            Multithreading.schedule(() -> {
-                File localInstallerBuild = jar;
-                try {
-                    String launchCommand = Hyperium.INSTANCE.getLaunchCommand(true);
-                    String javaPath = System.getProperty("java.home") + File.separator + "bin" + File.separator + "java";
-
-                    // Escape the quotes in the command so that it can be safely passed as a command line argument.
-                    String escapedCommand = "\"" + launchCommand.replaceAll("\"","\\\\" + "\"") + "\"";
-
-                    ProcessBuilder processBuilder = new ProcessBuilder(javaPath, "-jar",localInstallerBuild.getAbsolutePath(),"local",escapedCommand);
-                    System.out.println("Running installer...");
-                    processBuilder.start();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                Minecraft.getMinecraft().shutdown();
-            }, 500, TimeUnit.MILLISECONDS);
         }
     }
 
@@ -291,6 +227,7 @@ public class HyperiumMainGui extends HyperiumGui {
             else if (currentAlert != null && mouseX >= width - 20 - width / 4 && mouseX <= width - width / 4 && mouseY >= height - 20)
                 currentAlert.dismiss();
         }
+        searchField.mouseClicked(mouseX, mouseY, mouseButton);
     }
 
     private void renderHyperiumBackground(ScaledResolution sr) {
@@ -340,86 +277,6 @@ public class HyperiumMainGui extends HyperiumGui {
 
     public boolean isLatestVersion() {
         return Hyperium.INSTANCE.isLatestVersion;
-    }
-
-    private void drawProgressBar(int x, int y){
-        int maxWidth = 30;
-
-        float progressPercentage = (float) (downloadProgress.get()) / 100;
-        float length = (float) maxWidth * progressPercentage;
-
-        // Background
-        drawRect(x, y, x + maxWidth, y + 20, Color.DARK_GRAY.getRGB());
-        drawRect(x, y, x + Math.round(length), y + 20, Color.GREEN.getRGB());
-    }
-
-    private void drawDownloadNotification(){
-        drawRect(width / 4, height - 20, width - width / 4, height, new Color(0, 0, 0, 40).getRGB());
-        font.drawString(String.format("Downloading updates... (%s%%)", downloadProgress.get()), width / 4 + 20, height - 20 + (20 - font.FONT_HEIGHT) / 2, 0xffffff);
-    }
-
-    public void downloadLatest() {
-        System.out.println("DOWNLOADING LATEST...");
-        try {
-            alerts.clear();
-            currentAlert = null;
-            downloadProgress.set(0);
-
-            JsonObject versionsJson = apiUtils.getJson();
-            int versionId = apiUtils.getVersion(versionsJson);
-            String downloadLink = apiUtils.getDownloadLink(versionsJson);
-
-            if(!(versionId > Metadata.getVersionID()) && !Hyperium.INSTANCE.isDevEnv()){
-                // There is no need to update as the current version is up to date and is not in the development environment.
-                return;
-            }
-
-            System.out.println("Proceeding with download...");
-            System.out.println("Download link: " + downloadLink);
-            // Schedule download.
-            Multithreading.runAsync(() -> {
-                try {
-                    downloading = true;
-                    DownloadTask task = new DownloadTask(downloadLink, System.getProperty("java.io.tmpdir"));
-                    Multithreading.schedule(() -> {
-                        if(downloading) {
-                            if (downloadProgress.get() != 100) {
-                                downloadProgress.set(task.getProgress());
-                            }
-                        }
-                    },0,100, TimeUnit.MILLISECONDS);
-                    task.execute();
-                    task.get();
-                    jar = new File(System.getProperty("java.io.tmpdir"), task.getFileName());
-                    downloading = false;
-
-                    // Runs the newly downloaded installer.
-                    showInstallDialog();
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-            });
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }
-
-    private void showInstallDialog(){
-        showingInstallDialog = true;
-    }
-
-    private void drawInstallDialog(){
-        int boxWidth = fontRendererObj.getStringWidth("Installer downloaded. How would you like to proceed?") + 10;
-        int boxHeight = 50;
-
-        int x = (width/2) - (boxWidth/2);
-        int y = (height/2) - (boxHeight/2);
-
-        drawRect(x,y,x+boxWidth,y+boxHeight,Color.DARK_GRAY.getRGB());
-
-        // Draw options.
-
-        fontRendererObj.drawString("Installer downloaded. How would you like to proceed? ",x + 5,y + 5,Color.WHITE.getRGB());
     }
 
     @Override
@@ -481,5 +338,11 @@ public class HyperiumMainGui extends HyperiumGui {
         void dismiss() {
             INSTANCE.currentAlert = null;
         }
+    }
+
+    @Override
+    protected void keyTyped(char typedChar, int keyCode) throws IOException {
+        super.keyTyped(typedChar, keyCode);
+        searchField.textboxKeyTyped(typedChar, keyCode);
     }
 }

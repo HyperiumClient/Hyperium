@@ -16,6 +16,7 @@ public class LabelComponent extends AbstractTabComponent {
 
     public LabelComponent(AbstractTab tab, List<String> tags, String label) {
         super(tab, tags);
+        this.tags.add(label);
         this.label = label;
     }
 

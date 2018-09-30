@@ -4,6 +4,7 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -12,7 +13,7 @@ import java.util.function.Consumer;
  */
 public abstract class AbstractTabComponent {
     public boolean hover;
-    protected List<String> tags;
+    protected List<String> tags = new ArrayList<>();
     protected AbstractTab tab;
     private boolean fc = false; // search query cache
     private String sc = "";  // filter cache
@@ -25,7 +26,7 @@ public abstract class AbstractTabComponent {
      */
     AbstractTabComponent(AbstractTab tab, List<String> tags) {
         this.tab = tab;
-        this.tags = tags;
+        this.tags.addAll(tags); // prevent unsupported operation on AbstractList
     }
 
     public int getHeight() {
@@ -67,5 +68,10 @@ public abstract class AbstractTabComponent {
 
     public void mouseEvent(int x, int y) {
 
+    }
+
+    public AbstractTabComponent tag(String... ts) {
+        tags.addAll(Arrays.asList(ts));
+        return this;
     }
 }

@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /*
  * Created by Cubxity on 27/08/2018
@@ -25,6 +26,7 @@ public abstract class AbstractTab {
     protected String title;
     private SimpleAnimValue scrollAnim = new SimpleAnimValue(0L, 0f, 0f);
     private int scroll = 0;
+    private String filter;
 
     public AbstractTab(HyperiumMainGui gui, String title) {
         this.gui = gui;
@@ -35,19 +37,19 @@ public abstract class AbstractTab {
         ScaledResolution sr = ResolutionUtil.current();
         int sw = sr.getScaledWidth();
         int sh = sr.getScaledHeight();
-        int yg = height / 9;  // Y grid
-        int xg = width / 10;   // X grid
+        int yg = height / 7;  // Y grid
+        int xg = width / 9;   // X grid
 
         GL11.glEnable(GL11.GL_SCISSOR_TEST);
         int sf = sr.getScaleFactor();
-        GL11.glScissor(x * sf, yg * sf, width * sf, height * sf - yg * sf);
+        GL11.glScissor(x * sf, yg * sf, width * sf, height * sf);
         final int mx = Mouse.getX() * sw / Minecraft.getMinecraft().displayWidth;           // Mouse X
         final int my = sh - Mouse.getY() * sh / Minecraft.getMinecraft().displayHeight - 1; // Mouse Y
 
         if (scrollAnim.getValue() != scroll * 18 && scrollAnim.isFinished())
             scrollAnim = new SimpleAnimValue(1000L, scrollAnim.getValue(), scroll * 18);
         y += scrollAnim.getValue();
-        for (AbstractTabComponent comp : components) {
+        for (AbstractTabComponent comp : filter == null ? components : components.stream().filter(c -> c.filter(filter)).collect(Collectors.toList())) {
             comp.render(x, y, width, mx, my);
 
             if (mx >= x && mx <= x + width && my > y && my <= y + comp.getHeight()) {
@@ -80,5 +82,9 @@ public abstract class AbstractTab {
         if (scroll > 0)
             scroll = 0;
 
+    }
+
+    public void setFilter(String filter) {
+        this.filter = filter;
     }
 }
