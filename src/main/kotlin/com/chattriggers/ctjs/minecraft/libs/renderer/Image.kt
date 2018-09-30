@@ -3,8 +3,12 @@ package com.chattriggers.ctjs.minecraft.libs.renderer
 import cc.hyperium.event.EventBus
 import cc.hyperium.event.InvokeEvent
 import cc.hyperium.event.RenderHUDEvent
+import com.chattriggers.ctjs.CTJS
 import net.minecraft.client.renderer.texture.DynamicTexture
 import java.awt.image.BufferedImage
+import java.io.File
+import java.net.URL
+import javax.imageio.ImageIO
 
 class Image(var image: BufferedImage?) {
     private lateinit var texture: DynamicTexture
@@ -14,6 +18,9 @@ class Image(var image: BufferedImage?) {
     init {
         EventBus.INSTANCE.register(this)
     }
+
+    @JvmOverloads
+    constructor(name: String, url: String? = null) : this(getBufferedImage(name, url))
 
     fun getTextureWidth(): Int = this.textureWidth
     fun getTextureHeight(): Int = this.textureHeight
@@ -37,4 +44,16 @@ class Image(var image: BufferedImage?) {
 
         Renderer.drawImage(this, x, y, width, height)
     }
+}
+
+private fun getBufferedImage(name: String, url: String? = null): BufferedImage? {
+    val resourceFile = File(CTJS.assetsDir, name)
+
+    if (resourceFile.exists()) {
+        return ImageIO.read(resourceFile)
+    }
+
+    val image = ImageIO.read(URL(url))
+    ImageIO.write(image, "png", resourceFile)
+    return image
 }

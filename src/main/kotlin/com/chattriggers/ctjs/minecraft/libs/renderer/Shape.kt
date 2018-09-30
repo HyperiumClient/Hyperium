@@ -101,7 +101,7 @@ class Shape(private var color: Int) {
         GlStateManager.enableBlend()
         GlStateManager.disableTexture2D()
         GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0)
-        if (!Renderer.colorized)
+        if (Renderer.colorized == null)
             GlStateManager.color(r, g, b, a)
 
         worldRenderer.begin(this.drawMode, DefaultVertexFormats.POSITION)
