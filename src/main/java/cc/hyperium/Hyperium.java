@@ -18,33 +18,11 @@
 package cc.hyperium;
 
 import cc.hyperium.addons.InternalAddons;
-import cc.hyperium.commands.defaults.CommandClearChat;
-import cc.hyperium.commands.defaults.CommandConfigGui;
-import cc.hyperium.commands.defaults.CommandCoords;
-import cc.hyperium.commands.defaults.CommandDebug;
-import cc.hyperium.commands.defaults.CommandDisableCommand;
-import cc.hyperium.commands.defaults.CommandGarbageCollect;
-import cc.hyperium.commands.defaults.CommandLogs;
-import cc.hyperium.commands.defaults.CommandMessage;
-import cc.hyperium.commands.defaults.CommandNameHistory;
-import cc.hyperium.commands.defaults.CommandParticleAuras;
-import cc.hyperium.commands.defaults.CommandParty;
-import cc.hyperium.commands.defaults.CommandPing;
-import cc.hyperium.commands.defaults.CommandPlayGame;
-import cc.hyperium.commands.defaults.CommandPrivateMessage;
-import cc.hyperium.commands.defaults.CommandResize;
-import cc.hyperium.commands.defaults.CommandUpdate;
-import cc.hyperium.commands.defaults.CustomLevelheadCommand;
-import cc.hyperium.commands.defaults.DevTestCommand;
+import cc.hyperium.commands.defaults.*;
 import cc.hyperium.config.DefaultConfig;
 import cc.hyperium.config.Settings;
 import cc.hyperium.cosmetics.HyperiumCosmetics;
-import cc.hyperium.event.EventBus;
-import cc.hyperium.event.GameShutDownEvent;
-import cc.hyperium.event.InitializationEvent;
-import cc.hyperium.event.InvokeEvent;
-import cc.hyperium.event.PreInitializationEvent;
-import cc.hyperium.event.Priority;
+import cc.hyperium.event.*;
 import cc.hyperium.event.minigames.MinigameListener;
 import cc.hyperium.gui.BlurDisableFallback;
 import cc.hyperium.gui.ColourOptions;
@@ -80,14 +58,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.Display;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.lang.management.ManagementFactory;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -451,7 +422,7 @@ public class Hyperium {
         }
     }
 
-    public String getLaunchCommand(boolean copyNatives){
+    public String getLaunchCommand(boolean copyNatives) {
         StringBuilder cmd = new StringBuilder();
         String[] command = System.getProperty("sun.java.command").split(" ");
 
@@ -459,15 +430,15 @@ public class Hyperium {
         cmd.append(quoteSpaces(javaPath) + " ");
 
         ManagementFactory.getRuntimeMXBean().getInputArguments().forEach(s -> {
-            if(s.contains("library.path")){
+            if (s.contains("library.path")) {
                 String nativePath = s.split("=")[1];
                 File hyperiumNativeFolder = new File(Hyperium.folder.getPath() + File.separator + "natives");
-                if(copyNatives) {
-                    copyNatives(nativePath,hyperiumNativeFolder);
+                if (copyNatives) {
+                    copyNatives(nativePath, hyperiumNativeFolder);
                 }
 
                 cmd.append(quoteSpaces("-Djava.library.path=" + hyperiumNativeFolder.getAbsolutePath())).append(" ");
-            } else {
+            } else if (!s.contains("agent")) {
                 cmd.append(quoteSpaces(s)).append(" ");
             }
         });
@@ -484,18 +455,18 @@ public class Hyperium {
         return cmd.toString();
     }
 
-    public void copyNatives(String nativePath, File newFolder){
-        if(!newFolder.exists()){
+    public void copyNatives(String nativePath, File newFolder) {
+        if (!newFolder.exists()) {
             newFolder.mkdir();
         }
 
         File tempNatives = new File(nativePath);
-        if(!tempNatives.exists()){
+        if (!tempNatives.exists()) {
             System.out.println("Error - Natives are missing.");
-        } else{
+        } else {
             System.out.println("Copying natives to hyperium folder.");
             try {
-                for (File fileEntry : tempNatives.listFiles()){
+                for (File fileEntry : tempNatives.listFiles()) {
                     Files.copy(fileEntry.toPath(), Paths.get(newFolder.getPath() + File.separator + fileEntry.getName()), StandardCopyOption.REPLACE_EXISTING);
                 }
             } catch (IOException e) {
@@ -504,9 +475,9 @@ public class Hyperium {
         }
     }
 
-    private String quoteSpaces(String argument){
-        if(argument.contains(" ")){
-            return  "\"" + argument + "\"";
+    private String quoteSpaces(String argument) {
+        if (argument.contains(" ")) {
+            return "\"" + argument + "\"";
         } else {
             return argument;
         }
