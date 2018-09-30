@@ -31,7 +31,7 @@ public class HyperiumPurchase {
     private final JsonHolder response;
     private JsonHolder purchaseSettings = new JsonHolder();
     private boolean everything = false;
-    private PurchaseSettings cachedSettings;
+    private PurchaseSettings cachedSettings = new PurchaseSettings(new JsonHolder());
 
     public HyperiumPurchase(UUID playerUUID, JsonHolder response) {
         this.playerUUID = playerUUID;
