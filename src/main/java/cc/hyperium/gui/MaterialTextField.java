@@ -2,6 +2,7 @@ package cc.hyperium.gui;
 
 import cc.hyperium.utils.HyperiumFontRenderer;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.util.ChatAllowedCharacters;
 
 /*
  * Created by Cubxity on 01/10/2018
@@ -69,7 +70,7 @@ public class MaterialTextField {
             else if (keyCode == 14) {
                 if (!text.isEmpty())
                     text = text.substring(0, text.length() - 1);
-            } else
+            } else if (ChatAllowedCharacters.isAllowedCharacter(typedChar))
                 text += typedChar;
     }
 
