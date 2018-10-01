@@ -24,7 +24,7 @@ public class NewsTab extends AbstractTab {
     static HttpClient hc = HttpClients.createDefault();
 
     public NewsTab(HyperiumMainGui gui) {
-        super(gui, "News");
+        super(gui, "tab.news.name");
         try {
             HttpGet get = new HttpGet("https://raw.githubusercontent.com/HyperiumClient/Hyperium-Repo/master/files/information.json");
             information = new JsonHolder(IOUtils.toString(hc.execute(get).getEntity().getContent(), Charsets.UTF_8));

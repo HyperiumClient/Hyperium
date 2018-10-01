@@ -39,6 +39,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
@@ -186,7 +187,7 @@ public class HyperiumMainGui extends HyperiumGui {
             currentAlert.render(fr, width, height);
 
         if (!isLatestVersion() && !show && Settings.UPDATE_NOTIFICATIONS && !Metadata.isDevelopment()) {
-            Alert alert = new Alert(Icons.ERROR.getResource(), () -> downloadLatest(), "Hyperium Update! Click here to download.");
+            Alert alert = new Alert(Icons.ERROR.getResource(), () -> downloadLatest(), I18n.format("alert.update.message"));
             alerts.add(alert);
             show = true;
         }

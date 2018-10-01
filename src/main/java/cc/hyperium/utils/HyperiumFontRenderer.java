@@ -139,6 +139,16 @@ public class HyperiumFontRenderer {
         return Font.createFont(Font.TRUETYPE_FONT, InstallerMain.class.getResourceAsStream(path));
     }
 
+    public void drawStringScaled(String text, int givenX, int givenY, int color, double givenScale) {
+
+        GL11.glPushMatrix();
+        GL11.glTranslated(givenX, givenY, 0);
+        GL11.glScaled(givenScale, givenScale, givenScale);
+        drawString(text, 0, 0, color);
+        GL11.glPopMatrix();
+
+    }
+
     public int drawString(String text, float x, float y, int color) {
         if (text == null)
             return 0;
@@ -213,8 +223,33 @@ public class HyperiumFontRenderer {
         return drawString(text, x, y, color);
     }
 
+    /**
+     * Draw Centered String - Draw a centered string
+     * @param text - Given Text String
+     * @param x - Given X Position
+     * @param y - Given Y Position
+     * @param color - Given Color (HEX)
+     */
     public void drawCenteredString(String text, float x, float y, int color) {
-        drawString(text, x - (int) getWidth(text) / 2, y, color);
+        drawString(text, x - (getStringWidth(text) / 2), y, color);
+    }
+
+    /**
+     * Draw Centered Text Scaled
+     * @param text - Given Text String
+     * @param givenX - Given X Position
+     * @param givenY - Given Y Position
+     * @param color - Given Color (HEX)
+     * @param givenScale - Given Scale
+     */
+    public void drawCenteredTextScaled(String text, int givenX, int givenY, int color, double givenScale) {
+
+        GL11.glPushMatrix();
+        GL11.glTranslated(givenX, givenY, 0);
+        GL11.glScaled(givenScale, givenScale, givenScale);
+        drawCenteredString(text, 0, 0, color);
+        GL11.glPopMatrix();
+
     }
 
     public void drawCenteredStringWithShadow(String text, float x, float y, int color) {
@@ -235,6 +270,54 @@ public class HyperiumFontRenderer {
             return width / 2.0F / antiAliasingFactor;
         });
 
+    }
+
+    public int getStringWidth(String text)
+    {
+        if (text == null)
+        {
+            return 0;
+        }
+        else
+        {
+            int i = 0;
+            boolean flag = false;
+
+            for (int j = 0; j < text.length(); ++j)
+            {
+                char c0 = text.charAt(j);
+                float k = this.getWidth(String.valueOf(c0));
+
+                if (k < 0 && j < text.length() - 1)
+                {
+                    ++j;
+                    c0 = text.charAt(j);
+
+                    if (c0 != 'l' && c0 != 'L')
+                    {
+                        if (c0 == 'r' || c0 == 'R')
+                        {
+                            flag = false;
+                        }
+                    }
+                    else
+                    {
+                        flag = true;
+                    }
+
+                    k = 0;
+                }
+
+                i += k;
+
+                if (flag && k > 0)
+                {
+                    ++i;
+                }
+            }
+
+            return i;
+        }
     }
 
     public float getCharWidth(char c) {

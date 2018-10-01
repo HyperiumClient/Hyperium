@@ -72,7 +72,6 @@ public class CosmeticsTab extends AbstractTab implements GuiYesNoCallback {
 
     public void rebuild() {
 
-
         if (cosmeticCallback != null && !purchasing) {
             for (String s : cosmeticCallback.getKeys()) {
 
