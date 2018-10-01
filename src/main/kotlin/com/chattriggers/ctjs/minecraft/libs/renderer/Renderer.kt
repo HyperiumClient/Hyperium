@@ -21,6 +21,7 @@ import java.util.*
 @External
 object Renderer {
     var colorized: Int? = null
+    var retainTransforms = false
 
     @JvmStatic val BLACK = color(0, 0, 0, 255)
     @JvmStatic val DARK_BLUE = color(0, 0, 190, 255)
@@ -99,6 +100,12 @@ object Renderer {
         val green = ((Math.sin(step / speed + 2 * Math.PI / 3) + 0.75) * 170).toInt()
         val blue = ((Math.sin(step / speed + 4 * Math.PI / 3) + 0.75) * 170).toInt()
         return intArrayOf(red, green, blue)
+    }
+
+    @JvmStatic
+    fun retainTransforms(retain: Boolean) {
+        retainTransforms = retain
+        finishDraw()
     }
 
     @JvmStatic
@@ -431,9 +438,11 @@ object Renderer {
 
     @JvmStatic
     fun finishDraw() {
-        colorized = null
-        GL11.glPopMatrix()
-        GL11.glPushMatrix()
+        if (!retainTransforms) {
+            colorized = null
+            GL11.glPopMatrix()
+            GL11.glPushMatrix()
+        }
     }
 
     object screen {
