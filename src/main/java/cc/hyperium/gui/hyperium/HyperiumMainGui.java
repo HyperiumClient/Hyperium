@@ -6,6 +6,7 @@ import cc.hyperium.config.Category;
 import cc.hyperium.config.Settings;
 import cc.hyperium.gui.HyperiumGui;
 import cc.hyperium.gui.Icons;
+import cc.hyperium.gui.MaterialTextField;
 import cc.hyperium.gui.hyperium.components.AbstractTab;
 import cc.hyperium.gui.hyperium.tabs.NewsTab;
 import cc.hyperium.gui.hyperium.tabs.SettingsTab;
@@ -17,7 +18,6 @@ import cc.hyperium.utils.HyperiumFontRenderer;
 import me.semx11.autotip.util.ReflectionUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.client.renderer.GlStateManager;
@@ -27,7 +27,6 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
 
 import java.awt.Color;
-import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -57,9 +56,7 @@ public class HyperiumMainGui extends HyperiumGui {
     private Alert currentAlert;
     public boolean show = false;
 
-    private GuiTextField searchField;
-
-    private File jar;
+    private MaterialTextField searchField;
 
     private Queue<Alert> alerts = new ArrayDeque<>();
 
@@ -104,9 +101,6 @@ public class HyperiumMainGui extends HyperiumGui {
         guiScale = 2;
         scollMultiplier = 2;
         setTab(tabIndex);
-        int yg = (height / 10);  // Y grid
-        int xg = (width / 11);   // X grid
-        searchField = new GuiTextField(0, fontRendererObj, xg * 10 - 110, yg + (yg / 2 - 10), 100, 20);
     }
 
     public HashMap<Field, Supplier<String[]>> getCustomStates() {
@@ -147,6 +141,9 @@ public class HyperiumMainGui extends HyperiumGui {
         }
 
         show = false;
+        int yg = (height / 10);  // Y grid
+        int xg = (width / 11);   // X grid
+        searchField = new MaterialTextField(xg * 10 - 110, yg + (yg / 2 - 10), 100, 20, "Search", font);
     }
 
     @Override
@@ -161,7 +158,7 @@ public class HyperiumMainGui extends HyperiumGui {
         // Header
         drawRect(xg, yg, xg * 10, yg * 2, 0x64000000);
         drawRect(xg, yg * 2, xg * 10, yg * 9, 0x28000000);
-        searchField.drawTextBox();
+        searchField.render(mouseX, mouseY);
         GlStateModifier.INSTANCE.reset();
 
         title.drawCenteredString(currentTab.getTitle().toUpperCase(), width / 2F, yg + (yg / 2F - 8), 0xffffff);
@@ -227,7 +224,7 @@ public class HyperiumMainGui extends HyperiumGui {
             else if (currentAlert != null && mouseX >= width - 20 - width / 4 && mouseX <= width - width / 4 && mouseY >= height - 20)
                 currentAlert.dismiss();
         }
-        searchField.mouseClicked(mouseX, mouseY, mouseButton);
+        searchField.onClick(mouseX, mouseY, mouseButton);
     }
 
     private void renderHyperiumBackground(ScaledResolution sr) {
@@ -343,6 +340,6 @@ public class HyperiumMainGui extends HyperiumGui {
     @Override
     protected void keyTyped(char typedChar, int keyCode) throws IOException {
         super.keyTyped(typedChar, keyCode);
-        searchField.textboxKeyTyped(typedChar, keyCode);
+        searchField.keyTyped(typedChar, keyCode);
     }
 }
