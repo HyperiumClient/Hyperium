@@ -173,9 +173,13 @@ import cc.hyperium.Hyperium;
 import cc.hyperium.Metadata;
 import cc.hyperium.config.Settings;
 import cc.hyperium.gui.hyperium.HyperiumMainGui;
+import cc.hyperium.gui.playerrenderer.GuiPlayerRenderer;
 import cc.hyperium.handlers.handlers.SettingsMigrator;
 import cc.hyperium.mixinsimp.renderer.gui.IMixinGuiMultiplayer;
+import cc.hyperium.purchases.PurchaseApi;
 import cc.hyperium.utils.HyperiumFontRenderer;
+import cc.hyperium.utils.JsonHolder;
+import com.mojang.realmsclient.gui.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
@@ -247,6 +251,8 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
     private int panoramaTimer;
     private static final ResourceLocation[] titlePanoramaPaths = new ResourceLocation[]{new ResourceLocation("textures/gui/title/background/panorama_0.png"), new ResourceLocation("textures/gui/title/background/panorama_1.png"), new ResourceLocation("textures/gui/title/background/panorama_2.png"), new ResourceLocation("textures/gui/title/background/panorama_3.png"), new ResourceLocation("textures/gui/title/background/panorama_4.png"), new ResourceLocation("textures/gui/title/background/panorama_5.png")};
 
+    private static float swing;
+
     public HyperiumMainMenu() {
         if (Minecraft.getMinecraft().isFullScreen() && Settings.WINDOWED_FULLSCREEN && FIRST_START) {
             HyperiumMainMenu.FIRST_START = false;
@@ -295,7 +301,7 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
         int j = this.height / 4 + 48;
 
         this.addSingleplayerMultiplayerButtons(j - 10, 24);
-        this.buttonList.add(new GuiButton(100, this.width / 2 - 100, this.height - 45, "Cosmetic Shop"));
+        this.buttonList.add(new GuiButton(100, this.width / 2 - 100, this.height - 45, I18n.format("button.menu.cosmeticshop")));
 
         switch (getStyle()) {
             case DEFAULT:
@@ -458,6 +464,9 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
 
 
     private void drawHyperiumStyleScreen(int mouseX, int mouseY, float partialTicks) {
+
+        swing++;
+
         if(Settings.BACKGROUND.equals("DEFAULT")) {
             GlStateManager.disableAlpha();
             this.renderSkybox(mouseX, mouseY, partialTicks);
@@ -470,51 +479,80 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
             GlStateManager.enableAlpha();
 
         }
+
+        /* Render shadowed bar at top of screen */
         this.drawGradientRect(0, 0, this.width, this.height, -2130706433, 16777215);
         this.drawGradientRect(0, 0, this.width, this.height, 0, Integer.MIN_VALUE);
 
-        // Logo
+        this.drawRect(0, 4, width,55, 0x66000000);
+        this.drawRect(0, 5, width,54, 0x66000000);
+
+        /* Render Client Logo */
+        GlStateManager.color(1,1,1,1);
         ResourceLocation logo = new ResourceLocation("textures/hyperium-logo.png");
         Minecraft.getMinecraft().getTextureManager().bindTexture(logo);
-        drawScaledCustomSizeModalRect(10, 1, 0, 0, 2160, 500, 180, 35, 2160, 500);
+        drawScaledCustomSizeModalRect(10, 5, 0, 0, 2160, 500, 200, 47, 2160, 500);
 
-        // Account area
-        drawRect(width - 155, 10, width - 10, 40, new Color(0, 0, 0, 60).getRGB());
+        /* Render profile container */
+        this.drawRect(width - 155, 10, width - 10, 49, 0x33000000);
+        this.drawRect(width - 156, 9, width - 9, 50, 0x33000000);
+
+        /* Render client version container */
+        /*
+        drawRect(width - 153, 39, width - 60, 48, 0x33000000);
+        drawRect(width - 154, 40, width - 59, 49, 0x33000000);
+        */
 
         // Looks weird with the small green strip
         // drawRect(width - 160, 10, width - 158, 40, new Color(149, 201, 144, 255).getRGB());
 
-        // Reset the color of the renderer
-        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+        /* Fetch player credit count */
+        JsonHolder response = PurchaseApi.getInstance().getSelf().getResponse();
+        int credits = response.optInt("total_credits");
 
-        fr.drawString(Minecraft.getMinecraft().getSession().getUsername(), width - 123, 19, 0xFFFFFF);
+        /* Render player credits count and username */
+        fr.drawString(Minecraft.getMinecraft().getSession().getUsername(), width - 153, 13, 0xFFFFFF);
+        fr.drawString(I18n.format("menu.profile.credits", credits), width - 153, 25, 0xFFFF00);
 
-        // Credits
-        sfr.drawString("COPYRIGHT 2018 HYPERIUM DEV TEAM", 1, height - 10, 0xFFFFFF);
-        String s = "NOT AFFILIATED WITH MOJANG AB";
-        sfr.drawString(s, width - sfr.getWidth(s) - 1, height - 10, 0xFFFFFF);
 
+        float val = (float) (Math.sin(swing / 40) * 30);
+
+        ScissorState.scissor(width - 153, 0,145,49, true);
+        GuiPlayerRenderer.renderPlayerWithRotation(width - 118,-4,val);
+        ScissorState.endScissor();
+
+        /* Render Hyperium version number */
+        fr.drawStringScaled("Hyperium v" + (Hyperium.INSTANCE.isLatestVersion ? ChatFormatting.GREEN : ChatFormatting.RED) + Metadata.getVersion(),width - 152, 39, 0xFFFFFF,.75);
+
+        /* Display profile player skin head */
+        /*
         GlStateManager.pushMatrix();
         GlStateManager.enableBlend();
         GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_NEAREST);
         GlStateManager.bindTexture(getCachedTexture(Minecraft.getMinecraft().getSession().getPlayerID()).getGlTextureId());
-        drawScaledCustomSizeModalRect(width - 155, 10, 0, 0, 30, 30, 30, 30, 30, 30);
+        drawScaledCustomSizeModalRect(width - 153, 12, 0, 0, 30, 30, 23, 25, 30, 30);
+        */
 
-        sfr.drawCenteredString("Change Menu Background", this.width / 2, this.height - 15, 0xFFFFFF);
+        /* Display copyright disclaimers at bottom of screen */
+        sfr.drawString(I18n.format("menu.left").toUpperCase(), 1, height - 7, 0x55FFFFFF);
+        String s = I18n.format("menu.right").toUpperCase();
+        sfr.drawString(s, width - sfr.getWidth(s) - 1, height - 7, 0x55FFFFFF);
+
+        sfr.drawCenteredString(I18n.format("button.menu.changebackground"), this.width / 2, this.height - 15, 0xFFFFFF);
 
         // Draw icons on buttons
         TextureManager tm = mc.getTextureManager();
 
         tm.bindTexture(person_outline);
-        drawScaledCustomSizeModalRect(this.width / 2 - getIntendedWidth(285), this.height / 2 - getIntendedHeight(45), 0, 0, 192, 192, getIntendedWidth(90), getIntendedHeight(90), 192, 192);
+        this.drawScaledCustomSizeModalRect(this.width / 2 - getIntendedWidth(285), this.height / 2 - getIntendedHeight(45), 0, 0, 192, 192, getIntendedWidth(90), getIntendedHeight(90), 192, 192);
         tm.bindTexture(people_outline);
-        drawScaledCustomSizeModalRect(this.width / 2 - getIntendedWidth(165), this.height / 2 - getIntendedHeight(45), 0, 0, 192, 192, getIntendedWidth(90), getIntendedHeight(90), 192, 192);
+        this.drawScaledCustomSizeModalRect(this.width / 2 - getIntendedWidth(165), this.height / 2 - getIntendedHeight(45), 0, 0, 192, 192, getIntendedWidth(90), getIntendedHeight(90), 192, 192);
         tm.bindTexture(settings);
-        drawScaledCustomSizeModalRect(this.width / 2 - getIntendedWidth(45), this.height / 2 - getIntendedHeight(45), 0, 0, 192, 192, getIntendedWidth(90), getIntendedHeight(90), 192, 192);
+        this.drawScaledCustomSizeModalRect(this.width / 2 - getIntendedWidth(45), this.height / 2 - getIntendedHeight(45), 0, 0, 192, 192, getIntendedWidth(90), getIntendedHeight(90), 192, 192);
         tm.bindTexture(hIcon);
-        drawScaledCustomSizeModalRect(this.width / 2 + getIntendedWidth(85), this.height / 2 - getIntendedHeight(35), 0, 0, 104, 104, getIntendedWidth(70), getIntendedHeight(70), 104, 104);
+        this.drawScaledCustomSizeModalRect(this.width / 2 + getIntendedWidth(85), this.height / 2 - getIntendedHeight(35), 0, 0, 104, 104, getIntendedWidth(70), getIntendedHeight(70), 104, 104);
         tm.bindTexture(exit);
-        drawScaledCustomSizeModalRect(this.width / 2 + getIntendedWidth(195), this.height / 2 - getIntendedHeight(45), 0, 0, 192, 192, getIntendedWidth(90), getIntendedHeight(90), 192, 192);
+        this.drawScaledCustomSizeModalRect(this.width / 2 + getIntendedWidth(195), this.height / 2 - getIntendedHeight(45), 0, 0, 192, 192, getIntendedWidth(90), getIntendedHeight(90), 192, 192);
         GlStateManager.disableBlend();
         GlStateManager.popMatrix();
     }
@@ -794,4 +832,28 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
             Minecraft.getMinecraft().displayGuiScreen(new ChangeBackgroundGui(this));
         }
     }
+
+    public static void drawScaledCustomSizeModalRect(int x, int y, float u, float v, int uWidth, int vHeight, int width, int height, float tileWidth, float tileHeight)
+    {
+        float f = 1.0F / tileWidth;
+        float f1 = 1.0F / tileHeight;
+
+        Tessellator tessellator = Tessellator.getInstance();
+        WorldRenderer worldrenderer = tessellator.getWorldRenderer();
+
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glEnable(GL11.GL_POINT_SMOOTH);
+        GL11.glHint(GL11.GL_POINT_SMOOTH_HINT, GL11.GL_FASTEST);
+
+        worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
+        worldrenderer.pos((double)x, (double)(y + height), 0.0D).tex((double)(u * f), (double)((v + (float)vHeight) * f1)).endVertex();
+        worldrenderer.pos((double)(x + width), (double)(y + height), 0.0D).tex((double)((u + (float)uWidth) * f), (double)((v + (float)vHeight) * f1)).endVertex();
+        worldrenderer.pos((double)(x + width), (double)y, 0.0D).tex((double)((u + (float)uWidth) * f), (double)(v * f1)).endVertex();
+        worldrenderer.pos((double)x, (double)y, 0.0D).tex((double)(u * f), (double)(v * f1)).endVertex();
+        tessellator.draw();
+
+        GL11.glDisable(GL11.GL_BLEND);
+        GL11.glDisable(GL11.GL_POINT_SMOOTH);
+    }
+
 }

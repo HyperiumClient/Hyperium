@@ -13,6 +13,7 @@ import com.google.gson.Gson;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.resources.I18n;
 import org.lwjgl.input.Mouse;
 
 import java.io.File;
@@ -37,16 +38,16 @@ public class UpdateTab extends AbstractTab {
     private DownloadTask dl;
 
     public UpdateTab(HyperiumMainGui gui) {
-        super(gui, "Updater");
+        super(gui, "tab.update.name");
         Multithreading.runAsync(() -> latest = InstallerUtils.getManifest().getVersions()[0]);
     }
 
     @Override
     public void render(int x, int y, int width, int height) {
         boolean ua = latest != null && latest.getId() > Metadata.getVersionID();
-        gui.getTitle().drawString(latest == null ? "Loading..." : ua ? "Hyperium " + latest.getName() : "No updates available", x + 10, y + 10, 0xffffff);
+        gui.getTitle().drawString(latest == null ? "Loading..." : ua ? "Hyperium " + latest.getName() : I18n.format("tab.update.noupdates"), x + 10, y + 10, 0xffffff);
         if (ua) {
-            gui.getFont().drawString(dl != null && dl.getProgress() == 100 ? "Once update is done, Minecraft will automatically restart" : "Changelog coming soon", x + 10, y + 25, 0x969696);
+            gui.getFont().drawString(dl != null && dl.getProgress() == 100 ? I18n.format("tab.update.autorestart") : I18n.format("tab.update.changelog"), x + 10, y + 25, 0x969696);
             Gui.drawRect(x + 10, y + height - 60, x + 160, y + height - 10, 0x70000000);
             ScaledResolution sr = ResolutionUtil.current();
             int sw = sr.getScaledWidth();
@@ -65,7 +66,7 @@ public class UpdateTab extends AbstractTab {
                                 dl.execute();
                                 try {
                                     dl.get();
-                                    installState = "Loading installer";
+                                    installState = I18n.format("tab.update.installer.state.loading");
                                     URLClassLoader ucl = new URLClassLoader(new URL[]{new File(tmp, dl.getFileName()).toURI().toURL()});
                                     Thread.currentThread().setContextClassLoader(ucl);
                                     try {
@@ -100,7 +101,7 @@ public class UpdateTab extends AbstractTab {
                                                 try {
                                                     String s = (String) scgmm.invoke(c);
                                                     if (s.contains("success")) {
-                                                        installState = "Restarting";
+                                                        installState = I18n.format("tab.update.installer.state.restarting");
                                                         Multithreading.runAsync(() -> {
                                                             String cmd = Hyperium.INSTANCE.getLaunchCommand(true);
                                                             System.out.println("Restart cmd: " + cmd);
@@ -118,7 +119,7 @@ public class UpdateTab extends AbstractTab {
                                                         installState = s;
                                                 } catch (IllegalAccessException | InvocationTargetException e) {
                                                     e.printStackTrace();
-                                                    installState = "W: Unknown State";
+                                                    installState = I18n.format("tab.update.installer.state.unknown");
                                                 }
                                             } else if (c.getClass().isAssignableFrom(ecc)) {
                                                 try {
@@ -127,14 +128,14 @@ public class UpdateTab extends AbstractTab {
                                                 } catch (IllegalAccessException | InvocationTargetException e) {
                                                     e.printStackTrace();
                                                 }
-                                                installState = "E: Please update manually, API: " + api;
+                                                installState = I18n.format("tab.update.installer.state.manualupdate.api",api);
                                             }
                                         });
-                                        installState = "Starting installer";
+                                        installState = I18n.format("tab.update.installer.state.starting");
                                         ic.getDeclaredMethod("install").invoke(installer);
                                     } catch (Exception ex) {
                                         ex.printStackTrace();
-                                        installState = "E: Please update manually";
+                                        installState = I18n.format("tab.update.installer.state.manualupdate");
                                     }
                                 } catch (InterruptedException | ExecutionException | MalformedURLException e) {
                                     e.printStackTrace();
@@ -149,9 +150,9 @@ public class UpdateTab extends AbstractTab {
             } else if (buttonState)
                 buttonState = false;
             if (dl == null)
-                gui.getTitle().drawCenteredString("Update", x + 85, y + height - 45, 0xffffff);
+                gui.getTitle().drawCenteredString(I18n.format("tab.update.update"), x + 85, y + height - 45, 0xffffff);
             else {
-                gui.getTitle().drawCenteredString(dl.getProgress() == 100 ? "Updating..." : "Downloading...", x + 85, y + height - 45, 0x969696);
+                gui.getTitle().drawCenteredString(dl.getProgress() == 100 ? I18n.format("tab.update.updating") : I18n.format("tab.update.downloading"), x + 85, y + height - 45, 0x969696);
                 gui.getFont().drawCenteredString(dl.getProgress() == 100 ? installState : dl.getProgress() + "%", x + 85, y + height - 30, 0x969696);
                 if (dl.getProgress() != 100) {
                     Gui.drawRect(0, gui.height - 2, gui.width / 100 * dl.getProgress(), gui.height, 0xff95c990);

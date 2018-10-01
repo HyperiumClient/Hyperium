@@ -24,6 +24,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
 
 import java.awt.Color;
@@ -143,7 +144,7 @@ public class HyperiumMainGui extends HyperiumGui {
         show = false;
         int yg = (height / 10);  // Y grid
         int xg = (width / 11);   // X grid
-        searchField = new MaterialTextField(xg * 10 - 110, yg + (yg / 2 - 10), 100, 20, "Search", font);
+        searchField = new MaterialTextField(xg * 10 - 110, yg + (yg / 2 - 10), 100, 20, I18n.format("tabs.searchbar"), font);
     }
 
     @Override
@@ -155,22 +156,22 @@ public class HyperiumMainGui extends HyperiumGui {
             renderHyperiumBackground(ResolutionUtil.current());
         }
 
-        // Header
+        /* Render Header */
         drawRect(xg, yg, xg * 10, yg * 2, 0x64000000);
         drawRect(xg, yg * 2, xg * 10, yg * 9, 0x28000000);
         searchField.render(mouseX, mouseY);
         GlStateModifier.INSTANCE.reset();
 
-        title.drawCenteredString(currentTab.getTitle().toUpperCase(), width / 2F, yg + (yg / 2F - 8), 0xffffff);
+        title.drawCenteredTextScaled(I18n.format(currentTab.getTitle()), this.width / 2 - 4, yg + (yg / 2 - 8), 0xFFFFFF,1);
 
-        // Body
+        /* Render Body */
         currentTab.setFilter(searchField.getText().isEmpty() ? null : searchField.getText());
         currentTab.render(xg, yg * 2, xg * 9, yg * 7);
 
-        // Footer
+        /* Render Footer */
         smol.drawString(Metadata.getVersion(), width - smol.getWidth(Metadata.getVersion()) - 1, height - 10, 0xffffffff);
 
-        // Tab switcher
+        /* Render Tab Switcher */
         Icons.ARROW_LEFT.bind();
         GlStateManager.pushMatrix();
         Gui.drawScaledCustomSizeModalRect(width / 2 - xg, yg * 9, 0, 0, 144, 144, yg / 2, yg / 2, 144, 144);
@@ -187,7 +188,7 @@ public class HyperiumMainGui extends HyperiumGui {
 
         if (!isLatestVersion() && !show && Settings.UPDATE_NOTIFICATIONS && !Metadata.isDevelopment() && !((UpdateTab) tabs.get(2)).isBusy()) {
             System.out.println("Sending alert...");
-            Alert alert = new Alert(Icons.ERROR.getResource(), () -> setTab(2), "Hyperium Update! Click here to download.");
+            Alert alert = new Alert(Icons.ERROR.getResource(), () -> setTab(2), I18n.format("alert.update.message"));
             alerts.add(alert);
             show = true;
         }

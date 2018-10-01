@@ -28,7 +28,7 @@ import java.util.function.Supplier;
 public class SettingsTab extends AbstractTab {
 
     public SettingsTab(HyperiumMainGui gui) {
-        super(gui, "Settings");
+        super(gui, "tab.settings.name");
 
         //TODO add other settings objects
 
