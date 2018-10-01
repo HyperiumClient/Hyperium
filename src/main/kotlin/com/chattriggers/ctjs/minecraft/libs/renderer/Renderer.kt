@@ -1,6 +1,5 @@
 package com.chattriggers.ctjs.minecraft.libs.renderer
 
-import com.chattriggers.ctjs.CTJS
 import com.chattriggers.ctjs.minecraft.libs.ChatLib
 import com.chattriggers.ctjs.minecraft.libs.MathLib
 import com.chattriggers.ctjs.minecraft.wrappers.Client
@@ -17,14 +16,12 @@ import net.minecraft.client.renderer.RenderHelper
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats
 import net.minecraft.entity.EntityLivingBase
 import org.lwjgl.opengl.GL11
-import java.io.File
-import java.net.URL
 import java.util.*
-import javax.imageio.ImageIO
 
 @External
 object Renderer {
-    var colorized = false
+    var colorized: Int? = null
+    var retainTransforms = false
 
     @JvmStatic val BLACK = color(0, 0, 0, 255)
     @JvmStatic val DARK_BLUE = color(0, 0, 190, 255)
@@ -106,6 +103,12 @@ object Renderer {
     }
 
     @JvmStatic
+    fun retainTransforms(retain: Boolean) {
+        retainTransforms = retain
+        finishDraw()
+    }
+
+    @JvmStatic
     fun translate(x: Float, y: Float) {
         GL11.glTranslated(x.toDouble(), y.toDouble(), 0.0)
     }
@@ -121,19 +124,34 @@ object Renderer {
     }
 
     @JvmStatic @JvmOverloads
-    fun colorize(red: Int, green: Int, blue: Int, alpha: Int = 255) {
-        this.colorized = true
+    fun colorize(red: Float, green: Float, blue: Float, alpha: Float = 255f) {
+        colorized = fixAlpha(color(red.toInt(), green.toInt(), blue.toInt(), alpha.toInt()))
 
         GlStateManager.color(
-                MathLib.clamp(red, 0, 255).toFloat(),
-                MathLib.clamp(green, 0, 255).toFloat(),
-                MathLib.clamp(blue, 0, 255).toFloat(),
-                MathLib.clamp(alpha, 0, 255).toFloat()
+                MathLib.clampFloat(red, 0f, 255f),
+                MathLib.clampFloat(green, 0f, 255f),
+                MathLib.clampFloat(blue, 0f, 255f),
+                MathLib.clampFloat(alpha, 0f, 255f)
         )
     }
 
     @JvmStatic
-    fun image(name: String, url: String): Image? = loadImage(name, url)
+    fun fixAlpha(color: Int): Int {
+        val alpha = color shr 24 and 255
+        return if (alpha < 10)
+            (color and 0xFF_FF_FF) or 0xA_FF_FF_FF
+        else color
+    }
+
+    @Deprecated(
+            message="Replaced with Image object",
+            replaceWith = ReplaceWith(
+                    expression = "Image(name[, url])",
+                    imports = ["com.chattriggers.ctjs.minecraft.libs.renderer.Image"]
+            )
+    )
+    @JvmStatic
+    fun image(name: String, url: String): Image = Image(name, url)
 
     @JvmStatic
     @Deprecated(
@@ -175,24 +193,6 @@ object Renderer {
     )
     fun shape(color: Int): Shape = Shape(color)
 
-    private fun loadImage(name: String, url: String): Image? {
-        val resourceFile = File(CTJS.assetsDir, name)
-
-        if (resourceFile.exists()) {
-            return Image(ImageIO.read(resourceFile))
-        }
-
-        val image = ImageIO.read(URL(url))
-        ImageIO.write(image, "png", resourceFile)
-        return Image(image)
-    }
-
-    private fun loadImage(path: String): Image? {
-        val file = File(path)
-
-        return Image(ImageIO.read(file))
-    }
-
     @JvmStatic
     fun drawRect(color: Int, x: Float, y: Float, width: Float, height: Float) {
         val pos = mutableListOf(x, y, x + width, y + height)
@@ -208,7 +208,7 @@ object Renderer {
         val worldRenderer = tessellator.getRenderer()
 
         GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0)
-        if (!Renderer.colorized) {
+        if (colorized == null) {
             val a = (color shr 24 and 255).toFloat() / 255.0f
             val r = (color shr 16 and 255).toFloat() / 255.0f
             val g = (color shr 8 and 255).toFloat() / 255.0f
@@ -238,7 +238,7 @@ object Renderer {
         val worldRenderer = tessellator.getRenderer()
 
         GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0)
-        if (!Renderer.colorized) {
+        if (colorized == null) {
             val a = (color shr 24 and 255).toFloat() / 255.0f
             val r = (color shr 16 and 255).toFloat() / 255.0f
             val g = (color shr 8 and 255).toFloat() / 255.0f
@@ -276,7 +276,7 @@ object Renderer {
         val worldRenderer = tessellator.getRenderer()
 
         GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0)
-        if (!Renderer.colorized) {
+        if (colorized == null) {
             val a = (color shr 24 and 255).toFloat() / 255.0f
             val r = (color shr 16 and 255).toFloat() / 255.0f
             val g = (color shr 8 and 255).toFloat() / 255.0f
@@ -316,7 +316,7 @@ object Renderer {
         GlStateManager.enableBlend()
         GlStateManager.disableTexture2D()
         GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0)
-        if (!Renderer.colorized) {
+        if (colorized == null) {
             val a = (color shr 24 and 255).toFloat() / 255.0f
             val r = (color shr 16 and 255).toFloat() / 255.0f
             val g = (color shr 8 and 255).toFloat() / 255.0f
@@ -346,21 +346,19 @@ object Renderer {
 
     @JvmStatic
     fun drawString(text: String, x: Float, y: Float) {
-        getFontRenderer().drawString(ChatLib.addColor(text), x, y, 0xffffffff.toInt(), false)
+        getFontRenderer().drawString(ChatLib.addColor(text), x, y, colorized ?: 0xffffffff.toInt(), false)
         finishDraw()
     }
 
     @JvmStatic
     fun drawStringWithShadow(text: String, x: Float, y: Float) {
-        getFontRenderer().drawString(ChatLib.addColor(text), x, y, 0xffffffff.toInt(), true)
+        getFontRenderer().drawString(ChatLib.addColor(text), x, y, colorized ?: 0xffffffff.toInt(), true)
         finishDraw()
     }
 
     @JvmStatic
     fun drawImage(image: Image, x: Double, y: Double, width: Double, height: Double) {
-        if (image.getTexture() == null) return
-
-        if (!Renderer.colorized)
+        if (colorized == null)
             GlStateManager.color(1f, 1f, 1f, 1f)
         GlStateManager.enableBlend()
         GlStateManager.scale(1f, 1f, 50f)
@@ -440,9 +438,11 @@ object Renderer {
 
     @JvmStatic
     fun finishDraw() {
-        this.colorized = false
-        GL11.glPopMatrix()
-        GL11.glPushMatrix()
+        if (!retainTransforms) {
+            colorized = null
+            GL11.glPopMatrix()
+            GL11.glPushMatrix()
+        }
     }
 
     object screen {

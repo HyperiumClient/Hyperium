@@ -27,7 +27,7 @@ class Text(private var string: String, private var x: Float = 0f, private var y:
     fun setString(string: String) = apply { this.string = string }
 
     fun getColor(): Int = this.color
-    fun setColor(color: Int) = apply { this.color = fixAlpha(color) }
+    fun setColor(color: Int) = apply { this.color = Renderer.fixAlpha(color) }
 
     fun getFormatted(): Boolean = this.formatted
     fun setFormatted(formatted: Boolean) = apply {
@@ -115,13 +115,6 @@ class Text(private var string: String, private var x: Float = 0f, private var y:
         this.string =
                 if (this.formatted) ChatLib.addColor(this.string)
                 else ChatLib.replaceFormatting(this.string)
-    }
-
-    private fun fixAlpha(color: Int): Int {
-        val alpha = color shr 24 and 255
-        return if (alpha < 10)
-            (color and 0xFF_FF_FF) or 0xA_FF_FF_FF
-            else color
     }
 
     private fun getXAlign(string: String, x: Float): Float {
