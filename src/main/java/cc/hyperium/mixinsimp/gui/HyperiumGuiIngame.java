@@ -31,10 +31,12 @@ public class HyperiumGuiIngame {
 
     public void renderSelectedItem(ScaledResolution sr) {
         EventBus.INSTANCE.post(new RenderSelectedItemEvent(sr));
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
     }
 
     public void renderGameOverlay(float part, CallbackInfo ci) {
         EventBus.INSTANCE.post(new RenderHUDEvent(part));
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
     }
 
     public void renderScoreboard(ScoreObjective objective, ScaledResolution resolution) {

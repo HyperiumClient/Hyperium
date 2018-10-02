@@ -340,8 +340,8 @@ public class ParticleGui extends HyperiumGui implements GuiYesNoCallback {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                PurchaseApi.getInstance().getSelf().getPurchaseSettings().merge(oldsettings, true);
-
+                self.getPurchaseSettings().merge(oldsettings, true);
+                self.refreshCachedSettings();
                 EventBus.INSTANCE.post(new PurchaseLoadEvent(Objects.requireNonNull(UUIDUtil.getClientUUID()), self, true));
                 new ParticleGui().show();
             });
