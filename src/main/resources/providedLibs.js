@@ -21,6 +21,7 @@ var Renderer = Java.type("com.chattriggers.ctjs.minecraft.libs.renderer.Renderer
 var Shape = Java.type("com.chattriggers.ctjs.minecraft.libs.renderer.Shape");
 var Rectangle = Java.type("com.chattriggers.ctjs.minecraft.libs.renderer.Rectangle");
 var Text = Java.type("com.chattriggers.ctjs.minecraft.libs.renderer.Text");
+var Image = Java.type("com.chattriggers.ctjs.minecraft.libs.renderer.Image");
 
 var Tessellator = Java.type("com.chattriggers.ctjs.minecraft.libs.Tessellator").INSTANCE;
 var FileLib = Java.type("com.chattriggers.ctjs.minecraft.libs.FileLib");

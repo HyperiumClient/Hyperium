@@ -95,14 +95,12 @@ public class SettingsTab extends AbstractTab {
             });
             customStates.put(earsField, () -> {
                 Hyperium instance = Hyperium.INSTANCE;
-                if (instance != null) {
-                    HyperiumCosmetics cosmetics1 = instance.getCosmetics();
-                    if (cosmetics1 != null) {
-                        Deadmau5Cosmetic deadmau5Cosmetic = cosmetics1.getDeadmau5Cosmetic();
-                        if (deadmau5Cosmetic != null) {
-                            if (deadmau5Cosmetic.isSelfUnlocked()) {
-                                return new String[]{"YES", "NO"};
-                            }
+                HyperiumCosmetics cosmetics1 = instance.getCosmetics();
+                if (cosmetics1 != null) {
+                    Deadmau5Cosmetic deadmau5Cosmetic = cosmetics1.getDeadmau5Cosmetic();
+                    if (deadmau5Cosmetic != null) {
+                        if (deadmau5Cosmetic.isSelfUnlocked()) {
+                            return new String[]{"YES", "NO"};
                         }
                     }
                 }
@@ -275,6 +273,7 @@ public class SettingsTab extends AbstractTab {
                 if (!purchaseSettings.has("wings"))
                     purchaseSettings.put("wings", new JsonHolder());
                 purchaseSettings.optJSONObject("wings").put("scale", o1);
+                self.refreshCachedSettings();
                 Settings.WINGS_SCALE = o1;
                 NettyClient client = NettyClient.getClient();
                 if (client != null)

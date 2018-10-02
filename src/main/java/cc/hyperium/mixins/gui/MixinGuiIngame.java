@@ -292,6 +292,10 @@ public abstract class MixinGuiIngame extends Gui {
     }
 
 
+    /**
+     * @author ?
+     * @reason For extra scoreboards
+     */
     @Overwrite
     private void renderScoreboard(ScoreObjective objective, ScaledResolution resolution) {
         hyperiumGuiIngame.renderScoreboard(objective, resolution);

@@ -9,31 +9,38 @@ import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
 import cc.hyperium.netty.NettyClient;
 import cc.hyperium.netty.packet.packets.serverbound.ServerCrossDataPacket;
 import cc.hyperium.utils.JsonHolder;
+import cc.hyperium.utils.SimpleAnimValue;
 import cc.hyperium.utils.UUIDUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.util.MathHelper;
 import org.lwjgl.opengl.GL11;
 
 import java.awt.Color;
 import java.util.HashMap;
 import java.util.List;
+import java.util.function.Consumer;
 
 public class GuiDances extends HyperiumGui {
 
     String foc = null;
-    private HashMap<String, Runnable> handlers = new HashMap<>();
+    private HashMap<String, Consumer<Boolean>> handlers = new HashMap<>();
+    private HashMap<String, Runnable> cancel = new HashMap<>();
+    private String lastFoc = null;
+    private SimpleAnimValue simpleAnimValue;
 
     public GuiDances() {
         HyperiumHandlers handlers = Hyperium.INSTANCE.getHandlers();
         int seconds = 5;
         long delay = seconds * 1000L;
-        this.handlers.put("Floss", () -> {
+        this.handlers.put("Floss", (netty) -> {
             AbstractAnimationHandler abstractAnimationHandler = Hyperium.INSTANCE.getHandlers().getFlossDanceHandler();
             abstractAnimationHandler.get(Minecraft.getMinecraft().thePlayer.getUniqueID()).ensureAnimationFor(seconds);
             NettyClient client = NettyClient.getClient();
-            if (client != null) {
+            if (client != null && netty) {
                 client.write(ServerCrossDataPacket.build(new JsonHolder().put("type", "floss_update").put("flossing", true)));
                 Multithreading.runAsync(() -> {
                     try {
@@ -46,11 +53,15 @@ public class GuiDances extends HyperiumGui {
                 });
             }
         });
-        this.handlers.put("Dab", () -> {
+        this.cancel.put("Floss", () -> {
+            AbstractAnimationHandler abstractAnimationHandler = Hyperium.INSTANCE.getHandlers().getFlossDanceHandler();
+            abstractAnimationHandler.get(Minecraft.getMinecraft().thePlayer.getUniqueID()).stopAnimation();
+        });
+        this.handlers.put("Dab", (netty) -> {
             AbstractAnimationHandler abstractAnimationHandler = Hyperium.INSTANCE.getHandlers().getDabHandler();
             abstractAnimationHandler.get(Minecraft.getMinecraft().thePlayer.getUniqueID()).ensureAnimationFor(seconds);
             NettyClient client = NettyClient.getClient();
-            if (client != null) {
+            if (client != null && netty) {
                 client.write(ServerCrossDataPacket.build(new JsonHolder().put("type", "dab_update").put("dabbing", true)));
                 Multithreading.runAsync(() -> {
                     try {
@@ -63,29 +74,45 @@ public class GuiDances extends HyperiumGui {
                 });
             }
         });
-        this.handlers.put("Twerk", () -> {
+        this.cancel.put("Dab", () -> {
+            AbstractAnimationHandler abstractAnimationHandler = Hyperium.INSTANCE.getHandlers().getDabHandler();
+            abstractAnimationHandler.get(Minecraft.getMinecraft().thePlayer.getUniqueID()).stopAnimation();
+        });
+        this.handlers.put("Twerk", (netty) -> {
             AbstractAnimationHandler abstractAnimationHandler = Hyperium.INSTANCE.getHandlers().getTwerkDance();
             abstractAnimationHandler.get(Minecraft.getMinecraft().thePlayer.getUniqueID()).ensureAnimationFor(60);
             Hyperium.INSTANCE.getHandlers().getTwerkDance().getStates().put(UUIDUtil.getClientUUID(), System.currentTimeMillis());
             NettyClient client = NettyClient.getClient();
-            if (client != null)
+            if (client != null && netty)
                 client.write(ServerCrossDataPacket.build(new JsonHolder().put("type", "twerk_dance")));
         });
-        this.handlers.put("Fortnite Default Dance", () -> {
+        this.cancel.put("Twerk", () -> {
+            AbstractAnimationHandler abstractAnimationHandler = Hyperium.INSTANCE.getHandlers().getTwerkDance();
+            abstractAnimationHandler.get(Minecraft.getMinecraft().thePlayer.getUniqueID()).stopAnimation();
+        });
+
+        this.handlers.put("Fortnite Default Dance", (netty) -> {
             AbstractAnimationHandler abstractAnimationHandler = Hyperium.INSTANCE.getHandlers().getFortniteDefaultDance();
             abstractAnimationHandler.get(Minecraft.getMinecraft().thePlayer.getUniqueID()).ensureAnimationFor(60);
 
             Hyperium.INSTANCE.getHandlers().getFortniteDefaultDance().getStates().put(UUIDUtil.getClientUUID(), System.currentTimeMillis());
             NettyClient client = NettyClient.getClient();
-            if (client != null)
+            if (client != null && netty)
                 client.write(ServerCrossDataPacket.build(new JsonHolder().put("type", "fortnite_default_dance")));
         });
+        this.cancel.put("Fortnite Default Dance", () -> {
+            AbstractAnimationHandler abstractAnimationHandler = Hyperium.INSTANCE.getHandlers().getFortniteDefaultDance();
+            abstractAnimationHandler.get(Minecraft.getMinecraft().thePlayer.getUniqueID()).stopAnimation();
 
-        this.handlers.put("T-Pose", () -> {
+//            Hyperium.INSTANCE.getHandlers().getFortniteDefaultDance().getStates().put(UUIDUtil.getClientUUID(), System.currentTimeMillis() * 2);
+
+        });
+
+        this.handlers.put("T-Pose", (netty) -> {
             AbstractAnimationHandler abstractAnimationHandler = Hyperium.INSTANCE.getHandlers().getTPoseHandler();
             abstractAnimationHandler.get(Minecraft.getMinecraft().thePlayer.getUniqueID()).ensureAnimationFor(seconds);
             NettyClient client = NettyClient.getClient();
-            if (client != null) {
+            if (client != null && netty) {
                 client.write(ServerCrossDataPacket.build(new JsonHolder().put("type", "tpose_update").put("posing", true)));
                 Multithreading.runAsync(() -> {
                     try {
@@ -98,29 +125,40 @@ public class GuiDances extends HyperiumGui {
                 });
             }
         });
-        if (Hyperium.INSTANCE.getCosmetics().getFlipCosmetic().isSelfUnlocked())
-        this.handlers.put("Flip", () -> {
-            int state = Settings.flipType;
-            Hyperium.INSTANCE.getHandlers().getFlipHandler().state(UUIDUtil.getClientUUID(), state);
-            NettyClient client = NettyClient.getClient();
-            if (client != null) {
-                client.write(ServerCrossDataPacket.build(new JsonHolder().put("type", "flip_update").put("flip_state", state)));
-            }
-            Multithreading.runAsync(() -> {
-                try {
-                    Thread.sleep(delay);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+        this.cancel.put("T-Pose", () -> {
+            AbstractAnimationHandler abstractAnimationHandler = Hyperium.INSTANCE.getHandlers().getTPoseHandler();
+            abstractAnimationHandler.get(Minecraft.getMinecraft().thePlayer.getUniqueID()).stopAnimation();
+        });
+
+        if (Hyperium.INSTANCE.getCosmetics().getFlipCosmetic().isSelfUnlocked()) {
+            this.handlers.put("Flip", (netty) -> {
+                int state = Settings.flipType;
+                Hyperium.INSTANCE.getHandlers().getFlipHandler().state(UUIDUtil.getClientUUID(), state);
+                NettyClient client = NettyClient.getClient();
+                if (client != null && netty) {
+                    client.write(ServerCrossDataPacket.build(new JsonHolder().put("type", "flip_update").put("flip_state", state)));
                 }
-                if (client != null) {
-                    client.write(ServerCrossDataPacket.build(new JsonHolder().put("type", "flip_update").put("flip_state", 0)));
-                }
+
+                Multithreading.runAsync(() -> {
+                    try {
+                        Thread.sleep(delay);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    if (client != null && netty) {
+                        client.write(ServerCrossDataPacket.build(new JsonHolder().put("type", "flip_update").put("flip_state", 0)));
+                    }
+                    Hyperium.INSTANCE.getHandlers().getFlipHandler().state(UUIDUtil.getClientUUID(), 0);
+
+
+                });
+                Hyperium.INSTANCE.getHandlers().getFlipHandler().resetTick();
+            });
+            this.cancel.put("Flip", () -> {
                 Hyperium.INSTANCE.getHandlers().getFlipHandler().state(UUIDUtil.getClientUUID(), 0);
 
-
             });
-            Hyperium.INSTANCE.getHandlers().getFlipHandler().resetTick();
-        });
+        }
 
     }
 
@@ -134,9 +172,7 @@ public class GuiDances extends HyperiumGui {
         super.mouseReleased(mouseX, mouseY, state);
         if (foc != null) {
             Minecraft.getMinecraft().displayGuiScreen(null);
-            handlers.get(foc).run();
-
-
+            handlers.get(foc).accept(true);
         }
 
     }
@@ -144,8 +180,7 @@ public class GuiDances extends HyperiumGui {
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         super.drawScreen(mouseX, mouseY, partialTicks);
-        foc
-                = null;
+        foc = null;
         int count = handlers.size();
         ScaledResolution current = ResolutionUtil.current();
         drawScaledText("Hyperium Dances", current.getScaledWidth() / 2, 15, 2, Color.WHITE.getRGB(), true, true);
@@ -153,6 +188,7 @@ public class GuiDances extends HyperiumGui {
         int centerY = current.getScaledHeight() / 2;
         int centerX = current.getScaledWidth() / 2;
         float i = 0;
+
         for (String s : handlers.keySet()) {
             GL11.glPushMatrix();
             GL11.glEnable(3042);
@@ -210,5 +246,36 @@ public class GuiDances extends HyperiumGui {
             i++;
         }
 
+        if (lastFoc == null && foc != null) {
+            handlers.get(foc).accept(false);
+        } else if (lastFoc != null && foc == null) {
+            cancel.get(lastFoc).run();
+        } else if (lastFoc != null && !lastFoc.equalsIgnoreCase(foc)) {
+            cancel.get(lastFoc).run();
+            handlers.get(foc).accept(false);
+        }
+        GlStateManager.pushMatrix();
+        GlStateManager.color(1, 1, 1);
+
+        GlStateManager.translate(current.getScaledWidth() / 2, current.getScaledHeight() / 2, 5);
+        RenderHelper.enableStandardItemLighting();
+        GlStateManager.enableAlpha();
+
+        GlStateManager.shadeModel(7424);
+        GlStateManager.enableAlpha();
+        GlStateManager.enableDepth();
+
+        GlStateManager.translate(0, 50, 0);
+
+        float v = 3000F;
+        GlStateManager.rotate(System.currentTimeMillis() % (int)v / v * 360F, 0, 1.0F, 0);
+        GlStateManager.translate(0, 0, -50);
+        GuiInventory.drawEntityOnScreen(0, 0, 50, 0, 0, Minecraft.getMinecraft().thePlayer);
+        GlStateManager.depthFunc(515);
+        GlStateManager.resetColor();
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+        GlStateManager.disableDepth();
+        GlStateManager.popMatrix();
+        lastFoc = foc;
     }
 }
