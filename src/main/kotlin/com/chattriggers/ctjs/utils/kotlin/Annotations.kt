@@ -58,8 +58,7 @@ object AnnotationHandler {
             try {
                 val kotlinClass = it.kotlin
                 val objectInstance = kotlinClass.objectInstance ?: kotlinClass.companionObjectInstance ?: return@forEach
-                val loaderInstance: ILoader = objectInstance as? ILoader
-                        ?: return@forEach
+                val loaderInstance: ILoader = objectInstance as? ILoader ?: return@forEach
 
                 ModuleManager.loaders.add(loaderInstance)
             } catch (e: Throwable) {

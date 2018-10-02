@@ -46,6 +46,8 @@ object Reference {
                 ModuleManager.loaders.forEach {
                     it.console.clearConsole()
                 }
+
+                ModuleManager.generalConsole.clearConsole()
             }
 
             CTJS.loadConfig()
