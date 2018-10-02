@@ -174,10 +174,7 @@ public class GuiBrowser extends GuiScreen {
                 url.setFocused(true);
                 url.setSelectionPos(0);
                 return;
-            }else if(num == Keyboard.KEY_F11 && pressed){
-                mc.toggleFullscreen();
             }
-
             if (browser != null
                     && !focused) { //Inject events into browser. TODO: Handle keyboard mods.
                 if (key != '.' && key != ';' && key != ',') { //Workaround
