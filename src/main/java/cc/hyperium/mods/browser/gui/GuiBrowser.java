@@ -175,7 +175,6 @@ public class GuiBrowser extends GuiScreen {
                 url.setSelectionPos(0);
                 return;
             }
-
             if (browser != null
                     && !focused) { //Inject events into browser. TODO: Handle keyboard mods.
                 if (key != '.' && key != ';' && key != ',') { //Workaround

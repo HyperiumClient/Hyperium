@@ -1,17 +1,26 @@
 package cc.hyperium.gui;
 
 import cc.hyperium.config.Settings;
+import cc.hyperium.mods.sk1ercommon.Multithreading;
+import javafx.stage.FileChooser;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.gui.ScaledResolution;
+import org.apache.commons.io.IOUtils;
 import org.lwjgl.input.Keyboard;
 
-import java.io.DataInputStream;
-import java.io.File;
-import java.io.FileOutputStream;
+import java.awt.FileDialog;
+import java.awt.Frame;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.IOException;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileNotFoundException;
+import java.io.File;
+import java.io.DataInputStream;
 import java.net.URL;
 import java.net.URLConnection;
 
@@ -20,7 +29,7 @@ public class ChangeBackgroundGui extends GuiScreen {
     private final GuiScreen prevGui;
 
     private GuiTextField downloadUrlField;
-    private String statusText = "Enter a URL below to change the background.";
+    private String statusText = "Enter a URL below to change the background or choose file.";
 
     public ChangeBackgroundGui(GuiScreen prevGui) {
         this.prevGui = prevGui;
@@ -31,9 +40,9 @@ public class ChangeBackgroundGui extends GuiScreen {
         this.downloadUrlField = new GuiTextField(0, Minecraft.getMinecraft().fontRendererObj, width / 4, height / 2 - 10, width / 2, 20);
         this.downloadUrlField.setFocused(true);
         this.downloadUrlField.setMaxStringLength(150);
-
-        this.buttonList.add(new GuiButton(1, width / 2 - 150 / 2, height / 2 + 20, 150, 15, "Set"));
-        this.buttonList.add(new GuiButton(2, width / 2 - 150 / 2, height / 2 + 40, 150, 15, "Cancel"));
+        this.buttonList.add(new GuiButton(1, width / 2 - 150 / 2, height / 2 + 20, 150, 15, "Set URL"));
+        this.buttonList.add(new GuiButton(2, width / 2 - 150 / 2, height / 2 + 40, 150, 15, "Choose File"));
+        this.buttonList.add(new GuiButton(3, width / 2 - 150 / 2, height / 2 + 60, 150, 15, "Cancel"));
     }
 
     @Override
@@ -56,8 +65,37 @@ public class ChangeBackgroundGui extends GuiScreen {
         if (button.id == 1)
             handleDownload();
         if (button.id == 2)
+            handleChooseFile();
+        if (button.id == 3)
             Minecraft.getMinecraft().displayGuiScreen(prevGui);
         super.actionPerformed(button);
+    }
+
+    private void handleChooseFile(){
+        FileDialog dialog = new FileDialog((Frame)null,"Select background image",FileDialog.LOAD);
+        dialog.setFile("*.jpg;*.jpeg;*.png");
+        dialog.setVisible(true);
+        if(dialog.getFiles().length != 0) {
+            String filename = dialog.getFiles()[0].getAbsolutePath();
+            if (!filename.isEmpty()) {
+                statusText = "Working...";
+                InputStream input = null;
+                OutputStream output = null;
+                try {
+                    input = new FileInputStream(filename);
+                    output = new FileOutputStream(new File(Minecraft.getMinecraft().mcDataDir, "customImage.png"));
+                    IOUtils.copy(input, output);
+                    Settings.BACKGROUND = "CUSTOM";
+                    statusText = "Done!";
+                    Minecraft.getMinecraft().displayGuiScreen(prevGui);
+                } catch (FileNotFoundException e) {
+                    statusText = "Invalid path";
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    statusText = "Unknown error";
+                }
+            }
+        }
     }
 
     private void handleDownload() {
