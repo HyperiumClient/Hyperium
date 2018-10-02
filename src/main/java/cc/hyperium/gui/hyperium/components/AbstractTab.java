@@ -65,7 +65,6 @@ public abstract class AbstractTab {
         if (scrollAnim.getValue() != scroll * 18 && scrollAnim.isFinished())
             scrollAnim = new SimpleAnimValue(1000L, scrollAnim.getValue(), scroll * 18);
         y += scrollAnim.getValue();
-
         /* Render each tab component */
         for (AbstractTabComponent comp : filter == null ? components : components.stream().filter(c -> c.filter(filter)).collect(Collectors.toList())) {
             comp.render(x, y, width, mx, my);

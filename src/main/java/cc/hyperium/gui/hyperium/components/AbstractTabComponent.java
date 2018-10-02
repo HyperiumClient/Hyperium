@@ -12,6 +12,7 @@ import java.util.function.Consumer;
  * Created by Cubxity on 27/08/2018
  */
 public abstract class AbstractTabComponent {
+
     public boolean hover;
     protected List<String> tags = new ArrayList<>();
     protected AbstractTab tab;
@@ -30,7 +31,7 @@ public abstract class AbstractTabComponent {
     }
 
     public int getHeight() {
-        return 18;
+        return (tab.getFilter() != null && !filter(tab.getFilter())) ? 0 : 18;
     }
 
     public void render(int x, int y, int width, int mouseX, int mouseY) {
