@@ -10,22 +10,23 @@ import static org.lwjgl.opengl.GL11.*;
 
 /**
  * ScissorState - Created by ScottehBoeh
- *
+ * <p>
  * A more simple approach to the Scissor feature available with
  * OpenGL-based libraries/dev kits. Allows for you to use the GL
  * Scissor method without the necessity of the Minecraft scaled
  * res factor.
- *
  */
 public class ScissorState {
 
     /* Buffer */
     private static final IntBuffer boxBuf = BufferUtils.createIntBuffer(4);
+
     /**
      * Scissor - Start a Scissor State
-     * @param x - Given X Position
-     * @param y - Given Y Position
-     * @param width - Given Width
+     *
+     * @param x      - Given X Position
+     * @param y      - Given Y Position
+     * @param width  - Given Width
      * @param height - Given Height
      */
     public static void scissor(int x, int y, int width, int height) {
@@ -34,10 +35,11 @@ public class ScissorState {
 
     /**
      * Scissor - Start a Scissor State
-     * @param x - Given X Position
-     * @param y - Given Y Position
-     * @param width - Given Width
-     * @param height - Given Height
+     *
+     * @param x               - Given X Position
+     * @param y               - Given Y Position
+     * @param width           - Given Width
+     * @param height          - Given Height
      * @param useWindowCoords - Should use Window Coordinates? (Scale-relative)
      */
     public static void scissor(int x, int y, int width, int height, boolean useWindowCoords) {

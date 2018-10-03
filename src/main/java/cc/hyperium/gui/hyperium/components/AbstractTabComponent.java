@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 /*
  * Created by Cubxity on 27/08/2018
@@ -27,7 +28,7 @@ public abstract class AbstractTabComponent {
      */
     AbstractTabComponent(AbstractTab tab, List<String> tags) {
         this.tab = tab;
-        this.tags.addAll(tags); // prevent unsupported operation on AbstractList
+        tag(tags); // prevent unsupported operation on AbstractList
     }
 
     public int getHeight() {
@@ -42,7 +43,8 @@ public abstract class AbstractTabComponent {
     }
 
     public boolean filter(String s) {
-        boolean a = (s.equals(sc) ? fc : (fc = tags.stream().anyMatch(t -> t.contains(s))));
+        String fs = s.toLowerCase();
+        boolean a = (s.equals(sc) ? fc : (fc = tags.stream().anyMatch(t -> t.contains(fs))));
         sc = s;
         return a;
     }
@@ -72,7 +74,12 @@ public abstract class AbstractTabComponent {
     }
 
     public AbstractTabComponent tag(String... ts) {
-        tags.addAll(Arrays.asList(ts));
+        tags.addAll(Arrays.stream(ts).map(String::toLowerCase).collect(Collectors.toList()));
+        return this;
+    }
+
+    public AbstractTabComponent tag(List<String> ts) {
+        tags.addAll(ts.stream().map(String::toLowerCase).collect(Collectors.toList()));
         return this;
     }
 }

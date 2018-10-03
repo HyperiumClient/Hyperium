@@ -5,11 +5,8 @@ import cc.hyperium.gui.hyperium.HyperiumMainGui;
 import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
 import cc.hyperium.utils.SimpleAnimValue;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.renderer.GlStateManager;
 import org.lwjgl.input.Mouse;
-import org.lwjgl.opengl.GL11;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,7 +29,8 @@ public abstract class AbstractTab {
 
     /**
      * Default Constructor
-     * @param gui - Given parent GUI
+     *
+     * @param gui   - Given parent GUI
      * @param title - Given tab title
      */
     public AbstractTab(HyperiumMainGui gui, String title) {
@@ -42,9 +40,10 @@ public abstract class AbstractTab {
 
     /**
      * Render - Renders the Tab
-     * @param x - Given X Position
-     * @param y - Given Y Position
-     * @param width - Given Width
+     *
+     * @param x      - Given X Position
+     * @param y      - Given Y Position
+     * @param width  - Given Width
      * @param height - Given Height
      */
     public void render(int x, int y, int width, int height) {
@@ -56,7 +55,7 @@ public abstract class AbstractTab {
         int xg = width / 9;   // X grid
 
         /* Begin new scissor state */
-        ScissorState.scissor(x,y,width,height,true);
+        ScissorState.scissor(x, y, width, height, true);
 
         /* Get mouse X and Y */
         final int mx = Mouse.getX() * sw / Minecraft.getMinecraft().displayWidth;           // Mouse X
@@ -92,6 +91,7 @@ public abstract class AbstractTab {
 
     /**
      * Get Title - Get the Title of the tab
+     *
      * @return - Given Title
      */
     public String getTitle() {
@@ -100,9 +100,10 @@ public abstract class AbstractTab {
 
     /**
      * Get Filter - Get the tab filter value
+     *
      * @return - Given tab filter
      */
-    public String getFilter(){
+    public String getFilter() {
         return this.filter;
     }
 
@@ -121,14 +122,16 @@ public abstract class AbstractTab {
 
     /**
      * Set Title - Set the Title of the tab
+     *
      * @param givenTitle - Given Title Value
      */
-    public void setTitle(String givenTitle){
+    public void setTitle(String givenTitle) {
         this.title = givenTitle;
     }
 
     /**
      * Set Filter - Set the tab filter
+     *
      * @param filter - Given Filter Value
      */
     public void setFilter(String filter) {
