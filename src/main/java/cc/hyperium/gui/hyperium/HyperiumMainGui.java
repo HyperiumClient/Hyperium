@@ -180,7 +180,6 @@ public class HyperiumMainGui extends HyperiumGui {
         GlStateManager.pushMatrix();
         Gui.drawScaledCustomSizeModalRect(width / 2 - xg, yg * 9, 0, 0, 144, 144, yg / 2, yg / 2, 144, 144);
         Icons.ARROW_RIGHT.bind();
-        System.out.println(yg / 2);
         Gui.drawScaledCustomSizeModalRect(width / 2 + xg - (yg / 2), yg * 9, 0, 0, 144, 144, yg / 2, yg / 2, 144, 144);
         GlStateManager.popMatrix();
 
