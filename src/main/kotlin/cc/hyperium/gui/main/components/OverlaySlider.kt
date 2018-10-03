@@ -1,6 +1,6 @@
 package cc.hyperium.gui.main.components
 
-import cc.hyperium.gui.main.HyperiumMainGui
+import cc.hyperium.gui.main.MainHyperiumMainGui
 import cc.hyperium.utils.RenderUtils
 import org.lwjgl.input.Mouse
 import java.awt.Color
@@ -30,7 +30,7 @@ class OverlaySlider @JvmOverloads constructor(label: String, private val minVal:
             return false
         val left = (overlayX + w - 105).toFloat()
 
-        val fr = HyperiumMainGui.INSTANCE.fr
+        val fr = MainHyperiumMainGui.INSTANCE.fr
         var s = value.toString()
         if (round)
             s = Math.round(value).toString()

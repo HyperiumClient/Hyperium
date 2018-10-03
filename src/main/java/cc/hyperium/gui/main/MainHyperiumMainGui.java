@@ -25,6 +25,15 @@ import cc.hyperium.utils.DownloadTask;
 import cc.hyperium.utils.HyperiumFontRenderer;
 import cc.hyperium.utils.InstallerUtils;
 import cc.hyperium.utils.UpdateUtils;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.resources.I18n;
+import net.minecraft.util.ResourceLocation;
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.opengl.GL11;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.io.File;
@@ -35,21 +44,13 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.TimeUnit;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.util.ResourceLocation;
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.opengl.GL11;
 
 /*
  * Created by Cubxity on 20/05/2018
  */
-public class HyperiumMainGui extends HyperiumGui {
+public class MainHyperiumMainGui extends HyperiumGui {
 
-    public static HyperiumMainGui INSTANCE = new HyperiumMainGui();
+    public static MainHyperiumMainGui INSTANCE = new MainHyperiumMainGui();
     private final HyperiumFontRenderer fr = new HyperiumFontRenderer("Arial", Font.PLAIN, 20);
     public boolean show = false;
     public UpdateUtils utils;
@@ -66,7 +67,7 @@ public class HyperiumMainGui extends HyperiumGui {
     private List<Object> settingsObjects = new ArrayList<>();
     private ModsTab modsTab;
 
-    public HyperiumMainGui() {
+    public MainHyperiumMainGui() {
         try {
             settingsObjects.add(Settings.INSTANCE);
             if (Hyperium.INSTANCE.getModIntegration() == null) {
@@ -367,7 +368,7 @@ public class HyperiumMainGui extends HyperiumGui {
         }
 
         void dismiss() {
-            HyperiumMainGui.INSTANCE.currentAlert = null;
+            MainHyperiumMainGui.INSTANCE.currentAlert = null;
         }
     }
 }

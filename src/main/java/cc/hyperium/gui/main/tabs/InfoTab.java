@@ -5,7 +5,7 @@ import cc.hyperium.Metadata;
 import cc.hyperium.gui.GuiBlock;
 import cc.hyperium.gui.GuiHyperiumCredits;
 import cc.hyperium.gui.Icons;
-import cc.hyperium.gui.main.HyperiumMainGui;
+import cc.hyperium.gui.main.MainHyperiumMainGui;
 import cc.hyperium.gui.main.HyperiumOverlay;
 import cc.hyperium.gui.main.components.AbstractTab;
 import cc.hyperium.gui.main.components.OverlayButton;
@@ -94,8 +94,8 @@ public class InfoTab extends AbstractTab {
             }
         }, null, "Discord", "Click to join Discord", "Click to join Discord", 0, 1));
 
-        items.add(new SettingItem(() -> new GuiHyperiumCredits(HyperiumMainGui.INSTANCE).show(), null, "Credits", "List of contributors who helped with the client", "Lists of contributor name and amount of commits", 2, 0));
-        items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(licenses), null, "Licenses", "Open Source Licenses", "Licenses for open source libraries used in the client", 2, 1));
+        items.add(new SettingItem(() -> new GuiHyperiumCredits(MainHyperiumMainGui.INSTANCE).show(), null, "Credits", "List of contributors who helped with the client", "Lists of contributor name and amount of commits", 2, 0));
+        items.add(new SettingItem(() -> MainHyperiumMainGui.INSTANCE.setOverlay(licenses), null, "Licenses", "Open Source Licenses", "Licenses for open source libraries used in the client", 2, 1));
         items.add(new SettingItem(() -> Multithreading.runAsync(() -> {
             if (!UpdateUtils.INSTANCE.isAbsoluteLatest()) {
                 try {
@@ -114,7 +114,7 @@ public class InfoTab extends AbstractTab {
                             } else {
                                 jar = new File(System.getProperty("sun.java.command").split(" ")[0]);
                             }
-                            HyperiumMainGui.INSTANCE.getAlerts().add(new HyperiumMainGui.Alert(Icons.ERROR.getResource(), () -> {
+                            MainHyperiumMainGui.INSTANCE.getAlerts().add(new MainHyperiumMainGui.Alert(Icons.ERROR.getResource(), () -> {
                             }, "Client will restart in 10 seconds to update"));
                             Multithreading.schedule(() -> {
                                 Minecraft.getMinecraft().shutdown();
@@ -126,17 +126,17 @@ public class InfoTab extends AbstractTab {
                             }, 10, TimeUnit.SECONDS);
                         } catch (Exception ex) {
                             ex.printStackTrace();
-                            HyperiumMainGui.INSTANCE.getAlerts().add(new HyperiumMainGui.Alert(Icons.ERROR.getResource(), () -> {
+                            MainHyperiumMainGui.INSTANCE.getAlerts().add(new MainHyperiumMainGui.Alert(Icons.ERROR.getResource(), () -> {
                             }, "Update - Failed to download updates"));
                         }
                     });
                 } catch (Exception ex) {
                     ex.printStackTrace();
-                    HyperiumMainGui.INSTANCE.getAlerts().add(new HyperiumMainGui.Alert(Icons.ERROR.getResource(), () -> {
+                    MainHyperiumMainGui.INSTANCE.getAlerts().add(new MainHyperiumMainGui.Alert(Icons.ERROR.getResource(), () -> {
                     }, "Update - Failed to download updates"));
                 }
             } else
-                HyperiumMainGui.INSTANCE.getAlerts().add(new HyperiumMainGui.Alert(Icons.TOOL.getResource(), () -> {
+                MainHyperiumMainGui.INSTANCE.getAlerts().add(new MainHyperiumMainGui.Alert(Icons.TOOL.getResource(), () -> {
                 }, "Client is up to date!"));
 
         }), null, "Update", "Update the client", "Click to update the client if updates are available", 2, 2));

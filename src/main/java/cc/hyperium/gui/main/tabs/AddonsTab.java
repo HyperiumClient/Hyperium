@@ -4,7 +4,7 @@ import cc.hyperium.addons.AbstractAddon;
 import cc.hyperium.addons.customrp.CustomRP;
 import cc.hyperium.gui.GuiBlock;
 import cc.hyperium.gui.Icons;
-import cc.hyperium.gui.main.HyperiumMainGui;
+import cc.hyperium.gui.main.MainHyperiumMainGui;
 import cc.hyperium.gui.main.HyperiumOverlay;
 import cc.hyperium.gui.main.components.AbstractTab;
 import cc.hyperium.gui.main.components.SettingItem;
@@ -32,11 +32,11 @@ public class AddonsTab extends AbstractTab {
                     try {
                         Class<?> clazz = Class.forName(a.getOverlay());
                         HyperiumOverlay overlay = (HyperiumOverlay) clazz.newInstance();
-                        HyperiumMainGui.INSTANCE.setOverlay(overlay);
+                        MainHyperiumMainGui.INSTANCE.setOverlay(overlay);
                     } catch (Exception e) {
-                        HyperiumMainGui.Alert alert = new HyperiumMainGui.Alert(Icons.ERROR.getResource(), () -> {
+                        MainHyperiumMainGui.Alert alert = new MainHyperiumMainGui.Alert(Icons.ERROR.getResource(), () -> {
                         }, "Failed to load addon's config overlay");
-                        HyperiumMainGui.INSTANCE.getAlerts().add(alert);
+                        MainHyperiumMainGui.INSTANCE.getAlerts().add(alert);
                         e.printStackTrace(); // in case the check went wrong
                     }
                 }
@@ -57,11 +57,11 @@ public class AddonsTab extends AbstractTab {
                 try {
                     Class<?> clazz = Class.forName(customRP.getAddonMetadata().getOverlayClassPath());
                     HyperiumOverlay overlay = (HyperiumOverlay) clazz.newInstance();
-                    HyperiumMainGui.INSTANCE.setOverlay(overlay);
+                    MainHyperiumMainGui.INSTANCE.setOverlay(overlay);
                 } catch (Exception e) {
-                    HyperiumMainGui.Alert alert = new HyperiumMainGui.Alert(Icons.ERROR.getResource(), () -> {
+                    MainHyperiumMainGui.Alert alert = new MainHyperiumMainGui.Alert(Icons.ERROR.getResource(), () -> {
                     }, "Failed to load addon's config overlay");
-                    HyperiumMainGui.INSTANCE.getAlerts().add(alert);
+                    MainHyperiumMainGui.INSTANCE.getAlerts().add(alert);
                     e.printStackTrace(); // in case the check went wrong
                 }
             }
@@ -75,7 +75,7 @@ public class AddonsTab extends AbstractTab {
 
 
         //Download addons button
-        items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setTab(HyperiumMainGui.INSTANCE.getTabs().get(6)), Icons.DOWNLOAD.getResource(), "Addons", "Download addons", "Click to open menu to download addons", xi, yi));
+        items.add(new SettingItem(() -> MainHyperiumMainGui.INSTANCE.setTab(MainHyperiumMainGui.INSTANCE.getTabs().get(6)), Icons.DOWNLOAD.getResource(), "Addons", "Download addons", "Click to open menu to download addons", xi, yi));
     }
 
 

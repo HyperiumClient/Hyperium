@@ -2,7 +2,7 @@ package cc.hyperium.gui.main.components;
 
 import cc.hyperium.gui.GuiBlock;
 import cc.hyperium.gui.Icons;
-import cc.hyperium.gui.main.HyperiumMainGui;
+import cc.hyperium.gui.main.MainHyperiumMainGui;
 import cc.hyperium.gui.main.tabs.HomeTab;
 import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
 import cc.hyperium.utils.HyperiumFontRenderer;
@@ -19,7 +19,7 @@ import java.util.List;
  */
 public abstract class AbstractTab {
 
-    protected static HyperiumFontRenderer fr = HyperiumMainGui.INSTANCE.getFr();
+    protected static HyperiumFontRenderer fr = MainHyperiumMainGui.INSTANCE.getFr();
 
     protected List<SettingItem> items = new ArrayList<>();
     protected List<SettingItem> witems = new ArrayList<>();
@@ -32,7 +32,7 @@ public abstract class AbstractTab {
     public abstract void drawHighlight(float s);
 
     public void handleMouseInput() {
-        if (HyperiumMainGui.INSTANCE.getOverlay() == null) {
+        if (MainHyperiumMainGui.INSTANCE.getOverlay() == null) {
             final ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
             int sw = sr.getScaledWidth();
             int sh = sr.getScaledHeight();

@@ -1,6 +1,6 @@
 package cc.hyperium.gui.main.components
 
-import cc.hyperium.gui.main.HyperiumMainGui
+import cc.hyperium.gui.main.MainHyperiumMainGui
 import net.minecraft.client.gui.Gui
 import java.awt.Color
 
@@ -24,7 +24,7 @@ open class OverlayLabel(label: String, enabled: Boolean, var click: Runnable) : 
 
         if(this.javaClass.equals(cls)){
             // Check if the box exceeds boundaries.
-            val textY = overlayY + (h - HyperiumMainGui.INSTANCE.fr.FONT_HEIGHT) / 2
+            val textY = overlayY + (h - MainHyperiumMainGui.INSTANCE.fr.FONT_HEIGHT) / 2
             if (textY < overlayH / 4) {
                 return false
             } else if (textY + h > overlayH / 4 * 3) {

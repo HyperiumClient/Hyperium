@@ -4,7 +4,7 @@ import cc.hyperium.gui.CapesGui;
 import cc.hyperium.gui.GuiBlock;
 import cc.hyperium.gui.Icons;
 import cc.hyperium.gui.ParticleGui;
-import cc.hyperium.gui.main.HyperiumMainGui;
+import cc.hyperium.gui.hyperium.HyperiumMainGui;
 import cc.hyperium.gui.main.components.AbstractTab;
 import cc.hyperium.gui.main.components.SettingItem;
 import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;

@@ -2,10 +2,9 @@ package cc.hyperium.mixinsimp.gui;
 
 import java.util.List;
 
-import cc.hyperium.gui.main.HyperiumMainGui;
+import cc.hyperium.gui.main.MainHyperiumMainGui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiOptions;
-import net.minecraft.client.resources.I18n;
 
 public class HyperiumGuiOptions {
     private GuiOptions parent;
@@ -25,7 +24,7 @@ public class HyperiumGuiOptions {
 
     public void actionPerformed(GuiButton button){
         if(button.id == 114514){
-            HyperiumMainGui.INSTANCE.show();
+            MainHyperiumMainGui.INSTANCE.show();
         }
     }
 }
