@@ -13,6 +13,7 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.inventory.GuiContainer;
 
 import java.util.HashMap;
+import java.util.concurrent.ExecutionException;
 import java.util.function.Consumer;
 
 public class HypixelGuiAugmenter {
@@ -20,7 +21,13 @@ public class HypixelGuiAugmenter {
     private final HashMap<GuiButton, Consumer<GuiButton>> lobbyAdds = new HashMap<>();
 
     public HypixelGuiAugmenter() {
-        lobbyAdds.put(new GuiButton(500001, 1, 1, 100, 20, "View Quests"), button -> new PlayerQuestsGui(Hyperium.INSTANCE.getHandlers().getDataHandler().getPlayer()).show());
+        lobbyAdds.put(new GuiButton(500001, 1, 1, 100, 20, "View Quests"), button -> {
+            try {
+                new PlayerQuestsGui(Hyperium.INSTANCE.getHandlers().getDataHandler().getCurrentUser().get()).show();
+            } catch (InterruptedException | ExecutionException e) {
+                e.printStackTrace();
+            }
+        });
         lobbyAdds.put(new GuiButton(500002, 1, 22, 100, 20, "View Friends"), button -> new HypixelFriendsGui().show());
 
     }

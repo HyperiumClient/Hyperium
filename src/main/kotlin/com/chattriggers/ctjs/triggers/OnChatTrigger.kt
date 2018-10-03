@@ -106,9 +106,9 @@ class OnChatTrigger(method: Any, type: TriggerType, loader: ILoader) : OnTrigger
 
     // helper method to get the proper chat message based on the presence of color codes
     private fun getChatMessage(chatEvent: ServerChatEvent, chatMessage: String) =
-        if (this.chatCriteria.contains("&"))
-            chatEvent.chat.formattedText.replace("\u00a7", "&")
-        else chatMessage
+            if (this.chatCriteria.contains("&"))
+                chatEvent.chat.formattedText.replace("\u00a7", "&")
+            else chatMessage
 
     // helper method to get the variables to pass through
     private fun getVariables(chatMessage: String) =

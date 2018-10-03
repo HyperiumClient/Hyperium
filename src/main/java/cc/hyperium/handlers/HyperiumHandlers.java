@@ -32,7 +32,7 @@ import cc.hyperium.handlers.handlers.animation.cape.CapeHandler;
 import cc.hyperium.handlers.handlers.animation.fortnite.FortniteDefaultDance;
 import cc.hyperium.handlers.handlers.browser.BrowserHandler;
 import cc.hyperium.handlers.handlers.chat.*;
-import cc.hyperium.handlers.handlers.data.ApiDataHandler;
+import cc.hyperium.handlers.handlers.data.HypixelAPI;
 import cc.hyperium.handlers.handlers.hud.VanillaEnhancementsHud;
 import cc.hyperium.handlers.handlers.hypixel.HypixelGuiAugmenter;
 import cc.hyperium.handlers.handlers.keybinds.KeyBindHandler;
@@ -62,7 +62,7 @@ public class HyperiumHandlers {
     private ValueHandler valueHandler;
     private List<HyperiumChatHandler> chatHandlers;
     private GeneralChatHandler generalChatHandler;
-    private ApiDataHandler dataHandler;
+    private HypixelAPI dataHandler;
     private ResolutionUtil resolutionUtil;
     private StatusHandler statusHandler;
     private GuiDisplayHandler guiDisplayHandler;
@@ -125,7 +125,7 @@ public class HyperiumHandlers {
             register(BrowserHandler.INSTNACE);
         }
         commandQueue = new CommandQueue();
-        dataHandler = new ApiDataHandler();
+        dataHandler = new HypixelAPI();
         //Chat Handlers
         System.out.println("Loading chat handlers");
         registerChatHandler(new RankedRatingChatHandler());
@@ -172,7 +172,6 @@ public class HyperiumHandlers {
 
     public void postInit() {
         generalChatHandler.post();
-        dataHandler.post();
     }
 
 
@@ -225,7 +224,7 @@ public class HyperiumHandlers {
         return generalChatHandler;
     }
 
-    public ApiDataHandler getDataHandler() {
+    public HypixelAPI getDataHandler() {
         return dataHandler;
     }
 

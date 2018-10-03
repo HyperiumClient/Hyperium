@@ -46,6 +46,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 import java.util.function.Predicate;
 
 
@@ -107,12 +108,16 @@ public class HypixelFriendsGui extends HyperiumGui {
             guiButton.enabled = false;
 
         }, guiButton -> {
-            if (selected.size() > 10 && !Hyperium.INSTANCE.getHandlers().getDataHandler().getPlayer().isStaffOrYT()) {
-                guiButton.enabled = false;
-                guiButton.displayString = "Too many players!";
-            } else {
-                guiButton.enabled = true;
-                guiButton.displayString = "Party Selected";
+            try {
+                if (selected.size() > 10 && !Hyperium.INSTANCE.getHandlers().getDataHandler().getCurrentUser().get().isStaffOrYT()) {
+                    guiButton.enabled = false;
+                    guiButton.displayString = "Too many players!";
+                } else {
+                    guiButton.enabled = true;
+                    guiButton.displayString = "Party Selected";
+                }
+            } catch (InterruptedException | ExecutionException e) {
+                e.printStackTrace();
             }
 
 
@@ -205,7 +210,11 @@ public class HypixelFriendsGui extends HyperiumGui {
     }
 
     private void rebuildFriends() {
-        this.friends = new HypixelFriends(Hyperium.INSTANCE.getHandlers().getDataHandler().getFriends());
+        try {
+            this.friends = new HypixelFriends(Hyperium.INSTANCE.getHandlers().getDataHandler().getFriendsForCurrentUser().get().getData());
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
         this.friends.sort(sortType);
     }
 
@@ -288,7 +297,12 @@ public class HypixelFriendsGui extends HyperiumGui {
     @InvokeEvent
     public void onRemove(FriendRemoveEvent evemt) {
         System.out.println(evemt.getFullName() + " - " + evemt.getName());
-        JsonHolder friends = Hyperium.INSTANCE.getHandlers().getDataHandler().getFriends();
+        JsonHolder friends = null;
+        try {
+            friends = Hyperium.INSTANCE.getHandlers().getDataHandler().getFriendsForCurrentUser().get().getData();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
         String key = null;
         for (Map.Entry<String, JsonElement> stringJsonElementEntry : friends.getObject().entrySet()) {
             if (!(stringJsonElementEntry.getValue() instanceof JsonObject))

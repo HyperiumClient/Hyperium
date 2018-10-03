@@ -1,11 +1,12 @@
 package cc.hyperium.handlers.handlers.data.leaderboards;
 
-import cc.hyperium.Hyperium;
+import cc.hyperium.handlers.handlers.data.HypixelAPI;
 import cc.hyperium.utils.JsonHolder;
 import com.google.gson.JsonElement;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class Leaderboard {
 
@@ -50,7 +51,13 @@ public class Leaderboard {
 
     public void forceFetch() {
 
-        JsonHolder leaderboard = Hyperium.INSTANCE.getHandlers().getDataHandler().getLeaderboard(id);
+        JsonHolder leaderboard = null;
+        try {
+            leaderboard = HypixelAPI.INSTANCE.getLeaderboardWithID(id).get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+
         List<LeaderboardEntry> data = new ArrayList<>();
         for (JsonElement element : leaderboard.optJSONArray("data")) {
             JsonHolder holder = new JsonHolder(element.getAsJsonObject());

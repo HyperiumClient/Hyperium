@@ -8,6 +8,7 @@ import net.minecraft.client.Minecraft;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class CommandMessage implements BaseCommand {
     @Override
@@ -48,11 +49,16 @@ public class CommandMessage implements BaseCommand {
     }
 
     static void addTabHypixel(List<String> tabUsernames) {
-        if (Hyperium.INSTANCE.getHandlers().getHypixelDetector().isHypixel())
-            for (String s : Hyperium.INSTANCE.getHandlers().getDataHandler().getFriends().getKeys()) {
-                String name = Hyperium.INSTANCE.getHandlers().getDataHandler().getFriends().optJSONObject(s).optString("name");
-                if (!name.isEmpty())
-                    tabUsernames.add(name);
+        if (Hyperium.INSTANCE.getHandlers().getHypixelDetector().isHypixel()) {
+            try {
+                for (String s : Hyperium.INSTANCE.getHandlers().getDataHandler().getFriendsForCurrentUser().get().getData().getKeys()) {
+                    String name = Hyperium.INSTANCE.getHandlers().getDataHandler().getFriendsForCurrentUser().get().getData().optJSONObject(s).optString("name");
+                    if (!name.isEmpty())
+                        tabUsernames.add(name);
+                }
+            } catch (InterruptedException | ExecutionException e) {
+                e.printStackTrace();
             }
+        }
     }
 }

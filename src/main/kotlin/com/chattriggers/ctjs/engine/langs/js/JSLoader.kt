@@ -97,7 +97,12 @@ object JSLoader : ILoader {
         triggers.filter {
             it.type == type
         }.forEach {
-            it.trigger(*args)
+            try {
+                it.trigger(*args)
+            } catch (e: Exception) {
+                console.printStackTrace(e)
+                removeTrigger(it)
+            }
         }
     }
 

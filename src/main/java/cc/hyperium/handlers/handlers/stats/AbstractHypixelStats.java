@@ -2,6 +2,7 @@ package cc.hyperium.handlers.handlers.stats;
 
 import cc.hyperium.C;
 import cc.hyperium.Hyperium;
+import cc.hyperium.handlers.handlers.data.HypixelAPI;
 import cc.hyperium.handlers.handlers.stats.display.DisplayLine;
 import cc.hyperium.handlers.handlers.stats.display.StatsDisplayItem;
 import cc.hyperium.utils.JsonHolder;
@@ -17,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.TimeZone;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
 public abstract class AbstractHypixelStats {
@@ -70,7 +72,13 @@ public abstract class AbstractHypixelStats {
     }
 
     public List<StatsDisplayItem> getQuests(HypixelApiPlayer player) {
-        JsonHolder quests = Hyperium.INSTANCE.getHandlers().getDataHandler().getQuests();
+        JsonHolder quests = null;
+        try {
+            quests = Hyperium.INSTANCE.getHandlers().getDataHandler().getQuests().get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+
         ArrayList<StatsDisplayItem> statsDisplayItems = new ArrayList<>();
         totalDaily = 0;
         totalWeekly = 0;
@@ -86,9 +94,9 @@ public abstract class AbstractHypixelStats {
         for (JsonElement jsonElement : ob) {
             JsonHolder quest = new JsonHolder(jsonElement.getAsJsonObject());
             String quest_backend = quest.optString("id");
-            StringBuilder tmp = new StringBuilder(Hyperium.INSTANCE.getHandlers().getDataHandler().getFrontendName(quest_backend));
+            StringBuilder tmp = new StringBuilder(HypixelAPI.INSTANCE.getFrontendNameOfQuest(quest_backend));
             //TODO get quest names
-            JsonHolder playerQuestData = player.getQuests().optJSONObject(Hyperium.INSTANCE.getHandlers().getDataHandler().getFrontendName(quest_backend));
+            JsonHolder playerQuestData = player.getQuests().optJSONObject(HypixelAPI.INSTANCE.getFrontendNameOfQuest(quest_backend));
             long last_completed = playerQuestData.optLong("last_completed");
             tmp.append(": ");
             JsonArray requirements = quest.optJSONArray("requirements");

@@ -2,7 +2,7 @@ package cc.hyperium.mixinsimp.gui;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.config.Settings;
-import cc.hyperium.handlers.handlers.data.ApiDataHandler;
+import cc.hyperium.handlers.handlers.data.HypixelAPI;
 import cc.hyperium.mixins.gui.IMixinGui;
 import cc.hyperium.mixins.gui.IMixinGuiPlayerTabOverlay;
 import cc.hyperium.utils.ChatColor;
@@ -130,8 +130,7 @@ public class HyperiumGuiPlayerTabOverlay {
 
         if (Settings.FRIENDS_FIRST_IN_TAB) {
             ConcurrentLinkedDeque<NetworkPlayerInfo> friends = new ConcurrentLinkedDeque<>();
-            ApiDataHandler dataHandler = Hyperium.INSTANCE.getHandlers().getDataHandler();
-            List<UUID> friendUUIDList = dataHandler.getFriendUUIDList();
+            List<UUID> friendUUIDList = HypixelAPI.INSTANCE.getListOfCurrentUsersFriends();
             for (NetworkPlayerInfo networkPlayerInfo : list) {
                 UUID id = networkPlayerInfo.getGameProfile().getId();
                 if (friendUUIDList.contains(id)) {

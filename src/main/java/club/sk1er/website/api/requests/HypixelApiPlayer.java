@@ -17,7 +17,7 @@
 
 package club.sk1er.website.api.requests;
 
-import cc.hyperium.Hyperium;
+import cc.hyperium.handlers.handlers.data.HypixelAPI;
 import cc.hyperium.utils.JsonHolder;
 import club.sk1er.website.utils.WebsiteUtils;
 import com.google.gson.JsonArray;
@@ -27,6 +27,7 @@ import net.hypixel.api.util.ILeveling;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.concurrent.ExecutionException;
 
 /**
  * @author Sk1er
@@ -123,7 +124,13 @@ public class HypixelApiPlayer implements HypixelApiObject {
     }
 
     public HypixelApiGuild getGuild() {
-        return Hyperium.INSTANCE.getHandlers().getDataHandler().getGuildByPlayer(getUUID());
+        try {
+            return HypixelAPI.INSTANCE.getGuildFromPlayer(getUUID()).get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
     public int getTotalCoins() {
