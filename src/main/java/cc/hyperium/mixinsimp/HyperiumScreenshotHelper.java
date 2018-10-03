@@ -5,8 +5,6 @@ import cc.hyperium.config.Settings;
 import cc.hyperium.handlers.handlers.keybinds.HyperiumBind;
 import cc.hyperium.utils.ChatColor;
 import cc.hyperium.utils.mods.AsyncScreenshotSaver;
-import java.io.File;
-import java.nio.IntBuffer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
@@ -18,6 +16,9 @@ import org.lwjgl.BufferUtils;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
+
+import java.io.File;
+import java.nio.IntBuffer;
 
 public class HyperiumScreenshotHelper {
 

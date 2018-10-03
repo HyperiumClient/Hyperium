@@ -17,10 +17,10 @@
 
 package cc.hyperium.mixins.entity;
 
+import cc.hyperium.event.RenderWorldEvent;
 import cc.hyperium.handlers.handlers.reach.ReachDisplay;
 import cc.hyperium.mixinsimp.entity.HyperiumEntityRenderer;
 import com.google.common.base.Predicates;
-import java.util.List;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.client.renderer.OpenGlHelper;
@@ -28,20 +28,15 @@ import net.minecraft.client.shader.ShaderGroup;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItemFrame;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.EntitySelectors;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.MouseFilter;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.*;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import java.util.List;
 
 @Mixin(EntityRenderer.class)
 public abstract class MixinEntityRenderer {
@@ -96,6 +91,11 @@ public abstract class MixinEntityRenderer {
      * @author CoalOres
      * @reason 360 Perspective
      */
+
+    @Inject(method = "renderWorldPass", at = @At(value = "INVOKE_STRING", target = "Lnet/minecraft/profiler/Profiler;endStartSection(Ljava/lang/String;)V", args = "ldc=hand"))
+    private void onRenderWorld(int pass, float partialTicks, long nano, CallbackInfo info) {
+        new RenderWorldEvent(partialTicks).post();
+    }
 
     @Inject(method = "renderWorldPass", at = @At(value = "INVOKE_STRING", target = "Lnet/minecraft/profiler/Profiler;endStartSection(Ljava/lang/String;)V", args = "ldc=outline"), cancellable = true)
     public void drawOutline(int pass, float part, long nano, CallbackInfo info) {

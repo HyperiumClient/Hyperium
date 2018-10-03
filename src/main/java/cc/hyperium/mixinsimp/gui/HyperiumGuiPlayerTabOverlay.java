@@ -2,17 +2,13 @@ package cc.hyperium.mixinsimp.gui;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.config.Settings;
-import cc.hyperium.handlers.handlers.ApiDataHandler;
+import cc.hyperium.handlers.handlers.data.HypixelAPI;
 import cc.hyperium.mixins.gui.IMixinGui;
 import cc.hyperium.mixins.gui.IMixinGuiPlayerTabOverlay;
 import cc.hyperium.utils.ChatColor;
 import cc.hyperium.utils.StaffUtils;
 import com.google.common.collect.Ordering;
 import com.mojang.authlib.GameProfile;
-import java.awt.Color;
-import java.util.List;
-import java.util.UUID;
-import java.util.concurrent.ConcurrentLinkedDeque;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
@@ -28,6 +24,11 @@ import net.minecraft.scoreboard.Scoreboard;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.world.WorldSettings;
+
+import java.awt.Color;
+import java.util.List;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentLinkedDeque;
 
 public class HyperiumGuiPlayerTabOverlay {
     private GuiPlayerTabOverlay parent;
@@ -129,8 +130,7 @@ public class HyperiumGuiPlayerTabOverlay {
 
         if (Settings.FRIENDS_FIRST_IN_TAB) {
             ConcurrentLinkedDeque<NetworkPlayerInfo> friends = new ConcurrentLinkedDeque<>();
-            ApiDataHandler dataHandler = Hyperium.INSTANCE.getHandlers().getDataHandler();
-            List<UUID> friendUUIDList = dataHandler.getFriendUUIDList();
+            List<UUID> friendUUIDList = HypixelAPI.INSTANCE.getListOfCurrentUsersFriends();
             for (NetworkPlayerInfo networkPlayerInfo : list) {
                 UUID id = networkPlayerInfo.getGameProfile().getId();
                 if (friendUUIDList.contains(id)) {

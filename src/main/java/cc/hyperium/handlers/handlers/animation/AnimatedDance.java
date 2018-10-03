@@ -118,7 +118,10 @@ public abstract class AnimatedDance extends AbstractPreCopyAnglesAnimationHandle
             this.frames.add(frame);
         }
         loaded = true;
-        duration = frames.get(Math.max(0,frames.size() - 1)).getTime();
+        if (frames.size() == 0)
+            duration = 1L;
+        else
+        duration = frames.get(Math.max(0, frames.size() - 1)).getTime();
     }
 
     public float radians(int deg) {

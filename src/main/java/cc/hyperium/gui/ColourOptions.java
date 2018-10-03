@@ -22,7 +22,7 @@ public class ColourOptions extends HyperiumOverlay {
     public static boolean toggle = true;
 
     public ColourOptions() {
-        super("GUI Options");
+        super("GUI Options", false);
         reload();
     }
 

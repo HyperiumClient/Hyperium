@@ -17,35 +17,60 @@
 
 package cc.hyperium.mixins.gui;
 
+import cc.hyperium.Hyperium;
 import cc.hyperium.mixinsimp.gui.HyperiumGuiScreen;
+import com.chattriggers.ctjs.triggers.TriggerType;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.util.IChatComponent;
+import org.lwjgl.input.Keyboard;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+import java.io.IOException;
 
 @Mixin(GuiScreen.class)
 public abstract class MixinGuiScreen {
 
     @Shadow
     private Minecraft mc;
+    private HyperiumGuiScreen hyperiumGuiScreen = new HyperiumGuiScreen((GuiScreen) (Object) this);
 
     @Shadow
     protected abstract void setText(String newChatText, boolean shouldOverwrite);
 
+    @Shadow
+    protected abstract void actionPerformed(GuiButton button) throws IOException;
 
-    private HyperiumGuiScreen hyperiumGuiScreen = new HyperiumGuiScreen((GuiScreen) (Object) this);
+    @Shadow protected abstract void keyTyped(char typedChar, int keyCode) throws IOException;
+
+    /**
+     * @reason Fix input bug (MC-2781)
+     * @author SiroQ
+     **/
+    @Overwrite
+    public void handleKeyboardInput() throws IOException{
+        char character = Keyboard.getEventCharacter();
+        if (Keyboard.getEventKey() == 0 && character >= 32 || Keyboard.getEventKeyState()) {
+            this.keyTyped(character, Keyboard.getEventKey());
+        }
+        this.mc.dispatchKeypresses();
+    }
 
     @Inject(method = "drawWorldBackground", at = @At("HEAD"), cancellable = true)
     private void drawWorldBackground(int tint, CallbackInfo ci) {
-        hyperiumGuiScreen.drawWorldBackground(tint,this.mc,ci);
+        hyperiumGuiScreen.drawWorldBackground(tint, this.mc, ci);
     }
 
     @Inject(method = "mouseClicked", at = @At("HEAD"), cancellable = true)
     private void mouseClicked(int mouseX, int mouseY, int mouseButton, CallbackInfo ci) {
-        hyperiumGuiScreen.mouseClicked(mouseX,mouseY,mouseButton,ci);
+        hyperiumGuiScreen.mouseClicked(mouseX, mouseY, mouseButton, ci);
     }
 
     @Inject(method = "initGui", at = @At("HEAD"))
@@ -58,5 +83,26 @@ public abstract class MixinGuiScreen {
         hyperiumGuiScreen.onGuiClosed(ci);
     }
 
+    @Inject(method = "actionPerformed", at = @At("HEAD"), cancellable = true)
+    private void actionPerformed(GuiButton button, CallbackInfo info) {
+        if (hyperiumGuiScreen.actionPerformed(button))
+            info.cancel();
+    }
 
+    @Inject(
+            method = "sendChatMessage(Ljava/lang/String;Z)V",
+            at = @At("HEAD"),
+            cancellable = true
+    )
+    private void onSendChatMessage(String msg, boolean addToChat, CallbackInfo ci) {
+        TriggerType.MESSAGE_SENT.triggerAll(ci, msg);
+    }
+
+    @Inject(
+            method = "handleComponentClick",
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiScreen;sendChatMessage(Ljava/lang/String;Z)V")
+    )
+    private void runCommand(IChatComponent p_175276_1_, CallbackInfoReturnable<Boolean> cir) {
+        Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().runningCommand = true;
+    }
 }

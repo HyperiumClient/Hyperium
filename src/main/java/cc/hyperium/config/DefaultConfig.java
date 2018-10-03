@@ -84,11 +84,15 @@ public class DefaultConfig {
     }
 
     public Object register(Object object) {
-        if(object instanceof PreConfigHandler)
+        //Don't register stuff to config if they don't have any config opt fields
+        if (Arrays.stream(object.getClass().getDeclaredFields()).noneMatch(f -> f.isAnnotationPresent(ConfigOpt.class))) {
+            return object;
+        }
+        if (object instanceof PreConfigHandler)
             ((PreConfigHandler) object).preUpdate();
-        configObjects.add(object);
         loadToClass(object);
-        if(object instanceof  PostConfigHandler)
+        configObjects.add(object);
+        if (object instanceof PostConfigHandler)
             ((PostConfigHandler) object).postUpdate();
         return object;
     }

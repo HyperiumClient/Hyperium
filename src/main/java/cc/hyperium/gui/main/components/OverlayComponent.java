@@ -57,4 +57,7 @@ public abstract class OverlayComponent {
 
     }
 
+    public String getLabel() {
+        return this.label;
+    }
 }

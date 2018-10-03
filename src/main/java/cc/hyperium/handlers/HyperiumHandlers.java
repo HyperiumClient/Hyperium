@@ -39,30 +39,24 @@ import cc.hyperium.handlers.handlers.SettingsHandler;
 import cc.hyperium.handlers.handlers.StatusHandler;
 import cc.hyperium.handlers.handlers.TimeTrackHandler;
 import cc.hyperium.handlers.handlers.ValueHandler;
+import cc.hyperium.handlers.handlers.*;
 import cc.hyperium.handlers.handlers.animation.DabHandler;
 import cc.hyperium.handlers.handlers.animation.FlossDanceHandler;
 import cc.hyperium.handlers.handlers.animation.TPoseHandler;
 import cc.hyperium.handlers.handlers.animation.TwerkDance;
 import cc.hyperium.handlers.handlers.animation.cape.CapeHandler;
 import cc.hyperium.handlers.handlers.animation.fortnite.FortniteDefaultDance;
-import cc.hyperium.handlers.handlers.animation.fortnite.FortniteHypeDance;
-import cc.hyperium.handlers.handlers.chat.AutoWhoChatHandler;
-import cc.hyperium.handlers.handlers.chat.FriendRequestChatHandler;
-import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
-import cc.hyperium.handlers.handlers.chat.GuildPartyChatParser;
-import cc.hyperium.handlers.handlers.chat.HyperiumChatHandler;
-import cc.hyperium.handlers.handlers.chat.PartyInviteChatHandler;
-import cc.hyperium.handlers.handlers.chat.PrivateMessageReader;
-import cc.hyperium.handlers.handlers.chat.QuestTrackingChatHandler;
-import cc.hyperium.handlers.handlers.chat.RankedRatingChatHandler;
-import cc.hyperium.handlers.handlers.chat.WinTrackingChatHandler;
+import cc.hyperium.handlers.handlers.browser.BrowserHandler;
+import cc.hyperium.handlers.handlers.chat.*;
+import cc.hyperium.handlers.handlers.data.HypixelAPI;
 import cc.hyperium.handlers.handlers.hud.VanillaEnhancementsHud;
+import cc.hyperium.handlers.handlers.hypixel.HypixelGuiAugmenter;
 import cc.hyperium.handlers.handlers.keybinds.KeyBindHandler;
 import cc.hyperium.handlers.handlers.mixin.LayerDeadmau5HeadHandler;
 import cc.hyperium.handlers.handlers.particle.ParticleAuraHandler;
-import cc.hyperium.handlers.handlers.privatemessages.PrivateMessageHandler;
 import cc.hyperium.handlers.handlers.reach.ReachDisplay;
-import cc.hyperium.handlers.handlers.remoteresources.RemoteResourcesHandler;
+import cc.hyperium.handlers.handlers.stats.StatsHandler;
+import cc.hyperium.handlers.handlers.tracking.HypixelValueTracking;
 import cc.hyperium.mods.common.PerspectiveModifierHandler;
 import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
 import net.minecraft.client.Minecraft;
@@ -84,32 +78,31 @@ public class HyperiumHandlers {
     private ValueHandler valueHandler;
     private List<HyperiumChatHandler> chatHandlers;
     private GeneralChatHandler generalChatHandler;
-    private ApiDataHandler dataHandler;
+    private HypixelAPI dataHandler;
     private ResolutionUtil resolutionUtil;
     private StatusHandler statusHandler;
     private GuiDisplayHandler guiDisplayHandler;
     private KeyBindHandler keybindHandler;
-    private TimeTrackHandler timeTrackHandler;
-    private PrivateMessageHandler privateMessageHandler;
     private HyperiumCommandHandler commandHandler;
-    private RemoteResourcesHandler remoteResourcesHandler;
     private HyperiumNetwork network;
     private ScoreboardRenderer scoreboardRenderer;
     private OtherConfigOptions configOptions;
     private DabHandler dabHandler;
     private FlossDanceHandler flossDanceHandler;
     private ParticleAuraHandler particleAuraHandler;
-    private GameDataTracking dataTracking;
     private VanillaEnhancementsHud vanillaEnhancementsHud;
     private QuestTrackingChatHandler questTracking;
-    private RenderPlayerAsBlock renderPlayerAsBlock;
     private ReachDisplay reachDisplay;
     private FlipHandler flipHandler;
     private LayerDeadmau5HeadHandler layerDeadmau5HeadHandler;
     private PerspectiveModifierHandler perspectiveHandler;
     private TPoseHandler tPoseHandler;
     private FortniteDefaultDance fortniteDefaultDance;
+    private HypixelGuiAugmenter hypixelGuiAugmenter;
     private TwerkDance twerkDance;
+    private StatsHandler statsHandler;
+    private BroadcastEvents broadcastEvents;
+    private HypixelValueTracking hypixelValueTracking;
     private FortniteHypeDance fortniteHypeDance;
     private SettingsHandler settingsHandler;
     private BroadcastEvents broadcastEvents;
@@ -119,7 +112,6 @@ public class HyperiumHandlers {
         register(network = new HyperiumNetwork());
         settingsHandler = new SettingsHandler();
 
-        this.remoteResourcesHandler = new RemoteResourcesHandler();
         chatHandlers = new ArrayList<>();
         register(configOptions = new OtherConfigOptions());
         register(FontRendererData.INSTANCE);
@@ -133,32 +125,31 @@ public class HyperiumHandlers {
         register(vanillaEnhancementsHud = new VanillaEnhancementsHud());
         register(valueHandler = new ValueHandler());
         register(layerDeadmau5HeadHandler = new LayerDeadmau5HeadHandler());
-
-        register(renderPlayerAsBlock = new RenderPlayerAsBlock());
+        register(hypixelValueTracking = new HypixelValueTracking());
         register(resolutionUtil = new ResolutionUtil());
         register(capeHandler = new CapeHandler());
         register(guiDisplayHandler = new GuiDisplayHandler());
         register(scoreboardRenderer = new ScoreboardRenderer());
-        register(dataTracking = new GameDataTracking());
-        register(privateMessageHandler = new PrivateMessageHandler());
         register(dabHandler = new DabHandler());
         register(twerkDance = new TwerkDance());
         register(particleAuraHandler = new ParticleAuraHandler());
+
+        register(hypixelGuiAugmenter = new HypixelGuiAugmenter());
         register(statusHandler = new StatusHandler());
         register(flossDanceHandler = new FlossDanceHandler());
         register(tPoseHandler = new TPoseHandler());
         register(fortniteDefaultDance = new FortniteDefaultDance());
-        register(fortniteHypeDance = new FortniteHypeDance());
+        register(statsHandler = new StatsHandler());
         register(broadcastEvents = new BroadcastEvents());
+        if (Hyperium.INSTANCE.isDevEnv()) {
+            register(BrowserHandler.INSTNACE);
+        }
         commandQueue = new CommandQueue();
-        dataHandler = new ApiDataHandler();
-        timeTrackHandler = new TimeTrackHandler();
+        dataHandler = new HypixelAPI();
         //Chat Handlers
         System.out.println("Loading chat handlers");
         registerChatHandler(new RankedRatingChatHandler());
         registerChatHandler(new AutoWhoChatHandler());
-        registerChatHandler(new PrivateMessageReader());
-        registerChatHandler(new GuildPartyChatParser());
         registerChatHandler(questTracking = new QuestTrackingChatHandler());
         registerChatHandler(new WinTrackingChatHandler());
         registerChatHandler(new FriendRequestChatHandler());
@@ -170,6 +161,17 @@ public class HyperiumHandlers {
         //Command Handler
         register(commandHandler = new HyperiumCommandHandler());
     }
+
+    public HypixelValueTracking getHypixelValueTracking() {
+        return hypixelValueTracking;
+    }
+
+    public HypixelGuiAugmenter getHypixelGuiAugmenter() {
+        return hypixelGuiAugmenter;
+    }
+
+    public StatsHandler getStatsHandler() {
+        return statsHandler;
 
     public SettingsHandler getSettingsHandler() {
         return settingsHandler;
@@ -191,22 +193,14 @@ public class HyperiumHandlers {
         return layerDeadmau5HeadHandler;
     }
 
-    public RenderPlayerAsBlock getRenderPlayerAsBlock() {
-        return renderPlayerAsBlock;
-    }
-
     public FlipHandler getFlipHandler() {
         return flipHandler;
     }
 
     public void postInit() {
         generalChatHandler.post();
-        dataHandler.post();
     }
 
-    public GameDataTracking getDataTracking() {
-        return dataTracking;
-    }
 
     public HyperiumNetwork getNetwork() {
         return network;
@@ -221,11 +215,13 @@ public class HyperiumHandlers {
     public void tick(TickEvent event) {
         //Runs first tick
         IntegratedServer integratedServer = Minecraft.getMinecraft().getIntegratedServer();
-        if (integratedServer == null)
+        if (integratedServer == null) {
             return;
+        }
         ICommandManager commandManager = integratedServer.getCommandManager();
-        if (commandManager == null)
+        if (commandManager == null) {
             return;
+        }
         EventBus.INSTANCE.unregister(HyperiumHandlers.class);
 
     }
@@ -255,7 +251,7 @@ public class HyperiumHandlers {
         return generalChatHandler;
     }
 
-    public ApiDataHandler getDataHandler() {
+    public HypixelAPI getDataHandler() {
         return dataHandler;
     }
 
@@ -271,9 +267,6 @@ public class HyperiumHandlers {
         return keybindHandler;
     }
 
-    public PrivateMessageHandler getPrivateMessageHandler() {
-        return privateMessageHandler;
-    }
 
     public TPoseHandler gettPoseHandler() {
         return tPoseHandler;
@@ -285,15 +278,6 @@ public class HyperiumHandlers {
 
     public HyperiumCommandHandler getHyperiumCommandHandler() {
         return commandHandler;
-    }
-
-    public RemoteResourcesHandler getRemoteResourcesHandler() {
-        return remoteResourcesHandler;
-    }
-
-
-    public TimeTrackHandler getTimeTrackHandler() {
-        return timeTrackHandler;
     }
 
     public ScoreboardRenderer getScoreboardRenderer() {

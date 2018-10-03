@@ -17,9 +17,13 @@
 
 package cc.hyperium.mixins;
 
+import cc.hyperium.Metadata;
 import cc.hyperium.SplashProgress;
 import cc.hyperium.config.Settings;
+import cc.hyperium.event.EventBus;
+import cc.hyperium.event.RenderTickEvent;
 import cc.hyperium.mixinsimp.HyperiumMinecraft;
+import com.chattriggers.ctjs.minecraft.objects.message.TextComponent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -34,8 +38,11 @@ import net.minecraft.client.resources.DefaultResourcePack;
 import net.minecraft.client.resources.IResourcePack;
 import net.minecraft.client.resources.ResourcePackRepository;
 import net.minecraft.client.settings.GameSettings;
+import net.minecraft.client.shader.Framebuffer;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.profiler.Profiler;
+import net.minecraft.util.IChatComponent;
+import net.minecraft.util.ScreenShotHelper;
 import net.minecraft.util.Timer;
 import net.minecraft.world.WorldSettings;
 import org.lwjgl.LWJGLException;
@@ -48,6 +55,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import java.io.File;
 import java.util.List;
 
 @Mixin(Minecraft.class)
@@ -101,6 +109,11 @@ public abstract class MixinMinecraft {
     private ResourcePackRepository mcResourcePackRepository;
     @Shadow
     private long systemTime;
+    @Final
+    @Shadow
+    public File mcDataDir;
+    @Shadow
+    private Framebuffer framebufferMc;
 
     protected MixinMinecraft() {
     }
@@ -128,7 +141,7 @@ public abstract class MixinMinecraft {
     @Inject(method = "startGame", at = @At("RETURN"))
     private void init(CallbackInfo ci) {
         //Accessor not needed since its only set once
-        enableGLErrorChecking = false;
+        enableGLErrorChecking = Metadata.isDevelopment();
         hyperiumMinecraft.startGame(ci);
     }
 
@@ -150,6 +163,26 @@ public abstract class MixinMinecraft {
     @Inject(method = "dispatchKeypresses", at = @At(value = "INVOKE_ASSIGN", target = "Lorg/lwjgl/input/Keyboard;getEventKeyState()Z"))
     private void runTickKeyboard(CallbackInfo ci) {
         hyperiumMinecraft.runTickKeyboard(ci);
+    }
+
+    @Inject(
+            method = "dispatchKeypresses",
+            at = @At(
+                    value = "INVOKE",
+                    shift = At.Shift.BEFORE,
+                    target = "Lnet/minecraft/client/gui/GuiNewChat;printChatMessage(Lnet/minecraft/util/IChatComponent;)V",
+                    ordinal = 1
+            ),
+            cancellable = true
+    )
+    private void dispatchKeypresses(CallbackInfo ci) {
+        IChatComponent chatComponent = ScreenShotHelper.saveScreenshot(this.mcDataDir, this.displayWidth, this.displayHeight, this.framebufferMc);
+
+        if (chatComponent != null) {
+            new TextComponent(chatComponent).chat();
+        }
+
+        ci.cancel();
     }
 
     /**
@@ -291,8 +324,14 @@ public abstract class MixinMinecraft {
     }
 
 
+
     @Inject(method = "shutdown", at = @At("HEAD"))
     private void shutdown(CallbackInfo ci) {
         hyperiumMinecraft.shutdown(ci);
+    }
+
+    @Inject(method = "runGameLoop", at = @At(value = "FIELD", target = "Lnet/minecraft/client/Minecraft;skipRenderWorld:Z", shift = At.Shift.AFTER))
+    private void runGameLoop(CallbackInfo callbackInfo) {
+        EventBus.INSTANCE.post(new RenderTickEvent());
     }
 }

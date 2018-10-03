@@ -26,6 +26,7 @@ public class HyperiumEntityPlayer {
     private int timeDelay = 1000 / 60;
     private IChatComponent cachedName;
     private long lastNameUpdate = 0L;
+    private String displayName;
 
     public HyperiumEntityPlayer(EntityPlayer parent){
         this.parent = parent;
@@ -89,7 +90,7 @@ public class HyperiumEntityPlayer {
     public IChatComponent getDisplayName() {
         if (cachedName == null || System.currentTimeMillis() - lastChangeTime > 50L) {
             IChatComponent ichatcomponent = new ChatComponentText(ScorePlayerTeam
-                .formatPlayerName(parent.getTeam(), parent.getName()));
+                .formatPlayerName(parent.getTeam(), displayName));
             ichatcomponent.getChatStyle().setChatClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/msg " + parent.getName() + " "));
             //Unneeded for client
             if (Minecraft.getMinecraft().isIntegratedServerRunning()) {
@@ -109,5 +110,9 @@ public class HyperiumEntityPlayer {
 
     public void onDeath(DamageSource source) {
         EventBus.INSTANCE.post(new LivingDeathEvent(parent, source));
+    }
+
+    public void setName(String name) {
+        this.displayName = name;
     }
 }

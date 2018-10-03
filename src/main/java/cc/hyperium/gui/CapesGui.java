@@ -1,6 +1,7 @@
 package cc.hyperium.gui;
 
 import cc.hyperium.Hyperium;
+import cc.hyperium.handlers.handlers.browser.BrowserHandler;
 import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.netty.NettyClient;
@@ -135,6 +136,7 @@ public class CapesGui extends HyperiumGui implements GuiYesNoCallback {
     //22x17
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+
         try {
             if (!texturesImage.isEmpty()) {
                 for (String s : texturesImage.keySet()) {
@@ -275,16 +277,7 @@ public class CapesGui extends HyperiumGui implements GuiYesNoCallback {
                             if (client != null) {
                                 client.write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("set_cape", true).put("value", s)));
                             }
-                            Multithreading.runAsync(() -> {
-                                try {
-                                    Thread.sleep(3000L);
-                                } catch (InterruptedException e) {
-                                    e.printStackTrace();
-                                }
-                                //assume this is enough time
-                                PurchaseApi.getInstance().refreshSelf();
-                                Hyperium.INSTANCE.getHandlers().getCapeHandler().deleteCape(UUIDUtil.getClientUUID());
-                            });
+                            Hyperium.INSTANCE.getHandlers().getCapeHandler().deleteCape(UUIDUtil.getClientUUID());
                         });
                         GlStateManager.scale(2F, 2F, 2F);
 

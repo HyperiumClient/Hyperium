@@ -4,11 +4,16 @@ import cc.hyperium.Hyperium;
 import cc.hyperium.commands.BaseCommand;
 import cc.hyperium.utils.ChatColor;
 
-import java.time.Duration;
 import java.util.Collections;
 import java.util.List;
 
 public class PlayTimeCommand implements BaseCommand {
+    PlayTime playTime;
+
+    public PlayTimeCommand(PlayTime playTime) {
+        this.playTime = playTime;
+    }
+
     @Override
     public String getName() {
         return "playtime";
@@ -21,7 +26,9 @@ public class PlayTimeCommand implements BaseCommand {
 
     @Override
     public void onExecute(String[] args) {
-        Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage(ChatColor.translateAlternateColorCodes('&', "&9[PlayTime] &7You have played for: &f" + Duration.ofSeconds((System.currentTimeMillis() - PlayTime.startSysTime) / 1000).toString().substring(2)), false);
+        Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage(
+            ChatColor.translateAlternateColorCodes('&', "&9[PlayTime] &7You have played for: &f" + PlayTimeUtils.fancyTime(playTime.sessionPlayTime)), false
+        );
     }
 
     @Override

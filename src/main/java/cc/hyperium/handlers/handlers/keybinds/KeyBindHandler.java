@@ -29,15 +29,18 @@ import cc.hyperium.handlers.handlers.keybinds.keybinds.FlipKeybind;
 import cc.hyperium.handlers.handlers.keybinds.keybinds.FlossKeybind;
 import cc.hyperium.handlers.handlers.keybinds.keybinds.FortniteDefaultDanceKeybind;
 import cc.hyperium.handlers.handlers.keybinds.keybinds.FriendsKeybind;
+import cc.hyperium.handlers.handlers.keybinds.keybinds.GuiDanceKeybind;
 import cc.hyperium.handlers.handlers.keybinds.keybinds.GuiKeybind;
 import cc.hyperium.handlers.handlers.keybinds.keybinds.NamesKeybind;
 import cc.hyperium.handlers.handlers.keybinds.keybinds.QueueKeybind;
+import cc.hyperium.handlers.handlers.keybinds.keybinds.RearCamKeybind;
 import cc.hyperium.handlers.handlers.keybinds.keybinds.TPoseKeybind;
 import cc.hyperium.handlers.handlers.keybinds.keybinds.TogglePerspectiveKeybind;
 import cc.hyperium.handlers.handlers.keybinds.keybinds.ToggleSpotifyKeybind;
 import cc.hyperium.handlers.handlers.keybinds.keybinds.ToggleSprintKeybind;
 import cc.hyperium.handlers.handlers.keybinds.keybinds.TwerkDanceKeybind;
 import cc.hyperium.handlers.handlers.keybinds.keybinds.UploadScreenshotKeybind;
+import cc.hyperium.handlers.handlers.keybinds.keybinds.ViewStatsKeybind;
 import net.minecraft.client.Minecraft;
 import org.lwjgl.input.Keyboard;
 
@@ -59,7 +62,7 @@ public class KeyBindHandler {
     private final KeyBindConfig keyBindConfig;
     // Case insensitive treemap
     private final Map<String, HyperiumBind> keybinds = new HashMap<>();
-    private ToggleSprintKeybind bind;
+    private ToggleSprintKeybind toggleSprintKeybind;
 
     /**
      * Opens GUI on Z key pressed oof - ConorTheOreo
@@ -75,16 +78,18 @@ public class KeyBindHandler {
         registerKeyBinding(new QueueKeybind());
         registerKeyBinding(new DabKeybind());
         registerKeyBinding(new FlipKeybind());
+        registerKeyBinding(new ViewStatsKeybind());
         registerKeyBinding(new FlossKeybind());
         registerKeyBinding(new ToggleSpotifyKeybind());
-        bind = new ToggleSprintKeybind();
-        registerKeyBinding(bind);
+        registerKeyBinding(toggleSprintKeybind = new ToggleSprintKeybind());
         registerKeyBinding(new TogglePerspectiveKeybind());
         registerKeyBinding(new FortniteDefaultDanceKeybind());
         registerKeyBinding(new TwerkDanceKeybind());
         registerKeyBinding(new ClearPopupKeybind());
         registerKeyBinding(new TPoseKeybind());
+        registerKeyBinding(new GuiDanceKeybind());
         registerKeyBinding(new UploadScreenshotKeybind());
+        registerKeyBinding(new RearCamKeybind());
 
         // Populate mouse bind list in accordance with Minecraft's values.
         for (int i = 0; i < 16; i++) {
@@ -92,10 +97,6 @@ public class KeyBindHandler {
         }
 
         this.keyBindConfig.load();
-    }
-
-    public ToggleSprintKeybind getBind() {
-        return bind;
     }
 
     @InvokeEvent
@@ -182,6 +183,26 @@ public class KeyBindHandler {
     }
 
     /**
+     * Removes a keybind from the registry. Unbinds this key and removes it
+     *
+     * @param bind the hyperium key we want to remove
+     */
+    public void unregisterKeyBinding(HyperiumBind bind) {
+        if (bind.wasPressed()) {
+            bind.onRelease();
+            bind.setWasPressed(false);
+        }
+
+        // If bind is being held.
+        if (bind.wasPressed()) {
+            bind.onRelease();
+            return;
+        }
+
+        this.keybinds.remove(bind.getRealDescription());
+    }
+
+    /**
      * Getter for the amazing KeyBind config
      *
      * @return the keybind config
@@ -198,6 +219,10 @@ public class KeyBindHandler {
      */
     public Map<String, HyperiumBind> getKeybinds() {
         return this.keybinds;
+    }
+
+    public ToggleSprintKeybind getToggleSprintBind() {
+        return toggleSprintKeybind;
     }
 
     public void releaseAllKeybinds() {

@@ -20,18 +20,7 @@ package cc.hyperium.config;
 import cc.hyperium.GuiStyle;
 import cc.hyperium.Hyperium;
 
-import static cc.hyperium.config.Category.ANIMATIONS;
-import static cc.hyperium.config.Category.CHROMAHUD;
-import static cc.hyperium.config.Category.COSMETICS;
-import static cc.hyperium.config.Category.GENERAL;
-import static cc.hyperium.config.Category.HYPIXEL;
-import static cc.hyperium.config.Category.IMPROVEMENTS;
-import static cc.hyperium.config.Category.INTEGRATIONS;
-import static cc.hyperium.config.Category.MISC;
-import static cc.hyperium.config.Category.REACH;
-import static cc.hyperium.config.Category.SPOTIFY;
-import static cc.hyperium.config.Category.UTILITIES;
-import static cc.hyperium.config.Category.VANILLA_ENHANCEMENTS;
+import static cc.hyperium.config.Category.*;
 
 /*
  * Created by Cubxity on 03/06/2018
@@ -170,6 +159,10 @@ public class Settings {
     @ToggleSetting(category = COSMETICS, name = "Show Cosmetics Everywhere")
     public static boolean SHOW_COSMETICS_EVERYWHERE = true;
 
+    @ConfigOpt
+    @ToggleSetting(category = COSMETICS, name = "Load optifine capes")
+    public static boolean LOAD_OPTIFINE_CAPES = true;
+
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.CosmeticSettings;dabToggle")
     public static boolean DAB_TOGGLE = false;
 
@@ -213,6 +206,14 @@ public class Settings {
     @ConfigOpt
     @ToggleSetting(name = "1.7 Item Held", category = ANIMATIONS, mods = true)
     public static boolean OLD_ITEM_HELD = false;
+
+    @ConfigOpt
+    @ToggleSetting(name = "1.7 Debug", category = ANIMATIONS, mods = true)
+    public static boolean OLD_DEBUG = false;
+
+    @ConfigOpt
+    @ToggleSetting(name = "1.7 Health", category = ANIMATIONS, mods = true)
+    public static boolean OLD_HEALTH = false;
 
     @ConfigOpt
     @ToggleSetting(name = "Custom Sword Animation", category = ANIMATIONS, mods = true)
@@ -503,12 +504,30 @@ public class Settings {
 //    @ToggleSetting(name = "Gui Font", category = GENERAL)
     public static String GUI_FONT = "Roboto Condensed";
 
+    @ConfigOpt
+    @ToggleSetting(name = "Show Browser", category = IMPROVEMENTS)
+    public static boolean SHOW_BROWSER = false;
+
     private Settings() {
     }
 
     public static void register() {
         Hyperium.CONFIG.register(INSTANCE);
     }
+    @ConfigOpt
+    public static long TOTAL_PLAYTIME = 0;
+
+    @ConfigOpt
+    @SelectorSetting(name = "Main Menu Server", category = GENERAL, items = {
+            "HYPIXEL",
+            "HIVE",
+            "MINEPLEX",
+            "CUBECRAFT",
+            "MINESAGA",
+            "SKYCADE"
+    })
+    public static String MAIN_MENU_SERVER = "HYPIXEL";
+
 
     public static void save() {
         Hyperium.CONFIG.save();

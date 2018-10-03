@@ -46,6 +46,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 import java.util.function.Predicate;
 
 
@@ -90,7 +91,7 @@ public class HypixelFriendsGui extends HyperiumGui {
             sortType = FriendSortType.values()[ord];
             rebuildFriends();
             this.friends.sort(sortType);
-        }, guiButton -> guiButton.displayString = "Sort by: " + sortType.name());
+        }, guiButton -> guiButton.displayString = "Sort by: " + sortType.getName());
 
 
         reg("PARTY", new GuiButton(nextId(), ResolutionUtil.current().getScaledWidth() - 153, 23 + 21, 150, 20, "Party Selected"), guiButton -> {
@@ -107,12 +108,16 @@ public class HypixelFriendsGui extends HyperiumGui {
             guiButton.enabled = false;
 
         }, guiButton -> {
-            if (selected.size() > 10 && !Hyperium.INSTANCE.getHandlers().getDataHandler().getPlayer().isStaffOrYT()) {
-                guiButton.enabled = false;
-                guiButton.displayString = "Too many players!";
-            } else {
-                guiButton.enabled = true;
-                guiButton.displayString = "Party Selected";
+            try {
+                if (selected.size() > 10 && !Hyperium.INSTANCE.getHandlers().getDataHandler().getCurrentUser().get().isStaffOrYT()) {
+                    guiButton.enabled = false;
+                    guiButton.displayString = "Too many players!";
+                } else {
+                    guiButton.enabled = true;
+                    guiButton.displayString = "Party Selected";
+                }
+            } catch (InterruptedException | ExecutionException e) {
+                e.printStackTrace();
             }
 
 
@@ -150,11 +155,7 @@ public class HypixelFriendsGui extends HyperiumGui {
                 guiButton.displayString = "Remove (Hold down)";
             }
         });
-        reg("MESSAGE", new GuiButton(nextId(), ResolutionUtil.current().getScaledWidth() - 153, 23 + 21 * 3, 150, 20, "Message"), guiButton -> {
-            if (selectedItem == null)
-                return;
-            Minecraft.getMinecraft().displayGuiScreen(new HypixelPrivateMessage(Hyperium.INSTANCE.getHandlers().getPrivateMessageHandler().getChat(selectedItem.getObject().getName())));
-        }, (button) -> button.enabled = this.selectedItem != null);
+
     }
 
     @Override
@@ -209,7 +210,11 @@ public class HypixelFriendsGui extends HyperiumGui {
     }
 
     private void rebuildFriends() {
-        this.friends = new HypixelFriends(Hyperium.INSTANCE.getHandlers().getDataHandler().getFriends());
+        try {
+            this.friends = new HypixelFriends(Hyperium.INSTANCE.getHandlers().getDataHandler().getFriendsForCurrentUser().get().getData());
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
         this.friends.sort(sortType);
     }
 
@@ -292,7 +297,12 @@ public class HypixelFriendsGui extends HyperiumGui {
     @InvokeEvent
     public void onRemove(FriendRemoveEvent evemt) {
         System.out.println(evemt.getFullName() + " - " + evemt.getName());
-        JsonHolder friends = Hyperium.INSTANCE.getHandlers().getDataHandler().getFriends();
+        JsonHolder friends = null;
+        try {
+            friends = Hyperium.INSTANCE.getHandlers().getDataHandler().getFriendsForCurrentUser().get().getData();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
         String key = null;
         for (Map.Entry<String, JsonElement> stringJsonElementEntry : friends.getObject().entrySet()) {
             if (!(stringJsonElementEntry.getValue() instanceof JsonObject))
@@ -308,13 +318,13 @@ public class HypixelFriendsGui extends HyperiumGui {
 
     enum FriendSortType implements Comparator<HypixelApiFriendObject> {
 
-        ALPHABETICAL {
+        ALPHABETICAL("Alphabetical") {
             @Override
             public int compare(HypixelApiFriendObject o1, HypixelApiFriendObject o2) {
                 return o1.getName().compareTo(o2.getName());
             }
         },
-        RANK {
+        RANK("Rank") {
             @Override
             public int compare(HypixelApiFriendObject o1, HypixelApiFriendObject o2) {
                 int compare = Integer.compare(o1.rankOrdinal(), o2.rankOrdinal());
@@ -324,17 +334,33 @@ public class HypixelFriendsGui extends HyperiumGui {
                 return compare;
             }
         },
-        DATE_ADDED {
+        DATE_ADDED("Date Added") {
             @Override
             public int compare(HypixelApiFriendObject o1, HypixelApiFriendObject o2) {
                 return Long.compare(o1.getAddedOn(), o2.getAddedOn());
             }
-        }, NONE {
+        }, LOGOFF("Latest Logoff") {
+            @Override
+            public int compare(HypixelApiFriendObject o1, HypixelApiFriendObject o2) {
+                //Reverse it so most recent is first.
+                return Long.compare(o1.getLogoff(), o2.getLogoff()) * -1;
+            }
+        }, NONE("NONE") {
             @Override
             public int compare(HypixelApiFriendObject o1, HypixelApiFriendObject o2) {
                 return 0;
             }
-        },
+        },;
+        String name;
+
+        FriendSortType(String name) {
+            this.name = name;
+
+        }
+
+        public String getName() {
+            return name;
+        }
 
     }
 

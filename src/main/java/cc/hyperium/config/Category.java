@@ -20,12 +20,13 @@ public enum Category {
     UTILITIES("Utilities"),
     LEVEL_HEAD("Levelhead"),
     REACH("Reach Display"),
-    VANILLA_ENHANCEMENTS("Vanilla Enhancements"),
+    VANILLA_ENCHANTMENTS("Vanilla Enhancements"),
     CHROMAHUD("ChromaHUD"),
     KEYSTROKES("Keystrokes"),
     MOTION_BLUR("Motion Blur"),
     AUTOFRIEND("Auto Friend"),
-    FNCOMPASS("Fornite Compass");
+    FNCOMPASS("Fornite Compass"),
+    ITEM_PHYSIC("Item Physics");
     private String display;
 
     Category(String display) {

@@ -37,18 +37,9 @@ public class CoinsDisplay extends DisplayItem {
     public void draw(int x, double y, boolean config) {
 
         String render = null;
-        if (data.optInt("state") == 0) {
-            render = "Daily Coins: " + GeneralStatisticsTracking.dailyCoins;
-        }
-        if (data.optInt("state") == 1) {
-            render = "Monthly Coins: " + GeneralStatisticsTracking.monthlyCoins;
-        }
-        if (data.optInt("state") == 2) {
-            render = "Lifetime Coins: " + GeneralStatisticsTracking.lifetimeCoins;
-        }
-        if (render == null) {
-            render = "Error, " + data.optInt("type") + " invalid state";
-        }
+        render = "Daily Coins: " + GeneralStatisticsTracking.dailyCoins;
+
+
         ElementRenderer.draw(x, y, render);
         this.width = config ? ElementRenderer.getFontRenderer().getStringWidth(render) : 0;
     }

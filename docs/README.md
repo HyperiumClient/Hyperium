@@ -145,7 +145,7 @@
 
 [BrowserManager](classes/cc.hyperium.handlers.handlers.BrowserManager.md)
 
-[ApiDataHandler](classes/cc.hyperium.handlers.handlers.ApiDataHandler.md)
+[ApiDataHandler](classes/cc.hyperium.handlers.handlers.data.ApiDataHandler.md)
 
 ## cc.hyperium.handlers.handlers.chat ##
 [WinTrackingChatHandler](classes/cc.hyperium.handlers.handlers.chat.WinTrackingChatHandler.md)

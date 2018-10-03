@@ -21,10 +21,7 @@ package cc.hyperium.mods.chromahud;
 import cc.hyperium.mods.chromahud.api.ChromaHUDDescription;
 import cc.hyperium.mods.chromahud.api.ChromaHUDParser;
 import cc.hyperium.mods.chromahud.api.DisplayItem;
-import cc.hyperium.mods.chromahud.displayitems.hyperium.CBCpsDisplay;
-import cc.hyperium.mods.chromahud.displayitems.hyperium.CBFpsDisplay;
 import cc.hyperium.mods.chromahud.displayitems.hyperium.CoinsDisplay;
-import cc.hyperium.mods.chromahud.displayitems.hyperium.DabCounter;
 import cc.hyperium.mods.chromahud.displayitems.hyperium.DoubleCPSDisplay;
 import cc.hyperium.mods.chromahud.displayitems.hyperium.HyperiumInfoDisplay;
 import cc.hyperium.mods.chromahud.displayitems.hyperium.HypixelDisplay;
@@ -36,6 +33,7 @@ import cc.hyperium.mods.chromahud.displayitems.hyperium.RatingDisplay;
 import cc.hyperium.mods.chromahud.displayitems.hyperium.ScoreboardDisplay;
 import cc.hyperium.mods.chromahud.displayitems.hyperium.ToggleSprintStatus;
 import cc.hyperium.utils.JsonHolder;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -54,9 +52,6 @@ public class HyperiumChromaHudParser implements ChromaHUDParser {
     names.put("SCOREBOARD", "Scoreboard");
     names.put("INFO", "Hyperium Info");
     names.put("COINS", "Coin Display");
-    names.put("CBCPS", "Cheatbreaker CPS");
-    names.put("CBFPS", "Cheatbreaker FPS");
-    names.put("DCOUNT", "Dabs Counter");
     names.put("PLAYER", "Player Display");
     names.put("DOUBLE_CPS_DISPLAY", "L+R CPS Display");
     names.put("SPRINT_STATUS", "ToggleSprint Status");
@@ -80,12 +75,6 @@ public class HyperiumChromaHudParser implements ChromaHUDParser {
         return new CoinsDisplay(item, ord);
       case "SCOREBOARD":
         return new ScoreboardDisplay(item, ord);
-      case "CBCPS":
-        return new CBCpsDisplay(item, ord);
-      case "CBFPS":
-        return new CBFpsDisplay(item, ord);
-      case "DCOUNT":
-        return new DabCounter(item, ord);
       case "PLAYER":
         return new PlayerDisplay(item, ord);
       case "DOUBLE_CPS_DISPLAY":

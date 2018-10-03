@@ -31,16 +31,24 @@ public class CommandParty implements BaseCommand {
     }
 
     @Override
+    public boolean tabOnly() {
+        return true;
+    }
+    @Override
     public List<String> onTabComplete(String[] args) {
         if (!Hyperium.INSTANCE.getHandlers().getHypixelDetector().isHypixel())
             return new ArrayList<>();
         List<String> first = Arrays.asList("invite", "leave", "promote", "home", "remove", "warp", "accept", "disband", "settings", "mute", "poll", "challenge", "kickoffline", "private");
         List<String> tabUsernames = TabCompletionUtil.getTabUsernames();
         List<String> complete = new ArrayList<>();
-        for (String s : Hyperium.INSTANCE.getHandlers().getDataHandler().getFriends().getKeys()) {
-            String name = Hyperium.INSTANCE.getHandlers().getDataHandler().getFriends().optJSONObject(s).optString("name");
-            if (!name.isEmpty())
-                tabUsernames.add(name);
+        try {
+            for (String s : Hyperium.INSTANCE.getHandlers().getDataHandler().getFriendsForCurrentUser().get().getData().getKeys()) {
+                String name = Hyperium.INSTANCE.getHandlers().getDataHandler().getFriendsForCurrentUser().get().getData().optJSONObject(s).optString("name");
+                if (!name.isEmpty())
+                    tabUsernames.add(name);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         complete.addAll(first);
         complete.addAll(tabUsernames);

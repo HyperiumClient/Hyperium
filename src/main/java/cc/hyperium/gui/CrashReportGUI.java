@@ -8,6 +8,7 @@ import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.netty.NettyClient;
 import cc.hyperium.netty.packet.packets.serverbound.ServerCrossDataPacket;
 import cc.hyperium.utils.JsonHolder;
+import cc.hyperium.utils.LaunchUtil;
 import cc.hyperium.utils.UpdateUtils;
 import com.google.gson.JsonParser;
 import java.awt.Color;
@@ -182,6 +183,7 @@ public class CrashReportGUI extends JDialog {
         restart.addActionListener(a -> {
             handle = 2;
             restart.setText("RESTARTING...");
+            LaunchUtil.launch();
             dispose();
         });
 

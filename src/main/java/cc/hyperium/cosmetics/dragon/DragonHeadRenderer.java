@@ -1,15 +1,12 @@
 package cc.hyperium.cosmetics.dragon;
 
 
-import cc.hyperium.config.Settings;
 import cc.hyperium.cosmetics.DragonCosmetic;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.RenderPlayerEvent;
 import cc.hyperium.event.WorldChangeEvent;
 import cc.hyperium.purchases.HyperiumPurchase;
 import cc.hyperium.purchases.PurchaseApi;
-import java.util.HashMap;
-import java.util.UUID;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
@@ -22,6 +19,9 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.chunk.Chunk;
 import org.lwjgl.opengl.GL11;
+
+import java.util.HashMap;
+import java.util.UUID;
 
 public class DragonHeadRenderer extends ModelBase {
     private Minecraft mc;
@@ -82,27 +82,18 @@ public class DragonHeadRenderer extends ModelBase {
     @InvokeEvent
     private void onRenderPlayer(RenderPlayerEvent event) {
         EntityPlayer entity = event.getEntity();
-        if (dragonCosmetic.isPurchasedBy(entity.getUniqueID()) && !entity.isInvisible() && Settings.SHOW_DRAGON_HEAD.equals("ON")) {
+        if (dragonCosmetic.isPurchasedBy(entity.getUniqueID()) && !entity.isInvisible()) {
             HyperiumPurchase packageIfReady = PurchaseApi.getInstance().getPackageIfReady(event.getEntity().getUniqueID());
             if (packageIfReady == null)
                 return;
-            if (packageIfReady.getPurchaseSettings().optJSONObject("dragon").optBoolean("disabled"))
+            if (packageIfReady.getCachedSettings().isDragonHeadDisabled()) {
                 return;
-
-            if(entity == mc.thePlayer){
-                // Will only render your dragon head if you have it enabled.
-                if(Settings.SHOW_DRAGON_HEAD.equalsIgnoreCase("ON")){
-                    GlStateManager.pushMatrix();
-                    GlStateManager.translate(event.getX(), event.getY(), event.getZ());
-                    this.renderHead(event.getEntity(), event.getPartialTicks());
-                    GlStateManager.popMatrix();
-                }
-            } else {
-                GlStateManager.pushMatrix();
-                GlStateManager.translate(event.getX(), event.getY(), event.getZ());
-                this.renderHead(event.getEntity(), event.getPartialTicks());
-                GlStateManager.popMatrix();
             }
+
+            GlStateManager.pushMatrix();
+            GlStateManager.translate(event.getX(), event.getY(), event.getZ());
+            this.renderHead(event.getEntity(), event.getPartialTicks());
+            GlStateManager.popMatrix();
         }
 
     }

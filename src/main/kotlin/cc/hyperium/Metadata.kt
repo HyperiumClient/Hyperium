@@ -30,7 +30,7 @@ val MODID
 
 val VERSION
     @JvmName("getVersion")
-    get() = "1.0 - Beta B24"
+    get() = "1.0"
 
 val AUTHORS
     @JvmName("getAuthors")
@@ -41,7 +41,7 @@ val AUTHORS
  */
 val VERSION_ID
     @JvmName("getVersionID")
-    get() = 35
+    get() = 37
 
 val ICON_BASE64
     @JvmName("getIconBase64")
@@ -62,4 +62,4 @@ val DEVELOPMENT
  */
 val BLACKLISTED
     @JvmName("getBlacklisted")
-    get() = arrayOf("AutoFriend", "Custom Crosshair Addon", "CustomRP addon", "PlayTime addon","Tab Toggle")
+    get() = arrayOf("AutoFriend", "Custom Crosshair Addon", "PlayTime addon", "Tab Toggle", "SidebarAddon", "BossbarAddon", "Auto Cheating", "Auto Dab", "FortniteCompassMod", "Item Physic", "Tab Toggle")
