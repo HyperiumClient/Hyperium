@@ -116,6 +116,18 @@ public class SettingsHandler {
             registerCallback(show_wings_string, o -> {
                 try {
                     Settings.SHOW_WINGS = String.valueOf(o);
+                    // Update on netty.
+                    String update = String.valueOf(o);
+                    boolean packetUpdate;
+
+                    packetUpdate = update.equalsIgnoreCase("on");
+
+                    ServerCrossDataPacket packet = ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("wings_toggle", packetUpdate));
+
+                    NettyClient client = NettyClient.getClient();
+                    if (client != null) {
+                        client.write(packet);
+                    }
                 } catch (Exception ignored) {
 
                 }
@@ -136,6 +148,18 @@ public class SettingsHandler {
             registerCallback(show_dragonhead_string, o -> {
                 try {
                     Settings.SHOW_DRAGON_HEAD = String.valueOf(o);
+                    String update = String.valueOf(o);
+
+                    boolean packetUpdate;
+                    // Update on netty.
+                    packetUpdate = update.equalsIgnoreCase("on");
+
+                    ServerCrossDataPacket packet = ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("dragon_head", packetUpdate));
+
+                    NettyClient client = NettyClient.getClient();
+                    if (client != null) {
+                        client.write(packet);
+                    }
                 } catch (Exception ignored) {
 
                 }
