@@ -199,6 +199,12 @@ public class HyperiumMainGui extends HyperiumGui {
     }
 
     @Override
+    public void updateScreen() {
+        super.updateScreen();
+        searchField.update();
+    }
+
+    @Override
     protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
         super.mouseClicked(mouseX, mouseY, mouseButton);
         int yg = (height / 10);  // Y grid

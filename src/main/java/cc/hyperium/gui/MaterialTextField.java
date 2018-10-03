@@ -48,9 +48,16 @@ public class MaterialTextField {
             if (blink >= 40)
                 blink = -1;
         }
-        blink++;
     }
 
+    /**
+     * Called on tick
+     */
+    public void update() {
+        blink++;
+        if (blink >= 40)
+            blink = -1;
+    }
     /**
      * call this method when user clicked anywhere on the screen
      *
