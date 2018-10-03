@@ -15,8 +15,11 @@ import cc.hyperium.gui.hyperium.components.SliderComponent;
 import cc.hyperium.gui.hyperium.components.ToggleComponent;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.function.Consumer;
@@ -72,7 +75,10 @@ public class SettingsTab extends AbstractTab {
             apply(new RGBComponent(this, rgbFieldSet), rgbFieldSet.isMods(), rgbFieldSet.getCategory(), items);
         }
 
-        components.addAll(items.values());
+        Collection<CollapsibleTabComponent> values = items.values();
+        List<CollapsibleTabComponent> c = new ArrayList<>(values);
+        c.sort(Comparator.comparing(CollapsibleTabComponent::getLabel));
+        components.addAll(c);
     }
 
     private void apply(AbstractTabComponent component, boolean mods, Category category, HashMap<Category, CollapsibleTabComponent> items) {
