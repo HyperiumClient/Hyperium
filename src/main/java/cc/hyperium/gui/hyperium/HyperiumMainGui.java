@@ -156,6 +156,10 @@ public class HyperiumMainGui extends HyperiumGui {
             renderHyperiumBackground(ResolutionUtil.current());
         }
 
+        /* Render shadowed bar at top of screen */
+        this.drawGradientRect(0, 0, this.width, this.height, -2130706433, 16777215);
+        this.drawGradientRect(0, 0, this.width, this.height, 0, Integer.MIN_VALUE);
+
         /* Render Header */
         drawRect(xg, yg, xg * 10, yg * 2, 0x64000000);
         drawRect(xg, yg * 2, xg * 10, yg * 9, 0x28000000);

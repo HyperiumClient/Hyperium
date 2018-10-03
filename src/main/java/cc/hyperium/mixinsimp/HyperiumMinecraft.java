@@ -17,7 +17,7 @@ import cc.hyperium.event.SingleplayerJoinEvent;
 import cc.hyperium.event.TickEvent;
 import cc.hyperium.event.WorldChangeEvent;
 import cc.hyperium.gui.CrashReportGUI;
-import cc.hyperium.gui.HyperiumMainMenu;
+import cc.hyperium.gui.GuiHyperiumScreenMainMenu;
 import cc.hyperium.handlers.HyperiumHandlers;
 import cc.hyperium.internal.addons.AddonBootstrap;
 import cc.hyperium.internal.addons.AddonMinecraftBootstrap;
@@ -188,7 +188,7 @@ public class HyperiumMinecraft {
         }
 
         if (guiScreenIn == null && theWorld == null) {
-            guiScreenIn = new HyperiumMainMenu();
+            guiScreenIn = new GuiHyperiumScreenMainMenu();
         } else if (guiScreenIn == null && thePlayer.getHealth() <= 0.0F) {
             guiScreenIn = new GuiGameOver();
         }
@@ -208,7 +208,7 @@ public class HyperiumMinecraft {
         if (old != null)
             EventBus.INSTANCE.unregister(old);
 
-        if (guiScreenIn instanceof HyperiumMainMenu) {
+        if (guiScreenIn instanceof GuiHyperiumScreenMainMenu) {
             gameSettings.showDebugInfo = false;
             if (!Settings.PERSISTENT_CHAT)
                 ingameGUI.getChatGUI().clearChatMessages();

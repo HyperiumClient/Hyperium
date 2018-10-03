@@ -2688,6 +2688,15 @@ menu.right=Not Affiliated with Mojang AB
 button.menu.changebackground=Change Menu Background
 button.menu.cosmeticshop=Cosmetic Shop
 
+#Hyperium Disclaimer
+disclaimer.line1=By continuing, you acknowledge this client is %s
+disclaimer.line1.bold=USE AT YOUR OWN RISK
+disclaimer.line2=The developers of Hyperium are not responsible for any damages or bans
+disclaimer.line3=to your account while using this client
+disclaimer.line4=By continuing you agree to the privacy policy %s
+disclaimer.line4.policylink=(https://hyperium.cc/#privacy)
+disclaimer.line5=Please click the button to confirm that you agree
+
 #Hyperium Menu Strings
 menu.profile.credits=%s Credits
 
