@@ -10,7 +10,7 @@ import cc.hyperium.config.SliderSetting;
 import cc.hyperium.config.ToggleSetting;
 import cc.hyperium.gui.GuiBlock;
 import cc.hyperium.gui.Icons;
-import cc.hyperium.gui.main.MainHyperiumMainGui;
+import cc.hyperium.gui.main.OldHyperiumMainGui;
 import cc.hyperium.gui.main.HyperiumOverlay;
 import cc.hyperium.gui.main.components.AbstractTab;
 import cc.hyperium.gui.main.components.OverlayButton;
@@ -73,17 +73,17 @@ public class ModsTab extends AbstractTab {
         block = new GuiBlock(0, w, y, y + w);
         this.y = y;
         this.w = w;
-        items.add(new SettingItem(() -> MainHyperiumMainGui.INSTANCE.setOverlay(autotip), Icons.SETTINGS.getResource(), "Autotip", "Autotip Settings \n /autotip", "Click to configure", 0, 0));
-        items.add(new SettingItem(() -> MainHyperiumMainGui.INSTANCE.setOverlay(levelhead), Icons.SETTINGS.getResource(), "Levelhead", "Levelhead Settings \n /levelhead", "Click to configure", 1, 0));
-        items.add(new SettingItem(() -> MainHyperiumMainGui.INSTANCE.setOverlay(vanilla), Icons.SETTINGS.getResource(), "Vanilla Enhancements", "Vanilla Enhancements", "Click to configure", 2, 0));
-        items.add(new SettingItem(() -> MainHyperiumMainGui.INSTANCE.setOverlay(motionblur), Icons.SETTINGS.getResource(), "Motion Blur", "Motion Blur Settings \n /motionblur", "Click to configure", 0, 1));
-        items.add(new SettingItem(() -> MainHyperiumMainGui.INSTANCE.setOverlay(reach), Icons.SETTINGS.getResource(), "Reach Display", "Reach Display Settings", "Click to configure", 0, 1));
+        items.add(new SettingItem(() -> OldHyperiumMainGui.INSTANCE.setOverlay(autotip), Icons.SETTINGS.getResource(), "Autotip", "Autotip Settings \n /autotip", "Click to configure", 0, 0));
+        items.add(new SettingItem(() -> OldHyperiumMainGui.INSTANCE.setOverlay(levelhead), Icons.SETTINGS.getResource(), "Levelhead", "Levelhead Settings \n /levelhead", "Click to configure", 1, 0));
+        items.add(new SettingItem(() -> OldHyperiumMainGui.INSTANCE.setOverlay(vanilla), Icons.SETTINGS.getResource(), "Vanilla Enhancements", "Vanilla Enhancements", "Click to configure", 2, 0));
+        items.add(new SettingItem(() -> OldHyperiumMainGui.INSTANCE.setOverlay(motionblur), Icons.SETTINGS.getResource(), "Motion Blur", "Motion Blur Settings \n /motionblur", "Click to configure", 0, 1));
+        items.add(new SettingItem(() -> OldHyperiumMainGui.INSTANCE.setOverlay(reach), Icons.SETTINGS.getResource(), "Reach Display", "Reach Display Settings", "Click to configure", 0, 1));
 
         items.add(new SettingItem(() -> {
             if (Minecraft.getMinecraft().thePlayer != null)
                 Minecraft.getMinecraft().displayGuiScreen(new BlockOverlayGui(Hyperium.INSTANCE.getModIntegration().getBlockOverlay()));
         }, Icons.SETTINGS.getResource(), "Block Overlay", "Block overlay settings \n /blockoverlay ", "Click to configure", 1, 1));
-        items.add(new SettingItem(() -> MainHyperiumMainGui.INSTANCE.setOverlay(chromahud), Icons.SETTINGS.getResource(), "ChromaHUD", "ChromaHUD settings \n /chromahud", "Click to configure", 2, 1));
+        items.add(new SettingItem(() -> OldHyperiumMainGui.INSTANCE.setOverlay(chromahud), Icons.SETTINGS.getResource(), "ChromaHUD", "ChromaHUD settings \n /chromahud", "Click to configure", 2, 1));
         items.add(new SettingItem(() -> {
             if (Minecraft.getMinecraft().thePlayer != null)
                 Minecraft.getMinecraft().displayGuiScreen(new GuiScreenKeystrokes(Hyperium.INSTANCE.getModIntegration().getKeystrokesMod()));
@@ -92,15 +92,15 @@ public class ModsTab extends AbstractTab {
             if (Minecraft.getMinecraft().thePlayer != null)
                 Minecraft.getMinecraft().displayGuiScreen(new ToggleChatMainGui(Hyperium.INSTANCE.getModIntegration().getToggleChat(), 0));
         }, Icons.SETTINGS.getResource(), "Toggle chat", "Toggle chat settings \n /tc", "Click to configure", 1, 2));
-        items.add(new SettingItem(() -> MainHyperiumMainGui.INSTANCE.setOverlay(glintcolorizer), Icons.EXTENSION.getResource(), "GlintColorizer", "GlintColorizer settings", "Click to configure", 2, 2));
-        items.add(new SettingItem(() -> MainHyperiumMainGui.INSTANCE.setOverlay(animations), Icons.COSMETIC.getResource(), "1.7 Animations", "Adjust the Minecraft Animations", "Click to configure", 0, 3));
-        items.add(new SettingItem(() -> MainHyperiumMainGui.INSTANCE.setOverlay(spotify), Icons.SETTINGS.getResource(), "Spotify Settings", "Adjust Spotify integration settings", "Click to configure", 1, 3));
-        items.add(new SettingItem(() -> MainHyperiumMainGui.INSTANCE.setOverlay(autoGG), Icons.SETTINGS.getResource(), "AutoGG", "AutoGG \n /autogg", "Click to configure", 2, 3));
-        items.add(new SettingItem(() -> MainHyperiumMainGui.INSTANCE.setOverlay(autoTPA), Icons.SETTINGS.getResource(), "AutoTPA", "AutoTPA \n /autotpa", "Click to configure", 2, 3));
-        items.add(new SettingItem(() -> MainHyperiumMainGui.INSTANCE.setOverlay(autoFriend), Icons.SETTINGS.getResource(), "AutoFriend", "AutoFriend automatically accepts friend requests", "Click to configure", 0, 4));
+        items.add(new SettingItem(() -> OldHyperiumMainGui.INSTANCE.setOverlay(glintcolorizer), Icons.EXTENSION.getResource(), "GlintColorizer", "GlintColorizer settings", "Click to configure", 2, 2));
+        items.add(new SettingItem(() -> OldHyperiumMainGui.INSTANCE.setOverlay(animations), Icons.COSMETIC.getResource(), "1.7 Animations", "Adjust the Minecraft Animations", "Click to configure", 0, 3));
+        items.add(new SettingItem(() -> OldHyperiumMainGui.INSTANCE.setOverlay(spotify), Icons.SETTINGS.getResource(), "Spotify Settings", "Adjust Spotify integration settings", "Click to configure", 1, 3));
+        items.add(new SettingItem(() -> OldHyperiumMainGui.INSTANCE.setOverlay(autoGG), Icons.SETTINGS.getResource(), "AutoGG", "AutoGG \n /autogg", "Click to configure", 2, 3));
+        items.add(new SettingItem(() -> OldHyperiumMainGui.INSTANCE.setOverlay(autoTPA), Icons.SETTINGS.getResource(), "AutoTPA", "AutoTPA \n /autotpa", "Click to configure", 2, 3));
+        items.add(new SettingItem(() -> OldHyperiumMainGui.INSTANCE.setOverlay(autoFriend), Icons.SETTINGS.getResource(), "AutoFriend", "AutoFriend automatically accepts friend requests", "Click to configure", 0, 4));
         items.add(new SettingItem(() -> Minecraft.getMinecraft().displayGuiScreen(new GuiCustomCrosshairEditCrosshair(CustomCrosshairAddon.getCrosshairMod())), Icons.SETTINGS.getResource(), "Custom Crosshair", "Custom Crosshair Settings", "Click to configure", 1, 4));
-        items.add(new SettingItem(() -> MainHyperiumMainGui.INSTANCE.setOverlay(utils), Icons.SETTINGS.getResource(), "Utilities", "Togglesprint", "", 2, 3));
-        items.add(new SettingItem(() -> MainHyperiumMainGui.INSTANCE.setOverlay(fncompass), Icons.SETTINGS.getResource(), "Fortnite Compass", "Fortnite Compass displays the compass from Fortnite in Minecraft!", "", 2, 3));
+        items.add(new SettingItem(() -> OldHyperiumMainGui.INSTANCE.setOverlay(utils), Icons.SETTINGS.getResource(), "Utilities", "Togglesprint", "", 2, 3));
+        items.add(new SettingItem(() -> OldHyperiumMainGui.INSTANCE.setOverlay(fncompass), Icons.SETTINGS.getResource(), "Fortnite Compass", "Fortnite Compass displays the compass from Fortnite in Minecraft!", "", 2, 3));
 
 
         int x1 = 0;
@@ -134,7 +134,7 @@ public class ModsTab extends AbstractTab {
             e.printStackTrace();
         }
         try {
-            for (Object o : MainHyperiumMainGui.INSTANCE.getSettingsObjects()) {
+            for (Object o : OldHyperiumMainGui.INSTANCE.getSettingsObjects()) {
                 for (Field f : o.getClass().getDeclaredFields()) {
                     ToggleSetting ts = f.getAnnotation(ToggleSetting.class);
                     SelectorSetting ss = f.getAnnotation(SelectorSetting.class);

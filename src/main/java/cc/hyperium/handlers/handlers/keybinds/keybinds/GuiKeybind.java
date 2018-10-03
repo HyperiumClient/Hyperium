@@ -17,7 +17,7 @@
 
 package cc.hyperium.handlers.handlers.keybinds.keybinds;
 
-import cc.hyperium.gui.main.MainHyperiumMainGui;
+import cc.hyperium.gui.main.OldHyperiumMainGui;
 import cc.hyperium.handlers.handlers.keybinds.HyperiumBind;
 import org.lwjgl.input.Keyboard;
 
@@ -28,6 +28,6 @@ public class GuiKeybind extends HyperiumBind {
 
     @Override
     public void onPress() {
-        MainHyperiumMainGui.INSTANCE.show();
+        OldHyperiumMainGui.INSTANCE.show();
     }
 }

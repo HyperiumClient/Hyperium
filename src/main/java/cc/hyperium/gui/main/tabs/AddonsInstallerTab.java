@@ -2,7 +2,7 @@ package cc.hyperium.gui.main.tabs;
 
 import cc.hyperium.gui.GuiBlock;
 import cc.hyperium.gui.Icons;
-import cc.hyperium.gui.main.MainHyperiumMainGui;
+import cc.hyperium.gui.main.OldHyperiumMainGui;
 import cc.hyperium.gui.main.components.AbstractTab;
 import cc.hyperium.gui.main.components.SettingItem;
 import cc.hyperium.installer.api.entities.AddonManifest;
@@ -43,7 +43,7 @@ public class AddonsInstallerTab extends AbstractTab {
                         SettingItem settingItem = items.get(addon);
                         settingItem.setDesc(settingItem.getDesc() + " \n Downloaded. Restart your game to apply change.");
                     } catch (IOException e) {
-                        MainHyperiumMainGui.INSTANCE.getAlerts().add(new MainHyperiumMainGui.Alert(Icons.ERROR.getResource(), null, "Failed to download " + addon.getName()));
+                        OldHyperiumMainGui.INSTANCE.getAlerts().add(new OldHyperiumMainGui.Alert(Icons.ERROR.getResource(), null, "Failed to download " + addon.getName()));
                         e.printStackTrace();
                     }
                 }), Icons.DOWNLOAD.getResource(), addon.getName(), addon.getDescription(), "Download Addon", xi, yi);
@@ -72,7 +72,7 @@ public class AddonsInstallerTab extends AbstractTab {
 
     @Override
     public void drawHighlight(float s) {
-        if (MainHyperiumMainGui.INSTANCE.getCurrentTab().equals(this))
+        if (OldHyperiumMainGui.INSTANCE.getCurrentTab().equals(this))
             Gui.drawRect(0, (int) (y + s * (s * w / 2)), 3, (int) (y + w - s * (w / 2)), Color.WHITE.getRGB());
     }
 
@@ -97,17 +97,17 @@ public class AddonsInstallerTab extends AbstractTab {
      */
     private void downloadFile(File output, AddonManifest addon) throws MalformedURLException {
         if (output.exists())
-            MainHyperiumMainGui.INSTANCE.getAlerts().add(new MainHyperiumMainGui.Alert(Icons.EXTENSION.getResource(), () -> {
+            OldHyperiumMainGui.INSTANCE.getAlerts().add(new OldHyperiumMainGui.Alert(Icons.EXTENSION.getResource(), () -> {
             }, "You already have " + addon.getName() + " installed and up to date"));
         else {
             Downloader downloader = new Downloader();
             System.out.println("Downloading: " + addon.getUrl());
             downloader.download(new URL(addon.getUrl()), output);
             if (!InstallerUtils.toHex(InstallerUtils.checksum(output, "SHA-256")).equalsIgnoreCase(addon.getSha256())) {
-                MainHyperiumMainGui.INSTANCE.getAlerts().add(new MainHyperiumMainGui.Alert(Icons.ERROR.getResource(), null, "SHA256 does not match"));
+                OldHyperiumMainGui.INSTANCE.getAlerts().add(new OldHyperiumMainGui.Alert(Icons.ERROR.getResource(), null, "SHA256 does not match"));
                 output.delete(); // we don't want user to get unverified file
             } else
-                MainHyperiumMainGui.INSTANCE.getAlerts().add(new MainHyperiumMainGui.Alert(Icons.EXTENSION.getResource(), null, "Addon was successfully installed"));
+                OldHyperiumMainGui.INSTANCE.getAlerts().add(new OldHyperiumMainGui.Alert(Icons.EXTENSION.getResource(), null, "Addon was successfully installed"));
         }
     }
 }

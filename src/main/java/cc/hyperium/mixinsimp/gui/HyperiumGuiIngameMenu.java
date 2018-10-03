@@ -2,7 +2,7 @@ package cc.hyperium.mixinsimp.gui;
 
 import cc.hyperium.gui.GuiHyperiumCredits;
 import cc.hyperium.gui.GuiIngameMultiplayer;
-import cc.hyperium.gui.main.MainHyperiumMainGui;
+import cc.hyperium.gui.main.OldHyperiumMainGui;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
 import cc.hyperium.purchases.PurchaseApi;
@@ -47,7 +47,7 @@ public class HyperiumGuiIngameMenu {
     if (button.id == 8)
       Minecraft.getMinecraft().displayGuiScreen(new GuiHyperiumCredits(Minecraft.getMinecraft().currentScreen));
     if(button.id == 9)
-      MainHyperiumMainGui.INSTANCE.show();
+      OldHyperiumMainGui.INSTANCE.show();
     if (button.id == 10 && Minecraft.getMinecraft().theWorld.isRemote)
       Minecraft.getMinecraft().displayGuiScreen(new GuiIngameMultiplayer(Minecraft.getMinecraft().currentScreen));
   }

@@ -12,7 +12,7 @@ import cc.hyperium.gui.ColourOptions;
 import cc.hyperium.gui.GuiBlock;
 import cc.hyperium.gui.Icons;
 import cc.hyperium.gui.ParticleOverlay;
-import cc.hyperium.gui.main.MainHyperiumMainGui;
+import cc.hyperium.gui.main.OldHyperiumMainGui;
 import cc.hyperium.gui.main.HyperiumOverlay;
 import cc.hyperium.gui.main.components.AbstractTab;
 import cc.hyperium.gui.main.components.OverlaySelector;
@@ -60,19 +60,19 @@ public class SettingsTab extends AbstractTab {
         this.y = y;
         this.w = w;
 
-        items.add(new SettingItem(() -> MainHyperiumMainGui.INSTANCE.setOverlay(general), Icons.SETTINGS.getResource(), "General", "General settings for Hyperium", "Click to configure", 0, 0));
+        items.add(new SettingItem(() -> OldHyperiumMainGui.INSTANCE.setOverlay(general), Icons.SETTINGS.getResource(), "General", "General settings for Hyperium", "Click to configure", 0, 0));
 
-        items.add(new SettingItem(() -> MainHyperiumMainGui.INSTANCE.setOverlay(integrations), Icons.EXTENSION.getResource(), "Integrations", "Hyperium integrations", "Click to configure", 1, 0));
+        items.add(new SettingItem(() -> OldHyperiumMainGui.INSTANCE.setOverlay(integrations), Icons.EXTENSION.getResource(), "Integrations", "Hyperium integrations", "Click to configure", 1, 0));
 
-        items.add(new SettingItem(() -> MainHyperiumMainGui.INSTANCE.setOverlay(improvements), Icons.TOOL.getResource(), "Improvements", "Improvements and bug fixes", "Click to configure", 2, 0));
+        items.add(new SettingItem(() -> OldHyperiumMainGui.INSTANCE.setOverlay(improvements), Icons.TOOL.getResource(), "Improvements", "Improvements and bug fixes", "Click to configure", 2, 0));
 
-        items.add(new SettingItem(() -> MainHyperiumMainGui.INSTANCE.setOverlay(cosmetics), Icons.COSMETIC.getResource(), "Cosmetics", "Bling out your Minecraft Avatar", "Click to configure", 0, 1));
+        items.add(new SettingItem(() -> OldHyperiumMainGui.INSTANCE.setOverlay(cosmetics), Icons.COSMETIC.getResource(), "Cosmetics", "Bling out your Minecraft Avatar", "Click to configure", 0, 1));
 
-        items.add(new SettingItem(() -> MainHyperiumMainGui.INSTANCE.setTab(MainHyperiumMainGui.INSTANCE.getModsTab()), Icons.EXTENSION.getResource(), "Mods", "Hyperium mod settings", "Click to configure", 1, 1));
+        items.add(new SettingItem(() -> OldHyperiumMainGui.INSTANCE.setTab(OldHyperiumMainGui.INSTANCE.getModsTab()), Icons.EXTENSION.getResource(), "Mods", "Hyperium mod settings", "Click to configure", 1, 1));
 
-        items.add(new SettingItem(() -> MainHyperiumMainGui.INSTANCE.setOverlay(misc), Icons.MISC.getResource(), "Miscellaneous", "Other Hyperium Settings", "Click to configure", 2, 1));
+        items.add(new SettingItem(() -> OldHyperiumMainGui.INSTANCE.setOverlay(misc), Icons.MISC.getResource(), "Miscellaneous", "Other Hyperium Settings", "Click to configure", 2, 1));
 
-        items.add(new SettingItem(() -> MainHyperiumMainGui.INSTANCE.setOverlay(colourOptions), Icons.TOOL.getResource(), "GUI Options", "Accent Colours, etc.", "Click to configure", 0, 2));
+        items.add(new SettingItem(() -> OldHyperiumMainGui.INSTANCE.setOverlay(colourOptions), Icons.TOOL.getResource(), "GUI Options", "Accent Colours, etc.", "Click to configure", 0, 2));
 
         try {
             Field earsField = Settings.class.getField("EARS_STATE");
@@ -252,7 +252,7 @@ public class SettingsTab extends AbstractTab {
         } catch (NoSuchFieldException e) {
             e.printStackTrace();
         }
-        for (Object o : MainHyperiumMainGui.INSTANCE.getSettingsObjects()) {
+        for (Object o : OldHyperiumMainGui.INSTANCE.getSettingsObjects()) {
             for (Field f : o.getClass().getDeclaredFields()) {
                 ToggleSetting ts = f.getAnnotation(ToggleSetting.class);
                 SelectorSetting ss = f.getAnnotation(SelectorSetting.class);

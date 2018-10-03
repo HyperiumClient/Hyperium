@@ -2,7 +2,7 @@ package cc.hyperium.gui.keybinds;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.gui.HyperiumGui;
-import cc.hyperium.gui.main.MainHyperiumMainGui;
+import cc.hyperium.gui.main.OldHyperiumMainGui;
 import cc.hyperium.handlers.handlers.keybinds.HyperiumBind;
 import cc.hyperium.utils.HyperiumFontRenderer;
 import java.awt.Color;
@@ -22,7 +22,7 @@ public class GuiKeybinds extends HyperiumGui {
     private HyperiumFontRenderer sfr = new HyperiumFontRenderer("Arial", Font.PLAIN, 12);
     private GuiButton resetButton;
     private GuiButton backButton;
-    private MainHyperiumMainGui prevGui;
+    private OldHyperiumMainGui prevGui;
 
     private int scrollOffset;
     private int buttonWidth = 70;
@@ -89,7 +89,7 @@ public class GuiKeybinds extends HyperiumGui {
         topGui = calculatedGap;
         bottomGui = height -calculatedGap;
 
-        prevGui = MainHyperiumMainGui.INSTANCE;
+        prevGui = OldHyperiumMainGui.INSTANCE;
 
         // Get keybinds.
         binds = new ArrayList<>(Hyperium.INSTANCE.getHandlers().getKeybindHandler().getKeybinds().values());

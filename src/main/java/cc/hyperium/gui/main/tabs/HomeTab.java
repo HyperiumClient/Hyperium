@@ -3,7 +3,7 @@ package cc.hyperium.gui.main.tabs;
 import cc.hyperium.Metadata;
 import cc.hyperium.gui.GuiBlock;
 import cc.hyperium.gui.Icons;
-import cc.hyperium.gui.main.MainHyperiumMainGui;
+import cc.hyperium.gui.main.OldHyperiumMainGui;
 import cc.hyperium.gui.main.components.AbstractTab;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.utils.HyperiumFontRenderer;
@@ -53,8 +53,8 @@ public class HomeTab extends AbstractTab {
                 }
                 for (JsonElement e : information.optJSONArray("alerts")) {
                     JsonHolder alert = new JsonHolder(e.getAsJsonObject());
-                    if (!MainHyperiumMainGui.INSTANCE.getLoadedAlerts().contains(alert.optString("title")) && !alert.optString("title").equals("ALERT FORMAT - THIS WILL BE IGNORED") && alert.optJSONArray("target").contains(new JsonPrimitive(Metadata.getVersion()))) {
-                        MainHyperiumMainGui.INSTANCE.getAlerts().add(new MainHyperiumMainGui.Alert(Icons.valueOf(alert.optString("icon")).getResource(), () -> {
+                    if (!OldHyperiumMainGui.INSTANCE.getLoadedAlerts().contains(alert.optString("title")) && !alert.optString("title").equals("ALERT FORMAT - THIS WILL BE IGNORED") && alert.optJSONArray("target").contains(new JsonPrimitive(Metadata.getVersion()))) {
+                        OldHyperiumMainGui.INSTANCE.getAlerts().add(new OldHyperiumMainGui.Alert(Icons.valueOf(alert.optString("icon")).getResource(), () -> {
                             if (alert.has("click")) {
                                 try {
                                     Desktop.getDesktop().browse(new URL(alert.optString("click")).toURI());
@@ -63,7 +63,7 @@ public class HomeTab extends AbstractTab {
                                 }
                             }
                         }, alert.optString("title")));
-                        MainHyperiumMainGui.INSTANCE.getLoadedAlerts().add(alert.optString("title"));
+                        OldHyperiumMainGui.INSTANCE.getLoadedAlerts().add(alert.optString("title"));
                     }
                 }
 

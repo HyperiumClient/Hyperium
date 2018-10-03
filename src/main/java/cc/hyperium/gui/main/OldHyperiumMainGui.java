@@ -48,9 +48,9 @@ import java.util.concurrent.TimeUnit;
 /*
  * Created by Cubxity on 20/05/2018
  */
-public class MainHyperiumMainGui extends HyperiumGui {
+public class OldHyperiumMainGui extends HyperiumGui {
 
-    public static MainHyperiumMainGui INSTANCE = new MainHyperiumMainGui();
+    public static OldHyperiumMainGui INSTANCE = new OldHyperiumMainGui();
     private final HyperiumFontRenderer fr = new HyperiumFontRenderer("Arial", Font.PLAIN, 20);
     public boolean show = false;
     public UpdateUtils utils;
@@ -67,7 +67,7 @@ public class MainHyperiumMainGui extends HyperiumGui {
     private List<Object> settingsObjects = new ArrayList<>();
     private ModsTab modsTab;
 
-    public MainHyperiumMainGui() {
+    public OldHyperiumMainGui() {
         try {
             settingsObjects.add(Settings.INSTANCE);
             if (Hyperium.INSTANCE.getModIntegration() == null) {
@@ -368,7 +368,7 @@ public class MainHyperiumMainGui extends HyperiumGui {
         }
 
         void dismiss() {
-            MainHyperiumMainGui.INSTANCE.currentAlert = null;
+            OldHyperiumMainGui.INSTANCE.currentAlert = null;
         }
     }
 }
