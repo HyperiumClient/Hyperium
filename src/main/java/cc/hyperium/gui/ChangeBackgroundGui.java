@@ -42,7 +42,8 @@ public class ChangeBackgroundGui extends GuiScreen {
         this.downloadUrlField.setMaxStringLength(150);
         this.buttonList.add(new GuiButton(1, width / 2 - 150 / 2, height / 2 + 20, 150, 15, "Set URL"));
         this.buttonList.add(new GuiButton(2, width / 2 - 150 / 2, height / 2 + 40, 150, 15, "Choose File"));
-        this.buttonList.add(new GuiButton(3, width / 2 - 150 / 2, height / 2 + 60, 150, 15, "Cancel"));
+        this.buttonList.add(new GuiButton(3, width / 2 - 150 / 2, height / 2 + 60, 150, 15, "Reset Background"));
+        this.buttonList.add(new GuiButton(4, width / 2 - 150 / 2, height / 2 + 80, 150, 15, "Cancel"));
     }
 
     @Override
@@ -66,9 +67,22 @@ public class ChangeBackgroundGui extends GuiScreen {
             handleDownload();
         if (button.id == 2)
             handleChooseFile();
-        if (button.id == 3)
+        if(button.id == 3)
+            handleResetBackground();
+        if (button.id == 4)
             Minecraft.getMinecraft().displayGuiScreen(prevGui);
         super.actionPerformed(button);
+    }
+
+    private void handleResetBackground(){
+        statusText = "Working...";
+        File file = new File(Minecraft.getMinecraft().mcDataDir, "customImage.png");
+        if(file.exists()){
+            file.delete();
+        }
+        Settings.BACKGROUND = "4";
+        statusText = "Done!";
+        Minecraft.getMinecraft().displayGuiScreen(prevGui);
     }
 
     private void handleChooseFile(){
