@@ -25,5 +25,6 @@ public enum Category {
     MOTION_BLUR,
     AUTOFRIEND,
     FNCOMPASS,
-    ITEM_PHYSIC
+    ITEM_PHYSIC,
+    MOREFPS
 }
