@@ -2,14 +2,11 @@ package cc.hyperium.mixinsimp.gui;
 
 import cc.hyperium.gui.GuiHyperiumCredits;
 import cc.hyperium.gui.GuiIngameMultiplayer;
-import cc.hyperium.gui.main.OldHyperiumMainGui;
+import cc.hyperium.gui.hyperium.HyperiumMainGui;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
 import cc.hyperium.purchases.PurchaseApi;
 import cc.hyperium.utils.JsonHolder;
-import java.awt.Color;
-import java.text.DecimalFormat;
-import java.util.List;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
@@ -18,6 +15,10 @@ import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.server.MinecraftServer;
+
+import java.awt.Color;
+import java.text.DecimalFormat;
+import java.util.List;
 
 public class HyperiumGuiIngameMenu {
   private static JsonHolder data = new JsonHolder();
@@ -47,7 +48,7 @@ public class HyperiumGuiIngameMenu {
     if (button.id == 8)
       Minecraft.getMinecraft().displayGuiScreen(new GuiHyperiumCredits(Minecraft.getMinecraft().currentScreen));
     if(button.id == 9)
-      OldHyperiumMainGui.INSTANCE.show();
+      HyperiumMainGui.INSTANCE.show();
     if (button.id == 10 && Minecraft.getMinecraft().theWorld.isRemote)
       Minecraft.getMinecraft().displayGuiScreen(new GuiIngameMultiplayer(Minecraft.getMinecraft().currentScreen));
   }
