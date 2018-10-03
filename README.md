@@ -15,7 +15,7 @@ Hyperium is a Minecraft client, currently in its development stage. It will comb
 - [Keystrokes v4](https://www.youtube.com/watch?v=tA1SmI8nfY4)
 - [Levelhead](https://sk1er.club/levelhead)
 - [MemoryFix](https://prplz.io/memoryfix)
-- MotionBlur
+- [MotionBlur](https://www.youtube.com/watch?v=x21aLjDbCRw)
 - [MouseDelayFix](https://prplz.io/mousedelayfix)
 - [NoCloseMyChat](https://hypixel.net/threads/1260752/)
 - [Perspective Mod](https://www.youtube.com/watch?v=7FdMMpzNdUk)
