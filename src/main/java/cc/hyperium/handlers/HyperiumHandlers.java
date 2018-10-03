@@ -23,23 +23,18 @@ import cc.hyperium.event.EventBus;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.TickEvent;
 import cc.hyperium.gui.ScoreboardRenderer;
-import cc.hyperium.handlers.handlers.ApiDataHandler;
 import cc.hyperium.handlers.handlers.BroadcastEvents;
 import cc.hyperium.handlers.handlers.CommandQueue;
 import cc.hyperium.handlers.handlers.FlipHandler;
 import cc.hyperium.handlers.handlers.FontRendererData;
-import cc.hyperium.handlers.handlers.GameDataTracking;
 import cc.hyperium.handlers.handlers.GuiDisplayHandler;
 import cc.hyperium.handlers.handlers.HyperiumNetwork;
 import cc.hyperium.handlers.handlers.HypixelDetector;
 import cc.hyperium.handlers.handlers.LocationHandler;
 import cc.hyperium.handlers.handlers.OtherConfigOptions;
-import cc.hyperium.handlers.handlers.RenderPlayerAsBlock;
 import cc.hyperium.handlers.handlers.SettingsHandler;
 import cc.hyperium.handlers.handlers.StatusHandler;
-import cc.hyperium.handlers.handlers.TimeTrackHandler;
 import cc.hyperium.handlers.handlers.ValueHandler;
-import cc.hyperium.handlers.handlers.*;
 import cc.hyperium.handlers.handlers.animation.DabHandler;
 import cc.hyperium.handlers.handlers.animation.FlossDanceHandler;
 import cc.hyperium.handlers.handlers.animation.TPoseHandler;
@@ -47,7 +42,14 @@ import cc.hyperium.handlers.handlers.animation.TwerkDance;
 import cc.hyperium.handlers.handlers.animation.cape.CapeHandler;
 import cc.hyperium.handlers.handlers.animation.fortnite.FortniteDefaultDance;
 import cc.hyperium.handlers.handlers.browser.BrowserHandler;
-import cc.hyperium.handlers.handlers.chat.*;
+import cc.hyperium.handlers.handlers.chat.AutoWhoChatHandler;
+import cc.hyperium.handlers.handlers.chat.FriendRequestChatHandler;
+import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
+import cc.hyperium.handlers.handlers.chat.HyperiumChatHandler;
+import cc.hyperium.handlers.handlers.chat.PartyInviteChatHandler;
+import cc.hyperium.handlers.handlers.chat.QuestTrackingChatHandler;
+import cc.hyperium.handlers.handlers.chat.RankedRatingChatHandler;
+import cc.hyperium.handlers.handlers.chat.WinTrackingChatHandler;
 import cc.hyperium.handlers.handlers.data.HypixelAPI;
 import cc.hyperium.handlers.handlers.hud.VanillaEnhancementsHud;
 import cc.hyperium.handlers.handlers.hypixel.HypixelGuiAugmenter;
@@ -103,9 +105,7 @@ public class HyperiumHandlers {
     private StatsHandler statsHandler;
     private BroadcastEvents broadcastEvents;
     private HypixelValueTracking hypixelValueTracking;
-    private FortniteHypeDance fortniteHypeDance;
     private SettingsHandler settingsHandler;
-    private BroadcastEvents broadcastEvents;
 
     public HyperiumHandlers() {
         System.out.println("Loading handlers");
@@ -162,6 +162,10 @@ public class HyperiumHandlers {
         register(commandHandler = new HyperiumCommandHandler());
     }
 
+    public void postInit() {
+        generalChatHandler.post();
+    }
+
     public HypixelValueTracking getHypixelValueTracking() {
         return hypixelValueTracking;
     }
@@ -172,43 +176,51 @@ public class HyperiumHandlers {
 
     public StatsHandler getStatsHandler() {
         return statsHandler;
-
-    public SettingsHandler getSettingsHandler() {
-        return settingsHandler;
     }
 
-    public FortniteHypeDance getFortniteHypeDance() {
-        return fortniteHypeDance;
+    public List<HyperiumChatHandler> getChatHandlers() {
+        return chatHandlers;
     }
 
-    public TwerkDance getTwerkDance() {
-        return twerkDance;
+    public HyperiumCommandHandler getCommandHandler() {
+        return commandHandler;
+    }
+
+    public HyperiumNetwork getNetwork() {
+        return network;
     }
 
     public ParticleAuraHandler getParticleAuraHandler() {
         return particleAuraHandler;
     }
 
-    public LayerDeadmau5HeadHandler getLayerDeadmau5HeadHandler() {
-        return layerDeadmau5HeadHandler;
+    public VanillaEnhancementsHud getVanillaEnhancementsHud() {
+        return vanillaEnhancementsHud;
     }
 
     public FlipHandler getFlipHandler() {
         return flipHandler;
     }
 
-    public void postInit() {
-        generalChatHandler.post();
+    public LayerDeadmau5HeadHandler getLayerDeadmau5HeadHandler() {
+        return layerDeadmau5HeadHandler;
     }
 
-
-    public HyperiumNetwork getNetwork() {
-        return network;
+    public TwerkDance getTwerkDance() {
+        return twerkDance;
     }
 
-    private void registerChatHandler(HyperiumChatHandler HyperiumChatHandler) {
-        register(HyperiumChatHandler);
-        chatHandlers.add(HyperiumChatHandler);
+    public BroadcastEvents getBroadcastEvents() {
+        return broadcastEvents;
+    }
+
+    public SettingsHandler getSettingsHandler() {
+        return settingsHandler;
+    }
+
+    private void registerChatHandler(HyperiumChatHandler chatHandler) {
+        register(chatHandler);
+        chatHandlers.add(chatHandler);
     }
 
     @InvokeEvent

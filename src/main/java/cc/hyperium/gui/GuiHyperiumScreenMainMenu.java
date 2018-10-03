@@ -168,21 +168,14 @@
 
 package cc.hyperium.gui;
 
+import cc.hyperium.GuiStyle;
 import cc.hyperium.Hyperium;
+import cc.hyperium.Metadata;
 import cc.hyperium.config.Settings;
 import cc.hyperium.gui.hyperium.HyperiumMainGui;
 import cc.hyperium.handlers.handlers.SettingsMigrator;
 import cc.hyperium.mixinsimp.renderer.gui.IMixinGuiMultiplayer;
 import cc.hyperium.utils.HyperiumFontRenderer;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.net.URL;
-import java.util.HashMap;
-import javax.imageio.ImageIO;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
@@ -194,13 +187,18 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiSelectWorld;
 import net.minecraft.client.gui.GuiYesNo;
 import net.minecraft.client.gui.GuiYesNoCallback;
+import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.texture.TextureManager;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.realms.RealmsBridge;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.demo.DemoWorldServer;
 import net.minecraft.world.storage.ISaveFormat;
@@ -219,7 +217,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
 
-public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
+public class GuiHyperiumScreenMainMenu extends GuiScreen implements GuiYesNoCallback {
 
 
     public static boolean FIRST_START = true;
@@ -277,11 +275,11 @@ public class HyperiumMainMenu extends GuiScreen implements GuiYesNoCallback {
     }
 
     public static void setBackground(ResourceLocation background) {
-        HyperiumMainMenu.background = background;
+        GuiHyperiumScreenMainMenu.background = background;
     }
 
     public static void setCustomBackground(boolean customBackground) {
-        HyperiumMainMenu.customBackground = customBackground;
+        GuiHyperiumScreenMainMenu.customBackground = customBackground;
     }
 
     /**
