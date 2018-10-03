@@ -217,7 +217,7 @@ public class GuiAddonError extends GuiScreen {
             // Clear the maps so this screen goes away.
             AddonMinecraftBootstrap.getDependenciesLoopMap().clear();
             AddonMinecraftBootstrap.getMissingDependenciesMap().clear();
-            Minecraft.getMinecraft().displayGuiScreen(new HyperiumMainMenu());
+            Minecraft.getMinecraft().displayGuiScreen(new GuiHyperiumScreenMainMenu());
         }
     }
 }

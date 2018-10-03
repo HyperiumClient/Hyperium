@@ -172,47 +172,66 @@ import cc.hyperium.Hyperium;
 import cc.hyperium.utils.ChatColor;
 import cc.hyperium.utils.RenderUtils;
 import java.awt.Color;
+
+import com.mojang.realmsclient.gui.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.resources.I18n;
 import org.lwjgl.input.Mouse;
 
-public class GuiTos extends GuiScreen {
+public class GuiHyperiumScreenTos extends GuiHyperiumScreen {
 
-    private boolean overLast = false;
+    private static boolean firstAccept = false;
 
-    private boolean clickedCheckBox = false;
+    public final int BUTTON_ID_ACCEPT = 0;
+
+    @Override
+    public void initGui(){
+        super.initGui();
+
+        this.buttonList.add(new GuiButton(BUTTON_ID_ACCEPT,(width / 2) - 100,160, firstAccept ? ChatFormatting.GREEN + "Confirm Accept" : "Accept"));
+
+    }
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-        this.drawDefaultBackground();
-        drawCenteredString(this.fontRendererObj, ChatColor.RED + "By continuing, you acknowledge this client is " + ChatColor.BOLD + "USE AT YOUR OWN RISK", width / 2, 90, Color.WHITE.getRGB());
-        drawCenteredString(this.fontRendererObj, ChatColor.RED + "The developers of Hyperium are not responsible for any damages or bans ", width / 2, 100, Color.WHITE.getRGB());
-        drawCenteredString(this.fontRendererObj, ChatColor.RED + "to your account while using this client", width / 2, 110, Color.WHITE.getRGB());
-        drawCenteredString(this.fontRendererObj, ChatColor.RED + "By continuing you agree to the privacy policy (https://hyperium.cc/#privacy)", width / 2, 120, Color.WHITE.getRGB());
 
-        drawCenteredString(this.fontRendererObj, ChatColor.RED + "Please check the box to confirm you agree with these terms", width / 2, 130, Color.WHITE.getRGB());
+        super.drawScreen(mouseX,mouseY,partialTicks);
 
-        GuiBlock block = new GuiBlock(width / 2 - 10, width / 2 + 10, 145, 165);
-        if (!overLast && Mouse.isButtonDown(0) && block.isMouseOver(mouseX, mouseY)) {
-            clickedCheckBox = !clickedCheckBox;
-        }
+        this.drawRect(0, 79, width,148, 0x66000000);
+        this.drawRect(0, 80, width,149, 0x66000000);
 
-        RenderUtils.drawBorderedRect(block.getLeft(), block.getTop(), block.getRight(), block.getBottom(), 7, Color.BLACK.getRGB(), Color.RED.getRGB());
-        if (clickedCheckBox) {
-            RenderUtils.drawLine(block.getLeft(), block.getTop(), block.getRight(), block.getBottom(), 5, Color.BLACK.getRGB());
-            RenderUtils.drawLine(block.getLeft(), block.getBottom(), block.getRight(), block.getTop(), 5, Color.BLACK.getRGB());
-            int hoverColor = new Color(0, 0, 0, 60).getRGB();
-            int color = new Color(0, 0, 0, 50).getRGB();
-            GuiBlock block1 = new GuiBlock(width / 2 - 100, width / 2 + 100, 180, 200);
-            Gui.drawRect(block1.getLeft(), block1.getTop(), block1.getRight(), block1.getBottom(), block1.isMouseOver(mouseX, mouseY) ? hoverColor : color);
+        drawCenteredString(this.fontRendererObj, "Disclaimer",width / 2,63,0xFFFFFF);
 
-            if (block1.isMouseOver(mouseX, mouseY) && Mouse.isButtonDown(0)) {
-                Hyperium.INSTANCE.acceptTos();
-                Minecraft.getMinecraft().displayGuiScreen(new HyperiumMainMenu());
-            }
-            drawCenteredString(fontRendererObj, ChatColor.RED + "Accept", width / 2, 185, Color.WHITE.getRGB());
-        }
-        overLast = Mouse.isButtonDown(0);
+        drawCenteredString(this.fontRendererObj, I18n.format("disclaimer.line1",ChatFormatting.BOLD + I18n.format("disclaimer.line1.bold") + ChatFormatting.RESET), width / 2, 90, Color.WHITE.getRGB());
+        drawCenteredString(this.fontRendererObj, I18n.format("disclaimer.line2"), width / 2, 100, Color.WHITE.getRGB());
+        drawCenteredString(this.fontRendererObj, I18n.format("disclaimer.line3"), width / 2, 110, Color.WHITE.getRGB());
+        drawCenteredString(this.fontRendererObj, I18n.format("disclaimer.line4",ChatFormatting.GRAY + I18n.format("disclaimer.line4.policylink") + ChatFormatting.RESET), width / 2, 120, Color.WHITE.getRGB());
+
+        drawCenteredString(this.fontRendererObj, I18n.format("disclaimer.line5"), width / 2, 130, Color.WHITE.getRGB());
+
     }
+
+    @Override
+    public void actionPerformed(GuiButton button) {
+
+        switch(button.id){
+
+            case BUTTON_ID_ACCEPT:
+                if(!this.firstAccept){
+                    this.firstAccept = true;
+                    mc.displayGuiScreen(new GuiHyperiumScreenTos());
+                } else {
+                    Hyperium.INSTANCE.acceptTos();
+                    mc.displayGuiScreen(new GuiHyperiumScreenMainMenu());
+                }
+                break;
+
+        }
+
+    }
+
+
 }
