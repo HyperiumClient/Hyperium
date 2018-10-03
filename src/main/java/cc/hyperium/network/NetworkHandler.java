@@ -7,7 +7,6 @@ import cc.hyperium.config.PostConfigHandler;
 import cc.hyperium.config.PreSaveHandler;
 import cc.hyperium.gui.CapesGui;
 import cc.hyperium.gui.CustomLevelheadConfigurer;
-import cc.hyperium.gui.main.OldHyperiumMainGui;
 import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
 import cc.hyperium.netty.INetty;
 import cc.hyperium.purchases.PurchaseApi;
@@ -106,9 +105,7 @@ public class NetworkHandler implements INetty, PostConfigHandler, PreSaveHandler
                 Hyperium.INSTANCE.getHandlers().getFlipHandler().state(uuid, 0);
             }
         } else if (type.equalsIgnoreCase("refresh_cosmetics")) {
-            if (Minecraft.getMinecraft().currentScreen instanceof OldHyperiumMainGui) {
-                ((OldHyperiumMainGui) Minecraft.getMinecraft().currentScreen).getCosmeticsTab().refreshData();
-            } else if (Minecraft.getMinecraft().currentScreen instanceof CapesGui) {
+            if (Minecraft.getMinecraft().currentScreen instanceof CapesGui) {
                 ((CapesGui) Minecraft.getMinecraft().currentScreen).updatePurchases();
             } else {
                 PurchaseApi.getInstance().refreshSelf();

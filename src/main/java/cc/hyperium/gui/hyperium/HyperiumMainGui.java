@@ -160,7 +160,6 @@ public class HyperiumMainGui extends HyperiumGui {
         if(Minecraft.getMinecraft().theWorld == null) {
             this.drawGradientRect(0, 0, this.width, this.height, -2130706433, 16777215);
             this.drawGradientRect(0, 0, this.width, this.height, 0, Integer.MIN_VALUE);
-
         }
         /* Render Header */
         drawRect(xg, yg, xg * 10, yg * 2, 0x64000000);
