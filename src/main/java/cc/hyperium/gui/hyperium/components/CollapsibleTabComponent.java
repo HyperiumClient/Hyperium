@@ -189,7 +189,6 @@ public class CollapsibleTabComponent extends AbstractTabComponent {
             return ((ToggleComponent) component).getLabel();
         if (component instanceof SelectorComponent)
             return ((SelectorComponent) component).getLabel();
-        System.out.println("Not found: " + component);
         return "ZZZ";
     }
 }
