@@ -46,6 +46,7 @@ import net.montoyo.mcef.MCEF;
  * ToggleChat
  */
 public class HyperiumModIntegration {
+    
     private final KeystrokesMod keystrokesMod;
     private final TimeChanger timeChanger;
     private final ToggleChatMod toggleChat;
@@ -111,8 +112,8 @@ public class HyperiumModIntegration {
 
         // Glint Colorizer implementation
         this.glintcolorizer = ((GlintColorizer) new GlintColorizer().init());
-        NickHider nickHider = new NickHider();
-        nickHider.init();
+        
+        new NickHider().init();
 
         //Autofriend implementation
         this.autofriend = ((AutofriendMod) new AutofriendMod().init());
@@ -211,5 +212,7 @@ public class HyperiumModIntegration {
         return browserMod;
     }
 
-    public MoreFPSAddon getMoreFPSAddon() { return moreFPSAddon; }
+    public MoreFPSAddon getMoreFPSAddon() { 
+        return moreFPSAddon; 
+    }
 }
