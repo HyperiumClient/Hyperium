@@ -40,6 +40,7 @@ import java.util.function.Supplier;
  * Created by Cubxity on 27/08/2018
  */
 public class HyperiumMainGui extends HyperiumGui {
+
     public static HyperiumMainGui INSTANCE = new HyperiumMainGui();
     private static int tabIndex = 0; // save tab position
     private int initialGuiScale;
@@ -166,7 +167,7 @@ public class HyperiumMainGui extends HyperiumGui {
         searchField.render(mouseX, mouseY);
         GlStateModifier.INSTANCE.reset();
 
-        title.drawCenteredTextScaled(I18n.format(currentTab.getTitle()), this.width / 2 - 4, yg + (yg / 2 - 8), 0xFFFFFF,1);
+        title.drawCenteredString(I18n.format(currentTab.getTitle()), this.width / 2, yg + (yg / 2 - 8), 0xFFFFFF);
 
         /* Render Body */
         currentTab.setFilter(searchField.getText().isEmpty() ? null : searchField.getText());

@@ -223,15 +223,8 @@ public class HyperiumFontRenderer {
         return drawString(text, x, y, color);
     }
 
-    /**
-     * Draw Centered String - Draw a centered string
-     * @param text - Given Text String
-     * @param x - Given X Position
-     * @param y - Given Y Position
-     * @param color - Given Color (HEX)
-     */
     public void drawCenteredString(String text, float x, float y, int color) {
-        drawString(text, x - (getStringWidth(text) / 2), y, color);
+        drawString(text, x - (int) getWidth(text) / 2, y, color);
     }
 
     /**
