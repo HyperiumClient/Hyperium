@@ -88,6 +88,7 @@ public class GuiHyperiumScreen extends GuiScreen {
     }
     
     public void renderHyperiumBackground(ScaledResolution p_180476_1_) {
+
         GlStateManager.disableDepth();
         GlStateManager.depthMask(false);
         GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
@@ -131,25 +132,31 @@ public class GuiHyperiumScreen extends GuiScreen {
 
         swing++;
 
-        if (Settings.BACKGROUND.equals("DEFAULT")) {
-            GlStateManager.disableAlpha();
-            this.renderSkybox(mouseX, mouseY, partialTicks);
-            GlStateManager.enableAlpha();
-        } else {
-            // Background
-            GlStateManager.disableAlpha();
-            ScaledResolution sr = new ScaledResolution(mc);
-            this.renderHyperiumBackground(sr);
-            GlStateManager.enableAlpha();
+        if(mc.theWorld == null) {
+            if (Settings.BACKGROUND.equals("DEFAULT")) {
+                GlStateManager.disableAlpha();
+                this.renderSkybox(mouseX, mouseY, partialTicks);
+                GlStateManager.enableAlpha();
+            } else {
+                // Background
+                GlStateManager.disableAlpha();
+                ScaledResolution sr = new ScaledResolution(mc);
+                this.renderHyperiumBackground(sr);
+                GlStateManager.enableAlpha();
 
+            }
         }
 
         /* Render shadowed bar at top of screen */
-        this.drawGradientRect(0, 0, this.width, this.height, -2130706433, 16777215);
-        this.drawGradientRect(0, 0, this.width, this.height, 0, Integer.MIN_VALUE);
+        if(mc.theWorld == null) {
+            this.drawGradientRect(0, 0, this.width, this.height, -2130706433, 16777215);
+            this.drawGradientRect(0, 0, this.width, this.height, 0, Integer.MIN_VALUE);
+        } else {
+            this.drawDefaultBackground();
+        }
 
-        this.drawRect(0, 4, width,55, 0x66000000);
-        this.drawRect(0, 5, width,54, 0x66000000);
+        this.drawRect(0, 4, width,55, 0x33000000);
+        this.drawRect(0, 5, width,54, 0x33000000);
 
         /* Render Client Logo */
         GlStateManager.color(1,1,1,1);
@@ -171,12 +178,14 @@ public class GuiHyperiumScreen extends GuiScreen {
         // drawRect(width - 160, 10, width - 158, 40, new Color(149, 201, 144, 255).getRGB());
 
         /* Fetch player credit count */
-        JsonHolder response = PurchaseApi.getInstance().getSelf().getResponse();
-        int credits = response.optInt("total_credits");
+        if(PurchaseApi.getInstance() != null && PurchaseApi.getInstance().getSelf().getResponse() != null) {
+            JsonHolder response = PurchaseApi.getInstance().getSelf().getResponse();
+            int credits = response.optInt("total_credits");
 
-        /* Render player credits count and username */
-        fr.drawString(Minecraft.getMinecraft().getSession().getUsername(), width - 153, 13, 0xFFFFFF);
-        fr.drawString(I18n.format("menu.profile.credits", credits), width - 153, 25, 0xFFFF00);
+            /* Render player credits count and username */
+            fr.drawString(Minecraft.getMinecraft().getSession().getUsername(), width - 153, 13, 0xFFFFFF);
+            fr.drawString(I18n.format("menu.profile.credits", credits), width - 153, 25, 0xFFFF00);
+        }
 
 
         float val = (float) (Math.sin(swing / 40) * 30);
@@ -431,6 +440,25 @@ public class GuiHyperiumScreen extends GuiScreen {
     public int getIntendedHeight(int value) {
         float intendedHeight = 1080F;
         return (int) ((Minecraft.getMinecraft().displayHeight / intendedHeight) * value);
+    }
+
+    @Override
+    public void drawDefaultBackground()
+    {
+        this.drawWorldBackground(0);
+    }
+
+    @Override
+    public void drawWorldBackground(int tint)
+    {
+        if (this.mc.theWorld != null)
+        {
+            this.drawGradientRect(0, 0, this.width, this.height, -1072689136, -804253680);
+        }
+        else
+        {
+            this.drawBackground(tint);
+        }
     }
 
 }
