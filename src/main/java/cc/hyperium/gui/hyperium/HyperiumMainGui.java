@@ -166,7 +166,7 @@ public class HyperiumMainGui extends HyperiumGui {
         searchField.render(mouseX, mouseY);
         GlStateModifier.INSTANCE.reset();
 
-        title.drawCenteredTextScaled(I18n.format(currentTab.getTitle()), this.width / 2 - 4, yg + (yg / 2 - 8), 0xFFFFFF,1);
+        title.drawCenteredString(I18n.format(currentTab.getTitle()), this.width / 2, yg + (yg / 2 - 8), 0xFFFFFF);
 
         /* Render Body */
         currentTab.setFilter(searchField.getText().isEmpty() ? null : searchField.getText());
