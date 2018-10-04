@@ -17,6 +17,7 @@
 
 package cc.hyperium.mods;
 
+import cc.hyperium.addons.morefps.MoreFPSAddon;
 import cc.hyperium.mods.autofriend.AutofriendMod;
 import cc.hyperium.mods.autogg.AutoGG;
 import cc.hyperium.mods.blockoverlay.BlockOverlay;
@@ -45,6 +46,7 @@ import net.montoyo.mcef.MCEF;
  * ToggleChat
  */
 public class HyperiumModIntegration {
+    
     private final KeystrokesMod keystrokesMod;
     private final TimeChanger timeChanger;
     private final ToggleChatMod toggleChat;
@@ -65,6 +67,7 @@ public class HyperiumModIntegration {
     private final TabToggleMod tabToggle;
     private final ItemPhysicMod itemPhysicMod;
     private final BrowserMod browserMod;
+    private final MoreFPSAddon moreFPSAddon;
 
     public HyperiumModIntegration() {
         // ChromaHud implementation
@@ -109,8 +112,8 @@ public class HyperiumModIntegration {
 
         // Glint Colorizer implementation
         this.glintcolorizer = ((GlintColorizer) new GlintColorizer().init());
-        NickHider nickHider = new NickHider();
-        nickHider.init();
+        
+        new NickHider().init();
 
         //Autofriend implementation
         this.autofriend = ((AutofriendMod) new AutofriendMod().init());
@@ -125,6 +128,8 @@ public class HyperiumModIntegration {
         this.itemPhysicMod = (ItemPhysicMod) new ItemPhysicMod().init();
 
         this.browserMod = (BrowserMod) new BrowserMod().init();
+
+        this.moreFPSAddon = (MoreFPSAddon) new MoreFPSAddon().init();
     }
 
     public KeystrokesMod getKeystrokesMod() {
@@ -205,5 +210,9 @@ public class HyperiumModIntegration {
 
     public BrowserMod getBrowserMod() {
         return browserMod;
+    }
+
+    public MoreFPSAddon getMoreFPSAddon() { 
+        return moreFPSAddon; 
     }
 }
