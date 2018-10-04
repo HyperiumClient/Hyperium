@@ -20,7 +20,18 @@ package cc.hyperium.config;
 import cc.hyperium.GuiStyle;
 import cc.hyperium.Hyperium;
 
-import static cc.hyperium.config.Category.*;
+import static cc.hyperium.config.Category.ANIMATIONS;
+import static cc.hyperium.config.Category.CHROMAHUD;
+import static cc.hyperium.config.Category.COSMETICS;
+import static cc.hyperium.config.Category.GENERAL;
+import static cc.hyperium.config.Category.HYPIXEL;
+import static cc.hyperium.config.Category.IMPROVEMENTS;
+import static cc.hyperium.config.Category.INTEGRATIONS;
+import static cc.hyperium.config.Category.MISC;
+import static cc.hyperium.config.Category.REACH;
+import static cc.hyperium.config.Category.SPOTIFY;
+import static cc.hyperium.config.Category.UTILITIES;
+import static cc.hyperium.config.Category.VANILLA_ENCHANTMENTS;
 
 /*
  * Created by Cubxity on 03/06/2018
@@ -148,7 +159,7 @@ public class Settings {
     public static boolean SPOTIFY_CONTROLS = false;
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;hypixelZooEnabled")
-    @ToggleSetting(name = "\"Welcome to the Hypixel Zoo!\"",category = HYPIXEL)
+    @ToggleSetting(name = "\"Welcome to the Hypixel Zoo!\"", category = HYPIXEL)
     public static boolean HYPIXEL_ZOO = true;
 
     @ConfigOpt
@@ -353,6 +364,16 @@ public class Settings {
     )
     public static String MENU_STYLE = GuiStyle.DEFAULT.name();
 
+
+    @ConfigOpt
+    @SelectorSetting(name = "Pause Menu Style", items =
+            {
+                    "HYPERIUM",
+                    "DEFAULT"
+            }, category = MISC
+    )
+    public static String PAUSE_STYLE = GuiStyle.HYPERIUM.name();
+
     @ConfigOpt
     @ToggleSetting(name = "Spotify Notifications", category = SPOTIFY, mods = true)
     public static boolean SPOTIFY_NOTIFICATIONS = true;
@@ -462,11 +483,11 @@ public class Settings {
 
 
     @ConfigOpt
-    @ToggleSetting(name = "Broadcast Levelups",category = HYPIXEL)
+    @ToggleSetting(name = "Broadcast Levelups", category = HYPIXEL)
     public static boolean BROADCAST_LEVELUPS = true;
 
     @ConfigOpt
-    @ToggleSetting(name = "Broadcast Achievements",category = HYPIXEL)
+    @ToggleSetting(name = "Broadcast Achievements", category = HYPIXEL)
     public static boolean BROADCAST_ACHIEVEMENTS = true;
 
 
@@ -481,7 +502,6 @@ public class Settings {
     @ConfigOpt
     @ToggleSetting(name = "Send guild welcome message", category = INTEGRATIONS)
     public static boolean SEND_GUILD_WELCOME_MESSAGE = true;
-
 
 
     @ConfigOpt
@@ -507,16 +527,8 @@ public class Settings {
     @ConfigOpt
     @ToggleSetting(name = "Show Browser", category = IMPROVEMENTS)
     public static boolean SHOW_BROWSER = false;
-
-    private Settings() {
-    }
-
-    public static void register() {
-        Hyperium.CONFIG.register(INSTANCE);
-    }
     @ConfigOpt
     public static long TOTAL_PLAYTIME = 0;
-
     @ConfigOpt
     @SelectorSetting(name = "Main Menu Server", category = GENERAL, items = {
             "HYPIXEL",
@@ -528,6 +540,12 @@ public class Settings {
     })
     public static String MAIN_MENU_SERVER = "HYPIXEL";
 
+    private Settings() {
+    }
+
+    public static void register() {
+        Hyperium.CONFIG.register(INSTANCE);
+    }
 
     public static void save() {
         Hyperium.CONFIG.save();
