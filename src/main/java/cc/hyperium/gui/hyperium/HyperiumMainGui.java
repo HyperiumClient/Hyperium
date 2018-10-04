@@ -40,6 +40,7 @@ import java.util.function.Supplier;
  * Created by Cubxity on 27/08/2018
  */
 public class HyperiumMainGui extends HyperiumGui {
+
     public static HyperiumMainGui INSTANCE = new HyperiumMainGui();
     private static int tabIndex = 0; // save tab position
     private int initialGuiScale;
