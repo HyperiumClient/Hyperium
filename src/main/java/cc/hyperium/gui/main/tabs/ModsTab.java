@@ -3,7 +3,8 @@ package cc.hyperium.gui.main.tabs;
 import cc.hyperium.Hyperium;
 import cc.hyperium.addons.customcrosshair.CustomCrosshairAddon;
 import cc.hyperium.addons.customcrosshair.gui.GuiCustomCrosshairEditCrosshair;
-import cc.hyperium.addons.morefps.gui.Overlay;
+import cc.hyperium.addons.morefps.gui.MoreFPSOverlay;
+import cc.hyperium.addons.pingdisplay.overlay.PingDisplayOverlay;
 import cc.hyperium.config.Category;
 import cc.hyperium.config.SelectorSetting;
 import cc.hyperium.config.Settings;
@@ -61,8 +62,8 @@ public class ModsTab extends AbstractTab {
     private final HyperiumOverlay fncompass = new HyperiumOverlay("Fornite Compass");
     private final HyperiumOverlay reach = new HyperiumOverlay("Reach Display", false);
     private final HyperiumOverlay itemPhysic = new HyperiumOverlay("Item Physic");
-    private final HyperiumOverlay morefps = new Overlay();
-
+    private final HyperiumOverlay morefps = new MoreFPSOverlay();
+    private final HyperiumOverlay pingdisplay = new PingDisplayOverlay();
 
     private final GlintColorizerSettings glintcolorizer = new GlintColorizerSettings();
 
@@ -103,8 +104,9 @@ public class ModsTab extends AbstractTab {
         items.add(new SettingItem(() -> Minecraft.getMinecraft().displayGuiScreen(new GuiCustomCrosshairEditCrosshair(CustomCrosshairAddon.getCrosshairMod())), Icons.SETTINGS.getResource(), "Custom Crosshair", "Custom Crosshair Settings", "Click to configure", 1, 4));
         items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(utils), Icons.SETTINGS.getResource(), "Utilities", "Togglesprint", "", 2, 3));
         items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(fncompass), Icons.SETTINGS.getResource(), "Fortnite Compass", "Fortnite Compass displays the compass from Fortnite in Minecraft!", "", 2, 3));
-        items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(itemPhysic), Icons.SETTINGS.getResource(), "Item Physic", "Item Physic settings", "", 1, 4));
-        items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(morefps), Icons.SETTINGS.getResource(), "MoreFPS", "FPS Improvements", "", 1, 4));
+        items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(itemPhysic), Icons.SETTINGS.getResource(), "Item Physic", "Item Physic settings", "Click to configure", 1, 4));
+        items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(morefps), Icons.SETTINGS.getResource(), "MoreFPS", "FPS Improvements", "Click to configure", 1, 4));
+        items.add(new SettingItem(() -> HyperiumMainGui.INSTANCE.setOverlay(pingdisplay), Icons.SETTINGS.getResource(), "Ping Display", "Display your ping onscreen", "Click to configure", 1, 4));
 
         int x1 = 0;
         int y1 = 0;
@@ -262,6 +264,8 @@ public class ModsTab extends AbstractTab {
                 return itemPhysic;
             case MOREFPS:
                 return morefps;
+            case PINGDISPLAY:
+                return pingdisplay;
         }
         throw new IllegalArgumentException(settingsCategory + " Cannot be used in mods!");
     }

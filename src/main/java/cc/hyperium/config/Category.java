@@ -26,5 +26,6 @@ public enum Category {
     AUTOFRIEND,
     FNCOMPASS,
     ITEM_PHYSIC,
-    MOREFPS
+    MOREFPS,
+    PINGDISPLAY
 }

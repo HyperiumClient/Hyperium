@@ -1,6 +1,6 @@
 package cc.hyperium.mixins.renderer;
 
-import cc.hyperium.addons.morefps.gui.Overlay;
+import cc.hyperium.addons.morefps.gui.MoreFPSOverlay;
 import net.minecraft.client.renderer.tileentity.TileEntitySignRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntitySign;
@@ -14,7 +14,7 @@ public abstract class MixinTileEntitySignRendererAddon extends TileEntitySpecial
 
     @Inject(method = "renderTileEntityAt", at = {@At("HEAD")}, cancellable = true)
     public void renderTileEntityAt(TileEntitySign te, double x, double y, double z, float partialTicks, int destroyStage, CallbackInfo ci) {
-        if (Overlay.hideSigns) {
+        if (MoreFPSOverlay.hideSigns) {
             ci.cancel();
         }
     }
