@@ -2,6 +2,7 @@ package cc.hyperium.mixins.gui;
 
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.ServerLeaveEvent;
+import cc.hyperium.gui.GuiHyperiumScreenIngameMenu;
 import cc.hyperium.mixinsimp.gui.HyperiumGuiIngameMenu;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiIngameMenu;
@@ -18,12 +19,13 @@ public class MixinGuiIngameMenu extends GuiScreen {
 
     @Inject(method = "initGui", at = @At("RETURN"))
     public void initGui(CallbackInfo ci) {
-        hyperiumGuiIngameMenu.initGui(this.buttonList);
+        //hyperiumGuiIngameMenu.initGui(this.buttonList);
+        mc.displayGuiScreen(new GuiHyperiumScreenIngameMenu());
     }
 
     @Inject(method = "actionPerformed", at = @At("HEAD"))
     public void actionPerformed(GuiButton button, CallbackInfo ci) {
-        hyperiumGuiIngameMenu.actionPerformed(button);
+        //hyperiumGuiIngameMenu.actionPerformed(button);
     }
 
     @Inject(method = "actionPerformed",at=@At(value = "INVOKE",target = "Lnet/minecraft/client/Minecraft;isIntegratedServerRunning()Z"))
@@ -37,7 +39,7 @@ public class MixinGuiIngameMenu extends GuiScreen {
 
     @Inject(method = "drawScreen", at = @At("HEAD"))
     public void draw(int mouseX, int mouseY, float partialTicks, CallbackInfo info) {
-        hyperiumGuiIngameMenu.draw(mouseX, mouseY, partialTicks, fontRendererObj);
+        //hyperiumGuiIngameMenu.draw(mouseX, mouseY, partialTicks, fontRendererObj);
     }
 
 }

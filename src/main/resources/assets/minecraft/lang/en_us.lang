@@ -2687,6 +2687,8 @@ menu.right=Not Affiliated with Mojang AB
 #Hyperium Buttons
 button.menu.changebackground=Change Menu Background
 button.menu.cosmeticshop=Cosmetic Shop
+button.ingame.hyperiumsettings=Hyperium Settings
+button.ingame.hyperiumcredits=Hyperium Credits
 
 #Hyperium Disclaimer
 disclaimer.line1=By continuing, you acknowledge this client is %s
@@ -2719,6 +2721,13 @@ tab.update.installer.state.restarting=Restarting
 tab.update.installer.state.unknown=W: Unknown State
 tab.update.installer.state.manualupdate.api=E: Please update manually, API: %s
 tab.update.installer.state.manualupdate=E: Please update manually
+
+#Hyperium Ingame Menu
+gui.ingamemenu.playercount=Hyperium Player Count:
+gui.ingamemenu.playercount.now=Online Now: %s
+gui.ingamemenu.playercount.lastday=Last Day: %s
+gui.ingamemenu.playercount.lastweek=Last Week: %s
+gui.ingamemenu.playercount.alltime=All Time: %s
 
 #Hyperium Splash Progress
 splash.progress.
