@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin({ TileEntityBannerRenderer.class })
+@Mixin({TileEntityBannerRenderer.class})
 public abstract class MixinTileEntityBannerRendererAddon extends TileEntitySpecialRenderer<TileEntityBanner> {
 
     @Inject(method = "renderTileEntityAt", at = {@At("HEAD")}, cancellable = true)
