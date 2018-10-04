@@ -43,9 +43,9 @@ public class MaterialTextField {
         boolean em = text.isEmpty();
         fr.drawString(em && !focused ? hint : text, x + 2, y + height / 2f - fr.FONT_HEIGHT / 2f, em ? 0xff969696 : 0xffffffff);
         int x = (int) (this.x + 3 + fr.getWidth(text));
-        if (focused && blink >= 20) {
+        if (focused && blink >= 10) {
             Gui.drawRect(x, y + 4, x + 1, y + height - 4, 0xffffffff);
-            if (blink >= 40)
+            if (blink >= 20)
                 blink = -1;
         }
     }
@@ -55,7 +55,7 @@ public class MaterialTextField {
      */
     public void update() {
         blink++;
-        if (blink >= 40)
+        if (blink >= 20)
             blink = -1;
     }
     /**
