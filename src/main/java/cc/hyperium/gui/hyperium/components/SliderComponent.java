@@ -23,14 +23,12 @@ public class SliderComponent extends AbstractTabComponent {
     private float maxVal;
     private boolean isInteger;
     private boolean round;
-
     private double currentValue;
     private SliderComponent sliderComponent;
     private int width;
     private int x;
     private int y;
     private boolean wasDown = false;
-
     public SliderComponent(AbstractTab tab, List<String> tags, String label, Field field, Object parentObj, float minVal, float maxVal, boolean isInteger, boolean round) {
         super(tab, tags);
         tag(label);
@@ -43,6 +41,10 @@ public class SliderComponent extends AbstractTabComponent {
         this.round = round;
         if (!field.isAccessible())
             field.setAccessible(true);
+    }
+
+    public String getLabel() {
+        return label;
     }
 
     private double getDouble() {

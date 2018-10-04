@@ -6,6 +6,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import org.lwjgl.input.Mouse;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -43,12 +44,12 @@ public class CollapsibleTabComponent extends AbstractTabComponent {
         return collapsed;
     }
 
-    public List<AbstractTabComponent> getChildren() {
-        return children;
-    }
-
     public void setCollapsed(boolean collapsed) {
         this.collapsed = collapsed;
+    }
+
+    public List<AbstractTabComponent> getChildren() {
+        return children;
     }
 
     @Override
@@ -169,5 +170,26 @@ public class CollapsibleTabComponent extends AbstractTabComponent {
         if (b)
             tmpf = s;
         return b;
+    }
+
+    public void sortSelf() {
+        children.sort(Comparator.comparing(this::getLabel));
+    }
+
+    private String getLabel(AbstractTabComponent component) {
+        if (component instanceof CollapsibleTabComponent) {
+            return ((CollapsibleTabComponent) component).getLabel();
+        }
+        if (component instanceof SliderComponent) {
+            return ((SliderComponent) component).getLabel();
+        }
+        if (component instanceof LabelComponent)
+            return ((LabelComponent) component).getLabel();
+        if (component instanceof ToggleComponent)
+            return ((ToggleComponent) component).getLabel();
+        if (component instanceof SelectorComponent)
+            return ((SelectorComponent) component).getLabel();
+        System.out.println("Not found: " + component);
+        return "ZZZ";
     }
 }

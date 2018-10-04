@@ -51,4 +51,8 @@ public class LabelComponent extends AbstractTabComponent {
     public void onClick(int x, int y) {
 
     }
+
+    public String getLabel() {
+        return label;
+    }
 }

@@ -30,7 +30,7 @@ public class ToggleComponent extends AbstractTabComponent {
     }
 
     private boolean getStateFromField() {
-        if(field == null) {
+        if (field == null) {
             System.out.println(this.label);
         }
         try {
@@ -64,7 +64,7 @@ public class ToggleComponent extends AbstractTabComponent {
 
         int line1 = 0;
         for (String line : lines) {
-            font.drawString(line.replaceAll("_"," ").toUpperCase(), x + 3, y + 5 + 17 * line1, 0xffffff);
+            font.drawString(line.replaceAll("_", " ").toUpperCase(), x + 3, y + 5 + 17 * line1, 0xffffff);
             line1++;
         }
 
@@ -99,5 +99,9 @@ public class ToggleComponent extends AbstractTabComponent {
         }
 
 
+    }
+
+    public String getLabel() {
+        return label;
     }
 }

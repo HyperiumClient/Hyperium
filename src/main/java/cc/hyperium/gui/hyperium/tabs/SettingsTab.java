@@ -77,6 +77,9 @@ public class SettingsTab extends AbstractTab {
 
         Collection<CollapsibleTabComponent> values = items.values();
         List<CollapsibleTabComponent> c = new ArrayList<>(values);
+        for (CollapsibleTabComponent value : values) {
+            value.sortSelf();
+        }
         c.sort(Comparator.comparing(CollapsibleTabComponent::getLabel));
         components.addAll(c);
     }

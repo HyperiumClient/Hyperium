@@ -121,4 +121,8 @@ public class SelectorComponent extends AbstractTabComponent {
 
 
     }
+
+    public String getLabel() {
+    return label;
+    }
 }
