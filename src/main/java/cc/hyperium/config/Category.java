@@ -3,27 +3,37 @@ package cc.hyperium.config;
 public enum Category {
 
     //Settings Tab
-    GENERAL,
-    IMPROVEMENTS,
-    INTEGRATIONS,
-    COSMETICS,
-    SPOTIFY,
-    ANIMATIONS,
-    MISC,
-    MODS,
+    GENERAL("General"),
+    IMPROVEMENTS("Improvements"),
+    INTEGRATIONS("Integrations"),
+    COSMETICS("Cosmetics"),
+    SPOTIFY("Spotify"),
+    ANIMATIONS("Animations"),
+    MISC("Misc"),
+    MODS("Mods"),
+    HYPIXEL("Hypixel"),
 
     //Mods
-    AUTOTIP,
-    AUTO_GG,
-    AUTO_TPA,
-    UTILITIES,
-    LEVEL_HEAD,
-    REACH,
-    VANILLA_ENCHANTMENTS,
-    CHROMAHUD,
-    KEYSTROKES,
-    MOTION_BLUR,
-    AUTOFRIEND,
-    FNCOMPASS,
-    ITEM_PHYSIC
+    AUTOTIP("Autotip"),
+    AUTO_GG("Auto GG"),
+    AUTO_TPA("Auto TPA"),
+    UTILITIES("Utilities"),
+    LEVEL_HEAD("Levelhead"),
+    REACH("Reach Display"),
+    VANILLA_ENCHANTMENTS("Vanilla Enhancements"),
+    CHROMAHUD("ChromaHUD"),
+    KEYSTROKES("Keystrokes"),
+    MOTION_BLUR("Motion Blur"),
+    AUTOFRIEND("Auto Friend"),
+    FNCOMPASS("Fornite Compass"),
+    ITEM_PHYSIC("Item Physics");
+    private String display;
+
+    Category(String display) {
+        this.display = display;
+    }
+
+    public String getDisplay() {
+        return display;
+    }
 }

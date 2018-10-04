@@ -45,38 +45,6 @@ public class GuiHyperiumCredits extends HyperiumGui {
         this.prevGui = prevGui;
     }
 
-    private static void fetch(int tries) {
-        try {
-            String content = IOUtils.toString(URI.create("https://api.github.com/repos/HyperiumClient/Hyperium/stats/contributors"), Charset.forName("UTF-8"));
-            JsonParser parser = new JsonParser();
-            JsonArray a = parser.parse(content).getAsJsonArray();
-            StreamSupport.stream(a.spliterator(), false).map(JsonElement::getAsJsonObject).filter(o -> o.has("total") & o.get("total").getAsInt() > 20).sorted(Comparator.comparingLong(o -> ((JsonObject) o).get("total").getAsInt()).reversed()).forEach(o -> {
-                JsonObject con = o.get("author").getAsJsonObject();
-                try {
-                    BufferedImage bi = ImageIO.read(new URL(con.get("avatar_url").getAsString() + "&size=200"));
-                    Minecraft.getMinecraft().addScheduledTask(() -> {
-                        DynamicTexture tx = new DynamicTexture(bi);
-                        try {
-                            tx.loadTexture(Minecraft.getMinecraft().getResourceManager());
-                            contributors.put(con.get("login").getAsString(), tx);
-                            commits.put(con.get("login").getAsString(), o.get("total").getAsInt());
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }).get();
-                } catch (IOException | InterruptedException | ExecutionException e) {
-                    e.printStackTrace();
-                }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-            if (tries < 5)
-                fetch(tries + 1);
-            else
-                err = e.getMessage();
-        }
-    }
-
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         drawDefaultBackground();
@@ -119,4 +87,37 @@ public class GuiHyperiumCredits extends HyperiumGui {
             Minecraft.getMinecraft().displayGuiScreen(prevGui);
         super.keyTyped(typedChar, keyCode);
     }
+
+    private static void fetch(int tries) {
+        try {
+            String content = IOUtils.toString(URI.create("https://api.github.com/repos/HyperiumClient/Hyperium/stats/contributors"), Charset.forName("UTF-8"));
+            JsonParser parser = new JsonParser();
+            JsonArray a = parser.parse(content).getAsJsonArray();
+            StreamSupport.stream(a.spliterator(), false).map(JsonElement::getAsJsonObject).filter(o -> o.has("total") & o.get("total").getAsInt() > 20).sorted(Comparator.comparingLong(o -> ((JsonObject) o).get("total").getAsInt()).reversed()).forEach(o -> {
+                JsonObject con = o.get("author").getAsJsonObject();
+                try {
+                    BufferedImage bi = ImageIO.read(new URL(con.get("avatar_url").getAsString() + "&size=20"));
+                    Minecraft.getMinecraft().addScheduledTask(() -> {
+                        DynamicTexture tx = new DynamicTexture(bi);
+                        try {
+                            tx.loadTexture(Minecraft.getMinecraft().getResourceManager());
+                            contributors.put(con.get("login").getAsString(), tx);
+                            commits.put(con.get("login").getAsString(), o.get("total").getAsInt());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }).get();
+                } catch (IOException | InterruptedException | ExecutionException e) {
+                    e.printStackTrace();
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (tries < 5)
+                fetch(tries + 1);
+            else
+                err = e.getMessage();
+        }
+    }
+
 }

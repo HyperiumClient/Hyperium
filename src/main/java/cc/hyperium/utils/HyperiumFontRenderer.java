@@ -17,13 +17,15 @@
 
 package cc.hyperium.utils;
 
+import cc.hyperium.installer.InstallerMain;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.StringUtils;
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.font.effects.ColorEffect;
 
-import java.awt.Font;
+import java.awt.*;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -32,18 +34,59 @@ import java.util.Map;
 public class HyperiumFontRenderer {
 
     public final int FONT_HEIGHT = 9;
-    private final float ANTI_ALIASING_FACTOR = 3.0f;
-    private final UnicodeFont unicodeFont;
     private final int[] colorCodes = new int[32];
     private final float kerning;
     private final Map<String, Float> cachedStringWidth = new HashMap<>();
+    private float antiAliasingFactor;
+    private UnicodeFont unicodeFont;
 
     public HyperiumFontRenderer(String fontName, int fontType, int size) {
         this(fontName, fontType, size, 0);
     }
 
-    public HyperiumFontRenderer(Font font, float kerning) {
-        this.unicodeFont = new UnicodeFont(new Font(font.getName(), font.getStyle(), (int) (font.getSize() * ANTI_ALIASING_FACTOR)));
+    public HyperiumFontRenderer(String fontName, float fontSize, float kerning, float antiAliasingFactor) {
+        this.antiAliasingFactor = antiAliasingFactor;
+        try {
+            this.unicodeFont = new UnicodeFont(getFontByName(fontName).deriveFont(fontSize * this.antiAliasingFactor));
+        } catch (FontFormatException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        this.kerning = kerning;
+
+        this.unicodeFont.addAsciiGlyphs();
+        this.unicodeFont.getEffects().add(new ColorEffect(java.awt.Color.WHITE));
+
+        try {
+            this.unicodeFont.loadGlyphs();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        for (int i = 0; i < 32; i++) {
+            int shadow = (i >> 3 & 1) * 85;
+            int red = (i >> 2 & 1) * 170 + shadow;
+            int green = (i >> 1 & 1) * 170 + shadow;
+            int blue = (i & 1) * 170 + shadow;
+
+            if (i == 6) {
+                red += 85;
+            }
+
+            if (i >= 16) {
+                red /= 4;
+                green /= 4;
+                blue /= 4;
+            }
+
+            this.colorCodes[i] = (red & 255) << 16 | (green & 255) << 8 | blue & 255;
+        }
+    }
+
+    public HyperiumFontRenderer(Font font, float kerning, float antiAliasingFactor) {
+        this.antiAliasingFactor = antiAliasingFactor;
+        this.unicodeFont = new UnicodeFont(new Font(font.getName(), font.getStyle(), (int) (font.getSize() * antiAliasingFactor)));
         this.kerning = kerning;
 
         this.unicodeFont.addAsciiGlyphs();
@@ -76,7 +119,34 @@ public class HyperiumFontRenderer {
     }
 
     public HyperiumFontRenderer(String fontName, int fontType, int size, float kerning) {
-        this(new Font(fontName, fontType, size), kerning);
+        this(new Font(fontName, fontType, size), kerning, 3.0F);
+    }
+
+    private Font getFontByName(String name) throws IOException, FontFormatException {
+        if (name.equalsIgnoreCase("roboto condensed") || name.equalsIgnoreCase("roboto")) {
+            return getFontFromInput("/assets/hyperium/fonts/RobotoCondensed-Regular.ttf");
+        } else if (name.equalsIgnoreCase("montserrat")) {
+            return getFontFromInput("/assets/hyperium/fonts/Montserrat-Regular.ttf");
+        } else if (name.equalsIgnoreCase("segoeui") || name.equalsIgnoreCase("segoeui light")) {
+            return getFontFromInput("/assets/hyperium/fonts/SegoeUI-Light.ttf");
+        } else {
+            // Need to return the default font.
+            return getFontFromInput("/assets/hyperium/fonts/SegoeUI-Light.ttf");
+        }
+    }
+
+    private Font getFontFromInput(String path) throws IOException, FontFormatException {
+        return Font.createFont(Font.TRUETYPE_FONT, InstallerMain.class.getResourceAsStream(path));
+    }
+
+    public void drawStringScaled(String text, int givenX, int givenY, int color, double givenScale) {
+
+        GL11.glPushMatrix();
+        GL11.glTranslated(givenX, givenY, 0);
+        GL11.glScaled(givenScale, givenScale, givenScale);
+        drawString(text, 0, 0, color);
+        GL11.glPopMatrix();
+
     }
 
     public int drawString(String text, float x, float y, int color) {
@@ -89,10 +159,10 @@ public class HyperiumFontRenderer {
         float originalX = x;
 
         GL11.glPushMatrix();
-        GlStateManager.scale(1 / ANTI_ALIASING_FACTOR, 1 / ANTI_ALIASING_FACTOR, 1 / ANTI_ALIASING_FACTOR);
+        GlStateManager.scale(1 / antiAliasingFactor, 1 / antiAliasingFactor, 1 / antiAliasingFactor);
         GL11.glScaled(0.5F, 0.5F, 0.5F);
-        x *= ANTI_ALIASING_FACTOR;
-        y *= ANTI_ALIASING_FACTOR;
+        x *= antiAliasingFactor;
+        y *= antiAliasingFactor;
         float red = (float) (color >> 16 & 255) / 255.0F;
         float green = (float) (color >> 8 & 255) / 255.0F;
         float blue = (float) (color & 255) / 255.0F;
@@ -123,7 +193,7 @@ public class HyperiumFontRenderer {
             if (c != '\247' && (index == 0 || index == characters.length - 1 || characters[index - 1] != '\247')) {
                 //Line causing error
                 unicodeFont.drawString(x, y, Character.toString(c), new org.newdawn.slick.Color(currentColor));
-                x += (getWidth(Character.toString(c)) * 2.0F * ANTI_ALIASING_FACTOR);
+                x += (getWidth(Character.toString(c)) * 2.0F * antiAliasingFactor);
             } else if (c == ' ') {
                 x += unicodeFont.getSpaceWidth();
             } else if (c == '\247' && index != characters.length - 1) {
@@ -157,6 +227,24 @@ public class HyperiumFontRenderer {
         drawString(text, x - (int) getWidth(text) / 2, y, color);
     }
 
+    /**
+     * Draw Centered Text Scaled
+     * @param text - Given Text String
+     * @param givenX - Given X Position
+     * @param givenY - Given Y Position
+     * @param color - Given Color (HEX)
+     * @param givenScale - Given Scale
+     */
+    public void drawCenteredTextScaled(String text, int givenX, int givenY, int color, double givenScale) {
+
+        GL11.glPushMatrix();
+        GL11.glTranslated(givenX, givenY, 0);
+        GL11.glScaled(givenScale, givenScale, givenScale);
+        drawCenteredString(text, 0, 0, color);
+        GL11.glPopMatrix();
+
+    }
+
     public void drawCenteredStringWithShadow(String text, float x, float y, int color) {
         drawCenteredString(StringUtils.stripControlCodes(text), x + 0.5F, y + 0.5F, color);
         drawCenteredString(text, x, y, color);
@@ -172,9 +260,57 @@ public class HyperiumFontRenderer {
                 width += unicodeFont.getWidth(Character.toString(c)) + this.kerning;
             }
 
-            return width / 2.0F / ANTI_ALIASING_FACTOR;
+            return width / 2.0F / antiAliasingFactor;
         });
 
+    }
+
+    public int getStringWidth(String text)
+    {
+        if (text == null)
+        {
+            return 0;
+        }
+        else
+        {
+            int i = 0;
+            boolean flag = false;
+
+            for (int j = 0; j < text.length(); ++j)
+            {
+                char c0 = text.charAt(j);
+                float k = this.getWidth(String.valueOf(c0));
+
+                if (k < 0 && j < text.length() - 1)
+                {
+                    ++j;
+                    c0 = text.charAt(j);
+
+                    if (c0 != 'l' && c0 != 'L')
+                    {
+                        if (c0 == 'r' || c0 == 'R')
+                        {
+                            flag = false;
+                        }
+                    }
+                    else
+                    {
+                        flag = true;
+                    }
+
+                    k = 0;
+                }
+
+                i += k;
+
+                if (flag && k > 0)
+                {
+                    ++i;
+                }
+            }
+
+            return i;
+        }
     }
 
     public float getCharWidth(char c) {
@@ -249,12 +385,11 @@ public class HyperiumFontRenderer {
         for (String word : splitText) {
             String potential = currentString.toString() + " " + word;
 
-            if (getWidth(potential) > wrapWidth) {
+            if (getWidth(potential) >= wrapWidth) {
                 lines.add(currentString.toString());
                 currentString = new StringBuilder();
-            } else {
-                currentString.append(word).append(" ");
             }
+            currentString.append(word).append(" ");
         }
         lines.add(currentString.toString());
         return lines;

@@ -2,18 +2,19 @@ package cc.hyperium.gui.keybinds;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.gui.HyperiumGui;
-import cc.hyperium.gui.main.HyperiumMainGui;
+import cc.hyperium.gui.hyperium.HyperiumMainGui;
 import cc.hyperium.handlers.handlers.keybinds.HyperiumBind;
 import cc.hyperium.utils.HyperiumFontRenderer;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiButton;
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiButton;
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Mouse;
 
 public class GuiKeybinds extends HyperiumGui {
 

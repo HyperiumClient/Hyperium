@@ -60,7 +60,7 @@
 
 [HyperiumSlider](classes/cc.hyperium.gui.HyperiumSlider.md)
 
-[HyperiumMainMenu](classes/cc.hyperium.gui.HyperiumMainMenu.md)
+[HyperiumMainMenu](classes/cc.hyperium.gui.GuiHyperiumScreenMainMenu.md)
 
 [HyperiumGui](classes/cc.hyperium.gui.HyperiumGui.md)
 

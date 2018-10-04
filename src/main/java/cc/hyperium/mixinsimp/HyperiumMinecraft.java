@@ -3,9 +3,22 @@ package cc.hyperium.mixinsimp;
 import cc.hyperium.Hyperium;
 import cc.hyperium.SplashProgress;
 import cc.hyperium.config.Settings;
-import cc.hyperium.event.*;
+import cc.hyperium.event.EventBus;
+import cc.hyperium.event.GuiOpenEvent;
+import cc.hyperium.event.InitializationEvent;
+import cc.hyperium.event.KeypressEvent;
+import cc.hyperium.event.KeyreleaseEvent;
+import cc.hyperium.event.LeftMouseClickEvent;
+import cc.hyperium.event.MouseButtonEvent;
+import cc.hyperium.event.PreInitializationEvent;
+import cc.hyperium.event.RenderPlayerEvent;
+import cc.hyperium.event.RightMouseClickEvent;
+import cc.hyperium.event.SingleplayerJoinEvent;
+import cc.hyperium.event.TickEvent;
+import cc.hyperium.event.WorldChangeEvent;
+import cc.hyperium.event.WorldUnloadEvent;
 import cc.hyperium.gui.CrashReportGUI;
-import cc.hyperium.gui.HyperiumMainMenu;
+import cc.hyperium.gui.GuiHyperiumScreenMainMenu;
 import cc.hyperium.handlers.HyperiumHandlers;
 import cc.hyperium.internal.addons.AddonBootstrap;
 import cc.hyperium.internal.addons.AddonMinecraftBootstrap;
@@ -195,7 +208,7 @@ public class HyperiumMinecraft {
         }
 
         if (guiScreenIn == null && theWorld == null) {
-            guiScreenIn = new HyperiumMainMenu();
+            guiScreenIn = new GuiHyperiumScreenMainMenu();
         } else if (guiScreenIn == null && thePlayer.getHealth() <= 0.0F) {
             guiScreenIn = new GuiGameOver();
         }
@@ -218,7 +231,7 @@ public class HyperiumMinecraft {
             EventBus.INSTANCE.unregister(old);
         }
 
-        if (guiScreenIn instanceof HyperiumMainMenu) {
+        if (guiScreenIn instanceof GuiHyperiumScreenMainMenu) {
             gameSettings.showDebugInfo = false;
             if (!Settings.PERSISTENT_CHAT) {
                 ingameGUI.getChatGUI().clearChatMessages();
@@ -376,7 +389,6 @@ public class HyperiumMinecraft {
                 }
                 break;
         }
-
     }
 
     public void shutdown(CallbackInfo ci) {

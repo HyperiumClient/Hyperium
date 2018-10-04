@@ -1,12 +1,15 @@
 package cc.hyperium.gui.main.components
 
-import cc.hyperium.gui.main.HyperiumMainGui
+import cc.hyperium.utils.HyperiumFontRenderer
 import cc.hyperium.utils.RenderUtils
 import org.lwjgl.input.Mouse
 import java.awt.Color
+import java.awt.Font
 import java.util.function.Consumer
 
 class OverlaySlider @JvmOverloads constructor(label: String, private val minVal: Float, private val maxVal: Float, var value: Float, var update: Consumer<Float>, var round: Boolean, val enabled: Boolean = true) : OverlayLabel(label, enabled, Runnable { }) {
+    private val fr = HyperiumFontRenderer("Arial", Font.PLAIN, 20)
+
     var updated = false;
     override fun handleMouseInput(mouseX: Int, mouseY: Int, overlayX: Int, overlayY: Int, w: Int, h: Int) {
         if (mouseX >= overlayX + w - 105 && mouseX <= overlayX + w - 5 && mouseY >= overlayY && mouseY <= overlayY + h && Mouse.isButtonDown(0)) {
@@ -30,7 +33,7 @@ class OverlaySlider @JvmOverloads constructor(label: String, private val minVal:
             return false
         val left = (overlayX + w - 105).toFloat()
 
-        val fr = HyperiumMainGui.INSTANCE.fr
+        val fr =fr
         var s = value.toString()
         if (round)
             s = Math.round(value).toString()

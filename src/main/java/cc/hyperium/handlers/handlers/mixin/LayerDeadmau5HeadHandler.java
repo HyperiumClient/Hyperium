@@ -9,6 +9,7 @@ import cc.hyperium.purchases.PurchaseApi;
 import cc.hyperium.purchases.packages.EarsCosmetic;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
+import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.util.ResourceLocation;
@@ -50,7 +51,8 @@ public class LayerDeadmau5HeadHandler {
                     return;
                 }
                 k = 7;
-                if (entitylivingbaseIn.getUniqueID() != Minecraft.getMinecraft().thePlayer.getUniqueID()) {
+                EntityPlayerSP thePlayer = Minecraft.getMinecraft().thePlayer;
+                if (thePlayer !=null&&entitylivingbaseIn.getUniqueID() != thePlayer.getUniqueID()) {
                     if (!((EarsCosmetic) purchase).isEnabled()) {
                         k = -5;
                         return;

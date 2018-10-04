@@ -48,10 +48,10 @@ import java.util.function.Consumer;
 
 public abstract class HyperiumGui extends GuiScreen {
 
-    private static ResourceLocation background = new ResourceLocation("textures/material/backgrounds/1.png");
-    private static ResourceLocation bgDynamicTexture = null;
-    private static File customImage = new File(Minecraft.getMinecraft().mcDataDir, "customImage.png");
-    private static boolean customBackground = false;
+    public static ResourceLocation background = new ResourceLocation("textures/material/backgrounds/1.png");
+    public static ResourceLocation bgDynamicTexture = null;
+    public static File customImage = new File(Minecraft.getMinecraft().mcDataDir, "customImage.png");
+    public static boolean customBackground = false;
     private static BufferedImage bgBr = null;
     private final Map<GuiButton, Consumer<GuiButton>> clicks = new HashMap<>();
     private final Map<GuiButton, Consumer<GuiButton>> updates = new HashMap<>();
