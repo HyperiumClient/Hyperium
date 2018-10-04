@@ -74,6 +74,8 @@ public class HyperiumMinecraft {
 
     public void preinit(CallbackInfo ci, List<IResourcePack> defaultResourcePacks,
         DefaultResourcePack mcDefaultResourcePack, List<IResourcePack> resourcePacks) {
+        EventBus.INSTANCE.register(Hyperium.INSTANCE);
+
         defaultResourcePacks.add(mcDefaultResourcePack);
         for (File file : AddonBootstrap.getAddonResourcePacks()) {
             defaultResourcePacks
@@ -100,7 +102,6 @@ public class HyperiumMinecraft {
     }
 
     public void startGame(CallbackInfo info) {
-        EventBus.INSTANCE.register(Hyperium.INSTANCE);
         EventBus.INSTANCE.post(new InitializationEvent());
     }
 

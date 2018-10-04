@@ -1,0 +1,56 @@
+#Hyperium Language File - Created by ScottehBoeh
+
+#Hyperium Disclaimers
+menu.left=Copyright 2018 Hyperium Dev Team
+menu.right=Not Affiliated with Mojang AB
+
+#Hyperium Buttons
+button.menu.changebackground=Change Menu Background
+button.menu.cosmeticshop=Cosmetic Shop
+button.ingame.hyperiumsettings=Hyperium Settings
+button.ingame.hyperiumcredits=Hyperium Credits
+
+#Hyperium Disclaimer
+disclaimer.line1=By continuing, you acknowledge this client is %s
+disclaimer.line1.bold=USE AT YOUR OWN RISK
+disclaimer.line2=The developers of Hyperium are not responsible for any damages or bans
+disclaimer.line3=to your account while using this client
+disclaimer.line4=By continuing you agree to the privacy policy %s
+disclaimer.line4.policylink=(https://hyperium.cc/#privacy)
+disclaimer.line5=Please click the button to confirm that you agree
+
+#Hyperium Menu Strings
+menu.profile.credits=%s Credits
+
+#Hyperium Tabs
+tabs.searchbar=Search...
+tab.news.name=News
+tab.settings.name=Settings
+tab.update.name=Update
+
+#Hyperium Tabs Attributes
+tab.update.noupdates=No updates available
+tab.update.autorestart=Once update is done, Minecraft will automatically restart
+tab.update.changelog=Changelog coming soon
+tab.update.update=Update
+tab.update.updating=Updating...
+tab.update.downloading=Downloading...
+tab.update.installer.state.starting=Starting Installer
+tab.update.installer.state.loading=Loading Installer
+tab.update.installer.state.restarting=Restarting
+tab.update.installer.state.unknown=W: Unknown State
+tab.update.installer.state.manualupdate.api=E: Please update manually, API: %s
+tab.update.installer.state.manualupdate=E: Please update manually
+
+#Hyperium Ingame Menu
+gui.ingamemenu.playercount=Hyperium Player Count:
+gui.ingamemenu.playercount.now=Online Now: %s
+gui.ingamemenu.playercount.lastday=Last Day: %s
+gui.ingamemenu.playercount.lastweek=Last Week: %s
+gui.ingamemenu.playercount.alltime=All Time: %s
+
+#Hyperium Splash Progress
+#splash.progress.
+
+#Hyperium Alerts
+alert.update.message=Hyperium Update! Click here to download.
