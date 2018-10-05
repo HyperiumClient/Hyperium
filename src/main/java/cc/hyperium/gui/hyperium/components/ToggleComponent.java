@@ -1,5 +1,6 @@
 package cc.hyperium.gui.hyperium.components;
 
+import cc.hyperium.gui.HyperiumGui;
 import cc.hyperium.mixinsimp.client.GlStateModifier;
 import cc.hyperium.utils.HyperiumFontRenderer;
 import cc.hyperium.utils.RenderUtils;
@@ -81,11 +82,17 @@ public class ToggleComponent extends AbstractTabComponent {
         float statX = farSide - toggleW - 5;
         GlStateModifier.INSTANCE.reset();
         double animationInc = (System.currentTimeMillis() - lastDeltaTime) / 400f;
-        if (state && animation < 1) {
-            animation = Math.min(animation + animationInc, 1);
-        } else if (!state && animation > 0) {
-            animation = Math.max(animation - animationInc, 0);
-        }
+
+        animation = HyperiumGui.clamp(
+            HyperiumGui.easeOut(
+                (float) this.animation,
+                this.state ? 1.0f : 0.0f,
+                (float) animationInc,
+                5
+            ),
+            0.0f,
+            1.0f
+        );
 
         Color FAR = new Color(76, 175, 80);
         Color CLOSE = new Color(200, 200, 200);
