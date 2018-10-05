@@ -3,6 +3,7 @@ package cc.hyperium.handlers.handlers.stats;
 import cc.hyperium.gui.GuiBlock;
 import cc.hyperium.gui.HyperiumGui;
 import cc.hyperium.gui.Icons;
+import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
 import cc.hyperium.handlers.handlers.quests.PlayerQuestsGui;
 import cc.hyperium.handlers.handlers.stats.display.StatsDisplayItem;
 import cc.hyperium.handlers.handlers.stats.fields.ArcadeStats;
@@ -183,6 +184,11 @@ public class PlayerStatsGui extends HyperiumGui {
         super.drawScreen(mouseX, mouseY, partialTicks);
         ScaledResolution current = ResolutionUtil.current();
         HypixelApiGuild guild = player.getGuild();
+        if(guild == null){
+            GeneralChatHandler.instance().sendMessage("Player not found!");
+            mc.displayGuiScreen(null);
+            return;
+        }
         boolean isInGuild = guild.isLoaded() && guild.isValid();
         drawScaledText(player.getDisplayString() + (isInGuild ? " " + guild.getFormatedTag() : ""), current.getScaledWidth() / 2, 30, 3, Color.WHITE.getRGB(), true, true);
         if (focused == null) {
