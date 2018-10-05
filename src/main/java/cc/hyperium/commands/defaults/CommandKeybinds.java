@@ -18,32 +18,23 @@
 package cc.hyperium.commands.defaults;
 
 
-import cc.hyperium.Hyperium;
 import cc.hyperium.commands.BaseCommand;
-import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
-import org.cef.OS;
+import cc.hyperium.gui.keybinds.GuiKeybinds;
 
-public class CommandBrowse implements BaseCommand {
+public class CommandKeybinds implements BaseCommand {
 
     @Override
     public String getName() {
-        return "browse";
+        return "keybinds";
     }
 
     @Override
     public String getUsage() {
-        return "/browse <url>";
+        return "/keybinds";
     }
 
     @Override
     public void onExecute(String[] args) {
-        if (OS.isMacintosh())
-            if (args.length == 1) {
-                Hyperium.INSTANCE.getModIntegration().getBrowserMod().browserGui.loadURL(args[0]);
-                Hyperium.INSTANCE.getModIntegration().getBrowserMod().showBrowser();
-            } else {
-                GeneralChatHandler.instance().sendMessage(getUsage());
-            }
-        else GeneralChatHandler.instance().sendMessage("Not available yet!");
+        new GuiKeybinds().show();
     }
 }

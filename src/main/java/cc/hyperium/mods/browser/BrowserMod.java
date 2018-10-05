@@ -13,10 +13,6 @@ import cc.hyperium.mods.AbstractMod;
 import cc.hyperium.mods.browser.gui.GuiBrowser;
 import cc.hyperium.mods.browser.gui.GuiConfig;
 import cc.hyperium.mods.browser.keybinds.BrowserBind;
-import java.util.ArrayDeque;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Queue;
 import net.minecraft.client.Minecraft;
 import net.montoyo.mcef.MCEF;
 import net.montoyo.mcef.api.API;
@@ -28,6 +24,11 @@ import net.montoyo.mcef.api.MCEFApi;
 import org.apache.commons.lang3.tuple.ImmutableTriple;
 import org.apache.commons.lang3.tuple.Triple;
 import org.lwjgl.input.Keyboard;
+
+import java.util.ArrayDeque;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Queue;
 
 /**
  * @author Koding
@@ -237,7 +238,7 @@ public class BrowserMod extends AbstractMod implements IDisplayHandler, IJSQuery
         }
     }
 
-    GuiBrowser browserGui;
+    public GuiBrowser browserGui;
 
     @InvokeEvent
     private void onRenderHud(RenderHUDEvent e) {
