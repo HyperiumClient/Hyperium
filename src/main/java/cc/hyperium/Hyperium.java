@@ -55,7 +55,9 @@ import cc.hyperium.utils.StaffUtils;
 import cc.hyperium.utils.UpdateUtils;
 import cc.hyperium.utils.mods.CompactChat;
 import cc.hyperium.utils.mods.FPSLimiter;
+import java.lang.reflect.Field;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.settings.GameSettings;
 import net.minecraft.crash.CrashReport;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -238,7 +240,7 @@ public class Hyperium {
 
             if (acceptedTos) {
                 sk1erMod = new Sk1erMod("hyperium", Metadata.getVersion(), object -> {
-                    //Callback
+                    //Callbackd
                     if (object.has("enabled") && !object.optBoolean("enabled")) {
                         //Disable stuff
                         // EventBus.INSTANCE.disable(); dont think this is needed?
