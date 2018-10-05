@@ -203,7 +203,7 @@ public class GuiHyperiumScreenTos extends GuiHyperiumScreen {
         this.drawRect(0, 79, width,148, 0x66000000);
         this.drawRect(0, 80, width,149, 0x66000000);
 
-        drawCenteredString(this.fontRendererObj, "Disclaimer",width / 2,63,0xFFFFFF);
+//        drawCenteredString(this.fontRendererObj, "Disclaimer",width / 2,63,0xFFFFFF);
 
         drawCenteredString(this.fontRendererObj, I18n.format("disclaimer.line1",ChatFormatting.BOLD + I18n.format("disclaimer.line1.bold") + ChatFormatting.RESET), width / 2, 90, Color.WHITE.getRGB());
         drawCenteredString(this.fontRendererObj, I18n.format("disclaimer.line2"), width / 2, 100, Color.WHITE.getRGB());
