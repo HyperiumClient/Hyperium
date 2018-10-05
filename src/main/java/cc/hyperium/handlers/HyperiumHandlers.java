@@ -41,7 +41,6 @@ import cc.hyperium.handlers.handlers.animation.TPoseHandler;
 import cc.hyperium.handlers.handlers.animation.TwerkDance;
 import cc.hyperium.handlers.handlers.animation.cape.CapeHandler;
 import cc.hyperium.handlers.handlers.animation.fortnite.FortniteDefaultDance;
-import cc.hyperium.handlers.handlers.browser.BrowserHandler;
 import cc.hyperium.handlers.handlers.chat.AutoWhoChatHandler;
 import cc.hyperium.handlers.handlers.chat.FriendRequestChatHandler;
 import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
@@ -141,9 +140,6 @@ public class HyperiumHandlers {
         register(fortniteDefaultDance = new FortniteDefaultDance());
         register(statsHandler = new StatsHandler());
         register(broadcastEvents = new BroadcastEvents());
-        if (Hyperium.INSTANCE.isDevEnv()) {
-            register(BrowserHandler.INSTNACE);
-        }
         commandQueue = new CommandQueue();
         dataHandler = new HypixelAPI();
         //Chat Handlers
