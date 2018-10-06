@@ -2,8 +2,6 @@ package cc.hyperium.handlers.handlers.animation;
 
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.PostCopyPlayerModelAnglesEvent;
-import cc.hyperium.event.PreCopyPlayerModelAnglesEvent;
-import cc.hyperium.event.Priority;
 import cc.hyperium.event.WorldChangeEvent;
 import cc.hyperium.mixinsimp.renderer.model.IMixinModelBiped;
 import cc.hyperium.mixinsimp.renderer.model.IMixinModelPlayer;
@@ -133,16 +131,6 @@ public abstract class AnimatedDance extends AbstractPreCopyAnglesAnimationHandle
     }
 
 
-    //Hide these. If they are needed in this render then animation system will make them visible.
-    @InvokeEvent(priority = Priority.HIGH)
-    public void preCopyAngles(PreCopyPlayerModelAnglesEvent event) {
-        event.getModel().getLeftLowerLeg_adj().showModel = false;
-        event.getModel().getRightLowerLeg_adj().showModel = false;
-        if (event.getModel() instanceof IMixinModelPlayer) {
-            ((IMixinModelPlayer) event.getModel()).getBipedLeftLowerLeg_adjLegwear().showModel = false;
-            ((IMixinModelPlayer) event.getModel()).getBipedRightLowerLeg_adjLegwear().showModel = false;
-        }
-    }
 
     @InvokeEvent
     public void worldSwap(WorldChangeEvent event) {
@@ -249,21 +237,6 @@ public abstract class AnimatedDance extends AbstractPreCopyAnglesAnimationHandle
         adjust(player.getBipedBody(), prev.getChest().calc(percent, next.getChest()));
         adjust(player.getBipedBodywear(), prev.getChest().calc(percent, next.getChest()));
 
-//        adjust(player.getLeftLowerLeg_adj(), prev.getLeftLowerLeg_adj().calc(percent, next.getLeftLowerLeg_adj()));
-//        adjust(player.getBipedLeftLowerLeg_adjLegwear(), prev.getLeftLowerLeg_adj().calc(percent, next.getLeftLowerLeg_adj()));
-//
-//        adjust(player.getRightLowerLeg_adj(), prev.getRightLowerLeg_adj().calc(percent, next.getRightLowerLeg_adj()));
-//        adjust(player.getBipedRightLowerLeg_adjLegwear(), prev.getRightLowerLeg_adj().calc(percent, next.getRightLowerLeg_adj()));
-//
-//
-//
-//
-//        adjust(player.getRightForearm_adj(), prev.getRightLowerArm_adj().calc(percent, next.getRightLowerArm_adj()));
-//        adjust(player.getBipedRightForeArm_adjArmwear(), prev.getRightLowerArm_adj().calc(percent, next.getRightLowerArm_adj()));
-//
-//        adjust(player.getLeftForearm_adj(), prev.getLeftLowerArm_adj().calc(percent, next.getLeftLowerArm_adj()));
-//        adjust(player.getBipedLeftForeArm_adjArmwear(), prev.getLeftLowerArm_adj().calc(percent, next.getLeftLowerArm_adj()));
-
         adjust(player.getButt(), prev.getButt().calc(percent, next.getButt()));
 
 
@@ -367,16 +340,6 @@ public abstract class AnimatedDance extends AbstractPreCopyAnglesAnimationHandle
 
         //Chest
         adjust(player.getBipedBody(), prev.getChest().calc(percent, next.getChest()));
-//
-//        adjust(player.getLeftLowerLeg_adj(), prev.getLeftLowerLeg_adj().calc(percent, next.getLeftLowerLeg_adj()));
-//
-//        adjust(player.getRightLowerLeg_adj(), prev.getRightLowerLeg_adj().calc(percent, next.getRightLowerLeg_adj()));
-//
-//
-//
-//        adjust(player.getRightForearm_adj(), prev.getRightLowerArm_adj().calc(percent, next.getRightLowerArm_adj()));
-//
-//        adjust(player.getLeftForearm_adj(), prev.getLeftLowerArm_adj().calc(percent, next.getLeftLowerArm_adj()));
 
     }
 }
