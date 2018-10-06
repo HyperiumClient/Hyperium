@@ -37,6 +37,10 @@ public class MouseButton extends IKey {
         this.button = button;
     }
 
+    public int getButton() {
+        return button;
+    }
+
     @Override
     public void renderKey(int x, int y) {
         Mouse.poll();
