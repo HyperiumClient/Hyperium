@@ -57,13 +57,6 @@ public class ClientProxy extends BaseProxy {
 
     @Override
     public void onInit() {
-        if (MCEF.DISABLE_GPU_RENDERING) {
-            Log.info("GPU rendering is disabled because the new launcher sucks.");
-            appHandler = new AppHandler(new String[]{"--disable-gpu"});
-        } else {
-            appHandler = new AppHandler(new String[0]);
-        }
-
 //        ROOT = mc.mcDataDir.getAbsolutePath() + File.separator + "MCEF";
         ROOT = Hyperium.folder.getAbsolutePath() + File.separator + "libs";
 
@@ -71,6 +64,31 @@ public class ClientProxy extends BaseProxy {
         if (!rootDir.exists()) {
             rootDir.mkdirs();
         }
+
+        File cefDir = new File(rootDir, "jcef.app" + File.separator + "Contents" + File.separator + "Frameworks" + File.separator + "Chromium Embedded Framework.framework");
+        List<String> args = new ArrayList<>();
+
+        if (MCEF.DISABLE_GPU_RENDERING) {
+            Log.info("GPU rendering is disabled because the new launcher sucks.");
+            args.add("--disable-gpu");
+        }
+
+        if (OS.isMacintosh()) {
+            args.add("--framework-dir-path=" + cefDir.getAbsolutePath());
+            args.add("--resources-dir-path=" + new File(cefDir, "Resources").getAbsolutePath());
+            args.add("--browser-subprocess-path=" + new File(rootDir, "jcef.app" + File.separator + "Contents" + File.separator + "Frameworks" + File.separator + "jcef Helper.app" + File.separator + "Contents" + File.separator + "MacOS" + File.separator + "jcef Helper"));
+            args.add("--use-mock-keychain");
+            args.add("--disable-mac-overlays");
+            args.add("--disable-mac-views-native-app-windows");
+        }
+
+        if (OS.isWindows()) {
+            args.add("--browser-subprocess-path=" + new File(rootDir, "jcef_helper.exe"));
+        }
+
+        System.out.println("Starting AppHandler with arguments: " + String.join(", ", args.toArray(new String[0])));
+
+        appHandler = new AppHandler(args.toArray(new String[0]));
 
         File fileListing = new File(new File(ROOT), "config");
         if (!fileListing.exists()) {
@@ -82,8 +100,6 @@ public class ClientProxy extends BaseProxy {
 
         cfg.load();
         File[] resourceArray = cfg.getResourceArray();
-
-
 
         if (!cfg.downloadMissing(ipl)) {
             Log.warning("Going in virtual mode; couldn't download resources.");
@@ -157,8 +173,8 @@ public class ClientProxy extends BaseProxy {
         settings.background_color = settings.new ColorType(0, 255, 255, 255);
         settings.locales_dir_path = (new File(ROOT, "MCEFLocales")).getAbsolutePath();
         settings.cache_path = (new File(ROOT, "MCEFCache")).getAbsolutePath();
-        settings.browser_subprocess_path = (new File(ROOT, "jcef_helper" + exeSuffix))
-                .getAbsolutePath(); //Temporary fix
+//        settings.browser_subprocess_path = (new File(ROOT, OS.isWindows() ? "jcef_helper.exe" : "jcef.app" + File.separator + "Contents" + File.separator + "Frameworks" + File.separator + "jcef Helper.app"))
+//                .getAbsolutePath(); //Temporary fix
         //settings.log_severity = CefSettings.LogSeverity.LOGSEVERITY_VERBOSE;
 
         try {
@@ -169,7 +185,7 @@ public class ClientProxy extends BaseProxy {
                 libs.add("chrome_elf");
                 libs.add("libcef");
             } else {
-                libs.add("cef");
+//                libs.add("cef");
             }
             libs.add("jcef");
 
