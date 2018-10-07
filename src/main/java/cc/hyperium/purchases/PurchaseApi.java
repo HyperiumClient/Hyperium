@@ -207,16 +207,10 @@ public class PurchaseApi {
     }
 
     public void reload(UUID uuid) {
-        if (uuid.equals(UUIDUtil.getClientUUID())) {
-            refreshSelf();
-            Hyperium.INSTANCE.getHandlers().getCapeHandler().deleteCape(uuid);
-        }
-        System.out.println("reloading " + uuid);
-        purchasePlayers.remove(uuid);
-        getPackageSync(uuid);
+        HyperiumPurchase value = new HyperiumPurchase(uuid, get(url + uuid.toString()));
+        EventBus.INSTANCE.post(new PurchaseLoadEvent(uuid, value, true));
+        purchasePlayers.put(uuid, value);
         Hyperium.INSTANCE.getHandlers().getCapeHandler().deleteCape(uuid);
-
-
     }
 
 

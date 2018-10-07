@@ -59,7 +59,6 @@ import cc.hyperium.gui.NotificationCenter;
 import cc.hyperium.handlers.HyperiumHandlers;
 import cc.hyperium.handlers.handlers.purchase.ChargebackStopper;
 import cc.hyperium.handlers.handlers.stats.PlayerStatsGui;
-import cc.hyperium.integrations.spotify.Spotify;
 import cc.hyperium.mixinsimp.client.resources.HyperiumLocale;
 import cc.hyperium.mixinsimp.renderer.FontFixValues;
 import cc.hyperium.mods.HyperiumModIntegration;
@@ -266,7 +265,7 @@ public class Hyperium {
 
             });
 
-            Multithreading.runAsync(Spotify::load);
+            //Multithreading.runAsync(Spotify::load);
 
             Runtime.getRuntime().addShutdownHook(new Thread(this::shutdown));
 

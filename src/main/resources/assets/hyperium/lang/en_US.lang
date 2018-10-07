@@ -84,6 +84,30 @@ gui.purchase.notpurchased=Not Purchased
 gui.purchase.clicktouse=Click to use
 gui.purchase.state=State
 
+#Hyperium Cosmetics Gui
+gui.cosmetics.purchase=Purchase cosmetics
+gui.cosmetics.refresh=Refresh purchases
+gui.cosmetics.credits=Credits
+gui.cosmetics.totalcredits=Total Credits: %s
+gui.cosmetics.remainingcredits=Remaining Credits: %s
+gui.cosmetics.purchased=Purchased Packages
+
+#Hyperium Shop Gui
+gui.shop.capes=View Capes
+gui.shop.browser=Open in browser
+gui.shop.purchasecredits=Purchase Credits
+gui.shop.refresh=Refresh
+gui.shop.credits=Credits
+gui.shop.cosmetics=Cosmetics
+gui.shop.description=Description: %s
+gui.shop.cost=Cost: %s
+gui.shop.status=Status:
+gui.shop.purchased=Purchased
+gui.shop.purchase=Purchase
+gui.shop.insufficientcredits=Insufficient Credits!
+gui.shop.loading.cosmetics=Loading cosmetics...
+gui.shop.loading.person=Loading person data...
+
 #Hyperium Auto Optimizer Text
 gui.optimizer.font.line1=If you can read this text please press yes.
 gui.optimizer.font.line2=Otherwise just wait.

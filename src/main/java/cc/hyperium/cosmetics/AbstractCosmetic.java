@@ -1,6 +1,7 @@
 package cc.hyperium.cosmetics;
 
 import cc.hyperium.event.InvokeEvent;
+import cc.hyperium.event.PurchaseLoadEvent;
 import cc.hyperium.event.WorldChangeEvent;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.purchases.EnumPurchaseType;
@@ -43,13 +44,18 @@ public abstract class AbstractCosmetic {
     @InvokeEvent
     public void worldSwitch(WorldChangeEvent changeEvent) {
         UUID id = UUIDUtil.getClientUUID();
-        if(id == null){
+        if (id == null) {
             return;
         }
         Boolean aBoolean = purchasedBy.get(id);
         purchasedBy.clear();
         if (aBoolean != null)
             purchasedBy.put(id, aBoolean);
+    }
+
+    @InvokeEvent
+    public void purchaseLoadEvent(PurchaseLoadEvent event) {
+        purchasedBy.put(event.getUuid(), event.getPurchase().hasPurchased(purchaseType));
     }
 
     public boolean isPurchasedBy(UUID uuid) {

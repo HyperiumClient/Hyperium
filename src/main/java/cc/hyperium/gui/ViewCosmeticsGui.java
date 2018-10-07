@@ -7,6 +7,7 @@ import cc.hyperium.utils.JsonHolder;
 import com.google.gson.JsonElement;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.resources.I18n;
 
 import java.awt.Color;
 import java.text.DecimalFormat;
@@ -18,10 +19,10 @@ public class ViewCosmeticsGui extends HyperiumGui {
 
     @Override
     protected void pack() {
-        reg("VISIT", new GuiButton(nextId(), width / 2 - 100, 5, "Purchase cosmetics"), guiButton -> new ShopGui().show(), guiButton -> {
+        reg("VISIT", new GuiButton(nextId(), width / 2 - 100, 5, I18n.format("gui.cosmetics.purchase")), guiButton -> new ShopGui().show(), guiButton -> {
 
         });
-        reg("REFRESH", new GuiButton(nextId(), width / 2 - 100, 30, "Refresh purchases"), guiButton -> {
+        reg("REFRESH", new GuiButton(nextId(), width / 2 - 100, 30, I18n.format("gui.cosmetics.refresh")), guiButton -> {
             cooldownTicks = 0;
             Multithreading.runAsync(() -> PurchaseApi.getInstance().refreshSelf());
         }, guiButton -> {
@@ -42,18 +43,19 @@ public class ViewCosmeticsGui extends HyperiumGui {
         JsonHolder response = PurchaseApi.getInstance().getSelf().getResponse();
 
         GlStateManager.scale(2.0F, 2.0F, 2.0F);
-        String credits = "Credits";
+        String credits = I18n.format("gui.cosmetics.credits");
         fontRendererObj.drawString(credits, (width / 2 - fontRendererObj.getStringWidth(credits)) / 2, 65 / 2, Color.RED.getRGB(), true);
 
         GlStateManager.scale(.5F, .5F, .5F);
 
-        String total_credits = "Total credits: " + formatter.format(response.optInt("total_credits"));
+        String total_credits = I18n.format("gui.cosmetics.totalcredits", formatter.format(response.optInt("total_credits")));
         fontRendererObj.drawString(total_credits, width / 2 - fontRendererObj.getStringWidth(total_credits) / 2, 85, Color.RED.getRGB(), true);
-        String rem_credits = "Remaining credits: " + formatter.format(response.optInt("remaining_credits"));
+        String rem_credits = I18n.format("gui.cosmetics.remainingcredits", formatter.format(response.optInt("remaining_credits")));
         fontRendererObj.drawString(rem_credits, width / 2 - fontRendererObj.getStringWidth(rem_credits) / 2, 95, Color.RED.getRGB(), true);
 
         GlStateManager.scale(2.0F, 2.0F, 2.0F);
-        fontRendererObj.drawString("Purchased Packages", (width / 2 - fontRendererObj.getStringWidth("Purchased Packages")) / 2, 115 / 2, Color.RED.getRGB(), true);
+        String purchased = I18n.format("gui.cosmetics.purchased");
+        fontRendererObj.drawString(purchased, (width / 2 - fontRendererObj.getStringWidth(purchased)) / 2, 115 / 2, Color.RED.getRGB(), true);
         GlStateManager.scale(.5F, .5F, .5F);
 
         int i = 0;
