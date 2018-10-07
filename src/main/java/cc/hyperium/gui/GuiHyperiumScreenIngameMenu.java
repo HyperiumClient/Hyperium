@@ -68,7 +68,7 @@ public class GuiHyperiumScreenIngameMenu extends GuiHyperiumScreen {
         MinecraftServer integratedServer = Minecraft.getMinecraft().getIntegratedServer();
         if (theWorld != null && (integratedServer == null)) {
             GuiButton oldButton = buttonList.remove(3);
-            GuiButton newButton = new GuiButton(10, oldButton.xPosition, oldButton.yPosition, oldButton.getButtonWidth(), 20, "Server List");
+            GuiButton newButton = new GuiButton(10, oldButton.xPosition, oldButton.yPosition, oldButton.getButtonWidth(), 20, I18n.format("button.ingame.serverlist"));
             buttonList.add(newButton);
         }
 
@@ -136,7 +136,6 @@ public class GuiHyperiumScreenIngameMenu extends GuiHyperiumScreen {
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 
         super.drawScreen(mouseX,mouseY,partialTicks);
-
         GlStateManager.pushMatrix();
 
         GlStateManager.translate(0,height - 50,0);

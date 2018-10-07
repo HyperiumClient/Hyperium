@@ -1,7 +1,9 @@
 package cc.hyperium.utils;
 
+import cc.hyperium.Hyperium;
 import cc.hyperium.Metadata;
 import com.google.common.base.Charsets;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.client.HttpClient;
@@ -15,21 +17,10 @@ import java.io.IOException;
  */
 
 public class UpdateUtils {
+    private static final HttpClient client = HttpClients.createDefault();
     public static UpdateUtils INSTANCE = new UpdateUtils();
     public cc.hyperium.installer.utils.JsonHolder vJson;
-    private static final HttpClient client = HttpClients.createDefault();
     private VersionAPIUtils apiUtils = new VersionAPIUtils();
-
-    public boolean isAbsoluteLatest() {
-        JsonObject json = apiUtils.getJson();
-        int version = apiUtils.getVersion(json);
-
-        if(version > Metadata.getVersionID()){
-            return false;
-        } else{
-            return true;
-        }
-    }
 
     public static cc.hyperium.installer.utils.JsonHolder get(String url) {
         try {
@@ -44,4 +35,28 @@ public class UpdateUtils {
         return IOUtils.toString(client.execute(new HttpGet(url)).getEntity().getContent(), Charsets.UTF_8);
     }
 
+    public boolean isAbsoluteLatest() {
+        JsonObject json = apiUtils.getJson();
+        int version = apiUtils.getVersion(json);
+
+        if (version > Metadata.getVersionID()) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public boolean isBeta() {
+        for (JsonElement element : apiUtils.getJson().get("versions").getAsJsonArray()) {
+            JsonHolder holder = new JsonHolder(element.getAsJsonObject());
+            if (holder.optInt("id") == Metadata.getVersionID()) {
+                return holder.optBoolean("beta");
+            }
+        }
+        return false;
+    }
+
+    public int getLatestProperVersion() {
+        return apiUtils.getJson().get(Hyperium.IS_BETA ? "latest_beta" : "latest").getAsJsonObject().get("id").getAsInt();
+    }
 }

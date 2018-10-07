@@ -19,11 +19,38 @@ package cc.hyperium;
 
 import cc.hyperium.addons.InternalAddons;
 import cc.hyperium.commands.HyperiumCommandHandler;
-import cc.hyperium.commands.defaults.*;
+import cc.hyperium.commands.defaults.CommandBrowse;
+import cc.hyperium.commands.defaults.CommandClearChat;
+import cc.hyperium.commands.defaults.CommandConfigGui;
+import cc.hyperium.commands.defaults.CommandCoords;
+import cc.hyperium.commands.defaults.CommandDebug;
+import cc.hyperium.commands.defaults.CommandDisableCommand;
+import cc.hyperium.commands.defaults.CommandGarbageCollect;
+import cc.hyperium.commands.defaults.CommandGuild;
+import cc.hyperium.commands.defaults.CommandKeybinds;
+import cc.hyperium.commands.defaults.CommandLogs;
+import cc.hyperium.commands.defaults.CommandMessage;
+import cc.hyperium.commands.defaults.CommandNameHistory;
+import cc.hyperium.commands.defaults.CommandParticleAuras;
+import cc.hyperium.commands.defaults.CommandParty;
+import cc.hyperium.commands.defaults.CommandPing;
+import cc.hyperium.commands.defaults.CommandPlayGame;
+import cc.hyperium.commands.defaults.CommandQuests;
+import cc.hyperium.commands.defaults.CommandResize;
+import cc.hyperium.commands.defaults.CommandStatistics;
+import cc.hyperium.commands.defaults.CommandStats;
+import cc.hyperium.commands.defaults.CommandUpdate;
+import cc.hyperium.commands.defaults.CustomLevelheadCommand;
+import cc.hyperium.commands.defaults.DevTestCommand;
 import cc.hyperium.config.DefaultConfig;
 import cc.hyperium.config.Settings;
 import cc.hyperium.cosmetics.HyperiumCosmetics;
-import cc.hyperium.event.*;
+import cc.hyperium.event.EventBus;
+import cc.hyperium.event.GameShutDownEvent;
+import cc.hyperium.event.InitializationEvent;
+import cc.hyperium.event.InvokeEvent;
+import cc.hyperium.event.PreInitializationEvent;
+import cc.hyperium.event.Priority;
 import cc.hyperium.event.minigames.MinigameListener;
 import cc.hyperium.gui.BlurDisableFallback;
 import cc.hyperium.gui.ColourOptions;
@@ -60,7 +87,14 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.Display;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.lang.management.ManagementFactory;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -88,7 +122,8 @@ public class Hyperium {
      */
 
     public static final DefaultConfig CONFIG = new DefaultConfig(new File(folder, "CONFIG.json"));
-    public static String BUILD_ID = "RELEASE " + Metadata.getVersionID();
+    public static int BUILD_ID = -1;
+    public static boolean IS_BETA;
     private static boolean updateQueue = false;
     private final GeneralStatisticsTracking statTrack = new GeneralStatisticsTracking();
     private final RichPresenceManager richPresenceManager = new RichPresenceManager();
@@ -120,6 +155,7 @@ public class Hyperium {
         EventBus.INSTANCE.register(new AutoGG());
 
         HyperiumLocale.registerHyperiumLang("en_US");
+        HyperiumLocale.registerHyperiumLang("ja_JP");
     }
 
 
@@ -133,7 +169,7 @@ public class Hyperium {
             try {
                 if (resourceAsStream != null) {
                     BufferedReader br = new BufferedReader(new InputStreamReader(resourceAsStream));
-                    BUILD_ID = br.readLine();
+                    BUILD_ID = Integer.valueOf(br.readLine());
                     br.close();
                 }
             } catch (Exception e) {
@@ -267,30 +303,31 @@ public class Hyperium {
                 UniversalNetty.getInstance().getPacketManager().register(new LoginReplyHandler());
             });
             Multithreading.runAsync(() -> {
-                        EventBus.INSTANCE.register(FontFixValues.INSTANCE);
-                        if (Settings.PERSISTENT_CHAT) {
-                            File file = new File(folder, "chat.txt");
+                EventBus.INSTANCE.register(FontFixValues.INSTANCE);
+                if (Settings.PERSISTENT_CHAT) {
+                    File file = new File(folder, "chat.txt");
 
-                            if (file.exists()) {
-                                try {
-                                    FileReader fr = new FileReader(file);
-                                    BufferedReader bufferedReader = new BufferedReader(fr);
-                                    String line;
-                                    while ((line = bufferedReader.readLine()) != null) {
-                                        Minecraft.getMinecraft().ingameGUI.getChatGUI().addToSentMessages(line);
-                                    }
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
+                    if (file.exists()) {
+                        try {
+                            FileReader fr = new FileReader(file);
+                            BufferedReader bufferedReader = new BufferedReader(fr);
+                            String line;
+                            while ((line = bufferedReader.readLine()) != null) {
+                                Minecraft.getMinecraft().ingameGUI.getChatGUI().addToSentMessages(line);
                             }
-                        } else {
-                            System.out.println("Not restoring chat");
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
-                    });
+                    }
+                } else {
+                    System.out.println("Not restoring chat");
+                }
+            });
 
-                    Multithreading.runAsync(() -> {
-                        isLatestVersion = UpdateUtils.INSTANCE.isAbsoluteLatest();
-                    });
+            Multithreading.runAsync(() -> {
+                isLatestVersion = UpdateUtils.INSTANCE.isAbsoluteLatest();
+                IS_BETA = UpdateUtils.INSTANCE.isBeta();
+            });
             // Check if Optifine is installed.
             try {
                 Class.forName("optifine.OptiFineTweaker");
@@ -302,12 +339,12 @@ public class Hyperium {
         } catch (Throwable t) {
             Minecraft.getMinecraft().crashed(new CrashReport("Hyperium Startup Failure", t));
         }
-        }
+    }
 
-        /**
-         * register the commands
-         */
-        private void registerCommands () {
+    /**
+     * register the commands
+     */
+    private void registerCommands() {
         HyperiumCommandHandler hyperiumCommandHandler = getHandlers().getHyperiumCommandHandler();
         hyperiumCommandHandler.registerCommand(new CommandConfigGui());
         hyperiumCommandHandler.registerCommand(new CustomLevelheadCommand());
@@ -333,73 +370,73 @@ public class Hyperium {
         hyperiumCommandHandler.registerCommand(new CommandGuild());
         hyperiumCommandHandler.registerCommand(new CommandStatistics());
         hyperiumCommandHandler.registerCommand(new CommandKeybinds());
-        }
+    }
 
 
-        /**
-         * called when Hyperium shuts down
-         */
-        private void shutdown () {
-            CONFIG.save();
-            richPresenceManager.shutdown();
-            if (Settings.PERSISTENT_CHAT) {
-                File file = new File(folder, "chat.txt");
-                try {
-                    file.createNewFile();
-                    FileWriter fileWriter = new FileWriter(file);
-                    BufferedWriter bw = new BufferedWriter(fileWriter);
-                    for (String s : Minecraft.getMinecraft().ingameGUI.getChatGUI().getSentMessages()) {
-                        bw.write(s + "\n");
-                    }
-                    bw.close();
-                    fileWriter.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            // Tell the modules the game is shutting down
-            EventBus.INSTANCE.post(new GameShutDownEvent());
-
-            LOGGER.info("Shutting down Hyperium..");
-
-            if (updateQueue) {
-            LaunchUtil.launch();
-            }
-        }
-
-        public GeneralStatisticsTracking getStatTrack () {
-            return this.statTrack;
-        }
-
-        public HyperiumHandlers getHandlers () {
-            return handlers;
-        }
-
-        public HyperiumModIntegration getModIntegration () {
-            return modIntegration;
-        }
-
-        public NotificationCenter getNotification () {
-            return notification;
-        }
-
-        public boolean isAcceptedTos () {
-            return acceptedTos;
-        }
-
-        public void acceptTos () {
-            acceptedTos = true;
-            if (sk1erMod == null) {
-                sk1erMod = new Sk1erMod("hyperium", Metadata.getVersion());
-                sk1erMod.checkStatus();
-            }
+    /**
+     * called when Hyperium shuts down
+     */
+    private void shutdown() {
+        CONFIG.save();
+        richPresenceManager.shutdown();
+        if (Settings.PERSISTENT_CHAT) {
+            File file = new File(folder, "chat.txt");
             try {
-            new File(folder.getAbsolutePath() + "/accounts/" + Minecraft.getMinecraft().getSession()
-                    .getPlayerID() + ".lck").createNewFile();
+                file.createNewFile();
+                FileWriter fileWriter = new FileWriter(file);
+                BufferedWriter bw = new BufferedWriter(fileWriter);
+                for (String s : Minecraft.getMinecraft().ingameGUI.getChatGUI().getSentMessages()) {
+                    bw.write(s + "\n");
+                }
+                bw.close();
+                fileWriter.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
+        // Tell the modules the game is shutting down
+        EventBus.INSTANCE.post(new GameShutDownEvent());
+
+        LOGGER.info("Shutting down Hyperium..");
+
+        if (updateQueue) {
+            LaunchUtil.launch();
+        }
+    }
+
+    public GeneralStatisticsTracking getStatTrack() {
+        return this.statTrack;
+    }
+
+    public HyperiumHandlers getHandlers() {
+        return handlers;
+    }
+
+    public HyperiumModIntegration getModIntegration() {
+        return modIntegration;
+    }
+
+    public NotificationCenter getNotification() {
+        return notification;
+    }
+
+    public boolean isAcceptedTos() {
+        return acceptedTos;
+    }
+
+    public void acceptTos() {
+        acceptedTos = true;
+        if (sk1erMod == null) {
+            sk1erMod = new Sk1erMod("hyperium", Metadata.getVersion());
+            sk1erMod.checkStatus();
+        }
+        try {
+            new File(folder.getAbsolutePath() + "/accounts/" + Minecraft.getMinecraft().getSession()
+                    .getPlayerID() + ".lck").createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     public String getLaunchCommand(boolean copyNatives) {
         StringBuilder cmd = new StringBuilder();
@@ -462,17 +499,17 @@ public class Hyperium {
         }
     }
 
-        public ConfirmationPopup getConfirmation () {
-            return confirmation;
-        }
+    public ConfirmationPopup getConfirmation() {
+        return confirmation;
+    }
 
-        public HyperiumCosmetics getCosmetics () {
-            return cosmetics;
-        }
+    public HyperiumCosmetics getCosmetics() {
+        return cosmetics;
+    }
 
-        public InternalAddons getInternalAddons () {
-            return internalAddons;
-        }
+    public InternalAddons getInternalAddons() {
+        return internalAddons;
+    }
 
     public NetworkHandler getNetworkHandler() {
         return networkHandler;
@@ -498,7 +535,7 @@ public class Hyperium {
         return scheduler;
     }
 
-        // Does not appear to be used
+    // Does not appear to be used
 //    public void toggleFullscreen() {
 //        boolean windowed = GeneralSetting.windowedFullScreen;
 //        boolean lastStateWindowed = false;
@@ -525,4 +562,4 @@ public class Hyperium {
 //
 //        }
 //    }
-    }
+}

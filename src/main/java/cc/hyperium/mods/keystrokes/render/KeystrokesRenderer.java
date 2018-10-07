@@ -41,12 +41,10 @@ public class KeystrokesRenderer {
 
     private final Minecraft mc = Minecraft.getMinecraft();
     private final KeystrokesMod mod;
-
     private final Key[] movementKeys = new Key[4];
     private final CPSKey[] cpsKeys = new CPSKey[1];
     private final SpaceKey[] spaceKey = new SpaceKey[1];
     private final MouseButton[] mouseButtons = new MouseButton[2];
-
     public KeystrokesRenderer(KeystrokesMod mod) {
         this.mod = mod;
 
@@ -61,6 +59,10 @@ public class KeystrokesRenderer {
 
         this.mouseButtons[0] = new MouseButton(mod, 0, 2, 50);
         this.mouseButtons[1] = new MouseButton(mod, 1, 38, 50);
+    }
+
+    public MouseButton[] getMouseButtons() {
+        return mouseButtons;
     }
 
     public CPSKey[] getCPSKeys() {

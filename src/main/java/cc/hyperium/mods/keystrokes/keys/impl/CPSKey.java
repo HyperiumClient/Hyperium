@@ -19,8 +19,7 @@ package cc.hyperium.mods.keystrokes.keys.impl;
 
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.InvokeEvent;
-import cc.hyperium.event.LeftMouseClickEvent;
-import cc.hyperium.event.RightMouseClickEvent;
+import cc.hyperium.event.RenderEvent;
 import cc.hyperium.mods.keystrokes.KeystrokesMod;
 import cc.hyperium.mods.keystrokes.keys.IKey;
 import net.minecraft.client.gui.Gui;
@@ -34,6 +33,8 @@ public class CPSKey extends IKey {
 
     private final List<Long> leftClicks = new ArrayList<>();
     private final List<Long> rightClicks = new ArrayList<>();
+    boolean leftWasDown = false;
+    boolean rightWasDown = false;
     private boolean wasPressed = true;
 
     public CPSKey(KeystrokesMod mod, int xOffset, int yOffset) {
@@ -41,6 +42,7 @@ public class CPSKey extends IKey {
 
         EventBus.INSTANCE.register(this);
     }
+
 
     @Override
     public void renderKey(int x, int y) {
@@ -86,18 +88,26 @@ public class CPSKey extends IKey {
     }
 
     @InvokeEvent
-    public void onClickLeft(LeftMouseClickEvent event) {
+    public void onRender(RenderEvent event) {
+        Mouse.poll();
         if (this.mod.getSettings().isLeftClick() || this.mod.getSettings().isShowingCPSOnButtons()) {
-            Mouse.poll();
-            this.leftClicks.add(System.currentTimeMillis());
+            boolean downNow = Mouse.isButtonDown(this.mod.getRenderer().getMouseButtons()[0].getButton());
+            if (downNow != leftWasDown) {
+                if (downNow) {
+                    this.leftClicks.add(System.currentTimeMillis());
+                }
+            }
+            leftWasDown = downNow;
+        }
+        if (this.mod.getSettings().isLeftClick() || this.mod.getSettings().isShowingCPSOnButtons()) {
+            boolean downNow = Mouse.isButtonDown(this.mod.getRenderer().getMouseButtons()[1].getButton());
+            if (downNow != rightWasDown) {
+                if (downNow) {
+                    this.rightClicks.add(System.currentTimeMillis());
+                }
+            }
+            rightWasDown = downNow;
         }
     }
 
-    @InvokeEvent
-    public void onClickRight(RightMouseClickEvent event) {
-        if (!this.mod.getSettings().isLeftClick() || this.mod.getSettings().isShowingCPSOnButtons()) {
-            Mouse.poll();
-            this.rightClicks.add(System.currentTimeMillis());
-        }
-    }
 }
