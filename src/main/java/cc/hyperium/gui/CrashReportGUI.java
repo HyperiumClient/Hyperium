@@ -11,6 +11,25 @@ import cc.hyperium.utils.JsonHolder;
 import cc.hyperium.utils.LaunchUtil;
 import cc.hyperium.utils.UpdateUtils;
 import com.google.gson.JsonParser;
+import me.cubxity.utils.DeobfStack;
+import me.cubxity.utils.Mapping;
+import net.minecraft.crash.CrashReport;
+import net.minecraft.init.Bootstrap;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
+
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
+import javax.swing.WindowConstants;
+import javax.swing.plaf.basic.BasicButtonUI;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Desktop;
@@ -24,24 +43,6 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.concurrent.atomic.AtomicReference;
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
-import javax.swing.WindowConstants;
-import javax.swing.plaf.basic.BasicButtonUI;
-import me.cubxity.utils.DeobfStack;
-import me.cubxity.utils.Mapping;
-import net.minecraft.crash.CrashReport;
-import net.minecraft.init.Bootstrap;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
 
 /*
  * Created by Cubxity on 04/05/2018
@@ -89,6 +90,22 @@ public class CrashReportGUI extends JDialog {
     public static void main(String[] args) {
         // For testing
         handle(CrashReport.makeCrashReport(null, "Developer Debug"));
+    }
+
+    public static String haste(String txt) {
+        try {
+            HttpClient hc = HttpClients.createDefault();
+            HttpPost post = new HttpPost("https://hastebin.com/documents");
+            post.setEntity(new StringEntity(txt));
+
+            HttpResponse response = hc.execute(post);
+
+            String result = EntityUtils.toString(response.getEntity());
+            return "http://hastebin.com/" + new JsonParser().parse(result).getAsJsonObject().get("key").getAsString();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     private void initComponents() {
@@ -252,7 +269,7 @@ public class CrashReportGUI extends JDialog {
                 client.write(ServerCrossDataPacket.build(new JsonHolder().put("crash_report", true).put("internal", true).put("crash",
                         new JsonHolder()
                                 .put("crash-full", report == null ? "unavailable" : hurl)
-                                .put("hyperium", Metadata.getVersion())
+                                .put("hyperium", Metadata.getVersion() + " -" + Metadata.getVersionID())
                                 .put("addons", addons.toString())
                 )));
             return true;
@@ -291,21 +308,5 @@ public class CrashReportGUI extends JDialog {
         if (l.getFontMetrics(f).stringWidth(s) > width)
             return resize(s, width, f.deriveFont(f.getSize() - 1f), l);
         return f;
-    }
-
-    public static String haste(String txt) {
-        try {
-            HttpClient hc = HttpClients.createDefault();
-            HttpPost post = new HttpPost("https://hastebin.com/documents");
-            post.setEntity(new StringEntity(txt));
-
-            HttpResponse response = hc.execute(post);
-
-            String result = EntityUtils.toString(response.getEntity());
-            return "http://hastebin.com/" + new JsonParser().parse(result).getAsJsonObject().get("key").getAsString();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
     }
 }
