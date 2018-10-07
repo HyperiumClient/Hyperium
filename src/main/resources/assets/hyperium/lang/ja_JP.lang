@@ -86,5 +86,5 @@ gui.purchase.state=状態
 #Hyperium Auto Optimizer Text
 gui.optimizer.font.line1=もしこのテキストが読めるなら、"はい"を押してください。
 gui.optimizer.font.line2=読めない場合は暫くお待ち下さい。
-gui.optimizer.optifine.line1=OptiFineの使用を検出しました。
+gui.optimizer.optifine.line1=Optifineの使用を検出しました。
 gui.optimizer.optifine.line2=最適化を実行しますか？
