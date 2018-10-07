@@ -24,8 +24,6 @@ disclaimer.line3=to your account while using this client
 disclaimer.line4=By continuing you agree to the privacy policy %s
 disclaimer.line4.policylink=(https://hyperium.cc/#privacy)
 disclaimer.line5=Please click the button to confirm that you agree
-button.disclaimer.accept=Accept
-button.disclaimer.confirm=Confirm Accept
 
 #Hyperium Menu Strings
 menu.profile.credits=%s Credits
@@ -83,9 +81,3 @@ gui.purchase.inactive=Inactive
 gui.purchase.notpurchased=Not Purchased
 gui.purchase.clicktouse=Click to use
 gui.purchase.state=State
-
-#Hyperium Auto Optimizer Text
-gui.optimizer.font.line1=If you can read this text please press yes.
-gui.optimizer.font.line2=Otherwise just wait.
-gui.optimizer.optifine.line1=We detected you are using OptiFine.
-gui.optimizer.optifine.line2=Would you like us to optimise it?
