@@ -1,7 +1,7 @@
 #Hyperium Language File - Created by ScottehBoeh
 
 #Hyperium Disclaimers
-menu.left=Copyright 2018 Hyperium開発チーム
+menu.left=Copyright 2018 Hyperium 開発チーム
 menu.right=Mojang ABとは提携していません
 
 #Hyperium Buttons
@@ -28,7 +28,7 @@ disclaimer.line5=同意するにはボタンを押してください
 menu.profile.credits=%s クレジット
 
 #Hyperium Tabs
-tabs.searchbar=検索
+tabs.searchbar=検索...
 tab.news.name=ニュース
 tab.settings.name=設定
 tab.update.name=アップデート
