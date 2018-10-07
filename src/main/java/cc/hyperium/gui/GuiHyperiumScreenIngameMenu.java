@@ -21,7 +21,7 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.List;
 
-public class GuiHyperiumScreenIngameMenu extends GuiHyperiumScreen {
+public class GuiHyperiumScreenIngameMenu extends GuiScreen {
 
     private static JsonHolder data = new JsonHolder();
     private final DecimalFormat formatter = new DecimalFormat("#,###");
@@ -136,7 +136,6 @@ public class GuiHyperiumScreenIngameMenu extends GuiHyperiumScreen {
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 
         super.drawScreen(mouseX,mouseY,partialTicks);
-
         GlStateManager.pushMatrix();
 
         GlStateManager.translate(0,height - 50,0);
