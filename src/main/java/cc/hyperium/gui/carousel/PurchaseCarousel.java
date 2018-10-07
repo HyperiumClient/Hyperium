@@ -9,6 +9,7 @@ import cc.hyperium.utils.SimpleAnimValue;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.resources.I18n;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -134,7 +135,7 @@ public class PurchaseCarousel {
         RenderUtils.drawSmoothRect((objLeft + 5) * 2, (objBottom - 20) * 2, purchaseRight, (objBottom - 20 + barHeight) * 2, 10, Color.WHITE.getRGB());
 
         GlStateManager.scale(2 / 3F, 2 / 3F, 2 / 3F);
-        fr.drawString(item.isPurchased() ? "Purchased" : "Purchase", (objLeft + 5) * 3, (objBottom - 18) * 3, new Color(23, 23, 23, 255).getRGB());
+        fr.drawString(item.isPurchased() ? I18n.format("gui.purchase.purchased") : I18n.format("gui.purchase.purchase"), (objLeft + 5) * 3, (objBottom - 18) * 3, new Color(23, 23, 23, 255).getRGB());
         GlStateManager.scale(3 / 2F, 3 / 2f, 3 / 2F);
 
         RenderUtils.drawFilledCircle(purchaseRight + barHeight * 2, (objBottom - 12) * 2, barHeight, Color.WHITE.getRGB());
@@ -171,12 +172,12 @@ public class PurchaseCarousel {
         GlStateManager.scale(v, v, v);
         fr.drawCenteredString(">", (objRight + 5) / v, centerY / v - 10, 0xffffff);
         GlStateManager.scale(1 / v, 1 / v, 1 / v);
-        String s = "State: " + (getCurrent().isPurchased() ? (getCurrent().isActive() ? "Active" : "Inactive") : "Not Purchased");
+        String s = I18n.format("gui.purchase.state")+": " + (getCurrent().isPurchased() ? (getCurrent().isActive() ? I18n.format("gui.purchase.active") : I18n.format("gui.purchase.inactive")) : I18n.format("gui.purchase.notpurchased"));
         float e  = .5F;
         GlStateManager.scale(e,e,e);
         fr.drawString(s, (centerX  - fr.getWidth(s) / 4)/e, (centerY - mainHeight / 2 + 15) / e, Color.GREEN.getRGB());
         if (getCurrent().isPurchased() && !getCurrent().isActive()) {
-            s = "Click to use";
+            s = I18n.format("gui.purchase.clicktouse");
             float width = fr.getWidth(s);
             float x = centerX  - width / 4;
             int i = centerY - mainHeight / 2 + 35;
