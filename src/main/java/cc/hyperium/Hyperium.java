@@ -156,6 +156,7 @@ public class Hyperium {
         EventBus.INSTANCE.register(new AutoGG());
 
         HyperiumLocale.registerHyperiumLang("en_US");
+        HyperiumLocale.registerHyperiumLang("ja_JP");
     }
 
 

@@ -8,6 +8,7 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.resources.I18n;
 import org.apache.commons.io.IOUtils;
 import org.lwjgl.input.Keyboard;
 
@@ -29,7 +30,7 @@ public class ChangeBackgroundGui extends GuiScreen {
     private final GuiScreen prevGui;
 
     private GuiTextField downloadUrlField;
-    private String statusText = "Enter a URL below to change the background or choose file.";
+    private String statusText = I18n.format("gui.changebackground.line1");
 
     public ChangeBackgroundGui(GuiScreen prevGui) {
         this.prevGui = prevGui;
@@ -40,10 +41,10 @@ public class ChangeBackgroundGui extends GuiScreen {
         this.downloadUrlField = new GuiTextField(0, Minecraft.getMinecraft().fontRendererObj, width / 4, height / 2 - 10, width / 2, 20);
         this.downloadUrlField.setFocused(true);
         this.downloadUrlField.setMaxStringLength(150);
-        this.buttonList.add(new GuiButton(1, width / 2 - 150 / 2, height / 2 + 20, 150, 15, "Set URL"));
-        this.buttonList.add(new GuiButton(2, width / 2 - 150 / 2, height / 2 + 40, 150, 15, "Choose File"));
-        this.buttonList.add(new GuiButton(3, width / 2 - 150 / 2, height / 2 + 60, 150, 15, "Reset Background"));
-        this.buttonList.add(new GuiButton(4, width / 2 - 150 / 2, height / 2 + 80, 150, 15, "Cancel"));
+        this.buttonList.add(new GuiButton(1, width / 2 - 150 / 2, height / 2 + 20, 150, 15, I18n.format("button.changebackground.seturl")));
+        this.buttonList.add(new GuiButton(2, width / 2 - 150 / 2, height / 2 + 40, 150, 15, I18n.format("button.changebackground.choosefile")));
+        this.buttonList.add(new GuiButton(3, width / 2 - 150 / 2, height / 2 + 60, 150, 15, I18n.format("button.changebackground.resetbackground")));
+        this.buttonList.add(new GuiButton(4, width / 2 - 150 / 2, height / 2 + 80, 150, 15, I18n.format("gui.cancel")));
     }
 
     @Override
@@ -75,24 +76,24 @@ public class ChangeBackgroundGui extends GuiScreen {
     }
 
     private void handleResetBackground(){
-        statusText = "Working...";
+        statusText = I18n.format("gui.changebackground.working");;
         File file = new File(Minecraft.getMinecraft().mcDataDir, "customImage.png");
         if(file.exists()){
             file.delete();
         }
         Settings.BACKGROUND = "4";
-        statusText = "Done!";
+        statusText = I18n.format("gui.changebackground.done");;
         Minecraft.getMinecraft().displayGuiScreen(prevGui);
     }
 
     private void handleChooseFile(){
-        FileDialog dialog = new FileDialog((Frame)null,"Select background image",FileDialog.LOAD);
+        FileDialog dialog = new FileDialog((Frame)null,I18n.format("gui.changebackground.selectimage"),FileDialog.LOAD);
         dialog.setFile("*.jpg;*.jpeg;*.png");
         dialog.setVisible(true);
         if(dialog.getFiles().length != 0) {
             String filename = dialog.getFiles()[0].getAbsolutePath();
             if (!filename.isEmpty()) {
-                statusText = "Working...";
+                statusText = I18n.format("gui.changebackground.working");;
                 InputStream input = null;
                 OutputStream output = null;
                 try {
@@ -100,7 +101,7 @@ public class ChangeBackgroundGui extends GuiScreen {
                     output = new FileOutputStream(new File(Minecraft.getMinecraft().mcDataDir, "customImage.png"));
                     IOUtils.copy(input, output);
                     Settings.BACKGROUND = "CUSTOM";
-                    statusText = "Done!";
+                    statusText = I18n.format("gui.changebackground.done");;
                     Minecraft.getMinecraft().displayGuiScreen(prevGui);
                 } catch (FileNotFoundException e) {
                     statusText = "Invalid path";
@@ -116,7 +117,7 @@ public class ChangeBackgroundGui extends GuiScreen {
         String text = this.downloadUrlField.getText().toLowerCase().trim();
 
         if (text.isEmpty()) {
-            this.statusText = "The URL cannot be empty.";
+            this.statusText = I18n.format("gui.changebackground.urlempty");
             return;
         }
 
@@ -125,7 +126,7 @@ public class ChangeBackgroundGui extends GuiScreen {
         }
 
         if (!(text.endsWith(".png") || text.endsWith(".jpg") || text.endsWith(".jpeg")) || !text.startsWith("http")) {
-            this.statusText = "Invalid PNG image url";
+            this.statusText = I18n.format("gui.changebackground.invalidurl");
             return;
         }
 
@@ -135,7 +136,7 @@ public class ChangeBackgroundGui extends GuiScreen {
         FileOutputStream fos;
         byte[] fileData;
         try {
-            this.statusText = "Working...";
+            this.statusText = I18n.format("gui.changebackground.working");;
             url = new URL(downloadUrlField.getText());
             con = url.openConnection();
             con.addRequestProperty("User-Agent", "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.4; en-US; rv:1.9.2.2) Gecko/20100316 Firefox/3.6.2");
@@ -148,11 +149,11 @@ public class ChangeBackgroundGui extends GuiScreen {
             fos = new FileOutputStream(new File(Minecraft.getMinecraft().mcDataDir, "customImage.png"));
             fos.write(fileData);
             Settings.BACKGROUND = "CUSTOM";
-            this.statusText = "Done!";
+            this.statusText = I18n.format("gui.changebackground.done");;
             Minecraft.getMinecraft().displayGuiScreen(prevGui);
             fos.close();
         } catch (Exception m) {
-            this.statusText = "Error whilst downloading.";
+            this.statusText = I18n.format("gui.changebackground.downloaderror");
             m.printStackTrace();
         }
     }
@@ -169,7 +170,7 @@ public class ChangeBackgroundGui extends GuiScreen {
         drawDefaultBackground();
         ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
         drawCenteredString(Minecraft.getMinecraft().fontRendererObj, this.statusText, sr.getScaledWidth() / 2, sr.getScaledHeight() / 2 - 50, 0xFFFFFF);
-        drawCenteredString(Minecraft.getMinecraft().fontRendererObj, "To make it show select \"custom\" in background settings.", sr.getScaledWidth() / 2, sr.getScaledHeight() / 2 - 30, 0xFFFFFF);
+        drawCenteredString(Minecraft.getMinecraft().fontRendererObj, I18n.format("gui.changebackground.line2"), sr.getScaledWidth() / 2, sr.getScaledHeight() / 2 - 30, 0xFFFFFF);
         this.downloadUrlField.drawTextBox();
         super.drawScreen(mouseX, mouseY, partialTicks);
     }

@@ -1,0 +1,72 @@
+#Hyperium Language File - Created by ScottehBoeh
+
+#Hyperium Disclaimers
+menu.left=Copyright 2018 Hyperium開発チーム
+menu.right=Mojang ABとは提携していません
+
+#Hyperium Buttons
+button.menu.changebackground=背景変更
+button.menu.cosmeticshop=ショップ
+button.ingame.hyperiumsettings=Hyperium 設定
+button.ingame.hyperiumcredits=貢献者
+button.ingame.joinhypixel=Hypixelにログイン
+button.ingame.fixhypixelsession=Hypixelのセッションを修復
+button.changebackground.seturl=URLセット
+button.changebackground.choosefile=ファイル選択
+button.changebackground.resetbackground=背景リセット
+
+#Hyperium Disclaimer
+disclaimer.line1=続行するにはこのクライアントの使用が%sであることに同意する必要があります。
+disclaimer.line1.bold=自己責任
+disclaimer.line2=Hyperiumの開発者はHyperiumを使用したことによる
+disclaimer.line3=あなたのアカウントに起こった損害やBANなどについての返信を行いません
+disclaimer.line4=続行するにはプライバシーポリシーに同意する必要があります %s
+disclaimer.line4.policylink=(https://hyperium.cc/#privacy)
+disclaimer.line5=同意するにはボタンを押してください
+
+#Hyperium Menu Strings
+menu.profile.credits=%s クレジット
+
+#Hyperium Tabs
+tabs.searchbar=検索
+tab.news.name=ニュース
+tab.settings.name=設定
+tab.update.name=アップデート
+
+#Hyperium Tabs Attributes
+tab.update.noupdates=利用可能なアップデートはありません
+tab.update.autorestart=アップデートが完了したあと、Minecraftは自動で再起動します。
+tab.update.changelog=変更履歴はまもなく実装されます
+tab.update.update=アップデート
+tab.update.updating=アップデート中...
+tab.update.downloading=ダウンロード中...
+tab.update.installer.state.starting=インストーラーを起動中
+tab.update.installer.state.loading=インストーラーを読み込み中
+tab.update.installer.state.restarting=再起動中
+tab.update.installer.state.unknown=W: 不明な状態
+tab.update.installer.state.manualupdate.api=E: アップデートを手動で行ってください。 API: %s
+tab.update.installer.state.manualupdate=E: アップデートを手動で行ってください
+
+#Hyperium Ingame Menu
+gui.ingamemenu.playercount=Hyperiumユーザー数:
+gui.ingamemenu.playercount.now=現在オンライン: %s
+gui.ingamemenu.playercount.lastday=昨日: %s
+gui.ingamemenu.playercount.lastweek=先週: %s
+gui.ingamemenu.playercount.alltime=いままで: %s
+#Hyperium Splash Progress
+#splash.progress.
+
+#Hyperium Alerts
+alert.update.message=Hyperiumのアップデートが見つかりました！ここをクリックすると更新を開始します。
+
+#Hyperium Change Background Text
+gui.changebackground.line1=URLを入力するか、ファイルを選択して背景を変更できます
+gui.changebackground.line2=背景設定で"CUSTOM"を選択しないと表示されません
+gui.changebackground.urlempty=URLは空にできません
+gui.changebackground.invalidurl=PNG画像のURLが無効です
+gui.changebackground.working=実行中...
+gui.changebackground.done=完了！
+gui.changebackground.invalidpath=無効なパスです
+gui.changebackground.unknownerror=不明なエラーが発生しました
+gui.changebackground.downloaderror=ダウンロード中にエラーが発生しました。
+gui.changebackground.selectimage=背景画像選択
