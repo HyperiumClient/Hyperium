@@ -24,6 +24,8 @@ disclaimer.line3=あなたのアカウントに起こった損害やBANなどに
 disclaimer.line4=続行するにはプライバシーポリシーに同意する必要があります %s
 disclaimer.line4.policylink=(https://hyperium.cc/#privacy)
 disclaimer.line5=同意するにはボタンを押してください
+button.disclaimer.accept=同意
+button.disclaimer.confirm=同意を確定する
 
 #Hyperium Menu Strings
 menu.profile.credits=%s クレジット
@@ -80,3 +82,9 @@ gui.purchase.inactive=無効
 gui.purchase.notpurchased=未購入
 gui.purchase.clicktouse=クリックで使用
 gui.purchase.state=状態
+
+#Hyperium Auto Optimizer Text
+gui.optimizer.font.line1=もしこのテキストが読めるなら、"はい"を押してください。
+gui.optimizer.font.line2=読めない場合は暫くお待ち下さい。
+gui.optimizer.optifine.line1=Optifineの使用を検出しました。
+gui.optimizer.optifine.line2=最適化を実行しますか？

@@ -190,7 +190,7 @@ public class GuiHyperiumScreenTos extends GuiHyperiumScreen {
         super.initGui();
 
         this.buttonList.add(new GuiButton(BUTTON_ID_ACCEPT, (width / 2) - 100, 160,
-            firstAccept ? ChatFormatting.GREEN + "Confirm Accept" : "Accept"));
+            firstAccept ? ChatFormatting.GREEN + I18n.format("button.disclaimer.confirm") : I18n.format("button.disclaimer.accept")));
 
     }
 
@@ -235,7 +235,7 @@ public class GuiHyperiumScreenTos extends GuiHyperiumScreen {
                     GuiYesNo optimisedFontRendererGui = new GuiYesNo((result, id) -> {
                         Settings.OPTIMIZED_FONT_RENDERER = result;
                         Minecraft.getMinecraft().displayGuiScreen(new GuiHyperiumScreenMainMenu());
-                    }, "If you can read this text please press yes.", "Otherwise just wait.", 0);
+                    }, I18n.format("gui.optimizer.font.line1"), I18n.format("gui.optimizer.font.line2"), 0);
                     Runnable optimisedFrRunnable = () -> {
                         try {
                             Settings.OPTIMIZED_FONT_RENDERER = true;
@@ -285,8 +285,8 @@ public class GuiHyperiumScreenTos extends GuiHyperiumScreen {
                             }
                         }
                         Multithreading.runAsync(optimisedFrRunnable);
-                    }, "We detected you are using OptiFine.",
-                        "Would you like us to optimise it?", 0);
+                    }, I18n.format("gui.optimizer.optifine.line1"),
+                        I18n.format("gui.optimizer.optifine.line2"), 0);
 
                     if (Hyperium.INSTANCE.isOptifineInstalled()) {
                         System.out.println("Found Optifine on first launch, optimising settings.");
