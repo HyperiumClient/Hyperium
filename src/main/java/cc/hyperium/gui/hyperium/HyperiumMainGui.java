@@ -126,20 +126,18 @@ public class HyperiumMainGui extends HyperiumGui {
 
     @Override
     protected void pack() {
-        if(Settings.BLUR_GUI) {
-            Method loadShaderMethod = null;
-            try {
-                loadShaderMethod = ReflectionUtil.findDeclaredMethod(EntityRenderer.class, new String[]{"loadShader", "a"}, ResourceLocation.class);
-            } catch (Exception ignored) {
-            }
+        Method loadShaderMethod = null;
+        try {
+            loadShaderMethod = ReflectionUtil.findDeclaredMethod(EntityRenderer.class, new String[]{"loadShader", "a"}, ResourceLocation.class);
+        } catch (Exception ignored) {
+        }
 
-            if (loadShaderMethod != null) {
-                loadShaderMethod.setAccessible(true);
-                try {
-                    loadShaderMethod.invoke(Minecraft.getMinecraft().entityRenderer, new ResourceLocation("shaders/hyperium_blur.json"));
-                } catch (IllegalAccessException | InvocationTargetException e) {
-                    e.printStackTrace();
-                }
+        if (loadShaderMethod != null) {
+            loadShaderMethod.setAccessible(true);
+            try {
+                loadShaderMethod.invoke(Minecraft.getMinecraft().entityRenderer, new ResourceLocation("shaders/hyperium_blur.json"));
+            } catch (IllegalAccessException | InvocationTargetException e) {
+                e.printStackTrace();
             }
         }
 
