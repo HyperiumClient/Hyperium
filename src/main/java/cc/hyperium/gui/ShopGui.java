@@ -9,6 +9,7 @@ import cc.hyperium.utils.JsonHolder;
 import cc.hyperium.utils.UUIDUtil;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.resources.I18n;
 
 import java.awt.Color;
 import java.awt.Desktop;
@@ -47,10 +48,10 @@ public class ShopGui extends HyperiumGui {
 
     @Override
     protected void pack() {
-        reg("CAPES", new GuiButton(nextId(), 1, 1, 100, 20, "View Capes"), guiButton -> new CapesGui().show(), guiButton -> {
+        reg("CAPES", new GuiButton(nextId(), 1, 1, 100, 20, I18n.format("gui.shop.capes")),guiButton -> new CapesGui().show(), guiButton -> {
 
         });
-        reg("WEB", new GuiButton(nextId(), 1, 21, 100, 20, "Open in browser"), guiButton -> {
+        reg("WEB", new GuiButton(nextId(), 1, 21, 100, 20, I18n.format("gui.shop.browser")), guiButton -> {
             Desktop desktop = Desktop.getDesktop();
             if (desktop != null) {
                 try {
@@ -62,7 +63,7 @@ public class ShopGui extends HyperiumGui {
         }, guiButton -> {
 
         });
-        reg("MORE", new GuiButton(nextId(), 1, 41, 100, 20, "Purchase Credits"), guiButton -> {
+        reg("MORE", new GuiButton(nextId(), 1, 41, 100, 20, I18n.format("gui.shop.purchasecredits")), guiButton -> {
             Desktop desktop = Desktop.getDesktop();
             if (desktop != null) {
                 try {
@@ -74,7 +75,7 @@ public class ShopGui extends HyperiumGui {
         }, guiButton -> {
 
         });
-        reg("REFRESH", new GuiButton(nextId(), 1, 61, 100, 20, "Refresh"), guiButton -> {
+        reg("REFRESH", new GuiButton(nextId(), 1, 61, 100, 20, I18n.format("gui.shop.refresh")), guiButton -> {
             refreshData();
             cooldown = 0;
             purchasing = false;
@@ -105,18 +106,20 @@ public class ShopGui extends HyperiumGui {
         int yLevel = 50 - offset;
         if (personData != null) {
             GlStateManager.scale(2.0F, 2.0F, 2.0F);
-            fontRendererObj.drawString("Credits", (width / 2 - fontRendererObj.getStringWidth("Credits")) / 2, (15 + yLevel) / 2, Color.RED.getRGB(), true);
+            String credits = I18n.format("gui.shop.credits");
+            fontRendererObj.drawString(credits, (width / 2 - fontRendererObj.getStringWidth(credits)) / 2, (15 + yLevel) / 2, Color.RED.getRGB(), true);
 
             GlStateManager.scale(.5F, .5F, .5F);
 
-            String total_credits = "Total credits: " + formatter.format(personData.optInt("total_credits"));
+            String total_credits = I18n.format("gui.cosmetics.totalcredits", formatter.format(personData.optInt("total_credits")));
             fontRendererObj.drawString(total_credits, width / 2 - fontRendererObj.getStringWidth(total_credits) / 2, 32 + yLevel, Color.RED.getRGB(), true);
-            String rem_credits = "Remaining credits: " + formatter.format(personData.optInt("remaining_credits"));
+            String rem_credits = I18n.format("gui.cosmetics.remainingcredits", formatter.format(personData.optInt("remaining_credits")));
             fontRendererObj.drawString(rem_credits, width / 2 - fontRendererObj.getStringWidth(rem_credits) / 2, 45 + yLevel, Color.RED.getRGB(), true);
 
             yLevel += 75;
             GlStateManager.scale(2.0F, 2.0F, 2.0F);
-            fontRendererObj.drawString("Cosmetics", (width / 2 - fontRendererObj.getStringWidth("Credits")) / 2, (yLevel) / 2, Color.RED.getRGB(), true);
+            String cosmetics = I18n.format("gui.shop.cosmetics");
+            fontRendererObj.drawString(cosmetics, (width / 2 - fontRendererObj.getStringWidth(cosmetics)) / 2, (yLevel) / 2, Color.RED.getRGB(), true);
             GlStateManager.scale(.5F, .5F, .5F);
 
             yLevel += 20;
@@ -136,17 +139,19 @@ public class ShopGui extends HyperiumGui {
                     String description = jsonHolder.optString("description");
                     boolean first = true;
                     for (String s1 : fontRendererObj.listFormattedStringToWidth(description, ResolutionUtil.current().getScaledWidth() - 200)) {
-                        fontRendererObj.drawString((first ? "Description: " : "") + s1, 150, yLevel, Color.RED.getRGB(), true);
+                        String line = first ? I18n.format("gui.shop.description", s1) : s1;
+                        fontRendererObj.drawString(line, 150, yLevel, Color.RED.getRGB(), true);
                         first = false;
                         yLevel += 10;
                     }
                     int cost = jsonHolder.optInt("cost");
-                    fontRendererObj.drawString("Cost: " + cost, 150, yLevel, Color.RED.getRGB());
+                    fontRendererObj.drawString(I18n.format("gui.shop.cost", cost), 150, yLevel, Color.RED.getRGB());
                     yLevel += 10;
-                    fontRendererObj.drawString("Status: ", 150, yLevel, Color.RED.getRGB(), true);
-                    int tx = fontRendererObj.getStringWidth("Status: ");
+                    String status = I18n.format("gui.shop.status");
+                    fontRendererObj.drawString(status, 150, yLevel, Color.RED.getRGB(), true);
+                    int tx = fontRendererObj.getStringWidth(status);
                     if (jsonHolder.optBoolean("purchased")) {
-                        fontRendererObj.drawString("Purchased", 150 + tx, yLevel, new Color(68, 77, 202).getRGB(), true);
+                        fontRendererObj.drawString(I18n.format("gui.shop.purchased"), 150 + tx, yLevel, new Color(68, 77, 202).getRGB(), true);
                     } else {
                         if (jsonHolder.optBoolean("enough")) {
                             GuiBoxItem<Runnable> tmp = new GuiBoxItem<>(new GuiBlock(150 + tx, 60 + tx, yLevel, yLevel + 10), () -> {
@@ -157,20 +162,22 @@ public class ShopGui extends HyperiumGui {
                                     client.write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("cosmetic_purchase", true).put("value", s)));
                                 }
                             });
-                            tmp.getBox().drawString("Purchase", fontRendererObj, true, false, 0, 0, true, true, new Color(117, 193, 129).getRGB(), true);
+                            tmp.getBox().drawString(I18n.format("gui.shop.purchase"), fontRendererObj, true, false, 0, 0, true, true, new Color(117, 193, 129).getRGB(), true);
                             list.add(tmp);
                         } else {
-                            fontRendererObj.drawString("Insufficient Credits!", 150 + tx, yLevel, Color.RED.getRGB(), true);
+                            fontRendererObj.drawString(I18n.format("gui.shop.insufficientcredits"), 150 + tx, yLevel, Color.RED.getRGB(), true);
                         }
                     }
                 }
 
 
             } else {
-                fontRendererObj.drawString("Loading cosmetics...", width / 2 - fontRendererObj.getStringWidth("Loading cosmetics...") / 2, 55 + yLevel, Color.RED.getRGB(), true);
+                String loading = I18n.format("gui.shop.loading.cosmetics");
+                fontRendererObj.drawString(loading, width / 2 - fontRendererObj.getStringWidth(loading) / 2, 55 + yLevel, Color.RED.getRGB(), true);
             }
-        } else
-            fontRendererObj.drawString("Loading person data...", width / 2 - fontRendererObj.getStringWidth("Loading person data...") / 2, yLevel, Color.RED.getRGB(), true);
-
+        } else {
+            String loading = I18n.format("gui.shop.loading.person");
+            fontRendererObj.drawString(loading, width / 2 - fontRendererObj.getStringWidth(loading) / 2, yLevel, Color.RED.getRGB(), true);
+        }
     }
 }
