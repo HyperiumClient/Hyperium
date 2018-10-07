@@ -7,7 +7,7 @@ menu.right=Mojang ABとは提携していません
 #Hyperium Buttons
 button.menu.changebackground=背景変更
 button.menu.cosmeticshop=ショップ
-button.ingame.hyperiumsettings=Hyperium設定
+button.ingame.hyperiumsettings=Hyperium 設定
 button.ingame.hyperiumcredits=貢献者
 button.ingame.joinhypixel=Hypixelにログイン
 button.ingame.fixhypixelsession=Hypixelのセッションを修復
