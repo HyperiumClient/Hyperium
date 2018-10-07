@@ -9,6 +9,11 @@ button.menu.changebackground=Change Menu Background
 button.menu.cosmeticshop=Cosmetic Shop
 button.ingame.hyperiumsettings=Hyperium Settings
 button.ingame.hyperiumcredits=Hyperium Credits
+button.ingame.joinhypixel=Join Hypixel
+button.ingame.fixhypixelsession=Fix Hypixel Session
+button.changebackground.seturl=Set URL
+button.changebackground.choosefile=Choose File
+button.changebackground.resetbackground=Reset Background
 
 #Hyperium Disclaimer
 disclaimer.line1=By continuing, you acknowledge this client is %s
@@ -54,3 +59,15 @@ gui.ingamemenu.playercount.alltime=All Time: %s
 
 #Hyperium Alerts
 alert.update.message=Hyperium Update! Click here to download.
+
+#Hyperium Change Background Text
+gui.changebackground.line1=Enter a URL below to change the background or choose file.
+gui.changebackground.line2=To make it show select "custom" in background settings.
+gui.changebackground.urlempty=The URL cannot be empty.
+gui.changebackground.invalidurl=Invalid PNG image url
+gui.changebackground.working=Working...
+gui.changebackground.done=Done!
+gui.changebackground.invalidpath=Invalid path
+gui.changebackground.unknownerror=Unknown error
+gui.changebackground.downloaderror=Error whilst downloading.
+gui.changebackground.selectimage=Select background image
