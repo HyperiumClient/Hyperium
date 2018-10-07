@@ -37,7 +37,7 @@ public class CommandBrowse implements BaseCommand {
 
     @Override
     public void onExecute(String[] args) {
-        if (OS.isMacintosh())
+        if (!OS.isMacintosh())
             if (args.length == 1) {
                 Hyperium.INSTANCE.getModIntegration().getBrowserMod().browserGui.loadURL(args[0]);
                 Hyperium.INSTANCE.getModIntegration().getBrowserMod().showBrowser();

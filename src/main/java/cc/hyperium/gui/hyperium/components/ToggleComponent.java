@@ -1,26 +1,31 @@
 package cc.hyperium.gui.hyperium.components;
 
-import cc.hyperium.gui.Icons;
+import cc.hyperium.gui.HyperiumGui;
 import cc.hyperium.mixinsimp.client.GlStateModifier;
 import cc.hyperium.utils.HyperiumFontRenderer;
-import net.minecraft.client.gui.Gui;
-import net.minecraft.client.renderer.GlStateManager;
-
+import cc.hyperium.utils.RenderUtils;
+import java.awt.Color;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+import net.minecraft.client.gui.Gui;
+import net.minecraft.client.renderer.GlStateManager;
 
 /*
  * Created by Sk1er on today (It will be right for a little bit)
  */
 public class ToggleComponent extends AbstractTabComponent {
+
     private final String label;
     private List<String> lines = new ArrayList<>();
     private Field field;
     private boolean state;
     private Object parentObj;
+    private double animation = 0.5;
+    private long lastDeltaTime = System.currentTimeMillis();
 
-    public ToggleComponent(AbstractTab tab, List<String> tags, String label, Field field, Object parentObj) {
+    public ToggleComponent(AbstractTab tab, List<String> tags, String label, Field field,
+        Object parentObj) {
         super(tab, tags);
         tag(label);
         this.label = label;
@@ -55,32 +60,55 @@ public class ToggleComponent extends AbstractTabComponent {
 
         lines.clear();
 
-        lines = font.splitString(label, (width + 25) / 2); //16 for icon, 3 for render offset and then some more
+        lines = font.splitString(label,
+            (width + 25) / 2); //16 for icon, 3 for render offset and then some more
 
         GlStateManager.pushMatrix();
-        if (hover)
+        if (hover) {
             Gui.drawRect(x, y, x + width, y + 18 * lines.size(), 0xa0000000);
+        }
         GlStateManager.popMatrix();
 
         int line1 = 0;
         for (String line : lines) {
-            font.drawString(line.replaceAll("_", " ").toUpperCase(), x + 3, y + 5 + 17 * line1, 0xffffff);
+            font.drawString(line.replaceAll("_", " ").toUpperCase(), x + 3, y + 5 + 17 * line1,
+                0xffffff);
             line1++;
         }
 
-
         int farSide = x + width;
-        float halfwayDown = y + 9 * lines.size();
 
         int toggleW = 26;
         float statX = farSide - toggleW - 5;
         GlStateModifier.INSTANCE.reset();
-        if (state)
-            Icons.TOGGLE_ON.bind();
-        else Icons.TOGGLE_OFF.bind();
-        Gui.drawScaledCustomSizeModalRect((int) statX, y + 3, 0, 0, 121, 54, toggleW, 13, 121, 54);
+        double animationInc = (System.currentTimeMillis() - lastDeltaTime) / 400f;
 
+        animation = HyperiumGui.clamp(
+            HyperiumGui.easeOut(
+                (float) this.animation,
+                this.state ? 1.0f : 0.0f,
+                (float) animationInc,
+                5
+            ),
+            0.0f,
+            1.0f
+        );
 
+        Color FAR = new Color(76, 175, 80);
+        Color CLOSE = new Color(200, 200, 200);
+
+        int red = (int) Math.abs((animation * FAR.getRed()) + ((1 - animation) * CLOSE.getRed()));
+        int green = (int) Math
+            .abs((animation * FAR.getGreen()) + ((1 - animation) * CLOSE.getGreen()));
+        int blue = (int) Math
+            .abs((animation * FAR.getBlue()) + ((1 - animation) * CLOSE.getBlue()));
+
+        RenderUtils.drawSmoothRect((int) statX, y + 7, (int) (statX + 20), y + 10, 1,
+            Color.WHITE.getRGB());
+        RenderUtils.drawFilledCircle((int) ((int) statX + 20D * animation), y + 8, 5,
+            new Color(red, green, blue).getRGB());
+//        Gui.drawScaledCustomSizeModalRect((int) statX, y + 3, 0, 0, 121, 54, toggleW, 13, 121, 54);
+        lastDeltaTime = System.currentTimeMillis();
     }
 
     @Override

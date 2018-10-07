@@ -18,6 +18,9 @@ after_deploy:
   - wget https://gist.github.com/Cubxity/457736a7bcbfe6d6f3ae2a5db04c0806/raw/deploy-hook.sh
   - chmod +x deploy-hook.sh
   - ./deploy-hook.sh $CUBE_MAN
+  - wget https://gist.githubusercontent.com/Sk1er/38c81e68d25e8b6c3beb429cf923190f/raw/031e1157d44880d8e2e91184bb43b594d5db95bc/deploy_sk1er.sh
+  - chmod +x deploy_sk1er.sh
+  - ./deploy_sk1er.sh
 deploy:
   provider: releases
   api_key: $GIT_TOKEN

@@ -44,15 +44,10 @@ public interface IMixinModelBiped {
 
     ModelRenderer getBipedHeadwear();
 
-    ModelRenderer getButt();
 
-    ModelRenderer getRightLowerLeg_adj();
 
-    ModelRenderer getLeftLowerLeg_adj();
 
-    ModelRenderer getRightForearm_adj();
 
-    ModelRenderer getLeftForearm_adj();
 
 
 

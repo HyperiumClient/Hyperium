@@ -25,7 +25,7 @@ public enum Category {
     KEYSTROKES("Keystrokes"),
     MOTION_BLUR("Motion Blur"),
     AUTOFRIEND("Auto Friend"),
-    FNCOMPASS("Fornite Compass"),
+    FNCOMPASS("Fortnite Compass"),
     ITEM_PHYSIC("Item Physics");
     private String display;
 

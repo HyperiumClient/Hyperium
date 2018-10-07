@@ -9,6 +9,7 @@ import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
 import cc.hyperium.utils.DownloadTask;
 import cc.hyperium.utils.InstallerUtils;
+import cc.hyperium.utils.UpdateUtils;
 import com.google.gson.Gson;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -25,6 +26,7 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
+import java.util.Arrays;
 import java.util.concurrent.ExecutionException;
 import java.util.function.Consumer;
 
@@ -39,19 +41,27 @@ public class UpdateTab extends AbstractTab {
 
     public UpdateTab(HyperiumMainGui gui) {
         super(gui, "tab.update.name");
-        Multithreading.runAsync(() -> latest = InstallerUtils.getManifest().getVersions()[0]);
+        Multithreading.runAsync(() -> {
+            VersionManifest[] versions = InstallerUtils.getManifest().getVersions();
+            for (VersionManifest version : versions) {
+                if (version.getId() == UpdateUtils.INSTANCE.getLatestProperVersion())
+                    latest = version;
+            }
+        });
     }
 
     @Override
     public void render(int x, int y, int width, int height) {
         boolean ua = latest != null && latest.getId() > Metadata.getVersionID();
-        gui.getTitle().drawString(latest == null ? "Loading..." : ua ? "Hyperium " + latest.getName() : I18n.format("tab.update.noupdates"), x + 10, y + 10, 0xffffff);
+        String text = latest == null ? "Loading..." : ua ? "Hyperium " + (latest.getName() + (latest.getBeta() ? " (" + latest.getId() + ")" : "")) : I18n.format("tab.update.noupdates");
+        gui.getTitle().drawString(text, x + 10, y + 10, 0xffffff);
         if (ua) {
             gui.getFont().drawString(dl != null && dl.getProgress() == 100 ? I18n.format("tab.update.autorestart") : I18n.format("tab.update.changelog"), x + 10, y + 25, 0x969696);
             Gui.drawRect(x + 10, y + height - 60, x + 160, y + height - 10, 0x70000000);
             ScaledResolution sr = ResolutionUtil.current();
             int sw = sr.getScaledWidth();
             int sh = sr.getScaledHeight();
+            buttonState = false;
             final int mx = Mouse.getX() * sw / Minecraft.getMinecraft().displayWidth;           // Mouse X
             final int my = sh - Mouse.getY() * sh / Minecraft.getMinecraft().displayHeight - 1; // Mouse Y
             if (mx >= x + 10 && mx <= x + 160 && my >= y + height - 60 && my <= y + height - 10 && Mouse.isButtonDown(0)) {
@@ -81,8 +91,10 @@ public class UpdateTab extends AbstractTab {
                                         Method iccsv = icc.getDeclaredMethod("setVersion", vmc);
                                         int api = ic.getField("API_VERSION").getInt(null);
 
-                                        Object local = vmc.getDeclaredConstructor(String.class, Integer.class, String.class, String.class, String.class, String.class, long.class, String.class, String.class, int.class)
-                                                .newInstance("LOCAL", 0, "cc.hyperium:Hyperium:LOCAL", "", "", "", 0L, "cc/hyperium/Hyperium/LOCAL/Hyperium-LOCAL.jar", "cc.hyperium.launch.HyperiumTweaker", 1);
+                                        System.out.println(Arrays.toString(vmc.getConstructors()));
+                                        //java.lang.String,int,java.lang.String,java.lang.String,java.lang.String,long,long,boolean,int
+                                        Object local = vmc.getDeclaredConstructor(String.class, int.class, String.class, String.class, String.class, long.class, long.class, boolean.class, int.class)
+                                                .newInstance("LOCAL", latest.getId(), latest.getUrl(), latest.getSha256(), latest.getSha1(), latest.getSize(), latest.getTime(), latest.getBeta(), latest.getTargetInstaller());
                                         Object config;
                                         File prev = new File(System.getProperty("user.home"), "hinstaller-state.json");
                                         if (prev.exists())
@@ -128,7 +140,7 @@ public class UpdateTab extends AbstractTab {
                                                 } catch (IllegalAccessException | InvocationTargetException e) {
                                                     e.printStackTrace();
                                                 }
-                                                installState = I18n.format("tab.update.installer.state.manualupdate.api",api);
+                                                installState = I18n.format("tab.update.installer.state.manualupdate.api", api);
                                             }
                                         });
                                         installState = I18n.format("tab.update.installer.state.starting");
