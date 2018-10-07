@@ -21,7 +21,7 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.List;
 
-public class GuiHyperiumScreenIngameMenu extends GuiScreen {
+public class GuiHyperiumScreenIngameMenu extends GuiHyperiumScreen {
 
     private static JsonHolder data = new JsonHolder();
     private final DecimalFormat formatter = new DecimalFormat("#,###");
@@ -68,7 +68,7 @@ public class GuiHyperiumScreenIngameMenu extends GuiScreen {
         MinecraftServer integratedServer = Minecraft.getMinecraft().getIntegratedServer();
         if (theWorld != null && (integratedServer == null)) {
             GuiButton oldButton = buttonList.remove(3);
-            GuiButton newButton = new GuiButton(10, oldButton.xPosition, oldButton.yPosition, oldButton.getButtonWidth(), 20, "Server List");
+            GuiButton newButton = new GuiButton(10, oldButton.xPosition, oldButton.yPosition, oldButton.getButtonWidth(), 20, I18n.format("button.ingame.serverlist"));
             buttonList.add(newButton);
         }
 

@@ -11,6 +11,7 @@ button.ingame.hyperiumsettings=Hyperium 設定
 button.ingame.hyperiumcredits=貢献者
 button.ingame.joinhypixel=Hypixelにログイン
 button.ingame.fixhypixelsession=Hypixelのセッションを修復
+button.ingame.serverlist=サーバーリスト
 button.changebackground.seturl=URLセット
 button.changebackground.choosefile=ファイル選択
 button.changebackground.resetbackground=背景リセット
@@ -70,3 +71,12 @@ gui.changebackground.invalidpath=無効なパスです
 gui.changebackground.unknownerror=不明なエラーが発生しました
 gui.changebackground.downloaderror=ダウンロード中にエラーが発生しました。
 gui.changebackground.selectimage=背景画像選択
+
+#Hyperium PurchaseCarousel Text
+gui.purchase.purchased=購入済み
+gui.purchase.purchase=購入
+gui.purchase.active=有効
+gui.purchase.inactive=無効
+gui.purchase.notpurchased=未購入
+gui.purchase.clicktouse=クリックで使用
+gui.purchase.state=状態

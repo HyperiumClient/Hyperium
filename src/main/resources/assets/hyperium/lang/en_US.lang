@@ -11,6 +11,7 @@ button.ingame.hyperiumsettings=Hyperium Settings
 button.ingame.hyperiumcredits=Hyperium Credits
 button.ingame.joinhypixel=Join Hypixel
 button.ingame.fixhypixelsession=Fix Hypixel Session
+button.ingame.serverlist=Server List
 button.changebackground.seturl=Set URL
 button.changebackground.choosefile=Choose File
 button.changebackground.resetbackground=Reset Background
@@ -71,3 +72,12 @@ gui.changebackground.invalidpath=Invalid path
 gui.changebackground.unknownerror=Unknown error
 gui.changebackground.downloaderror=Error whilst downloading.
 gui.changebackground.selectimage=Select background image
+
+#Hyperium PurchaseCarousel Text
+gui.purchase.purchased=Purchased
+gui.purchase.purchase=Purchase
+gui.purchase.active=Active
+gui.purchase.inactive=Inactive
+gui.purchase.notpurchased=Not Purchased
+gui.purchase.clicktouse=Click to use
+gui.purchase.state=State
