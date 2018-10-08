@@ -218,9 +218,6 @@ public class GuiHyperiumScreen extends GuiScreen {
                 fr.drawString(Minecraft.getMinecraft().getSession().getUsername(), width - 153, 13, 0xFFFFFF);
                 fr.drawString(I18n.format("menu.profile.credits", credits), width - 153, 25, 0xFFFF00);
             }
-        }else{
-            fr.drawString(Minecraft.getMinecraft().thePlayer.getName(), width - 153, 13, 0xFFFFFF);
-            fr.drawString(I18n.format("menu.profile.credits", 0), width - 153, 25, 0xFFFF00);
         }
 
 
