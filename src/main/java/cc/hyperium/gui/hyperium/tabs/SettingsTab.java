@@ -13,6 +13,7 @@ import cc.hyperium.gui.hyperium.components.RGBComponent;
 import cc.hyperium.gui.hyperium.components.SelectorComponent;
 import cc.hyperium.gui.hyperium.components.SliderComponent;
 import cc.hyperium.gui.hyperium.components.ToggleComponent;
+import net.minecraft.client.resources.I18n;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -48,16 +49,16 @@ public class SettingsTab extends AbstractTab {
                 Category category = null;
                 boolean mods = false;
                 if (ts != null) {
-                    tabComponent = new ToggleComponent(this, Collections.emptyList(), ts.name(), f, o);
+                    tabComponent = new ToggleComponent(this, Collections.emptyList(), I18n.format(ts.name()), f, o);
                     category = ts.category();
                     mods = ts.mods();
                 } else if (ss != null) {
                     Supplier<String[]> supplier = gui.getCustomStates().getOrDefault(f, ss::items);
-                    tabComponent = new SelectorComponent(this, Collections.emptyList(), ss.name(), f, o, supplier);
+                    tabComponent = new SelectorComponent(this, Collections.emptyList(), I18n.format(ss.name()), f, o, supplier);
                     category = ss.category();
                     mods = ss.mods();
                 } else if (sliderSetting != null) {
-                    tabComponent = new SliderComponent(this, Collections.emptyList(), sliderSetting.name(), f, o, sliderSetting.min(), sliderSetting.max(), sliderSetting.isInt(), sliderSetting.round());
+                    tabComponent = new SliderComponent(this, Collections.emptyList(), I18n.format(sliderSetting.name()), f, o, sliderSetting.min(), sliderSetting.max(), sliderSetting.isInt(), sliderSetting.round());
                     category = sliderSetting.category();
                     mods = sliderSetting.mods();
                 }

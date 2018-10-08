@@ -120,25 +120,28 @@ public class DragonHeadRenderer extends ModelBase {
         if (player.onGround) {
             jaw.rotateAngleX = 0;
         } else {
-            int e = -1;
-            WorldClient theWorld = Minecraft.getMinecraft().theWorld;
-            Chunk chunk = theWorld.getChunkFromBlockCoords(new BlockPos(player.posX, player.posY, player.posZ));
-            for (int i = 0; i < 255; i++) {
-                if (i > player.posY)
-                    break;
-                Block block = chunk.getBlock(new BlockPos(player.posX, i, player.posZ));
-                if (block != null && !block.getMaterial().equals(Material.air))
-                    e = i;
-            }
-            jaw.rotateAngleX = 0;
-            if (e != -1) {
-                double dis = Math.abs(e - player.posY);
-                dis /= 4;
-                if (dis != 0) {
-                    jaw.rotateAngleX = (float) ((dis) / (1 + dis));
+            if(mc.theWorld != null) {
+                int e = -1;
+                WorldClient theWorld = Minecraft.getMinecraft().theWorld;
+                Chunk chunk = theWorld.getChunkFromBlockCoords(new BlockPos(player.posX, player.posY, player.posZ));
+                for (int i = 0; i < 255; i++) {
+                    if (i > player.posY)
+                        break;
+                    Block block = chunk.getBlock(new BlockPos(player.posX, i, player.posZ));
+                    if (block != null && !block.getMaterial().equals(Material.air))
+                        e = i;
                 }
+                jaw.rotateAngleX = 0;
+                if (e != -1) {
+                    double dis = Math.abs(e - player.posY);
+                    dis /= 4;
+                    if (dis != 0) {
+                        jaw.rotateAngleX = (float) ((dis) / (1 + dis));
+                    }
+                }
+            }else {
+                jaw.rotateAngleX = 0;
             }
-
         }
         GL11.glColor3f(colors[0], colors[1], colors[2]);
         this.mc.getTextureManager().bindTexture(this.selectedLoc);
