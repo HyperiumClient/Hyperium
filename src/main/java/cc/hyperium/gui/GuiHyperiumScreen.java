@@ -210,7 +210,7 @@ public class GuiHyperiumScreen extends GuiScreen {
 
         /* Fetch player credit count */
         if(!Hyperium.INSTANCE.isDevEnv()) {
-            if (PurchaseApi.getInstance() != null && PurchaseApi.getInstance().getSelf().getResponse() != null) {
+            if (PurchaseApi.getInstance() != null && PurchaseApi.getInstance().getSelf() != null) {
                 JsonHolder response = PurchaseApi.getInstance().getSelf().getResponse();
                 int credits = response.optInt("total_credits");
 
