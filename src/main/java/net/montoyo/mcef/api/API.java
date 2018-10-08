@@ -69,7 +69,8 @@ public interface API {
      * @param displayIsolated iframes (and such things) from an external scheme cannot access pages from this scheme.
      * @see org.cef.callback.CefSchemeRegistrar
      */
-    void registerScheme(String name, Class<? extends IScheme> schemeClass, boolean std, boolean local, boolean displayIsolated);
+    void registerScheme(String name, Class<? extends IScheme> schemeClass, boolean std,
+        boolean local, boolean displayIsolated);
 
     /**
      * Checks whether the scheme with name 'name' is already registered.

@@ -5,6 +5,16 @@ import cc.hyperium.event.EventBus;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.RenderTickEvent;
 import cc.hyperium.mods.browser.HyperiumProgressListener;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.InputStreamReader;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import net.minecraft.client.Minecraft;
 import net.montoyo.mcef.BaseProxy;
 import net.montoyo.mcef.MCEF;
@@ -25,17 +35,6 @@ import org.cef.browser.CefBrowserOsr;
 import org.cef.browser.CefMessageRouter;
 import org.cef.browser.CefMessageRouter.CefMessageRouterConfig;
 import org.cef.browser.CefRenderer;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.InputStreamReader;
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class ClientProxy extends BaseProxy {
 
@@ -65,7 +64,9 @@ public class ClientProxy extends BaseProxy {
             rootDir.mkdirs();
         }
 
-        File cefDir = new File(rootDir, "jcef.app" + File.separator + "Contents" + File.separator + "Frameworks" + File.separator + "Chromium Embedded Framework.framework");
+        File cefDir = new File(rootDir,
+            "jcef.app" + File.separator + "Contents" + File.separator + "Frameworks"
+                + File.separator + "Chromium Embedded Framework.framework");
         List<String> args = new ArrayList<>();
 
         if (MCEF.DISABLE_GPU_RENDERING) {
@@ -73,10 +74,15 @@ public class ClientProxy extends BaseProxy {
             args.add("--disable-gpu");
         }
 
+        File macosJcefHelper = new File(rootDir,
+            "jcef.app" + File.separator + "Contents" + File.separator + "Frameworks"
+                + File.separator + "jcef Helper.app" + File.separator + "Contents" + File.separator
+                + "MacOS" + File.separator + "jcef Helper");
+
         if (OS.isMacintosh()) {
             args.add("--framework-dir-path=" + cefDir.getAbsolutePath());
             args.add("--resources-dir-path=" + new File(cefDir, "Resources").getAbsolutePath());
-            args.add("--browser-subprocess-path=" + new File(rootDir, "jcef.app" + File.separator + "Contents" + File.separator + "Frameworks" + File.separator + "jcef Helper.app" + File.separator + "Contents" + File.separator + "MacOS" + File.separator + "jcef Helper"));
+            args.add("--browser-subprocess-path=" + macosJcefHelper.getAbsolutePath());
             args.add("--use-mock-keychain");
             args.add("--disable-mac-overlays");
             args.add("--disable-mac-views-native-app-windows");
@@ -86,7 +92,8 @@ public class ClientProxy extends BaseProxy {
             args.add("--browser-subprocess-path=" + new File(rootDir, "jcef_helper.exe"));
         }
 
-        System.out.println("Starting AppHandler with arguments: " + String.join(", ", args.toArray(new String[0])));
+        System.out.println("Starting AppHandler with arguments: " + String
+            .join(", ", args.toArray(new String[0])));
 
         appHandler = new AppHandler(args.toArray(new String[0]));
 
@@ -107,7 +114,6 @@ public class ClientProxy extends BaseProxy {
             return;
         }
 
-
         updateStr = cfg.getUpdateString();
         ipl.onProgressEnd();
 
@@ -118,34 +124,26 @@ public class ClientProxy extends BaseProxy {
         Log.info("Now adding \"%s\" to java.library.path", ROOT);
 
         try {
-            String paths = System.getProperty("java.library.path");
-
-            String jreHome = System.getProperty("java.home");
-            if (jreHome.contains("jdk")) {
-                List<String> split = new ArrayList<>(Arrays.asList(jreHome.split(
-                        "[" + (File.separator.equalsIgnoreCase("\\") ? "\\\\" : File.separator)
-                                + "]")));
-                split.remove(split.size() - 1);
-                jreHome = String.join(File.separator, split.toArray(new String[0])) + File.separator
-                        + "jre" + File.separator + "bin";
-            }
-            paths += ";" + jreHome;
-
             String newRoot = ROOT.replace('/', File.separatorChar);
-            if (OS.isMacintosh()) {
-                newRoot += File.separatorChar + RemoteConfig.PLATFORM + ("-natives");
-            }
-            if (newRoot.endsWith("."))
+            if (newRoot.endsWith(".")) {
                 newRoot = newRoot.substring(0, newRoot.length() - 1);
-            paths += ";" + newRoot;
+            }
             System.out.println("CEF resources root: " + newRoot);
-            System.setProperty("java.library.path", paths);
 
-            Field sysPathsField = ClassLoader.class.getDeclaredField("sys_paths");
-            sysPathsField.setAccessible(true);
-            sysPathsField.set(null, null);
+            Field field = ClassLoader.class.getDeclaredField("usr_paths");
+            field.setAccessible(true);
+            String[] paths = (String[]) field.get(null);
+            String[] tmp = new String[paths.length + 1];
+            System.arraycopy(paths, 0, tmp, 0, paths.length);
+            tmp[paths.length] = newRoot;
+            field.set(null, tmp);
+            System.setProperty("java.library.path", System.getProperty("java.library.path") + File.pathSeparator + newRoot);
 
-            System.out.println(paths);
+            Field fieldSysPath = ClassLoader.class.getDeclaredField("sys_paths");
+            fieldSysPath.setAccessible(true);
+            fieldSysPath.set(null, null);
+
+            System.out.println(System.getProperty("java.library.path"));
         } catch (Exception e) {
             Log.error("Failed to do it! Entering virtual mode...");
             e.printStackTrace();
@@ -161,11 +159,10 @@ public class ClientProxy extends BaseProxy {
             LinuxPatch.doPatch(resourceArray);
         }
 
-        String exeSuffix;
-        if (OS.isWindows()) {
-            exeSuffix = ".exe";
-        } else {
-            exeSuffix = "";
+        if (OS.isMacintosh()) {
+            System.out.println("Modding macOS files");
+            new File(rootDir, "jcef.app").setExecutable(true);
+            macosJcefHelper.setExecutable(true);
         }
 
         CefSettings settings = new CefSettings();
@@ -173,33 +170,31 @@ public class ClientProxy extends BaseProxy {
         settings.background_color = settings.new ColorType(0, 255, 255, 255);
         settings.locales_dir_path = (new File(ROOT, "MCEFLocales")).getAbsolutePath();
         settings.cache_path = (new File(ROOT, "MCEFCache")).getAbsolutePath();
-//        settings.browser_subprocess_path = (new File(ROOT, OS.isWindows() ? "jcef_helper.exe" : "jcef.app" + File.separator + "Contents" + File.separator + "Frameworks" + File.separator + "jcef Helper.app"))
-//                .getAbsolutePath(); //Temporary fix
+        settings.browser_subprocess_path =
+            OS.isWindows() ? new File(rootDir, "jcef_helper.exe").getAbsolutePath()
+                : macosJcefHelper.getAbsolutePath(); //Temporary fix
         //settings.log_severity = CefSettings.LogSeverity.LOGSEVERITY_VERBOSE;
 
         try {
-            ArrayList<String> libs = new ArrayList<>();
+            ArrayList<File> libs = new ArrayList<>();
 
             if (OS.isWindows()) {
-                libs.add("jawt");
-                libs.add("chrome_elf");
-                libs.add("libcef");
-            } else {
-//                libs.add("cef");
+                System.loadLibrary("jawt");
+                libs.add(new File(rootDir, "chrome_elf.dll"));
+                libs.add(new File(rootDir, "libcef.dll"));
+                libs.add(new File(rootDir, "jcef.dll"));
+            } else if (OS.isMacintosh()) {
+                libs.add(new File(rootDir, "jcef.app" + File.separator + "Contents" + File.separator + "Frameworks" + File.separator + "Chromium Embedded Framework.framework" + File.separator + "Chromium Embedded Framework"));
+                libs.add(new File(rootDir, "jcef.dylib"));
             }
-            libs.add("jcef");
 
-            for (String lib : libs) {
-                String loadName = lib;
-                if (loadName.contains(".")) {
-                    loadName = loadName.substring(0, loadName.length() - loadName.split("[.]")[1].length() - 1);
-                }
-                try {
-                    System.loadLibrary(loadName);
-                    System.out.println("Loaded " + loadName);
-                } catch (UnsatisfiedLinkError error) {
-                    error.printStackTrace();
-                }
+
+            for (File lib : libs) {
+                System.out.println(lib.getAbsolutePath());
+
+                System.out.println("Loading: " + lib.getName());
+                System.load(lib.getAbsolutePath());
+                System.out.println("Loaded " + lib.getName());
             }
 
             cefApp = CefApp.getInstance(settings);
@@ -208,9 +203,9 @@ public class ClientProxy extends BaseProxy {
             loadMimeTypeMapping();
             CefApp.addAppHandler(appHandler);
             cefClient = cefApp.createClient();
-        } catch (Throwable t) {
+        } catch (Exception e) {
             Log.error("Going in virtual mode; couldn't initialize CEF.");
-            t.printStackTrace();
+            e.printStackTrace();
 
             VIRTUAL = true;
             return;
@@ -224,6 +219,26 @@ public class ClientProxy extends BaseProxy {
         EventBus.INSTANCE.register(this);
 
         Log.info("MCEF loaded successfuly.");
+    }
+
+    public static void addLibraryPath(String pathToAdd) throws Exception {
+        final Field usrPathsField = ClassLoader.class.getDeclaredField("usr_paths");
+        usrPathsField.setAccessible(true);
+
+        //get array of paths
+        final String[] paths = (String[]) usrPathsField.get(null);
+
+        //check if the path to add is already present
+        for (String path : paths) {
+            if (path.equals(pathToAdd)) {
+                return;
+            }
+        }
+
+        //add the new path
+        final String[] newPaths = Arrays.copyOf(paths, paths.length + 1);
+        newPaths[newPaths.length - 1] = pathToAdd;
+        usrPathsField.set(null, newPaths);
     }
 
     public CefApp getCefApp() {
@@ -264,7 +279,7 @@ public class ClientProxy extends BaseProxy {
 
     @Override
     public void registerScheme(String name, Class<? extends IScheme> schemeClass, boolean std,
-                               boolean local, boolean displayIsolated) {
+        boolean local, boolean displayIsolated) {
         appHandler.registerScheme(name, schemeClass, std, local, displayIsolated);
     }
 
@@ -333,7 +348,7 @@ public class ClientProxy extends BaseProxy {
 
         try {
             BufferedReader br = new BufferedReader(new InputStreamReader(
-                    ClientProxy.class.getResourceAsStream("/assets/mcef/mime.types")));
+                ClientProxy.class.getResourceAsStream("/assets/mcef/mime.types")));
 
             while (true) {
                 cLine++;
