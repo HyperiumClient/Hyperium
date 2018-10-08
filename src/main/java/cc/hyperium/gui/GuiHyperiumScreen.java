@@ -209,13 +209,15 @@ public class GuiHyperiumScreen extends GuiScreen {
         // drawRect(width - 160, 10, width - 158, 40, new Color(149, 201, 144, 255).getRGB());
 
         /* Fetch player credit count */
-        if (PurchaseApi.getInstance() != null && PurchaseApi.getInstance().getSelf().getResponse() != null) {
-            JsonHolder response = PurchaseApi.getInstance().getSelf().getResponse();
-            int credits = response.optInt("total_credits");
+        if(!Metadata.isDevelopment()) {
+            if (PurchaseApi.getInstance() != null && PurchaseApi.getInstance().getSelf().getResponse() != null) {
+                JsonHolder response = PurchaseApi.getInstance().getSelf().getResponse();
+                int credits = response.optInt("total_credits");
 
-            /* Render player credits count and username */
-            fr.drawString(Minecraft.getMinecraft().getSession().getUsername(), width - 153, 13, 0xFFFFFF);
-            fr.drawString(I18n.format("menu.profile.credits", credits), width - 153, 25, 0xFFFF00);
+                /* Render player credits count and username */
+                fr.drawString(Minecraft.getMinecraft().getSession().getUsername(), width - 153, 13, 0xFFFFFF);
+                fr.drawString(I18n.format("menu.profile.credits", credits), width - 153, 25, 0xFFFF00);
+            }
         }
 
 
