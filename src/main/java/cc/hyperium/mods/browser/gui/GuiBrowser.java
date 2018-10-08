@@ -2,6 +2,8 @@ package cc.hyperium.mods.browser.gui;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.mods.browser.util.BrowserUtil;
+import java.awt.event.KeyEvent;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -11,6 +13,7 @@ import net.montoyo.mcef.MCEF;
 import net.montoyo.mcef.api.API;
 import net.montoyo.mcef.api.IBrowser;
 import net.montoyo.mcef.api.MCEFApi;
+import org.cef.OS;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
@@ -108,7 +111,14 @@ public class GuiBrowser extends GuiScreen {
         if (browser == null) {
             urlToLoad = url;
         } else {
-            browser.loadURL(url);
+            if (OS.isMacintosh()) {
+                Hyperium.INSTANCE.getModIntegration().getBrowserMod().browserGui.urlToLoad = url;
+                GuiBrowser.browser.close();
+                GuiBrowser.browser = null;
+                Minecraft.getMinecraft().displayGuiScreen(Hyperium.INSTANCE.getModIntegration().getBrowserMod().browserGui);
+            } else {
+                browser.loadURL(url);
+            }
         }
     }
 
@@ -185,6 +195,13 @@ public class GuiBrowser extends GuiScreen {
                     }
                 }
 
+                if (num == Keyboard.KEY_BACK && pressed) {
+                    browser.injectKeyPressed((char) KeyEvent.VK_LEFT, 1);
+                    browser.injectKeyReleased((char) KeyEvent.VK_LEFT, 1);
+                    browser.injectKeyPressed((char) KeyEvent.VK_DELETE, 0);
+                    browser.injectKeyReleased((char) KeyEvent.VK_DELETE, 0);
+                }
+
                 if (key != Keyboard.CHAR_NONE) {
                     browser.injectKeyTyped(key, BrowserUtil.getModifierInt());
                 }
@@ -257,7 +274,7 @@ public class GuiBrowser extends GuiScreen {
                 text = "http://google.com/search?q=" + URLEncoder.encode(tmpurl);
                 url.setText(text);
             }
-            browser.loadURL(text);
+            this.loadURL(text);
         } else if (src.id == 3) {
             Hyperium.INSTANCE.getModIntegration().getBrowserMod().setBackup(null);
             mc.displayGuiScreen(null);

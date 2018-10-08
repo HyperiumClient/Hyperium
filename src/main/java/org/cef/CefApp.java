@@ -49,7 +49,9 @@ public class CefApp extends CefAppHandlerAdapter {
         } else if (OS.isLinux()) {
             System.loadLibrary("cef");
         }
-        System.loadLibrary("jcef");
+        if (!OS.isMacintosh()) {
+            System.loadLibrary("jcef");
+        }
         if (appHandler_ == null) {
             appHandler_ = this;
         }
