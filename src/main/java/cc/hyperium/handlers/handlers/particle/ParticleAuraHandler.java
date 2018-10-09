@@ -5,6 +5,7 @@ import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.PurchaseLoadEvent;
 import cc.hyperium.event.RenderPlayerEvent;
 import cc.hyperium.event.WorldChangeEvent;
+import cc.hyperium.gui.GuiHyperiumScreenIngameMenu;
 import cc.hyperium.handlers.handlers.particle.animations.DoubleHelix;
 import cc.hyperium.handlers.handlers.particle.animations.DoubleTwirlAnimation;
 import cc.hyperium.handlers.handlers.particle.animations.ExplodeAnimation;
@@ -110,6 +111,8 @@ public class ParticleAuraHandler {
         if (Minecraft.getMinecraft().isGamePaused())
             return;
         if (event.getEntity().isInvisible())
+            return;
+        if (Minecraft.getMinecraft().currentScreen instanceof GuiHyperiumScreenIngameMenu)
             return;
         if (Minecraft.getMinecraft().theWorld == null || Minecraft.getMinecraft().thePlayer == null)
             return;
