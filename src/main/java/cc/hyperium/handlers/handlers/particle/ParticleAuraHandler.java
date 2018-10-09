@@ -112,12 +112,11 @@ public class ParticleAuraHandler {
             return;
         if (event.getEntity().isInvisible())
             return;
-        if(Minecraft.getMinecraft().currentScreen instanceof GuiHyperiumScreenIngameMenu){
+        if (Minecraft.getMinecraft().currentScreen instanceof GuiHyperiumScreenIngameMenu)
             return;
-        }
         if (Minecraft.getMinecraft().theWorld == null || Minecraft.getMinecraft().thePlayer == null)
             return;
-        if(!Settings.SHOW_PARTICLES) return;
+        if (!Settings.SHOW_PARTICLES) return;
         AbstractClientPlayer entity = event.getEntity();
         ParticleAura particleAura = auras.get(entity.getUniqueID());
         if (particleAura != null && !entity.isInvisible()) {
