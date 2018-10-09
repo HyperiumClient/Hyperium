@@ -52,7 +52,7 @@ public class ParticleAuraHandler {
         animations.put("Static Trail", new StaticTrailAnimation());
         animations.put("Explode", new ExplodeAnimation());
         animations.put("Vortex of doom", new VortexOfDoomAnimation());
-        animations.put("Tornado",new TornadoAnimation());
+        animations.put("Tornado", new TornadoAnimation());
 
     }
 
@@ -110,11 +110,13 @@ public class ParticleAuraHandler {
     public void renderPlayer(RenderPlayerEvent event) {
         if (Minecraft.getMinecraft().isGamePaused())
             return;
-        if(event.getEntity().isInvisible())
+        if (event.getEntity().isInvisible())
             return;
         if(Minecraft.getMinecraft().currentScreen instanceof GuiHyperiumScreenIngameMenu){
             return;
         }
+        if (Minecraft.getMinecraft().theWorld == null || Minecraft.getMinecraft().thePlayer == null)
+            return;
         if(!Settings.SHOW_PARTICLES) return;
         AbstractClientPlayer entity = event.getEntity();
         ParticleAura particleAura = auras.get(entity.getUniqueID());
