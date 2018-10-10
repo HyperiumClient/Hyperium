@@ -1,7 +1,6 @@
 package cc.hyperium.mods.glintcolorizer;
 
 import cc.hyperium.Hyperium;
-import cc.hyperium.config.ConfigOpt;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.TickEvent;
@@ -10,12 +9,11 @@ import java.awt.Color;
 
 public class GlintColorizer extends AbstractMod {
 
-    @ConfigOpt
-    public static boolean enabled = false;
+    private Colors colors = new Colors();
 
     @Override
     public AbstractMod init() {
-        Hyperium.CONFIG.register(new Colors());
+        Hyperium.CONFIG.register(colors);
         Hyperium.CONFIG.register(this);
         EventBus.INSTANCE.register(this);
         Colors.setonepoint8color(Colors.glintR,Colors.glintG,Colors.glintB);
@@ -24,7 +22,7 @@ public class GlintColorizer extends AbstractMod {
 
     @InvokeEvent
     public void onTick(TickEvent e) {
-        if (!enabled) {
+        if (!Colors.enabled) {
             if (Colors.onepoint8glintcolorI != -8372020) {
                 Colors.onepoint8glintcolorI = -8372020;
             }
@@ -39,6 +37,10 @@ public class GlintColorizer extends AbstractMod {
     @Override
     public Metadata getModMetadata() {
         return new Metadata(this, "Glint Colorizer", "1.0", "powns");
+    }
+
+    public Colors getColors() {
+        return colors;
     }
 
 }
