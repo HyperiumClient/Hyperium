@@ -75,6 +75,9 @@ public class WingsRenderer extends ModelBase {
                 .interpolate(player.prevRenderYawOffset, player.renderYawOffset, partialTicks);
 
         GlStateManager.pushMatrix();
+        // Displaces the wings by a custom value.
+        double customOffset = Settings.WINGS_OFFSET / 50;
+        GlStateManager.translate(0,customOffset,0);
         GlStateManager.translate(x, y, z);
 
 
