@@ -46,29 +46,6 @@ public class HyperiumGuiScreen {
 
     public void initGui() {
         EventBus.INSTANCE.post(new InitGuiEvent(parent));
-        if (Settings.BLUR_GUI && !Settings.FAST_CONTAINER) {
-            Minecraft.getMinecraft().addScheduledTask(() -> {
-                Method loadShaderMethod = null;
-                try {
-                    loadShaderMethod = EntityRenderer.class.getDeclaredMethod("loadShader", ResourceLocation.class);
-                } catch (NoSuchMethodException e) {
-                    try {
-                        loadShaderMethod = EntityRenderer.class.getDeclaredMethod("a", ResourceLocation.class);
-                    } catch (NoSuchMethodException e1) {
-                        e1.printStackTrace();
-                    }
-                }
-
-                if (loadShaderMethod != null) {
-                    loadShaderMethod.setAccessible(true);
-                    try {
-                        loadShaderMethod.invoke(Minecraft.getMinecraft().entityRenderer, new ResourceLocation("shaders/hyperium_blur.json"));
-                    } catch (IllegalAccessException | InvocationTargetException e) {
-                        e.printStackTrace();
-                    }
-                }
-            });
-        }
     }
 
     public void keyTyped(char typedChar, int keyCode) {
@@ -80,9 +57,5 @@ public class HyperiumGuiScreen {
     }
 
     public void onGuiClosed(CallbackInfo ci) {
-        if (Settings.BLUR_GUI) {
-            Minecraft.getMinecraft()
-                    .addScheduledTask(() -> Minecraft.getMinecraft().entityRenderer.stopUseShader());
-        }
     }
 }
