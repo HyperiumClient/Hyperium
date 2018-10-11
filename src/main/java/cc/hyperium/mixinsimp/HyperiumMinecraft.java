@@ -38,6 +38,7 @@ import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.resources.DefaultResourcePack;
 import net.minecraft.client.resources.FileResourcePack;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.client.resources.IResourcePack;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.crash.CrashReport;
@@ -265,27 +266,19 @@ public class HyperiumMinecraft {
     }
 
     public void onStartGame(CallbackInfo ci) {
-        SplashProgress.PROGRESS = 1;
-        SplashProgress.CURRENT = "Starting game";
-        SplashProgress.update();
+        SplashProgress.setProgress(1, "splashprogress.startinggame");
     }
 
     public void onLoadDefaultResourcePack(CallbackInfo ci) {
-        SplashProgress.PROGRESS = 2;
-        SplashProgress.CURRENT = "Loading resource";
-        SplashProgress.update();
+        SplashProgress.setProgress(2,"Loading Resources...");
     }
 
     public void onCreateDisplay(CallbackInfo ci) {
-        SplashProgress.PROGRESS = 3;
-        SplashProgress.CURRENT = "Creating display";
-        SplashProgress.update();
+        SplashProgress.setProgress(3,"Creating Display...");
     }
 
     public void onLoadTexture(CallbackInfo ci) {
-        SplashProgress.PROGRESS = 4;
-        SplashProgress.CURRENT = "Initializing textures";
-        SplashProgress.update();
+        SplashProgress.setProgress(4,"Initializing Textures...");
     }
 
     public void loadWorld(WorldClient worldClient, CallbackInfo ci) {
