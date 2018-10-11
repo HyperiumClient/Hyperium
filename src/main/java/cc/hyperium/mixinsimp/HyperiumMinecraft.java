@@ -266,18 +266,22 @@ public class HyperiumMinecraft {
     }
 
     public void onStartGame(CallbackInfo ci) {
-        SplashProgress.setProgress(1, "splashprogress.startinggame");
+        //ToDo Allow the usage of I18n formatting
+        SplashProgress.setProgress(1, "Starting Game...");
     }
 
     public void onLoadDefaultResourcePack(CallbackInfo ci) {
+        //ToDo Allow the usage of I18n formatting
         SplashProgress.setProgress(2,"Loading Resources...");
     }
 
     public void onCreateDisplay(CallbackInfo ci) {
+        //ToDo Allow the usage of I18n formatting
         SplashProgress.setProgress(3,"Creating Display...");
     }
 
     public void onLoadTexture(CallbackInfo ci) {
+        //ToDo Allow the usage of I18n formatting
         SplashProgress.setProgress(4,"Initializing Textures...");
     }
 
