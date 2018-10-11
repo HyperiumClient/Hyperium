@@ -343,6 +343,10 @@ public class Settings {
     public static String SHOW_WINGS = "ON";
 
     @ConfigOpt
+    @SliderSetting(name = "gui.settings.wingsheight", min = -40, max = 40, category = COSMETICS)
+    public static double WINGS_OFFSET = 0D;
+
+    @ConfigOpt
     @SliderSetting(name = "gui.settings.wingsscale", min = 50, max = 200, category = COSMETICS)
     public static double WINGS_SCALE = 100D;
 
