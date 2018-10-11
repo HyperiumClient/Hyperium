@@ -39,6 +39,7 @@ import cc.hyperium.handlers.handlers.animation.DabHandler;
 import cc.hyperium.handlers.handlers.animation.FlossDanceHandler;
 import cc.hyperium.handlers.handlers.animation.TPoseHandler;
 import cc.hyperium.handlers.handlers.animation.TwerkDance;
+import cc.hyperium.handlers.handlers.animation.YeetHandler;
 import cc.hyperium.handlers.handlers.animation.cape.CapeHandler;
 import cc.hyperium.handlers.handlers.animation.fortnite.FortniteDefaultDance;
 import cc.hyperium.handlers.handlers.chat.AutoWhoChatHandler;
@@ -105,6 +106,7 @@ public class HyperiumHandlers {
     private BroadcastEvents broadcastEvents;
     private HypixelValueTracking hypixelValueTracking;
     private SettingsHandler settingsHandler;
+    private YeetHandler yeetHandler;
 
     public HyperiumHandlers() {
         System.out.println("Loading handlers");
@@ -132,7 +134,7 @@ public class HyperiumHandlers {
         register(dabHandler = new DabHandler());
         register(twerkDance = new TwerkDance());
         register(particleAuraHandler = new ParticleAuraHandler());
-
+        register(yeetHandler = new YeetHandler());
         register(hypixelGuiAugmenter = new HypixelGuiAugmenter());
         register(statusHandler = new StatusHandler());
         register(flossDanceHandler = new FlossDanceHandler());
@@ -156,6 +158,10 @@ public class HyperiumHandlers {
 
         //Command Handler
         register(commandHandler = new HyperiumCommandHandler());
+    }
+
+    public YeetHandler getYeetHandler() {
+        return yeetHandler;
     }
 
     public void postInit() {
