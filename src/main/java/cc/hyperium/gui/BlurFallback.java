@@ -30,7 +30,7 @@ public class BlurFallback {
 
     @InvokeEvent
     private void onTick(TickEvent event) {
-        if(!HyperiumEntityRenderer.INSTANCE.isUsingShader()) {
+        if(!HyperiumEntityRenderer.INSTANCE.isUsingShader) {
             Minecraft mc = Minecraft.getMinecraft();
             // Clear shaders on disable.
             if (mc != null && mc.entityRenderer != null) {

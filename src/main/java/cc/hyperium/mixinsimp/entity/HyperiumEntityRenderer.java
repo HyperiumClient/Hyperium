@@ -26,7 +26,7 @@ import org.lwjgl.opengl.Display;
 
 public class HyperiumEntityRenderer {
     private EntityRenderer parent;
-    private boolean isUsingShader = false;
+    public boolean isUsingShader = false;
     public static HyperiumEntityRenderer INSTANCE;
 
     public HyperiumEntityRenderer(EntityRenderer parent) {
@@ -192,16 +192,5 @@ public class HyperiumEntityRenderer {
                 }
             }
         }
-    }
-    public void useShader(){
-        isUsingShader = true;
-    }
-
-    public boolean isUsingShader(){
-        return isUsingShader;
-    }
-
-    public void stopShader(){
-        isUsingShader = false;
     }
 }
