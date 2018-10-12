@@ -2,6 +2,15 @@ package cc.hyperium.mods.browser.gui;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.mods.browser.util.BrowserUtil;
+import com.google.gson.Gson;
+import java.awt.AWTException;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
+import java.awt.Robot;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -11,12 +20,14 @@ import net.montoyo.mcef.MCEF;
 import net.montoyo.mcef.api.API;
 import net.montoyo.mcef.api.IBrowser;
 import net.montoyo.mcef.api.MCEFApi;
+import org.cef.browser.CefBrowserOsr;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
 import java.awt.Color;
 import java.io.IOException;
 import java.net.URLEncoder;
+import sun.awt.AWTAccessor;
 
 /**
  * @author Koding
@@ -33,13 +44,36 @@ public class GuiBrowser extends GuiScreen {
     private GuiTextField url = null;
     private String urlToLoad, title;
 
-
     public GuiBrowser(String url) {
         urlToLoad = (url == null) ? MCEF.HOME_PAGE : url;
     }
 
     @Override
     public void initGui() {
+        JFrame jFrame = new JFrame("Storing Keycoded");
+        jFrame.add(new JPanel());
+        jFrame.setSize(300, 300);
+        jFrame.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                System.out.println("Typed: " + e.getKeyLocation() + " " + e.getKeyChar() + " " + e.getExtendedKeyCode() + " " + e.getKeyCode() + " " + e.isActionKey() + " " + e.getModifiers());
+                ((CefBrowserOsr) GuiBrowser.browser).injectKeyEvent(e);
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                System.out.println("Pressed: " + e.getKeyLocation() + " " + e.getKeyChar() + " " + e.getExtendedKeyCode() + " " + e.getKeyCode() + " " + e.isActionKey() + " " + e.getModifiers());
+                ((CefBrowserOsr) GuiBrowser.browser).injectKeyEvent(e);
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                System.out.println("Released: " + e.getKeyLocation() + " " + e.getKeyChar() + " " + e.getExtendedKeyCode() + " " + e.getKeyCode() + " " + e.isActionKey() + " " + e.getModifiers());
+                ((CefBrowserOsr) GuiBrowser.browser).injectKeyEvent(e);
+            }
+        });
+        jFrame.setVisible(true);
+
         Hyperium.INSTANCE.getModIntegration().getBrowserMod().hudBrowser = null;
 
         if (browser == null) {
@@ -182,6 +216,23 @@ public class GuiBrowser extends GuiScreen {
                         browser.injectKeyPressed(key, BrowserUtil.getModifierInt());
                     } else {
                         browser.injectKeyReleased(key, BrowserUtil.getModifierInt());
+                    }
+                }
+
+                if (num == Keyboard.KEY_BACK) {
+                    if (pressed) {
+                        KeyEvent keyEvent1 = new KeyEvent(((CefBrowserOsr) browser).getUIComponent(), KeyEvent.KEY_PRESSED, 0, 0, 8, (char) 8, 1);
+                        KeyEvent keyEvent2 = new KeyEvent(((CefBrowserOsr) browser).getUIComponent(), KeyEvent.KEY_TYPED, 0, 0, 0, (char) 8);
+                        AWTAccessor.getKeyEventAccessor().setExtendedKeyCode(keyEvent1, 8);
+                        ((CefBrowserOsr) browser).injectKeyEvent(keyEvent1);
+                        System.out.println("Pressed: " + keyEvent1.getKeyLocation() + " " + keyEvent1.getKeyChar() + " " + keyEvent1.getExtendedKeyCode() + " " + keyEvent1.getKeyCode() + " " + keyEvent1.isActionKey() + " " + keyEvent1.getModifiers());
+                        ((CefBrowserOsr) browser).injectKeyEvent(keyEvent2);
+                        System.out.println("Typed: " + keyEvent2.getKeyLocation() + " " + keyEvent2.getKeyChar() + " " + keyEvent2.getExtendedKeyCode() + " " + keyEvent2.getKeyCode() + " " + keyEvent2.isActionKey() + " " + keyEvent2.getModifiers());
+                    } else {
+                        KeyEvent keyEvent1 = new KeyEvent(((CefBrowserOsr) browser).getUIComponent(), KeyEvent.KEY_RELEASED, 0, 0, 8, (char) 8, 1);
+                        AWTAccessor.getKeyEventAccessor().setExtendedKeyCode(keyEvent1, 8);
+                        ((CefBrowserOsr) browser).injectKeyEvent(keyEvent1);
+                        System.out.println("Released: " + keyEvent1.getKeyLocation() + " " + keyEvent1.getKeyChar() + " " + keyEvent1.getExtendedKeyCode() + " " + keyEvent1.getKeyCode() + " " + keyEvent1.isActionKey() + " " + keyEvent1.getModifiers());
                     }
                 }
 
