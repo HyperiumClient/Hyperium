@@ -1,7 +1,11 @@
 package cc.hyperium.cosmetics;
 
+import cc.hyperium.cosmetics.hats.ModelHatFez;
+import cc.hyperium.cosmetics.hats.ModelHatTophat;
 import cc.hyperium.cosmetics.wings.WingsCosmetic;
 import cc.hyperium.event.EventBus;
+import cc.hyperium.purchases.EnumPurchaseType;
+import net.minecraft.util.ResourceLocation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +26,9 @@ public class HyperiumCosmetics {
     private final ButtCosmetic buttCosmetic;
     private final KillCounterMuscles killCounterMuscles;
 
+    private final CosmeticHat topHatCosmetic = new CosmeticHat(false, EnumPurchaseType.HAT_TOPHAT, true).setModel(new ModelHatTophat(),new ResourceLocation("textures/cosmetics/hats/tophat.png"));
+    private final CosmeticHat fezCosmetic = new CosmeticHat(false, EnumPurchaseType.HAT_FEZ, true).setModel(new ModelHatFez(),new ResourceLocation("textures/cosmetics/hats/fez.png"));
+
     /**
      * Hyperium Cosmetics - Default Constructor/Cosmetic Registry
      */
@@ -35,6 +42,10 @@ public class HyperiumCosmetics {
         registerCosmetic(deadmau5Cosmetic = new Deadmau5Cosmetic());
         registerCosmetic(wingsCosmetic = new WingsCosmetic());
         registerCosmetic(dragonCosmetic = new DragonCosmetic());
+
+        registerCosmetic(topHatCosmetic);
+        registerCosmetic(fezCosmetic);
+
     }
 
     /**
@@ -59,7 +70,9 @@ public class HyperiumCosmetics {
         DEALWITHIT,
         DEADMAU5,
         WINGS,
-        DRAGON
+        DRAGON,
+        HAT_TOPHAT,
+        HAT_FEZ
 
     }
 
@@ -88,6 +101,10 @@ public class HyperiumCosmetics {
                 return this.wingsCosmetic;
             case DRAGON:
                 return this.dragonCosmetic;
+            case HAT_TOPHAT:
+                return this.topHatCosmetic;
+            case HAT_FEZ:
+                return this.fezCosmetic;
             default:
                 return null;
 

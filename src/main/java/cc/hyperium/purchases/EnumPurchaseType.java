@@ -29,7 +29,9 @@ public enum EnumPurchaseType {
     BUTT("Butt"),
     DEADMAU5_COSMETIC("Ears"),
     DRAGON_HEAD("Dragon Head"),
-    UNKNOWN("Unknown");
+    UNKNOWN("Unknown"),
+    HAT_TOPHAT("Tophat"),
+    HAT_FEZ("Fez");
 
     private String displayName;
 

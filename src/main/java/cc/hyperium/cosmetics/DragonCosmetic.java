@@ -21,7 +21,5 @@ public class DragonCosmetic extends AbstractCosmetic {
     @InvokeEvent
     public void renderPlayer(RenderPlayerEvent event) {
         AbstractClientPlayer player = event.getEntity();
-
-
     }
 }
