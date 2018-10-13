@@ -23,10 +23,9 @@ public class CosmeticHat extends AbstractCosmetic {
      *
      * @param selfOnly     - Should be rendered on self only? (boolean)
      * @param purchaseType - Given Type of Purchase (EnumPurchaseType)
-     * @param purchaseable - Is purchasable? (boolean)
      */
-    public CosmeticHat(boolean selfOnly, EnumPurchaseType purchaseType, boolean purchaseable) {
-        super(selfOnly, purchaseType, purchaseable);
+    public CosmeticHat(boolean selfOnly, EnumPurchaseType purchaseType) {
+        super(selfOnly, purchaseType);
     }
 
     /**

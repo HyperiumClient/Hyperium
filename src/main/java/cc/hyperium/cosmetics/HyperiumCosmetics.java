@@ -27,8 +27,8 @@ public class HyperiumCosmetics {
     private EnderDragonBackpack enderDragonBackpack;
     private DragonCompanion dragonCompanion;
 
-    private final CosmeticHat topHatCosmetic = new CosmeticHat(false, EnumPurchaseType.HAT_TOPHAT, true).setModel(new ModelHatTophat(),new ResourceLocation("textures/cosmetics/hats/tophat.png"));
-    private final CosmeticHat fezCosmetic = new CosmeticHat(false, EnumPurchaseType.HAT_FEZ, true).setModel(new ModelHatFez(),new ResourceLocation("textures/cosmetics/hats/fez.png"));
+    private final CosmeticHat topHatCosmetic = new CosmeticHat(false, EnumPurchaseType.HAT_TOPHAT).setModel(new ModelHatTophat(),new ResourceLocation("textures/cosmetics/hats/tophat.png"));
+    private final CosmeticHat fezCosmetic = new CosmeticHat(false, EnumPurchaseType.HAT_FEZ).setModel(new ModelHatFez(),new ResourceLocation("textures/cosmetics/hats/fez.png"));
 
     /**
      * Hyperium Cosmetics - Default Constructor/Cosmetic Registry
