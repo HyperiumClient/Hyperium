@@ -84,6 +84,8 @@ public class HyperiumPurchase {
     }
 
     public boolean hasPurchased(EnumPurchaseType type) {
+        if(type == EnumPurchaseType.UNKNOWN)
+            return false;
         if (isEverything())
             return true;
         return getPurchase(type) != null;

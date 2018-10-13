@@ -27,6 +27,8 @@ public class DragonCompanion extends AbstractCosmetic {
 
     @InvokeEvent
     public void renderPlayer(RenderPlayerEvent event) {
+        if (Minecraft.getMinecraft().theWorld == null)
+            return;
         if (!isPurchasedBy(event.getEntity().getUniqueID()))
             return;
         scale = .1F;

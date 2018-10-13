@@ -3,6 +3,8 @@ package cc.hyperium.cosmetics;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.RenderPlayerEvent;
 import cc.hyperium.purchases.EnumPurchaseType;
+import cc.hyperium.purchases.HyperiumPurchase;
+import cc.hyperium.purchases.PurchaseApi;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.model.ModelBase;
@@ -49,26 +51,31 @@ public class CosmeticHat extends AbstractCosmetic {
 
         if (this.isPurchasedBy(player.getUniqueID()) && !player.isInvisible()) {
 
-        GlStateManager.pushMatrix();
+            HyperiumPurchase packageIfReady = PurchaseApi.getInstance().getPackageIfReady(player.getUniqueID());
+            if (packageIfReady.getCachedSettings().getCurrentHatType() != getPurchaseType()) {
+                return;
+            }
 
-        final double scale = 1.0F;
-        final double rotate = this.interpolate(player.prevRotationYawHead, player.rotationYawHead, e.getPartialTicks());
-        final double rotate1 = this.interpolate(player.prevRotationPitch, player.rotationPitch, e.getPartialTicks());
+            GlStateManager.pushMatrix();
 
-        GL11.glScaled(-scale, -scale, scale);
+            final double scale = 1.0F;
+            final double rotate = this.interpolate(player.prevRotationYawHead, player.rotationYawHead, e.getPartialTicks());
+            final double rotate1 = this.interpolate(player.prevRotationPitch, player.rotationPitch, e.getPartialTicks());
 
-        GL11.glTranslated(0.0, -((player.height - (player.isSneaking() ? .25 : 0)) - .38) / scale, 0.0);
+            GL11.glScaled(-scale, -scale, scale);
 
-        GL11.glRotated(180.0 + rotate, 0.0, 1.0, 0.0);
-        GL11.glRotated(rotate1, 1.0D, 0.0D, 0.0D);
+            GL11.glTranslated(0.0, -((player.height - (player.isSneaking() ? .25 : 0)) - .38) / scale, 0.0);
 
-        GlStateManager.translate(0,-.45,0);
+            GL11.glRotated(180.0 + rotate, 0.0, 1.0, 0.0);
+            GL11.glRotated(rotate1, 1.0D, 0.0D, 0.0D);
 
-        /* Bind the hat texture and render the model */
-        mc.getTextureManager().bindTexture(this.hatTexture);
-        hatModel.render(player, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
+            GlStateManager.translate(0, -.45, 0);
 
-        GlStateManager.popMatrix();
+            /* Bind the hat texture and render the model */
+            mc.getTextureManager().bindTexture(this.hatTexture);
+            hatModel.render(player, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
+
+            GlStateManager.popMatrix();
         }
 
     }

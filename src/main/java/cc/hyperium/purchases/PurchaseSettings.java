@@ -11,6 +11,7 @@ public class PurchaseSettings {
     private String wingsType;
     private double wingsScale;
     private boolean dragonHeadDisabled;
+    private EnumPurchaseType currentHatType;
 
     public PurchaseSettings(JsonHolder source) {
         this.source = source;
@@ -21,6 +22,7 @@ public class PurchaseSettings {
         this.wingsScale = source.optJSONObject("wings")
                 .optDouble("scale", Settings.WINGS_SCALE);
         dragonHeadDisabled = source.optJSONObject("dragon").optBoolean("disabled");
+        this.currentHatType = EnumPurchaseType.parse(source.optJSONObject("hat").optString("current_type"));
     }
 
     public boolean isDragonHeadDisabled() {
@@ -41,5 +43,10 @@ public class PurchaseSettings {
 
     public boolean isButtDisabled() {
         return buttDisabled;
+    }
+
+
+    public EnumPurchaseType getCurrentHatType() {
+        return currentHatType;
     }
 }

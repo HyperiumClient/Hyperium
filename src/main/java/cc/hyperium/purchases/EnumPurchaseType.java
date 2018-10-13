@@ -45,6 +45,11 @@ public enum EnumPurchaseType {
         try {
             return valueOf(asString.toUpperCase());
         } catch (Exception e) {
+            for (EnumPurchaseType enumPurchaseType : values()) {
+                if (enumPurchaseType.displayName.equalsIgnoreCase(asString)) {
+                    return enumPurchaseType;
+                }
+            }
             return UNKNOWN;
         }
     }

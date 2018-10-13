@@ -140,6 +140,10 @@ public class Settings {
     @ToggleSetting(name = "gui.settings.blurredguibackground")
     public static boolean BLUR_GUI = false;
 
+    @ConfigOpt
+    @SelectorSetting(name = "Hat Type", category = COSMETICS, items = "NONE")
+    public static String HAT_TYPE = "NONE";
+
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;chromaHudNonHypixelEnabled")
     @ToggleSetting(name = "gui.settings.chromahudonallservers")
     public static boolean CHROMAHUD_ALL = true;
@@ -275,7 +279,8 @@ public class Settings {
     public static int MAX_PARTICLES = 200;
 
     @ConfigOpt
-    @SelectorSetting(name = "gui.settings.maxparticles", category = COSMETICS, items = {"200"}) // Items configured in override
+    @SelectorSetting(name = "gui.settings.maxparticles", category = COSMETICS, items = {"200"})
+    // Items configured in override
     public static String MAX_PARTICLE_STRING = "200";
 
     @ConfigOpt

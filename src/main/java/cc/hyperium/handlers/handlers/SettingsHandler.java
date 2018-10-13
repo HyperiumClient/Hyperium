@@ -45,6 +45,37 @@ public class SettingsHandler {
                     client.write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("ears", yes)));
                 }
             });
+            Field hats = Settings.class.getField("HAT_TYPE");
+            customStates.put(hats, () -> {
+                String[] hats1 = new String[]{"Tophat", "Fez"};
+                HyperiumPurchase self = PurchaseApi.getInstance().getSelf();
+                if (self != null) {
+                    List<String> pur = new ArrayList<>();
+                    for (String s : hats1) {
+                        if (self.hasPurchased(EnumPurchaseType.parse(s))) {
+                            pur.add(s);
+                        }
+                    }
+                    if (pur.size() > 0) {
+                        pur.add("NONE");
+                        String[] tmp = new String[pur.size()];
+                        for (int i = 0; i < pur.size(); i++) {
+                            tmp[i] = pur.get(i);
+                        }
+                        return tmp;
+                    }
+                }
+                return new String[]{"NOT PURCHASED"};
+            });
+            registerCallback(hats, o -> {
+                NettyClient client = NettyClient.getClient();
+                if (client == null) {
+                    return;
+                }
+                JsonHolder put = new JsonHolder().put("internal", true).put("set_hat", true).put("value", o.toString().equalsIgnoreCase("NONE") ? "NONE":EnumPurchaseType.parse(o.toString()).toString());
+                ServerCrossDataPacket build = ServerCrossDataPacket.build(put);
+                client.write(build);
+            });
             customStates.put(earsField, () -> {
                 Hyperium instance = Hyperium.INSTANCE;
                 HyperiumCosmetics cosmetics1 = instance.getCosmetics();
@@ -67,8 +98,10 @@ public class SettingsHandler {
                     };
                 }
 
+
                 return new String[]{"NOT PURCHASED"};
             });
+
             registerCallback(Settings.class.getField("SHOW_BUTT"), o -> {
                 boolean yes = !((String) o).equalsIgnoreCase("YES");
                 HyperiumPurchase self = PurchaseApi.getInstance().getSelf();
