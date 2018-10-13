@@ -128,7 +128,14 @@ public class Hyperium {
 
     @InvokeEvent(priority = Priority.HIGH)
     public void init(InitializationEvent event) {
+
         try {
+            Multithreading.runAsync(() -> {
+                networkHandler = new NetworkHandler();
+                CONFIG.register(networkHandler);
+                this.client = new NettyClient(networkHandler);
+                UniversalNetty.getInstance().getPacketManager().register(new LoginReplyHandler());
+            });
             Multithreading.runAsync(() -> new PlayerStatsGui(null));//Don't remove, we need to generate some stuff with Gl context
             notification = new NotificationCenter();
             scheduler = new HyperiumScheduler();
@@ -247,13 +254,7 @@ public class Hyperium {
 
             SplashProgress.setProgress(13, I18n.format("splashprogress.finishing"));
 
-            Multithreading.runAsync(() -> {
 
-                networkHandler = new NetworkHandler();
-                CONFIG.register(networkHandler);
-                this.client = new NettyClient(networkHandler);
-                UniversalNetty.getInstance().getPacketManager().register(new LoginReplyHandler());
-            });
             Multithreading.runAsync(() -> {
                 EventBus.INSTANCE.register(FontFixValues.INSTANCE);
                 if (Settings.PERSISTENT_CHAT) {
