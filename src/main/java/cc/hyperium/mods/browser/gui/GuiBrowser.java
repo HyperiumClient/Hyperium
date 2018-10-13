@@ -2,15 +2,21 @@ package cc.hyperium.mods.browser.gui;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.mods.browser.util.BrowserUtil;
-import com.google.gson.Gson;
-import java.awt.AWTException;
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
+import java.awt.Color;
 import java.awt.Robot;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.IOException;
+import java.net.URLEncoder;
+import java.security.AccessController;
+import java.security.PrivilegedActionException;
+import java.security.PrivilegedExceptionAction;
+import java.util.HashMap;
+import java.util.Map;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.WindowConstants;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -20,14 +26,11 @@ import net.montoyo.mcef.MCEF;
 import net.montoyo.mcef.api.API;
 import net.montoyo.mcef.api.IBrowser;
 import net.montoyo.mcef.api.MCEFApi;
+import org.apache.commons.lang3.tuple.MutableTriple;
+import org.apache.commons.lang3.tuple.Triple;
 import org.cef.browser.CefBrowserOsr;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
-
-import java.awt.Color;
-import java.io.IOException;
-import java.net.URLEncoder;
-import sun.awt.AWTAccessor;
 
 /**
  * @author Koding
@@ -50,30 +53,6 @@ public class GuiBrowser extends GuiScreen {
 
     @Override
     public void initGui() {
-        JFrame jFrame = new JFrame("Storing Keycoded");
-        jFrame.add(new JPanel());
-        jFrame.setSize(300, 300);
-        jFrame.addKeyListener(new KeyListener() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-                System.out.println("Typed: " + e.getKeyLocation() + " " + e.getKeyChar() + " " + e.getExtendedKeyCode() + " " + e.getKeyCode() + " " + e.isActionKey() + " " + e.getModifiers());
-                ((CefBrowserOsr) GuiBrowser.browser).injectKeyEvent(e);
-            }
-
-            @Override
-            public void keyPressed(KeyEvent e) {
-                System.out.println("Pressed: " + e.getKeyLocation() + " " + e.getKeyChar() + " " + e.getExtendedKeyCode() + " " + e.getKeyCode() + " " + e.isActionKey() + " " + e.getModifiers());
-                ((CefBrowserOsr) GuiBrowser.browser).injectKeyEvent(e);
-            }
-
-            @Override
-            public void keyReleased(KeyEvent e) {
-                System.out.println("Released: " + e.getKeyLocation() + " " + e.getKeyChar() + " " + e.getExtendedKeyCode() + " " + e.getKeyCode() + " " + e.isActionKey() + " " + e.getModifiers());
-                ((CefBrowserOsr) GuiBrowser.browser).injectKeyEvent(e);
-            }
-        });
-        jFrame.setVisible(true);
-
         Hyperium.INSTANCE.getModIntegration().getBrowserMod().hudBrowser = null;
 
         if (browser == null) {
@@ -136,9 +115,9 @@ public class GuiBrowser extends GuiScreen {
     }
 
     public void loadURL(String url) {
-        if (url != null)
-
+        if (url != null) {
             this.url.setText(url);
+        }
         if (browser == null) {
             urlToLoad = url;
         } else {
@@ -165,8 +144,8 @@ public class GuiBrowser extends GuiScreen {
         Gui.drawRect(0, 0, width, 10, new Color(0, 0, 0, 100).getRGB());
         if (title != null) {
             fontRendererObj
-                    .drawString(title, 5, (10f - fontRendererObj.FONT_HEIGHT) / 2, Color.WHITE.getRGB(),
-                            true);
+                .drawString(title, 5, (10f - fontRendererObj.FONT_HEIGHT) / 2, Color.WHITE.getRGB(),
+                    true);
         }
 
         //Renders the browser if itsn't null
@@ -197,6 +176,7 @@ public class GuiBrowser extends GuiScreen {
 
     @Override
     public void handleInput() {
+        Map<Integer, Triple<KeyEvent, KeyEvent, String>> map = Hyperium.INSTANCE.getModIntegration().getBrowserMod().keyPressesMap;
         while (Keyboard.next()) {
 
             boolean pressed = Keyboard.getEventKeyState();
@@ -210,7 +190,7 @@ public class GuiBrowser extends GuiScreen {
                 return;
             }
             if (browser != null
-                    && !focused) { //Inject events into browser. TODO: Handle keyboard mods.
+                && !focused) { //Inject events into browser. TODO: Handle keyboard mods.
                 if (key != '.' && key != ';' && key != ',') { //Workaround
                     if (pressed) {
                         browser.injectKeyPressed(key, BrowserUtil.getModifierInt());
@@ -219,20 +199,16 @@ public class GuiBrowser extends GuiScreen {
                     }
                 }
 
-                if (num == Keyboard.KEY_BACK) {
+                if (map.containsKey(KeyEvent.getExtendedKeyCodeForChar(key))) {
+                    Triple<KeyEvent, KeyEvent, String> entry = map.get(KeyEvent.getExtendedKeyCodeForChar(key));
                     if (pressed) {
-                        KeyEvent keyEvent1 = new KeyEvent(((CefBrowserOsr) browser).getUIComponent(), KeyEvent.KEY_PRESSED, 0, 0, 8, (char) 8, 1);
-                        KeyEvent keyEvent2 = new KeyEvent(((CefBrowserOsr) browser).getUIComponent(), KeyEvent.KEY_TYPED, 0, 0, 0, (char) 8);
-                        AWTAccessor.getKeyEventAccessor().setExtendedKeyCode(keyEvent1, 8);
-                        ((CefBrowserOsr) browser).injectKeyEvent(keyEvent1);
-                        System.out.println("Pressed: " + keyEvent1.getKeyLocation() + " " + keyEvent1.getKeyChar() + " " + keyEvent1.getExtendedKeyCode() + " " + keyEvent1.getKeyCode() + " " + keyEvent1.isActionKey() + " " + keyEvent1.getModifiers());
-                        ((CefBrowserOsr) browser).injectKeyEvent(keyEvent2);
-                        System.out.println("Typed: " + keyEvent2.getKeyLocation() + " " + keyEvent2.getKeyChar() + " " + keyEvent2.getExtendedKeyCode() + " " + keyEvent2.getKeyCode() + " " + keyEvent2.isActionKey() + " " + keyEvent2.getModifiers());
+                        KeyEvent keyEvent = new KeyEvent(
+                            ((CefBrowserOsr) browser).getUIComponent(), KeyEvent.KEY_TYPED, 0, 0, 0,
+                            (char) 0);
+                        ((CefBrowserOsr) browser).injectKeyEvent(entry.getLeft());
+                        ((CefBrowserOsr) browser).injectKeyEvent(keyEvent);
                     } else {
-                        KeyEvent keyEvent1 = new KeyEvent(((CefBrowserOsr) browser).getUIComponent(), KeyEvent.KEY_RELEASED, 0, 0, 8, (char) 8, 1);
-                        AWTAccessor.getKeyEventAccessor().setExtendedKeyCode(keyEvent1, 8);
-                        ((CefBrowserOsr) browser).injectKeyEvent(keyEvent1);
-                        System.out.println("Released: " + keyEvent1.getKeyLocation() + " " + keyEvent1.getKeyChar() + " " + keyEvent1.getExtendedKeyCode() + " " + keyEvent1.getKeyCode() + " " + keyEvent1.isActionKey() + " " + keyEvent1.getModifiers());
+                        ((CefBrowserOsr) browser).injectKeyEvent(entry.getMiddle());
                     }
                 }
 
@@ -264,7 +240,8 @@ public class GuiBrowser extends GuiScreen {
                 } else if (btn == -1) {
                     browser.injectMouseMove(sx, y, BrowserUtil.getModifierInt(), y < 0);
                 } else {
-                    browser.injectMouseButton(sx, y, BrowserUtil.getModifierInt(), btn + 1, pressed, 1);
+                    browser.injectMouseButton(sx, y, BrowserUtil.getModifierInt(), btn + 1, pressed,
+                        1);
                 }
             }
 
