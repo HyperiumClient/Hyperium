@@ -23,7 +23,8 @@ public interface IJSQueryHandler {
      * @param cb Use this to answer the query; this means call the JS onSuccess and onFailure functions.
      * @return true if the query was handled.
      */
-    boolean handleQuery(IBrowser b, long queryId, String query, boolean persistent, IJSQueryCallback cb);
+    boolean handleQuery(IBrowser b, long queryId, String query, boolean persistent,
+        IJSQueryCallback cb);
     
     /**
      * Handles a JavaScript query cancellation. Queries are cancelled using the following JavaScript code:

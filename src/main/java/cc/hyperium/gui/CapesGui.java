@@ -12,14 +12,15 @@ import cc.hyperium.utils.RenderUtils;
 import cc.hyperium.utils.UUIDUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiTextField;
+import net.minecraft.client.gui.GuiYesNo;
 import net.minecraft.client.gui.GuiYesNoCallback;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 
 import javax.imageio.ImageIO;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Desktop;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
@@ -33,19 +34,19 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class CapesGui extends HyperiumGui implements GuiYesNoCallback {
 
+    private int purchaseIds;
     private Map<String, DynamicTexture> textures = new ConcurrentHashMap<>();
     private Map<String, BufferedImage> texturesImage = new ConcurrentHashMap<>();
     private JsonHolder cosmeticCallback = new JsonHolder();
     private boolean purchasing = false;
-    private GuiTextField textField;
     private HashMap<Integer, Runnable> ids = new HashMap<>();
-    private int purchaseIds = 0;
     private int initialGuiScale;
+    private HashMap<String, Integer> intMap = new HashMap<>();
 
-    public CapesGui() {
+    CapesGui() {
         initialGuiScale = Minecraft.getMinecraft().gameSettings.guiScale;
         // Adjust if GUI scale is on automatic.
-        if(Minecraft.getMinecraft().gameSettings.guiScale == 0){
+        if (Minecraft.getMinecraft().gameSettings.guiScale == 0) {
             initialGuiScale = 0;
             Minecraft.getMinecraft().gameSettings.guiScale = 3;
         }
@@ -59,8 +60,7 @@ public class CapesGui extends HyperiumGui implements GuiYesNoCallback {
                 Multithreading.runAsync(() -> {
                     JsonHolder jsonHolder = capeAtlas.optJSONObject(s);
                     try {
-                        URL url = null;
-                        url = new URL(jsonHolder.optString("url"));
+                        URL url = new URL(jsonHolder.optString("url"));
                         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                         connection.setRequestMethod("GET");
                         connection.setUseCaches(true);
@@ -97,7 +97,7 @@ public class CapesGui extends HyperiumGui implements GuiYesNoCallback {
     }
 
     @Override
-    protected void pack(){
+    protected void pack() {
         reg("RESET", new GuiButton(nextId(), 1, 1, "Disable Hyperium Cape"), guiButton -> {
             NettyClient client = NettyClient.getClient();
             if (client != null) {
@@ -160,30 +160,30 @@ public class CapesGui extends HyperiumGui implements GuiYesNoCallback {
             JsonHolder capeAtlas = PurchaseApi.getInstance().getCapeAtlas();
 
 
-            int totalRows = (int) (capeAtlas.getKeys().size() / blocksPerLine + (capeAtlas.getKeys().size() % blocksPerLine == 0 ? 0 : 1));
+            int totalRows = (capeAtlas.getKeys().size() / blocksPerLine + (capeAtlas.getKeys().size() % blocksPerLine == 0 ? 0 : 1));
             int row = 0;
             int pos = 1;
             int printY = 15 - offset;
             GlStateManager.scale(2F, 2F, 2F);
-            fontRendererObj.drawString("Capes", (current.getScaledWidth() / 2 - fontRendererObj.getStringWidth("Capes")) / 2, printY / 2, new Color(249, 99, 0).getRGB(), true);
+            fontRendererObj.drawString("Capes", (current.getScaledWidth() / 2F - fontRendererObj.getStringWidth("Capes")) / 2, printY / 2F, new Color(249, 99, 0).getRGB(), true);
             String s1;
             try {
-                 s1 = PurchaseApi.getInstance().getSelf().getPurchaseSettings()
-                    .optJSONObject("cape").optString("type");
-            } catch (NullPointerException e){
+                s1 = PurchaseApi.getInstance().getSelf().getPurchaseSettings()
+                        .optJSONObject("cape").optString("type");
+            } catch (NullPointerException ignored) {
                 return;
             }
             String s2 = capeAtlas.optJSONObject(s1).optString("name");
             if (s2.isEmpty())
                 s2 = "NONE";
             String text = "Active Cape: " + s2;
-            fontRendererObj.drawString(text, (current.getScaledWidth() / 2 - fontRendererObj.getStringWidth(text)) / 2, (printY + 20) / 2, new Color(249, 99, 0).getRGB(), true);
+            fontRendererObj.drawString(text, (current.getScaledWidth() / 2F - fontRendererObj.getStringWidth(text)) / 2, (printY + 20) / 2F, new Color(249, 99, 0).getRGB(), true);
             text = "Need more credits? Click here";
             int stringWidth1 = fontRendererObj.getStringWidth(text);
             int i2 = current.getScaledWidth() / 2 - stringWidth1;
             int i3 = printY + 40;
-            fontRendererObj.drawString(text, i2 / 2
-                , i3 / 2, new Color(97, 132, 249).getRGB(), true);
+            fontRendererObj.drawString(text, i2 / 2F
+                    , i3 / 2F, new Color(97, 132, 249).getRGB(), true);
             GuiBlock block1 = new GuiBlock(i2, i2 + stringWidth1 * 2, i3, i3 + 15);
             GlStateManager.scale(.5F, .5F, .5F);
             actions.put(block1, () -> {
@@ -214,7 +214,7 @@ public class CapesGui extends HyperiumGui implements GuiYesNoCallback {
                 int thisBlocksCenter = (int) (scaledWidth / 2 - ((blocksPerLine / 2) - pos + .5) * (blockWidth + 16));
                 int thisTopY = printY + row * (16 + blockHeight);
                 RenderUtils.drawSmoothRect(thisBlocksCenter - blockWidth / 2, thisTopY,
-                    (thisBlocksCenter + blockWidth / 2), thisTopY + blockHeight, Color.WHITE.getRGB());
+                        (thisBlocksCenter + blockWidth / 2), thisTopY + blockHeight, Color.WHITE.getRGB());
                 DynamicTexture dynamicTexture = textures.get(s);
                 if (dynamicTexture != null) {
                     int imgW = 120;
@@ -234,7 +234,7 @@ public class CapesGui extends HyperiumGui implements GuiYesNoCallback {
                 String nameCape = cape.optString("name");
                 GlStateManager.scale(2F, 2F, 2F);
                 int x = thisBlocksCenter - fontRendererObj.getStringWidth(nameCape);
-                fontRendererObj.drawString(nameCape, x / 2, (thisTopY - 8 + blockHeight / 2 + 64 + 16) / 2, new Color(249, 99, 0).getRGB(), true);
+                fontRendererObj.drawString(nameCape, x / 2F, (thisTopY - 8 + blockHeight / 2F + 64 + 16) / 2, new Color(249, 99, 0).getRGB(), true);
                 GlStateManager.scale(.5F, .5F, .5F);
 
                 if (cosmeticCallback.getKeys().size() == 0 || purchasing) {
@@ -258,7 +258,7 @@ public class CapesGui extends HyperiumGui implements GuiYesNoCallback {
                         int i1 = thisTopY - 8 + blockHeight / 2 + 64 + 48;
                         GlStateManager.scale(2F, 2F, 2F);
 
-                        fontRendererObj.drawString(string, i / 2, i1 / 2, new Color(249, 55, 241).getRGB(), true);
+                        fontRendererObj.drawString(string, i / 2F, i1 / 2F, new Color(249, 55, 241).getRGB(), true);
                         GlStateManager.scale(.5F, .5F, .5F);
                     } else {
                         int stringWidth = fontRendererObj.getStringWidth(string);
@@ -280,7 +280,7 @@ public class CapesGui extends HyperiumGui implements GuiYesNoCallback {
                         });
                         GlStateManager.scale(2F, 2F, 2F);
 
-                        fontRendererObj.drawString(string, i / 2, i1 / 2, new Color(249, 55, 241).getRGB(), true);
+                        fontRendererObj.drawString(string, i / 2F, i1 / 2F, new Color(249, 55, 241).getRGB(), true);
                         GlStateManager.scale(.5F, .5F, .5F);
                     }
 
@@ -296,10 +296,16 @@ public class CapesGui extends HyperiumGui implements GuiYesNoCallback {
                         actions.put(block, () -> {
                             System.out.println("Attempting to purchase " + s);
                             purchasing = true;
-                            NettyClient client = NettyClient.getClient();
-                            if (client != null) {
-                                client.write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("cosmetic_purchase", true).put("value", s)));
-                            }
+                            Integer integer = intMap.computeIfAbsent(s, s3 -> ++purchaseIds);
+                            GuiYesNo gui = new GuiYesNo(this, "Purchase " + s, "", integer);
+                            Minecraft.getMinecraft().displayGuiScreen(gui);
+                            ids.put(integer, () -> {
+                                GeneralChatHandler.instance().sendMessage("Attempting to purchase " + s);
+                                NettyClient client = NettyClient.getClient();
+                                if (client != null) {
+                                    client.write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("cosmetic_purchase", true).put("value", s)));
+                                }
+                            });
                         });
                     } else {
                         String string = "Insufficient Credits";
@@ -322,15 +328,15 @@ public class CapesGui extends HyperiumGui implements GuiYesNoCallback {
     public void updatePurchases() {
         Multithreading.runAsync(() -> {
             cosmeticCallback = PurchaseApi.getInstance().get(
-                "https://api.hyperium.cc/cosmetics/" + Objects.requireNonNull(UUIDUtil.getClientUUID()).toString()
-                    .replace("-", ""));
+                    "https://api.hyperium.cc/cosmetics/" + Objects.requireNonNull(UUIDUtil.getClientUUID()).toString()
+                            .replace("-", ""));
             purchasing = false;
         });
     }
 
     @Override
     public void onGuiClosed() {
-        if(initialGuiScale == 0){
+        if (initialGuiScale == 0) {
             // User was on automatic so return to that scale.
             Minecraft.getMinecraft().gameSettings.guiScale = 0;
         }

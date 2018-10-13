@@ -52,6 +52,12 @@ public class SplashProgress {
         drawSplash(Minecraft.getMinecraft().getTextureManager());
     }
 
+    public static void setProgress(int givenProgress, String givenSplash){
+        PROGRESS = givenProgress;
+        CURRENT = givenSplash;
+        update();
+    }
+
     public static void drawSplash(TextureManager tm) {
         if (ctm == null) {
             ctm = tm;

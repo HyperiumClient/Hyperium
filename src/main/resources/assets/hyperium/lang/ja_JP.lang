@@ -179,6 +179,7 @@ gui.settings.sprintandperspectivemessages=Sprint And Perspective Messages
 gui.settings.autowho=Auto Who
 gui.settings.showdragonhead=Show Dragon Head
 gui.settings.showwings=Show Wings
+gui.settings.wingsheight=Wings Height
 gui.settings.wingsscale=Wings Scale
 gui.settings.showchromahud=Show ChromaHUD
 gui.settings.mainmenustyle=Main Menu Style

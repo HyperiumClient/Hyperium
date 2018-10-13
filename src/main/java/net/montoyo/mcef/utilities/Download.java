@@ -2,6 +2,7 @@ package net.montoyo.mcef.utilities;
 
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.URL;
 import java.util.Observable;
 
@@ -20,10 +21,10 @@ class Download extends Observable implements Runnable {
     private long size; // size of download in bytes
     private int downloaded; // number of bytes downloaded
     private int status; // current status of download
-    private FileOutputStream output; // Output file
+    private OutputStream output; // Output file
 
     // Constructor for Download.
-    public Download(InputStream is, FileOutputStream output, long size) {
+    public Download(InputStream is, OutputStream output, long size) {
         this.is = is;
         this.output = output;
         this.size = size;

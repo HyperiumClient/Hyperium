@@ -132,6 +132,12 @@ public class RemoteConfig {
                     Log.warning("Couldn't extract %s. MCEF may not work because of this.", r);
             }
 
+            if (OS.isMacintosh()) {
+                System.out.println("Creating missing directories");
+                File file = new File("jcef.app", "Contents");
+                new File(file, "PlugIns").mkdirs();
+            }
+
             Log.info("Done; all resources were downloaded.");
         } else
             Log.info("None are missing. Good.");

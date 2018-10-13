@@ -16,7 +16,6 @@ public enum Category {
     //Mods
     AUTOTIP("Autotip"),
     AUTO_GG("Auto GG"),
-    AUTO_TPA("Auto TPA"),
     UTILITIES("Utilities"),
     LEVEL_HEAD("Levelhead"),
     REACH("Reach Display"),
@@ -25,7 +24,9 @@ public enum Category {
     KEYSTROKES("Keystrokes"),
     MOTION_BLUR("Motion Blur"),
     AUTOFRIEND("Auto Friend"),
+    GLINTCOLORIZER("Glint Colorizer"),
     FNCOMPASS("Fortnite Compass"),
+
     ITEM_PHYSIC("Item Physics");
     private String display;
 

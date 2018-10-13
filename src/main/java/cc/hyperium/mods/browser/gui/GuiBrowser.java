@@ -17,6 +17,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
+import java.awt.event.KeyEvent;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -29,6 +31,7 @@ import net.montoyo.mcef.api.MCEFApi;
 import org.apache.commons.lang3.tuple.MutableTriple;
 import org.apache.commons.lang3.tuple.Triple;
 import org.cef.browser.CefBrowserOsr;
+import org.cef.OS;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
@@ -121,7 +124,14 @@ public class GuiBrowser extends GuiScreen {
         if (browser == null) {
             urlToLoad = url;
         } else {
-            browser.loadURL(url);
+            if (OS.isMacintosh()) {
+                Hyperium.INSTANCE.getModIntegration().getBrowserMod().browserGui.urlToLoad = url;
+                GuiBrowser.browser.close();
+                GuiBrowser.browser = null;
+                Minecraft.getMinecraft().displayGuiScreen(Hyperium.INSTANCE.getModIntegration().getBrowserMod().browserGui);
+            } else {
+                browser.loadURL(url);
+            }
         }
     }
 
@@ -285,7 +295,7 @@ public class GuiBrowser extends GuiScreen {
                 text = "http://google.com/search?q=" + URLEncoder.encode(tmpurl);
                 url.setText(text);
             }
-            browser.loadURL(text);
+            this.loadURL(text);
         } else if (src.id == 3) {
             Hyperium.INSTANCE.getModIntegration().getBrowserMod().setBackup(null);
             mc.displayGuiScreen(null);
