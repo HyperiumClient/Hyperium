@@ -161,13 +161,6 @@ public class ClientProxy extends BaseProxy {
             LinuxPatch.doPatch(resourceArray);
         }
 
-        String exeSuffix;
-        if (OS.isWindows()) {
-            exeSuffix = ".exe";
-        } else {
-            exeSuffix = "";
-        }
-
         CefSettings settings = new CefSettings();
         settings.windowless_rendering_enabled = true;
         settings.background_color = settings.new ColorType(0, 255, 255, 255);
