@@ -1,8 +1,12 @@
 package cc.hyperium.cosmetics;
 
 import cc.hyperium.cosmetics.backpack.EnderDragonBackpack;
+import cc.hyperium.cosmetics.hats.ModelHatFez;
+import cc.hyperium.cosmetics.hats.ModelHatTophat;
 import cc.hyperium.cosmetics.wings.WingsCosmetic;
 import cc.hyperium.event.EventBus;
+import cc.hyperium.purchases.EnumPurchaseType;
+import net.minecraft.util.ResourceLocation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +27,9 @@ public class HyperiumCosmetics {
     private EnderDragonBackpack enderDragonBackpack;
     private DragonCompanion dragonCompanion;
 
+    private final CosmeticHat topHatCosmetic = new CosmeticHat(false, EnumPurchaseType.HAT_TOPHAT, true).setModel(new ModelHatTophat(),new ResourceLocation("textures/cosmetics/hats/tophat.png"));
+    private final CosmeticHat fezCosmetic = new CosmeticHat(false, EnumPurchaseType.HAT_FEZ, true).setModel(new ModelHatFez(),new ResourceLocation("textures/cosmetics/hats/fez.png"));
+
     /**
      * Hyperium Cosmetics - Default Constructor/Cosmetic Registry
      */
@@ -36,6 +43,9 @@ public class HyperiumCosmetics {
         registerCosmetic(dragonCosmetic = new DragonCosmetic());
         registerCosmetic(enderDragonBackpack = new EnderDragonBackpack());
         registerCosmetic(dragonCompanion = new DragonCompanion());
+        registerCosmetic(topHatCosmetic);
+        registerCosmetic(fezCosmetic);
+
     }
 
     public List<AbstractCosmetic> getCosmeticList() {
@@ -65,6 +75,25 @@ public class HyperiumCosmetics {
     }
 
     /**
+     * EnumCosmeticType - Used to distinguish cosmetics
+     * and their types
+     */
+    public enum EnumCosmeticType {
+
+        DAB,
+        CHROMA_WIN,
+        BUTT,
+        FLIP,
+        DEALWITHIT,
+        DEADMAU5,
+        WINGS,
+        DRAGON,
+        HAT_TOPHAT,
+        HAT_FEZ
+
+    }
+
+    /**
      * Get Cosmetic - Get a specific cosmetic from Enum Value
      *
      * @param givenType - Given Cosmetic Enum
@@ -86,6 +115,10 @@ public class HyperiumCosmetics {
                 return this.wingsCosmetic;
             case DRAGON:
                 return this.dragonCosmetic;
+            case HAT_TOPHAT:
+                return this.topHatCosmetic;
+            case HAT_FEZ:
+                return this.fezCosmetic;
             default:
                 return null;
 
@@ -120,22 +153,5 @@ public class HyperiumCosmetics {
 
     public KillCounterMuscles getKillCounterMusclesCosmetic() {
         return this.killCounterMuscles;
-    }
-
-    /**
-     * EnumCosmeticType - Used to distinguish cosmetics
-     * and their types
-     */
-    public enum EnumCosmeticType {
-
-        DAB,
-        CHROMA_WIN,
-        BUTT,
-        FLIP,
-        DEALWITHIT,
-        DEADMAU5,
-        WINGS,
-        DRAGON
-
     }
 }
