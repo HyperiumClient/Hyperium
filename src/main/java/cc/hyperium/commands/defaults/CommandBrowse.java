@@ -21,7 +21,6 @@ package cc.hyperium.commands.defaults;
 import cc.hyperium.Hyperium;
 import cc.hyperium.commands.BaseCommand;
 import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
-import org.cef.OS;
 
 public class CommandBrowse implements BaseCommand {
 
@@ -37,13 +36,11 @@ public class CommandBrowse implements BaseCommand {
 
     @Override
     public void onExecute(String[] args) {
-        if (!OS.isMacintosh())
-            if (args.length == 1) {
-                Hyperium.INSTANCE.getModIntegration().getBrowserMod().browserGui.loadURL(args[0]);
-                Hyperium.INSTANCE.getModIntegration().getBrowserMod().showBrowser();
-            } else {
-                GeneralChatHandler.instance().sendMessage(getUsage());
-            }
-        else GeneralChatHandler.instance().sendMessage("Not available yet!");
+        if (args.length == 1) {
+            Hyperium.INSTANCE.getModIntegration().getBrowserMod().browserGui.loadURL(args[0]);
+            Hyperium.INSTANCE.getModIntegration().getBrowserMod().showBrowser();
+        } else {
+            GeneralChatHandler.instance().sendMessage(getUsage());
+        }
     }
 }
