@@ -20,11 +20,14 @@ public class HyperiumCosmetics {
     private final DealWithItGlasses dealWithIt;
     private final DragonCosmetic dragonCosmetic;
     private final ButtCosmetic buttCosmetic;
+    private final KillCounterMuscles killCounterMuscles;
 
+    /**
+     * Hyperium Cosmetics - Default Constructor/Cosmetic Registry
+     */
     public HyperiumCosmetics() {
-        registerCosmetic(new KillCounterMuscles());
+        registerCosmetic(killCounterMuscles = new KillCounterMuscles());
         registerCosmetic(dabCosmetic = new DabOnKIllCosmetic());
-
         registerCosmetic(chromaWin = new ChromaWinCosmetic());
         registerCosmetic(buttCosmetic = new ButtCosmetic());
         registerCosmetic(flipCosmetic = new FlipCosmetic());
@@ -34,14 +37,6 @@ public class HyperiumCosmetics {
         registerCosmetic(dragonCosmetic = new DragonCosmetic());
     }
 
-    public ButtCosmetic getButtCosmetic() {
-        return buttCosmetic;
-    }
-
-    public DragonCosmetic getDragonCosmetic() {
-        return dragonCosmetic;
-    }
-
     /**
      * Register Cosmetic - Register a Cosmetic Class
      * @param cosmetic - Given Cosmetic Class
@@ -49,58 +44,6 @@ public class HyperiumCosmetics {
     private void registerCosmetic(AbstractCosmetic cosmetic) {
         cosmeticList.add(cosmetic);
         EventBus.INSTANCE.register(cosmetic);
-    }
-
-    /**
-     * Get Cosmetic - Get a specific cosmetic from Enum Value
-     * @param givenType - Given Cosmetic Enum
-     * @return - Given Abstract Cosmetic Class
-     */
-    public AbstractCosmetic getCosmetic(EnumCosmeticType givenType){
-
-        switch(givenType){
-
-            case DAB:
-                return dabCosmetic;
-            case CHROMA_WIN:
-                return chromaWin;
-            case BUTT:
-                return buttCosmetic;
-            case FLIP:
-                return flipCosmetic;
-            case DEALWITHIT:
-                return dealWithIt;
-            case DEADMAU5:
-                return deadmau5Cosmetic;
-            case WINGS:
-                return wingsCosmetic;
-            case DRAGON:
-                return dragonCosmetic;
-            default:
-                return null;
-
-        }
-
-    }
-
-    public DabOnKIllCosmetic getDabCosmetic() {
-        return dabCosmetic;
-    }
-
-    public ChromaWinCosmetic getChromaWin() {
-        return chromaWin;
-    }
-
-    public FlipCosmetic getFlipCosmetic() {
-        return flipCosmetic;
-    }
-
-    public Deadmau5Cosmetic getDeadmau5Cosmetic() {
-        return deadmau5Cosmetic;
-    }
-
-    public WingsCosmetic getWingsCosmetic() {
-        return wingsCosmetic;
     }
 
     /**
@@ -120,4 +63,67 @@ public class HyperiumCosmetics {
 
     }
 
+    /**
+     * Get Cosmetic - Get a specific cosmetic from Enum Value
+     * @param givenType - Given Cosmetic Enum
+     * @return - Given Abstract Cosmetic Class
+     */
+    public AbstractCosmetic getCosmetic(EnumCosmeticType givenType){
+
+        switch(givenType){
+
+            case DAB:
+                return this.dabCosmetic;
+            case CHROMA_WIN:
+                return this.chromaWin;
+            case BUTT:
+                return this.buttCosmetic;
+            case FLIP:
+                return this.flipCosmetic;
+            case DEALWITHIT:
+                return this.dealWithIt;
+            case DEADMAU5:
+                return this.deadmau5Cosmetic;
+            case WINGS:
+                return this.wingsCosmetic;
+            case DRAGON:
+                return this.dragonCosmetic;
+            default:
+                return null;
+
+        }
+
+    }
+
+    public ButtCosmetic getButtCosmetic() {
+        return this.buttCosmetic;
+    }
+
+    public DragonCosmetic getDragonCosmetic() {
+        return this.dragonCosmetic;
+    }
+
+    public DabOnKIllCosmetic getDabCosmetic() {
+        return this.dabCosmetic;
+    }
+
+    public ChromaWinCosmetic getChromaWin() {
+        return this.chromaWin;
+    }
+
+    public FlipCosmetic getFlipCosmetic() {
+        return this.flipCosmetic;
+    }
+
+    public Deadmau5Cosmetic getDeadmau5Cosmetic() {
+        return this.deadmau5Cosmetic;
+    }
+
+    public WingsCosmetic getWingsCosmetic() {
+        return this.wingsCosmetic;
+    }
+
+    public KillCounterMuscles getKillCounterMusclesCosmetic(){
+        return this.killCounterMuscles;
+    }
 }
