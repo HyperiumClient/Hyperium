@@ -76,7 +76,7 @@ public class DragonCompanion extends AbstractCosmetic {
 
             double angle = Math.toDegrees(Math.atan2(animationState.next.x - animationState.last.x,
                     animationState.next.z - animationState.last.z));
-            entityDragon.prevRotationYaw = (float) angle;
+            entityDragon.prevRotationYaw =  entityDragon.rotationYaw;
             entityDragon.rotationYaw = (float) angle;
 
             entityDragon.onLivingUpdate();
