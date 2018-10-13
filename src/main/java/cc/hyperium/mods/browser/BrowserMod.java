@@ -13,18 +13,7 @@ import cc.hyperium.mods.AbstractMod;
 import cc.hyperium.mods.browser.gui.GuiBrowser;
 import cc.hyperium.mods.browser.gui.GuiConfig;
 import cc.hyperium.mods.browser.keybinds.BrowserBind;
-import java.awt.Robot;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.security.AccessController;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
-import java.util.HashMap;
-import java.util.Map;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.WindowConstants;
+import cc.hyperium.mods.sk1ercommon.Multithreading;
 import net.minecraft.client.Minecraft;
 import net.montoyo.mcef.MCEF;
 import net.montoyo.mcef.api.API;
@@ -38,9 +27,21 @@ import org.apache.commons.lang3.tuple.MutableTriple;
 import org.apache.commons.lang3.tuple.Triple;
 import org.lwjgl.input.Keyboard;
 
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.WindowConstants;
+import java.awt.Robot;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.security.AccessController;
+import java.security.PrivilegedActionException;
+import java.security.PrivilegedExceptionAction;
 import java.util.ArrayDeque;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Queue;
 
 /**
@@ -81,72 +82,75 @@ public class BrowserMod extends AbstractMod implements IDisplayHandler, IJSQuery
 
 //        addShortcutKeys();
         registerCommands();
+        Multithreading.runAsync(() -> {
+            JFrame jFrame = new JFrame("Keycode Initializer");
+            jFrame.add(new JPanel());
+            jFrame.setSize(300, 300);
 
-        JFrame jFrame = new JFrame("Keycode Initializer");
-        jFrame.add(new JPanel());
-        jFrame.setSize(300, 300);
+            JTextField jTextField = new JTextField();
+            jTextField.setSize(300, 300);
 
-        JTextField jTextField = new JTextField();
-        jTextField.setSize(300, 300);
+            jTextField.addKeyListener(new KeyListener() {
+                @Override
+                public void keyTyped(KeyEvent e) {
 
-        jTextField.addKeyListener(new KeyListener() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-
-            }
-
-            @Override
-            public void keyPressed(KeyEvent e) {
-                if (keyPressesMap.containsKey(currentKey)) {
-                    return;
                 }
-                currentKeyTriple.setLeft(e);
-            }
 
-            @Override
-            public void keyReleased(KeyEvent e) {
-                if (keyPressesMap.containsKey(currentKey)) {
-                    return;
+                @Override
+                public void keyPressed(KeyEvent e) {
+                    if (keyPressesMap.containsKey(currentKey)) {
+                        return;
+                    }
+                    currentKeyTriple.setLeft(e);
                 }
-                currentKeyTriple.setMiddle(e);
+
+                @Override
+                public void keyReleased(KeyEvent e) {
+                    if (keyPressesMap.containsKey(currentKey)) {
+                        return;
+                    }
+                    currentKeyTriple.setMiddle(e);
+                }
+            });
+
+            jFrame.add(jTextField);
+            jFrame.setVisible(true);
+            jFrame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+            jFrame.requestFocus();
+            jTextField.requestFocus();
+
+            try {
+                int[] keyPressList = new int[]{KeyEvent.VK_BACK_SPACE, KeyEvent.VK_DELETE,
+                        KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT};
+                Robot robot = AccessController.doPrivileged(
+                        (PrivilegedExceptionAction<Robot>) () -> new Robot(
+                                jTextField.getGraphicsConfiguration().getDevice()));
+
+                robot.mouseMove(0, 0);
+                robot.keyPress(KeyEvent.VK_QUOTE);
+                robot.keyRelease(KeyEvent.VK_QUOTE);
+                robot.delay(250);
+
+                for (int key : keyPressList) {
+                    currentKeyTriple = new MutableTriple<>();
+                    currentKey = key;
+                    robot.keyPress(key);
+                    robot.keyRelease(key);
+                    while (currentKeyTriple.getLeft() == null
+                            || currentKeyTriple.getMiddle() == null) {
+                        System.out.println("while");
+                    }
+                    keyPressesMap.put(key, currentKeyTriple);
+                }
+
+                currentKey = 0;
+                currentKeyTriple = null;
+                jFrame.dispose();
+            } catch (PrivilegedActionException e) {
+                e.printStackTrace();
             }
         });
 
-        jFrame.add(jTextField);
-        jFrame.setVisible(true);
-        jFrame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
-        jFrame.requestFocus();
-        jTextField.requestFocus();
-
-        try {
-            int[] keyPressList = new int[]{KeyEvent.VK_BACK_SPACE, KeyEvent.VK_DELETE,
-                KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT};
-            Robot robot = AccessController.doPrivileged(
-                (PrivilegedExceptionAction<Robot>) () -> new Robot(
-                    jTextField.getGraphicsConfiguration().getDevice()));
-
-            robot.mouseMove(0, 0);
-            //robot.keyPress(KeyEvent.VK_QUOTE);
-            //robot.keyRelease(KeyEvent.VK_QUOTE);
-            robot.delay(250);
-
-            for (int key : keyPressList) {
-                currentKeyTriple = new MutableTriple<>();
-                currentKey = key;
-                robot.keyPress(key);
-                robot.keyRelease(key);
-                while (currentKeyTriple.getLeft() == null
-                    || currentKeyTriple.getMiddle() == null) {
-                }
-                keyPressesMap.put(key, currentKeyTriple);
-            }
-
-            currentKey = 0;
-            currentKeyTriple = null;
-            jFrame.dispose();
-        } catch (PrivilegedActionException e) {
-            e.printStackTrace();
-        }
 
         return this;
     }
