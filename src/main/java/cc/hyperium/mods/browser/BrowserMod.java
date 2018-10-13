@@ -126,8 +126,8 @@ public class BrowserMod extends AbstractMod implements IDisplayHandler, IJSQuery
                     jTextField.getGraphicsConfiguration().getDevice()));
 
             robot.mouseMove(0, 0);
-            robot.keyPress(KeyEvent.VK_QUOTE);
-            robot.keyRelease(KeyEvent.VK_QUOTE);
+            //robot.keyPress(KeyEvent.VK_QUOTE);
+            //robot.keyRelease(KeyEvent.VK_QUOTE);
             robot.delay(250);
 
             for (int key : keyPressList) {
