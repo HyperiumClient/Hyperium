@@ -93,16 +93,20 @@ object JSLoader : ILoader {
     override fun exec(type: TriggerType, vararg args: Any?) {
         triggers.removeAll(toRemove)
         toRemove.clear()
-        
-        triggers.filter {
-            it.type == type
-        }.forEach {
-            try {
-                it.trigger(*args)
-            } catch (e: Exception) {
-                console.printStackTrace(e)
-                removeTrigger(it)
+
+        try {
+            triggers.filter {
+                it.type == type
+            }.forEach {
+                try {
+                    it.trigger(*args)
+                } catch (e: Exception) {
+                    console.printStackTrace(e)
+                    removeTrigger(it)
+                }
             }
+        } catch (e: Exception) {
+            console.printStackTrace(e)
         }
     }
 
