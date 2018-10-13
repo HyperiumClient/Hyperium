@@ -11,6 +11,7 @@ import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.boss.EntityDragon;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.MathHelper;
 
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -63,8 +64,6 @@ public class DragonCompanion extends AbstractCosmetic {
 
 
         if (entityDragon != null) {
-
-
             entityDragon.lastTickPosX = entityDragon.posX;
             entityDragon.lastTickPosY = entityDragon.posY;
             entityDragon.lastTickPosZ = entityDragon.posZ;
@@ -74,11 +73,12 @@ public class DragonCompanion extends AbstractCosmetic {
             entityDragon.posY = current.y / scale;
             entityDragon.posZ = current.z / scale;
 
-            double angle = Math.toDegrees(Math.atan2(animationState.next.x - animationState.last.x,
-                    animationState.next.z - animationState.last.z));
-            entityDragon.prevRotationYaw =  entityDragon.rotationYaw;
-            entityDragon.rotationYaw = (float) angle;
-
+            double dx = animationState.last.x - animationState.next.x;
+            double dz = animationState.last.z - animationState.next.z;
+            double angrad = Math.atan2(dz, dx);
+            double angle = Math.toDegrees(angrad);
+            entityDragon.prevRotationYaw = entityDragon.rotationYaw;
+            entityDragon.rotationYaw = MathHelper.wrapAngleTo180_float((float) (angle));
             entityDragon.onLivingUpdate();
         }
 
@@ -113,9 +113,9 @@ public class DragonCompanion extends AbstractCosmetic {
     }
 
     class AnimationState {
-        private final int BOUNDS = 3;
+        private final int BOUNDS = 5;
         //Speed in blocks per second
-        private final double speed = 2.0D;
+        private final double speed = 3D;
         AnimationPoint last;
         AnimationPoint next;
         private long start = 0L;
@@ -156,7 +156,7 @@ public class DragonCompanion extends AbstractCosmetic {
 
         private AnimationPoint generateRandom() {
             ThreadLocalRandom current = ThreadLocalRandom.current();
-            return new AnimationPoint(current.nextInt(-BOUNDS, BOUNDS), current.nextInt(0, BOUNDS), current.nextInt(-BOUNDS, BOUNDS));
+            return new AnimationPoint(current.nextDouble(-BOUNDS, BOUNDS), current.nextDouble(0, BOUNDS), current.nextDouble(-BOUNDS, BOUNDS));
         }
     }
 
