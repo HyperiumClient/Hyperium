@@ -53,6 +53,16 @@ public class GuiDances extends HyperiumGui {
                 });
             }
         });
+        this.handlers.put("Yeet", netty -> {
+            Hyperium.INSTANCE.getHandlers().getYeetHandler().yeet(Minecraft.getMinecraft().thePlayer.getUniqueID());
+            NettyClient client = NettyClient.getClient();
+            if (client != null && netty) {
+                client.write(ServerCrossDataPacket.build(new JsonHolder().put("type", "yeet").put("yeeting", true)));
+            }
+        });
+        this.cancel.put("Yeet", () -> {
+
+        });
         this.cancel.put("Floss", () -> {
             AbstractAnimationHandler abstractAnimationHandler = Hyperium.INSTANCE.getHandlers().getFlossDanceHandler();
             abstractAnimationHandler.get(Minecraft.getMinecraft().thePlayer.getUniqueID()).stopAnimation();
@@ -268,7 +278,7 @@ public class GuiDances extends HyperiumGui {
         GlStateManager.translate(0, 50, 0);
 
         float v = 3000F;
-        GlStateManager.rotate(System.currentTimeMillis() % (int)v / v * 360F, 0, 1.0F, 0);
+        GlStateManager.rotate(System.currentTimeMillis() % (int) v / v * 360F, 0, 1.0F, 0);
         GlStateManager.translate(0, 0, -50);
         GuiInventory.drawEntityOnScreen(0, 0, 50, 0, 0, Minecraft.getMinecraft().thePlayer);
         GlStateManager.depthFunc(515);

@@ -259,6 +259,10 @@ public class CefBrowserOsr extends CefBrowser_N implements CefRenderHandler, IBr
         sendKeyEvent(ev);
     }
 
+    public void injectKeyEvent(KeyEvent e) {
+        sendKeyEvent(e);
+    }
+
     @Override
     public void injectMouseWheel(int x, int y, int mods, int amount, int rot) {
         MouseWheelEvent ev = new MouseWheelEvent(dc_, MouseEvent.MOUSE_WHEEL, 0, mods, x, y, 0,
