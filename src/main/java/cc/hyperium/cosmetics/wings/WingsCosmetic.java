@@ -17,7 +17,7 @@ public class WingsCosmetic extends AbstractCosmetic {
     private WingsRenderer wingsRenderer;
 
     public WingsCosmetic() {
-        super(true, EnumPurchaseType.WING_COSMETIC, true);
+        super(true, EnumPurchaseType.WING_COSMETIC);
         EventBus.INSTANCE.register(wingsRenderer = new WingsRenderer(this));
 
     }

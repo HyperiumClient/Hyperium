@@ -18,26 +18,22 @@ import java.util.concurrent.ConcurrentHashMap;
 public abstract class AbstractCosmetic {
     private final boolean selfOnly;
     private final EnumPurchaseType purchaseType;
-    private final boolean purchasable;
     private final Map<UUID, Boolean> purchasedBy = new ConcurrentHashMap<>();
     private boolean selfUnlocked;
 
-    public AbstractCosmetic(boolean selfOnly, EnumPurchaseType purchaseType, boolean purchaseable) {
+    public AbstractCosmetic(boolean selfOnly, EnumPurchaseType purchaseType) {
         this.selfOnly = selfOnly;
         this.purchaseType = purchaseType;
-        this.purchasable = purchaseable;
-        if (purchaseable) {
-            try {
-                PurchaseApi.getInstance().getPackageAsync(UUIDUtil.getClientUUID(), hyperiumPurchase -> {
-                    if (hyperiumPurchase == null) {
-                        System.out.println("WARNING COSMETIC NULL");
-                        return;
-                    }
-                    selfUnlocked = hyperiumPurchase.hasPurchased(purchaseType);
-                });
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        try {
+            PurchaseApi.getInstance().getPackageAsync(UUIDUtil.getClientUUID(), hyperiumPurchase -> {
+                if (hyperiumPurchase == null) {
+                    System.out.println("WARNING COSMETIC NULL");
+                    return;
+                }
+                selfUnlocked = hyperiumPurchase.hasPurchased(purchaseType);
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -59,9 +55,6 @@ public abstract class AbstractCosmetic {
     }
 
     public boolean isPurchasedBy(UUID uuid) {
-        if (!isPurchasable()) {
-            return true;
-        }
         if (purchasedBy.containsKey(uuid)) {
             return purchasedBy.get(uuid);
         } else {
@@ -80,9 +73,6 @@ public abstract class AbstractCosmetic {
         return purchaseType;
     }
 
-    public boolean isPurchasable() {
-        return purchasable;
-    }
 
     public boolean isSelfUnlocked() {
         return selfUnlocked;

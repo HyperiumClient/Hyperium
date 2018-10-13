@@ -10,7 +10,7 @@ import cc.hyperium.purchases.PurchaseApi;
 
 public class ButtCosmetic extends AbstractCosmetic {
     public ButtCosmetic() {
-        super(false, EnumPurchaseType.BUTT, true);
+        super(false, EnumPurchaseType.BUTT);
     }
 
     @InvokeEvent(priority = Priority.HIGH)

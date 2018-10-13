@@ -12,7 +12,7 @@ public class DragonCosmetic extends AbstractCosmetic {
     private DragonHeadRenderer renderer;
 
     public DragonCosmetic() {
-        super(false, EnumPurchaseType.DRAGON_HEAD, true);
+        super(false, EnumPurchaseType.DRAGON_HEAD);
         renderer = new DragonHeadRenderer(this);
         EventBus.INSTANCE.register(renderer);
     }

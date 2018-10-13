@@ -184,7 +184,7 @@ public class ChromaWinCosmetic extends AbstractCosmetic {
     private int ticksLeft = 0;
 
     public ChromaWinCosmetic() {
-        super(true, EnumPurchaseType.CHROMA_WIN, true);
+        super(true, EnumPurchaseType.CHROMA_WIN);
     }
 
     @InvokeEvent

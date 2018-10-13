@@ -1,5 +1,6 @@
 package cc.hyperium.cosmetics;
 
+import cc.hyperium.cosmetics.backpack.EnderDragonBackpack;
 import cc.hyperium.cosmetics.wings.WingsCosmetic;
 import cc.hyperium.event.EventBus;
 
@@ -13,32 +14,49 @@ public class HyperiumCosmetics {
 
     private final ChromaWinCosmetic chromaWin;
     private final List<AbstractCosmetic> cosmeticList = new ArrayList<>();
-    private final DabOnKIllCosmetic dabCosmetic;
     private final FlipCosmetic flipCosmetic;
     private final Deadmau5Cosmetic deadmau5Cosmetic;
     private final WingsCosmetic wingsCosmetic;
-    private final DealWithItGlasses dealWithIt;
     private final DragonCosmetic dragonCosmetic;
     private final ButtCosmetic buttCosmetic;
     private final KillCounterMuscles killCounterMuscles;
+    private EnderDragonBackpack enderDragonBackpack;
+    private DragonCompanion dragonCompanion;
 
     /**
      * Hyperium Cosmetics - Default Constructor/Cosmetic Registry
      */
     public HyperiumCosmetics() {
         registerCosmetic(killCounterMuscles = new KillCounterMuscles());
-        registerCosmetic(dabCosmetic = new DabOnKIllCosmetic());
         registerCosmetic(chromaWin = new ChromaWinCosmetic());
         registerCosmetic(buttCosmetic = new ButtCosmetic());
         registerCosmetic(flipCosmetic = new FlipCosmetic());
-        registerCosmetic(dealWithIt = new DealWithItGlasses());
         registerCosmetic(deadmau5Cosmetic = new Deadmau5Cosmetic());
         registerCosmetic(wingsCosmetic = new WingsCosmetic());
         registerCosmetic(dragonCosmetic = new DragonCosmetic());
+        registerCosmetic(enderDragonBackpack = new EnderDragonBackpack());
+        registerCosmetic(dragonCompanion = new DragonCompanion());
+    }
+
+    public List<AbstractCosmetic> getCosmeticList() {
+        return cosmeticList;
+    }
+
+    public KillCounterMuscles getKillCounterMuscles() {
+        return killCounterMuscles;
+    }
+
+    public EnderDragonBackpack getEnderDragonBackpack() {
+        return enderDragonBackpack;
+    }
+
+    public DragonCompanion getDragonCompanion() {
+        return dragonCompanion;
     }
 
     /**
      * Register Cosmetic - Register a Cosmetic Class
+     *
      * @param cosmetic - Given Cosmetic Class
      */
     private void registerCosmetic(AbstractCosmetic cosmetic) {
@@ -47,41 +65,21 @@ public class HyperiumCosmetics {
     }
 
     /**
-     * EnumCosmeticType - Used to distinguish cosmetics
-     * and their types
-     */
-    public enum EnumCosmeticType {
-
-        DAB,
-        CHROMA_WIN,
-        BUTT,
-        FLIP,
-        DEALWITHIT,
-        DEADMAU5,
-        WINGS,
-        DRAGON
-
-    }
-
-    /**
      * Get Cosmetic - Get a specific cosmetic from Enum Value
+     *
      * @param givenType - Given Cosmetic Enum
      * @return - Given Abstract Cosmetic Class
      */
-    public AbstractCosmetic getCosmetic(EnumCosmeticType givenType){
+    public AbstractCosmetic getCosmetic(EnumCosmeticType givenType) {
 
-        switch(givenType){
+        switch (givenType) {
 
-            case DAB:
-                return this.dabCosmetic;
             case CHROMA_WIN:
                 return this.chromaWin;
             case BUTT:
                 return this.buttCosmetic;
             case FLIP:
                 return this.flipCosmetic;
-            case DEALWITHIT:
-                return this.dealWithIt;
             case DEADMAU5:
                 return this.deadmau5Cosmetic;
             case WINGS:
@@ -103,9 +101,6 @@ public class HyperiumCosmetics {
         return this.dragonCosmetic;
     }
 
-    public DabOnKIllCosmetic getDabCosmetic() {
-        return this.dabCosmetic;
-    }
 
     public ChromaWinCosmetic getChromaWin() {
         return this.chromaWin;
@@ -123,7 +118,24 @@ public class HyperiumCosmetics {
         return this.wingsCosmetic;
     }
 
-    public KillCounterMuscles getKillCounterMusclesCosmetic(){
+    public KillCounterMuscles getKillCounterMusclesCosmetic() {
         return this.killCounterMuscles;
+    }
+
+    /**
+     * EnumCosmeticType - Used to distinguish cosmetics
+     * and their types
+     */
+    public enum EnumCosmeticType {
+
+        DAB,
+        CHROMA_WIN,
+        BUTT,
+        FLIP,
+        DEALWITHIT,
+        DEADMAU5,
+        WINGS,
+        DRAGON
+
     }
 }

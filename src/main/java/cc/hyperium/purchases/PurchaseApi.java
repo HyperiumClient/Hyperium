@@ -23,14 +23,7 @@ import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.PurchaseLoadEvent;
 import cc.hyperium.event.SpawnpointChangeEvent;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
-import cc.hyperium.purchases.packages.ButtCosmetic;
-import cc.hyperium.purchases.packages.DabOnKill;
-import cc.hyperium.purchases.packages.DragonHeadCosmetic;
 import cc.hyperium.purchases.packages.EarsCosmetic;
-import cc.hyperium.purchases.packages.FlipCosmeticPackage;
-import cc.hyperium.purchases.packages.KillTrackerMuscles;
-import cc.hyperium.purchases.packages.ParticleBackgroundCosmetic;
-import cc.hyperium.purchases.packages.WingCosmetic;
 import cc.hyperium.utils.JsonHolder;
 import cc.hyperium.utils.UUIDUtil;
 import com.google.gson.JsonObject;
@@ -62,15 +55,11 @@ public class PurchaseApi {
     private JsonHolder capeAtlas = new JsonHolder();
 
     private PurchaseApi() {
-        register(EnumPurchaseType.WING_COSMETIC, WingCosmetic.class);
-        register(EnumPurchaseType.KILL_TRACKER_MUSCLE, KillTrackerMuscles.class);
-        register(EnumPurchaseType.DAB_ON_KILL, DabOnKill.class);
-        register(EnumPurchaseType.PARTICLE_BACKGROUND, ParticleBackgroundCosmetic.class);
-        register(EnumPurchaseType.FLIP_COSMETIC, FlipCosmeticPackage.class);
         register(EnumPurchaseType.DEADMAU5_COSMETIC, EarsCosmetic.class);
-        register(EnumPurchaseType.DRAGON_HEAD, DragonHeadCosmetic.class);
-        register(EnumPurchaseType.BUTT, ButtCosmetic.class);
 
+        for (EnumPurchaseType enumPurchaseType : EnumPurchaseType.values()) {
+            purchaseClasses.putIfAbsent(enumPurchaseType, DefaultCosmetic.class);
+        }
         getPackageAsync(UUIDUtil.getClientUUID(), hyperiumPurchase -> System.out.println("Loaded self packages: " + hyperiumPurchase.getResponse()));
         Multithreading.runAsync(() -> capeAtlas = get("https://api.hyperium.cc/capeAtlas"));
         getSelf();

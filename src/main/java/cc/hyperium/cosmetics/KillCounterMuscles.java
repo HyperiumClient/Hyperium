@@ -9,7 +9,7 @@ import cc.hyperium.purchases.EnumPurchaseType;
  */
 class KillCounterMuscles extends AbstractCosmetic {
     public KillCounterMuscles() {
-        super(false, EnumPurchaseType.KILL_TRACKER_MUSCLE, true);
+        super(false, EnumPurchaseType.KILL_TRACKER_MUSCLE);
     }
 
     @InvokeEvent

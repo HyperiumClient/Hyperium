@@ -29,6 +29,8 @@ public enum EnumPurchaseType {
     BUTT("Butt"),
     DEADMAU5_COSMETIC("Ears"),
     DRAGON_HEAD("Dragon Head"),
+    DRAGON_COMPANION("Dragon Companion"),
+    BACKPACK_ENDER_DRAGON("Ender Dragon Backpack"),
     UNKNOWN("Unknown");
 
     private String displayName;
