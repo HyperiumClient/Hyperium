@@ -22,16 +22,16 @@ public class HyperiumCosmetics {
     private final ButtCosmetic buttCosmetic;
 
     public HyperiumCosmetics() {
-        register(new KillCounterMuscles());
-        register(dabCosmetic = new DabOnKIllCosmetic());
+        registerCosmetic(new KillCounterMuscles());
+        registerCosmetic(dabCosmetic = new DabOnKIllCosmetic());
 
-        register(chromaWin = new ChromaWinCosmetic());
-        register(buttCosmetic = new ButtCosmetic());
-        register(flipCosmetic = new FlipCosmetic());
-        register(dealWithIt = new DealWithItGlasses());
-        register(deadmau5Cosmetic = new Deadmau5Cosmetic());
-        register(wingsCosmetic = new WingsCosmetic());
-        register(dragonCosmetic = new DragonCosmetic());
+        registerCosmetic(chromaWin = new ChromaWinCosmetic());
+        registerCosmetic(buttCosmetic = new ButtCosmetic());
+        registerCosmetic(flipCosmetic = new FlipCosmetic());
+        registerCosmetic(dealWithIt = new DealWithItGlasses());
+        registerCosmetic(deadmau5Cosmetic = new Deadmau5Cosmetic());
+        registerCosmetic(wingsCosmetic = new WingsCosmetic());
+        registerCosmetic(dragonCosmetic = new DragonCosmetic());
     }
 
     public ButtCosmetic getButtCosmetic() {
@@ -42,9 +42,45 @@ public class HyperiumCosmetics {
         return dragonCosmetic;
     }
 
-    private void register(AbstractCosmetic cosmetic) {
+    /**
+     * Register Cosmetic - Register a Cosmetic Class
+     * @param cosmetic - Given Cosmetic Class
+     */
+    private void registerCosmetic(AbstractCosmetic cosmetic) {
         cosmeticList.add(cosmetic);
         EventBus.INSTANCE.register(cosmetic);
+    }
+
+    /**
+     * Get Cosmetic - Get a specific cosmetic from Enum Value
+     * @param givenType - Given Cosmetic Enum
+     * @return - Given Abstract Cosmetic Class
+     */
+    public AbstractCosmetic getCosmetic(EnumCosmeticType givenType){
+
+        switch(givenType){
+
+            case DAB:
+                return dabCosmetic;
+            case CHROMA_WIN:
+                return chromaWin;
+            case BUTT:
+                return buttCosmetic;
+            case FLIP:
+                return flipCosmetic;
+            case DEALWITHIT:
+                return dealWithIt;
+            case DEADMAU5:
+                return deadmau5Cosmetic;
+            case WINGS:
+                return wingsCosmetic;
+            case DRAGON:
+                return dragonCosmetic;
+            default:
+                return null;
+
+        }
+
     }
 
     public DabOnKIllCosmetic getDabCosmetic() {
@@ -65,6 +101,23 @@ public class HyperiumCosmetics {
 
     public WingsCosmetic getWingsCosmetic() {
         return wingsCosmetic;
+    }
+
+    /**
+     * EnumCosmeticType - Used to distinguish cosmetics
+     * and their types
+     */
+    public enum EnumCosmeticType {
+
+        DAB,
+        CHROMA_WIN,
+        BUTT,
+        FLIP,
+        DEALWITHIT,
+        DEADMAU5,
+        WINGS,
+        DRAGON
+
     }
 
 }
