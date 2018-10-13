@@ -158,7 +158,6 @@ public class ClientProxy extends BaseProxy {
             Log.info("Applying linux patch...");
             LinuxPatch.doPatch(resourceArray);
         }
-
         if (OS.isMacintosh()) {
             System.out.println("Modding macOS files");
             new File(rootDir, "jcef.app").setExecutable(true);

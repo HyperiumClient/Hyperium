@@ -25,7 +25,7 @@ import cc.hyperium.config.Settings;
 import cc.hyperium.cosmetics.HyperiumCosmetics;
 import cc.hyperium.event.*;
 import cc.hyperium.event.minigames.MinigameListener;
-import cc.hyperium.gui.BlurDisableFallback;
+import cc.hyperium.gui.BlurFallback;
 import cc.hyperium.gui.ColourOptions;
 import cc.hyperium.gui.ConfirmationPopup;
 import cc.hyperium.gui.NotificationCenter;
@@ -128,7 +128,14 @@ public class Hyperium {
 
     @InvokeEvent(priority = Priority.HIGH)
     public void init(InitializationEvent event) {
+
         try {
+            Multithreading.runAsync(() -> {
+                networkHandler = new NetworkHandler();
+                CONFIG.register(networkHandler);
+                this.client = new NettyClient(networkHandler);
+                UniversalNetty.getInstance().getPacketManager().register(new LoginReplyHandler());
+            });
             Multithreading.runAsync(() -> new PlayerStatsGui(null));//Don't remove, we need to generate some stuff with Gl context
             notification = new NotificationCenter();
             scheduler = new HyperiumScheduler();
@@ -176,7 +183,7 @@ public class Hyperium {
             EventBus.INSTANCE.register(CompactChat.getInstance());
             EventBus.INSTANCE.register(CONFIG.register(FPSLimiter.getInstance()));
             EventBus.INSTANCE.register(confirmation);
-            EventBus.INSTANCE.register(new BlurDisableFallback());
+            EventBus.INSTANCE.register(new BlurFallback());
             EventBus.INSTANCE.register(new CommandUpdate());
 
 
@@ -247,13 +254,7 @@ public class Hyperium {
 
             SplashProgress.setProgress(13, I18n.format("splashprogress.finishing"));
 
-            Multithreading.runAsync(() -> {
 
-                networkHandler = new NetworkHandler();
-                CONFIG.register(networkHandler);
-                this.client = new NettyClient(networkHandler);
-                UniversalNetty.getInstance().getPacketManager().register(new LoginReplyHandler());
-            });
             Multithreading.runAsync(() -> {
                 EventBus.INSTANCE.register(FontFixValues.INSTANCE);
                 if (Settings.PERSISTENT_CHAT) {
