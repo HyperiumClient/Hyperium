@@ -1,6 +1,9 @@
 package net.montoyo.mcef.remote;
 
+import java.io.File;
 import java.util.ArrayList;
+import net.montoyo.mcef.client.ClientProxy;
+import org.cef.OS;
 
 /**
  * An {@link ArrayList} extended with utility functions for {@link Resource}
@@ -29,6 +32,11 @@ public class ResourceList extends ArrayList<Resource> {
      * If they exists and if their checksum are matching, they are removed from the list.
      */
     public void removeExistings() {
+        if (OS.isMacintosh() && !new File(ClientProxy.ROOT, "jcef.dylib").exists()) {
+            return;
+        } else if (OS.isWindows() && !new File(ClientProxy.ROOT, "chrome_elf.dll").exists()) {
+            return;
+        }
         for(int i = 0; i < size(); i++) {
             if(get(i).exists())
                 remove(i--);
