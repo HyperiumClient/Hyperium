@@ -339,7 +339,12 @@ public class ClientProxy extends BaseProxy {
         }
 
         browsers.clear();
-        cefClient.dispose();
+
+        try {
+            cefClient.dispose();
+        } catch (NullPointerException ex) {
+            // Sad
+        }
 
         if (MCEF.CHECK_VRAM_LEAK) {
             CefRenderer.dumpVRAMLeak();
