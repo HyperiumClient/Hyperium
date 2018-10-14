@@ -12,6 +12,7 @@ import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.boss.EntityDragon;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.MathHelper;
 
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -66,13 +67,14 @@ public class DragonCompanion extends AbstractCosmetic {
     }
 
     public void tick() {
-        if(Minecraft.getMinecraft().theWorld == null)
+        if (Minecraft.getMinecraft().theWorld == null)
             return;
 
         if (entityDragon != null) {
             entityDragon.lastTickPosX = entityDragon.posX;
             entityDragon.lastTickPosY = entityDragon.posY;
             entityDragon.lastTickPosZ = entityDragon.posZ;
+            entityDragon.prevRotationYawHead = entityDragon.rotationYawHead;
 
             AnimationPoint current = animationState.getCurrent(false);
             entityDragon.posX = current.x / scale;
@@ -83,11 +85,23 @@ public class DragonCompanion extends AbstractCosmetic {
             double dz = animationState.next.z - animationState.last.z;
 
             double angrad = Math.atan2(dx, -dz);
-            double angle = Math.toDegrees(angrad);
+            double angle = MathHelper.wrapAngleTo180_float((float) Math.toDegrees(angrad));
+
+            if (animationState.nextFrameisNewPoint()) {
+                double dx1 = animationState.nextNext.x - animationState.next.x;
+                double dz1 = animationState.nextNext.z - animationState.next.z;
+                double angrad1 = Math.atan2(dx1, -dz1);
+                double angle1 = MathHelper.wrapAngleTo180_float((float) Math.toDegrees(angrad1));
+                //Average yaw
+                angle = ((float)angle + (float)angle1) / 2;
+                entityDragon.rotationYawHead = (float) angle1;
+            }
             entityDragon.prevRotationYaw = entityDragon.rotationYaw;
             entityDragon.rotationYaw = (float) angle;
 
+
             entityDragon.onLivingUpdate();
+
         }
 
 
@@ -121,11 +135,12 @@ public class DragonCompanion extends AbstractCosmetic {
     }
 
     class AnimationState {
-        private final int BOUNDS = 5;
+        private final int BOUNDS = 4;
         //Speed in blocks per second
         private final double speed = 3D;
         AnimationPoint last;
         AnimationPoint next;
+        AnimationPoint nextNext;
         private long start = 0L;
         private double currentDistance = 0;
         private long totalTime = 0;
@@ -137,12 +152,16 @@ public class DragonCompanion extends AbstractCosmetic {
         }
 
         public void switchToNext() {
+            if(nextNext == null)
+                nextNext = generateRandom();
             last = next;
-            next = generateRandom();
+            next = nextNext;
             start = System.currentTimeMillis();
             currentDistance = next.distanceTo(last);
             totalTime = (long) (currentDistance / speed * 1000);
             endTime = start + totalTime;
+
+            nextNext = generateRandom();
 
 
         }
@@ -158,6 +177,10 @@ public class DragonCompanion extends AbstractCosmetic {
             return new AnimationPoint(interpolate(this.last.x, next.x, percent),
                     interpolate(this.last.y, next.y, percent),
                     interpolate(this.last.z, next.z, percent));
+        }
+
+        public boolean nextFrameisNewPoint() {
+            return System.currentTimeMillis() + 50L >= endTime;
         }
 
         private double interpolate(final double now, final double then, final double percent) {
