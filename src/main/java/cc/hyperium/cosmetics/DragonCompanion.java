@@ -12,7 +12,6 @@ import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.boss.EntityDragon;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.MathHelper;
 
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -79,12 +78,13 @@ public class DragonCompanion extends AbstractCosmetic {
             entityDragon.posY = current.y / scale;
             entityDragon.posZ = current.z / scale;
 
-            double dx = animationState.last.x - animationState.next.x;
-            double dz = animationState.last.z - animationState.next.z;
-            double angrad = Math.atan2(dz, dx);
+            double dx = animationState.next.x - animationState.last.x;
+            double dz = animationState.next.z - animationState.last.z;
+
+            double angrad = Math.atan2(dx, -dz);
             double angle = Math.toDegrees(angrad);
             entityDragon.prevRotationYaw = entityDragon.rotationYaw;
-            entityDragon.rotationYaw = MathHelper.wrapAngleTo180_float((float) (angle));
+            entityDragon.rotationYaw = (float) angle;
             entityDragon.onLivingUpdate();
         }
 
@@ -141,6 +141,8 @@ public class DragonCompanion extends AbstractCosmetic {
             currentDistance = next.distanceTo(last);
             totalTime = (long) (currentDistance / speed * 1000);
             endTime = start + totalTime;
+
+
         }
 
         public AnimationPoint getCurrent(boolean last) {

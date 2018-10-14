@@ -98,7 +98,7 @@ public class SettingsHandler {
                 if (client == null) {
                     return;
                 }
-                JsonHolder put = new JsonHolder().put("internal", true).put("companion", o.toString().equalsIgnoreCase("NONE") ? "NONE" : EnumPurchaseType.parse(o.toString()).toString());
+                JsonHolder put = new JsonHolder().put("internal", true).put("companion",true).put("type", o.toString().equalsIgnoreCase("NONE") ? "NONE" : EnumPurchaseType.parse(o.toString()).toString());
                 ServerCrossDataPacket build = ServerCrossDataPacket.build(put);
                 client.write(build);
             });
