@@ -43,7 +43,7 @@ public class CapesGui extends HyperiumGui implements GuiYesNoCallback {
     private int initialGuiScale;
     private HashMap<String, Integer> intMap = new HashMap<>();
 
-    CapesGui() {
+    public CapesGui() {
         initialGuiScale = Minecraft.getMinecraft().gameSettings.guiScale;
         // Adjust if GUI scale is on automatic.
         if (Minecraft.getMinecraft().gameSettings.guiScale == 0) {
