@@ -31,6 +31,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
+import java.awt.Frame;
 import java.awt.Robot;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -49,18 +50,16 @@ import java.util.Queue;
  */
 public class BrowserMod extends AbstractMod implements IDisplayHandler, IJSQueryHandler {
 
+    public GuiConfig hudBrowser;
+    public volatile Map<Integer, Triple<KeyEvent, KeyEvent, String>> keyPressesMap = new HashMap<>();
+    @ConfigOpt
+    public String homePage = "https://hyperium.cc";
+    public GuiBrowser browserGui;
     private MCEF mcef;
     private API api;
     private GuiBrowser backup;
-    public GuiConfig hudBrowser;
-
     private int currentKey = 0;
     private MutableTriple<KeyEvent, KeyEvent, String> currentKeyTriple;
-    public volatile Map<Integer, Triple<KeyEvent, KeyEvent, String>> keyPressesMap = new HashMap<>();
-
-    @ConfigOpt
-    public String homePage = "https://hyperium.cc";
-
     private Queue<Runnable> delayedRunnableQueue = new ArrayDeque<>();
 
     @Override
@@ -129,15 +128,20 @@ public class BrowserMod extends AbstractMod implements IDisplayHandler, IJSQuery
                 robot.mouseMove(0, 0);
                 robot.keyPress(KeyEvent.VK_QUOTE);
                 robot.keyRelease(KeyEvent.VK_QUOTE);
-                robot.delay(250);
+                jFrame.setAlwaysOnTop(true);
 
                 for (int key : keyPressList) {
                     currentKeyTriple = new MutableTriple<>();
                     currentKey = key;
+
+                    jFrame.toFront();
+                    jFrame.setState(Frame.NORMAL);
+
                     robot.keyPress(key);
                     robot.keyRelease(key);
                     while (currentKeyTriple.getLeft() == null
                             || currentKeyTriple.getMiddle() == null) {
+                    Thread.sleep(1L);
                         System.out.println("while");
                     }
                     keyPressesMap.put(key, currentKeyTriple);
@@ -147,6 +151,8 @@ public class BrowserMod extends AbstractMod implements IDisplayHandler, IJSQuery
                 currentKeyTriple = null;
                 jFrame.dispose();
             } catch (PrivilegedActionException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         });
@@ -162,66 +168,26 @@ public class BrowserMod extends AbstractMod implements IDisplayHandler, IJSQuery
 
     private void registerCommands() {
         Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(
-            new BaseCommand() {
-                @Override
-                public String getName() {
-                    return "browse";
-                }
-
-                @Override
-                public String getUsage() {
-                    return "browse <url>";
-                }
-
-                @Override
-                public void onExecute(String[] args) throws CommandException {
-                    if (args.length == 0) {
-                        throw new CommandException("Enter a URL to browse to.");
-                    } else {
-                        delayedRunnableQueue.add(() -> {
-                            showBrowser();
-
-                            String url = String.join("%20", args);
-                            if (backup == null) {
-                                browserGui.loadURL(url);
-                            } else {
-                                backup.loadURL(url);
-                            }
-                        });
-                    }
-                }
-            });
-
-        List<Triple<String, String, String>> commands = Arrays.asList(
-            new ImmutableTriple<>("google", "Enter a search query.",
-                "https://google.com/search?q=%QUERY%"),
-            new ImmutableTriple<>("youtube", "Enter a search query.",
-                "https://youtube.com/search?q=%QUERY%")
-        );
-
-        for (Triple<String, String, String> command : commands) {
-            Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(
                 new BaseCommand() {
                     @Override
                     public String getName() {
-                        return command.getLeft();
+                        return "browse";
                     }
 
                     @Override
                     public String getUsage() {
-                        return getName() + " <query>";
+                        return "browse <url>";
                     }
 
                     @Override
                     public void onExecute(String[] args) throws CommandException {
                         if (args.length == 0) {
-                            throw new CommandException(command.getMiddle());
+                            throw new CommandException("Enter a URL to browse to.");
                         } else {
                             delayedRunnableQueue.add(() -> {
                                 showBrowser();
 
-                                String url = command.getRight()
-                                    .replace("%QUERY%", String.join("%20", args));
+                                String url = String.join("%20", args);
                                 if (backup == null) {
                                     browserGui.loadURL(url);
                                 } else {
@@ -231,46 +197,86 @@ public class BrowserMod extends AbstractMod implements IDisplayHandler, IJSQuery
                         }
                     }
                 });
+
+        List<Triple<String, String, String>> commands = Arrays.asList(
+                new ImmutableTriple<>("google", "Enter a search query.",
+                        "https://google.com/search?q=%QUERY%"),
+                new ImmutableTriple<>("youtube", "Enter a search query.",
+                        "https://youtube.com/search?q=%QUERY%")
+        );
+
+        for (Triple<String, String, String> command : commands) {
+            Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(
+                    new BaseCommand() {
+                        @Override
+                        public String getName() {
+                            return command.getLeft();
+                        }
+
+                        @Override
+                        public String getUsage() {
+                            return getName() + " <query>";
+                        }
+
+                        @Override
+                        public void onExecute(String[] args) throws CommandException {
+                            if (args.length == 0) {
+                                throw new CommandException(command.getMiddle());
+                            } else {
+                                delayedRunnableQueue.add(() -> {
+                                    showBrowser();
+
+                                    String url = command.getRight()
+                                            .replace("%QUERY%", String.join("%20", args));
+                                    if (backup == null) {
+                                        browserGui.loadURL(url);
+                                    } else {
+                                        backup.loadURL(url);
+                                    }
+                                });
+                            }
+                        }
+                    });
         }
     }
 
     private void addShortcutKeys() {
         List<Triple<Integer, String, Character>> pipActions = Arrays.asList(
-            new ImmutableTriple<>(Keyboard.KEY_NUMPAD5, "Pause", (char) 0x20),
-            new ImmutableTriple<>(Keyboard.KEY_NUMPAD6, "Forward", (char) 0x4D),
-            new ImmutableTriple<>(Keyboard.KEY_NUMPAD4, "Back", (char) 0x4B)
+                new ImmutableTriple<>(Keyboard.KEY_NUMPAD5, "Pause", (char) 0x20),
+                new ImmutableTriple<>(Keyboard.KEY_NUMPAD6, "Forward", (char) 0x4D),
+                new ImmutableTriple<>(Keyboard.KEY_NUMPAD4, "Back", (char) 0x4B)
         );
 
         for (Triple<Integer, String, Character> entry : pipActions) {
             Hyperium.INSTANCE.getHandlers().getKeybindHandler().registerKeyBinding(
-                new HyperiumBind("Browser PIP " + entry.getMiddle(), entry.getLeft()) {
-                    @Override
-                    public void onPress() {
-                        GuiConfig browser = Hyperium.INSTANCE.getModIntegration()
-                            .getBrowserMod().hudBrowser;
-                        if (Hyperium.INSTANCE.getModIntegration().getBrowserMod().hudBrowser
-                            != null) {
-                            browser.browser.injectMouseMove(10, 10, 0, false);
-                            browser.browser
-                                .injectKeyPressed(entry.getRight(), 0);
-                        } else {
-                            Hyperium.INSTANCE.getHandlers().getGeneralChatHandler()
-                                .sendMessage("You don't have PIP on.");
+                    new HyperiumBind("Browser PIP " + entry.getMiddle(), entry.getLeft()) {
+                        @Override
+                        public void onPress() {
+                            GuiConfig browser = Hyperium.INSTANCE.getModIntegration()
+                                    .getBrowserMod().hudBrowser;
+                            if (Hyperium.INSTANCE.getModIntegration().getBrowserMod().hudBrowser
+                                    != null) {
+                                browser.browser.injectMouseMove(10, 10, 0, false);
+                                browser.browser
+                                        .injectKeyPressed(entry.getRight(), 0);
+                            } else {
+                                Hyperium.INSTANCE.getHandlers().getGeneralChatHandler()
+                                        .sendMessage("You don't have PIP on.");
+                            }
                         }
-                    }
 
-                    @Override
-                    public void onRelease() {
-                        GuiConfig browser = Hyperium.INSTANCE.getModIntegration()
-                            .getBrowserMod().hudBrowser;
-                        if (browser
-                            != null) {
-                            browser.browser
-                                .injectKeyReleased(entry.getRight(), 0);
-                            browser.browser.injectMouseMove(-10, -10, 0, true);
+                        @Override
+                        public void onRelease() {
+                            GuiConfig browser = Hyperium.INSTANCE.getModIntegration()
+                                    .getBrowserMod().hudBrowser;
+                            if (browser
+                                    != null) {
+                                browser.browser
+                                        .injectKeyReleased(entry.getRight(), 0);
+                                browser.browser.injectMouseMove(-10, -10, 0, true);
+                            }
                         }
-                    }
-                });
+                    });
         }
     }
 
@@ -305,7 +311,7 @@ public class BrowserMod extends AbstractMod implements IDisplayHandler, IJSQuery
 
     @Override
     public boolean handleQuery(IBrowser b, long queryId, String query, boolean persistent,
-        IJSQueryCallback cb) {
+                               IJSQueryCallback cb) {
         return false;
     }
 
@@ -324,8 +330,6 @@ public class BrowserMod extends AbstractMod implements IDisplayHandler, IJSQuery
             Minecraft.getMinecraft().displayGuiScreen(browserGui);
         }
     }
-
-    public GuiBrowser browserGui;
 
     @InvokeEvent
     private void onRenderHud(RenderHUDEvent e) {
