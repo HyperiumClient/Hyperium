@@ -2,6 +2,7 @@ package cc.hyperium.cosmetics;
 
 import cc.hyperium.cosmetics.backpack.EnderDragonBackpack;
 import cc.hyperium.cosmetics.hats.ModelHatFez;
+import cc.hyperium.cosmetics.hats.ModelHatLego;
 import cc.hyperium.cosmetics.hats.ModelHatTophat;
 import cc.hyperium.cosmetics.wings.WingsCosmetic;
 import cc.hyperium.event.EventBus;
@@ -29,6 +30,7 @@ public class HyperiumCosmetics {
 
     private final CosmeticHat topHatCosmetic = new CosmeticHat(false, EnumPurchaseType.HAT_TOPHAT).setModel(new ModelHatTophat(),new ResourceLocation("textures/cosmetics/hats/tophat.png"));
     private final CosmeticHat fezCosmetic = new CosmeticHat(false, EnumPurchaseType.HAT_FEZ).setModel(new ModelHatFez(),new ResourceLocation("textures/cosmetics/hats/fez.png"));
+    private final CosmeticHat legoCosmetic = new CosmeticHat(false, EnumPurchaseType.HAT_LEGO).setModel(new ModelHatLego(),new ResourceLocation("textures/cosmetics/hats/lego.png"));
 
     /**
      * Hyperium Cosmetics - Default Constructor/Cosmetic Registry
@@ -43,8 +45,9 @@ public class HyperiumCosmetics {
         registerCosmetic(dragonCosmetic = new DragonCosmetic());
         registerCosmetic(enderDragonBackpack = new EnderDragonBackpack());
         registerCosmetic(dragonCompanion = new DragonCompanion());
-        registerCosmetic(topHatCosmetic);
-        registerCosmetic(fezCosmetic);
+        //registerCosmetic(topHatCosmetic);
+        //registerCosmetic(fezCosmetic);
+        registerCosmetic(legoCosmetic);
 
     }
 
@@ -89,7 +92,8 @@ public class HyperiumCosmetics {
         WINGS,
         DRAGON,
         HAT_TOPHAT,
-        HAT_FEZ
+        HAT_FEZ,
+        HAT_LEGO
 
     }
 
