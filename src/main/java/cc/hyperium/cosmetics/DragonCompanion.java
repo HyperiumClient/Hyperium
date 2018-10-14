@@ -1,6 +1,8 @@
 package cc.hyperium.cosmetics;
 
+import cc.hyperium.config.Settings;
 import cc.hyperium.event.InvokeEvent;
+import cc.hyperium.event.RenderEntitiesEvent;
 import cc.hyperium.event.RenderPlayerEvent;
 import cc.hyperium.event.TickEvent;
 import cc.hyperium.purchases.EnumPurchaseType;
@@ -25,6 +27,14 @@ public class DragonCompanion extends AbstractCosmetic {
 
     public DragonCompanion() {
         super(false, EnumPurchaseType.DRAGON_COMPANION);
+    }
+
+    @InvokeEvent
+    public void renderEntities(RenderEntitiesEvent entitiesEvent) {
+        if (Settings.SHOW_COMPANION_IN_1ST_PERSON) {
+            renderPlayer(new RenderPlayerEvent(Minecraft.getMinecraft().thePlayer, Minecraft.getMinecraft().getRenderManager(), 0, 0, 0,
+                    entitiesEvent.getPartialTicks()));
+        }
     }
 
     @InvokeEvent
@@ -56,7 +66,7 @@ public class DragonCompanion extends AbstractCosmetic {
         GlStateManager.pushMatrix();
 
         GlStateManager.translate(event.getX(), event.getY(), event.getZ());
-        GlStateManager.translate(d0*scale, d1*scale, d2*scale);
+        GlStateManager.translate(d0 * scale, d1 * scale, d2 * scale);
         GlStateManager.scale(scale, scale, scale);
 
         renderManager.renderEntitySimple(entity, event.getPartialTicks());
@@ -83,10 +93,6 @@ public class DragonCompanion extends AbstractCosmetic {
             entityDragon.posX = current.x / scale;
             entityDragon.posY = current.y / scale;
             entityDragon.posZ = current.z / scale;
-
-
-
-
 
 
             double dx = animationState.next.x - animationState.last.x;

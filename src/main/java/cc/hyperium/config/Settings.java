@@ -420,6 +420,10 @@ public class Settings {
     @ToggleSetting(name = "gui.settings.showparticlein1stperson", category = COSMETICS)
     public static boolean SHOW_PART_1ST_PERSON = false;
 
+
+    @ConfigOpt
+    @ToggleSetting(name = "Show Companion in 1st person", category = COSMETICS)
+    public static boolean SHOW_COMPANION_IN_1ST_PERSON = true;
     @ConfigOpt
     @ToggleSetting(name = "gui.settings.showhitdistances", category = REACH, mods = true)
     public static boolean SHOW_HIT_DISTANCES = false;

@@ -38,7 +38,6 @@ import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.resources.DefaultResourcePack;
 import net.minecraft.client.resources.FileResourcePack;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.client.resources.IResourcePack;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.crash.CrashReport;
@@ -74,13 +73,13 @@ public class HyperiumMinecraft {
     }
 
     public void preinit(CallbackInfo ci, List<IResourcePack> defaultResourcePacks,
-        DefaultResourcePack mcDefaultResourcePack, List<IResourcePack> resourcePacks) {
+                        DefaultResourcePack mcDefaultResourcePack, List<IResourcePack> resourcePacks) {
         EventBus.INSTANCE.register(Hyperium.INSTANCE);
 
         defaultResourcePacks.add(mcDefaultResourcePack);
         for (File file : AddonBootstrap.getAddonResourcePacks()) {
             defaultResourcePacks
-                .add(file == null ? new AddonWorkspaceResourcePack() : new FileResourcePack(file));
+                    .add(file == null ? new AddonWorkspaceResourcePack() : new FileResourcePack(file));
         }
         AddonMinecraftBootstrap.init();
 
@@ -90,15 +89,17 @@ public class HyperiumMinecraft {
     }
 
     public void loop(CallbackInfo info, boolean inGameHasFocus, WorldClient theWorld,
-        EntityPlayerSP thePlayer, RenderManager renderManager, Timer timer) {
-        if (inGameHasFocus && theWorld != null && Settings.SHOW_PART_1ST_PERSON) {
+                     EntityPlayerSP thePlayer, RenderManager renderManager, Timer timer) {
+        if (inGameHasFocus && theWorld != null) {
             HyperiumHandlers handlers = Hyperium.INSTANCE.getHandlers();
+            RenderPlayerEvent event = new RenderPlayerEvent(thePlayer, renderManager, renderManager.viewerPosZ, renderManager.viewerPosY, renderManager.viewerPosZ,
+                    timer.renderPartialTicks);
             if (handlers != null) {
-
-                handlers.getParticleAuraHandler().renderPlayer(
-                    new RenderPlayerEvent(thePlayer, renderManager, 0, 0, 0,
-                        timer.renderPartialTicks));
+                if (Settings.SHOW_PART_1ST_PERSON)
+                    handlers.getParticleAuraHandler().renderPlayer(
+                            event);
             }
+
         }
     }
 
@@ -135,12 +136,12 @@ public class HyperiumMinecraft {
     }
 
     public void launchIntegratedServer(String folderName, String worldName,
-        WorldSettings worldSettingsIn, CallbackInfo ci) {
+                                       WorldSettings worldSettingsIn, CallbackInfo ci) {
         EventBus.INSTANCE.post(new SingleplayerJoinEvent());
     }
 
     public void displayFix(CallbackInfo ci, boolean fullscreen, int displayWidth, int displayHeight)
-        throws LWJGLException {
+            throws LWJGLException {
         Display.setFullscreen(false);
         if (fullscreen) {
             if (Settings.WINDOWED_FULLSCREEN) {
@@ -166,7 +167,7 @@ public class HyperiumMinecraft {
     }
 
     public void fullScreenFix(CallbackInfo ci, boolean fullscreen, int displayWidth,
-        int displayHeight) throws LWJGLException {
+                              int displayHeight) throws LWJGLException {
         if (Settings.WINDOWED_FULLSCREEN) {
             if (fullscreen) {
                 System.setProperty("org.lwjgl.opengl.Window.undecorated", "true");
@@ -189,12 +190,12 @@ public class HyperiumMinecraft {
     public void setWindowIcon() {
         if (Util.getOSType() != Util.EnumOS.OSX) {
             try (InputStream inputStream16x = Minecraft.class
-                .getResourceAsStream("/assets/hyperium/icons/icon-16x.png");
-                InputStream inputStream32x = Minecraft.class
-                    .getResourceAsStream("/assets/hyperium/icons/icon-32x.png")) {
+                    .getResourceAsStream("/assets/hyperium/icons/icon-16x.png");
+                 InputStream inputStream32x = Minecraft.class
+                         .getResourceAsStream("/assets/hyperium/icons/icon-32x.png")) {
                 ByteBuffer[] icons = new ByteBuffer[]{
-                    Utils.INSTANCE.readImageToBuffer(inputStream16x),
-                    Utils.INSTANCE.readImageToBuffer(inputStream32x)};
+                        Utils.INSTANCE.readImageToBuffer(inputStream16x),
+                        Utils.INSTANCE.readImageToBuffer(inputStream32x)};
                 Display.setIcon(icons);
             } catch (Exception e) {
                 Hyperium.LOGGER.error("Couldn't set Windows Icon", e);
@@ -203,8 +204,8 @@ public class HyperiumMinecraft {
     }
 
     public void displayGuiScreen(GuiScreen guiScreenIn, GuiScreen currentScreen,
-        WorldClient theWorld, EntityPlayerSP thePlayer, GameSettings gameSettings,
-        GuiIngame ingameGUI) {
+                                 WorldClient theWorld, EntityPlayerSP thePlayer, GameSettings gameSettings,
+                                 GuiIngame ingameGUI) {
         if (currentScreen != null) {
             currentScreen.onGuiClosed();
         }
@@ -272,17 +273,17 @@ public class HyperiumMinecraft {
 
     public void onLoadDefaultResourcePack(CallbackInfo ci) {
         //ToDo Allow the usage of I18n formatting
-        SplashProgress.setProgress(2,"Loading Resources...");
+        SplashProgress.setProgress(2, "Loading Resources...");
     }
 
     public void onCreateDisplay(CallbackInfo ci) {
         //ToDo Allow the usage of I18n formatting
-        SplashProgress.setProgress(3,"Creating Display...");
+        SplashProgress.setProgress(3, "Creating Display...");
     }
 
     public void onLoadTexture(CallbackInfo ci) {
         //ToDo Allow the usage of I18n formatting
-        SplashProgress.setProgress(4,"Initializing Textures...");
+        SplashProgress.setProgress(4, "Initializing Textures...");
     }
 
     public void loadWorld(WorldClient worldClient, CallbackInfo ci) {
@@ -310,8 +311,8 @@ public class HyperiumMinecraft {
     public void displayCrashReport(CrashReport crashReportIn) {
         File file1 = new File(Minecraft.getMinecraft().mcDataDir, "crash-reports");
         File file2 = new File(file1,
-            "crash-" + (new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss")).format(new Date())
-                + "-client.txt");
+                "crash-" + (new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss")).format(new Date())
+                        + "-client.txt");
         crashReportIn.saveToFile(file2);
         Bootstrap.printToSYSOUT(crashReportIn.getCompleteReport());
 
@@ -330,10 +331,10 @@ public class HyperiumMinecraft {
 
         if (crashReportIn.getFile() != null) {
             Bootstrap.printToSYSOUT(
-                "#@!@# Game crashed! Crash report saved to: #@!@# " + crashReportIn.getFile());
+                    "#@!@# Game crashed! Crash report saved to: #@!@# " + crashReportIn.getFile());
         } else if (crashReportIn.saveToFile(file2)) {
             Bootstrap.printToSYSOUT(
-                "#@!@# Game crashed! Crash report saved to: #@!@# " + file2.getAbsolutePath());
+                    "#@!@# Game crashed! Crash report saved to: #@!@# " + file2.getAbsolutePath());
         } else {
             Bootstrap.printToSYSOUT("#@?@# Game crashed! Crash report could not be saved. #@?@#");
         }
@@ -355,7 +356,7 @@ public class HyperiumMinecraft {
                     StringBuilder cmd = new StringBuilder();
                     String[] command = System.getProperty("sun.java.command").split(" ");
                     cmd.append(System.getProperty("java.home")).append(File.separator).append("bin")
-                        .append(File.separator).append("java ");
+                            .append(File.separator).append("java ");
                     ManagementFactory.getRuntimeMXBean().getInputArguments().forEach(s -> {
                         if (!s.contains("-agentlib")) {
                             cmd.append(s).append(" ");
@@ -365,7 +366,7 @@ public class HyperiumMinecraft {
                         cmd.append("-jar ").append(new File(command[0]).getPath()).append(" ");
                     } else {
                         cmd.append("-cp \"").append(System.getProperty("java.class.path"))
-                            .append("\" ").append(command[0]).append(" ");
+                                .append("\" ").append(command[0]).append(" ");
                     }
                     for (int i = 1; i < command.length; i++) {
                         cmd.append(command[i]).append(" ");
