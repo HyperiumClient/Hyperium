@@ -25,10 +25,7 @@ import cc.hyperium.event.TickEvent;
 import cc.hyperium.utils.RenderUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.item.ItemStack;
 import org.lwjgl.input.Mouse;
@@ -46,7 +43,6 @@ public class ElementRenderer {
     private static final List<Long> clicks = new ArrayList<>();
     private static final List<Long> rClicks = new ArrayList<>();
     private static final List<Long> mClicks = new ArrayList<>();
-    protected static ScaledResolution resolution;
     private static double currentScale = 1.0;
     private static int color;
     private static int[] COLORS = new int[]{16777215, 16711680, 65280, 255, 16776960, 11141290};
@@ -247,21 +243,15 @@ public class ElementRenderer {
 
     @InvokeEvent
     public void onRenderTick(RenderHUDEvent event) {
-        resolution = new ScaledResolution(Minecraft.getMinecraft());
 
         if (!this.minecraft.inGameHasFocus || this.minecraft.gameSettings.showDebugInfo) {
             return;
         }
         if (!Settings.SHOW_CHROMAHUD)
             return;
-//        if (!MiscUtil.shouldRenderHUD())
-//            return;
-//        GlStateManager.color(1.0F,1.0F,1.0F,1.0F);
 
         renderElements();
         GlStateManager.resetColor();
-        GlStateManager.color(1.0F,1.0F,1.0F,1.0F);
-//        GlStateManager.color(1.0F,1.0F,1.0F,1.0F);
 
     }
 
