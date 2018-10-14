@@ -26,7 +26,7 @@ public abstract class AbstractTabComponent {
      * @param tab  the tab that this component will be added on
      * @param tags tags that are used for search function
      */
-    AbstractTabComponent(AbstractTab tab, List<String> tags) {
+    public AbstractTabComponent(AbstractTab tab, List<String> tags) {
         this.tab = tab;
         tag(tags); // prevent unsupported operation on AbstractList
     }
