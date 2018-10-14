@@ -25,6 +25,9 @@ import me.semx11.autotip.command.LimboCommand;
 import me.semx11.autotip.misc.TipTracker;
 import me.semx11.autotip.misc.Writer;
 import me.semx11.autotip.util.MessageOption;
+import net.minecraft.event.HoverEvent;
+import net.minecraft.util.ChatStyle;
+import net.minecraft.util.IChatComponent;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -66,7 +69,16 @@ public class ChatListener {
                 int tips = Integer.parseInt(tippedMatcher.group("tips"));
                 TipTracker.tipsSent += tips;
 
-                String[] rewards = event.getChat().getChatStyle().getChatHoverEvent().getValue().getFormattedText().split("\n");
+                ChatStyle chatStyle = event.getChat().getChatStyle();
+                if (chatStyle == null)
+                    return;
+                HoverEvent chatHoverEvent = chatStyle.getChatHoverEvent();
+                if (chatHoverEvent == null)
+                    return;
+                IChatComponent value = chatHoverEvent.getValue();
+                if (value == null)
+                    return;
+                String[] rewards = value.getFormattedText().split("\n");
 
                 for (int i = 2; i < rewards.length; i++) {
                     Matcher coinMatcher = this.coinPattern.matcher(rewards[i]);
