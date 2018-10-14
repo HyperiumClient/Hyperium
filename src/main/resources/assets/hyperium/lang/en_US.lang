@@ -35,6 +35,7 @@ tabs.searchbar=Search...
 tab.news.name=News
 tab.settings.name=Settings
 tab.update.name=Update
+tab.shop.name=Shop
 
 #Hyperium Tabs Attributes
 tab.update.noupdates=No updates available
