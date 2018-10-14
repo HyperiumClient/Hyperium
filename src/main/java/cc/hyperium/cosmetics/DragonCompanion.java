@@ -106,8 +106,8 @@ public class DragonCompanion extends AbstractCosmetic {
             if (entityDragon != null) {
                 entityDragon.setWorld(player.getEntityWorld());
                 double v = animationState.next.distanceSqTo(new AnimationPoint(player.posX, player.posY, player.posZ));
-                if(v > 15 * 15) {
-                    animationState.switchToNext(player);
+                if (v > 7*7) {
+                    animationState.switchToNext(player, true);
                 }
 
                 entityDragon.lastTickPosX = entityDragon.posX;
@@ -191,18 +191,18 @@ public class DragonCompanion extends AbstractCosmetic {
 
         public AnimationState() {
             next = generateRandom(null);
-            switchToNext(null);
+            switchToNext(null, false);
         }
 
-        public void switchToNext(EntityPlayer player) {
+        public void switchToNext(EntityPlayer player, boolean toofar) {
             if (nextNext == null)
-                nextNext = generateRandom(player);
-            last = next;
-            next = nextNext;
+                nextNext = toofar ? new AnimationPoint(player.posX,player.posY+3,player.posZ) : generateRandom(player);
+            last = toofar ? getCurrent(player) : next;
+            next = toofar ? new AnimationPoint(player.posX,player.posY+3,player.posZ)  : nextNext;
             start = System.currentTimeMillis();
             currentDistance = next.distanceTo(last);
-            if (currentDistance > 9) {
-                speed = currentDistance / 3;
+            if (toofar) {
+                speed = currentDistance;
             } else
                 speed = 3;
             totalTime = (long) (currentDistance / speed * 1000);
@@ -213,7 +213,7 @@ public class DragonCompanion extends AbstractCosmetic {
         public AnimationPoint getCurrent(EntityPlayer player) {
             long l = System.currentTimeMillis();
             if (l > endTime) {
-                switchToNext(player);
+                switchToNext(player, false);
             }
             double percent = (double) (l - start) / (double) totalTime;
             return new AnimationPoint(interpolate(this.last.x, next.x, percent),
