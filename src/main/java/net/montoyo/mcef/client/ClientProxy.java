@@ -7,16 +7,6 @@ import cc.hyperium.event.RenderTickEvent;
 import cc.hyperium.mods.browser.HyperiumProgressListener;
 import cc.hyperium.mods.browser.gui.GuiBrowser;
 import cc.hyperium.mods.browser.gui.GuiConfig;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.InputStreamReader;
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import net.minecraft.client.Minecraft;
 import net.montoyo.mcef.BaseProxy;
 import net.montoyo.mcef.MCEF;
@@ -37,6 +27,17 @@ import org.cef.browser.CefBrowserOsr;
 import org.cef.browser.CefMessageRouter;
 import org.cef.browser.CefMessageRouter.CefMessageRouterConfig;
 import org.cef.browser.CefRenderer;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.InputStreamReader;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ClientProxy extends BaseProxy {
 
@@ -211,7 +212,7 @@ public class ClientProxy extends BaseProxy {
             loadMimeTypeMapping();
             CefApp.addAppHandler(appHandler);
             cefClient = cefApp.createClient();
-        } catch (Exception e) {
+        } catch (Throwable e) {
             Log.error("Going in virtual mode; couldn't initialize CEF.");
             e.printStackTrace();
 
