@@ -189,7 +189,7 @@ public class DragonCompanion extends AbstractCosmetic {
 
         private AnimationPoint generateRandom() {
             ThreadLocalRandom current = ThreadLocalRandom.current();
-            return new AnimationPoint(current.nextDouble(-BOUNDS, BOUNDS), current.nextDouble(0, BOUNDS), current.nextDouble(-BOUNDS, BOUNDS));
+            return new AnimationPoint(current.nextDouble(-BOUNDS, BOUNDS), current.nextDouble(.5, BOUNDS+(double)BOUNDS/2D), current.nextDouble(-BOUNDS, BOUNDS));
         }
     }
 
