@@ -80,11 +80,12 @@ public class SettingsHandler {
                         parse=hat2[i];
                     }
                 }
-                if(parse == null) {
+                boolean none = o.toString().equalsIgnoreCase("NONE");
+                if(parse == null && !none) {
                     GeneralChatHandler.instance().sendMessage("Unable to locate hat type: " + o);
                     return;
                 }
-                JsonHolder put = new JsonHolder().put("internal", true).put("set_hat", true).put("value", o.toString().equalsIgnoreCase("NONE") ? "NONE" : parse.toString());
+                JsonHolder put = new JsonHolder().put("internal", true).put("set_hat", true).put("value", none ? "NONE" : parse.toString());
                 ServerCrossDataPacket build = ServerCrossDataPacket.build(put);
                 client.write(build);
             });
