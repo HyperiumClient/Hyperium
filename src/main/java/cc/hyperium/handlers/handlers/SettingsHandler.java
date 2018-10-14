@@ -72,7 +72,33 @@ public class SettingsHandler {
                 if (client == null) {
                     return;
                 }
-                JsonHolder put = new JsonHolder().put("internal", true).put("set_hat", true).put("value", o.toString().equalsIgnoreCase("NONE") ? "NONE":EnumPurchaseType.parse(o.toString()).toString());
+                JsonHolder put = new JsonHolder().put("internal", true).put("set_hat", true).put("value", o.toString().equalsIgnoreCase("NONE") ? "NONE" : EnumPurchaseType.parse(o.toString()).toString());
+                ServerCrossDataPacket build = ServerCrossDataPacket.build(put);
+                client.write(build);
+            });
+            Field companion_type = Settings.class.getField("COMPANION_TYPE");
+            customStates.put(companion_type, () -> {
+                HyperiumPurchase self = PurchaseApi.getInstance().getSelf();
+                List<EnumPurchaseType> types = new ArrayList<>();
+                types.add(EnumPurchaseType.DRAGON_COMPANION);
+                types.removeIf(enumPurchaseType -> !self.hasPurchased(enumPurchaseType));
+                List<String> vals = new ArrayList<>();
+                vals.add("NONE");
+                for (EnumPurchaseType type : types) {
+                    vals.add(type.getDisplayName());
+                }
+                String[] tmp = new String[vals.size()];
+                for (int i = 0; i < vals.size(); i++) {
+                    tmp[i] = vals.get(i);
+                }
+                return tmp;
+            });
+            registerCallback(companion_type, o -> {
+                NettyClient client = NettyClient.getClient();
+                if (client == null) {
+                    return;
+                }
+                JsonHolder put = new JsonHolder().put("internal", true).put("companion", o.toString().equalsIgnoreCase("NONE") ? "NONE" : EnumPurchaseType.parse(o.toString()).toString());
                 ServerCrossDataPacket build = ServerCrossDataPacket.build(put);
                 client.write(build);
             });

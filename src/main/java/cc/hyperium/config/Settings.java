@@ -144,6 +144,12 @@ public class Settings {
     @SelectorSetting(name = "Hat Type", category = COSMETICS, items = "NONE")
     public static String HAT_TYPE = "NONE";
 
+
+    @ConfigOpt
+    @SelectorSetting(name = "Companion Type", category = COSMETICS, items = "NONE")
+    public static String COMPANION_TYPE = "NONE";
+
+
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;chromaHudNonHypixelEnabled")
     @ToggleSetting(name = "gui.settings.chromahudonallservers")
     public static boolean CHROMAHUD_ALL = true;

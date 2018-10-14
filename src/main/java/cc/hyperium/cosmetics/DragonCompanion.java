@@ -4,6 +4,7 @@ import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.RenderPlayerEvent;
 import cc.hyperium.event.TickEvent;
 import cc.hyperium.purchases.EnumPurchaseType;
+import cc.hyperium.purchases.PurchaseApi;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.renderer.GlStateManager;
@@ -31,6 +32,9 @@ public class DragonCompanion extends AbstractCosmetic {
             return;
         if (!isPurchasedBy(event.getEntity().getUniqueID()))
             return;
+        if (PurchaseApi.getInstance().getSelf().getCachedSettings().getCurrentCompanion() != EnumPurchaseType.DRAGON_COMPANION) {
+            return;
+        }
         scale = .1F;
         AbstractClientPlayer player = event.getEntity();
         Entity entity = getEntity(event.getPartialTicks(), player, event.getRenderManager(), event.getX(), event.getY(), event.getZ());

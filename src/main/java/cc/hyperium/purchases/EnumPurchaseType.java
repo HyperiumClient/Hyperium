@@ -31,9 +31,9 @@ public enum EnumPurchaseType {
     DRAGON_HEAD("Dragon Head"),
     DRAGON_COMPANION("Dragon Companion"),
     BACKPACK_ENDER_DRAGON("Ender Dragon Backpack"),
-    UNKNOWN("Unknown"),
     HAT_TOPHAT("Tophat"),
-    HAT_FEZ("Fez");
+    HAT_FEZ("Fez"),
+    UNKNOWN("Unknown");
 
     private String displayName;
 
