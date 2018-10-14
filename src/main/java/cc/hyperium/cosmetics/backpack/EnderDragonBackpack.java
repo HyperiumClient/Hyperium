@@ -26,6 +26,7 @@ public class EnderDragonBackpack extends AbstractBackpackPet {
             entityDragon = new EntityDragon(player.getEntityWorld());
         }
         entityDragon.setWorld(player.getEntityWorld());
+        entityDragon.setSilent(true);
         entityDragon.ticksExisted = 1;
         entityDragon.rotationPitch = player.rotationPitch;
         entityDragon.prevRotationPitch = player.prevRotationPitch;
