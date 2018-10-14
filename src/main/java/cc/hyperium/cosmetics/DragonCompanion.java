@@ -66,7 +66,8 @@ public class DragonCompanion extends AbstractCosmetic {
     }
 
     public void tick() {
-
+        if(Minecraft.getMinecraft().theWorld == null)
+            return;
 
         if (entityDragon != null) {
             entityDragon.lastTickPosX = entityDragon.posX;
@@ -85,6 +86,7 @@ public class DragonCompanion extends AbstractCosmetic {
             double angle = Math.toDegrees(angrad);
             entityDragon.prevRotationYaw = entityDragon.rotationYaw;
             entityDragon.rotationYaw = (float) angle;
+
             entityDragon.onLivingUpdate();
         }
 
