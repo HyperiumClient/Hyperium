@@ -132,5 +132,4 @@ public interface IBrowser {
      * @return true if the page is still being loaded, false otherwise.
      */
     boolean isPageLoading();
-
 }

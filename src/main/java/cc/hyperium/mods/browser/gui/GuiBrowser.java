@@ -75,6 +75,8 @@ public class GuiBrowser extends GuiScreen {
             browser.resize(mc.displayWidth, mc.displayHeight - scaleY(30));
         }
 
+        ((CefBrowserOsr) browser).setZoomLevel(1.0);
+
         //Create GUI
         Keyboard.enableRepeatEvents(true);
         buttonList.clear();

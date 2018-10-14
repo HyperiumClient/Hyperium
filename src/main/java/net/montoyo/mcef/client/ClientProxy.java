@@ -167,7 +167,7 @@ public class ClientProxy extends BaseProxy {
         CefSettings settings = new CefSettings();
         settings.windowless_rendering_enabled = true;
         settings.background_color = settings.new ColorType(0, 255, 255, 255);
-        settings.locales_dir_path = (new File(ROOT, "MCEFLocales")).getAbsolutePath();
+        settings.locales_dir_path = OS.isWindows() ? new File(ROOT, "locales").getAbsolutePath() : new File(ROOT, "jcef.app" + File.separator + "Contents" + File.separator + "Frameworks" + File.separator + "Chromium Embedded Framework.framework" + File.separator + "Resources").getAbsolutePath();
         settings.cache_path = (new File(ROOT, "MCEFCache")).getAbsolutePath();
         settings.browser_subprocess_path =
             OS.isWindows() ? new File(rootDir, "jcef_helper.exe").getAbsolutePath()
