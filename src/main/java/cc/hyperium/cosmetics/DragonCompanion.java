@@ -4,6 +4,7 @@ import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.RenderPlayerEvent;
 import cc.hyperium.event.TickEvent;
 import cc.hyperium.purchases.EnumPurchaseType;
+import cc.hyperium.purchases.HyperiumPurchase;
 import cc.hyperium.purchases.PurchaseApi;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
@@ -32,7 +33,10 @@ public class DragonCompanion extends AbstractCosmetic {
             return;
         if (!isPurchasedBy(event.getEntity().getUniqueID()))
             return;
-        if (PurchaseApi.getInstance().getSelf().getCachedSettings().getCurrentCompanion() != EnumPurchaseType.DRAGON_COMPANION) {
+        HyperiumPurchase packageIfReady = PurchaseApi.getInstance().getPackageIfReady(event.getEntity().getUniqueID());
+        if (packageIfReady == null)
+            return;
+        if (packageIfReady.getCachedSettings().getCurrentCompanion() != EnumPurchaseType.DRAGON_COMPANION) {
             return;
         }
         scale = .1F;
@@ -51,11 +55,10 @@ public class DragonCompanion extends AbstractCosmetic {
 
         GlStateManager.pushMatrix();
 
-
-        GlStateManager.translate(d0 * scale, d1 * scale, d2 * scale);
+        GlStateManager.translate(event.getX(), event.getY(), event.getZ());
+        GlStateManager.translate(d0*scale, d1*scale, d2*scale);
         GlStateManager.scale(scale, scale, scale);
 
-//        GlStateManager.rotate(90,1,0,0)
         renderManager.renderEntitySimple(entity, event.getPartialTicks());
         GlStateManager.popMatrix();
         //render
@@ -81,6 +84,11 @@ public class DragonCompanion extends AbstractCosmetic {
             entityDragon.posY = current.y / scale;
             entityDragon.posZ = current.z / scale;
 
+
+
+
+
+
             double dx = animationState.next.x - animationState.last.x;
             double dz = animationState.next.z - animationState.last.z;
 
@@ -93,7 +101,7 @@ public class DragonCompanion extends AbstractCosmetic {
                 double angrad1 = Math.atan2(dx1, -dz1);
                 double angle1 = MathHelper.wrapAngleTo180_float((float) Math.toDegrees(angrad1));
                 //Average yaw
-                angle = ((float)angle + (float)angle1) / 2;
+                angle = ((float) angle + (float) angle1) / 2;
                 entityDragon.rotationYawHead = (float) angle1;
             }
             entityDragon.prevRotationYaw = entityDragon.rotationYaw;
@@ -152,7 +160,7 @@ public class DragonCompanion extends AbstractCosmetic {
         }
 
         public void switchToNext() {
-            if(nextNext == null)
+            if (nextNext == null)
                 nextNext = generateRandom();
             last = next;
             next = nextNext;
@@ -189,7 +197,7 @@ public class DragonCompanion extends AbstractCosmetic {
 
         private AnimationPoint generateRandom() {
             ThreadLocalRandom current = ThreadLocalRandom.current();
-            return new AnimationPoint(current.nextDouble(-BOUNDS, BOUNDS), current.nextDouble(.5, BOUNDS+(double)BOUNDS/2D), current.nextDouble(-BOUNDS, BOUNDS));
+            return new AnimationPoint(current.nextDouble(-BOUNDS, BOUNDS), current.nextDouble(.5, BOUNDS + (double) BOUNDS / 2D), current.nextDouble(-BOUNDS, BOUNDS));
         }
     }
 
