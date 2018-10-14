@@ -72,7 +72,7 @@ public class DragonCompanion extends AbstractCosmetic {
 
         GlStateManager.pushMatrix();
 
-        GlStateManager.translate(event.getX(), event.getY(), event.getZ());
+//        GlStateManager.translate(event.getX(), event.getY(), event.getZ());
 
         GlStateManager.translate(-((IMixinRenderManager) renderManager).getPosX(),
                 -((IMixinRenderManager) renderManager).getPosY(),
