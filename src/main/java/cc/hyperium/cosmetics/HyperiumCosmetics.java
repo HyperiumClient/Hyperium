@@ -45,8 +45,8 @@ public class HyperiumCosmetics {
         registerCosmetic(dragonCosmetic = new DragonCosmetic());
         registerCosmetic(enderDragonBackpack = new EnderDragonBackpack());
         registerCosmetic(dragonCompanion = new DragonCompanion());
-        //registerCosmetic(topHatCosmetic);
-        //registerCosmetic(fezCosmetic);
+        registerCosmetic(topHatCosmetic);
+        registerCosmetic(fezCosmetic);
         registerCosmetic(legoCosmetic);
 
     }
