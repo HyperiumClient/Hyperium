@@ -5,6 +5,8 @@ import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.RenderEntitiesEvent;
 import cc.hyperium.event.RenderPlayerEvent;
 import cc.hyperium.event.TickEvent;
+import cc.hyperium.event.WorldChangeEvent;
+import cc.hyperium.mixinsimp.renderer.IMixinRenderManager;
 import cc.hyperium.purchases.EnumPurchaseType;
 import cc.hyperium.purchases.HyperiumPurchase;
 import cc.hyperium.purchases.PurchaseApi;
@@ -17,13 +19,13 @@ import net.minecraft.entity.boss.EntityDragon;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.MathHelper;
 
+import java.util.HashMap;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class DragonCompanion extends AbstractCosmetic {
 
-    EntityDragon entityDragon;
     private float scale;
-    private AnimationState animationState = new AnimationState();
+    private HashMap<EntityPlayer, CustomDragon> dragonHashMap = new HashMap<>();
 
     public DragonCompanion() {
         super(false, EnumPurchaseType.DRAGON_COMPANION);
@@ -51,7 +53,12 @@ public class DragonCompanion extends AbstractCosmetic {
         }
         scale = .1F;
         AbstractClientPlayer player = event.getEntity();
-        Entity entity = getEntity(event.getPartialTicks(), player, event.getRenderManager(), event.getX(), event.getY(), event.getZ());
+        CustomDragon customDragon = dragonHashMap.computeIfAbsent(event.getEntity(), player1 -> {
+            EntityDragon dragon = new EntityDragon(player1.getEntityWorld());
+            dragon.setSilent(true);
+            return new CustomDragon(dragon, new AnimationState());
+        });
+        Entity entity = customDragon.dragon;
         RenderManager renderManager = Minecraft.getMinecraft().getRenderManager();
 
         //Manage pos here;
@@ -66,6 +73,10 @@ public class DragonCompanion extends AbstractCosmetic {
         GlStateManager.pushMatrix();
 
         GlStateManager.translate(event.getX(), event.getY(), event.getZ());
+
+        GlStateManager.translate(-((IMixinRenderManager) renderManager).getPosX(),
+                -((IMixinRenderManager) renderManager).getPosY(),
+                -((IMixinRenderManager) renderManager).getPosZ());
         GlStateManager.translate(d0 * scale, d1 * scale, d2 * scale);
         GlStateManager.scale(scale, scale, scale);
 
@@ -79,55 +90,73 @@ public class DragonCompanion extends AbstractCosmetic {
         tick();
     }
 
+    @InvokeEvent
+    public void worldSwap(WorldChangeEvent event) {
+        dragonHashMap.clear();
+    }
+
     public void tick() {
         if (Minecraft.getMinecraft().theWorld == null)
             return;
 
-        if (entityDragon != null) {
-            entityDragon.lastTickPosX = entityDragon.posX;
-            entityDragon.lastTickPosY = entityDragon.posY;
-            entityDragon.lastTickPosZ = entityDragon.posZ;
-            entityDragon.prevRotationYawHead = entityDragon.rotationYawHead;
+        for (EntityPlayer player : dragonHashMap.keySet()) {
+            CustomDragon customDragon = dragonHashMap.get(player);
+            EntityDragon entityDragon = customDragon.dragon;
+            AnimationState animationState = customDragon.animationState;
+            if (entityDragon != null) {
+                entityDragon.setWorld(player.getEntityWorld());
+                double v = animationState.next.distanceSqTo(new AnimationPoint(player.posX, player.posY, player.posZ));
+                if(v > 15 * 15) {
+                    animationState.switchToNext(player);
+                }
 
-            AnimationPoint current = animationState.getCurrent(false);
-            entityDragon.posX = current.x / scale;
-            entityDragon.posY = current.y / scale;
-            entityDragon.posZ = current.z / scale;
+                entityDragon.lastTickPosX = entityDragon.posX;
+                entityDragon.lastTickPosY = entityDragon.posY;
+                entityDragon.lastTickPosZ = entityDragon.posZ;
+                entityDragon.prevRotationYawHead = entityDragon.rotationYawHead;
+
+                AnimationPoint current = animationState.getCurrent(player);
+                entityDragon.posX = current.x / scale;
+                entityDragon.posY = current.y / scale;
+                entityDragon.posZ = current.z / scale;
 
 
-            double dx = animationState.next.x - animationState.last.x;
-            double dz = animationState.next.z - animationState.last.z;
+                double dx = animationState.next.x - animationState.last.x;
+                double dz = animationState.next.z - animationState.last.z;
 
-            double angrad = Math.atan2(dx, -dz);
-            double angle = MathHelper.wrapAngleTo180_float((float) Math.toDegrees(angrad));
+                double angrad = Math.atan2(dx, -dz);
+                double angle = MathHelper.wrapAngleTo180_float((float) Math.toDegrees(angrad));
 
-            if (animationState.nextFrameisNewPoint()) {
-                double dx1 = animationState.nextNext.x - animationState.next.x;
-                double dz1 = animationState.nextNext.z - animationState.next.z;
-                double angrad1 = Math.atan2(dx1, -dz1);
-                double angle1 = MathHelper.wrapAngleTo180_float((float) Math.toDegrees(angrad1));
-                //Average yaw
-                angle = ((float) angle + (float) angle1) / 2;
-                entityDragon.rotationYawHead = (float) angle1;
+                if (animationState.nextFrameisNewPoint(player)) {
+                    double dx1 = animationState.nextNext.x - animationState.next.x;
+                    double dz1 = animationState.nextNext.z - animationState.next.z;
+                    double angrad1 = Math.atan2(dx1, -dz1);
+                    double angle1 = MathHelper.wrapAngleTo180_float((float) Math.toDegrees(angrad1));
+                    //Average yaw
+                    angle = ((float) angle + (float) angle1) / 2;
+                    entityDragon.rotationYawHead = (float) angle1;
+                }
+                entityDragon.prevRotationYaw = entityDragon.rotationYaw;
+                entityDragon.rotationYaw = (float) angle;
+
+
+                entityDragon.onLivingUpdate();
+
             }
-            entityDragon.prevRotationYaw = entityDragon.rotationYaw;
-            entityDragon.rotationYaw = (float) angle;
-
-
-            entityDragon.onLivingUpdate();
-
         }
 
 
     }
 
-    Entity getEntity(float partialTicks, EntityPlayer player, RenderManager renderManager, double x, double y, double z) {
-        if (entityDragon == null) {
-            entityDragon = new EntityDragon(player.getEntityWorld());
+
+    class CustomDragon {
+        EntityDragon dragon;
+        AnimationState animationState;
+
+        public CustomDragon(EntityDragon dragon, AnimationState point) {
+            this.dragon = dragon;
+            this.animationState = point;
         }
-        entityDragon.setWorld(player.getEntityWorld());
-        entityDragon.ticksExisted = 1;
-        return entityDragon;
     }
 
     class AnimationPoint {
@@ -150,42 +179,41 @@ public class DragonCompanion extends AbstractCosmetic {
 
     class AnimationState {
         private final int BOUNDS = 4;
-        //Speed in blocks per second
-        private final double speed = 3D;
         AnimationPoint last;
         AnimationPoint next;
         AnimationPoint nextNext;
+        //Speed in blocks per second
+        private double speed = 3D;
         private long start = 0L;
         private double currentDistance = 0;
         private long totalTime = 0;
         private long endTime;
 
         public AnimationState() {
-            next = generateRandom();
-            switchToNext();
+            next = generateRandom(null);
+            switchToNext(null);
         }
 
-        public void switchToNext() {
+        public void switchToNext(EntityPlayer player) {
             if (nextNext == null)
-                nextNext = generateRandom();
+                nextNext = generateRandom(player);
             last = next;
             next = nextNext;
             start = System.currentTimeMillis();
             currentDistance = next.distanceTo(last);
+            if (currentDistance > 9) {
+                speed = currentDistance / 3;
+            } else
+                speed = 3;
             totalTime = (long) (currentDistance / speed * 1000);
             endTime = start + totalTime;
 
-            nextNext = generateRandom();
-
-
         }
 
-        public AnimationPoint getCurrent(boolean last) {
+        public AnimationPoint getCurrent(EntityPlayer player) {
             long l = System.currentTimeMillis();
-            if (last)//back 1 tick
-                l -= 50L;
             if (l > endTime) {
-                switchToNext();
+                switchToNext(player);
             }
             double percent = (double) (l - start) / (double) totalTime;
             return new AnimationPoint(interpolate(this.last.x, next.x, percent),
@@ -193,17 +221,28 @@ public class DragonCompanion extends AbstractCosmetic {
                     interpolate(this.last.z, next.z, percent));
         }
 
-        public boolean nextFrameisNewPoint() {
-            return System.currentTimeMillis() + 50L >= endTime;
+        public boolean nextFrameisNewPoint(EntityPlayer player) {
+            long endTime = this.endTime;
+            boolean b = System.currentTimeMillis() + 50L >= endTime;
+            if (b) {
+                nextNext = generateRandom(player);
+            }
+            return b;
         }
 
         private double interpolate(final double now, final double then, final double percent) {
             return (now + (then - now) * percent);
         }
 
-        private AnimationPoint generateRandom() {
+        private AnimationPoint generateRandom(EntityPlayer player) {
             ThreadLocalRandom current = ThreadLocalRandom.current();
-            return new AnimationPoint(current.nextDouble(-BOUNDS, BOUNDS), current.nextDouble(.5, BOUNDS + (double) BOUNDS / 2D), current.nextDouble(-BOUNDS, BOUNDS));
+            double posX = player == null ? 0 : player.posX;
+            double posY = player == null ? 0 : player.posY;
+            double posZ = player == null ? 0 : player.posZ;
+            double y = current.nextDouble(.5 + posY, posY + BOUNDS + (double) BOUNDS / 2D);
+            return new AnimationPoint(current.nextDouble(-BOUNDS + posX, BOUNDS + posX),
+                    y,
+                    current.nextDouble(-BOUNDS + posZ, BOUNDS + posZ));
         }
     }
 
