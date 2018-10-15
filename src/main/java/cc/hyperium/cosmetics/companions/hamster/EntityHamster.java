@@ -29,7 +29,8 @@ public class EntityHamster extends EntityTameable {
 
         setTamed(true);
         setOwnerId(UUIDUtil.getClientUUID().toString());
-        //enablePersistence();
+
+        this.preventEntitySpawning = false;
     }
 
     @Override
