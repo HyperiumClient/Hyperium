@@ -1,6 +1,7 @@
 package cc.hyperium.cosmetics;
 
 import cc.hyperium.cosmetics.backpack.EnderDragonBackpack;
+import cc.hyperium.cosmetics.companions.hamster.HamsterCompanion;
 import cc.hyperium.cosmetics.hats.ModelHatFez;
 import cc.hyperium.cosmetics.hats.ModelHatLego;
 import cc.hyperium.cosmetics.hats.ModelHatTophat;
@@ -27,6 +28,7 @@ public class HyperiumCosmetics {
     private final KillCounterMuscles killCounterMuscles;
     private EnderDragonBackpack enderDragonBackpack;
     private DragonCompanion dragonCompanion;
+    private HamsterCompanion hamsterCompanion;
 
     private final CosmeticHat topHatCosmetic = new CosmeticHat(false, EnumPurchaseType.HAT_TOPHAT).setModel(new ModelHatTophat(),new ResourceLocation("textures/cosmetics/hats/tophat.png"));
     private final CosmeticHat fezCosmetic = new CosmeticHat(false, EnumPurchaseType.HAT_FEZ).setModel(new ModelHatFez(),new ResourceLocation("textures/cosmetics/hats/fez.png"));
@@ -45,6 +47,7 @@ public class HyperiumCosmetics {
         registerCosmetic(dragonCosmetic = new DragonCosmetic());
         registerCosmetic(enderDragonBackpack = new EnderDragonBackpack());
         registerCosmetic(dragonCompanion = new DragonCompanion());
+        registerCosmetic(hamsterCompanion = new HamsterCompanion());
         //registerCosmetic(topHatCosmetic);
         //registerCosmetic(fezCosmetic);
         registerCosmetic(legoCosmetic);

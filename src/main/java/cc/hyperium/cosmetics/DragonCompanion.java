@@ -139,9 +139,7 @@ public class DragonCompanion extends AbstractCosmetic {
                 entityDragon.prevRotationYaw = entityDragon.rotationYaw;
                 entityDragon.rotationYaw = (float) angle;
 
-
                 entityDragon.onLivingUpdate();
-
             }
         }
 

@@ -81,6 +81,7 @@ public class SettingsHandler {
                 HyperiumPurchase self = PurchaseApi.getInstance().getSelf();
                 List<EnumPurchaseType> types = new ArrayList<>();
                 types.add(EnumPurchaseType.DRAGON_COMPANION);
+                types.add(EnumPurchaseType.HAMSTER_COMPANION);
                 types.removeIf(enumPurchaseType -> !self.hasPurchased(enumPurchaseType));
                 List<String> vals = new ArrayList<>();
                 vals.add("NONE");

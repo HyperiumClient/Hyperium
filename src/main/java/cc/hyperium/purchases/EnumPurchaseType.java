@@ -34,6 +34,7 @@ public enum EnumPurchaseType {
     HAT_TOPHAT("Tophat"),
     HAT_FEZ("Fez Hat"),
     HAT_LEGO("Lego Hat"),
+    HAMSTER_COMPANION("Hamster Companion"),
     UNKNOWN("Unknown");
 
     private String displayName;
