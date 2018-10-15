@@ -48,8 +48,8 @@ public class HyperiumCosmetics {
         registerCosmetic(enderDragonBackpack = new EnderDragonBackpack());
         registerCosmetic(dragonCompanion = new DragonCompanion());
         registerCosmetic(hamsterCompanion = new HamsterCompanion());
-        //registerCosmetic(topHatCosmetic);
-        //registerCosmetic(fezCosmetic);
+        registerCosmetic(topHatCosmetic);
+        registerCosmetic(fezCosmetic);
         registerCosmetic(legoCosmetic);
 
     }

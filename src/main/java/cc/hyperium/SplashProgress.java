@@ -17,8 +17,8 @@
 
 package cc.hyperium;
 
+import cc.hyperium.mixinsimp.client.GlStateModifier;
 import cc.hyperium.utils.HyperiumFontRenderer;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
@@ -36,10 +36,9 @@ public class SplashProgress {
     public static int MAX = DEFAULT_MAX;
     public static int PROGRESS = 0;
     public static String CURRENT = "";
+    public static boolean CANCEL_IF_MAX = true;
     private static ResourceLocation splash;
     private static TextureManager ctm;
-    public static boolean CANCEL_IF_MAX = true;
-
     /**
      * FontRenderer for drawing splash screen
      */
@@ -52,7 +51,7 @@ public class SplashProgress {
         drawSplash(Minecraft.getMinecraft().getTextureManager());
     }
 
-    public static void setProgress(int givenProgress, String givenSplash){
+    public static void setProgress(int givenProgress, String givenSplash) {
         PROGRESS = givenProgress;
         CURRENT = givenSplash;
         update();
@@ -84,6 +83,8 @@ public class SplashProgress {
 
         tm.bindTexture(splash);
 
+        GlStateManager.resetColor();
+        GlStateModifier.INSTANCE.reset();
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         Gui.drawScaledCustomSizeModalRect(0, 0, 0, 0, 1920, 1080, scaledresolution.getScaledWidth(), scaledresolution.getScaledHeight(), 1920, 1080);
         drawProgress();
@@ -107,9 +108,12 @@ public class SplashProgress {
 
         double nProgress = (double) PROGRESS;
         double calc = (nProgress / MAX) * 150;
-
+        GlStateManager.resetColor();
+        GlStateModifier.INSTANCE.reset();
         sfr.drawString(CURRENT, (float) sr.getScaledWidth_double() / 2 - sfr.getWidth(CURRENT) / 2, (float) sr.getScaledHeight_double() / 2 + 60, new Color(0, 150, 250).getRGB());
         // Progress
+        GlStateManager.resetColor();
+        GlStateModifier.INSTANCE.reset();
         Gui.drawRect(sr.getScaledWidth() / 2 - 75, sr.getScaledHeight() / 2 + 45, sr.getScaledWidth() / 2 + (int) (Math.round(calc) / 2), sr.getScaledHeight() / 2 + 55, new Color(255, 0, 0, 50).getRGB());
         // Bar base
         Gui.drawRect(sr.getScaledWidth() / 2 - 75, sr.getScaledHeight() / 2 + 45, sr.getScaledWidth() / 2 + 75, sr.getScaledHeight() / 2 + 55, new Color(0, 0, 0, 50).getRGB());

@@ -2,22 +2,6 @@ package cc.hyperium.mods.browser.gui;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.mods.browser.util.BrowserUtil;
-import java.awt.Color;
-import java.awt.Robot;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.io.IOException;
-import java.net.URLEncoder;
-import java.security.AccessController;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
-import java.util.HashMap;
-import java.util.Map;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.WindowConstants;
-import java.awt.event.KeyEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
@@ -28,12 +12,17 @@ import net.montoyo.mcef.MCEF;
 import net.montoyo.mcef.api.API;
 import net.montoyo.mcef.api.IBrowser;
 import net.montoyo.mcef.api.MCEFApi;
-import org.apache.commons.lang3.tuple.MutableTriple;
 import org.apache.commons.lang3.tuple.Triple;
-import org.cef.browser.CefBrowserOsr;
 import org.cef.OS;
+import org.cef.browser.CefBrowserOsr;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
+
+import java.awt.Color;
+import java.awt.event.KeyEvent;
+import java.io.IOException;
+import java.net.URLEncoder;
+import java.util.Map;
 
 /**
  * @author Koding
@@ -52,6 +41,8 @@ public class GuiBrowser extends GuiScreen {
 
     public GuiBrowser(String url) {
         urlToLoad = (url == null) ? MCEF.HOME_PAGE : url;
+        this.url = new GuiTextField(5, fontRendererObj, 40, 10, width - 100, 20);
+        this.url.setMaxStringLength(65535);
     }
 
     @Override
@@ -89,8 +80,7 @@ public class GuiBrowser extends GuiScreen {
             buttonList.add(pip = (new GuiButton(4, width - 40, 10, 20, 20, "PIP")));
             pip.enabled = true;
 
-            url = new GuiTextField(5, fontRendererObj, 40, 10, width - 100, 20);
-            url.setMaxStringLength(65535);
+
         } else {
             buttonList.add(back);
             buttonList.add(fwd);
