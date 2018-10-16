@@ -89,6 +89,14 @@ gui.cosmetics.credits=クレジット
 gui.cosmetics.totalcredits=合計クレジット: %s
 gui.cosmetics.remainingcredits=クレジット残高: %s
 gui.cosmetics.purchased=購入済みパッケージ
+gui.cosmetics.disableparticles=Disable Particles
+gui.cosmetics.line1=You must purchase at least 1 particle and 1 animation for it to show
+gui.cosmetics.line2=The Double Twirl animation is free.
+gui.cosmetics.preview=Preview
+gui.cosmetics.red=Red
+gui.cosmetics.green=Green
+gui.cosmetics.blue=Blue
+gui.cosmetics.maxage=Particle life
 
 # Hyperium Shop Gui
 gui.shop.capes=マントを見る
@@ -231,3 +239,11 @@ splashprogress.finishing=Finishing...
 
 # Hyperium Misc Gui Text
 gui.namehistory.text=NAME HISTORY
+
+# Hyperium Chat Message
+message.insufficientcredits=Insufficient credits
+message.attemptingpurchase=Attempting to purchase %s
+message.alreadypurchased=Already purchased %s
+message.invalidparticle=Invalid current particle type
+message.invalidanimation=Invalid animation type
+message.purchase=Purchase %s
