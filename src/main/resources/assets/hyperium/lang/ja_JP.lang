@@ -1,10 +1,9 @@
-#Hyperium Language File - Created by ScottehBoeh
 
-#Hyperium Disclaimers
+# Hyperium Disclaimers
 menu.left=Copyright 2018 Hyperium 開発チーム
 menu.right=Mojang ABとは提携していません
 
-#Hyperium Buttons
+# Hyperium Buttons
 button.menu.changebackground=背景変更
 button.menu.cosmeticshop=アクセサリーショップ
 button.ingame.hyperiumsettings=Hyperium 設定
@@ -16,7 +15,7 @@ button.changebackground.seturl=URLセット
 button.changebackground.choosefile=ファイル選択
 button.changebackground.resetbackground=背景リセット
 
-#Hyperium Disclaimer
+# Hyperium Disclaimer
 disclaimer.line1=続行するにはこのクライアントの使用が%sであることに同意する必要があります。
 disclaimer.line1.bold=自己責任
 disclaimer.line2=Hyperiumの開発者はHyperiumを使用したことによる
@@ -27,16 +26,17 @@ disclaimer.line5=同意するにはボタンを押してください
 button.disclaimer.accept=同意
 button.disclaimer.confirm=同意を確定する
 
-#Hyperium Menu Strings
+# Hyperium Menu Strings
 menu.profile.credits=%s クレジット
 
-#Hyperium Tabs
+# Hyperium Tabs
 tabs.searchbar=検索...
 tab.news.name=ニュース
 tab.settings.name=設定
 tab.update.name=アップデート
+tab.shop.name=Shop
 
-#Hyperium Tabs Attributes
+# Hyperium Tabs Attributes
 tab.update.noupdates=利用可能なアップデートはありません
 tab.update.autorestart=アップデートが完了したあと、Minecraftは自動で再起動します。
 tab.update.changelog=変更履歴はまもなく実装されます
@@ -50,19 +50,18 @@ tab.update.installer.state.unknown=W: 不明な状態
 tab.update.installer.state.manualupdate.api=E: アップデートを手動で行ってください。 API: %s
 tab.update.installer.state.manualupdate=E: アップデートを手動で行ってください
 
-#Hyperium Ingame Menu
+# Hyperium Ingame Menu
 gui.ingamemenu.playercount=Hyperiumユーザー数:
 gui.ingamemenu.playercount.now=現在オンライン: %s
 gui.ingamemenu.playercount.lastday=昨日: %s
 gui.ingamemenu.playercount.lastweek=先週: %s
 gui.ingamemenu.playercount.alltime=いままで: %s
-#Hyperium Splash Progress
-#splash.progress.
 
-#Hyperium Alerts
+
+# Hyperium Alerts
 alert.update.message=Hyperiumのアップデートが見つかりました！ここをクリックすると更新を開始します。
 
-#Hyperium Change Background Text
+# Hyperium Change Background Text
 gui.changebackground.line1=URLを入力するか、ファイルを選択して背景を変更できます
 gui.changebackground.line2=背景設定で"Custom"を選択しないと表示されません
 gui.changebackground.urlempty=URLは空にできません
@@ -74,7 +73,7 @@ gui.changebackground.unknownerror=不明なエラーが発生しました
 gui.changebackground.downloaderror=ダウンロード中にエラーが発生しました。
 gui.changebackground.selectimage=背景画像選択
 
-#Hyperium PurchaseCarousel Text
+# Hyperium PurchaseCarousel Text
 gui.purchase.purchased=購入済み
 gui.purchase.purchase=購入
 gui.purchase.active=有効
@@ -83,15 +82,23 @@ gui.purchase.notpurchased=未購入
 gui.purchase.clicktouse=クリックで使用
 gui.purchase.state=状態
 
-#Hyperium Cosmetics Gui
+# Hyperium Cosmetics Gui
 gui.cosmetics.purchase=アクセサリーを購入
 gui.cosmetics.refresh=ショップを再読込
 gui.cosmetics.credits=クレジット
 gui.cosmetics.totalcredits=合計クレジット: %s
 gui.cosmetics.remainingcredits=クレジット残高: %s
 gui.cosmetics.purchased=購入済みパッケージ
+gui.cosmetics.disableparticles=Disable Particles
+gui.cosmetics.line1=You must purchase at least 1 particle and 1 animation for it to show
+gui.cosmetics.line2=The Double Twirl animation is free.
+gui.cosmetics.preview=Preview
+gui.cosmetics.red=Red
+gui.cosmetics.green=Green
+gui.cosmetics.blue=Blue
+gui.cosmetics.maxage=Particle life
 
-#Hyperium Shop Gui
+# Hyperium Shop Gui
 gui.shop.capes=マントを見る
 gui.shop.browser=ブラウザーで開く
 gui.shop.purchasecredits=クレジットを購入
@@ -107,13 +114,13 @@ gui.shop.insufficientcredits=クレジットが足りません！
 gui.shop.loading.cosmetics=アクセサリーを読み込み中...
 gui.shop.loading.person=プレイヤーデータを読み込み中...
 
-#Hyperium Auto Optimizer Text
+# Hyperium Auto Optimizer Text
 gui.optimizer.font.line1=もしこのテキストが読めるなら、"はい"を押してください。
 gui.optimizer.font.line2=読めない場合は暫くお待ち下さい。
 gui.optimizer.optifine.line1=OptiFineの使用を検出しました。
 gui.optimizer.optifine.line2=最適化を実行しますか？
 
-#Hyperium Settings Text
+# Hyperium Settings Text
 gui.settings.discordrp=Discord RP
 gui.settings.fullbright=Fullbright
 gui.settings.romannumerals=Roman Numerals
@@ -178,8 +185,8 @@ gui.settings.sprintbypassstaticfov=Sprint Bypass Static FOV
 gui.settings.sprintandperspectivemessages=Sprint And Perspective Messages
 gui.settings.autowho=Auto Who
 gui.settings.showdragonhead=Show Dragon Head
-gui.settings.showwings=Show Wings
 gui.settings.wingsheight=Wings Height
+gui.settings.showwings=Show Wings
 gui.settings.wingsscale=Wings Scale
 gui.settings.showchromahud=Show ChromaHUD
 gui.settings.mainmenustyle=Main Menu Style
@@ -214,3 +221,29 @@ gui.settings.sendguildwelcomemessage=Send guild welcome message
 gui.settings.itemphysics=Item Physics
 gui.settings.showbrowser=Show Browser
 gui.settings.mainmenuserver=Main Menu Server
+
+# Hyperium Splash Progress
+splashprogress.startinggame=Starting Game...
+splashprogress.loadingresources=Loading Resources...
+splashprogress.creatingdisplay=Creating Display...
+splashprogress.initializingtextures=Initializing Textures...
+splashprogress.loadinghandlers=Loading Handlers...
+splashprogress.registeringlisteners=Registering Listeners...
+splashprogress.startinghyperium=Starting Hyperium...
+splashprogress.initializingtrayicon=Initializing Tray Icon...
+splashprogress.registeringconfiguration=Registering Configuration...
+splashprogress.registeringcommands=Registering Commands...
+splashprogress.loadingintegrations=Loading Integrations...
+splashprogress.reloadingresourcemanager=Reloading Resource Manager...
+splashprogress.finishing=Finishing...
+
+# Hyperium Misc Gui Text
+gui.namehistory.text=NAME HISTORY
+
+# Hyperium Chat Message
+message.insufficientcredits=Insufficient credits
+message.attemptingpurchase=Attempting to purchase %s
+message.alreadypurchased=Already purchased %s
+message.invalidparticle=Invalid current particle type
+message.invalidanimation=Invalid animation type
+message.purchase=Purchase %s
