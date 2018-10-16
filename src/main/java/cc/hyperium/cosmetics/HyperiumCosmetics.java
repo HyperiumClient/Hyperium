@@ -1,6 +1,7 @@
 package cc.hyperium.cosmetics;
 
 import cc.hyperium.cosmetics.backpack.EnderDragonBackpack;
+import cc.hyperium.cosmetics.companions.dragon.DragonCompanion;
 import cc.hyperium.cosmetics.companions.hamster.HamsterCompanion;
 import cc.hyperium.cosmetics.hats.ModelHatFez;
 import cc.hyperium.cosmetics.hats.ModelHatLego;

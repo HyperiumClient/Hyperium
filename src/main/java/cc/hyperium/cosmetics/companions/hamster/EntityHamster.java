@@ -1,6 +1,5 @@
 package cc.hyperium.cosmetics.companions.hamster;
 
-import cc.hyperium.utils.UUIDUtil;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityAgeable;
@@ -28,7 +27,6 @@ public class EntityHamster extends EntityTameable {
         this.tasks.addTask(3, new EntityAILookIdle(this));
 
         setTamed(true);
-        setOwnerId(UUIDUtil.getClientUUID().toString());
 
         this.preventEntitySpawning = false;
     }
@@ -38,8 +36,6 @@ public class EntityHamster extends EntityTameable {
         super.onLivingUpdate();
 
         this.updateEntityActionState();
-
-        //this.onGround = true;
     }
 
     @Override

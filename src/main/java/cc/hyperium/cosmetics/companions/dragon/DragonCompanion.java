@@ -1,6 +1,7 @@
-package cc.hyperium.cosmetics;
+package cc.hyperium.cosmetics.companions.dragon;
 
 import cc.hyperium.config.Settings;
+import cc.hyperium.cosmetics.AbstractCosmetic;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.RenderEntitiesEvent;
 import cc.hyperium.event.RenderPlayerEvent;
