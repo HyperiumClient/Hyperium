@@ -22,6 +22,7 @@ import me.kbrewster.mojangapi.MojangAPI;
 import me.kbrewster.mojangapi.profile.Name;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
+import net.minecraft.client.resources.I18n;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
@@ -74,7 +75,7 @@ public class NameHistoryGui extends GuiScreen {
         drawRect(left, top, right, bottom, new Color(0, 0, 0, 150).getRGB());
 
         //TITLE
-        fontRenderer.drawCenteredString("NAME HISTORY", width / 2, height / 5, Color.WHITE.getRGB());
+        fontRenderer.drawCenteredString(I18n.format("gui.namehistory.text"), width / 2, height / 5, Color.WHITE.getRGB());
 
         //Text Box
         nameField.drawTextBox();
