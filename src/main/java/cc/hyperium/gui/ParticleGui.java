@@ -27,6 +27,7 @@ import net.minecraft.client.gui.GuiYesNo;
 import net.minecraft.client.gui.GuiYesNoCallback;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.resources.I18n;
 import org.lwjgl.input.Keyboard;
 
 import java.awt.Color;
@@ -106,15 +107,15 @@ public class ParticleGui extends HyperiumGui implements GuiYesNoCallback {
             particles[i] = new CarouselItem(value.getName(), flag, false, carouselItem -> {
                 if (!flag) {
                     if (credits < 300) {
-                        GeneralChatHandler.instance().sendMessage("Insufficient credits");
+                        GeneralChatHandler.instance().sendMessage(I18n.format("message.insufficientcredits"));
                         return;
                     }
 
                     int i4 = ++purchaseIds;
-                    GuiYesNo gui = new GuiYesNo(this, "Purchase " + value.getName(), "", i4);
+                    GuiYesNo gui = new GuiYesNo(this, I18n.format("message.purchase",value.getName()), "", i4);
                     Minecraft.getMinecraft().displayGuiScreen(gui);
                     ids.put(i4, () -> {
-                        GeneralChatHandler.instance().sendMessage("Attempting to purchase " + value.getName());
+                        GeneralChatHandler.instance().sendMessage(I18n.format("message.attemptingpurchase",value.getName()));
                         NettyClient client = NettyClient.getClient();
                         if (client != null) {
                             client.write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("cosmetic_purchase", true).put("value", "PARTICLE_" + value.name())));
@@ -123,7 +124,7 @@ public class ParticleGui extends HyperiumGui implements GuiYesNoCallback {
 
 
                 } else {
-                    GeneralChatHandler.instance().sendMessage("Already purchased " + value.getName());
+                    GeneralChatHandler.instance().sendMessage(I18n.format("message.alreadypurchased",value.getName()));
                 }
 
             }, carouselItem -> {
@@ -148,7 +149,7 @@ public class ParticleGui extends HyperiumGui implements GuiYesNoCallback {
                     }
                     //Rebuild auto called on purchase update
                 }, () -> new String[]{"DEFAULT", "RGB", "CHROMA"}));
-                overlay.getComponents().add(new OverlaySlider("Red", 0, 255, particle.optInt("red", 255), aFloat -> {
+                overlay.getComponents().add(new OverlaySlider(I18n.format("gui.cosmetics.red"), 0, 255, particle.optInt("red", 255), aFloat -> {
                     particle.put("red", aFloat);
                     EventBus.INSTANCE.post(new PurchaseLoadEvent(Objects.requireNonNull(UUIDUtil.getClientUUID()), self, true));
                     NettyClient client = NettyClient.getClient();
@@ -156,7 +157,7 @@ public class ParticleGui extends HyperiumGui implements GuiYesNoCallback {
                         client.write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("particle_update", true).put("red", aFloat.intValue())));
                     }
                 }, true));
-                overlay.getComponents().add(new OverlaySlider("Green", 0, 255, particle.optInt("green", 255), aFloat -> {
+                overlay.getComponents().add(new OverlaySlider(I18n.format("gui.cosmetics.green"), 0, 255, particle.optInt("green", 255), aFloat -> {
                     particle.put("green", aFloat);
                     EventBus.INSTANCE.post(new PurchaseLoadEvent(Objects.requireNonNull(UUIDUtil.getClientUUID()), self, true));
                     NettyClient client = NettyClient.getClient();
@@ -164,7 +165,7 @@ public class ParticleGui extends HyperiumGui implements GuiYesNoCallback {
                         client.write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("particle_update", true).put("green", aFloat.intValue())));
                     }
                 }, true));
-                overlay.getComponents().add(new OverlaySlider("Blue", 0, 255, particle.optInt("blue", 255), aFloat -> {
+                overlay.getComponents().add(new OverlaySlider(I18n.format("gui.cosmetics.blue"), 0, 255, particle.optInt("blue", 255), aFloat -> {
                     particle.put("blue", aFloat);
                     EventBus.INSTANCE.post(new PurchaseLoadEvent(Objects.requireNonNull(UUIDUtil.getClientUUID()), self, true));
                     NettyClient client = NettyClient.getClient();
@@ -172,7 +173,7 @@ public class ParticleGui extends HyperiumGui implements GuiYesNoCallback {
                         client.write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("particle_update", true).put("blue", aFloat.intValue())));
                     }
                 }, true));
-                overlay.getComponents().add(new OverlaySlider("Particle life", 2, 100, particle.optInt("max_age", 10), aFloat -> {
+                overlay.getComponents().add(new OverlaySlider(I18n.format("gui.cosmetics.maxage"), 2, 100, particle.optInt("max_age", 10), aFloat -> {
                     NettyClient client = NettyClient.getClient();
                     if (client != null) {
                         client.write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("particle_update", true).put("max_age", aFloat.intValue())));
@@ -219,11 +220,11 @@ public class ParticleGui extends HyperiumGui implements GuiYesNoCallback {
             animationItems[c] = new CarouselItem(s, flag, flag1, carouselItem -> {
                 if (!flag) {
                     int i4 = ++purchaseIds;
-                    GuiYesNo gui = new GuiYesNo(this, "Purchase " + s, "", i4);
+                    GuiYesNo gui = new GuiYesNo(this, I18n.format("message.purchase",s), "", i4);
                     Minecraft.getMinecraft().displayGuiScreen(gui);
 
                     ids.put(i4, () -> {
-                        GeneralChatHandler.instance().sendMessage("Attempting to purchase " + s);
+                        GeneralChatHandler.instance().sendMessage(I18n.format("message.attemptingpurchase",s));
                         NettyClient client = NettyClient.getClient();
                         if (client != null) {
                             client.write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("cosmetic_purchase", true).put("value", "ANIMATION_" + s.replace(" ", "_").toUpperCase())));
@@ -231,7 +232,7 @@ public class ParticleGui extends HyperiumGui implements GuiYesNoCallback {
                     });
 
                 } else {
-                    GeneralChatHandler.instance().sendMessage("Already purchased " + s);
+                    GeneralChatHandler.instance().sendMessage(I18n.format("message.alreadypurchased",s));
                 }
             }, carouselItem -> {
                 //No settings as of now
@@ -255,7 +256,7 @@ public class ParticleGui extends HyperiumGui implements GuiYesNoCallback {
 
     @Override
     protected void pack() {
-        reg("RESET", new GuiButton(nextId(), 1, 1, "Disable Particles"), button -> {
+        reg("RESET", new GuiButton(nextId(), 1, 1, I18n.format("gui.cosmetics.disableparticles")), button -> {
             NettyClient client = NettyClient.getClient();
             if (client != null) {
                 client.write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("particle_reset", true)));
@@ -278,16 +279,16 @@ public class ParticleGui extends HyperiumGui implements GuiYesNoCallback {
         if (self != null) {
             credits = self.getResponse().optInt("remaining_credits");
         }
-        String s = "Credits: " + credits;
+        String s = I18n.format("gui.cosmetics.credits")+": " + credits;
         fontRendererObj.drawString(s, ResolutionUtil.current().getScaledWidth() / 4 - fontRendererObj.getStringWidth(s) / 2, 15, Color.MAGENTA.getRGB(), true);
 
         GlStateManager.scale(.5, .5, .5);
-        s = "You must purchase at least 1 particle and 1 animation for it to show";
+        s = I18n.format("gui.cosmetics.line1");
         fontRendererObj.drawString(s, ResolutionUtil.current().getScaledWidth() / 2 - fontRendererObj.getStringWidth(s) / 2, 50, Color.MAGENTA.getRGB(), true);
-        s = "The Double Twirl animation is free.";
+        s = I18n.format("gui.cosmetics.line2");
         fontRendererObj.drawString(s, ResolutionUtil.current().getScaledWidth() / 2 - fontRendererObj.getStringWidth(s) / 2, 61, Color.MAGENTA.getRGB(), true);
 
-        s = "Preview";
+        s = I18n.format("gui.cosmetics.preview");
         GlStateManager.scale(2.0, 2.0, 2.0);
         int stringWidth = fontRendererObj.getStringWidth(s);
         int x1 = ResolutionUtil.current().getScaledWidth() / 4 - stringWidth / 4;
@@ -319,13 +320,13 @@ public class ParticleGui extends HyperiumGui implements GuiYesNoCallback {
 
             }
             if (type == null) {
-                GeneralChatHandler.instance().sendMessage("Invalid current particle type");
+                GeneralChatHandler.instance().sendMessage(I18n.format("message.invalidparticle"));
                 return;
             }
             HyperiumPurchase self = PurchaseApi.getInstance().getSelf();
             String name = particleAnimation.getCurrent().getName();
             if (Hyperium.INSTANCE.getHandlers().getParticleAuraHandler().getAnimations().get(name) == null) {
-                GeneralChatHandler.instance().sendMessage("Invalid animation type");
+                GeneralChatHandler.instance().sendMessage(I18n.format("message.invalidanimation"));
                 return;
             }
             JsonHolder oldsettings = new JsonHolder(self.getPurchaseSettings().getObject().toString());
