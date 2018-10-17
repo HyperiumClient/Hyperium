@@ -40,7 +40,6 @@ public class GuiBrowser extends GuiScreen {
     private String urlToLoad, title;
 
     public GuiBrowser(String url) {
-        super();
         urlToLoad = (url == null) ? MCEF.HOME_PAGE : url;
     }
 
