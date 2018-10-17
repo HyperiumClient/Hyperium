@@ -8,6 +8,7 @@ import cc.hyperium.mixinsimp.entity.HyperiumEntity;
 import cc.hyperium.mixinsimp.entity.HyperiumEntityRenderer;
 import me.semx11.autotip.util.ReflectionUtil;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.util.ResourceLocation;
@@ -62,7 +63,7 @@ public class BlurFallback {
             }
 
             //Enable shader fallback
-            if (mc != null && Settings.BLUR_GUI && mc.currentScreen != null && mc.entityRenderer != null && !mc.entityRenderer.isShaderActive()) {
+            if (mc != null && Settings.BLUR_GUI && mc.currentScreen != null && !(mc.currentScreen instanceof GuiChat) && mc.entityRenderer != null && !mc.entityRenderer.isShaderActive()) {
                 Method loadShaderMethod = null;
                 try {
                     loadShaderMethod = ReflectionUtil.findDeclaredMethod(EntityRenderer.class, new String[]{"loadShader", "a"}, ResourceLocation.class);
