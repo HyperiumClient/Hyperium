@@ -40,14 +40,15 @@ public class GuiBrowser extends GuiScreen {
     private String urlToLoad, title;
 
     public GuiBrowser(String url) {
+        super();
         urlToLoad = (url == null) ? MCEF.HOME_PAGE : url;
-        this.url = new GuiTextField(5, fontRendererObj, 40, 10, width - 100, 20);
-        this.url.setMaxStringLength(65535);
     }
 
     @Override
     public void initGui() {
         Hyperium.INSTANCE.getModIntegration().getBrowserMod().hudBrowser = null;
+        this.url = new GuiTextField(5, fontRendererObj, 40, 10, width - 100, 20);
+        this.url.setMaxStringLength(65535);
 
         if (browser == null) {
             //Grab the API and make sure it isn't null.
@@ -82,12 +83,26 @@ public class GuiBrowser extends GuiScreen {
 
 
         } else {
+            if(back == null){
+                back = (new GuiButton(0, 0, 10, 20, 20, "<"));
+            }
             buttonList.add(back);
+            if(fwd == null){
+                fwd = (new GuiButton(1, 20, 10, 20, 20, ">"));
+            }
             buttonList.add(fwd);
+            if(go == null){
+                go = (new GuiButton(2, width - 60, 10, 20, 20, "Go"));
+            }
             buttonList.add(go);
+            if(close == null){
+                close = (new GuiButton(3, width - 20, 10, 20, 20, "X"));
+            }
             buttonList.add(close);
+            if(pip == null){
+                pip = (new GuiButton(4, width - 40, 10, 20, 20, "PIP"));
+            }
             buttonList.add(pip);
-
             //Handle resizing
             pip.xPosition = width - 40;
             go.xPosition = width - 60;
@@ -137,8 +152,11 @@ public class GuiBrowser extends GuiScreen {
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+
         //Render the URL box first because it overflows a bit
-        url.drawTextBox();
+        if(url != null) {
+            url.drawTextBox();
+        }
 
         //Render buttons
         super.drawScreen(mouseX, mouseY, partialTicks);
