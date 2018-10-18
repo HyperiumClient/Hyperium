@@ -4,6 +4,7 @@ import cc.hyperium.Hyperium;
 import cc.hyperium.config.Settings;
 import cc.hyperium.handlers.HyperiumHandlers;
 import cc.hyperium.handlers.handlers.FontRendererData;
+import cc.hyperium.mixinsimp.client.GlStateModifier;
 import cc.hyperium.mixinsimp.renderer.CachedString;
 import cc.hyperium.mixinsimp.renderer.FontFixValues;
 import cc.hyperium.mixinsimp.renderer.StringHash;
@@ -11,7 +12,6 @@ import cc.hyperium.mods.nickhider.NickHider;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.GLAllocation;
 import net.minecraft.client.renderer.GlStateManager;
-import cc.hyperium.mixinsimp.client.GlStateModifier;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.texture.TextureManager;
@@ -115,19 +115,16 @@ public abstract class MixinFontRenderer {
         StringHash hash = new StringHash(text, red, green, blue, alpha, shadow);
         GlStateManager.translate(posX, posY, 0F);
         if (optimize) {
-            long l = System.nanoTime();
             CachedString cachedString = stringCache.get(hash);
-            long l1 = System.nanoTime();
-            FontFixValues.INSTANCE.incTime(l1 - l);
             if (cachedString != null) {
-
-
                 GlStateManager.color(this.red, this.blue, this.green, alpha);
 //                renderEngine.bindTexture(this.locationFontTexture);
+                FontFixValues.INSTANCE.usageCounter.remove(hash);
+                FontFixValues.INSTANCE.usageCounter.add(hash);
                 GlStateManager.callList(cachedString.getListId());
                 //Call so states in game know the texture was changed. Otherwise the game won't know the active texture was changed on the GPU
                 GlStateModifier.INSTANCE.reset();
-                GlStateManager.color(this.red, this.blue, this.green, alpha);
+                GlStateManager.resetColor();
                 GlStateManager.translate(-posX, -posY, 0F);
                 this.posY = posY + cachedString.getHeight();
                 this.posX = posX + cachedString.getWidth();
@@ -136,6 +133,7 @@ public abstract class MixinFontRenderer {
             list = GLAllocation.generateDisplayLists(1);
             GL11.glNewList(list, GL11.GL_COMPILE_AND_EXECUTE);
         }
+        FontFixValues.INSTANCE.usageCounter.add(hash);
         boolean hasObf = false;
         CachedString value = new CachedString(text, list, this.posX - posX, this.posY - posY);
         GlStateManager.color(1.0F, 1.0F, 1.0F, 0.0F);

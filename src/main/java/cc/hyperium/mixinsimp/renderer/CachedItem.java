@@ -7,6 +7,7 @@ import java.util.Objects;
 
 public class CachedItem {
 
+    public final long time = System.currentTimeMillis();
     private IBakedModel model;
     private int color;
     private String unlocalized;

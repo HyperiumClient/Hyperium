@@ -5,7 +5,6 @@ import cc.hyperium.mixins.renderer.IMixinRenderItem;
 import cc.hyperium.mixins.renderer.IMixinRenderItem2;
 import cc.hyperium.mixinsimp.client.GlStateModifier;
 import cc.hyperium.mods.glintcolorizer.Colors;
-import cc.hyperium.mods.itemphysic.physics.ClientPhysic;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GLAllocation;
 import net.minecraft.client.renderer.GlStateManager;
@@ -24,7 +23,9 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.PriorityQueue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class HyperiumRenderItem {
@@ -33,6 +34,7 @@ public class HyperiumRenderItem {
     private RenderItem parent;
     private HashMap<CachedItem, Integer> cache = new HashMap<>();
     private ConcurrentLinkedQueue<CachedItem> queue = new ConcurrentLinkedQueue<>();
+    private PriorityQueue<CachedItem> times = new PriorityQueue<>(Comparator.comparingLong(o -> o.time));
 
     public HyperiumRenderItem(RenderItem parent) {
         this.parent = parent;
@@ -205,14 +207,11 @@ public class HyperiumRenderItem {
         int i = 0;
         CachedItem cachedItem = null;
         if (Settings.OPTIMIZED_ITEM_RENDERER) {
-            if (cache.size() > 500) {
-                for (int c = 0; c < 50; c++) {
-                    CachedItem poll = queue.poll();
-                    Integer integer = cache.get(poll);
-                    if(integer !=null) {
-                        GL11.glDeleteLists(integer, 1);
-                        cache.remove(poll);
-                    }
+            while (cache.size() > 5000) {
+                CachedItem poll = times.poll();
+                Integer integer = cache.remove(poll);
+                if (integer != null) {
+                    GL11.glDeleteLists(integer, 1);
                 }
             }
 
@@ -221,9 +220,11 @@ public class HyperiumRenderItem {
             if (integer != null) {
                 GlStateManager.callList(integer);
                 GlStateModifier.INSTANCE.resetColor();
+                times.remove(cachedItem);
+                times.add(cachedItem);
                 return;
             }
-            queue.add(cachedItem);
+            times.add(cachedItem);
             i = GLAllocation.generateDisplayLists(1);
             GL11.glNewList(i, GL11.GL_COMPILE_AND_EXECUTE);
         }

@@ -8,6 +8,7 @@ public class StringHash implements Comparable<StringHash> {
     private float red, green, blue, alpha;
     private boolean shadow;
     private int hash;
+    public final long time = System.currentTimeMillis();
 
     public StringHash(String text, float red, float green, float blue, float alpha, boolean shadow) {
         this.text = text;

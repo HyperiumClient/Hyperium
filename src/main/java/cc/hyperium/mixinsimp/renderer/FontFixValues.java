@@ -5,15 +5,19 @@ import cc.hyperium.event.TickEvent;
 import net.minecraft.client.renderer.GLAllocation;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.PriorityQueue;
 
 public class FontFixValues {
     public static FontFixValues INSTANCE = new FontFixValues();
     private final int max = 1000;
     public Map<StringHash, CachedString> stringCache = new HashMap<>();
     public List<StringHash> obfuscated = new ArrayList<>();
+    public PriorityQueue<StringHash> usageCounter = new PriorityQueue<>(1, Comparator.comparingLong(o -> o.time));
+
     public Map<String, Integer> widthCache = new HashMap<>();
     public boolean opt = true;
     private long time;
@@ -40,11 +44,12 @@ public class FontFixValues {
             e = 0;
             count = 0;
             time = 0;
-            if (stringCache.size() > max) {
-                for (CachedString cachedString : stringCache.values()) {
+            while (stringCache.size() > max) {
+                StringHash hash = usageCounter.poll();
+                CachedString cachedString = stringCache.remove(hash);
+                if (cachedString != null)
                     GLAllocation.deleteDisplayLists(cachedString.getListId());
-                }
-                stringCache.clear();
+
             }
         }
 
