@@ -155,14 +155,8 @@ public class Settings {
     public static String COMPANION_TYPE = "NONE";
 
 
-    @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;chromaHudNonHypixelEnabled")
-    @ToggleSetting(name = "gui.settings.chromahudonallservers")
-    public static boolean CHROMAHUD_ALL = true;
 
-    // enables in non-hypixel
-    @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;screenshotOnKillEnabled")
-    @ToggleSetting(name = "gui.settings.screenshotonkill")
-    public static boolean SCREENSHOT_KILL = false;
+
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;spotifyControlsEnabled")
     @ToggleSetting(name = "gui.settings.showspotifycontrols", category = SPOTIFY, mods = true)
@@ -193,8 +187,6 @@ public class Settings {
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.CosmeticSettings;flossDanceToggle")
     public static boolean FLOSS_TOGGLE = false;
 
-    @ConfigOpt(alt = "cc.hyperium.gui.settings.items.CosmeticSettings;flip_type")
-    public static int FLIP_TYPE = 1;
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.AnimationSettings;oldBlockhit")
     @ToggleSetting(name = "gui.settings.17blockhitting", category = ANIMATIONS, mods = true)
@@ -539,9 +531,7 @@ public class Settings {
 //    @ToggleSetting(name = "Gui Font", category = GENERAL)
     public static String GUI_FONT = "Roboto Condensed";
 
-    @ConfigOpt
-    @ToggleSetting(name = "gui.settings.showbrowser", category = IMPROVEMENTS)
-    public static boolean SHOW_BROWSER = false;
+
     @ConfigOpt
     public static long TOTAL_PLAYTIME = 0;
     @ConfigOpt
