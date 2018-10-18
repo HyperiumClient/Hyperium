@@ -128,6 +128,12 @@ public class Settings {
     @ToggleSetting(name = "gui.settings.staticfov", category = IMPROVEMENTS)
     public static boolean STATIC_FOV = false;
 
+
+    @ConfigOpt
+    public static int SETTINGS_ALPHA = 100;
+
+
+
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;uploadScreenshotsByDefault")
     @ToggleSetting(name = "gui.settings.uploadscreenshots")
     public static boolean DEFAULT_UPLOAD_SS = false;

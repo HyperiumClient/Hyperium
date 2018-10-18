@@ -16,6 +16,18 @@ import cc.hyperium.handlers.handlers.SettingsHandler;
 import cc.hyperium.mixinsimp.client.GlStateModifier;
 import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
 import cc.hyperium.utils.HyperiumFontRenderer;
+import me.semx11.autotip.util.ReflectionUtil;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.renderer.EntityRenderer;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.WorldRenderer;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.client.resources.I18n;
+import net.minecraft.util.ResourceLocation;
+
 import java.awt.Color;
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -29,17 +41,6 @@ import java.util.List;
 import java.util.Queue;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
-import me.semx11.autotip.util.ReflectionUtil;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.renderer.EntityRenderer;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.WorldRenderer;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.util.ResourceLocation;
 
 /*
  * Created by Cubxity on 27/08/2018
@@ -48,21 +49,18 @@ public class HyperiumMainGui extends HyperiumGui {
 
     public static HyperiumMainGui INSTANCE = new HyperiumMainGui();
     private static int tabIndex = 0; // save tab position
+    public boolean show = false;
     private int initialGuiScale;
     private HashMap<Field, Supplier<String[]>> customStates = new HashMap<>();
     private HashMap<Field, List<Consumer<Object>>> callbacks = new HashMap<>();
     private List<Object> settingsObjects = new ArrayList<>();
-
     private HyperiumFontRenderer smol;
     private HyperiumFontRenderer font;
     private HyperiumFontRenderer title;
     private List<AbstractTab> tabs;
     private AbstractTab currentTab;
     private List<RGBFieldSet> rgbFields = new ArrayList<>();
-
     private Alert currentAlert;
-    public boolean show = false;
-
     private MaterialTextField searchField;
 
     private Queue<Alert> alerts = new ArrayDeque<>();
@@ -90,9 +88,9 @@ public class HyperiumMainGui extends HyperiumGui {
         }
         try {
             rgbFields.add(new RGBFieldSet(Settings.class.getDeclaredField("REACH_RED"),
-                Settings.class.getDeclaredField("REACH_GREEN"),
-                Settings.class.getDeclaredField("REACH_BLUE"), Category.REACH, true,
-                Settings.INSTANCE));
+                    Settings.class.getDeclaredField("REACH_GREEN"),
+                    Settings.class.getDeclaredField("REACH_BLUE"), Category.REACH, true,
+                    Settings.INSTANCE));
         } catch (NoSuchFieldException e) {
             e.printStackTrace();
         }
@@ -103,10 +101,10 @@ public class HyperiumMainGui extends HyperiumGui {
         }
 
         tabs = Arrays.asList(
-            new SettingsTab(this),
-            new NewsTab(this),
-            new UpdateTab(this),
-            new ShopTab(this)
+                new SettingsTab(this),
+                new NewsTab(this),
+                new UpdateTab(this),
+                new ShopTab(this)
         );
         guiScale = 2;
         scollMultiplier = 2;
@@ -139,8 +137,8 @@ public class HyperiumMainGui extends HyperiumGui {
             Method loadShaderMethod = null;
             try {
                 loadShaderMethod = ReflectionUtil
-                    .findDeclaredMethod(EntityRenderer.class, new String[]{"loadShader", "a"},
-                        ResourceLocation.class);
+                        .findDeclaredMethod(EntityRenderer.class, new String[]{"loadShader", "a"},
+                                ResourceLocation.class);
             } catch (Exception ignored) {
             }
 
@@ -148,7 +146,7 @@ public class HyperiumMainGui extends HyperiumGui {
                 loadShaderMethod.setAccessible(true);
                 try {
                     loadShaderMethod.invoke(Minecraft.getMinecraft().entityRenderer,
-                        new ResourceLocation("shaders/hyperium_blur.json"));
+                            new ResourceLocation("shaders/hyperium_blur.json"));
                 } catch (IllegalAccessException | InvocationTargetException e) {
                     e.printStackTrace();
                 }
@@ -159,7 +157,7 @@ public class HyperiumMainGui extends HyperiumGui {
         int yg = (height / 10);  // Y grid
         int xg = (width / 11);   // X grid
         searchField = new MaterialTextField(xg * 10 - 110, yg + (yg / 2 - 10), 100, 20,
-            I18n.format("tabs.searchbar"), font);
+                I18n.format("tabs.searchbar"), font);
     }
 
     @Override
@@ -171,36 +169,52 @@ public class HyperiumMainGui extends HyperiumGui {
             renderHyperiumBackground(ResolutionUtil.current());
         }
 
+
+        GlStateModifier.INSTANCE.reset();
+        Icons.LIGHTBULB.bind();
+
+        int w = yg * 88 / 144;
+        int x = this.width / 2 - w - 10;
+        int x1 = this.width / 2 + 10;
+
+        drawRect(x - 3, 0, x + w + 3, yg, new Color(0, 0, 0, 50).getRGB());
+        drawScaledCustomSizeModalRect(x, 0, 0, 0, 88, 128, w,
+                yg, 88, 128);
+        Icons.LIGHTBULB_SOLID.bind();
+        drawRect(x1 - 3, 0, x1 + w + 3, yg, new Color(0, 0, 0, 50).getRGB());
+
+        drawScaledCustomSizeModalRect(x1, 0, 0, 0, 88, 128, w,
+                yg, 88, 128);
         /* Render shadowed bar at top of screen */
         if (Minecraft.getMinecraft().theWorld == null) {
             this.drawGradientRect(0, 0, this.width, this.height, -2130706433, 16777215);
             this.drawGradientRect(0, 0, this.width, this.height, 0, Integer.MIN_VALUE);
         }
         /* Render Header */
-        drawRect(xg, yg, xg * 10, yg * 2, 0x64000000);
-        drawRect(xg, yg * 2, xg * 10, yg * 9, 0x28000000);
+        drawRect(xg, yg, xg * 10, yg * 2, new Color(0, 0, 0, Settings.SETTINGS_ALPHA).getRGB());
+        drawRect(xg, yg * 2, xg * 10, yg * 9, new Color(0, 0, 0, Settings.SETTINGS_ALPHA / 2).getRGB());
         searchField.render(mouseX, mouseY);
         GlStateModifier.INSTANCE.reset();
 
         title.drawCenteredString(I18n.format(currentTab.getTitle()), this.width / 2,
-            yg + (yg / 2 - 8), 0xFFFFFF);
+                yg + (yg / 2 - 8), 0xFFFFFF);
 
         /* Render Body */
         currentTab.setFilter(searchField.getText().isEmpty() ? null : searchField.getText());
         currentTab.render(xg, yg * 2, xg * 9, yg * 7);
 
         /* Render Footer */
-        smol.drawString(Metadata.getVersion(), width - smol.getWidth(Metadata.getVersion()) - 1,
-            height - 10, 0xffffffff);
+        smol.drawString(Metadata.getVersion(), this.width - smol.getWidth(Metadata.getVersion()) - 1,
+                height - 10, 0xffffffff);
 
         /* Render Tab Switcher */
         Icons.ARROW_LEFT.bind();
         GlStateManager.pushMatrix();
-        Gui.drawScaledCustomSizeModalRect(width / 2 - xg, yg * 9, 0, 0, 144, 144, yg / 2, yg / 2,
-            144, 144);
+        Gui.drawScaledCustomSizeModalRect(this.width / 2 - xg, yg * 9, 0, 0, 144, 144, yg / 2, yg / 2,
+                144, 144);
         Icons.ARROW_RIGHT.bind();
-        Gui.drawScaledCustomSizeModalRect(width / 2 + xg - (yg / 2), yg * 9, 0, 0, 144, 144, yg / 2,
-            yg / 2, 144, 144);
+        Gui.drawScaledCustomSizeModalRect(this.width / 2 + xg - (yg / 2), yg * 9, 0, 0, 144, 144, yg / 2,
+                yg / 2, 144, 144);
         GlStateManager.popMatrix();
 
         // Alerts
@@ -209,14 +223,14 @@ public class HyperiumMainGui extends HyperiumGui {
         }
 
         if (currentAlert != null) {
-            currentAlert.render(font, width, height);
+            currentAlert.render(font, this.width, height);
         }
 
         if (!isLatestVersion() && !show && Settings.UPDATE_NOTIFICATIONS && !Metadata
-            .isDevelopment() && !((UpdateTab) tabs.get(2)).isBusy()) {
+                .isDevelopment() && !((UpdateTab) tabs.get(2)).isBusy()) {
             System.out.println("Sending alert...");
             Alert alert = new Alert(Icons.ERROR.getResource(), () -> setTab(2),
-                I18n.format("alert.update.message"));
+                    I18n.format("alert.update.message"));
             alerts.add(alert);
             show = true;
         }
@@ -233,6 +247,23 @@ public class HyperiumMainGui extends HyperiumGui {
         super.mouseClicked(mouseX, mouseY, mouseButton);
         int yg = (height / 10);  // Y grid
         int xg = (width / 11);   // X grid
+
+
+        int w = yg * 88 / 144;
+        int x = this.width / 2 - w - 10;
+        int x1 = this.width / 2 + 10;
+
+        if (mouseY > 0 && mouseY < yg) {
+            int settingsAlpha = Settings.SETTINGS_ALPHA;
+            if (mouseX >= x && mouseX <= x + w) {
+                if (settingsAlpha >= 100) {
+                    Settings.SETTINGS_ALPHA -= 25;
+                }
+            } else if (mouseX >= x + w && mouseX <= x1 + w) {
+                if (settingsAlpha <= 225)
+                    Settings.SETTINGS_ALPHA += 25;
+            }
+        }
 
         if (mouseY >= yg * 9 && mouseY <= yg * 10) {
             int size = tabs.size();
@@ -257,10 +288,10 @@ public class HyperiumMainGui extends HyperiumGui {
 
         if (mouseButton == 0) {
             if (currentAlert != null && width / 4 <= mouseX && height - 20 <= mouseY
-                && width - 20 - width / 4 >= mouseX) {
+                    && width - 20 - width / 4 >= mouseX) {
                 currentAlert.runAction();
             } else if (currentAlert != null && mouseX >= width - 20 - width / 4
-                && mouseX <= width - width / 4 && mouseY >= height - 20) {
+                    && mouseX <= width - width / 4 && mouseY >= height - 20) {
                 currentAlert.dismiss();
             }
         }
@@ -287,11 +318,11 @@ public class HyperiumMainGui extends HyperiumGui {
             WorldRenderer worldrenderer = tessellator.getWorldRenderer();
             worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
             worldrenderer.pos(0.0D, (double) sr.getScaledHeight(), -90.0D).tex(0.0D, 1.0D)
-                .endVertex();
+                    .endVertex();
             worldrenderer.pos((double) sr.getScaledWidth(), (double) sr.getScaledHeight(), -90.0D)
-                .tex(1.0D, 1.0D).endVertex();
+                    .tex(1.0D, 1.0D).endVertex();
             worldrenderer.pos((double) sr.getScaledWidth(), 0.0D, -90.0D).tex(1.0D, 0.0D)
-                .endVertex();
+                    .endVertex();
             worldrenderer.pos(0.0D, 0.0D, -90.0D).tex(0.0D, 0.0D).endVertex();
             tessellator.draw();
         }
@@ -335,6 +366,12 @@ public class HyperiumMainGui extends HyperiumGui {
         currentTab.handleMouseInput();
     }
 
+    @Override
+    protected void keyTyped(char typedChar, int keyCode) throws IOException {
+        super.keyTyped(typedChar, keyCode);
+        searchField.keyTyped(typedChar, keyCode);
+    }
+
     /**
      * Important alerts and announcements from Hyperium team
      */
@@ -355,19 +392,19 @@ public class HyperiumMainGui extends HyperiumGui {
             GlStateManager.pushMatrix();
             GlStateManager.translate(0, (20 - step), 0);
             drawRect(width / 4, height - 20, width - width / 4, height,
-                new Color(0, 0, 0, 40).getRGB());
+                    new Color(0, 0, 0, 40).getRGB());
             fr.drawString(title, width / 4 + 20, height - 20 + (20 - fr.FONT_HEIGHT) / 2, 0xffffff);
             if (icon != null) {
                 GlStateManager.enableBlend();
                 GlStateManager.color(1f, 1f, 1f);
                 Minecraft.getMinecraft().getTextureManager().bindTexture(icon);
                 drawScaledCustomSizeModalRect(width / 4 + 2, height - 18, 0, 0, 144, 144, 16, 16,
-                    144, 144);
+                        144, 144);
                 GlStateManager.disableBlend();
             }
             Icons.CLOSE.bind();
             drawScaledCustomSizeModalRect(width - width / 4 - 18, height - 18, 0, 0, 144, 144, 16,
-                16, 144, 144);
+                    16, 144, 144);
             GlStateManager.popMatrix();
 
             if (step != 20) {
@@ -384,11 +421,5 @@ public class HyperiumMainGui extends HyperiumGui {
         void dismiss() {
             INSTANCE.currentAlert = null;
         }
-    }
-
-    @Override
-    protected void keyTyped(char typedChar, int keyCode) throws IOException {
-        super.keyTyped(typedChar, keyCode);
-        searchField.keyTyped(typedChar, keyCode);
     }
 }

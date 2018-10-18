@@ -30,7 +30,9 @@ public enum Icons {
     ARROW_LEFT(new ResourceLocation("textures/material/arrow_left.png")),
     ARROW_RIGHT(new ResourceLocation("textures/material/arrow_right.png")),
     TOGGLE_OFF(new ResourceLocation("textures/material/toggle_off.png")),
-    TOGGLE_ON(new ResourceLocation("textures/material/toggle_on.png"));
+    TOGGLE_ON(new ResourceLocation("textures/material/toggle_on.png")),
+    LIGHTBULB(new ResourceLocation("textures/material/lightbulb.png")),
+    LIGHTBULB_SOLID(new ResourceLocation("textures/material/lightbulb-solid.png"));
 
 
     private ResourceLocation res;
