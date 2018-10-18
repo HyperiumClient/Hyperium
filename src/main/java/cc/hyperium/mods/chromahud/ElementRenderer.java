@@ -17,7 +17,6 @@
 
 package cc.hyperium.mods.chromahud;
 
-import cc.hyperium.Hyperium;
 import cc.hyperium.config.Settings;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.RenderHUDEvent;
@@ -258,8 +257,6 @@ public class ElementRenderer {
     // Middle CPS Counter
 
     public void renderElements() {
-        if (!Hyperium.INSTANCE.getHandlers().getHypixelDetector().isHypixel() && !Settings.CHROMAHUD_ALL)
-            return;
 
         if (fontRendererObj == null)
             fontRendererObj = Minecraft.getMinecraft().fontRendererObj;
