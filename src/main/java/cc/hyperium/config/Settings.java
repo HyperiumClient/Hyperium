@@ -133,7 +133,6 @@ public class Settings {
     public static int SETTINGS_ALPHA = 100;
 
 
-
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;uploadScreenshotsByDefault")
     @ToggleSetting(name = "gui.settings.uploadscreenshots")
     public static boolean DEFAULT_UPLOAD_SS = false;
@@ -471,7 +470,7 @@ public class Settings {
             "0",
             "1",
             "2"
-    })
+    }, mods = true)
     public static String FNCOMPASS_DETAILS = "2";
 
     @ToggleSetting(name = "gui.settings.showuserdotsonnametags", category = INTEGRATIONS)
