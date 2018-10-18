@@ -41,7 +41,6 @@ class MixinScreenShotHelper {
     /**
      * Saves a screenshot in the game directory with the given file name (or null to generate a time-stamped name).
      * Fixes MC-113208 and MC-117793
-     * TODO: Imgur uploader
      *
      * @param gameDirectory
      * @param screenshotName
