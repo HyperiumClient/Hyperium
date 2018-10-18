@@ -5,6 +5,10 @@ import cc.hyperium.mixins.renderer.IMixinRenderItem;
 import cc.hyperium.mixins.renderer.IMixinRenderItem2;
 import cc.hyperium.mixinsimp.client.GlStateModifier;
 import cc.hyperium.mods.glintcolorizer.Colors;
+import com.github.benmanes.caffeine.cache.Cache;
+import com.github.benmanes.caffeine.cache.CacheWriter;
+import com.github.benmanes.caffeine.cache.Caffeine;
+import com.github.benmanes.caffeine.cache.RemovalCause;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GLAllocation;
 import net.minecraft.client.renderer.GlStateManager;
@@ -23,18 +27,19 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.PriorityQueue;
-import java.util.concurrent.ConcurrentLinkedQueue;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class HyperiumRenderItem {
     private static final ResourceLocation RES_ITEM_GLINT = new ResourceLocation("textures/misc/enchanted_item_glint.png");
 
     private RenderItem parent;
-    private HashMap<CachedItem, Integer> cache = new HashMap<>();
-    private ConcurrentLinkedQueue<CachedItem> queue = new ConcurrentLinkedQueue<>();
-    private PriorityQueue<CachedItem> times = new PriorityQueue<>(Comparator.comparingLong(o -> o.time));
+    private final int MAX = 5000;
+
+    private Cache<ItemHash, Integer> itemCache = Caffeine.newBuilder()
+            .maximumSize(MAX)
+            .writer(new RemovalListener())
+            .build();
 
     public HyperiumRenderItem(RenderItem parent) {
         this.parent = parent;
@@ -205,26 +210,18 @@ public class HyperiumRenderItem {
 
     public void renderModel(IBakedModel model, int color, ItemStack stack) {
         int i = 0;
-        CachedItem cachedItem = null;
+        ItemHash itemHash = null;
         if (Settings.OPTIMIZED_ITEM_RENDERER) {
-            while (cache.size() > 5000) {
-                CachedItem poll = times.poll();
-                Integer integer = cache.remove(poll);
-                if (integer != null) {
-                    GL11.glDeleteLists(integer, 1);
-                }
-            }
+            itemHash = new ItemHash(model, color, stack != null ? stack.getUnlocalizedName() : "", stack != null ? stack.getItemDamage() : 0, stack != null ? stack.getMetadata() : 0, stack != null ? stack.getTagCompound() : null);
 
-            cachedItem = new CachedItem(model, color, stack != null ? stack.getUnlocalizedName() : "", stack != null ? stack.getItemDamage() : 0, stack != null ? stack.getMetadata() : 0, stack != null ? stack.getTagCompound() : null);
-            Integer integer = cache.get(cachedItem);
+            Integer integer = itemCache.getIfPresent(itemHash);
+
             if (integer != null) {
                 GlStateManager.callList(integer);
                 GlStateModifier.INSTANCE.resetColor();
-                times.remove(cachedItem);
-                times.add(cachedItem);
                 return;
             }
-            times.add(cachedItem);
+
             i = GLAllocation.generateDisplayLists(1);
             GL11.glNewList(i, GL11.GL_COMPILE_AND_EXECUTE);
         }
@@ -238,10 +235,25 @@ public class HyperiumRenderItem {
 
         ((IMixinRenderItem) parent).callRenderQuads(worldrenderer, model.getGeneralQuads(), color, stack);
         tessellator.draw();
+
         if (Settings.OPTIMIZED_ITEM_RENDERER) {
             GL11.glEndList();
-            cache.put(cachedItem, i);
+
+            if (itemHash != null) {
+                itemCache.put(itemHash, i);
+            }
         }
     }
 
+    private class RemovalListener implements CacheWriter<ItemHash, Integer> {
+        @Override
+        public void write(@Nonnull ItemHash key, @Nonnull Integer value) { }
+
+        @Override
+        public void delete(@Nonnull ItemHash key, @Nullable Integer value, @Nonnull RemovalCause cause) {
+            if (value == null) return;
+
+            GL11.glDeleteLists(value, 1);
+        }
+    }
 }
