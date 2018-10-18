@@ -26,7 +26,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
 import java.util.Locale;
-import java.util.Map;
 import java.util.Random;
 
 @Mixin(FontRenderer.class)
@@ -105,7 +104,6 @@ public abstract class MixinFontRenderer {
         GlStateModifier.INSTANCE.reset();
         boolean optimize = Settings.OPTIMIZED_FONT_RENDERER;
         FontFixValues instance = FontFixValues.INSTANCE;
-        Map<StringHash, CachedString> stringCache = instance.stringCache;
 
         int list = 0;
         final float posX = this.posX;
@@ -115,12 +113,10 @@ public abstract class MixinFontRenderer {
         StringHash hash = new StringHash(text, red, green, blue, alpha, shadow);
         GlStateManager.translate(posX, posY, 0F);
         if (optimize) {
-            CachedString cachedString = stringCache.get(hash);
+            CachedString cachedString = instance.get(hash);
             if (cachedString != null) {
                 GlStateManager.color(this.red, this.blue, this.green, alpha);
-//                renderEngine.bindTexture(this.locationFontTexture);
-                FontFixValues.INSTANCE.usageCounter.remove(hash);
-                FontFixValues.INSTANCE.usageCounter.add(hash);
+
                 GlStateManager.callList(cachedString.getListId());
                 //Call so states in game know the texture was changed. Otherwise the game won't know the active texture was changed on the GPU
                 GlStateModifier.INSTANCE.reset();
@@ -133,7 +129,7 @@ public abstract class MixinFontRenderer {
             list = GLAllocation.generateDisplayLists(1);
             GL11.glNewList(list, GL11.GL_COMPILE_AND_EXECUTE);
         }
-        FontFixValues.INSTANCE.usageCounter.add(hash);
+
         boolean hasObf = false;
         CachedString value = new CachedString(text, list, this.posX - posX, this.posY - posY);
         GlStateManager.color(1.0F, 1.0F, 1.0F, 0.0F);
@@ -246,7 +242,7 @@ public abstract class MixinFontRenderer {
         }
         if (optimize) {
             GL11.glEndList();
-            stringCache.put(hash, value);
+            instance.cache(hash, value);
         }
         value.setWidth(this.posX);
         this.posY = posY + value.getHeight();
