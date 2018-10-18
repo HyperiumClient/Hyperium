@@ -26,7 +26,7 @@ public enum Category {
     AUTOFRIEND("Auto Friend"),
     GLINTCOLORIZER("Glint Colorizer"),
     FNCOMPASS("Fortnite Compass"),
-
+    TAB_TOGGLE("Tab Toggle"),
     ITEM_PHYSIC("Item Physics");
     private String display;
 
