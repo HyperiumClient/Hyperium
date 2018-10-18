@@ -23,7 +23,9 @@ public abstract class AbstractAnimationHandler {
 
     @InvokeEvent
     public void onRender(RenderEvent e) {
-        animationStates.values().forEach(AnimationState::update);
+        animationStates.values().forEach(animationState -> {
+            animationState.update(Minecraft.getSystemTime());
+        });
 
         onRender();
 
@@ -122,20 +124,20 @@ public abstract class AbstractAnimationHandler {
                     IMixinModelPlayer player1 = (IMixinModelPlayer) player;
                     player1.getBipedLeftUpperArmwear().offsetY = 0;
                     player1.getBipedRightUpperArmwear().offsetY = 0;
-                    player1.getBipedBodywear().offsetY=0;
-                    player1.getBipedLeftUpperLegwear().offsetY=0;
-                    player1.getBipedLeftLowerLegwear().offsetY=0;
-                    player1.getBipedRightUpperLegwear().offsetY=0;
-                    player1.getBipedRightLowerLegwear().offsetY=0;
+                    player1.getBipedBodywear().offsetY = 0;
+                    player1.getBipedLeftUpperLegwear().offsetY = 0;
+                    player1.getBipedLeftLowerLegwear().offsetY = 0;
+                    player1.getBipedRightUpperLegwear().offsetY = 0;
+                    player1.getBipedRightLowerLegwear().offsetY = 0;
 
 
                     player1.getBipedLeftUpperArmwear().offsetZ = 0;
                     player1.getBipedRightUpperArmwear().offsetZ = 0;
-                    player1.getBipedBodywear().offsetZ=0;
-                    player1.getBipedLeftUpperLegwear().offsetZ=0;
-                    player1.getBipedLeftLowerLegwear().offsetZ=0;
-                    player1.getBipedRightUpperLegwear().offsetZ=0;
-                    player1.getBipedRightLowerLegwear().offsetZ=0;
+                    player1.getBipedBodywear().offsetZ = 0;
+                    player1.getBipedLeftUpperLegwear().offsetZ = 0;
+                    player1.getBipedLeftLowerLegwear().offsetZ = 0;
+                    player1.getBipedRightUpperLegwear().offsetZ = 0;
+                    player1.getBipedRightLowerLegwear().offsetZ = 0;
 
 
                 }
@@ -209,8 +211,8 @@ public abstract class AbstractAnimationHandler {
             this.toggled = toggled;
         }
 
-        private void update() {
-            while (this.systemTime < Minecraft.getSystemTime() + (1000 / 60)) {
+        private void update(long systemTime) {
+            while (this.systemTime < systemTime + (1000 / 60)) {
                 this.frames--;
                 this.systemTime += (1000 / 60);
             }
