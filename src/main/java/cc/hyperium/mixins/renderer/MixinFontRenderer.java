@@ -103,6 +103,11 @@ public abstract class MixinFontRenderer {
         //Should help fix issues
         GlStateModifier.INSTANCE.reset();
         boolean optimize = Settings.OPTIMIZED_FONT_RENDERER;
+
+        if (FontFixValues.INSTANCE == null) {
+            FontFixValues.INSTANCE = new FontFixValues();
+        }
+
         FontFixValues instance = FontFixValues.INSTANCE;
 
         int list = 0;

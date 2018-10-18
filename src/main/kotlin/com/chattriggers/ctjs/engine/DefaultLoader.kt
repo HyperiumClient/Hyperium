@@ -92,7 +92,11 @@ object DefaultLoader {
         }.map {
             it.listFiles().toList()
         }.flatten().forEach {
-            FileUtils.copyFileToDirectory(it, toCopy)
+            try {
+                FileUtils.copyFileToDirectory(it, toCopy)
+            } catch (e: Exception) {
+                ModuleManager.generalConsole.printStackTrace(e)
+            }
         }
     }
 

@@ -5,6 +5,7 @@ import cc.hyperium.mixins.renderer.IMixinRenderItem;
 import cc.hyperium.mixins.renderer.IMixinRenderItem2;
 import cc.hyperium.mixinsimp.client.GlStateModifier;
 import cc.hyperium.mods.glintcolorizer.Colors;
+import cc.hyperium.mods.sk1ercommon.Multithreading;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.CacheWriter;
 import com.github.benmanes.caffeine.cache.Caffeine;
@@ -25,7 +26,10 @@ import net.minecraft.item.ItemSkull;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
+import org.lwjgl.LWJGLException;
+import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.SharedDrawable;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -39,6 +43,7 @@ public class HyperiumRenderItem {
     private Cache<ItemHash, Integer> itemCache = Caffeine.newBuilder()
             .maximumSize(MAX)
             .writer(new RemovalListener())
+            .executor(Multithreading.POOL)
             .build();
 
     public HyperiumRenderItem(RenderItem parent) {
@@ -246,6 +251,16 @@ public class HyperiumRenderItem {
     }
 
     private class RemovalListener implements CacheWriter<ItemHash, Integer> {
+        private SharedDrawable drawable;
+
+        public RemovalListener() {
+            try {
+                drawable = new SharedDrawable(Display.getDrawable());
+            } catch (LWJGLException e) {
+                e.printStackTrace();
+            }
+        }
+
         @Override
         public void write(@Nonnull ItemHash key, @Nonnull Integer value) { }
 
@@ -253,7 +268,20 @@ public class HyperiumRenderItem {
         public void delete(@Nonnull ItemHash key, @Nullable Integer value, @Nonnull RemovalCause cause) {
             if (value == null) return;
 
-            GL11.glDeleteLists(value, 1);
+            if (drawable == null) {
+                System.out.println("big issue render item");
+                return;
+            }
+
+            synchronized (drawable) {
+                try {
+                    drawable.makeCurrent();
+                    GLAllocation.deleteDisplayLists(value);
+                    drawable.releaseContext();
+                } catch (LWJGLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 }

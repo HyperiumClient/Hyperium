@@ -255,6 +255,10 @@ public class Hyperium {
             SplashProgress.setProgress(13, I18n.format("splashprogress.finishing"));
 
 
+            if (FontFixValues.INSTANCE == null) {
+                FontFixValues.INSTANCE = new FontFixValues();
+            }
+
             Multithreading.runAsync(() -> {
                 EventBus.INSTANCE.register(FontFixValues.INSTANCE);
                 if (Settings.PERSISTENT_CHAT) {
