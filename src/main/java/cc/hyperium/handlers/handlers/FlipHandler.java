@@ -1,10 +1,10 @@
 package cc.hyperium.handlers.handlers;
 
-import cc.hyperium.Hyperium;
-import cc.hyperium.config.Settings;
+import cc.hyperium.cosmetics.CosmeticsUtil;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.TickEvent;
 import cc.hyperium.event.WorldChangeEvent;
+import cc.hyperium.purchases.EnumPurchaseType;
 import cc.hyperium.utils.UUIDUtil;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.EntityLivingBase;
@@ -34,7 +34,7 @@ public class FlipHandler {
     @InvokeEvent
     public void swapWorld(WorldChangeEvent event) {
         UUID id = UUIDUtil.getClientUUID();
-        if(id == null){
+        if (id == null) {
             return;
         }
         Integer integer = rotateState.get(id);
@@ -51,10 +51,8 @@ public class FlipHandler {
     public void transform(EntityLivingBase bat) {
         String s = EnumChatFormatting.getTextWithoutFormattingCodes(bat.getName());
         Integer state = rotateState.get(bat.getUniqueID());
-        if (!Settings.SHOW_COSMETICS_EVERYWHERE) {
-            if (Hyperium.INSTANCE.getHandlers().getLocationHandler().isLobbyOrHousing())
-                return;
-        }
+        if (!CosmeticsUtil.shouldShow(EnumPurchaseType.FLIP_COSMETIC))
+            return;
         if ((state != null && state == 2) || s != null && (s.equals("Dinnerbone") ||
                 s.equals("Grumm")) && (!(bat instanceof EntityPlayer) || ((EntityPlayer) bat).isWearing(EnumPlayerModelParts.CAPE))) {
             float y = bat.height + 0.1F;

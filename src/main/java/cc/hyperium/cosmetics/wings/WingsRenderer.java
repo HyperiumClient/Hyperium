@@ -3,8 +3,10 @@ package cc.hyperium.cosmetics.wings;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.config.Settings;
+import cc.hyperium.cosmetics.CosmeticsUtil;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.RenderPlayerEvent;
+import cc.hyperium.purchases.EnumPurchaseType;
 import cc.hyperium.purchases.HyperiumPurchase;
 import cc.hyperium.purchases.PurchaseApi;
 import net.minecraft.client.Minecraft;
@@ -43,9 +45,8 @@ public class WingsRenderer extends ModelBase {
 
     @InvokeEvent
     public void onRenderPlayer(RenderPlayerEvent event) {
-        if (!Settings.SHOW_COSMETICS_EVERYWHERE && !Hyperium.INSTANCE.getHandlers().getLocationHandler().isLobbyOrHousing()) {
+        if (!CosmeticsUtil.shouldShow(EnumPurchaseType.WING_COSMETIC))
             return;
-        }
         EntityPlayer player = event.getEntity();
         if (wingsCosmetic.isPurchasedBy(event.getEntity().getUniqueID()) && !player.isInvisible()) {
             HyperiumPurchase packageIfReady = PurchaseApi.getInstance().getPackageIfReady(event.getEntity().getUniqueID());
@@ -77,7 +78,7 @@ public class WingsRenderer extends ModelBase {
         GlStateManager.pushMatrix();
         // Displaces the wings by a custom value.
         double customOffset = Settings.WINGS_OFFSET / 50;
-        GlStateManager.translate(0,customOffset,0);
+        GlStateManager.translate(0, customOffset, 0);
         GlStateManager.translate(x, y, z);
 
 

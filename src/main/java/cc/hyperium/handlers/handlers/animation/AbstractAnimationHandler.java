@@ -1,5 +1,6 @@
 package cc.hyperium.handlers.handlers.animation;
 
+import cc.hyperium.cosmetics.CosmeticsUtil;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.RenderEvent;
 import cc.hyperium.event.WorldChangeEvent;
@@ -146,7 +147,8 @@ public abstract class AbstractAnimationHandler {
         }
 
         float heldPercent = state / 100F;
-
+        if (!CosmeticsUtil.shouldShow(null))
+            return;
         if (player instanceof IMixinModelPlayer) {
             modifyPlayer(entity, ((IMixinModelPlayer) player), heldPercent);
         } else {

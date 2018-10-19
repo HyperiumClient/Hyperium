@@ -48,6 +48,8 @@ public class CosmeticHat extends AbstractCosmetic {
 
         Minecraft mc = Minecraft.getMinecraft();
         AbstractClientPlayer player = e.getEntity();
+        if (!CosmeticsUtil.shouldShow(getPurchaseType()))
+            return;
 
         if (this.isPurchasedBy(player.getUniqueID()) && !player.isInvisible()) {
 
