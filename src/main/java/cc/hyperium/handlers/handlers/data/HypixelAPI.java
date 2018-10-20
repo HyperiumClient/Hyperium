@@ -48,13 +48,17 @@ public class HypixelAPI {
             .buildAsync(this::getApiGuild);
 
     private List<Leaderboard> LEADERBOARDS = null;
-    private JsonHolder QUESTS = null;
+    private JsonHolder QUESTS = new JsonHolder();
 
     private List<UUID> friendsForCurrentUser = new ArrayList<>();
 
     public HypixelAPI() {
         Multithreading.schedule(this::updatePersonalData, 10L, 305, TimeUnit.SECONDS);
         INSTANCE = this;
+        Multithreading.runAsync(() -> {
+            getQuests(true);
+        });
+
     }
 
     @InvokeEvent
@@ -155,7 +159,8 @@ public class HypixelAPI {
                 () -> new JsonHolder(Sk1erMod.getInstance().rawWithAgent("https://api.hyperium.cc/quests")),
                 Multithreading.POOL
         ).whenComplete((quests, error) -> {
-            if (error != null) QUESTS = quests;
+            if(error == null)
+            QUESTS = quests;
         });
     }
 
@@ -221,7 +226,7 @@ public class HypixelAPI {
         return new HypixelApiPlayer(new JsonHolder(
                 Sk1erMod.getInstance().rawWithAgent(
                         "https://api.sk1er.club/player/"
-                        + key.toLowerCase()
+                                + key.toLowerCase()
                 )
         ));
     }
@@ -236,6 +241,21 @@ public class HypixelAPI {
         ));
     }
 
+    enum GuildKeyType {
+        PLAYER("https://api.sk1er.club/guild/player/%s"),
+        NAME("https://api.sk1er.club/guild/name/");
+
+        private String url;
+
+        GuildKeyType(String url) {
+            this.url = url;
+        }
+
+        public String getUrl() {
+            return url;
+        }
+    }
+
     public static class GuildKey {
         private GuildKeyType type;
         private String[] formatStrings;
@@ -243,6 +263,22 @@ public class HypixelAPI {
         public GuildKey(GuildKeyType type, String... formatStrings) {
             this.type = type;
             this.formatStrings = formatStrings;
+        }
+
+        public static GuildKey fromSerialized(String serialized) {
+            String type = serialized.split(";")[0];
+            return new GuildKey(
+                    GuildKeyType.valueOf(type),
+                    serialized.split(";")[1].split(",")
+            );
+        }
+
+        public static GuildKey fromName(String name) {
+            return new GuildKey(GuildKeyType.NAME, name);
+        }
+
+        public static GuildKey fromPlayer(String playerName) {
+            return new GuildKey(GuildKeyType.PLAYER, playerName);
         }
 
         @Override
@@ -263,36 +299,5 @@ public class HypixelAPI {
             return false;
         }
 
-        public static GuildKey fromSerialized(String serialized) {
-            String type = serialized.split(";")[0];
-            return new GuildKey(
-                    GuildKeyType.valueOf(type),
-                    serialized.split(";")[1].split(",")
-            );
-        }
-
-        public static GuildKey fromName(String name) {
-            return new GuildKey(GuildKeyType.NAME, name);
-        }
-
-        public static GuildKey fromPlayer(String playerName) {
-            return new GuildKey(GuildKeyType.PLAYER, playerName);
-        }
-
-    }
-
-    enum GuildKeyType {
-        PLAYER("https://api.sk1er.club/guild/player/%s"),
-        NAME("https://api.sk1er.club/guild/name/");
-
-        private String url;
-
-        GuildKeyType(String url) {
-            this.url = url;
-        }
-
-        public String getUrl() {
-            return url;
-        }
     }
 }

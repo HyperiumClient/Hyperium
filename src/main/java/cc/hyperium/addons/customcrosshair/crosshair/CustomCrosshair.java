@@ -5,9 +5,6 @@ import cc.hyperium.addons.customcrosshair.utils.CustomCrosshairGraphics;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.RenderHUDEvent;
 import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
-
-import java.awt.Color;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
@@ -16,8 +13,9 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-
 import org.lwjgl.opengl.GL11;
+
+import java.awt.Color;
 
 public class CustomCrosshair {
 
@@ -84,10 +82,10 @@ public class CustomCrosshair {
             }
         }
         if (this.getEnabled() && (this.mc.gameSettings.thirdPersonView <= 0 || this
-            .getVisibleThirdPerson()) && (!this.mc.gameSettings.hideGUI || this
-            .getVisibleHiddenGui()) && (
-            (this.mc.thePlayer.isSpectator() && this.getVisibleSpectator()) || !this.mc.thePlayer
-                .isSpectator())) {
+                .getVisibleThirdPerson()) && (!this.mc.gameSettings.hideGUI || this
+                .getVisibleHiddenGui()) && (
+                !this.mc.thePlayer
+                        .isSpectator() || this.getVisibleSpectator())) {
             if (!this.getVisibleDefault()) {
                 return;
             }
@@ -96,7 +94,7 @@ public class CustomCrosshair {
                 GlStateManager.matrixMode(5889);
                 GlStateManager.loadIdentity();
                 GlStateManager.ortho(0.0, ResolutionUtil.current().getScaledWidth_double(),
-                    ResolutionUtil.current().getScaledHeight_double(), 0.0, 1000.0, 3000.0);
+                        ResolutionUtil.current().getScaledHeight_double(), 0.0, 1000.0, 3000.0);
                 GlStateManager.matrixMode(5888);
                 GlStateManager.loadIdentity();
                 GlStateManager.translate(0.0f, 0.0f, -2000.0f);
@@ -106,30 +104,30 @@ public class CustomCrosshair {
             int renderGap = this.getGap();
             if (this.getRainbowCrosshair()) {
                 int red = (int) (
-                    Math.sin(this.rainbowSpeed / 100000.0f * this.rainbowColourTick + 0.0f) * 127.0
-                        + 128.0);
+                        Math.sin(this.rainbowSpeed / 100000.0f * this.rainbowColourTick + 0.0f) * 127.0
+                                + 128.0);
                 int green = (int) (
-                    Math.sin(this.rainbowSpeed / 100000.0f * this.rainbowColourTick + 2.0f) * 127.0
-                        + 128.0);
+                        Math.sin(this.rainbowSpeed / 100000.0f * this.rainbowColourTick + 2.0f) * 127.0
+                                + 128.0);
                 int blue = (int) (
-                    Math.sin(this.rainbowSpeed / 100000.0f * this.rainbowColourTick + 4.0f) * 127.0
-                        + 128.0);
+                        Math.sin(this.rainbowSpeed / 100000.0f * this.rainbowColourTick + 4.0f) * 127.0
+                                + 128.0);
                 renderColour = new Color(red, green, blue, 255);
             }
 
             if (!this.mc.thePlayer.isSpectator() && this.getDynamicBow()
-                && this.mc.thePlayer.getHeldItem() != null) {
+                    && this.mc.thePlayer.getHeldItem() != null) {
                 ItemStack item = this.mc.thePlayer.getHeldItem();
                 int useCount = this.mc.thePlayer.getItemInUseCount();
                 if (this.getDynamicBow()
-                    && this.mc.thePlayer.getHeldItem().getItem() == Items.bow) {
+                        && this.mc.thePlayer.getHeldItem().getItem() == Items.bow) {
                     float bowExtension =
-                        (item.getItem().getMaxItemUseDuration(item) - useCount) / 20.0f;
+                            (item.getItem().getMaxItemUseDuration(item) - useCount) / 20.0f;
                     if (useCount == 0 || bowExtension > 1.0f) {
                         bowExtension = 1.0f;
                     }
                     renderGap =
-                        this.getGap() + (int) ((1.0f - bowExtension) * (this.getGap() + 5) * 2.0f);
+                            this.getGap() + (int) ((1.0f - bowExtension) * (this.getGap() + 5) * 2.0f);
                 }
             }
 
@@ -137,11 +135,11 @@ public class CustomCrosshair {
                 switch (this.getCrosshairType()) {
                     case CIRCLE:
                         this.drawCircleCrosshair(screenWidth, screenHeight, renderGap,
-                            renderColour);
+                                renderColour);
                         break;
                     case SQUARE:
                         this.drawSquareCrosshair(screenWidth, screenHeight, renderGap,
-                            renderColour);
+                                renderColour);
                         break;
                     case ARROW:
                         this.drawArrowCrosshair(screenWidth, screenHeight, renderGap, renderColour);
@@ -153,90 +151,91 @@ public class CustomCrosshair {
 
                 if (this.getDot()) {
                     CustomCrosshairGraphics
-                        .drawFilledRectangle(screenWidth, screenHeight, screenWidth + 1,
-                        screenHeight + 1, this.getDotColour());
+                            .drawFilledRectangle(screenWidth, screenHeight, screenWidth + 1,
+                                    screenHeight + 1, this.getDotColour());
                 }
             } else {
                 this.drawDebugAxisCrosshair(screenWidth, screenHeight);
             }
         }
+        GlStateManager.resetColor();
     }
 
     private void drawCrossCrosshair(int screenWidth, int screenHeight, int renderGap,
-        Color renderColour) {
+                                    Color renderColour) {
         int renderThickness = this.getThickness() / 2;
         if (this.getOutline()) {
             CustomCrosshairGraphics.drawFilledRectangle(screenWidth - renderThickness - 1,
-                screenHeight - renderGap + 1, screenWidth - renderThickness,
-                screenHeight - renderGap - this.getHeight() + 1, this.getOutlineColour());
+                    screenHeight - renderGap + 1, screenWidth - renderThickness,
+                    screenHeight - renderGap - this.getHeight() + 1, this.getOutlineColour());
             CustomCrosshairGraphics.drawFilledRectangle(screenWidth + renderThickness + 1,
-                screenHeight - renderGap + 1, screenWidth + renderThickness + 2,
-                screenHeight - renderGap - this.getHeight() + 1, this.getOutlineColour());
+                    screenHeight - renderGap + 1, screenWidth + renderThickness + 2,
+                    screenHeight - renderGap - this.getHeight() + 1, this.getOutlineColour());
             CustomCrosshairGraphics.drawFilledRectangle(screenWidth - renderThickness - 1,
-                screenHeight - renderGap + 2, screenWidth + renderThickness + 2,
-                screenHeight - renderGap + 1, this.getOutlineColour());
+                    screenHeight - renderGap + 2, screenWidth + renderThickness + 2,
+                    screenHeight - renderGap + 1, this.getOutlineColour());
             CustomCrosshairGraphics.drawFilledRectangle(screenWidth - renderThickness - 1,
-                screenHeight - renderGap - this.getHeight(), screenWidth + renderThickness + 2,
-                screenHeight - renderGap - this.getHeight() + 1, this.getOutlineColour());
+                    screenHeight - renderGap - this.getHeight(), screenWidth + renderThickness + 2,
+                    screenHeight - renderGap - this.getHeight() + 1, this.getOutlineColour());
             CustomCrosshairGraphics
-                .drawFilledRectangle(screenWidth - renderThickness - 1, screenHeight + renderGap,
-                    screenWidth - renderThickness, screenHeight + renderGap + this.getHeight() + 1,
-                    this.getOutlineColour());
+                    .drawFilledRectangle(screenWidth - renderThickness - 1, screenHeight + renderGap,
+                            screenWidth - renderThickness, screenHeight + renderGap + this.getHeight() + 1,
+                            this.getOutlineColour());
             CustomCrosshairGraphics
-                .drawFilledRectangle(screenWidth + renderThickness + 1, screenHeight + renderGap,
-                    screenWidth + renderThickness + 2,
+                    .drawFilledRectangle(screenWidth + renderThickness + 1, screenHeight + renderGap,
+                            screenWidth + renderThickness + 2,
+                            screenHeight + renderGap + this.getHeight() + 1, this.getOutlineColour());
+            CustomCrosshairGraphics.drawFilledRectangle(screenWidth - renderThickness - 1,
+                    screenHeight + renderGap - 1, screenWidth + renderThickness + 2,
+                    screenHeight + renderGap, this.getOutlineColour());
+            CustomCrosshairGraphics.drawFilledRectangle(screenWidth - renderThickness - 1,
+                    screenHeight + renderGap + this.getHeight(), screenWidth + renderThickness + 2,
                     screenHeight + renderGap + this.getHeight() + 1, this.getOutlineColour());
-            CustomCrosshairGraphics.drawFilledRectangle(screenWidth - renderThickness - 1,
-                screenHeight + renderGap - 1, screenWidth + renderThickness + 2,
-                screenHeight + renderGap, this.getOutlineColour());
-            CustomCrosshairGraphics.drawFilledRectangle(screenWidth - renderThickness - 1,
-                screenHeight + renderGap + this.getHeight(), screenWidth + renderThickness + 2,
-                screenHeight + renderGap + this.getHeight() + 1, this.getOutlineColour());
             CustomCrosshairGraphics
-                .drawFilledRectangle(screenWidth + renderGap, screenHeight - renderThickness - 1,
-                    screenWidth + renderGap + this.getWidth(), screenHeight - renderThickness,
-                    this.getOutlineColour());
+                    .drawFilledRectangle(screenWidth + renderGap, screenHeight - renderThickness - 1,
+                            screenWidth + renderGap + this.getWidth(), screenHeight - renderThickness,
+                            this.getOutlineColour());
             CustomCrosshairGraphics
-                .drawFilledRectangle(screenWidth + renderGap, screenHeight + renderThickness + 1,
-                    screenWidth + renderGap + this.getWidth(), screenHeight + renderThickness + 2,
-                    this.getOutlineColour());
+                    .drawFilledRectangle(screenWidth + renderGap, screenHeight + renderThickness + 1,
+                            screenWidth + renderGap + this.getWidth(), screenHeight + renderThickness + 2,
+                            this.getOutlineColour());
             CustomCrosshairGraphics.drawFilledRectangle(screenWidth + renderGap - 1,
-                screenHeight - renderThickness - 1, screenWidth + renderGap,
-                screenHeight + renderThickness + 2, this.getOutlineColour());
+                    screenHeight - renderThickness - 1, screenWidth + renderGap,
+                    screenHeight + renderThickness + 2, this.getOutlineColour());
             CustomCrosshairGraphics.drawFilledRectangle(screenWidth + renderGap + this.getWidth(),
-                screenHeight - renderThickness - 1, screenWidth + renderGap + this.getWidth() + 1,
-                screenHeight + renderThickness + 2, this.getOutlineColour());
+                    screenHeight - renderThickness - 1, screenWidth + renderGap + this.getWidth() + 1,
+                    screenHeight + renderThickness + 2, this.getOutlineColour());
             CustomCrosshairGraphics.drawFilledRectangle(screenWidth - renderGap + 1,
-                screenHeight - renderThickness - 1, screenWidth - renderGap - this.getWidth(),
-                screenHeight - renderThickness, this.getOutlineColour());
+                    screenHeight - renderThickness - 1, screenWidth - renderGap - this.getWidth(),
+                    screenHeight - renderThickness, this.getOutlineColour());
             CustomCrosshairGraphics.drawFilledRectangle(screenWidth - renderGap + 1,
-                screenHeight + renderThickness + 1, screenWidth - renderGap - this.getWidth(),
-                screenHeight + renderThickness + 2, this.getOutlineColour());
+                    screenHeight + renderThickness + 1, screenWidth - renderGap - this.getWidth(),
+                    screenHeight + renderThickness + 2, this.getOutlineColour());
             CustomCrosshairGraphics.drawFilledRectangle(screenWidth - renderGap + 2,
-                screenHeight - renderThickness - 1, screenWidth - renderGap + 1,
-                screenHeight + renderThickness + 2, this.getOutlineColour());
+                    screenHeight - renderThickness - 1, screenWidth - renderGap + 1,
+                    screenHeight + renderThickness + 2, this.getOutlineColour());
             CustomCrosshairGraphics.drawFilledRectangle(screenWidth - renderGap - this.getWidth(),
-                screenHeight - renderThickness - 1, screenWidth - renderGap - this.getWidth() + 1,
-                screenHeight + renderThickness + 2, this.getOutlineColour());
+                    screenHeight - renderThickness - 1, screenWidth - renderGap - this.getWidth() + 1,
+                    screenHeight + renderThickness + 2, this.getOutlineColour());
         }
         CustomCrosshairGraphics
-            .drawFilledRectangle(screenWidth - renderThickness, screenHeight - renderGap + 1,
-            screenWidth + renderThickness + 1, screenHeight - renderGap - this.getHeight() + 1,
-            renderColour);
+                .drawFilledRectangle(screenWidth - renderThickness, screenHeight - renderGap + 1,
+                        screenWidth + renderThickness + 1, screenHeight - renderGap - this.getHeight() + 1,
+                        renderColour);
         CustomCrosshairGraphics.drawFilledRectangle(screenWidth - renderThickness, screenHeight + renderGap,
-            screenWidth + renderThickness + 1, screenHeight + renderGap + this.getHeight(),
-            renderColour);
-        CustomCrosshairGraphics.drawFilledRectangle(screenWidth - renderGap + 1,
-            screenHeight - this.getThickness() / 2, screenWidth - renderGap - this.getWidth() + 1,
-            screenHeight + renderThickness + 1, renderColour);
-        CustomCrosshairGraphics
-            .drawFilledRectangle(screenWidth + renderGap, screenHeight - this.getThickness() / 2,
-                screenWidth + renderGap + this.getWidth(), screenHeight + renderThickness + 1,
+                screenWidth + renderThickness + 1, screenHeight + renderGap + this.getHeight(),
                 renderColour);
+        CustomCrosshairGraphics.drawFilledRectangle(screenWidth - renderGap + 1,
+                screenHeight - this.getThickness() / 2, screenWidth - renderGap - this.getWidth() + 1,
+                screenHeight + renderThickness + 1, renderColour);
+        CustomCrosshairGraphics
+                .drawFilledRectangle(screenWidth + renderGap, screenHeight - this.getThickness() / 2,
+                        screenWidth + renderGap + this.getWidth(), screenHeight + renderThickness + 1,
+                        renderColour);
     }
 
     private void drawCircleCrosshair(int screenWidth, int screenHeight, int renderGap,
-        Color renderColour) {
+                                     Color renderColour) {
         if (this.getOutline()) {
             int t = (this.getThickness() - this.getThickness() % 2) / 2 + 1;
             if (t > 3) {
@@ -244,32 +243,32 @@ public class CustomCrosshair {
             }
             GL11.glLineWidth(2.0f);
             CustomCrosshairGraphics.drawCircle(screenWidth + 0.5, screenHeight + 0.5, renderGap - 1,
-                this.getOutlineColour());
+                    this.getOutlineColour());
             CustomCrosshairGraphics
-                .drawCircle(screenWidth + 0.5, screenHeight + 0.5, renderGap + t + 1,
-                this.getOutlineColour());
+                    .drawCircle(screenWidth + 0.5, screenHeight + 0.5, renderGap + t + 1,
+                            this.getOutlineColour());
         }
         GL11.glLineWidth((float) (this.getThickness() + 1));
         CustomCrosshairGraphics
-            .drawCircle(screenWidth + 0.5, screenHeight + 0.5, renderGap + 1, renderColour);
+                .drawCircle(screenWidth + 0.5, screenHeight + 0.5, renderGap + 1, renderColour);
     }
 
     private void drawSquareCrosshair(int screenWidth, int screenHeight, int renderGap,
-        Color renderColour) {
+                                     Color renderColour) {
         if (this.getOutline()) {
             CustomCrosshairGraphics
-                .drawRectangle(screenWidth - renderGap - 1, screenHeight - renderGap - 1,
-                screenWidth + renderGap + 1, screenHeight + renderGap + 1, this.getOutlineColour());
+                    .drawRectangle(screenWidth - renderGap - 1, screenHeight - renderGap - 1,
+                            screenWidth + renderGap + 1, screenHeight + renderGap + 1, this.getOutlineColour());
             CustomCrosshairGraphics
-                .drawRectangle(screenWidth - renderGap + 1, screenHeight - renderGap + 1,
-                screenWidth + renderGap - 1, screenHeight + renderGap - 1, this.getOutlineColour());
+                    .drawRectangle(screenWidth - renderGap + 1, screenHeight - renderGap + 1,
+                            screenWidth + renderGap - 1, screenHeight + renderGap - 1, this.getOutlineColour());
         }
         CustomCrosshairGraphics.drawRectangle(screenWidth - renderGap, screenHeight - renderGap,
-            screenWidth + renderGap, screenHeight + renderGap, renderColour);
+                screenWidth + renderGap, screenHeight + renderGap, renderColour);
     }
 
     private void drawArrowCrosshair(int screenWidth, int screenHeight, int renderGap,
-        Color renderColour) {
+                                    Color renderColour) {
         GL11.glDisable(2848);
         GL11.glDisable(2832);
         GlStateManager.disableAlpha();
@@ -277,18 +276,18 @@ public class CustomCrosshair {
         if (this.getOutline()) {
             GL11.glLineWidth((float) (this.getThickness() + 6));
             CustomCrosshairGraphics
-                .drawLine(screenWidth - this.getWidth() - 1, screenHeight + this.getHeight() + 1,
-                    screenWidth, screenHeight, this.getOutlineColour());
+                    .drawLine(screenWidth - this.getWidth() - 1, screenHeight + this.getHeight() + 1,
+                            screenWidth, screenHeight, this.getOutlineColour());
             CustomCrosshairGraphics
-                .drawLine(screenWidth, screenHeight, screenWidth + this.getWidth() + 1,
-                screenHeight + this.getHeight() + 1, this.getOutlineColour());
+                    .drawLine(screenWidth, screenHeight, screenWidth + this.getWidth() + 1,
+                            screenHeight + this.getHeight() + 1, this.getOutlineColour());
         }
         GL11.glLineWidth((float) (this.getThickness() + 1));
         CustomCrosshairGraphics
-            .drawLine(screenWidth - this.getWidth(), screenHeight + this.getHeight(), screenWidth,
-                screenHeight, renderColour);
+                .drawLine(screenWidth - this.getWidth(), screenHeight + this.getHeight(), screenWidth,
+                        screenHeight, renderColour);
         CustomCrosshairGraphics.drawLine(screenWidth, screenHeight, screenWidth + this.getWidth(),
-            screenHeight + this.getHeight(), renderColour);
+                screenHeight + this.getHeight(), renderColour);
     }
 
     private void drawDebugAxisCrosshair(int screenWidth, int screenHeight) {
@@ -296,11 +295,11 @@ public class CustomCrosshair {
         GlStateManager.translate((float) screenWidth, (float) screenHeight, 0.0f);
         Entity entity = this.mc.getRenderViewEntity();
         GlStateManager.rotate(
-            entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * 1.0f,
-            -1.0f, 0.0f, 0.0f);
+                entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * 1.0f,
+                -1.0f, 0.0f, 0.0f);
         GlStateManager
-            .rotate(entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw) * 1.0f,
-                0.0f, 1.0f, 0.0f);
+                .rotate(entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw) * 1.0f,
+                        0.0f, 1.0f, 0.0f);
         GlStateManager.scale(-1.0f, -1.0f, -1.0f);
         GlStateManager.disableTexture2D();
         GlStateManager.depthMask(false);
@@ -323,6 +322,27 @@ public class CustomCrosshair {
 
     public CrosshairType getCrosshairType() {
         return this.crosshairType;
+    }
+
+    public void setCrosshairType(int crosshairTypeId) {
+        switch (crosshairTypeId) {
+            case 1: {
+                this.setCrosshairType(CrosshairType.CIRCLE);
+                break;
+            }
+            case 2: {
+                this.setCrosshairType(CrosshairType.SQUARE);
+                break;
+            }
+            case 3: {
+                this.setCrosshairType(CrosshairType.ARROW);
+                break;
+            }
+            default: {
+                this.setCrosshairType(CrosshairType.CROSS);
+                break;
+            }
+        }
     }
 
     public int getCrosshairTypeID() {
@@ -361,27 +381,6 @@ public class CustomCrosshair {
 
     public void setCrosshairType(CrosshairType crosshairType) {
         this.crosshairType = crosshairType;
-    }
-
-    public void setCrosshairType(int crosshairTypeId) {
-        switch (crosshairTypeId) {
-            case 1: {
-                this.setCrosshairType(CrosshairType.CIRCLE);
-                break;
-            }
-            case 2: {
-                this.setCrosshairType(CrosshairType.SQUARE);
-                break;
-            }
-            case 3: {
-                this.setCrosshairType(CrosshairType.ARROW);
-                break;
-            }
-            default: {
-                this.setCrosshairType(CrosshairType.CROSS);
-                break;
-            }
-        }
     }
 
     public boolean getEnabled() {
