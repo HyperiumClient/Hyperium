@@ -9,7 +9,6 @@ import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
 import cc.hyperium.utils.DownloadTask;
 import cc.hyperium.utils.InstallerUtils;
-import cc.hyperium.utils.UpdateUtils;
 import com.google.gson.Gson;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -41,13 +40,7 @@ public class UpdateTab extends AbstractTab {
 
     public UpdateTab(HyperiumMainGui gui) {
         super(gui, "tab.update.name");
-        Multithreading.runAsync(() -> {
-            VersionManifest[] versions = InstallerUtils.getManifest().getVersions();
-            for (VersionManifest version : versions) {
-                if (version.getId() == UpdateUtils.INSTANCE.getLatestProperVersion())
-                    latest = version;
-            }
-        });
+        Multithreading.runAsync(() -> latest = InstallerUtils.getManifest().getLatest());
     }
 
     @Override
