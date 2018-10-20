@@ -159,10 +159,8 @@ public class HypixelAPI {
                 () -> new JsonHolder(Sk1erMod.getInstance().rawWithAgent("https://api.hyperium.cc/quests")),
                 Multithreading.POOL
         ).whenComplete((quests, error) -> {
-            System.out.println("QUESTS");
-            System.out.println(error);
-            System.out.println(quests);
-        QUESTS = quests;
+            if(error == null)
+            QUESTS = quests;
         });
     }
 
