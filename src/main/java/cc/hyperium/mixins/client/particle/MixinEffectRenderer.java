@@ -93,7 +93,11 @@ public abstract class MixinEffectRenderer implements IMixinEffectRenderer {
             int finalI = i;
             if (Settings.IMPROVE_PARTICLE_RUN) {
                 service.execute(() -> {
-                    this.updateEffectAlphaLayer(this.fxLayers[p_178922_1_][finalI]);
+                    try {
+                        this.updateEffectAlphaLayer(this.fxLayers[p_178922_1_][finalI]);
+                    } catch (Throwable e) {
+                        e.printStackTrace();
+                    }
                     integer.getAndIncrement();
                 });
             } else {
