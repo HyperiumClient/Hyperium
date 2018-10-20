@@ -74,10 +74,16 @@ public class DragonCompanion extends AbstractCosmetic {
         GlStateManager.pushMatrix();
 
 //        GlStateManager.translate(event.getX(), event.getY(), event.getZ());
-
+        EntityDragon entityDragon = customDragon.dragon;
+        AnimationState animationState = customDragon.animationState;
+        AnimationPoint current = animationState.getCurrent(player);
+        entityDragon.posX = current.x / scale;
+        entityDragon.posY = current.y / scale;
+        entityDragon.posZ = current.z / scale;
         GlStateManager.translate(-((IMixinRenderManager) renderManager).getPosX(),
                 -((IMixinRenderManager) renderManager).getPosY(),
                 -((IMixinRenderManager) renderManager).getPosZ());
+
         GlStateManager.translate(d0 * scale, d1 * scale, d2 * scale);
         GlStateManager.scale(scale, scale, scale);
 
