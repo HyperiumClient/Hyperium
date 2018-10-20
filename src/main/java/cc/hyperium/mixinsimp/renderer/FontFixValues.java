@@ -24,12 +24,9 @@ public class FontFixValues {
     private Cache<StringHash, CachedString> stringCache = Caffeine.newBuilder()
             .writer(new RemovalListener())
             .executor(Multithreading.POOL)
-
             .maximumSize(MAX)
-            .recordStats()
             .build();
-    private Queue<Integer> glRemoval = new ConcurrentLinkedQueue<Integer>();
-    private boolean created = false;
+    private Queue<Integer> glRemoval = new ConcurrentLinkedQueue<>();
 
     public Queue<Integer> getGlRemoval() {
         return glRemoval;
@@ -50,8 +47,8 @@ public class FontFixValues {
     }
 
 
-    public @Nullable
-    CachedString get(StringHash key) {
+    @Nullable
+    public CachedString get(StringHash key) {
         return stringCache.getIfPresent(key);
     }
 
@@ -60,8 +57,6 @@ public class FontFixValues {
     }
 
     private class RemovalListener implements CacheWriter<StringHash, CachedString> {
-
-
         @Override
         public void write(@Nonnull StringHash key, @Nonnull CachedString value) {
         }

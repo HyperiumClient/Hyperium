@@ -48,7 +48,7 @@ public class HypixelAPI {
             .buildAsync(this::getApiGuild);
 
     private List<Leaderboard> LEADERBOARDS = null;
-    private JsonHolder QUESTS = new JsonHolder();
+    private JsonHolder QUESTS = null;
 
     private List<UUID> friendsForCurrentUser = new ArrayList<>();
 
@@ -159,7 +159,8 @@ public class HypixelAPI {
                 () -> new JsonHolder(Sk1erMod.getInstance().rawWithAgent("https://api.hyperium.cc/quests")),
                 Multithreading.POOL
         ).whenComplete((quests, error) -> {
-            if(error == null)
+            if (error != null) return;
+
             QUESTS = quests;
         });
     }
