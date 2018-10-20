@@ -322,9 +322,7 @@ public class Settings {
     @ToggleSetting(category = GENERAL, name = "gui.settings.onlineindicator")
     public static boolean SHOW_ONLINE_PLAYERS = true;
 
-    @ConfigOpt(alt = "cc.hyperium.handlers.handlers.OtherConfigOptions;turnPeopleIntoBlock")
-    @ToggleSetting(category = COSMETICS, name = "gui.settings.showplayersasblocks")
-    public static boolean TURN_PEOPLE_INTO_BLOCKS = false;
+
 
     @ConfigOpt(alt = "cc.hyperium.handlers.handlers.OtherConfigOptions;pingOnDm")
     @ToggleSetting(category = HYPIXEL, name = "gui.settings.pingondm")
