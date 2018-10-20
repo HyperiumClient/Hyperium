@@ -14,6 +14,8 @@ object ChatListener {
 
     @InvokeEvent
     fun onReceiveChat(event: ServerChatEvent) {
+        if (event.isCancelled) return
+
         val type = event.type.toInt()
 
         when (type) {

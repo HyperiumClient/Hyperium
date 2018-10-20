@@ -26,7 +26,6 @@ public class FontFixValues {
             .writer(new RemovalListener())
             .executor(Multithreading.POOL)
             .maximumSize(MAX)
-            .recordStats()
             .build();
     public List<StringHash> obfuscated = new ArrayList<>();
 
