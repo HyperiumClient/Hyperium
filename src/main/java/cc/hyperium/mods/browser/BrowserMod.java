@@ -142,7 +142,6 @@ public class BrowserMod extends AbstractMod implements IDisplayHandler, IJSQuery
                     while (currentKeyTriple.getLeft() == null
                             || currentKeyTriple.getMiddle() == null) {
                     Thread.sleep(1L);
-                        System.out.println("while");
                     }
                     keyPressesMap.put(key, currentKeyTriple);
                 }
