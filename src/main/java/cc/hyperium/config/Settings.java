@@ -389,11 +389,11 @@ public class Settings {
 
     @ConfigOpt
     @ToggleSetting(name = "gui.settings.spotifynotifications", category = SPOTIFY, mods = true)
-    public static boolean SPOTIFY_NOTIFICATIONS = true;
+    public static boolean SPOTIFY_NOTIFICATIONS = false;
 
     @ConfigOpt
     @ToggleSetting(name = "gui.settings.forcespotifytoneverload", category = SPOTIFY, mods = true)
-    public static boolean SPOTIFY_FORCE_DISABLE = false;
+    public static boolean SPOTIFY_FORCE_DISABLE = true;
 
     @ConfigOpt
     @ToggleSetting(name = "gui.settings.updatenotificationsinhyperiumsettings", category = MISC)

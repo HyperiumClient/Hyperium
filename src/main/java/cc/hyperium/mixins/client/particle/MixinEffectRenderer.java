@@ -1,9 +1,7 @@
 package cc.hyperium.mixins.client.particle;
 
 import cc.hyperium.config.Settings;
-import cc.hyperium.mixinsimp.client.particle.HyperiumEffectRenderer;
 import cc.hyperium.mixinsimp.renderer.client.particle.IMixinEffectRenderer;
-import com.google.common.collect.Lists;
 import net.minecraft.client.particle.EffectRenderer;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.client.particle.EntityParticleEmitter;
@@ -18,8 +16,11 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.entity.Entity;
+import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.ReportedException;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
@@ -28,8 +29,9 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.util.List;
 import java.util.Map;
+import java.util.Random;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -44,16 +46,40 @@ public abstract class MixinEffectRenderer implements IMixinEffectRenderer {
     @Final
     private static ResourceLocation particleTextures;
     @Shadow
+    protected World worldObj;
+    @Shadow
     private Map<Integer, IParticleFactory> particleTypes;
-    @Shadow
-    private List<EntityFX>[][] fxLayers;
-    @Shadow
-    private List<EntityParticleEmitter> particleEmitters;
+    //its not happy about this but we can't do better because Minecraft
+    private ConcurrentLinkedQueue<EntityFX>[][] modifiedFxLayer = new ConcurrentLinkedQueue[4][];
+    private ConcurrentLinkedQueue<EntityParticleEmitter> modifiedParticlEmmiters = new ConcurrentLinkedQueue<>();
     private ExecutorService service = Executors.newFixedThreadPool(9);
-    private HyperiumEffectRenderer hyperiumEffectRenderer = new HyperiumEffectRenderer();
     private AtomicInteger integer = new AtomicInteger(-1);
     @Shadow
     private TextureManager renderer;
+    @Shadow
+    private Random rand;
+
+    @Inject(method = "<init>",at=@At("RETURN"))
+    public void load(World in, TextureManager manager, CallbackInfo info) {
+        for (int i = 0; i < 4; ++i)
+        {
+            this.modifiedFxLayer[i] = new ConcurrentLinkedQueue[2];
+
+            for (int j = 0; j < 2; ++j)
+            {
+                this.modifiedFxLayer[i][j] = new ConcurrentLinkedQueue<>();
+            }
+        }
+    }
+    @Overwrite
+    private void moveToLayer(EntityFX effect, int p_178924_2_, int p_178924_3_) {
+        for (int i = 0; i < 4; ++i) {
+            if (this.modifiedFxLayer[i][p_178924_2_].contains(effect)) {
+                this.modifiedFxLayer[i][p_178924_2_].remove(effect);
+                this.modifiedFxLayer[i][p_178924_3_].add(effect);
+            }
+        }
+    }
 
     /**
      * @author Sk1er
@@ -75,9 +101,6 @@ public abstract class MixinEffectRenderer implements IMixinEffectRenderer {
         }
     }
 
-    @Shadow
-    protected abstract void updateEffectAlphaLayer(List<EntityFX> p_178925_1_);
-
     @Override
     public AtomicInteger getConcurrentParticleInt() {
         return integer;
@@ -94,16 +117,109 @@ public abstract class MixinEffectRenderer implements IMixinEffectRenderer {
             if (Settings.IMPROVE_PARTICLE_RUN) {
                 service.execute(() -> {
                     try {
-                        this.updateEffectAlphaLayer(this.fxLayers[p_178922_1_][finalI]);
+                        this.updateEffectAlphaLayer(this.modifiedFxLayer[p_178922_1_][finalI]);
                     } catch (Throwable e) {
                         e.printStackTrace();
                     }
                     integer.getAndIncrement();
                 });
             } else {
-                this.updateEffectAlphaLayer(this.fxLayers[p_178922_1_][finalI]);
+                this.updateEffectAlphaLayer(this.modifiedFxLayer[p_178922_1_][finalI]);
             }
         }
+    }
+
+    private void updateEffectAlphaLayer(ConcurrentLinkedQueue<EntityFX> queue) {
+        queue.forEach(this::tickParticle);
+        queue.removeIf(entityFX -> entityFX.isDead);
+    }
+
+
+    /**
+     * @author Sk1er
+     * @reason Concurrency
+     */
+    @Overwrite
+    public void emitParticleAtEntity(Entity entityIn, EnumParticleTypes particleTypes) {
+        this.modifiedParticlEmmiters.add(new EntityParticleEmitter(this.worldObj, entityIn, particleTypes));
+    }
+
+
+    /**
+     * @author Sk1er
+     * @reason Concurrency
+     */
+    @Overwrite
+    public void addEffect(EntityFX effect) {
+        int i = effect.getFXLayer();
+        int j = effect.getAlpha() != 1.0F ? 0 : 1;
+
+        if (this.modifiedFxLayer[i][j].size() >= Settings.MAX_WORLD_PARTICLES_INT) {
+            this.modifiedFxLayer[i][j].poll();
+        }
+
+        this.modifiedFxLayer[i][j].add(effect);
+    }
+
+    /**
+     * @author Sk1er
+     * @reason Support concurrent
+     */
+    @Overwrite
+    public void renderLitParticles(Entity entityIn, float p_78872_2_) {
+        float f = 0.017453292F;
+        float f1 = MathHelper.cos(entityIn.rotationYaw * 0.017453292F);
+        float f2 = MathHelper.sin(entityIn.rotationYaw * 0.017453292F);
+        float f3 = -f2 * MathHelper.sin(entityIn.rotationPitch * 0.017453292F);
+        float f4 = f1 * MathHelper.sin(entityIn.rotationPitch * 0.017453292F);
+        float f5 = MathHelper.cos(entityIn.rotationPitch * 0.017453292F);
+
+        for (int i = 0; i < 2; ++i) {
+            ConcurrentLinkedQueue<EntityFX> queue = this.modifiedFxLayer[3][i];
+
+            if (!queue.isEmpty()) {
+                Tessellator tessellator = Tessellator.getInstance();
+                WorldRenderer worldrenderer = tessellator.getWorldRenderer();
+
+                queue.forEach(entityFX -> entityFX.renderParticle(worldrenderer, entityIn, p_78872_2_, f1, f5, f2, f3, f4));
+
+            }
+        }
+    }
+
+    /**
+     * @author Sk1er
+     * @reason Concurrency
+     */
+    @Overwrite
+    public void clearEffects(World worldIn) {
+        this.worldObj = worldIn;
+
+        for (int i = 0; i < 4; ++i) {
+            for (int j = 0; j < 2; ++j) {
+                this.modifiedFxLayer[i][j].clear();
+            }
+        }
+
+        this.modifiedParticlEmmiters.clear();
+    }
+
+
+    /**
+     * @author Sk1er
+     * @reason Concurrency
+     */
+    @Overwrite
+    public String getStatistics() {
+        int i = 0;
+
+        for (int j = 0; j < 4; ++j) {
+            for (int k = 0; k < 2; ++k) {
+                i += this.modifiedFxLayer[j][k].size();
+            }
+        }
+
+        return "" + i;
     }
 
     /**
@@ -116,27 +232,11 @@ public abstract class MixinEffectRenderer implements IMixinEffectRenderer {
         for (int i = 0; i < 4; ++i) {
             this.updateEffectLayer(i);
         }
-        List<EntityParticleEmitter> list = Lists.newArrayList();
 
-        for (EntityParticleEmitter entityparticleemitter : this.particleEmitters) {
-            entityparticleemitter.onUpdate();
-            if (entityparticleemitter.isDead) {
-                list.add(entityparticleemitter);
-            }
-        }
-        this.particleEmitters.removeAll(list);
+        this.modifiedParticlEmmiters.forEach(EntityParticleEmitter::onUpdate);
+        modifiedParticlEmmiters.removeIf(entityParticleEmitter -> entityParticleEmitter.isDead);
     }
 
-
-    @Inject(method = "addEffect", at = @At(value = "INVOKE_ASSIGN", target = "Lnet/minecraft/client/particle/EntityFX;getAlpha()F", ordinal = 0))
-    public void addEffectBefore(EntityFX effect, CallbackInfo ci) {
-        hyperiumEffectRenderer.addEffectBefore(this.fxLayers, effect);
-    }
-
-    @Inject(method = "addEffect", at = @At(value = "INVOKE_ASSIGN", target = "Ljava/util/List;remove(I)Ljava/lang/Object;", ordinal = 0))
-    public void addEffectAfter(EntityFX effect, CallbackInfo ci) {
-        hyperiumEffectRenderer.addEffectAfter(this.fxLayers, effect);
-    }
 
     /**
      * @author Sk1er
@@ -160,7 +260,8 @@ public abstract class MixinEffectRenderer implements IMixinEffectRenderer {
             for (int j = 0; j < 2; ++j) {
                 final int i_f = i;
 
-                if (!this.fxLayers[i][j].isEmpty()) {
+                ConcurrentLinkedQueue<EntityFX> entityFXES = this.modifiedFxLayer[i][j];
+                if (!entityFXES.isEmpty()) {
                     switch (j) {
                         case 0:
                             GlStateManager.depthMask(false);
@@ -183,8 +284,7 @@ public abstract class MixinEffectRenderer implements IMixinEffectRenderer {
                     WorldRenderer worldrenderer = tessellator.getWorldRenderer();
                     worldrenderer.begin(7, DefaultVertexFormats.PARTICLE_POSITION_TEX_COLOR_LMAP);
 
-                    for (int k = 0; k < this.fxLayers[i][j].size(); ++k) {
-                        final EntityFX entityfx = (EntityFX) this.fxLayers[i][j].get(k);
+                    for (EntityFX entityfx : entityFXES) {
 
                         try {
                             if (entityfx == null)

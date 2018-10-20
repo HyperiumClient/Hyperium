@@ -71,6 +71,7 @@ public class Spotify {
     }
 
     public static void load() {
+
         if (Settings.SPOTIFY_FORCE_DISABLE) {
             return;
         }
