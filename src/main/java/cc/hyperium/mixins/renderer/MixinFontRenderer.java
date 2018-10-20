@@ -125,13 +125,14 @@ public abstract class MixinFontRenderer {
                 GlStateManager.callList(cachedString.getListId());
                 //Call so states in game know the texture was changed. Otherwise the game won't know the active texture was changed on the GPU
                 GlStateModifier.INSTANCE.reset();
-                GlStateManager.resetColor();
+                GlStateManager.color(cachedString.getLastRed(), cachedString.getLastGreen(), cachedString.getLastBlue(), cachedString.getLastAlpha());
                 GlStateManager.translate(-posX, -posY, 0F);
                 this.posY = posY + cachedString.getHeight();
                 this.posX = posX + cachedString.getWidth();
                 return;
             }
-            list = GLAllocation.generateDisplayLists(1);
+           list=GLAllocation.generateDisplayLists(1);
+
             GL11.glNewList(list, GL11.GL_COMPILE_AND_EXECUTE);
         }
 
@@ -168,6 +169,10 @@ public abstract class MixinFontRenderer {
                     float green = (float) (j1 >> 8 & 255) / 255.0F;
                     float blue = (float) (j1 & 255) / 255.0F;
                     setColor(red, green, blue, alpha);
+                    value.setLastRed(red);
+                    value.setLastBlue(blue);
+                    value.setLastGreen(green);
+                    value.setLastAlpha(alpha);
                 } else if (i1 == 16) {
                     this.randomStyle = true;
                     hasObf = true;
@@ -186,7 +191,10 @@ public abstract class MixinFontRenderer {
                     this.underlineStyle = false;
                     this.italicStyle = false;
                     setColor(this.red, this.blue, this.green, alpha);
-
+                    value.setLastRed(this.red);
+                    value.setLastBlue(this.blue);
+                    value.setLastGreen(this.green);
+                    value.setLastAlpha(alpha);
                 }
 
                 ++i;
