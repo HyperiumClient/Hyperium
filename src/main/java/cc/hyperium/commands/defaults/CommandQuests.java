@@ -27,7 +27,6 @@ public class CommandQuests implements BaseCommand {
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
-        System.out.println(player.getData());
         new PlayerQuestsGui(player).show();
     }
 
