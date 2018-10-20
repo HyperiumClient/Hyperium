@@ -33,6 +33,7 @@ import net.minecraft.client.gui.GuiIngame;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.achievement.GuiAchievement;
 import net.minecraft.client.multiplayer.WorldClient;
+import net.minecraft.client.particle.EffectRenderer;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.resources.DefaultResourcePack;
@@ -156,6 +157,12 @@ public abstract class MixinMinecraft {
         hyperiumMinecraft.runTick(ci, mcProfiler);
     }
 
+    @Inject(method = "runTick",at=@At("HEAD"))
+    private void tick(CallbackInfo info) {
+        hyperiumMinecraft.startTick(info,mcProfiler);
+    }
+
+
     /**
      * Invoked once the player has pressed a key
      *
@@ -265,6 +272,8 @@ public abstract class MixinMinecraft {
 
     @Shadow
     public abstract boolean isCallingFromMinecraftThread();
+
+    @Shadow public EffectRenderer effectRenderer;
 
     /**
      * change to splash screen logo

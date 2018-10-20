@@ -24,6 +24,7 @@ import cc.hyperium.internal.addons.AddonBootstrap;
 import cc.hyperium.internal.addons.AddonMinecraftBootstrap;
 import cc.hyperium.internal.addons.IAddon;
 import cc.hyperium.mixins.IMixinMinecraft;
+import cc.hyperium.mixinsimp.renderer.client.particle.IMixinEffectRenderer;
 import cc.hyperium.utils.AddonWorkspaceResourcePack;
 import cc.hyperium.utils.Utils;
 import cc.hyperium.utils.mods.FPSLimiter;
@@ -63,6 +64,7 @@ import java.nio.ByteBuffer;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class HyperiumMinecraft {
 
@@ -111,6 +113,8 @@ public class HyperiumMinecraft {
         mcProfiler.startSection("hyperium_tick");
         EventBus.INSTANCE.post(new TickEvent());
         mcProfiler.endSection();
+
+
     }
 
     public void runTickKeyboard(CallbackInfo ci) {
@@ -396,4 +400,22 @@ public class HyperiumMinecraft {
     }
 
 
+    public void startTick(CallbackInfo info, Profiler mcProfiler) {
+
+        if (Settings.IMPROVE_PARTICLE_RUN) {
+            mcProfiler.startSection("particle_wait");
+            AtomicInteger concurrentParticleInt = ((IMixinEffectRenderer) parent.effectRenderer).getConcurrentParticleInt();
+            while (concurrentParticleInt.get() < 8 && concurrentParticleInt.get() != -1) {
+                try {
+                    Thread.sleep(0, 100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            concurrentParticleInt.set(-1);
+            mcProfiler.endSection();
+        }
+        Settings.IMPROVE_PARTICLE_RUN = Settings.IMPROVE_PARTICLES;
+
+    }
 }
