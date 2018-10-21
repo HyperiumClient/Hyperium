@@ -354,6 +354,10 @@ public class HyperiumMainGui extends HyperiumGui {
     public void onGuiClosed() {
         super.onGuiClosed();
         Minecraft.getMinecraft().entityRenderer.stopUseShader();
+
+        // Save all settings.
+        Hyperium.CONFIG.save();
+
         if (initialGuiScale == 0) {
             // User was on automatic so return to that scale.
             Minecraft.getMinecraft().gameSettings.guiScale = 0;
