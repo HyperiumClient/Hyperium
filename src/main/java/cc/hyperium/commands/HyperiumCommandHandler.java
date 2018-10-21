@@ -300,7 +300,15 @@ public class HyperiumCommandHandler {
             reader.close();
             fileReader.close();
         } catch (IOException ignored) {
+
         }
+        disabledCommands.add("l");
+        disabledCommands.add("lobby");
+        disabledCommands.add("hub");
+        disabledCommands.add("spawn");
+
+
+
     }
 
     public void saveDisabledCommands() {
