@@ -22,7 +22,11 @@ public class MCEF {
     //Called by Minecraft.run() if the ShutdownPatcher succeeded
     public static void onMinecraftShutdown() {
         Log.info("Minecraft shutdown hook called!");
-        PROXY.onShutdown();
+        try {
+            PROXY.onShutdown();
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
+        }
     }
 
     public void init() {

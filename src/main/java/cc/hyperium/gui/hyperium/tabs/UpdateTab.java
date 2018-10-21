@@ -70,79 +70,27 @@ public class UpdateTab extends AbstractTab {
                                 try {
                                     dl.get();
                                     installState = I18n.format("tab.update.installer.state.loading");
-                                    URLClassLoader ucl = new URLClassLoader(new URL[]{new File(tmp, dl.getFileName()).toURI().toURL()});
-                                    Thread.currentThread().setContextClassLoader(ucl);
                                     try {
-                                        Class<?> ic = ucl.loadClass("cc.hyperium.installer.api.Installer");
-                                        Class<?> icc = ucl.loadClass("cc.hyperium.installer.api.entities.InstallerConfig");
-                                        Class<?> scc = ucl.loadClass("cc.hyperium.installer.api.callbacks.StatusCallback");
-                                        Class<?> ecc = ucl.loadClass("cc.hyperium.installer.api.callbacks.ErrorCallback");
-                                        Class<?> vmc = ucl.loadClass("cc.hyperium.installer.api.entities.VersionManifest");
-                                        Method scgmm = scc.getDeclaredMethod("getMessage");
-                                        Method ecgmm = ecc.getDeclaredMethod("getMessage");
-                                        Method ecgem = ecc.getDeclaredMethod("getError");
-                                        Method iccsv = icc.getDeclaredMethod("setVersion", vmc);
-                                        int api = ic.getField("API_VERSION").getInt(null);
-
-                                        System.out.println(Arrays.toString(vmc.getConstructors()));
-                                        //java.lang.String,int,java.lang.String,java.lang.String,java.lang.String,long,long,boolean,int
-                                        Object local = vmc.getDeclaredConstructor(String.class, int.class, String.class, String.class, String.class, long.class, long.class, boolean.class, int.class)
-                                                .newInstance("LOCAL", latest.getId(), latest.getUrl(), latest.getSha256(), latest.getSha1(), latest.getSize(), latest.getTime(), latest.getBeta(), latest.getTargetInstaller());
-                                        Object config;
-                                        File prev = new File(System.getProperty("user.home"), "hinstaller-state.json");
-                                        if (prev.exists())
-                                            try {
-                                                config = new Gson().fromJson(new String(Files.readAllBytes(prev.toPath()), Charset.defaultCharset()), icc);
-                                            } catch (Exception ex) {
-                                                ex.printStackTrace();
-                                                config = icc.newInstance();
-                                            }
-                                        else
-                                            config = icc.newInstance();
-                                        iccsv.invoke(config, local);
-                                        Object installer = ic.getDeclaredConstructor(icc, Consumer.class).newInstance(config, (Consumer) c -> {
-                                            Thread.currentThread().setContextClassLoader(ucl);
-                                            if (c.getClass().isAssignableFrom(scc)) {
+                                        installState = I18n.format("tab.update.installer.state.restarting");
+                                        Multithreading.runAsync(() -> {
+                                            String cmd = Hyperium.INSTANCE.getLaunchCommand(true);
+                                            System.out.println("Restart cmd: " + cmd);
+                                            Runtime.getRuntime().addShutdownHook(new Thread(() -> {
                                                 try {
-                                                    String s = (String) scgmm.invoke(c);
-                                                    if (s.contains("success")) {
-                                                        installState = I18n.format("tab.update.installer.state.restarting");
-                                                        Multithreading.runAsync(() -> {
-                                                            String cmd = Hyperium.INSTANCE.getLaunchCommand(true);
-                                                            System.out.println("Restart cmd: " + cmd);
-                                                            Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-                                                                try {
-                                                                    Runtime.getRuntime().exec(cmd);
-                                                                    System.out.println("Restarting...");
-                                                                } catch (IOException e) {
-                                                                    e.printStackTrace();
-                                                                }
-                                                            }));
-                                                            Minecraft.getMinecraft().shutdown();
-                                                        });
-                                                    } else
-                                                        installState = s;
-                                                } catch (IllegalAccessException | InvocationTargetException e) {
-                                                    e.printStackTrace();
-                                                    installState = I18n.format("tab.update.installer.state.unknown");
-                                                }
-                                            } else if (c.getClass().isAssignableFrom(ecc)) {
-                                                try {
-                                                    ((Exception) ecgem.invoke(c)).printStackTrace();
-                                                    System.err.println("E: " + ecgmm.invoke(c));
-                                                } catch (IllegalAccessException | InvocationTargetException e) {
+                                                    String java = System.getProperty("java.home") + File.separator + "bin" + File.separator + "java";
+                                                    Runtime.getRuntime().exec(java + " -jar " + new File(tmp, dl.getFileName()).getAbsolutePath() + " fw " + cmd);
+                                                    System.out.println("Restarting...");
+                                                } catch (IOException e) {
                                                     e.printStackTrace();
                                                 }
-                                                installState = I18n.format("tab.update.installer.state.manualupdate.api", api);
-                                            }
+                                            }));
+                                            Minecraft.getMinecraft().shutdown();
                                         });
-                                        installState = I18n.format("tab.update.installer.state.starting");
-                                        ic.getDeclaredMethod("install").invoke(installer);
                                     } catch (Exception ex) {
                                         ex.printStackTrace();
                                         installState = I18n.format("tab.update.installer.state.manualupdate");
                                     }
-                                } catch (InterruptedException | ExecutionException | MalformedURLException e) {
+                                } catch (InterruptedException | ExecutionException e) {
                                     e.printStackTrace();
                                     dl = null;
                                 }
