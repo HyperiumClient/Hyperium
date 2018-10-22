@@ -24,8 +24,8 @@ disclaimer.line3=to your account while using this client
 disclaimer.line4=By continuing you agree to the privacy policy %s
 disclaimer.line4.policylink=(https://hyperium.cc/#privacy)
 disclaimer.line5=Please click the button to confirm that you agree
-button.disclaimer.accept=Accept
-button.disclaimer.confirm=Confirm Accept
+button.disclaimer.accept=I Agree
+button.disclaimer.confirm=Confirm 
 
 #Hyperium Menu Strings
 menu.profile.credits=%s Credits
