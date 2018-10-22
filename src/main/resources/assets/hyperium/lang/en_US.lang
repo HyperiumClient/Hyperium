@@ -125,9 +125,9 @@ gui.optimizer.optifine.line2=Would you like us to optimise it?
 
 #Hyperium Settings Text
 gui.settings.discordrp=Discord RP
+gui.settings.rpshowserver=Discord RP: Show Server
 gui.settings.fullbright=Fullbright
 gui.settings.romannumerals=Roman Numerals
-gui.settings.rpshowserver=RP Show Server
 gui.settings.compactchat=Compact Chat
 gui.settings.voidflickerfix=Void Flicker Fix
 gui.settings.fpslimiter=FPS Limiter (in Limbo)
