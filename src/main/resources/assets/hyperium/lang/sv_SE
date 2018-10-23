@@ -1,0 +1,252 @@
+#Hyperium Language File - Created by SimonRi
+
+#Hyperium Disclaimers
+menu.left=Copyright 2018 Hyperium Utvecklarteam
+menu.right=Ej ansluten till Mojang AB
+
+#Hyperium Buttons
+button.menu.changebackground=Ändra Bakgrund
+button.menu.cosmeticshop=Kosmetisk Butik
+button.ingame.hyperiumsettings=Hyperium-Inställningar
+button.ingame.hyperiumcredits=Medverkande
+button.ingame.joinhypixel=Anslut Till Hypixel
+button.ingame.fixhypixelsession=Fixa Hypixel Session
+button.ingame.serverlist=Serverlista
+button.changebackground.seturl=Sätt URL
+button.changebackground.choosefile=Välj Fil
+button.changebackground.resetbackground=Återställ Bakgrund
+
+#Hyperium Disclaimer
+disclaimer.line1=Genom att fortsätta, godkänner du att denna client är %s
+disclaimer.line1.bold=ANVÄND PÅ EGEN RISK
+disclaimer.line2=Utvecklarna av Hyperium är inte ansvariga för skador eller bannlysningar
+disclaimer.line3=på ditt konto vid användande av denna client
+disclaimer.line4=Genom att fortsätta godkänner du integritetspolicyn %s
+disclaimer.line4.policylink=(https://hyperium.cc/#privacy)
+disclaimer.line5=Vänligen klicka på knappen för att bekräfta att du godkänner
+button.disclaimer.accept=Godkänn
+button.disclaimer.confirm=Bekräfta
+
+#Hyperium Menu Strings
+menu.profile.credits=%s Medverkande
+
+#Hyperium Tabs
+tabs.searchbar=Sök...
+tab.news.name=Nyheter
+tab.settings.name=Inställningar
+tab.update.name=Uppdatera
+tab.shop.name=Butik
+
+#Hyperium Tabs Attributes
+tab.update.noupdates=Inga uppdateringar tillgängliga
+tab.update.autorestart=När uppdateringen är klar kommer Minecraft automatiskt starta om
+tab.update.changelog=Ändringslogg kommer snart
+tab.update.update=Uppdatera
+tab.update.updating=Uppdaterar...
+tab.update.downloading=Laddar ner...
+tab.update.installer.state.starting=Startar Installation
+tab.update.installer.state.loading=Laddar Rnstallation
+tab.update.installer.state.restarting=Startar Om
+tab.update.installer.state.unknown=W: Okänt Tillstånd
+tab.update.installer.state.manualupdate.api=E: Vänligen uppdatera manuellt, API: %s
+tab.update.installer.state.manualupdate=E: Vänligen uppdatera manuellt
+
+#Hyperium Ingame Menu
+gui.ingamemenu.playercount=Hyperium Användarantal:
+gui.ingamemenu.playercount.now=Online Nu: %s
+gui.ingamemenu.playercount.lastday=Igår: %s
+gui.ingamemenu.playercount.lastweek=Förra Veckan: %s
+gui.ingamemenu.playercount.alltime=För Evigt: %s
+
+#Hyperium Splash Progress
+#splash.progress.
+
+#Hyperium Alerts
+alert.update.message=Hyperium-Uppdatering! Klicka här för att ladda ner.
+
+#Hyperium Change Background Text
+gui.changebackground.line1=Ange en URL nedan för att ändra bakgrundern eller välj en fil.
+gui.changebackground.line2=Välj "anpassad" i bakgrunds-inställningarna för att visa den.
+gui.changebackground.urlempty=URL-fältet kan inte vara tomt.
+gui.changebackground.invalidurl=Ogiltligt PNG bild-url
+gui.changebackground.working=Jobbar...
+gui.changebackground.done=Klart!
+gui.changebackground.invalidpath=Ogiltlig sökväg
+gui.changebackground.unknownerror=Okänt fel
+gui.changebackground.downloaderror=Fel vid nedladdning.
+gui.changebackground.selectimage=Välj bakgrunds-bild
+
+#Hyperium PurchaseCarousel Text
+gui.purchase.purchased=Köpt
+gui.purchase.purchase=Köp
+gui.purchase.active=Aktiv
+gui.purchase.inactive=Inaktiv
+gui.purchase.notpurchased=Ej Köpt
+gui.purchase.clicktouse=Klicka för att använda
+gui.purchase.state=Tillstånd
+
+#Hyperium Cosmetics Gui
+gui.cosmetics.purchase=Köp kosmetik
+gui.cosmetics.refresh=Uppdatera köp
+gui.cosmetics.credits=Krediter
+gui.cosmetics.totalcredits=Totala Krediter: %s
+gui.cosmetics.remainingcredits=Återstående Krediter: %s
+gui.cosmetics.purchased=Köpta Paket
+gui.cosmetics.disableparticles=Inaktivera Partiklar
+gui.cosmetics.line1=Du måste köpa minst 1 partikel och 1 animation för att de ska visas
+gui.cosmetics.line2=Double Twirl-animationen är gratis.
+gui.cosmetics.preview=Visa
+gui.cosmetics.red=Röd
+gui.cosmetics.green=Grön
+gui.cosmetics.blue=Blå
+gui.cosmetics.maxage=Partikel-liv
+
+#Hyperium Shop Gui
+gui.shop.capes=Visa Mantlar
+gui.shop.browser=Öppna i browser
+gui.shop.purchasecredits=Köp Krediter
+gui.shop.refresh=Uppdatera
+gui.shop.credits=Krediter
+gui.shop.cosmetics=Kosmetik
+gui.shop.description=Beskrivning: %s
+gui.shop.cost=Pris: %s
+gui.shop.status=Status:
+gui.shop.purchased=Köpt
+gui.shop.purchase=Köp
+gui.shop.insufficientcredits=Otillräcklig Med Krediter!
+gui.shop.loading.cosmetics=Laddar kosmetik...
+gui.shop.loading.person=Laddar personlig data...
+
+#Hyperium Auto Optimizer Text
+gui.optimizer.font.line1=Om du kan lästa denna text, tryck på ja.
+gui.optimizer.font.line2=Annars, vänta.
+gui.optimizer.optifine.line1=Vi upptäckte att du använder OptiFine.
+gui.optimizer.optifine.line2=Vill du optimera den?
+
+#Hyperium Settings Text
+gui.settings.discordrp=Discord RP
+gui.settings.fullbright=Max Ljus
+gui.settings.romannumerals=Romerska Siffror
+gui.settings.rpshowserver=RP Visa Server
+gui.settings.compactchat=Kompakt chatt
+gui.settings.voidflickerfix=Void-blink-fix
+gui.settings.fpslimiter=FPS-begränsare (i Limbo)
+gui.settings.fastchat=Snabb Chatt
+gui.settings.shinypotions=Glänsande Drycker
+gui.settings.smartsounds=Smart Ljud
+gui.settings.numericping=Numerisk Ping
+gui.settings.arrowcountwhenholdingbow=Pilräknare När Pilbåge Är Aktiv
+gui.settings.showenchantmentsabovehotbar=Visa Förtrollningar över hotbar
+gui.settings.showattackdamageabovehotbar=Visa Attackstyrka över hotbar
+gui.settings.critparticlefix=Crit Partikel-Fix
+gui.settings.holdperspectivekey=Håll Perspektivtangent
+gui.settings.optimizeditemrenderer=Optimerad Objekt-rendering (BETA)
+gui.settings.optimizedtextureloading=Optimerad Textur-inläsning (BETA)
+gui.settings.optimizedfontrenderer=Optimerad Typsnitts-rendering (BETA)
+gui.settings.windowedfullscreen=Fönstad Fullskärm
+gui.settings.bossbartextonly=Bossbar - Endast Text
+gui.settings.staticfov=Statisk FOV
+gui.settings.uploadscreenshots=Ladda Upp Skärmklipp (standard)
+gui.settings.hidescoreboardnumbers=Dölj Nummer På Resultattavla
+gui.settings.blurredguibackground=Suddig GUI-bakgrund
+gui.settings.chromahudonallservers=Chromahud - På Alla Servrar
+gui.settings.screenshotonkill=Skärmklipp När Du Dödar Någon
+gui.settings.showspotifycontrols=Visa Spotify-kontroller
+gui.settings.welcometothehypixelzoo="Välkommen till Hypixel-Zooet!"
+gui.settings.showparticleauras=Visa Partikel-Auror
+gui.settings.showcosmeticseverywhere=Visa Kosmetik Överallt
+gui.settings.loadoptifinecapes=Ladda optifine-mantlar
+gui.settings.17blockhitting=1.7 Blockhitting
+gui.settings.17bowposition=1.7 Pilbågeposition
+gui.settings.17rodposition=1.7 Spöposition
+gui.settings.17redarmour=1.7 Röd Rustning (vid träff)
+gui.settings.17eating=1.7 Ätning
+gui.settings.17sneakinganimation=1.7 Smyg-animation
+gui.settings.17blocking=1.7 Blockering
+gui.settings.17itemheld=1.7 Sak hålld
+gui.settings.17debug=1.7 Debug
+gui.settings.17health=1.7 Liv
+gui.settings.customswordanimation=Anpassad Svärd-animation
+gui.settings.fliptogglemode=Flip - Växlaläge
+gui.settings.fliptype=Flip-typ
+gui.settings.tposetogglemode=TPose - Väslaläge
+gui.settings.background=Bakgrund
+gui.settings.transparentcontainerbackgrounds=Genomskinliga Menybakgrunder
+gui.settings.particlesmode=Partikel-läge
+gui.settings.maxparticles=Max Partiklar
+gui.settings.headitemscale=Storlek Av Huvudsak
+gui.settings.particlesininventory=Partiklar I Inventory
+gui.settings.deadmau5ears=Deadmau5-öron
+gui.settings.shownotificationcenter=Visa Meddelande-center
+gui.settings.showconfirmationpopup=Visa Bekräftelse-popup
+gui.settings.persistentchatmessages=Visa Chatt-meddelanden Ständigt
+gui.settings.friendsfirstintab=Vänner Först I Tabb
+gui.settings.onlineindicator=Online-indikator
+gui.settings.showplayersasblocks=Visa Spelare Som Block
+gui.settings.pingondm=Plinga Vid DM
+gui.settings.sprintbypassstaticfov=Sprint Kringgår Statisk FOV
+gui.settings.sprintandperspectivemessages=Sprint Och Perspektiv-meddelanden
+gui.settings.autowho=Automatisk Who
+gui.settings.showdragonhead=Visa Drakhuvud
+gui.settings.wingsheight=Vinghöjd
+gui.settings.showwings=Visa vingar
+gui.settings.wingsscale=Vingstorlek
+gui.settings.showchromahud=Visa ChromaHUD
+gui.settings.mainmenustyle=Huvudmeny-stil
+gui.settings.pausemenustyle=Pausemeny-stil
+gui.settings.spotifynotifications=Spotify-meddelanden
+gui.settings.forcespotifytoneverload=Tvinga Spotify Att Ej Starta
+gui.settings.updatenotificationsinhyperiumsettings=Uppdaterings-meddelanden I Hyperium-inställningar
+gui.settings.fastworldswitching=Snabb Växlande av Värld (Kan öka användande av minne)
+gui.settings.maxworldparticles=Max Partiklar I Värld
+gui.settings.showparticlein1stperson=Visa Partiklar I Förstapersom
+gui.settings.showhitdistances=Visa Träffdistans
+gui.settings.motionblurenabled=Aktiverad
+gui.settings.motionblurintensity=Rörelseoskärpa-intensitet
+gui.settings.autofriendenabled=Aktiverad
+gui.settings.showfriendmessages=Visa Vännmeddelanden
+gui.settings.fortnitecompassenabled=Aktiverad
+gui.settings.showbackground=Visa Bakgrund
+gui.settings.chroma=Chroma
+gui.settings.shadow=Skugga
+gui.settings.details=Detaljer
+gui.settings.showuserdotsonnametags=Visa punkter i spelarnamn
+gui.settings.colortype=Färgtyp
+gui.settings.red=Röd
+gui.settings.blue=Blå
+gui.settings.green=Grön
+gui.settings.togglesprint=Togglesprint
+gui.settings.broadcastlevelups=Skicka Level Up
+gui.settings.broadcastachievements=Skicka Prestationer
+gui.settings.showbutt=Visa Rumpa
+gui.settings.sendcurrentserver=Skicka Aktuell Server
+gui.settings.sendguildwelcomemessage=Skicka välkomstmeddelande i guild
+gui.settings.itemphysics=Item Physics
+gui.settings.showbrowser=Visa Browser
+gui.settings.mainmenuserver=Huvudmeny-server
+
+#Hyperium Splash Progress
+splashprogress.startinggame=Startar Spel...
+splashprogress.loadingresources=Laddar Resurser...
+splashprogress.creatingdisplay=Skapar Skärm...
+splashprogress.initializingtextures=Initierar Texturer...
+splashprogress.loadinghandlers=Laddar Hanterare...
+splashprogress.registeringlisteners=Registrerar Lyssnare...
+splashprogress.startinghyperium=Startar Hyperium...
+splashprogress.initializingtrayicon=Initierar Icon...
+splashprogress.registeringconfiguration=Registrerar konfiguration...
+splashprogress.registeringcommands=Registrerar Kommandon...
+splashprogress.loadingintegrations=Laddar Integrationer...
+splashprogress.reloadingresourcemanager=Laddar Om Resurshanteraren...
+splashprogress.finishing=Avslutar...
+
+#Hyperium Misc Gui Text
+gui.namehistory.text=NAMNHISTORIK
+
+#Hyperium Chat Message
+message.insufficientcredits=Otillräckligt med krediter
+message.attemptingpurchase=Försöker att köpa %s
+message.alreadypurchased=Redan köpt %s
+message.invalidparticle=Ogiltlig partikel
+message.invalidanimation=Ogiltlig animation
+message.purchase=Köp %s
