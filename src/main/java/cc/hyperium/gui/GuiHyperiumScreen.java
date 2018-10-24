@@ -199,20 +199,12 @@ public class GuiHyperiumScreen extends GuiScreen {
         this.drawRect(width - 155, 10, width - 10, 49, 0x33000000);
         this.drawRect(width - 156, 9, width - 9, 50, 0x33000000);
 
-        /* Render client version container */
-        /*
-        drawRect(width - 153, 39, width - 60, 48, 0x33000000);
-        drawRect(width - 154, 40, width - 59, 49, 0x33000000);
-        */
-
-        // Looks weird with the small green strip
-        // drawRect(width - 160, 10, width - 158, 40, new Color(149, 201, 144, 255).getRGB());
 
         /* Fetch player credit count */
         if(!Hyperium.INSTANCE.isDevEnv()) {
             if (PurchaseApi.getInstance() != null && PurchaseApi.getInstance().getSelf() != null) {
                 JsonHolder response = PurchaseApi.getInstance().getSelf().getResponse();
-                int credits = response.optInt("total_credits");
+                int credits = response.optInt("remaining_credits");
 
                 /* Render player credits count and username */
                 fr.drawString(Minecraft.getMinecraft().getSession().getUsername(), width - 153, 13, 0xFFFFFF);
@@ -231,15 +223,6 @@ public class GuiHyperiumScreen extends GuiScreen {
 
         /* Render Hyperium version number */
         fr.drawStringScaled("Hyperium v" + (Hyperium.INSTANCE.isLatestVersion ? ChatFormatting.GREEN : ChatFormatting.RED) + Metadata.getVersion(), width - 152, 39, 0xFFFFFF, .75);
-
-        /* Display profile player skin head */
-        /*
-        GlStateManager.pushMatrix();
-        GlStateManager.enableBlend();
-        GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_NEAREST);
-        GlStateManager.bindTexture(getCachedTexture(Minecraft.getMinecraft().getSession().getPlayerID()).getGlTextureId());
-        drawScaledCustomSizeModalRect(width - 153, 12, 0, 0, 30, 30, 23, 25, 30, 30);
-        */
 
         /* Display copyright disclaimers at bottom of screen */
         sfr.drawString(I18n.format("menu.left").toUpperCase(), 1, height - 7, 0x55FFFFFF);
