@@ -289,7 +289,7 @@ public class GuiBrowser extends GuiScreen {
     //Handle button clicks
     @Override
     protected void actionPerformed(GuiButton src) {
-        if (browser == null) {
+        if (browser == null || src == null) {
             return;
         }
 
