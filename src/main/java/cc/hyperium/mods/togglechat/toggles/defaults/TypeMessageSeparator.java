@@ -32,15 +32,12 @@ public class TypeMessageSeparator extends ToggleBase {
 
     @Override
     public boolean shouldToggle(String message) {
-        return message.contains("-----------");
+        return message.matches("^[-]+$");
     }
 
     public String editMessage(String formattedText) {
-        if (formattedText.contains("--")) {
-            formattedText = formattedText.replace("---\n", "");
-            return formattedText.replace("-", "");
-        }
-        return formattedText;
+        formattedText = formattedText.replace("---\n", "");
+        return formattedText.replace("-", "");
     }
 
     @Override
