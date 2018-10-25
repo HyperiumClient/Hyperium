@@ -31,6 +31,7 @@ import cc.hyperium.mods.togglechat.toggles.defaults.TypeLobbyJoin;
 import cc.hyperium.mods.togglechat.toggles.defaults.TypeMessageSeparator;
 import cc.hyperium.mods.togglechat.toggles.defaults.TypeMessages;
 import cc.hyperium.mods.togglechat.toggles.defaults.TypeMysteryBox;
+import cc.hyperium.mods.togglechat.toggles.defaults.TypeOfficer;
 import cc.hyperium.mods.togglechat.toggles.defaults.TypeParty;
 import cc.hyperium.mods.togglechat.toggles.defaults.TypePartyInvites;
 import cc.hyperium.mods.togglechat.toggles.defaults.TypeShout;
@@ -103,6 +104,7 @@ public class ToggleBaseHandler {
         this.toggles.put("lobby_join", new TypeLobbyJoin());
         this.toggles.put("separators", new TypeMessageSeparator());
         this.toggles.put("friend_requests", new TypeFriendRequests());
+        this.toggles.put("officer", new TypeOfficer());
     }
 
     /**
