@@ -107,15 +107,20 @@ public class SplashProgress {
         ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
 
         double nProgress = (double) PROGRESS;
-        double calc = (nProgress / MAX) * 150;
+        double calc = (nProgress / MAX) * sr.getScaledWidth();
+
+        Gui.drawRect(0, sr.getScaledHeight() - 35, sr.getScaledWidth(), sr.getScaledHeight(), new Color(0, 0, 0, 50).getRGB());
+
         GlStateManager.resetColor();
         GlStateModifier.INSTANCE.reset();
-        sfr.drawString(CURRENT, (float) sr.getScaledWidth_double() / 2 - sfr.getWidth(CURRENT) / 2, (float) sr.getScaledHeight_double() / 2 + 60, new Color(0, 150, 250).getRGB());
+        sfr.drawString(CURRENT, 20, sr.getScaledHeight() - 25, 0xffffffff);
+        String s = PROGRESS + "/" + MAX;
+        sfr.drawString(s, sr.getScaledWidth() - 20 - sfr.getStringWidth(s), sr.getScaledHeight() - 25, 0xe1e1e1ff);
         // Progress
         GlStateManager.resetColor();
         GlStateModifier.INSTANCE.reset();
-        Gui.drawRect(sr.getScaledWidth() / 2 - 75, sr.getScaledHeight() / 2 + 45, sr.getScaledWidth() / 2 + (int) (Math.round(calc) / 2), sr.getScaledHeight() / 2 + 55, new Color(255, 0, 0, 50).getRGB());
+        Gui.drawRect(0, sr.getScaledHeight() - 2, (int) calc, sr.getScaledHeight(), new Color(149, 201, 144).getRGB());
         // Bar base
-        Gui.drawRect(sr.getScaledWidth() / 2 - 75, sr.getScaledHeight() / 2 + 45, sr.getScaledWidth() / 2 + 75, sr.getScaledHeight() / 2 + 55, new Color(0, 0, 0, 50).getRGB());
+        Gui.drawRect(0, sr.getScaledHeight() - 2, sr.getScaledWidth(), sr.getScaledHeight(), new Color(0, 0, 0, 10).getRGB());
     }
 }
