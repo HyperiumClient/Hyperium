@@ -291,7 +291,7 @@ public class GuiBrowser extends GuiScreen {
     @Override
     protected void actionPerformed(GuiButton src) {
         try {
-        if (browser == null || src == null || src.id == null) 
+        if (browser == null || src == null || src.id == null) {
             return;
         }
 
