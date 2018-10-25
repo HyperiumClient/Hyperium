@@ -23,6 +23,7 @@ import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.Map;
+import java.lang.Exception;
 
 /**
  * @author Koding
@@ -289,7 +290,8 @@ public class GuiBrowser extends GuiScreen {
     //Handle button clicks
     @Override
     protected void actionPerformed(GuiButton src) {
-        if (browser == null) {
+        try {
+        if (browser == null || src == null || src.id == null) {
             return;
         }
 
@@ -315,6 +317,9 @@ public class GuiBrowser extends GuiScreen {
             GuiConfig.drawSquare = true;
             mc.displayGuiScreen(persistentConfigGui);
 
+        }
+        } catch (Exception e) {
+            
         }
     }
 
