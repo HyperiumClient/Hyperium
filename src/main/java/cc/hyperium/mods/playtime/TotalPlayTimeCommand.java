@@ -26,7 +26,7 @@ public class TotalPlayTimeCommand implements BaseCommand {
     @Override
     public void onExecute(String[] args) {
         Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage(
-            ChatColor.translateAlternateColorCodes('&', "&9[PlayTime] &7Total play time: &f" + PlayTimeUtils.fancyTime(playTime.sessionPlayTime)), false
+            ChatColor.translateAlternateColorCodes('&', "&9[PlayTime] &7Total play time: &f" + PlayTimeUtils.fancyTime(playTime.totalPlayTime)), false
         );
     }
 
