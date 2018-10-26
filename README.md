@@ -31,6 +31,7 @@ Hyperium is a Minecraft client, currently in its development stage. It will comb
 - [Ingame Browser](https://github.com/montoyo/mcef)  
 - Custom GUI
 - Custom Main-Menu Screen
+- [Custom Crosshair](https://www.youtube.com/watch?v=YYasNSTWA64)
 
 ## Building the project with IntelliJ ##
 
