@@ -30,7 +30,7 @@ Hyperium is a Minecraft client, currently in its development stage. It will comb
 - Bossbar Mod
 - [Ingame Browser](https://github.com/montoyo/mcef)  
 - Custom GUI
-- Custom Main-Menu Screen
+- [Custom Main-Menu Screen](https://raw.githubusercontent.com/RDIL/misc-private-images/hyperium/hyperiumclient/hyperiumimg/hyperium_custom_mainmenu_gui.JPG)
 
 ## Building the project with IntelliJ ##
 
