@@ -1,6 +1,8 @@
 package cc.hyperium.mods.browser.gui;
 
 import cc.hyperium.Hyperium;
+import cc.hyperium.UpdateUtil;
+import cc.hyperium.config.Settings;
 import cc.hyperium.mods.browser.util.BrowserUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -46,76 +48,80 @@ public class GuiBrowser extends GuiScreen {
 
     @Override
     public void initGui() {
-        Hyperium.INSTANCE.getModIntegration().getBrowserMod().hudBrowser = null;
-        this.url = new GuiTextField(5, fontRendererObj, 40, 10, width - 100, 20);
-        this.url.setMaxStringLength(65535);
+        if (Settings.BROWSER_DOWNLOAD) {
+            Hyperium.INSTANCE.getModIntegration().getBrowserMod().hudBrowser = null;
+            this.url = new GuiTextField(5, fontRendererObj, 40, 10, width - 100, 20);
+            this.url.setMaxStringLength(65535);
 
-        if (browser == null) {
-            //Grab the API and make sure it isn't null.
-            API api = MCEFApi.getAPI();
-            if (api == null) {
-                return;
+            if (browser == null) {
+                //Grab the API and make sure it isn't null.
+                API api = MCEFApi.getAPI();
+                if (api == null) {
+                    return;
+                }
+
+                //Create a browser and resize it to fit the screen
+                browser = api.createBrowser((urlToLoad == null) ? MCEF.HOME_PAGE : urlToLoad, false);
+                urlToLoad = null;
             }
 
-            //Create a browser and resize it to fit the screen
-            browser = api.createBrowser((urlToLoad == null) ? MCEF.HOME_PAGE : urlToLoad, false);
-            urlToLoad = null;
-        }
+            //Resize the browser if window size changed
+            if (browser != null) {
+                browser.resize(mc.displayWidth, mc.displayHeight - scaleY(30));
+            }
 
-        //Resize the browser if window size changed
-        if (browser != null) {
-            browser.resize(mc.displayWidth, mc.displayHeight - scaleY(30));
-        }
+            ((CefBrowserOsr) browser).setZoomLevel(1.0);
 
-        ((CefBrowserOsr) browser).setZoomLevel(1.0);
+            //Create GUI
+            Keyboard.enableRepeatEvents(true);
+            buttonList.clear();
 
-        //Create GUI
-        Keyboard.enableRepeatEvents(true);
-        buttonList.clear();
-
-        if (url == null) {
-            buttonList.add(back = (new GuiButton(0, 0, 10, 20, 20, "<")));
-            buttonList.add(fwd = (new GuiButton(1, 20, 10, 20, 20, ">")));
-            buttonList.add(go = (new GuiButton(2, width - 60, 10, 20, 20, "Go")));
-            buttonList.add(close = (new GuiButton(3, width - 20, 10, 20, 20, "X")));
-            buttonList.add(pip = (new GuiButton(4, width - 40, 10, 20, 20, "PIP")));
-            pip.enabled = true;
+            if (url == null) {
+                buttonList.add(back = (new GuiButton(0, 0, 10, 20, 20, "<")));
+                buttonList.add(fwd = (new GuiButton(1, 20, 10, 20, 20, ">")));
+                buttonList.add(go = (new GuiButton(2, width - 60, 10, 20, 20, "Go")));
+                buttonList.add(close = (new GuiButton(3, width - 20, 10, 20, 20, "X")));
+                buttonList.add(pip = (new GuiButton(4, width - 40, 10, 20, 20, "PIP")));
+                pip.enabled = true;
 
 
+            } else {
+                if (back == null) {
+                    back = (new GuiButton(0, 0, 10, 20, 20, "<"));
+                }
+                buttonList.add(back);
+                if (fwd == null) {
+                    fwd = (new GuiButton(1, 20, 10, 20, 20, ">"));
+                }
+                buttonList.add(fwd);
+                if (go == null) {
+                    go = (new GuiButton(2, width - 60, 10, 20, 20, "Go"));
+                }
+                buttonList.add(go);
+                if (close == null) {
+                    close = (new GuiButton(3, width - 20, 10, 20, 20, "X"));
+                }
+                buttonList.add(close);
+                if (pip == null) {
+                    pip = (new GuiButton(4, width - 40, 10, 20, 20, "PIP"));
+                }
+                buttonList.add(pip);
+                //Handle resizing
+                pip.xPosition = width - 40;
+                go.xPosition = width - 60;
+                close.xPosition = width - 20;
+
+                String old = url.getText();
+                url = new GuiTextField(5, fontRendererObj, 40, 10, width - 100, 20);
+                url.setMaxStringLength(65535);
+                url.setText(old);
+            }
+            if (persistentConfigGui == null) {
+                persistentConfigGui = new GuiConfig(browser);
+                Hyperium.CONFIG.register(persistentConfigGui);
+            }
         } else {
-            if(back == null){
-                back = (new GuiButton(0, 0, 10, 20, 20, "<"));
-            }
-            buttonList.add(back);
-            if(fwd == null){
-                fwd = (new GuiButton(1, 20, 10, 20, 20, ">"));
-            }
-            buttonList.add(fwd);
-            if(go == null){
-                go = (new GuiButton(2, width - 60, 10, 20, 20, "Go"));
-            }
-            buttonList.add(go);
-            if(close == null){
-                close = (new GuiButton(3, width - 20, 10, 20, 20, "X"));
-            }
-            buttonList.add(close);
-            if(pip == null){
-                pip = (new GuiButton(4, width - 40, 10, 20, 20, "PIP"));
-            }
-            buttonList.add(pip);
-            //Handle resizing
-            pip.xPosition = width - 40;
-            go.xPosition = width - 60;
-            close.xPosition = width - 20;
-
-            String old = url.getText();
-            url = new GuiTextField(5, fontRendererObj, 40, 10, width - 100, 20);
-            url.setMaxStringLength(65535);
-            url.setText(old);
-        }
-        if (persistentConfigGui == null) {
-            persistentConfigGui = new GuiConfig(browser);
-            Hyperium.CONFIG.register(persistentConfigGui);
+            buttonList.add(new GuiButton(1337, width / 2 - 100, height / 2 - 10, 200, 20, "Restart and download"));
         }
     }
 
@@ -152,30 +158,31 @@ public class GuiBrowser extends GuiScreen {
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-
-        //Render the URL box first because it overflows a bit
-        if(url != null) {
-            url.drawTextBox();
-        }
-
-        //Render buttons
         super.drawScreen(mouseX, mouseY, partialTicks);
+        if (Settings.BROWSER_DOWNLOAD) {
+            //Render the URL box first because it overflows a bit
+            if (url != null) {
+                url.drawTextBox();
+            }
 
-        Gui.drawRect(0, 0, width, 10, new Color(0, 0, 0, 100).getRGB());
-        if (title != null) {
-            fontRendererObj
-                .drawString(title, 5, (10f - fontRendererObj.FONT_HEIGHT) / 2, Color.WHITE.getRGB(),
-                    true);
-        }
+            //Render buttons
 
-        //Renders the browser if itsn't null
-        if (browser != null) {
-            GlStateManager.disableDepth();
-            GlStateManager.enableTexture2D();
-            GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
-            browser.draw(.0d, height, width, 30.d); //Don't forget to flip Y axis.
-            GlStateManager.enableDepth();
-        }
+            Gui.drawRect(0, 0, width, 10, new Color(0, 0, 0, 100).getRGB());
+            if (title != null) {
+                fontRendererObj.drawString(title, 5, (10f - fontRendererObj.FONT_HEIGHT) / 2, Color.WHITE.getRGB(),
+                        true);
+            }
+
+            //Renders the browser if itsn't null
+            if (browser != null) {
+                GlStateManager.disableDepth();
+                GlStateManager.enableTexture2D();
+                GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
+                browser.draw(.0d, height, width, 30.d); //Don't forget to flip Y axis.
+                GlStateManager.enableDepth();
+            }
+        } else
+            drawCenteredString(fontRendererObj, "In order for browser to work, the client needs to download some required files", width / 2, height / 2 - 50, 0xffffffff);
     }
 
     @Override
@@ -190,61 +197,63 @@ public class GuiBrowser extends GuiScreen {
     }
 
     @Override
-    protected void keyTyped(char typedChar, int keyCode) throws IOException {
+    protected void keyTyped(char typedChar, int keyCode) {
         //Stop escape from breaking the menu if you need to press it.
     }
 
     @Override
     public void handleInput() {
-        Map<Integer, Triple<KeyEvent, KeyEvent, String>> map = Hyperium.INSTANCE.getModIntegration().getBrowserMod().keyPressesMap;
-        while (Keyboard.next()) {
+        if (Settings.BROWSER_DOWNLOAD) {
+            Map<Integer, Triple<KeyEvent, KeyEvent, String>> map = Hyperium.INSTANCE.getModIntegration().getBrowserMod().keyPressesMap;
+            while (Keyboard.next()) {
 
-            boolean pressed = Keyboard.getEventKeyState();
-            boolean focused = url.isFocused();
-            char key = Keyboard.getEventCharacter();
-            int num = Keyboard.getEventKey();
+                boolean pressed = Keyboard.getEventKeyState();
+                boolean focused = url.isFocused();
+                char key = Keyboard.getEventCharacter();
+                int num = Keyboard.getEventKey();
 
-            if (num == Keyboard.KEY_L && BrowserUtil.getModifierInt() == 2 && pressed) {
-                url.setFocused(true);
-                url.setSelectionPos(0);
-                return;
-            }
-            if (browser != null
-                && !focused) { //Inject events into browser. TODO: Handle keyboard mods.
-                if (key != '.' && key != ';' && key != ',') { //Workaround
-                    if (pressed) {
-                        browser.injectKeyPressed(key, BrowserUtil.getModifierInt());
-                    } else {
-                        browser.injectKeyReleased(key, BrowserUtil.getModifierInt());
+                if (num == Keyboard.KEY_L && BrowserUtil.getModifierInt() == 2 && pressed) {
+                    url.setFocused(true);
+                    url.setSelectionPos(0);
+                    return;
+                }
+                if (browser != null
+                        && !focused) { //Inject events into browser. TODO: Handle keyboard mods.
+                    if (key != '.' && key != ';' && key != ',') { //Workaround
+                        if (pressed) {
+                            browser.injectKeyPressed(key, BrowserUtil.getModifierInt());
+                        } else {
+                            browser.injectKeyReleased(key, BrowserUtil.getModifierInt());
+                        }
+                    }
+
+                    if (map.containsKey(KeyEvent.getExtendedKeyCodeForChar(key))) {
+                        Triple<KeyEvent, KeyEvent, String> entry = map.get(KeyEvent.getExtendedKeyCodeForChar(key));
+                        if (pressed) {
+                            KeyEvent keyEvent = new KeyEvent(
+                                    ((CefBrowserOsr) browser).getUIComponent(), KeyEvent.KEY_TYPED, 0, 0, 0,
+                                    (char) 0);
+                            ((CefBrowserOsr) browser).injectKeyEvent(entry.getLeft());
+                            ((CefBrowserOsr) browser).injectKeyEvent(keyEvent);
+                        } else {
+                            ((CefBrowserOsr) browser).injectKeyEvent(entry.getMiddle());
+                        }
+                    }
+
+                    if (key != Keyboard.CHAR_NONE) {
+                        browser.injectKeyTyped(key, BrowserUtil.getModifierInt());
                     }
                 }
 
-                if (map.containsKey(KeyEvent.getExtendedKeyCodeForChar(key))) {
-                    Triple<KeyEvent, KeyEvent, String> entry = map.get(KeyEvent.getExtendedKeyCodeForChar(key));
-                    if (pressed) {
-                        KeyEvent keyEvent = new KeyEvent(
-                            ((CefBrowserOsr) browser).getUIComponent(), KeyEvent.KEY_TYPED, 0, 0, 0,
-                            (char) 0);
-                        ((CefBrowserOsr) browser).injectKeyEvent(entry.getLeft());
-                        ((CefBrowserOsr) browser).injectKeyEvent(keyEvent);
-                    } else {
-                        ((CefBrowserOsr) browser).injectKeyEvent(entry.getMiddle());
-                    }
+                //Forward event to text box.
+                if (!pressed && focused && num == Keyboard.KEY_RETURN) {
+                    actionPerformed(go);
+                } else if (pressed) {
+                    url.textboxKeyTyped(key, num);
                 }
 
-                if (key != Keyboard.CHAR_NONE) {
-                    browser.injectKeyTyped(key, BrowserUtil.getModifierInt());
-                }
-            }
-
-            //Forward event to text box.
-            if (!pressed && focused && num == Keyboard.KEY_RETURN) {
-                actionPerformed(go);
-            } else if (pressed) {
-                url.textboxKeyTyped(key, num);
             }
         }
-
         while (Mouse.next()) {
             int btn = Mouse.getEventButton();
             boolean pressed = Mouse.getEventButtonState();
@@ -260,8 +269,7 @@ public class GuiBrowser extends GuiScreen {
                 } else if (btn == -1) {
                     browser.injectMouseMove(sx, y, BrowserUtil.getModifierInt(), y < 0);
                 } else {
-                    browser.injectMouseButton(sx, y, BrowserUtil.getModifierInt(), btn + 1, pressed,
-                        1);
+                    browser.injectMouseButton(sx, y, BrowserUtil.getModifierInt(), btn + 1, pressed, 1);
                 }
             }
 
@@ -275,7 +283,8 @@ public class GuiBrowser extends GuiScreen {
                     t.printStackTrace();
                 }
 
-                url.mouseClicked(x, y, btn);
+                if(url != null)
+                    url.mouseClicked(x, y, btn);
             }
         }
     }
@@ -291,35 +300,49 @@ public class GuiBrowser extends GuiScreen {
     @Override
     protected void actionPerformed(GuiButton src) {
         try {
-        if (browser == null || src == null) {
-            return;
-        }
-
-        if (src.id == 0) {
-            browser.goBack();
-        } else if (src.id == 1) {
-            browser.goForward();
-        } else if (src.id == 2) {
-            String text = url.getText();
-            if (!text.contains(".")) {
-                final String tmpurl = text;
-                text = "http://google.com/search?q=" + URLEncoder.encode(tmpurl);
-                url.setText(text);
+            if (browser == null || src == null) {
+                return;
             }
-            this.loadURL(text);
-        } else if (src.id == 3) {
-            Hyperium.INSTANCE.getModIntegration().getBrowserMod().setBackup(null);
-            mc.displayGuiScreen(null);
-        } else if (src.id == 4) {
-
-            Hyperium.INSTANCE.getModIntegration().getBrowserMod().setBackup(this);
-            browser.resize(GuiConfig.width, GuiConfig.height);
-            GuiConfig.drawSquare = true;
-            mc.displayGuiScreen(persistentConfigGui);
-
-        }
+            switch (src.id) {
+                case 0:
+                    browser.goBack();
+                    break;
+                case 1:
+                    browser.goForward();
+                    break;
+                case 2:
+                    String text = url.getText();
+                    if (!text.contains(".")) {
+                        final String tmpurl = text;
+                        text = "http://google.com/search?q=" + URLEncoder.encode(tmpurl);
+                        url.setText(text);
+                    }
+                    this.loadURL(text);
+                    break;
+                case 3:
+                    Hyperium.INSTANCE.getModIntegration().getBrowserMod().setBackup(null);
+                    mc.displayGuiScreen(null);
+                    break;
+                case 4:
+                    Hyperium.INSTANCE.getModIntegration().getBrowserMod().setBackup(this);
+                    browser.resize(GuiConfig.width, GuiConfig.height);
+                    GuiConfig.drawSquare = true;
+                    mc.displayGuiScreen(persistentConfigGui);
+                    break;
+                case 1337:
+                    Settings.BROWSER_DOWNLOAD = true;
+                    Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+                        try {
+                            Runtime.getRuntime().exec(Hyperium.INSTANCE.getLaunchCommand(true));
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }));
+                    Minecraft.getMinecraft().shutdown();
+                    break;
+            }
         } catch (Exception e) {
-            
+            e.printStackTrace();
         }
     }
 
