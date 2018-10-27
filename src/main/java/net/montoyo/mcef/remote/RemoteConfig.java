@@ -1,5 +1,6 @@
 package net.montoyo.mcef.remote;
 
+import cc.hyperium.config.Settings;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -105,6 +106,8 @@ public class RemoteConfig {
      * @return true if the operation was successful.
      */
     public boolean downloadMissing(IProgressListener ipl) {
+        if (!Settings.BROWSER_DOWNLOAD)
+            return false;
         if (MCEF.SKIP_UPDATES) {
             Log.warning("NOT downloading resources as specified in the configuration file");
             return true;

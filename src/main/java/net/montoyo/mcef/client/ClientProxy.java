@@ -68,8 +68,8 @@ public class ClientProxy extends BaseProxy {
         }
 
         File cefDir = new File(rootDir,
-            "jcef.app" + File.separator + "Contents" + File.separator + "Frameworks"
-                + File.separator + "Chromium Embedded Framework.framework");
+                "jcef.app" + File.separator + "Contents" + File.separator + "Frameworks"
+                        + File.separator + "Chromium Embedded Framework.framework");
         List<String> args = new ArrayList<>();
 
         if (MCEF.DISABLE_GPU_RENDERING) {
@@ -78,9 +78,9 @@ public class ClientProxy extends BaseProxy {
         }
 
         File macosJcefHelper = new File(rootDir,
-            "jcef.app" + File.separator + "Contents" + File.separator + "Frameworks"
-                + File.separator + "jcef Helper.app" + File.separator + "Contents" + File.separator
-                + "MacOS" + File.separator + "jcef Helper");
+                "jcef.app" + File.separator + "Contents" + File.separator + "Frameworks"
+                        + File.separator + "jcef Helper.app" + File.separator + "Contents" + File.separator
+                        + "MacOS" + File.separator + "jcef Helper");
 
         if (OS.isMacintosh()) {
             args.add("--framework-dir-path=" + cefDir.getAbsolutePath());
@@ -96,7 +96,7 @@ public class ClientProxy extends BaseProxy {
         }
 
         System.out.println("Starting AppHandler with arguments: " + String
-            .join(", ", args.toArray(new String[0])));
+                .join(", ", args.toArray(new String[0])));
 
         appHandler = new AppHandler(args.toArray(new String[0]));
 
@@ -141,7 +141,7 @@ public class ClientProxy extends BaseProxy {
             tmp[paths.length] = newRoot;
             field.set(null, tmp);
             System.setProperty("java.library.path",
-                System.getProperty("java.library.path") + File.pathSeparator + newRoot);
+                    System.getProperty("java.library.path") + File.pathSeparator + newRoot);
 
             Field fieldSysPath = ClassLoader.class.getDeclaredField("sys_paths");
             fieldSysPath.setAccessible(true);
@@ -172,14 +172,14 @@ public class ClientProxy extends BaseProxy {
         settings.windowless_rendering_enabled = true;
         settings.background_color = settings.new ColorType(0, 255, 255, 255);
         settings.locales_dir_path = OS.isWindows() ? new File(ROOT, "locales").getAbsolutePath()
-            : new File(ROOT,
+                : new File(ROOT,
                 "jcef.app" + File.separator + "Contents" + File.separator + "Frameworks"
-                    + File.separator + "Chromium Embedded Framework.framework" + File.separator
-                    + "Resources").getAbsolutePath();
+                        + File.separator + "Chromium Embedded Framework.framework" + File.separator
+                        + "Resources").getAbsolutePath();
         settings.cache_path = (new File(ROOT, "MCEFCache")).getAbsolutePath();
         settings.browser_subprocess_path =
-            OS.isWindows() ? new File(rootDir, "jcef_helper.exe").getAbsolutePath()
-                : macosJcefHelper.getAbsolutePath(); //Temporary fix
+                OS.isWindows() ? new File(rootDir, "jcef_helper.exe").getAbsolutePath()
+                        : macosJcefHelper.getAbsolutePath(); //Temporary fix
         //settings.log_severity = CefSettings.LogSeverity.LOGSEVERITY_VERBOSE;
 
         try {
@@ -192,9 +192,9 @@ public class ClientProxy extends BaseProxy {
                 libs.add(new File(rootDir, "jcef.dll"));
             } else if (OS.isMacintosh()) {
                 libs.add(new File(rootDir,
-                    "jcef.app" + File.separator + "Contents" + File.separator + "Frameworks"
-                        + File.separator + "Chromium Embedded Framework.framework" + File.separator
-                        + "Chromium Embedded Framework"));
+                        "jcef.app" + File.separator + "Contents" + File.separator + "Frameworks"
+                                + File.separator + "Chromium Embedded Framework.framework" + File.separator
+                                + "Chromium Embedded Framework"));
                 libs.add(new File(rootDir, "jcef.dylib"));
             }
 
@@ -288,7 +288,7 @@ public class ClientProxy extends BaseProxy {
 
     @Override
     public void registerScheme(String name, Class<? extends IScheme> schemeClass, boolean std,
-        boolean local, boolean displayIsolated) {
+                               boolean local, boolean displayIsolated) {
         appHandler.registerScheme(name, schemeClass, std, local, displayIsolated);
     }
 
@@ -302,8 +302,8 @@ public class ClientProxy extends BaseProxy {
         mc.mcProfiler.startSection("MCEF");
 
         if (Hyperium.INSTANCE.getModIntegration().getBrowserMod().hudBrowser == null && !(Minecraft
-            .getMinecraft().currentScreen instanceof GuiConfig) && !(Minecraft
-            .getMinecraft().currentScreen instanceof GuiBrowser)) {
+                .getMinecraft().currentScreen instanceof GuiConfig) && !(Minecraft
+                .getMinecraft().currentScreen instanceof GuiBrowser)) {
             mc.mcProfiler.endSection();
             return;
         }
@@ -368,7 +368,7 @@ public class ClientProxy extends BaseProxy {
 
         try {
             BufferedReader br = new BufferedReader(new InputStreamReader(
-                ClientProxy.class.getResourceAsStream("/assets/mcef/mime.types")));
+                    ClientProxy.class.getResourceAsStream("/assets/mcef/mime.types")));
 
             while (true) {
                 cLine++;

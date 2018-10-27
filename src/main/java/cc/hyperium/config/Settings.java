@@ -537,6 +537,8 @@ public class Settings {
 //    @ToggleSetting(name = "Gui Font", category = GENERAL)
     public static String GUI_FONT = "Roboto Condensed";
 
+    @ConfigOpt
+    public static boolean BROWSER_DOWNLOAD = false;
 
     @ConfigOpt
     public static long TOTAL_PLAYTIME = 0;
