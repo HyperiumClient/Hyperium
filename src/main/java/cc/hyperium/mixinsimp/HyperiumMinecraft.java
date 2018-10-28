@@ -405,12 +405,17 @@ public class HyperiumMinecraft {
         if (Settings.IMPROVE_PARTICLE_RUN) {
             mcProfiler.startSection("particle_wait");
             AtomicInteger concurrentParticleInt = ((IMixinEffectRenderer) parent.effectRenderer).getConcurrentParticleInt();
-            while (concurrentParticleInt.get() < 8 && concurrentParticleInt.get() != -1) {
+            long tried = 0;
+            while (concurrentParticleInt.get() < 8 && concurrentParticleInt.get() != -1 && tried < 2000) {
                 try {
-                    Thread.sleep(0, 100);
+                    Thread.sleep(0, 1000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+                tried++;
+            }
+            if (tried != 0) {
+                System.out.println("Waited: " + tried + " for particles to finish updating");
             }
             concurrentParticleInt.set(-1);
             mcProfiler.endSection();
