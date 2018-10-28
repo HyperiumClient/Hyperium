@@ -121,11 +121,11 @@ public class LevelHeadGui extends GuiScreen {
         reg(new GuiButton(1, this.width / 2 - 155, calculateHeight(0), 150, 20, "LevelHead: " + getLevelToggle()), button -> {
             config.setEnabled(!config.isEnabled());
             button.displayString = "LevelHead: " + getLevelToggle();
-            sendChatMessage(String.format("Toggled %s!", (config.isEnabled() ? "on" : "off")));
+            sendChatMessage(String.format("Toggled %s!", (config.isEnabled() ? "On" : "Off")));
         });
-        reg(new GuiButton(69, this.width / 2 + 5, calculateHeight(0), 150, 20, "Show self: " + (config.isShowSelf() ? ChatColor.GREEN + "on" : ChatColor.RED + "off")), button -> {
+        reg(new GuiButton(69, this.width / 2 + 5, calculateHeight(0), 150, 20, "Show self: " + (config.isShowSelf() ? ChatColor.GREEN + "On" : ChatColor.RED + "Off")), button -> {
             config.setShowSelf(!config.isShowSelf());
-            button.displayString = "Show self: " + (config.isShowSelf() ? ChatColor.GREEN + "on" : ChatColor.RED + "off");
+            button.displayString = "Show self: " + (config.isShowSelf() ? ChatColor.GREEN + "On" : ChatColor.RED + "Off");
         });
         //RGB -> Chroma
         //Chroma -> Classic
