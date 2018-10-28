@@ -25,6 +25,7 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.settings.KeyBinding;
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 
 import java.awt.Color;
 
@@ -41,6 +42,18 @@ public class SpaceKey extends IKey {
         this.key = key;
     }
 
+    private boolean isButtonDown(int buttonCode){
+        if (buttonCode < 0){
+            // Mouse bind.
+            return Mouse.isButtonDown(buttonCode + 100);
+        } else if (buttonCode > 0){
+            // Key bind.
+            return Keyboard.isKeyDown(buttonCode);
+        }
+
+        return false;
+    }
+
     @Override
     public void renderKey(int x, int y) {
         int yOffset = this.yOffset;
@@ -50,7 +63,7 @@ public class SpaceKey extends IKey {
         }
 
         Keyboard.poll();
-        boolean pressed = Keyboard.isKeyDown(this.key.getKeyCode());
+        boolean pressed = isButtonDown(this.key.getKeyCode());
         String name = (!this.mod.getSettings().isChroma() ? ChatColor.STRIKETHROUGH.toString() + "-----" : "------");
 
         if (pressed != this.wasPressed) {
