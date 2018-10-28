@@ -2,6 +2,7 @@ package cc.hyperium.mixins.client.particle;
 
 import cc.hyperium.config.Settings;
 import cc.hyperium.mixinsimp.renderer.client.particle.IMixinEffectRenderer;
+import cc.hyperium.mods.sk1ercommon.Multithreading;
 import net.minecraft.client.particle.EffectRenderer;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.client.particle.EntityParticleEmitter;
@@ -32,8 +33,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -59,18 +63,17 @@ public abstract class MixinEffectRenderer implements IMixinEffectRenderer {
     @Shadow
     private Random rand;
 
-    @Inject(method = "<init>",at=@At("RETURN"))
+    @Inject(method = "<init>", at = @At("RETURN"))
     public void load(World in, TextureManager manager, CallbackInfo info) {
-        for (int i = 0; i < 4; ++i)
-        {
+        for (int i = 0; i < 4; ++i) {
             this.modifiedFxLayer[i] = new ConcurrentLinkedQueue[2];
 
-            for (int j = 0; j < 2; ++j)
-            {
+            for (int j = 0; j < 2; ++j) {
                 this.modifiedFxLayer[i][j] = new ConcurrentLinkedQueue<>();
             }
         }
     }
+
     @Overwrite
     private void moveToLayer(EntityFX effect, int p_178924_2_, int p_178924_3_) {
         for (int i = 0; i < 4; ++i) {
@@ -115,14 +118,23 @@ public abstract class MixinEffectRenderer implements IMixinEffectRenderer {
         for (int i = 0; i < 2; ++i) {
             int finalI = i;
             if (Settings.IMPROVE_PARTICLE_RUN) {
-                service.execute(() -> {
+                Multithreading.runAsync(() -> {
                     try {
-                        this.updateEffectAlphaLayer(this.modifiedFxLayer[p_178922_1_][finalI]);
-                    } catch (Throwable e) {
+                        service.submit(() -> {
+                            try {
+                                this.updateEffectAlphaLayer(this.modifiedFxLayer[p_178922_1_][finalI]);
+                            } catch (Throwable e) {
+                                e.printStackTrace();
+                            }
+
+                        }).get(45, TimeUnit.MILLISECONDS);
+                        integer.getAndIncrement();
+                    } catch (InterruptedException | ExecutionException | TimeoutException e) {
                         e.printStackTrace();
+                        integer.getAndIncrement();
                     }
-                    integer.getAndIncrement();
                 });
+
             } else {
                 this.updateEffectAlphaLayer(this.modifiedFxLayer[p_178922_1_][finalI]);
             }
