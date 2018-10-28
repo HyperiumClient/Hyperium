@@ -14,7 +14,7 @@ public class GlStateModifier implements IGlStateModifier {
     private Field textureNamefield;
     private Field redColorField = null;
     private Object colorStateObject = null;
-
+    private Field activeTextureUnitField = null;
 
     private GlStateModifier() {
         //stateManager = new GlStateManager();
@@ -49,12 +49,14 @@ public class GlStateModifier implements IGlStateModifier {
                 textureNamefield.setAccessible(true);
         }
 
-        int activeTextureUnit;
-
+        int activeTextureUnit = -1;
+        if (activeTextureUnitField == null) {
+            activeTextureUnitField = ReflectionUtil.findField(GlStateManager.class, "activeTextureUnit", "field_179162_o", "o");
+        }
         try {
-            activeTextureUnit = ReflectionUtil.getPrivateValue(GlStateManager.class, null, "activeTextureUnit", "field_179162_o","o");
-        } catch (UnableToAccessFieldException rip) {
-            activeTextureUnit = -1;
+            if (activeTextureUnitField != null)
+                activeTextureUnit = ((int) activeTextureUnitField.get(null));
+        } catch (UnableToAccessFieldException | IllegalAccessException ignored) {
         }
 
         if (theArray == null || textureNamefield == null || activeTextureUnit == -1) {
