@@ -18,6 +18,7 @@
 package cc.hyperium.mods.levelhead;
 
 import cc.hyperium.Hyperium;
+import cc.hyperium.config.ConfigOpt;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.TickEvent;
@@ -39,33 +40,35 @@ import net.minecraft.scoreboard.Team;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 public class Levelhead extends AbstractMod {
 
     public final String MODID = "LEVEL_HEAD";
-    public final String VERSION = "Hyperium_1.0-4.1.2";
+    public final String VERSION = "Hyperium_1.0-5.0";
     public final Map<UUID, LevelheadTag> levelCache = new HashMap<>();
-    /**
-     * The metadata of LevelHead
-     */
     private final Metadata meta;
-    private final Map<UUID, Integer> trueLevelCache = new HashMap<>();
-    private final java.util.List<UUID> probablyNotFakeWatchdogBoi = new ArrayList<>();
     private final Map<UUID, Integer> timeCheck = new HashMap<>();
     public UUID userUuid = null;
     public int count = 1;
     public int wait = 60;
+    @ConfigOpt
+    private String type = "LEVEL";
+    private HashMap<UUID, String> trueValueCache = new HashMap<>();
+    private Set<UUID> existedMorethan5Seconds = new HashSet<>();
     private long waitUntil = System.currentTimeMillis();
     private int updates = 0;
     private Sk1erMod mod;
     private LevelheadConfig config;
     private boolean levelHeadInfoFailed = false;
+    private JsonHolder types = new JsonHolder();
 
     public Levelhead() {
-        Metadata metadata = new Metadata(this, "LevelHead", "4.1.2", "Sk1er");
+        Metadata metadata = new Metadata(this, "LevelHead", "5.0", "Sk1er");
 
         metadata.setDisplayName(ChatColor.AQUA + "LevelHead");
 
@@ -91,10 +94,12 @@ public class Levelhead extends AbstractMod {
                 this.levelHeadInfoFailed = false;
             }
         });
+        Multithreading.runAsync(() -> types = new JsonHolder(mod.rawWithAgent("https://api.sk1er.club/levelhead_config")));
         this.mod.checkStatus();
         this.config = new LevelheadConfig();
         Hyperium.CONFIG.register(config);
         register(mod);
+        register(this);
         userUuid = UUIDUtil.getClientUUID();
         register(new LevelHeadRender(this), this);
 
@@ -127,7 +132,7 @@ public class Levelhead extends AbstractMod {
         if (player.getDistanceSqToEntity(Minecraft.getMinecraft().thePlayer) > min) {
             return false;
         }
-        if (!this.probablyNotFakeWatchdogBoi.contains(player.getUniqueID())) {
+        if (!this.existedMorethan5Seconds.contains(player.getUniqueID())) {
             return false;
         }
 
@@ -179,13 +184,12 @@ public class Levelhead extends AbstractMod {
             }
 
             for (EntityPlayer entityPlayer : mc.theWorld.playerEntities) {
-                if (!probablyNotFakeWatchdogBoi.contains(entityPlayer.getUniqueID())) {
+                if (!existedMorethan5Seconds.contains(entityPlayer.getUniqueID())) {
                     if (!timeCheck.containsKey(entityPlayer.getUniqueID()))
                         timeCheck.put(entityPlayer.getUniqueID(), 0);
                     int old = timeCheck.get(entityPlayer.getUniqueID());
                     if (old > 100) {
-                        if (!probablyNotFakeWatchdogBoi.contains(entityPlayer.getUniqueID()))
-                            probablyNotFakeWatchdogBoi.add(entityPlayer.getUniqueID());
+                        existedMorethan5Seconds.add(entityPlayer.getUniqueID());
                     } else if (!entityPlayer.isInvisibleToPlayer(Minecraft.getMinecraft().thePlayer))
                         timeCheck.put(entityPlayer.getUniqueID(), old + 1);
                 }
@@ -200,6 +204,10 @@ public class Levelhead extends AbstractMod {
         }
     }
 
+    private String trimUuid(UUID uuid) {
+        return uuid.toString().replace("-", "");
+    }
+
     private void getLevel(final UUID uuid) {
         if (updates >= count) {
             waitUntil = System.currentTimeMillis() + 1000 * wait;
@@ -209,14 +217,20 @@ public class Levelhead extends AbstractMod {
         updates++;
         levelCache.put(uuid, null);
         Multithreading.runAsync(() -> {
-            JsonHolder object = new JsonHolder(getSk1erMod().rawWithAgent("http://sk1er.club/newlevel/" + uuid.toString().replace("-", "") + "/" + VERSION));
+            String raw = mod.rawWithAgent(
+                    "https://api.sk1er.club/levelheadv5/" + trimUuid(uuid) + "/" + type
+                            + "/" + trimUuid(Minecraft.getMinecraft().getSession().getProfile().getId()) +
+                            "/" + VERSION);
+            JsonHolder object = new JsonHolder(raw);
+            if (!object.optBoolean("success")) {
+                object.put("strlevel", "Error");
+            }
             LevelheadTag value = buildTag(object, uuid);
             levelCache.put(uuid, value);
-            trueLevelCache.put(uuid, object.optInt("level"));
+            trueValueCache.put(uuid, object.optString("strlevel"));
         });
         Multithreading.POOL.submit(this::clearCache);
     }
-
     public LevelheadTag buildTag(JsonHolder object, UUID uuid) {
         LevelheadTag value = new LevelheadTag();
         JsonHolder headerObj = new JsonHolder();
@@ -278,6 +292,18 @@ public class Levelhead extends AbstractMod {
         return holder;
     }
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String s) {
+        this.type = s;
+    }
+
+    public JsonHolder getTypes() {
+        return types;
+    }
+
     public LevelheadTag getLevelString(UUID uuid) {
         return levelCache.getOrDefault(uuid, null);
     }
@@ -287,12 +313,12 @@ public class Levelhead extends AbstractMod {
         if (levelCache.size() > Math.max(config.getPurgeSize(), 150)) {
             List<UUID> safePlayers = new ArrayList<>();
             for (EntityPlayer player : Minecraft.getMinecraft().theWorld.playerEntities) {
-                if (probablyNotFakeWatchdogBoi.contains(player.getUniqueID())) {
+                if (existedMorethan5Seconds.contains(player.getUniqueID())) {
                     safePlayers.add(player.getUniqueID());
                 }
             }
-            probablyNotFakeWatchdogBoi.clear();
-            probablyNotFakeWatchdogBoi.addAll(safePlayers);
+            existedMorethan5Seconds.clear();
+            existedMorethan5Seconds.addAll(safePlayers);
 
             for (UUID uuid : levelCache.keySet()) {
                 if (!safePlayers.contains(uuid)) {
@@ -317,7 +343,7 @@ public class Levelhead extends AbstractMod {
         return mod;
     }
 
-    public Map<UUID, Integer> getTrueLevelCache() {
-        return trueLevelCache;
+    public HashMap<UUID, String> getTrueValueCache() {
+        return trueValueCache;
     }
 }

@@ -9,9 +9,14 @@ Hyperium is a Minecraft client, currently in its development stage. It will comb
 - [AutoGG](https://www.youtube.com/watch?v=1eETPGuSQWA)
 - [AutoWho](https://www.youtube.com/watch?v=osJW53GA_1I)
 - [BlockOverlay](https://www.youtube.com/watch?v=_ELFA5jtNQM)
+- Bossbar Mod
 - [ChromaHUD](https://www.youtube.com/watch?v=eyh6pcsGMpo)
+- [Custom Crosshair](https://www.youtube.com/watch?v=YYasNSTWA64)
+- Custom GUI
+- Custom Main-Menu Screen
 - [FastChat](https://www.youtube.com/watch?v=vsibdTVYTB4)
 - [GlintColorizer](https://www.youtube.com/watch?v=80foSiVvUiI)
+- [Ingame Browser](https://github.com/montoyo/mcef)  
 - [Keystrokes v4](https://www.youtube.com/watch?v=tA1SmI8nfY4)
 - [Levelhead](https://sk1er.club/levelhead)
 - [MemoryFix](https://prplz.io/memoryfix)
@@ -27,10 +32,6 @@ Hyperium is a Minecraft client, currently in its development stage. It will comb
 - [VoidFlickerFix](https://www.youtube.com/watch?v=klV4d1B6ysk)
 - [Performia](https://github.com/Sk1er/Performia)
 - [Resource Exploit Fix](https://github.com/Sk1er/Resource-Exploit-Fix) 
-- Bossbar Mod
-- [Ingame Browser](https://github.com/montoyo/mcef)  
-- Custom GUI
-- Custom Main-Menu Screen
 
 ## Building the project with IntelliJ ##
 

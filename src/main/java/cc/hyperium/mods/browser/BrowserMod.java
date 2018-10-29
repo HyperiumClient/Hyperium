@@ -82,6 +82,7 @@ public class BrowserMod extends AbstractMod implements IDisplayHandler, IJSQuery
 //        addShortcutKeys();
         registerCommands();
         Multithreading.runAsync(() -> {
+            long start = System.currentTimeMillis();
             JFrame jFrame = new JFrame("Keycode Initializer");
             jFrame.add(new JPanel());
             jFrame.setSize(300, 300);
@@ -130,7 +131,10 @@ public class BrowserMod extends AbstractMod implements IDisplayHandler, IJSQuery
                 robot.keyRelease(KeyEvent.VK_QUOTE);
                 jFrame.setAlwaysOnTop(true);
 
+
+                end:
                 for (int key : keyPressList) {
+
                     currentKeyTriple = new MutableTriple<>();
                     currentKey = key;
 
@@ -141,11 +145,13 @@ public class BrowserMod extends AbstractMod implements IDisplayHandler, IJSQuery
                     robot.keyRelease(key);
                     while (currentKeyTriple.getLeft() == null
                             || currentKeyTriple.getMiddle() == null) {
-                    Thread.sleep(1L);
+                        if (System.currentTimeMillis() - start < 2000) {
+                            break end;
+                        }
+                        Thread.sleep(1L);
                     }
                     keyPressesMap.put(key, currentKeyTriple);
                 }
-
                 currentKey = 0;
                 currentKeyTriple = null;
                 jFrame.dispose();

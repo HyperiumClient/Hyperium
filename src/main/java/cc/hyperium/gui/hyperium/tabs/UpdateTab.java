@@ -9,7 +9,6 @@ import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
 import cc.hyperium.utils.DownloadTask;
 import cc.hyperium.utils.InstallerUtils;
-import com.google.gson.Gson;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
@@ -18,16 +17,8 @@ import org.lwjgl.input.Mouse;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLClassLoader;
-import java.nio.charset.Charset;
 import java.nio.file.Files;
-import java.util.Arrays;
 import java.util.concurrent.ExecutionException;
-import java.util.function.Consumer;
 
 /*
  * Created by Cubxity on 25/09/2018
@@ -74,11 +65,13 @@ public class UpdateTab extends AbstractTab {
                                         installState = I18n.format("tab.update.installer.state.restarting");
                                         Multithreading.runAsync(() -> {
                                             String cmd = Hyperium.INSTANCE.getLaunchCommand(true);
+                                            String java = System.getProperty("java.home") + File.separator + "bin" + File.separator + "java";
+                                            String iCmd = "\"" + java + "\" -jar \"" + new File(tmp, dl.getFileName()).getAbsolutePath() + "\" fw " + cmd;
                                             System.out.println("Restart cmd: " + cmd);
+                                            System.out.println("Installer cmd: "+iCmd);
                                             Runtime.getRuntime().addShutdownHook(new Thread(() -> {
                                                 try {
-                                                    String java = System.getProperty("java.home") + File.separator + "bin" + File.separator + "java";
-                                                    Runtime.getRuntime().exec(java + " -jar " + new File(tmp, dl.getFileName()).getAbsolutePath() + " fw " + cmd);
+                                                    Runtime.getRuntime().exec(iCmd);
                                                     System.out.println("Restarting...");
                                                 } catch (IOException e) {
                                                     e.printStackTrace();
