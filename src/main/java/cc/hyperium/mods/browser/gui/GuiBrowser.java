@@ -300,6 +300,17 @@ public class GuiBrowser extends GuiScreen {
     @Override
     protected void actionPerformed(GuiButton src) {
         try {
+            if(src.id == 1337){
+                Settings.BROWSER_DOWNLOAD = true;
+                Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+                    try {
+                        Runtime.getRuntime().exec(Hyperium.INSTANCE.getLaunchCommand(true));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }));
+                Minecraft.getMinecraft().shutdown();
+            }
             if (browser == null || src == null) {
                 return;
             }
@@ -328,17 +339,6 @@ public class GuiBrowser extends GuiScreen {
                     browser.resize(GuiConfig.width, GuiConfig.height);
                     GuiConfig.drawSquare = true;
                     mc.displayGuiScreen(persistentConfigGui);
-                    break;
-                case 1337:
-                    Settings.BROWSER_DOWNLOAD = true;
-                    Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-                        try {
-                            Runtime.getRuntime().exec(Hyperium.INSTANCE.getLaunchCommand(true));
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }));
-                    Minecraft.getMinecraft().shutdown();
                     break;
             }
         } catch (Exception e) {
