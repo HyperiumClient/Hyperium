@@ -184,8 +184,11 @@ public class NickHider {
     }
 
     public String out(String chat) {
-        for (Nick nick : nicks) {
-            chat = Pattern.compile(nick.newName, Pattern.CASE_INSENSITIVE).matcher(chat).replaceAll(nick.oldName);
+        if (isEnabled()) {
+            for (Nick nick : nicks) {
+                if (!nick.oldName.equalsIgnoreCase(Minecraft.getMinecraft().getSession().getUsername()))
+                    chat = Pattern.compile(nick.newName, Pattern.CASE_INSENSITIVE).matcher(chat).replaceAll(nick.oldName);
+            }
         }
         return chat;
     }
@@ -265,14 +268,14 @@ public class NickHider {
     }
 
     public String apply(String input) {
-        if(config == null){
+        if (config == null) {
             config = new NickHiderConfig();
         }
         if (forceDown)
             return input;
         if (!config.isEnabled())
             return input;
-        if(nicks.size() == 0)
+        if (nicks.size() == 0)
             return input;
         if (cache.size() > 5000)
             cache.clear();
