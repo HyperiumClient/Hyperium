@@ -109,7 +109,7 @@ public class HyperiumHandlers {
     private HypixelValueTracking hypixelValueTracking;
     private SettingsHandler settingsHandler;
     private YeetHandler yeetHandler;
-    private HypeHandler hypeHandler
+    private HypeHandler hypeHandler;
 
     public HyperiumHandlers() {
         System.out.println("Loading handlers");
