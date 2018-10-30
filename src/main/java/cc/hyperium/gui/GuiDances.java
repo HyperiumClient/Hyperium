@@ -63,6 +63,18 @@ public class GuiDances extends HyperiumGui {
         this.cancel.put("Yeet", () -> {
 
         });
+        
+        this.handlers.put("Hype", netty -> {
+             Hyperium.INSTANCE.getHandlers().getHypeHandler().hype(Minecraft.getMinecraft().thePlayer.getUniqueID());
+             NettyClient client = NettyClient.getClient();
+             if (client != null && netty) {
+                 client.write(ServerCrossDataPacket.build(new JsonHolder().put("type", "hype").put("hyping", true)));
+             }
+         });
+         this.cancel.put("Hype", () -> {
+
+        });
+        
         this.cancel.put("Floss", () -> {
             AbstractAnimationHandler abstractAnimationHandler = Hyperium.INSTANCE.getHandlers().getFlossDanceHandler();
             abstractAnimationHandler.get(Minecraft.getMinecraft().thePlayer.getUniqueID()).stopAnimation();
