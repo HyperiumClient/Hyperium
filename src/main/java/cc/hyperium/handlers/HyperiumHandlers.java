@@ -40,6 +40,7 @@ import cc.hyperium.handlers.handlers.animation.FlossDanceHandler;
 import cc.hyperium.handlers.handlers.animation.TPoseHandler;
 import cc.hyperium.handlers.handlers.animation.TwerkDance;
 import cc.hyperium.handlers.handlers.animation.YeetHandler;
+import cc.hyperium.handlers.handlers.animation.HypeHandler;
 import cc.hyperium.handlers.handlers.animation.cape.CapeHandler;
 import cc.hyperium.handlers.handlers.animation.fortnite.FortniteDefaultDance;
 import cc.hyperium.handlers.handlers.chat.AutoWhoChatHandler;
@@ -70,7 +71,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A class containing most of Hyperium's internal handlers
+ * A class containing most of Hyperium's internal handlers.
  */
 public class HyperiumHandlers {
 
@@ -108,6 +109,7 @@ public class HyperiumHandlers {
     private HypixelValueTracking hypixelValueTracking;
     private SettingsHandler settingsHandler;
     private YeetHandler yeetHandler;
+    private HypeHandler hypeHandler
 
     public HyperiumHandlers() {
         System.out.println("Loading handlers");
@@ -136,6 +138,7 @@ public class HyperiumHandlers {
         register(twerkDance = new TwerkDance());
         register(particleAuraHandler = new ParticleAuraHandler());
         register(yeetHandler = new YeetHandler());
+        register(hypeHandler = new HypeHandler());
         register(hypixelGuiAugmenter = new HypixelGuiAugmenter());
         register(statusHandler = new StatusHandler());
         register(flossDanceHandler = new FlossDanceHandler());
@@ -164,6 +167,10 @@ public class HyperiumHandlers {
 
     public YeetHandler getYeetHandler() {
         return yeetHandler;
+    }
+    
+    public HypeHandler getHypeHandler() {
+        return hypeHandler;
     }
 
     public void postInit() {
