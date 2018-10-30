@@ -109,7 +109,7 @@ public class HypeHandler {
         }
     }
 
-    class Hyoe {
+    class Hype {
         int age;
         EntityPlayer sender;
 
