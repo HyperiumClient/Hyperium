@@ -144,6 +144,9 @@ public class CustomCrosshair {
                     case ARROW:
                         this.drawArrowCrosshair(screenWidth, screenHeight, renderGap, renderColour);
                         break;
+                    case X:
+                        this.drawXCrosshair(screenWidth,screenHeight,renderGap,renderColour);
+                        break;
                     default:
                         this.drawCrossCrosshair(screenWidth, screenHeight, renderGap, renderColour);
                         break;
@@ -253,6 +256,40 @@ public class CustomCrosshair {
                 .drawCircle(screenWidth + 0.5, screenHeight + 0.5, renderGap + 1, renderColour);
     }
 
+    private void drawXCrosshair(int screenWidth, int screenHeight, int renderGap,
+                                Color renderColour) {
+        GL11.glDisable(2848);
+        GL11.glDisable(2832);
+        GlStateManager.disableAlpha();
+        GlStateManager.disableBlend();
+        if (this.getOutline()) {
+            GL11.glLineWidth((float) (this.getThickness() + 6));
+            CustomCrosshairGraphics
+                    .drawLine(screenWidth - this.getWidth() - 1, screenHeight + this.getHeight() + 1,
+                            screenWidth, screenHeight, this.getOutlineColour());
+            CustomCrosshairGraphics
+                    .drawLine(screenWidth, screenHeight, screenWidth + this.getWidth() + 1,
+                            screenHeight + this.getHeight() + 1, this.getOutlineColour());
+            CustomCrosshairGraphics
+                    .drawLine(screenWidth + this.getWidth() + 1, screenHeight - this.getHeight() - 1,
+                            screenWidth, screenHeight, this.getOutlineColour());
+            CustomCrosshairGraphics
+                    .drawLine(screenWidth, screenHeight, screenWidth - this.getWidth() - 1,
+                            screenHeight - this.getHeight() - 1, this.getOutlineColour());
+        }
+        GL11.glLineWidth((float) (this.getThickness() + 1));
+        CustomCrosshairGraphics
+                .drawLine(screenWidth - this.getWidth(), screenHeight + this.getHeight(), screenWidth,
+                        screenHeight, renderColour);
+        CustomCrosshairGraphics.drawLine(screenWidth, screenHeight, screenWidth + this.getWidth(),
+                screenHeight + this.getHeight(), renderColour);
+        CustomCrosshairGraphics
+                .drawLine(screenWidth + this.getWidth(), screenHeight - this.getHeight(), screenWidth,
+                        screenHeight, renderColour);
+        CustomCrosshairGraphics.drawLine(screenWidth, screenHeight, screenWidth - this.getWidth(),
+                screenHeight - this.getHeight(), renderColour);
+    }
+
     private void drawSquareCrosshair(int screenWidth, int screenHeight, int renderGap,
                                      Color renderColour) {
         if (this.getOutline()) {
@@ -338,6 +375,10 @@ public class CustomCrosshair {
                 this.setCrosshairType(CrosshairType.ARROW);
                 break;
             }
+            case 4: {
+                this.setCrosshairType(CrosshairType.X);
+                break;
+            }
             default: {
                 this.setCrosshairType(CrosshairType.CROSS);
                 break;
@@ -355,6 +396,9 @@ public class CustomCrosshair {
             }
             case ARROW: {
                 return 3;
+            }
+            case X: {
+                return 4;
             }
             default: {
                 return 0;
@@ -535,6 +579,7 @@ public class CustomCrosshair {
         CROSS,
         CIRCLE,
         SQUARE,
-        ARROW
+        ARROW,
+        X
     }
 }

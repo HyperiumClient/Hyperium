@@ -1,9 +1,6 @@
 package cc.hyperium.addons.customcrosshair.gui;
 
-import cc.hyperium.addons.customcrosshair.gui.items.CCButton;
-import cc.hyperium.addons.customcrosshair.gui.items.CCGuiItem;
-import cc.hyperium.addons.customcrosshair.gui.items.CCHelpButton;
-import cc.hyperium.addons.customcrosshair.gui.items.CCSlider;
+import cc.hyperium.addons.customcrosshair.gui.items.*;
 import cc.hyperium.addons.customcrosshair.CustomCrosshairAddon;
 import cc.hyperium.addons.customcrosshair.utils.CustomCrosshairGraphics;
 import java.awt.Color;
@@ -17,6 +14,8 @@ public class GuiCustomCrosshairEditColour extends CustomCrosshairScreen {
     private CCSlider slider_green;
     private CCSlider slider_blue;
     private CCSlider slider_opacity;
+    private CCTickbox tickbox_rainbow;
+    private CCSlider slider_rainbowspeed;
     private String title;
 
     public GuiCustomCrosshairEditColour(CustomCrosshairAddon addon, final Color colour) {
@@ -67,6 +66,22 @@ public class GuiCustomCrosshairEditColour extends CustomCrosshairScreen {
                 }));
         this.slider_opacity.setValue(this.editColour.getAlpha());
         this.slider_opacity.getHelpText().add("Changes the opacity of the colour.");
+        this.itemList.add(this.tickbox_rainbow = new CCTickbox(this, 5, "Rainbow", 0, 0) {
+            @Override
+            public void mouseClicked(final int mouseX, final int mouseY) {
+                super.mouseClicked(mouseX, mouseY);
+                CustomCrosshairAddon.getCrosshairMod().getCrosshair().setRainbowCrosshair(tickbox_rainbow.getChecked());
+            }
+
+        });
+        this.tickbox_rainbow.setChecked(this.addon.getCrosshair().getRainbowCrosshair());
+        this.tickbox_rainbow.getHelpText().add("Make crosshair rainbow.");
+        this.itemList.add(this.slider_rainbowspeed = new CCSlider(this, 6, "Rainbow Speed", 0, 0, 255, 10, 0, 5000)
+                .setCallback(() -> {
+                    CustomCrosshairAddon.getCrosshairMod().getCrosshair().setRainbowSpeed(slider_rainbowspeed.getValue());
+                }));
+        this.slider_rainbowspeed.setValue(this.addon.getCrosshair().getRainbowSpeed());
+        this.slider_rainbowspeed.getHelpText().add("Change speed of rainbow.");
         int y = 71;
         for (int i = 0; i < this.itemList.size(); ++i) {
             if (i > 0) {
