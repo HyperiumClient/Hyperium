@@ -283,7 +283,7 @@ public class GuiBrowser extends GuiScreen {
                     t.printStackTrace();
                 }
 
-                if(url != null)
+                if (url != null)
                     url.mouseClicked(x, y, btn);
             }
         }
@@ -300,7 +300,7 @@ public class GuiBrowser extends GuiScreen {
     @Override
     protected void actionPerformed(GuiButton src) {
         try {
-            if(src.id == 1337){
+            if (src.id == 1337) {
                 Settings.BROWSER_DOWNLOAD = true;
                 Runtime.getRuntime().addShutdownHook(new Thread(() -> {
                     try {
@@ -311,7 +311,7 @@ public class GuiBrowser extends GuiScreen {
                 }));
                 Minecraft.getMinecraft().shutdown();
             }
-            if (browser == null || src == null) {
+            if (browser == null) {
                 return;
             }
             switch (src.id) {
@@ -324,8 +324,7 @@ public class GuiBrowser extends GuiScreen {
                 case 2:
                     String text = url.getText();
                     if (!text.contains(".")) {
-                        final String tmpurl = text;
-                        text = "http://google.com/search?q=" + URLEncoder.encode(tmpurl);
+                        text = "http://google.com/search?q=" + URLEncoder.encode(text);
                         url.setText(text);
                     }
                     this.loadURL(text);
