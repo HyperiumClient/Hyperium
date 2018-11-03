@@ -1,8 +1,10 @@
 package cc.hyperium.mixins.client.particle;
 
 import cc.hyperium.config.Settings;
+import cc.hyperium.mixinsimp.HyperiumMinecraft;
 import cc.hyperium.mixinsimp.renderer.client.particle.IMixinEffectRenderer;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EffectRenderer;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.client.particle.EntityParticleEmitter;
@@ -33,12 +35,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.CountDownLatch;
 
 /**
  * Created by mitchellkatz on 6/24/18. Designed for production use on Sk1er.club
@@ -56,8 +53,6 @@ public abstract class MixinEffectRenderer implements IMixinEffectRenderer {
     //its not happy about this but we can't do better because Minecraft
     private ConcurrentLinkedQueue<EntityFX>[][] modifiedFxLayer = new ConcurrentLinkedQueue[4][];
     private ConcurrentLinkedQueue<EntityParticleEmitter> modifiedParticlEmmiters = new ConcurrentLinkedQueue<>();
-    private ExecutorService service = Executors.newFixedThreadPool(9);
-    private AtomicInteger integer = new AtomicInteger(-1);
     @Shadow
     private TextureManager renderer;
     @Shadow
@@ -100,14 +95,12 @@ public abstract class MixinEffectRenderer implements IMixinEffectRenderer {
             final int i = p_178923_1_.getFXLayer();
             crashreportcategory.addCrashSectionCallable("Particle", p_178923_1_::toString);
             crashreportcategory.addCrashSectionCallable("Particle Type", () -> i == 0 ? "MISC_TEXTURE" : (i == 1 ? "TERRAIN_TEXTURE" : (i == 3 ? "ENTITY_PARTICLE_TEXTURE" : "Unknown - " + i)));
-            throw new ReportedException(crashreport);
+            ReportedException reportedException = new ReportedException(crashreport);
+            Minecraft.getMinecraft().crashed(crashreport);
+            throw reportedException;
         }
     }
 
-    @Override
-    public AtomicInteger getConcurrentParticleInt() {
-        return integer;
-    }
 
     /**
      * @author Sk1er
@@ -120,19 +113,11 @@ public abstract class MixinEffectRenderer implements IMixinEffectRenderer {
             if (Settings.IMPROVE_PARTICLE_RUN) {
                 Multithreading.runAsync(() -> {
                     try {
-                        service.submit(() -> {
-                            try {
-                                this.updateEffectAlphaLayer(this.modifiedFxLayer[p_178922_1_][finalI]);
-                            } catch (Throwable e) {
-                                e.printStackTrace();
-                            }
-
-                        }).get(45, TimeUnit.MILLISECONDS);
-                        integer.getAndIncrement();
-                    } catch (InterruptedException | ExecutionException | TimeoutException e) {
+                        this.updateEffectAlphaLayer(this.modifiedFxLayer[p_178922_1_][finalI]);
+                    } catch (Throwable e) {
                         e.printStackTrace();
-                        integer.getAndIncrement();
                     }
+                    HyperiumMinecraft.latch.countDown();
                 });
 
             } else {
@@ -240,7 +225,7 @@ public abstract class MixinEffectRenderer implements IMixinEffectRenderer {
      */
     @Overwrite
     public void updateEffects() {
-        integer.set(0);
+        HyperiumMinecraft.latch = new CountDownLatch(8);
         for (int i = 0; i < 4; ++i) {
             this.updateEffectLayer(i);
         }
