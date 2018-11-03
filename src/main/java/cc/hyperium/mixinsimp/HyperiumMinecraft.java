@@ -63,11 +63,9 @@ import java.nio.ByteBuffer;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.CountDownLatch;
 
 public class HyperiumMinecraft {
 
-    public static CountDownLatch latch;
     private Minecraft parent;
 
     public HyperiumMinecraft(Minecraft parent) {
@@ -399,18 +397,6 @@ public class HyperiumMinecraft {
     }
 
     public void startTick(CallbackInfo info, Profiler mcProfiler) {
-
-        if (Settings.IMPROVE_PARTICLE_RUN) {
-            mcProfiler.startSection("particle_wait");
-            if (latch != null)
-                try {
-                    latch.await();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            mcProfiler.endSection();
-        }
-        Settings.IMPROVE_PARTICLE_RUN = Settings.IMPROVE_PARTICLES;
 
     }
 }

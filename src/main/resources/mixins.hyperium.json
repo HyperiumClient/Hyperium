@@ -104,6 +104,7 @@
     "utils.MixinChatStyle",
     "utils.MixinMultiMap",
     "utils.MixinResourcePackRepository",
+    "world.IMixinWorld",
     "world.MixinChunk",
     "world.MixinWorld"
   ]

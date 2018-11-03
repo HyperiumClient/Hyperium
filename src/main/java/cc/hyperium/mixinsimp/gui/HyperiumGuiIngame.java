@@ -16,7 +16,6 @@ import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.boss.BossStatus;
 import net.minecraft.scoreboard.ScoreObjective;
-import org.lwjgl.opengl.GL11;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
@@ -35,8 +34,11 @@ public class HyperiumGuiIngame {
     }
 
     public void renderGameOverlay(float part, CallbackInfo ci) {
+        Minecraft.getMinecraft().mcProfiler.startSection("hyperium_overlay");
         EventBus.INSTANCE.post(new RenderHUDEvent(part));
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+        Minecraft.getMinecraft().mcProfiler.endSection();
+
     }
 
     public void renderScoreboard(ScoreObjective objective, ScaledResolution resolution) {
@@ -58,9 +60,9 @@ public class HyperiumGuiIngame {
             int i = scaledresolution.getScaledWidth();
             if (Settings.BOSSBAR_TEXT_ONLY || (!BossbarConfig.barEnabled && BossbarConfig.textEnabled)) {
                 String s = BossStatus.bossName;
-                if(BossbarConfig.x != -1) {
+                if (BossbarConfig.x != -1) {
                     parent.getFontRenderer().drawStringWithShadow(s, (float) (BossbarConfig.x + 91 - parent.getFontRenderer().getStringWidth(s) / 2), BossbarConfig.y - 10, 16777215);
-                }else{
+                } else {
                     parent.getFontRenderer().drawStringWithShadow(s, (float) (i / 2 - parent.getFontRenderer().getStringWidth(s) / 2), BossbarConfig.y - 10, 16777215);
                 }
                 GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
@@ -70,12 +72,12 @@ public class HyperiumGuiIngame {
             int j = 182;
             if (BossbarConfig.barEnabled) {
                 int l = (int) (BossStatus.healthScale * (float) (j + 1));
-                if(BossbarConfig.x != -1) {
+                if (BossbarConfig.x != -1) {
                     parent.drawTexturedModalRect(BossbarConfig.x, BossbarConfig.y, 0, 74, j, 5);
                     if (l > 0) {
                         parent.drawTexturedModalRect(BossbarConfig.x, BossbarConfig.y, 0, 79, l, 5);
                     }
-                }else{
+                } else {
                     int k = i / 2 - j / 2;
                     parent.drawTexturedModalRect(k, BossbarConfig.y, 0, 74, j, 5);
                     if (l > 0) {
@@ -85,10 +87,10 @@ public class HyperiumGuiIngame {
             }
 
             String s = BossStatus.bossName;
-            if(BossbarConfig.textEnabled) {
-                if(BossbarConfig.x != -1) {
+            if (BossbarConfig.textEnabled) {
+                if (BossbarConfig.x != -1) {
                     parent.getFontRenderer().drawStringWithShadow(s, (float) (BossbarConfig.x + j / 2 - parent.getFontRenderer().getStringWidth(s) / 2), BossbarConfig.y - 10, 16777215);
-                }else{
+                } else {
                     parent.getFontRenderer().drawStringWithShadow(s, (float) (i / 2 - parent.getFontRenderer().getStringWidth(s) / 2), BossbarConfig.y - 10, 16777215);
                 }
             }

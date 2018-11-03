@@ -1,7 +1,6 @@
 package cc.hyperium.mixins.client.particle;
 
 import cc.hyperium.config.Settings;
-import cc.hyperium.mixinsimp.HyperiumMinecraft;
 import cc.hyperium.mixinsimp.renderer.client.particle.IMixinEffectRenderer;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import net.minecraft.client.Minecraft;
@@ -19,6 +18,7 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.entity.Entity;
+import net.minecraft.profiler.Profiler;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ReportedException;
@@ -32,6 +32,9 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -57,6 +60,7 @@ public abstract class MixinEffectRenderer implements IMixinEffectRenderer {
     private TextureManager renderer;
     @Shadow
     private Random rand;
+    private CountDownLatch latch;
 
     @Inject(method = "<init>", at = @At("RETURN"))
     public void load(World in, TextureManager manager, CallbackInfo info) {
@@ -101,7 +105,6 @@ public abstract class MixinEffectRenderer implements IMixinEffectRenderer {
         }
     }
 
-
     /**
      * @author Sk1er
      * @reason add concurrency
@@ -117,7 +120,7 @@ public abstract class MixinEffectRenderer implements IMixinEffectRenderer {
                     } catch (Throwable e) {
                         e.printStackTrace();
                     }
-                    HyperiumMinecraft.latch.countDown();
+                    latch.countDown();
                 });
 
             } else {
@@ -127,10 +130,46 @@ public abstract class MixinEffectRenderer implements IMixinEffectRenderer {
     }
 
     private void updateEffectAlphaLayer(ConcurrentLinkedQueue<EntityFX> queue) {
-        queue.forEach(this::tickParticle);
+        if (Settings.IMPROVE_PARTICLE_RUN) {
+            int total = queue.size();
+            int threads = total / 100 + 1;
+            CountDownLatch latch = new CountDownLatch(threads);
+            HashMap<Integer, List<EntityFX>> fx = new HashMap<>();
+            int tmp = 0;
+            for (int i = 0; i < threads; i++) {
+                fx.computeIfAbsent(tmp, integer -> new ArrayList<>());
+            }
+            for (EntityFX entityFX : queue) {
+                fx.computeIfAbsent(tmp, integer -> new ArrayList<>()).add(entityFX);
+                tmp++;
+                if (tmp > threads)
+                    tmp = 0;
+            }
+            for (List<EntityFX> entityFXES : fx.values()) {
+                Multithreading.runAsync(() -> {
+                    try {
+                        for (EntityFX entityFX : entityFXES) {
+                            try {
+                                tickParticle(entityFX);
+                            } catch (Throwable t) {
+                                t.printStackTrace();
+                            }
+
+                        }
+                    } catch (Throwable e) {
+                        e.printStackTrace();
+                    }
+                    latch.countDown();
+                });
+            }
+//            try {
+//                latch.await();
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+        } else queue.forEach(this::tickParticle);
         queue.removeIf(entityFX -> entityFX.isDead);
     }
-
 
     /**
      * @author Sk1er
@@ -140,7 +179,6 @@ public abstract class MixinEffectRenderer implements IMixinEffectRenderer {
     public void emitParticleAtEntity(Entity entityIn, EnumParticleTypes particleTypes) {
         this.modifiedParticlEmmiters.add(new EntityParticleEmitter(this.worldObj, entityIn, particleTypes));
     }
-
 
     /**
      * @author Sk1er
@@ -201,7 +239,6 @@ public abstract class MixinEffectRenderer implements IMixinEffectRenderer {
         this.modifiedParticlEmmiters.clear();
     }
 
-
     /**
      * @author Sk1er
      * @reason Concurrency
@@ -225,10 +262,21 @@ public abstract class MixinEffectRenderer implements IMixinEffectRenderer {
      */
     @Overwrite
     public void updateEffects() {
-        HyperiumMinecraft.latch = new CountDownLatch(8);
+        Settings.IMPROVE_PARTICLE_RUN = Settings.IMPROVE_PARTICLES;
+        latch = Settings.IMPROVE_PARTICLE_RUN ? new CountDownLatch(8) : null;
+
         for (int i = 0; i < 4; ++i) {
             this.updateEffectLayer(i);
         }
+        Profiler mcProfiler = Minecraft.getMinecraft().mcProfiler;
+        mcProfiler.startSection("particle_wait");
+        if (latch != null)
+            try {
+                latch.await();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        mcProfiler.endSection();
 
         this.modifiedParticlEmmiters.forEach(EntityParticleEmitter::onUpdate);
         modifiedParticlEmmiters.removeIf(entityParticleEmitter -> entityParticleEmitter.isDead);
@@ -237,7 +285,7 @@ public abstract class MixinEffectRenderer implements IMixinEffectRenderer {
 
     /**
      * @author Sk1er
-     * @Reason fix NPE
+     * @reason fix NPE
      */
     @Overwrite
     public void renderParticles(Entity entityIn, float partialTicks) {

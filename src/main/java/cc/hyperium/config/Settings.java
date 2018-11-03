@@ -333,6 +333,9 @@ public class Settings {
     @ToggleSetting(category = IMPROVEMENTS,name = "Improved Particle Handling (BETA)")
     public static boolean IMPROVE_PARTICLES = true;
 
+    @ConfigOpt
+    @ToggleSetting(category = IMPROVEMENTS,name = "Improved Entity Handling (BETA)")
+    public static boolean IMPROVE_ENTITY_HANDLING = false;
 
 
     public static boolean IMPROVE_PARTICLE_RUN = false;
