@@ -160,6 +160,12 @@ public class CustomCrosshairConfig {
                         case "thickness":
                             this.crosshairMod.getCrosshair().setThickness(Integer.parseInt(value));
                             break;
+                        case "rainbow":
+                            this.crosshairMod.getCrosshair().setRainbowCrosshair(Boolean.valueOf(value));
+                            break;
+                        case "rainbow_speed":
+                            this.crosshairMod.getCrosshair().setRainbowSpeed(Integer.valueOf(value));
+                            break;
                         default:
                             if (!attribute.equals("dynamic_bow")) {
                                 continue;
@@ -178,7 +184,7 @@ public class CustomCrosshairConfig {
         }
     }
 
-    public boolean writeSaveFile(final int crosshairType, final boolean enabled, final int colour_red, final int colour_green, final int colour_blue, final int colour_opacity, final boolean visibleDefault, final boolean visibleHiddenGui, final boolean visibleDebug, final boolean visibleSpectator, final boolean visibleThirdPerson, final boolean outline, final int outlineColour_red, final int outlineColour_green, final int outlineColour_blue, final int outlineColour_opacity, final boolean dot, final int dotColour_red, final int dotColour_green, final int dotColour_blue, final int dotColour_opacity, final int width, final int height, final int gap, final int thickness, final boolean dynamicBow) {
+    public boolean writeSaveFile(final int crosshairType, final boolean enabled, final int colour_red, final int colour_green, final int colour_blue, final int colour_opacity, final boolean visibleDefault, final boolean visibleHiddenGui, final boolean visibleDebug, final boolean visibleSpectator, final boolean visibleThirdPerson, final boolean outline, final int outlineColour_red, final int outlineColour_green, final int outlineColour_blue, final int outlineColour_opacity, final boolean dot, final int dotColour_red, final int dotColour_green, final int dotColour_blue, final int dotColour_opacity, final int width, final int height, final int gap, final int thickness, final boolean dynamicBow, final boolean rainbow, final int rainbowspeed) {
         try {
             final FileWriter fileWriter = new FileWriter(this.saveFile);
             final BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
@@ -216,6 +222,8 @@ public class CustomCrosshairConfig {
             lines.add("gap:" + gap);
             lines.add("thickness:" + thickness);
             lines.add("dynamic_bow:" + dynamicBow);
+            lines.add("rainbow:" + rainbow);
+            lines.add("rainbow_speed:" + rainbowspeed);
             for (String line : lines) {
                 bufferedWriter.write(line);
                 bufferedWriter.newLine();
@@ -229,10 +237,10 @@ public class CustomCrosshairConfig {
     }
 
     public boolean writeSaveFileDefault() {
-        return writeSaveFile(0, true, 255, 255, 255, 255, true, true, true, true, true, true, 0, 0, 0, 255, true, 255, 255, 255, 255, 5, 5, 3, 1, true);
+        return writeSaveFile(0, true, 255, 255, 255, 255, true, true, true, true, true, true, 0, 0, 0, 255, true, 255, 255, 255, 255, 5, 5, 3, 1, true,false,500);
     }
 
     public void saveCurrentCrosshair() {
-        writeSaveFile(this.crosshairMod.getCrosshair().getCrosshairTypeID(), this.crosshairMod.getCrosshair().getEnabled(), this.crosshairMod.getCrosshair().getColour().getRed(), this.crosshairMod.getCrosshair().getColour().getGreen(), this.crosshairMod.getCrosshair().getColour().getBlue(), this.crosshairMod.getCrosshair().getColour().getAlpha(), this.crosshairMod.getCrosshair().getVisibleDefault(), this.crosshairMod.getCrosshair().getVisibleHiddenGui(), this.crosshairMod.getCrosshair().getVisibleDebug(), this.crosshairMod.getCrosshair().getVisibleSpectator(), this.crosshairMod.getCrosshair().getVisibleThirdPerson(), this.crosshairMod.getCrosshair().getOutline(), this.crosshairMod.getCrosshair().getOutlineColour().getRed(), this.crosshairMod.getCrosshair().getOutlineColour().getGreen(), this.crosshairMod.getCrosshair().getOutlineColour().getBlue(), this.crosshairMod.getCrosshair().getOutlineColour().getAlpha(), this.crosshairMod.getCrosshair().getDot(), this.crosshairMod.getCrosshair().getDotColour().getRed(), this.crosshairMod.getCrosshair().getDotColour().getGreen(), this.crosshairMod.getCrosshair().getDotColour().getBlue(), this.crosshairMod.getCrosshair().getDotColour().getAlpha(), this.crosshairMod.getCrosshair().getWidth(), this.crosshairMod.getCrosshair().getHeight(), this.crosshairMod.getCrosshair().getGap(), this.crosshairMod.getCrosshair().getThickness(), this.crosshairMod.getCrosshair().getDynamicBow());
+        writeSaveFile(this.crosshairMod.getCrosshair().getCrosshairTypeID(), this.crosshairMod.getCrosshair().getEnabled(), this.crosshairMod.getCrosshair().getColour().getRed(), this.crosshairMod.getCrosshair().getColour().getGreen(), this.crosshairMod.getCrosshair().getColour().getBlue(), this.crosshairMod.getCrosshair().getColour().getAlpha(), this.crosshairMod.getCrosshair().getVisibleDefault(), this.crosshairMod.getCrosshair().getVisibleHiddenGui(), this.crosshairMod.getCrosshair().getVisibleDebug(), this.crosshairMod.getCrosshair().getVisibleSpectator(), this.crosshairMod.getCrosshair().getVisibleThirdPerson(), this.crosshairMod.getCrosshair().getOutline(), this.crosshairMod.getCrosshair().getOutlineColour().getRed(), this.crosshairMod.getCrosshair().getOutlineColour().getGreen(), this.crosshairMod.getCrosshair().getOutlineColour().getBlue(), this.crosshairMod.getCrosshair().getOutlineColour().getAlpha(), this.crosshairMod.getCrosshair().getDot(), this.crosshairMod.getCrosshair().getDotColour().getRed(), this.crosshairMod.getCrosshair().getDotColour().getGreen(), this.crosshairMod.getCrosshair().getDotColour().getBlue(), this.crosshairMod.getCrosshair().getDotColour().getAlpha(), this.crosshairMod.getCrosshair().getWidth(), this.crosshairMod.getCrosshair().getHeight(), this.crosshairMod.getCrosshair().getGap(), this.crosshairMod.getCrosshair().getThickness(), this.crosshairMod.getCrosshair().getDynamicBow(), this.crosshairMod.getCrosshair().getRainbowCrosshair(), this.crosshairMod.getCrosshair().getRainbowSpeed());
     }
 }
