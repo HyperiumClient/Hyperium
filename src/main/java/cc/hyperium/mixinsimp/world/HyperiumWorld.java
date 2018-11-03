@@ -202,7 +202,6 @@ public class HyperiumWorld {
             theProfiler.profilingEnabled = false;
             int total = loadedEntityList.size();
             int threads = total / 25 + 1;
-            CountDownLatch latch = new CountDownLatch(threads);
             HashMap<Integer, List<Entity>> fx = new HashMap<>();
             int tmp = 0;
             for (int i = 0; i < threads; i++) {
@@ -214,6 +213,8 @@ public class HyperiumWorld {
                 if (tmp > threads)
                     tmp = 0;
             }
+            CountDownLatch latch = new CountDownLatch(fx.values().size());
+
             for (List<Entity> entityFXES : fx.values()) {
                 Multithreading.runAsync(() -> {
                     try {
@@ -258,7 +259,7 @@ public class HyperiumWorld {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-//            theProfiler.profilingEnabled = profilingEnabled;
+            theProfiler.profilingEnabled = profilingEnabled;
             theProfiler.endSection();
             return;
 
