@@ -147,7 +147,7 @@ public abstract class AbstractAnimationHandler {
         }
 
         float heldPercent = state / 100F;
-        if (!CosmeticsUtil.shouldShow(null))
+        if (CosmeticsUtil.shouldHide(null))
             return;
         if (player instanceof IMixinModelPlayer) {
             modifyPlayer(entity, ((IMixinModelPlayer) player), heldPercent);
