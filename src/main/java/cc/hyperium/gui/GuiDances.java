@@ -72,8 +72,9 @@ public class GuiDances extends HyperiumGui {
              }
          });
          this.cancel.put("Hype", () -> {
-
-        });
+            AbstractAnimationHandler abstractAnimationHandler = Hyperium.INSTANCE.getHandlers().getHypeHandler();
+            abstractAnimationHandler.get(Minecraft.getMinecraft().thePlayer.getUniqueID()).stopAnimation();
+         });
         
         this.cancel.put("Floss", () -> {
             AbstractAnimationHandler abstractAnimationHandler = Hyperium.INSTANCE.getHandlers().getFlossDanceHandler();
