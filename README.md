@@ -54,7 +54,7 @@ A: We don't know! However, open beta testing is underway at our <a href="https:/
 
 Q: Can I use Hyperium now?
 
-A: Beta versions, yes! Join the [Discord](https://discord.gg/RNyRgtv) or visit our [website](https://hyperium.cc)!
+A: Yes, join the [Discord](https://discord.gg/RNyRgtv) or visit our [website](https://hyperium.cc)!
 
 
 Q: Is there a tutorial to create addons?
