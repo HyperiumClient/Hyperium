@@ -23,15 +23,15 @@ Hyperium is a Minecraft client, currently in its development stage. It will comb
 - [MotionBlur](https://www.youtube.com/watch?v=x21aLjDbCRw)
 - [MouseDelayFix](https://prplz.io/mousedelayfix)
 - [NoCloseMyChat](https://hypixel.net/threads/1260752/)
+- [Performia](https://github.com/Sk1er/Performia)
 - [Perspective Mod](https://www.youtube.com/watch?v=7FdMMpzNdUk)
+- [Resource Exploit Fix](https://github.com/Sk1er/Resource-Exploit-Fix) 
 - ShinyPots
 - [Sidebar Mod](https://www.youtube.com/watch?v=cn9VvT43yRs)
 - Spotify Controls
 - [TimeChanger](https://www.youtube.com/watch?v=PbhXIPecOSA)
 - [ToggleChat](https://www.youtube.com/watch?v=guD8kAk-Wn4)
 - [VoidFlickerFix](https://www.youtube.com/watch?v=klV4d1B6ysk)
-- [Performia](https://github.com/Sk1er/Performia)
-- [Resource Exploit Fix](https://github.com/Sk1er/Resource-Exploit-Fix) 
 
 ## Building the project with IntelliJ ##
 
