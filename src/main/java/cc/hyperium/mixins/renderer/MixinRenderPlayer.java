@@ -20,6 +20,7 @@ package cc.hyperium.mixins.renderer;
 import cc.hyperium.event.RenderNameTagEvent;
 import cc.hyperium.mixinsimp.renderer.HyperiumRenderPlayer;
 import cc.hyperium.mixinsimp.renderer.layers.TwoPartLayerBipedArmor;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelPlayer;
@@ -97,10 +98,13 @@ public abstract class MixinRenderPlayer extends RendererLivingEntity<AbstractCli
             if (scoreobjective != null) {
                 Score score = scoreboard.getValueFromObjective(entityIn.getName(), scoreobjective);
                 RenderNameTagEvent.CANCEL = true;
-                this.renderLivingLabel(entityIn, score.getScorePoints() + " " + scoreobjective.getDisplayName(), x, y, z, 64);
+                if (entityIn != Minecraft.getMinecraft().thePlayer) {
+                    this.renderLivingLabel(entityIn, score.getScorePoints() + " " + scoreobjective.getDisplayName(), x, y, z, 64);
+                    y += (double) ((float) this.getFontRendererFromRenderManager().FONT_HEIGHT * 1.15F * p_177069_9_);
+
+                }
                 RenderNameTagEvent.CANCEL = false;
 
-                y += (double) ((float) this.getFontRendererFromRenderManager().FONT_HEIGHT * 1.15F * p_177069_9_);
             }
         }
 

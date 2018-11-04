@@ -86,7 +86,7 @@ public abstract class MixinRendererLivingEntity<T extends EntityLivingBase> exte
     }
 
     /**
-     * @author
+     * @author Sk1er
      */
     @Overwrite
     protected void renderLayers(T entitylivingbaseIn, float p_177093_2_, float p_177093_3_, float partialTicks, float p_177093_5_, float p_177093_6_, float p_177093_7_, float p_177093_8_) {
