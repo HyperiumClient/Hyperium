@@ -4,6 +4,7 @@ import cc.hyperium.Hyperium;
 import cc.hyperium.event.DrawBlockHighlightEvent;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.RenderEvent;
+import cc.hyperium.handlers.handlers.HypixelDetector;
 import cc.hyperium.mixins.entity.IMixinEntityRenderer;
 import cc.hyperium.mods.common.PerspectiveModifierHandler;
 import net.minecraft.block.Block;
@@ -20,8 +21,10 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
 import org.lwjgl.opengl.Display;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 public class HyperiumEntityRenderer {
     private EntityRenderer parent;
@@ -186,6 +189,14 @@ public class HyperiumEntityRenderer {
                     }
                 }
             }
+        }
+    }
+
+    public void loadShader(ResourceLocation resourceLocation, CallbackInfo callbackInfo) {
+        if (resourceLocation.equals(new ResourceLocation("shaders/hyperium_blur.json")) && Minecraft.getMinecraft().currentScreen == null) {
+             // If a gui is closed and we are asked
+             // to blur, cancel it.
+            callbackInfo.cancel();
         }
     }
 }
