@@ -24,7 +24,7 @@ import java.util.concurrent.TimeUnit;
 public class FontFixValues {
     public static FontFixValues INSTANCE;
     public static SharedDrawable drawable;
-    private final int MAX = 500 /* Worth bumping up to 10_000? */;
+    private final int MAX = 10000 /* Worth bumping up to 10_000? */;
     public List<StringHash> obfuscated = new ArrayList<>();
     private Cache<StringHash, CachedString> stringCache = Caffeine.newBuilder()
             .writer(new RemovalListener())

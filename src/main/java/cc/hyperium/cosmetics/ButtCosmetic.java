@@ -19,14 +19,17 @@ public class ButtCosmetic extends AbstractCosmetic {
         boolean b = event.getModel() instanceof IMixinModelPlayer;
         if (!b)
             return;
-        HyperiumPurchase packageIfReady = PurchaseApi.getInstance().getPackageIfReady(event.getEntity().getUniqueID());
-        if (packageIfReady == null) {
+        boolean purchasedBy = isPurchasedBy(event.getEntity().getUniqueID());
+        if (!purchasedBy) {
             ((IMixinModelPlayer) event.getModel()).getButt().showModel = false;
             return;
         }
+        HyperiumPurchase packageIfReady = PurchaseApi.getInstance().getPackageIfReady(event.getEntity().getUniqueID());
+        if (packageIfReady == null) {
+            return;
+        }
         boolean disabled = packageIfReady.getCachedSettings().isButtDisabled();
-        boolean purchasedBy = isPurchasedBy(event.getEntity().getUniqueID());
-        ((IMixinModelPlayer) event.getModel()).getButt().showModel = purchasedBy && !disabled;
+        ((IMixinModelPlayer) event.getModel()).getButt().showModel = !disabled;
         ((IMixinModelPlayer) event.getModel()).getButt().offsetY = event.getEntity().isSneaking() ? -.45F : -.4F;
         ((IMixinModelPlayer) event.getModel()).getButt().offsetZ = event.getEntity().isSneaking() ? .3F : 0F;
 
