@@ -70,8 +70,8 @@ public class LevelHeadRender {
                 if (scoreObjective != null && player.getDistanceSqToEntity(Minecraft.getMinecraft().thePlayer) < 10 * 10) {
                     offset *= 2;
                 }
-                if (player.getUniqueID().equals(this.levelHead.userUuid))
-                    offset = -20;
+                if (player.getUniqueID().equals(this.levelHead.userUuid) && !Settings.SHOW_OWN_NAME)
+                    offset = -10;
                 if (Hyperium.INSTANCE.getCosmetics().getDeadmau5Cosmetic().isPurchasedBy(event.getEntity().getUniqueID())) {
                     HyperiumPurchase packageIfReady = PurchaseApi.getInstance().getPackageIfReady(event.getEntity().getUniqueID());
                     if (packageIfReady != null) {

@@ -61,7 +61,7 @@ public class HyperiumRender<T extends Entity> {
 
         if (d0 <= (double) (maxDistance * maxDistance)) {
             boolean self = entityIn.equals(Minecraft.getMinecraft().thePlayer);
-            boolean show = !self || Settings.SHOW_OWN_NAME;
+            boolean show = !self || Settings.SHOW_OWN_NAME || RenderNameTagEvent.CANCEL;
             FontRenderer fontrenderer = renderManager.getFontRenderer();
             float f = 1.6F;
             float f1 = 0.016666668F * f;
@@ -76,6 +76,9 @@ public class HyperiumRender<T extends Entity> {
                 xMultiplier = -1;
             GlStateManager.rotate(renderManager.playerViewX * xMultiplier, 1.0F, 0.0F, 0.0F);
             GlStateManager.scale(-f1, -f1, f1);
+            if(self) {
+                GlStateManager.translate(0,10,0);
+            }
             GlStateManager.disableLighting();
             GlStateManager.depthMask(false);
             GlStateManager.disableDepth();

@@ -172,7 +172,7 @@ public class Settings {
 
 
     @ConfigOpt
-    @ToggleSetting(category = GENERAL,name = "Show on name tag")
+    @ToggleSetting(category = GENERAL,name = "Show own name tag")
     public static boolean SHOW_OWN_NAME = false;
     @ConfigOpt(alt = "cc.hyperium.handlers.handlers.OtherConfigOptions;showCosmeticsEveryWhere")
     @ToggleSetting(category = COSMETICS, name = "gui.settings.showcosmeticseverywhere")
