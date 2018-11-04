@@ -108,8 +108,8 @@ public class EventBus {
             return;
         }
 
-        boolean profile = Minecraft.getMinecraft().isCallingFromMinecraftThread();
         Profiler mcProfiler = Minecraft.getMinecraft().mcProfiler;
+        boolean profile = Minecraft.getMinecraft().isCallingFromMinecraftThread() &&mcProfiler !=null;
         if (profile) {
             mcProfiler.startSection(event.getClass().getSimpleName());
         }
