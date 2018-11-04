@@ -20,7 +20,7 @@ package cc.hyperium.mods.levelhead.renderer;
 import cc.hyperium.Hyperium;
 import cc.hyperium.config.Settings;
 import cc.hyperium.event.InvokeEvent;
-import cc.hyperium.event.RenderPlayerEvent;
+import cc.hyperium.event.RenderNameTagEvent;
 import cc.hyperium.mods.levelhead.Levelhead;
 import cc.hyperium.purchases.AbstractHyperiumPurchase;
 import cc.hyperium.purchases.EnumPurchaseType;
@@ -54,7 +54,7 @@ public class LevelHeadRender {
     }
 
     @InvokeEvent
-    public void render(RenderPlayerEvent event) {
+    public void render(RenderNameTagEvent event) {
 
         if ((event.getEntity().getUniqueID().equals(this.levelHead.userUuid) && !levelHead.getConfig().isShowSelf()) || !Hyperium.INSTANCE.getHandlers().getHypixelDetector().isHypixel())
             return;
@@ -71,7 +71,7 @@ public class LevelHeadRender {
                     offset *= 2;
                 }
                 if (player.getUniqueID().equals(this.levelHead.userUuid))
-                    offset = 0;
+                    offset = -20;
                 if (Hyperium.INSTANCE.getCosmetics().getDeadmau5Cosmetic().isPurchasedBy(event.getEntity().getUniqueID())) {
                     HyperiumPurchase packageIfReady = PurchaseApi.getInstance().getPackageIfReady(event.getEntity().getUniqueID());
                     if (packageIfReady != null) {
@@ -87,25 +87,20 @@ public class LevelHeadRender {
 
                     }
                 }
-                renderName(event, (this.levelHead.getLevelString(player.getUniqueID())), player, event.getX(), event.getY() + offset, event.getZ());
+                renderName(event, (this.levelHead.getLevelString(player.getUniqueID())), player, offset);
             }
         }
     }
 
-    public void renderName(RenderPlayerEvent event, LevelheadTag tag, EntityPlayer entityIn, double x, double y, double z) {
+    public void renderName(RenderNameTagEvent event, LevelheadTag tag, EntityPlayer entityIn, double offset) {
         FontRenderer fontrenderer = event.getRenderManager().getFontRenderer();
         float f = 1.6F;
         float f1 = 0.016666668F * f;
-        GlStateManager.pushMatrix();
-        GlStateManager.translate((float) x + 0.0F, (float) y + entityIn.height + 0.5F, (float) z);
+        GlStateManager.translate(0, -10-offset, 0);
         GL11.glNormal3f(0.0F, 1.0F, 0.0F);
-        GlStateManager.rotate(-event.getRenderManager().playerViewY, 0.0F, 1.0F, 0.0F);
 
-        int xMultiplier = 1; // Nametag x rotations should flip in front-facing 3rd person
-        if (Minecraft.getMinecraft() != null && Minecraft.getMinecraft().gameSettings != null && Minecraft.getMinecraft().gameSettings.thirdPersonView == 2)
-            xMultiplier = -1;
-        GlStateManager.rotate(event.getRenderManager().playerViewX * xMultiplier, 1.0F, 0.0F, 0.0F);
-        GlStateManager.scale(-f1, -f1, f1);
+
+//        GlStateManager.scale(-f1, -f1, f1);
         GlStateManager.disableLighting();
         GlStateManager.depthMask(false);
         GlStateManager.disableDepth();
@@ -129,8 +124,6 @@ public class LevelHeadRender {
 
         GlStateManager.enableLighting();
         GlStateManager.disableBlend();
-        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-        GlStateManager.popMatrix();
     }
 
     private void renderString(FontRenderer renderer, LevelheadTag tag) {

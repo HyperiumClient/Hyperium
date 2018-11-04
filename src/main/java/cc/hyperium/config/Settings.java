@@ -170,6 +170,10 @@ public class Settings {
     @ToggleSetting(category = COSMETICS, name = "gui.settings.showparticleauras")
     public static boolean SHOW_PARTICLES = true;
 
+
+    @ConfigOpt
+    @ToggleSetting(category = GENERAL,name = "Show on name tag")
+    public static boolean SHOW_OWN_NAME = false;
     @ConfigOpt(alt = "cc.hyperium.handlers.handlers.OtherConfigOptions;showCosmeticsEveryWhere")
     @ToggleSetting(category = COSMETICS, name = "gui.settings.showcosmeticseverywhere")
     public static boolean SHOW_COSMETICS_EVERYWHERE = true;

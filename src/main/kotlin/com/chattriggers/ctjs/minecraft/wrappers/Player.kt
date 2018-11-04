@@ -74,7 +74,7 @@ object Player {
             //#if MC<=10809
             wrapAngleTo180_float(getPlayer()?.rotationPitch ?: 0f)
             //#else
-            //$$ wrapDegrees(getPlayer()?.rotationPitch ?: 0f);
+            //$$ wrapDegrees(getEntity()?.rotationPitch ?: 0f);
             //#endif
 
     /**
@@ -87,7 +87,7 @@ object Player {
             //#if MC<=10809
             wrapAngleTo180_float(getPlayer()?.rotationYaw ?: 0f)
             //#else
-            //$$ wrapDegrees(getPlayer()?.rotationYaw ?: 0f);
+            //$$ wrapDegrees(getEntity()?.rotationYaw ?: 0f);
             //#endif
 
     /**
