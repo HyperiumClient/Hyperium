@@ -4,6 +4,7 @@ import cc.hyperium.Hyperium;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.RenderEvent;
+import cc.hyperium.event.TickEvent;
 import cc.hyperium.internal.addons.annotations.Instance;
 import cc.hyperium.mixins.gui.MixinGuiScreenBook;
 import cc.hyperium.mods.sk1ercommon.Sk1erMod;
@@ -218,13 +219,17 @@ public class NickHider {
     }
 
     @InvokeEvent
-    public void profileCheck(RenderEvent event) {
+    public void profileCheck(TickEvent event) {
+        if (!isEnabled())
+            return;
+
         EntityPlayerSP thePlayer = Minecraft.getMinecraft().thePlayer;
         if (thePlayer == null)
             return;
         NetHandlerPlayClient sendQueue = thePlayer.sendQueue;
         if (sendQueue == null)
             return;
+
 
         for (NetworkPlayerInfo networkPlayerInfo : sendQueue.getPlayerInfoMap()) {
             GameProfile gameProfile = networkPlayerInfo.getGameProfile();

@@ -108,9 +108,12 @@ public class EventBus {
         }
 
         boolean profile = Minecraft.getMinecraft().isCallingFromMinecraftThread();
+        if(profile) {
+            Minecraft.getMinecraft().mcProfiler.startSection(event.getClass().getSimpleName());
+        }
         this.subscriptions.getOrDefault(event.getClass(), new CopyOnWriteArrayList<>()).forEach((sub) -> {
             if (profile) {
-                String name = (event.getClass().getSimpleName() + "_" + sub.getInstance().getClass().getSimpleName()).replace(".","_");
+                String name = ( sub.getInstance().getClass().getSimpleName()).replace(".","_");
                 Minecraft.getMinecraft().mcProfiler.startSection(name);
             }
             try {
@@ -124,5 +127,7 @@ public class EventBus {
             if (profile)
                 Minecraft.getMinecraft().mcProfiler.endSection();
         });
+        if(profile)
+            Minecraft.getMinecraft().mcProfiler.endSection();
     }
 }
