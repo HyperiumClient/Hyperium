@@ -138,6 +138,7 @@ gui.settings.numericping=Numeric Ping
 gui.settings.arrowcountwhenholdingbow=Arrow Count When Holding Bow
 gui.settings.showenchantmentsabovehotbar=Show Enchantments above hotbar
 gui.settings.showattackdamageabovehotbar=Show Attack Damage above hotbar
+gui.settings.hidecrosshairinf5=Hide Crosshair when in Third Person
 gui.settings.critparticlefix=Crit Particle Fix
 gui.settings.holdperspectivekey=Hold Perspective Key
 gui.settings.optimizeditemrenderer=Optimized Item Renderer (BETA)
