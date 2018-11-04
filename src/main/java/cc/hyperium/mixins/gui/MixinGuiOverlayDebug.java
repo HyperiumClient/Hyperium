@@ -51,7 +51,7 @@ public abstract class MixinGuiOverlayDebug {
             this.mc.mcProfiler.endSection();
             return;
         }
-        if (Hyperium.INSTANCE.isDevEnv()) {
+        if (!Hyperium.INSTANCE.isDevEnv()) {
             this.renderDebugInfoLeft();
             this.renderDebugInfoRight(scaledResolutionIn);
         }

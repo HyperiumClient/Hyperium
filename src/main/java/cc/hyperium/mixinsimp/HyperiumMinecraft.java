@@ -111,8 +111,6 @@ public class HyperiumMinecraft {
         mcProfiler.startSection("hyperium_tick");
         EventBus.INSTANCE.post(new TickEvent());
         mcProfiler.endSection();
-
-
     }
 
     public void runTickKeyboard(CallbackInfo ci) {

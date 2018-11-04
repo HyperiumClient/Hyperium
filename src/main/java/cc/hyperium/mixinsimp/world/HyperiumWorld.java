@@ -207,11 +207,18 @@ public class HyperiumWorld {
             for (int i = 0; i < threads; i++) {
                 fx.computeIfAbsent(tmp, integer -> new ArrayList<>());
             }
+            List<Integer> nulls = new ArrayList<>();
             for (Entity entity : loadedEntityList) {
-                fx.computeIfAbsent(tmp, integer -> new ArrayList<>()).add(entity);
+                if (entity == null)
+                    nulls.add(tmp);
+                else
+                    fx.computeIfAbsent(tmp, integer -> new ArrayList<>()).add(entity);
                 tmp++;
                 if (tmp > threads)
                     tmp = 0;
+            }
+            for (Integer aNull : nulls) {
+                loadedEntityList.remove(aNull.intValue());
             }
             CountDownLatch latch = new CountDownLatch(fx.values().size());
 

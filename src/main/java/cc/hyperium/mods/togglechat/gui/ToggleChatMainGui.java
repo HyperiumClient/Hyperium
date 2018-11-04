@@ -17,9 +17,7 @@
 
 package cc.hyperium.mods.togglechat.gui;
 
-import cc.hyperium.event.EventBus;
-import cc.hyperium.event.InvokeEvent;
-import cc.hyperium.event.TickEvent;
+import cc.hyperium.Hyperium;
 import cc.hyperium.mods.togglechat.ToggleChatMod;
 import cc.hyperium.mods.togglechat.toggles.ToggleBase;
 import cc.hyperium.utils.ChatColor;
@@ -173,12 +171,8 @@ public class ToggleChatMainGui extends GuiScreen {
     }
 
     public void display() {
-        EventBus.INSTANCE.register(this);
+        Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(this);
     }
 
-    @InvokeEvent
-    public void tick(TickEvent e) {
-        EventBus.INSTANCE.unregister(this);
-        Minecraft.getMinecraft().displayGuiScreen(this);
-    }
+
 }
