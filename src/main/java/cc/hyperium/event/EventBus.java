@@ -2,6 +2,7 @@ package cc.hyperium.event;
 
 import com.google.common.reflect.TypeToken;
 import net.minecraft.client.Minecraft;
+import net.minecraft.profiler.Profiler;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -100,7 +101,7 @@ public class EventBus {
      * Invokes all of the methods which are inside of the classes
      * registered to the event
      *
-     * @param event   Event that is being posted
+     * @param event Event that is being posted
      */
     public void post(Object event) {
         if (event == null) {
@@ -108,13 +109,15 @@ public class EventBus {
         }
 
         boolean profile = Minecraft.getMinecraft().isCallingFromMinecraftThread();
-        if(profile) {
-            Minecraft.getMinecraft().mcProfiler.startSection(event.getClass().getSimpleName());
+        Profiler mcProfiler = Minecraft.getMinecraft().mcProfiler;
+        if (profile) {
+            mcProfiler.startSection(event.getClass().getSimpleName());
         }
         this.subscriptions.getOrDefault(event.getClass(), new CopyOnWriteArrayList<>()).forEach((sub) -> {
             if (profile) {
-                String name = ( sub.getInstance().getClass().getSimpleName()).replace(".","_");
-                Minecraft.getMinecraft().mcProfiler.startSection(name);
+                String name = sub.getObjName();
+                mcProfiler.startSection(name);
+                mcProfiler.startSection(sub.getMethodName());
             }
             try {
                 sub.getMethod().invoke(sub.getInstance(), event);
@@ -124,10 +127,12 @@ public class EventBus {
                 }
                 e.printStackTrace();
             }
-            if (profile)
-                Minecraft.getMinecraft().mcProfiler.endSection();
+            if (profile) {
+                mcProfiler.endSection();
+                mcProfiler.endSection();
+            }
         });
-        if(profile)
-            Minecraft.getMinecraft().mcProfiler.endSection();
+        if (profile)
+            mcProfiler.endSection();
     }
 }

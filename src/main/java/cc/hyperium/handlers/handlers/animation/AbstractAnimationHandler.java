@@ -24,15 +24,16 @@ public abstract class AbstractAnimationHandler {
 
     @InvokeEvent
     public void onRender(RenderEvent e) {
+        long systemTime = Minecraft.getSystemTime();
         animationStates.values().forEach(animationState -> {
-            animationState.update(Minecraft.getSystemTime());
+            animationState.update(systemTime);
         });
 
         onRender();
 
-        if (this.systemTime == 0) this.systemTime = Minecraft.getSystemTime();
+        if (this.systemTime == 0) this.systemTime = systemTime;
 
-        if (this.systemTime < Minecraft.getSystemTime() + (1000 / 120)) {
+        if (this.systemTime < systemTime + (1000 / 120)) {
             state = modifyState();
 
             this.systemTime += (1000 / 120);
