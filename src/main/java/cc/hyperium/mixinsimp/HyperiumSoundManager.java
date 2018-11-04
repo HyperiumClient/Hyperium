@@ -41,11 +41,11 @@ public class HyperiumSoundManager {
 
 
     public void startPlaySound(CallbackInfo info) {
-        lock.lock();
+//        lock.lock();
     }
 
     public void endPlaySound(CallbackInfo info) {
-        lock.unlock();
+//        lock.unlock();
     }
 
     public void startStopAllSounds(CallbackInfo info) {

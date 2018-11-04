@@ -6,11 +6,9 @@ import cc.hyperium.purchases.EnumPurchaseType;
 
 public class CosmeticsUtil {
 
-    public static boolean shouldShow(EnumPurchaseType type) {
-        if (!Settings.SHOW_COSMETICS_EVERYWHERE) {
-            if (Hyperium.INSTANCE.getHandlers().getLocationHandler().isLobbyOrHousing())
-                return false;
-        }
-        return true;
+    public static boolean shouldHide(EnumPurchaseType type) {
+        if (Settings.SHOW_COSMETICS_EVERYWHERE)
+            return false;
+        return !Hyperium.INSTANCE.getHandlers().getLocationHandler().isLobbyOrHousing();
     }
 }

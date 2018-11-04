@@ -21,6 +21,7 @@ import cc.hyperium.config.Settings;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.RenderHUDEvent;
 import cc.hyperium.event.TickEvent;
+import cc.hyperium.mods.chromahud.api.DisplayItem;
 import cc.hyperium.utils.RenderUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -73,9 +74,6 @@ public class ElementRenderer {
 
     }
 
-    public static void display() {
-        display = true;
-    }
 
     public static void draw(int x, double y, String string) {
         List<String> tmp = new ArrayList<>();
@@ -228,14 +226,16 @@ public class ElementRenderer {
 
     @InvokeEvent
     public void tick(TickEvent event) {
-
-        if (display) {
-            Minecraft.getMinecraft().displayGuiScreen(mod.getConfigGuiInstance());
-            display = false;
-            int j = 0;
+        for (DisplayElement displayElement : mod.getDisplayElements()) {
+            for (DisplayItem displayItem : displayElement.getDisplayItems()) {
+                if (displayItem.getType().equalsIgnoreCase("C_COUNTER")) {
+                    if (Minecraft.getMinecraft().inGameHasFocus)
+                        cValue = Minecraft.getMinecraft().renderGlobal.getDebugInfoRenders().split("/")[0].trim();
+                    return;
+                }
+            }
         }
-        if (Minecraft.getMinecraft().inGameHasFocus)
-            cValue = Minecraft.getMinecraft().renderGlobal.getDebugInfoRenders().split("/")[0].trim();
+
     }
 
     // Right CPS Counter

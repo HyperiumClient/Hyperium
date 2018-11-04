@@ -173,7 +173,7 @@ class Item {
         //#if MC<=10809
         return itemStack.getTooltip(Player.getPlayer(), Client.getMinecraft().gameSettings.advancedItemTooltips)
         //#else
-        //$$ return itemStack.getTooltip(Player.getPlayer(), ITooltipFlag.TooltipFlags.ADVANCED);
+        //$$ return itemStack.getTooltip(Player.getEntity(), ITooltipFlag.TooltipFlags.ADVANCED);
         //#endif
     }
 

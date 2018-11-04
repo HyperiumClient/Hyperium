@@ -83,7 +83,7 @@ public class DragonHeadRenderer extends ModelBase {
 
     @InvokeEvent
     private void onRenderPlayer(RenderPlayerEvent event) {
-        if(!CosmeticsUtil.shouldShow(EnumPurchaseType.DRAGON_HEAD))
+        if(CosmeticsUtil.shouldHide(EnumPurchaseType.DRAGON_HEAD))
             return;
         EntityPlayer entity = event.getEntity();
         if (dragonCosmetic.isPurchasedBy(entity.getUniqueID()) && !entity.isInvisible()) {

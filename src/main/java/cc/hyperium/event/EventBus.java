@@ -1,6 +1,8 @@
 package cc.hyperium.event;
 
 import com.google.common.reflect.TypeToken;
+import net.minecraft.client.Minecraft;
+import net.minecraft.profiler.Profiler;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -73,7 +75,7 @@ public class EventBus {
      * @param obj An instance of the class which you would like to register as an event
      */
     public void unregister(Object obj) {
-        this.subscriptions.values().forEach( map -> map.removeIf(it -> it.getInstance() == obj));
+        this.subscriptions.values().forEach(map -> map.removeIf(it -> it.getInstance() == obj));
     }
 
     /**
@@ -86,6 +88,15 @@ public class EventBus {
         this.subscriptions.values().forEach(map -> map.removeIf(it -> it.getInstance().getClass() == clazz));
     }
 
+
+    /**
+     * Invokes all of the methods which are inside of the classes
+     * registered to the event
+     *
+     * @param event Event that is being posted
+     */
+
+
     /**
      * Invokes all of the methods which are inside of the classes
      * registered to the event
@@ -97,7 +108,17 @@ public class EventBus {
             return;
         }
 
+        Profiler mcProfiler = Minecraft.getMinecraft().mcProfiler;
+        boolean profile = Minecraft.getMinecraft().isCallingFromMinecraftThread() && mcProfiler != null && Minecraft.getMinecraft().theWorld != null;
+        if (profile) {
+            mcProfiler.startSection(event.getClass().getSimpleName());
+        }
         this.subscriptions.getOrDefault(event.getClass(), new CopyOnWriteArrayList<>()).forEach((sub) -> {
+            if (profile) {
+                String name = sub.getObjName();
+                mcProfiler.startSection(name);
+                mcProfiler.startSection(sub.getMethodName());
+            }
             try {
                 sub.getMethod().invoke(sub.getInstance(), event);
             } catch (Exception e) {
@@ -106,6 +127,12 @@ public class EventBus {
                 }
                 e.printStackTrace();
             }
+            if (profile) {
+                mcProfiler.endSection();
+                mcProfiler.endSection();
+            }
         });
+        if (profile)
+            mcProfiler.endSection();
     }
 }
