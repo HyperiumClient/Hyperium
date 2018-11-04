@@ -62,6 +62,7 @@ public class PlayerQuestsGui extends HyperiumGui {
     private List<AbstractHypixelStats> fields = new ArrayList<>();
     private Map<AbstractHypixelStats, BufferedImage> texturesImage = new ConcurrentHashMap<>();
     private ConcurrentHashMap<AbstractHypixelStats, GuiBlock> location = new ConcurrentHashMap<>();
+    HypixelApiGuild guild;
 
     //TODO make only generate once
     public PlayerQuestsGui(HypixelApiPlayer player) {
@@ -110,6 +111,9 @@ public class PlayerQuestsGui extends HyperiumGui {
             });
 
         }
+
+        guild = player.getGuild();
+
         //Init
         for (AbstractHypixelStats field : fields) {
             field.getQuests(player);
@@ -175,7 +179,6 @@ public class PlayerQuestsGui extends HyperiumGui {
         }
         super.drawScreen(mouseX, mouseY, partialTicks);
         ScaledResolution current = ResolutionUtil.current();
-        HypixelApiGuild guild = player.getGuild();
         boolean isInGuild = guild.isLoaded() && guild.isValid();
         double leftTextScale = 1.25;
         drawScaledText(player.getDisplayString() + (isInGuild ? " " + guild.getFormatedTag() : ""), 5, 10, leftTextScale, Color.WHITE.getRGB(), true, false);

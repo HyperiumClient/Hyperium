@@ -31,7 +31,7 @@ import static cc.hyperium.config.Category.MISC;
 import static cc.hyperium.config.Category.REACH;
 import static cc.hyperium.config.Category.SPOTIFY;
 import static cc.hyperium.config.Category.UTILITIES;
-import static cc.hyperium.config.Category.VANILLA_ENCHANTMENTS;
+import static cc.hyperium.config.Category.VANILLA_ENHANCEMENTS;
 
 /*
  * Created by Cubxity on 03/06/2018
@@ -81,20 +81,24 @@ public class Settings {
     public static boolean SMART_SOUNDS = false;
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;numberPingEnabled")
-    @ToggleSetting(name = "gui.settings.numericping", category = VANILLA_ENCHANTMENTS, mods = true)
+    @ToggleSetting(name = "gui.settings.numericping", category = VANILLA_ENHANCEMENTS, mods = true)
     public static boolean NUMBER_PING = true;
 
     @ConfigOpt
-    @ToggleSetting(name = "gui.settings.arrowcountwhenholdingbow", category = VANILLA_ENCHANTMENTS, mods = true)
+    @ToggleSetting(name = "gui.settings.arrowcountwhenholdingbow", category = VANILLA_ENHANCEMENTS, mods = true)
     public static boolean ARROW_COUNT = true;
 
     @ConfigOpt
-    @ToggleSetting(name = "gui.settings.showenchantmentsabovehotbar", category = VANILLA_ENCHANTMENTS, mods = true)
+    @ToggleSetting(name = "gui.settings.showenchantmentsabovehotbar", category = VANILLA_ENHANCEMENTS, mods = true)
     public static boolean ENCHANTMENTS_ABOVE_HOTBAR = true;
 
     @ConfigOpt
-    @ToggleSetting(name = "gui.settings.showattackdamageabovehotbar", category = VANILLA_ENCHANTMENTS, mods = true)
+    @ToggleSetting(name = "gui.settings.showattackdamageabovehotbar", category = VANILLA_ENHANCEMENTS, mods = true)
     public static boolean DAMAGE_ABOVE_HOTBAR = true;
+
+    @ConfigOpt
+    @ToggleSetting(name = "gui.settings.hidecrosshairinf5", category = VANILLA_ENHANCEMENTS, mods = true)
+    public static boolean CROSSHAIR_IN_F5 = false;
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;combatParticleFixEnabled")
     @ToggleSetting(name = "gui.settings.critparticlefix", category = IMPROVEMENTS)

@@ -1,5 +1,6 @@
 package cc.hyperium.gui;
 
+import cc.hyperium.gui.hyperium.HyperiumMainGui;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.purchases.EnumPurchaseType;
 import cc.hyperium.purchases.PurchaseApi;
@@ -9,7 +10,7 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
 
-import java.awt.Color;
+import java.awt.*;
 import java.text.DecimalFormat;
 
 public class ViewCosmeticsGui extends HyperiumGui {
@@ -19,7 +20,10 @@ public class ViewCosmeticsGui extends HyperiumGui {
 
     @Override
     protected void pack() {
-        reg("VISIT", new GuiButton(nextId(), width / 2 - 100, 5, I18n.format("gui.cosmetics.purchase")), guiButton -> new ShopGui().show(), guiButton -> {
+        reg("VISIT", new GuiButton(nextId(), width / 2 - 100, 5, I18n.format("gui.cosmetics.purchase")), guiButton -> {
+            HyperiumMainGui.INSTANCE.setTab(3);
+            mc.displayGuiScreen(HyperiumMainGui.INSTANCE);
+        }, guiButton -> {
 
         });
         reg("REFRESH", new GuiButton(nextId(), width / 2 - 100, 30, I18n.format("gui.cosmetics.refresh")), guiButton -> {
