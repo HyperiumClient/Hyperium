@@ -18,18 +18,49 @@
 package cc.hyperium.mixins.world;
 
 import cc.hyperium.mixinsimp.world.HyperiumChunk;
+import net.minecraft.entity.Entity;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.ClassInheritanceMultiMap;
 import net.minecraft.world.EnumSkyBlock;
+import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
+import org.apache.logging.log4j.Logger;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+import java.util.Map;
 
 @Mixin(Chunk.class)
 public class MixinChunk {
 
 
+    @Shadow
+    @Final
+    private static Logger logger;
+    @Shadow
+    @Final
+    public int xPosition;
+    @Shadow
+    @Final
+    public int zPosition;
+    @Shadow
+    private boolean isChunkLoaded;
+    @Shadow
+    @Final
+    private World worldObj;
+    @Shadow
+    @Final
+    private Map<BlockPos, TileEntity> chunkTileEntityMap;
+    @Shadow
+    @Final
+    private ClassInheritanceMultiMap<Entity>[] entityLists;
+    @Shadow
+    private boolean hasEntities;
     private HyperiumChunk hyperiumChunk = new HyperiumChunk();
 
     /**
@@ -55,4 +86,7 @@ public class MixinChunk {
     private void getLightSubtracted(BlockPos pos, int amount, CallbackInfoReturnable<Integer> ci) {
         hyperiumChunk.getLightSubtracted(pos, amount, ci);
     }
+
+
+
 }

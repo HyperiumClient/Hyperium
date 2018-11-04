@@ -195,7 +195,7 @@ public class HyperiumWorld {
 
     private void updateDefaultEntities(Profiler theProfiler, List<Entity> loadedEntityList) {
 
-        boolean improveEntityHandling = false;
+        boolean improveEntityHandling = Settings.IMPROVE_ENTITY_HANDLING;
         if (improveEntityHandling) {
             theProfiler.endStartSection("hyperium_entity_async");
             boolean profilingEnabled = theProfiler.profilingEnabled;

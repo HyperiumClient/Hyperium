@@ -102,6 +102,7 @@
     "scoreboard.MixinScoreboard",
     "utils.MixinChatComponentStyle",
     "utils.MixinChatStyle",
+    "utils.MixinClassInheritanceMultiMap",
     "utils.MixinMultiMap",
     "utils.MixinResourcePackRepository",
     "world.IMixinWorld",
