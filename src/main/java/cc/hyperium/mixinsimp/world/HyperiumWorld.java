@@ -222,6 +222,7 @@ public class HyperiumWorld {
             }
             CountDownLatch latch = new CountDownLatch(fx.values().size());
 
+            List<Entity> toRemove= new ArrayList<>();
             for (List<Entity> entityFXES : fx.values()) {
                 Multithreading.runAsync(() -> {
                     try {
@@ -240,14 +241,7 @@ public class HyperiumWorld {
 
                                 updateEntity(entity);
                                 if (entity.isDead) {
-                                    int k1 = entity.chunkCoordX;
-                                    int i2 = entity.chunkCoordZ;
-
-                                    if (entity.addedToChunk && ((IMixinWorld) parent).callIsChunkLoaded(k1, i2, true)) {
-                                        parent.getChunkFromChunkCoords(k1, i2).removeEntity(entity);
-                                    }
-                                    loadedEntityList.remove(entity);
-                                    ((IMixinWorld) parent).callOnEntityRemoved(entity);
+                                    toRemove.add(entity);
                                 }
                             } catch (Throwable throwable) {
                                 throwable.printStackTrace();
@@ -265,6 +259,16 @@ public class HyperiumWorld {
                 latch.await();
             } catch (InterruptedException e) {
                 e.printStackTrace();
+            }
+            for (Entity entity : toRemove) {
+                int k1 = entity.chunkCoordX;
+                int i2 = entity.chunkCoordZ;
+
+                if (entity.addedToChunk && ((IMixinWorld) parent).callIsChunkLoaded(k1, i2, true)) {
+                    parent.getChunkFromChunkCoords(k1, i2).removeEntity(entity);
+                }
+                loadedEntityList.remove(entity);
+                ((IMixinWorld) parent).callOnEntityRemoved(entity);
             }
             theProfiler.profilingEnabled = profilingEnabled;
             theProfiler.endSection();
