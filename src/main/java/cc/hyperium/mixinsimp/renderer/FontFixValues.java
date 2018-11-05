@@ -2,12 +2,16 @@ package cc.hyperium.mixinsimp.renderer;
 
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.TickEvent;
+import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.CacheWriter;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.RemovalCause;
 import net.minecraft.client.renderer.GLAllocation;
+import org.lwjgl.LWJGLException;
+import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.SharedDrawable;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -15,11 +19,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.TimeUnit;
 
 public class FontFixValues {
     public static FontFixValues INSTANCE;
-
-    private final int MAX = 1000 /* Worth bumping up to 10_000? */;
+    public static SharedDrawable drawable;
+    private final int MAX = 5000 /* Worth bumping up to 10_000? */;
     public List<StringHash> obfuscated = new ArrayList<>();
     private Cache<StringHash, CachedString> stringCache = Caffeine.newBuilder()
             .writer(new RemovalListener())
@@ -27,6 +32,47 @@ public class FontFixValues {
             .maximumSize(MAX)
             .build();
     private Queue<Integer> glRemoval = new ConcurrentLinkedQueue<>();
+
+    public FontFixValues() {
+        Multithreading.schedule(() -> {
+            try {
+                if (drawable == null) {
+                    return;
+                }
+                if (!drawable.isCurrent())
+                    try {
+                        drawable.makeCurrent();
+                    } catch (LWJGLException e) {
+                        e.printStackTrace();
+                        GeneralChatHandler.instance().sendMessage("Failed to do something important for the optimized font renderer, memory leak inbound! Please send your latest.log to Hyperium staff members");
+                        drawable.releaseContext();
+                        return;
+                    } catch (IllegalStateException ignored) {
+                        ignored.printStackTrace();
+                    }
+                Integer integer;
+                int i = 0;
+                while ((integer = glRemoval.poll()) != null) {
+                    i++;
+                    GLAllocation.deleteDisplayLists(integer);
+                }
+                drawable.releaseContext();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                if (drawable != null) {
+                    try {
+                        drawable.releaseContext();
+                    } catch (LWJGLException e1) {
+                        e1.printStackTrace();
+                    }
+                }
+
+
+            }
+        }, 1, 1, TimeUnit.SECONDS);
+        System.out.println("STARTED");
+    }
 
     public Queue<Integer> getGlRemoval() {
         return glRemoval;
@@ -36,13 +82,12 @@ public class FontFixValues {
     public void tick(TickEvent tickEvent) {
         stringCache.invalidateAll(obfuscated);
         obfuscated.clear();
-        int startSize = glRemoval.size();
-        int thisIt = startSize / 20;
-        int it = 0;
-        Integer integer;
-        while ((integer = glRemoval.poll()) != null && it < thisIt) {
-            GLAllocation.deleteDisplayLists(integer);
-            it++;
+        if (drawable == null) {
+            try {
+                drawable = new SharedDrawable(Display.getDrawable());
+            } catch (LWJGLException e) {
+                e.printStackTrace();
+            }
         }
     }
 

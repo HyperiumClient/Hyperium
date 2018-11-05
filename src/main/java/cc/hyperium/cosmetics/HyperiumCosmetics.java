@@ -1,6 +1,5 @@
 package cc.hyperium.cosmetics;
 
-import cc.hyperium.cosmetics.backpack.EnderDragonBackpack;
 import cc.hyperium.cosmetics.companions.dragon.DragonCompanion;
 import cc.hyperium.cosmetics.companions.hamster.HamsterCompanion;
 import cc.hyperium.cosmetics.hats.ModelHatFez;
@@ -19,7 +18,6 @@ import java.util.List;
  */
 public class HyperiumCosmetics {
 
-    private final ChromaWinCosmetic chromaWin;
     private final List<AbstractCosmetic> cosmeticList = new ArrayList<>();
     private final FlipCosmetic flipCosmetic;
     private final Deadmau5Cosmetic deadmau5Cosmetic;
@@ -27,7 +25,6 @@ public class HyperiumCosmetics {
     private final DragonCosmetic dragonCosmetic;
     private final ButtCosmetic buttCosmetic;
     private final KillCounterMuscles killCounterMuscles;
-    private EnderDragonBackpack enderDragonBackpack;
     private DragonCompanion dragonCompanion;
     private HamsterCompanion hamsterCompanion;
 
@@ -40,13 +37,11 @@ public class HyperiumCosmetics {
      */
     public HyperiumCosmetics() {
         registerCosmetic(killCounterMuscles = new KillCounterMuscles());
-        registerCosmetic(chromaWin = new ChromaWinCosmetic());
         registerCosmetic(buttCosmetic = new ButtCosmetic());
         registerCosmetic(flipCosmetic = new FlipCosmetic());
         registerCosmetic(deadmau5Cosmetic = new Deadmau5Cosmetic());
         registerCosmetic(wingsCosmetic = new WingsCosmetic());
         registerCosmetic(dragonCosmetic = new DragonCosmetic());
-        registerCosmetic(enderDragonBackpack = new EnderDragonBackpack());
         registerCosmetic(dragonCompanion = new DragonCompanion());
         registerCosmetic(hamsterCompanion = new HamsterCompanion());
         registerCosmetic(topHatCosmetic);
@@ -63,9 +58,6 @@ public class HyperiumCosmetics {
         return killCounterMuscles;
     }
 
-    public EnderDragonBackpack getEnderDragonBackpack() {
-        return enderDragonBackpack;
-    }
 
     public DragonCompanion getDragonCompanion() {
         return dragonCompanion;
@@ -81,6 +73,10 @@ public class HyperiumCosmetics {
         EventBus.INSTANCE.register(cosmetic);
     }
 
+    public HamsterCompanion getHamsterCompanion() {
+        return hamsterCompanion;
+    }
+
     /**
      * EnumCosmeticType - Used to distinguish cosmetics
      * and their types
@@ -88,7 +84,6 @@ public class HyperiumCosmetics {
     public enum EnumCosmeticType {
 
         DAB,
-        CHROMA_WIN,
         BUTT,
         FLIP,
         DEALWITHIT,
@@ -111,8 +106,6 @@ public class HyperiumCosmetics {
 
         switch (givenType) {
 
-            case CHROMA_WIN:
-                return this.chromaWin;
             case BUTT:
                 return this.buttCosmetic;
             case FLIP:
@@ -143,9 +136,6 @@ public class HyperiumCosmetics {
     }
 
 
-    public ChromaWinCosmetic getChromaWin() {
-        return this.chromaWin;
-    }
 
     public FlipCosmetic getFlipCosmetic() {
         return this.flipCosmetic;

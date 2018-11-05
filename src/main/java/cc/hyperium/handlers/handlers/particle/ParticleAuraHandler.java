@@ -81,7 +81,6 @@ public class ParticleAuraHandler {
         }
         JsonHolder data = purchaseSettings.optJSONObject("particle");
         AbstractAnimation particle_animation = animations.get(data.optString("particle_animation"));
-//        AbstractAnimation particle_animation = animations.get("Tornado");
 
         EnumParticleType type = EnumParticleType.parse(data.optString("type"));
         if (particle_animation == null || type == null) {
@@ -117,7 +116,13 @@ public class ParticleAuraHandler {
         if (Minecraft.getMinecraft().theWorld == null || Minecraft.getMinecraft().thePlayer == null)
             return;
         if (!Settings.SHOW_PARTICLES) return;
+
+
         AbstractClientPlayer entity = event.getEntity();
+        if (!entity.equals(Minecraft.getMinecraft().thePlayer)) {
+            if (entity.posX != entity.prevPosZ || entity.posY != entity.prevPosY || entity.posZ != entity.prevPosZ)
+                return;
+        }
         ParticleAura particleAura = auras.get(entity.getUniqueID());
         if (particleAura != null && !entity.isInvisible()) {
             double x = entity.prevPosX + (entity.posX - entity.prevPosX) * event.getPartialTicks();

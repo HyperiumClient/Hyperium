@@ -18,12 +18,16 @@
 package cc.hyperium.mixins.renderer;
 
 import cc.hyperium.mixinsimp.renderer.HyperiumRenderLivingEntity;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.renderer.culling.ICamera;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.RendererLivingEntity;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.scoreboard.Team;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
@@ -47,11 +51,42 @@ public abstract class MixinRendererLivingEntity<T extends EntityLivingBase> exte
     @Shadow
     protected abstract float getDeathMaxRotation(T entityLivingBaseIn);
 
-    @Shadow
-    protected abstract boolean canRenderName(T entity);
 
     /**
-     * @author
+     * @author Sk1er
+     * @reason Fix Levelhead not rendering on self
+     */
+    @Overwrite
+    protected boolean canRenderName(T entity) {
+        EntityPlayerSP entityplayersp = Minecraft.getMinecraft().thePlayer;
+
+        if (entity instanceof EntityPlayer) {
+            Team team = entity.getTeam();
+            Team team1 = entityplayersp.getTeam();
+
+            if (team != null) {
+                Team.EnumVisible team$enumvisible = team.getNameTagVisibility();
+
+                switch (team$enumvisible) {
+                    case ALWAYS:
+                        return true;
+                    case NEVER:
+                        return false;
+                    case HIDE_FOR_OTHER_TEAMS:
+                        return team1 == null || team.isSameTeam(team1);
+                    case HIDE_FOR_OWN_TEAM:
+                        return team1 == null || !team.isSameTeam(team1);
+                    default:
+                        return true;
+                }
+            }
+        }
+
+        return Minecraft.isGuiEnabled() && entity != this.renderManager.livingPlayer && !entity.isInvisibleToPlayer(entityplayersp) && entity.riddenByEntity == null;
+    }
+
+    /**
+     * @author Sk1er
      */
     @Overwrite
     protected void renderLayers(T entitylivingbaseIn, float p_177093_2_, float p_177093_3_, float partialTicks, float p_177093_5_, float p_177093_6_, float p_177093_7_, float p_177093_8_) {
@@ -71,8 +106,14 @@ public abstract class MixinRendererLivingEntity<T extends EntityLivingBase> exte
         return super.shouldRender(livingEntity, camera, camX, camY, camZ);
     }
 
+    /**
+     * @author sk1er
+     * @reason we do it better
+     */
     @Overwrite
     public void renderName(T entity, double x, double y, double z) {
-        hyperiumRenderLivingEntity.renderName(entity, x, y, z,renderManager);
+        hyperiumRenderLivingEntity.renderName(entity, x, y, z, renderManager);
     }
+
+
 }

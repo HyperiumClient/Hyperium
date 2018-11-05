@@ -4,6 +4,7 @@ import cc.hyperium.Hyperium;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.RenderEvent;
+import cc.hyperium.event.TickEvent;
 import cc.hyperium.internal.addons.annotations.Instance;
 import cc.hyperium.mixins.gui.MixinGuiScreenBook;
 import cc.hyperium.mods.sk1ercommon.Sk1erMod;
@@ -32,6 +33,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -218,7 +220,10 @@ public class NickHider {
     }
 
     @InvokeEvent
-    public void profileCheck(RenderEvent event) {
+    public void profileCheck(TickEvent event) {
+        if (!isEnabled())
+            return;
+
         EntityPlayerSP thePlayer = Minecraft.getMinecraft().thePlayer;
         if (thePlayer == null)
             return;
@@ -226,11 +231,13 @@ public class NickHider {
         if (sendQueue == null)
             return;
 
+        UUID id = Minecraft.getMinecraft().getSession().getProfile().getId();
+        String name = Minecraft.getMinecraft().getSession().getProfile().getName();
         for (NetworkPlayerInfo networkPlayerInfo : sendQueue.getPlayerInfoMap()) {
             GameProfile gameProfile = networkPlayerInfo.getGameProfile();
-            if (gameProfile.getId() != null && gameProfile.getId().equals(Minecraft.getMinecraft().getSession().getProfile().getId())) {
-                if (!gameProfile.getName().equalsIgnoreCase(Minecraft.getMinecraft().getSession().getProfile().getName())) {
-                    remap(gameProfile.getName(), override == null ? Minecraft.getMinecraft().getSession().getProfile().getName() : override);
+            if (gameProfile.getId() != null && gameProfile.getId().equals(id)) {
+                if (!gameProfile.getName().equalsIgnoreCase(name)) {
+                    remap(gameProfile.getName(), override == null ? name : override);
                 }
             } else if (!config.isSelfOnly()) {
                 remap(gameProfile.getName(), getPseudo(gameProfile.getName()));

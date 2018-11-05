@@ -51,7 +51,7 @@ public class FlipHandler {
     public void transform(EntityLivingBase bat) {
         String s = EnumChatFormatting.getTextWithoutFormattingCodes(bat.getName());
         Integer state = rotateState.get(bat.getUniqueID());
-        if (!CosmeticsUtil.shouldShow(EnumPurchaseType.FLIP_COSMETIC))
+        if (CosmeticsUtil.shouldHide(EnumPurchaseType.FLIP_COSMETIC))
             return;
         if ((state != null && state == 2) || s != null && (s.equals("Dinnerbone") ||
                 s.equals("Grumm")) && (!(bat instanceof EntityPlayer) || ((EntityPlayer) bat).isWearing(EnumPlayerModelParts.CAPE))) {

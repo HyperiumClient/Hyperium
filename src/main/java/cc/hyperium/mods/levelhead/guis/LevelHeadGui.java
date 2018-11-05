@@ -18,9 +18,6 @@
 package cc.hyperium.mods.levelhead.guis;
 
 import cc.hyperium.Hyperium;
-import cc.hyperium.event.EventBus;
-import cc.hyperium.event.InvokeEvent;
-import cc.hyperium.event.TickEvent;
 import cc.hyperium.gui.CustomLevelheadConfigurer;
 import cc.hyperium.gui.GuiBlock;
 import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
@@ -67,13 +64,6 @@ import java.util.function.Consumer;
  */
 public class LevelHeadGui extends GuiScreen {
 
-    // Recommended GUI display Values (this.height / 2 - 100 (sign) value)
-    //        - 58
-    //        - 34
-    //        - 10
-    //        + 14
-    //        + 38
-    //        + 62
 
     private final String ENABLED = ChatColor.GREEN + "Enabled";
     private final String DISABLED = ChatColor.RED + "Disabled";
@@ -416,14 +406,10 @@ public class LevelHeadGui extends GuiScreen {
     }
 
     public void display() {
-        EventBus.INSTANCE.register(this);
+      Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(this);
     }
 
-    @InvokeEvent
-    public void onTick(TickEvent event) {
-        EventBus.INSTANCE.unregister(this);
-        Minecraft.getMinecraft().displayGuiScreen(this);
-    }
+
 
     @Override
     public void sendChatMessage(String msg) {

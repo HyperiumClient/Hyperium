@@ -17,9 +17,7 @@
 
 package cc.hyperium.mods.chromahud.gui;
 
-import cc.hyperium.event.EventBus;
-import cc.hyperium.event.InvokeEvent;
-import cc.hyperium.event.TickEvent;
+import cc.hyperium.Hyperium;
 import cc.hyperium.gui.GuiButtonIcon;
 import cc.hyperium.gui.HyperiumGui;
 import cc.hyperium.mods.chromahud.ChromaHUD;
@@ -293,14 +291,9 @@ public class GeneralConfigGui extends GuiScreen {
     }
 
     public void display() {
-        EventBus.INSTANCE.register(this);
+        Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(this);
     }
 
-    @InvokeEvent
-    public void tick(TickEvent e) {
-        EventBus.INSTANCE.unregister(this);
-        Minecraft.getMinecraft().displayGuiScreen(this);
-    }
 
     @Override
     protected void keyTyped(char typedChar, int keyCode) throws IOException {

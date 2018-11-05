@@ -363,7 +363,8 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
         if (button.id == 17)
             mc.displayGuiScreen(new ChangeBackgroundGui(this));
         if (button.id == 100) {
-            mc.displayGuiScreen(new ShopGui());
+            HyperiumMainGui.INSTANCE.setTab(3);
+            mc.displayGuiScreen(HyperiumMainGui.INSTANCE);
         }
 
     }

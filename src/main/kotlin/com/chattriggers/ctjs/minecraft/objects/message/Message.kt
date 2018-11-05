@@ -164,7 +164,7 @@ class Message {
         //$$ if (this.recursive) {
         //$$    Client.getConnection().handleChat(ChatPacket(this.chatMessage, ChatType.CHAT))
         //$$ } else {
-        //$$    Player.getPlayer()?.sendMessage(this.chatMessage)
+        //$$    Player.getEntity()?.sendMessage(this.chatMessage)
         //$$ }
         //#endif
     }

@@ -29,8 +29,10 @@ public class YeetHandler {
 
     @InvokeEvent
     public void tickEvent(TickEvent event) {
-        yeets.forEach(yeet -> yeet.age--);
-        yeets.removeIf(yeet -> yeet.age < 0);
+        yeets.removeIf(yeet -> {
+            yeet.age--;
+            return yeet.age < 0;
+        });
     }
 
     @InvokeEvent
