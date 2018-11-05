@@ -2,7 +2,6 @@ package cc.hyperium.event;
 
 import com.google.common.reflect.TypeToken;
 import net.minecraft.client.Minecraft;
-import net.minecraft.profiler.Profiler;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -13,9 +12,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 @SuppressWarnings("UnstableApiUsage")
 public class EventBus {
-
     public static final EventBus INSTANCE = new EventBus();
-
+    public static boolean ALLOW_PROFILE = false;
     private HashMap<Class<?>, CopyOnWriteArrayList<EventSubscriber>> subscriptions = new HashMap<>();
 
     /**
@@ -107,17 +105,28 @@ public class EventBus {
         if (event == null) {
             return;
         }
+        if (event instanceof RenderTickEvent)
+            ALLOW_PROFILE = false;
+        /*
+            HELLO
 
-        Profiler mcProfiler = Minecraft.getMinecraft().mcProfiler;
-        boolean profile = Minecraft.getMinecraft().isCallingFromMinecraftThread() && mcProfiler != null && Minecraft.getMinecraft().theWorld != null;
+            DO NOT, I REPEAT, DO NOT SIMPLIFY ANY OF THE PROFILER CALLS USING
+            Profiler mcProfiler = Minecraft.getMinecraft().mcProfiler;
+            OR REMOVE THE ALLOW PROFILING FIELD.
+
+            DOING SO WILL CAUSE THE PROFILER CLASS TO BE LOADED BEFORE OPTIFINE PATCHES THE CLASS.
+            THIS WILL CAUSE THE ARM IN WALL BUG AND BREAKING OF FAST RENDER.
+
+         */
+        boolean profile = Minecraft.getMinecraft().isCallingFromMinecraftThread() && Minecraft.getMinecraft().theWorld != null && ALLOW_PROFILE;
         if (profile) {
-            mcProfiler.startSection(event.getClass().getSimpleName());
+            Minecraft.getMinecraft().mcProfiler.startSection(event.getClass().getSimpleName());
         }
         this.subscriptions.getOrDefault(event.getClass(), new CopyOnWriteArrayList<>()).forEach((sub) -> {
             if (profile) {
                 String name = sub.getObjName();
-                mcProfiler.startSection(name);
-                mcProfiler.startSection(sub.getMethodName());
+                Minecraft.getMinecraft().mcProfiler.startSection(name);
+                Minecraft.getMinecraft().mcProfiler.startSection(sub.getMethodName());
             }
             try {
                 sub.getMethod().invoke(sub.getInstance(), event);
@@ -128,11 +137,11 @@ public class EventBus {
                 e.printStackTrace();
             }
             if (profile) {
-                mcProfiler.endSection();
-                mcProfiler.endSection();
+                Minecraft.getMinecraft().mcProfiler.endSection();
+                Minecraft.getMinecraft().mcProfiler.endSection();
             }
         });
         if (profile)
-            mcProfiler.endSection();
+            Minecraft.getMinecraft().mcProfiler.endSection();
     }
 }
