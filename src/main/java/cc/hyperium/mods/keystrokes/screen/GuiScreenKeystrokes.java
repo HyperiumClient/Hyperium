@@ -17,9 +17,7 @@
 
 package cc.hyperium.mods.keystrokes.screen;
 
-import cc.hyperium.event.EventBus;
-import cc.hyperium.event.InvokeEvent;
-import cc.hyperium.event.TickEvent;
+import cc.hyperium.Hyperium;
 import cc.hyperium.mods.keystrokes.KeystrokesMod;
 import cc.hyperium.mods.keystrokes.config.KeystrokesSettings;
 import cc.hyperium.mods.keystrokes.screen.impl.GuiSliderFadeTime;
@@ -272,14 +270,10 @@ public class GuiScreenKeystrokes extends GuiScreen {
     }
 
     public void display() {
-        EventBus.INSTANCE.register(this);
+        Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(this);
     }
 
-    @InvokeEvent
-    public void tick(TickEvent event) {
-        EventBus.INSTANCE.unregister(this);
-        Minecraft.getMinecraft().displayGuiScreen(this);
-    }
+
 
     @Override
     public boolean doesGuiPauseGame() {

@@ -62,6 +62,7 @@ public class HyperiumRenderLivingEntity<T extends EntityLivingBase> {
 
     public void renderName(T entity, double x, double y, double z, RenderManager renderManager) {
         if (((IMixinRenderLivingEntity<T>) parent).callCanRenderName(entity)) {
+
             double d0 = entity.getDistanceSqToEntity(renderManager.livingPlayer);
             float f = entity.isSneaking() ? 32.0F : 64.0F;
 

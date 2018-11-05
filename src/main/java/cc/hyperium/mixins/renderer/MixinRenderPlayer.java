@@ -17,8 +17,10 @@
 
 package cc.hyperium.mixins.renderer;
 
+import cc.hyperium.event.RenderNameTagEvent;
 import cc.hyperium.mixinsimp.renderer.HyperiumRenderPlayer;
 import cc.hyperium.mixinsimp.renderer.layers.TwoPartLayerBipedArmor;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelPlayer;
@@ -28,7 +30,11 @@ import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.client.renderer.entity.RendererLivingEntity;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.scoreboard.Score;
+import net.minecraft.scoreboard.ScoreObjective;
+import net.minecraft.scoreboard.Scoreboard;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -77,6 +83,32 @@ public abstract class MixinRenderPlayer extends RendererLivingEntity<AbstractCli
     @Inject(method = "renderRightArm", at = @At(value = "FIELD", ordinal = 3))
     private void onUpdateTimer(AbstractClientPlayer clientPlayer, CallbackInfo ci) {
         hyperiumRenderPlayer.onUpdateTimer(clientPlayer, ci);
+    }
+
+    /**
+     * @author Sk1er
+     * @reason Cancel nametag render event when score is renderer
+     */
+    @Overwrite
+    protected void renderOffsetLivingLabel(AbstractClientPlayer entityIn, double x, double y, double z, String str, float p_177069_9_, double p_177069_10_) {
+        if (p_177069_10_ < 100.0D) {
+            Scoreboard scoreboard = entityIn.getWorldScoreboard();
+            ScoreObjective scoreobjective = scoreboard.getObjectiveInDisplaySlot(2);
+
+            if (scoreobjective != null) {
+                Score score = scoreboard.getValueFromObjective(entityIn.getName(), scoreobjective);
+                RenderNameTagEvent.CANCEL = true;
+                if (entityIn != Minecraft.getMinecraft().thePlayer) {
+                    this.renderLivingLabel(entityIn, score.getScorePoints() + " " + scoreobjective.getDisplayName(), x, y, z, 64);
+                    y += (double) ((float) this.getFontRendererFromRenderManager().FONT_HEIGHT * 1.15F * p_177069_9_);
+
+                }
+                RenderNameTagEvent.CANCEL = false;
+
+            }
+        }
+
+        super.renderOffsetLivingLabel(entityIn, x, y, z, str, p_177069_9_, p_177069_10_);
     }
 }
 

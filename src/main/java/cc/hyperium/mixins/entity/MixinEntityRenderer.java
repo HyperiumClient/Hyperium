@@ -129,6 +129,11 @@ public abstract class MixinEntityRenderer {
         this.stopUseShader();
     }
 
+    @Inject(method = "loadShader", at = @At("HEAD"))
+    private void loadShader(ResourceLocation resourceLocation, CallbackInfo callbackInfo) {
+        hyperiumEntityRenderer.loadShader(resourceLocation, callbackInfo);
+    }
+
     /**
      * @author Sk1er (added forward for distance)
      */

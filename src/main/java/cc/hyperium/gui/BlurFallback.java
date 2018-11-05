@@ -3,8 +3,6 @@ package cc.hyperium.gui;
 import cc.hyperium.config.Settings;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.TickEvent;
-import cc.hyperium.mixins.entity.MixinEntityRenderer;
-import cc.hyperium.mixinsimp.entity.HyperiumEntity;
 import cc.hyperium.mixinsimp.entity.HyperiumEntityRenderer;
 import me.semx11.autotip.util.ReflectionUtil;
 import net.minecraft.client.Minecraft;
@@ -42,8 +40,7 @@ public class BlurFallback {
                 }
                 if (!Settings.BLUR_GUI && Settings.BLUR_GUI != initialBlur) {
                     // Blur was just disabled.
-                    mc.addScheduledTask(() ->
-                            mc.entityRenderer.stopUseShader());
+                    mc.addScheduledTask(() -> mc.entityRenderer.stopUseShader());
                 }
 
                 initialBlur = Settings.BLUR_GUI;

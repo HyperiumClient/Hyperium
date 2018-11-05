@@ -40,6 +40,10 @@ public abstract class MixinRender<T extends Entity> {
         hyperiumRender.renderOffsetLivingLabel(entityIn, x, y, z, str, p_177069_9_, p_177069_10_);
     }
 
+    /**
+     * @author Sk1er
+     * @reason We do it better
+     */
     @Overwrite
     protected void renderName(T entity, double x, double y, double z) {
         hyperiumRender.renderName(entity, x, y, z);

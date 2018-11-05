@@ -127,8 +127,19 @@ public class BrowserMod extends AbstractMod implements IDisplayHandler, IJSQuery
                                 jTextField.getGraphicsConfiguration().getDevice()));
 
                 robot.mouseMove(0, 0);
-                robot.keyPress(KeyEvent.VK_QUOTE);
-                robot.keyRelease(KeyEvent.VK_QUOTE);
+                try {
+                    robot.keyPress(KeyEvent.VK_QUOTE);
+                    robot.keyRelease(KeyEvent.VK_QUOTE);
+                } catch (IllegalArgumentException e){
+                    try{
+                        robot.keyPress(KeyEvent.VK_SHIFT);
+                        robot.keyPress(KeyEvent.VK_2);
+                        robot.keyRelease(KeyEvent.VK_2);
+                        robot.keyRelease(KeyEvent.VK_SHIFT);
+                    } catch (IllegalArgumentException ex){
+                        ex.printStackTrace();
+                    }
+                }
                 jFrame.setAlwaysOnTop(true);
 
 

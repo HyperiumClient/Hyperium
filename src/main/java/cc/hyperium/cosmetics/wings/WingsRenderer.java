@@ -45,7 +45,7 @@ public class WingsRenderer extends ModelBase {
 
     @InvokeEvent
     public void onRenderPlayer(RenderPlayerEvent event) {
-        if (!CosmeticsUtil.shouldShow(EnumPurchaseType.WING_COSMETIC))
+        if (CosmeticsUtil.shouldHide(EnumPurchaseType.WING_COSMETIC))
             return;
         EntityPlayer player = event.getEntity();
         if (wingsCosmetic.isPurchasedBy(event.getEntity().getUniqueID()) && !player.isInvisible()) {

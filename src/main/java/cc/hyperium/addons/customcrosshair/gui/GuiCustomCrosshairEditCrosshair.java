@@ -63,13 +63,14 @@ public class GuiCustomCrosshairEditCrosshair extends CustomCrosshairScreen {
         editColour_crosshair.getHelpText().add("Changes the main colour of the crosshair.");
         this.itemList.add(
             this.slider_crosshairType = new CCSlider(this, 5, "Crosshair Type", 0, 0, 120, 10, 0,
-                3));
+                4));
         this.slider_crosshairType.setValue(this.addon.getCrosshair().getCrosshairTypeID());
         this.slider_crosshairType.getHelpText().add("Changes the crosshair type.");
         this.slider_crosshairType.getHelpText().add("[0 = Cross]");
         this.slider_crosshairType.getHelpText().add("[1 = Circle]");
         this.slider_crosshairType.getHelpText().add("[2 = Square]");
         this.slider_crosshairType.getHelpText().add("[3 = Arrow]");
+        this.slider_crosshairType.getHelpText().add("[4 = X]");
         this.itemList
             .add(this.tickbox_visibleDefault = new CCTickbox(this, 18, "Crosshair Visible", 0, 0) {
                 @Override

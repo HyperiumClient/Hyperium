@@ -48,7 +48,7 @@ public class CosmeticHat extends AbstractCosmetic {
 
         Minecraft mc = Minecraft.getMinecraft();
         AbstractClientPlayer player = e.getEntity();
-        if (!CosmeticsUtil.shouldShow(getPurchaseType()))
+        if (CosmeticsUtil.shouldHide(getPurchaseType()))
             return;
 
         if (this.isPurchasedBy(player.getUniqueID()) && !player.isInvisible()) {
@@ -59,7 +59,7 @@ public class CosmeticHat extends AbstractCosmetic {
             }
 
             GlStateManager.pushMatrix();
-
+            GlStateManager.translate(e.getX(), e.getY(), e.getZ());
             final double scale = 1.0F;
             final double rotate = this.interpolate(player.prevRotationYawHead, player.rotationYawHead, e.getPartialTicks());
             final double rotate1 = this.interpolate(player.prevRotationPitch, player.rotationPitch, e.getPartialTicks());
