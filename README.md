@@ -49,7 +49,7 @@ A: If you don't know how to build a project, please wait for a new beta or relea
 
 Q: When is the official release?
 
-A: We don't know! However, open beta testing is underway at our <a href="https://discord.gg/RNyRgtv">Discord</a>!
+A: We are officially released come get the release version in our<a href="https://discord.gg/RNyRgtv">Discord</a>!
 
 
 Q: Can I use Hyperium now?
