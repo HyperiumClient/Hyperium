@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.CountDownLatch;
 
 public class HyperiumWorld {
@@ -222,12 +223,15 @@ public class HyperiumWorld {
             }
             CountDownLatch latch = new CountDownLatch(fx.values().size());
 
-            List<Entity> toRemove= new ArrayList<>();
+            ConcurrentLinkedQueue<Entity> toRemove= new ConcurrentLinkedQueue<>();
             for (List<Entity> entityFXES : fx.values()) {
                 Multithreading.runAsync(() -> {
                     try {
                         for (Entity entity : entityFXES) {
-
+                            if(entity == null) {
+                                System.out.println("Entity was null");
+                                continue;
+                            }
                             try {
                                 if (entity.ridingEntity != null) {
                                     if (!entity.ridingEntity.isDead && entity.ridingEntity.riddenByEntity == entity) {
@@ -261,6 +265,10 @@ public class HyperiumWorld {
                 e.printStackTrace();
             }
             for (Entity entity : toRemove) {
+                if (entity == null) {
+                    System.out.println("Entity null");
+                    continue;
+                }
                 int k1 = entity.chunkCoordX;
                 int i2 = entity.chunkCoordZ;
 
@@ -314,7 +322,7 @@ public class HyperiumWorld {
 
     }
 
-    private synchronized void updateEntity(Entity entity) {
+    private void updateEntity(Entity entity) {
         if (!entity.isDead) {
             try {
                 parent.updateEntity(entity);
