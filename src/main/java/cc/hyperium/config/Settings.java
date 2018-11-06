@@ -73,7 +73,7 @@ public class Settings {
     public static boolean FASTCHAT = false;
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;shinyPotsEnabled")
-    @ToggleSetting(name = "gui.settings.shinypotions", category = ANIMATIONS, mods = true)
+    @ToggleSetting(name = "gui.settings.shinypotions", category = ANIMATIONS)
     public static boolean SHINY_POTS = false;
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;smartSoundsEnabled")
@@ -197,47 +197,47 @@ public class Settings {
 
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.AnimationSettings;oldBlockhit")
-    @ToggleSetting(name = "gui.settings.17blockhitting", category = ANIMATIONS, mods = true)
+    @ToggleSetting(name = "gui.settings.17blockhitting", category = ANIMATIONS)
     public static boolean OLD_BLOCKHIT = true;
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.AnimationSettings;oldBow")
-    @ToggleSetting(name = "gui.settings.17bowposition", category = ANIMATIONS, mods = true)
+    @ToggleSetting(name = "gui.settings.17bowposition", category = ANIMATIONS)
     public static boolean OLD_BOW = true;
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.AnimationSettings;oldRod")
-    @ToggleSetting(name = "gui.settings.17rodposition", category = ANIMATIONS, mods = true)
+    @ToggleSetting(name = "gui.settings.17rodposition", category = ANIMATIONS)
     public static boolean OLD_ROD = true;
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.AnimationSettings;redArmour")
-    @ToggleSetting(name = "gui.settings.17redarmour", category = ANIMATIONS, mods = true)
+    @ToggleSetting(name = "gui.settings.17redarmour", category = ANIMATIONS)
     public static boolean OLD_ARMOUR = true;
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.AnimationSettings;oldEat")
-    @ToggleSetting(name = "gui.settings.17eating", category = ANIMATIONS, mods = true)
+    @ToggleSetting(name = "gui.settings.17eating", category = ANIMATIONS)
     public static boolean OLD_EATING = true;
 
     @ConfigOpt
-    @ToggleSetting(name = "gui.settings.17sneakinganimation", category = ANIMATIONS, mods = true)
+    @ToggleSetting(name = "gui.settings.17sneakinganimation", category = ANIMATIONS)
     public static boolean OLD_SNEAKING = false;
 
     @ConfigOpt
-    @ToggleSetting(name = "gui.settings.17blocking", category = ANIMATIONS, mods = true)
+    @ToggleSetting(name = "gui.settings.17blocking", category = ANIMATIONS)
     public static boolean OLD_BLOCKING = false;
 
     @ConfigOpt
-    @ToggleSetting(name = "gui.settings.17itemheld", category = ANIMATIONS, mods = true)
+    @ToggleSetting(name = "gui.settings.17itemheld", category = ANIMATIONS)
     public static boolean OLD_ITEM_HELD = false;
 
     @ConfigOpt
-    @ToggleSetting(name = "gui.settings.17debug", category = ANIMATIONS, mods = true)
+    @ToggleSetting(name = "gui.settings.17debug", category = ANIMATIONS)
     public static boolean OLD_DEBUG = false;
 
     @ConfigOpt
-    @ToggleSetting(name = "gui.settings.17health", category = ANIMATIONS, mods = true)
+    @ToggleSetting(name = "gui.settings.17health", category = ANIMATIONS)
     public static boolean OLD_HEALTH = false;
 
     @ConfigOpt
-    @ToggleSetting(name = "gui.settings.customswordanimation", category = ANIMATIONS, mods = true)
+    @ToggleSetting(name = "gui.settings.customswordanimation", category = ANIMATIONS)
     public static boolean CUSTOM_SWORD_ANIMATION = false;
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.CosmeticSettings;fliptoggle")
