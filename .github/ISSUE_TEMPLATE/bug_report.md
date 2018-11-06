@@ -3,7 +3,7 @@ name: Bug report
 about: Create a report to help us improve our client
 
 ---
-
+<!-- Anything that looks like this is a comment and cannot be seen after creating the issue.  -->  
 
 **Describe the bug**  
 <!-- A clear and concise description of what the bug is.  -->
@@ -25,9 +25,9 @@ Steps to reproduce the behavior:
  - Version [e.g. Hyperium Beta Build 1337]  
 
 **Additional context**
-Add any other context about the problem here.
+<!-- Add any other context about the problem here.  -->  
 
 **Logs**  
-If you have any logs, put them here.  
+<!-- If you have any logs, put them here.  -->  
 
 <!-- Thanks for reporting the bug! -->
