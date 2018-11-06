@@ -3,10 +3,10 @@ name: Crash report
 about: If Hyperium crashed, you can report it here
 
 ---
-
+<!-- Anything that looks like this is a comment and cannot be seen after creating the issue.  -->  
 
 **Cause**  
-Steps to reproduce the crash:
+Steps to reproduce the crash:  
 1.   
 2.  
 3.  
