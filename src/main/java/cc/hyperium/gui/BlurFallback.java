@@ -22,7 +22,6 @@ public class BlurFallback {
     /**
      * Last screen known to to be displayed to this object
      */
-    private GuiScreen lastKnownScreen;
     private boolean initialBlur = false;
     private boolean loadedBlur = false;
 
@@ -47,14 +46,12 @@ public class BlurFallback {
             if (mc != null && Settings.BLUR_GUI && mc.entityRenderer != null && mc.entityRenderer.isShaderActive()) {
                 GuiScreen currentScreen = mc.currentScreen;
 
-                if (lastKnownScreen != currentScreen) {
-                    if (currentScreen == null) { // Disable shaders if screen just closed
+                    if (currentScreen == null && isLoadedShader) { // Disable shaders if screen just closed
                         mc.addScheduledTask(() ->
                                 mc.entityRenderer.stopUseShader());
+                        isLoadedShader=false;
                     }
 
-                    lastKnownScreen = mc.currentScreen;
-                }
             }
 
             //Enable shader fallback
@@ -71,6 +68,7 @@ public class BlurFallback {
                     } catch (IllegalAccessException | InvocationTargetException e) {
                         e.printStackTrace();
                     }
+                    isLoadedShader=true;
                 }
             }
     }
