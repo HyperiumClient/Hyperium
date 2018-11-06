@@ -52,7 +52,7 @@ public class HyperiumGuiScreen {
         EventBus.INSTANCE.post(new GuiKeyTypedEvent(parent, typedChar, keyCode));
     }
 
-    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+    public void drawScreen(int mouseX, int mouseY, float partialTicks, CallbackInfo ci) {
         EventBus.INSTANCE.post(new GuiDrawScreenEvent(parent, mouseX, mouseY, partialTicks));
     }
 
