@@ -5,6 +5,7 @@ import cc.hyperium.config.Settings;
 import cc.hyperium.mixins.renderer.IMixinRender;
 import cc.hyperium.mixins.renderer.IMixinRenderLivingEntity;
 import cc.hyperium.utils.Utils;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
@@ -71,7 +72,7 @@ public class HyperiumRenderLivingEntity<T extends EntityLivingBase> {
                 float f1 = 0.02666667F;
                 GlStateManager.alphaFunc(516, 0.1F);
 
-                if (entity.isSneaking()) {
+                if (entity.isSneaking() && (Settings.SHOW_OWN_NAME || !entity.equals(Minecraft.getMinecraft().thePlayer))) {
                     FontRenderer fontrenderer = renderManager.getFontRenderer();
                     GlStateManager.pushMatrix();
                     float offset = Utils.INSTANCE.calculateDeadmauEarsOffset(entity);

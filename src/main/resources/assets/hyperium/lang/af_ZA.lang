@@ -131,6 +131,9 @@ gui.settings.numericping=Numeriese Ping
 gui.settings.arrowcountwhenholdingbow=Pyl telling wanner jy 'n boog vas hou
 gui.settings.showenchantmentsabovehotbar=Wys betowerings bokant die hotbar
 gui.settings.showattackdamageabovehotbar=Wys Aanval Skade bokant hotbar
+gui.settings.armorprotectionpotentional=Show Armor Protection in Inventory
+gui.settings.armorprojectileprotpotentional=Show Armor Projectile Protection in Inventory
+gui.settings.hidecrosshairinf5=Hide crosshair when in Third Person
 gui.settings.critparticlefix=Crit deeltjie los
 gui.settings.holdperspectivekey=Hou perspektief sleutel
 gui.settings.optimizeditemrenderer=Geoptimaliseerde Item Renderer (BETA)
@@ -232,3 +235,21 @@ splashprogress.registeringcommands=Registering Commands...
 splashprogress.loadingintegrations=Loading Integrations...
 splashprogress.reloadingresourcemanager=Reloading Resource Manager...
 splashprogress.finishing=Finishing...
+
+gui.cosmetics.disableparticles=Disable Particles
+gui.cosmetics.line1=You must purchase at least 1 particle and 1 animation for it to show
+gui.cosmetics.line2=The Double Twirl animation is free.
+gui.cosmetics.preview=Preview
+gui.cosmetics.red=Red
+gui.cosmetics.green=Green
+gui.cosmetics.blue=Blue
+gui.cosmetics.maxage=Particle life
+# Hyperium Misc Gui Text
+gui.namehistory.text=NAME HISTORY
+# Hyperium Chat Message
+message.insufficientcredits=Insufficient credits
+message.attemptingpurchase=Attempting to purchase %s
+message.alreadypurchased=Already purchased %s
+message.invalidparticle=Invalid current particle type
+message.invalidanimation=Invalid animation type
+message.purchase=Purchase %s
