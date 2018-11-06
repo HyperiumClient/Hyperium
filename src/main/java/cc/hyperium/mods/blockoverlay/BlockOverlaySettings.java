@@ -93,14 +93,6 @@ public class BlockOverlaySettings {
         this.overlayMode = overlayMode;
     }
 
-    public boolean isAlwaysRender() {
-        return this.alwaysRender;
-    }
-
-    public void setAlwaysRender(boolean alwaysRender) {
-        this.alwaysRender = alwaysRender;
-    }
-
     public boolean isChroma() {
         return this.isChroma;
     }

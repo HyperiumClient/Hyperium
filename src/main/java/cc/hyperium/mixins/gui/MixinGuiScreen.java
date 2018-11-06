@@ -63,6 +63,11 @@ public abstract class MixinGuiScreen {
         this.mc.dispatchKeypresses();
     }
 
+    @Inject(method = "drawScreen", at = @At("HEAD"), cancellable = true)
+    private void drawScreen(int mouseX, int mouseY, float partialTicks, CallbackInfo ci) {
+        hyperiumGuiScreen.drawScreen(mouseX, mouseY, partialTicks, ci);
+    }
+
     @Inject(method = "drawWorldBackground", at = @At("HEAD"), cancellable = true)
     private void drawWorldBackground(int tint, CallbackInfo ci) {
         hyperiumGuiScreen.drawWorldBackground(tint, this.mc, ci);

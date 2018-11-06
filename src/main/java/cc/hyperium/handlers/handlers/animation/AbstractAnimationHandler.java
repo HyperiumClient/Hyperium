@@ -31,13 +31,15 @@ public abstract class AbstractAnimationHandler {
 
         onRender();
 
-        if (this.systemTime == 0) this.systemTime = systemTime;
+        long systemTime1 = System.currentTimeMillis();
+        if (this.systemTime == 0) {
+            this.systemTime = systemTime1;
+        }
 
-        if (this.systemTime < systemTime + (1000 / 120)) {
+        int msPerTick = 1000 / 120;
+        if (this.systemTime < systemTime1 + msPerTick) {
+            this.systemTime = systemTime1 + msPerTick;
             state = modifyState();
-
-            this.systemTime += (1000 / 120);
-
             if (state <= 0) {
                 asc = true;
                 right = !right;
@@ -47,6 +49,7 @@ public abstract class AbstractAnimationHandler {
             }
         }
     }
+
 
     public void onRender() {
     }

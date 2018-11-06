@@ -322,8 +322,9 @@ public class HyperiumMinecraft {
         } catch (LWJGLException e) {
             e.printStackTrace();
         } catch (Exception e) {
+            e.printStackTrace();
+            // throw e; It'll hide actual error...
             System.out.println("Display not created yet. This is going to cause issues.");
-            throw e;
         }
 
         int x = CrashReportGUI.handle(crashReportIn);
