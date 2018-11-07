@@ -450,10 +450,6 @@
 
 [CoinsDisplay](classes/cc.hyperium.mods.chromahud.displayitems.hyperium.CoinsDisplay.md)
 
-[CBFpsDisplay](classes/cc.hyperium.mods.chromahud.displayitems.hyperium.CBFpsDisplay.md)
-
-[CBCpsDisplay](classes/cc.hyperium.mods.chromahud.displayitems.hyperium.CBCpsDisplay.md)
-
 ## cc.hyperium.mods.chromahud.gui ##
 [MoveElementGui](classes/cc.hyperium.mods.chromahud.gui.MoveElementGui.md)
 

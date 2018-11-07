@@ -2,6 +2,7 @@ package cc.hyperium.handlers.handlers.hud;
 
 import cc.hyperium.config.Settings;
 import cc.hyperium.event.EventBus;
+import cc.hyperium.event.GuiDrawScreenEvent;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.RenderHUDEvent;
 import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
@@ -9,9 +10,14 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.gui.inventory.GuiContainerCreative;
+import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemPotion;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
@@ -28,6 +34,7 @@ public class VanillaEnhancementsHud {
     Most of code adapted from Orange Marshall's Vanilla Enhancements
      */
     private Minecraft mc = Minecraft.getMinecraft();
+    private String lastMessage = "";
 
     public VanillaEnhancementsHud() {
         EventBus.INSTANCE.register(new NetworkInfo());
@@ -59,13 +66,13 @@ public class VanillaEnhancementsHud {
     }
 
     @InvokeEvent
-    public void enchantments(final RenderHUDEvent e) {
+    public void renderEnchantments(final RenderHUDEvent e) {
         if (!Settings.ENCHANTMENTS_ABOVE_HOTBAR) {
             return;
         }
         final ItemStack heldItemStack = this.mc.thePlayer.inventory.getCurrentItem();
         if (heldItemStack != null) {
-            String toDraw = "";
+            String toDraw;
             if (heldItemStack.getItem() instanceof ItemPotion) {
                 toDraw = this.getPotionEffectString(heldItemStack);
             }
@@ -87,7 +94,7 @@ public class VanillaEnhancementsHud {
     }
 
     @InvokeEvent
-    public void onRenderGameOverlayText(RenderHUDEvent e) {
+    public void renderDamage(RenderHUDEvent e) {
         if (!Settings.DAMAGE_ABOVE_HOTBAR) {
             return;
         }
@@ -106,6 +113,20 @@ public class VanillaEnhancementsHud {
             this.mc.fontRendererObj.drawString(attackDamage, x, y, 13421772);
             GL11.glScalef(2.0f, 2.0f, 2.0f);
             GL11.glPopMatrix();
+        }
+    }
+
+    @InvokeEvent
+    public void onRenderArmor(GuiDrawScreenEvent e) {
+        if (!Settings.ARMOR_PROT_POTENTIONAL || !Settings.ARMOR_PROJ_POTENTIONAL) {
+            return;
+        }
+        if (e.getScreen() instanceof GuiInventory || e.getScreen() instanceof GuiContainerCreative) {
+            ScaledResolution res = new ScaledResolution(mc);
+            int white = 16777215;
+            String message = this.getArmorString();
+            lastMessage = message;
+            mc.currentScreen.drawString(mc.fontRendererObj, message, 10, res.getScaledHeight() - 16, white);
         }
     }
 
@@ -149,5 +170,80 @@ public class VanillaEnhancementsHud {
             enchantBuilder.append(" ");
         }
         return enchantBuilder.toString().trim();
+    }
+
+    private String getArmorString() {
+        double ap = roundDecimals(getArmorPotentional(false), 2);
+        double app = roundDecimals(getArmorPotentional(true), 2);
+        if (Settings.ARMOR_PROT_POTENTIONAL || Settings.ARMOR_PROJ_POTENTIONAL) {
+            String lastMessage;
+            String str = Settings.ARMOR_PROT_POTENTIONAL ? (lastMessage = ap + "%") : (lastMessage = app + "%");
+            this.lastMessage = lastMessage;
+            return str;
+        }
+        if (ap == app) {
+            return this.lastMessage = ap + "%";
+        }
+        return this.lastMessage = ap + "% | " + app + "%";
+    }
+
+    private double roundDecimals(double num, int a) {
+        if (num == 0.0) {
+            return num;
+        }
+        num = (int) (num * Math.pow(10.0, a));
+        num /= Math.pow(10.0, a);
+        return num;
+    }
+
+    private double getArmorPotentional(boolean getProj) {
+        EntityPlayer player = mc.thePlayer;
+        double armor = 0.0;
+        int epf = 0;
+        int resistance = 0;
+        if (player.isPotionActive(Potion.resistance)) {
+            resistance = player.getActivePotionEffect(Potion.resistance).getAmplifier() + 1;
+        }
+        for (ItemStack stack : player.inventory.armorInventory) {
+            if (stack != null) {
+                if (stack.getItem() instanceof ItemArmor) {
+                    ItemArmor armorItem = (ItemArmor) stack.getItem();
+                    armor += armorItem.damageReduceAmount * 0.04;
+                }
+                if (stack.isItemEnchanted()) {
+                    epf += getEffProtPoints(EnchantmentHelper.getEnchantmentLevel(0, stack), 0.75);
+                }
+                if (getProj && stack.isItemEnchanted()) {
+                    epf += getEffProtPoints(EnchantmentHelper.getEnchantmentLevel(4, stack), 0.75);
+                }
+            }
+        }
+        epf = ((epf < 25) ? epf : 25);
+        double avgDef = addArmorProtResistance(armor, calcProtection(epf), resistance);
+        double avg = roundDouble(avgDef * 100.0);
+        return avg;
+    }
+
+    private int getEffProtPoints(int level, double typeModifier) {
+        return (level != 0) ? ((int)Math.floor((6 + level * level) * typeModifier / 3.0)) : 0;
+    }
+
+    private double calcProtection(int armorEpf) {
+        double protection = 0.0;
+        for (int i = 50; i <= 100; ++i) {
+            protection += ((Math.ceil(armorEpf * i / 100.0) < 20.0) ? Math.ceil(armorEpf * i / 100.0) : 20.0);
+        }
+        return protection / 51.0;
+    }
+
+    private double addArmorProtResistance(double armor, double prot, int resistance) {
+        double protTotal = armor + (1.0 - armor) * prot * 0.04;
+        protTotal += (1.0 - protTotal) * resistance * 0.2;
+        return (protTotal < 1.0) ? protTotal : 1.0;
+    }
+
+    private double roundDouble(double number) {
+        double x = Math.round(number * 10000.0);
+        return x / 10000.0;
     }
 }

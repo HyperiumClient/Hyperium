@@ -97,6 +97,14 @@ public class Settings {
     public static boolean DAMAGE_ABOVE_HOTBAR = true;
 
     @ConfigOpt
+    @ToggleSetting(name = "gui.settings.armorprotectionpotentional", category = VANILLA_ENHANCEMENTS, mods = true)
+    public static boolean ARMOR_PROT_POTENTIONAL = true;
+
+    @ConfigOpt
+    @ToggleSetting(name = "gui.settings.armorprojectileprotpotentional", category = VANILLA_ENHANCEMENTS, mods = true)
+    public static boolean ARMOR_PROJ_POTENTIONAL = true;
+
+    @ConfigOpt
     @ToggleSetting(name = "gui.settings.hidecrosshairinf5", category = VANILLA_ENHANCEMENTS, mods = true)
     public static boolean CROSSHAIR_IN_F5 = false;
 
