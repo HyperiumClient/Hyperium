@@ -2,7 +2,7 @@
 [ ![Travis-CI](https://travis-ci.org/HyperiumClient/Hyperium.svg?branch=master)](https://travis-ci.org/HyperiumClient/Hyperium)
 # Hyperium 
 ## What is Hyperium? ##
-Hyperium is a Minecraft client, currently in its development stage. It will combine many popular features, in addition to suggestions and ideas from the community, in order to provide a unique experience designed for Hypixel.
+Hyperium is a Minecraft 1.8.9 client, currently in its development stage. It will combine many popular features, in addition to suggestions and ideas from the community, in order to provide a unique experience designed for Hypixel.
 
 ## Features ##
 - [1.7 Animations](https://www.youtube.com/watch?v=9-LoFff-3fI)
