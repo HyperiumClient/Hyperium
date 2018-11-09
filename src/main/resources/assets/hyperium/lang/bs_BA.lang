@@ -1,11 +1,9 @@
-#X-Generator: crowdin.com
-#Hyperium Language File - Created by ScottehBoeh
 
-#Hyperium Disclaimers
+# Hyperium Disclaimers
 menu.left=Copyright 2018 Hyperium Dev Tim
 menu.right=Nismo dio Mojang AB-a
 
-#Hyperium Buttons
+# Hyperium Buttons
 button.menu.changebackground=Promjeni Pozadinu
 button.menu.cosmeticshop=Kozmetička prodavnica
 button.ingame.hyperiumsettings=Hyperium Postavci
@@ -17,7 +15,7 @@ button.changebackground.seturl=Postavi URL
 button.changebackground.choosefile=Odaberite datoteku
 button.changebackground.resetbackground=Resetuj pozadinu
 
-#Hyperium Disclaimer
+# Hyperium Disclaimer
 disclaimer.line1=Ako nastaviš, ti znaš da je Hyperium %s
 disclaimer.line1.bold=KORISTITE NA VLASTITU ODGOVORNOST
 disclaimer.line2=Vlasnici Hyperium-a nisu odgovorni za ikoje banove ili štete
@@ -28,17 +26,17 @@ disclaimer.line5=Molim vas kliknite dugme da potvrdite da se slažete
 button.disclaimer.accept=Prihvati
 button.disclaimer.confirm=Potvrdi prihvaćanje
 
-#Hyperium Menu Strings
+# Hyperium Menu Strings
 menu.profile.credits=%s Krediti
 
-#Hyperium Tabs
+# Hyperium Tabs
 tabs.searchbar=Traži...
 tab.news.name=Vijesti
 tab.settings.name=Postavci
 tab.update.name=Update-uj
 tab.shop.name=Trgovina
 
-#Hyperium Tabs Attributes
+# Hyperium Tabs Attributes
 tab.update.noupdates=Nema novih update-ova
 tab.update.autorestart=Po završetku updateovanja, Minecraft će se automatski pokrenuti
 tab.update.changelog=Lista update-ova dolazi uskoro
@@ -52,20 +50,18 @@ tab.update.installer.state.unknown=W: nepoznato stanje
 tab.update.installer.state.manualupdate.api=E: Molim vas updatujte ručno, API: %s
 tab.update.installer.state.manualupdate=E: Molim vas updatujte ručno, API
 
-#Hyperium Ingame Menu
+# Hyperium Ingame Menu
 gui.ingamemenu.playercount=Hyperium Korisnici:
 gui.ingamemenu.playercount.now=Online sada: %s
 gui.ingamemenu.playercount.lastday=Zadnji dan: %s
 gui.ingamemenu.playercount.lastweek=Prošli tjedan: %s
 gui.ingamemenu.playercount.alltime=Sve vrijeme: %s
 
-#Hyperium Splash Progress
-#splash.progress.
 
-#Hyperium Alerts
+# Hyperium Alerts
 alert.update.message=Hyperium Update! Kliknite ovdje za download.
 
-#Hyperium Change Background Text
+# Hyperium Change Background Text
 gui.changebackground.line1=Unesite URL ispod da biste promijenili pozadinu ili Odaberite datoteku.
 gui.changebackground.line2=Da se može selektovati "prilagođena" u postavke za pozadine.
 gui.changebackground.urlempty=URL ne može biti prazan.
@@ -77,7 +73,7 @@ gui.changebackground.unknownerror=Nepoznata greška
 gui.changebackground.downloaderror=Greška tokom instalacije.
 gui.changebackground.selectimage=Odaberite pozadinsku sliku
 
-#Hyperium PurchaseCarousel Text
+# Hyperium PurchaseCarousel Text
 gui.purchase.purchased=Kupljeno
 gui.purchase.purchase=Kupi
 gui.purchase.active=Aktivno
@@ -86,15 +82,23 @@ gui.purchase.notpurchased=Nije kupljeno
 gui.purchase.clicktouse=Kliknite za korištenje
 gui.purchase.state=Status
 
-#Hyperium Cosmetics Gui
+# Hyperium Cosmetics Gui
 gui.cosmetics.purchase=Kupovina kozmetike
 gui.cosmetics.refresh=Refresh-uj kupovine
 gui.cosmetics.credits=Krediti
 gui.cosmetics.totalcredits=Ukupno kredita: %s
 gui.cosmetics.remainingcredits=Preostalih kredita: %s
 gui.cosmetics.purchased=Kupljeni paketi
+gui.cosmetics.disableparticles=Disable Particles
+gui.cosmetics.line1=You must purchase at least 1 particle and 1 animation for it to show
+gui.cosmetics.line2=The Double Twirl animation is free.
+gui.cosmetics.preview=Preview
+gui.cosmetics.red=Red
+gui.cosmetics.green=Green
+gui.cosmetics.blue=Blue
+gui.cosmetics.maxage=Particle life
 
-#Hyperium Shop Gui
+# Hyperium Shop Gui
 gui.shop.capes=Prikaz Plaštova
 gui.shop.browser=Otvori u pregledniku
 gui.shop.purchasecredits=Kupi Kredite
@@ -110,13 +114,13 @@ gui.shop.insufficientcredits=Nemate dovoljno Kredita!
 gui.shop.loading.cosmetics=Učitavanje kozmetike...
 gui.shop.loading.person=Učitavanje podataka osoba...
 
-#Hyperium Auto Optimizer Text
+# Hyperium Auto Optimizer Text
 gui.optimizer.font.line1=Ako možete pročitati ovaj tekst molimo pritisnite da.
 gui.optimizer.font.line2=U suprotnom, čekajte.
 gui.optimizer.optifine.line1=Detektirali smo da koristite OptiFine.
 gui.optimizer.optifine.line2=Hoćete li ga Optimizirati?
 
-#Hyperium Settings Text
+# Hyperium Settings Text
 gui.settings.discordrp=Discord RP
 gui.settings.fullbright=Fullbright
 gui.settings.romannumerals=Rimske brojevi
@@ -131,6 +135,9 @@ gui.settings.numericping=Numerički Ping
 gui.settings.arrowcountwhenholdingbow=Broj strelica kada držiš luk
 gui.settings.showenchantmentsabovehotbar=Pokaži vračanjem iznad hotbar
 gui.settings.showattackdamageabovehotbar=Pokaži šteta od napada iznad hotbar
+gui.settings.armorprotectionpotentional=Show Armor Protection in Inventory
+gui.settings.armorprojectileprotpotentional=Show Armor Projectile Protection in Inventory
+gui.settings.hidecrosshairinf5=Hide crosshair when in Third Person
 gui.settings.critparticlefix=Crit čestice poprav
 gui.settings.holdperspectivekey=Držite tipku za perspektivu
 gui.settings.optimizeditemrenderer=Optimiziran stavki Renderer (BETA)
@@ -218,7 +225,7 @@ gui.settings.itemphysics=Item Physics
 gui.settings.showbrowser=Pokaži preglednik
 gui.settings.mainmenuserver=Poslužitelj glavnog izbornika
 
-#Hyperium Splash Progress
+# Hyperium Splash Progress
 splashprogress.startinggame=Početna igra...
 splashprogress.loadingresources=Učitavanje resursa...
 splashprogress.creatingdisplay=Stvaranje zaslona...
@@ -232,3 +239,14 @@ splashprogress.registeringcommands=Registracija naredbe...
 splashprogress.loadingintegrations=Učitavanje integracije...
 splashprogress.reloadingresourcemanager=Ponovno učitavanje upravitelja resursa...
 splashprogress.finishing=Završavanje...
+
+# Hyperium Misc Gui Text
+gui.namehistory.text=NAME HISTORY
+
+# Hyperium Chat Message
+message.insufficientcredits=Insufficient credits
+message.attemptingpurchase=Attempting to purchase %s
+message.alreadypurchased=Already purchased %s
+message.invalidparticle=Invalid current particle type
+message.invalidanimation=Invalid animation type
+message.purchase=Purchase %s

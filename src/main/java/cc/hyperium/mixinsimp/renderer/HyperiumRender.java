@@ -76,9 +76,9 @@ public class HyperiumRender<T extends Entity> {
                 xMultiplier = -1;
             GlStateManager.rotate(renderManager.playerViewX * xMultiplier, 1.0F, 0.0F, 0.0F);
             GlStateManager.scale(-f1, -f1, f1);
-            if(self) {
-                GlStateManager.translate(0,10,0);
-            }
+//            if(self) {
+//                GlStateManager.translate(0,10,0);
+//            }
             GlStateManager.disableLighting();
             GlStateManager.depthMask(false);
             GlStateManager.disableDepth();

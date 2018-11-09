@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.CountDownLatch;
 
 public class HyperiumWorld {
@@ -222,11 +223,15 @@ public class HyperiumWorld {
             }
             CountDownLatch latch = new CountDownLatch(fx.values().size());
 
+            ConcurrentLinkedQueue<Entity> toRemove= new ConcurrentLinkedQueue<>();
             for (List<Entity> entityFXES : fx.values()) {
                 Multithreading.runAsync(() -> {
                     try {
                         for (Entity entity : entityFXES) {
-
+                            if(entity == null) {
+                                System.out.println("Entity was null");
+                                continue;
+                            }
                             try {
                                 if (entity.ridingEntity != null) {
                                     if (!entity.ridingEntity.isDead && entity.ridingEntity.riddenByEntity == entity) {
@@ -240,14 +245,7 @@ public class HyperiumWorld {
 
                                 updateEntity(entity);
                                 if (entity.isDead) {
-                                    int k1 = entity.chunkCoordX;
-                                    int i2 = entity.chunkCoordZ;
-
-                                    if (entity.addedToChunk && ((IMixinWorld) parent).callIsChunkLoaded(k1, i2, true)) {
-                                        parent.getChunkFromChunkCoords(k1, i2).removeEntity(entity);
-                                    }
-                                    loadedEntityList.remove(entity);
-                                    ((IMixinWorld) parent).callOnEntityRemoved(entity);
+                                    toRemove.add(entity);
                                 }
                             } catch (Throwable throwable) {
                                 throwable.printStackTrace();
@@ -265,6 +263,20 @@ public class HyperiumWorld {
                 latch.await();
             } catch (InterruptedException e) {
                 e.printStackTrace();
+            }
+            for (Entity entity : toRemove) {
+                if (entity == null) {
+                    System.out.println("Entity null");
+                    continue;
+                }
+                int k1 = entity.chunkCoordX;
+                int i2 = entity.chunkCoordZ;
+
+                if (entity.addedToChunk && ((IMixinWorld) parent).callIsChunkLoaded(k1, i2, true)) {
+                    parent.getChunkFromChunkCoords(k1, i2).removeEntity(entity);
+                }
+                loadedEntityList.remove(entity);
+                ((IMixinWorld) parent).callOnEntityRemoved(entity);
             }
             theProfiler.profilingEnabled = profilingEnabled;
             theProfiler.endSection();
@@ -310,7 +322,7 @@ public class HyperiumWorld {
 
     }
 
-    private synchronized void updateEntity(Entity entity) {
+    private void updateEntity(Entity entity) {
         if (!entity.isDead) {
             try {
                 parent.updateEntity(entity);

@@ -1,11 +1,9 @@
-#X-Generator: crowdin.com
-#Hyperium Language File - Created by ScottehBoeh
 
-#Hyperium Disclaimers
+# Hyperium Disclaimers
 menu.left=حقوق الطبع والنشر 2018 Hyperium Dev Team
 menu.right=لا ينتمي إلى آب Mojang
 
-#Hyperium Buttons
+# Hyperium Buttons
 button.menu.changebackground=تغيير خلفية القائمة
 button.menu.cosmeticshop=متجر الجماليات
 button.ingame.hyperiumsettings=إعدادات Hyperium
@@ -17,7 +15,7 @@ button.changebackground.seturl=تحديد الرابط
 button.changebackground.choosefile=اختيار ملف
 button.changebackground.resetbackground=اعادة تعيين الخلفية
 
-#Hyperium Disclaimer
+# Hyperium Disclaimer
 disclaimer.line1=من خلال المتابعة ، فإنك تقر بهذا البرنامج %s
 disclaimer.line1.bold=استخدام على مسؤوليتك الخاصة
 disclaimer.line2=مطورو Hyperium غير مسؤولين عن أي أضرار أو حظر
@@ -28,17 +26,17 @@ disclaimer.line5=الرجاء الضغط على الزر لتأكد أنك مو�
 button.disclaimer.accept=أوافق
 button.disclaimer.confirm=تأكيد الموافقة
 
-#Hyperium Menu Strings
+# Hyperium Menu Strings
 menu.profile.credits=الرصيد %s
 
-#Hyperium Tabs
+# Hyperium Tabs
 tabs.searchbar=بحث...
 tab.news.name=الأخبار
 tab.settings.name=الإعدادات
 tab.update.name=تحديث
 tab.shop.name=متجر
 
-#Hyperium Tabs Attributes
+# Hyperium Tabs Attributes
 tab.update.noupdates=لا توجد تحديثات متاحة
 tab.update.autorestart=بمجرد الانتهاء من التحديث ، سيتم إعادة تشغيل Minecraft تلقائيًا
 tab.update.changelog=التغييرات ستأتي قريبا
@@ -52,20 +50,18 @@ tab.update.installer.state.unknown=العرض: حالة مجهولة
 tab.update.installer.state.manualupdate.api=يرجى التحديث يدويًا ، واجهة برمجة التطبيقات: %s
 tab.update.installer.state.manualupdate=E: الرجاء التحديث يدوياً
 
-#Hyperium Ingame Menu
+# Hyperium Ingame Menu
 gui.ingamemenu.playercount=عدد لاعبي Hyperium:
 gui.ingamemenu.playercount.now=المتاحون الآن: %s
 gui.ingamemenu.playercount.lastday=اليوم الأخير: %s
 gui.ingamemenu.playercount.lastweek=الأسبوع الماضي: %s
 gui.ingamemenu.playercount.alltime=كل الوقت: %s
 
-#Hyperium Splash Progress
-#splash.progress.
 
-#Hyperium Alerts
+# Hyperium Alerts
 alert.update.message=تحديث Hyperium! اضغط هنا للتحميل.
 
-#Hyperium Change Background Text
+# Hyperium Change Background Text
 gui.changebackground.line1=اكتب الرابط في الاسفل لتغيير الخلفية او اختر ملف.
 gui.changebackground.line2=لتجعلها تظهر إختر "مخصص" في إعدادات الخلفية.
 gui.changebackground.urlempty=الرابط لا يمكن ان يكون فارغا.
@@ -77,7 +73,7 @@ gui.changebackground.unknownerror=خطأ غير معروف
 gui.changebackground.downloaderror=حدث خطأ اثناء التحميل.
 gui.changebackground.selectimage=حدد صورة خلفية
 
-#Hyperium PurchaseCarousel Text
+# Hyperium PurchaseCarousel Text
 gui.purchase.purchased=تم الشراء!
 gui.purchase.purchase=اشتري
 gui.purchase.active=مفعل
@@ -86,15 +82,23 @@ gui.purchase.notpurchased=لم يتم الشراء
 gui.purchase.clicktouse=انقر للاستعمال
 gui.purchase.state=الوضع
 
-#Hyperium Cosmetics Gui
+# Hyperium Cosmetics Gui
 gui.cosmetics.purchase=إشتري جماليات
 gui.cosmetics.refresh=تحديث المشتريات
 gui.cosmetics.credits=رصيد
 gui.cosmetics.totalcredits=مجموع الرصيد: s%
 gui.cosmetics.remainingcredits=الرصيد الباقي: s%
 gui.cosmetics.purchased=الحزم المشتراة
+gui.cosmetics.disableparticles=Disable Particles
+gui.cosmetics.line1=You must purchase at least 1 particle and 1 animation for it to show
+gui.cosmetics.line2=The Double Twirl animation is free.
+gui.cosmetics.preview=Preview
+gui.cosmetics.red=Red
+gui.cosmetics.green=Green
+gui.cosmetics.blue=Blue
+gui.cosmetics.maxage=Particle life
 
-#Hyperium Shop Gui
+# Hyperium Shop Gui
 gui.shop.capes=عرض الأوشحة
 gui.shop.browser=افتح في المتصفح
 gui.shop.purchasecredits=اشتري رصيد
@@ -110,13 +114,13 @@ gui.shop.insufficientcredits=الرصيد لا يكفي!
 gui.shop.loading.cosmetics=تحميل جماليات...
 gui.shop.loading.person=تحميل بيانات شخصية...
 
-#Hyperium Auto Optimizer Text
+# Hyperium Auto Optimizer Text
 gui.optimizer.font.line1=إذا كنت تقرأ هذا النص يرجى أن تضغط على نعم.
 gui.optimizer.font.line2=وإلا فانتظر فقط.
 gui.optimizer.optifine.line1=كشفنا أنك كنت تستخدم أوبتيفاين.
 gui.optimizer.optifine.line2=هل تريدمنا تحسينه؟
 
-#Hyperium Settings Text
+# Hyperium Settings Text
 gui.settings.discordrp="يلعب الان" في دسكورد
 gui.settings.fullbright=ضوء كامل
 gui.settings.romannumerals=الأرقام الرومانية
@@ -131,6 +135,9 @@ gui.settings.numericping=بينغ رقمية
 gui.settings.arrowcountwhenholdingbow=عدد الأسهم عند استخدام القوس
 gui.settings.showenchantmentsabovehotbar=إظهار التطويرات فوق شريط الاستخدام
 gui.settings.showattackdamageabovehotbar=إظهار "أضرار الهجوم" أعلا شريط الاستخدامات
+gui.settings.armorprotectionpotentional=Show Armor Protection in Inventory
+gui.settings.armorprojectileprotpotentional=Show Armor Projectile Protection in Inventory
+gui.settings.hidecrosshairinf5=Hide crosshair when in Third Person
 gui.settings.critparticlefix=إصلاح الجسيمات الحرجة
 gui.settings.holdperspectivekey=واصل الضغت على مفتاح المشهد
 gui.settings.optimizeditemrenderer=عارض العناصر المحسن (بيتا)
@@ -218,7 +225,7 @@ gui.settings.itemphysics=البند الفيزياء
 gui.settings.showbrowser=إظهار المستعرض
 gui.settings.mainmenuserver=سيرفر القائمة الرئيسية
 
-#Hyperium Splash Progress
+# Hyperium Splash Progress
 splashprogress.startinggame=بدء اللعبة...
 splashprogress.loadingresources=تحميل الموارد...
 splashprogress.creatingdisplay=إنشاء العرض...
@@ -232,3 +239,14 @@ splashprogress.registeringcommands=تسجيل الأوامر...
 splashprogress.loadingintegrations=تحميل التكاملات...
 splashprogress.reloadingresourcemanager=إعادة تحميل مدير الموارد...
 splashprogress.finishing=التشطيب...
+
+# Hyperium Misc Gui Text
+gui.namehistory.text=NAME HISTORY
+
+# Hyperium Chat Message
+message.insufficientcredits=Insufficient credits
+message.attemptingpurchase=Attempting to purchase %s
+message.alreadypurchased=Already purchased %s
+message.invalidparticle=Invalid current particle type
+message.invalidanimation=Invalid animation type
+message.purchase=Purchase %s
