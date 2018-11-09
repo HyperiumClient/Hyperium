@@ -14,7 +14,7 @@ before_install:
 before_deploy:
   - git config --local user.name "HyperiumDeploy"
   - git config --local user.email "hyperiumclient@gmail.com"
-  - git tag -a $TRAVIS_BUILD_NUMBER -m "Automated beta build"
+  - git tag -a $TRAVIS_BUILD_NUMBER -m "Automated beta build by Travis CI.  Download and run the above .jar to install and use this beta build! "
   - "git push https://$GIT_TOKEN@github.com/HyperiumClient/Hyperium.git HEAD:master --follow-tags"
 after_deploy:
   - wget https://gist.github.com/Cubxity/457736a7bcbfe6d6f3ae2a5db04c0806/raw/deploy-hook.sh
