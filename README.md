@@ -37,6 +37,9 @@ Hyperium is a Minecraft client, currently in its development stage. It will comb
 
 If you don't know how, then you shouldn't try. Join our beta in <a href="https://discord.gg/RNyRgtv">Discord</a>, or wait for releases!
 
+## Beta Test the Client ##  
+You can easily beta test the client for free, all you have to do is join [The Hyperium Discord](https://discordapp.com/invite/RNyRgtv), then head over to the [releases section](https://github.com/HyperiumClient/Hyperium/releases) and download the latest beta!  
+
 ## Code Style ##
 
 We use [Google's Java Code style](https://google.github.io/styleguide/javaguide.html) for Hyperium. It would be appreciated if you followed this as well.
@@ -54,7 +57,7 @@ A: We don't know! However, open beta testing is underway at our <a href="https:/
 
 Q: Can I use Hyperium now?
 
-A: Beta versions, yes! Join the [Discord](https://discord.gg/RNyRgtv) or visit our [website](https://hyperium.cc)!
+A: Beta versions, yes!  [Click me](#beta-test-the-client) for more info.  
 
 
 Q: Is there a tutorial to create addons?
