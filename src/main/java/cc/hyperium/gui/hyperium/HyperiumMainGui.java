@@ -8,7 +8,6 @@ import cc.hyperium.gui.HyperiumGui;
 import cc.hyperium.gui.Icons;
 import cc.hyperium.gui.MaterialTextField;
 import cc.hyperium.gui.hyperium.components.AbstractTab;
-import cc.hyperium.gui.hyperium.tabs.NewsTab;
 import cc.hyperium.gui.hyperium.tabs.SettingsTab;
 import cc.hyperium.gui.hyperium.tabs.ShopTab;
 import cc.hyperium.gui.hyperium.tabs.UpdateTab;
@@ -102,7 +101,6 @@ public class HyperiumMainGui extends HyperiumGui {
 
         tabs = Arrays.asList(
                 new SettingsTab(this),
-                new NewsTab(this),
                 new UpdateTab(this),
                 new ShopTab(this)
         );
@@ -227,7 +225,7 @@ public class HyperiumMainGui extends HyperiumGui {
         }
 
         if (!isLatestVersion() && !show && Settings.UPDATE_NOTIFICATIONS && !Metadata
-                .isDevelopment() && !((UpdateTab) tabs.get(2)).isBusy()) {
+                .isDevelopment() && !((UpdateTab) tabs.get(1)).isBusy()) {
             System.out.println("Sending alert...");
             Alert alert = new Alert(Icons.ERROR.getResource(), () -> setTab(2),
                     I18n.format("alert.update.message"));
