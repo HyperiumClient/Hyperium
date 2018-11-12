@@ -549,7 +549,7 @@ public class Settings {
     public static boolean AUTO_NICO = false;
 
     @ConfigOpt
-    @ToggleSetting(name = "gui.settings.itemphysics", category = GENERAL)
+    @ToggleSetting(name = "gui.settings.itemphysics", category = GENERAL, mods = true)
     public static boolean ITEM_PHYSIC_ENABLED = false;
 
     @ConfigOpt
