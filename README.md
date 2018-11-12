@@ -11,9 +11,10 @@ Hyperium is a Minecraft client, currently in its development stage. It will comb
 - [BlockOverlay](https://www.youtube.com/watch?v=_ELFA5jtNQM)
 - Bossbar Mod
 - [ChromaHUD](https://www.youtube.com/watch?v=eyh6pcsGMpo)
-- [Custom Crosshair](https://www.youtube.com/watch?v=YYasNSTWA64)
-- Custom GUI
-- Custom Main-Menu Screen
+- [Custom Crosshair](https://www.youtube.com/watch?v=YYasNSTWA64)  
+- [Custom Contributor Menu](https://raw.githubusercontent.com/RDIL/misc-private-images/master/hyperiumclient/hyperiumimg/Hyperium-CustomContributorMenu.JPG)  
+- [Custom GUI](https://raw.githubusercontent.com/RDIL/misc-private-images/master/hyperiumclient/hyperiumimg/Hyperium-CustomInGameMenu.JPG)  
+- [Custom Main-Menu Screen](https://raw.githubusercontent.com/RDIL/misc-private-images/master/hyperiumclient/hyperiumimg/Hyperium-CustomMainMenu.JPG)  
 - [FastChat](https://www.youtube.com/watch?v=vsibdTVYTB4)
 - [GlintColorizer](https://www.youtube.com/watch?v=80foSiVvUiI)
 - [Ingame Browser](https://github.com/montoyo/mcef)  
