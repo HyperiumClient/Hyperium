@@ -568,7 +568,8 @@ public class Settings {
             "MINEPLEX",
             "CUBECRAFT",
             "MINESAGA",
-            "SKYCADE"
+            "SKYCADE",
+            "VELTPVP"
     })
     public static String MAIN_MENU_SERVER = "HYPIXEL";
 
