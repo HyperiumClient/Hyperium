@@ -32,6 +32,7 @@ import cc.hyperium.gui.NotificationCenter;
 import cc.hyperium.handlers.HyperiumHandlers;
 import cc.hyperium.handlers.handlers.purchase.ChargebackStopper;
 import cc.hyperium.handlers.handlers.stats.PlayerStatsGui;
+import cc.hyperium.integrations.watchdog.ThankWatchdog;
 import cc.hyperium.mixinsimp.client.resources.HyperiumLocale;
 import cc.hyperium.mixinsimp.renderer.FontFixValues;
 import cc.hyperium.mods.HyperiumModIntegration;
@@ -185,6 +186,7 @@ public class Hyperium {
             EventBus.INSTANCE.register(confirmation);
             EventBus.INSTANCE.register(new BlurFallback());
             EventBus.INSTANCE.register(new CommandUpdate());
+            EventBus.INSTANCE.register(new ThankWatchdog());
 
 
             // Register statistics tracking.
