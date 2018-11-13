@@ -538,7 +538,10 @@ public class Settings {
     @ConfigOpt
     @ToggleSetting(name = "integrations.watchdog.thankwatchdog", category = INTEGRATIONS)
     public static boolean THANK_WATCHDOG = false;
-
+    
+    @ConfigOpt
+    @ToggleSetting(name = "integrations.oofreply.oofreply", category = INTEGRATIONS)
+    public static boolean OOF_REPLY = false;
 
     @ConfigOpt
     public static boolean AUTO_DAB_ENABLED = false;
