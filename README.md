@@ -81,7 +81,7 @@ Clone the [Addon Workspace](https://github.com/HyperiumClient/Addon-Workspace) a
 [![](https://cdn.discordapp.com/avatars/247785387919933440/e8f6af129f0d6d4db93d8c7360aac15a.png)](https://github.com/KevinPriv)
 [![](https://cdn.discordapp.com/avatars/290921387655430144/1495ae41593665e29f683d63d502c600.png)](https://github.com/Cubxity)
 [![](https://cdn.discordapp.com/avatars/207440827385905153/a660fb23803674f65f290f7b399ad125.png)](https://github.com/boomboompower)
-[![](https://cdn.discordapp.com/avatars/148248069148770304/a_c292ca845b0462bfd4ad5c3d0f89ba28.gif?size=64&f=.gif)](https://github.com/FalseHonesty)
+[![](https://cdn.discordapp.com/avatars/148248069148770304/a_c292ca845b0462bfd4ad5c3d0f89ba28.gif?size=128&f=.gif)](https://github.com/FalseHonesty)
 
 
 
