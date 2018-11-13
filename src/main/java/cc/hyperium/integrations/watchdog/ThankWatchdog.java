@@ -10,7 +10,7 @@ public class ThankWatchdog {
 
   @InvokeEvent
   public void onChat(ChatEvent e) {
-    String watchdogBanMessage = "A player has been removed from your game for hacking or abuse. Thanks for reporting it!";
+    final String watchdogBanMessage = "A player has been removed from your game for hacking or abuse. Thanks for reporting it!";
     String thankWatchDogMessage = "Thanks Watchdog!";
     if (e.getChat().getUnformattedText().contains(watchdogBanMessage) && Settings.THANK_WATCHDOG) {
       Hyperium.LOGGER.debug("Thank watchdog has been triggered.");
