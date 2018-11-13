@@ -224,6 +224,7 @@ gui.settings.sendguildwelcomemessage=إرسال رسالة ترحيب للكلا
 gui.settings.itemphysics=البند الفيزياء
 gui.settings.showbrowser=إظهار المستعرض
 gui.settings.mainmenuserver=سيرفر القائمة الرئيسية
+integrations.watchdog.thankwatchdog=Thank watchdog
 
 # Hyperium Splash Progress
 splashprogress.startinggame=بدء اللعبة...
