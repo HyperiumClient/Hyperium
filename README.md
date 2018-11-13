@@ -49,7 +49,7 @@ A: If you don't know how to build a project, please wait for a new beta or relea
 
 Q: When is the official release?
 
-A: It's now, come download it in our <a href="https://discord.gg/RNyRgtv">Discord</a>!
+A: It is currently released! Come download it on our <a href="https://discord.gg/RNyRgtv">Discord</a>!
 
 
 Q: Can I use Hyperium now?
@@ -69,7 +69,7 @@ A: Join the [Discord](https://discord.gg/RNyRgtv) and run `-new` in the commands
 
 Q: My game keeps crashing!
 
-A: If you have reported the issue using the automatic prompt, join the <a href="https://discord.gg/RNyRgtv">Discord</a> and ask a Staff Team or developer to review your issue. Please be patient if there are no developers online!
+A: If you have reported the issue using the automatic prompt, join the <a href="https://discord.gg/RNyRgtv">Discord</a> and ask a member of the staff team or a developer to review your issue. Please be patient if there are no developers online!
 
 ## Addons ##
 Clone the [Addon Workspace](https://github.com/HyperiumClient/Addon-Workspace) and get coding!
