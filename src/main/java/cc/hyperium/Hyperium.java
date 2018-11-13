@@ -185,7 +185,8 @@ public class Hyperium {
             EventBus.INSTANCE.register(confirmation);
             EventBus.INSTANCE.register(new BlurFallback());
             EventBus.INSTANCE.register(new CommandUpdate());
-
+            EventBus.INSTANCE.register(new ThankWatchdog());
+            EventBus.INSTANCE.register(new oofreply());
 
             // Register statistics tracking.
             EventBus.INSTANCE.register(statTrack);
