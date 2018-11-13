@@ -535,6 +535,10 @@ public class Settings {
     @ToggleSetting(name = "gui.settings.sendguildwelcomemessage", category = INTEGRATIONS)
     public static boolean SEND_GUILD_WELCOME_MESSAGE = true;
 
+    @ConfigOpt
+    @ToggleSetting(name = "integrations.watchdog.thankwatchdog", category = INTEGRATIONS)
+    public static boolean THANK_WATCHDOG = false;
+
 
     @ConfigOpt
     public static boolean AUTO_DAB_ENABLED = false;
