@@ -228,6 +228,7 @@ gui.settings.itemphysics=Item Physics
 gui.settings.showbrowser=Show Browser
 gui.settings.mainmenuserver=Main Menu Server
 integrations.watchdog.thankwatchdog=Thank watchdog
+integrations.oofreply.oofreply=Reply to oofs
 
 #Hyperium Splash Progress
 splashprogress.startinggame=Starting Game...
