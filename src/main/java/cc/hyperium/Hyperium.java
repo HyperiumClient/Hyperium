@@ -33,7 +33,7 @@ import cc.hyperium.handlers.HyperiumHandlers;
 import cc.hyperium.handlers.handlers.purchase.ChargebackStopper;
 import cc.hyperium.handlers.handlers.stats.PlayerStatsGui;
 import cc.hyperium.integrations.watchdog.ThankWatchdog;
-import cc.hyperium.integrations.oofreply.oofreply;
+import cc.hyperium.integrations.OofReply.OofReply;
 import cc.hyperium.mixinsimp.client.resources.HyperiumLocale;
 import cc.hyperium.mixinsimp.renderer.FontFixValues;
 import cc.hyperium.mods.HyperiumModIntegration;
@@ -167,7 +167,7 @@ public class Hyperium {
             firstLaunch = new File(folder.getAbsolutePath() + "/accounts").mkdirs();
             new ChargebackStopper();
 
-            // Has the user accepted the TOS of the client?
+            // Has the user accepted the TOS of the client?  I wonder!  
             this.acceptedTos = new File(
                     folder.getAbsolutePath() + "/accounts/" + Minecraft.getMinecraft().getSession()
                             .getPlayerID() + ".lck").exists();
@@ -188,7 +188,7 @@ public class Hyperium {
             EventBus.INSTANCE.register(new BlurFallback());
             EventBus.INSTANCE.register(new CommandUpdate());
             EventBus.INSTANCE.register(new ThankWatchdog());
-            EventBus.INSTANCE.register(new oofreply());
+            EventBus.INSTANCE.register(new OofReply());
 
 
             // Register statistics tracking.
