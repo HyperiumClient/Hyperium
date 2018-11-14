@@ -540,7 +540,7 @@ public class Settings {
     public static boolean THANK_WATCHDOG = false;
     
     @ConfigOpt
-    @ToggleSetting(name = "integrations.oofreply.oofreply", category = INTEGRATIONS)
+    @ToggleSetting(name = "integrations.oofreply.OofReply", category = INTEGRATIONS)
     public static boolean OOF_REPLY = false;
 
     @ConfigOpt
