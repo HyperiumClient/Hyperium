@@ -7,7 +7,7 @@ import cc.hyperium.event.InvokeEvent;
 
 import net.minecraft.client.Minecraft;
 
-public class oofreply {
+public class OofReply {
   
   private static final String oofByOtherPlayer = "oof";
   private static final String selfOOF = "OOF!";
