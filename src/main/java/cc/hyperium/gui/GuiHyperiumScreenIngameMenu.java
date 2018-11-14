@@ -117,6 +117,7 @@ public class GuiHyperiumScreenIngameMenu extends GuiHyperiumScreen {
                 break;
             case 7:
                 this.mc.displayGuiScreen(new GuiShareToLan(this));
+                break;
             case 8:
                 Minecraft.getMinecraft().displayGuiScreen(new GuiHyperiumCredits(Minecraft.getMinecraft().currentScreen));
                 break;
