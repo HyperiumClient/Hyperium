@@ -1,11 +1,9 @@
-#X-Generator: crowdin.com
-#Hyperium Language File - Created by ScottehBoeh
 
-#Hyperium Disclaimers
+# Hyperium Disclaimers
 menu.left=Kopiereg 2018 Hyperium Dev Team
 menu.right=Nie geaffilieer met Mojang AB nie
 
-#Hyperium Buttons
+# Hyperium Buttons
 button.menu.changebackground=Verander Menu Agtergrond
 button.menu.cosmeticshop=Kosmetiese Winkel
 button.ingame.hyperiumsettings=Hyperium-instellings
@@ -17,7 +15,7 @@ button.changebackground.seturl=Stel URL
 button.changebackground.choosefile=Kies lêer
 button.changebackground.resetbackground=Terugstel agtergrond
 
-#Hyperium Disclaimer
+# Hyperium Disclaimer
 disclaimer.line1=Deur voort te gaan, jy erken hierdie kliënt %s
 disclaimer.line1.bold=GEBRUIK JOU EIE RISIKO
 disclaimer.line2=Die ontwikkelaars van Hyperium is nie verantwoordelik vir enige skade of verbod nie
@@ -28,17 +26,17 @@ disclaimer.line5=Klik die knoppie om te bevestig dat u stem
 button.disclaimer.accept=Aanvaar
 button.disclaimer.confirm=Bevestig aanvaaring
 
-#Hyperium Menu Strings
+# Hyperium Menu Strings
 menu.profile.credits=%s Krediete
 
-#Hyperium Tabs
+# Hyperium Tabs
 tabs.searchbar=Soek...
 tab.news.name=Nuus
 tab.settings.name=Instellings
 tab.update.name=Opdateer
 tab.shop.name=Winkel
 
-#Hyperium Tabs Attributes
+# Hyperium Tabs Attributes
 tab.update.noupdates=Geen opdaterings beskikbaar nie
 tab.update.autorestart=Sodra die opdatering gedoen is, sal Minecraft outomaties herlaai
 tab.update.changelog=Changelog kom binnekort
@@ -52,20 +50,18 @@ tab.update.installer.state.unknown=W: onbekende staat
 tab.update.installer.state.manualupdate.api=E: Werk asseblief handmatig by, API: %s
 tab.update.installer.state.manualupdate=E: Werk asseblief handmatig op
 
-#Hyperium Ingame Menu
+# Hyperium Ingame Menu
 gui.ingamemenu.playercount=Hyperium Speler Telling:
 gui.ingamemenu.playercount.now=Nou aanlyn: %s
 gui.ingamemenu.playercount.lastday=Laaste dag: %s
 gui.ingamemenu.playercount.lastweek=Laaste week: %s
 gui.ingamemenu.playercount.alltime=Alle tyd: %s
 
-#Hyperium Splash Progress
-#splash.progress.
 
-#Hyperium Alerts
+# Hyperium Alerts
 alert.update.message=Hyperium Update! Klik hier om af te laai.
 
-#Hyperium Change Background Text
+# Hyperium Change Background Text
 gui.changebackground.line1=Tik 'n URL of kies 'n lêer om die agtergrond te verander.
 gui.changebackground.line2=Om dit te laat vertoon, kies "aangepas" in agtergrondinstellings.
 gui.changebackground.urlempty=Die URL kan nie leeg wees nie.
@@ -77,7 +73,7 @@ gui.changebackground.unknownerror=Onbekende fout
 gui.changebackground.downloaderror=Fout tydens aflaai.
 gui.changebackground.selectimage=Kies agtergrond foto
 
-#Hyperium PurchaseCarousel Text
+# Hyperium PurchaseCarousel Text
 gui.purchase.purchased=Gekoop
 gui.purchase.purchase=Koop
 gui.purchase.active=Aktief
@@ -86,15 +82,23 @@ gui.purchase.notpurchased=Nie gekoop nie
 gui.purchase.clicktouse=Klik om te gebruik
 gui.purchase.state=Staat
 
-#Hyperium Cosmetics Gui
+# Hyperium Cosmetics Gui
 gui.cosmetics.purchase=Koop bykomstighede
 gui.cosmetics.refresh=Verfris aankope
 gui.cosmetics.credits=Krediete
 gui.cosmetics.totalcredits=Totale krediete: %s
 gui.cosmetics.remainingcredits=Oorblywende krediete: %s
 gui.cosmetics.purchased=Gekoopte pakkette
+gui.cosmetics.disableparticles=Disable Particles
+gui.cosmetics.line1=You must purchase at least 1 particle and 1 animation for it to show
+gui.cosmetics.line2=The Double Twirl animation is free.
+gui.cosmetics.preview=Preview
+gui.cosmetics.red=Red
+gui.cosmetics.green=Green
+gui.cosmetics.blue=Blue
+gui.cosmetics.maxage=Particle life
 
-#Hyperium Shop Gui
+# Hyperium Shop Gui
 gui.shop.capes=Bekyk mantel
 gui.shop.browser=Maak oop in webwerf
 gui.shop.purchasecredits=Koop krediete
@@ -110,13 +114,13 @@ gui.shop.insufficientcredits=Onvoldoende krediete!
 gui.shop.loading.cosmetics=Laai bykomstighede...
 gui.shop.loading.person=Laai persoon data...
 
-#Hyperium Auto Optimizer Text
+# Hyperium Auto Optimizer Text
 gui.optimizer.font.line1=As jy hierdie teks kan lees druk asseblief aan ja.
 gui.optimizer.font.line2=Andersins wag net.
 gui.optimizer.optifine.line1=Ons het bespeur dat u OptiFine gebruik.
 gui.optimizer.optifine.line2=Wil jy hê dat ons dit optimaliseer?
 
-#Hyperium Settings Text
+# Hyperium Settings Text
 gui.settings.discordrp=Discord RP
 gui.settings.fullbright=Vol helder
 gui.settings.romannumerals=Romeinse syfers
@@ -220,8 +224,9 @@ gui.settings.sendguildwelcomemessage=Send guild welcome message
 gui.settings.itemphysics=Item Physics
 gui.settings.showbrowser=Show Browser
 gui.settings.mainmenuserver=Main Menu Server
+integrations.watchdog.thankwatchdog=Thank watchdog
 
-#Hyperium Splash Progress
+# Hyperium Splash Progress
 splashprogress.startinggame=Starting Game...
 splashprogress.loadingresources=Loading Resources...
 splashprogress.creatingdisplay=Creating Display...
@@ -236,16 +241,9 @@ splashprogress.loadingintegrations=Loading Integrations...
 splashprogress.reloadingresourcemanager=Reloading Resource Manager...
 splashprogress.finishing=Finishing...
 
-gui.cosmetics.disableparticles=Disable Particles
-gui.cosmetics.line1=You must purchase at least 1 particle and 1 animation for it to show
-gui.cosmetics.line2=The Double Twirl animation is free.
-gui.cosmetics.preview=Preview
-gui.cosmetics.red=Red
-gui.cosmetics.green=Green
-gui.cosmetics.blue=Blue
-gui.cosmetics.maxage=Particle life
 # Hyperium Misc Gui Text
 gui.namehistory.text=NAME HISTORY
+
 # Hyperium Chat Message
 message.insufficientcredits=Insufficient credits
 message.attemptingpurchase=Attempting to purchase %s

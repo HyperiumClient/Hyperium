@@ -27,6 +27,7 @@ import static cc.hyperium.config.Category.GENERAL;
 import static cc.hyperium.config.Category.HYPIXEL;
 import static cc.hyperium.config.Category.IMPROVEMENTS;
 import static cc.hyperium.config.Category.INTEGRATIONS;
+import static cc.hyperium.config.Category.ITEM_PHYSIC;
 import static cc.hyperium.config.Category.MISC;
 import static cc.hyperium.config.Category.REACH;
 import static cc.hyperium.config.Category.SPOTIFY;
@@ -140,10 +141,8 @@ public class Settings {
     @ToggleSetting(name = "gui.settings.staticfov", category = IMPROVEMENTS)
     public static boolean STATIC_FOV = false;
 
-
     @ConfigOpt
     public static int SETTINGS_ALPHA = 100;
-
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;uploadScreenshotsByDefault")
     @ToggleSetting(name = "gui.settings.uploadscreenshots")
@@ -161,14 +160,9 @@ public class Settings {
     @SelectorSetting(name = "Hat Type", category = COSMETICS, items = "NONE")
     public static String HAT_TYPE = "NONE";
 
-
     @ConfigOpt
     @SelectorSetting(name = "Companion Type", category = COSMETICS, items = "NONE")
     public static String COMPANION_TYPE = "NONE";
-
-
-
-
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;spotifyControlsEnabled")
     @ToggleSetting(name = "gui.settings.showspotifycontrols", category = SPOTIFY, mods = true)
@@ -181,7 +175,6 @@ public class Settings {
     @ConfigOpt
     @ToggleSetting(category = COSMETICS, name = "gui.settings.showparticleauras")
     public static boolean SHOW_PARTICLES = true;
-
 
     @ConfigOpt
     @ToggleSetting(category = GENERAL,name = "Show own name tag")
@@ -202,7 +195,6 @@ public class Settings {
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.CosmeticSettings;flossDanceToggle")
     public static boolean FLOSS_TOGGLE = false;
-
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.AnimationSettings;oldBlockhit")
     @ToggleSetting(name = "gui.settings.17blockhitting", category = ANIMATIONS)
@@ -338,12 +330,9 @@ public class Settings {
     @ToggleSetting(category = GENERAL, name = "gui.settings.onlineindicator")
     public static boolean SHOW_ONLINE_PLAYERS = true;
 
-
-
     @ConfigOpt(alt = "cc.hyperium.handlers.handlers.OtherConfigOptions;pingOnDm")
     @ToggleSetting(category = HYPIXEL, name = "gui.settings.pingondm")
     public static boolean PING_ON_DM = true;
-
 
     @ConfigOpt
     @ToggleSetting(category = IMPROVEMENTS,name = "Improved Particle Handling (BETA)")
@@ -353,8 +342,8 @@ public class Settings {
     @ToggleSetting(category = IMPROVEMENTS,name = "Improved Entity Handling (BETA)")
     public static boolean IMPROVE_ENTITY_HANDLING = false;
 
+    public static boolean IMPROVE_PARTICLE_RUN = false; /* any reason why this isnt used at all? */
 
-    public static boolean IMPROVE_PARTICLE_RUN = false;
     @ConfigOpt()
     @ToggleSetting(category = GENERAL, name = "gui.settings.sprintbypassstaticfov")
     public static boolean staticFovSprintModifier;
@@ -395,7 +384,6 @@ public class Settings {
             }, category = MISC
     )
     public static String MENU_STYLE = GuiStyle.DEFAULT.name();
-
 
     @ConfigOpt
     @SelectorSetting(name = "gui.settings.pausemenustyle", items =
@@ -441,7 +429,6 @@ public class Settings {
     @ConfigOpt
     @ToggleSetting(name = "gui.settings.showparticlein1stperson", category = COSMETICS)
     public static boolean SHOW_PART_1ST_PERSON = false;
-
 
     @ConfigOpt
     @ToggleSetting(name = "Show Companion in 1st person", category = COSMETICS)
@@ -553,7 +540,7 @@ public class Settings {
     public static boolean AUTO_NICO = false;
 
     @ConfigOpt
-    @ToggleSetting(name = "gui.settings.itemphysics", category = GENERAL)
+    @ToggleSetting(name = "gui.settings.itemphysics", category = ITEM_PHYSIC, mods = true)
     public static boolean ITEM_PHYSIC_ENABLED = false;
 
     @ConfigOpt
@@ -565,6 +552,7 @@ public class Settings {
 
     @ConfigOpt
     public static long TOTAL_PLAYTIME = 0;
+
     @ConfigOpt
     @SelectorSetting(name = "gui.settings.mainmenuserver", category = GENERAL, items = {
             "HYPIXEL",
