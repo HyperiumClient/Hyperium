@@ -12,7 +12,6 @@ Hyperium is a Minecraft client, currently in its development stage. It will comb
 - Bossbar Mod
 - [ChromaHUD](https://www.youtube.com/watch?v=eyh6pcsGMpo)
 - [Custom Crosshair](https://www.youtube.com/watch?v=YYasNSTWA64)  
-- [Custom Contributor Menu](https://raw.githubusercontent.com/RDIL/misc-private-images/master/hyperiumclient/hyperiumimg/Hyperium-CustomContributorMenu.JPG)  
 - [Custom GUI](https://raw.githubusercontent.com/RDIL/misc-private-images/master/hyperiumclient/hyperiumimg/Hyperium-CustomInGameMenu.JPG)  
 - [Custom Main-Menu Screen](https://raw.githubusercontent.com/RDIL/misc-private-images/master/hyperiumclient/hyperiumimg/Hyperium-CustomMainMenu.JPG)  
 - [FastChat](https://www.youtube.com/watch?v=vsibdTVYTB4)
