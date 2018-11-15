@@ -49,7 +49,7 @@ A: If you don't know how to build a project, please wait for a new beta or relea
 
 Q: When is the official release?
 
-A: We don't know! However, open beta testing is underway at our <a href="https://discord.gg/RNyRgtv">Discord</a>!
+A: It is currently released! Come download it on our <a href="https://discord.gg/RNyRgtv">Discord</a>!
 
 
 Q: Can I use Hyperium now?
@@ -69,7 +69,7 @@ A: Join the [Discord](https://discord.gg/RNyRgtv) and run `-new` in the commands
 
 Q: My game keeps crashing!
 
-A: If you have reported the issue using the automatic prompt, join the <a href="https://discord.gg/RNyRgtv">Discord</a> and ask a developer to review your issue. Please be patient if there are no developers online!
+A: If you have reported the issue using the automatic prompt, join the <a href="https://discord.gg/RNyRgtv">Discord</a> and ask a member of the staff team or a developer to review your issue. Please be patient if there are no developers online!
 
 ## Addons ##
 Clone the [Addon Workspace](https://github.com/HyperiumClient/Addon-Workspace) and get coding!
@@ -81,6 +81,7 @@ Clone the [Addon Workspace](https://github.com/HyperiumClient/Addon-Workspace) a
 [![](https://cdn.discordapp.com/avatars/247785387919933440/e8f6af129f0d6d4db93d8c7360aac15a.png)](https://github.com/KevinPriv)
 [![](https://cdn.discordapp.com/avatars/290921387655430144/1495ae41593665e29f683d63d502c600.png)](https://github.com/Cubxity)
 [![](https://cdn.discordapp.com/avatars/207440827385905153/a660fb23803674f65f290f7b399ad125.png)](https://github.com/boomboompower)
+[![](https://cdn.discordapp.com/avatars/148248069148770304/a_c292ca845b0462bfd4ad5c3d0f89ba28.gif?size=128&f=.gif)](https://github.com/FalseHonesty)
 
 
 

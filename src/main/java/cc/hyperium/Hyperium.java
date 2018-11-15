@@ -32,6 +32,7 @@ import cc.hyperium.gui.NotificationCenter;
 import cc.hyperium.handlers.HyperiumHandlers;
 import cc.hyperium.handlers.handlers.purchase.ChargebackStopper;
 import cc.hyperium.handlers.handlers.stats.PlayerStatsGui;
+import cc.hyperium.integrations.watchdog.ThankWatchdog;
 import cc.hyperium.mixinsimp.client.resources.HyperiumLocale;
 import cc.hyperium.mixinsimp.renderer.FontFixValues;
 import cc.hyperium.mods.HyperiumModIntegration;
@@ -121,6 +122,10 @@ public class Hyperium {
     public void preinit(PreInitializationEvent event) {
         EventBus.INSTANCE.register(new AutoGG());
 
+        /* register language files */
+        HyperiumLocale.registerHyperiumLang("af_ZA");
+        HyperiumLocale.registerHyperiumLang("ar_SA");
+        HyperiumLocale.registerHyperiumLang("bs_BA");
         HyperiumLocale.registerHyperiumLang("en_US");
         HyperiumLocale.registerHyperiumLang("ja_JP");
     }
@@ -185,6 +190,7 @@ public class Hyperium {
             EventBus.INSTANCE.register(confirmation);
             EventBus.INSTANCE.register(new BlurFallback());
             EventBus.INSTANCE.register(new CommandUpdate());
+            EventBus.INSTANCE.register(new ThankWatchdog());
 
 
             // Register statistics tracking.
@@ -250,7 +256,6 @@ public class Hyperium {
             SplashProgress.setProgress(12, I18n.format("splashprogress.reloadingresourcemanager"));
 
             Minecraft.getMinecraft().refreshResources();
-//        Minecraft.getMinecraft().refreshResources();
 
             SplashProgress.setProgress(13, I18n.format("splashprogress.finishing"));
 
@@ -491,32 +496,4 @@ public class Hyperium {
     public HyperiumScheduler getScheduler() {
         return scheduler;
     }
-
-    // Does not appear to be used
-//    public void toggleFullscreen() {
-//        boolean windowed = GeneralSetting.windowedFullScreen;
-//        boolean lastStateWindowed = false;
-//        if (System.getProperty("org.lwjgl.opengl.Window.undecorated") == null) {
-//            System.setProperty("org.lwjgl.opengl.Window.undecorated", "false");
-//        }
-//        if (Display.isFullscreen()) {
-//            fullScreen = true;
-//        }
-//        if (System.getProperty("org.lwjgl.opengl.Window.undecorated").equals("true")) {
-//            fullScreen = true;
-//            lastStateWindowed = true;
-//        }
-//
-//        fullScreen = !fullScreen;
-//        if (!lastStateWindowed) {
-//            Minecraft.getMinecraft().toggleFullscreen();
-//            return;
-//        }
-//
-//        if (fullScreen) {
-//
-//        } else {
-//
-//        }
-//    }
 }
