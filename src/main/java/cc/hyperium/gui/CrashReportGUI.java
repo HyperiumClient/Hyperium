@@ -101,7 +101,7 @@ public class CrashReportGUI extends JDialog {
             HttpResponse response = hc.execute(post);
 
             String result = EntityUtils.toString(response.getEntity());
-            return "http://hastebin.com/" + new JsonParser().parse(result).getAsJsonObject().get("key").getAsString();
+            return "https://hastebin.com/" + new JsonParser().parse(result).getAsJsonObject().get("key").getAsString();
         } catch (IOException e) {
             e.printStackTrace();
             return null;
