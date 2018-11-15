@@ -1,6 +1,6 @@
 ![Classes](https://img.shields.io/badge/classes-318-red.svg)
-![Methods](https://img.shields.io/badge/methods-289-brightgreen.svg)
-# Documentation #
+![Methods](https://img.shields.io/badge/methods-289-brightgreen.svg)  
+# Hyperium API Documentation #  
 ## cc.hyperium.commands ##
 [HyperiumCommandHandler](classes/cc.hyperium.commands.HyperiumCommandHandler.md)
 
