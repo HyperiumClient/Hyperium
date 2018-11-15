@@ -39,7 +39,7 @@ Hyperium is a Minecraft 1.8.9 client, currently in its development stage. It wil
 
 If you don't know how, then you shouldn't try. Join our beta in <a href="https://hyperium.cc/discord">Discord</a>, or wait for releases!
 
-## Beta Test the Client ##  
+## Beta test the Client ##  
 You can easily beta test the client for free, all you have to do is join [The Hyperium Discord](https://hyperium.cc/discord), or for beta versions, head over to the [releases section](https://github.com/HyperiumClient/Hyperium/releases) and download the latest beta!  
 
 ## Code Style ##
