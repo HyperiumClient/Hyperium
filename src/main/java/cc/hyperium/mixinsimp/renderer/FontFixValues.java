@@ -44,7 +44,7 @@ public class FontFixValues {
                         drawable.makeCurrent();
                     } catch (LWJGLException e) {
                         e.printStackTrace();
-                        GeneralChatHandler.instance().sendMessage("Failed to do something important for the optimized font renderer, memory leak inbound! Please send your latest.log to Hyperium staff members");
+                        GeneralChatHandler.instance().sendMessage("Failed to do something important for the optimized font renderer, memory leak inbound!  Please send your latest.log to Hyperium staff members!");
                         drawable.releaseContext();
                         return;
                     } catch (IllegalStateException ignored) {
