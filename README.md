@@ -25,22 +25,22 @@ Hyperium is a Minecraft 1.8.9 client, currently in its development stage. It wil
 - [MotionBlur](https://www.youtube.com/watch?v=x21aLjDbCRw)
 - [MouseDelayFix](https://prplz.io/mousedelayfix)
 - [NoCloseMyChat](https://hypixel.net/threads/1260752/)
+- [Performia](https://github.com/Sk1er/Performia)
 - [Perspective Mod](https://www.youtube.com/watch?v=7FdMMpzNdUk)
+- [Resource Exploit Fix](https://github.com/Sk1er/Resource-Exploit-Fix) 
 - ShinyPots
 - [Sidebar Mod](https://www.youtube.com/watch?v=cn9VvT43yRs)
 - Spotify Controls
 - [TimeChanger](https://www.youtube.com/watch?v=PbhXIPecOSA)
 - [ToggleChat](https://www.youtube.com/watch?v=guD8kAk-Wn4)
 - [VoidFlickerFix](https://www.youtube.com/watch?v=klV4d1B6ysk)
-- [Performia](https://github.com/Sk1er/Performia)
-- [Resource Exploit Fix](https://github.com/Sk1er/Resource-Exploit-Fix) 
 
 ## Building the project with IntelliJ ##
 
 If you don't know how, then you shouldn't try. Join our beta in <a href="https://discord.gg/RNyRgtv">Discord</a>, or wait for releases!
 
 ## Beta Test the Client ##  
-You can easily beta test the client for free, all you have to do is join [The Hyperium Discord](https://discordapp.com/invite/RNyRgtv), then head over to the [releases section](https://github.com/HyperiumClient/Hyperium/releases) and download the latest beta!  
+You can easily beta test the client for free, all you have to do is join [The Hyperium Discord](https://hyperium.cc/discord), or for beta versions, head over to the [releases section](https://github.com/HyperiumClient/Hyperium/releases) and download the latest beta!  
 
 ## Code Style ##
 
@@ -69,12 +69,12 @@ A: Yes, simply [follow this nice video](https://www.youtube.com/watch?v=RXTIFdoN
 
 Q: I found a bug. Where do I report it?
 
-A: Join the [Discord](https://discord.gg/RNyRgtv) and run `-new` in the commands channel.  Then explain your issue and a staff member will further contact you!
+A: Join the [Discord](https://hyperium.cc/discord) and run `-new` in the commands channel.  Then explain your issue and a staff member will further contact you!
 
 
 Q: My game keeps crashing!
 
-A: If you have reported the issue using the automatic prompt, join the <a href="https://discord.gg/RNyRgtv">Discord</a> and ask a member of the staff team or a developer to review your issue. Please be patient if there are no developers online!
+A: If you have reported the issue using the automatic prompt, join the <a href="https://hyperium.cc/discord">Discord</a> and ask a member of the staff team or a developer to review your issue. Please be patient if there are no developers online!
 
 ## Addons ##
 Clone the [Addon Workspace](https://github.com/HyperiumClient/Addon-Workspace) and get coding!
