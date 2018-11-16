@@ -216,693 +216,693 @@ cc.hyperium.handlers.handlers.chat
 
 `GeneralChatHandler <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.handlers.handlers.chat.GeneralChatHandler.md>`_
 
-`FriendRequestChatHandler <classes/cc.hyperium.handlers.handlers.chat.FriendRequestChatHandler.md>`_
+`FriendRequestChatHandler <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.handlers.handlers.chat.FriendRequestChatHandler.md>`_
 
-`AutoWhoChatHandler <classes/cc.hyperium.handlers.handlers.chat.AutoWhoChatHandler.md>`_
+`AutoWhoChatHandler <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.handlers.handlers.chat.AutoWhoChatHandler.md>`_
 
 cc.hyperium.handlers.handlers.keybinds
 --------------------------------------
 
-`KeyBindHandler <classes/cc.hyperium.handlers.handlers.keybinds.KeyBindHandler.md>`_
+`KeyBindHandler <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.handlers.handlers.keybinds.KeyBindHandler.md>`_
 
-`KeyBindConfig <classes/cc.hyperium.handlers.handlers.keybinds.KeyBindConfig.md>`_
+`KeyBindConfig <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.handlers.handlers.keybinds.KeyBindConfig.md>`_
 
-`HyperiumBind <classes/cc.hyperium.handlers.handlers.keybinds.HyperiumBind.md>`_
+`HyperiumBind <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.handlers.handlers.keybinds.HyperiumBind.md>`_
 
 cc.hyperium.handlers.handlers.privatemessages
 ---------------------------------------------
 
-`PrivateMessageHandler <classes/cc.hyperium.handlers.handlers.privatemessages.PrivateMessageHandler.md>`_
+`PrivateMessageHandler <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.handlers.handlers.privatemessages.PrivateMessageHandler.md>`_
 
-`PrivateMessageChat <classes/cc.hyperium.handlers.handlers.privatemessages.PrivateMessageChat.md>`_
+`PrivateMessageChat <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.handlers.handlers.privatemessages.PrivateMessageChat.md>`_
 
-`PrivateMessage <classes/cc.hyperium.handlers.handlers.privatemessages.PrivateMessage.md>`_
+`PrivateMessage <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.handlers.handlers.privatemessages.PrivateMessage.md>`_
 
 cc.hyperium.handlers.handlers.remoteresources
 ---------------------------------------------
 
-`RemoteResourcesHandler <classes/cc.hyperium.handlers.handlers.remoteresources.RemoteResourcesHandler.md>`_
+`RemoteResourcesHandler <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.handlers.handlers.remoteresources.RemoteResourcesHandler.md>`_
 
-`RemoteResourcesHandler.ResourceType <classes/cc.hyperium.handlers.handlers.remoteresources.RemoteResourcesHandler.ResourceType.md>`_
+`RemoteResourcesHandler.ResourceType <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.handlers.handlers.remoteresources.RemoteResourcesHandler.ResourceType.md>`_
 
-`HyperiumResource <classes/cc.hyperium.handlers.handlers.remoteresources.HyperiumResource.md>`_
+`HyperiumResource <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.handlers.handlers.remoteresources.HyperiumResource.md>`_
 
 cc.hyperium.handlers
 --------------------
 
-`HyperiumHandlers <classes/cc.hyperium.handlers.HyperiumHandlers.md>`_
+`HyperiumHandlers <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.handlers.HyperiumHandlers.md>`_
 
 cc.hyperium
 -----------
 
-`SplashProgress <classes/cc.hyperium.SplashProgress.md>`_
+`SplashProgress <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.SplashProgress.md>`_
 
-`Hyperium <classes/cc.hyperium.Hyperium.md>`_
+`Hyperium <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.Hyperium.md>`_
 
 cc.hyperium.installer.components
 --------------------------------
 
-`MotionPanel <classes/cc.hyperium.installer.components.MotionPanel.md>`_
+`MotionPanel <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.installer.components.MotionPanel.md>`_
 
-`MaterialRadioButton <classes/cc.hyperium.installer.components.MaterialRadioButton.md>`_
+`MaterialRadioButton <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.installer.components.MaterialRadioButton.md>`_
 
 cc.hyperium.installer
 ---------------------
 
-`ReleaseChannel <classes/cc.hyperium.installer.ReleaseChannel.md>`_
+`ReleaseChannel <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.installer.ReleaseChannel.md>`_
 
-`InstallerMain <classes/cc.hyperium.installer.InstallerMain.md>`_
+`InstallerMain <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.installer.InstallerMain.md>`_
 
-`InstallerFrame <classes/cc.hyperium.installer.InstallerFrame.md>`_
+`InstallerFrame <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.installer.InstallerFrame.md>`_
 
-`InstallerFrame.OsCheck <classes/cc.hyperium.installer.InstallerFrame.OsCheck.md>`_
+`InstallerFrame.OsCheck <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.installer.InstallerFrame.OsCheck.md>`_
 
-`InstallerFrame.OsCheck.OSType <classes/cc.hyperium.installer.InstallerFrame.OsCheck.OSType.md>`_
+`InstallerFrame.OsCheck.OSType <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.installer.InstallerFrame.OsCheck.OSType.md>`_
 
 cc.hyperium.installer.utils
 ---------------------------
 
-`HTTPDownloadUtil <classes/cc.hyperium.installer.utils.HTTPDownloadUtil.md>`_
+`HTTPDownloadUtil <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.installer.utils.HTTPDownloadUtil.md>`_
 
-`DownloadTask <classes/cc.hyperium.installer.utils.DownloadTask.md>`_
+`DownloadTask <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.installer.utils.DownloadTask.md>`_
 
 cc.hyperium.integrations.os
 ---------------------------
 
-`OsHelper <classes/cc.hyperium.integrations.os.OsHelper.md>`_
+`OsHelper <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.integrations.os.OsHelper.md>`_
 
 cc.hyperium.integrations.spotify.impl
 -------------------------------------
 
-`TrackResource <classes/cc.hyperium.integrations.spotify.impl.TrackResource.md>`_
+`TrackResource <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.integrations.spotify.impl.TrackResource.md>`_
 
-`Track <classes/cc.hyperium.integrations.spotify.impl.Track.md>`_
+`Track <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.integrations.spotify.impl.Track.md>`_
 
-`SpotifyInformation <classes/cc.hyperium.integrations.spotify.impl.SpotifyInformation.md>`_
+`SpotifyInformation <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.integrations.spotify.impl.SpotifyInformation.md>`_
 
-`OpenStateGraph <classes/cc.hyperium.integrations.spotify.impl.OpenStateGraph.md>`_
+`OpenStateGraph <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.integrations.spotify.impl.OpenStateGraph.md>`_
 
-`Location <classes/cc.hyperium.integrations.spotify.impl.Location.md>`_
+`Location <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.integrations.spotify.impl.Location.md>`_
 
-`ArtistResource <classes/cc.hyperium.integrations.spotify.impl.ArtistResource.md>`_
+`ArtistResource <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.integrations.spotify.impl.ArtistResource.md>`_
 
-`AlbumResource <classes/cc.hyperium.integrations.spotify.impl.AlbumResource.md>`_
+`AlbumResource <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.integrations.spotify.impl.AlbumResource.md>`_
 
 cc.hyperium.integrations.spotify
 --------------------------------
 
-`Spotify <classes/cc.hyperium.integrations.spotify.Spotify.md>`_
+`Spotify <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.integrations.spotify.Spotify.md>`_
 
-`Spotify.SpotifyListener <classes/cc.hyperium.integrations.spotify.Spotify.SpotifyListener.md>`_
+`Spotify.SpotifyListener <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.integrations.spotify.Spotify.SpotifyListener.md>`_
 
 cc.hyperium.mixins.client.resources
 -----------------------------------
 
-`MixinAbstractResourcePack <classes/cc.hyperium.mixins.client.resources.MixinAbstractResourcePack.md>`_
+`MixinAbstractResourcePack <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mixins.client.resources.MixinAbstractResourcePack.md>`_
 
 cc.hyperium.mixins.entity
 -------------------------
 
-`MixinRenderPlayer <classes/cc.hyperium.mixins.entity.MixinRenderPlayer.md>`_
+`MixinRenderPlayer <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mixins.entity.MixinRenderPlayer.md>`_
 
-`MixinNetworkPlayerInfo <classes/cc.hyperium.mixins.entity.MixinNetworkPlayerInfo.md>`_
+`MixinNetworkPlayerInfo <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mixins.entity.MixinNetworkPlayerInfo.md>`_
 
-`MixinModelBiped <classes/cc.hyperium.mixins.entity.MixinModelBiped.md>`_
+`MixinModelBiped <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mixins.entity.MixinModelBiped.md>`_
 
-`MixinEntityRenderer <classes/cc.hyperium.mixins.entity.MixinEntityRenderer.md>`_
+`MixinEntityRenderer <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mixins.entity.MixinEntityRenderer.md>`_
 
-`MixinEntityPlayerSP <classes/cc.hyperium.mixins.entity.MixinEntityPlayerSP.md>`_
+`MixinEntityPlayerSP <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mixins.entity.MixinEntityPlayerSP.md>`_
 
-`MixinEntityPlayer <classes/cc.hyperium.mixins.entity.MixinEntityPlayer.md>`_
+`MixinEntityPlayer <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mixins.entity.MixinEntityPlayer.md>`_
 
-`MixinEntityLivingBase <classes/cc.hyperium.mixins.entity.MixinEntityLivingBase.md>`_
+`MixinEntityLivingBase <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mixins.entity.MixinEntityLivingBase.md>`_
 
-`MixinAbstractClientPlayer <classes/cc.hyperium.mixins.entity.MixinAbstractClientPlayer.md>`_
+`MixinAbstractClientPlayer <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mixins.entity.MixinAbstractClientPlayer.md>`_
 
 cc.hyperium.mixins.gui
 ----------------------
 
-`MixinInventoryParticle <classes/cc.hyperium.mixins.gui.MixinInventoryParticle.md>`_
+`MixinInventoryParticle <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mixins.gui.MixinInventoryParticle.md>`_
 
-`MixinInventory <classes/cc.hyperium.mixins.gui.MixinInventory.md>`_
+`MixinInventory <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mixins.gui.MixinInventory.md>`_
 
-`MixinGuiUtilRenderComponents <classes/cc.hyperium.mixins.gui.MixinGuiUtilRenderComponents.md>`_
+`MixinGuiUtilRenderComponents <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mixins.gui.MixinGuiUtilRenderComponents.md>`_
 
-`MixinGuiScreen <classes/cc.hyperium.mixins.gui.MixinGuiScreen.md>`_
+`MixinGuiScreen <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mixins.gui.MixinGuiScreen.md>`_
 
-`MixinGuiResourcePack <classes/cc.hyperium.mixins.gui.MixinGuiResourcePack.md>`_
+`MixinGuiResourcePack <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mixins.gui.MixinGuiResourcePack.md>`_
 
-`MixinGuiPlayerTabOverlay <classes/cc.hyperium.mixins.gui.MixinGuiPlayerTabOverlay.md>`_
+`MixinGuiPlayerTabOverlay <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mixins.gui.MixinGuiPlayerTabOverlay.md>`_
 
-`MixinGuiNewChat <classes/cc.hyperium.mixins.gui.MixinGuiNewChat.md>`_
+`MixinGuiNewChat <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mixins.gui.MixinGuiNewChat.md>`_
 
-`MixinGuiMainMenu <classes/cc.hyperium.mixins.gui.MixinGuiMainMenu.md>`_
+`MixinGuiMainMenu <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mixins.gui.MixinGuiMainMenu.md>`_
 
-`MixinGuiIngame <classes/cc.hyperium.mixins.gui.MixinGuiIngame.md>`_
+`MixinGuiIngame <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mixins.gui.MixinGuiIngame.md>`_
 
-`MixinGuiGameOver <classes/cc.hyperium.mixins.gui.MixinGuiGameOver.md>`_
+`MixinGuiGameOver <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mixins.gui.MixinGuiGameOver.md>`_
 
-`MixinGuiDisconnecting <classes/cc.hyperium.mixins.gui.MixinGuiDisconnecting.md>`_
+`MixinGuiDisconnecting <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mixins.gui.MixinGuiDisconnecting.md>`_
 
-`MixinGuiConnecting <classes/cc.hyperium.mixins.gui.MixinGuiConnecting.md>`_
+`MixinGuiConnecting <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mixins.gui.MixinGuiConnecting.md>`_
 
-`MixinGuiConfirmOpenLink <classes/cc.hyperium.mixins.gui.MixinGuiConfirmOpenLink.md>`_
+`MixinGuiConfirmOpenLink <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mixins.gui.MixinGuiConfirmOpenLink.md>`_
 
-`MixinGuiChat <classes/cc.hyperium.mixins.gui.MixinGuiChat.md>`_
+`MixinGuiChat <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mixins.gui.MixinGuiChat.md>`_
 
-`MixinGuiButton <classes/cc.hyperium.mixins.gui.MixinGuiButton.md>`_
+`MixinGuiButton <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mixins.gui.MixinGuiButton.md>`_
 
-`MixinGui <classes/cc.hyperium.mixins.gui.MixinGui.md>`_
+`MixinGui <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mixins.gui.MixinGui.md>`_
 
 cc.hyperium.mixins
 ------------------
 
-`MixinTextureManager <classes/cc.hyperium.mixins.MixinTextureManager.md>`_
+`MixinTextureManager <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mixins.MixinTextureManager.md>`_
 
-`MixinSoundManager <classes/cc.hyperium.mixins.MixinSoundManager.md>`_
+`MixinSoundManager <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mixins.MixinSoundManager.md>`_
 
-`MixinScreenShotHelper <classes/cc.hyperium.mixins.MixinScreenShotHelper.md>`_
+`MixinScreenShotHelper <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mixins.MixinScreenShotHelper.md>`_
 
-`MixinMinecraft <classes/cc.hyperium.mixins.MixinMinecraft.md>`_
+`MixinMinecraft <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mixins.MixinMinecraft.md>`_
 
-`MixinKeyBinding <classes/cc.hyperium.mixins.MixinKeyBinding.md>`_
+`MixinKeyBinding <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mixins.MixinKeyBinding.md>`_
 
-`MixinFrameBuffer <classes/cc.hyperium.mixins.MixinFrameBuffer.md>`_
+`MixinFrameBuffer <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mixins.MixinFrameBuffer.md>`_
 
-`MixinEnchantment <classes/cc.hyperium.mixins.MixinEnchantment.md>`_
+`MixinEnchantment <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mixins.MixinEnchantment.md>`_
 
 cc.hyperium.mixins.packet
 -------------------------
 
-`MixinS2EPacketCloseWindow <classes/cc.hyperium.mixins.packet.MixinS2EPacketCloseWindow.md>`_
+`MixinS2EPacketCloseWindow <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mixins.packet.MixinS2EPacketCloseWindow.md>`_
 
-`MixinS19PacketEntityStatus <classes/cc.hyperium.mixins.packet.MixinS19PacketEntityStatus.md>`_
+`MixinS19PacketEntityStatus <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mixins.packet.MixinS19PacketEntityStatus.md>`_
 
-`MixinS14PacketEntity <classes/cc.hyperium.mixins.packet.MixinS14PacketEntity.md>`_
+`MixinS14PacketEntity <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mixins.packet.MixinS14PacketEntity.md>`_
 
-`MixinNetHandlerPlayClient <classes/cc.hyperium.mixins.packet.MixinNetHandlerPlayClient.md>`_
+`MixinNetHandlerPlayClient <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mixins.packet.MixinNetHandlerPlayClient.md>`_
 
-`MixinC01PacketChatMessage <classes/cc.hyperium.mixins.packet.MixinC01PacketChatMessage.md>`_
+`MixinC01PacketChatMessage <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mixins.packet.MixinC01PacketChatMessage.md>`_
 
 cc.hyperium.mixins.profiler
 ---------------------------
 
-`MixinProfiler <classes/cc.hyperium.mixins.profiler.MixinProfiler.md>`_
+`MixinProfiler <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mixins.profiler.MixinProfiler.md>`_
 
 cc.hyperium.mixins.renderer
 ---------------------------
 
-`MixinRenderPlayer <classes/cc.hyperium.mixins.renderer.MixinRenderPlayer.md>`_
+`MixinRenderPlayer <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mixins.renderer.MixinRenderPlayer.md>`_
 
-`MixinRenderItem <classes/cc.hyperium.mixins.renderer.MixinRenderItem.md>`_
+`MixinRenderItem <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mixins.renderer.MixinRenderItem.md>`_
 
-`MixinRendererLivingEntity <classes/cc.hyperium.mixins.renderer.MixinRendererLivingEntity.md>`_
+`MixinRendererLivingEntity <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mixins.renderer.MixinRendererLivingEntity.md>`_
 
-`MixinRender <classes/cc.hyperium.mixins.renderer.MixinRender.md>`_
+`MixinRender <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mixins.renderer.MixinRender.md>`_
 
-`MixinItemRenderer <classes/cc.hyperium.mixins.renderer.MixinItemRenderer.md>`_
+`MixinItemRenderer <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mixins.renderer.MixinItemRenderer.md>`_
 
-`MixinGuiIngame <classes/cc.hyperium.mixins.renderer.MixinGuiIngame.md>`_
+`MixinGuiIngame <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mixins.renderer.MixinGuiIngame.md>`_
 
-`MixinDabRender <classes/cc.hyperium.mixins.renderer.MixinDabRender.md>`_
+`MixinDabRender <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mixins.renderer.MixinDabRender.md>`_
 
 cc.hyperium.mixins.scoreboard
 -----------------------------
 
-`MixinScoreboard <classes/cc.hyperium.mixins.scoreboard.MixinScoreboard.md>`_
+`MixinScoreboard <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mixins.scoreboard.MixinScoreboard.md>`_
 
 cc.hyperium.mixins.utils
 ------------------------
 
-`MixinResourcePackRepository <classes/cc.hyperium.mixins.utils.MixinResourcePackRepository.md>`_
+`MixinResourcePackRepository <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mixins.utils.MixinResourcePackRepository.md>`_
 
-`MixinMathHelper <classes/cc.hyperium.mixins.utils.MixinMathHelper.md>`_
+`MixinMathHelper <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mixins.utils.MixinMathHelper.md>`_
 
 cc.hyperium.mixins.world
 ------------------------
 
-`MixinWorld <classes/cc.hyperium.mixins.world.MixinWorld.md>`_
+`MixinWorld <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mixins.world.MixinWorld.md>`_
 
-`MixinRenderGlobal <classes/cc.hyperium.mixins.world.MixinRenderGlobal.md>`_
+`MixinRenderGlobal <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mixins.world.MixinRenderGlobal.md>`_
 
-`MixinChunk <classes/cc.hyperium.mixins.world.MixinChunk.md>`_
+`MixinChunk <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mixins.world.MixinChunk.md>`_
 
 cc.hyperium.mods
 ----------------
 
-`HyperiumModIntegration <classes/cc.hyperium.mods.HyperiumModIntegration.md>`_
+`HyperiumModIntegration <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.HyperiumModIntegration.md>`_
 
-`AbstractMod <classes/cc.hyperium.mods.AbstractMod.md>`_
+`AbstractMod <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.AbstractMod.md>`_
 
-`AbstractMod.Metadata <classes/cc.hyperium.mods.AbstractMod.Metadata.md>`_
+`AbstractMod.Metadata <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.AbstractMod.Metadata.md>`_
 
 cc.hyperium.mods.autogg
 -----------------------
 
-`AutoGGListener <classes/cc.hyperium.mods.autogg.AutoGGListener.md>`_
+`AutoGGListener <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.autogg.AutoGGListener.md>`_
 
-`AutoGG <classes/cc.hyperium.mods.autogg.AutoGG.md>`_
+`AutoGG <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.autogg.AutoGG.md>`_
 
 cc.hyperium.mods.autogg.commands
 --------------------------------
 
-`GGCommand <classes/cc.hyperium.mods.autogg.commands.GGCommand.md>`_
+`GGCommand <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.autogg.commands.GGCommand.md>`_
 
 cc.hyperium.mods.autogg.config
 ------------------------------
 
-`AutoGGConfig <classes/cc.hyperium.mods.autogg.config.AutoGGConfig.md>`_
+`AutoGGConfig <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.autogg.config.AutoGGConfig.md>`_
 
 cc.hyperium.mods.chromahud.api
 ------------------------------
 
-`TextConfig <classes/cc.hyperium.mods.chromahud.api.TextConfig.md>`_
+`TextConfig <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.chromahud.api.TextConfig.md>`_
 
-`StringConfig <classes/cc.hyperium.mods.chromahud.api.StringConfig.md>`_
+`StringConfig <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.chromahud.api.StringConfig.md>`_
 
-`DisplayItem <classes/cc.hyperium.mods.chromahud.api.DisplayItem.md>`_
+`DisplayItem <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.chromahud.api.DisplayItem.md>`_
 
-`Dimension <classes/cc.hyperium.mods.chromahud.api.Dimension.md>`_
+`Dimension <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.chromahud.api.Dimension.md>`_
 
-`ChromaHUDParser <classes/cc.hyperium.mods.chromahud.api.ChromaHUDParser.md>`_
+`ChromaHUDParser <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.chromahud.api.ChromaHUDParser.md>`_
 
-`ChromaHUDDescription <classes/cc.hyperium.mods.chromahud.api.ChromaHUDDescription.md>`_
+`ChromaHUDDescription <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.chromahud.api.ChromaHUDDescription.md>`_
 
-`ButtonConfig <classes/cc.hyperium.mods.chromahud.api.ButtonConfig.md>`_
+`ButtonConfig <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.chromahud.api.ButtonConfig.md>`_
 
 cc.hyperium.mods.chromahud
 --------------------------
 
-`NumberUtil <classes/cc.hyperium.mods.chromahud.NumberUtil.md>`_
+`NumberUtil <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.chromahud.NumberUtil.md>`_
 
-`HyperiumChromaHudParser <classes/cc.hyperium.mods.chromahud.HyperiumChromaHudParser.md>`_
+`HyperiumChromaHudParser <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.chromahud.HyperiumChromaHudParser.md>`_
 
-`ElementRenderer <classes/cc.hyperium.mods.chromahud.ElementRenderer.md>`_
+`ElementRenderer <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.chromahud.ElementRenderer.md>`_
 
-`DisplayElement <classes/cc.hyperium.mods.chromahud.DisplayElement.md>`_
+`DisplayElement <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.chromahud.DisplayElement.md>`_
 
-`DefaultChromaHUDParser <classes/cc.hyperium.mods.chromahud.DefaultChromaHUDParser.md>`_
+`DefaultChromaHUDParser <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.chromahud.DefaultChromaHUDParser.md>`_
 
-`ChromaHUDApi <classes/cc.hyperium.mods.chromahud.ChromaHUDApi.md>`_
+`ChromaHUDApi <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.chromahud.ChromaHUDApi.md>`_
 
-`ChromaHUD <classes/cc.hyperium.mods.chromahud.ChromaHUD.md>`_
+`ChromaHUD <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.chromahud.ChromaHUD.md>`_
 
 cc.hyperium.mods.chromahud.commands
 -----------------------------------
 
-`CommandChromaHUD <classes/cc.hyperium.mods.chromahud.commands.CommandChromaHUD.md>`_
+`CommandChromaHUD <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.chromahud.commands.CommandChromaHUD.md>`_
 
 cc.hyperium.mods.chromahud.displayitems.chromahud
 -------------------------------------------------
 
-`TimeHud <classes/cc.hyperium.mods.chromahud.displayitems.chromahud.TimeHud.md>`_
+`TimeHud <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.chromahud.displayitems.chromahud.TimeHud.md>`_
 
-`TextItem <classes/cc.hyperium.mods.chromahud.displayitems.chromahud.TextItem.md>`_
+`TextItem <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.chromahud.displayitems.chromahud.TextItem.md>`_
 
-`PotionEffects <classes/cc.hyperium.mods.chromahud.displayitems.chromahud.PotionEffects.md>`_
+`PotionEffects <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.chromahud.displayitems.chromahud.PotionEffects.md>`_
 
-`PingDisplay <classes/cc.hyperium.mods.chromahud.displayitems.chromahud.PingDisplay.md>`_
+`PingDisplay <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.chromahud.displayitems.chromahud.PingDisplay.md>`_
 
-`FPS <classes/cc.hyperium.mods.chromahud.displayitems.chromahud.FPS.md>`_
+`FPS <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.chromahud.displayitems.chromahud.FPS.md>`_
 
-`DirectionHUD <classes/cc.hyperium.mods.chromahud.displayitems.chromahud.DirectionHUD.md>`_
+`DirectionHUD <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.chromahud.displayitems.chromahud.DirectionHUD.md>`_
 
-`CpsDisplay <classes/cc.hyperium.mods.chromahud.displayitems.chromahud.CpsDisplay.md>`_
+`CpsDisplay <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.chromahud.displayitems.chromahud.CpsDisplay.md>`_
 
-`CordsDisplay <classes/cc.hyperium.mods.chromahud.displayitems.chromahud.CordsDisplay.md>`_
+`CordsDisplay <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.chromahud.displayitems.chromahud.CordsDisplay.md>`_
 
-`CCounter <classes/cc.hyperium.mods.chromahud.displayitems.chromahud.CCounter.md>`_
+`CCounter <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.chromahud.displayitems.chromahud.CCounter.md>`_
 
-`ArrowCount <classes/cc.hyperium.mods.chromahud.displayitems.chromahud.ArrowCount.md>`_
+`ArrowCount <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.chromahud.displayitems.chromahud.ArrowCount.md>`_
 
-`ArmourHud <classes/cc.hyperium.mods.chromahud.displayitems.chromahud.ArmourHud.md>`_
+`ArmourHud <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.chromahud.displayitems.chromahud.ArmourHud.md>`_
 
 cc.hyperium.mods.chromahud.displayitems.hyperium
 ------------------------------------------------
 
-`ScoreboardDisplay <classes/cc.hyperium.mods.chromahud.displayitems.hyperium.ScoreboardDisplay.md>`_
+`ScoreboardDisplay <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.chromahud.displayitems.hyperium.ScoreboardDisplay.md>`_
 
-`RatingDisplay <classes/cc.hyperium.mods.chromahud.displayitems.hyperium.RatingDisplay.md>`_
+`RatingDisplay <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.chromahud.displayitems.hyperium.RatingDisplay.md>`_
 
-`MinigameDisplay <classes/cc.hyperium.mods.chromahud.displayitems.hyperium.MinigameDisplay.md>`_
+`MinigameDisplay <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.chromahud.displayitems.hyperium.MinigameDisplay.md>`_
 
-`LocationDisplay <classes/cc.hyperium.mods.chromahud.displayitems.hyperium.LocationDisplay.md>`_
+`LocationDisplay <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.chromahud.displayitems.hyperium.LocationDisplay.md>`_
 
-`HypixelDisplay <classes/cc.hyperium.mods.chromahud.displayitems.hyperium.HypixelDisplay.md>`_
+`HypixelDisplay <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.chromahud.displayitems.hyperium.HypixelDisplay.md>`_
 
-`HyperiumInfoDisplay <classes/cc.hyperium.mods.chromahud.displayitems.hyperium.HyperiumInfoDisplay.md>`_
+`HyperiumInfoDisplay <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.chromahud.displayitems.hyperium.HyperiumInfoDisplay.md>`_
 
-`DabCounter <classes/cc.hyperium.mods.chromahud.displayitems.hyperium.DabCounter.md>`_
+`DabCounter <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.chromahud.displayitems.hyperium.DabCounter.md>`_
 
-`CoinsDisplay <classes/cc.hyperium.mods.chromahud.displayitems.hyperium.CoinsDisplay.md>`_
+`CoinsDisplay <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.chromahud.displayitems.hyperium.CoinsDisplay.md>`_
 
 cc.hyperium.mods.chromahud.gui
 ------------------------------
 
-`MoveElementGui <classes/cc.hyperium.mods.chromahud.gui.MoveElementGui.md>`_
+`MoveElementGui <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.chromahud.gui.MoveElementGui.md>`_
 
-`GeneralConfigGui <classes/cc.hyperium.mods.chromahud.gui.GeneralConfigGui.md>`_
+`GeneralConfigGui <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.chromahud.gui.GeneralConfigGui.md>`_
 
-`EditItemsGui <classes/cc.hyperium.mods.chromahud.gui.EditItemsGui.md>`_
+`EditItemsGui <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.chromahud.gui.EditItemsGui.md>`_
 
-`DisplayElementConfig <classes/cc.hyperium.mods.chromahud.gui.DisplayElementConfig.md>`_
+`DisplayElementConfig <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.chromahud.gui.DisplayElementConfig.md>`_
 
-`AddItemsGui <classes/cc.hyperium.mods.chromahud.gui.AddItemsGui.md>`_
+`AddItemsGui <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.chromahud.gui.AddItemsGui.md>`_
 
 cc.hyperium.mods.common
 -----------------------
 
-`ToggleSprintContainer <classes/cc.hyperium.mods.common.ToggleSprintContainer.md>`_
+`ToggleSprintContainer <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.common.ToggleSprintContainer.md>`_
 
-`PerspectiveModifierContainer <classes/cc.hyperium.mods.common.PerspectiveModifierHandler.md>`_
+`PerspectiveModifierContainer <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.common.PerspectiveModifierHandler.md>`_
 
 cc.hyperium.mods.crosshair
 --------------------------
 
-`CrosshairType <classes/cc.hyperium.mods.crosshair.CrosshairType.md>`_
+`CrosshairType <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.crosshair.CrosshairType.md>`_
 
-`CrosshairMod <classes/cc.hyperium.mods.crosshair.CrosshairMod.md>`_
+`CrosshairMod <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.crosshair.CrosshairMod.md>`_
 
-`CrosshairGui <classes/cc.hyperium.mods.crosshair.CrosshairGui.md>`_
+`CrosshairGui <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.crosshair.CrosshairGui.md>`_
 
-`Crosshair <classes/cc.hyperium.mods.crosshair.Crosshair.md>`_
+`Crosshair <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.crosshair.Crosshair.md>`_
 
 cc.hyperium.mods.discord
 ------------------------
 
-`RichPresenceUpdater <classes/cc.hyperium.mods.discord.RichPresenceUpdater.md>`_
+`RichPresenceUpdater <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.discord.RichPresenceUpdater.md>`_
 
-`RichPresenceManager <classes/cc.hyperium.mods.discord.RichPresenceManager.md>`_
+`RichPresenceManager <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.discord.RichPresenceManager.md>`_
 
 cc.hyperium.mods.hgames
 -----------------------
 
-`HGames <classes/cc.hyperium.mods.hgames.HGames.md>`_
+`HGames <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.hgames.HGames.md>`_
 
 cc.hyperium.mods.hgames.minigames
 ---------------------------------
 
-`Walls3 <classes/cc.hyperium.mods.hgames.minigames.Walls3.md>`_
+`Walls3 <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.hgames.minigames.Walls3.md>`_
 
-`Minigame <classes/cc.hyperium.mods.hgames.minigames.Minigame.md>`_
+`Minigame <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.hgames.minigames.Minigame.md>`_
 
 cc.hyperium.mods.keystrokes
 ---------------------------
 
-`KeystrokesMod <classes/cc.hyperium.mods.keystrokes.KeystrokesMod.md>`_
+`KeystrokesMod <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.keystrokes.KeystrokesMod.md>`_
 
-`CommandKeystrokes <classes/cc.hyperium.mods.keystrokes.CommandKeystrokes.md>`_
+`CommandKeystrokes <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.keystrokes.CommandKeystrokes.md>`_
 
 cc.hyperium.mods.keystrokes.config
 ----------------------------------
 
-`KeystrokesSettings <classes/cc.hyperium.mods.keystrokes.config.KeystrokesSettings.md>`_
+`KeystrokesSettings <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.keystrokes.config.KeystrokesSettings.md>`_
 
 cc.hyperium.mods.keystrokes.keys
 --------------------------------
 
-`IKey <classes/cc.hyperium.mods.keystrokes.keys.IKey.md>`_
+`IKey <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.keystrokes.keys.IKey.md>`_
 
 cc.hyperium.mods.keystrokes.keys.impl
 -------------------------------------
 
-`SpaceKey <classes/cc.hyperium.mods.keystrokes.keys.impl.SpaceKey.md>`_
+`SpaceKey <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.keystrokes.keys.impl.SpaceKey.md>`_
 
-`MouseButton <classes/cc.hyperium.mods.keystrokes.keys.impl.MouseButton.md>`_
+`MouseButton <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.keystrokes.keys.impl.MouseButton.md>`_
 
-`Key <classes/cc.hyperium.mods.keystrokes.keys.impl.Key.md>`_
+`Key <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.keystrokes.keys.impl.Key.md>`_
 
-`CPSKey <classes/cc.hyperium.mods.keystrokes.keys.impl.CPSKey.md>`_
+`CPSKey <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.keystrokes.keys.impl.CPSKey.md>`_
 
 cc.hyperium.mods.keystrokes.render
 ----------------------------------
 
-`KeystrokesRenderer <classes/cc.hyperium.mods.keystrokes.render.KeystrokesRenderer.md>`_
+`KeystrokesRenderer <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.keystrokes.render.KeystrokesRenderer.md>`_
 
 cc.hyperium.mods.keystrokes.screen
 ----------------------------------
 
-`IScrollable <classes/cc.hyperium.mods.keystrokes.screen.IScrollable.md>`_
+`IScrollable <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.keystrokes.screen.IScrollable.md>`_
 
-`GuiScreenKeystrokes <classes/cc.hyperium.mods.keystrokes.screen.GuiScreenKeystrokes.md>`_
+`GuiScreenKeystrokes <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.keystrokes.screen.GuiScreenKeystrokes.md>`_
 
-`GuiScreenColor <classes/cc.hyperium.mods.keystrokes.screen.GuiScreenColor.md>`_
+`GuiScreenColor <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.keystrokes.screen.GuiScreenColor.md>`_
 
 cc.hyperium.mods.keystrokes.screen.impl
 ---------------------------------------
 
-`GuiSliderScale <classes/cc.hyperium.mods.keystrokes.screen.impl.GuiSliderScale.md>`_
+`GuiSliderScale <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.keystrokes.screen.impl.GuiSliderScale.md>`_
 
-`GuiSliderFadeTime <classes/cc.hyperium.mods.keystrokes.screen.impl.GuiSliderFadeTime.md>`_
+`GuiSliderFadeTime <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.keystrokes.screen.impl.GuiSliderFadeTime.md>`_
 
 cc.hyperium.mods.levelhead.commands
 -----------------------------------
 
-`LevelHeadCommand <classes/cc.hyperium.mods.levelhead.commands.LevelHeadCommand.md>`_
+`LevelHeadCommand <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.levelhead.commands.LevelHeadCommand.md>`_
 
 cc.hyperium.mods.levelhead.config
 ---------------------------------
 
-`LevelheadConfig <classes/cc.hyperium.mods.levelhead.config.LevelheadConfig.md>`_
+`LevelheadConfig <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.levelhead.config.LevelheadConfig.md>`_
 
 cc.hyperium.mods.levelhead.guis
 -------------------------------
 
-`LevelHeadGui <classes/cc.hyperium.mods.levelhead.guis.LevelHeadGui.md>`_
+`LevelHeadGui <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.levelhead.guis.LevelHeadGui.md>`_
 
 cc.hyperium.mods.levelhead
 --------------------------
 
-`Levelhead <classes/cc.hyperium.mods.levelhead.Levelhead.md>`_
+`Levelhead <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.levelhead.Levelhead.md>`_
 
 cc.hyperium.mods.levelhead.renderer
 -----------------------------------
 
-`LevelheadTag <classes/cc.hyperium.mods.levelhead.renderer.LevelheadTag.md>`_
+`LevelheadTag <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.levelhead.renderer.LevelheadTag.md>`_
 
-`LevelHeadRender <classes/cc.hyperium.mods.levelhead.renderer.LevelHeadRender.md>`_
+`LevelHeadRender <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.levelhead.renderer.LevelHeadRender.md>`_
 
-`LevelheadComponent <classes/cc.hyperium.mods.levelhead.renderer.LevelheadComponent.md>`_
+`LevelheadComponent <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.levelhead.renderer.LevelheadComponent.md>`_
 
 cc.hyperium.mods.memoryfix
 --------------------------
 
-`ClassTransformer <classes/cc.hyperium.mods.memoryfix.ClassTransformer.md>`_
+`ClassTransformer <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.memoryfix.ClassTransformer.md>`_
 
-`CapeImageBuffer <classes/cc.hyperium.mods.memoryfix.CapeImageBuffer.md>`_
+`CapeImageBuffer <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.memoryfix.CapeImageBuffer.md>`_
 
 cc.hyperium.mods.oldanimations
 ------------------------------
 
-`OldAnimations <classes/cc.hyperium.mods.oldanimations.OldAnimations.md>`_
+`OldAnimations <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.oldanimations.OldAnimations.md>`_
 
-`AnimationEventHandler <classes/cc.hyperium.mods.oldanimations.AnimationEventHandler.md>`_
+`AnimationEventHandler <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.oldanimations.AnimationEventHandler.md>`_
 
 cc.hyperium.mods.sk1ercommon
 ----------------------------
 
-`Sk1erMod <classes/cc.hyperium.mods.sk1ercommon.Sk1erMod.md>`_
+`Sk1erMod <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.sk1ercommon.Sk1erMod.md>`_
 
-`Sk1erException <classes/cc.hyperium.mods.sk1ercommon.Sk1erException.md>`_
+`Sk1erException <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.sk1ercommon.Sk1erException.md>`_
 
-`ResolutionUtil <classes/cc.hyperium.mods.sk1ercommon.ResolutionUtil.md>`_
+`ResolutionUtil <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.sk1ercommon.ResolutionUtil.md>`_
 
-`Multithreading <classes/cc.hyperium.mods.sk1ercommon.Multithreading.md>`_
+`Multithreading <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.sk1ercommon.Multithreading.md>`_
 
-`GenKeyCallback <classes/cc.hyperium.mods.sk1ercommon.GenKeyCallback.md>`_
+`GenKeyCallback <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.sk1ercommon.GenKeyCallback.md>`_
 
 cc.hyperium.mods.skinchanger.commands
 -------------------------------------
 
-`CommandSkinChanger <classes/cc.hyperium.mods.skinchanger.commands.CommandSkinChanger.md>`_
+`CommandSkinChanger <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.skinchanger.commands.CommandSkinChanger.md>`_
 
 cc.hyperium.mods.skinchanger.config
 -----------------------------------
 
-`SkinChangerConfig <classes/cc.hyperium.mods.skinchanger.config.SkinChangerConfig.md>`_
+`SkinChangerConfig <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.skinchanger.config.SkinChangerConfig.md>`_
 
 cc.hyperium.mods.skinchanger.events
 -----------------------------------
 
-`SkinChangerEvents <classes/cc.hyperium.mods.skinchanger.events.SkinChangerEvents.md>`_
+`SkinChangerEvents <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.skinchanger.events.SkinChangerEvents.md>`_
 
 cc.hyperium.mods.skinchanger.gui
 --------------------------------
 
-`SkinChangerGui <classes/cc.hyperium.mods.skinchanger.gui.SkinChangerGui.md>`_
+`SkinChangerGui <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.skinchanger.gui.SkinChangerGui.md>`_
 
 cc.hyperium.mods.skinchanger
 ----------------------------
 
-`SkinChangerMod <classes/cc.hyperium.mods.skinchanger.SkinChangerMod.md>`_
+`SkinChangerMod <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.skinchanger.SkinChangerMod.md>`_
 
 cc.hyperium.mods.statistics
 ---------------------------
 
-`GeneralStatisticsTracking <classes/cc.hyperium.mods.statistics.GeneralStatisticsTracking.md>`_
+`GeneralStatisticsTracking <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.statistics.GeneralStatisticsTracking.md>`_
 
 cc.hyperium.mods.timechanger.commands
 -------------------------------------
 
-`CommandTimeChangerSunset <classes/cc.hyperium.mods.timechanger.commands.CommandTimeChangerSunset.md>`_
+`CommandTimeChangerSunset <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.timechanger.commands.CommandTimeChangerSunset.md>`_
 
-`CommandTimeChangerReset <classes/cc.hyperium.mods.timechanger.commands.CommandTimeChangerReset.md>`_
+`CommandTimeChangerReset <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.timechanger.commands.CommandTimeChangerReset.md>`_
 
-`CommandTimeChangerNight <classes/cc.hyperium.mods.timechanger.commands.CommandTimeChangerNight.md>`_
+`CommandTimeChangerNight <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.timechanger.commands.CommandTimeChangerNight.md>`_
 
-`CommandTimeChangerFastTime <classes/cc.hyperium.mods.timechanger.commands.CommandTimeChangerFastTime.md>`_
+`CommandTimeChangerFastTime <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.timechanger.commands.CommandTimeChangerFastTime.md>`_
 
-`CommandTimeChangerDay <classes/cc.hyperium.mods.timechanger.commands.CommandTimeChangerDay.md>`_
+`CommandTimeChangerDay <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.timechanger.commands.CommandTimeChangerDay.md>`_
 
 cc.hyperium.mods.timechanger
 ----------------------------
 
-`TimeChanger <classes/cc.hyperium.mods.timechanger.TimeChanger.md>`_
+`TimeChanger <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.timechanger.TimeChanger.md>`_
 
-`TimeChanger.TimeType <classes/cc.hyperium.mods.timechanger.TimeChanger.TimeType.md>`_
+`TimeChanger.TimeType <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.timechanger.TimeChanger.TimeType.md>`_
 
 cc.hyperium.mods.togglechat.commands
 ------------------------------------
 
-`CommandToggleChat <classes/cc.hyperium.mods.togglechat.commands.CommandToggleChat.md>`_
+`CommandToggleChat <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.togglechat.commands.CommandToggleChat.md>`_
 
 cc.hyperium.mods.togglechat.config
 ----------------------------------
 
-`ToggleChatConfig <classes/cc.hyperium.mods.togglechat.config.ToggleChatConfig.md>`_
+`ToggleChatConfig <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.togglechat.config.ToggleChatConfig.md>`_
 
 cc.hyperium.mods.togglechat.gui
 -------------------------------
 
-`ToggleChatMainGui <classes/cc.hyperium.mods.togglechat.gui.ToggleChatMainGui.md>`_
+`ToggleChatMainGui <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.togglechat.gui.ToggleChatMainGui.md>`_
 
 cc.hyperium.mods.togglechat
 ---------------------------
 
-`ToggleChatMod <classes/cc.hyperium.mods.togglechat.ToggleChatMod.md>`_
+`ToggleChatMod <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.togglechat.ToggleChatMod.md>`_
 
-`ToggleChatEvents <classes/cc.hyperium.mods.togglechat.ToggleChatEvents.md>`_
+`ToggleChatEvents <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.togglechat.ToggleChatEvents.md>`_
 
 cc.hyperium.mods.togglechat.toggles.defaults
 --------------------------------------------
 
-`TypeTeam <classes/cc.hyperium.mods.togglechat.toggles.defaults.TypeTeam.md>`_
+`TypeTeam <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.togglechat.toggles.defaults.TypeTeam.md>`_
 
-`TypeSpectator <classes/cc.hyperium.mods.togglechat.toggles.defaults.TypeSpectator.md>`_
+`TypeSpectator <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.togglechat.toggles.defaults.TypeSpectator.md>`_
 
-`TypeSpecial <classes/cc.hyperium.mods.togglechat.toggles.defaults.TypeSpecial.md>`_
+`TypeSpecial <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.togglechat.toggles.defaults.TypeSpecial.md>`_
 
-`TypeSoulWell <classes/cc.hyperium.mods.togglechat.toggles.defaults.TypeSoulWell.md>`_
+`TypeSoulWell <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.togglechat.toggles.defaults.TypeSoulWell.md>`_
 
-`TypeShout <classes/cc.hyperium.mods.togglechat.toggles.defaults.TypeShout.md>`_
+`TypeShout <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.togglechat.toggles.defaults.TypeShout.md>`_
 
-`TypePartyInvites <classes/cc.hyperium.mods.togglechat.toggles.defaults.TypePartyInvites.md>`_
+`TypePartyInvites <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.togglechat.toggles.defaults.TypePartyInvites.md>`_
 
-`TypeParty <classes/cc.hyperium.mods.togglechat.toggles.defaults.TypeParty.md>`_
+`TypeParty <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.togglechat.toggles.defaults.TypeParty.md>`_
 
-`TypeMysteryBox <classes/cc.hyperium.mods.togglechat.toggles.defaults.TypeMysteryBox.md>`_
+`TypeMysteryBox <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.togglechat.toggles.defaults.TypeMysteryBox.md>`_
 
-`TypeMessageSeparator <classes/cc.hyperium.mods.togglechat.toggles.defaults.TypeMessageSeparator.md>`_
+`TypeMessageSeparator <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.togglechat.toggles.defaults.TypeMessageSeparator.md>`_
 
-`TypeMessages <classes/cc.hyperium.mods.togglechat.toggles.defaults.TypeMessages.md>`_
+`TypeMessages <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.togglechat.toggles.defaults.TypeMessages.md>`_
 
-`TypeLobbyJoin <classes/cc.hyperium.mods.togglechat.toggles.defaults.TypeLobbyJoin.md>`_
+`TypeLobbyJoin <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.togglechat.toggles.defaults.TypeLobbyJoin.md>`_
 
-`TypeLeave <classes/cc.hyperium.mods.togglechat.toggles.defaults.TypeLeave.md>`_
+`TypeLeave <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.togglechat.toggles.defaults.TypeLeave.md>`_
 
-`TypeJoin <classes/cc.hyperium.mods.togglechat.toggles.defaults.TypeJoin.md>`_
+`TypeJoin <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.togglechat.toggles.defaults.TypeJoin.md>`_
 
-`TypeHousing <classes/cc.hyperium.mods.togglechat.toggles.defaults.TypeHousing.md>`_
+`TypeHousing <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.togglechat.toggles.defaults.TypeHousing.md>`_
 
-`TypeGuild <classes/cc.hyperium.mods.togglechat.toggles.defaults.TypeGuild.md>`_
+`TypeGuild <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.togglechat.toggles.defaults.TypeGuild.md>`_
 
-`TypeGlobal <classes/cc.hyperium.mods.togglechat.toggles.defaults.TypeGlobal.md>`_
+`TypeGlobal <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.togglechat.toggles.defaults.TypeGlobal.md>`_
 
-`TypeFriendRequests <classes/cc.hyperium.mods.togglechat.toggles.defaults.TypeFriendRequests.md>`_
+`TypeFriendRequests <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.togglechat.toggles.defaults.TypeFriendRequests.md>`_
 
-`TypeEasy <classes/cc.hyperium.mods.togglechat.toggles.defaults.TypeEasy.md>`_
+`TypeEasy <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.togglechat.toggles.defaults.TypeEasy.md>`_
 
-`TypeColored <classes/cc.hyperium.mods.togglechat.toggles.defaults.TypeColored.md>`_
+`TypeColored <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.togglechat.toggles.defaults.TypeColored.md>`_
 
-`TypeBuildBattle <classes/cc.hyperium.mods.togglechat.toggles.defaults.TypeBuildBattle.md>`_
+`TypeBuildBattle <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.togglechat.toggles.defaults.TypeBuildBattle.md>`_
 
-`TypeAds <classes/cc.hyperium.mods.togglechat.toggles.defaults.TypeAds.md>`_
+`TypeAds <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.togglechat.toggles.defaults.TypeAds.md>`_
 
 cc.hyperium.mods.togglechat.toggles
 -----------------------------------
 
-`ToggleBaseHandler <classes/cc.hyperium.mods.togglechat.toggles.ToggleBaseHandler.md>`_
+`ToggleBaseHandler <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.togglechat.toggles.ToggleBaseHandler.md>`_
 
-`ToggleBase <classes/cc.hyperium.mods.togglechat.toggles.ToggleBase.md>`_
+`ToggleBase <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.togglechat.toggles.ToggleBase.md>`_
 
 cc.hyperium.mods.utilities
 --------------------------
 
-`UtilitiesMod <classes/cc.hyperium.mods.utilities.UtilitiesMod.md>`_
+`UtilitiesMod <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.mods.utilities.UtilitiesMod.md>`_
 
 cc.hyperium.network
 -------------------
 
-`NetworkHandler <classes/cc.hyperium.network.NetworkHandler.md>`_
+`NetworkHandler <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.network.NetworkHandler.md>`_
 
 cc.hyperium.purchases
 ---------------------
 
-`PurchaseApi <classes/cc.hyperium.purchases.PurchaseApi.md>`_
+`PurchaseApi <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.purchases.PurchaseApi.md>`_
 
-`HyperiumPurchase <classes/cc.hyperium.purchases.HyperiumPurchase.md>`_
+`HyperiumPurchase <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.purchases.HyperiumPurchase.md>`_
 
-`EnumPurchaseType <classes/cc.hyperium.purchases.EnumPurchaseType.md>`_
+`EnumPurchaseType <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.purchases.EnumPurchaseType.md>`_
 
-`AbstractHyperiumPurchase <classes/cc.hyperium.purchases.AbstractHyperiumPurchase.md>`_
+`AbstractHyperiumPurchase <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.purchases.AbstractHyperiumPurchase.md>`_
 
 cc.hyperium.purchases.packages
 ------------------------------
 
-`WingCosmetic <classes/cc.hyperium.purchases.packages.WingCosmetic.md>`_
+`WingCosmetic <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.purchases.packages.WingCosmetic.md>`_
 
-`ParticleBackgroundCosmetic <classes/cc.hyperium.purchases.packages.ParticleBackgroundCosmetic.md>`_
+`ParticleBackgroundCosmetic <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.purchases.packages.ParticleBackgroundCosmetic.md>`_
 
-`KillTrackerMuscles <classes/cc.hyperium.purchases.packages.KillTrackerMuscles.md>`_
+`KillTrackerMuscles <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.purchases.packages.KillTrackerMuscles.md>`_
 
-`DabOnKill <classes/cc.hyperium.purchases.packages.DabOnKill.md>`_
+`DabOnKill <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.purchases.packages.DabOnKill.md>`_
 
 cc.hyperium.tray
 ----------------
 
-`TrayManager <classes/cc.hyperium.tray.TrayManager.md>`_
+`TrayManager <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.tray.TrayManager.md>`_
 
 cc.hyperium.utils
 -----------------
 
-`Tuple <classes/cc.hyperium.utils.Tuple.md>`_
+`Tuple <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.utils.Tuple.md>`_
 
-`SafeNumberParsing <classes/cc.hyperium.utils.SafeNumberParsing.md>`_
+`SafeNumberParsing <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.utils.SafeNumberParsing.md>`_
 
-`RenderUtils <classes/cc.hyperium.utils.RenderUtils.md>`_
+`RenderUtils <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.utils.RenderUtils.md>`_
 
-`JsonHolder <classes/cc.hyperium.utils.JsonHolder.md>`_
+`JsonHolder <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.utils.JsonHolder.md>`_
 
-`HyperiumFontRenderer <classes/cc.hyperium.utils.HyperiumFontRenderer.md>`_
+`HyperiumFontRenderer <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.utils.HyperiumFontRenderer.md>`_
 
-`GraphicsUtil <classes/cc.hyperium.utils.GraphicsUtil.md>`_
+`GraphicsUtil <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.utils.GraphicsUtil.md>`_
 
-`ChatUtil <classes/cc.hyperium.utils.ChatUtil.md>`_
+`ChatUtil <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.utils.ChatUtil.md>`_
 
-`ChatColor <classes/cc.hyperium.utils.ChatColor.md>`_
+`ChatColor <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.utils.ChatColor.md>`_
 
-`CachedString <classes/cc.hyperium.utils.CachedString.md>`_
+`CachedString <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.utils.CachedString.md>`_
 
-`BetterJsonObject <classes/cc.hyperium.utils.BetterJsonObject.md>`_
+`BetterJsonObject <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.utils.BetterJsonObject.md>`_
 
 cc.hyperium.utils.mods
 ----------------------
 
-`ImgurUploader <classes/cc.hyperium.utils.mods.ImgurUploader.md>`_
+`ImgurUploader <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.utils.mods.ImgurUploader.md>`_
 
-`FPSLimiter <classes/cc.hyperium.utils.mods.FPSLimiter.md>`_
+`FPSLimiter <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.utils.mods.FPSLimiter.md>`_
 
-`CompactChat <classes/cc.hyperium.utils.mods.CompactChat.md>`_
+`CompactChat <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.utils.mods.CompactChat.md>`_
 
-`AsyncScreenshotSaver <classes/cc.hyperium.utils.mods.AsyncScreenshotSaver.md>`_
+`AsyncScreenshotSaver <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.utils.mods.AsyncScreenshotSaver.md>`_
 
