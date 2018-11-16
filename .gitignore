@@ -24,3 +24,6 @@ Temporary Items
 .Trashes
 .VolumeIcon.icns
 .com.apple.timemachine.donotpresent
+docs/Makefile
+docs/.vscode/settings.json
+docs/*.bat
