@@ -82,7 +82,7 @@ Clone the [Addon Workspace](https://github.com/HyperiumClient/Addon-Workspace) a
 **An example is [here](https://github.com/HyperiumClient/Addon-Workspace)**
 ## Developers ##
 [![Sk1er](https://cdn.discordapp.com/avatars/376817315830038530/87dd80c68e0598ea39af4e0472b299b7.png)](https://github.com/Sk1er)
-[![CoalOres](https://cdn.discordapp.com/avatars/248159137370734601/8a8b49df90cda7ccd55f28c1f5293ad6.png)](https://github.com/CoalCoding)
+[![CoalOres](https://cdn.discordapp.com/avatars/248159137370734601/667cb334d3a85c850d9890e786cbf50c.png?size=128)](https://github.com/CoalCoding)
 [![KevinPriv](https://cdn.discordapp.com/avatars/247785387919933440/e8f6af129f0d6d4db93d8c7360aac15a.png)](https://github.com/KevinPriv)
 [![Cubxity](https://cdn.discordapp.com/avatars/290921387655430144/90e89028a4ffbde5ebff833709863c39.png?size=128)](https://github.com/Cubxity)
 [![boomboompower](https://avatars1.githubusercontent.com/u/12974350?s=128&v=4)](https://github.com/boomboompower)
@@ -92,7 +92,7 @@ Clone the [Addon Workspace](https://github.com/HyperiumClient/Addon-Workspace) a
 
 ## Special Thanks ##
 
-[![yk](https://www.yourkit.com/images/yklogo.png)](https://www.yourkit.com/java/profiler/)
+[![YourKit Java Profiler](https://www.yourkit.com/images/yklogo.png)](https://www.yourkit.com/java/profiler/)
 
 YourKit supports open source projects with its full-featured Java Profiler.
 YourKit, LLC is the creator of <a href="https://www.yourkit.com/java/profiler/">YourKit Java Profiler</a>
