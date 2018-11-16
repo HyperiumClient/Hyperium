@@ -224,6 +224,7 @@ gui.settings.sendguildwelcomemessage=Pošalji poruku dobrodošlice za ceh
 gui.settings.itemphysics=Item Physics
 gui.settings.showbrowser=Pokaži preglednik
 gui.settings.mainmenuserver=Poslužitelj glavnog izbornika
+integrations.watchdog.thankwatchdog=Thank watchdog
 
 # Hyperium Splash Progress
 splashprogress.startinggame=Početna igra...

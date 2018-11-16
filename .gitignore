@@ -9,3 +9,18 @@ src/test/
 gradle/
 gradlew
 src/main/java/cc/hyperium/addons/sidebar/versions/UpdateChecker.java
+.DS_Store
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+.AppleDouble
+.LSOverride
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
