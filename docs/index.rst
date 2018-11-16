@@ -1,3 +1,14 @@
+.. HyperiumClient documentation master file, created by
+   sphinx-quickstart on Wed Oct  3 20:42:55 2018.
+   You can adapt this file completely to your liking, but it should at least
+   contain the root `toctree` directive.
+
+Welcome to HyperiumClient's documentation!
+=================================
+
+.. toctree::
+    :maxdepth: 4
+    :caption: Contents:
 
 .. image:: https://img.shields.io/badge/classes-318-red.svg
    :target: https://img.shields.io/badge/classes-318-red.svg
@@ -9,8 +20,6 @@
    :alt: Methods
   
 
-Hyperium API Documentation
-==========================
 
 cc.hyperium.commands
 --------------------
