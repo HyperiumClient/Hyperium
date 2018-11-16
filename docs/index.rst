@@ -24,197 +24,197 @@ Welcome to HyperiumClient's documentation!
 cc.hyperium.commands
 --------------------
 
-`HyperiumCommandHandler <classes/cc.hyperium.commands.HyperiumCommandHandler.md>`_
+`HyperiumCommandHandler <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.commands.HyperiumCommandHandler.md>`_
 
-`CommandUsageException <classes/cc.hyperium.commands.CommandUsageException.md>`_
+`CommandUsageException <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.commands.CommandUsageException.md>`_
 
-`CommandException <classes/cc.hyperium.commands.CommandException.md>`_
+`CommandException <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.commands.CommandException.md>`_
 
-`BaseCommand <classes/cc.hyperium.commands.BaseCommand.md>`_
+`BaseCommand <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.commands.BaseCommand.md>`_
 
 cc.hyperium.commands.defaults
 -----------------------------
 
-`CommandUpdate <classes/cc.hyperium.commands.defaults.CommandUpdate.md>`_
+`CommandUpdate <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.commands.defaults.CommandUpdate.md>`_
 
-`CommandPrivateMessage <classes/cc.hyperium.commands.defaults.CommandPrivateMessage.md>`_
+`CommandPrivateMessage <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.commands.defaults.CommandPrivateMessage.md>`_
 
-`CommandPlayGame <classes/cc.hyperium.commands.defaults.CommandPlayGame.md>`_
+`CommandPlayGame <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.commands.defaults.CommandPlayGame.md>`_
 
-`CommandNameHistory <classes/cc.hyperium.commands.defaults.CommandNameHistory.md>`_
+`CommandNameHistory <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.commands.defaults.CommandNameHistory.md>`_
 
-`CommandConfigGui <classes/cc.hyperium.commands.defaults.CommandConfigGui.md>`_
+`CommandConfigGui <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.commands.defaults.CommandConfigGui.md>`_
 
-`CommandClearChat <classes/cc.hyperium.commands.defaults.CommandClearChat.md>`_
+`CommandClearChat <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.commands.defaults.CommandClearChat.md>`_
 
-`CommandBrowser <classes/cc.hyperium.commands.defaults.CommandDebug.md>`_
+`CommandBrowser <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.commands.defaults.CommandDebug.md>`_
 
 cc.hyperium.config
 ------------------
 
-`DefaultConfig <classes/cc.hyperium.config.DefaultConfig.md>`_
+`DefaultConfig <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.config.DefaultConfig.md>`_
 
-`ConfigOpt <classes/cc.hyperium.config.ConfigOpt.md>`_
+`ConfigOpt <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.config.ConfigOpt.md>`_
 
 cc.hyperium.cosmetics
 ---------------------
 
-`KillCounterMuscles <classes/cc.hyperium.cosmetics.KillCounterMuscles.md>`_
+`KillCounterMuscles <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.cosmetics.KillCounterMuscles.md>`_
 
-`HyperiumCosmetics <classes/cc.hyperium.cosmetics.HyperiumCosmetics.md>`_
+`HyperiumCosmetics <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.cosmetics.HyperiumCosmetics.md>`_
 
-`DealWithItGlasses <classes/cc.hyperium.cosmetics.DealWithItGlasses.md>`_
+`DealWithItGlasses <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.cosmetics.DealWithItGlasses.md>`_
 
-`DabOnKIllCosmetic <classes/cc.hyperium.cosmetics.DabOnKIllCosmetic.md>`_
+`DabOnKIllCosmetic <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.cosmetics.DabOnKIllCosmetic.md>`_
 
-`ChromaWinCosmetic <classes/cc.hyperium.cosmetics.ChromaWinCosmetic.md>`_
+`ChromaWinCosmetic <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.cosmetics.ChromaWinCosmetic.md>`_
 
-`AbstractCosmetic <classes/cc.hyperium.cosmetics.AbstractCosmetic.md>`_
+`AbstractCosmetic <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.cosmetics.AbstractCosmetic.md>`_
 
 cc.hyperium.gui
 ---------------
 
-`ScoreboardRenderer <classes/cc.hyperium.gui.ScoreboardRenderer.md>`_
+`ScoreboardRenderer <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.gui.ScoreboardRenderer.md>`_
 
-`ParticleOverlay <classes/cc.hyperium.gui.ParticleOverlay.md>`_
+`ParticleOverlay <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.gui.ParticleOverlay.md>`_
 
 `ParticleOverlay.Mode <classes/cc.hyperium.gui.ParticleOverlay.Mode.md>`_
 
-`NotificationCenter <classes/cc.hyperium.gui.NotificationCenter.md>`_
+`NotificationCenter <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.gui.NotificationCenter.md>`_
 
-`NotificationCenter.Notification <classes/cc.hyperium.gui.NotificationCenter.Notification.md>`_
+`NotificationCenter.Notification <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.gui.NotificationCenter.Notification.md>`_
 
-`NameHistoryGui <classes/cc.hyperium.gui.NameHistoryGui.md>`_
+`NameHistoryGui <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.gui.NameHistoryGui.md>`_
 
-`ModConfigGui <classes/cc.hyperium.gui.ModConfigGui.md>`_
+`ModConfigGui <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.gui.ModConfigGui.md>`_
 
-`HyperiumSlider <classes/cc.hyperium.gui.HyperiumSlider.md>`_
+`HyperiumSlider <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.gui.HyperiumSlider.md>`_
 
-`HyperiumMainMenu <classes/cc.hyperium.gui.GuiHyperiumScreenMainMenu.md>`_
+`HyperiumMainMenu <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.gui.GuiHyperiumScreenMainMenu.md>`_
 
-`HyperiumGui <classes/cc.hyperium.gui.HyperiumGui.md>`_
+`HyperiumGui <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.gui.HyperiumGui.md>`_
 
-`GuiButtonIcon <classes/cc.hyperium.gui.GuiButtonIcon.md>`_
+`GuiButtonIcon <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.gui.GuiButtonIcon.md>`_
 
-`GuiBoxItem <classes/cc.hyperium.gui.GuiBoxItem.md>`_
+`GuiBoxItem <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.gui.GuiBoxItem.md>`_
 
-`GuiBlock <classes/cc.hyperium.gui.GuiBlock.md>`_
+`GuiBlock <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.gui.GuiBlock.md>`_
 
-`CustomFontButton <classes/cc.hyperium.gui.CustomFontButton.md>`_
+`CustomFontButton <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.gui.CustomFontButton.md>`_
 
-`ConfirmationPopup <classes/cc.hyperium.gui.ConfirmationPopup.md>`_
+`ConfirmationPopup <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.gui.ConfirmationPopup.md>`_
 
-`BrowserWindow <classes/cc.hyperium.gui.BrowserWindow.md>`_
+`BrowserWindow <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.gui.BrowserWindow.md>`_
 
 cc.hyperium.gui.font
 --------------------
 
-`Fonts <classes/cc.hyperium.gui.font.Fonts.md>`_
+`Fonts <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.gui.font.Fonts.md>`_
 
 cc.hyperium.gui.games
 ---------------------
 
-`HyperiumGuiGames <classes/cc.hyperium.gui.games.HyperiumGuiGames.md>`_
+`HyperiumGuiGames <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.gui.games.HyperiumGuiGames.md>`_
 
-`DynoGame <classes/cc.hyperium.gui.games.DynoGame.md>`_
+`DynoGame <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.gui.games.DynoGame.md>`_
 
 cc.hyperium.gui.integrations
 ----------------------------
 
-`TooltipEnchantments <classes/cc.hyperium.gui.integrations.TooltipEnchantments.md>`_
+`TooltipEnchantments <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.gui.integrations.TooltipEnchantments.md>`_
 
 `TooltipEnchantments.EnchantmentsTranslation <classes/cc.hyperium.gui.integrations.TooltipEnchantments.EnchantmentsTranslation.md>`_
 
-`QueueModGui <classes/cc.hyperium.gui.integrations.QueueModGui.md>`_
+`QueueModGui <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.gui.integrations.QueueModGui.md>`_
 
-`HypixelPrivateMessage <classes/cc.hyperium.gui.integrations.HypixelPrivateMessage.md>`_
+`HypixelPrivateMessage <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.gui.integrations.HypixelPrivateMessage.md>`_
 
-`HypixelFriendsGui <classes/cc.hyperium.gui.integrations.HypixelFriendsGui.md>`_
+`HypixelFriendsGui <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.gui.integrations.HypixelFriendsGui.md>`_
 
 cc.hyperium.gui.settings.components
 -----------------------------------
 
-`SelectionItem <classes/cc.hyperium.gui.settings.components.SelectionItem.md>`_
+`SelectionItem <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.gui.settings.components.SelectionItem.md>`_
 
 cc.hyperium.gui.settings.items
 ------------------------------
 
-`ToggleChatSettings <classes/cc.hyperium.gui.settings.items.ToggleChatSettings.md>`_
+`ToggleChatSettings <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.gui.settings.items.ToggleChatSettings.md>`_
 
-`NameHistorySettings <classes/cc.hyperium.gui.settings.items.NameHistorySettings.md>`_
+`NameHistorySettings <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.gui.settings.items.NameHistorySettings.md>`_
 
-`GeneralSetting <classes/cc.hyperium.gui.settings.items.GeneralSetting.md>`_
+`GeneralSetting <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.gui.settings.items.GeneralSetting.md>`_
 
-`BackgroundSettings <classes/cc.hyperium.gui.settings.items.BackgroundSettings.md>`_
+`BackgroundSettings <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.gui.settings.items.BackgroundSettings.md>`_
 
-`AnimationSettings <classes/cc.hyperium.gui.settings.items.AnimationSettings.md>`_
+`AnimationSettings <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.gui.settings.items.AnimationSettings.md>`_
 
 cc.hyperium.gui.settings
 ------------------------
 
-`SettingSlider <classes/cc.hyperium.gui.settings.SettingSlider.md>`_
+`SettingSlider <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.gui.settings.SettingSlider.md>`_
 
-`SettingItem <classes/cc.hyperium.gui.settings.SettingItem.md>`_
+`SettingItem <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.gui.settings.SettingItem.md>`_
 
-`SettingGui <classes/cc.hyperium.gui.settings.SettingGui.md>`_
+`SettingGui <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.gui.settings.SettingGui.md>`_
 
 cc.hyperium.handlers.handlers
 -----------------------------
 
-`ValueHandler <classes/cc.hyperium.handlers.handlers.ValueHandler.md>`_
+`ValueHandler <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.handlers.handlers.ValueHandler.md>`_
 
-`TimeTrackHandler <classes/cc.hyperium.handlers.handlers.TimeTrackHandler.md>`_
+`TimeTrackHandler <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.handlers.handlers.TimeTrackHandler.md>`_
 
-`OtherConfigOptions <classes/cc.hyperium.handlers.handlers.OtherConfigOptions.md>`_
+`OtherConfigOptions <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.handlers.handlers.OtherConfigOptions.md>`_
 
-`LocationHandler <classes/cc.hyperium.handlers.handlers.LocationHandler.md>`_
+`LocationHandler <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.handlers.handlers.LocationHandler.md>`_
 
-`HypixelDetector <classes/cc.hyperium.handlers.handlers.HypixelDetector.md>`_
+`HypixelDetector <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.handlers.handlers.HypixelDetector.md>`_
 
-`HyperiumNetwork <classes/cc.hyperium.handlers.handlers.HyperiumNetwork.md>`_
+`HyperiumNetwork <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.handlers.handlers.HyperiumNetwork.md>`_
 
-`GuiDisplayHandler <classes/cc.hyperium.handlers.handlers.GuiDisplayHandler.md>`_
+`GuiDisplayHandler <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.handlers.handlers.GuiDisplayHandler.md>`_
 
-`GameDataTracking <classes/cc.hyperium.handlers.handlers.GameDataTracking.md>`_
+`GameDataTracking <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.handlers.handlers.GameDataTracking.md>`_
 
-`FlossDanceHandler <classes/cc.hyperium.handlers.handlers.animation.FlossDanceHandler.md>`_
+`FlossDanceHandler <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.handlers.handlers.animation.FlossDanceHandler.md>`_
 
-`FlossDanceHandler.DanceState <classes/cc.hyperium.handlers.handlers.animation.FlossDanceHandler.DanceState.md>`_
+`FlossDanceHandler.DanceState <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.handlers.handlers.animation.FlossDanceHandler.DanceState.md>`_
 
-`DabHandler <classes/cc.hyperium.handlers.handlers.animation.DabHandler.md>`_
+`DabHandler <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.handlers.handlers.animation.DabHandler.md>`_
 
-`DabHandler.DabState <classes/cc.hyperium.handlers.handlers.animation.DabHandler.DabState.md>`_
+`DabHandler.DabState <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.handlers.handlers.animation.DabHandler.DabState.md>`_
 
-`CommandQueue <classes/cc.hyperium.handlers.handlers.CommandQueue.md>`_
+`CommandQueue <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.handlers.handlers.CommandQueue.md>`_
 
-`BrowserManager <classes/cc.hyperium.handlers.handlers.BrowserManager.md>`_
+`BrowserManager <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.handlers.handlers.BrowserManager.md>`_
 
-`ApiDataHandler <classes/cc.hyperium.handlers.handlers.data.ApiDataHandler.md>`_
+`ApiDataHandler <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.handlers.handlers.data.ApiDataHandler.md>`_
 
 cc.hyperium.handlers.handlers.chat
 ----------------------------------
 
-`WinTrackingChatHandler <classes/cc.hyperium.handlers.handlers.chat.WinTrackingChatHandler.md>`_
+`WinTrackingChatHandler <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.handlers.handlers.chat.WinTrackingChatHandler.md>`_
 
-`RankedRatingChatHandler <classes/cc.hyperium.handlers.handlers.chat.RankedRatingChatHandler.md>`_
+`RankedRatingChatHandler <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.handlers.handlers.chat.RankedRatingChatHandler.md>`_
 
-`QuestTrackingChatHandler <classes/cc.hyperium.handlers.handlers.chat.QuestTrackingChatHandler.md>`_
+`QuestTrackingChatHandler <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.handlers.handlers.chat.QuestTrackingChatHandler.md>`_
 
-`QuestTrackingChatHandler.QuestData <classes/cc.hyperium.handlers.handlers.chat.QuestTrackingChatHandler.QuestData.md>`_
+`QuestTrackingChatHandler.QuestData <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.handlers.handlers.chat.QuestTrackingChatHandler.QuestData.md>`_
 
-`PrivateMessageReader <classes/cc.hyperium.handlers.handlers.chat.PrivateMessageReader.md>`_
+`PrivateMessageReader <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.handlers.handlers.chat.PrivateMessageReader.md>`_
 
-`PartyInviteChatHandler <classes/cc.hyperium.handlers.handlers.chat.PartyInviteChatHandler.md>`_
+`PartyInviteChatHandler <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.handlers.handlers.chat.PartyInviteChatHandler.md>`_
 
-`KillTrackerChatHandler <classes/cc.hyperium.handlers.handlers.chat.KillTrackerChatHandler.md>`_
+`KillTrackerChatHandler <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.handlers.handlers.chat.KillTrackerChatHandler.md>`_
 
-`HyperiumChatHandler <classes/cc.hyperium.handlers.handlers.chat.HyperiumChatHandler.md>`_
+`HyperiumChatHandler <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.handlers.handlers.chat.HyperiumChatHandler.md>`_
 
-`HyperiumChatHandler.ChatRegexType <classes/cc.hyperium.handlers.handlers.chat.HyperiumChatHandler.ChatRegexType.md>`_
+`HyperiumChatHandler.ChatRegexType <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.handlers.handlers.chat.HyperiumChatHandler.ChatRegexType.md>`_
 
-`GuildPartyChatParser <classes/cc.hyperium.handlers.handlers.chat.GuildPartyChatParser.md>`_
+`GuildPartyChatParser <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.handlers.handlers.chat.GuildPartyChatParser.md>`_
 
-`GeneralChatHandler <classes/cc.hyperium.handlers.handlers.chat.GeneralChatHandler.md>`_
+`GeneralChatHandler <https://github.com/HyperiumClient/Hyperium/blob/master/docs/classes/cc.hyperium.handlers.handlers.chat.GeneralChatHandler.md>`_
 
 `FriendRequestChatHandler <classes/cc.hyperium.handlers.handlers.chat.FriendRequestChatHandler.md>`_
 
