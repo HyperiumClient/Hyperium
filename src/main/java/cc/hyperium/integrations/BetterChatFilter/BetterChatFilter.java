@@ -40,7 +40,7 @@ public class BetterChatFilter {
     
     if (Settings.BETTER_CHAT_FILTER) {
       
-      for(int i = 0; i < reallyBadWordsOwO.length()) {
+      for(int i = 0; i < reallyBadWordsOwO.length(); i++;) {
         
         if(e.getChat().getUnformattedText().contains(reallyBadWordsOwO[i])) { e.setCancelled(true); }
       
