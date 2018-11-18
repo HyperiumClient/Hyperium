@@ -525,6 +525,10 @@ public class Settings {
     @ConfigOpt
     @ToggleSetting(name = "integrations.watchdog.thankwatchdog", category = INTEGRATIONS)
     public static boolean THANK_WATCHDOG = false;
+    
+    @ConfigOpt
+    @ToggleSetting(name = "integrations.BetterChatFilter.BetterChatFilter", category = INTEGRATIONS)
+    public static boolean BETTER_CHAT_FILTER = false;
 
 
     @ConfigOpt
