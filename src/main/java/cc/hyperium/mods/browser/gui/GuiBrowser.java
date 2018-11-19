@@ -49,6 +49,7 @@ public class GuiBrowser extends GuiScreen {
     @Override
     public void initGui() {
         if (Settings.BROWSER_DOWNLOAD) {
+            Minecraft.getMinecraft().guiAchievement.clearAchievements();
             Hyperium.INSTANCE.getModIntegration().getBrowserMod().hudBrowser = null;
             this.url = new GuiTextField(5, fontRendererObj, 40, 10, width - 100, 20);
             this.url.setMaxStringLength(65535);
