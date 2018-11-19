@@ -31,7 +31,6 @@ public class WingsCosmetic extends AbstractCosmetic {
         return new float[]{1.0f, 1.0f, 1.0f};
     }
 
-
     public ResourceLocation getLocation(String s) {
         if (s == null)
             return dragon;
