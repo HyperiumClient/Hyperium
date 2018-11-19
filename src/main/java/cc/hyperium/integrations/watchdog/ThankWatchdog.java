@@ -13,7 +13,7 @@ public class ThankWatchdog {
 
   @InvokeEvent
   public void onChat(ChatEvent e) {
-    if (e.getChat().getUnformattedText().contains(watchdogBanMessage) || e.getChat().getUnformattedText().contains(watchdogAnnouncementMessage) {
+    if (e.getChat().getUnformattedText().contains(watchdogBanMessage) || e.getChat().getUnformattedText().contains(watchdogAnnouncementMessage)) {
       if(Settings.THANK_WATCHDOG) { Minecraft.getMinecraft().thePlayer.sendChatMessage(thankWatchDogMessage); }
     }
   }
