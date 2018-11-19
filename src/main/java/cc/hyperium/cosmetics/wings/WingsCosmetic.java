@@ -15,7 +15,6 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 package cc.hyperium.cosmetics.wings;
 
 import cc.hyperium.cosmetics.AbstractCosmetic;
