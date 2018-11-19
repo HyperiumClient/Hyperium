@@ -58,7 +58,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -67,7 +67,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 /**
  * Provides code that may be used in mods that require it
@@ -112,7 +111,6 @@ public abstract class MixinNetHandlerPlayClient {
 
         if (this.timeChanger.getTimeType() == null) {
             handleActualPacket(packet);
-
             return;
         }
 
@@ -251,7 +249,7 @@ public abstract class MixinNetHandlerPlayClient {
                 System.out.println("Malicious server tried to access " + url);
                 EntityPlayerSP thePlayer = Minecraft.getMinecraft().thePlayer;
                 if (thePlayer != null) {
-                    thePlayer.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + EnumChatFormatting.BOLD.toString() + "[WARNING] The current server has attempted to be malicious but we have stopped them."));
+                    thePlayer.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + EnumChatFormatting.BOLD.toString() + "[EXPLOIT FIX WARNING] The current server has attempted to be malicious but we have stopped them!"));
                 }
                 throw new URISyntaxException(url, "Invalid levelstorage resourcepack path");
             }
