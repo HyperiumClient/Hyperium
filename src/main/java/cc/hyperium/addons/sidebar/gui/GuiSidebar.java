@@ -2,6 +2,7 @@ package cc.hyperium.addons.sidebar.gui;
 
 /*
  * Chroma made by Sk1er (ChromaHUD)
+ * @author SHARDcoder
  */
 
 import net.minecraft.client.Minecraft;
