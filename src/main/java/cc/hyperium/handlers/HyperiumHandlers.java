@@ -154,9 +154,9 @@ public class HyperiumHandlers {
         registerChatHandler(new WinTrackingChatHandler());
         registerChatHandler(new FriendRequestChatHandler());
         registerChatHandler(new PartyInviteChatHandler());
-        System.out.println("Registering events");
+        System.out.println("[Handlers] Registering events");
         EventBus.INSTANCE.register(this);
-        System.out.println("Done");
+        System.out.println("[Handlers] Done");
 
         //Command Handler
         register(commandHandler = new HyperiumCommandHandler());
