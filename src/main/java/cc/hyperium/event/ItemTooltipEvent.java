@@ -22,14 +22,17 @@ import com.google.common.base.Preconditions;
 import net.minecraft.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * Invoked once a tooltip is rendered
+ */
 public final class ItemTooltipEvent extends Event {
 
     @NotNull
     private final ItemStack item;
     @NotNull
-    private final List toolTip;
+    private final List<String> toolTip;
 
-    public ItemTooltipEvent(@NotNull ItemStack item, @NotNull List toolTip) {
+    public ItemTooltipEvent(@NotNull ItemStack item, @NotNull List<String> toolTip) {
         Preconditions.checkNotNull(item, "item");
         Preconditions.checkNotNull(toolTip, "toolTip");
 
@@ -43,7 +46,7 @@ public final class ItemTooltipEvent extends Event {
     }
 
     @NotNull
-    public final List getToolTip() {
+    public final List<String> getToolTip() {
         return this.toolTip;
     }
 }

@@ -10,9 +10,11 @@ import java.util.regex.Pattern;
 
 public class FriendRequestChatHandler extends HyperiumChatHandler {
 
+    private static final Pattern REMOVE_PATTERN = Pattern.compile("You removed ((?<rank>\\[.+] )?(?<player>\\w+)) from your friends list!");
+
     @Override
     public boolean chatReceived(IChatComponent component, String text) {
-        Matcher matcher1 = Pattern.compile("You removed ((?<rank>\\[.+] )?(?<player>\\w+)) from your friends list!").matcher(text);
+        Matcher matcher1 = REMOVE_PATTERN.matcher(text);
         if (matcher1.find()) {
             String rank = "";
             try {
@@ -31,8 +33,6 @@ public class FriendRequestChatHandler extends HyperiumChatHandler {
         if (matcher.find()) {
             EventBus.INSTANCE.post(new HypixelFriendRequestEvent(matcher.group("player")));
         }
-
-
         return false;
     }
 }

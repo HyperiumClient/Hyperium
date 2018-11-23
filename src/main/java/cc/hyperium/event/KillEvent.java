@@ -3,6 +3,9 @@ package cc.hyperium.event;
 import com.google.common.base.Preconditions;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * Invoked when the player kills another player.
+ */
 public final class KillEvent extends Event {
 
     @NotNull

@@ -27,10 +27,11 @@ import java.util.HashMap;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-@SuppressWarnings("UnstableApiUsage")
+
 public class EventBus {
+
     public static final EventBus INSTANCE = new EventBus();
-    public static boolean ALLOW_PROFILE = false;
+    private static boolean ALLOW_PROFILE = false;
     private HashMap<Class<?>, CopyOnWriteArrayList<EventSubscriber>> subscriptions = new HashMap<>();
 
     /**
@@ -102,15 +103,6 @@ public class EventBus {
     public void unregister(Class<?> clazz) {
         this.subscriptions.values().forEach(map -> map.removeIf(it -> it.getInstance().getClass() == clazz));
     }
-
-
-    /**
-     * Invokes all of the methods which are inside of the classes
-     * registered to the event
-     *
-     * @param event Event that is being posted
-     */
-
 
     /**
      * Invokes all of the methods which are inside of the classes

@@ -22,7 +22,7 @@ public class MinigameListener {
                     this.cooldown = 3 * 20;
                     String minigameName = getScoreboardTitle();
                     Minigame[] minigames = Minigame.values();
-                    for (Minigame m : Minigame.values()) {
+                    for (Minigame m : minigames) {
                         if (minigameName.equalsIgnoreCase(m.scoreName) && !minigameName.equalsIgnoreCase(this.currentMinigameName)) {
                             this.currentMinigameName = minigameName;
                             EventBus.INSTANCE.post(new JoinMinigameEvent(m));

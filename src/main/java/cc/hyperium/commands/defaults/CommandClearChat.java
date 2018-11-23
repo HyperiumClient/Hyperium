@@ -19,6 +19,7 @@ package cc.hyperium.commands.defaults;
 
 
 import cc.hyperium.commands.BaseCommand;
+import cc.hyperium.commands.CommandException;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiNewChat;
 
@@ -30,18 +31,34 @@ import net.minecraft.client.gui.GuiNewChat;
  */
 public class CommandClearChat implements BaseCommand {
 
+    /**
+     * Gets the name of the command (text after slash).
+     *
+     * @return The command name
+     */
     @Override
     public String getName() {
         return "clearchat";
     }
 
+    /**
+     * Gets the usage string for the command.
+     *
+     * @return The command usage
+     */
     @Override
     public String getUsage() {
         return "/clearchat";
     }
 
+    /**
+     * Callback when the command is invoked
+     *
+     * @throws CommandException for errors inside the command, these errors
+     *                          will log directly to the players chat (without a prefix)
+     */
     @Override
-    public void onExecute(String[] args) {
+    public void onExecute(String[] args) throws CommandException {
         Minecraft.getMinecraft().ingameGUI.getChatGUI().clearChatMessages();
     }
 }

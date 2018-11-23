@@ -31,16 +31,29 @@ import net.minecraft.client.gui.GuiNewChat;
  */
 public class CommandGuild implements BaseCommand {
 
+    /**
+     * Gets the name of the command (text after slash).
+     *
+     * @return The command name
+     */
     @Override
     public String getName() {
         return "hguild";
     }
 
+    /**
+     * Gets the usage string for the command.
+     *
+     * @return The command usage
+     */
     @Override
     public String getUsage() {
         return "/hguild <player,name> <player,name>";
     }
 
+    /**
+     * Callback when the command is invoked
+     */
     @Override
     public void onExecute(String[] args) {
         if (args.length <= 1) {

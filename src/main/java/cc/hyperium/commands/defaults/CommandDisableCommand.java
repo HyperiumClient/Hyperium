@@ -9,16 +9,29 @@ public class CommandDisableCommand implements BaseCommand {
 
     private HyperiumCommandHandler handler = Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler();
 
+    /**
+     * Gets the name of the command (text after slash).
+     *
+     * @return The command name
+     */
     @Override
     public String getName() {
         return "disablecommand";
     }
 
+    /**
+     * Gets the usage string for the command.
+     *
+     * @return The command usage
+     */
     @Override
     public String getUsage() {
         return "Ignores a command when executed in Hyperium";
     }
 
+    /**
+     * Callback when the command is invoked
+     */
     @Override
     public void onExecute(String[] args) {
         if (args.length == 0) {

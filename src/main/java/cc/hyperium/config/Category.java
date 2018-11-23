@@ -1,5 +1,8 @@
 package cc.hyperium.config;
 
+/**
+ * Represents a configuration category
+ */
 public enum Category {
 
     //Settings Tab

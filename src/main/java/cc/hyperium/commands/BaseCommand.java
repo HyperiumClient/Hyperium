@@ -26,18 +26,24 @@ import java.util.List;
 public interface BaseCommand {
 
     /**
-     * Gets the name of the command
+     * Gets the name of the command (text after slash).
+     *
+     * @return The command name
      */
     String getName();
 
     /**
      * Gets the usage string for the command.
+     *
+     * @return The command usage
      */
     String getUsage();
 
     /**
-     * A list of aliases to the main command
-     * this will not be used if null/empty
+     * A list of aliases to the main command. This will not be used if the list
+     * is empty or {@code null}.
+     *
+     * @return The command aliases, which behave the same as the {@link #getName()}.
      */
     default List<String> getCommandAliases() {
         return new ArrayList<>();
@@ -64,7 +70,7 @@ public interface BaseCommand {
     /**
      * Tells the command handler not to register the command, and to use {@link #onTabComplete(String[])}
      *
-     * @return true if this command should not be executed
+     * @return {@code true} if this command should not be executed
      */
     default boolean tabOnly() {
         return false;

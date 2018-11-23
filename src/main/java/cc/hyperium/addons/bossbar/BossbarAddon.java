@@ -7,6 +7,7 @@ import cc.hyperium.addons.bossbar.config.BossbarConfig;
 import cc.hyperium.addons.bossbar.gui.GuiBossbarSetting;
 
 public class BossbarAddon extends AbstractAddon {
+
     private BossbarConfig bossbarConfig;
     private GuiBossbarSetting guiBossBarSetting;
     private CommandBossbar commandBossbar;

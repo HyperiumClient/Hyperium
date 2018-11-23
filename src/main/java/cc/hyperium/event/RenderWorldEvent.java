@@ -1,5 +1,8 @@
 package cc.hyperium.event;
 
+/**
+ * Invoked once a world is being rendered
+ */
 public final class RenderWorldEvent extends Event {
 
     private final float partialTicks;

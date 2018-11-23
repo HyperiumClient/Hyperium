@@ -77,49 +77,135 @@ public class Hyperium {
      * The hyperium instance
      */
     public static final Hyperium INSTANCE = new Hyperium();
+
     /**
      * Instance of the global mod LOGGER
      */
     public final static Logger LOGGER = LogManager.getLogger(Metadata.getModid());
+
     /**
      * The Hyperium configuration folder
      */
     public static final File folder = new File("hyperium");
+
     /**
      * Instance of default CONFIG
      */
-
     public static final DefaultConfig CONFIG = new DefaultConfig(new File(folder, "CONFIG.json"));
-    public static int BUILD_ID = -1;
-    public static boolean IS_BETA;
-    private static boolean updateQueue = false;
-    private final GeneralStatisticsTracking statTrack = new GeneralStatisticsTracking();
-    private final RichPresenceManager richPresenceManager = new RichPresenceManager();
-    private final ConfirmationPopup confirmation = new ConfirmationPopup();
-    public boolean isLatestVersion;
-    private NotificationCenter notification;
-    private HyperiumCosmetics cosmetics;
-    private HyperiumHandlers handlers;
-    private HyperiumModIntegration modIntegration;
-    private MinigameListener minigameListener;
-    private boolean acceptedTos = false;
-    private boolean fullScreen = false;
-    private boolean checkedForUpdate = false;
-    private boolean optifineInstalled = false;
-    private boolean isDevEnv;
-    private Sk1erMod sk1erMod;
-    private NettyClient client;
-    private InternalAddons internalAddons;
-    private NetworkHandler networkHandler;
+
     /**
-     * @param event initialize Hyperium
+     * The current build ID
+     */
+    public static int BUILD_ID = -1;
+
+    /**
+     * Whether the current build is in beta stages
+     */
+    public static boolean IS_BETA;
+
+    /**
+     * The statistics tracker
+     */
+    private final GeneralStatisticsTracking statTrack = new GeneralStatisticsTracking();
+
+    /**
+     * The Discord Rich Presence manager which updates the user RPC
+     */
+    private final RichPresenceManager richPresenceManager = new RichPresenceManager();
+
+    /**
+     * The confirmation popup on first launch
+     */
+    private final ConfirmationPopup confirmation = new ConfirmationPopup();
+
+    /**
+     * Whether the current version is the latest or not
+     */
+    public boolean isLatestVersion;
+
+    /**
+     * The notification center instance
+     */
+    private NotificationCenter notification;
+
+    /**
+     * The cosmetics collection instance
+     */
+    private HyperiumCosmetics cosmetics;
+
+    /**
+     * The handlers collection instance
+     */
+    private HyperiumHandlers handlers;
+
+    /**
+     * The integrated mods manager
+     */
+    private HyperiumModIntegration modIntegration;
+
+    /**
+     * The minigame listener
+     */
+    private MinigameListener minigameListener;
+
+    /**
+     * Whether the user has accepted the ToS in the confirmation popup
+     */
+    private boolean acceptedTos = false;
+
+    /**
+     * Whether the game is in full screen or not
+     */
+    private boolean fullScreen = false;
+
+    /**
+     * Whether Hyperium checked for updates or not
+     */
+    private boolean checkedForUpdate = false;
+
+    /**
+     * Whether is OptiFine installed or not
+     */
+    private boolean optifineInstalled = false;
+
+    /**
+     * Whether the running Minecraft instance is in a development environment
+     */
+    private boolean isDevEnv;
+
+    /**
+     * Instance of Sk1er mod core
+     */
+    private Sk1erMod sk1erMod;
+
+    /**
+     * Netty Client instance
+     */
+    private NettyClient client;
+
+    /**
+     * Built-in addons manager
+     */
+    private InternalAddons internalAddons;
+
+    /**
+     * Hyperium's network handler
+     */
+    private NetworkHandler networkHandler;
+
+    /**
+     * Whether the current launch is the first launch
      */
     private boolean firstLaunch = false;
+
+    /**
+     * Hyperium Scheduler instance
+     */
     private HyperiumScheduler scheduler;
 
 
     @InvokeEvent
-    public void preinit(PreInitializationEvent event) {
+    public void preInit(PreInitializationEvent event) {
         EventBus.INSTANCE.register(new AutoGG());
 
         /* register language files */
@@ -133,7 +219,6 @@ public class Hyperium {
 
     @InvokeEvent(priority = Priority.HIGH)
     public void init(InitializationEvent event) {
-
         try {
             Multithreading.runAsync(() -> {
                 networkHandler = new NetworkHandler();
@@ -304,7 +389,7 @@ public class Hyperium {
     }
 
     /**
-     * register the commands
+     * Registers all the commands
      */
     private void registerCommands() {
         HyperiumCommandHandler hyperiumCommandHandler = getHandlers().getHyperiumCommandHandler();
@@ -336,7 +421,7 @@ public class Hyperium {
 
 
     /**
-     * called when Hyperium shuts down
+     * Called when Hyperium shuts down
      */
     private void shutdown() {
         CONFIG.save();
@@ -360,10 +445,7 @@ public class Hyperium {
         EventBus.INSTANCE.post(new GameShutDownEvent());
 
         LOGGER.info("Shutting down Hyperium..");
-
-        if (updateQueue) {
-            LaunchUtil.launch();
-        }
+        LaunchUtil.launch();
     }
 
     public GeneralStatisticsTracking getStatTrack() {

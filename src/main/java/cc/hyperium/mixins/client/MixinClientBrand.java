@@ -10,6 +10,6 @@ public class MixinClientBrand {
 
     @Overwrite
     public static String getClientModName() {
-        return HyperiumClientBrand.getClientModName();
+        return HyperiumClientBrand.CLIENT_BRAND;
     }
 }

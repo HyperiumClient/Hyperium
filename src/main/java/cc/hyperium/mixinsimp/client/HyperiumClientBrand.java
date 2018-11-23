@@ -165,11 +165,13 @@
  * permanent authorization for you to choose that version for the
  * Library.
  */
-
 package cc.hyperium.mixinsimp.client;
 
+/**
+ * Hyperium's client brand constants
+ */
 public class HyperiumClientBrand {
-    public static String getClientModName() {
-        return "hyperium";
-    }
+
+    public static final String CLIENT_BRAND = "hyperium";
+
 }

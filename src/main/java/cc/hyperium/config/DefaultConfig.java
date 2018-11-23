@@ -23,24 +23,36 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 /**
+ * Config implementation
+ *
  * @author Sk1er
  */
 public class DefaultConfig {
 
-    private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
-    private final JsonParser parser = new JsonParser();
+    /**
+     * The GSON profile which writes to the config
+     */
+    private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+
+    /**
+     * All the registered config objects
+     */
     private final List<Object> configObjects = new ArrayList<>();
+
+    /**
+     * The config file
+     */
     private final File file;
+
+    /**
+     * The JSON object which holds and modifies all the data
+     */
     private JsonObject config = new JsonObject();
 
     public DefaultConfig(File configFile) {
@@ -65,6 +77,10 @@ public class DefaultConfig {
         }
     }
 
+    /**
+     * Saves the config file and writes the new content
+     */
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     private void saveFile() {
         try {
             file.createNewFile();
@@ -77,12 +93,21 @@ public class DefaultConfig {
         }
     }
 
+    /**
+     * Saves the config
+     */
     public void save() {
         for (Object o : configObjects)
             saveToJsonFromRamObject(o);
         saveFile();
     }
 
+    /**
+     * Registers the given object by tracking all the fields annotated with {@link ConfigOpt}
+     *
+     * @param object Object to register
+     * @return The given object
+     */
     public Object register(Object object) {
         //Don't register stuff to config if they don't have any config opt fields
         if (Arrays.stream(object.getClass().getDeclaredFields()).noneMatch(f -> f.isAnnotationPresent(ConfigOpt.class))) {
@@ -143,6 +168,11 @@ public class DefaultConfig {
         });
     }
 
+    /**
+     * Returns a modifiable JSON object which holds all the config data
+     *
+     * @return The JSON object
+     */
     public JsonObject getConfig() {
         return config;
     }

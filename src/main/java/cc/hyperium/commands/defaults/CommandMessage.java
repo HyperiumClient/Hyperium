@@ -11,21 +11,41 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class CommandMessage implements BaseCommand {
+
+    /**
+     * Gets the name of the command (text after slash).
+     *
+     * @return The command name
+     */
     @Override
     public String getName() {
         return "msg";
     }
 
-    @Override
-    public List<String> getCommandAliases() {
-        return Arrays.asList("msg", "tell", "w", "message");
-    }
-
+    /**
+     * Gets the usage string for the command.
+     *
+     * @return The command usage
+     */
     @Override
     public String getUsage() {
         return "/msg <name> <msg>";
     }
 
+    /**
+     * A list of aliases to the main command. This will not be used if the list
+     * is empty or {@code null}.
+     *
+     * @return The command aliases, which behave the same as the {@link #getName()}.
+     */
+    @Override
+    public List<String> getCommandAliases() {
+        return Arrays.asList("msg", "tell", "w", "message");
+    }
+
+    /**
+     * Callback when the command is invoked
+     */
     @Override
     public void onExecute(String[] args) throws CommandException {
         StringBuilder builder = new StringBuilder();

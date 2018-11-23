@@ -11,16 +11,30 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 
 public class CommandResize implements BaseCommand {
+
+    /**
+     * Gets the name of the command (text after slash).
+     *
+     * @return The command name
+     */
     @Override
     public String getName() {
         return "resize";
     }
 
+    /**
+     * Gets the usage string for the command.
+     *
+     * @return The command usage
+     */
     @Override
     public String getUsage() {
         return "/resize <width,height>";
     }
 
+    /**
+     * Callback when the command is invoked
+     */
     @Override
     public void onExecute(String[] args) throws CommandException {
         if (args.length != 2 || !StringUtils.isNumeric(args[0]) || !StringUtils.isNumeric(args[1])) {

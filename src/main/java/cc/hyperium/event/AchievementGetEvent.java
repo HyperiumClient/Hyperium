@@ -20,17 +20,27 @@ package cc.hyperium.event;
 import com.google.common.base.Preconditions;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * Invoked once the player gets an achievement
+ */
 public final class AchievementGetEvent extends Event {
 
+    /**
+     * The achievement name
+     */
     @NotNull
     private final String achievement;
 
     public AchievementGetEvent(@NotNull String achievement) {
         Preconditions.checkNotNull(achievement, "achievement");
-
         this.achievement = achievement;
     }
 
+    /**
+     * Returns the achievement name
+     *
+     * @return The achievement name
+     */
     @NotNull
     public final String getAchievement() {
         return this.achievement;

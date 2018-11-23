@@ -23,16 +23,29 @@ import cc.hyperium.handlers.handlers.tracking.StatisticViewingGui;
 
 public class CommandStatistics implements BaseCommand {
 
+    /**
+     * Gets the name of the command (text after slash).
+     *
+     * @return The command name
+     */
     @Override
     public String getName() {
         return "statistics";
     }
 
+    /**
+     * Gets the usage string for the command.
+     *
+     * @return The command usage
+     */
     @Override
     public String getUsage() {
         return "/statistics";
     }
 
+    /**
+     * Callback when the command is invoked
+     */
     @Override
     public void onExecute(String[] args) {
         new StatisticViewingGui().show();

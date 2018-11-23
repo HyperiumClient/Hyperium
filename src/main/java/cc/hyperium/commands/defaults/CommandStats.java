@@ -31,16 +31,29 @@ import net.minecraft.client.gui.GuiNewChat;
  */
 public class CommandStats implements BaseCommand {
 
+    /**
+     * Gets the name of the command (text after slash).
+     *
+     * @return The command name
+     */
     @Override
     public String getName() {
         return "hstats";
     }
 
+    /**
+     * Gets the usage string for the command.
+     *
+     * @return The command usage
+     */
     @Override
     public String getUsage() {
         return "/hstats <player>";
     }
 
+    /**
+     * Callback when the command is invoked
+     */
     @Override
     public void onExecute(String[] args) {
         if (args.length == 1) {

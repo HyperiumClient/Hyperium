@@ -22,6 +22,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.MovingObjectPosition;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * Invoked when a block's highlight is being drawn
+ */
 public final class DrawBlockHighlightEvent extends CancellableEvent {
 
     @NotNull

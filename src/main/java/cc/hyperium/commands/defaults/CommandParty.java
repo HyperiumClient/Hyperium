@@ -11,29 +11,45 @@ import java.util.Arrays;
 import java.util.List;
 
 public class CommandParty implements BaseCommand {
+
+    /**
+     * Gets the name of the command (text after slash).
+     *
+     * @return The command name
+     */
     @Override
     public String getName() {
         return "party";
     }
 
+    /**
+     * Gets the usage string for the command.
+     *
+     * @return The command usage
+     */
     @Override
     public String getUsage() {
         return "/party <command>";
     }
 
+    /**
+     * Callback when the command is invoked
+     */
     @Override
     public void onExecute(String[] args) throws CommandException {
         StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < args.length; i++) {
-            builder.append(" ").append(args[i]);
+        for (String arg : args) {
+            builder.append(" ").append(arg);
         }
         Hyperium.INSTANCE.getHandlers().getCommandQueue().queue("/party" + builder.toString());
     }
 
-    @Override
-    public boolean tabOnly() {
-        return true;
-    }
+    /**
+     * Called when the player clicks tab in the chat menu, used to provide suggestions for a commands arguments
+     *
+     * @param args the arguments the player has entered
+     * @return a String List containing all viable tab completions
+     */
     @Override
     public List<String> onTabComplete(String[] args) {
         if (!Hyperium.INSTANCE.getHandlers().getHypixelDetector().isHypixel())
@@ -54,6 +70,16 @@ public class CommandParty implements BaseCommand {
         complete.addAll(tabUsernames);
         tabUsernames.remove(Minecraft.getMinecraft().getSession().getUsername());
         return TabCompletionUtil.getListOfStringsMatchingLastWord(args, complete);
+    }
+
+    /**
+     * Tells the command handler not to register the command, and to use {@link #onTabComplete(String[])}
+     *
+     * @return {@code true} if this command should not be executed
+     */
+    @Override
+    public boolean tabOnly() {
+        return true;
     }
 
 }

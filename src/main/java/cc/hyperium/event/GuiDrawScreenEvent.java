@@ -19,7 +19,11 @@ package cc.hyperium.event;
 
 import net.minecraft.client.gui.GuiScreen;
 
+/**
+ * Invoked every time the game is required to draw the screen
+ */
 public class GuiDrawScreenEvent {
+
     private GuiScreen screen;
     private int mouseX;
     private int mouseY;

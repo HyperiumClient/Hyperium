@@ -17,6 +17,9 @@
 
 package cc.hyperium.event;
 
+/**
+ * Invoked when the player receives coins
+ */
 public final class HypixelGetCoinsEvent extends Event {
 
     private final int coins;

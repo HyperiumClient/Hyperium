@@ -25,6 +25,7 @@ import java.awt.image.BufferedImage;
  * @author Sk1er
  */
 public class GraphicsUtil {
+
     public static GraphicsUtil INSTANCE = new GraphicsUtil();
 
     private GraphicsUtil() {

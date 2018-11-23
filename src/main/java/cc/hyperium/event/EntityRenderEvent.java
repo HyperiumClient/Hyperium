@@ -21,6 +21,9 @@ import com.google.common.base.Preconditions;
 import net.minecraft.entity.Entity;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * Invoked when an entity is being rendered
+ */
 public final class EntityRenderEvent extends CancellableEvent {
 
     @NotNull

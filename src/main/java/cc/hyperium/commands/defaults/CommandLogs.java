@@ -5,8 +5,7 @@ import cc.hyperium.commands.CommandException;
 import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
 import net.minecraft.client.Minecraft;
 
-import java.awt.Desktop;
-import java.awt.Toolkit;
+import java.awt.*;
 import java.awt.datatransfer.StringSelection;
 import java.io.BufferedReader;
 import java.io.File;
@@ -16,23 +15,36 @@ import java.net.URL;
 
 public class CommandLogs implements BaseCommand {
 
+    /**
+     * Gets the name of the command (text after slash).
+     *
+     * @return The command name
+     */
     @Override
     public String getName() {
         return "logs";
     }
 
+    /**
+     * Gets the usage string for the command.
+     *
+     * @return The command usage
+     */
     @Override
     public String getUsage() {
         return "Usage: /logs";
     }
 
+    /**
+     * Callback when the command is invoked
+     */
     @Override
     public void onExecute(String[] args) throws CommandException {
         StringBuilder message = new StringBuilder();
         try {
             FileReader in = new FileReader(new File(Minecraft.getMinecraft().mcDataDir, "logs" + File.separator + "latest.log"));
             BufferedReader reader = new BufferedReader(in);
-            String line = "";
+            String line;
             while ((line = reader.readLine()) != null) {
                 message.append(line).append("\n");
             }

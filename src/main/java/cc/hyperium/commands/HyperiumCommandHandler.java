@@ -28,20 +28,9 @@ import net.minecraft.client.gui.GuiChat;
 import net.minecraft.command.CommandBase;
 import net.minecraft.util.EnumChatFormatting;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.*;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Set;
-import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 /**
@@ -51,12 +40,24 @@ import java.util.stream.Collectors;
  */
 public class HyperiumCommandHandler {
 
-    // If a command is in this
+    /**
+     * A set containing all commands which are disabled and are to be ignored
+     */
     private final Set<String> disabledCommands = new TreeSet<>(String.CASE_INSENSITIVE_ORDER);
 
+    /**
+     * A map containing all commands assigned to their name and aliases
+     */
     private final Map<String, BaseCommand> commands = new HashMap<>();
 
+    /**
+     * Instance of the chat handler
+     */
     private final GeneralChatHandler chatHandler;
+
+    /**
+     * Minecraft instance
+     */
     private final Minecraft mc;
 
     private String[] latestAutoComplete;
@@ -172,12 +173,9 @@ public class HyperiumCommandHandler {
      * @return true if the command should be ignored
      */
     public boolean isCommandDisabled(String input) {
-        if (input == null || input.isEmpty() || input.trim().isEmpty() ||
-                input.equalsIgnoreCase("disablecommand") || input.equalsIgnoreCase("hyperium")) {
-            return false;
-        }
+        return !(input == null || input.isEmpty() || input.trim().isEmpty() ||
+                input.equalsIgnoreCase("disablecommand") || input.equalsIgnoreCase("hyperium")) && this.disabledCommands.contains(input.trim());
 
-        return this.disabledCommands.contains(input.trim());
     }
 
     /**
@@ -272,10 +270,16 @@ public class HyperiumCommandHandler {
         return latestAutoComplete;
     }
 
+    /**
+     * Clears all the commands
+     */
     public void clear() {
         this.commands.clear();
     }
 
+    /**
+     * Loads all disabled commands from the text file
+     */
     @SuppressWarnings("ResultOfMethodCallIgnored")
     public void loadDisabledCommands() {
         File disabledCommandFile = new File(Hyperium.folder, "disabledcommands.txt");
@@ -308,9 +312,11 @@ public class HyperiumCommandHandler {
         disabledCommands.add("spawn");
 
 
-
     }
 
+    /**
+     * Saves the disabled commands to the text file
+     */
     public void saveDisabledCommands() {
         File disabledCommandFile = new File(Hyperium.folder, "disabledcommands.txt");
 
@@ -340,6 +346,11 @@ public class HyperiumCommandHandler {
         }
     }
 
+    /**
+     * Returns the map of the commands
+     *
+     * @return The command map
+     */
     public Map<String, BaseCommand> getCommands() {
         return commands;
     }

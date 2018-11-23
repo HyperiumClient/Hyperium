@@ -20,7 +20,7 @@ package cc.hyperium.event;
 import net.minecraft.client.gui.GuiScreen;
 
 /**
- * Invoked when a gui screen is opened
+ * Invoked when a GUI screen is opened
  */
 public class GuiOpenEvent extends CancellableEvent {
 

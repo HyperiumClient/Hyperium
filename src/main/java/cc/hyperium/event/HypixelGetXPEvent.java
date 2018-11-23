@@ -17,6 +17,9 @@
 
 package cc.hyperium.event;
 
+/**
+ * Invoked when the player receives Hypixel experience
+ */
 public final class HypixelGetXPEvent extends Event {
 
     private final int xp;

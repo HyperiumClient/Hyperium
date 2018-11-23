@@ -1,4 +1,7 @@
 package cc.hyperium.event;
 
-public final class RenderTickEvent {
+/**
+ * Invoked in the main game loop
+ */
+public final class RenderTickEvent extends Event {
 }

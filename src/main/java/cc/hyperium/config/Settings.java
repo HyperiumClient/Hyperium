@@ -20,25 +20,18 @@ package cc.hyperium.config;
 import cc.hyperium.GuiStyle;
 import cc.hyperium.Hyperium;
 
-import static cc.hyperium.config.Category.ANIMATIONS;
-import static cc.hyperium.config.Category.CHROMAHUD;
-import static cc.hyperium.config.Category.COSMETICS;
-import static cc.hyperium.config.Category.GENERAL;
-import static cc.hyperium.config.Category.HYPIXEL;
-import static cc.hyperium.config.Category.IMPROVEMENTS;
-import static cc.hyperium.config.Category.INTEGRATIONS;
-import static cc.hyperium.config.Category.ITEM_PHYSIC;
-import static cc.hyperium.config.Category.MISC;
-import static cc.hyperium.config.Category.REACH;
-import static cc.hyperium.config.Category.SPOTIFY;
-import static cc.hyperium.config.Category.UTILITIES;
-import static cc.hyperium.config.Category.VANILLA_ENHANCEMENTS;
+import static cc.hyperium.config.Category.*;
 
-/*
- * Created by Cubxity on 03/06/2018
+/**
+ * A class which contains all Hyperium settings
+ *
+ * @author Cubxity
  */
 public class Settings {
 
+    /**
+     * Instance of the class
+     */
     public static final Settings INSTANCE = new Settings();
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;discordRPEnabled")
@@ -177,7 +170,7 @@ public class Settings {
     public static boolean SHOW_PARTICLES = true;
 
     @ConfigOpt
-    @ToggleSetting(category = GENERAL,name = "Show own name tag")
+    @ToggleSetting(category = GENERAL, name = "Show own name tag")
     public static boolean SHOW_OWN_NAME = false;
     @ConfigOpt(alt = "cc.hyperium.handlers.handlers.OtherConfigOptions;showCosmeticsEveryWhere")
     @ToggleSetting(category = COSMETICS, name = "gui.settings.showcosmeticseverywhere")
@@ -335,11 +328,11 @@ public class Settings {
     public static boolean PING_ON_DM = true;
 
     @ConfigOpt
-    @ToggleSetting(category = IMPROVEMENTS,name = "Improved Particle Handling (BETA)")
+    @ToggleSetting(category = IMPROVEMENTS, name = "Improved Particle Handling (BETA)")
     public static boolean IMPROVE_PARTICLES = true;
 
     @ConfigOpt
-    @ToggleSetting(category = IMPROVEMENTS,name = "Improved Entity Handling (BETA)")
+    @ToggleSetting(category = IMPROVEMENTS, name = "Improved Entity Handling (BETA)")
     public static boolean IMPROVE_ENTITY_HANDLING = false;
 
     public static boolean IMPROVE_PARTICLE_RUN = false; /* any reason why this isnt used at all? */

@@ -6,6 +6,9 @@ import net.minecraft.client.audio.ISound;
 
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * Invoked once a sound is played
+ */
 public final class SoundPlayEvent extends CancellableEvent {
 
     @NotNull

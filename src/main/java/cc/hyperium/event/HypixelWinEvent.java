@@ -17,27 +17,30 @@
 
 package cc.hyperium.event;
 
-import java.util.List;
-
 import com.google.common.base.Preconditions;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
 
 /**
  * Invoked when player(s) win a game
  */
 public final class HypixelWinEvent extends Event {
 
+    /**
+     * List of the names of winners
+     */
     @NotNull
-    private final List winners;
+    private final List<String> winners;
 
-    public HypixelWinEvent(@NotNull List winners) {
+    public HypixelWinEvent(@NotNull List<String> winners) {
         Preconditions.checkNotNull(winners, "winners");
 
         this.winners = winners;
     }
 
     @NotNull
-    public final List getWinners() {
+    public final List<String> getWinners() {
         return this.winners;
     }
 }

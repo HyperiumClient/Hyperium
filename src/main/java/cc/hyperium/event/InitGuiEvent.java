@@ -19,7 +19,11 @@ package cc.hyperium.event;
 
 import net.minecraft.client.gui.GuiScreen;
 
+/**
+ * Invoked when a GUI is initializing its elements, in {@link GuiScreen#initGui()}.
+ */
 public class InitGuiEvent {
+
     private GuiScreen screen;
 
     public InitGuiEvent(GuiScreen screen) {

@@ -19,46 +19,47 @@ package cc.hyperium.handlers.handlers.chat;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.utils.JsonHolder;
+import net.minecraft.util.IChatComponent;
+
 import java.util.Map;
 import java.util.regex.Pattern;
-import net.minecraft.util.IChatComponent;
 
 /**
  * @author Sk1er
  */
 public abstract class HyperiumChatHandler {
 
-  //Resource *should* be loaded by then sooooo
-  protected static Map<ChatRegexType, Pattern> regexPatterns;
+    //Resource *should* be loaded by then sooooo
+    protected static Map<ChatRegexType, Pattern> regexPatterns;
 
-  public Hyperium getHyperium() {
-    return Hyperium.INSTANCE;
-  }
+    public Hyperium getHyperium() {
+        return Hyperium.INSTANCE;
+    }
 
-  /**
-   * @param component Entire component from evnet
-   * @param text Pure text for parsign
-   * @return boolean to cancel event
-   */
-  public abstract boolean chatReceived(IChatComponent component, String text);
+    /**
+     * @param component Entire component from evnet
+     * @param text      Pure text for parsign
+     * @return boolean to cancel event
+     */
+    public abstract boolean chatReceived(IChatComponent component, String text);
 
-  public void callback(JsonHolder data) {
+    public void callback(JsonHolder data) {
 
-  }
+    }
 
-  public enum ChatRegexType {
-    SKYWARS_RATING, //
-    PRIVATE_MESSAGE_TO, //
-    PRIVATE_MESSAGE_FROM, //
-    FRIEND_REQUEST, //
-    GUILD_CHAT, //
-    PARTY_CHAT, //
-    PARTY_INVITE, //
-    SKYWARS_KILL, //
-    BEDWARS_KILL, //
-    MEGAWALLS_KILL, //
-    BLITZ_KILL, //
-    QUEST_COMPLETE, //
-    WIN //
-  }
+    public enum ChatRegexType {
+        SKYWARS_RATING, //
+        PRIVATE_MESSAGE_TO, //
+        PRIVATE_MESSAGE_FROM, //
+        FRIEND_REQUEST, //
+        GUILD_CHAT, //
+        PARTY_CHAT, //
+        PARTY_INVITE, //
+        SKYWARS_KILL, //
+        BEDWARS_KILL, //
+        MEGAWALLS_KILL, //
+        BLITZ_KILL, //
+        QUEST_COMPLETE, //
+        WIN //
+    }
 }

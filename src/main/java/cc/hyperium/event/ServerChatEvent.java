@@ -10,7 +10,6 @@ public class ServerChatEvent extends CancellableEvent {
     private final byte type;
     private IChatComponent chat;
 
-
     public ServerChatEvent(byte type, IChatComponent chat) {
         this.type = type;
         this.chat = chat;

@@ -156,3 +156,19 @@ jar {
     }
 }
 
+// So the user may be able to browse Javadocs from an addon environment
+
+//noinspection GroovyAssignabilityCheck,GrUnresolvedAccess
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    //noinspection GrUnresolvedAccess
+    from sourceSets.main.allSource
+}
+
+//noinspection GroovyAssignabilityCheck,GrUnresolvedAccess
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    //noinspection GrUnresolvedAccess
+    from javadoc.destinationDir
+}
+

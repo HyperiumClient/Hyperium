@@ -166,9 +166,7 @@ public class BrowserMod extends AbstractMod implements IDisplayHandler, IJSQuery
                 currentKey = 0;
                 currentKeyTriple = null;
                 jFrame.dispose();
-            } catch (PrivilegedActionException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
+            } catch (PrivilegedActionException | InterruptedException e) {
                 e.printStackTrace();
             }
         });

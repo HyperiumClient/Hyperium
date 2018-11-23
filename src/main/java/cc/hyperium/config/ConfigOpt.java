@@ -23,6 +23,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
+ * Annotation used to mark fields which are to be saved in the configuration
+ *
  * @author Sk1er
  */
 @Retention(RetentionPolicy.RUNTIME)

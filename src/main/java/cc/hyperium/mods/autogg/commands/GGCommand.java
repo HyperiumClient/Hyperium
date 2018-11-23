@@ -10,11 +10,15 @@ import cc.hyperium.utils.ChatColor;
 
 public class GGCommand implements BaseCommand {
 
+    /**
+     * The AutoGG instance
+     */
     private final AutoGG mod;
 
     public GGCommand(AutoGG mod) {
         this.mod = mod;
     }
+
 
     @Override
     public String getName() {

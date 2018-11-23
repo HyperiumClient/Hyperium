@@ -32,6 +32,11 @@ import java.util.List;
  */
 public class CommandGarbageCollect implements BaseCommand {
 
+    /**
+     * Gets the name of the command (text after slash).
+     *
+     * @return The command name
+     */
     @Override
     public String getName() {
         return "gcollect";
@@ -42,11 +47,19 @@ public class CommandGarbageCollect implements BaseCommand {
         return Arrays.asList("garbagecollect");
     }
 
+    /**
+     * Gets the usage string for the command.
+     *
+     * @return The command usage
+     */
     @Override
     public String getUsage() {
         return "/gc";
     }
 
+    /**
+     * Callback when the command is invoked
+     */
     @Override
     public void onExecute(String[] args) {
         System.gc();

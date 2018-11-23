@@ -20,21 +20,40 @@ package cc.hyperium.event;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 
+/**
+ * Invoked once the player clicks a GUI button
+ */
 public class ActionPerformedEvent extends CancellableEvent {
 
+    /**
+     * The screen which contains the button
+     */
     private GuiScreen screen;
+
+    /**
+     * The button that was clicked
+     */
     private GuiButton button;
 
     public ActionPerformedEvent(GuiScreen screen, GuiButton button) {
-
         this.screen = screen;
         this.button = button;
     }
 
+    /**
+     * The screen which contains the button
+     *
+     * @return The screen
+     */
     public GuiScreen getScreen() {
         return screen;
     }
 
+    /**
+     * The button that was just clicked
+     *
+     * @return The button
+     */
     public GuiButton getButton() {
         return button;
     }

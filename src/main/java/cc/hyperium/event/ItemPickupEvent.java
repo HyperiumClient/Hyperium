@@ -22,6 +22,9 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * Invoked when the player picks an item up
+ */
 public final class ItemPickupEvent extends Event {
 
     @NotNull

@@ -8,19 +8,15 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.util.ResourceLocation;
 
+/**
+ * Overlay for the AutoNico addon, in the overlay menus.
+ */
 public class AutoNicoOverlay extends HyperiumOverlay {
+
     public AutoNicoOverlay() {
-        this.getComponents().add(new OverlayToggle("Enable sounds", Settings.AUTO_NICO, (b) -> {
-            Settings.AUTO_NICO = b;
-        }, true));
-        this.getComponents().add(new OverlayButton("\"Cheating in Minecraft\"", () -> {
-            Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.create(new ResourceLocation("nico-cheating"), (float) Minecraft.getMinecraft().thePlayer.posX, (float) Minecraft.getMinecraft().thePlayer.posY, (float) Minecraft.getMinecraft().thePlayer.posZ));
-        }));
-        this.getComponents().add(new OverlayButton("\"Oof\"", () -> {
-            Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.create(new ResourceLocation("nico-oof"), (float) Minecraft.getMinecraft().thePlayer.posX, (float) Minecraft.getMinecraft().thePlayer.posY, (float) Minecraft.getMinecraft().thePlayer.posZ));
-        }));
-        this.getComponents().add(new OverlayButton("\"Yeet\"", () -> {
-            Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.create(new ResourceLocation("nico-yeet"), (float) Minecraft.getMinecraft().thePlayer.posX, (float) Minecraft.getMinecraft().thePlayer.posY, (float) Minecraft.getMinecraft().thePlayer.posZ));
-        }));
+        this.getComponents().add(new OverlayToggle("Enable sounds", Settings.AUTO_NICO, (b) -> Settings.AUTO_NICO = b, true));
+        this.getComponents().add(new OverlayButton("\"Cheating in Minecraft\"", () -> Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.create(new ResourceLocation("nico-cheating"), (float) Minecraft.getMinecraft().thePlayer.posX, (float) Minecraft.getMinecraft().thePlayer.posY, (float) Minecraft.getMinecraft().thePlayer.posZ))));
+        this.getComponents().add(new OverlayButton("\"Oof\"", () -> Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.create(new ResourceLocation("nico-oof"), (float) Minecraft.getMinecraft().thePlayer.posX, (float) Minecraft.getMinecraft().thePlayer.posY, (float) Minecraft.getMinecraft().thePlayer.posZ))));
+        this.getComponents().add(new OverlayButton("\"Yeet\"", () -> Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.create(new ResourceLocation("nico-yeet"), (float) Minecraft.getMinecraft().thePlayer.posX, (float) Minecraft.getMinecraft().thePlayer.posY, (float) Minecraft.getMinecraft().thePlayer.posZ))));
     }
 }

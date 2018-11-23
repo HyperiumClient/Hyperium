@@ -20,10 +20,20 @@ package cc.hyperium.event;
 import com.google.common.base.Preconditions;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * Invoked when a friend is removed
+ */
 public final class FriendRemoveEvent extends Event {
 
+    /**
+     * The full name. This includes the player rank
+     */
     @NotNull
     private final String fullName;
+
+    /**
+     * The raw player name
+     */
     @NotNull
     private final String name;
 

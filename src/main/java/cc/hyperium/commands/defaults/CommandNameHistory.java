@@ -31,21 +31,40 @@ import java.util.List;
  */
 public class CommandNameHistory implements BaseCommand {
 
+    /**
+     * Gets the name of the command (text after slash).
+     *
+     * @return The command name
+     */
     @Override
     public String getName() {
         return "namehistory";
     }
 
+    /**
+     * Gets the usage string for the command.
+     *
+     * @return The command usage
+     */
     @Override
     public String getUsage() {
         return "/namehistory <player>";
     }
 
+    /**
+     * A list of aliases to the main command. This will not be used if the list
+     * is empty or {@code null}.
+     *
+     * @return The command aliases, which behave the same as the {@link #getName()}.
+     */
     @Override
     public List<String> getCommandAliases() {
         return Arrays.asList("nhistory", "names");
     }
 
+    /**
+     * Callback when the command is invoked
+     */
     @Override
     public void onExecute(String[] args) {
         if (args.length == 0) {

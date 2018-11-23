@@ -19,10 +19,24 @@ package cc.hyperium.event;
 
 import net.minecraft.client.gui.GuiScreen;
 
+/**
+ * Invoked when a character is typed in a GUI screen, such as {@link net.minecraft.client.gui.GuiChat}.
+ */
 public class GuiKeyTypedEvent {
 
+    /**
+     * The GUI screen
+     */
     private GuiScreen screen;
+
+    /**
+     * The character that was just typed
+     */
     private char typedChar;
+
+    /**
+     * The key code of the character
+     */
     private int keyCode;
 
     public GuiKeyTypedEvent(GuiScreen screen, char typedChar, int keyCode) {

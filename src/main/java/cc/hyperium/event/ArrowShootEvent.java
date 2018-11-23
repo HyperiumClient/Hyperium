@@ -22,14 +22,26 @@ import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * Invoked once the player shoots an arrow
+ */
 public final class ArrowShootEvent extends Event {
 
+    /**
+     * The arrow that was shoot
+     */
     @NotNull
     private final EntityArrow arrow;
 
+    /**
+     * The player bow
+     */
     @NotNull
     private final ItemStack bow;
 
+    /**
+     * The current bow charge
+     */
     private final int charge;
 
     public ArrowShootEvent(@NotNull EntityArrow arrow, int charge, @NotNull ItemStack bow) {
@@ -41,16 +53,31 @@ public final class ArrowShootEvent extends Event {
         this.bow = bow;
     }
 
+    /**
+     * The arrow that was shoot
+     *
+     * @return The arrow that was shoot
+     */
     @NotNull
     public final EntityArrow getArrow() {
         return this.arrow;
     }
 
+    /**
+     * The player bow
+     *
+     * @return The bow
+     */
     @NotNull
     public final ItemStack getBow() {
         return this.bow;
     }
 
+    /**
+     * The bow charge
+     *
+     * @return The charge
+     */
     public final int getCharge() {
         return this.charge;
     }

@@ -7,6 +7,9 @@ import net.minecraft.util.DamageSource;
 
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * Invoked once an entity dies
+ */
 public final class LivingDeathEvent {
 
     @NotNull

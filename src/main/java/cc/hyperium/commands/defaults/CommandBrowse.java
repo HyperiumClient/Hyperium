@@ -17,25 +17,41 @@
 
 package cc.hyperium.commands.defaults;
 
-
 import cc.hyperium.Hyperium;
 import cc.hyperium.commands.BaseCommand;
+import cc.hyperium.commands.CommandException;
 import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
 
 public class CommandBrowse implements BaseCommand {
 
+    /**
+     * Gets the name of the command (text after slash).
+     *
+     * @return The command name
+     */
     @Override
     public String getName() {
         return "browse";
     }
 
+    /**
+     * Gets the usage string for the command.
+     *
+     * @return The command usage
+     */
     @Override
     public String getUsage() {
         return "/browse <url>";
     }
 
+    /**
+     * Callback when the command is invoked
+     *
+     * @throws CommandException for errors inside the command, these errors
+     *                          will log directly to the players chat (without a prefix)
+     */
     @Override
-    public void onExecute(String[] args) {
+    public void onExecute(String[] args) throws CommandException {
         if (args.length == 1) {
             Hyperium.INSTANCE.getModIntegration().getBrowserMod().browserGui.loadURL(args[0]);
             Hyperium.INSTANCE.getModIntegration().getBrowserMod().showBrowser();

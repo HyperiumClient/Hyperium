@@ -1,6 +1,9 @@
 package cc.hyperium.event;
 
-public final class LevelupEvent {
+/**
+ * Invoked when the player levels up
+ */
+public final class LevelupEvent extends Event {
 
     private final int level;
 

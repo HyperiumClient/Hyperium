@@ -1,5 +1,8 @@
 package cc.hyperium.event;
 
+/**
+ * Invoked once the Ranked SkyWars rating changes.
+ */
 public final class RankedRatingChangeEvent extends Event {
 
     private final int rating;

@@ -4,6 +4,9 @@ import com.google.common.base.Preconditions;
 
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * Invoked once the client switches servers
+ */
 public final class ServerSwitchEvent extends Event {
 
     @NotNull

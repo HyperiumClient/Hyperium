@@ -21,11 +21,6 @@ import net.minecraft.client.gui.GuiScreen;
 
 /**
  * Invoked when a user clicks within a GuiScreen.
- *
- * @param mouseX x position of the mouse on click
- * @param mouseY y position of the mouse on click
- * @param button Mouse button clicked (0 = left, 1 = right, 2 = middle)
- * @param gui GUI that detected the click
  */
 public class GuiClickEvent extends CancellableEvent {
 
@@ -41,7 +36,7 @@ public class GuiClickEvent extends CancellableEvent {
      * @param mouseX x position of the mouse on click
      * @param mouseY y position of the mouse on click
      * @param button Mouse button clicked (0 = left, 1 = right, 2 = middle)
-     * @param gui GUI that detected the click
+     * @param gui    GUI that detected the click
      */
     public GuiClickEvent(int mouseX, int mouseY, int button, GuiScreen gui) {
         this.mouseX = mouseX;

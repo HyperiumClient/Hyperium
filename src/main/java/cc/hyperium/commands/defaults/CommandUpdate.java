@@ -192,11 +192,21 @@ public class CommandUpdate implements BaseCommand {
 
     private UpdateUtils utils = UpdateUtils.INSTANCE;
 
+    /**
+     * Gets the name of the command (text after slash).
+     *
+     * @return The command name
+     */
     @Override
     public String getName() {
         return "update";
     }
 
+    /**
+     * Gets the usage string for the command.
+     *
+     * @return The command usage
+     */
     @Override
     public String getUsage() {
         return "/update";
@@ -207,6 +217,9 @@ public class CommandUpdate implements BaseCommand {
         return Collections.emptyList();
     }
 
+    /**
+     * Callback when the command is invoked
+     */
     @Override
     public void onExecute(String[] args) {
         if (utils.isAbsoluteLatest())

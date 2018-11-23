@@ -18,6 +18,7 @@
 package cc.hyperium.commands.defaults;
 
 import cc.hyperium.commands.BaseCommand;
+import cc.hyperium.commands.CommandException;
 import cc.hyperium.gui.hyperium.HyperiumMainGui;
 import cc.hyperium.utils.ChatColor;
 
@@ -31,24 +32,46 @@ import java.util.List;
  */
 public class CommandConfigGui implements BaseCommand {
 
+    /**
+     * Gets the name of the command (text after slash).
+     *
+     * @return The command name
+     */
     @Override
     public String getName() {
         return "hyperiumconfig";
     }
 
+    /**
+     * Gets the usage string for the command.
+     *
+     * @return The command usage
+     */
     @Override
     public String getUsage() {
         return ChatColor.RED + "Usage: /hyperiumconfig";
     }
 
+    /**
+     * A list of aliases to the main command. This will not be used if the list
+     * is empty or {@code null}.
+     *
+     * @return The command aliases, which behave the same as the {@link #getName()}.
+     */
     @Override
     public List<String> getCommandAliases() {
         // Allow an alias for the main config gui
         return Collections.singletonList("hyperium");
     }
 
+    /**
+     * Callback when the command is invoked
+     *
+     * @throws CommandException for errors inside the command, these errors
+     *                          will log directly to the players chat (without a prefix)
+     */
     @Override
-    public void onExecute(String[] args) {
+    public void onExecute(String[] args) throws CommandException {
         HyperiumMainGui.INSTANCE.show();
     }
 }

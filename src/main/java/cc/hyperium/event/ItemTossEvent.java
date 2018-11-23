@@ -24,6 +24,9 @@ import net.minecraft.entity.player.EntityPlayer;
 
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * Invoked once the player tosses (drops) an item
+ */
 public final class ItemTossEvent extends Event {
 
     @NotNull

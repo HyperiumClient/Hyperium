@@ -4,6 +4,7 @@ import cc.hyperium.gui.main.HyperiumOverlay;
 import cc.hyperium.internal.addons.misc.AddonLoadException;
 
 public class OverlayChecker {
+
     public static void checkOverlayField(String value) throws AddonLoadException {
         try {
             Class<?> originClass = Class.forName(value);

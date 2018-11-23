@@ -142,10 +142,10 @@ public abstract class MixinMinecraft {
      */
     @Inject(method = "startGame", at = @At("RETURN"))
     private void init(CallbackInfo ci) {
-        //Accessor not needed since its only set once
-        enableGLErrorChecking = Metadata.isDevelopment();
-        hyperiumMinecraft.startGame(ci);
-    }
+            //Accessor not needed since its only set once
+            enableGLErrorChecking = Metadata.isDevelopment();
+            hyperiumMinecraft.startGame(ci);
+        }
 
     /**
      * Invoked every tick (every 50milliseconds)

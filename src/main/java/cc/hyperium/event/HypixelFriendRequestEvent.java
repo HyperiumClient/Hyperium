@@ -18,14 +18,16 @@
 package cc.hyperium.event;
 
 import com.google.common.base.Preconditions;
-
 import org.jetbrains.annotations.NotNull;
 
 /**
- * Invoked when received a friend request is received
+ * Invoked when a friend request is received
  */
 public final class HypixelFriendRequestEvent extends Event {
 
+    /**
+     * The name of the player that sent the request
+     */
     @NotNull
     private final String from;
 

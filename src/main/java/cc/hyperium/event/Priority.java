@@ -1,14 +1,28 @@
 package cc.hyperium.event;
 
+/**
+ * Represents a priority
+ */
 public enum Priority {
 
-    HIGH(-1), // Called first
+    /**
+     * High priority: This is called first, and is mostly used by internal code
+     */
+    HIGH(-1),
+
+    /**
+     * Normal priority: This is the default priority, and its the safest to use anywhere.
+     */
     NORMAL(0),
-    LOW(1); // Called last
+
+    /**
+     * Low priority: This is called last
+     */
+    LOW(1);
 
     public final int value;
 
-    private Priority(int value) {
+    Priority(int value) {
         this.value = value;
     }
 

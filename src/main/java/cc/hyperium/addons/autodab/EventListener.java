@@ -3,31 +3,27 @@ package cc.hyperium.addons.autodab;
 import cc.hyperium.Hyperium;
 import cc.hyperium.addons.autodab.command.AutoDabCommand;
 import cc.hyperium.addons.autodab.utilities.AutoDabUtil;
-import cc.hyperium.commands.BaseCommand;
 import cc.hyperium.config.Settings;
 import cc.hyperium.event.InitializationEvent;
 import cc.hyperium.event.InvokeEvent;
-import cc.hyperium.event.RenderEvent;
 import cc.hyperium.event.ServerChatEvent;
 import cc.hyperium.event.WorldChangeEvent;
 import cc.hyperium.handlers.handlers.animation.AbstractAnimationHandler;
 import cc.hyperium.handlers.handlers.animation.DabHandler;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
+import net.minecraft.client.Minecraft;
+
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.EntityRenderer;
 
+/**
+ * Listener for the AutoDab addon
+ */
 public class EventListener {
-    private boolean appliedShader;
-
-    public EventListener() {
-        this.appliedShader = false;
-    }
 
     @InvokeEvent
     public void onInit(final InitializationEvent e) {
-        Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand((BaseCommand) new AutoDabCommand());
+        Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(new AutoDabCommand());
     }
 
     @InvokeEvent
@@ -44,25 +40,13 @@ public class EventListener {
         final AbstractAnimationHandler.AnimationState state = dabHandler.get(playerUUID);
         state.setToggled(true);
         dabHandler.startAnimation(playerUUID);
-        final UUID uuid;
         Multithreading.schedule(() -> {
             if (Settings.AUTO_DAB_THIRD_PERSON) {
                 Minecraft.getMinecraft().gameSettings.thirdPersonView = 0;
             }
             AutoDab.INSTANCE.setCurrentlyDabbing(false);
             dabHandler.stopAnimation(playerUUID);
-        }, (long)Settings.AUTO_DAB_LENGTH, TimeUnit.SECONDS);
-    }
-
-    @InvokeEvent
-    public void onRender(final RenderEvent e) {
-        if (Minecraft.getMinecraft().theWorld == null) {
-            return;
-        }
-        if (!Settings.AUTO_DAB_ENABLED) {
-            return;
-        }
-        final EntityRenderer entityRenderer = Minecraft.getMinecraft().entityRenderer;
+        }, (long) Settings.AUTO_DAB_LENGTH, TimeUnit.SECONDS);
     }
 
     @InvokeEvent

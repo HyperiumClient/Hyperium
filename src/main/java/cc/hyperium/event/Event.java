@@ -21,7 +21,12 @@ package cc.hyperium.event;
  * Core event class
  */
 public class Event {
+
+    /**
+     * Posts this event to the event bus
+     */
     public void post() {
         EventBus.INSTANCE.post(this);
     }
+
 }

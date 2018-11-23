@@ -18,7 +18,6 @@ import java.net.URL;
 /**
  * @author ConorTheDev
  */
-
 public class Downloader {
 
     public File download(URL url, File dstFile) {

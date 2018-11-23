@@ -29,10 +29,13 @@ public final class EventSubscriber {
 
     @NotNull
     private final Object instance;
+
     @NotNull
     private final Method method;
+
     @NotNull
     private final Priority priority;
+
     private String objName;
     private String methodName;
 

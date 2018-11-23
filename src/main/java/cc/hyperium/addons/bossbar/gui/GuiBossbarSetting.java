@@ -2,8 +2,6 @@ package cc.hyperium.addons.bossbar.gui;
 
 import cc.hyperium.addons.bossbar.BossbarAddon;
 import cc.hyperium.addons.bossbar.config.BossbarConfig;
-import cc.hyperium.addons.sidebar.gui.screen.GuiScreenBackground;
-import cc.hyperium.config.ConfigOpt;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.util.EnumChatFormatting;
@@ -12,6 +10,7 @@ import net.minecraftforge.fml.client.config.GuiSlider;
 import java.io.IOException;
 
 public class GuiBossbarSetting extends GuiScreen {
+
     private BossbarAddon addon;
     private GuiSlider sliderScale;
 
@@ -36,7 +35,7 @@ public class GuiBossbarSetting extends GuiScreen {
 
     @Override
     protected void actionPerformed(GuiButton button) throws IOException {
-        switch (button.id){
+        switch (button.id) {
             case 0:
                 BossbarConfig.bossBarEnabled = !BossbarConfig.bossBarEnabled;
                 button.displayString = "Bossbar: " + this.getSuffix(BossbarConfig.bossBarEnabled);
@@ -61,6 +60,7 @@ public class GuiBossbarSetting extends GuiScreen {
         }
         super.actionPerformed(button);
     }
+
     public int getRowPos(final int rowNumber) {
         return this.height / 4 + (24 * rowNumber - 24) - 16;
     }

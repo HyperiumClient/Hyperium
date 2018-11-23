@@ -14,11 +14,20 @@
  *     You should have received a copy of the GNU Lesser General Public License
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package cc.hyperium;
 
+/**
+ * Represents a GUI style
+ */
 public enum GuiStyle {
 
+    /**
+     * Minecraft's default GUI style
+     */
     DEFAULT,
+
+    /**
+     * Hyperium's GUI style
+     */
     HYPERIUM
 }

@@ -6,24 +6,40 @@ import cc.hyperium.event.ChatEvent;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.utils.ChatColor;
-import java.util.Random;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.util.ResourceLocation;
 
+import java.util.Random;
+
+/**
+ * AutoNico implementation
+ */
 public class AutoNico extends AbstractAddon {
+
     private Random random;
 
     public AutoNico() {
         this.random = new Random();
     }
 
+    /**
+     * Initialization of the addon. This is invoked on client start-up
+     *
+     * @return The addon instance
+     */
     @Override
     public AbstractAddon init() {
         EventBus.INSTANCE.register(this);
         return this;
     }
 
+    /**
+     * Returns the metadata of the addon. The metadata contains information about the
+     * addon (author, version, etc.)
+     *
+     * @return The addon metadata
+     */
     @Override
     public Metadata getAddonMetadata() {
         AbstractAddon.Metadata metadata = new AbstractAddon.Metadata(this, "Auto Nico", "1.0", "Cubxity & SHARDcoder");
@@ -42,15 +58,16 @@ public class AutoNico extends AbstractAddon {
         }
     }
 
+    /**
+     * Plays a random sound from the {@link #random}.
+     */
     private void randomSound() {
         final int i = this.random.nextInt(3);
         if (i == 1) {
             Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.create(new ResourceLocation("nico-cheating"), (float) Minecraft.getMinecraft().thePlayer.posX, (float) Minecraft.getMinecraft().thePlayer.posY, (float) Minecraft.getMinecraft().thePlayer.posZ));
-        }
-        else if (i == 2) {
+        } else if (i == 2) {
             Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.create(new ResourceLocation("nico-oof"), (float) Minecraft.getMinecraft().thePlayer.posX, (float) Minecraft.getMinecraft().thePlayer.posY, (float) Minecraft.getMinecraft().thePlayer.posZ));
-        }
-        else {
+        } else {
             Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.create(new ResourceLocation("nico-yeet"), (float) Minecraft.getMinecraft().thePlayer.posX, (float) Minecraft.getMinecraft().thePlayer.posY, (float) Minecraft.getMinecraft().thePlayer.posZ));
         }
     }

@@ -6,6 +6,7 @@ import cc.hyperium.addons.sidebar.gui.screen.GuiScreenSettings;
 import cc.hyperium.commands.BaseCommand;
 
 public class CommandSidebar implements BaseCommand {
+
     private SidebarAddon addon;
 
     public CommandSidebar(SidebarAddon addon) {

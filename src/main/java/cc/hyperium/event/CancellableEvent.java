@@ -17,8 +17,14 @@
 
 package cc.hyperium.event;
 
+/**
+ * Represents an event which may be cancelled using {@link #setCancelled(boolean)}
+ */
 public class CancellableEvent extends Event {
 
+    /**
+     * Whether the event was cancelled by any of its listeners or not
+     */
     private boolean cancelled;
 
     public void setCancelled(boolean cancelled) {

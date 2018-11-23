@@ -19,6 +19,7 @@ package cc.hyperium.commands.defaults;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.commands.BaseCommand;
+import cc.hyperium.commands.CommandException;
 import cc.hyperium.gui.CrashReportGUI;
 import cc.hyperium.handlers.handlers.HypixelDetector;
 import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
@@ -32,7 +33,7 @@ import cc.hyperium.utils.JsonHolder;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import java.awt.Toolkit;
+import java.awt.*;
 import java.awt.datatransfer.StringSelection;
 import java.util.List;
 
@@ -114,7 +115,7 @@ public class CommandDebug implements BaseCommand {
         builder.append("\n");
         builder.append("\n\n");
         NetworkHandler networkHandler = Hyperium.INSTANCE.getNetworkHandler();
-        if(networkHandler != null) {
+        if (networkHandler != null) {
             List<String> verboseLogs = networkHandler.getVerboseLogs();
             for (String verboseLog : verboseLogs) {
                 builder.append(verboseLog);
@@ -142,19 +143,34 @@ public class CommandDebug implements BaseCommand {
         return builder.toString();
     }
 
-
+    /**
+     * Gets the name of the command (text after slash).
+     *
+     * @return The command name
+     */
     @Override
     public String getName() {
         return "hyperium_debug";
     }
 
+    /**
+     * Gets the usage string for the command.
+     *
+     * @return The command usage
+     */
     @Override
     public String getUsage() {
         return "Usage: /hyperium_debug";
     }
 
+    /**
+     * Callback when the command is invoked
+     *
+     * @throws CommandException for errors inside the command, these errors
+     *                          will log directly to the players chat (without a prefix)
+     */
     @Override
-    public void onExecute(String[] args) {
+    public void onExecute(String[] args) throws CommandException {
         if (args.length == 1 && args[0].equalsIgnoreCase("log")) {
             Hyperium.INSTANCE.getNetworkHandler().setLog(true);
             GeneralChatHandler.instance().sendMessage("Enable logging, please restart your game to begin. It will be auto disabled after the next launch");
