@@ -124,6 +124,7 @@ gui.optimizer.optifine.line1=We detected you are using OptiFine.
 gui.optimizer.optifine.line2=Would you like us to optimise it?
 
 #Hyperium Settings Text
+gui.settings.disable_dances=Disable Dances
 gui.settings.discordrp=Discord RP
 gui.settings.fullbright=Fullbright
 gui.settings.romannumerals=Roman Numerals

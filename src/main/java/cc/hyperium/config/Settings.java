@@ -372,6 +372,9 @@ public class Settings {
     @SliderSetting(name = "gui.settings.wingsscale", min = 50, max = 200, category = COSMETICS)
     public static double WINGS_SCALE = 100D;
 
+    @ToggleSetting(name = "gui.settings.disable_dances",category = COSMETICS)
+    @ConfigOpt
+    public static boolean DISABLE_DANCES = false;
     @ConfigOpt
     @ToggleSetting(name = "gui.settings.showchromahud", category = CHROMAHUD, mods = true)
     public static boolean SHOW_CHROMAHUD = true;
