@@ -77,7 +77,7 @@ public class BetterChatFilter {
       }
     } 
   }
-  // really awfully conplex method to get number of lines in file
+  // really awfully complex method to get number of lines in file
   public static int countLines(String filename) throws IOException {
     InputStream is = new BufferedInputStream(new FileInputStream(filename));
     try {
