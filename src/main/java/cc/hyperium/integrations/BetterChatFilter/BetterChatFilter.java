@@ -43,16 +43,16 @@ public class BetterChatFilter {
       // if the code makes it to this point then something has happened with the chat and B.C.F. is enabled in user settings
       
       // Set file URL
-      public static final String badWordsURL = "https://raw.githubusercontent.com/HyperiumClient/Hyperium-Repo/master/files/BadWords.txt";
+      private static final String badWordsURL = "https://raw.githubusercontent.com/HyperiumClient/Hyperium-Repo/master/files/BadWords.txt";
       
       // Set file name
-      public static final String filename = "BadWords.txt";
+      private static final String filename = "BadWords.txt";
       
       // try to download file from hyperium repo
       try {
         Multithreading.POOL.submit(() -> {
           try {
-            final String rawBadwords = IOUtils.toString(
+            private final String rawBadwords = IOUtils.toString(
               new URL(badWordsURL),
                 Charset.forName("UTF-8")
               );
