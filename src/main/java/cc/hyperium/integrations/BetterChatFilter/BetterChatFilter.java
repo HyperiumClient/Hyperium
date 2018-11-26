@@ -37,16 +37,17 @@ import java.util.*;
  */
 
 public class BetterChatFilter {
+  
+  // Set file URL
+  private static final String badWordsURL = "https://raw.githubusercontent.com/HyperiumClient/Hyperium-Repo/master/files/BadWords.txt";
+      
+  // Set file name
+  private static final String filename = "BadWords.txt";
+  
   @InvokeEvent
   public void onChat(ChatEvent chatty) {
     if (Settings.BETTER_CHAT_FILTER) {
       // if the code makes it to this point then something has happened with the chat and B.C.F. is enabled in user settings
-      
-      // Set file URL
-      private static final String badWordsURL = "https://raw.githubusercontent.com/HyperiumClient/Hyperium-Repo/master/files/BadWords.txt";
-      
-      // Set file name
-      private static final String filename = "BadWords.txt";
       
       // try to download file from hyperium repo
       try {
