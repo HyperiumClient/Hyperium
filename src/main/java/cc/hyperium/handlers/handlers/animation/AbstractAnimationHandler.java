@@ -1,5 +1,6 @@
 package cc.hyperium.handlers.handlers.animation;
 
+import cc.hyperium.config.Settings;
 import cc.hyperium.cosmetics.CosmeticsUtil;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.RenderEvent;
@@ -15,6 +16,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public abstract class AbstractAnimationHandler {
 
+
+    public static boolean reset = false;
     private final ConcurrentHashMap<UUID, AnimationState> animationStates = new ConcurrentHashMap<>();
 
     protected float state = 0;
@@ -24,6 +27,7 @@ public abstract class AbstractAnimationHandler {
 
     @InvokeEvent
     public void onRender(RenderEvent e) {
+
         long systemTime = Minecraft.getSystemTime();
         animationStates.values().forEach(animationState -> {
             animationState.update(systemTime);
@@ -78,6 +82,13 @@ public abstract class AbstractAnimationHandler {
     }
 
     protected void modify(AbstractClientPlayer entity, IMixinModelBiped player, boolean pre) {
+        if (Settings.DISABLE_DANCES) {
+            if (!reset) {
+                resetAnimation(player);
+                reset = true;
+            }
+            return;
+        } else reset = false;
         AnimationState animationState = get(entity.getUniqueID());
         int ticks = animationState.frames;
         player.getBipedBody().rotateAngleZ = 0F;

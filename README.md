@@ -1,6 +1,11 @@
 [ ![Discord](https://canary.discordapp.com/api/guilds/411619823445999637/widget.png) ](https://discord.gg/8GakFcT)
 [ ![Travis-CI](https://travis-ci.org/HyperiumClient/Hyperium.svg?branch=master)](https://travis-ci.org/HyperiumClient/Hyperium)
-[![Hyperium Website Badge](https://img.shields.io/badge/visit%20our-website-red.svg)](https://hyperium.cc)  
+[![Hyperium Website Badge](https://img.shields.io/badge/visit%20our-website-red.svg)](https://hyperium.cc)
+[![Twitter Follow](https://img.shields.io/twitter/follow/espadrine.svg?label=Follow&style=social)](https://twitter.com/HyperiumClient)
+[![GitHub Forks](https://img.shields.io/github/forks/HyperiumClient/Hyperium.svg?style=social&label=Fork&maxAge=2592000)](https://github.com/HyperiumClient/Hyperium/network)
+[![GitHub Stars](https://img.shields.io/github/stars/HyperiumClient/Hyperium.svg?style=social&label=Star&maxAge=2592000)](https://github.com/HyperiumClient/Hyperium/stargazers)
+[![GitHub Watches](https://img.shields.io/github/watchers/HyperiumClient/Hyperium.svg?style=social&label=Watch&maxAge=2592000)](https://github.com/HyperiumClient/Hyperium/watchers)  
+
 # Hyperium #  
 
 ## What is Hyperium? ##
@@ -82,17 +87,17 @@ Clone the [Addon Workspace](https://github.com/HyperiumClient/Addon-Workspace) a
 **An example is [here](https://github.com/HyperiumClient/Addon-Workspace)**
 ## Developers ##
 [![Sk1er](https://cdn.discordapp.com/avatars/376817315830038530/87dd80c68e0598ea39af4e0472b299b7.png)](https://github.com/Sk1er)
-[![CoalOres](https://cdn.discordapp.com/avatars/248159137370734601/8a8b49df90cda7ccd55f28c1f5293ad6.png)](https://github.com/CoalCoding)
+[![CoalOres](https://cdn.discordapp.com/avatars/248159137370734601/667cb334d3a85c850d9890e786cbf50c.png?size=128)](https://github.com/CoalCoding)
 [![KevinPriv](https://cdn.discordapp.com/avatars/247785387919933440/e8f6af129f0d6d4db93d8c7360aac15a.png)](https://github.com/KevinPriv)
-[![Cubxity](https://cdn.discordapp.com/avatars/290921387655430144/1495ae41593665e29f683d63d502c600.png)](https://github.com/Cubxity)
-[![boomboompower](https://cdn.discordapp.com/avatars/207440827385905153/a660fb23803674f65f290f7b399ad125.png)](https://github.com/boomboompower)
+[![Cubxity](https://cdn.discordapp.com/avatars/290921387655430144/90e89028a4ffbde5ebff833709863c39.png?size=128)](https://github.com/Cubxity)
+[![boomboompower](https://avatars1.githubusercontent.com/u/12974350?s=128&v=4)](https://github.com/boomboompower)
 [![FalseHonesty](https://cdn.discordapp.com/avatars/148248069148770304/a_c292ca845b0462bfd4ad5c3d0f89ba28.gif?size=128&f=.gif)](https://github.com/FalseHonesty)
 
 
 
 ## Special Thanks ##
 
-[![yk](https://www.yourkit.com/images/yklogo.png)](https://www.yourkit.com/java/profiler/)
+[![YourKit Java Profiler](https://www.yourkit.com/images/yklogo.png)](https://www.yourkit.com/java/profiler/)
 
 YourKit supports open source projects with its full-featured Java Profiler.
 YourKit, LLC is the creator of <a href="https://www.yourkit.com/java/profiler/">YourKit Java Profiler</a>

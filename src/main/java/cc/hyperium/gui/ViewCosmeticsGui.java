@@ -10,7 +10,7 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
 
-import java.awt.*;
+import java.awt.Color;
 import java.text.DecimalFormat;
 
 public class ViewCosmeticsGui extends HyperiumGui {
@@ -21,7 +21,7 @@ public class ViewCosmeticsGui extends HyperiumGui {
     @Override
     protected void pack() {
         reg("VISIT", new GuiButton(nextId(), width / 2 - 100, 5, I18n.format("gui.cosmetics.purchase")), guiButton -> {
-            HyperiumMainGui.INSTANCE.setTab(3);
+            HyperiumMainGui.INSTANCE.setTab(2);
             mc.displayGuiScreen(HyperiumMainGui.INSTANCE);
         }, guiButton -> {
 
