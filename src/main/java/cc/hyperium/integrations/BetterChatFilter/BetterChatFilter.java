@@ -51,9 +51,19 @@ public class BetterChatFilter {
       
       // try to download file from hyperium repo
       try {
-        System.out.println("hi");
+        Multithreading.POOL.submit(() -> {
+          try {
+            final String rawBadwords = IOUtils.toString(
+              new URL(badWordsURL),
+                Charset.forName("UTF-8")
+              );
+              badWords = new ArrayList<>(Arrays.asList(rawBadwords.split("\n")));
+            } catch (Exception depressionHits) {
+              depressionHits.printStackTrace(); // this will only happen if depression is hit
+            }
+});
       } catch (IOException ohNoAnError) {
-        // dont judge me ok plz  
+        // IOException triggered so lets print the stacktrace 
         ohNoAnError.printStackTrace();
       }
       
@@ -89,3 +99,5 @@ public class BetterChatFilter {
     }
   }
 }
+
+// DISCLAIMER: PLEASE DO NOT JUDGE ME BASED ON MY VARIABLE NAMES AND CUSTOMIZATION AND ALL THAT kthxbye
