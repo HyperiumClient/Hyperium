@@ -59,8 +59,6 @@ public class BetterChatFilter {
   @InvokeEvent
   public void onChat(ChatEvent chatty) {
     if (Settings.BETTER_CHAT_FILTER) {
-      // if the code makes it to this point then something has happened with the chat and B.C.F. is enabled in user settings
-      
       // for each bad word test to see if it contains a bad word and if it does cancel the event
       String unformattedMessage = ChatColor.stripColor(event.getChat().getUnformattedText());
       if (getBadwords().stream().anyMatch(unformattedMessage::contains) && unformattedMessage.startsWith(" ")) {
