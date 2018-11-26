@@ -67,36 +67,13 @@ public class BetterChatFilter {
         ohNoAnError.printStackTrace();
       }
       
-      for(int i = 0; i < countLines(filename);) {
-        // for each bad word test to see if it contains a bad word and if it does cancel the event
-        String unformattedMessage = ChatColor.stripColor(event.getChat().getUnformattedText());
-        if (getBadwords().stream().anyMatch(unformattedMessage::contains) && unformattedMessage.startsWith(" ")) {
-          chatty.setCancelled(true); 
-        }
+      // for each bad word test to see if it contains a bad word and if it does cancel the event
+      String unformattedMessage = ChatColor.stripColor(event.getChat().getUnformattedText());
+      if (getBadwords().stream().anyMatch(unformattedMessage::contains) && unformattedMessage.startsWith(" ")) {
+        chatty.setCancelled(true); 
       }
-    } 
-  }
-  // really awfully complex method to get number of lines in file
-  public static int countLines(String filename) throws IOException {
-    InputStream is = new BufferedInputStream(new FileInputStream(filename));
-    try {
-        byte[] c = new byte[1024];
-        int count = 0;
-        int readChars = 0;
-        boolean empty = true;
-        while ((readChars = is.read(c)) != -1) {
-            empty = false;
-            for (int i = 0; i < readChars; ++i) {
-                if (c[i] == '\n') {
-                    ++count;
-                }
-            }
-        }
-        return (count == 0 && !empty) ? 1 : count;
-    } finally {
-        is.close();
     }
-  }
+  } 
 }
 
 // DISCLAIMER: PLEASE DO NOT JUDGE ME BASED ON MY VARIABLE NAMES AND CUSTOMIZATION AND ALL THAT kthxbye
