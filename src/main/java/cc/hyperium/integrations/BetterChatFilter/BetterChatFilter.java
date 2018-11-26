@@ -43,10 +43,10 @@ public class BetterChatFilter {
       // if the code makes it to this point then something has happened with the chat and B.C.F. is enabled in user settings
       
       // Set file URL
-      static final String badWordsURL = "https://raw.githubusercontent.com/HyperiumClient/Hyperium-Repo/master/files/BadWords.txt";
+      public static final String badWordsURL = "https://raw.githubusercontent.com/HyperiumClient/Hyperium-Repo/master/files/BadWords.txt";
       
       // Set file name
-      static final String filename = "BadWords.txt";
+      public static final String filename = "BadWords.txt";
       
       // try to download file from hyperium repo
       try {
