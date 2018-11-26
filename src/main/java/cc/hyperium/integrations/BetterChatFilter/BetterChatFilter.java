@@ -19,11 +19,13 @@
 // Created in hope to limit toxicity.  
 
 package cc.hyperium.integrations.BetterChatFilter;
+import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.Hyperium;
 import cc.hyperium.config.Settings;
 import cc.hyperium.event.ChatEvent;
 import cc.hyperium.event.InvokeEvent;
 import net.minecraft.client.Minecraft;
+import cc.hyperium.utils.ChatColor;
 import java.lang.*;
 import java.io.*;
 import java.util.*;
@@ -36,7 +38,6 @@ import java.util.*;
 
 public class BetterChatFilter {
   @InvokeEvent
-  public void onChat(ChatEvent e) {
     if (Settings.BETTER_CHAT_FILTER) {
       // if the code makes it to this point then something has happened with the chat and B.C.F. is enabled in user settings
 
@@ -61,7 +62,7 @@ public class BetterChatFilter {
             } catch (Exception depressionHits) {
               depressionHits.printStackTrace(); // this will only happen if depression is hit
             }
-});
+        });
       } catch (IOException ohNoAnError) {
         // IOException triggered so lets print the stacktrace 
         ohNoAnError.printStackTrace();
@@ -69,10 +70,9 @@ public class BetterChatFilter {
       
       for(int i = 0; i < countLines(filename);) {
         // for each bad word test to see if it contains a bad word and if it does cancel the event
-        if(e.getChat().getUnformattedText().contains(words[i])) { 
-          e.setCancelled(true); 
-        } else {
-          i++;
+        String unformattedMessage = ChatColor.stripColor(event.getChat().getUnformattedText());
+        if (getBadwords().stream().anyMatch(unformattedMessage::contains) && unformattedMessage.startsWith(" ")) {
+          chattyevent.setCancelled(true); 
         }
       }
     } 
