@@ -40,9 +40,6 @@ public class BetterChatFilter {
   
   // Set file URL
   private static final String badWordsURL = "https://raw.githubusercontent.com/HyperiumClient/Hyperium-Repo/master/files/BadWords.txt";
-      
-  // Set file name
-  private static final String filename = "BadWords.txt";
   
   @InvokeEvent
   public void onChat(ChatEvent chatty) {
