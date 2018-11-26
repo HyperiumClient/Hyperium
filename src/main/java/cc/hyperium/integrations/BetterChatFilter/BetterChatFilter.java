@@ -40,9 +40,6 @@ public class BetterChatFilter {
   @InvokeEvent
     if (Settings.BETTER_CHAT_FILTER) {
       // if the code makes it to this point then something has happened with the chat and B.C.F. is enabled in user settings
-
-      // temp array
-      static final String[] words = ["hello", "world", "heya"];
       
       // Set file URL
       static final String badWordsURL = "https://raw.githubusercontent.com/HyperiumClient/Hyperium-Repo/master/files/BadWords.txt";
