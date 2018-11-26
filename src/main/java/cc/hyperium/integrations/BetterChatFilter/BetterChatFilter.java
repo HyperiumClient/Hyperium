@@ -41,28 +41,25 @@ public class BetterChatFilter {
   // Set file URL
   private static final String badWordsURL = "https://raw.githubusercontent.com/HyperiumClient/Hyperium-Repo/master/files/BadWords.txt";
   
-  @InvokeEvent
-  public void onChat(ChatEvent chatty) {
-    if (Settings.BETTER_CHAT_FILTER) {
-      // if the code makes it to this point then something has happened with the chat and B.C.F. is enabled in user settings
-      
-      // try to download file from hyperium repo
+  // try to download file from hyperium repo
       try {
         Multithreading.POOL.submit(() -> {
           try {
-            private final String rawBadwords = IOUtils.toString(
-              new URL(badWordsURL),
-                Charset.forName("UTF-8")
-              );
-              badWords = new ArrayList<>(Arrays.asList(rawBadwords.split("\n")));
-            } catch (Exception depressionHits) {
-              depressionHits.printStackTrace(); // this will only happen if depression is hit
-            }
+            private final String rawBadwords = IOUtils.toString(new URL(badWordsURL), Charset.forName("UTF-8"));
+            badWords = new ArrayList<>(Arrays.asList(rawBadwords.split("\n")));
+          } catch (Exception depressionHits) {
+            depressionHits.printStackTrace(); // happens upon depression
+          }
         });
       } catch (IOException ohNoAnError) {
         // IOException triggered so lets print the stacktrace 
         ohNoAnError.printStackTrace();
       }
+  
+  @InvokeEvent
+  public void onChat(ChatEvent chatty) {
+    if (Settings.BETTER_CHAT_FILTER) {
+      // if the code makes it to this point then something has happened with the chat and B.C.F. is enabled in user settings
       
       // for each bad word test to see if it contains a bad word and if it does cancel the event
       String unformattedMessage = ChatColor.stripColor(event.getChat().getUnformattedText());
