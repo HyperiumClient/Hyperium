@@ -43,15 +43,20 @@ public class BetterChatFilter {
       // temp array
       static final String[] words = ["hello", "world", "heya"];
       
+      // Set file URL
+      static final String badWordsURL = "https://raw.githubusercontent.com/HyperiumClient/Hyperium-Repo/master/files/BadWords.txt";
+      
       // Set file name
       static final String filename = "BadWords.txt";
+      
       // try to download file from hyperium repo
       try {
-        System.out.println(countLines(filename));
+        System.out.println("hi");
       } catch (IOException ohNoAnError) {
         // dont judge me ok plz  
         ohNoAnError.printStackTrace();
       }
+      
       for(int i = 0; i < countLines(filename);) {
         // for each bad word test to see if it contains a bad word and if it does cancel the event
         if(e.getChat().getUnformattedText().contains(words[i])) { 
