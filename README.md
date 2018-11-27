@@ -83,7 +83,7 @@ A: If you have reported the issue using the automatic prompt, join the <a href="
 
 Q: I can't open the .jar file that installs the client!  
 
-A: Run [Jarfix](https://johann.loefflmann.net/en/software/jarfix/index.html), then try.  
+A: Run [Jarfix](https://johann.loefflmann.net/en/software/jarfix/index.html), then try again.  
 
 ## Addons ##
 Clone the [Addon Workspace](https://github.com/HyperiumClient/Addon-Workspace) and get coding!
