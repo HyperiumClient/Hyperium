@@ -21,6 +21,8 @@
 package cc.hyperium.integrations.BetterChatFilter;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.Hyperium;
+import cc.hyperium.event.EventBus;
+import cc.hyperium.handlers.handlers.HypixelDetector;
 import cc.hyperium.config.Settings;
 import cc.hyperium.event.ChatEvent;
 import cc.hyperium.event.InvokeEvent;
@@ -29,6 +31,12 @@ import cc.hyperium.utils.ChatColor;
 import java.lang.*;
 import java.io.*;
 import java.util.*;
+import java.net.URL;
+import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import org.apache.commons.io.IOUtils;
 
 /*
  *  Better chat filter
