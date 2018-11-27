@@ -80,5 +80,3 @@ public class BetterChatFilter {
     }
   } 
 }
-
-// DISCLAIMER: PLEASE DO NOT JUDGE ME BASED ON MY VARIABLE NAMES AND CUSTOMIZATION AND ALL THAT kthxbye
