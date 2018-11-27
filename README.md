@@ -81,6 +81,10 @@ Q: My game keeps crashing!
 
 A: If you have reported the issue using the automatic prompt, join the <a href="https://hyperium.cc/discord">Discord</a> and ask a member of the staff team or a developer to review your issue. Please be patient if there are no developers online!
 
+Q: I can't open the .jar file that installs the client!  
+
+A: Run [Jarfix](https://johann.loefflmann.net/en/software/jarfix/index.html), then try.  
+
 ## Addons ##
 Clone the [Addon Workspace](https://github.com/HyperiumClient/Addon-Workspace) and get coding!
 
