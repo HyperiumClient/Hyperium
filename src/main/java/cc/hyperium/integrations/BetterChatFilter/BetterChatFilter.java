@@ -37,6 +37,8 @@ import java.util.*;
  */
 
 public class BetterChatFilter {
+  // private static list for badwords
+  private static List<String> badwords;
   
   // Set file URL
   private static final String badWordsURL = "https://raw.githubusercontent.com/HyperiumClient/Hyperium-Repo/master/files/BadWords.txt";
@@ -53,6 +55,11 @@ public class BetterChatFilter {
         // IOException triggered so lets print the stacktrace 
         ohNoAnError.printStackTrace();
       }
+  
+  // thing to get stuff
+  public List<String> getBadwords() {
+       return badwords;
+  }
   
   @InvokeEvent
   public void onChat(ChatEvent chatty) {
