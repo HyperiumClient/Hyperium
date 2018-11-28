@@ -29,6 +29,7 @@ import cc.hyperium.event.InvokeEvent;
 import net.minecraft.client.Minecraft;
 import cc.hyperium.utils.ChatColor;
 import java.lang.*;
+import java.lang.System;
 import java.io.*;
 import java.util.*;
 import java.net.URL;
@@ -52,17 +53,13 @@ public class BetterChatFilter {
   private static final String badWordsURL = "https://raw.githubusercontent.com/HyperiumClient/Hyperium-Repo/master/files/BadWords.txt";
   
   // try to download file from hyperium repo
-      try {
-          try {
-            private final String rawBadwords = IOUtils.toString(new URL(badWordsURL), Charset.forName("UTF-8"));
-            badWords = new ArrayList<>(Arrays.asList(rawBadwords.split("\n")));
-          } catch (Exception depressionHits) {
-            depressionHits.printStackTrace(); // happens upon depression
-          }
-      } catch (IOException ohNoAnError) {
-        // IOException triggered so lets print the stacktrace 
-        ohNoAnError.printStackTrace();
-      }
+  try {
+    private final String rawBadwords = IOUtils.toString(new URL(badWordsURL), Charset.forName("UTF-8"));
+    badWords = new ArrayList<>(Arrays.asList(rawBadwords.split("\n")));
+  } catch (Exception depressionHits) {
+    System.out.println("[BetterChatFilter] Failed to download bad word file");
+    depressionHits.printStackTrace(); // happens upon depression
+  }
   
   // thing to get stuff
   public List<String> getBadwords() {return badwords;}
