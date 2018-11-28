@@ -60,9 +60,11 @@ public class BetterChatFilter {
     try {
       private final String rawBadwords = IOUtils.toString(new URL(badWordsURL), Charset.forName("UTF-8"));
       badWords = new ArrayList<>(Arrays.asList(rawBadwords.split("\n")));
+      return true;
     } catch (Exception e) {
       System.out.println("[BetterChatFilter] Failed to download bad word file");
       e.printStackTrace();
+      return false;
     }
   }
   
