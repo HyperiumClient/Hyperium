@@ -56,13 +56,20 @@ public class BetterChatFilter {
   /*
    * Download file from Hyperium-Repo
    */
-  try {
-    private final String rawBadwords = IOUtils.toString(new URL(badWordsURL), Charset.forName("UTF-8"));
-    badWords = new ArrayList<>(Arrays.asList(rawBadwords.split("\n")));
-  } catch (Exception e) {
-    System.out.println("[BetterChatFilter] Failed to download bad word file");
-    e.printStackTrace();
+  public void downloadandinit() {
+    try {
+      private final String rawBadwords = IOUtils.toString(new URL(badWordsURL), Charset.forName("UTF-8"));
+      badWords = new ArrayList<>(Arrays.asList(rawBadwords.split("\n")));
+    } catch (Exception e) {
+      System.out.println("[BetterChatFilter] Failed to download bad word file");
+      e.printStackTrace();
+    }
   }
+  
+  /*
+   * Run the download void
+   */
+  downloadandinit()
   
   public List<String> getBadwords() {
     return badwords;
