@@ -69,7 +69,7 @@ public class BetterChatFilter {
   /*
    * Run the download void
    */
-  downloadandinit()
+  downloadandinit();
   
   public List<String> getBadwords() {
     return badwords;
