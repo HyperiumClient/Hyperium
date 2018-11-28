@@ -58,7 +58,7 @@ public class BetterChatFilter {
    */
   public void downloadandinit() {
     try {
-      private final String rawBadwords = IOUtils.toString(new URL(badWordsURL), Charset.forName("UTF-8"));
+      final String rawBadwords = IOUtils.toString(new URL(badWordsURL), Charset.forName("UTF-8"));
       badWords = new ArrayList<>(Arrays.asList(rawBadwords.split("\n")));
       return true;
     } catch (Exception e) {
