@@ -46,29 +46,33 @@ import org.apache.commons.io.IOUtils;
  */
 
 public class BetterChatFilter {
-  // private static list for badwords
+  /*
+   * Private static list for badwords
+   */
   private static List<String> badwords;
   
-  // Set file URL
   private static final String badWordsURL = "https://raw.githubusercontent.com/HyperiumClient/Hyperium-Repo/master/files/BadWords.txt";
   
-  // try to download file from hyperium repo
+  /*
+   * Download file from Hyperium-Repo
+   */
   try {
     private final String rawBadwords = IOUtils.toString(new URL(badWordsURL), Charset.forName("UTF-8"));
     badWords = new ArrayList<>(Arrays.asList(rawBadwords.split("\n")));
-  } catch (Exception depressionHits) {
+  } catch (Exception e) {
     System.out.println("[BetterChatFilter] Failed to download bad word file");
-    depressionHits.printStackTrace(); // happens upon depression
+    e.printStackTrace();
   }
   
-  // thing to get stuff
-  public List<String> getBadwords() {return badwords;}
+  public List<String> getBadwords() {
+    return badwords;
+  }
   
   @InvokeEvent
   public void onChat(ChatEvent chatty) { 
     String unformattedMessage = ChatColor.stripColor(event.getChat().getUnformattedText());
     if(getBadwords().stream().anyMatch(unformattedMessage::contains) && Settings.BETTER_CHAT_FILTER) {
       chatty.setCancelled(true);
-    }
+    } 
   } 
-}
+} 
