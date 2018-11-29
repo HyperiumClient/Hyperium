@@ -78,10 +78,10 @@ public class BetterChatFilter {
   }
   
   @InvokeEvent
-  public void onChat(ChatEvent chatty) { 
-    String unformattedMessage = ChatColor.stripColor(event.getChat().getUnformattedText());
+  public void onChat(ChatEvent e) { 
+    String unformattedMessage = ChatColor.stripColor(e.getChat().getUnformattedText());
     if(getBadwords().stream().anyMatch(unformattedMessage::contains) && Settings.BETTER_CHAT_FILTER) {
-      chatty.setCancelled(true);
+      e.setCancelled(true);
     } 
   } 
 } 
