@@ -530,9 +530,8 @@ public class Settings {
     public static boolean THANK_WATCHDOG = false;
     
     @ConfigOpt
-    @ToggleSetting(name = "integrations.BetterChatFilter.BetterChatFilter", category = INTEGRATIONS)
+    @ToggleSetting(name = "integrations.betterchatfilter.betterchatfilter", category = INTEGRATIONS)
     public static boolean BETTER_CHAT_FILTER = false;
-
 
     @ConfigOpt
     public static boolean AUTO_DAB_ENABLED = false;
