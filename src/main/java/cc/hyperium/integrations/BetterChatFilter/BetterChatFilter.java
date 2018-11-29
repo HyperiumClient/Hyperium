@@ -56,7 +56,7 @@ public class BetterChatFilter {
   /*
    * Download file from Hyperium-Repo
    */
-  public void downloadandinit() {
+  public downloadandinit() {
     try {
       final String rawBadwords = IOUtils.toString(new URL(badWordsURL), Charset.forName("UTF-8"));
       badWords = new ArrayList<>(Arrays.asList(rawBadwords.split("\n")));
@@ -69,7 +69,7 @@ public class BetterChatFilter {
   }
   
   /*
-   * Run the download void
+   * Download file
    */
   downloadandinit();
   
