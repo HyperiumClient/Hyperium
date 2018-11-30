@@ -5,7 +5,6 @@ import cc.hyperium.event.EventBus;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.RenderHUDEvent;
 import cc.hyperium.mods.AbstractMod;
-import cc.hyperium.mods.autogg.AutoGG;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.audio.SoundHandler;
@@ -40,7 +39,6 @@ public class VictoryRoyale extends AbstractMod {
   @Override
   public AbstractMod init() {
     INSTANCE = this;
-    new AutoGG();
     EventBus.INSTANCE.register(this);
     return this;
   }
