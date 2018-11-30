@@ -557,6 +557,10 @@ public class Settings {
     public static long TOTAL_PLAYTIME = 0;
 
     @ConfigOpt
+    @ToggleSetting(name = "gui.settings.victoryroyale", category = UTILITIES, mods = true)
+    public static boolean VICTORY_ROYALE = false;
+
+    @ConfigOpt
     @SelectorSetting(name = "gui.settings.mainmenuserver", category = GENERAL, items = {
             "HYPIXEL",
             "HIVE",

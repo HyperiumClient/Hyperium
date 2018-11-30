@@ -37,6 +37,7 @@ import cc.hyperium.mods.tabtoggle.TabToggleMod;
 import cc.hyperium.mods.timechanger.TimeChanger;
 import cc.hyperium.mods.togglechat.ToggleChatMod;
 import cc.hyperium.mods.utilities.UtilitiesMod;
+import cc.hyperium.mods.victoryroyale.VictoryRoyale;
 import me.semx11.autotip.Autotip;
 import net.montoyo.mcef.MCEF;
 
@@ -65,6 +66,7 @@ public class HyperiumModIntegration {
     private final TabToggleMod tabToggle;
     private final ItemPhysicMod itemPhysicMod;
     private final BrowserMod browserMod;
+    private final VictoryRoyale victoryRoyale;
 
     public HyperiumModIntegration() {
         // ChromaHud implementation
@@ -125,6 +127,8 @@ public class HyperiumModIntegration {
         this.itemPhysicMod = (ItemPhysicMod) new ItemPhysicMod().init();
 
         this.browserMod = (BrowserMod) new BrowserMod().init();
+
+        this.victoryRoyale = (VictoryRoyale) new VictoryRoyale().init();
     }
 
     public KeystrokesMod getKeystrokesMod() {
@@ -205,5 +209,9 @@ public class HyperiumModIntegration {
 
     public BrowserMod getBrowserMod() {
         return browserMod;
+    }
+
+    public VictoryRoyale getVictoryRoyale() {
+        return victoryRoyale;
     }
 }

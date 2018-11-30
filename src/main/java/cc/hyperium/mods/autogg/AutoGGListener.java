@@ -5,6 +5,7 @@ import cc.hyperium.event.ChatEvent;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.WorldChangeEvent;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
+import cc.hyperium.mods.victoryroyale.VictoryRoyale;
 import cc.hyperium.utils.ChatColor;
 import net.minecraft.client.Minecraft;
 
@@ -51,6 +52,7 @@ public class AutoGGListener {
                 try {
                     Thread.sleep(Hyperium.INSTANCE.getModIntegration().getAutoGG().getConfig().getDelay() * 1000);
                     Minecraft.getMinecraft().thePlayer.sendChatMessage("/achat " + (mod.getConfig().sayGoodGameInsteadOfGG ? (mod.getConfig().lowercase ? "good game": "Good Game") : (mod.getConfig().lowercase ? "gg" : "GG")));
+                    VictoryRoyale.getInstance().gameEnded(); // he he
                     Thread.sleep(2000L);
 
                     // We are referring to it from a different thread, thus we need to do this
