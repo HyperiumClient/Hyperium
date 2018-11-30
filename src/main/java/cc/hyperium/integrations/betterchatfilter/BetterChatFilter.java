@@ -59,11 +59,7 @@ public class BetterChatFilter {
     } catch (Exception e) {
       e.printStackTrace();
       // After failing to download file, make arraylist to make up for it.  
-      ArrayList rawBadwords = new ArrayList<String>();
-      rawBadwords.add("fuck");
-      rawBadwords.add("shit"); 
-      rawBadwords.add("damn");
-      rawBadwords.add("bitch");
+      String rawBadwords = "fuck shit bitch damn";
       badWords = new ArrayList<>(Arrays.asList(rawBadwords.split("\n")));
     }
   }
