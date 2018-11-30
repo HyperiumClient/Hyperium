@@ -40,15 +40,11 @@ import java.util.List;
 import org.apache.commons.io.IOUtils;
 
 /*
- *  Better chat filter
+ *  Better chat filter.  
  *  For chat filtering.  
- *  Its kinda self explanitory
  */
 
 public class BetterChatFilter {
-  /*
-   * Private static list for badwords
-   */
   private List<String> badwords;
   
   private static final String BAD_WORDS_URL = "https://raw.githubusercontent.com/HyperiumClient/Hyperium-Repo/master/files/BadWords.txt";
@@ -56,12 +52,19 @@ public class BetterChatFilter {
   /*
    * Download file from Hyperium-Repo
    */
-  public void downloadandinit() {
+  public BetterChatFilter() {
     try {
       final String rawBadwords = IOUtils.toString(new URL(BAD_WORDS_URL), Charset.forName("UTF-8"));
       badWords = new ArrayList<>(Arrays.asList(rawBadwords.split("\n")));
     } catch (Exception e) {
       e.printStackTrace();
+      // After failing to download file, make arraylist to make up for it.  
+      ArrayList rawBadwords = new ArrayList<String>();
+      rawBadwords.add("fuck");
+      rawBadwords.add("shit"); 
+      rawBadwords.add("damn");
+      rawBadwords.add("bitch");
+      badWords = new ArrayList<>(Arrays.asList(rawBadwords.split("\n")));
     }
   }
   
