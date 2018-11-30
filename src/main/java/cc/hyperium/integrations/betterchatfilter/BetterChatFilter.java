@@ -18,7 +18,7 @@
 // Created by RDIL in November 2018.  
 // Created in hope to limit toxicity.  
 
-package cc.hyperium.integrations.BetterChatFilter;
+package cc.hyperium.integrations.betterchatfilter;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.Hyperium;
 import cc.hyperium.event.EventBus;
@@ -49,26 +49,21 @@ public class BetterChatFilter {
   /*
    * Private static list for badwords
    */
-  private static List<String> badwords;
+  private List<String> badwords;
   
-  private static final String badWordsURL = "https://raw.githubusercontent.com/HyperiumClient/Hyperium-Repo/master/files/BadWords.txt";
+  private static final String BAD_WORDS_URL = "https://raw.githubusercontent.com/HyperiumClient/Hyperium-Repo/master/files/BadWords.txt";
   
   /*
    * Download file from Hyperium-Repo
    */
   public void downloadandinit() {
     try {
-      final String rawBadwords = IOUtils.toString(new URL(badWordsURL), Charset.forName("UTF-8"));
+      final String rawBadwords = IOUtils.toString(new URL(BAD_WORDS_URL), Charset.forName("UTF-8"));
       badWords = new ArrayList<>(Arrays.asList(rawBadwords.split("\n")));
     } catch (Exception e) {
       e.printStackTrace();
     }
   }
-  
-  /*
-   * Download file
-   */
-  downloadandinit();
   
   public List<String> getBadwords() {
     return badwords;
