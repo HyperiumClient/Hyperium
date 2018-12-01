@@ -33,6 +33,7 @@ import static cc.hyperium.config.Category.REACH;
 import static cc.hyperium.config.Category.SPOTIFY;
 import static cc.hyperium.config.Category.UTILITIES;
 import static cc.hyperium.config.Category.VANILLA_ENHANCEMENTS;
+import static cc.hyperium.config.Category.VICTORYROYALE;
 
 /*
  * Created by Cubxity on 03/06/2018
@@ -557,7 +558,7 @@ public class Settings {
     public static long TOTAL_PLAYTIME = 0;
 
     @ConfigOpt
-    @ToggleSetting(name = "gui.settings.victoryroyale", category = UTILITIES, mods = true)
+    @ToggleSetting(name = "gui.settings.victoryroyale", category = VICTORYROYALE, mods = true)
     public static boolean VICTORY_ROYALE = false;
 
     @ConfigOpt
