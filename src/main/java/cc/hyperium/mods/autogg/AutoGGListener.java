@@ -48,11 +48,18 @@ public class AutoGGListener {
             this.mod.setRunning(true);
             invoked = true;
             // The GGThread in an anonymous class
+            Multithreading.runAsync(() -> {
+                try {
+                    Thread.sleep(250);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                VictoryRoyale.getInstance().gameEnded();
+            });
             Multithreading.POOL.submit(() -> {
                 try {
                     Thread.sleep(Hyperium.INSTANCE.getModIntegration().getAutoGG().getConfig().getDelay() * 1000);
                     Minecraft.getMinecraft().thePlayer.sendChatMessage("/achat " + (mod.getConfig().sayGoodGameInsteadOfGG ? (mod.getConfig().lowercase ? "good game": "Good Game") : (mod.getConfig().lowercase ? "gg" : "GG")));
-                    VictoryRoyale.getInstance().gameEnded(); // he he
                     Thread.sleep(2000L);
 
                     // We are referring to it from a different thread, thus we need to do this
