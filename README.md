@@ -39,6 +39,7 @@ Hyperium is a Minecraft 1.8.9 client, currently in its development stage. It wil
 - [TimeChanger](https://www.youtube.com/watch?v=PbhXIPecOSA)
 - [ToggleChat](https://www.youtube.com/watch?v=guD8kAk-Wn4)
 - [VoidFlickerFix](https://www.youtube.com/watch?v=klV4d1B6ysk)
+- [ChunkAnimator](https://minecraft.curseforge.com/projects/chunk-animator)
 
 ## Building the project with IntelliJ ##
 

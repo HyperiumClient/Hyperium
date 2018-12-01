@@ -19,13 +19,8 @@ import java.util.function.Predicate;
 public class AutofriendMod extends AbstractMod {
 
     private Minecraft mc = Minecraft.getMinecraft();
-    public static List<String> blacklist;
-    public static List<String> recent;
-
-    public AutofriendMod() {
-        blacklist = new ArrayList<String>();
-        recent = new ArrayList<String>();
-    }
+    public static List<String> blacklist = new ArrayList<>();
+    public static final List<String> recent = new ArrayList<>();
 
     @Override
     public AbstractMod init() {
@@ -46,10 +41,7 @@ public class AutofriendMod extends AbstractMod {
     @InvokeEvent
     public void friendRequestEvent(final HypixelFriendRequestEvent event) {
         String name = event.getFrom();
-        if (blacklist.stream().noneMatch((Predicate<? super String>) name::equalsIgnoreCase) && Settings.AUTOFRIEND_TOGGLE) {
-            if (!name.equalsIgnoreCase(blacklist.toString())) {
-                System.out.println("Friending " + name);
-            }
+        if (Settings.AUTOFRIEND_TOGGLE && blacklist.stream().noneMatch(name::equalsIgnoreCase)) {
             this.mc.thePlayer.sendChatMessage("/friend accept " + name);
             recent.add(name);
         }
