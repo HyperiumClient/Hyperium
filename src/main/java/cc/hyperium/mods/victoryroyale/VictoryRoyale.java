@@ -39,7 +39,6 @@ public class VictoryRoyale extends AbstractMod {
   @Override
   public AbstractMod init() {
     INSTANCE = this;
-    EventBus.INSTANCE.register(this);
     return this;
   }
 
