@@ -27,7 +27,8 @@ public enum Category {
     GLINTCOLORIZER("Glint Colorizer"),
     FNCOMPASS("Fortnite Compass"),
     TAB_TOGGLE("Tab Toggle"),
-    ITEM_PHYSIC("Item Physics");
+    ITEM_PHYSIC("Item Physics"),
+    VICTORYROYALE("Victory Royale");
     private String display;
 
     Category(String display) {
