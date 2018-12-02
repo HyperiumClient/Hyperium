@@ -59,11 +59,6 @@ public class Autotip extends AbstractMod {
     public static MessageOption messageOption = MessageOption.SHOWN;
     public static String playerUUID = "";
     public static boolean onHypixel = false;
-    @ToggleSetting(name = "Enable", category = Category.AUTOTIP, mods = true)
-    public static boolean toggle = true;
-
-    @SelectorSetting(name = "Tip Messages", category = Category.AUTOTIP, mods = true, items = {"SHOWN", "COMPACT", "HIDDEN"})
-    public static String TIP_MESSAGE_STRING = "SHOWN";
     public static int totalTipsSent;
     /**
      * The metadata of Autotip

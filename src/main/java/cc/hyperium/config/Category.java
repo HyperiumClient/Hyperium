@@ -16,7 +16,6 @@ public enum Category {
     //Mods
     AUTOTIP("Autotip"),
     AUTO_GG("Auto GG"),
-    UTILITIES("Utilities"),
     LEVEL_HEAD("Levelhead"),
     REACH("Reach Display"),
     VANILLA_ENHANCEMENTS("Vanilla Enhancements"),
@@ -27,7 +26,9 @@ public enum Category {
     GLINTCOLORIZER("Glint Colorizer"),
     FNCOMPASS("Fortnite Compass"),
     TAB_TOGGLE("Tab Toggle"),
-    ITEM_PHYSIC("Item Physics");
+    ITEM_PHYSIC("Item Physics"),
+    VICTORYROYALE("Victory Royale"),
+    TOGGLESPRINT("Toggle Sprint");
     private String display;
 
     Category(String display) {

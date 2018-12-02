@@ -18,6 +18,7 @@
 package me.semx11.autotip.event;
 
 import cc.hyperium.Hyperium;
+import cc.hyperium.config.Settings;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.TickEvent;
 import me.semx11.autotip.Autotip;
@@ -36,7 +37,7 @@ public class Tipper {
 
     @InvokeEvent
     public void gameTick(TickEvent event) {
-        if (Autotip.onHypixel && Autotip.toggle && (unixTime
+        if (Autotip.onHypixel && Settings.AUTO_TIP && (unixTime
                 != System.currentTimeMillis() / 1000L)) {
             if (waveCounter == waveLength) {
                 Autotip.THREAD_POOL.submit(new FetchBoosters());

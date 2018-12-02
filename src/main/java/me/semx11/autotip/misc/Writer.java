@@ -17,6 +17,7 @@
 
 package me.semx11.autotip.misc;
 
+import cc.hyperium.config.Settings;
 import me.semx11.autotip.Autotip;
 import me.semx11.autotip.util.FileUtil;
 
@@ -45,7 +46,7 @@ public class Writer implements Runnable {
     public void run() {
         try {
             try (FileWriter writeOptions = new FileWriter(Autotip.USER_DIR + "options.at")) {
-                write(writeOptions, Autotip.toggle + ls);
+                write(writeOptions, Settings.AUTO_TIP + ls);
                 write(writeOptions, Autotip.messageOption.name() + ls);
                 write(writeOptions, "true" + ls);
                 write(writeOptions, Autotip.totalTipsSent + ls);

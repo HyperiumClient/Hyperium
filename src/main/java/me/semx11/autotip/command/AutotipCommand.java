@@ -20,6 +20,7 @@ package me.semx11.autotip.command;
 import cc.hyperium.commands.BaseCommand;
 import cc.hyperium.commands.CommandException;
 import cc.hyperium.commands.CommandUsageException;
+import cc.hyperium.config.Settings;
 import cc.hyperium.utils.ChatColor;
 import me.semx11.autotip.Autotip;
 import me.semx11.autotip.event.HypixelListener;
@@ -77,7 +78,7 @@ public class AutotipCommand implements BaseCommand {
                     );
                     ClientMessage.send("Running in " + "Hyperium Integration");
                     ClientMessage.send(
-                            "Autotipper: " + (Autotip.toggle ? ChatColor.GREEN + "En"
+                            "Autotipper: " + (Settings.AUTO_TIP ? ChatColor.GREEN + "En"
                                     : ChatColor.RED + "Dis") + "abled");
                     ClientMessage.send("Tip Messages: " + Autotip.messageOption);
                     ClientMessage.send("Tips sent today: " + ChatColor.GOLD + TipTracker.tipsSent);
@@ -136,14 +137,14 @@ public class AutotipCommand implements BaseCommand {
                     break;
                 case "t":
                 case "toggle":
-                    Autotip.toggle = !Autotip.toggle;
+                    Settings.AUTO_TIP = !Settings.AUTO_TIP;
                     ClientMessage.send(
-                            "Autotipper: " + (Autotip.toggle ? ChatColor.GREEN + "En"
+                            "Autotipper: " + (Settings.AUTO_TIP ? ChatColor.GREEN + "En"
                                     : ChatColor.RED + "Dis") + "abled");
                     break;
                 case "wave":
                 case "time":
-                    if (Autotip.toggle) {
+                    if (Settings.AUTO_TIP) {
                         if (Autotip.onHypixel) {
                             ClientMessage.separator();
                             ClientMessage.send("Last wave: " +

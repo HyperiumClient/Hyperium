@@ -21,6 +21,7 @@ import cc.hyperium.GuiStyle;
 import cc.hyperium.Hyperium;
 
 import static cc.hyperium.config.Category.ANIMATIONS;
+import static cc.hyperium.config.Category.AUTOTIP;
 import static cc.hyperium.config.Category.CHROMAHUD;
 import static cc.hyperium.config.Category.COSMETICS;
 import static cc.hyperium.config.Category.GENERAL;
@@ -31,8 +32,9 @@ import static cc.hyperium.config.Category.ITEM_PHYSIC;
 import static cc.hyperium.config.Category.MISC;
 import static cc.hyperium.config.Category.REACH;
 import static cc.hyperium.config.Category.SPOTIFY;
-import static cc.hyperium.config.Category.UTILITIES;
+import static cc.hyperium.config.Category.TOGGLESPRINT;
 import static cc.hyperium.config.Category.VANILLA_ENHANCEMENTS;
+import static cc.hyperium.config.Category.VICTORYROYALE;
 
 /*
  * Created by Cubxity on 03/06/2018
@@ -500,7 +502,7 @@ public class Settings {
     public static int REACH_GREEN = 255;
 
     @ConfigOpt
-    @ToggleSetting(name = "gui.settings.togglesprint", category = UTILITIES, mods = true)
+    @ToggleSetting(name = "gui.settings.togglesprint", category = TOGGLESPRINT, mods = true)
     public static boolean ENABLE_TOGGLE_SPRINT = true;
 
 
@@ -557,7 +559,7 @@ public class Settings {
     public static long TOTAL_PLAYTIME = 0;
 
     @ConfigOpt
-    @ToggleSetting(name = "gui.settings.victoryroyale", category = UTILITIES, mods = true)
+    @ToggleSetting(name = "gui.settings.victoryroyale", category = VICTORYROYALE, mods = true)
     public static boolean VICTORY_ROYALE = false;
 
     @ConfigOpt
@@ -570,6 +572,18 @@ public class Settings {
             "SKYCADE"
     })
     public static String MAIN_MENU_SERVER = "HYPIXEL";
+
+    @ConfigOpt
+    @ToggleSetting(name = "gui.settings.autotipenable", category = AUTOTIP, mods = true)
+    public static boolean AUTO_TIP = true;
+
+    @ConfigOpt
+    @SelectorSetting(name = "gui.settings.autotipmessages", category = AUTOTIP, mods = true, items = {"SHOWN", "COMPACT", "HIDDEN"})
+    public static String TIP_MESSAGE_STRING = "SHOWN";
+
+    @ConfigOpt
+    @ToggleSetting(name = "gui.settings.betterf1", category = VANILLA_ENHANCEMENTS, mods = true)
+    public static boolean BETTERF1 = false;
 
     private Settings() {
     }

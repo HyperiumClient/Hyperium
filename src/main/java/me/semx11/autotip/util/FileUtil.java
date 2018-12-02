@@ -17,6 +17,7 @@
 
 package me.semx11.autotip.util;
 
+import cc.hyperium.config.Settings;
 import me.semx11.autotip.Autotip;
 import me.semx11.autotip.misc.Stats;
 import me.semx11.autotip.misc.TipTracker;
@@ -119,7 +120,7 @@ public class FileUtil {
                         new FileReader(Autotip.USER_DIR + "options.at"))) {
                     List<String> lines = readOptions.lines().collect(Collectors.toList());
                     if (lines.size() >= 4) {
-                        Autotip.toggle = Boolean.parseBoolean(lines.get(0)); // mod enabled
+                        Settings.AUTO_TIP = Boolean.parseBoolean(lines.get(0)); // mod enabled
                         String chatSetting = lines.get(1);
                         switch (chatSetting) {
                             case "true":

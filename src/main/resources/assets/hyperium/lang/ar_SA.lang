@@ -114,13 +114,9 @@ gui.shop.insufficientcredits=الرصيد لا يكفي!
 gui.shop.loading.cosmetics=تحميل جماليات...
 gui.shop.loading.person=تحميل بيانات شخصية...
 
-# Hyperium Auto Optimizer Text
-gui.optimizer.font.line1=إذا كنت تقرأ هذا النص يرجى أن تضغط على نعم.
-gui.optimizer.font.line2=وإلا فانتظر فقط.
-gui.optimizer.optifine.line1=كشفنا أنك كنت تستخدم أوبتيفاين.
-gui.optimizer.optifine.line2=هل تريدمنا تحسينه؟
-
 # Hyperium Settings Text
+gui.settings.autotipenable=Autotip
+gui.settings.autotipmessages=Tip Messages
 gui.settings.discordrp="يلعب الان" في دسكورد
 gui.settings.fullbright=ضوء كامل
 gui.settings.romannumerals=الأرقام الرومانية
@@ -226,6 +222,7 @@ gui.settings.showbrowser=إظهار المستعرض
 gui.settings.mainmenuserver=سيرفر القائمة الرئيسية
 gui.settings.disable_dances=Disable Dances
 gui.settings.victoryroyale=Victory Royale
+gui.settings.betterf1=Hide names in F1
 
 # Hyperium Integrations
 integrations.watchdog.thankwatchdog=Thank watchdog

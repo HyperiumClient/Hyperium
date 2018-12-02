@@ -86,27 +86,25 @@ public class GuiHyperiumScreenIngameMenu extends GuiHyperiumScreen {
                 boolean flag1 = this.mc.func_181540_al();
                 button.enabled = false;
                 this.mc.theWorld.sendQuittingDisconnectingPacket();
-                this.mc.loadWorld((WorldClient)null);
+                this.mc.loadWorld(null);
 
-                if (flag)
-                {
+                if (flag) {
                     this.mc.displayGuiScreen(new GuiMainMenu());
-                }
-                else if (flag1)
-                {
+                } else if (flag1) {
                     RealmsBridge realmsbridge = new RealmsBridge();
                     realmsbridge.switchToRealms(new GuiMainMenu());
-                }
-                else
-                {
+                } else {
                     this.mc.displayGuiScreen(new GuiMultiplayer(new GuiMainMenu()));
                 }
+                break;
             case 2:
+                break;
             case 3:
+                break;
             default:
                 break;
             case 4:
-                this.mc.displayGuiScreen((GuiScreen)null);
+                this.mc.displayGuiScreen(null);
                 this.mc.setIngameFocus();
                 break;
             case 5:

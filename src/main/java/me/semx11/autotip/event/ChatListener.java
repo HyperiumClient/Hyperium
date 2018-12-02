@@ -17,6 +17,7 @@
 
 package me.semx11.autotip.event;
 
+import cc.hyperium.config.Settings;
 import cc.hyperium.event.ChatEvent;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
@@ -46,7 +47,7 @@ public class ChatListener {
 
         String msg = GeneralChatHandler.strip(event.getChat());
 
-        if (Autotip.toggle) {
+        if (Settings.AUTO_TIP) {
             if (msg.equals("Slow down! You can only use /tip every few seconds.")
                     || msg.equals("Still processing your most recent request!")
                     || msg.equals("You are not allowed to use commands as a spectator!")
