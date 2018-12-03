@@ -227,6 +227,10 @@ gui.settings.sendguildwelcomemessage=Send guild welcome message
 gui.settings.itemphysics=Item Physics
 gui.settings.showbrowser=Show Browser
 gui.settings.mainmenuserver=Main Menu Server
+gui.settings.disable_dances=Disable Dances
+gui.settings.victoryroyale=Victory Royale
+
+# Hyperium Integrations
 integrations.watchdog.thankwatchdog=Thank watchdog
 
 #Hyperium Splash Progress

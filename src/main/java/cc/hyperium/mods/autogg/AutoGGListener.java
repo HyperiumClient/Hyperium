@@ -5,6 +5,7 @@ import cc.hyperium.event.ChatEvent;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.WorldChangeEvent;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
+import cc.hyperium.mods.victoryroyale.VictoryRoyale;
 import cc.hyperium.utils.ChatColor;
 import net.minecraft.client.Minecraft;
 
@@ -47,6 +48,14 @@ public class AutoGGListener {
             this.mod.setRunning(true);
             invoked = true;
             // The GGThread in an anonymous class
+            Multithreading.runAsync(() -> {
+                try {
+                    Thread.sleep(250);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                VictoryRoyale.getInstance().gameEnded();
+            });
             Multithreading.POOL.submit(() -> {
                 try {
                     Thread.sleep(Hyperium.INSTANCE.getModIntegration().getAutoGG().getConfig().getDelay() * 1000);

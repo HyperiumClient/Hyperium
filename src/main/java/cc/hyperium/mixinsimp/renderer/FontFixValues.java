@@ -43,9 +43,13 @@ public class FontFixValues {
                     try {
                         drawable.makeCurrent();
                     } catch (LWJGLException e) {
-                        e.printStackTrace();
-                        GeneralChatHandler.instance().sendMessage("Failed to do something important for the optimized font renderer, memory leak inbound!  Please send your latest.log to Hyperium staff members!");
-                        drawable.releaseContext();
+                        try {
+                            drawable.makeCurrent();
+                        } catch (LWJGLException e1) {
+                            drawable = null;
+                            e.printStackTrace();
+                            GeneralChatHandler.instance().sendMessage("Something went wrong with Enhanced Font Renderer. If this issue persists, please open a ticket in the Hyperium Discord using -new in the #commands channel.");
+                        }
                         return;
                     } catch (IllegalStateException ignored) {
                         ignored.printStackTrace();
