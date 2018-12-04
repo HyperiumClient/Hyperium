@@ -226,6 +226,7 @@ gui.settings.showbrowser=إظهار المستعرض
 gui.settings.mainmenuserver=سيرفر القائمة الرئيسية
 gui.settings.disable_dances=Disable Dances
 gui.settings.victoryroyale=Victory Royale
+gui.settings.hyperiumprefix=Show Hyperium Chat Prefix
 
 # Hyperium Integrations
 integrations.watchdog.thankwatchdog=Thank watchdog
