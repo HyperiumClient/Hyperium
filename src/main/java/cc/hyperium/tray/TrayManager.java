@@ -33,6 +33,8 @@ import java.awt.PopupMenu;
 import java.awt.SystemTray;
 import java.awt.TrayIcon;
 
+// This class is for the Hyperium tray icon code.  
+
 public class TrayManager {
 
     private TrayIcon tray;
