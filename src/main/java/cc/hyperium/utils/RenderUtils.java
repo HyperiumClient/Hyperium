@@ -26,7 +26,6 @@ import java.awt.*;
 
 import static org.lwjgl.opengl.GL11.GL_LINE_STRIP;
 
-
 public class RenderUtils {
 
     public static void drawFilledCircle(int xx, int yy, float radius, int col) {
@@ -214,7 +213,6 @@ public class RenderUtils {
 
         double tf = Math.tan(theta);
         float rf = MathHelper.cos(theta);
-
 
         float x = r * MathHelper.cos(startAngle);
         float y = r * MathHelper.sin(startAngle);
