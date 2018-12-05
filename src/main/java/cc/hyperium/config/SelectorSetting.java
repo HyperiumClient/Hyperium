@@ -18,5 +18,9 @@ public @interface SelectorSetting {
     boolean enabled() default true;
 
     boolean mods() default false;
+
+    boolean buttons() default false;
+
+    boolean menus() default false;
 }
 

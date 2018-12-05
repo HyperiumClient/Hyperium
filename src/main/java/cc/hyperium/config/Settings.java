@@ -17,13 +17,16 @@
 
 package cc.hyperium.config;
 
-import cc.hyperium.GuiStyle;
+import cc.hyperium.styles.ButtonStyle;
+import cc.hyperium.styles.ButtonType;
+import cc.hyperium.styles.GuiStyle;
 import cc.hyperium.Hyperium;
 
 import static cc.hyperium.config.Category.ANIMATIONS;
 import static cc.hyperium.config.Category.AUTOTIP;
 import static cc.hyperium.config.Category.CHROMAHUD;
 import static cc.hyperium.config.Category.COSMETICS;
+import static cc.hyperium.config.Category.CUSTOMIZATION;
 import static cc.hyperium.config.Category.GENERAL;
 import static cc.hyperium.config.Category.HYPIXEL;
 import static cc.hyperium.config.Category.IMPROVEMENTS;
@@ -386,7 +389,7 @@ public class Settings {
             {
                     "HYPERIUM",
                     "DEFAULT"
-            }, category = MISC
+            }, category = CUSTOMIZATION, menus = true
     )
     public static String MENU_STYLE = GuiStyle.DEFAULT.name();
 
@@ -395,7 +398,7 @@ public class Settings {
             {
                     "HYPERIUM",
                     "DEFAULT"
-            }, category = MISC
+            }, category = CUSTOMIZATION, menus = true
     )
     public static String PAUSE_STYLE = GuiStyle.HYPERIUM.name();
 
@@ -587,6 +590,32 @@ public class Settings {
     @ConfigOpt
     @ToggleSetting(name = "gui.settings.betterf1", category = VANILLA_ENHANCEMENTS, mods = true)
     public static boolean BETTERF1 = false;
+
+    @ConfigOpt
+    @SelectorSetting(name = "gui.settings.buttonstyle", category = CUSTOMIZATION, buttons = true, items = {
+            "HYPERIUM",
+            "HYPERIUM 2"
+    })
+    public static String BUTTON_STYLE = ButtonStyle.HYPERIUM.name();
+
+    @ConfigOpt
+    @SliderSetting(name = "gui.settings.buttonred", isInt = true, min = 0, max = 255, category = CUSTOMIZATION, buttons = true)
+    public static int BUTTON_RED = 255;
+
+    @ConfigOpt
+    @SliderSetting(name = "gui.settings.buttongreen", isInt = true, min = 0, max = 255, category = CUSTOMIZATION, buttons = true)
+    public static int BUTTON_GREEN = 255;
+
+    @ConfigOpt
+    @SliderSetting(name = "gui.settings.buttonblue", isInt = true, min = 0, max = 255, category = CUSTOMIZATION, buttons = true)
+    public static int BUTTON_BLUE = 255;
+
+    @ConfigOpt
+    @SelectorSetting(name = "gui.settings.buttontype", category = CUSTOMIZATION, buttons = true, items = {
+            "DEFAULT",
+            "RGB"
+    })
+    public static String BUTTON_TYPE = ButtonType.DEFAULT.name();
 
     private Settings() {
     }

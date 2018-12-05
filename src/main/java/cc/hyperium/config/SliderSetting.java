@@ -24,4 +24,8 @@ public @interface SliderSetting {
     boolean mods() default false;
 
     boolean isInt() default false;
+
+    boolean buttons() default false;
+
+    boolean menus() default false;
 }

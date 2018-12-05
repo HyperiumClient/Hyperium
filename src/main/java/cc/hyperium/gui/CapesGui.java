@@ -159,7 +159,6 @@ public class CapesGui extends HyperiumGui implements GuiYesNoCallback {
             }
             JsonHolder capeAtlas = PurchaseApi.getInstance().getCapeAtlas();
 
-
             int totalRows = (capeAtlas.getKeys().size() / blocksPerLine + (capeAtlas.getKeys().size() % blocksPerLine == 0 ? 0 : 1));
             int row = 0;
             int pos = 1;
@@ -230,7 +229,6 @@ public class CapesGui extends HyperiumGui implements GuiYesNoCallback {
                     GlStateManager.translate(-topLeftX, -topLeftY, 0);
                 }
 
-
                 String nameCape = cape.optString("name");
                 GlStateManager.scale(2F, 2F, 2F);
                 int x = thisBlocksCenter - fontRendererObj.getStringWidth(nameCape);
@@ -283,7 +281,6 @@ public class CapesGui extends HyperiumGui implements GuiYesNoCallback {
                         fontRendererObj.drawString(string, i / 2F, i1 / 2F, new Color(249, 55, 241).getRGB(), true);
                         GlStateManager.scale(.5F, .5F, .5F);
                     }
-
 
                 } else {
                     if (jsonHolder.optBoolean("enough")) {

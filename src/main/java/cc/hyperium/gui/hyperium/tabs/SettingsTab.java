@@ -50,6 +50,8 @@ public class SettingsTab extends AbstractTab {
                 AbstractTabComponent tabComponent = null;
                 Category category = null;
                 boolean mods = false;
+                boolean buttons = false;
+                boolean menus = false;
                 if (ts != null) {
                     tabComponent = new ToggleComponent(this, Collections.emptyList(), I18n.format(ts.name()), f, o);
                     category = ts.category();
@@ -59,6 +61,8 @@ public class SettingsTab extends AbstractTab {
                     tabComponent = new SelectorComponent(this, Collections.emptyList(), I18n.format(ss.name()), f, o, supplier);
                     category = ss.category();
                     mods = ss.mods();
+                    buttons = ss.buttons();
+                    menus = ss.menus();
                 } else if (sliderSetting != null) {
                     tabComponent = new SliderComponent(this, Collections.emptyList(), I18n.format(sliderSetting.name()), f, o, sliderSetting.min(), sliderSetting.max(), sliderSetting.isInt(), sliderSetting.round());
                     category = sliderSetting.category();

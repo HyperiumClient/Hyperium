@@ -59,10 +59,8 @@ public abstract class MixinRendererLivingEntity<T extends EntityLivingBase> exte
      */
     @Overwrite
     protected boolean canRenderName(T entity) {
-        if (Settings.BETTERF1) {
-            if (Minecraft.getMinecraft().gameSettings.hideGUI) {
-                return false;
-            }
+        if (Settings.BETTERF1 && Minecraft.getMinecraft().gameSettings.hideGUI) {
+            return false;
         }
 
         EntityPlayerSP entityplayersp = Minecraft.getMinecraft().thePlayer;

@@ -246,7 +246,9 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
         int j = this.height / 4 + 48;
 
         this.addSingleplayerMultiplayerButtons(j - 10, 24);
-        this.buttonList.add(new GuiButton(100, this.width / 2 - 100, this.height - 45, I18n.format("button.menu.cosmeticshop")));
+        this.buttonList.add(new GuiButton(100, this.width / 2 - 100, this.height - 65, I18n.format("button.menu.cosmeticshop")));
+        this.buttonList.add(new GuiButton(17, this.width / 2 - 100, this.height - 40, I18n.format("button.menu.changebackground")));
+
 
         switch (getStyle()) {
             case DEFAULT:
@@ -373,9 +375,6 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
         this.buttonList.add(new GuiButton(1, this.width / 2 - getIntendedWidth(295), this.height / 2 - getIntendedHeight(55), getIntendedWidth(110), getIntendedHeight(110), ""));
         this.buttonList.add(new GuiButton(2, this.width / 2 - getIntendedWidth(175), this.height / 2 - getIntendedHeight(55), getIntendedWidth(110), getIntendedHeight(110), ""));
         this.buttonList.add(new GuiButton(15, this.width / 2 + getIntendedWidth(65), this.height / 2 - getIntendedHeight(55), getIntendedWidth(110), getIntendedHeight(110), ""));
-
-        // Background Gui Button
-        this.buttonList.add(new GuiButton(17, this.width / 2 - 110 / 2, this.height - 20, 110, getIntendedHeight(110), ""));
     }
 
     public void addDefaultStyleSingleplayerMultiplayerButtons(int p_73969_1_, int p_73969_2_) {
@@ -406,9 +405,6 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
         GlStateManager.pushMatrix();
 
         super.drawHyperiumStyleScreen(mouseX,mouseY,partialTicks);
-
-        sfr.drawCenteredString(I18n.format("button.menu.changebackground"), this.width / 2, this.height - 15, 0xFFFFFF);
-
         // Draw icons on buttons
         TextureManager tm = mc.getTextureManager();
 
@@ -460,5 +456,4 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
             Minecraft.getMinecraft().displayGuiScreen(new ChangeBackgroundGui(this));
         }
     }
-
 }

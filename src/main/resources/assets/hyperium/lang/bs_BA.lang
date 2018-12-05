@@ -222,6 +222,11 @@ gui.settings.disable_dances=Disable Dances
 gui.settings.victoryroyale=Victory Royale
 gui.settings.hyperiumprefix=Show Hyperium Chat Prefix
 gui.settings.betterf1=Hide names in F1
+gui.settings.buttonstyle=Button Style
+gui.settings.buttonred=Button Outline (Red)
+gui.settings.buttongreen=Button Outline (Green)
+gui.settings.buttonblue=Button Outline (Blue)
+gui.settings.buttontype=Color Type
 
 # Hyperium Integrations
 integrations.watchdog.thankwatchdog=Thank watchdog
