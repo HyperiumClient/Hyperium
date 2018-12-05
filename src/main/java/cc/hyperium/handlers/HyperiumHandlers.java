@@ -113,7 +113,6 @@ public class HyperiumHandlers {
         System.out.println("Loading handlers");
         register(network = new HyperiumNetwork());
         settingsHandler = new SettingsHandler();
-
         chatHandlers = new ArrayList<>();
         register(configOptions = new OtherConfigOptions());
         register(FontRendererData.INSTANCE);
@@ -145,7 +144,7 @@ public class HyperiumHandlers {
         register(broadcastEvents = new BroadcastEvents());
         commandQueue = new CommandQueue();
         dataHandler = new HypixelAPI();
-        //Chat Handlers
+        // Chat Handlers
         System.out.println("Loading chat handlers");
         registerChatHandler(new RankedRatingChatHandler());
         registerChatHandler(new AutoWhoChatHandler());
@@ -158,7 +157,7 @@ public class HyperiumHandlers {
         EventBus.INSTANCE.register(this);
         System.out.println("Done");
 
-        //Command Handler
+        // Command Handler
         register(commandHandler = new HyperiumCommandHandler());
     }
 
@@ -229,7 +228,7 @@ public class HyperiumHandlers {
 
     @InvokeEvent
     public void tick(TickEvent event) {
-        //Runs first tick
+        // Runs first tick
         IntegratedServer integratedServer = Minecraft.getMinecraft().getIntegratedServer();
         if (integratedServer == null) {
             return;
