@@ -79,6 +79,9 @@ Clone the [Addon Workspace](https://github.com/HyperiumClient/Addon-Workspace) a
 
 Follow [this tutorial](https://www.youtube.com/watch?v=RXTIFdoNA8c) to get started.
 
+## License
+Hyperium is licensed under the GNU Lesser General Public License. You can view it [here](./LICENSE).
+
 ## Developers ##
 [![Sk1er](https://cdn.discordapp.com/avatars/376817315830038530/87dd80c68e0598ea39af4e0472b299b7.png)](https://github.com/Sk1er)
 [![CoalOres](https://cdn.discordapp.com/avatars/248159137370734601/667cb334d3a85c850d9890e786cbf50c.png?size=128)](https://github.com/CoalCoding)
@@ -86,9 +89,6 @@ Follow [this tutorial](https://www.youtube.com/watch?v=RXTIFdoNA8c) to get start
 [![Cubxity](https://cdn.discordapp.com/avatars/290921387655430144/90e89028a4ffbde5ebff833709863c39.png?size=128)](https://github.com/Cubxity)
 [![boomboompower](https://avatars1.githubusercontent.com/u/12974350?s=128&v=4)](https://github.com/boomboompower)
 [![FalseHonesty](https://cdn.discordapp.com/avatars/148248069148770304/a_c292ca845b0462bfd4ad5c3d0f89ba28.gif?size=128&f=.gif)](https://github.com/FalseHonesty)
-
-## License ##
-Hyperium is licensed under the GNU Lesser General Public License. You can view it [here](./LICENSE).
 
 ## Special Thanks ##
 [![YourKit Java Profiler](https://www.yourkit.com/images/yklogo.png)](https://www.yourkit.com/java/profiler/)
