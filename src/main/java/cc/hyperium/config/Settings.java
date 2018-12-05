@@ -514,6 +514,9 @@ public class Settings {
     @ToggleSetting(name = "gui.settings.broadcastachievements", category = HYPIXEL)
     public static boolean BROADCAST_ACHIEVEMENTS = true;
 
+    @ConfigOpt
+    @ToggleSetting(name = "gui.settings.hyperiumprefix", category = GENERAL)
+    public static boolean HYPERIUM_CHAT_PREFIX = true;
 
     @ConfigOpt
     @SelectorSetting(name = "gui.settings.showbutt", category = COSMETICS, items = {"YES", "NO"})

@@ -115,11 +115,9 @@ gui.shop.purchased=Purchased
 gui.shop.purchase=Purchase
 gui.shop.insufficientcredits=Insufficient Credits!
 gui.shop.loading.cosmetics=Loading cosmetics...
-gui.shop.loading.person=Loading person data...'
+gui.shop.loading.person=Loading person data...
 
 #Hyperium Settings Text
-gui.settings.autotipenable=Autotip
-gui.settings.autotipmessages=Tip Messages
 gui.settings.discordrp=Discord RP
 gui.settings.fullbright=Fullbright
 gui.settings.romannumerals=Roman Numerals
@@ -225,6 +223,7 @@ gui.settings.showbrowser=Show Browser
 gui.settings.mainmenuserver=Main Menu Server
 gui.settings.disable_dances=Disable Dances
 gui.settings.victoryroyale=Victory Royale
+gui.settings.hyperiumprefix=Show Hyperium Chat Prefix
 gui.settings.betterf1=Hide names in F1
 
 # Hyperium Integrations

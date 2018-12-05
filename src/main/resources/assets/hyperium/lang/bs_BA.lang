@@ -115,8 +115,6 @@ gui.shop.loading.cosmetics=Učitavanje kozmetike...
 gui.shop.loading.person=Učitavanje podataka osoba...
 
 # Hyperium Settings Text
-gui.settings.autotipenable=Autotip
-gui.settings.autotipmessages=Tip Messages
 gui.settings.discordrp=Discord RP
 gui.settings.fullbright=Fullbright
 gui.settings.romannumerals=Rimske brojevi
@@ -222,6 +220,7 @@ gui.settings.showbrowser=Pokaži preglednik
 gui.settings.mainmenuserver=Poslužitelj glavnog izbornika
 gui.settings.disable_dances=Disable Dances
 gui.settings.victoryroyale=Victory Royale
+gui.settings.hyperiumprefix=Show Hyperium Chat Prefix
 gui.settings.betterf1=Hide names in F1
 
 # Hyperium Integrations

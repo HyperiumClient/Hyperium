@@ -115,8 +115,6 @@ gui.shop.loading.cosmetics=تحميل جماليات...
 gui.shop.loading.person=تحميل بيانات شخصية...
 
 # Hyperium Settings Text
-gui.settings.autotipenable=Autotip
-gui.settings.autotipmessages=Tip Messages
 gui.settings.discordrp="يلعب الان" في دسكورد
 gui.settings.fullbright=ضوء كامل
 gui.settings.romannumerals=الأرقام الرومانية
@@ -222,6 +220,7 @@ gui.settings.showbrowser=إظهار المستعرض
 gui.settings.mainmenuserver=سيرفر القائمة الرئيسية
 gui.settings.disable_dances=Disable Dances
 gui.settings.victoryroyale=Victory Royale
+gui.settings.hyperiumprefix=Show Hyperium Chat Prefix
 gui.settings.betterf1=Hide names in F1
 
 # Hyperium Integrations
