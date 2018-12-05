@@ -155,7 +155,7 @@ public class Hyperium {
                 e.printStackTrace();
             }
 
-            System.out.println("Hyperium running build " + BUILD_ID);
+            System.out.println("[VERSION] Hyperium build ID: " + BUILD_ID);
 
             try {
                 Class.forName("net.minecraft.dispenser.BehaviorProjectileDispense"); // check for random MC class

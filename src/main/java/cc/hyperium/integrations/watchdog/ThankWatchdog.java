@@ -7,14 +7,14 @@ import cc.hyperium.event.InvokeEvent;
 import net.minecraft.client.Minecraft;
 
 public class ThankWatchdog {
-  private static final String watchdogBanMessage = "A player has been removed from your game for hacking or abuse. Thanks for reporting it!";
-  private static final String watchdogAnnouncementMessage = "[WATCHDOG ANNOUNCEMENT]";
-  private static final String thankWatchDogMessage = "Thanks Watchdog!";
+  private static final String WATCHDOG_BAN_TRIGGER = "A player has been removed from your game for hacking or abuse. Thanks for reporting it!";
+  private static final String WATCHDOG_ANNOUNCEMENT_TRIGGER = "[WATCHDOG ANNOUNCEMENT]";
+  private static final String THANK_WATCHDOG_MESSAGE = "Thanks Watchdog!";
 
   @InvokeEvent
   public void onChat(ChatEvent e) {
-    if (e.getChat().getUnformattedText().contains(watchdogBanMessage) || e.getChat().getUnformattedText().contains(watchdogAnnouncementMessage)) {
-      if(Settings.THANK_WATCHDOG) { Minecraft.getMinecraft().thePlayer.sendChatMessage(thankWatchDogMessage); }
+    if (e.getChat().getUnformattedText().contains(WATCHDOG_BAN_TRIGGER) || e.getChat().getUnformattedText().contains(WATCHDOG_ANNOUNCEMENT_TRIGGER)) {
+      if(Settings.THANK_WATCHDOG) { Minecraft.getMinecraft().thePlayer.sendChatMessage(THANK_WATCHDOG_MESSAGE); }
     }
   }
 }

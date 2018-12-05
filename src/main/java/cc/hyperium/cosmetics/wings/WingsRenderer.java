@@ -1,5 +1,21 @@
-package cc.hyperium.cosmetics.wings;
+/*
+ *     Copyright (C) 2018  Hyperium <https://hyperium.cc/>
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU Lesser General Public License as published
+ *     by the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU Lesser General Public License for more details.
+ *
+ *     You should have received a copy of the GNU Lesser General Public License
+ *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
+package cc.hyperium.cosmetics.wings;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.config.Settings;
@@ -103,7 +119,6 @@ public class WingsRenderer extends ModelBase {
         } else if (player.isSneaking() && rotateState == 1) {
             GlStateManager.translate(0.0F, -0.125 / scale, 0.0F);
         }
-
 
         if (rotateState == 2) {
             // Spinning rotate mode.
