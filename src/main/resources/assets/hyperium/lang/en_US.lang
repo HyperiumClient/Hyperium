@@ -230,6 +230,7 @@ gui.settings.mainmenuserver=Main Menu Server
 gui.settings.disable_dances=Disable Dances
 gui.settings.victoryroyale=Victory Royale
 gui.settings.hyperiumprefix=Show Hyperium Chat Prefix
+gui.settings.chromahudprefixsquarebrace=Use square brace prefix
 
 # Hyperium Integrations
 integrations.watchdog.thankwatchdog=Thank watchdog
