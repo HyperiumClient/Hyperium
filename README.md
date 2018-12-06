@@ -40,10 +40,10 @@ Hyperium is a free and open source Minecraft 1.8.9 client. It combines many popu
 - [ToggleChat](https://www.youtube.com/watch?v=guD8kAk-Wn4)
 - [VoidFlickerFix](https://www.youtube.com/watch?v=klV4d1B6ysk)
 
-## Building the project with IntelliJ ##
+## Building the Project with IntelliJ ##
 If you don't know how, then you shouldn't try. Join our beta in [Discord](https://hyperium.cc/discord), or wait for releases!
 
-## Beta test the Client ##  
+## Beta Test the Client ##  
 You can easily beta test the client for free, all you have to do is join [The Hyperium Discord](https://hyperium.cc/discord), or for beta versions, head over to the [releases section](https://github.com/HyperiumClient/Hyperium/releases) and download the latest beta!  
 
 ## Code Style ##
@@ -56,7 +56,7 @@ A: If you don't know how to build a project, please wait for a new beta or relea
 
 Q: When is the official release?
 
-A: It is currently released!  Come download it on our [Discord](https://discord.gg/RNyRgtv)!
+A: It is currently released!  Come download it on our [Discord](https://hyperium.cc/discord)!
 
 Q: Can I beta test Hyperium?
 
@@ -75,7 +75,9 @@ Q: My game keeps crashing!
 A: If you have reported the issue using the automatic prompt, join the [Discord](https://hyperium.cc/discord) and ask a member of the staff team or a developer to review your issue. Please be patient if there are no developers online!
 
 ## Addons ##
-Clone the [Addon Workspace](https://github.com/HyperiumClient/Addon-Workspace) and get coding!
+Addons are available for download in the addons channel of the [Hyperium Discord](https://hyperium.cc/discord).
+
+To make an addon, clone the [Addon Workspace](https://github.com/HyperiumClient/Addon-Workspace) and get coding!
 
 Follow [this tutorial](https://www.youtube.com/watch?v=RXTIFdoNA8c) to get started.
 
