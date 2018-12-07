@@ -49,7 +49,7 @@ import java.util.UUID;
 public class Levelhead extends AbstractMod {
 
     public final String MODID = "LEVEL_HEAD";
-    public final String VERSION = "Hyperium_1.0-5.0";
+    public final String VERSION = "5.0";
     public final Map<UUID, LevelheadTag> levelCache = new HashMap<>();
     private final Metadata meta;
     private final Map<UUID, Integer> timeCheck = new HashMap<>();

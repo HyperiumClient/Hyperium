@@ -169,16 +169,13 @@
 package cc.hyperium.gui;
 
 import cc.hyperium.Hyperium;
-import cc.hyperium.config.Settings;
-import cc.hyperium.mods.sk1ercommon.Multithreading;
 import com.mojang.realmsclient.gui.ChatFormatting;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiYesNo;
 import net.minecraft.client.resources.I18n;
 
 import java.awt.Color;
-import java.lang.reflect.Field;
 
 public class GuiHyperiumScreenTos extends GuiHyperiumScreen {
 
@@ -189,118 +186,45 @@ public class GuiHyperiumScreenTos extends GuiHyperiumScreen {
     @Override
     public void initGui() {
         super.initGui();
-
         this.buttonList.add(new GuiButton(BUTTON_ID_ACCEPT, (width / 2) - 100, 160,
                 firstAccept ? ChatFormatting.GREEN + I18n.format("button.disclaimer.confirm") : I18n.format("button.disclaimer.accept")));
-
     }
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-
         super.drawScreen(mouseX, mouseY, partialTicks);
 
-        this.drawRect(0, 79, width, 148, 0x66000000);
-        this.drawRect(0, 80, width, 149, 0x66000000);
-
-//        drawCenteredString(this.fontRendererObj, "Disclaimer",width / 2,63,0xFFFFFF);
+        drawRect(0, 79, width, 148, 0x66000000);
+        drawRect(0, 80, width, 149, 0x66000000);
 
         drawCenteredString(this.fontRendererObj, I18n.format("disclaimer.line1",
                 ChatFormatting.BOLD + I18n.format("disclaimer.line1.bold") + ChatFormatting.RESET),
                 width / 2, 90, Color.WHITE.getRGB());
+
         drawCenteredString(this.fontRendererObj, I18n.format("disclaimer.line2"), width / 2, 100,
                 Color.WHITE.getRGB());
+
         drawCenteredString(this.fontRendererObj, I18n.format("disclaimer.line3"), width / 2, 110,
                 Color.WHITE.getRGB());
+
         drawCenteredString(this.fontRendererObj, I18n.format("disclaimer.line4",
                 ChatFormatting.GRAY + I18n.format("disclaimer.line4.policylink")
                         + ChatFormatting.RESET), width / 2, 120, Color.WHITE.getRGB());
 
         drawCenteredString(this.fontRendererObj, I18n.format("disclaimer.line5"), width / 2, 130,
                 Color.WHITE.getRGB());
-
     }
 
     @Override
     public void actionPerformed(GuiButton button) {
-
-        switch (button.id) {
-
-            case BUTTON_ID_ACCEPT:
-                if (!this.firstAccept) {
-                    this.firstAccept = true;
-                    mc.displayGuiScreen(new GuiHyperiumScreenTos());
-                } else {
-                    Hyperium.INSTANCE.acceptTos();
-
-                    GuiYesNo optimisedFontRendererGui = new GuiYesNo((result, id) -> {
-                        Settings.OPTIMIZED_FONT_RENDERER = result;
-                        Minecraft.getMinecraft().displayGuiScreen(new GuiHyperiumScreenMainMenu());
-                    }, I18n.format("gui.optimizer.font.line1"), I18n.format("gui.optimizer.font.line2"), 0);
-                    Runnable optimisedFrRunnable = () -> {
-                        try {
-                            Settings.OPTIMIZED_FONT_RENDERER = true;
-                            Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler()
-                                    .setDisplayNextTick(optimisedFontRendererGui);
-                            Thread.sleep(7000);
-                            if (!(Minecraft.getMinecraft().currentScreen instanceof GuiYesNo))
-                                return;
-                            Settings.OPTIMIZED_FONT_RENDERER = false;
-                            Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler()
-                                    .setDisplayNextTick(new GuiHyperiumScreenMainMenu());
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    };
-                    GuiYesNo optimiseRenderGui = new GuiYesNo((result, id) -> {
-                        if (result) {
-                            try {
-                                Class<?> gameSettings = Minecraft
-                                        .getMinecraft().gameSettings
-                                        .getClass();
-
-                                String[] trueFields = new String[]{"ofFastMath",
-                                        "ofFastRender",
-                                        "ofSmoothFps",
-                                        "ofSmoothWorld"};
-                                for (String field : trueFields) {
-                                    Field f = gameSettings.getDeclaredField(field);
-                                    f.setAccessible(true);
-                                    f.setBoolean(Minecraft.getMinecraft().gameSettings,
-                                            true);
-                                }
-
-                                String[] falseFields = new String[]{"ofAnimatedRedstone", "ofAnimatedExplosion", "ofAnimatedFlame", "ofAnimatedSmoke", "ofVoidParticles", "ofWaterParticles", "ofRainSplash", "ofPortalParticles", "ofPotionParticles", "ofFireworkParticles", "ofDrippingWaterLava"};
-                                for (String field : falseFields) {
-                                    Field f = gameSettings.getDeclaredField(field);
-                                    f.setAccessible(true);
-                                    f.setBoolean(Minecraft.getMinecraft().gameSettings,
-                                            false);
-                                }
-
-                                Field particleSettingField = gameSettings.getDeclaredField("aM");
-                                particleSettingField.setAccessible(true);
-                                particleSettingField.setInt(gameSettings, 2);
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                        }
-                        Multithreading.runAsync(optimisedFrRunnable);
-                    }, I18n.format("gui.optimizer.optifine.line1"),
-                            I18n.format("gui.optimizer.optifine.line2"), 0);
-
-                    if (Hyperium.INSTANCE.isOptifineInstalled()) {
-                        System.out.println("Found Optifine on first launch, optimising settings.");
-                        Minecraft.getMinecraft().displayGuiScreen(optimiseRenderGui);
-                    } else {
-                        Multithreading.runAsync(optimisedFrRunnable);
-                    }
-                }
-                break;
-
+        if (button.id == BUTTON_ID_ACCEPT) {
+            if (!firstAccept) {
+                firstAccept = true;
+                mc.displayGuiScreen(new GuiHyperiumScreenTos());
+            } else {
+                Hyperium.INSTANCE.acceptTos();
+                Minecraft.getMinecraft().displayGuiScreen(new GuiHyperiumScreenMainMenu());
+            }
         }
-
     }
-
-
 }

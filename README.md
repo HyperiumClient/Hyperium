@@ -16,7 +16,7 @@ Hyperium is a Minecraft 1.8.9 client, currently in its development stage. It wil
 - [AutoGG](https://www.youtube.com/watch?v=1eETPGuSQWA)
 - [AutoWho](https://www.youtube.com/watch?v=osJW53GA_1I)
 - [BlockOverlay](https://www.youtube.com/watch?v=_ELFA5jtNQM)
-- Bossbar Mod
+- [Bossbar Mod](https://github.com/SiroQ)
 - [ChromaHUD](https://www.youtube.com/watch?v=eyh6pcsGMpo)
 - [Custom Crosshair](https://www.youtube.com/watch?v=YYasNSTWA64)  
 - [Custom GUI](https://raw.githubusercontent.com/RDIL/misc-private-images/master/hyperiumclient/hyperiumimg/Hyperium-CustomInGameMenu.JPG)  
@@ -30,6 +30,7 @@ Hyperium is a Minecraft 1.8.9 client, currently in its development stage. It wil
 - [MotionBlur](https://www.youtube.com/watch?v=x21aLjDbCRw)
 - [MouseDelayFix](https://prplz.io/mousedelayfix)
 - [NoCloseMyChat](https://hypixel.net/threads/1260752/)
+- [NoNameTags](https://github.com/WesJD/NoNameTags)
 - [Performia](https://github.com/Sk1er/Performia)
 - [Perspective Mod](https://www.youtube.com/watch?v=7FdMMpzNdUk)
 - [Resource Exploit Fix](https://github.com/Sk1er/Resource-Exploit-Fix) 
@@ -84,7 +85,7 @@ A: If you have reported the issue using the automatic prompt, join the <a href="
 ## Addons ##
 Clone the [Addon Workspace](https://github.com/HyperiumClient/Addon-Workspace) and get coding!
 
-**An example is [here](https://github.com/HyperiumClient/Addon-Workspace)**
+**An example comes with the workspace**
 ## Developers ##
 [![Sk1er](https://cdn.discordapp.com/avatars/376817315830038530/87dd80c68e0598ea39af4e0472b299b7.png)](https://github.com/Sk1er)
 [![CoalOres](https://cdn.discordapp.com/avatars/248159137370734601/667cb334d3a85c850d9890e786cbf50c.png?size=128)](https://github.com/CoalCoding)

@@ -114,12 +114,6 @@ gui.shop.insufficientcredits=Onvoldoende krediete!
 gui.shop.loading.cosmetics=Laai bykomstighede...
 gui.shop.loading.person=Laai persoon data...
 
-# Hyperium Auto Optimizer Text
-gui.optimizer.font.line1=As jy hierdie teks kan lees druk asseblief aan ja.
-gui.optimizer.font.line2=Andersins wag net.
-gui.optimizer.optifine.line1=Ons het bespeur dat u OptiFine gebruik.
-gui.optimizer.optifine.line2=Wil jy hê dat ons dit optimaliseer?
-
 # Hyperium Settings Text
 gui.settings.discordrp=Discord RP
 gui.settings.fullbright=Vol helder
@@ -227,6 +221,12 @@ gui.settings.mainmenuserver=Main Menu Server
 gui.settings.disable_dances=Disable Dances
 gui.settings.victoryroyale=Victory Royale
 gui.settings.hyperiumprefix=Show Hyperium Chat Prefix
+gui.settings.betterf1=Hide names in F1
+gui.settings.buttonstyle=Button Style
+gui.settings.buttonred=Button Outline (Red)
+gui.settings.buttongreen=Button Outline (Green)
+gui.settings.buttonblue=Button Outline (Blue)
+gui.settings.buttontype=Color Type
 
 # Hyperium Integrations
 integrations.watchdog.thankwatchdog=Thank watchdog
