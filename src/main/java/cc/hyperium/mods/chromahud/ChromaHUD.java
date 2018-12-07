@@ -126,7 +126,6 @@ public class ChromaHUD extends AbstractMod {
 
         ChromaHUDApi.getInstance().registerTextConfig("SPRINT_STATUS", new TextConfig((guiTextField, displayItem) -> ((ToggleSprintStatus) displayItem).setSprintEnabledText(guiTextField.getText()), textTextField, (guiTextField, displayItem) -> guiTextField.setText(((ToggleSprintStatus) displayItem).getStatusText())));
 
-
         ChromaHUDApi.getInstance().registerButtonConfig("COINS", new ButtonConfig((guiButton, displayItem) -> {
             JsonHolder data = displayItem.getData();
             int state = data.optInt("state");
@@ -156,9 +155,7 @@ public class ChromaHUD extends AbstractMod {
         }));
         setup();
         EventBus.INSTANCE.register(new ElementRenderer(this));
-
         Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(new CommandChromaHUD(this));
-
         return this;
     }
 
@@ -166,7 +163,6 @@ public class ChromaHUD extends AbstractMod {
     public Metadata getModMetadata() {
         return this.meta;
     }
-
 
     public void setup() {
         JsonHolder data = new JsonHolder();
@@ -195,7 +191,6 @@ public class ChromaHUD extends AbstractMod {
         return ChromaHUDApi.getInstance().getElements();
     }
 
-
     public GeneralConfigGui getConfigGuiInstance() {
         return new GeneralConfigGui(this);
     }
@@ -218,7 +213,6 @@ public class ChromaHUD extends AbstractMod {
                 items.add(raw.getObject());
             }
             elementArray.add(tmp.getObject());
-
             tmp.putArray("items", items);
         }
         try {
@@ -234,6 +228,5 @@ public class ChromaHUD extends AbstractMod {
         }
 
     }
-
 
 }
