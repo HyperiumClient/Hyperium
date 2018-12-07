@@ -15,7 +15,7 @@ import cc.hyperium.handlers.handlers.SettingsHandler;
 import cc.hyperium.mixinsimp.client.GlStateModifier;
 import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
 import cc.hyperium.utils.HyperiumFontRenderer;
-import me.semx11.autotip.util.ReflectionUtil;
+import me.semx11.autotip.universal.ReflectionUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
@@ -135,7 +135,7 @@ public class HyperiumMainGui extends HyperiumGui {
             Method loadShaderMethod = null;
             try {
                 loadShaderMethod = ReflectionUtil
-                        .findDeclaredMethod(EntityRenderer.class, new String[]{"loadShader", "a"},
+                        .findMethod(EntityRenderer.class, new String[]{"loadShader", "a"},
                                 ResourceLocation.class);
             } catch (Exception ignored) {
             }

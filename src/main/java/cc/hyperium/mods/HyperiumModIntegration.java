@@ -88,7 +88,8 @@ public class HyperiumModIntegration {
         this.keystrokesMod = ((KeystrokesMod) new KeystrokesMod().init());
 
         // Autotip implementation
-        this.autotip = new Autotip().init();
+        this.autotip = new Autotip();
+        autotip.init();
 
         // AutoGG implementation
         this.autogg = ((AutoGG) new AutoGG().init());

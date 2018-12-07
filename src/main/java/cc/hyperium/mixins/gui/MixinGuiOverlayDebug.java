@@ -2,7 +2,7 @@ package cc.hyperium.mixins.gui;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.config.Settings;
-import me.semx11.autotip.util.ReflectionUtil;
+import me.semx11.autotip.universal.ReflectionUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiOverlayDebug;
@@ -66,7 +66,7 @@ public abstract class MixinGuiOverlayDebug {
         int scaledWidth = scaledResolution.getScaledWidth();
         int scaledHeight = scaledResolution.getScaledHeight();
         FontRenderer fontRendererObj = this.mc.fontRendererObj;
-        Field debugFPSField = ReflectionUtil.findField(Minecraft.class, new String[]{"debugFPS", "field_71470_ab", "ao"});
+        Field debugFPSField = ReflectionUtil.findField(Minecraft.class, "debugFPS", "field_71470_ab", "ao");
         debugFPSField.setAccessible(true);
         try {
             fontRendererObj.drawStringWithShadow("Minecraft 1.8.9 (" + debugFPSField.get(null) + " fps, " + RenderChunk.renderChunksUpdated + " chunk updates)", 2, 2, 16777215);
