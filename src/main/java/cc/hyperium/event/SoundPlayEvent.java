@@ -1,9 +1,7 @@
 package cc.hyperium.event;
 
 import com.google.common.base.Preconditions;
-
 import net.minecraft.client.audio.ISound;
-
 import org.jetbrains.annotations.NotNull;
 
 public final class SoundPlayEvent extends CancellableEvent {
