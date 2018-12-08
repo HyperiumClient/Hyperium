@@ -614,6 +614,10 @@ public class Settings {
     })
     public static String BUTTON_TYPE = ButtonType.DEFAULT.name();
 
+    @ConfigOpt
+    @ToggleSetting(name = "gui.settings.disableenchantglint", category = IMPROVEMENTS)
+    public static boolean DISABLE_ENCHANT_GLINT = false;
+
     private Settings() {
     }
 
