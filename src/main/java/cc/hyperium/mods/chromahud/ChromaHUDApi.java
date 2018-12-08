@@ -24,7 +24,6 @@ import cc.hyperium.mods.chromahud.api.StringConfig;
 import cc.hyperium.mods.chromahud.api.TextConfig;
 import cc.hyperium.utils.JsonHolder;
 import com.google.gson.JsonArray;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -35,7 +34,7 @@ import java.util.logging.Logger;
  * @author Sk1er
  */
 public class ChromaHUDApi {
-    //Have this for others incase implementation changes.
+    // Have this for others incase implementation changes.
     public static final String VERSION = "3.0-Hyperium";
     private static ChromaHUDApi instance;
     private final List<ChromaHUDParser> parsers = new ArrayList<>();
@@ -164,9 +163,8 @@ public class ChromaHUDApi {
             }
         }
         if (!config.has("elements")) {
-            //setup blank
+            // setup blank
         }
-
     }
 
     /**

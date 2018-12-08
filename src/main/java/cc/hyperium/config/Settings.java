@@ -380,9 +380,14 @@ public class Settings {
     @ToggleSetting(name = "gui.settings.disable_dances",category = COSMETICS)
     @ConfigOpt
     public static boolean DISABLE_DANCES = false;
+
     @ConfigOpt
     @ToggleSetting(name = "gui.settings.showchromahud", category = CHROMAHUD, mods = true)
     public static boolean SHOW_CHROMAHUD = true;
+
+    @ConfigOpt
+    @ToggleSetting(name="gui.settings.chromahudprefixsquarebrace", category = CHROMAHUD, mods = true)
+    public static boolean CHROMAHUD_SQUAREBRACE_PREFIX_OPTION = false;
 
     @ConfigOpt
     @SelectorSetting(name = "gui.settings.mainmenustyle", items =

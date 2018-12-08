@@ -21,6 +21,8 @@ import cc.hyperium.mods.chromahud.ElementRenderer;
 import cc.hyperium.mods.chromahud.api.DisplayItem;
 import cc.hyperium.utils.JsonHolder;
 import net.minecraft.client.Minecraft;
+import cc.hyperium.config.Settings;
+import cc.hyperium.config.ConfigOpt;
 
 
 /**
@@ -36,9 +38,17 @@ public class CpsDisplay extends DisplayItem {
 
     @Override
     public void draw(int starX, double startY, boolean isConfig) {
-        ElementRenderer.draw(starX, startY, "CPS: " + ElementRenderer.getCPS());
+        if(!Settings.CHROMAHUD_SQUAREBRACE_PREFIX_OPTION) {
+            ElementRenderer.draw(starX, startY, "CPS: " + ElementRenderer.getCPS());
+        } else {
+            ElementRenderer.draw(starX, startY, "[CPS] " + ElementRenderer.getCPS());
+        }
         if (isConfig) {
-            this.width = Minecraft.getMinecraft().fontRendererObj.getStringWidth("CPS: " + ElementRenderer.getCPS());
+            if(!Settings.CHROMAHUD_SQUAREBRACE_PREFIX_OPTION) {
+                this.width = Minecraft.getMinecraft().fontRendererObj.getStringWidth("CPS: " + ElementRenderer.getCPS());
+            } else {
+                this.width = Minecraft.getMinecraft().fontRendererObj.getStringWidth("[CPS] " + ElementRenderer.getCPS());
+            }
         } else
             this.width = 0;
     }
