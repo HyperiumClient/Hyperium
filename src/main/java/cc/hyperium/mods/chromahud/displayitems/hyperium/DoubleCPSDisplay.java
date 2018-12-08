@@ -5,7 +5,7 @@ import cc.hyperium.mods.chromahud.api.DisplayItem;
 import cc.hyperium.utils.JsonHolder;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
-
+import cc.hyperium.config.Settings;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,10 +22,17 @@ public class DoubleCPSDisplay extends DisplayItem {
         List<String> list = new ArrayList<>();
         int leftCps = ElementRenderer.getCPS();
         int rightCps = ElementRenderer.getRightCPS();
-        list.add("CPS:");
-        list.add("Left CPS: " + leftCps);
-        list.add("Right CPS: " + rightCps);
-        list.add("Total CPS: " + (leftCps + rightCps));
+        if(!Settings.CHROMAHUD_SQUAREBRACE_PREFIX_OPTION) {
+            list.add("CPS:");
+            list.add("Left CPS: " + leftCps);
+            list.add("Right CPS: " + rightCps);
+            list.add("Total CPS: " + (leftCps + rightCps));
+        } else {
+            list.add("[CPS]");
+            list.add("[Left CPS] " + leftCps);
+            list.add("[Right CPS] " + rightCps);
+            list.add("[Total CPS] " + (leftCps + rightCps));
+        }
         this.height = fr.FONT_HEIGHT * list.size();
         int maxWidth = 0;
         for (String line : list) {

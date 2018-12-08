@@ -230,6 +230,7 @@ gui.settings.buttonred=Button Outline (Red)
 gui.settings.buttongreen=Button Outline (Green)
 gui.settings.buttonblue=Button Outline (Blue)
 gui.settings.buttontype=Color Type
+gui.settings.chromahudprefixsquarebrace=Use square brace prefix
 
 # Hyperium Integrations
 integrations.watchdog.thankwatchdog=Thank watchdog

@@ -77,7 +77,6 @@ public class DisplayElement extends Dimension {
         this.color_pallet = data.optBoolean("color_pallet");
         this.static_chroma = data.optBoolean("static_chroma");
         recalculateColor();
-
     }
 
     public static DisplayElement blank() {
@@ -142,7 +141,6 @@ public class DisplayElement extends Dimension {
                 e.printStackTrace();
             }
         }
-
 
     }
 
@@ -283,7 +281,6 @@ public class DisplayElement extends Dimension {
         this.data.put("highlighted", highlighted);
         this.highlighted = highlighted;
     }
-
 
     public JsonHolder getData() {
         return data;
