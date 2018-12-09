@@ -385,8 +385,8 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
     public void addDefaultStyleOptionsButton(int j) {
         this.buttonList.add(new GuiButton(0, this.width / 2 - 100, j + 56 + 12 + 24 - 5, 98, 20, I18n.format("menu.options")));
         this.buttonList.add(new GuiButton(4, this.width / 2 + 2, j + 56 + 12 + 24 - 5, 98, 20, I18n.format("menu.quit")));
-        this.buttonList.add(new GuiButton(100, this.width / 2 - 100, j + 80 + 12 + 24 - 5, 98, 20, I18n.format("button.menu.cosmeticshop")));
-        this.buttonList.add(new GuiButton(17, this.width / 2 + 2, j + 80 + 12 + 24 - 5, 98, 20, I18n.format("button.menu.changebackground")));
+        this.buttonList.add(new GuiButton(100, this.width / 2 - 100, j + 78 + 12 + 24 - 5, 98, 20, I18n.format("button.menu.cosmeticshop")));
+        this.buttonList.add(new GuiButton(17, this.width / 2 + 2, j + 78 + 12 + 24 - 5, 98, 20, I18n.format("button.menu.changebackground")));
     }
 
     @Override
