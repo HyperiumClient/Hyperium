@@ -228,6 +228,7 @@ gui.settings.buttongreen=Button Outline (Green)
 gui.settings.buttonblue=Button Outline (Blue)
 gui.settings.buttontype=Color Type
 gui.settings.chromahudprefixsquarebrace=Use square brace prefix
+gui.settings.disableenchantglint=Disable Enchantment Glint
 
 # Hyperium Integrations
 integrations.watchdog.thankwatchdog=Thank watchdog
