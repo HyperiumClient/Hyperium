@@ -17,6 +17,7 @@
 
 package cc.hyperium.mods.chromahud.displayitems.chromahud;
 
+import cc.hyperium.config.Settings;
 import cc.hyperium.mods.chromahud.ElementRenderer;
 import cc.hyperium.mods.chromahud.api.DisplayItem;
 import cc.hyperium.utils.JsonHolder;
@@ -71,15 +72,26 @@ public class CordsDisplay extends DisplayItem {
             DecimalFormat df = new DecimalFormat(start.toString());
 
             if (state == 0) {
-                tmp.add("X: " + df.format(player.posX) +
-                        " Y: " + df.format(player.posY) +
-                        " Z: " + df.format(player.posZ));
+                if(!Settings.CHROMAHUD_SQUAREBRACE_PREFIX_OPTION) {
+                    tmp.add("X: " + df.format(player.posX) +
+                            " Y: " + df.format(player.posY) +
+                            " Z: " + df.format(player.posZ));
+                } else {
+                    tmp.add("[X] " + df.format(player.posX) +
+                            " [Y] " + df.format(player.posY) +
+                            " [Z] " + df.format(player.posZ));
+                }
             } else if (state == 1) {
-                tmp.add("X: " + df.format(player.posX));
-                tmp.add("Y: " + df.format(player.posY));
-                tmp.add("Z: " + df.format(player.posZ));
+                if(!Settings.CHROMAHUD_SQUAREBRACE_PREFIX_OPTION) {
+                    tmp.add("[X] " + df.format(player.posX));
+                    tmp.add("[Y] " + df.format(player.posY));
+                    tmp.add("[Z] " + df.format(player.posZ));
+                }
             } else tmp.add("Illegal state of cords unit (" + state + ")");
-        } else tmp.add("X: null, Y: null, Z: null");
+        } else {
+            if(!Settings.CHROMAHUD_SQUAREBRACE_PREFIX_OPTION) tmp.add("X: null, Y: null, Z: null");
+            else tmp.add("[X] null, [Y] null, [Z] null");
+        }
         ElementRenderer.draw(x, y, tmp);
         this.width = isConfig ? ElementRenderer.maxWidth(tmp) : 0;
         this.height = tmp.size() * 10;

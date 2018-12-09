@@ -1,7 +1,7 @@
 package cc.hyperium.mixinsimp.gui;
 
 import cc.hyperium.utils.ChatColor;
-import me.semx11.autotip.util.ReflectionUtil;
+import me.semx11.autotip.universal.ReflectionUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
@@ -52,7 +52,7 @@ public class HyperiumGuiScreenResourcePacks{
                             .asList(availablePacksClone.getList().stream().filter(resourcePackListEntry -> {
                                 try {
                                     Method nameMethod = ReflectionUtil
-                                            .findDeclaredMethod(resourcePackListEntry.getClass(),
+                                            .findMethod(resourcePackListEntry.getClass(),
                                                     new String[]{"func_148312_b", "c"});
                                     nameMethod.setAccessible(true);
                                     String name = ChatColor

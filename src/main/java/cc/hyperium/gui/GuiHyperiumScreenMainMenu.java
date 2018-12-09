@@ -174,7 +174,6 @@ import cc.hyperium.gui.hyperium.HyperiumMainGui;
 import cc.hyperium.handlers.handlers.SettingsMigrator;
 import cc.hyperium.mixinsimp.renderer.gui.IMixinGuiMultiplayer;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiLanguage;
 import net.minecraft.client.gui.GuiMainMenu;
@@ -205,22 +204,15 @@ import java.util.HashMap;
 
 public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiYesNoCallback {
 
-
     public static boolean FIRST_START = true;
     private final ResourceLocation exit = new ResourceLocation("textures/material/exit.png");
     private final ResourceLocation people_outline = new ResourceLocation("textures/material/people-outline.png");
     private final ResourceLocation person_outline = new ResourceLocation("textures/material/person-outline.png");
     private final ResourceLocation settings = new ResourceLocation("textures/material/settings.png");
     private final ResourceLocation hIcon = new ResourceLocation("textures/h_icon.png");
+    private HashMap<String, DynamicTexture> cachedImages = new HashMap<>();
     private GuiScreen field_183503_M;
     private boolean field_183502_L;
-    private int field_92021_u;
-    private int field_92022_t;
-    private int field_92024_r;
-    private int field_92023_s;
-    private FontRenderer fontRendererObj = Minecraft.getMinecraft().fontRendererObj;
-    private boolean clickedCheckBox = false;
-    private HashMap<String, DynamicTexture> cachedImages = new HashMap<>();
 
     public GuiHyperiumScreenMainMenu() {
         if (Minecraft.getMinecraft().isFullScreen() && Settings.WINDOWED_FULLSCREEN && FIRST_START) {
@@ -246,7 +238,6 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
         int j = this.height / 4 + 48;
 
         this.addSingleplayerMultiplayerButtons(j - 10, 24);
-        this.buttonList.add(new GuiButton(100, this.width / 2 - 100, this.height - 45, I18n.format("button.menu.cosmeticshop")));
 
         switch (getStyle()) {
             case DEFAULT:
@@ -373,9 +364,8 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
         this.buttonList.add(new GuiButton(1, this.width / 2 - getIntendedWidth(295), this.height / 2 - getIntendedHeight(55), getIntendedWidth(110), getIntendedHeight(110), ""));
         this.buttonList.add(new GuiButton(2, this.width / 2 - getIntendedWidth(175), this.height / 2 - getIntendedHeight(55), getIntendedWidth(110), getIntendedHeight(110), ""));
         this.buttonList.add(new GuiButton(15, this.width / 2 + getIntendedWidth(65), this.height / 2 - getIntendedHeight(55), getIntendedWidth(110), getIntendedHeight(110), ""));
-
-        // Background Gui Button
-        this.buttonList.add(new GuiButton(17, this.width / 2 - 110 / 2, this.height - 20, 110, getIntendedHeight(110), ""));
+        this.buttonList.add(new GuiButton(100, this.width / 2 - 100, this.height / 2 - getIntendedHeight(-60), I18n.format("button.menu.cosmeticshop")));
+        this.buttonList.add(new GuiButton(17, this.width / 2 - 100, this.height / 2 - getIntendedHeight(-95), I18n.format("button.menu.changebackground")));
     }
 
     public void addDefaultStyleSingleplayerMultiplayerButtons(int p_73969_1_, int p_73969_2_) {
@@ -385,9 +375,6 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
         this.buttonList.add(this.hypixelButton = new GuiButton(16, this.width / 2 - 100, p_73969_1_ + p_73969_2_ * 2, 200, 20, I18n.format("button.ingame.joinhypixel")));
 
         this.buttonList.add(new GuiButton(15, this.width / 2 - 100, p_73969_1_ + p_73969_2_ * 3, I18n.format("button.ingame.hyperiumsettings")));
-
-        // Background Gui Button
-        this.buttonList.add(new GuiButton(17, this.width / 2 - 100, this.height - 20, I18n.format("button.menu.changebackground")));
     }
 
     public void addHyperiumStyleOptionsButton(int j) {
@@ -396,8 +383,10 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
     }
 
     public void addDefaultStyleOptionsButton(int j) {
-        this.buttonList.add(new GuiButton(0, this.width / 2 - 100, j + 72 + 12 + 24 - 5, 98, 20, I18n.format("menu.options")));
-        this.buttonList.add(new GuiButton(4, this.width / 2 + 2, j + 72 + 12 + 24 - 5, 98, 20, I18n.format("menu.quit")));
+        this.buttonList.add(new GuiButton(0, this.width / 2 - 100, j + 56 + 12 + 24 - 5, 98, 20, I18n.format("menu.options")));
+        this.buttonList.add(new GuiButton(4, this.width / 2 + 2, j + 56 + 12 + 24 - 5, 98, 20, I18n.format("menu.quit")));
+        this.buttonList.add(new GuiButton(100, this.width / 2 - 100, j + 80 + 12 + 24 - 5, 98, 20, I18n.format("button.menu.cosmeticshop")));
+        this.buttonList.add(new GuiButton(17, this.width / 2 + 2, j + 80 + 12 + 24 - 5, 98, 20, I18n.format("button.menu.changebackground")));
     }
 
     @Override
@@ -406,9 +395,6 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
         GlStateManager.pushMatrix();
 
         super.drawHyperiumStyleScreen(mouseX,mouseY,partialTicks);
-
-        sfr.drawCenteredString(I18n.format("button.menu.changebackground"), this.width / 2, this.height - 15, 0xFFFFFF);
-
         // Draw icons on buttons
         TextureManager tm = mc.getTextureManager();
 
@@ -428,27 +414,27 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
     }
 
     private int color(int i, int i1, int i2, int i3) {
-        return new Color(i, i1, i2, i3).getRGB();
+      return new Color(i, i1, i2, i3).getRGB();
     }
 
-    private DynamicTexture getCachedTexture(String t) {
+      private DynamicTexture getCachedTexture (String t){
         final DynamicTexture[] texture = {this.cachedImages.get(t)};
         if (texture[0] == null) {
-            Minecraft.getMinecraft().addScheduledTask(() -> {
-                try {
-                    texture[0] = new DynamicTexture(ImageIO
-                            .read(new URL("https://crafatar.com/avatars/" + t + "?size=30?default=MHF_Steve&overlay")));
+          Minecraft.getMinecraft().addScheduledTask(() -> {
+            try {
+              texture[0] = new DynamicTexture(ImageIO
+                      .read(new URL("https://crafatar.com/avatars/" + t + "?size=30?default=MHF_Steve&overlay")));
 
-                } catch (Exception ignored) {
-                    try {
-                        texture[0] = new DynamicTexture(ImageIO
-                                .read(new URL("https://crafatar.com/avatars/c06f89064c8a49119c29ea1dbd1aab82")));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-                this.cachedImages.put(t, texture[0]);
-            });
+            } catch (Exception ignored) {
+              try {
+                texture[0] = new DynamicTexture(ImageIO
+                        .read(new URL("https://crafatar.com/avatars/c06f89064c8a49119c29ea1dbd1aab82")));
+              } catch (IOException e) {
+                e.printStackTrace();
+              }
+            }
+            this.cachedImages.put(t, texture[0]);
+          });
 
         }
         return texture[0];
@@ -460,5 +446,4 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
             Minecraft.getMinecraft().displayGuiScreen(new ChangeBackgroundGui(this));
         }
     }
-
 }

@@ -21,7 +21,7 @@ import cc.hyperium.mods.chromahud.ElementRenderer;
 import cc.hyperium.mods.chromahud.api.DisplayItem;
 import cc.hyperium.utils.JsonHolder;
 import net.minecraft.client.Minecraft;
-
+import cc.hyperium.config.Settings;
 
 /**
  * @author Sk1er
@@ -36,7 +36,12 @@ public class FPS extends DisplayItem {
 
     @Override
     public void draw(int starX, double startY, boolean ignored) {
-        String string = "FPS: " + Minecraft.getDebugFPS();
+        String string = "";
+        if(!Settings.CHROMAHUD_SQUAREBRACE_PREFIX_OPTION) {
+            string = "FPS: " + Minecraft.getDebugFPS();
+        } else {
+            string = "[FPS] " + Minecraft.getDebugFPS();
+        }
         ElementRenderer.draw(starX, startY, string);
         this.width = Minecraft.getMinecraft().fontRendererObj.getStringWidth(string);
     }

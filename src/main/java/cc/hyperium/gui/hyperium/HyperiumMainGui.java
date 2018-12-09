@@ -15,7 +15,7 @@ import cc.hyperium.handlers.handlers.SettingsHandler;
 import cc.hyperium.mixinsimp.client.GlStateModifier;
 import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
 import cc.hyperium.utils.HyperiumFontRenderer;
-import me.semx11.autotip.util.ReflectionUtil;
+import me.semx11.autotip.universal.ReflectionUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
@@ -86,9 +86,15 @@ public class HyperiumMainGui extends HyperiumGui {
             this.customStates.put(field, customStates.get(field));
         }
         try {
-            rgbFields.add(new RGBFieldSet(Settings.class.getDeclaredField("REACH_RED"),
+            rgbFields.add(new RGBFieldSet(
+                    Settings.class.getDeclaredField("REACH_RED"),
                     Settings.class.getDeclaredField("REACH_GREEN"),
                     Settings.class.getDeclaredField("REACH_BLUE"), Category.REACH, true,
+                    Settings.INSTANCE));
+            rgbFields.add(new RGBFieldSet(
+                    Settings.class.getDeclaredField("BUTTON_RED"),
+                    Settings.class.getDeclaredField("BUTTON_GREEN"),
+                    Settings.class.getDeclaredField("BUTTON_BLUE"), Category.BUTTONS, false,
                     Settings.INSTANCE));
         } catch (NoSuchFieldException e) {
             e.printStackTrace();
@@ -135,7 +141,7 @@ public class HyperiumMainGui extends HyperiumGui {
             Method loadShaderMethod = null;
             try {
                 loadShaderMethod = ReflectionUtil
-                        .findDeclaredMethod(EntityRenderer.class, new String[]{"loadShader", "a"},
+                        .findMethod(EntityRenderer.class, new String[]{"loadShader", "a"},
                                 ResourceLocation.class);
             } catch (Exception ignored) {
             }

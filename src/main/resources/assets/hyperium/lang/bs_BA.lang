@@ -114,12 +114,6 @@ gui.shop.insufficientcredits=Nemate dovoljno Kredita!
 gui.shop.loading.cosmetics=Učitavanje kozmetike...
 gui.shop.loading.person=Učitavanje podataka osoba...
 
-# Hyperium Auto Optimizer Text
-gui.optimizer.font.line1=Ako možete pročitati ovaj tekst molimo pritisnite da.
-gui.optimizer.font.line2=U suprotnom, čekajte.
-gui.optimizer.optifine.line1=Detektirali smo da koristite OptiFine.
-gui.optimizer.optifine.line2=Hoćete li ga Optimizirati?
-
 # Hyperium Settings Text
 gui.settings.discordrp=Discord RP
 gui.settings.fullbright=Fullbright
@@ -226,6 +220,14 @@ gui.settings.showbrowser=Pokaži preglednik
 gui.settings.mainmenuserver=Poslužitelj glavnog izbornika
 gui.settings.disable_dances=Disable Dances
 gui.settings.victoryroyale=Victory Royale
+gui.settings.hyperiumprefix=Show Hyperium Chat Prefix
+gui.settings.betterf1=Hide names in F1
+gui.settings.buttonstyle=Button Style
+gui.settings.buttonred=Button Outline (Red)
+gui.settings.buttongreen=Button Outline (Green)
+gui.settings.buttonblue=Button Outline (Blue)
+gui.settings.buttontype=Color Type
+gui.settings.chromahudprefixsquarebrace=Use square brace prefix
 
 # Hyperium Integrations
 integrations.watchdog.thankwatchdog=Thank watchdog

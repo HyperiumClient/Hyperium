@@ -7,7 +7,12 @@ import cc.hyperium.purchases.PurchaseApi;
 import cc.hyperium.utils.JsonHolder;
 import com.mojang.realmsclient.gui.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.*;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiMainMenu;
+import net.minecraft.client.gui.GuiMultiplayer;
+import net.minecraft.client.gui.GuiOptions;
+import net.minecraft.client.gui.GuiShareToLan;
+import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.gui.achievement.GuiAchievements;
 import net.minecraft.client.gui.achievement.GuiStats;
 import net.minecraft.client.multiplayer.WorldClient;
@@ -16,10 +21,8 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.realms.RealmsBridge;
 import net.minecraft.server.MinecraftServer;
 
-import java.awt.*;
 import java.io.IOException;
 import java.text.DecimalFormat;
-import java.util.List;
 
 public class GuiHyperiumScreenIngameMenu extends GuiHyperiumScreen {
 
@@ -86,27 +89,25 @@ public class GuiHyperiumScreenIngameMenu extends GuiHyperiumScreen {
                 boolean flag1 = this.mc.func_181540_al();
                 button.enabled = false;
                 this.mc.theWorld.sendQuittingDisconnectingPacket();
-                this.mc.loadWorld((WorldClient)null);
+                this.mc.loadWorld(null);
 
-                if (flag)
-                {
+                if (flag) {
                     this.mc.displayGuiScreen(new GuiMainMenu());
-                }
-                else if (flag1)
-                {
+                } else if (flag1) {
                     RealmsBridge realmsbridge = new RealmsBridge();
                     realmsbridge.switchToRealms(new GuiMainMenu());
-                }
-                else
-                {
+                } else {
                     this.mc.displayGuiScreen(new GuiMultiplayer(new GuiMainMenu()));
                 }
+                break;
             case 2:
+                break;
             case 3:
+                break;
             default:
                 break;
             case 4:
-                this.mc.displayGuiScreen((GuiScreen)null);
+                this.mc.displayGuiScreen(null);
                 this.mc.setIngameFocus();
                 break;
             case 5:

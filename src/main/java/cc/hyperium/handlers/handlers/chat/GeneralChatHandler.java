@@ -23,13 +23,12 @@ import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.TickEvent;
 import cc.hyperium.utils.ChatColor;
 import cc.hyperium.utils.JsonHolder;
-
+import cc.hyperium.config.Settings;
+import cc.hyperium.config.ConfigOpt;
 import com.google.gson.JsonParser;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IChatComponent;
-
 import java.io.InputStreamReader;
 import java.util.EnumMap;
 import java.util.List;
@@ -85,7 +84,11 @@ public class GeneralChatHandler {
         }
 
         if (addHeader) {
-            message = ChatColor.RED + "[Hyperium] " + ChatColor.WHITE.toString() + message;
+            if (Settings.HYPERIUM_CHAT_PREFIX) {
+                message = ChatColor.RED + "[Hyperium] " + ChatColor.WHITE.toString() + message;
+            } else {
+                message = ChatColor.WHITE.toString() + message;
+            }
         }
 
         sendMessage(new ChatComponentText(message));
