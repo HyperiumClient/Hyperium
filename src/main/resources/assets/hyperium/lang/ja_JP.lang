@@ -114,12 +114,6 @@ gui.shop.insufficientcredits=クレジットが足りません！
 gui.shop.loading.cosmetics=アクセサリーを読み込み中...
 gui.shop.loading.person=プレイヤーデータを読み込み中...
 
-# Hyperium Auto Optimizer Text
-gui.optimizer.font.line1=もしこのテキストが読めるなら、"はい"を押してください。
-gui.optimizer.font.line2=読めない場合は暫くお待ち下さい。
-gui.optimizer.optifine.line1=OptiFineの使用を検出しました。
-gui.optimizer.optifine.line2=最適化を実行しますか？
-
 # Hyperium Settings Text
 gui.settings.discordrp=Discord RP
 gui.settings.fullbright=Fullbright
@@ -227,6 +221,12 @@ gui.settings.mainmenuserver=Main Menu Server
 gui.settings.disable_dances=Disable Dances
 gui.settings.victoryroyale=Victory Royale
 gui.settings.hyperiumprefix=Show Hyperium Chat Prefix
+gui.settings.betterf1=Hide names in F1
+gui.settings.buttonstyle=Button Style
+gui.settings.buttonred=Button Outline (Red)
+gui.settings.buttongreen=Button Outline (Green)
+gui.settings.buttonblue=Button Outline (Blue)
+gui.settings.buttontype=Color Type
 gui.settings.chromahudprefixsquarebrace=Use square brace prefix
 
 # Hyperium Integrations

@@ -123,6 +123,7 @@ public class GuiBrowser extends GuiScreen {
             }
         } else {
             buttonList.add(new GuiButton(1337, width / 2 - 100, height / 2 - 10, 200, 20, "Restart and download"));
+            buttonList.add(new GuiButton(1338, width / 2 - 100, height / 2 - -12, 200, 20, "Cancel"));
         }
     }
 
@@ -301,6 +302,9 @@ public class GuiBrowser extends GuiScreen {
     @Override
     protected void actionPerformed(GuiButton src) {
         try {
+            if (src.id == 1338) {
+                Minecraft.getMinecraft().displayGuiScreen(null);
+            }
             if (src.id == 1337) {
                 Settings.BROWSER_DOWNLOAD = true;
                 Runtime.getRuntime().addShutdownHook(new Thread(() -> {

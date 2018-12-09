@@ -51,10 +51,8 @@ public abstract class MixinGuiOverlayDebug {
             this.mc.mcProfiler.endSection();
             return;
         }
-        if (!Hyperium.INSTANCE.isDevEnv()) {
-            this.renderDebugInfoLeft();
-            this.renderDebugInfoRight(scaledResolutionIn);
-        }
+        this.renderDebugInfoLeft();
+        this.renderDebugInfoRight(scaledResolutionIn);
         GlStateManager.popMatrix();
         if (this.mc.gameSettings.showLagometer) {
             this.renderLagometer();
