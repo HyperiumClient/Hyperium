@@ -14,7 +14,7 @@ public class ThankWatchdog {
   @InvokeEvent
   public void onChat(ChatEvent e) {
     if (e.getChat().getUnformattedText().contains(WATCHDOG_BAN_TRIGGER) || e.getChat().getUnformattedText().contains(WATCHDOG_ANNOUNCEMENT_TRIGGER)) {
-      if(Settings.THANK_WATCHDOG) { Minecraft.getMinecraft().thePlayer.sendChatMessage(THANK_WATCHDOG_MESSAGE); }
+      if(Settings.THANK_WATCHDOG) { Minecraft.getMinecraft().thePlayer.sendChatMessage("/achat " + THANK_WATCHDOG_MESSAGE); }
     }
   }
 }
