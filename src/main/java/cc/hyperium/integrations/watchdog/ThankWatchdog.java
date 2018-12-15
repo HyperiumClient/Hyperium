@@ -1,9 +1,27 @@
+/*
+  *     Copyright (C) 2018  Hyperium <https://hyperium.cc/>
+  *
+  *     This program is free software: you can redistribute it and/or modify
+  *     it under the terms of the GNU Lesser General Public License as published
+  *     by the Free Software Foundation, either version 3 of the License, or
+  *     (at your option) any later version.
+  *
+  *     This program is distributed in the hope that it will be useful,
+  *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+  *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  *     GNU Lesser General Public License for more details.
+  *
+  *     You should have received a copy of the GNU Lesser General Public License
+  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  */
+
 package cc.hyperium.integrations.watchdog;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.config.Settings;
 import cc.hyperium.event.ChatEvent;
 import cc.hyperium.event.InvokeEvent;
+import cc.hyperium.handlers.handlers.HypixelDetector;
 import net.minecraft.client.Minecraft;
 
 public class ThankWatchdog {
@@ -14,7 +32,7 @@ public class ThankWatchdog {
   @InvokeEvent
   public void onChat(ChatEvent e) {
     if (e.getChat().getUnformattedText().contains(WATCHDOG_BAN_TRIGGER) || e.getChat().getUnformattedText().contains(WATCHDOG_ANNOUNCEMENT_TRIGGER)) {
-      if(Settings.THANK_WATCHDOG) { Minecraft.getMinecraft().thePlayer.sendChatMessage(THANK_WATCHDOG_MESSAGE); }
+      if(Settings.THANK_WATCHDOG && HypixelDetector.getInstance().isHypixel()) { Minecraft.getMinecraft().thePlayer.sendChatMessage(THANK_WATCHDOG_MESSAGE); }
     }
   }
 }
