@@ -19,6 +19,7 @@ package cc.hyperium.mixins.gui;
 
 import cc.hyperium.mixinsimp.gui.HyperiumGuiPlayerTabOverlay;
 import com.google.common.collect.Ordering;
+import me.semx11.autotip.Autotip;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiPlayerTabOverlay;
@@ -30,6 +31,9 @@ import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(GuiPlayerTabOverlay.class)
 public abstract class MixinGuiPlayerTabOverlay extends Gui {
@@ -63,5 +67,11 @@ public abstract class MixinGuiPlayerTabOverlay extends Gui {
     @Overwrite
     public void renderPlayerlist(int width, Scoreboard scoreboardIn, ScoreObjective scoreObjectiveIn) {
         hyperiumGuiPlayerTabOverlay.renderPlayerlist(width,scoreboardIn,scoreObjectiveIn,this.field_175252_a,this.header,this.footer,this.mc);
+    }
+
+    @Inject(method = "setHeader",at=@At("HEAD"))
+    private void setHeader(IChatComponent headerIn, CallbackInfo ci){
+        // Update chat header for use in autotip.
+        Autotip.tabHeader = headerIn;
     }
 }
