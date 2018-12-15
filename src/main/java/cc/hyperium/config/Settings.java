@@ -17,10 +17,11 @@
 
 package cc.hyperium.config;
 
-import cc.hyperium.styles.GuiStyle;
 import cc.hyperium.Hyperium;
+
 import cc.hyperium.styles.ButtonStyle;
 import cc.hyperium.styles.ButtonType;
+import cc.hyperium.styles.GuiStyle;
 
 import static cc.hyperium.config.Category.ANIMATIONS;
 import static cc.hyperium.config.Category.BUTTONS;
@@ -34,7 +35,6 @@ import static cc.hyperium.config.Category.ITEM_PHYSIC;
 import static cc.hyperium.config.Category.MENUS;
 import static cc.hyperium.config.Category.MISC;
 import static cc.hyperium.config.Category.REACH;
-import static cc.hyperium.config.Category.SPOTIFY;
 import static cc.hyperium.config.Category.TOGGLESPRINT;
 import static cc.hyperium.config.Category.VANILLA_ENHANCEMENTS;
 import static cc.hyperium.config.Category.VICTORYROYALE;
@@ -169,8 +169,7 @@ public class Settings {
     @SelectorSetting(name = "Companion Type", category = COSMETICS, items = "NONE")
     public static String COMPANION_TYPE = "NONE";
 
-    @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;spotifyControlsEnabled")
-    @ToggleSetting(name = "gui.settings.showspotifycontrols", category = SPOTIFY, mods = true)
+    @ConfigOpt
     public static boolean SPOTIFY_CONTROLS = false;
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;hypixelZooEnabled")
@@ -408,11 +407,9 @@ public class Settings {
     public static String PAUSE_STYLE = GuiStyle.HYPERIUM.name();
 
     @ConfigOpt
-    @ToggleSetting(name = "gui.settings.spotifynotifications", category = SPOTIFY, mods = true)
     public static boolean SPOTIFY_NOTIFICATIONS = false;
 
     @ConfigOpt
-    @ToggleSetting(name = "gui.settings.forcespotifytoneverload", category = SPOTIFY, mods = true)
     public static boolean SPOTIFY_FORCE_DISABLE = true;
 
     @ConfigOpt
