@@ -99,20 +99,15 @@ public class HyperiumMainGui extends HyperiumGui {
         } catch (NoSuchFieldException e) {
             e.printStackTrace();
         }
-        initialGuiScale = Minecraft.getMinecraft().gameSettings.guiScale;
-        // Adjust if GUI scale is on automatic.
-        if (Minecraft.getMinecraft().gameSettings.guiScale == 0) {
-            Minecraft.getMinecraft().gameSettings.guiScale = 3;
-        }
 
         tabs = Arrays.asList(
                 new SettingsTab(this),
                 new UpdateTab(this),
                 new ShopTab(this)
         );
-        guiScale = 2;
         scollMultiplier = 2;
         setTab(tabIndex);
+
     }
 
     public HashMap<Field, Supplier<String[]>> getCustomStates() {
@@ -247,6 +242,15 @@ public class HyperiumMainGui extends HyperiumGui {
     }
 
     @Override
+    public void show() {
+        // Set user's GUI scale to normal whilst the GUI is open.
+        initialGuiScale = Minecraft.getMinecraft().gameSettings.guiScale;
+        Minecraft.getMinecraft().gameSettings.guiScale = 2;
+
+        super.show();
+    }
+
+    @Override
     protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
         super.mouseClicked(mouseX, mouseY, mouseButton);
         int yg = (height / 10);  // Y grid
@@ -362,10 +366,7 @@ public class HyperiumMainGui extends HyperiumGui {
         // Save all settings.
         Hyperium.CONFIG.save();
 
-        if (initialGuiScale == 0) {
-            // User was on automatic so return to that scale.
-            Minecraft.getMinecraft().gameSettings.guiScale = 0;
-        }
+        Minecraft.getMinecraft().gameSettings.guiScale = initialGuiScale;
     }
 
     @Override
