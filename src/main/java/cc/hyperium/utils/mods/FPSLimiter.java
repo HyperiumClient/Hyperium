@@ -53,7 +53,7 @@ public class FPSLimiter {
 
     @InvokeEvent(priority = Priority.LOW)
     public void onChat(ChatEvent event) {
-        if (event.getChat().getUnformattedText().trim().equals("You are currently in limbo")) {
+        if (event.getChat().getUnformattedText().trim().equals("You were spawned in Limbo.")) {
             limbo = true;
         }
     }
@@ -71,6 +71,6 @@ public class FPSLimiter {
     }
 
     public int getFpsLimit() {
-        return 30;
+        return Settings.FPS_LIMITER_AMOUNT;
     }
 }

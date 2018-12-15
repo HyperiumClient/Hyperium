@@ -229,9 +229,9 @@ gui.settings.buttonblue=Button Outline (Blue)
 gui.settings.buttontype=Color Type
 gui.settings.chromahudprefixsquarebrace=Use square brace prefix
 gui.settings.disableenchantglint=Disable Enchantment Glint
-
-# Hyperium Integrations
-integrations.watchdog.thankwatchdog=Thank watchdog
+gui.settings.disabletitles=Disable Titles
+gui.settings.thankwatchdog=Thank Watchdog
+gui.settings.fpslimiteramount=FPS Limiter Amount
 
 # Hyperium Splash Progress
 splashprogress.startinggame=Početna igra...

@@ -43,7 +43,7 @@ public class CommandNameHistory implements BaseCommand {
 
     @Override
     public List<String> getCommandAliases() {
-        return Arrays.asList("nhistory", "names");
+        return Arrays.asList("nhistory", "names", "name");
     }
 
     @Override

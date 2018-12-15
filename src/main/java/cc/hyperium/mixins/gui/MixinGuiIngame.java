@@ -319,4 +319,15 @@ public abstract class MixinGuiIngame extends Gui {
     protected void showCrosshair(CallbackInfoReturnable<Boolean> ci) {
         hyperiumGuiIngame.showCrosshair(ci);
     }
+
+    /**
+     * @author asbyth
+     * @reason Option to disable Titles & Subtitles (will be replacing the Clear Titles keybind)
+     */
+    @Inject(method = "displayTitle", at = @At("HEAD"), cancellable = true)
+    private void displayTitle(String title, String subTitle, int timeFadeIn, int displayTime, int timeFadeOut, CallbackInfo ci) {
+        if (Settings.HIDE_TITLES) {
+            ci.cancel();
+        }
+    }
 }

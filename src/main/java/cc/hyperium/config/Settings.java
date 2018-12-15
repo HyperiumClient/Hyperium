@@ -356,10 +356,6 @@ public class Settings {
     @ToggleSetting(category = GENERAL, name = "gui.settings.sprintandperspectivemessages")
     public static boolean SPRINT_PERSPECTIVE_MESSAGES = true;
 
-    @ConfigOpt(alt = "cc.hyperium.handlers.handlers.chat.AutoWhoChatHandler;enabled")
-    @ToggleSetting(name = "gui.settings.autowho", category = INTEGRATIONS)
-    public static boolean AUTO_WHO = true;
-
     @ConfigOpt
     @SelectorSetting(name = "gui.settings.showdragonhead", items = {}, category = COSMETICS)
     public static String SHOW_DRAGON_HEAD = "OFF";
@@ -535,28 +531,14 @@ public class Settings {
     public static boolean SEND_GUILD_WELCOME_MESSAGE = true;
 
     @ConfigOpt
-    @ToggleSetting(name = "integrations.watchdog.thankwatchdog", category = INTEGRATIONS)
+    @ToggleSetting(name = "gui.settings.thankwatchdog", category = HYPIXEL)
     public static boolean THANK_WATCHDOG = false;
-
-
-    @ConfigOpt
-    public static boolean AUTO_DAB_ENABLED = false;
-
-    @ConfigOpt
-    public static int AUTO_DAB_LENGTH = 5;
-
-    @ConfigOpt
-    public static boolean AUTO_DAB_THIRD_PERSON = true;
-
-    @ConfigOpt
-    public static boolean AUTO_NICO = false;
 
     @ConfigOpt
     @ToggleSetting(name = "gui.settings.itemphysics", category = ITEM_PHYSIC, mods = true)
     public static boolean ITEM_PHYSIC_ENABLED = false;
 
     @ConfigOpt
-//    @ToggleSetting(name = "Gui Font", category = GENERAL)
     public static String GUI_FONT = "Roboto Condensed";
 
     @ConfigOpt
@@ -614,6 +596,14 @@ public class Settings {
     @ConfigOpt
     @ToggleSetting(name = "gui.settings.disableenchantglint", category = IMPROVEMENTS)
     public static boolean DISABLE_ENCHANT_GLINT = false;
+
+    @ConfigOpt
+    @ToggleSetting(name = "gui.settings.disabletitles", category = VANILLA_ENHANCEMENTS, mods = true)
+    public static boolean HIDE_TITLES = false;
+
+    @ConfigOpt
+    @SliderSetting(name = "gui.settings.fpslimiteramount", isInt = true, min = 5, max = 60, category = IMPROVEMENTS)
+    public static int FPS_LIMITER_AMOUNT = 30;
 
     private Settings() {
     }

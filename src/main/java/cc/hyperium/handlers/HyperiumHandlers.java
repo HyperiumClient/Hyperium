@@ -42,7 +42,6 @@ import cc.hyperium.handlers.handlers.animation.TwerkDance;
 import cc.hyperium.handlers.handlers.animation.YeetHandler;
 import cc.hyperium.handlers.handlers.animation.cape.CapeHandler;
 import cc.hyperium.handlers.handlers.animation.fortnite.FortniteDefaultDance;
-import cc.hyperium.handlers.handlers.chat.AutoWhoChatHandler;
 import cc.hyperium.handlers.handlers.chat.DMChatHandler;
 import cc.hyperium.handlers.handlers.chat.FriendRequestChatHandler;
 import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
@@ -147,7 +146,6 @@ public class HyperiumHandlers {
         // Chat Handlers
         System.out.println("Loading chat handlers");
         registerChatHandler(new RankedRatingChatHandler());
-        registerChatHandler(new AutoWhoChatHandler());
         registerChatHandler(new DMChatHandler());
         registerChatHandler(questTracking = new QuestTrackingChatHandler());
         registerChatHandler(new WinTrackingChatHandler());

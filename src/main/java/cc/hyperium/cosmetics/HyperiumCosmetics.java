@@ -24,7 +24,6 @@ public class HyperiumCosmetics {
     private final WingsCosmetic wingsCosmetic;
     private final DragonCosmetic dragonCosmetic;
     private final ButtCosmetic buttCosmetic;
-    private final KillCounterMuscles killCounterMuscles;
     private DragonCompanion dragonCompanion;
     private HamsterCompanion hamsterCompanion;
 
@@ -36,7 +35,6 @@ public class HyperiumCosmetics {
      * Hyperium Cosmetics - Default Constructor/Cosmetic Registry
      */
     public HyperiumCosmetics() {
-        registerCosmetic(killCounterMuscles = new KillCounterMuscles());
         registerCosmetic(buttCosmetic = new ButtCosmetic());
         registerCosmetic(flipCosmetic = new FlipCosmetic());
         registerCosmetic(deadmau5Cosmetic = new Deadmau5Cosmetic());
@@ -53,11 +51,6 @@ public class HyperiumCosmetics {
     public List<AbstractCosmetic> getCosmeticList() {
         return cosmeticList;
     }
-
-    public KillCounterMuscles getKillCounterMuscles() {
-        return killCounterMuscles;
-    }
-
 
     public DragonCompanion getDragonCompanion() {
         return dragonCompanion;
@@ -135,8 +128,6 @@ public class HyperiumCosmetics {
         return this.dragonCosmetic;
     }
 
-
-
     public FlipCosmetic getFlipCosmetic() {
         return this.flipCosmetic;
     }
@@ -149,7 +140,4 @@ public class HyperiumCosmetics {
         return this.wingsCosmetic;
     }
 
-    public KillCounterMuscles getKillCounterMusclesCosmetic() {
-        return this.killCounterMuscles;
-    }
 }
