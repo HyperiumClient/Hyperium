@@ -36,7 +36,6 @@ public class HyperiumBind{
     /**
      * The default key code
      */
-
     private final int defaultKeyCode;
 
     private final String description;

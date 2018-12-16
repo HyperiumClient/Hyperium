@@ -19,7 +19,7 @@ public class MCEF {
 
     public static ClientProxy PROXY = new ClientProxy();
 
-    //Called by Minecraft.run() if the ShutdownPatcher succeeded
+    // Called by Minecraft.run() if the ShutdownPatcher succeeded
     public static void onMinecraftShutdown() {
         Log.info("Minecraft shutdown hook called!");
         try {
@@ -46,6 +46,5 @@ public class MCEF {
         PROXY.onPreInit();
         PROXY.onInit();
     }
-
 
 }
