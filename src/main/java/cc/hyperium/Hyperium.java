@@ -42,7 +42,6 @@ import cc.hyperium.commands.defaults.CommandStats;
 import cc.hyperium.commands.defaults.CommandUpdate;
 import cc.hyperium.commands.defaults.CustomLevelheadCommand;
 import cc.hyperium.commands.defaults.DevTestCommand;
-import cc.hyperium.commands.defaults.CommandD;
 import cc.hyperium.config.DefaultConfig;
 import cc.hyperium.config.Settings;
 import cc.hyperium.cosmetics.HyperiumCosmetics;
