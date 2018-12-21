@@ -15,7 +15,7 @@ import cc.hyperium.handlers.handlers.SettingsHandler;
 import cc.hyperium.mixinsimp.client.GlStateModifier;
 import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
 import cc.hyperium.utils.HyperiumFontRenderer;
-import me.semx11.autotip.util.ReflectionUtil;
+import me.semx11.autotip.universal.ReflectionUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
@@ -86,17 +86,18 @@ public class HyperiumMainGui extends HyperiumGui {
             this.customStates.put(field, customStates.get(field));
         }
         try {
-            rgbFields.add(new RGBFieldSet(Settings.class.getDeclaredField("REACH_RED"),
+            rgbFields.add(new RGBFieldSet(
+                    Settings.class.getDeclaredField("REACH_RED"),
                     Settings.class.getDeclaredField("REACH_GREEN"),
                     Settings.class.getDeclaredField("REACH_BLUE"), Category.REACH, true,
                     Settings.INSTANCE));
+            rgbFields.add(new RGBFieldSet(
+                    Settings.class.getDeclaredField("BUTTON_RED"),
+                    Settings.class.getDeclaredField("BUTTON_GREEN"),
+                    Settings.class.getDeclaredField("BUTTON_BLUE"), Category.BUTTONS, false,
+                    Settings.INSTANCE));
         } catch (NoSuchFieldException e) {
             e.printStackTrace();
-        }
-        initialGuiScale = Minecraft.getMinecraft().gameSettings.guiScale;
-        // Adjust if GUI scale is on automatic.
-        if (Minecraft.getMinecraft().gameSettings.guiScale == 0) {
-            Minecraft.getMinecraft().gameSettings.guiScale = 3;
         }
 
         tabs = Arrays.asList(
@@ -104,9 +105,9 @@ public class HyperiumMainGui extends HyperiumGui {
                 new UpdateTab(this),
                 new ShopTab(this)
         );
-        guiScale = 2;
         scollMultiplier = 2;
         setTab(tabIndex);
+
     }
 
     public HashMap<Field, Supplier<String[]>> getCustomStates() {
@@ -135,7 +136,7 @@ public class HyperiumMainGui extends HyperiumGui {
             Method loadShaderMethod = null;
             try {
                 loadShaderMethod = ReflectionUtil
-                        .findDeclaredMethod(EntityRenderer.class, new String[]{"loadShader", "a"},
+                        .findMethod(EntityRenderer.class, new String[]{"loadShader", "a"},
                                 ResourceLocation.class);
             } catch (Exception ignored) {
             }
@@ -238,6 +239,15 @@ public class HyperiumMainGui extends HyperiumGui {
     public void updateScreen() {
         super.updateScreen();
         searchField.update();
+    }
+
+    @Override
+    public void show() {
+        // Set user's GUI scale to normal whilst the GUI is open.
+        initialGuiScale = Minecraft.getMinecraft().gameSettings.guiScale;
+        Minecraft.getMinecraft().gameSettings.guiScale = 2;
+
+        super.show();
     }
 
     @Override
@@ -356,10 +366,7 @@ public class HyperiumMainGui extends HyperiumGui {
         // Save all settings.
         Hyperium.CONFIG.save();
 
-        if (initialGuiScale == 0) {
-            // User was on automatic so return to that scale.
-            Minecraft.getMinecraft().gameSettings.guiScale = 0;
-        }
+        Minecraft.getMinecraft().gameSettings.guiScale = initialGuiScale;
     }
 
     @Override

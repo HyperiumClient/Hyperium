@@ -1,7 +1,7 @@
 [ ![Discord](https://canary.discordapp.com/api/guilds/411619823445999637/widget.png) ](https://discord.gg/8GakFcT)
 [ ![Travis-CI](https://travis-ci.org/HyperiumClient/Hyperium.svg?branch=master)](https://travis-ci.org/HyperiumClient/Hyperium)
 [![Hyperium Website Badge](https://img.shields.io/badge/visit%20our-website-red.svg)](https://hyperium.cc)
-[![Twitter Follow](https://img.shields.io/twitter/follow/espadrine.svg?label=Follow&style=social)](https://twitter.com/HyperiumClient)
+[![Twitter Follower Count](https://img.shields.io/twitter/follow/HyperiumClient.svg?label=Follow&style=social)](https://twitter.com/HyperiumClient)
 [![GitHub Forks](https://img.shields.io/github/forks/HyperiumClient/Hyperium.svg?style=social&label=Fork&maxAge=2592000)](https://github.com/HyperiumClient/Hyperium/network)
 [![GitHub Stars](https://img.shields.io/github/stars/HyperiumClient/Hyperium.svg?style=social&label=Star&maxAge=2592000)](https://github.com/HyperiumClient/Hyperium/stargazers)
 [![GitHub Watches](https://img.shields.io/github/watchers/HyperiumClient/Hyperium.svg?style=social&label=Watch&maxAge=2592000)](https://github.com/HyperiumClient/Hyperium/watchers)  
@@ -16,7 +16,7 @@ Hyperium is a free and open source Minecraft 1.8.9 client. It combines many popu
 - [AutoGG](https://www.youtube.com/watch?v=1eETPGuSQWA)
 - [AutoWho](https://www.youtube.com/watch?v=osJW53GA_1I)
 - [BlockOverlay](https://www.youtube.com/watch?v=_ELFA5jtNQM)
-- Bossbar Mod
+- [Bossbar Mod](https://github.com/SiroQ)
 - [ChromaHUD](https://www.youtube.com/watch?v=eyh6pcsGMpo)
 - [Custom Crosshair](https://www.youtube.com/watch?v=YYasNSTWA64)  
 - [Custom GUI](https://raw.githubusercontent.com/RDIL/misc-private-images/master/hyperiumclient/hyperiumimg/Hyperium-CustomInGameMenu.JPG)  
@@ -30,6 +30,7 @@ Hyperium is a free and open source Minecraft 1.8.9 client. It combines many popu
 - [MotionBlur](https://www.youtube.com/watch?v=x21aLjDbCRw)
 - [MouseDelayFix](https://prplz.io/mousedelayfix)
 - [NoCloseMyChat](https://hypixel.net/threads/1260752/)
+- [NoNameTags](https://github.com/WesJD/NoNameTags)
 - [Performia](https://github.com/Sk1er/Performia)
 - [Perspective Mod](https://www.youtube.com/watch?v=7FdMMpzNdUk)
 - [Resource Exploit Fix](https://github.com/Sk1er/Resource-Exploit-Fix) 
@@ -78,7 +79,7 @@ A: If you have reported the issue using the automatic prompt, join the [Discord]
 Addons are available for download in the addons channel of the [Hyperium Discord](https://hyperium.cc/discord).
 
 To make an addon, clone the [Addon Workspace](https://github.com/HyperiumClient/Addon-Workspace) and get coding!
-
+**An example comes with the workspace.**
 Follow [this tutorial](https://www.youtube.com/watch?v=RXTIFdoNA8c) to get started.
 
 ## License

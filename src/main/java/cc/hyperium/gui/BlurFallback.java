@@ -3,7 +3,7 @@ package cc.hyperium.gui;
 import cc.hyperium.config.Settings;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.TickEvent;
-import me.semx11.autotip.util.ReflectionUtil;
+import me.semx11.autotip.universal.ReflectionUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.GuiScreen;
@@ -58,7 +58,7 @@ public class BlurFallback {
             if (mc != null && Settings.BLUR_GUI && mc.currentScreen != null && !(mc.currentScreen instanceof GuiChat) && mc.entityRenderer != null && !mc.entityRenderer.isShaderActive()) {
                 Method loadShaderMethod = null;
                 try {
-                    loadShaderMethod = ReflectionUtil.findDeclaredMethod(EntityRenderer.class, new String[]{"loadShader", "a"}, ResourceLocation.class);
+                    loadShaderMethod = ReflectionUtil.findMethod(EntityRenderer.class, new String[]{"loadShader", "a"}, ResourceLocation.class);
                 } catch (Exception ignored) {
                 }
                 if (loadShaderMethod != null) {

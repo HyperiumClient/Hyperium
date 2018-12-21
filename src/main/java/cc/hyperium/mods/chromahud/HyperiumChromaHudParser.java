@@ -17,7 +17,6 @@
 
 package cc.hyperium.mods.chromahud;
 
-
 import cc.hyperium.mods.chromahud.api.ChromaHUDDescription;
 import cc.hyperium.mods.chromahud.api.ChromaHUDParser;
 import cc.hyperium.mods.chromahud.api.DisplayItem;

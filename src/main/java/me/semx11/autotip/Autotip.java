@@ -1,123 +1,242 @@
-/*
- *     Copyright (C) 2018  Hyperium <https://hyperium.cc/>
- *
- *     This program is free software: you can redistribute it and/or modify
- *     it under the terms of the GNU Lesser General Public License as published
- *     by the Free Software Foundation, either version 3 of the License, or
- *     (at your option) any later version.
- *
- *     This program is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *     GNU Lesser General Public License for more details.
- *
- *     You should have received a copy of the GNU Lesser General Public License
- *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-
 package me.semx11.autotip;
 
 import cc.hyperium.Hyperium;
-import cc.hyperium.commands.BaseCommand;
-import cc.hyperium.config.Category;
-import cc.hyperium.config.SelectorSetting;
-import cc.hyperium.config.ToggleSetting;
 import cc.hyperium.event.EventBus;
-import cc.hyperium.mods.AbstractMod;
-import cc.hyperium.utils.ChatColor;
-import cc.hyperium.utils.UUIDUtil;
-import me.semx11.autotip.command.AutotipCommand;
-import me.semx11.autotip.command.LimboCommand;
-import me.semx11.autotip.command.TipHistoryCommand;
-import me.semx11.autotip.event.ChatListener;
-import me.semx11.autotip.event.HypixelListener;
-import me.semx11.autotip.event.Tipper;
-import me.semx11.autotip.misc.AutotipThreadFactory;
-import me.semx11.autotip.misc.Writer;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.mojang.authlib.GameProfile;
+import me.semx11.autotip.api.RequestHandler;
+import me.semx11.autotip.api.reply.impl.LocaleReply;
+import me.semx11.autotip.api.reply.impl.SettingsReply;
+import me.semx11.autotip.api.request.impl.LocaleRequest;
+import me.semx11.autotip.api.request.impl.SettingsRequest;
+import me.semx11.autotip.chat.LocaleHolder;
+import me.semx11.autotip.chat.MessageUtil;
+import me.semx11.autotip.command.CommandAbstract;
+import me.semx11.autotip.command.impl.CommandAutotip;
+import me.semx11.autotip.command.impl.CommandLimbo;
+import me.semx11.autotip.config.Config;
+import me.semx11.autotip.config.GlobalSettings;
+import me.semx11.autotip.core.MigrationManager;
+import me.semx11.autotip.core.SessionManager;
+import me.semx11.autotip.core.StatsManager;
+import me.semx11.autotip.core.TaskManager;
+import me.semx11.autotip.event.Event;
+import me.semx11.autotip.event.impl.EventChatReceived;
+import me.semx11.autotip.event.impl.EventClientConnection;
+import me.semx11.autotip.event.impl.EventClientTick;
+import me.semx11.autotip.gson.creator.ConfigCreator;
+import me.semx11.autotip.gson.creator.StatsDailyCreator;
+import me.semx11.autotip.gson.exclusion.AnnotationExclusionStrategy;
+import me.semx11.autotip.stats.StatsDaily;
+import me.semx11.autotip.universal.UniversalUtil;
+import me.semx11.autotip.util.ErrorReport;
 import me.semx11.autotip.util.FileUtil;
-import me.semx11.autotip.util.Hosts;
-import me.semx11.autotip.util.MessageOption;
+import me.semx11.autotip.util.MinecraftVersion;
 import me.semx11.autotip.util.Version;
 import net.minecraft.client.Minecraft;
+import net.minecraft.util.IChatComponent;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
-public class Autotip extends AbstractMod {
+public class Autotip {
 
-    public static final String MODID = "autotip";
-    public static final String VERSION_STRING = "2.0.3";
-    public static final Version VERSION = new Version(VERSION_STRING);
-    public static final ExecutorService THREAD_POOL = Executors.newCachedThreadPool(new AutotipThreadFactory());
-    public static final Minecraft mc = Minecraft.getMinecraft();
-    public static final List<String> alreadyTipped = new ArrayList<>();
-    public static String USER_DIR = "";
-    public static MessageOption messageOption = MessageOption.SHOWN;
-    public static String playerUUID = "";
-    public static boolean onHypixel = false;
-    @ToggleSetting(name = "Enable", category = Category.AUTOTIP, mods = true)
-    public static boolean toggle = true;
+    public static final Logger LOGGER = LogManager.getLogger("Autotip");
 
-    @SelectorSetting(name = "Tip Messages", category = Category.AUTOTIP, mods = true, items = {"SHOWN", "COMPACT", "HIDDEN"})
-    public static String TIP_MESSAGE_STRING = "SHOWN";
-    public static int totalTipsSent;
-    /**
-     * The metadata of Autotip
-     */
-    private final Metadata meta;
+    static final String MOD_ID = "autotip";
+    static final String NAME = "Autotip";
+    static final String VERSION = "3.0";
+    static final String ACCEPTED_VERSIONS = "[1.8, 1.12.2]";
 
-    public Autotip() {
-        Metadata metadata = new Metadata(this, "Autotip", "2.0.3", "Semx11, 2pi, Sk1er");
+    public static IChatComponent tabHeader;
 
-        metadata.setDisplayName(ChatColor.AQUA + "Autotip");
+    private final List<Event> events = new ArrayList<>();
+    private final List<CommandAbstract> commands = new ArrayList<>();
 
-        this.meta = metadata;
-        Runtime.getRuntime().addShutdownHook(new Thread(Writer::execute));
+    private boolean initialized = false;
+
+    private Minecraft minecraft;
+    private MinecraftVersion mcVersion;
+    private Version version;
+
+    private Gson gson;
+
+    private FileUtil fileUtil;
+    private MessageUtil messageUtil;
+
+    private Config config;
+    private GlobalSettings globalSettings;
+    private LocaleHolder localeHolder;
+
+    private TaskManager taskManager;
+    private SessionManager sessionManager;
+    private MigrationManager migrationManager;
+    private StatsManager statsManager;
+
+    public boolean isInitialized() {
+        return initialized;
     }
 
-    public Autotip init() {
+    public Minecraft getMinecraft() {
+        return minecraft;
+    }
+
+    public GameProfile getGameProfile() {
+        return minecraft.getSession().getProfile();
+    }
+
+    public MinecraftVersion getMcVersion() {
+        return mcVersion;
+    }
+
+    public Version getVersion() {
+        return version;
+    }
+
+    public Gson getGson() {
+        return gson;
+    }
+
+    public FileUtil getFileUtil() {
+        return fileUtil;
+    }
+
+    public MessageUtil getMessageUtil() {
+        return messageUtil;
+    }
+
+    public Config getConfig() {
+        return config;
+    }
+
+    public GlobalSettings getGlobalSettings() {
+        return globalSettings;
+    }
+
+    public LocaleHolder getLocaleHolder() {
+        return localeHolder;
+    }
+
+    public TaskManager getTaskManager() {
+        return taskManager;
+    }
+
+    public SessionManager getSessionManager() {
+        return sessionManager;
+    }
+
+    public MigrationManager getMigrationManager() {
+        return migrationManager;
+    }
+
+    public StatsManager getStatsManager() {
+        return statsManager;
+    }
+
+
+
+    public void init() {
+        ErrorReport.setAutotip(this);
+        RequestHandler.setAutotip(this);
+        UniversalUtil.setAutotip(this);
+        this.minecraft = Minecraft.getMinecraft();
+        this.mcVersion = UniversalUtil.getMinecraftVersion();
+        this.version = new Version(VERSION);
+
+        this.messageUtil = new MessageUtil(this);
+        this.registerEvents(new EventClientTick(this));
+
         try {
-            playerUUID = UUIDUtil.getClientUUID().toString();
-            USER_DIR = "mods" + File.separator + "autotip" + File.separator + playerUUID
-                    + File.separator;
+            this.fileUtil = new FileUtil(this);
+            this.gson = new GsonBuilder()
+                    .registerTypeAdapter(Config.class, new ConfigCreator(this))
+                    .registerTypeAdapter(StatsDaily.class, new StatsDailyCreator(this))
+                    .setExclusionStrategies(new AnnotationExclusionStrategy())
+                    .setPrettyPrinting()
+                    .create();
+
+            this.config = new Config(this);
+            this.reloadGlobalSettings();
+            this.reloadLocale();
+
+            this.taskManager = new TaskManager();
+            this.sessionManager = new SessionManager(this);
+            this.statsManager = new StatsManager(this);
+            this.migrationManager = new MigrationManager(this);
+
+            this.fileUtil.createDirectories();
+            this.config.load();
+            this.taskManager.getExecutor().execute(() -> {
+                this.migrationManager.migrateLegacyFiles();
+            });
+
             this.registerEvents(
-                    new Tipper(),
-                    new HypixelListener(),
-                    new ChatListener()
+                    new EventClientConnection(this),
+                    new EventChatReceived(this)
             );
             this.registerCommands(
-                    new AutotipCommand()
-
+                    new CommandAutotip(this),
+                    new CommandLimbo(this)
             );
-            this.registerCommands(
-                    new TipHistoryCommand());
-            this.registerCommands(
-                    new LimboCommand()
-            );
-
-            FileUtil.getVars();
-            Hosts.updateHosts();
-        } catch (NullPointerException e2) {
-            Hyperium.LOGGER.debug("[Auto-GG] Invalid UUID detected; Not logged in?.");
+            Runtime.getRuntime().addShutdownHook(new Thread(sessionManager::logout));
+            this.initialized = true;
+        } catch (IOException e) {
+            messageUtil.send("Autotip is disabled because it couldn't create the required files.");
+            ErrorReport.reportException(e);
+        } catch (IllegalStateException e) {
+            messageUtil.send("Autotip is disabled because it couldn't connect to the API.");
+            ErrorReport.reportException(e);
         }
-        return this;
     }
 
-    @Override
-    public Metadata getModMetadata() {
-        return this.meta;
+    public void reloadGlobalSettings() {
+        SettingsReply reply = SettingsRequest.of(this).execute();
+        if (!reply.isSuccess()) {
+            throw new IllegalStateException("Connection error while fetching global settings");
+        }
+        this.globalSettings = reply.getSettings();
     }
 
-    private void registerEvents(Object... events) {
-        Arrays.asList(events).forEach(EventBus.INSTANCE::register);
+    public void reloadLocale() {
+        LocaleReply reply = LocaleRequest.of(this).execute();
+        if (!reply.isSuccess()) {
+            throw new IllegalStateException("Could not fetch locale");
+        }
+        this.localeHolder = reply.getLocaleHolder();
     }
 
-    private void registerCommands(BaseCommand... commands) {
-        Arrays.asList(commands).forEach((e) -> Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(e));
+    @SuppressWarnings("unchecked")
+    public <T extends Event> T getEvent(Class<T> clazz) {
+        return (T) events.stream()
+                .filter(event -> event.getClass().equals(clazz))
+                .findFirst()
+                .orElse(null);
+    }
+
+    @SuppressWarnings("unchecked")
+    public <T extends CommandAbstract> T getCommand(Class<T> clazz) {
+        return (T) commands.stream()
+                .filter(command -> command.getClass().equals(clazz))
+                .findFirst()
+                .orElse(null);
+    }
+
+    private void registerEvents(Event... events) {
+        for (Event event : events) {
+            EventBus.INSTANCE.register(event);
+            this.events.add(event);
+        }
+    }
+
+    private void registerCommands(CommandAbstract... commands) {
+        for (CommandAbstract command : commands) {
+            Hyperium.INSTANCE.getHandlers().getCommandHandler().registerCommand(command);
+            this.commands.add(command);
+        }
     }
 
 }
