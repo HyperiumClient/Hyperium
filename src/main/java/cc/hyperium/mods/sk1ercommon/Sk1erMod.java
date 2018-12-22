@@ -23,7 +23,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import net.minecraft.client.Minecraft;
 import org.apache.commons.io.IOUtils;
-
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -66,24 +65,21 @@ public class Sk1erMod {
         return en;
     }
 
-
     public boolean isEnabled() {
         return true;
     }
-
 
     public String getApIKey() {
         return apiKey;
     }
 
-
     public JsonObject getPlayer(String name) {
-        return new JsonParser().parse(rawWithAgent("http://sk1er.club/data/" + name + "/" + getApIKey())).getAsJsonObject();
+        return new JsonParser().parse(rawWithAgent("https://sk1er.club/data/" + name + "/" + getApIKey())).getAsJsonObject();
     }
 
     public void checkStatus() {
         Multithreading.schedule(() -> {
-            en = new JsonHolder(rawWithAgent("http://sk1er.club/genkey?name=" + Minecraft.getMinecraft().getSession().getProfile().getName()
+            en = new JsonHolder(rawWithAgent("https://sk1er.club/genkey?name=" + Minecraft.getMinecraft().getSession().getProfile().getName()
                     + "&uuid=" + Minecraft.getMinecraft().getSession().getPlayerID().replace("-", "")
                     + "&mcver=" + Minecraft.getMinecraft().getVersion()
                     + "&modver=" + version
@@ -124,6 +120,5 @@ public class Sk1erMod {
         return object.toString();
 
     }
-
 
 }
