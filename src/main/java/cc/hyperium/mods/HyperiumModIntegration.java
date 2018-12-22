@@ -69,7 +69,7 @@ public class HyperiumModIntegration {
     private final VictoryRoyale victoryRoyale;
 
     public HyperiumModIntegration() {
-        // ChromaHud implementation
+        // ChromaHUD implementation
         this.chromaHUD = ((ChromaHUD) new ChromaHUD().init());
 
         // LevelHead implementation

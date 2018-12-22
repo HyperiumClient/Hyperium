@@ -32,7 +32,6 @@ import cc.hyperium.mods.chromahud.displayitems.hyperium.RatingDisplay;
 import cc.hyperium.mods.chromahud.displayitems.hyperium.ScoreboardDisplay;
 import cc.hyperium.mods.chromahud.displayitems.hyperium.ToggleSprintStatus;
 import cc.hyperium.utils.JsonHolder;
-
 import java.util.HashMap;
 import java.util.Map;
 

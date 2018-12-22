@@ -41,7 +41,6 @@ import cc.hyperium.commands.defaults.CommandStatistics;
 import cc.hyperium.commands.defaults.CommandStats;
 import cc.hyperium.commands.defaults.CommandUpdate;
 import cc.hyperium.commands.defaults.CustomLevelheadCommand;
-import cc.hyperium.commands.defaults.DevTestCommand;
 import cc.hyperium.config.DefaultConfig;
 import cc.hyperium.config.Settings;
 import cc.hyperium.cosmetics.HyperiumCosmetics;
@@ -226,14 +225,13 @@ public class Hyperium {
             EventBus.INSTANCE.register(new CommandUpdate());
             EventBus.INSTANCE.register(new ThankWatchdog());
 
-
             // Register statistics tracking.
             EventBus.INSTANCE.register(statTrack);
             CONFIG.register(statTrack);
             CONFIG.register(new ToggleSprintContainer());
 
             SplashProgress.setProgress(7, I18n.format("splashprogress.startinghyperium"));
-            LOGGER.info("Hyperium Started!");
+            LOGGER.info("[Hyperium] Started!");
             Display.setTitle("Hyperium " + Metadata.getVersion());
 
             TrayManager trayManager = new TrayManager();
@@ -243,7 +241,7 @@ public class Hyperium {
                 trayManager.init();
             } catch (Exception e) {
                 e.printStackTrace();
-                LOGGER.warn("Failed to hookup TrayIcon");
+                LOGGER.warn("[Tray] Failed to hookup TrayIcon");
             }
 
             // instance does not need to be saved as shit is static ^.^
@@ -264,7 +262,7 @@ public class Hyperium {
                     StaffUtils.clearCache();
                 } catch (IOException e) {
                     e.printStackTrace();
-                    LOGGER.warn("Failed to fetch staff");
+                    LOGGER.warn("[Staff] Failed to fetch staff");
                 }
 
             });
@@ -351,7 +349,6 @@ public class Hyperium {
         hyperiumCommandHandler.registerCommand(new CommandDebug());
         hyperiumCommandHandler.registerCommand(new CommandUpdate());
         hyperiumCommandHandler.registerCommand(new CommandCoords());
-        hyperiumCommandHandler.registerCommand(new DevTestCommand());
         hyperiumCommandHandler.registerCommand(new CommandLogs());
         hyperiumCommandHandler.registerCommand(new CommandPing());
         hyperiumCommandHandler.registerCommand(new CommandStats());
@@ -367,7 +364,6 @@ public class Hyperium {
         hyperiumCommandHandler.registerCommand(new CommandStatistics());
         hyperiumCommandHandler.registerCommand(new CommandKeybinds());
     }
-
 
     /**
      * called when Hyperium shuts down
@@ -474,9 +470,9 @@ public class Hyperium {
 
         File tempNatives = new File(nativePath);
         if (!tempNatives.exists()) {
-            System.out.println("Error - Natives are missing.");
+            System.out.println("[Error] Natives are missing.");
         } else {
-            System.out.println("Copying natives to hyperium folder.");
+            System.out.println("[Hyperium] Copying natives to hyperium directory.");
             try {
                 for (File fileEntry : tempNatives.listFiles()) {
                     Files.copy(fileEntry.toPath(), Paths.get(newFolder.getPath() + File.separator + fileEntry.getName()), StandardCopyOption.REPLACE_EXISTING);

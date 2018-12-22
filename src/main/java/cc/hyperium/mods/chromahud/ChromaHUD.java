@@ -120,7 +120,6 @@ public class ChromaHUD extends AbstractMod {
                 "ss - Second\n" +
                 "For more options, Google \"Date Format\""));
 
-
         ChromaHUDApi.getInstance().registerButtonConfig("SCOREBOARD", new ButtonConfig((guiButton, displayItem) -> displayItem.getData().put("numbers", !displayItem.getData().optBoolean("numbers")), new GuiButton(0, 0, 0, "Toggle Number"), (guiButton, displayItem) -> {
         }));
 
