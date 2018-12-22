@@ -5,9 +5,6 @@ import cc.hyperium.event.EventBus;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.mojang.authlib.GameProfile;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import me.semx11.autotip.api.RequestHandler;
 import me.semx11.autotip.api.reply.impl.LocaleReply;
 import me.semx11.autotip.api.reply.impl.SettingsReply;
@@ -38,9 +35,13 @@ import me.semx11.autotip.util.FileUtil;
 import me.semx11.autotip.util.MinecraftVersion;
 import me.semx11.autotip.util.Version;
 import net.minecraft.client.Minecraft;
-
+import net.minecraft.util.IChatComponent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Autotip {
 
@@ -50,6 +51,8 @@ public class Autotip {
     static final String NAME = "Autotip";
     static final String VERSION = "3.0";
     static final String ACCEPTED_VERSIONS = "[1.8, 1.12.2]";
+
+    public static IChatComponent tabHeader;
 
     private final List<Event> events = new ArrayList<>();
     private final List<CommandAbstract> commands = new ArrayList<>();

@@ -295,7 +295,7 @@ public class HyperiumMinecraft {
     }
 
     public void runTickMouseButton(CallbackInfo ci) {
-        // Actiavtes for EVERY mouse button.
+        // Activates for EVERY mouse button.
         int i = Mouse.getEventButton();
         boolean state = Mouse.getEventButtonState();
         if (state) {
@@ -308,11 +308,25 @@ public class HyperiumMinecraft {
     }
 
     public void displayCrashReport(CrashReport crashReportIn) {
-        File file1 = new File(Minecraft.getMinecraft().mcDataDir, "crash-reports");
-        File file2 = new File(file1,
-                "crash-" + (new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss")).format(new Date())
+        // Separate Hyperium crash reports.
+        String data = crashReportIn.getCauseStackTraceOrString();
+        File crashReportDir;
+        String crashReportPrefix = "crash-";
+        if(data.contains("hyperium")){
+            crashReportDir = new File(Minecraft.getMinecraft().mcDataDir, "hyperium-crash-reports");
+            if(!crashReportDir.exists()){
+                crashReportDir.mkdir();
+            }
+            crashReportPrefix = "hyperium-crash-";
+        } else{
+            crashReportDir = new File(Minecraft.getMinecraft().mcDataDir, "crash-reports");
+        }
+
+        File crashReportFile = new File(crashReportDir,
+                crashReportPrefix + (new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss")).format(new Date())
                         + "-client.txt");
-        crashReportIn.saveToFile(file2);
+
+        crashReportIn.saveToFile(crashReportFile);
         Bootstrap.printToSYSOUT(crashReportIn.getCompleteReport());
 
         try {
@@ -327,19 +341,21 @@ public class HyperiumMinecraft {
             System.out.println("Display not created yet. This is going to cause issues.");
         }
 
-        int x = CrashReportGUI.handle(crashReportIn);
+
+        // Intercept the crash with Hyperium crash report GUI.
+        int crashAction = CrashReportGUI.handle(crashReportIn);
 
         if (crashReportIn.getFile() != null) {
             Bootstrap.printToSYSOUT(
                     "#@!@# Game crashed! Crash report saved to: #@!@# " + crashReportIn.getFile());
-        } else if (crashReportIn.saveToFile(file2)) {
+        } else if (crashReportIn.saveToFile(crashReportFile)) {
             Bootstrap.printToSYSOUT(
-                    "#@!@# Game crashed! Crash report saved to: #@!@# " + file2.getAbsolutePath());
+                    "#@!@# Game crashed! Crash report saved to: #@!@# " + crashReportFile.getAbsolutePath());
         } else {
             Bootstrap.printToSYSOUT("#@?@# Game crashed! Crash report could not be saved. #@?@#");
         }
 
-        switch (x) {
+        switch (crashAction) {
             case 0:
                 System.exit(-1);
                 break;
@@ -353,6 +369,7 @@ public class HyperiumMinecraft {
                 break;
             case 2:
                 try {
+                    // Restart the client using the command line.
                     StringBuilder cmd = new StringBuilder();
                     String[] command = System.getProperty("sun.java.command").split(" ");
                     cmd.append(System.getProperty("java.home")).append(File.separator).append("bin")

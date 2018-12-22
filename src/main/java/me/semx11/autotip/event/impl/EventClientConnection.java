@@ -1,7 +1,5 @@
 package me.semx11.autotip.event.impl;
 
-import java.lang.reflect.Field;
-
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.ServerJoinEvent;
 import cc.hyperium.event.ServerLeaveEvent;
@@ -10,16 +8,11 @@ import me.semx11.autotip.core.SessionManager;
 import me.semx11.autotip.core.TaskManager;
 import me.semx11.autotip.core.TaskManager.TaskType;
 import me.semx11.autotip.event.Event;
-import me.semx11.autotip.universal.ReflectionUtil;
 import me.semx11.autotip.universal.UniversalUtil;
-import me.semx11.autotip.util.ErrorReport;
-import net.minecraft.client.gui.GuiPlayerTabOverlay;
+import net.minecraft.client.Minecraft;
+import net.minecraft.util.IChatComponent;
 
 public class EventClientConnection implements Event {
-
-    private static final Field HEADER_FIELD = ReflectionUtil
-            .findField(GuiPlayerTabOverlay.class, "field_175256_i", "header");
-
     private final Autotip autotip;
     private final String hypixelHeader;
 
@@ -40,20 +33,15 @@ public class EventClientConnection implements Event {
     }
 
     public Object getHeader() {
-        try {
-            return HEADER_FIELD.get(autotip.getMinecraft().ingameGUI.getTabList());
-        } catch (IllegalAccessException | NullPointerException e) {
-            ErrorReport.reportException(e);
-            return null;
-        }
+        return Autotip.tabHeader;
+    }
+
+    public void setHeader(IChatComponent component) {
+        Minecraft.getMinecraft().ingameGUI.getTabList().setHeader(component);
     }
 
     private void resetHeader() {
-        try {
-            HEADER_FIELD.set(autotip.getMinecraft().ingameGUI.getTabList(), null);
-        } catch (IllegalAccessException e) {
-            ErrorReport.reportException(e);
-        }
+        setHeader(null);
     }
 
     @InvokeEvent
