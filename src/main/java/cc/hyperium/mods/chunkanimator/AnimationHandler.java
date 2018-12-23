@@ -58,7 +58,7 @@ public class AnimationHandler {
             if (time == -1L) {
                 time = System.currentTimeMillis();
                 animationData.timeStamp = time;
-                if (mode.equals("From direction your facing")) {
+                if (mode.equals("From direction you're facing")) {
                     BlockPos zeroedPlayerPosition = Minecraft.getMinecraft().thePlayer.getPosition();
                     zeroedPlayerPosition = zeroedPlayerPosition.add(0, -zeroedPlayerPosition.getY(), 0);
                     final BlockPos zeroedCenteredChunkPos = renderChunk.getPosition().add(8, -renderChunk.getPosition().getY(), 8);
@@ -79,7 +79,7 @@ public class AnimationHandler {
                         mode = "Down from sky";
                     }
                 }
-                if (mode.equals("From direction your facing")) {
+                if (mode.equals("From direction you're facing")) {
                     mode = "From sides";
                 }
                 switch (mode) {
