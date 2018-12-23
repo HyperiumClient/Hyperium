@@ -19,7 +19,7 @@ public class ChunkAnimatorConfig {
             "Down from sky",
             "Down from sky",
             "From sides",
-            "From direction your facing"
+            "From direction you're facing"
     }, mods = true)
     public static String mode = "0";
 
