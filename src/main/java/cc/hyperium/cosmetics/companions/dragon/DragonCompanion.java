@@ -64,7 +64,6 @@ public class DragonCompanion extends AbstractCosmetic {
 
         //Manage pos here;
 
-
         float partialTicks = event.getPartialTicks();
 
         double d0 = player.lastTickPosX + (player.posX - player.lastTickPosX) * (double) partialTicks;
@@ -127,7 +126,6 @@ public class DragonCompanion extends AbstractCosmetic {
                 entityDragon.posY = current.y / scale;
                 entityDragon.posZ = current.z / scale;
 
-
                 double dx = animationState.next.x - animationState.last.x;
                 double dz = animationState.next.z - animationState.last.z;
 
@@ -150,9 +148,7 @@ public class DragonCompanion extends AbstractCosmetic {
             }
         }
 
-
     }
-
 
     class CustomDragon {
         EntityDragon dragon;
@@ -249,6 +245,7 @@ public class DragonCompanion extends AbstractCosmetic {
                     y,
                     current.nextDouble(-BOUNDS + posZ, BOUNDS + posZ));
         }
+
     }
 
 }

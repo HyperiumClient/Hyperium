@@ -7,7 +7,6 @@ import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.purchases.EnumPurchaseType;
 import cc.hyperium.purchases.PurchaseApi;
 import cc.hyperium.utils.UUIDUtil;
-
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -20,6 +19,7 @@ public abstract class AbstractCosmetic {
     private final EnumPurchaseType purchaseType;
     private final Map<UUID, Boolean> purchasedBy = new ConcurrentHashMap<>();
     private boolean selfUnlocked;
+    private boolean checkDevEnv;
 
     public AbstractCosmetic(boolean selfOnly, EnumPurchaseType purchaseType) {
         this.selfOnly = selfOnly;
@@ -27,7 +27,7 @@ public abstract class AbstractCosmetic {
         try {
             PurchaseApi.getInstance().getPackageAsync(UUIDUtil.getClientUUID(), hyperiumPurchase -> {
                 if (hyperiumPurchase == null) {
-                    System.out.println("WARNING COSMETIC NULL");
+                    System.out.println("[Cosmetics] Detected " + getPurchaseType() + " is not purchased!");
                     return;
                 }
                 selfUnlocked = hyperiumPurchase.hasPurchased(purchaseType);
@@ -72,7 +72,6 @@ public abstract class AbstractCosmetic {
     public EnumPurchaseType getPurchaseType() {
         return purchaseType;
     }
-
 
     public boolean isSelfUnlocked() {
         return selfUnlocked;
