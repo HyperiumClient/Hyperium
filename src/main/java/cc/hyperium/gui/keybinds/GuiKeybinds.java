@@ -35,13 +35,13 @@ public class GuiKeybinds extends HyperiumGui {
     private int rightGui;
     private int bottomGui;
 
-    private boolean autoGuiScale = false;
+    private int initialGuiScale;
 
     public GuiKeybinds(){
-        if(Minecraft.getMinecraft().gameSettings.guiScale == 0){
-            autoGuiScale = true;
-            Minecraft.getMinecraft().gameSettings.guiScale = 3;
-        }
+        initialGuiScale = Minecraft.getMinecraft().gameSettings.guiScale;
+
+        // Change the GUI scale to the intended one.
+        Minecraft.getMinecraft().gameSettings.guiScale = 3;
     }
 
     @Override
@@ -244,14 +244,14 @@ public class GuiKeybinds extends HyperiumGui {
     }
 
     private void openPreviousGui(){
-        if(autoGuiScale){
-            Minecraft.getMinecraft().gameSettings.guiScale = 0;
-        }
-        Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(prevGui);
+        prevGui.show();
     }
 
     @Override
     public void onGuiClosed() {
+        // Reset back to the user's normal GUI scale.
+        Minecraft.getMinecraft().gameSettings.guiScale = initialGuiScale;
+
         super.onGuiClosed();
         openPreviousGui();
     }
