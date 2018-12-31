@@ -33,7 +33,7 @@ public class AnimationHandler {
             if (flag) {
                 EnumFacing chunkFacing = null;
 
-                if (ChunkAnimatorConfig.mode.equals("3")) {
+                if (ChunkAnimatorConfig.mode.equals("From sides")) {
                     Vec3i dif = zeroedPlayerPosition.subtract(zeroedCenteredChunkPos);
 
                     int difX = Math.abs(dif.getX());
@@ -58,7 +58,7 @@ public class AnimationHandler {
             if (time == -1L) {
                 time = System.currentTimeMillis();
                 animationData.timeStamp = time;
-                if (mode.equals("4")) {
+                if (mode.equals("From direction you're facing")) {
                     BlockPos zeroedPlayerPosition = Minecraft.getMinecraft().thePlayer.getPosition();
                     zeroedPlayerPosition = zeroedPlayerPosition.add(0, -zeroedPlayerPosition.getY(), 0);
                     final BlockPos zeroedCenteredChunkPos = renderChunk.getPosition().add(8, -renderChunk.getPosition().getY(), 8);
@@ -72,28 +72,28 @@ public class AnimationHandler {
             final int animationDuration = ChunkAnimatorConfig.animDuration;
             if (timeDif < animationDuration) {
                 final double chunkY = renderChunk.getPosition().getY();
-                if (mode.equals("2")) {
+                if (mode.equals("Down from sky")) {
                     if (chunkY < Minecraft.getMinecraft().theWorld.getHorizon()) {
-                        mode = "0";
+                        mode = "Up from ground";
                     } else {
-                        mode = "1";
+                        mode = "Down from sky";
                     }
                 }
-                if (mode.equals("4")) {
-                    mode = "3";
+                if (mode.equals("From direction you're facing")) {
+                    mode = "From sides";
                 }
                 switch (mode) {
-                    case "0": {
+                    case "Up from ground": {
                         final double modY = chunkY / animationDuration * timeDif;
                         GlStateManager.translate(0.0, -chunkY + modY, 0.0);
                         break;
                     }
-                    case "1": {
+                    case "Down from sky": {
                         final double modY = (256.0 - chunkY) / animationDuration * timeDif;
                         GlStateManager.translate(0.0, 256.0 - chunkY - modY, 0.0);
                         break;
                     }
-                    case "3": {
+                    case "From sides": {
                         final EnumFacing chunkFacing2 = animationData.chunkFacing;
                         if (chunkFacing2 != null) {
                             final Vec3i vec = chunkFacing2.getDirectionVec();
