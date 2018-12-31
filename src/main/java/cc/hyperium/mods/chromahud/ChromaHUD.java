@@ -120,12 +120,10 @@ public class ChromaHUD extends AbstractMod {
                 "ss - Second\n" +
                 "For more options, Google \"Date Format\""));
 
-
         ChromaHUDApi.getInstance().registerButtonConfig("SCOREBOARD", new ButtonConfig((guiButton, displayItem) -> displayItem.getData().put("numbers", !displayItem.getData().optBoolean("numbers")), new GuiButton(0, 0, 0, "Toggle Number"), (guiButton, displayItem) -> {
         }));
 
         ChromaHUDApi.getInstance().registerTextConfig("SPRINT_STATUS", new TextConfig((guiTextField, displayItem) -> ((ToggleSprintStatus) displayItem).setSprintEnabledText(guiTextField.getText()), textTextField, (guiTextField, displayItem) -> guiTextField.setText(((ToggleSprintStatus) displayItem).getStatusText())));
-
 
         ChromaHUDApi.getInstance().registerButtonConfig("COINS", new ButtonConfig((guiButton, displayItem) -> {
             JsonHolder data = displayItem.getData();
@@ -156,9 +154,7 @@ public class ChromaHUD extends AbstractMod {
         }));
         setup();
         EventBus.INSTANCE.register(new ElementRenderer(this));
-
         Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(new CommandChromaHUD(this));
-
         return this;
     }
 
@@ -166,7 +162,6 @@ public class ChromaHUD extends AbstractMod {
     public Metadata getModMetadata() {
         return this.meta;
     }
-
 
     public void setup() {
         JsonHolder data = new JsonHolder();
@@ -195,7 +190,6 @@ public class ChromaHUD extends AbstractMod {
         return ChromaHUDApi.getInstance().getElements();
     }
 
-
     public GeneralConfigGui getConfigGuiInstance() {
         return new GeneralConfigGui(this);
     }
@@ -218,7 +212,6 @@ public class ChromaHUD extends AbstractMod {
                 items.add(raw.getObject());
             }
             elementArray.add(tmp.getObject());
-
             tmp.putArray("items", items);
         }
         try {
@@ -234,6 +227,5 @@ public class ChromaHUD extends AbstractMod {
         }
 
     }
-
 
 }

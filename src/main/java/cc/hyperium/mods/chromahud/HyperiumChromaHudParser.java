@@ -17,7 +17,6 @@
 
 package cc.hyperium.mods.chromahud;
 
-
 import cc.hyperium.mods.chromahud.api.ChromaHUDDescription;
 import cc.hyperium.mods.chromahud.api.ChromaHUDParser;
 import cc.hyperium.mods.chromahud.api.DisplayItem;
@@ -33,7 +32,6 @@ import cc.hyperium.mods.chromahud.displayitems.hyperium.RatingDisplay;
 import cc.hyperium.mods.chromahud.displayitems.hyperium.ScoreboardDisplay;
 import cc.hyperium.mods.chromahud.displayitems.hyperium.ToggleSprintStatus;
 import cc.hyperium.utils.JsonHolder;
-
 import java.util.HashMap;
 import java.util.Map;
 

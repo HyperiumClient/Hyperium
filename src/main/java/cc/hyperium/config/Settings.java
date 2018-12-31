@@ -17,10 +17,14 @@
 
 package cc.hyperium.config;
 
-import cc.hyperium.GuiStyle;
 import cc.hyperium.Hyperium;
 
+import cc.hyperium.styles.ButtonStyle;
+import cc.hyperium.styles.ButtonType;
+import cc.hyperium.styles.GuiStyle;
+
 import static cc.hyperium.config.Category.ANIMATIONS;
+import static cc.hyperium.config.Category.BUTTONS;
 import static cc.hyperium.config.Category.CHROMAHUD;
 import static cc.hyperium.config.Category.COSMETICS;
 import static cc.hyperium.config.Category.GENERAL;
@@ -28,11 +32,12 @@ import static cc.hyperium.config.Category.HYPIXEL;
 import static cc.hyperium.config.Category.IMPROVEMENTS;
 import static cc.hyperium.config.Category.INTEGRATIONS;
 import static cc.hyperium.config.Category.ITEM_PHYSIC;
+import static cc.hyperium.config.Category.MENUS;
 import static cc.hyperium.config.Category.MISC;
 import static cc.hyperium.config.Category.REACH;
-import static cc.hyperium.config.Category.SPOTIFY;
-import static cc.hyperium.config.Category.UTILITIES;
+import static cc.hyperium.config.Category.TOGGLESPRINT;
 import static cc.hyperium.config.Category.VANILLA_ENHANCEMENTS;
+import static cc.hyperium.config.Category.VICTORYROYALE;
 
 /*
  * Created by Cubxity on 03/06/2018
@@ -164,8 +169,7 @@ public class Settings {
     @SelectorSetting(name = "Companion Type", category = COSMETICS, items = "NONE")
     public static String COMPANION_TYPE = "NONE";
 
-    @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;spotifyControlsEnabled")
-    @ToggleSetting(name = "gui.settings.showspotifycontrols", category = SPOTIFY, mods = true)
+    @ConfigOpt
     public static boolean SPOTIFY_CONTROLS = false;
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;hypixelZooEnabled")
@@ -256,7 +260,7 @@ public class Settings {
     public static boolean TPOSE_TOGGLE_MODE = true;
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.BackgroundSettings;backgroundSelect")
-    @SelectorSetting(name = "gui.settings.background", category = MISC, items =
+    @SelectorSetting(name = "gui.settings.background", category = MENUS, items =
             {
                     "1",
                     "2",
@@ -375,16 +379,21 @@ public class Settings {
     @ToggleSetting(name = "gui.settings.disable_dances",category = COSMETICS)
     @ConfigOpt
     public static boolean DISABLE_DANCES = false;
+
     @ConfigOpt
     @ToggleSetting(name = "gui.settings.showchromahud", category = CHROMAHUD, mods = true)
     public static boolean SHOW_CHROMAHUD = true;
+
+    @ConfigOpt
+    @ToggleSetting(name="gui.settings.chromahudprefixsquarebrace", category = CHROMAHUD, mods = true)
+    public static boolean CHROMAHUD_SQUAREBRACE_PREFIX_OPTION = false;
 
     @ConfigOpt
     @SelectorSetting(name = "gui.settings.mainmenustyle", items =
             {
                     "HYPERIUM",
                     "DEFAULT"
-            }, category = MISC
+            }, category = MENUS
     )
     public static String MENU_STYLE = GuiStyle.DEFAULT.name();
 
@@ -393,16 +402,14 @@ public class Settings {
             {
                     "HYPERIUM",
                     "DEFAULT"
-            }, category = MISC
+            }, category = MENUS
     )
     public static String PAUSE_STYLE = GuiStyle.HYPERIUM.name();
 
     @ConfigOpt
-    @ToggleSetting(name = "gui.settings.spotifynotifications", category = SPOTIFY, mods = true)
     public static boolean SPOTIFY_NOTIFICATIONS = false;
 
     @ConfigOpt
-    @ToggleSetting(name = "gui.settings.forcespotifytoneverload", category = SPOTIFY, mods = true)
     public static boolean SPOTIFY_FORCE_DISABLE = true;
 
     @ConfigOpt
@@ -500,9 +507,8 @@ public class Settings {
     public static int REACH_GREEN = 255;
 
     @ConfigOpt
-    @ToggleSetting(name = "gui.settings.togglesprint", category = UTILITIES, mods = true)
+    @ToggleSetting(name = "gui.settings.togglesprint", category = TOGGLESPRINT, mods = true)
     public static boolean ENABLE_TOGGLE_SPRINT = true;
-
 
     @ConfigOpt
     @ToggleSetting(name = "gui.settings.broadcastlevelups", category = HYPIXEL)
@@ -512,6 +518,9 @@ public class Settings {
     @ToggleSetting(name = "gui.settings.broadcastachievements", category = HYPIXEL)
     public static boolean BROADCAST_ACHIEVEMENTS = true;
 
+    @ConfigOpt
+    @ToggleSetting(name = "gui.settings.hyperiumprefix", category = GENERAL)
+    public static boolean HYPERIUM_CHAT_PREFIX = true;
 
     @ConfigOpt
     @SelectorSetting(name = "gui.settings.showbutt", category = COSMETICS, items = {"YES", "NO"})
@@ -557,7 +566,7 @@ public class Settings {
     public static long TOTAL_PLAYTIME = 0;
 
     @ConfigOpt
-    @ToggleSetting(name = "gui.settings.victoryroyale", category = UTILITIES, mods = true)
+    @ToggleSetting(name = "gui.settings.victoryroyale", category = VICTORYROYALE, mods = true)
     public static boolean VICTORY_ROYALE = false;
 
     @ConfigOpt
@@ -570,6 +579,41 @@ public class Settings {
             "SKYCADE"
     })
     public static String MAIN_MENU_SERVER = "HYPIXEL";
+
+    @ConfigOpt
+    @ToggleSetting(name = "gui.settings.betterf1", category = VANILLA_ENHANCEMENTS, mods = true)
+    public static boolean BETTERF1 = false;
+
+    @ConfigOpt
+    @SelectorSetting(name = "gui.settings.buttonstyle", category = BUTTONS, items = {
+            "HYPERIUM",
+            "HYPERIUM 2"
+    })
+    public static String BUTTON_STYLE = ButtonStyle.HYPERIUM.name();
+
+    @ConfigOpt
+    @SliderSetting(name = "gui.settings.buttonred", isInt = true, min = 0, max = 255, category = BUTTONS)
+    public static int BUTTON_RED = 255;
+
+    @ConfigOpt
+    @SliderSetting(name = "gui.settings.buttongreen", isInt = true, min = 0, max = 255, category = BUTTONS)
+    public static int BUTTON_GREEN = 255;
+
+    @ConfigOpt
+    @SliderSetting(name = "gui.settings.buttonblue", isInt = true, min = 0, max = 255, category = BUTTONS)
+    public static int BUTTON_BLUE = 255;
+
+    @ConfigOpt
+    @SelectorSetting(name = "gui.settings.buttontype", category = BUTTONS, items = {
+            "DEFAULT",
+            "RGB",
+            "CHROMA"
+    })
+    public static String BUTTON_TYPE = ButtonType.DEFAULT.name();
+
+    @ConfigOpt
+    @ToggleSetting(name = "gui.settings.disableenchantglint", category = IMPROVEMENTS)
+    public static boolean DISABLE_ENCHANT_GLINT = false;
 
     private Settings() {
     }

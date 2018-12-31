@@ -15,7 +15,7 @@ public class TabToggleEventListener {
 
   @InvokeEvent
   public void onKeyPress(KeypressEvent e) {
-    if (e.isRepeat() || e.getKey() != Keyboard.KEY_TAB) {
+    if (!Minecraft.getMinecraft().gameSettings.keyBindPlayerList.isPressed()) {
       return;
     }
 

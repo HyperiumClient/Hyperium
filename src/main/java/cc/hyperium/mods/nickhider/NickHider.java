@@ -7,6 +7,7 @@ import cc.hyperium.event.RenderEvent;
 import cc.hyperium.event.TickEvent;
 import cc.hyperium.internal.addons.annotations.Instance;
 import cc.hyperium.mixins.gui.MixinGuiScreenBook;
+import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.mods.sk1ercommon.Sk1erMod;
 import com.google.common.collect.ObjectArrays;
 import com.google.gson.Gson;
@@ -29,6 +30,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -71,25 +73,18 @@ public class NickHider {
     public void setPseudo_key(String pseudo_key) {
         config.setPseudo_key(pseudo_key);
     }
+    private List<String> namesDatabase = new ArrayList<>();
 
     public String getPseudo(String input) {
         int i = input.hashCode() + getPseudo_key().hashCode();
-        StringBuilder builder = new StringBuilder();
-        String stuff = "1234567890abcdefghijklmnopqrstuvwxyz";
         if (i < 0)
             i = -i;
 
-        while (i > 0) {
-            int length = stuff.length();
-            int i1 = i % length;
-            i /= length;
-            builder.append(stuff.charAt(i1));
-            if (builder.length() > 5)
-                break;
-        }
-        String s = builder.toString();
+        int size = namesDatabase.size();
+        if (size == 0)
+            return "Player-error";
 
-        return "Player" + s;
+        return "Player-" + namesDatabase.get(i % size);
     }
 
     public void init() {
@@ -100,6 +95,10 @@ public class NickHider {
                 extendedUse = true;
         });
         sk1erMod.checkStatus();
+        Multithreading.runAsync(() -> {
+            String s = sk1erMod.rawWithAgent("https://sk1er.club/words.txt?uuid=" + Minecraft.getMinecraft().getSession().getProfile().getId());
+            namesDatabase.addAll(Arrays.asList(s.split("\n")));
+        });
         if (suggestedConfigurationFile.exists()) {
             try {
                 FileReader baseReader = new FileReader(this.suggestedConfigurationFile);

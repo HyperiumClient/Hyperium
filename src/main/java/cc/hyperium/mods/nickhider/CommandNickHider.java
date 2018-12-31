@@ -7,7 +7,6 @@ import net.minecraft.util.EnumChatFormatting;
 public class CommandNickHider implements BaseCommand {
 
 
-
     @Override
     public String getName() {
         return "nickhider";
@@ -17,9 +16,11 @@ public class CommandNickHider implements BaseCommand {
     public String getUsage() {
         return null;
     }
+
     public void sendMessage(String in) {
         GeneralChatHandler.instance().sendMessage(in);
     }
+
     @Override
     public void onExecute(String[] args) throws cc.hyperium.commands.CommandException {
         if (args.length == 0) {
@@ -30,7 +31,10 @@ public class CommandNickHider implements BaseCommand {
             sendMessage("Skins: " + (NickHider.INSTANCE.isHideSkins() ? EnumChatFormatting.RED + "Off" : EnumChatFormatting.GREEN + "On"));
             sendMessage("/nickhider <toggle,skin,self,pseudo>");
         } else if (args.length == 1) {
-            if (args[0].equalsIgnoreCase("toggle")) {
+
+            if (args[0].equalsIgnoreCase("clear")) {
+                NickHider.INSTANCE.reset();
+            } else if (args[0].equalsIgnoreCase("toggle")) {
                 NickHider.INSTANCE.toggle();
                 sendMessage("Toggled " + (NickHider.INSTANCE.isEnabled() ? EnumChatFormatting.GREEN + "On" : EnumChatFormatting.RED + "Off"));
             } else if (args[0].equalsIgnoreCase("self")) {
@@ -67,7 +71,7 @@ public class CommandNickHider implements BaseCommand {
         } else if (args.length == 3) {
             String arg = args[0];
             String arg1 = args[1];
-            String arg2 = args[2]+"*";
+            String arg2 = args[2] + "*";
             if (!NickHider.INSTANCE.isExtendedUse()) {
                 sendMessage("You cannot use this command.");
                 return;
