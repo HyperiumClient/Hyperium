@@ -1,44 +1,22 @@
-/*
- *     Copyright (C) 2018  Hyperium <https://hyperium.cc/>
- *
- *     This program is free software: you can redistribute it and/or modify
- *     it under the terms of the GNU Lesser General Public License as published
- *     by the Free Software Foundation, either version 3 of the License, or
- *     (at your option) any later version.
- *
- *     This program is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *     GNU Lesser General Public License for more details.
- *
- *     You should have received a copy of the GNU Lesser General Public License
- *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-
 package me.semx11.autotip.util;
-
-import cc.hyperium.utils.ChatColor;
 
 import java.util.Arrays;
 import java.util.List;
+import me.semx11.autotip.chat.ChatColor;
 
 public class VersionInfo {
 
-    private final Version version;
-    private final Severity severity;
-    private final boolean isBetaVersion;
-    private final List<String> changelog;
+    private Version version;
+    private Severity severity;
+    private List<String> changelog;
 
-    public VersionInfo(Version version, Severity severity, boolean isBetaVersion,
-                       String... changelog) {
-        this(version, severity, isBetaVersion, Arrays.asList(changelog));
+    public VersionInfo(Version version, Severity severity, String... changelog) {
+        this(version, severity, Arrays.asList(changelog));
     }
 
-    public VersionInfo(Version version, Severity severity, boolean isBetaVersion,
-                       List<String> changelog) {
+    public VersionInfo(Version version, Severity severity, List<String> changelog) {
         this.version = version;
         this.severity = severity;
-        this.isBetaVersion = isBetaVersion;
         this.changelog = changelog;
     }
 
@@ -50,10 +28,6 @@ public class VersionInfo {
         return severity;
     }
 
-    public boolean isBetaVersion() {
-        return isBetaVersion;
-    }
-
     public List<String> getChangelog() {
         return changelog;
     }
@@ -62,16 +36,17 @@ public class VersionInfo {
         OPTIONAL, ADVISED, CRITICAL;
 
         public String toColoredString() {
-            String color = "";
+            ChatColor color;
             switch (this) {
-                case CRITICAL:
-                    color = ChatColor.DARK_RED.toString() + ChatColor.BOLD;
+                default:
+                case OPTIONAL:
+                    color = ChatColor.GREEN;
                     break;
                 case ADVISED:
-                    color = ChatColor.YELLOW.toString();
+                    color = ChatColor.YELLOW;
                     break;
-                case OPTIONAL:
-                    color = ChatColor.GREEN.toString();
+                case CRITICAL:
+                    color = ChatColor.RED;
                     break;
             }
             return color + this.toString();

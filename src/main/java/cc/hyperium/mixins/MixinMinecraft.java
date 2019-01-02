@@ -331,7 +331,6 @@ public abstract class MixinMinecraft {
     @Overwrite
     public void displayCrashReport(CrashReport crashReportIn) {
         hyperiumMinecraft.displayCrashReport(crashReportIn);
-
     }
 
 

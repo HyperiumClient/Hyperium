@@ -38,6 +38,7 @@ public class VictoryRoyale extends AbstractMod {
 
   @Override
   public AbstractMod init() {
+    EventBus.INSTANCE.register(this);
     INSTANCE = this;
     return this;
   }
@@ -161,11 +162,9 @@ public class VictoryRoyale extends AbstractMod {
       GlStateManager.translate(imageWidth, 10, 0);
 
       Gui.drawScaledCustomSizeModalRect(0, 0, 0, 0, 1200, 675, imageWidth * 2, imageWidth, 1200, 675);
-
+      System.out.println("victory royale (debug)");
       GlStateManager.popMatrix();
     }
-
-    EventBus.INSTANCE.register(this);
   }
 
   public void gameEnded() {

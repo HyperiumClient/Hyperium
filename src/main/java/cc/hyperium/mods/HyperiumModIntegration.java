@@ -71,7 +71,7 @@ public class HyperiumModIntegration {
     private final ChunkAnimator chunkAnimator;
 
     public HyperiumModIntegration() {
-        // ChromaHud implementation
+        // ChromaHUD implementation
         this.chromaHUD = ((ChromaHUD) new ChromaHUD().init());
 
         // LevelHead implementation
@@ -90,7 +90,8 @@ public class HyperiumModIntegration {
         this.keystrokesMod = ((KeystrokesMod) new KeystrokesMod().init());
 
         // Autotip implementation
-        this.autotip = new Autotip().init();
+        this.autotip = new Autotip();
+        autotip.init();
 
         // AutoGG implementation
         this.autogg = ((AutoGG) new AutoGG().init());

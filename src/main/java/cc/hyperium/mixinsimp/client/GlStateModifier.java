@@ -1,7 +1,6 @@
 package cc.hyperium.mixinsimp.client;
 
-import me.semx11.autotip.util.ReflectionUtil;
-import me.semx11.autotip.util.ReflectionUtil.UnableToAccessFieldException;
+import me.semx11.autotip.universal.ReflectionUtil;
 import net.minecraft.client.renderer.GlStateManager;
 
 import java.lang.reflect.Field;
@@ -56,7 +55,7 @@ public class GlStateModifier implements IGlStateModifier {
         try {
             if (activeTextureUnitField != null)
                 activeTextureUnit = ((int) activeTextureUnitField.get(null));
-        } catch (UnableToAccessFieldException | IllegalAccessException ignored) {
+        } catch (ReflectionUtil.UnableToAccessFieldException | IllegalAccessException ignored) {
         }
 
         if (theArray == null || textureNamefield == null || activeTextureUnit == -1) {

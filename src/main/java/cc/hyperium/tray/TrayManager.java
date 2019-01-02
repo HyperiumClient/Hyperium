@@ -33,6 +33,8 @@ import java.awt.PopupMenu;
 import java.awt.SystemTray;
 import java.awt.TrayIcon;
 
+// This class is for the Hyperium tray icon code.  
+
 public class TrayManager {
 
     private TrayIcon tray;
@@ -52,7 +54,6 @@ public class TrayManager {
             PopupMenu menu = new PopupMenu();
 
             MenuItem aboutItem = new MenuItem("About");
-            //TODO: Edit about Dialog
             aboutItem.addActionListener(action -> trayDisplayAboutInfo());
 
             MenuItem exitItem = new MenuItem("Exit");
@@ -93,7 +94,7 @@ public class TrayManager {
 
     private void trayDisplayAboutInfo() {
         JOptionPane popup = new JOptionPane();
-        JOptionPane.showMessageDialog(popup, "Hyperium is a Hypixel Based 1.8 Client developed by Sk1er, CoalOres, Cubxity, KevinPriv and boomboompower. Version: " + Metadata
+        JOptionPane.showMessageDialog(popup, "Hyperium is a Hypixel Based 1.8.9 Client developed by Sk1er, CoalOres, Cubxity, KevinPriv and boomboompower. Version: " + Metadata
                 .getVersion(), "Hyperium - About", JOptionPane.PLAIN_MESSAGE);
     }
 }

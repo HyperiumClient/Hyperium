@@ -49,7 +49,6 @@ import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.function.Predicate;
 
-
 public class HypixelFriendsGui extends HyperiumGui {
     private static FriendSortType sortType = FriendSortType.NONE;
     private final int topRenderBound = 50;
@@ -67,7 +66,6 @@ public class HypixelFriendsGui extends HyperiumGui {
     public HypixelFriendsGui() {
         rebuildFriends();
         EventBus.INSTANCE.register(this);
-
     }
 
     @Override
@@ -92,7 +90,6 @@ public class HypixelFriendsGui extends HyperiumGui {
             rebuildFriends();
             this.friends.sort(sortType);
         }, guiButton -> guiButton.displayString = "Sort by: " + sortType.getName());
-
 
         reg("PARTY", new GuiButton(nextId(), ResolutionUtil.current().getScaledWidth() - 153, 23 + 21, 150, 20, "Party Selected"), guiButton -> {
             Iterator<HypixelApiFriendObject> iterator = selected.iterator();
@@ -122,7 +119,6 @@ public class HypixelFriendsGui extends HyperiumGui {
 
 
         });
-
 
         reg("REMOVE", new GuiButton(nextId(), ResolutionUtil.current().getScaledWidth() - 153, 23 + 21 * 2, 150, 20, "Remove (Hold down)"), guiButton -> {
 
@@ -179,8 +175,9 @@ public class HypixelFriendsGui extends HyperiumGui {
                 } else selectedItem = selectedBox;
             }
         }
-        if (remove != null)
+        if (remove != null) {
             selectedBoxes.remove(remove);
+        }
 
         for (GuiBoxItem<HypixelApiFriendObject> selectedBox : friendListBoxes) {
             if (selectedBox.getBox().isMouseOver(mouseX, mouseY)) {
@@ -196,7 +193,6 @@ public class HypixelFriendsGui extends HyperiumGui {
         }
     }
 
-
     @Override
     public void updateScreen() {
 
@@ -205,7 +201,6 @@ public class HypixelFriendsGui extends HyperiumGui {
         if (tick % 20 == 0) {
             rebuildFriends();
         }
-
 
     }
 
@@ -255,9 +250,9 @@ public class HypixelFriendsGui extends HyperiumGui {
         GuiBlock friendsBlock = new GuiBlock(namesBlock.getRight() + 15, ResolutionUtil.current().getScaledWidth() - 100, topRenderBound, bottomRenderBound);
         int drawX = friendsBlock.getLeft();
         int drawY = friendsBlock.getTop() - offset;
-        if (drawY > bottomRenderBound)
+        if (drawY > bottomRenderBound) {
             offset = 0;
-
+        }
 
         int cols = 1;
         while (drawX + columnWidth * cols < friendsBlock.getRight()) {
@@ -284,14 +279,9 @@ public class HypixelFriendsGui extends HyperiumGui {
             drawX += columnWidth;
         }
 
-
-        //After first wave, if bottom of people is still not on screen, fix
+        // After first wave, if bottom of people is still not on screen, fix
         if (drawY < topRenderBound)
             offset = 0;
-
-//
-//  X++;
-//        }
     }
 
     @InvokeEvent
@@ -312,8 +302,9 @@ public class HypixelFriendsGui extends HyperiumGui {
             if (EnumChatFormatting.getTextWithoutFormattingCodes(display).contains(evemt.getFullName()))
                 key = stringJsonElementEntry.getKey();
         }
-        if (key != null)
+        if (key != null) {
             friends.remove(key);
+        }
     }
 
     enum FriendSortType implements Comparator<HypixelApiFriendObject> {
@@ -383,7 +374,6 @@ public class HypixelFriendsGui extends HyperiumGui {
             all.sort(type);
             working = all;
         }
-
 
         public void removeIf(Predicate<? super HypixelApiFriendObject> e) {
             reset();

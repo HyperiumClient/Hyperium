@@ -74,7 +74,6 @@ public class ElementRenderer {
 
     }
 
-
     public static void draw(int x, double y, String string) {
         List<String> tmp = new ArrayList<>();
         tmp.add(string);
@@ -125,8 +124,7 @@ public class ElementRenderer {
         }
     }
 
-
-    //Don't shift, by the time it is here it is already shifted
+    // Don't shift, by the time it is here it is already shifted
     public static void drawChromaString(String text, int xIn, int y) {
         FontRenderer renderer = Minecraft.getMinecraft().fontRendererObj;
         int x = xIn;
@@ -142,7 +140,6 @@ public class ElementRenderer {
             x += (double) renderer.getCharWidth(c) * getCurrentScale();
         }
     }
-
 
     private static boolean isChromaInt(int e) {
         return e >= 0 && e <= 1;
@@ -235,7 +232,6 @@ public class ElementRenderer {
                 }
             }
         }
-
     }
 
     // Right CPS Counter
@@ -248,10 +244,8 @@ public class ElementRenderer {
         }
         if (!Settings.SHOW_CHROMAHUD)
             return;
-
         renderElements();
         GlStateManager.resetColor();
-
     }
 
     // Middle CPS Counter
@@ -299,7 +293,7 @@ public class ElementRenderer {
                 element.draw();
             } catch (Exception ignored) {
                 // lmao this is so unsafe sk1er XDDDDDDDDD
-                //Dude it's in a try catch so that it IS safe!
+                // Dude it's in a try catch so that it IS safe!
             }
             endDrawing(element);
         }

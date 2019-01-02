@@ -70,7 +70,6 @@ public class FPSLimiter {
         limbo = false;
     }
 
-
     public int getFpsLimit() {
         return 30;
     }
