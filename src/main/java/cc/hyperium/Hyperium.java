@@ -232,7 +232,6 @@ public class Hyperium {
 
             SplashProgress.setProgress(7, I18n.format("splashprogress.startinghyperium"));
             LOGGER.info("[Hyperium] Started!");
-            System.out.println("Running from main class: " + Hyperium.class.getName());
             Display.setTitle("Hyperium " + Metadata.getVersion());
 
             TrayManager trayManager = new TrayManager();
