@@ -1,5 +1,21 @@
-package cc.hyperium.handlers.handlers.mixin;
+/*
+ *     Copyright (C) 2018  Hyperium <https://hyperium.cc/>
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU Lesser General Public License as published
+ *     by the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU Lesser General Public License for more details.
+ *
+ *     You should have received a copy of the GNU Lesser General Public License
+ *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
+package cc.hyperium.handlers.handlers.mixin;
 import cc.hyperium.Hyperium;
 import cc.hyperium.config.Settings;
 import cc.hyperium.purchases.AbstractHyperiumPurchase;
@@ -88,7 +104,7 @@ public class LayerDeadmau5HeadHandler {
                         playerRenderer.getMainModel().renderDeadmau5Head(0.0625F);
                         g++;
                     } catch (Exception e) {
-                        System.out.println("Failed to render deadmau5 at g " + g);
+                        System.out.println("[Deadmau5Handler] Failed to render deadmau5 at g " + g);
                         e.printStackTrace();
                     } finally {
                         GlStateManager.popMatrix();
@@ -99,7 +115,7 @@ public class LayerDeadmau5HeadHandler {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("Failed to render deadmau5 at point " + k);
+            System.out.println("[Deadmau5Handler] Failed to render Deadmau5 at point " + k);
         }
     }
 }

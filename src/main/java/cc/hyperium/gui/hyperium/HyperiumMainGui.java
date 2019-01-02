@@ -169,7 +169,6 @@ public class HyperiumMainGui extends HyperiumGui {
             renderHyperiumBackground(ResolutionUtil.current());
         }
 
-
         GlStateModifier.INSTANCE.reset();
         Icons.LIGHTBULB.bind();
 
@@ -228,7 +227,7 @@ public class HyperiumMainGui extends HyperiumGui {
 
         if (!isLatestVersion() && !show && Settings.UPDATE_NOTIFICATIONS && !Metadata
                 .isDevelopment() && !((UpdateTab) tabs.get(1)).isBusy()) {
-            System.out.println("Sending alert...");
+            System.out.println("[Update Notifications] Sending alert...");
             Alert alert = new Alert(Icons.ERROR.getResource(), () -> setTab(2),
                     I18n.format("alert.update.message"));
             alerts.add(alert);
@@ -256,7 +255,6 @@ public class HyperiumMainGui extends HyperiumGui {
         super.mouseClicked(mouseX, mouseY, mouseButton);
         int yg = (height / 10);  // Y grid
         int xg = (width / 11);   // X grid
-
 
         int w = yg * 88 / 144;
         int x = this.width / 2 - w - 10;

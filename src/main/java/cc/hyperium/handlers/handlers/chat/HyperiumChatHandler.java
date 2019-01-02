@@ -28,7 +28,7 @@ import net.minecraft.util.IChatComponent;
  */
 public abstract class HyperiumChatHandler {
 
-  //Resource *should* be loaded by then sooooo
+  // Resource *should* be loaded by then so
   protected static Map<ChatRegexType, Pattern> regexPatterns;
 
   public Hyperium getHyperium() {
@@ -61,4 +61,5 @@ public abstract class HyperiumChatHandler {
     QUEST_COMPLETE, //
     WIN //
   }
+
 }

@@ -86,6 +86,7 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.crash.CrashReport;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.Contract;
 import org.lwjgl.opengl.Display;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -117,10 +118,12 @@ public class Hyperium {
      * The Hyperium configuration folder
      */
     public static final File folder = new File("hyperium");
+
     /**
      * Instance of default CONFIG
      */
     public static final DefaultConfig CONFIG = new DefaultConfig(new File(folder, "CONFIG.json"));
+
     public static int BUILD_ID = -1;
     public static boolean IS_BETA;
     private static boolean updateQueue = false;
@@ -137,7 +140,7 @@ public class Hyperium {
     private boolean fullScreen = false;
     private boolean checkedForUpdate = false;
     private boolean optifineInstalled = false;
-    private boolean isDevEnv;
+    public boolean isDevEnv;
     private Sk1erMod sk1erMod;
     private NettyClient client;
     private InternalAddons internalAddons;
@@ -309,7 +312,7 @@ public class Hyperium {
                         }
                     }
                 } else {
-                    System.out.println("Not restoring chat");
+                    System.out.println("[Chat Handler] Not restoring chat");
                 }
             });
 
@@ -478,6 +481,7 @@ public class Hyperium {
         }
     }
 
+    @Contract(pure = true)
     private String quoteSpaces(String argument) {
         if (argument.contains(" ")) {
             return "\"" + argument + "\"";

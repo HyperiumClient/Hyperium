@@ -33,7 +33,6 @@ public class DragonCosmetic extends AbstractCosmetic {
         EventBus.INSTANCE.register(renderer);
     }
 
-
     @InvokeEvent
     public void renderPlayer(RenderPlayerEvent event) {
         AbstractClientPlayer player = event.getEntity();

@@ -42,7 +42,6 @@ public class HyperiumCosmetics {
     private final KillCounterMuscles killCounterMuscles;
     private DragonCompanion dragonCompanion;
     private HamsterCompanion hamsterCompanion;
-
     private final CosmeticHat topHatCosmetic = new CosmeticHat(false, EnumPurchaseType.HAT_TOPHAT).setModel(new ModelHatTophat(),new ResourceLocation("textures/cosmetics/hats/tophat.png"));
     private final CosmeticHat fezCosmetic = new CosmeticHat(false, EnumPurchaseType.HAT_FEZ).setModel(new ModelHatFez(),new ResourceLocation("textures/cosmetics/hats/fez.png"));
     private final CosmeticHat legoCosmetic = new CosmeticHat(false, EnumPurchaseType.HAT_LEGO).setModel(new ModelHatLego(),new ResourceLocation("textures/cosmetics/hats/lego.png"));
@@ -73,7 +72,6 @@ public class HyperiumCosmetics {
         return killCounterMuscles;
     }
 
-
     public DragonCompanion getDragonCompanion() {
         return dragonCompanion;
     }
@@ -97,7 +95,6 @@ public class HyperiumCosmetics {
      * and their types
      */
     public enum EnumCosmeticType {
-
         DAB,
         BUTT,
         FLIP,
@@ -108,7 +105,6 @@ public class HyperiumCosmetics {
         HAT_TOPHAT,
         HAT_FEZ,
         HAT_LEGO
-
     }
 
     /**
@@ -149,8 +145,6 @@ public class HyperiumCosmetics {
     public DragonCosmetic getDragonCosmetic() {
         return this.dragonCosmetic;
     }
-
-
 
     public FlipCosmetic getFlipCosmetic() {
         return this.flipCosmetic;
