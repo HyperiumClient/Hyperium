@@ -162,7 +162,6 @@ public abstract class MixinMinecraft {
         hyperiumMinecraft.startTick(info,mcProfiler);
     }
 
-
     /**
      * Invoked once the player has pressed a key
      *

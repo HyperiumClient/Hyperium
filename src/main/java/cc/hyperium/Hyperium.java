@@ -87,7 +87,6 @@ import net.minecraft.crash.CrashReport;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.Display;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -121,7 +120,6 @@ public class Hyperium {
     /**
      * Instance of default CONFIG
      */
-
     public static final DefaultConfig CONFIG = new DefaultConfig(new File(folder, "CONFIG.json"));
     public static int BUILD_ID = -1;
     public static boolean IS_BETA;
@@ -150,7 +148,6 @@ public class Hyperium {
     private boolean firstLaunch = false;
     private HyperiumScheduler scheduler;
 
-
     @InvokeEvent
     public void preinit(PreInitializationEvent event) {
         EventBus.INSTANCE.register(new AutoGG());
@@ -162,7 +159,6 @@ public class Hyperium {
         HyperiumLocale.registerHyperiumLang("en_US");
         HyperiumLocale.registerHyperiumLang("ja_JP");
     }
-
 
     @InvokeEvent(priority = Priority.HIGH)
     public void init(InitializationEvent event) {
@@ -291,7 +287,6 @@ public class Hyperium {
 
             SplashProgress.setProgress(13, I18n.format("splashprogress.finishing"));
 
-
             if (FontFixValues.INSTANCE == null) {
                 FontFixValues.INSTANCE = new FontFixValues();
             }
@@ -326,7 +321,7 @@ public class Hyperium {
             try {
                 Class.forName("optifine.OptiFineTweaker");
                 optifineInstalled = true;
-                System.out.println("Optifine installation detected!");
+                System.out.println("[OptiFine] installation detected!");
             } catch (ClassNotFoundException e) {
                 optifineInstalled = false;
             }
@@ -366,7 +361,7 @@ public class Hyperium {
     }
 
     /**
-     * called when Hyperium shuts down
+     * Called when Hyperium shuts down
      */
     private void shutdown() {
         CONFIG.save();

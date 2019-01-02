@@ -137,8 +137,6 @@ public class Autotip {
         return statsManager;
     }
 
-
-
     public void init() {
         ErrorReport.setAutotip(this);
         RequestHandler.setAutotip(this);
