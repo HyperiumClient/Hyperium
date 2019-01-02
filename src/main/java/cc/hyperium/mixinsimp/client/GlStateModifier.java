@@ -77,7 +77,6 @@ public class GlStateModifier implements IGlStateModifier {
         }
 
         if (theArray == null || textureNamefield == null || activeTextureUnit == -1) {
-            System.out.println("[GlStateModifer] Problem: no hope");
             return;
         }
         Object o = theArray[activeTextureUnit];
@@ -137,7 +136,6 @@ public class GlStateModifier implements IGlStateModifier {
                 redColorField.setAccessible(true);
         }
         if (colorStateObject == null || redColorField == null) {
-            System.out.println("[GlStateModifier] Problem: no hope v2");
             return;
         }
         try {
