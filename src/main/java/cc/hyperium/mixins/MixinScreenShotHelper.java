@@ -37,7 +37,8 @@ class MixinScreenShotHelper {
     @Shadow
     private static int[] pixelValues;
 
-    private HyperiumScreenshotHelper hyperiumScreenshotHelper = new HyperiumScreenshotHelper((ScreenShotHelper)(Object)this);
+    private HyperiumScreenshotHelper hyperiumScreenshotHelper = new HyperiumScreenshotHelper((ScreenShotHelper) (Object) this);
+
     /**
      * Saves a screenshot in the game directory with the given file name (or null to generate a time-stamped name).
      * Fixes MC-113208 and MC-117793
@@ -52,7 +53,7 @@ class MixinScreenShotHelper {
      */
     @Overwrite
     public static IChatComponent saveScreenshot(File gameDirectory, String screenshotName, int width, int height, Framebuffer buffer) {
-       return HyperiumScreenshotHelper.saveScreenshot(gameDirectory, screenshotName, width, height, buffer, pixelBuffer, pixelValues);
+        return HyperiumScreenshotHelper.saveScreenshot(gameDirectory, screenshotName, width, height, buffer, pixelBuffer, pixelValues);
     }
 
 }

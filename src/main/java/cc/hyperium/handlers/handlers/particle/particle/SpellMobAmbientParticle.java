@@ -18,6 +18,6 @@ public class SpellMobAmbientParticle implements IParticle {
     public EntityFX spawn(World world, double x, double y, double z) {
         Map<Integer, IParticleFactory> particleMap = ((IMixinEffectRenderer) Minecraft.getMinecraft().effectRenderer).getParticleMap();
         IParticleFactory iParticleFactory = particleMap.get(EnumParticleTypes.SPELL_MOB_AMBIENT.getParticleID());
-        return iParticleFactory.getEntityFX(EnumParticleTypes.SPELL_MOB_AMBIENT.getParticleID(), world, x, y, z, 0.0F,-0.1F,0.0F, 0);
+        return iParticleFactory.getEntityFX(EnumParticleTypes.SPELL_MOB_AMBIENT.getParticleID(), world, x, y, z, 0.0F, -0.1F, 0.0F, 0);
     }
 }

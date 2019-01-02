@@ -33,6 +33,7 @@ public class GuiHyperiumScreenIngameMenu extends GuiHyperiumScreen {
     private int baseAngle;
     private int field_146445_a;
     private int field_146444_f;
+
     @Override
     public void initGui() {
         super.initGui();
@@ -45,8 +46,7 @@ public class GuiHyperiumScreenIngameMenu extends GuiHyperiumScreen {
         this.buttonList.add(new GuiButton(1, this.width / 2 - 100, this.height / 4 + 120 + i, I18n.format("menu.returnToMenu")));
 
         /* If Client is on server, add disconnect button */
-        if (!this.mc.isIntegratedServerRunning())
-        {
+        if (!this.mc.isIntegratedServerRunning()) {
             (this.buttonList.get(0)).displayString = I18n.format("menu.disconnect");
         }
 
@@ -61,8 +61,8 @@ public class GuiHyperiumScreenIngameMenu extends GuiHyperiumScreen {
 
         guibutton.enabled = this.mc.isSingleplayer() && !this.mc.getIntegratedServer().getPublic();
 
-        buttonList.add(new GuiButton(9, this.width / 2 - 100, height / 4 + 56, 98,20,I18n.format("button.ingame.hyperiumsettings")));
-        buttonList.add(new GuiButton(8, this.width / 2 + 2, height / 4 + 56, 98,20,I18n.format("button.ingame.hyperiumcredits")));
+        buttonList.add(new GuiButton(9, this.width / 2 - 100, height / 4 + 56, 98, 20, I18n.format("button.ingame.hyperiumsettings")));
+        buttonList.add(new GuiButton(8, this.width / 2 + 2, height / 4 + 56, 98, 20, I18n.format("button.ingame.hyperiumcredits")));
 
         WorldClient theWorld = Minecraft.getMinecraft().theWorld;
 
@@ -80,7 +80,7 @@ public class GuiHyperiumScreenIngameMenu extends GuiHyperiumScreen {
     public void actionPerformed(GuiButton button) throws IOException {
         super.actionPerformed(button);
 
-        switch(button.id){
+        switch (button.id) {
             case 0:
                 this.mc.displayGuiScreen(new GuiOptions(this, this.mc.gameSettings));
                 break;
@@ -136,10 +136,10 @@ public class GuiHyperiumScreenIngameMenu extends GuiHyperiumScreen {
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 
-        super.drawScreen(mouseX,mouseY,partialTicks);
+        super.drawScreen(mouseX, mouseY, partialTicks);
         GlStateManager.pushMatrix();
 
-        GlStateManager.translate(0,height - 50,0);
+        GlStateManager.translate(0, height - 50, 0);
 
         if (System.currentTimeMillis() - lastUpdate > 2000L) {
             refreshData();
@@ -153,7 +153,7 @@ public class GuiHyperiumScreenIngameMenu extends GuiHyperiumScreen {
 
         drawCenteredString(fontRendererObj, I18n.format("gui.ingamemenu.playercount"), 0, -5, 0xFFFFFF);
         GlStateManager.translate(0F, 10F, 0F);
-        GlStateManager.scale(1,1,1);
+        GlStateManager.scale(1, 1, 1);
         GlStateManager.rotate(baseAngle, 1.0F, 0.0F, 0.0F);
         GlStateManager.enableAlpha();
 

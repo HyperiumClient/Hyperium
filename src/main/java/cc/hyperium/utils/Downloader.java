@@ -23,8 +23,8 @@ public class Downloader {
 
     public File download(URL url, File dstFile) {
         CloseableHttpClient httpclient = HttpClients.custom()
-                .setRedirectStrategy(new LaxRedirectStrategy()) // adds HTTP REDIRECT support to GET and POST methods
-                .build();
+            .setRedirectStrategy(new LaxRedirectStrategy()) // adds HTTP REDIRECT support to GET and POST methods
+            .build();
         try {
             HttpGet get = new HttpGet(url.toURI()); // we're using GET but it could be via POST as well
             return httpclient.execute(get, new FileDownloadResponseHandler(dstFile));

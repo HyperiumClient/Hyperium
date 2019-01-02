@@ -48,7 +48,7 @@ public class HyperiumPurchase {
             if (parse != EnumPurchaseType.UNKNOWN)
                 try {
                     AbstractHyperiumPurchase parse1 = PurchaseApi.getInstance().parse(parse, purchaseSettings
-                            .optJSONObject(parse.name().toLowerCase()));
+                        .optJSONObject(parse.name().toLowerCase()));
                     if (parse1 != null)
                         this.purchases.add(parse1);
                 } catch (Exception wtf) {
@@ -59,7 +59,7 @@ public class HyperiumPurchase {
             for (EnumPurchaseType enumPurchaseType : EnumPurchaseType.values()) {
                 if (getPurchase(enumPurchaseType) == null && enumPurchaseType != EnumPurchaseType.UNKNOWN) {
                     AbstractHyperiumPurchase parse1 = PurchaseApi.getInstance().parse(enumPurchaseType, purchaseSettings
-                            .optJSONObject(enumPurchaseType.name().toLowerCase()));
+                        .optJSONObject(enumPurchaseType.name().toLowerCase()));
                     if (parse1 != null)
                         this.purchases.add(parse1);
                 }
@@ -84,7 +84,7 @@ public class HyperiumPurchase {
     }
 
     public boolean hasPurchased(EnumPurchaseType type) {
-        if(type == EnumPurchaseType.UNKNOWN)
+        if (type == EnumPurchaseType.UNKNOWN)
             return false;
         if (isEverything())
             return true;
@@ -117,9 +117,9 @@ public class HyperiumPurchase {
     @Override
     public String toString() {
         return "HyperiumPurchase{" +
-                "playerUUID=" + playerUUID +
-                ", response=" + response +
-                '}';
+            "playerUUID=" + playerUUID +
+            ", response=" + response +
+            '}';
     }
 
     public AbstractHyperiumPurchase getPurchase(EnumPurchaseType type) {

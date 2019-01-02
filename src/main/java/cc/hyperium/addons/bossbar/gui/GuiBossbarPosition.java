@@ -14,6 +14,7 @@ public class GuiBossbarPosition extends GuiScreen {
     private String oldBossName;
     private int oldStatusBarTime;
     private float oldHealthScale;
+
     public GuiBossbarPosition(GuiScreen parent, BossbarAddon addon) {
         this.parent = parent;
         this.addon = addon;
@@ -47,7 +48,7 @@ public class GuiBossbarPosition extends GuiScreen {
 
     @Override
     protected void actionPerformed(GuiButton button) throws IOException {
-        switch (button.id){
+        switch (button.id) {
             case 0:
                 mc.displayGuiScreen(parent);
                 break;

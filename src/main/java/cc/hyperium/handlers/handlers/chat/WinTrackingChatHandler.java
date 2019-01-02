@@ -206,7 +206,7 @@ public class WinTrackingChatHandler extends HyperiumChatHandler {
             return false;
         if (text.toLowerCase().contains(thePlayer.getName().toLowerCase() + " winner!")) {
             EventBus.INSTANCE
-                    .post(new HypixelWinEvent(Collections.singletonList(thePlayer.getName())));
+                .post(new HypixelWinEvent(Collections.singletonList(thePlayer.getName())));
         }
         return false;
     }

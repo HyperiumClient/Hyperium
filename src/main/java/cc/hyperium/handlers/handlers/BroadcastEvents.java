@@ -51,12 +51,13 @@ public class BroadcastEvents {
         if (achMatcher.matches()) {
             String ach = achMatcher.group("achievement");
             //Check to stop spamming of gchat if achievement is broken and you get it many times.
-            if(!achievementsGotten.contains(ach)) {
+            if (!achievementsGotten.contains(ach)) {
                 EventBus.INSTANCE.post(new AchievementGetEvent(ach));
                 achievementsGotten.add(ach);
             }
         }
 
     }
+
     private List<String> achievementsGotten = new ArrayList<>();
 }

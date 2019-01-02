@@ -27,49 +27,49 @@ public class BlurFallback {
 
     @InvokeEvent
     private void onTick(TickEvent event) {
-            Minecraft mc = Minecraft.getMinecraft();
-            // Clear shaders on disable.
-            if (mc != null && mc.entityRenderer != null) {
-                if (!loadedBlur) {
-                    // Loads blur setting for first time.
-                    loadedBlur = true;
-                    initialBlur = Settings.BLUR_GUI;
-                }
-                if (!Settings.BLUR_GUI && Settings.BLUR_GUI != initialBlur) {
-                    // Blur was just disabled.
-                    mc.addScheduledTask(() -> mc.entityRenderer.stopUseShader());
-                }
-
+        Minecraft mc = Minecraft.getMinecraft();
+        // Clear shaders on disable.
+        if (mc != null && mc.entityRenderer != null) {
+            if (!loadedBlur) {
+                // Loads blur setting for first time.
+                loadedBlur = true;
                 initialBlur = Settings.BLUR_GUI;
             }
-
-            if (mc != null && Settings.BLUR_GUI && mc.entityRenderer != null && mc.entityRenderer.isShaderActive()) {
-                GuiScreen currentScreen = mc.currentScreen;
-
-                    if (currentScreen == null && isLoadedShader) { // Disable shaders if screen just closed
-                        mc.addScheduledTask(() ->
-                                mc.entityRenderer.stopUseShader());
-                        isLoadedShader=false;
-                    }
-
+            if (!Settings.BLUR_GUI && Settings.BLUR_GUI != initialBlur) {
+                // Blur was just disabled.
+                mc.addScheduledTask(() -> mc.entityRenderer.stopUseShader());
             }
 
-            //Enable shader fallback
-            if (mc != null && Settings.BLUR_GUI && mc.currentScreen != null && !(mc.currentScreen instanceof GuiChat) && mc.entityRenderer != null && !mc.entityRenderer.isShaderActive()) {
-                Method loadShaderMethod = null;
+            initialBlur = Settings.BLUR_GUI;
+        }
+
+        if (mc != null && Settings.BLUR_GUI && mc.entityRenderer != null && mc.entityRenderer.isShaderActive()) {
+            GuiScreen currentScreen = mc.currentScreen;
+
+            if (currentScreen == null && isLoadedShader) { // Disable shaders if screen just closed
+                mc.addScheduledTask(() ->
+                    mc.entityRenderer.stopUseShader());
+                isLoadedShader = false;
+            }
+
+        }
+
+        //Enable shader fallback
+        if (mc != null && Settings.BLUR_GUI && mc.currentScreen != null && !(mc.currentScreen instanceof GuiChat) && mc.entityRenderer != null && !mc.entityRenderer.isShaderActive()) {
+            Method loadShaderMethod = null;
+            try {
+                loadShaderMethod = ReflectionUtil.findMethod(EntityRenderer.class, new String[]{"loadShader", "a"}, ResourceLocation.class);
+            } catch (Exception ignored) {
+            }
+            if (loadShaderMethod != null) {
+                loadShaderMethod.setAccessible(true);
                 try {
-                    loadShaderMethod = ReflectionUtil.findMethod(EntityRenderer.class, new String[]{"loadShader", "a"}, ResourceLocation.class);
-                } catch (Exception ignored) {
+                    loadShaderMethod.invoke(Minecraft.getMinecraft().entityRenderer, new ResourceLocation("shaders/hyperium_blur.json"));
+                } catch (IllegalAccessException | InvocationTargetException e) {
+                    e.printStackTrace();
                 }
-                if (loadShaderMethod != null) {
-                    loadShaderMethod.setAccessible(true);
-                    try {
-                        loadShaderMethod.invoke(Minecraft.getMinecraft().entityRenderer, new ResourceLocation("shaders/hyperium_blur.json"));
-                    } catch (IllegalAccessException | InvocationTargetException e) {
-                        e.printStackTrace();
-                    }
-                    isLoadedShader=true;
-                }
+                isLoadedShader = true;
             }
+        }
     }
 }

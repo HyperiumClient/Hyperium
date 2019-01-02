@@ -18,7 +18,9 @@
 package cc.hyperium.mixins.gui;
 
 import cc.hyperium.mixinsimp.gui.HyperiumGuiNewChat;
+
 import java.util.List;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ChatLine;
 import net.minecraft.client.gui.GuiNewChat;
@@ -58,7 +60,7 @@ public abstract class MixinGuiNewChat {
      */
     @Inject(method = "printChatMessage", at = @At("HEAD"), cancellable = true)
     private void printChatMessage(IChatComponent chatComponent, CallbackInfo ci) {
-        hyperiumGuiNewChat.printChatMessage(chatComponent,ci);
+        hyperiumGuiNewChat.printChatMessage(chatComponent, ci);
     }
 
     /**
@@ -68,7 +70,7 @@ public abstract class MixinGuiNewChat {
      */
     @Overwrite
     public void drawChat(int p_146230_1_) {
-        hyperiumGuiNewChat.drawChat(p_146230_1_,this.field_146253_i,this.scrollPos,this.isScrolled,this.mc);
+        hyperiumGuiNewChat.drawChat(p_146230_1_, this.field_146253_i, this.scrollPos, this.isScrolled, this.mc);
     }
 
 
@@ -79,6 +81,6 @@ public abstract class MixinGuiNewChat {
      */
     @Overwrite
     private void setChatLine(IChatComponent chatComponent, int chatLineId, int p_146237_3_, boolean p_146237_4_) {
-        hyperiumGuiNewChat.setChatLine(chatComponent,chatLineId,p_146237_3_,p_146237_4_,this.scrollPos,this.isScrolled,this.field_146253_i,this.chatLines,this.mc);
+        hyperiumGuiNewChat.setChatLine(chatComponent, chatLineId, p_146237_3_, p_146237_4_, this.scrollPos, this.isScrolled, this.field_146253_i, this.chatLines, this.mc);
     }
 }

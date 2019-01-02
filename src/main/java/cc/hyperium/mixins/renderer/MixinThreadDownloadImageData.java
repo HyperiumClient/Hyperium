@@ -39,7 +39,7 @@ public abstract class MixinThreadDownloadImageData extends SimpleTexture {
      */
     @Overwrite
     protected void loadTextureFromServer() {
-        hyperiumThreadDownloadImageData.loadTextureFromServer(imageUrl, cacheFile, imageBuffer, (ThreadDownloadImageData) (Object) this,textureLocation);
+        hyperiumThreadDownloadImageData.loadTextureFromServer(imageUrl, cacheFile, imageBuffer, (ThreadDownloadImageData) (Object) this, textureLocation);
     }
 
 //    @Inject(method = "checkTextureUploaded", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/texture/TextureUtil;uploadTextureImage(ILjava/awt/image/BufferedImage;)I", shift = At.Shift.AFTER))

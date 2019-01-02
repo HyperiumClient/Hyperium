@@ -1,7 +1,9 @@
 package cc.hyperium.mixins.gui;
 
 import cc.hyperium.mixinsimp.gui.HyperiumGuiUtilRenderComponents;
+
 import java.util.List;
+
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiUtilRenderComponents;
 import net.minecraft.util.IChatComponent;
@@ -13,6 +15,6 @@ abstract class MixinGuiUtilRenderComponents {
 
     @Overwrite
     public static List<IChatComponent> func_178908_a(IChatComponent p_178908_0_, int p_178908_1_, FontRenderer p_178908_2_, boolean p_178908_3_, boolean p_178908_4_) {
-        return HyperiumGuiUtilRenderComponents.func_178908_a(p_178908_0_,p_178908_1_,p_178908_2_,p_178908_3_,p_178908_4_);
+        return HyperiumGuiUtilRenderComponents.func_178908_a(p_178908_0_, p_178908_1_, p_178908_2_, p_178908_3_, p_178908_4_);
     }
 }

@@ -21,6 +21,7 @@ import cc.hyperium.mods.chromahud.ElementRenderer;
 import cc.hyperium.mods.chromahud.api.DisplayItem;
 import cc.hyperium.utils.ChatColor;
 import cc.hyperium.utils.JsonHolder;
+
 import java.util.ArrayList;
 import java.util.List;
 

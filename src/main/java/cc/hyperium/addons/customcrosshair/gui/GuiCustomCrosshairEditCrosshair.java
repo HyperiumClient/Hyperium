@@ -26,9 +26,11 @@ import cc.hyperium.addons.customcrosshair.gui.items.CCSlider;
 import cc.hyperium.addons.customcrosshair.gui.items.CCTickbox;
 import cc.hyperium.addons.customcrosshair.CustomCrosshairAddon;
 import cc.hyperium.addons.customcrosshair.utils.CustomCrosshairGraphics;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
 import net.minecraft.client.Minecraft;
 import org.lwjgl.input.Mouse;
 

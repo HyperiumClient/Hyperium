@@ -51,16 +51,16 @@ public class TypeTeam extends ToggleBase {
     @Override
     public LinkedList<String> getDescription() {
         return asLinked(
-                "Toggles all",
-                "incoming team messages",
-                "",
-                "Message format:",
-                "&9[TEAM] &7Player&r: Hi",
-                "&9[TEAM] &a[VIP] Player&r: Hi",
-                "&9[TEAM] &b[MVP] Player&r: Hi",
-                "",
-                "Useful for large",
-                "team fields"
+            "Toggles all",
+            "incoming team messages",
+            "",
+            "Message format:",
+            "&9[TEAM] &7Player&r: Hi",
+            "&9[TEAM] &a[VIP] Player&r: Hi",
+            "&9[TEAM] &b[MVP] Player&r: Hi",
+            "",
+            "Useful for large",
+            "team fields"
         );
     }
 }

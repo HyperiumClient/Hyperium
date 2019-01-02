@@ -52,14 +52,14 @@ public class TypeParty extends ToggleBase {
     @Override
     public LinkedList<String> getDescription() {
         return asLinked(
-                "Toggles all party",
-                "chat messages",
-                "",
-                "Toggle format",
-                "&9Party > &7Player&r: Hello",
-                "",
-                "Fairly useful when",
-                "You\'re in a large party"
+            "Toggles all party",
+            "chat messages",
+            "",
+            "Toggle format",
+            "&9Party > &7Player&r: Hello",
+            "",
+            "Fairly useful when",
+            "You\'re in a large party"
         );
     }
 }

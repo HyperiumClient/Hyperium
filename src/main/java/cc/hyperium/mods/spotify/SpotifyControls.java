@@ -96,11 +96,11 @@ public class SpotifyControls extends AbstractMod {
 
         try {
             BufferedImage playImg = ImageIO.read(
-                    getClass().getResourceAsStream("/assets/hyperium/icons/play.png")
+                getClass().getResourceAsStream("/assets/hyperium/icons/play.png")
             );
 
             BufferedImage pauseImg = ImageIO.read(
-                    getClass().getResourceAsStream("/assets/hyperium/icons/pause.png")
+                getClass().getResourceAsStream("/assets/hyperium/icons/pause.png")
             );
 
             this.play = new DynamicTexture(playImg);
@@ -139,8 +139,8 @@ public class SpotifyControls extends AbstractMod {
             this.systemTime += 1000;
 
             if (Spotify.instance == null
-                    || !Spotify.instance.getCachedStatus().isPlaying()
-                    || Spotify.instance.getCachedStatus().getTrack().getLength() <= current) {
+                || !Spotify.instance.getCachedStatus().isPlaying()
+                || Spotify.instance.getCachedStatus().getTrack().getLength() <= current) {
                 continue;
             }
 
@@ -190,12 +190,12 @@ public class SpotifyControls extends AbstractMod {
             Multithreading.runAsync(() -> {
                 try {
                     JsonObject obj = Spotify.instance.get(
-                            "https://embed.spotify.com/oembed?url=" + finalURI,
-                            false
+                        "https://embed.spotify.com/oembed?url=" + finalURI,
+                        false
                     );
 
                     imageToGenerate = ImageIO.read(
-                            new URL(obj.get("thumbnail_url").getAsString())
+                        new URL(obj.get("thumbnail_url").getAsString())
                     );
                 } catch (IOException e) {
                     art = null;
@@ -244,16 +244,16 @@ public class SpotifyControls extends AbstractMod {
 
         GlStateManager.pushMatrix();
         GlStateManager.scale(1.2f, 1.2f, 1);
-        if(name.length() > 16) {
+        if (name.length() > 16) {
             int concatNameCount2 = concatNameCount + 16;
             String name2 = track.getTrackResource().getName();
             String concatName = name2 + "    " + name2;
             Minecraft.getMinecraft().fontRendererObj.drawString(concatName.substring(concatNameCount, concatNameCount + 16), (float) ((x + 5) / 1.2), (float) ((y + 5) / 1.2), white.getRGB(), false);
-            if(System.currentTimeMillis() % 100 == 0){
+            if (System.currentTimeMillis() % 100 == 0) {
                 concatNameCount++;
                 concatNameCount2 = concatNameCount + 16;
             }
-            if(concatNameCount2 == concatName.length())
+            if (concatNameCount2 == concatName.length())
                 concatNameCount = 0;
         } else {
             fontRenderer.drawString(name, (float) ((x + 5) / 1.2), (float) ((y + 5) / 1.2), white.getRGB(), false);
@@ -279,10 +279,10 @@ public class SpotifyControls extends AbstractMod {
 
         if (pause != null && play != null) {
             drawImage(
-                    paused ? pause : play,
-                    x + 125,
-                    y + 5,
-                    20
+                paused ? pause : play,
+                x + 125,
+                y + 5,
+                20
             );
         }
 
@@ -328,17 +328,17 @@ public class SpotifyControls extends AbstractMod {
         WorldRenderer worldrenderer = tessellator.getWorldRenderer();
         worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
         worldrenderer.pos(x / imgScale, y / imgScale + 256, 0)
-                .tex(0, f)
-                .endVertex();
+            .tex(0, f)
+            .endVertex();
         worldrenderer.pos(x / imgScale + 256, y / imgScale + 256, 0)
-                .tex(f, f)
-                .endVertex();
+            .tex(f, f)
+            .endVertex();
         worldrenderer.pos(x / imgScale + 256, y / imgScale, 0)
-                .tex(f, 0)
-                .endVertex();
+            .tex(f, 0)
+            .endVertex();
         worldrenderer.pos(x / imgScale, y / imgScale, 0)
-                .tex(0, 0)
-                .endVertex();
+            .tex(0, 0)
+            .endVertex();
         tessellator.draw();
 
         GlStateManager.popMatrix();
@@ -357,10 +357,10 @@ public class SpotifyControls extends AbstractMod {
             bottom = j;
         }
 
-        float f3 = (float)(color >> 24 & 255) / 255.0F;
-        float f = (float)(color >> 16 & 255) / 255.0F;
-        float f1 = (float)(color >> 8 & 255) / 255.0F;
-        float f2 = (float)(color & 255) / 255.0F;
+        float f3 = (float) (color >> 24 & 255) / 255.0F;
+        float f = (float) (color >> 16 & 255) / 255.0F;
+        float f1 = (float) (color >> 8 & 255) / 255.0F;
+        float f2 = (float) (color & 255) / 255.0F;
         Tessellator tessellator = Tessellator.getInstance();
         WorldRenderer worldrenderer = tessellator.getWorldRenderer();
         GlStateManager.enableBlend();
@@ -427,7 +427,7 @@ public class SpotifyControls extends AbstractMod {
 
     /**
      * Multiplies the width by the scale
-     *
+     * <p>
      * 1.335 is a magic value that makes the scale more accurate
      *
      * @return the visible width of the controls

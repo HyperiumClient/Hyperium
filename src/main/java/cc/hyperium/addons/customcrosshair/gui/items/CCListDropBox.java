@@ -18,14 +18,16 @@
 package cc.hyperium.addons.customcrosshair.gui.items;
 
 import cc.hyperium.addons.customcrosshair.utils.CustomCrosshairGraphics;
+
 import java.awt.Color;
+
 import net.minecraft.client.gui.GuiScreen;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class CCListDropBox extends CCGuiItem {
-    
+
     private boolean isOpen;
     private List<String> itemList;
     private String selectedItem;
@@ -51,8 +53,7 @@ public class CCListDropBox extends CCGuiItem {
         if (this.selectedItem != null && this.selectedItem != "") {
             CustomCrosshairGraphics
                 .drawString(this.selectedItem, this.getPosX() + 2, this.getPosY(), 16777215);
-        }
-        else {
+        } else {
             CustomCrosshairGraphics
                 .drawString("No item selected.", this.getPosX() + 2, this.getPosY() + 2, 16777215);
         }

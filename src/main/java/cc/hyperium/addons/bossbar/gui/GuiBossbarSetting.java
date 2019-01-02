@@ -36,7 +36,7 @@ public class GuiBossbarSetting extends GuiScreen {
 
     @Override
     protected void actionPerformed(GuiButton button) throws IOException {
-        switch (button.id){
+        switch (button.id) {
             case 0:
                 BossbarConfig.bossBarEnabled = !BossbarConfig.bossBarEnabled;
                 button.displayString = "Bossbar: " + this.getSuffix(BossbarConfig.bossBarEnabled);
@@ -61,6 +61,7 @@ public class GuiBossbarSetting extends GuiScreen {
         }
         super.actionPerformed(button);
     }
+
     public int getRowPos(final int rowNumber) {
         return this.height / 4 + (24 * rowNumber - 24) - 16;
     }

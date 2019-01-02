@@ -97,7 +97,7 @@ public class FakePlayerRendering {
         RenderHelper.enableStandardItemLighting();
 
         rotate(rotation, 0.0F, 1.0F, 0.0F);
-;
+        ;
         player.rotationYawHead = player.rotationYaw + rotation;
 
         translate(0.0F, player.getYOffset(), 0.0F);

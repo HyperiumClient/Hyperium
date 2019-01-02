@@ -34,12 +34,12 @@ public class TypeColored extends ToggleBase {
     @Override
     public boolean shouldToggle(String message) {
         return message.startsWith("[BLUE] ") ||
-                message.startsWith("[YELLOW] ") ||
-                message.startsWith("[GREEN] ") ||
-                message.startsWith("[RED] ") ||
-                message.startsWith("[WHITE] ") ||
-                message.startsWith("[PURPLE] "
-                );
+            message.startsWith("[YELLOW] ") ||
+            message.startsWith("[GREEN] ") ||
+            message.startsWith("[RED] ") ||
+            message.startsWith("[WHITE] ") ||
+            message.startsWith("[PURPLE] "
+            );
     }
 
     @Override
@@ -55,17 +55,17 @@ public class TypeColored extends ToggleBase {
     @Override
     public LinkedList<String> getDescription() {
         return asLinked(
-                "Disables colored chat",
-                "messages in multiple fields",
-                "",
-                "Toggles things like these",
-                "&e[YELLOW]",
-                "&d[PURPLE]",
-                "&a[GREEN]",
-                "&c[RED]",
-                "",
-                "This is good for fields",
-                "such as paintball"
+            "Disables colored chat",
+            "messages in multiple fields",
+            "",
+            "Toggles things like these",
+            "&e[YELLOW]",
+            "&d[PURPLE]",
+            "&a[GREEN]",
+            "&c[RED]",
+            "",
+            "This is good for fields",
+            "such as paintball"
         );
     }
 }

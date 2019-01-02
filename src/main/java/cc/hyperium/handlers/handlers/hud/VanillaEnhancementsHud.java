@@ -75,13 +75,12 @@ public class VanillaEnhancementsHud {
             String toDraw;
             if (heldItemStack.getItem() instanceof ItemPotion) {
                 toDraw = this.getPotionEffectString(heldItemStack);
-            }
-            else {
+            } else {
                 toDraw = this.getEnchantmentString(heldItemStack);
             }
             GL11.glPushMatrix();
             GL11.glScalef(0.5f, 0.5f, 0.5f);
-            final ScaledResolution res =ResolutionUtil.current();
+            final ScaledResolution res = ResolutionUtil.current();
             int y = res.getScaledHeight() - 59;
             y += (this.mc.playerController.shouldDrawHUD() ? -2 : 14);
             y = y + this.mc.fontRendererObj.FONT_HEIGHT;
@@ -138,8 +137,9 @@ public class VanillaEnhancementsHud {
         }
         return "";
     }
+
     private String getPotionEffectString(final ItemStack heldItemStack) {
-        final ItemPotion potion = (ItemPotion)heldItemStack.getItem();
+        final ItemPotion potion = (ItemPotion) heldItemStack.getItem();
         final List<PotionEffect> effects = potion.getEffects(heldItemStack);
         if (effects == null) {
             return "";
@@ -225,7 +225,7 @@ public class VanillaEnhancementsHud {
     }
 
     private int getEffProtPoints(int level, double typeModifier) {
-        return (level != 0) ? ((int)Math.floor((6 + level * level) * typeModifier / 3.0)) : 0;
+        return (level != 0) ? ((int) Math.floor((6 + level * level) * typeModifier / 3.0)) : 0;
     }
 
     private double calcProtection(int armorEpf) {

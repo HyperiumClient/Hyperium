@@ -98,8 +98,8 @@ public class ElementRenderer {
         double ty = y;
         for (String string : list) {
             int shift = current.isRightSided()
-                    ? fontRendererObj.getStringWidth(string)
-                    : 0;
+                ? fontRendererObj.getStringWidth(string)
+                : 0;
             if (current.isHighlighted()) {
                 if (current.getDisplayItems().stream().anyMatch(i -> i.getType().contains("CB"))) {
                     RenderUtils.drawRect((int) ((x - 1) / getCurrentScale() - shift), (int) ((ty - 3) / getCurrentScale()), (int) ((x + 1) / getCurrentScale()) + 60 - shift, (int) ((ty + 3) / getCurrentScale()) + 8, new Color(0, 0, 0, 120).getRGB());

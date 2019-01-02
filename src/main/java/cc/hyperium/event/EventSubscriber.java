@@ -97,8 +97,8 @@ public final class EventSubscriber {
                 EventSubscriber eventSubscriber = (EventSubscriber) subscriberIn;
 
                 return this.instance.equals(eventSubscriber.instance) &&
-                        this.method.equals(eventSubscriber.method) &&
-                        this.priority.equals(eventSubscriber.priority);
+                    this.method.equals(eventSubscriber.method) &&
+                    this.priority.equals(eventSubscriber.priority);
             }
 
             return false;

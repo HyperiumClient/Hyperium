@@ -60,7 +60,7 @@ public class UHCStats extends AbstractHypixelStats {
         stats.add(new DisplayLine(bold("Deaths: ", UHC.optInt("deaths_solo"))));
         stats.add(new DisplayLine(bold("Wins: ", UHC.optInt("wins_solo"))));
         stats.add(new DisplayLine(bold("K/D: ",
-                WebsiteUtils.buildRatio(UHC.optInt("kills_solo"), UHC.optInt("deaths_solo")))));
+            WebsiteUtils.buildRatio(UHC.optInt("kills_solo"), UHC.optInt("deaths_solo")))));
 
         return stats;
     }

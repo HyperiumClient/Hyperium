@@ -171,10 +171,12 @@ package cc.hyperium.gui;
 import cc.hyperium.internal.addons.AddonManifest;
 import cc.hyperium.internal.addons.AddonMinecraftBootstrap;
 import cc.hyperium.utils.ChatColor;
+
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.stream.Collectors;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiScreen;
@@ -183,7 +185,7 @@ import org.lwjgl.input.Mouse;
 
 public class GuiAddonError extends GuiScreen {
     @Override
-    public void drawScreen(int mouseX, int mouseY, float partialTicks){
+    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         this.drawDefaultBackground();
         int textY = 20;
         drawCenteredString(this.fontRendererObj, ChatColor.RED.toString() + ChatColor.BOLD + "ERROR LOADING ADDONS", width / 2, textY, Color.WHITE.getRGB());

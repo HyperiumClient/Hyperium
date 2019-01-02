@@ -18,6 +18,7 @@
 package cc.hyperium.mods.togglechat.toggles.defaults;
 
 import cc.hyperium.mods.togglechat.toggles.ToggleBase;
+
 import java.util.LinkedList;
 
 public class TypeAfterGift extends ToggleBase {
@@ -53,16 +54,16 @@ public class TypeAfterGift extends ToggleBase {
     @Override
     public LinkedList<String> getDescription() {
         return asLinked(
-                "Removes all",
-                "messages",
-                "saying",
-                "<username>",
-                "is radiating",
-                "with Generosity",
-                "",
-                "",
-                "",
-                ""
+            "Removes all",
+            "messages",
+            "saying",
+            "<username>",
+            "is radiating",
+            "with Generosity",
+            "",
+            "",
+            "",
+            ""
         );
     }
 }

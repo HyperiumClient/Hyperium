@@ -114,7 +114,7 @@ public class CommandDebug implements BaseCommand {
         builder.append("\n");
         builder.append("\n\n");
         NetworkHandler networkHandler = Hyperium.INSTANCE.getNetworkHandler();
-        if(networkHandler != null) {
+        if (networkHandler != null) {
             List<String> verboseLogs = networkHandler.getVerboseLogs();
             for (String verboseLog : verboseLogs) {
                 builder.append(verboseLog);

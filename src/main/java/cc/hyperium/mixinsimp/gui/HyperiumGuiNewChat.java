@@ -4,7 +4,9 @@ import cc.hyperium.config.Settings;
 import cc.hyperium.event.ChatEvent;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.mixins.gui.IMixinGuiNewChat;
+
 import java.util.List;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ChatLine;
 import net.minecraft.client.gui.Gui;
@@ -36,7 +38,7 @@ public class HyperiumGuiNewChat {
         }
     }
 
-    public void drawChat(int p_146230_1_, List<ChatLine> field_146253_i,int scrollPos,boolean isScrolled, Minecraft mc) {
+    public void drawChat(int p_146230_1_, List<ChatLine> field_146253_i, int scrollPos, boolean isScrolled, Minecraft mc) {
         if (mc.gameSettings.chatVisibility != EntityPlayer.EnumChatVisibility.HIDDEN) {
             int i = parent.getLineCount();
             boolean flag = false;
@@ -113,8 +115,8 @@ public class HyperiumGuiNewChat {
             }
         }
     }
-    
-    public void setChatLine(IChatComponent chatComponent, int chatLineId, int p_146237_3_, boolean p_146237_4_, int scrollPos, boolean isScrolled, List<ChatLine> field_146253_i,List<ChatLine> chatLines, Minecraft mc) {
+
+    public void setChatLine(IChatComponent chatComponent, int chatLineId, int p_146237_3_, boolean p_146237_4_, int scrollPos, boolean isScrolled, List<ChatLine> field_146253_i, List<ChatLine> chatLines, Minecraft mc) {
         if (chatLineId != 0) {
             parent.deleteChatLine(chatLineId);
         }

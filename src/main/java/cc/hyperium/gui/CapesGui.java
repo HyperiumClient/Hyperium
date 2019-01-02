@@ -168,7 +168,7 @@ public class CapesGui extends HyperiumGui implements GuiYesNoCallback {
             String s1;
             try {
                 s1 = PurchaseApi.getInstance().getSelf().getPurchaseSettings()
-                        .optJSONObject("cape").optString("type");
+                    .optJSONObject("cape").optString("type");
             } catch (NullPointerException ignored) {
                 return;
             }
@@ -182,7 +182,7 @@ public class CapesGui extends HyperiumGui implements GuiYesNoCallback {
             int i2 = current.getScaledWidth() / 2 - stringWidth1;
             int i3 = printY + 40;
             fontRendererObj.drawString(text, i2 / 2F
-                    , i3 / 2F, new Color(97, 132, 249).getRGB(), true);
+                , i3 / 2F, new Color(97, 132, 249).getRGB(), true);
             GuiBlock block1 = new GuiBlock(i2, i2 + stringWidth1 * 2, i3, i3 + 15);
             GlStateManager.scale(.5F, .5F, .5F);
             actions.put(block1, () -> {
@@ -213,7 +213,7 @@ public class CapesGui extends HyperiumGui implements GuiYesNoCallback {
                 int thisBlocksCenter = (int) (scaledWidth / 2 - ((blocksPerLine / 2) - pos + .5) * (blockWidth + 16));
                 int thisTopY = printY + row * (16 + blockHeight);
                 RenderUtils.drawSmoothRect(thisBlocksCenter - blockWidth / 2, thisTopY,
-                        (thisBlocksCenter + blockWidth / 2), thisTopY + blockHeight, Color.WHITE.getRGB());
+                    (thisBlocksCenter + blockWidth / 2), thisTopY + blockHeight, Color.WHITE.getRGB());
                 DynamicTexture dynamicTexture = textures.get(s);
                 if (dynamicTexture != null) {
                     int imgW = 120;
@@ -325,8 +325,8 @@ public class CapesGui extends HyperiumGui implements GuiYesNoCallback {
     public void updatePurchases() {
         Multithreading.runAsync(() -> {
             cosmeticCallback = PurchaseApi.getInstance().get(
-                    "https://api.hyperium.cc/cosmetics/" + Objects.requireNonNull(UUIDUtil.getClientUUID()).toString()
-                            .replace("-", ""));
+                "https://api.hyperium.cc/cosmetics/" + Objects.requireNonNull(UUIDUtil.getClientUUID()).toString()
+                    .replace("-", ""));
             purchasing = false;
         });
     }

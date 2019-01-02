@@ -25,6 +25,7 @@ import net.minecraft.launchwrapper.LaunchClassLoader;
 import org.spongepowered.asm.launch.MixinBootstrap;
 import org.spongepowered.asm.mixin.MixinEnvironment;
 import org.spongepowered.asm.mixin.Mixins;
+
 import java.io.File;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
@@ -58,7 +59,7 @@ public class HyperiumTweaker implements ITweaker {
 
     @Override
     public void acceptOptions(List<String> args, File gameDir, final File assetsDir,
-        String profile) {
+                              String profile) {
         this.args.addAll(args);
 
         addArg("gameDir", gameDir);
@@ -119,7 +120,7 @@ public class HyperiumTweaker implements ITweaker {
         if (FORGE || OPTIFINE) {
             return new String[0];
         } else {
-            return args.toArray(new String[] {});
+            return args.toArray(new String[]{});
         }
     }
 
@@ -146,7 +147,7 @@ public class HyperiumTweaker implements ITweaker {
         addArg(args, file.getAbsolutePath());
     }
 
-    private void addArgs(Map<String, ?> args)  {
+    private void addArgs(Map<String, ?> args) {
         args.forEach((label, value) -> {
             if (value instanceof String) {
                 addArg(label, (String) value);

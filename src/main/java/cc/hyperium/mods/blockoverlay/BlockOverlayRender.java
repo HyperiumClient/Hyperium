@@ -2,7 +2,9 @@ package cc.hyperium.mods.blockoverlay;
 
 import cc.hyperium.event.DrawBlockHighlightEvent;
 import cc.hyperium.event.InvokeEvent;
+
 import java.awt.Color;
+
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderGlobal;

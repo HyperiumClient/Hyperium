@@ -30,7 +30,7 @@ public class MixinGuiScreenResourcePacks extends GuiScreen {
     @Shadow
     private List<ResourcePackListEntry> availableResourcePacks;
     private HyperiumGuiScreenResourcePacks hyperiumGuiResourcePack = new HyperiumGuiScreenResourcePacks(
-            (GuiScreenResourcePacks) (Object) this);
+        (GuiScreenResourcePacks) (Object) this);
 
     private GuiResourcePackAvailable availablePacksClone;
 
@@ -46,7 +46,7 @@ public class MixinGuiScreenResourcePacks extends GuiScreen {
 
         this.availablePacksClone = this.availableResourcePacksList;
         this.searchField = new GuiTextField(3, fontRendererObj, this.width / 2 - 4 - 200,
-                this.height - 24, 200, 20);
+            this.height - 24, 200, 20);
     }
 
     @Override
@@ -74,11 +74,11 @@ public class MixinGuiScreenResourcePacks extends GuiScreen {
      */
     @Overwrite
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-        hyperiumGuiResourcePack.drawScreen(availableResourcePacksList,selectedResourcePacksList,mouseX,mouseY,partialTicks,fontRendererObj,searchField,width);
-        super.drawScreen(mouseX,mouseY,partialTicks);
+        hyperiumGuiResourcePack.drawScreen(availableResourcePacksList, selectedResourcePacksList, mouseX, mouseY, partialTicks, fontRendererObj, searchField, width);
+        super.drawScreen(mouseX, mouseY, partialTicks);
     }
 
-    public void updateList(){
-        availableResourcePacksList = hyperiumGuiResourcePack.updateList(searchField,availablePacksClone,availableResourcePacks,mc,height,width);
+    public void updateList() {
+        availableResourcePacksList = hyperiumGuiResourcePack.updateList(searchField, availablePacksClone, availableResourcePacks, mc, height, width);
     }
 }

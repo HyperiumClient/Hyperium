@@ -40,8 +40,8 @@ public class GGCommand implements BaseCommand {
                 this.mod.getConfig().flipToggle();
 
                 this.showMessage(
-                        ChatColor.GRAY + "AutoGG: " + (this.mod.getConfig().isToggled() ? (
-                                ChatColor.GREEN + "On") : (ChatColor.RED + "Off")));
+                    ChatColor.GRAY + "AutoGG: " + (this.mod.getConfig().isToggled() ? (
+                        ChatColor.GREEN + "On") : (ChatColor.RED + "Off")));
 
                 saveConfig();
                 break;
@@ -60,14 +60,14 @@ public class GGCommand implements BaseCommand {
                         saveConfig();
 
                         this.showMessage(ChatColor.GRAY + "AutoGG delay set to "
-                                + ChatColor.GREEN + this.mod.getConfig().getDelay() + "s");
+                            + ChatColor.GREEN + this.mod.getConfig().getDelay() + "s");
                     } catch (NumberFormatException e) {
                         showMessage(ChatColor.RED + "Error: Please use an integer between 1 and 5 seconds.");
                     }
                     break;
                 }
                 this.showMessage(
-                        ChatColor.GRAY + "AutoGG Delay: " + ChatColor.GREEN + this.mod.getConfig().getDelay() + "s");
+                    ChatColor.GRAY + "AutoGG Delay: " + ChatColor.GREEN + this.mod.getConfig().getDelay() + "s");
                 break;
             }
             default: {

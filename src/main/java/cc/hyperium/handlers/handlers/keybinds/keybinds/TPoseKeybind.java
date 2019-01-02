@@ -26,82 +26,84 @@ import cc.hyperium.netty.NettyClient;
 import cc.hyperium.netty.packet.packets.serverbound.ServerCrossDataPacket;
 import cc.hyperium.utils.JsonHolder;
 import cc.hyperium.utils.UUIDUtil;
+
 import java.util.UUID;
+
 import net.minecraft.client.Minecraft;
 import org.lwjgl.input.Keyboard;
 
 public class TPoseKeybind extends HyperiumBind {
 
-  public TPoseKeybind() {
-    super("T-Pose", Keyboard.KEY_N);
-  }
-
-  private boolean tPoseToggled;
-
-  @Override
-  public void onPress() {
-    TPoseHandler tPoseHandler = Hyperium.INSTANCE.getHandlers().getTPoseHandler();
-    UUID uuid = (Minecraft.getMinecraft().getSession()).getProfile().getId();
-    AbstractAnimationHandler.AnimationState currentState = tPoseHandler.get(uuid);
-
-    if (Settings.TPOSE_TOGGLE_MODE) {
-      tPoseToggled = !tPoseToggled;
-    } else {
-      tPoseToggled = true;
+    public TPoseKeybind() {
+        super("T-Pose", Keyboard.KEY_N);
     }
 
-    NettyClient client = NettyClient.getClient();
+    private boolean tPoseToggled;
 
-    if (Settings.TPOSE_TOGGLE_MODE) {
-      currentState.setToggled(tPoseToggled);
-      if (tPoseToggled) {
-        tPoseHandler.startAnimation(uuid);
-      } else {
-        tPoseHandler.stopAnimation(uuid);
-      }
-      if (client != null) {
-        client.write(ServerCrossDataPacket
-            .build(new JsonHolder().put("type", "tpose_update").put("posing", tPoseToggled)));
-      }
-      return;
+    @Override
+    public void onPress() {
+        TPoseHandler tPoseHandler = Hyperium.INSTANCE.getHandlers().getTPoseHandler();
+        UUID uuid = (Minecraft.getMinecraft().getSession()).getProfile().getId();
+        AbstractAnimationHandler.AnimationState currentState = tPoseHandler.get(uuid);
+
+        if (Settings.TPOSE_TOGGLE_MODE) {
+            tPoseToggled = !tPoseToggled;
+        } else {
+            tPoseToggled = true;
+        }
+
+        NettyClient client = NettyClient.getClient();
+
+        if (Settings.TPOSE_TOGGLE_MODE) {
+            currentState.setToggled(tPoseToggled);
+            if (tPoseToggled) {
+                tPoseHandler.startAnimation(uuid);
+            } else {
+                tPoseHandler.stopAnimation(uuid);
+            }
+            if (client != null) {
+                client.write(ServerCrossDataPacket
+                    .build(new JsonHolder().put("type", "tpose_update").put("posing", tPoseToggled)));
+            }
+            return;
+        }
+
+        if (Settings.TPOSE_TOGGLE && currentState.isAnimating() && !this.wasPressed()) {
+            currentState.setToggled(false);
+            tPoseHandler.stopAnimation(uuid);
+            if (client != null) {
+                client.write(ServerCrossDataPacket
+                    .build(new JsonHolder().put("type", "tpose_update").put("posing", false)));
+            }
+            return;
+        }
+
+        if (!this.wasPressed()) {
+            currentState.setToggled(Settings.TPOSE_TOGGLE);
+            tPoseHandler.startAnimation(uuid);
+        }
+        if (client != null) {
+            client.write(ServerCrossDataPacket
+                .build(new JsonHolder().put("type", "tpose_update").put("posing", true)));
+        }
     }
 
-    if (Settings.TPOSE_TOGGLE && currentState.isAnimating() && !this.wasPressed()) {
-      currentState.setToggled(false);
-      tPoseHandler.stopAnimation(uuid);
-      if (client != null) {
-        client.write(ServerCrossDataPacket
-            .build(new JsonHolder().put("type", "tpose_update").put("posing", false)));
-      }
-      return;
-    }
 
-    if (!this.wasPressed()) {
-      currentState.setToggled(Settings.TPOSE_TOGGLE);
-      tPoseHandler.startAnimation(uuid);
-    }
-    if (client != null) {
-      client.write(ServerCrossDataPacket
-          .build(new JsonHolder().put("type", "tpose_update").put("posing", true)));
-    }
-  }
+    @Override
+    public void onRelease() {
+        if (!Settings.TPOSE_TOGGLE_MODE) {
+            tPoseToggled = false;
+        }
 
+        if (Settings.TPOSE_TOGGLE || Settings.TPOSE_TOGGLE_MODE) {
+            return;
+        }
 
-  @Override
-  public void onRelease() {
-    if (!Settings.TPOSE_TOGGLE_MODE) {
-      tPoseToggled = false;
+        Hyperium.INSTANCE.getHandlers().getTPoseHandler().stopAnimation(UUIDUtil.getClientUUID());
+        NettyClient client = NettyClient.getClient();
+        if (client != null) {
+            client.write(ServerCrossDataPacket
+                .build(new JsonHolder().put("type", "tpose_update").put("posing", false)));
+        }
     }
-
-    if (Settings.TPOSE_TOGGLE || Settings.TPOSE_TOGGLE_MODE) {
-      return;
-    }
-
-    Hyperium.INSTANCE.getHandlers().getTPoseHandler().stopAnimation(UUIDUtil.getClientUUID());
-    NettyClient client = NettyClient.getClient();
-    if (client != null) {
-      client.write(ServerCrossDataPacket
-          .build(new JsonHolder().put("type", "tpose_update").put("posing", false)));
-    }
-  }
 }

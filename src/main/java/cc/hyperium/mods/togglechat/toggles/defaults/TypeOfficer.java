@@ -1,6 +1,7 @@
 package cc.hyperium.mods.togglechat.toggles.defaults;
 
 import cc.hyperium.mods.togglechat.toggles.ToggleBase;
+
 import java.util.LinkedList;
 import java.util.regex.Pattern;
 

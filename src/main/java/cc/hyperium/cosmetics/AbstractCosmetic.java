@@ -20,6 +20,7 @@ public abstract class AbstractCosmetic {
     private final EnumPurchaseType purchaseType;
     private final Map<UUID, Boolean> purchasedBy = new ConcurrentHashMap<>();
     private boolean selfUnlocked;
+    private boolean checkDevEnv;
 
     public AbstractCosmetic(boolean selfOnly, EnumPurchaseType purchaseType) {
         this.selfOnly = selfOnly;
@@ -27,7 +28,7 @@ public abstract class AbstractCosmetic {
         try {
             PurchaseApi.getInstance().getPackageAsync(UUIDUtil.getClientUUID(), hyperiumPurchase -> {
                 if (hyperiumPurchase == null) {
-                    System.out.println("WARNING COSMETIC NULL");
+                    System.out.println("[Cosmetics] Detected " + getPurchaseType().toString().toLowerCase() + " is null!");
                     return;
                 }
                 selfUnlocked = hyperiumPurchase.hasPurchased(purchaseType);
@@ -72,7 +73,6 @@ public abstract class AbstractCosmetic {
     public EnumPurchaseType getPurchaseType() {
         return purchaseType;
     }
-
 
     public boolean isSelfUnlocked() {
         return selfUnlocked;

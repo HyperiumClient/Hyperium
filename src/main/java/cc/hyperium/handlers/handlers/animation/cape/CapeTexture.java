@@ -43,7 +43,7 @@ public class CapeTexture extends AbstractTexture {
 
     public void clearTextureData() {
         this
-                .dynamicTextureData = new int[0];
+            .dynamicTextureData = new int[0];
     }
 
     public int[] getTextureData() {

@@ -271,7 +271,7 @@ public class StatisticViewingGui extends HyperiumGui {
             GL11.glLineWidth(6);
             int x2 = chartWidth;
             int y2 = yPos;
-            if (i + 1 < size ) {
+            if (i + 1 < size) {
                 ValueTrackingItem valueTrackingItem1 = currentDataSet.get(i + 1);
                 long time1 = valueTrackingItem1.getTime();
                 time1 -= masterTimeOne;

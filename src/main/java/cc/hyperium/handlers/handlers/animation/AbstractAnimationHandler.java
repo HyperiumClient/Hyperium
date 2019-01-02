@@ -178,22 +178,22 @@ public abstract class AbstractAnimationHandler {
 
     protected void resetAnimation(IMixinModelBiped player) {
         resetModelRenderers(
-                player.getBipedHead(), player.getBipedHeadwear(), //
-                player.getBipedBody(), //
-                player.getBipedRightUpperLeg(), player.getBipedRightLowerLeg(), //
-                player.getBipedLeftUpperLeg(), player.getBipedLeftLowerLeg(), //
-                player.getBipedRightUpperArm(), player.getBipedRightForeArm(), //
-                player.getBipedLeftUpperArm(), player.getBipedLeftForeArm() //
+            player.getBipedHead(), player.getBipedHeadwear(), //
+            player.getBipedBody(), //
+            player.getBipedRightUpperLeg(), player.getBipedRightLowerLeg(), //
+            player.getBipedLeftUpperLeg(), player.getBipedLeftLowerLeg(), //
+            player.getBipedRightUpperArm(), player.getBipedRightForeArm(), //
+            player.getBipedLeftUpperArm(), player.getBipedLeftForeArm() //
         );
 
         if (player instanceof IMixinModelPlayer) {
             IMixinModelPlayer modelPlayer = (IMixinModelPlayer) player;
             resetModelRenderers(
-                    modelPlayer.getBipedBodywear(), //
-                    modelPlayer.getBipedRightUpperLegwear(), modelPlayer.getBipedRightLowerLegwear(), //
-                    modelPlayer.getBipedLeftUpperLegwear(), modelPlayer.getBipedLeftLowerLegwear(), //
-                    modelPlayer.getBipedRightUpperArmwear(), modelPlayer.getBipedRightForeArmwear(), //
-                    modelPlayer.getBipedLeftUpperArmwear(), modelPlayer.getBipedLeftForeArmwear() //
+                modelPlayer.getBipedBodywear(), //
+                modelPlayer.getBipedRightUpperLegwear(), modelPlayer.getBipedRightLowerLegwear(), //
+                modelPlayer.getBipedLeftUpperLegwear(), modelPlayer.getBipedLeftLowerLegwear(), //
+                modelPlayer.getBipedRightUpperArmwear(), modelPlayer.getBipedRightForeArmwear(), //
+                modelPlayer.getBipedLeftUpperArmwear(), modelPlayer.getBipedLeftForeArmwear() //
             );
         }
     }

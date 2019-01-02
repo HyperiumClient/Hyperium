@@ -1,4 +1,5 @@
 package cc.hyperium.commands.defaults;
+
 import cc.hyperium.Hyperium;
 import cc.hyperium.commands.BaseCommand;
 import cc.hyperium.commands.CommandException;

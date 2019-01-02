@@ -94,7 +94,7 @@ public class CollapsibleTabComponent extends AbstractTabComponent {
                 if (Mouse.isButtonDown(0)) {
                     if (!tab.clickStates.computeIfAbsent(comp, ignored -> false)) {
                         comp.onClick(right ? mouseX - width / 2 : mouseX,
-                                mouseY - y /* Make the Y relevant to the component */);
+                            mouseY - y /* Make the Y relevant to the component */);
                         tab.clickStates.put(comp, true);
                     }
                 } else if (tab.clickStates.computeIfAbsent(comp, ignored -> false)) {

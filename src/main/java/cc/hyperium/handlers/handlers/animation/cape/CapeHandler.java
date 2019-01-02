@@ -71,7 +71,7 @@ public class CapeHandler {
         capes.put(uuid, NullCape.INSTANCE);
 
         ResourceLocation resourceLocation = new ResourceLocation(
-                String.format("hyperium/capes/%s.png", System.nanoTime())
+            String.format("hyperium/capes/%s.png", System.nanoTime())
         );
 
         TextureManager textureManager = Minecraft.getMinecraft().getTextureManager();
@@ -111,7 +111,7 @@ public class CapeHandler {
                 setCape(player.getUniqueID(), NullCape.INSTANCE);
                 Multithreading.runAsync(() -> {
                     HyperiumPurchase hyperiumPurchase = PurchaseApi.getInstance()
-                            .getPackageSync(uuid);
+                        .getPackageSync(uuid);
                     JsonHolder holder = hyperiumPurchase.getPurchaseSettings().optJSONObject("cape");
                     String s = holder.optString("type");
                     if (s.equalsIgnoreCase("CUSTOM_IMAGE")) {
@@ -119,7 +119,7 @@ public class CapeHandler {
                         return;
                     } else if (!s.isEmpty()) {
                         JsonHolder jsonHolder = PurchaseApi.getInstance().getCapeAtlas()
-                                .optJSONObject(s);
+                            .optJSONObject(s);
                         String url = jsonHolder.optString("url");
                         if (!url.isEmpty()) {
                             loadStaticCape(uuid, url);

@@ -14,7 +14,7 @@ public class ToggleSprintStatus extends DisplayItem {
         super(data, ordinal);
         this.sprintEnabledText = data.optString("sprintEnabledText");
         if (StringUtils.isNullOrEmpty(sprintEnabledText)) {
-            if(!Settings.CHROMAHUD_SQUAREBRACE_PREFIX_OPTION) {
+            if (!Settings.CHROMAHUD_SQUAREBRACE_PREFIX_OPTION) {
                 sprintEnabledText = "ToggleSprint Enabled";
             } else {
                 sprintEnabledText = "[ToggleSprint] Enabled";

@@ -1,3 +1,20 @@
+/*
+ *     Copyright (C) 2018  Hyperium <https://hyperium.cc/>
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU Lesser General Public License as published
+ *     by the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU Lesser General Public License for more details.
+ *
+ *     You should have received a copy of the GNU Lesser General Public License
+ *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package cc.hyperium.mixinsimp.client;
 
 import me.semx11.autotip.universal.ReflectionUtil;
@@ -39,13 +56,14 @@ public class GlStateModifier implements IGlStateModifier {
                         textureNamefield = aClass.getDeclaredField("b");
                     } catch (NoSuchFieldException e2) {
                         e2.printStackTrace();
-                        //At this point there is no hope.
+                        // At this point there is no hope.
                     }
                 }
             }
 
-            if (textureNamefield != null)
+            if (textureNamefield != null) {
                 textureNamefield.setAccessible(true);
+            }
         }
 
         int activeTextureUnit = -1;
@@ -59,7 +77,6 @@ public class GlStateModifier implements IGlStateModifier {
         }
 
         if (theArray == null || textureNamefield == null || activeTextureUnit == -1) {
-            System.out.println("Hey staff team if you see this, there was no hope but this message band aids it so hello. ");
             return;
         }
         Object o = theArray[activeTextureUnit];
@@ -87,7 +104,6 @@ public class GlStateModifier implements IGlStateModifier {
                         tmp = aClass.getDeclaredField("t");
                     } catch (NoSuchFieldException e2) {
                         e2.printStackTrace();
-                        //At this point there is no hope.
                     }
                 }
             }
@@ -99,7 +115,6 @@ public class GlStateModifier implements IGlStateModifier {
                     e.printStackTrace();
                 }
             }
-
 
         }
         if (redColorField == null) {
@@ -114,7 +129,6 @@ public class GlStateModifier implements IGlStateModifier {
                         redColorField = aClass.getDeclaredField("a");
                     } catch (NoSuchFieldException e2) {
                         e2.printStackTrace();
-                        //At this point there is no hope.
                     }
                 }
             }
@@ -122,7 +136,6 @@ public class GlStateModifier implements IGlStateModifier {
                 redColorField.setAccessible(true);
         }
         if (colorStateObject == null || redColorField == null) {
-            System.out.println("No hope v2");
             return;
         }
         try {
@@ -135,6 +148,5 @@ public class GlStateModifier implements IGlStateModifier {
     public void reset() {
         setTexture(-1);
     }
-
 
 }

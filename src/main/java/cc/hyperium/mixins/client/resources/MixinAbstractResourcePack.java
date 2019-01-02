@@ -18,9 +18,11 @@
 package cc.hyperium.mixins.client.resources;
 
 import cc.hyperium.mixinsimp.client.resources.HyperiumAbstractResourcePack;
+
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
+
 import net.minecraft.client.resources.AbstractResourcePack;
 import net.minecraft.client.resources.IResourcePack;
 import net.minecraft.util.ResourceLocation;

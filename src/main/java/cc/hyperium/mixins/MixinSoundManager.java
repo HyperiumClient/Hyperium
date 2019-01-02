@@ -38,9 +38,9 @@ public class MixinSoundManager {
      * @param ci    callback
      */
     @Inject(
-            method = "playSound",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/client/audio/SoundHandler;getSound(Lnet/minecraft/util/ResourceLocation;)Lnet/minecraft/client/audio/SoundEventAccessorComposite;"),
-            cancellable = true
+        method = "playSound",
+        at = @At(value = "INVOKE", target = "Lnet/minecraft/client/audio/SoundHandler;getSound(Lnet/minecraft/util/ResourceLocation;)Lnet/minecraft/client/audio/SoundEventAccessorComposite;"),
+        cancellable = true
     )
     private void playSound(ISound sound, CallbackInfo ci) {
         hyperiumSoundManager.playSound(sound, ci);

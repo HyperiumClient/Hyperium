@@ -218,9 +218,9 @@ public class Levelhead extends AbstractMod {
         levelCache.put(uuid, null);
         Multithreading.runAsync(() -> {
             String raw = mod.rawWithAgent(
-                    "https://api.sk1er.club/levelheadv5/" + trimUuid(uuid) + "/" + type
-                            + "/" + trimUuid(Minecraft.getMinecraft().getSession().getProfile().getId()) +
-                            "/" + VERSION);
+                "https://api.sk1er.club/levelheadv5/" + trimUuid(uuid) + "/" + type
+                    + "/" + trimUuid(Minecraft.getMinecraft().getSession().getProfile().getId()) +
+                    "/" + VERSION);
             JsonHolder object = new JsonHolder(raw);
             if (!object.optBoolean("success")) {
                 object.put("strlevel", "Error");
@@ -231,6 +231,7 @@ public class Levelhead extends AbstractMod {
         });
         Multithreading.POOL.submit(this::clearCache);
     }
+
     public LevelheadTag buildTag(JsonHolder object, UUID uuid) {
         LevelheadTag value = new LevelheadTag();
         JsonHolder headerObj = new JsonHolder();

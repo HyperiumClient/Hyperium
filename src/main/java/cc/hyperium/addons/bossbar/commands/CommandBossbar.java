@@ -7,9 +7,11 @@ import cc.hyperium.commands.CommandException;
 
 public class CommandBossbar implements BaseCommand {
     private BossbarAddon addon;
-    public CommandBossbar(BossbarAddon addon){
+
+    public CommandBossbar(BossbarAddon addon) {
         this.addon = addon;
     }
+
     @Override
     public String getName() {
         return "bossbaraddon";

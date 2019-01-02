@@ -36,7 +36,7 @@ public class PerspectiveModifierHandler {
 
     public void onEnable() {
         this.enabled = true;
-        if(Minecraft.getMinecraft().gameSettings.thirdPersonView == 2){
+        if (Minecraft.getMinecraft().gameSettings.thirdPersonView == 2) {
             this.modifiedYaw = Minecraft.getMinecraft().thePlayer.rotationYaw + 180.0F;
             this.modifiedPitch = -Minecraft.getMinecraft().thePlayer.rotationPitch;
         } else {
@@ -50,7 +50,7 @@ public class PerspectiveModifierHandler {
     }
 
     public void onDisable() {
-        if(!enabled){
+        if (!enabled) {
             // Prevents being disabled twice by different methods.
             return;
         }

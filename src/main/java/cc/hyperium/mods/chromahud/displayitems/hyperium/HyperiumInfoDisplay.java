@@ -34,7 +34,7 @@ public class HyperiumInfoDisplay extends DisplayItem {
     @Override
     public void draw(int x, double y, boolean config) {
         List<String> list = new ArrayList<>();
-        if(!Settings.CHROMAHUD_SQUAREBRACE_PREFIX_OPTION) {
+        if (!Settings.CHROMAHUD_SQUAREBRACE_PREFIX_OPTION) {
             list.add("Client: " + Metadata.getModid());
             list.add("Version " + Metadata.getVersion());
         } else {

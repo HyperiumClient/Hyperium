@@ -16,8 +16,8 @@ public class StaticTrailAnimation extends AbstractAnimation {
     public List<Vec3> render(EntityPlayer player, double x, double y, double z) {
         ArrayList<Vec3> vec3s = new ArrayList<>();
         float rotationYaw = player.rotationYawHead;
-        rotationYaw-=90;
-        Vec3 base = new Vec3(x + MathHelper.cos((float) Math.toRadians(rotationYaw)) , y + 1.8D, z + MathHelper.sin((float) Math.toRadians(rotationYaw)));
+        rotationYaw -= 90;
+        Vec3 base = new Vec3(x + MathHelper.cos((float) Math.toRadians(rotationYaw)), y + 1.8D, z + MathHelper.sin((float) Math.toRadians(rotationYaw)));
         for (int i = 0; i < 4; i++) {
             vec3s.add(base.addVector(0, -.4 * i, 0));
         }

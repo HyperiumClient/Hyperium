@@ -76,7 +76,7 @@ public class SettingsTab extends AbstractTab {
         }
 
         // Link to capes GUI.
-        apply(new LinkComponent(this,Collections.emptyList(),"Youtuber Capes",new CapesGui()),false,Category.COSMETICS,items);
+        apply(new LinkComponent(this, Collections.emptyList(), "Youtuber Capes", new CapesGui()), false, Category.COSMETICS, items);
 
 
         for (RGBFieldSet rgbFieldSet : gui.getRgbFields()) {
@@ -95,11 +95,11 @@ public class SettingsTab extends AbstractTab {
     private void apply(AbstractTabComponent component, boolean mods, Category category, HashMap<Category, CollapsibleTabComponent> items) {
 
         CollapsibleTabComponent collapsibleTabComponent = items.computeIfAbsent(
-                (mods ? Category.MODS : category),
-                category1 ->
-                        new CollapsibleTabComponent(SettingsTab.this,
-                                Arrays.asList(category1.name()),
-                                category1.getDisplay()));
+            (mods ? Category.MODS : category),
+            category1 ->
+                new CollapsibleTabComponent(SettingsTab.this,
+                    Arrays.asList(category1.name()),
+                    category1.getDisplay()));
         if (mods) {
             boolean b = false;
             for (AbstractTabComponent abs : collapsibleTabComponent.getChildren()) {

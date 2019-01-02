@@ -36,7 +36,7 @@ public class DragonCompanion extends AbstractCosmetic {
     public void renderEntities(RenderEntitiesEvent entitiesEvent) {
         if (Settings.SHOW_COMPANION_IN_1ST_PERSON) {
             renderPlayer(new RenderPlayerEvent(Minecraft.getMinecraft().thePlayer, Minecraft.getMinecraft().getRenderManager(), 0, 0, 0,
-                    entitiesEvent.getPartialTicks()));
+                entitiesEvent.getPartialTicks()));
         }
     }
 
@@ -64,7 +64,6 @@ public class DragonCompanion extends AbstractCosmetic {
 
         //Manage pos here;
 
-
         float partialTicks = event.getPartialTicks();
 
         double d0 = player.lastTickPosX + (player.posX - player.lastTickPosX) * (double) partialTicks;
@@ -81,8 +80,8 @@ public class DragonCompanion extends AbstractCosmetic {
         entityDragon.posY = current.y / scale;
         entityDragon.posZ = current.z / scale;
         GlStateManager.translate(-((IMixinRenderManager) renderManager).getPosX(),
-                -((IMixinRenderManager) renderManager).getPosY(),
-                -((IMixinRenderManager) renderManager).getPosZ());
+            -((IMixinRenderManager) renderManager).getPosY(),
+            -((IMixinRenderManager) renderManager).getPosZ());
 
         GlStateManager.translate(d0 * scale, d1 * scale, d2 * scale);
         GlStateManager.scale(scale, scale, scale);
@@ -113,7 +112,7 @@ public class DragonCompanion extends AbstractCosmetic {
             if (entityDragon != null) {
                 entityDragon.setWorld(player.getEntityWorld());
                 double v = animationState.next.distanceSqTo(new AnimationPoint(player.posX, player.posY, player.posZ));
-                if (v > 7*7) {
+                if (v > 7 * 7) {
                     animationState.switchToNext(player, true);
                 }
 
@@ -126,7 +125,6 @@ public class DragonCompanion extends AbstractCosmetic {
                 entityDragon.posX = current.x / scale;
                 entityDragon.posY = current.y / scale;
                 entityDragon.posZ = current.z / scale;
-
 
                 double dx = animationState.next.x - animationState.last.x;
                 double dz = animationState.next.z - animationState.last.z;
@@ -150,9 +148,7 @@ public class DragonCompanion extends AbstractCosmetic {
             }
         }
 
-
     }
-
 
     class CustomDragon {
         EntityDragon dragon;
@@ -201,9 +197,9 @@ public class DragonCompanion extends AbstractCosmetic {
 
         public void switchToNext(EntityPlayer player, boolean toofar) {
             if (nextNext == null)
-                nextNext = toofar ? new AnimationPoint(player.posX,player.posY+3,player.posZ) : generateRandom(player);
+                nextNext = toofar ? new AnimationPoint(player.posX, player.posY + 3, player.posZ) : generateRandom(player);
             last = toofar ? getCurrent(player) : next;
-            next = toofar ? new AnimationPoint(player.posX,player.posY+3,player.posZ)  : nextNext;
+            next = toofar ? new AnimationPoint(player.posX, player.posY + 3, player.posZ) : nextNext;
             start = System.currentTimeMillis();
             currentDistance = next.distanceTo(last);
             if (toofar) {
@@ -222,8 +218,8 @@ public class DragonCompanion extends AbstractCosmetic {
             }
             double percent = (double) (l - start) / (double) totalTime;
             return new AnimationPoint(interpolate(this.last.x, next.x, percent),
-                    interpolate(this.last.y, next.y, percent),
-                    interpolate(this.last.z, next.z, percent));
+                interpolate(this.last.y, next.y, percent),
+                interpolate(this.last.z, next.z, percent));
         }
 
         public boolean nextFrameisNewPoint(EntityPlayer player) {
@@ -246,9 +242,10 @@ public class DragonCompanion extends AbstractCosmetic {
             double posZ = player == null ? 0 : player.posZ;
             double y = current.nextDouble(.5 + posY, posY + BOUNDS + (double) BOUNDS / 2D);
             return new AnimationPoint(current.nextDouble(-BOUNDS + posX, BOUNDS + posX),
-                    y,
-                    current.nextDouble(-BOUNDS + posZ, BOUNDS + posZ));
+                y,
+                current.nextDouble(-BOUNDS + posZ, BOUNDS + posZ));
         }
+
     }
 
 }

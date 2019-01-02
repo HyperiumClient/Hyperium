@@ -56,18 +56,18 @@ public class NameHistoryGui extends GuiScreen {
     @Override
     public void initGui() {
         super.initGui();
-        nameField = new GuiTextField(1,mc.fontRendererObj,width / 2 - (115 / 2), height / 5 + 10, 115, 20);
+        nameField = new GuiTextField(1, mc.fontRendererObj, width / 2 - (115 / 2), height / 5 + 10, 115, 20);
         nameField.setText(name);
     }
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         super.drawScreen(mouseX, mouseY, partialTicks);
-        int left = width/5 -1;
+        int left = width / 5 - 1;
         int top = height / 5 - 1;
-        int right = width - width/5;
+        int right = width - width / 5;
         int bottom = height / 5 + 33;
-        
+
         //BG
         drawRect(left, top, right, bottom + (names.size() * 10), new Color(0, 0, 0, 100).getRGB());
 

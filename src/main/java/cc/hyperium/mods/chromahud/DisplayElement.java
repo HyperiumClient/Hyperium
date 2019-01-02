@@ -27,6 +27,7 @@ import net.minecraft.client.gui.ScaledResolution;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
+
 import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
@@ -95,12 +96,12 @@ public class DisplayElement extends Dimension {
     @Override
     public String toString() {
         return "DisplayElement{" +
-                "xloc=" + xloc +
-                ", yloc=" + yloc +
-                ", displayItems=" + displayItems +
-                ", scale=" + scale +
-                ", color=" + color +
-                '}';
+            "xloc=" + xloc +
+            ", yloc=" + yloc +
+            ", displayItems=" + displayItems +
+            ", scale=" + scale +
+            ", color=" + color +
+            '}';
     }
 
     public boolean isChroma() {

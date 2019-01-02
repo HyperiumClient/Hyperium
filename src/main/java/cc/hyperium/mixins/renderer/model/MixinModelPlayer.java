@@ -153,10 +153,10 @@ public class MixinModelPlayer extends MixinModelBiped implements IMixinModelPlay
 
         this.butt.showModel = false;
         fixTopAndBottomOfLimbWrongTextures(
-                this.bipedLeftForeArm, this.bipedLeftForeArmwear, //
-                this.bipedRightForeArm, this.bipedRightForeArmwear, //
-                this.bipedLeftLowerLeg, this.bipedLeftLowerLegwear, //
-                this.bipedRightLowerLeg, this.bipedRightLowerLegwear //
+            this.bipedLeftForeArm, this.bipedLeftForeArmwear, //
+            this.bipedRightForeArm, this.bipedRightForeArmwear, //
+            this.bipedLeftLowerLeg, this.bipedLeftLowerLegwear, //
+            this.bipedRightLowerLeg, this.bipedRightLowerLegwear //
         );
     }
 

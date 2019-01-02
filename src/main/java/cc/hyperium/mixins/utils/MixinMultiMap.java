@@ -15,11 +15,16 @@ import java.util.Map;
 
 @Mixin(ClassInheritanceMultiMap.class)
 public abstract class MixinMultiMap<T> {
-    @Shadow @Final private List<T> field_181745_e;
+    @Shadow
+    @Final
+    private List<T> field_181745_e;
 
-    @Shadow @Final private Map<Class<?>, List<T>> map;
+    @Shadow
+    @Final
+    private Map<Class<?>, List<T>> map;
 
-    @Shadow protected abstract Class<?> func_181157_b(Class<?> p_181157_1_);
+    @Shadow
+    protected abstract Class<?> func_181157_b(Class<?> p_181157_1_);
 
     @Overwrite
     public Iterator<T> iterator() {
@@ -31,12 +36,9 @@ public abstract class MixinMultiMap<T> {
         return () -> {
             List<T> list = map.get(func_181157_b(clazz));
 
-            if (list == null)
-            {
+            if (list == null) {
                 return (UnmodifiableListIterator<S>) Utils.EMPTY_ITERATOR;
-            }
-            else
-            {
+            } else {
                 Iterator<T> iterator = list.iterator();
                 return Iterators.filter(iterator, clazz);
             }

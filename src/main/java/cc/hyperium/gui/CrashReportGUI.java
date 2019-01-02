@@ -267,10 +267,10 @@ public class CrashReportGUI extends JDialog {
             NettyClient client = NettyClient.getClient();
             if (client != null)
                 client.write(ServerCrossDataPacket.build(new JsonHolder().put("crash_report", true).put("internal", true).put("crash",
-                        new JsonHolder()
-                                .put("crash-full", report == null ? "unavailable" : hurl)
-                                .put("hyperium", Metadata.getVersion() + " -" + Metadata.getVersionID())
-                                .put("addons", addons.toString())
+                    new JsonHolder()
+                        .put("crash-full", report == null ? "unavailable" : hurl)
+                        .put("hyperium", Metadata.getVersion() + " -" + Metadata.getVersionID())
+                        .put("addons", addons.toString())
                 )));
             return true;
         } catch (Exception ex) {

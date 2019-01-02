@@ -44,14 +44,14 @@ public class AutoGG extends AbstractMod {
 
         EventBus.INSTANCE.register(new AutoGGListener(this));
         Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler()
-                .registerCommand(new GGCommand(this));
+            .registerCommand(new GGCommand(this));
 
         // The GetTriggers class
         Multithreading.POOL.submit(() -> {
             try {
                 final String rawTriggers = IOUtils.toString(
-                        new URL("https://raw.githubusercontent.com/HyperiumClient/Hyperium-Repo/master/files/triggers.txt"),
-                        Charset.forName("UTF-8")
+                    new URL("https://raw.githubusercontent.com/HyperiumClient/Hyperium-Repo/master/files/triggers.txt"),
+                    Charset.forName("UTF-8")
                 );
 
                 triggers = new ArrayList<>(Arrays.asList(rawTriggers.split("\n")));

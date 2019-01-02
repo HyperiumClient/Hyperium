@@ -35,7 +35,7 @@ public class LevelheadComponent {
     private boolean custom;
 
     public LevelheadComponent(String value) {
-        this.value = value.replace("&","\u00a7");
+        this.value = value.replace("&", "\u00a7");
     }
 
     public String getColor() {

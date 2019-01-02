@@ -63,10 +63,10 @@ public class ToggleChatConfig {
             }
 
             for (ToggleBase base : this.
-                    theMod.
-                    getToggleHandler()
-                    .getToggles()
-                    .values()) {
+                theMod.
+                getToggleHandler()
+                .getToggles()
+                .values()) {
                 base.setEnabled(this.toggleJson.has("show" + base.getName().replace(" ", "_")) && this.toggleJson.get("show" + base.getName().replace(" ", "_")).getAsBoolean());
             }
 

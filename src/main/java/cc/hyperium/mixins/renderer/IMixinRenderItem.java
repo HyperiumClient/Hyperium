@@ -32,6 +32,4 @@ public interface IMixinRenderItem {
     void callRenderQuads(WorldRenderer renderer, List<BakedQuad> quads, int color, ItemStack stack);
 
 
-
-
 }

@@ -23,8 +23,8 @@ public class HyperiumGuiOptions {
         buttonList.add(new GuiButton(114514, parent.width / 2 - 155, parent.height / 6 + 18, 150, 20, I18n.format("button.ingame.hyperiumsettings")));
     }
 
-    public void actionPerformed(GuiButton button){
-        if(button.id == 114514){
+    public void actionPerformed(GuiButton button) {
+        if (button.id == 114514) {
             HyperiumMainGui.INSTANCE.show();
         }
     }

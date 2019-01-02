@@ -12,7 +12,7 @@ public class HyperiumRenderFish {
         this.parent = parent;
     }
 
-    public void doRender(EntityFishHook entity, double x, double y, double z, float entityYaw, float partialTicks){
+    public void doRender(EntityFishHook entity, double x, double y, double z, float entityYaw, float partialTicks) {
         // Set line width to normal to prevent becoming thick.
         GL11.glLineWidth(1.0F);
     }
