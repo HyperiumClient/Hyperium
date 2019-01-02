@@ -93,6 +93,8 @@
     "renderer.MixinRenderManger",
     "renderer.MixinRenderPlayer",
     "renderer.MixinThreadDownloadImageData",
+    "renderer.MixinChunkRenderContainer",
+    "renderer.chunk.MixinRenderChunk",
     "renderer.entity.MixinRenderEntityItem",
     "renderer.entity.layer.MixinLayerHeldItem",
     "renderer.model.MixinModelBiped",

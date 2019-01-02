@@ -18,6 +18,7 @@ Hyperium is a Minecraft 1.8.9 client, currently in its development stage. It wil
 - [BlockOverlay](https://www.youtube.com/watch?v=_ELFA5jtNQM)
 - [Bossbar Mod](https://github.com/SiroQ)
 - [ChromaHUD](https://www.youtube.com/watch?v=eyh6pcsGMpo)
+- [ChunkAnimator](https://minecraft.curseforge.com/projects/chunk-animator)
 - [Custom Crosshair](https://www.youtube.com/watch?v=YYasNSTWA64)  
 - [Custom GUI](https://raw.githubusercontent.com/RDIL/misc-private-images/master/hyperiumclient/hyperiumimg/Hyperium-CustomInGameMenu.JPG)  
 - [Custom Main-Menu Screen](https://raw.githubusercontent.com/RDIL/misc-private-images/master/hyperiumclient/hyperiumimg/Hyperium-CustomMainMenu.JPG)  
@@ -39,6 +40,7 @@ Hyperium is a Minecraft 1.8.9 client, currently in its development stage. It wil
 - Spotify Controls
 - [TimeChanger](https://www.youtube.com/watch?v=PbhXIPecOSA)
 - [ToggleChat](https://www.youtube.com/watch?v=guD8kAk-Wn4)
+- [Victory Royale Mod](https://www.youtube.com/watch?v=g4pZTX8ooqI)
 - [VoidFlickerFix](https://www.youtube.com/watch?v=klV4d1B6ysk)
 
 ## Building the project with IntelliJ ##
