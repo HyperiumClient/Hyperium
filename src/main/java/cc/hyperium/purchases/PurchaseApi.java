@@ -32,7 +32,6 @@ import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumChatFormatting;
 import org.apache.commons.io.IOUtils;
-
 import java.io.InputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -60,11 +59,7 @@ public class PurchaseApi {
         for (EnumPurchaseType enumPurchaseType : EnumPurchaseType.values()) {
             purchaseClasses.putIfAbsent(enumPurchaseType, DefaultCosmetic.class);
         }
-        try {
-            getPackageAsync(UUIDUtil.getClientUUID(), hyperiumPurchase -> System.out.println("[Packages] Loaded self packages: " + hyperiumPurchase.getResponse()));
-        } catch (NullPointerException ex) {
-            getPackageAsync(UUIDUtil.getClientUUID(), hyperiumPurchase -> System.out.println("[Packages] Loaded self packages: " + hyperiumPurchase.getResponse()));
-        }
+        getPackageAsync(UUIDUtil.getClientUUID(), hyperiumPurchase -> System.out.println("[Packages] Loaded self packages: " + hyperiumPurchase.getResponse()));
         Multithreading.runAsync(() -> capeAtlas = get("https://api.hyperium.cc/capeAtlas"));
         getSelf();
     }
@@ -181,9 +176,7 @@ public class PurchaseApi {
             connection.setDoOutput(true);
             InputStream is = connection.getInputStream();
             return new JsonHolder(IOUtils.toString(is, Charset.forName("UTF-8")));
-
         } catch (Exception e) {
-//            e.printStackTrace();
         }
         JsonObject object = new JsonObject();
         object.addProperty("success", false);
