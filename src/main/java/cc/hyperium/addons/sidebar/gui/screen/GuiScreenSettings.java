@@ -19,9 +19,9 @@ package cc.hyperium.addons.sidebar.gui.screen;
 
 import cc.hyperium.addons.sidebar.SidebarAddon;
 import cc.hyperium.addons.sidebar.gui.GuiSidebar;
+import cc.hyperium.utils.ChatColor;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.fml.client.config.GuiSlider;
 
 public class GuiScreenSettings extends GuiScreenSidebar {
@@ -108,6 +108,6 @@ public class GuiScreenSettings extends GuiScreenSidebar {
     }
 
     private String getSuffix(final boolean enabled) {
-        return enabled ? (EnumChatFormatting.GREEN + "Enabled") : (EnumChatFormatting.RED + "Disabled");
+        return enabled ? (ChatColor.GREEN + "Enabled") : (ChatColor.RED + "Disabled");
     }
 }
