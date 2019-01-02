@@ -187,7 +187,6 @@ object AddonBootstrap {
         return addons
     }
 
-
     /**
      * Loads a jar using {@link me.kbrewster.blazeapi.internal.addons.strategy.AddonLoaderStrategy}
      * This extracts the <i>addon.json</i> from the addon and returns the parsed manifest
@@ -200,7 +199,6 @@ object AddonBootstrap {
     private fun loadAddon(loader: AddonLoaderStrategy, addon: File?): AddonManifest? {
         return loader.load(addon)
     }
-
 
     /**
      * Phase the bootstrap is currently in

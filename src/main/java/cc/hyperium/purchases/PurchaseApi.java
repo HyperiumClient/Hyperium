@@ -60,7 +60,11 @@ public class PurchaseApi {
         for (EnumPurchaseType enumPurchaseType : EnumPurchaseType.values()) {
             purchaseClasses.putIfAbsent(enumPurchaseType, DefaultCosmetic.class);
         }
-        getPackageAsync(UUIDUtil.getClientUUID(), hyperiumPurchase -> System.out.println("Loaded self packages: " + hyperiumPurchase.getResponse()));
+        try {
+            getPackageAsync(UUIDUtil.getClientUUID(), hyperiumPurchase -> System.out.println("[Packages] Loaded self packages: " + hyperiumPurchase.getResponse()));
+        } catch (NullPointerException ex) {
+            getPackageAsync(UUIDUtil.getClientUUID(), hyperiumPurchase -> System.out.println("[Packages] Loaded self packages: " + hyperiumPurchase.getResponse()));
+        }
         Multithreading.runAsync(() -> capeAtlas = get("https://api.hyperium.cc/capeAtlas"));
         getSelf();
     }
@@ -89,7 +93,6 @@ public class PurchaseApi {
                 nameToUuid.clear();
             }
         });
-
     }
 
     public UUID nameToUUID(String name) {
@@ -201,6 +204,5 @@ public class PurchaseApi {
         purchasePlayers.put(uuid, value);
         Hyperium.INSTANCE.getHandlers().getCapeHandler().deleteCape(uuid);
     }
-
 
 }

@@ -27,7 +27,7 @@ public abstract class AbstractCosmetic {
         try {
             PurchaseApi.getInstance().getPackageAsync(UUIDUtil.getClientUUID(), hyperiumPurchase -> {
                 if (hyperiumPurchase == null) {
-                    System.out.println("[Cosmetics] Detected " + getPurchaseType() + " is not purchased!");
+                    System.out.println("[Cosmetics] Detected " + getPurchaseType().toString().toLowerCase() + " is not purchased!");
                     return;
                 }
                 selfUnlocked = hyperiumPurchase.hasPurchased(purchaseType);

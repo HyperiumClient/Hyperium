@@ -86,6 +86,7 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.crash.CrashReport;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.Contract;
 import org.lwjgl.opengl.Display;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -149,7 +150,6 @@ public class Hyperium {
      */
     private boolean firstLaunch = false;
     private HyperiumScheduler scheduler;
-
 
     @InvokeEvent
     public void preinit(PreInitializationEvent event) {
@@ -232,6 +232,7 @@ public class Hyperium {
 
             SplashProgress.setProgress(7, I18n.format("splashprogress.startinghyperium"));
             LOGGER.info("[Hyperium] Started!");
+            System.out.println("Running from main class: " + Hyperium.class.getName());
             Display.setTitle("Hyperium " + Metadata.getVersion());
 
             TrayManager trayManager = new TrayManager();
@@ -483,6 +484,7 @@ public class Hyperium {
         }
     }
 
+    @Contract(pure = true)
     private String quoteSpaces(String argument) {
         if (argument.contains(" ")) {
             return "\"" + argument + "\"";
