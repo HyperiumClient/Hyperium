@@ -99,7 +99,7 @@ public class BrowserMod extends AbstractMod implements IDisplayHandler, IJSQuery
         registerCommands();
         Multithreading.runAsync(() -> {
             long start = System.currentTimeMillis();
-            JFrame jFrame = new JFrame("Ignore Me! I'm for Hyperium.");
+            JFrame jFrame = new JFrame("Hyperium Keycode Initializer (Please ignore)");
             jFrame.add(new JPanel());
             jFrame.setSize(300, 300);
 
