@@ -162,7 +162,6 @@ public abstract class MixinMinecraft {
         hyperiumMinecraft.startTick(info,mcProfiler);
     }
 
-
     /**
      * Invoked once the player has pressed a key
      *
@@ -331,7 +330,6 @@ public abstract class MixinMinecraft {
     @Overwrite
     public void displayCrashReport(CrashReport crashReportIn) {
         hyperiumMinecraft.displayCrashReport(crashReportIn);
-
     }
 
 

@@ -124,7 +124,7 @@ public class GeneralChatHandler {
         }
 
         for (HyperiumChatHandler chatHandler : this.handlerList) {
-            //Surround in try catch so errors don't stop further chat parsers
+            // Surround in try catch so errors don't stop further chat parsers
             try {
                 // Is reversed because chathandlers weren't called if state was false, since
                 // false && boolean will always be false, so it skipped the

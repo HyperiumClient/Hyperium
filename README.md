@@ -9,7 +9,7 @@
 # Hyperium #  
 
 ## What is Hyperium? ##
-Hyperium is a Minecraft 1.8.9 client, currently in its development stage. It will combine many popular features, in addition to suggestions and ideas from the community, in order to provide a unique experience designed for Hypixel.
+Hyperium is a free and open source Minecraft 1.8.9 client. It combines many popular features, in addition to suggestions and ideas from the community, in order to provide a unique experience designed for Hypixel.
 
 ## Features ##
 - [1.7 Animations](https://www.youtube.com/watch?v=9-LoFff-3fI)
@@ -18,6 +18,7 @@ Hyperium is a Minecraft 1.8.9 client, currently in its development stage. It wil
 - [BlockOverlay](https://www.youtube.com/watch?v=_ELFA5jtNQM)
 - [Bossbar Mod](https://github.com/SiroQ)
 - [ChromaHUD](https://www.youtube.com/watch?v=eyh6pcsGMpo)
+- [ChunkAnimator](https://minecraft.curseforge.com/projects/chunk-animator)
 - [Custom Crosshair](https://www.youtube.com/watch?v=YYasNSTWA64)  
 - [Custom GUI](https://raw.githubusercontent.com/RDIL/misc-private-images/master/hyperiumclient/hyperiumimg/Hyperium-CustomInGameMenu.JPG)  
 - [Custom Main-Menu Screen](https://raw.githubusercontent.com/RDIL/misc-private-images/master/hyperiumclient/hyperiumimg/Hyperium-CustomMainMenu.JPG)  
@@ -39,17 +40,16 @@ Hyperium is a Minecraft 1.8.9 client, currently in its development stage. It wil
 - Spotify Controls
 - [TimeChanger](https://www.youtube.com/watch?v=PbhXIPecOSA)
 - [ToggleChat](https://www.youtube.com/watch?v=guD8kAk-Wn4)
+- [Victory Royale Mod](https://www.youtube.com/watch?v=g4pZTX8ooqI)
 - [VoidFlickerFix](https://www.youtube.com/watch?v=klV4d1B6ysk)
 
-## Building the project with IntelliJ ##
+## Building the Project with IntelliJ ##
+If you don't know how, then you shouldn't try. Join our beta in [Discord](https://hyperium.cc/discord), or wait for releases!
 
-If you don't know how, then you shouldn't try. Join our beta in <a href="https://hyperium.cc/discord">Discord</a>, or wait for releases!
-
-## Beta test the Client ##  
+## Beta Test the Client ##  
 You can easily beta test the client for free, all you have to do is join [The Hyperium Discord](https://hyperium.cc/discord), or for beta versions, head over to the [releases section](https://github.com/HyperiumClient/Hyperium/releases) and download the latest beta!  
 
 ## Code Style ##
-
 We use [Google's Java Code style](https://google.github.io/styleguide/javaguide.html) for Hyperium. It would be appreciated if you followed this as well.
 
 ## FAQ ##
@@ -57,35 +57,36 @@ Q: Please help, I can't build Hyperium!
 
 A: If you don't know how to build a project, please wait for a new beta or release! 
 
-
 Q: When is the official release?
 
-A: It is currently released!  Come download it on our <a href="https://discord.gg/RNyRgtv">Discord</a>!
+A: It is currently released!  Come download it on our [Discord](https://hyperium.cc/discord)!
 
+Q: Can I beta test Hyperium?
 
-Q: Can I use Hyperium now?
-
-A: Beta versions, yes!  [Click me](#beta-test-the-client) for more info.  
-
+A: Yes! [Click me](#beta-test-the-client) for more info.  
 
 Q: Is there a tutorial to create addons?
 
 A: Yes, simply [follow this nice video](https://www.youtube.com/watch?v=RXTIFdoNA8c).
 
-
 Q: I found a bug. Where do I report it?
 
 A: Join the [Discord](https://hyperium.cc/discord) and run `-new` in the commands channel.  Then explain your issue and a staff member will further contact you!
 
-
 Q: My game keeps crashing!
 
-A: If you have reported the issue using the automatic prompt, join the <a href="https://hyperium.cc/discord">Discord</a> and ask a member of the staff team or a developer to review your issue. Please be patient if there are no developers online!
+A: If you have reported the issue using the automatic prompt, join the [Discord](https://hyperium.cc/discord) and ask a member of the staff team or a developer to review your issue. Please be patient if there are no developers online!
 
 ## Addons ##
-Clone the [Addon Workspace](https://github.com/HyperiumClient/Addon-Workspace) and get coding!
+Addons are available for download in the addons channel of the [Hyperium Discord](https://hyperium.cc/discord).
 
-**An example comes with the workspace**
+To make an addon, clone the [Addon Workspace](https://github.com/HyperiumClient/Addon-Workspace) and get coding!
+**An example comes with the workspace.**
+Follow [this tutorial](https://www.youtube.com/watch?v=RXTIFdoNA8c) to get started.
+
+## License
+Hyperium is licensed under the GNU Lesser General Public License. You can view it [here](./LICENSE).
+
 ## Developers ##
 [![Sk1er](https://cdn.discordapp.com/avatars/376817315830038530/87dd80c68e0598ea39af4e0472b299b7.png)](https://github.com/Sk1er)
 [![CoalOres](https://cdn.discordapp.com/avatars/248159137370734601/667cb334d3a85c850d9890e786cbf50c.png?size=128)](https://github.com/CoalCoding)
@@ -94,13 +95,9 @@ Clone the [Addon Workspace](https://github.com/HyperiumClient/Addon-Workspace) a
 [![boomboompower](https://avatars1.githubusercontent.com/u/12974350?s=128&v=4)](https://github.com/boomboompower)
 [![FalseHonesty](https://cdn.discordapp.com/avatars/148248069148770304/a_c292ca845b0462bfd4ad5c3d0f89ba28.gif?size=128&f=.gif)](https://github.com/FalseHonesty)
 
-
-
 ## Special Thanks ##
-
 [![YourKit Java Profiler](https://www.yourkit.com/images/yklogo.png)](https://www.yourkit.com/java/profiler/)
 
 YourKit supports open source projects with its full-featured Java Profiler.
-YourKit, LLC is the creator of <a href="https://www.yourkit.com/java/profiler/">YourKit Java Profiler</a>
-and <a href="https://www.yourkit.com/.net/profiler/">YourKit .NET Profiler</a>,
-innovative and intelligent tools for profiling Java and .NET applications.
+YourKit, LLC is the creator of [YourKit Java Profiler](https://www.yourkit.com/java/profiler/)
+and [YourKit](https://www.yourkit.com/.net/profiler/), innovative and intelligent tools for profiling Java and .NET applications.

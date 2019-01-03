@@ -109,7 +109,7 @@ public class HyperiumHandlers {
     private YeetHandler yeetHandler;
 
     public HyperiumHandlers() {
-        System.out.println("Loading handlers");
+        System.out.println("[Handlers] Loading handlers");
         register(network = new HyperiumNetwork());
         settingsHandler = new SettingsHandler();
         chatHandlers = new ArrayList<>();

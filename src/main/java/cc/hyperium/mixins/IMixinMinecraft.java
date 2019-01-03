@@ -16,13 +16,11 @@ public interface IMixinMinecraft {
     @Accessor
     void setDisplayHeight(int height);
 
-
     @Accessor
     void setCurrentScreen(GuiScreen screen);
 
     @Invoker
     void callResize(int width, int height);
-
 
     @Accessor
     Timer getTimer();

@@ -1,5 +1,21 @@
-package cc.hyperium.mods.blockoverlay;
+/*
+ *     Copyright (C) 2018  Hyperium <https://hyperium.cc/>
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU Lesser General Public License as published
+ *     by the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU Lesser General Public License for more details.
+ *
+ *     You should have received a copy of the GNU Lesser General Public License
+ *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
+package cc.hyperium.mods.blockoverlay;
 import cc.hyperium.utils.BetterJsonObject;
 import java.io.BufferedReader;
 import java.io.File;
@@ -8,18 +24,14 @@ import java.util.stream.Collectors;
 
 public class BlockOverlaySettings {
     private File configFile;
-
     private BlockOverlayMode overlayMode = BlockOverlayMode.OUTLINE;
-
     private boolean alwaysRender = true;
     private boolean isChroma = false;
-
     private float lineWidth = 1.0f;
     private float overlayRed = 1.0f;
     private float overlayGreen = 1.0f;
     private float overlayBlue = 1.0f;
     private float overlayAlpha = 1.0f;
-
     private int chromaSpeed = 5;
 
     public BlockOverlaySettings(File directory) {
@@ -56,7 +68,7 @@ public class BlockOverlaySettings {
                 this.chromaSpeed = json.optInt("chromaSpeed");
             }
         } catch (Exception exception) {
-            System.out.println("Error occurred while loading Block Overlay configuration!");
+            System.out.println("[BlockOverlay] Error occurred while loading configuration!");
         }
     }
 
@@ -66,6 +78,7 @@ public class BlockOverlaySettings {
                 this.configFile.getParentFile().mkdirs();
             }
             if (!this.configFile.exists()) {
+                //noinspection ResultOfMethodCallIgnored
                 this.configFile.createNewFile();
             }
 
@@ -81,7 +94,7 @@ public class BlockOverlaySettings {
             json.addProperty("chromaSpeed", this.chromaSpeed);
             json.writeToFile(this.configFile);
         } catch (Exception exception) {
-            System.out.println("Error occurred while saving Block Overlay configuration!");
+            System.out.println("[BlockOverlay] Error occurred while saving configuration!");
         }
     }
 

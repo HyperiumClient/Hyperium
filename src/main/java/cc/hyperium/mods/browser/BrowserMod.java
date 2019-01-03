@@ -1,3 +1,20 @@
+/*
+ *     Copyright (C) 2018  Hyperium <https://hyperium.cc/>
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU Lesser General Public License as published
+ *     by the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU Lesser General Public License for more details.
+ *
+ *     You should have received a copy of the GNU Lesser General Public License
+ *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package cc.hyperium.mods.browser;
 
 import cc.hyperium.Hyperium;
@@ -79,11 +96,10 @@ public class BrowserMod extends AbstractMod implements IDisplayHandler, IJSQuery
         }
         browserGui = new GuiBrowser(homePage);
 
-//        addShortcutKeys();
         registerCommands();
         Multithreading.runAsync(() -> {
             long start = System.currentTimeMillis();
-            JFrame jFrame = new JFrame("Keycode Initializer");
+            JFrame jFrame = new JFrame("Hyperium Keycode Initializer (Please ignore)");
             jFrame.add(new JPanel());
             jFrame.setSize(300, 300);
 
@@ -91,9 +107,9 @@ public class BrowserMod extends AbstractMod implements IDisplayHandler, IJSQuery
             jTextField.setSize(300, 300);
 
             jTextField.addKeyListener(new KeyListener() {
+
                 @Override
                 public void keyTyped(KeyEvent e) {
-
                 }
 
                 @Override
@@ -101,7 +117,11 @@ public class BrowserMod extends AbstractMod implements IDisplayHandler, IJSQuery
                     if (keyPressesMap.containsKey(currentKey)) {
                         return;
                     }
-                    currentKeyTriple.setLeft(e);
+                    try {
+                        currentKeyTriple.setLeft(e);
+                    } catch (NullPointerException ex) {
+                        currentKeyTriple.setLeft(e);
+                    }
                 }
 
                 @Override
@@ -109,7 +129,11 @@ public class BrowserMod extends AbstractMod implements IDisplayHandler, IJSQuery
                     if (keyPressesMap.containsKey(currentKey)) {
                         return;
                     }
-                    currentKeyTriple.setMiddle(e);
+                    try {
+                        currentKeyTriple.setMiddle(e);
+                    } catch(NullPointerException ex) {
+                        currentKeyTriple.setMiddle(e);
+                    }
                 }
             });
 
@@ -141,7 +165,6 @@ public class BrowserMod extends AbstractMod implements IDisplayHandler, IJSQuery
                     }
                 }
                 jFrame.setAlwaysOnTop(true);
-
 
                 end:
                 for (int key : keyPressList) {
