@@ -62,7 +62,7 @@ public class ImgurUploader implements Runnable {
             byte[] byteImage = byteArray.toByteArray();
 
             String dataImage = Base64.encodeBase64String(byteImage);
-            String data = URLEncoder.encode("image", UTF_8) + "=" + URLEncoder.encode(dataImage, UTF_8);
+            String data = URLEncoder.encode("image", "UTF_8") + "=" + URLEncoder.encode(dataImage, "UTF_8");
 
             conn.setDoOutput(true);
             conn.setDoInput(true);
