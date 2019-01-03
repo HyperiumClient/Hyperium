@@ -67,8 +67,6 @@ public abstract class MixinAbstractClientPlayer extends EntityPlayer {
     }
 
 
-
-
     @Inject(method = "getLocationSkin()Lnet/minecraft/util/ResourceLocation;", at = @At("HEAD"), cancellable = true)
     public void getLocationSkin(CallbackInfoReturnable<ResourceLocation> locationCallbackInfoReturnable) {
         NickHider instance = NickHider.INSTANCE;

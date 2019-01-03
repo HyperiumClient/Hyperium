@@ -110,7 +110,7 @@ public class AsyncScreenshotSaver implements Runnable {
             ImageIO.write(bufferedimage, "png", file2);
             if (!upload) {
                 IChatComponent ichatcomponent = new ChatComponentText(
-                        ChatColor.RED + "[Hyperium] " + ChatColor.WHITE + "Captured to " + ChatColor.UNDERLINE + file2.getName());
+                    ChatColor.RED + "[Hyperium] " + ChatColor.WHITE + "Captured to " + ChatColor.UNDERLINE + file2.getName());
                 ichatcomponent.getChatStyle().setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, file2.getCanonicalPath()));
                 Minecraft.getMinecraft().thePlayer.addChatMessage(ichatcomponent);
             } else {

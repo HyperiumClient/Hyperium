@@ -21,7 +21,7 @@ public class PurchaseSettings {
         this.wingsDisabled = source.optJSONObject("wings").optBoolean("disabled");
         this.wingsType = source.optJSONObject("wings").optString("type");
         this.wingsScale = source.optJSONObject("wings")
-                .optDouble("scale", Settings.WINGS_SCALE);
+            .optDouble("scale", Settings.WINGS_SCALE);
         dragonHeadDisabled = source.optJSONObject("dragon").optBoolean("disabled");
         this.currentHatType = EnumPurchaseType.parse(source.optJSONObject("hat").optString("current_type"));
         this.companion = EnumPurchaseType.parse(source.optJSONObject("companion").optString("type"));

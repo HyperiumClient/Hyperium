@@ -1,7 +1,9 @@
 package cc.hyperium.mixins.client.multiplayer;
 
 import cc.hyperium.mixinsimp.client.multiplayer.HyperiumServerList;
+
 import java.util.List;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.multiplayer.ServerList;
@@ -32,27 +34,27 @@ public class MixinServerList {
 
     @Overwrite
     public void loadServerList() {
-        hyperiumServerList.loadServers(this.servers,logger,this.mc);
+        hyperiumServerList.loadServers(this.servers, logger, this.mc);
     }
 
     @Overwrite
     public void saveServerList() {
-        hyperiumServerList.saveServerList(this.servers,logger,this.mc);
+        hyperiumServerList.saveServerList(this.servers, logger, this.mc);
     }
 
     @Overwrite
     public ServerData getServerData(int p_78850_1_) {
-        return hyperiumServerList.getServerData(this.servers,p_78850_1_);
+        return hyperiumServerList.getServerData(this.servers, p_78850_1_);
     }
 
     @Overwrite
     public void removeServerData(int p_78851_1_) {
-        hyperiumServerList.removeServerData(this.servers,p_78851_1_);
+        hyperiumServerList.removeServerData(this.servers, p_78851_1_);
     }
 
     @Overwrite
     public void addServerData(ServerData p_78849_1_) {
-       hyperiumServerList.addServerData(this.servers,p_78849_1_);
+        hyperiumServerList.addServerData(this.servers, p_78849_1_);
     }
 
     @Overwrite
@@ -62,11 +64,11 @@ public class MixinServerList {
 
     @Overwrite
     public void swapServers(int p_78857_1_, int p_78857_2_) {
-        hyperiumServerList.swapServers(this.servers,logger,this.mc,p_78857_1_,p_78857_2_);
+        hyperiumServerList.swapServers(this.servers, logger, this.mc, p_78857_1_, p_78857_2_);
     }
 
     @Overwrite
     public void func_147413_a(int p_147413_1_, ServerData p_147413_2_) {
-        hyperiumServerList.func_147413_a(this.servers,p_147413_1_,p_147413_2_);
+        hyperiumServerList.func_147413_a(this.servers, p_147413_1_, p_147413_2_);
     }
 }

@@ -16,6 +16,7 @@
  */
 
 package cc.hyperium.cosmetics;
+
 import cc.hyperium.cosmetics.dragon.DragonHeadRenderer;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.InvokeEvent;

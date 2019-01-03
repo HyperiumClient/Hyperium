@@ -16,6 +16,7 @@
  */
 
 package cc.hyperium.handlers.handlers.mixin;
+
 import cc.hyperium.Hyperium;
 import cc.hyperium.config.Settings;
 import cc.hyperium.purchases.AbstractHyperiumPurchase;
@@ -33,7 +34,7 @@ import net.minecraft.util.ResourceLocation;
 public class LayerDeadmau5HeadHandler {
 
     public void doRenderLayer(AbstractClientPlayer entitylivingbaseIn, float p_177141_2_, float p_177141_3_,
-                               float partialTicks, float p_177141_5_, float p_177141_6_, float p_177141_7_, float scale, RenderPlayer playerRenderer) {
+                              float partialTicks, float p_177141_5_, float p_177141_6_, float p_177141_7_, float scale, RenderPlayer playerRenderer) {
         int k = 0;
         try {
 
@@ -67,7 +68,7 @@ public class LayerDeadmau5HeadHandler {
                 }
                 k = 7;
                 EntityPlayerSP thePlayer = Minecraft.getMinecraft().thePlayer;
-                if (thePlayer !=null&&entitylivingbaseIn.getUniqueID() != thePlayer.getUniqueID()) {
+                if (thePlayer != null && entitylivingbaseIn.getUniqueID() != thePlayer.getUniqueID()) {
                     if (!((EarsCosmetic) purchase).isEnabled()) {
                         k = -5;
                         return;

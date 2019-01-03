@@ -9,14 +9,18 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 
 @Mixin(GuiButton.class)
 public interface MixinGuiButton2 {
-  @Accessor
-  ResourceLocation getButtonTextures();
-  @Accessor
-  int getHeight();
-  @Accessor
-  void setHovered(boolean hovered);
-  @Invoker
-  void callMouseDragged(Minecraft mc, int mouseX, int mouseY);
-  @Accessor
-  boolean isHovered();
+    @Accessor
+    ResourceLocation getButtonTextures();
+
+    @Accessor
+    int getHeight();
+
+    @Accessor
+    void setHovered(boolean hovered);
+
+    @Invoker
+    void callMouseDragged(Minecraft mc, int mouseX, int mouseY);
+
+    @Accessor
+    boolean isHovered();
 }

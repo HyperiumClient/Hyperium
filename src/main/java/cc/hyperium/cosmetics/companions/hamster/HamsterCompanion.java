@@ -26,7 +26,7 @@ public class HamsterCompanion extends AbstractCosmetic {
     public void renderEntities(RenderEntitiesEvent entitiesEvent) {
         if (Settings.SHOW_COMPANION_IN_1ST_PERSON) {
             renderPlayer(new RenderPlayerEvent(Minecraft.getMinecraft().thePlayer, Minecraft.getMinecraft().getRenderManager(), 0, 0, 0,
-                    entitiesEvent.getPartialTicks()));
+                entitiesEvent.getPartialTicks()));
         }
     }
 

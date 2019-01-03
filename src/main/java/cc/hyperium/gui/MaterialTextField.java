@@ -58,6 +58,7 @@ public class MaterialTextField {
         if (blink >= 20)
             blink = -1;
     }
+
     /**
      * call this method when user clicked anywhere on the screen
      *

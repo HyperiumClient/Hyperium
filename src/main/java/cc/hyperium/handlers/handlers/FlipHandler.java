@@ -54,14 +54,14 @@ public class FlipHandler {
         if (CosmeticsUtil.shouldHide(EnumPurchaseType.FLIP_COSMETIC))
             return;
         if ((state != null && state == 2) || s != null && (s.equals("Dinnerbone") ||
-                s.equals("Grumm")) && (!(bat instanceof EntityPlayer) || ((EntityPlayer) bat).isWearing(EnumPlayerModelParts.CAPE))) {
+            s.equals("Grumm")) && (!(bat instanceof EntityPlayer) || ((EntityPlayer) bat).isWearing(EnumPlayerModelParts.CAPE))) {
             float y = bat.height + 0.1F;
             GlStateManager.translate(0.0F, y / 2, 0.0F);
             double l = System.currentTimeMillis() % (360 * 1.75) / 1.75;
             GlStateManager.rotate((float) l, .1F, 0.0F, 0.0F);
             GlStateManager.translate(0.0F, -y / 2, 0.0F);
         } else if ((state != null && state == 1) || s != null && (s.equals("Dinnerbone") ||
-                s.equals("Grumm")) && (!(bat instanceof EntityPlayer) || ((EntityPlayer) bat).isWearing(EnumPlayerModelParts.CAPE))) {
+            s.equals("Grumm")) && (!(bat instanceof EntityPlayer) || ((EntityPlayer) bat).isWearing(EnumPlayerModelParts.CAPE))) {
             {
                 GlStateManager.translate(0.0F, bat.height + 0.1F, 0.0F);
                 GlStateManager.rotate(180.0F, 0.0F, 0.0F, 1.0F);

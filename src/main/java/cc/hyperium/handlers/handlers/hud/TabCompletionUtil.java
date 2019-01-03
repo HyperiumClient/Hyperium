@@ -12,11 +12,10 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class TabCompletionUtil
-{
+public class TabCompletionUtil {
     public static List<String> getListOfStringsMatchingLastWord(final String[] p_175762_0_, final Collection<?> p_175762_1_) {
         final String s = p_175762_0_[p_175762_0_.length - 1];
-        final List<String> list =new ArrayList<>();
+        final List<String> list = new ArrayList<>();
         if (!p_175762_1_.isEmpty()) {
             for (final String s2 : p_175762_1_.stream().map(Functions.toStringFunction()::apply).collect(Collectors.toList())) {
                 if (doesStringStartWith(s, s2)) {
@@ -25,7 +24,7 @@ public class TabCompletionUtil
             }
             if (list.isEmpty()) {
                 for (final Object object : p_175762_1_) {
-                    if (object instanceof ResourceLocation && doesStringStartWith(s, ((ResourceLocation)object).getResourcePath())) {
+                    if (object instanceof ResourceLocation && doesStringStartWith(s, ((ResourceLocation) object).getResourcePath())) {
                         list.add(String.valueOf(object));
                     }
                 }

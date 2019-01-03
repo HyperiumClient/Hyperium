@@ -47,7 +47,7 @@ public abstract class MixinNetworkPlayerInfo {
      */
     @Overwrite
     public ResourceLocation getLocationCape() {
-        return hyperiumNetworkPlayerInfo.getLocationCape(this.gameProfile,this.locationCape);
+        return hyperiumNetworkPlayerInfo.getLocationCape(this.gameProfile, this.locationCape);
     }
 
     /**
@@ -57,6 +57,6 @@ public abstract class MixinNetworkPlayerInfo {
      */
     @Overwrite
     public ResourceLocation getLocationSkin() {
-        return hyperiumNetworkPlayerInfo.getLocationSkin(gameProfile,locationSkin);
+        return hyperiumNetworkPlayerInfo.getLocationSkin(gameProfile, locationSkin);
     }
 }

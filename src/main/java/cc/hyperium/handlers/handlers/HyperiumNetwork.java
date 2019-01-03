@@ -44,12 +44,12 @@ public class HyperiumNetwork {
                 }
             }
             netHandler.addToSendQueue(
-                    new C17PacketCustomPayload("hyperium",
-                            new PacketBuffer(Unpooled.buffer()).writeString(new JsonHolder()
-                                    .put("id", Metadata.getModid())
-                                    .put("optifine", HyperiumTweaker.INSTANCE.isUsingOptifine())
-                                    .put("forge", HyperiumTweaker.INSTANCE.isUsingForge())
-                                    .put("version", Metadata.getVersion()).toString())));
+                new C17PacketCustomPayload("hyperium",
+                    new PacketBuffer(Unpooled.buffer()).writeString(new JsonHolder()
+                        .put("id", Metadata.getModid())
+                        .put("optifine", HyperiumTweaker.INSTANCE.isUsingOptifine())
+                        .put("forge", HyperiumTweaker.INSTANCE.isUsingForge())
+                        .put("version", Metadata.getVersion()).toString())));
         });
     }
 

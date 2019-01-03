@@ -273,11 +273,11 @@ public class HyperiumGuiPlayerTabOverlay {
                     int l5 = k5 + l;
 
                     if (l5 - k5 > 5) {
-                        ((IMixinGuiPlayerTabOverlay)parent).callDrawScoreboardValues(scoreObjectiveIn, k2, gameprofile.getName(), k5, l5, networkplayerinfo1);
+                        ((IMixinGuiPlayerTabOverlay) parent).callDrawScoreboardValues(scoreObjectiveIn, k2, gameprofile.getName(), k5, l5, networkplayerinfo1);
                     }
                 }
 
-                ((IMixinGuiPlayerTabOverlay)parent).callDrawPing(i1, j2 - (flag ? 9 : 0), k2, networkplayerinfo1);
+                ((IMixinGuiPlayerTabOverlay) parent).callDrawPing(i1, j2 - (flag ? 9 : 0), k2, networkplayerinfo1);
             }
         }
 

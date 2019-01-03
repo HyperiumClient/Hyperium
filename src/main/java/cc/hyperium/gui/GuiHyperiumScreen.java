@@ -201,7 +201,7 @@ public class GuiHyperiumScreen extends GuiScreen {
 
 
         /* Fetch player credit count */
-        if(!Hyperium.INSTANCE.isDevEnv()) {
+        if (!Hyperium.INSTANCE.isDevEnv()) {
             if (PurchaseApi.getInstance() != null && PurchaseApi.getInstance().getSelf() != null) {
                 JsonHolder response = PurchaseApi.getInstance().getSelf().getResponse();
                 int credits = response.optInt("remaining_credits");
@@ -216,7 +216,7 @@ public class GuiHyperiumScreen extends GuiScreen {
         float val = (float) (Math.sin(swing / 40) * 30);
 
         ScissorState.scissor(width - 153, 0, 145, 49, true);
-        if(!Hyperium.INSTANCE.isDevEnv()) {
+        if (!Hyperium.INSTANCE.isDevEnv()) {
             GuiPlayerRenderer.renderPlayerWithRotation(width - 118, -4, val);
         }
         ScissorState.endScissor();

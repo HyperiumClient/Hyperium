@@ -29,6 +29,7 @@ import com.google.gson.JsonParser;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IChatComponent;
+
 import java.io.InputStreamReader;
 import java.util.EnumMap;
 import java.util.List;
@@ -37,7 +38,7 @@ import java.util.regex.Pattern;
 
 /**
  * A util which allows the client to queue messages for the client to see when the join a game.
- *
+ * <p>
  * If the client is already playing, the message will be send instantly
  *
  * @author Sk1er
@@ -75,7 +76,7 @@ public class GeneralChatHandler {
     /**
      * Queues a message to be sent to the client. If the message is null, this will be ignored.
      *
-     * @param message the message to send to the client (can never be null)
+     * @param message   the message to send to the client (can never be null)
      * @param addHeader if true, the message will show a Hyperium prefix before it
      */
     public void sendMessage(String message, boolean addHeader) {

@@ -32,7 +32,7 @@ public enum Category {
     VICTORYROYALE("Victory Royale"),
     TOGGLESPRINT("Toggle Sprint"),
     CHUNK_ANIMATOR("Chunk Animator");
-  
+
     private String display;
 
     Category(String display) {

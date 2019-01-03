@@ -52,19 +52,19 @@ public class AnimationFrame {
     @Override
     public String toString() {
         return "AnimationFrame{" +
-                "time=" + time +
-                ", leftUpperArm=" + leftUpperArm +
-                ", leftLowerArm=" + leftLowerArm +
-                ", rightUpperArm=" + rightUpperArm +
-                ", rightLowerArm=" + rightLowerArm +
-                ", chest=" + chest +
-                ", head=" + head +
-                ", leftUpperLeg=" + leftUpperLeg +
-                ", leftLowerLeg=" + leftLowerLeg +
-                ", rightUpperLeg=" + rightUpperLeg +
-                ", rightLowerLeg=" + rightLowerLeg +
-                ", name='" + name + '\'' +
-                '}';
+            "time=" + time +
+            ", leftUpperArm=" + leftUpperArm +
+            ", leftLowerArm=" + leftLowerArm +
+            ", rightUpperArm=" + rightUpperArm +
+            ", rightLowerArm=" + rightLowerArm +
+            ", chest=" + chest +
+            ", head=" + head +
+            ", leftUpperLeg=" + leftUpperLeg +
+            ", leftLowerLeg=" + leftLowerLeg +
+            ", rightUpperLeg=" + rightUpperLeg +
+            ", rightLowerLeg=" + rightLowerLeg +
+            ", name='" + name + '\'' +
+            '}';
     }
 
     public long getTime() {

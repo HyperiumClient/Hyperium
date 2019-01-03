@@ -56,19 +56,26 @@ public abstract class MixinGuiIngame extends Gui {
     @Shadow
     public abstract FontRenderer getFontRenderer();
 
-    @Shadow @Final private Random rand;
+    @Shadow
+    @Final
+    private Random rand;
 
-    @Shadow private int updateCounter;
+    @Shadow
+    private int updateCounter;
 
-    @Shadow private int lastPlayerHealth;
+    @Shadow
+    private int lastPlayerHealth;
 
-    @Shadow private int playerHealth;
+    @Shadow
+    private int playerHealth;
 
-    @Shadow private long lastSystemTime;
+    @Shadow
+    private long lastSystemTime;
 
-    @Shadow private long healthUpdateCounter;
+    @Shadow
+    private long healthUpdateCounter;
 
-    @Inject(method = "renderGameOverlay", at = @At(value = "INVOKE",target = "Lnet/minecraft/client/settings/KeyBinding;isKeyDown()Z"))
+    @Inject(method = "renderGameOverlay", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/settings/KeyBinding;isKeyDown()Z"))
     private void renderGameOverlay(float partialTicks, CallbackInfo ci) {
         hyperiumGuiIngame.renderGameOverlay(partialTicks, ci);
     }
@@ -83,19 +90,18 @@ public abstract class MixinGuiIngame extends Gui {
      * @reason Add 1.7 health
      */
     @Overwrite
-    private void renderPlayerStats(ScaledResolution p_180477_1_){
+    private void renderPlayerStats(ScaledResolution p_180477_1_) {
         if (this.mc.getRenderViewEntity() instanceof EntityPlayer) {
-            EntityPlayer entityplayer = (EntityPlayer)this.mc.getRenderViewEntity();
+            EntityPlayer entityplayer = (EntityPlayer) this.mc.getRenderViewEntity();
             int currentHealth = MathHelper.ceiling_float_int(entityplayer.getHealth());
-            boolean isGettingDamage = this.healthUpdateCounter > (long)this.updateCounter && (this.healthUpdateCounter - (long)this.updateCounter) / 3L % 2L == 1L;
+            boolean isGettingDamage = this.healthUpdateCounter > (long) this.updateCounter && (this.healthUpdateCounter - (long) this.updateCounter) / 3L % 2L == 1L;
 
             if (currentHealth < this.playerHealth && entityplayer.hurtResistantTime > 0) {
                 this.lastSystemTime = Minecraft.getSystemTime();
-                this.healthUpdateCounter = (long)(this.updateCounter + 20);
-            }
-            else if (currentHealth > this.playerHealth && entityplayer.hurtResistantTime > 0) {
+                this.healthUpdateCounter = (long) (this.updateCounter + 20);
+            } else if (currentHealth > this.playerHealth && entityplayer.hurtResistantTime > 0) {
                 this.lastSystemTime = Minecraft.getSystemTime();
-                this.healthUpdateCounter = (long)(this.updateCounter + 10);
+                this.healthUpdateCounter = (long) (this.updateCounter + 10);
             }
 
             if (Minecraft.getSystemTime() - this.lastSystemTime > 1000L) {
@@ -106,7 +112,7 @@ public abstract class MixinGuiIngame extends Gui {
 
             this.playerHealth = currentHealth;
             int lastPlayerHealth = this.lastPlayerHealth;
-            this.rand.setSeed((long)(this.updateCounter * 312871));
+            this.rand.setSeed((long) (this.updateCounter * 312871));
             boolean alwaysFalseFlagWhatIsThis = false;
             FoodStats foodstats = entityplayer.getFoodStats();
             int foodLevel = foodstats.getFoodLevel();
@@ -115,7 +121,7 @@ public abstract class MixinGuiIngame extends Gui {
             int widthLeft = p_180477_1_.getScaledWidth() / 2 - 91;
             int widthRight = p_180477_1_.getScaledWidth() / 2 + 91;
             int height = p_180477_1_.getScaledHeight() - 39;
-            float attributeValue = (float)iattributeinstance.getAttributeValue();
+            float attributeValue = (float) iattributeinstance.getAttributeValue();
             float absorptionAmount = entityplayer.getAbsorptionAmount();
             int extraHealth = MathHelper.ceiling_float_int((attributeValue + absorptionAmount) / 2.0F / 10.0F);
             int extraHeart = Math.max(10 - (extraHealth - 2), 3);
@@ -154,15 +160,14 @@ public abstract class MixinGuiIngame extends Gui {
 
                 if (entityplayer.isPotionActive(Potion.poison)) {
                     baseTextureX += 36;
-                }
-                else if (entityplayer.isPotionActive(Potion.wither)) {
+                } else if (entityplayer.isPotionActive(Potion.wither)) {
                     baseTextureX += 72;
                 }
                 int gettingDamage = 0;
                 if (isGettingDamage) {
                     gettingDamage = 1;
                 }
-                int healthInt = MathHelper.ceiling_float_int((float)(healthHeartAmount + 1) / 10.0F) - 1;
+                int healthInt = MathHelper.ceiling_float_int((float) (healthHeartAmount + 1) / 10.0F) - 1;
                 int healthWidth = widthLeft + healthHeartAmount % 10 * 8;
                 int healthHeight = height - healthInt * extraHeart;
                 if (currentHealth <= 4) {
@@ -176,7 +181,7 @@ public abstract class MixinGuiIngame extends Gui {
                     hardCore = 5;
                 }
                 this.drawTexturedModalRect(healthWidth, healthHeight, 16 + gettingDamage * 9, 9 * hardCore, 9, 9);
-                if(!Settings.OLD_HEALTH) {
+                if (!Settings.OLD_HEALTH) {
                     if (isGettingDamage) {
                         if (healthHeartAmount * 2 + 1 < lastPlayerHealth) {
                             this.drawTexturedModalRect(healthWidth, healthHeight, baseTextureX + 54, 9 * hardCore, 9, 9);
@@ -196,13 +201,11 @@ public abstract class MixinGuiIngame extends Gui {
                     }
                     tempAbsorptionAmount -= 2.0F;
                 } else {
-                    if (healthHeartAmount * 2 + 1 < currentHealth)
-                    {
+                    if (healthHeartAmount * 2 + 1 < currentHealth) {
                         this.drawTexturedModalRect(healthWidth, healthHeight, baseTextureX + 36, 9 * hardCore, 9, 9);
                     }
 
-                    if (healthHeartAmount * 2 + 1 == currentHealth)
-                    {
+                    if (healthHeartAmount * 2 + 1 == currentHealth) {
                         this.drawTexturedModalRect(healthWidth, healthHeight, baseTextureX + 45, 9 * hardCore, 9, 9);
                     }
                 }
@@ -245,10 +248,10 @@ public abstract class MixinGuiIngame extends Gui {
                 }
             } else if (entity instanceof EntityLivingBase) {
                 this.mc.mcProfiler.endStartSection("mountHealth");
-                EntityLivingBase entitylivingbase = (EntityLivingBase)entity;
-                int tempHealth = (int)Math.ceil((double)entitylivingbase.getHealth());
+                EntityLivingBase entitylivingbase = (EntityLivingBase) entity;
+                int tempHealth = (int) Math.ceil((double) entitylivingbase.getHealth());
                 float maxHealth = entitylivingbase.getMaxHealth();
-                int maxHeart = (int)(maxHealth + 0.5F) / 2;
+                int maxHeart = (int) (maxHealth + 0.5F) / 2;
                 if (maxHeart > 30) {
                     maxHeart = 30;
                 }
@@ -277,8 +280,8 @@ public abstract class MixinGuiIngame extends Gui {
             this.mc.mcProfiler.endStartSection("air");
             if (entityplayer.isInsideOfMaterial(Material.water)) {
                 int air = this.mc.thePlayer.getAir();
-                int airCheck = MathHelper.ceiling_double_int((double)(air - 2) * 10.0D / 300.0D);
-                int air2 = MathHelper.ceiling_double_int((double)air * 10.0D / 300.0D) - airCheck;
+                int airCheck = MathHelper.ceiling_double_int((double) (air - 2) * 10.0D / 300.0D);
+                int air2 = MathHelper.ceiling_double_int((double) air * 10.0D / 300.0D) - airCheck;
                 for (int airPosition = 0; airPosition < airCheck + air2; ++airPosition) {
                     if (airPosition < airCheck) {
                         this.drawTexturedModalRect(widthRight - airPosition * 8 - 9, heartHeight, 16, 18, 9, 9);
@@ -315,8 +318,19 @@ public abstract class MixinGuiIngame extends Gui {
     /**
      * Disables the normal crosshair if custom crosshair is active.
      */
-    @Inject(method = "showCrosshair",at=@At("HEAD"),cancellable = true)
+    @Inject(method = "showCrosshair", at = @At("HEAD"), cancellable = true)
     protected void showCrosshair(CallbackInfoReturnable<Boolean> ci) {
         hyperiumGuiIngame.showCrosshair(ci);
+    }
+
+    /**
+     * @author asbyth
+     * @reason Option to disable Titles & Subtitles (will be replacing the Clear Titles keybind)
+     */
+    @Inject(method = "displayTitle", at = @At("HEAD"), cancellable = true)
+    private void displayTitle(String title, String subTitle, int timeFadeIn, int displayTime, int timeFadeOut, CallbackInfo ci) {
+        if (Settings.HIDE_TITLES) {
+            ci.cancel();
+        }
     }
 }

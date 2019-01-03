@@ -26,9 +26,9 @@ public class ValueTrackingItem {
     @Override
     public String toString() {
         return "ValueTrackingItem{" +
-                "type=" + type +
-                ", value=" + value +
-                ", time=" + time +
-                '}';
+            "type=" + type +
+            ", value=" + value +
+            ", time=" + time +
+            '}';
     }
 }

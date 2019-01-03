@@ -16,6 +16,7 @@
  */
 
 package cc.hyperium.gui.hyperium.tabs;
+
 import cc.hyperium.Hyperium;
 import cc.hyperium.Metadata;
 import cc.hyperium.gui.hyperium.HyperiumMainGui;
@@ -48,7 +49,7 @@ public class UpdateTab extends AbstractTab {
     public UpdateTab(HyperiumMainGui gui) {
         super(gui, "tab.update.name");
         Multithreading.runAsync(() ->
-                latest = InstallerUtils.getManifest().getLatest());
+            latest = InstallerUtils.getManifest().getLatest());
     }
 
     @Override
@@ -85,7 +86,7 @@ public class UpdateTab extends AbstractTab {
                                             String java = System.getProperty("java.home") + File.separator + "bin" + File.separator + "java";
                                             String iCmd = "\"" + java + "\" -jar \"" + new File(tmp, dl.getFileName()).getAbsolutePath() + "\" fw " + cmd;
                                             System.out.println("[Update Tab] Restart cmd: " + cmd);
-                                            System.out.println("[Update Tab] Installer cmd: "+iCmd);
+                                            System.out.println("[Update Tab] Installer cmd: " + iCmd);
                                             Runtime.getRuntime().addShutdownHook(new Thread(() -> {
                                                 try {
                                                     Runtime.getRuntime().exec(iCmd);

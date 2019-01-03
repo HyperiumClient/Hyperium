@@ -6,9 +6,9 @@ import org.apache.logging.log4j.Logger;
 
 public class ItemDummyContainer {
 
-  public static final Logger logger = LogManager.getLogger("ItemPhysics");
+    public static final Logger logger = LogManager.getLogger("ItemPhysics");
 
-  @ConfigOpt
-  public static float rotateSpeed = 1.0F;
+    @ConfigOpt
+    public static float rotateSpeed = 1.0F;
 
 }

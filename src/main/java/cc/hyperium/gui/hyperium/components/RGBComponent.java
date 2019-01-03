@@ -24,7 +24,7 @@ public class RGBComponent extends AbstractTabComponent {
         Color color = new Color(get(fieldSet.getRed()), get(fieldSet.getGreen()), get(fieldSet.getBlue()));
         int rgb = color.getRGB();
         GlStateManager.pushMatrix();
-        Gui.drawRect(x, y, x + width-5, y + 18, rgb);
+        Gui.drawRect(x, y, x + width - 5, y + 18, rgb);
         GlStateManager.popMatrix();
     }
 

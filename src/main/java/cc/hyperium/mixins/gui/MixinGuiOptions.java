@@ -26,7 +26,7 @@ public class MixinGuiOptions extends GuiScreen {
      * @reason Add Hyperium Setting button
      */
     @Inject(method = "actionPerformed", at = @At("RETURN"))
-    public void actionPerformed(GuiButton button,CallbackInfo c) {
+    public void actionPerformed(GuiButton button, CallbackInfo c) {
         hyperiumGuiOptions.actionPerformed(button);
     }
 }

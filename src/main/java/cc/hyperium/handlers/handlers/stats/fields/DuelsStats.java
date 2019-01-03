@@ -56,12 +56,12 @@ public class DuelsStats extends AbstractHypixelStats {
         for (int i = 0; i < tournaments.length; i++) {
             String mode = tournaments[i];
             lines.add(new String[]{tournament_names[i],
-                    WebsiteUtils.comma(stats.optInt(mode + "_kills")),
-                    WebsiteUtils.comma(stats.optInt(mode + "_wins")),
-                    WebsiteUtils.comma(stats.optInt(mode + "_deaths")),
-                    WebsiteUtils.comma(stats.optInt(mode + "_losses")),
-                    WebsiteUtils.buildRatio(stats.optInt(mode + "_kills"), stats.optInt(mode + "_deaths")),
-                    WebsiteUtils.buildRatio(stats.optInt(mode + "_wins"), stats.optInt(mode + "_losses"))
+                WebsiteUtils.comma(stats.optInt(mode + "_kills")),
+                WebsiteUtils.comma(stats.optInt(mode + "_wins")),
+                WebsiteUtils.comma(stats.optInt(mode + "_deaths")),
+                WebsiteUtils.comma(stats.optInt(mode + "_losses")),
+                WebsiteUtils.buildRatio(stats.optInt(mode + "_kills"), stats.optInt(mode + "_deaths")),
+                WebsiteUtils.buildRatio(stats.optInt(mode + "_wins"), stats.optInt(mode + "_losses"))
             });
         }
 
@@ -72,13 +72,13 @@ public class DuelsStats extends AbstractHypixelStats {
         for (int i = 0; i < modes.length; i++) {
             String mode = modes[i];
             lines.add(new String[]{names[i],
-                    WebsiteUtils.comma(stats.optInt(mode + "_kills")),
-                    WebsiteUtils.comma(stats.optInt(mode + "_wins")),
-                    WebsiteUtils.comma(stats.optInt(mode + "_deaths")),
-                    WebsiteUtils.comma(stats.optInt(mode + "_losses")),
-                    WebsiteUtils.buildRatio(stats.optInt(mode + "_kills"), stats.optInt(mode + "_deaths")),
-                    WebsiteUtils.buildRatio(stats.optInt(mode + "_wins"), stats.optInt(mode + "_losses")),
-                    WebsiteUtils.comma(stats.optInt("duels_winstreak_best_" + mode)),
+                WebsiteUtils.comma(stats.optInt(mode + "_kills")),
+                WebsiteUtils.comma(stats.optInt(mode + "_wins")),
+                WebsiteUtils.comma(stats.optInt(mode + "_deaths")),
+                WebsiteUtils.comma(stats.optInt(mode + "_losses")),
+                WebsiteUtils.buildRatio(stats.optInt(mode + "_kills"), stats.optInt(mode + "_deaths")),
+                WebsiteUtils.buildRatio(stats.optInt(mode + "_wins"), stats.optInt(mode + "_losses")),
+                WebsiteUtils.comma(stats.optInt("duels_winstreak_best_" + mode)),
             });
         }
         preview.add(new DisplayTable(lines));

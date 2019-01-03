@@ -21,7 +21,7 @@ public class OldBlocking {
      */
     public void doRenderLayer(EntityLivingBase entitylivingbaseIn, RendererLivingEntity<?> livingEntityRenderer) {
         ItemStack itemstack = entitylivingbaseIn.getHeldItem();
-        
+
         if (itemstack != null) {
             GlStateManager.pushMatrix();
             if (livingEntityRenderer.getMainModel().isChild) {
@@ -31,47 +31,47 @@ public class OldBlocking {
                 GlStateManager.scale(f, f, f);
             }
             Label_0327:
-                if (entitylivingbaseIn instanceof EntityPlayer) {
-                    if (Settings.OLD_BLOCKING) {
-                        if (((EntityPlayer) entitylivingbaseIn).isBlocking()) {
-                            if (entitylivingbaseIn.isSneaking()) {
-                                ((ModelBiped) livingEntityRenderer.getMainModel()).postRenderArm(0.0325f);
-                                GlStateManager.scale(1.05f, 1.05f, 1.05f);
-                                GlStateManager.translate(-0.58f, 0.32f, -0.07f);
-                                GlStateManager
-                                    .rotate(-24405.0f, 137290.0f, -2009900.0f, -2654900.0f);
-                            } else {
-                                ((ModelBiped) livingEntityRenderer.getMainModel()).postRenderArm(0.0325f);
-                                GlStateManager.scale(1.05f, 1.05f, 1.05f);
-                                GlStateManager.translate(-0.45f, 0.25f, -0.07f);
-                                GlStateManager
-                                    .rotate(-24405.0f, 137290.0f, -2009900.0f, -2654900.0f);
-                            }
+            if (entitylivingbaseIn instanceof EntityPlayer) {
+                if (Settings.OLD_BLOCKING) {
+                    if (((EntityPlayer) entitylivingbaseIn).isBlocking()) {
+                        if (entitylivingbaseIn.isSneaking()) {
+                            ((ModelBiped) livingEntityRenderer.getMainModel()).postRenderArm(0.0325f);
+                            GlStateManager.scale(1.05f, 1.05f, 1.05f);
+                            GlStateManager.translate(-0.58f, 0.32f, -0.07f);
+                            GlStateManager
+                                .rotate(-24405.0f, 137290.0f, -2009900.0f, -2654900.0f);
                         } else {
-                            ((ModelBiped) livingEntityRenderer.getMainModel())
-                                .postRenderArm(0.0625f);
+                            ((ModelBiped) livingEntityRenderer.getMainModel()).postRenderArm(0.0325f);
+                            GlStateManager.scale(1.05f, 1.05f, 1.05f);
+                            GlStateManager.translate(-0.45f, 0.25f, -0.07f);
+                            GlStateManager
+                                .rotate(-24405.0f, 137290.0f, -2009900.0f, -2654900.0f);
                         }
                     } else {
-                        ((ModelBiped) livingEntityRenderer.getMainModel()).postRenderArm(0.0625f);
-                    }
-                    if (!Settings.OLD_ITEM_HELD) {
-                        GlStateManager.translate(-0.0625f, 0.4375f, 0.0625f);
-                    } else {
-                        if (!((EntityPlayer) entitylivingbaseIn).isBlocking()) {
-                            if (Settings.OLD_ITEM_HELD) {
-                                GlStateManager.translate(-0.0855f, 0.4775f, 0.1585f);
-                                GlStateManager.rotate(-19.0f, 20.0f, 0.0f, -6.0f);
-                                break Label_0327;
-                            }
-                        }
-                        if (((EntityPlayer) entitylivingbaseIn).isBlocking()) {
-                            GlStateManager.translate(-0.0625f, 0.4375f, 0.0625f);
-                        }
+                        ((ModelBiped) livingEntityRenderer.getMainModel())
+                            .postRenderArm(0.0625f);
                     }
                 } else {
                     ((ModelBiped) livingEntityRenderer.getMainModel()).postRenderArm(0.0625f);
-                    GlStateManager.translate(-0.0625f, 0.4375f, 0.0625f);
                 }
+                if (!Settings.OLD_ITEM_HELD) {
+                    GlStateManager.translate(-0.0625f, 0.4375f, 0.0625f);
+                } else {
+                    if (!((EntityPlayer) entitylivingbaseIn).isBlocking()) {
+                        if (Settings.OLD_ITEM_HELD) {
+                            GlStateManager.translate(-0.0855f, 0.4775f, 0.1585f);
+                            GlStateManager.rotate(-19.0f, 20.0f, 0.0f, -6.0f);
+                            break Label_0327;
+                        }
+                    }
+                    if (((EntityPlayer) entitylivingbaseIn).isBlocking()) {
+                        GlStateManager.translate(-0.0625f, 0.4375f, 0.0625f);
+                    }
+                }
+            } else {
+                ((ModelBiped) livingEntityRenderer.getMainModel()).postRenderArm(0.0625f);
+                GlStateManager.translate(-0.0625f, 0.4375f, 0.0625f);
+            }
             if (entitylivingbaseIn instanceof EntityPlayer && ((EntityPlayer) entitylivingbaseIn).fishEntity != null) {
                 itemstack = new ItemStack(Items.fishing_rod, 0);
             }

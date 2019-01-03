@@ -47,8 +47,10 @@ public abstract class MixinEntityPlayer extends EntityLivingBase implements IMix
 
     @Shadow
     public abstract boolean isPlayerSleeping();
+
     @Shadow
     public abstract Team getTeam();
+
     @Shadow
     public abstract String getName();
 

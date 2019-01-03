@@ -68,32 +68,35 @@ public class ChangeBackgroundGui extends GuiScreen {
             handleDownload();
         if (button.id == 2)
             handleChooseFile();
-        if(button.id == 3)
+        if (button.id == 3)
             handleResetBackground();
         if (button.id == 4)
             Minecraft.getMinecraft().displayGuiScreen(prevGui);
         super.actionPerformed(button);
     }
 
-    private void handleResetBackground(){
-        statusText = I18n.format("gui.changebackground.working");;
+    private void handleResetBackground() {
+        statusText = I18n.format("gui.changebackground.working");
+        ;
         File file = new File(Minecraft.getMinecraft().mcDataDir, "customImage.png");
-        if(file.exists()){
+        if (file.exists()) {
             file.delete();
         }
         Settings.BACKGROUND = "4";
-        statusText = I18n.format("gui.changebackground.done");;
+        statusText = I18n.format("gui.changebackground.done");
+        ;
         Minecraft.getMinecraft().displayGuiScreen(prevGui);
     }
 
-    private void handleChooseFile(){
-        FileDialog dialog = new FileDialog((Frame)null,I18n.format("gui.changebackground.selectimage"),FileDialog.LOAD);
+    private void handleChooseFile() {
+        FileDialog dialog = new FileDialog((Frame) null, I18n.format("gui.changebackground.selectimage"), FileDialog.LOAD);
         dialog.setFile("*.jpg;*.jpeg;*.png");
         dialog.setVisible(true);
-        if(dialog.getFiles().length != 0) {
+        if (dialog.getFiles().length != 0) {
             String filename = dialog.getFiles()[0].getAbsolutePath();
             if (!filename.isEmpty()) {
-                statusText = I18n.format("gui.changebackground.working");;
+                statusText = I18n.format("gui.changebackground.working");
+                ;
                 InputStream input = null;
                 OutputStream output = null;
                 try {
@@ -101,7 +104,8 @@ public class ChangeBackgroundGui extends GuiScreen {
                     output = new FileOutputStream(new File(Minecraft.getMinecraft().mcDataDir, "customImage.png"));
                     IOUtils.copy(input, output);
                     Settings.BACKGROUND = "CUSTOM";
-                    statusText = I18n.format("gui.changebackground.done");;
+                    statusText = I18n.format("gui.changebackground.done");
+                    ;
                     Minecraft.getMinecraft().displayGuiScreen(prevGui);
                 } catch (FileNotFoundException e) {
                     statusText = "Invalid path";
@@ -136,7 +140,8 @@ public class ChangeBackgroundGui extends GuiScreen {
         FileOutputStream fos;
         byte[] fileData;
         try {
-            this.statusText = I18n.format("gui.changebackground.working");;
+            this.statusText = I18n.format("gui.changebackground.working");
+            ;
             url = new URL(downloadUrlField.getText());
             con = url.openConnection();
             con.addRequestProperty("User-Agent", "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.4; en-US; rv:1.9.2.2) Gecko/20100316 Firefox/3.6.2");
@@ -149,7 +154,8 @@ public class ChangeBackgroundGui extends GuiScreen {
             fos = new FileOutputStream(new File(Minecraft.getMinecraft().mcDataDir, "customImage.png"));
             fos.write(fileData);
             Settings.BACKGROUND = "CUSTOM";
-            this.statusText = I18n.format("gui.changebackground.done");;
+            this.statusText = I18n.format("gui.changebackground.done");
+            ;
             Minecraft.getMinecraft().displayGuiScreen(prevGui);
             fos.close();
         } catch (Exception m) {

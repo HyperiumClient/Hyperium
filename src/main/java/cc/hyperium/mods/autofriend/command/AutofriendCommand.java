@@ -3,7 +3,9 @@ package cc.hyperium.mods.autofriend.command;
 import cc.hyperium.commands.BaseCommand;
 import cc.hyperium.mods.autofriend.AutoFriendUtils;
 import cc.hyperium.mods.autofriend.AutofriendMod;
+
 import java.util.regex.Pattern;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.event.ClickEvent;
 import net.minecraft.event.HoverEvent;
@@ -41,7 +43,7 @@ public class AutofriendCommand implements BaseCommand {
 
     @Override
     public void onExecute(String[] args) {
-        if(args.length == 0){
+        if (args.length == 0) {
             this.throwError("Unknown usage! Usage: " + usage);
             return;
         }

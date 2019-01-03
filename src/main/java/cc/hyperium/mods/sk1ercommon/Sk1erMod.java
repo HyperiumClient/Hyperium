@@ -22,6 +22,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import net.minecraft.client.Minecraft;
 import org.apache.commons.io.IOUtils;
+
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -78,10 +79,10 @@ public class Sk1erMod {
     public void checkStatus() {
         Multithreading.schedule(() -> {
             en = new JsonHolder(rawWithAgent("https://sk1er.club/genkey?name=" + Minecraft.getMinecraft().getSession().getProfile().getName()
-                    + "&uuid=" + Minecraft.getMinecraft().getSession().getPlayerID().replace("-", "")
-                    + "&mcver=" + Minecraft.getMinecraft().getVersion()
-                    + "&modver=" + version
-                    + "&mod=" + modid
+                + "&uuid=" + Minecraft.getMinecraft().getSession().getPlayerID().replace("-", "")
+                + "&mcver=" + Minecraft.getMinecraft().getVersion()
+                + "&modver=" + version
+                + "&mod=" + modid
             ));
             if (callback != null)
                 callback.call(en);

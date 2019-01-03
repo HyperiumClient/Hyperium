@@ -16,7 +16,9 @@
  */
 
 package cc.hyperium.mods.blockoverlay;
+
 import cc.hyperium.utils.BetterJsonObject;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;

@@ -12,16 +12,16 @@ public class Colors {
     @ToggleSetting(category = Category.GLINTCOLORIZER, mods = true, name = "Chroma")
     public static boolean chroma;
     @ConfigOpt
-    @SliderSetting(name = "Chroma speed", mods = true, category = Category.GLINTCOLORIZER, min = 1, max = 10,isInt = true)
+    @SliderSetting(name = "Chroma speed", mods = true, category = Category.GLINTCOLORIZER, min = 1, max = 10, isInt = true)
     public static int chromaSpeed = 1;
     @ConfigOpt
-    @SliderSetting(name = "Red", mods = true, category = Category.GLINTCOLORIZER, min = 0, max = 255,isInt = true)
+    @SliderSetting(name = "Red", mods = true, category = Category.GLINTCOLORIZER, min = 0, max = 255, isInt = true)
     public static int glintR = 255;
     @ConfigOpt
-    @SliderSetting(name = "Green", mods = true, category = Category.GLINTCOLORIZER, min = 0, max = 255,isInt = true)
+    @SliderSetting(name = "Green", mods = true, category = Category.GLINTCOLORIZER, min = 0, max = 255, isInt = true)
     public static int glintG = 255;
     @ConfigOpt
-    @SliderSetting(name = "Blue", mods = true, category = Category.GLINTCOLORIZER, min = 0, max = 255,isInt = true)
+    @SliderSetting(name = "Blue", mods = true, category = Category.GLINTCOLORIZER, min = 0, max = 255, isInt = true)
     public static int glintB = 255;
     @ConfigOpt
     @ToggleSetting(category = Category.GLINTCOLORIZER, mods = true, name = "Enabled")

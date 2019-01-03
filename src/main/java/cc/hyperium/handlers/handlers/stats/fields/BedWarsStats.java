@@ -62,16 +62,16 @@ public class BedWarsStats extends AbstractHypixelStats {
         lines.add(new String[]{"Mode", "Kills", "Deaths", "Wins", "Losses", "Final Kills", "Final Deaths", "Beds Broken", "K/D", "Final K/D", "W/L"});
         for (int i = 0; i < bedwarsnames.length; i++) {
             lines.add(new String[]{bedwarsnames[i],
-                    WebsiteUtils.comma(bedwars.optInt(bedwarsBackend[i] + "_kills_bedwars")),
-                    WebsiteUtils.comma(bedwars.optInt(bedwarsBackend[i] + "_deaths_bedwars")),
-                    WebsiteUtils.comma(bedwars.optInt(bedwarsBackend[i] + "_wins_bedwars")),
-                    WebsiteUtils.comma(bedwars.optInt(bedwarsBackend[i] + "_losses_bedwars")),
-                    WebsiteUtils.comma(bedwars.optInt(bedwarsBackend[i] + "_final_kills_bedwars")),
-                    WebsiteUtils.comma(bedwars.optInt(bedwarsBackend[i] + "_final_deaths_bedwars")),
-                    WebsiteUtils.comma(bedwars.optInt(bedwarsBackend[i] + "_beds_broken_bedwars")),
-                    WebsiteUtils.buildRatio(bedwars.optInt(bedwarsBackend[i] + "_kills_bedwars"), bedwars.optInt(bedwarsBackend[i] + "_deaths_bedwars")),
-                    WebsiteUtils.buildRatio(bedwars.optInt(bedwarsBackend[i] + "_final_kills_bedwars"), bedwars.optInt(bedwarsBackend[i] + "_final_deaths_bedwars")),
-                    WebsiteUtils.buildRatio(bedwars.optInt(bedwarsBackend[i] + "_wins_bedwars"), bedwars.optInt(bedwarsBackend[i] + "_losses_bedwars"))
+                WebsiteUtils.comma(bedwars.optInt(bedwarsBackend[i] + "_kills_bedwars")),
+                WebsiteUtils.comma(bedwars.optInt(bedwarsBackend[i] + "_deaths_bedwars")),
+                WebsiteUtils.comma(bedwars.optInt(bedwarsBackend[i] + "_wins_bedwars")),
+                WebsiteUtils.comma(bedwars.optInt(bedwarsBackend[i] + "_losses_bedwars")),
+                WebsiteUtils.comma(bedwars.optInt(bedwarsBackend[i] + "_final_kills_bedwars")),
+                WebsiteUtils.comma(bedwars.optInt(bedwarsBackend[i] + "_final_deaths_bedwars")),
+                WebsiteUtils.comma(bedwars.optInt(bedwarsBackend[i] + "_beds_broken_bedwars")),
+                WebsiteUtils.buildRatio(bedwars.optInt(bedwarsBackend[i] + "_kills_bedwars"), bedwars.optInt(bedwarsBackend[i] + "_deaths_bedwars")),
+                WebsiteUtils.buildRatio(bedwars.optInt(bedwarsBackend[i] + "_final_kills_bedwars"), bedwars.optInt(bedwarsBackend[i] + "_final_deaths_bedwars")),
+                WebsiteUtils.buildRatio(bedwars.optInt(bedwarsBackend[i] + "_wins_bedwars"), bedwars.optInt(bedwarsBackend[i] + "_losses_bedwars"))
             });
         }
         preview.add(new DisplayTable(lines));

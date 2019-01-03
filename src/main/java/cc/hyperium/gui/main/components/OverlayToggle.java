@@ -23,9 +23,9 @@ public class OverlayToggle extends OverlayComponent {
         this.toggle = toggle;
         this.callback = callback;
 
-        if(enabled){
+        if (enabled) {
             this.toggle = toggle;
-        } else{
+        } else {
             this.toggle = false;
         }
     }
@@ -35,7 +35,7 @@ public class OverlayToggle extends OverlayComponent {
         if (!super.render(mouseX, mouseY, overlayX, overlayY, w, h, overlayH))
             return false;
         // Render toggle button.
-        if(enabled) {
+        if (enabled) {
             GL11.glEnable(GL11.GL_BLEND);
             GL11.glDisable(GL11.GL_TEXTURE_2D);
             GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
@@ -49,10 +49,10 @@ public class OverlayToggle extends OverlayComponent {
                 new Color(30, 30, 30).getRGB());
             GL11.glDisable(GL11.GL_BLEND);
             GL11.glDisable(GL11.GL_LINE_SMOOTH);
-        } else{
+        } else {
             RenderUtils
                 .drawSmoothRect(overlayX + w - 30, overlayY + 5, overlayX + w - 5, overlayY + h - 5,
-                    new Color(169,169,169).getRGB());
+                    new Color(169, 169, 169).getRGB());
             RenderUtils.drawFilledCircle(toggle ? (int) (overlayX + w - 10 - (step * 15))
                     : (int) (overlayX + w - 25 + (step * 15)), overlayY + h / 2, 4,
                 new Color(30, 30, 30).getRGB());
@@ -69,7 +69,7 @@ public class OverlayToggle extends OverlayComponent {
 
     @Override
     public void mouseClicked(int mouseX, int mouseY, int overlayX, int overlayY, int w, int h) {
-        if(!enabled){
+        if (!enabled) {
             return;
         }
         if (mouseX >= overlayX + w - 30 && mouseX <= overlayX + w - 5 && mouseY >= overlayY + 5 && mouseY <= overlayY + h - 5) {

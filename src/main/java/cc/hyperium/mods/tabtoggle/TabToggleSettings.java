@@ -6,9 +6,9 @@ import cc.hyperium.config.ToggleSetting;
 
 public class TabToggleSettings {
 
-  public static boolean TAB_TOGGLED = false;
-  @ConfigOpt
-  @ToggleSetting(name = "Tab Toggle",category = Category.TAB_TOGGLE,mods = true)
-  public static boolean ENABLED = false;
+    public static boolean TAB_TOGGLED = false;
+    @ConfigOpt
+    @ToggleSetting(name = "Tab Toggle", category = Category.TAB_TOGGLE, mods = true)
+    public static boolean ENABLED = false;
 
 }

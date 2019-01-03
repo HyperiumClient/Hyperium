@@ -32,7 +32,7 @@ public class SettingsMigrator {
         }
 
         File level_head = new File(config, "LEVEL_HEAD.cfg");
-        if(level_head.exists()) {
+        if (level_head.exists()) {
             DefaultConfig defaultConfig = new DefaultConfig(level_head);
             defaultConfig.register(((Levelhead) Hyperium.INSTANCE.getModIntegration().getLevelhead()).getConfig());
         }

@@ -28,7 +28,7 @@ public class HyperiumEntityPlayer {
     private long lastNameUpdate = 0L;
     private String displayName;
 
-    public HyperiumEntityPlayer(EntityPlayer parent){
+    public HyperiumEntityPlayer(EntityPlayer parent) {
         this.parent = parent;
     }
 
@@ -43,7 +43,7 @@ public class HyperiumEntityPlayer {
         }
     }
 
-    public float getEyeHeight(){
+    public float getEyeHeight() {
         if (Settings.OLD_SNEAKING) {
             if (parent.isSneaking()) {
                 if (currentHeight > sneakingHeight) {
@@ -104,7 +104,7 @@ public class HyperiumEntityPlayer {
         return cachedName;
     }
 
-    public void attackTargetEntityWithCurrentItem(Entity targetEntity   ) {
+    public void attackTargetEntityWithCurrentItem(Entity targetEntity) {
         EventBus.INSTANCE.post(new PlayerAttackEntityEvent(parent.getUniqueID(), targetEntity));
     }
 

@@ -17,18 +17,16 @@ public class TPoseHandler extends AbstractPreCopyAnglesAnimationHandler {
     @Override
     public float modifyState() {
         return HyperiumGui.clamp(
-                HyperiumGui.easeOut(
-                        this.state,
-                        100.0f,
-                        0.01f,
-                        5
-                ),
-                0.0f,
-                100.0f
+            HyperiumGui.easeOut(
+                this.state,
+                100.0f,
+                0.01f,
+                5
+            ),
+            0.0f,
+            100.0f
         );
     }
-
-
 
 
     @Override

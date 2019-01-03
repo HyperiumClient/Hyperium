@@ -96,7 +96,7 @@ public class LevelHeadRender {
         FontRenderer fontrenderer = event.getRenderManager().getFontRenderer();
         float f = 1.6F;
         float f1 = 0.016666668F * f;
-        GlStateManager.translate(0, -10-offset, 0);
+        GlStateManager.translate(0, -10 - offset, 0);
         GL11.glNormal3f(0.0F, 1.0F, 0.0F);
 
 

@@ -4,7 +4,7 @@
 root = true
 
 # Have Java and Kotlin files in UTF-8 and put an extra line at the bottom of each file:
-[*.{java,kt}]
+[*.{java, kt}]
 charset = utf-8
 insert_final_newline = true
 

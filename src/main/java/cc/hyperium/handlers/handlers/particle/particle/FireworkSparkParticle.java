@@ -18,6 +18,6 @@ public class FireworkSparkParticle implements IParticle {
     public EntityFX spawn(World world, double x, double y, double z) {
         Map<Integer, IParticleFactory> particleMap = ((IMixinEffectRenderer) Minecraft.getMinecraft().effectRenderer).getParticleMap();
         IParticleFactory iParticleFactory = particleMap.get(EnumParticleTypes.FIREWORKS_SPARK.getParticleID());
-        return iParticleFactory.getEntityFX(EnumParticleTypes.FIREWORKS_SPARK.getParticleID(), world, x, y, z, 0.0F,-0.1F,0.0F, 0);
+        return iParticleFactory.getEntityFX(EnumParticleTypes.FIREWORKS_SPARK.getParticleID(), world, x, y, z, 0.0F, -0.1F, 0.0F, 0);
     }
 }

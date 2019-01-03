@@ -19,7 +19,9 @@ package cc.hyperium.mods.keystrokes.keys.impl;
 
 import cc.hyperium.mods.keystrokes.KeystrokesMod;
 import cc.hyperium.mods.keystrokes.keys.IKey;
+
 import java.awt.Color;
+
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
@@ -38,24 +40,24 @@ public class Key extends IKey {
         this.key = key;
     }
 
-    private String getKeyOrMouseName(int keyCode){
-        if(keyCode < 0){
-            String openglName = Mouse.getButtonName(keyCode+100);
-            if(openglName.equalsIgnoreCase("button0")){
+    private String getKeyOrMouseName(int keyCode) {
+        if (keyCode < 0) {
+            String openglName = Mouse.getButtonName(keyCode + 100);
+            if (openglName.equalsIgnoreCase("button0")) {
                 return "LMB";
-            } else if(openglName.equalsIgnoreCase("button1")){
+            } else if (openglName.equalsIgnoreCase("button1")) {
                 return "RMB";
             }
             return openglName;
-        } else{
+        } else {
             return Keyboard.getKeyName(keyCode);
         }
     }
 
-    private boolean isKeyOrMouseDown(int keyCode){
-        if(keyCode < 0){
+    private boolean isKeyOrMouseDown(int keyCode) {
+        if (keyCode < 0) {
             return Mouse.isButtonDown(keyCode + 100);
-        } else{
+        } else {
             return Keyboard.isKeyDown(keyCode);
         }
     }
@@ -98,7 +100,7 @@ public class Key extends IKey {
         float scaleFactor = 1.0F;
 
         // Check if text will overflow outside of the box.
-        if(stringWidth > keyWidth){
+        if (stringWidth > keyWidth) {
             scaleFactor = (float) keyWidth / stringWidth;
         }
 
@@ -107,11 +109,11 @@ public class Key extends IKey {
         float xPos = (x + this.xOffset + 8);
         float yPos = (y + this.yOffset + 8);
 
-        GlStateManager.scale(scaleFactor,scaleFactor,1.0F);
+        GlStateManager.scale(scaleFactor, scaleFactor, 1.0F);
 
 
-        if(scaleFactor != 1.0F){
-            float scaleFactorRec = 1/scaleFactor;
+        if (scaleFactor != 1.0F) {
+            float scaleFactorRec = 1 / scaleFactor;
 
             // Text has been scaled down to fit the box so draw at start of box.
             xPos = ((x + this.xOffset) * scaleFactorRec) + 1;
@@ -119,9 +121,9 @@ public class Key extends IKey {
             // Scale Y value.
             yPos *= scaleFactorRec;
 
-        } else if(name.length() > 1){
+        } else if (name.length() > 1) {
             // Centres text if it fits in the box but is longer than one character.
-            xPos -= stringWidth/4;
+            xPos -= stringWidth / 4;
         }
 
         if (this.mod.getSettings().isChroma()) {

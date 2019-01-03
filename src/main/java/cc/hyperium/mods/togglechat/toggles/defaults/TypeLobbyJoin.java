@@ -53,16 +53,16 @@ public class TypeLobbyJoin extends ToggleBase {
     @Override
     public LinkedList<String> getDescription() {
         return asLinked(
-                "Removes all &bMVP&c+",
-                "and &6MVP&c++&r lobby join",
-                "messages",
-                "",
-                "Such as:",
-                "&b[MVP&c+&b] I &6joined the lobby!",
-                "",
-                "It also removes the &6MVP&c++",
-                "join messages to make",
-                "lobby chat more readable"
+            "Removes all &bMVP&c+",
+            "and &6MVP&c++&r lobby join",
+            "messages",
+            "",
+            "Such as:",
+            "&b[MVP&c+&b] I &6joined the lobby!",
+            "",
+            "It also removes the &6MVP&c++",
+            "join messages to make",
+            "lobby chat more readable"
         );
     }
 }

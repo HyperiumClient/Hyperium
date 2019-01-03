@@ -43,10 +43,10 @@ public abstract class OverlayComponent {
         }
         if (enabled) {
             fr.drawString(label, overlayX + 4,
-                    (overlayY + (h - fr.FONT_HEIGHT) / 2), 0xffffff);
+                (overlayY + (h - fr.FONT_HEIGHT) / 2), 0xffffff);
         } else {
             fr.drawString(label, overlayX + 4,
-                    (overlayY + (h - fr.FONT_HEIGHT) / 2), new Color(169, 169, 169).getRGB());
+                (overlayY + (h - fr.FONT_HEIGHT) / 2), new Color(169, 169, 169).getRGB());
         }
         return true;
     }

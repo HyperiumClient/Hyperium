@@ -27,10 +27,10 @@ public class FontFixValues {
     private final int MAX = 5000 /* Worth bumping up to 10_000? */;
     public List<StringHash> obfuscated = new ArrayList<>();
     private Cache<StringHash, CachedString> stringCache = Caffeine.newBuilder()
-            .writer(new RemovalListener())
-            .executor(Multithreading.POOL)
-            .maximumSize(MAX)
-            .build();
+        .writer(new RemovalListener())
+        .executor(Multithreading.POOL)
+        .maximumSize(MAX)
+        .build();
     private Queue<Integer> glRemoval = new ConcurrentLinkedQueue<>();
 
     public FontFixValues() {

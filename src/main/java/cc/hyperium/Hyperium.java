@@ -34,7 +34,6 @@ import cc.hyperium.commands.defaults.CommandNameHistory;
 import cc.hyperium.commands.defaults.CommandParticleAuras;
 import cc.hyperium.commands.defaults.CommandParty;
 import cc.hyperium.commands.defaults.CommandPing;
-import cc.hyperium.commands.defaults.CommandPlayGame;
 import cc.hyperium.commands.defaults.CommandQuests;
 import cc.hyperium.commands.defaults.CommandResize;
 import cc.hyperium.commands.defaults.CommandStatistics;
@@ -88,6 +87,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.Contract;
 import org.lwjgl.opengl.Display;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -204,8 +204,8 @@ public class Hyperium {
 
             // Has the user accepted the TOS of the client?
             this.acceptedTos = new File(
-                    folder.getAbsolutePath() + "/accounts/" + Minecraft.getMinecraft().getSession()
-                            .getPlayerID() + ".lck").exists();
+                folder.getAbsolutePath() + "/accounts/" + Minecraft.getMinecraft().getSession()
+                    .getPlayerID() + ".lck").exists();
 
             SplashProgress.setProgress(5, I18n.format("splashprogress.loadinghandlers"));
             handlers = new HyperiumHandlers();
@@ -343,7 +343,6 @@ public class Hyperium {
         hyperiumCommandHandler.registerCommand(new CommandClearChat());
         hyperiumCommandHandler.registerCommand(new CommandBrowse());
         hyperiumCommandHandler.registerCommand(new CommandNameHistory());
-        hyperiumCommandHandler.registerCommand(new CommandPlayGame());
         hyperiumCommandHandler.registerCommand(new CommandDebug());
         hyperiumCommandHandler.registerCommand(new CommandUpdate());
         hyperiumCommandHandler.registerCommand(new CommandCoords());
@@ -422,7 +421,7 @@ public class Hyperium {
         }
         try {
             new File(folder.getAbsolutePath() + "/accounts/" + Minecraft.getMinecraft().getSession()
-                    .getPlayerID() + ".lck").createNewFile();
+                .getPlayerID() + ".lck").createNewFile();
         } catch (IOException e) {
             e.printStackTrace();
         }

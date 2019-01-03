@@ -18,6 +18,7 @@
 package cc.hyperium.mixinsimp.client.multiplayer;
 import java.io.File;
 import java.util.List;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.multiplayer.ServerList;
@@ -44,7 +45,7 @@ public class HyperiumServerList {
         serverlist.saveServerList();
     }
 
-    public void loadServers(List<ServerData> servers,Logger logger, Minecraft mc){
+    public void loadServers(List<ServerData> servers, Logger logger, Minecraft mc) {
         try {
             servers.clear();
             NBTTagCompound nbttagcompound = CompressedStreamTools
@@ -66,7 +67,7 @@ public class HyperiumServerList {
         }
     }
 
-    public void saveServerList(List<ServerData> servers,Logger logger, Minecraft mc){
+    public void saveServerList(List<ServerData> servers, Logger logger, Minecraft mc) {
         try {
             NBTTagList nbttaglist = new NBTTagList();
 
@@ -83,7 +84,7 @@ public class HyperiumServerList {
         }
     }
 
-    public ServerData getServerData(List<ServerData> servers,int p_78850_1_){
+    public ServerData getServerData(List<ServerData> servers, int p_78850_1_) {
         try {
             return (ServerData) servers.get(p_78850_1_);
         } catch (Exception e) {
@@ -93,7 +94,7 @@ public class HyperiumServerList {
         return null;
     }
 
-    public void removeServerData(List<ServerData> servers,int p_78851_1_){
+    public void removeServerData(List<ServerData> servers, int p_78851_1_) {
         try {
             servers.remove(p_78851_1_);
         } catch (Exception e) {
@@ -101,7 +102,7 @@ public class HyperiumServerList {
         }
     }
 
-    public void addServerData(List<ServerData> servers,ServerData p_78849_1_){
+    public void addServerData(List<ServerData> servers, ServerData p_78849_1_) {
         try {
             servers.add(p_78849_1_);
         } catch (Exception e) {
@@ -109,16 +110,16 @@ public class HyperiumServerList {
         }
     }
 
-    public int countServers(List<ServerData> servers){
+    public int countServers(List<ServerData> servers) {
         return servers.size();
     }
 
-    public void swapServers(List<ServerData> servers,Logger logger, Minecraft mc, int p_78857_1_, int p_78857_2_) {
+    public void swapServers(List<ServerData> servers, Logger logger, Minecraft mc, int p_78857_1_, int p_78857_2_) {
         try {
-            ServerData serverdata = this.getServerData(servers,p_78857_1_);
-            servers.set(p_78857_1_, this.getServerData(servers,p_78857_2_));
+            ServerData serverdata = this.getServerData(servers, p_78857_1_);
+            servers.set(p_78857_1_, this.getServerData(servers, p_78857_2_));
             servers.set(p_78857_2_, serverdata);
-            this.saveServerList(servers,logger,mc);
+            this.saveServerList(servers, logger, mc);
         } catch (Exception e) {
             System.out.println("[ServerListMixin] Swap servers error");
         }

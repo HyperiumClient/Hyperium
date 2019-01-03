@@ -11,8 +11,10 @@ import java.util.List;
 public interface IMixinGuiNewChat {
     @Accessor
     void setIsScrolled(boolean isScrolled);
+
     @Accessor
     List<ChatLine> getChatLines();
+
     @Accessor(value = "field_146253_i")
     List<ChatLine> getDrawnChatLines();
 }

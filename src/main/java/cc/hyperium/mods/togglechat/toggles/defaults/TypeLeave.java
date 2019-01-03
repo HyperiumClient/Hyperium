@@ -51,16 +51,16 @@ public class TypeLeave extends ToggleBase {
     @Override
     public LinkedList<String> getDescription() {
         return asLinked(
-                "Toggles all leave",
-                "notification messages",
-                "or anything matching",
-                "this format",
-                "",
-                "&ePlayer left.",
-                "",
-                "This is good for",
-                "people with a large",
-                "friends list"
+            "Toggles all leave",
+            "notification messages",
+            "or anything matching",
+            "this format",
+            "",
+            "&ePlayer left.",
+            "",
+            "This is good for",
+            "people with a large",
+            "friends list"
         );
     }
 }

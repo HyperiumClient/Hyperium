@@ -223,12 +223,12 @@ public class HyperiumWorld {
             }
             CountDownLatch latch = new CountDownLatch(fx.values().size());
 
-            ConcurrentLinkedQueue<Entity> toRemove= new ConcurrentLinkedQueue<>();
+            ConcurrentLinkedQueue<Entity> toRemove = new ConcurrentLinkedQueue<>();
             for (List<Entity> entityFXES : fx.values()) {
                 Multithreading.runAsync(() -> {
                     try {
                         for (Entity entity : entityFXES) {
-                            if(entity == null) {
+                            if (entity == null) {
                                 System.out.println("Entity was null");
                                 continue;
                             }

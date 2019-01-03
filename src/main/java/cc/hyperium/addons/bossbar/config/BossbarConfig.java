@@ -4,9 +4,10 @@ import cc.hyperium.Hyperium;
 import cc.hyperium.config.ConfigOpt;
 
 public class BossbarConfig {
-    public BossbarConfig(){
+    public BossbarConfig() {
         Hyperium.CONFIG.register(this);
     }
+
     @ConfigOpt
     public static boolean bossBarEnabled = true;
     @ConfigOpt

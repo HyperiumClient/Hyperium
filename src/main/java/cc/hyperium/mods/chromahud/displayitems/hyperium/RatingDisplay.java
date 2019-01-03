@@ -23,6 +23,7 @@ import cc.hyperium.mods.chromahud.api.DisplayItem;
 import cc.hyperium.utils.JsonHolder;
 import net.minecraft.client.Minecraft;
 import cc.hyperium.config.Settings;
+
 import java.text.NumberFormat;
 import java.util.Locale;
 
@@ -39,7 +40,7 @@ public class RatingDisplay extends DisplayItem {
     @Override
     public void draw(int x, double y, boolean config) {
         String string = "";
-        if(!Settings.CHROMAHUD_SQUAREBRACE_PREFIX_OPTION) {
+        if (!Settings.CHROMAHUD_SQUAREBRACE_PREFIX_OPTION) {
             string = "Rating: " + format.format(Hyperium.INSTANCE.getHandlers().getValueHandler().getRankedRating());
         } else {
             string = "[Rating] " + format.format(Hyperium.INSTANCE.getHandlers().getValueHandler().getRankedRating());

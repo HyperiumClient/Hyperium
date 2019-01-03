@@ -49,11 +49,11 @@ public class GuiBlock {
     @Override
     public String toString() {
         return "GuiBlock{" +
-                "left=" + left +
-                ", right=" + right +
-                ", top=" + top +
-                ", bottom=" + bottom +
-                '}';
+            "left=" + left +
+            ", right=" + right +
+            ", top=" + top +
+            ", bottom=" + bottom +
+            '}';
     }
 
     public int getWidth() {

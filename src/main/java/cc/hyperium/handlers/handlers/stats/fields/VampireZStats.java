@@ -5,8 +5,10 @@ import cc.hyperium.handlers.handlers.stats.display.DisplayLine;
 import cc.hyperium.handlers.handlers.stats.display.StatsDisplayItem;
 import cc.hyperium.utils.JsonHolder;
 import club.sk1er.website.api.requests.HypixelApiPlayer;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import net.hypixel.api.GameType;
 
 /**
@@ -50,7 +52,7 @@ public class VampireZStats extends AbstractHypixelStats {
         stats.add(new DisplayLine(bold("Vampire Kills: ", vampireZ.optInt("vampire_kills"))));
         stats.add(new DisplayLine(bold("Vampire wins: ", vampireZ.optInt("vampire_wins"))));
         stats.add(new DisplayLine(bold("Vampire Deaths: ", vampireZ.optInt("vampire_deaths"))));
-        
+
         return stats;
     }
 }

@@ -206,6 +206,6 @@ public abstract class MixinWorld {
      */
     @Overwrite
     public void updateEntities() {
-      hyperiumWorld.updateEntities(theProfiler,weatherEffects,loadedEntityList,unloadedEntityList,tickableTileEntities,worldBorder,loadedTileEntityList,tileEntitiesToBeRemoved,addedTileEntityList);
+        hyperiumWorld.updateEntities(theProfiler, weatherEffects, loadedEntityList, unloadedEntityList, tickableTileEntities, worldBorder, loadedTileEntityList, tileEntitiesToBeRemoved, addedTileEntityList);
     }
 }

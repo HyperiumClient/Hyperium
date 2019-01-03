@@ -73,6 +73,7 @@ public class NickHider {
     public void setPseudo_key(String pseudo_key) {
         config.setPseudo_key(pseudo_key);
     }
+
     private List<String> namesDatabase = new ArrayList<>();
 
     public String getPseudo(String input) {

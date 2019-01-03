@@ -187,7 +187,6 @@ public class PlayerQuestsGui extends HyperiumGui {
         drawScaledText(WebsiteUtils.comma(player.getTotalQuests()), (int) (5 + fontRendererObj.getStringWidth(s1) * leftTextScale), 55, leftTextScale, Color.YELLOW.getRGB(), true, false);
 
 
-
         if (focused == null) {
             float scaleMod = 4 / 5F;
             GlStateManager.scale(scaleMod, scaleMod, scaleMod);
@@ -288,7 +287,7 @@ public class PlayerQuestsGui extends HyperiumGui {
                 left = 5;
                 top = 80;
                 RenderUtils.drawRect((left - 3) / scale, (top - 3) / scale, (left + (width + 3) * scale) / scale, (top + (height + 3) * scale) / scale,
-                        new Color(0, 0, 0, 175).getRGB());
+                    new Color(0, 0, 0, 175).getRGB());
 
                 for (StatsDisplayItem statsDisplayItem : preview) {
                     statsDisplayItem.draw((int) (left / scale), (int) ((top) / scale) + printY);

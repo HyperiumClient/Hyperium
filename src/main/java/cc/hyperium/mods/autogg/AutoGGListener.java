@@ -37,7 +37,7 @@ public class AutoGGListener {
         // Make sure the mod is enabled
         if (
 //            !this.mod.isHypixel() ||
-                !this.mod.getConfig().isToggled() || this.mod.isRunning() || this.mod.getTriggers().isEmpty()) {
+            !this.mod.getConfig().isToggled() || this.mod.isRunning() || this.mod.getTriggers().isEmpty()) {
             return;
         }
 
@@ -59,7 +59,7 @@ public class AutoGGListener {
             Multithreading.POOL.submit(() -> {
                 try {
                     Thread.sleep(Hyperium.INSTANCE.getModIntegration().getAutoGG().getConfig().getDelay() * 1000);
-                    Minecraft.getMinecraft().thePlayer.sendChatMessage("/achat " + (mod.getConfig().sayGoodGameInsteadOfGG ? (mod.getConfig().lowercase ? "good game": "Good Game") : (mod.getConfig().lowercase ? "gg" : "GG")));
+                    Minecraft.getMinecraft().thePlayer.sendChatMessage("/achat " + (mod.getConfig().sayGoodGameInsteadOfGG ? (mod.getConfig().lowercase ? "good game" : "Good Game") : (mod.getConfig().lowercase ? "gg" : "GG")));
                     Thread.sleep(2000L);
 
                     // We are referring to it from a different thread, thus we need to do this

@@ -341,7 +341,8 @@ public class HypixelFriendsGui extends HyperiumGui {
             public int compare(HypixelApiFriendObject o1, HypixelApiFriendObject o2) {
                 return 0;
             }
-        },;
+        },
+        ;
         String name;
 
         FriendSortType(String name) {

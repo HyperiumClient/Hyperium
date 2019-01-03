@@ -18,7 +18,9 @@
 package cc.hyperium.addons.customcrosshair.utils;
 
 import cc.hyperium.addons.customcrosshair.CustomCrosshairAddon;
+
 import java.awt.Color;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.GlStateManager;
@@ -31,18 +33,18 @@ public class CustomCrosshairGraphics {
     private static FontRenderer fontRenderer = Minecraft.getMinecraft().fontRendererObj;
 
     public static void drawHorizontalLine(final int y, final int x1, final int x2,
-        final Color colour) {
+                                          final Color colour) {
 
         drawFilledRectangle(x1, y, x2, y + 1, colour);
     }
 
     public static void drawVerticalLine(final int x, final int y1, final int y2,
-        final Color colour) {
+                                        final Color colour) {
         drawFilledRectangle(x, y1, x + 1, y2, colour);
     }
 
     public static void drawRectangle(final int x1, final int y1, final int x2, final int y2,
-        final Color colour) {
+                                     final Color colour) {
         drawHorizontalLine(y1, x1, x2, colour);
         drawHorizontalLine(y2, x1, x2 + 1, colour);
         drawVerticalLine(x1, y1, y2, colour);
@@ -79,13 +81,13 @@ public class CustomCrosshairGraphics {
     }
 
     public static void drawBorderedRectangle(final int x1, final int y1, final int x2, final int y2,
-        final Color innerColour, final Color outerColour) {
+                                             final Color innerColour, final Color outerColour) {
         drawFilledRectangle(x1, y1, x2, y2, innerColour);
         drawRectangle(x1, y1, x2, y2, outerColour);
     }
 
     public static void drawThemeBorderedRectangle(final int x1, final int y1, final int x2,
-        final int y2) {
+                                                  final int y2) {
         drawBorderedRectangle(x1, y1, x2, y2, CustomCrosshairAddon.PRIMARY_T, CustomCrosshairAddon.SECONDARY);
     }
 
@@ -94,12 +96,12 @@ public class CustomCrosshairGraphics {
     }
 
     public static void drawStringWithShadow(final String text, final int x, final int y,
-        final int colour) {
+                                            final int colour) {
         fontRenderer.drawStringWithShadow(text, (float) x, (float) y, colour);
     }
 
     public static void drawLine(final int x1, final int y1, final int x2, final int y2,
-        final Color colour) {
+                                final Color colour) {
         final Tessellator tessellator = Tessellator.getInstance();
         final WorldRenderer worldrenderer = tessellator.getWorldRenderer();
         GlStateManager.enableBlend();
@@ -117,7 +119,7 @@ public class CustomCrosshairGraphics {
     }
 
     public static void drawCircle(final double x, final double y, final int radius,
-        final Color colour) {
+                                  final Color colour) {
         final Tessellator tessellator = Tessellator.getInstance();
         final WorldRenderer worldrenderer = tessellator.getWorldRenderer();
         GlStateManager.enableBlend();

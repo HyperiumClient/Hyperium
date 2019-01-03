@@ -372,8 +372,8 @@ public class DisplayElementConfig extends GuiScreen {
         Gui.drawRect(x - 12, y - 2, x - 3, y + 2, Color.BLACK.getRGB());
         Gui.drawRect(posX(2) + 5,
 
-                (int) (startY() + (brightness - 2) * scale()),
-                posX(2) + 15, (int) (startY() + (brightness + 2) * scale()), Color.BLACK.getRGB());
+            (int) (startY() + (brightness - 2) * scale()),
+            posX(2) + 15, (int) (startY() + (brightness + 2) * scale()), Color.BLACK.getRGB());
         element.setColor(Color.HSBtoRGB(hue / 255F, saturation / 255F, 1.0F - brightness / 255F));
     }
 
@@ -398,7 +398,7 @@ public class DisplayElementConfig extends GuiScreen {
             int left1 = current.getScaledWidth() / 2 - 100;
             int right1 = current.getScaledWidth() / 2 + 100;
             Gui.drawRect(left1,
-                    start_y, right1, right1 - left1 + 200, element.getColor());
+                start_y, right1, right1 - left1 + 200, element.getColor());
         }
         if (!element.isColorPallet())
             return;

@@ -39,8 +39,8 @@ public class HyperiumEntityRenderer {
     public void updateCameraAndRender() {
         EventBus.INSTANCE.post(new RenderEvent());
     }
-    
-    public void orientCamera(float partialTicks, float thirdPersonDistanceTemp, float thirdPersonDistance, boolean cloudFog, Minecraft mc){
+
+    public void orientCamera(float partialTicks, float thirdPersonDistanceTemp, float thirdPersonDistance, boolean cloudFog, Minecraft mc) {
         PerspectiveModifierHandler perspectiveHandler = Hyperium.INSTANCE.getHandlers().getPerspectiveHandler();
         Entity entity = mc.getRenderViewEntity();
         float f = entity.getEyeHeight();
@@ -143,7 +143,7 @@ public class HyperiumEntityRenderer {
 
     }
 
-    public void drawOutline(float part,Minecraft mc) {
+    public void drawOutline(float part, Minecraft mc) {
         DrawBlockHighlightEvent drawBlockHighlightEvent = new DrawBlockHighlightEvent(((EntityPlayer) mc.getRenderViewEntity()), mc.objectMouseOver, part);
         EventBus.INSTANCE.post(drawBlockHighlightEvent);
         if (drawBlockHighlightEvent.isCancelled()) {
@@ -156,11 +156,11 @@ public class HyperiumEntityRenderer {
         if (Hyperium.INSTANCE.getHandlers() == null) {
             return;
         }
-        
+
         if (Hyperium.INSTANCE.getHandlers().getPerspectiveHandler() == null) {
             return;
         }
-        
+
         PerspectiveModifierHandler perspectiveHandler = Hyperium.INSTANCE.getHandlers().getPerspectiveHandler();
         boolean flag2 = Display.isActive();
         if (Minecraft.getMinecraft().inGameHasFocus && flag2) {
@@ -194,8 +194,8 @@ public class HyperiumEntityRenderer {
 
     public void loadShader(ResourceLocation resourceLocation, CallbackInfo callbackInfo) {
         if (resourceLocation.equals(new ResourceLocation("shaders/hyperium_blur.json")) && Minecraft.getMinecraft().currentScreen == null) {
-             // If a gui is closed and we are asked
-             // to blur, cancel it.
+            // If a gui is closed and we are asked
+            // to blur, cancel it.
             callbackInfo.cancel();
         }
     }

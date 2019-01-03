@@ -97,7 +97,7 @@ dependencies {
 
     embed "com.github.KevinPriv:MojangAPI:1.0"
     embed 'com.github.Cubxity:DeobfStack:1.2'
-    embed 'com.github.HyperiumClient:Installer:1.6'
+    embed 'com.github.HyperiumClient:Installer:1.8'
 
     embed fileTree(dir: 'libs', include: 'Netty Client.jar')
     compile fileTree(dir: 'libs', include: '*.jar')
