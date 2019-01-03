@@ -16,7 +16,6 @@
  */
 
 package cc.hyperium.mixinsimp.client.multiplayer;
-
 import java.io.File;
 import java.util.List;
 

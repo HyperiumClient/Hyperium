@@ -7,7 +7,6 @@ import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.purchases.EnumPurchaseType;
 import cc.hyperium.purchases.PurchaseApi;
 import cc.hyperium.utils.UUIDUtil;
-
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
