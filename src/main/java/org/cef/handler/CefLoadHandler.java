@@ -120,7 +120,7 @@ public interface CefLoadHandler {
      * @param canGoBack true if you can navigate back.
      * @param canGoForward true if you can navigate forward.
      */
-    public void onLoadingStateChange(
+    void onLoadingStateChange(
         CefBrowser browser, boolean isLoading, boolean canGoBack, boolean canGoForward);
 
     /**
@@ -135,7 +135,7 @@ public interface CefLoadHandler {
      * @param frame The loading frame.
      * @param transitionType The transition type
      */
-    public void onLoadStart(CefBrowser browser, CefFrame frame, TransitionType transitionType);
+    void onLoadStart(CefBrowser browser, CefFrame frame, TransitionType transitionType);
 
     /**
      * Called when the browser is done loading a frame. The frameIdentifer value will
@@ -148,7 +148,7 @@ public interface CefLoadHandler {
      * @param frame The loading frame.
      * @param httpStatusCode The status code of the load.
      */
-    public void onLoadEnd(CefBrowser browser, CefFrame frame, int httpStatusCode);
+    void onLoadEnd(CefBrowser browser, CefFrame frame, int httpStatusCode);
 
     /**
      * Called when the resource load for a navigation fails or is canceled.
@@ -159,6 +159,6 @@ public interface CefLoadHandler {
      * @param errorText The error text.
      * @param failedUrl The URL that failed to load.
      */
-    public void onLoadError(CefBrowser browser, CefFrame frame, ErrorCode errorCode,
-        String errorText, String failedUrl);
+    void onLoadError(CefBrowser browser, CefFrame frame, ErrorCode errorCode,
+                     String errorText, String failedUrl);
 }

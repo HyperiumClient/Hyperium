@@ -36,6 +36,7 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
 public class ImgurUploader implements Runnable {
 
@@ -63,7 +64,7 @@ public class ImgurUploader implements Runnable {
             byte[] byteImage = byteArray.toByteArray();
 
             String dataImage = Base64.encodeBase64String(byteImage);
-            String data = URLEncoder.encode("image", "UTF-8") + "=" + URLEncoder.encode(dataImage, "UTF-8");
+            String data = URLEncoder.encode("image", StandardCharsets.UTF_8) + "=" + URLEncoder.encode(dataImage, StandardCharsets.UTF_8);
 
             conn.setDoOutput(true);
             conn.setDoInput(true);

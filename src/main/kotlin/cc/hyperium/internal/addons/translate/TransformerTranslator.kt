@@ -6,6 +6,6 @@ import net.minecraft.launchwrapper.Launch
 class TransformerTranslator : ITranslator {
     override fun translate(manifest: AddonManifest) {
         val transformerClass = manifest.transformerClass ?: return
-        Launch.classLoader.registerTransformer(transformerClass);
+        Launch.classLoader.registerTransformer(transformerClass)
     }
 }

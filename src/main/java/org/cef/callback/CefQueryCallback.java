@@ -13,7 +13,7 @@ public interface CefQueryCallback {
      * completed successfully.
      * @param response Response passed to JavaScript.
      */
-    public void success(String response);
+    void success(String response);
 
     /**
      * Notify the associated JavaScript onFailure callback that the query has
@@ -21,5 +21,5 @@ public interface CefQueryCallback {
      * @param error_code Error code passed to JavaScript.
      * @param error_message Error message passed to JavaScript.
      */
-    public void failure(int error_code, String error_message);
+    void failure(int error_code, String error_message);
 }

@@ -5,7 +5,7 @@
 package org.cef;
 
 public class OS {
-    private static enum OSType {
+    private enum OSType {
         OSUndefined,
         OSLinux,
         OSWindows,
@@ -13,7 +13,6 @@ public class OS {
         OSUnknown,
     }
 
-    ;
     private static OSType osType = OSType.OSUndefined;
 
     public static final boolean isWindows() {

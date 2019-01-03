@@ -18,7 +18,7 @@ public interface CefWindowHandler {
      * @param browser The browser generating the event.
      * @return The view rectangle.
      */
-    public Rectangle getRect(CefBrowser browser);
+    Rectangle getRect(CefBrowser browser);
 
     /**
      * Implement this method to handle mouse events on Windows.
@@ -37,6 +37,6 @@ public interface CefWindowHandler {
      * parameter specifies the rotation indicator (negative value for left scroll
      * and positive value for right scroll).
      */
-    public void onMouseEvent(
+    void onMouseEvent(
         CefBrowser browser, int event, int screenX, int screenY, int modifier, int button);
 }

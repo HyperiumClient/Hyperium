@@ -77,14 +77,12 @@ public class ChangeBackgroundGui extends GuiScreen {
 
     private void handleResetBackground() {
         statusText = I18n.format("gui.changebackground.working");
-        ;
         File file = new File(Minecraft.getMinecraft().mcDataDir, "customImage.png");
         if (file.exists()) {
             file.delete();
         }
         Settings.BACKGROUND = "4";
         statusText = I18n.format("gui.changebackground.done");
-        ;
         Minecraft.getMinecraft().displayGuiScreen(prevGui);
     }
 
@@ -96,7 +94,6 @@ public class ChangeBackgroundGui extends GuiScreen {
             String filename = dialog.getFiles()[0].getAbsolutePath();
             if (!filename.isEmpty()) {
                 statusText = I18n.format("gui.changebackground.working");
-                ;
                 InputStream input = null;
                 OutputStream output = null;
                 try {
@@ -105,7 +102,6 @@ public class ChangeBackgroundGui extends GuiScreen {
                     IOUtils.copy(input, output);
                     Settings.BACKGROUND = "CUSTOM";
                     statusText = I18n.format("gui.changebackground.done");
-                    ;
                     Minecraft.getMinecraft().displayGuiScreen(prevGui);
                 } catch (FileNotFoundException e) {
                     statusText = "Invalid path";
@@ -141,7 +137,6 @@ public class ChangeBackgroundGui extends GuiScreen {
         byte[] fileData;
         try {
             this.statusText = I18n.format("gui.changebackground.working");
-            ;
             url = new URL(downloadUrlField.getText());
             con = url.openConnection();
             con.addRequestProperty("User-Agent", "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.4; en-US; rv:1.9.2.2) Gecko/20100316 Firefox/3.6.2");
@@ -155,7 +150,6 @@ public class ChangeBackgroundGui extends GuiScreen {
             fos.write(fileData);
             Settings.BACKGROUND = "CUSTOM";
             this.statusText = I18n.format("gui.changebackground.done");
-            ;
             Minecraft.getMinecraft().displayGuiScreen(prevGui);
             fos.close();
         } catch (Exception m) {

@@ -64,7 +64,7 @@ public enum ChatColor {
         if (input == null) {
             return null;
         }
-        return Pattern.compile("(?i)" + String.valueOf(COLOR_CHAR) + "[0-9A-FK-OR]").matcher(input).replaceAll("");
+        return Pattern.compile("(?i)" + COLOR_CHAR + "[0-9A-FK-OR]").matcher(input).replaceAll("");
     }
 
     public static String translateAlternateColorCodes(char altColorChar, String textToTranslate) {

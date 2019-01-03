@@ -179,7 +179,7 @@ public abstract class MixinEntityRenderer {
                 double d2 = d1;
 
                 for (int j = 0; j < list.size(); ++j) {
-                    Entity entity1 = (Entity) list.get(j);
+                    Entity entity1 = list.get(j);
                     float f1 = entity1.getCollisionBorderSize();
                     AxisAlignedBB axisalignedbb = entity1.getEntityBoundingBox().expand((double) f1, (double) f1, (double) f1);
                     MovingObjectPosition movingobjectposition = axisalignedbb.calculateIntercept(vec3, vec32);
@@ -211,7 +211,7 @@ public abstract class MixinEntityRenderer {
 
                 if (this.pointedEntity != null && flag && (v = vec3.distanceTo(vec33)) > 3.0D) {
                     this.pointedEntity = null;
-                    this.mc.objectMouseOver = new MovingObjectPosition(MovingObjectPosition.MovingObjectType.MISS, vec33, (EnumFacing) null, new BlockPos(vec33));
+                    this.mc.objectMouseOver = new MovingObjectPosition(MovingObjectPosition.MovingObjectType.MISS, vec33, null, new BlockPos(vec33));
                 }
                 if (v != 0 || this.pointedEntity != null)
                     ReachDisplay.dis = v;

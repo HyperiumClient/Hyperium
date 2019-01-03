@@ -50,6 +50,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -67,7 +68,7 @@ public class LevelHeadGui extends GuiScreen {
 
     private final String ENABLED = ChatColor.GREEN + "Enabled";
     private final String DISABLED = ChatColor.RED + "Disabled";
-    private final String COLOR_CHAR = String.valueOf("\u00a7");
+    private final String COLOR_CHAR = "\u00a7";
     private final String colors = "0123456789abcdef";
     private final List<GuiButton> sliders = new ArrayList<>();
     private final Map<GuiButton, Consumer<GuiButton>> clicks = new HashMap<>();
@@ -254,24 +255,20 @@ public class LevelHeadGui extends GuiScreen {
                 JsonHolder object = new JsonHolder();
                 object.put("header_obj", Hyperium.INSTANCE.getModIntegration().getLevelhead().getHeaderConfig());
                 object.put("footer_obj", Hyperium.INSTANCE.getModIntegration().getLevelhead().getFooterConfig());
-                try {
-                    String encode = URLEncoder.encode(object.toString(), "UTF-8");
-                    String url = "https://sk1er.club/user?levelhead_color=" + encode;
-                    ChatComponentText text = new ChatComponentText("Click here to update your custom Levelhead colors");
-                    ChatStyle style = new ChatStyle();
-                    style.setBold(true);
-                    style.setColor(EnumChatFormatting.YELLOW);
-                    style.setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, url));
-                    ChatComponentText valueIn = new ChatComponentText("Please be logged in to your Sk1er.club for this to work. Do /levelhead dumpcache after clicking to see new colors!");
-                    ChatStyle style1 = new ChatStyle();
-                    style1.setColor(EnumChatFormatting.RED);
-                    valueIn.setChatStyle(style1);
-                    style.setChatHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, valueIn));
-                    text.setChatStyle(style);
-                    Minecraft.getMinecraft().thePlayer.addChatComponentMessage(text);
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
+                String encode = URLEncoder.encode(object.toString(), StandardCharsets.UTF_8);
+                String url = "https://sk1er.club/user?levelhead_color=" + encode;
+                ChatComponentText text = new ChatComponentText("Click here to update your custom Levelhead colors");
+                ChatStyle style = new ChatStyle();
+                style.setBold(true);
+                style.setColor(EnumChatFormatting.YELLOW);
+                style.setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, url));
+                ChatComponentText valueIn = new ChatComponentText("Please be logged in to your Sk1er.club for this to work. Do /levelhead dumpcache after clicking to see new colors!");
+                ChatStyle style1 = new ChatStyle();
+                style1.setColor(EnumChatFormatting.RED);
+                valueIn.setChatStyle(style1);
+                style.setChatHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, valueIn));
+                text.setChatStyle(style);
+                Minecraft.getMinecraft().thePlayer.addChatComponentMessage(text);
                 Minecraft.getMinecraft().displayGuiScreen(null);
             });
         }

@@ -125,7 +125,7 @@ public class PlayerQuestsGui extends HyperiumGui {
             GlStateManager.pushMatrix();
             GlStateManager.resetColor();
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-            int y = (int) ((95)) + printY;
+            int y = (95) + printY;
             if (y > 73 + 64 && y < current.getScaledHeight() - 50)
                 statsDisplayItem.draw(current.getScaledWidth() / 2 - statsDisplayItem.width / 2, y);
             printY += statsDisplayItem.height;
@@ -146,7 +146,7 @@ public class PlayerQuestsGui extends HyperiumGui {
             focused = null;
 
         ScaledResolution current = ResolutionUtil.current();
-        if (focused != null && new GuiBlock((int) (current.getScaledWidth() / 2 - 22 - 64), (int) (current.getScaledWidth() / 2 - 22), 73, 73 + 64).isMouseOver(mouseX, mouseY)) {
+        if (focused != null && new GuiBlock((current.getScaledWidth() / 2 - 22 - 64), (current.getScaledWidth() / 2 - 22), 73, 73 + 64).isMouseOver(mouseX, mouseY)) {
             focused = null;
             offset = 0;
         }
@@ -245,12 +245,12 @@ public class PlayerQuestsGui extends HyperiumGui {
                     GlStateManager.translate(0, blockWidth / 2F + 5, 0);
 
                     float dailyPercent = Math.round(field.getCompletedDaily() / ((float) field.getTotalDaily()) * 100F);
-                    String percent = (int) field.getCompletedDaily() + "/" + (int) field.getTotalDaily() + " (" + (int) dailyPercent + "%)";
+                    String percent = field.getCompletedDaily() + "/" + field.getTotalDaily() + " (" + (int) dailyPercent + "%)";
                     float hue = dailyPercent / 100F / 3F;
                     drawScaledText(percent, 0, 0, 1.0, Color.HSBtoRGB(hue, 1.0F, 1.0F), true, true);
                     GlStateManager.translate(0, 10, 0);
                     float weeklyPercent = Math.round(field.getCompletedWeekly() / ((float) field.getTotalWeekly()) * 100F);
-                    percent = (int) field.getCompletedWeekly() + "/" + (int) field.getTotalWeekly() + " (" + (int) weeklyPercent + "%)";
+                    percent = field.getCompletedWeekly() + "/" + field.getTotalWeekly() + " (" + (int) weeklyPercent + "%)";
                     drawScaledText(percent, 0, 0, 1.0, Color.HSBtoRGB(weeklyPercent / 100F / 3F, 1.0F, 1.0F), true, true);
 
 

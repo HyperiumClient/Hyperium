@@ -14,5 +14,5 @@ public interface CefWebPluginUnstableCallback {
      * true if the plugin has reached the crash count threshold of 3 times in 120
      * seconds.
      */
-    public void isUnstable(String path, boolean unstable);
+    void isUnstable(String path, boolean unstable);
 }

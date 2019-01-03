@@ -86,7 +86,7 @@ public class GuiScreenSettings extends GuiScreenSidebar {
                 break;
             }
             case 3: {
-                this.mc.displayGuiScreen((GuiScreen) new GuiScreenBackground(this, this.addon));
+                this.mc.displayGuiScreen(new GuiScreenBackground(this, this.addon));
                 break;
             }
             case 5: {
