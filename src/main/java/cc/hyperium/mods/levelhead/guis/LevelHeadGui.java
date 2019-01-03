@@ -96,10 +96,9 @@ public class LevelHeadGui extends GuiScreen {
     }
 
     @Override
-    public void initGui() {
+    public void initGui() throws UnsupportedEncodingException {
         Multithreading.runAsync(() -> {
             String raw = Sk1erMod.getInstance().rawWithAgent("https://api.sk1er.club/levelhead/" + Minecraft.getMinecraft().getSession().getProfile().getId().toString().replace("-", ""));
-            System.out.println(raw);
             this.isCustom = new JsonHolder(raw).optBoolean("custom");
             updateCustom();
         });
@@ -251,7 +250,7 @@ public class LevelHeadGui extends GuiScreen {
                 JsonHolder object = new JsonHolder();
                 object.put("header_obj", Hyperium.INSTANCE.getModIntegration().getLevelhead().getHeaderConfig());
                 object.put("footer_obj", Hyperium.INSTANCE.getModIntegration().getLevelhead().getFooterConfig());
-                String encode = URLEncoder.encode(object.toString(), "UTF_8");
+                try { String encode = URLEncoder.encode(object.toString(), "UTF_8"); } catch (UnsupportedEncodingException e) {}
                 String url = "https://sk1er.club/user?levelhead_color=" + encode;
                 ChatComponentText text = new ChatComponentText("Click here to update your custom Levelhead colors");
                 ChatStyle style = new ChatStyle();
