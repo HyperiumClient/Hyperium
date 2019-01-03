@@ -42,7 +42,6 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.fml.client.config.GuiSlider;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.lwjgl.input.Keyboard;
-
 import java.awt.Color;
 import java.awt.Desktop;
 import java.io.IOException;
@@ -50,7 +49,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -179,7 +177,6 @@ public class LevelHeadGui extends GuiScreen {
             slider.dragging = false;
         }), null);
 
-
         JsonHolder types = instance.getTypes();
         reg(this.buttonType = new GuiButton(4, this.width / 2 - 155, calculateHeight(3), 150 * 2 + 10, 20, "Current Type: " + types.optJSONObject(instance.getType()).optString("name")), button -> {
             String currentType = instance.getType();
@@ -231,7 +228,6 @@ public class LevelHeadGui extends GuiScreen {
             slider.dragging = false;
         }), null);
 
-
     }
 
     private void updateCustom() {
@@ -240,9 +236,9 @@ public class LevelHeadGui extends GuiScreen {
 
             try {
                 if (isCustom) {
-                    Desktop.getDesktop().browse(new URI("http://sk1er.club/user"));
+                    Desktop.getDesktop().browse(new URI("https://sk1er.club/user"));
                 } else {
-                    Desktop.getDesktop().browse(new URI("http://sk1er.club/customlevelhead"));
+                    Desktop.getDesktop().browse(new URI("https://sk1er.club/customlevelhead"));
                 }
             } catch (IOException | URISyntaxException e) {
                 e.printStackTrace();
@@ -255,7 +251,7 @@ public class LevelHeadGui extends GuiScreen {
                 JsonHolder object = new JsonHolder();
                 object.put("header_obj", Hyperium.INSTANCE.getModIntegration().getLevelhead().getHeaderConfig());
                 object.put("footer_obj", Hyperium.INSTANCE.getModIntegration().getLevelhead().getFooterConfig());
-                String encode = URLEncoder.encode(object.toString(), StandardCharsets.UTF_8);
+                String encode = URLEncoder.encode(object.toString(), UTF_8);
                 String url = "https://sk1er.club/user?levelhead_color=" + encode;
                 ChatComponentText text = new ChatComponentText("Click here to update your custom Levelhead colors");
                 ChatStyle style = new ChatStyle();
@@ -292,7 +288,6 @@ public class LevelHeadGui extends GuiScreen {
         drawTitle();
         drawLook();
         textField.drawTextBox();
-
 
         headerColorButton.visible = !this.mod.getConfig().isHeaderChroma() && !this.mod.getConfig().isHeaderRgb();
         footerColorButton.visible = !this.mod.getConfig().isFooterChroma() && !this.mod.getConfig().isFooterRgb();
@@ -356,7 +351,7 @@ public class LevelHeadGui extends GuiScreen {
         Consumer<GuiButton> guiButtonConsumer = clicks.get(button);
         if (guiButtonConsumer != null) {
             guiButtonConsumer.accept(button);
-            //Adjust loaded levelhead names
+            // Adjust loaded levelhead names
             updatePeopleToValues();
         }
     }
