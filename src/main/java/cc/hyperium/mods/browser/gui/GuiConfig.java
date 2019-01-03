@@ -41,7 +41,7 @@ public class GuiConfig extends GuiScreen {
     public void handleInput() {
         while (Keyboard.next()) {
             if (Keyboard.getEventKey() == Keyboard.KEY_ESCAPE || Keyboard.getEventKey() == Keyboard.KEY_RETURN) {
-                drawSquare=false;
+                drawSquare = false;
                 Hyperium.INSTANCE.getModIntegration().getBrowserMod().hudBrowser = this;
                 browser.injectMouseMove(-10, -10, 0, true);
                 mc.displayGuiScreen(null);

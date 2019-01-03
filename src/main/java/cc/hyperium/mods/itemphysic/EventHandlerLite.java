@@ -6,9 +6,9 @@ import cc.hyperium.mods.itemphysic.physics.ClientPhysic;
 
 public class EventHandlerLite {
 
-  @InvokeEvent
-  public void onTick(RenderEvent e) {
-    ClientPhysic.tick = System.nanoTime();
-  }
+    @InvokeEvent
+    public void onTick(RenderEvent e) {
+        ClientPhysic.tick = System.nanoTime();
+    }
 
 }

@@ -20,7 +20,7 @@ public class HyperiumNetworkPlayerInfo {
         ResourceLocation cape = locationCape;
 
         if (cape == null) {
-            ((IMixinNetworkPlayerInfo)parent).callLoadPlayerTextures();
+            ((IMixinNetworkPlayerInfo) parent).callLoadPlayerTextures();
         }
 
         PlayerGetCapeEvent event = new PlayerGetCapeEvent(gameProfile, cape);
@@ -37,7 +37,7 @@ public class HyperiumNetworkPlayerInfo {
         ResourceLocation skin = locationSkin;
 
         if (skin == null) {
-            ((IMixinNetworkPlayerInfo)parent).callLoadPlayerTextures();
+            ((IMixinNetworkPlayerInfo) parent).callLoadPlayerTextures();
         }
 
         PlayerGetSkinEvent event = new PlayerGetSkinEvent(gameProfile, skin);
@@ -46,7 +46,7 @@ public class HyperiumNetworkPlayerInfo {
 
         skin = event.getSkin();
 
-        ResourceLocation normalizedSkin = normalizeSkin(skin,gameProfile);
+        ResourceLocation normalizedSkin = normalizeSkin(skin, gameProfile);
         ((IMixinNetworkPlayerInfo) parent).setLocationSkin(normalizedSkin);
         return normalizedSkin;
     }

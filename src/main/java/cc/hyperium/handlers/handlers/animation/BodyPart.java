@@ -30,16 +30,16 @@ public class BodyPart {
     @Override
     public String toString() {
         return "BodyPart{" +
-                "rotationPointX=" + rotationPointX +
-                ", rotationPointY=" + rotationPointY +
-                ", rotationPointZ=" + rotationPointZ +
-                ", rotateAngleX=" + rotateAngleX +
-                ", rotateAngleY=" + rotateAngleY +
-                ", rotateAngleZ=" + rotateAngleZ +
-                ", offsetX=" + offsetX +
-                ", offsetY=" + offsetY +
-                ", offsetZ=" + offsetZ +
-                '}';
+            "rotationPointX=" + rotationPointX +
+            ", rotationPointY=" + rotationPointY +
+            ", rotationPointZ=" + rotationPointZ +
+            ", rotateAngleX=" + rotateAngleX +
+            ", rotateAngleY=" + rotateAngleY +
+            ", rotateAngleZ=" + rotateAngleZ +
+            ", offsetX=" + offsetX +
+            ", offsetY=" + offsetY +
+            ", offsetZ=" + offsetZ +
+            '}';
     }
 
     private float interpolate(final float now, final float then, final float percent) {

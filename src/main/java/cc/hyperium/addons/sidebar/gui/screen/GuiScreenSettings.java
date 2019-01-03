@@ -25,7 +25,7 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.fml.client.config.GuiSlider;
 
 public class GuiScreenSettings extends GuiScreenSidebar {
-    
+
     private byte byte0;
     private GuiButton buttonToggle;
     private GuiButton buttonNumbers;
@@ -86,7 +86,7 @@ public class GuiScreenSettings extends GuiScreenSidebar {
                 break;
             }
             case 3: {
-                this.mc.displayGuiScreen((GuiScreen)new GuiScreenBackground(this, this.addon));
+                this.mc.displayGuiScreen((GuiScreen) new GuiScreenBackground(this, this.addon));
                 break;
             }
             case 5: {

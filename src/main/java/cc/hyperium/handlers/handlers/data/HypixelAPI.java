@@ -30,22 +30,22 @@ public class HypixelAPI {
     public static HypixelAPI INSTANCE;
 
     private final AsyncLoadingCache<String, HypixelApiPlayer> PLAYERS = Caffeine.newBuilder()
-            .maximumSize(1_000)
-            .expireAfterWrite(Duration.ofMinutes(5))
-            .executor(Multithreading.POOL)
-            .buildAsync(this::getApiPlayer);
+        .maximumSize(1_000)
+        .expireAfterWrite(Duration.ofMinutes(5))
+        .executor(Multithreading.POOL)
+        .buildAsync(this::getApiPlayer);
 
     private final AsyncLoadingCache<String, HypixelApiFriends> FRIENDS = Caffeine.newBuilder()
-            .maximumSize(1_000)
-            .expireAfterWrite(Duration.ofMinutes(5))
-            .executor(Multithreading.POOL)
-            .buildAsync(this::getApiFriends);
+        .maximumSize(1_000)
+        .expireAfterWrite(Duration.ofMinutes(5))
+        .executor(Multithreading.POOL)
+        .buildAsync(this::getApiFriends);
 
     private final AsyncLoadingCache<String, HypixelApiGuild> GUILDS = Caffeine.newBuilder()
-            .maximumSize(1_000)
-            .expireAfterWrite(Duration.ofMinutes(5))
-            .executor(Multithreading.POOL)
-            .buildAsync(this::getApiGuild);
+        .maximumSize(1_000)
+        .expireAfterWrite(Duration.ofMinutes(5))
+        .executor(Multithreading.POOL)
+        .buildAsync(this::getApiGuild);
 
     private List<Leaderboard> LEADERBOARDS = null;
     private JsonHolder QUESTS = null;
@@ -99,9 +99,9 @@ public class HypixelAPI {
             friendsForCurrentUser.clear();
 
             data.getFriends().forEach(
-                    friend -> friendsForCurrentUser.add(
-                            Utils.dashMeUp(new JsonHolder(friend.getAsJsonObject()).optString("uuid"))
-                    )
+                friend -> friendsForCurrentUser.add(
+                    Utils.dashMeUp(new JsonHolder(friend.getAsJsonObject()).optString("uuid"))
+                )
             );
         });
     }
@@ -127,11 +127,11 @@ public class HypixelAPI {
 
         return CompletableFuture.supplyAsync(() -> {
             JsonHolder holder = new JsonHolder(
-                    Sk1erMod.getInstance().rawWithAgent("https://api.sk1er.club/leaderboards")
+                Sk1erMod.getInstance().rawWithAgent("https://api.sk1er.club/leaderboards")
             );
 
             return holder.getKeys().stream().map(
-                    key -> new Leaderboard(key, holder.optString(key))
+                key -> new Leaderboard(key, holder.optString(key))
             ).collect(Collectors.toList());
         }, Multithreading.POOL).whenComplete((leaderboards, error) -> {
             if (error != null) LEADERBOARDS = leaderboards;
@@ -144,7 +144,7 @@ public class HypixelAPI {
 
     public CompletableFuture<JsonHolder> getLeaderboardWithID(String ID) {
         return CompletableFuture.supplyAsync(() -> new JsonHolder(
-                Sk1erMod.getInstance().rawWithAgent("https://api.sk1er.club/leaderboard/" + ID)
+            Sk1erMod.getInstance().rawWithAgent("https://api.sk1er.club/leaderboard/" + ID)
         ), Multithreading.POOL);
     }
 
@@ -156,8 +156,8 @@ public class HypixelAPI {
         }
 
         return CompletableFuture.supplyAsync(
-                () -> new JsonHolder(Sk1erMod.getInstance().rawWithAgent("https://api.hyperium.cc/quests")),
-                Multithreading.POOL
+            () -> new JsonHolder(Sk1erMod.getInstance().rawWithAgent("https://api.hyperium.cc/quests")),
+            Multithreading.POOL
         ).whenComplete((quests, error) -> {
             if (error != null) return;
 
@@ -216,19 +216,19 @@ public class HypixelAPI {
 
     private HypixelApiFriends getApiFriends(String key) {
         return new HypixelApiFriends(new JsonHolder(
-                Sk1erMod.getInstance().rawWithAgent(
-                        "https://api.sk1er.club/friends/"
-                                + key.toLowerCase()
-                )
+            Sk1erMod.getInstance().rawWithAgent(
+                "https://api.sk1er.club/friends/"
+                    + key.toLowerCase()
+            )
         ));
     }
 
     private HypixelApiPlayer getApiPlayer(String key) {
         return new HypixelApiPlayer(new JsonHolder(
-                Sk1erMod.getInstance().rawWithAgent(
-                        "https://api.sk1er.club/player/"
-                                + key.toLowerCase()
-                )
+            Sk1erMod.getInstance().rawWithAgent(
+                "https://api.sk1er.club/player/"
+                    + key.toLowerCase()
+            )
         ));
     }
 
@@ -236,9 +236,9 @@ public class HypixelAPI {
         GuildKey guildKey = GuildKey.fromSerialized(key);
 
         return new HypixelApiGuild(new JsonHolder(
-                Sk1erMod.getInstance().rawWithAgent(
-                        String.format(guildKey.type.getUrl(), (Object[]) guildKey.formatStrings)
-                )
+            Sk1erMod.getInstance().rawWithAgent(
+                String.format(guildKey.type.getUrl(), (Object[]) guildKey.formatStrings)
+            )
         ));
     }
 
@@ -269,8 +269,8 @@ public class HypixelAPI {
         public static GuildKey fromSerialized(String serialized) {
             String type = serialized.split(";")[0];
             return new GuildKey(
-                    GuildKeyType.valueOf(type),
-                    serialized.split(";")[1].split(",")
+                GuildKeyType.valueOf(type),
+                serialized.split(";")[1].split(",")
             );
         }
 

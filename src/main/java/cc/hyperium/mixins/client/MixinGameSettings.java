@@ -18,6 +18,6 @@ public abstract class MixinGameSettings {
 
     @Overwrite
     public void setOptionKeyBinding(KeyBinding binding, int value) {
-        hyperiumGameSettings.setOptionKeyBinding(binding,value);
+        hyperiumGameSettings.setOptionKeyBinding(binding, value);
     }
 }

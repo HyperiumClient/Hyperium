@@ -132,15 +132,15 @@ public class ConfirmationPopup {
             }
 
             this.percentComplete = HyperiumGui.clamp(
-                    HyperiumGui.easeOut(
-                            this.percentComplete,
-                            this.framesLeft < lowerThreshold ? 0.0f :
-                                    this.framesLeft > upperThreshold ? 1.0f : framesLeft,
-                            0.01f,
-                            15f
-                    ),
-                    0.0f,
-                    1.0f
+                HyperiumGui.easeOut(
+                    this.percentComplete,
+                    this.framesLeft < lowerThreshold ? 0.0f :
+                        this.framesLeft > upperThreshold ? 1.0f : framesLeft,
+                    0.01f,
+                    15f
+                ),
+                0.0f,
+                1.0f
             );
 
             FontRenderer fr = Minecraft.getMinecraft().fontRendererObj;
@@ -152,11 +152,11 @@ public class ConfirmationPopup {
 
             // Background
             Gui.drawRect(
-                    middle - currWidth,
-                    50,
-                    middle + currWidth,
-                    95,
-                    new Color(30, 30, 30).getRGB()
+                middle - currWidth,
+                50,
+                middle + currWidth,
+                95,
+                new Color(30, 30, 30).getRGB()
             );
 
             if (this.percentComplete == 1.0F) {
@@ -166,11 +166,11 @@ public class ConfirmationPopup {
 
                 // Progress
                 Gui.drawRect(
-                        middle - currWidth,
-                        93,
-                        (int) (middle - currWidth + (210 * progress)),
-                        95,
-                        new Color(149, 201, 144).getRGB()
+                    middle - currWidth,
+                    93,
+                    (int) (middle - currWidth + (210 * progress)),
+                    95,
+                    new Color(149, 201, 144).getRGB()
                 );
 
                 fr.drawString(text, sr.getScaledWidth() / 2 - fr.getStringWidth(text) / 2, 58, 0xFFFFFF);

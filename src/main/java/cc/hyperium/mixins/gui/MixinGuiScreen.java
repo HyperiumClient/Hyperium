@@ -48,14 +48,15 @@ public abstract class MixinGuiScreen {
     @Shadow
     protected abstract void actionPerformed(GuiButton button) throws IOException;
 
-    @Shadow protected abstract void keyTyped(char typedChar, int keyCode) throws IOException;
+    @Shadow
+    protected abstract void keyTyped(char typedChar, int keyCode) throws IOException;
 
     /**
      * @reason Fix input bug (MC-2781)
      * @author SiroQ
      **/
     @Overwrite
-    public void handleKeyboardInput() throws IOException{
+    public void handleKeyboardInput() throws IOException {
         char character = Keyboard.getEventCharacter();
         if (Keyboard.getEventKey() == 0 && character >= 32 || Keyboard.getEventKeyState()) {
             this.keyTyped(character, Keyboard.getEventKey());
@@ -95,17 +96,17 @@ public abstract class MixinGuiScreen {
     }
 
     @Inject(
-            method = "sendChatMessage(Ljava/lang/String;Z)V",
-            at = @At("HEAD"),
-            cancellable = true
+        method = "sendChatMessage(Ljava/lang/String;Z)V",
+        at = @At("HEAD"),
+        cancellable = true
     )
     private void onSendChatMessage(String msg, boolean addToChat, CallbackInfo ci) {
         TriggerType.MESSAGE_SENT.triggerAll(ci, msg);
     }
 
     @Inject(
-            method = "handleComponentClick",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiScreen;sendChatMessage(Ljava/lang/String;Z)V")
+        method = "handleComponentClick",
+        at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiScreen;sendChatMessage(Ljava/lang/String;Z)V")
     )
     private void runCommand(IChatComponent p_175276_1_, CallbackInfoReturnable<Boolean> cir) {
         Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().runningCommand = true;

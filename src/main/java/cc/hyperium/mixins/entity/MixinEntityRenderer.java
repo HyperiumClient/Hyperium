@@ -65,17 +65,23 @@ public abstract class MixinEntityRenderer {
     @Shadow
     private Entity pointedEntity;
     private HyperiumEntityRenderer hyperiumEntityRenderer = new HyperiumEntityRenderer((EntityRenderer) (Object) this);
+
     @Shadow
     protected abstract void loadShader(ResourceLocation resourceLocationIn);
 
     @Shadow
     public abstract void stopUseShader();
 
-    @Shadow @Final public static int shaderCount;
+    @Shadow
+    @Final
+    public static int shaderCount;
 
-    @Shadow private int shaderIndex;
+    @Shadow
+    private int shaderIndex;
 
-    @Shadow @Final private static ResourceLocation[] shaderResourceLocations;
+    @Shadow
+    @Final
+    private static ResourceLocation[] shaderResourceLocations;
 
     //endStartSection
     @Inject(method = "updateCameraAndRender", at = @At(value = "INVOKE", target = "Lnet/minecraft/profiler/Profiler;endStartSection(Ljava/lang/String;)V", shift = At.Shift.AFTER))
@@ -84,7 +90,7 @@ public abstract class MixinEntityRenderer {
     }
 
     @Inject(method = "activateNextShader", at = @At("INVOKE_ASSIGN"))
-    public void activateNextShader(CallbackInfo callbackInfo){
+    public void activateNextShader(CallbackInfo callbackInfo) {
         HyperiumEntityRenderer.INSTANCE.isUsingShader = this.shaderIndex != shaderCount;
     }
 

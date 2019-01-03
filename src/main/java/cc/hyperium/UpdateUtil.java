@@ -40,8 +40,8 @@ public class UpdateUtil {
         final String sha1 = toHex(checksum(file, "SHA1")).toLowerCase();
         final String sha2 = toHex(checksum(file, "SHA-256")).toLowerCase();
         JTextArea textarea = new JTextArea("Size: " + size + "\n" +
-                "Sha1: " + sha1 + " \n" +
-                "Sha256: " + sha2);
+            "Sha1: " + sha1 + " \n" +
+            "Sha256: " + sha2);
         textarea.setEditable(true);
         JOptionPane.showMessageDialog(null, textarea, "Done", JOptionPane.ERROR_MESSAGE);
 

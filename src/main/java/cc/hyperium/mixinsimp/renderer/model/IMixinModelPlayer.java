@@ -42,6 +42,5 @@ public interface IMixinModelPlayer extends IMixinModelBiped {
     ModelRenderer getCape();
 
 
-
     ModelRenderer getButt();
 }

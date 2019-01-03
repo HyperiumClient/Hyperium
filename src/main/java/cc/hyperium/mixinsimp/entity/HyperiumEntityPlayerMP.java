@@ -12,7 +12,7 @@ public class HyperiumEntityPlayerMP {
         this.parent = parent;
     }
 
-    public void onDeath(DamageSource source){
+    public void onDeath(DamageSource source) {
         EventBus.INSTANCE.post(new LivingDeathEvent(parent, source));
     }
 }

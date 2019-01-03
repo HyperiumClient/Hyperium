@@ -61,11 +61,11 @@ public class MixinGuiChat {
         return EnumChatFormatting.getTextWithoutFormattingCodes(completion);
     }
 
-    @ModifyVariable(method = "onAutocompleteResponse",at=@At("HEAD"))
+    @ModifyVariable(method = "onAutocompleteResponse", at = @At("HEAD"))
     public String[] remap(String[] in) {
         if (NickHider.INSTANCE == null) {
             return in;
         }
-        return NickHider.INSTANCE.tabComplete(in,this.inputField.getText());
+        return NickHider.INSTANCE.tabComplete(in, this.inputField.getText());
     }
 }

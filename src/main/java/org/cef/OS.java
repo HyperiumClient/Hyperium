@@ -12,6 +12,7 @@ public class OS {
         OSMacintosh,
         OSUnknown,
     }
+
     ;
     private static OSType osType = OSType.OSUndefined;
 

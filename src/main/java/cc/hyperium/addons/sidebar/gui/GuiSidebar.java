@@ -33,8 +33,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GuiSidebar extends Gui
-{
+public class GuiSidebar extends Gui {
     public enum ChromaType {
         // Shet code i know
         ONE("Background 1", 0),
@@ -43,17 +42,21 @@ public class GuiSidebar extends Gui
         FOUR("Text 2", 3);
         private String name;
         private int index;
+
         ChromaType(String name, int index) {
             this.name = name;
             this.index = index;
         }
+
         public String getName() {
             return this.name;
         }
+
         public static ChromaType next(ChromaType current) {
             return current == ChromaType.ONE ? ChromaType.TWO : (current == ChromaType.TWO ? ChromaType.THREE : (current == ChromaType.THREE ? ChromaType.FOUR : ChromaType.ONE));
         }
     }
+
     private FontRenderer fr;
     private int sidebarX;
     private int sidebarY;
@@ -90,12 +93,12 @@ public class GuiSidebar extends Gui
         }
         final FontRenderer fr = Minecraft.getMinecraft().fontRendererObj;
         final Scoreboard scoreboard = sidebar.getScoreboard();
-        final List<Score> scores = new ArrayList<Score>();
+        final List<Score> scores = new ArrayList<>();
         this.sidebarWidth = fr.getStringWidth(sidebar.getDisplayName());
         for (final Score score : scoreboard.getSortedScores(sidebar)) {
             final String name = score.getPlayerName();
             if (scores.size() < 15 && name != null && !name.startsWith("#")) {
-                final Team team = (Team)scoreboard.getPlayersTeam(name);
+                final Team team = scoreboard.getPlayersTeam(name);
                 final String s2 = this.redNumbers ? (": " + EnumChatFormatting.RED + score.getScorePoints()) : "";
                 final String str = ScorePlayerTeam.formatPlayerName(team, name) + s2;
                 this.sidebarWidth = Math.max(this.sidebarWidth, fr.getStringWidth(str));
@@ -114,7 +117,7 @@ public class GuiSidebar extends Gui
         for (final Score score2 : scores) {
             ++index;
             final ScorePlayerTeam team2 = scoreboard.getPlayersTeam(score2.getPlayerName());
-            final String s3 = ScorePlayerTeam.formatPlayerName((Team)team2, score2.getPlayerName());
+            final String s3 = ScorePlayerTeam.formatPlayerName(team2, score2.getPlayerName());
             String s4 = EnumChatFormatting.RED + "" + score2.getScorePoints();
             if (!this.redNumbers) {
                 s4 = "";
@@ -142,8 +145,8 @@ public class GuiSidebar extends Gui
     private int getColor(final boolean darker, final boolean isBackground) {
         int rgb = this.color;
         if (this.chromaEnabled && isBackground) {
-            long dif = 0;
-            float ff = 1000.0f;
+            long dif;
+            float ff;
             switch (this.chromaType) {
                 case ONE:
                     dif = 0;
@@ -191,9 +194,8 @@ public class GuiSidebar extends Gui
 
     private void drawString(final String str, final int x, final int y, final int color) {
         if (this.shadow) {
-            this.fr.drawStringWithShadow(str, (float)x, (float)y, color);
-        }
-        else {
+            this.fr.drawStringWithShadow(str, (float) x, (float) y, color);
+        } else {
             this.fr.drawString(str, x, y, color);
         }
     }

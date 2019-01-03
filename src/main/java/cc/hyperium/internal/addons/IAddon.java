@@ -4,8 +4,8 @@ package cc.hyperium.internal.addons;
  * Interface of which the main class
  * of an Addon must implement
  *
- * @since 1.0
  * @author Kevin Brewster
+ * @since 1.0
  */
 public interface IAddon {
 
@@ -24,8 +24,9 @@ public interface IAddon {
 
     /**
      * Invoked on debug call. Can be used to add things into crash reports
-     *
+     * <p>
      * This does not need to be overriden if it's not needed
      */
-    public default void sendDebugInfo() { }
+    public default void sendDebugInfo() {
+    }
 }

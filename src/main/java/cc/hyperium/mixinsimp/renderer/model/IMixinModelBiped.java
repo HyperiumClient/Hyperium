@@ -45,10 +45,4 @@ public interface IMixinModelBiped {
     ModelRenderer getBipedHeadwear();
 
 
-
-
-
-
-
-
 }

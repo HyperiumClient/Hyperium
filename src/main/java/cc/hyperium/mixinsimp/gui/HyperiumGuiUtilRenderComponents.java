@@ -1,7 +1,9 @@
 package cc.hyperium.mixinsimp.gui;
 
 import com.google.common.collect.Lists;
+
 import java.util.List;
+
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiUtilRenderComponents;
 import net.minecraft.util.ChatComponentText;

@@ -16,6 +16,7 @@
  */
 
 package cc.hyperium.cosmetics;
+
 import cc.hyperium.cosmetics.dragon.DragonHeadRenderer;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.InvokeEvent;
@@ -32,7 +33,6 @@ public class DragonCosmetic extends AbstractCosmetic {
         renderer = new DragonHeadRenderer(this);
         EventBus.INSTANCE.register(renderer);
     }
-
 
     @InvokeEvent
     public void renderPlayer(RenderPlayerEvent event) {

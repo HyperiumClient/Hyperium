@@ -51,7 +51,7 @@ public abstract class MixinGuiMainMenu extends GuiScreen implements GuiYesNoCall
      */
     @Overwrite
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-        super.drawScreen(mouseX,mouseY,partialTicks);
-        hyperiumGuiMainMenu.drawScreen(mouseX,mouseY,partialTicks);
+        super.drawScreen(mouseX, mouseY, partialTicks);
+        hyperiumGuiMainMenu.drawScreen(mouseX, mouseY, partialTicks);
     }
 }

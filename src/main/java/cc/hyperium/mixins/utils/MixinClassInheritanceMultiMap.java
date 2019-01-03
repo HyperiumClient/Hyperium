@@ -38,6 +38,7 @@ public abstract class MixinClassInheritanceMultiMap<T> extends AbstractSet<T> {
             this.createLookup(oclass);
         }
     }
+
     /**
      * @author Sk1er
      * @reason Add concurrent
@@ -54,6 +55,7 @@ public abstract class MixinClassInheritanceMultiMap<T> extends AbstractSet<T> {
 
         this.knownKeys1.add(clazz);
     }
+
     /**
      * @author Sk1er
      * @reason Add concurrent
@@ -70,6 +72,7 @@ public abstract class MixinClassInheritanceMultiMap<T> extends AbstractSet<T> {
             throw new IllegalArgumentException("Don\'t know how to search for " + p_181157_1_);
         }
     }
+
     /**
      * @author Sk1er
      * @reason Add concurrent
@@ -84,6 +87,7 @@ public abstract class MixinClassInheritanceMultiMap<T> extends AbstractSet<T> {
 
         return true;
     }
+
     /**
      * @author Sk1er
      * @reason Add concurrent
@@ -100,6 +104,7 @@ public abstract class MixinClassInheritanceMultiMap<T> extends AbstractSet<T> {
             queue.add(p_181743_1_);
         }
     }
+
     /**
      * @author Sk1er
      * @reason Add concurrent
@@ -121,6 +126,7 @@ public abstract class MixinClassInheritanceMultiMap<T> extends AbstractSet<T> {
 
         return flag;
     }
+
     /**
      * @author Sk1er
      * @reason Add concurrent
@@ -129,6 +135,7 @@ public abstract class MixinClassInheritanceMultiMap<T> extends AbstractSet<T> {
     public boolean contains(Object p_contains_1_) {
         return Iterators.contains(this.getByClass(p_contains_1_.getClass()).iterator(), p_contains_1_);
     }
+
     /**
      * @author Sk1er
      * @reason Add concurrent
@@ -146,6 +153,7 @@ public abstract class MixinClassInheritanceMultiMap<T> extends AbstractSet<T> {
             }
         };
     }
+
     /**
      * @author Sk1er
      * @reason Add concurrent
@@ -154,6 +162,7 @@ public abstract class MixinClassInheritanceMultiMap<T> extends AbstractSet<T> {
     public Iterator<T> iterator() {
         return this.queue.isEmpty() ? Iterators.<T>emptyIterator() : Iterators.unmodifiableIterator(this.queue.iterator());
     }
+
     /**
      * @author Sk1er
      * @reason Add concurrent

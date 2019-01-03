@@ -13,14 +13,15 @@ import java.util.function.Supplier;
 
 @Mixin(Locale.class)
 public abstract class MixinLocale {
-    @Shadow protected abstract void loadLocaleData(InputStream p_135021_1_) throws IOException;
+    @Shadow
+    protected abstract void loadLocaleData(InputStream p_135021_1_) throws IOException;
 
     @Redirect(
-            method = "loadLocaleDataFiles",
-            at = @At(
-                    value = "INVOKE",
-                    target = "Ljava/lang/String;format(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;"
-            )
+        method = "loadLocaleDataFiles",
+        at = @At(
+            value = "INVOKE",
+            target = "Ljava/lang/String;format(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;"
+        )
     )
     private String injectI18nData(String format, Object... args) {
         for (Supplier<InputStream> supplier : HyperiumLocale.LANG_FILES.get(args[0].toString())) {

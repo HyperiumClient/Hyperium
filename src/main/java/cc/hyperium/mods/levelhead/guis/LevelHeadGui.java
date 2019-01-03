@@ -232,6 +232,7 @@ public class LevelHeadGui extends GuiScreen {
 
 
     }
+
     private void updateCustom() {
         lock.lock();
         reg(new GuiButton(13, this.width / 2 - 155, this.height - 44, 310, 20, (isCustom ? ChatColor.YELLOW + "Click to change custom Levelhead." : ChatColor.YELLOW + "Click to purchase a custom Levelhead message")), button -> {
@@ -290,7 +291,7 @@ public class LevelHeadGui extends GuiScreen {
         lock.lock();
 
         drawDefaultBackground();
-        
+
         drawTitle();
         drawLook();
         textField.drawTextBox();
@@ -344,11 +345,11 @@ public class LevelHeadGui extends GuiScreen {
     public void updatePeopleToValues() {
         Levelhead levelhead = Hyperium.INSTANCE.getModIntegration().getLevelhead();
         levelhead.levelCache.forEach((uuid, levelheadTag) -> {
-            String value =  levelhead.getTrueValueCache().get(uuid);
+            String value = levelhead.getTrueValueCache().get(uuid);
             if (value == null)
                 return;
             JsonHolder footer = new JsonHolder().put("level", NumberUtils.isNumber(value) ? Long.parseLong(value) : -1).put("strlevel", value);
-            LevelheadTag tag =  levelhead.buildTag(footer, uuid);
+            LevelheadTag tag = levelhead.buildTag(footer, uuid);
             levelheadTag.reApply(tag);
         });
     }
@@ -406,9 +407,8 @@ public class LevelHeadGui extends GuiScreen {
     }
 
     public void display() {
-      Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(this);
+        Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(this);
     }
-
 
 
     @Override
@@ -433,9 +433,10 @@ public class LevelHeadGui extends GuiScreen {
         drawCenteredString(mc.fontRendererObj, text, this.width / 2, 5, Color.WHITE.getRGB());
         drawHorizontalLine(this.width / 2 - mc.fontRendererObj.getStringWidth(text) / 2 - 5, this.width / 2 + mc.fontRendererObj.getStringWidth(text) / 2 + 5, 15, Color.WHITE.getRGB());
         drawCenteredString(mc.fontRendererObj, ChatColor.YELLOW + "Custom Levelhead Status: " + (isCustom ? ChatColor.GREEN + "Enabled" : ChatColor.RED + "Disabled / Inactive"), this.width / 2,
-                20, Color.WHITE.getRGB());
+            20, Color.WHITE.getRGB());
 
     }
+
     private void drawLook() {
         FontRenderer renderer = mc.fontRendererObj;
         if (Hyperium.INSTANCE.getModIntegration().getLevelhead().getConfig().isEnabled()) {

@@ -27,8 +27,8 @@ public class HyperiumItemRenderer {
 
     public void transformFirstPersonItem(float equipProgress, float swingProgress) {
         if (Settings.OLD_BOW && this.mc != null && this.mc.thePlayer != null &&
-                this.mc.thePlayer.getItemInUse() != null && this.mc.thePlayer.getItemInUse().getItem() != null &&
-                Item.getIdFromItem(this.mc.thePlayer.getItemInUse().getItem()) == 261) {
+            this.mc.thePlayer.getItemInUse() != null && this.mc.thePlayer.getItemInUse().getItem() != null &&
+            Item.getIdFromItem(this.mc.thePlayer.getItemInUse().getItem()) == 261) {
             GlStateManager.translate(0.0f, 0.05f, 0.04f);
         }
 
@@ -53,6 +53,7 @@ public class HyperiumItemRenderer {
         GlStateManager.rotate(f1 * -80.0F, 1.0F, 0.0F, 0.0F);
         GlStateManager.scale(0.4F, 0.4F, 0.4F);
     }
+
     public void renderItemInFirstPerson(float partialTicks, float prevEquippedProgress, float equippedProgress, ItemStack itemToRender) {
         float f = 1.0F - (prevEquippedProgress + (equippedProgress - prevEquippedProgress) * partialTicks);
         AbstractClientPlayer abstractclientplayer = this.mc.thePlayer;
@@ -68,7 +69,7 @@ public class HyperiumItemRenderer {
         if (itemToRender != null) {
             if (itemToRender.getItem() == Items.filled_map) {
                 ((IMixinItemRenderer) parent).callRenderItemMap(abstractclientplayer, f2, f, f1);
-            } else if((itemToRender.getItem() instanceof ItemSword) && !this.mc.thePlayer.isBlocking() && Settings.CUSTOM_SWORD_ANIMATION)  {
+            } else if ((itemToRender.getItem() instanceof ItemSword) && !this.mc.thePlayer.isBlocking() && Settings.CUSTOM_SWORD_ANIMATION) {
                 transformFirstPersonItem(f, f1);
             } else if (abstractclientplayer.getItemInUseCount() > 0) {
                 EnumAction enumaction = itemToRender.getItemUseAction();

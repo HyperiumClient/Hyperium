@@ -16,6 +16,7 @@
  */
 
 package cc.hyperium.cosmetics;
+
 import cc.hyperium.cosmetics.companions.dragon.DragonCompanion;
 import cc.hyperium.cosmetics.companions.hamster.HamsterCompanion;
 import cc.hyperium.cosmetics.hats.ModelHatFez;
@@ -25,6 +26,7 @@ import cc.hyperium.cosmetics.wings.WingsCosmetic;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.purchases.EnumPurchaseType;
 import net.minecraft.util.ResourceLocation;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,19 +41,16 @@ public class HyperiumCosmetics {
     private final WingsCosmetic wingsCosmetic;
     private final DragonCosmetic dragonCosmetic;
     private final ButtCosmetic buttCosmetic;
-    private final KillCounterMuscles killCounterMuscles;
     private DragonCompanion dragonCompanion;
     private HamsterCompanion hamsterCompanion;
-
-    private final CosmeticHat topHatCosmetic = new CosmeticHat(false, EnumPurchaseType.HAT_TOPHAT).setModel(new ModelHatTophat(),new ResourceLocation("textures/cosmetics/hats/tophat.png"));
-    private final CosmeticHat fezCosmetic = new CosmeticHat(false, EnumPurchaseType.HAT_FEZ).setModel(new ModelHatFez(),new ResourceLocation("textures/cosmetics/hats/fez.png"));
-    private final CosmeticHat legoCosmetic = new CosmeticHat(false, EnumPurchaseType.HAT_LEGO).setModel(new ModelHatLego(),new ResourceLocation("textures/cosmetics/hats/lego.png"));
+    private final CosmeticHat topHatCosmetic = new CosmeticHat(false, EnumPurchaseType.HAT_TOPHAT).setModel(new ModelHatTophat(), new ResourceLocation("textures/cosmetics/hats/tophat.png"));
+    private final CosmeticHat fezCosmetic = new CosmeticHat(false, EnumPurchaseType.HAT_FEZ).setModel(new ModelHatFez(), new ResourceLocation("textures/cosmetics/hats/fez.png"));
+    private final CosmeticHat legoCosmetic = new CosmeticHat(false, EnumPurchaseType.HAT_LEGO).setModel(new ModelHatLego(), new ResourceLocation("textures/cosmetics/hats/lego.png"));
 
     /**
      * Hyperium Cosmetics - Default Constructor/Cosmetic Registry
      */
     public HyperiumCosmetics() {
-        registerCosmetic(killCounterMuscles = new KillCounterMuscles());
         registerCosmetic(buttCosmetic = new ButtCosmetic());
         registerCosmetic(flipCosmetic = new FlipCosmetic());
         registerCosmetic(deadmau5Cosmetic = new Deadmau5Cosmetic());
@@ -68,11 +67,6 @@ public class HyperiumCosmetics {
     public List<AbstractCosmetic> getCosmeticList() {
         return cosmeticList;
     }
-
-    public KillCounterMuscles getKillCounterMuscles() {
-        return killCounterMuscles;
-    }
-
 
     public DragonCompanion getDragonCompanion() {
         return dragonCompanion;
@@ -97,7 +91,6 @@ public class HyperiumCosmetics {
      * and their types
      */
     public enum EnumCosmeticType {
-
         DAB,
         BUTT,
         FLIP,
@@ -108,7 +101,6 @@ public class HyperiumCosmetics {
         HAT_TOPHAT,
         HAT_FEZ,
         HAT_LEGO
-
     }
 
     /**
@@ -150,8 +142,6 @@ public class HyperiumCosmetics {
         return this.dragonCosmetic;
     }
 
-
-
     public FlipCosmetic getFlipCosmetic() {
         return this.flipCosmetic;
     }
@@ -162,9 +152,5 @@ public class HyperiumCosmetics {
 
     public WingsCosmetic getWingsCosmetic() {
         return this.wingsCosmetic;
-    }
-
-    public KillCounterMuscles getKillCounterMusclesCosmetic() {
-        return this.killCounterMuscles;
     }
 }

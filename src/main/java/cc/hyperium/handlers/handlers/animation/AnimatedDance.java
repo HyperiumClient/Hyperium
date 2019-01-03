@@ -119,7 +119,7 @@ public abstract class AnimatedDance extends AbstractPreCopyAnglesAnimationHandle
         if (frames.size() == 0)
             duration = 1L;
         else
-        duration = frames.get(Math.max(0, frames.size() - 1)).getTime();
+            duration = frames.get(Math.max(0, frames.size() - 1)).getTime();
     }
 
     public float radians(int deg) {
@@ -129,7 +129,6 @@ public abstract class AnimatedDance extends AbstractPreCopyAnglesAnimationHandle
     public long frame(int frame) {
         return frame * 1000 / 30;
     }
-
 
 
     @InvokeEvent

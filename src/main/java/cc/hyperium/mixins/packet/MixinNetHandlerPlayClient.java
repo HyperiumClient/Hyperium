@@ -58,6 +58,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -140,7 +141,7 @@ public abstract class MixinNetHandlerPlayClient {
         }
 
         PacketThreadUtil.checkThreadAndEnqueue(packetIn,
-                (INetHandlerPlayClient) Minecraft.getMinecraft().getNetHandler().getNetworkManager().getNetHandler(), this.gameController);
+            (INetHandlerPlayClient) Minecraft.getMinecraft().getNetHandler().getNetworkManager().getNetHandler(), this.gameController);
         this.gameController.theWorld.setTotalWorldTime(packetIn.getTotalWorldTime());
         this.gameController.theWorld.setWorldTime(packetIn.getWorldTime());
     }
@@ -204,13 +205,13 @@ public abstract class MixinNetHandlerPlayClient {
                         PacketBuffer addonbuffer = new PacketBuffer(Unpooled.buffer());
                         List<AddonManifest> addons = AddonBootstrap.INSTANCE.getAddonManifests();
                         addonbuffer.writeInt(addons.size());
-                        for(AddonManifest addonmanifest : addons){
+                        for (AddonManifest addonmanifest : addons) {
                             String addonName = addonmanifest.getName();
                             String version = addonmanifest.getVersion();
-                            if(addonName == null){
+                            if (addonName == null) {
                                 addonName = addonmanifest.getMainClass();
                             }
-                            if(version == null){
+                            if (version == null) {
                                 version = "unknown";
                             }
                             addonbuffer.writeString(addonName);
@@ -224,6 +225,7 @@ public abstract class MixinNetHandlerPlayClient {
             ex.printStackTrace();
         }
     }
+
     @Shadow
     @Final
     private NetworkManager netManager;
@@ -260,6 +262,7 @@ public abstract class MixinNetHandlerPlayClient {
         }
         return false;
     }
+
     @Shadow
     public abstract void addToSendQueue(Packet p_147297_1_);
 
@@ -279,7 +282,7 @@ public abstract class MixinNetHandlerPlayClient {
         PacketThreadUtil.checkThreadAndEnqueue(packetIn, (INetHandlerPlayClient) getNetworkManager().getNetHandler(), this.gameController);
 
         ServerChatEvent event = new
-                ServerChatEvent(packetIn.getType(), packetIn.getChatComponent());
+            ServerChatEvent(packetIn.getType(), packetIn.getChatComponent());
 
         EventBus.INSTANCE.post(event);
 

@@ -29,9 +29,9 @@ public class GuiBoxItem<E> {
     @Override
     public String toString() {
         return "GuiBoxItem{" +
-                "box=" + box +
-                ", object=" + object +
-                '}';
+            "box=" + box +
+            ", object=" + object +
+            '}';
     }
 
     public GuiBlock getBox() {

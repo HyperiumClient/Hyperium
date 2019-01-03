@@ -78,7 +78,7 @@ public class WingsRenderer extends ModelBase {
 
     private void renderWings(EntityPlayer player, float partialTicks, double x, double y, double z) {
         HyperiumPurchase packageIfReady = PurchaseApi.getInstance()
-                .getPackageIfReady(player.getUniqueID());
+            .getPackageIfReady(player.getUniqueID());
         if (packageIfReady == null) {
             return;
         }
@@ -89,7 +89,7 @@ public class WingsRenderer extends ModelBase {
         double v = packageIfReady.getCachedSettings().getWingsScale();
         double scale = v / 100.0;
         double rotate = this
-                .interpolate(player.prevRenderYawOffset, player.renderYawOffset, partialTicks);
+            .interpolate(player.prevRenderYawOffset, player.renderYawOffset, partialTicks);
 
         GlStateManager.pushMatrix();
         // Displaces the wings by a custom value.

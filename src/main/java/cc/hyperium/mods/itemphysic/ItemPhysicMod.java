@@ -9,16 +9,16 @@ import cc.hyperium.mods.AbstractMod;
  */
 public class ItemPhysicMod extends AbstractMod {
 
-  @Override
-  public AbstractMod init() {
-    EventBus.INSTANCE.register(new EventHandlerLite());
-    Hyperium.CONFIG.register(new ItemDummyContainer());
+    @Override
+    public AbstractMod init() {
+        EventBus.INSTANCE.register(new EventHandlerLite());
+        Hyperium.CONFIG.register(new ItemDummyContainer());
 
-    return this;
-  }
+        return this;
+    }
 
-  @Override
-  public Metadata getModMetadata() {
-    return new Metadata(this, "Item Physic", "1.0", "CreativeMD");
-  }
+    @Override
+    public Metadata getModMetadata() {
+        return new Metadata(this, "Item Physic", "1.0", "CreativeMD");
+    }
 }

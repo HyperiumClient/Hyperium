@@ -80,7 +80,6 @@ public class MixinModelBiped extends ModelBase implements IMixinModelBiped {
             this.bipedRightLowerLeg.setRotationPoint(-1.9F, 12.0F + p_i1149_2_, 0.0F);
 
 
-
             this.bipedLeftLeg = new ModelRenderer(this, 0, 16);
             this.bipedLeftLeg.mirror = true;
             this.bipedLeftLeg.addBox(-2.0F, 0.0F, -2.0F, 4, 6, 4, modelSize);
@@ -91,12 +90,8 @@ public class MixinModelBiped extends ModelBase implements IMixinModelBiped {
             this.bipedLeftLowerLeg.setRotationPoint(1.9F, 12.0F + p_i1149_2_, 0.0F);
 
 
-
-
-
-
             fixTopAndBottomOfLimbWrongTextures(this.bipedLeftForeArm, this.bipedRightForeArm, this.bipedLeftLowerLeg,
-                    this.bipedRightLowerLeg);
+                this.bipedRightLowerLeg);
         }
     }
 
@@ -112,7 +107,6 @@ public class MixinModelBiped extends ModelBase implements IMixinModelBiped {
             ((IMixinModelBox) box).offsetTextureQuad(model, 3, 0.0F, -6.0F);
         }
     }
-
 
 
     /**

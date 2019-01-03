@@ -172,7 +172,7 @@ public class GuiBrowser extends GuiScreen {
             Gui.drawRect(0, 0, width, 10, new Color(0, 0, 0, 100).getRGB());
             if (title != null) {
                 fontRendererObj.drawString(title, 5, (10f - fontRendererObj.FONT_HEIGHT) / 2, Color.WHITE.getRGB(),
-                        true);
+                    true);
             }
 
             //Renders the browser if itsn't null
@@ -220,7 +220,7 @@ public class GuiBrowser extends GuiScreen {
                     return;
                 }
                 if (browser != null
-                        && !focused) { //Inject events into browser. TODO: Handle keyboard mods.
+                    && !focused) { //Inject events into browser. TODO: Handle keyboard mods.
                     if (key != '.' && key != ';' && key != ',') { //Workaround
                         if (pressed) {
                             browser.injectKeyPressed(key, BrowserUtil.getModifierInt());
@@ -233,8 +233,8 @@ public class GuiBrowser extends GuiScreen {
                         Triple<KeyEvent, KeyEvent, String> entry = map.get(KeyEvent.getExtendedKeyCodeForChar(key));
                         if (pressed) {
                             KeyEvent keyEvent = new KeyEvent(
-                                    ((CefBrowserOsr) browser).getUIComponent(), KeyEvent.KEY_TYPED, 0, 0, 0,
-                                    (char) 0);
+                                ((CefBrowserOsr) browser).getUIComponent(), KeyEvent.KEY_TYPED, 0, 0, 0,
+                                (char) 0);
                             ((CefBrowserOsr) browser).injectKeyEvent(entry.getLeft());
                             ((CefBrowserOsr) browser).injectKeyEvent(keyEvent);
                         } else {

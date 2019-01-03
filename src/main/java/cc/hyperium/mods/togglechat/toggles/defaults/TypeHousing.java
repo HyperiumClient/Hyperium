@@ -51,21 +51,21 @@ public class TypeHousing extends ToggleBase {
     @Override
     public LinkedList<String> getDescription() {
         return asLinked(
-                "Toggles all Housing chat",
-                "messages that start with",
-                "the following",
-                "",
-                "&6[OWNER]",
-                "&6[CO-OWNER]",
-                "&6[RES]",
-                "",
-                "Also toggles housing join",
-                "and leave messages",
-                "",
-                "Build peacefully and",
-                "without hassle,",
-                "as if you were in a",
-                "zen garden"
+            "Toggles all Housing chat",
+            "messages that start with",
+            "the following",
+            "",
+            "&6[OWNER]",
+            "&6[CO-OWNER]",
+            "&6[RES]",
+            "",
+            "Also toggles housing join",
+            "and leave messages",
+            "",
+            "Build peacefully and",
+            "without hassle,",
+            "as if you were in a",
+            "zen garden"
         );
     }
 }

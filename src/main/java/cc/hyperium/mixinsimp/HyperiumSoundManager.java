@@ -18,6 +18,7 @@ public class HyperiumSoundManager {
     public HyperiumSoundManager(SoundManager parent) {
         this.parent = parent;
     }
+
     public void playSound(ISound sound, CallbackInfo ci) {
         if (Settings.SMART_SOUNDS && !Display.isActive()) {
             ci.cancel(); // does not stop music from being played but whatever

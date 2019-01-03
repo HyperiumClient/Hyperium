@@ -77,11 +77,11 @@ public class SettingsHandler {
                 EnumPurchaseType parse = null;
                 for (int i = 0; i < hats1.length; i++) {
                     if (hats1[i].equalsIgnoreCase(o.toString())) {
-                        parse=hat2[i];
+                        parse = hat2[i];
                     }
                 }
                 boolean none = o.toString().equalsIgnoreCase("NONE");
-                if(parse == null && !none) {
+                if (parse == null && !none) {
                     GeneralChatHandler.instance().sendMessage("Unable to locate hat type: " + o);
                     return;
                 }
@@ -133,8 +133,8 @@ public class SettingsHandler {
                 HyperiumPurchase self = PurchaseApi.getInstance().getSelf();
                 if (self != null && self.hasPurchased(EnumPurchaseType.BUTT)) {
                     return new String[]{
-                            "YES",
-                            "NO"
+                        "YES",
+                        "NO"
                     };
                 }
 
@@ -162,13 +162,13 @@ public class SettingsHandler {
                 ParticleOverlay overlay = ParticleOverlay.getOverlay();
                 if (overlay.purchased()) {
                     return new String[]{
-                            "25",
-                            "50",
-                            "100",
-                            "150",
-                            "200",
-                            "250",
-                            "300"};
+                        "25",
+                        "50",
+                        "100",
+                        "150",
+                        "200",
+                        "250",
+                        "300"};
                 }
                 return new String[]{"NOT PURCHASED"};
             });
@@ -178,8 +178,8 @@ public class SettingsHandler {
                 HyperiumPurchase self = PurchaseApi.getInstance().getSelf();
                 if (self != null && self.hasPurchased(EnumPurchaseType.WING_COSMETIC)) {
                     return new String[]{
-                            "ON",
-                            "OFF"
+                        "ON",
+                        "OFF"
                     };
                 }
 
@@ -211,8 +211,8 @@ public class SettingsHandler {
                 HyperiumPurchase self = PurchaseApi.getInstance().getSelf();
                 if (self != null && self.hasPurchased(EnumPurchaseType.DRAGON_HEAD)) {
                     return new String[]{
-                            "ON",
-                            "OFF"
+                        "ON",
+                        "OFF"
                     };
                 }
 

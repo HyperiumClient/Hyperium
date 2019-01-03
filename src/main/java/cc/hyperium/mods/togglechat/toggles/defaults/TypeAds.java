@@ -47,11 +47,11 @@ public class TypeAds extends ToggleBase {
     @Override
     public boolean shouldToggle(String message) {
         return this.networkBoosterPattern.matcher(message).find()
-                || this.mysteryPattern.matcher(message).find()
-                || this.mediaPattern1.matcher(message).matches()
-                || this.mediaPattern2.matcher(message).matches()
-                || this.mediaPattern3.matcher(message).matches()
-                || this.mediaPattern4.matcher(message).matches();
+            || this.mysteryPattern.matcher(message).find()
+            || this.mediaPattern1.matcher(message).matches()
+            || this.mediaPattern2.matcher(message).matches()
+            || this.mediaPattern3.matcher(message).matches()
+            || this.mediaPattern4.matcher(message).matches();
     }
 
     @Override
@@ -67,14 +67,14 @@ public class TypeAds extends ToggleBase {
     @Override
     public LinkedList<String> getDescription() {
         return asLinked(
-                "Toggles all server chat",
-                "advertisements such as",
-                "things prompting the",
-                "store page",
-                "",
-                "This cleans up the chat",
-                "whilst you are afk",
-                "so you don\'t miss",
-                "important messages");
+            "Toggles all server chat",
+            "advertisements such as",
+            "things prompting the",
+            "store page",
+            "",
+            "This cleans up the chat",
+            "whilst you are afk",
+            "so you don\'t miss",
+            "important messages");
     }
 }

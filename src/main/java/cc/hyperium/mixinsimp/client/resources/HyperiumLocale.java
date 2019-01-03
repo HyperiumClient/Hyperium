@@ -11,8 +11,8 @@ public class HyperiumLocale {
 
     public static void registerHyperiumLang(String lang) {
         HyperiumLocale.LANG_FILES.put(
-                lang,
-                () -> HyperiumLocale.class.getResourceAsStream("/assets/hyperium/lang/" + lang + ".lang")
+            lang,
+            () -> HyperiumLocale.class.getResourceAsStream("/assets/hyperium/lang/" + lang + ".lang")
         );
     }
 }

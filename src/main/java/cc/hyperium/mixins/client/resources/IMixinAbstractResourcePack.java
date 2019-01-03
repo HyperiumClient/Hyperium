@@ -170,6 +170,7 @@ package cc.hyperium.mixins.client.resources;
 
 import java.io.IOException;
 import java.io.InputStream;
+
 import net.minecraft.client.resources.AbstractResourcePack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Invoker;

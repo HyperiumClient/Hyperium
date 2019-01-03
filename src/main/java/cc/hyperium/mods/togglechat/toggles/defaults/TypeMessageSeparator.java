@@ -53,16 +53,16 @@ public class TypeMessageSeparator extends ToggleBase {
     @Override
     public LinkedList<String> getDescription() {
         return asLinked(
-                "Toggles all messages",
-                "that contain a lot",
-                "of separators",
-                "",
-                "Checks for message",
-                "separators that look",
-                "like this",
-                "-----------------",
-                "",
-                "Less lines = more fun"
+            "Toggles all messages",
+            "that contain a lot",
+            "of separators",
+            "",
+            "Checks for message",
+            "separators that look",
+            "like this",
+            "-----------------",
+            "",
+            "Less lines = more fun"
         );
     }
 }

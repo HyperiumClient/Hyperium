@@ -36,11 +36,12 @@ public class MixinResourcePackRepository {
     @Shadow
     private final File dirServerResourcepacks = null;
     private HyperiumResourcePackRepository hyperiumResourcePackRepository = new HyperiumResourcePackRepository();
+
     /**
      * @author
      */
     @Inject(method = "func_183028_i", at = @At("HEAD"), cancellable = true)
     private void func_183028_i(CallbackInfo callbackInfo) {
-        hyperiumResourcePackRepository.func_183028_i(callbackInfo,dirServerResourcepacks);
+        hyperiumResourcePackRepository.func_183028_i(callbackInfo, dirServerResourcepacks);
     }
 }

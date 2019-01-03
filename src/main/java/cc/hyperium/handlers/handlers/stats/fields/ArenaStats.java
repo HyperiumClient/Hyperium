@@ -57,14 +57,14 @@ public class ArenaStats extends AbstractHypixelStats {
         String[] names = new String[]{"1v1", "2v2", "4v4"};
         for (String name : names) {
             tableItems.add(new String[]{
-                    name,
-                    WebsiteUtils.comma(arena.optInt("kills_" + name)),
-                    WebsiteUtils.comma(arena.optInt("deaths_" + name)),
-                    WebsiteUtils.comma(arena.optInt("wins_" + name)),
-                    WebsiteUtils.comma(arena.optInt("losses_" + name)),
-                    WebsiteUtils.comma(arena.optInt("healed_" + name)),
-                    WebsiteUtils.buildRatio(arena.optInt("kills_" + name), arena.optInt("deaths_" + name)),
-                    WebsiteUtils.buildRatio(arena.optInt("wins_" + name), arena.optInt("losses_" + name))
+                name,
+                WebsiteUtils.comma(arena.optInt("kills_" + name)),
+                WebsiteUtils.comma(arena.optInt("deaths_" + name)),
+                WebsiteUtils.comma(arena.optInt("wins_" + name)),
+                WebsiteUtils.comma(arena.optInt("losses_" + name)),
+                WebsiteUtils.comma(arena.optInt("healed_" + name)),
+                WebsiteUtils.buildRatio(arena.optInt("kills_" + name), arena.optInt("deaths_" + name)),
+                WebsiteUtils.buildRatio(arena.optInt("wins_" + name), arena.optInt("losses_" + name))
             });
         }
         items.add(new DisplayTable(tableItems));

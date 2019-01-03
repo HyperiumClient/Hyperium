@@ -79,7 +79,7 @@ public class HyperiumMinecraft {
         defaultResourcePacks.add(mcDefaultResourcePack);
         for (File file : AddonBootstrap.getAddonResourcePacks()) {
             defaultResourcePacks
-                    .add(file == null ? new AddonWorkspaceResourcePack() : new FileResourcePack(file));
+                .add(file == null ? new AddonWorkspaceResourcePack() : new FileResourcePack(file));
         }
         AddonMinecraftBootstrap.init();
 
@@ -93,11 +93,11 @@ public class HyperiumMinecraft {
         if (inGameHasFocus && theWorld != null) {
             HyperiumHandlers handlers = Hyperium.INSTANCE.getHandlers();
             RenderPlayerEvent event = new RenderPlayerEvent(thePlayer, renderManager, renderManager.viewerPosZ, renderManager.viewerPosY, renderManager.viewerPosZ,
-                    timer.renderPartialTicks);
+                timer.renderPartialTicks);
             if (handlers != null) {
                 if (Settings.SHOW_PART_1ST_PERSON)
                     handlers.getParticleAuraHandler().renderPlayer(
-                            event);
+                        event);
             }
 
         }
@@ -141,7 +141,7 @@ public class HyperiumMinecraft {
     }
 
     public void displayFix(CallbackInfo ci, boolean fullscreen, int displayWidth, int displayHeight)
-            throws LWJGLException {
+        throws LWJGLException {
         Display.setFullscreen(false);
         if (fullscreen) {
             if (Settings.WINDOWED_FULLSCREEN) {
@@ -190,12 +190,12 @@ public class HyperiumMinecraft {
     public void setWindowIcon() {
         if (Util.getOSType() != Util.EnumOS.OSX) {
             try (InputStream inputStream16x = Minecraft.class
-                    .getResourceAsStream("/assets/hyperium/icons/icon-16x.png");
+                .getResourceAsStream("/assets/hyperium/icons/icon-16x.png");
                  InputStream inputStream32x = Minecraft.class
-                         .getResourceAsStream("/assets/hyperium/icons/icon-32x.png")) {
+                     .getResourceAsStream("/assets/hyperium/icons/icon-32x.png")) {
                 ByteBuffer[] icons = new ByteBuffer[]{
-                        Utils.INSTANCE.readImageToBuffer(inputStream16x),
-                        Utils.INSTANCE.readImageToBuffer(inputStream32x)};
+                    Utils.INSTANCE.readImageToBuffer(inputStream16x),
+                    Utils.INSTANCE.readImageToBuffer(inputStream32x)};
                 Display.setIcon(icons);
             } catch (Exception e) {
                 Hyperium.LOGGER.error("Couldn't set Windows Icon", e);
@@ -312,19 +312,19 @@ public class HyperiumMinecraft {
         String data = crashReportIn.getCauseStackTraceOrString();
         File crashReportDir;
         String crashReportPrefix = "crash-";
-        if(data.contains("hyperium")){
+        if (data.contains("hyperium")) {
             crashReportDir = new File(Minecraft.getMinecraft().mcDataDir, "hyperium-crash-reports");
-            if(!crashReportDir.exists()){
+            if (!crashReportDir.exists()) {
                 crashReportDir.mkdir();
             }
             crashReportPrefix = "hyperium-crash-";
-        } else{
+        } else {
             crashReportDir = new File(Minecraft.getMinecraft().mcDataDir, "crash-reports");
         }
 
         File crashReportFile = new File(crashReportDir,
-                crashReportPrefix + (new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss")).format(new Date())
-                        + "-client.txt");
+            crashReportPrefix + (new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss")).format(new Date())
+                + "-client.txt");
 
         crashReportIn.saveToFile(crashReportFile);
         Bootstrap.printToSYSOUT(crashReportIn.getCompleteReport());
@@ -347,10 +347,10 @@ public class HyperiumMinecraft {
 
         if (crashReportIn.getFile() != null) {
             Bootstrap.printToSYSOUT(
-                    "#@!@# Game crashed! Crash report saved to: #@!@# " + crashReportIn.getFile());
+                "#@!@# Game crashed! Crash report saved to: #@!@# " + crashReportIn.getFile());
         } else if (crashReportIn.saveToFile(crashReportFile)) {
             Bootstrap.printToSYSOUT(
-                    "#@!@# Game crashed! Crash report saved to: #@!@# " + crashReportFile.getAbsolutePath());
+                "#@!@# Game crashed! Crash report saved to: #@!@# " + crashReportFile.getAbsolutePath());
         } else {
             Bootstrap.printToSYSOUT("#@?@# Game crashed! Crash report could not be saved. #@?@#");
         }
@@ -373,7 +373,7 @@ public class HyperiumMinecraft {
                     StringBuilder cmd = new StringBuilder();
                     String[] command = System.getProperty("sun.java.command").split(" ");
                     cmd.append(System.getProperty("java.home")).append(File.separator).append("bin")
-                            .append(File.separator).append("java ");
+                        .append(File.separator).append("java ");
                     ManagementFactory.getRuntimeMXBean().getInputArguments().forEach(s -> {
                         if (!s.contains("-agentlib")) {
                             cmd.append(s).append(" ");
@@ -383,7 +383,7 @@ public class HyperiumMinecraft {
                         cmd.append("-jar ").append(new File(command[0]).getPath()).append(" ");
                     } else {
                         cmd.append("-cp \"").append(System.getProperty("java.class.path"))
-                                .append("\" ").append(command[0]).append(" ");
+                            .append("\" ").append(command[0]).append(" ");
                     }
                     for (int i = 1; i < command.length; i++) {
                         cmd.append(command[i]).append(" ");

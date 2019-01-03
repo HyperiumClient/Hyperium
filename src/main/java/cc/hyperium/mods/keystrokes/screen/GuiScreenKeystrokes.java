@@ -133,82 +133,82 @@ public class GuiScreenKeystrokes extends GuiScreen {
                 break;
             case 6:
                 Minecraft.getMinecraft().displayGuiScreen(new GuiScreenColor(this.mod,
-                        new IScrollable() {
-                            @Override
-                            public double getAmount() {
-                                return settings.getRed();
-                            }
-
-                            @Override
-                            public void onScroll(double doubleAmount, int intAmount) {
-                                settings.setRed(intAmount);
-                                updated = true;
-                            }
-                        },
-                        new IScrollable() {
-                            @Override
-                            public double getAmount() {
-                                return settings.getGreen();
-                            }
-
-                            @Override
-                            public void onScroll(double doubleAmount, int intAmount) {
-                                settings.setGreen(intAmount);
-                                updated = true;
-                            }
-                        },
-                        new IScrollable() {
-                            @Override
-                            public double getAmount() {
-                                return settings.getBlue();
-                            }
-
-                            @Override
-                            public void onScroll(double doubleAmount, int intAmount) {
-                                settings.setBlue(intAmount);
-                                updated = true;
-                            }
+                    new IScrollable() {
+                        @Override
+                        public double getAmount() {
+                            return settings.getRed();
                         }
+
+                        @Override
+                        public void onScroll(double doubleAmount, int intAmount) {
+                            settings.setRed(intAmount);
+                            updated = true;
+                        }
+                    },
+                    new IScrollable() {
+                        @Override
+                        public double getAmount() {
+                            return settings.getGreen();
+                        }
+
+                        @Override
+                        public void onScroll(double doubleAmount, int intAmount) {
+                            settings.setGreen(intAmount);
+                            updated = true;
+                        }
+                    },
+                    new IScrollable() {
+                        @Override
+                        public double getAmount() {
+                            return settings.getBlue();
+                        }
+
+                        @Override
+                        public void onScroll(double doubleAmount, int intAmount) {
+                            settings.setBlue(intAmount);
+                            updated = true;
+                        }
+                    }
                 ));
                 break;
             case 7:
                 Minecraft.getMinecraft().displayGuiScreen(new GuiScreenColor(this.mod,
-                        new IScrollable() {
-                            @Override
-                            public double getAmount() {
-                                return settings.getPressedRed();
-                            }
-
-                            @Override
-                            public void onScroll(double doubleAmount, int intAmount) {
-                                settings.setPressedRed(intAmount);
-                                updated = true;
-                            }
-                        },
-                        new IScrollable() {
-                            @Override
-                            public double getAmount() {
-                                return settings.getPressedGreen();
-                            }
-
-                            @Override
-                            public void onScroll(double doubleAmount, int intAmount) {
-                                settings.setPressedGreen(intAmount);
-                                updated = true;
-                            }
-                        },
-                        new IScrollable() {
-                            @Override
-                            public double getAmount() {
-                                return settings.getPressedBlue();
-                            }
-
-                            @Override
-                            public void onScroll(double doubleAmount, int intAmount) {
-                                settings.setPressedBlue(intAmount);
-                                updated = true;
-                            }
+                    new IScrollable() {
+                        @Override
+                        public double getAmount() {
+                            return settings.getPressedRed();
                         }
+
+                        @Override
+                        public void onScroll(double doubleAmount, int intAmount) {
+                            settings.setPressedRed(intAmount);
+                            updated = true;
+                        }
+                    },
+                    new IScrollable() {
+                        @Override
+                        public double getAmount() {
+                            return settings.getPressedGreen();
+                        }
+
+                        @Override
+                        public void onScroll(double doubleAmount, int intAmount) {
+                            settings.setPressedGreen(intAmount);
+                            updated = true;
+                        }
+                    },
+                    new IScrollable() {
+                        @Override
+                        public double getAmount() {
+                            return settings.getPressedBlue();
+                        }
+
+                        @Override
+                        public void onScroll(double doubleAmount, int intAmount) {
+                            settings.setPressedBlue(intAmount);
+                            updated = true;
+                        }
+                    }
                 ));
                 break;
             case 10:
@@ -272,7 +272,6 @@ public class GuiScreenKeystrokes extends GuiScreen {
     public void display() {
         Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(this);
     }
-
 
 
     @Override

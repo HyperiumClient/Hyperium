@@ -41,9 +41,11 @@ public class MixinEntityPlayerSP extends AbstractClientPlayer {
     @Shadow
     private Minecraft mc;
 
-    @Shadow public float prevTimeInPortal;
+    @Shadow
+    public float prevTimeInPortal;
 
-    @Shadow public float timeInPortal;
+    @Shadow
+    public float timeInPortal;
 
     public MixinEntityPlayerSP(World worldIn, GameProfile playerProfile) {
         super(worldIn, playerProfile);
@@ -57,7 +59,7 @@ public class MixinEntityPlayerSP extends AbstractClientPlayer {
      */
     @Overwrite
     public void onEnchantmentCritical(Entity entityHit) {
-        hyperiumEntityPlayerSP.onEnchantmentCritical(entityHit,this.mc);
+        hyperiumEntityPlayerSP.onEnchantmentCritical(entityHit, this.mc);
     }
 
     @Overwrite
@@ -73,6 +75,7 @@ public class MixinEntityPlayerSP extends AbstractClientPlayer {
             ChatUtil.sendMessage(message);
         }
     }
+
     /**
      * Uses server-side hit registration, instead of on the client
      *
@@ -81,7 +84,7 @@ public class MixinEntityPlayerSP extends AbstractClientPlayer {
      */
     @Overwrite
     public void onCriticalHit(Entity entityHit) {
-        hyperiumEntityPlayerSP.onCriticalHit(entityHit,mc);
+        hyperiumEntityPlayerSP.onCriticalHit(entityHit, mc);
     }
 
     /**
@@ -90,7 +93,7 @@ public class MixinEntityPlayerSP extends AbstractClientPlayer {
      */
     @Override
     public void removePotionEffectClient(int potionId) {
-        if(potionId == Potion.confusion.id){
+        if (potionId == Potion.confusion.id) {
             this.prevTimeInPortal = 0.0F;
             this.timeInPortal = 0.0F;
         }

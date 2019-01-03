@@ -45,7 +45,7 @@ public class PingDisplay extends DisplayItem {
         String string = "";
         if (thePlayer != null) {
             NetworkPlayerInfo playerInfo = Minecraft.getMinecraft().getNetHandler().getPlayerInfo(Minecraft.getMinecraft().thePlayer.getUniqueID());
-            if(!Settings.CHROMAHUD_SQUAREBRACE_PREFIX_OPTION) {
+            if (!Settings.CHROMAHUD_SQUAREBRACE_PREFIX_OPTION) {
                 string = "Ping: " + (playerInfo == null ? "error" : playerInfo.getResponseTime());
             } else {
                 string = "[Ping] " + (playerInfo == null ? "error" : playerInfo.getResponseTime());

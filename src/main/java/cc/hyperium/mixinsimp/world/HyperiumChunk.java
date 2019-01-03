@@ -13,6 +13,7 @@ public class HyperiumChunk {
             ci.setReturnValue(15);
         }
     }
+
     public void getLightSubtracted(BlockPos pos, int amount, CallbackInfoReturnable<Integer> ci) {
         if (!Minecraft.getMinecraft().isIntegratedServerRunning() && Settings.FULLBRIGHT) {
             ci.setReturnValue(15);

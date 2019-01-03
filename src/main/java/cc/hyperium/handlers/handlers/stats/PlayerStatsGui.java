@@ -184,7 +184,7 @@ public class PlayerStatsGui extends HyperiumGui {
         super.drawScreen(mouseX, mouseY, partialTicks);
         ScaledResolution current = ResolutionUtil.current();
         HypixelApiGuild guild = player.getGuild();
-        if(guild == null){
+        if (guild == null) {
             GeneralChatHandler.instance().sendMessage("Player not found!");
             mc.displayGuiScreen(null);
             return;
@@ -257,11 +257,11 @@ public class PlayerStatsGui extends HyperiumGui {
                 int left = block.getRight() - xOffset + yRenderOffset;
                 int top = block.getTop();
                 int printY = 0;
-                if (top + height*2 > current.getScaledHeight()) {
-                    top = current.getScaledHeight()-height*2-50;
+                if (top + height * 2 > current.getScaledHeight()) {
+                    top = current.getScaledHeight() - height * 2 - 50;
                 }
                 RenderUtils.drawRect((left - 3) / scale, (top - 3) / scale, (left + (width + 3) * scale) / scale, (top + (height + 3) * scale) / scale,
-                        new Color(0, 0, 0, 175).getRGB());
+                    new Color(0, 0, 0, 175).getRGB());
 
                 for (StatsDisplayItem statsDisplayItem : preview) {
                     statsDisplayItem.draw((int) (left / scale), (int) ((top) / scale) + printY);

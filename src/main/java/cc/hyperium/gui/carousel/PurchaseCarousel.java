@@ -172,20 +172,20 @@ public class PurchaseCarousel {
         GlStateManager.scale(v, v, v);
         fr.drawCenteredString(">", (objRight + 5) / v, centerY / v - 10, 0xffffff);
         GlStateManager.scale(1 / v, 1 / v, 1 / v);
-        String s = I18n.format("gui.purchase.state")+": " + (getCurrent().isPurchased() ? (getCurrent().isActive() ? I18n.format("gui.purchase.active") : I18n.format("gui.purchase.inactive")) : I18n.format("gui.purchase.notpurchased"));
-        float e  = .5F;
-        GlStateManager.scale(e,e,e);
-        fr.drawString(s, (centerX  - fr.getWidth(s) / 4)/e, (centerY - mainHeight / 2 + 15) / e, Color.GREEN.getRGB());
+        String s = I18n.format("gui.purchase.state") + ": " + (getCurrent().isPurchased() ? (getCurrent().isActive() ? I18n.format("gui.purchase.active") : I18n.format("gui.purchase.inactive")) : I18n.format("gui.purchase.notpurchased"));
+        float e = .5F;
+        GlStateManager.scale(e, e, e);
+        fr.drawString(s, (centerX - fr.getWidth(s) / 4) / e, (centerY - mainHeight / 2 + 15) / e, Color.GREEN.getRGB());
         if (getCurrent().isPurchased() && !getCurrent().isActive()) {
             s = I18n.format("gui.purchase.clicktouse");
             float width = fr.getWidth(s);
-            float x = centerX  - width / 4;
+            float x = centerX - width / 4;
             int i = centerY - mainHeight / 2 + 35;
-            activeBlock = new GuiBlock((int) x, (int) (x  + width*2), i, i + 10);
+            activeBlock = new GuiBlock((int) x, (int) (x + width * 2), i, i + 10);
 
-            fr.drawString(s, x/e, i / e, Color.GREEN.getRGB());
+            fr.drawString(s, x / e, i / e, Color.GREEN.getRGB());
         }
-        GlStateManager.scale(1/e,1/e,1/e);
+        GlStateManager.scale(1 / e, 1 / e, 1 / e);
     }
 
 

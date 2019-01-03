@@ -16,6 +16,7 @@
  */
 
 package cc.hyperium.cosmetics.dragon;
+
 import cc.hyperium.cosmetics.CosmeticsUtil;
 import cc.hyperium.cosmetics.DragonCosmetic;
 import cc.hyperium.event.InvokeEvent;
@@ -36,6 +37,7 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.chunk.Chunk;
 import org.lwjgl.opengl.GL11;
+
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -97,7 +99,7 @@ public class DragonHeadRenderer extends ModelBase {
 
     @InvokeEvent
     private void onRenderPlayer(RenderPlayerEvent event) {
-        if(CosmeticsUtil.shouldHide(EnumPurchaseType.DRAGON_HEAD))
+        if (CosmeticsUtil.shouldHide(EnumPurchaseType.DRAGON_HEAD))
             return;
         EntityPlayer entity = event.getEntity();
         if (dragonCosmetic.isPurchasedBy(entity.getUniqueID()) && !entity.isInvisible()) {
@@ -137,7 +139,7 @@ public class DragonHeadRenderer extends ModelBase {
         if (player.onGround) {
             jaw.rotateAngleX = 0;
         } else {
-            if(mc.theWorld != null) {
+            if (mc.theWorld != null) {
                 int e = -1;
                 WorldClient theWorld = Minecraft.getMinecraft().theWorld;
                 Chunk chunk = theWorld.getChunkFromBlockCoords(new BlockPos(player.posX, player.posY, player.posZ));
@@ -156,7 +158,7 @@ public class DragonHeadRenderer extends ModelBase {
                         jaw.rotateAngleX = (float) ((dis) / (1 + dis));
                     }
                 }
-            }else {
+            } else {
                 jaw.rotateAngleX = 0;
             }
         }

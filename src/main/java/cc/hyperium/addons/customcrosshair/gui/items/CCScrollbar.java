@@ -21,7 +21,7 @@ import cc.hyperium.addons.customcrosshair.utils.CustomCrosshairGraphics;
 import net.minecraft.client.gui.GuiScreen;
 
 public class CCScrollbar extends CCGuiItem {
-    
+
     private int contentHeight;
     private boolean mouseDown;
     private int boxPosition;

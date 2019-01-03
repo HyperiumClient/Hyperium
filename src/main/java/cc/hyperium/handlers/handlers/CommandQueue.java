@@ -48,7 +48,7 @@ public class CommandQueue {
     private void check() {
         if (!commands.isEmpty()) {
             EntityPlayerSP thePlayer = Minecraft.getMinecraft().thePlayer;
-            if (thePlayer != null && commands.peek() !=null) {
+            if (thePlayer != null && commands.peek() != null) {
                 String poll = commands.poll();
                 System.out.println("Running command in background: " + poll);
                 Runnable runnable = asyncCallbacks.get(poll);

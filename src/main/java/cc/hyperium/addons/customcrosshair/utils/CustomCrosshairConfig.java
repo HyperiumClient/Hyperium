@@ -19,6 +19,7 @@ package cc.hyperium.addons.customcrosshair.utils;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.addons.customcrosshair.CustomCrosshairAddon;
+
 import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -34,10 +35,10 @@ public class CustomCrosshairConfig {
     private CustomCrosshairAddon crosshairMod;
 
     private File saveFile = new File(Hyperium.folder, "custom-crosshair-mod_save.txt");
-    
+
     public CustomCrosshairConfig(CustomCrosshairAddon addon) {
         this.crosshairMod = addon;
-        if(!saveFile.exists()){
+        if (!saveFile.exists()) {
             try {
                 saveFile.createNewFile();
             } catch (IOException e) {
@@ -45,7 +46,7 @@ public class CustomCrosshairConfig {
             }
         }
     }
-    
+
     public boolean readSaveFile() {
         try {
             final FileReader fileReader = new FileReader(this.saveFile);
@@ -55,9 +56,9 @@ public class CustomCrosshairConfig {
 
             while ((line = bufferedReader.readLine()) != null) {
                 if (!line.startsWith("//") && line.contains(":")) {
-                    
+
                     final String[] splitted = line.split(":");
-                    
+
                     if (splitted.length <= 1) {
                         continue;
                     }
@@ -79,7 +80,7 @@ public class CustomCrosshairConfig {
 
                     final String attribute = splitted[0].toLowerCase().trim();
                     final String value = splitted[1].toLowerCase().trim();
-                    
+
                     switch (attribute) {
                         case "crosshairtype":
                             this.crosshairMod.getCrosshair().setCrosshairType(Integer.parseInt(value));
@@ -194,8 +195,7 @@ public class CustomCrosshairConfig {
             }
             bufferedReader.close();
             return true;
-        }
-        catch (Exception readingException) {
+        } catch (Exception readingException) {
             readingException.printStackTrace();
             return false;
         }
@@ -254,7 +254,7 @@ public class CustomCrosshairConfig {
     }
 
     public boolean writeSaveFileDefault() {
-        return writeSaveFile(0, true, 255, 255, 255, 255, true, true, true, true, true, true, 0, 0, 0, 255, true, 255, 255, 255, 255, 5, 5, 3, 1, true,false,500);
+        return writeSaveFile(0, true, 255, 255, 255, 255, true, true, true, true, true, true, 0, 0, 0, 255, true, 255, 255, 255, 255, 5, 5, 3, 1, true, false, 500);
     }
 
     public void saveCurrentCrosshair() {

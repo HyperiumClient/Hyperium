@@ -26,7 +26,7 @@ import net.minecraft.scoreboard.ScoreObjective;
 import java.io.IOException;
 
 public class GuiScreenSidebar extends GuiScreen {
-    
+
     protected SidebarAddon addon;
     protected GuiSidebar sidebar;
     private boolean dragging;

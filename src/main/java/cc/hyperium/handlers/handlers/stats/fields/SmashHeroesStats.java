@@ -6,8 +6,10 @@ import cc.hyperium.handlers.handlers.stats.display.StatsDisplayItem;
 import cc.hyperium.utils.JsonHolder;
 import club.sk1er.website.api.requests.HypixelApiPlayer;
 import club.sk1er.website.utils.WebsiteUtils;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import net.hypixel.api.GameType;
 
 /**
@@ -53,7 +55,7 @@ public class SmashHeroesStats extends AbstractHypixelStats {
         stats.add(new DisplayLine(bold("W/L: ", WebsiteUtils.buildRatio(smashHeroes.optInt("wins"), smashHeroes.optInt("losses")))));
         stats.add(new DisplayLine(""));
         stats.add(new DisplayLine(bold("Smash Level: ", smashHeroes.optInt("smashLevel"))));
-        
+
         return stats;
     }
 }

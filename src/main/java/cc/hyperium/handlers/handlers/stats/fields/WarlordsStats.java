@@ -52,9 +52,9 @@ public class WarlordsStats extends AbstractHypixelStats {
 
         stats.add(new DisplayLine(bold("Wins: ", warlords.optInt("wins"))));
         stats.add(new DisplayLine(bold("K/D: ", WebsiteUtils
-                .buildRatio(warlords.optInt("kills"), warlords.optInt("deaths")))));
+            .buildRatio(warlords.optInt("kills"), warlords.optInt("deaths")))));
         stats.add(new DisplayLine(bold("W/L: ",
-                WebsiteUtils.buildRatio(warlords.optInt("wins"), warlords.optInt("losses")))));
+            WebsiteUtils.buildRatio(warlords.optInt("wins"), warlords.optInt("losses")))));
 
         return stats;
     }

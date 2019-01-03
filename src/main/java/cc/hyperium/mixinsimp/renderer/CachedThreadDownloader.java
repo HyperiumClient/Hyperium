@@ -21,13 +21,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class CachedThreadDownloader {
     private static final AtomicInteger counter = new AtomicInteger();
     private static final ExecutorService THREAD_POOL = new ThreadPoolExecutor(0, 100,
-            60L, TimeUnit.SECONDS,
-            new SynchronousQueue<>(),
-            r -> {
-                Thread thread = new Thread(r, "Texture Downloader #" + counter.getAndIncrement());
-                thread.setDaemon(true);
-                return thread;
-            });
+        60L, TimeUnit.SECONDS,
+        new SynchronousQueue<>(),
+        r -> {
+            Thread thread = new Thread(r, "Texture Downloader #" + counter.getAndIncrement());
+            thread.setDaemon(true);
+            return thread;
+        });
 
     static {
         ((ThreadPoolExecutor) THREAD_POOL).setRejectedExecutionHandler((r, executor) -> {

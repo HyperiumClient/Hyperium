@@ -131,7 +131,7 @@ public abstract class MixinFontRenderer {
                 this.posX = posX + cachedString.getWidth();
                 return;
             }
-           list=GLAllocation.generateDisplayLists(1);
+            list = GLAllocation.generateDisplayLists(1);
 
             GL11.glNewList(list, GL11.GL_COMPILE_AND_EXECUTE);
         }

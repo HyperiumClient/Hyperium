@@ -38,10 +38,10 @@ public class HyperiumRenderItem {
     private final int MAX = 5000;
 
     private Cache<ItemHash, Integer> itemCache = Caffeine.newBuilder()
-            .maximumSize(MAX)
-            .writer(new RemovalListener())
-            .executor(Multithreading.POOL)
-            .build();
+        .maximumSize(MAX)
+        .writer(new RemovalListener())
+        .executor(Multithreading.POOL)
+        .build();
 
     public HyperiumRenderItem(RenderItem parent) {
         this.parent = parent;
@@ -56,7 +56,7 @@ public class HyperiumRenderItem {
         GlStateManager.pushMatrix();
         ((IMixinRenderItem) parent).getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
         ((IMixinRenderItem) parent).getTextureManager().getTexture(TextureMap.locationBlocksTexture)
-                .setBlurMipmap(false, false);
+            .setBlurMipmap(false, false);
         GlStateManager.enableRescaleNormal();
         GlStateManager.enableAlpha();
         GlStateManager.alphaFunc(516, 0.1F);
@@ -65,7 +65,7 @@ public class HyperiumRenderItem {
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         ((IMixinRenderItem) parent).callSetupGuiTransform(x, y, ibakedmodel.isGui3d());
         ibakedmodel.getItemCameraTransforms()
-                .applyTransform(ItemCameraTransforms.TransformType.GUI);
+            .applyTransform(ItemCameraTransforms.TransformType.GUI);
 
         this.renderItem(stack, ibakedmodel, true); // Changed to true because this IS an inventory
 
@@ -253,7 +253,8 @@ public class HyperiumRenderItem {
     private class RemovalListener implements CacheWriter<ItemHash, Integer> {
 
         @Override
-        public void write(@Nonnull ItemHash key, @Nonnull Integer value) { }
+        public void write(@Nonnull ItemHash key, @Nonnull Integer value) {
+        }
 
         @Override
         public void delete(@Nonnull ItemHash key, @Nullable Integer value, @Nonnull RemovalCause cause) {

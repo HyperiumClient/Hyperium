@@ -26,6 +26,7 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.ScaledResolution;
 
 import java.io.IOException;
+
 import org.lwjgl.input.Mouse;
 
 public class SpotifyGui extends HyperiumGui {

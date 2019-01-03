@@ -239,9 +239,9 @@ public class GeneralConfigGui extends GuiScreen {
                     displayXLoc -= element.getDimensions().getWidth();
                 double displayYLoc = current.getScaledHeight_double() - current.getScaledHeight_double() * element.getYloc();
                 if (clickX > displayXLoc
-                        && clickX < displayXLoc + dimension.getWidth()
-                        && clickY < displayYLoc
-                        && clickY > displayYLoc - dimension.getHeight()) {
+                    && clickX < displayXLoc + dimension.getWidth()
+                    && clickY < displayYLoc
+                    && clickY > displayYLoc - dimension.getHeight()) {
 
                     // Open gui
                     if (currentElement != null && currentElement == element && pastClick) {
@@ -250,7 +250,7 @@ public class GeneralConfigGui extends GuiScreen {
                         this.currentElement = null;
 
                         this.mc.getSoundHandler().playSound(PositionedSoundRecord
-                                .create(new ResourceLocation("gui.button.press"), 1.0F));
+                            .create(new ResourceLocation("gui.button.press"), 1.0F));
                         Minecraft.getMinecraft().displayGuiScreen(new DisplayElementConfig(element, mod));
                         return;
                     }

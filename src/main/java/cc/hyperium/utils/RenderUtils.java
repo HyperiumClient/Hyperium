@@ -154,7 +154,7 @@ public class RenderUtils {
 
     public static void glColor(Color color) {
         GlStateManager.color(color.getRed() / 255.0F, color.getGreen() / 255.0F, color.getBlue() / 255.0F,
-                color.getAlpha() / 255.0F);
+            color.getAlpha() / 255.0F);
     }
 
     public static void drawLine(float x, float y, float x1, float y1, float width, int colour) {

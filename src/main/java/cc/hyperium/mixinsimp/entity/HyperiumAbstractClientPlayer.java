@@ -181,15 +181,15 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class HyperiumAbstractClientPlayer {
     private AbstractClientPlayer parent;
 
-    public HyperiumAbstractClientPlayer(AbstractClientPlayer parent){
+    public HyperiumAbstractClientPlayer(AbstractClientPlayer parent) {
         this.parent = parent;
     }
 
-    public void init(){
+    public void init() {
         Hyperium.INSTANCE.getHandlers().getCapeHandler().getCape(parent);
     }
 
-    public ResourceLocation getLocationCape(){
+    public ResourceLocation getLocationCape() {
         ResourceLocation cape = Hyperium.INSTANCE.getHandlers().getCapeHandler().getCape(parent);
         if (cape != null)
             return cape;
@@ -197,16 +197,16 @@ public class HyperiumAbstractClientPlayer {
         return networkplayerinfo == null ? null : networkplayerinfo.getLocationCape();
     }
 
-    public void getFovModifier(CallbackInfoReturnable<Float> ci){
+    public void getFovModifier(CallbackInfoReturnable<Float> ci) {
         if (Settings.STATIC_FOV) {
-          if (Minecraft.getMinecraft().thePlayer.isSprinting()
-              && Settings.staticFovSprintModifier) {
-            ci.setReturnValue((float) (
-                1.0f * (Minecraft.getMinecraft().thePlayer.getEntityAttribute(SharedMonsterAttributes.movementSpeed).getBaseValue() * 1.300000011920929 / Minecraft.getMinecraft().thePlayer.capabilities.getWalkSpeed()
-                    + 1.0) / 2.0));
-          } else {
-            ci.setReturnValue(1.0F);
-          }
+            if (Minecraft.getMinecraft().thePlayer.isSprinting()
+                && Settings.staticFovSprintModifier) {
+                ci.setReturnValue((float) (
+                    1.0f * (Minecraft.getMinecraft().thePlayer.getEntityAttribute(SharedMonsterAttributes.movementSpeed).getBaseValue() * 1.300000011920929 / Minecraft.getMinecraft().thePlayer.capabilities.getWalkSpeed()
+                        + 1.0) / 2.0));
+            } else {
+                ci.setReturnValue(1.0F);
+            }
         }
     }
 }
