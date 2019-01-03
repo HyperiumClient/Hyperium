@@ -251,7 +251,7 @@ public class LevelHeadGui extends GuiScreen {
                 JsonHolder object = new JsonHolder();
                 object.put("header_obj", Hyperium.INSTANCE.getModIntegration().getLevelhead().getHeaderConfig());
                 object.put("footer_obj", Hyperium.INSTANCE.getModIntegration().getLevelhead().getFooterConfig());
-                String encode = URLEncoder.encode(object.toString(), UTF_8);
+                String encode = URLEncoder.encode(object.toString(), "UTF_8");
                 String url = "https://sk1er.club/user?levelhead_color=" + encode;
                 ChatComponentText text = new ChatComponentText("Click here to update your custom Levelhead colors");
                 ChatStyle style = new ChatStyle();
