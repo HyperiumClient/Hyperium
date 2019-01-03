@@ -230,7 +230,7 @@ public class LevelHeadGui extends GuiScreen {
 
     }
 
-    private void updateCustom() {
+    private void updateCustom() throws UnsupportedEncodingException {
         lock.lock();
         reg(new GuiButton(13, this.width / 2 - 155, this.height - 44, 310, 20, (isCustom ? ChatColor.YELLOW + "Click to change custom Levelhead." : ChatColor.YELLOW + "Click to purchase a custom Levelhead message")), button -> {
 
