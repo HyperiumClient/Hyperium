@@ -25,7 +25,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.event.ClickEvent;
 import net.minecraft.util.ChatComponentText;
 import org.apache.commons.codec.binary.Base64;
-
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
@@ -36,7 +35,6 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 
 public class ImgurUploader implements Runnable {
 
@@ -64,7 +62,7 @@ public class ImgurUploader implements Runnable {
             byte[] byteImage = byteArray.toByteArray();
 
             String dataImage = Base64.encodeBase64String(byteImage);
-            String data = URLEncoder.encode("image", StandardCharsets.UTF_8) + "=" + URLEncoder.encode(dataImage, StandardCharsets.UTF_8);
+            String data = URLEncoder.encode("image", UTF_8) + "=" + URLEncoder.encode(dataImage, UTF_8);
 
             conn.setDoOutput(true);
             conn.setDoInput(true);
@@ -94,6 +92,5 @@ public class ImgurUploader implements Runnable {
             GeneralChatHandler.instance().sendMessage("Error occurred while uploading.");
         }
     }
-
 
 }
