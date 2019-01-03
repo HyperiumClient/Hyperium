@@ -527,7 +527,7 @@ public class Settings {
     public static boolean SEND_SERVER = true;
 
     @ConfigOpt
-    @ToggleSetting(name = "gui.settings.sendguildwelcomemessage", category = INTEGRATIONS)
+    @ToggleSetting(name = "gui.settings.sendguildwelcomemessage", category = HYPIXEL)
     public static boolean SEND_GUILD_WELCOME_MESSAGE = true;
 
     @ConfigOpt
@@ -594,7 +594,7 @@ public class Settings {
     public static String BUTTON_TYPE = ButtonType.DEFAULT.name();
 
     @ConfigOpt
-    @ToggleSetting(name = "gui.settings.disableenchantglint", category = IMPROVEMENTS)
+    //@ToggleSetting(name = "gui.settings.disableenchantglint", category = IMPROVEMENTS) not properly working yet, spams console if you enable it while wearing armor, disables custom cape as well?
     public static boolean DISABLE_ENCHANT_GLINT = false;
 
     @ConfigOpt
@@ -604,6 +604,18 @@ public class Settings {
     @ConfigOpt
     @SliderSetting(name = "gui.settings.fpslimiteramount", isInt = true, min = 5, max = 60, category = IMPROVEMENTS)
     public static int FPS_LIMITER_AMOUNT = 30;
+
+    @ConfigOpt
+    @ToggleSetting(name = "gui.settings.disablelightning", category = IMPROVEMENTS)
+    public static boolean DISABLE_LIGHTNING = false;
+
+    @ConfigOpt
+    //@ToggleSetting(name = "gui.settings.keeplightinguhc", category = IMPROVEMENTS) unable to figure out how to check the users game they're playing, will add back later
+    public static boolean UHC_LIGHTNING = false;
+
+    @ConfigOpt
+    @ToggleSetting(name = "gui.settings.disablearmorstands", category = IMPROVEMENTS)
+    public static boolean DISABLE_ARMORSTANDS = false;
 
     private Settings() {
     }

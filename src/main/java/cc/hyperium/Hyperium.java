@@ -312,7 +312,7 @@ public class Hyperium {
                         }
                     }
                 } else {
-                    System.out.println("[Chat Handler] Not restoring chat");
+                    System.out.println("[Chat Handler] chat.txt not found, not restoring chat");
                 }
             });
 
@@ -324,7 +324,7 @@ public class Hyperium {
             try {
                 Class.forName("optifine.OptiFineTweaker");
                 optifineInstalled = true;
-                System.out.println("[OptiFine] installation detected!");
+                System.out.println("Optifine is currently installed.");
             } catch (ClassNotFoundException e) {
                 optifineInstalled = false;
             }

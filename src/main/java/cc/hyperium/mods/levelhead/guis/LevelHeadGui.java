@@ -100,7 +100,6 @@ public class LevelHeadGui extends GuiScreen {
     public void initGui() {
         Multithreading.runAsync(() -> {
             String raw = Sk1erMod.getInstance().rawWithAgent("https://api.sk1er.club/levelhead/" + Minecraft.getMinecraft().getSession().getProfile().getId().toString().replace("-", ""));
-            System.out.println(raw);
             this.isCustom = new JsonHolder(raw).optBoolean("custom");
             updateCustom();
         });

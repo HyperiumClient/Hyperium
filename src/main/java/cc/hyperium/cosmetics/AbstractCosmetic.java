@@ -1,5 +1,6 @@
 package cc.hyperium.cosmetics;
 
+import cc.hyperium.Hyperium;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.PurchaseLoadEvent;
 import cc.hyperium.event.WorldChangeEvent;
@@ -27,7 +28,7 @@ public abstract class AbstractCosmetic {
         this.purchaseType = purchaseType;
         try {
             PurchaseApi.getInstance().getPackageAsync(UUIDUtil.getClientUUID(), hyperiumPurchase -> {
-                if (hyperiumPurchase == null) {
+                if (hyperiumPurchase == null && !Hyperium.INSTANCE.isDevEnv) {
                     System.out.println("[Cosmetics] Detected " + getPurchaseType().toString().toLowerCase() + " is null!");
                     return;
                 }

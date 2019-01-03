@@ -95,9 +95,6 @@ public class ClientProxy extends BaseProxy {
             args.add("--browser-subprocess-path=" + new File(rootDir, "jcef_helper.exe"));
         }
 
-        System.out.println("Starting AppHandler with arguments: " + String
-                .join(", ", args.toArray(new String[0])));
-
         appHandler = new AppHandler(args.toArray(new String[0]));
 
         File fileListing = new File(new File(ROOT), "config");
@@ -131,8 +128,6 @@ public class ClientProxy extends BaseProxy {
             if (newRoot.endsWith(".")) {
                 newRoot = newRoot.substring(0, newRoot.length() - 1);
             }
-            System.out.println("CEF resources root: " + newRoot);
-
             Field field = ClassLoader.class.getDeclaredField("usr_paths");
             field.setAccessible(true);
             String[] paths = (String[]) field.get(null);

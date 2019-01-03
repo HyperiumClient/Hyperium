@@ -105,7 +105,6 @@ public class PlayerQuestsGui extends HyperiumGui {
                         BufferedImage img = ImageIO.read(ImageIO.createImageInputStream(is));
                         texturesImage.put(field, img);
                     } catch (Exception e) {
-                        System.out.println(field.getClass().getName());
                         e.printStackTrace();
                     }
             });

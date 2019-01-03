@@ -8,6 +8,10 @@ import org.spongepowered.asm.mixin.Overwrite;
 @Mixin(ClientBrandRetriever.class)
 public class MixinClientBrand {
 
+    /**
+     * @author Sk1er
+     * @reason Set client brand
+     */
     @Overwrite
     public static String getClientModName() {
         return HyperiumClientBrand.getClientModName();

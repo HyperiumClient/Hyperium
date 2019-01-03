@@ -50,7 +50,6 @@ public class CommandQueue {
             EntityPlayerSP thePlayer = Minecraft.getMinecraft().thePlayer;
             if (thePlayer != null && commands.peek() != null) {
                 String poll = commands.poll();
-                System.out.println("Running command in background: " + poll);
                 Runnable runnable = asyncCallbacks.get(poll);
                 thePlayer.sendChatMessage(poll);
                 if (runnable != null) {
