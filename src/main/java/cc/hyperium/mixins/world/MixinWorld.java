@@ -194,12 +194,6 @@ public abstract class MixinWorld {
         hyperiumWorld.getLight(pos, checkNeighbors, ci);
     }
 
-//    @Inject(method = "removeEntity",at=@At("HEAD"))
-//    public void loadEntity(Entity entity, CallbackInfo info) {
-//        hyperiumWorld.removeEntity(entity);
-//    }
-
-
     /**
      * @author Sk1er
      * @reason Make async option

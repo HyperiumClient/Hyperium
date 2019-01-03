@@ -38,7 +38,7 @@ public class MixinResourcePackRepository {
     private HyperiumResourcePackRepository hyperiumResourcePackRepository = new HyperiumResourcePackRepository();
 
     /**
-     * @author
+     * @author Cubxity
      */
     @Inject(method = "func_183028_i", at = @At("HEAD"), cancellable = true)
     private void func_183028_i(CallbackInfo callbackInfo) {

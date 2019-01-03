@@ -54,7 +54,7 @@ public abstract class MixinAbstractClientPlayer extends EntityPlayer {
     }
 
     /**
-     * @author
+     * @author Kevin
      */
     @Overwrite
     public ResourceLocation getLocationCape() {

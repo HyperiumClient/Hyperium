@@ -610,7 +610,7 @@ public class Settings {
     public static boolean DISABLE_LIGHTNING = false;
 
     @ConfigOpt
-    //@ToggleSetting(name = "gui.settings.keeplightinguhc", category = IMPROVEMENTS) unable to figure out how to check the users game they're playing, will add back later
+    @ToggleSetting(name = "gui.settings.keeplightinguhc", category = IMPROVEMENTS)
     public static boolean UHC_LIGHTNING = false;
 
     @ConfigOpt

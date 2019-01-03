@@ -169,6 +169,9 @@ public class MixinModelBiped extends ModelBase implements IMixinModelBiped {
         this.bipedRightForeArm_adj.render(scale);*/
     }
 
+    /**
+     * @author Amplifiable
+     */
     @Overwrite
     public void setRotationAngles(final float limbSwing, final float limbSwingAmount, final float ageInTicks, final float netHeadYaw, final float headPitch, final float scaleFactor, final Entity entityIn) {
         this.bipedHead.rotateAngleY = netHeadYaw / 57.295776f;
