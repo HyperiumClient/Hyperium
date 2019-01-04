@@ -49,7 +49,7 @@ public enum Minigame {
     public final String dbName;
     public final int id;
 
-    private Minigame(String scoreName, String dbName, int id) {
+    Minigame(String scoreName, String dbName, int id) {
         this.scoreName = scoreName;
         this.dbName = dbName;
         this.id = id;

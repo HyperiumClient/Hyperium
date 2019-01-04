@@ -66,7 +66,7 @@ public abstract class MixinGuiPlayerTabOverlay extends Gui {
      */
     @Overwrite
     public void renderPlayerlist(int width, Scoreboard scoreboardIn, ScoreObjective scoreObjectiveIn) {
-        hyperiumGuiPlayerTabOverlay.renderPlayerlist(width, scoreboardIn, scoreObjectiveIn, this.field_175252_a, this.header, this.footer, this.mc);
+        hyperiumGuiPlayerTabOverlay.renderPlayerlist(width, scoreboardIn, scoreObjectiveIn, field_175252_a, this.header, this.footer, this.mc);
     }
 
     @Inject(method = "setHeader", at = @At("HEAD"))

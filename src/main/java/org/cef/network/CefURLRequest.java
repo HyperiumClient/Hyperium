@@ -15,7 +15,7 @@ import org.cef.handler.CefLoadHandler.ErrorCode;
  * on the same thread that created it.
  */
 public abstract class CefURLRequest {
-    public static enum Status {
+    public enum Status {
         UR_UNKNOWN,
         UR_SUCCESS,
         UR_IO_PENDING,

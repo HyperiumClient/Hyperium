@@ -14,7 +14,7 @@ import org.cef.misc.IntRef;
  * this class can only be accessed on the browser process the UI thread.
  */
 public interface CefMenuModel {
-    public static final class MenuId {
+    final class MenuId {
         public static final int MENU_ID_BACK = 100;
         public static final int MENU_ID_FORWARD = 101;
         public static final int MENU_ID_RELOAD = 102;
@@ -54,7 +54,7 @@ public interface CefMenuModel {
     /**
      * Supported menu item types.
      */
-    public enum MenuItemType {
+    enum MenuItemType {
         MENUITEMTYPE_NONE,
         MENUITEMTYPE_COMMAND,
         MENUITEMTYPE_CHECK,

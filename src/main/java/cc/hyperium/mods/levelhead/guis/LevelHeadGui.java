@@ -230,7 +230,6 @@ public class LevelHeadGui extends GuiScreen {
             slider.dragging = false;
         }), null);
 
-
     }
 
     private void updateCustom() {
@@ -239,9 +238,9 @@ public class LevelHeadGui extends GuiScreen {
 
             try {
                 if (isCustom) {
-                    Desktop.getDesktop().browse(new URI("http://sk1er.club/user"));
+                    Desktop.getDesktop().browse(new URI("https://sk1er.club/user"));
                 } else {
-                    Desktop.getDesktop().browse(new URI("http://sk1er.club/customlevelhead"));
+                    Desktop.getDesktop().browse(new URI("https://sk1er.club/customlevelhead"));
                 }
             } catch (IOException | URISyntaxException e) {
                 e.printStackTrace();
@@ -278,7 +277,6 @@ public class LevelHeadGui extends GuiScreen {
         lock.unlock();
     }
 
-
     private void regSlider(GuiSlider slider, Consumer<GuiButton> but) {
         slider.yPosition += 30;
         reg(slider, but);
@@ -289,13 +287,11 @@ public class LevelHeadGui extends GuiScreen {
     @Override
     public void drawScreen(int mouseX, int mouseY, float ticks) {
         lock.lock();
-
         drawDefaultBackground();
 
         drawTitle();
         drawLook();
         textField.drawTextBox();
-
 
         headerColorButton.visible = !this.mod.getConfig().isHeaderChroma() && !this.mod.getConfig().isHeaderRgb();
         footerColorButton.visible = !this.mod.getConfig().isFooterChroma() && !this.mod.getConfig().isFooterRgb();
@@ -304,13 +300,11 @@ public class LevelHeadGui extends GuiScreen {
             for (GuiButton slider : sliders) {
                 if (slider.displayString.contains("Header"))
                     slider.visible = true;
-
             }
         } else {
             for (GuiButton slider : sliders) {
                 if (slider.displayString.contains("Header"))
                     slider.visible = false;
-
             }
         }
         if (this.mod.getConfig().isFooterRgb()) {
@@ -323,7 +317,6 @@ public class LevelHeadGui extends GuiScreen {
             for (GuiButton slider : sliders) {
                 if (slider.displayString.contains("Footer"))
                     slider.visible = false;
-
             }
         }
 
@@ -359,7 +352,7 @@ public class LevelHeadGui extends GuiScreen {
         Consumer<GuiButton> guiButtonConsumer = clicks.get(button);
         if (guiButtonConsumer != null) {
             guiButtonConsumer.accept(button);
-            //Adjust loaded levelhead names
+            // Adjust loaded levelhead names
             updatePeopleToValues();
         }
     }
@@ -388,14 +381,8 @@ public class LevelHeadGui extends GuiScreen {
         if (mouseButton == 0) {
             for (GuiButton guibutton : this.buttonList) {
                 if (guibutton.mousePressed(this.mc, mouseX, mouseY)) {
-//                    net.minecraftforge.client.event.GuiScreenEvent.ActionPerformedEvent.Pre event = new net.minecraftforge.client.event.GuiScreenEvent.ActionPerformedEvent.Pre(this, guibutton, this.buttonList);
-//                    if (net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(event))
-//                        break;
-//                    guibutton = event.button;
                     guibutton.playPressSound(this.mc.getSoundHandler());
                     this.actionPerformed(guibutton);
-//                    if (this.equals(this.mc.currentScreen))
-//                        net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(new net.minecraftforge.client.event.GuiScreenEvent.ActionPerformedEvent.Post(this, event.button, this.buttonList));
                 }
             }
         }
@@ -409,7 +396,6 @@ public class LevelHeadGui extends GuiScreen {
     public void display() {
         Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(this);
     }
-
 
     @Override
     public void sendChatMessage(String msg) {
@@ -447,7 +433,6 @@ public class LevelHeadGui extends GuiScreen {
             if (header.isChroma())
                 drawCenteredString(renderer, header.getValue(), this.width / 2, h, Hyperium.INSTANCE.getModIntegration().getLevelhead().getRGBColor());
             else if (header.isRgb()) {
-//                GlStateManager.color(header.getRed(), header.getGreen(), header.getBlue(), header.getAlpha());
                 drawCenteredString(renderer, header.getValue(), this.width / 2, h, new Color(header.getRed(), header.getGreen(), header.getBlue(), header.getAlpha()).getRGB());
 
             } else {
@@ -463,7 +448,6 @@ public class LevelHeadGui extends GuiScreen {
             } else {
                 drawCenteredString(renderer, footer.getColor() + footer.getValue(), (this.width / 2 + renderer.getStringWidth(header.getValue()) / 2 + 3), h, Color.WHITE.getRGB());
             }
-
 
         } else {
             drawCenteredString(renderer, "LevelHead is disabled", this.width / 2, 30, Color.WHITE.getRGB());

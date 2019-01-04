@@ -22,6 +22,6 @@ public interface CefSchemeHandlerFactory {
      * (for example, if the request came from CefURLRequest). The |request| object
      * passed to this method will not contain cookie data.
      */
-    public CefResourceHandler create(
+    CefResourceHandler create(
         CefBrowser browser, CefFrame frame, String schemeName, CefRequest request);
 }

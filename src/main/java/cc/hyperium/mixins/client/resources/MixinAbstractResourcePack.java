@@ -49,6 +49,6 @@ public abstract class MixinAbstractResourcePack implements IResourcePack {
      */
     @Overwrite
     public BufferedImage getPackImage() throws IOException {
-        return hyperiumAbstractResourcePack.getPackImage(this.IconSize);
+        return hyperiumAbstractResourcePack.getPackImage(IconSize);
     }
 }

@@ -43,7 +43,7 @@ public class NetworkInfo {
     }
 
     private NetworkPlayerInfo getPlayerInfo(final String ign) {
-        final Collection<NetworkPlayerInfo> map = (Collection<NetworkPlayerInfo>) this.mc.getNetHandler().getPlayerInfoMap();
+        final Collection<NetworkPlayerInfo> map = this.mc.getNetHandler().getPlayerInfoMap();
         for (final NetworkPlayerInfo networkplayerinfo : map) {
             if (networkplayerinfo.getGameProfile().getName().equalsIgnoreCase(ign)) {
                 return networkplayerinfo;

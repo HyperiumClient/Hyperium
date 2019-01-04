@@ -84,7 +84,7 @@ public abstract class MixinNetHandlerPlayClient {
     private WorldClient clientWorldController;
     @Shadow
     private Minecraft gameController;
-    private TimeChanger timeChanger = (TimeChanger) Hyperium.INSTANCE.getModIntegration().getTimeChanger();
+    private TimeChanger timeChanger = Hyperium.INSTANCE.getModIntegration().getTimeChanger();
 
     /**
      * Adds the tab completions of the client to the tab completions received from the server.
@@ -106,7 +106,7 @@ public abstract class MixinNetHandlerPlayClient {
     @Overwrite
     public void handleTimeUpdate(S03PacketTimeUpdate packet) {
         if (this.timeChanger == null) {
-            this.timeChanger = (TimeChanger) Hyperium.INSTANCE.getModIntegration().getTimeChanger();
+            this.timeChanger = Hyperium.INSTANCE.getModIntegration().getTimeChanger();
         }
 
         if (this.timeChanger.getTimeType() == null) {

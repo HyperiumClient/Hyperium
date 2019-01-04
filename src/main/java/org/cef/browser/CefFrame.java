@@ -67,5 +67,5 @@ public interface CefFrame {
      * @param url The URL where the script in question can be found.
      * @param line The base line number to use for error reporting.
      */
-    public void executeJavaScript(String code, String url, int line);
+    void executeJavaScript(String code, String url, int line);
 }

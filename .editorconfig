@@ -1,6 +1,6 @@
 # EditorConfig is awesome!: https://editorconfig.org
 
-# this is the main editorconfig file:
+# This is the main EditorConfig file:
 root = true
 
 # Have Java and Kotlin files in UTF-8 and put an extra line at the bottom of each file:

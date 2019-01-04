@@ -17,7 +17,7 @@ public interface CefContextMenuHandler {
     /**
      * Supported event bit flags.
      */
-    public static final class EventFlags {
+    final class EventFlags {
         public final static int EVENTFLAG_NONE = 0;
         public final static int EVENTFLAG_CAPS_LOCK_ON = 1 << 0;
         public final static int EVENTFLAG_SHIFT_DOWN = 1 << 1;
@@ -43,7 +43,7 @@ public interface CefContextMenuHandler {
      * @param model can be cleared to show no context menu or modified
      * to show a custom menu.
      */
-    public void onBeforeContextMenu(
+    void onBeforeContextMenu(
         CefBrowser browser, CefFrame frame, CefContextMenuParams params, CefMenuModel model);
 
     /**
@@ -59,8 +59,8 @@ public interface CefContextMenuHandler {
      * @param eventFlags A combination of event flags defined in EventFlags
      * @return true if the command was handled or false for the default implementation.
      */
-    public boolean onContextMenuCommand(CefBrowser browser, CefFrame frame,
-        CefContextMenuParams params, int commandId, int eventFlags);
+    boolean onContextMenuCommand(CefBrowser browser, CefFrame frame,
+                                 CefContextMenuParams params, int commandId, int eventFlags);
 
     /**
      * Called when the context menu is dismissed irregardless of whether the menu
@@ -69,5 +69,5 @@ public interface CefContextMenuHandler {
      * @param browser The corresponding browser.
      * @param frame The corresponding frame.
      */
-    public void onContextMenuDismissed(CefBrowser browser, CefFrame frame);
+    void onContextMenuDismissed(CefBrowser browser, CefFrame frame);
 }
