@@ -17,7 +17,7 @@
 
 // Created in hope to limit toxicity.  
 
-package cc.hyperium.integrations.betterchatfilter;
+package cc.hyperium.integrations.rdil.bcf;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.Hyperium;
 import cc.hyperium.event.EventBus;
