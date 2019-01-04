@@ -4,7 +4,7 @@
 root = true
 
 # Have Java and Kotlin files in UTF-8 and put an extra line at the bottom of each file:
-[*.{java, kt}]
+[*.{java,kt}]
 charset = utf-8
 insert_final_newline = true
 
@@ -13,7 +13,7 @@ insert_final_newline = true
 indent_style = space
 indent_size = 4
 
-# Set indents for the Travis CI config:
-[.travis.yml]
+# Set indents for the Travis CI config and all JSON files:
+[.travis.yml,*.json]
 indent_style = space
 indent_size = 2
