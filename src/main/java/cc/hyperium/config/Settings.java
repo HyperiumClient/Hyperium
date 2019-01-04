@@ -610,12 +610,16 @@ public class Settings {
     public static boolean DISABLE_LIGHTNING = false;
 
     @ConfigOpt
-    @ToggleSetting(name = "gui.settings.keeplightinguhc", category = IMPROVEMENTS)
+    //@ToggleSetting(name = "gui.settings.keeplightinguhc", category = IMPROVEMENTS)
     public static boolean UHC_LIGHTNING = false;
 
     @ConfigOpt
     @ToggleSetting(name = "gui.settings.disablearmorstands", category = IMPROVEMENTS)
     public static boolean DISABLE_ARMORSTANDS = false;
+
+    @ConfigOpt
+    @ToggleSetting(name = "gui.settings.disableitemframes", category = IMPROVEMENTS)
+    public static boolean DISABLE_ITEMFRAMES = false;
 
     private Settings() {
     }

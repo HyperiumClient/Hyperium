@@ -238,6 +238,7 @@ gui.settings.fpslimiteramount=FPS Limiter Amount
 gui.settings.disablelightning=Disable Lightning Bolts
 gui.settings.disablearmorstands=Disable Armorstands
 gui.settings.keeplightinguhc=Keep Lightning Bolts in UHC
+gui.settings.disableitemframes=Disable Item Frames
 
 #Hyperium Splash Progress
 splashprogress.startinggame=Starting Game...
