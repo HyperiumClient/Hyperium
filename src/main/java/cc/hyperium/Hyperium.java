@@ -34,14 +34,12 @@ import cc.hyperium.commands.defaults.CommandNameHistory;
 import cc.hyperium.commands.defaults.CommandParticleAuras;
 import cc.hyperium.commands.defaults.CommandParty;
 import cc.hyperium.commands.defaults.CommandPing;
-import cc.hyperium.commands.defaults.CommandPlayGame;
 import cc.hyperium.commands.defaults.CommandQuests;
 import cc.hyperium.commands.defaults.CommandResize;
 import cc.hyperium.commands.defaults.CommandStatistics;
 import cc.hyperium.commands.defaults.CommandStats;
 import cc.hyperium.commands.defaults.CommandUpdate;
 import cc.hyperium.commands.defaults.CustomLevelheadCommand;
-import cc.hyperium.commands.defaults.DevTestCommand;
 import cc.hyperium.config.DefaultConfig;
 import cc.hyperium.config.Settings;
 import cc.hyperium.cosmetics.HyperiumCosmetics;
@@ -52,7 +50,7 @@ import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.PreInitializationEvent;
 import cc.hyperium.event.Priority;
 import cc.hyperium.event.minigames.MinigameListener;
-import cc.hyperium.gui.BlurFallback;
+import cc.hyperium.gui.BlurHandler;
 import cc.hyperium.gui.ColourOptions;
 import cc.hyperium.gui.ConfirmationPopup;
 import cc.hyperium.gui.NotificationCenter;
@@ -87,6 +85,7 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.crash.CrashReport;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.Contract;
 import org.lwjgl.opengl.Display;
 
 import java.io.BufferedReader;
@@ -119,11 +118,12 @@ public class Hyperium {
      * The Hyperium configuration folder
      */
     public static final File folder = new File("hyperium");
+
     /**
      * Instance of default CONFIG
      */
-
     public static final DefaultConfig CONFIG = new DefaultConfig(new File(folder, "CONFIG.json"));
+
     public static int BUILD_ID = -1;
     public static boolean IS_BETA;
     private static boolean updateQueue = false;
@@ -140,7 +140,7 @@ public class Hyperium {
     private boolean fullScreen = false;
     private boolean checkedForUpdate = false;
     private boolean optifineInstalled = false;
-    private boolean isDevEnv;
+    public boolean isDevEnv;
     private Sk1erMod sk1erMod;
     private NettyClient client;
     private InternalAddons internalAddons;
@@ -150,7 +150,6 @@ public class Hyperium {
      */
     private boolean firstLaunch = false;
     private HyperiumScheduler scheduler;
-
 
     @InvokeEvent
     public void preinit(PreInitializationEvent event) {
@@ -163,7 +162,6 @@ public class Hyperium {
         HyperiumLocale.registerHyperiumLang("en_US");
         HyperiumLocale.registerHyperiumLang("ja_JP");
     }
-
 
     @InvokeEvent(priority = Priority.HIGH)
     public void init(InitializationEvent event) {
@@ -206,8 +204,8 @@ public class Hyperium {
 
             // Has the user accepted the TOS of the client?
             this.acceptedTos = new File(
-                    folder.getAbsolutePath() + "/accounts/" + Minecraft.getMinecraft().getSession()
-                            .getPlayerID() + ".lck").exists();
+                folder.getAbsolutePath() + "/accounts/" + Minecraft.getMinecraft().getSession()
+                    .getPlayerID() + ".lck").exists();
 
             SplashProgress.setProgress(5, I18n.format("splashprogress.loadinghandlers"));
             handlers = new HyperiumHandlers();
@@ -222,10 +220,9 @@ public class Hyperium {
             EventBus.INSTANCE.register(CompactChat.getInstance());
             EventBus.INSTANCE.register(CONFIG.register(FPSLimiter.getInstance()));
             EventBus.INSTANCE.register(confirmation);
-            EventBus.INSTANCE.register(new BlurFallback());
+            EventBus.INSTANCE.register(new BlurHandler());
             EventBus.INSTANCE.register(new CommandUpdate());
             EventBus.INSTANCE.register(new ThankWatchdog());
-
 
             // Register statistics tracking.
             EventBus.INSTANCE.register(statTrack);
@@ -233,7 +230,7 @@ public class Hyperium {
             CONFIG.register(new ToggleSprintContainer());
 
             SplashProgress.setProgress(7, I18n.format("splashprogress.startinghyperium"));
-            LOGGER.info("Hyperium Started!");
+            LOGGER.info("[Hyperium] Started!");
             Display.setTitle("Hyperium " + Metadata.getVersion());
 
             TrayManager trayManager = new TrayManager();
@@ -243,7 +240,7 @@ public class Hyperium {
                 trayManager.init();
             } catch (Exception e) {
                 e.printStackTrace();
-                LOGGER.warn("Failed to hookup TrayIcon");
+                LOGGER.warn("[Tray] Failed to hookup TrayIcon");
             }
 
             // instance does not need to be saved as shit is static ^.^
@@ -264,7 +261,7 @@ public class Hyperium {
                     StaffUtils.clearCache();
                 } catch (IOException e) {
                     e.printStackTrace();
-                    LOGGER.warn("Failed to fetch staff");
+                    LOGGER.warn("[Staff] Failed to fetch staff");
                 }
 
             });
@@ -293,7 +290,6 @@ public class Hyperium {
 
             SplashProgress.setProgress(13, I18n.format("splashprogress.finishing"));
 
-
             if (FontFixValues.INSTANCE == null) {
                 FontFixValues.INSTANCE = new FontFixValues();
             }
@@ -316,7 +312,7 @@ public class Hyperium {
                         }
                     }
                 } else {
-                    System.out.println("Not restoring chat");
+                    System.out.println("[Chat Handler] Not restoring chat");
                 }
             });
 
@@ -328,7 +324,7 @@ public class Hyperium {
             try {
                 Class.forName("optifine.OptiFineTweaker");
                 optifineInstalled = true;
-                System.out.println("Optifine installation detected!");
+                System.out.println("[OptiFine] installation detected!");
             } catch (ClassNotFoundException e) {
                 optifineInstalled = false;
             }
@@ -347,11 +343,9 @@ public class Hyperium {
         hyperiumCommandHandler.registerCommand(new CommandClearChat());
         hyperiumCommandHandler.registerCommand(new CommandBrowse());
         hyperiumCommandHandler.registerCommand(new CommandNameHistory());
-        hyperiumCommandHandler.registerCommand(new CommandPlayGame());
         hyperiumCommandHandler.registerCommand(new CommandDebug());
         hyperiumCommandHandler.registerCommand(new CommandUpdate());
         hyperiumCommandHandler.registerCommand(new CommandCoords());
-        hyperiumCommandHandler.registerCommand(new DevTestCommand());
         hyperiumCommandHandler.registerCommand(new CommandLogs());
         hyperiumCommandHandler.registerCommand(new CommandPing());
         hyperiumCommandHandler.registerCommand(new CommandStats());
@@ -368,9 +362,8 @@ public class Hyperium {
         hyperiumCommandHandler.registerCommand(new CommandKeybinds());
     }
 
-
     /**
-     * called when Hyperium shuts down
+     * Called when Hyperium shuts down
      */
     private void shutdown() {
         CONFIG.save();
@@ -428,7 +421,7 @@ public class Hyperium {
         }
         try {
             new File(folder.getAbsolutePath() + "/accounts/" + Minecraft.getMinecraft().getSession()
-                    .getPlayerID() + ".lck").createNewFile();
+                .getPlayerID() + ".lck").createNewFile();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -474,9 +467,9 @@ public class Hyperium {
 
         File tempNatives = new File(nativePath);
         if (!tempNatives.exists()) {
-            System.out.println("Error - Natives are missing.");
+            System.out.println("[Error] Natives are missing.");
         } else {
-            System.out.println("Copying natives to hyperium folder.");
+            System.out.println("[Hyperium] Copying natives to hyperium directory.");
             try {
                 for (File fileEntry : tempNatives.listFiles()) {
                     Files.copy(fileEntry.toPath(), Paths.get(newFolder.getPath() + File.separator + fileEntry.getName()), StandardCopyOption.REPLACE_EXISTING);
@@ -487,6 +480,7 @@ public class Hyperium {
         }
     }
 
+    @Contract(pure = true)
     private String quoteSpaces(String argument) {
         if (argument.contains(" ")) {
             return "\"" + argument + "\"";

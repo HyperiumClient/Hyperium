@@ -59,14 +59,14 @@ public class GuiButtonIcon extends GuiButton {
             GL11.glScalef(scale, scale, scale);
             GlStateManager.enableBlend();
             GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_NEAREST);
-            GL11.glTranslatef(xPosition / scale + this.width/scale/2, yPosition / scale + this.height / scale / 2, 0);
+            GL11.glTranslatef(xPosition / scale + this.width / scale / 2, yPosition / scale + this.height / scale / 2, 0);
             GlStateManager.color(0, 0, 0, 1.0F);
             float mag = 1.25F;
             GlStateManager.scale(mag, mag, mag);
-            drawTexturedModalRect(-width / 2, -height / 2, 52 * sprite, 0, width,height);
+            drawTexturedModalRect(-width / 2, -height / 2, 52 * sprite, 0, width, height);
             GlStateManager.scale(1.0F / mag, 1.0F / mag, 1.0F / mag);
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-            drawTexturedModalRect(-width / 2, -height / 2, 52 * sprite, 0, width,height);
+            drawTexturedModalRect(-width / 2, -height / 2, 52 * sprite, 0, width, height);
 
             GlStateManager.disableBlend();
             GL11.glPopMatrix();

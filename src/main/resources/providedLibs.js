@@ -75,7 +75,6 @@ var ChatTriggers = Java.type("com.chattriggers.ctjs.Reference").INSTANCE;
 /*End Built in Vars */
 
 
-
 // simplified methods
 function print(toPrint) {
     Console.out.println(toPrint);
@@ -84,7 +83,7 @@ function print(toPrint) {
 function cancel(event) {
     try {
         EventLib.cancel(event);
-    } catch(err) {
+    } catch (err) {
         if (!event.isCancelable()) return;
         event.setCanceled(true);
     }

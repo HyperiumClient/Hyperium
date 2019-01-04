@@ -227,8 +227,8 @@ public class ParticleOverlay {
             float step = (float) (0.01 * (Settings.MAX_PARTICLES / 100));
             Mode m = getMode();
             if (m == Mode.OFF) return;
-             if(!Settings.PARTICLES_INV && Minecraft.getMinecraft().currentScreen instanceof GuiInventory)
-                 return;
+            if (!Settings.PARTICLES_INV && Minecraft.getMinecraft().currentScreen instanceof GuiInventory)
+                return;
 
             last = System.currentTimeMillis();
             for (Particle particle : particles) {
@@ -260,7 +260,7 @@ public class ParticleOverlay {
 //
                         boolean flag = false;
                         if (((v1 >= guiLeft && v1 <= guiRight) || (x2 >= guiLeft && x2 <= guiRight))
-                                && ((v2 >= guiTop && v2 <= guiBottom) || (y2 >= guiTop && y2 <= guiBottom))) {
+                            && ((v2 >= guiTop && v2 <= guiBottom) || (y2 >= guiTop && y2 <= guiBottom))) {
                             if (!Settings.PARTICLES_INV)
                                 continue;
                             alpha /= 4;

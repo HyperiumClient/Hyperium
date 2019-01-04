@@ -24,9 +24,9 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 public abstract class AbstractAddon {
     public abstract AbstractAddon init();
-    
+
     public abstract Metadata getAddonMetadata();
-    
+
     public class Metadata {
         private final AbstractAddon addon;
         private final String author;

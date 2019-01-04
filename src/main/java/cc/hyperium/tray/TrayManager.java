@@ -54,7 +54,6 @@ public class TrayManager {
             PopupMenu menu = new PopupMenu();
 
             MenuItem aboutItem = new MenuItem("About");
-            //TODO: Edit about Dialog
             aboutItem.addActionListener(action -> trayDisplayAboutInfo());
 
             MenuItem exitItem = new MenuItem("Exit");
@@ -95,7 +94,7 @@ public class TrayManager {
 
     private void trayDisplayAboutInfo() {
         JOptionPane popup = new JOptionPane();
-        JOptionPane.showMessageDialog(popup, "Hyperium is a Hypixel Based 1.8 Client developed by Sk1er, CoalOres, Cubxity, KevinPriv and boomboompower. Version: " + Metadata
-                .getVersion(), "Hyperium - About", JOptionPane.PLAIN_MESSAGE);
+        JOptionPane.showMessageDialog(popup, "Hyperium is a Hypixel Based 1.8.9 Client developed by Sk1er, CoalOres, Cubxity, KevinPriv and boomboompower. Version: " + Metadata
+            .getVersion(), "Hyperium - About", JOptionPane.PLAIN_MESSAGE);
     }
 }

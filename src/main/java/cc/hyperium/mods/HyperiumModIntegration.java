@@ -22,6 +22,7 @@ import cc.hyperium.mods.autogg.AutoGG;
 import cc.hyperium.mods.blockoverlay.BlockOverlay;
 import cc.hyperium.mods.browser.BrowserMod;
 import cc.hyperium.mods.chromahud.ChromaHUD;
+import cc.hyperium.mods.chunkanimator.ChunkAnimator;
 import cc.hyperium.mods.fortnitecompass.FortniteCompassMod;
 import cc.hyperium.mods.glintcolorizer.GlintColorizer;
 import cc.hyperium.mods.hgames.HGames;
@@ -67,9 +68,10 @@ public class HyperiumModIntegration {
     private final ItemPhysicMod itemPhysicMod;
     private final BrowserMod browserMod;
     private final VictoryRoyale victoryRoyale;
+    private final ChunkAnimator chunkAnimator;
 
     public HyperiumModIntegration() {
-        // ChromaHud implementation
+        // ChromaHUD implementation
         this.chromaHUD = ((ChromaHUD) new ChromaHUD().init());
 
         // LevelHead implementation
@@ -130,6 +132,8 @@ public class HyperiumModIntegration {
         this.browserMod = (BrowserMod) new BrowserMod().init();
 
         this.victoryRoyale = (VictoryRoyale) new VictoryRoyale().init();
+
+        this.chunkAnimator = (ChunkAnimator) new ChunkAnimator().init();
     }
 
     public KeystrokesMod getKeystrokesMod() {
@@ -214,5 +218,9 @@ public class HyperiumModIntegration {
 
     public VictoryRoyale getVictoryRoyale() {
         return victoryRoyale;
+    }
+
+    public ChunkAnimator getChunkAnimator() {
+        return chunkAnimator;
     }
 }

@@ -37,7 +37,7 @@ public class FPS extends DisplayItem {
     @Override
     public void draw(int starX, double startY, boolean ignored) {
         String string = "";
-        if(!Settings.CHROMAHUD_SQUAREBRACE_PREFIX_OPTION) {
+        if (!Settings.CHROMAHUD_SQUAREBRACE_PREFIX_OPTION) {
             string = "FPS: " + Minecraft.getDebugFPS();
         } else {
             string = "[FPS] " + Minecraft.getDebugFPS();

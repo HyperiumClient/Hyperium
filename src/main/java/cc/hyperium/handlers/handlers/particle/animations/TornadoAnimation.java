@@ -17,14 +17,14 @@ public class TornadoAnimation extends AbstractAnimation {
         Vec3 base = new Vec3(x, y + .2, z);
         double z1 = .2;
         for (int i = 0; i < 20; i++) {
-            if (i % 2 ==0)
+            if (i % 2 == 0)
                 continue;
             double v = Math.pow(10, z1 + (i / 10D) - 1) / 5 + .3;
-            double period = 5000*v;
+            double period = 5000 * v;
             double v2 = (System.currentTimeMillis() % period) / period;
             v2 *= Math.PI * 2;
             for (int j = 0; j < i; j++) {
-                double v1 = Math.PI * 2D * j / ((double) i)+ v2;
+                double v1 = Math.PI * 2D * j / ((double) i) + v2;
                 vec3s.add(base.addVector(v * MathHelper.sin((float) v1), i / 10D, v * MathHelper.cos((float) v1)));
             }
         }

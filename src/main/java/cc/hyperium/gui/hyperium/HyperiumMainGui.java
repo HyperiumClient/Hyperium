@@ -15,11 +15,9 @@ import cc.hyperium.handlers.handlers.SettingsHandler;
 import cc.hyperium.mixinsimp.client.GlStateModifier;
 import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
 import cc.hyperium.utils.HyperiumFontRenderer;
-import me.semx11.autotip.universal.ReflectionUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
@@ -30,8 +28,6 @@ import net.minecraft.util.ResourceLocation;
 import java.awt.Color;
 import java.io.IOException;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -74,6 +70,7 @@ public class HyperiumMainGui extends HyperiumGui {
         settingsObjects.add(Hyperium.INSTANCE.getModIntegration().getMotionBlur());
         settingsObjects.add(Hyperium.INSTANCE.getModIntegration().getLevelhead().getConfig());
         settingsObjects.add(Hyperium.INSTANCE.getModIntegration().getGlintcolorizer().getColors());
+        settingsObjects.add(Hyperium.INSTANCE.getModIntegration().getChunkAnimator().getConfig());
         SettingsHandler settingsHandler = Hyperium.INSTANCE.getHandlers().getSettingsHandler();
         settingsObjects.addAll(settingsHandler.getSettingsObjects());
         HashMap<Field, List<Consumer<Object>>> call1 = settingsHandler.getcallbacks();
@@ -87,32 +84,27 @@ public class HyperiumMainGui extends HyperiumGui {
         }
         try {
             rgbFields.add(new RGBFieldSet(
-                    Settings.class.getDeclaredField("REACH_RED"),
-                    Settings.class.getDeclaredField("REACH_GREEN"),
-                    Settings.class.getDeclaredField("REACH_BLUE"), Category.REACH, true,
-                    Settings.INSTANCE));
+                Settings.class.getDeclaredField("REACH_RED"),
+                Settings.class.getDeclaredField("REACH_GREEN"),
+                Settings.class.getDeclaredField("REACH_BLUE"), Category.REACH, true,
+                Settings.INSTANCE));
             rgbFields.add(new RGBFieldSet(
-                    Settings.class.getDeclaredField("BUTTON_RED"),
-                    Settings.class.getDeclaredField("BUTTON_GREEN"),
-                    Settings.class.getDeclaredField("BUTTON_BLUE"), Category.BUTTONS, false,
-                    Settings.INSTANCE));
+                Settings.class.getDeclaredField("BUTTON_RED"),
+                Settings.class.getDeclaredField("BUTTON_GREEN"),
+                Settings.class.getDeclaredField("BUTTON_BLUE"), Category.BUTTONS, false,
+                Settings.INSTANCE));
         } catch (NoSuchFieldException e) {
             e.printStackTrace();
         }
-        initialGuiScale = Minecraft.getMinecraft().gameSettings.guiScale;
-        // Adjust if GUI scale is on automatic.
-        if (Minecraft.getMinecraft().gameSettings.guiScale == 0) {
-            Minecraft.getMinecraft().gameSettings.guiScale = 3;
-        }
 
         tabs = Arrays.asList(
-                new SettingsTab(this),
-                new UpdateTab(this),
-                new ShopTab(this)
+            new SettingsTab(this),
+            new UpdateTab(this),
+            new ShopTab(this)
         );
-        guiScale = 2;
         scollMultiplier = 2;
         setTab(tabIndex);
+
     }
 
     public HashMap<Field, Supplier<String[]>> getCustomStates() {
@@ -137,31 +129,11 @@ public class HyperiumMainGui extends HyperiumGui {
 
     @Override
     protected void pack() {
-        if (Settings.BLUR_GUI) {
-            Method loadShaderMethod = null;
-            try {
-                loadShaderMethod = ReflectionUtil
-                        .findMethod(EntityRenderer.class, new String[]{"loadShader", "a"},
-                                ResourceLocation.class);
-            } catch (Exception ignored) {
-            }
-
-            if (loadShaderMethod != null) {
-                loadShaderMethod.setAccessible(true);
-                try {
-                    loadShaderMethod.invoke(Minecraft.getMinecraft().entityRenderer,
-                            new ResourceLocation("shaders/hyperium_blur.json"));
-                } catch (IllegalAccessException | InvocationTargetException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
         show = false;
         int yg = (height / 10);  // Y grid
         int xg = (width / 11);   // X grid
         searchField = new MaterialTextField(xg * 10 - 110, yg + (yg / 2 - 10), 100, 20,
-                I18n.format("tabs.searchbar"), font);
+            I18n.format("tabs.searchbar"), font);
     }
 
     @Override
@@ -173,7 +145,6 @@ public class HyperiumMainGui extends HyperiumGui {
             renderHyperiumBackground(ResolutionUtil.current());
         }
 
-
         GlStateModifier.INSTANCE.reset();
         Icons.LIGHTBULB.bind();
 
@@ -183,12 +154,12 @@ public class HyperiumMainGui extends HyperiumGui {
 
         drawRect(x - 3, 0, x + w + 3, yg, new Color(0, 0, 0, 50).getRGB());
         drawScaledCustomSizeModalRect(x, 0, 0, 0, 88, 128, w,
-                yg, 88, 128);
+            yg, 88, 128);
         Icons.LIGHTBULB_SOLID.bind();
         drawRect(x1 - 3, 0, x1 + w + 3, yg, new Color(0, 0, 0, 50).getRGB());
 
         drawScaledCustomSizeModalRect(x1, 0, 0, 0, 88, 128, w,
-                yg, 88, 128);
+            yg, 88, 128);
         /* Render shadowed bar at top of screen */
         if (Minecraft.getMinecraft().theWorld == null) {
             this.drawGradientRect(0, 0, this.width, this.height, -2130706433, 16777215);
@@ -201,7 +172,7 @@ public class HyperiumMainGui extends HyperiumGui {
         GlStateModifier.INSTANCE.reset();
 
         title.drawCenteredString(I18n.format(currentTab.getTitle()), this.width / 2,
-                yg + (yg / 2 - 8), 0xFFFFFF);
+            yg + (yg / 2 - 8), 0xFFFFFF);
 
         /* Render Body */
         currentTab.setFilter(searchField.getText().isEmpty() ? null : searchField.getText());
@@ -209,16 +180,16 @@ public class HyperiumMainGui extends HyperiumGui {
 
         /* Render Footer */
         smol.drawString(Metadata.getVersion(), this.width - smol.getWidth(Metadata.getVersion()) - 1,
-                height - 10, 0xffffffff);
+            height - 10, 0xffffffff);
 
         /* Render Tab Switcher */
         Icons.ARROW_LEFT.bind();
         GlStateManager.pushMatrix();
         Gui.drawScaledCustomSizeModalRect(this.width / 2 - xg, yg * 9, 0, 0, 144, 144, yg / 2, yg / 2,
-                144, 144);
+            144, 144);
         Icons.ARROW_RIGHT.bind();
         Gui.drawScaledCustomSizeModalRect(this.width / 2 + xg - (yg / 2), yg * 9, 0, 0, 144, 144, yg / 2,
-                yg / 2, 144, 144);
+            yg / 2, 144, 144);
         GlStateManager.popMatrix();
 
         // Alerts
@@ -231,10 +202,10 @@ public class HyperiumMainGui extends HyperiumGui {
         }
 
         if (!isLatestVersion() && !show && Settings.UPDATE_NOTIFICATIONS && !Metadata
-                .isDevelopment() && !((UpdateTab) tabs.get(1)).isBusy()) {
-            System.out.println("Sending alert...");
+            .isDevelopment() && !((UpdateTab) tabs.get(1)).isBusy()) {
+            System.out.println("[Update Notifications] Sending alert...");
             Alert alert = new Alert(Icons.ERROR.getResource(), () -> setTab(2),
-                    I18n.format("alert.update.message"));
+                I18n.format("alert.update.message"));
             alerts.add(alert);
             show = true;
         }
@@ -247,11 +218,19 @@ public class HyperiumMainGui extends HyperiumGui {
     }
 
     @Override
+    public void show() {
+        // Set user's GUI scale to normal whilst the GUI is open.
+        initialGuiScale = Minecraft.getMinecraft().gameSettings.guiScale;
+        Minecraft.getMinecraft().gameSettings.guiScale = 2;
+
+        super.show();
+    }
+
+    @Override
     protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
         super.mouseClicked(mouseX, mouseY, mouseButton);
         int yg = (height / 10);  // Y grid
         int xg = (width / 11);   // X grid
-
 
         int w = yg * 88 / 144;
         int x = this.width / 2 - w - 10;
@@ -292,10 +271,10 @@ public class HyperiumMainGui extends HyperiumGui {
 
         if (mouseButton == 0) {
             if (currentAlert != null && width / 4 <= mouseX && height - 20 <= mouseY
-                    && width - 20 - width / 4 >= mouseX) {
+                && width - 20 - width / 4 >= mouseX) {
                 currentAlert.runAction();
             } else if (currentAlert != null && mouseX >= width - 20 - width / 4
-                    && mouseX <= width - width / 4 && mouseY >= height - 20) {
+                && mouseX <= width - width / 4 && mouseY >= height - 20) {
                 currentAlert.dismiss();
             }
         }
@@ -322,11 +301,11 @@ public class HyperiumMainGui extends HyperiumGui {
             WorldRenderer worldrenderer = tessellator.getWorldRenderer();
             worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
             worldrenderer.pos(0.0D, (double) sr.getScaledHeight(), -90.0D).tex(0.0D, 1.0D)
-                    .endVertex();
+                .endVertex();
             worldrenderer.pos((double) sr.getScaledWidth(), (double) sr.getScaledHeight(), -90.0D)
-                    .tex(1.0D, 1.0D).endVertex();
+                .tex(1.0D, 1.0D).endVertex();
             worldrenderer.pos((double) sr.getScaledWidth(), 0.0D, -90.0D).tex(1.0D, 0.0D)
-                    .endVertex();
+                .endVertex();
             worldrenderer.pos(0.0D, 0.0D, -90.0D).tex(0.0D, 0.0D).endVertex();
             tessellator.draw();
         }
@@ -357,15 +336,11 @@ public class HyperiumMainGui extends HyperiumGui {
     @Override
     public void onGuiClosed() {
         super.onGuiClosed();
-        Minecraft.getMinecraft().entityRenderer.stopUseShader();
 
         // Save all settings.
         Hyperium.CONFIG.save();
 
-        if (initialGuiScale == 0) {
-            // User was on automatic so return to that scale.
-            Minecraft.getMinecraft().gameSettings.guiScale = 0;
-        }
+        Minecraft.getMinecraft().gameSettings.guiScale = initialGuiScale;
     }
 
     @Override
@@ -400,19 +375,19 @@ public class HyperiumMainGui extends HyperiumGui {
             GlStateManager.pushMatrix();
             GlStateManager.translate(0, (20 - step), 0);
             drawRect(width / 4, height - 20, width - width / 4, height,
-                    new Color(0, 0, 0, 40).getRGB());
+                new Color(0, 0, 0, 40).getRGB());
             fr.drawString(title, width / 4 + 20, height - 20 + (20 - fr.FONT_HEIGHT) / 2, 0xffffff);
             if (icon != null) {
                 GlStateManager.enableBlend();
                 GlStateManager.color(1f, 1f, 1f);
                 Minecraft.getMinecraft().getTextureManager().bindTexture(icon);
                 drawScaledCustomSizeModalRect(width / 4 + 2, height - 18, 0, 0, 144, 144, 16, 16,
-                        144, 144);
+                    144, 144);
                 GlStateManager.disableBlend();
             }
             Icons.CLOSE.bind();
             drawScaledCustomSizeModalRect(width - width / 4 - 18, height - 18, 0, 0, 144, 144, 16,
-                    16, 144, 144);
+                16, 144, 144);
             GlStateManager.popMatrix();
 
             if (step != 20) {

@@ -17,10 +17,11 @@
 
 package cc.hyperium.config;
 
-import cc.hyperium.styles.GuiStyle;
 import cc.hyperium.Hyperium;
+
 import cc.hyperium.styles.ButtonStyle;
 import cc.hyperium.styles.ButtonType;
+import cc.hyperium.styles.GuiStyle;
 
 import static cc.hyperium.config.Category.ANIMATIONS;
 import static cc.hyperium.config.Category.BUTTONS;
@@ -34,7 +35,6 @@ import static cc.hyperium.config.Category.ITEM_PHYSIC;
 import static cc.hyperium.config.Category.MENUS;
 import static cc.hyperium.config.Category.MISC;
 import static cc.hyperium.config.Category.REACH;
-import static cc.hyperium.config.Category.SPOTIFY;
 import static cc.hyperium.config.Category.TOGGLESPRINT;
 import static cc.hyperium.config.Category.VANILLA_ENHANCEMENTS;
 import static cc.hyperium.config.Category.VICTORYROYALE;
@@ -169,8 +169,7 @@ public class Settings {
     @SelectorSetting(name = "Companion Type", category = COSMETICS, items = "NONE")
     public static String COMPANION_TYPE = "NONE";
 
-    @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;spotifyControlsEnabled")
-    @ToggleSetting(name = "gui.settings.showspotifycontrols", category = SPOTIFY, mods = true)
+    @ConfigOpt
     public static boolean SPOTIFY_CONTROLS = false;
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;hypixelZooEnabled")
@@ -182,7 +181,7 @@ public class Settings {
     public static boolean SHOW_PARTICLES = true;
 
     @ConfigOpt
-    @ToggleSetting(category = GENERAL,name = "Show own name tag")
+    @ToggleSetting(category = GENERAL, name = "Show own name tag")
     public static boolean SHOW_OWN_NAME = false;
     @ConfigOpt(alt = "cc.hyperium.handlers.handlers.OtherConfigOptions;showCosmeticsEveryWhere")
     @ToggleSetting(category = COSMETICS, name = "gui.settings.showcosmeticseverywhere")
@@ -262,16 +261,16 @@ public class Settings {
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.BackgroundSettings;backgroundSelect")
     @SelectorSetting(name = "gui.settings.background", category = MENUS, items =
-            {
-                    "1",
-                    "2",
-                    "3",
-                    "4",
-                    "5",
-                    "6",
-                    "CUSTOM",
-                    "DEFAULT"
-            }
+        {
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "CUSTOM",
+            "DEFAULT"
+        }
     )
     public static String BACKGROUND = "4";
 
@@ -281,13 +280,13 @@ public class Settings {
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.BackgroundSettings;particlesModeString")
     @SelectorSetting(name = "gui.settings.particlesmode", items =
-            {
-                    "OFF",
-                    "PLAIN 1",
-                    "PLAIN 2",
-                    "CHROMA 1",
-                    "CHROMA 2"
-            }, category = COSMETICS
+        {
+            "OFF",
+            "PLAIN 1",
+            "PLAIN 2",
+            "CHROMA 1",
+            "CHROMA 2"
+        }, category = COSMETICS
     )
     public static String PARTICLE_MODE = "OFF";
 
@@ -340,11 +339,11 @@ public class Settings {
     public static boolean PING_ON_DM = true;
 
     @ConfigOpt
-    @ToggleSetting(category = IMPROVEMENTS,name = "Improved Particle Handling (BETA)")
+    @ToggleSetting(category = IMPROVEMENTS, name = "Improved Particle Handling (BETA)")
     public static boolean IMPROVE_PARTICLES = true;
 
     @ConfigOpt
-    @ToggleSetting(category = IMPROVEMENTS,name = "Improved Entity Handling (BETA)")
+    @ToggleSetting(category = IMPROVEMENTS, name = "Improved Entity Handling (BETA)")
     public static boolean IMPROVE_ENTITY_HANDLING = false;
 
     public static boolean IMPROVE_PARTICLE_RUN = false; /* any reason why this isnt used at all? */
@@ -356,10 +355,6 @@ public class Settings {
     @ConfigOpt()
     @ToggleSetting(category = GENERAL, name = "gui.settings.sprintandperspectivemessages")
     public static boolean SPRINT_PERSPECTIVE_MESSAGES = true;
-
-    @ConfigOpt(alt = "cc.hyperium.handlers.handlers.chat.AutoWhoChatHandler;enabled")
-    @ToggleSetting(name = "gui.settings.autowho", category = INTEGRATIONS)
-    public static boolean AUTO_WHO = true;
 
     @ConfigOpt
     @SelectorSetting(name = "gui.settings.showdragonhead", items = {}, category = COSMETICS)
@@ -377,7 +372,7 @@ public class Settings {
     @SliderSetting(name = "gui.settings.wingsscale", min = 50, max = 200, category = COSMETICS)
     public static double WINGS_SCALE = 100D;
 
-    @ToggleSetting(name = "gui.settings.disable_dances",category = COSMETICS)
+    @ToggleSetting(name = "gui.settings.disable_dances", category = COSMETICS)
     @ConfigOpt
     public static boolean DISABLE_DANCES = false;
 
@@ -386,33 +381,31 @@ public class Settings {
     public static boolean SHOW_CHROMAHUD = true;
 
     @ConfigOpt
-    @ToggleSetting(name="gui.settings.chromahudprefixsquarebrace", category = CHROMAHUD, mods = true)
+    @ToggleSetting(name = "gui.settings.chromahudprefixsquarebrace", category = CHROMAHUD, mods = true)
     public static boolean CHROMAHUD_SQUAREBRACE_PREFIX_OPTION = false;
 
     @ConfigOpt
     @SelectorSetting(name = "gui.settings.mainmenustyle", items =
-            {
-                    "HYPERIUM",
-                    "DEFAULT"
-            }, category = MENUS
+        {
+            "HYPERIUM",
+            "DEFAULT"
+        }, category = MENUS
     )
     public static String MENU_STYLE = GuiStyle.DEFAULT.name();
 
     @ConfigOpt
     @SelectorSetting(name = "gui.settings.pausemenustyle", items =
-            {
-                    "HYPERIUM",
-                    "DEFAULT"
-            }, category = MENUS
+        {
+            "HYPERIUM",
+            "DEFAULT"
+        }, category = MENUS
     )
     public static String PAUSE_STYLE = GuiStyle.HYPERIUM.name();
 
     @ConfigOpt
-    @ToggleSetting(name = "gui.settings.spotifynotifications", category = SPOTIFY, mods = true)
     public static boolean SPOTIFY_NOTIFICATIONS = false;
 
     @ConfigOpt
-    @ToggleSetting(name = "gui.settings.forcespotifytoneverload", category = SPOTIFY, mods = true)
     public static boolean SPOTIFY_FORCE_DISABLE = true;
 
     @ConfigOpt
@@ -427,14 +420,14 @@ public class Settings {
 
     @ConfigOpt
     @SelectorSetting(category = IMPROVEMENTS, name = "gui.settings.maxworldparticles", items = {
-            "1000",
-            "2000",
-            "4000",
-            "6000",
-            "8000",
-            "10000",
-            "20000",
-            "50000",
+        "1000",
+        "2000",
+        "4000",
+        "6000",
+        "8000",
+        "10000",
+        "20000",
+        "50000",
 
     })
     public static String MAX_WORLD_PARTICLES_STRING = "10000";
@@ -484,9 +477,9 @@ public class Settings {
 
     @ConfigOpt
     @SelectorSetting(category = Category.FNCOMPASS, name = "gui.settings.details", items = {
-            "0",
-            "1",
-            "2"
+        "0",
+        "1",
+        "2"
     }, mods = true)
     public static String FNCOMPASS_DETAILS = "2";
 
@@ -538,28 +531,14 @@ public class Settings {
     public static boolean SEND_GUILD_WELCOME_MESSAGE = true;
 
     @ConfigOpt
-    @ToggleSetting(name = "integrations.watchdog.thankwatchdog", category = INTEGRATIONS)
+    @ToggleSetting(name = "gui.settings.thankwatchdog", category = HYPIXEL)
     public static boolean THANK_WATCHDOG = false;
-
-
-    @ConfigOpt
-    public static boolean AUTO_DAB_ENABLED = false;
-
-    @ConfigOpt
-    public static int AUTO_DAB_LENGTH = 5;
-
-    @ConfigOpt
-    public static boolean AUTO_DAB_THIRD_PERSON = true;
-
-    @ConfigOpt
-    public static boolean AUTO_NICO = false;
 
     @ConfigOpt
     @ToggleSetting(name = "gui.settings.itemphysics", category = ITEM_PHYSIC, mods = true)
     public static boolean ITEM_PHYSIC_ENABLED = false;
 
     @ConfigOpt
-//    @ToggleSetting(name = "Gui Font", category = GENERAL)
     public static String GUI_FONT = "Roboto Condensed";
 
     @ConfigOpt
@@ -574,12 +553,12 @@ public class Settings {
 
     @ConfigOpt
     @SelectorSetting(name = "gui.settings.mainmenuserver", category = GENERAL, items = {
-            "HYPIXEL",
-            "HIVE",
-            "MINEPLEX",
-            "CUBECRAFT",
-            "MINESAGA",
-            "SKYCADE"
+        "HYPIXEL",
+        "HIVE",
+        "MINEPLEX",
+        "CUBECRAFT",
+        "MINESAGA",
+        "SKYCADE"
     })
     public static String MAIN_MENU_SERVER = "HYPIXEL";
 
@@ -589,8 +568,8 @@ public class Settings {
 
     @ConfigOpt
     @SelectorSetting(name = "gui.settings.buttonstyle", category = BUTTONS, items = {
-            "HYPERIUM",
-            "HYPERIUM 2"
+        "HYPERIUM",
+        "HYPERIUM 2"
     })
     public static String BUTTON_STYLE = ButtonStyle.HYPERIUM.name();
 
@@ -608,15 +587,23 @@ public class Settings {
 
     @ConfigOpt
     @SelectorSetting(name = "gui.settings.buttontype", category = BUTTONS, items = {
-            "DEFAULT",
-            "RGB",
-            "CHROMA"
+        "DEFAULT",
+        "RGB",
+        "CHROMA"
     })
     public static String BUTTON_TYPE = ButtonType.DEFAULT.name();
 
     @ConfigOpt
     @ToggleSetting(name = "gui.settings.disableenchantglint", category = IMPROVEMENTS)
     public static boolean DISABLE_ENCHANT_GLINT = false;
+
+    @ConfigOpt
+    @ToggleSetting(name = "gui.settings.disabletitles", category = VANILLA_ENHANCEMENTS, mods = true)
+    public static boolean HIDE_TITLES = false;
+
+    @ConfigOpt
+    @SliderSetting(name = "gui.settings.fpslimiteramount", isInt = true, min = 5, max = 60, category = IMPROVEMENTS)
+    public static int FPS_LIMITER_AMOUNT = 30;
 
     private Settings() {
     }

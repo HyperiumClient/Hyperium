@@ -56,9 +56,9 @@ public class HyperiumScreenshotHelper {
         if (!Settings.DEFAULT_UPLOAD_SS) {
             HyperiumBind uploadBind = Hyperium.INSTANCE.getHandlers().getKeybindHandler().getBinding("Upload Screenshot");
             int keyCode = uploadBind.getKeyCode();
-            if(keyCode < 0){
+            if (keyCode < 0) {
                 upload = Mouse.isButtonDown(keyCode + 100);
-            } else{
+            } else {
                 upload = Keyboard.isKeyDown(keyCode);
             }
         }

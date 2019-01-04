@@ -32,7 +32,7 @@ public class HypixelDisplay extends DisplayItem {
     @Override
     public void draw(int x, double y, boolean config) {
         String string = "";
-        if(!Settings.CHROMAHUD_SQUAREBRACE_PREFIX_OPTION) {
+        if (!Settings.CHROMAHUD_SQUAREBRACE_PREFIX_OPTION) {
             string = "Hypixel: " + Hyperium.INSTANCE.getHandlers().getHypixelDetector().isHypixel();
         } else {
             string = "[Hypixel] " + Hyperium.INSTANCE.getHandlers().getHypixelDetector().isHypixel();

@@ -52,7 +52,8 @@ public class CefSettings {
     public class ColorType {
         private long color_value = 0;
 
-        private ColorType() {}
+        private ColorType() {
+        }
 
         public ColorType(int alpha, int red, int green, int blue) {
             color_value = (alpha << 24) | (red << 16) | (green << 8) | (blue << 0);
@@ -220,7 +221,8 @@ public class CefSettings {
      */
     public ColorType background_color = null;
 
-    public CefSettings() {}
+    public CefSettings() {
+    }
 
     @Override
     public CefSettings clone() {

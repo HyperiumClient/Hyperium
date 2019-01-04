@@ -57,11 +57,11 @@ public class CustomFontButton extends GuiButton {
 
         if (renderBackground) {
             Gui.drawRect(
-                    this.xPosition,
-                    this.yPosition,
-                    this.xPosition + this.width,
-                    this.yPosition + this.height,
-                    this.hovered ? hoverColor : color
+                this.xPosition,
+                this.yPosition,
+                this.xPosition + this.width,
+                this.yPosition + this.height,
+                this.hovered ? hoverColor : color
             );
         }
 
@@ -69,10 +69,10 @@ public class CustomFontButton extends GuiButton {
 
         boolean enabled = true;
         fontRenderer.drawString(
-                this.displayString,
-                (this.xPosition + this.width / 2) - (charlength / 2),
-                this.yPosition + (this.height - 8) / 2,
-                enabled ? 10526880 : this.hovered ? textHoverColor : textColor
+            this.displayString,
+            (this.xPosition + this.width / 2) - (charlength / 2),
+            this.yPosition + (this.height - 8) / 2,
+            enabled ? 10526880 : this.hovered ? textHoverColor : textColor
         );
     }
 

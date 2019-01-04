@@ -2,7 +2,7 @@ package cc.hyperium.config;
 
 public enum Category {
 
-    //Settings Tab
+    // Settings Tab
     GENERAL("General"),
     IMPROVEMENTS("Improvements"),
     INTEGRATIONS("Integrations"),
@@ -15,7 +15,7 @@ public enum Category {
     BUTTONS("Buttons"),
     MENUS("Menus"),
 
-    //Mods
+    // Mods
     AUTOTIP("Autotip"),
     AUTO_GG("Auto GG"),
     LEVEL_HEAD("Levelhead"),
@@ -30,7 +30,9 @@ public enum Category {
     TAB_TOGGLE("Tab Toggle"),
     ITEM_PHYSIC("Item Physics"),
     VICTORYROYALE("Victory Royale"),
-    TOGGLESPRINT("Toggle Sprint");
+    TOGGLESPRINT("Toggle Sprint"),
+    CHUNK_ANIMATOR("Chunk Animator");
+
     private String display;
 
     Category(String display) {

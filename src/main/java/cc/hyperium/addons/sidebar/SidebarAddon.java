@@ -92,68 +92,57 @@ public class SidebarAddon extends AbstractAddon {
     private void updateConfig(final Configuration config, final boolean load) {
         if (load) {
             this.guiSidebar.enabled = config.enabled;
-        }
-        else {
+        } else {
             config.enabled = this.guiSidebar.enabled;
         }
         if (load) {
             this.guiSidebar.offsetX = config.offsetX;
-        }
-        else {
+        } else {
             config.offsetX = this.guiSidebar.offsetX;
         }
         if (load) {
             this.guiSidebar.offsetY = config.offsetY;
-        }
-        else {
+        } else {
             config.offsetY = this.guiSidebar.offsetY;
         }
         if (load) {
             this.guiSidebar.scale = config.scale;
-        }
-        else {
+        } else {
             config.scale = this.guiSidebar.scale;
         }
         if (load) {
             this.guiSidebar.redNumbers = config.redNumbers;
-        }
-        else {
+        } else {
             config.redNumbers = this.guiSidebar.redNumbers;
         }
         if (load) {
             this.guiSidebar.shadow = config.shadow;
-        }
-        else {
+        } else {
             config.shadow = this.guiSidebar.shadow;
         }
         if (load) {
             this.guiSidebar.color = config.rgb;
-        }
-        else {
+        } else {
             config.rgb = this.guiSidebar.color;
         }
         if (load) {
             this.guiSidebar.alpha = config.alpha;
-        }
-        else {
+        } else {
             config.alpha = this.guiSidebar.alpha;
         }
         if (load) {
             this.guiSidebar.chromaEnabled = config.chromaEnabled;
-        }
-        else {
+        } else {
             config.chromaEnabled = this.guiSidebar.chromaEnabled;
         }
         if (load) {
             this.guiSidebar.chromaSpeed = config.chromaSpeed;
-        }
-        else {
+        } else {
             config.chromaSpeed = this.guiSidebar.chromaSpeed;
         }
         if (load) {
             this.guiSidebar.chromaType = config.chromaType;
-        }
-        else {
+        } else {
             config.chromaType = this.guiSidebar.chromaType;
         }
     }

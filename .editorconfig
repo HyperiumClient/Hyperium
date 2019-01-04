@@ -1,0 +1,19 @@
+# EditorConfig is awesome!: https://editorconfig.org
+
+# this is the main editorconfig file:
+root = true
+
+# Have Java and Kotlin files in UTF-8 and put an extra line at the bottom of each file:
+[*.{java, kt}]
+charset = utf-8
+insert_final_newline = true
+
+# Set intents for Java files:
+[*.java]
+indent_style = space
+indent_size = 4
+
+# Set indents for the Travis CI config:
+[.travis.yml]
+indent_style = space
+indent_size = 2

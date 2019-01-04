@@ -24,6 +24,7 @@ import cc.hyperium.mods.chromahud.api.StringConfig;
 import cc.hyperium.mods.chromahud.api.TextConfig;
 import cc.hyperium.utils.JsonHolder;
 import com.google.gson.JsonArray;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

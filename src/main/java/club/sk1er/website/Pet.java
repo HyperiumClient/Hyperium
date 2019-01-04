@@ -7,7 +7,6 @@ import java.util.HashMap;
 
 public class Pet {
 
-
     private static final HashMap<Integer, Integer> petLevels = new HashMap<>();
 
     static {

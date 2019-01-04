@@ -84,12 +84,12 @@ public class TypeEasy extends ToggleBase {
     @Override
     public LinkedList<String> getDescription() {
         return asLinked(
-                "Removes all \"ez\"",
-                "messages across every",
-                "channel",
-                "",
-                "Finally, freedom from",
-                "the \"ez\" spam!"
+            "Removes all \"ez\"",
+            "messages across every",
+            "channel",
+            "",
+            "Finally, freedom from",
+            "the \"ez\" spam!"
         );
     }
 

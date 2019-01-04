@@ -1,3 +1,20 @@
+/*
+ *     Copyright (C) 2018  Hyperium <https://hyperium.cc/>
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU Lesser General Public License as published
+ *     by the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU Lesser General Public License for more details.
+ *
+ *     You should have received a copy of the GNU Lesser General Public License
+ *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package cc.hyperium.cosmetics;
 
 import cc.hyperium.cosmetics.companions.dragon.DragonCompanion;
@@ -24,19 +41,16 @@ public class HyperiumCosmetics {
     private final WingsCosmetic wingsCosmetic;
     private final DragonCosmetic dragonCosmetic;
     private final ButtCosmetic buttCosmetic;
-    private final KillCounterMuscles killCounterMuscles;
     private DragonCompanion dragonCompanion;
     private HamsterCompanion hamsterCompanion;
-
-    private final CosmeticHat topHatCosmetic = new CosmeticHat(false, EnumPurchaseType.HAT_TOPHAT).setModel(new ModelHatTophat(),new ResourceLocation("textures/cosmetics/hats/tophat.png"));
-    private final CosmeticHat fezCosmetic = new CosmeticHat(false, EnumPurchaseType.HAT_FEZ).setModel(new ModelHatFez(),new ResourceLocation("textures/cosmetics/hats/fez.png"));
-    private final CosmeticHat legoCosmetic = new CosmeticHat(false, EnumPurchaseType.HAT_LEGO).setModel(new ModelHatLego(),new ResourceLocation("textures/cosmetics/hats/lego.png"));
+    private final CosmeticHat topHatCosmetic = new CosmeticHat(false, EnumPurchaseType.HAT_TOPHAT).setModel(new ModelHatTophat(), new ResourceLocation("textures/cosmetics/hats/tophat.png"));
+    private final CosmeticHat fezCosmetic = new CosmeticHat(false, EnumPurchaseType.HAT_FEZ).setModel(new ModelHatFez(), new ResourceLocation("textures/cosmetics/hats/fez.png"));
+    private final CosmeticHat legoCosmetic = new CosmeticHat(false, EnumPurchaseType.HAT_LEGO).setModel(new ModelHatLego(), new ResourceLocation("textures/cosmetics/hats/lego.png"));
 
     /**
      * Hyperium Cosmetics - Default Constructor/Cosmetic Registry
      */
     public HyperiumCosmetics() {
-        registerCosmetic(killCounterMuscles = new KillCounterMuscles());
         registerCosmetic(buttCosmetic = new ButtCosmetic());
         registerCosmetic(flipCosmetic = new FlipCosmetic());
         registerCosmetic(deadmau5Cosmetic = new Deadmau5Cosmetic());
@@ -53,11 +67,6 @@ public class HyperiumCosmetics {
     public List<AbstractCosmetic> getCosmeticList() {
         return cosmeticList;
     }
-
-    public KillCounterMuscles getKillCounterMuscles() {
-        return killCounterMuscles;
-    }
-
 
     public DragonCompanion getDragonCompanion() {
         return dragonCompanion;
@@ -82,7 +91,6 @@ public class HyperiumCosmetics {
      * and their types
      */
     public enum EnumCosmeticType {
-
         DAB,
         BUTT,
         FLIP,
@@ -93,7 +101,6 @@ public class HyperiumCosmetics {
         HAT_TOPHAT,
         HAT_FEZ,
         HAT_LEGO
-
     }
 
     /**
@@ -135,8 +142,6 @@ public class HyperiumCosmetics {
         return this.dragonCosmetic;
     }
 
-
-
     public FlipCosmetic getFlipCosmetic() {
         return this.flipCosmetic;
     }
@@ -147,9 +152,5 @@ public class HyperiumCosmetics {
 
     public WingsCosmetic getWingsCosmetic() {
         return this.wingsCosmetic;
-    }
-
-    public KillCounterMuscles getKillCounterMusclesCosmetic() {
-        return this.killCounterMuscles;
     }
 }

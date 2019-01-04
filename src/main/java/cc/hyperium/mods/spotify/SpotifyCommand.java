@@ -46,8 +46,7 @@ public class SpotifyCommand implements BaseCommand {
     public void onExecute(String[] args) {
         if (Spotify.instance == null) {
             Minecraft.getMinecraft().thePlayer.addChatMessage(
-                    new ChatComponentText(ChatColor.RED + "Spotify is not currently loaded!")
-            );
+                new ChatComponentText(ChatColor.RED + "Spotify is currently disabled as they made an API change on their end. We're looking into ways we can reintroduce it."));
 
             return;
         }

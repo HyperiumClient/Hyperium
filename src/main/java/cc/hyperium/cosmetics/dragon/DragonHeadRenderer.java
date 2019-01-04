@@ -1,5 +1,21 @@
-package cc.hyperium.cosmetics.dragon;
+/*
+ *     Copyright (C) 2018  Hyperium <https://hyperium.cc/>
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU Lesser General Public License as published
+ *     by the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU Lesser General Public License for more details.
+ *
+ *     You should have received a copy of the GNU Lesser General Public License
+ *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
+package cc.hyperium.cosmetics.dragon;
 
 import cc.hyperium.cosmetics.CosmeticsUtil;
 import cc.hyperium.cosmetics.DragonCosmetic;
@@ -83,7 +99,7 @@ public class DragonHeadRenderer extends ModelBase {
 
     @InvokeEvent
     private void onRenderPlayer(RenderPlayerEvent event) {
-        if(CosmeticsUtil.shouldHide(EnumPurchaseType.DRAGON_HEAD))
+        if (CosmeticsUtil.shouldHide(EnumPurchaseType.DRAGON_HEAD))
             return;
         EntityPlayer entity = event.getEntity();
         if (dragonCosmetic.isPurchasedBy(entity.getUniqueID()) && !entity.isInvisible()) {
@@ -101,7 +117,6 @@ public class DragonHeadRenderer extends ModelBase {
         }
 
     }
-
 
     private void renderHead(final EntityPlayer player, final float partialTicks) {
 
@@ -124,7 +139,7 @@ public class DragonHeadRenderer extends ModelBase {
         if (player.onGround) {
             jaw.rotateAngleX = 0;
         } else {
-            if(mc.theWorld != null) {
+            if (mc.theWorld != null) {
                 int e = -1;
                 WorldClient theWorld = Minecraft.getMinecraft().theWorld;
                 Chunk chunk = theWorld.getChunkFromBlockCoords(new BlockPos(player.posX, player.posY, player.posZ));
@@ -143,7 +158,7 @@ public class DragonHeadRenderer extends ModelBase {
                         jaw.rotateAngleX = (float) ((dis) / (1 + dis));
                     }
                 }
-            }else {
+            } else {
                 jaw.rotateAngleX = 0;
             }
         }

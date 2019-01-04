@@ -75,19 +75,19 @@ public class TypeGlobal extends ToggleBase {
     @Override
     public LinkedList<String> getDescription() {
         return asLinked(
-                "Turns all general player",
-                "chat on or off",
-                "",
-                "These are the formats",
-                "&7Player: Hi",
-                "&a[VIP] Player&r: Hi",
-                "&a[VIP&6+&a] Player&r: Hi",
-                "&b[MVP] Player&r: Hi",
-                "&b[MVP&c+&b] Player&r: Hi",
-                "",
-                "Useful to prevent spam",
-                "or any unwanted chat",
-                "messages"
+            "Turns all general player",
+            "chat on or off",
+            "",
+            "These are the formats",
+            "&7Player: Hi",
+            "&a[VIP] Player&r: Hi",
+            "&a[VIP&6+&a] Player&r: Hi",
+            "&b[MVP] Player&r: Hi",
+            "&b[MVP&c+&b] Player&r: Hi",
+            "",
+            "Useful to prevent spam",
+            "or any unwanted chat",
+            "messages"
         );
     }
 

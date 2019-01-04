@@ -1,3 +1,20 @@
+/*
+ *     Copyright (C) 2018  Hyperium <https://hyperium.cc/>
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU Lesser General Public License as published
+ *     by the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU Lesser General Public License for more details.
+ *
+ *     You should have received a copy of the GNU Lesser General Public License
+ *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package cc.hyperium.gui.hyperium.tabs;
 
 import cc.hyperium.Hyperium;
@@ -31,7 +48,8 @@ public class UpdateTab extends AbstractTab {
 
     public UpdateTab(HyperiumMainGui gui) {
         super(gui, "tab.update.name");
-        Multithreading.runAsync(() -> latest = InstallerUtils.getManifest().getLatest());
+        Multithreading.runAsync(() ->
+            latest = InstallerUtils.getManifest().getLatest());
     }
 
     @Override
@@ -67,12 +85,12 @@ public class UpdateTab extends AbstractTab {
                                             String cmd = Hyperium.INSTANCE.getLaunchCommand(true);
                                             String java = System.getProperty("java.home") + File.separator + "bin" + File.separator + "java";
                                             String iCmd = "\"" + java + "\" -jar \"" + new File(tmp, dl.getFileName()).getAbsolutePath() + "\" fw " + cmd;
-                                            System.out.println("Restart cmd: " + cmd);
-                                            System.out.println("Installer cmd: "+iCmd);
+                                            System.out.println("[Update Tab] Restart cmd: " + cmd);
+                                            System.out.println("[Update Tab] Installer cmd: " + iCmd);
                                             Runtime.getRuntime().addShutdownHook(new Thread(() -> {
                                                 try {
                                                     Runtime.getRuntime().exec(iCmd);
-                                                    System.out.println("Restarting...");
+                                                    System.out.println("[Update Tab] Restarting...");
                                                 } catch (IOException e) {
                                                     e.printStackTrace();
                                                 }

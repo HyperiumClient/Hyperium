@@ -28,10 +28,11 @@ public class MixinGuiIngameMenu extends GuiScreen {
         //hyperiumGuiIngameMenu.actionPerformed(button);
     }
 
-    @Inject(method = "actionPerformed",at=@At(value = "INVOKE",target = "Lnet/minecraft/client/Minecraft;isIntegratedServerRunning()Z"))
+    @Inject(method = "actionPerformed", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Minecraft;isIntegratedServerRunning()Z"))
     public void quit(GuiButton button, CallbackInfo info) {
         EventBus.INSTANCE.post(new ServerLeaveEvent());
     }
+
     @Inject(method = "updateScreen", at = @At("HEAD"))
     public void update(CallbackInfo info) {
 

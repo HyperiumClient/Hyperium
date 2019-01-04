@@ -229,10 +229,11 @@ public class HyperiumFontRenderer {
 
     /**
      * Draw Centered Text Scaled
-     * @param text - Given Text String
-     * @param givenX - Given X Position
-     * @param givenY - Given Y Position
-     * @param color - Given Color (HEX)
+     *
+     * @param text       - Given Text String
+     * @param givenX     - Given X Position
+     * @param givenY     - Given Y Position
+     * @param color      - Given Color (HEX)
      * @param givenScale - Given Scale
      */
     public void drawCenteredTextScaled(String text, int givenX, int givenY, int color, double givenScale) {
@@ -265,36 +266,26 @@ public class HyperiumFontRenderer {
 
     }
 
-    public int getStringWidth(String text)
-    {
-        if (text == null)
-        {
+    public int getStringWidth(String text) {
+        if (text == null) {
             return 0;
-        }
-        else
-        {
+        } else {
             int i = 0;
             boolean flag = false;
 
-            for (int j = 0; j < text.length(); ++j)
-            {
+            for (int j = 0; j < text.length(); ++j) {
                 char c0 = text.charAt(j);
                 float k = this.getWidth(String.valueOf(c0));
 
-                if (k < 0 && j < text.length() - 1)
-                {
+                if (k < 0 && j < text.length() - 1) {
                     ++j;
                     c0 = text.charAt(j);
 
-                    if (c0 != 'l' && c0 != 'L')
-                    {
-                        if (c0 == 'r' || c0 == 'R')
-                        {
+                    if (c0 != 'l' && c0 != 'L') {
+                        if (c0 == 'r' || c0 == 'R') {
                             flag = false;
                         }
-                    }
-                    else
-                    {
+                    } else {
                         flag = true;
                     }
 
@@ -303,8 +294,7 @@ public class HyperiumFontRenderer {
 
                 i += k;
 
-                if (flag && k > 0)
-                {
+                if (flag && k > 0) {
                     ++i;
                 }
             }
@@ -369,10 +359,10 @@ public class HyperiumFontRenderer {
 
     public void drawSplitString(ArrayList<String> lines, int x, int y, int color) {
         drawString(
-                String.join("\n\r", lines),
-                x,
-                y,
-                color
+            String.join("\n\r", lines),
+            x,
+            y,
+            color
         );
     }
 

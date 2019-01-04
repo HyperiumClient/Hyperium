@@ -18,8 +18,10 @@
 package cc.hyperium.handlers.handlers.keybinds;
 
 import cc.hyperium.Hyperium;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import org.apache.commons.text.WordUtils;
@@ -31,12 +33,11 @@ import org.apache.commons.text.WordUtils;
  * @author CoalOres
  * @author boomboompower
  */
-public class HyperiumBind{
+public class HyperiumBind {
 
     /**
      * The default key code
      */
-
     private final int defaultKeyCode;
 
     private final String description;
@@ -129,8 +130,8 @@ public class HyperiumBind{
         this.conflicted = conflicted;
     }
 
-    public boolean isConflicted(){
-        return  this.conflicted;
+    public boolean isConflicted() {
+        return this.conflicted;
     }
 
     /**
@@ -163,12 +164,12 @@ public class HyperiumBind{
         // We want these to be changed
     }
 
-    public void detectConflicts(){
+    public void detectConflicts() {
         setConflicted(false);
 
         int currentKeyCode = this.getKeyCode();
 
-        if(currentKeyCode == 0 || conflictExempt){
+        if (currentKeyCode == 0 || conflictExempt) {
             // Allow multiple binds to be set to NONE.
             return;
         }
@@ -177,23 +178,23 @@ public class HyperiumBind{
         otherBinds.remove(this);
 
         // Check for conflicts with Minecraft binds.
-        for (KeyBinding keyBinding : Minecraft.getMinecraft().gameSettings.keyBindings){
+        for (KeyBinding keyBinding : Minecraft.getMinecraft().gameSettings.keyBindings) {
             int keyCode = keyBinding.getKeyCode();
 
-            if(currentKeyCode == keyCode){
+            if (currentKeyCode == keyCode) {
                 // There is a conflict!
                 setConflicted(true);
             }
         }
 
         // Check for conflicts with other Hyperium binds.
-        for (HyperiumBind hyperiumBind :otherBinds){
-            if(hyperiumBind.conflictExempt){
+        for (HyperiumBind hyperiumBind : otherBinds) {
+            if (hyperiumBind.conflictExempt) {
                 continue;
             }
             int keyCode = hyperiumBind.getKeyCode();
 
-            if(currentKeyCode == keyCode){
+            if (currentKeyCode == keyCode) {
                 // There is a conflict!
                 setConflicted(true);
             }

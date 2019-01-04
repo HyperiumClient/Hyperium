@@ -99,10 +99,10 @@ public class Spotify {
                 public void onPlay(SpotifyInformation info) {
                     if (Settings.SPOTIFY_NOTIFICATIONS) {
                         Hyperium.INSTANCE.getNotification()
-                                .display("Spotify",
-                                        "Now playing " + info.getTrack().getTrackResource().getName(),
-                                        8
-                                );
+                            .display("Spotify",
+                                "Now playing " + info.getTrack().getTrackResource().getName(),
+                                8
+                            );
                     }
                 }
             });
@@ -187,9 +187,9 @@ public class Spotify {
      */
     private Request.Builder build(String url, boolean keepalive) {
         Request.Builder b = new Request.Builder()
-                .url(url)
-                .addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36")
-                .addHeader("Origin", "https://open.spotify.com");
+            .url(url)
+            .addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36")
+            .addHeader("Origin", "https://open.spotify.com");
         if (keepalive)
             b.addHeader("Connection", "keep-alive");
         return b;
@@ -207,8 +207,8 @@ public class Spotify {
     public void pause(boolean pause) {
         try {
             get(
-                    genSpotifyUrl("/remote/pause.json") + "?oauth=" + this.token + "&csrf=" + this.csrfToken + "&pause=" + pause,
-                    false
+                genSpotifyUrl("/remote/pause.json") + "?oauth=" + this.token + "&csrf=" + this.csrfToken + "&pause=" + pause,
+                false
             );
         } catch (IOException e) {
             e.printStackTrace();

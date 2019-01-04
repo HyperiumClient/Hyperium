@@ -11,11 +11,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(EntityItem.class)
 public abstract class MixinEntityItem {
     @Inject(
-            method = "onCollideWithPlayer",
-            at = @At(
-                    value = "INVOKE",
-                    target = "Lnet/minecraft/entity/item/EntityItem;getEntityItem()Lnet/minecraft/item/ItemStack;"
-            )
+        method = "onCollideWithPlayer",
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/entity/item/EntityItem;getEntityItem()Lnet/minecraft/item/ItemStack;"
+        )
     )
     private void pickupItem(EntityPlayer player, CallbackInfo ci) {
         new ItemPickupEvent(player, (EntityItem) (Object) this).post();

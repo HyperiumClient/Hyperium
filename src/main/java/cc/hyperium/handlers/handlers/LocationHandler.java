@@ -147,7 +147,6 @@ public class LocationHandler {
                 Hyperium.INSTANCE.getHandlers().getCommandQueue().queue("/whereami");
             }
         }
-
     }
 
     @InvokeEvent

@@ -19,11 +19,9 @@ package cc.hyperium.launch;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.internal.addons.AddonBootstrap;
-
 import net.minecraft.launchwrapper.ITweaker;
 import net.minecraft.launchwrapper.Launch;
 import net.minecraft.launchwrapper.LaunchClassLoader;
-
 import org.spongepowered.asm.launch.MixinBootstrap;
 import org.spongepowered.asm.mixin.MixinEnvironment;
 import org.spongepowered.asm.mixin.Mixins;
@@ -61,7 +59,7 @@ public class HyperiumTweaker implements ITweaker {
 
     @Override
     public void acceptOptions(List<String> args, File gameDir, final File assetsDir,
-        String profile) {
+                              String profile) {
         this.args.addAll(args);
 
         addArg("gameDir", gameDir);
@@ -78,7 +76,7 @@ public class HyperiumTweaker implements ITweaker {
     public void injectIntoClassLoader(LaunchClassLoader classLoader) {
         //classLoader.addClassLoaderExclusion("org.apache.logging.log4j.simple.")
 
-        Hyperium.LOGGER.info("Loading Addons...");
+        Hyperium.LOGGER.info("[Addons] Loading Addons...");
 
         Hyperium.LOGGER.info("Initialising Bootstraps...");
         MixinBootstrap.init();
@@ -122,7 +120,7 @@ public class HyperiumTweaker implements ITweaker {
         if (FORGE || OPTIFINE) {
             return new String[0];
         } else {
-            return args.toArray(new String[] {});
+            return args.toArray(new String[]{});
         }
     }
 
@@ -149,7 +147,7 @@ public class HyperiumTweaker implements ITweaker {
         addArg(args, file.getAbsolutePath());
     }
 
-    private void addArgs(Map<String, ?> args)  {
+    private void addArgs(Map<String, ?> args) {
         args.forEach((label, value) -> {
             if (value instanceof String) {
                 addArg(label, (String) value);

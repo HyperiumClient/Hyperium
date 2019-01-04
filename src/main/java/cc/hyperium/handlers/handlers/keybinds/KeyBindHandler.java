@@ -23,7 +23,6 @@ import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.KeypressEvent;
 import cc.hyperium.event.KeyreleaseEvent;
 import cc.hyperium.event.MouseButtonEvent;
-import cc.hyperium.handlers.handlers.keybinds.keybinds.ClearPopupKeybind;
 import cc.hyperium.handlers.handlers.keybinds.keybinds.DabKeybind;
 import cc.hyperium.handlers.handlers.keybinds.keybinds.FlipKeybind;
 import cc.hyperium.handlers.handlers.keybinds.keybinds.FlossKeybind;
@@ -32,7 +31,6 @@ import cc.hyperium.handlers.handlers.keybinds.keybinds.FriendsKeybind;
 import cc.hyperium.handlers.handlers.keybinds.keybinds.GuiDanceKeybind;
 import cc.hyperium.handlers.handlers.keybinds.keybinds.GuiKeybind;
 import cc.hyperium.handlers.handlers.keybinds.keybinds.NamesKeybind;
-import cc.hyperium.handlers.handlers.keybinds.keybinds.QueueKeybind;
 import cc.hyperium.handlers.handlers.keybinds.keybinds.RearCamKeybind;
 import cc.hyperium.handlers.handlers.keybinds.keybinds.TPoseKeybind;
 import cc.hyperium.handlers.handlers.keybinds.keybinds.TogglePerspectiveKeybind;
@@ -64,10 +62,6 @@ public class KeyBindHandler {
     private final Map<String, HyperiumBind> keybinds = new HashMap<>();
     private ToggleSprintKeybind toggleSprintKeybind;
 
-    /**
-     * Opens GUI on Z key pressed oof - ConorTheOreo
-     * Reformatted toggle Spotify bind - KodingKing
-     */
     public KeyBindHandler() {
         this.keyBindConfig = new KeyBindConfig(this, Hyperium.folder);
 
@@ -75,7 +69,6 @@ public class KeyBindHandler {
         registerKeyBinding(new FriendsKeybind());
         registerKeyBinding(new NamesKeybind());
         registerKeyBinding(new GuiKeybind());
-        registerKeyBinding(new QueueKeybind());
         registerKeyBinding(new DabKeybind());
         registerKeyBinding(new FlipKeybind());
         registerKeyBinding(new ViewStatsKeybind());
@@ -85,7 +78,6 @@ public class KeyBindHandler {
         registerKeyBinding(new TogglePerspectiveKeybind());
         registerKeyBinding(new FortniteDefaultDanceKeybind());
         registerKeyBinding(new TwerkDanceKeybind());
-        registerKeyBinding(new ClearPopupKeybind());
         registerKeyBinding(new TPoseKeybind());
         registerKeyBinding(new GuiDanceKeybind());
         registerKeyBinding(new UploadScreenshotKeybind());

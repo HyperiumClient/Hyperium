@@ -20,6 +20,7 @@ package cc.hyperium.addons.customcrosshair.gui;
 import cc.hyperium.addons.customcrosshair.gui.items.*;
 import cc.hyperium.addons.customcrosshair.CustomCrosshairAddon;
 import cc.hyperium.addons.customcrosshair.utils.CustomCrosshairGraphics;
+
 import java.awt.Color;
 
 import java.io.IOException;
@@ -94,9 +95,9 @@ public class GuiCustomCrosshairEditColour extends CustomCrosshairScreen {
         this.tickbox_rainbow.setChecked(this.addon.getCrosshair().getRainbowCrosshair());
         this.tickbox_rainbow.getHelpText().add("Make crosshair rainbow.");
         this.itemList.add(this.slider_rainbowspeed = new CCSlider(this, 6, "Rainbow Speed", 0, 0, 255, 10, 0, 5000)
-                .setCallback(() -> {
-                    CustomCrosshairAddon.getCrosshairMod().getCrosshair().setRainbowSpeed(slider_rainbowspeed.getValue());
-                }));
+            .setCallback(() -> {
+                CustomCrosshairAddon.getCrosshairMod().getCrosshair().setRainbowSpeed(slider_rainbowspeed.getValue());
+            }));
         this.slider_rainbowspeed.setValue(this.addon.getCrosshair().getRainbowSpeed());
         this.slider_rainbowspeed.getHelpText().add("Change speed of rainbow.");
         int y = 71;

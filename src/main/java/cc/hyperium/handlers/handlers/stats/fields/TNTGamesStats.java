@@ -6,8 +6,10 @@ import cc.hyperium.handlers.handlers.stats.display.StatsDisplayItem;
 import cc.hyperium.utils.JsonHolder;
 import club.sk1er.website.api.requests.HypixelApiPlayer;
 import club.sk1er.website.utils.WebsiteUtils;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import net.hypixel.api.GameType;
 
 /**
@@ -52,7 +54,7 @@ public class TNTGamesStats extends AbstractHypixelStats {
         stats.add(new DisplayLine(bold("TNT Wizards Kills: ", tntGames.optInt("kills_capture"))));
         stats.add(new DisplayLine(bold("TNT Wizards Wins: ", tntGames.optInt("wins_capture"))));
         stats.add(new DisplayLine(bold("TNt Wizards K/D: ", WebsiteUtils.buildRatio(tntGames.optInt("kills_capsafture"), tntGames.optInt("deaths_capture")))));
-        
+
         return stats;
     }
 }

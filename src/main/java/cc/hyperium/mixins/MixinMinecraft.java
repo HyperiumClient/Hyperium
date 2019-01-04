@@ -157,11 +157,10 @@ public abstract class MixinMinecraft {
         hyperiumMinecraft.runTick(ci, mcProfiler);
     }
 
-    @Inject(method = "runTick",at=@At("HEAD"))
+    @Inject(method = "runTick", at = @At("HEAD"))
     private void tick(CallbackInfo info) {
-        hyperiumMinecraft.startTick(info,mcProfiler);
+        hyperiumMinecraft.startTick(info, mcProfiler);
     }
-
 
     /**
      * Invoked once the player has pressed a key
@@ -174,14 +173,14 @@ public abstract class MixinMinecraft {
     }
 
     @Inject(
-            method = "dispatchKeypresses",
-            at = @At(
-                    value = "INVOKE",
-                    shift = At.Shift.BEFORE,
-                    target = "Lnet/minecraft/client/gui/GuiNewChat;printChatMessage(Lnet/minecraft/util/IChatComponent;)V",
-                    ordinal = 1
-            ),
-            cancellable = true
+        method = "dispatchKeypresses",
+        at = @At(
+            value = "INVOKE",
+            shift = At.Shift.BEFORE,
+            target = "Lnet/minecraft/client/gui/GuiNewChat;printChatMessage(Lnet/minecraft/util/IChatComponent;)V",
+            ordinal = 1
+        ),
+        cancellable = true
     )
     private void dispatchKeypresses(CallbackInfo ci) {
         IChatComponent chatComponent = ScreenShotHelper.saveScreenshot(this.mcDataDir, this.displayWidth, this.displayHeight, this.framebufferMc);
@@ -273,7 +272,8 @@ public abstract class MixinMinecraft {
     @Shadow
     public abstract boolean isCallingFromMinecraftThread();
 
-    @Shadow public EffectRenderer effectRenderer;
+    @Shadow
+    public EffectRenderer effectRenderer;
 
     /**
      * change to splash screen logo
@@ -331,9 +331,7 @@ public abstract class MixinMinecraft {
     @Overwrite
     public void displayCrashReport(CrashReport crashReportIn) {
         hyperiumMinecraft.displayCrashReport(crashReportIn);
-
     }
-
 
 
     @Inject(method = "shutdown", at = @At("HEAD"))

@@ -16,7 +16,6 @@
  */
 
 package cc.hyperium.mods.sk1ercommon;
-
 import cc.hyperium.Hyperium;
 import cc.hyperium.utils.JsonHolder;
 import com.google.gson.JsonObject;
@@ -44,8 +43,7 @@ public class Sk1erMod {
     private boolean enabled = true;
     private String apiKey = "";
     private JsonHolder en = new JsonHolder();
-    private GenKeyCallback callback = object -> {
-    };
+    private GenKeyCallback callback = object -> {};
 
     public Sk1erMod(String modid, String version) {
         this.modid = modid;
@@ -66,28 +64,25 @@ public class Sk1erMod {
         return en;
     }
 
-
     public boolean isEnabled() {
         return true;
     }
-
 
     public String getApIKey() {
         return apiKey;
     }
 
-
     public JsonObject getPlayer(String name) {
-        return new JsonParser().parse(rawWithAgent("http://sk1er.club/data/" + name + "/" + getApIKey())).getAsJsonObject();
+        return new JsonParser().parse(rawWithAgent("https://sk1er.club/data/" + name + "/" + getApIKey())).getAsJsonObject();
     }
 
     public void checkStatus() {
         Multithreading.schedule(() -> {
-            en = new JsonHolder(rawWithAgent("http://sk1er.club/genkey?name=" + Minecraft.getMinecraft().getSession().getProfile().getName()
-                    + "&uuid=" + Minecraft.getMinecraft().getSession().getPlayerID().replace("-", "")
-                    + "&mcver=" + Minecraft.getMinecraft().getVersion()
-                    + "&modver=" + version
-                    + "&mod=" + modid
+            en = new JsonHolder(rawWithAgent("https://sk1er.club/genkey?name=" + Minecraft.getMinecraft().getSession().getProfile().getName()
+                + "&uuid=" + Minecraft.getMinecraft().getSession().getPlayerID().replace("-", "")
+                + "&mcver=" + Minecraft.getMinecraft().getVersion()
+                + "&modver=" + version
+                + "&mod=" + modid
             ));
             if (callback != null)
                 callback.call(en);
@@ -96,13 +91,11 @@ public class Sk1erMod {
         }, 0, 5, TimeUnit.MINUTES);
     }
 
-
     public String rawWithAgent(String url) {
-        System.out.println("Fetching " + url);
+        System.out.println("[Sk1erMod] Fetching " + url);
         if (!Hyperium.INSTANCE.isAcceptedTos())
             return new JsonHolder().put("success", false).put("cause", "TOS_NOT_ACCEPTED").toString();
         url = url.replace(" ", "%20");
-        //System.out.println("Fetching " + url);
         try {
             URL u = new URL(url);
             HttpURLConnection connection = (HttpURLConnection) u.openConnection();
@@ -122,8 +115,6 @@ public class Sk1erMod {
         object.addProperty("success", false);
         object.addProperty("cause", "Exception");
         return object.toString();
-
     }
-
 
 }

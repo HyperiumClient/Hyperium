@@ -4,8 +4,7 @@ package cc.hyperium.handlers.handlers.hud;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Maps
-{
+public class Maps {
     public static final Map<Integer, String> ENCHANTMENT_SHORT_NAME;
     public static final Map<Integer, String> POTION_SHORT_NAME;
 

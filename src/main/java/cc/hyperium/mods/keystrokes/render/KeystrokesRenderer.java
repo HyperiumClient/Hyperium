@@ -45,6 +45,7 @@ public class KeystrokesRenderer {
     private final CPSKey[] cpsKeys = new CPSKey[1];
     private final SpaceKey[] spaceKey = new SpaceKey[1];
     private final MouseButton[] mouseButtons = new MouseButton[2];
+
     public KeystrokesRenderer(KeystrokesMod mod) {
         this.mod = mod;
 

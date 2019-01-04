@@ -37,7 +37,7 @@ public class CoinsDisplay extends DisplayItem {
     public void draw(int x, double y, boolean config) {
 
         String render = null;
-        if(!Settings.CHROMAHUD_SQUAREBRACE_PREFIX_OPTION) {
+        if (!Settings.CHROMAHUD_SQUAREBRACE_PREFIX_OPTION) {
             render = "Daily Coins: " + GeneralStatisticsTracking.dailyCoins;
         } else {
             render = "[Daily Coins] " + GeneralStatisticsTracking.dailyCoins;

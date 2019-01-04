@@ -112,14 +112,13 @@ public class ChromaHUD extends AbstractMod {
 
         ChromaHUDApi.getInstance().registerTextConfig("TIME", new TextConfig((guiTextField, displayItem) -> ((TimeHud) displayItem).setFormat(guiTextField.getText()), textTextField, (guiTextField, displayItem) -> guiTextField.setText(((TimeHud) displayItem).getFormat())));
         ChromaHUDApi.getInstance().registerStringConfig("TIME", new StringConfig("Accepted Formats\n" +
-                "YY - Year\n" +
-                "MM - Month\n" +
-                "dd - Day\n" +
-                "HH - Hour\n" +
-                "mm - Minute\n" +
-                "ss - Second\n" +
-                "For more options, Google \"Date Format\""));
-
+            "YY - Year\n" +
+            "MM - Month\n" +
+            "dd - Day\n" +
+            "HH - Hour\n" +
+            "mm - Minute\n" +
+            "ss - Second\n" +
+            "For more options, Google \"Date Format\""));
 
         ChromaHUDApi.getInstance().registerButtonConfig("SCOREBOARD", new ButtonConfig((guiButton, displayItem) -> displayItem.getData().put("numbers", !displayItem.getData().optBoolean("numbers")), new GuiButton(0, 0, 0, "Toggle Number"), (guiButton, displayItem) -> {
         }));

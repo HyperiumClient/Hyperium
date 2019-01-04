@@ -27,7 +27,6 @@ public class ToggleSprintContainer {
 
     @ConfigOpt
     public static boolean toggleSprintActive = false;
-    boolean press = false;
 
     @InvokeEvent
     public void onTick(TickEvent e) {

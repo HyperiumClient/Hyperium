@@ -3,6 +3,7 @@ package cc.hyperium.mods.browser.util;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+
 import org.lwjgl.input.Keyboard;
 
 public class BrowserUtil {

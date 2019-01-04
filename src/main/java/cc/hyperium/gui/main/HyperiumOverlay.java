@@ -3,10 +3,12 @@ package cc.hyperium.gui.main;
 import cc.hyperium.gui.main.components.OverlayComponent;
 import cc.hyperium.gui.main.components.OverlayToggle;
 import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
+
 import java.awt.Color;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.function.Consumer;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
@@ -42,7 +44,7 @@ public class HyperiumOverlay {
         // HyperiumGui.drawChromaBox(0, 0, w, h, 0.2F); // bg
         Gui.drawRect(w / 6 * 2, h / 4, w / 6 * 4, h / 4 * 3, new Color(30, 30, 30).getRGB());
 
-        final Integer[] counter = new Integer[] {0};
+        final Integer[] counter = new Integer[]{0};
 
         for (OverlayComponent c : components) {
             c.render(mouseX, mouseY, w / 6 * 2, h / 4 + 20 * counter[0]++ + offsetY, w / 6 * 2, 20, h);
@@ -56,7 +58,7 @@ public class HyperiumOverlay {
         final int mx = Mouse.getX() * sw / Minecraft.getMinecraft().displayWidth;
         final int my = sh - Mouse.getY() * sh / Minecraft.getMinecraft().displayHeight - 1;
 
-        final Integer[] counter = new Integer[] {0};
+        final Integer[] counter = new Integer[]{0};
 
         components.forEach(c -> c.handleMouseInput(mx, my, sr.getScaledWidth() / 6 * 2, sr.getScaledHeight() / 4 + 20 * counter[0]++ + offsetY, sr.getScaledWidth() / 6 * 2, 20));
 
@@ -74,7 +76,7 @@ public class HyperiumOverlay {
         final int mx = Mouse.getX() * sw / Minecraft.getMinecraft().displayWidth;
         final int my = sh - Mouse.getY() * sh / Minecraft.getMinecraft().displayHeight - 1;
 
-        final Integer[] counter = new Integer[] {0};
+        final Integer[] counter = new Integer[]{0};
 
         components.forEach(c -> c.mouseClicked(mx, my, sr.getScaledWidth() / 6 * 2, sr.getScaledHeight() / 4 + 20 * counter[0]++ + offsetY, sr.getScaledWidth() / 6 * 2, 20));
     }
@@ -86,6 +88,7 @@ public class HyperiumOverlay {
     public void addToggle(String label, Field f, Consumer<Object> objectConsumer) {
         addToggle(label, f, objectConsumer, true);
     }
+
     public void addToggle(String label, Field f, Consumer<Object> objectConsumer, boolean enabled) {
         addToggle(label, f, objectConsumer, enabled, null);
     }

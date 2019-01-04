@@ -415,10 +415,10 @@ public class NotificationCenter extends Gui {
             this.percentComplete = 0.0F;
 
             setClickedCallback(clickedCallback)
-                    .setTitle(title)
-                    .setDescriptionText(description)
-                    .setHighlightColor(highlightColor)
-                    .setImage(img);
+                .setTitle(title)
+                .setDescriptionText(description)
+                .setHighlightColor(highlightColor)
+                .setImage(img);
         }
 
         /**
@@ -519,15 +519,15 @@ public class NotificationCenter extends Gui {
          */
         float updatePercentage() {
             return this.percentComplete = clamp(
-                    easeOut(
-                            this.percentComplete,
-                            this.ticksLeft < lowerThreshold ? 0.0f :
-                                    this.ticksLeft > topThreshold ? 1.0f : ticksLeft,
-                            0.01f,
-                            8f
-                    ),
-                    0.0f,
-                    1.0f
+                easeOut(
+                    this.percentComplete,
+                    this.ticksLeft < lowerThreshold ? 0.0f :
+                        this.ticksLeft > topThreshold ? 1.0f : ticksLeft,
+                    0.01f,
+                    8f
+                ),
+                0.0f,
+                1.0f
             );
         }
 
@@ -570,7 +570,7 @@ public class NotificationCenter extends Gui {
 
             // Background
             Gui.drawRect(x, y, x + width, y + height,
-                    new Color(30, 30, 30, alpha).getRGB());
+                new Color(30, 30, 30, alpha).getRGB());
             GlStateManager.enableBlend();
 
             // Highlight color
@@ -580,7 +580,7 @@ public class NotificationCenter extends Gui {
 
             // Title Text
             fontRenderer.drawString(trimString(String.valueOf(title), width - rightMargins,
-                    null, true), x + highlightBarWidth + highlightBarMargins, y + topPadding, 0xFFFFFF | alpha << 24);
+                null, true), x + highlightBarWidth + highlightBarMargins, y + topPadding, 0xFFFFFF | alpha << 24);
 
             // Description text
             if (descriptionColor == null) descriptionColor = new Color(80, 80, 80); // Anti-NPE
@@ -588,13 +588,13 @@ public class NotificationCenter extends Gui {
                 final int wrapWidth = getWrapWidth();
                 if (maxDescriptionLines == 1) { // Well this is easy..
                     fontRenderer.drawString(trimString(
-                            String.valueOf(description),
-                            wrapWidth,
-                            null,
-                            true),
-                            x + highlightBarWidth + highlightBarMargins,
-                            y + topPadding + fontRenderer.FONT_HEIGHT + lineSpacing,
-                            descriptionColor.getRGB() | alpha << 24);
+                        String.valueOf(description),
+                        wrapWidth,
+                        null,
+                        true),
+                        x + highlightBarWidth + highlightBarMargins,
+                        y + topPadding + fontRenderer.FONT_HEIGHT + lineSpacing,
+                        descriptionColor.getRGB() | alpha << 24);
                 } else {
                     // Trim & split into multiple lines
                     List<String> lines = fontRenderer.listFormattedStringToWidth(String.valueOf(description), wrapWidth);
@@ -603,16 +603,16 @@ public class NotificationCenter extends Gui {
                         lines = lines.subList(0, maxDescriptionLines);
                         // Next line is appended to guarantee three ellipsis on the end of the string
                         lines.set(lines.size() - 1, trimString(lines.get(lines.size() - 1) + " " + nextLine,
-                                wrapWidth, null, true));
+                            wrapWidth, null, true));
                     }
 
                     // Draw lines
                     int currentLine = 0;
                     for (final String line : lines) {
                         fontRenderer.drawString(String.valueOf(line),
-                                x + highlightBarWidth + highlightBarMargins,
-                                y + topPadding + fontRenderer.FONT_HEIGHT + lineSpacing + fontRenderer.FONT_HEIGHT * currentLine,
-                                descriptionColor.getRGB() | alpha << 24);
+                            x + highlightBarWidth + highlightBarMargins,
+                            y + topPadding + fontRenderer.FONT_HEIGHT + lineSpacing + fontRenderer.FONT_HEIGHT * currentLine,
+                            descriptionColor.getRGB() | alpha << 24);
 
                         if (++currentLine >= maxDescriptionLines) break; // stop if too many lines have gone by
                     }
@@ -629,12 +629,12 @@ public class NotificationCenter extends Gui {
                 GlStateManager.bindTexture(img.getGlTextureId());
                 GlStateManager.enableTexture2D();
                 drawTexturedModalRect(
-                        (float) ((x + width - rightMargins) / imgScale - imgSize),
-                        (float) (y / imgScale + (((height + fontRenderer.FONT_HEIGHT) / imgScale) - imgSize) / 2),
-                        0,
-                        0,
-                        imgSize,
-                        imgSize);
+                    (float) ((x + width - rightMargins) / imgScale - imgSize),
+                    (float) (y / imgScale + (((height + fontRenderer.FONT_HEIGHT) / imgScale) - imgSize) / 2),
+                    0,
+                    0,
+                    imgSize,
+                    imgSize);
                 GlStateManager.scale(1 / imgScale, 1 / imgScale, 1 / imgScale);
             } else
                 imgScale = 0;

@@ -173,7 +173,7 @@ public class HyperiumCommandHandler {
      */
     public boolean isCommandDisabled(String input) {
         if (input == null || input.isEmpty() || input.trim().isEmpty() ||
-                input.equalsIgnoreCase("disablecommand") || input.equalsIgnoreCase("hyperium")) {
+            input.equalsIgnoreCase("disablecommand") || input.equalsIgnoreCase("hyperium")) {
             return false;
         }
 
@@ -190,7 +190,7 @@ public class HyperiumCommandHandler {
      */
     public boolean addOrRemoveCommand(String input) {
         if (input == null || input.isEmpty() || input.trim().isEmpty() ||
-                input.equalsIgnoreCase("disablecommand") || input.equalsIgnoreCase("hyperium")) {
+            input.equalsIgnoreCase("disablecommand") || input.equalsIgnoreCase("hyperium")) {
             return false;
         }
 
@@ -306,7 +306,6 @@ public class HyperiumCommandHandler {
         disabledCommands.add("lobby");
         disabledCommands.add("hub");
         disabledCommands.add("spawn");
-
 
 
     }

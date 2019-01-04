@@ -1,8 +1,10 @@
 package cc.hyperium.gui.hyperium.components;
 
 import cc.hyperium.utils.HyperiumFontRenderer;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
 

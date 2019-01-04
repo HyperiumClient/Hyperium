@@ -40,6 +40,6 @@ public class MixinInventoryParticle {
 
     @Inject(method = "drawScreen", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/inventory/GuiContainer;drawGuiContainerBackgroundLayer(FII)V"))
     private void draw(int mouseX, int mouseY, float partialTicks, CallbackInfo ci) {
-        hyperiumInventoryParticle.draw(mouseX,mouseY,partialTicks,this.guiLeft,this.xSize,this.guiTop,ci);
+        hyperiumInventoryParticle.draw(mouseX, mouseY, partialTicks, this.guiLeft, this.xSize, this.guiTop, ci);
     }
 }

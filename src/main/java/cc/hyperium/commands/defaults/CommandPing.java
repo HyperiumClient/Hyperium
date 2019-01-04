@@ -16,7 +16,8 @@ public class CommandPing implements BaseCommand {
 
     @Override
     public String getUsage() {
-        return "/ping or /ping <name>";    }
+        return "/ping or /ping <name>";
+    }
 
     @Override
     public void onExecute(String[] args) throws CommandException {
@@ -26,5 +27,6 @@ public class CommandPing implements BaseCommand {
 
     @Override
     public List<String> onTabComplete(String[] args) {
-        return TabCompletionUtil.getListOfStringsMatchingLastWord(args, TabCompletionUtil.getTabUsernames());    }
+        return TabCompletionUtil.getListOfStringsMatchingLastWord(args, TabCompletionUtil.getTabUsernames());
+    }
 }

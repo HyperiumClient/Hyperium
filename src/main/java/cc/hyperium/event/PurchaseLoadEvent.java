@@ -1,6 +1,7 @@
 package cc.hyperium.event;
 
 import cc.hyperium.purchases.HyperiumPurchase;
+
 import java.util.UUID;
 
 import com.google.common.base.Preconditions;

@@ -31,7 +31,8 @@ public class MixinRenderManger implements IMixinRenderManager {
     @Shadow
     private Map<String, RenderPlayer> skinMap;
 
-    @Shadow private Map<Class<? extends Entity>, Render<? extends Entity>> entityRenderMap;
+    @Shadow
+    private Map<Class<? extends Entity>, Render<? extends Entity>> entityRenderMap;
 
     @Inject(method = "<init>", at = @At("RETURN"))
     private void injectEntities(TextureManager renderEngineIn, RenderItem itemRendererIn, CallbackInfo ci) {

@@ -56,14 +56,14 @@ public class TypeSoulWell extends ToggleBase {
     @Override
     public LinkedList<String> getDescription() {
         return asLinked(
-                "Turns off perk and kit",
-                "messages for skywars",
-                "",
-                "&bSk1er &7has found &6Slime",
-                "&6Cage &7in the &bSoul Well&r!",
-                "",
-                "Good for recording",
-                "in a skywars lobby"
+            "Turns off perk and kit",
+            "messages for skywars",
+            "",
+            "&bSk1er &7has found &6Slime",
+            "&6Cage &7in the &bSoul Well&r!",
+            "",
+            "Good for recording",
+            "in a skywars lobby"
         );
     }
 }

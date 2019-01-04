@@ -22,8 +22,8 @@ public abstract class MixinCrashReport {
     @Inject(method = "populateEnvironment", at = @At("HEAD"))
     public void add(CallbackInfo info) {
         this.theReportCategory.addCrashSectionCallable(
-                "ct.js modules",
-                () -> ModuleManager.INSTANCE.getCachedModules().toString()
+            "ct.js modules",
+            () -> ModuleManager.INSTANCE.getCachedModules().toString()
         );
 
         hyperiumCrashReport.add(info);
