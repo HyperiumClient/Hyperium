@@ -23,7 +23,6 @@ import cc.hyperium.mixinsimp.entity.HyperiumEntityRenderer;
 import com.google.common.base.Predicates;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.EntityRenderer;
-import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.shader.ShaderGroup;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -122,22 +121,6 @@ public abstract class MixinEntityRenderer {
     @Inject(method = "updateCameraAndRender", at = @At(value = "INVOKE_STRING", target = "Lnet/minecraft/profiler/Profiler;startSection(Ljava/lang/String;)V", args = "ldc=mouse"))
     private void updateCameraAndRender2(float partialTicks, long nanoTime, CallbackInfo ci) {
         hyperiumEntityRenderer.updatePerspectiveCamera();
-    }
-
-    // Motion Blur Methods
-    public void motionBlurApplyShader(ResourceLocation resourceLocation) {
-        if (OpenGlHelper.shadersSupported) {
-            this.loadShader(resourceLocation);
-        }
-    }
-
-    public void clearShaders() {
-        this.stopUseShader();
-    }
-
-    @Inject(method = "loadShader", at = @At("HEAD"))
-    private void loadShader(ResourceLocation resourceLocation, CallbackInfo callbackInfo) {
-        hyperiumEntityRenderer.loadShader(resourceLocation, callbackInfo);
     }
 
     /**

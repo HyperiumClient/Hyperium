@@ -4,7 +4,6 @@ import cc.hyperium.Hyperium;
 import cc.hyperium.event.DrawBlockHighlightEvent;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.RenderEvent;
-import cc.hyperium.handlers.handlers.HypixelDetector;
 import cc.hyperium.mixins.entity.IMixinEntityRenderer;
 import cc.hyperium.mods.common.PerspectiveModifierHandler;
 import net.minecraft.block.Block;
@@ -18,13 +17,8 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.*;
 import org.lwjgl.opengl.Display;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 public class HyperiumEntityRenderer {
     private EntityRenderer parent;
@@ -39,8 +33,8 @@ public class HyperiumEntityRenderer {
     public void updateCameraAndRender() {
         EventBus.INSTANCE.post(new RenderEvent());
     }
-
-    public void orientCamera(float partialTicks, float thirdPersonDistanceTemp, float thirdPersonDistance, boolean cloudFog, Minecraft mc) {
+    
+    public void orientCamera(float partialTicks, float thirdPersonDistanceTemp, float thirdPersonDistance, boolean cloudFog, Minecraft mc){
         PerspectiveModifierHandler perspectiveHandler = Hyperium.INSTANCE.getHandlers().getPerspectiveHandler();
         Entity entity = mc.getRenderViewEntity();
         float f = entity.getEyeHeight();
@@ -143,7 +137,25 @@ public class HyperiumEntityRenderer {
 
     }
 
-    public void drawOutline(float part, Minecraft mc) {
+    public void loadShader(ResourceLocation resourceLocation){
+        if (resourceLocation.equals(new ResourceLocation("shaders/hyperium_blur.json")) && Minecraft.getMinecraft().currentScreen == null) {
+            // If a gui is closed and we are asked
+            // to blur, cancel it.
+            return;
+        }
+        // Uses an accessor to call the original load shader method.
+        ((IMixinEntityRenderer) parent).callLoadShader(resourceLocation);
+    }
+
+    public void enableBlurShader(){
+        loadShader(new ResourceLocation("shaders/hyperium_blur.json"));
+    }
+
+    public void disableBlurShader(){
+        Minecraft.getMinecraft().addScheduledTask(() -> Minecraft.getMinecraft().entityRenderer.stopUseShader());
+    }
+
+    public void drawOutline(float part,Minecraft mc) {
         DrawBlockHighlightEvent drawBlockHighlightEvent = new DrawBlockHighlightEvent(((EntityPlayer) mc.getRenderViewEntity()), mc.objectMouseOver, part);
         EventBus.INSTANCE.post(drawBlockHighlightEvent);
         if (drawBlockHighlightEvent.isCancelled()) {
@@ -156,11 +168,11 @@ public class HyperiumEntityRenderer {
         if (Hyperium.INSTANCE.getHandlers() == null) {
             return;
         }
-
+        
         if (Hyperium.INSTANCE.getHandlers().getPerspectiveHandler() == null) {
             return;
         }
-
+        
         PerspectiveModifierHandler perspectiveHandler = Hyperium.INSTANCE.getHandlers().getPerspectiveHandler();
         boolean flag2 = Display.isActive();
         if (Minecraft.getMinecraft().inGameHasFocus && flag2) {
@@ -192,11 +204,11 @@ public class HyperiumEntityRenderer {
         }
     }
 
-    public void loadShader(ResourceLocation resourceLocation, CallbackInfo callbackInfo) {
+    /*public void callLoadShader(ResourceLocation resourceLocation, CallbackInfo callbackInfo) {
         if (resourceLocation.equals(new ResourceLocation("shaders/hyperium_blur.json")) && Minecraft.getMinecraft().currentScreen == null) {
-            // If a gui is closed and we are asked
-            // to blur, cancel it.
+             // If a gui is closed and we are asked
+             // to blur, cancel it.
             callbackInfo.cancel();
         }
-    }
+    }*/
 }
