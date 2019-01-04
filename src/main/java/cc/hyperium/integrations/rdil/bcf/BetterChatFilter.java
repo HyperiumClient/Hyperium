@@ -51,16 +51,17 @@ public class BetterChatFilter {
    */
   private static final String BAD_WORDS_URL = "https://raw.githubusercontent.com/HyperiumClient/Hyperium-Repo/master/files/BadWords.txt";
   
+    public ArrayList<String> badWords = new ArrayList<String>();
+  
   /*
    * Download file from Hyperium-Repo
    */
   public BetterChatFilter() {
     try {
       String rawBadwords = IOUtils.toString(new URL(BAD_WORDS_URL), Charset.forName("UTF-8"));
-      ArrayList<String> badWords = new ArrayList(rawBadwords.split("\n"));
+      badWords = rawBadwords.split("\n");
     } catch (Exception e) {
       // After failing to download file, make arraylist to make up for it.  
-      ArrayList<String> badWords = new ArrayList<String>();
       badWords.add("fuck");
       badWords.add("shit");
     }
@@ -78,7 +79,7 @@ public class BetterChatFilter {
   public void onChat(ChatEvent e) { 
     String unformattedMessage = ChatColor.stripColor(e.getChat().getUnformattedText());
     for(int i = 0; i < getArrayListSize(); i++) {
-      if(unformattedMessage.containsIgnoreCase(getBadwords().get(i)) && Settings.BETTER_CHAT_FILTER) {
+      if(unformattedMessage.contains(badWords.get(i)) && Settings.BETTER_CHAT_FILTER) {
         e.setCancelled(true);
       } else {
         e.setCancelled(false);
