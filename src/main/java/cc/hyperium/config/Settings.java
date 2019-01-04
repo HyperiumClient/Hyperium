@@ -171,7 +171,7 @@ public class Settings {
     public static boolean SPOTIFY_CONTROLS = false;
 
     @ConfigOpt
-    @SelectorSetting(name = "BetterChatFilter" category = GENERAL, items = "NONE")
+    @SelectorSetting(name = "BetterChatFilter", category = GENERAL, items = "NONE")
     public static boolean BETTER_CHAT_FILTER = false;
     
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;hypixelZooEnabled")
