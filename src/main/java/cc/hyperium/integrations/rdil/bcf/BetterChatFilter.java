@@ -56,7 +56,7 @@ public class BetterChatFilter {
    */
   public BetterChatFilter() {
     try {
-      static final String rawBadwords = Arrays.asList(IOUtils.toString(new URL(BAD_WORDS_URL), Charset.forName("UTF-8")).split("\n");
+      static final ArrayList<String> rawBadwords = new ArrayList(IOUtils.toString(new URL(BAD_WORDS_URL), Charset.forName("UTF-8")).split("\n"));
     } catch (Exception e) {
       // After failing to download file, make arraylist to make up for it.  
       ArrayList<String> rawBadwords = new ArrayList<String>();
