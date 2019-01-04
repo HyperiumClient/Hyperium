@@ -56,11 +56,11 @@ public class BetterChatFilter {
    */
   public BetterChatFilter() {
     try {
-      private static final String rawBadwords = IOUtils.toString(new URL(BAD_WORDS_URL), Charset.forName("UTF-8"));
-      private ArrayList<String> badWords = new ArrayList(rawBadwords.split("\n"));
+      static final String rawBadwords = IOUtils.toString(new URL(BAD_WORDS_URL), Charset.forName("UTF-8"));
+      ArrayList<String> badWords = new ArrayList(rawBadwords.split("\n"));
     } catch (Exception e) {
       // After failing to download file, make arraylist to make up for it.  
-      private ArrayList<String> badWords = new ArrayList<String>();
+      ArrayList<String> badWords = new ArrayList<String>();
       badWords.add("fuck");
       badWords.add("shit");
     }
