@@ -15,11 +15,9 @@ import cc.hyperium.handlers.handlers.SettingsHandler;
 import cc.hyperium.mixinsimp.client.GlStateModifier;
 import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
 import cc.hyperium.utils.HyperiumFontRenderer;
-import me.semx11.autotip.universal.ReflectionUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
@@ -30,8 +28,6 @@ import net.minecraft.util.ResourceLocation;
 import java.awt.Color;
 import java.io.IOException;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -133,26 +129,6 @@ public class HyperiumMainGui extends HyperiumGui {
 
     @Override
     protected void pack() {
-        if (Settings.BLUR_GUI) {
-            Method loadShaderMethod = null;
-            try {
-                loadShaderMethod = ReflectionUtil
-                    .findMethod(EntityRenderer.class, new String[]{"loadShader", "a"},
-                        ResourceLocation.class);
-            } catch (Exception ignored) {
-            }
-
-            if (loadShaderMethod != null) {
-                loadShaderMethod.setAccessible(true);
-                try {
-                    loadShaderMethod.invoke(Minecraft.getMinecraft().entityRenderer,
-                        new ResourceLocation("shaders/hyperium_blur.json"));
-                } catch (IllegalAccessException | InvocationTargetException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
         show = false;
         int yg = (height / 10);  // Y grid
         int xg = (width / 11);   // X grid
@@ -360,7 +336,6 @@ public class HyperiumMainGui extends HyperiumGui {
     @Override
     public void onGuiClosed() {
         super.onGuiClosed();
-        Minecraft.getMinecraft().entityRenderer.stopUseShader();
 
         // Save all settings.
         Hyperium.CONFIG.save();

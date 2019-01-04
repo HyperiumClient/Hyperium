@@ -593,8 +593,9 @@ public class Settings {
     })
     public static String BUTTON_TYPE = ButtonType.DEFAULT.name();
 
+
     @ConfigOpt
-    //@ToggleSetting(name = "gui.settings.disableenchantglint", category = IMPROVEMENTS) not properly working yet, spams console if you enable it while wearing armor, disables custom cape as well?
+    @ToggleSetting(name = "gui.settings.disableenchantglint", category = IMPROVEMENTS)
     public static boolean DISABLE_ENCHANT_GLINT = false;
 
     @ConfigOpt
@@ -609,13 +610,23 @@ public class Settings {
     @ToggleSetting(name = "gui.settings.disablelightning", category = IMPROVEMENTS)
     public static boolean DISABLE_LIGHTNING = false;
 
+    /*
+
+    For whoever tries to implement this, purpose is for when DISABLE_LIGHTNING is enabled, if the player still wants Lightning Bolts in UHC only, they will have to turn this on
+    have fun trying to add it lol - asbyth
+
     @ConfigOpt
     @ToggleSetting(name = "gui.settings.keeplightinguhc", category = IMPROVEMENTS)
     public static boolean UHC_LIGHTNING = false;
+    */
 
     @ConfigOpt
     @ToggleSetting(name = "gui.settings.disablearmorstands", category = IMPROVEMENTS)
     public static boolean DISABLE_ARMORSTANDS = false;
+
+    @ConfigOpt
+    @ToggleSetting(name = "gui.settings.disableitemframes", category = IMPROVEMENTS)
+    public static boolean DISABLE_ITEMFRAMES = false;
 
     private Settings() {
     }

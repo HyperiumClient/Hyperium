@@ -5,19 +5,16 @@ import cc.hyperium.config.Settings;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.TickEvent;
+import cc.hyperium.mixinsimp.entity.HyperiumEntityRenderer;
 import cc.hyperium.mods.AbstractMod;
 import cc.hyperium.mods.motionblur.resource.MotionBlurResourceManager;
-
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.Map;
-
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.client.resources.SimpleReloadableResourceManager;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.util.ResourceLocation;
+
+import java.lang.reflect.Field;
+import java.util.Map;
 
 
 public class MotionBlurMod extends AbstractMod {
@@ -35,22 +32,14 @@ public class MotionBlurMod extends AbstractMod {
     }
 
     public static void applyShader() {
-        Method method = Reflection
-            .getMethod(EntityRenderer.class, new String[]{"motionBlurApplyShader"},
-                new Class[]{ResourceLocation.class});
-        try {
-            method.invoke(Minecraft.getMinecraft().entityRenderer,
-                new ResourceLocation("motionblur", "motionblur"));
-        } catch (IllegalAccessException | InvocationTargetException e) {
-            e.printStackTrace();
-        }
+        HyperiumEntityRenderer.INSTANCE.loadShader(new ResourceLocation("motionblur", "motionblur"));
     }
 
     @Override
     public AbstractMod init() {
         this.mc = Minecraft.getMinecraft();
         Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler()
-            .registerCommand(new MotionBlurCommand());
+                .registerCommand(new MotionBlurCommand());
         EventBus.INSTANCE.register(this);
         return this;
     }
@@ -62,7 +51,7 @@ public class MotionBlurMod extends AbstractMod {
 
     @InvokeEvent
     public void onClientTick(TickEvent event) {
-        if (Settings.MOTION_BLUR_ENABLED && !Minecraft.getMinecraft().entityRenderer.isShaderActive() && !isFastRenderEnabled()) {
+        if (Settings.MOTION_BLUR_ENABLED && !Minecraft.getMinecraft().entityRenderer.isShaderActive() && mc.theWorld != null && !isFastRenderEnabled()) {
             applyShader();
         }
         if (this.domainResourceManagers == null) {
@@ -72,7 +61,7 @@ public class MotionBlurMod extends AbstractMod {
                     if (field.getType() == Map.class) {
                         field.setAccessible(true);
                         this.domainResourceManagers = (Map) field
-                            .get(Minecraft.getMinecraft().getResourceManager());
+                                .get(Minecraft.getMinecraft().getResourceManager());
                         break;
                     }
                 }

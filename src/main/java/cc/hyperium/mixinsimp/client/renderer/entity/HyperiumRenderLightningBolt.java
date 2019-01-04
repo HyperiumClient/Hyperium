@@ -10,12 +10,12 @@ public class HyperiumRenderLightningBolt {
     private MinigameListener listener = new MinigameListener();
 
     public void doRender(EntityLightningBolt entity, double x, double y, double z, float entityYaw, float partialTicks, CallbackInfo ci) {
-        if (Settings.DISABLE_LIGHTNING && !Settings.UHC_LIGHTNING && isInUHC(listener)) {
+        if (Settings.DISABLE_LIGHTNING) {
             ci.cancel();
         }
     }
 
-    private boolean isInUHC(MinigameListener listener) {
-        return listener.getCurrentMinigameName().equalsIgnoreCase("UHC CHAMPIONS".toLowerCase());
-    }
+   /* private boolean isInUHC(MinigameListener listener) {
+        return listener.getCurrentMinigameName().equalsIgnoreCase("UHC CHAMPIONS");
+    }*/
 }
