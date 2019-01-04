@@ -42,6 +42,7 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.fml.client.config.GuiSlider;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.lwjgl.input.Keyboard;
+
 import java.awt.Color;
 import java.awt.Desktop;
 import java.io.IOException;
@@ -66,7 +67,7 @@ public class LevelHeadGui extends GuiScreen {
 
     private final String ENABLED = ChatColor.GREEN + "Enabled";
     private final String DISABLED = ChatColor.RED + "Disabled";
-    private final String COLOR_CHAR = "\u00a7";
+    private final String COLOR_CHAR = String.valueOf("\u00a7");
     private final String colors = "0123456789abcdef";
     private final List<GuiButton> sliders = new ArrayList<>();
     private final Map<GuiButton, Consumer<GuiButton>> clicks = new HashMap<>();
@@ -96,9 +97,10 @@ public class LevelHeadGui extends GuiScreen {
     }
 
     @Override
-    public void initGui() throws UnsupportedEncodingException {
+    public void initGui() {
         Multithreading.runAsync(() -> {
             String raw = Sk1erMod.getInstance().rawWithAgent("https://api.sk1er.club/levelhead/" + Minecraft.getMinecraft().getSession().getProfile().getId().toString().replace("-", ""));
+            System.out.println(raw);
             this.isCustom = new JsonHolder(raw).optBoolean("custom");
             updateCustom();
         });
@@ -176,6 +178,7 @@ public class LevelHeadGui extends GuiScreen {
             slider.dragging = false;
         }), null);
 
+
         JsonHolder types = instance.getTypes();
         reg(this.buttonType = new GuiButton(4, this.width / 2 - 155, calculateHeight(3), 150 * 2 + 10, 20, "Current Type: " + types.optJSONObject(instance.getType()).optString("name")), button -> {
             String currentType = instance.getType();
@@ -229,7 +232,7 @@ public class LevelHeadGui extends GuiScreen {
 
     }
 
-    private void updateCustom() throws UnsupportedEncodingException {
+    private void updateCustom() {
         lock.lock();
         reg(new GuiButton(13, this.width / 2 - 155, this.height - 44, 310, 20, (isCustom ? ChatColor.YELLOW + "Click to change custom Levelhead." : ChatColor.YELLOW + "Click to purchase a custom Levelhead message")), button -> {
 
@@ -250,26 +253,29 @@ public class LevelHeadGui extends GuiScreen {
                 JsonHolder object = new JsonHolder();
                 object.put("header_obj", Hyperium.INSTANCE.getModIntegration().getLevelhead().getHeaderConfig());
                 object.put("footer_obj", Hyperium.INSTANCE.getModIntegration().getLevelhead().getFooterConfig());
-                try { String encode = URLEncoder.encode(object.toString(), "UTF_8"); } catch (UnsupportedEncodingException e) {}
-                String url = "https://sk1er.club/user?levelhead_color=" + encode;
-                ChatComponentText text = new ChatComponentText("Click here to update your custom Levelhead colors");
-                ChatStyle style = new ChatStyle();
-                style.setBold(true);
-                style.setColor(EnumChatFormatting.YELLOW);
-                style.setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, url));
-                ChatComponentText valueIn = new ChatComponentText("Please be logged in to your Sk1er.club for this to work. Do /levelhead dumpcache after clicking to see new colors!");
-                ChatStyle style1 = new ChatStyle();
-                style1.setColor(EnumChatFormatting.RED);
-                valueIn.setChatStyle(style1);
-                style.setChatHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, valueIn));
-                text.setChatStyle(style);
-                Minecraft.getMinecraft().thePlayer.addChatComponentMessage(text);
+                try {
+                    String encode = URLEncoder.encode(object.toString(), "UTF-8");
+                    String url = "https://sk1er.club/user?levelhead_color=" + encode;
+                    ChatComponentText text = new ChatComponentText("Click here to update your custom Levelhead colors");
+                    ChatStyle style = new ChatStyle();
+                    style.setBold(true);
+                    style.setColor(EnumChatFormatting.YELLOW);
+                    style.setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, url));
+                    ChatComponentText valueIn = new ChatComponentText("Please be logged in to your Sk1er.club for this to work. Do /levelhead dumpcache after clicking to see new colors!");
+                    ChatStyle style1 = new ChatStyle();
+                    style1.setColor(EnumChatFormatting.RED);
+                    valueIn.setChatStyle(style1);
+                    style.setChatHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, valueIn));
+                    text.setChatStyle(style);
+                    Minecraft.getMinecraft().thePlayer.addChatComponentMessage(text);
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
                 Minecraft.getMinecraft().displayGuiScreen(null);
             });
         }
         lock.unlock();
     }
-
 
     private void regSlider(GuiSlider slider, Consumer<GuiButton> but) {
         slider.yPosition += 30;
@@ -281,7 +287,6 @@ public class LevelHeadGui extends GuiScreen {
     @Override
     public void drawScreen(int mouseX, int mouseY, float ticks) {
         lock.lock();
-
         drawDefaultBackground();
 
         drawTitle();
@@ -295,13 +300,11 @@ public class LevelHeadGui extends GuiScreen {
             for (GuiButton slider : sliders) {
                 if (slider.displayString.contains("Header"))
                     slider.visible = true;
-
             }
         } else {
             for (GuiButton slider : sliders) {
                 if (slider.displayString.contains("Header"))
                     slider.visible = false;
-
             }
         }
         if (this.mod.getConfig().isFooterRgb()) {
@@ -314,7 +317,6 @@ public class LevelHeadGui extends GuiScreen {
             for (GuiButton slider : sliders) {
                 if (slider.displayString.contains("Footer"))
                     slider.visible = false;
-
             }
         }
 
@@ -379,14 +381,8 @@ public class LevelHeadGui extends GuiScreen {
         if (mouseButton == 0) {
             for (GuiButton guibutton : this.buttonList) {
                 if (guibutton.mousePressed(this.mc, mouseX, mouseY)) {
-//                    net.minecraftforge.client.event.GuiScreenEvent.ActionPerformedEvent.Pre event = new net.minecraftforge.client.event.GuiScreenEvent.ActionPerformedEvent.Pre(this, guibutton, this.buttonList);
-//                    if (net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(event))
-//                        break;
-//                    guibutton = event.button;
                     guibutton.playPressSound(this.mc.getSoundHandler());
                     this.actionPerformed(guibutton);
-//                    if (this.equals(this.mc.currentScreen))
-//                        net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(new net.minecraftforge.client.event.GuiScreenEvent.ActionPerformedEvent.Post(this, event.button, this.buttonList));
                 }
             }
         }
@@ -400,7 +396,6 @@ public class LevelHeadGui extends GuiScreen {
     public void display() {
         Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(this);
     }
-
 
     @Override
     public void sendChatMessage(String msg) {
@@ -438,7 +433,6 @@ public class LevelHeadGui extends GuiScreen {
             if (header.isChroma())
                 drawCenteredString(renderer, header.getValue(), this.width / 2, h, Hyperium.INSTANCE.getModIntegration().getLevelhead().getRGBColor());
             else if (header.isRgb()) {
-//                GlStateManager.color(header.getRed(), header.getGreen(), header.getBlue(), header.getAlpha());
                 drawCenteredString(renderer, header.getValue(), this.width / 2, h, new Color(header.getRed(), header.getGreen(), header.getBlue(), header.getAlpha()).getRGB());
 
             } else {
@@ -454,7 +448,6 @@ public class LevelHeadGui extends GuiScreen {
             } else {
                 drawCenteredString(renderer, footer.getColor() + footer.getValue(), (this.width / 2 + renderer.getStringWidth(header.getValue()) / 2 + 3), h, Color.WHITE.getRGB());
             }
-
 
         } else {
             drawCenteredString(renderer, "LevelHead is disabled", this.width / 2, 30, Color.WHITE.getRGB());
