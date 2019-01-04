@@ -18,11 +18,9 @@
 package cc.hyperium.config;
 
 import cc.hyperium.Hyperium;
-
 import cc.hyperium.styles.ButtonStyle;
 import cc.hyperium.styles.ButtonType;
 import cc.hyperium.styles.GuiStyle;
-
 import static cc.hyperium.config.Category.ANIMATIONS;
 import static cc.hyperium.config.Category.BUTTONS;
 import static cc.hyperium.config.Category.CHROMAHUD;
@@ -172,6 +170,10 @@ public class Settings {
     @ConfigOpt
     public static boolean SPOTIFY_CONTROLS = false;
 
+    @ConfigOpt
+    @SelectorSetting(name = "BetterChatFilter" category = GENERAL, items = "NONE")
+    public static boolean BETTER_CHAT_FILTER = false;
+    
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;hypixelZooEnabled")
     @ToggleSetting(name = "gui.settings.welcometothehypixelzoo", category = HYPIXEL)
     public static boolean HYPIXEL_ZOO = true;
