@@ -234,6 +234,7 @@ gui.settings.thankwatchdog=Thank Watchdog
 gui.settings.fpslimiteramount=FPS Limiter Amount
 gui.settings.disablelightning=Disable Lightning Bolts
 gui.settings.disablearmorstands=Disable Armorstands
+gui.settings.keeplightinguhc=Keep Lightning Bolts in UHC
 
 # Hyperium Splash Progress
 splashprogress.startinggame=بدء اللعبة...
