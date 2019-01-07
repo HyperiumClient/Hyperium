@@ -75,7 +75,7 @@ public class ChangeBackgroundGui extends GuiScreen {
         this.downloadUrlField.textboxKeyTyped(typedChar, keyCode);
         if (keyCode == Keyboard.KEY_ESCAPE) {
             Minecraft.getMinecraft().displayGuiScreen(this.prevGui);
-            if(isFS) {
+            if(Minecraft.getMinecraft().isFullScreen()) {
                 Minecraft.getMinecraft().toggleFullscreen();
             }
         }
