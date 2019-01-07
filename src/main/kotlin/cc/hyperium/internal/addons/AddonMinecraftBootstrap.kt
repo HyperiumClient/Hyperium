@@ -61,7 +61,7 @@ object AddonMinecraftBootstrap {
                         val dependencyManifest = toLoadMap[dependency]
                         if (dependencyManifest == null) {
                             toLoadMap.remove(manifest.name)
-                            Hyperium.LOGGER.error("Can't load addon ${manifest.name}. His dependency, $dependency, isn't available.")
+                            Hyperium.LOGGER.error("Can't load addon ${manifest.name}. Its dependency, $dependency, isn't available.")
                             MISSING_DEPENDENCIES_MAP.computeIfAbsent(manifest) { ArrayList() }.add(dependency)
                             continue@loadBeforeLoop
                         }
@@ -71,7 +71,7 @@ object AddonMinecraftBootstrap {
                             iterator.remove()
                             toLoadMap.remove(manifest.name)
                             done = false
-                            Hyperium.LOGGER.error("Can't load addon ${manifest.name}. His dependency, ${dependencyManifest.name}, is depending on him.")
+                            Hyperium.LOGGER.error("Can't load addon ${manifest.name}. Its dependency, ${dependencyManifest.name}, is depending on him.")
                             DEPENDENCIES_LOOP_MAP.computeIfAbsent(manifest) { ArrayList() }.add(dependencyManifest)
                             continue@loadBeforeLoop
                         }
@@ -151,7 +151,6 @@ object AddonMinecraftBootstrap {
                 } catch (e: Throwable) {
                     dontLoad.add(addon)
                     e.printStackTrace()
-                    //toLoad.remove(addon)
                     ADDON_ERRORS.add(e)
                 }
             }
@@ -160,7 +159,7 @@ object AddonMinecraftBootstrap {
                 toLoad.remove(addon)
             }
 
-            val loaded = ArrayList<IAddon>() // sorry kevin but i want to put all errors in an arraylist
+            val loaded = ArrayList<IAddon>() // sorry Kevin but I want to put all errors in an arraylist
             for (addon in toLoad) {
                 try {
                     val o = Class.forName(addon.mainClass).newInstance()
@@ -179,7 +178,6 @@ object AddonMinecraftBootstrap {
             LOADED_ADDONS.forEach(IAddon::onLoad)
             AddonBootstrap.phase = AddonBootstrap.Phase.DEFAULT
         } catch (e: Exception) {
-
         }
     }
 
