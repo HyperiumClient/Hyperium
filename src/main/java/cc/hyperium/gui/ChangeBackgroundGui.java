@@ -11,7 +11,6 @@ import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.resources.I18n;
 import org.apache.commons.io.IOUtils;
 import org.lwjgl.input.Keyboard;
-
 import java.awt.FileDialog;
 import java.awt.Frame;
 import java.io.InputStream;
@@ -45,6 +44,7 @@ public class ChangeBackgroundGui extends GuiScreen {
         this.buttonList.add(new GuiButton(2, width / 2 - 150 / 2, height / 2 + 40, 150, 15, I18n.format("button.changebackground.choosefile")));
         this.buttonList.add(new GuiButton(3, width / 2 - 150 / 2, height / 2 + 60, 150, 15, I18n.format("button.changebackground.resetbackground")));
         this.buttonList.add(new GuiButton(4, width / 2 - 150 / 2, height / 2 + 80, 150, 15, I18n.format("gui.cancel")));
+        Minecraft.getMinecraft().toggleFullscreen();
     }
 
     @Override
