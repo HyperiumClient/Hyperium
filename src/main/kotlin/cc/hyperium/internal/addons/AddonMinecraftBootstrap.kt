@@ -71,7 +71,7 @@ object AddonMinecraftBootstrap {
                             iterator.remove()
                             toLoadMap.remove(manifest.name)
                             done = false
-                            Hyperium.LOGGER.error("Can't load addon ${manifest.name}. Its dependency, ${dependencyManifest.name}, is depending on him.")
+                            Hyperium.LOGGER.error("Can't load addon ${manifest.name} because it and ${dependencyManifest.name} depend on each other.")
                             DEPENDENCIES_LOOP_MAP.computeIfAbsent(manifest) { ArrayList() }.add(dependencyManifest)
                             continue@loadBeforeLoop
                         }
