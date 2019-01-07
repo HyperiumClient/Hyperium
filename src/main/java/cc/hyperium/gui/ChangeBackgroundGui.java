@@ -44,7 +44,6 @@ import java.net.URLConnection;
 public class ChangeBackgroundGui extends GuiScreen {
 
     private final GuiScreen prevGui;
-    private static final boolean isFS = Minecraft.getMinecraft().isFullScreen();
     private GuiTextField downloadUrlField;
     private String statusText = I18n.format("gui.changebackground.line1");
 
@@ -61,7 +60,7 @@ public class ChangeBackgroundGui extends GuiScreen {
         this.buttonList.add(new GuiButton(2, width / 2 - 150 / 2, height / 2 + 40, 150, 15, I18n.format("button.changebackground.choosefile")));
         this.buttonList.add(new GuiButton(3, width / 2 - 150 / 2, height / 2 + 60, 150, 15, I18n.format("button.changebackground.resetbackground")));
         this.buttonList.add(new GuiButton(4, width / 2 - 150 / 2, height / 2 + 80, 150, 15, I18n.format("gui.cancel")));
-        if(isFS) {
+        if(Minecraft.getMinecraft().isFullScreen()) {
             Minecraft.getMinecraft().toggleFullscreen();
         }
     }
@@ -99,7 +98,7 @@ public class ChangeBackgroundGui extends GuiScreen {
         }
         if (button.id == 4) {
             Minecraft.getMinecraft().displayGuiScreen(prevGui);
-            if(isFS) {
+            if(Minecraft.getMinecraft().isFullScreen()) {
                 Minecraft.getMinecraft().toggleFullscreen();
             }
         }
