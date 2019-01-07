@@ -1,3 +1,20 @@
+/*
+ *     Copyright (C) 2018  Hyperium <https://hyperium.cc/>
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU Lesser General Public License as published
+ *     by the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU Lesser General Public License for more details.
+ *
+ *     You should have received a copy of the GNU Lesser General Public License
+ *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package cc.hyperium.gui;
 
 import cc.hyperium.config.Settings;
@@ -27,7 +44,7 @@ import java.net.URLConnection;
 public class ChangeBackgroundGui extends GuiScreen {
 
     private final GuiScreen prevGui;
-
+    private static final boolean isFS = Minecraft.getMinecraft().isFullScreen();
     private GuiTextField downloadUrlField;
     private String statusText = I18n.format("gui.changebackground.line1");
 
@@ -44,7 +61,7 @@ public class ChangeBackgroundGui extends GuiScreen {
         this.buttonList.add(new GuiButton(2, width / 2 - 150 / 2, height / 2 + 40, 150, 15, I18n.format("button.changebackground.choosefile")));
         this.buttonList.add(new GuiButton(3, width / 2 - 150 / 2, height / 2 + 60, 150, 15, I18n.format("button.changebackground.resetbackground")));
         this.buttonList.add(new GuiButton(4, width / 2 - 150 / 2, height / 2 + 80, 150, 15, I18n.format("gui.cancel")));
-        if(Minecraft.getMinecraft().isFullScreen()) {
+        if(isFS) {
             Minecraft.getMinecraft().toggleFullscreen();
         }
     }
@@ -57,23 +74,35 @@ public class ChangeBackgroundGui extends GuiScreen {
     @Override
     protected void keyTyped(char typedChar, int keyCode) throws IOException {
         this.downloadUrlField.textboxKeyTyped(typedChar, keyCode);
-        if (keyCode == Keyboard.KEY_ESCAPE)
+        if (keyCode == Keyboard.KEY_ESCAPE) {
             Minecraft.getMinecraft().displayGuiScreen(this.prevGui);
-        if (keyCode == Keyboard.KEY_RETURN)
+            if(isFS) {
+                Minecraft.getMinecraft().toggleFullscreen();
+            }
+        }
+        if (keyCode == Keyboard.KEY_RETURN) {
             handleDownload();
+        }
         super.keyTyped(typedChar, keyCode);
     }
 
     @Override
     protected void actionPerformed(GuiButton button) throws IOException {
-        if (button.id == 1)
+        if (button.id == 1) {
             handleDownload();
-        if (button.id == 2)
+        }
+        if (button.id == 2) {
             handleChooseFile();
-        if (button.id == 3)
+        }
+        if (button.id == 3) {
             handleResetBackground();
-        if (button.id == 4)
+        }
+        if (button.id == 4) {
             Minecraft.getMinecraft().displayGuiScreen(prevGui);
+            if(isFS) {
+                Minecraft.getMinecraft().toggleFullscreen();
+            }
+        }
         super.actionPerformed(button);
     }
 
