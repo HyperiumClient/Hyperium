@@ -17,6 +17,9 @@
 
 package cc.hyperium;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import java.io.File;
@@ -47,7 +50,8 @@ public class UpdateUtil {
 
     }
 
-    private static String toHex(final byte[] bytes) {
+    @NotNull
+    private static String toHex(@NotNull final byte[] bytes) {
         final StringBuilder r = new StringBuilder(bytes.length * 2);
         for (final byte b : bytes) {
             r.append(hexCodes[b >> 4 & 0xF]);
@@ -56,6 +60,7 @@ public class UpdateUtil {
         return r.toString();
     }
 
+    @Nullable
     private static byte[] checksum(final File input, final String name) {
         try (final InputStream in = new FileInputStream(input)) {
             final MessageDigest digest = MessageDigest.getInstance(name);

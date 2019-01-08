@@ -12,36 +12,35 @@
 Hyperium is a free and open source Minecraft 1.8.9 client. It combines many popular features, in addition to suggestions and ideas from the community, in order to provide a unique experience designed for Hypixel.
 
 ## Features ##
-- [1.7 Animations](https://www.youtube.com/watch?v=9-LoFff-3fI)
-- [AutoGG](https://www.youtube.com/watch?v=1eETPGuSQWA)
-- [AutoWho](https://www.youtube.com/watch?v=osJW53GA_1I)
-- [BlockOverlay](https://www.youtube.com/watch?v=_ELFA5jtNQM)
-- [Bossbar Mod](https://github.com/SiroQ)
-- [ChromaHUD](https://www.youtube.com/watch?v=eyh6pcsGMpo)
-- [ChunkAnimator](https://minecraft.curseforge.com/projects/chunk-animator)
-- [Custom Crosshair](https://www.youtube.com/watch?v=YYasNSTWA64)  
-- [Custom GUI](https://raw.githubusercontent.com/RDIL/misc-private-images/master/hyperiumclient/hyperiumimg/Hyperium-CustomInGameMenu.JPG)  
-- [Custom Main-Menu Screen](https://raw.githubusercontent.com/RDIL/misc-private-images/master/hyperiumclient/hyperiumimg/Hyperium-CustomMainMenu.JPG)  
-- [FastChat](https://www.youtube.com/watch?v=vsibdTVYTB4)
-- [GlintColorizer](https://www.youtube.com/watch?v=80foSiVvUiI)
-- [Ingame Browser](https://github.com/montoyo/mcef)  
-- [Keystrokes v4](https://www.youtube.com/watch?v=tA1SmI8nfY4)
-- [Levelhead](https://sk1er.club/levelhead)
-- [MemoryFix](https://prplz.io/memoryfix)
-- [MotionBlur](https://www.youtube.com/watch?v=x21aLjDbCRw)
-- [MouseDelayFix](https://prplz.io/mousedelayfix)
-- [NoCloseMyChat](https://hypixel.net/threads/1260752/)
-- [NoNameTags](https://github.com/WesJD/NoNameTags)
-- [Performia](https://github.com/Sk1er/Performia)
-- [Perspective Mod](https://www.youtube.com/watch?v=7FdMMpzNdUk)
-- [Resource Exploit Fix](https://github.com/Sk1er/Resource-Exploit-Fix) 
-- ShinyPots
-- [Sidebar Mod](https://www.youtube.com/watch?v=cn9VvT43yRs)
-- Spotify Controls
-- [TimeChanger](https://www.youtube.com/watch?v=PbhXIPecOSA)
-- [ToggleChat](https://www.youtube.com/watch?v=guD8kAk-Wn4)
-- [Victory Royale Mod](https://www.youtube.com/watch?v=g4pZTX8ooqI)
-- [VoidFlickerFix](https://www.youtube.com/watch?v=klV4d1B6ysk)
+- [x] [1.7 Animations](https://www.youtube.com/watch?v=9-LoFff-3fI)
+- [x] [AutoGG](https://www.youtube.com/watch?v=1eETPGuSQWA)
+- [x] [AutoWho](https://www.youtube.com/watch?v=osJW53GA_1I)
+- [x] [BlockOverlay](https://www.youtube.com/watch?v=_ELFA5jtNQM)
+- [x] [Bossbar Mod](https://github.com/SiroQ)
+- [x] [ChromaHUD](https://www.youtube.com/watch?v=eyh6pcsGMpo)
+- [x] [ChunkAnimator](https://minecraft.curseforge.com/projects/chunk-animator)
+- [x] [Custom Crosshair](https://www.youtube.com/watch?v=YYasNSTWA64)  
+- [x] [Custom GUI](https://raw.githubusercontent.com/RDIL/misc-private-images/master/hyperiumclient/hyperiumimg/Hyperium-CustomInGameMenu.JPG)  
+- [x] [Custom Main-Menu Screen](https://raw.githubusercontent.com/RDIL/misc-private-images/master/hyperiumclient/hyperiumimg/Hyperium-CustomMainMenu.JPG)  
+- [x] [FastChat](https://www.youtube.com/watch?v=vsibdTVYTB4)
+- [x] [GlintColorizer](https://www.youtube.com/watch?v=80foSiVvUiI)
+- [x] [Ingame Browser](https://github.com/montoyo/mcef)  
+- [x] [Keystrokes v4](https://www.youtube.com/watch?v=tA1SmI8nfY4)
+- [x] [Levelhead](https://sk1er.club/levelhead)
+- [x] [MemoryFix](https://prplz.io/memoryfix)
+- [x] [MotionBlur](https://www.youtube.com/watch?v=x21aLjDbCRw)
+- [x] [MouseDelayFix](https://prplz.io/mousedelayfix)
+- [x] [NoCloseMyChat](https://hypixel.net/threads/1260752/)
+- [x] [NoNameTags](https://github.com/WesJD/NoNameTags)
+- [x] [Performia](https://github.com/Sk1er/Performia)
+- [x] [Perspective Mod](https://www.youtube.com/watch?v=7FdMMpzNdUk)
+- [x] [Resource Exploit Fix](https://github.com/Sk1er/Resource-Exploit-Fix) 
+- [x] ShinyPots
+- [x] [Sidebar Mod](https://www.youtube.com/watch?v=cn9VvT43yRs)
+- [x] [TimeChanger](https://www.youtube.com/watch?v=PbhXIPecOSA)
+- [x] [ToggleChat](https://www.youtube.com/watch?v=guD8kAk-Wn4)
+- [x] [Victory Royale Mod](https://www.youtube.com/watch?v=g4pZTX8ooqI)
+- [x] [VoidFlickerFix](https://www.youtube.com/watch?v=klV4d1B6ysk)
 
 ## Building the Project with IntelliJ ##
 If you don't know how, then you shouldn't try. Join our beta in [Discord](https://hyperium.cc/discord), or wait for releases!
@@ -63,7 +62,7 @@ A: It is currently released!  Come download it on our [Discord](https://hyperium
 
 Q: Can I beta test Hyperium?
 
-A: Yes! [Click me](#beta-test-the-client) for more info.  
+A: Yes! [See this section](#beta-test-the-client) for more info.  
 
 Q: Is there a tutorial to create addons?
 

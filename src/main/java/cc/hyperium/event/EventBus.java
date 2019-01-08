@@ -151,7 +151,6 @@ public class EventBus {
                 if (e instanceof InvocationTargetException) {
                     ((InvocationTargetException) e).getTargetException().printStackTrace();
                 }
-                e.printStackTrace();
             }
             if (profile) {
                 Minecraft.getMinecraft().mcProfiler.endSection();
