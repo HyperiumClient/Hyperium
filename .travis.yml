@@ -1,6 +1,13 @@
 language: java
 os:
   - linux
+sudo: required
+git:
+  quiet: true
+notifications:
+  email: false
+before_install:
+  - echo $TRAVIS_BUILD_NUMBER > $TRAVIS_BUILD_DIR/src/main/resources/build.txt
 after_success:
   - wget https://raw.githubusercontent.com/k3rn31p4nic/travis-ci-discord-webhook/master/send.sh
   - chmod +x send.sh
@@ -9,8 +16,6 @@ after_failure:
   - wget https://raw.githubusercontent.com/k3rn31p4nic/travis-ci-discord-webhook/master/send.sh
   - chmod +x send.sh
   - ./send.sh failure $WEBHOOK_URL
-before_install:
-  - echo $TRAVIS_BUILD_NUMBER > $TRAVIS_BUILD_DIR/src/main/resources/build.txt
 before_deploy:
   - git config --local user.name "HyperiumDeploy"
   - git config --local user.email "hyperiumclient@gmail.com"
@@ -18,11 +23,11 @@ before_deploy:
   - "git push https://$GIT_TOKEN@github.com/HyperiumClient/Hyperium.git HEAD:master --follow-tags"
 after_deploy:
   - wget https://gist.github.com/Cubxity/457736a7bcbfe6d6f3ae2a5db04c0806/raw/deploy-hook.sh
-  - chmod +x deploy-hook.sh
-  - ./deploy-hook.sh $CUBE_MAN
   - wget https://gist.githubusercontent.com/Sk1er/38c81e68d25e8b6c3beb429cf923190f/raw/031e1157d44880d8e2e91184bb43b594d5db95bc/deploy_sk1er.sh
+  - chmod +x deploy-hook.sh
   - chmod +x deploy_sk1er.sh
   - ./deploy_sk1er.sh
+  - ./deploy-hook.sh $CUBE_MAN
 deploy:
   provider: releases
   api_key: $GIT_TOKEN
