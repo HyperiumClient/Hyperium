@@ -48,9 +48,6 @@ If you don't know how, then you shouldn't try. Join our beta in [Discord](https:
 ## Beta Test the Client ##  
 You can easily beta test the client for free, all you have to do is join [The Hyperium Discord](https://hyperium.cc/discord), or for beta versions, head over to the [releases section](https://github.com/HyperiumClient/Hyperium/releases) and download the latest beta!  
 
-## Code Style ##
-We use [Google's Java Code style](https://google.github.io/styleguide/javaguide.html) for Hyperium. It would be appreciated if you followed this as well.
-
 ## FAQ ##
 Q: Please help, I can't build Hyperium!
 
