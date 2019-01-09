@@ -162,8 +162,8 @@ public class VictoryRoyale extends AbstractMod {
 
             GlStateManager.color(1, 1, 1, in < 1000 ? (float) Math.pow(in / 1000D, 2) : fadeOutAlpha);
             GlStateManager.translate(imageWidth, 10, 0);
-            System.out.println("victory royale (debug)");
             Gui.drawScaledCustomSizeModalRect(0, 0, 0, 0, 1200, 675, imageWidth * 2, imageWidth, 1200, 675);
+            System.out.println("victory royale (debug)");
             GlStateManager.popMatrix();
         }
     }
