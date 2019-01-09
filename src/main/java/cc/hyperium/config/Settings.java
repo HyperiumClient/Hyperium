@@ -616,7 +616,7 @@ public class Settings {
     have fun trying to add it lol - asbyth
 
     @ConfigOpt
-    @ToggleSetting(name = "gui.settings.keeplightinguhc", category = IMPROVEMENTS)
+    //@ToggleSetting(name = "gui.settings.keeplightinguhc", category = IMPROVEMENTS)
     public static boolean UHC_LIGHTNING = false;
     */
 
