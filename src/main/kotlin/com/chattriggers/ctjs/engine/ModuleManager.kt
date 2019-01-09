@@ -46,7 +46,7 @@ object ModuleManager {
                 importModule(module)
             }
         }
-        //TODO: DEFAULT MODULES !!!!1!1!!!1!!11!!!1!!!!
+
     }
 
     fun load(module: Module) {
