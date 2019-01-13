@@ -67,7 +67,7 @@ public interface CefSchemeRegistrar {
      * per unique |schemeName| value. If |schemeName| is already registered or
      * if an error occurs this method will return false.
      */
-    public boolean addCustomScheme(String schemeName, boolean isStandard, boolean isLocal,
-        boolean isDisplayIsolated, boolean isSecure, boolean isCorsEnabled,
-        boolean isCspBypassing);
+    boolean addCustomScheme(String schemeName, boolean isStandard, boolean isLocal,
+                            boolean isDisplayIsolated, boolean isSecure, boolean isCorsEnabled,
+                            boolean isCspBypassing);
 }

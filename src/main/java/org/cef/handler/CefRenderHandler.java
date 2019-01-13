@@ -21,28 +21,28 @@ public interface CefRenderHandler {
      * @param browser The browser generating the event.
      * @return The view rectangle.
      */
-    public Rectangle getViewRect(CefBrowser browser);
+    Rectangle getViewRect(CefBrowser browser);
     /**
      * Retrieve the screen point for the specified view point.
      * @param browser The browser generating the event.
      * @param viewPoint The point in the view.
      * @return The screen point.
      */
-    public Point getScreenPoint(CefBrowser browser, Point viewPoint);
+    Point getScreenPoint(CefBrowser browser, Point viewPoint);
 
     /**
      * Show or hide the popup window.
      * @param browser The browser generating the event.
      * @param show True if the popup window is being shown.
      */
-    public void onPopupShow(CefBrowser browser, boolean show);
+    void onPopupShow(CefBrowser browser, boolean show);
 
     /**
      * Size the popup window.
      * @param browser The browser generating the event.
      * @param size Size of the popup window.
      */
-    public void onPopupSize(CefBrowser browser, Rectangle size);
+    void onPopupSize(CefBrowser browser, Rectangle size);
 
     /**
      * Handle painting.
@@ -53,15 +53,15 @@ public interface CefRenderHandler {
      * @param width Width of the buffer.
      * @param height Height of the buffer.
      */
-    public void onPaint(CefBrowser browser, boolean popup, Rectangle[] dirtyRects,
-        ByteBuffer buffer, int width, int height);
+    void onPaint(CefBrowser browser, boolean popup, Rectangle[] dirtyRects,
+                 ByteBuffer buffer, int width, int height);
 
     /**
      * Handle cursor changes.
      * @param browser The browser generating the event.
      * @param cursor The new cursor.
      */
-    public void onCursorChange(CefBrowser browser, int cursor);
+    void onCursorChange(CefBrowser browser, int cursor);
 
     /**
      * Called when the user starts dragging content in the web view. Contextual
@@ -83,7 +83,7 @@ public interface CefRenderHandler {
      * @param y Coordinate within CefBrowser
      * @return false to abort the drag operation or true to handle the drag operation.
      */
-    public boolean startDragging(CefBrowser browser, CefDragData dragData, int mask, int x, int y);
+    boolean startDragging(CefBrowser browser, CefDragData dragData, int mask, int x, int y);
 
     /**
      * Called when the web view wants to update the mouse cursor during a
@@ -92,5 +92,5 @@ public interface CefRenderHandler {
      * @param browser The browser generating the event.
      * @param operation Describes the allowed operation (none, move, copy, link).
      */
-    public void updateDragCursor(CefBrowser browser, int operation);
+    void updateDragCursor(CefBrowser browser, int operation);
 }

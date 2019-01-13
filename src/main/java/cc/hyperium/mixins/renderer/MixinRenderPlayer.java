@@ -77,8 +77,8 @@ public abstract class MixinRenderPlayer extends RendererLivingEntity<AbstractCli
     /**
      * Fixes bug MC-1349
      *
-     * @param clientPlayer
-     * @param ci
+     * @param clientPlayer - User
+     * @param ci           - Callback
      */
     @Inject(method = "renderRightArm", at = @At(value = "FIELD", ordinal = 3))
     private void onUpdateTimer(AbstractClientPlayer clientPlayer, CallbackInfo ci) {

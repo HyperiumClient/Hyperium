@@ -11,5 +11,5 @@ public interface CefDownloadItemCallback {
     /**
      * Call to cancel the download.
      */
-    public void cancel();
+    void cancel();
 }

@@ -15,6 +15,7 @@ abstract class MixinGuiUtilRenderComponents {
 
     /**
      * @author Sk1er
+     * @reason Fixed next line resetting chat formatting
      */
     @Overwrite
     public static List<IChatComponent> func_178908_a(IChatComponent p_178908_0_, int p_178908_1_, FontRenderer p_178908_2_, boolean p_178908_3_, boolean p_178908_4_) {

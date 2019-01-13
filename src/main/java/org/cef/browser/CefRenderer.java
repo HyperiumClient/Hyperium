@@ -41,9 +41,9 @@ public class CefRenderer {
     }
 
     public static void dumpVRAMLeak() {
-        Log.info(">>>>> MCEF: Beginning VRAM leak report", new Object[0]);
+        Log.info(">>>>> MCEF: Beginning VRAM leak report");
         CefRenderer.GL_TEXTURES.forEach(tex -> Log.warning(">>>>> MCEF: This texture has not been freed: " + tex, new Object[0]));
-        Log.info(">>>>> MCEF: End of VRAM leak report", new Object[0]);
+        Log.info(">>>>> MCEF: End of VRAM leak report");
     }
 
     protected boolean isTransparent() {
@@ -129,7 +129,7 @@ public class CefRenderer {
         }
         final int size = width * height << 2;
         if (size > buffer.limit()) {
-            Log.warning("Bad data passed to CefRenderer.onPaint() triggered safe guards... (1)", new Object[0]);
+            Log.warning("Bad data passed to CefRenderer.onPaint() triggered safe guards... (1)");
             return;
         }
         GlStateManager.enableTexture2D();
@@ -146,7 +146,7 @@ public class CefRenderer {
                 GL11.glPixelStorei(3314, this.view_width_);
                 for (final Rectangle rect : dirtyRects) {
                     if (rect.x < 0 || rect.y < 0 || rect.x + rect.width > this.view_width_ || rect.y + rect.height > this.view_height_) {
-                        Log.warning("Bad data passed to CefRenderer.onPaint() triggered safe guards... (2)", new Object[0]);
+                        Log.warning("Bad data passed to CefRenderer.onPaint() triggered safe guards... (2)");
                     }
                     else {
                         GL11.glPixelStorei(3316, rect.x);

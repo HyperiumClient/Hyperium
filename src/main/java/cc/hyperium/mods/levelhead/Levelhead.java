@@ -87,12 +87,8 @@ public class Levelhead extends AbstractMod {
         mod = new Sk1erMod(MODID, VERSION, object -> {
             count = object.optInt("count");
             this.wait = object.optInt("wait", Integer.MAX_VALUE);
-            if (count == 0 || wait == Integer.MAX_VALUE) {
-                this.levelHeadInfoFailed = true;
-//                GeneralChatHandler.instance().sendMessage("An error occurred whilst loading internal Levelhead info. ");
-            } else {
-                this.levelHeadInfoFailed = false;
-            }
+            //                GeneralChatHandler.instance().sendMessage("An error occurred whilst loading internal Levelhead info. ");
+            this.levelHeadInfoFailed = count == 0 || wait == Integer.MAX_VALUE;
         });
         Multithreading.runAsync(() -> types = new JsonHolder(mod.rawWithAgent("https://api.sk1er.club/levelhead_config")));
         this.mod.checkStatus();

@@ -10,6 +10,7 @@ import cc.hyperium.utils.HyperiumFontRenderer;
 import cc.hyperium.utils.JsonHolder;
 import com.mojang.realmsclient.gui.ChatFormatting;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
@@ -186,8 +187,8 @@ public class GuiHyperiumScreen extends GuiScreen {
             this.drawDefaultBackground();
         }
 
-        this.drawRect(0, 4, width, 55, 0x33000000);
-        this.drawRect(0, 5, width, 54, 0x33000000);
+        drawRect(0, 4, width, 55, 0x33000000);
+        drawRect(0, 5, width, 54, 0x33000000);
 
         /* Render Client Logo */
         GlStateManager.color(1, 1, 1, 1);
@@ -196,8 +197,8 @@ public class GuiHyperiumScreen extends GuiScreen {
         drawScaledCustomSizeModalRect(10, 5, 0, 0, 2160, 500, 200, 47, 2160, 500);
 
         /* Render profile container */
-        this.drawRect(width - 155, 10, width - 10, 49, 0x33000000);
-        this.drawRect(width - 156, 9, width - 9, 50, 0x33000000);
+        drawRect(width - 155, 10, width - 10, 49, 0x33000000);
+        drawRect(width - 156, 9, width - 9, 50, 0x33000000);
 
 
         /* Fetch player credit count */
@@ -262,7 +263,7 @@ public class GuiHyperiumScreen extends GuiScreen {
     }
 
     public void rotateAndBlurSkybox(float p_73968_1_) {
-        ResourceLocation backgroundTexture = this.mc.getTextureManager().getDynamicTextureLocation("background", this.viewportTexture);
+        ResourceLocation backgroundTexture = this.mc.getTextureManager().getDynamicTextureLocation("background", viewportTexture);
         this.mc.getTextureManager().bindTexture(backgroundTexture);
         GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR);
         GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_LINEAR);
@@ -318,8 +319,8 @@ public class GuiHyperiumScreen extends GuiScreen {
             float f1 = ((float) (j / i) / (float) i - 0.5F) / 64.0F;
             float f2 = 0.0F;
             GlStateManager.translate(f, f1, f2);
-            GlStateManager.rotate(MathHelper.sin(((float) this.panoramaTimer + p_73970_3_) / 400.0F) * 25.0F + 20.0F, 1.0F, 0.0F, 0.0F);
-            GlStateManager.rotate(-((float) this.panoramaTimer + p_73970_3_) * 0.1F, 0.0F, 1.0F, 0.0F);
+            GlStateManager.rotate(MathHelper.sin(((float) panoramaTimer + p_73970_3_) / 400.0F) * 25.0F + 20.0F, 1.0F, 0.0F, 0.0F);
+            GlStateManager.rotate(-((float) panoramaTimer + p_73970_3_) * 0.1F, 0.0F, 1.0F, 0.0F);
 
             for (int k = 0; k < 6; ++k) {
                 GlStateManager.pushMatrix();

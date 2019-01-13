@@ -25,10 +25,13 @@ public class MixinGuiScreenResourcePacks extends GuiScreen {
 
     @Shadow
     private GuiResourcePackAvailable availableResourcePacksList;
+
     @Shadow
     private GuiResourcePackSelected selectedResourcePacksList;
+
     @Shadow
     private List<ResourcePackListEntry> availableResourcePacks;
+
     private HyperiumGuiScreenResourcePacks hyperiumGuiResourcePack = new HyperiumGuiScreenResourcePacks(
         (GuiScreenResourcePacks) (Object) this);
 

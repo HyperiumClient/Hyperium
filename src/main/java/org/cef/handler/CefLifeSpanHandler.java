@@ -58,7 +58,7 @@ public interface CefLifeSpanHandler {
      * Handle creation of a new browser window.
      * @param browser The browser generating the event.
      */
-    public void onAfterCreated(CefBrowser browser);
+    void onAfterCreated(CefBrowser browser);
 
     /**
      * Called when a browser has received a request to close.
@@ -74,7 +74,7 @@ public interface CefLifeSpanHandler {
      * @param browser The browser generating the event.
      * @return false will send an OS close notification to the browser window's top-level owner.
      */
-    public boolean doClose(CefBrowser browser);
+    boolean doClose(CefBrowser browser);
 
     /**
      * Called just before a browser is destroyed.

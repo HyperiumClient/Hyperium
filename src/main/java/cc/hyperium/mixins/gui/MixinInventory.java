@@ -34,9 +34,8 @@ public abstract class MixinInventory extends GuiContainer {
     }
 
     /**
-     * Removes the inventory going to the left once potion effects have worn out
-     *
      * @author Kevin
+     * @reason Removes the inventory going to the left once potion effects have worn out
      */
     @Overwrite
     protected void updateActivePotionEffects() {

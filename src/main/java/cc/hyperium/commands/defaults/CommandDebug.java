@@ -67,13 +67,13 @@ public class CommandDebug implements BaseCommand {
 
     private static void tryLevelhead(StringBuilder builder) {
         try {
-            builder.append("Count: ").append(((Levelhead) Hyperium.INSTANCE.getModIntegration().getLevelhead()).count).append("\n");
-            builder.append("Wait: ").append(((Levelhead) Hyperium.INSTANCE.getModIntegration().getLevelhead()).wait).append("\n");
+            builder.append("Count: ").append(Hyperium.INSTANCE.getModIntegration().getLevelhead().count).append("\n");
+            builder.append("Wait: ").append(Hyperium.INSTANCE.getModIntegration().getLevelhead().wait).append("\n");
             builder.append("Hypixel: ").append(HypixelDetector.getInstance().isHypixel()).append("\n");
             builder.append("Remote Status: ").append(Sk1erMod.getInstance().isEnabled()).append("\n");
             builder.append("Local Stats: ").append(HypixelDetector.getInstance().isHypixel()).append("\n");
-            builder.append("Header State: ").append(((Levelhead) Hyperium.INSTANCE.getModIntegration().getLevelhead()).getHeaderConfig()).append("\n");
-            builder.append("Footer State: ").append(((Levelhead) Hyperium.INSTANCE.getModIntegration().getLevelhead()).getFooterConfig()).append("\n");
+            builder.append("Header State: ").append(Hyperium.INSTANCE.getModIntegration().getLevelhead().getHeaderConfig()).append("\n");
+            builder.append("Footer State: ").append(Hyperium.INSTANCE.getModIntegration().getLevelhead().getFooterConfig()).append("\n");
             builder.append("Callback: ").append(Sk1erMod.getInstance().getResponse()).append("\n");
         } catch (Exception e) {
             builder.append("Levelhead: Error");

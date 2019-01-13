@@ -90,7 +90,7 @@ public abstract class CefRequest {
         TT_RELOAD(8);
 
         private int value;
-        private TransitionType(int source) {
+        TransitionType(int source) {
             value = source;
         }
 
@@ -235,7 +235,7 @@ public abstract class CefRequest {
         TT_SERVER_REDIRECT_FLAG(0x80000000);
 
         private final int flag;
-        private TransitionFlags(int flag) {
+        TransitionFlags(int flag) {
             this.flag = flag;
         }
 
