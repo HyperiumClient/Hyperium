@@ -27,8 +27,8 @@ public interface CefMessageRouterHandler extends CefNative {
      * then the query will be automatically canceled with an error code of -1
      * delivered to the JavaScript onFailure callback.
      */
-    public boolean onQuery(CefBrowser browser, CefFrame frame, long query_id, String request,
-        boolean persistent, CefQueryCallback callback);
+    boolean onQuery(CefBrowser browser, CefFrame frame, long query_id, String request,
+                    boolean persistent, CefQueryCallback callback);
 
     /**
      * Called when a pending JavaScript query is canceled.
@@ -36,5 +36,5 @@ public interface CefMessageRouterHandler extends CefNative {
      * @param frame The frame generating the event.
      * @param query_id The unique ID for the query.
      */
-    public void onQueryCanceled(CefBrowser browser, CefFrame frame, long query_id);
+    void onQueryCanceled(CefBrowser browser, CefFrame frame, long query_id);
 }

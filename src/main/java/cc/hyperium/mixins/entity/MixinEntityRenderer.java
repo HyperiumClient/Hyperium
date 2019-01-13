@@ -79,10 +79,6 @@ public abstract class MixinEntityRenderer {
     @Shadow
     private int shaderIndex;
 
-    @Shadow
-    @Final
-    private static ResourceLocation[] shaderResourceLocations;
-
     //endStartSection
     @Inject(method = "updateCameraAndRender", at = @At(value = "INVOKE", target = "Lnet/minecraft/profiler/Profiler;endStartSection(Ljava/lang/String;)V", shift = At.Shift.AFTER))
     private void updateCameraAndRender(float partialTicks, long nano, CallbackInfo ci) {
@@ -103,11 +99,6 @@ public abstract class MixinEntityRenderer {
         hyperiumEntityRenderer.orientCamera(partialTicks, this.thirdPersonDistanceTemp, this.thirdPersonDistance, this.cloudFog, this.mc);
     }
 
-    /**
-     * @author CoalOres
-     * @reason 360 Perspective
-     */
-
     @Inject(method = "renderWorldPass", at = @At(value = "INVOKE_STRING", target = "Lnet/minecraft/profiler/Profiler;endStartSection(Ljava/lang/String;)V", args = "ldc=hand"))
     private void onRenderWorld(int pass, float partialTicks, long nano, CallbackInfo info) {
         new RenderWorldEvent(partialTicks).post();
@@ -124,7 +115,8 @@ public abstract class MixinEntityRenderer {
     }
 
     /**
-     * @author Sk1er (added forward for distance)
+     * @author - Sk1er (added forward for distance)
+     * @reason - ReachDisplay
      */
     @Overwrite
     public void getMouseOver(float partialTicks) {
@@ -138,7 +130,6 @@ public abstract class MixinEntityRenderer {
                 double d1 = d0;
                 Vec3 vec3 = entity.getPositionEyes(partialTicks);
                 boolean flag = false;
-                int i = 3;
 
                 if (this.mc.playerController.extendedReach()) {
                     d0 = 6.0D;
@@ -162,7 +153,7 @@ public abstract class MixinEntityRenderer {
                 double d2 = d1;
 
                 for (int j = 0; j < list.size(); ++j) {
-                    Entity entity1 = (Entity) list.get(j);
+                    Entity entity1 = list.get(j);
                     float f1 = entity1.getCollisionBorderSize();
                     AxisAlignedBB axisalignedbb = entity1.getEntityBoundingBox().expand((double) f1, (double) f1, (double) f1);
                     MovingObjectPosition movingobjectposition = axisalignedbb.calculateIntercept(vec3, vec32);
@@ -194,7 +185,7 @@ public abstract class MixinEntityRenderer {
 
                 if (this.pointedEntity != null && flag && (v = vec3.distanceTo(vec33)) > 3.0D) {
                     this.pointedEntity = null;
-                    this.mc.objectMouseOver = new MovingObjectPosition(MovingObjectPosition.MovingObjectType.MISS, vec33, (EnumFacing) null, new BlockPos(vec33));
+                    this.mc.objectMouseOver = new MovingObjectPosition(MovingObjectPosition.MovingObjectType.MISS, vec33, null, new BlockPos(vec33));
                 }
                 if (v != 0 || this.pointedEntity != null)
                     ReachDisplay.dis = v;

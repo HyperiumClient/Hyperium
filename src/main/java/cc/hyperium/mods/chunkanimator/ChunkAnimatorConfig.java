@@ -16,8 +16,8 @@ public class ChunkAnimatorConfig {
     @ConfigOpt
     @SelectorSetting(name = "Mode", category = CHUNK_ANIMATOR, items = {
         "Up from ground",
-        "Down from sky",
-        "Down from sky",
+        "Down from sky 1",
+        "Down from sky 2",
         "From sides",
         "From direction you're facing"
     }, mods = true)

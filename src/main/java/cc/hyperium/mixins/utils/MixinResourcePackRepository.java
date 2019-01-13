@@ -31,7 +31,6 @@ import java.io.File;
 @Mixin(ResourcePackRepository.class)
 public class MixinResourcePackRepository {
 
-
     @Final
     @Shadow
     private final File dirServerResourcepacks = null;

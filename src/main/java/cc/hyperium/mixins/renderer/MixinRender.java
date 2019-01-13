@@ -26,14 +26,9 @@ public abstract class MixinRender<T extends Entity> {
     private RenderManager renderManager;
     private HyperiumRender<T> hyperiumRender = new HyperiumRender<>((Render<T>) (Object) this);
 
-    @Shadow
-    public abstract FontRenderer getFontRendererFromRenderManager();
-
-    @Shadow
-    protected abstract boolean canRenderName(T entity);
-
     /**
      * @author Sk1er
+     * @reason Nametag Shading
      */
     @Overwrite
     protected void renderOffsetLivingLabel(T entityIn, double x, double y, double z, String str, float p_177069_9_, double p_177069_10_) {
@@ -51,6 +46,7 @@ public abstract class MixinRender<T extends Entity> {
 
     /**
      * @author Sk1er
+     * @reason Nametag SHading
      */
     @Overwrite
     protected void renderLivingLabel(T entityIn, String str, double x, double y, double z, int maxDistance) {

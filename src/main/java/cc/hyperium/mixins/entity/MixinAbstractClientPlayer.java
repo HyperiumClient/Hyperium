@@ -21,14 +21,12 @@ import cc.hyperium.mixinsimp.entity.HyperiumAbstractClientPlayer;
 import cc.hyperium.mods.nickhider.NickHider;
 import com.mojang.authlib.GameProfile;
 import net.minecraft.client.entity.AbstractClientPlayer;
-import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.client.resources.DefaultPlayerSkin;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -43,9 +41,6 @@ public abstract class MixinAbstractClientPlayer extends EntityPlayer {
         super(worldIn, gameProfileIn);
     }
 
-    @Shadow
-    protected abstract NetworkPlayerInfo getPlayerInfo();
-
     @Inject(method = "<init>", at = @At("RETURN"))
     private void AbstractPlayer(World worldIn, GameProfile playerProfile, CallbackInfo callbackInfo) {
 
@@ -54,7 +49,8 @@ public abstract class MixinAbstractClientPlayer extends EntityPlayer {
     }
 
     /**
-     * @author Kevin
+     * @author - Kevin & Sk1er
+     * @reason - Custom Cape Support
      */
     @Overwrite
     public ResourceLocation getLocationCape() {

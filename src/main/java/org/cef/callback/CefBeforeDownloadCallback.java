@@ -16,5 +16,5 @@ public interface CefBeforeDownloadCallback {
      * @param showDialog Set it to true if you do wish to show the default
      * "Save As" dialog.
      */
-    public void Continue(String downloadPath, boolean showDialog);
+    void Continue(String downloadPath, boolean showDialog);
 }

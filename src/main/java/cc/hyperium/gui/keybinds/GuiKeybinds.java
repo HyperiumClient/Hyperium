@@ -150,12 +150,9 @@ public class GuiKeybinds extends HyperiumGui {
             return true;
         }
 
-        if (centre + (buttonHeight / 2) > bottomGui) {
-            // Button has been scrolled down too far.
-            return true;
-        }
+        // Button has been scrolled down too far.
+        return centre + (buttonHeight / 2) > bottomGui;
 
-        return false;
     }
 
     private List<List<KeybindEntry>> divideList(List<KeybindEntry> inputList, int number) {

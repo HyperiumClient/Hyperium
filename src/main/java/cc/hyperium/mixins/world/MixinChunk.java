@@ -43,29 +43,36 @@ import java.util.Map;
 @Mixin(Chunk.class)
 public class MixinChunk {
 
-
     @Shadow
     @Final
     private static Logger logger;
+
     @Shadow
     @Final
     public int xPosition;
+
     @Shadow
     @Final
     public int zPosition;
+
     @Shadow
     private boolean isChunkLoaded;
+
     @Shadow
     @Final
     private World worldObj;
+
     @Shadow
     @Final
     private Map<BlockPos, TileEntity> chunkTileEntityMap;
+
     @Shadow
     @Final
     private ClassInheritanceMultiMap<Entity>[] entityLists;
+
     @Shadow
     private boolean hasEntities;
+
     private HyperiumChunk hyperiumChunk = new HyperiumChunk();
 
     /**
@@ -143,7 +150,7 @@ public class MixinChunk {
             int j = MathHelper.floor_double(entityIn.posZ / 16.0D);
 
             if (i != this.xPosition || j != this.zPosition) {
-                logger.warn("Wrong location! (" + i + ", " + j + ") should be (" + this.xPosition + ", " + this.zPosition + "), " + entityIn, new Object[]{entityIn});
+                logger.warn("Wrong location! (" + i + ", " + j + ") should be (" + this.xPosition + ", " + this.zPosition + "), " + entityIn, entityIn);
                 entityIn.setDead();
             }
 

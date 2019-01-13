@@ -99,7 +99,7 @@ class Download extends Observable implements Runnable {
             while (status == DOWNLOADING) {
     /* Size buffer according to how much of the
        file is left to download. */
-                byte buffer[];
+                byte[] buffer;
                 if (size - downloaded > MAX_BUFFER_SIZE) {
                     buffer = new byte[MAX_BUFFER_SIZE];
                 } else {

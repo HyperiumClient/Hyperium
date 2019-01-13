@@ -16,5 +16,5 @@ public interface CefBrowserWindow {
      * @param comp a UI component
      * @return a window pointer if any
      */
-    public long getWindowHandle(Component comp);
+    long getWindowHandle(Component comp);
 }

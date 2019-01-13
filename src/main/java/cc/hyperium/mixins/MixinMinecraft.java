@@ -64,56 +64,68 @@ import java.util.List;
 public abstract class MixinMinecraft {
 
     @Shadow
-    private static Minecraft theMinecraft;
-    @Shadow
     public FontRenderer fontRendererObj;
+
     @Shadow
     @Final
     public Profiler mcProfiler;
+
     @Shadow
     public boolean inGameHasFocus;
+
     @Shadow
     public GuiAchievement guiAchievement;
+
     @Shadow
     private int displayHeight;
+
     @Shadow
     private int displayWidth;
+
     @Shadow
     private GuiScreen currentScreen;
+
     @Shadow
     private WorldClient theWorld;
+
     @Shadow
     private EntityPlayerSP thePlayer;
+
     @Shadow
     private GameSettings gameSettings;
+
     @Shadow
     private GuiIngame ingameGUI;
-    @Shadow
-    private boolean skipRenderWorld;
+
     @Shadow
     private boolean fullscreen;
+
     @Shadow
     @Final
     private DefaultResourcePack mcDefaultResourcePack;
-    @Shadow
-    private SoundHandler mcSoundHandler;
+
     @Shadow
     @Final
     private List<IResourcePack> defaultResourcePacks;
+
     @Shadow
     private boolean enableGLErrorChecking;
+
     private HyperiumMinecraft hyperiumMinecraft = new HyperiumMinecraft((Minecraft) (Object) this);
+
     @Shadow
     private Timer timer;
+
     @Shadow
     private RenderManager renderManager;
-    @Shadow
-    private ResourcePackRepository mcResourcePackRepository;
+
     @Shadow
     private long systemTime;
+
     @Final
     @Shadow
     public File mcDataDir;
+
     @Shadow
     private Framebuffer framebufferMc;
 
@@ -239,9 +251,8 @@ public abstract class MixinMinecraft {
     }
 
     /**
-     * Sets Minecraft Icon
-     *
      * @author Cubxity
+     * @reason Set Minecraft icon to Hyperium icon
      */
     @Overwrite
     private void setWindowIcon() {
@@ -249,9 +260,8 @@ public abstract class MixinMinecraft {
     }
 
     /**
-     * A change to gui display so a "GuiOpenEvent" can be called to set the screen
-     *
      * @author boomboompower
+     * @reason GuiOpenEvent post
      */
     @Overwrite
     public void displayGuiScreen(GuiScreen guiScreenIn) {
@@ -270,15 +280,11 @@ public abstract class MixinMinecraft {
     public abstract void run();
 
     @Shadow
-    public abstract boolean isCallingFromMinecraftThread();
-
-    @Shadow
     public EffectRenderer effectRenderer;
 
     /**
-     * change to splash screen logo
-     *
      * @author Cubxity
+     * @reason Change splash screen
      */
     @Overwrite
     private void drawSplashScreen(TextureManager tm) {
@@ -327,6 +333,7 @@ public abstract class MixinMinecraft {
 
     /**
      * @author Mojang & Cubxity
+     * @reason Hyperium's crash-report screen
      */
     @Overwrite
     public void displayCrashReport(CrashReport crashReportIn) {

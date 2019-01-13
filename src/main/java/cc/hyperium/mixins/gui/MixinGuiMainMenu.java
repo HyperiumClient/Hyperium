@@ -27,16 +27,12 @@ import org.spongepowered.asm.mixin.Overwrite;
 @Mixin(GuiMainMenu.class)
 public abstract class MixinGuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 
-    private boolean overLast = false;
-
-    private boolean clickedCheckBox = false;
-
     private HyperiumGuiMainMenu hyperiumGuiMainMenu = new HyperiumGuiMainMenu((GuiMainMenu) (Object) this);
 
     /**
-     * Override initGui
      *
      * @author Cubxity
+     * @reason Override initGui
      */
     @Overwrite
     public void initGui() {
@@ -45,9 +41,9 @@ public abstract class MixinGuiMainMenu extends GuiScreen implements GuiYesNoCall
 
 
     /**
-     * TOS Rendering
      *
      * @author Sk1er and Kevin
+     * @reason TOS Rendering
      */
     @Overwrite
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {

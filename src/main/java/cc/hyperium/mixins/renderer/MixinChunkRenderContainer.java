@@ -14,6 +14,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ChunkRenderContainer.class)
 public class MixinChunkRenderContainer {
+
     private final HyperiumChunkRendererContainer hyperiumChunkRendererContainer = new HyperiumChunkRendererContainer((ChunkRenderContainer) (Object) this);
 
     @Inject(method = "preRenderChunk", at = @At(value = "RETURN", target = "Lnet/minecraft/client/renderer/chunk/RenderChunk;getPosition()Lnet/minecraft/util/BlockPos;"))

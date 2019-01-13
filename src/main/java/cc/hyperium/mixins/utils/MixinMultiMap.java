@@ -28,6 +28,7 @@ public abstract class MixinMultiMap<T> {
 
     /**
      * @author FalseHonesty
+     * @reason ChatTriggers
      */
     @Overwrite
     public Iterator<T> iterator() {
@@ -36,6 +37,7 @@ public abstract class MixinMultiMap<T> {
 
     /**
      * @author FalseHonesty
+     * @reason ChatTriggers
      */
     @Overwrite
     public <S> Iterable<S> getByClass(final Class<S> clazz) {

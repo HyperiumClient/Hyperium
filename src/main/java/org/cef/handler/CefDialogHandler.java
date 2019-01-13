@@ -45,7 +45,7 @@ public interface CefDialogHandler {
      * @return To display a custom dialog return true and execute callback.
      * To display the default dialog return false.
      */
-    public boolean onFileDialog(CefBrowser browser, FileDialogMode mode, String title,
-        String defaultFilePath, Vector<String> acceptFilters, int selectedAcceptFilter,
-        CefFileDialogCallback callback);
+    boolean onFileDialog(CefBrowser browser, FileDialogMode mode, String title,
+                         String defaultFilePath, Vector<String> acceptFilters, int selectedAcceptFilter,
+                         CefFileDialogCallback callback);
 }

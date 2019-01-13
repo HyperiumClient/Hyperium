@@ -25,7 +25,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.event.ClickEvent;
 import net.minecraft.util.ChatComponentText;
 import org.apache.commons.codec.binary.Base64;
-
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
@@ -93,6 +92,5 @@ public class ImgurUploader implements Runnable {
             GeneralChatHandler.instance().sendMessage("Error occurred while uploading.");
         }
     }
-
 
 }

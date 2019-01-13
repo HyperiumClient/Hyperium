@@ -19,23 +19,24 @@ public abstract class MixinThreadDownloadImageData extends SimpleTexture {
     @Shadow
     @Final
     private String imageUrl;
+
     @Shadow
     @Final
     private File cacheFile;
+
     @Shadow
     @Final
     private IImageBuffer imageBuffer;
+
     private HyperiumThreadDownloadImageData hyperiumThreadDownloadImageData = new HyperiumThreadDownloadImageData();
 
     public MixinThreadDownloadImageData(ResourceLocation textureResourceLocation) {
         super(textureResourceLocation);
     }
 
-    @Shadow
-    public abstract void setBufferedImage(BufferedImage bufferedImageIn);
-
     /**
      * @author Sk1er
+     * @reason Create thread pool for ThreadDownloadImageData to stop excessive concurrency and not create thousands
      */
     @Overwrite
     protected void loadTextureFromServer() {
