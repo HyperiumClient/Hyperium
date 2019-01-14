@@ -32,7 +32,6 @@ import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.util.ResourceLocation;
-
 import java.awt.Color;
 import java.awt.Desktop;
 import java.io.IOException;
@@ -125,6 +124,5 @@ public class HypixelDetector {
     public boolean isHypixel() {
         return hypixel;
     }
-
 
 }

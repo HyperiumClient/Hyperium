@@ -42,7 +42,7 @@ public interface CefLifeSpanHandler {
      * @param no_javascript_access Can be modified.
      * @return To cancel creation of the popup window return true.
      */
-    // TODO(jcef) forward all params form JNI to Java (the commented out ones)
+
     boolean onBeforePopup(
         CefBrowser browser, CefFrame frame, String target_url, String target_frame_name
         // WindowOpenDisposition target_disposition,

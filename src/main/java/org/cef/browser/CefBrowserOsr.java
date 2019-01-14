@@ -183,7 +183,7 @@ public class CefBrowserOsr extends CefBrowser_N implements CefRenderHandler, IBr
 
         synchronized (paintData) {
             if (buffer.limit() > size) {
-                Log.warning("Skipping MCEF browser frame, data is too heavy"); //TODO: Don't spam
+                Log.warning("Skipping MCEF browser frame, data is too heavy");
             } else {
                 if (paintData.hasFrame) //The previous frame was not uploaded to GL texture, so we skip it and render this on instead
                 {
@@ -280,13 +280,11 @@ public class CefBrowserOsr extends CefBrowser_N implements CefRenderHandler, IBr
         int mask,
         int x,
         int y) {
-        // TODO(JCEF) Prepared for DnD support using OSR mode.
         return false;
     }
 
     @Override
     public void updateDragCursor(CefBrowser browser, int operation) {
-        // TODO(JCEF) Prepared for DnD support using OSR mode.
     }
 
     @Override
