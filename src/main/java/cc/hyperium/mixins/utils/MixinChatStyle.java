@@ -18,24 +18,6 @@ public abstract class MixinChatStyle {
     @Shadow
     private ChatStyle parentStyle;
 
-    @Shadow
-    private EnumChatFormatting color;
-    @Shadow
-    private Boolean bold;
-    @Shadow
-    private Boolean italic;
-    @Shadow
-    private Boolean strikethrough;
-    @Shadow
-    private Boolean underlined;
-    @Shadow
-    private Boolean obfuscated;
-    @Shadow
-    private ClickEvent chatClickEvent;
-    @Shadow
-    private HoverEvent chatHoverEvent;
-    @Shadow
-    private String insertion;
     private HyperiumChatStyle hyperiumChatStyle = new HyperiumChatStyle((ChatStyle) (Object) (this));
 
     @Shadow
@@ -47,20 +29,9 @@ public abstract class MixinChatStyle {
     @Shadow
     public abstract boolean getBold();
 
-    @Shadow
-    public abstract boolean getItalic();
-
-    @Shadow
-    public abstract boolean getUnderlined();
-
-    @Shadow
-    public abstract boolean getObfuscated();
-
-    @Shadow
-    public abstract boolean getStrikethrough();
-
     /**
      * @author Sk1er
+     * @reason Fix a few inefficient methods
      */
     @Overwrite
     public String getFormattingCode() {

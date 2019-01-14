@@ -16,6 +16,7 @@
  */
 
 package cc.hyperium.mixinsimp.client.multiplayer;
+
 import java.io.File;
 import java.util.List;
 
@@ -129,7 +130,7 @@ public class HyperiumServerList {
         try {
             servers.set(p_147413_1_, p_147413_2_);
         } catch (Exception e) {
-            System.out.println("[ServerListMixin] func_147413_a server data error");
+            System.out.println("[HyperiumServerList] func_147413_a server data error");
         }
     }
 }

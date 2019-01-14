@@ -31,9 +31,8 @@ public class MixinS14PacketEntity {
     private int entityId;
 
     /**
-     * Fixes npe in internal code because of null worlds
-     *
      * @author boomboompower
+     * @reason Fixes NPE in internal code because of null worlds
      */
     @Overwrite
     public Entity getEntity(World worldIn) {

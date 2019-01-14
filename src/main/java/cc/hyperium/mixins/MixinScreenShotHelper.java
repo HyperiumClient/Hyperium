@@ -37,19 +37,10 @@ class MixinScreenShotHelper {
     @Shadow
     private static int[] pixelValues;
 
-    private HyperiumScreenshotHelper hyperiumScreenshotHelper = new HyperiumScreenshotHelper((ScreenShotHelper) (Object) this);
-
     /**
-     * Saves a screenshot in the game directory with the given file name (or null to generate a time-stamped name).
-     * Fixes MC-113208 and MC-117793
-     *
-     * @param gameDirectory
-     * @param screenshotName
-     * @param width
-     * @param height
-     * @param buffer
-     * @return
      * @author Kevin Brewster, Orange Marhsall, Mojang
+     * @reason Saves a screenshot in the game directory with the given file name (or null to generate a time-stamped name).
+     * Fixes MC-113208 and MC-117793
      */
     @Overwrite
     public static IChatComponent saveScreenshot(File gameDirectory, String screenshotName, int width, int height, Framebuffer buffer) {

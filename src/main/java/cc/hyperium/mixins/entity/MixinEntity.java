@@ -158,6 +158,10 @@ public abstract class MixinEntity {
     @Shadow
     public abstract void setFire(int seconds);
 
+    /**
+     * @author - Sk1er
+     * @reason - Improve Particle Handling
+     */
     @Overwrite
     public void moveEntity(double x, double y, double z) {
         if (this.noClip) {

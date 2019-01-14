@@ -41,9 +41,8 @@ public abstract class MixinNetworkPlayerInfo {
     private HyperiumNetworkPlayerInfo hyperiumNetworkPlayerInfo = new HyperiumNetworkPlayerInfo((NetworkPlayerInfo) (Object) this);
 
     /**
-     * Allow for better cape customization
-     *
-     * @author boomboompower
+     * @author - boomboompower
+     * @reason - Allow for better cape customization
      */
     @Overwrite
     public ResourceLocation getLocationCape() {
@@ -51,9 +50,9 @@ public abstract class MixinNetworkPlayerInfo {
     }
 
     /**
-     * Allow for better skin customization
      *
-     * @author boomboompower
+     * @author - boomboompower
+     * @reason - Allow for better skin customization
      */
     @Overwrite
     public ResourceLocation getLocationSkin() {

@@ -31,6 +31,7 @@ class MixinMathHelper {
 
     /**
      * @author Cubxity and Mojang
+     * @reason In case if we want to change sin and cos (no code changed from Vanilla)
      */
     @Overwrite
     public static float sin(float p_76126_0_) {
@@ -39,6 +40,7 @@ class MixinMathHelper {
 
     /**
      * @author Cubxity and Mojang
+     * @reason In case if we want to change sin and cos (no code changed from Vanilla)
      */
     @Overwrite
     public static float cos(float value) {

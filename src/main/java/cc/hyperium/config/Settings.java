@@ -527,7 +527,7 @@ public class Settings {
     public static boolean SEND_SERVER = true;
 
     @ConfigOpt
-    @ToggleSetting(name = "gui.settings.sendguildwelcomemessage", category = INTEGRATIONS)
+    @ToggleSetting(name = "gui.settings.sendguildwelcomemessage", category = HYPIXEL)
     public static boolean SEND_GUILD_WELCOME_MESSAGE = true;
 
     @ConfigOpt
@@ -593,6 +593,7 @@ public class Settings {
     })
     public static String BUTTON_TYPE = ButtonType.DEFAULT.name();
 
+
     @ConfigOpt
     @ToggleSetting(name = "gui.settings.disableenchantglint", category = IMPROVEMENTS)
     public static boolean DISABLE_ENCHANT_GLINT = false;
@@ -604,6 +605,28 @@ public class Settings {
     @ConfigOpt
     @SliderSetting(name = "gui.settings.fpslimiteramount", isInt = true, min = 5, max = 60, category = IMPROVEMENTS)
     public static int FPS_LIMITER_AMOUNT = 30;
+
+    @ConfigOpt
+    @ToggleSetting(name = "gui.settings.disablelightning", category = IMPROVEMENTS)
+    public static boolean DISABLE_LIGHTNING = false;
+
+    /*
+
+    For whoever tries to implement this, purpose is for when DISABLE_LIGHTNING is enabled, if the player still wants Lightning Bolts in UHC only, they will have to turn this on
+    have fun trying to add it lol - asbyth
+
+    @ConfigOpt
+    //@ToggleSetting(name = "gui.settings.keeplightinguhc", category = IMPROVEMENTS)
+    public static boolean UHC_LIGHTNING = false;
+    */
+
+    @ConfigOpt
+    @ToggleSetting(name = "gui.settings.disablearmorstands", category = IMPROVEMENTS)
+    public static boolean DISABLE_ARMORSTANDS = false;
+
+    @ConfigOpt
+    @ToggleSetting(name = "gui.settings.disableitemframes", category = IMPROVEMENTS)
+    public static boolean DISABLE_ITEMFRAMES = false;
 
     private Settings() {
     }

@@ -33,55 +33,57 @@ public abstract class MixinFontRenderer {
 
     @Shadow
     public int FONT_HEIGHT;
+
     @Shadow
     public Random fontRandom;
-    @Shadow
-    @Final
-    private TextureManager renderEngine;
+
     @Shadow
     private int[] colorCode;
+
     @Shadow
     private float posX;
+
     @Shadow
     private float posY;
 
     @Shadow
     private float red;
+
     @Shadow
     private float blue;
+
     @Shadow
     private float green;
+
     @Shadow
     private float alpha;
+
     @Shadow
     private boolean boldStyle;
 
     @Shadow
     private boolean unicodeFlag;
+
     @Shadow
     private int textColor;
+
     @Shadow
     private boolean randomStyle;
+
     @Shadow
     private boolean italicStyle;
+
     @Shadow
     private boolean underlineStyle;
+
     @Shadow
     private boolean strikethroughStyle;
-    @Shadow
-    @Final
-    private ResourceLocation locationFontTexture;
 
     @Shadow
     public abstract int getCharWidth(char character);
 
-
     @Shadow
     protected abstract float func_181559_a(char ch, boolean italic);
-
-    @Shadow
-    protected abstract ResourceLocation getUnicodePageLocation(int page);
-
 
     @Shadow
     public abstract int drawString(String text, int x, int y, int color);
@@ -96,6 +98,7 @@ public abstract class MixinFontRenderer {
 
     /**
      * @author Sk1er
+     * @reason Optimized Font Renderer
      */
     @Overwrite
     private void renderStringAtPos(String text, boolean shadow) {
@@ -321,6 +324,7 @@ public abstract class MixinFontRenderer {
 
     /**
      * @author Sk1er
+     * @reason Optimized Font Renderer
      */
     @Overwrite
     public int getStringWidth(String text) {

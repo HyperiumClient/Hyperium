@@ -305,10 +305,9 @@ public abstract class MixinGuiIngame extends Gui {
     }
 
     /**
-     * Add toggle for boss bar texture
      *
-     * @author boomboompower
-     * @reason cool things
+     * @author - boomboompower
+     * @reason - Add toggle for boss bar texture
      */
     @Overwrite
     private void renderBossHealth() {
