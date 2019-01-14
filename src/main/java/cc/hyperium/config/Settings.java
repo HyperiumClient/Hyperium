@@ -23,21 +23,7 @@ import cc.hyperium.styles.ButtonStyle;
 import cc.hyperium.styles.ButtonType;
 import cc.hyperium.styles.GuiStyle;
 
-import static cc.hyperium.config.Category.ANIMATIONS;
-import static cc.hyperium.config.Category.BUTTONS;
-import static cc.hyperium.config.Category.CHROMAHUD;
-import static cc.hyperium.config.Category.COSMETICS;
-import static cc.hyperium.config.Category.GENERAL;
-import static cc.hyperium.config.Category.HYPIXEL;
-import static cc.hyperium.config.Category.IMPROVEMENTS;
-import static cc.hyperium.config.Category.INTEGRATIONS;
-import static cc.hyperium.config.Category.ITEM_PHYSIC;
-import static cc.hyperium.config.Category.MENUS;
-import static cc.hyperium.config.Category.MISC;
-import static cc.hyperium.config.Category.REACH;
-import static cc.hyperium.config.Category.TOGGLESPRINT;
-import static cc.hyperium.config.Category.VANILLA_ENHANCEMENTS;
-import static cc.hyperium.config.Category.VICTORYROYALE;
+import static cc.hyperium.config.Category.*;
 
 /*
  * Created by Cubxity on 03/06/2018
@@ -170,7 +156,8 @@ public class Settings {
     public static String COMPANION_TYPE = "NONE";
 
     @ConfigOpt
-    public static boolean SPOTIFY_CONTROLS = false;
+    @ToggleSetting(name = "gui.spotify.spotifycontrols", category = SPOTIFY)
+    public static boolean SPOTIFY_CONTROLS = true;
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;hypixelZooEnabled")
     @ToggleSetting(name = "gui.settings.welcometothehypixelzoo", category = HYPIXEL)
@@ -403,10 +390,11 @@ public class Settings {
     public static String PAUSE_STYLE = GuiStyle.HYPERIUM.name();
 
     @ConfigOpt
+    @ToggleSetting(name = "gui.spotify.spotifynotifications", category = SPOTIFY)
     public static boolean SPOTIFY_NOTIFICATIONS = false;
 
     @ConfigOpt
-    public static boolean SPOTIFY_FORCE_DISABLE = true;
+    public static boolean SPOTIFY_FORCE_DISABLE = false;
 
     @ConfigOpt
     @ToggleSetting(name = "gui.settings.updatenotificationsinhyperiumsettings", category = MISC)
@@ -527,7 +515,7 @@ public class Settings {
     public static boolean SEND_SERVER = true;
 
     @ConfigOpt
-    @ToggleSetting(name = "gui.settings.sendguildwelcomemessage", category = INTEGRATIONS)
+    @ToggleSetting(name = "gui.settings.sendguildwelcomemessage", category = HYPIXEL)
     public static boolean SEND_GUILD_WELCOME_MESSAGE = true;
 
     @ConfigOpt
@@ -593,6 +581,7 @@ public class Settings {
     })
     public static String BUTTON_TYPE = ButtonType.DEFAULT.name();
 
+
     @ConfigOpt
     @ToggleSetting(name = "gui.settings.disableenchantglint", category = IMPROVEMENTS)
     public static boolean DISABLE_ENCHANT_GLINT = false;
@@ -604,6 +593,31 @@ public class Settings {
     @ConfigOpt
     @SliderSetting(name = "gui.settings.fpslimiteramount", isInt = true, min = 5, max = 60, category = IMPROVEMENTS)
     public static int FPS_LIMITER_AMOUNT = 30;
+
+    @ConfigOpt
+    @ToggleSetting(name = "gui.settings.disablelightning", category = IMPROVEMENTS)
+    public static boolean DISABLE_LIGHTNING = false;
+
+    /*
+
+    For whoever tries to implement this, purpose is for when DISABLE_LIGHTNING is enabled, if the player still wants Lightning Bolts in UHC only, they will have to turn this on
+    have fun trying to add it lol - asbyth
+
+    @ConfigOpt
+    //@ToggleSetting(name = "gui.settings.keeplightinguhc", category = IMPROVEMENTS)
+    public static boolean UHC_LIGHTNING = false;
+    */
+
+    @ConfigOpt
+    @ToggleSetting(name = "gui.settings.disablearmorstands", category = IMPROVEMENTS)
+    public static boolean DISABLE_ARMORSTANDS = false;
+
+    @ConfigOpt
+    @ToggleSetting(name = "gui.settings.disableitemframes", category = IMPROVEMENTS)
+    public static boolean DISABLE_ITEMFRAMES = false;
+
+    @ConfigOpt
+    public static String ACCESS_TOKEN = "";
 
     private Settings() {
     }
