@@ -269,7 +269,7 @@ public class CrashReportGUI extends JDialog {
                 client.write(ServerCrossDataPacket.build(new JsonHolder().put("crash_report", true).put("internal", true).put("crash",
                     new JsonHolder()
                         .put("crash-full", report == null ? "unavailable" : hurl)
-                        .put("hyperium", Metadata.getVersion() + " -" + Metadata.getVersionID())
+                        .put("hyperium", Metadata.getVersion() + " - " + Metadata.getVersionID())
                         .put("addons", addons.toString())
                 )));
             return true;

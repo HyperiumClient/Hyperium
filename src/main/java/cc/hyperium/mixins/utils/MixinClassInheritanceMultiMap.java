@@ -19,7 +19,6 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 @Mixin(ClassInheritanceMultiMap.class)
 public abstract class MixinClassInheritanceMultiMap<T> extends AbstractSet<T> {
 
-
     private static Set<Class<?>> field_181158_a1 = ConcurrentHashMap.newKeySet();
     private ConcurrentLinkedQueue<T> queue = new ConcurrentLinkedQueue<>();
 

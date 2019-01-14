@@ -1,5 +1,6 @@
 package cc.hyperium.cosmetics;
 
+import cc.hyperium.Hyperium;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.PurchaseLoadEvent;
 import cc.hyperium.event.WorldChangeEvent;
@@ -7,6 +8,7 @@ import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.purchases.EnumPurchaseType;
 import cc.hyperium.purchases.PurchaseApi;
 import cc.hyperium.utils.UUIDUtil;
+
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -26,7 +28,7 @@ public abstract class AbstractCosmetic {
         this.purchaseType = purchaseType;
         try {
             PurchaseApi.getInstance().getPackageAsync(UUIDUtil.getClientUUID(), hyperiumPurchase -> {
-                if (hyperiumPurchase == null) {
+                if (hyperiumPurchase == null && !Hyperium.INSTANCE.isDevEnv) {
                     System.out.println("[Cosmetics] Detected " + getPurchaseType().toString().toLowerCase() + " is null!");
                     return;
                 }

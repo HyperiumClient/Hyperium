@@ -1,6 +1,5 @@
 package cc.hyperium.mixins.gui;
 
-import cc.hyperium.Hyperium;
 import cc.hyperium.config.Settings;
 import me.semx11.autotip.universal.ReflectionUtil;
 import net.minecraft.client.Minecraft;
@@ -61,8 +60,6 @@ public abstract class MixinGuiOverlayDebug {
     }
 
     protected void renderOldDebugInfoLeft(ScaledResolution scaledResolution) {
-        int scaledWidth = scaledResolution.getScaledWidth();
-        int scaledHeight = scaledResolution.getScaledHeight();
         FontRenderer fontRendererObj = this.mc.fontRendererObj;
         Field debugFPSField = ReflectionUtil.findField(Minecraft.class, "debugFPS", "field_71470_ab", "ao");
         debugFPSField.setAccessible(true);
@@ -98,7 +95,6 @@ public abstract class MixinGuiOverlayDebug {
 
     protected void renderOldDebugInfoRight(ScaledResolution scaledResolution) {
         int scaledWidth = scaledResolution.getScaledWidth();
-        int scaledHeight = scaledResolution.getScaledHeight();
         FontRenderer fontRendererObj = this.mc.fontRendererObj;
         long maxMemory = Runtime.getRuntime().maxMemory();
         long totalMemory = Runtime.getRuntime().totalMemory();

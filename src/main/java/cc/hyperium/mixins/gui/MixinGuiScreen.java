@@ -40,6 +40,7 @@ public abstract class MixinGuiScreen {
 
     @Shadow
     private Minecraft mc;
+
     private HyperiumGuiScreen hyperiumGuiScreen = new HyperiumGuiScreen((GuiScreen) (Object) this);
 
     @Shadow
@@ -52,8 +53,8 @@ public abstract class MixinGuiScreen {
     protected abstract void keyTyped(char typedChar, int keyCode) throws IOException;
 
     /**
-     * @reason Fix input bug (MC-2781)
      * @author SiroQ
+     * @reason Fix input bug (MC-2781)
      **/
     @Overwrite
     public void handleKeyboardInput() throws IOException {

@@ -53,6 +53,7 @@ public abstract class MixinRenderItem implements IResourceManagerReloadListener 
 
     /**
      * @author Sk1er
+     * @reason Enhanced Item Renderer
      */
     @Overwrite
     private void renderModel(IBakedModel model, int color, ItemStack stack) {

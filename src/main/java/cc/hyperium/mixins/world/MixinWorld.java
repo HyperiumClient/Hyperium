@@ -45,62 +45,50 @@ public abstract class MixinWorld {
     @Shadow
     @Final
     public List<Entity> loadedEntityList;
+
     @Shadow
     @Final
     public Profiler theProfiler;
+
     @Shadow
     @Final
     public List<Entity> weatherEffects;
+
     @Shadow
     @Final
     public List<TileEntity> tickableTileEntities;
+
     @Shadow
     @Final
     public List<TileEntity> loadedTileEntityList;
+
     @Shadow
     @Final
     protected List<Entity> unloadedEntityList;
+
     @Shadow
     @Final
     protected IntHashMap<Entity> entitiesById;
+
     @Shadow
     private WorldInfo worldInfo;
+
     @Shadow
     private boolean processingLoadedTiles;
+
     @Shadow
     @Final
     private WorldBorder worldBorder;
+
     @Shadow
     @Final
     private List<TileEntity> tileEntitiesToBeRemoved;
+
     @Shadow
     @Final
     private List<TileEntity> addedTileEntityList;
+
     private HyperiumWorld hyperiumWorld = new HyperiumWorld((World) (Object) this);
-
-    @Shadow
-    protected abstract boolean isChunkLoaded(int x, int z, boolean allowEmpty);
-
-    @Shadow
-    public abstract Chunk getChunkFromChunkCoords(int chunkX, int chunkZ);
-
-    @Shadow
-    protected abstract void onEntityRemoved(Entity entityIn);
-
-    @Shadow
-    public abstract void updateEntity(Entity ent);
-
-    @Shadow
-    public abstract boolean isBlockLoaded(BlockPos pos);
-
-    @Shadow
-    public abstract Chunk getChunkFromBlockCoords(BlockPos pos);
-
-    @Shadow
-    public abstract boolean addTileEntity(TileEntity tile);
-
-    @Shadow
-    public abstract void markBlockForUpdate(BlockPos pos);
 
     /**
      * Invoked once the server changes the players spawn point
@@ -139,9 +127,8 @@ public abstract class MixinWorld {
     }
 
     /**
-     * Fixes Void Flicker
-     *
      * @author prplz/2pi
+     * @reason VoidFlickerFix
      */
     @Overwrite
     public double getHorizon() {
@@ -193,12 +180,6 @@ public abstract class MixinWorld {
     private void getLight(BlockPos pos, boolean checkNeighbors, CallbackInfoReturnable<Integer> ci) {
         hyperiumWorld.getLight(pos, checkNeighbors, ci);
     }
-
-//    @Inject(method = "removeEntity",at=@At("HEAD"))
-//    public void loadEntity(Entity entity, CallbackInfo info) {
-//        hyperiumWorld.removeEntity(entity);
-//    }
-
 
     /**
      * @author Sk1er

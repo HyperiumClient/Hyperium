@@ -39,13 +39,17 @@ public abstract class MixinGuiNewChat {
     @Shadow
     @Final
     private List<ChatLine> chatLines;
+
     @Shadow
     @Final
     private List<ChatLine> field_146253_i;
+
     @Shadow
     private boolean isScrolled;
+
     @Shadow
     private int scrollPos;
+
     @Shadow
     @Final
     private Minecraft mc;
@@ -64,9 +68,9 @@ public abstract class MixinGuiNewChat {
     }
 
     /**
-     * Draws minecraft chat
      *
      * @author Mojang
+     * @reason Draws minecraft chat
      */
     @Overwrite
     public void drawChat(int p_146230_1_) {
@@ -75,9 +79,9 @@ public abstract class MixinGuiNewChat {
 
 
     /**
-     * Hardcoded chat limit of 100 -> 300
      *
      * @author Mojang
+     * @reason Change chat limit of 100 to 300
      */
     @Overwrite
     private void setChatLine(IChatComponent chatComponent, int chatLineId, int p_146237_3_, boolean p_146237_4_) {
