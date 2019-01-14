@@ -9,7 +9,6 @@ import org.apache.logging.log4j.LogManager
 import java.lang.reflect.Modifier
 import kotlin.reflect.full.companionObjectInstance
 
-
 @Retention(AnnotationRetention.RUNTIME)
 @Target(AnnotationTarget.CLASS)
 annotation class KotlinListener

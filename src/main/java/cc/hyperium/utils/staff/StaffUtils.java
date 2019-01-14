@@ -1,6 +1,7 @@
-package cc.hyperium.utils;
+package cc.hyperium.utils.staff;
 
-import cc.hyperium.utils.staff.StaffSettings;
+import cc.hyperium.utils.ChatColor;
+import cc.hyperium.utils.InstallerUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -19,14 +20,6 @@ public class StaffUtils {
         return STAFF_CACHE.get(uuid).getDotColour();
     }
 
-    public static boolean hasEasterEggEntityPath(UUID uuid) {
-        return STAFF_CACHE.get(uuid).hasEasterEggEntityPath();
-    }
-
-    public static String getEasterEggEntityPath(UUID uuid) {
-        return STAFF_CACHE.get(uuid).getEasterEggEntityPath();
-    }
-
     private static HashMap<UUID, StaffSettings> getStaff() throws IOException {
         HashMap<UUID, StaffSettings> staff = new HashMap<>();
         String content = InstallerUtils.getRaw("https://raw.githubusercontent.com/HyperiumClient/Hyperium-Repo/master/files/staff.json");
@@ -41,7 +34,7 @@ public class StaffUtils {
             } else {
                 colour = new DotColour(false, ChatColor.valueOf(colourStr));
             }
-            staff.put(uuid, new StaffSettings(colour, item.has("entityPath") ? item.getString("entityPath") : null));
+            staff.put(uuid, new StaffSettings(colour));
         }
         return staff;
     }

@@ -94,7 +94,6 @@ public class HyperiumCosmetics {
         DAB,
         BUTT,
         FLIP,
-        DEALWITHIT,
         DEADMAU5,
         WINGS,
         DRAGON,

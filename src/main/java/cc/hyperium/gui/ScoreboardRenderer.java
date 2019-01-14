@@ -27,8 +27,8 @@ public class ScoreboardRenderer {
 
     @ConfigOpt
     private double xLocation = 1.0D;
-    @ConfigOpt
 
+    @ConfigOpt
     private double yLocation = .5D;
 
 
@@ -89,16 +89,8 @@ public class ScoreboardRenderer {
         return xLocation;
     }
 
-    public void setxLocation(double xLocation) {
-        this.xLocation = xLocation;
-    }
-
     public double getyLocation() {
         return yLocation;
-    }
-
-    public void setyLocation(double yLocation) {
-        this.yLocation = yLocation;
     }
 
     private FontRenderer getFontRenderer() {

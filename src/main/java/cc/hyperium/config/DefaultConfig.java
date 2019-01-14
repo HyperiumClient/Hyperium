@@ -18,6 +18,9 @@
 package cc.hyperium.config;
 
 
+import cc.hyperium.config.handlers.PostConfigHandler;
+import cc.hyperium.config.handlers.PreConfigHandler;
+import cc.hyperium.config.handlers.PreSaveHandler;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;

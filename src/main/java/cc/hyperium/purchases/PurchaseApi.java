@@ -132,7 +132,11 @@ public class PurchaseApi {
     }
 
     public void getPackageAsync(UUID uuid, Consumer<HyperiumPurchase> callback) {
-        Multithreading.runAsync(() -> callback.accept(getPackageSync(uuid)));
+        try {
+            Multithreading.runAsync(() -> callback.accept(getPackageSync(uuid)));
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
     }
 
     public HyperiumPurchase getSelf() {

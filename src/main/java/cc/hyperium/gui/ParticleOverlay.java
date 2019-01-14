@@ -257,7 +257,7 @@ public class ParticleOverlay {
                         float x2 = ((float) ResolutionUtil.current().getScaledWidth_double()) * particle1.x;
                         float y2 = ((float) ResolutionUtil.current().getScaledHeight_double()) * particle1.y;
                         double alpha = 100 + ((0.02 / 155) * v);
-//
+
                         boolean flag = false;
                         if (((v1 >= guiLeft && v1 <= guiRight) || (x2 >= guiLeft && x2 <= guiRight))
                             && ((v2 >= guiTop && v2 <= guiBottom) || (y2 >= guiTop && y2 <= guiBottom))) {

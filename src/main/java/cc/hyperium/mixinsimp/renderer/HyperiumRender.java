@@ -6,7 +6,7 @@ import cc.hyperium.event.EventBus;
 import cc.hyperium.event.RenderNameTagEvent;
 import cc.hyperium.mixins.renderer.IMixinRender;
 import cc.hyperium.utils.ChatColor;
-import cc.hyperium.utils.StaffUtils;
+import cc.hyperium.utils.staff.StaffUtils;
 import cc.hyperium.utils.Utils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
@@ -76,9 +76,6 @@ public class HyperiumRender<T extends Entity> {
                 xMultiplier = -1;
             GlStateManager.rotate(renderManager.playerViewX * xMultiplier, 1.0F, 0.0F, 0.0F);
             GlStateManager.scale(-f1, -f1, f1);
-//            if(self) {
-//                GlStateManager.translate(0,10,0);
-//            }
             GlStateManager.disableLighting();
             GlStateManager.depthMask(false);
             GlStateManager.disableDepth();

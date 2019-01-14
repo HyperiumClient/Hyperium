@@ -144,7 +144,7 @@ public class CrashReportGUI extends JDialog {
             discord.setFocusPainted(false);
             discord.addActionListener(e -> {
                 try {
-                    Desktop.getDesktop().browse(new URL("https://discord.gg/txWB832").toURI());
+                    Desktop.getDesktop().browse(new URL("https://hyperium.cc/discord").toURI());
                 } catch (IOException | URISyntaxException e1) {
                     e1.printStackTrace();
                 }

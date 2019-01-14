@@ -6,7 +6,7 @@ import cc.hyperium.handlers.handlers.data.HypixelAPI;
 import cc.hyperium.mixins.gui.IMixinGui;
 import cc.hyperium.mixins.gui.IMixinGuiPlayerTabOverlay;
 import cc.hyperium.utils.ChatColor;
-import cc.hyperium.utils.StaffUtils;
+import cc.hyperium.utils.staff.StaffUtils;
 import com.google.common.collect.Ordering;
 import com.mojang.authlib.GameProfile;
 import net.minecraft.client.Minecraft;
