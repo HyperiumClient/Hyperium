@@ -134,6 +134,7 @@ public class PurchaseApi {
         try {
             Multithreading.runAsync(() -> callback.accept(getPackageSync(uuid)));
         } catch (NullPointerException e) {
+            e.printStackTrace();
         }
     }
 
