@@ -25,10 +25,15 @@ import cc.hyperium.mods.sk1ercommon.Multithreading;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.wrapper.spotify.SpotifyApi;
+import com.wrapper.spotify.exceptions.SpotifyWebApiException;
+import com.wrapper.spotify.model_objects.miscellaneous.CurrentlyPlayingContext;
+import com.wrapper.spotify.model_objects.specification.Track;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import org.apache.commons.lang3.SystemUtils;
+import org.omg.CORBA.Current;
 
 import java.awt.Desktop;
 import java.io.File;
@@ -43,35 +48,28 @@ import java.util.concurrent.TimeUnit;
  * @author Cubxity
  */
 public class Spotify {
-    private static final String RETURN_ON = "\"login\",\"logout\",\"play\",\"pause\",\"error\",\"ap\"";
     private static final int START_HTTPS_PORT = 4370;
-    private static final int END_HTTPS_PORT = 4379;
     private static final int START_HTTP_PORT = 4380;
     private static final int END_HTTP_PORT = 4389;
     public static Spotify instance;
     private static int localPort = START_HTTPS_PORT;
     private final ArrayList<SpotifyListener> listeners = new ArrayList<>();
     private final OkHttpClient client = new OkHttpClient();
-    private SpotifyInformation status;
-
+    private CurrentlyPlayingContext status;
     private String token;
-    private String csrfToken;
 
-    private int reconnectAttempts = 0;
+    public static SpotifyApi spotifyApi = new SpotifyApi.Builder()
+        .setAccessToken(Settings.ACCESS_TOKEN)
+        .build();
 
     public Spotify() throws Exception {
-        if (getWebHelper() == null)
-            throw new UnsupportedOperationException("Could not find WebHelper // OS not supported!");
-        startWebHelper();
-        detectPort();
         this.token = getOAuthToken();
-        this.csrfToken = getCSRFToken();
         this.status = getStatus();
         instance = this;
     }
 
     public static void load() {
-
+        Hyperium.LOGGER.info("Starting Spotify");
         if (Settings.SPOTIFY_FORCE_DISABLE) {
             return;
         }
@@ -81,7 +79,8 @@ public class Spotify {
         while (spotify == null) {
             try {
                 spotify = new Spotify();
-            } catch (Exception ignored) {
+            } catch (Exception e) {
+                e.printStackTrace();
             }
 
             if (spotify == null) {
@@ -96,11 +95,11 @@ public class Spotify {
         try {
             spotify.addListener(new Spotify.SpotifyListener() {
                 @Override
-                public void onPlay(SpotifyInformation info) {
+                public void onPlay(CurrentlyPlayingContext info) {
                     if (Settings.SPOTIFY_NOTIFICATIONS) {
                         Hyperium.INSTANCE.getNotification()
                             .display("Spotify",
-                                "Now playing " + info.getTrack().getTrackResource().getName(),
+                                "Now playing " + info.getItem().getName(),
                                 8
                             );
                     }
@@ -123,19 +122,19 @@ public class Spotify {
             }
 
             try {
-                final SpotifyInformation information = getStatus();
+                final CurrentlyPlayingContext information = getStatus();
                 checkForError(information);
-                if (information.isPlaying() != this.status.isPlaying()) {
-                    if (information.isPlaying()) {
+                if (information.getIs_playing() != this.status.getIs_playing()) {
+                    if (information.getIs_playing()) {
                         this.listeners.forEach(listener -> listener.onPlay(information));
                     } else {
                         this.listeners.forEach(SpotifyListener::onPause);
                     }
                 }
 
-                if (information.getTrack() != null && status.getTrack() != null) {
-                    if (information.getTrack().getAlbumResource() != null && status.getTrack().getAlbumResource() != null) {
-                        if (!information.getTrack().getAlbumResource().getName().equals(status.getTrack().getAlbumResource().getName())) {
+                if (information.getItem() != null && status.getItem() != null) {
+                    if (information.getItem().getAlbum().getImages() != null && status.getItem().getAlbum() != null) {
+                        if (!information.getItem().getName().equals(status.getItem().getName())) {
                             this.listeners.forEach(listener -> listener.onPlay(information));
                         }
                     }
@@ -146,16 +145,13 @@ public class Spotify {
                 System.out.println("[SPOTIFY] Exception occurred");
             }
         }, 3, 3, TimeUnit.SECONDS);
-
-
-        // WTF IS THIS SHIT LOL
     }
 
     public void addListener(SpotifyListener listener) {
         this.listeners.add(listener);
     }
 
-    public SpotifyInformation getCachedStatus() {
+    public CurrentlyPlayingContext getCachedStatus() {
         return status;
     }
 
@@ -199,19 +195,31 @@ public class Spotify {
      * @return status
      * @throws IOException if exception occurs
      */
-    private SpotifyInformation getStatus() throws IOException {
-        JsonObject obj = get(genSpotifyUrl("/remote/status.json") + "?returnafter=1&returnon=" + RETURN_ON + "&oauth=" + this.token + "&csrf=" + this.csrfToken, true);
-        return new Gson().fromJson(obj, SpotifyInformation.class);
+    private Track getTrack() {
+        Track track = null;
+        try {
+            track = spotifyApi.getUsersCurrentlyPlayingTrack().build().execute().getItem();
+        } catch (SpotifyWebApiException | IOException ignored) {
+        }
+        return track;
+    }
+
+    private CurrentlyPlayingContext getStatus() {
+        try {
+            return spotifyApi.getInformationAboutUsersCurrentPlayback().build().execute();
+        } catch (IOException | SpotifyWebApiException ignored) {
+            return null;
+        }
     }
 
     public void pause(boolean pause) {
         try {
-            get(
-                genSpotifyUrl("/remote/pause.json") + "?oauth=" + this.token + "&csrf=" + this.csrfToken + "&pause=" + pause,
-                false
-            );
-        } catch (IOException e) {
-            e.printStackTrace();
+            if(pause) {
+                spotifyApi.pauseUsersPlayback().build().execute();
+            } else {
+                spotifyApi.startResumeUsersPlayback().build().execute();
+            }
+        } catch (IOException | SpotifyWebApiException ignored) {
         }
     }
 
@@ -220,35 +228,7 @@ public class Spotify {
      * @throws IOException if exception occurs
      */
     private String getOAuthToken() throws IOException {
-        return get("https://open.spotify.com/token", false).get("t").getAsString();
-    }
-
-    /**
-     * @return csrf token
-     * @throws IOException if exception occurs
-     */
-    private String getCSRFToken() throws IOException {
-        return get(genSpotifyUrl("/simplecsrf/token.json"), false).get("token").getAsString();
-    }
-
-    /**
-     * @return webHelper port
-     * @throws IOException if exception occurs
-     */
-    private int detectPort() throws IOException {
-        try {
-            get(genSpotifyUrl("/service/version.json?service=remote"), false);
-        } catch (IOException e) {
-            if (localPort == END_HTTP_PORT) {
-                throw e;
-            } else if (localPort == END_HTTPS_PORT) {
-                localPort = START_HTTP_PORT;
-            } else {
-                ++localPort;
-            }
-            return this.detectPort();
-        }
-        return localPort;
+        return Settings.ACCESS_TOKEN;
     }
 
     /**
@@ -263,45 +243,8 @@ public class Spotify {
         return String.format("%s%s:%d%s", protocol, "127.0.0.1", localPort, path);
     }
 
-    /**
-     * starts spotify's webHelper
-     */
-    private void startWebHelper() {
-        if (isWebHelperRunning()) return;
-        try {
-            Desktop.getDesktop().open(Objects.requireNonNull(getWebHelper()));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * @return web helper executable path
-     */
-    private File getWebHelper() {
-        if (SystemUtils.IS_OS_WINDOWS) {
-            return new File(System.getProperty("user.home"), "\\AppData\\Roaming\\Spotify\\SpotifyWebHelper.exe");
-        } else if (SystemUtils.IS_OS_MAC) {
-            return new File(System.getProperty("user.home"), "/Library/Application Support/Spotify/SpotifyWebHelper");
-        } else {
-            return null;
-        }
-    }
-
-    /**
-     * @return true if webHelper is running
-     */
-    private boolean isWebHelperRunning() {
-        try {
-            return OsHelper.isProcessRunning("SpotifyWebHelper");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
-    private void checkForError(SpotifyInformation status) throws Exception {
-        if (status.getOpenStateGraph() == null)
+    private void checkForError(CurrentlyPlayingContext status) throws Exception {
+        if (status == null)
             throw new Exception("No user logged in");
     }
 
@@ -310,7 +253,7 @@ public class Spotify {
      */
     public interface SpotifyListener {
 
-        default void onPlay(SpotifyInformation info) {
+        default void onPlay(CurrentlyPlayingContext info) {
         }
 
         default void onPause() {

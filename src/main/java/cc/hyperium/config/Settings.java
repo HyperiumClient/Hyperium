@@ -23,21 +23,7 @@ import cc.hyperium.styles.ButtonStyle;
 import cc.hyperium.styles.ButtonType;
 import cc.hyperium.styles.GuiStyle;
 
-import static cc.hyperium.config.Category.ANIMATIONS;
-import static cc.hyperium.config.Category.BUTTONS;
-import static cc.hyperium.config.Category.CHROMAHUD;
-import static cc.hyperium.config.Category.COSMETICS;
-import static cc.hyperium.config.Category.GENERAL;
-import static cc.hyperium.config.Category.HYPIXEL;
-import static cc.hyperium.config.Category.IMPROVEMENTS;
-import static cc.hyperium.config.Category.INTEGRATIONS;
-import static cc.hyperium.config.Category.ITEM_PHYSIC;
-import static cc.hyperium.config.Category.MENUS;
-import static cc.hyperium.config.Category.MISC;
-import static cc.hyperium.config.Category.REACH;
-import static cc.hyperium.config.Category.TOGGLESPRINT;
-import static cc.hyperium.config.Category.VANILLA_ENHANCEMENTS;
-import static cc.hyperium.config.Category.VICTORYROYALE;
+import static cc.hyperium.config.Category.*;
 
 /*
  * Created by Cubxity on 03/06/2018
@@ -170,7 +156,7 @@ public class Settings {
     public static String COMPANION_TYPE = "NONE";
 
     @ConfigOpt
-    public static boolean SPOTIFY_CONTROLS = false;
+    public static boolean SPOTIFY_CONTROLS = true;
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;hypixelZooEnabled")
     @ToggleSetting(name = "gui.settings.welcometothehypixelzoo", category = HYPIXEL)
@@ -406,7 +392,7 @@ public class Settings {
     public static boolean SPOTIFY_NOTIFICATIONS = false;
 
     @ConfigOpt
-    public static boolean SPOTIFY_FORCE_DISABLE = true;
+    public static boolean SPOTIFY_FORCE_DISABLE = false;
 
     @ConfigOpt
     @ToggleSetting(name = "gui.settings.updatenotificationsinhyperiumsettings", category = MISC)
@@ -604,6 +590,10 @@ public class Settings {
     @ConfigOpt
     @SliderSetting(name = "gui.settings.fpslimiteramount", isInt = true, min = 5, max = 60, category = IMPROVEMENTS)
     public static int FPS_LIMITER_AMOUNT = 30;
+
+    @ConfigOpt
+    public static String ACCESS_TOKEN = "NOT SET";
+
 
     private Settings() {
     }

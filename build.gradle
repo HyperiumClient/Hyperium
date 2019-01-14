@@ -99,6 +99,8 @@ dependencies {
     embed 'com.github.Cubxity:DeobfStack:1.2'
     embed 'com.github.HyperiumClient:Installer:1.8'
 
+    embed 'com.github.thelinmichael:spotify-web-api-java:master-SNAPSHOT'
+
     embed fileTree(dir: 'libs', include: 'Netty Client.jar')
     compile fileTree(dir: 'libs', include: '*.jar')
 

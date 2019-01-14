@@ -25,7 +25,6 @@ import cc.hyperium.event.RenderHUDEvent;
 import cc.hyperium.gui.HyperiumGui;
 import cc.hyperium.integrations.spotify.Spotify;
 import cc.hyperium.integrations.spotify.impl.SpotifyInformation;
-import cc.hyperium.integrations.spotify.impl.Track;
 import cc.hyperium.mods.AbstractMod;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.utils.BetterJsonObject;
@@ -33,6 +32,8 @@ import cc.hyperium.utils.ChatColor;
 
 import com.google.gson.JsonObject;
 
+import com.wrapper.spotify.model_objects.miscellaneous.CurrentlyPlayingContext;
+import com.wrapper.spotify.model_objects.specification.Track;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiChat;
@@ -135,29 +136,31 @@ public class SpotifyControls extends AbstractMod {
 
     @InvokeEvent
     public void onRender(RenderHUDEvent e) {
-        while (Minecraft.getSystemTime() > this.systemTime + 1000) {
-            this.systemTime += 1000;
+        if(Spotify.instance != null) {
+            while (Minecraft.getSystemTime() > this.systemTime + 1000) {
+                this.systemTime += 1000;
 
-            if (Spotify.instance == null
-                || !Spotify.instance.getCachedStatus().isPlaying()
-                || Spotify.instance.getCachedStatus().getTrack().getLength() <= current) {
-                continue;
+                if (Spotify.instance == null
+                    || !Spotify.instance.getCachedStatus().getIs_playing()
+                    || Spotify.instance.getCachedStatus().getItem().getDurationMs() <= current) {
+                    continue;
+                }
+
+                current++;
             }
 
-            current++;
-        }
+            if (Settings.SPOTIFY_CONTROLS) {
+                GuiScreen currentScreen = Minecraft.getMinecraft().currentScreen;
 
-        if (Settings.SPOTIFY_CONTROLS) {
-            GuiScreen currentScreen = Minecraft.getMinecraft().currentScreen;
-
-            if (currentScreen == null || currentScreen instanceof GuiChat) {
-                renderControls();
+                if (currentScreen == null || currentScreen instanceof GuiChat) {
+                    renderControls();
+                }
             }
         }
     }
 
     public void renderControls() {
-        if (Spotify.instance == null) {
+        if (Spotify.instance == null || Spotify.instance.getCachedStatus() == null) {
             return;
         }
 
@@ -166,21 +169,21 @@ public class SpotifyControls extends AbstractMod {
         GlStateManager.pushMatrix();
         GlStateManager.scale(realScale, realScale, 1);
 
-        SpotifyInformation info = Spotify.instance.getCachedStatus();
+        CurrentlyPlayingContext info = Spotify.instance.getCachedStatus();
         FontRenderer fontRenderer = Minecraft.getMinecraft().fontRendererObj;
 
-        boolean paused = info.isPlaying();
+        boolean paused = info.getIs_playing();
         String name = "Not Playing", artist = "", uri = currentURI;
 
-        Track track = info.getTrack();
+        Track track = info.getItem();
         if (track != null) {
-            if (track.getTrackResource() != null) {
-                name = track.getTrackResource().getName();
-                uri = track.getTrackResource().getUri();
+            if (track != null) {
+                name = track.getName();
+                uri = track.getUri();
             }
 
-            if (track.getArtistResource() != null) {
-                artist = track.getArtistResource().getName();
+            if (track.getArtists() != null) {
+                artist = track.getArtists()[0].getName();
             }
         }
 
@@ -206,14 +209,14 @@ public class SpotifyControls extends AbstractMod {
             currentURI = uri;
         }
 
-        if ((long) info.getPlayingPosition() != cachedTime) {
-            cachedTime = (long) info.getPlayingPosition();
+        if ((long) info.getProgress_ms() != cachedTime) {
+            cachedTime = (long) info.getProgress_ms();
             current = cachedTime;
         }
 
         long length = 1;
         if (track != null)
-            length = track.getLength();
+            length = track.getDurationMs();
 
         name = fontRenderer.trimStringToWidth(name, (int) ((width - 30) * 0.8));
         artist = fontRenderer.trimStringToWidth(artist, width - 30);
@@ -246,7 +249,7 @@ public class SpotifyControls extends AbstractMod {
         GlStateManager.scale(1.2f, 1.2f, 1);
         if (name.length() > 16) {
             int concatNameCount2 = concatNameCount + 16;
-            String name2 = track.getTrackResource().getName();
+            String name2 = track.getName();
             String concatName = name2 + "    " + name2;
             Minecraft.getMinecraft().fontRendererObj.drawString(concatName.substring(concatNameCount, concatNameCount + 16), (float) ((x + 5) / 1.2), (float) ((y + 5) / 1.2), white.getRGB(), false);
             if (System.currentTimeMillis() % 100 == 0) {
@@ -263,7 +266,7 @@ public class SpotifyControls extends AbstractMod {
 
         fontRenderer.drawString(artist, (float) (x + 5), (float) (y + 18), white.getRGB(), false);
 
-        String currTimestamp = current / 60 + ":" + StringUtils.leftPad(String.valueOf(current % 60), 2, "0");
+        String currTimestamp = current / 60000 + ":" + StringUtils.leftPad(String.valueOf(current % 60000).substring(0, 2), 2, "0");
         int currTimestampWidth = fontRenderer.getStringWidth(currTimestamp);
         fontRenderer.drawString(currTimestamp, (float) (x + 5), (float) (y + 35), white.getRGB(), false);
 
@@ -274,7 +277,7 @@ public class SpotifyControls extends AbstractMod {
         drawRectDouble(barX, barY, barX + 80, barY + 8, progress.getRGB());
         drawRectDouble(barX, barY, (int) (barX + (80 * percentComplete)), barY + 8, highlight.getRGB());
 
-        String endTimestamp = length / 60 + ":" + StringUtils.leftPad(String.valueOf(length % 60), 2, "0");
+        String endTimestamp = length / 60000 + ":" + StringUtils.leftPad(String.valueOf(length % 60000).substring(0, 2), 2, "0");
         fontRenderer.drawString(endTimestamp, (float) (barX + 80 + 5), (float) (barY), white.getRGB(), false);
 
         if (pause != null && play != null) {

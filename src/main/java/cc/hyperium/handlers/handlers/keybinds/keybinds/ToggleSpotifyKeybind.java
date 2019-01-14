@@ -14,6 +14,6 @@ public class ToggleSpotifyKeybind extends HyperiumBind {
     public void onPress() {
         if (Spotify.instance == null)
             return;
-        Spotify.instance.pause(!Spotify.instance.getCachedStatus().isPlaying());
+        Spotify.instance.pause(!Spotify.instance.getCachedStatus().getIs_playing());
     }
 }

@@ -17,21 +17,26 @@
 
 package cc.hyperium.mods.spotify;
 
+import cc.hyperium.config.Settings;
 import cc.hyperium.gui.HyperiumGui;
 
-import java.awt.Color;
+import java.awt.*;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.gui.ScaledResolution;
 
 import java.io.IOException;
+import java.net.URI;
 
 import org.lwjgl.input.Mouse;
 
 public class SpotifyGui extends HyperiumGui {
 
     private SpotifyControls controls = SpotifyControls.instance;
+
+    private static GuiTextField access;
 
     private int lastMouseX;
     private int lastMouseY;
@@ -42,6 +47,16 @@ public class SpotifyGui extends HyperiumGui {
     public void initGui() {
         this.buttonList.add(new GuiButton(0, 5, this.height - 25, 100, 20, "Reset Scale"));
         this.buttonList.add(new GuiButton(1, 5, this.height - 45, 100, 20, "Reset Position"));
+        this.buttonList.add(new GuiButton(2, 5, this.height - 65, 100, 20, "Get access token"));
+
+        access = new GuiTextField(3, this.fontRendererObj, this.width / 2 - 68, this.height - 25, 137, 20);
+        if (!Settings.ACCESS_TOKEN.equals("NOT SET")) {
+            access.setText(Settings.ACCESS_TOKEN);
+        } else {
+            access.setText("Access Token");
+        }
+        access.setFocused(false);
+        access.setMaxStringLength(512);
     }
 
     @Override
@@ -72,7 +87,15 @@ public class SpotifyGui extends HyperiumGui {
             lastMouseY = mouseY;
         }
 
+        access.drawTextBox();
+
         this.controls.renderControls();
+    }
+
+    @Override
+    protected void keyTyped(char typedChar, int keyCode) throws IOException {
+        super.keyTyped(typedChar, keyCode);
+        access.textboxKeyTyped(typedChar, keyCode);
     }
 
     @Override
@@ -89,6 +112,8 @@ public class SpotifyGui extends HyperiumGui {
             lastMouseX = mouseX;
             lastMouseY = mouseY;
         }
+        super.mouseClicked(mouseX, mouseY, mouseButton);
+        access.mouseClicked(mouseX, mouseY, mouseButton);
     }
 
     @Override
@@ -96,6 +121,12 @@ public class SpotifyGui extends HyperiumGui {
         super.mouseReleased(mouseX, mouseY, state);
 
         dragging = false;
+    }
+
+    @Override
+    public void updateScreen() {
+        super.updateScreen();
+        access.updateCursorCounter();
     }
 
     @Override
@@ -107,6 +138,12 @@ public class SpotifyGui extends HyperiumGui {
             case 1:
                 this.controls.setX(0);
                 this.controls.setY(0);
+                break;
+            case 2:
+                try {
+                    Desktop.getDesktop().browse(new URI("http://spotifymod-client.herokuapp.com"));
+                } catch (Exception ignored) {
+                }
         }
     }
 
@@ -129,6 +166,8 @@ public class SpotifyGui extends HyperiumGui {
     public void onGuiClosed() {
         super.onGuiClosed();
 
+        Settings.ACCESS_TOKEN = access.getText();
+        Settings.save();
         this.controls.save();
     }
 
