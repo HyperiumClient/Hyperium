@@ -394,6 +394,7 @@ public class Settings {
     public static boolean SPOTIFY_NOTIFICATIONS = false;
 
     @ConfigOpt
+    @ToggleSetting(name = "gui.spotify.forcedisable", category = SPOTIFY)
     public static boolean SPOTIFY_FORCE_DISABLE = false;
 
     @ConfigOpt
