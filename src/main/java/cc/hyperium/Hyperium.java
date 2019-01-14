@@ -482,7 +482,7 @@ public class Hyperium {
     }
 
     @Contract(pure = true)
-    private String quoteSpaces(@NotNull String argument) {
+    private String quoteSpaces(String argument) {
         if (argument.contains(" ")) {
             return "\"" + argument + "\"";
         } else {

@@ -18,7 +18,6 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
-import org.jetbrains.annotations.Contract;
 import org.lwjgl.opengl.GL11;
 
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -33,7 +32,6 @@ public class VictoryRoyale extends AbstractMod {
 
     private long start = 0;
 
-    @Contract(pure = true)
     public static VictoryRoyale getInstance() {
         return INSTANCE;
     }

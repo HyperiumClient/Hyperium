@@ -42,13 +42,10 @@ Hyperium is a free and open source Minecraft 1.8.9 client. It combines many popu
 - [x] [Victory Royale Mod](https://www.youtube.com/watch?v=g4pZTX8ooqI)
 - [x] [VoidFlickerFix](https://www.youtube.com/watch?v=klV4d1B6ysk)
 
-## Building the Project with IntelliJ ##
-If you don't know how, then you shouldn't try. Join our beta in [Discord](https://hyperium.cc/discord), or wait for releases!
-
-## Beta Test the Client ##  
+### Beta Test the Client ###  
 You can easily beta test the client for free, all you have to do is join [The Hyperium Discord](https://hyperium.cc/discord), or for beta versions, head over to the [releases section](https://github.com/HyperiumClient/Hyperium/releases) and download the latest beta!  
 
-## FAQ ##
+### FAQ ###  
 Q: Please help, I can't build Hyperium!
 
 A: If you don't know how to build a project, please wait for a new beta or release! 
@@ -73,17 +70,26 @@ Q: My game keeps crashing!
 
 A: If you have reported the issue using the automatic prompt, join the [Discord](https://hyperium.cc/discord) and ask a member of the staff team or a developer to review your issue. Please be patient if there are no developers online!
 
-## Addons ##
+### Addons ###
 Addons are available for download in the addons channel of the [Hyperium Discord](https://hyperium.cc/discord).
 
+### License ###  
+Hyperium is licensed under the GNU Lesser General Public License. You can view it [here](./LICENSE).
+
+## Developer Resources ##
+
+### Code Style ###
+We use [Google's Java Code style](https://google.github.io/styleguide/javaguide.html) for Hyperium. It would be appreciated if you followed this as well.
+	
+### Building the Project with IntelliJ ###
+If you don't know how, then you shouldn't try. Join our beta in [Discord](https://hyperium.cc/discord), or wait for releases!
+
+### Addon Development ###
 To make an addon, clone the [Addon Workspace](https://github.com/HyperiumClient/Addon-Workspace) and get coding!
 **An example comes with the workspace.**
 Follow [this tutorial](https://www.youtube.com/watch?v=RXTIFdoNA8c) to get started.
 
-## License
-Hyperium is licensed under the GNU Lesser General Public License. You can view it [here](./LICENSE).
-
-## Developers ##
+### Developers ###
 [![Sk1er](https://cdn.discordapp.com/avatars/376817315830038530/87dd80c68e0598ea39af4e0472b299b7.png)](https://github.com/Sk1er)
 [![CoalOres](https://cdn.discordapp.com/avatars/248159137370734601/667cb334d3a85c850d9890e786cbf50c.png?size=128)](https://github.com/CoalCoding)
 [![KevinPriv](https://cdn.discordapp.com/avatars/247785387919933440/e8f6af129f0d6d4db93d8c7360aac15a.png)](https://github.com/KevinPriv)
