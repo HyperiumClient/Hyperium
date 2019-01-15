@@ -9,7 +9,7 @@
 <!-- Put anything else relevant to this pull request here. -->
 
 ## Checklist  
-<!-- You don't have to fill this out if you don't want to - just some things to keep in mind -->
+<!-- Please make sure your pull request fits all of the following criteria: -->
 - [ ] All *new* Java and Kotlin files have [the right copyright header](https://github.com/HyperiumClient/Hyperium/docs/Copyright.md)  
 - [ ] I have tested my code by building it locally  
 - [ ] This is not a work-in-progress and is ready for merge  
