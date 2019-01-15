@@ -86,8 +86,6 @@ public class DisplayElementConfig extends GuiScreen {
         if (hue != -1 && saturation != -1) {
             BufferedImage image1 = new BufferedImage(1, dim, BufferedImage.TYPE_INT_RGB);
             for (int y = 0; y < dim; y++) {
-//                    System.out.println("hue = " + hue);
-//                    System.out.println("saturation = " + saturation);
                 float hue = this.hue / 256F;
                 float saturation = this.saturation / 256F;
                 image1.setRGB(0, y, Color.HSBtoRGB(hue, saturation, 1.0F - y / 256F));

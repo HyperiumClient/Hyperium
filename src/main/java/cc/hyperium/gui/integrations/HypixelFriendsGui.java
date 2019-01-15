@@ -285,8 +285,7 @@ public class HypixelFriendsGui extends HyperiumGui {
     }
 
     @InvokeEvent
-    public void onRemove(FriendRemoveEvent evemt) {
-        System.out.println(evemt.getFullName() + " - " + evemt.getName());
+    public void onRemove(FriendRemoveEvent event) {
         JsonHolder friends = null;
         try {
             friends = Hyperium.INSTANCE.getHandlers().getDataHandler().getFriendsForCurrentUser().get().getData();
@@ -299,7 +298,7 @@ public class HypixelFriendsGui extends HyperiumGui {
                 continue;
             String display = stringJsonElementEntry.getValue().getAsJsonObject().get("display").getAsString();
 
-            if (EnumChatFormatting.getTextWithoutFormattingCodes(display).contains(evemt.getFullName()))
+            if (EnumChatFormatting.getTextWithoutFormattingCodes(display).contains(event.getFullName()))
                 key = stringJsonElementEntry.getKey();
         }
         if (key != null) {

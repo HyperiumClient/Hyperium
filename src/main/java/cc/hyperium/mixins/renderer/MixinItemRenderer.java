@@ -50,7 +50,8 @@ public class MixinItemRenderer {
 
 
     /**
-     * @author
+     * @author Cubxity
+     * @reason 1.7 animations
      */
     @Overwrite
     private void transformFirstPersonItem(float equipProgress, float swingProgress) {
@@ -59,7 +60,8 @@ public class MixinItemRenderer {
 
 
     /**
-     * @author
+     * @author CoalOres
+     * @reason 1.7 animations
      */
     @Overwrite
     public void renderItemInFirstPerson(float partialTicks) {

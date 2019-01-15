@@ -26,27 +26,37 @@ public class MixinModelBiped extends ModelBase implements IMixinModelBiped {
 
     @Shadow
     public ModelRenderer bipedHead;
+
     @Shadow
     public ModelRenderer bipedHeadwear;
+
     @Shadow
     public ModelRenderer bipedBody;
+
     @Shadow
     public ModelRenderer bipedRightArm;
+
     @Shadow
     public ModelRenderer bipedLeftArm;
+
     @Shadow
     public ModelRenderer bipedRightLeg;
+
     @Shadow
     public ModelRenderer bipedLeftLeg;
 
     @Shadow
     public int heldItemLeft;
+
     @Shadow
     public int heldItemRight;
+
     @Shadow
     public boolean isSneak;
+
     @Shadow
     public boolean aimedBow;
+
     protected ModelRenderer bipedLeftForeArm;
     protected ModelRenderer bipedRightForeArm;
     protected ModelRenderer bipedLeftLowerLeg;
@@ -111,6 +121,7 @@ public class MixinModelBiped extends ModelBase implements IMixinModelBiped {
 
     /**
      * @author 9Y0, Mojang
+     * @reason body parts
      */
     @Overwrite
     public void render(Entity entityIn, float p_78088_2_, float p_78088_3_, float p_78088_4_, float p_78088_5_, float p_78088_6_, float scale) {
@@ -163,12 +174,12 @@ public class MixinModelBiped extends ModelBase implements IMixinModelBiped {
         this.bipedRightForeArm.render(scale);
         this.bipedLeftLowerLeg.render(scale);
         this.bipedRightLowerLeg.render(scale);
-        /*It causes two bugs so I disabled it, If need it, enable again and please fix skin bug when player wearing boots.
-          After some tests, I felt it not needed... If it wrong sorry.*/
-        /*this.bipedLeftForeArm_adj.render(scale);
-        this.bipedRightForeArm_adj.render(scale);*/
     }
 
+    /**
+     * @author Amplifiable
+     * @reason 1.7 Blocking & Item Held
+     */
     @Overwrite
     public void setRotationAngles(final float limbSwing, final float limbSwingAmount, final float ageInTicks, final float netHeadYaw, final float headPitch, final float scaleFactor, final Entity entityIn) {
         this.bipedHead.rotateAngleY = netHeadYaw / 57.295776f;

@@ -17,6 +17,6 @@ public interface CefPdfPrintCallback {
      * @param path The path of the PDF file that was written.
      * @param ok True if printing completed or false otherwise.
      */
-    public abstract void onPdfPrintFinished(String path, boolean ok);
+    void onPdfPrintFinished(String path, boolean ok);
     
 }

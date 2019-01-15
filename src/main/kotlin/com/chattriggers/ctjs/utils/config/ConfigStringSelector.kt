@@ -13,14 +13,12 @@ open class ConfigStringSelector
 (private val prop: KMutableProperty<String>, name: String = "", private val values: Array<String> = emptyArray(), x: Int = 0, y: Int = 0)
     : ConfigOption() {
 
-
     private var value: Int by Delegates.observable(
             values.indexOf(prop.getter.call(Config))
     ) { _, _, new ->
         prop.setter.call(Config, values[new])
     }
     private val initial = value
-
 
     private var leftArrowButton: GuiButton? = null
     @Transient

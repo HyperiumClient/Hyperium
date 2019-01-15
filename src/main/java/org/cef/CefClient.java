@@ -109,7 +109,7 @@ public class CefClient extends CefClientHandler
     private boolean isPartOf(Object obj, Component browserUI) {
         if (obj == browserUI) return true;
         if (obj instanceof Container) {
-            Component childs[] = ((Container) obj).getComponents();
+            Component[] childs = ((Container) obj).getComponents();
             for (Component child : childs) {
                 return isPartOf(child, browserUI);
             }
@@ -160,8 +160,6 @@ public class CefClient extends CefClientHandler
     protected CefDialogHandler getDialogHandler() {
         return this;
     }
-
-    ;
 
     @Override
     protected CefDisplayHandler getDisplayHandler() {

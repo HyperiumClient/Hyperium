@@ -73,6 +73,10 @@ public abstract class MixinEffectRenderer implements IMixinEffectRenderer {
         }
     }
 
+    /**
+     * @author Sk1er
+     * @reason Improved Particle Handler
+     */
     @Overwrite
     private void moveToLayer(EntityFX effect, int p_178924_2_, int p_178924_3_) {
         for (int i = 0; i < 4; ++i) {

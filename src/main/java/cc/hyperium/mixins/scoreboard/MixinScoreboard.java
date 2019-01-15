@@ -42,15 +42,11 @@ public abstract class MixinScoreboard {
     private HyperiumScoreboard hyperiumScoreboard = new HyperiumScoreboard((Scoreboard) (Object) this);
 
     /**
-     * Fix NPE's
-     *
      * @author boomboompower
+     * @reason Fix NPE's
      */
     @Overwrite
     public void removeTeam(ScorePlayerTeam team) {
         hyperiumScoreboard.removeTeam(team, teams, teamMemberships);
     }
-
-    @Shadow
-    public abstract void func_96513_c(ScorePlayerTeam playerTeam);
 }

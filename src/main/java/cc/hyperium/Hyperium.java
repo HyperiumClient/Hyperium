@@ -86,6 +86,7 @@ import net.minecraft.crash.CrashReport;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 import org.lwjgl.opengl.Display;
 
 import java.io.BufferedReader;
@@ -312,7 +313,7 @@ public class Hyperium {
                         }
                     }
                 } else {
-                    System.out.println("[Chat Handler] Not restoring chat");
+                    System.out.println("[Chat Handler] chat.txt not found, not restoring chat");
                 }
             });
 
@@ -320,11 +321,11 @@ public class Hyperium {
                 isLatestVersion = UpdateUtils.INSTANCE.isAbsoluteLatest();
                 IS_BETA = UpdateUtils.INSTANCE.isBeta();
             });
-            // Check if Optifine is installed.
+            // Check if OptiFine is installed.
             try {
                 Class.forName("optifine.OptiFineTweaker");
                 optifineInstalled = true;
-                System.out.println("[OptiFine] installation detected!");
+                System.out.println("Optifine is currently installed.");
             } catch (ClassNotFoundException e) {
                 optifineInstalled = false;
             }

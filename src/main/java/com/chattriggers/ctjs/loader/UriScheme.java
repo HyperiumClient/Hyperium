@@ -42,8 +42,6 @@ public class UriScheme {
     }
 
     private static void copyModuleIn(String module) {
-        System.out.println("Adding module named " + module + " to the to download list!");
-
         String dataFolder = System.getenv("APPDATA");
         File modulesDir = new File(dataFolder + "\\.minecraft\\config\\ChatTriggers\\modules");
 

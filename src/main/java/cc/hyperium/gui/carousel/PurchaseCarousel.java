@@ -168,7 +168,6 @@ public class PurchaseCarousel {
             rarrow = new SimpleAnimValue(500L, rarrow.getValue(), 0.5f);
         }
         v = rarrow.getValue();
-        //System.out.println(v);
         GlStateManager.scale(v, v, v);
         fr.drawCenteredString(">", (objRight + 5) / v, centerY / v - 10, 0xffffff);
         GlStateManager.scale(1 / v, 1 / v, 1 / v);

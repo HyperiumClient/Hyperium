@@ -203,7 +203,6 @@ public class NotificationCenter extends Gui {
     private Notification currentNotification;
     /**
      * Font renderer to use
-     * TODO
      */
     private FontRenderer fontRenderer;
 

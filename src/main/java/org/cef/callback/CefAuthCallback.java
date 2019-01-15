@@ -12,10 +12,10 @@ public interface CefAuthCallback {
     /**
      * Continue the authentication request.
      */
-    public void Continue(String username, String password);
+    void Continue(String username, String password);
 
     /**
      * Cancel the authentication request.
      */
-    public void cancel();
+    void cancel();
 }

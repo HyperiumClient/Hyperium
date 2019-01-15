@@ -289,7 +289,7 @@ class CefBrowserWr extends CefBrowser_N {
     @Override
     protected CefBrowser_N createDevToolsBrowser(CefClient client, String url,
             CefRequestContext context, CefBrowser_N parent, Point inspectAt) {
-        return new CefBrowserWr(client, url, context, (CefBrowserWr) this, inspectAt);
+        return new CefBrowserWr(client, url, context, this, inspectAt);
     }
 
     private synchronized long getWindowHandle() {

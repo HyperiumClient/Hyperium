@@ -41,20 +41,22 @@ public abstract class MixinGuiPlayerTabOverlay extends Gui {
     @Shadow
     @Final
     private static Ordering<NetworkPlayerInfo> field_175252_a;
+
     @Shadow
     @Final
     private Minecraft mc;
+
     @Shadow
     private IChatComponent header;
+
     @Shadow
     private IChatComponent footer;
 
     private HyperiumGuiPlayerTabOverlay hyperiumGuiPlayerTabOverlay = new HyperiumGuiPlayerTabOverlay((GuiPlayerTabOverlay) (Object) this);
 
     /**
-     * Allows the user to use numbered ping if they wish
-     *
      * @author boomboompower
+     * @reason Numbered ping in tab
      */
     @Overwrite
     protected void drawPing(int p_175245_1_, int p_175245_2_, int yIn, NetworkPlayerInfo networkPlayerInfoIn) {
@@ -63,10 +65,11 @@ public abstract class MixinGuiPlayerTabOverlay extends Gui {
 
     /**
      * @author Sk1er
+     * @reason Friends first in tab
      */
     @Overwrite
     public void renderPlayerlist(int width, Scoreboard scoreboardIn, ScoreObjective scoreObjectiveIn) {
-        hyperiumGuiPlayerTabOverlay.renderPlayerlist(width, scoreboardIn, scoreObjectiveIn, this.field_175252_a, this.header, this.footer, this.mc);
+        hyperiumGuiPlayerTabOverlay.renderPlayerlist(width, scoreboardIn, scoreObjectiveIn, field_175252_a, this.header, this.footer, this.mc);
     }
 
     @Inject(method = "setHeader", at = @At("HEAD"))

@@ -32,6 +32,7 @@ import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumChatFormatting;
 import org.apache.commons.io.IOUtils;
+
 import java.io.InputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -131,7 +132,11 @@ public class PurchaseApi {
     }
 
     public void getPackageAsync(UUID uuid, Consumer<HyperiumPurchase> callback) {
-        Multithreading.runAsync(() -> callback.accept(getPackageSync(uuid)));
+        try {
+            Multithreading.runAsync(() -> callback.accept(getPackageSync(uuid)));
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
     }
 
     public HyperiumPurchase getSelf() {

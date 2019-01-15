@@ -42,18 +42,18 @@ public abstract class AnimatedDance extends AbstractPreCopyAnglesAnimationHandle
             JsonHolder out = new JsonHolder();
             out.put("time", time);
             try {
-                String[] meme = in.split(" ");
-                IChatComponent ichatcomponent = CommandBase.getChatComponentFromNthArg(null, meme, 5);
+                String[] args = in.split(" ");
+                IChatComponent ichatcomponent = CommandBase.getChatComponentFromNthArg(null, args, 5);
                 NBTTagCompound tagFromJson = JsonToNBT.getTagFromJson(ichatcomponent.getUnformattedText());
                 NBTTagCompound pose = (NBTTagCompound) tagFromJson.getTag("Pose");
-                HashMap<String, String> mappigns = new HashMap<>();
-                mappigns.put("Body", "chest");
-                mappigns.put("Head", "head");
-                mappigns.put("LeftLeg", "leftUpperLeg");
-                mappigns.put("RightLeg", "rightUpperLeg");
-                mappigns.put("LeftArm", "leftUpperArm");
-                mappigns.put("RightArm", "rightUpperArm");
-                for (String s : mappigns.keySet()) {
+                HashMap<String, String> mappings = new HashMap<>();
+                mappings.put("Body", "chest");
+                mappings.put("Head", "head");
+                mappings.put("LeftLeg", "leftUpperLeg");
+                mappings.put("RightLeg", "rightUpperLeg");
+                mappings.put("LeftArm", "leftUpperArm");
+                mappings.put("RightArm", "rightUpperArm");
+                for (String s : mappings.keySet()) {
                     JsonHolder holder = new JsonHolder();
                     NBTTagList tag = (NBTTagList) pose.getTag(s);
                     if (tag == null)
@@ -69,7 +69,7 @@ public abstract class AnimatedDance extends AbstractPreCopyAnglesAnimationHandle
                         }
                     }
                     if (holder.getKeys().size() != 0) {
-                        out.put(mappigns.get(s), holder);
+                        out.put(mappings.get(s), holder);
                     }
                 }
             } catch (NBTException | net.minecraft.command.CommandException e) {
@@ -189,12 +189,6 @@ public abstract class AnimatedDance extends AbstractPreCopyAnglesAnimationHandle
         long l = next.getTime() - prev.getTime();
         float percent = v / (float) l;
 
-
-//        next = frames.get(frames.size() - 1);
-//        percent = 1.0F;
-//        System.out.println(prev.name + " -> " + next.name + " " + percent);\
-
-
 //        Right upper arm
         adjust(player.getBipedRightUpperArmwear(), prev.getRightUpperArm().calc(percent, next.getRightUpperArm()));
         adjust(player.getBipedRightUpperArm(), prev.getRightUpperArm().calc(percent, next.getRightUpperArm()));
@@ -304,10 +298,6 @@ public abstract class AnimatedDance extends AbstractPreCopyAnglesAnimationHandle
         long l = next.getTime() - prev.getTime();
         float percent = v / (float) l;
 
-
-//        next = frames.get(frames.size() - 1);
-//        percent = 1.0F;
-//        System.out.println(prev.name + " -> " + next.name + " " + percent);
 //        Right upper arm
         adjust(player.getBipedRightUpperArm(), prev.getRightUpperArm().calc(percent, next.getRightUpperArm()));
 

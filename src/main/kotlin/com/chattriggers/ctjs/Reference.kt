@@ -29,7 +29,7 @@ object Reference {
         TriggerType.GAME_UNLOAD.triggerAll()
         TriggerType.WORLD_UNLOAD.triggerAll()
 
-        ChatLib.chat("&cReloading ct.js scripts...")
+        ChatLib.chat("&cReloading ChatTriggers...")
         Thread {
             DisplayHandler.clearDisplays()
             GuiHandler.clearGuis()
@@ -54,7 +54,7 @@ object Reference {
 
             ModuleManager.load(updateCheck)
 
-            ChatLib.chat("&aDone reloading scripts!")
+            ChatLib.chat("&aDone reloading ChatTriggers!")
 
             TriggerType.WORLD_LOAD.triggerAll()
             this.isLoaded = true

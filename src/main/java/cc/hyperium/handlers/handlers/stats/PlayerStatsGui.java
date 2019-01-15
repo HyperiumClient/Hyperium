@@ -129,7 +129,7 @@ public class PlayerStatsGui extends HyperiumGui {
             focused = null;
 
         ScaledResolution current = ResolutionUtil.current();
-        if (focused != null && new GuiBlock((int) (current.getScaledWidth() / 2 - 22 - 64), (int) (current.getScaledWidth() / 2 - 22), 73, 73 + 64).isMouseOver(mouseX, mouseY)) {
+        if (focused != null && new GuiBlock((current.getScaledWidth() / 2 - 22 - 64), (current.getScaledWidth() / 2 - 22), 73, 73 + 64).isMouseOver(mouseX, mouseY)) {
             focused = null;
             offset = 0;
         }

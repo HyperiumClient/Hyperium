@@ -133,7 +133,7 @@ public class HyperiumWorld {
         Iterator<TileEntity> iterator = tickableTileEntities.iterator();
 
         while (iterator.hasNext()) {
-            TileEntity tileentity = (TileEntity) iterator.next();
+            TileEntity tileentity = iterator.next();
 
             if (!tileentity.isInvalid() && tileentity.hasWorldObj()) {
                 BlockPos blockpos = tileentity.getPos();
@@ -172,7 +172,7 @@ public class HyperiumWorld {
 
         if (!addedTileEntityList.isEmpty()) {
             for (int j1 = 0; j1 < addedTileEntityList.size(); ++j1) {
-                TileEntity tileentity1 = (TileEntity) addedTileEntityList.get(j1);
+                TileEntity tileentity1 = addedTileEntityList.get(j1);
 
                 if (!tileentity1.isInvalid()) {
                     if (!loadedTileEntityList.contains(tileentity1)) {

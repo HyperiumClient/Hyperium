@@ -53,7 +53,7 @@ public class FPSLimiter {
 
     @InvokeEvent(priority = Priority.LOW)
     public void onChat(ChatEvent event) {
-        if (event.getChat().getUnformattedText().trim().equals("You were spawned in Limbo.")) {
+        if (event.getChat().getUnformattedText().trim().equals("You were spawned in Limbo.") || event.getChat().getUnformattedText().trim().equals("You are AFK. Move around to return from AFK.")) {
             limbo = true;
         }
     }

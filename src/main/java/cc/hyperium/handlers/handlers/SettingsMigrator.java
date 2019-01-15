@@ -28,13 +28,13 @@ public class SettingsMigrator {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            ((ChromaHUD) Hyperium.INSTANCE.getModIntegration().getChromaHUD()).setup();
+            Hyperium.INSTANCE.getModIntegration().getChromaHUD().setup();
         }
 
         File level_head = new File(config, "LEVEL_HEAD.cfg");
         if (level_head.exists()) {
             DefaultConfig defaultConfig = new DefaultConfig(level_head);
-            defaultConfig.register(((Levelhead) Hyperium.INSTANCE.getModIntegration().getLevelhead()).getConfig());
+            defaultConfig.register(Hyperium.INSTANCE.getModIntegration().getLevelhead().getConfig());
         }
 
 

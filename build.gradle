@@ -23,7 +23,7 @@ buildscript {
         jcenter()
         maven {
             name = "forge"
-            url = "http://files.minecraftforge.net/maven"
+            url = "https://files.minecraftforge.net/maven"
         }
         maven {
             name = 'sponge'
@@ -35,7 +35,6 @@ buildscript {
         maven {
             url 'https://jitpack.io'
         }
-
 
     }
     dependencies {
@@ -49,7 +48,6 @@ configurations {
     embed
     compile.extendsFrom(embed)
 }
-
 
 apply plugin: 'net.minecraftforge.gradle.tweaker-client'
 apply plugin: 'org.spongepowered.mixin'
@@ -155,4 +153,3 @@ jar {
         }
     }
 }
-

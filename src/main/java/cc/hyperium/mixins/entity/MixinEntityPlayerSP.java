@@ -62,6 +62,10 @@ public class MixinEntityPlayerSP extends AbstractClientPlayer {
         hyperiumEntityPlayerSP.onEnchantmentCritical(entityHit, this.mc);
     }
 
+    /**
+     * @author False Honesty & Sk1er
+     * @reason Post SendChatMessageEvent & NickHider
+     */
     @Overwrite
     public void sendChatMessage(String message) {
         NickHider instance = NickHider.INSTANCE;

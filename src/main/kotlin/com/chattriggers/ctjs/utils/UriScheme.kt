@@ -37,8 +37,6 @@ object UriScheme {
                     true
             )
 
-
-
             val value = """\"$javaProgram\" -cp \"$cp\" com.chattriggers.ctjs.loader.UriScheme \"%1\""""
 
             regAdd(

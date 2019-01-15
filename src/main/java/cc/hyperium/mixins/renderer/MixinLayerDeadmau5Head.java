@@ -38,7 +38,7 @@ class MixinLayerDeadmau5Head {
     }
 
     /**
-     * @author
+     * @author Cubxity
      */
     @Inject(method = "doRenderLayer", at = @At("HEAD"))
     private void doRenderLayer(AbstractClientPlayer entitylivingbaseIn, float p_177141_2_, float p_177141_3_,

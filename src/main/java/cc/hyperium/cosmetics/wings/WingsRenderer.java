@@ -48,11 +48,11 @@ public class WingsRenderer extends ModelBase {
         this.setTextureOffset("wing.skin", -10, 8);
         this.setTextureOffset("wingtip.bone", 0, 5);
         this.setTextureOffset("wingtip.skin", -10, 18);
-        (this.wing = new ModelRenderer((ModelBase) this, "wing")).setTextureSize(30, 30);
+        (this.wing = new ModelRenderer(this, "wing")).setTextureSize(30, 30);
         this.wing.setRotationPoint(-2.0F, 0.0F, 0.0F);
         this.wing.addBox("bone", -10.0F, -1.0F, -1.0F, 10, 2, 2);
         this.wing.addBox("skin", -10.0F, 0.0F, 0.5F, 10, 0, 10);
-        (this.wingTip = new ModelRenderer((ModelBase) this, "wingtip")).setTextureSize(30, 30);
+        (this.wingTip = new ModelRenderer(this, "wingtip")).setTextureSize(30, 30);
         this.wingTip.setRotationPoint(-10.0F, 0.0F, 0.0F);
         this.wingTip.addBox("bone", -10.0F, -0.5F, -0.5F, 10, 1, 1);
         this.wingTip.addBox("skin", -10.0F, 0.0F, 0.5F, 10, 0, 10);

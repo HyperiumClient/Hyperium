@@ -11,7 +11,6 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.Vec3i;
 import org.jetbrains.annotations.NotNull;
-
 import java.util.WeakHashMap;
 
 public class AnimationHandler {
@@ -72,11 +71,11 @@ public class AnimationHandler {
             final int animationDuration = ChunkAnimatorConfig.animDuration;
             if (timeDif < animationDuration) {
                 final double chunkY = renderChunk.getPosition().getY();
-                if (mode.equals("Down from sky")) {
+                if (mode.equals("Down from sky 2")) {
                     if (chunkY < Minecraft.getMinecraft().theWorld.getHorizon()) {
                         mode = "Up from ground";
                     } else {
-                        mode = "Down from sky";
+                        mode = "Down from sky 1";
                     }
                 }
                 if (mode.equals("From direction you're facing")) {
@@ -88,7 +87,7 @@ public class AnimationHandler {
                         GlStateManager.translate(0.0, -chunkY + modY, 0.0);
                         break;
                     }
-                    case "Down from sky": {
+                    case "Down from sky 1": {
                         final double modY = (256.0 - chunkY) / animationDuration * timeDif;
                         GlStateManager.translate(0.0, 256.0 - chunkY - modY, 0.0);
                         break;
