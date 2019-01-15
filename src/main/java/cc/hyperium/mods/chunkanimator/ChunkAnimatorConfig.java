@@ -4,7 +4,10 @@ package cc.hyperium.mods.chunkanimator;
  * Created by Cubxity on 12/1/2018
  */
 
-import cc.hyperium.config.*;
+import cc.hyperium.config.ConfigOpt;
+import cc.hyperium.config.SelectorSetting;
+import cc.hyperium.config.SliderSetting;
+import cc.hyperium.config.ToggleSetting;
 
 import static cc.hyperium.config.Category.CHUNK_ANIMATOR;
 

@@ -3,12 +3,7 @@ package cc.hyperium.mixinsimp.gui;
 import cc.hyperium.utils.ChatColor;
 import me.semx11.autotip.universal.ReflectionUtil;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiResourcePackAvailable;
-import net.minecraft.client.gui.GuiResourcePackSelected;
-import net.minecraft.client.gui.GuiScreenResourcePacks;
-import net.minecraft.client.gui.GuiTextField;
+import net.minecraft.client.gui.*;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.resources.ResourcePackListEntry;
 

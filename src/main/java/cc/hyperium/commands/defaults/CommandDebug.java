@@ -23,7 +23,6 @@ import cc.hyperium.gui.CrashReportGUI;
 import cc.hyperium.handlers.handlers.HypixelDetector;
 import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
 import cc.hyperium.mods.chromahud.ChromaHUDApi;
-import cc.hyperium.mods.levelhead.Levelhead;
 import cc.hyperium.mods.sk1ercommon.Sk1erMod;
 import cc.hyperium.network.NetworkHandler;
 import cc.hyperium.purchases.HyperiumPurchase;
@@ -32,7 +31,7 @@ import cc.hyperium.utils.JsonHolder;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import java.awt.Toolkit;
+import java.awt.*;
 import java.awt.datatransfer.StringSelection;
 import java.util.List;
 

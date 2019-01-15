@@ -39,13 +39,10 @@ import net.minecraft.util.EnumChatFormatting;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
-import java.awt.Color;
+import java.awt.*;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.function.Predicate;
 

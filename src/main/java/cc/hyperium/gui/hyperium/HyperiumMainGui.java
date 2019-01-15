@@ -25,15 +25,12 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
 
-import java.awt.Color;
+import java.awt.*;
 import java.io.IOException;
 import java.lang.reflect.Field;
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Queue;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 

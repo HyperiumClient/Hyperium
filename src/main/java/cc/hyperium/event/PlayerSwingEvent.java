@@ -1,11 +1,11 @@
 package cc.hyperium.event;
 
-import java.util.UUID;
-
 import com.google.common.base.Preconditions;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.Vec3;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.UUID;
 
 /**
  * Invoked once player swings

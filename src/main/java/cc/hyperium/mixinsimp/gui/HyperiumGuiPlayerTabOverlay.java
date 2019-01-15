@@ -25,7 +25,7 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.world.WorldSettings;
 
-import java.awt.Color;
+import java.awt.*;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentLinkedDeque;

@@ -171,17 +171,16 @@ package cc.hyperium.gui;
 import cc.hyperium.internal.addons.AddonManifest;
 import cc.hyperium.internal.addons.AddonMinecraftBootstrap;
 import cc.hyperium.utils.ChatColor;
-
-import java.awt.Color;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.stream.Collectors;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiScreen;
 import org.apache.commons.lang3.StringUtils;
 import org.lwjgl.input.Mouse;
+
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class GuiAddonError extends GuiScreen {
     @Override

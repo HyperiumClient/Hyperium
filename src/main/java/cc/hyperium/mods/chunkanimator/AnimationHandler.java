@@ -11,6 +11,7 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.Vec3i;
 import org.jetbrains.annotations.NotNull;
+
 import java.util.WeakHashMap;
 
 public class AnimationHandler {

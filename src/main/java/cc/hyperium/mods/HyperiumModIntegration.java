@@ -40,11 +40,9 @@ import cc.hyperium.mods.togglechat.ToggleChatMod;
 import cc.hyperium.mods.utilities.UtilitiesMod;
 import cc.hyperium.mods.victoryroyale.VictoryRoyale;
 import me.semx11.autotip.Autotip;
-import net.montoyo.mcef.MCEF;
 
 /**
- * Basic inbuilt mod handler, including many community mods such as ChromaHUD, LevelHead and
- * ToggleChat
+ * Basic inbuilt mod handler, controls most of the mods in Hyperium
  */
 public class HyperiumModIntegration {
     private final KeystrokesMod keystrokesMod;

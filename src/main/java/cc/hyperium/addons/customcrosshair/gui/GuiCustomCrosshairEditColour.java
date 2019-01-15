@@ -17,12 +17,11 @@
 
 package cc.hyperium.addons.customcrosshair.gui;
 
-import cc.hyperium.addons.customcrosshair.gui.items.*;
 import cc.hyperium.addons.customcrosshair.CustomCrosshairAddon;
+import cc.hyperium.addons.customcrosshair.gui.items.*;
 import cc.hyperium.addons.customcrosshair.utils.CustomCrosshairGraphics;
 
-import java.awt.Color;
-
+import java.awt.*;
 import java.io.IOException;
 
 public class GuiCustomCrosshairEditColour extends CustomCrosshairScreen {

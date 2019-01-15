@@ -3,16 +3,15 @@ package cc.hyperium.gui.main;
 import cc.hyperium.gui.main.components.OverlayComponent;
 import cc.hyperium.gui.main.components.OverlayToggle;
 import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
-
-import java.awt.Color;
-import java.lang.reflect.Field;
-import java.util.List;
-import java.util.function.Consumer;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import org.lwjgl.input.Mouse;
+
+import java.awt.*;
+import java.lang.reflect.Field;
+import java.util.List;
+import java.util.function.Consumer;
 
 /*
  * Created by Cubxity on 01/06/2018

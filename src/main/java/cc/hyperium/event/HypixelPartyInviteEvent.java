@@ -18,7 +18,6 @@
 package cc.hyperium.event;
 
 import com.google.common.base.Preconditions;
-
 import org.jetbrains.annotations.NotNull;
 
 /**

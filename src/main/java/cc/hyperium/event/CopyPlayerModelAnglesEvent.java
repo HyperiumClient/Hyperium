@@ -18,7 +18,6 @@
 package cc.hyperium.event;
 
 import cc.hyperium.mixinsimp.renderer.model.IMixinModelBiped;
-
 import com.google.common.base.Preconditions;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import org.jetbrains.annotations.NotNull;

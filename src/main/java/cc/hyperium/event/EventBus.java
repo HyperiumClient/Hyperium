@@ -20,7 +20,6 @@ package cc.hyperium.event;
 import com.google.common.reflect.TypeToken;
 import net.minecraft.client.Minecraft;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Comparator;
 import java.util.HashMap;

@@ -2,8 +2,6 @@ package cc.hyperium.handlers.handlers;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.config.DefaultConfig;
-import cc.hyperium.mods.chromahud.ChromaHUD;
-import cc.hyperium.mods.levelhead.Levelhead;
 
 import java.io.File;
 import java.io.IOException;

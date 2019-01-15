@@ -8,15 +8,11 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.MathHelper;
 import org.lwjgl.opengl.GL11;
 
-import java.awt.Color;
+import java.awt.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 public class StatisticViewingGui extends HyperiumGui {

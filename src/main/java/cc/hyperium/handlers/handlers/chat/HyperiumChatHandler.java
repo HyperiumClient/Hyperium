@@ -19,11 +19,10 @@ package cc.hyperium.handlers.handlers.chat;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.utils.JsonHolder;
+import net.minecraft.util.IChatComponent;
 
 import java.util.Map;
 import java.util.regex.Pattern;
-
-import net.minecraft.util.IChatComponent;
 
 /**
  * @author Sk1er

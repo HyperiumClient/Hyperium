@@ -5,7 +5,7 @@ import cc.hyperium.config.ConfigOpt;
 import cc.hyperium.config.SliderSetting;
 import cc.hyperium.config.ToggleSetting;
 
-import java.awt.Color;
+import java.awt.*;
 
 public class Colors {
     @ConfigOpt

@@ -1,9 +1,6 @@
 package cc.hyperium.mixins.client.multiplayer;
 
 import cc.hyperium.mixinsimp.client.multiplayer.HyperiumServerList;
-
-import java.util.List;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.multiplayer.ServerList;
@@ -12,6 +9,8 @@ import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
+
+import java.util.List;
 
 @Mixin(ServerList.class)
 public class MixinServerList {

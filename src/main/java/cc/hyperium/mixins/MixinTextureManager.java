@@ -18,11 +18,7 @@
 package cc.hyperium.mixins;
 
 import cc.hyperium.mixinsimp.HyperiumTextureManager;
-import net.minecraft.client.renderer.texture.DynamicTexture;
-import net.minecraft.client.renderer.texture.ITextureObject;
-import net.minecraft.client.renderer.texture.ITickable;
-import net.minecraft.client.renderer.texture.ITickableTextureObject;
-import net.minecraft.client.renderer.texture.TextureManager;
+import net.minecraft.client.renderer.texture.*;
 import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.util.ResourceLocation;
 import org.apache.logging.log4j.Logger;

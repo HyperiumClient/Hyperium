@@ -25,7 +25,7 @@ import cc.hyperium.mods.keystrokes.keys.IKey;
 import net.minecraft.client.gui.Gui;
 import org.lwjgl.input.Mouse;
 
-import java.awt.Color;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 

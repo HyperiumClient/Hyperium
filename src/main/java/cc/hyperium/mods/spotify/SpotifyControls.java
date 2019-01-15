@@ -30,9 +30,7 @@ import cc.hyperium.mods.AbstractMod;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.utils.BetterJsonObject;
 import cc.hyperium.utils.ChatColor;
-
 import com.google.gson.JsonObject;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiChat;
@@ -43,12 +41,11 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.imageio.ImageIO;
-import java.awt.Color;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;

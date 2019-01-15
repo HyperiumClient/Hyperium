@@ -1,11 +1,7 @@
 package cc.hyperium.mixins.gui;
 
 import cc.hyperium.mixinsimp.gui.HyperiumGuiScreenResourcePacks;
-import net.minecraft.client.gui.GuiResourcePackAvailable;
-import net.minecraft.client.gui.GuiResourcePackSelected;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.GuiScreenResourcePacks;
-import net.minecraft.client.gui.GuiTextField;
+import net.minecraft.client.gui.*;
 import net.minecraft.client.resources.ResourcePackListEntry;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;

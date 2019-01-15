@@ -6,7 +6,7 @@ import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.TickEvent;
 import cc.hyperium.mods.AbstractMod;
 
-import java.awt.Color;
+import java.awt.*;
 
 public class GlintColorizer extends AbstractMod {
 

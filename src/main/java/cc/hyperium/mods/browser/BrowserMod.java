@@ -34,34 +34,22 @@ import cc.hyperium.mods.browser.keybinds.BrowserBind;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import net.minecraft.client.Minecraft;
 import net.montoyo.mcef.MCEF;
-import net.montoyo.mcef.api.API;
-import net.montoyo.mcef.api.IBrowser;
-import net.montoyo.mcef.api.IDisplayHandler;
-import net.montoyo.mcef.api.IJSQueryCallback;
-import net.montoyo.mcef.api.IJSQueryHandler;
-import net.montoyo.mcef.api.MCEFApi;
+import net.montoyo.mcef.api.*;
 import org.apache.commons.lang3.tuple.ImmutableTriple;
 import org.apache.commons.lang3.tuple.MutableTriple;
 import org.apache.commons.lang3.tuple.Triple;
 import org.lwjgl.input.Keyboard;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.WindowConstants;
-import java.awt.Frame;
-import java.awt.Robot;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.security.AccessController;
 import java.security.PrivilegedActionException;
 import java.security.PrivilegedExceptionAction;
-import java.util.ArrayDeque;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Queue;
+import java.util.*;
 
 /**
  * @author Koding

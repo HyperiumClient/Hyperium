@@ -17,11 +17,7 @@
 
 package cc.hyperium.mods.chromahud;
 
-import cc.hyperium.mods.chromahud.api.ButtonConfig;
-import cc.hyperium.mods.chromahud.api.ChromaHUDParser;
-import cc.hyperium.mods.chromahud.api.DisplayItem;
-import cc.hyperium.mods.chromahud.api.StringConfig;
-import cc.hyperium.mods.chromahud.api.TextConfig;
+import cc.hyperium.mods.chromahud.api.*;
 import cc.hyperium.utils.JsonHolder;
 import com.google.gson.JsonArray;
 

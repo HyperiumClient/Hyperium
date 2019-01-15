@@ -4,9 +4,6 @@ import cc.hyperium.config.Settings;
 import cc.hyperium.event.ChatEvent;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.mixins.gui.IMixinGuiNewChat;
-
-import java.util.List;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ChatLine;
 import net.minecraft.client.gui.Gui;
@@ -17,6 +14,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.util.MathHelper;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import java.util.List;
 
 public class HyperiumGuiNewChat {
     private GuiNewChat parent;

@@ -7,24 +7,11 @@ import cc.hyperium.config.ToggleSetting;
 import cc.hyperium.gui.CapesGui;
 import cc.hyperium.gui.hyperium.HyperiumMainGui;
 import cc.hyperium.gui.hyperium.RGBFieldSet;
-import cc.hyperium.gui.hyperium.components.AbstractTab;
-import cc.hyperium.gui.hyperium.components.AbstractTabComponent;
-import cc.hyperium.gui.hyperium.components.CollapsibleTabComponent;
-import cc.hyperium.gui.hyperium.components.LinkComponent;
-import cc.hyperium.gui.hyperium.components.RGBComponent;
-import cc.hyperium.gui.hyperium.components.SelectorComponent;
-import cc.hyperium.gui.hyperium.components.SliderComponent;
-import cc.hyperium.gui.hyperium.components.ToggleComponent;
+import cc.hyperium.gui.hyperium.components.*;
 import net.minecraft.client.resources.I18n;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 

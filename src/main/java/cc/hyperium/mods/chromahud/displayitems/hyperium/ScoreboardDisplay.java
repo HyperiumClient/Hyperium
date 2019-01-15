@@ -32,7 +32,7 @@ import net.minecraft.scoreboard.ScorePlayerTeam;
 import net.minecraft.scoreboard.Scoreboard;
 import net.minecraft.util.EnumChatFormatting;
 
-import java.awt.Color;
+import java.awt.*;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;

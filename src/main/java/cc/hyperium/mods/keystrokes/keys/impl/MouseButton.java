@@ -23,7 +23,7 @@ import net.minecraft.client.gui.Gui;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
-import java.awt.Color;
+import java.awt.*;
 
 public class MouseButton extends IKey {
 

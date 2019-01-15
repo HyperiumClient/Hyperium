@@ -5,7 +5,7 @@ import cc.hyperium.utils.GraphicsUtil;
 import cc.hyperium.utils.RenderUtils;
 import org.lwjgl.opengl.GL11;
 
-import java.awt.Color;
+import java.awt.*;
 import java.util.function.Consumer;
 
 /*

@@ -2,8 +2,6 @@ package cc.hyperium.addons.bossbar.gui;
 
 import cc.hyperium.addons.bossbar.BossbarAddon;
 import cc.hyperium.addons.bossbar.config.BossbarConfig;
-import cc.hyperium.addons.sidebar.gui.screen.GuiScreenBackground;
-import cc.hyperium.config.ConfigOpt;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.util.EnumChatFormatting;

@@ -1,16 +1,15 @@
 package cc.hyperium.gui;
 
-import cc.hyperium.styles.GuiStyle;
 import cc.hyperium.Hyperium;
 import cc.hyperium.Metadata;
 import cc.hyperium.config.Settings;
 import cc.hyperium.gui.playerrenderer.GuiPlayerRenderer;
 import cc.hyperium.purchases.PurchaseApi;
+import cc.hyperium.styles.GuiStyle;
 import cc.hyperium.utils.HyperiumFontRenderer;
 import cc.hyperium.utils.JsonHolder;
 import com.mojang.realmsclient.gui.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
@@ -27,7 +26,7 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.Project;
 
 import javax.imageio.ImageIO;
-import java.awt.Font;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;

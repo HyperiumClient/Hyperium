@@ -11,8 +11,7 @@ import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
 
-import java.awt.Color;
-import java.awt.Font;
+import java.awt.*;
 
 /**
  * Created by mitchellkatz on 6/25/18. Designed for production use on Sk1er.club

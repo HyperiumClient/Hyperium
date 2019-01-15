@@ -43,8 +43,7 @@ import net.minecraftforge.fml.client.config.GuiSlider;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.lwjgl.input.Keyboard;
 
-import java.awt.Color;
-import java.awt.Desktop;
+import java.awt.*;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;

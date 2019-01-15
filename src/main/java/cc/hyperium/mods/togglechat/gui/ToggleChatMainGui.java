@@ -25,7 +25,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 
-import java.awt.Color;
+import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 

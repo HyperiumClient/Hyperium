@@ -1,9 +1,5 @@
 package cc.hyperium.mods.motionblur;
 
-import net.minecraft.client.renderer.EntityRenderer;
-import net.minecraft.util.ResourceLocation;
-
-import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 public class Reflection {

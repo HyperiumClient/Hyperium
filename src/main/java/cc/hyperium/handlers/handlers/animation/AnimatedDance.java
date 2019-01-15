@@ -18,11 +18,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.IChatComponent;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Scanner;
-import java.util.UUID;
+import java.util.*;
 
 public abstract class AnimatedDance extends AbstractPreCopyAnglesAnimationHandler {
 

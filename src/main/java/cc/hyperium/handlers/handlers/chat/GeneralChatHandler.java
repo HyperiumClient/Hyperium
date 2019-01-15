@@ -18,13 +18,12 @@
 package cc.hyperium.handlers.handlers.chat;
 
 import cc.hyperium.Hyperium;
+import cc.hyperium.config.Settings;
 import cc.hyperium.event.ChatEvent;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.TickEvent;
 import cc.hyperium.utils.ChatColor;
 import cc.hyperium.utils.JsonHolder;
-import cc.hyperium.config.Settings;
-import cc.hyperium.config.ConfigOpt;
 import com.google.gson.JsonParser;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ChatComponentText;

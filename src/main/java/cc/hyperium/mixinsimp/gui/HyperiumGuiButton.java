@@ -1,17 +1,16 @@
 package cc.hyperium.mixinsimp.gui;
 
-import static cc.hyperium.gui.HyperiumGui.clamp;
-import static cc.hyperium.gui.HyperiumGui.easeOut;
-import static net.minecraft.client.gui.Gui.drawRect;
-
 import cc.hyperium.config.Settings;
 import cc.hyperium.mixins.gui.MixinGuiButton2;
-
-import java.awt.Color;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
+
+import java.awt.*;
+
+import static cc.hyperium.gui.HyperiumGui.clamp;
+import static cc.hyperium.gui.HyperiumGui.easeOut;
+import static net.minecraft.client.gui.Gui.drawRect;
 
 public class HyperiumGuiButton {
     private final int hoverColor = new Color(0, 0, 0, 120).getRGB();

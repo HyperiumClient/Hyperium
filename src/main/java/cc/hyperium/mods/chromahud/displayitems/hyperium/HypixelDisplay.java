@@ -18,10 +18,10 @@
 package cc.hyperium.mods.chromahud.displayitems.hyperium;
 
 import cc.hyperium.Hyperium;
+import cc.hyperium.config.Settings;
 import cc.hyperium.mods.chromahud.ElementRenderer;
 import cc.hyperium.mods.chromahud.api.DisplayItem;
 import cc.hyperium.utils.JsonHolder;
-import cc.hyperium.config.Settings;
 
 public class HypixelDisplay extends DisplayItem {
     public HypixelDisplay(JsonHolder data, int ordinal) {

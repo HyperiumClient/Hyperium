@@ -169,13 +169,12 @@
 package cc.hyperium.mixinsimp.client.resources;
 
 import cc.hyperium.mixins.client.resources.IMixinAbstractResourcePack;
-
-import java.awt.Graphics;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-
 import net.minecraft.client.renderer.texture.TextureUtil;
 import net.minecraft.client.resources.AbstractResourcePack;
+
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 public class HyperiumAbstractResourcePack {
 

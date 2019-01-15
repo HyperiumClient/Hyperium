@@ -18,13 +18,12 @@
 package cc.hyperium.handlers.handlers.keybinds;
 
 import cc.hyperium.Hyperium;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import org.apache.commons.text.WordUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Our implementation of the normal Minecraft KeyBinding, uses anonymous

@@ -20,7 +20,6 @@ package cc.hyperium.addons.sidebar.gui.screen;
 import cc.hyperium.addons.sidebar.SidebarAddon;
 import cc.hyperium.addons.sidebar.gui.GuiSidebar;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.fml.client.config.GuiSlider;
 

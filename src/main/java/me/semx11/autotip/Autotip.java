@@ -38,7 +38,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.util.IChatComponent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -50,7 +49,7 @@ public class Autotip {
     static final String MOD_ID = "autotip";
     static final String NAME = "Autotip";
     static final String VERSION = "3.0";
-    static final String ACCEPTED_VERSIONS = "[1.8, 1.12.2]";
+    static final String ACCEPTED_VERSIONS = "[1.8.9]";
 
     public static IChatComponent tabHeader;
 

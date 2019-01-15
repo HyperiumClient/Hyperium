@@ -17,11 +17,11 @@
 
 package cc.hyperium.mods.chromahud.displayitems.chromahud;
 
+import cc.hyperium.config.Settings;
 import cc.hyperium.mods.chromahud.ElementRenderer;
 import cc.hyperium.mods.chromahud.api.DisplayItem;
 import cc.hyperium.utils.JsonHolder;
 import net.minecraft.client.Minecraft;
-import cc.hyperium.config.Settings;
 
 /**
  * @author Sk1er

@@ -26,11 +26,10 @@ import cc.hyperium.netty.NettyClient;
 import cc.hyperium.netty.packet.packets.serverbound.ServerCrossDataPacket;
 import cc.hyperium.utils.JsonHolder;
 import cc.hyperium.utils.UUIDUtil;
-
-import java.util.UUID;
-
 import net.minecraft.client.Minecraft;
 import org.lwjgl.input.Keyboard;
+
+import java.util.UUID;
 
 public class TPoseKeybind extends HyperiumBind {
 

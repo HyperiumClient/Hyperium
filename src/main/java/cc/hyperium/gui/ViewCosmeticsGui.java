@@ -10,7 +10,7 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
 
-import java.awt.Color;
+import java.awt.*;
 import java.text.DecimalFormat;
 
 public class ViewCosmeticsGui extends HyperiumGui {

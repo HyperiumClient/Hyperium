@@ -18,11 +18,7 @@
 package cc.hyperium.utils.mods;
 
 import cc.hyperium.config.Settings;
-import cc.hyperium.event.ChatEvent;
-import cc.hyperium.event.InvokeEvent;
-import cc.hyperium.event.Priority;
-import cc.hyperium.event.SpawnpointChangeEvent;
-import cc.hyperium.event.TickEvent;
+import cc.hyperium.event.*;
 import org.lwjgl.opengl.Display;
 
 public class FPSLimiter {

@@ -2,9 +2,7 @@ package cc.hyperium.event;
 
 import com.google.common.base.Preconditions;
 import com.mojang.authlib.GameProfile;
-
 import net.minecraft.util.ResourceLocation;
-
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

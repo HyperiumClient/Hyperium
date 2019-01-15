@@ -1,11 +1,10 @@
 package cc.hyperium.event;
 
 import cc.hyperium.purchases.HyperiumPurchase;
-
-import java.util.UUID;
-
 import com.google.common.base.Preconditions;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.UUID;
 
 public final class PurchaseLoadEvent extends Event {
 

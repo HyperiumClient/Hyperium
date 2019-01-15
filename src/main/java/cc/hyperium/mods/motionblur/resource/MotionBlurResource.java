@@ -2,14 +2,13 @@ package cc.hyperium.mods.motionblur.resource;
 
 
 import cc.hyperium.config.Settings;
-
-import java.io.InputStream;
-import java.util.Locale;
-
 import net.minecraft.client.resources.IResource;
 import net.minecraft.client.resources.data.IMetadataSection;
 import net.minecraft.util.ResourceLocation;
 import org.apache.commons.io.IOUtils;
+
+import java.io.InputStream;
+import java.util.Locale;
 
 public class MotionBlurResource implements IResource {
 

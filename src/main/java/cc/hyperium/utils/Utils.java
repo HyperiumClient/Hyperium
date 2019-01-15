@@ -7,13 +7,6 @@ import cc.hyperium.purchases.EnumPurchaseType;
 import cc.hyperium.purchases.HyperiumPurchase;
 import cc.hyperium.purchases.PurchaseApi;
 import cc.hyperium.purchases.packages.EarsCosmetic;
-
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.ByteBuffer;
-import javax.imageio.ImageIO;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -21,6 +14,12 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.input.Cursor;
 import org.lwjgl.input.Mouse;
+
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
 
 public class Utils {
 

@@ -1,6 +1,5 @@
 package cc.hyperium.handlers.handlers.animation;
 
-import cc.hyperium.cosmetics.CosmeticsUtil;
 import cc.hyperium.gui.HyperiumGui;
 import cc.hyperium.mixinsimp.renderer.model.IMixinModelBiped;
 import cc.hyperium.mixinsimp.renderer.model.IMixinModelPlayer;

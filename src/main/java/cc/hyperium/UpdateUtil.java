@@ -17,8 +17,7 @@
 
 package cc.hyperium;
 
-import javax.swing.JOptionPane;
-import javax.swing.JTextArea;
+import javax.swing.*;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;

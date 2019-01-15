@@ -182,7 +182,7 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.gui.inventory.GuiInventory;
 
-import java.awt.Color;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;

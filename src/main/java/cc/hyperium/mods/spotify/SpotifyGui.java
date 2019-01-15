@@ -18,16 +18,13 @@
 package cc.hyperium.mods.spotify;
 
 import cc.hyperium.gui.HyperiumGui;
-
-import java.awt.Color;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.ScaledResolution;
-
-import java.io.IOException;
-
 import org.lwjgl.input.Mouse;
+
+import java.awt.*;
+import java.io.IOException;
 
 public class SpotifyGui extends HyperiumGui {
 

@@ -4,14 +4,13 @@ import cc.hyperium.gui.HyperiumGui;
 import cc.hyperium.mixinsimp.client.GlStateModifier;
 import cc.hyperium.utils.HyperiumFontRenderer;
 import cc.hyperium.utils.RenderUtils;
+import net.minecraft.client.gui.Gui;
+import net.minecraft.client.renderer.GlStateManager;
 
-import java.awt.Color;
+import java.awt.*;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
-
-import net.minecraft.client.gui.Gui;
-import net.minecraft.client.renderer.GlStateManager;
 
 /*
  * Created by Sk1er on today (It will be right for a little bit)

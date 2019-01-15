@@ -17,14 +17,13 @@
 
 package cc.hyperium.addons.customcrosshair.gui.items;
 
-import cc.hyperium.addons.customcrosshair.gui.GuiCustomCrosshairEditColour;
 import cc.hyperium.addons.customcrosshair.CustomCrosshairAddon;
+import cc.hyperium.addons.customcrosshair.gui.GuiCustomCrosshairEditColour;
 import cc.hyperium.addons.customcrosshair.utils.CustomCrosshairGraphics;
-
-import java.awt.Color;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
+
+import java.awt.*;
 
 public class CCEditColourButton extends CCGuiItem {
 

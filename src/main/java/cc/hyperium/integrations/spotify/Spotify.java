@@ -30,7 +30,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 import org.apache.commons.lang3.SystemUtils;
 
-import java.awt.Desktop;
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;

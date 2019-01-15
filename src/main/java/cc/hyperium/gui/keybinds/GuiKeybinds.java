@@ -10,8 +10,7 @@ import net.minecraft.client.gui.GuiButton;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
-import java.awt.Color;
-import java.awt.Font;
+import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;

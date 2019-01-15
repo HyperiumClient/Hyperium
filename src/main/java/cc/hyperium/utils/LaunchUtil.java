@@ -1,12 +1,11 @@
 package cc.hyperium.utils;
 
 import cc.hyperium.Hyperium;
+import net.minecraft.client.Minecraft;
 
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLClassLoader;
-
-import net.minecraft.client.Minecraft;
 
 /**
  * @author KodingKing

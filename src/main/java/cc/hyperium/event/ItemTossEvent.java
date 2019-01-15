@@ -18,10 +18,8 @@
 package cc.hyperium.event;
 
 import com.google.common.base.Preconditions;
-
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
-
 import org.jetbrains.annotations.NotNull;
 
 public final class ItemTossEvent extends Event {

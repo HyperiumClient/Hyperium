@@ -17,10 +17,10 @@
 
 package cc.hyperium.event;
 
-import java.util.List;
-
 import com.google.common.base.Preconditions;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
 
 /**
  * Invoked when player(s) win a game

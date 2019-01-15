@@ -182,15 +182,13 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 
 import javax.annotation.Nullable;
-import java.awt.Color;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
-import static cc.hyperium.gui.HyperiumGui.clamp;
-import static cc.hyperium.gui.HyperiumGui.easeOut;
-import static cc.hyperium.gui.HyperiumGui.trimString;
+import static cc.hyperium.gui.HyperiumGui.*;
 
 public class NotificationCenter extends Gui {
     /**

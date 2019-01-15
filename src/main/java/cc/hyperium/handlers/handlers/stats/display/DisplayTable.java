@@ -5,7 +5,7 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.EnumChatFormatting;
 
-import java.awt.Color;
+import java.awt.*;
 import java.util.List;
 
 public class DisplayTable extends StatsDisplayItem {

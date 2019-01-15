@@ -1,9 +1,9 @@
 package cc.hyperium.gui.keybinds;
 
-import java.awt.Color;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
+
+import java.awt.*;
 
 public class KeybindEntry {
     private String label;

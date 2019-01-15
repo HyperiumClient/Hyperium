@@ -2,9 +2,6 @@ package cc.hyperium.mods.blockoverlay;
 
 import cc.hyperium.event.DrawBlockHighlightEvent;
 import cc.hyperium.event.InvokeEvent;
-
-import java.awt.Color;
-
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderGlobal;
@@ -15,6 +12,8 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MovingObjectPosition;
 import org.lwjgl.opengl.GL11;
+
+import java.awt.*;
 
 public class BlockOverlayRender {
     private BlockOverlay mod;

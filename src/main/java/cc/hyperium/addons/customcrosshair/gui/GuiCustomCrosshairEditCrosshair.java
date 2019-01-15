@@ -17,22 +17,14 @@
 
 package cc.hyperium.addons.customcrosshair.gui;
 
-import cc.hyperium.addons.customcrosshair.gui.items.CCButton;
-import cc.hyperium.addons.customcrosshair.gui.items.CCEditColourButton;
-import cc.hyperium.addons.customcrosshair.gui.items.CCGuiItem;
-import cc.hyperium.addons.customcrosshair.gui.items.CCHelpButton;
-import cc.hyperium.addons.customcrosshair.gui.items.CCScrollbar;
-import cc.hyperium.addons.customcrosshair.gui.items.CCSlider;
-import cc.hyperium.addons.customcrosshair.gui.items.CCTickbox;
 import cc.hyperium.addons.customcrosshair.CustomCrosshairAddon;
+import cc.hyperium.addons.customcrosshair.gui.items.*;
 import cc.hyperium.addons.customcrosshair.utils.CustomCrosshairGraphics;
+import org.lwjgl.input.Mouse;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import net.minecraft.client.Minecraft;
-import org.lwjgl.input.Mouse;
 
 public class GuiCustomCrosshairEditCrosshair extends CustomCrosshairScreen {
 

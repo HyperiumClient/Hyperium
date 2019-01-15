@@ -27,11 +27,8 @@ import cc.hyperium.event.InvokeEvent;
 import net.minecraft.client.Minecraft;
 
 import javax.imageio.ImageIO;
-import javax.swing.JOptionPane;
-import java.awt.MenuItem;
-import java.awt.PopupMenu;
-import java.awt.SystemTray;
-import java.awt.TrayIcon;
+import javax.swing.*;
+import java.awt.*;
 
 // This class is for the Hyperium tray icon code.  
 

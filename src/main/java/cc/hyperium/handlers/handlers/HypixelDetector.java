@@ -19,21 +19,16 @@ package cc.hyperium.handlers.handlers;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.config.Settings;
-import cc.hyperium.event.EventBus;
-import cc.hyperium.event.InvokeEvent;
-import cc.hyperium.event.JoinHypixelEvent;
+import cc.hyperium.event.*;
 import cc.hyperium.event.JoinHypixelEvent.ServerVerificationMethod;
-import cc.hyperium.event.ServerJoinEvent;
-import cc.hyperium.event.ServerLeaveEvent;
-import cc.hyperium.event.SingleplayerJoinEvent;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.util.ResourceLocation;
-import java.awt.Color;
-import java.awt.Desktop;
+
+import java.awt.*;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;

@@ -21,7 +21,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import org.lwjgl.opengl.GL11;
 
-import java.awt.Color;
+import java.awt.*;
 import java.util.UUID;
 
 public class HyperiumRender<T extends Entity> {

@@ -3,14 +3,13 @@ package cc.hyperium.mods.autofriend.command;
 import cc.hyperium.commands.BaseCommand;
 import cc.hyperium.mods.autofriend.AutoFriendUtils;
 import cc.hyperium.mods.autofriend.AutofriendMod;
-
-import java.util.regex.Pattern;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.event.ClickEvent;
 import net.minecraft.event.HoverEvent;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
+
+import java.util.regex.Pattern;
 
 public class AutofriendCommand implements BaseCommand {
 

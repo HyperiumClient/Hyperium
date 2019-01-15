@@ -3,8 +3,7 @@ package cc.hyperium.gui.main.components;
 import cc.hyperium.utils.HyperiumFontRenderer;
 import net.minecraft.client.gui.Gui;
 
-import java.awt.Color;
-import java.awt.Font;
+import java.awt.*;
 
 /*
  * Created by Cubxity on 01/06/2018

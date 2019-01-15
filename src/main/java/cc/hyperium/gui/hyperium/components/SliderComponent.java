@@ -6,7 +6,7 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
 import org.lwjgl.input.Mouse;
 
-import java.awt.Color;
+import java.awt.*;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;

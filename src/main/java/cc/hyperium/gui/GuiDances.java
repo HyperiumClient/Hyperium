@@ -19,7 +19,7 @@ import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.util.MathHelper;
 import org.lwjgl.opengl.GL11;
 
-import java.awt.Color;
+import java.awt.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.function.Consumer;

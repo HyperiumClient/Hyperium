@@ -1,9 +1,6 @@
 package cc.hyperium.mods.itemphysic.physics;
 
 import cc.hyperium.mods.itemphysic.ItemDummyContainer;
-
-import java.util.Random;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
@@ -15,6 +12,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
+
+import java.util.Random;
 
 public class ClientPhysic {
 

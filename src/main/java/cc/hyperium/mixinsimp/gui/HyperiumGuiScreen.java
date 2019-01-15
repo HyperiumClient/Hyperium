@@ -1,21 +1,11 @@
 package cc.hyperium.mixinsimp.gui;
 
 import cc.hyperium.config.Settings;
-import cc.hyperium.event.ActionPerformedEvent;
-import cc.hyperium.event.EventBus;
-import cc.hyperium.event.GuiClickEvent;
-import cc.hyperium.event.GuiDrawScreenEvent;
-import cc.hyperium.event.GuiKeyTypedEvent;
-import cc.hyperium.event.InitGuiEvent;
+import cc.hyperium.event.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.renderer.EntityRenderer;
-import net.minecraft.util.ResourceLocation;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 
 public class HyperiumGuiScreen {
     private GuiScreen parent;

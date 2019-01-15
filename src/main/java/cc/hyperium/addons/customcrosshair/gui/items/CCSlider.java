@@ -19,10 +19,9 @@ package cc.hyperium.addons.customcrosshair.gui.items;
 
 import cc.hyperium.addons.customcrosshair.CustomCrosshairAddon;
 import cc.hyperium.addons.customcrosshair.utils.CustomCrosshairGraphics;
-
-import java.awt.Color;
-
 import net.minecraft.client.gui.GuiScreen;
+
+import java.awt.*;
 
 public class CCSlider extends CCGuiItem {
     private double minValue;

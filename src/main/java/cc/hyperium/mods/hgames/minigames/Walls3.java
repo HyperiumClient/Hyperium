@@ -1,7 +1,5 @@
 package cc.hyperium.mods.hgames.minigames;
 
-import cc.hyperium.Hyperium;
-import cc.hyperium.mods.chromahud.ElementRenderer;
 import cc.hyperium.mods.chromahud.displayitems.hyperium.MinigameDisplay;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.IChatComponent;

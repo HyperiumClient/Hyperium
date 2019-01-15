@@ -18,26 +18,11 @@
 package cc.hyperium.config;
 
 import cc.hyperium.Hyperium;
-
 import cc.hyperium.styles.ButtonStyle;
 import cc.hyperium.styles.ButtonType;
 import cc.hyperium.styles.GuiStyle;
 
-import static cc.hyperium.config.Category.ANIMATIONS;
-import static cc.hyperium.config.Category.BUTTONS;
-import static cc.hyperium.config.Category.CHROMAHUD;
-import static cc.hyperium.config.Category.COSMETICS;
-import static cc.hyperium.config.Category.GENERAL;
-import static cc.hyperium.config.Category.HYPIXEL;
-import static cc.hyperium.config.Category.IMPROVEMENTS;
-import static cc.hyperium.config.Category.INTEGRATIONS;
-import static cc.hyperium.config.Category.ITEM_PHYSIC;
-import static cc.hyperium.config.Category.MENUS;
-import static cc.hyperium.config.Category.MISC;
-import static cc.hyperium.config.Category.REACH;
-import static cc.hyperium.config.Category.TOGGLESPRINT;
-import static cc.hyperium.config.Category.VANILLA_ENHANCEMENTS;
-import static cc.hyperium.config.Category.VICTORYROYALE;
+import static cc.hyperium.config.Category.*;
 
 /*
  * Created by Cubxity on 03/06/2018

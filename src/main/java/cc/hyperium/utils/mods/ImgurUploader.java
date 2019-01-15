@@ -25,13 +25,10 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.event.ClickEvent;
 import net.minecraft.util.ChatComponentText;
 import org.apache.commons.codec.binary.Base64;
+
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;

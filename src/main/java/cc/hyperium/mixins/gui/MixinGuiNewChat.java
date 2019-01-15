@@ -18,9 +18,6 @@
 package cc.hyperium.mixins.gui;
 
 import cc.hyperium.mixinsimp.gui.HyperiumGuiNewChat;
-
-import java.util.List;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ChatLine;
 import net.minecraft.client.gui.GuiNewChat;
@@ -32,6 +29,8 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import java.util.List;
 
 @Mixin(GuiNewChat.class)
 public abstract class MixinGuiNewChat {

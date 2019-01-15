@@ -16,7 +16,7 @@ import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.server.MinecraftServer;
 
-import java.awt.Color;
+import java.awt.*;
 import java.text.DecimalFormat;
 import java.util.List;
 

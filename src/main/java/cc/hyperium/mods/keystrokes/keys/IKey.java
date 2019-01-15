@@ -21,7 +21,7 @@ import cc.hyperium.mods.keystrokes.KeystrokesMod;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 
-import java.awt.Color;
+import java.awt.*;
 
 /**
  * Used as the base class for all keys with a few essential methods and fields

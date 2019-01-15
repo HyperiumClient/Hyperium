@@ -20,7 +20,7 @@ package cc.hyperium.gui.font;
 
 import cc.hyperium.utils.HyperiumFontRenderer;
 
-import java.awt.Font;
+import java.awt.*;
 
 public enum Fonts {
     ARIAL(new Font("Monsterrat", Font.BOLD, 20));

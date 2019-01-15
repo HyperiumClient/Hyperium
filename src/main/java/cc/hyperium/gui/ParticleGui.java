@@ -30,7 +30,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
 import org.lwjgl.input.Keyboard;
 
-import java.awt.Color;
+import java.awt.*;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Objects;

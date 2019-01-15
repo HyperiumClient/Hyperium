@@ -24,8 +24,7 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
 
-import java.awt.Color;
-import java.awt.Font;
+import java.awt.*;
 
 public class CustomFontButton extends GuiButton {
     private final int hoverColor = new Color(0, 0, 0, 60).getRGB();

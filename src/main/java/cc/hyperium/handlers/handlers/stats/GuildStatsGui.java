@@ -9,7 +9,7 @@ import club.sk1er.website.utils.WebsiteUtils;
 import net.hypixel.api.GameType;
 import net.minecraft.client.gui.ScaledResolution;
 
-import java.awt.Color;
+import java.awt.*;
 import java.util.Date;
 import java.util.List;
 

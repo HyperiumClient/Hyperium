@@ -5,8 +5,7 @@ import cc.hyperium.commands.CommandException;
 import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
 import net.minecraft.client.Minecraft;
 
-import java.awt.Desktop;
-import java.awt.Toolkit;
+import java.awt.*;
 import java.awt.datatransfer.StringSelection;
 import java.io.BufferedReader;
 import java.io.File;

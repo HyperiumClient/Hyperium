@@ -26,7 +26,6 @@ import net.minecraft.util.IntHashMap;
 import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
 import net.minecraft.world.border.WorldBorder;
-import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.storage.WorldInfo;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;

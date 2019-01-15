@@ -3,7 +3,7 @@ package cc.hyperium.handlers.handlers.stats.display;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 
-import java.awt.Color;
+import java.awt.*;
 
 public class DisplayLine extends StatsDisplayItem {
     private String value;

@@ -17,8 +17,7 @@
 
 package cc.hyperium.utils;
 
-import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 
 /**

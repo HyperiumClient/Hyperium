@@ -17,9 +17,6 @@
 
 package cc.hyperium.mixinsimp.client.multiplayer;
 
-import java.io.File;
-import java.util.List;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.multiplayer.ServerList;
@@ -27,6 +24,9 @@ import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import org.apache.logging.log4j.Logger;
+
+import java.io.File;
+import java.util.List;
 
 public class HyperiumServerList {
 

@@ -3,7 +3,6 @@ package cc.hyperium.mixins.renderer;
 import cc.hyperium.event.EntityRenderEvent;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.mixinsimp.renderer.HyperiumRender;
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;

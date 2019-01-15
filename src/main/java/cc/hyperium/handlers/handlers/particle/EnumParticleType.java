@@ -1,35 +1,6 @@
 package cc.hyperium.handlers.handlers.particle;
 
-import cc.hyperium.handlers.handlers.particle.particle.CloudParticle;
-import cc.hyperium.handlers.handlers.particle.particle.CritParticle;
-import cc.hyperium.handlers.handlers.particle.particle.ExplosionParticle;
-import cc.hyperium.handlers.handlers.particle.particle.FireworkSparkParticle;
-import cc.hyperium.handlers.handlers.particle.particle.FlameParticle;
-import cc.hyperium.handlers.handlers.particle.particle.FootstepParticle;
-import cc.hyperium.handlers.handlers.particle.particle.HeartParticle;
-import cc.hyperium.handlers.handlers.particle.particle.LavaDripParticle;
-import cc.hyperium.handlers.handlers.particle.particle.LavaParticle;
-import cc.hyperium.handlers.handlers.particle.particle.NoteParticle;
-import cc.hyperium.handlers.handlers.particle.particle.PortalParticle;
-import cc.hyperium.handlers.handlers.particle.particle.RedstoneParticle;
-import cc.hyperium.handlers.handlers.particle.particle.SlimeParticle;
-import cc.hyperium.handlers.handlers.particle.particle.SmokeLargeParticle;
-import cc.hyperium.handlers.handlers.particle.particle.SmokeNormalParticle;
-import cc.hyperium.handlers.handlers.particle.particle.SnowShovelParticle;
-import cc.hyperium.handlers.handlers.particle.particle.SnowballParticle;
-import cc.hyperium.handlers.handlers.particle.particle.SpellInstantParticle;
-import cc.hyperium.handlers.handlers.particle.particle.SpellMobAmbientParticle;
-import cc.hyperium.handlers.handlers.particle.particle.SpellMobParticle;
-import cc.hyperium.handlers.handlers.particle.particle.SpellParticle;
-import cc.hyperium.handlers.handlers.particle.particle.SpellWitchParticle;
-import cc.hyperium.handlers.handlers.particle.particle.SuspendedDepthParticle;
-import cc.hyperium.handlers.handlers.particle.particle.SuspendedParticle;
-import cc.hyperium.handlers.handlers.particle.particle.TownAuraParticle;
-import cc.hyperium.handlers.handlers.particle.particle.VillagerAngryParticle;
-import cc.hyperium.handlers.handlers.particle.particle.VillagerHappyParticle;
-import cc.hyperium.handlers.handlers.particle.particle.WaterBubbleParticle;
-import cc.hyperium.handlers.handlers.particle.particle.WaterDripParticle;
-import cc.hyperium.handlers.handlers.particle.particle.WaterDropParticle;
+import cc.hyperium.handlers.handlers.particle.particle.*;
 
 /**
  * Created by mitchellkatz on 6/25/18. Designed for production use on Sk1er.club
