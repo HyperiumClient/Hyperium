@@ -59,9 +59,10 @@ object UriScheme {
 
     @Throws(IOException::class, InterruptedException::class)
     private fun regAdd(args: String) {
-        val process = Runtime.getRuntime().exec("REG ADD HKCU\\Software\\Classes\\chattriggers$args")
-        if (process.waitFor() != 0) {
-            throw IOException("Error editing registry!")
+        try {
+            val process = Runtime.getRuntime().exec("REG ADD HKCU\\Software\\Classes\\chattriggers$args")
+        } catch (ex: IOException) {
+            ex.printStackTrace()
         }
     }
 

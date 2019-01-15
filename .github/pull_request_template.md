@@ -10,7 +10,7 @@
 
 ## Checklist  
 <!-- You don't have to fill this out if you don't want to - just some things to keep in mind -->
-- [] All *new* Java and Kotlin files have the right copyright header  
-- [] I have tested my code by building it locally  
-- [] This is not a work-in-progress and is ready for merge  
-- [] I am submitting the PR under and understand the terms of the GNU Lesser General Public License v3.0  
+- [ ] All *new* Java and Kotlin files have [the right copyright header](https://github.com/HyperiumClient/Hyperium/docs/Copyright.md)  
+- [ ] I have tested my code by building it locally  
+- [ ] This is not a work-in-progress and is ready for merge  
+- [ ] I am submitting the PR under and understand the terms of the [GNU Lesser General Public License v3.0](https://github.com/HyperiumClient/Hyperium/blob/master/LICENSE)  

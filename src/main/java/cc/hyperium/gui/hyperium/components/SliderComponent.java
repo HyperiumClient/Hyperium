@@ -4,8 +4,8 @@ import cc.hyperium.utils.HyperiumFontRenderer;
 import cc.hyperium.utils.RenderUtils;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
+import org.jetbrains.annotations.NotNull;
 import org.lwjgl.input.Mouse;
-
 import java.awt.*;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -30,7 +30,7 @@ public class SliderComponent extends AbstractTabComponent {
     private int y;
     private boolean wasDown = false;
 
-    public SliderComponent(AbstractTab tab, List<String> tags, String label, Field field, Object parentObj, float minVal, float maxVal, boolean isInteger, boolean round) {
+    public SliderComponent(AbstractTab tab, List<String> tags, String label, @NotNull Field field, Object parentObj, float minVal, float maxVal, boolean isInteger, boolean round) {
         super(tab, tags);
         tag(label);
         this.label = label;
