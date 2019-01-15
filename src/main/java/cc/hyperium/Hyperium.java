@@ -182,7 +182,10 @@ public class Hyperium {
         HyperiumLocale.registerHyperiumLang("ar_SA");
         HyperiumLocale.registerHyperiumLang("bs_BA");
         HyperiumLocale.registerHyperiumLang("en_US");
+        HyperiumLocale.registerHyperiumLang("hi_IN");
+        HyperiumLocale.registerHyperiumLang("hr_HR");
         HyperiumLocale.registerHyperiumLang("ja_JP");
+        HyperiumLocale.registerHyperiumLang("zh_CN");
     }
 
     @InvokeEvent(priority = Priority.HIGH)

@@ -1,29 +1,29 @@
-# Bosnia Language File
+# Croatian Language File
 
 # Hyperium Disclaimers
-menu.left=Copyright 2019 Hyperium Dev Tim
-menu.right=Nismo dio Mojang AB-a
+menu.left=Autorsko Pravo 2019 Hyperium Dev Tima
+menu.right=Nismo povezani s Mojang AB
 
 # Hyperium Buttons
-button.menu.changebackground=Promjeni Pozadinu
-button.menu.cosmeticshop=Kozmetička prodavnica
-button.ingame.hyperiumsettings=Hyperium Postavci
+button.menu.changebackground=Promijeni pozadinu izbornika
+button.menu.cosmeticshop=Dućan sa dekoracijama
+button.ingame.hyperiumsettings=Hyperium Postavke
 button.ingame.hyperiumcredits=Hyperium Krediti
-button.ingame.joinhypixel=Igraj Hypixel
-button.ingame.fixhypixelsession=Popravi Hypixel-ov session
+button.ingame.joinhypixel=Spoji se na Hypixel
+button.ingame.fixhypixelsession=Popravi Hypixel-ov Session
 button.ingame.serverlist=Lista Servera
 button.changebackground.seturl=Postavi URL
-button.changebackground.choosefile=Odaberite datoteku
-button.changebackground.resetbackground=Resetuj pozadinu
+button.changebackground.choosefile=Odaberi Datoteku
+button.changebackground.resetbackground=Resetiraj Pozadinu
 
 # Hyperium Disclaimer
-disclaimer.line1=Ako nastaviš, ti znaš da je Hyperium %s
-disclaimer.line1.bold=KORISTITE NA VLASTITU ODGOVORNOST
-disclaimer.line2=Vlasnici Hyperium-a nisu odgovorni za ikoje banove ili štete
-disclaimer.line3=na tvoj račun tokom korištenja Hyperium-a
-disclaimer.line4=Nastavljajući prihvaćate pravila o privatnosti %s
+disclaimer.line1=Nastavljajući, Vi prihvaćate da je ovaj Client %s
+disclaimer.line1.bold=KORISTI NA SVOJU ODGOVORNOST
+disclaimer.line2=Developeri Hyperium tima nisu odgovorni za bilo koje štete ili banove
+disclaimer.line3=to your account while using this client
+disclaimer.line4=Nastavljajući prihvaćate pravila o zaštiti privatnosti %s
 disclaimer.line4.policylink=(https://hyperium.cc/#privacy)
-disclaimer.line5=Molim vas kliknite dugme da potvrdite da se slažete
+disclaimer.line5=Molim vas kilknite tipku da potvrdite da se slažete
 button.disclaimer.accept=Prihvati
 button.disclaimer.confirm=Potvrdi prihvaćanje
 
@@ -31,88 +31,88 @@ button.disclaimer.confirm=Potvrdi prihvaćanje
 menu.profile.credits=%s Krediti
 
 # Hyperium Tabs
-tabs.searchbar=Traži...
-tab.news.name=Vijesti
-tab.settings.name=Postavci
-tab.update.name=Update-uj
+tabs.searchbar=Potraži...
+tab.news.name=Novosti
+tab.settings.name=Postavke
+tab.update.name=Ažuriraj
 tab.shop.name=Trgovina
 
 # Hyperium Tabs Attributes
-tab.update.noupdates=Nema novih update-ova
-tab.update.autorestart=Po završetku updateovanja, Minecraft će se automatski pokrenuti
-tab.update.changelog=Lista update-ova dolazi uskoro
-tab.update.update=Update-uj
-tab.update.updating=Updateujem...
-tab.update.downloading=Downloadujem...
-tab.update.installer.state.starting=Pokrećem instalacijski program
-tab.update.installer.state.loading=Pokrećem instalacijski program
-tab.update.installer.state.restarting=Restartujem
-tab.update.installer.state.unknown=W: nepoznato stanje
-tab.update.installer.state.manualupdate.api=E: Molim vas updatujte ručno, API: %s
-tab.update.installer.state.manualupdate=E: Molim vas updatujte ručno, API
+tab.update.noupdates=Nema dostupnih ažuriranja
+tab.update.autorestart=Nakon što je ažuriranje gotovo, Minecraft će se automatski ponovo pokrenuti
+tab.update.changelog=Zapis o promjenama dolazi uskoro
+tab.update.update=Ažuriraj
+tab.update.updating=Ažuriranje u tijeku...
+tab.update.downloading=Preuzimanje...
+tab.update.installer.state.starting=Pokretanje instalacijskog programa
+tab.update.installer.state.loading=Učitavanje instalacijskog programa
+tab.update.installer.state.restarting=Ponovo pokretanje
+tab.update.installer.state.unknown=W: Nepoznato stanje
+tab.update.installer.state.manualupdate.api=E: Molimo ažuriraj te sami, API: %s
+tab.update.installer.state.manualupdate=E: Molimo ažuriraj te sami
 
 # Hyperium Ingame Menu
-gui.ingamemenu.playercount=Hyperium Korisnici:
-gui.ingamemenu.playercount.now=Online sada: %s
-gui.ingamemenu.playercount.lastday=Zadnji dan: %s
+gui.ingamemenu.playercount=Broj igrača na Hyperium:
+gui.ingamemenu.playercount.now=Sada Online: %s
+gui.ingamemenu.playercount.lastday=Jučer: %s
 gui.ingamemenu.playercount.lastweek=Prošli tjedan: %s
-gui.ingamemenu.playercount.alltime=Sve vrijeme: %s
+gui.ingamemenu.playercount.alltime=Svo vrijeme: %s
 
 
 # Hyperium Alerts
-alert.update.message=Hyperium Update! Kliknite ovdje za download.
+alert.update.message=Ažuriraj te Hyperium! Kliknite ovdje za preuzimanje.
 
 # Hyperium Change Background Text
-gui.changebackground.line1=Unesite URL ispod da biste promijenili pozadinu ili Odaberite datoteku.
-gui.changebackground.line2=Da se može selektovati "prilagođena" u postavke za pozadine.
+gui.changebackground.line1=Unesite URL da biste promijenili pozadinu ili odaberite datoteku.
+gui.changebackground.line2=Da biste vidjeli pozadinu, odaberite "posebno" u postavkama pozadina.
 gui.changebackground.urlempty=URL ne može biti prazan.
-gui.changebackground.invalidurl=Nepoznati PNG slika url
-gui.changebackground.working=Obrada u toku...
-gui.changebackground.done=Završeno!
-gui.changebackground.invalidpath=Put nije validan
+gui.changebackground.invalidurl=URL PNG slike nije valjan
+gui.changebackground.working=U tijeku...
+gui.changebackground.done=Gotovo!
+gui.changebackground.invalidpath=Nevažeća putanja
 gui.changebackground.unknownerror=Nepoznata greška
-gui.changebackground.downloaderror=Greška tokom instalacije.
+gui.changebackground.downloaderror=Greška u preuzimanju.
 gui.changebackground.selectimage=Odaberite pozadinsku sliku
 
 # Hyperium PurchaseCarousel Text
 gui.purchase.purchased=Kupljeno
 gui.purchase.purchase=Kupi
 gui.purchase.active=Aktivno
-gui.purchase.inactive=Neaktivno
+gui.purchase.inactive=Neaktivano
 gui.purchase.notpurchased=Nije kupljeno
-gui.purchase.clicktouse=Kliknite za korištenje
-gui.purchase.state=Status
+gui.purchase.clicktouse=Klikni za upotrebu
+gui.purchase.state=Stanje
 
 # Hyperium Cosmetics Gui
-gui.cosmetics.purchase=Kupovina kozmetike
-gui.cosmetics.refresh=Refresh-uj kupovine
+gui.cosmetics.purchase=Kupi dekoraciju
+gui.cosmetics.refresh=Osvježite kupnje
 gui.cosmetics.credits=Krediti
-gui.cosmetics.totalcredits=Ukupno kredita: %s
-gui.cosmetics.remainingcredits=Preostalih kredita: %s
+gui.cosmetics.totalcredits=Ukupni Krediti: %s
+gui.cosmetics.remainingcredits=Preostali Krediti: %s
 gui.cosmetics.purchased=Kupljeni paketi
 gui.cosmetics.disableparticles=Disable Particles
 gui.cosmetics.line1=You must purchase at least 1 particle and 1 animation for it to show
 gui.cosmetics.line2=The Double Twirl animation is free.
 gui.cosmetics.preview=Preview
-gui.cosmetics.red=Red
-gui.cosmetics.green=Green
-gui.cosmetics.blue=Blue
+gui.cosmetics.red=Crveno
+gui.cosmetics.green=Zeleno
+gui.cosmetics.blue=Plavo
 gui.cosmetics.maxage=Particle life
 
 # Hyperium Shop Gui
-gui.shop.capes=Prikaz Plaštova
+gui.shop.capes=Pogledaj plašteve
 gui.shop.browser=Otvori u pregledniku
-gui.shop.purchasecredits=Kupi Kredite
-gui.shop.refresh=Refresh-uj
+gui.shop.purchasecredits=Kupi kredite
+gui.shop.refresh=Osvježi
 gui.shop.credits=Krediti
-gui.shop.cosmetics=Kozmetici
+gui.shop.cosmetics=Dekoracije
 gui.shop.description=Opis: %s
 gui.shop.cost=Cijena: %s
-gui.shop.status=Status:
+gui.shop.status=Stanje:
 gui.shop.purchased=Kupljeno
 gui.shop.purchase=Kupi
-gui.shop.insufficientcredits=Nemate dovoljno Kredita!
-gui.shop.loading.cosmetics=Učitavanje kozmetike...
+gui.shop.insufficientcredits=Nema dovoljno kredita!
+gui.shop.loading.cosmetics=Učitavanje dekoracija...
 gui.shop.loading.person=Učitavanje podataka osoba...
 
 # Hyperium Settings Text
@@ -132,7 +132,7 @@ gui.settings.showenchantmentsabovehotbar=Pokaži vračanjem iznad hotbar
 gui.settings.showattackdamageabovehotbar=Pokaži šteta od napada iznad hotbar
 gui.settings.armorprotectionpotentional=Show Armor Protection in Inventory
 gui.settings.armorprojectileprotpotentional=Show Armor Projectile Protection in Inventory
-gui.settings.hidecrosshairinf5=Hide crosshair when in Third Person
+gui.settings.hidecrosshairinf5=Hide Crosshair when in Third Person
 gui.settings.critparticlefix=Crit čestice poprav
 gui.settings.holdperspectivekey=Držite tipku za perspektivu
 gui.settings.optimizeditemrenderer=Optimiziran stavki Renderer (BETA)
@@ -147,7 +147,7 @@ gui.settings.blurredguibackground=Zamagljen GUI pozadina
 gui.settings.chromahudonallservers=ChromaHUD - na svim poslužiteljima
 gui.settings.screenshotonkill=Screenshot na ubijanje
 gui.settings.showspotifycontrols=Pokaži Spotify kontrole
-gui.settings.welcometothehypixelzoo="Dobro došli u Hypixel zoološkom vrtu!"
+gui.settings.welcometothehypixelzoo=Dobro došli u Hypixel zoološkom vrtu!
 gui.settings.showparticleauras=Pokaži aura čestica
 gui.settings.showcosmeticseverywhere=Pokaži kozmetiku svugdje
 gui.settings.loadoptifinecapes=Učitavanje optifine kapes

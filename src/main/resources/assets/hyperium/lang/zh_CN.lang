@@ -1,0 +1,264 @@
+# Chinese Language File
+
+# Hyperium Disclaimers
+menu.left=Hyperium 开发团队授权 2019
+menu.right=不隶属于 Mojang AB
+
+# Hyperium Buttons
+button.menu.changebackground=更改菜单背景
+button.menu.cosmeticshop=饰品商店
+button.ingame.hyperiumsettings=Hyperium 设置
+button.ingame.hyperiumcredits=Hyperium 积分
+button.ingame.joinhypixel=加入Hypixel
+button.ingame.fixhypixelsession=修复Hypixel登录态
+button.ingame.serverlist=服务器列表
+button.changebackground.seturl=设置URL
+button.changebackground.choosefile=选择文件
+button.changebackground.resetbackground=重置背景
+
+# Hyperium Disclaimer
+disclaimer.line1=若继续，你确认本客户端为%s
+disclaimer.line1.bold=自行承担使用风险
+disclaimer.line2=Hyperium 的开发者不对任何因使用
+disclaimer.line3=to your account while using this client
+disclaimer.line4=通过继续则表示你同意我们的隐私政策 %s
+disclaimer.line4.policylink=(https://hyperium.cc/#privacy)
+disclaimer.line5=点击下面的按钮表示你接受我们的隐私政策
+button.disclaimer.accept=接受
+button.disclaimer.confirm=确认接受
+
+# Hyperium Menu Strings
+menu.profile.credits=%s 积分
+
+# Hyperium Tabs
+tabs.searchbar=搜索...
+tab.news.name=最新消息
+tab.settings.name=設定
+tab.update.name=更新
+tab.shop.name=商店
+
+# Hyperium Tabs Attributes
+tab.update.noupdates=暂无更新
+tab.update.autorestart=更新完成后, Minecraft 将自动重新启动
+tab.update.changelog=更新日志即将上线
+tab.update.update=更新
+tab.update.updating=正在更新...
+tab.update.downloading=正在下载...
+tab.update.installer.state.starting=启动安装程序中
+tab.update.installer.state.loading=加载安装程序中
+tab.update.installer.state.restarting=重新启动中
+tab.update.installer.state.unknown=W: 状态不明
+tab.update.installer.state.manualupdate.api=E: 请手动更新，API: %s
+tab.update.installer.state.manualupdate=E: 请手动更新
+
+# Hyperium Ingame Menu
+gui.ingamemenu.playercount=Hyperium 在线玩家计数:
+gui.ingamemenu.playercount.now=当前在线: %s
+gui.ingamemenu.playercount.lastday=昨日在线: %s
+gui.ingamemenu.playercount.lastweek=上周在线: %s
+gui.ingamemenu.playercount.alltime=总在线数: %s
+
+
+# Hyperium Alerts
+alert.update.message=Hyperium 有更新！点击这里下载。
+
+# Hyperium Change Background Text
+gui.changebackground.line1=在下方输入链接以更改背景或选择一个文件。
+gui.changebackground.line2=在背景设置显示已选“自定义”。
+gui.changebackground.urlempty=链接不能为空。
+gui.changebackground.invalidurl=无效的PNG图片链接
+gui.changebackground.working=正在处理...
+gui.changebackground.done=完成！
+gui.changebackground.invalidpath=无效路径
+gui.changebackground.unknownerror=未知错误
+gui.changebackground.downloaderror=下载失败。
+gui.changebackground.selectimage=选择背景图片
+
+# Hyperium PurchaseCarousel Text
+gui.purchase.purchased=已购买
+gui.purchase.purchase=购买
+gui.purchase.active=启用
+gui.purchase.inactive=禁用
+gui.purchase.notpurchased=未购买
+gui.purchase.clicktouse=点击使用
+gui.purchase.state=状态
+
+# Hyperium Cosmetics Gui
+gui.cosmetics.purchase=购买特效
+gui.cosmetics.refresh=Refresh purchases
+gui.cosmetics.credits=积分
+gui.cosmetics.totalcredits=总积分: %s
+gui.cosmetics.remainingcredits=剩余积分: %s
+gui.cosmetics.purchased=已购礼包
+gui.cosmetics.disableparticles=Disable Particles
+gui.cosmetics.line1=You must purchase at least 1 particle and 1 animation for it to show
+gui.cosmetics.line2=The Double Twirl animation is free.
+gui.cosmetics.preview=Preview
+gui.cosmetics.red=红
+gui.cosmetics.green=绿
+gui.cosmetics.blue=蓝
+gui.cosmetics.maxage=Particle life
+
+# Hyperium Shop Gui
+gui.shop.capes=查看披风
+gui.shop.browser=在浏览器打开
+gui.shop.purchasecredits=购买积分
+gui.shop.refresh=刷新
+gui.shop.credits=积分
+gui.shop.cosmetics=特效
+gui.shop.description=简介: %s
+gui.shop.cost=价格: %s
+gui.shop.status=状态:
+gui.shop.purchased=已购买
+gui.shop.purchase=购买
+gui.shop.insufficientcredits=积分不足！
+gui.shop.loading.cosmetics=加载特效中...
+gui.shop.loading.person=加载个人资料中...
+
+# Hyperium Settings Text
+gui.settings.discordrp=完整Discord显示
+gui.settings.fullbright=最高亮度
+gui.settings.romannumerals=罗马数字
+gui.settings.rpshowserver=完整服务器显示信息
+gui.settings.compactchat=紧密信息显示
+gui.settings.voidflickerfix=虚空闪烁效果修复
+gui.settings.fpslimiter=FPS限制（闲置大厅有效）
+gui.settings.fastchat=快速聊天
+gui.settings.shinypotions=药水闪烁
+gui.settings.smartsounds=智能音效
+gui.settings.numericping=数字化延迟
+gui.settings.arrowcountwhenholdingbow=持弓时显示箭数
+gui.settings.showenchantmentsabovehotbar=在快捷栏上方显示附魔
+gui.settings.showattackdamageabovehotbar=在物品栏上方显示攻击伤害
+gui.settings.armorprotectionpotentional=Show Armor Protection in Inventory
+gui.settings.armorprojectileprotpotentional=Show Armor Projectile Protection in Inventory
+gui.settings.hidecrosshairinf5=Hide Crosshair when in Third Person
+gui.settings.critparticlefix=暴击粒子修复
+gui.settings.holdperspectivekey=锁定更改视角键
+gui.settings.optimizeditemrenderer=优化物品渲染器 （测试）
+gui.settings.optimizedtextureloading=优化资源包载入 （测试）
+gui.settings.optimizedfontrenderer=优化字体渲染 （测试）
+gui.settings.windowedfullscreen=窗口化全屏
+gui.settings.bossbartextonly=Boss栏 - 只显示文字
+gui.settings.staticfov=静态视场
+gui.settings.uploadscreenshots=上传截图（自动）
+gui.settings.hidescoreboardnumbers=隐藏计分板数字
+gui.settings.blurredguibackground=模糊GUI背景
+gui.settings.chromahudonallservers=Chromahud - 所有服务器可用
+gui.settings.screenshotonkill=击杀截图
+gui.settings.showspotifycontrols=显示Spotify设定
+gui.settings.welcometothehypixelzoo=欢迎来到Hypixel动物园！
+gui.settings.showparticleauras=显示粒子光环
+gui.settings.showcosmeticseverywhere=在所有地方显示特效
+gui.settings.loadoptifinecapes=加载OptiFine披风
+gui.settings.17blockhitting=1.7防砍
+gui.settings.17bowposition=1.7弓位
+gui.settings.17rodposition=1.7钓鱼竿位
+gui.settings.17redarmour=1.7攻击染红护甲
+gui.settings.17eating=1.7食用动画
+gui.settings.17sneakinganimation=1.7潜行动画
+gui.settings.17blocking=1.7方块放置
+gui.settings.17itemheld=1.7持物品位
+gui.settings.17debug=1.7调试信息
+gui.settings.17health=1.7生命值显示
+gui.settings.customswordanimation=自定义剑动画
+gui.settings.fliptogglemode=翻转 - 开启模式
+gui.settings.fliptype=翻转模式
+gui.settings.tposetogglemode=TPose - 开启模式
+gui.settings.background=背景
+gui.settings.transparentcontainerbackgrounds=透明背包背景
+gui.settings.particlesmode=粒子模式
+gui.settings.maxparticles=最大粒子
+gui.settings.headitemscale=持有物品大小伸缩
+gui.settings.particlesininventory=物品栏内显示粒子
+gui.settings.deadmau5ears=Deadmau5 耳
+gui.settings.shownotificationcenter=显示通知中心
+gui.settings.showconfirmationpopup=显示确认对话框
+gui.settings.persistentchatmessages=竖版聊天信息
+gui.settings.friendsfirstintab=Tab列表优先显示好友
+gui.settings.onlineindicator=在线检测
+gui.settings.showplayersasblocks=将玩家显示为方块
+gui.settings.pingondm=在消息栏显示延迟
+gui.settings.sprintbypassstaticfov=疾跑无视静态视场
+gui.settings.sprintandperspectivemessages=疾跑和视角信息
+gui.settings.showdragonhead=显示龙头
+gui.settings.wingsheight=翅膀高度
+gui.settings.showwings=显示翅膀
+gui.settings.wingsscale=翅膀大小
+gui.settings.showchromahud=显示ChromaHUD
+gui.settings.mainmenustyle=主菜单风格
+gui.settings.pausemenustyle=暂停菜单风格
+gui.settings.spotifynotifications=Spotify通知
+gui.settings.forcespotifytoneverload=强制Spotify禁用
+gui.settings.updatenotificationsinhyperiumsettings=在Hyperium设置显示通知
+gui.settings.fastworldswitching=更快的世界更替（可能增加内存占用）
+gui.settings.maxworldparticles=最大世界粒子
+gui.settings.showparticlein1stperson=第一人称显示粒子
+gui.settings.showhitdistances=显示攻击距离
+gui.settings.motionblurenabled=启用
+gui.settings.motionblurintensity=动态模糊强度
+gui.settings.autofriendenabled=启用
+gui.settings.showfriendmessages=显示好友信息
+gui.settings.fortnitecompassenabled=启用
+gui.settings.showbackground=显示背景
+gui.settings.chroma=彩色
+gui.settings.shadow=阴影
+gui.settings.details=细节
+gui.settings.showuserdotsonnametags=在名牌上显示“点”
+gui.settings.colortype=色彩种类
+gui.settings.red=红
+gui.settings.green=绿
+gui.settings.blue=蓝
+gui.settings.togglesprint=强制疾跑
+gui.settings.broadcastlevelups=升级发送信息
+gui.settings.broadcastachievements=获得成就发送信息
+gui.settings.showbutt=显示下体
+gui.settings.sendcurrentserver=发送当前服务器
+gui.settings.sendguildwelcomemessage=发送公会欢迎信息
+gui.settings.itemphysics=物品物理
+gui.settings.showbrowser=显示浏览器
+gui.settings.mainmenuserver=主菜单服务器
+gui.settings.disable_dances=Disable Dances
+gui.settings.victoryroyale=Victory Royale
+gui.settings.hyperiumprefix=Show Hyperium Chat Prefix
+gui.settings.betterf1=Hide names in F1
+gui.settings.buttonstyle=Button Style
+gui.settings.buttonred=Button Outline (Red)
+gui.settings.buttongreen=Button Outline (Green)
+gui.settings.buttonblue=Button Outline (Blue)
+gui.settings.buttontype=Color Type
+gui.settings.chromahudprefixsquarebrace=Use square brace prefix
+gui.settings.disableenchantglint=Disable Enchantment Glint
+gui.settings.disabletitles=Disable Titles
+gui.settings.thankwatchdog=Thank Watchdog
+gui.settings.fpslimiteramount=FPS Limiter Amount
+gui.settings.disablelightning=Disable Lightning Bolts
+gui.settings.disablearmorstands=Disable Armorstands
+gui.settings.keeplightinguhc=Keep Lightning Bolts in UHC
+gui.settings.disableitemframes=Disable Item Frames
+
+# Hyperium Splash Progress
+splashprogress.startinggame=启动游戏中...
+splashprogress.loadingresources=加载资源中...
+splashprogress.creatingdisplay=显示生成中...
+splashprogress.initializingtextures=加载材质中...
+splashprogress.loadinghandlers=加载处理单元中...
+splashprogress.registeringlisteners=注册监听器中...
+splashprogress.startinghyperium=启动Hyperium中...
+splashprogress.initializingtrayicon=加载托盘图标中...
+splashprogress.registeringconfiguration=注册设定中...
+splashprogress.registeringcommands=注册命令中...
+splashprogress.loadingintegrations=整合中...
+splashprogress.reloadingresourcemanager=重载资源管理器中...
+splashprogress.finishing=即将完成...
+
+# Hyperium Misc Gui Text
+gui.namehistory.text=NAME HISTORY
+
+# Hyperium Chat Message
+message.insufficientcredits=Insufficient credits
+message.attemptingpurchase=Attempting to purchase %s
+message.alreadypurchased=Already purchased %s
+message.invalidparticle=Invalid current particle type
+message.invalidanimation=Invalid animation type
+message.purchase=Purchase %s

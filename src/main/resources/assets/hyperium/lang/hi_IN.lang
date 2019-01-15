@@ -1,0 +1,264 @@
+# India Language File
+
+# Hyperium Disclaimers
+menu.left=कॉपीराइट २०१९ Hyperium डेवलपर टीम
+menu.right=Mojang एबी के साथ संबद्ध नहीं है
+
+# Hyperium Buttons
+button.menu.changebackground=पृष्ठभूमि परिवर्तित करें
+button.menu.cosmeticshop=कॉस्मेटिक शॉप
+button.ingame.hyperiumsettings=Hyperium सेटिंग्स
+button.ingame.hyperiumcredits=Hyperium क्रेडिट्स
+button.ingame.joinhypixel=Hypixel के साथ जुड़े
+button.ingame.fixhypixelsession=Hypixel सत्र को ठीक करे
+button.ingame.serverlist=सर्वर सूची
+button.changebackground.seturl=URL सेट करें
+button.changebackground.choosefile=फ़ाइल चुनें
+button.changebackground.resetbackground=पृष्ठभूमि रीसेट करें
+
+# Hyperium Disclaimer
+disclaimer.line1=जारी रखने से, आप इस क्लायंट को स्वीकार करते है %s
+disclaimer.line1.bold=अपने जोखिम पर प्रयोग करें
+disclaimer.line2=अपने खाते पर कोई भी प्रबंध लगे तो उसके लिए Hyperium
+disclaimer.line3=यह क्लाइंट इस्तेमाल करते समय अपने अकाउंट पर
+disclaimer.line4=जारी करके आप गोपनीयता नीति से सहमत %s
+disclaimer.line4.policylink=(https://hyperium.cc/#privacy)
+disclaimer.line5=कृपया पुष्टि करने के लिए बटन क्लिक करें कि आप सहमत है
+button.disclaimer.accept=स्वीकार करें
+button.disclaimer.confirm=स्वीकार की पुष्टि करें
+
+# Hyperium Menu Strings
+menu.profile.credits=%s क्रेडिट्स
+
+# Hyperium Tabs
+tabs.searchbar=खोज...
+tab.news.name=समाचार
+tab.settings.name=सेटिंग्स
+tab.update.name=अपडेट करें
+tab.shop.name=दुकान
+
+# Hyperium Tabs Attributes
+tab.update.noupdates=कोई अपडेट उपलब्ध नहीं
+tab.update.autorestart=एक बार अद्यतन किया जाता है, Minecraft स्वचालित रूप से पुनः आरंभ होगा
+tab.update.changelog=Changelog जल्द ही आ रहा है
+tab.update.update=अपडेट करें
+tab.update.updating=अपडेट हो रहा है...
+tab.update.downloading=डाउनलोड हो रहा है
+tab.update.installer.state.starting=इंस्टॉलर प्रारंभ हो रहा है
+tab.update.installer.state.loading=इंस्टॉलर लोड हो रहा है
+tab.update.installer.state.restarting=पुनरारंभ हो रहा है
+tab.update.installer.state.unknown=W: अज्ञात स्थिति
+tab.update.installer.state.manualupdate.api=E: कृपया मैंयुअल रूप से अपडेट करे, एपीआई: %s
+tab.update.installer.state.manualupdate=E: कृपया मैंयुअल रूप से अपडेट करे
+
+# Hyperium Ingame Menu
+gui.ingamemenu.playercount=Hyperium खिलाड़ी गणना:
+gui.ingamemenu.playercount.now=अब ऑनलाइन: %s
+gui.ingamemenu.playercount.lastday=अंतिम दिन: %s
+gui.ingamemenu.playercount.lastweek=पिछले सप्ताह: %s
+gui.ingamemenu.playercount.alltime=सभी समय: %s
+
+
+# Hyperium Alerts
+alert.update.message=Hyperium अपडेट! डाउनलोड करने के लिए यहां क्लिक करें ।
+
+# Hyperium Change Background Text
+gui.changebackground.line1=पृष्ठभूमि बदलने या फ़ाइल चुनने के लिए नीचे एक URL दर्ज करें ।
+gui.changebackground.line2=यह दिखाने के लिए पृष्ठभूमि सेटिंग्स में "कस्टम" का चयन करें.
+gui.changebackground.urlempty=बायो को रिक्त नहीं छोड़ा जा सकता है।
+gui.changebackground.invalidurl=अमांय PNG छवि url
+gui.changebackground.working=कार्य किया जा रहा है...
+gui.changebackground.done=पूर्ण!
+gui.changebackground.invalidpath=अमांय पथ
+gui.changebackground.unknownerror=अज्ञात त्रुटि
+gui.changebackground.downloaderror=डाउनलोड करने में त्रुटि ।
+gui.changebackground.selectimage=पृष्ठभूमि छवि का चयन करें
+
+# Hyperium PurchaseCarousel Text
+gui.purchase.purchased=खरीदा गया
+gui.purchase.purchase=खरीदें
+gui.purchase.active=सक्रिय
+gui.purchase.inactive=निष्क्रिय
+gui.purchase.notpurchased=नहीं खरीदा
+gui.purchase.clicktouse=उपयोग करने के लिए क्लिक करें
+gui.purchase.state=स्थिति
+
+# Hyperium Cosmetics Gui
+gui.cosmetics.purchase=सौंदर्य प्रसाधन खरीदे
+gui.cosmetics.refresh=खरीदारी ताज़ा करें
+gui.cosmetics.credits=क्रेडिट्स
+gui.cosmetics.totalcredits=कुल क्रेडिट्स: %s
+gui.cosmetics.remainingcredits=बचे क्रेडिट्स: %s
+gui.cosmetics.purchased=खरीदा संकुल
+gui.cosmetics.disableparticles=Disable Particles
+gui.cosmetics.line1=You must purchase at least 1 particle and 1 animation for it to show
+gui.cosmetics.line2=The Double Twirl animation is free.
+gui.cosmetics.preview=Preview
+gui.cosmetics.red=लाल
+gui.cosmetics.green=हरा
+gui.cosmetics.blue=नीला
+gui.cosmetics.maxage=Particle life
+
+# Hyperium Shop Gui
+gui.shop.capes=Capes देखें
+gui.shop.browser=ब्राउज़र में खोलें
+gui.shop.purchasecredits=क्रेडिट्स खरीदें
+gui.shop.refresh=रिफ्रेश
+gui.shop.credits=क्रेडिट्स
+gui.shop.cosmetics=सौन्दर्य प्रसाधन
+gui.shop.description=विवरण: %s
+gui.shop.cost=कॉस्ट: %s
+gui.shop.status=स्थिति:
+gui.shop.purchased=खरीदा गया
+gui.shop.purchase=खरीदें
+gui.shop.insufficientcredits=अपर्याप्त क्रेडिट्स
+gui.shop.loading.cosmetics=कॉस्मेटिक्स लोडिंग.. ।
+gui.shop.loading.person=व्यक्ति डेटा लोड हो रहा है.. ।
+
+# Hyperium Settings Text
+gui.settings.discordrp=Discord आर पी
+gui.settings.fullbright=पूरा प्रकाश
+gui.settings.romannumerals=रोमन अंकें
+gui.settings.rpshowserver=आरपी सर्वर दिखाएं
+gui.settings.compactchat=कॉंपैक्ट चैट
+gui.settings.voidflickerfix=वौय्ड फ़्लिकर फ़िक्स
+gui.settings.fpslimiter=एफपीएस सीमक (लिम्बो में)
+gui.settings.fastchat=फास्ट चैट
+gui.settings.shinypotions=चमकदार पोशन्स
+gui.settings.smartsounds=स्मार्ट साउन्ड्स्
+gui.settings.numericping=सांख्यिक पिंग
+gui.settings.arrowcountwhenholdingbow=तीर गिनती जब धनुष धारण किया हो
+gui.settings.showenchantmentsabovehotbar=हॉटबार के ऊपर दिखाएं चीज़ों पर जादू
+gui.settings.showattackdamageabovehotbar=हॉटबार के ऊपर हमले‌ क्षति दिखाएं
+gui.settings.armorprotectionpotentional=Show Armor Protection in Inventory
+gui.settings.armorprojectileprotpotentional=Show Armor Projectile Protection in Inventory
+gui.settings.hidecrosshairinf5=Hide Crosshair when in Third Person
+gui.settings.critparticlefix=Crit कण फिक्स
+gui.settings.holdperspectivekey=परिप्रेक्ष्य कुंजी दबाए रखें
+gui.settings.optimizeditemrenderer=अनुकूलित आइटम रेंडरर (बीटा)
+gui.settings.optimizedtextureloading=अनुकूलित टेक्षच्र लोड हो रहा है (बीटा)
+gui.settings.optimizedfontrenderer=अनुकूलित फ़ॉंट रेंडरर (बीटा)
+gui.settings.windowedfullscreen=विडोंड फुलस्क्रीन
+gui.settings.bossbartextonly=बॉसबार - केवल टेक्स्ट
+gui.settings.staticfov=स्टैटिक FOV
+gui.settings.uploadscreenshots=स्क्रीनशॉट अपलोड करें (डिफ़ॉल्ट रूप से)
+gui.settings.hidescoreboardnumbers=स्कोरबोर्ड नंबर छुपाएं
+gui.settings.blurredguibackground=धुंधला जीयूआई पृष्ठभूमि
+gui.settings.chromahudonallservers=Chromahud - सभी सर्वरों पर
+gui.settings.screenshotonkill=मारने पर स्क्रीनशॉट
+gui.settings.showspotifycontrols=Spotify नियंत्रण दिखाएं
+gui.settings.welcometothehypixelzoo=Hypixel चिड़ियाघर में आपका स्वागत है!
+gui.settings.showparticleauras=कण आभा दिखाएं
+gui.settings.showcosmeticseverywhere=हर जगह सौंदर्य प्रसाधन दिखाएं
+gui.settings.loadoptifinecapes=Optifine capes लोड करे
+gui.settings.17blockhitting=१.७ Blockhitting
+gui.settings.17bowposition=१.७ धनुष की स्थिति
+gui.settings.17rodposition=१.७ रॉड की स्थिति
+gui.settings.17redarmour=१.७ लाल कवच (हिट करने पर)
+gui.settings.17eating=१.७ खाना
+gui.settings.17sneakinganimation=१.७ चुपके चलने की एनीमेशन
+gui.settings.17blocking=१.७ ब्लॉकिंग
+gui.settings.17itemheld=१.७ पकड़ा हुआ आइटम
+gui.settings.17debug=१.७ डीबग
+gui.settings.17health=१.७ स्वास्थ्य
+gui.settings.customswordanimation=कस्टम तलवार एनीमेशन
+gui.settings.fliptogglemode=फ्लिप - टॉगल मोड
+gui.settings.fliptype=फ्लिप टाईप
+gui.settings.tposetogglemode=TPose - टॉगल मोड
+gui.settings.background=पृष्ठभूमि
+gui.settings.transparentcontainerbackgrounds=पारदर्शी कंटेनर पृष्ठभूमि
+gui.settings.particlesmode=कण दिखने का मोड
+gui.settings.maxparticles=अधिकतम कण
+gui.settings.headitemscale=प्रमुख आइटम स्केल
+gui.settings.particlesininventory=सूची में कण
+gui.settings.deadmau5ears=Deadmau5 कान
+gui.settings.shownotificationcenter=नोटिफिकेशन सेंटर देखे
+gui.settings.showconfirmationpopup=पुष्टिकरण पॉपअप दिखाएं
+gui.settings.persistentchatmessages=लगातार चैट संदेश
+gui.settings.friendsfirstintab=दोस्त पहले टैब में
+gui.settings.onlineindicator=ऑनलाइन संकेतक
+gui.settings.showplayersasblocks=खिलाड़ियों को ब्लॉक के रूप में दिखाएं
+gui.settings.pingondm=डीएम पर पिंग
+gui.settings.sprintbypassstaticfov=स्प्रिंट बाईपास सटैटिक FOV
+gui.settings.sprintandperspectivemessages=स्प्रिंट और परिप्रेक्ष्य संदेश
+gui.settings.showdragonhead=ड्रैगन सिर दिखाएं
+gui.settings.wingsheight=पंख ऊंचाई
+gui.settings.showwings=पंख दिखाएं
+gui.settings.wingsscale=पंख की साइज़
+gui.settings.showchromahud=ChromaHUD दिखाएं
+gui.settings.mainmenustyle=मेन मेन्यू श्टाइल
+gui.settings.pausemenustyle=पॉज़ मेन्यू श्टाइल
+gui.settings.spotifynotifications=Spotify सूचनाएं
+gui.settings.forcespotifytoneverload=Spotify कभी लोड न करने के लिए बाध्य
+gui.settings.updatenotificationsinhyperiumsettings=Hyperium सेटिंग्स में सूचनाओं का अद्यतन करें
+gui.settings.fastworldswitching=तेजी से दुनिया स्विच करें (मेमोरि उपयोग बढ़ सकता हैं)
+gui.settings.maxworldparticles=अधिकतम दुनिया कणें
+gui.settings.showparticlein1stperson=1st पर्सन में कण दिखाएं
+gui.settings.showhitdistances=हिट दूरियां दिखाएं
+gui.settings.motionblurenabled=सक्षम किया गया
+gui.settings.motionblurintensity=गति कलंक तीव्रता
+gui.settings.autofriendenabled=सक्षम किया गया
+gui.settings.showfriendmessages=मित्र संदेश दिखाएं
+gui.settings.fortnitecompassenabled=सक्षम किया गया
+gui.settings.showbackground=पृष्ठभूमि दिखाएँ
+gui.settings.chroma=क्रोमा
+gui.settings.shadow=शैडो
+gui.settings.details=विवरण
+gui.settings.showuserdotsonnametags=उपयोगकर्ता के नाम पर बिंदु दिखाएं
+gui.settings.colortype=रंग टाइप
+gui.settings.red=लाल
+gui.settings.green=हरा
+gui.settings.blue=नीला
+gui.settings.togglesprint=टॉगलस्प्रिटं
+gui.settings.broadcastlevelups=Levelups प्रसारण करे
+gui.settings.broadcastachievements=अचीवमेंट्स प्रसारण करे
+gui.settings.showbutt=पिछ्वाड़ा दिखाएं
+gui.settings.sendcurrentserver=वर्तमान सर्वर भेजें
+gui.settings.sendguildwelcomemessage=गिल्ड स्वागत संदेश भेजें
+gui.settings.itemphysics=आइटम फिज़िक्स
+gui.settings.showbrowser=ब्राउज़र दिखाएं
+gui.settings.mainmenuserver=मेन मेन्यू सर्वर
+gui.settings.disable_dances=Disable Dances
+gui.settings.victoryroyale=Victory Royale
+gui.settings.hyperiumprefix=Show Hyperium Chat Prefix
+gui.settings.betterf1=Hide names in F1
+gui.settings.buttonstyle=Button Style
+gui.settings.buttonred=Button Outline (Red)
+gui.settings.buttongreen=Button Outline (Green)
+gui.settings.buttonblue=Button Outline (Blue)
+gui.settings.buttontype=Color Type
+gui.settings.chromahudprefixsquarebrace=Use square brace prefix
+gui.settings.disableenchantglint=Disable Enchantment Glint
+gui.settings.disabletitles=Disable Titles
+gui.settings.thankwatchdog=Thank Watchdog
+gui.settings.fpslimiteramount=FPS Limiter Amount
+gui.settings.disablelightning=Disable Lightning Bolts
+gui.settings.disablearmorstands=Disable Armorstands
+gui.settings.keeplightinguhc=Keep Lightning Bolts in UHC
+gui.settings.disableitemframes=Disable Item Frames
+
+# Hyperium Splash Progress
+splashprogress.startinggame=खेल शुरू हो रहा है...
+splashprogress.loadingresources=संसाधन लोड हो रहा है...
+splashprogress.creatingdisplay=प्रदर्शन बन रहा है...
+splashprogress.initializingtextures=टेक्सचर प्रारंभ हो रहा है...
+splashprogress.loadinghandlers=हैंडलर्स लोड हो रहा है...
+splashprogress.registeringlisteners=श्रोताओं को दर्ज कर रहा है...
+splashprogress.startinghyperium=Hyperium शुरू हो रहा है...
+splashprogress.initializingtrayicon=ट्रे चिह्न प्रारंभ हो रहा है...
+splashprogress.registeringconfiguration=कॉंफ़िगरेशन दर्ज हो रहा है...
+splashprogress.registeringcommands=कमांड्स को दर्ज कर रहा है...
+splashprogress.loadingintegrations=एकीकरण लोड कर रहा है...
+splashprogress.reloadingresourcemanager=संसाधन प्रबंधक को पुनः लोड कर रहा है...
+splashprogress.finishing=पूर्ण होने वाला है...
+
+# Hyperium Misc Gui Text
+gui.namehistory.text=NAME HISTORY
+
+# Hyperium Chat Message
+message.insufficientcredits=Insufficient credits
+message.attemptingpurchase=Attempting to purchase %s
+message.alreadypurchased=Already purchased %s
+message.invalidparticle=Invalid current particle type
+message.invalidanimation=Invalid animation type
+message.purchase=Purchase %s

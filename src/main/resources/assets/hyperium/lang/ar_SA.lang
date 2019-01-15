@@ -1,6 +1,7 @@
+# Arabic Language File
 
 # Hyperium Disclaimers
-menu.left=حقوق الطبع والنشر 2018 Hyperium Dev Team
+menu.left=حقوق الطبع والنشر 2019 Hyperium Dev Team
 menu.right=لا ينتمي إلى آب Mojang
 
 # Hyperium Buttons
@@ -180,7 +181,6 @@ gui.settings.showplayersasblocks=إظهار اللاعبين ككتل
 gui.settings.pingondm=بينغ على مارك ألماني
 gui.settings.sprintbypassstaticfov=السباق تجاوز ثابتة فوف
 gui.settings.sprintandperspectivemessages=السباق ومنظور رسائل
-gui.settings.autowho=اوتوماتيك مين
 gui.settings.showdragonhead=إظهار رأس التنين
 gui.settings.wingsheight=ارتفاع أجنحة
 gui.settings.showwings=إظهار الأجنحة
@@ -207,8 +207,8 @@ gui.settings.details=التفاصيل
 gui.settings.showuserdotsonnametags=إظهار نقاط المستخدم في الأسم
 gui.settings.colortype=نوع اللون
 gui.settings.red=أحمر
-gui.settings.blue=أزرق
 gui.settings.green=أخضر
+gui.settings.blue=أزرق
 gui.settings.togglesprint=الركض التلقائي
 gui.settings.broadcastlevelups=بث ارتفاع القدرة
 gui.settings.broadcastachievements=بث الإنجازات
