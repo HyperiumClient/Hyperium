@@ -80,7 +80,6 @@ public class GeneralConfigGui extends GuiScreen {
         reg(new GuiButton(2, 2, ResolutionUtil.current().getScaledHeight() - 22, 100, 20, "New"), (guiButton) -> {
             DisplayElement blank = DisplayElement.blank();
             ChromaHUDApi.getInstance().getElements().add(blank);
-            System.out.println(ChromaHUDApi.getInstance().getElements());
             Minecraft.getMinecraft().displayGuiScreen(new DisplayElementConfig(blank, mod));
         });
 

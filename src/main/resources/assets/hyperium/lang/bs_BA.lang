@@ -233,6 +233,10 @@ gui.settings.disabletitles=Disable Titles
 gui.settings.thankwatchdog=Thank Watchdog
 gui.settings.fpslimiteramount=FPS Limiter Amount
 gui.settings.directionhudshort=Direction HUD First Letter Only
+gui.settings.disablelightning=Disable Lightning Bolts
+gui.settings.disablearmorstands=Disable Armorstands
+gui.settings.keeplightinguhc=Keep Lightning Bolts in UHC
+gui.settings.disableitemframes=Disable Item Frames
 
 # Hyperium Splash Progress
 splashprogress.startinggame=Početna igra...

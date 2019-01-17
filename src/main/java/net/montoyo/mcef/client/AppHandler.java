@@ -64,7 +64,7 @@ public class AppHandler extends CefAppHandlerAdapter {
     
     @Override
     public void onContextInitialized() {
-        CefApp app = ((ClientProxy) MCEF.PROXY).getCefApp();
+        CefApp app = MCEF.PROXY.getCefApp();
 
         for(Map.Entry<String, SchemeData> entry : schemeMap.entrySet())
             app.registerSchemeHandlerFactory(entry.getKey(), "", new SchemeHandlerFactory(entry.getValue().cls));

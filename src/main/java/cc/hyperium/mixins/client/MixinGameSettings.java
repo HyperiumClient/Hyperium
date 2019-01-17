@@ -9,13 +9,12 @@ import org.spongepowered.asm.mixin.Overwrite;
 @Mixin(GameSettings.class)
 public abstract class MixinGameSettings {
 
+    private HyperiumGameSettings hyperiumGameSettings = new HyperiumGameSettings();
+
     /**
      * @author boomboompower
      * @reason Hyperium keybinds
      */
-
-    private HyperiumGameSettings hyperiumGameSettings = new HyperiumGameSettings();
-
     @Overwrite
     public void setOptionKeyBinding(KeyBinding binding, int value) {
         hyperiumGameSettings.setOptionKeyBinding(binding, value);

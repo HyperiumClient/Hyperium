@@ -28,7 +28,7 @@ public class AutoFriendUtils {
                 break;
             }
             case NONE: {
-                this.style = new ChatStyle().setColor((EnumChatFormatting) null).setBold(false).setItalic(false).setStrikethrough(false).setUnderlined(false).setObfuscated(false).setChatClickEvent((ClickEvent) null).setChatHoverEvent((HoverEvent) null).setInsertion((String) null);
+                this.style = new ChatStyle().setColor(null).setBold(false).setItalic(false).setStrikethrough(false).setUnderlined(false).setObfuscated(false).setChatClickEvent(null).setChatHoverEvent(null).setInsertion(null);
                 break;
             }
         }
@@ -74,7 +74,7 @@ public class AutoFriendUtils {
     }
 
     public AutoFriendUtils setHoverEvent(final String value) {
-        return this.setHoverEvent((IChatComponent) new ChatComponentText(value));
+        return this.setHoverEvent(new ChatComponentText(value));
     }
 
     public AutoFriendUtils setHoverEvent(final IChatComponent value) {
@@ -107,6 +107,6 @@ public class AutoFriendUtils {
     public enum Inheritance {
         DEEP,
         SHALLOW,
-        NONE;
+        NONE
     }
 }

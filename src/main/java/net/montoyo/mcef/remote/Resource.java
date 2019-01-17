@@ -60,7 +60,6 @@ public class Resource {
             Log.warning("Couldn't hash file %s; assuming it doesn't exist.", f.getAbsolutePath());
             return false;
         }
-        //TODO integrity check
         return true;
     }
 

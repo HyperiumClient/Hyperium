@@ -96,8 +96,6 @@ public class ParticleGui extends HyperiumGui implements GuiYesNoCallback {
             purchaseSettings.put("particle", new JsonHolder());
         JsonHolder particle = purchaseSettings.optJSONObject("particle");
 
-        System.out.println(particle);
-
         CarouselItem[] particles = new CarouselItem[length];
         for (int i = 0; i < length; i++) {
             EnumParticleType value = values[i];

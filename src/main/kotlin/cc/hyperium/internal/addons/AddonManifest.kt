@@ -32,7 +32,7 @@ class AddonManifest {
      * @return desc
      */
 
-    val desc: String? = null;
+    val desc: String? = null
 
     /**
      * Main Class of an addon

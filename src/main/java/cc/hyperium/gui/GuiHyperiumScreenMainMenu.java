@@ -234,7 +234,7 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
 
     public void initGui() {
 
-        this.viewportTexture = new DynamicTexture(256, 256);
+        viewportTexture = new DynamicTexture(256, 256);
         int j = this.height / 4 + 48;
 
         this.addSingleplayerMultiplayerButtons(j - 10, 24);
@@ -399,15 +399,15 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
         TextureManager tm = mc.getTextureManager();
 
         tm.bindTexture(person_outline);
-        this.drawScaledCustomSizeModalRect(this.width / 2 - getIntendedWidth(285), this.height / 2 - getIntendedHeight(45), 0, 0, 192, 192, getIntendedWidth(90), getIntendedHeight(90), 192, 192);
+        drawScaledCustomSizeModalRect(this.width / 2 - getIntendedWidth(285), this.height / 2 - getIntendedHeight(45), 0, 0, 192, 192, getIntendedWidth(90), getIntendedHeight(90), 192, 192);
         tm.bindTexture(people_outline);
-        this.drawScaledCustomSizeModalRect(this.width / 2 - getIntendedWidth(165), this.height / 2 - getIntendedHeight(45), 0, 0, 192, 192, getIntendedWidth(90), getIntendedHeight(90), 192, 192);
+        drawScaledCustomSizeModalRect(this.width / 2 - getIntendedWidth(165), this.height / 2 - getIntendedHeight(45), 0, 0, 192, 192, getIntendedWidth(90), getIntendedHeight(90), 192, 192);
         tm.bindTexture(settings);
-        this.drawScaledCustomSizeModalRect(this.width / 2 - getIntendedWidth(45), this.height / 2 - getIntendedHeight(45), 0, 0, 192, 192, getIntendedWidth(90), getIntendedHeight(90), 192, 192);
+        drawScaledCustomSizeModalRect(this.width / 2 - getIntendedWidth(45), this.height / 2 - getIntendedHeight(45), 0, 0, 192, 192, getIntendedWidth(90), getIntendedHeight(90), 192, 192);
         tm.bindTexture(hIcon);
-        this.drawScaledCustomSizeModalRect(this.width / 2 + getIntendedWidth(85), this.height / 2 - getIntendedHeight(35), 0, 0, 104, 104, getIntendedWidth(70), getIntendedHeight(70), 104, 104);
+        drawScaledCustomSizeModalRect(this.width / 2 + getIntendedWidth(85), this.height / 2 - getIntendedHeight(35), 0, 0, 104, 104, getIntendedWidth(70), getIntendedHeight(70), 104, 104);
         tm.bindTexture(exit);
-        this.drawScaledCustomSizeModalRect(this.width / 2 + getIntendedWidth(195), this.height / 2 - getIntendedHeight(45), 0, 0, 192, 192, getIntendedWidth(90), getIntendedHeight(90), 192, 192);
+        drawScaledCustomSizeModalRect(this.width / 2 + getIntendedWidth(195), this.height / 2 - getIntendedHeight(45), 0, 0, 192, 192, getIntendedWidth(90), getIntendedHeight(90), 192, 192);
 
         GlStateManager.popMatrix();
 

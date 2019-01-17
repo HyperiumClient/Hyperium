@@ -87,7 +87,7 @@ public class HyperiumGuiPlayerTabOverlay {
         }
 
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-        mc.getTextureManager().bindTexture(parent.icons);
+        mc.getTextureManager().bindTexture(Gui.icons);
         int i = 0;
         int j = 0;
 
@@ -112,7 +112,7 @@ public class HyperiumGuiPlayerTabOverlay {
 
     public void renderPlayerlist(int width, Scoreboard scoreboardIn, ScoreObjective scoreObjectiveIn, Ordering<NetworkPlayerInfo> field_175252_a, IChatComponent header, IChatComponent footer, Minecraft mc) {
         NetHandlerPlayClient nethandlerplayclient = mc.thePlayer.sendQueue;
-        List<NetworkPlayerInfo> list = field_175252_a.<NetworkPlayerInfo>sortedCopy(nethandlerplayclient.getPlayerInfoMap());
+        List<NetworkPlayerInfo> list = field_175252_a.sortedCopy(nethandlerplayclient.getPlayerInfoMap());
         int i = 0;
         int j = 0;
 
@@ -188,7 +188,7 @@ public class HyperiumGuiPlayerTabOverlay {
         }
 
         if (list1 != null) {
-            parent.drawRect(width / 2 - l1 / 2 - 1, k1 - 1, width / 2 + l1 / 2 + 1, k1 + list1.size() * mc.fontRendererObj.FONT_HEIGHT, Integer.MIN_VALUE);
+            Gui.drawRect(width / 2 - l1 / 2 - 1, k1 - 1, width / 2 + l1 / 2 + 1, k1 + list1.size() * mc.fontRendererObj.FONT_HEIGHT, Integer.MIN_VALUE);
 
             for (String s3 : list1) {
                 int i2 = mc.fontRendererObj.getStringWidth(s3);
@@ -199,21 +199,21 @@ public class HyperiumGuiPlayerTabOverlay {
             ++k1;
         }
 
-        parent.drawRect(width / 2 - l1 / 2 - 1, k1 - 1, width / 2 + l1 / 2 + 1, k1 + i4 * 9, Integer.MIN_VALUE);
+        Gui.drawRect(width / 2 - l1 / 2 - 1, k1 - 1, width / 2 + l1 / 2 + 1, k1 + i4 * 9, Integer.MIN_VALUE);
 
         for (int k4 = 0; k4 < l3; ++k4) {
             int l4 = k4 / i4;
             int i5 = k4 % i4;
             int j2 = j1 + l4 * i1 + l4 * 5;
             int k2 = k1 + i5 * 9;
-            parent.drawRect(j2, k2, j2 + i1 + 6, k2 + 8, 553648127);
+            Gui.drawRect(j2, k2, j2 + i1 + 6, k2 + 8, 553648127);
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
             GlStateManager.enableAlpha();
             GlStateManager.enableBlend();
             GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
 
             if (k4 < list.size()) {
-                NetworkPlayerInfo networkplayerinfo1 = (NetworkPlayerInfo) list.get(k4);
+                NetworkPlayerInfo networkplayerinfo1 = list.get(k4);
                 String s1 = parent.getPlayerName(networkplayerinfo1);
                 GameProfile gameprofile = networkplayerinfo1.getGameProfile();
 
@@ -283,7 +283,7 @@ public class HyperiumGuiPlayerTabOverlay {
 
         if (list2 != null) {
             k1 = k1 + i4 * 9 + 1;
-            parent.drawRect(width / 2 - l1 / 2 - 1, k1 - 1, width / 2 + l1 / 2 + 1, k1 + list2.size() * mc.fontRendererObj.FONT_HEIGHT, Integer.MIN_VALUE);
+            Gui.drawRect(width / 2 - l1 / 2 - 1, k1 - 1, width / 2 + l1 / 2 + 1, k1 + list2.size() * mc.fontRendererObj.FONT_HEIGHT, Integer.MIN_VALUE);
 
             for (String s4 : list2) {
                 int j5 = mc.fontRendererObj.getStringWidth(s4);

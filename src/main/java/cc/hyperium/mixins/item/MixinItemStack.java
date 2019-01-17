@@ -12,6 +12,7 @@ import java.util.List;
 
 @Mixin(ItemStack.class)
 public class MixinItemStack {
+
     @Inject(method = "getTooltip", at = @At("RETURN"))
     private void injectTooltip(EntityPlayer playerIn, boolean advanced, CallbackInfoReturnable<List<String>> cir) {
         if (cir.getReturnValue() == null) return;

@@ -33,7 +33,7 @@ public class MixinGuiGameOver {
     /**
      * Fixes bug MC-2835
      *
-     * @param ci
+     * @param ci - Callback
      */
     @Inject(method = "initGui", at = @At("HEAD"))
     private void initGui(CallbackInfo ci) {

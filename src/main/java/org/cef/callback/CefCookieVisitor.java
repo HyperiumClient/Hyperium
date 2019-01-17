@@ -19,5 +19,5 @@ public interface CefCookieVisitor {
      * Return false to stop visiting cookies. This method may never be called if
      * no cookies are found.
      */
-    public abstract boolean visit(CefCookie cookie, int count, int total, BoolRef delete);
+    boolean visit(CefCookie cookie, int count, int total, BoolRef delete);
 }

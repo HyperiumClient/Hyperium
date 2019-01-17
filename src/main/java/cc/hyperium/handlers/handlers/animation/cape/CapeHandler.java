@@ -145,11 +145,7 @@ public class CapeHandler {
 
     public boolean isRealPlayer(UUID uuid) {
         String s = uuid.toString().replace("-", "");
-        if (s.length() == 32 && s.charAt(12) != '4') {
-            return false;
-        } else {
-            return true;
-        }
+        return s.length() != 32 || s.charAt(12) == '4';
     }
 
 

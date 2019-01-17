@@ -98,15 +98,15 @@ public class GuiConfig extends GuiScreen {
     public void drawScreen(final int i1, final int i2, final float f) {
         GL11.glDisable(2929);
         GL11.glEnable(3553);
-        this.browser.draw(this.unscaleX(this.x), this.unscaleY(this.height + this.y), this.unscaleX(this.width + this.x), this.unscaleY(this.y));
-        if (this.drawSquare) {
+        this.browser.draw(this.unscaleX(x), this.unscaleY(height + y), this.unscaleX(width + x), this.unscaleY(y));
+        if (drawSquare) {
             final Tessellator t = Tessellator.getInstance();
             final WorldRenderer wr = t.getWorldRenderer();
             wr.begin(2, DefaultVertexFormats.POSITION_COLOR);
-            wr.pos(this.unscaleX(this.x + this.width), this.unscaleY(this.y + this.height), 0.0).color(255, 255, 255, 255).endVertex();
-            wr.pos(this.unscaleX(this.x + this.width + 10), this.unscaleY(this.y + this.height), 0.0).color(255, 255, 255, 255).endVertex();
-            wr.pos(this.unscaleX(this.x + this.width + 10), this.unscaleY(this.y + this.height + 10), 0.0).color(255, 255, 255, 255).endVertex();
-            wr.pos(this.unscaleX(this.x + this.width), this.unscaleY(this.y + this.height + 10), 0.0).color(255, 255, 255, 255).endVertex();
+            wr.pos(this.unscaleX(x + width), this.unscaleY(y + height), 0.0).color(255, 255, 255, 255).endVertex();
+            wr.pos(this.unscaleX(x + width + 10), this.unscaleY(y + height), 0.0).color(255, 255, 255, 255).endVertex();
+            wr.pos(this.unscaleX(x + width + 10), this.unscaleY(y + height + 10), 0.0).color(255, 255, 255, 255).endVertex();
+            wr.pos(this.unscaleX(x + width), this.unscaleY(y + height + 10), 0.0).color(255, 255, 255, 255).endVertex();
             t.draw();
         }
         GL11.glEnable(2929);

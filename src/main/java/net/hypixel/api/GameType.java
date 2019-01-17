@@ -103,12 +103,15 @@ public enum GameType {
     }
 
     public String getQuestName() {
-        if (this == MURDER_MYSTERY)
+        if (this == MURDER_MYSTERY) {
             return "murdermystery";
-        if (this == QUAKECRAFT)
+        }
+        if (this == QUAKECRAFT) {
             return "quake";
-        if (this == SURVIVAL_GAMES)
+        }
+        if (this == SURVIVAL_GAMES) {
             return "hungergames";
+        }
         return name().toLowerCase().replace("_","");
     }
 

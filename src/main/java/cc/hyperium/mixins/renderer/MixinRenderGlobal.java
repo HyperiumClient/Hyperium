@@ -23,7 +23,6 @@ public class MixinRenderGlobal {
             info.cancel();
         }
     }
-    //                this.renderManager.setRenderOutlines(true);
 
     @Inject(method = "renderEntities", at = @At(value = "HEAD", target = "Lnet/minecraft/client/renderer/RenderHelper;disableStandardItemLighting()V"))
     public void renderEnt(Entity renderViewEntity, ICamera camera, float partialTicks, CallbackInfo info) {

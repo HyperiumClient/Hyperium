@@ -107,12 +107,12 @@ public class Util {
             sha.reset();
 
             int read = 0;
-            byte buffer[] = new byte[65536];
+            byte[] buffer = new byte[65536];
 
             while ((read = fis.read(buffer)) > 0)
                 sha.update(buffer, 0, read);
 
-            byte digest[] = sha.digest();
+            byte[] digest = sha.digest();
             String hash = "";
 
             for (int i = 0; i < digest.length; i++) {

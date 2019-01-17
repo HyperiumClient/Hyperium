@@ -74,7 +74,7 @@ public class HyperiumTextureManager {
 
                 // Prevent conflicts with Optifine.
                 if (name.startsWith("mcpatcher/") || name.startsWith("optifine/")) {
-                    ITextureObject textureObject = (ITextureObject) textures.get(location);
+                    ITextureObject textureObject = textures.get(location);
 
                     if (textureObject instanceof AbstractTexture) {
                         AbstractTexture abstractTexture = (AbstractTexture) textureObject;
@@ -122,7 +122,7 @@ public class HyperiumTextureManager {
     }
 
     public ResourceLocation getDynamicTextureLocation(String name, DynamicTexture texture, Map<String, Integer> mapTextureCounters) {
-        Integer integer = (Integer) mapTextureCounters.get(name);
+        Integer integer = mapTextureCounters.get(name);
 
         if (integer == null) {
             integer = 1;
@@ -139,7 +139,7 @@ public class HyperiumTextureManager {
     }
 
     public void bindTexture(ResourceLocation resource) {
-        ITextureObject itextureobject = (ITextureObject) textures.get(resource.toString());
+        ITextureObject itextureobject = textures.get(resource.toString());
 
         if (itextureobject == null) {
             itextureobject = new SimpleTexture(resource);

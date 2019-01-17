@@ -53,9 +53,7 @@ public class HypixelGuiAugmenter {
             String location = Hyperium.INSTANCE.getHandlers().getLocationHandler().getLocation();
             if (location.toLowerCase().contains("lobby")) {
                 //in a lobby
-                if (gui instanceof GuiContainer) {
-                    return true;
-                }
+                return gui instanceof GuiContainer;
             }
         }
         return false;

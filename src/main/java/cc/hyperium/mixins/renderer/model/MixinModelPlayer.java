@@ -24,29 +24,36 @@ public class MixinModelPlayer extends MixinModelBiped implements IMixinModelPlay
      */
     @Shadow
     public ModelRenderer bipedLeftArmwear;
+
     /**
      * Will now be the right upperarm wear.
      */
     @Shadow
     public ModelRenderer bipedRightArmwear;
+
     /**
      * Will now be the left upperleg wear.
      */
     @Shadow
     public ModelRenderer bipedLeftLegwear;
+
     /**
      * Will now be the right upperleg wear.
      */
     @Shadow
     public ModelRenderer bipedRightLegwear;
+
     @Shadow
     public ModelRenderer bipedBodyWear;
+
     private ModelRenderer bipedLeftForeArmwear;
     private ModelRenderer bipedRightForeArmwear;
     private ModelRenderer bipedLeftLowerLegwear;
     private ModelRenderer bipedRightLowerLegwear;
+
     @Shadow
     private ModelRenderer bipedCape;
+
     private ModelRenderer butt;
 
     @Inject(method = "<init>", at = @At("RETURN"))
@@ -162,6 +169,7 @@ public class MixinModelPlayer extends MixinModelBiped implements IMixinModelPlay
 
     /**
      * @author 9Y0, Mojang
+     * @reason body parts
      */
     @Overwrite
     public void render(Entity entityIn, float p_78088_2_, float p_78088_3_, float p_78088_4_, float p_78088_5_, float p_78088_6_, float scale) {

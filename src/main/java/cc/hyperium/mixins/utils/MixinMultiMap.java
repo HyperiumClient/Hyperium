@@ -26,11 +26,19 @@ public abstract class MixinMultiMap<T> {
     @Shadow
     protected abstract Class<?> func_181157_b(Class<?> p_181157_1_);
 
+    /**
+     * @author FalseHonesty
+     * @reason ChatTriggers
+     */
     @Overwrite
     public Iterator<T> iterator() {
         return field_181745_e.isEmpty() ? (UnmodifiableListIterator<T>) Utils.EMPTY_ITERATOR : Iterators.unmodifiableIterator(this.field_181745_e.iterator());
     }
 
+    /**
+     * @author FalseHonesty
+     * @reason ChatTriggers
+     */
     @Overwrite
     public <S> Iterable<S> getByClass(final Class<S> clazz) {
         return () -> {

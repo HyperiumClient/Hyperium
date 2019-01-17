@@ -220,7 +220,7 @@ public class GuiBrowser extends GuiScreen {
                     return;
                 }
                 if (browser != null
-                    && !focused) { //Inject events into browser. TODO: Handle keyboard mods.
+                    && !focused) { //Inject events into browser.
                     if (key != '.' && key != ';' && key != ',') { //Workaround
                         if (pressed) {
                             browser.injectKeyPressed(key, BrowserUtil.getModifierInt());

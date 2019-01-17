@@ -19,6 +19,7 @@ import java.util.Map;
 
 @Mixin(RenderManager.class)
 public class MixinRenderManger implements IMixinRenderManager {
+
     @Shadow
     private double renderPosX;
 

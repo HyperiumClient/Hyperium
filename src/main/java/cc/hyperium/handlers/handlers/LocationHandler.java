@@ -96,7 +96,6 @@ public class LocationHandler {
         }
         this.location = to;
         if (sendingWhereAmI) {
-            System.out.println("canceling");
             sendingWhereAmI = false;
             event.setCancelled(true);
         }

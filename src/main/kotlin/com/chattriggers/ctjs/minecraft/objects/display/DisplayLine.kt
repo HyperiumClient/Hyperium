@@ -54,7 +54,7 @@ abstract class DisplayLine {
 
     fun getText(): Text = this.text
     fun setText(text: String) = apply {
-        this.text = Renderer.text(text)
+        this.text = Text(text)
         this.textWidth = Renderer.getStringWidth(text) * this.text.getScale()
     }
 

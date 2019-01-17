@@ -44,7 +44,7 @@ public class Downloader {
         }
 
         @Override
-        public File handleResponse(HttpResponse response) throws ClientProtocolException, IOException {
+        public File handleResponse(HttpResponse response) throws IOException {
             InputStream source = response.getEntity().getContent();
             FileUtils.copyInputStreamToFile(source, this.target);
             return this.target;

@@ -12,7 +12,7 @@ public abstract class CefPostDataElement {
     /**
      * Post data elements may represent either bytes or files.
      */
-    public static enum Type {
+    public enum Type {
         PDE_TYPE_EMPTY,
         PDE_TYPE_BYTES,
         PDE_TYPE_FILE,
