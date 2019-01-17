@@ -385,6 +385,10 @@ public class Settings {
     public static boolean CHROMAHUD_SQUAREBRACE_PREFIX_OPTION = false;
 
     @ConfigOpt
+    @ToggleSetting(name = "gui.settings.directionhudshort", category = CHROMAHUD, mods = true)
+    public static boolean SHORT_DIRECTION_HUD = false;
+
+    @ConfigOpt
     @SelectorSetting(name = "gui.settings.mainmenustyle", items =
         {
             "HYPERIUM",

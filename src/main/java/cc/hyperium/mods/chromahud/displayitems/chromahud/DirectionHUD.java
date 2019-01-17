@@ -1,5 +1,5 @@
 /*
- *     Copyright (C) 2018  Hyperium <https://hyperium.cc/>
+ *     Copyright (C) 2018-present Hyperium <https://hyperium.cc/>
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU Lesser General Public License as published
@@ -16,13 +16,12 @@
  */
 
 package cc.hyperium.mods.chromahud.displayitems.chromahud;
-
 import cc.hyperium.mods.chromahud.ElementRenderer;
 import cc.hyperium.mods.chromahud.api.DisplayItem;
 import cc.hyperium.utils.JsonHolder;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
-
+import cc.hyperium.config.Settings;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,13 +30,12 @@ import java.util.List;
  */
 public class DirectionHUD extends DisplayItem {
     private static final String[] dir = {"South", "South West", "West", "North West", "North", "North East", "East", "South East"};
-
+    private static final String[] dirShort = {"S", "SW", "W", "NW", "N", "NE", "E", "SE"};
 
     public DirectionHUD(JsonHolder raw, int ordinal) {
         super(raw, ordinal);
         this.height = 10;
     }
-
 
     public void draw(int x, double y, boolean isConfig) {
         List<String> list = new ArrayList<>();
@@ -50,13 +48,15 @@ public class DirectionHUD extends DisplayItem {
             int direction = (d % 360);
             direction = direction / (45);
             try {
-                while (direction < 0)
+                while (direction < 0) {
                     direction += 8;
-
-                list.add(dir[direction]);
-            } catch (Exception ignored) {
-
-            }
+                }
+                if (!Settings.SHORT_DIRECTION_HUD) {
+                    list.add(dir[direction]);
+                } else {
+                    list.add(dirShort[direction]);
+                }
+            } catch (Exception ignored) {}
         }
         ElementRenderer.draw(x, y, list);
         this.width = isConfig ? ElementRenderer.maxWidth(list) : 0;
