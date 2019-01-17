@@ -232,6 +232,7 @@ gui.settings.disableenchantglint=Disable Enchantment Glint
 gui.settings.disabletitles=Disable Titles
 gui.settings.thankwatchdog=Thank Watchdog
 gui.settings.fpslimiteramount=FPS Limiter Amount
+gui.settings.directionhudshort=Direction HUD First Letter Only
 
 # Hyperium Splash Progress
 splashprogress.startinggame=بدء اللعبة...

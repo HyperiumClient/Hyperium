@@ -1,5 +1,5 @@
 /*
- *     Copyright (C) 2018  Hyperium <https://hyperium.cc/>
+ *     Copyright (C) 2018-present Hyperium <https://hyperium.cc/>
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU Lesser General Public License as published
@@ -173,7 +173,7 @@ public class Hyperium {
                 this.client = new NettyClient(networkHandler);
                 UniversalNetty.getInstance().getPacketManager().register(new LoginReplyHandler());
             });
-            Multithreading.runAsync(() -> new PlayerStatsGui(null));//Don't remove, we need to generate some stuff with Gl context
+            Multithreading.runAsync(() -> new PlayerStatsGui(null)); // Don't remove, we need to generate some stuff with Gl context
             notification = new NotificationCenter();
             scheduler = new HyperiumScheduler();
             InputStream resourceAsStream = getClass().getResourceAsStream("/build.txt");
@@ -320,7 +320,7 @@ public class Hyperium {
                 isLatestVersion = UpdateUtils.INSTANCE.isAbsoluteLatest();
                 IS_BETA = UpdateUtils.INSTANCE.isBeta();
             });
-            // Check if Optifine is installed.
+            // Check if OptiFine is installed.
             try {
                 Class.forName("optifine.OptiFineTweaker");
                 optifineInstalled = true;
