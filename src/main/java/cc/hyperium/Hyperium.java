@@ -1,5 +1,5 @@
 /*
- *     Copyright (C) 2018  Hyperium <https://hyperium.cc/>
+ *     Copyright (C) 2018-present Hyperium <https://hyperium.cc/>
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU Lesser General Public License as published
@@ -199,8 +199,8 @@ public class Hyperium {
                 UniversalNetty.getInstance().getPacketManager().register(new LoginReplyHandler());
             });
 
-            Multithreading.runAsync(() -> new PlayerStatsGui(null));//Don't remove, we need to generate some stuff with Gl context
-
+            Multithreading.runAsync(() -> new PlayerStatsGui(null)); // Don't remove, we need to generate some stuff with Gl context
+          
             notification = new NotificationCenter();
             scheduler = new HyperiumScheduler();
 
@@ -254,6 +254,7 @@ public class Hyperium {
             CONFIG.register(statTrack);
 
             SplashProgress.setProgress(7, I18n.format("splashprogress.startinghyperium"));
+            LOGGER.info("[Hyperium] Started!");
             Display.setTitle("Hyperium " + Metadata.getVersion());
 
             TrayManager trayManager = new TrayManager();
@@ -409,6 +410,8 @@ public class Hyperium {
 
         // Tell the modules the game is shutting down
         EventBus.INSTANCE.post(new GameShutDownEvent());
+      
+        LOGGER.info("Shutting down Hyperium..");
 
         if (updateQueue) {
             LaunchUtil.launch();
