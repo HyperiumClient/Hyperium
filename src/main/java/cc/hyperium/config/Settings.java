@@ -153,10 +153,6 @@ public class Settings {
     @ToggleSetting(name = "gui.settings.uploadscreenshots")
     public static boolean DEFAULT_UPLOAD_SS = false;
 
-    @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;hideScoreboardNumbers")
-    @ToggleSetting(name = "gui.settings.hidescoreboardnumbers", category = IMPROVEMENTS)
-    public static boolean HIDE_SCOREBOARD_NUMBERS = true;
-
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;blurGuiBackgroundsEnabled")
     @ToggleSetting(name = "gui.settings.blurredguibackground")
     public static boolean BLUR_GUI = false;
@@ -183,6 +179,7 @@ public class Settings {
     @ConfigOpt
     @ToggleSetting(category = GENERAL, name = "Show own name tag")
     public static boolean SHOW_OWN_NAME = false;
+
     @ConfigOpt(alt = "cc.hyperium.handlers.handlers.OtherConfigOptions;showCosmeticsEveryWhere")
     @ToggleSetting(category = COSMETICS, name = "gui.settings.showcosmeticseverywhere")
     public static boolean SHOW_COSMETICS_EVERYWHERE = true;
@@ -383,6 +380,10 @@ public class Settings {
     @ConfigOpt
     @ToggleSetting(name = "gui.settings.chromahudprefixsquarebrace", category = CHROMAHUD, mods = true)
     public static boolean CHROMAHUD_SQUAREBRACE_PREFIX_OPTION = false;
+
+    @ConfigOpt
+    @ToggleSetting(name = "gui.settings.directionhudshort", category = CHROMAHUD, mods = true)
+    public static boolean SHORT_DIRECTION_HUD = false;
 
     @ConfigOpt
     @SelectorSetting(name = "gui.settings.mainmenustyle", items =

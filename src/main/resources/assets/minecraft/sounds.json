@@ -2031,47 +2031,11 @@
       }
     ]
   },
-  "omgitsask1er": {
+  "victoryroyale": {
     "category": "ambient",
     "sounds": [
       {
-        "name": "omgitsask1er",
-        "stream": false
-      }
-    ]
-  },
-  "nico-cheating": {
-    "category": "ambient",
-    "sounds": [
-      {
-        "name": "nico-cheating",
-        "stream": false
-      }
-    ]
-  },
-  "nico-oof": {
-    "category": "ambient",
-    "sounds": [
-      {
-        "name": "nico-oof",
-        "stream": false
-      }
-    ]
-  },
-  "nico-yeet": {
-    "category": "ambient",
-    "sounds": [
-      {
-        "name": "nico-yeet",
-        "stream": false
-      }
-    ]
-  },
-  "victory_royale": {
-    "category": "ambient",
-    "sounds": [
-      {
-        "name": "victory-royale",
+        "name": "victoryroyale",
         "stream": false
       }
     ]
