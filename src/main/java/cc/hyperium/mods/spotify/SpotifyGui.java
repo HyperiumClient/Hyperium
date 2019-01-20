@@ -141,7 +141,7 @@ public class SpotifyGui extends HyperiumGui {
                 break;
             case 2:
                 try {
-                    Desktop.getDesktop().browse(new URI("http://spotifymod-client.herokuapp.com"));
+                    Desktop.getDesktop().browse(new URI("https://spotifymod-client.herokuapp.com"));
                 } catch (Exception ignored) {
                 }
         }
