@@ -28,6 +28,7 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.item.ItemStack;
+import org.jetbrains.annotations.Contract;
 import org.lwjgl.input.Mouse;
 
 import java.awt.Color;
@@ -128,16 +129,21 @@ public class ElementRenderer {
     public static void drawChromaString(String text, int xIn, int y) {
         FontRenderer renderer = Minecraft.getMinecraft().fontRendererObj;
         int x = xIn;
-        for (char c : text.toCharArray()) {
-            long dif = (x * 10) - (y * 10);
-            if (current.isStaticChroma())
-                dif = 0;
-            long l = System.currentTimeMillis() - dif;
-            float ff = current.isStaticChroma() ? 1000.0F : 2000.0F;
-            int i = Color.HSBtoRGB((float) (l % (int) ff) / ff, 0.8F, 0.8F);
-            String tmp = String.valueOf(c);
-            renderer.drawString(tmp, (float) ((double) x / getCurrentScale()), (float) ((double) y / getCurrentScale()), i, current.isShadow());
-            x += (double) renderer.getCharWidth(c) * getCurrentScale();
+        try {
+            for (char c : text.toCharArray()) {
+                long dif = (x * 10) - (y * 10);
+                if (current.isStaticChroma()) {
+                    dif = 0;
+                }
+                long l = System.currentTimeMillis() - dif;
+                float ff = current.isStaticChroma() ? 1000.0F : 2000.0F;
+                int i = Color.HSBtoRGB((float) (l % (int) ff) / ff, 0.8F, 0.8F);
+                String tmp = String.valueOf(c);
+                renderer.drawString(tmp, (float) ((double) x / getCurrentScale()), (float) ((double) y / getCurrentScale()), i, current.isShadow());
+                x += (double) renderer.getCharWidth(c) * getCurrentScale();
+            }
+        } catch (NullPointerException null_pointer) {
+            null_pointer.printStackTrace();
         }
     }
 
