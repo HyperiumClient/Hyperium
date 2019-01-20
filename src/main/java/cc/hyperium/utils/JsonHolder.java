@@ -32,7 +32,6 @@ import java.util.stream.Collectors;
  *
  * @author Sk1er
  */
-@SuppressWarnings("unused")
 public class JsonHolder {
 
     private static final Gson GSON = new GsonBuilder().create();
@@ -236,7 +235,7 @@ public class JsonHolder {
      * @param value The JsonArray to assign
      * @return This JsonHolder instance
      */
-    public JsonHolder put(String key, JsonArray value) {
+    public JsonHolder putArray(String key, JsonArray value) {
         this.object.add(key, value);
         return this;
     }
