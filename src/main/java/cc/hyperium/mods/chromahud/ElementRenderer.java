@@ -39,6 +39,7 @@ import java.util.List;
 /**
  * Created by Mitchell Katz on 5/25/2017.
  */
+@SuppressWarnings("unused")
 public class ElementRenderer {
 
     private static final List<Long> clicks = new ArrayList<>();
@@ -53,7 +54,7 @@ public class ElementRenderer {
     private static String cValue;
     private final ChromaHUD mod;
     private final Minecraft minecraft;
-    boolean last = false;
+    private boolean last = false;
     private boolean rLast = false;
     private boolean mLast = false;
 
@@ -72,7 +73,6 @@ public class ElementRenderer {
 
     public static int getColor(int c, int x) {
         return c;
-
     }
 
     public static void draw(int x, double y, String string) {
@@ -202,7 +202,6 @@ public class ElementRenderer {
 
     public static void endDrawing(DisplayElement element) {
         GlStateManager.scale(1.0 / element.getScale(), 1.0 / element.getScale(), 1.0 / element.getScale());
-
         GlStateManager.popMatrix();
     }
 
@@ -298,8 +297,7 @@ public class ElementRenderer {
             try {
                 element.draw();
             } catch (Exception ignored) {
-                // lmao this is so unsafe sk1er XDDDDDDDDD
-                // Dude it's in a try catch so that it IS safe!
+                // 1000% safe ok?
             }
             endDrawing(element);
         }
