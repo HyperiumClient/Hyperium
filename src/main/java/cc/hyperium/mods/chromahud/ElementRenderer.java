@@ -28,9 +28,7 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.item.ItemStack;
-import org.jetbrains.annotations.Contract;
 import org.lwjgl.input.Mouse;
-
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -39,7 +37,6 @@ import java.util.List;
 /**
  * Created by Mitchell Katz on 5/25/2017.
  */
-@SuppressWarnings("unused")
 public class ElementRenderer {
 
     private static final List<Long> clicks = new ArrayList<>();
