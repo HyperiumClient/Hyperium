@@ -37,10 +37,8 @@ import cc.hyperium.mods.spotify.SpotifyControls;
 import cc.hyperium.mods.tabtoggle.TabToggleMod;
 import cc.hyperium.mods.timechanger.TimeChanger;
 import cc.hyperium.mods.togglechat.ToggleChatMod;
-import cc.hyperium.mods.utilities.UtilitiesMod;
 import cc.hyperium.mods.victoryroyale.VictoryRoyale;
 import me.semx11.autotip.Autotip;
-import net.montoyo.mcef.MCEF;
 
 /**
  * Basic inbuilt mod handler, including many community mods such as ChromaHUD, LevelHead and
@@ -50,7 +48,6 @@ public class HyperiumModIntegration {
     private final KeystrokesMod keystrokesMod;
     private final TimeChanger timeChanger;
     private final ToggleChatMod toggleChat;
-    private final UtilitiesMod utilities;
     private final Levelhead levelhead;
     private final ChromaHUD chromaHUD;
     private final Autotip autotip;
@@ -76,9 +73,6 @@ public class HyperiumModIntegration {
 
         // LevelHead implementation
         this.levelhead = ((Levelhead) new Levelhead().init());
-
-        // Utilities implementation
-        this.utilities = ((UtilitiesMod) new UtilitiesMod().init());
 
         // ToggleChat implementation
         this.toggleChat = ((ToggleChatMod) new ToggleChatMod().init());
@@ -146,10 +140,6 @@ public class HyperiumModIntegration {
 
     public ToggleChatMod getToggleChat() {
         return toggleChat;
-    }
-
-    public UtilitiesMod getUtilities() {
-        return utilities;
     }
 
     public Levelhead getLevelhead() {

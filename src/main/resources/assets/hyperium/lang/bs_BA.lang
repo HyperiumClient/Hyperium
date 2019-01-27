@@ -1,6 +1,6 @@
 
 # Hyperium Disclaimers
-menu.left=Copyright 2018 Hyperium Dev Tim
+menu.left=Copyright 2019 Hyperium Dev Tim
 menu.right=Nismo dio Mojang AB-a
 
 # Hyperium Buttons
@@ -141,7 +141,6 @@ gui.settings.windowedfullscreen=Prozorčić cijelog zaslona
 gui.settings.bossbartextonly=Bossbar - samo tekst
 gui.settings.staticfov=Statičlki FOV
 gui.settings.uploadscreenshots=Prenesi snimke zaslona (zadano)
-gui.settings.hidescoreboardnumbers=Sakrij Scoreboard brojeve
 gui.settings.blurredguibackground=Zamagljen GUI pozadina
 gui.settings.chromahudonallservers=ChromaHUD - na svim poslužiteljima
 gui.settings.screenshotonkill=Screenshot na ubijanje
@@ -180,7 +179,6 @@ gui.settings.showplayersasblocks=Pokaži igrači kao blokovi
 gui.settings.pingondm=Ping na DM
 gui.settings.sprintbypassstaticfov=Zaobići sprint statički FOV
 gui.settings.sprintandperspectivemessages=Sprint i perspektive poruke
-gui.settings.autowho=Auto Who
 gui.settings.showdragonhead=Pokazi glavu zmaja
 gui.settings.wingsheight=Visina krila
 gui.settings.showwings=Pokaži krila
@@ -207,8 +205,8 @@ gui.settings.details=Detalji
 gui.settings.showuserdotsonnametags=Pokaži korisničke točkice na nametagovima
 gui.settings.colortype=Vrsta boje
 gui.settings.red=Crveno
-gui.settings.blue=Plavo
 gui.settings.green=Zeleno
+gui.settings.blue=Plavo
 gui.settings.togglesprint=Togglesprint
 gui.settings.broadcastlevelups=Emitiranje Levelups
 gui.settings.broadcastachievements=Emitiranje dostignuća

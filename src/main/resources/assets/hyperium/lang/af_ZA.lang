@@ -1,6 +1,6 @@
 
 # Hyperium Disclaimers
-menu.left=Kopiereg 2018 Hyperium Dev Team
+menu.left=Kopiereg 2019 Hyperium Dev Team
 menu.right=Nie geaffilieer met Mojang AB nie
 
 # Hyperium Buttons
@@ -141,7 +141,6 @@ gui.settings.windowedfullscreen=Geboksde volskerm
 gui.settings.bossbartextonly=Bossbar - net teks
 gui.settings.staticfov=Statiese FOV
 gui.settings.uploadscreenshots=Laai skermkiekies op (standaard)
-gui.settings.hidescoreboardnumbers=Steek weg telbord se nomers
 gui.settings.blurredguibackground=Versteurde GUI agtergrond
 gui.settings.chromahudonallservers=Chromahud - op alle bedieners
 gui.settings.screenshotonkill=Skermskoot op doodmaak
@@ -180,7 +179,6 @@ gui.settings.showplayersasblocks=Wys spelers As blokke
 gui.settings.pingondm=Ping op DM
 gui.settings.sprintbypassstaticfov=Sprint omseil statiese FOV
 gui.settings.sprintandperspectivemessages=Sprint en perspektief boodskappe
-gui.settings.autowho=Outomatiese wat
 gui.settings.showdragonhead=Draak kop wys
 gui.settings.wingsheight=Vlerke hoogte
 gui.settings.showwings=Wys vlerke
@@ -207,8 +205,8 @@ gui.settings.details=Details
 gui.settings.showuserdotsonnametags=Show user dots on nametags
 gui.settings.colortype=Color Type
 gui.settings.red=Red
-gui.settings.blue=Blue
 gui.settings.green=Green
+gui.settings.blue=Blue
 gui.settings.togglesprint=Togglesprint
 gui.settings.broadcastlevelups=Broadcast Levelups
 gui.settings.broadcastachievements=Broadcast Achievements

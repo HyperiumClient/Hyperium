@@ -181,7 +181,7 @@ public class VictoryRoyale extends AbstractMod {
         SoundHandler soundHandler = Minecraft.getMinecraft().getSoundHandler();
         if (soundHandler == null || Minecraft.getMinecraft().theWorld == null)
             return;
-        soundHandler.playSound(PositionedSoundRecord.create(new ResourceLocation("victory-royale"), (float) Minecraft.getMinecraft().thePlayer.posX, (float) Minecraft.getMinecraft().thePlayer.posY, (float) Minecraft.getMinecraft().thePlayer.posZ));
+        soundHandler.playSound(PositionedSoundRecord.create(new ResourceLocation("victoryroyale"), (float) Minecraft.getMinecraft().thePlayer.posX, (float) Minecraft.getMinecraft().thePlayer.posY, (float) Minecraft.getMinecraft().thePlayer.posZ));
 
         start = System.currentTimeMillis();
         points.clear();
