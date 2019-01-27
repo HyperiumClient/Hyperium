@@ -29,7 +29,6 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.item.ItemStack;
 import org.lwjgl.input.Mouse;
-
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -52,7 +51,7 @@ public class ElementRenderer {
     private static String cValue;
     private final ChromaHUD mod;
     private final Minecraft minecraft;
-    boolean last = false;
+    private boolean last = false;
     private boolean rLast = false;
     private boolean mLast = false;
 
@@ -71,7 +70,6 @@ public class ElementRenderer {
 
     public static int getColor(int c, int x) {
         return c;
-
     }
 
     public static void draw(int x, double y, String string) {
@@ -128,16 +126,21 @@ public class ElementRenderer {
     public static void drawChromaString(String text, int xIn, int y) {
         FontRenderer renderer = Minecraft.getMinecraft().fontRendererObj;
         int x = xIn;
-        for (char c : text.toCharArray()) {
-            long dif = (x * 10) - (y * 10);
-            if (current.isStaticChroma())
-                dif = 0;
-            long l = System.currentTimeMillis() - dif;
-            float ff = current.isStaticChroma() ? 1000.0F : 2000.0F;
-            int i = Color.HSBtoRGB((float) (l % (int) ff) / ff, 0.8F, 0.8F);
-            String tmp = String.valueOf(c);
-            renderer.drawString(tmp, (float) ((double) x / getCurrentScale()), (float) ((double) y / getCurrentScale()), i, current.isShadow());
-            x += (double) renderer.getCharWidth(c) * getCurrentScale();
+        try {
+            for (char c : text.toCharArray()) {
+                long dif = (x * 10) - (y * 10);
+                if (current.isStaticChroma()) {
+                    dif = 0;
+                }
+                long l = System.currentTimeMillis() - dif;
+                float ff = current.isStaticChroma() ? 1000.0F : 2000.0F;
+                int i = Color.HSBtoRGB((float) (l % (int) ff) / ff, 0.8F, 0.8F);
+                String tmp = String.valueOf(c);
+                renderer.drawString(tmp, (float) ((double) x / getCurrentScale()), (float) ((double) y / getCurrentScale()), i, current.isShadow());
+                x += (double) renderer.getCharWidth(c) * getCurrentScale();
+            }
+        } catch (NullPointerException nullPointer) {
+            nullPointer.printStackTrace();
         }
     }
 
@@ -196,7 +199,6 @@ public class ElementRenderer {
 
     public static void endDrawing(DisplayElement element) {
         GlStateManager.scale(1.0 / element.getScale(), 1.0 / element.getScale(), 1.0 / element.getScale());
-
         GlStateManager.popMatrix();
     }
 
@@ -238,7 +240,6 @@ public class ElementRenderer {
 
     @InvokeEvent
     public void onRenderTick(RenderHUDEvent event) {
-
         if (!this.minecraft.inGameHasFocus || this.minecraft.gameSettings.showDebugInfo) {
             return;
         }
@@ -291,10 +292,7 @@ public class ElementRenderer {
             startDrawing(element);
             try {
                 element.draw();
-            } catch (Exception ignored) {
-                // lmao this is so unsafe sk1er XDDDDDDDDD
-                // Dude it's in a try catch so that it IS safe!
-            }
+            } catch (Exception ignored) {}
             endDrawing(element);
         }
 
