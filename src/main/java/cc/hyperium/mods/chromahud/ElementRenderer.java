@@ -139,8 +139,8 @@ public class ElementRenderer {
                 renderer.drawString(tmp, (float) ((double) x / getCurrentScale()), (float) ((double) y / getCurrentScale()), i, current.isShadow());
                 x += (double) renderer.getCharWidth(c) * getCurrentScale();
             }
-        } catch (NullPointerException null_pointer) {
-            null_pointer.printStackTrace();
+        } catch (NullPointerException nullPointer) {
+            nullPointer.printStackTrace();
         }
     }
 
@@ -240,7 +240,6 @@ public class ElementRenderer {
 
     @InvokeEvent
     public void onRenderTick(RenderHUDEvent event) {
-
         if (!this.minecraft.inGameHasFocus || this.minecraft.gameSettings.showDebugInfo) {
             return;
         }
@@ -293,9 +292,7 @@ public class ElementRenderer {
             startDrawing(element);
             try {
                 element.draw();
-            } catch (Exception ignored) {
-                // 1000% safe ok?
-            }
+            } catch (Exception ignored) {}
             endDrawing(element);
         }
 
