@@ -162,11 +162,8 @@ public class PlayerStatsGui extends HyperiumGui {
 
         });
 
-        reg("VIEW_GUILD", new GuiButton(nextId(), 1, 22, "View Guild"), button -> {
-            new GuildStatsGui(player.getGuild()).show();
-        }, button -> {
-            button.visible = player.getGuild().isLoaded() && player.getGuild().isValid();
-        });
+        reg("VIEW_GUILD", new GuiButton(nextId(), 1, 22, "View Guild"), button -> new GuildStatsGui(player.getGuild()).show(),
+            button -> button.visible = player.getGuild().isLoaded() && player.getGuild().isValid());
         reg("VIEW_FRIENDS", new GuiButton(nextId(), 1, 22 + 21, "View Friends"), button -> {
 //TODO
 //   new FriendsGui(player.getFriends()).show();

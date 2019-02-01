@@ -61,30 +61,30 @@ public class AsyncScreenshotSaver implements Runnable {
     private static File getTimestampedPNGFileForDirectory(final File gameDirectory) {
         final String s = new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss").format(new Date());
         int i = 1;
-        File file1;
+        File screenshot;
         while (true) {
-            file1 = new File(gameDirectory, s + ((i == 1) ? "" : ("_" + i)) + ".png");
-            if (!file1.exists()) {
+            screenshot = new File(gameDirectory, s + ((i == 1) ? "" : ("_" + i)) + ".png");
+            if (!screenshot.exists()) {
                 break;
             }
             ++i;
         }
-        return file1;
+        return screenshot;
     }
 
-    private static void processPixelValues(final int[] p_147953_0_, final int p_147953_1_, final int p_147953_2_) {
-        final int[] aint = new int[p_147953_1_];
-        for (int i = p_147953_2_ / 2, j = 0; j < i; ++j) {
-            System.arraycopy(p_147953_0_, j * p_147953_1_, aint, 0, p_147953_1_);
-            System.arraycopy(p_147953_0_, (p_147953_2_ - 1 - j) * p_147953_1_, p_147953_0_, j * p_147953_1_, p_147953_1_);
-            System.arraycopy(aint, 0, p_147953_0_, (p_147953_2_ - 1 - j) * p_147953_1_, p_147953_1_);
+    private static void processPixelValues(final int[] values, final int displayWidth, final int displayHeight) {
+        final int[] aint = new int[displayWidth];
+        for (int i = displayHeight / 2, j = 0; j < i; ++j) {
+            System.arraycopy(values, j * displayWidth, aint, 0, displayWidth);
+            System.arraycopy(values, (displayHeight - 1 - j) * displayWidth, values, j * displayWidth, displayWidth);
+            System.arraycopy(aint, 0, values, (displayHeight - 1 - j) * displayWidth, displayWidth);
         }
     }
 
     @Override
     public void run() {
         processPixelValues(this.pixelValues, this.width, this.height);
-        BufferedImage bufferedimage = null;
+        BufferedImage bufferedimage;
         final File file2 = getTimestampedPNGFileForDirectory(this.screenshotDir);
 
         Cancellable cancellable = new Cancellable();

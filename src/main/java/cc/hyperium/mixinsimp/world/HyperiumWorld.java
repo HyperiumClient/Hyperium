@@ -112,8 +112,7 @@ public class HyperiumWorld {
         theProfiler.endStartSection("remove");
         loadedEntityList.removeAll(unloadedEntityList);
 
-        for (int k = 0; k < unloadedEntityList.size(); ++k) {
-            Entity entity1 = unloadedEntityList.get(k);
+        for (Entity entity1 : unloadedEntityList) {
             int j = entity1.chunkCoordX;
             int l1 = entity1.chunkCoordZ;
 
@@ -122,8 +121,8 @@ public class HyperiumWorld {
             }
         }
 
-        for (int l = 0; l < unloadedEntityList.size(); ++l) {
-            ((IMixinWorld) parent).callOnEntityRemoved(unloadedEntityList.get(l));
+        for (Entity entity : unloadedEntityList) {
+            ((IMixinWorld) parent).callOnEntityRemoved(entity);
         }
 
 
@@ -172,19 +171,17 @@ public class HyperiumWorld {
         theProfiler.endStartSection("pendingBlockEntities");
 
         if (!addedTileEntityList.isEmpty()) {
-            for (int j1 = 0; j1 < addedTileEntityList.size(); ++j1) {
-                TileEntity tileentity1 = addedTileEntityList.get(j1);
-
-                if (!tileentity1.isInvalid()) {
-                    if (!loadedTileEntityList.contains(tileentity1)) {
-                        parent.addTileEntity(tileentity1);
+            for (TileEntity entity : addedTileEntityList) {
+                if (!entity.isInvalid()) {
+                    if (!loadedTileEntityList.contains(entity)) {
+                        parent.addTileEntity(entity);
                     }
 
-                    if (parent.isBlockLoaded(tileentity1.getPos())) {
-                        parent.getChunkFromBlockCoords(tileentity1.getPos()).addTileEntity(tileentity1.getPos(), tileentity1);
+                    if (parent.isBlockLoaded(entity.getPos())) {
+                        parent.getChunkFromBlockCoords(entity.getPos()).addTileEntity(entity.getPos(), entity);
                     }
 
-                    parent.markBlockForUpdate(tileentity1.getPos());
+                    parent.markBlockForUpdate(entity.getPos());
                 }
             }
 

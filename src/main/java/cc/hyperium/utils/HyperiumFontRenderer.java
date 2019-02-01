@@ -373,7 +373,7 @@ public class HyperiumFontRenderer {
         StringBuilder currentString = new StringBuilder();
 
         for (String word : splitText) {
-            String potential = currentString.toString() + " " + word;
+            String potential = currentString + " " + word;
 
             if (getWidth(potential) >= wrapWidth) {
                 lines.add(currentString.toString());

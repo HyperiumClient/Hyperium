@@ -55,9 +55,7 @@ public class HypixelAPI {
     public HypixelAPI() {
         Multithreading.schedule(this::updatePersonalData, 10L, 305, TimeUnit.SECONDS);
         INSTANCE = this;
-        Multithreading.runAsync(() -> {
-            getQuests(true);
-        });
+        Multithreading.runAsync(() -> getQuests(true));
 
     }
 

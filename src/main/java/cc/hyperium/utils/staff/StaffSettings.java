@@ -1,7 +1,6 @@
 package cc.hyperium.utils.staff;
 
 import cc.hyperium.utils.ChatColor;
-import cc.hyperium.utils.StaffUtils;
 
 public class StaffSettings {
 

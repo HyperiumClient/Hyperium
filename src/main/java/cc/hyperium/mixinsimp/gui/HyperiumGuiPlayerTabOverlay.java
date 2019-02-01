@@ -6,7 +6,7 @@ import cc.hyperium.handlers.handlers.data.HypixelAPI;
 import cc.hyperium.mixins.gui.IMixinGui;
 import cc.hyperium.mixins.gui.IMixinGuiPlayerTabOverlay;
 import cc.hyperium.utils.ChatColor;
-import cc.hyperium.utils.StaffUtils;
+import cc.hyperium.utils.staff.StaffUtils;
 import com.google.common.collect.Ordering;
 import com.mojang.authlib.GameProfile;
 import net.minecraft.client.Minecraft;
@@ -53,7 +53,7 @@ public class HyperiumGuiPlayerTabOverlay {
 
     public void drawPing(int p_175245_1_, int p_175245_2_, int yIn, NetworkPlayerInfo networkPlayerInfoIn, float zLevel, Minecraft mc) {
         final int ping = networkPlayerInfoIn.getResponseTime();
-        final int x = p_175245_2_ + p_175245_1_ - (mc.fontRendererObj.getStringWidth(ping + "") >> 1) - 2;
+        final int x = p_175245_2_ + p_175245_1_ - (mc.fontRendererObj.getStringWidth(String.valueOf(ping)) >> 1) - 2;
         final int y = yIn + (mc.fontRendererObj.FONT_HEIGHT >> 2);
         if (Settings.NUMBER_PING) {
             int colour;
@@ -78,7 +78,7 @@ public class HyperiumGuiPlayerTabOverlay {
             if (ping >= 0 && ping < 10000) {
                 GlStateManager.pushMatrix();
                 GlStateManager.scale(0.5f, 0.5f, 0.5f);
-                mc.fontRendererObj.drawString("   " + ping + "", (2 * x), (2 * y), colour);
+                mc.fontRendererObj.drawString("   " + ping, (2 * x), (2 * y), colour);
                 GlStateManager.scale(2.0f, 2.0f, 2.0f);
                 GlStateManager.popMatrix();
 

@@ -82,7 +82,7 @@ public class ScoreboardDisplay extends DisplayItem {
                 ++j;
                 ScorePlayerTeam scoreplayerteam1 = scoreboard.getPlayersTeam(score1.getPlayerName());
                 String s1 = ScorePlayerTeam.formatPlayerName(scoreplayerteam1, score1.getPlayerName());
-                String s2 = EnumChatFormatting.RED + "" + score1.getScorePoints();
+                String s2 = EnumChatFormatting.RED + String.valueOf(score1.getScorePoints());
                 k = ((int) startY) + (collection.size() - j + 1) * Minecraft.getMinecraft().fontRendererObj.FONT_HEIGHT;
                 int l = p_180475_2_.getScaledWidth() - k1 + 2;
                 if (ElementRenderer.getCurrent().isHighlighted()) {

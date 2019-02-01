@@ -31,17 +31,13 @@ public class GuiHyperiumScreenIngameMenu extends GuiHyperiumScreen {
     private long lastUpdate = 0L;
     private int cooldown = 0;
     private int baseAngle;
-    private int field_146445_a;
-    private int field_146444_f;
 
     @Override
     public void initGui() {
         super.initGui();
 
-        this.field_146445_a = 0;
         this.buttonList.clear();
         int i = -16;
-        int j = 98;
 
         this.buttonList.add(new GuiButton(1, this.width / 2 - 100, this.height / 4 + 120 + i, I18n.format("menu.returnToMenu")));
 
@@ -85,15 +81,15 @@ public class GuiHyperiumScreenIngameMenu extends GuiHyperiumScreen {
                 this.mc.displayGuiScreen(new GuiOptions(this, this.mc.gameSettings));
                 break;
             case 1:
-                boolean flag = this.mc.isIntegratedServerRunning();
-                boolean flag1 = this.mc.func_181540_al();
+                boolean integratedServerRunning = this.mc.isIntegratedServerRunning();
+                boolean isConnectedToRealms = this.mc.func_181540_al();
                 button.enabled = false;
                 this.mc.theWorld.sendQuittingDisconnectingPacket();
                 this.mc.loadWorld(null);
 
-                if (flag) {
+                if (integratedServerRunning) {
                     this.mc.displayGuiScreen(new GuiMainMenu());
-                } else if (flag1) {
+                } else if (isConnectedToRealms) {
                     RealmsBridge realmsbridge = new RealmsBridge();
                     realmsbridge.switchToRealms(new GuiMainMenu());
                 } else {
@@ -218,9 +214,6 @@ public class GuiHyperiumScreenIngameMenu extends GuiHyperiumScreen {
     @Override
     public void updateScreen() {
         super.updateScreen();
-
-        ++this.field_146444_f;
-
         cooldown++;
         if (cooldown > 40) {
             baseAngle += 9;
@@ -228,7 +221,5 @@ public class GuiHyperiumScreenIngameMenu extends GuiHyperiumScreen {
                 cooldown = 0;
             }
         }
-
     }
-
 }

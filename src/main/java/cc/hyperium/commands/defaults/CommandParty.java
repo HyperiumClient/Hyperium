@@ -24,10 +24,10 @@ public class CommandParty implements BaseCommand {
     @Override
     public void onExecute(String[] args) throws CommandException {
         StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < args.length; i++) {
-            builder.append(" ").append(args[i]);
+        for (String user : args) {
+            builder.append(" ").append(user);
         }
-        Hyperium.INSTANCE.getHandlers().getCommandQueue().queue("/party" + builder.toString());
+        Hyperium.INSTANCE.getHandlers().getCommandQueue().queue("/party" + builder);
     }
 
     @Override

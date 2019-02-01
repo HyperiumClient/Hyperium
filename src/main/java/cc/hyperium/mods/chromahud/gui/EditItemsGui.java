@@ -301,7 +301,7 @@ public class EditItemsGui extends GuiScreen {
                     StringBuilder currentLine = new StringBuilder();
                     for (String s : split) {
                         if (!s.contains("\n")) {
-                            if (fontRendererObj.getStringWidth(" " + currentLine.toString()) +
+                            if (fontRendererObj.getStringWidth(" " + currentLine) +
                                 fontRendererObj.getStringWidth(s) + xPosition < rightBound - 10)
                                 currentLine.append(" ").append(s);
                             else {

@@ -76,7 +76,7 @@ import cc.hyperium.purchases.PurchaseApi;
 import cc.hyperium.tray.TrayManager;
 import cc.hyperium.utils.HyperiumScheduler;
 import cc.hyperium.utils.LaunchUtil;
-import cc.hyperium.utils.StaffUtils;
+import cc.hyperium.utils.staff.StaffUtils;
 import cc.hyperium.utils.UpdateUtils;
 import cc.hyperium.utils.mods.CompactChat;
 import cc.hyperium.utils.mods.FPSLimiter;
@@ -86,7 +86,6 @@ import net.minecraft.crash.CrashReport;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
 import org.lwjgl.opengl.Display;
 
 import java.io.BufferedReader;
@@ -138,17 +137,12 @@ public class Hyperium {
     private HyperiumModIntegration modIntegration;
     private MinigameListener minigameListener;
     private boolean acceptedTos = false;
-    private boolean fullScreen = false;
-    private boolean checkedForUpdate = false;
     private boolean optifineInstalled = false;
     public boolean isDevEnv;
     private Sk1erMod sk1erMod;
     private NettyClient client;
     private InternalAddons internalAddons;
     private NetworkHandler networkHandler;
-    /**
-     * @param event initialize Hyperium
-     */
     private boolean firstLaunch = false;
     private HyperiumScheduler scheduler;
 
@@ -275,10 +269,9 @@ public class Hyperium {
 
             if (acceptedTos) {
                 sk1erMod = new Sk1erMod("hyperium", Metadata.getVersion(), object -> {
-                    //Callbackd
+                    //Callback
                     if (object.has("enabled") && !object.optBoolean("enabled")) {
                         //Disable stuff
-                        // EventBus.INSTANCE.disable(); dont think this is needed?
                         getHandlers().getHyperiumCommandHandler().clear();
                     }
                 });
@@ -433,7 +426,7 @@ public class Hyperium {
         String[] command = System.getProperty("sun.java.command").split(" ");
 
         String javaPath = System.getProperty("java.home") + File.separator + "bin" + File.separator + "java";
-        cmd.append(quoteSpaces(javaPath) + " ");
+        cmd.append(quoteSpaces(javaPath)).append(" ");
 
         ManagementFactory.getRuntimeMXBean().getInputArguments().forEach(s -> {
             if (s.contains("library.path")) {

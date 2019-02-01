@@ -118,7 +118,7 @@ public class GuiSidebar extends Gui {
             ++index;
             final ScorePlayerTeam team2 = scoreboard.getPlayersTeam(score2.getPlayerName());
             final String s3 = ScorePlayerTeam.formatPlayerName(team2, score2.getPlayerName());
-            String s4 = EnumChatFormatting.RED + "" + score2.getScorePoints();
+            String s4 = EnumChatFormatting.RED + String.valueOf(score2.getScorePoints());
             if (!this.redNumbers) {
                 s4 = "";
             }

@@ -196,11 +196,7 @@ import net.minecraft.world.storage.ISaveFormat;
 import net.minecraft.world.storage.WorldInfo;
 import org.lwjgl.input.Keyboard;
 
-import javax.imageio.ImageIO;
-import java.awt.Color;
 import java.io.IOException;
-import java.net.URL;
-import java.util.HashMap;
 
 public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiYesNoCallback {
 
@@ -210,8 +206,7 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
     private final ResourceLocation person_outline = new ResourceLocation("textures/material/person-outline.png");
     private final ResourceLocation settings = new ResourceLocation("textures/material/settings.png");
     private final ResourceLocation hIcon = new ResourceLocation("textures/h_icon.png");
-    private HashMap<String, DynamicTexture> cachedImages = new HashMap<>();
-    private GuiScreen field_183503_M;
+    private GuiScreen parentScreen;
     private boolean field_183502_L;
 
     public GuiHyperiumScreenMainMenu() {
@@ -219,8 +214,8 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
             GuiHyperiumScreenMainMenu.FIRST_START = false;
             Minecraft.getMinecraft().toggleFullscreen();
             Minecraft.getMinecraft().toggleFullscreen();
-
         }
+
         if (Hyperium.INSTANCE.isFirstLaunch()) {
             new SettingsMigrator().migrate();
         }
@@ -252,13 +247,13 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
 
         if (Minecraft.getMinecraft().gameSettings.getOptionOrdinalValue(GameSettings.Options.REALMS_NOTIFICATIONS) && !this.field_183502_L) {
             RealmsBridge realmsbridge = new RealmsBridge();
-            this.field_183503_M = realmsbridge.getNotificationScreen(this);
+            this.parentScreen = realmsbridge.getNotificationScreen(this);
             this.field_183502_L = true;
         }
 
-        if (Minecraft.getMinecraft().gameSettings.getOptionOrdinalValue(GameSettings.Options.REALMS_NOTIFICATIONS) && this.field_183503_M != null) {
-            this.field_183503_M.func_183500_a(this.width, this.height);
-            this.field_183503_M.initGui();
+        if (Minecraft.getMinecraft().gameSettings.getOptionOrdinalValue(GameSettings.Options.REALMS_NOTIFICATIONS) && this.parentScreen != null) {
+            this.parentScreen.func_183500_a(this.width, this.height);
+            this.parentScreen.initGui();
         }
     }
 
@@ -274,7 +269,7 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
                 addDefaultStyleSingleplayerMultiplayerButtons(p_73969_1_, p_73969_2_);
                 break;
             case HYPERIUM:
-                addHyperiumStyleSingleplayerMultiplayerButtons(p_73969_1_, p_73969_2_);
+                addHyperiumStyleSingleplayerMultiplayerButtons();
                 break;
         }
     }
@@ -286,14 +281,11 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
      */
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-
         super.drawScreen(mouseX, mouseY, partialTicks);
-
     }
 
     @Override
     public void actionPerformed(GuiButton button) {
-
         if (button.id == 0) {
             this.mc.displayGuiScreen(new GuiOptions(this, this.mc.gameSettings));
         }
@@ -341,9 +333,6 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
                     ((IMixinGuiMultiplayer) p_i1182_1_).setIp(data);
                     p_i1182_1_.confirmClicked(true, 0);
                 }
-                if (button.id == 18) {
-
-                }
                 break;
             case HYPERIUM:
                 if (button.id == 15)
@@ -360,7 +349,7 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
 
     }
 
-    public void addHyperiumStyleSingleplayerMultiplayerButtons(int p_73969_1_, int p_73969_2_) {
+    public void addHyperiumStyleSingleplayerMultiplayerButtons() {
         this.buttonList.add(new GuiButton(1, this.width / 2 - getIntendedWidth(295), this.height / 2 - getIntendedHeight(55), getIntendedWidth(110), getIntendedHeight(110), ""));
         this.buttonList.add(new GuiButton(2, this.width / 2 - getIntendedWidth(175), this.height / 2 - getIntendedHeight(55), getIntendedWidth(110), getIntendedHeight(110), ""));
         this.buttonList.add(new GuiButton(15, this.width / 2 + getIntendedWidth(65), this.height / 2 - getIntendedHeight(55), getIntendedWidth(110), getIntendedHeight(110), ""));
@@ -411,33 +400,6 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
 
         GlStateManager.popMatrix();
 
-    }
-
-    private int color(int i, int i1, int i2, int i3) {
-        return new Color(i, i1, i2, i3).getRGB();
-    }
-
-    private DynamicTexture getCachedTexture(String t) {
-        final DynamicTexture[] texture = {this.cachedImages.get(t)};
-        if (texture[0] == null) {
-            Minecraft.getMinecraft().addScheduledTask(() -> {
-                try {
-                    texture[0] = new DynamicTexture(ImageIO
-                        .read(new URL("https://crafatar.com/avatars/" + t + "?size=30?default=MHF_Steve&overlay")));
-
-                } catch (Exception ignored) {
-                    try {
-                        texture[0] = new DynamicTexture(ImageIO
-                            .read(new URL("https://crafatar.com/avatars/c06f89064c8a49119c29ea1dbd1aab82")));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-                this.cachedImages.put(t, texture[0]);
-            });
-
-        }
-        return texture[0];
     }
 
     @Override

@@ -152,15 +152,14 @@ public abstract class MixinEntityRenderer {
                 List<Entity> list = this.mc.theWorld.getEntitiesInAABBexcluding(entity, entity.getEntityBoundingBox().addCoord(vec31.xCoord * d0, vec31.yCoord * d0, vec31.zCoord * d0).expand((double) f, (double) f, (double) f), Predicates.and(EntitySelectors.NOT_SPECTATING, Entity::canBeCollidedWith));
                 double d2 = d1;
 
-                for (int j = 0; j < list.size(); ++j) {
-                    Entity entity1 = list.get(j);
-                    float f1 = entity1.getCollisionBorderSize();
-                    AxisAlignedBB axisalignedbb = entity1.getEntityBoundingBox().expand((double) f1, (double) f1, (double) f1);
+                for (Entity ridingEntity : list) {
+                    float f1 = ridingEntity.getCollisionBorderSize();
+                    AxisAlignedBB axisalignedbb = ridingEntity.getEntityBoundingBox().expand((double) f1, (double) f1, (double) f1);
                     MovingObjectPosition movingobjectposition = axisalignedbb.calculateIntercept(vec3, vec32);
 
                     if (axisalignedbb.isVecInside(vec3)) {
                         if (d2 >= 0.0D) {
-                            this.pointedEntity = entity1;
+                            this.pointedEntity = ridingEntity;
                             vec33 = movingobjectposition == null ? vec3 : movingobjectposition.hitVec;
                             d2 = 0.0D;
                         }
@@ -168,13 +167,13 @@ public abstract class MixinEntityRenderer {
                         double d3 = vec3.distanceTo(movingobjectposition.hitVec);
 
                         if (d3 < d2 || d2 == 0.0D) {
-                            if (entity1 == entity.ridingEntity) {
+                            if (ridingEntity == entity.ridingEntity) {
                                 if (d2 == 0.0D) {
-                                    this.pointedEntity = entity1;
+                                    this.pointedEntity = ridingEntity;
                                     vec33 = movingobjectposition.hitVec;
                                 }
                             } else {
-                                this.pointedEntity = entity1;
+                                this.pointedEntity = ridingEntity;
                                 vec33 = movingobjectposition.hitVec;
                                 d2 = d3;
                             }

@@ -132,8 +132,8 @@ public class MixinChunk {
                 this.worldObj.markTileEntityForRemoval(tileentity);
             }
 
-            for (int i = 0; i < this.entityLists.length; ++i) {
-                this.worldObj.unloadEntities(this.entityLists[i]);
+            for (ClassInheritanceMultiMap<Entity> entityList : this.entityLists) {
+                this.worldObj.unloadEntities(entityList);
             }
         }
     }
@@ -214,8 +214,8 @@ public class MixinChunk {
                             Entity[] aentity = entity.getParts();
 
                             if (aentity != null) {
-                                for (int l = 0; l < aentity.length; ++l) {
-                                    entity = aentity[l];
+                                for (Entity entityWithinAABB : aentity) {
+                                    entity = entityWithinAABB;
 
                                     if (entity != entityIn && entity.getEntityBoundingBox().intersectsWith(aabb) && (p_177414_4_ == null || p_177414_4_.apply(entity))) {
                                         listToFill.add(entity);

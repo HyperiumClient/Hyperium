@@ -257,7 +257,6 @@ public class ParticleOverlay {
                         float x2 = ((float) ResolutionUtil.current().getScaledWidth_double()) * particle1.x;
                         float y2 = ((float) ResolutionUtil.current().getScaledHeight_double()) * particle1.y;
                         double alpha = 100 + ((0.02 / 155) * v);
-//
                         boolean flag = false;
                         if (((v1 >= guiLeft && v1 <= guiRight) || (x2 >= guiLeft && x2 <= guiRight))
                             && ((v2 >= guiTop && v2 <= guiBottom) || (y2 >= guiTop && y2 <= guiBottom))) {
@@ -269,8 +268,8 @@ public class ParticleOverlay {
 
 
                         int color = Color.HSBtoRGB(h, 0.8F, 0.8F);
-                        Color eee = new Color(color);
-                        eee = new Color(eee.getRed(), eee.getBlue(), eee.getGreen(), flag ? 255 / 4 : 255);
+                        Color line = new Color(color);
+                        line = new Color(line.getRed(), line.getBlue(), line.getGreen(), flag ? 255 / 4 : 255);
                         switch (m) {
                             case PLAIN_1:
                                 RenderUtils.drawLine(v1, v2, x2, y2, (float) lineStrength, new Color(255, 255, 255, (int) alpha).getRGB());
@@ -279,10 +278,10 @@ public class ParticleOverlay {
                                 RenderUtils.drawLine(v1, v2, x2, y2, 1F, new Color(255, 255, 255, (int) alpha).getRGB());
                                 break;
                             case CHROMA_1:
-                                RenderUtils.drawLine(v1, v2, x2, y2, (float) lineStrength, eee.getRGB());
+                                RenderUtils.drawLine(v1, v2, x2, y2, (float) lineStrength, line.getRGB());
                                 break;
                             case CHROMA_2:
-                                RenderUtils.drawLine(v1, v2, x2, y2, 1F, eee.getRGB());
+                                RenderUtils.drawLine(v1, v2, x2, y2, 1F, line.getRGB());
                                 break;
                         }
                         lines++;

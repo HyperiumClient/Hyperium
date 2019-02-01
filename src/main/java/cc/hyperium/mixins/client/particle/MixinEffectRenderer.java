@@ -257,7 +257,7 @@ public abstract class MixinEffectRenderer implements IMixinEffectRenderer {
             }
         }
 
-        return "" + i;
+        return String.valueOf(i);
     }
 
     /**

@@ -391,7 +391,7 @@ public class HyperiumMinecraft {
                     Runtime.getRuntime().addShutdownHook(new Thread(() -> {
                         try {
                             Hyperium.LOGGER.info("## RESTARTING MINECRAFT ##");
-                            Hyperium.LOGGER.info("cmd=" + cmd.toString());
+                            Hyperium.LOGGER.info("cmd=" + cmd);
                             Runtime.getRuntime().exec(cmd.toString());
                         } catch (IOException e) {
                             e.printStackTrace();

@@ -6,7 +6,7 @@ import cc.hyperium.event.EventBus;
 import cc.hyperium.event.RenderNameTagEvent;
 import cc.hyperium.mixins.renderer.IMixinRender;
 import cc.hyperium.utils.ChatColor;
-import cc.hyperium.utils.StaffUtils;
+import cc.hyperium.utils.staff.StaffUtils;
 import cc.hyperium.utils.Utils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;

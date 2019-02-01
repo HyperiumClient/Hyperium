@@ -82,10 +82,7 @@ public class CustomLevelheadConfigurer extends HyperiumGui {
             header.setText(jsonHolder.optString("header"));
             level.setText(jsonHolder.optString("true_footer"));
         });
-        Multithreading.runAsync(() -> {
-            levelhead_propose = PurchaseApi.getInstance().get("https://api.hyperium.cc/levelhead_propose/" + UUIDUtil.getUUIDWithoutDashes());
-
-        });
+        Multithreading.runAsync(() -> levelhead_propose = PurchaseApi.getInstance().get("https://api.hyperium.cc/levelhead_propose/" + UUIDUtil.getUUIDWithoutDashes()));
     }
 
     @Override

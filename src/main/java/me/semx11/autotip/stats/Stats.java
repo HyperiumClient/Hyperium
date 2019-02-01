@@ -165,23 +165,17 @@ public abstract class Stats {
                 .forEach(entry -> {
                     String game = entry.getKey();
                     Coins coins = entry.getValue();
-                    messageUtil.getKeyHelper("command.stats").withKey("coins", context -> {
-                        context.getBuilder(game, coins.getTotal())
-                                .setHover(context.getKey("coinsHover"), game, coins.getSent(),
-                                        coins.getReceived())
-                                .send();
-                    });
+                    messageUtil.getKeyHelper("command.stats").withKey("coins", context -> context.getBuilder(game, coins.getTotal())
+                            .setHover(context.getKey("coinsHover"), game, coins.getSent(),
+                                    coins.getReceived())
+                            .send());
                 });
-        messageUtil.getKeyHelper("command.stats").withKey("tips", context -> {
-            context.getBuilder(this.getTipsTotal())
-                    .setHover(context.getKey("tipsHover"), this.getTipsSent(),
-                            this.getTipsReceived())
-                    .send();
-        }).withKey("xp", context -> {
-            context.getBuilder(this.getXpTotal())
-                    .setHover(context.getKey("xpHover"), this.getXpSent(), this.getXpReceived())
-                    .send();
-        });
+        messageUtil.getKeyHelper("command.stats").withKey("tips", context -> context.getBuilder(this.getTipsTotal())
+                .setHover(context.getKey("tipsHover"), this.getTipsSent(),
+                        this.getTipsReceived())
+                .send()).withKey("xp", context -> context.getBuilder(this.getXpTotal())
+                        .setHover(context.getKey("xpHover"), this.getXpSent(), this.getXpReceived())
+                        .send());
         if (this instanceof StatsDaily) {
             messageUtil.sendKey("command.stats.date", ((StatsDaily) this).getDateString());
         } else if (this instanceof StatsRange) {

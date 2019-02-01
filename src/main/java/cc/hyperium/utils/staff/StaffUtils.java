@@ -1,5 +1,7 @@
-package cc.hyperium.utils;
+package cc.hyperium.utils.staff;
 
+import cc.hyperium.utils.ChatColor;
+import cc.hyperium.utils.InstallerUtils;
 import cc.hyperium.utils.staff.StaffSettings;
 import org.json.JSONArray;
 import org.json.JSONObject;

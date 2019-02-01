@@ -164,10 +164,7 @@ public class GuiDances extends HyperiumGui {
                 });
                 Hyperium.INSTANCE.getHandlers().getFlipHandler().resetTick();
             });
-            this.cancel.put("Flip", () -> {
-                Hyperium.INSTANCE.getHandlers().getFlipHandler().state(UUIDUtil.getClientUUID(), 0);
-
-            });
+            this.cancel.put("Flip", () -> Hyperium.INSTANCE.getHandlers().getFlipHandler().state(UUIDUtil.getClientUUID(), 0));
         }
 
     }

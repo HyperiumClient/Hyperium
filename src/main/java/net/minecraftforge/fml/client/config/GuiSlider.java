@@ -66,7 +66,7 @@ public class GuiSlider extends GuiButtonExt {
 
         if (showDecimal) {
             val = Double.toString(sliderValue * (maxValue - minValue) + minValue);
-            precision = Math.min(val.substring(val.indexOf(".") + 1).length(), 4);
+            precision = Math.min(val.substring(val.indexOf('.') + 1).length(), 4);
         } else {
             val = Integer.toString((int) Math.round(sliderValue * (maxValue - minValue) + minValue));
             precision = 0;

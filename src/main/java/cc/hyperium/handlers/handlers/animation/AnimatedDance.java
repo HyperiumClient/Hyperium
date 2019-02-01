@@ -87,7 +87,7 @@ public abstract class AnimatedDance extends AbstractPreCopyAnglesAnimationHandle
             JsonHolder h = new JsonHolder(element.getAsJsonObject());
             int time = h.optInt("time");
             AnimationFrame frame = new AnimationFrame(frame(time));
-            frame.name = h.optInt("time") + "";
+            frame.name = String.valueOf(h.optInt("time"));
             for (String s : h.getKeys()) {
                 visibility.put(s, true);
                 if (!s.equalsIgnoreCase("time")) {

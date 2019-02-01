@@ -53,8 +53,6 @@ public class GuiButtonIcon extends GuiButton {
             int height = 52;
             mc.getTextureManager().bindTexture(icon);
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-            boolean flag = mouseX >= xPosition && mouseY >= yPosition && mouseX < xPosition + width && mouseY < yPosition + height;
-            // todo if flag glcolour
             GL11.glPushMatrix();
             GL11.glScalef(scale, scale, scale);
             GlStateManager.enableBlend();

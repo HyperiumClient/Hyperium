@@ -107,7 +107,7 @@ public class Util {
             MessageDigest sha = MessageDigest.getInstance("SHA-1");
             sha.reset();
 
-            int read = 0;
+            int read;
             byte[] buffer = new byte[65536];
 
             while ((read = fis.read(buffer)) > 0)
@@ -116,8 +116,8 @@ public class Util {
             byte[] digest = sha.digest();
             String hash = "";
 
-            for (int i = 0; i < digest.length; i++) {
-                int b = digest[i] & 0xFF;
+            for (byte abyte : digest) {
+                int b = abyte & 0xFF;
                 int left = b >>> 4;
                 int right = b & 0x0F;
 

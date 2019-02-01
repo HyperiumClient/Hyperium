@@ -176,7 +176,7 @@ public class AddItemsGui extends GuiScreen {
 
                 Map<String, String> names = parser.getNames();
                 for (String s : names.keySet()) {
-                    String text1 = names.get(s) + "";
+                    String text1 = names.get(s);
                     drawRect(current.getScaledWidth() / 2 - 80, cursorY, current.getScaledWidth() / 2 + 80, cursorY + 20, defaultColor.getRGB());
                     int j = Color.RED.getRGB();
                     int width = 160;
