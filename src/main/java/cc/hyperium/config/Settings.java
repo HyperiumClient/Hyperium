@@ -28,6 +28,7 @@ import static cc.hyperium.config.Category.BUTTONS;
 import static cc.hyperium.config.Category.CHROMAHUD;
 import static cc.hyperium.config.Category.COSMETICS;
 import static cc.hyperium.config.Category.GENERAL;
+import static cc.hyperium.config.Category.GUISCALE;
 import static cc.hyperium.config.Category.HYPIXEL;
 import static cc.hyperium.config.Category.IMPROVEMENTS;
 import static cc.hyperium.config.Category.INTEGRATIONS;
@@ -640,6 +641,10 @@ public class Settings {
     @ConfigOpt
     @ToggleSetting(name = "gui.settings.disablebeaconbeam", category = IMPROVEMENTS)
     public static boolean DISABLE_BEACON_BEAM = false;
+
+    @ConfigOpt
+    @SliderSetting(min = -2.0f, max = 10.0f, name = "gui.settings.guiscalebonus", category = GUISCALE, mods = true)
+    public static double GUISCALEBONUS = 0.0;
 
     private Settings() {
     }

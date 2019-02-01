@@ -6,7 +6,6 @@ import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
 
 import java.util.List;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 
 public class HyperiumGuiControls {

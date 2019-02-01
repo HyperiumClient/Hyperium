@@ -31,7 +31,8 @@ public enum Category {
     ITEM_PHYSIC("Item Physics"),
     VICTORYROYALE("Victory Royale"),
     TOGGLESPRINT("Toggle Sprint"),
-    CHUNK_ANIMATOR("Chunk Animator");
+    CHUNK_ANIMATOR("Chunk Animator"),
+    GUISCALE("Gui Scale");
 
     private String display;
 

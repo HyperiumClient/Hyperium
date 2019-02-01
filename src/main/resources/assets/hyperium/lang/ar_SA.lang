@@ -238,6 +238,7 @@ gui.settings.disableitemframes=Disable Item Frames
 gui.settings.disablesigns=Disable Signs
 gui.settings.disablebanners=Disable Banners
 gui.settings.disablebeaconbeam=Disable Beacon Beams
+gui.settings.guiscalebonus=Guiscale Bonus
 
 # Hyperium Splash Progress
 splashprogress.startinggame=بدء اللعبة...

@@ -84,6 +84,7 @@ public class HyperiumTweaker implements ITweaker {
 
         Hyperium.LOGGER.info("Applying transformers...");
         //classLoader.registerTransformer("cc.hyperium.mods.memoryfix.ClassTransformer")
+        classLoader.registerTransformer("cc.hyperium.mods.guiscale.asm.GuiscaleTransformer");
 
         // Excludes packages from classloader
         MixinEnvironment environment = MixinEnvironment.getDefaultEnvironment();
@@ -96,7 +97,6 @@ public class HyperiumTweaker implements ITweaker {
 
         if (this.isRunningOptifine) {
             this.OPTIFINE = true;
-
             environment.setObfuscationContext("notch"); // Switch's to notch mappings
         }
 

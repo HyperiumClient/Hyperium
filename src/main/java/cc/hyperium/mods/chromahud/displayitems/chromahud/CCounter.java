@@ -35,11 +35,9 @@ public class CCounter extends DisplayItem {
 
 
     @Override
-    public void draw(int starX, double startY, boolean ignored) {
+    public void draw(int startX, double startY, boolean ignored) {
         String string = ElementRenderer.getCValue();
-        ElementRenderer.draw(starX, startY, string);
+        ElementRenderer.draw(startX, startY, string);
         this.width = Minecraft.getMinecraft().fontRendererObj.getStringWidth(string);
     }
-
-
 }
