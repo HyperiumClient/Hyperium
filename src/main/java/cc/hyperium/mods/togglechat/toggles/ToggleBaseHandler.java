@@ -65,7 +65,7 @@ public class ToggleBaseHandler {
 
     /**
      * Run through all bases and check if the
-     * given text should be AUTOGG
+     * given text should be toggled
      *
      * @param input text to test
      * @return the formatted text

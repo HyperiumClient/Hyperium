@@ -51,7 +51,7 @@ public class ToggleChatEvents {
         try {
             // Loop through all the toggles
             for (ToggleBase type : this.mod.getToggleHandler().getToggles().values()) {
-                // The chat its looking for shouldn't be AUTOGG, move to next one!
+                // The chat its looking for shouldn't be toggled, move to next one!
                 if (type.isEnabled()) {
                     continue;
                 }

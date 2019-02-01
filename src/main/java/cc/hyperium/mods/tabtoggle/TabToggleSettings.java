@@ -4,7 +4,7 @@ import cc.hyperium.config.Category;
 import cc.hyperium.config.ConfigOpt;
 import cc.hyperium.config.ToggleSetting;
 
-class TabToggleSettings {
+public class TabToggleSettings {
 
     public static boolean TAB_TOGGLED = false;
 
