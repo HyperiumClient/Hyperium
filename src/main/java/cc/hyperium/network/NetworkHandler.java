@@ -56,7 +56,7 @@ public class NetworkHandler implements INetty, PostConfigHandler, PreSaveHandler
     public void handleChat(String s) {
         if (s.toLowerCase().contains("reconnecting hyperium connection"))
             return;
-        System.out.println("Chat: " + s);
+        Hyperium.LOGGER.info("Chat: " + s);
         s = s.replace("&", C.COLOR_CODE_SYMBOL);
         IChatComponent chatComponent = new ChatComponentText("");
         for (String s1 : s.split(" ")) {

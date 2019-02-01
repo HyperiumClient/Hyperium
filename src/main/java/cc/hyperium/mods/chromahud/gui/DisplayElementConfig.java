@@ -17,6 +17,7 @@
 
 package cc.hyperium.mods.chromahud.gui;
 
+import cc.hyperium.Hyperium;
 import cc.hyperium.mods.chromahud.ChromaHUD;
 import cc.hyperium.mods.chromahud.ChromaHUDApi;
 import cc.hyperium.mods.chromahud.DisplayElement;
@@ -344,7 +345,7 @@ public class DisplayElementConfig extends GuiScreen {
                         lastX = mouseX;
                         lastY = mouseY;
                     } else if (x > 256 + 15 && x < 256 + 15 + 15) {
-                        System.out.println(y);
+                        Hyperium.LOGGER.info(y);
                         this.brightness = (int) y;
                         regenImage();
                     }

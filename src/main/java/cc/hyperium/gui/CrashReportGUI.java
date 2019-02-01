@@ -241,7 +241,7 @@ public class CrashReportGUI extends JDialog {
                 addons.set("none");
             String hurl = null;
 
-            System.out.println("Report: " + report);
+            Hyperium.LOGGER.info("Report: " + report);
 
             if (report != null) {
                 StringBuilder sb = new StringBuilder();
@@ -256,7 +256,7 @@ public class CrashReportGUI extends JDialog {
                 for (String s : rep) {
                     String l = DeobfStack.deobfLine(s, mapping);
                     sb.append(l).append("\n");
-                    System.out.println(l);
+                    Hyperium.LOGGER.info(l);
                 }
                 hurl = haste(sb.toString());
             }

@@ -35,7 +35,7 @@ public class UpdateUtil {
         String fileName = "Hyperium";
         String ver = JOptionPane.showInputDialog(null, "Enter version", "");
         final File file = new File("build\\libs\\" + fileName + "-" + ver + ".jar");
-        System.out.println(file.getAbsolutePath());
+        Hyperium.LOGGER.info(file.getAbsolutePath());
         final long size = file.length();
         final String sha1 = toHex(checksum(file, "SHA1")).toLowerCase();
         final String sha2 = toHex(checksum(file, "SHA-256")).toLowerCase();

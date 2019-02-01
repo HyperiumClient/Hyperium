@@ -45,21 +45,13 @@ import org.cef.handler.CefWindowHandlerAdapter;
  */
 class CefBrowserWr extends CefBrowser_N {
     private Canvas canvas_ = null;
-    private Component component_ = null;
+    private Component component_;
     private Rectangle content_rect_ = new Rectangle(0, 0, 0, 0);
     private long window_handle_ = 0;
-    private Timer delayedUpdate_ = new Timer(100, new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            SwingUtilities.invokeLater(new Runnable() {
-                @Override
-                public void run() {
-                    createUIIfRequired();
-                    if (OS.isMacintosh()) doUpdate();
-                }
-            });
-        }
-    });
+    private Timer delayedUpdate_ = new Timer(100, e -> SwingUtilities.invokeLater(() -> {
+        createUIIfRequired();
+        if (OS.isMacintosh()) doUpdate();
+    }));
     private CefWindowHandlerAdapter win_handler_ = new CefWindowHandlerAdapter() {
         private Point lastPos = new Point(-1, -1);
         private long[] nextClick = new long[MouseInfo.getNumberOfButtons()];
@@ -90,36 +82,33 @@ class CefBrowserWr extends CefBrowser_N {
 
             final int finalEvent = event;
 
-            SwingUtilities.invokeLater(new Runnable() {
-                @Override
-                public void run() {
-                    // Send mouse event to the root UI component instead to the browser UI.
-                    // Otherwise no mouse-entered and no mouse-exited events would be fired.
-                    Component parent = SwingUtilities.getRoot(component_);
-                    if (parent == null) {
-                        return;
-                    }
-                    SwingUtilities.convertPointFromScreen(pt, parent);
+            SwingUtilities.invokeLater(() -> {
+                // Send mouse event to the root UI component instead to the browser UI.
+                // Otherwise no mouse-entered and no mouse-exited events would be fired.
+                Component parent = SwingUtilities.getRoot(component_);
+                if (parent == null) {
+                    return;
+                }
+                SwingUtilities.convertPointFromScreen(pt, parent);
 
-                    int clickCnt = 0;
-                    long now = new Date().getTime();
-                    if (finalEvent == MouseEvent.MOUSE_WHEEL) {
-                        int scrollType = MouseWheelEvent.WHEEL_UNIT_SCROLL;
-                        int rotation = button > 0 ? 1 : -1;
-                        component_.dispatchEvent(new MouseWheelEvent(parent, finalEvent, now,
-                                modifier, pt.x, pt.y, 0, false, scrollType, 3, rotation));
-                    } else {
-                        clickCnt = getClickCount(finalEvent, button);
-                        component_.dispatchEvent(new MouseEvent(parent, finalEvent, now, modifier,
-                                pt.x, pt.y, screenX, screenY, clickCnt, false, button));
-                    }
+                int clickCnt = 0;
+                long now = new Date().getTime();
+                if (finalEvent == MouseEvent.MOUSE_WHEEL) {
+                    int scrollType = MouseWheelEvent.WHEEL_UNIT_SCROLL;
+                    int rotation = button > 0 ? 1 : -1;
+                    component_.dispatchEvent(new MouseWheelEvent(parent, finalEvent, now,
+                            modifier, pt.x, pt.y, 0, false, scrollType, 3, rotation));
+                } else {
+                    clickCnt = getClickCount(finalEvent, button);
+                    component_.dispatchEvent(new MouseEvent(parent, finalEvent, now, modifier,
+                            pt.x, pt.y, screenX, screenY, clickCnt, false, button));
+                }
 
-                    // Always fire a mouse-clicked event after a mouse-released event.
-                    if (finalEvent == MouseEvent.MOUSE_RELEASED) {
-                        component_.dispatchEvent(
-                                new MouseEvent(parent, MouseEvent.MOUSE_CLICKED, now, modifier,
-                                        pt.x, pt.y, screenX, screenY, clickCnt, false, button));
-                    }
+                // Always fire a mouse-clicked event after a mouse-released event.
+                if (finalEvent == MouseEvent.MOUSE_RELEASED) {
+                    component_.dispatchEvent(
+                            new MouseEvent(parent, MouseEvent.MOUSE_CLICKED, now, modifier,
+                                    pt.x, pt.y, screenX, screenY, clickCnt, false, button));
                 }
             });
         }
@@ -266,12 +255,9 @@ class CefBrowserWr extends CefBrowser_N {
                 doUpdate();
             }
         });
-        component_.addHierarchyListener(new HierarchyListener() {
-            @Override
-            public void hierarchyChanged(HierarchyEvent e) {
-                if ((e.getChangeFlags() & HierarchyEvent.SHOWING_CHANGED) != 0) {
-                    setWindowVisibility(e.getChanged().isVisible());
-                }
+        component_.addHierarchyListener(e -> {
+            if ((e.getChangeFlags() & HierarchyEvent.SHOWING_CHANGED) != 0) {
+                setWindowVisibility(e.getChanged().isVisible());
             }
         });
     }

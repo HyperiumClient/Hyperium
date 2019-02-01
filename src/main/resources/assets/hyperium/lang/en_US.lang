@@ -238,6 +238,9 @@ gui.settings.disablelightning=Disable Lightning Bolts
 gui.settings.disablearmorstands=Disable Armorstands
 gui.settings.keeplightinguhc=Keep Lightning Bolts in UHC
 gui.settings.disableitemframes=Disable Item Frames
+gui.settings.disablesigns=Disable Signs
+gui.settings.disablebanners=Disable Banners
+gui.settings.disablebeaconbeam=Disable Beacon Beams
 
 #Hyperium Splash Progress
 splashprogress.startinggame=Starting Game...

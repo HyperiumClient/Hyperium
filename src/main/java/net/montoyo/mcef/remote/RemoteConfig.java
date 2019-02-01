@@ -1,5 +1,6 @@
 package net.montoyo.mcef.remote;
 
+import cc.hyperium.Hyperium;
 import cc.hyperium.config.Settings;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonObject;
@@ -136,7 +137,7 @@ public class RemoteConfig {
             }
 
             if (OS.isMacintosh()) {
-                System.out.println("Creating missing directories");
+                Hyperium.LOGGER.info("Creating missing directories");
                 File file = new File("jcef.app", "Contents");
                 new File(file, "PlugIns").mkdirs();
             }

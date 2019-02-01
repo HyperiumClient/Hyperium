@@ -1,5 +1,6 @@
 package net.montoyo.mcef.utilities;
 
+import cc.hyperium.Hyperium;
 import org.apache.commons.compress.archivers.zip.ZipArchiveInputStream;
 
 import java.io.*;
@@ -312,14 +313,13 @@ public class Util {
 
         try {
             long len = -1;
-            boolean failed = true;
 
             //Java 6 support
             len = conn.getHeaderFieldLong("Content-Length", -1);
-            System.out.println("Con Len: " + len);
+            Hyperium.LOGGER.info("Con Len: " + len);
             if (len == -1)
                 len = (long) conn.getContentLength();
-            System.out.println("Con Len: " + len);
+            Hyperium.LOGGER.info("Con Len: " + len);
 
             return new SizedInputStream(conn.getInputStream(), len);
         } catch (IOException e) {

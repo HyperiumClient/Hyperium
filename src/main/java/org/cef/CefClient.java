@@ -91,16 +91,13 @@ public class CefClient extends CefClientHandler
         super();
 
         KeyboardFocusManager km = KeyboardFocusManager.getCurrentKeyboardFocusManager();
-        km.addPropertyChangeListener(new PropertyChangeListener() {
-            @Override
-            public void propertyChange(PropertyChangeEvent evt) {
-                if (focusedBrowser_ != null) {
-                    Component browserUI = focusedBrowser_.getUIComponent();
-                    Object oldUI = evt.getOldValue();
-                    if (isPartOf(oldUI, browserUI)) {
-                        focusedBrowser_.setFocus(false);
-                        focusedBrowser_ = null;
-                    }
+        km.addPropertyChangeListener(evt -> {
+            if (focusedBrowser_ != null) {
+                Component browserUI = focusedBrowser_.getUIComponent();
+                Object oldUI = evt.getOldValue();
+                if (isPartOf(oldUI, browserUI)) {
+                    focusedBrowser_.setFocus(false);
+                    focusedBrowser_ = null;
                 }
             }
         });
@@ -407,13 +404,10 @@ public class CefClient extends CefClientHandler
         boolean alreadyHandled = false;
         if (focusHandler_ != null) alreadyHandled = focusHandler_.onSetFocus(browser, source);
         if (!alreadyHandled) {
-            Runnable r = new Runnable() {
-                @Override
-                public void run() {
-                    Component uiComponent = browser.getUIComponent();
-                    if (uiComponent != null) {
-                        uiComponent.requestFocus();
-                    }
+            Runnable r = () -> {
+                Component uiComponent = browser.getUIComponent();
+                if (uiComponent != null) {
+                    uiComponent.requestFocus();
                 }
             };
             if (SwingUtilities.isEventDispatchThread())

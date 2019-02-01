@@ -217,7 +217,7 @@ public class CommandUpdate implements BaseCommand {
                 InstallerManifest manifest = InstallerUtils.getManifest();
                 VersionManifest ver = manifest.getVersions()[0];
                 boolean download = ver.getId() > Metadata.getVersionID();
-                System.out.println("Download=" + download);
+                Hyperium.LOGGER.info("Download=" + download);
                 Multithreading.runAsync(() -> {
                     try {
                         File jar;

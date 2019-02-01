@@ -13,6 +13,7 @@ import net.minecraft.client.model.ModelRenderer;
 
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
 
 public abstract class AbstractAnimationHandler {
 
@@ -29,9 +30,7 @@ public abstract class AbstractAnimationHandler {
     public void onRender(RenderEvent e) {
 
         long systemTime = Minecraft.getSystemTime();
-        animationStates.values().forEach(animationState -> {
-            animationState.update(systemTime);
-        });
+        animationStates.values().forEach(animationState -> animationState.update(systemTime));
 
         onRender();
 

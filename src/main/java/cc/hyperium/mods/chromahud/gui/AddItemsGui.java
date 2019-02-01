@@ -99,7 +99,7 @@ public class AddItemsGui extends GuiScreen {
             offset += 50;
         }, (guiButton) -> {
         });
-        reg("Up", new GuiButton(nextId(), 2, 23 + 21 * 1, 100, 20, "Scroll Up"), (guiButton) -> {
+        reg("Up", new GuiButton(nextId(), 2, 23 + 21, 100, 20, "Scroll Up"), (guiButton) -> {
             //On click
             offset -= 50;
         }, (guiButton) -> {

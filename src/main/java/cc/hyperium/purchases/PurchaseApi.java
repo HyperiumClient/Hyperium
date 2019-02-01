@@ -60,7 +60,7 @@ public class PurchaseApi {
         for (EnumPurchaseType enumPurchaseType : EnumPurchaseType.values()) {
             purchaseClasses.putIfAbsent(enumPurchaseType, DefaultCosmetic.class);
         }
-        getPackageAsync(UUIDUtil.getClientUUID(), hyperiumPurchase -> System.out.println("[Packages] Loaded self packages: " + hyperiumPurchase.getResponse()));
+        getPackageAsync(UUIDUtil.getClientUUID(), hyperiumPurchase -> Hyperium.LOGGER.info("[Packages] Loaded self packages: " + hyperiumPurchase.getResponse()));
         Multithreading.runAsync(() -> capeAtlas = get("https://api.hyperium.cc/capeAtlas"));
         getSelf();
     }

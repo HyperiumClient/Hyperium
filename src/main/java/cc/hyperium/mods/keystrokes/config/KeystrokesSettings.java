@@ -17,6 +17,7 @@
 
 package cc.hyperium.mods.keystrokes.config;
 
+import cc.hyperium.Hyperium;
 import cc.hyperium.mods.keystrokes.KeystrokesMod;
 import cc.hyperium.utils.BetterJsonObject;
 
@@ -99,7 +100,7 @@ public class KeystrokesSettings {
                 parseSettings(new BetterJsonObject(builder.toString().trim()));
             }
         } catch (Exception ex) {
-            System.out.println(String.format("Could not load config file! (\"%s\")", this.configFile.getName()));
+            Hyperium.LOGGER.warn(String.format("Could not load config file! (\"%s\")", this.configFile.getName()));
             save();
         }
     }
@@ -136,7 +137,7 @@ public class KeystrokesSettings {
             object.addProperty("showSpacebar", isShowingSpacebar());
             object.writeToFile(configFile);
         } catch (Exception ex) {
-            System.out.println(String.format("Could not save config file! (\"%s\")", this.configFile.getName()));
+            Hyperium.LOGGER.warn(String.format("Could not save config file! (\"%s\")", this.configFile.getName()));
         }
     }
 

@@ -144,7 +144,7 @@ public class VictoryRoyale extends AbstractMod {
 
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 
-            int imageWidth = res.getScaledWidth() / 4;
+            int imageScale = res.getScaledWidth() / 4;
             Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 
             GlStateManager.pushMatrix();
@@ -159,8 +159,8 @@ public class VictoryRoyale extends AbstractMod {
             }
 
             GlStateManager.color(1, 1, 1, in < 1000 ? (float) Math.pow(in / 1000D, 2) : fadeOutAlpha);
-            GlStateManager.translate(imageWidth, 10, 0);
-            Gui.drawScaledCustomSizeModalRect(0, 0, 0, 0, 1200, 675, imageWidth * 2, imageWidth, 1200, 675);
+            GlStateManager.translate(imageScale, 10, 0);
+            Gui.drawScaledCustomSizeModalRect(0, 0, 0, 0, 1200, 675, imageScale * 2, imageScale, 1200, 675);
             GlStateManager.popMatrix();
         }
     }
@@ -204,7 +204,7 @@ public class VictoryRoyale extends AbstractMod {
         private double xPercent, yPercent;
         private int width;
 
-        public WhiteLine(double xPercent, double yPercent, int width) {
+        WhiteLine(double xPercent, double yPercent, int width) {
             this.xPercent = xPercent;
             this.yPercent = yPercent;
             this.width = width;

@@ -85,12 +85,12 @@ public class UpdateTab extends AbstractTab {
                                             String cmd = Hyperium.INSTANCE.getLaunchCommand(true);
                                             String java = System.getProperty("java.home") + File.separator + "bin" + File.separator + "java";
                                             String iCmd = "\"" + java + "\" -jar \"" + new File(tmp, dl.getFileName()).getAbsolutePath() + "\" fw " + cmd;
-                                            System.out.println("[Update Tab] Restart cmd: " + cmd);
-                                            System.out.println("[Update Tab] Installer cmd: " + iCmd);
+                                            Hyperium.LOGGER.info("[Update Tab] Restart cmd: " + cmd);
+                                            Hyperium.LOGGER.info("[Update Tab] Installer cmd: " + iCmd);
                                             Runtime.getRuntime().addShutdownHook(new Thread(() -> {
                                                 try {
                                                     Runtime.getRuntime().exec(iCmd);
-                                                    System.out.println("[Update Tab] Restarting...");
+                                                    Hyperium.LOGGER.info("[Update Tab] Restarting...");
                                                 } catch (IOException e) {
                                                     e.printStackTrace();
                                                 }

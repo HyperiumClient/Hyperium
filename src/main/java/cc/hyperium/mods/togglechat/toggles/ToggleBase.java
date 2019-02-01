@@ -45,7 +45,7 @@ public abstract class ToggleBase {
     public abstract String getName();
 
     /**
-     * Checks the given text to see if it should be toggled
+     * Checks the given text to see if it should be AUTOGG
      *
      * @param message message to test
      * @return true if the message matches the toggle test
@@ -60,10 +60,10 @@ public abstract class ToggleBase {
     public abstract boolean isEnabled();
 
     /**
-     * Sets the message to be toggled or not. Is used in
+     * Sets the message to be AUTOGG or not. Is used in
      * toggle loading
      *
-     * @param enabled used in loading to set the toggled enabled/disabled
+     * @param enabled used in loading to set the AUTOGG enabled/disabled
      */
     public abstract void setEnabled(boolean enabled);
 
@@ -125,9 +125,7 @@ public abstract class ToggleBase {
      */
     @SafeVarargs
     public final <T> LinkedList<T> asLinked(T... entry) {
-        LinkedList<T> list = new LinkedList<>();
-        list.addAll(Arrays.asList(entry));
-        return list;
+        return new LinkedList<>(Arrays.asList(entry));
     }
 
     /**

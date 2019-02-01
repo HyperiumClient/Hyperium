@@ -322,7 +322,7 @@ public class Levelhead extends AbstractMod {
                     levelCache.remove(uuid);
                 }
             }
-            System.out.println("Cache cleared!");
+            Hyperium.LOGGER.info("Cache cleared!");
         }
     }
 

@@ -1,5 +1,6 @@
 package cc.hyperium.handlers.handlers.stats;
 
+import cc.hyperium.Hyperium;
 import cc.hyperium.gui.GuiBlock;
 import cc.hyperium.gui.HyperiumGui;
 import cc.hyperium.gui.Icons;
@@ -108,7 +109,7 @@ public class PlayerStatsGui extends HyperiumGui {
                         BufferedImage img = ImageIO.read(ImageIO.createImageInputStream(is));
                         texturesImage.put(field, img);
                     } catch (Exception e) {
-                        System.out.println(field.getClass().getName());
+                        Hyperium.LOGGER.info(field.getClass().getName());
                         e.printStackTrace();
                     }
             });

@@ -1,5 +1,7 @@
 package net.montoyo.mcef.utilities;
 
+import cc.hyperium.Hyperium;
+
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -94,7 +96,7 @@ class Download extends Observable implements Runnable {
         try {
   /* Set the size for this download if it
      hasn't been already set. */
-            System.out.println(size);
+            Hyperium.LOGGER.info(size);
             stream = is;
             while (status == DOWNLOADING) {
     /* Size buffer according to how much of the
@@ -109,7 +111,7 @@ class Download extends Observable implements Runnable {
                 // Read from server into buffer.
                 int read = stream.read(buffer);
                 if (read == -1) {
-                    System.out.println("broke " + buffer.length);
+                    Hyperium.LOGGER.error("broke " + buffer.length);
                     break;
                 }
 

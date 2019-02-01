@@ -142,7 +142,7 @@ public class ClientProxy extends BaseProxy {
             fieldSysPath.setAccessible(true);
             fieldSysPath.set(null, null);
 
-            System.out.println(System.getProperty("java.library.path"));
+            Hyperium.LOGGER.info(System.getProperty("java.library.path"));
         } catch (Exception e) {
             Log.error("Failed to do it! Entering virtual mode...");
             e.printStackTrace();
@@ -158,7 +158,7 @@ public class ClientProxy extends BaseProxy {
             LinuxPatch.doPatch(resourceArray);
         }
         if (OS.isMacintosh()) {
-            System.out.println("Modding macOS files");
+            Hyperium.LOGGER.info("Modding macOS files");
             new File(rootDir, "jcef.app").setExecutable(true);
             macosJcefHelper.setExecutable(true);
         }
@@ -194,11 +194,11 @@ public class ClientProxy extends BaseProxy {
             }
 
             for (File lib : libs) {
-                System.out.println(lib.getAbsolutePath());
+                Hyperium.LOGGER.info(lib.getAbsolutePath());
 
-                System.out.println("Loading: " + lib.getName());
+                Hyperium.LOGGER.info("Loading: " + lib.getName());
                 System.load(lib.getAbsolutePath());
-                System.out.println("Loaded " + lib.getName());
+                Hyperium.LOGGER.info("Loaded " + lib.getName());
             }
 
             cefApp = CefApp.getInstance(settings);

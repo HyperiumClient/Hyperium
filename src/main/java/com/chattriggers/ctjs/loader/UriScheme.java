@@ -1,5 +1,7 @@
 package com.chattriggers.ctjs.loader;
 
+import cc.hyperium.Hyperium;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.PrintWriter;
@@ -12,19 +14,19 @@ public class UriScheme {
 
     public static void main(String[] args) {
         if (args.length < 1) {
-            System.out.println("[ChatTriggers] No URL found, aborting...");
+            Hyperium.LOGGER.warn("[ChatTriggers] No URL found, aborting...");
             return;
         }
 
         if (!args[0].startsWith(PROTOCOL)) {
-            System.out.println("[ChatTriggers] URL found is not supported, aborting...");
-            System.out.println(args[0]);
+            Hyperium.LOGGER.warn("[ChatTriggers] URL found is not supported, aborting...");
+            Hyperium.LOGGER.info(args[0]);
             return;
         }
 
         String url = args[0];
 
-        System.out.println("[ChatTriggers] Trying to work with URL: " + url);
+        Hyperium.LOGGER.info("[ChatTriggers] Trying to work with URL: " + url);
 
         String module = url.substring(PROTOCOL.length()).replace("/", "");
 
@@ -52,7 +54,7 @@ public class UriScheme {
             pw.append(module).append(",");
             pw.close();
         } catch (Exception e) {
-            System.out.println("[ChatTriggers] Error writing to file.");
+            Hyperium.LOGGER.warn("[ChatTriggers] Error writing to file.");
         }
     }
 }

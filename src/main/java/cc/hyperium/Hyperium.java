@@ -188,7 +188,7 @@ public class Hyperium {
                 e.printStackTrace();
             }
 
-            System.out.println("[VERSION] Hyperium build ID: " + BUILD_ID);
+            Hyperium.LOGGER.info("[VERSION] Hyperium build ID: " + BUILD_ID);
 
             try {
                 Class.forName("net.minecraft.dispenser.BehaviorProjectileDispense"); // check for random MC class
@@ -313,7 +313,7 @@ public class Hyperium {
                         }
                     }
                 } else {
-                    System.out.println("[Chat Handler] chat.txt not found, not restoring chat");
+                    Hyperium.LOGGER.info("[Chat Handler] chat.txt not found, not restoring chat");
                 }
             });
 
@@ -325,7 +325,7 @@ public class Hyperium {
             try {
                 Class.forName("optifine.OptiFineTweaker");
                 optifineInstalled = true;
-                System.out.println("Optifine is currently installed.");
+                Hyperium.LOGGER.info("Optifine is currently installed.");
             } catch (ClassNotFoundException e) {
                 optifineInstalled = false;
             }
@@ -468,9 +468,9 @@ public class Hyperium {
 
         File tempNatives = new File(nativePath);
         if (!tempNatives.exists()) {
-            System.out.println("[Error] Natives are missing.");
+            Hyperium.LOGGER.warn("[Error] Natives are missing.");
         } else {
-            System.out.println("[Hyperium] Copying natives to hyperium directory.");
+            Hyperium.LOGGER.info("[Hyperium] Copying natives to hyperium directory.");
             try {
                 for (File fileEntry : tempNatives.listFiles()) {
                     Files.copy(fileEntry.toPath(), Paths.get(newFolder.getPath() + File.separator + fileEntry.getName()), StandardCopyOption.REPLACE_EXISTING);

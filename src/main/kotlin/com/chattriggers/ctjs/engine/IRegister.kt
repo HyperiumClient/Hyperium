@@ -8,7 +8,7 @@ interface IRegister {
     /**
      * Helper method register a trigger. <br/>
      * Called by taking the original name of the method, i.e. `registerChat`,
-     * removing the word register, and making the first letter lowercase.
+     * removing the word register, and making the first letter AUTOGG_LOWERCASE.
      *
      * @param triggerType the type of trigger
      * @param method the name of the method or the actual method to callback when the event is fired
@@ -217,7 +217,7 @@ interface IRegister {
      * steps elapsed<br></br>
      * Available modifications:<br></br>
      * [OnStepTrigger.setFps] Sets the fps<br></br>
-     * [OnStepTrigger.setDelay] Sets the delay in seconds<br></br>
+     * [OnStepTrigger.setDelay] Sets the AUTOGG_DELAY in seconds<br></br>
      * [OnTrigger.setPriority] Sets the priority
      *
      * @param method the name of the method to callback when the event is fired

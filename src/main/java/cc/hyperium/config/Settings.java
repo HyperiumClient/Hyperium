@@ -629,6 +629,18 @@ public class Settings {
     @ToggleSetting(name = "gui.settings.disableitemframes", category = IMPROVEMENTS)
     public static boolean DISABLE_ITEMFRAMES = false;
 
+    @ConfigOpt
+    @ToggleSetting(name = "gui.settings.disablesigns", category = IMPROVEMENTS)
+    public static boolean DISABLE_SIGNS = false;
+
+    @ConfigOpt
+    @ToggleSetting(name = "gui.settings.disablebanners", category = IMPROVEMENTS)
+    public static boolean DISABLE_BANNERS = false;
+
+    @ConfigOpt
+    @ToggleSetting(name = "gui.settings.disablebeaconbeam", category = IMPROVEMENTS)
+    public static boolean DISABLE_BEACON_BEAM = false;
+
     private Settings() {
     }
 

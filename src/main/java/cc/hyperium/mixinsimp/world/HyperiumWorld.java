@@ -1,5 +1,6 @@
 package cc.hyperium.mixinsimp.world;
 
+import cc.hyperium.Hyperium;
 import cc.hyperium.config.Settings;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.SpawnpointChangeEvent;
@@ -229,7 +230,7 @@ public class HyperiumWorld {
                     try {
                         for (Entity entity : entityFXES) {
                             if (entity == null) {
-                                System.out.println("Entity was null");
+                                Hyperium.LOGGER.warn("Entity was null");
                                 continue;
                             }
                             try {
@@ -266,7 +267,7 @@ public class HyperiumWorld {
             }
             for (Entity entity : toRemove) {
                 if (entity == null) {
-                    System.out.println("Entity null");
+                    Hyperium.LOGGER.warn("Entity null");
                     continue;
                 }
                 int k1 = entity.chunkCoordX;

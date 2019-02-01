@@ -24,7 +24,7 @@ public class LaunchUtil {
                     cs = u.getPath();
                 }
             }
-            System.out.println("cs=" + cs);
+            Hyperium.LOGGER.info("cs=" + cs);
             Runtime.getRuntime().exec(new String[]{
                 windows ? "cmd" : "bash",
                 windows ? "/c" : "-c",

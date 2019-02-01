@@ -223,7 +223,7 @@ public class HyperiumTextureManager {
 
     public void print() {
         for (String s : textures.keySet()) {
-            System.out.println(s + " -> " + textures.get(s).getClass());
+            Hyperium.LOGGER.info(s + " -> " + textures.get(s).getClass());
         }
     }
 

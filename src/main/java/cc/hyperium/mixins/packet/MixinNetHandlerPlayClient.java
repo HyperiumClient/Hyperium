@@ -238,7 +238,7 @@ public abstract class MixinNetHandlerPlayClient {
             }
             url = URLDecoder.decode(url.substring("level://".length()), StandardCharsets.UTF_8.toString());
             if (isLevelProtocol && (url.contains("..") || !url.endsWith("/resources.zip"))) {
-                System.out.println("[Resource Exploit Fix Warning] Malicious server tried to access " + url);
+                Hyperium.LOGGER.warn("[Resource Exploit Fix Warning] Malicious server tried to access " + url);
                 EntityPlayerSP thePlayer = Minecraft.getMinecraft().thePlayer;
                 if (thePlayer != null) {
                     thePlayer.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + EnumChatFormatting.BOLD.toString() + "[EXPLOIT FIX WARNING] The current server has attempted to be malicious but we have stopped them!"));

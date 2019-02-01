@@ -1,5 +1,6 @@
 package cc.hyperium.mixinsimp.renderer;
 
+import cc.hyperium.Hyperium;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.TickEvent;
 import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
@@ -75,7 +76,7 @@ public class FontFixValues {
 
             }
         }, 1, 1, TimeUnit.SECONDS);
-        System.out.println("STARTED");
+        Hyperium.LOGGER.info("STARTED");
     }
 
     public Queue<Integer> getGlRemoval() {

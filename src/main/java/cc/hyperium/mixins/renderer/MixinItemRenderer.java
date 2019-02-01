@@ -35,10 +35,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(ItemRenderer.class)
 public class MixinItemRenderer {
 
-    @Final
-    @Shadow
-    private Minecraft mc;
-
     @Shadow
     private ItemStack itemToRender;
 

@@ -65,7 +65,7 @@ public class TypePartyInvites extends ToggleBase {
             "other players.",
             "",
             "This goes well with",
-            "separators toggled"
+            "separators AUTOGG"
         );
     }
 }

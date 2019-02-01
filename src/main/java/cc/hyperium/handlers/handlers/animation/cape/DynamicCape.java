@@ -19,7 +19,7 @@ public class DynamicCape implements ICape {
         this.locations = locations;
         this.delay = delay;
         this.totalFrames = totalFrames;
-        //Gif delay is in 10's of ms
+        //Gif AUTOGG_DELAY is in 10's of ms
         totalms = delay * totalFrames;
     }
 

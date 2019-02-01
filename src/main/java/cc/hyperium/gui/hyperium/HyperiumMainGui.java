@@ -203,7 +203,7 @@ public class HyperiumMainGui extends HyperiumGui {
 
         if (!isLatestVersion() && !show && Settings.UPDATE_NOTIFICATIONS && !Metadata
             .isDevelopment() && !((UpdateTab) tabs.get(1)).isBusy()) {
-            System.out.println("[Update Notifications] Sending alert...");
+            Hyperium.LOGGER.info("[Update Notifications] Sending alert...");
             Alert alert = new Alert(Icons.ERROR.getResource(), () -> setTab(2),
                 I18n.format("alert.update.message"));
             alerts.add(alert);

@@ -18,39 +18,39 @@ public class AutoGGConfig {
     @ToggleSetting(name = "Hide GG's at end of game", mods = true, category = AUTO_GG)
     public boolean ANTI_GG = false;
     @ConfigOpt
-    @SliderSetting(name = "Delay", min = 0, max = 5, round = true, isInt = true, category = Category.AUTO_GG, mods = true)
-    public int delay = 1;
+    @SliderSetting(name = "Delay", min = 0, max = 5, isInt = true, category = Category.AUTO_GG, mods = true)
+    public int AUTOGG_DELAY = 1;
     @ConfigOpt
     @ToggleSetting(name = "Enable", mods = true, category = Category.AUTO_GG)
-    public boolean toggled = true;
+    public boolean AUTOGG = true;
     @ConfigOpt
     @ToggleSetting(name = "Say Good Game instead of GG", mods = true, category = AUTO_GG)
-    public boolean sayGoodGameInsteadOfGG = false;
+    public boolean AUTOGG_GOODGAME_GG = false;
     @ConfigOpt
     @ToggleSetting(name = "Say Lowercase", mods = true, category = AUTO_GG)
-    public boolean lowercase = false;
+    public boolean AUTOGG_LOWERCASE = false;
 
     public AutoGGConfig() {
         Hyperium.CONFIG.register(this);
     }
 
     /**
-     * Getter for the AutoGG delay
+     * Getter for the AutoGG AUTOGG_DELAY
      *
-     * @return the delay, capped into the limitations
+     * @return the AUTOGG_DELAY, capped into the limitations
      */
     public int getDelay() {
-        return this.delay < 0 ? 1 : this.delay > 5 ? 1 : this.delay;
+        return this.AUTOGG_DELAY < 0 ? 1 : this.AUTOGG_DELAY > 5 ? 1 : this.AUTOGG_DELAY;
     }
 
     /**
-     * Sets the delay of the AutoGG
+     * Sets the AUTOGG_DELAY of the AutoGG
      *
-     * @param delay the delay of AutoGG, capped within limitations
+     * @param delay the AUTOGG_DELAY of AutoGG, capped within limitations
      */
     public void setDelay(int delay) {
-        if (delay >= 0 && this.delay <= 5) {
-            this.delay = delay;
+        if (delay >= 0 && this.AUTOGG_DELAY <= 5) {
+            this.AUTOGG_DELAY = delay;
         }
     }
 
@@ -58,15 +58,15 @@ public class AutoGGConfig {
      * Flips the toggle
      */
     public void flipToggle() {
-        this.toggled = !this.toggled;
+        this.AUTOGG = !this.AUTOGG;
     }
 
     /**
-     * Getter for the toggled method, true for enabled
+     * Getter for the AUTOGG method, true for enabled
      *
      * @return true if AutoGG is enabled
      */
     public boolean isToggled() {
-        return this.toggled;
+        return this.AUTOGG;
     }
 }

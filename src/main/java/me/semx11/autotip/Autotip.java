@@ -168,9 +168,7 @@ public class Autotip {
 
             this.fileUtil.createDirectories();
             this.config.load();
-            this.taskManager.getExecutor().execute(() -> {
-                this.migrationManager.migrateLegacyFiles();
-            });
+            this.taskManager.getExecutor().execute(() -> this.migrationManager.migrateLegacyFiles());
 
             this.registerEvents(
                     new EventClientConnection(this),

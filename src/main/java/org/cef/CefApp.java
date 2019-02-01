@@ -4,6 +4,7 @@
 
 package org.cef;
 
+import cc.hyperium.Hyperium;
 import org.cef.callback.CefSchemeHandlerFactory;
 import org.cef.handler.CefAppHandler;
 import org.cef.handler.CefAppHandlerAdapter;
@@ -29,7 +30,7 @@ public class CefApp extends CefAppHandlerAdapter {
     private static CefAppHandler appHandler_ = null;
     private static CefAppState state_ = CefAppState.NONE;
     private Timer workTimer_ = null;
-    private HashSet<CefClient> clients_ = new HashSet<CefClient>();
+    private HashSet<CefClient> clients_ = new HashSet<>();
     private CefSettings settings_ = null;
 
     /**
@@ -58,13 +59,10 @@ public class CefApp extends CefAppHandlerAdapter {
 
         // Execute on the AWT event dispatching thread.
         try {
-            Runnable r = new Runnable() {
-                @Override
-                public void run() {
-                    // Perform native pre-initialization.
-                    if (!N_PreInitialize()) {
-                        throw new IllegalStateException("Failed to pre-initialize native code");
-                    }
+            Runnable r = () -> {
+                // Perform native pre-initialization.
+                if (!N_PreInitialize()) {
+                    throw new IllegalStateException("Failed to pre-initialize native code");
                 }
             };
             if (SwingUtilities.isEventDispatchThread()) {
@@ -147,12 +145,9 @@ public class CefApp extends CefAppHandlerAdapter {
             state_ = state;
         }
         // Execute on the AWT event dispatching thread.
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                if (appHandler_ != null) {
-                    appHandler_.stateHasChanged(state);
-                }
+        SwingUtilities.invokeLater(() -> {
+            if (appHandler_ != null) {
+                appHandler_.stateHasChanged(state);
             }
         });
     }
@@ -196,7 +191,7 @@ public class CefApp extends CefAppHandlerAdapter {
                     // shutdown() will be called from clientWasDisposed() when the last
                     // client is gone.
                     // Use a copy of the HashSet to avoid iterating during modification.
-                    HashSet<CefClient> clients = new HashSet<CefClient>(clients_);
+                    HashSet<CefClient> clients = new HashSet<>(clients_);
                     for (CefClient c : clients) {
                         c.dispose();
                     }
@@ -294,7 +289,7 @@ public class CefApp extends CefAppHandlerAdapter {
         try {
             Runnable r = () -> {
                 String library_path = getJcefLibPath();
-                System.out.println("initialize on " + Thread.currentThread()
+                Hyperium.LOGGER.info("initialize on " + Thread.currentThread()
                     + " with library path " + library_path);
 
                 CefSettings settings = settings_ != null ? settings_ : new CefSettings();
@@ -342,7 +337,7 @@ public class CefApp extends CefAppHandlerAdapter {
      * event (e.g. someone pressed CMD+Q).
      */
     protected final void handleBeforeTerminate() {
-        System.out.println("Cmd+Q termination request.");
+        Hyperium.LOGGER.info("Cmd+Q termination request.");
         // Execute on the AWT event dispatching thread. Always call asynchronously
         // so the call stack has a chance to unwind.
         SwingUtilities.invokeLater(new Runnable() {
@@ -363,17 +358,14 @@ public class CefApp extends CefAppHandlerAdapter {
     private final void shutdown() {
         // Execute on the AWT event dispatching thread. Always call asynchronously
         // so the call stack has a chance to unwind.
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                System.out.println("shutdown on " + Thread.currentThread());
+        SwingUtilities.invokeLater(() -> {
+            Hyperium.LOGGER.info("shutdown on " + Thread.currentThread());
 
-                // Shutdown native CEF.
-                N_Shutdown();
+            // Shutdown native CEF.
+            N_Shutdown();
 
-                setState(CefAppState.TERMINATED);
-                CefApp.self = null;
-            }
+            setState(CefAppState.TERMINATED);
+            CefApp.self = null;
         });
     }
 
@@ -383,50 +375,44 @@ public class CefApp extends CefAppHandlerAdapter {
      */
     public final void doMessageLoopWork(final long delay_ms) {
         // Execute on the AWT event dispatching thread.
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                if (getState() == CefAppState.TERMINATED) {
-                    return;
+        SwingUtilities.invokeLater(() -> {
+            if (getState() == CefAppState.TERMINATED) {
+                return;
+            }
+
+            // The maximum number of milliseconds we're willing to wait between
+            // calls to DoMessageLoopWork().
+            final long kMaxTimerDelay = 1000 / 30; // 30fps
+
+            if (workTimer_ != null) {
+                workTimer_.stop();
+                workTimer_ = null;
+            }
+
+            if (delay_ms <= 0) {
+                // Execute the work immediately.
+                N_DoMessageLoopWork();
+
+                // Schedule more work later.
+                doMessageLoopWork(kMaxTimerDelay);
+            } else {
+                long timer_delay_ms = delay_ms;
+                // Never wait longer than the maximum allowed time.
+                if (timer_delay_ms > kMaxTimerDelay) {
+                    timer_delay_ms = kMaxTimerDelay;
                 }
 
-                // The maximum number of milliseconds we're willing to wait between
-                // calls to DoMessageLoopWork().
-                final long kMaxTimerDelay = 1000 / 30; // 30fps
-
-                if (workTimer_ != null) {
+                workTimer_ = new Timer((int) timer_delay_ms, evt -> {
+                    // Timer has timed out.
                     workTimer_.stop();
                     workTimer_ = null;
-                }
 
-                if (delay_ms <= 0) {
-                    // Execute the work immediately.
                     N_DoMessageLoopWork();
 
                     // Schedule more work later.
                     doMessageLoopWork(kMaxTimerDelay);
-                } else {
-                    long timer_delay_ms = delay_ms;
-                    // Never wait longer than the maximum allowed time.
-                    if (timer_delay_ms > kMaxTimerDelay) {
-                        timer_delay_ms = kMaxTimerDelay;
-                    }
-
-                    workTimer_ = new Timer((int) timer_delay_ms, new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent evt) {
-                            // Timer has timed out.
-                            workTimer_.stop();
-                            workTimer_ = null;
-
-                            N_DoMessageLoopWork();
-
-                            // Schedule more work later.
-                            doMessageLoopWork(kMaxTimerDelay);
-                        }
-                    });
-                    workTimer_.start();
-                }
+                });
+                workTimer_.start();
             }
         });
     }

@@ -108,7 +108,7 @@ public class ShopTab extends AbstractTab {
                     return;
                 }
 
-                System.out.println("Attempting to purchase " + key);
+                Hyperium.LOGGER.info("Attempting to purchase " + key);
                 purchasing = true;
                 NettyClient client = NettyClient.getClient();
                 if (client != null) {

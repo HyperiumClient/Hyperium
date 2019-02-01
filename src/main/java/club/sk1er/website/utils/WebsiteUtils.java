@@ -1,5 +1,6 @@
 package club.sk1er.website.utils;
 
+import cc.hyperium.Hyperium;
 import com.google.gson.JsonObject;
 
 import java.text.DecimalFormat;
@@ -169,7 +170,7 @@ public class WebsiteUtils {
                 "        handler.write(strongBr(\"Final Kill / Normal deaths: \", getUtils().buildRatio(bedwars.optInt(\"final_kills_bedwars\"), bedwars.optInt(\"deaths_bedwars\"))));\n";
         for (String s : in.split("\n")) {
             s = s.replace("handler.write(", "items.add(new DisplayLine(").replace(";", ");").replace("strongBr", "bold").replace("<br>", "");
-            System.out.println(s);
+            Hyperium.LOGGER.info(s);
         }
     }
 

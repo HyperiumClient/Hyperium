@@ -17,6 +17,7 @@
 
 package cc.hyperium.mods.togglechat.config;
 
+import cc.hyperium.Hyperium;
 import cc.hyperium.mods.togglechat.ToggleChatMod;
 import cc.hyperium.mods.togglechat.toggles.ToggleBase;
 import cc.hyperium.utils.BetterJsonObject;
@@ -101,6 +102,6 @@ public class ToggleChatConfig {
     }
 
     private void log(String message, Object... replace) {
-        System.out.println(String.format("[ToggleChatLite] " + message, replace));
+        Hyperium.LOGGER.info(String.format("[ToggleChatLite] " + message, replace));
     }
 }

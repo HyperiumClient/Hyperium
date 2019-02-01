@@ -338,7 +338,7 @@ public class HyperiumMinecraft {
         } catch (Exception e) {
             e.printStackTrace();
             // throw e; It'll hide actual error...
-            System.out.println("Display not created yet. This is going to cause issues.");
+            Hyperium.LOGGER.warn("Display not created yet. This is going to cause issues.");
         }
 
 
@@ -390,18 +390,18 @@ public class HyperiumMinecraft {
                     }
                     Runtime.getRuntime().addShutdownHook(new Thread(() -> {
                         try {
-                            System.out.println("## RESTARTING MINECRAFT ##");
-                            System.out.println("cmd=" + cmd.toString());
+                            Hyperium.LOGGER.info("## RESTARTING MINECRAFT ##");
+                            Hyperium.LOGGER.info("cmd=" + cmd.toString());
                             Runtime.getRuntime().exec(cmd.toString());
                         } catch (IOException e) {
                             e.printStackTrace();
-                            System.out.println("## FAILED TO RESTART MINECRAFT ##");
+                            Hyperium.LOGGER.warn("## FAILED TO RESTART MINECRAFT ##");
                         }
                     }));
                     parent.shutdown();
                 } catch (Exception ex) {
                     ex.printStackTrace();
-                    System.out.println("## FAILED TO RESTART MINECRAFT ##");
+                    Hyperium.LOGGER.warn("## FAILED TO RESTART MINECRAFT ##");
                 }
                 break;
         }

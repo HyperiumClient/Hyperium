@@ -9,7 +9,7 @@ public class ConfigUtil {
         JsonObject generalJsonObject = Hyperium.CONFIG.getConfig().get(classPath).getAsJsonObject();
         boolean value;
         if (!generalJsonObject.has(settingName)) {
-            System.out.println(classPath + " " + settingName + " " + defaultObject);
+            Hyperium.LOGGER.info(classPath + " " + settingName + " " + defaultObject);
             generalJsonObject.addProperty(settingName, defaultObject);
             saveConfig();
         }

@@ -55,7 +55,7 @@ public class GeneralConfigGui extends GuiScreen {
     private double lastY;
     private boolean lastD = false;
     private boolean pastClick = false;
-    private int dTick = 0; //double clik delay
+    private int dTick = 0; //double clik AUTOGG_DELAY
 
     public GeneralConfigGui(ChromaHUD mod) {
         this.mod = mod;

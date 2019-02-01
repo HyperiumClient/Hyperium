@@ -109,7 +109,7 @@ public class HyperiumHandlers {
     private YeetHandler yeetHandler;
 
     public HyperiumHandlers() {
-        System.out.println("[Handlers] Loading handlers");
+        Hyperium.LOGGER.info("[Handlers] Loading handlers");
         register(network = new HyperiumNetwork());
         settingsHandler = new SettingsHandler();
         chatHandlers = new ArrayList<>();
@@ -144,16 +144,16 @@ public class HyperiumHandlers {
         commandQueue = new CommandQueue();
         dataHandler = new HypixelAPI();
         // Chat Handlers
-        System.out.println("Loading chat handlers");
+        Hyperium.LOGGER.info("Loading chat handlers");
         registerChatHandler(new RankedRatingChatHandler());
         registerChatHandler(new DMChatHandler());
         registerChatHandler(questTracking = new QuestTrackingChatHandler());
         registerChatHandler(new WinTrackingChatHandler());
         registerChatHandler(new FriendRequestChatHandler());
         registerChatHandler(new PartyInviteChatHandler());
-        System.out.println("[Handlers] Registering events");
+        Hyperium.LOGGER.info("[Handlers] Registering events");
         EventBus.INSTANCE.register(this);
-        System.out.println("[Handlers] Done");
+        Hyperium.LOGGER.info("[Handlers] Done");
 
         // Command Handler
         register(commandHandler = new HyperiumCommandHandler());

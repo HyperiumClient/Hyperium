@@ -145,7 +145,7 @@ public class HyperiumBind {
 
     /**
      * Should the Key Description be capitalized, this looks neater in the
-     * controls menu, instead of leaving it lowercase
+     * controls menu, instead of leaving it AUTOGG_LOWERCASE
      *
      * @return true if the description should be capitalized
      */

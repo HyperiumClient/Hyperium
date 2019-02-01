@@ -20,6 +20,7 @@ package cc.hyperium.mixinsimp.client.multiplayer;
 import java.io.File;
 import java.util.List;
 
+import cc.hyperium.Hyperium;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.multiplayer.ServerList;
@@ -63,7 +64,7 @@ public class HyperiumServerList {
             }
         } catch (Exception exception) {
             logger.error("Couldn\'t load server list", exception);
-            System.out.println("Load server list error");
+            Hyperium.LOGGER.warn("Load server list error");
 
         }
     }
@@ -81,7 +82,7 @@ public class HyperiumServerList {
             CompressedStreamTools.safeWrite(nbttagcompound, new File(mc.mcDataDir, "servers.dat"));
         } catch (Exception exception) {
             logger.error("Couldn\'t save server list", exception);
-            System.out.println("[ServerListMixin] Save server list error");
+            Hyperium.LOGGER.warn("[ServerListMixin] Save server list error");
         }
     }
 
@@ -89,7 +90,7 @@ public class HyperiumServerList {
         try {
             return servers.get(p_78850_1_);
         } catch (Exception e) {
-            System.out.println("[ServerListMixin] GetServer Data error 1");
+            Hyperium.LOGGER.warn("[ServerListMixin] GetServer Data error 1");
             e.printStackTrace();
         }
         return null;
@@ -99,7 +100,7 @@ public class HyperiumServerList {
         try {
             servers.remove(p_78851_1_);
         } catch (Exception e) {
-            System.out.println("[ServerListMixin] Remove server data error");
+            Hyperium.LOGGER.warn("[ServerListMixin] Remove server data error");
         }
     }
 
@@ -107,7 +108,7 @@ public class HyperiumServerList {
         try {
             servers.add(p_78849_1_);
         } catch (Exception e) {
-            System.out.println("[ServerListMixin] Add server data error");
+            Hyperium.LOGGER.warn("[ServerListMixin] Add server data error");
         }
     }
 
@@ -122,7 +123,7 @@ public class HyperiumServerList {
             servers.set(p_78857_2_, serverdata);
             this.saveServerList(servers, logger, mc);
         } catch (Exception e) {
-            System.out.println("[ServerListMixin] Swap servers error");
+            Hyperium.LOGGER.warn("[ServerListMixin] Swap servers error");
         }
     }
 
@@ -130,7 +131,7 @@ public class HyperiumServerList {
         try {
             servers.set(p_147413_1_, p_147413_2_);
         } catch (Exception e) {
-            System.out.println("[HyperiumServerList] func_147413_a server data error");
+            Hyperium.LOGGER.warn("[HyperiumServerList] func_147413_a server data error");
         }
     }
 }

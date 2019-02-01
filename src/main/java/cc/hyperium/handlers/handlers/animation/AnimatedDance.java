@@ -1,5 +1,6 @@
 package cc.hyperium.handlers.handlers.animation;
 
+import cc.hyperium.Hyperium;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.PostCopyPlayerModelAnglesEvent;
 import cc.hyperium.event.WorldChangeEvent;
@@ -75,7 +76,7 @@ public abstract class AnimatedDance extends AbstractPreCopyAnglesAnimationHandle
             } catch (NBTException | net.minecraft.command.CommandException e) {
                 e.printStackTrace();
             }
-            System.out.println(out);
+            Hyperium.LOGGER.info(out);
         }
     }
 
