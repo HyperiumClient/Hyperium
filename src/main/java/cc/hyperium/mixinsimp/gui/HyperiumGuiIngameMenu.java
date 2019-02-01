@@ -1,5 +1,6 @@
 package cc.hyperium.mixinsimp.gui;
 
+import cc.hyperium.Hyperium;
 import cc.hyperium.gui.GuiHyperiumCredits;
 import cc.hyperium.gui.GuiIngameMultiplayer;
 import cc.hyperium.gui.hyperium.HyperiumMainGui;
@@ -48,11 +49,11 @@ public class HyperiumGuiIngameMenu {
 
     public void actionPerformed(GuiButton button) {
         if (button.id == 8)
-            Minecraft.getMinecraft().displayGuiScreen(new GuiHyperiumCredits(Minecraft.getMinecraft().currentScreen));
+            Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new GuiHyperiumCredits(Minecraft.getMinecraft().currentScreen));
         if (button.id == 9)
             HyperiumMainGui.INSTANCE.show();
         if (button.id == 10 && Minecraft.getMinecraft().theWorld.isRemote)
-            Minecraft.getMinecraft().displayGuiScreen(new GuiIngameMultiplayer(Minecraft.getMinecraft().currentScreen));
+            Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new GuiIngameMultiplayer(Minecraft.getMinecraft().currentScreen));
     }
 
     public void draw(int mouseX, int mouseY, float partialTicks, FontRenderer fontRendererObj) {

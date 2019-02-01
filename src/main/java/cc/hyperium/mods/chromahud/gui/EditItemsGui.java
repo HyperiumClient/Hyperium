@@ -17,6 +17,7 @@
 
 package cc.hyperium.mods.chromahud.gui;
 
+import cc.hyperium.Hyperium;
 import cc.hyperium.mods.chromahud.ChromaHUD;
 import cc.hyperium.mods.chromahud.ChromaHUDApi;
 import cc.hyperium.mods.chromahud.DisplayElement;
@@ -69,7 +70,7 @@ public class EditItemsGui extends GuiScreen {
     public void initGui() {
         reg("add", new GuiButton(nextId(), 2, 2, 100, 20, "Add Items"), (guiButton) -> {
             //On click
-            Minecraft.getMinecraft().displayGuiScreen(new AddItemsGui(mod, element));
+            Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new AddItemsGui(mod, element));
         }, (guiButton) -> {
 
         });
@@ -99,7 +100,7 @@ public class EditItemsGui extends GuiScreen {
         }, (guiButton) -> guiButton.enabled = modifying != null && this.modifying.getOrdinal() < this.element.getDisplayItems().size() - 1);
 
 
-        reg("Back", new GuiButton(nextId(), 2, ResolutionUtil.current().getScaledHeight() - 22, 100, 20, "Back"), (guiButton) -> Minecraft.getMinecraft().displayGuiScreen(new DisplayElementConfig(element, mod)), (guiButton) -> {
+        reg("Back", new GuiButton(nextId(), 2, ResolutionUtil.current().getScaledHeight() - 22, 100, 20, "Back"), (guiButton) -> Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new DisplayElementConfig(element, mod)), (guiButton) -> {
         });
 
     }

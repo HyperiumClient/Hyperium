@@ -143,7 +143,7 @@ public class GuiBrowser extends GuiScreen {
                 Hyperium.INSTANCE.getModIntegration().getBrowserMod().browserGui.urlToLoad = url;
                 GuiBrowser.browser.close();
                 GuiBrowser.browser = null;
-                Minecraft.getMinecraft().displayGuiScreen(Hyperium.INSTANCE.getModIntegration().getBrowserMod().browserGui);
+                Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(Hyperium.INSTANCE.getModIntegration().getBrowserMod().browserGui);
             } else {
                 browser.loadURL(url);
             }
@@ -303,7 +303,7 @@ public class GuiBrowser extends GuiScreen {
     protected void actionPerformed(GuiButton src) {
         try {
             if (src.id == 1338) {
-                Minecraft.getMinecraft().displayGuiScreen(null);
+                Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(null);
             }
             if (src.id == 1337) {
                 Settings.BROWSER_DOWNLOAD = true;

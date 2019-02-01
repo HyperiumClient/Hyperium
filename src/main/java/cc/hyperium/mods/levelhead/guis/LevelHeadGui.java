@@ -67,7 +67,7 @@ public class LevelHeadGui extends GuiScreen {
 
     private final String ENABLED = ChatColor.GREEN + "Enabled";
     private final String DISABLED = ChatColor.RED + "Disabled";
-    private final String COLOR_CHAR = String.valueOf("\u00a7");
+    private final String COLOR_CHAR = "\u00a7";
     private final String colors = "0123456789abcdef";
     private final List<GuiButton> sliders = new ArrayList<>();
     private final Map<GuiButton, Consumer<GuiButton>> clicks = new HashMap<>();
@@ -270,7 +270,7 @@ public class LevelHeadGui extends GuiScreen {
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
-                Minecraft.getMinecraft().displayGuiScreen(null);
+                Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(null);
             });
         }
         lock.unlock();

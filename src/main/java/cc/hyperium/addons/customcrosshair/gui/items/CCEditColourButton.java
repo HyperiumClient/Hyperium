@@ -17,6 +17,7 @@
 
 package cc.hyperium.addons.customcrosshair.gui.items;
 
+import cc.hyperium.Hyperium;
 import cc.hyperium.addons.customcrosshair.gui.GuiCustomCrosshairEditColour;
 import cc.hyperium.addons.customcrosshair.CustomCrosshairAddon;
 import cc.hyperium.addons.customcrosshair.utils.CustomCrosshairGraphics;
@@ -63,7 +64,7 @@ public class CCEditColourButton extends CCGuiItem {
     @Override
     public void mouseClicked(final int mouseX, final int mouseY) {
         if (mouseX >= this.editButton.getPosX() && mouseX <= this.editButton.getPosX() + this.editButton.getWidth() && mouseY >= this.editButton.getPosY() && mouseY <= this.editButton.getPosY() + this.editButton.getHeight()) {
-            Minecraft.getMinecraft().displayGuiScreen(new GuiCustomCrosshairEditColour(this.addon, this.editColour, "Edit " + this.getDisplayText() + "..."));
+            Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new GuiCustomCrosshairEditColour(this.addon, this.editColour, "Edit " + this.getDisplayText() + "..."));
         }
     }
 }

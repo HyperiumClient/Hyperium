@@ -1,5 +1,6 @@
 package cc.hyperium.mixinsimp.gui;
 
+import cc.hyperium.Hyperium;
 import cc.hyperium.gui.keybinds.GuiKeybinds;
 import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
 
@@ -16,7 +17,7 @@ public class HyperiumGuiControls {
 
     public void actionPerformed(GuiButton button) {
         if (button.id == 10) {
-            Minecraft.getMinecraft().displayGuiScreen(new GuiKeybinds());
+            Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new GuiKeybinds());
         }
     }
 }

@@ -17,6 +17,7 @@
 
 package cc.hyperium.handlers.handlers.keybinds.keybinds;
 
+import cc.hyperium.Hyperium;
 import cc.hyperium.gui.integrations.HypixelFriendsGui;
 import cc.hyperium.handlers.handlers.keybinds.HyperiumBind;
 import net.minecraft.client.Minecraft;
@@ -29,6 +30,6 @@ public class FriendsKeybind extends HyperiumBind {
 
     @Override
     public void onPress() {
-        Minecraft.getMinecraft().displayGuiScreen(new HypixelFriendsGui());
+        Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new HypixelFriendsGui());
     }
 }

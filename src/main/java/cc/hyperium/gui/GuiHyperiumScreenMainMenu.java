@@ -405,7 +405,7 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
     @Override
     protected void keyTyped(char typedChar, int keyCode) throws IOException {
         if (keyCode == Keyboard.KEY_B) {
-            Minecraft.getMinecraft().displayGuiScreen(new ChangeBackgroundGui(this));
+            Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new ChangeBackgroundGui(this));
         }
     }
 }

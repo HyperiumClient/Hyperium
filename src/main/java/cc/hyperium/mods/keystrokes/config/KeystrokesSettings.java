@@ -19,11 +19,18 @@ package cc.hyperium.mods.keystrokes.config;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.mods.keystrokes.KeystrokesMod;
+import cc.hyperium.mods.keystrokes.keys.impl.CustomKey;
+import cc.hyperium.mods.keystrokes.render.CustomKeyWrapper;
 import cc.hyperium.utils.BetterJsonObject;
+import cc.hyperium.utils.JsonHolder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -66,6 +73,10 @@ public class KeystrokesSettings {
     private int pressedBlue = 0;
 
     private boolean leftClick = true;
+
+    private boolean showingSneak = false;
+
+    private List<CustomKeyWrapper> configWrappers = new ArrayList<>();
 
     public KeystrokesSettings(KeystrokesMod mod, File directory) {
         if (!directory.exists()) {
@@ -135,6 +146,18 @@ public class KeystrokesSettings {
             object.addProperty("showCPS", isShowingCPS());
             object.addProperty("showCPSOnButtons", isShowingCPSOnButtons());
             object.addProperty("showSpacebar", isShowingSpacebar());
+            object.addProperty("showSneak", isShowingSneak());
+            final JsonArray keys = new JsonArray();
+            for (CustomKeyWrapper wrapper : theMod.getRenderer().getCustomKeys()) {
+                JsonHolder holder = new JsonHolder();
+                holder.put("key", wrapper.getKey().getKey());
+                holder.put("type", wrapper.getKey().getType());
+                holder.put("xOffset", wrapper.getxOffset());
+                holder.put("yOffset", wrapper.getyOffset());
+                keys.add(holder.getObject());
+            }
+
+            object.getData().add("custom", keys);
             object.writeToFile(configFile);
         } catch (Exception ex) {
             Hyperium.LOGGER.warn(String.format("Could not save config file! (\"%s\")", this.configFile.getName()));
@@ -159,6 +182,17 @@ public class KeystrokesSettings {
         setShowingCPS(object.optBoolean("showCPS"));
         setShowingCPSOnButtons(object.optBoolean("showCPSOnButtons"));
         setShowingSpacebar(object.optBoolean("showSpacebar"));
+        setShowingSneak(object.optBoolean("showSneak"));
+        JsonObject data = object.getData();
+        if (data.has("custom")) {
+            JsonArray custom = data.getAsJsonArray("custom");
+            for (JsonElement element : custom) {
+                JsonHolder holder = new JsonHolder(element.getAsJsonObject());
+                CustomKeyWrapper wrapper = new CustomKeyWrapper(
+                    new CustomKey(theMod, holder.optInt("key"), holder.optInt("type")), holder.optInt("xOffset"), holder.optInt("yOffset"));
+                configWrappers.add(wrapper);
+            }
+        }
     }
 
     public int getX() {
@@ -317,6 +351,18 @@ public class KeystrokesSettings {
 
     public int getWidth() {
         return 74; // Hardcoded value
+    }
+
+    public List<CustomKeyWrapper> getConfigWrappers() {
+        return configWrappers;
+    }
+
+    public boolean isShowingSneak() {
+        return showingSneak;
+    }
+
+    public void setShowingSneak(boolean showingSneak) {
+        this.showingSneak = showingSneak;
     }
 
     public KeystrokesMod getMod() {

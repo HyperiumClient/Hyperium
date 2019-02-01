@@ -1,5 +1,6 @@
 package cc.hyperium.mods.blockoverlay;
 
+import cc.hyperium.Hyperium;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -75,7 +76,7 @@ public class BlockOverlayColor extends GuiScreen {
                 this.mod.getSettings().setOverlayAlpha(this.sliderAlpha.getValueInt() / 255.0f);
                 break;
             case 6:
-                Minecraft.getMinecraft().displayGuiScreen(new BlockOverlayGui(this.mod));
+                Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new BlockOverlayGui(this.mod));
                 break;
         }
     }

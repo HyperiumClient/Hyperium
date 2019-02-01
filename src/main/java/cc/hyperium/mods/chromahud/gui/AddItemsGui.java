@@ -18,6 +18,7 @@
 package cc.hyperium.mods.chromahud.gui;
 
 
+import cc.hyperium.Hyperium;
 import cc.hyperium.mods.chromahud.ChromaHUD;
 import cc.hyperium.mods.chromahud.ChromaHUDApi;
 import cc.hyperium.mods.chromahud.DisplayElement;
@@ -106,7 +107,7 @@ public class AddItemsGui extends GuiScreen {
         });
 
 
-        reg("Back", new GuiButton(nextId(), 2, ResolutionUtil.current().getScaledHeight() - 22, 100, 20, "Back"), (guiButton) -> Minecraft.getMinecraft().displayGuiScreen(new EditItemsGui(element, mod)), (guiButton) -> {
+        reg("Back", new GuiButton(nextId(), 2, ResolutionUtil.current().getScaledHeight() - 22, 100, 20, "Back"), (guiButton) -> Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new EditItemsGui(element, mod)), (guiButton) -> {
         });
 
     }
@@ -190,7 +191,7 @@ public class AddItemsGui extends GuiScreen {
                                 DisplayItem item = ChromaHUDApi.getInstance().parse(s, 0, new JsonHolder().put("type", s));
                                 element.getDisplayItems().add(item);
                                 element.adjustOrdinal();
-                                Minecraft.getMinecraft().displayGuiScreen(new EditItemsGui(element, mod));
+                                Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new EditItemsGui(element, mod));
 
                             }
                         }

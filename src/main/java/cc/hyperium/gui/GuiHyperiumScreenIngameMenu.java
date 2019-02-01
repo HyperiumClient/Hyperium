@@ -1,5 +1,6 @@
 package cc.hyperium.gui;
 
+import cc.hyperium.Hyperium;
 import cc.hyperium.gui.hyperium.HyperiumMainGui;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
@@ -116,13 +117,13 @@ public class GuiHyperiumScreenIngameMenu extends GuiHyperiumScreen {
                 this.mc.displayGuiScreen(new GuiShareToLan(this));
                 break;
             case 8:
-                Minecraft.getMinecraft().displayGuiScreen(new GuiHyperiumCredits(Minecraft.getMinecraft().currentScreen));
+                Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new GuiHyperiumCredits(Minecraft.getMinecraft().currentScreen));
                 break;
             case 9:
                 HyperiumMainGui.INSTANCE.show();
                 break;
             case 10:
-                Minecraft.getMinecraft().displayGuiScreen(new GuiIngameMultiplayer(Minecraft.getMinecraft().currentScreen));
+                Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new GuiIngameMultiplayer(Minecraft.getMinecraft().currentScreen));
                 break;
 
         }

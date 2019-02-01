@@ -1,5 +1,6 @@
 package cc.hyperium.gui;
 
+import cc.hyperium.Hyperium;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiMultiplayer;
@@ -34,7 +35,7 @@ public class GuiIngameMultiplayer extends GuiMultiplayer {
         if (Minecraft.getMinecraft().theWorld != null) {
             Minecraft.getMinecraft().theWorld.sendQuittingDisconnectingPacket();
             Minecraft.getMinecraft().loadWorld(null);
-            Minecraft.getMinecraft().displayGuiScreen(null);
+            Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(null);
         }
     }
 

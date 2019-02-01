@@ -17,6 +17,7 @@
 
 package cc.hyperium.gui;
 
+import cc.hyperium.Hyperium;
 import cc.hyperium.config.Settings;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import javafx.stage.FileChooser;
@@ -74,7 +75,7 @@ public class ChangeBackgroundGui extends GuiScreen {
     protected void keyTyped(char typedChar, int keyCode) throws IOException {
         this.downloadUrlField.textboxKeyTyped(typedChar, keyCode);
         if (keyCode == Keyboard.KEY_ESCAPE) {
-            Minecraft.getMinecraft().displayGuiScreen(this.prevGui);
+            Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(this.prevGui);
             if(Minecraft.getMinecraft().isFullScreen()) {
                 Minecraft.getMinecraft().toggleFullscreen();
             }
@@ -97,7 +98,7 @@ public class ChangeBackgroundGui extends GuiScreen {
             handleResetBackground();
         }
         if (button.id == 4) {
-            Minecraft.getMinecraft().displayGuiScreen(prevGui);
+            Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(prevGui);
             if(Minecraft.getMinecraft().isFullScreen()) {
                 Minecraft.getMinecraft().toggleFullscreen();
             }
@@ -113,7 +114,7 @@ public class ChangeBackgroundGui extends GuiScreen {
         }
         Settings.BACKGROUND = "4";
         statusText = I18n.format("gui.changebackground.done");
-        Minecraft.getMinecraft().displayGuiScreen(prevGui);
+        Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(prevGui);
     }
 
     private void handleChooseFile() {
@@ -132,7 +133,7 @@ public class ChangeBackgroundGui extends GuiScreen {
                     IOUtils.copy(input, output);
                     Settings.BACKGROUND = "CUSTOM";
                     statusText = I18n.format("gui.changebackground.done");
-                    Minecraft.getMinecraft().displayGuiScreen(prevGui);
+                    Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(prevGui);
                 } catch (FileNotFoundException e) {
                     statusText = "Invalid path";
                 } catch (IOException e) {
@@ -180,7 +181,7 @@ public class ChangeBackgroundGui extends GuiScreen {
             fos.write(fileData);
             Settings.BACKGROUND = "CUSTOM";
             this.statusText = I18n.format("gui.changebackground.done");
-            Minecraft.getMinecraft().displayGuiScreen(prevGui);
+            Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(prevGui);
             fos.close();
         } catch (Exception m) {
             this.statusText = I18n.format("gui.changebackground.downloaderror");

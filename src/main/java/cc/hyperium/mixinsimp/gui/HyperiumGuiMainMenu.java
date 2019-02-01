@@ -25,11 +25,11 @@ public class HyperiumGuiMainMenu {
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         if (!Hyperium.INSTANCE.isAcceptedTos()) {
             Hyperium.LOGGER.info("Hasn't accepted! Redirecting them!");
-            Minecraft.getMinecraft().displayGuiScreen(new GuiHyperiumScreenTos());
+            Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new GuiHyperiumScreenTos());
         } else if (!AddonMinecraftBootstrap.getDependenciesLoopMap().isEmpty() || !AddonMinecraftBootstrap.getMissingDependenciesMap().isEmpty()) {
-            Minecraft.getMinecraft().displayGuiScreen(new GuiAddonError());
+            Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new GuiAddonError());
         } else {
-            Minecraft.getMinecraft().displayGuiScreen(new GuiHyperiumScreenMainMenu());
+            Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new GuiHyperiumScreenMainMenu());
         }
     }
 

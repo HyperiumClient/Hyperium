@@ -178,7 +178,7 @@ public class GuiDances extends HyperiumGui {
     protected void mouseReleased(int mouseX, int mouseY, int state) {
         super.mouseReleased(mouseX, mouseY, state);
         if (foc != null) {
-            Minecraft.getMinecraft().displayGuiScreen(null);
+            Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(null);
             handlers.get(foc).accept(true);
         }
 

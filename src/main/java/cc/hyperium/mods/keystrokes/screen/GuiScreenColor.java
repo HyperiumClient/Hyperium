@@ -17,6 +17,7 @@
 
 package cc.hyperium.mods.keystrokes.screen;
 
+import cc.hyperium.Hyperium;
 import cc.hyperium.mods.keystrokes.KeystrokesMod;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
@@ -95,19 +96,15 @@ public class GuiScreenColor extends GuiScreen {
 
     @Override
     protected void actionPerformed(GuiButton button) {
-        switch (button.id) {
-            case 4:
-                Minecraft.getMinecraft().displayGuiScreen(new GuiScreenKeystrokes(this.mod));
-                break;
-            default:
-                break;
+        if (button.id == 4) {
+            Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new GuiScreenKeystrokes(this.mod));
         }
     }
 
     @Override
     protected void keyTyped(char typedChar, int keyCode) throws IOException {
         if (keyCode == 1) {
-            Minecraft.getMinecraft().displayGuiScreen(new GuiScreenKeystrokes(this.mod));
+            Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new GuiScreenKeystrokes(this.mod));
         } else {
             super.keyTyped(typedChar, keyCode);
         }

@@ -56,7 +56,7 @@ public class KeystrokesMod extends AbstractMod {
         this.config = new KeystrokesSettings(this, Hyperium.folder);
         this.config.load();
 
-        new Sk1erMod("keystrokesmod", "4.1.1").checkStatus();
+        new Sk1erMod("keystrokesmod", "5.0.1").checkStatus();
 
         this.renderer = new KeystrokesRenderer(this);
 

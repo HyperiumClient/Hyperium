@@ -1,5 +1,6 @@
 package cc.hyperium.gui;
 
+import cc.hyperium.Hyperium;
 import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
@@ -42,7 +43,7 @@ public class CustomLevelheadConfigurer extends HyperiumGui {
             JsonHolder jsonHolder = PurchaseApi.getInstance().get("https://api.hyperium.cc/levelhead/" + UUIDUtil.getUUIDWithoutDashes());
             if (!jsonHolder.optBoolean("levelhead")) {
                 if (Minecraft.getMinecraft().currentScreen instanceof CustomLevelheadConfigurer) {
-                    Minecraft.getMinecraft().displayGuiScreen(null);
+                    Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(null);
                     GeneralChatHandler.instance().sendMessage("You must purchase Custom Levelhead to use this!");
                 }
             }
