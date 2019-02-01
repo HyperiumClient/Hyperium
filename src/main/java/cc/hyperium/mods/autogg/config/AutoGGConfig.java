@@ -19,7 +19,7 @@ public class AutoGGConfig {
     public boolean ANTI_GG = false;
     @ConfigOpt
     @SliderSetting(name = "Delay", min = 0, max = 5, isInt = true, category = Category.AUTO_GG, mods = true)
-    public int AUTOGG_DELAY = 1;
+    public int delay = 1;
     @ConfigOpt
     @ToggleSetting(name = "Enable", mods = true, category = Category.AUTO_GG)
     public boolean AUTOGG = true;
@@ -35,22 +35,22 @@ public class AutoGGConfig {
     }
 
     /**
-     * Getter for the AutoGG AUTOGG_DELAY
+     * Getter for the AutoGG delay
      *
-     * @return the AUTOGG_DELAY, capped into the limitations
+     * @return the delay, capped into the limitations
      */
     public int getDelay() {
-        return this.AUTOGG_DELAY < 0 ? 1 : this.AUTOGG_DELAY > 5 ? 1 : this.AUTOGG_DELAY;
+        return this.delay < 0 ? 1 : this.delay > 5 ? 1 : this.delay;
     }
 
     /**
-     * Sets the AUTOGG_DELAY of the AutoGG
+     * Sets the delay of the AutoGG
      *
-     * @param delay the AUTOGG_DELAY of AutoGG, capped within limitations
+     * @param delay the delay of AutoGG, capped within limitations
      */
     public void setDelay(int delay) {
-        if (delay >= 0 && this.AUTOGG_DELAY <= 5) {
-            this.AUTOGG_DELAY = delay;
+        if (delay >= 0 && this.delay <= 5) {
+            this.delay = delay;
         }
     }
 

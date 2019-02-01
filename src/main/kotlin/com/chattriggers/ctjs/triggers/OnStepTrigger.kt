@@ -23,9 +23,9 @@ class OnStepTrigger(method: Any, loader: ILoader) : OnTrigger(method, TriggerTyp
     }
 
     /**
-     * Sets the AUTOGG_DELAY in seconds between the trigger activation.
+     * Sets the delay in seconds between the trigger activation.
      * This is limited to one step every second. This will override [.setFps].
-     * @param delay The AUTOGG_DELAY in seconds
+     * @param delay The delay in seconds
      * @return the trigger for method chaining
      */
     fun setDelay(delay: Long) = apply {
@@ -41,7 +41,7 @@ class OnStepTrigger(method: Any, loader: ILoader) : OnTrigger(method, TriggerTyp
                 this.systemTime += 1000 / this.fps
             }
         } else {
-            // run trigger based on set AUTOGG_DELAY in seconds
+            // run trigger based on set delay in seconds
             while (Client.getSystemTime() > this.systemTime + this.delay!! * 1000) {
                 callMethod(++this.elapsed)
                 this.systemTime += this.delay!! * 1000

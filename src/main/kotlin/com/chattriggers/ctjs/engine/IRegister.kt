@@ -217,7 +217,7 @@ interface IRegister {
      * steps elapsed<br></br>
      * Available modifications:<br></br>
      * [OnStepTrigger.setFps] Sets the fps<br></br>
-     * [OnStepTrigger.setDelay] Sets the AUTOGG_DELAY in seconds<br></br>
+     * [OnStepTrigger.setDelay] Sets the delay in seconds<br></br>
      * [OnTrigger.setPriority] Sets the priority
      *
      * @param method the name of the method to callback when the event is fired

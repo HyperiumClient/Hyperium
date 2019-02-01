@@ -23,7 +23,7 @@ public class GGCommand implements BaseCommand {
 
     @Override
     public String getUsage() {
-        return "Usage: /autogg <toggle, AUTOGG_DELAY [seconds]>";
+        return "Usage: /autogg <toggle, delay [seconds]>";
     }
 
     @Override
@@ -46,7 +46,7 @@ public class GGCommand implements BaseCommand {
                 saveConfig();
                 break;
             }
-            case "AUTOGG_DELAY":
+            case "delay":
             case "d":
             case "time": {
                 if (args.length == 2) {
@@ -59,7 +59,7 @@ public class GGCommand implements BaseCommand {
 
                         saveConfig();
 
-                        this.showMessage(ChatColor.GRAY + "AutoGG AUTOGG_DELAY set to "
+                        this.showMessage(ChatColor.GRAY + "AutoGG delay set to "
                             + ChatColor.GREEN + this.mod.getConfig().getDelay() + "s");
                     } catch (NumberFormatException e) {
                         showMessage(ChatColor.RED + "Error: Please use an integer between 1 and 5 seconds.");
