@@ -183,8 +183,8 @@ public class ParticleGui extends HyperiumGui implements GuiYesNoCallback {
                 if (client != null) {
                     client.write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("particle_update", true).put("active_type", value.name())));
                 }
-                for (CarouselItem particle1 : particles) {
-                    particle1.setActive(false);
+                for (CarouselItem particleItem : particles) {
+                    particleItem.setActive(false);
                 }
                 carouselItem.setActive(true);
             });
