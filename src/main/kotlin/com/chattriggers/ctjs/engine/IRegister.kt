@@ -8,7 +8,7 @@ interface IRegister {
     /**
      * Helper method register a trigger. <br/>
      * Called by taking the original name of the method, i.e. `registerChat`,
-     * removing the word register, and making the first letter AUTOGG_LOWERCASE.
+     * removing the word register, and making the first letter lowercase.
      *
      * @param triggerType the type of trigger
      * @param method the name of the method or the actual method to callback when the event is fired
