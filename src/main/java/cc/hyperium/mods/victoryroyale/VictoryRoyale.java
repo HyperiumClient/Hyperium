@@ -18,13 +18,13 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
+import org.jetbrains.annotations.Contract;
 import org.lwjgl.opengl.GL11;
 
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class VictoryRoyale extends AbstractMod {
-
     private static VictoryRoyale INSTANCE;
 
     private ResourceLocation texture = new ResourceLocation("textures/material/victoryroyale/victory_royale.png");
@@ -32,6 +32,7 @@ public class VictoryRoyale extends AbstractMod {
 
     private long start = 0;
 
+    @Contract(pure = true)
     public static VictoryRoyale getInstance() {
         return INSTANCE;
     }
@@ -71,20 +72,16 @@ public class VictoryRoyale extends AbstractMod {
 
                     if (radius > 0 && radius < angle || radius > full - angle) {
                         side = 1;
-
                     } else if (radius > angle && radius < half - angle) {
                         side = 0;
-
                     } else if (radius > half - angle && radius < half + angle) {
                         side = 3;
-
                     } else {
                         side = 2;
                     }
 
                     int px;
                     int py;
-
                     double slope = (centerY - trueY) / (centerX - trueX);
 
                     if (side == 1 || side == 3) {
@@ -104,7 +101,6 @@ public class VictoryRoyale extends AbstractMod {
 
                     GlStateManager.enableTexture2D();
                     GlStateManager.enableBlend();
-
                     Tessellator renderer = Tessellator.getInstance();
                     WorldRenderer worldRenderer = renderer.getWorldRenderer();
 
@@ -113,7 +109,6 @@ public class VictoryRoyale extends AbstractMod {
                     GlStateManager.enableAlpha();
                     GlStateManager.color(1, 1, 1, colorAlpha);
                     GlStateManager.disableTexture2D();
-
                     worldRenderer.begin(GL11.GL_TRIANGLES, DefaultVertexFormats.POSITION);
 
                     if (side == 1) {
@@ -136,7 +131,6 @@ public class VictoryRoyale extends AbstractMod {
                         worldRenderer.pos((double) px + 10, (double) py, 0.0D).endVertex();
                         worldRenderer.pos((double) px, (double) py, 0.0D).endVertex();
                     }
-
                     renderer.draw();
                     GlStateManager.enableTexture2D();
                 }
@@ -146,10 +140,8 @@ public class VictoryRoyale extends AbstractMod {
 
             int imageWidth = res.getScaledWidth() / 4;
             Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
-
             GlStateManager.pushMatrix();
             GlStateManager.enableBlend();
-
             int time = 9000;
             float fadeOutAlpha = 1;
 
@@ -160,14 +152,17 @@ public class VictoryRoyale extends AbstractMod {
 
             GlStateManager.color(1, 1, 1, in < 1000 ? (float) Math.pow(in / 1000D, 2) : fadeOutAlpha);
             GlStateManager.translate(imageWidth, 10, 0);
+
             Gui.drawScaledCustomSizeModalRect(0, 0, 0, 0, 1200, 675, imageWidth * 2, imageWidth, 1200, 675);
+            System.out.println("victory royale (debug)");
             GlStateManager.popMatrix();
         }
     }
 
     public void gameEnded() {
-        if (Minecraft.getMinecraft().thePlayer == null)
+        if (Minecraft.getMinecraft().thePlayer == null) {
             return;
+        }
         EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
         if (player.isInvisible() || player.isInvisibleToPlayer(player)) {
             return;
@@ -179,9 +174,13 @@ public class VictoryRoyale extends AbstractMod {
         }
 
         SoundHandler soundHandler = Minecraft.getMinecraft().getSoundHandler();
-        if (soundHandler == null || Minecraft.getMinecraft().theWorld == null)
+        if (soundHandler == null || Minecraft.getMinecraft().theWorld == null) {
             return;
-        soundHandler.playSound(PositionedSoundRecord.create(new ResourceLocation("victoryroyale"), (float) Minecraft.getMinecraft().thePlayer.posX, (float) Minecraft.getMinecraft().thePlayer.posY, (float) Minecraft.getMinecraft().thePlayer.posZ));
+        }
+        if (Settings.VICTORY_ROYALE)
+        {
+            soundHandler.playSound(PositionedSoundRecord.create(new ResourceLocation("victory-royale"), (float) Minecraft.getMinecraft().thePlayer.posX, (float) Minecraft.getMinecraft().thePlayer.posY, (float) Minecraft.getMinecraft().thePlayer.posZ));
+        }
 
         start = System.currentTimeMillis();
         points.clear();
@@ -200,11 +199,10 @@ public class VictoryRoyale extends AbstractMod {
     }
 
     class WhiteLine {
-
         private double xPercent, yPercent;
         private int width;
 
-        public WhiteLine(double xPercent, double yPercent, int width) {
+        protected WhiteLine(double xPercent, double yPercent, int width) {
             this.xPercent = xPercent;
             this.yPercent = yPercent;
             this.width = width;
