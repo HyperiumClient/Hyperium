@@ -629,6 +629,14 @@ public class Settings {
     @ToggleSetting(name = "gui.settings.disableitemframes", category = IMPROVEMENTS)
     public static boolean DISABLE_ITEMFRAMES = false;
 
+    @ConfigOpt
+    @ToggleSetting(name = "gui.settings.confirmdisconnect", category = MISC)
+    public static boolean CONFIRM_DISCONNECT = false;
+
+    @ConfigOpt
+    @ToggleSetting(name = "gui.settings.confirmquit", category = MISC)
+    public static boolean CONFIRM_QUIT = false;
+
     private Settings() {
     }
 

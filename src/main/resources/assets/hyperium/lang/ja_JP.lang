@@ -235,6 +235,8 @@ gui.settings.disablelightning=Disable Lightning Bolts
 gui.settings.disablearmorstands=Disable Armorstands
 gui.settings.keeplightinguhc=Keep Lightning Bolts in UHC
 gui.settings.disableitemframes=Disable Item Frames
+gui.settings.confirmdisconnect=Confirm Disconnect
+gui.settings.confirmquit=Confirm Quit
 
 # Hyperium Splash Progress
 splashprogress.startinggame=Starting Game...
@@ -253,6 +255,8 @@ splashprogress.finishing=Finishing...
 
 # Hyperium Misc Gui Text
 gui.namehistory.text=NAME HISTORY
+gui.confirmdisconnect.text=Are you sure you want to disconnect?
+gui.confirmquit.text=Are you sure you want to quit?
 
 # Hyperium Chat Message
 message.insufficientcredits=Insufficient credits

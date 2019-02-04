@@ -201,4 +201,9 @@ public class GuiBlock {
     public void setPrintRight(boolean printRight) {
         this.printRight = printRight;
     }
+
+
+    public GuiBlock multiply(double scale) {
+        return new GuiBlock((int) (left * scale), (int) (right * scale), (int) (top * scale), (int) (bottom * scale));
+    }
 }

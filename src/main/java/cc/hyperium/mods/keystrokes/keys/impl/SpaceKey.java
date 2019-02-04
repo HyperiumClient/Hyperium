@@ -24,6 +24,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.util.EnumChatFormatting;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
@@ -37,9 +38,12 @@ public class SpaceKey extends IKey {
 
     private long lastPress = 0L;
 
-    public SpaceKey(KeystrokesMod mod, KeyBinding key, int xOffset, int yOffset) {
+    private String name;
+
+    public SpaceKey(KeystrokesMod mod, KeyBinding key, int xOffset, int yOffset, String name) {
         super(mod, xOffset, yOffset);
         this.key = key;
+        this.name = name;
     }
 
     private boolean isButtonDown(int buttonCode) {
@@ -61,10 +65,13 @@ public class SpaceKey extends IKey {
         if (!this.mod.getSettings().isShowingMouseButtons()) {
             yOffset -= 24;
         }
+        if (!mod.getSettings().isShowingSneak()) {
+            yOffset -= 18;
+        }
 
         Keyboard.poll();
         boolean pressed = isButtonDown(this.key.getKeyCode());
-        String name = (!this.mod.getSettings().isChroma() ? ChatColor.STRIKETHROUGH.toString() + "-----" : "------");
+        String name = this.name.equalsIgnoreCase("space") ? (mod.getSettings().isChroma() ? "------" : (ChatColor.STRIKETHROUGH.toString() + "------")) : "Sneak";
 
         if (pressed != this.wasPressed) {
             this.wasPressed = pressed;
@@ -91,16 +98,16 @@ public class SpaceKey extends IKey {
         int green = textColor >> 8 & 255;
         int blue = textColor & 255;
 
-        int pressedRed = pressedColor >> 16 & 255;
-        int pressedGreen = pressedColor >> 8 & 255;
-        int pressedBlue = pressedColor & 255;
-
         int colorN = new Color(0, 0, 0).getRGB() + ((int) ((double) red * textBrightness) << 16) + ((int) ((double) green * textBrightness) << 8) + (int) ((double) blue * textBrightness);
 
         if (this.mod.getSettings().isChroma()) {
-            drawSpacebar(name, x + ((this.xOffset + 76) / 2), y + yOffset + 5);
+            if (this.name.equalsIgnoreCase("space")) {
+                drawSpacebar(name, x + ((this.xOffset + 76) / 2), y + yOffset + 5);
+            } else {
+                drawCenteredString(name, x + ((this.xOffset + 70) / 2), y + yOffset + 5, pressed ? pressedColor : colorN);
+            }
         } else {
-            drawCenteredString(name, x + ((this.xOffset + 70) / 2), y + yOffset + 5, pressed ? pressedColor : colorN);
+            drawCenteredString(name, x + (xOffset + 70) / 2, y + yOffset + 5, pressed ? pressedColor : colorN);
         }
     }
 

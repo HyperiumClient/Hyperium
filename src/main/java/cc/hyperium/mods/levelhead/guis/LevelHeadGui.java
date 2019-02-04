@@ -270,7 +270,7 @@ public class LevelHeadGui extends GuiScreen {
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
-                Minecraft.getMinecraft().displayGuiScreen(null);
+                mc.displayGuiScreen(null);
             });
         }
         lock.unlock();

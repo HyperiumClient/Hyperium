@@ -17,11 +17,11 @@
 
 package cc.hyperium.mods.chromahud;
 
+import cc.hyperium.Hyperium;
 import cc.hyperium.config.Settings;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.RenderHUDEvent;
 import cc.hyperium.event.TickEvent;
-import cc.hyperium.mods.chromahud.api.DisplayItem;
 import cc.hyperium.utils.RenderUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -29,6 +29,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.item.ItemStack;
 import org.lwjgl.input.Mouse;
+
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -44,14 +45,13 @@ public class ElementRenderer {
     private static final List<Long> mClicks = new ArrayList<>();
     private static double currentScale = 1.0;
     private static int color;
-    private static int[] COLORS = new int[]{16777215, 16711680, 65280, 255, 16776960, 11141290};
     private static boolean display = false;
     private static DisplayElement current;
     private static FontRenderer fontRendererObj = Minecraft.getMinecraft().fontRendererObj;
     private static String cValue;
     private final ChromaHUD mod;
     private final Minecraft minecraft;
-    private boolean last = false;
+    boolean last = false;
     private boolean rLast = false;
     private boolean mLast = false;
 
@@ -70,7 +70,13 @@ public class ElementRenderer {
 
     public static int getColor(int c, int x) {
         return c;
+
     }
+
+    public static void display() {
+        display = true;
+    }
+
 
     public static void draw(int x, double y, String string) {
         List<String> tmp = new ArrayList<>();
@@ -99,50 +105,36 @@ public class ElementRenderer {
                 ? fontRendererObj.getStringWidth(string)
                 : 0;
             if (current.isHighlighted()) {
-                if (current.getDisplayItems().stream().anyMatch(i -> i.getType().contains("CB"))) {
-                    RenderUtils.drawRect((int) ((x - 1) / getCurrentScale() - shift), (int) ((ty - 3) / getCurrentScale()), (int) ((x + 1) / getCurrentScale()) + 60 - shift, (int) ((ty + 3) / getCurrentScale()) + 8, new Color(0, 0, 0, 120).getRGB());
-                } else {
-                    int stringWidth = fontRendererObj.getStringWidth(string);
-//                Gui.drawRect((int) ((tx - 1) / getCurrentScale() - shift), (int) ((ty - 1) / getCurrentScale()), (int) ((tx + 1) / getCurrentScale()) + stringWidth - shift, (int) ((ty + 1) / getCurrentScale()) + 8, new Color(0, 0, 0, 120).getRGB());
-                    RenderUtils.drawRect((int) ((x - 1) / getCurrentScale() - shift), (int) ((ty - 1) / getCurrentScale()), (int) ((x + 1) / getCurrentScale()) + stringWidth - shift, (int) ((ty + 1) / getCurrentScale()) + 8, new Color(0, 0, 0, 120).getRGB());
-                }
+                int stringWidth = fontRendererObj.getStringWidth(string);
+                RenderUtils.drawRect((int) ((x - 1) / getCurrentScale() - shift), (int) ((ty - 1) / getCurrentScale()), (int) ((x + 1) / getCurrentScale()) + stringWidth - shift, (int) ((ty + 1) / getCurrentScale()) + 8, new Color(0, 0, 0, 120).getRGB());
             }
             if (current.isChroma()) {
-                if (current.getDisplayItems().stream().anyMatch(i -> i.getType().contains("CB")))
-                    drawChromaString(string, ((60 - fontRendererObj.getStringWidth(string)) / 2) + (x - shift), (int) ty);
-                else
-                    drawChromaString(string, x - shift, (int) ty);
+                drawChromaString(string, x - shift, (int) ty);
             } else {
-                if (current.getDisplayItems().stream().anyMatch(i -> i.getType().contains("CB")))
-                    fontRendererObj.drawString(string, (float) (((60 - fontRendererObj.getStringWidth(string)) / 2) + (x / getCurrentScale() - shift)), (int) (ty / getCurrentScale()), getColor(color, x), current.isShadow());
-                else
-                    fontRendererObj.drawString(string, (int) (x / getCurrentScale() - shift), (int) (ty / getCurrentScale()), getColor(color, x), current.isShadow());
+                fontRendererObj.drawString(string, (int) (x / getCurrentScale() - shift), (int) (ty / getCurrentScale()), getColor(color, x), current.isShadow());
             }
             ty += 10D * currentScale;
         }
     }
 
+
     // Don't shift, by the time it is here it is already shifted
     public static void drawChromaString(String text, int xIn, int y) {
         FontRenderer renderer = Minecraft.getMinecraft().fontRendererObj;
         int x = xIn;
-        try {
-            for (char c : text.toCharArray()) {
-                long dif = (x * 10) - (y * 10);
-                if (current.isStaticChroma()) {
-                    dif = 0;
-                }
-                long l = System.currentTimeMillis() - dif;
-                float ff = current.isStaticChroma() ? 1000.0F : 2000.0F;
-                int i = Color.HSBtoRGB((float) (l % (int) ff) / ff, 0.8F, 0.8F);
-                String tmp = String.valueOf(c);
-                renderer.drawString(tmp, (float) ((double) x / getCurrentScale()), (float) ((double) y / getCurrentScale()), i, current.isShadow());
-                x += (double) renderer.getCharWidth(c) * getCurrentScale();
-            }
-        } catch (NullPointerException nullPointer) {
-            nullPointer.printStackTrace();
+        for (char c : text.toCharArray()) {
+            long dif = (x * 10) - (y * 10);
+            if (current.isStaticChroma())
+                dif = 0;
+            long l = System.currentTimeMillis() - dif;
+            float ff = current.isStaticChroma() ? 1000.0F : 2000.0F;
+            int i = Color.HSBtoRGB((float) (l % (int) ff) / ff, 0.8F, 0.8F);
+            String tmp = String.valueOf(c);
+            renderer.drawString(tmp, (float) ((double) x / getCurrentScale()), (float) ((double) y / getCurrentScale()), i, current.isShadow());
+            x += (double) renderer.getCharWidth(c) * getCurrentScale();
         }
     }
+
 
     private static boolean isChromaInt(int e) {
         return e >= 0 && e <= 1;
@@ -199,6 +191,7 @@ public class ElementRenderer {
 
     public static void endDrawing(DisplayElement element) {
         GlStateManager.scale(1.0 / element.getScale(), 1.0 / element.getScale(), 1.0 / element.getScale());
+
         GlStateManager.popMatrix();
     }
 
@@ -223,30 +216,32 @@ public class ElementRenderer {
         return mClicks.size();
     }
 
+    /* Until Sk1er fixes the old one causing an NPE, keep it like this */
     @InvokeEvent
     public void tick(TickEvent event) {
-        for (DisplayElement displayElement : mod.getDisplayElements()) {
-            for (DisplayItem displayItem : displayElement.getDisplayItems()) {
-                if (displayItem.getType().equalsIgnoreCase("C_COUNTER")) {
-                    if (Minecraft.getMinecraft().inGameHasFocus)
-                        cValue = Minecraft.getMinecraft().renderGlobal.getDebugInfoRenders().split("/")[0].trim();
-                    return;
-                }
-            }
+        if (display) {
+            Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(mod.getConfigGuiInstance());
+            display = false;
         }
+
+        if (Minecraft.getMinecraft().inGameHasFocus)
+            cValue = Minecraft.getMinecraft().renderGlobal.getDebugInfoRenders().split("/")[0].trim();
     }
 
     // Right CPS Counter
 
     @InvokeEvent
     public void onRenderTick(RenderHUDEvent event) {
+
         if (!this.minecraft.inGameHasFocus || this.minecraft.gameSettings.showDebugInfo) {
             return;
         }
         if (!Settings.SHOW_CHROMAHUD)
             return;
+
         renderElements();
         GlStateManager.resetColor();
+
     }
 
     // Middle CPS Counter
@@ -292,7 +287,8 @@ public class ElementRenderer {
             startDrawing(element);
             try {
                 element.draw();
-            } catch (Exception ignored) {}
+            } catch (Exception ignored) {
+            }
             endDrawing(element);
         }
 

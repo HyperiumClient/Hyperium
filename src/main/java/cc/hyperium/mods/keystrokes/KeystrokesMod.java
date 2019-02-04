@@ -39,9 +39,9 @@ public class KeystrokesMod extends AbstractMod {
      * Default constructor, this will load the mods metadata
      */
     public KeystrokesMod() {
-        Metadata data = new Metadata(this, "KeystrokesMod", "4.1.1", "Fyu, boomboompower and Sk1er");
+        Metadata data = new Metadata(this, "KeystrokesMod", "5.0.1", "Fyu, boomboompower and Sk1er");
 
-        data.setDisplayName(ChatColor.AQUA + "SkinChanger");
+        data.setDisplayName(ChatColor.AQUA + "Keystrokes");
 
         this.metaData = data;
     }
@@ -56,7 +56,7 @@ public class KeystrokesMod extends AbstractMod {
         this.config = new KeystrokesSettings(this, Hyperium.folder);
         this.config.load();
 
-        new Sk1erMod("keystrokesmod", "4.1.1").checkStatus();
+        new Sk1erMod("keystrokesmod", "5.0.1").checkStatus();
 
         this.renderer = new KeystrokesRenderer(this);
 
