@@ -17,7 +17,6 @@
 
 package cc.hyperium.mods.chromahud;
 
-import cc.hyperium.Hyperium;
 import cc.hyperium.config.Settings;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.RenderHUDEvent;
@@ -45,7 +44,6 @@ public class ElementRenderer {
     private static final List<Long> mClicks = new ArrayList<>();
     private static double currentScale = 1.0;
     private static int color;
-    private static boolean display = false;
     private static DisplayElement current;
     private static FontRenderer fontRendererObj = Minecraft.getMinecraft().fontRendererObj;
     private static String cValue;
@@ -72,11 +70,6 @@ public class ElementRenderer {
         return c;
 
     }
-
-    public static void display() {
-        display = true;
-    }
-
 
     public static void draw(int x, double y, String string) {
         List<String> tmp = new ArrayList<>();
@@ -219,11 +212,6 @@ public class ElementRenderer {
     /* Until Sk1er fixes the old one causing an NPE, keep it like this */
     @InvokeEvent
     public void tick(TickEvent event) {
-        if (display) {
-            Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(mod.getConfigGuiInstance());
-            display = false;
-        }
-
         if (Minecraft.getMinecraft().inGameHasFocus)
             cValue = Minecraft.getMinecraft().renderGlobal.getDebugInfoRenders().split("/")[0].trim();
     }
