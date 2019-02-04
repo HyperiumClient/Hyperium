@@ -40,7 +40,7 @@ public class Key extends IKey {
         this.key = key;
     }
 
-    private String getKeyOrMouseName(int keyCode) {
+    protected String getKeyOrMouseName(int keyCode) {
         if (keyCode < 0) {
             String openglName = Mouse.getButtonName(keyCode + 100);
             if (openglName.equalsIgnoreCase("button0")) {

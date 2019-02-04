@@ -1,5 +1,7 @@
 package cc.hyperium.gui;
 
+import cc.hyperium.Hyperium;
+import cc.hyperium.config.Settings;
 import cc.hyperium.gui.hyperium.HyperiumMainGui;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
@@ -31,17 +33,13 @@ public class GuiHyperiumScreenIngameMenu extends GuiHyperiumScreen {
     private long lastUpdate = 0L;
     private int cooldown = 0;
     private int baseAngle;
-    private int field_146445_a;
-    private int field_146444_f;
 
     @Override
     public void initGui() {
         super.initGui();
 
-        this.field_146445_a = 0;
         this.buttonList.clear();
         int i = -16;
-        int j = 98;
 
         this.buttonList.add(new GuiButton(1, this.width / 2 - 100, this.height / 4 + 120 + i, I18n.format("menu.returnToMenu")));
 
@@ -84,49 +82,60 @@ public class GuiHyperiumScreenIngameMenu extends GuiHyperiumScreen {
             case 0:
                 this.mc.displayGuiScreen(new GuiOptions(this, this.mc.gameSettings));
                 break;
-            case 1:
-                boolean flag = this.mc.isIntegratedServerRunning();
-                boolean flag1 = this.mc.func_181540_al();
-                button.enabled = false;
-                this.mc.theWorld.sendQuittingDisconnectingPacket();
-                this.mc.loadWorld(null);
 
-                if (flag) {
-                    this.mc.displayGuiScreen(new GuiMainMenu());
-                } else if (flag1) {
-                    RealmsBridge realmsbridge = new RealmsBridge();
-                    realmsbridge.switchToRealms(new GuiMainMenu());
+            case 1:
+                if (Settings.CONFIRM_DISCONNECT) {
+                    Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new GuiConfirmDisconnect());
                 } else {
-                    this.mc.displayGuiScreen(new GuiMultiplayer(new GuiMainMenu()));
+                    boolean integratedServerRunning = this.mc.isIntegratedServerRunning();
+                    button.enabled = false;
+                    this.mc.theWorld.sendQuittingDisconnectingPacket();
+                    this.mc.loadWorld(null);
+
+                    if (integratedServerRunning) {
+                        Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new GuiMainMenu());
+                    } else {
+                        Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new GuiMultiplayer(new GuiMainMenu()));
+                    }
                 }
                 break;
+
             case 2:
                 break;
+
             case 3:
                 break;
+
             default:
                 break;
+
             case 4:
-                this.mc.displayGuiScreen(null);
+                mc.displayGuiScreen(null);
                 this.mc.setIngameFocus();
                 break;
+
             case 5:
-                this.mc.displayGuiScreen(new GuiAchievements(this, this.mc.thePlayer.getStatFileWriter()));
+                Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new GuiAchievements(this, this.mc.thePlayer.getStatFileWriter()));
                 break;
+
             case 6:
-                this.mc.displayGuiScreen(new GuiStats(this, this.mc.thePlayer.getStatFileWriter()));
+                Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new GuiStats(this, this.mc.thePlayer.getStatFileWriter()));
                 break;
+
             case 7:
-                this.mc.displayGuiScreen(new GuiShareToLan(this));
+                Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new GuiShareToLan(this));
                 break;
+
             case 8:
-                Minecraft.getMinecraft().displayGuiScreen(new GuiHyperiumCredits(Minecraft.getMinecraft().currentScreen));
+                Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new GuiHyperiumCredits(Minecraft.getMinecraft().currentScreen));
                 break;
+
             case 9:
                 HyperiumMainGui.INSTANCE.show();
                 break;
+
             case 10:
-                Minecraft.getMinecraft().displayGuiScreen(new GuiIngameMultiplayer(Minecraft.getMinecraft().currentScreen));
+                Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new GuiIngameMultiplayer(Minecraft.getMinecraft().currentScreen));
                 break;
 
         }
@@ -218,9 +227,6 @@ public class GuiHyperiumScreenIngameMenu extends GuiHyperiumScreen {
     @Override
     public void updateScreen() {
         super.updateScreen();
-
-        ++this.field_146444_f;
-
         cooldown++;
         if (cooldown > 40) {
             baseAngle += 9;
@@ -228,7 +234,5 @@ public class GuiHyperiumScreenIngameMenu extends GuiHyperiumScreen {
                 cooldown = 0;
             }
         }
-
     }
-
 }

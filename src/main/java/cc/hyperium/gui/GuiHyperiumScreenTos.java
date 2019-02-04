@@ -223,7 +223,7 @@ public class GuiHyperiumScreenTos extends GuiHyperiumScreen {
                 mc.displayGuiScreen(new GuiHyperiumScreenTos());
             } else {
                 Hyperium.INSTANCE.acceptTos();
-                Minecraft.getMinecraft().displayGuiScreen(new GuiHyperiumScreenMainMenu());
+                Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new GuiHyperiumScreenMainMenu());
             }
         }
     }

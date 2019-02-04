@@ -20,6 +20,9 @@ package cc.hyperium.mods.keystrokes.keys;
 import cc.hyperium.mods.keystrokes.KeystrokesMod;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.Gui;
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 
 import java.awt.Color;
 
@@ -28,7 +31,7 @@ import java.awt.Color;
  *
  * @author boomboompower
  */
-public abstract class IKey {
+public abstract class IKey extends Gui {
 
     protected final Minecraft mc = Minecraft.getMinecraft();
     protected final KeystrokesMod mod;
@@ -108,5 +111,27 @@ public abstract class IKey {
      */
     protected final void drawCenteredString(String text, int x, int y, int color) {
         this.mc.fontRendererObj.drawString(text, (float) (x - this.mc.fontRendererObj.getStringWidth(text) / 2), (float) y, color, false);
+    }
+
+    /**
+     * Get the name of the key being set for CustomKey
+     *
+     * @param keyCode opengl name of the key being pressed
+     * @return the name of the key
+     */
+    protected String getKeyOrMouseName(int keyCode) {
+        if (keyCode < 0) {
+            String openGLName = Mouse.getButtonName(keyCode + 100);
+            if (openGLName != null) {
+                if (openGLName.equalsIgnoreCase("button0")) {
+                    return "LMB";
+                }
+                if (openGLName.equalsIgnoreCase("button1")) {
+                    return "RMB";
+                }
+            }
+            return openGLName;
+        }
+        return Keyboard.getKeyName(keyCode);
     }
 }

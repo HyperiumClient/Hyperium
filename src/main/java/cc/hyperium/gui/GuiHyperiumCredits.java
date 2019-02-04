@@ -1,5 +1,6 @@
 package cc.hyperium.gui;
 
+import cc.hyperium.Hyperium;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -84,7 +85,7 @@ public class GuiHyperiumCredits extends HyperiumGui {
     @Override
     protected void keyTyped(char typedChar, int keyCode) throws IOException {
         if (keyCode == Keyboard.KEY_ESCAPE)
-            Minecraft.getMinecraft().displayGuiScreen(prevGui);
+            Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(prevGui);
         super.keyTyped(typedChar, keyCode);
     }
 

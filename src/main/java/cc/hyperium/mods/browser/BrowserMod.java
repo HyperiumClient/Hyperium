@@ -361,10 +361,10 @@ public class BrowserMod extends AbstractMod implements IDisplayHandler, IJSQuery
         if (Minecraft.getMinecraft().currentScreen instanceof GuiBrowser) {
             ((GuiBrowser) Minecraft.getMinecraft().currentScreen).loadURL(homePage);
         } else if (backup != null) {
-            Minecraft.getMinecraft().displayGuiScreen(backup);
+            Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(backup);
             backup.loadURL(null);
         } else {
-            Minecraft.getMinecraft().displayGuiScreen(browserGui);
+            Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(browserGui);
         }
     }
 
