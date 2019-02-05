@@ -82,7 +82,9 @@ dependencies {
     }
     embed "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     embed "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
-    embed 'com.github.jagrosh:DiscordIPC:master-SNAPSHOT'
+    
+    embed 'com.github.jagrosh:DiscordIPC:master-SNAPSHOT' // old discord library, but it has Json classes that we use in StaffUtils, so don't remove it unless you replace it
+    embed 'com.github.Vatuu:discord-rpc:1.5.1'
 
     embed 'com.github.FalseHonesty:reflections:855f40b80b'
     embed 'com.github.ben-manes.caffeine:caffeine:2.6.2'
