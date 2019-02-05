@@ -107,7 +107,7 @@ import java.nio.file.StandardCopyOption;
 public class Hyperium {
 
     /**
-     * The hyperium instanceRichPres
+     * The hyperium instance
      */
     public static final Hyperium INSTANCE = new Hyperium();
     /**
