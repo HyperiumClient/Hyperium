@@ -62,7 +62,7 @@ public class CustomCrosshairAddon extends AbstractAddon {
     public Metadata getAddonMetadata() {
         AbstractAddon.Metadata metadata = new AbstractAddon.Metadata(this, "Custom Crosshair Addon", "0.5.3", "Amplifiable");
         metadata.setDisplayName(ChatColor.GREEN + "Custom Crosshair Addon");
-        metadata.setDescription("Customise the Rich Presence of Hyperium");
+        metadata.setDescription("CustomCrosshair");
 
         return metadata;
     }

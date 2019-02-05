@@ -68,7 +68,6 @@ public class ElementRenderer {
 
     public static int getColor(int c, int x) {
         return c;
-
     }
 
     public static void draw(int x, double y, String string) {
@@ -97,10 +96,12 @@ public class ElementRenderer {
             int shift = current.isRightSided()
                 ? fontRendererObj.getStringWidth(string)
                 : 0;
+
             if (current.isHighlighted()) {
                 int stringWidth = fontRendererObj.getStringWidth(string);
                 RenderUtils.drawRect((int) ((x - 1) / getCurrentScale() - shift), (int) ((ty - 1) / getCurrentScale()), (int) ((x + 1) / getCurrentScale()) + stringWidth - shift, (int) ((ty + 1) / getCurrentScale()) + 8, new Color(0, 0, 0, 120).getRGB());
             }
+
             if (current.isChroma()) {
                 drawChromaString(string, x - shift, (int) ty);
             } else {
