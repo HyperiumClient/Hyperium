@@ -20,7 +20,6 @@ import net.minecraft.client.gui.achievement.GuiStats;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.realms.RealmsBridge;
 import net.minecraft.server.MinecraftServer;
 
 import java.io.IOException;

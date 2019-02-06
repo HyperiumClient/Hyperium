@@ -199,9 +199,11 @@ public class GuiHyperiumScreen extends GuiScreen {
         float val = (float) (Math.sin(swing / 40) * 30);
 
         ScissorState.scissor(width - 153, 0, 145, 49, true);
+
         if (!Hyperium.INSTANCE.isDevEnv()) {
             GuiPlayerRenderer.renderPlayerWithRotation(width - 118, -4, val);
         }
+
         ScissorState.endScissor();
 
         /* Render Hyperium version number */

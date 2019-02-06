@@ -48,9 +48,7 @@ public class HyperiumFontRenderer {
         this.antiAliasingFactor = antiAliasingFactor;
         try {
             this.unicodeFont = new UnicodeFont(getFontByName(fontName).deriveFont(fontSize * this.antiAliasingFactor));
-        } catch (FontFormatException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (FontFormatException | IOException e) {
             e.printStackTrace();
         }
         this.kerning = kerning;
@@ -373,7 +371,7 @@ public class HyperiumFontRenderer {
         StringBuilder currentString = new StringBuilder();
 
         for (String word : splitText) {
-            String potential = currentString.toString() + " " + word;
+            String potential = currentString + " " + word;
 
             if (getWidth(potential) >= wrapWidth) {
                 lines.add(currentString.toString());

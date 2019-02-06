@@ -102,6 +102,7 @@ public abstract class MixinEntity {
 
     /**
      * @author Sk1er
+     * @reason Cache render strings
      */
     @Overwrite
     public IChatComponent getDisplayName() {
@@ -109,7 +110,7 @@ public abstract class MixinEntity {
     }
 
     @Shadow
-    Vec3 getLook(float particalTicks) {
+    public Vec3 getLook(float partialTicks) {
         return null;
     }
 

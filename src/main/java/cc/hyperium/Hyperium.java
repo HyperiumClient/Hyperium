@@ -269,10 +269,9 @@ public class Hyperium {
 
             if (acceptedTos) {
                 sk1erMod = new Sk1erMod("hyperium", Metadata.getVersion(), object -> {
-                    //Callbackd
+                    //Callback
                     if (object.has("enabled") && !object.optBoolean("enabled")) {
                         //Disable stuff
-                        // EventBus.INSTANCE.disable(); dont think this is needed?
                         getHandlers().getHyperiumCommandHandler().clear();
                     }
                 });
