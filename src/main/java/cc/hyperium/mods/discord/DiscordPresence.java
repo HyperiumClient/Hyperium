@@ -121,8 +121,8 @@ public class DiscordPresence {
                     new DiscordRichPresence.Builder("On a Server")
                         .setDetails("IGN: " + Minecraft.getMinecraft().getSession().getUsername())
                         .setStartTimestamps(startTime)
-                        .setSmallImage("hyperium_small", "Hyperium")
-                        .setBigImage("hyperium_client", "Hyperium Client")
+                        .setSmallImage("compass", "Hyperium")
+                        .setBigImage("hyperium", "Hyperium Client")
                         .build()
                 );
             }
