@@ -95,7 +95,6 @@ public class CustomKey extends IKey {
         int green = textColor >> 8 & 0xFF;
         int blue = textColor & 0xFF;
         int colorN = new Color(0, 0, 0).getRGB() + ((int) (red * textBrightness) << 16) + ((int) (green * textBrightness) << 8) + (int) (blue * textBrightness);
-        final float xPos = x + this.xOffset + 8;
         final float yPos = y + this.yOffset + 8;
         final FontRenderer fontRendererObj = Minecraft.getMinecraft().fontRendererObj;
         if (this.mod.getSettings().isChroma()) {
