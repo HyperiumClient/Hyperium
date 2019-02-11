@@ -23,6 +23,7 @@ import cc.hyperium.utils.ChatColor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.util.EnumChatFormatting;
 import org.lwjgl.input.Keyboard;
@@ -65,7 +66,8 @@ public class SpaceKey extends IKey {
         if (!this.mod.getSettings().isShowingMouseButtons()) {
             yOffset -= 24;
         }
-        if (!mod.getSettings().isShowingSneak()) {
+
+        if (!this.mod.getSettings().isShowingSneak()) {
             yOffset -= 18;
         }
 
@@ -102,22 +104,18 @@ public class SpaceKey extends IKey {
 
         if (this.mod.getSettings().isChroma()) {
             if (this.name.equalsIgnoreCase("space")) {
-                drawSpacebar(name, x + ((this.xOffset + 76) / 2), y + yOffset + 5);
+                int xIn = x + (this.xOffset + 76) / 4;
+                int y2 = y + yOffset + 9;
+                GlStateManager.pushMatrix();
+                GlStateManager.translate((float) xIn, (float) y2, 0.0f);
+                GlStateManager.rotate(-90.0f, 0.0f, 0.0f, 1.0f);
+                this.drawGradientRect(0, 0, 2, 35, Color.HSBtoRGB((float) ((System.currentTimeMillis() - xIn * 10 - y2 * 10) % 2000L) / 2000.0f, 0.8f, 0.8f), Color.HSBtoRGB((float) ((System.currentTimeMillis() - (xIn + 35) * 10 - y2 * 10) % 2000L) / 2000.0f, 0.8f, 0.8f));
+                GlStateManager.popMatrix();
             } else {
-                drawCenteredString(name, x + ((this.xOffset + 70) / 2), y + yOffset + 5, pressed ? pressedColor : colorN);
+                this.drawChromaString(name, x + (this.xOffset + 70) / 2 - Minecraft.getMinecraft().fontRendererObj.getStringWidth(name) / 2, y + yOffset + 5);
             }
         } else {
-            drawCenteredString(name, x + (xOffset + 70) / 2, y + yOffset + 5, pressed ? pressedColor : colorN);
-        }
-    }
-
-    private void drawSpacebar(String text, int xIn, int y) {
-        FontRenderer renderer = Minecraft.getMinecraft().fontRendererObj;
-        int x = xIn - (Minecraft.getMinecraft().fontRendererObj.getStringWidth(text) / 2);
-        for (char c : text.toCharArray()) {
-            int i = Color.HSBtoRGB((float) ((System.currentTimeMillis() - (x * 10) - (y * 10)) % 2000) / 2000.0F, 0.8F, 0.8F);
-            renderer.drawString(String.valueOf(c), x, y, i);
-            x += renderer.getCharWidth(c) - 1;
+            this.drawCenteredString(name, x + (this.xOffset + 70) / 2, y + yOffset + 5, pressed ? pressedColor : colorN);
         }
     }
 }

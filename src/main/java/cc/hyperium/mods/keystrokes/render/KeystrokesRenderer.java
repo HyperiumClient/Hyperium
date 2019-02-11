@@ -58,7 +58,7 @@ public class KeystrokesRenderer {
         this.movementKeys[2] = new Key(mod, this.mc.gameSettings.keyBindLeft, 2, 26);
         this.movementKeys[3] = new Key(mod, this.mc.gameSettings.keyBindRight, 50, 26);
 
-        this.cpsKeys[0] = new CPSKey(mod, 2, 92);
+        this.cpsKeys[0] = new CPSKey(mod, 2, 110);
 
         this.spaceKey[0] = new SpaceKey(mod, this.mc.gameSettings.keyBindJump, 2, 92, "SPACE");
 
@@ -114,32 +114,34 @@ public class KeystrokesRenderer {
             if (x < 0) {
                 this.mod.getSettings().setX(0);
                 x = this.mod.getSettings().getX();
-            } else if (x * this.mod.getSettings().getScale() > res.getScaledWidth() - (width * this.mod.getSettings().getScale())) {
-                this.mod.getSettings().setX((int) ((res.getScaledWidth() - (width * this.mod.getSettings().getScale())) / this.mod.getSettings().getScale()));
+
+            } else if (x * this.mod.getSettings().getScale() > res.getScaledWidth() - width * this.mod.getSettings().getScale()) {
+                this.mod.getSettings().setX((int) ((res.getScaledWidth() - width * this.mod.getSettings().getScale()) / this.mod.getSettings().getScale()));
                 x = this.mod.getSettings().getX();
             }
 
             if (y < 0) {
                 this.mod.getSettings().setY(0);
                 y = this.mod.getSettings().getY();
-            } else if (y * this.mod.getSettings().getScale() > res.getScaledHeight() - (height * this.mod.getSettings().getScale())) {
-                this.mod.getSettings().setY((int) ((res.getScaledHeight() - (height * this.mod.getSettings().getScale())) / this.mod.getSettings().getScale()));
+
+            } else if (y * this.mod.getSettings().getScale() > res.getScaledHeight() - height * this.mod.getSettings().getScale()) {
+                this.mod.getSettings().setY((int) ((res.getScaledHeight() - height * this.mod.getSettings().getScale()) / this.mod.getSettings().getScale()));
                 y = this.mod.getSettings().getY();
             }
 
-            if (this.mod.getSettings().getScale() != 1D) {
+            if (this.mod.getSettings().getScale() != 1.0) {
                 GlStateManager.pushMatrix();
-                GlStateManager.scale(this.mod.getSettings().getScale(), this.mod.getSettings().getScale(), 1.0D);
+                GlStateManager.scale(this.mod.getSettings().getScale(), this.mod.getSettings().getScale(), 1.0);
             }
 
             this.drawMovementKeys(x, y);
 
             if (showingMouseButtons) {
-                this.drawMouseButtons(x, y);
+                drawMouseButtons(x, y);
             }
 
             if (showingCPS && !showingCPSOnButtons) {
-                this.drawCPSKeys(x, y);
+                drawCPSKeys(x, y);
             }
 
             if (showingSneak) {
@@ -147,7 +149,24 @@ public class KeystrokesRenderer {
             }
 
             if (showingSpacebar) {
-                this.drawSpacebar(x, y);
+                drawSpacebar(x, y);
+            }
+
+            y += 130;
+            if (!mod.getSettings().isShowingMouseButtons()) {
+                y -= 24;
+            }
+
+            if (!showingSneak) {
+                y -= 18;
+            }
+
+            if (!showingSpacebar) {
+                y -= 18;
+            }
+
+            if (!showingCPS || showingCPSOnButtons) {
+                y = -18;
             }
 
             for (CustomKeyWrapper key : customKeys) {
@@ -156,7 +175,7 @@ public class KeystrokesRenderer {
                 key.getKey().renderKey(x + xOffset, y + yOffset);
             }
 
-            if (this.mod.getSettings().getScale() != 1D) {
+            if (this.mod.getSettings().getScale() != 1.0) {
                 GlStateManager.popMatrix();
             }
         }

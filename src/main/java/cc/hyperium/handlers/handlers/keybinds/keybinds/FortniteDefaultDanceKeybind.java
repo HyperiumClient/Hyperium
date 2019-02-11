@@ -10,7 +10,7 @@ import org.lwjgl.input.Keyboard;
 
 public class FortniteDefaultDanceKeybind extends HyperiumBind {
     public FortniteDefaultDanceKeybind() {
-        super("Do the default Fortnite dance", Keyboard.KEY_U);
+        super("Fortnite Default dance", Keyboard.KEY_U);
     }
 
     @Override

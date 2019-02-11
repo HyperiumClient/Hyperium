@@ -111,6 +111,10 @@ public class Settings {
     public static boolean ARMOR_PROJ_POTENTIONAL = true;
 
     @ConfigOpt
+    @ToggleSetting(name = "gui.settings.hotbarkeys", category = VANILLA_ENHANCEMENTS, mods = true)
+    public static boolean HOTBAR_KEYS = false;
+
+    @ConfigOpt
     @ToggleSetting(name = "gui.settings.hidecrosshairinf5", category = VANILLA_ENHANCEMENTS, mods = true)
     public static boolean CROSSHAIR_IN_F5 = false;
 

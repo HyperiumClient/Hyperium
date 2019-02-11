@@ -51,8 +51,8 @@ public class FontFixValues {
                             GeneralChatHandler.instance().sendMessage("Something went wrong with Enhanced Font Renderer. If this issue persists, please open a ticket in the Hyperium Discord using -new in the #commands channel.");
                         }
                         return;
-                    } catch (IllegalStateException ignored) {
-                        ignored.printStackTrace();
+                    } catch (IllegalStateException ex) {
+                        ex.printStackTrace();
                     }
                 Integer integer;
                 int i = 0;

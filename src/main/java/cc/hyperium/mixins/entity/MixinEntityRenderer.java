@@ -23,7 +23,6 @@ import cc.hyperium.mixinsimp.entity.HyperiumEntityRenderer;
 import com.google.common.base.Predicates;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.EntityRenderer;
-import net.minecraft.client.shader.ShaderGroup;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItemFrame;
@@ -47,31 +46,10 @@ public abstract class MixinEntityRenderer {
     @Shadow
     private boolean cloudFog;
     @Shadow
-    private boolean debugView;
-    @Shadow
     private Minecraft mc;
-    @Shadow
-    private float fovModifierHandPrev;
-    @Shadow
-    private float fovModifierHand;
-    @Shadow
-    private MouseFilter mouseFilterYAxis;
-    @Shadow
-    private MouseFilter mouseFilterXAxis;
-    @Shadow
-    private boolean drawBlockOutline;
-    @Shadow
-    private ShaderGroup theShaderGroup;
     @Shadow
     private Entity pointedEntity;
     private HyperiumEntityRenderer hyperiumEntityRenderer = new HyperiumEntityRenderer((EntityRenderer) (Object) this);
-
-    @Shadow
-    protected abstract void loadShader(ResourceLocation resourceLocationIn);
-
-    @Shadow
-    public abstract void stopUseShader();
-
     @Shadow
     @Final
     public static int shaderCount;

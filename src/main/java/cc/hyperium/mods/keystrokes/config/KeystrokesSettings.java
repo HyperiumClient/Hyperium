@@ -370,14 +370,14 @@ public class KeystrokesSettings {
     }
 
     private float capFloat(float valueIn, float minValue, float maxValue) {
-        return valueIn < minValue ? minValue : valueIn > maxValue ? maxValue : valueIn;
+        return (valueIn < minValue) ? minValue : ((valueIn > maxValue) ? maxValue : valueIn);
     }
 
     private double capDouble(double valueIn, double minValue, double maxValue) {
-        return valueIn < minValue ? minValue : valueIn > maxValue ? maxValue : valueIn;
+        return (valueIn < minValue) ? minValue : ((valueIn > maxValue) ? maxValue : valueIn);
     }
 
     private int capInt(int valueIn, int minValue, int maxValue) {
-        return valueIn < minValue ? minValue : valueIn > maxValue ? maxValue : valueIn;
+        return (valueIn < minValue) ? minValue : ((valueIn > maxValue) ? maxValue : valueIn);
     }
 }

@@ -72,8 +72,8 @@ public class GuiScreenKeystrokes extends GuiScreen {
         buttonList.add(new GuiButton(8, this.width / 2 - 155, calculateHeight(4), 310, 20, "Edit Custom Keys"));
         buttonList.add(buttonTextColor = new GuiButton(9, this.width / 2 - 155, calculateHeight(5), 150, 20, "Edit text color"));
         buttonList.add(buttonPressedColor = new GuiButton(10, this.width / 2 + 5, calculateHeight(5), 150, 20, "Edit pressed text color"));
-        buttonList.add(new GuiSliderScale(mod, 11, this.width / 2 - 155, calculateHeight(6), 150, 20,  this));
-        buttonList.add(new GuiSliderFadeTime( mod, 12, this.width / 2 + 5, calculateHeight(6), 150, 20, this));
+        buttonList.add(new GuiSliderScale(mod, 11, this.width / 2 - 155, calculateHeight(6), 150, 20, this));
+        buttonList.add(new GuiSliderFadeTime(mod, 12, this.width / 2 + 5, calculateHeight(6), 150, 20, this));
 
     }
 
@@ -228,22 +228,26 @@ public class GuiScreenKeystrokes extends GuiScreen {
     protected void mouseClicked(int mouseX, int mouseY, int button) {
         try {
             super.mouseClicked(mouseX, mouseY, button);
-        } catch (IOException ignored) {
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
         if (button == 0) {
-            KeystrokesSettings settings = this.mod.getSettings();
+            KeystrokesSettings settings = mod.getSettings();
+
             if (!settings.isEnabled()) {
                 return;
             }
+
             int startX = (int) ((settings.getX() - 4) * settings.getScale());
             int startY = (int) ((settings.getY() - 4) * settings.getScale());
-            int endX = (int) (startX + ((settings.getWidth() * settings.getScale())));
-            int endY = (int) (startY + (settings.getHeight() * settings.getScale()));
+            int endX = (int) (startX + settings.getWidth() * settings.getScale());
+            int endY = (int) (startY + settings.getHeight() * settings.getScale());
+
             if (mouseX >= startX && mouseX <= endX && mouseY >= startY && mouseY <= endY) {
-                this.dragging = true;
-                this.lastMouseX = mouseX;
-                this.lastMouseY = mouseY;
+                dragging = true;
+                lastMouseX = mouseX;
+                lastMouseY = mouseY;
             }
         }
     }
@@ -256,13 +260,13 @@ public class GuiScreenKeystrokes extends GuiScreen {
 
     @Override
     protected void mouseClickMove(int mouseX, int mouseY, int lastButtonClicked, long timeSinceMouseClick) {
-        if (this.dragging) {
-            KeystrokesSettings settings = this.mod.getSettings();
-            settings.setX((int) (settings.getX() + (mouseX - this.lastMouseX) / settings.getScale()));
-            settings.setY((int) (settings.getY() + (mouseY - this.lastMouseY) / settings.getScale()));
-            this.lastMouseX = mouseX;
-            this.lastMouseY = mouseY;
-            this.updated = true;
+        if (dragging) {
+            KeystrokesSettings settings = mod.getSettings();
+            settings.setX((int) (settings.getX() + (mouseX - lastMouseX) / settings.getScale()));
+            settings.setY((int) (settings.getY() + (mouseY - lastMouseY) / settings.getScale()));
+            lastMouseX = mouseX;
+            lastMouseY = mouseY;
+            updated = true;
         }
     }
 

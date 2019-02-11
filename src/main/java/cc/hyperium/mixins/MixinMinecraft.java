@@ -26,7 +26,6 @@ import cc.hyperium.event.WorldLoadEvent;
 import cc.hyperium.mixinsimp.HyperiumMinecraft;
 import com.chattriggers.ctjs.minecraft.objects.message.TextComponent;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiIngame;
@@ -38,7 +37,6 @@ import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.resources.DefaultResourcePack;
 import net.minecraft.client.resources.IResourcePack;
-import net.minecraft.client.resources.ResourcePackRepository;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.client.shader.Framebuffer;
 import net.minecraft.crash.CrashReport;
@@ -77,25 +75,25 @@ public abstract class MixinMinecraft {
     public GuiAchievement guiAchievement;
 
     @Shadow
-    private int displayHeight;
+    public int displayHeight;
 
     @Shadow
-    private int displayWidth;
+    public int displayWidth;
 
     @Shadow
-    private GuiScreen currentScreen;
+    public GuiScreen currentScreen;
 
     @Shadow
-    private WorldClient theWorld;
+    public WorldClient theWorld;
 
     @Shadow
-    private EntityPlayerSP thePlayer;
+    public EntityPlayerSP thePlayer;
 
     @Shadow
-    private GameSettings gameSettings;
+    public GameSettings gameSettings;
 
     @Shadow
-    private GuiIngame ingameGUI;
+    public GuiIngame ingameGUI;
 
     @Shadow
     private boolean fullscreen;
@@ -120,7 +118,7 @@ public abstract class MixinMinecraft {
     private RenderManager renderManager;
 
     @Shadow
-    private long systemTime;
+    long systemTime;
 
     @Final
     @Shadow
