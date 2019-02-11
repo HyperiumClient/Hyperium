@@ -3,7 +3,7 @@ package cc.hyperium.event;
 /**
  * Invoked once a mouse button is pressed
  */
-public class MouseButtonEvent extends Event {
+public class MouseButtonEvent extends CancellableEvent {
 
     private final int value;
     private final boolean state;

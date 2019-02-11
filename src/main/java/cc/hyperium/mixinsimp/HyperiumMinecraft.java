@@ -45,7 +45,6 @@ import net.minecraft.init.Bootstrap;
 import net.minecraft.profiler.Profiler;
 import net.minecraft.util.Timer;
 import net.minecraft.util.Util;
-import net.minecraft.world.WorldSettings;
 import net.montoyo.mcef.MCEF;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
@@ -72,14 +71,12 @@ public class HyperiumMinecraft {
         this.parent = parent;
     }
 
-    public void preinit(CallbackInfo ci, List<IResourcePack> defaultResourcePacks,
-                        DefaultResourcePack mcDefaultResourcePack, List<IResourcePack> resourcePacks) {
+    public void preinit(List<IResourcePack> defaultResourcePacks, DefaultResourcePack mcDefaultResourcePack) {
         EventBus.INSTANCE.register(Hyperium.INSTANCE);
 
         defaultResourcePacks.add(mcDefaultResourcePack);
         for (File file : AddonBootstrap.getAddonResourcePacks()) {
-            defaultResourcePacks
-                .add(file == null ? new AddonWorkspaceResourcePack() : new FileResourcePack(file));
+            defaultResourcePacks.add(file == null ? new AddonWorkspaceResourcePack() : new FileResourcePack(file));
         }
         AddonMinecraftBootstrap.init();
 
@@ -88,7 +85,7 @@ public class HyperiumMinecraft {
         EventBus.INSTANCE.post(new PreInitializationEvent());
     }
 
-    public void loop(CallbackInfo info, boolean inGameHasFocus, WorldClient theWorld,
+    public void loop(boolean inGameHasFocus, WorldClient theWorld,
                      EntityPlayerSP thePlayer, RenderManager renderManager, Timer timer) {
         if (inGameHasFocus && theWorld != null) {
             HyperiumHandlers handlers = Hyperium.INSTANCE.getHandlers();
@@ -103,17 +100,17 @@ public class HyperiumMinecraft {
         }
     }
 
-    public void startGame(CallbackInfo info) {
+    public void startGame() {
         EventBus.INSTANCE.post(new InitializationEvent());
     }
 
-    public void runTick(CallbackInfo ci, Profiler mcProfiler) {
+    public void runTick(Profiler mcProfiler) {
         mcProfiler.startSection("hyperium_tick");
         EventBus.INSTANCE.post(new TickEvent());
         mcProfiler.endSection();
     }
 
-    public void runTickKeyboard(CallbackInfo ci) {
+    public void runTickKeyboard() {
         int key = Keyboard.getEventKey();
         boolean repeat = Keyboard.isRepeatEvent();
         boolean press = Keyboard.getEventKeyState();
@@ -127,16 +124,15 @@ public class HyperiumMinecraft {
         }
     }
 
-    public void clickMouse(CallbackInfo ci) {
+    public void clickMouse() {
         EventBus.INSTANCE.post(new LeftMouseClickEvent());
     }
 
-    public void rightClickMouse(CallbackInfo ci) {
+    public void rightClickMouse() {
         EventBus.INSTANCE.post(new RightMouseClickEvent());
     }
 
-    public void launchIntegratedServer(String folderName, String worldName,
-                                       WorldSettings worldSettingsIn, CallbackInfo ci) {
+    public void launchIntegratedServer() {
         EventBus.INSTANCE.post(new SingleplayerJoinEvent());
     }
 
@@ -166,8 +162,7 @@ public class HyperiumMinecraft {
         ci.cancel();
     }
 
-    public void fullScreenFix(CallbackInfo ci, boolean fullscreen, int displayWidth,
-                              int displayHeight) throws LWJGLException {
+    public void fullScreenFix(boolean fullscreen, int displayWidth, int displayHeight) throws LWJGLException {
         if (Settings.WINDOWED_FULLSCREEN) {
             if (fullscreen) {
                 System.setProperty("org.lwjgl.opengl.Window.undecorated", "true");
@@ -266,27 +261,27 @@ public class HyperiumMinecraft {
         }
     }
 
-    public void onStartGame(CallbackInfo ci) {
+    public void onStartGame() {
         //ToDo Allow the usage of I18n formatting
         SplashProgress.setProgress(1, "Starting Game...");
     }
 
-    public void onLoadDefaultResourcePack(CallbackInfo ci) {
+    public void onLoadDefaultResourcePack() {
         //ToDo Allow the usage of I18n formatting
         SplashProgress.setProgress(2, "Loading Resources...");
     }
 
-    public void onCreateDisplay(CallbackInfo ci) {
+    public void onCreateDisplay() {
         //ToDo Allow the usage of I18n formatting
         SplashProgress.setProgress(3, "Creating Display...");
     }
 
-    public void onLoadTexture(CallbackInfo ci) {
+    public void onLoadTexture() {
         //ToDo Allow the usage of I18n formatting
         SplashProgress.setProgress(4, "Initializing Textures...");
     }
 
-    public void loadWorld(WorldClient worldClient, CallbackInfo ci) {
+    public void loadWorld() {
         if (Minecraft.getMinecraft().theWorld != null) {
             new WorldUnloadEvent().post();
         }
@@ -300,10 +295,18 @@ public class HyperiumMinecraft {
         boolean state = Mouse.getEventButtonState();
         if (state) {
             // Mouse clicked.
-            EventBus.INSTANCE.post(new MouseButtonEvent(i, true));
+            MouseButtonEvent mouseButtonEvent = new MouseButtonEvent(i, true);
+            EventBus.INSTANCE.register(mouseButtonEvent);
+            if (mouseButtonEvent.isCancelled()) {
+                ci.cancel();
+            }
         } else {
             // Mouse released.
-            EventBus.INSTANCE.post(new MouseButtonEvent(i, false));
+            MouseButtonEvent mouseButtonEvent = new MouseButtonEvent(i, false);
+            EventBus.INSTANCE.register(mouseButtonEvent);
+            if (mouseButtonEvent.isCancelled()) {
+                ci.cancel();
+            }
         }
     }
 
@@ -407,12 +410,8 @@ public class HyperiumMinecraft {
         }
     }
 
-    public void shutdown(CallbackInfo ci) {
+    public void shutdown() {
         AddonMinecraftBootstrap.getLoadedAddons().forEach(IAddon::onClose);
         MCEF.onMinecraftShutdown();
-    }
-
-    public void startTick(CallbackInfo info, Profiler mcProfiler) {
-
     }
 }

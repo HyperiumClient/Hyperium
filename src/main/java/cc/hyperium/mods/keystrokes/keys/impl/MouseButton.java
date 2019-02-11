@@ -78,13 +78,13 @@ public class MouseButton extends IKey {
                 drawChromaString(name, x + this.xOffset + 8, y + this.yOffset + 4);
                 GL11.glPushMatrix();
                 GL11.glScalef(0.5f, 0.5f, 0.0f);
-                drawChromaString((name.equals(BUTTONS[0]) ? this.mod.getRenderer().getCPSKeys()[0].getLeftCPS() : this.mod.getRenderer().getCPSKeys()[0].getRightCPS()) + " CPS", Math.round(x / 0.5f + this.xOffset / 0.5f + 10 / 0.5f), Math.round(y / 0.5f + this.yOffset / 0.5f + 14 / 0.5f));
+                drawChromaString((name.equals(MouseButton.BUTTONS[0]) ? this.mod.getRenderer().getCPSKeys()[0].getLeftCPS() : this.mod.getRenderer().getCPSKeys()[0].getRightCPS()) + " CPS", Math.round(x / 0.5f + this.xOffset / 0.5f + 20.0f), Math.round(y / 0.5f + this.yOffset / 0.5f + 28.0f));
                 GL11.glPopMatrix();
             } else {
-                this.mc.fontRendererObj.drawString(name, x + this.xOffset + 8, y + this.yOffset + 4, pressed ? pressedColor : colorN);
+                mc.fontRendererObj.drawString(name, x + this.xOffset + 8, y + this.yOffset + 4, pressed ? pressedColor : colorN);
                 GL11.glPushMatrix();
                 GL11.glScalef(0.5f, 0.5f, 0.0f);
-                this.mc.fontRendererObj.drawString((name.equals(BUTTONS[0]) ? this.mod.getRenderer().getCPSKeys()[0].getLeftCPS() : this.mod.getRenderer().getCPSKeys()[0].getRightCPS()) + " CPS", Math.round(x / 0.5f + this.xOffset / 0.5f + 10 / 0.5f), Math.round(y / 0.5f + this.yOffset / 0.5f + 14 / 0.5f), pressed ? pressedColor : colorN);
+                mc.fontRendererObj.drawString((name.equals(MouseButton.BUTTONS[0]) ? this.mod.getRenderer().getCPSKeys()[0].getLeftCPS() : this.mod.getRenderer().getCPSKeys()[0].getRightCPS()) + " CPS", Math.round(x / 0.5f + this.xOffset / 0.5f + 20.0f), Math.round(y / 0.5f + this.yOffset / 0.5f + 28.0f), pressed ? pressedColor : colorN);
                 GL11.glPopMatrix();
             }
         } else {

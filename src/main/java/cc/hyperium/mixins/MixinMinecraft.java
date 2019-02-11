@@ -26,7 +26,6 @@ import cc.hyperium.event.WorldLoadEvent;
 import cc.hyperium.mixinsimp.HyperiumMinecraft;
 import com.chattriggers.ctjs.minecraft.objects.message.TextComponent;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiIngame;
@@ -38,7 +37,6 @@ import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.resources.DefaultResourcePack;
 import net.minecraft.client.resources.IResourcePack;
-import net.minecraft.client.resources.ResourcePackRepository;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.client.shader.Framebuffer;
 import net.minecraft.crash.CrashReport;
@@ -77,25 +75,25 @@ public abstract class MixinMinecraft {
     public GuiAchievement guiAchievement;
 
     @Shadow
-    private int displayHeight;
+    public int displayHeight;
 
     @Shadow
-    private int displayWidth;
+    public int displayWidth;
 
     @Shadow
-    private GuiScreen currentScreen;
+    public GuiScreen currentScreen;
 
     @Shadow
-    private WorldClient theWorld;
+    public WorldClient theWorld;
 
     @Shadow
-    private EntityPlayerSP thePlayer;
+    public EntityPlayerSP thePlayer;
 
     @Shadow
-    private GameSettings gameSettings;
+    public GameSettings gameSettings;
 
     @Shadow
-    private GuiIngame ingameGUI;
+    public GuiIngame ingameGUI;
 
     @Shadow
     private boolean fullscreen;
@@ -120,7 +118,7 @@ public abstract class MixinMinecraft {
     private RenderManager renderManager;
 
     @Shadow
-    private long systemTime;
+    long systemTime;
 
     @Final
     @Shadow
@@ -139,12 +137,12 @@ public abstract class MixinMinecraft {
      */
     @Inject(method = "startGame", at = @At("HEAD"))
     private void preinit(CallbackInfo ci) {
-        hyperiumMinecraft.preinit(ci, defaultResourcePacks, mcDefaultResourcePack, defaultResourcePacks);
+        hyperiumMinecraft.preinit(defaultResourcePacks, mcDefaultResourcePack);
     }
 
     @Inject(method = "runGameLoop", at = @At("HEAD"))
     public void loop(CallbackInfo info) {
-        hyperiumMinecraft.loop(info, inGameHasFocus, theWorld, thePlayer, renderManager, timer);
+        hyperiumMinecraft.loop(inGameHasFocus, theWorld, thePlayer, renderManager, timer);
     }
 
     /**
@@ -156,7 +154,7 @@ public abstract class MixinMinecraft {
     private void init(CallbackInfo ci) {
         //Accessor not needed since its only set once
         enableGLErrorChecking = Metadata.isDevelopment();
-        hyperiumMinecraft.startGame(ci);
+        hyperiumMinecraft.startGame();
     }
 
     /**
@@ -166,12 +164,7 @@ public abstract class MixinMinecraft {
      */
     @Inject(method = "runTick", at = @At("RETURN"))
     private void runTick(CallbackInfo ci) {
-        hyperiumMinecraft.runTick(ci, mcProfiler);
-    }
-
-    @Inject(method = "runTick", at = @At("HEAD"))
-    private void tick(CallbackInfo info) {
-        hyperiumMinecraft.startTick(info, mcProfiler);
+        hyperiumMinecraft.runTick(mcProfiler);
     }
 
     /**
@@ -181,7 +174,7 @@ public abstract class MixinMinecraft {
      */
     @Inject(method = "dispatchKeypresses", at = @At(value = "INVOKE_ASSIGN", target = "Lorg/lwjgl/input/Keyboard;getEventKeyState()Z"))
     private void runTickKeyboard(CallbackInfo ci) {
-        hyperiumMinecraft.runTickKeyboard(ci);
+        hyperiumMinecraft.runTickKeyboard();
     }
 
     @Inject(
@@ -211,7 +204,7 @@ public abstract class MixinMinecraft {
      */
     @Inject(method = "clickMouse", at = @At("RETURN"))
     private void clickMouse(CallbackInfo ci) {
-        hyperiumMinecraft.clickMouse(ci);
+        hyperiumMinecraft.clickMouse();
     }
 
     /**
@@ -221,7 +214,7 @@ public abstract class MixinMinecraft {
      */
     @Inject(method = "rightClickMouse", at = @At("RETURN"))
     private void rightClickMouse(CallbackInfo ci) {
-        hyperiumMinecraft.rightClickMouse(ci);
+        hyperiumMinecraft.rightClickMouse();
     }
 
     /**
@@ -231,7 +224,7 @@ public abstract class MixinMinecraft {
      */
     @Inject(method = "launchIntegratedServer", at = @At("HEAD"))
     private void launchIntegratedServer(String folderName, String worldName, WorldSettings worldSettingsIn, CallbackInfo ci) {
-        hyperiumMinecraft.launchIntegratedServer(folderName, worldName, worldSettingsIn, ci);
+        hyperiumMinecraft.launchIntegratedServer();
     }
 
     /**
@@ -247,7 +240,7 @@ public abstract class MixinMinecraft {
 
     @Inject(method = "toggleFullscreen", at = @At(value = "INVOKE", target = "Lorg/lwjgl/opengl/Display;setVSyncEnabled(Z)V", shift = At.Shift.AFTER))
     private void fullScreenFix(CallbackInfo ci) throws LWJGLException {
-        hyperiumMinecraft.fullScreenFix(ci, fullscreen, displayWidth, displayHeight);
+        hyperiumMinecraft.fullScreenFix(fullscreen, displayWidth, displayHeight);
     }
 
     /**
@@ -294,27 +287,27 @@ public abstract class MixinMinecraft {
 
     @Inject(method = "startGame", at = @At("HEAD"))
     private void onStartGame(CallbackInfo ci) {
-        hyperiumMinecraft.onStartGame(ci);
+        hyperiumMinecraft.onStartGame();
     }
 
     @Inject(method = "startGame", at = @At(value = "INVOKE", target = "java/util/List.add(Ljava/lang/Object;)Z", shift = At.Shift.BEFORE))
     private void onLoadDefaultResourcePack(CallbackInfo ci) {
-        hyperiumMinecraft.onLoadDefaultResourcePack(ci);
+        hyperiumMinecraft.onLoadDefaultResourcePack();
     }
 
     @Inject(method = "startGame", at = @At(value = "INVOKE", target = "net/minecraft/client/Minecraft.createDisplay()V", shift = At.Shift.BEFORE))
     private void onCreateDisplay(CallbackInfo ci) {
-        hyperiumMinecraft.onCreateDisplay(ci);
+        hyperiumMinecraft.onCreateDisplay();
     }
 
     @Inject(method = "startGame", at = @At(value = "INVOKE", target = "net/minecraft/client/renderer/OpenGlHelper.initializeTextures()V", shift = At.Shift.BEFORE))
     private void onLoadTexture(CallbackInfo ci) {
-        hyperiumMinecraft.onLoadTexture(ci);
+        hyperiumMinecraft.onLoadTexture();
     }
 
     @Inject(method = "loadWorld(Lnet/minecraft/client/multiplayer/WorldClient;)V", at = @At("HEAD"))
     private void loadWorld(WorldClient worldClient, CallbackInfo ci) {
-        hyperiumMinecraft.loadWorld(worldClient, ci);
+        hyperiumMinecraft.loadWorld();
     }
 
     @Inject(method = "loadWorld(Lnet/minecraft/client/multiplayer/WorldClient;Ljava/lang/String;)V", at = @At(value = "INVOKE", target = "Ljava/lang/System;gc()V"), cancellable = true)
@@ -343,7 +336,7 @@ public abstract class MixinMinecraft {
 
     @Inject(method = "shutdown", at = @At("HEAD"))
     private void shutdown(CallbackInfo ci) {
-        hyperiumMinecraft.shutdown(ci);
+        hyperiumMinecraft.shutdown();
     }
 
     @Inject(method = "runGameLoop", at = @At(value = "FIELD", target = "Lnet/minecraft/client/Minecraft;skipRenderWorld:Z", shift = At.Shift.AFTER))

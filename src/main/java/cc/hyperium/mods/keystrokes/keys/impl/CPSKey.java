@@ -33,9 +33,8 @@ public class CPSKey extends IKey {
 
     private final List<Long> leftClicks = new ArrayList<>();
     private final List<Long> rightClicks = new ArrayList<>();
-    boolean leftWasDown = false;
-    boolean rightWasDown = false;
-    private boolean wasPressed = true;
+    private boolean leftWasDown = false;
+    private boolean rightWasDown = false;
 
     public CPSKey(KeystrokesMod mod, int xOffset, int yOffset) {
         super(mod, xOffset, yOffset);
@@ -56,22 +55,25 @@ public class CPSKey extends IKey {
             yOffset -= 18;
         }
 
+        if (!this.mod.getSettings().isShowingSneak()) {
+            yOffset -= 18;
+        }
+
         Mouse.poll();
 
         int textColor = getColor();
-        int pressedColor = getPressedColor();
 
         Gui.drawRect(x + this.xOffset, y + yOffset, x + this.xOffset + 70, y + yOffset + 16, new Color(0, 0, 0, 120).getRGB());
 
         String name = (this.mod.getSettings().isLeftClick() ? this.getLeftCPS() : this.getRightCPS()) + " CPS";
         if (this.mod.getSettings().isChroma()) {
-            drawChromaString(name, ((x + (this.xOffset + 70) / 2) - this.mc.fontRendererObj.getStringWidth(name) / 2), y + (yOffset + 4));
+            this.drawChromaString(name, x + (this.xOffset + 70) / 2 - this.mc.fontRendererObj.getStringWidth(name) / 2, y + (yOffset + 4));
         } else {
-            drawCenteredString(name, x + ((this.xOffset + 70) / 2), y + (yOffset + 4), textColor);
+            this.drawCenteredString(name, x + (this.xOffset + 70) / 2, y + (yOffset + 4), textColor);
         }
     }
 
-    protected int getLeftCPS() {
+    int getLeftCPS() {
         long time = System.currentTimeMillis();
 
         this.leftClicks.removeIf(o -> o + 1000L < time);
@@ -79,7 +81,7 @@ public class CPSKey extends IKey {
         return this.leftClicks.size();
     }
 
-    protected int getRightCPS() {
+    int getRightCPS() {
         long time = System.currentTimeMillis();
 
         this.rightClicks.removeIf(o -> o + 1000L < time);
@@ -90,24 +92,18 @@ public class CPSKey extends IKey {
     @InvokeEvent
     public void onRender(RenderEvent event) {
         Mouse.poll();
-        if (this.mod.getSettings().isLeftClick() || this.mod.getSettings().isShowingCPSOnButtons()) {
-            boolean downNow = Mouse.isButtonDown(this.mod.getRenderer().getMouseButtons()[0].getButton());
-            if (downNow != leftWasDown) {
-                if (downNow) {
-                    this.leftClicks.add(System.currentTimeMillis());
-                }
-            }
-            leftWasDown = downNow;
-        }
-        if (this.mod.getSettings().isLeftClick() || this.mod.getSettings().isShowingCPSOnButtons()) {
-            boolean downNow = Mouse.isButtonDown(this.mod.getRenderer().getMouseButtons()[1].getButton());
-            if (downNow != rightWasDown) {
-                if (downNow) {
-                    this.rightClicks.add(System.currentTimeMillis());
-                }
-            }
-            rightWasDown = downNow;
-        }
-    }
 
+        boolean downNow = Mouse.isButtonDown(mod.getRenderer().getMouseButtons()[0].getButton());
+        if (downNow != leftWasDown && downNow) {
+            leftClicks.add(System.currentTimeMillis());
+        }
+
+        leftWasDown = downNow;
+        downNow = Mouse.isButtonDown(mod.getRenderer().getMouseButtons()[1].getButton());
+        if (downNow != rightWasDown && downNow) {
+            rightClicks.add(System.currentTimeMillis());
+        }
+
+        rightWasDown = downNow;
+    }
 }

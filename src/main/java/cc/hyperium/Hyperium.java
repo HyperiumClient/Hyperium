@@ -64,7 +64,7 @@ import cc.hyperium.mods.HyperiumModIntegration;
 import cc.hyperium.mods.autofriend.command.AutofriendCommand;
 import cc.hyperium.mods.autogg.AutoGG;
 import cc.hyperium.mods.common.ToggleSprintContainer;
-import cc.hyperium.mods.discord.RichPresenceManager;
+import cc.hyperium.mods.discord.DiscordPresence;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.mods.sk1ercommon.Sk1erMod;
 import cc.hyperium.mods.statistics.GeneralStatisticsTracking;
@@ -85,8 +85,8 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.crash.CrashReport;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.cef.OS;
 import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
 import org.lwjgl.opengl.Display;
 
 import java.io.BufferedReader;
@@ -129,7 +129,7 @@ public class Hyperium {
     public static boolean IS_BETA;
     private static boolean updateQueue = false;
     private final GeneralStatisticsTracking statTrack = new GeneralStatisticsTracking();
-    private final RichPresenceManager richPresenceManager = new RichPresenceManager();
+    private final DiscordPresence richPresenceManager = new DiscordPresence();
     private final ConfirmationPopup confirmation = new ConfirmationPopup();
     public boolean isLatestVersion;
     private NotificationCenter notification;
@@ -138,17 +138,12 @@ public class Hyperium {
     private HyperiumModIntegration modIntegration;
     private MinigameListener minigameListener;
     private boolean acceptedTos = false;
-    private boolean fullScreen = false;
-    private boolean checkedForUpdate = false;
     private boolean optifineInstalled = false;
     public boolean isDevEnv;
     private Sk1erMod sk1erMod;
     private NettyClient client;
     private InternalAddons internalAddons;
     private NetworkHandler networkHandler;
-    /**
-     * @param event initialize Hyperium
-     */
     private boolean firstLaunch = false;
     private HyperiumScheduler scheduler;
 
@@ -271,14 +266,15 @@ public class Hyperium {
 
             Runtime.getRuntime().addShutdownHook(new Thread(this::shutdown));
 
-            richPresenceManager.init();
+            if (!OS.isMacintosh()) {
+                richPresenceManager.load();
+            }
 
             if (acceptedTos) {
                 sk1erMod = new Sk1erMod("hyperium", Metadata.getVersion(), object -> {
-                    //Callbackd
+                    //Callback
                     if (object.has("enabled") && !object.optBoolean("enabled")) {
                         //Disable stuff
-                        // EventBus.INSTANCE.disable(); dont think this is needed?
                         getHandlers().getHyperiumCommandHandler().clear();
                     }
                 });
