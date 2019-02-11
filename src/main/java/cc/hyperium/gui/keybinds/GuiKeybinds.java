@@ -38,7 +38,6 @@ public class GuiKeybinds extends HyperiumGui {
     private int initialGuiScale;
 
     public GuiKeybinds() {
-        initialGuiScale = Minecraft.getMinecraft().gameSettings.guiScale;
 
         // Change the GUI scale to the intended one.
         Minecraft.getMinecraft().gameSettings.guiScale = 3;
@@ -175,6 +174,13 @@ public class GuiKeybinds extends HyperiumGui {
     }
 
     @Override
+    public void show() {
+        initialGuiScale = Minecraft.getMinecraft().gameSettings.guiScale;
+        Minecraft.getMinecraft().gameSettings.guiScale = 2;
+        super.show();
+    }
+
+    @Override
     protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
         if (mouseX > 10 && mouseY < height - 10) {
             if (resetButton.mousePressed(mc, mouseX, mouseY)) {
@@ -246,6 +252,7 @@ public class GuiKeybinds extends HyperiumGui {
     public void onGuiClosed() {
         // Reset back to the user's normal GUI scale.
         Minecraft.getMinecraft().gameSettings.guiScale = initialGuiScale;
+        Hyperium.CONFIG.save();
 
         super.onGuiClosed();
         openPreviousGui();
