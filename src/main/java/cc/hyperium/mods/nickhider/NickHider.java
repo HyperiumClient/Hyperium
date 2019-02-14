@@ -24,7 +24,6 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IChatComponent;
 import org.apache.commons.io.FileUtils;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -42,7 +41,7 @@ import java.util.stream.Collectors;
 
 public class NickHider {
     public static final String MOD_ID = "nick_hider";
-    public static final String MOD_NAME = "Sk1er nick Hider";
+    public static final String MOD_NAME = "Sk1er Nick Hider";
     public static final String VERSION = "3.0";
     @Instance
     public static NickHider INSTANCE;
@@ -78,22 +77,24 @@ public class NickHider {
 
     public String getPseudo(String input) {
         int i = input.hashCode() + getPseudo_key().hashCode();
-        if (i < 0)
+        if (i < 0) {
             i = -i;
-
+        }
         int size = namesDatabase.size();
-        if (size == 0)
+        if (size == 0) {
             return "Player-error";
-
+        }
         return "Player-" + namesDatabase.get(i % size);
     }
 
     public void init() {
         sk1erMod = new Sk1erMod(MOD_ID, VERSION, object -> {
-            if (!object.optBoolean("enabled"))
+            if (!object.optBoolean("enabled")) {
                 forceDown = true;
-            if (object.optBoolean("extended"))
+            }
+            if (object.optBoolean("extended")) {
                 extendedUse = true;
+            }
         });
         sk1erMod.checkStatus();
         Multithreading.runAsync(() -> {
@@ -154,9 +155,9 @@ public class NickHider {
     @InvokeEvent
     public void bookCheck(RenderEvent event) {
         GuiScreen currentScreen = Minecraft.getMinecraft().currentScreen;
-        if (currentScreen == null)
+        if (currentScreen == null) {
             return;
-
+        }
         if (currentScreen instanceof GuiScreenBook) {
             NBTTagList bookPages = ((MixinGuiScreenBook) currentScreen).getBookPages();
             int currPage = ((MixinGuiScreenBook) currentScreen).getCurrPage();
@@ -188,8 +189,9 @@ public class NickHider {
     public String out(String chat) {
         if (isEnabled()) {
             for (Nick nick : nicks) {
-                if (!nick.oldName.equalsIgnoreCase(Minecraft.getMinecraft().getSession().getUsername()))
+                if (!nick.oldName.equalsIgnoreCase(Minecraft.getMinecraft().getSession().getUsername())) {
                     chat = Pattern.compile(nick.newName, Pattern.CASE_INSENSITIVE).matcher(chat).replaceAll(nick.oldName);
+                }
             }
         }
         return chat;
@@ -200,9 +202,9 @@ public class NickHider {
         String tmp = split[split.length - 1];
         List<String> tmp1 = new ArrayList<>();
         for (Nick nick : nicks) {
-            if (nick.newName.toLowerCase().startsWith(tmp.toLowerCase()))
+            if (nick.newName.toLowerCase().startsWith(tmp.toLowerCase())) {
                 tmp1.add(nick.newName);
-
+            }
         }
         String[] re = new String[tmp1.size()];
         for (int i = 0; i < tmp1.size(); i++) {
@@ -225,12 +227,13 @@ public class NickHider {
             return;
 
         EntityPlayerSP thePlayer = Minecraft.getMinecraft().thePlayer;
-        if (thePlayer == null)
+        if (thePlayer == null) {
             return;
+        }
         NetHandlerPlayClient sendQueue = thePlayer.sendQueue;
-        if (sendQueue == null)
+        if (sendQueue == null) {
             return;
-
+        }
         UUID id = Minecraft.getMinecraft().getSession().getProfile().getId();
         String name = Minecraft.getMinecraft().getSession().getProfile().getName();
         for (NetworkPlayerInfo networkPlayerInfo : sendQueue.getPlayerInfoMap()) {
@@ -243,7 +246,6 @@ public class NickHider {
                 remap(gameProfile.getName(), getPseudo(gameProfile.getName()));
             }
         }
-
 
     }
 
@@ -263,10 +265,12 @@ public class NickHider {
 
     public void remap(String key, String newKey) {
         key = key.toLowerCase();
-        if (usedNicks.contains(key))
+        if (usedNicks.contains(key)) {
             return;
-        if (key.isEmpty() || key.contains(" "))
+        }
+        if (key.isEmpty() || key.contains(" ")) {
             return;
+        }
         usedNicks.add(key);
         remaps.put(key, newKey);
         Nick nick = new Nick(Pattern.compile(key.toLowerCase(), Pattern.CASE_INSENSITIVE), key, newKey);
@@ -278,14 +282,18 @@ public class NickHider {
         if (config == null) {
             config = new NickHiderConfig();
         }
-        if (forceDown)
+        if (forceDown) {
             return input;
-        if (!config.isEnabled())
+        }
+        if (!config.isEnabled()) {
             return input;
-        if (nicks.size() == 0)
+        }
+        if (nicks.size() == 0) {
             return input;
-        if (cache.size() > 5000)
+        }
+        if (cache.size() > 5000) {
             cache.clear();
+        }
         return cache.computeIfAbsent(input, s -> {
             String base = input;
             for (Nick nick : nicks) {
@@ -314,7 +322,6 @@ public class NickHider {
     }
 
     class Nick {
-
         public Pattern pattern;
         public String oldName;
         public String newName;
