@@ -30,7 +30,6 @@ public class ValueHandler {
     @ConfigOpt
     private int deltaRankedRating;
 
-
     @InvokeEvent
     public void rankedRatingChange(RankedRatingChangeEvent event) {
         this.rankedRating = event.getRating();
@@ -41,10 +40,8 @@ public class ValueHandler {
         return deltaRankedRating;
     }
 
-
     public int getRankedRating() {
         return rankedRating;
     }
-
 
 }

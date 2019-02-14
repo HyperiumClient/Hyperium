@@ -21,7 +21,6 @@ import cc.hyperium.config.Settings;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.RenderHUDEvent;
 import cc.hyperium.event.TickEvent;
-import cc.hyperium.mods.chromahud.api.DisplayItem;
 import cc.hyperium.utils.RenderUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -45,8 +44,6 @@ public class ElementRenderer {
     private static final List<Long> mClicks = new ArrayList<>();
     private static double currentScale = 1.0;
     private static int color;
-    private static int[] COLORS = new int[]{16777215, 16711680, 65280, 255, 16776960, 11141290};
-    private static boolean display = false;
     private static DisplayElement current;
     private static FontRenderer fontRendererObj = Minecraft.getMinecraft().fontRendererObj;
     private static String cValue;
@@ -71,7 +68,6 @@ public class ElementRenderer {
 
     public static int getColor(int c, int x) {
         return c;
-
     }
 
     public static void draw(int x, double y, String string) {
@@ -100,29 +96,21 @@ public class ElementRenderer {
             int shift = current.isRightSided()
                 ? fontRendererObj.getStringWidth(string)
                 : 0;
+
             if (current.isHighlighted()) {
-                if (current.getDisplayItems().stream().anyMatch(i -> i.getType().contains("CB"))) {
-                    RenderUtils.drawRect((int) ((x - 1) / getCurrentScale() - shift), (int) ((ty - 3) / getCurrentScale()), (int) ((x + 1) / getCurrentScale()) + 60 - shift, (int) ((ty + 3) / getCurrentScale()) + 8, new Color(0, 0, 0, 120).getRGB());
-                } else {
-                    int stringWidth = fontRendererObj.getStringWidth(string);
-//                Gui.drawRect((int) ((tx - 1) / getCurrentScale() - shift), (int) ((ty - 1) / getCurrentScale()), (int) ((tx + 1) / getCurrentScale()) + stringWidth - shift, (int) ((ty + 1) / getCurrentScale()) + 8, new Color(0, 0, 0, 120).getRGB());
-                    RenderUtils.drawRect((int) ((x - 1) / getCurrentScale() - shift), (int) ((ty - 1) / getCurrentScale()), (int) ((x + 1) / getCurrentScale()) + stringWidth - shift, (int) ((ty + 1) / getCurrentScale()) + 8, new Color(0, 0, 0, 120).getRGB());
-                }
+                int stringWidth = fontRendererObj.getStringWidth(string);
+                RenderUtils.drawRect((int) ((x - 1) / getCurrentScale() - shift), (int) ((ty - 1) / getCurrentScale()), (int) ((x + 1) / getCurrentScale()) + stringWidth - shift, (int) ((ty + 1) / getCurrentScale()) + 8, new Color(0, 0, 0, 120).getRGB());
             }
+
             if (current.isChroma()) {
-                if (current.getDisplayItems().stream().anyMatch(i -> i.getType().contains("CB")))
-                    drawChromaString(string, ((60 - fontRendererObj.getStringWidth(string)) / 2) + (x - shift), (int) ty);
-                else
-                    drawChromaString(string, x - shift, (int) ty);
+                drawChromaString(string, x - shift, (int) ty);
             } else {
-                if (current.getDisplayItems().stream().anyMatch(i -> i.getType().contains("CB")))
-                    fontRendererObj.drawString(string, (float) (((60 - fontRendererObj.getStringWidth(string)) / 2) + (x / getCurrentScale() - shift)), (int) (ty / getCurrentScale()), getColor(color, x), current.isShadow());
-                else
-                    fontRendererObj.drawString(string, (int) (x / getCurrentScale() - shift), (int) (ty / getCurrentScale()), getColor(color, x), current.isShadow());
+                fontRendererObj.drawString(string, (int) (x / getCurrentScale() - shift), (int) (ty / getCurrentScale()), getColor(color, x), current.isShadow());
             }
             ty += 10D * currentScale;
         }
     }
+
 
     // Don't shift, by the time it is here it is already shifted
     public static void drawChromaString(String text, int xIn, int y) {
@@ -140,6 +128,7 @@ public class ElementRenderer {
             x += (double) renderer.getCharWidth(c) * getCurrentScale();
         }
     }
+
 
     private static boolean isChromaInt(int e) {
         return e >= 0 && e <= 1;
@@ -221,17 +210,11 @@ public class ElementRenderer {
         return mClicks.size();
     }
 
+    /* Until Sk1er fixes the old one causing an NPE, keep it like this */
     @InvokeEvent
     public void tick(TickEvent event) {
-        for (DisplayElement displayElement : mod.getDisplayElements()) {
-            for (DisplayItem displayItem : displayElement.getDisplayItems()) {
-                if (displayItem.getType().equalsIgnoreCase("C_COUNTER")) {
-                    if (Minecraft.getMinecraft().inGameHasFocus)
-                        cValue = Minecraft.getMinecraft().renderGlobal.getDebugInfoRenders().split("/")[0].trim();
-                    return;
-                }
-            }
-        }
+        if (Minecraft.getMinecraft().inGameHasFocus)
+            cValue = Minecraft.getMinecraft().renderGlobal.getDebugInfoRenders().split("/")[0].trim();
     }
 
     // Right CPS Counter
@@ -244,8 +227,10 @@ public class ElementRenderer {
         }
         if (!Settings.SHOW_CHROMAHUD)
             return;
+
         renderElements();
         GlStateManager.resetColor();
+
     }
 
     // Middle CPS Counter
@@ -292,8 +277,6 @@ public class ElementRenderer {
             try {
                 element.draw();
             } catch (Exception ignored) {
-                // lmao this is so unsafe sk1er XDDDDDDDDD
-                // Dude it's in a try catch so that it IS safe!
             }
             endDrawing(element);
         }

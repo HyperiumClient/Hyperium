@@ -32,105 +32,82 @@ import org.lwjgl.input.Mouse;
 public class Key extends IKey {
 
     private final KeyBinding key;
-    private boolean wasPressed = true;
-    private long lastPress = 0L;
+    private boolean wasPressed;
+    private long lastPress;
 
     public Key(KeystrokesMod mod, KeyBinding key, int xOffset, int yOffset) {
         super(mod, xOffset, yOffset);
+        wasPressed = true;
+        lastPress = 0L;
         this.key = key;
-    }
-
-    private String getKeyOrMouseName(int keyCode) {
-        if (keyCode < 0) {
-            String openglName = Mouse.getButtonName(keyCode + 100);
-            if (openglName.equalsIgnoreCase("button0")) {
-                return "LMB";
-            } else if (openglName.equalsIgnoreCase("button1")) {
-                return "RMB";
-            }
-            return openglName;
-        } else {
-            return Keyboard.getKeyName(keyCode);
-        }
     }
 
     private boolean isKeyOrMouseDown(int keyCode) {
         if (keyCode < 0) {
             return Mouse.isButtonDown(keyCode + 100);
-        } else {
-            return Keyboard.isKeyDown(keyCode);
         }
+
+        return Keyboard.isKeyDown(keyCode);
     }
 
     @Override
     public void renderKey(int x, int y) {
         Keyboard.poll();
-        boolean pressed = isKeyOrMouseDown(this.key.getKeyCode());
-        String name = getKeyOrMouseName(this.key.getKeyCode());
-        if (pressed != this.wasPressed) {
-            this.wasPressed = pressed;
-            this.lastPress = System.currentTimeMillis();
+        boolean pressed = isKeyOrMouseDown(key.getKeyCode());
+        String name = getKeyOrMouseName(key.getKeyCode());
+
+        if (pressed != wasPressed) {
+            wasPressed = pressed;
+            lastPress = System.currentTimeMillis();
         }
 
         int textColor = getColor();
         int pressedColor = getPressedColor();
-
-        double textBrightness;
         int color;
+        double textBrightness;
 
         if (pressed) {
-            color = Math.min(255, (int) ((this.mod.getSettings().getFadeTime() * 5) * (System.currentTimeMillis() - this.lastPress)));
-            textBrightness = Math.max(0.0D, 1.0D - (double) (System.currentTimeMillis() - this.lastPress) / (this.mod.getSettings().getFadeTime() * 5));
+            color = Math.min(255, (int) (mod.getSettings().getFadeTime() * 5.0 * (System.currentTimeMillis() - lastPress)));
+            textBrightness = Math.max(0.0, 1.0 - (System.currentTimeMillis() - lastPress) / (mod.getSettings().getFadeTime() * 5.0));
         } else {
-            color = Math.max(0, 255 - (int) ((this.mod.getSettings().getFadeTime() * 5) * (System.currentTimeMillis() - this.lastPress)));
-            textBrightness = Math.min(1.0D, (double) (System.currentTimeMillis() - this.lastPress) / (this.mod.getSettings().getFadeTime() * 5));
+            color = Math.max(0, 255 - (int) (mod.getSettings().getFadeTime() * 5.0 * (System.currentTimeMillis() - lastPress)));
+            textBrightness = Math.min(1.0, (double) (System.currentTimeMillis() - lastPress) / (mod.getSettings().getFadeTime() * 5.0));
         }
 
-        Gui.drawRect(x + this.xOffset, y + this.yOffset, x + this.xOffset + 22, y + this.yOffset + 22, new Color(0, 0, 0, 120).getRGB() + (color << 16) + (color << 8) + color);
+        Gui.drawRect(x + xOffset, y + yOffset, x + xOffset + 22, y + yOffset + 22, new Color(0, 0, 0, 120).getRGB() + (color << 16) + (color << 8) + color);
+
         int keyWidth = 22;
-
-        int red = textColor >> 16 & 255;
-        int green = textColor >> 8 & 255;
-        int blue = textColor & 255;
-
-        int colorN = new Color(0, 0, 0).getRGB() + ((int) ((double) red * textBrightness) << 16) + ((int) ((double) green * textBrightness) << 8) + (int) ((double) blue * textBrightness);
-
-        FontRenderer fontRenderer = this.mc.fontRendererObj;
+        int red = textColor >> 16 & 0xFF;
+        int green = textColor >> 8 & 0xFF;
+        int blue = textColor & 0xFF;
+        int colorN = new Color(0, 0, 0).getRGB() + ((int) (red * textBrightness) << 16) + ((int) (green * textBrightness) << 8) + (int) (blue * textBrightness);
+        FontRenderer fontRenderer = mc.fontRendererObj;
         int stringWidth = fontRenderer.getStringWidth(name);
-        float scaleFactor = 1.0F;
+        float scaleFactor = 1.0f;
 
-        // Check if text will overflow outside of the box.
         if (stringWidth > keyWidth) {
-            scaleFactor = (float) keyWidth / stringWidth;
+            scaleFactor = keyWidth / stringWidth;
         }
 
         GlStateManager.pushMatrix();
+        float xPos = (float) (x + xOffset + 8);
+        float yPos = (float) (y + yOffset + 8);
+        GlStateManager.scale(scaleFactor, scaleFactor, 1.0f);
 
-        float xPos = (x + this.xOffset + 8);
-        float yPos = (y + this.yOffset + 8);
-
-        GlStateManager.scale(scaleFactor, scaleFactor, 1.0F);
-
-
-        if (scaleFactor != 1.0F) {
-            float scaleFactorRec = 1 / scaleFactor;
-
-            // Text has been scaled down to fit the box so draw at start of box.
-            xPos = ((x + this.xOffset) * scaleFactorRec) + 1;
-
-            // Scale Y value.
+        if (scaleFactor != 1.0f) {
+            float scaleFactorRec = 1.0f / scaleFactor;
+            xPos = (x + xOffset) * scaleFactorRec + 1.0f;
             yPos *= scaleFactorRec;
-
         } else if (name.length() > 1) {
-            // Centres text if it fits in the box but is longer than one character.
             xPos -= stringWidth / 4;
         }
 
-        if (this.mod.getSettings().isChroma()) {
+        if (mod.getSettings().isChroma()) {
             drawChromaString(name, (int) xPos, (int) yPos);
         } else {
-            this.mc.fontRendererObj.drawString(name, (int) xPos, (int) yPos, pressed ? pressedColor : colorN);
+            mc.fontRendererObj.drawString(name, (int) xPos, (int) yPos, pressed ? pressedColor : colorN);
         }
+
         GlStateManager.popMatrix();
     }
 }

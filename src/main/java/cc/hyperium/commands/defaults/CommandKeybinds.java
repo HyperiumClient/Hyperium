@@ -17,9 +17,11 @@
 
 package cc.hyperium.commands.defaults;
 
-
 import cc.hyperium.commands.BaseCommand;
 import cc.hyperium.gui.keybinds.GuiKeybinds;
+
+import java.util.Collections;
+import java.util.List;
 
 public class CommandKeybinds implements BaseCommand {
 
@@ -31,6 +33,11 @@ public class CommandKeybinds implements BaseCommand {
     @Override
     public String getUsage() {
         return "/keybinds";
+    }
+
+    @Override
+    public List<String> getCommandAliases() {
+        return Collections.singletonList("controls");
     }
 
     @Override

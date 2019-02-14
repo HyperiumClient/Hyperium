@@ -15,5 +15,5 @@ public interface CefJSDialogCallback {
      * @param success Set to true if the OK button was pressed.
      * @param user_input The value should be specified for prompt dialogs.
      */
-    public void Continue(boolean success, String user_input);
+    void Continue(boolean success, String user_input);
 }

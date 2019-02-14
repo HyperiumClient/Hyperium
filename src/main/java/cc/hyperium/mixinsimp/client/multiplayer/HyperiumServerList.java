@@ -16,6 +16,7 @@
  */
 
 package cc.hyperium.mixinsimp.client.multiplayer;
+
 import java.io.File;
 import java.util.List;
 
@@ -61,7 +62,7 @@ public class HyperiumServerList {
                 servers.add(ServerData.getServerDataFromNBTCompound(nbttaglist.getCompoundTagAt(i)));
             }
         } catch (Exception exception) {
-            logger.error((String) "Couldn\'t load server list", (Throwable) exception);
+            logger.error("Couldn\'t load server list", exception);
             System.out.println("Load server list error");
 
         }
@@ -79,14 +80,14 @@ public class HyperiumServerList {
             nbttagcompound.setTag("servers", nbttaglist);
             CompressedStreamTools.safeWrite(nbttagcompound, new File(mc.mcDataDir, "servers.dat"));
         } catch (Exception exception) {
-            logger.error((String) "Couldn\'t save server list", (Throwable) exception);
+            logger.error("Couldn\'t save server list", exception);
             System.out.println("[ServerListMixin] Save server list error");
         }
     }
 
     public ServerData getServerData(List<ServerData> servers, int p_78850_1_) {
         try {
-            return (ServerData) servers.get(p_78850_1_);
+            return servers.get(p_78850_1_);
         } catch (Exception e) {
             System.out.println("[ServerListMixin] GetServer Data error 1");
             e.printStackTrace();
@@ -129,7 +130,7 @@ public class HyperiumServerList {
         try {
             servers.set(p_147413_1_, p_147413_2_);
         } catch (Exception e) {
-            System.out.println("[ServerListMixin] func_147413_a server data error");
+            System.out.println("[HyperiumServerList] func_147413_a server data error");
         }
     }
 }

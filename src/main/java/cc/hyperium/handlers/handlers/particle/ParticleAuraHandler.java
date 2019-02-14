@@ -15,6 +15,7 @@ import cc.hyperium.handlers.handlers.particle.animations.TornadoAnimation;
 import cc.hyperium.handlers.handlers.particle.animations.TripleTwirlAnimation;
 import cc.hyperium.handlers.handlers.particle.animations.VortexOfDoomAnimation;
 import cc.hyperium.mixins.entity.IMixinEntityFx;
+import cc.hyperium.purchases.HyperiumPurchase;
 import cc.hyperium.utils.JsonHolder;
 import cc.hyperium.utils.UUIDUtil;
 import net.minecraft.client.Minecraft;
@@ -74,16 +75,23 @@ public class ParticleAuraHandler {
 
     @InvokeEvent
     public void loadPurchaseEvent(PurchaseLoadEvent purchaseLoadEvent) {
-        auras.remove(purchaseLoadEvent.getPurchase().getPlayerUUID());
-        JsonHolder purchaseSettings = purchaseLoadEvent.getPurchase().getPurchaseSettings();
+        HyperiumPurchase purchase = purchaseLoadEvent.getPurchase();
+        auras.remove(purchase.getPlayerUUID());
+        JsonHolder purchaseSettings = purchase.getPurchaseSettings();
         if (!purchaseSettings.has("particle")) {
             return;
         }
         JsonHolder data = purchaseSettings.optJSONObject("particle");
-        AbstractAnimation particle_animation = animations.get(data.optString("particle_animation"));
+        String particle_animation1 = data.optString("particle_animation");
+        AbstractAnimation particle_animation = animations.get(particle_animation1);
 
         EnumParticleType type = EnumParticleType.parse(data.optString("type"));
         if (particle_animation == null || type == null) {
+            return;
+        }
+
+        if (!purchase.hasPurchased("PARTICLE_" + type.name()) || !purchase.hasPurchased("ANIMATION_"+(particle_animation1.toUpperCase().replace(" ","_")))) {
+            System.out.println("cancel");
             return;
         }
 
@@ -91,7 +99,7 @@ public class ParticleAuraHandler {
         boolean chroma = data.optBoolean("chroma");
         ParticleAura max_age = new ParticleAura(renderEngines.get(type), particle_animation, data.optInt("max_age", 2), chroma, rgb);
         max_age.setRgb(data.optInt("red"), data.optInt("green"), data.optInt("blue"));
-        auras.put(purchaseLoadEvent.getPurchase().getPlayerUUID(), max_age);
+        auras.put(purchase.getPlayerUUID(), max_age);
 
 
     }

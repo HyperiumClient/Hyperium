@@ -1,6 +1,5 @@
 package cc.hyperium.mixins.gui;
 
-import cc.hyperium.Hyperium;
 import cc.hyperium.config.Settings;
 import me.semx11.autotip.universal.ReflectionUtil;
 import net.minecraft.client.Minecraft;
@@ -61,8 +60,6 @@ public abstract class MixinGuiOverlayDebug {
     }
 
     protected void renderOldDebugInfoLeft(ScaledResolution scaledResolution) {
-        int scaledWidth = scaledResolution.getScaledWidth();
-        int scaledHeight = scaledResolution.getScaledHeight();
         FontRenderer fontRendererObj = this.mc.fontRendererObj;
         Field debugFPSField = ReflectionUtil.findField(Minecraft.class, "debugFPS", "field_71470_ab", "ao");
         debugFPSField.setAccessible(true);
@@ -79,26 +76,25 @@ public abstract class MixinGuiOverlayDebug {
         int posX = MathHelper.floor_double(this.mc.thePlayer.posX);
         int posY = MathHelper.floor_double(this.mc.thePlayer.posY);
         int posZ = MathHelper.floor_double(this.mc.thePlayer.posZ);
-        fontRendererObj.drawStringWithShadow(String.format("x: %.5f (%d) // c: %d (%d)", new Object[]{Double.valueOf(this.mc.thePlayer.posX), Integer.valueOf(posX), Integer.valueOf(posX >> 4), Integer.valueOf(posX & 15)}), 2, 64, 14737632);
-        fontRendererObj.drawStringWithShadow(String.format("y: %.3f (feet pos, %.3f eyes pos)", new Object[]{Double.valueOf(this.mc.thePlayer.getEntityBoundingBox().minY), Double.valueOf(this.mc.thePlayer.posY)}), 2, 72, 14737632);
+        fontRendererObj.drawStringWithShadow(String.format("x: %.5f (%d) // c: %d (%d)", Double.valueOf(this.mc.thePlayer.posX), Integer.valueOf(posX), Integer.valueOf(posX >> 4), Integer.valueOf(posX & 15)), 2, 64, 14737632);
+        fontRendererObj.drawStringWithShadow(String.format("y: %.3f (feet pos, %.3f eyes pos)", Double.valueOf(this.mc.thePlayer.getEntityBoundingBox().minY), Double.valueOf(this.mc.thePlayer.posY)), 2, 72, 14737632);
         Entity entity = this.mc.getRenderViewEntity();
         EnumFacing enumfacing = entity.getHorizontalFacing();
-        fontRendererObj.drawStringWithShadow(String.format("z: %.5f (%d) // c: %d (%d)", new Object[]{Double.valueOf(this.mc.thePlayer.posZ), Integer.valueOf(posZ), Integer.valueOf(posZ >> 4), Integer.valueOf(posZ & 15)}), 2, 80, 14737632);
+        fontRendererObj.drawStringWithShadow(String.format("z: %.5f (%d) // c: %d (%d)", Double.valueOf(this.mc.thePlayer.posZ), Integer.valueOf(posZ), Integer.valueOf(posZ >> 4), Integer.valueOf(posZ & 15)), 2, 80, 14737632);
         int yaw = MathHelper.floor_double((double) (this.mc.thePlayer.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
         fontRendererObj.drawStringWithShadow("f: " + yaw + " (" + enumfacing + ") / " + MathHelper.wrapAngleTo180_float(this.mc.thePlayer.rotationYaw), 2, 88, 14737632);
         if (this.mc.theWorld != null && !this.mc.theWorld.isAirBlock(new BlockPos(posX, posY, posZ))) {
             Chunk chunk = this.mc.theWorld.getChunkFromBlockCoords(new BlockPos(posX, posY, posZ));
             fontRendererObj.drawStringWithShadow("lc: " + (chunk.getTopFilledSegment() + 15) + " b: " + chunk.getBiome(new BlockPos(posX & 15, 64, posZ & 15), this.mc.theWorld.getWorldChunkManager()).biomeName + " bl: " + chunk.getBlockLightOpacity(new BlockPos(posX & 15, posY, posZ & 15)) + " sl: " + chunk.getBlockLightOpacity(new BlockPos(posX & 15, posY, posZ & 15)) + " rl: " + chunk.getBlockLightOpacity(new BlockPos(posX & 15, posY, posZ & 15)), 2, 96, 14737632);
         }
-        fontRendererObj.drawStringWithShadow(String.format("ws: %.3f, fs: %.3f, g: %b, fl: %d", new Object[]{Float.valueOf(this.mc.thePlayer.capabilities.getWalkSpeed()), Float.valueOf(this.mc.thePlayer.capabilities.getFlySpeed()), Boolean.valueOf(this.mc.thePlayer.onGround), Integer.valueOf(this.mc.theWorld.getHeight())}), 2, 104, 14737632);
+        fontRendererObj.drawStringWithShadow(String.format("ws: %.3f, fs: %.3f, g: %b, fl: %d", Float.valueOf(this.mc.thePlayer.capabilities.getWalkSpeed()), Float.valueOf(this.mc.thePlayer.capabilities.getFlySpeed()), Boolean.valueOf(this.mc.thePlayer.onGround), Integer.valueOf(this.mc.theWorld.getHeight())), 2, 104, 14737632);
         if (this.mc.entityRenderer != null && this.mc.entityRenderer.isShaderActive()) {
-            fontRendererObj.drawStringWithShadow(String.format("shader: %s", new Object[]{this.mc.entityRenderer.getShaderGroup().getShaderGroupName()}), 2, 112, 14737632);
+            fontRendererObj.drawStringWithShadow(String.format("shader: %s", this.mc.entityRenderer.getShaderGroup().getShaderGroupName()), 2, 112, 14737632);
         }
     }
 
     protected void renderOldDebugInfoRight(ScaledResolution scaledResolution) {
         int scaledWidth = scaledResolution.getScaledWidth();
-        int scaledHeight = scaledResolution.getScaledHeight();
         FontRenderer fontRendererObj = this.mc.fontRendererObj;
         long maxMemory = Runtime.getRuntime().maxMemory();
         long totalMemory = Runtime.getRuntime().totalMemory();

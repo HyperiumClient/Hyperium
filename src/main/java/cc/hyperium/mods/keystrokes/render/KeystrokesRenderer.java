@@ -31,6 +31,8 @@ import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The KeystrokesRenderer, taken and modified from the v3 source
@@ -45,6 +47,8 @@ public class KeystrokesRenderer {
     private final CPSKey[] cpsKeys = new CPSKey[1];
     private final SpaceKey[] spaceKey = new SpaceKey[1];
     private final MouseButton[] mouseButtons = new MouseButton[2];
+    private final SpaceKey[] sneakKeys = new SpaceKey[1];
+    private final List<CustomKeyWrapper> customKeys = new ArrayList<>();
 
     public KeystrokesRenderer(KeystrokesMod mod) {
         this.mod = mod;
@@ -54,12 +58,15 @@ public class KeystrokesRenderer {
         this.movementKeys[2] = new Key(mod, this.mc.gameSettings.keyBindLeft, 2, 26);
         this.movementKeys[3] = new Key(mod, this.mc.gameSettings.keyBindRight, 50, 26);
 
-        this.cpsKeys[0] = new CPSKey(mod, 2, 92);
+        this.cpsKeys[0] = new CPSKey(mod, 2, 110);
 
-        this.spaceKey[0] = new SpaceKey(mod, this.mc.gameSettings.keyBindJump, 2, 74);
+        this.spaceKey[0] = new SpaceKey(mod, this.mc.gameSettings.keyBindJump, 2, 92, "SPACE");
 
         this.mouseButtons[0] = new MouseButton(mod, 0, 2, 50);
         this.mouseButtons[1] = new MouseButton(mod, 1, 38, 50);
+
+        this.sneakKeys[0] = new SpaceKey(mod, mc.gameSettings.keyBindSneak, 2, 74, "Sneak");
+        this.customKeys.addAll(mod.getSettings().getConfigWrappers());
     }
 
     public MouseButton[] getMouseButtons() {
@@ -68,6 +75,10 @@ public class KeystrokesRenderer {
 
     public CPSKey[] getCPSKeys() {
         return this.cpsKeys;
+    }
+
+    public List<CustomKeyWrapper> getCustomKeys() {
+        return customKeys;
     }
 
     @InvokeEvent
@@ -94,6 +105,7 @@ public class KeystrokesRenderer {
             boolean showingSpacebar = this.mod.getSettings().isShowingSpacebar();
             boolean showingCPS = this.mod.getSettings().isShowingCPS();
             boolean showingCPSOnButtons = this.mod.getSettings().isShowingCPSOnButtons();
+            boolean showingSneak = mod.getSettings().isShowingSneak();
             ScaledResolution res = new ScaledResolution(this.mc);
 
             int width = this.mod.getSettings().getWidth();
@@ -102,39 +114,68 @@ public class KeystrokesRenderer {
             if (x < 0) {
                 this.mod.getSettings().setX(0);
                 x = this.mod.getSettings().getX();
-            } else if (x * this.mod.getSettings().getScale() > res.getScaledWidth() - (width * this.mod.getSettings().getScale())) {
-                this.mod.getSettings().setX((int) ((res.getScaledWidth() - (width * this.mod.getSettings().getScale())) / this.mod.getSettings().getScale()));
+
+            } else if (x * this.mod.getSettings().getScale() > res.getScaledWidth() - width * this.mod.getSettings().getScale()) {
+                this.mod.getSettings().setX((int) ((res.getScaledWidth() - width * this.mod.getSettings().getScale()) / this.mod.getSettings().getScale()));
                 x = this.mod.getSettings().getX();
             }
 
             if (y < 0) {
                 this.mod.getSettings().setY(0);
                 y = this.mod.getSettings().getY();
-            } else if (y * this.mod.getSettings().getScale() > res.getScaledHeight() - (height * this.mod.getSettings().getScale())) {
-                this.mod.getSettings().setY((int) ((res.getScaledHeight() - (height * this.mod.getSettings().getScale())) / this.mod.getSettings().getScale()));
+
+            } else if (y * this.mod.getSettings().getScale() > res.getScaledHeight() - height * this.mod.getSettings().getScale()) {
+                this.mod.getSettings().setY((int) ((res.getScaledHeight() - height * this.mod.getSettings().getScale()) / this.mod.getSettings().getScale()));
                 y = this.mod.getSettings().getY();
             }
 
-            if (this.mod.getSettings().getScale() != 1D) {
+            if (this.mod.getSettings().getScale() != 1.0) {
                 GlStateManager.pushMatrix();
-                GlStateManager.scale(this.mod.getSettings().getScale(), this.mod.getSettings().getScale(), 1.0D);
+                GlStateManager.scale(this.mod.getSettings().getScale(), this.mod.getSettings().getScale(), 1.0);
             }
 
             this.drawMovementKeys(x, y);
 
             if (showingMouseButtons) {
-                this.drawMouseButtons(x, y);
+                drawMouseButtons(x, y);
             }
 
             if (showingCPS && !showingCPSOnButtons) {
-                this.drawCPSKeys(x, y);
+                drawCPSKeys(x, y);
+            }
+
+            if (showingSneak) {
+                drawSneak(x, y);
             }
 
             if (showingSpacebar) {
-                this.drawSpacebar(x, y);
+                drawSpacebar(x, y);
             }
 
-            if (this.mod.getSettings().getScale() != 1D) {
+            y += 130;
+            if (!mod.getSettings().isShowingMouseButtons()) {
+                y -= 24;
+            }
+
+            if (!showingSneak) {
+                y -= 18;
+            }
+
+            if (!showingSpacebar) {
+                y -= 18;
+            }
+
+            if (!showingCPS || showingCPSOnButtons) {
+                y = -18;
+            }
+
+            for (CustomKeyWrapper key : customKeys) {
+                int xOffset = (int) key.getxOffset();
+                int yOffset = (int) key.getyOffset();
+                key.getKey().renderKey(x + xOffset, y + yOffset);
+            }
+
+            if (this.mod.getSettings().getScale() != 1.0) {
                 GlStateManager.popMatrix();
             }
         }
@@ -148,6 +189,12 @@ public class KeystrokesRenderer {
 
     private void drawCPSKeys(int x, int y) {
         for (CPSKey key : this.cpsKeys) {
+            key.renderKey(x, y);
+        }
+    }
+
+    private void drawSneak(int x, int y) {
+        for (SpaceKey key : sneakKeys) {
             key.renderKey(x, y);
         }
     }

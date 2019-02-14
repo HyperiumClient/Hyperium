@@ -75,16 +75,12 @@ import java.util.UUID;
 public abstract class MixinNetHandlerPlayClient {
 
     @Shadow
-    @Final
-    private static Logger logger;
-    @Shadow
-    @Final
-    private Map<UUID, NetworkPlayerInfo> playerInfoMap;
-    @Shadow
     private WorldClient clientWorldController;
+
     @Shadow
     private Minecraft gameController;
-    private TimeChanger timeChanger = (TimeChanger) Hyperium.INSTANCE.getModIntegration().getTimeChanger();
+
+    private TimeChanger timeChanger = Hyperium.INSTANCE.getModIntegration().getTimeChanger();
 
     /**
      * Adds the tab completions of the client to the tab completions received from the server.
@@ -99,14 +95,13 @@ public abstract class MixinNetHandlerPlayClient {
     }
 
     /**
-     * For TimeChanger, changes the way time packets are handled
-     *
      * @author boomboompower
+     * @reason TimeChanger - changes the way time packets are handled
      */
     @Overwrite
     public void handleTimeUpdate(S03PacketTimeUpdate packet) {
         if (this.timeChanger == null) {
-            this.timeChanger = (TimeChanger) Hyperium.INSTANCE.getModIntegration().getTimeChanger();
+            this.timeChanger = Hyperium.INSTANCE.getModIntegration().getTimeChanger();
         }
 
         if (this.timeChanger.getTimeType() == null) {
@@ -181,9 +176,6 @@ public abstract class MixinNetHandlerPlayClient {
         }
     }
 
-    /**
-     * @author
-     */
     @Inject(method = "handleCustomPayload", at = @At("RETURN"))
     public void handleCustomPayload(S3FPacketCustomPayload packetIn, CallbackInfo ci) {
         PacketBuffer packetBuffer = packetIn.getBufferData();
@@ -194,7 +186,6 @@ public abstract class MixinNetHandlerPlayClient {
                 packetBuffer.readBytes(payload);
                 String message = new String(payload, Charsets.UTF_8);
 
-                EntityPlayerSP thePlayer = Minecraft.getMinecraft().thePlayer;
                 if (LoginReplyHandler.SHOW_MESSAGES)
                     GeneralChatHandler.instance().sendMessage("Packet message on channel " + packetIn.getChannelName() + " -> " + message);
                 if ("REGISTER".equalsIgnoreCase(packetIn.getChannelName())) {

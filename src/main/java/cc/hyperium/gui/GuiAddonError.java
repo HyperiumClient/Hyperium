@@ -168,6 +168,7 @@
 
 package cc.hyperium.gui;
 
+import cc.hyperium.Hyperium;
 import cc.hyperium.internal.addons.AddonManifest;
 import cc.hyperium.internal.addons.AddonMinecraftBootstrap;
 import cc.hyperium.utils.ChatColor;
@@ -219,7 +220,7 @@ public class GuiAddonError extends GuiScreen {
             // Clear the maps so this screen goes away.
             AddonMinecraftBootstrap.getDependenciesLoopMap().clear();
             AddonMinecraftBootstrap.getMissingDependenciesMap().clear();
-            Minecraft.getMinecraft().displayGuiScreen(new GuiHyperiumScreenMainMenu());
+            Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new GuiHyperiumScreenMainMenu());
         }
     }
 }

@@ -62,7 +62,7 @@ public class ParticleGui extends HyperiumGui implements GuiYesNoCallback {
                 runnable.run();
             }
         }
-        Minecraft.getMinecraft().displayGuiScreen(this);
+        Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(this);
     }
 
     @Override
@@ -96,8 +96,6 @@ public class ParticleGui extends HyperiumGui implements GuiYesNoCallback {
             purchaseSettings.put("particle", new JsonHolder());
         JsonHolder particle = purchaseSettings.optJSONObject("particle");
 
-        System.out.println(particle);
-
         CarouselItem[] particles = new CarouselItem[length];
         for (int i = 0; i < length; i++) {
             EnumParticleType value = values[i];
@@ -113,7 +111,7 @@ public class ParticleGui extends HyperiumGui implements GuiYesNoCallback {
 
                     int i4 = ++purchaseIds;
                     GuiYesNo gui = new GuiYesNo(this, I18n.format("message.purchase", value.getName()), "", i4);
-                    Minecraft.getMinecraft().displayGuiScreen(gui);
+                    Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(gui);
                     ids.put(i4, () -> {
                         GeneralChatHandler.instance().sendMessage(I18n.format("message.attemptingpurchase", value.getName()));
                         NettyClient client = NettyClient.getClient();
@@ -221,7 +219,7 @@ public class ParticleGui extends HyperiumGui implements GuiYesNoCallback {
                 if (!flag) {
                     int i4 = ++purchaseIds;
                     GuiYesNo gui = new GuiYesNo(this, I18n.format("message.purchase", s), "", i4);
-                    Minecraft.getMinecraft().displayGuiScreen(gui);
+                    Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(gui);
 
                     ids.put(i4, () -> {
                         GeneralChatHandler.instance().sendMessage(I18n.format("message.attemptingpurchase", s));
@@ -311,7 +309,7 @@ public class ParticleGui extends HyperiumGui implements GuiYesNoCallback {
     protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
         super.mouseClicked(mouseX, mouseY, mouseButton);
         if (previewBlock != null && previewBlock.isMouseOver(mouseX, mouseY) && overlay == null) {
-            Minecraft.getMinecraft().displayGuiScreen(null);
+            mc.displayGuiScreen(null);
             Minecraft.getMinecraft().gameSettings.thirdPersonView = 2;
             EnumParticleType type = null;
             for (EnumParticleType enumParticleType : EnumParticleType.values()) {

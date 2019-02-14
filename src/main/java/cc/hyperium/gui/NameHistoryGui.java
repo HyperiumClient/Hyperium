@@ -121,7 +121,7 @@ public class NameHistoryGui extends GuiScreen {
     public void getNames(String username) {
         offset = 0;
         try {
-            if (username.equals("")) {
+            if (username.isEmpty()) {
                 return;
             }
             UUID uuid = MojangAPI.getUUID(username);

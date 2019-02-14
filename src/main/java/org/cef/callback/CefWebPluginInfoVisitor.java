@@ -17,5 +17,5 @@ public interface CefWebPluginInfoVisitor {
      * Return false to stop visiting plugins. This method may never be called if
      * no plugins are found.
      */
-    public boolean visit(CefWebPluginInfo info, int count, int total);
+    boolean visit(CefWebPluginInfo info, int count, int total);
 }

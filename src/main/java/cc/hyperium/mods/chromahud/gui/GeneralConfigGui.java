@@ -73,15 +73,14 @@ public class GeneralConfigGui extends GuiScreen {
         reg((edit = new GuiButtonIcon(1, new ResourceLocation("textures/chromahud/iconsheet.png"), 5, 0, 1, .4f)), button -> {
             //Open Gui for editing element
             if (currentElement != null) {
-                Minecraft.getMinecraft().displayGuiScreen(new DisplayElementConfig(currentElement, mod));
+                Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new DisplayElementConfig(currentElement, mod));
             }
         });
         ((GuiButtonIcon) edit).setOutline(true);
         reg(new GuiButton(2, 2, ResolutionUtil.current().getScaledHeight() - 22, 100, 20, "New"), (guiButton) -> {
             DisplayElement blank = DisplayElement.blank();
             ChromaHUDApi.getInstance().getElements().add(blank);
-            System.out.println(ChromaHUDApi.getInstance().getElements());
-            Minecraft.getMinecraft().displayGuiScreen(new DisplayElementConfig(blank, mod));
+            Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new DisplayElementConfig(blank, mod));
         });
 
         edit.visible = false;
@@ -251,7 +250,7 @@ public class GeneralConfigGui extends GuiScreen {
 
                         this.mc.getSoundHandler().playSound(PositionedSoundRecord
                             .create(new ResourceLocation("gui.button.press"), 1.0F));
-                        Minecraft.getMinecraft().displayGuiScreen(new DisplayElementConfig(element, mod));
+                        Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new DisplayElementConfig(element, mod));
                         return;
                     }
 
@@ -298,7 +297,7 @@ public class GeneralConfigGui extends GuiScreen {
     @Override
     protected void keyTyped(char typedChar, int keyCode) throws IOException {
         if (keyCode == Keyboard.KEY_RETURN && currentElement != null)
-            Minecraft.getMinecraft().displayGuiScreen(new DisplayElementConfig(currentElement, mod));
+            Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new DisplayElementConfig(currentElement, mod));
         super.keyTyped(typedChar, keyCode);
     }
 }

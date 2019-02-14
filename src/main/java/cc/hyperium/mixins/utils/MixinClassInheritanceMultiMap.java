@@ -19,7 +19,6 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 @Mixin(ClassInheritanceMultiMap.class)
 public abstract class MixinClassInheritanceMultiMap<T> extends AbstractSet<T> {
 
-
     private static Set<Class<?>> field_181158_a1 = ConcurrentHashMap.newKeySet();
     private ConcurrentLinkedQueue<T> queue = new ConcurrentLinkedQueue<>();
 
@@ -146,7 +145,7 @@ public abstract class MixinClassInheritanceMultiMap<T> extends AbstractSet<T> {
             ConcurrentLinkedQueue<T> list = map1.get(func_181157_b(clazz));
 
             if (list == null) {
-                return Iterators.<S>emptyIterator();
+                return Iterators.emptyIterator();
             } else {
                 Iterator<T> iterator = list.iterator();
                 return Iterators.filter(iterator, clazz);
@@ -160,7 +159,7 @@ public abstract class MixinClassInheritanceMultiMap<T> extends AbstractSet<T> {
      */
     @Overwrite
     public Iterator<T> iterator() {
-        return this.queue.isEmpty() ? Iterators.<T>emptyIterator() : Iterators.unmodifiableIterator(this.queue.iterator());
+        return this.queue.isEmpty() ? Iterators.emptyIterator() : Iterators.unmodifiableIterator(this.queue.iterator());
     }
 
     /**

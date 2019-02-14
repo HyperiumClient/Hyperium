@@ -15,6 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class MixinCrashReport {
 
     private HyperiumCrashReport hyperiumCrashReport = new HyperiumCrashReport((CrashReport) (Object) this);
+
     @Final
     @Shadow
     private CrashReportCategory theReportCategory;

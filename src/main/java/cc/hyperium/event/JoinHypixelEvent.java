@@ -46,6 +46,6 @@ public final class JoinHypixelEvent extends Event {
      */
     public enum ServerVerificationMethod {
         IP,
-        MOTD;
+        MOTD
     }
 }

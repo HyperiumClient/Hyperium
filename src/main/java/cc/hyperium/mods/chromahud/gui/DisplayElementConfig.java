@@ -17,6 +17,7 @@
 
 package cc.hyperium.mods.chromahud.gui;
 
+import cc.hyperium.Hyperium;
 import cc.hyperium.mods.chromahud.ChromaHUD;
 import cc.hyperium.mods.chromahud.ChromaHUDApi;
 import cc.hyperium.mods.chromahud.DisplayElement;
@@ -86,8 +87,6 @@ public class DisplayElementConfig extends GuiScreen {
         if (hue != -1 && saturation != -1) {
             BufferedImage image1 = new BufferedImage(1, dim, BufferedImage.TYPE_INT_RGB);
             for (int y = 0; y < dim; y++) {
-//                    System.out.println("hue = " + hue);
-//                    System.out.println("saturation = " + saturation);
                 float hue = this.hue / 256F;
                 float saturation = this.saturation / 256F;
                 image1.setRGB(0, y, Color.HSBtoRGB(hue, saturation, 1.0F - y / 256F));
@@ -132,8 +131,8 @@ public class DisplayElementConfig extends GuiScreen {
         ScaledResolution current = ResolutionUtil.current();
         int start_y = Math.max((int) (current.getScaledHeight_double() * .1) - 20, 5);
         int posX = (int) (current.getScaledWidth_double() * .5) - 100;
-        reg("pos", new GuiButton(nextId(), posX, start_y, "Change Position"), button -> Minecraft.getMinecraft().displayGuiScreen(new MoveElementGui(mod, element)));
-        reg("items", new GuiButton(nextId(), posX, start_y + 22, "Change Items"), button -> Minecraft.getMinecraft().displayGuiScreen(new EditItemsGui(element, mod)));
+        reg("pos", new GuiButton(nextId(), posX, start_y, "Change Position"), button -> Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new MoveElementGui(mod, element)));
+        reg("items", new GuiButton(nextId(), posX, start_y + 22, "Change Items"), button -> Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new EditItemsGui(element, mod)));
 
         //Highlighted
         reg("Highlight", new GuiButton(nextId(), posX, start_y + 22 * 2, "-"), button -> {
@@ -267,11 +266,11 @@ public class DisplayElementConfig extends GuiScreen {
                 button.displayString = EnumChatFormatting.YELLOW + "Green: " + (element.getData().optInt("green"));
             }
         });
-        reg("Back", new GuiButton(nextId(), 2, ResolutionUtil.current().getScaledHeight() - 22, 100, 20, "Back"), (guiButton) -> Minecraft.getMinecraft().displayGuiScreen(new GeneralConfigGui(mod)), (guiButton) -> {
+        reg("Back", new GuiButton(nextId(), 2, ResolutionUtil.current().getScaledHeight() - 22, 100, 20, "Back"), (guiButton) -> Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new GeneralConfigGui(mod)), (guiButton) -> {
         });
         reg("Delete", new GuiButton(nextId(), 2, ResolutionUtil.current().getScaledHeight() - 22 * 2, 100, 20, "Delete"), (guiButton) -> {
 
-            Minecraft.getMinecraft().displayGuiScreen(new GeneralConfigGui(mod));
+            Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new GeneralConfigGui(mod));
             ChromaHUDApi.getInstance().getElements().remove(element);
         }, (guiButton) -> {
         });

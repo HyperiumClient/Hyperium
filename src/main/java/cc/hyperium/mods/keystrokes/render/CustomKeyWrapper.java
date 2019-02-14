@@ -15,34 +15,39 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package cc.hyperium.mods.utilities;
+package cc.hyperium.mods.keystrokes.render;
 
-import cc.hyperium.mods.AbstractMod;
-import cc.hyperium.utils.ChatColor;
+import cc.hyperium.mods.keystrokes.keys.impl.CustomKey;
 
-public class UtilitiesMod extends AbstractMod {
+public class CustomKeyWrapper {
 
-    private final Metadata metadata;
+    private CustomKey key;
+    private double xOffset;
+    private double yOffset;
 
-
-    public UtilitiesMod() {
-        Metadata metadata = new Metadata(this, "Utilities", "1.0", "boomboompower");
-
-        metadata.setDisplayName(ChatColor.AQUA + "Utilities");
-
-        this.metadata = metadata;
+    public CustomKeyWrapper(CustomKey key, int xOffset, int yOffset) {
+        this.key = key;
+        this.xOffset = xOffset;
+        this.yOffset = yOffset;
     }
 
-    @Override
-    public AbstractMod init() {
-
-
-        return this;
+    public CustomKey getKey() {
+        return key;
     }
 
-    @Override
-    public Metadata getModMetadata() {
-        return this.metadata;
+    public double getxOffset() {
+        return xOffset;
     }
 
+    public void setxOffset(double xOffset) {
+        this.xOffset = xOffset;
+    }
+
+    public double getyOffset() {
+        return yOffset;
+    }
+
+    public void setyOffset(double yOffset) {
+        this.yOffset = yOffset;
+    }
 }

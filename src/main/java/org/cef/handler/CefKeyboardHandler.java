@@ -15,11 +15,11 @@ public interface CefKeyboardHandler {
     /**
      * Structure representing keyboard event information.
      */
-    public static final class CefKeyEvent {
+    final class CefKeyEvent {
         /**
          * Key event types.
          */
-        public static enum EventType {
+        public enum EventType {
             /**
              * Notification that a key transitioned from "up" to "down"
              */
@@ -125,7 +125,7 @@ public interface CefKeyboardHandler {
      *  the event will be handled in OnKeyEvent() as a keyboard shortcut.
      * @return true if the event was handled or false otherwise.
      */
-    public boolean onPreKeyEvent(
+    boolean onPreKeyEvent(
         CefBrowser browser, CefKeyEvent event, BoolRef is_keyboard_shortcut);
 
     /**
@@ -136,5 +136,5 @@ public interface CefKeyboardHandler {
      * @param event contains information about the keyboard event.
      * @return true if the keyboard event was handled or false otherwise.
      */
-    public boolean onKeyEvent(CefBrowser browser, CefKeyEvent event);
+    boolean onKeyEvent(CefBrowser browser, CefKeyEvent event);
 }

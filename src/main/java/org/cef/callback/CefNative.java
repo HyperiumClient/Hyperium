@@ -16,7 +16,7 @@ public interface CefNative {
      * @param identifer The name of the interface class (e.g. CefFocusHandler).
      * @param nativeRef The reference to the native code.
      */
-    public void setNativeRef(String identifer, long nativeRef);
+    void setNativeRef(String identifer, long nativeRef);
 
     /**
      * Method is called by the native code to get the reference
@@ -25,5 +25,5 @@ public interface CefNative {
      * @param identifer The name of the interface class (e.g. CefFocusHandler).
      * @return The stored reference value of the native code.
      */
-    public long getNativeRef(String identifer);
+    long getNativeRef(String identifer);
 }

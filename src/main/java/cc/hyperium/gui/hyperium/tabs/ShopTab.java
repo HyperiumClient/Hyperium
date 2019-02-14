@@ -58,7 +58,7 @@ public class ShopTab extends AbstractTab {
         infoTab.addChild(new LabelComponent(this, new ArrayList<>(),
             "Remaining Credits: " + personData.optInt("remaining_credits")));
         infoTab.addChild(new ButtonComponent(this, new ArrayList<>(), "Capes",
-            () -> Minecraft.getMinecraft().displayGuiScreen(new CapesGui())));
+            () -> Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new CapesGui())));
         infoTab.addChild(new ButtonComponent(this, new ArrayList<>(), "Particles",
             () -> new ParticleGui().show()));
         infoTab.addChild(new ButtonComponent(this, new ArrayList<>(), "Open in browser",

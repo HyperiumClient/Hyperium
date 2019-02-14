@@ -18,7 +18,7 @@ public class DisplayHandler implements CefDisplayHandler {
         ADDRESS_CHANGE,
         TITLE_CHANGE,
         TOOLTIP,
-        STATUS_MESSAGE;
+        STATUS_MESSAGE
 
     }
 

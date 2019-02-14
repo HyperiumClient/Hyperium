@@ -66,7 +66,6 @@ public class EventChatReceived implements Event {
                 continue;
             }
 
-            System.out.println("stats");
             StatsDaily stats = this.getStats();
             matcher.applyStats(stats);
             message.applyHoverStats(hover, stats);

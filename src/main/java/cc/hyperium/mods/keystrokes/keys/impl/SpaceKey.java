@@ -23,7 +23,9 @@ import cc.hyperium.utils.ChatColor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.util.EnumChatFormatting;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
@@ -37,9 +39,12 @@ public class SpaceKey extends IKey {
 
     private long lastPress = 0L;
 
-    public SpaceKey(KeystrokesMod mod, KeyBinding key, int xOffset, int yOffset) {
+    private String name;
+
+    public SpaceKey(KeystrokesMod mod, KeyBinding key, int xOffset, int yOffset, String name) {
         super(mod, xOffset, yOffset);
         this.key = key;
+        this.name = name;
     }
 
     private boolean isButtonDown(int buttonCode) {
@@ -62,9 +67,13 @@ public class SpaceKey extends IKey {
             yOffset -= 24;
         }
 
+        if (!this.mod.getSettings().isShowingSneak()) {
+            yOffset -= 18;
+        }
+
         Keyboard.poll();
         boolean pressed = isButtonDown(this.key.getKeyCode());
-        String name = (!this.mod.getSettings().isChroma() ? ChatColor.STRIKETHROUGH.toString() + "-----" : "------");
+        String name = this.name.equalsIgnoreCase("space") ? (mod.getSettings().isChroma() ? "------" : (ChatColor.STRIKETHROUGH.toString() + "------")) : "Sneak";
 
         if (pressed != this.wasPressed) {
             this.wasPressed = pressed;
@@ -91,26 +100,22 @@ public class SpaceKey extends IKey {
         int green = textColor >> 8 & 255;
         int blue = textColor & 255;
 
-        int pressedRed = pressedColor >> 16 & 255;
-        int pressedGreen = pressedColor >> 8 & 255;
-        int pressedBlue = pressedColor & 255;
-
         int colorN = new Color(0, 0, 0).getRGB() + ((int) ((double) red * textBrightness) << 16) + ((int) ((double) green * textBrightness) << 8) + (int) ((double) blue * textBrightness);
 
         if (this.mod.getSettings().isChroma()) {
-            drawSpacebar(name, x + ((this.xOffset + 76) / 2), y + yOffset + 5);
+            if (this.name.equalsIgnoreCase("space")) {
+                int xIn = x + (this.xOffset + 76) / 4;
+                int y2 = y + yOffset + 9;
+                GlStateManager.pushMatrix();
+                GlStateManager.translate((float) xIn, (float) y2, 0.0f);
+                GlStateManager.rotate(-90.0f, 0.0f, 0.0f, 1.0f);
+                this.drawGradientRect(0, 0, 2, 35, Color.HSBtoRGB((float) ((System.currentTimeMillis() - xIn * 10 - y2 * 10) % 2000L) / 2000.0f, 0.8f, 0.8f), Color.HSBtoRGB((float) ((System.currentTimeMillis() - (xIn + 35) * 10 - y2 * 10) % 2000L) / 2000.0f, 0.8f, 0.8f));
+                GlStateManager.popMatrix();
+            } else {
+                this.drawChromaString(name, x + (this.xOffset + 70) / 2 - Minecraft.getMinecraft().fontRendererObj.getStringWidth(name) / 2, y + yOffset + 5);
+            }
         } else {
-            drawCenteredString(name, x + ((this.xOffset + 70) / 2), y + yOffset + 5, pressed ? pressedColor : colorN);
-        }
-    }
-
-    private void drawSpacebar(String text, int xIn, int y) {
-        FontRenderer renderer = Minecraft.getMinecraft().fontRendererObj;
-        int x = xIn - (Minecraft.getMinecraft().fontRendererObj.getStringWidth(text) / 2);
-        for (char c : text.toCharArray()) {
-            int i = Color.HSBtoRGB((float) ((System.currentTimeMillis() - (x * 10) - (y * 10)) % 2000) / 2000.0F, 0.8F, 0.8F);
-            renderer.drawString(String.valueOf(c), x, y, i);
-            x += renderer.getCharWidth(c) - 1;
+            this.drawCenteredString(name, x + (this.xOffset + 70) / 2, y + yOffset + 5, pressed ? pressedColor : colorN);
         }
     }
 }

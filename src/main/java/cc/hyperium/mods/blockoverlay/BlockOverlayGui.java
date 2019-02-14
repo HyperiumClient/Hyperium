@@ -39,7 +39,7 @@ public class BlockOverlayGui extends GuiScreen {
                 this.buttonMode.displayString = "Mode: " + this.mod.getSettings().getOverlayMode().getName();
                 break;
             case 1:
-                this.mod.mc.displayGuiScreen(new BlockOverlayColor(this.mod));
+                BlockOverlay.mc.displayGuiScreen(new BlockOverlayColor(this.mod));
                 break;
             case 2:
                 this.mod.getSettings().setLineWidth((float) this.sliderWidth.getValue());

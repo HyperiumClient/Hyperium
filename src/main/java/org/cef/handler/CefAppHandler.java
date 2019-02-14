@@ -22,7 +22,7 @@ public interface CefAppHandler {
      * @param process_type type of process (empty for browser process).
      * @param command_line values of the command line.
      */
-    public void onBeforeCommandLineProcessing(String process_type, CefCommandLine command_line);
+    void onBeforeCommandLineProcessing(String process_type, CefCommandLine command_line);
 
     /**
      * Provides an opportunity to hook into the native shutdown process. This
@@ -34,7 +34,7 @@ public interface CefAppHandler {
      * @return false to proceed with the default behavior, true to abort
      * terminate.
      */
-    public boolean onBeforeTerminate();
+    boolean onBeforeTerminate();
 
     /**
      * Implement this method to get state changes of the CefApp.
@@ -45,7 +45,7 @@ public interface CefAppHandler {
      *
      * @param state The current state of CefApp.
      */
-    public void stateHasChanged(CefAppState state);
+    void stateHasChanged(CefAppState state);
 
     /**
      * Provides an opportunity to register custom schemes. Do not keep a reference
@@ -53,14 +53,14 @@ public interface CefAppHandler {
      * each process and the registered schemes should be the same across all
      * processes.
      */
-    public void onRegisterCustomSchemes(CefSchemeRegistrar registrar);
+    void onRegisterCustomSchemes(CefSchemeRegistrar registrar);
 
     // Inherited of CefBrowserProcessHandler
     /**
      * Called on the browser process UI thread immediately after the CEF context
      * has been initialized.
      */
-    public void onContextInitialized();
+    void onContextInitialized();
 
     /**
      * Return the handler for printing on Linux. If a print handler is not
@@ -68,7 +68,7 @@ public interface CefAppHandler {
      *
      * @return a reference to a print handler implementation
      */
-    public CefPrintHandler getPrintHandler();
+    CefPrintHandler getPrintHandler();
 
     /**
      * Called from any thread when work has been scheduled for the browser process
@@ -79,5 +79,5 @@ public interface CefAppHandler {
      * call should be scheduled to happen after the specified delay and any
      * currently pending scheduled call should be cancelled.
      */
-    public void onScheduleMessagePumpWork(long delay_ms);
+    void onScheduleMessagePumpWork(long delay_ms);
 }

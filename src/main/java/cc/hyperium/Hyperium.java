@@ -1,5 +1,5 @@
 /*
- *     Copyright (C) 2018  Hyperium <https://hyperium.cc/>
+ *     Copyright (C) 2018-present Hyperium <https://hyperium.cc/>
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU Lesser General Public License as published
@@ -64,7 +64,7 @@ import cc.hyperium.mods.HyperiumModIntegration;
 import cc.hyperium.mods.autofriend.command.AutofriendCommand;
 import cc.hyperium.mods.autogg.AutoGG;
 import cc.hyperium.mods.common.ToggleSprintContainer;
-import cc.hyperium.mods.discord.RichPresenceManager;
+import cc.hyperium.mods.discord.DiscordPresence;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.mods.sk1ercommon.Sk1erMod;
 import cc.hyperium.mods.statistics.GeneralStatisticsTracking;
@@ -128,7 +128,7 @@ public class Hyperium {
     public static boolean IS_BETA;
     private static boolean updateQueue = false;
     private final GeneralStatisticsTracking statTrack = new GeneralStatisticsTracking();
-    private final RichPresenceManager richPresenceManager = new RichPresenceManager();
+    private final DiscordPresence richPresenceManager = new DiscordPresence();
     private final ConfirmationPopup confirmation = new ConfirmationPopup();
     public boolean isLatestVersion;
     private NotificationCenter notification;
@@ -137,17 +137,12 @@ public class Hyperium {
     private HyperiumModIntegration modIntegration;
     private MinigameListener minigameListener;
     private boolean acceptedTos = false;
-    private boolean fullScreen = false;
-    private boolean checkedForUpdate = false;
     private boolean optifineInstalled = false;
     public boolean isDevEnv;
     private Sk1erMod sk1erMod;
     private NettyClient client;
     private InternalAddons internalAddons;
     private NetworkHandler networkHandler;
-    /**
-     * @param event initialize Hyperium
-     */
     private boolean firstLaunch = false;
     private HyperiumScheduler scheduler;
 
@@ -173,7 +168,7 @@ public class Hyperium {
                 this.client = new NettyClient(networkHandler);
                 UniversalNetty.getInstance().getPacketManager().register(new LoginReplyHandler());
             });
-            Multithreading.runAsync(() -> new PlayerStatsGui(null));//Don't remove, we need to generate some stuff with Gl context
+            Multithreading.runAsync(() -> new PlayerStatsGui(null)); // Don't remove, we need to generate some stuff with Gl context
             notification = new NotificationCenter();
             scheduler = new HyperiumScheduler();
             InputStream resourceAsStream = getClass().getResourceAsStream("/build.txt");
@@ -270,14 +265,13 @@ public class Hyperium {
 
             Runtime.getRuntime().addShutdownHook(new Thread(this::shutdown));
 
-            richPresenceManager.init();
+            richPresenceManager.load();
 
             if (acceptedTos) {
                 sk1erMod = new Sk1erMod("hyperium", Metadata.getVersion(), object -> {
-                    //Callbackd
+                    //Callback
                     if (object.has("enabled") && !object.optBoolean("enabled")) {
                         //Disable stuff
-                        // EventBus.INSTANCE.disable(); dont think this is needed?
                         getHandlers().getHyperiumCommandHandler().clear();
                     }
                 });
@@ -312,7 +306,7 @@ public class Hyperium {
                         }
                     }
                 } else {
-                    System.out.println("[Chat Handler] Not restoring chat");
+                    System.out.println("[Chat Handler] chat.txt not found, not restoring chat");
                 }
             });
 
@@ -320,11 +314,11 @@ public class Hyperium {
                 isLatestVersion = UpdateUtils.INSTANCE.isAbsoluteLatest();
                 IS_BETA = UpdateUtils.INSTANCE.isBeta();
             });
-            // Check if Optifine is installed.
+            // Check if OptiFine is installed.
             try {
                 Class.forName("optifine.OptiFineTweaker");
                 optifineInstalled = true;
-                System.out.println("[OptiFine] installation detected!");
+                System.out.println("Optifine is currently installed.");
             } catch (ClassNotFoundException e) {
                 optifineInstalled = false;
             }

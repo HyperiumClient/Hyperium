@@ -147,11 +147,8 @@ public class EventBus {
             }
             try {
                 sub.getMethod().invoke(sub.getInstance(), event);
-            } catch (Exception e) {
-                if (e instanceof InvocationTargetException) {
-                    ((InvocationTargetException) e).getTargetException().printStackTrace();
-                }
-                e.printStackTrace();
+            } catch (Exception InvocationTargetException) {
+                InvocationTargetException.printStackTrace();
             }
             if (profile) {
                 Minecraft.getMinecraft().mcProfiler.endSection();

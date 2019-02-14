@@ -26,20 +26,20 @@ public class Colors {
     @ConfigOpt
     @ToggleSetting(category = Category.GLINTCOLORIZER, mods = true, name = "Enabled")
     public static boolean enabled = false;
-    private static float[] onepoint8glintcolorF = Color.RGBtoHSB((int) Colors.glintR, (int) Colors.glintG, (int) Colors.glintB, null);
+    private static float[] onepoint8glintcolorF = Color.RGBtoHSB(Colors.glintR, Colors.glintG, Colors.glintB, null);
     public static int onepoint8glintcolorI = Color.HSBtoRGB(Colors.onepoint8glintcolorF[0], Colors.onepoint8glintcolorF[1], Colors.onepoint8glintcolorF[2]);
 
     public static void setonepoint8color(int r, int g, int b) {
         Colors.glintR = r;
         Colors.glintG = g;
         Colors.glintB = b;
-        Colors.onepoint8glintcolorF = Color.RGBtoHSB((int) Colors.glintR, (int) Colors.glintG, (int) Colors.glintB, null);
+        Colors.onepoint8glintcolorF = Color.RGBtoHSB(Colors.glintR, Colors.glintG, Colors.glintB, null);
         Colors.onepoint8glintcolorI = Color.HSBtoRGB(Colors.onepoint8glintcolorF[0], Colors.onepoint8glintcolorF[1], Colors.onepoint8glintcolorF[2]);
     }
 
     public void setChroma(boolean bool) {
         if (!(Colors.chroma = bool)) {
-            Colors.onepoint8glintcolorF = Color.RGBtoHSB((int) Colors.glintR, (int) Colors.glintG, (int) Colors.glintB, null);
+            Colors.onepoint8glintcolorF = Color.RGBtoHSB(Colors.glintR, Colors.glintG, Colors.glintB, null);
             Colors.onepoint8glintcolorI = Color.HSBtoRGB(Colors.onepoint8glintcolorF[0], Colors.onepoint8glintcolorF[1], Colors.onepoint8glintcolorF[2]);
         }
     }

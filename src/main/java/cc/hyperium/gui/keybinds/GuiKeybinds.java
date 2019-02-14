@@ -38,7 +38,6 @@ public class GuiKeybinds extends HyperiumGui {
     private int initialGuiScale;
 
     public GuiKeybinds() {
-        initialGuiScale = Minecraft.getMinecraft().gameSettings.guiScale;
 
         // Change the GUI scale to the intended one.
         Minecraft.getMinecraft().gameSettings.guiScale = 3;
@@ -150,12 +149,9 @@ public class GuiKeybinds extends HyperiumGui {
             return true;
         }
 
-        if (centre + (buttonHeight / 2) > bottomGui) {
-            // Button has been scrolled down too far.
-            return true;
-        }
+        // Button has been scrolled down too far.
+        return centre + (buttonHeight / 2) > bottomGui;
 
-        return false;
     }
 
     private List<List<KeybindEntry>> divideList(List<KeybindEntry> inputList, int number) {
@@ -175,6 +171,13 @@ public class GuiKeybinds extends HyperiumGui {
         }
 
         return partitions;
+    }
+
+    @Override
+    public void show() {
+        initialGuiScale = Minecraft.getMinecraft().gameSettings.guiScale;
+        Minecraft.getMinecraft().gameSettings.guiScale = 2;
+        super.show();
     }
 
     @Override
@@ -249,6 +252,7 @@ public class GuiKeybinds extends HyperiumGui {
     public void onGuiClosed() {
         // Reset back to the user's normal GUI scale.
         Minecraft.getMinecraft().gameSettings.guiScale = initialGuiScale;
+        Hyperium.CONFIG.save();
 
         super.onGuiClosed();
         openPreviousGui();

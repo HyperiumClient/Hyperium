@@ -10,7 +10,7 @@ open class OverlayLabel(label: String, enabled: Boolean, var click: Runnable) : 
     private val fr = HyperiumFontRenderer("Arial", Font.PLAIN, 20)
 
     init {
-        this.label = label;
+        this.label = label
     }
 
     constructor(label: String) : this(label, true, click = Runnable { })

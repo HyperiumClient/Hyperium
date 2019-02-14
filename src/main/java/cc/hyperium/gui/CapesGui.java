@@ -93,7 +93,7 @@ public class CapesGui extends HyperiumGui implements GuiYesNoCallback {
                 runnable.run();
             }
         }
-        Minecraft.getMinecraft().displayGuiScreen(this);
+        Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(this);
     }
 
     @Override
@@ -295,7 +295,7 @@ public class CapesGui extends HyperiumGui implements GuiYesNoCallback {
                             purchasing = true;
                             Integer integer = intMap.computeIfAbsent(s, s3 -> ++purchaseIds);
                             GuiYesNo gui = new GuiYesNo(this, "Purchase " + s, "", integer);
-                            Minecraft.getMinecraft().displayGuiScreen(gui);
+                            Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(gui);
                             ids.put(integer, () -> {
                                 GeneralChatHandler.instance().sendMessage("Attempting to purchase " + s);
                                 NettyClient client = NettyClient.getClient();

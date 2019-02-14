@@ -119,8 +119,6 @@ public class ReachDisplay {
         AxisAlignedBB axisalignedbb = entity1.getEntityBoundingBox().expand((double) f1, (double) f1, (double) f1);
         MovingObjectPosition movingobjectposition = axisalignedbb.calculateIntercept(vec3, vec32);
         if (movingobjectposition == null) {
-            System.out.println("intercept null");
-
             return;
         }
         Vec3 vec33 = movingobjectposition.hitVec;

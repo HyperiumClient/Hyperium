@@ -29,6 +29,7 @@ import cc.hyperium.mods.chromahud.displayitems.hyperium.MemoryDisplay;
 import cc.hyperium.mods.chromahud.displayitems.hyperium.MinigameDisplay;
 import cc.hyperium.mods.chromahud.displayitems.hyperium.PlayerDisplay;
 import cc.hyperium.mods.chromahud.displayitems.hyperium.RatingDisplay;
+import cc.hyperium.mods.chromahud.displayitems.hyperium.ReachDisplay;
 import cc.hyperium.mods.chromahud.displayitems.hyperium.ScoreboardDisplay;
 import cc.hyperium.mods.chromahud.displayitems.hyperium.ToggleSprintStatus;
 import cc.hyperium.utils.JsonHolder;
@@ -55,6 +56,7 @@ public class HyperiumChromaHudParser implements ChromaHUDParser {
         names.put("DOUBLE_CPS_DISPLAY", "L+R CPS Display");
         names.put("SPRINT_STATUS", "ToggleSprint Status");
         names.put("MEMORY", "Memory Display");
+        names.put("REACH_DISPLAY", "Reach Display");
     }
 
     @Override
@@ -82,6 +84,8 @@ public class HyperiumChromaHudParser implements ChromaHUDParser {
                 return new ToggleSprintStatus(item, ord);
             case "MEMORY":
                 return new MemoryDisplay(item, ord);
+            case "REACH_DISPLAY":
+                return new ReachDisplay(item, ord);
         }
         return null;
     }

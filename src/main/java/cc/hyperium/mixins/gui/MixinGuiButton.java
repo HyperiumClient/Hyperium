@@ -54,6 +54,10 @@ public abstract class MixinGuiButton extends Gui {
     @Shadow
     protected abstract void mouseDragged(Minecraft mc, int mouseX, int mouseY);
 
+    /**
+     * @author Cubxity
+     * @reason Custom buttons
+     */
     @Overwrite
     public void drawButton(Minecraft mc, int mouseX, int mouseY) {
         hyperiumButton.drawButton(mc, mouseX, mouseY);

@@ -21,6 +21,7 @@ import cc.hyperium.Hyperium;
 import cc.hyperium.commands.BaseCommand;
 import cc.hyperium.commands.CommandException;
 import cc.hyperium.config.ConfigOpt;
+import cc.hyperium.config.Settings;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.RenderHUDEvent;
@@ -98,108 +99,105 @@ public class BrowserMod extends AbstractMod implements IDisplayHandler, IJSQuery
 
         registerCommands();
         Multithreading.runAsync(() -> {
-            long start = System.currentTimeMillis();
-            JFrame jFrame = new JFrame("Hyperium Keycode Initializer (Please ignore)");
-            jFrame.add(new JPanel());
-            jFrame.setSize(300, 300);
+            if (Settings.BROWSER_DOWNLOAD) {
+                long start = System.currentTimeMillis();
+                JFrame jFrame = new JFrame("Hyperium Keycode Initializer (Please ignore)");
+                jFrame.add(new JPanel());
+                jFrame.setSize(300, 300);
 
-            JTextField jTextField = new JTextField();
-            jTextField.setSize(300, 300);
+                JTextField jTextField = new JTextField();
+                jTextField.setSize(300, 300);
 
-            jTextField.addKeyListener(new KeyListener() {
+                jTextField.addKeyListener(new KeyListener() {
 
-                @Override
-                public void keyTyped(KeyEvent e) {
-                }
-
-                @Override
-                public void keyPressed(KeyEvent e) {
-                    if (keyPressesMap.containsKey(currentKey)) {
-                        return;
+                    @Override
+                    public void keyTyped(KeyEvent e) {
                     }
-                    try {
-                        currentKeyTriple.setLeft(e);
-                    } catch (NullPointerException ex) {
-                        currentKeyTriple.setLeft(e);
-                    }
-                }
 
-                @Override
-                public void keyReleased(KeyEvent e) {
-                    if (keyPressesMap.containsKey(currentKey)) {
-                        return;
-                    }
-                    try {
-                        currentKeyTriple.setMiddle(e);
-                    } catch (NullPointerException ex) {
-                        currentKeyTriple.setMiddle(e);
-                    }
-                }
-            });
-
-            jFrame.add(jTextField);
-            jFrame.setVisible(true);
-            jFrame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
-            jFrame.requestFocus();
-            jTextField.requestFocus();
-
-            try {
-                int[] keyPressList = new int[]{KeyEvent.VK_BACK_SPACE, KeyEvent.VK_DELETE,
-                    KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT};
-                Robot robot = AccessController.doPrivileged(
-                    (PrivilegedExceptionAction<Robot>) () -> new Robot(
-                        jTextField.getGraphicsConfiguration().getDevice()));
-
-                robot.mouseMove(0, 0);
-                try {
-                    robot.keyPress(KeyEvent.VK_QUOTE);
-                    robot.keyRelease(KeyEvent.VK_QUOTE);
-                } catch (IllegalArgumentException e) {
-                    try {
-                        robot.keyPress(KeyEvent.VK_SHIFT);
-                        robot.keyPress(KeyEvent.VK_2);
-                        robot.keyRelease(KeyEvent.VK_2);
-                        robot.keyRelease(KeyEvent.VK_SHIFT);
-                    } catch (IllegalArgumentException ex) {
-                        ex.printStackTrace();
-                    }
-                }
-                jFrame.setAlwaysOnTop(true);
-
-                end:
-                for (int key : keyPressList) {
-
-                    currentKeyTriple = new MutableTriple<>();
-                    currentKey = key;
-
-                    jFrame.toFront();
-                    jFrame.setState(Frame.NORMAL);
-
-                    robot.keyPress(key);
-                    robot.keyRelease(key);
-                    while (currentKeyTriple.getLeft() == null
-                        || currentKeyTriple.getMiddle() == null) {
-                        if (System.currentTimeMillis() - start < 2000) {
-                            break end;
+                    @Override
+                    public void keyPressed(KeyEvent e) {
+                        if (keyPressesMap.containsKey(currentKey)) {
+                            return;
                         }
-                        Thread.sleep(1L);
+                        try {
+                            currentKeyTriple.setLeft(e);
+                        } catch (NullPointerException ex) {
+                            currentKeyTriple.setLeft(e);
+                        }
                     }
-                    keyPressesMap.put(key, currentKeyTriple);
+
+                    @Override
+                    public void keyReleased(KeyEvent e) {
+                        if (keyPressesMap.containsKey(currentKey)) {
+                            return;
+                        }
+                        try {
+                            currentKeyTriple.setMiddle(e);
+                        } catch (NullPointerException ex) {
+                            currentKeyTriple.setMiddle(e);
+                        }
+                    }
+                });
+                jFrame.add(jTextField);
+                jFrame.setVisible(true);
+                jFrame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+                jFrame.requestFocus();
+                jTextField.requestFocus();
+
+                try {
+                    int[] keyPressList = new int[]{KeyEvent.VK_BACK_SPACE, KeyEvent.VK_DELETE,
+                        KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT};
+                    Robot robot = AccessController.doPrivileged(
+                        (PrivilegedExceptionAction<Robot>) () -> new Robot(
+                            jTextField.getGraphicsConfiguration().getDevice()));
+
+                    robot.mouseMove(0, 0);
+                    try {
+                        robot.keyPress(KeyEvent.VK_QUOTE);
+                        robot.keyRelease(KeyEvent.VK_QUOTE);
+                    } catch (IllegalArgumentException e) {
+                        try {
+                            robot.keyPress(KeyEvent.VK_SHIFT);
+                            robot.keyPress(KeyEvent.VK_2);
+                            robot.keyRelease(KeyEvent.VK_2);
+                            robot.keyRelease(KeyEvent.VK_SHIFT);
+                        } catch (IllegalArgumentException ex) {
+                            ex.printStackTrace();
+                        }
+                    }
+                    jFrame.setAlwaysOnTop(true);
+
+                    end:
+                    for (int key : keyPressList) {
+
+                        currentKeyTriple = new MutableTriple<>();
+                        currentKey = key;
+
+                        jFrame.toFront();
+                        jFrame.setState(Frame.NORMAL);
+
+                        robot.keyPress(key);
+                        robot.keyRelease(key);
+                        while (currentKeyTriple.getLeft() == null
+                            || currentKeyTriple.getMiddle() == null) {
+                            if (System.currentTimeMillis() - start < 2000) {
+                                break end;
+                            }
+                            Thread.sleep(1L);
+                        }
+                        keyPressesMap.put(key, currentKeyTriple);
+                    }
+                    currentKey = 0;
+                    currentKeyTriple = null;
+                    jFrame.dispose();
+                } catch (PrivilegedActionException | InterruptedException e) {
+                    e.printStackTrace();
                 }
-                currentKey = 0;
-                currentKeyTriple = null;
-                jFrame.dispose();
-            } catch (PrivilegedActionException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
             }
         });
 
-
         return this;
     }
-
     @Override
     public Metadata getModMetadata() {
         return new Metadata(this, "Browser", "1.0", "KodingKing");
@@ -363,10 +361,10 @@ public class BrowserMod extends AbstractMod implements IDisplayHandler, IJSQuery
         if (Minecraft.getMinecraft().currentScreen instanceof GuiBrowser) {
             ((GuiBrowser) Minecraft.getMinecraft().currentScreen).loadURL(homePage);
         } else if (backup != null) {
-            Minecraft.getMinecraft().displayGuiScreen(backup);
+            Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(backup);
             backup.loadURL(null);
         } else {
-            Minecraft.getMinecraft().displayGuiScreen(browserGui);
+            Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(browserGui);
         }
     }
 

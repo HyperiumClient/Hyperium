@@ -38,6 +38,7 @@ import java.util.List;
 
 @Mixin(RendererLivingEntity.class)
 public abstract class MixinRendererLivingEntity<T extends EntityLivingBase> extends Render<T> {
+
     @Shadow
     private List<LayerRenderer<T>> layerRenderers;
 
@@ -47,11 +48,6 @@ public abstract class MixinRendererLivingEntity<T extends EntityLivingBase> exte
     protected MixinRendererLivingEntity(RenderManager renderManager) {
         super(renderManager);
     }
-
-
-    @Shadow
-    protected abstract float getDeathMaxRotation(T entityLivingBaseIn);
-
 
     /**
      * @author Sk1er
@@ -91,6 +87,7 @@ public abstract class MixinRendererLivingEntity<T extends EntityLivingBase> exte
 
     /**
      * @author Sk1er
+     * @reason 1.7 Red Armor
      */
     @Overwrite
     protected void renderLayers(T entitylivingbaseIn, float p_177093_2_, float p_177093_3_, float partialTicks, float p_177093_5_, float p_177093_6_, float p_177093_7_, float p_177093_8_) {
@@ -98,7 +95,8 @@ public abstract class MixinRendererLivingEntity<T extends EntityLivingBase> exte
     }
 
     /**
-     * @author Hyperium
+     * @author Sk1er
+     * @reason Flip Cosmetic
      */
     @Overwrite
     protected void rotateCorpse(T bat, float p_77043_2_, float p_77043_3_, float partialTicks) {

@@ -39,11 +39,7 @@ public class UpdateUtils {
         JsonObject json = apiUtils.getJson();
         int version = apiUtils.getVersion(json);
 
-        if (version > Metadata.getVersionID()) {
-            return false;
-        } else {
-            return true;
-        }
+        return version <= Metadata.getVersionID();
     }
 
     public boolean isBeta() {

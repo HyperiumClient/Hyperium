@@ -15,7 +15,7 @@ public interface CefDragHandler {
     /**
      *
      */
-    public static final class DragOperationMask {
+    final class DragOperationMask {
         public static final int DRAG_OPERATION_NONE = 0;
         public static final int DRAG_OPERATION_COPY = 1;
         public static final int DRAG_OPERATION_LINK = 2;
@@ -35,5 +35,5 @@ public interface CefDragHandler {
      * @return false for default drag handling behavior or true to
      * cancel the drag event.
      */
-    public boolean onDragEnter(CefBrowser browser, CefDragData dragData, int mask);
+    boolean onDragEnter(CefBrowser browser, CefDragData dragData, int mask);
 }

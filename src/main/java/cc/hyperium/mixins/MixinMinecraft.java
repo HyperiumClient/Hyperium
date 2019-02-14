@@ -26,7 +26,6 @@ import cc.hyperium.event.WorldLoadEvent;
 import cc.hyperium.mixinsimp.HyperiumMinecraft;
 import com.chattriggers.ctjs.minecraft.objects.message.TextComponent;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiIngame;
@@ -38,7 +37,6 @@ import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.resources.DefaultResourcePack;
 import net.minecraft.client.resources.IResourcePack;
-import net.minecraft.client.resources.ResourcePackRepository;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.client.shader.Framebuffer;
 import net.minecraft.crash.CrashReport;
@@ -64,56 +62,68 @@ import java.util.List;
 public abstract class MixinMinecraft {
 
     @Shadow
-    private static Minecraft theMinecraft;
-    @Shadow
     public FontRenderer fontRendererObj;
+
     @Shadow
     @Final
     public Profiler mcProfiler;
+
     @Shadow
     public boolean inGameHasFocus;
+
     @Shadow
     public GuiAchievement guiAchievement;
+
     @Shadow
-    private int displayHeight;
+    public int displayHeight;
+
     @Shadow
-    private int displayWidth;
+    public int displayWidth;
+
     @Shadow
-    private GuiScreen currentScreen;
+    public GuiScreen currentScreen;
+
     @Shadow
-    private WorldClient theWorld;
+    public WorldClient theWorld;
+
     @Shadow
-    private EntityPlayerSP thePlayer;
+    public EntityPlayerSP thePlayer;
+
     @Shadow
-    private GameSettings gameSettings;
+    public GameSettings gameSettings;
+
     @Shadow
-    private GuiIngame ingameGUI;
-    @Shadow
-    private boolean skipRenderWorld;
+    public GuiIngame ingameGUI;
+
     @Shadow
     private boolean fullscreen;
+
     @Shadow
     @Final
     private DefaultResourcePack mcDefaultResourcePack;
-    @Shadow
-    private SoundHandler mcSoundHandler;
+
     @Shadow
     @Final
     private List<IResourcePack> defaultResourcePacks;
+
     @Shadow
     private boolean enableGLErrorChecking;
+
     private HyperiumMinecraft hyperiumMinecraft = new HyperiumMinecraft((Minecraft) (Object) this);
+
     @Shadow
     private Timer timer;
+
     @Shadow
     private RenderManager renderManager;
+
     @Shadow
-    private ResourcePackRepository mcResourcePackRepository;
-    @Shadow
-    private long systemTime;
+    long systemTime;
+
     @Final
     @Shadow
     public File mcDataDir;
+
     @Shadow
     private Framebuffer framebufferMc;
 
@@ -239,9 +249,8 @@ public abstract class MixinMinecraft {
     }
 
     /**
-     * Sets Minecraft Icon
-     *
      * @author Cubxity
+     * @reason Set Minecraft icon to Hyperium icon
      */
     @Overwrite
     private void setWindowIcon() {
@@ -249,9 +258,8 @@ public abstract class MixinMinecraft {
     }
 
     /**
-     * A change to gui display so a "GuiOpenEvent" can be called to set the screen
-     *
      * @author boomboompower
+     * @reason GuiOpenEvent post
      */
     @Overwrite
     public void displayGuiScreen(GuiScreen guiScreenIn) {
@@ -270,15 +278,11 @@ public abstract class MixinMinecraft {
     public abstract void run();
 
     @Shadow
-    public abstract boolean isCallingFromMinecraftThread();
-
-    @Shadow
     public EffectRenderer effectRenderer;
 
     /**
-     * change to splash screen logo
-     *
      * @author Cubxity
+     * @reason Change splash screen
      */
     @Overwrite
     private void drawSplashScreen(TextureManager tm) {
@@ -327,6 +331,7 @@ public abstract class MixinMinecraft {
 
     /**
      * @author Mojang & Cubxity
+     * @reason Hyperium's crash-report screen
      */
     @Overwrite
     public void displayCrashReport(CrashReport crashReportIn) {

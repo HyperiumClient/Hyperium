@@ -1,6 +1,6 @@
 
 # Hyperium Disclaimers
-menu.left=حقوق الطبع والنشر 2018 Hyperium Dev Team
+menu.left=حقوق الطبع والنشر 2019 Hyperium Dev Team
 menu.right=لا ينتمي إلى آب Mojang
 
 # Hyperium Buttons
@@ -141,7 +141,6 @@ gui.settings.windowedfullscreen=ملء الشاشة مع اطار
 gui.settings.bossbartextonly=عمود الوحوش - كتابة فقط
 gui.settings.staticfov=المتحكم بمدى الرؤية
 gui.settings.uploadscreenshots=نشر الصور المأخوذة (بعد التقاطها تلقائيا)
-gui.settings.hidescoreboardnumbers=إخفاء أرقام لوحة النقاط
 gui.settings.blurredguibackground=خلفية ضبابية
 gui.settings.chromahudonallservers=على كل السيرفرات - ChromaHud
 gui.settings.screenshotonkill=لقطة شاشه على القتل
@@ -180,7 +179,6 @@ gui.settings.showplayersasblocks=إظهار اللاعبين ككتل
 gui.settings.pingondm=بينغ على مارك ألماني
 gui.settings.sprintbypassstaticfov=السباق تجاوز ثابتة فوف
 gui.settings.sprintandperspectivemessages=السباق ومنظور رسائل
-gui.settings.autowho=اوتوماتيك مين
 gui.settings.showdragonhead=إظهار رأس التنين
 gui.settings.wingsheight=ارتفاع أجنحة
 gui.settings.showwings=إظهار الأجنحة
@@ -207,8 +205,8 @@ gui.settings.details=التفاصيل
 gui.settings.showuserdotsonnametags=إظهار نقاط المستخدم في الأسم
 gui.settings.colortype=نوع اللون
 gui.settings.red=أحمر
-gui.settings.blue=أزرق
 gui.settings.green=أخضر
+gui.settings.blue=أزرق
 gui.settings.togglesprint=الركض التلقائي
 gui.settings.broadcastlevelups=بث ارتفاع القدرة
 gui.settings.broadcastachievements=بث الإنجازات
@@ -232,6 +230,14 @@ gui.settings.disableenchantglint=Disable Enchantment Glint
 gui.settings.disabletitles=Disable Titles
 gui.settings.thankwatchdog=Thank Watchdog
 gui.settings.fpslimiteramount=FPS Limiter Amount
+gui.settings.directionhudshort=Direction HUD First Letter Only
+gui.settings.disablelightning=Disable Lightning Bolts
+gui.settings.disablearmorstands=Disable Armorstands
+gui.settings.keeplightinguhc=Keep Lightning Bolts in UHC
+gui.settings.disableitemframes=Disable Item Frames
+gui.settings.confirmdisconnect=Confirm Disconnect
+gui.settings.confirmquit=Confirm Quit
+gui.settings.hotbarkeys=Hotbar Keys
 
 # Hyperium Splash Progress
 splashprogress.startinggame=بدء اللعبة...
@@ -250,6 +256,8 @@ splashprogress.finishing=التشطيب...
 
 # Hyperium Misc Gui Text
 gui.namehistory.text=NAME HISTORY
+gui.confirmdisconnect.text=Are you sure you want to disconnect?
+gui.confirmquit.text=Are you sure you want to quit?
 
 # Hyperium Chat Message
 message.insufficientcredits=Insufficient credits

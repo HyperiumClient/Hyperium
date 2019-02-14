@@ -36,10 +36,12 @@ public class GuiBlock {
     private int right;
     private int top;
     private int bottom;
-    private boolean expandRight = true;
-    private boolean printRight = false;
+    private boolean expandRight;
+    private boolean printRight;
 
     public GuiBlock(int left, int right, int top, int bottom) {
+        this.expandRight = true;
+        this.printRight = false;
         this.left = left;
         this.right = right;
         this.top = top;
@@ -48,34 +50,35 @@ public class GuiBlock {
 
     @Override
     public String toString() {
-        return "GuiBlock{" +
-            "left=" + left +
-            ", right=" + right +
-            ", top=" + top +
-            ", bottom=" + bottom +
-            '}';
+        return "GuiBlock{left=" + this.left + ", right=" + this.right + ", top=" + this.top + ", bottom=" + this.bottom + '}';
     }
 
     public int getWidth() {
-        return right - left;
+        return this.right - this.left;
     }
 
     public int getHeight() {
-        return bottom - top;
+        return this.bottom - this.top;
     }
 
     public void ensureWidth(int width, boolean scaleRight) {
-        if (getWidth() < width)
-            if (scaleRight)
-                right = left + width;
-            else left = right - width;
+        if (this.getWidth() < width) {
+            if (scaleRight) {
+                this.right = this.left + width;
+            } else {
+                this.left = this.right - width;
+            }
+        }
     }
 
     public void ensureHeight(int height, boolean scaleBottom) {
-        if (getHeight() < height)
-            if (scaleBottom)
-                bottom = top + height;
-            else top = bottom - height;
+        if (this.getHeight() < height) {
+            if (scaleBottom) {
+                this.bottom = this.top + height;
+            } else {
+                this.top = this.bottom - height;
+            }
+        }
     }
 
     public int getLeft() {
@@ -103,7 +106,7 @@ public class GuiBlock {
     }
 
     public boolean isMouseOver(int x, int y) {
-        return x >= left && x <= right && y >= top && y <= bottom;
+        return x >= this.left && x <= this.right && y >= this.top && y <= this.bottom;
     }
 
     public int getBottom() {
@@ -123,10 +126,10 @@ public class GuiBlock {
     }
 
     public void translate(int x, int y) {
-        left += x;
-        right += x;
-        top += y;
-        bottom += y;
+        this.left += x;
+        this.right += x;
+        this.top += y;
+        this.bottom += y;
     }
 
     public void scalePosition(float amount) {
@@ -139,50 +142,60 @@ public class GuiBlock {
     public boolean drawString(String string, FontRenderer fontRenderer, boolean shadow, boolean center, int xOffset, int yOffset, boolean scaleToFitX, boolean scaleToFixY, int color, boolean sideLeft) {
         int stringWidth = fontRenderer.getStringWidth(string);
         int x;
-        if (sideLeft)
-            x = left + xOffset;
-        else x = right - stringWidth - xOffset;
 
-        int y = top + yOffset;
+        if (sideLeft) {
+            x = this.left + xOffset;
+        } else {
+            x = this.right - stringWidth - xOffset;
+        }
+
+        int y = this.top + yOffset;
 
         if (center) {
             x -= stringWidth / 2;
         }
+
         if (sideLeft) {
-            if (x + stringWidth > right) {
-                if (scaleToFitX)
-                    if (expandRight)
-                        right = x + stringWidth + xOffset;
-                    else {
-                        left = right - stringWidth - xOffset;
-                        x = left;
-                    }
-                else return false;
+            if (x + stringWidth > this.right) {
+                if (!scaleToFitX) {
+                    return false;
+                }
+
+                if (this.expandRight) {
+                    this.right = x + stringWidth + xOffset;
+                } else {
+                    this.left = this.right - stringWidth - xOffset;
+                    x = this.left;
+                }
             }
-        } else {
-            if (right - stringWidth < left) {
-                if (scaleToFitX) {
-                    if (expandRight) {
-                        right = x + stringWidth + xOffset;
-                        x = right;
-                    } else {
-                        left = right - stringWidth - xOffset;
-                    }
-                } else return false;
+        } else if (this.right - stringWidth < this.left) {
+            if (!scaleToFitX) {
+                return false;
+            }
+
+            if (this.expandRight) {
+                this.right = x + stringWidth + xOffset;
+                x = this.right;
+            } else {
+                this.left = this.right - stringWidth - xOffset;
             }
         }
 
-        if (y + 10 > bottom) {
-            if (scaleToFixY)
-                bottom = y + 10;
-            else return false;
+        if (y + 10 > this.bottom) {
+            if (!scaleToFixY) {
+                return false;
+            }
+            this.bottom = y + 10;
         }
-        if (y < top) {
-            if (scaleToFixY)
-                top = y;
-            else return false;
+
+        if (y < this.top) {
+            if (!scaleToFixY) {
+                return false;
+            }
+            this.top = y;
         }
-        fontRenderer.drawString(string, x, y, color, shadow);
+
+        fontRenderer.drawString(string, (float) x, (float) y, color, shadow);
         return true;
     }
 
@@ -200,5 +213,9 @@ public class GuiBlock {
 
     public void setPrintRight(boolean printRight) {
         this.printRight = printRight;
+    }
+
+    public GuiBlock multiply(double scale) {
+        return new GuiBlock((int) (left * scale), (int) (right * scale), (int) (top * scale), (int) (bottom * scale));
     }
 }

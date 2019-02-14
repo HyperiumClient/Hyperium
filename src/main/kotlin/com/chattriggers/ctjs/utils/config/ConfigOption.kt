@@ -1,6 +1,7 @@
 package com.chattriggers.ctjs.utils.config
 
 import com.chattriggers.ctjs.minecraft.libs.renderer.Renderer
+import com.chattriggers.ctjs.minecraft.libs.renderer.Text
 import com.chattriggers.ctjs.minecraft.wrappers.Client
 import net.minecraft.client.gui.GuiButton
 
@@ -37,7 +38,7 @@ abstract class ConfigOption {
         //$$ this.resetButton.drawButton(Client.getMinecraft(), mouseX, mouseY, partialTicks);
         //#endif
 
-        Renderer.text("\u21BA", (Renderer.screen.getWidth() / 2 - 100 + this.x + 189).toFloat(), (this.y - 4).toFloat())
+        Text("\u21BA", (Renderer.screen.getWidth() / 2 - 100 + this.x + 189).toFloat(), (this.y - 4).toFloat())
                 .setScale(2f)
                 .setColor(-0x1)
                 .setShadow(true)

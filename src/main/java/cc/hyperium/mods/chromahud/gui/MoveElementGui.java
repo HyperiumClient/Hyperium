@@ -17,6 +17,7 @@
 
 package cc.hyperium.mods.chromahud.gui;
 
+import cc.hyperium.Hyperium;
 import cc.hyperium.mods.chromahud.ChromaHUD;
 import cc.hyperium.mods.chromahud.DisplayElement;
 import cc.hyperium.mods.chromahud.ElementRenderer;
@@ -56,7 +57,7 @@ class MoveElementGui extends GuiScreen {
         super.initGui();
         reg("", (edit = new GuiButton(1, 5, 5, 100, 20, "Save")), button -> {
             //Open Gui for editing element
-            Minecraft.getMinecraft().displayGuiScreen(new DisplayElementConfig(element, mod));
+            Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new DisplayElementConfig(element, mod));
         }, (guiButton) -> {
         });
     }
