@@ -19,6 +19,7 @@ package cc.hyperium.mods.levelhead;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.config.ConfigOpt;
+import cc.hyperium.config.Settings;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.TickEvent;
@@ -84,23 +85,23 @@ public class Levelhead extends AbstractMod {
     }
 
     public AbstractMod init() {
-        mod = new Sk1erMod(MODID, VERSION, object -> {
-            count = object.optInt("count");
-            this.wait = object.optInt("wait", Integer.MAX_VALUE);
-            //                GeneralChatHandler.instance().sendMessage("An error occurred whilst loading internal Levelhead info. ");
-            this.levelHeadInfoFailed = count == 0 || wait == Integer.MAX_VALUE;
-        });
-        Multithreading.runAsync(() -> types = new JsonHolder(mod.rawWithAgent("https://api.sk1er.club/levelhead_config")));
-        this.mod.checkStatus();
-        this.config = new LevelheadConfig();
-        Hyperium.CONFIG.register(config);
-        register(mod);
-        register(this);
-        userUuid = UUIDUtil.getClientUUID();
-        register(new LevelHeadRender(this), this);
+        if (!Settings.FPSMODE) {
+            mod = new Sk1erMod(MODID, VERSION, object -> {
+                count = object.optInt("count");
+                this.wait = object.optInt("wait", Integer.MAX_VALUE);
+                this.levelHeadInfoFailed = count == 0 || wait == Integer.MAX_VALUE;
+            });
+            Multithreading.runAsync(() -> types = new JsonHolder(mod.rawWithAgent("https://api.sk1er.club/levelhead_config")));
+            this.mod.checkStatus();
+            this.config = new LevelheadConfig();
+            Hyperium.CONFIG.register(config);
+            register(mod);
+            register(this);
+            userUuid = UUIDUtil.getClientUUID();
+            register(new LevelHeadRender(this), this);
 
-        Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(new LevelHeadCommand(this));
-
+            Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(new LevelHeadCommand(this));
+        }
         return this;
     }
 
@@ -111,19 +112,22 @@ public class Levelhead extends AbstractMod {
 
     @SuppressWarnings("SimplifiableIfStatement")
     public boolean loadOrRender(EntityPlayer player) {
-        if (!Hyperium.INSTANCE.getHandlers().getHypixelDetector().isHypixel())
+        if (!Hyperium.INSTANCE.getHandlers().getHypixelDetector().isHypixel()) {
             return false;
-        if (!this.config.isEnabled())
+        }
+        if (!this.config.isEnabled()) {
             return false;
-
+        }
         for (PotionEffect effect : player.getActivePotionEffects()) {
             if (effect.getPotionID() == 14)
                 return false;
         }
-        if (!renderFromTeam(player))
+        if (!renderFromTeam(player)) {
             return false;
-        if (player.riddenByEntity != null)
+        }
+        if (player.riddenByEntity != null) {
             return false;
+        }
         int min = Math.min(64 * 64, this.config.getRenderDistance() * this.config.getRenderDistance());
         if (player.getDistanceSqToEntity(Minecraft.getMinecraft().thePlayer) > min) {
             return false;
@@ -135,10 +139,12 @@ public class Levelhead extends AbstractMod {
         if (player.hasCustomName() && player.getCustomNameTag().isEmpty()) {
             return false;
         }
-        if (player.isInvisible() || player.isInvisibleToPlayer(Minecraft.getMinecraft().thePlayer))
+        if (player.isInvisible() || player.isInvisibleToPlayer(Minecraft.getMinecraft().thePlayer)) {
             return false;
-        if (player.isSneaking())
+        }
+        if (player.isSneaking()) {
             return false;
+        }
         return player.getAlwaysRenderNameTagForRender() && !player.getName().isEmpty();
     }
 
@@ -166,7 +172,7 @@ public class Levelhead extends AbstractMod {
 
     @InvokeEvent
     public void tick(TickEvent event) {
-        if (!Hyperium.INSTANCE.getHandlers().getHypixelDetector().isHypixel() || !this.config.isEnabled() || !this.mod.isEnabled()) {
+        if (!Hyperium.INSTANCE.getHandlers().getHypixelDetector().isHypixel() || !this.config.isEnabled() || !this.mod.isEnabled() || !Settings.FPSMODE) {
             return;
         }
         Minecraft mc = Minecraft.getMinecraft();
@@ -181,13 +187,15 @@ public class Levelhead extends AbstractMod {
 
             for (EntityPlayer entityPlayer : mc.theWorld.playerEntities) {
                 if (!existedMorethan5Seconds.contains(entityPlayer.getUniqueID())) {
-                    if (!timeCheck.containsKey(entityPlayer.getUniqueID()))
+                    if (!timeCheck.containsKey(entityPlayer.getUniqueID())) {
                         timeCheck.put(entityPlayer.getUniqueID(), 0);
+                    }
                     int old = timeCheck.get(entityPlayer.getUniqueID());
                     if (old > 100) {
                         existedMorethan5Seconds.add(entityPlayer.getUniqueID());
-                    } else if (!entityPlayer.isInvisibleToPlayer(Minecraft.getMinecraft().thePlayer))
+                    } else if (!entityPlayer.isInvisibleToPlayer(Minecraft.getMinecraft().thePlayer)) {
                         timeCheck.put(entityPlayer.getUniqueID(), old + 1);
+                    }
                 }
 
                 if (loadOrRender(entityPlayer)) {
@@ -233,8 +241,8 @@ public class Levelhead extends AbstractMod {
         JsonHolder headerObj = new JsonHolder();
         JsonHolder footerObj = new JsonHolder();
         JsonHolder construct = new JsonHolder();
-        //Support for serverside override for Custom Levelhead
-        //Apply values from server if present
+        // Support for serverside override for Custom Levelhead
+        // Apply values from server if present
         if (object.has("header_obj")) {
             headerObj = object.optJSONObject("header_obj");
             headerObj.put("custom", true);

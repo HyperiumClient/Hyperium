@@ -572,6 +572,10 @@ public class Settings {
     public static boolean BETTERF1 = false;
 
     @ConfigOpt
+    @ToggleSetting(name = "gui.settings.fps", category = GENERAL, mods = false)
+    public static boolean FPSMODE = false;
+
+    @ConfigOpt
     @SelectorSetting(name = "gui.settings.buttonstyle", category = BUTTONS, items = {
         "HYPERIUM",
         "HYPERIUM 2"

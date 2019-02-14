@@ -46,8 +46,7 @@ public class PurchaseSettings {
     public boolean isButtDisabled() {
         return buttDisabled;
     }
-
-
+    
     public EnumPurchaseType getCurrentHatType() {
         return currentHatType;
     }

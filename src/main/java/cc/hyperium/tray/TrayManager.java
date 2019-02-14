@@ -91,10 +91,10 @@ public class TrayManager {
             this.tray.displayMessage("Hypixel", "Friend request from " + event.getFrom(), TrayIcon.MessageType.NONE);
         }
     }
-
+    private static final String displayInfo = "Hyperium is a Hypixel Based 1.8.9 Client developed by Sk1er, CoalOres, Cubxity, KevinPriv and boomboompower. Version: " + Metadata.
+        getVersion();
     private void trayDisplayAboutInfo() {
         JOptionPane popup = new JOptionPane();
-        JOptionPane.showMessageDialog(popup, "Hyperium is a Hypixel Based 1.8.9 Client developed by Sk1er, CoalOres, Cubxity, KevinPriv and boomboompower. Version: " + Metadata
-            .getVersion(), "Hyperium - About", JOptionPane.PLAIN_MESSAGE);
+        JOptionPane.showMessageDialog(popup, displayInfo, "Hyperium - About", JOptionPane.PLAIN_MESSAGE);
     }
 }

@@ -16,9 +16,11 @@ public class PlayTime extends AbstractMod {
     @Override
     public AbstractMod init() {
         startConfigTime = Settings.TOTAL_PLAYTIME;
-        EventBus.INSTANCE.register(this);
-        Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(new PlayTimeCommand(this));
-        Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(new TotalPlayTimeCommand(this));
+        if (!Settings.FPSMODE) {
+            EventBus.INSTANCE.register(this);
+            Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(new PlayTimeCommand(this));
+            Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(new TotalPlayTimeCommand(this));
+        }
         startSysTime = System.currentTimeMillis();
         return this;
     }

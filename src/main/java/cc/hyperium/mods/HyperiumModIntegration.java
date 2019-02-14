@@ -94,7 +94,6 @@ public class HyperiumModIntegration {
         this.hgames = ((HGames) new HGames().init());
 
         // Old Animations implementation
-
         this.oldanimations = ((OldAnimations) new OldAnimations().init());
 
         // Block Overlay implementation
@@ -111,10 +110,10 @@ public class HyperiumModIntegration {
         NickHider nickHider = new NickHider();
         nickHider.init();
 
-        //Autofriend implementation
+        // Autofriend implementation
         this.autofriend = ((AutofriendMod) new AutofriendMod().init());
 
-        //Play Time addon port
+        // Play Time addon
         this.playTime = (PlayTime) new PlayTime().init();
 
         this.fncompass = (FortniteCompassMod) new FortniteCompassMod().init();

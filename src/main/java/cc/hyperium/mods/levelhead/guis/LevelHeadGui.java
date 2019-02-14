@@ -97,7 +97,7 @@ public class LevelHeadGui extends GuiScreen {
     }
 
     @Override
-    public void initGui() {
+    public void initGui() throws java.lang.NullPointerException {
         Multithreading.runAsync(() -> {
             String raw = Sk1erMod.getInstance().rawWithAgent("https://api.sk1er.club/levelhead/" + Minecraft.getMinecraft().getSession().getProfile().getId().toString().replace("-", ""));
             this.isCustom = new JsonHolder(raw).optBoolean("custom");
@@ -116,9 +116,9 @@ public class LevelHeadGui extends GuiScreen {
             config.setShowSelf(!config.isShowSelf());
             button.displayString = "Show self: " + (config.isShowSelf() ? ChatColor.GREEN + "On" : ChatColor.RED + "Off");
         });
-        //RGB -> Chroma
-        //Chroma -> Classic
-        //Classic -> RGB
+        // RGB -> Chroma
+        // Chroma -> Classic
+        // Classic -> RGB
         reg(new GuiButton(2, this.width / 2 - 155, calculateHeight(4), 150, 20, "Header Mode: " + getMode(true)), button -> {
             if (config.isHeaderRgb()) {
                 config.setHeaderRgb(false);

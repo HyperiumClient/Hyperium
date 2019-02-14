@@ -35,7 +35,9 @@ public class FortniteCompassMod extends AbstractMod {
     @Override
     public AbstractMod init() {
         this.fr = mc.fontRendererObj;
-        EventBus.INSTANCE.register(this);
+        if (!Settings.FPSMODE) {
+            EventBus.INSTANCE.register(this);
+        }
         return this;
     }
 

@@ -22,6 +22,7 @@ import cc.hyperium.addons.AbstractAddon;
 import cc.hyperium.addons.customcrosshair.command.CommandCustomCrosshair;
 import cc.hyperium.addons.customcrosshair.crosshair.CustomCrosshair;
 import cc.hyperium.addons.customcrosshair.utils.CustomCrosshairConfig;
+import cc.hyperium.config.Settings;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.utils.ChatColor;
 
@@ -42,19 +43,20 @@ public class CustomCrosshairAddon extends AbstractAddon {
 
     @Override
     public AbstractAddon init() {
-        EventBus.INSTANCE.register(this);
-        instance = this;
-        this.crosshair = new CustomCrosshair();
-        this.config = new CustomCrosshairConfig(this);
+        if(!Settings.FPSMODE) {
+            EventBus.INSTANCE.register(this);
+            instance = this;
+            this.crosshair = new CustomCrosshair();
+            this.config = new CustomCrosshairConfig(this);
 
-        if (!this.config.readSaveFile()) {
-            this.config.writeSaveFileDefault();
+            if (!this.config.readSaveFile()) {
+                this.config.writeSaveFileDefault();
+            }
+
+            Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(new CommandCustomCrosshair(this));
+
+            EventBus.INSTANCE.register(this.crosshair);
         }
-
-        Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(new CommandCustomCrosshair(this));
-
-        EventBus.INSTANCE.register(this.crosshair);
-
         return this;
     }
 

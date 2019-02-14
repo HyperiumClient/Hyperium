@@ -238,6 +238,7 @@ gui.settings.disableitemframes=Disable Item Frames
 gui.settings.confirmdisconnect=Confirm Disconnect
 gui.settings.confirmquit=Confirm Quit
 gui.settings.hotbarkeys=Hotbar Keys
+gui.settings.fps=FPS Mode (Requires restart) (BETA)
 
 # Hyperium Splash Progress
 splashprogress.startinggame=بدء اللعبة...

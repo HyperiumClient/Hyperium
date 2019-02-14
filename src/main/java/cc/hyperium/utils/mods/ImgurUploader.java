@@ -17,6 +17,7 @@
 
 package cc.hyperium.utils.mods;
 
+import cc.hyperium.config.Settings;
 import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
 import cc.hyperium.utils.ChatColor;
 import com.google.gson.JsonObject;
@@ -48,48 +49,50 @@ public class ImgurUploader implements Runnable {
     }
 
     public void run() {
-        try {
-            URL url = new URL("https://api.imgur.com/3/image");
+        if (!Settings.FPSMODE) {
+            try {
+                URL url = new URL("https://api.imgur.com/3/image");
 
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            BufferedImage image = null;
-            File file = uploadFile;
-            file.mkdir();
-            // read image
-            image = ImageIO.read(file);
-            ByteArrayOutputStream byteArray = new ByteArrayOutputStream();
-            ImageIO.write(image, "png", byteArray);
-            byte[] byteImage = byteArray.toByteArray();
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                BufferedImage image = null;
+                File file = uploadFile;
+                file.mkdir();
+                // read image
+                image = ImageIO.read(file);
+                ByteArrayOutputStream byteArray = new ByteArrayOutputStream();
+                ImageIO.write(image, "png", byteArray);
+                byte[] byteImage = byteArray.toByteArray();
 
-            String dataImage = Base64.encodeBase64String(byteImage);
-            String data = URLEncoder.encode("image", "UTF-8") + "=" + URLEncoder.encode(dataImage, "UTF-8");
+                String dataImage = Base64.encodeBase64String(byteImage);
+                String data = URLEncoder.encode("image", "UTF-8") + "=" + URLEncoder.encode(dataImage, "UTF-8");
 
-            conn.setDoOutput(true);
-            conn.setDoInput(true);
-            conn.setRequestMethod("POST");
-            conn.setRequestProperty("Authorization", "Client-ID " + clientID);
-            conn.setRequestMethod("POST");
-            conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+                conn.setDoOutput(true);
+                conn.setDoInput(true);
+                conn.setRequestMethod("POST");
+                conn.setRequestProperty("Authorization", "Client-ID " + clientID);
+                conn.setRequestMethod("POST");
+                conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
 
-            conn.connect();
-            OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
-            wr.write(data);
-            wr.flush();
+                conn.connect();
+                OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
+                wr.write(data);
+                wr.flush();
 
-            // Get the response
-            BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-            JsonParser jsonParser = new JsonParser();
-            JsonObject imgurJson = jsonParser.parse(new InputStreamReader(conn.getInputStream())).getAsJsonObject();
-            JsonObject two = imgurJson.getAsJsonObject("data");
-            String link = two.get("link").getAsString();
-            ChatComponentText component2 = new ChatComponentText(ChatColor.RED + "[Hyperium] " + ChatColor.WHITE + "Uploaded to " + link);
-            component2.getChatStyle().setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, link));
-            Minecraft.getMinecraft().ingameGUI.getChatGUI().printChatMessage(component2);
+                // Get the response
+                BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                JsonParser jsonParser = new JsonParser();
+                JsonObject imgurJson = jsonParser.parse(new InputStreamReader(conn.getInputStream())).getAsJsonObject();
+                JsonObject two = imgurJson.getAsJsonObject("data");
+                String link = two.get("link").getAsString();
+                ChatComponentText component2 = new ChatComponentText(ChatColor.RED + "[Hyperium] " + ChatColor.WHITE + "Uploaded to " + link);
+                component2.getChatStyle().setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, link));
+                Minecraft.getMinecraft().ingameGUI.getChatGUI().printChatMessage(component2);
 
-            wr.close();
-            rd.close();
-        } catch (Exception e) {
-            GeneralChatHandler.instance().sendMessage("Error occurred while uploading.");
+                wr.close();
+                rd.close();
+            } catch (Exception e) {
+                GeneralChatHandler.instance().sendMessage("Error occurred while uploading.");
+            }
         }
     }
 

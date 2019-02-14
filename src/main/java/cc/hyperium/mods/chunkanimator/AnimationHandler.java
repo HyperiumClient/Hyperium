@@ -4,6 +4,7 @@ package cc.hyperium.mods.chunkanimator;
  * Ported by Cubxity on 12/1/2018
  */
 
+import cc.hyperium.config.Settings;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.chunk.RenderChunk;
@@ -17,8 +18,9 @@ public class AnimationHandler {
     private WeakHashMap<RenderChunk, AnimationData> timeStamps = new WeakHashMap<>();
 
     public void setPosition(RenderChunk rc, BlockPos bp) {
-        if (!ChunkAnimatorConfig.enabled)
+        if (!ChunkAnimatorConfig.enabled || !Settings.FPSMODE) {
             return;
+        }
         if (Minecraft.getMinecraft().thePlayer != null) {
             boolean flag = true;
             BlockPos zeroedPlayerPosition = Minecraft.getMinecraft().thePlayer.getPosition();
@@ -48,8 +50,9 @@ public class AnimationHandler {
     }
 
     public void preRenderChunk(RenderChunk renderChunk) {
-        if (!ChunkAnimatorConfig.enabled)
+        if (!ChunkAnimatorConfig.enabled || !Settings.FPSMODE) {
             return;
+        }
         if (this.timeStamps.containsKey(renderChunk)) {
             final AnimationData animationData = this.timeStamps.get(renderChunk);
             long time = animationData.timeStamp;

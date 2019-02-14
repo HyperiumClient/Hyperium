@@ -1,6 +1,7 @@
 package cc.hyperium.mods.blockoverlay;
 
 import cc.hyperium.Hyperium;
+import cc.hyperium.config.Settings;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.mods.AbstractMod;
 import cc.hyperium.utils.ChatColor;
@@ -21,8 +22,13 @@ public class BlockOverlay extends AbstractMod {
     public AbstractMod init() {
         this.settings = new BlockOverlaySettings(Hyperium.folder);
         this.settings.load();
-        EventBus.INSTANCE.register(new BlockOverlayRender(this));
-        Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(new BlockOverlayCommand(this));
+
+        // disable mod in FPS Mode:
+        if(!Settings.FPSMODE) {
+            EventBus.INSTANCE.register(new BlockOverlayRender(this));
+            Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(new BlockOverlayCommand(this));
+        }
+
         return this;
     }
 

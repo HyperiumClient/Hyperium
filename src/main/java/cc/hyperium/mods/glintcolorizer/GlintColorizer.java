@@ -1,6 +1,7 @@
 package cc.hyperium.mods.glintcolorizer;
 
 import cc.hyperium.Hyperium;
+import cc.hyperium.config.Settings;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.TickEvent;
@@ -14,10 +15,12 @@ public class GlintColorizer extends AbstractMod {
 
     @Override
     public AbstractMod init() {
-        Hyperium.CONFIG.register(colors);
-        Hyperium.CONFIG.register(this);
-        EventBus.INSTANCE.register(this);
-        Colors.setonepoint8color(Colors.glintR, Colors.glintG, Colors.glintB);
+        if (!Settings.FPSMODE) {
+            Hyperium.CONFIG.register(colors);
+            Hyperium.CONFIG.register(this);
+            EventBus.INSTANCE.register(this);
+            Colors.setonepoint8color(Colors.glintR, Colors.glintG, Colors.glintB);
+        }
         return this;
     }
 
@@ -46,7 +49,7 @@ public class GlintColorizer extends AbstractMod {
         return colors;
     }
 
-    public int getIntFromColor(int red, int green, int blue) {
+    protected int getIntFromColor(int red, int green, int blue) {
         red = (red << 16) & 0x00FF0000;
         green = (green << 8) & 0x0000FF00;
         blue = blue & 0x000000FF;

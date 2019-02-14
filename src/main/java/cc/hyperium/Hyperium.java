@@ -144,7 +144,7 @@ public class Hyperium {
     private InternalAddons internalAddons;
     private NetworkHandler networkHandler;
     private boolean firstLaunch = false;
-    private HyperiumScheduler scheduler;
+    private HyperiumScheduler s = new HyperiumScheduler();
 
     @InvokeEvent
     public void preinit(PreInitializationEvent event) {
@@ -160,7 +160,6 @@ public class Hyperium {
 
     @InvokeEvent(priority = Priority.HIGH)
     public void init(InitializationEvent event) {
-
         try {
             Multithreading.runAsync(() -> {
                 networkHandler = new NetworkHandler();
@@ -170,7 +169,6 @@ public class Hyperium {
             });
             Multithreading.runAsync(() -> new PlayerStatsGui(null)); // Don't remove, we need to generate some stuff with Gl context
             notification = new NotificationCenter();
-            scheduler = new HyperiumScheduler();
             InputStream resourceAsStream = getClass().getResourceAsStream("/build.txt");
             try {
                 if (resourceAsStream != null) {
@@ -191,9 +189,10 @@ public class Hyperium {
                 isDevEnv = false;
             }
 
-            cosmetics = new HyperiumCosmetics();
+            // cosmetics handler (force disabled in FPS mode)
+            if(!Settings.FPSMODE) cosmetics = new HyperiumCosmetics();
 
-            // Creates the accounts dir
+            // Creates the accounts directory
             firstLaunch = new File(folder.getAbsolutePath() + "/accounts").mkdirs();
             new ChargebackStopper();
 
@@ -215,34 +214,40 @@ public class Hyperium {
             EventBus.INSTANCE.register(CompactChat.getInstance());
             EventBus.INSTANCE.register(CONFIG.register(FPSLimiter.getInstance()));
             EventBus.INSTANCE.register(confirmation);
-            EventBus.INSTANCE.register(new BlurHandler());
-            EventBus.INSTANCE.register(new CommandUpdate());
-            EventBus.INSTANCE.register(new ThankWatchdog());
+            if(!Settings.FPSMODE) {
+                EventBus.INSTANCE.register(new BlurHandler());
+                EventBus.INSTANCE.register(new CommandUpdate());
+                EventBus.INSTANCE.register(new ThankWatchdog());
+                // Register statistics tracking.
+                EventBus.INSTANCE.register(statTrack);
+                CONFIG.register(statTrack);
+            }
 
-            // Register statistics tracking.
-            EventBus.INSTANCE.register(statTrack);
-            CONFIG.register(statTrack);
             CONFIG.register(new ToggleSprintContainer());
 
             SplashProgress.setProgress(7, I18n.format("splashprogress.startinghyperium"));
             LOGGER.info("[Hyperium] Started!");
             Display.setTitle("Hyperium " + Metadata.getVersion());
 
-            TrayManager trayManager = new TrayManager();
-
             SplashProgress.setProgress(8, I18n.format("splashprogress.initializingtrayicon"));
-            try {
-                trayManager.init();
-            } catch (Exception e) {
-                e.printStackTrace();
-                LOGGER.warn("[Tray] Failed to hookup TrayIcon");
+
+            // tray icon hookup
+            if (!Settings.FPSMODE) {
+                TrayManager trayManager = new TrayManager();
+
+                try {
+                    trayManager.init();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    LOGGER.warn("[Tray] Failed to hookup TrayIcon");
+                }
             }
 
             // instance does not need to be saved as shit is static ^.^
             SplashProgress.setProgress(9, I18n.format("splashprogress.registeringconfiguration"));
             Settings.register();
             Hyperium.CONFIG.register(new ColourOptions());
-            //Register commands.
+            // Register commands.
             SplashProgress.setProgress(10, I18n.format("splashprogress.registeringcommands"));
             registerCommands();
             EventBus.INSTANCE.register(PurchaseApi.getInstance());
@@ -269,9 +274,9 @@ public class Hyperium {
 
             if (acceptedTos) {
                 sk1erMod = new Sk1erMod("hyperium", Metadata.getVersion(), object -> {
-                    //Callback
+                    // Callback
                     if (object.has("enabled") && !object.optBoolean("enabled")) {
-                        //Disable stuff
+                        // Disable stuff
                         getHandlers().getHyperiumCommandHandler().clear();
                     }
                 });
@@ -290,7 +295,7 @@ public class Hyperium {
 
             Multithreading.runAsync(() -> {
                 EventBus.INSTANCE.register(FontFixValues.INSTANCE);
-                if (Settings.PERSISTENT_CHAT) {
+                if (Settings.PERSISTENT_CHAT && !Settings.FPSMODE) {
                     File file = new File(folder, "chat.txt");
 
                     if (file.exists()) {
@@ -331,29 +336,34 @@ public class Hyperium {
      * register the commands
      */
     private void registerCommands() {
-        HyperiumCommandHandler hyperiumCommandHandler = getHandlers().getHyperiumCommandHandler();
-        hyperiumCommandHandler.registerCommand(new CommandConfigGui());
-        hyperiumCommandHandler.registerCommand(new CustomLevelheadCommand());
-        hyperiumCommandHandler.registerCommand(new CommandClearChat());
-        hyperiumCommandHandler.registerCommand(new CommandBrowse());
-        hyperiumCommandHandler.registerCommand(new CommandNameHistory());
-        hyperiumCommandHandler.registerCommand(new CommandDebug());
-        hyperiumCommandHandler.registerCommand(new CommandUpdate());
-        hyperiumCommandHandler.registerCommand(new CommandCoords());
-        hyperiumCommandHandler.registerCommand(new CommandLogs());
-        hyperiumCommandHandler.registerCommand(new CommandPing());
-        hyperiumCommandHandler.registerCommand(new CommandStats());
-        hyperiumCommandHandler.registerCommand(new CommandParty());
-        hyperiumCommandHandler.registerCommand(new CommandResize());
-        hyperiumCommandHandler.registerCommand(new CommandGarbageCollect());
-        hyperiumCommandHandler.registerCommand(new CommandMessage());
-        hyperiumCommandHandler.registerCommand(new CommandParticleAuras());
-        hyperiumCommandHandler.registerCommand(new CommandDisableCommand());
-        hyperiumCommandHandler.registerCommand(new AutofriendCommand());
-        hyperiumCommandHandler.registerCommand(new CommandQuests());
-        hyperiumCommandHandler.registerCommand(new CommandGuild());
-        hyperiumCommandHandler.registerCommand(new CommandStatistics());
-        hyperiumCommandHandler.registerCommand(new CommandKeybinds());
+        HyperiumCommandHandler commandHandler = getHandlers().getHyperiumCommandHandler();
+        commandHandler.registerCommand(new CommandConfigGui());
+        commandHandler.registerCommand(new CommandClearChat());
+        commandHandler.registerCommand(new CommandBrowse());
+        commandHandler.registerCommand(new CommandNameHistory());
+        commandHandler.registerCommand(new CommandDebug());
+        commandHandler.registerCommand(new CommandUpdate());
+        commandHandler.registerCommand(new CommandCoords());
+        commandHandler.registerCommand(new CommandLogs());
+        commandHandler.registerCommand(new CommandPing());
+        commandHandler.registerCommand(new CommandDisableCommand());
+        commandHandler.registerCommand(new CommandKeybinds());
+        commandHandler.registerCommand(new CommandGarbageCollect());
+
+        if(!Settings.FPSMODE) {
+            // commands that are not required/helpful/used much
+            // should go in here
+            commandHandler.registerCommand(new CustomLevelheadCommand());
+            commandHandler.registerCommand(new CommandStats());
+            commandHandler.registerCommand(new CommandParty());
+            commandHandler.registerCommand(new CommandResize());
+            commandHandler.registerCommand(new CommandMessage());
+            commandHandler.registerCommand(new CommandParticleAuras());
+            commandHandler.registerCommand(new AutofriendCommand());
+            commandHandler.registerCommand(new CommandQuests());
+            commandHandler.registerCommand(new CommandGuild());
+            commandHandler.registerCommand(new CommandStatistics());
+        }
     }
 
     /**
@@ -515,7 +525,4 @@ public class Hyperium {
         return this.isDevEnv;
     }
 
-    public HyperiumScheduler getScheduler() {
-        return scheduler;
-    }
 }

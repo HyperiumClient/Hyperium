@@ -1,10 +1,10 @@
-#Hyperium Language File - Created by ScottehBoeh
+# Hyperium Language File - Created by ScottehBoeh
 
-#Hyperium Disclaimers
+# Hyperium Disclaimers
 menu.left=Copyright 2019 Hyperium Dev Team
 menu.right=Not Affiliated with Mojang AB
 
-#Hyperium Buttons
+# Hyperium Buttons
 button.menu.changebackground=Menu Background
 button.menu.cosmeticshop=Cosmetic Shop
 button.ingame.hyperiumsettings=Hyperium Settings
@@ -16,7 +16,7 @@ button.changebackground.seturl=Set URL
 button.changebackground.choosefile=Choose File
 button.changebackground.resetbackground=Reset Background
 
-#Hyperium Disclaimer
+# Hyperium Disclaimer
 disclaimer.line1=By continuing, you acknowledge this client is %s
 disclaimer.line1.bold=USE AT YOUR OWN RISK
 disclaimer.line2=The developers of Hyperium are not responsible for any damages or bans
@@ -27,17 +27,17 @@ disclaimer.line5=Please click the button to confirm that you agree
 button.disclaimer.accept=Accept
 button.disclaimer.confirm=Confirm Accept
 
-#Hyperium Menu Strings
+# Hyperium Menu Strings
 menu.profile.credits=%s Credits
 
-#Hyperium Tabs
+# Hyperium Tabs
 tabs.searchbar=Search...
 tab.news.name=News
 tab.settings.name=Settings
 tab.update.name=Update
 tab.shop.name=Shop
 
-#Hyperium Tabs Attributes
+# Hyperium Tabs Attributes
 tab.update.noupdates=No updates available
 tab.update.autorestart=Once update is done, Minecraft will automatically restart
 tab.update.changelog=Changelog coming soon
@@ -51,20 +51,20 @@ tab.update.installer.state.unknown=W: Unknown State
 tab.update.installer.state.manualupdate.api=E: Please update manually, API: %s
 tab.update.installer.state.manualupdate=E: Please update manually
 
-#Hyperium Ingame Menu
+# Hyperium Ingame Menu
 gui.ingamemenu.playercount=Hyperium Player Count:
 gui.ingamemenu.playercount.now=Online Now: %s
 gui.ingamemenu.playercount.lastday=Last Day: %s
 gui.ingamemenu.playercount.lastweek=Last Week: %s
 gui.ingamemenu.playercount.alltime=All Time: %s
 
-#Hyperium Splash Progress
+# Hyperium Splash Progress
 #splash.progress.
 
-#Hyperium Alerts
+# Hyperium Alerts
 alert.update.message=Hyperium Update! Click here to download.
 
-#Hyperium Change Background Text
+# Hyperium Change Background Text
 gui.changebackground.line1=Enter a URL below to change the background or choose file.
 gui.changebackground.line2=To make it show select "custom" in background settings.
 gui.changebackground.urlempty=The URL cannot be empty.
@@ -76,7 +76,7 @@ gui.changebackground.unknownerror=Unknown error
 gui.changebackground.downloaderror=Error whilst downloading.
 gui.changebackground.selectimage=Select background image
 
-#Hyperium PurchaseCarousel Text
+# Hyperium PurchaseCarousel Text
 gui.purchase.purchased=Purchased
 gui.purchase.purchase=Purchase
 gui.purchase.active=Active
@@ -85,7 +85,7 @@ gui.purchase.notpurchased=Not Purchased
 gui.purchase.clicktouse=Click to use
 gui.purchase.state=State
 
-#Hyperium Cosmetics Gui
+# Hyperium Cosmetics Gui
 gui.cosmetics.purchase=Purchase cosmetics
 gui.cosmetics.refresh=Refresh purchases
 gui.cosmetics.credits=Credits
@@ -101,7 +101,7 @@ gui.cosmetics.green=Green
 gui.cosmetics.blue=Blue
 gui.cosmetics.maxage=Particle life
 
-#Hyperium Shop Gui
+# Hyperium Shop Gui
 gui.shop.capes=View Capes
 gui.shop.browser=Open in browser
 gui.shop.purchasecredits=Purchase Credits
@@ -117,7 +117,7 @@ gui.shop.insufficientcredits=Insufficient Credits!
 gui.shop.loading.cosmetics=Loading cosmetics...
 gui.shop.loading.person=Loading person data...
 
-#Hyperium Settings Text
+# Hyperium Settings Text
 gui.settings.discordrp=Discord RP
 gui.settings.fullbright=Fullbright
 gui.settings.romannumerals=Roman Numerals
@@ -241,8 +241,9 @@ gui.settings.disableitemframes=Disable Item Frames
 gui.settings.confirmdisconnect=Confirm Disconnect
 gui.settings.confirmquit=Confirm Quit
 gui.settings.hotbarkeys=Hotbar Keys
+gui.settings.fps=FPS Mode (Requires restart) (BETA)
 
-#Hyperium Splash Progress
+# Hyperium Splash Progress
 splashprogress.startinggame=Starting Game...
 splashprogress.loadingresources=Loading Resources...
 splashprogress.creatingdisplay=Creating Display...
@@ -257,12 +258,12 @@ splashprogress.loadingintegrations=Loading Integrations...
 splashprogress.reloadingresourcemanager=Reloading Resource Manager...
 splashprogress.finishing=Finishing...
 
-#Hyperium Misc Gui Text
+# Hyperium Misc Gui Text
 gui.namehistory.text=NAME HISTORY
 gui.confirmdisconnect.text=Are you sure you want to disconnect?
 gui.confirmquit.text=Are you sure you want to quit?
 
-#Hyperium Chat Message
+# Hyperium Chat Message
 message.insufficientcredits=Insufficient credits
 message.attemptingpurchase=Attempting to purchase %s
 message.alreadypurchased=Already purchased %s

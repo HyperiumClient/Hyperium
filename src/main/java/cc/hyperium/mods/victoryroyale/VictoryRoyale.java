@@ -37,7 +37,7 @@ public class VictoryRoyale extends AbstractMod {
 
     @Override
     public AbstractMod init() {
-        EventBus.INSTANCE.register(this);
+        if (!Settings.FPSMODE) { EventBus.INSTANCE.register(this); }
         INSTANCE = this;
         return this;
     }
