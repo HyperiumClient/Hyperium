@@ -71,7 +71,7 @@ public class BrowserMod extends AbstractMod implements IDisplayHandler, IJSQuery
     public GuiConfig hudBrowser;
     public volatile Map<Integer, Triple<KeyEvent, KeyEvent, String>> keyPressesMap = new HashMap<>();
     @ConfigOpt
-    public String homePage = "https://hyperium.cc";
+    public String homePage = "https://hyperium.cc/";
     public GuiBrowser browserGui;
     private MCEF mcef;
     private API api;
@@ -82,120 +82,120 @@ public class BrowserMod extends AbstractMod implements IDisplayHandler, IJSQuery
 
     @Override
     public AbstractMod init() {
-        EventBus.INSTANCE.register(this);
+        if (!Settings.FPSMODE) {
+            EventBus.INSTANCE.register(this);
 
-        api = MCEFApi.getAPI();
+            api = MCEFApi.getAPI();
 
-        mcef = new MCEF();
-        mcef.init();
+            mcef = new MCEF();
+            mcef.init();
 
-        Hyperium.INSTANCE.getHandlers().getKeybindHandler().registerKeyBinding(new BrowserBind());
+            Hyperium.INSTANCE.getHandlers().getKeybindHandler().registerKeyBinding(new BrowserBind());
 
-        if (api != null) {
-            api.registerDisplayHandler(this);
-            api.registerJSQueryHandler(this);
-        }
-        browserGui = new GuiBrowser(homePage);
-
-        registerCommands();
-        Multithreading.runAsync(() -> {
-            if (Settings.BROWSER_DOWNLOAD) {
-                long start = System.currentTimeMillis();
-                JFrame jFrame = new JFrame("Hyperium Keycode Initializer (Please ignore)");
-                jFrame.add(new JPanel());
-                jFrame.setSize(300, 300);
-
-                JTextField jTextField = new JTextField();
-                jTextField.setSize(300, 300);
-
-                jTextField.addKeyListener(new KeyListener() {
-
-                    @Override
-                    public void keyTyped(KeyEvent e) {
-                    }
-
-                    @Override
-                    public void keyPressed(KeyEvent e) {
-                        if (keyPressesMap.containsKey(currentKey)) {
-                            return;
-                        }
-                        try {
-                            currentKeyTriple.setLeft(e);
-                        } catch (NullPointerException ex) {
-                            currentKeyTriple.setLeft(e);
-                        }
-                    }
-
-                    @Override
-                    public void keyReleased(KeyEvent e) {
-                        if (keyPressesMap.containsKey(currentKey)) {
-                            return;
-                        }
-                        try {
-                            currentKeyTriple.setMiddle(e);
-                        } catch (NullPointerException ex) {
-                            currentKeyTriple.setMiddle(e);
-                        }
-                    }
-                });
-                jFrame.add(jTextField);
-                jFrame.setVisible(true);
-                jFrame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
-                jFrame.requestFocus();
-                jTextField.requestFocus();
-
-                try {
-                    int[] keyPressList = new int[]{KeyEvent.VK_BACK_SPACE, KeyEvent.VK_DELETE,
-                        KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT};
-                    Robot robot = AccessController.doPrivileged(
-                        (PrivilegedExceptionAction<Robot>) () -> new Robot(
-                            jTextField.getGraphicsConfiguration().getDevice()));
-
-                    robot.mouseMove(0, 0);
-                    try {
-                        robot.keyPress(KeyEvent.VK_QUOTE);
-                        robot.keyRelease(KeyEvent.VK_QUOTE);
-                    } catch (IllegalArgumentException e) {
-                        try {
-                            robot.keyPress(KeyEvent.VK_SHIFT);
-                            robot.keyPress(KeyEvent.VK_2);
-                            robot.keyRelease(KeyEvent.VK_2);
-                            robot.keyRelease(KeyEvent.VK_SHIFT);
-                        } catch (IllegalArgumentException ex) {
-                            ex.printStackTrace();
-                        }
-                    }
-                    jFrame.setAlwaysOnTop(true);
-
-                    end:
-                    for (int key : keyPressList) {
-
-                        currentKeyTriple = new MutableTriple<>();
-                        currentKey = key;
-
-                        jFrame.toFront();
-                        jFrame.setState(Frame.NORMAL);
-
-                        robot.keyPress(key);
-                        robot.keyRelease(key);
-                        while (currentKeyTriple.getLeft() == null
-                            || currentKeyTriple.getMiddle() == null) {
-                            if (System.currentTimeMillis() - start < 2000) {
-                                break end;
-                            }
-                            Thread.sleep(1L);
-                        }
-                        keyPressesMap.put(key, currentKeyTriple);
-                    }
-                    currentKey = 0;
-                    currentKeyTriple = null;
-                    jFrame.dispose();
-                } catch (PrivilegedActionException | InterruptedException e) {
-                    e.printStackTrace();
-                }
+            if (api != null) {
+                api.registerDisplayHandler(this);
+                api.registerJSQueryHandler(this);
             }
-        });
+            browserGui = new GuiBrowser(homePage);
 
+            registerCommands();
+            Multithreading.runAsync(() -> {
+                if (Settings.BROWSER_DOWNLOAD) {
+                    long start = System.currentTimeMillis();
+                    JFrame jFrame = new JFrame("Hyperium Keycode Initializer (Please ignore)");
+                    jFrame.add(new JPanel());
+                    jFrame.setSize(300, 300);
+
+                    JTextField jTextField = new JTextField();
+                    jTextField.setSize(300, 300);
+
+                    jTextField.addKeyListener(new KeyListener() {
+
+                        @Override
+                        public void keyTyped(KeyEvent e) { }
+
+                        @Override
+                        public void keyPressed(KeyEvent e) {
+                            if (keyPressesMap.containsKey(currentKey)) {
+                                return;
+                            }
+                            try {
+                                currentKeyTriple.setLeft(e);
+                            } catch (NullPointerException ex) {
+                                currentKeyTriple.setLeft(e);
+                            }
+                        }
+
+                        @Override
+                        public void keyReleased(KeyEvent e) {
+                            if (keyPressesMap.containsKey(currentKey)) {
+                                return;
+                            }
+                            try {
+                                currentKeyTriple.setMiddle(e);
+                            } catch (NullPointerException ex) {
+                                currentKeyTriple.setMiddle(e);
+                            }
+                        }
+                    });
+                    jFrame.add(jTextField);
+                    jFrame.setVisible(true);
+                    jFrame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+                    jFrame.requestFocus();
+                    jTextField.requestFocus();
+
+                    try {
+                        int[] keyPressList = new int[]{KeyEvent.VK_BACK_SPACE, KeyEvent.VK_DELETE,
+                            KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT};
+                        Robot robot = AccessController.doPrivileged(
+                            (PrivilegedExceptionAction<Robot>) () -> new Robot(
+                                jTextField.getGraphicsConfiguration().getDevice()));
+
+                        robot.mouseMove(0, 0);
+                        try {
+                            robot.keyPress(KeyEvent.VK_QUOTE);
+                            robot.keyRelease(KeyEvent.VK_QUOTE);
+                        } catch (IllegalArgumentException e) {
+                            try {
+                                robot.keyPress(KeyEvent.VK_SHIFT);
+                                robot.keyPress(KeyEvent.VK_2);
+                                robot.keyRelease(KeyEvent.VK_2);
+                                robot.keyRelease(KeyEvent.VK_SHIFT);
+                            } catch (IllegalArgumentException ex) {
+                                ex.printStackTrace();
+                            }
+                        }
+                        jFrame.setAlwaysOnTop(true);
+
+                        end:
+                        for (int key : keyPressList) {
+
+                            currentKeyTriple = new MutableTriple<>();
+                            currentKey = key;
+
+                            jFrame.toFront();
+                            jFrame.setState(Frame.NORMAL);
+
+                            robot.keyPress(key);
+                            robot.keyRelease(key);
+                            while (currentKeyTriple.getLeft() == null
+                                || currentKeyTriple.getMiddle() == null) {
+                                if (System.currentTimeMillis() - start < 2000) {
+                                    break end;
+                                }
+                                Thread.sleep(1L);
+                            }
+                            keyPressesMap.put(key, currentKeyTriple);
+                        }
+                        currentKey = 0;
+                        currentKeyTriple = null;
+                        jFrame.dispose();
+                    } catch (PrivilegedActionException | InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }
         return this;
     }
     @Override
@@ -298,7 +298,7 @@ public class BrowserMod extends AbstractMod implements IDisplayHandler, IJSQuery
                                 .injectKeyPressed(entry.getRight(), 0);
                         } else {
                             Hyperium.INSTANCE.getHandlers().getGeneralChatHandler()
-                                .sendMessage("You don't have PIP on.");
+                                .sendMessage("You don't have PIP on!");
                         }
                     }
 
@@ -337,14 +337,10 @@ public class BrowserMod extends AbstractMod implements IDisplayHandler, IJSQuery
     }
 
     @Override
-    public void onTooltip(IBrowser browser, String text) {
-
-    }
+    public void onTooltip(IBrowser browser, String text) { }
 
     @Override
-    public void onStatusMessage(IBrowser browser, String value) {
-
-    }
+    public void onStatusMessage(IBrowser browser, String value) { }
 
     @Override
     public boolean handleQuery(IBrowser b, long queryId, String query, boolean persistent,
@@ -353,9 +349,7 @@ public class BrowserMod extends AbstractMod implements IDisplayHandler, IJSQuery
     }
 
     @Override
-    public void cancelQuery(IBrowser b, long queryId) {
-
-    }
+    public void cancelQuery(IBrowser b, long queryId) { }
 
     public void showBrowser() {
         if (Minecraft.getMinecraft().currentScreen instanceof GuiBrowser) {

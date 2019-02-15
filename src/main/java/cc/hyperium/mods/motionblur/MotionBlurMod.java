@@ -12,10 +12,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.SimpleReloadableResourceManager;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.util.ResourceLocation;
-
 import java.lang.reflect.Field;
 import java.util.Map;
-
 
 public class MotionBlurMod extends AbstractMod {
 
@@ -38,9 +36,11 @@ public class MotionBlurMod extends AbstractMod {
     @Override
     public AbstractMod init() {
         this.mc = Minecraft.getMinecraft();
-        Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler()
+        if (!Settings.FPSMODE) {
+            Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler()
                 .registerCommand(new MotionBlurCommand());
-        EventBus.INSTANCE.register(this);
+            EventBus.INSTANCE.register(this);
+        }
         return this;
     }
 
