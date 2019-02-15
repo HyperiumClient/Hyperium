@@ -1,5 +1,5 @@
 /*
- *     Copyright (C) 2018  Hyperium <https://hyperium.cc/>
+ *     Copyright (C) 2019  Hyperium <https://hyperium.cc/>
  *
  *     This program is free software: you can redistribute it and/or modify
  *     it under the terms of the GNU Lesser General Public License as published
@@ -38,7 +38,7 @@ public class DiscordPresence {
     private long startTime;
 
     public void load() {
-        if (Settings.DISCORD_RP) {
+        if (Settings.DISCORD_RP && !Settings.FPSMODE) {
             EventBus.INSTANCE.register(this);
             startTime = System.currentTimeMillis();
             DiscordRPC.discordInitialize("412963310867054602L", new DiscordEventHandlers(), true);
