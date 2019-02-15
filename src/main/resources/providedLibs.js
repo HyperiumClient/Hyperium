@@ -72,7 +72,7 @@ var Console = Java.type("com.chattriggers.ctjs.engine.langs.js.JSLoader").INSTAN
 var Config = Java.type("com.chattriggers.ctjs.utils.config.Config").INSTANCE;
 var ChatTriggers = Java.type("com.chattriggers.ctjs.Reference").INSTANCE;
 
-/*End Built in Vars */
+/* End Built in Vars */
 
 
 // simplified methods

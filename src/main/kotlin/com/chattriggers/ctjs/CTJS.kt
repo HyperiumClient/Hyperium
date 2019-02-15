@@ -7,7 +7,7 @@ import cc.hyperium.event.InvokeEvent
 import cc.hyperium.event.PreInitializationEvent
 import cc.hyperium.mixins.renderer.IMixinRenderLivingEntity
 import cc.hyperium.mixinsimp.renderer.IMixinRenderManager
-import cc.hyperium.mods.sk1ercommon.Multithreading
+import cc.hyperium.mods.sk1ercommon.Multithreading;
 import com.chattriggers.ctjs.commands.CTCommand
 import com.chattriggers.ctjs.engine.ModuleManager
 import com.chattriggers.ctjs.minecraft.libs.FileLib
@@ -33,41 +33,46 @@ object CTJS {
     val reflections: Reflections
 
     init {
-        EventBus.INSTANCE.register(this)
-
+        if (!cc.hyperium.config.Settings.FPSMODE) {
+            EventBus.INSTANCE.register(this)
+        }
         reflections = Reflections("com.chattriggers.ctjs")
     }
 
     @InvokeEvent
     fun preInit(event: PreInitializationEvent) {
-        this.configLocation = File(Hyperium.folder, "ctjs")
-        configLocation.mkdir()
+        if (!cc.hyperium.config.Settings.FPSMODE) {
+            this.configLocation = File(Hyperium.folder, "ctjs")
+            configLocation.mkdir()
 
-        val pictures = File(configLocation, "images/")
-        pictures.mkdirs()
-        assetsDir = pictures
+            val pictures = File(configLocation, "images/")
+            pictures.mkdirs()
+            assetsDir = pictures
 
-        Multithreading.runAsync(thread {   loadConfig() })
+            Multithreading.runAsync(thread { loadConfig() })
 
-        AnnotationHandler.subscribeAutomatic()
+            AnnotationHandler.subscribeAutomatic()
 
-        UriScheme.installUriScheme()
-        UriScheme.createSocketListener()
+            UriScheme.installUriScheme()
+            UriScheme.createSocketListener()
+        }
     }
 
     @InvokeEvent
     fun init(event: InitializationEvent) {
-        Multithreading.runAsync(thread { ModuleManager.load(true) })
+        if (!cc.hyperium.config.Settings.FPSMODE) {
+            Multithreading.runAsync(thread { ModuleManager.load(true) })
 
-        registerHooks()
+            registerHooks()
 
-        Multithreading.runAsync(thread {
-            val sha256uuid = DigestUtils.sha256Hex(Player.getUUID())
-            FileLib.getUrlContent("https://www.chattriggers.com/tracker/?uuid=$sha256uuid")
-        })
+            Multithreading.runAsync(thread {
+                val sha256uuid = DigestUtils.sha256Hex(Player.getUUID())
+                FileLib.getUrlContent("https://www.chattriggers.com/tracker/?uuid=$sha256uuid")
+            })
 
-        (Client.getMinecraft().renderManager as IMixinRenderManager).skinMap.values.forEach {
-            (it as IMixinRenderLivingEntity<*>).callAddLayer(LayerCape(it))
+            (Client.getMinecraft().renderManager as IMixinRenderManager).skinMap.values.forEach {
+                (it as IMixinRenderLivingEntity<*>).callAddLayer(LayerCape(it))
+            }
         }
     }
 
@@ -107,7 +112,5 @@ object CTJS {
     }
 
     @JvmStatic
-    fun loadIntoJVM() {
-        
-    }
+    fun loadIntoJVM() { }
 }
