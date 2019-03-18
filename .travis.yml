@@ -7,7 +7,6 @@ notifications:
   email: false
 before_install:
   - echo $TRAVIS_BUILD_NUMBER > $TRAVIS_BUILD_DIR/src/main/resources/build.txt
-after_install:
   - wget https://raw.githubusercontent.com/k3rn31p4nic/travis-ci-discord-webhook/master/send.sh
   - wget https://gist.githubusercontent.com/RDIL/d7b73601a46341ff2d0cec8d989c315d/raw/a9f1e6b771d722276e43d2ab695a51bb237516a2/deploy-hook.sh
   - wget https://gist.githubusercontent.com/Sk1er/38c81e68d25e8b6c3beb429cf923190f/raw/deploy_sk1er.sh
