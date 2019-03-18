@@ -1,23 +1,10 @@
-#============= METADATA =============#
-
 language: java
-
 os: linux
-
 sudo: required
-
 git:
   quiet: true
-
 notifications:
   email: false
-
-#============= METADATA =============#
-
-
-
-
-#============= SCRIPTS =============#
 
 before_install:
   - echo $TRAVIS_BUILD_NUMBER > $TRAVIS_BUILD_DIR/src/main/resources/build.txt
@@ -35,12 +22,6 @@ after_script:
       else
         bash ./send.sh failure $WEBHOOK_URL
       fi
-
-#============= SCRIPTS =============#
-
-
-
-#============= DEPLOY =============#
 
 before_deploy:
   - git config --local user.name "HyperiumDeploy"
@@ -62,5 +43,3 @@ deploy:
     repo: HyperiumClient/Hyperium
     prerelease: true
 if: tag IS blank
-
-#============= DEPLOY =============#
