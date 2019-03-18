@@ -20,8 +20,8 @@ Hyperium is a free and open source Minecraft 1.8.9 client. It combines many popu
 - [ChromaHUD](https://www.youtube.com/watch?v=eyh6pcsGMpo)
 - [ChunkAnimator](https://minecraft.curseforge.com/projects/chunk-animator)
 - [Custom Crosshair](https://www.youtube.com/watch?v=YYasNSTWA64)  
-- [Custom GUI](https://raw.githubusercontent.com/RDIL/misc-private-images/master/hyperiumclient/hyperiumimg/Hyperium-CustomInGameMenu.JPG)  
-- [Custom Main-Menu Screen](https://raw.githubusercontent.com/RDIL/misc-private-images/master/hyperiumclient/hyperiumimg/Hyperium-CustomMainMenu.JPG)  
+- Custom GUI  
+- Custom Main-Menu Screen  
 - [FastChat](https://www.youtube.com/watch?v=vsibdTVYTB4)
 - [GlintColorizer](https://www.youtube.com/watch?v=80foSiVvUiI)
 - [Ingame Browser](https://github.com/montoyo/mcef)  
