@@ -1,10 +1,24 @@
+#============= METADATA =============#
+
 language: java
+
 os: linux
+
 sudo: required
+
 git:
   quiet: true
+
 notifications:
   email: false
+
+#============= METADATA =============#
+
+
+
+
+#============= SCRIPTS =============#
+
 before_install:
   - echo $TRAVIS_BUILD_NUMBER > $TRAVIS_BUILD_DIR/src/main/resources/build.txt
   - wget https://raw.githubusercontent.com/k3rn31p4nic/travis-ci-discord-webhook/master/send.sh
@@ -13,6 +27,7 @@ before_install:
   - chmod +x deploy-hook.sh
   - chmod +x deploy_sk1er.sh
   - chmod +x send.sh
+
 after_script:
   - |
       if [ $TRAVIS_TEST_RESULT = 0 ]; then
@@ -20,14 +35,23 @@ after_script:
       else
         bash ./send.sh failure $WEBHOOK_URL
       fi
+
+#============= SCRIPTS =============#
+
+
+
+#============= DEPLOY =============#
+
 before_deploy:
   - git config --local user.name "HyperiumDeploy"
   - git config --local user.email "hyperiumclient@gmail.com"
   - git tag -a $TRAVIS_BUILD_NUMBER -m "'"$TRAVIS_COMMIT_MESSAGE"'"
   - "git push https://$GIT_TOKEN@github.com/HyperiumClient/Hyperium.git HEAD:master --follow-tags"
+
 after_deploy:
   - bash ./deploy_sk1er.sh
   - bash ./deploy-hook.sh $CUBE_MAN
+
 deploy:
   provider: releases
   api_key: $GIT_TOKEN
@@ -38,3 +62,5 @@ deploy:
     repo: HyperiumClient/Hyperium
     prerelease: true
 if: tag IS blank
+
+#============= DEPLOY =============#
