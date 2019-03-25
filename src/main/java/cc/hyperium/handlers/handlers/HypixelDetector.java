@@ -31,6 +31,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.client.multiplayer.ServerData;
+import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 import java.awt.Color;
 import java.awt.Desktop;
@@ -125,4 +126,7 @@ public class HypixelDetector {
         return hypixel;
     }
 
+    public boolean isNpc(Entity entity) {
+        return entity.getDisplayName().getUnformattedText().matches(".+8\\[NPC] .+");
+    }
 }

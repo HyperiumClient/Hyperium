@@ -239,6 +239,8 @@ gui.settings.confirmdisconnect=Confirm Disconnect
 gui.settings.confirmquit=Confirm Quit
 gui.settings.hotbarkeys=Hotbar Keys
 gui.settings.preventdc=Prevent Double Clicking
+gui.settings.hidehypixelnpcs=Hide Hypixel NPC's
+gui.settings.hideallparticles=Hide All Particles
 
 # Hyperium Splash Progress
 splashprogress.startinggame=بدء اللعبة...
@@ -259,6 +261,7 @@ splashprogress.finishing=التشطيب...
 gui.namehistory.text=NAME HISTORY
 gui.confirmdisconnect.text=Are you sure you want to disconnect?
 gui.confirmquit.text=Are you sure you want to quit?
+gui.refresh.text=Refresh
 
 # Hyperium Chat Message
 message.insufficientcredits=Insufficient credits

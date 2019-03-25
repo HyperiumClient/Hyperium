@@ -20,7 +20,7 @@ public class HyperiumEntityPlayerSP {
     }
 
     public void onCriticalHit(Entity entityHit, Minecraft mc) {
-        if (Minecraft.getMinecraft().isSingleplayer() || !Settings.CRIT_FIX) {
+        if (mc.isSingleplayer() || !Settings.CRIT_FIX) {
             mc.effectRenderer.emitParticleAtEntity(entityHit, EnumParticleTypes.CRIT);
         }
     }

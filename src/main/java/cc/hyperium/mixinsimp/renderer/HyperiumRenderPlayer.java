@@ -16,12 +16,11 @@ public class HyperiumRenderPlayer {
         this.parent = parent;
     }
 
-    public void doRender(AbstractClientPlayer entity, double x, double y, double z, float entityYaw,
-                         float partialTicks, CallbackInfo ci, RenderManager renderManager) {
+    public void doRender(AbstractClientPlayer entity, double x, double y, double z, float partialTicks, RenderManager renderManager) {
         EventBus.INSTANCE.post(new RenderPlayerEvent(entity, renderManager, x, y, z, partialTicks));
     }
 
-    public void onUpdateTimer(AbstractClientPlayer clientPlayer, CallbackInfo ci) {
+    public void onUpdateTimer() {
         ModelPlayer modelplayer = parent.getMainModel();
         modelplayer.isRiding = modelplayer.isSneak = false;
     }

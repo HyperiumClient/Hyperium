@@ -71,18 +71,15 @@ public abstract class MixinRenderPlayer extends RendererLivingEntity<AbstractCli
     private void doRender(AbstractClientPlayer entity, double x, double y, double z, float entityYaw, float partialTicks, CallbackInfo ci) {
         GlStateManager.resetColor();
 
-        hyperiumRenderPlayer.doRender(entity, x, y, z, entityYaw, partialTicks, ci, renderManager);
+        hyperiumRenderPlayer.doRender(entity, x, y, z, partialTicks, renderManager);
     }
 
     /**
      * Fixes bug MC-1349
-     *
-     * @param clientPlayer - User
-     * @param ci           - Callback
      */
-    @Inject(method = "renderRightArm", at = @At(value = "FIELD", ordinal = 3))
+    @Inject(method = "renderRightArm", at = @At(value = "FIELD", target = "Lnet/minecraft/client/model/ModelPlayer;isSneak:Z", ordinal = 0))
     private void onUpdateTimer(AbstractClientPlayer clientPlayer, CallbackInfo ci) {
-        hyperiumRenderPlayer.onUpdateTimer(clientPlayer, ci);
+        hyperiumRenderPlayer.onUpdateTimer();
     }
 
     /**

@@ -557,17 +557,6 @@ public class Settings {
     public static boolean VICTORY_ROYALE = false;
 
     @ConfigOpt
-    @SelectorSetting(name = "gui.settings.mainmenuserver", category = GENERAL, items = {
-        "HYPIXEL",
-        "HIVE",
-        "MINEPLEX",
-        "CUBECRAFT",
-        "MINESAGA",
-        "SKYCADE"
-    })
-    public static String MAIN_MENU_SERVER = "HYPIXEL";
-
-    @ConfigOpt
     @ToggleSetting(name = "gui.settings.betterf1", category = VANILLA_ENHANCEMENTS, mods = true)
     public static boolean BETTERF1 = false;
 
@@ -645,8 +634,13 @@ public class Settings {
     @ToggleSetting(name = "gui.settings.preventdc", category = GENERAL)
     public static boolean PREVENT_DOUBLECLICK = false;
 
-    private Settings() {
-    }
+    @ConfigOpt
+    @ToggleSetting(name = "gui.settings.hidehypixelnpcs", category = HYPIXEL)
+    public static boolean HIDE_HYPIXEL_NPCS = false;
+
+    @ConfigOpt
+    @ToggleSetting(name = "gui.settings.hideallparticles", category = IMPROVEMENTS)
+    public static boolean HIDE_ALL_PARTICLES = false;
 
     public static void register() {
         Hyperium.CONFIG.register(INSTANCE);

@@ -46,24 +46,18 @@ import java.util.concurrent.CountDownLatch;
 @Mixin(EffectRenderer.class)
 public abstract class MixinEffectRenderer implements IMixinEffectRenderer {
 
-    @Shadow
-    @Final
-    private static ResourceLocation particleTextures;
-    @Shadow
-    protected World worldObj;
-    @Shadow
-    private Map<Integer, IParticleFactory> particleTypes;
+    @Shadow @Final private static ResourceLocation particleTextures;
+    @Shadow protected World worldObj;
+    @Shadow private Map<Integer, IParticleFactory> particleTypes;
+    @Shadow private TextureManager renderer;
+
     //its not happy about this but we can't do better because Minecraft
     private ConcurrentLinkedQueue<EntityFX>[][] modifiedFxLayer = new ConcurrentLinkedQueue[4][];
-    private ConcurrentLinkedQueue<EntityParticleEmitter> modifiedParticlEmmiters = new ConcurrentLinkedQueue<>();
-    @Shadow
-    private TextureManager renderer;
-    @Shadow
-    private Random rand;
+    private ConcurrentLinkedQueue<EntityParticleEmitter> modifiedParticleEmitters = new ConcurrentLinkedQueue<>();
     private CountDownLatch latch;
 
     @Inject(method = "<init>", at = @At("RETURN"))
-    public void load(World in, TextureManager manager, CallbackInfo info) {
+    private void load(World in, TextureManager manager, CallbackInfo info) {
         for (int i = 0; i < 4; ++i) {
             this.modifiedFxLayer[i] = new ConcurrentLinkedQueue[2];
 
@@ -181,7 +175,7 @@ public abstract class MixinEffectRenderer implements IMixinEffectRenderer {
      */
     @Overwrite
     public void emitParticleAtEntity(Entity entityIn, EnumParticleTypes particleTypes) {
-        this.modifiedParticlEmmiters.add(new EntityParticleEmitter(this.worldObj, entityIn, particleTypes));
+        this.modifiedParticleEmitters.add(new EntityParticleEmitter(this.worldObj, entityIn, particleTypes));
     }
 
     /**
@@ -206,12 +200,16 @@ public abstract class MixinEffectRenderer implements IMixinEffectRenderer {
      */
     @Overwrite
     public void renderLitParticles(Entity entityIn, float p_78872_2_) {
+        if (Settings.HIDE_ALL_PARTICLES) {
+            return;
+        }
+
         float f = 0.017453292F;
-        float f1 = MathHelper.cos(entityIn.rotationYaw * 0.017453292F);
-        float f2 = MathHelper.sin(entityIn.rotationYaw * 0.017453292F);
-        float f3 = -f2 * MathHelper.sin(entityIn.rotationPitch * 0.017453292F);
-        float f4 = f1 * MathHelper.sin(entityIn.rotationPitch * 0.017453292F);
-        float f5 = MathHelper.cos(entityIn.rotationPitch * 0.017453292F);
+        float f1 = MathHelper.cos(entityIn.rotationYaw * f);
+        float f2 = MathHelper.sin(entityIn.rotationYaw * f);
+        float f3 = -f2 * MathHelper.sin(entityIn.rotationPitch * f);
+        float f4 = f1 * MathHelper.sin(entityIn.rotationPitch * f);
+        float f5 = MathHelper.cos(entityIn.rotationPitch * f);
 
         for (int i = 0; i < 2; ++i) {
             ConcurrentLinkedQueue<EntityFX> queue = this.modifiedFxLayer[3][i];
@@ -240,7 +238,7 @@ public abstract class MixinEffectRenderer implements IMixinEffectRenderer {
             }
         }
 
-        this.modifiedParticlEmmiters.clear();
+        this.modifiedParticleEmitters.clear();
     }
 
     /**
@@ -282,8 +280,8 @@ public abstract class MixinEffectRenderer implements IMixinEffectRenderer {
             }
         mcProfiler.endSection();
 
-        this.modifiedParticlEmmiters.forEach(EntityParticleEmitter::onUpdate);
-        modifiedParticlEmmiters.removeIf(entityParticleEmitter -> entityParticleEmitter.isDead);
+        this.modifiedParticleEmitters.forEach(EntityParticleEmitter::onUpdate);
+        modifiedParticleEmitters.removeIf(entityParticleEmitter -> entityParticleEmitter.isDead);
     }
 
 
@@ -293,6 +291,10 @@ public abstract class MixinEffectRenderer implements IMixinEffectRenderer {
      */
     @Overwrite
     public void renderParticles(Entity entityIn, float partialTicks) {
+        if (Settings.HIDE_ALL_PARTICLES) {
+            return;
+        }
+
         float f = ActiveRenderInfo.getRotationX();
         float f1 = ActiveRenderInfo.getRotationZ();
         float f2 = ActiveRenderInfo.getRotationYZ();
