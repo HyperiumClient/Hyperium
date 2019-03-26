@@ -83,7 +83,7 @@ dependencies {
     embed "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     embed "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
 
-    embed 'com.github.Vatuu:discord-rpc:1.6.0'
+    embed 'com.github.Vatuu:discord-rpc:1.6.1'
 
     embed 'com.github.FalseHonesty:reflections:855f40b80b'
     embed 'com.github.ben-manes.caffeine:caffeine:2.6.2'
