@@ -253,8 +253,8 @@ public class CustomCrosshairConfig {
         }
     }
 
-    public boolean writeSaveFileDefault() {
-        return writeSaveFile(0, true, 255, 255, 255, 255, true, true, true, true, true, true, 0, 0, 0, 255, true, 255, 255, 255, 255, 5, 5, 3, 1, true, false, 500);
+    public void writeSaveFileDefault() {
+        writeSaveFile(0, true, 255, 255, 255, 255, true, true, true, true, true, true, 0, 0, 0, 255, true, 255, 255, 255, 255, 5, 5, 3, 1, true, false, 500);
     }
 
     public void saveCurrentCrosshair() {

@@ -174,7 +174,7 @@ public class PurchaseCarousel {
         String s = I18n.format("gui.purchase.state") + ": " + (getCurrent().isPurchased() ? (getCurrent().isActive() ? I18n.format("gui.purchase.active") : I18n.format("gui.purchase.inactive")) : I18n.format("gui.purchase.notpurchased"));
         float e = .5F;
         GlStateManager.scale(e, e, e);
-        fr.drawString(s, (centerX - fr.getWidth(s) / 4) / e, (centerY - mainHeight / 2 + 15) / e, Color.GREEN.getRGB());
+        fr.drawString(s, (centerX - fr.getWidth(s) / 4) / e, (centerY - mainHeight / 2f + 15) / e, Color.GREEN.getRGB());
         if (getCurrent().isPurchased() && !getCurrent().isActive()) {
             s = I18n.format("gui.purchase.clicktouse");
             float width = fr.getWidth(s);

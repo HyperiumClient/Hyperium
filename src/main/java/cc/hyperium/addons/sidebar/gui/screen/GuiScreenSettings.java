@@ -20,7 +20,6 @@ package cc.hyperium.addons.sidebar.gui.screen;
 import cc.hyperium.addons.sidebar.SidebarAddon;
 import cc.hyperium.addons.sidebar.gui.GuiSidebar;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.fml.client.config.GuiSlider;
 
@@ -99,9 +98,8 @@ public class GuiScreenSettings extends GuiScreenSidebar {
                 this.sliderScale.updateSlider();
                 final GuiSidebar sidebar = this.sidebar;
                 final GuiSidebar sidebar2 = this.sidebar;
-                final boolean b = false;
-                sidebar2.offsetX = (b ? 1 : 0);
-                sidebar.offsetY = (b ? 1 : 0);
+                sidebar2.offsetX = 0;
+                sidebar.offsetY = 0;
                 break;
             }
         }

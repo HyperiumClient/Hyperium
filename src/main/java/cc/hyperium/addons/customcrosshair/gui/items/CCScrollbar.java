@@ -45,7 +45,7 @@ public class CCScrollbar extends CCGuiItem {
         if (this.contentHeight <= this.getHeight()) {
             return;
         }
-        int y = this.getPosY() + this.boxPosition;
+        int y;
         if (this.mouseDown) {
             y = mouseY - this.offset;
             if (y < this.getPosY()) {

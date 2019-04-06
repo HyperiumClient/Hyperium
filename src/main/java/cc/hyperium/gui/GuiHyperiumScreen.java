@@ -87,8 +87,6 @@ public class GuiHyperiumScreen extends GuiScreen {
             }
             if (bgBr != null)
                 bgDynamicTexture = mc.getRenderManager().renderEngine.getDynamicTextureLocation(customImage.getName(), new DynamicTexture(bgBr));
-            if (bgDynamicTexture == null)
-                return;
         }
 
     }

@@ -1,6 +1,5 @@
 package cc.hyperium.gui;
 
-import cc.hyperium.Hyperium;
 import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
@@ -14,7 +13,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
 
-import java.awt.Color;
+import java.awt.*;
 import java.io.IOException;
 import java.util.List;
 
@@ -22,7 +21,7 @@ import java.util.List;
  * Created by mitchellkatz on 5/2/18. Designed for production use on Sk1er.club
  */
 public class CustomLevelheadConfigurer extends HyperiumGui {
-    int cooldown = 0;
+    private int cooldown = 0;
     private GuiTextField header;
     private GuiTextField level;
     private JsonHolder levelhead_propose = new JsonHolder();

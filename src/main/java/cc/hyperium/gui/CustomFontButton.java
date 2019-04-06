@@ -67,12 +67,11 @@ public class CustomFontButton extends GuiButton {
 
         float charlength = fontRenderer.getWidth(this.displayString);
 
-        boolean enabled = true;
         fontRenderer.drawString(
             this.displayString,
-            (this.xPosition + this.width / 2) - (charlength / 2),
+            (this.xPosition + this.width / 2f) - (charlength / 2),
             this.yPosition + (this.height - 8) / 2,
-            enabled ? 10526880 : this.hovered ? textHoverColor : textColor
+            10526880
         );
     }
 

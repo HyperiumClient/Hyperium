@@ -583,39 +583,27 @@ public class NotificationCenter extends Gui {
 
             // Description text
             if (descriptionColor == null) descriptionColor = new Color(80, 80, 80); // Anti-NPE
-            if (maxDescriptionLines > 0) { // Don't draw if no lines
-                final int wrapWidth = getWrapWidth();
-                if (maxDescriptionLines == 1) { // Well this is easy..
-                    fontRenderer.drawString(trimString(
-                        String.valueOf(description),
-                        wrapWidth,
-                        null,
-                        true),
-                        x + highlightBarWidth + highlightBarMargins,
-                        y + topPadding + fontRenderer.FONT_HEIGHT + lineSpacing,
-                        descriptionColor.getRGB() | alpha << 24);
-                } else {
-                    // Trim & split into multiple lines
-                    List<String> lines = fontRenderer.listFormattedStringToWidth(String.valueOf(description), wrapWidth);
-                    if (lines.size() > maxDescriptionLines) { // Trim size & last line if overflow
-                        final String nextLine = lines.get(maxDescriptionLines); // The line that would appear after the last one
-                        lines = lines.subList(0, maxDescriptionLines);
-                        // Next line is appended to guarantee three ellipsis on the end of the string
-                        lines.set(lines.size() - 1, trimString(lines.get(lines.size() - 1) + " " + nextLine,
-                            wrapWidth, null, true));
-                    }
+            // Don't draw if no lines
+            final int wrapWidth = getWrapWidth();
+            // Trim & split into multiple lines
+            List<String> lines = fontRenderer.listFormattedStringToWidth(String.valueOf(description), wrapWidth);
+            if (lines.size() > maxDescriptionLines) { // Trim size & last line if overflow
+                final String nextLine = lines.get(maxDescriptionLines); // The line that would appear after the last one
+                lines = lines.subList(0, maxDescriptionLines);
+                // Next line is appended to guarantee three ellipsis on the end of the string
+                lines.set(lines.size() - 1, trimString(lines.get(lines.size() - 1) + " " + nextLine,
+                    wrapWidth, null, true));
+            }
 
-                    // Draw lines
-                    int currentLine = 0;
-                    for (final String line : lines) {
-                        fontRenderer.drawString(String.valueOf(line),
-                            x + highlightBarWidth + highlightBarMargins,
-                            y + topPadding + fontRenderer.FONT_HEIGHT + lineSpacing + fontRenderer.FONT_HEIGHT * currentLine,
-                            descriptionColor.getRGB() | alpha << 24);
+            // Draw lines
+            int currentLine = 0;
+            for (final String line : lines) {
+                fontRenderer.drawString(String.valueOf(line),
+                    x + highlightBarWidth + highlightBarMargins,
+                    y + topPadding + fontRenderer.FONT_HEIGHT + lineSpacing + fontRenderer.FONT_HEIGHT * currentLine,
+                    descriptionColor.getRGB() | alpha << 24);
 
-                        if (++currentLine >= maxDescriptionLines) break; // stop if too many lines have gone by
-                    }
-                }
+                if (++currentLine >= maxDescriptionLines) break; // stop if too many lines have gone by
             }
 
             // Notification Image

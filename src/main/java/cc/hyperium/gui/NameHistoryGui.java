@@ -86,7 +86,7 @@ public class NameHistoryGui extends GuiScreen {
             float yPos = bottom + (i * 10) + offset;
 
             // Check if names have been scrolled outside of bounding box.
-            if (yPos < (height / 5) + 32) {
+            if (yPos < (height / 5f) + 32) {
                 continue;
             }
 
