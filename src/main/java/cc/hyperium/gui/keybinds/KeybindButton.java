@@ -12,7 +12,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
-import java.awt.*;
+import java.awt.Color;
 
 public class KeybindButton extends GuiButton {
 
