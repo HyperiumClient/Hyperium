@@ -20,7 +20,7 @@ package cc.hyperium.addons.customcrosshair.gui.items;
 import cc.hyperium.addons.customcrosshair.utils.CustomCrosshairGraphics;
 import net.minecraft.client.gui.GuiScreen;
 
-import java.awt.*;
+import java.awt.Color;	
 import java.util.ArrayList;
 import java.util.List;
 
