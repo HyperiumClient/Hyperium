@@ -352,7 +352,7 @@ public abstract class HyperiumGui extends GuiScreen {
     public void drawScaledText(String text, int trueX, int trueY, double scaleFac, int color, boolean shadow, boolean centered) {
         GlStateManager.pushMatrix();
         GlStateManager.scale(scaleFac, scaleFac, scaleFac);
-        fontRendererObj.drawString(text, (float) (((double) trueX) / scaleFac) - (centered ? fontRendererObj.getStringWidth(text) / 2 : 0), (float) (((double) trueY) / scaleFac), color, shadow);
+        fontRendererObj.drawString(text, (float) (((double) trueX) / scaleFac) - (centered ? fontRendererObj.getStringWidth(text) / 2f : 0), (float) (((double) trueY) / scaleFac), color, shadow);
         GlStateManager.scale(1 / scaleFac, 1 / scaleFac, 1 / scaleFac);
         GlStateManager.popMatrix();
     }

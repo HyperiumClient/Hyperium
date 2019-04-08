@@ -49,13 +49,6 @@ public class WingsCosmetic extends AbstractCosmetic {
     }
 
     public ResourceLocation getLocation(String s) {
-        if (s == null)
-            return dragon;
-        switch (s) {
-            case "Dragon wings":
-                return dragon;
-            default:
-                return dragon;
-        }
+        return dragon;
     }
 }

@@ -183,8 +183,8 @@ public class ParticleGui extends HyperiumGui implements GuiYesNoCallback {
                 if (client != null) {
                     client.write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("particle_update", true).put("active_type", value.name())));
                 }
-                for (int j = 0; j < particles.length; j++) {
-                    particles[j].setActive(false);
+                for (CarouselItem item : particles) {
+                    item.setActive(false);
                 }
                 carouselItem.setActive(true);
             });
@@ -240,8 +240,8 @@ public class ParticleGui extends HyperiumGui implements GuiYesNoCallback {
                 if (client != null) {
                     client.write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("particle_update", true).put("particle_animation", s)));
                 }
-                for (int j = 0; j < animationItems.length; j++) {
-                    animationItems[j].setActive(false);
+                for (CarouselItem animationItem : animationItems) {
+                    animationItem.setActive(false);
                 }
                 carouselItem.setActive(true);
             });

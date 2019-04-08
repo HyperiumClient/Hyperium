@@ -162,7 +162,7 @@ public class GuiSidebar extends Gui {
                     rgb = Color.HSBtoRGB((float) (l2 % (int) ff) / ff, 0.8F, 0.8F);
                     break;
             }
-        } else if (this.chromaEnabled && !isBackground) {
+        } else if (this.chromaEnabled) {
             long dif;
             float ff;
             switch (this.chromaType) {

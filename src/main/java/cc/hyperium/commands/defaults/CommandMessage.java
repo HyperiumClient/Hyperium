@@ -29,8 +29,8 @@ public class CommandMessage implements BaseCommand {
     @Override
     public void onExecute(String[] args) throws CommandException {
         StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < args.length; i++) {
-            builder.append(args[i]).append(" ");
+        for (String arg : args) {
+            builder.append(arg).append(" ");
         }
         Hyperium.INSTANCE.getHandlers().getCommandQueue().queue("/msg " + builder.toString());
     }

@@ -18,11 +18,9 @@
 package cc.hyperium.addons.customcrosshair.gui.items;
 
 import cc.hyperium.addons.customcrosshair.utils.CustomCrosshairGraphics;
-
-import java.awt.Color;
-
 import net.minecraft.client.gui.GuiScreen;
 
+import java.awt.Color;	
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,7 +48,7 @@ public class CCListDropBox extends CCGuiItem {
     public void drawItem(final int mouseX, final int mouseY) {
         CustomCrosshairGraphics
             .drawBorderedRectangle(this.getPosX(), this.getPosY(), this.getPosX() + this.getWidth(), this.getPosY() + this.getHeight(), new Color(23, 107, 192, 128), new Color(240, 240, 240, 255));
-        if (this.selectedItem != null && this.selectedItem != "") {
+        if (this.selectedItem != null && !this.selectedItem.equals("")) {
             CustomCrosshairGraphics
                 .drawString(this.selectedItem, this.getPosX() + 2, this.getPosY(), 16777215);
         } else {

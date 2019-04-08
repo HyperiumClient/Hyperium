@@ -19,7 +19,8 @@ package cc.hyperium.commands.defaults;
 
 import cc.hyperium.commands.BaseCommand;
 import net.minecraft.client.gui.GuiNewChat;
-import java.util.Arrays;
+
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -37,7 +38,7 @@ public class CommandGarbageCollect implements BaseCommand {
 
     @Override
     public List<String> getCommandAliases() {
-        return Arrays.asList("garbagecollect");
+        return Collections.singletonList("garbagecollect");
     }
 
     @Override
