@@ -26,6 +26,9 @@ public class Colors {
     @ConfigOpt
     @ToggleSetting(category = Category.GLINTCOLORIZER, mods = true, name = "Enabled")
     public static boolean enabled = false;
+    @ConfigOpt
+    @ToggleSetting(category = Category.GLINTCOLORIZER, mods = true, name = "Match potion")
+    public static boolean matchPot = false;
     private static float[] onepoint8glintcolorF = Color.RGBtoHSB(Colors.glintR, Colors.glintG, Colors.glintB, null);
     public static int onepoint8glintcolorI = Color.HSBtoRGB(Colors.onepoint8glintcolorF[0], Colors.onepoint8glintcolorF[1], Colors.onepoint8glintcolorF[2]);
 

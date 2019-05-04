@@ -21,6 +21,7 @@ import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.tileentity.TileEntityItemStackRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.resources.model.IBakedModel;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemPotion;
 import net.minecraft.item.ItemSkull;
 import net.minecraft.item.ItemStack;
@@ -30,12 +31,14 @@ import org.lwjgl.opengl.GL11;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.HashMap;
 
 public class HyperiumRenderItem {
     private static final ResourceLocation RES_ITEM_GLINT = new ResourceLocation("textures/misc/enchanted_item_glint.png");
 
     private RenderItem parent;
     private final int MAX = 5000;
+    private final int MAX_EFFECTS = 25;
 
     private Cache<ItemHash, Integer> itemCache = Caffeine.newBuilder()
         .maximumSize(MAX)
@@ -43,8 +46,37 @@ public class HyperiumRenderItem {
         .executor(Multithreading.POOL)
         .build();
 
+    private Cache<Integer, Integer> colorCache = Caffeine.newBuilder()
+        .maximumSize(MAX_EFFECTS)
+        .executor(Multithreading.POOL)
+        .build();
+
     public HyperiumRenderItem(RenderItem parent) {
         this.parent = parent;
+    }
+
+    private int getPotionColor(ItemStack item) {
+        if(Colors.enabled && Colors.matchPot) {
+            int potionId = item.getMetadata();
+
+            Integer cached = colorCache.getIfPresent(potionId);
+
+            if (cached != null) return cached;
+            else {
+                // First we get the potion color.
+                int color = Items.potionitem.getColorFromItemStack(item, 0);
+
+                // The color is a RGB hex int, we have to convert it to the glint format first.
+                int red = (((color >> 16) & 0xFF) << 16) & 0x00FF0000;
+                int green = (((color >> 8) & 0xFF) << 8) & 0x0000FF00;
+                int blue = color & 0xFF;
+                int glint = 0xFF000000 | red | green | blue;
+                colorCache.put(potionId, glint);
+                return glint;
+            }
+        } else {
+            return Colors.onepoint8glintcolorI;
+        }
     }
 
     public void renderItem(ItemStack stack, IBakedModel model) {
@@ -111,7 +143,8 @@ public class HyperiumRenderItem {
                 // We want to render our potion effect before
                 // the item is renderer so the effect doesn't obscure the item
                 if (Settings.SHINY_POTS && isInv && stack.getItem() != null && stack.getItem() instanceof ItemPotion) {
-                    renderPot(model); // Use our renderer instead of the normal one
+                    int glintColor = getPotionColor(stack);
+                    renderPot(model, glintColor); // Use our renderer instead of the normal one
 
                     renderedAsPotion = true;
                 }
@@ -143,8 +176,9 @@ public class HyperiumRenderItem {
      * Basically the same as the above method, but does not include the depth code
      *
      * @param model the model
+     * @param color the color of the glint
      */
-    public void renderPot(IBakedModel model) {
+    public void renderPot(IBakedModel model, int color) {
         GlStateManager.depthMask(false);
         GlStateManager.disableLighting();
         GlStateManager.blendFunc(768, 1);
@@ -155,14 +189,14 @@ public class HyperiumRenderItem {
         float f = (float) (Minecraft.getSystemTime() % 3000L) / 3000.0F / 8.0F;
         GlStateManager.translate(f, 0.0F, 0.0F);
         GlStateManager.rotate(-50.0F, 0.0F, 0.0F, 1.0F);
-        ((IMixinRenderItem) parent).callRenderModel(model, -8372020);
+        ((IMixinRenderItem) parent).callRenderModel(model, color);
         GlStateManager.popMatrix();
         GlStateManager.pushMatrix();
         GlStateManager.scale(8.0F, 8.0F, 8.0F);
         float f1 = (float) (Minecraft.getSystemTime() % 4873L) / 4873.0F / 8.0F;
         GlStateManager.translate(-f1, 0.0F, 0.0F);
         GlStateManager.rotate(10.0F, 0.0F, 0.0F, 1.0F);
-        ((IMixinRenderItem) parent).callRenderModel(model, -8372020);
+        ((IMixinRenderItem) parent).callRenderModel(model, color);
         GlStateManager.popMatrix();
         GlStateManager.matrixMode(5888);
         GlStateManager.blendFunc(770, 771);
@@ -181,6 +215,7 @@ public class HyperiumRenderItem {
         if (Settings.DISABLE_ENCHANT_GLINT) {
             return;
         }
+
         GlStateManager.depthMask(false);
 
         GlStateManager.depthFunc(514); // This is for render depth
