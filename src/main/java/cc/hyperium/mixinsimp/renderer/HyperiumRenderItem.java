@@ -56,7 +56,7 @@ public class HyperiumRenderItem {
     }
 
     private int getPotionColor(ItemStack item) {
-        if(Colors.enabled && Colors.matchPot) {
+        if(Settings.SHINY_POTS_MATCH_COLOR) {
             int potionId = item.getMetadata();
 
             Integer cached = colorCache.getIfPresent(potionId);

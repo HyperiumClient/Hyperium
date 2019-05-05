@@ -127,6 +127,7 @@ gui.settings.voidflickerfix=Void Flicker Fix
 gui.settings.fpslimiter=FPS Limiter (in Limbo)
 gui.settings.fastchat=Fast Chat
 gui.settings.shinypotions=Shiny Potions
+gui.settings.shinypotions.matchcolor=Shiny Potions - Match Potion Color
 gui.settings.smartsounds=Smart Sounds
 gui.settings.numericping=Numeric Ping
 gui.settings.arrowcountwhenholdingbow=Arrow Count When Holding Bow

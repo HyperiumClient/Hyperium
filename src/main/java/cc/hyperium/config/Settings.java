@@ -82,6 +82,10 @@ public class Settings {
     @ToggleSetting(name = "gui.settings.shinypotions", category = ANIMATIONS)
     public static boolean SHINY_POTS = false;
 
+    @ConfigOpt
+    @ToggleSetting(name ="gui.settings.shinypotions.matchcolor", category = ANIMATIONS)
+    public static boolean SHINY_POTS_MATCH_COLOR = false;
+
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;smartSoundsEnabled")
     @ToggleSetting(name = "gui.settings.smartsounds", category = IMPROVEMENTS)
     public static boolean SMART_SOUNDS = false;
