@@ -62,16 +62,9 @@ public class HyperiumRenderItem {
 
             if (cached != null) return cached;
             else {
-                // First we get the potion color.
-                int color = Items.potionitem.getColorFromItemStack(item, 0);
-
-                // The color is a RGB hex int, we have to convert it to the glint format first.
-                int red = (((color >> 16) & 0xFF) << 16) & 0x00FF0000;
-                int green = (((color >> 8) & 0xFF) << 8) & 0x0000FF00;
-                int blue = color & 0xFF;
-                int glint = 0xFF000000 | red | green | blue;
-                colorCache.put(potionId, glint);
-                return glint;
+                int color = Items.potionitem.getColorFromItemStack(item, 0) | 0xFF000000;
+                colorCache.put(potionId, color);
+                return color;
             }
         } else {
             return Colors.onepoint8glintcolorI;
