@@ -152,11 +152,19 @@ public class AboveHeadDisplay extends LevelheadDisplay {
         return true;
     }
 
-    public boolean isBottomValue() {L
+    public boolean isBottomValue() {
         return bottomValue;
     }
 
     public void setBottomValue(boolean bottomValue) {
         this.bottomValue = bottomValue;
+    }
+
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
     }
 }
