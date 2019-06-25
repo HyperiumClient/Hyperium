@@ -22,7 +22,6 @@ run/
 src/api/
 src/test/
 .idea/
-gradle/
 gradlew
 src/main/java/cc/hyperium/addons/sidebar/versions/UpdateChecker.java
 .DS_Store

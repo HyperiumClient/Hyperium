@@ -19,17 +19,12 @@ package cc.hyperium.addons.customcrosshair.gui.items;
 
 import cc.hyperium.addons.customcrosshair.CustomCrosshairAddon;
 import cc.hyperium.addons.customcrosshair.utils.CustomCrosshairGraphics;
-
-import java.awt.Color;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 
-public class CCButton extends CCGuiItem {
+import java.awt.*;
 
-    public CCButton(final GuiScreen screen) {
-        super(screen);
-    }
+public class CCButton extends CCGuiItem {
 
     public CCButton(final GuiScreen screen, final int id, final String text, final int x,
                     final int y, final int width, final int height) {

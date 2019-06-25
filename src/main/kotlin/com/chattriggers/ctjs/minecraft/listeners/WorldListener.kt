@@ -27,9 +27,9 @@ object WorldListener {
         shouldTriggerWorldLoad = false
 
         CTJS.sounds
-                .stream()
-                .filter { it.isListening }
-                .forEach { it.onWorldLoad() }
+            .stream()
+            .filter { it.isListening }
+            .forEach { it.onWorldLoad() }
 
         CTJS.sounds.clear()
     }
@@ -42,24 +42,32 @@ object WorldListener {
     @InvokeEvent
     fun onSoundPlay(event: SoundPlayEvent) {
         val position = Vector3D(
-                event.sound.xPosF,
-                event.sound.yPosF,
-                event.sound.zPosF
+            event.sound.xPosF,
+            event.sound.yPosF,
+            event.sound.zPosF
         )
 
-        val vol = try { event.sound.volume } catch (ignored: Exception) { 0 }
-        val pitch = try { event.sound.volume } catch (ignored: Exception) { 1 }
+        val vol = try {
+            event.sound.volume
+        } catch (ignored: Exception) {
+            0
+        }
+        val pitch = try {
+            event.sound.volume
+        } catch (ignored: Exception) {
+            1
+        }
 
         TriggerType.SOUND_PLAY.triggerAll(
-                event,
-                position,
-                event.sound.soundLocation.resourcePath,
-                vol,
-                pitch,
-                ""
+            event,
+            position,
+            event.sound.soundLocation.resourcePath,
+            vol,
+            pitch,
+            ""
         )
     }
-    
+
     //TODO: DETERMINE IF THESE ARE NEEDED OR NOT
     /*@InvokeEvent
     fun noteBlockEventPlay(event: NoteBlockEvent.Play) {

@@ -174,7 +174,7 @@ public class ChromaHUD extends AbstractMod {
             FileReader fr = new FileReader(suggestedConfigurationFile);
             BufferedReader br = new BufferedReader(fr);
             StringBuilder builder = new StringBuilder();
-            String line = null;
+            String line;
             while ((line = br.readLine()) != null)
                 builder.append(line);
 
@@ -225,7 +225,5 @@ public class ChromaHUD extends AbstractMod {
         } catch (Exception ignored) {
 
         }
-
     }
-
 }

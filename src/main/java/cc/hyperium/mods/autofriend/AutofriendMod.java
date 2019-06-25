@@ -1,5 +1,6 @@
 package cc.hyperium.mods.autofriend;
 
+import cc.hyperium.Hyperium;
 import cc.hyperium.config.Settings;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.HypixelFriendRequestEvent;
@@ -47,8 +48,8 @@ public class AutofriendMod extends AbstractMod {
         }
     }
 
-    private static void getBlacklist() throws IOException {
-        final File blacklistFile = new File("config/autofriend.cfg");
+    public static void getBlacklist() throws IOException {
+        final File blacklistFile = new File(Hyperium.folder, "autofriend.cfg");
         if (blacklistFile.exists()) {
             blacklist = Files.readAllLines(Paths.get(blacklistFile.toURI()));
             if (blacklist.get(0).equals("true") || blacklist.get(0).equals("false")) {
@@ -64,7 +65,7 @@ public class AutofriendMod extends AbstractMod {
 
     public static void writeBlacklist() {
         try {
-            final File blacklistFile = new File("config/autofriend.cfg");
+            final File blacklistFile = new File(Hyperium.folder, "autofriend.cfg");
 
             if (!blacklistFile.getParentFile().exists()) {
                 if (!blacklistFile.getParentFile().mkdirs()) {

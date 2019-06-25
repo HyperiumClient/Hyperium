@@ -116,14 +116,13 @@ public class HyperiumGuiNewChat {
         }
     }
 
-    public void setChatLine(IChatComponent chatComponent, int chatLineId, int p_146237_3_, boolean p_146237_4_, int scrollPos, boolean isScrolled, List<ChatLine> field_146253_i, List<ChatLine> chatLines, Minecraft mc) {
+    public void setChatLine(IChatComponent chatComponent, int chatLineId, int p_146237_3_, boolean p_146237_4_, int scrollPos, boolean isScrolled, List<ChatLine> chatLineList, List<ChatLine> chatLines, Minecraft mc) {
         if (chatLineId != 0) {
             parent.deleteChatLine(chatLineId);
         }
 
         int i = MathHelper.floor_float((float) parent.getChatWidth() / parent.getChatScale());
-        List<IChatComponent> list = GuiUtilRenderComponents
-            .func_178908_a(chatComponent, i, mc.fontRendererObj, false, false);
+        List<IChatComponent> list = GuiUtilRenderComponents.splitText(chatComponent, i, mc.fontRendererObj, false, false);
         boolean flag = parent.getChatOpen();
 
         for (IChatComponent ichatcomponent : list) {
@@ -132,11 +131,11 @@ public class HyperiumGuiNewChat {
                 parent.scroll(1);
             }
 
-            field_146253_i.add(0, new ChatLine(p_146237_3_, ichatcomponent, chatLineId));
+            chatLineList.add(0, new ChatLine(p_146237_3_, ichatcomponent, chatLineId));
         }
 
-        while (field_146253_i.size() > 500) {
-            field_146253_i.remove(field_146253_i.size() - 1);
+        while (chatLineList.size() > 500) {
+            chatLineList.remove(chatLineList.size() - 1);
         }
 
         if (!p_146237_4_) {

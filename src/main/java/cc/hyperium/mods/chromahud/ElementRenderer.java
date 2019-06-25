@@ -49,7 +49,7 @@ public class ElementRenderer {
     private static String cValue;
     private final ChromaHUD mod;
     private final Minecraft minecraft;
-    boolean last = false;
+    private boolean last = false;
     private boolean rLast = false;
     private boolean mLast = false;
 
@@ -213,18 +213,19 @@ public class ElementRenderer {
     /* Until Sk1er fixes the old one causing an NPE, keep it like this */
     @InvokeEvent
     public void tick(TickEvent event) {
-        if (Minecraft.getMinecraft().inGameHasFocus)
+        if (Minecraft.getMinecraft().inGameHasFocus) {
             cValue = Minecraft.getMinecraft().renderGlobal.getDebugInfoRenders().split("/")[0].trim();
+        }
     }
 
     // Right CPS Counter
 
     @InvokeEvent
     public void onRenderTick(RenderHUDEvent event) {
-
         if (!this.minecraft.inGameHasFocus || this.minecraft.gameSettings.showDebugInfo) {
             return;
         }
+
         if (!Settings.SHOW_CHROMAHUD)
             return;
 

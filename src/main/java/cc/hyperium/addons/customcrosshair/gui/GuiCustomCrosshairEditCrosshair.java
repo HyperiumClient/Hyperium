@@ -17,22 +17,14 @@
 
 package cc.hyperium.addons.customcrosshair.gui;
 
-import cc.hyperium.addons.customcrosshair.gui.items.CCButton;
-import cc.hyperium.addons.customcrosshair.gui.items.CCEditColourButton;
-import cc.hyperium.addons.customcrosshair.gui.items.CCGuiItem;
-import cc.hyperium.addons.customcrosshair.gui.items.CCHelpButton;
-import cc.hyperium.addons.customcrosshair.gui.items.CCScrollbar;
-import cc.hyperium.addons.customcrosshair.gui.items.CCSlider;
-import cc.hyperium.addons.customcrosshair.gui.items.CCTickbox;
 import cc.hyperium.addons.customcrosshair.CustomCrosshairAddon;
+import cc.hyperium.addons.customcrosshair.gui.items.*;
 import cc.hyperium.addons.customcrosshair.utils.CustomCrosshairGraphics;
+import org.lwjgl.input.Mouse;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import net.minecraft.client.Minecraft;
-import org.lwjgl.input.Mouse;
 
 public class GuiCustomCrosshairEditCrosshair extends CustomCrosshairScreen {
 
@@ -114,7 +106,7 @@ public class GuiCustomCrosshairEditCrosshair extends CustomCrosshairScreen {
         this.tickbox_visibleHiddenGui.getHelpText()
             .add("Shows or hides the crosshair when the HUD (F1 Mode) is off.");
         this.itemList.add(
-            this.tickbox_visibleDebug = new CCTickbox(this, 1, "Visible in debug screen", 0, 0) {
+            this.tickbox_visibleDebug = new CCTickbox(this, 1, "Visible in debug Screen", 0, 0) {
                 @Override
                 public void mouseClicked(final int mouseX, final int mouseY) {
                     super.mouseClicked(mouseX, mouseY);
@@ -124,7 +116,7 @@ public class GuiCustomCrosshairEditCrosshair extends CustomCrosshairScreen {
             });
         this.tickbox_visibleDebug.setChecked(this.addon.getCrosshair().getVisibleDebug());
         this.tickbox_visibleDebug.getHelpText()
-            .add("Shows or hides the crosshair in the debug screen (F3 Mode).");
+            .add("Shows or hides the crosshair in the debug Screen (F3 Mode).");
         this.itemList.add(
             this.tickbox_visibleSpectator = new CCTickbox(this, 2, "Visible in spectator mode", 0,
                 0) {
@@ -177,7 +169,7 @@ public class GuiCustomCrosshairEditCrosshair extends CustomCrosshairScreen {
             }
         });
         this.tickbox_dot.setChecked(this.addon.getCrosshair().getDot());
-        this.tickbox_dot.getHelpText().add("Draws a white dot in the centre of the screen.");
+        this.tickbox_dot.getHelpText().add("Draws a white dot in the centre of the Screen.");
         CCEditColourButton editColour_dot;
         this.itemList.add(
             editColour_dot = new CCEditColourButton(addon, this, 7, "Dot Colour", 0, 0, 100,

@@ -307,13 +307,9 @@ public class GuiBrowser extends GuiScreen {
             }
             if (src.id == 1337) {
                 Settings.BROWSER_DOWNLOAD = true;
-                Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-                    try {
-                        Runtime.getRuntime().exec(Hyperium.INSTANCE.getLaunchCommand(true));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }));
+                buttonList.clear();
+                mc.fontRendererObj.drawStringWithShadow("Game will shutdown in 10 seconds, please reopen it.", width / 2, height / 2, 16777215);
+                Thread.sleep(10000);
                 Minecraft.getMinecraft().shutdown();
             }
             if (browser == null) {

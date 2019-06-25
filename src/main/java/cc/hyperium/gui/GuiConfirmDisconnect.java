@@ -6,9 +6,6 @@ import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.gui.GuiMultiplayer;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.realms.RealmsBridge;
-
-import java.io.IOException;
 
 public class GuiConfirmDisconnect extends GuiScreen {
 
@@ -24,12 +21,12 @@ public class GuiConfirmDisconnect extends GuiScreen {
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         drawDefaultBackground();
-        fontRendererObj.drawStringWithShadow(I18n.format("gui.confirmdisconnect.text"), this.width / 2 - 90, this.height / 4 + 72 + i, 16777215);
+        fontRendererObj.drawStringWithShadow(I18n.format("gui.confirmdisconnect.text"), this.width / 2 - 90, (this.height >> 2) + 72 + i, 16777215);
         super.drawScreen(mouseX, mouseY, partialTicks);
     }
 
     @Override
-    protected void actionPerformed(GuiButton button) throws IOException {
+    protected void actionPerformed(GuiButton button) {
         switch (button.id) {
             case 0:
                 boolean integratedServerRunning = this.mc.isIntegratedServerRunning();

@@ -15,8 +15,8 @@ object CapeHandler {
     init {
         try {
             this.special = Gson().fromJson(
-                    FileLib.getUrlContent("http://167.99.3.229/tracker/special.json"),
-                    Special::class.java
+                FileLib.getUrlContent("http://167.99.3.229/tracker/special.json"),
+                Special::class.java
             )
 
             bindTexture("http://167.99.3.229/assets/images/supporter_cape.png", "capes/ct/supporter")

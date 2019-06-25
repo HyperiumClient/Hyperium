@@ -31,9 +31,9 @@ class Item {
     constructor(itemStack: ItemStack?) {
         //#if MC<=10809
         if (itemStack == null) {
-        //#else
-        //$$ if (itemStack == null || itemStack == ItemStack.EMPTY) {
-        //#endif
+            //#else
+            //$$ if (itemStack == null || itemStack == ItemStack.EMPTY) {
+            //#endif
             this.item = ItemBlock(Block(0).block)
             this.itemStack = ItemStack(item)
         } else {
@@ -131,7 +131,7 @@ class Item {
     fun getEnchantments(): Map<String, Int> {
         return EnchantmentHelper.getEnchantments(itemStack).mapKeys {
             Enchantment.getEnchantmentById(
-               it.key
+                it.key
             ).name.replace("enchantment.", "")
         }
     }
@@ -212,9 +212,9 @@ class Item {
      */
     override fun equals(other: Any?): Boolean {
         return other is Item &&
-            getID() == other.getID() &&
-            getStackSize() == other.getStackSize() &&
-            getDamage() == other.getDamage()
+                getID() == other.getID() &&
+                getStackSize() == other.getStackSize() &&
+                getDamage() == other.getDamage()
     }
 
     override fun hashCode(): Int {

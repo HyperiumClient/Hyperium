@@ -63,7 +63,7 @@ public abstract class MixinRenderPlayer extends RendererLivingEntity<AbstractCli
      */
     @SuppressWarnings("unchecked")
     @ModifyArg(method = "<init>(Lnet/minecraft/client/renderer/entity/RenderManager;Z)V", at = @At(value = "INVOKE", ordinal = 0, target = "Lnet/minecraft/client/renderer/entity/RenderPlayer;addLayer(Lnet/minecraft/client/renderer/entity/layers/LayerRenderer;)Z"))
-    private <V extends EntityLivingBase, U extends LayerRenderer<V>> U injectTwoPartLayerBipedArmor(U original) {
+    public <V extends EntityLivingBase, U extends LayerRenderer<V>> U injectTwoPartLayerBipedArmor(U original) {
         return (U) new TwoPartLayerBipedArmor(this);
     }
 
@@ -80,7 +80,7 @@ public abstract class MixinRenderPlayer extends RendererLivingEntity<AbstractCli
      * @param clientPlayer - User
      * @param ci           - Callback
      */
-    @Inject(method = "renderRightArm", at = @At(value = "FIELD", ordinal = 3))
+    @Inject(method = "renderRightArm", at = @At(value = "FIELD", target = "Lnet/minecraft/client/model/ModelPlayer;isSneak:Z", ordinal = 0))
     private void onUpdateTimer(AbstractClientPlayer clientPlayer, CallbackInfo ci) {
         hyperiumRenderPlayer.onUpdateTimer(clientPlayer, ci);
     }

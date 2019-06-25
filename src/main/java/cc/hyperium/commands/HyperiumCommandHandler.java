@@ -102,7 +102,6 @@ public class HyperiumCommandHandler {
             String[] syntax = commandLine.split(" ");
             commandName = syntax[0];
             args = Arrays.copyOfRange(syntax, 1, syntax.length);
-            // SpotifyInformation: If command is "/print hello 2", commandName will equal "print" and args will equal ["hello","2"]
         } else {
             commandName = commandLine;
         }
@@ -302,12 +301,16 @@ public class HyperiumCommandHandler {
         } catch (IOException ignored) {
 
         }
-        disabledCommands.add("l");
-        disabledCommands.add("lobby");
-        disabledCommands.add("hub");
-        disabledCommands.add("spawn");
 
-
+        try {
+            Class.forName("co.bugg.quickplay.Quickplay");
+            Hyperium.LOGGER.info("Found Quickplay, disabling lobby commands/aliases");
+            disabledCommands.add("l");
+            disabledCommands.add("lobby");
+            disabledCommands.add("hub");
+            disabledCommands.add("spawn");
+        } catch (Exception ignored)  {
+        }
     }
 
     public void saveDisabledCommands() {

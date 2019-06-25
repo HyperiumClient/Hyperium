@@ -2,8 +2,10 @@ package cc.hyperium.handlers.handlers;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.config.DefaultConfig;
+import cc.hyperium.mods.autofriend.AutofriendMod;
 import cc.hyperium.mods.chromahud.ChromaHUD;
 import cc.hyperium.mods.levelhead.Levelhead;
+import net.minecraft.client.Minecraft;
 
 import java.io.File;
 import java.io.IOException;
@@ -37,6 +39,20 @@ public class SettingsMigrator {
             defaultConfig.register(Hyperium.INSTANCE.getModIntegration().getLevelhead().getConfig());
         }
 
+        // moved config/autofriend.cfg to hyperium/autofriend.cfg in 1.1
+        File autofriend = new File(Minecraft.getMinecraft().mcDataDir, "config/autofriend.cfg");
+        if (autofriend.exists()) {
+            try {
+                Files.copy(autofriend.toPath(), new File(config, "autofriend.cfg").toPath());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
+            try {
+                AutofriendMod.getBlacklist();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

@@ -17,7 +17,6 @@
 
 package cc.hyperium.mods.chromahud.displayitems.chromahud;
 
-import cc.hyperium.config.Settings;
 import cc.hyperium.mods.chromahud.ElementRenderer;
 import cc.hyperium.mods.chromahud.api.DisplayItem;
 import cc.hyperium.utils.JsonHolder;
@@ -34,13 +33,12 @@ import java.util.List;
  */
 public class CordsDisplay extends DisplayItem {
 
-    public int state = 0;
-    public int precision = 1;
-    private JsonObject raw;
+    public int state;
+    public int precision;
 
 
-    public CordsDisplay(JsonHolder options, int orderinal) {
-        super(options, orderinal);
+    public CordsDisplay(JsonHolder options, int ordinal) {
+        super(options, ordinal);
         state = options.optInt("state");
         this.precision = options.optInt("precision");
     }
@@ -72,25 +70,16 @@ public class CordsDisplay extends DisplayItem {
             DecimalFormat df = new DecimalFormat(start.toString());
 
             if (state == 0) {
-                if (!Settings.CHROMAHUD_SQUAREBRACE_PREFIX_OPTION) {
-                    tmp.add("X: " + df.format(player.posX) +
-                        " Y: " + df.format(player.posY) +
-                        " Z: " + df.format(player.posZ));
-                } else {
-                    tmp.add("[X] " + df.format(player.posX) +
-                        " [Y] " + df.format(player.posY) +
-                        " [Z] " + df.format(player.posZ));
-                }
+                tmp.add("X: " + df.format(player.posX) +
+                    " Y: " + df.format(player.posY) +
+                    " Z: " + df.format(player.posZ));
             } else if (state == 1) {
-                if (!Settings.CHROMAHUD_SQUAREBRACE_PREFIX_OPTION) {
-                    tmp.add("[X] " + df.format(player.posX));
-                    tmp.add("[Y] " + df.format(player.posY));
-                    tmp.add("[Z] " + df.format(player.posZ));
-                }
+                tmp.add("X " + df.format(player.posX));
+                tmp.add("Y " + df.format(player.posY));
+                tmp.add("Z " + df.format(player.posZ));
             } else tmp.add("Illegal state of cords unit (" + state + ")");
         } else {
-            if (!Settings.CHROMAHUD_SQUAREBRACE_PREFIX_OPTION) tmp.add("X: null, Y: null, Z: null");
-            else tmp.add("[X] null, [Y] null, [Z] null");
+            tmp.add("X: null, Y: null, Z: null");
         }
         ElementRenderer.draw(x, y, tmp);
         this.width = isConfig ? ElementRenderer.maxWidth(tmp) : 0;

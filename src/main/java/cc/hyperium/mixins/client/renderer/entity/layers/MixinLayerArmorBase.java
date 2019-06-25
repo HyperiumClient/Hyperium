@@ -25,8 +25,8 @@ public abstract class MixinLayerArmorBase<T extends ModelBase> implements LayerR
      * @author asbyth
      * @reason Disable Enchantment Glint on worn Armor pieces
      */
-    @Inject(method = "func_177183_a", at = @At("HEAD"), cancellable = true)
-    public void func_177183_a(EntityLivingBase entitylivingbaseIn, T modelbaseIn, float p_177183_3_, float p_177183_4_, float p_177183_5_, float p_177183_6_, float p_177183_7_, float p_177183_8_, float p_177183_9_, CallbackInfo ci) {
+    @Inject(method = "renderGlint", at = @At("HEAD"), cancellable = true)
+    public void renderGlint(EntityLivingBase entitylivingbaseIn, T modelbaseIn, float p_177183_3_, float p_177183_4_, float p_177183_5_, float p_177183_6_, float p_177183_7_, float p_177183_8_, float p_177183_9_, CallbackInfo ci) {
         hyperiumLayerArmorBase.renderEffect(entitylivingbaseIn, modelbaseIn, p_177183_3_, p_177183_4_, p_177183_5_, p_177183_6_, p_177183_7_, p_177183_8_, p_177183_9_, ci);
     }
 }

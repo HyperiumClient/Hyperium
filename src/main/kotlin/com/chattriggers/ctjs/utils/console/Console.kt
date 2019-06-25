@@ -55,7 +55,8 @@ class Console(val loader: ILoader?) {
 
                         try {
                             toPrint = loader?.eval(command)
-                        } catch (error: ThreadQuickExitException) { } catch (e: Exception) {
+                        } catch (error: ThreadQuickExitException) {
+                        } catch (e: Exception) {
                             printStackTrace(e)
                             toPrint = "> $command"
                         }

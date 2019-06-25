@@ -36,16 +36,14 @@ import java.util.List;
 public class GuiSidebar extends Gui {
     public enum ChromaType {
         // Shet code i know
-        ONE("Background 1", 0),
-        TWO("Background 2", 1),
-        THREE("Text 1", 2),
-        FOUR("Text 2", 3);
+        ONE("Background 1"),
+        TWO("Background 2"),
+        THREE("Text 1"),
+        FOUR("Text 2");
         private String name;
-        private int index;
 
-        ChromaType(String name, int index) {
+        ChromaType(String name) {
             this.name = name;
-            this.index = index;
         }
 
         public String getName() {

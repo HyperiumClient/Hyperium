@@ -17,14 +17,14 @@ import java.util.Map;
 public abstract class MixinMultiMap<T> {
     @Shadow
     @Final
-    private List<T> field_181745_e;
+    private List<T> values;
 
     @Shadow
     @Final
     private Map<Class<?>, List<T>> map;
 
     @Shadow
-    protected abstract Class<?> func_181157_b(Class<?> p_181157_1_);
+    protected abstract Class<?> initializeClassLookup(Class<?> clazz);
 
     /**
      * @author FalseHonesty
@@ -32,7 +32,7 @@ public abstract class MixinMultiMap<T> {
      */
     @Overwrite
     public Iterator<T> iterator() {
-        return field_181745_e.isEmpty() ? (UnmodifiableListIterator<T>) Utils.EMPTY_ITERATOR : Iterators.unmodifiableIterator(this.field_181745_e.iterator());
+        return values.isEmpty() ? (UnmodifiableListIterator<T>) Utils.EMPTY_ITERATOR : Iterators.unmodifiableIterator(this.values.iterator());
     }
 
     /**
@@ -42,7 +42,7 @@ public abstract class MixinMultiMap<T> {
     @Overwrite
     public <S> Iterable<S> getByClass(final Class<S> clazz) {
         return () -> {
-            List<T> list = map.get(func_181157_b(clazz));
+            List<T> list = map.get(initializeClassLookup(clazz));
 
             if (list == null) {
                 return (UnmodifiableListIterator<S>) Utils.EMPTY_ITERATOR;

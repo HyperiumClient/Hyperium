@@ -18,9 +18,10 @@ class Sign(block: Block) : Block(block) {
 
     fun getLines(): List<Message> = sign.signText.map { Message(it) }
 
-    fun getFormattedLines(): List<String> = sign.signText.map { it -> it.formattedText }
+    fun getFormattedLines(): List<String> = sign.signText.map { it.formattedText }
 
-    fun getUnformattedLines(): List<String> = sign.signText.map { it -> it.unformattedText }
+    fun getUnformattedLines(): List<String> = sign.signText.map { it.unformattedText }
 
-    override fun toString() = "Sign{lines=${getLines()}, name=${getRegistryName()}, x=${getX()}, y=${getY()}, z=${getZ()}}"
+    override fun toString() =
+        "Sign{lines=${getLines()}, name=${getRegistryName()}, x=${getX()}, y=${getY()}, z=${getZ()}}"
 }

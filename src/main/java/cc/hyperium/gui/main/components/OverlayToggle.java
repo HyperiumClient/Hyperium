@@ -97,7 +97,7 @@ public class OverlayToggle extends OverlayComponent {
             return 0;
         }
 
-        float hue = 0f;
+        float hue;
         if (max == red) {
             hue = (green - blue) / (max - min);
 

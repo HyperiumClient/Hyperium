@@ -81,9 +81,6 @@ public class ParticleGui extends HyperiumGui implements GuiYesNoCallback {
 
     private void rebuild() {
         EnumParticleType[] values = EnumParticleType.values();
-        if (values == null) {
-            return;
-        }
 
         int length = values.length;
         HyperiumPurchase self = PurchaseApi.getInstance().getSelf();

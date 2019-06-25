@@ -25,7 +25,7 @@ open class OverlayLabel(label: String, enabled: Boolean, var click: Runnable) : 
         // Draw distinguishing box.
         val cls = OverlayLabel::class.java
 
-        if (this.javaClass.equals(cls)) {
+        if (this.javaClass == cls) {
             // Check if the box exceeds boundaries.
             val textY = overlayY + (h - fr.FONT_HEIGHT) / 2
             if (textY < overlayH / 4) {

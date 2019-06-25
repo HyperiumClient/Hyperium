@@ -8,10 +8,8 @@ public class StaffSettings {
     private StaffUtils.DotColour dotColour;
 
     public StaffSettings(StaffUtils.DotColour dotColour) {
-        if (dotColour != null)
-            this.dotColour = dotColour;
-        else
-            this.dotColour = new StaffUtils.DotColour(false, ChatColor.GREEN);
+        if (dotColour != null) this.dotColour = dotColour;
+        else this.dotColour = new StaffUtils.DotColour(false, ChatColor.GREEN);
     }
 
     public StaffUtils.DotColour getDotColour() {

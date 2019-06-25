@@ -1,6 +1,5 @@
 package cc.hyperium.gui;
 
-import cc.hyperium.Hyperium;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiMultiplayer;

@@ -10,8 +10,7 @@ import net.minecraft.client.gui.GuiButton;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
-import java.awt.Color;
-import java.awt.Font;
+import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,14 +33,6 @@ public class GuiKeybinds extends HyperiumGui {
     private int leftGui;
     private int rightGui;
     private int bottomGui;
-
-    private int initialGuiScale;
-
-    public GuiKeybinds() {
-
-        // Change the GUI scale to the intended one.
-        Minecraft.getMinecraft().gameSettings.guiScale = 3;
-    }
 
     @Override
     public void initGui() {
@@ -175,13 +166,11 @@ public class GuiKeybinds extends HyperiumGui {
 
     @Override
     public void show() {
-        initialGuiScale = Minecraft.getMinecraft().gameSettings.guiScale;
-        Minecraft.getMinecraft().gameSettings.guiScale = 2;
         super.show();
     }
 
     @Override
-    protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
+    protected void mouseClicked(int mouseX, int mouseY, int mouseButton) {
         if (mouseX > 10 && mouseY < height - 10) {
             if (resetButton.mousePressed(mc, mouseX, mouseY)) {
                 resetAll();
@@ -250,8 +239,6 @@ public class GuiKeybinds extends HyperiumGui {
 
     @Override
     public void onGuiClosed() {
-        // Reset back to the user's normal GUI scale.
-        Minecraft.getMinecraft().gameSettings.guiScale = initialGuiScale;
         Hyperium.CONFIG.save();
 
         super.onGuiClosed();

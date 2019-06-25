@@ -59,7 +59,6 @@ public class GeneralConfigGui extends GuiScreen {
 
     public GeneralConfigGui(ChromaHUD mod) {
         this.mod = mod;
-        boolean mouseLock = Mouse.isButtonDown(0);
     }
 
     private void reg(GuiButton button, Consumer<GuiButton> consumer) {

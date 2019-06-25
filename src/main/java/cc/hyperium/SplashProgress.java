@@ -40,7 +40,7 @@ public class SplashProgress {
     private static ResourceLocation splash;
     private static TextureManager ctm;
     /**
-     * FontRenderer for drawing splash screen
+     * FontRenderer for drawing splash Screen
      */
     private static HyperiumFontRenderer sfr;
 

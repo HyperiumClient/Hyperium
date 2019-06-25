@@ -14,6 +14,6 @@ indent_style = space
 indent_size = 4
 
 # Set indents for the Travis CI config and all JSON files:
-[.travis.yml,*.json]
+[{.travis.yml,*.json}]
 indent_style = space
 indent_size = 2

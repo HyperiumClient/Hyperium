@@ -100,7 +100,7 @@ public class AddItemsGui extends GuiScreen {
             offset += 50;
         }, (guiButton) -> {
         });
-        reg("Up", new GuiButton(nextId(), 2, 23 + 21 * 1, 100, 20, "Scroll Up"), (guiButton) -> {
+        reg("Up", new GuiButton(nextId(), 2, 23 + 21, 100, 20, "Scroll Up"), (guiButton) -> {
             //On click
             offset -= 50;
         }, (guiButton) -> {
@@ -182,7 +182,7 @@ public class AddItemsGui extends GuiScreen {
                     int j = Color.RED.getRGB();
                     int width = 160;
                     int height = 20;
-                    mc.fontRendererObj.drawString(text1, (current.getScaledWidth() / 2 - 80 + width / 2 - mc.fontRendererObj.getStringWidth(text1) / 2), cursorY + (height - 8) / 2, j, false);
+                    mc.fontRendererObj.drawString(text1, ((current.getScaledWidth() >> 1) - 80 + (width >> 1) - (mc.fontRendererObj.getStringWidth(text1) >> 1)), cursorY + (height - 8) / 2, j, false);
                     int i = ResolutionUtil.current().getScaledHeight() - (Mouse.getY() / current.getScaleFactor());
                     if (Mouse.isButtonDown(0) && !mouseLock)
                         if (i >= cursorY && i <= cursorY + 23) {

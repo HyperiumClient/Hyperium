@@ -16,7 +16,7 @@ public class Reflection {
                     m.setAccessible(true);
                     return m;
                 }
-            } catch (NoSuchMethodException e) {
+            } catch (NoSuchMethodException ignored) {
 
             }
         }

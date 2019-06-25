@@ -4,16 +4,9 @@ import cc.hyperium.Hyperium;
 import cc.hyperium.commands.BaseCommand;
 import cc.hyperium.config.Settings;
 import cc.hyperium.mixinsimp.entity.HyperiumEntityRenderer;
-import net.minecraft.client.Minecraft;
 import org.apache.commons.lang3.math.NumberUtils;
 
 public class MotionBlurCommand implements BaseCommand {
-
-    private Minecraft mc;
-
-    public MotionBlurCommand() {
-        this.mc = Minecraft.getMinecraft();
-    }
 
     public void onExecute(String[] args) {
         if (args.length != 1) {

@@ -17,7 +17,6 @@
 
 package cc.hyperium.tray;
 
-import cc.hyperium.Hyperium;
 import cc.hyperium.Metadata;
 import cc.hyperium.config.Settings;
 import cc.hyperium.event.EventBus;
@@ -27,11 +26,8 @@ import cc.hyperium.event.InvokeEvent;
 import net.minecraft.client.Minecraft;
 
 import javax.imageio.ImageIO;
-import javax.swing.JOptionPane;
-import java.awt.MenuItem;
-import java.awt.PopupMenu;
-import java.awt.SystemTray;
-import java.awt.TrayIcon;
+import javax.swing.*;
+import java.awt.*;
 
 // This class is for the Hyperium tray icon code.  
 
@@ -49,7 +45,6 @@ public class TrayManager {
 
     public void init() throws Exception {
         if (SystemTray.isSupported()) {
-            Hyperium Hyperiumutils = Hyperium.INSTANCE;
             tray = new TrayIcon(ImageIO.read(getClass().getResourceAsStream("/assets/hyperium/icons/icon-16x.png")), ""); //resolution fix
             PopupMenu menu = new PopupMenu();
 

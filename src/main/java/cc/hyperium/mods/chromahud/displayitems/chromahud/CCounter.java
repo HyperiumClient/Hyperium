@@ -40,6 +40,4 @@ public class CCounter extends DisplayItem {
         ElementRenderer.draw(starX, startY, string);
         this.width = Minecraft.getMinecraft().fontRendererObj.getStringWidth(string);
     }
-
-
 }

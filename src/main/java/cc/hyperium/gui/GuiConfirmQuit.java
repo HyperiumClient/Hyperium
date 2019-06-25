@@ -5,8 +5,6 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.resources.I18n;
 
-import java.io.IOException;
-
 public class GuiConfirmQuit extends GuiScreen {
 
     private int i = -16;
@@ -26,7 +24,7 @@ public class GuiConfirmQuit extends GuiScreen {
     }
 
     @Override
-    protected void actionPerformed(GuiButton button) throws IOException {
+    protected void actionPerformed(GuiButton button) {
         switch (button.id) {
             case 0:
                 mc.shutdown();

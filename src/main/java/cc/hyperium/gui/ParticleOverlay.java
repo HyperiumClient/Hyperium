@@ -200,12 +200,6 @@ public class ParticleOverlay {
         }
     }
 
-    public static void reload() {
-        overlay = null;
-        System.gc();
-        getOverlay();
-    }
-
     public static ParticleOverlay getOverlay() {
         if (overlay == null) {
             overlay = new ParticleOverlay();
@@ -248,7 +242,6 @@ public class ParticleOverlay {
 
                 particle.x = v1 / (float) ResolutionUtil.current().getScaledWidth_double();
                 particle.y = v2 / (float) ResolutionUtil.current().getScaledHeight_double();
-                int potentialMax = Minecraft.getMinecraft().currentScreen instanceof GuiMainMenu ? 255 : 150;
                 for (Particle particle1 : particles) {
                     double v = particle.distSqTo(particle1);
                     //Threshold for line

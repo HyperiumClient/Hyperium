@@ -102,7 +102,8 @@ object Scoreboard {
             //#endif
 
             theScore.scorePoints = score
-        } catch (ignored: Exception) { }
+        } catch (ignored: Exception) {
+        }
     }
 
     @JvmStatic
@@ -127,7 +128,8 @@ object Scoreboard {
             scoreboardNames = scores.map {
                 Score(it)
             }.toMutableList()
-        } catch (ignored: Exception) { }
+        } catch (ignored: Exception) {
+        }
     }
 
     @JvmStatic
@@ -150,8 +152,8 @@ object Scoreboard {
          * @return the display name
          */
         fun getName(): String = ScorePlayerTeam.formatPlayerName(
-                World.getWorld()!!.scoreboard.getPlayersTeam(score.playerName),
-                score.playerName
+            World.getWorld()!!.scoreboard.getPlayersTeam(score.playerName),
+            score.playerName
         )
 
         override fun toString(): String = getName()

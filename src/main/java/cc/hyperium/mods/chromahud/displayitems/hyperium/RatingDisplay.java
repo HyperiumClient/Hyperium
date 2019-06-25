@@ -39,12 +39,9 @@ public class RatingDisplay extends DisplayItem {
 
     @Override
     public void draw(int x, double y, boolean config) {
-        String string = "";
-        if (!Settings.CHROMAHUD_SQUAREBRACE_PREFIX_OPTION) {
-            string = "Rating: " + format.format(Hyperium.INSTANCE.getHandlers().getValueHandler().getRankedRating());
-        } else {
-            string = "[Rating] " + format.format(Hyperium.INSTANCE.getHandlers().getValueHandler().getRankedRating());
-        }
+        String string;
+        string = "Rating: " + format.format(Hyperium.INSTANCE.getHandlers().getValueHandler().getRankedRating());
+
         if (delta) {
             string += " (" + Hyperium.INSTANCE.getHandlers().getValueHandler().getDeltaRankedRating() + ")";
         }

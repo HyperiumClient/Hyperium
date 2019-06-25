@@ -5,6 +5,7 @@ import cc.hyperium.event.EventBus;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.KeypressEvent;
 import cc.hyperium.handlers.handlers.keybinds.HyperiumBind;
+import cc.hyperium.utils.ChatColor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
@@ -37,7 +38,7 @@ public class KeybindButton extends GuiButton {
         if (!listening) {
             setText(getName(btnBind.getKeyCode()));
         } else {
-            setText("LISTENING...");
+            setText(ChatColor.YELLOW + "LISTENING...");
         }
     }
 

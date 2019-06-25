@@ -11,8 +11,7 @@ import kotlin.properties.Delegates
 import kotlin.reflect.KMutableProperty
 
 class ConfigString
-(private val prop: KMutableProperty<String>, name: String = "", x: Int = 0, y: Int = 0)
-    : ConfigOption() {
+    (private val prop: KMutableProperty<String>, name: String = "", x: Int = 0, y: Int = 0) : ConfigOption() {
 
     private var value: String by Delegates.observable(prop.getter.call(Config)) { _, _, new ->
         prop.setter.call(Config, new)
@@ -22,7 +21,7 @@ class ConfigString
     private var textField: GuiTextField? = null
     private var systemTime: Long = 0
     private var isValid: Boolean = false
-    var isDirectory: Boolean
+    private var isDirectory: Boolean
 
     private val isValidColor: String
         get() = if (this.isValid) ChatLib.addColor("&a") else ChatLib.addColor("&c")
@@ -45,9 +44,11 @@ class ConfigString
         super.init()
 
         updateValidDirectory(this.value)
-        this.textField = GuiTextField(0, Renderer.getFontRenderer(),
-                Renderer.screen.getWidth() / 2 - 100 + this.x, this.y + 15,
-                200, 20)
+        this.textField = GuiTextField(
+            0, Renderer.getFontRenderer(),
+            Renderer.Screen.getWidth() / 2 - 100 + this.x, this.y + 15,
+            200, 20
+        )
         this.textField?.maxStringLength = 100
         this.textField?.text = isValidColor + this.value
     }
@@ -57,11 +58,11 @@ class ConfigString
 
         update()
 
-        val middle = Renderer.screen.getWidth() / 2
+        val middle = Renderer.Screen.getWidth() / 2
 
         Rectangle(-0x80000000, (middle - 105 + this.x).toFloat(), (this.y - 5).toFloat(), 210f, 45f)
-                .setShadow(-0x30000000, 3f, 3f)
-                .draw()
+            .setShadow(-0x30000000, 3f, 3f)
+            .draw()
         Text(this.name!!, (middle - 100 + this.x).toFloat(), this.y.toFloat()).draw()
 
         //#if MC<=10809

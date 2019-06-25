@@ -79,7 +79,7 @@ public abstract class ToggleBase {
 
     /**
      * Gets the description of the specified toggle,
-     * this will show up in the main toggle gui
+     * this will show up in the main toggle Gui
      *
      * @return description of the toggle, can be null
      */

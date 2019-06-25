@@ -173,30 +173,21 @@ import cc.hyperium.config.Settings;
 import cc.hyperium.gui.hyperium.HyperiumMainGui;
 import cc.hyperium.handlers.handlers.SettingsMigrator;
 import cc.hyperium.mixinsimp.renderer.gui.IMixinGuiMultiplayer;
+import cc.hyperium.utils.ChatColor;
+import cc.hyperium.utils.HyperiumFontRenderer;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiLanguage;
-import net.minecraft.client.gui.GuiMainMenu;
-import net.minecraft.client.gui.GuiMultiplayer;
-import net.minecraft.client.gui.GuiOptions;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.GuiSelectWorld;
-import net.minecraft.client.gui.GuiYesNo;
-import net.minecraft.client.gui.GuiYesNoCallback;
+import net.minecraft.client.gui.*;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.client.settings.GameSettings;
-import net.minecraft.realms.RealmsBridge;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.demo.DemoWorldServer;
 import net.minecraft.world.storage.ISaveFormat;
 import net.minecraft.world.storage.WorldInfo;
 import org.lwjgl.input.Keyboard;
 
-import java.io.IOException;
+import java.awt.*;
 
 public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiYesNoCallback {
 
@@ -206,8 +197,6 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
     private final ResourceLocation person_outline = new ResourceLocation("textures/material/person-outline.png");
     private final ResourceLocation settings = new ResourceLocation("textures/material/settings.png");
     private final ResourceLocation hIcon = new ResourceLocation("textures/h_icon.png");
-    private GuiScreen parentScreen;
-    private boolean field_183502_L;
 
     public GuiHyperiumScreenMainMenu() {
         if (Minecraft.getMinecraft().isFullScreen() && Settings.WINDOWED_FULLSCREEN && FIRST_START) {
@@ -226,10 +215,7 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
      *
      * @author Cubxity
      */
-
     public void initGui() {
-
-        viewportTexture = new DynamicTexture(256, 256);
         int j = this.height / 4 + 48;
 
         this.addSingleplayerMultiplayerButtons(j - 10, 24);
@@ -242,19 +228,6 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
                 addHyperiumStyleOptionsButton(j);
                 break;
         }
-
-        this.mc.setConnectedToRealms(false);
-
-        if (Minecraft.getMinecraft().gameSettings.getOptionOrdinalValue(GameSettings.Options.REALMS_NOTIFICATIONS) && !this.field_183502_L) {
-            RealmsBridge realmsbridge = new RealmsBridge();
-            this.parentScreen = realmsbridge.getNotificationScreen(this);
-            this.field_183502_L = true;
-        }
-
-        if (Minecraft.getMinecraft().gameSettings.getOptionOrdinalValue(GameSettings.Options.REALMS_NOTIFICATIONS) && this.parentScreen != null) {
-            this.parentScreen.func_183500_a(this.width, this.height);
-            this.parentScreen.initGui();
-        }
     }
 
     /**
@@ -262,7 +235,6 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
      *
      * @author Cubxity
      */
-
     public void addSingleplayerMultiplayerButtons(int p_73969_1_, int p_73969_2_) {
         switch (getStyle()) {
             case DEFAULT:
@@ -319,7 +291,7 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
             WorldInfo worldinfo = isaveformat.getWorldInfo("Demo_World");
 
             if (worldinfo != null) {
-                GuiYesNo guiyesno = GuiSelectWorld.func_152129_a(this, worldinfo.getWorldName(), 12);
+                GuiYesNo guiyesno = GuiSelectWorld.makeDeleteWorldYesNo(this, worldinfo.getWorldName(), 12);
                 Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(guiyesno);
             }
         }
@@ -403,11 +375,10 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
         drawScaledCustomSizeModalRect(this.width / 2 + getIntendedWidth(195), this.height / 2 - getIntendedHeight(45), 0, 0, 192, 192, getIntendedWidth(90), getIntendedHeight(90), 192, 192);
 
         GlStateManager.popMatrix();
-
     }
 
     @Override
-    protected void keyTyped(char typedChar, int keyCode) throws IOException {
+    protected void keyTyped(char typedChar, int keyCode) {
         if (keyCode == Keyboard.KEY_B) {
             Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new ChangeBackgroundGui(this));
         }

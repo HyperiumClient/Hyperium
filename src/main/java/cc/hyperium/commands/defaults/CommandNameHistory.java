@@ -25,7 +25,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Command to open the NameHistory gui
+ * Command to open the NameHistory Gui
  *
  * @author CoalOres
  */

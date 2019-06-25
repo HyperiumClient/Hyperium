@@ -61,8 +61,8 @@ class PlayerMP(val player: EntityPlayer) : Entity(player) {
     private fun getPlayerName(networkPlayerInfoIn: NetworkPlayerInfo): String {
         return networkPlayerInfoIn.displayName?.formattedText
             ?: ScorePlayerTeam.formatPlayerName(
-                    networkPlayerInfoIn.playerTeam,
-                    networkPlayerInfoIn.gameProfile.name
+                networkPlayerInfoIn.playerTeam,
+                networkPlayerInfoIn.gameProfile.name
             )
     }
 

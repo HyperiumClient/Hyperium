@@ -17,11 +17,15 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats
 import net.minecraft.entity.EntityLivingBase
 import org.lwjgl.opengl.GL11
 import java.util.*
+import kotlin.math.atan
+import kotlin.math.atan2
+import kotlin.math.cos
+import kotlin.math.sin
 
 @External
 object Renderer {
     var colorized: Int? = null
-    var retainTransforms = false
+    private var retainTransforms = false
 
     @JvmStatic val BLACK = color(0, 0, 0, 255)
     @JvmStatic val DARK_BLUE = color(0, 0, 190, 255)
@@ -71,14 +75,16 @@ object Renderer {
         //#endif
     }
 
-    @JvmStatic @JvmOverloads
+    @JvmStatic
+    @JvmOverloads
     fun getStringWidth(text: String, removeFormatting: Boolean = true): Int {
         return if (removeFormatting)
             getFontRenderer().getStringWidth(ChatLib.removeFormatting(text))
-            else getFontRenderer().getStringWidth(text)
+        else getFontRenderer().getStringWidth(text)
     }
 
-    @JvmStatic @JvmOverloads
+    @JvmStatic
+    @JvmOverloads
     fun color(red: Int, green: Int, blue: Int, alpha: Int = 255): Int {
         return (MathLib.clamp(alpha, 0, 255) * 0x1000000
                 + MathLib.clamp(red, 0, 255) * 0x10000
@@ -86,19 +92,21 @@ object Renderer {
                 + MathLib.clamp(blue, 0, 255))
     }
 
-    @JvmStatic @JvmOverloads
+    @JvmStatic
+    @JvmOverloads
     fun getRainbow(step: Float, speed: Float = 1f): Int {
-        val red = ((Math.sin((step / speed).toDouble()) + 0.75) * 170).toInt()
-        val green = ((Math.sin(step / speed + 2 * Math.PI / 3) + 0.75) * 170).toInt()
-        val blue = ((Math.sin(step / speed + 4 * Math.PI / 3) + 0.75) * 170).toInt()
+        val red = ((sin((step / speed).toDouble()) + 0.75) * 170).toInt()
+        val green = ((sin(step / speed + 2 * Math.PI / 3) + 0.75) * 170).toInt()
+        val blue = ((sin(step / speed + 4 * Math.PI / 3) + 0.75) * 170).toInt()
         return color(red, green, blue, 255)
     }
 
-    @JvmStatic @JvmOverloads
+    @JvmStatic
+    @JvmOverloads
     fun getRainbowColors(step: Float, speed: Float = 1f): IntArray {
-        val red = ((Math.sin((step / speed).toDouble()) + 0.75) * 170).toInt()
-        val green = ((Math.sin(step / speed + 2 * Math.PI / 3) + 0.75) * 170).toInt()
-        val blue = ((Math.sin(step / speed + 4 * Math.PI / 3) + 0.75) * 170).toInt()
+        val red = ((sin((step / speed).toDouble()) + 0.75) * 170).toInt()
+        val green = ((sin(step / speed + 2 * Math.PI / 3) + 0.75) * 170).toInt()
+        val blue = ((sin(step / speed + 4 * Math.PI / 3) + 0.75) * 170).toInt()
         return intArrayOf(red, green, blue)
     }
 
@@ -113,7 +121,8 @@ object Renderer {
         GL11.glTranslated(x.toDouble(), y.toDouble(), 0.0)
     }
 
-    @JvmStatic @JvmOverloads
+    @JvmStatic
+    @JvmOverloads
     fun scale(scaleX: Float, scaleY: Float = scaleX) {
         GL11.glScalef(scaleX, scaleY, 1f)
     }
@@ -123,15 +132,16 @@ object Renderer {
         GL11.glRotatef(angle, 0f, 0f, 1f)
     }
 
-    @JvmStatic @JvmOverloads
+    @JvmStatic
+    @JvmOverloads
     fun colorize(red: Float, green: Float, blue: Float, alpha: Float = 255f) {
         colorized = fixAlpha(color(red.toInt(), green.toInt(), blue.toInt(), alpha.toInt()))
 
         GlStateManager.color(
-                MathLib.clampFloat(red, 0f, 255f),
-                MathLib.clampFloat(green, 0f, 255f),
-                MathLib.clampFloat(blue, 0f, 255f),
-                MathLib.clampFloat(alpha, 0f, 255f)
+            MathLib.clampFloat(red, 0f, 255f),
+            MathLib.clampFloat(green, 0f, 255f),
+            MathLib.clampFloat(blue, 0f, 255f),
+            MathLib.clampFloat(alpha, 0f, 255f)
         )
     }
 
@@ -144,52 +154,53 @@ object Renderer {
     }
 
     @Deprecated(
-            message="Replaced with Image object",
-            replaceWith = ReplaceWith(
-                    expression = "Image(name[, url])",
-                    imports = ["com.chattriggers.ctjs.minecraft.libs.renderer.Image"]
-            )
+        message = "Replaced with Image object",
+        replaceWith = ReplaceWith(
+            expression = "Image(name[, url])",
+            imports = ["com.chattriggers.ctjs.minecraft.libs.renderer.Image"]
+        )
     )
     @JvmStatic
     fun image(name: String, url: String): Image = Image(name, url)
 
     @JvmStatic
     @Deprecated(
-            message="Replaced with Text object",
-            replaceWith = ReplaceWith(
-                    expression = "Text(text, x, y)",
-                    imports = ["com.chattriggers.ctjs.minecraft.libs.renderer.Text"]
-            )
+        message = "Replaced with Text object",
+        replaceWith = ReplaceWith(
+            expression = "Text(text, x, y)",
+            imports = ["com.chattriggers.ctjs.minecraft.libs.renderer.Text"]
+        )
     )
     fun text(text: String, x: Float, y: Float): Text = Text(text, x, y)
 
     @JvmStatic
     @Deprecated(
-            message="Replaced with Text object",
-            replaceWith = ReplaceWith(
-                    expression = "Text(text)",
-                    imports = ["com.chattriggers.ctjs.minecraft.libs.renderer.Text"]
-            )
+        message = "Replaced with Text object",
+        replaceWith = ReplaceWith(
+            expression = "Text(text)",
+            imports = ["com.chattriggers.ctjs.minecraft.libs.renderer.Text"]
+        )
     )
     fun text(text: String): Text = Text(text)
 
     @JvmStatic
     @Deprecated(
-            message="Replaced with Rectangle object",
-            replaceWith = ReplaceWith(
-                    expression = "Rectangle(color, x, y, width, height)",
-                    imports = ["com.chattriggers.ctjs.minecraft.libs.renderer.Rectangle"]
-            )
+        message = "Replaced with Rectangle object",
+        replaceWith = ReplaceWith(
+            expression = "Rectangle(color, x, y, width, height)",
+            imports = ["com.chattriggers.ctjs.minecraft.libs.renderer.Rectangle"]
+        )
     )
-    fun rectangle(color: Int, x: Float, y: Float, width: Float, height: Float): Rectangle = Rectangle(color, x, y, width, height)
+    fun rectangle(color: Int, x: Float, y: Float, width: Float, height: Float): Rectangle =
+        Rectangle(color, x, y, width, height)
 
     @JvmStatic
     @Deprecated(
-            message="Replaced with Shape object",
-            replaceWith = ReplaceWith(
-                    expression = "Shape(color)",
-                    imports = ["com.chattriggers.ctjs.minecraft.libs.renderer.Shape"]
-            )
+        message = "Replaced with Shape object",
+        replaceWith = ReplaceWith(
+            expression = "Shape(color)",
+            imports = ["com.chattriggers.ctjs.minecraft.libs.renderer.Shape"]
+        )
     )
     fun shape(color: Int): Shape = Shape(color)
 
@@ -229,7 +240,8 @@ object Renderer {
         finishDraw()
     }
 
-    @JvmStatic @JvmOverloads
+    @JvmStatic
+    @JvmOverloads
     fun drawShape(color: Int, vararg vertexes: List<Float>, drawMode: Int = 7) {
         GlStateManager.enableBlend()
         GlStateManager.disableTexture2D()
@@ -263,11 +275,12 @@ object Renderer {
         finishDraw()
     }
 
-    @JvmStatic @JvmOverloads
+    @JvmStatic
+    @JvmOverloads
     fun drawLine(color: Int, x1: Float, y1: Float, x2: Float, y2: Float, thickness: Float, drawMode: Int = 9) {
-        val theta = -Math.atan2((y2 - y1).toDouble(), (x2 - x1).toDouble())
-        val i = Math.sin(theta).toFloat() * (thickness / 2)
-        val j = Math.cos(theta).toFloat() * (thickness / 2)
+        val theta = -atan2((y2 - y1).toDouble(), (x2 - x1).toDouble())
+        val i = sin(theta).toFloat() * (thickness / 2)
+        val j = cos(theta).toFloat() * (thickness / 2)
 
         GlStateManager.enableBlend()
         GlStateManager.disableTexture2D()
@@ -300,11 +313,12 @@ object Renderer {
         finishDraw()
     }
 
-    @JvmStatic @JvmOverloads
+    @JvmStatic
+    @JvmOverloads
     fun drawCircle(color: Int, x: Float, y: Float, radius: Float, steps: Int, drawMode: Int = 5) {
         val theta = 2 * Math.PI / steps
-        val cos = Math.cos(theta).toFloat()
-        val sin = Math.sin(theta).toFloat()
+        val cos = cos(theta).toFloat()
+        val sin = sin(theta).toFloat()
 
         var xHolder: Float
         var circleX = 1f
@@ -326,7 +340,7 @@ object Renderer {
 
         worldRenderer.begin(drawMode, DefaultVertexFormats.POSITION)
 
-        for (i in 0 .. steps) {
+        for (i in 0..steps) {
             worldRenderer.pos(x.toDouble(), y.toDouble(), 0.0).endVertex()
             worldRenderer.pos((circleX * radius + x).toDouble(), (circleY * radius + y).toDouble(), 0.0).endVertex()
             xHolder = circleX
@@ -401,11 +415,11 @@ object Renderer {
         GlStateManager.rotate(180.0f, 0.0f, 0.0f, 1.0f)
         GlStateManager.rotate(45.0f, 0.0f, 1.0f, 0.0f)
         GlStateManager.rotate(-45.0f, 0.0f, 1.0f, 0.0f)
-        GlStateManager.rotate(-Math.atan((mouseY / 40.0f).toDouble()).toFloat() * 20.0f, 1.0f, 0.0f, 0.0f)
+        GlStateManager.rotate(-atan((mouseY / 40.0f).toDouble()).toFloat() * 20.0f, 1.0f, 0.0f, 0.0f)
         if (!rotate) {
-            ent.renderYawOffset = Math.atan((mouseX / 40.0f).toDouble()).toFloat() * 20.0f
-            ent.rotationYaw = Math.atan((mouseX / 40.0f).toDouble()).toFloat() * 40.0f
-            ent.rotationPitch = -Math.atan((mouseY / 40.0f).toDouble()).toFloat() * 20.0f
+            ent.renderYawOffset = atan((mouseX / 40.0f).toDouble()).toFloat() * 20.0f
+            ent.rotationYaw = atan((mouseX / 40.0f).toDouble()).toFloat() * 40.0f
+            ent.rotationPitch = -atan((mouseY / 40.0f).toDouble()).toFloat() * 20.0f
             ent.rotationYawHead = ent.rotationYaw
             ent.prevRotationYawHead = ent.rotationYaw
         }
@@ -445,11 +459,13 @@ object Renderer {
         }
     }
 
-    object screen {
+    object Screen {
         @JvmStatic
         fun getWidth(): Int = ScaledResolution(Client.getMinecraft()).scaledWidth
+
         @JvmStatic
         fun getHeight(): Int = ScaledResolution(Client.getMinecraft()).scaledHeight
+
         @JvmStatic
         fun getScale(): Int = ScaledResolution(Client.getMinecraft()).scaleFactor
     }

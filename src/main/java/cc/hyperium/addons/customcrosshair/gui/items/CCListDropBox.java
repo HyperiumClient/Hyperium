@@ -20,7 +20,7 @@ package cc.hyperium.addons.customcrosshair.gui.items;
 import cc.hyperium.addons.customcrosshair.utils.CustomCrosshairGraphics;
 import net.minecraft.client.gui.GuiScreen;
 
-import java.awt.Color;	
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,7 +34,7 @@ public class CCListDropBox extends CCGuiItem {
     public CCListDropBox(final GuiScreen screen) {
         super(screen);
         this.isOpen = false;
-        this.itemList = new ArrayList<String>();
+        this.itemList = new ArrayList<>();
         this.setWidth(100);
         this.setHeight(10);
         this.itemList.add("Item One");

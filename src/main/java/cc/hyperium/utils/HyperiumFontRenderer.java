@@ -222,7 +222,7 @@ public class HyperiumFontRenderer {
     }
 
     public void drawCenteredString(String text, float x, float y, int color) {
-        drawString(text, x - (int) getWidth(text) / 2, y, color);
+        drawString(text, x - ((int) getWidth(text) >> 1), y, color);
     }
 
     /**

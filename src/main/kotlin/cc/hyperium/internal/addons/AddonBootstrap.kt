@@ -48,7 +48,7 @@ object AddonBootstrap {
     /**
      * All the filtered jars inside of the {@link #modDirectory} folder,
      */
-    private lateinit var jars: ArrayList<File>
+    private var jars: ArrayList<File>
 
     /**
      * Method of loading all the valid addonManifests to the classloader
@@ -153,7 +153,7 @@ object AddonBootstrap {
      */
     private fun loadAddons(loader: AddonLoaderStrategy): List<AddonManifest> {
         val addons = ArrayList<AddonManifest>()
-        var pendings = if(pendingDirectory.exists()) pendingDirectory.listFiles() else arrayOf()
+        val pendings = if(pendingDirectory.exists()) pendingDirectory.listFiles() else arrayOf()
         try {
             if (pendingDirectory.exists())
                 pendings.forEach { pendingManifests.add(AddonManifestParser(JarFile(it)).getAddonManifest()) }

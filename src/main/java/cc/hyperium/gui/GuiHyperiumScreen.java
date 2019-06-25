@@ -24,7 +24,7 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
 import javax.imageio.ImageIO;
-import java.awt.Font;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
@@ -39,7 +39,6 @@ public class GuiHyperiumScreen extends GuiScreen {
     public static BufferedImage bgBr = null;
     public static HyperiumFontRenderer fr = new HyperiumFontRenderer("Arial", Font.PLAIN, 20);
     public static HyperiumFontRenderer sfr = new HyperiumFontRenderer("Arial", Font.PLAIN, 12);
-    public static DynamicTexture viewportTexture;
     private static float swing;
     public GuiButton hypixelButton;
 
@@ -88,7 +87,6 @@ public class GuiHyperiumScreen extends GuiScreen {
             if (bgBr != null)
                 bgDynamicTexture = mc.getRenderManager().renderEngine.getDynamicTextureLocation(customImage.getName(), new DynamicTexture(bgBr));
         }
-
     }
 
     @Override

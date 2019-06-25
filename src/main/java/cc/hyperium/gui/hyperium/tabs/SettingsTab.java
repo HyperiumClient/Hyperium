@@ -1,5 +1,8 @@
 package cc.hyperium.gui.hyperium.tabs;
 
+import cc.hyperium.Hyperium;
+import cc.hyperium.addons.sidebar.gui.screen.GuiScreenSettings;
+import cc.hyperium.addons.sidebar.gui.screen.GuiScreenSidebar;
 import cc.hyperium.config.Category;
 import cc.hyperium.config.SelectorSetting;
 import cc.hyperium.config.SliderSetting;
@@ -8,6 +11,9 @@ import cc.hyperium.gui.CapesGui;
 import cc.hyperium.gui.hyperium.HyperiumMainGui;
 import cc.hyperium.gui.hyperium.RGBFieldSet;
 import cc.hyperium.gui.hyperium.components.*;
+import cc.hyperium.gui.keybinds.GuiKeybinds;
+import cc.hyperium.mods.keystrokes.screen.GuiScreenKeystrokes;
+import cc.hyperium.mods.togglechat.gui.ToggleChatMainGui;
 import net.minecraft.client.resources.I18n;
 
 import java.lang.reflect.Field;
@@ -65,6 +71,17 @@ public class SettingsTab extends AbstractTab {
         // Link to capes GUI.
         apply(new LinkComponent(this, Collections.emptyList(), "Youtuber Capes", new CapesGui()), false, Category.COSMETICS, items);
 
+        // Link to sidebar mod's gui
+        apply(new LinkComponent(this, Collections.emptyList(), "Sidebar Mod", new GuiScreenSettings(Hyperium.INSTANCE.getInternalAddons().getSidebarAddon())), true, Category.SIDEBAR, items);
+
+        // Link to keystrokes gui
+        apply(new LinkComponent(this, Collections.emptyList(), "Keystrokes", new GuiScreenKeystrokes(Hyperium.INSTANCE.getModIntegration().getKeystrokesMod())), true, Category.KEYSTROKES, items);
+
+        // Link to togglechat gui
+        apply(new LinkComponent(this, Collections.emptyList(), "Togglechat", new ToggleChatMainGui(Hyperium.INSTANCE.getModIntegration().getToggleChat(), 0)), true, Category.TOGGLECHAT, items);
+
+        // Link to keybinds gui
+        apply(new LinkComponent(this, Collections.emptyList(), "Keybinds", new GuiKeybinds()), false, Category.GENERAL, items);
 
         for (RGBFieldSet rgbFieldSet : gui.getRgbFields()) {
             apply(new RGBComponent(this, rgbFieldSet), rgbFieldSet.isMods(), rgbFieldSet.getCategory(), items);

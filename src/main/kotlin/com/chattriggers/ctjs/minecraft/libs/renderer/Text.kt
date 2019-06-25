@@ -36,7 +36,7 @@ class Text(private var string: String, private var x: Float = 0f, private var y:
     }
 
     fun getShadow(): Boolean = this.shadow
-    fun setShadow(shadow: Boolean) = apply  { this.shadow = shadow }
+    fun setShadow(shadow: Boolean) = apply { this.shadow = shadow }
 
     fun getAlign(): DisplayHandler.Align = this.align
     fun setAlign(align: Any) = apply {
@@ -83,7 +83,7 @@ class Text(private var string: String, private var x: Float = 0f, private var y:
     fun getHeight(): Float {
         return if (this.width == 0)
             this.scale * 9
-            else this.lines.size * this.scale * 9
+        else this.lines.size * this.scale * 9
     }
 
     fun exceedsMaxLines(): Boolean {
@@ -98,14 +98,21 @@ class Text(private var string: String, private var x: Float = 0f, private var y:
             var maxLinesHolder = this.maxLines
             var yHolder = y ?: this.y
             this.lines.forEach {
-                Renderer.getFontRenderer().drawString(it, getXAlign(it, x ?: this.x), yHolder / this.scale, this.color, this.shadow)
+                Renderer.getFontRenderer()
+                    .drawString(it, getXAlign(it, x ?: this.x), yHolder / this.scale, this.color, this.shadow)
                 yHolder += this.scale * 9
                 maxLinesHolder--
                 if (maxLinesHolder == 0)
                     return@forEach
             }
         } else {
-            Renderer.getFontRenderer().drawString(this.string, getXAlign(this.string, x ?: this.x), (y ?: this.y) / this.scale, this.color, this.shadow)
+            Renderer.getFontRenderer().drawString(
+                this.string,
+                getXAlign(this.string, x ?: this.x),
+                (y ?: this.y) / this.scale,
+                this.color,
+                this.shadow
+            )
         }
         GlStateManager.disableBlend()
         Renderer.finishDraw()
@@ -113,8 +120,8 @@ class Text(private var string: String, private var x: Float = 0f, private var y:
 
     private fun updateFormatting() {
         this.string =
-                if (this.formatted) ChatLib.addColor(this.string)
-                else ChatLib.replaceFormatting(this.string)
+            if (this.formatted) ChatLib.addColor(this.string)
+            else ChatLib.replaceFormatting(this.string)
     }
 
     private fun getXAlign(string: String, x: Float): Float {
@@ -127,10 +134,10 @@ class Text(private var string: String, private var x: Float = 0f, private var y:
     }
 
     override fun toString() =
-            "Text{" +
-                    "string=$string, x=$x, y=$y, " +
-                    "lines=$lines, color=$color, scale=$scale" +
-                    "formatted=$formatted, shadow=$shadow, align=$align, " +
-                    "width=$width, maxLines=$maxLines" +
-                    "}"
+        "Text{" +
+                "string=$string, x=$x, y=$y, " +
+                "lines=$lines, color=$color, scale=$scale" +
+                "formatted=$formatted, shadow=$shadow, align=$align, " +
+                "width=$width, maxLines=$maxLines" +
+                "}"
 }

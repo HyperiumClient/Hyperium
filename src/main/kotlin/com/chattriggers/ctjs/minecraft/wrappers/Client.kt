@@ -32,9 +32,9 @@ object Client {
         getMinecraft().netHandler
 
     /**
-     * Gets the Minecraft GuiNewChat object for the chat gui
+     * Gets the Minecraft GuiNewChat object for the chat Gui
      *
-     * @return The GuiNewChat object for the chat gui
+     * @return The GuiNewChat object for the chat Gui
      */
     @JvmStatic
     fun getChatGUI(): GuiNewChat? = getMinecraft().ingameGUI?.chatGUI
@@ -43,11 +43,11 @@ object Client {
     fun isInChat(): Boolean = getMinecraft().currentScreen is GuiChat
 
     @JvmStatic
-    fun isInTab(): Boolean =  getMinecraft().gameSettings.keyBindPlayerList.isKeyDown
+    fun isInTab(): Boolean = getMinecraft().gameSettings.keyBindPlayerList.isKeyDown
 
     /**
      * Gets whether or not the Minecraft window is active
-     * and in the foreground of the user's screen.
+     * and in the foreground of the user's Screen.
      *
      * @return true if the game is active, false otherwise
      */
@@ -65,8 +65,8 @@ object Client {
     @JvmStatic
     fun getKeyBindFromKey(keyCode: Int): KeyBind? {
         return getMinecraft().gameSettings.keyBindings
-                .firstOrNull { it.keyCode == keyCode }
-                ?.let { KeyBind(it) }
+            .firstOrNull { it.keyCode == keyCode }
+            ?.let { KeyBind(it) }
     }
 
     /**
@@ -80,9 +80,9 @@ object Client {
     @JvmStatic
     fun getKeyBindFromKey(keyCode: Int, description: String): KeyBind {
         return getMinecraft().gameSettings.keyBindings
-                .firstOrNull { it.keyCode == keyCode }
-                ?.let { KeyBind(it) }
-                ?: KeyBind(description, keyCode)
+            .firstOrNull { it.keyCode == keyCode }
+            ?.let { KeyBind(it) }
+            ?: KeyBind(description, keyCode)
     }
 
     /**
@@ -95,8 +95,8 @@ object Client {
     @JvmStatic
     fun getKeyBindFromDescription(description: String): KeyBind? {
         return getMinecraft().gameSettings.keyBindings
-                .firstOrNull { it.keyDescription == description }
-                ?.let { KeyBind(it) }
+            .firstOrNull { it.keyDescription == description }
+            ?.let { KeyBind(it) }
     }
 
     @JvmStatic
@@ -116,7 +116,7 @@ object Client {
 
     @JvmStatic
     fun getMemoryUsage(): Int = Math.round(
-            (getTotalMemory() - getFreeMemory()) * 100 / getMaxMemory().toFloat()
+        (getTotalMemory() - getFreeMemory()) * 100 / getMaxMemory().toFloat()
     )
 
     @JvmStatic
@@ -125,7 +125,7 @@ object Client {
     @JvmStatic
     fun getMouseX(): Float {
         val mx = Mouse.getX().toFloat()
-        val rw = Renderer.screen.getWidth().toFloat()
+        val rw = Renderer.Screen.getWidth().toFloat()
         val dw = getMinecraft().displayWidth.toFloat()
         return mx * rw / dw
     }
@@ -133,18 +133,18 @@ object Client {
     @JvmStatic
     fun getMouseY(): Float {
         val my = Mouse.getY().toFloat()
-        val rh = Renderer.screen.getHeight().toFloat()
+        val rh = Renderer.Screen.getHeight().toFloat()
         val dh = getMinecraft().displayHeight.toFloat()
         return rh - my * rh / dh - 1f
     }
 
     @JvmStatic
-    fun isInGui(): Boolean = gui.get() != null
+    fun isInGui(): Boolean = Gui.get() != null
 
     /**
-     * Gets the chat message currently typed into the chat gui.
+     * Gets the chat message currently typed into the chat Gui.
      *
-     * @return A blank string if the gui isn't open, otherwise, the message
+     * @return A blank string if the Gui isn't open, otherwise, the message
      */
     @JvmStatic
     fun getCurrentChatMessage(): String {
@@ -155,7 +155,7 @@ object Client {
     }
 
     /**
-     * Sets the current chat message, if the chat gui is not open, one will be opened.
+     * Sets the current chat message, if the chat Gui is not open, one will be opened.
      *
      * @param message the message to put in the chat text box.
      */
@@ -167,25 +167,25 @@ object Client {
         } else Client.getMinecraft().displayGuiScreen(GuiChat(message))
     }
 
-    object gui {
+    object Gui {
         /**
-         * Gets the Java class name of the currently open gui, for example, "GuiChest"
+         * Gets the Java class name of the currently open Gui, for example, "GuiChest"
          *
-         * @return the class name of the current gui
+         * @return the class name of the current Gui
          */
         @JvmStatic
         fun getClassName(): String = get()?.javaClass?.simpleName ?: "null"
 
         /**
-         * Gets the Minecraft gui class that is currently open
+         * Gets the Minecraft Gui class that is currently open
          *
-         * @return the Minecraft gui
+         * @return the Minecraft Gui
          */
         @JvmStatic
         fun get(): GuiScreen? = getMinecraft().currentScreen
 
         /**
-         * Closes the currently open gui
+         * Closes the currently open Gui
          */
         @JvmStatic
         fun close() {

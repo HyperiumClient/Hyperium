@@ -3,7 +3,6 @@ package cc.hyperium.mixinsimp.renderer;
 import cc.hyperium.config.Settings;
 import cc.hyperium.mixins.renderer.IMixinItemRenderer;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.ItemRenderer;
@@ -56,13 +55,13 @@ public class HyperiumItemRenderer {
 
     public void renderItemInFirstPerson(float partialTicks, float prevEquippedProgress, float equippedProgress, ItemStack itemToRender) {
         float f = 1.0F - (prevEquippedProgress + (equippedProgress - prevEquippedProgress) * partialTicks);
-        AbstractClientPlayer abstractclientplayer = this.mc.thePlayer;
+        EntityPlayerSP abstractclientplayer = this.mc.thePlayer;
         float f1 = abstractclientplayer.getSwingProgress(partialTicks);
         float f2 = abstractclientplayer.prevRotationPitch + (abstractclientplayer.rotationPitch - abstractclientplayer.prevRotationPitch) * partialTicks;
         float f3 = abstractclientplayer.prevRotationYaw + (abstractclientplayer.rotationYaw - abstractclientplayer.prevRotationYaw) * partialTicks;
-        ((IMixinItemRenderer) parent).callFunc_178101_a(f2, f3);
-        ((IMixinItemRenderer) parent).callFunc_178109_a(abstractclientplayer);
-        ((IMixinItemRenderer) parent).callFunc_178110_a((EntityPlayerSP) abstractclientplayer, partialTicks);
+        ((IMixinItemRenderer) parent).callRotateArroundXAndY(f2, f3);
+        ((IMixinItemRenderer) parent).callSetLightMapFromPlayer(abstractclientplayer);
+        ((IMixinItemRenderer) parent).callRotateWithPlayerRotations(abstractclientplayer, partialTicks);
         GlStateManager.enableRescaleNormal();
         GlStateManager.pushMatrix();
 
@@ -80,7 +79,7 @@ public class HyperiumItemRenderer {
                         break;
                     case EAT:
                     case DRINK:
-                        ((IMixinItemRenderer) parent).callFunc_178104_a(abstractclientplayer, partialTicks);
+                        ((IMixinItemRenderer) parent).callPerformDrinking(abstractclientplayer, partialTicks);
                         if (Settings.OLD_EATING) {
                             this.transformFirstPersonItem(f, f1);
                             break;
@@ -91,34 +90,34 @@ public class HyperiumItemRenderer {
                     case BLOCK:
                         if (Settings.OLD_BLOCKHIT) {
                             this.transformFirstPersonItem(f, f1);
-                            ((IMixinItemRenderer) parent).callFunc_178103_d();
+                            ((IMixinItemRenderer) parent).callDoBlockTransformations();
                             GlStateManager.scale(0.83f, 0.88f, 0.85f);
                             GlStateManager.translate(-0.3f, 0.1f, 0.0f);
                             break;
                         } else {
                             this.transformFirstPersonItem(f, 0f);
-                            ((IMixinItemRenderer) parent).callFunc_178103_d();
+                            ((IMixinItemRenderer) parent).callDoBlockTransformations();
                             break;
                         }
 
                     case BOW:
                         if (Settings.OLD_BOW) {
                             this.transformFirstPersonItem(f, f1);
-                            ((IMixinItemRenderer) parent).callFunc_178098_a(partialTicks, abstractclientplayer);
+                            ((IMixinItemRenderer) parent).callDoBowTransformations(partialTicks, abstractclientplayer);
                             GlStateManager.translate(0.0F, 0.1F, -0.15F);
                         } else {
                             this.transformFirstPersonItem(f, 0.0F);
-                            ((IMixinItemRenderer) parent).callFunc_178098_a(partialTicks, abstractclientplayer);
+                            ((IMixinItemRenderer) parent).callDoBowTransformations(partialTicks, abstractclientplayer);
                         }
                 }
             } else {
-                ((IMixinItemRenderer) parent).callFunc_178105_d(f1);
+                ((IMixinItemRenderer) parent).callDoItemUsedTransformations(f1);
                 this.transformFirstPersonItem(f, f1);
             }
 
             ((IMixinItemRenderer) parent).callRenderItem(abstractclientplayer, itemToRender, ItemCameraTransforms.TransformType.FIRST_PERSON);
         } else if (!abstractclientplayer.isInvisible()) {
-            ((IMixinItemRenderer) parent).callFunc_178095_a(abstractclientplayer, f, f1);
+            ((IMixinItemRenderer) parent).callRenderPlayerArm(abstractclientplayer, f, f1);
         }
 
         GlStateManager.popMatrix();

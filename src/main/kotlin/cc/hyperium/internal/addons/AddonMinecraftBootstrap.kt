@@ -104,7 +104,7 @@ object AddonMinecraftBootstrap {
             toLoad.clear()
 
             // order
-            while (!toSort.isEmpty()) {
+            while (toSort.isNotEmpty()) {
                 // remove a node n from toSort
                 val n = toSort.iterator().next()
                 toSort.remove(n)

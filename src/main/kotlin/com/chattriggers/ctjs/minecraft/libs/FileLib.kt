@@ -80,7 +80,8 @@ object FileLib {
      * @param userAgent the user agent to use in the connection
      * @return the string stored in the url content
      */
-    @JvmStatic @JvmOverloads
+    @JvmStatic
+    @JvmOverloads
     fun getUrlContent(theUrl: String, userAgent: String? = "Mozilla/5.0"): String {
         val conn = URL(theUrl).openConnection()
         conn.setRequestProperty("User-Agent", userAgent)

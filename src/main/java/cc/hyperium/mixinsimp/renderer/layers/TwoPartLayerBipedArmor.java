@@ -25,8 +25,8 @@ public class TwoPartLayerBipedArmor extends LayerArmorBase<ModelBiped> {
     }
 
     protected void initArmor() {
-        this.field_177189_c = new ModelBiped(0.5F);
-        this.field_177186_d = new ModelBiped(1.0F);
+        this.modelLeggings = new ModelBiped(0.5F);
+        this.modelArmor = new ModelBiped(1.0F);
     }
 
     /**
@@ -38,7 +38,7 @@ public class TwoPartLayerBipedArmor extends LayerArmorBase<ModelBiped> {
      *                  me why it doesn't start at 0.
      * @author 9Y0
      */
-    protected void func_177179_a(ModelBiped model, int armorSlot) {
+    protected void setModelPartVisible(ModelBiped model, int armorSlot) {
         model.setInvisible(false);
         IMixinModelBiped modelBiped = (IMixinModelBiped) model;
 

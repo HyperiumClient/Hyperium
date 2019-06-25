@@ -20,8 +20,7 @@ public class PurchaseSettings {
         this.buttDisabled = source.optJSONObject("butt").optBoolean("disabled");
         this.wingsDisabled = source.optJSONObject("wings").optBoolean("disabled");
         this.wingsType = source.optJSONObject("wings").optString("type");
-        this.wingsScale = source.optJSONObject("wings")
-            .optDouble("scale", Settings.WINGS_SCALE);
+        this.wingsScale = source.optJSONObject("wings").optDouble("scale", Settings.WINGS_SCALE);
         dragonHeadDisabled = source.optJSONObject("dragon").optBoolean("disabled");
         this.currentHatType = EnumPurchaseType.parse(source.optJSONObject("hat").optString("current_type"));
         this.companion = EnumPurchaseType.parse(source.optJSONObject("companion").optString("type"));
@@ -34,11 +33,9 @@ public class PurchaseSettings {
     public double getWingsScale() {
         return wingsScale;
     }
-
     public String getWingsType() {
         return wingsType;
     }
-
     public boolean isWingsDisabled() {
         return wingsDisabled;
     }
@@ -47,11 +44,9 @@ public class PurchaseSettings {
         return buttDisabled;
     }
 
-
     public EnumPurchaseType getCurrentHatType() {
         return currentHatType;
     }
-
     public EnumPurchaseType getCurrentCompanion() {
         return companion;
     }

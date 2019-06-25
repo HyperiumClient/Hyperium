@@ -43,11 +43,12 @@ object JSLoader : ILoader {
         scriptEngine = instanceScriptEngine(jars)
 
         val script = saveResource(
-                "/providedLibs.js",
-                File(modulesFolder.parentFile,
-                        "chattriggers-provided-libs.js"
-                ),
-                true
+            "/providedLibs.js",
+            File(
+                modulesFolder.parentFile,
+                "chattriggers-provided-libs.js"
+            ),
+            true
         )
 
         try {
@@ -73,8 +74,8 @@ object JSLoader : ILoader {
 
     override fun load(module: Module) {
         if (cachedModules.map {
-            it.name
-        }.contains(module.name)) return
+                it.name
+            }.contains(module.name)) return
 
         cachedModules.add(module)
 

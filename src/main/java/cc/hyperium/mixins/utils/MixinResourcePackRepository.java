@@ -31,16 +31,15 @@ import java.io.File;
 @Mixin(ResourcePackRepository.class)
 public class MixinResourcePackRepository {
 
-    @Final
-    @Shadow
-    private final File dirServerResourcepacks = null;
+    @Shadow @Final private File dirServerResourcepacks;
+
     private HyperiumResourcePackRepository hyperiumResourcePackRepository = new HyperiumResourcePackRepository();
 
     /**
      * @author Cubxity
      */
-    @Inject(method = "func_183028_i", at = @At("HEAD"), cancellable = true)
-    private void func_183028_i(CallbackInfo callbackInfo) {
-        hyperiumResourcePackRepository.func_183028_i(callbackInfo, dirServerResourcepacks);
+    @Inject(method = "deleteOldServerResourcesPacks", at = @At("HEAD"), cancellable = true)
+    private void deleteOldServerResourcesPacks(CallbackInfo callbackInfo) {
+        hyperiumResourcePackRepository.deleteOldServerResourcesPacks(callbackInfo, dirServerResourcepacks);
     }
 }

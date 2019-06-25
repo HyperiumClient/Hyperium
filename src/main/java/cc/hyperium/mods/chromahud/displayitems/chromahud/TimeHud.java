@@ -37,9 +37,7 @@ public class TimeHud extends DisplayItem {
         if (this.format.isEmpty()) {
             this.format = "HH:mm:ss";
         }
-
     }
-
 
     public String getFormat() {
         return format;

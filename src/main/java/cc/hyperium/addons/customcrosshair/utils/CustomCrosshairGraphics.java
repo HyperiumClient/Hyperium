@@ -18,15 +18,14 @@
 package cc.hyperium.addons.customcrosshair.utils;
 
 import cc.hyperium.addons.customcrosshair.CustomCrosshairAddon;
-
-import java.awt.Color;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+
+import java.awt.*;
 
 public class CustomCrosshairGraphics {
 

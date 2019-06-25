@@ -18,27 +18,8 @@
 package cc.hyperium.handlers.handlers.keybinds;
 
 import cc.hyperium.Hyperium;
-import cc.hyperium.event.GameShutDownEvent;
-import cc.hyperium.event.InvokeEvent;
-import cc.hyperium.event.KeypressEvent;
-import cc.hyperium.event.KeyreleaseEvent;
-import cc.hyperium.event.MouseButtonEvent;
-import cc.hyperium.handlers.handlers.keybinds.keybinds.DabKeybind;
-import cc.hyperium.handlers.handlers.keybinds.keybinds.FlipKeybind;
-import cc.hyperium.handlers.handlers.keybinds.keybinds.FlossKeybind;
-import cc.hyperium.handlers.handlers.keybinds.keybinds.FortniteDefaultDanceKeybind;
-import cc.hyperium.handlers.handlers.keybinds.keybinds.FriendsKeybind;
-import cc.hyperium.handlers.handlers.keybinds.keybinds.GuiDanceKeybind;
-import cc.hyperium.handlers.handlers.keybinds.keybinds.GuiKeybind;
-import cc.hyperium.handlers.handlers.keybinds.keybinds.NamesKeybind;
-import cc.hyperium.handlers.handlers.keybinds.keybinds.RearCamKeybind;
-import cc.hyperium.handlers.handlers.keybinds.keybinds.TPoseKeybind;
-import cc.hyperium.handlers.handlers.keybinds.keybinds.TogglePerspectiveKeybind;
-import cc.hyperium.handlers.handlers.keybinds.keybinds.ToggleSpotifyKeybind;
-import cc.hyperium.handlers.handlers.keybinds.keybinds.ToggleSprintKeybind;
-import cc.hyperium.handlers.handlers.keybinds.keybinds.TwerkDanceKeybind;
-import cc.hyperium.handlers.handlers.keybinds.keybinds.UploadScreenshotKeybind;
-import cc.hyperium.handlers.handlers.keybinds.keybinds.ViewStatsKeybind;
+import cc.hyperium.event.*;
+import cc.hyperium.handlers.handlers.keybinds.keybinds.*;
 import net.minecraft.client.Minecraft;
 import org.lwjgl.input.Keyboard;
 
@@ -73,7 +54,6 @@ public class KeyBindHandler {
         registerKeyBinding(new FlipKeybind());
         registerKeyBinding(new ViewStatsKeybind());
         registerKeyBinding(new FlossKeybind());
-        registerKeyBinding(new ToggleSpotifyKeybind());
         registerKeyBinding(toggleSprintKeybind = new ToggleSprintKeybind());
         registerKeyBinding(new TogglePerspectiveKeybind());
         registerKeyBinding(new FortniteDefaultDanceKeybind());

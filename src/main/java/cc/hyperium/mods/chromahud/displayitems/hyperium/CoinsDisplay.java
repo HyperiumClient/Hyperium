@@ -21,7 +21,6 @@ import cc.hyperium.mods.chromahud.ElementRenderer;
 import cc.hyperium.mods.chromahud.api.DisplayItem;
 import cc.hyperium.mods.statistics.GeneralStatisticsTracking;
 import cc.hyperium.utils.JsonHolder;
-import cc.hyperium.config.Settings;
 
 /**
  * @author Sk1er
@@ -35,14 +34,8 @@ public class CoinsDisplay extends DisplayItem {
 
     @Override
     public void draw(int x, double y, boolean config) {
-
-        String render = null;
-        if (!Settings.CHROMAHUD_SQUAREBRACE_PREFIX_OPTION) {
-            render = "Daily Coins: " + GeneralStatisticsTracking.dailyCoins;
-        } else {
-            render = "[Daily Coins] " + GeneralStatisticsTracking.dailyCoins;
-        }
-
+        String render;
+        render = "Daily Coins: " + GeneralStatisticsTracking.dailyCoins;
 
         ElementRenderer.draw(x, y, render);
         this.width = config ? ElementRenderer.getFontRenderer().getStringWidth(render) : 0;

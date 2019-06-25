@@ -12,33 +12,33 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 @Mixin(ItemRenderer.class)
 public interface IMixinItemRenderer {
     @Invoker
-    void callFunc_178101_a(float angle, float p_178101_2_);
+    void callRotateArroundXAndY(float angle, float angleY);
 
     @Invoker
-    void callFunc_178109_a(AbstractClientPlayer clientPlayer);
+    void callSetLightMapFromPlayer(AbstractClientPlayer clientPlayer);
 
     @Invoker
-    void callFunc_178110_a(EntityPlayerSP entityplayerspIn, float partialTicks);
+    void callRotateWithPlayerRotations(EntityPlayerSP entityplayerspIn, float partialTicks);
 
     @Invoker
-    void callRenderItemMap(AbstractClientPlayer clientPlayer, float p_178097_2_, float p_178097_3_, float p_178097_4_);
+    void callRenderItemMap(AbstractClientPlayer clientPlayer, float pitch, float equipmentProgress, float swingProgress);
 
     @Invoker
-    void callFunc_178104_a(AbstractClientPlayer clientPlayer, float p_178104_2_);
+    void callPerformDrinking(AbstractClientPlayer clientPlayer, float partialTicks);
 
     @Invoker
-    void callFunc_178103_d();
+    void callDoBlockTransformations();
 
     @Invoker
-    void callFunc_178098_a(float p_178098_1_, AbstractClientPlayer clientPlayer);
+    void callDoBowTransformations(float partialTicks, AbstractClientPlayer clientPlayer);
 
     @Invoker
-    void callFunc_178105_d(float p_178105_1_);
+    void callDoItemUsedTransformations(float swingProgress);
 
     @Invoker
     void callRenderItem(EntityLivingBase entityIn, ItemStack heldStack, ItemCameraTransforms.TransformType transform);
 
     @Invoker
-    void callFunc_178095_a(AbstractClientPlayer clientPlayer, float p_178095_2_, float p_178095_3_);
+    void callRenderPlayerArm(AbstractClientPlayer clientPlayer, float equipProgress, float swingProgress);
 
 }

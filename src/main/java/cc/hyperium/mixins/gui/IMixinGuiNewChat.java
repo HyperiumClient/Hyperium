@@ -15,6 +15,6 @@ public interface IMixinGuiNewChat {
     @Accessor
     List<ChatLine> getChatLines();
 
-    @Accessor(value = "field_146253_i")
+    @Accessor
     List<ChatLine> getDrawnChatLines();
 }

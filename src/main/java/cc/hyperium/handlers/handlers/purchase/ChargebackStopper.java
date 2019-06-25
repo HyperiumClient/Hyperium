@@ -13,7 +13,6 @@ import java.util.UUID;
 
 public class ChargebackStopper {
 
-
     public ChargebackStopper() {
         Multithreading.runAsync(() -> {
                 UUID clientUUID = UUIDUtil.getClientUUID();
@@ -24,7 +23,9 @@ public class ChargebackStopper {
                         JsonHolder holder1 = new JsonHolder(ban.getAsJsonObject());
                         if (holder1.optString("uuid").equalsIgnoreCase(clientUUID.toString())) {
                             //Banned
-                            Minecraft.getMinecraft().crashed(new CrashReport("You are current blocked from using Hyperium for a chargeback. Please contact Hyperium Administrators to resolve this.", new Throwable()));
+                            Minecraft.getMinecraft().crashed(new CrashReport(
+                                "You are currently blocked from using Hyperium for a chargeback." +
+                                    " Please contact Hyperium Administrators to resolve this.", new Throwable()));
                         }
                     }
                 }

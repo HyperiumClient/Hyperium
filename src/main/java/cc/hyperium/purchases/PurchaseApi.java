@@ -181,7 +181,7 @@ public class PurchaseApi {
             connection.setDoOutput(true);
             InputStream is = connection.getInputStream();
             return new JsonHolder(IOUtils.toString(is, Charset.forName("UTF-8")));
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
         JsonObject object = new JsonObject();
         object.addProperty("success", false);

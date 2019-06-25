@@ -8,7 +8,7 @@ import java.io.File;
 
 public class HyperiumResourcePackRepository {
 
-    public void func_183028_i(CallbackInfo callbackInfo, File dirServerResourcepacks) {
+    public void deleteOldServerResourcesPacks(CallbackInfo callbackInfo, File dirServerResourcepacks) {
         try {
             FileUtils.listFiles(dirServerResourcepacks, TrueFileFilter.TRUE, null);
         } catch (Exception e) {

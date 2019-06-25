@@ -1,7 +1,6 @@
 package cc.hyperium.commands.defaults;
 
 import cc.hyperium.commands.BaseCommand;
-import cc.hyperium.commands.CommandException;
 import cc.hyperium.handlers.handlers.hud.NetworkInfo;
 import cc.hyperium.handlers.handlers.hud.TabCompletionUtil;
 import net.minecraft.client.Minecraft;
@@ -20,7 +19,7 @@ public class CommandPing implements BaseCommand {
     }
 
     @Override
-    public void onExecute(String[] args) throws CommandException {
+    public void onExecute(String[] args) {
         final String name = (args.length == 1) ? args[0] : Minecraft.getMinecraft().getSession().getUsername();
         NetworkInfo.getInstance().printPing(name);
     }

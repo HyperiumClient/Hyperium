@@ -6,6 +6,7 @@ import org.lwjgl.input.Mouse
 import java.awt.Color
 import java.awt.Font
 import java.util.function.Consumer
+import kotlin.math.roundToInt
 
 class OverlaySlider @JvmOverloads constructor(label: String, private val minVal: Float, private val maxVal: Float, var value: Float, var update: Consumer<Float>, var round: Boolean, val enabled: Boolean = true) : OverlayLabel(label, enabled, Runnable { }) {
     private val fr = HyperiumFontRenderer("Arial", Font.PLAIN, 20)
@@ -32,7 +33,7 @@ class OverlaySlider @JvmOverloads constructor(label: String, private val minVal:
         val fr =fr
         var s = value.toString()
         if (round)
-            s = Math.round(value).toString()
+            s = value.roundToInt().toString()
         val toFloat = (overlayY + h / 2).toFloat()
 
         var color = 0xFFFFFFFF.toInt()
@@ -43,8 +44,8 @@ class OverlaySlider @JvmOverloads constructor(label: String, private val minVal:
         fr.drawString(s, left - 5 - fr.getWidth(s), toFloat - 5, color)
         val rightSide = (overlayX + w - 5).toFloat()
         RenderUtils.drawLine(left, toFloat, rightSide, (overlayY + h / 2).toFloat(), 2f, color)
-        var d = (value - minVal) / (maxVal - minVal) * 100
-        var toInt = (left + d).toInt()
+        val d = (value - minVal) / (maxVal - minVal) * 100
+        val toInt = (left + d).toInt()
         RenderUtils.drawFilledCircle(toInt, overlayY + h / 2, 5f, color)
         return true
     }

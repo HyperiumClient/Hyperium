@@ -6,6 +6,9 @@ import com.chattriggers.ctjs.utils.kotlin.getRenderer
 import net.minecraft.client.renderer.GlStateManager
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats
 import org.lwjgl.util.vector.Vector2f
+import kotlin.math.atan2
+import kotlin.math.cos
+import kotlin.math.sin
 
 @External
 class Shape(private var color: Int) {
@@ -50,9 +53,9 @@ class Shape(private var color: Int) {
     fun setLine(x1: Float, y1: Float, x2: Float, y2: Float, thickness: Float) = apply {
         this.vertexes.clear()
 
-        val theta = -Math.atan2((y2 - y1).toDouble(), (x2 - x1).toDouble())
-        val i = Math.sin(theta).toFloat() * (thickness / 2)
-        val j = Math.cos(theta).toFloat() * (thickness / 2)
+        val theta = -atan2((y2 - y1).toDouble(), (x2 - x1).toDouble())
+        val i = sin(theta).toFloat() * (thickness / 2)
+        val j = cos(theta).toFloat() * (thickness / 2)
 
         this.vertexes.add(Vector2f(x1 + i, y1 + j))
         this.vertexes.add(Vector2f(x2 + i, y2 + j))
@@ -70,14 +73,14 @@ class Shape(private var color: Int) {
         this.vertexes.clear()
 
         val theta = 2 * Math.PI / steps
-        val cos = Math.cos(theta).toFloat()
-        val sin = Math.sin(theta).toFloat()
+        val cos = cos(theta).toFloat()
+        val sin = sin(theta).toFloat()
 
         var xHolder: Float
         var circleX = 1f
         var circleY = 0f
 
-        for (i in 0 .. steps) {
+        for (i in 0..steps) {
             this.vertexes.add(Vector2f(x, y))
             this.vertexes.add(Vector2f(circleX * radius + x, circleY * radius + y))
             xHolder = circleX

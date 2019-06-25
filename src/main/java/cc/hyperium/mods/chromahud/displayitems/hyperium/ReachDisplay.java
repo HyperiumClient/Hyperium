@@ -32,13 +32,12 @@ import java.text.DecimalFormat;
 public class ReachDisplay extends DisplayItem {
 
     private final Minecraft mc = Minecraft.getMinecraft();
-    private String rangeText;
+    private String rangeText = "Hasn't attacked";
     private long lastAttack;
 
     public ReachDisplay(JsonHolder data, int ordinal) {
         super(data, ordinal);
         EventBus.INSTANCE.register(this);
-        rangeText = "Hasn't attacked";
     }
 
     @InvokeEvent

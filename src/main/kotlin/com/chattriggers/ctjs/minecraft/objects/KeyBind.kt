@@ -25,7 +25,8 @@ class KeyBind {
     constructor(description: String, keyCode: Int) {
         for (key in Client.getMinecraft().gameSettings.keyBindings) {
             if (key.keyCategory == "ChatTriggers" && key.keyDescription == description) {
-                Client.getMinecraft().gameSettings.keyBindings = ArrayUtils.removeElement(Client.getMinecraft().gameSettings.keyBindings, key)
+                Client.getMinecraft().gameSettings.keyBindings =
+                    ArrayUtils.removeElement(Client.getMinecraft().gameSettings.keyBindings, key)
                 break
             }
         }
@@ -34,7 +35,7 @@ class KeyBind {
             override fun onPress() {
                 super.onPress()
 
-                if (isFirstDown)  {
+                if (isFirstDown) {
                     isFirstDown = false
                 } else if (canResetDown) {
                     isFirstDown = true
@@ -87,7 +88,6 @@ class KeyBind {
     fun setState(pressed: Boolean) = KeyBinding.setKeyBindState(keyBinding.keyCode, pressed)
 
 
-
     companion object {
         @JvmStatic
         private val keyBinds = ArrayList<KeyBind>()
@@ -96,7 +96,8 @@ class KeyBind {
         fun clearKeyBinds() {
             keyBinds.forEach {
                 if (!it.isCustom) return
-                Client.getMinecraft().gameSettings.keyBindings = ArrayUtils.removeElement(Client.getMinecraft().gameSettings.keyBindings, it.keyBinding)
+                Client.getMinecraft().gameSettings.keyBindings =
+                    ArrayUtils.removeElement(Client.getMinecraft().gameSettings.keyBindings, it.keyBinding)
             }
         }
     }

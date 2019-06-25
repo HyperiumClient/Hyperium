@@ -9,21 +9,16 @@ import cc.hyperium.addons.bossbar.gui.GuiBossbarSetting;
 public class BossbarAddon extends AbstractAddon {
     private BossbarConfig bossbarConfig;
     private GuiBossbarSetting guiBossBarSetting;
-    private CommandBossbar commandBossbar;
 
     public GuiBossbarSetting getGuiBossBarSetting() {
         return guiBossBarSetting;
-    }
-
-    public CommandBossbar getCommandBossbar() {
-        return commandBossbar;
     }
 
     @Override
     public AbstractAddon init() {
         bossbarConfig = new BossbarConfig();
         guiBossBarSetting = new GuiBossbarSetting(this);
-        commandBossbar = new CommandBossbar(this);
+        CommandBossbar commandBossbar = new CommandBossbar(this);
         Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(commandBossbar);
         return this;
     }

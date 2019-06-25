@@ -22,7 +22,6 @@ import cc.hyperium.mods.chromahud.ElementRenderer;
 import cc.hyperium.mods.chromahud.api.DisplayItem;
 import cc.hyperium.utils.JsonHolder;
 import net.minecraft.client.Minecraft;
-import cc.hyperium.config.Settings;
 
 /**
  * @author Sk1er
@@ -36,12 +35,8 @@ public class LocationDisplay extends DisplayItem {
 
     @Override
     public void draw(int starX, double startY, boolean config) {
-        String string = "";
-        if (!Settings.CHROMAHUD_SQUAREBRACE_PREFIX_OPTION) {
-            string = "Location: " + Hyperium.INSTANCE.getHandlers().getLocationHandler().getLocation();
-        } else {
-            string = "[Location] " + Hyperium.INSTANCE.getHandlers().getLocationHandler().getLocation();
-        }
+        String string;
+        string = "Location: " + Hyperium.INSTANCE.getHandlers().getLocationHandler().getLocation();
         ElementRenderer.draw(starX, startY, string);
         this.width = config ? Minecraft.getMinecraft().fontRendererObj.getStringWidth(string) : 0;
     }

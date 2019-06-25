@@ -29,7 +29,14 @@ object ChatListener {
 
                 // print to console
                 if (Config.printChatToConsole) {
-                    ModuleManager.generalConsole.out.println("[CHAT] " + ChatLib.replaceFormatting(ChatLib.getChatMessage(event, true)))
+                    ModuleManager.generalConsole.out.println(
+                        "[CHAT] " + ChatLib.replaceFormatting(
+                            ChatLib.getChatMessage(
+                                event,
+                                true
+                            )
+                        )
+                    )
                 }
             }
             2 -> TriggerType.ACTION_BAR.triggerAll(ChatLib.getChatMessage(event, false), event)

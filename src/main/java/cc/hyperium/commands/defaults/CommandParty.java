@@ -2,7 +2,6 @@ package cc.hyperium.commands.defaults;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.commands.BaseCommand;
-import cc.hyperium.commands.CommandException;
 import cc.hyperium.handlers.handlers.hud.TabCompletionUtil;
 import net.minecraft.client.Minecraft;
 
@@ -22,7 +21,7 @@ public class CommandParty implements BaseCommand {
     }
 
     @Override
-    public void onExecute(String[] args) throws CommandException {
+    public void onExecute(String[] args) {
         StringBuilder builder = new StringBuilder();
         for (String arg : args) {
             builder.append(" ").append(arg);

@@ -42,14 +42,10 @@ public class PingDisplay extends DisplayItem {
         if (Minecraft.getMinecraft().theWorld != null && !Minecraft.getMinecraft().theWorld.isRemote && !isConfig)
             return;
         EntityPlayerSP thePlayer = Minecraft.getMinecraft().thePlayer;
-        String string = "";
+        String string;
         if (thePlayer != null) {
             NetworkPlayerInfo playerInfo = Minecraft.getMinecraft().getNetHandler().getPlayerInfo(Minecraft.getMinecraft().thePlayer.getUniqueID());
-            if (!Settings.CHROMAHUD_SQUAREBRACE_PREFIX_OPTION) {
-                string = "Ping: " + (playerInfo == null ? "error" : playerInfo.getResponseTime());
-            } else {
-                string = "[Ping] " + (playerInfo == null ? "error" : playerInfo.getResponseTime());
-            }
+            string = "Ping: " + (playerInfo == null ? "error" : playerInfo.getResponseTime());
             ElementRenderer.draw(starX, startY, string);
             this.width = Minecraft.getMinecraft().fontRendererObj.getStringWidth(string);
         }

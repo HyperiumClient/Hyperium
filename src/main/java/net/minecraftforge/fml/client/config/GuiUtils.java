@@ -195,16 +195,16 @@ public class GuiUtils {
     }
 
     /**
-     * Draws a tooltip box on the screen with text in it.
+     * Draws a tooltip box on the Screen with text in it.
      * Automatically positions the box relative to the mouse to match Mojang's implementation.
-     * Automatically wraps text when there is not enough space on the screen to display the text without wrapping.
+     * Automatically wraps text when there is not enough space on the Screen to display the text without wrapping.
      * Can have a maximum width set to avoid creating very wide tooltips.
      *
      * @param textLines    the lines of text to be drawn in a hovering tooltip box.
      * @param mouseX       the mouse X position
      * @param mouseY       the mouse Y position
-     * @param screenWidth  the available screen width for the tooltip to drawn in
-     * @param screenHeight the available  screen height for the tooltip to drawn in
+     * @param screenWidth  the available Screen width for the tooltip to drawn in
+     * @param screenHeight the available  Screen height for the tooltip to drawn in
      * @param maxTextWidth the maximum width of the text in the tooltip box.
      *                     Set to a negative number to have no max width.
      * @param font         the font for drawing the text in the tooltip box
@@ -231,7 +231,7 @@ public class GuiUtils {
             int tooltipX = mouseX + 12;
             if (tooltipX + tooltipTextWidth + 4 > screenWidth) {
                 tooltipX = mouseX - 16 - tooltipTextWidth;
-                if (tooltipX < 4) // if the tooltip doesn't fit on the screen
+                if (tooltipX < 4) // if the tooltip doesn't fit on the Screen
                 {
                     if (mouseX > screenWidth / 2) {
                         tooltipTextWidth = mouseX - 12 - 8;

@@ -31,7 +31,6 @@ import net.minecraft.network.play.client.C17PacketCustomPayload;
 
 public class HyperiumNetwork {
 
-
     @InvokeEvent
     public void joinHypixel(ServerJoinEvent event) {
         Multithreading.runAsync(() -> {
@@ -43,12 +42,12 @@ public class HyperiumNetwork {
                     e.printStackTrace();
                 }
             }
+
             netHandler.addToSendQueue(
                 new C17PacketCustomPayload("hyperium",
                     new PacketBuffer(Unpooled.buffer()).writeString(new JsonHolder()
                         .put("id", Metadata.getModid())
                         .put("optifine", HyperiumTweaker.INSTANCE.isUsingOptifine())
-                        .put("forge", HyperiumTweaker.INSTANCE.isUsingForge())
                         .put("version", Metadata.getVersion()).toString())));
         });
     }

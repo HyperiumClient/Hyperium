@@ -63,7 +63,7 @@ class Inventory {
      * @param item the item for checking
      * @return whether or not it can be shift clicked in
      */
-    fun isItemValidForSlot(slot: Int, item: Item): Boolean  {
+    fun isItemValidForSlot(slot: Int, item: Item): Boolean {
         return inventory == null
                 || inventory.isItemValidForSlot(slot, item.itemStack)
     }

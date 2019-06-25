@@ -99,12 +99,6 @@ public class GuiHyperiumScreenIngameMenu extends GuiHyperiumScreen {
                 }
                 break;
 
-            case 2:
-                break;
-
-            case 3:
-                break;
-
             default:
                 break;
 
@@ -143,7 +137,6 @@ public class GuiHyperiumScreenIngameMenu extends GuiHyperiumScreen {
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-
         super.drawScreen(mouseX, mouseY, partialTicks);
         GlStateManager.pushMatrix();
 

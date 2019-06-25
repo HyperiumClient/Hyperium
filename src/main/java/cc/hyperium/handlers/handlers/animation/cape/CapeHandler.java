@@ -33,17 +33,6 @@ public class CapeHandler {
 
     public static final ReentrantLock LOCK = new ReentrantLock();
     private final ConcurrentHashMap<UUID, ICape> capes = new ConcurrentHashMap<>();
-    private final ResourceLocation loadingResource = new ResourceLocation("");
-    private final File CACHE_DIR;
-    private ConcurrentLinkedQueue<Runnable> actions = new ConcurrentLinkedQueue<>();
-
-
-    public CapeHandler() {
-
-        CACHE_DIR = new File(Hyperium.folder, "CACHE_DIR");
-        CACHE_DIR.mkdir();
-        Runtime.getRuntime().addShutdownHook(new Thread(CACHE_DIR::delete));
-    }
 
     @InvokeEvent
     public void worldSwap(WorldChangeEvent event) {

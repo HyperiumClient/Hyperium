@@ -2,7 +2,6 @@ package cc.hyperium.commands.defaults;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.commands.BaseCommand;
-import cc.hyperium.commands.CommandException;
 import cc.hyperium.handlers.handlers.quests.PlayerQuestsGui;
 import club.sk1er.website.api.requests.HypixelApiPlayer;
 
@@ -20,7 +19,7 @@ public class CommandQuests implements BaseCommand {
     }
 
     @Override
-    public void onExecute(String[] args) throws CommandException {
+    public void onExecute(String[] args) {
         HypixelApiPlayer player = null;
         try {
             player = Hyperium.INSTANCE.getHandlers().getDataHandler().getCurrentUser().get();

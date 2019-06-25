@@ -115,7 +115,7 @@ public class YeetHandler {
         int age;
         EntityPlayer sender;
 
-        public Yeet(EntityPlayer sender) {
+        Yeet(EntityPlayer sender) {
             this.sender = sender;
             age = 100;
         }

@@ -1,7 +1,6 @@
 package cc.hyperium.commands.defaults;
 
 import cc.hyperium.commands.BaseCommand;
-import cc.hyperium.commands.CommandException;
 import cc.hyperium.gui.ParticleGui;
 
 public class CommandParticleAuras implements BaseCommand {
@@ -16,7 +15,7 @@ public class CommandParticleAuras implements BaseCommand {
     }
 
     @Override
-    public void onExecute(String[] args) throws CommandException {
+    public void onExecute(String[] args) {
         new ParticleGui().show();
     }
 }

@@ -11,8 +11,7 @@ import kotlin.properties.Delegates
 import kotlin.reflect.KMutableProperty
 
 open class ConfigColor
-(private val prop: KMutableProperty<Color>, name: String = "", x: Int = 0, y: Int = 0)
-    : ConfigOption() {
+    (private val prop: KMutableProperty<Color>, name: String = "", x: Int = 0, y: Int = 0) : ConfigOption() {
 
     private var value: Color by Delegates.observable(prop.getter.call(Config)) { _, _, new ->
         prop.setter.call(Config, new)
@@ -28,22 +27,41 @@ open class ConfigColor
 
 
     private var redButton = GuiButton(
-            0,
-            MathLib.map(this.value.red.toFloat(), 0f, 255f,
-                    (Renderer.screen.getWidth() / 2 - 100 + this.x).toFloat(),
-                    (Renderer.screen.getWidth() / 2 + 52 + this.x).toFloat()).toInt(),
-            this.y + 15,
-            5, 10, "")
+        0,
+        MathLib.map(
+            this.value.red.toFloat(), 0f, 255f,
+            (Renderer.Screen.getWidth() / 2 - 100 + this.x).toFloat(),
+            (Renderer.Screen.getWidth() / 2 + 52 + this.x).toFloat()
+        ).toInt(),
+        this.y + 15,
+        5, 10, ""
+    )
 
 
-    private var greenButton = GuiButton(0,
-            MathLib.map(this.value.green.toFloat(), 0f, 255f, (Renderer.screen.getWidth() / 2 - 100 + this.x).toFloat(), (Renderer.screen.getWidth() / 2 + 52 + this.x).toFloat()).toInt(), this.y + 30,
-            5, 10, "")
+    private var greenButton = GuiButton(
+        0,
+        MathLib.map(
+            this.value.green.toFloat(),
+            0f,
+            255f,
+            (Renderer.Screen.getWidth() / 2 - 100 + this.x).toFloat(),
+            (Renderer.Screen.getWidth() / 2 + 52 + this.x).toFloat()
+        ).toInt(), this.y + 30,
+        5, 10, ""
+    )
 
 
-    private var blueButton = GuiButton(0,
-            MathLib.map(this.value.blue.toFloat(), 0f, 255f, (Renderer.screen.getWidth() / 2 - 100 + this.x).toFloat(), (Renderer.screen.getWidth() / 2 + 52 + this.x).toFloat()).toInt(), this.y + 45,
-            5, 10, "")
+    private var blueButton = GuiButton(
+        0,
+        MathLib.map(
+            this.value.blue.toFloat(),
+            0f,
+            255f,
+            (Renderer.Screen.getWidth() / 2 - 100 + this.x).toFloat(),
+            (Renderer.Screen.getWidth() / 2 + 52 + this.x).toFloat()
+        ).toInt(), this.y + 45,
+        5, 10, ""
+    )
 
     private var redHeld: Boolean = false
     private var blueHeld: Boolean = false
@@ -52,20 +70,26 @@ open class ConfigColor
     override fun draw(mouseX: Int, mouseY: Int, partialTicks: Float) {
         if (this.hidden) return
 
-        val middle = Renderer.screen.getWidth() / 2
+        val middle = Renderer.Screen.getWidth() / 2
 
         Rectangle(-0x80000000, (middle - 105 + this.x).toFloat(), (this.y - 5).toFloat(), 210f, 65f)
-                .setShadow(-0x30000000, 3f, 3f)
-                .draw()
+            .setShadow(-0x30000000, 3f, 3f)
+            .draw()
         Text(this.name!!, (middle - 100 + this.x).toFloat(), this.y.toFloat()).draw()
 
         // red slider
         Rectangle(-0x560000, (middle - 100 + this.x).toFloat(), (this.y + 19).toFloat(), 155f, 3f)
-                .setOutline(-0x1000000, 1f)
-                .draw()
+            .setOutline(-0x1000000, 1f)
+            .draw()
 
         //#if MC<=10809
-        this.redButton.xPosition = MathLib.map(this.value.red.toFloat(), 0f, 255f, (middle - 100 + this.x).toFloat(), (middle + 52 + this.x).toFloat()).toInt()
+        this.redButton.xPosition = MathLib.map(
+            this.value.red.toFloat(),
+            0f,
+            255f,
+            (middle - 100 + this.x).toFloat(),
+            (middle + 52 + this.x).toFloat()
+        ).toInt()
         this.redButton.drawButton(Client.getMinecraft(), mouseX, mouseY)
         //#else
         //$$ this.redButton.x = MathLib.map(this.value.red.toFloat(), 0f, 255f, (middle - 100 + this.x).toFloat(), (middle + 52 + this.x).toFloat()).toInt()
@@ -74,11 +98,17 @@ open class ConfigColor
 
         // green slider
         Rectangle(-0xff7800, (middle - 100 + this.x).toFloat(), (this.y + 34).toFloat(), 155f, 3f)
-                .setOutline(-0x1000000, 1f)
-                .draw()
+            .setOutline(-0x1000000, 1f)
+            .draw()
 
         //#if MC<=10809
-        this.greenButton.xPosition = MathLib.map(this.value.green.toFloat(), 0f, 255f, (middle - 100 + this.x).toFloat(), (middle + 52 + this.x).toFloat()).toInt()
+        this.greenButton.xPosition = MathLib.map(
+            this.value.green.toFloat(),
+            0f,
+            255f,
+            (middle - 100 + this.x).toFloat(),
+            (middle + 52 + this.x).toFloat()
+        ).toInt()
         this.greenButton.drawButton(Client.getMinecraft(), mouseX, mouseY)
         //#else
         //$$ this.greenButton.x = MathLib.map(this.value.green.toFloat(), 0f, 255f, (middle - 100 + this.x).toFloat(), (middle + 52 + this.x).toFloat()).toInt()
@@ -87,10 +117,16 @@ open class ConfigColor
 
         // blue slider
         Rectangle(-0xffff34, (middle - 100 + this.x).toFloat(), (this.y + 49).toFloat(), 155f, 3f)
-                .setOutline(-0x1000000, 1f)
-                .draw()
+            .setOutline(-0x1000000, 1f)
+            .draw()
         //#if MC<=10809
-        this.blueButton.xPosition = MathLib.map(this.value.blue.toFloat(), 0f, 255f, (middle - 100 + this.x).toFloat(), (middle + 52 + this.x).toFloat()).toInt()
+        this.blueButton.xPosition = MathLib.map(
+            this.value.blue.toFloat(),
+            0f,
+            255f,
+            (middle - 100 + this.x).toFloat(),
+            (middle + 52 + this.x).toFloat()
+        ).toInt()
         this.blueButton.drawButton(Client.getMinecraft(), mouseX, mouseY)
         //#else
         //$$ this.blueButton.x = MathLib.map(this.value.blue.toFloat(), 0f, 255f, (middle - 100 + this.x).toFloat(), (middle + 52 + this.x).toFloat()).toInt()
@@ -99,8 +135,8 @@ open class ConfigColor
 
         // color preview
         Rectangle(this.value.rgb, (middle + this.x + 60).toFloat(), (this.y + 15).toFloat(), 40f, 40f)
-                .setOutline(-0x1000000, 1f)
-                .draw()
+            .setOutline(-0x1000000, 1f)
+            .draw()
 
         handleHeldButtons(mouseX, middle)
 
@@ -117,16 +153,16 @@ open class ConfigColor
 
             limitHeldButton(this.redButton)
             this.value = Color(
-                    MathLib.map(
-                            //#if MC<=10809
-                            this.redButton.xPosition.toFloat(),
-                            //#else
-                            //$$ this.redButton.x.toFloat(),
-                            //#endif
-                            (middle - 100 + this.x).toFloat(), (middle + 52 + this.x).toFloat(), 0f, 255f
-                    ).toInt(),
-                    this.value.green,
-                    this.value.blue
+                MathLib.map(
+                    //#if MC<=10809
+                    this.redButton.xPosition.toFloat(),
+                    //#else
+                    //$$ this.redButton.x.toFloat(),
+                    //#endif
+                    (middle - 100 + this.x).toFloat(), (middle + 52 + this.x).toFloat(), 0f, 255f
+                ).toInt(),
+                this.value.green,
+                this.value.blue
             )
         }
         if (this.greenHeld) {
@@ -138,16 +174,16 @@ open class ConfigColor
 
             limitHeldButton(this.greenButton)
             this.value = Color(
-                    this.value.red,
-                    MathLib.map(
-                            //#if MC<=10809
-                            this.greenButton.xPosition.toFloat(),
-                            //#else
-                            //$$ this.greenButton.x.toFloat(),
-                            //#endif
-                            (middle - 100 + this.x).toFloat(), (middle + 52 + this.x).toFloat(), 0f, 255f
-                    ).toInt(),
-                    this.value.blue
+                this.value.red,
+                MathLib.map(
+                    //#if MC<=10809
+                    this.greenButton.xPosition.toFloat(),
+                    //#else
+                    //$$ this.greenButton.x.toFloat(),
+                    //#endif
+                    (middle - 100 + this.x).toFloat(), (middle + 52 + this.x).toFloat(), 0f, 255f
+                ).toInt(),
+                this.value.blue
             )
         }
         if (this.blueHeld) {
@@ -159,31 +195,31 @@ open class ConfigColor
 
             limitHeldButton(this.blueButton)
             this.value = Color(
-                    this.value.red,
-                    this.value.green,
-                    MathLib.map(
-                            //#if MC<=10809
-                            this.blueButton.xPosition.toFloat(),
-                            //#else
-                            //$$ this.blueButton.x.toFloat(),
-                            //#endif
-                            (middle - 100 + this.x).toFloat(), (middle + 52 + this.x).toFloat(), 0f, 255f
-                    ).toInt()
+                this.value.red,
+                this.value.green,
+                MathLib.map(
+                    //#if MC<=10809
+                    this.blueButton.xPosition.toFloat(),
+                    //#else
+                    //$$ this.blueButton.x.toFloat(),
+                    //#endif
+                    (middle - 100 + this.x).toFloat(), (middle + 52 + this.x).toFloat(), 0f, 255f
+                ).toInt()
             )
         }
     }
 
     private fun limitHeldButton(button: GuiButton) {
         //#if MC<=10809
-        if (button.xPosition < Renderer.screen.getWidth() / 2 - 100 + this.x)
-            button.xPosition = Renderer.screen.getWidth() / 2 - 100 + this.x
-        if (button.xPosition > Renderer.screen.getWidth() / 2 + 52 + this.x)
-            button.xPosition = Renderer.screen.getWidth() / 2 + 52 + this.x
+        if (button.xPosition < Renderer.Screen.getWidth() / 2 - 100 + this.x)
+            button.xPosition = Renderer.Screen.getWidth() / 2 - 100 + this.x
+        if (button.xPosition > Renderer.Screen.getWidth() / 2 + 52 + this.x)
+            button.xPosition = Renderer.Screen.getWidth() / 2 + 52 + this.x
         //#else
-        //$$ if (button.x < Renderer.screen.getWidth() / 2 - 100 + this.x)
-        //$$     button.x = Renderer.screen.getWidth() / 2 - 100 + this.x
-        //$$ if (button.x > Renderer.screen.getWidth() / 2 + 52 + this.x)
-        //$$     button.x = Renderer.screen.getWidth() / 2 + 52 + this.x
+        //$$ if (button.x < Renderer.Screen.getWidth() / 2 - 100 + this.x)
+        //$$     button.x = Renderer.Screen.getWidth() / 2 - 100 + this.x
+        //$$ if (button.x > Renderer.Screen.getWidth() / 2 + 52 + this.x)
+        //$$     button.x = Renderer.Screen.getWidth() / 2 + 52 + this.x
         //#endif
     }
 
@@ -205,11 +241,29 @@ open class ConfigColor
 
         if (this.resetButton.mousePressed(Client.getMinecraft(), mouseX, mouseY)) {
             this.value = this.initial
-            val middle = Renderer.screen.getWidth() / 2
+            val middle = Renderer.Screen.getWidth() / 2
             //#if MC<=10809
-            this.redButton.xPosition = MathLib.map(this.value.red.toFloat(), 0f, 255f, (middle - 100 + this.x).toFloat(), (middle + 52 + this.x).toFloat()).toInt()
-            this.greenButton.xPosition = MathLib.map(this.value.green.toFloat(), 0f, 255f, (middle - 100 + this.x).toFloat(), (middle + 52 + this.x).toFloat()).toInt()
-            this.blueButton.xPosition = MathLib.map(this.value.blue.toFloat(), 0f, 255f, (middle - 100 + this.x).toFloat(), (middle + 52 + this.x).toFloat()).toInt()
+            this.redButton.xPosition = MathLib.map(
+                this.value.red.toFloat(),
+                0f,
+                255f,
+                (middle - 100 + this.x).toFloat(),
+                (middle + 52 + this.x).toFloat()
+            ).toInt()
+            this.greenButton.xPosition = MathLib.map(
+                this.value.green.toFloat(),
+                0f,
+                255f,
+                (middle - 100 + this.x).toFloat(),
+                (middle + 52 + this.x).toFloat()
+            ).toInt()
+            this.blueButton.xPosition = MathLib.map(
+                this.value.blue.toFloat(),
+                0f,
+                255f,
+                (middle - 100 + this.x).toFloat(),
+                (middle + 52 + this.x).toFloat()
+            ).toInt()
             //#else
             //$$ this.redButton.x = MathLib.map(this.value.red.toFloat(), 0f, 255f, (middle - 100 + this.x).toFloat(), (middle + 52 + this.x).toFloat()).toInt()
             //$$ this.greenButton.x = MathLib.map(this.value.green.toFloat(), 0f, 255f, (middle - 100 + this.x).toFloat(), (middle + 52 + this.x).toFloat()).toInt()
@@ -227,8 +281,7 @@ open class ConfigColor
 }
 
 class SpecialConfigColor
-(prop: KMutableProperty<Color>, name: String = "", x: Int = 0, y: Int = 0)
-    : ConfigColor(prop, name, x, y) {
+    (prop: KMutableProperty<Color>, name: String = "", x: Int = 0, y: Int = 0) : ConfigColor(prop, name, x, y) {
     override fun draw(mouseX: Int, mouseY: Int, partialTicks: Float) {
         hidden = !Config.customTheme
 

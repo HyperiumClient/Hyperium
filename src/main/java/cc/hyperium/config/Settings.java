@@ -18,26 +18,11 @@
 package cc.hyperium.config;
 
 import cc.hyperium.Hyperium;
-
 import cc.hyperium.styles.ButtonStyle;
 import cc.hyperium.styles.ButtonType;
 import cc.hyperium.styles.GuiStyle;
 
-import static cc.hyperium.config.Category.ANIMATIONS;
-import static cc.hyperium.config.Category.BUTTONS;
-import static cc.hyperium.config.Category.CHROMAHUD;
-import static cc.hyperium.config.Category.COSMETICS;
-import static cc.hyperium.config.Category.GENERAL;
-import static cc.hyperium.config.Category.HYPIXEL;
-import static cc.hyperium.config.Category.IMPROVEMENTS;
-import static cc.hyperium.config.Category.INTEGRATIONS;
-import static cc.hyperium.config.Category.ITEM_PHYSIC;
-import static cc.hyperium.config.Category.MENUS;
-import static cc.hyperium.config.Category.MISC;
-import static cc.hyperium.config.Category.REACH;
-import static cc.hyperium.config.Category.TOGGLESPRINT;
-import static cc.hyperium.config.Category.VANILLA_ENHANCEMENTS;
-import static cc.hyperium.config.Category.VICTORYROYALE;
+import static cc.hyperium.config.Category.*;
 
 /*
  * Created by Cubxity on 03/06/2018
@@ -168,9 +153,6 @@ public class Settings {
     @ConfigOpt
     @SelectorSetting(name = "Companion Type", category = COSMETICS, items = "NONE")
     public static String COMPANION_TYPE = "NONE";
-
-    @ConfigOpt
-    public static boolean SPOTIFY_CONTROLS = false;
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;hypixelZooEnabled")
     @ToggleSetting(name = "gui.settings.welcometothehypixelzoo", category = HYPIXEL)
@@ -349,11 +331,11 @@ public class Settings {
 
     public static boolean IMPROVE_PARTICLE_RUN = false; /* any reason why this isnt used at all? */
 
-    @ConfigOpt()
+    @ConfigOpt
     @ToggleSetting(category = GENERAL, name = "gui.settings.sprintbypassstaticfov")
     public static boolean staticFovSprintModifier;
 
-    @ConfigOpt()
+    @ConfigOpt
     @ToggleSetting(category = GENERAL, name = "gui.settings.sprintandperspectivemessages")
     public static boolean SPRINT_PERSPECTIVE_MESSAGES = true;
 
@@ -382,10 +364,6 @@ public class Settings {
     public static boolean SHOW_CHROMAHUD = true;
 
     @ConfigOpt
-    @ToggleSetting(name = "gui.settings.chromahudprefixsquarebrace", category = CHROMAHUD, mods = true)
-    public static boolean CHROMAHUD_SQUAREBRACE_PREFIX_OPTION = false;
-
-    @ConfigOpt
     @ToggleSetting(name = "gui.settings.directionhudshort", category = CHROMAHUD, mods = true)
     public static boolean SHORT_DIRECTION_HUD = false;
 
@@ -408,16 +386,6 @@ public class Settings {
     public static String PAUSE_STYLE = GuiStyle.HYPERIUM.name();
 
     @ConfigOpt
-    public static boolean SPOTIFY_NOTIFICATIONS = false;
-
-    @ConfigOpt
-    public static boolean SPOTIFY_FORCE_DISABLE = true;
-
-    @ConfigOpt
-    @ToggleSetting(name = "gui.settings.updatenotificationsinhyperiumsettings", category = MISC)
-    public static boolean UPDATE_NOTIFICATIONS = true;
-
-    @ConfigOpt
     @ToggleSetting(name = "gui.settings.fastworldswitching", category = IMPROVEMENTS)
     public static boolean FAST_WORLD_LOADING = false;
     @ConfigOpt
@@ -433,7 +401,6 @@ public class Settings {
         "10000",
         "20000",
         "50000",
-
     })
     public static String MAX_WORLD_PARTICLES_STRING = "10000";
 
@@ -557,17 +524,6 @@ public class Settings {
     public static boolean VICTORY_ROYALE = false;
 
     @ConfigOpt
-    @SelectorSetting(name = "gui.settings.mainmenuserver", category = GENERAL, items = {
-        "HYPIXEL",
-        "HIVE",
-        "MINEPLEX",
-        "CUBECRAFT",
-        "MINESAGA",
-        "SKYCADE"
-    })
-    public static String MAIN_MENU_SERVER = "HYPIXEL";
-
-    @ConfigOpt
     @ToggleSetting(name = "gui.settings.betterf1", category = VANILLA_ENHANCEMENTS, mods = true)
     public static boolean BETTERF1 = false;
 
@@ -598,7 +554,6 @@ public class Settings {
     })
     public static String BUTTON_TYPE = ButtonType.DEFAULT.name();
 
-
     @ConfigOpt
     @ToggleSetting(name = "gui.settings.disableenchantglint", category = IMPROVEMENTS)
     public static boolean DISABLE_ENCHANT_GLINT = false;
@@ -614,16 +569,6 @@ public class Settings {
     @ConfigOpt
     @ToggleSetting(name = "gui.settings.disablelightning", category = IMPROVEMENTS)
     public static boolean DISABLE_LIGHTNING = false;
-
-    /*
-
-    For whoever tries to implement this, purpose is for when DISABLE_LIGHTNING is enabled, if the player still wants Lightning Bolts in UHC only, they will have to turn this on
-    have fun trying to add it lol - asbyth
-
-    @ConfigOpt
-    //@ToggleSetting(name = "gui.settings.keeplightinguhc", category = IMPROVEMENTS)
-    public static boolean UHC_LIGHTNING = false;
-    */
 
     @ConfigOpt
     @ToggleSetting(name = "gui.settings.disablearmorstands", category = IMPROVEMENTS)
@@ -641,7 +586,14 @@ public class Settings {
     @ToggleSetting(name = "gui.settings.confirmquit", category = MISC)
     public static boolean CONFIRM_QUIT = false;
 
-    private Settings() {
+    /**
+     * {@link Hyperium#checkGpuSpecs()}
+     */
+    public static void findIncompatibilies() {
+        if (!Hyperium.INSTANCE.checkGpuSpecs()) {
+            Hyperium.LOGGER.warn("Computer is not compatible with OpenGL 2.0, things may go wrong. Disabling Optimized Font Renderer");
+            OPTIMIZED_FONT_RENDERER = false;
+        }
     }
 
     public static void register() {

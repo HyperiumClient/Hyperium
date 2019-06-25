@@ -39,43 +39,24 @@ public class KeystrokesSettings {
 
     private final KeystrokesMod theMod;
     private final File configFile;
-
     private int x = 0;
-
     private int y = 0;
-
     private boolean enabled = true;
-
     private boolean chroma = false;
-
     private boolean mouseButtons = false;
-
     private boolean showCPS = false;
-
     private boolean showCPSOnButtons = false;
-
     private boolean showSpacebar = false;
-
     private double scale = 1;
-
     private double fadeTime = 1;
-
     private int red = 255;
-
     private int green = 255;
-
     private int blue = 255;
-
     private int pressedRed = 0;
-
     private int pressedGreen = 0;
-
     private int pressedBlue = 0;
-
     private boolean leftClick = true;
-
     private boolean showingSneak = false;
-
     private List<CustomKeyWrapper> configWrappers = new ArrayList<>();
 
     public KeystrokesSettings(KeystrokesMod mod, File directory) {

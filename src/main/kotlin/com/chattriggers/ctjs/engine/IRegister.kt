@@ -290,7 +290,7 @@ interface IRegister {
     }
 
     /**
-     * Registers a trigger that runs before the debug screen is being drawn.<br></br>
+     * Registers a trigger that runs before the debug Screen is being drawn.<br></br>
      *
      *
      * Passes through 1 argument:<br></br>
@@ -490,11 +490,11 @@ interface IRegister {
     }
 
     /**
-     * Registers a new trigger that runs when a new gui is first opened.<br></br>
+     * Registers a new trigger that runs when a new Gui is first opened.<br></br>
      *
      *
      * Passes through 1 argument:<br></br>
-     * the gui opened event<br></br>
+     * the Gui opened event<br></br>
      * Available modifications:<br></br>
      * [OnTrigger.setPriority] Sets the priority
      *

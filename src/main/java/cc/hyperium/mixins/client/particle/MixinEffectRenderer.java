@@ -46,20 +46,16 @@ import java.util.concurrent.CountDownLatch;
 @Mixin(EffectRenderer.class)
 public abstract class MixinEffectRenderer implements IMixinEffectRenderer {
 
-    @Shadow
-    @Final
+    @Shadow @Final
     private static ResourceLocation particleTextures;
-    @Shadow
-    protected World worldObj;
-    @Shadow
-    private Map<Integer, IParticleFactory> particleTypes;
+
+    @Shadow protected World worldObj;
+    @Shadow private Map<Integer, IParticleFactory> particleTypes;
+    @Shadow private TextureManager renderer;
+
     //its not happy about this but we can't do better because Minecraft
     private ConcurrentLinkedQueue<EntityFX>[][] modifiedFxLayer = new ConcurrentLinkedQueue[4][];
     private ConcurrentLinkedQueue<EntityParticleEmitter> modifiedParticlEmmiters = new ConcurrentLinkedQueue<>();
-    @Shadow
-    private TextureManager renderer;
-    @Shadow
-    private Random rand;
     private CountDownLatch latch;
 
     @Inject(method = "<init>", at = @At("RETURN"))

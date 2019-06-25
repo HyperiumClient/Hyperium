@@ -18,8 +18,8 @@
 package cc.hyperium.addons.customcrosshair.command;
 
 import cc.hyperium.Hyperium;
-import cc.hyperium.addons.customcrosshair.gui.GuiCustomCrosshairEditCrosshair;
 import cc.hyperium.addons.customcrosshair.CustomCrosshairAddon;
+import cc.hyperium.addons.customcrosshair.gui.GuiCustomCrosshairEditCrosshair;
 import cc.hyperium.commands.BaseCommand;
 
 import java.util.Collections;

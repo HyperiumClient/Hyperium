@@ -36,22 +36,16 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(GuiNewChat.class)
 public abstract class MixinGuiNewChat {
 
-    @Shadow
-    @Final
+    @Shadow @Final
     private List<ChatLine> chatLines;
 
-    @Shadow
-    @Final
-    private List<ChatLine> field_146253_i;
+    @Shadow @Final
+    private List<ChatLine> drawnChatLines;
 
-    @Shadow
-    private boolean isScrolled;
+    @Shadow private boolean isScrolled;
+    @Shadow private int scrollPos;
 
-    @Shadow
-    private int scrollPos;
-
-    @Shadow
-    @Final
+    @Shadow @Final
     private Minecraft mc;
 
     private HyperiumGuiNewChat hyperiumGuiNewChat = new HyperiumGuiNewChat((GuiNewChat) (Object) this);
@@ -74,7 +68,7 @@ public abstract class MixinGuiNewChat {
      */
     @Overwrite
     public void drawChat(int p_146230_1_) {
-        hyperiumGuiNewChat.drawChat(p_146230_1_, this.field_146253_i, this.scrollPos, this.isScrolled, this.mc);
+        hyperiumGuiNewChat.drawChat(p_146230_1_, this.drawnChatLines, this.scrollPos, this.isScrolled, this.mc);
     }
 
 
@@ -85,6 +79,6 @@ public abstract class MixinGuiNewChat {
      */
     @Overwrite
     private void setChatLine(IChatComponent chatComponent, int chatLineId, int p_146237_3_, boolean p_146237_4_) {
-        hyperiumGuiNewChat.setChatLine(chatComponent, chatLineId, p_146237_3_, p_146237_4_, this.scrollPos, this.isScrolled, this.field_146253_i, this.chatLines, this.mc);
+        hyperiumGuiNewChat.setChatLine(chatComponent, chatLineId, p_146237_3_, p_146237_4_, this.scrollPos, this.isScrolled, this.drawnChatLines, this.chatLines, this.mc);
     }
 }

@@ -57,6 +57,7 @@ abstract class OnTrigger protected constructor(var method: Any, var type: Trigge
 
     enum class Priority {
         //LOWEST IS RAN LAST
-        HIGHEST, HIGH, NORMAL, LOW, LOWEST
+        HIGHEST,
+        HIGH, NORMAL, LOW, LOWEST
     }
 }

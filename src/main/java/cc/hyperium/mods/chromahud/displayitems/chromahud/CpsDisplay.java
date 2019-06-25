@@ -38,20 +38,12 @@ public class CpsDisplay extends DisplayItem {
 
     @Override
     public void draw(int starX, double startY, boolean isConfig) {
-        if (!Settings.CHROMAHUD_SQUAREBRACE_PREFIX_OPTION) {
-            ElementRenderer.draw(starX, startY, "CPS: " + ElementRenderer.getCPS());
-        } else {
-            ElementRenderer.draw(starX, startY, "[CPS] " + ElementRenderer.getCPS());
-        }
+        ElementRenderer.draw(starX, startY, "CPS: " + ElementRenderer.getCPS());
+
         if (isConfig) {
-            if (!Settings.CHROMAHUD_SQUAREBRACE_PREFIX_OPTION) {
-                this.width = Minecraft.getMinecraft().fontRendererObj.getStringWidth("CPS: " + ElementRenderer.getCPS());
-            } else {
-                this.width = Minecraft.getMinecraft().fontRendererObj.getStringWidth("[CPS] " + ElementRenderer.getCPS());
-            }
-        } else
+            this.width = Minecraft.getMinecraft().fontRendererObj.getStringWidth("CPS: " + ElementRenderer.getCPS());
+        } else {
             this.width = 0;
+        }
     }
-
-
 }

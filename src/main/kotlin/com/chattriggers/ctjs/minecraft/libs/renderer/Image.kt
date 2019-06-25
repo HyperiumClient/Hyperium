@@ -37,9 +37,11 @@ class Image(var image: BufferedImage?) {
     }
 
     @JvmOverloads
-    fun draw(x: Double, y: Double,
-             width: Double = this.textureWidth.toDouble(),
-             height: Double = this.textureHeight.toDouble()) = apply {
+    fun draw(
+        x: Double, y: Double,
+        width: Double = this.textureWidth.toDouble(),
+        height: Double = this.textureHeight.toDouble()
+    ) = apply {
         if (image != null) return@apply
 
         Renderer.drawImage(this, x, y, width, height)

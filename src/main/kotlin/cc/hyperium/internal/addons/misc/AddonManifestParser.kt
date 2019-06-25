@@ -60,8 +60,7 @@ class AddonManifestParser {
             e.printStackTrace()
             throw AddonLoadException("Exception reading manifest")
         } finally {
-            if (jarInputStream != null)
-                jarInputStream.close()
+            jarInputStream?.close()
             jar.close()
         }
     }

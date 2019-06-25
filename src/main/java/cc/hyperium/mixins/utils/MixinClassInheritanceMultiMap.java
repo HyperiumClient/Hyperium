@@ -48,7 +48,7 @@ public abstract class MixinClassInheritanceMultiMap<T> extends AbstractSet<T> {
 
         for (T t : this.queue) {
             if (clazz.isAssignableFrom(t.getClass())) {
-                this.func_181743_a(t, clazz);
+                this.addForClass(t, clazz);
             }
         }
 
@@ -60,15 +60,15 @@ public abstract class MixinClassInheritanceMultiMap<T> extends AbstractSet<T> {
      * @reason Add concurrent
      */
     @Overwrite
-    protected Class<?> func_181157_b(Class<?> p_181157_1_) {
-        if (this.baseClass.isAssignableFrom(p_181157_1_)) {
-            if (!this.knownKeys1.contains(p_181157_1_)) {
-                this.createLookup(p_181157_1_);
+    protected Class<?> initializeClassLookup(Class<?> clazz) {
+        if (this.baseClass.isAssignableFrom(clazz)) {
+            if (!this.knownKeys1.contains(clazz)) {
+                this.createLookup(clazz);
             }
 
-            return p_181157_1_;
+            return clazz;
         } else {
-            throw new IllegalArgumentException("Don\'t know how to search for " + p_181157_1_);
+            throw new IllegalArgumentException("Don\'t know how to search for " + clazz);
         }
     }
 
@@ -80,7 +80,7 @@ public abstract class MixinClassInheritanceMultiMap<T> extends AbstractSet<T> {
     public boolean add(T p_add_1_) {
         for (Class<?> oclass : this.knownKeys1) {
             if (oclass.isAssignableFrom(p_add_1_.getClass())) {
-                this.func_181743_a(p_add_1_, oclass);
+                this.addForClass(p_add_1_, oclass);
             }
         }
 
@@ -92,15 +92,15 @@ public abstract class MixinClassInheritanceMultiMap<T> extends AbstractSet<T> {
      * @reason Add concurrent
      */
     @Overwrite
-    private void func_181743_a(T p_181743_1_, Class<?> p_181743_2_) {
-        ConcurrentLinkedQueue<T> queue = this.map1.get(p_181743_2_);
+    private void addForClass(T value, Class<?> parentClass) {
+        ConcurrentLinkedQueue<T> queue = this.map1.get(parentClass);
 
         if (queue == null) {
-            ConcurrentLinkedQueue<T> value = new ConcurrentLinkedQueue<>();
-            value.add(p_181743_1_);
-            this.map1.put(p_181743_2_, value);
+            ConcurrentLinkedQueue<T> linkedValue = new ConcurrentLinkedQueue<>();
+            linkedValue.add(value);
+            this.map1.put(parentClass, linkedValue);
         } else {
-            queue.add(p_181743_1_);
+            queue.add(value);
         }
     }
 
@@ -142,7 +142,7 @@ public abstract class MixinClassInheritanceMultiMap<T> extends AbstractSet<T> {
     @Overwrite
     public <S> Iterable<S> getByClass(Class<S> clazz) {
         return () -> {
-            ConcurrentLinkedQueue<T> list = map1.get(func_181157_b(clazz));
+            ConcurrentLinkedQueue<T> list = map1.get(initializeClassLookup(clazz));
 
             if (list == null) {
                 return Iterators.emptyIterator();

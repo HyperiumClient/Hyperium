@@ -19,11 +19,11 @@ import net.minecraft.nbt.NBTTagString
 class Book(bookName: String) {
     private var bookScreen: GuiScreenBook? = null
     private val book: ItemStack
-            //#if MC<=10809
+    //#if MC<=10809
             = ItemStack(Items.written_book)
-            //#else
-            //$$ = ItemStack(Items.WRITTEN_BOOK)
-            //#endif
+    //#else
+    //$$ = ItemStack(Items.WRITTEN_BOOK)
+    //#endif
     private val bookData: NBTTagCompound = NBTTagCompound()
 
     init {
@@ -43,11 +43,13 @@ class Book(bookName: String) {
     fun addPage(message: Message) = apply {
         val pages = bookData["pages"] as NBTTagList
 
-        pages.appendTag(NBTTagString(
+        pages.appendTag(
+            NBTTagString(
                 TextComponentSerializer.componentToJson(
-                        message.getChatMessage()
+                    message.getChatMessage()
                 )
-        ))
+            )
+        )
 
         updateBookScreen(pages)
     }
@@ -72,11 +74,13 @@ class Book(bookName: String) {
     fun setPage(pageNumber: Int, message: Message) = apply {
         val pages = bookData.getTag("pages") as NBTTagList
 
-        pages.set(pageNumber, NBTTagString(
+        pages.set(
+            pageNumber, NBTTagString(
                 TextComponentSerializer.componentToJson(
-                        message.getChatMessage()
+                    message.getChatMessage()
                 )
-        ))
+            )
+        )
 
         updateBookScreen(pages)
     }

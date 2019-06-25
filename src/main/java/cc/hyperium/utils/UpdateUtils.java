@@ -19,7 +19,6 @@ import java.io.IOException;
 public class UpdateUtils {
     private static final HttpClient client = HttpClients.createDefault();
     public static UpdateUtils INSTANCE = new UpdateUtils();
-    public cc.hyperium.installer.utils.JsonHolder vJson;
     private VersionAPIUtils apiUtils = new VersionAPIUtils();
 
     public static cc.hyperium.installer.utils.JsonHolder get(String url) {

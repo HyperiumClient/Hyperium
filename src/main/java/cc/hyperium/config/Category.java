@@ -7,7 +7,6 @@ public enum Category {
     IMPROVEMENTS("Improvements"),
     INTEGRATIONS("Integrations"),
     COSMETICS("Cosmetics"),
-    SPOTIFY("Spotify"),
     ANIMATIONS("Animations"),
     MISC("Misc"),
     MODS("Mods"),
@@ -31,7 +30,9 @@ public enum Category {
     ITEM_PHYSIC("Item Physics"),
     VICTORYROYALE("Victory Royale"),
     TOGGLESPRINT("Toggle Sprint"),
-    CHUNK_ANIMATOR("Chunk Animator");
+    CHUNK_ANIMATOR("Chunk Animator"),
+    SIDEBAR("Sidebar"),
+    TOGGLECHAT("ToggleChat");
 
     private String display;
 
