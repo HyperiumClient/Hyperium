@@ -102,7 +102,7 @@ public class Levelhead extends AbstractMod {
         userUuid = Minecraft.getMinecraft().getSession().getProfile().getId();
         EventBus.INSTANCE.register(new AboveHeadRenderer(this));
         Hyperium.INSTANCE.getHandlers().getCommandHandler().registerCommand(new LevelheadCommand());
-        levelheadChatRenderer = new ChatRenderer(this);
+        levelheadChatRenderer = new LevelheadChatRenderer(this);
         EventBus.INSTANCE.register(levelheadChatRenderer);
     }
 

@@ -1,7 +1,15 @@
 package cc.hyperium.mods.levelhead.renderer;
 
+import java.util.UUID;
+
 public class NullLevelheadTag extends LevelheadTag {
-    public NullLevelheadTag(Object o) {
-        super();
+
+    public NullLevelheadTag(UUID owner) {
+        super(owner);
+    }
+
+    @Override
+    public String toString() {
+        return null;
     }
 }
