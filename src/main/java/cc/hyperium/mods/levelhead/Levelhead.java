@@ -225,6 +225,8 @@ public class Levelhead extends AbstractMod {
         construct.put("header", headerObj).put("footer", footerObj);
         construct.put("custom", object.optJsonObject("custom"));
         value.construct(construct);
+
+        return value;
     }
 
     public HashMap<String, String> allowedTypes() {
@@ -312,8 +314,16 @@ public class Levelhead extends AbstractMod {
         return rawPurchases;
     }
 
+    public LevelheadJsonHolder getPaidData() {
+        return paidData;
+    }
+
     public DisplayManager getDisplayManager() {
         return displayManager;
+    }
+
+    public String getVersion() {
+        return "v" + VERSION;
     }
 
     @Override
