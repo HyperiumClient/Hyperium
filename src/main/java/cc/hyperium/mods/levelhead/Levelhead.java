@@ -4,13 +4,17 @@ import cc.hyperium.Hyperium;
 import cc.hyperium.event.*;
 import cc.hyperium.mods.AbstractMod;
 import cc.hyperium.mods.levelhead.auth.MojangAuth;
+import cc.hyperium.mods.levelhead.command.CustomLevelheadCommand;
 import cc.hyperium.mods.levelhead.command.LevelheadCommand;
 import cc.hyperium.mods.levelhead.display.AboveHeadDisplay;
 import cc.hyperium.mods.levelhead.display.DisplayConfig;
 import cc.hyperium.mods.levelhead.display.DisplayManager;
 import cc.hyperium.mods.levelhead.display.LevelheadDisplay;
 import cc.hyperium.mods.levelhead.purchases.LevelheadPurchaseStates;
-import cc.hyperium.mods.levelhead.renderer.*;
+import cc.hyperium.mods.levelhead.renderer.AboveHeadRenderer;
+import cc.hyperium.mods.levelhead.renderer.LevelheadChatRenderer;
+import cc.hyperium.mods.levelhead.renderer.LevelheadTag;
+import cc.hyperium.mods.levelhead.renderer.NullLevelheadTag;
 import cc.hyperium.mods.levelhead.util.LevelheadJsonHolder;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.mods.sk1ercommon.Sk1erMod;
@@ -45,7 +49,6 @@ public class Levelhead extends AbstractMod {
 
     private DisplayManager displayManager;
     private LevelheadPurchaseStates levelheadPurchaseStates = new LevelheadPurchaseStates();
-    private LevelheadChatRenderer levelheadChatRenderer;
 
     private LevelheadJsonHolder types = new LevelheadJsonHolder();
     private LevelheadJsonHolder paidData = new LevelheadJsonHolder();
@@ -102,7 +105,8 @@ public class Levelhead extends AbstractMod {
         userUuid = Minecraft.getMinecraft().getSession().getProfile().getId();
         EventBus.INSTANCE.register(new AboveHeadRenderer(this));
         Hyperium.INSTANCE.getHandlers().getCommandHandler().registerCommand(new LevelheadCommand());
-        levelheadChatRenderer = new LevelheadChatRenderer(this);
+        Hyperium.INSTANCE.getHandlers().getCommandHandler().registerCommand(new CustomLevelheadCommand());
+        LevelheadChatRenderer levelheadChatRenderer = new LevelheadChatRenderer(this);
         EventBus.INSTANCE.register(levelheadChatRenderer);
     }
 
@@ -130,7 +134,7 @@ public class Levelhead extends AbstractMod {
         }
     }
 
-    public String rawWithAgent(String url) {
+    private String rawWithAgent(String url) {
         System.out.println("Fetching " + url);
 
         try {
@@ -247,11 +251,11 @@ public class Levelhead extends AbstractMod {
         return data;
     }
 
-    public synchronized void refreshRawPurchases() {
+    private synchronized void refreshRawPurchases() {
         rawPurchases = new LevelheadJsonHolder(rawWithAgent("https://api.sk1er.club/purchases/" + Minecraft.getMinecraft().getSession().getProfile().getId().toString()));
     }
 
-    public synchronized void refreshPaidData() {
+    private synchronized void refreshPaidData() {
         paidData = new LevelheadJsonHolder(rawWithAgent("https://api.sk1er.club/levelhead_data"));
     }
 
@@ -284,10 +288,6 @@ public class Levelhead extends AbstractMod {
 
     public LevelheadJsonHolder getTypes() {
         return types;
-    }
-
-    public LevelheadTag getLevelString(LevelheadDisplay display, UUID uuid) {
-        return display.getCache().getOrDefault(uuid, null);
     }
 
     public MojangAuth getAuth() {
