@@ -322,16 +322,6 @@ public class Settings {
     public static boolean PING_ON_DM = true;
 
     @ConfigOpt
-    @ToggleSetting(category = IMPROVEMENTS, name = "Improved Particle Handling (BETA)")
-    public static boolean IMPROVE_PARTICLES = true;
-
-    @ConfigOpt
-    @ToggleSetting(category = IMPROVEMENTS, name = "Improved Entity Handling (BETA)")
-    public static boolean IMPROVE_ENTITY_HANDLING = false;
-
-    public static boolean IMPROVE_PARTICLE_RUN = false; /* any reason why this isnt used at all? */
-
-    @ConfigOpt
     @ToggleSetting(category = GENERAL, name = "gui.settings.sprintbypassstaticfov")
     public static boolean staticFovSprintModifier;
 
@@ -388,21 +378,6 @@ public class Settings {
     @ConfigOpt
     @ToggleSetting(name = "gui.settings.fastworldswitching", category = IMPROVEMENTS)
     public static boolean FAST_WORLD_LOADING = false;
-    @ConfigOpt
-    public static int MAX_WORLD_PARTICLES_INT = 10000;
-
-    @ConfigOpt
-    @SelectorSetting(category = IMPROVEMENTS, name = "gui.settings.maxworldparticles", items = {
-        "1000",
-        "2000",
-        "4000",
-        "6000",
-        "8000",
-        "10000",
-        "20000",
-        "50000",
-    })
-    public static String MAX_WORLD_PARTICLES_STRING = "10000";
 
     @ConfigOpt
     @ToggleSetting(name = "gui.settings.showparticlein1stperson", category = COSMETICS)

@@ -17,7 +17,6 @@
     "client.MixinGameSettings",
     "client.MixinLoadingScreen",
     "client.multiplayer.MixinServerList",
-    "client.particle.MixinEffectRenderer",
     "client.renderer.entity.MixinRenderLightningBolt",
     "client.renderer.entity.MixinRendererLivingEntity",
     "client.renderer.entity.layers.MixinLayerArmorBase",

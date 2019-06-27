@@ -157,6 +157,7 @@ public class SettingsHandler {
                 }
 
             });
+
             Field max_particle_string = Settings.class.getField("MAX_PARTICLE_STRING");
             customStates.put(max_particle_string, () -> {
                 ParticleOverlay overlay = ParticleOverlay.getOverlay();
@@ -238,13 +239,6 @@ public class SettingsHandler {
                 }
             });
 
-            registerCallback(Settings.class.getField("MAX_WORLD_PARTICLES_STRING"), o -> {
-                try {
-                    Settings.MAX_WORLD_PARTICLES_INT = Integer.valueOf(o.toString());
-                } catch (Exception ignored) {
-
-                }
-            });
             registerCallback(max_particle_string, o -> {
                 try {
                     Settings.MAX_PARTICLES = Integer.valueOf(o.toString());
