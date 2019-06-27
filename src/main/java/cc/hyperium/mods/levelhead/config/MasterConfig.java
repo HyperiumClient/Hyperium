@@ -3,8 +3,6 @@ package cc.hyperium.mods.levelhead.config;
 public class MasterConfig {
 
     private boolean enabled = true;
-    private int renderDistance = 64;
-    private int purgeSize = 500;
 
     private double fontSize = 1.0;
     private double offset = 0.0;
@@ -18,19 +16,11 @@ public class MasterConfig {
     }
 
     public int getRenderDistance() {
-        return renderDistance;
-    }
-
-    public void setRenderDistance(int renderDistance) {
-        this.renderDistance = renderDistance;
+        return 64;
     }
 
     public int getPurgeSize() {
-        return purgeSize;
-    }
-
-    public void setPurgeSize(int purgeSize) {
-        this.purgeSize = purgeSize;
+        return 500;
     }
 
     public double getFontSize() {

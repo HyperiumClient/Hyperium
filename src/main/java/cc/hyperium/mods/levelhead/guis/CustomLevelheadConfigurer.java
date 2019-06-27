@@ -9,9 +9,7 @@ import cc.hyperium.utils.ChatColor;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
-import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraftforge.fml.client.config.GuiSlider;
 
 import java.awt.*;
 import java.io.IOException;
@@ -60,9 +58,7 @@ public class CustomLevelheadConfigurer extends GuiScreen {
             Sk1erMod.getInstance().rawWithAgent("https://api.sk1er.club/customlevelhead/propose?hash=" + Levelhead.getInstance().getAuth().getHash() + "&footer=" + level.getText() + "&header=" + header.getText());
             refresh();
         });
-        reg(new GuiButton(nextId(), width / 2 - 50, 80, 100, 20, "Refresh"), button -> {
-            refresh();
-        });
+        reg(new GuiButton(nextId(), width / 2 - 50, 80, 100, 20, "Refresh"), button -> refresh());
     }
 
     @Override
@@ -108,7 +104,7 @@ public class CustomLevelheadConfigurer extends GuiScreen {
     }
 
     @Override
-    protected void actionPerformed(GuiButton button) throws IOException {
+    protected void actionPerformed(GuiButton button) {
         Consumer<GuiButton> guiButtonConsumer = clicks.get(button);
         if (guiButtonConsumer != null) {
             guiButtonConsumer.accept(button);
@@ -130,10 +126,6 @@ public class CustomLevelheadConfigurer extends GuiScreen {
             level.setText(jsonHolder.optString("true_footer"));
         });
         Multithreading.runAsync(() -> levelheadPropose = new LevelheadJsonHolder(Sk1erMod.getInstance().rawWithAgent("https://api.hyperium.cc/levelhead_propose" + mc.getSession().getProfile().getId().toString().replace("-", ""))));
-    }
-
-    private void regSlider(GuiSlider slider) {
-        reg(slider, null);
     }
 
     private void reg(GuiButton button, Consumer<GuiButton> consumer) {

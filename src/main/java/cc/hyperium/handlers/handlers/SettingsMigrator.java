@@ -36,7 +36,7 @@ public class SettingsMigrator {
         File level_head = new File(config, "LEVEL_HEAD.cfg");
         if (level_head.exists()) {
             DefaultConfig defaultConfig = new DefaultConfig(level_head);
-            defaultConfig.register(Hyperium.INSTANCE.getModIntegration().getLevelhead().getConfig());
+            defaultConfig.register(Hyperium.INSTANCE.getModIntegration().getLevelhead().getDisplayManager().getMasterConfig());
         }
 
         // moved config/autofriend.cfg to hyperium/autofriend.cfg in 1.1

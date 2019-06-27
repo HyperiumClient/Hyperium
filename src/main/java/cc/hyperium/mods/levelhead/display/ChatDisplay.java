@@ -9,7 +9,7 @@ import java.util.UUID;
 
 public class ChatDisplay extends LevelheadDisplay {
 
-    public ChatDisplay(DisplayConfig config) {
+    ChatDisplay(DisplayConfig config) {
         super(DisplayPosition.CHAT, config);
     }
 

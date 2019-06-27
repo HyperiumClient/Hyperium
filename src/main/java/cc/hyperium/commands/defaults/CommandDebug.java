@@ -32,7 +32,7 @@ import cc.hyperium.utils.JsonHolder;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import java.awt.Toolkit;
+import java.awt.*;
 import java.awt.datatransfer.StringSelection;
 import java.util.List;
 
@@ -72,9 +72,8 @@ public class CommandDebug implements BaseCommand {
             builder.append("Hypixel: ").append(HypixelDetector.getInstance().isHypixel()).append("\n");
             builder.append("Remote Status: ").append(Sk1erMod.getInstance().isEnabled()).append("\n");
             builder.append("Local Stats: ").append(HypixelDetector.getInstance().isHypixel()).append("\n");
-            builder.append("Header State: ").append(Hyperium.INSTANCE.getModIntegration().getLevelhead().getHeaderConfig()).append("\n");
-            builder.append("Footer State: ").append(Hyperium.INSTANCE.getModIntegration().getLevelhead().getFooterConfig()).append("\n");
             builder.append("Callback: ").append(Sk1erMod.getInstance().getResponse()).append("\n");
+            builder.append("Callback_types: ").append(Levelhead.getInstance().getTypes()).append("\n");
         } catch (Exception e) {
             builder.append("Levelhead: Error");
         }

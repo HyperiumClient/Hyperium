@@ -32,7 +32,8 @@ public enum Category {
     TOGGLESPRINT("Toggle Sprint"),
     CHUNK_ANIMATOR("Chunk Animator"),
     SIDEBAR("Sidebar"),
-    TOGGLECHAT("ToggleChat");
+    TOGGLECHAT("ToggleChat"),
+    BOSSBAR("Bossbar");
 
     private String display;
 

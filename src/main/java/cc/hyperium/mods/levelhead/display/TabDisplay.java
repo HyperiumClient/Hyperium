@@ -9,7 +9,7 @@ import java.util.UUID;
 
 public class TabDisplay extends LevelheadDisplay {
 
-    public TabDisplay(DisplayConfig config) {
+    TabDisplay(DisplayConfig config) {
         super(DisplayPosition.TAB, config);
     }
 

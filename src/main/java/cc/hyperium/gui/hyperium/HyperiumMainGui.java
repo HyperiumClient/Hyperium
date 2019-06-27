@@ -63,7 +63,7 @@ public class HyperiumMainGui extends HyperiumGui {
         settingsObjects.add(Hyperium.INSTANCE.getModIntegration().getAutotip());
         settingsObjects.add(Hyperium.INSTANCE.getModIntegration().getAutoGG().getConfig());
         settingsObjects.add(Hyperium.INSTANCE.getModIntegration().getMotionBlur());
-        settingsObjects.add(Hyperium.INSTANCE.getModIntegration().getLevelhead().getConfig());
+        settingsObjects.add(Hyperium.INSTANCE.getModIntegration().getLevelhead().getDisplayManager().getMasterConfig());
         settingsObjects.add(Hyperium.INSTANCE.getModIntegration().getGlintcolorizer().getColors());
         settingsObjects.add(Hyperium.INSTANCE.getModIntegration().getChunkAnimator().getConfig());
         SettingsHandler settingsHandler = Hyperium.INSTANCE.getHandlers().getSettingsHandler();

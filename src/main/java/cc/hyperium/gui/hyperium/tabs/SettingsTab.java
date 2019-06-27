@@ -1,6 +1,7 @@
 package cc.hyperium.gui.hyperium.tabs;
 
 import cc.hyperium.Hyperium;
+import cc.hyperium.addons.bossbar.gui.GuiBossbarSetting;
 import cc.hyperium.addons.sidebar.gui.screen.GuiScreenSettings;
 import cc.hyperium.addons.sidebar.gui.screen.GuiScreenSidebar;
 import cc.hyperium.config.Category;
@@ -82,6 +83,9 @@ public class SettingsTab extends AbstractTab {
 
         // Link to keybinds gui
         apply(new LinkComponent(this, Collections.emptyList(), "Keybinds", new GuiKeybinds()), false, Category.GENERAL, items);
+
+        // Link to bossbar addon gui
+        apply(new LinkComponent(this, Collections.emptyList(), "Bossbar Addon", new GuiBossbarSetting(Hyperium.INSTANCE.getInternalAddons().getBossbarAddon())), true, Category.BOSSBAR, items);
 
         for (RGBFieldSet rgbFieldSet : gui.getRgbFields()) {
             apply(new RGBComponent(this, rgbFieldSet), rgbFieldSet.isMods(), rgbFieldSet.getCategory(), items);

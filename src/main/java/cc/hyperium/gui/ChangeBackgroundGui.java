@@ -19,8 +19,6 @@ package cc.hyperium.gui;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.config.Settings;
-import cc.hyperium.mods.sk1ercommon.Multithreading;
-import javafx.stage.FileChooser;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -29,16 +27,9 @@ import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.resources.I18n;
 import org.apache.commons.io.IOUtils;
 import org.lwjgl.input.Keyboard;
-import java.awt.FileDialog;
-import java.awt.Frame;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.IOException;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.FileNotFoundException;
-import java.io.File;
-import java.io.DataInputStream;
+
+import java.awt.*;
+import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
 

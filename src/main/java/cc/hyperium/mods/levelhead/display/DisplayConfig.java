@@ -14,7 +14,6 @@ public class DisplayConfig {
     private int headerRed = 255;
     private int headerGreen = 255;
     private int headerBlue = 255;
-    private double headerAlpha = 1.0;
     private String headerColor = ChatColor.AQUA.toString();
     private String customHeader = "Level";
 
@@ -23,7 +22,6 @@ public class DisplayConfig {
     private int footerRed = 255;
     private int footerGreen = 255;
     private int footerBlue = 255;
-    private double footerAlpha = 1.0;
     private String footerColor = ChatColor.YELLOW.toString();
 
     public boolean isEnabled() {
@@ -75,11 +73,8 @@ public class DisplayConfig {
     public void setHeaderBlue(int headerBlue) {
         this.headerBlue = headerBlue;
     }
-    public double getHeaderAlpha() {
-        return headerAlpha;
-    }
-    public void setHeaderAlpha(double headerAlpha) {
-        this.headerAlpha = headerAlpha;
+    double getHeaderAlpha() {
+        return 1.0;
     }
     public String getHeaderColor() {
         return headerColor;
@@ -124,11 +119,8 @@ public class DisplayConfig {
     public void setFooterBlue(int footerBlue) {
         this.footerBlue = footerBlue;
     }
-    public double getFooterAlpha() {
-        return footerAlpha;
-    }
-    public void setFooterAlpha(double footerAlpha) {
-        this.footerAlpha = footerAlpha;
+    double getFooterAlpha() {
+        return 1.0;
     }
     public String getFooterColor() {
         return footerColor;

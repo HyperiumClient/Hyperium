@@ -1,11 +1,14 @@
 package cc.hyperium.mods.levelhead;
 
 import cc.hyperium.Hyperium;
-import cc.hyperium.event.*;
+import cc.hyperium.event.EventBus;
+import cc.hyperium.event.InvokeEvent;
+import cc.hyperium.event.TickEvent;
 import cc.hyperium.mods.AbstractMod;
 import cc.hyperium.mods.levelhead.auth.MojangAuth;
 import cc.hyperium.mods.levelhead.command.CustomLevelheadCommand;
 import cc.hyperium.mods.levelhead.command.LevelheadCommand;
+import cc.hyperium.mods.levelhead.config.MasterConfig;
 import cc.hyperium.mods.levelhead.display.AboveHeadDisplay;
 import cc.hyperium.mods.levelhead.display.DisplayConfig;
 import cc.hyperium.mods.levelhead.display.DisplayManager;
@@ -20,7 +23,6 @@ import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.mods.sk1ercommon.Sk1erMod;
 import cc.hyperium.utils.ChatColor;
 import net.minecraft.client.Minecraft;
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 
 import java.awt.*;
@@ -59,21 +61,11 @@ public class Levelhead extends AbstractMod {
 
     @Override
     public AbstractMod init() {
-        EventBus.INSTANCE.register(this);
-        return this;
-    }
+        instance = this;
+        MasterConfig config = new MasterConfig();
+        Hyperium.CONFIG.register(config);
 
-    @InvokeEvent
-    public void preinit(PreInitializationEvent event) {
-        LevelheadJsonHolder config = new LevelheadJsonHolder();
-
-        try {
-            config = new LevelheadJsonHolder(FileUtils.readFileToString(Hyperium.folder, "levelhead.json"));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        displayManager = new DisplayManager(config, new File(Hyperium.folder, "levelhead.json"));
+        displayManager = new DisplayManager(new LevelheadJsonHolder(), new File(Hyperium.folder, "levelhead.json"));
 
         Multithreading.runAsync(() -> types = new LevelheadJsonHolder(rawWithAgent("https://api.sk1er.club/levelhead_config")));
 
@@ -84,6 +76,7 @@ public class Levelhead extends AbstractMod {
                 Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage(ChatColor.RED + "An error occurred whilst loading internal Levelhead info.");
             }
         });
+
         sk1erMod.checkStatus();
         auth = new MojangAuth();
 
@@ -94,20 +87,20 @@ public class Levelhead extends AbstractMod {
             }
         });
 
+        userUuid = Minecraft.getMinecraft().getSession().getProfile().getId();
+        Hyperium.INSTANCE.getHandlers().getCommandHandler().registerCommand(new LevelheadCommand());
+        Hyperium.INSTANCE.getHandlers().getCommandHandler().registerCommand(new CustomLevelheadCommand());
+
+        LevelheadChatRenderer levelheadChatRenderer = new LevelheadChatRenderer(this);
+        EventBus.INSTANCE.register(this);
+        EventBus.INSTANCE.register(levelheadChatRenderer);
+        EventBus.INSTANCE.register(new AboveHeadRenderer(this));
+
         Multithreading.runAsync(this::refreshPurchaseStates);
         Multithreading.runAsync(this::refreshRawPurchases);
         Multithreading.runAsync(this::refreshPaidData);
-    }
 
-    @InvokeEvent
-    public void init(InitializationEvent event) {
-        instance = this;
-        userUuid = Minecraft.getMinecraft().getSession().getProfile().getId();
-        EventBus.INSTANCE.register(new AboveHeadRenderer(this));
-        Hyperium.INSTANCE.getHandlers().getCommandHandler().registerCommand(new LevelheadCommand());
-        Hyperium.INSTANCE.getHandlers().getCommandHandler().registerCommand(new CustomLevelheadCommand());
-        LevelheadChatRenderer levelheadChatRenderer = new LevelheadChatRenderer(this);
-        EventBus.INSTANCE.register(levelheadChatRenderer);
+        return this;
     }
 
     @InvokeEvent

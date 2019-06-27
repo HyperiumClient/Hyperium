@@ -1,7 +1,6 @@
 package cc.hyperium.mods.levelhead.guis;
 
 import cc.hyperium.Hyperium;
-import cc.hyperium.mixinsimp.gui.HyperiumGuiPlayerTabOverlay;
 import cc.hyperium.mods.levelhead.Levelhead;
 import cc.hyperium.mods.levelhead.display.*;
 import cc.hyperium.mods.levelhead.purchases.LevelheadPurchaseStates;
@@ -31,8 +30,8 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URLEncoder;
-import java.util.*;
 import java.util.List;
+import java.util.*;
 import java.util.function.Consumer;
 
 public class LevelheadGui extends GuiScreen implements GuiYesNoCallback {

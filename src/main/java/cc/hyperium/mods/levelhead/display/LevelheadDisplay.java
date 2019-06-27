@@ -14,9 +14,9 @@ import java.util.concurrent.ConcurrentHashMap;
 public abstract class LevelheadDisplay {
 
     protected final ConcurrentHashMap<UUID, LevelheadTag> cache = new ConcurrentHashMap<>();
-    protected final ConcurrentHashMap<UUID, String> trueValueCache = new ConcurrentHashMap<>();
-    protected final List<UUID> existedMoreThan5Seconds = new ArrayList<>();
-    protected final HashMap<UUID, Integer> timeCheck = new HashMap<>();
+    final ConcurrentHashMap<UUID, String> trueValueCache = new ConcurrentHashMap<>();
+    final List<UUID> existedMoreThan5Seconds = new ArrayList<>();
+    final HashMap<UUID, Integer> timeCheck = new HashMap<>();
 
     private DisplayPosition position;
     private DisplayConfig config;
