@@ -55,8 +55,8 @@ public class LevelheadGui extends GuiScreen implements GuiYesNoCallback {
 
         Multithreading.runAsync(() -> {
             String raw = Sk1erMod.getInstance().rawWithAgent("https://api.sk1er.club/levelhead/" + Minecraft.getMinecraft().getSession().getProfile().getId().toString().replace("-", ""));
-            isCustom = new LevelheadJsonHolder(raw).optBoolean("custom");
             System.out.println(raw);
+            isCustom = new LevelheadJsonHolder(raw).optBoolean("custom");
         });
 
         textField = new GuiTextField(-500, fontRendererObj, width - 124, 74, 120, 19);
@@ -181,7 +181,7 @@ public class LevelheadGui extends GuiScreen implements GuiYesNoCallback {
                 }
             }
 
-            drawScaledText(DARK_PURPLE + "Custom Levelhead Status: " + (isCustom ? GREEN + "Enabled" : RED + "Disabled"), 2, height - 55, 1.25, 16777215, true, false);
+            drawScaledText(LIGHT_PURPLE + "Custom Levelhead Status: " + (isCustom ? GREEN + "Enabled" : RED + "Disabled"), 2, height - 55, 1.25, 16777215, true, false);
             reg(new GuiButton(++currentID, 2, height - 44, 220, 20, (isCustom ? YELLOW + "Click to change custom Levelhead." : YELLOW + "Click to purchase custom Levelhead")), button -> {
                 try {
                     if (isCustom) {
@@ -536,24 +536,24 @@ public class LevelheadGui extends GuiScreen implements GuiYesNoCallback {
         LevelheadDisplay tab = instance.getDisplayManager().getTab();
 
         if (tab != null) {
-            String formattedName = player.getDisplayName().getFormattedText();
-            int totalTabWidth = 9 + fontRendererObj.getStringWidth(formattedName) + getLevelheadWidth(playerInfo);
+            String formattedText = player.getDisplayName().getFormattedText();
+            int totalTabWidth = 9 + fontRendererObj.getStringWidth(formattedText) + getLevelheadWidth(playerInfo) + 15;
             int fakeTabTop = height - 200;
             int centerOn = width / 3;
             int leftStart = centerOn - totalTabWidth / 2;
             drawRect(leftStart, fakeTabTop, centerOn + totalTabWidth / 2, fakeTabTop + 8, Integer.MIN_VALUE);
             drawRect(leftStart, fakeTabTop, centerOn + totalTabWidth / 2, fakeTabTop + 8, 553648127);
-            fontRendererObj.drawString(formattedName, leftStart + 9, fakeTabTop, 16777215, true);
+            fontRendererObj.drawString(formattedText, leftStart + 9, fakeTabTop, Color.WHITE.getRGB(), true);
 
             mc.getTextureManager().bindTexture(player.getLocationSkin());
             int l2 = 8;
             int i3 = 8;
-            drawScaledCustomSizeModalRect(leftStart, fakeTabTop, 8.0F, (float) l2, 8, i3, 8, 8, 64.0F, 64.0F);
+            Gui.drawScaledCustomSizeModalRect(leftStart, fakeTabTop, 8.0F, (float) l2, 8, i3, 8, 8, 64.0F, 64.0F);
 
             if (player.isWearing(EnumPlayerModelParts.HAT)) {
                 int j3 = 8;
                 int k3 = 8;
-                drawScaledCustomSizeModalRect(leftStart, fakeTabTop, 40.0F, (float) j3, 8, k3, 8, 8, 64.0F, 64.0F);
+                Gui.drawScaledCustomSizeModalRect(leftStart, fakeTabTop, 40.0F, (float) j3, 8, k3, 8, 8, 64.0F, 64.0F);
             }
 
             drawPing(leftStart + totalTabWidth, fakeTabTop, playerInfo);

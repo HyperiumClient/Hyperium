@@ -164,18 +164,18 @@ public class Levelhead extends AbstractMod {
             LevelheadJsonHolder fakeValue = new LevelheadJsonHolder();
             fakeValue.put("header", "Error");
             fakeValue.put("strlevel", "Item '" + type + "' not purchased. If you believe this is an error, contact Sk1er");
-            fakeValue.put("success", "true");
+            fakeValue.put("success", true);
             display.getCache().put(uuid, buildTag(fakeValue, uuid, display, allowOverride));
             return;
         }
 
         Multithreading.runAsync(() -> {
             String raw = rawWithAgent(
-                "https://api.sk1er.club/levelheadv5" + trimUuid(uuid) + "/" + type
+                "https://api.sk1er.club/levelheadv5/" + trimUuid(uuid) + "/" + type
                     + "/" + trimUuid(Minecraft.getMinecraft().getSession().getProfile().getId()) +
                     "/" + VERSION + "/" + auth.getHash() + "/" + display.getPosition().name());
-            LevelheadJsonHolder object = new LevelheadJsonHolder(raw);
 
+            LevelheadJsonHolder object = new LevelheadJsonHolder(raw);
             if (!object.optBoolean("success")) {
                 object.put("strlevel", "Error");
             }
@@ -199,17 +199,14 @@ public class Levelhead extends AbstractMod {
         LevelheadJsonHolder headerObj = new LevelheadJsonHolder();
         LevelheadJsonHolder footerObj = new LevelheadJsonHolder();
         LevelheadJsonHolder construct = new LevelheadJsonHolder();
-
         if (object.has("header_obj") && allowOverride) {
             headerObj = object.optJsonObject("header_obj");
             headerObj.put("custom", true);
         }
-
         if (object.has("footer_obj") && allowOverride) {
             footerObj = object.optJsonObject("footer_obj");
             footerObj.put("custom", true);
         }
-
         if (object.has("header") && allowOverride) {
             headerObj.put("header", object.optString("header"));
             headerObj.put("custom", true);
@@ -217,12 +214,11 @@ public class Levelhead extends AbstractMod {
 
         headerObj.merge(display.getHeaderConfig(), !allowOverride);
         footerObj.merge(display.getFooterConfig().put("footer", object.optString("strlevel", format.format(object.getInt("level")))), !allowOverride);
-
         construct.put("exclude", object.optBoolean("exclude"));
         construct.put("header", headerObj).put("footer", footerObj);
+        construct.put("exclude", object.optBoolean("exclude"));
         construct.put("custom", object.optJsonObject("custom"));
         value.construct(construct);
-
         return value;
     }
 
@@ -270,51 +266,39 @@ public class Levelhead extends AbstractMod {
     private void clearCache() {
         getDisplayManager().checkCacheSizes();
     }
-
     private String trimUuid(UUID uuid) {
         return uuid.toString().replace("-", "");
     }
-
     public static Levelhead getInstance() {
         return instance;
     }
-
     public LevelheadJsonHolder getTypes() {
         return types;
     }
-
     public MojangAuth getAuth() {
         return auth;
     }
-
     public int getRGBColor() {
         return Color.HSBtoRGB(System.currentTimeMillis() % 1000L / 1000.0f, 0.8f, 0.8f);
     }
-
     public int getDarkRGBColor() {
         return Color.HSBtoRGB(System.currentTimeMillis() % 1000L / 1000.0f, 0.8f, 0.2f);
     }
-
     public LevelheadPurchaseStates getLevelheadPurchaseStates() {
         return levelheadPurchaseStates;
     }
-
     public LevelheadJsonHolder getPurchaseStatus() {
         return purchaseStatus;
     }
-
     public LevelheadJsonHolder getRawPurchases() {
         return rawPurchases;
     }
-
     public LevelheadJsonHolder getPaidData() {
         return paidData;
     }
-
     public DisplayManager getDisplayManager() {
         return displayManager;
     }
-
     public String getVersion() {
         return "v" + VERSION;
     }
