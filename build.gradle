@@ -58,7 +58,7 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 compileJava.options.encoding = 'UTF-8'
 
-version = "1.0"
+version = "1.1"
 group = "cc.hyperium"
 archivesBaseName = "Hyperium"
 
@@ -142,7 +142,7 @@ jar {
             "MixinConfigs": 'mixins.hyperium.json',
             "TweakClass": 'cc.hyperium.launch.HyperiumTweaker',
             "TweakOrder": 0,
-            "Manifest-Version": 1.0,
+            "Manifest-Version": 1.1,
             'Main-Class': 'cc.hyperium.installer.InstallerStart'
     )
 
