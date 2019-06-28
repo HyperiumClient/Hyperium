@@ -275,7 +275,7 @@ public class NickHider extends AbstractMod {
         return playerSkin;
     }
 
-    public String getPseudo(String input) {
+    private String getPseudo(String input) {
         int i = input.hashCode() + nickHiderConfig.getPseudoKey().hashCode();
         if (i < 0) {
             i = -i;
@@ -289,7 +289,6 @@ public class NickHider extends AbstractMod {
         return nickHiderConfig.getPrefix() + namesDatabase.get(i % size) + nickHiderConfig.getSuffix() + (nickHiderConfig.getPrefix().
             equalsIgnoreCase("Player-") ? "" : getStar());
     }
-
     private String getStar() {
         String s = "*";
         int i = s.hashCode();
@@ -303,23 +302,18 @@ public class NickHider extends AbstractMod {
     public List<Nick> getNicks() {
         return nicks;
     }
-
     public Set<String> getUsedNicks() {
         return usedNicks;
     }
-
     public boolean isExtendedUse() {
         return extendedUse;
     }
-
     public ResourceLocation getPlayerCape() {
         return playerCape;
     }
-
     public String getPlayerRealSkinType() {
         return playerRealSkinType;
     }
-
     public NickHiderConfig getNickHiderConfig() {
         return nickHiderConfig;
     }
@@ -334,7 +328,7 @@ public class NickHider extends AbstractMod {
         public String oldName;
         String newName;
 
-        public Nick(Pattern pattern, String oldName, String newName) {
+        Nick(Pattern pattern, String oldName, String newName) {
             this.pattern = pattern;
             this.oldName = oldName;
             this.newName = newName;
