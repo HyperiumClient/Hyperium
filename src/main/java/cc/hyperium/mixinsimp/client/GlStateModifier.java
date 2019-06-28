@@ -26,15 +26,10 @@ public class GlStateModifier implements IGlStateModifier {
 
     public static final IGlStateModifier INSTANCE = new GlStateModifier();
     private Object[] theArray;
-    //private GlStateManager stateManager;
     private Field textureNamefield;
     private Field redColorField = null;
     private Object colorStateObject = null;
     private Field activeTextureUnitField = null;
-
-    private GlStateModifier() {
-        //stateManager = new GlStateManager();
-    }
 
     public void setTexture(int id) {
         if (theArray == null) {
