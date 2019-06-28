@@ -17,45 +17,80 @@
 
 package cc.hyperium.mixins.entity;
 
-import cc.hyperium.mixinsimp.entity.HyperiumNetworkPlayerInfo;
+import cc.hyperium.mods.nickhider.NickHider;
+import cc.hyperium.mods.nickhider.config.NickHiderConfig;
 import com.mojang.authlib.GameProfile;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.network.NetworkPlayerInfo;
+import net.minecraft.client.resources.DefaultPlayerSkin;
 import net.minecraft.util.ResourceLocation;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(NetworkPlayerInfo.class)
 public abstract class MixinNetworkPlayerInfo {
 
-    @Shadow
-    @Final
+    @Shadow @Final
     private GameProfile gameProfile;
 
-    @Shadow
-    private ResourceLocation locationSkin;
-    @Shadow
-    private ResourceLocation locationCape;
+    @Inject(method = "getLocationSkin", at = @At("HEAD"), cancellable = true)
+    private void getLocationSkin(CallbackInfoReturnable<ResourceLocation> cir) {
+        NickHider instance = NickHider.instance;
 
-    private HyperiumNetworkPlayerInfo hyperiumNetworkPlayerInfo = new HyperiumNetworkPlayerInfo((NetworkPlayerInfo) (Object) this);
+        if (instance != null && instance.getNickHiderConfig().isHideSkins() && instance.getNickHiderConfig().isMasterEnabled()) {
+            NickHiderConfig config = instance.getNickHiderConfig();
 
-    /**
-     * @author - boomboompower
-     * @reason - Allow for better cape customization
-     */
-    @Overwrite
-    public ResourceLocation getLocationCape() {
-        return hyperiumNetworkPlayerInfo.getLocationCape(this.gameProfile, this.locationCape);
+            if (gameProfile.getId().equals(Minecraft.getMinecraft().thePlayer.getUniqueID())) {
+                cir.setReturnValue(config.isUseRealSkinForSelf() && instance.getPlayerSkin() != null ? instance.getPlayerSkin() : DefaultPlayerSkin.getDefaultSkin(gameProfile.getId()));
+            } else {
+                if (config.isHideOtherSkins()) {
+                    cir.setReturnValue(config.isUsePlayerSkinForAll() && instance.getPlayerSkin() != null ? instance.getPlayerSkin() : DefaultPlayerSkin.getDefaultSkin(gameProfile.getId()));
+                }
+            }
+        }
     }
 
-    /**
-     *
-     * @author - boomboompower
-     * @reason - Allow for better skin customization
-     */
-    @Overwrite
-    public ResourceLocation getLocationSkin() {
-        return hyperiumNetworkPlayerInfo.getLocationSkin(gameProfile, locationSkin);
+    @Inject(method = "getSkinType", at = @At("RETURN"), cancellable = true)
+    private void getSkinType(CallbackInfoReturnable<String> type) {
+        NickHider instance = NickHider.instance;
+
+        if (instance != null && instance.getNickHiderConfig().isHideSkins() && instance.getNickHiderConfig().isMasterEnabled()) {
+            NickHiderConfig config = instance.getNickHiderConfig();
+
+            if (gameProfile.getId().equals(Minecraft.getMinecraft().thePlayer.getUniqueID())) {
+                if (config.isUseRealSkinForSelf() && instance.getPlayerSkin() != null) {
+                    type.setReturnValue(instance.getPlayerRealSkinType());
+                }
+            } else {
+                if (config.isHideOtherSkins()) {
+                    if (config.isUsePlayerSkinForAll() && instance.getPlayerSkin() != null) {
+                        type.setReturnValue(instance.getPlayerRealSkinType());
+                    }
+                }
+            }
+        }
+    }
+
+    @Inject(method = "getLocationCape", at = @At("RETURN"), cancellable = true)
+    private void getLocationCape(CallbackInfoReturnable<ResourceLocation> cir) {
+        NickHider instance = NickHider.instance;
+
+        if (cir.getReturnValue() != null) {
+            return;
+        }
+
+        if (instance != null && instance.getNickHiderConfig().isHideSkins() && instance.getNickHiderConfig().isMasterEnabled()) {
+            NickHiderConfig config = instance.getNickHiderConfig();
+
+            if (gameProfile.getId().equals(Minecraft.getMinecraft().thePlayer.getUniqueID())) {
+                if (config.isUseRealSkinForSelf()) {
+                    cir.setReturnValue(instance.getPlayerCape());
+                }
+            }
+        }
     }
 }

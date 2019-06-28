@@ -33,8 +33,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(GuiChat.class)
 public class MixinGuiChat {
 
-    @Shadow
-    private GuiTextField inputField;
+    @Shadow protected GuiTextField inputField;
 
     private HyperiumGuiChat hyperiumGuiChat = new HyperiumGuiChat((GuiChat) (Object) this);
 
@@ -53,19 +52,22 @@ public class MixinGuiChat {
         return EnumChatFormatting.getTextWithoutFormattingCodes(commonPrefix);
     }
 
-    /**
-     * IntelliJ gives an error but it works and there are no errors in game, so don't question it
-     */
+    @SuppressWarnings("all")
     @ModifyArg(method = {"autocompletePlayerNames", "onAutocompleteResponse"}, at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiTextField;writeText(Ljava/lang/String;)V"))
     private String removeChatFormattingOfCompletion(String completion) {
         return EnumChatFormatting.getTextWithoutFormattingCodes(completion);
     }
 
     @ModifyVariable(method = "onAutocompleteResponse", at = @At("HEAD"))
-    public String[] remap(String[] in) {
-        if (NickHider.INSTANCE == null) {
+    private String[] remap(String[] in) {
+        if (NickHider.instance == null) {
             return in;
         }
-        return NickHider.INSTANCE.tabComplete(in, this.inputField.getText());
+
+        if (!NickHider.instance.getNickHiderConfig().isMasterEnabled()) {
+            return in;
+        }
+
+        return NickHider.instance.tabComplete(in, inputField.getText());
     }
 }

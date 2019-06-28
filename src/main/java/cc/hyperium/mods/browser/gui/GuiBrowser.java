@@ -1,7 +1,6 @@
 package cc.hyperium.mods.browser.gui;
 
 import cc.hyperium.Hyperium;
-import cc.hyperium.UpdateUtil;
 import cc.hyperium.config.Settings;
 import cc.hyperium.mods.browser.util.BrowserUtil;
 import net.minecraft.client.Minecraft;
@@ -20,12 +19,10 @@ import org.cef.browser.CefBrowserOsr;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
-import java.awt.Color;
+import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.Map;
-import java.lang.Exception;
 
 /**
  * @author Koding

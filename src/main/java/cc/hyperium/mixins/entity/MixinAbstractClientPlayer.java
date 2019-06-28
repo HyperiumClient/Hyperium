@@ -19,7 +19,9 @@ package cc.hyperium.mixins.entity;
 
 import cc.hyperium.mixinsimp.entity.HyperiumAbstractClientPlayer;
 import cc.hyperium.mods.nickhider.NickHider;
+import cc.hyperium.mods.nickhider.config.NickHiderConfig;
 import com.mojang.authlib.GameProfile;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.resources.DefaultPlayerSkin;
 import net.minecraft.entity.player.EntityPlayer;
@@ -64,18 +66,57 @@ public abstract class MixinAbstractClientPlayer extends EntityPlayer {
 
 
     @Inject(method = "getLocationSkin()Lnet/minecraft/util/ResourceLocation;", at = @At("HEAD"), cancellable = true)
-    public void getLocationSkin(CallbackInfoReturnable<ResourceLocation> locationCallbackInfoReturnable) {
-        NickHider instance = NickHider.INSTANCE;
-        if (instance != null && instance.isHideSkins()) {
-            locationCallbackInfoReturnable.setReturnValue(DefaultPlayerSkin.getDefaultSkin(getUniqueID()));
+    private void getLocationSkin(CallbackInfoReturnable<ResourceLocation> locationCallbackInfoReturnable) {
+        NickHider instance = NickHider.instance;
+        if (instance != null && instance.getNickHiderConfig().isHideOtherNames() && instance.getNickHiderConfig().isMasterEnabled()) {
+            NickHiderConfig config = instance.getNickHiderConfig();
+
+            if (getUniqueID().equals(Minecraft.getMinecraft().thePlayer.getUniqueID())) {
+                locationCallbackInfoReturnable.setReturnValue(config.isUseRealSkinForSelf() && instance.getPlayerSkin() != null
+                    ? instance.getPlayerSkin() : DefaultPlayerSkin.getDefaultSkin(getUniqueID()));
+            } else {
+                if (config.isHideOtherSkins()) {
+                    locationCallbackInfoReturnable.setReturnValue(config.isUsePlayerSkinForAll() && instance.getPlayerSkin() != null
+                        ? instance.getPlayerSkin() : DefaultPlayerSkin.getDefaultSkin(getUniqueID()));
+                }
+            }
+        }
+    }
+
+    @Inject(method = "getSkinType", at = @At("RETURN"), cancellable = true)
+    private void getSkinType(CallbackInfoReturnable<String> type) {
+        NickHider instance = NickHider.instance;
+        if (instance != null && instance.getNickHiderConfig().isHideSkins() && instance.getNickHiderConfig().isMasterEnabled()) {
+            NickHiderConfig config = instance.getNickHiderConfig();
+            if (getUniqueID().equals(Minecraft.getMinecraft().thePlayer.getUniqueID())) {
+                if (config.isUseRealSkinForSelf() && instance.getPlayerSkin() != null) {
+                    type.setReturnValue(instance.getPlayerRealSkinType());
+                }
+            } else {
+                if (config.isHideOtherSkins()) {
+                    if (config.isUsePlayerSkinForAll() && instance.getPlayerSkin() != null) {
+                        type.setReturnValue(instance.getPlayerRealSkinType());
+                    }
+                }
+            }
         }
     }
 
     @Inject(method = "getLocationCape", at = @At("HEAD"), cancellable = true)
-    public void getLocationCape(CallbackInfoReturnable<ResourceLocation> locationCallbackInfoReturnable) {
-        NickHider instance = NickHider.INSTANCE;
-        if (instance != null && instance.isHideSkins()) {
-            locationCallbackInfoReturnable.setReturnValue(null);
+    private void getLocationCape(CallbackInfoReturnable<ResourceLocation> locationCallbackInfoReturnable) {
+        NickHider instance = NickHider.instance;
+        if (locationCallbackInfoReturnable.getReturnValue() != null) {
+            return;
+        }
+
+        if (instance != null && instance.getNickHiderConfig().isHideSkins() && instance.getNickHiderConfig().isMasterEnabled()) {
+            NickHiderConfig config = instance.getNickHiderConfig();
+
+            if (getUniqueID().equals(Minecraft.getMinecraft().thePlayer.getUniqueID())) {
+                if (config.isUseRealSkinForSelf()) {
+                    locationCallbackInfoReturnable.setReturnValue(instance.getPlayerCape());
+                }
+            }
         }
     }
 }

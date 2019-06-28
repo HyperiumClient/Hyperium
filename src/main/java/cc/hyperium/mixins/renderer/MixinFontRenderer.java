@@ -262,18 +262,18 @@ public abstract class MixinFontRenderer {
 
     @ModifyVariable(method = "renderString", at = @At(value = "HEAD"))
     public String mod(String in) {
-        if (NickHider.INSTANCE == null) { // When mod hasn't initialized yet.
+        if (NickHider.instance == null) { // When mod hasn't initialized yet.
             return in;
         }
-        return NickHider.INSTANCE.apply(in);
+        return NickHider.instance.apply(in);
     }
 
     @ModifyVariable(method = "getStringWidth", at = @At(value = "HEAD"))
     public String modWidth(String in) {
-        if (NickHider.INSTANCE == null) { // When mod hasn't initialized yet.
+        if (NickHider.instance == null) { // When mod hasn't initialized yet.
             return in;
         }
-        return NickHider.INSTANCE.apply(in);
+        return NickHider.instance.apply(in);
     }
 
     /**
