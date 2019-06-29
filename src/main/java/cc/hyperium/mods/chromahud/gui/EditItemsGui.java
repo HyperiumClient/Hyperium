@@ -17,7 +17,6 @@
 
 package cc.hyperium.mods.chromahud.gui;
 
-import cc.hyperium.Hyperium;
 import cc.hyperium.mods.chromahud.ChromaHUD;
 import cc.hyperium.mods.chromahud.ChromaHUDApi;
 import cc.hyperium.mods.chromahud.DisplayElement;
@@ -28,23 +27,13 @@ import cc.hyperium.mods.chromahud.api.StringConfig;
 import cc.hyperium.mods.chromahud.api.TextConfig;
 import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.GuiTextField;
-import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.gui.*;
 import net.minecraft.client.renderer.GlStateManager;
-import org.lwjgl.input.Mouse;
 
-import java.awt.Color;
+import java.awt.*;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Consumer;
 
 public class EditItemsGui extends GuiScreen {
@@ -59,7 +48,6 @@ public class EditItemsGui extends GuiScreen {
     public EditItemsGui(DisplayElement element, ChromaHUD mod) {
         this.element = element;
         this.mod = mod;
-        boolean mouseLock = Mouse.isButtonDown(0);
     }
 
     private int nextId() {
@@ -70,7 +58,7 @@ public class EditItemsGui extends GuiScreen {
     public void initGui() {
         reg("add", new GuiButton(nextId(), 2, 2, 100, 20, "Add Items"), (guiButton) -> {
             //On click
-            Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new AddItemsGui(mod, element));
+            Minecraft.getMinecraft().displayGuiScreen(new AddItemsGui(mod, element));
         }, (guiButton) -> {
 
         });
@@ -85,7 +73,6 @@ public class EditItemsGui extends GuiScreen {
         reg("Move Up", new GuiButton(nextId(), 2, 23 + 21, 100, 20, "Move Up"), (guiButton) -> {
             //On click
             if (modifying != null) {
-                int i = modifying.getOrdinal();
                 Collections.swap(element.getDisplayItems(), modifying.getOrdinal(), modifying.getOrdinal() - 1);
                 element.adjustOrdinal();
             }
@@ -93,14 +80,14 @@ public class EditItemsGui extends GuiScreen {
         reg("Move Down", new GuiButton(nextId(), 2, 23 + 21 * 2, 100, 20, "Move Down"), (guiButton) -> {
             //On click
             if (modifying != null) {
-                int i = modifying.getOrdinal();
                 Collections.swap(element.getDisplayItems(), modifying.getOrdinal(), modifying.getOrdinal() + 1);
                 element.adjustOrdinal();
             }
         }, (guiButton) -> guiButton.enabled = modifying != null && this.modifying.getOrdinal() < this.element.getDisplayItems().size() - 1);
 
 
-        reg("Back", new GuiButton(nextId(), 2, ResolutionUtil.current().getScaledHeight() - 22, 100, 20, "Back"), (guiButton) -> Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new DisplayElementConfig(element, mod)), (guiButton) -> {
+        reg("Back", new GuiButton(nextId(), 2, ResolutionUtil.current().getScaledHeight() - 22, 100, 20, "Back"), (guiButton) ->
+            Minecraft.getMinecraft().displayGuiScreen(new DisplayElementConfig(element, mod)), (guiButton) -> {
         });
 
     }
@@ -112,12 +99,6 @@ public class EditItemsGui extends GuiScreen {
             guiButtonConsumer.accept(button);
         }
 
-    }
-
-    private void reg(String name, GuiButton button, Consumer<GuiButton> consumer) {
-        reg(name, button, consumer, button1 -> {
-
-        });
     }
 
     private void reg(String name, GuiButton button, Consumer<GuiButton> consumer, Consumer<GuiButton> tick) {
@@ -263,7 +244,7 @@ public class EditItemsGui extends GuiScreen {
             drawRect(xPosition, yPosition, xPosition + width, yPosition + height, this.modifying != null && this.modifying.getOrdinal() == displayItem.getOrdinal() || hovered ? otherColor.getRGB() : defaultColor.getRGB());
             int j = Color.RED.getRGB();
             String displayString = ChromaHUDApi.getInstance().getName(displayItem.getType());
-            fontrenderer.drawString(displayString, (xPosition + width / 2 - fontrenderer.getStringWidth(displayString) / 2), yPosition + (height - 8) / 2, j, false);
+            fontrenderer.drawString(displayString, (xPosition + (width >> 1) - (fontrenderer.getStringWidth(displayString) >> 1)), yPosition + (height - 8) / 2, j, false);
             yPosition += 23;
         }
         if (modifying != null) {

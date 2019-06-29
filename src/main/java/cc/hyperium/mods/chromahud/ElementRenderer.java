@@ -21,6 +21,7 @@ import cc.hyperium.config.Settings;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.RenderHUDEvent;
 import cc.hyperium.event.TickEvent;
+import cc.hyperium.mods.chromahud.api.DisplayItem;
 import cc.hyperium.utils.RenderUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -210,11 +211,17 @@ public class ElementRenderer {
         return mClicks.size();
     }
 
-    /* Until Sk1er fixes the old one causing an NPE, keep it like this */
     @InvokeEvent
     public void tick(TickEvent event) {
-        if (Minecraft.getMinecraft().inGameHasFocus) {
-            cValue = Minecraft.getMinecraft().renderGlobal.getDebugInfoRenders().split("/")[0].trim();
+        for (DisplayElement displayElement : mod.getDisplayElements()) {
+            for (DisplayItem displayItem : displayElement.getDisplayItems()) {
+                if (displayItem.getType().equalsIgnoreCase("C_COUNTER") && displayItem.getType() != null) {
+                    if (minecraft.inGameHasFocus && minecraft.theWorld != null) {
+                        cValue = minecraft.renderGlobal.getDebugInfoRenders().split("/")[0].trim();
+                        return;
+                    }
+                }
+            }
         }
     }
 

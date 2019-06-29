@@ -61,71 +61,27 @@ import java.util.List;
 @Mixin(Minecraft.class)
 public abstract class MixinMinecraft {
 
-    @Shadow
-    public FontRenderer fontRendererObj;
-
-    @Shadow
-    @Final
-    public Profiler mcProfiler;
-
-    @Shadow
-    public boolean inGameHasFocus;
-
-    @Shadow
-    public GuiAchievement guiAchievement;
-
-    @Shadow
-    public int displayHeight;
-
-    @Shadow
-    public int displayWidth;
-
-    @Shadow
-    public GuiScreen currentScreen;
-
-    @Shadow
-    public WorldClient theWorld;
-
-    @Shadow
-    public EntityPlayerSP thePlayer;
-
-    @Shadow
-    public GameSettings gameSettings;
-
-    @Shadow
-    public GuiIngame ingameGUI;
-
-    @Shadow
-    private boolean fullscreen;
-
-    @Shadow
-    @Final
-    private DefaultResourcePack mcDefaultResourcePack;
-
-    @Shadow
-    @Final
-    private List<IResourcePack> defaultResourcePacks;
-
-    @Shadow
-    private boolean enableGLErrorChecking;
+    @Shadow public FontRenderer fontRendererObj;
+    @Shadow @Final public Profiler mcProfiler;
+    @Shadow public boolean inGameHasFocus;
+    @Shadow public int displayHeight;
+    @Shadow public int displayWidth;
+    @Shadow public GuiScreen currentScreen;
+    @Shadow public WorldClient theWorld;
+    @Shadow public EntityPlayerSP thePlayer;
+    @Shadow public GameSettings gameSettings;
+    @Shadow public GuiIngame ingameGUI;
+    @Shadow private boolean fullscreen;
+    @Shadow @Final private DefaultResourcePack mcDefaultResourcePack;
+    @Shadow @Final private List<IResourcePack> defaultResourcePacks;
+    @Shadow private boolean enableGLErrorChecking;
+    @Shadow private Timer timer;
+    @Shadow private RenderManager renderManager;
+    @Shadow long systemTime;
+    @Final @Shadow public File mcDataDir;
+    @Shadow private Framebuffer framebufferMc;
 
     private HyperiumMinecraft hyperiumMinecraft = new HyperiumMinecraft((Minecraft) (Object) this);
-
-    @Shadow
-    private Timer timer;
-
-    @Shadow
-    private RenderManager renderManager;
-
-    @Shadow
-    long systemTime;
-
-    @Final
-    @Shadow
-    public File mcDataDir;
-
-    @Shadow
-    private Framebuffer framebufferMc;
 
     protected MixinMinecraft() {
     }

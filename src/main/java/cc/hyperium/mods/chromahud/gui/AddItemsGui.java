@@ -97,12 +97,12 @@ public class AddItemsGui extends GuiScreen {
 
         reg("Down", new GuiButton(nextId(), 2, 23 + 21 * 2, 100, 20, "Scroll Down"), (guiButton) -> {
             //On click
-            offset += 50;
+            offset = 50;
         }, (guiButton) -> {
         });
         reg("Up", new GuiButton(nextId(), 2, 23 + 21, 100, 20, "Scroll Up"), (guiButton) -> {
             //On click
-            offset -= 50;
+            offset += 50;
         }, (guiButton) -> {
         });
 
@@ -149,9 +149,9 @@ public class AddItemsGui extends GuiScreen {
         super.handleMouseInput();
         int i = Mouse.getEventDWheel();
         if (i < 0) {
-            offset += 10;
-        } else if (i > 0) {
             offset -= 10;
+        } else if (i > 0 && offset < 0) {
+            offset += 10;
         }
     }
 

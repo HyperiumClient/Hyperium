@@ -78,7 +78,7 @@ public class Hyperium {
     /**
      * Instance of the global mod LOGGER
      */
-    public final static Logger LOGGER = LogManager.getLogger(Metadata.getModid());
+    public static final Logger LOGGER = LogManager.getLogger(Metadata.getModid());
     /**
      * The Hyperium configuration folder
      */

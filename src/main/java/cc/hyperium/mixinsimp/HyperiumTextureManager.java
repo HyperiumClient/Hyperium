@@ -37,7 +37,6 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class HyperiumTextureManager {
 
-
     public static HyperiumTextureManager INSTANCE;
     private TextureManager parent;
     private ConcurrentHashMap<String, ITextureObject> textures = new ConcurrentHashMap<>();

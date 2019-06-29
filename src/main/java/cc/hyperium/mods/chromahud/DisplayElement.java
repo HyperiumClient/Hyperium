@@ -38,12 +38,12 @@ import net.minecraft.client.renderer.RenderHelper;
 public class DisplayElement extends Dimension {
     private final JsonHolder data;
     private double xloc, yloc;
-    private List<DisplayItem> displayItems = new ArrayList<>();
+    private List<DisplayItem> displayItems;
     private double scale = 1;
     private int color;
     private boolean shadow;
     private boolean highlighted;
-    private boolean rightSided = false;
+    private boolean rightSided;
     // Used for rainbox rendering
     private boolean selected;
     private boolean chroma;
@@ -125,14 +125,6 @@ public class DisplayElement extends Dimension {
         ScaledResolution resolution = new ScaledResolution(Minecraft.getMinecraft());
         int x = (int) (xloc * resolution.getScaledWidth_double());
         double y = (int) (yloc * resolution.getScaledHeight_double());
-//        if (this.isHighlighted()) {
-//            Gui.drawRect(
-//                    x - 2,
-//                    (int) y - 2,
-//                    (int) (x + getDimensions().getWidth()) + 2,
-//                    (int) (y + getDimensions().getHeight()),
-//                    new Color(0, 0, 0, 120).getRGB());
-//        }
 
         for (DisplayItem iDisplayItem : displayItems) {
             try {

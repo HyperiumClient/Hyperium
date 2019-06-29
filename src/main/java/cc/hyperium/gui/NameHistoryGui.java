@@ -154,10 +154,10 @@ public class NameHistoryGui extends GuiScreen {
 
             if (offset - length + 1 > -names.size() && length <= names.size()) {
                 // regions it cant exceed
-                offset -= 1;
+                offset -= 10;
             }
         } else if (i > 0 && offset < 0) {
-            offset += 1;
+            offset += 10;
         }
     }
 }

@@ -57,10 +57,7 @@ public class CachedThreadDownloader {
     }
 
     public void download() {
-
         HttpURLConnection httpurlconnection = null;
-//        ThreadDownloadImageData.logger.debug("Downloading http texture from {} to {}", new Object[]{ThreadDownloadImageData.this.imageUrl, ThreadDownloadImageData.this.cacheFile});
-
         try {
             httpurlconnection = (HttpURLConnection) (new URL(imageUrl)).openConnection(Minecraft.getMinecraft().getProxy());
             httpurlconnection.setRequestProperty("User-Agent", "Hyperium Client");
@@ -100,7 +97,6 @@ public class CachedThreadDownloader {
     }
 
     public void process() {
-
         THREAD_POOL.execute(() -> {
             try {
                 download();
