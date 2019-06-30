@@ -93,11 +93,7 @@ public class DisplayElementConfig extends GuiScreen {
 
             }
             texture2 = new DynamicTexture(image1);
-
-
         }
-
-
     }
 
     private void reg(String name, GuiButton button, Consumer<GuiButton> consumer) {
@@ -284,7 +280,6 @@ public class DisplayElementConfig extends GuiScreen {
         if (guiButtonConsumer != null) {
             guiButtonConsumer.accept(button);
         }
-
     }
 
     @Override
@@ -351,10 +346,6 @@ public class DisplayElementConfig extends GuiScreen {
                     }
             }
         }
-
-        //Coords within the box they clicked adjusted for scale
-
-
     }
 
     @Override
@@ -403,10 +394,8 @@ public class DisplayElementConfig extends GuiScreen {
             return;
 
         apply(mouseX, mouseY);
-//
         GlStateManager.bindTexture(texture.getGlTextureId());
         GlStateManager.enableTexture2D();
-//        //    public void drawTexturedModalRect(int x, int y, int textureX, int textureY, int width, int height)
         GL11.glPushMatrix();
         GL11.glTranslatef(left, top, 0);
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);//
@@ -420,12 +409,9 @@ public class DisplayElementConfig extends GuiScreen {
             drawTexturedModalRect(0, 0, 0, 0, 15, 256);
         }
         GlStateManager.scale(285F / size, 285F / size, 0);
-//
         GL11.glPopMatrix();
         if (lastX != 0 && lastY != 0)
             drawCircle(lastX, lastY);
-//
-
     }
 
 

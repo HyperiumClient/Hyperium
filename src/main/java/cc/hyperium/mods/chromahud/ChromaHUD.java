@@ -57,9 +57,6 @@ public class ChromaHUD extends AbstractMod {
 
     public ChromaHUD() {
         Metadata metadata = new Metadata(this, "ChromaHUD", "3.0", "Sk1er");
-
-        metadata.setDisplayName(ChatColor.AQUA + "ChromaHUD");
-
         this.meta = metadata;
     }
 

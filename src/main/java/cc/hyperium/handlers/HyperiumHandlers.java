@@ -23,33 +23,11 @@ import cc.hyperium.event.EventBus;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.TickEvent;
 import cc.hyperium.gui.ScoreboardRenderer;
-import cc.hyperium.handlers.handlers.BroadcastEvents;
-import cc.hyperium.handlers.handlers.CommandQueue;
-import cc.hyperium.handlers.handlers.FlipHandler;
-import cc.hyperium.handlers.handlers.FontRendererData;
-import cc.hyperium.handlers.handlers.GuiDisplayHandler;
-import cc.hyperium.handlers.handlers.HyperiumNetwork;
-import cc.hyperium.handlers.handlers.HypixelDetector;
-import cc.hyperium.handlers.handlers.LocationHandler;
-import cc.hyperium.handlers.handlers.OtherConfigOptions;
-import cc.hyperium.handlers.handlers.SettingsHandler;
-import cc.hyperium.handlers.handlers.StatusHandler;
-import cc.hyperium.handlers.handlers.ValueHandler;
-import cc.hyperium.handlers.handlers.animation.DabHandler;
-import cc.hyperium.handlers.handlers.animation.FlossDanceHandler;
-import cc.hyperium.handlers.handlers.animation.TPoseHandler;
-import cc.hyperium.handlers.handlers.animation.TwerkDance;
-import cc.hyperium.handlers.handlers.animation.YeetHandler;
+import cc.hyperium.handlers.handlers.*;
+import cc.hyperium.handlers.handlers.animation.*;
 import cc.hyperium.handlers.handlers.animation.cape.CapeHandler;
 import cc.hyperium.handlers.handlers.animation.fortnite.FortniteDefaultDance;
-import cc.hyperium.handlers.handlers.chat.DMChatHandler;
-import cc.hyperium.handlers.handlers.chat.FriendRequestChatHandler;
-import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
-import cc.hyperium.handlers.handlers.chat.HyperiumChatHandler;
-import cc.hyperium.handlers.handlers.chat.PartyInviteChatHandler;
-import cc.hyperium.handlers.handlers.chat.QuestTrackingChatHandler;
-import cc.hyperium.handlers.handlers.chat.RankedRatingChatHandler;
-import cc.hyperium.handlers.handlers.chat.WinTrackingChatHandler;
+import cc.hyperium.handlers.handlers.chat.*;
 import cc.hyperium.handlers.handlers.data.HypixelAPI;
 import cc.hyperium.handlers.handlers.hud.VanillaEnhancementsHud;
 import cc.hyperium.handlers.handlers.hypixel.HypixelGuiAugmenter;
@@ -77,7 +55,6 @@ public class HyperiumHandlers {
     private HypixelDetector hypixelDetector;
     private CommandQueue commandQueue;
     private CapeHandler capeHandler;
-    private ValueHandler valueHandler;
     private List<HyperiumChatHandler> chatHandlers;
     private GeneralChatHandler generalChatHandler;
     private HypixelAPI dataHandler;
@@ -114,7 +91,6 @@ public class HyperiumHandlers {
         settingsHandler = new SettingsHandler();
         chatHandlers = new ArrayList<>();
         register(configOptions = new OtherConfigOptions());
-        register(FontRendererData.INSTANCE);
         register(generalChatHandler = new GeneralChatHandler(chatHandlers));
         register(perspectiveHandler = new PerspectiveModifierHandler());
         register(keybindHandler = new KeyBindHandler());
@@ -123,7 +99,6 @@ public class HyperiumHandlers {
         register(reachDisplay = new ReachDisplay());
         register(locationHandler = new LocationHandler());
         register(vanillaEnhancementsHud = new VanillaEnhancementsHud());
-        register(valueHandler = new ValueHandler());
         register(layerDeadmau5HeadHandler = new LayerDeadmau5HeadHandler());
         register(hypixelValueTracking = new HypixelValueTracking());
         register(resolutionUtil = new ResolutionUtil());
@@ -145,7 +120,6 @@ public class HyperiumHandlers {
         dataHandler = new HypixelAPI();
         // Chat Handlers
         System.out.println("Loading chat handlers");
-        registerChatHandler(new RankedRatingChatHandler());
         registerChatHandler(new DMChatHandler());
         registerChatHandler(questTracking = new QuestTrackingChatHandler());
         registerChatHandler(new WinTrackingChatHandler());
@@ -254,10 +228,6 @@ public class HyperiumHandlers {
 
     public CommandQueue getCommandQueue() {
         return commandQueue;
-    }
-
-    public ValueHandler getValueHandler() {
-        return valueHandler;
     }
 
     public GeneralChatHandler getGeneralChatHandler() {

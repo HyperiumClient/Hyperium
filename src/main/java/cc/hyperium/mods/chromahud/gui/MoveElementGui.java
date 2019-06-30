@@ -17,7 +17,6 @@
 
 package cc.hyperium.mods.chromahud.gui;
 
-import cc.hyperium.Hyperium;
 import cc.hyperium.mods.chromahud.ChromaHUD;
 import cc.hyperium.mods.chromahud.DisplayElement;
 import cc.hyperium.mods.chromahud.ElementRenderer;
@@ -28,7 +27,7 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
 import org.lwjgl.input.Mouse;
 
-import java.awt.Color;
+import java.awt.*;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -37,7 +36,6 @@ import java.util.function.Consumer;
 class MoveElementGui extends GuiScreen {
     private final Map<GuiButton, Consumer<GuiButton>> clicks = new HashMap<>();
     private final Map<GuiButton, Consumer<GuiButton>> updates = new HashMap<>();
-    private final Map<String, GuiButton> nameMap = new HashMap<>();
     private final ChromaHUD mod;
     private final DisplayElement element;
     private GuiButton edit;
@@ -55,11 +53,8 @@ class MoveElementGui extends GuiScreen {
     @Override
     public void initGui() {
         super.initGui();
-        reg("", (edit = new GuiButton(1, 5, 5, 100, 20, "Save")), button -> {
-            //Open Gui for editing element
-            Hyperium.INSTANCE.getHandlers().getGuiDisplayHandler().setDisplayNextTick(new DisplayElementConfig(element, mod));
-        }, (guiButton) -> {
-        });
+        reg(edit = new GuiButton(1, 5, 5, 100, 20, "Save"), button ->
+            mc.displayGuiScreen(new DisplayElementConfig(element, mod)));
     }
 
     @Override
@@ -111,11 +106,6 @@ class MoveElementGui extends GuiScreen {
         drawHorizontalLine((int) (x1 - 5), (int) (x2 + 5), (int) y2 + 5, Color.RED.getRGB());
         drawVerticalLine((int) x1 - 5, (int) (y1 - 5), (int) (y2 + 5), Color.RED.getRGB());
         drawVerticalLine((int) x2 + 5, (int) (y1 - 5), (int) (y2 + 5), Color.RED.getRGB());
-
-//            drawVerticalLine((int) (y1 + 5), (int) (y1 - 5), (int) 3, Color.RED.getRGB());
-
-//            Gui.drawRect((int) x1, (int) y1, (int) x2, (int) y2, Color.WHITE.getRGB());
-//            currentElement.drawForConfig();
         int propX = (int) x1 - 5;
         int propY = (int) y1 - 30;
         if (propX < 10 || propX > resolution.getScaledWidth() - 200) {
@@ -162,10 +152,14 @@ class MoveElementGui extends GuiScreen {
         super.mouseClicked(mouseX, mouseY, mouseButton);
     }
 
-    private void reg(String name, GuiButton button, Consumer<GuiButton> consumer, Consumer<GuiButton> tick) {
+    private void reg(GuiButton button, Consumer<GuiButton> consumer) {
+        buttonList.removeIf(button1 -> button1.id == button.id);
+        clicks.keySet().removeIf(button1 -> button1.id == button.id);
+
         this.buttonList.add(button);
-        this.clicks.put(button, consumer);
-        this.updates.put(button, tick);
-        this.nameMap.put(name, button);
+
+        if (consumer != null) {
+            this.clicks.put(button, consumer);
+        }
     }
 }

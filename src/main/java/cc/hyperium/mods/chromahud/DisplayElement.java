@@ -24,13 +24,9 @@ import com.google.gson.JsonArray;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 
-import java.awt.Color;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
-
-import net.minecraft.client.gui.inventory.GuiInventory;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.RenderHelper;
 
 /**
  * Created by Mitchell Katz on 5/25/2017.
@@ -39,19 +35,19 @@ public class DisplayElement extends Dimension {
     private final JsonHolder data;
     private double xloc, yloc;
     private List<DisplayItem> displayItems;
-    private double scale = 1;
+    private double scale;
     private int color;
     private boolean shadow;
     private boolean highlighted;
     private boolean rightSided;
-    // Used for rainbox rendering
+    // Used for rainbow rendering
     private boolean selected;
     private boolean chroma;
     private boolean rgb;
     private boolean color_pallet;
     private boolean static_chroma;
 
-    public DisplayElement(JsonHolder object) {
+    DisplayElement(JsonHolder object) {
         this.data = object;
         xloc = object.optDouble("x");
         this.yloc = object.optDouble("y");
@@ -70,7 +66,6 @@ public class DisplayElement extends Dimension {
         this.displayItems = items;
         this.shadow = object.optBoolean("shadow");
         this.highlighted = object.optBoolean("highlighted");
-        double brightness = data.optDouble("brightness");
         this.color = data.optInt("color");
         this.chroma = data.optBoolean("chroma");
         this.rightSided = data.optBoolean("right_side");

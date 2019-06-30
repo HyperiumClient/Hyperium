@@ -67,27 +67,21 @@ public class AutoGG extends AbstractMod {
     public Metadata getModMetadata() {
         return meta;
     }
-
     public AutoGGConfig getConfig() {
         return this.config;
     }
-
     public boolean isRunning() {
         return this.running;
     }
-
     public void setRunning(final boolean running) {
         this.running = running;
     }
-
     public List<String> getTriggers() {
         return triggers;
     }
-
     public void setTriggers(final ArrayList<String> triggersIn) {
         triggers = triggersIn;
     }
-
     public boolean isHypixel() {
         return HypixelDetector.getInstance().isHypixel();
     }

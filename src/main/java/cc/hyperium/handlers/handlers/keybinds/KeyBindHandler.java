@@ -31,17 +31,17 @@ public class KeyBindHandler {
     public final HyperiumBind debug = new HyperiumBind("DEBUG", Keyboard.KEY_J) {
         @Override
         public void onPress() {
-
+            System.out.println("debug keybind pressed");
         }
 
         @Override
         public void onRelease() {
+            System.out.println("debug keybind released");
         }
     };
     private final KeyBindConfig keyBindConfig;
     // Case insensitive treemap
     private final Map<String, HyperiumBind> keybinds = new HashMap<>();
-    private ToggleSprintKeybind toggleSprintKeybind;
 
     public KeyBindHandler() {
         this.keyBindConfig = new KeyBindConfig(this, Hyperium.folder);
@@ -54,7 +54,7 @@ public class KeyBindHandler {
         registerKeyBinding(new FlipKeybind());
         registerKeyBinding(new ViewStatsKeybind());
         registerKeyBinding(new FlossKeybind());
-        registerKeyBinding(toggleSprintKeybind = new ToggleSprintKeybind());
+        registerKeyBinding(new ToggleSprintKeybind());
         registerKeyBinding(new TogglePerspectiveKeybind());
         registerKeyBinding(new FortniteDefaultDanceKeybind());
         registerKeyBinding(new TwerkDanceKeybind());
@@ -64,7 +64,7 @@ public class KeyBindHandler {
         registerKeyBinding(new RearCamKeybind());
 
         // Populate mouse bind list in accordance with Minecraft's values.
-        for (int i = 0; i < 16; i++) {
+        for (int i = 0; i < keybinds.size(); i++) {
             mouseBinds.put(i, -100 + i);
         }
 
@@ -191,10 +191,6 @@ public class KeyBindHandler {
      */
     public Map<String, HyperiumBind> getKeybinds() {
         return this.keybinds;
-    }
-
-    public ToggleSprintKeybind getToggleSprintBind() {
-        return toggleSprintKeybind;
     }
 
     public void releaseAllKeybinds() {

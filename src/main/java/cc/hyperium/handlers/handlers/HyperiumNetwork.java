@@ -34,15 +34,7 @@ public class HyperiumNetwork {
     @InvokeEvent
     public void joinHypixel(ServerJoinEvent event) {
         Multithreading.runAsync(() -> {
-            NetHandlerPlayClient netHandler;
-            while ((netHandler = Minecraft.getMinecraft().getNetHandler()) == null) {
-                try {
-                    Thread.sleep(500L);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-
+            NetHandlerPlayClient netHandler = Minecraft.getMinecraft().getNetHandler();
             netHandler.addToSendQueue(
                 new C17PacketCustomPayload("hyperium",
                     new PacketBuffer(Unpooled.buffer()).writeString(new JsonHolder()

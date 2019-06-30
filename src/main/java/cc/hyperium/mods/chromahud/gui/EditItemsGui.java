@@ -40,7 +40,6 @@ public class EditItemsGui extends GuiScreen {
     private final DisplayElement element;
     private final Map<GuiButton, Consumer<GuiButton>> clicks = new HashMap<>();
     private final Map<GuiButton, Consumer<GuiButton>> updates = new HashMap<>();
-    private final Map<String, GuiButton> nameMap = new HashMap<>();
     private final ChromaHUD mod;
     private DisplayItem modifying;
     private int tmpId;
@@ -56,39 +55,35 @@ public class EditItemsGui extends GuiScreen {
 
     @Override
     public void initGui() {
-        reg("add", new GuiButton(nextId(), 2, 2, 100, 20, "Add Items"), (guiButton) -> {
-            //On click
-            Minecraft.getMinecraft().displayGuiScreen(new AddItemsGui(mod, element));
-        }, (guiButton) -> {
+        reg(new GuiButton(nextId(), 2, 2, 100, 20, "Add Items"), button ->
+            mc.displayGuiScreen(new AddItemsGui(mod, element)));
 
-        });
-        reg("Remove", new GuiButton(nextId(), 2, 23, 100, 20, "Remove Item"), (guiButton) -> {
-            //On click
+        reg(new GuiButton(nextId(), 2, 23, 100, 20, "Remove Item"), button -> {
             if (modifying != null) {
                 element.removeDisplayItem(modifying.getOrdinal());
-                if (modifying.getOrdinal() >= element.getDisplayItems().size())
+
+                if (modifying.getOrdinal() >= element.getDisplayItems().size()) {
                     modifying = null;
+                }
             }
-        }, (guiButton) -> guiButton.enabled = modifying != null);
-        reg("Move Up", new GuiButton(nextId(), 2, 23 + 21, 100, 20, "Move Up"), (guiButton) -> {
-            //On click
+        });
+
+        reg(new GuiButton(nextId(), 2, 23 + 21, 100, 20, "Move Up"), button -> {
             if (modifying != null) {
                 Collections.swap(element.getDisplayItems(), modifying.getOrdinal(), modifying.getOrdinal() - 1);
                 element.adjustOrdinal();
             }
-        }, (guiButton) -> guiButton.enabled = modifying != null && this.modifying.getOrdinal() > 0);
-        reg("Move Down", new GuiButton(nextId(), 2, 23 + 21 * 2, 100, 20, "Move Down"), (guiButton) -> {
-            //On click
+        });
+
+        reg(new GuiButton(nextId(), 2, 23 + 21 * 2, 100, 20, "Move Down"), button -> {
             if (modifying != null) {
                 Collections.swap(element.getDisplayItems(), modifying.getOrdinal(), modifying.getOrdinal() + 1);
                 element.adjustOrdinal();
             }
-        }, (guiButton) -> guiButton.enabled = modifying != null && this.modifying.getOrdinal() < this.element.getDisplayItems().size() - 1);
-
-
-        reg("Back", new GuiButton(nextId(), 2, ResolutionUtil.current().getScaledHeight() - 22, 100, 20, "Back"), (guiButton) ->
-            Minecraft.getMinecraft().displayGuiScreen(new DisplayElementConfig(element, mod)), (guiButton) -> {
         });
+
+        reg(new GuiButton(nextId(), 2, ResolutionUtil.current().getScaledHeight() - 22, 100, 20, "Back"), button ->
+            mc.displayGuiScreen(new DisplayElementConfig(element, mod)));
 
     }
 
@@ -101,11 +96,15 @@ public class EditItemsGui extends GuiScreen {
 
     }
 
-    private void reg(String name, GuiButton button, Consumer<GuiButton> consumer, Consumer<GuiButton> tick) {
+    private void reg(GuiButton button, Consumer<GuiButton> consumer) {
+        buttonList.removeIf(button1 -> button1.id == button.id);
+        clicks.keySet().removeIf(button1 -> button1.id == button.id);
+
         this.buttonList.add(button);
-        this.clicks.put(button, consumer);
-        this.updates.put(button, tick);
-        this.nameMap.put(name, button);
+
+        if (consumer != null) {
+            this.clicks.put(button, consumer);
+        }
     }
 
     @Override
