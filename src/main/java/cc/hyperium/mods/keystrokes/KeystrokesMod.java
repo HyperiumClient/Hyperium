@@ -23,7 +23,6 @@ import cc.hyperium.mods.AbstractMod;
 import cc.hyperium.mods.keystrokes.config.KeystrokesSettings;
 import cc.hyperium.mods.keystrokes.render.KeystrokesRenderer;
 import cc.hyperium.mods.sk1ercommon.Sk1erMod;
-import cc.hyperium.utils.ChatColor;
 
 public class KeystrokesMod extends AbstractMod {
 
@@ -39,11 +38,7 @@ public class KeystrokesMod extends AbstractMod {
      * Default constructor, this will load the mods metadata
      */
     public KeystrokesMod() {
-        Metadata data = new Metadata(this, "KeystrokesMod", "5.0.1", "Fyu, boomboompower and Sk1er");
-
-        data.setDisplayName(ChatColor.AQUA + "Keystrokes");
-
-        this.metaData = data;
+        this.metaData = new Metadata(this, "KeystrokesMod", "6.0", "Fyu, boomboompower, Sk1er, asbyth");
     }
 
     /**
@@ -56,7 +51,7 @@ public class KeystrokesMod extends AbstractMod {
         this.config = new KeystrokesSettings(this, Hyperium.folder);
         this.config.load();
 
-        new Sk1erMod("keystrokesmod", "5.0.1").checkStatus();
+        new Sk1erMod("keystrokesmod", "6.0").checkStatus();
 
         this.renderer = new KeystrokesRenderer(this);
 

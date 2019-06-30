@@ -84,7 +84,9 @@ public class CustomKey extends IKey {
             bottom = y + yOffset + 22;
         }
 
-        Gui.drawRect(left, top, right, bottom, new Color(0, 0, 0, 120).getRGB() + (color << 16) + (color << 8) + color);
+        if (mod.getSettings().isKeyBackgroundEnabled()) {
+            Gui.drawRect(left, top, right, bottom, new Color(0, 0, 0, 120).getRGB() + (color << 16) + (color << 8) + color);
+        }
 
         hitbox.setLeft(left);
         hitbox.setTop(top);

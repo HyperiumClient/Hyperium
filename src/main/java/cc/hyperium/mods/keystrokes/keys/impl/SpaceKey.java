@@ -21,15 +21,13 @@ import cc.hyperium.mods.keystrokes.KeystrokesMod;
 import cc.hyperium.mods.keystrokes.keys.IKey;
 import cc.hyperium.utils.ChatColor;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.settings.KeyBinding;
-import net.minecraft.util.EnumChatFormatting;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
-import java.awt.Color;
+import java.awt.*;
 
 public class SpaceKey extends IKey {
 
@@ -94,7 +92,9 @@ public class SpaceKey extends IKey {
             textBrightness = Math.min(1.0D, (double) (System.currentTimeMillis() - this.lastPress) / (this.mod.getSettings().getFadeTime() * 2));
         }
 
-        Gui.drawRect(x + this.xOffset, y + yOffset, x + this.xOffset + 70, y + yOffset + 16, new Color(0, 0, 0, 120).getRGB() + (color << 16) + (color << 8) + color);
+        if (mod.getSettings().isKeyBackgroundEnabled()) {
+            Gui.drawRect(x + this.xOffset, y + yOffset, x + this.xOffset + 70, y + yOffset + 16, new Color(0, 0, 0, 120).getRGB() + (color << 16) + (color << 8) + color);
+        }
 
         int red = textColor >> 16 & 255;
         int green = textColor >> 8 & 255;

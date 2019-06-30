@@ -57,6 +57,8 @@ public class KeystrokesSettings {
     private int pressedBlue = 0;
     private boolean leftClick = true;
     private boolean showingSneak = false;
+    private boolean showingFPS = false;
+    private boolean keyBackground = true;
     private List<CustomKeyWrapper> configWrappers = new ArrayList<>();
 
     public KeystrokesSettings(KeystrokesMod mod, File directory) {
@@ -128,6 +130,8 @@ public class KeystrokesSettings {
             object.addProperty("showCPSOnButtons", isShowingCPSOnButtons());
             object.addProperty("showSpacebar", isShowingSpacebar());
             object.addProperty("showSneak", isShowingSneak());
+            object.addProperty("showFps", isShowingFPS());
+            object.addProperty("keyBackground", isKeyBackgroundEnabled());
             final JsonArray keys = new JsonArray();
             for (CustomKeyWrapper wrapper : theMod.getRenderer().getCustomKeys()) {
                 JsonHolder holder = new JsonHolder();
@@ -164,6 +168,8 @@ public class KeystrokesSettings {
         setShowingCPSOnButtons(object.optBoolean("showCPSOnButtons"));
         setShowingSpacebar(object.optBoolean("showSpacebar"));
         setShowingSneak(object.optBoolean("showSneak"));
+        setShowingFPS(object.optBoolean("showFps"));
+        setKeyBackgroundEnabled(object.optBoolean("keyBackground"));
         JsonObject data = object.getData();
         if (data.has("custom")) {
             JsonArray custom = data.getAsJsonArray("custom");
@@ -310,6 +316,22 @@ public class KeystrokesSettings {
 
     public void setLeftClick(boolean leftClick) {
         this.leftClick = leftClick;
+    }
+
+    public boolean isShowingFPS() {
+        return showingFPS;
+    }
+
+    public void setShowingFPS(boolean showingFPS) {
+        this.showingFPS = showingFPS;
+    }
+
+    public boolean isKeyBackgroundEnabled() {
+        return keyBackground;
+    }
+
+    public void setKeyBackgroundEnabled(boolean keyBackground) {
+        this.keyBackground = keyBackground;
     }
 
     public int getHeight() {

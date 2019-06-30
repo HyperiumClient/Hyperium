@@ -23,7 +23,7 @@ import net.minecraft.client.gui.Gui;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
-import java.awt.Color;
+import java.awt.*;
 
 public class MouseButton extends IKey {
 
@@ -65,7 +65,9 @@ public class MouseButton extends IKey {
             textBrightness = Math.min(1.0D, (double) (System.currentTimeMillis() - this.lastPress) / (this.mod.getSettings().getFadeTime() * 2));
         }
 
-        Gui.drawRect(x + this.xOffset, y + this.yOffset, x + this.xOffset + 34, y + this.yOffset + 22, new Color(0, 0, 0, 120).getRGB() + (color << 16) + (color << 8) + color);
+        if (mod.getSettings().isKeyBackgroundEnabled()) {
+            Gui.drawRect(x + this.xOffset, y + this.yOffset, x + this.xOffset + 34, y + this.yOffset + 22, new Color(0, 0, 0, 120).getRGB() + (color << 16) + (color << 8) + color);
+        }
 
         int red = textColor >> 16 & 255;
         int green = textColor >> 8 & 255;

@@ -19,15 +19,14 @@ package cc.hyperium.mods.keystrokes.keys.impl;
 
 import cc.hyperium.mods.keystrokes.KeystrokesMod;
 import cc.hyperium.mods.keystrokes.keys.IKey;
-
-import java.awt.Color;
-
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.settings.KeyBinding;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
+
+import java.awt.*;
 
 public class Key extends IKey {
 
@@ -74,7 +73,9 @@ public class Key extends IKey {
             textBrightness = Math.min(1.0, (double) (System.currentTimeMillis() - lastPress) / (mod.getSettings().getFadeTime() * 5.0));
         }
 
-        Gui.drawRect(x + xOffset, y + yOffset, x + xOffset + 22, y + yOffset + 22, new Color(0, 0, 0, 120).getRGB() + (color << 16) + (color << 8) + color);
+        if (mod.getSettings().isKeyBackgroundEnabled()) {
+            Gui.drawRect(x + xOffset, y + yOffset, x + xOffset + 22, y + yOffset + 22, new Color(0, 0, 0, 120).getRGB() + (color << 16) + (color << 8) + color);
+        }
 
         int keyWidth = 22;
         int red = textColor >> 16 & 0xFF;

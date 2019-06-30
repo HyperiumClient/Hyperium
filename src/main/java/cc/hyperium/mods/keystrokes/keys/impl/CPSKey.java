@@ -63,7 +63,9 @@ public class CPSKey extends IKey {
 
         int textColor = getColor();
 
-        Gui.drawRect(x + this.xOffset, y + yOffset, x + this.xOffset + 70, y + yOffset + 16, new Color(0, 0, 0, 120).getRGB());
+        if (mod.getSettings().isKeyBackgroundEnabled()) {
+            Gui.drawRect(x + this.xOffset, y + yOffset, x + this.xOffset + 70, y + yOffset + 16, new Color(0, 0, 0, 120).getRGB());
+        }
 
         String name = (this.mod.getSettings().isLeftClick() ? this.getLeftCPS() : this.getRightCPS()) + " CPS";
         if (this.mod.getSettings().isChroma()) {
