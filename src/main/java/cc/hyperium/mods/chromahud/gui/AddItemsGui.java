@@ -140,12 +140,7 @@ public class AddItemsGui extends GuiScreen {
         super.handleMouseInput();
         int i = Mouse.getEventDWheel();
         if (i < 0) {
-            // make sure it doesnt go out of bounds and you scroll off super far
-            int length = height / 5 - (all.size() * fontRendererObj.getStringWidth("s"));
-
-            if (offset - length + 1 > -all.size() && length <= all.size()) {
-                offset -= 10;
-            }
+            offset -= 10;
         } else if (i > 0 && offset < 0) {
             offset += 10;
         }

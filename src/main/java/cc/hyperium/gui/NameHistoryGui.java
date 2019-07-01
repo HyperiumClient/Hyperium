@@ -49,7 +49,7 @@ public class NameHistoryGui extends GuiScreen {
         getNames(name);
     }
 
-    List<String> names = new ArrayList<>();
+    private List<String> names = new ArrayList<>();
     private final HyperiumFontRenderer fontRenderer = new HyperiumFontRenderer("Arial", Font.PLAIN, 16);
     private GuiTextField nameField;
     private int offset = 0;
@@ -117,6 +117,12 @@ public class NameHistoryGui extends GuiScreen {
     public void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
         nameField.mouseClicked(mouseX, mouseY, mouseButton);
         super.mouseClicked(mouseX, mouseY, mouseButton);
+    }
+
+    @Override
+    public void onGuiClosed() {
+        names.clear();
+        super.onGuiClosed();
     }
 
     public void getNames(String username) {
