@@ -209,7 +209,6 @@ public class CapesGui extends HyperiumGui implements GuiYesNoCallback {
                     pos = 1;
                     row++;
                 }
-//                int thisBlocksCenter = pos == 1 ? scaledWidth / 2 - 8 - blockWidth / 2 : scaledWidth / 2 + 8 + blockWidth / 2;
                 int thisBlocksCenter = (int) (scaledWidth / 2 - ((blocksPerLine / 2) - pos + .5) * (blockWidth + 16));
                 int thisTopY = printY + row * (16 + blockHeight);
                 RenderUtils.drawSmoothRect(thisBlocksCenter - blockWidth / 2, thisTopY,
@@ -237,7 +236,7 @@ public class CapesGui extends HyperiumGui implements GuiYesNoCallback {
 
                 if (cosmeticCallback.getKeys().size() == 0 || purchasing) {
                     String string = "Loading";
-                    fontRendererObj.drawString(string, thisBlocksCenter - fontRendererObj.getStringWidth(string), (thisTopY - 8 + blockHeight / 2 + 64 + 48), new Color(91, 102, 249).getRGB(), true);
+                    fontRendererObj.drawString(string, thisBlocksCenter - fontRendererObj.getStringWidth(string), (thisTopY - 8 + (blockHeight >> 1) + 64 + 48), new Color(91, 102, 249).getRGB(), true);
                     return;
                 }
                 JsonHolder jsonHolder = cosmeticCallback.optJSONObject(s);

@@ -176,7 +176,6 @@ public class Hyperium {
             EventBus.INSTANCE.register(minigameListener);
             EventBus.INSTANCE.register(new ToggleSprintContainer());
             EventBus.INSTANCE.register(notification);
-
             EventBus.INSTANCE.register(CompactChat.getInstance());
             EventBus.INSTANCE.register(CONFIG.register(FPSLimiter.getInstance()));
             EventBus.INSTANCE.register(confirmation);
@@ -286,7 +285,6 @@ public class Hyperium {
             }
 
             Settings.findIncompatibilies();
-
         } catch (Throwable t) {
             Minecraft.getMinecraft().crashed(new CrashReport("Hyperium Startup Failure", t));
         }

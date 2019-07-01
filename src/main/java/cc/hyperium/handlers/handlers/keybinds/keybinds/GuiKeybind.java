@@ -19,7 +19,6 @@ package cc.hyperium.handlers.handlers.keybinds.keybinds;
 
 import cc.hyperium.gui.hyperium.HyperiumMainGui;
 import cc.hyperium.handlers.handlers.keybinds.HyperiumBind;
-import cc.hyperium.mods.sk1ercommon.Multithreading;
 import org.lwjgl.input.Keyboard;
 
 public class GuiKeybind extends HyperiumBind {
@@ -29,7 +28,6 @@ public class GuiKeybind extends HyperiumBind {
 
     @Override
     public void onPress() {
-        Multithreading.runAsync(() ->
-            HyperiumMainGui.INSTANCE.show());
+        HyperiumMainGui.INSTANCE.show();
     }
 }

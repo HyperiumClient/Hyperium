@@ -125,12 +125,13 @@ public class NameHistoryGui extends GuiScreen {
             if (username.isEmpty()) {
                 return;
             }
+
             UUID uuid = MojangAPI.getUUID(username);
+            DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 
             Multithreading.runAsync(() -> {
                 for (Name history : MojangAPI.getNameHistory(uuid)) {
                     String name = history.getName();
-                    DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 
                     if (history.getChangedToAt() == 0) {
                         names.add(name);

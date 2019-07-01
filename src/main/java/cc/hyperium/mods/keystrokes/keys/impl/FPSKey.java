@@ -52,7 +52,7 @@ public class FPSKey extends IKey {
         int textColor = getColor();
 
         if (mod.getSettings().isKeyBackgroundEnabled()) {
-            drawRect(x + xOffset, y + yOffset, x + xOffset + 60, y + yOffset + 16, new Color(0, 0, 0, 120).getRGB());
+            drawRect(x + xOffset, y + yOffset, x + xOffset + 70, y + yOffset + 16, new Color(0, 0, 0, 120).getRGB());
         }
 
         String name = (Minecraft.getDebugFPS()) + " FPS";
