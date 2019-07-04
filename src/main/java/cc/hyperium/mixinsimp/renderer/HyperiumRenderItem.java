@@ -3,52 +3,26 @@ package cc.hyperium.mixinsimp.renderer;
 import cc.hyperium.config.Settings;
 import cc.hyperium.mixins.renderer.IMixinRenderItem;
 import cc.hyperium.mixins.renderer.IMixinRenderItem2;
-import cc.hyperium.mixinsimp.client.GlStateModifier;
 import cc.hyperium.mods.glintcolorizer.Colors;
-import cc.hyperium.mods.sk1ercommon.Multithreading;
-import com.github.benmanes.caffeine.cache.Cache;
-import com.github.benmanes.caffeine.cache.CacheWriter;
-import com.github.benmanes.caffeine.cache.Caffeine;
-import com.github.benmanes.caffeine.cache.RemovalCause;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.GLAllocation;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.tileentity.TileEntityItemStackRenderer;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.resources.model.IBakedModel;
 import net.minecraft.item.ItemPotion;
 import net.minecraft.item.ItemSkull;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
-import org.lwjgl.opengl.GL11;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 public class HyperiumRenderItem {
     private static final ResourceLocation RES_ITEM_GLINT = new ResourceLocation("textures/misc/enchanted_item_glint.png");
 
     private RenderItem parent;
-    private final int MAX = 5000;
-
-    private Cache<ItemHash, Integer> itemCache = Caffeine.newBuilder()
-        .maximumSize(MAX)
-        .writer(new RemovalListener())
-        .executor(Multithreading.POOL)
-        .build();
 
     public HyperiumRenderItem(RenderItem parent) {
         this.parent = parent;
-    }
-
-    public void renderItem(ItemStack stack, IBakedModel model) {
-        renderItem(stack, model, false);
     }
 
     public void renderItemIntoGUI(ItemStack stack, int x, int y) {
@@ -144,7 +118,7 @@ public class HyperiumRenderItem {
      *
      * @param model the model
      */
-    public void renderPot(IBakedModel model) {
+    private void renderPot(IBakedModel model) {
         GlStateManager.depthMask(false);
         GlStateManager.disableLighting();
         GlStateManager.blendFunc(768, 1);
@@ -211,55 +185,5 @@ public class HyperiumRenderItem {
 
         GlStateManager.depthMask(true);
         ((IMixinRenderItem) parent).getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
-    }
-
-    public void renderModel(IBakedModel model, int color, ItemStack stack) {
-        int i = 0;
-        ItemHash itemHash = null;
-        if (Settings.OPTIMIZED_ITEM_RENDERER) {
-            itemHash = new ItemHash(model, color, stack != null ? stack.getUnlocalizedName() : "", stack != null ? stack.getItemDamage() : 0, stack != null ? stack.getMetadata() : 0, stack != null ? stack.getTagCompound() : null);
-
-            Integer integer = itemCache.getIfPresent(itemHash);
-
-            if (integer != null) {
-                GlStateManager.callList(integer);
-                GlStateModifier.INSTANCE.resetColor();
-                return;
-            }
-
-            i = GLAllocation.generateDisplayLists(1);
-            GL11.glNewList(i, GL11.GL_COMPILE_AND_EXECUTE);
-        }
-        Tessellator tessellator = Tessellator.getInstance();
-        WorldRenderer worldrenderer = tessellator.getWorldRenderer();
-        worldrenderer.begin(7, DefaultVertexFormats.ITEM);
-
-        for (EnumFacing enumfacing : EnumFacing.values()) {
-            ((IMixinRenderItem) parent).callRenderQuads(worldrenderer, model.getFaceQuads(enumfacing), color, stack);
-        }
-
-        ((IMixinRenderItem) parent).callRenderQuads(worldrenderer, model.getGeneralQuads(), color, stack);
-        tessellator.draw();
-
-        if (Settings.OPTIMIZED_ITEM_RENDERER) {
-            GL11.glEndList();
-
-            if (itemHash != null) {
-                itemCache.put(itemHash, i);
-            }
-        }
-    }
-
-    private class RemovalListener implements CacheWriter<ItemHash, Integer> {
-
-        @Override
-        public void write(@Nonnull ItemHash key, @Nonnull Integer value) {
-        }
-
-        @Override
-        public void delete(@Nonnull ItemHash key, @Nullable Integer value, @Nonnull RemovalCause cause) {
-            if (value == null) return;
-            FontFixValues.INSTANCE.getGlRemoval().add(value);
-        }
     }
 }

@@ -35,7 +35,6 @@ import cc.hyperium.handlers.handlers.stats.PlayerStatsGui;
 import cc.hyperium.integrations.watchdog.ThankWatchdog;
 import cc.hyperium.internal.MemoryHelper;
 import cc.hyperium.mixinsimp.client.resources.HyperiumLocale;
-import cc.hyperium.mixinsimp.renderer.FontFixValues;
 import cc.hyperium.mods.HyperiumModIntegration;
 import cc.hyperium.mods.autogg.AutoGG;
 import cc.hyperium.mods.common.ToggleSprintContainer;
@@ -240,12 +239,7 @@ public class Hyperium {
 
             SplashProgress.setProgress(12, I18n.format("splashprogress.finishing"));
 
-            if (FontFixValues.INSTANCE == null) {
-                FontFixValues.INSTANCE = new FontFixValues();
-            }
-
             Multithreading.runAsync(() -> {
-                EventBus.INSTANCE.register(FontFixValues.INSTANCE);
                 if (Settings.PERSISTENT_CHAT) {
                     File file = new File(folder, "chat.txt");
 
