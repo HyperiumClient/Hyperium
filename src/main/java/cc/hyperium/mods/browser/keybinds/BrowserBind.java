@@ -12,7 +12,7 @@ import org.lwjgl.input.Keyboard;
 public class BrowserBind extends HyperiumBind {
 
     public BrowserBind() {
-        super("Open Browser", Keyboard.KEY_G);
+        super("Open Browser", Keyboard.KEY_B);
     }
 
     @Override

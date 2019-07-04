@@ -93,7 +93,6 @@ dependencies {
     embed ('org.slick2d:slick2d-core:1.0.2') {
         exclude module: 'lwjgl'
     }
-    embed group: 'com.nativelibs4java', name: 'bridj', version: '0.7.0'
 
     embed "com.github.KevinPriv:MojangAPI:1.0"
     embed 'com.github.Cubxity:DeobfStack:1.2'

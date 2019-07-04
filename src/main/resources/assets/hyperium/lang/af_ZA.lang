@@ -31,35 +31,14 @@ menu.profile.credits=%s Krediete
 
 # Hyperium Tabs
 tabs.searchbar=Soek...
-tab.news.name=Nuus
 tab.settings.name=Instellings
-tab.update.name=Opdateer
 tab.shop.name=Winkel
-
-# Hyperium Tabs Attributes
-tab.update.noupdates=Geen opdaterings beskikbaar nie
-tab.update.autorestart=Sodra die opdatering gedoen is, sal Minecraft outomaties herlaai
-tab.update.changelog=Changelog kom binnekort
-tab.update.update=Opdateer
-tab.update.updating=Opdatering...
-tab.update.downloading=Aflaai...
-tab.update.installer.state.starting=Begin Installer
-tab.update.installer.state.loading=Laai Installer
-tab.update.installer.state.restarting=Herlaai
-tab.update.installer.state.unknown=W: onbekende staat
-tab.update.installer.state.manualupdate.api=E: Werk asseblief handmatig by, API: %s
-tab.update.installer.state.manualupdate=E: Werk asseblief handmatig op
-
 # Hyperium Ingame Menu
 gui.ingamemenu.playercount=Hyperium Speler Telling:
 gui.ingamemenu.playercount.now=Nou aanlyn: %s
 gui.ingamemenu.playercount.lastday=Laaste dag: %s
 gui.ingamemenu.playercount.lastweek=Laaste week: %s
 gui.ingamemenu.playercount.alltime=Alle tyd: %s
-
-
-# Hyperium Alerts
-alert.update.message=Hyperium Update! Klik hier om af te laai.
 
 # Hyperium Change Background Text
 gui.changebackground.line1=Tik 'n URL of kies 'n lêer om die agtergrond te verander.

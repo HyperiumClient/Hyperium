@@ -2,7 +2,6 @@ package cc.hyperium.gui.keybinds;
 
 import cc.hyperium.Hyperium;
 import cc.hyperium.gui.HyperiumGui;
-import cc.hyperium.gui.hyperium.HyperiumMainGui;
 import cc.hyperium.handlers.handlers.keybinds.HyperiumBind;
 import cc.hyperium.utils.HyperiumFontRenderer;
 import net.minecraft.client.Minecraft;
@@ -22,7 +21,6 @@ public class GuiKeybinds extends HyperiumGui {
     private HyperiumFontRenderer sfr = new HyperiumFontRenderer("Arial", Font.PLAIN, 12);
     private GuiButton resetButton;
     private GuiButton backButton;
-    private HyperiumMainGui prevGui;
 
     private int scrollOffset;
     private int buttonHeight = 20;
@@ -79,8 +77,6 @@ public class GuiKeybinds extends HyperiumGui {
         calculatedGap = difference / 2;
         topGui = calculatedGap;
         bottomGui = height - calculatedGap;
-
-        prevGui = HyperiumMainGui.INSTANCE;
 
         // Get keybinds.
         binds = new ArrayList<>(Hyperium.INSTANCE.getHandlers().getKeybindHandler().getKeybinds().values());
@@ -176,7 +172,7 @@ public class GuiKeybinds extends HyperiumGui {
                 resetAll();
                 return;
             } else if (backButton.mousePressed(mc, mouseX, mouseY)) {
-                openPreviousGui();
+                Minecraft.getMinecraft().displayGuiScreen(null);
                 return;
             }
 
@@ -233,16 +229,10 @@ public class GuiKeybinds extends HyperiumGui {
         }
     }
 
-    private void openPreviousGui() {
-        prevGui.show();
-    }
-
     @Override
     public void onGuiClosed() {
         Hyperium.CONFIG.save();
-
         super.onGuiClosed();
-        openPreviousGui();
     }
 
     public void detectAllConflicts() {

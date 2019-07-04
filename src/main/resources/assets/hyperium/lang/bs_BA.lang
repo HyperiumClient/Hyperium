@@ -31,24 +31,8 @@ menu.profile.credits=%s Krediti
 
 # Hyperium Tabs
 tabs.searchbar=Traži...
-tab.news.name=Vijesti
 tab.settings.name=Postavci
-tab.update.name=Update-uj
 tab.shop.name=Trgovina
-
-# Hyperium Tabs Attributes
-tab.update.noupdates=Nema novih update-ova
-tab.update.autorestart=Po završetku updateovanja, Minecraft će se automatski pokrenuti
-tab.update.changelog=Lista update-ova dolazi uskoro
-tab.update.update=Update-uj
-tab.update.updating=Updateujem...
-tab.update.downloading=Downloadujem...
-tab.update.installer.state.starting=Pokrećem instalacijski program
-tab.update.installer.state.loading=Pokrećem instalacijski program
-tab.update.installer.state.restarting=Restartujem
-tab.update.installer.state.unknown=W: nepoznato stanje
-tab.update.installer.state.manualupdate.api=E: Molim vas updatujte ručno, API: %s
-tab.update.installer.state.manualupdate=E: Molim vas updatujte ručno, API
 
 # Hyperium Ingame Menu
 gui.ingamemenu.playercount=Hyperium Korisnici:
@@ -56,10 +40,6 @@ gui.ingamemenu.playercount.now=Online sada: %s
 gui.ingamemenu.playercount.lastday=Zadnji dan: %s
 gui.ingamemenu.playercount.lastweek=Prošli tjedan: %s
 gui.ingamemenu.playercount.alltime=Sve vrijeme: %s
-
-
-# Hyperium Alerts
-alert.update.message=Hyperium Update! Kliknite ovdje za download.
 
 # Hyperium Change Background Text
 gui.changebackground.line1=Unesite URL ispod da biste promijenili pozadinu ili Odaberite datoteku.

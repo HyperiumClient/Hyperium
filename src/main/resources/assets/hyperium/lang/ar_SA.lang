@@ -31,24 +31,8 @@ menu.profile.credits=الرصيد %s
 
 # Hyperium Tabs
 tabs.searchbar=بحث...
-tab.news.name=الأخبار
 tab.settings.name=الإعدادات
-tab.update.name=تحديث
 tab.shop.name=متجر
-
-# Hyperium Tabs Attributes
-tab.update.noupdates=لا توجد تحديثات متاحة
-tab.update.autorestart=بمجرد الانتهاء من التحديث ، سيتم إعادة تشغيل Minecraft تلقائيًا
-tab.update.changelog=التغييرات ستأتي قريبا
-tab.update.update=تحديث
-tab.update.updating=جاري التحديث...
-tab.update.downloading=جاري التحميل...
-tab.update.installer.state.starting=بدء المثبت
-tab.update.installer.state.loading=جاري تحميل المثبت
-tab.update.installer.state.restarting=جاري إعادة تشغيل
-tab.update.installer.state.unknown=العرض: حالة مجهولة
-tab.update.installer.state.manualupdate.api=يرجى التحديث يدويًا ، واجهة برمجة التطبيقات: %s
-tab.update.installer.state.manualupdate=E: الرجاء التحديث يدوياً
 
 # Hyperium Ingame Menu
 gui.ingamemenu.playercount=عدد لاعبي Hyperium:
@@ -56,10 +40,6 @@ gui.ingamemenu.playercount.now=المتاحون الآن: %s
 gui.ingamemenu.playercount.lastday=اليوم الأخير: %s
 gui.ingamemenu.playercount.lastweek=الأسبوع الماضي: %s
 gui.ingamemenu.playercount.alltime=كل الوقت: %s
-
-
-# Hyperium Alerts
-alert.update.message=تحديث Hyperium! اضغط هنا للتحميل.
 
 # Hyperium Change Background Text
 gui.changebackground.line1=اكتب الرابط في الاسفل لتغيير الخلفية او اختر ملف.

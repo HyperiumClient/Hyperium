@@ -106,7 +106,7 @@ public class GuiHyperiumScreen extends GuiScreen {
         return GuiStyle.valueOf(Minecraft.getMinecraft().theWorld == null ? Settings.MENU_STYLE : Settings.PAUSE_STYLE);
     }
 
-    public void renderHyperiumBackground(ScaledResolution p_180476_1_) {
+    public void renderHyperiumBackground(ScaledResolution resolution) {
         GlStateManager.disableDepth();
         GlStateManager.depthMask(false);
         GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
@@ -117,9 +117,9 @@ public class GuiHyperiumScreen extends GuiScreen {
             Tessellator tessellator = Tessellator.getInstance();
             WorldRenderer worldrenderer = tessellator.getWorldRenderer();
             worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
-            worldrenderer.pos(0.0D, (double) p_180476_1_.getScaledHeight(), -90.0D).tex(0.0D, 1.0D).endVertex();
-            worldrenderer.pos((double) p_180476_1_.getScaledWidth(), (double) p_180476_1_.getScaledHeight(), -90.0D).tex(1.0D, 1.0D).endVertex();
-            worldrenderer.pos((double) p_180476_1_.getScaledWidth(), 0.0D, -90.0D).tex(1.0D, 0.0D).endVertex();
+            worldrenderer.pos(0.0D, (double) resolution.getScaledHeight(), -90.0D).tex(0.0D, 1.0D).endVertex();
+            worldrenderer.pos((double) resolution.getScaledWidth(), (double) resolution.getScaledHeight(), -90.0D).tex(1.0D, 1.0D).endVertex();
+            worldrenderer.pos((double) resolution.getScaledWidth(), 0.0D, -90.0D).tex(1.0D, 0.0D).endVertex();
             worldrenderer.pos(0.0D, 0.0D, -90.0D).tex(0.0D, 0.0D).endVertex();
             tessellator.draw();
 
@@ -133,9 +133,9 @@ public class GuiHyperiumScreen extends GuiScreen {
         Tessellator tessellator = Tessellator.getInstance();
         WorldRenderer worldrenderer = tessellator.getWorldRenderer();
         worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
-        worldrenderer.pos(0.0D, (double) p_180476_1_.getScaledHeight(), -90.0D).tex(0.0D, 1.0D).endVertex();
-        worldrenderer.pos((double) p_180476_1_.getScaledWidth(), (double) p_180476_1_.getScaledHeight(), -90.0D).tex(1.0D, 1.0D).endVertex();
-        worldrenderer.pos((double) p_180476_1_.getScaledWidth(), 0.0D, -90.0D).tex(1.0D, 0.0D).endVertex();
+        worldrenderer.pos(0.0D, (double) resolution.getScaledHeight(), -90.0D).tex(0.0D, 1.0D).endVertex();
+        worldrenderer.pos((double) resolution.getScaledWidth(), (double) resolution.getScaledHeight(), -90.0D).tex(1.0D, 1.0D).endVertex();
+        worldrenderer.pos((double) resolution.getScaledWidth(), 0.0D, -90.0D).tex(1.0D, 0.0D).endVertex();
         worldrenderer.pos(0.0D, 0.0D, -90.0D).tex(0.0D, 0.0D).endVertex();
         tessellator.draw();
         GlStateManager.depthMask(true);
@@ -196,7 +196,7 @@ public class GuiHyperiumScreen extends GuiScreen {
 
         ScissorState.scissor(width - 153, 0, 145, 49, true);
 
-        if (!Hyperium.INSTANCE.isDevEnv()) {
+        if (Minecraft.getMinecraft().thePlayer != null) {
             GuiPlayerRenderer.renderPlayerWithRotation(width - 118, -4, val);
 
             //todo: replace player renderer with this (renders all body parts n follows mouse)
