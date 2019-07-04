@@ -60,7 +60,6 @@ public class HypixelFriendsGui extends HyperiumGui {
     private GuiTextField textField;
     private GuiBoxItem<HypixelApiFriendObject> selectedItem = null;
     private int columnWidth;
-    private int partyCooldown = 0;
     private int removeTicks = 0;
 
     public HypixelFriendsGui() {
@@ -262,7 +261,6 @@ public class HypixelFriendsGui extends HyperiumGui {
         if (cols <= 0)
             return;
 
-        GuiBoxItem<HypixelApiFriendObject> lastE = null;
         for (HypixelApiFriendObject object : friends.get()) {
             if (drawX + columnWidth > friendsBlock.getRight()) {
                 drawX = friendsBlock.getLeft();

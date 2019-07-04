@@ -51,7 +51,6 @@ public abstract class AbstractTab {
         ScaledResolution sr = ResolutionUtil.current();
         int sw = sr.getScaledWidth();
         int sh = sr.getScaledHeight();
-        int yg = height / 7;  // Y grid
         int xg = width / 9;   // X grid
 
         /* Begin new scissor state */

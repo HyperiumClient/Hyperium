@@ -35,7 +35,7 @@ public abstract class AnimatedDance extends AbstractPreCopyAnglesAnimationHandle
         Multithreading.runAsync(() -> generateFrames(getData()));
     }
 
-    public static void Frame(Scanner scanner) {
+    public static void frame(Scanner scanner) {
         while (true) {
             int time = 18;
             String in = scanner.nextLine();

@@ -108,7 +108,7 @@ public class FakePlayerRendering {
         }
 
         @Override
-        public float getBrightness(float p_70013_1_) {
+        public float getBrightness(float brightness) {
             return 0;
         }
     }

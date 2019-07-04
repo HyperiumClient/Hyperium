@@ -40,14 +40,9 @@ public class MixinEntityPlayerSP extends AbstractClientPlayer {
 
     private HyperiumEntityPlayerSP hyperiumEntityPlayerSP = new HyperiumEntityPlayerSP((EntityPlayerSP) (Object) this);
 
-    @Shadow
-    private Minecraft mc;
-
-    @Shadow
-    public float prevTimeInPortal;
-
-    @Shadow
-    public float timeInPortal;
+    @Shadow protected Minecraft mc;
+    @Shadow public float prevTimeInPortal;
+    @Shadow public float timeInPortal;
 
     public MixinEntityPlayerSP(World worldIn, GameProfile playerProfile) {
         super(worldIn, playerProfile);

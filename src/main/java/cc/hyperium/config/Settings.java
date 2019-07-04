@@ -99,10 +99,6 @@ public class Settings {
     @ToggleSetting(name = "gui.settings.hotbarkeys", category = VANILLA_ENHANCEMENTS, mods = true)
     public static boolean HOTBAR_KEYS = false;
 
-    @ConfigOpt
-    @ToggleSetting(name = "gui.settings.hidecrosshairinf5", category = VANILLA_ENHANCEMENTS, mods = true)
-    public static boolean CROSSHAIR_IN_F5 = false;
-
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;combatParticleFixEnabled")
     @ToggleSetting(name = "gui.settings.critparticlefix", category = IMPROVEMENTS)
     public static boolean CRIT_FIX = true;
@@ -114,14 +110,6 @@ public class Settings {
     @ConfigOpt
     @ToggleSetting(category = IMPROVEMENTS, name = "gui.settings.optimizeditemrenderer")
     public static boolean OPTIMIZED_ITEM_RENDERER = false;
-
-    @ConfigOpt
-    @ToggleSetting(name = "gui.settings.optimizedtextureloading", category = IMPROVEMENTS)
-    public static boolean OPTIMIZED_TEXTURE_LOADING = false;
-
-    @ConfigOpt
-    @ToggleSetting(name = "gui.settings.optimizedfontrenderer", category = IMPROVEMENTS)
-    public static boolean OPTIMIZED_FONT_RENDERER = false;
 
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;windowedFullScreen")
     @ToggleSetting(name = "gui.settings.windowedfullscreen", category = IMPROVEMENTS)
@@ -398,38 +386,6 @@ public class Settings {
     @SliderSetting(name = "gui.settings.motionblurintensity", min = 0F, max = 7F, category = Category.MOTION_BLUR, mods = true)
     public static double MOTION_BLUR_AMOUNT = 4.0F;
 
-    @ConfigOpt
-    @ToggleSetting(name = "gui.settings.autofriendenabled", category = Category.AUTOFRIEND, mods = true)
-    public static boolean AUTOFRIEND_TOGGLE = false;
-
-    @ConfigOpt
-    @ToggleSetting(name = "gui.settings.showfriendmessages", category = Category.AUTOFRIEND, mods = true)
-    public static boolean AUTOFRIEND_MESSAGES = true;
-
-    @ConfigOpt
-    @ToggleSetting(name = "gui.settings.fortnitecompassenabled", category = Category.FNCOMPASS, mods = true)
-    public static boolean FNCOMPASS_ENABLED = false;
-
-    @ConfigOpt
-    @ToggleSetting(name = "gui.settings.showbackground", category = Category.FNCOMPASS, mods = true)
-    public static boolean FNCOMPASS_BACKGROUND = true;
-
-    @ConfigOpt
-    @ToggleSetting(name = "gui.settings.chroma", category = Category.FNCOMPASS, mods = true)
-    public static boolean FNCOMPASS_CHROMA = false;
-
-    @ConfigOpt
-    @ToggleSetting(name = "gui.settings.shadow", category = Category.FNCOMPASS, mods = true)
-    public static boolean FNCOMPASS_SHADOW = true;
-
-    @ConfigOpt
-    @SelectorSetting(category = Category.FNCOMPASS, name = "gui.settings.details", items = {
-        "0",
-        "1",
-        "2"
-    }, mods = true)
-    public static String FNCOMPASS_DETAILS = "2";
-
     @ToggleSetting(name = "gui.settings.showuserdotsonnametags", category = INTEGRATIONS)
     public static boolean SHOW_DOTS_ON_NAME_TAGS = false;
 
@@ -490,9 +446,6 @@ public class Settings {
 
     @ConfigOpt
     public static boolean BROWSER_DOWNLOAD = false;
-
-    @ConfigOpt
-    public static long TOTAL_PLAYTIME = 0;
 
     @ConfigOpt
     @ToggleSetting(name = "gui.settings.victoryroyale", category = VICTORYROYALE, mods = true)
@@ -560,16 +513,6 @@ public class Settings {
     @ConfigOpt
     @ToggleSetting(name = "gui.settings.confirmquit", category = MISC)
     public static boolean CONFIRM_QUIT = false;
-
-    /**
-     * {@link Hyperium#checkGpuSpecs()}
-     */
-    public static void findIncompatibilies() {
-        if (!Hyperium.INSTANCE.checkGpuSpecs()) {
-            Hyperium.LOGGER.warn("Computer is not compatible with OpenGL 2.0, things may go wrong. Disabling Optimized Font Renderer");
-            OPTIMIZED_FONT_RENDERER = false;
-        }
-    }
 
     public static void register() {
         Hyperium.CONFIG.register(INSTANCE);

@@ -1,31 +1,13 @@
 package cc.hyperium.mixinsimp;
 
-import cc.hyperium.Hyperium;
-import cc.hyperium.config.Settings;
 import cc.hyperium.event.EventBus;
-import cc.hyperium.event.InvokeEvent;
-import cc.hyperium.event.WorldChangeEvent;
 import cc.hyperium.handlers.handlers.animation.cape.CapeHandler;
-import cc.hyperium.mixins.entity.IMixinAbstractClientPlayer;
-import cc.hyperium.mixins.entity.IMixinNetworkPlayerInfo;
 import cc.hyperium.utils.Utils;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.AbstractClientPlayer;
-import net.minecraft.client.multiplayer.WorldClient;
-import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.texture.AbstractTexture;
-import net.minecraft.client.renderer.texture.DynamicTexture;
-import net.minecraft.client.renderer.texture.ITextureObject;
-import net.minecraft.client.renderer.texture.ITickable;
-import net.minecraft.client.renderer.texture.ITickableTextureObject;
-import net.minecraft.client.renderer.texture.SimpleTexture;
-import net.minecraft.client.renderer.texture.TextureManager;
-import net.minecraft.client.renderer.texture.TextureUtil;
+import net.minecraft.client.renderer.texture.*;
 import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ReportedException;
 import net.minecraft.util.ResourceLocation;
 import org.apache.logging.log4j.Logger;
@@ -39,7 +21,7 @@ public class HyperiumTextureManager {
 
     public static HyperiumTextureManager INSTANCE;
     private TextureManager parent;
-    private ConcurrentHashMap<String, ITextureObject> textures = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<ResourceLocation, ITextureObject> textures = new ConcurrentHashMap<>(16, 0.9f, 1);
 
     public HyperiumTextureManager(TextureManager parent) {
         INSTANCE = this;
@@ -50,24 +32,24 @@ public class HyperiumTextureManager {
     public boolean loadTickableTexture(ResourceLocation textureLocation, ITickableTextureObject textureObj, List<ITickable> listTickables) {
         if (parent.loadTexture(textureLocation, textureObj)) {
             listTickables.add(textureObj);
-            textures.put(textureLocation.toString(), textureObj);
+            textures.put(textureLocation, textureObj);
             return true;
         } else {
             return false;
         }
     }
 
-    public void onResourceManagerReload(IResourceManager resourceManager) {
+    public void onResourceManagerReload() {
         CapeHandler.LOCK.lock();
         try {
-            for (Map.Entry<String, ITextureObject> entry : textures.entrySet()) {
-                String key = entry.getKey();
+            for (Map.Entry<ResourceLocation, ITextureObject> entry : textures.entrySet()) {
+                ResourceLocation key = entry.getKey();
                 ResourceLocation location;
 
-                if (key.contains(":")) {
-                    String[] split = key.split(":");
+                if (key.getResourcePath().contains(":")) {
+                    String[] split = key.getResourcePath().split(":");
                     location = new ResourceLocation(split[0], split[1]);
-                } else location = new ResourceLocation(key);
+                } else location = new ResourceLocation(key.getResourcePath());
 
                 String name = location.getResourcePath();
 
@@ -94,7 +76,7 @@ public class HyperiumTextureManager {
     }
 
     public boolean loadTexture(ResourceLocation textureLocation, ITextureObject textureObj, IResourceManager theResourceManager, Logger logger) {
-        ITextureObject textureCopy = textures.get(textureLocation.toString());
+        ITextureObject textureCopy = textures.get(textureLocation);
         if (textureCopy != null) {
             textureObj = textureCopy;
         }
@@ -105,7 +87,7 @@ public class HyperiumTextureManager {
         } catch (IOException ioexception) {
             logger.warn("Failed to load texture: " + textureLocation, ioexception);
             textureObj = TextureUtil.missingTexture;
-            textures.put(textureLocation.toString(), textureObj);
+            textures.put(textureLocation, textureObj);
             flag = false;
         } catch (Throwable throwable) {
             CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Registering texture");
@@ -116,7 +98,7 @@ public class HyperiumTextureManager {
             throw new ReportedException(crashreport);
         }
 
-        textures.put(textureLocation.toString(), textureObj);
+        textures.put(textureLocation, textureObj);
         return flag;
     }
 
@@ -132,13 +114,13 @@ public class HyperiumTextureManager {
         mapTextureCounters.put(name, integer);
         String format = String.format("dynamic/%s_%d", name, integer);
         ResourceLocation resourcelocation = new ResourceLocation(format);
-        textures.put(resourcelocation.toString(), texture);
+        textures.put(resourcelocation, texture);
         parent.loadTexture(resourcelocation, texture);
         return resourcelocation;
     }
 
     public void bindTexture(ResourceLocation resource) {
-        ITextureObject itextureobject = textures.get(resource.toString());
+        ITextureObject itextureobject = textures.get(resource);
 
         if (itextureobject == null) {
             itextureobject = new SimpleTexture(resource);
@@ -153,7 +135,7 @@ public class HyperiumTextureManager {
         if (textureLocation == null) {
             return null;
         }
-        return textures.get(textureLocation.toString());
+        return textures.get(textureLocation);
     }
 
     //TODO make this a process them async
@@ -163,66 +145,9 @@ public class HyperiumTextureManager {
         }
     }
 
-    @InvokeEvent
-    public void worldSwitch(WorldChangeEvent event) {
-        // Experimental feature.
-        if (Settings.OPTIMIZED_TEXTURE_LOADING) {
-            try {
-                WorldClient theWorld = Minecraft.getMinecraft().theWorld;
-                if (theWorld != null) {
-                    for (EntityPlayer playerEntity : theWorld.playerEntities) {
-                        if (playerEntity.equals(Minecraft.getMinecraft().thePlayer))
-                            continue;
-                        NetworkPlayerInfo networkPlayerInfo = ((IMixinAbstractClientPlayer) playerEntity).callGetPlayerInfo();
-                        if (networkPlayerInfo == null)
-                            continue;
-                        ((IMixinNetworkPlayerInfo) networkPlayerInfo).setPlayerTexturesLoaded(false);
-                        ((IMixinNetworkPlayerInfo) networkPlayerInfo).setLocationCape(null);
-                        ((IMixinNetworkPlayerInfo) networkPlayerInfo).setLocationSkin(null);
-                        ResourceLocation locationSkin = ((AbstractClientPlayer) playerEntity).getLocationSkin();
-                        if (locationSkin != null) {
-                            deleteTexture(locationSkin);
-                        }
-                        ResourceLocation locationCape = ((AbstractClientPlayer) playerEntity).getLocationCape();
-                        if (locationCape != null) {
-                            CapeHandler capeHandler = Hyperium.INSTANCE.getHandlers().getCapeHandler();
-                            ResourceLocation cape = capeHandler.getCape(((AbstractClientPlayer) playerEntity));
-                            if (cape != null && cape.equals(locationCape))
-                                continue;
-                            deleteTexture(locationCape);
-                        }
-                    }
-                }
-                //Clear out all skins + capes not relating to the player
-                for (String s : textures.keySet()) {
-                    if (s.contains(":")) {
-                        String[] split = s.split(":");
-                        if (split.length < 2)
-                            continue;
-                        ResourceLocation textureLocation = new ResourceLocation(split[0], split[1]);
-                        if (split[1].startsWith("skins/")) {
-                            ResourceLocation locationCape = Minecraft.getMinecraft().thePlayer != null ? Minecraft.getMinecraft().thePlayer.getLocationCape() : null;
-                            ResourceLocation locationSkin = Minecraft.getMinecraft().thePlayer != null ? Minecraft.getMinecraft().thePlayer.getLocationSkin() : null;
-                            if (s.equalsIgnoreCase(locationSkin == null ? "null" : locationSkin.toString()) || s.equalsIgnoreCase(locationCape == null ? "null" : locationCape.toString())) {
-                                continue;
-                            }
-                            deleteTexture(textureLocation);
-                        }
-
-                        if (split[1].startsWith("capeof/"))
-                            deleteTexture(textureLocation);
-                    }
-
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
     public void print() {
-        for (String s : textures.keySet()) {
-            System.out.println(s + " -> " + textures.get(s).getClass());
+        for (ResourceLocation s : textures.keySet()) {
+            System.out.println(s.getResourcePath() + " -> " + textures.get(s).getClass());
         }
     }
 
@@ -232,7 +157,6 @@ public class HyperiumTextureManager {
             TextureUtil.deleteTexture(itextureobject.getGlTextureId());
         }
         if (textureLocation != null)
-            textures.remove(textureLocation.toString());
+            textures.remove(textureLocation);
     }
-
 }

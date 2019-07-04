@@ -100,10 +100,6 @@ public class HyperiumGuiIngame {
     }
 
     public void showCrosshair(CallbackInfoReturnable<Boolean> ci) {
-        if (Settings.CROSSHAIR_IN_F5 && Minecraft.getMinecraft().gameSettings.thirdPersonView > 0) {
-            ci.setReturnValue(false);
-        }
-
         if (CustomCrosshairAddon.getCrosshairMod() == null) {
             return;
         }

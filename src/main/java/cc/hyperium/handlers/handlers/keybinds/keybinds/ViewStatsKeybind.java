@@ -37,9 +37,4 @@ public class ViewStatsKeybind extends HyperiumBind {
             Hyperium.INSTANCE.getHandlers().getStatsHandler().initStatsViewer(pointedEntity.getName());
         }
     }
-
-
-    @Override
-    public void onRelease() {
-    }
 }

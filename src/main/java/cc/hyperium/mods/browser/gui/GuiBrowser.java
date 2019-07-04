@@ -157,6 +157,7 @@ public class GuiBrowser extends GuiScreen {
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+        drawDefaultBackground();
         super.drawScreen(mouseX, mouseY, partialTicks);
         if (Settings.BROWSER_DOWNLOAD) {
             //Render the URL box first because it overflows a bit
@@ -304,9 +305,6 @@ public class GuiBrowser extends GuiScreen {
             }
             if (src.id == 1337) {
                 Settings.BROWSER_DOWNLOAD = true;
-                buttonList.clear();
-                mc.fontRendererObj.drawStringWithShadow("Game will shutdown in 10 seconds, please reopen it.", width / 2, height / 2, 16777215);
-                Thread.sleep(10000);
                 Minecraft.getMinecraft().shutdown();
             }
             if (browser == null) {

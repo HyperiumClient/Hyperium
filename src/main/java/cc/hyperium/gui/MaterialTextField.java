@@ -89,12 +89,4 @@ public class MaterialTextField {
     public void setText(String text) {
         this.text = text;
     }
-
-    public void setFocused(boolean focused) {
-        this.focused = focused;
-    }
-
-    public boolean isFocused() {
-        return focused;
-    }
 }

@@ -3,6 +3,7 @@ package cc.hyperium.handlers.handlers.animation;
 import cc.hyperium.gui.HyperiumGui;
 import cc.hyperium.mixinsimp.renderer.model.IMixinModelBiped;
 import cc.hyperium.mixinsimp.renderer.model.IMixinModelPlayer;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 
 import java.util.Random;
@@ -12,6 +13,7 @@ public class FlossDanceHandler extends AbstractPreCopyAnglesAnimationHandler {
     private final Random random = new Random();
     private final float[] randomHeadMovement = new float[3]; // x, y, z values
     private ArmsDirection armsDirection = ArmsDirection.HORIZONTAL;
+    private long systemTime = 0;
 
     public FlossDanceHandler() {
         fillRandomHeadMovementArray();
@@ -19,14 +21,24 @@ public class FlossDanceHandler extends AbstractPreCopyAnglesAnimationHandler {
 
     @Override
     public float modifyState() {
-        float speed = 10;
-        return HyperiumGui.clamp(state + (asc ? speed : -speed), 0.0f, 100.0f);
-    }
+        float speed = 6;
+        if (systemTime == 0) systemTime = Minecraft.getSystemTime();
 
-    @Override
-    public void onStartOfState() {
-        armsDirection = ArmsDirection.values()[armsDirection.ordinal() + 1 >= ArmsDirection.values().length ? 0 : armsDirection.ordinal() + 1];
-        fillRandomHeadMovementArray();
+        while (systemTime < Minecraft.getSystemTime() + (1000 / 120)) {
+            state = HyperiumGui.clamp(state + (asc ? speed : -speed), 0.0f, 100.0f);
+            systemTime += (1000 / 120);
+
+            if (state <= 0) {
+                asc = true;
+                right = !right;
+                armsDirection = ArmsDirection.values()[armsDirection.ordinal() + 1 >= ArmsDirection.values().length ? 0 : armsDirection.ordinal() + 1];
+                fillRandomHeadMovementArray();
+            } else if (state >= 100) {
+                asc = false;
+            }
+        }
+
+        return state;
     }
 
     private void fillRandomHeadMovementArray() {

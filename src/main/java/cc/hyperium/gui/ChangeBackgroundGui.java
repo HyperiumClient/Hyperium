@@ -116,8 +116,8 @@ public class ChangeBackgroundGui extends GuiScreen {
             String filename = dialog.getFiles()[0].getAbsolutePath();
             if (!filename.isEmpty()) {
                 statusText = I18n.format("gui.changebackground.working");
-                InputStream input = null;
-                OutputStream output = null;
+                InputStream input;
+                OutputStream output;
                 try {
                     input = new FileInputStream(filename);
                     output = new FileOutputStream(new File(Minecraft.getMinecraft().mcDataDir, "customImage.png"));

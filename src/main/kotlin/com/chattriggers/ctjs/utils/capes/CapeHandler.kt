@@ -10,7 +10,7 @@ import net.minecraft.util.ResourceLocation
 import java.awt.image.BufferedImage
 
 object CapeHandler {
-    var special: Special
+    private var special: Special
 
     init {
         try {

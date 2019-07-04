@@ -9,7 +9,6 @@ import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
 import cc.hyperium.netty.NettyClient;
 import cc.hyperium.netty.packet.packets.serverbound.ServerCrossDataPacket;
 import cc.hyperium.utils.JsonHolder;
-import cc.hyperium.utils.SimpleAnimValue;
 import cc.hyperium.utils.UUIDUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
@@ -19,18 +18,17 @@ import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.util.MathHelper;
 import org.lwjgl.opengl.GL11;
 
-import java.awt.Color;
+import java.awt.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.function.Consumer;
 
 public class GuiDances extends HyperiumGui {
 
-    String foc = null;
+    private String foc = null;
     private HashMap<String, Consumer<Boolean>> handlers = new HashMap<>();
     private HashMap<String, Runnable> cancel = new HashMap<>();
     private String lastFoc = null;
-    private SimpleAnimValue simpleAnimValue;
 
     public GuiDances() {
         HyperiumHandlers handlers = Hyperium.INSTANCE.getHandlers();

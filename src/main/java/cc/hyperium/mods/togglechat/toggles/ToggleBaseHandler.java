@@ -17,29 +17,7 @@
 
 package cc.hyperium.mods.togglechat.toggles;
 
-import cc.hyperium.mods.togglechat.toggles.defaults.TypeAds;
-import cc.hyperium.mods.togglechat.toggles.defaults.TypeBuildBattle;
-import cc.hyperium.mods.togglechat.toggles.defaults.TypeColored;
-import cc.hyperium.mods.togglechat.toggles.defaults.TypeEasy;
-import cc.hyperium.mods.togglechat.toggles.defaults.TypeFriendRequests;
-import cc.hyperium.mods.togglechat.toggles.defaults.TypeGlobal;
-import cc.hyperium.mods.togglechat.toggles.defaults.TypeGuild;
-import cc.hyperium.mods.togglechat.toggles.defaults.TypeHousing;
-import cc.hyperium.mods.togglechat.toggles.defaults.TypeJoin;
-import cc.hyperium.mods.togglechat.toggles.defaults.TypeLeave;
-import cc.hyperium.mods.togglechat.toggles.defaults.TypeLobbyJoin;
-import cc.hyperium.mods.togglechat.toggles.defaults.TypeMessageSeparator;
-import cc.hyperium.mods.togglechat.toggles.defaults.TypeMessages;
-import cc.hyperium.mods.togglechat.toggles.defaults.TypeMysteryBox;
-import cc.hyperium.mods.togglechat.toggles.defaults.TypeOfficer;
-import cc.hyperium.mods.togglechat.toggles.defaults.TypeParty;
-import cc.hyperium.mods.togglechat.toggles.defaults.TypePartyInvites;
-import cc.hyperium.mods.togglechat.toggles.defaults.TypeShout;
-import cc.hyperium.mods.togglechat.toggles.defaults.TypeSoulWell;
-import cc.hyperium.mods.togglechat.toggles.defaults.TypeSpecial;
-import cc.hyperium.mods.togglechat.toggles.defaults.TypeSpectator;
-import cc.hyperium.mods.togglechat.toggles.defaults.TypeTeam;
-import cc.hyperium.mods.togglechat.toggles.defaults.TypeAfterGift;
+import cc.hyperium.mods.togglechat.toggles.defaults.*;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

@@ -1,11 +1,11 @@
 package cc.hyperium.gui;
 
-import cc.hyperium.styles.GuiStyle;
 import cc.hyperium.Hyperium;
 import cc.hyperium.Metadata;
 import cc.hyperium.config.Settings;
 import cc.hyperium.gui.playerrenderer.GuiPlayerRenderer;
 import cc.hyperium.purchases.PurchaseApi;
+import cc.hyperium.styles.GuiStyle;
 import cc.hyperium.utils.HyperiumFontRenderer;
 import cc.hyperium.utils.JsonHolder;
 import com.mojang.realmsclient.gui.ChatFormatting;
@@ -198,6 +198,13 @@ public class GuiHyperiumScreen extends GuiScreen {
 
         if (!Hyperium.INSTANCE.isDevEnv()) {
             GuiPlayerRenderer.renderPlayerWithRotation(width - 118, -4, val);
+
+            //todo: replace player renderer with this (renders all body parts n follows mouse)
+            /*GlStateManager.pushMatrix();
+            GlStateManager.enableDepth();
+            GuiInventory.drawEntityOnScreen((int) (width / 1.5)+100, (int) (height / 1.5), 130, width - mouseX, height - mouseY, mc.thePlayer);
+            GlStateManager.disableDepth();
+            GlStateManager.popMatrix();*/
         }
 
         ScissorState.endScissor();

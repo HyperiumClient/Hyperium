@@ -30,25 +30,18 @@ import org.spongepowered.asm.mixin.Shadow;
 @SuppressWarnings("unused")
 @Mixin(GuiButton.class)
 public abstract class MixinGuiButton extends Gui {
-    @Shadow
-    @Final
-    protected static ResourceLocation buttonTextures;
-    @Shadow
-    public boolean visible;
-    @Shadow
-    public int xPosition;
-    @Shadow
-    public int yPosition;
-    @Shadow
-    public String displayString;
-    @Shadow
-    protected boolean hovered;
-    @Shadow
-    protected int width;
-    @Shadow
-    protected int height;
+    @Shadow @Final protected static ResourceLocation buttonTextures;
+    @Shadow public boolean visible;
+    @Shadow public int xPosition;
+    @Shadow public int yPosition;
+    @Shadow public String displayString;
+    @Shadow protected boolean hovered;
+    @Shadow protected int width;
+    @Shadow protected int height;
+
     private float selectPercent = 0.0f;
     private long systemTime = Minecraft.getSystemTime();
+
     private HyperiumGuiButton hyperiumButton = new HyperiumGuiButton((GuiButton) (Object) this);
 
     @Shadow

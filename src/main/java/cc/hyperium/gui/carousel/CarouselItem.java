@@ -14,14 +14,6 @@ public class CarouselItem {
     private Consumer<CarouselItem> onSettingsClick;
     private Consumer<CarouselItem> onActivate;
 
-    public CarouselItem(String name, boolean purchased) {
-        this(name, purchased, false, carouselItem -> {
-        }, carouselItem -> {
-        }, carouselItem -> {
-
-        });
-    }
-
     public CarouselItem(String name, boolean purchased, boolean active, Consumer<CarouselItem> onPurchase, Consumer<CarouselItem> onSettingsClick, Consumer<CarouselItem> onActivate) {
         this.purchased = purchased;
         this.name = name;

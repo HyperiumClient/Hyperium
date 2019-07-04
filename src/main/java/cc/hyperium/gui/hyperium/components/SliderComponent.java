@@ -24,10 +24,7 @@ public class SliderComponent extends AbstractTabComponent {
     private boolean isInteger;
     private boolean round;
     private double currentValue;
-    private SliderComponent sliderComponent;
     private int width;
-    private int x;
-    private int y;
     private boolean wasDown = false;
 
     public SliderComponent(AbstractTab tab, List<String> tags, String label, Field field, Object parentObj, float minVal, float maxVal, boolean isInteger, boolean round) {
@@ -85,8 +82,6 @@ public class SliderComponent extends AbstractTabComponent {
     @Override
     public void render(int x, int y, int width, int mouseX, int mouseY) {
         HyperiumFontRenderer font = tab.gui.getFont();
-        this.x = x;
-        this.y = y;
         lines.clear();
         lines = font.splitString(label, (width) / 4); //16 for icon, 3 for render offset and then some more
 

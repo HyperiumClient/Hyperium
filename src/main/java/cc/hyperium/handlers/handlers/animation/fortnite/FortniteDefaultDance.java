@@ -14,7 +14,6 @@ public class FortniteDefaultDance extends AnimatedDance {
     public JsonHolder getData() {
         try {
             return new JsonHolder(IOUtils.toString(new URL("https://static.sk1er.club/hyperium/fortnite_dance.json")));
-//            return new JsonHolder(FileUtils.readFileToString(new File("fortnite_dance.json")));
         } catch (IOException e) {
             e.printStackTrace();
         }

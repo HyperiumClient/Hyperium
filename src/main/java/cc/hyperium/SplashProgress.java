@@ -32,7 +32,7 @@ import java.awt.Font;
 
 public class SplashProgress {
 
-    public static final int DEFAULT_MAX = 13;
+    public static final int DEFAULT_MAX = 12;
     public static int MAX = DEFAULT_MAX;
     public static int PROGRESS = 0;
     public static String CURRENT = "";

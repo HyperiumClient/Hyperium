@@ -27,8 +27,7 @@ import net.minecraft.client.resources.I18n;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
-import java.awt.Color;
-import java.awt.Font;
+import java.awt.*;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -125,7 +124,7 @@ public class NameHistoryGui extends GuiScreen {
         super.onGuiClosed();
     }
 
-    public void getNames(String username) {
+    private void getNames(String username) {
         offset = 0;
         try {
             if (username.isEmpty()) {
@@ -133,11 +132,11 @@ public class NameHistoryGui extends GuiScreen {
             }
 
             UUID uuid = MojangAPI.getUUID(username);
-            DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 
             Multithreading.runAsync(() -> {
                 for (Name history : MojangAPI.getNameHistory(uuid)) {
                     String name = history.getName();
+                    DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 
                     if (history.getChangedToAt() == 0) {
                         names.add(name);

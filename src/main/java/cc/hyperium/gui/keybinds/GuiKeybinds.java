@@ -25,7 +25,6 @@ public class GuiKeybinds extends HyperiumGui {
     private HyperiumMainGui prevGui;
 
     private int scrollOffset;
-    private int buttonWidth = 70;
     private int buttonHeight = 20;
     private int numColumns = 2;
 
@@ -66,6 +65,7 @@ public class GuiKeybinds extends HyperiumGui {
         fixedWidth *= widthScaleFactor;
 
 
+        int buttonWidth = 70;
         if (fixedWidth < 2 * (150 + buttonWidth)) {
             numColumns = 1;
         }

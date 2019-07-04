@@ -27,7 +27,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItemFrame;
 import net.minecraft.util.*;
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
@@ -39,33 +38,23 @@ import java.util.List;
 
 @Mixin(EntityRenderer.class)
 public abstract class MixinEntityRenderer {
-    @Shadow
-    private float thirdPersonDistance;
-    @Shadow
-    private float thirdPersonDistanceTemp;
-    @Shadow
-    private boolean cloudFog;
-    @Shadow
-    private Minecraft mc;
-    @Shadow
-    private Entity pointedEntity;
+
+    @Shadow private float thirdPersonDistance;
+    @Shadow private float thirdPersonDistanceTemp;
+    @Shadow private boolean cloudFog;
+    @Shadow private Minecraft mc;
+    @Shadow private Entity pointedEntity;
+
     private HyperiumEntityRenderer hyperiumEntityRenderer = new HyperiumEntityRenderer((EntityRenderer) (Object) this);
-    @Shadow
-    @Final
-    public static int shaderCount;
 
-    @Shadow
-    private int shaderIndex;
-
-    //endStartSection
     @Inject(method = "updateCameraAndRender", at = @At(value = "INVOKE", target = "Lnet/minecraft/profiler/Profiler;endStartSection(Ljava/lang/String;)V", shift = At.Shift.AFTER))
     private void updateCameraAndRender(float partialTicks, long nano, CallbackInfo ci) {
         hyperiumEntityRenderer.updateCameraAndRender();
     }
 
-    @Inject(method = "activateNextShader", at = @At("INVOKE_ASSIGN"))
-    public void activateNextShader(CallbackInfo callbackInfo) {
-        HyperiumEntityRenderer.INSTANCE.isUsingShader = this.shaderIndex != shaderCount;
+    @Inject(method = "activateNextShader", at = @At(value = "INVOKE_ASSIGN", target = "Lnet/minecraft/client/renderer/EntityRenderer;loadShader(Lnet/minecraft/util/ResourceLocation;)V"))
+    private void activateNextShader(CallbackInfo callbackInfo) {
+        HyperiumEntityRenderer.INSTANCE.isUsingShader = true;
     }
 
     /**
@@ -130,8 +119,7 @@ public abstract class MixinEntityRenderer {
                 List<Entity> list = this.mc.theWorld.getEntitiesInAABBexcluding(entity, entity.getEntityBoundingBox().addCoord(vec31.xCoord * d0, vec31.yCoord * d0, vec31.zCoord * d0).expand((double) f, (double) f, (double) f), Predicates.and(EntitySelectors.NOT_SPECTATING, Entity::canBeCollidedWith));
                 double d2 = d1;
 
-                for (int j = 0; j < list.size(); ++j) {
-                    Entity entity1 = list.get(j);
+                for (Entity entity1 : list) {
                     float f1 = entity1.getCollisionBorderSize();
                     AxisAlignedBB axisalignedbb = entity1.getEntityBoundingBox().expand((double) f1, (double) f1, (double) f1);
                     MovingObjectPosition movingobjectposition = axisalignedbb.calculateIntercept(vec3, vec32);

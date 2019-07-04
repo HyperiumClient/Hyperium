@@ -9,7 +9,6 @@ import cc.hyperium.netty.NettyClient;
 import cc.hyperium.netty.packet.packets.serverbound.ServerCrossDataPacket;
 import cc.hyperium.utils.JsonHolder;
 import cc.hyperium.utils.LaunchUtil;
-import cc.hyperium.utils.UpdateUtils;
 import com.google.gson.JsonParser;
 import me.cubxity.utils.DeobfStack;
 import me.cubxity.utils.Mapping;
@@ -23,21 +22,9 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
-import javax.swing.WindowConstants;
+import javax.swing.*;
 import javax.swing.plaf.basic.BasicButtonUI;
-import java.awt.Color;
-import java.awt.Container;
-import java.awt.Desktop;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.FontFormatException;
-import java.awt.Image;
-import java.awt.Toolkit;
+import java.awt.*;
 import java.awt.datatransfer.StringSelection;
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -50,11 +37,9 @@ import java.util.concurrent.atomic.AtomicReference;
 public class CrashReportGUI extends JDialog {
     private CrashReport report;
 
-    private UpdateUtils update = UpdateUtils.INSTANCE;
-
     private int handle = 0; // 0 - // Force stop, 1 - Soft shutdown, 2 - Restart
 
-    CrashReportGUI(CrashReport report) {
+    private CrashReportGUI(CrashReport report) {
         super();
         this.report = report;
 
@@ -170,22 +155,16 @@ public class CrashReportGUI extends JDialog {
         report.setFocusPainted(false);
         report.setBounds(2, 208, 196, 20);
         report.addActionListener(e -> Multithreading.runAsync(() -> {
-            // Need a better solution, we miss a lot of valid reports
-            // And it'd be better to get as much info as possible
-            if (false) { //!update.isSupported() || !Metadata.isDevelopment()) {
-                report.setText("Outdated Build");
-            } else {
+            report.setEnabled(false);
+            report.setText("REPORTING...");
+            if (sendReport()) {
                 report.setEnabled(false);
-                report.setText("REPORTING...");
-                if (sendReport()) {
-                    report.setEnabled(false);
-                    report.setText("REPORTED");
-                } else if (copyReport()) {
-                    report.setEnabled(false);
-                    report.setText("COPIED TO CLIPBOARD");
-                } else {
-                    report.setText("FAILED TO REPORT");
-                }
+                report.setText("REPORTED");
+            } else if (copyReport()) {
+                report.setEnabled(false);
+                report.setText("COPIED TO CLIPBOARD");
+            } else {
+                report.setText("FAILED TO REPORT");
             }
         }));
 

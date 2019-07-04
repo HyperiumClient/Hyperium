@@ -1,0 +1,15 @@
+{
+  "skywars_rating": "(?<change>^(-|\\+)?[0-9]\\d*(\\.\\d+)?) Rating \\(\\D?(?<rating>\\d+)\\)",
+  "private_message_to": "To (?<rank>\\[.+] )?(?<player>\\S{1,16}): (?<message>.*)",
+  "private_message_from": "From (?<rank>\\[.+] )?(?<player>\\S{1,16}): (?<message>.*)",
+  "friend_request": "Friend request from ((?<rank>\\[.+] )?(?<player>\\w+)).*",
+  "guild_chat": "Guild > (?<rank>\\[.+] )?(?<player>\\S{1,16}): (?<message>.*)",
+  "party_chat": "Party > (?<rank>\\[.+] )?(?<player>\\S{1,16}): (?<message>.*)",
+  "party_invite": "(\\[.*] )?(?<player>\\w+) has invited you to join (?<party>\\w+) party!",
+  "skywars_kill": "(?<player>\\S{1,16}) (was|got|met|took|be) (?<msg>.*) (by|to) (?<killer>\\S{1,16})",
+  "bedwars_kill": "(?<player>\\S{1,16}) played|lost|tangoed|slipped|fell|died|fought|stumbled|be|was|took (?<msg>.*) by|for|from|to (?<killer>\\S{1,16}).*",
+  "megawalls_kill": "(?<player>\\S{1,16}) (was|met|lost|drank|be) (?<msg>.*) (by|from|for|to) (?<killer>\\S{1,16})",
+  "blitz_kill": "(?<player>\\S{1,16}) was killed by (?<killer>\\S{1,16})",
+  "quest_complete": "(?<type>Daily|Weekly)? Quest: (?<name>.*) Completed!",
+  "win": "(^\\S+) - (?<winners>.*)"
+}

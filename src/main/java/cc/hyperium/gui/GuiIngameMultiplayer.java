@@ -37,8 +37,4 @@ public class GuiIngameMultiplayer extends GuiMultiplayer {
             mc.displayGuiScreen(null);
         }
     }
-
-    /*
-        End port
-     */
 }

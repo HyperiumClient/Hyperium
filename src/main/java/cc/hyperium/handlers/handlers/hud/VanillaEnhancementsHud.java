@@ -37,7 +37,6 @@ public class VanillaEnhancementsHud {
     Most of code adapted from Orange Marshall's Vanilla Enhancements
      */
     private Minecraft mc = Minecraft.getMinecraft();
-    private String lastMessage = "";
 
     public VanillaEnhancementsHud() {
         EventBus.INSTANCE.register(new NetworkInfo());
@@ -123,7 +122,6 @@ public class VanillaEnhancementsHud {
                 ScaledResolution res = new ScaledResolution(mc);
                 int white = 16777215;
                 String message = this.getArmorString();
-                lastMessage = message;
                 mc.currentScreen.drawString(mc.fontRendererObj, message, 10, res.getScaledHeight() - 16, white);
             }
         }
@@ -186,26 +184,23 @@ public class VanillaEnhancementsHud {
     }
 
     private String getArmorString() {
-        double ap = roundDecimals(getArmorPotentional(false), 2);
-        double app = roundDecimals(getArmorPotentional(true), 2);
+        double ap = roundDecimals(getArmorPotentional(false));
+        double app = roundDecimals(getArmorPotentional(true));
         if (Settings.ARMOR_PROT_POTENTIONAL || Settings.ARMOR_PROJ_POTENTIONAL) {
-            String lastMessage;
-            String str = Settings.ARMOR_PROT_POTENTIONAL ? (lastMessage = ap + "%") : (lastMessage = app + "%");
-            this.lastMessage = lastMessage;
-            return str;
+            return Settings.ARMOR_PROT_POTENTIONAL ? ap + "%" : app + "%";
         }
         if (ap == app) {
-            return this.lastMessage = ap + "%";
+            return ap + "%";
         }
-        return this.lastMessage = ap + "% | " + app + "%";
+        return ap + "% | " + app + "%";
     }
 
-    private double roundDecimals(double num, int a) {
+    private double roundDecimals(double num) {
         if (num == 0.0) {
             return num;
         }
-        num = (int) (num * Math.pow(10.0, a));
-        num /= Math.pow(10.0, a);
+        num = (int) (num * Math.pow(10.0, 2));
+        num /= Math.pow(10.0, 2);
         return num;
     }
 

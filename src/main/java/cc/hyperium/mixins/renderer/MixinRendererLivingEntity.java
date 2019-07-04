@@ -68,14 +68,13 @@ public abstract class MixinRendererLivingEntity<T extends EntityLivingBase> exte
                 Team.EnumVisible team$enumvisible = team.getNameTagVisibility();
 
                 switch (team$enumvisible) {
-                    case ALWAYS:
-                        return true;
                     case NEVER:
                         return false;
                     case HIDE_FOR_OTHER_TEAMS:
                         return team1 == null || team.isSameTeam(team1);
                     case HIDE_FOR_OWN_TEAM:
                         return team1 == null || !team.isSameTeam(team1);
+                    case ALWAYS:
                     default:
                         return true;
                 }

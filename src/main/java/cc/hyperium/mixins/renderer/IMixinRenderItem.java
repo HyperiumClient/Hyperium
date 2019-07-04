@@ -19,9 +19,6 @@ public interface IMixinRenderItem {
     @Accessor
     TextureManager getTextureManager();
 
-    @Accessor
-    ItemModelMesher getItemModelMesher();
-
     @Invoker
     void callSetupGuiTransform(int xPosition, int yPosition, boolean isGui3d);
 

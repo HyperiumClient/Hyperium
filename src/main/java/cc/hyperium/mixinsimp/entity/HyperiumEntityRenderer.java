@@ -203,12 +203,4 @@ public class HyperiumEntityRenderer {
             }
         }
     }
-
-    /*public void callLoadShader(ResourceLocation resourceLocation, CallbackInfo callbackInfo) {
-        if (resourceLocation.equals(new ResourceLocation("shaders/hyperium_blur.json")) && Minecraft.getMinecraft().currentScreen == null) {
-             // If a gui is closed and we are asked
-             // to blur, cancel it.
-            callbackInfo.cancel();
-        }
-    }*/
 }

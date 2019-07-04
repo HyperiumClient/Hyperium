@@ -38,19 +38,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(GuiPlayerTabOverlay.class)
 public abstract class MixinGuiPlayerTabOverlay extends Gui {
 
-    @Shadow
-    @Final
-    private static Ordering<NetworkPlayerInfo> field_175252_a;
-
-    @Shadow
-    @Final
-    private Minecraft mc;
-
-    @Shadow
-    private IChatComponent header;
-
-    @Shadow
-    private IChatComponent footer;
+    @Shadow @Final private static Ordering<NetworkPlayerInfo> field_175252_a;
+    @Shadow @Final private Minecraft mc;
+    @Shadow private IChatComponent header;
+    @Shadow private IChatComponent footer;
 
     private HyperiumGuiPlayerTabOverlay hyperiumGuiPlayerTabOverlay = new HyperiumGuiPlayerTabOverlay((GuiPlayerTabOverlay) (Object) this);
 

@@ -27,7 +27,6 @@ public class ShopTab extends AbstractTab {
 
     private JsonHolder personData = null;
     private JsonHolder cosmeticCallback = null;
-    private boolean purchasing = false;
 
     public ShopTab(HyperiumMainGui gui) {
         super(gui, "tab.shop.name");
@@ -41,7 +40,6 @@ public class ShopTab extends AbstractTab {
             cosmeticCallback = PurchaseApi.getInstance()
                 .get("https://api.hyperium.cc/cosmetics/" + Objects.requireNonNull(UUIDUtil
                     .getClientUUID()).toString().replace("-", ""));
-            purchasing = false;
             components.clear();
             addComponents();
         });
@@ -108,7 +106,6 @@ public class ShopTab extends AbstractTab {
                 }
 
                 System.out.println("Attempting to purchase " + key);
-                purchasing = true;
                 NettyClient client = NettyClient.getClient();
                 if (client != null) {
                     client.write(ServerCrossDataPacket

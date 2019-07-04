@@ -79,15 +79,6 @@ public class CommandDebug implements BaseCommand {
         }
     }
 
-
-    private static void tryLocation(StringBuilder builder) {
-        try {
-            builder.append("Location: ").append(Hyperium.INSTANCE.getHandlers().getLocationHandler().getLocation());
-        } catch (Exception e) {
-            builder.append("Location: Error");
-        }
-    }
-
     public static String get() {
         StringBuilder builder = new StringBuilder();
         PurchaseApi api = PurchaseApi.getInstance();

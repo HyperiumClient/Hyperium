@@ -34,8 +34,8 @@ class MixinMathHelper {
      * @reason In case if we want to change sin and cos (no code changed from Vanilla)
      */
     @Overwrite
-    public static float sin(float p_76126_0_) {
-        return SIN_TABLE[(int) (p_76126_0_ * 10430.378F) & 65535];
+    public static float sin(float value) {
+        return SIN_TABLE[(int) (value * 10430.378F) & 65535];
     }
 
     /**

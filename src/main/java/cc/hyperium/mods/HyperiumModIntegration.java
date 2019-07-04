@@ -17,13 +17,11 @@
 
 package cc.hyperium.mods;
 
-import cc.hyperium.mods.autofriend.AutofriendMod;
 import cc.hyperium.mods.autogg.AutoGG;
 import cc.hyperium.mods.blockoverlay.BlockOverlay;
 import cc.hyperium.mods.browser.BrowserMod;
 import cc.hyperium.mods.chromahud.ChromaHUD;
 import cc.hyperium.mods.chunkanimator.ChunkAnimator;
-import cc.hyperium.mods.fortnitecompass.FortniteCompassMod;
 import cc.hyperium.mods.glintcolorizer.GlintColorizer;
 import cc.hyperium.mods.hgames.HGames;
 import cc.hyperium.mods.itemphysic.ItemPhysicMod;
@@ -32,8 +30,6 @@ import cc.hyperium.mods.levelhead.Levelhead;
 import cc.hyperium.mods.motionblur.MotionBlurMod;
 import cc.hyperium.mods.nickhider.NickHider;
 import cc.hyperium.mods.oldanimations.OldAnimations;
-import cc.hyperium.mods.playtime.PlayTime;
-import cc.hyperium.mods.tabtoggle.TabToggleMod;
 import cc.hyperium.mods.timechanger.TimeChanger;
 import cc.hyperium.mods.togglechat.ToggleChatMod;
 import cc.hyperium.mods.victoryroyale.VictoryRoyale;
@@ -56,10 +52,6 @@ public class HyperiumModIntegration {
     private final BlockOverlay blockOverlay;
     private final MotionBlurMod motionBlur;
     private final OldAnimations oldanimations;
-    private final AutofriendMod autofriend;
-    private final PlayTime playTime;
-    private final FortniteCompassMod fncompass;
-    private final TabToggleMod tabToggle;
     private final ItemPhysicMod itemPhysicMod;
     private final BrowserMod browserMod;
     private final VictoryRoyale victoryRoyale;
@@ -105,16 +97,6 @@ public class HyperiumModIntegration {
         this.glintcolorizer = ((GlintColorizer) new GlintColorizer().init());
         NickHider nickHider = new NickHider();
         nickHider.init();
-
-        //Autofriend implementation
-        this.autofriend = ((AutofriendMod) new AutofriendMod().init());
-
-        //Play Time addon port
-        this.playTime = (PlayTime) new PlayTime().init();
-
-        this.fncompass = (FortniteCompassMod) new FortniteCompassMod().init();
-
-        this.tabToggle = (TabToggleMod) new TabToggleMod().init();
 
         this.itemPhysicMod = (ItemPhysicMod) new ItemPhysicMod().init();
 
@@ -171,22 +153,6 @@ public class HyperiumModIntegration {
 
     public OldAnimations getOldanimations() {
         return oldanimations;
-    }
-
-    public AutofriendMod getAutofriend() {
-        return autofriend;
-    }
-
-    public PlayTime getPlayTime() {
-        return playTime;
-    }
-
-    public FortniteCompassMod getFncompass() {
-        return fncompass;
-    }
-
-    public TabToggleMod getTabToggle() {
-        return tabToggle;
     }
 
     public ItemPhysicMod getItemPhysicMod() {

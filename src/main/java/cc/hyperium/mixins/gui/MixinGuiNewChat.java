@@ -36,17 +36,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(GuiNewChat.class)
 public abstract class MixinGuiNewChat {
 
-    @Shadow @Final
-    private List<ChatLine> chatLines;
-
-    @Shadow @Final
-    private List<ChatLine> drawnChatLines;
-
+    @Shadow @Final private List<ChatLine> chatLines;
+    @Shadow @Final private List<ChatLine> drawnChatLines;
+    @Shadow @Final private Minecraft mc;
     @Shadow private boolean isScrolled;
     @Shadow private int scrollPos;
-
-    @Shadow @Final
-    private Minecraft mc;
 
     private HyperiumGuiNewChat hyperiumGuiNewChat = new HyperiumGuiNewChat((GuiNewChat) (Object) this);
 

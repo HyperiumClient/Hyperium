@@ -1,6 +1,5 @@
 package cc.hyperium.handlers.handlers.animation;
 
-import cc.hyperium.cosmetics.CosmeticsUtil;
 import cc.hyperium.gui.HyperiumGui;
 import cc.hyperium.mixinsimp.renderer.model.IMixinModelBiped;
 import cc.hyperium.mixinsimp.renderer.model.IMixinModelPlayer;
@@ -9,39 +8,30 @@ import net.minecraft.client.entity.AbstractClientPlayer;
 
 public class DabHandler extends AbstractPreCopyAnglesAnimationHandler {
 
-    private int dabs;
-
-    @Override
-    public void onRender() {
-        if (state == 100 && get(Minecraft.getMinecraft().thePlayer.getUniqueID()).isAnimating())
-            incDabs();
-    }
+    private long systemTime = 0;
 
     @Override
     public float modifyState() {
-        return HyperiumGui.clamp(
-            HyperiumGui.easeOut(
-                this.state,
-                this.asc ? 100.0f : 0.0f,
-                0.01f,
-                5
-            ),
-            0.0f,
-            100.0f
-        );
-    }
+        if (systemTime == 0) systemTime = Minecraft.getSystemTime();
 
-    public int getDabs() {
-        return dabs;
-    }
+        while (systemTime < Minecraft.getSystemTime() + (1000 / 120)) {
+            state = HyperiumGui.clamp(HyperiumGui.easeOut(state, asc ? 100.0f : 0.0f, 0.01f, 5), 0.0f, 100.0f);
 
-    public void incDabs() {
-        dabs++;
+            systemTime += (1000 / 120);
+
+            if (state <= 0) {
+                asc = true;
+                right = !right;
+            } else if (state >= 100) {
+                asc = false;
+            }
+        }
+
+        return state;
     }
 
     @Override
     public void modifyPlayer(AbstractClientPlayer entity, IMixinModelPlayer player, float heldPercent) {
-
         if (right) {
             player.getBipedRightUpperArm().rotateAngleX = (float) Math.toRadians(-90.0f * heldPercent);
             player.getBipedRightUpperArm().rotateAngleY = (float) Math.toRadians(-35.0f * heldPercent);

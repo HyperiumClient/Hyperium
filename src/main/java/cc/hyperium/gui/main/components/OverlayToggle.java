@@ -23,9 +23,7 @@ public class OverlayToggle extends OverlayComponent {
         this.toggle = toggle;
         this.callback = callback;
 
-        if (enabled) {
-            this.toggle = toggle;
-        } else {
+        if (!enabled) {
             this.toggle = false;
         }
     }
@@ -40,7 +38,6 @@ public class OverlayToggle extends OverlayComponent {
             GL11.glDisable(GL11.GL_TEXTURE_2D);
             GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
             int color = GraphicsUtil.INSTANCE.transitionOfHueRange(colorStep, 1, getHue(ColourOptions.accent_r, ColourOptions.accent_g, ColourOptions.accent_b), 0.7F, 0.7F).getRGB();
-            //int color = GraphicsUtil.INSTANCE.transitionOfHueRange(colorStep, 1, 88, 0.7F, 0.7F).getRGB();
             RenderUtils
                 .drawSmoothRect(overlayX + w - 30, overlayY + 5, overlayX + w - 5, overlayY + h - 5,
                     color);

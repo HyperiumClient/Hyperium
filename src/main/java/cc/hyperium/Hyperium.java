@@ -36,7 +36,6 @@ import cc.hyperium.integrations.watchdog.ThankWatchdog;
 import cc.hyperium.mixinsimp.client.resources.HyperiumLocale;
 import cc.hyperium.mixinsimp.renderer.FontFixValues;
 import cc.hyperium.mods.HyperiumModIntegration;
-import cc.hyperium.mods.autofriend.command.AutofriendCommand;
 import cc.hyperium.mods.autogg.AutoGG;
 import cc.hyperium.mods.common.ToggleSprintContainer;
 import cc.hyperium.mods.discord.DiscordPresence;
@@ -56,13 +55,11 @@ import cc.hyperium.utils.UpdateUtils;
 import cc.hyperium.utils.mods.CompactChat;
 import cc.hyperium.utils.mods.FPSLimiter;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.crash.CrashReport;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.Display;
-import org.lwjgl.opengl.GLContext;
 
 import java.io.*;
 
@@ -180,7 +177,6 @@ public class Hyperium {
             EventBus.INSTANCE.register(CONFIG.register(FPSLimiter.getInstance()));
             EventBus.INSTANCE.register(confirmation);
             EventBus.INSTANCE.register(new BlurHandler());
-            EventBus.INSTANCE.register(new CommandUpdate());
             EventBus.INSTANCE.register(new ThankWatchdog());
 
             // Register statistics tracking.
@@ -240,10 +236,7 @@ public class Hyperium {
                 sk1erMod.checkStatus();
             }
 
-            SplashProgress.setProgress(12, I18n.format("splashprogress.reloadingresourcemanager"));
-            Minecraft.getMinecraft().refreshResources();
-
-            SplashProgress.setProgress(13, I18n.format("splashprogress.finishing"));
+            SplashProgress.setProgress(12, I18n.format("splashprogress.finishing"));
 
             if (FontFixValues.INSTANCE == null) {
                 FontFixValues.INSTANCE = new FontFixValues();
@@ -283,8 +276,6 @@ public class Hyperium {
             } catch (ClassNotFoundException e) {
                 optifineInstalled = false;
             }
-
-            Settings.findIncompatibilies();
         } catch (Throwable t) {
             Minecraft.getMinecraft().crashed(new CrashReport("Hyperium Startup Failure", t));
         }
@@ -301,7 +292,6 @@ public class Hyperium {
         hyperiumCommandHandler.registerCommand(new CommandBrowse());
         hyperiumCommandHandler.registerCommand(new CommandNameHistory());
         hyperiumCommandHandler.registerCommand(new CommandDebug());
-        hyperiumCommandHandler.registerCommand(new CommandUpdate());
         hyperiumCommandHandler.registerCommand(new CommandCoords());
         hyperiumCommandHandler.registerCommand(new CommandLogs());
         hyperiumCommandHandler.registerCommand(new CommandPing());
@@ -311,8 +301,6 @@ public class Hyperium {
         hyperiumCommandHandler.registerCommand(new CommandMessage());
         hyperiumCommandHandler.registerCommand(new CommandParticleAuras());
         hyperiumCommandHandler.registerCommand(new CommandDisableCommand());
-        hyperiumCommandHandler.registerCommand(new AutofriendCommand());
-        hyperiumCommandHandler.registerCommand(new CommandQuests());
         hyperiumCommandHandler.registerCommand(new CommandGuild());
         hyperiumCommandHandler.registerCommand(new CommandStatistics());
         hyperiumCommandHandler.registerCommand(new CommandKeybinds());
@@ -359,47 +347,42 @@ public class Hyperium {
         }
     }
 
-    /**
-     * Check if computer is capable of running OpenGL 2.0 or if the computer
-     * supports Minecraft's shader system
-     *
-     * If it's possible, OptimizedFontRenderer is kept enabled if enabled,
-     * otherwise it's disabled on startup.
-     * {@link Settings#findIncompatibilies()}
-     *
-     * @return true if possible
-     */
-    public boolean checkGpuSpecs() {
-        return GLContext.getCapabilities().OpenGL20 || OpenGlHelper.areShadersSupported();
-    }
-
     public GeneralStatisticsTracking getStatTrack() {
         return this.statTrack;
     }
+
     public HyperiumHandlers getHandlers() {
         return handlers;
     }
+
     public HyperiumModIntegration getModIntegration() {
         return modIntegration;
     }
+
     public NotificationCenter getNotification() {
         return notification;
     }
+
     public ConfirmationPopup getConfirmation() {
         return confirmation;
     }
+
     public HyperiumCosmetics getCosmetics() {
         return cosmetics;
     }
+
     public InternalAddons getInternalAddons() {
         return internalAddons;
     }
+
     public NetworkHandler getNetworkHandler() {
         return networkHandler;
     }
+
     public MinigameListener getMinigameListener() {
         return minigameListener;
     }
+
     public HyperiumScheduler getScheduler() {
         return scheduler;
     }
@@ -407,12 +390,15 @@ public class Hyperium {
     public boolean isAcceptedTos() {
         return acceptedTos;
     }
+
     public boolean isFirstLaunch() {
         return firstLaunch;
     }
+
     public boolean isOptifineInstalled() {
         return optifineInstalled;
     }
+
     public boolean isDevEnv() {
         return this.isDevEnv;
     }

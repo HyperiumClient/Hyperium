@@ -29,14 +29,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 public class MixinInventoryParticle {
 
-    @Shadow
-    private int guiLeft;
-
-    @Shadow
-    private int guiTop;
-
-    @Shadow
-    private int xSize;
+    @Shadow protected int guiLeft;
+    @Shadow protected int guiTop;
+    @Shadow protected int xSize;
 
     private HyperiumInventoryParticle hyperiumInventoryParticle = new HyperiumInventoryParticle((GuiContainer) (Object) this);
 
