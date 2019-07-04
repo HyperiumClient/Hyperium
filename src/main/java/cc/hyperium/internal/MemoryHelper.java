@@ -1,5 +1,6 @@
 package cc.hyperium.internal;
 
+import cc.hyperium.Hyperium;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.TickEvent;
 import cc.hyperium.event.WorldUnloadEvent;
@@ -51,7 +52,7 @@ public class MemoryHelper {
 
         removes.forEach(this::deleteSkin);
         locations.forEach(this::deleteSkin);
-        System.out.println("Deleted " + (removes.size() + locations.size()) + " cosmetic items / skins");
+        Hyperium.LOGGER.info("Deleted " + (removes.size() + locations.size()) + " cosmetic items / skins");
         locations.clear();
     }
 

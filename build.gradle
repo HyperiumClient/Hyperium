@@ -87,12 +87,14 @@ dependencies {
     embed 'com.github.FalseHonesty:reflections:855f40b80b'
     embed 'com.github.ben-manes.caffeine:caffeine:2.6.2'
 
-
     embed ('org.slick2d:slick2d-core:1.0.2') {
         exclude module: 'lwjgl'
     }
 
-    embed "com.github.KevinPriv:MojangAPI:1.0"
+    embed ("com.github.KevinPriv:MojangAPI:1.0") {
+        exclude module: "gson"
+    }
+    
     embed 'com.github.Cubxity:DeobfStack:1.2'
     embed 'com.github.HyperiumClient:Installer:1.9'
 
