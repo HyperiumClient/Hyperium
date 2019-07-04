@@ -17,6 +17,7 @@
 
 package cc.hyperium.mixins;
 
+import cc.hyperium.handlers.handlers.animation.cape.CapeHandler;
 import cc.hyperium.mixinsimp.HyperiumTextureManager;
 import net.minecraft.client.renderer.texture.*;
 import net.minecraft.client.resources.IResourceManager;
@@ -51,6 +52,8 @@ public abstract class MixinTextureManager {
     @Shadow
     @Final
     private List<ITickable> listTickables;
+
+    @Shadow @Final private Map<ResourceLocation, ITextureObject> mapTextureObjects;
 
     /**
      * @author Sk1er

@@ -1,8 +1,6 @@
 package cc.hyperium.mixinsimp;
 
-import cc.hyperium.event.EventBus;
 import cc.hyperium.handlers.handlers.animation.cape.CapeHandler;
-import cc.hyperium.utils.Utils;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.texture.*;
 import net.minecraft.client.resources.IResourceManager;
@@ -24,9 +22,7 @@ public class HyperiumTextureManager {
     private ConcurrentHashMap<ResourceLocation, ITextureObject> textures = new ConcurrentHashMap<>(16, 0.9f, 1);
 
     public HyperiumTextureManager(TextureManager parent) {
-        INSTANCE = this;
         this.parent = parent;
-        EventBus.INSTANCE.register(this);
     }
 
     public boolean loadTickableTexture(ResourceLocation textureLocation, ITickableTextureObject textureObj, List<ITickable> listTickables) {
@@ -51,25 +47,8 @@ public class HyperiumTextureManager {
                     location = new ResourceLocation(split[0], split[1]);
                 } else location = new ResourceLocation(key.getResourcePath());
 
-                String name = location.getResourcePath();
-
-                // Prevent conflicts with Optifine.
-                if (name.startsWith("mcpatcher/") || name.startsWith("optifine/")) {
-                    ITextureObject textureObject = textures.get(location);
-
-                    if (textureObject instanceof AbstractTexture) {
-                        AbstractTexture abstractTexture = (AbstractTexture) textureObject;
-                        abstractTexture.deleteGlTexture();
-                    }
-
-                    continue;
-                }
-
                 parent.loadTexture(location, entry.getValue());
             }
-            Utils.INSTANCE.setCursor(new ResourceLocation("textures/cursor.png"));
-        } catch (Exception e) {
-            e.printStackTrace();
         } finally {
             CapeHandler.LOCK.unlock();
         }
