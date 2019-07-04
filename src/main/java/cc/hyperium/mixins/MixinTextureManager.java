@@ -18,112 +18,27 @@
 package cc.hyperium.mixins;
 
 import cc.hyperium.handlers.handlers.animation.cape.CapeHandler;
-import cc.hyperium.mixinsimp.HyperiumTextureManager;
-import net.minecraft.client.renderer.texture.*;
+import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.resources.IResourceManager;
-import net.minecraft.util.ResourceLocation;
-import org.apache.logging.log4j.Logger;
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Overwrite;
-import org.spongepowered.asm.mixin.Shadow;
-
-import java.util.List;
-import java.util.Map;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(TextureManager.class)
 public abstract class MixinTextureManager {
-
-
-    @Shadow
-    @Final
-    private static Logger logger;
-
-    private HyperiumTextureManager hyperiumTextureManager = new HyperiumTextureManager((TextureManager) (Object) this);
-
-    @Shadow
-    private IResourceManager theResourceManager;
-
-    @Shadow
-    @Final
-    private Map<String, Integer> mapTextureCounters;
-
-
-    @Shadow
-    @Final
-    private List<ITickable> listTickables;
-
-    @Shadow @Final private Map<ResourceLocation, ITextureObject> mapTextureObjects;
-
-    /**
-     * @author Sk1er
-     * @reason Broken dynamic textures
-     */
-    @Overwrite
-    public boolean loadTexture(ResourceLocation textureLocation, ITextureObject textureObj) {
-        return hyperiumTextureManager.loadTexture(textureLocation, textureObj, theResourceManager, logger);
-    }
-
-    /**
-     * @author Sk1er
-     * @reason Fix purple screen
-     */
-    @Overwrite
-    public boolean loadTickableTexture(ResourceLocation textureLocation, ITickableTextureObject textureObj) {
-        return hyperiumTextureManager.loadTickableTexture(textureLocation, textureObj, listTickables);
-    }
-
-    /**
-     * @author Sk1er
-     * @reason Broken dynamic textures
-     */
-    @Overwrite
-    public ResourceLocation getDynamicTextureLocation(String name, DynamicTexture texture) {
-        return hyperiumTextureManager.getDynamicTextureLocation(name, texture, mapTextureCounters);
-    }
 
     /**
      * @author Sk1er and Mojang
      * @reason Add lock on cape loading to prevent concurrent modification exception in texture manager
      */
-    @Overwrite
-    public void onResourceManagerReload(IResourceManager resourceManager) {
-        hyperiumTextureManager.onResourceManagerReload();
+    @Inject(method = "onResourceManagerReload", at = @At("HEAD"))
+    private void lockCape(IResourceManager resourceManager, CallbackInfo ci) {
+        CapeHandler.LOCK.lock();
     }
 
-    /**
-     * @author Sk1er
-     * @reason Conciliate texture hashmap to 1 object.
-     */
-    @Overwrite
-    public void bindTexture(ResourceLocation resource) {
-        hyperiumTextureManager.bindTexture(resource);
-    }
-
-    /**
-     * @author Sk1er
-     * @reason Conciliate texture hashmap to 1 object.
-     */
-    @Overwrite
-    public ITextureObject getTexture(ResourceLocation textureLocation) {
-        return hyperiumTextureManager.getTexture(textureLocation);
-    }
-
-    /**
-     * @author Sk1er
-     * @reason Conciliate texture hashmap to 1 object.
-     */
-    @Overwrite
-    public void tick() {
-        hyperiumTextureManager.tick(listTickables);
-    }
-
-    /**
-     * @author Sk1er
-     * @reason Conciliate texture hashmap to 1 object.
-     */
-    @Overwrite
-    public void deleteTexture(ResourceLocation textureLocation) {
-        hyperiumTextureManager.deleteTexture(textureLocation);
+    @Inject(method = "onResourceManagerReload", at = @At("RETURN"))
+    private void unlockCape(IResourceManager resourceManager, CallbackInfo ci) {
+        CapeHandler.LOCK.unlock();
     }
 }

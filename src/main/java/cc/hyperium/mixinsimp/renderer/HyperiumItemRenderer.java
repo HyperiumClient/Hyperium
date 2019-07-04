@@ -55,22 +55,22 @@ public class HyperiumItemRenderer {
 
     public void renderItemInFirstPerson(float partialTicks, float prevEquippedProgress, float equippedProgress, ItemStack itemToRender) {
         float f = 1.0F - (prevEquippedProgress + (equippedProgress - prevEquippedProgress) * partialTicks);
-        EntityPlayerSP abstractclientplayer = this.mc.thePlayer;
-        float f1 = abstractclientplayer.getSwingProgress(partialTicks);
-        float f2 = abstractclientplayer.prevRotationPitch + (abstractclientplayer.rotationPitch - abstractclientplayer.prevRotationPitch) * partialTicks;
-        float f3 = abstractclientplayer.prevRotationYaw + (abstractclientplayer.rotationYaw - abstractclientplayer.prevRotationYaw) * partialTicks;
+        EntityPlayerSP entityPlayerSP = this.mc.thePlayer;
+        float f1 = entityPlayerSP.getSwingProgress(partialTicks);
+        float f2 = entityPlayerSP.prevRotationPitch + (entityPlayerSP.rotationPitch - entityPlayerSP.prevRotationPitch) * partialTicks;
+        float f3 = entityPlayerSP.prevRotationYaw + (entityPlayerSP.rotationYaw - entityPlayerSP.prevRotationYaw) * partialTicks;
         ((IMixinItemRenderer) parent).callRotateArroundXAndY(f2, f3);
-        ((IMixinItemRenderer) parent).callSetLightMapFromPlayer(abstractclientplayer);
-        ((IMixinItemRenderer) parent).callRotateWithPlayerRotations(abstractclientplayer, partialTicks);
+        ((IMixinItemRenderer) parent).callSetLightMapFromPlayer(entityPlayerSP);
+        ((IMixinItemRenderer) parent).callRotateWithPlayerRotations(entityPlayerSP, partialTicks);
         GlStateManager.enableRescaleNormal();
         GlStateManager.pushMatrix();
 
         if (itemToRender != null) {
             if (itemToRender.getItem() == Items.filled_map) {
-                ((IMixinItemRenderer) parent).callRenderItemMap(abstractclientplayer, f2, f, f1);
+                ((IMixinItemRenderer) parent).callRenderItemMap(entityPlayerSP, f2, f, f1);
             } else if ((itemToRender.getItem() instanceof ItemSword) && !this.mc.thePlayer.isBlocking() && Settings.CUSTOM_SWORD_ANIMATION) {
                 transformFirstPersonItem(f, f1);
-            } else if (abstractclientplayer.getItemInUseCount() > 0) {
+            } else if (entityPlayerSP.getItemInUseCount() > 0) {
                 EnumAction enumaction = itemToRender.getItemUseAction();
 
                 switch (enumaction) {
@@ -79,7 +79,7 @@ public class HyperiumItemRenderer {
                         break;
                     case EAT:
                     case DRINK:
-                        ((IMixinItemRenderer) parent).callPerformDrinking(abstractclientplayer, partialTicks);
+                        ((IMixinItemRenderer) parent).callPerformDrinking(entityPlayerSP, partialTicks);
                         if (Settings.OLD_EATING) {
                             this.transformFirstPersonItem(f, f1);
                             break;
@@ -103,11 +103,11 @@ public class HyperiumItemRenderer {
                     case BOW:
                         if (Settings.OLD_BOW) {
                             this.transformFirstPersonItem(f, f1);
-                            ((IMixinItemRenderer) parent).callDoBowTransformations(partialTicks, abstractclientplayer);
+                            ((IMixinItemRenderer) parent).callDoBowTransformations(partialTicks, entityPlayerSP);
                             GlStateManager.translate(0.0F, 0.1F, -0.15F);
                         } else {
                             this.transformFirstPersonItem(f, 0.0F);
-                            ((IMixinItemRenderer) parent).callDoBowTransformations(partialTicks, abstractclientplayer);
+                            ((IMixinItemRenderer) parent).callDoBowTransformations(partialTicks, entityPlayerSP);
                         }
                 }
             } else {
@@ -115,9 +115,9 @@ public class HyperiumItemRenderer {
                 this.transformFirstPersonItem(f, f1);
             }
 
-            ((IMixinItemRenderer) parent).callRenderItem(abstractclientplayer, itemToRender, ItemCameraTransforms.TransformType.FIRST_PERSON);
-        } else if (!abstractclientplayer.isInvisible()) {
-            ((IMixinItemRenderer) parent).callRenderPlayerArm(abstractclientplayer, f, f1);
+            ((IMixinItemRenderer) parent).callRenderItem(entityPlayerSP, itemToRender, ItemCameraTransforms.TransformType.FIRST_PERSON);
+        } else if (!entityPlayerSP.isInvisible()) {
+            ((IMixinItemRenderer) parent).callRenderPlayerArm(entityPlayerSP, f, f1);
         }
 
         GlStateManager.popMatrix();
