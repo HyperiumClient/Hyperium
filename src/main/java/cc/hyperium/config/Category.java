@@ -31,6 +31,7 @@ public enum Category {
     VICTORYROYALE("Victory Royale"),
     TOGGLESPRINT("Toggle Sprint"),
     CHUNK_ANIMATOR("Chunk Animator"),
+    LEVELHEAD("Levelhead"),
     OTHER("Other");
 
     private String display;

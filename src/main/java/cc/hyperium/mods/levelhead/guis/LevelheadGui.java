@@ -207,7 +207,7 @@ public class LevelheadGui extends GuiScreen implements GuiYesNoCallback {
     }
 
     @Override
-    protected void actionPerformed(GuiButton button) throws IOException {
+    protected void actionPerformed(GuiButton button) {
         Consumer<GuiButton> buttonConsumer = clicks.get(button);
         if (buttonConsumer != null) {
             buttonConsumer.accept(button);
@@ -268,6 +268,7 @@ public class LevelheadGui extends GuiScreen implements GuiYesNoCallback {
         }
 
         Levelhead.getInstance().getDisplayManager().save();
+        Hyperium.CONFIG.save();
     }
 
     private void doGeneral(DisplayConfig config, Levelhead instance, int editWidth) {

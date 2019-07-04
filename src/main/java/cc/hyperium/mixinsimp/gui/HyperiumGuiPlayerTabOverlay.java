@@ -5,6 +5,7 @@ import cc.hyperium.config.Settings;
 import cc.hyperium.handlers.handlers.data.HypixelAPI;
 import cc.hyperium.mixins.gui.IMixinGui;
 import cc.hyperium.mixins.gui.IMixinGuiPlayerTabOverlay;
+import cc.hyperium.mods.levelhead.guis.LevelheadGui;
 import cc.hyperium.utils.ChatColor;
 import cc.hyperium.utils.StaffUtils;
 import com.google.common.collect.Ordering;
@@ -25,7 +26,7 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.world.WorldSettings;
 
-import java.awt.Color;
+import java.awt.*;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentLinkedDeque;
@@ -52,6 +53,8 @@ public class HyperiumGuiPlayerTabOverlay {
     }
 
     public void drawPing(int p_175245_1_, int p_175245_2_, int yIn, NetworkPlayerInfo networkPlayerInfoIn, float zLevel, Minecraft mc) {
+        LevelheadGui.drawPingHook(p_175245_1_, p_175245_2_, yIn, networkPlayerInfoIn);
+
         final int ping = networkPlayerInfoIn.getResponseTime();
         final int x = p_175245_2_ + p_175245_1_ - (mc.fontRendererObj.getStringWidth(ping + "") >> 1) - 2;
         final int y = yIn + (mc.fontRendererObj.FONT_HEIGHT >> 2);
@@ -78,7 +81,7 @@ public class HyperiumGuiPlayerTabOverlay {
             if (ping >= 0 && ping < 10000) {
                 GlStateManager.pushMatrix();
                 GlStateManager.scale(0.5f, 0.5f, 0.5f);
-                mc.fontRendererObj.drawString("   " + ping + "", (2 * x), (2 * y), colour);
+                mc.fontRendererObj.drawString("   " + ping + "", (2 * x) - 10, (2 * y), colour);
                 GlStateManager.scale(2.0f, 2.0f, 2.0f);
                 GlStateManager.popMatrix();
 
@@ -89,7 +92,7 @@ public class HyperiumGuiPlayerTabOverlay {
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         mc.getTextureManager().bindTexture(Gui.icons);
         int i = 0;
-        int j = 0;
+        int j;
 
         if (ping < 0) {
             j = 5;
@@ -117,7 +120,7 @@ public class HyperiumGuiPlayerTabOverlay {
         int j = 0;
 
         for (NetworkPlayerInfo networkplayerinfo : list) {
-            int k = mc.fontRendererObj.getStringWidth(parent.getPlayerName(networkplayerinfo));
+            int k = mc.fontRendererObj.getStringWidth(parent.getPlayerName(networkplayerinfo)) + LevelheadGui.getLevelheadWidth(networkplayerinfo);
             i = Math.max(i, k);
 
             if (scoreObjectiveIn != null && scoreObjectiveIn.getRenderType() != IScoreObjectiveCriteria.EnumRenderType.HEARTS) {
@@ -168,29 +171,29 @@ public class HyperiumGuiPlayerTabOverlay {
         int j1 = width / 2 - (i1 * j4 + (j4 - 1) * 5) / 2;
         int k1 = 10;
         int l1 = i1 * j4 + (j4 - 1) * 5;
-        List<String> list1 = null;
-        List<String> list2 = null;
+        List<String> headerList = null;
+        List<String> footerList = null;
 
         if (header != null) {
-            list1 = mc.fontRendererObj.listFormattedStringToWidth(header.getFormattedText(), width - 50);
+            headerList = mc.fontRendererObj.listFormattedStringToWidth(header.getFormattedText(), width - 50);
 
-            for (String s : list1) {
+            for (String s : headerList) {
                 l1 = Math.max(l1, mc.fontRendererObj.getStringWidth(s));
             }
         }
 
         if (footer != null) {
-            list2 = mc.fontRendererObj.listFormattedStringToWidth(footer.getFormattedText(), width - 50);
+            footerList = mc.fontRendererObj.listFormattedStringToWidth(footer.getFormattedText(), width - 50);
 
-            for (String s2 : list2) {
+            for (String s2 : footerList) {
                 l1 = Math.max(l1, mc.fontRendererObj.getStringWidth(s2));
             }
         }
 
-        if (list1 != null) {
-            Gui.drawRect(width / 2 - l1 / 2 - 1, k1 - 1, width / 2 + l1 / 2 + 1, k1 + list1.size() * mc.fontRendererObj.FONT_HEIGHT, Integer.MIN_VALUE);
+        if (headerList != null) {
+            Gui.drawRect(width / 2 - l1 / 2 - 1, k1 - 1, width / 2 + l1 / 2 + 1, k1 + headerList.size() * mc.fontRendererObj.FONT_HEIGHT, Integer.MIN_VALUE);
 
-            for (String s3 : list1) {
+            for (String s3 : headerList) {
                 int i2 = mc.fontRendererObj.getStringWidth(s3);
                 mc.fontRendererObj.drawStringWithShadow(s3, (float) (width / 2 - i2 / 2), (float) k1, -1);
                 k1 += mc.fontRendererObj.FONT_HEIGHT;
@@ -206,7 +209,7 @@ public class HyperiumGuiPlayerTabOverlay {
             int i5 = k4 % i4;
             int j2 = j1 + l4 * i1 + l4 * 5;
             int k2 = k1 + i5 * 9;
-            Gui.drawRect(j2, k2, j2 + i1 + 6, k2 + 8, 553648127);
+            Gui.drawRect(j2, k2, j2 + i1, k2 + 8, 553648127);
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
             GlStateManager.enableAlpha();
             GlStateManager.enableBlend();
@@ -239,7 +242,7 @@ public class HyperiumGuiPlayerTabOverlay {
                 if (Settings.SHOW_ONLINE_PLAYERS) {
                     String s = "⚫";
 
-                    boolean online = false;
+                    boolean online;
 
                     if (mc.getSession().getProfile().getId() == gameprofile.getId()) {
                         online = true;
@@ -281,11 +284,11 @@ public class HyperiumGuiPlayerTabOverlay {
             }
         }
 
-        if (list2 != null) {
+        if (footerList != null) {
             k1 = k1 + i4 * 9 + 1;
-            Gui.drawRect(width / 2 - l1 / 2 - 1, k1 - 1, width / 2 + l1 / 2 + 1, k1 + list2.size() * mc.fontRendererObj.FONT_HEIGHT, Integer.MIN_VALUE);
+            Gui.drawRect(width / 2 - l1 / 2 - 1, k1 - 1, width / 2 + l1 / 2 + 1, k1 + footerList.size() * mc.fontRendererObj.FONT_HEIGHT, Integer.MIN_VALUE);
 
-            for (String s4 : list2) {
+            for (String s4 : footerList) {
                 int j5 = mc.fontRendererObj.getStringWidth(s4);
                 mc.fontRendererObj.drawStringWithShadow(s4, (float) (width / 2 - j5 / 2), (float) k1, -1);
                 k1 += mc.fontRendererObj.FONT_HEIGHT;

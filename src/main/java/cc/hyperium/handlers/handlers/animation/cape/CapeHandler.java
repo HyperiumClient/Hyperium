@@ -47,7 +47,6 @@ public class CapeHandler {
     }
 
     public void loadStaticCape(final UUID uuid, String url) {
-        System.out.println("loading cape");
         if (capes.get(uuid) != null && !capes.get(uuid).equals(NullCape.INSTANCE))
             return;
         capes.put(uuid, NullCape.INSTANCE);
