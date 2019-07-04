@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 
 public class BlockOverlaySettings {
     private File configFile;
-    private BlockOverlayMode overlayMode = BlockOverlayMode.OUTLINE;
+    private BlockOverlayMode overlayMode = BlockOverlayMode.DEFAULT;
     private boolean alwaysRender = true;
     private boolean isChroma = false;
     private float lineWidth = 1.0f;
