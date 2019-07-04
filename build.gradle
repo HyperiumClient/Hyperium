@@ -87,8 +87,6 @@ dependencies {
     embed 'com.github.FalseHonesty:reflections:855f40b80b'
     embed 'com.github.ben-manes.caffeine:caffeine:2.6.2'
 
-    embed group: 'com.google.guava', name: 'guava', version: '17.0'
-    embed group: 'com.google.code.gson', name: 'gson', version: '2.8.2'
 
     embed ('org.slick2d:slick2d-core:1.0.2') {
         exclude module: 'lwjgl'

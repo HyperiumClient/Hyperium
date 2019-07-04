@@ -33,6 +33,7 @@ import cc.hyperium.handlers.HyperiumHandlers;
 import cc.hyperium.handlers.handlers.purchase.ChargebackStopper;
 import cc.hyperium.handlers.handlers.stats.PlayerStatsGui;
 import cc.hyperium.integrations.watchdog.ThankWatchdog;
+import cc.hyperium.internal.MemoryHelper;
 import cc.hyperium.mixinsimp.client.resources.HyperiumLocale;
 import cc.hyperium.mixinsimp.renderer.FontFixValues;
 import cc.hyperium.mods.HyperiumModIntegration;
@@ -178,6 +179,7 @@ public class Hyperium {
             EventBus.INSTANCE.register(confirmation);
             EventBus.INSTANCE.register(new BlurHandler());
             EventBus.INSTANCE.register(new ThankWatchdog());
+            EventBus.INSTANCE.register(new MemoryHelper());
 
             // Register statistics tracking.
             EventBus.INSTANCE.register(statTrack);
@@ -310,6 +312,7 @@ public class Hyperium {
      * Called when Hyperium shuts down
      */
     private void shutdown() {
+        client.close();
         CONFIG.save();
         richPresenceManager.shutdown();
         if (Settings.PERSISTENT_CHAT) {
@@ -350,55 +353,42 @@ public class Hyperium {
     public GeneralStatisticsTracking getStatTrack() {
         return this.statTrack;
     }
-
     public HyperiumHandlers getHandlers() {
         return handlers;
     }
-
     public HyperiumModIntegration getModIntegration() {
         return modIntegration;
     }
-
     public NotificationCenter getNotification() {
         return notification;
     }
-
     public ConfirmationPopup getConfirmation() {
         return confirmation;
     }
-
     public HyperiumCosmetics getCosmetics() {
         return cosmetics;
     }
-
     public InternalAddons getInternalAddons() {
         return internalAddons;
     }
-
     public NetworkHandler getNetworkHandler() {
         return networkHandler;
     }
-
     public MinigameListener getMinigameListener() {
         return minigameListener;
     }
-
     public HyperiumScheduler getScheduler() {
         return scheduler;
     }
-
     public boolean isAcceptedTos() {
         return acceptedTos;
     }
-
     public boolean isFirstLaunch() {
         return firstLaunch;
     }
-
     public boolean isOptifineInstalled() {
         return optifineInstalled;
     }
-
     public boolean isDevEnv() {
         return this.isDevEnv;
     }

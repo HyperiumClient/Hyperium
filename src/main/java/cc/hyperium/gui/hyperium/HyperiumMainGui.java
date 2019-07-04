@@ -52,7 +52,6 @@ public class HyperiumMainGui extends HyperiumGui {
     private List<RGBFieldSet> rgbFields = new ArrayList<>();
     private Alert currentAlert;
     private MaterialTextField searchField;
-
     private Queue<Alert> alerts = new ArrayDeque<>();
 
     public HyperiumMainGui() {
