@@ -42,6 +42,7 @@ public abstract class MixinThreadDownloadImageData extends SimpleTexture {
 
             try {
                 connection = (HttpURLConnection) (new URL(imageUrl)).openConnection(Minecraft.getMinecraft().getProxy());
+                connection.setRequestProperty("User-Agent", "Hyperium Client");
                 connection.setDoInput(true);
                 connection.setDoOutput(true);
                 connection.connect();
