@@ -1,28 +1,29 @@
 package cc.hyperium.mods.levelhead.display;
 
+import cc.hyperium.config.ConfigOpt;
 import cc.hyperium.utils.ChatColor;
 
 public class DisplayConfig {
 
-    private boolean enabled = true;
-    private boolean showSelf = true;
+    @ConfigOpt private boolean enabled = true;
+    @ConfigOpt private boolean showSelf = true;
 
-    private String type = "LEVEL";
+    @ConfigOpt private String type = "LEVEL";
 
-    private boolean headerChroma = false;
-    private boolean headerRgb = false;
-    private int headerRed = 255;
-    private int headerGreen = 255;
-    private int headerBlue = 255;
-    private String headerColor = ChatColor.AQUA.toString();
-    private String customHeader = "Level";
+    @ConfigOpt private boolean headerChroma = false;
+    @ConfigOpt private boolean headerRgb = false;
+    @ConfigOpt private int headerRed = 255;
+    @ConfigOpt private int headerGreen = 255;
+    @ConfigOpt private int headerBlue = 255;
+    @ConfigOpt private String headerColor = ChatColor.AQUA.toString();
+    @ConfigOpt private String customHeader = "Level";
 
-    private boolean footerChroma = false;
-    private boolean footerRgb = false;
-    private int footerRed = 255;
-    private int footerGreen = 255;
-    private int footerBlue = 255;
-    private String footerColor = ChatColor.YELLOW.toString();
+    @ConfigOpt private boolean footerChroma = false;
+    @ConfigOpt private boolean footerRgb = false;
+    @ConfigOpt private int footerRed = 255;
+    @ConfigOpt private int footerGreen = 255;
+    @ConfigOpt private int footerBlue = 255;
+    @ConfigOpt private String footerColor = ChatColor.YELLOW.toString();
 
     public boolean isEnabled() {
         return enabled;
@@ -42,7 +43,6 @@ public class DisplayConfig {
     public void setType(String type) {
         this.type = type;
     }
-
     public boolean isHeaderChroma() {
         return headerChroma;
     }
@@ -88,7 +88,6 @@ public class DisplayConfig {
     public void setCustomHeader(String customHeader) {
         this.customHeader = customHeader;
     }
-
     public boolean isFooterChroma() {
         return footerChroma;
     }

@@ -64,6 +64,7 @@ public class Levelhead extends AbstractMod {
         instance = this;
         MasterConfig config = new MasterConfig();
         Hyperium.CONFIG.register(config);
+        Hyperium.CONFIG.register(new DisplayConfig());
 
         displayManager = new DisplayManager(new LevelheadJsonHolder(), new File(Hyperium.folder, "levelhead.json"));
 
