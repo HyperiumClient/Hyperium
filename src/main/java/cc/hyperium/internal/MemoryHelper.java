@@ -51,7 +51,7 @@ public class MemoryHelper {
         }
 
         removes.forEach(this::deleteSkin);
-        locations.forEach(this::deleteSkin);
+//        locations.forEach(this::deleteSkin);
         Hyperium.LOGGER.info("Deleted " + (removes.size() + locations.size()) + " cosmetic items / skins");
         locations.clear();
     }

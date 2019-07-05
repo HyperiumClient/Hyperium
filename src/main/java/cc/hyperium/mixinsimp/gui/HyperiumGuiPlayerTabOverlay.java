@@ -120,7 +120,14 @@ public class HyperiumGuiPlayerTabOverlay {
         int j = 0;
 
         for (NetworkPlayerInfo networkplayerinfo : list) {
-            int k = mc.fontRendererObj.getStringWidth(parent.getPlayerName(networkplayerinfo)) + LevelheadGui.getLevelheadWidth(networkplayerinfo);
+            int k = mc.fontRendererObj.getStringWidth(parent.getPlayerName(networkplayerinfo));
+
+            if (Settings.SHOW_ONLINE_PLAYERS) {
+                k += LevelheadGui.getLevelheadWidth(networkplayerinfo) + mc.fontRendererObj.getStringWidth("⚫");
+            } else {
+                k += LevelheadGui.getLevelheadWidth(networkplayerinfo);
+            }
+
             i = Math.max(i, k);
 
             if (scoreObjectiveIn != null && scoreObjectiveIn.getRenderType() != IScoreObjectiveCriteria.EnumRenderType.HEARTS) {
