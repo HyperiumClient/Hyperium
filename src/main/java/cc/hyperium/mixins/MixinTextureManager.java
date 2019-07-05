@@ -28,10 +28,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(TextureManager.class)
 public abstract class MixinTextureManager {
 
-    /**
-     * @author Sk1er and Mojang
-     * @reason Add lock on cape loading to prevent concurrent modification exception in texture manager
-     */
     @Inject(method = "onResourceManagerReload", at = @At("HEAD"))
     private void lockCape(IResourceManager resourceManager, CallbackInfo ci) {
         CapeHandler.LOCK.lock();
