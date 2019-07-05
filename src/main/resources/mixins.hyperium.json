@@ -13,6 +13,7 @@
     "MixinScreenShotHelper",
     "MixinSoundManager",
     "MixinTextureManager",
+    "gui.MixinLoadingScreenRenderer",
     "client.MixinClientBrand",
     "client.MixinGameSettings",
     "client.multiplayer.MixinServerList",
