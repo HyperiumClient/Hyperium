@@ -25,6 +25,7 @@
     "client.resources.MixinAbstractResourcePack",
     "client.resources.MixinLocale",
     "client.network.IMixinNetworkPlayerInfo",
+    "client.particle.MixinEffectRenderer",
     "client.renderer.entity.IMixinRenderManager",
     "client.renderer.IMixinTextureManager",
     "client.renderer.IMixinThreadDownloadImageData",
