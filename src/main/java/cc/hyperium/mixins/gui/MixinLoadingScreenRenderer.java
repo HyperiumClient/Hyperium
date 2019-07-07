@@ -1,6 +1,5 @@
 package cc.hyperium.mixins.gui;
 
-import cc.hyperium.mixinsimp.client.GlStateModifier;
 import net.minecraft.client.LoadingScreenRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -13,6 +12,7 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.shader.Framebuffer;
 import net.minecraft.util.IProgressUpdate;
 import net.minecraft.util.ResourceLocation;
+import org.lwjgl.opengl.GL11;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
@@ -22,32 +22,26 @@ import java.awt.*;
 @Mixin(LoadingScreenRenderer.class)
 public abstract class MixinLoadingScreenRenderer implements IProgressUpdate {
 
-    @Shadow
-    private String message;
-    @Shadow
-    private Minecraft mc;
-    @Shadow
-    private String currentlyDisplayedText;
-    @Shadow
-    private long systemTime;
-    @Shadow
-    private ScaledResolution scaledResolution;
-    @Shadow
-    private Framebuffer framebuffer;
+    @Shadow private String message;
+    @Shadow private Minecraft mc;
+    @Shadow private String currentlyDisplayedText;
+    @Shadow private long systemTime;
+    @Shadow private ScaledResolution scaledResolution;
+    @Shadow private Framebuffer framebuffer;
 
     /**
      * @author intellij please just leave me alone
      */
     @Overwrite
     public void setLoadingProgress(int progress) {
-        long i = Minecraft.getSystemTime();
+        long nanoTime = Minecraft.getSystemTime();
 
-        if (i - this.systemTime >= 100L) {
-            this.systemTime = i;
+        if (nanoTime - this.systemTime >= 100L) {
+            this.systemTime = nanoTime;
             ScaledResolution scaledresolution = new ScaledResolution(this.mc);
-            int j = scaledresolution.getScaleFactor();
-            int k = scaledresolution.getScaledWidth();
-            int l = scaledresolution.getScaledHeight();
+            int scaleFactor = scaledresolution.getScaleFactor();
+            int scaledWidth = scaledresolution.getScaledWidth();
+            int scaledHeight = scaledresolution.getScaledHeight();
 
             if (OpenGlHelper.isFramebufferEnabled()) {
                 this.framebuffer.framebufferClear();
@@ -73,9 +67,6 @@ public abstract class MixinLoadingScreenRenderer implements IProgressUpdate {
 
             Gui.drawModalRectWithCustomSizedTexture(0, 0, 0.0f, 0.0f, scaledResolution.getScaledWidth(), scaledResolution.getScaledHeight(), scaledResolution.getScaledWidth(), scaledResolution.getScaledHeight());
 
-            System.out.println("Text: " + this.currentlyDisplayedText);
-            System.out.println("Message: " + this.message);
-
             if (this.currentlyDisplayedText.equals("Loading world")) {
                 if (this.message.isEmpty()) {
                     progress = 33;
@@ -91,20 +82,19 @@ public abstract class MixinLoadingScreenRenderer implements IProgressUpdate {
             }
 
             if (progress >= 0) {
-                int i1 = 100;
-                int j1 = 2;
-                int k1 = k / 2 - i1 / 2;
-                int l1 = scaledResolution.getScaledHeight() - 15;
+                int maxProgress = 100;
+                int barTop = 2;
+                int barHeight = scaledResolution.getScaledHeight() - 15;
                 GlStateManager.disableTexture2D();
                 worldrenderer.begin(7, DefaultVertexFormats.POSITION_COLOR);
-                worldrenderer.pos((double) i1, (double) l1, 0.0D).color(128, 128, 128, 255).endVertex();
-                worldrenderer.pos((double) i1, (double) (l1 + j1), 0.0D).color(128, 128, 128, 255).endVertex();
-                worldrenderer.pos((double) (i1 + i1), (double) (l1 + j1), 0.0D).color(128, 128, 128, 255).endVertex();
-                worldrenderer.pos((double) (i1 + i1), (double) l1, 0.0D).color(128, 128, 128, 255).endVertex();
-                worldrenderer.pos((double) i1, (double) l1, 0.0D).color(128, 255, 128, 255).endVertex();
-                worldrenderer.pos((double) i1, (double) (l1 + j1), 0.0D).color(128, 255, 128, 255).endVertex();
-                worldrenderer.pos((double) (i1 + progress), (double) (l1 + j1), 0.0D).color(128, 255, 128, 255).endVertex();
-                worldrenderer.pos((double) (i1 + progress), (double) l1, 0.0D).color(128, 255, 128, 255).endVertex();
+                worldrenderer.pos((double) maxProgress, (double) barHeight, 0.0D).color(128, 128, 128, 255).endVertex();
+                worldrenderer.pos((double) maxProgress, (double) (barHeight + barTop), 0.0D).color(128, 128, 128, 255).endVertex();
+                worldrenderer.pos((double) (maxProgress + maxProgress), (double) (barHeight + barTop), 0.0D).color(128, 128, 128, 255).endVertex();
+                worldrenderer.pos((double) (maxProgress + maxProgress), (double) barHeight, 0.0D).color(128, 128, 128, 255).endVertex();
+                worldrenderer.pos((double) maxProgress, (double) barHeight, 0.0D).color(128, 255, 128, 255).endVertex();
+                worldrenderer.pos((double) maxProgress, (double) (barHeight + barTop), 0.0D).color(128, 255, 128, 255).endVertex();
+                worldrenderer.pos((double) (maxProgress + progress), (double) (barHeight + barTop), 0.0D).color(128, 255, 128, 255).endVertex();
+                worldrenderer.pos((double) (maxProgress + progress), (double) barHeight, 0.0D).color(128, 255, 128, 255).endVertex();
                 tessellator.draw();
                 GlStateManager.enableAlpha();
                 GlStateManager.enableBlend();
@@ -115,13 +105,14 @@ public abstract class MixinLoadingScreenRenderer implements IProgressUpdate {
             }
 
             GlStateManager.enableBlend();
-            GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
-            this.mc.fontRendererObj.drawString(this.currentlyDisplayedText, 5, scaledResolution.getScaledHeight() - 30, 16777215);
-            this.mc.fontRendererObj.drawString(this.message, 5, scaledResolution.getScaledHeight() - 15, 16777215);
+            GlStateManager.tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, 1, 0);
+            int white = 16777215;
+            this.mc.fontRendererObj.drawString(this.currentlyDisplayedText, 5, scaledResolution.getScaledHeight() - 30, white);
+            this.mc.fontRendererObj.drawString(this.message, 5, scaledResolution.getScaledHeight() - 15, white);
             this.framebuffer.unbindFramebuffer();
 
             if (OpenGlHelper.isFramebufferEnabled()) {
-                this.framebuffer.framebufferRender(k * j, l * j);
+                this.framebuffer.framebufferRender(scaledWidth * scaleFactor, scaledHeight * scaleFactor);
             }
 
             this.mc.updateDisplay();
