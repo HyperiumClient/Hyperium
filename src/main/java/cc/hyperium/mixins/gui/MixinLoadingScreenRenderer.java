@@ -16,6 +16,7 @@ import net.minecraft.util.ResourceLocation;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
+
 import java.awt.*;
 
 @Mixin(LoadingScreenRenderer.class)
@@ -33,8 +34,6 @@ public abstract class MixinLoadingScreenRenderer implements IProgressUpdate {
     private ScaledResolution scaledResolution;
     @Shadow
     private Framebuffer framebuffer;
-
-    private static boolean first = true;
 
     /**
      * @author intellij please just leave me alone
@@ -74,11 +73,21 @@ public abstract class MixinLoadingScreenRenderer implements IProgressUpdate {
 
             Gui.drawModalRectWithCustomSizedTexture(0, 0, 0.0f, 0.0f, scaledResolution.getScaledWidth(), scaledResolution.getScaledHeight(), scaledResolution.getScaledWidth(), scaledResolution.getScaledHeight());
 
-            if(progress == -1 && first) {
-                progress = 2;
-                first = false;
+            System.out.println("Text: " + this.currentlyDisplayedText);
+            System.out.println("Message: " + this.message);
+
+            if (this.currentlyDisplayedText.equals("Loading world")) {
+                if (this.message.isEmpty()) {
+                    progress = 33;
+                } else if (this.message.equals("Converting world")) {
+                    progress = 66;
+                } else if (this.message.equals("Building terrain")) {
+                    progress = 90;
+                } else {
+                    progress = 100;
+                }
             } else {
-                progress = 10;
+                progress = -1;
             }
 
             if (progress >= 0) {
@@ -86,7 +95,7 @@ public abstract class MixinLoadingScreenRenderer implements IProgressUpdate {
                 int j1 = 2;
                 int k1 = k / 2 - i1 / 2;
                 int l1 = scaledResolution.getScaledHeight() - 15;
-                GlStateManager.disableTexture2D();;
+                GlStateManager.disableTexture2D();
                 worldrenderer.begin(7, DefaultVertexFormats.POSITION_COLOR);
                 worldrenderer.pos((double) i1, (double) l1, 0.0D).color(128, 128, 128, 255).endVertex();
                 worldrenderer.pos((double) i1, (double) (l1 + j1), 0.0D).color(128, 128, 128, 255).endVertex();
@@ -97,6 +106,11 @@ public abstract class MixinLoadingScreenRenderer implements IProgressUpdate {
                 worldrenderer.pos((double) (i1 + progress), (double) (l1 + j1), 0.0D).color(128, 255, 128, 255).endVertex();
                 worldrenderer.pos((double) (i1 + progress), (double) l1, 0.0D).color(128, 255, 128, 255).endVertex();
                 tessellator.draw();
+                GlStateManager.enableAlpha();
+                GlStateManager.enableBlend();
+                Gui.drawRect(0, scaledResolution.getScaledHeight() - 35, scaledResolution.getScaledWidth(), scaledResolution.getScaledHeight(), new Color(0, 0, 0, 50).getRGB());
+                GlStateManager.disableAlpha();
+                GlStateManager.disableBlend();
                 GlStateManager.enableTexture2D();
             }
 
