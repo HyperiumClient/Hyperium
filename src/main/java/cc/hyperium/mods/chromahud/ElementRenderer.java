@@ -213,15 +213,8 @@ public class ElementRenderer {
 
     @InvokeEvent
     public void tick(TickEvent event) {
-        for (DisplayElement displayElement : mod.getDisplayElements()) {
-            for (DisplayItem displayItem : displayElement.getDisplayItems()) {
-                if (displayItem.getType().equalsIgnoreCase("C_COUNTER") && displayItem.getType() != null) {
-                    if (minecraft.inGameHasFocus && minecraft.theWorld != null) {
-                        cValue = minecraft.renderGlobal.getDebugInfoRenders().split("/")[0].trim();
-                        return;
-                    }
-                }
-            }
+        if (Minecraft.getMinecraft().inGameHasFocus) {
+            cValue = Minecraft.getMinecraft().renderGlobal.getDebugInfoRenders().split("/")[0].trim();
         }
     }
 
