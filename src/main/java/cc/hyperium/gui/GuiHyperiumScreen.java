@@ -109,7 +109,7 @@ public class GuiHyperiumScreen extends GuiScreen {
     public void renderHyperiumBackground(ScaledResolution resolution) {
         GlStateManager.disableDepth();
         GlStateManager.depthMask(false);
-        GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
+        GlStateManager.tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, 1, 0);
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         GlStateManager.disableAlpha();
         if (customImage.exists() && bgDynamicTexture != null && customBackground) {

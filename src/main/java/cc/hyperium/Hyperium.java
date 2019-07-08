@@ -271,7 +271,10 @@ public class Hyperium {
                 optifineInstalled = false;
             }
 
-            ((IMixinMinecraft) Minecraft.getMinecraft()).setEnableGLErrorChecking(false); // not useful checking for gl errors as they're never informational & dont provide context
+            if (Settings.GL_ERROR_CHECKING) {
+                ((IMixinMinecraft) Minecraft.getMinecraft()).setEnableGLErrorChecking(false);
+            }
+
         } catch (Throwable t) {
             Minecraft.getMinecraft().crashed(new CrashReport("Hyperium Startup Failure", t));
         }

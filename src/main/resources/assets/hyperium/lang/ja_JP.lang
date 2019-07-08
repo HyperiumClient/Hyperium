@@ -208,6 +208,7 @@ gui.settings.disableitemframes=Disable Item Frames
 gui.settings.confirmdisconnect=Confirm Disconnect
 gui.settings.confirmquit=Confirm Quit
 gui.settings.hotbarkeys=Hotbar Keys
+gui.settings.disableglerrorchecking=Disable GL Error Checking
 
 # Hyperium Splash Progress
 splashprogress.startinggame=Starting Game...
@@ -236,4 +237,3 @@ message.alreadypurchased=Already purchased %s
 message.invalidparticle=Invalid current particle type
 message.invalidanimation=Invalid animation type
 message.purchase=Purchase %s
-

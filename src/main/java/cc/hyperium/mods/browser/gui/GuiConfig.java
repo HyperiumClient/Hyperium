@@ -96,8 +96,8 @@ public class GuiConfig extends GuiScreen {
     }
 
     public void drawScreen(final int i1, final int i2, final float f) {
-        GL11.glDisable(2929);
-        GL11.glEnable(3553);
+        GL11.glDisable(GL11.GL_DEPTH_TEST);
+        GL11.glEnable(GL11.GL_TEXTURE_2D);
         this.browser.draw(this.unscaleX(x), this.unscaleY(height + y), this.unscaleX(width + x), this.unscaleY(y));
         if (drawSquare) {
             final Tessellator t = Tessellator.getInstance();
@@ -109,7 +109,7 @@ public class GuiConfig extends GuiScreen {
             wr.pos(this.unscaleX(x + width), this.unscaleY(y + height + 10), 0.0).color(255, 255, 255, 255).endVertex();
             t.draw();
         }
-        GL11.glEnable(2929);
+        GL11.glEnable(GL11.GL_DEPTH_TEST);
     }
 
 

@@ -6,18 +6,18 @@
 
 package org.cef.browser;
 
-import java.awt.Rectangle;
-import java.nio.ByteBuffer;
-import java.util.ArrayList;
-
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
-
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.montoyo.mcef.MCEF;
 import net.montoyo.mcef.utilities.Log;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
+
+import java.awt.*;
+import java.nio.ByteBuffer;
+import java.util.ArrayList;
 
 
 public class CefRenderer {
@@ -57,16 +57,16 @@ public class CefRenderer {
             CefRenderer.GL_TEXTURES.add(this.texture_id_[0]);
         }
         GlStateManager.bindTexture(this.texture_id_[0]);
-        GL11.glTexParameteri(3553, 10241, 9729);
-        GL11.glTexParameteri(3553, 10240, 9729);
-        GL11.glTexEnvf(8960, 8704, 8448.0f);
+        GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR);
+        GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_LINEAR);
+        GL11.glTexEnvf(GL11.GL_TEXTURE_ENV, GL11.GL_TEXTURE_ENV_MODE, GL11.GL_MODULATE);
         GlStateManager.bindTexture(0);
     }
 
     protected void cleanup() {
         if (this.texture_id_[0] != 0) {
             if (MCEF.CHECK_VRAM_LEAK) {
-                CefRenderer.GL_TEXTURES.remove((Object)this.texture_id_[0]);
+                CefRenderer.GL_TEXTURES.remove((Object) this.texture_id_[0]);
             }
             GL11.glDeleteTextures(this.texture_id_[0]);
         }
@@ -134,32 +134,29 @@ public class CefRenderer {
         }
         GlStateManager.enableTexture2D();
         GlStateManager.bindTexture(this.texture_id_[0]);
-        final int oldAlignement = GL11.glGetInteger(3317);
-        GL11.glPixelStorei(3317, 1);
+        final int oldAlignement = GL11.glGetInteger(GL11.GL_UNPACK_ALIGNMENT);
+        GL11.glPixelStorei(GL11.GL_UNPACK_ALIGNMENT, 1);
         if (!popup) {
             if (completeReRender || width != this.view_width_ || height != this.view_height_) {
                 this.view_width_ = width;
                 this.view_height_ = height;
-                GL11.glTexImage2D(3553, 0, 6408, this.view_width_, this.view_height_, 0, 32993, 5121, buffer);
-            }
-            else {
-                GL11.glPixelStorei(3314, this.view_width_);
+                GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, 6408, this.view_width_, this.view_height_, 0, GL12.GL_BGRA, GL11.GL_UNSIGNED_BYTE, buffer);
+            } else {
+                GL11.glPixelStorei(GL11.GL_UNPACK_ROW_LENGTH, this.view_width_);
                 for (final Rectangle rect : dirtyRects) {
                     if (rect.x < 0 || rect.y < 0 || rect.x + rect.width > this.view_width_ || rect.y + rect.height > this.view_height_) {
                         Log.warning("Bad data passed to CefRenderer.onPaint() triggered safe guards... (2)");
-                    }
-                    else {
-                        GL11.glPixelStorei(3316, rect.x);
-                        GL11.glPixelStorei(3315, rect.y);
-                        GL11.glTexSubImage2D(3553, 0, rect.x, rect.y, rect.width, rect.height, 32993, 5121, buffer);
+                    } else {
+                        GL11.glPixelStorei(GL11.GL_UNPACK_SKIP_PIXELS, rect.x);
+                        GL11.glPixelStorei(GL11.GL_UNPACK_SKIP_ROWS, rect.y);
+                        GL11.glTexSubImage2D(GL11.GL_TEXTURE_2D, 0, rect.x, rect.y, rect.width, rect.height, GL12.GL_BGRA, GL11.GL_UNSIGNED_BYTE, buffer);
                     }
                 }
-                GL11.glPixelStorei(3316, 0);
-                GL11.glPixelStorei(3315, 0);
-                GL11.glPixelStorei(3314, 0);
+                GL11.glPixelStorei(GL11.GL_UNPACK_SKIP_PIXELS, 0);
+                GL11.glPixelStorei(GL11.GL_UNPACK_SKIP_ROWS, 0);
+                GL11.glPixelStorei(GL11.GL_UNPACK_ROW_LENGTH, 0);
             }
-        }
-        else if (this.popup_rect_.width > 0 && this.popup_rect_.height > 0) {
+        } else if (this.popup_rect_.width > 0 && this.popup_rect_.height > 0) {
             int skip_pixels = 0;
             int x = this.popup_rect_.x;
             int skip_rows = 0;
@@ -180,15 +177,15 @@ public class CefRenderer {
             if (y + h > this.view_height_) {
                 h -= y + h - this.view_height_;
             }
-            GL11.glPixelStorei(3314, width);
-            GL11.glPixelStorei(3316, skip_pixels);
-            GL11.glPixelStorei(3315, skip_rows);
-            GL11.glTexSubImage2D(3553, 0, x, y, w, h, 32993, 5121, buffer);
-            GL11.glPixelStorei(3314, 0);
-            GL11.glPixelStorei(3316, 0);
-            GL11.glPixelStorei(3315, 0);
+            GL11.glPixelStorei(GL11.GL_UNPACK_ROW_LENGTH, width);
+            GL11.glPixelStorei(GL11.GL_UNPACK_SKIP_PIXELS, skip_pixels);
+            GL11.glPixelStorei(GL11.GL_UNPACK_SKIP_ROWS, skip_rows);
+            GL11.glTexSubImage2D(GL11.GL_TEXTURE_2D, 0, x, y, w, h, GL12.GL_BGRA, GL11.GL_UNSIGNED_BYTE, buffer);
+            GL11.glPixelStorei(GL11.GL_UNPACK_ROW_LENGTH, 0);
+            GL11.glPixelStorei(GL11.GL_UNPACK_SKIP_PIXELS, 0);
+            GL11.glPixelStorei(GL11.GL_UNPACK_SKIP_ROWS, 0);
         }
-        GL11.glPixelStorei(3317, oldAlignement);
+        GL11.glPixelStorei(GL11.GL_UNPACK_ALIGNMENT, oldAlignement);
         GlStateManager.bindTexture(0);
     }
 
@@ -201,7 +198,7 @@ public class CefRenderer {
     }
 
     static {
-        GL_TEXTURES = new ArrayList<Integer>();
+        GL_TEXTURES = new ArrayList<>();
     }
 
 }

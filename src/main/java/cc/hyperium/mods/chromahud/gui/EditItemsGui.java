@@ -115,10 +115,7 @@ public class EditItemsGui extends GuiScreen {
             if (guiButtonConsumer != null) {
                 guiButtonConsumer.accept(guiButton);
             }
-
         }
-
-
     }
 
     @Override

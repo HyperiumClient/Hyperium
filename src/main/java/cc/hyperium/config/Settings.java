@@ -510,6 +510,10 @@ public class Settings {
     @ToggleSetting(name = "gui.settings.confirmquit", category = MISC)
     public static boolean CONFIRM_QUIT = false;
 
+    @ConfigOpt
+    @ToggleSetting(name = "gui.settings.disableglerrorchecking", category = IMPROVEMENTS)
+    public static boolean GL_ERROR_CHECKING = true;
+
     public static void register() {
         Hyperium.CONFIG.register(INSTANCE);
     }

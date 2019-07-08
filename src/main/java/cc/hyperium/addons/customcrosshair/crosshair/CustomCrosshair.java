@@ -107,12 +107,12 @@ public class CustomCrosshair {
                 return;
             }
             if (this.mc.gameSettings.hideGUI) {
-                GlStateManager.clear(256);
-                GlStateManager.matrixMode(5889);
+                GlStateManager.clear(GL11.GL_ACCUM);
+                GlStateManager.matrixMode(GL11.GL_PROJECTION);
                 GlStateManager.loadIdentity();
                 GlStateManager.ortho(0.0, ResolutionUtil.current().getScaledWidth_double(),
                     ResolutionUtil.current().getScaledHeight_double(), 0.0, 1000.0, 3000.0);
-                GlStateManager.matrixMode(5888);
+                GlStateManager.matrixMode(GL11.GL_MODELVIEW);
                 GlStateManager.loadIdentity();
                 GlStateManager.translate(0.0f, 0.0f, -2000.0f);
             }
@@ -275,8 +275,8 @@ public class CustomCrosshair {
 
     private void drawXCrosshair(int screenWidth, int screenHeight, int renderGap,
                                 Color renderColour) {
-        GL11.glDisable(2848);
-        GL11.glDisable(2832);
+        GL11.glDisable(GL11.GL_LINE_SMOOTH);
+        GL11.glDisable(GL11.GL_POINT_SMOOTH);
         GlStateManager.disableAlpha();
         GlStateManager.disableBlend();
         if (this.getOutline()) {
@@ -323,8 +323,8 @@ public class CustomCrosshair {
 
     private void drawArrowCrosshair(int screenWidth, int screenHeight, int renderGap,
                                     Color renderColour) {
-        GL11.glDisable(2848);
-        GL11.glDisable(2832);
+        GL11.glDisable(GL11.GL_LINE_SMOOTH);
+        GL11.glDisable(GL11.GL_POINT_SMOOTH);
         GlStateManager.disableAlpha();
         GlStateManager.disableBlend();
         if (this.getOutline()) {
@@ -423,27 +423,9 @@ public class CustomCrosshair {
         }
     }
 
-    public String getCrosshairTypeString() {
-        switch (this.getCrosshairType()) {
-            case CIRCLE: {
-                return "CIRCLE";
-            }
-            case SQUARE: {
-                return "SQUARE";
-            }
-            case ARROW: {
-                return "ARROW";
-            }
-            default: {
-                return "CROSS";
-            }
-        }
-    }
-
     public void setCrosshairType(CrosshairType crosshairType) {
         this.crosshairType = crosshairType;
     }
-
     public boolean getEnabled() {
         return this.enabled;
     }
@@ -456,123 +438,93 @@ public class CustomCrosshair {
     public boolean getVisibleHiddenGui() {
         return this.visibleHiddenGui;
     }
-
     public void setVisibleHiddenGui(boolean visible) {
         this.visibleHiddenGui = visible;
     }
-
     public boolean getVisibleDefault() {
         return this.visibleDefault;
     }
-
     public void setVisibleDefault(boolean visible) {
         this.visibleDefault = visible;
     }
-
     public boolean getVisibleDebug() {
         return this.visibleDebug;
     }
-
     public void setVisibleDebug(boolean visible) {
         this.visibleDebug = visible;
     }
-
     public boolean getVisibleSpectator() {
         return this.visibleSpectator;
     }
-
     public void setVisibleSpectator(boolean visible) {
         this.visibleSpectator = visible;
     }
-
     public boolean getVisibleThirdPerson() {
         return this.visibleThirdPerson;
     }
-
     public void setVisibleThirdPerson(boolean visible) {
         this.visibleThirdPerson = visible;
     }
-
     public boolean getOutline() {
         return this.outline;
     }
-
     public void setOutline(boolean outline) {
         this.outline = outline;
     }
-
     public Color getOutlineColour() {
         return this.colourOutline;
     }
-
     public void setOutlineColour(Color colour) {
         this.colourOutline = colour;
     }
-
     public boolean getDot() {
         return this.dot;
     }
-
     public void setDot(boolean dot) {
         this.dot = dot;
     }
-
     public Color getDotColour() {
         return this.colourDot;
     }
-
     public void setDotColour(Color colour) {
         this.colourDot = colour;
     }
-
     public Color getColour() {
         return this.colour;
     }
-
     public void setColour(Color colour) {
         this.colour = colour;
     }
-
     public int getWidth() {
         return this.width;
     }
-
     public void setWidth(int width) {
         this.width = width;
     }
-
     public int getHeight() {
         return this.height;
     }
-
     public void setHeight(int height) {
         this.height = height;
     }
-
     public int getGap() {
         return this.gap;
     }
-
     public void setGap(int gap) {
         this.gap = gap;
     }
-
     public int getThickness() {
         return this.thickness;
     }
-
     public void setThickness(int thickness) {
         this.thickness = thickness;
     }
-
     public boolean getDynamicBow() {
         return this.dynamicBow;
     }
-
     public void setDynamicBow(boolean dynamicBow) {
         this.dynamicBow = dynamicBow;
     }
-
     public boolean getRainbowCrosshair() {
         return this.rainbowCrosshair;
     }

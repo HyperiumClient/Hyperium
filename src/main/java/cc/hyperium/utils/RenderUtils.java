@@ -34,10 +34,10 @@ public class RenderUtils {
         float f3 = (col >> 8 & 0xFF) / 255.0F;
         float f4 = (col & 0xFF) / 255.0F;
         GL11.glPushMatrix();
-        GL11.glEnable(3042);
-        GL11.glDisable(3553);
-        GL11.glBlendFunc(770, 771);
-        GL11.glEnable(2848);
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glDisable(GL11.GL_TEXTURE_2D);
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        GL11.glEnable(GL11.GL_LINE_SMOOTH);
         GL11.glHint(GL11.GL_PERSPECTIVE_CORRECTION_HINT, GL11.GL_NICEST);
         GL11.glBegin(6);
 
@@ -49,9 +49,9 @@ public class RenderUtils {
         }
 
         GL11.glEnd();
-        GL11.glEnable(3553);
-        GL11.glDisable(3042);
-        GL11.glDisable(2848);
+        GL11.glEnable(GL11.GL_TEXTURE_2D);
+        GL11.glDisable(GL11.GL_BLEND);
+        GL11.glDisable(GL11.GL_LINE_SMOOTH);
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         GL11.glPopMatrix();
     }
@@ -62,23 +62,25 @@ public class RenderUtils {
         float f3 = (col >> 8 & 0xFF) / 255.0F;
         float f4 = (col & 0xFF) / 255.0F;
         GL11.glPushMatrix();
-        GL11.glEnable(3042);
-        GL11.glDisable(3553);
-        GL11.glBlendFunc(770, 771);
-        GL11.glEnable(2848);
-        GL11.glShadeModel(7425);
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glDisable(GL11.GL_TEXTURE_2D);
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        GL11.glEnable(GL11.GL_LINE_SMOOTH);
+        GL11.glShadeModel(GL11.GL_SMOOTH);
         GL11.glBegin(2);
+
         for (int i = 0; i < 70; i++) {
             float x = radius * MathHelper.cos((float) (i * 0.08975979010256552D));
             float y = radius * MathHelper.sin((float) (i * 0.08975979010256552D));
             GlStateManager.color(f2, f3, f4, f);
             GL11.glVertex2f(xx + x, yy + y);
         }
+
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         GL11.glEnd();
-        GL11.glEnable(3553);
-        GL11.glDisable(3042);
-        GL11.glDisable(2848);
+        GL11.glEnable(GL11.GL_TEXTURE_2D);
+        GL11.glDisable(GL11.GL_BLEND);
+        GL11.glDisable(GL11.GL_LINE_SMOOTH);
         GL11.glPopMatrix();
     }
 
@@ -96,10 +98,10 @@ public class RenderUtils {
         float f2 = (col1 >> 16 & 0xFF) / 255.0F;
         float f3 = (col1 >> 8 & 0xFF) / 255.0F;
         float f4 = (col1 & 0xFF) / 255.0F;
-        GL11.glEnable(3042);
-        GL11.glDisable(3553);
-        GL11.glBlendFunc(770, 771);
-        GL11.glEnable(2848);
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glDisable(GL11.GL_TEXTURE_2D);
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        GL11.glEnable(GL11.GL_LINE_SMOOTH);
         GL11.glPushMatrix();
         GlStateManager.color(f2, f3, f4, f);
         GL11.glLineWidth(l1);
@@ -114,17 +116,17 @@ public class RenderUtils {
         GL11.glVertex2d(x2, y2);
         GL11.glEnd();
         GL11.glPopMatrix();
-        GL11.glEnable(3553);
-        GL11.glDisable(3042);
-        GL11.glDisable(2848);
+        GL11.glEnable(GL11.GL_TEXTURE_2D);
+        GL11.glDisable(GL11.GL_BLEND);
+        GL11.glDisable(GL11.GL_LINE_SMOOTH);
     }
 
     public static void drawBorderedRect(float x, float y, float x2, float y2, float l1, Color c, Color c2) {
         drawRect(x, y, x2, y2, c2);
-        GL11.glEnable(3042);
-        GL11.glDisable(3553);
-        GL11.glBlendFunc(770, 771);
-        GL11.glEnable(2848);
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glDisable(GL11.GL_TEXTURE_2D);
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        GL11.glEnable(GL11.GL_LINE_SMOOTH);
         GL11.glPushMatrix();
         glColor(c);
         GL11.glLineWidth(l1);
@@ -139,9 +141,9 @@ public class RenderUtils {
         GL11.glVertex2d(x2, y2);
         GL11.glEnd();
         GL11.glPopMatrix();
-        GL11.glEnable(3553);
-        GL11.glDisable(3042);
-        GL11.glDisable(2848);
+        GL11.glEnable(GL11.GL_TEXTURE_2D);
+        GL11.glDisable(GL11.GL_BLEND);
+        GL11.glDisable(GL11.GL_LINE_SMOOTH);
     }
 
     public static void glColor(int hex) {

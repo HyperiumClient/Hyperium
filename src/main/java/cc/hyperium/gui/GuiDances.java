@@ -195,10 +195,10 @@ public class GuiDances extends HyperiumGui {
 
         for (String s : handlers.keySet()) {
             GL11.glPushMatrix();
-            GL11.glEnable(3042);
-            GL11.glDisable(3553);
-            GL11.glBlendFunc(770, 771);
-            GL11.glEnable(2848);
+            GL11.glEnable(GL11.GL_BLEND);
+            GL11.glDisable(GL11.GL_TEXTURE_2D);
+            GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+            GL11.glEnable(GL11.GL_LINE_SMOOTH);
             GL11.glHint(GL11.GL_PERSPECTIVE_CORRECTION_HINT, GL11.GL_NICEST);
             GL11.glBegin(6);
             GlStateManager.resetColor();
@@ -232,9 +232,9 @@ public class GuiDances extends HyperiumGui {
                 GL11.glVertex2f(x, y);
             }
             GL11.glEnd();
-            GL11.glEnable(3553);
-            GL11.glDisable(3042);
-            GL11.glDisable(2848);
+            GL11.glEnable(GL11.GL_TEXTURE_2D);
+            GL11.glDisable(GL11.GL_BLEND);
+            GL11.glDisable(GL11.GL_LINE_SMOOTH);
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
             float middle = (startTheta + endTheta) / 2;
             List<String> strings = fontRendererObj.listFormattedStringToWidth(s, 50);
@@ -265,7 +265,7 @@ public class GuiDances extends HyperiumGui {
         RenderHelper.enableStandardItemLighting();
         GlStateManager.enableAlpha();
 
-        GlStateManager.shadeModel(7424);
+        GlStateManager.shadeModel(GL11.GL_FLAT);
         GlStateManager.enableAlpha();
         GlStateManager.enableDepth();
 
@@ -275,7 +275,7 @@ public class GuiDances extends HyperiumGui {
         GlStateManager.rotate(System.currentTimeMillis() % (int) v / v * 360F, 0, 1.0F, 0);
         GlStateManager.translate(0, 0, -50);
         GuiInventory.drawEntityOnScreen(0, 0, 50, 0, 0, Minecraft.getMinecraft().thePlayer);
-        GlStateManager.depthFunc(515);
+        GlStateManager.depthFunc(GL11.GL_LEQUAL);
         GlStateManager.resetColor();
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         GlStateManager.disableDepth();

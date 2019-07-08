@@ -254,10 +254,10 @@ public class StatisticViewingGui extends HyperiumGui {
         for (int i = 0; i < size; i++) {
             ValueTrackingItem valueTrackingItem = currentDataSet.get(i);
             GlStateManager.pushMatrix();
-            GL11.glEnable(3042);
-            GL11.glDisable(3553);
-            GL11.glBlendFunc(770, 771);
-            GL11.glEnable(2848);
+            GL11.glEnable(GL11.GL_BLEND);
+            GL11.glDisable(GL11.GL_TEXTURE_2D);
+            GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+            GL11.glEnable(GL11.GL_LINE_SMOOTH);
             GL11.glHint(GL11.GL_PERSPECTIVE_CORRECTION_HINT, GL11.GL_NICEST);
 
 
@@ -289,9 +289,9 @@ public class StatisticViewingGui extends HyperiumGui {
             GL11.glVertex2d(x2, yg * 5 - y2);
 
             GL11.glEnd();
-            GL11.glEnable(3553);
-            GL11.glDisable(3042);
-            GL11.glDisable(2848);
+            GL11.glEnable(GL11.GL_TEXTURE_2D);
+            GL11.glDisable(GL11.GL_BLEND);
+            GL11.glDisable(GL11.GL_LINE_SMOOTH);
             GlStateManager.popMatrix();
 
         }
@@ -313,7 +313,7 @@ public class StatisticViewingGui extends HyperiumGui {
                 maxWidth = Math.max(maxWidth, fontRendererObj.getStringWidth(line));
             }
             GlStateManager.translate(0, -lines.size() * 10 - 10, 0);
-            RenderUtils.drawRect(xPos - maxWidth / 2 - 2, yPos - 10 * lines.size() / 2 - 2, xPos + maxWidth / 2 + 2, yPos + 10 * lines.size() / 2 + 2, new Color(0, 0, 0, 100).getRGB());
+            RenderUtils.drawRect(xPos - (maxWidth >> 1) - 2, yPos - (10 * lines.size() >> 1) - 2, xPos + (maxWidth >> 1) + 2, yPos + (10 * lines.size() >> 1) + 2, new Color(0, 0, 0, 100).getRGB());
             int l = 0;
             for (String line : lines) {
                 fontRendererObj.drawString(line, xPos - maxWidth / 2, yPos - 10 * lines.size() / 2 + (l * 10), Color.WHITE.getRGB(), true);
@@ -333,7 +333,4 @@ public class StatisticViewingGui extends HyperiumGui {
         ZERO,
         AVERAGE
     }
-
-
 }
-
