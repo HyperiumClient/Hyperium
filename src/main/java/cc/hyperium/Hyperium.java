@@ -34,6 +34,7 @@ import cc.hyperium.handlers.handlers.purchase.ChargebackStopper;
 import cc.hyperium.handlers.handlers.stats.PlayerStatsGui;
 import cc.hyperium.integrations.watchdog.ThankWatchdog;
 import cc.hyperium.internal.MemoryHelper;
+import cc.hyperium.mixins.IMixinMinecraft;
 import cc.hyperium.mixinsimp.client.resources.HyperiumLocale;
 import cc.hyperium.mods.HyperiumModIntegration;
 import cc.hyperium.mods.autogg.AutoGG;
@@ -49,7 +50,6 @@ import cc.hyperium.network.LoginReplyHandler;
 import cc.hyperium.network.NetworkHandler;
 import cc.hyperium.purchases.PurchaseApi;
 import cc.hyperium.tray.TrayManager;
-import cc.hyperium.utils.HyperiumScheduler;
 import cc.hyperium.utils.StaffUtils;
 import cc.hyperium.utils.UpdateUtils;
 import cc.hyperium.utils.mods.CompactChat;
@@ -105,7 +105,6 @@ public class Hyperium {
     private InternalAddons internalAddons;
     private NetworkHandler networkHandler;
     private boolean firstLaunch = false;
-    private HyperiumScheduler scheduler;
 
     @InvokeEvent
     public void preinit(PreInitializationEvent event) {
@@ -132,7 +131,6 @@ public class Hyperium {
 
             Multithreading.runAsync(() -> new PlayerStatsGui(null)); // Don't remove, we need to generate some stuff with Gl context
             notification = new NotificationCenter();
-            scheduler = new HyperiumScheduler();
             InputStream resourceAsStream = getClass().getResourceAsStream("/build.txt");
             try {
                 if (resourceAsStream != null) {
@@ -272,6 +270,8 @@ public class Hyperium {
             } catch (ClassNotFoundException e) {
                 optifineInstalled = false;
             }
+
+            ((IMixinMinecraft) Minecraft.getMinecraft()).setEnableGLErrorChecking(false); // not useful checking for gl errors as they're never informational & dont provide context
         } catch (Throwable t) {
             Minecraft.getMinecraft().crashed(new CrashReport("Hyperium Startup Failure", t));
         }
@@ -370,9 +370,6 @@ public class Hyperium {
     }
     public MinigameListener getMinigameListener() {
         return minigameListener;
-    }
-    public HyperiumScheduler getScheduler() {
-        return scheduler;
     }
     public boolean isAcceptedTos() {
         return acceptedTos;

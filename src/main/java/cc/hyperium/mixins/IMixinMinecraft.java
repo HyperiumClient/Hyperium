@@ -10,12 +10,9 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 @Mixin(Minecraft.class)
 public interface IMixinMinecraft {
 
-    @Accessor
-    void setDisplayWidth(int width);
+    @Accessor void setDisplayWidth(int width);
+    @Accessor void setDisplayHeight(int height);
+    @Accessor void setCurrentScreen(GuiScreen screen);
+    @Accessor void setEnableGLErrorChecking(boolean enableGLErrorChecking);
 
-    @Accessor
-    void setDisplayHeight(int height);
-
-    @Accessor
-    void setCurrentScreen(GuiScreen screen);
 }

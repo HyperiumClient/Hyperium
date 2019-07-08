@@ -19,7 +19,6 @@ package cc.hyperium.mixins.world;
 
 import cc.hyperium.mixinsimp.world.HyperiumWorld;
 import net.minecraft.util.BlockPos;
-import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
 import net.minecraft.world.storage.WorldInfo;
 import org.spongepowered.asm.mixin.Mixin;
@@ -41,36 +40,10 @@ public abstract class MixinWorld {
      * Invoked once the server changes the players spawn point
      *
      * @param pos the new spawn position
-     * @param ci  {@see org.spongepowered.asm.mixin.injection.callback.CallbackInfo}
      */
     @Inject(method = "setSpawnPoint", at = @At("HEAD"))
     private void setSpawnPoint(BlockPos pos, CallbackInfo ci) {
-        hyperiumWorld.setSpawnPoint(pos, ci);
-    }
-
-    /**
-     * Removes lightupdates
-     *
-     * @param lightType
-     * @param pos
-     * @param ci
-     */
-    @Inject(method = "checkLightFor", at = @At("HEAD"), cancellable = true)
-    private void checkLightFor(EnumSkyBlock lightType, BlockPos pos, CallbackInfoReturnable<Boolean> ci) {
-        hyperiumWorld.checkLightFor(lightType, pos, ci);
-    }
-
-
-    /**
-     * Removes lightupdates
-     *
-     * @param type
-     * @param pos
-     * @param ci
-     */
-    @Inject(method = "getLightFromNeighborsFor", at = @At("HEAD"), cancellable = true)
-    private void getLightFromNeighborsFor(EnumSkyBlock type, BlockPos pos, CallbackInfoReturnable<Integer> ci) {
-        hyperiumWorld.getLightFromNeighborsFor(type, pos, ci);
+        hyperiumWorld.setSpawnPoint(pos);
     }
 
     /**
@@ -82,49 +55,33 @@ public abstract class MixinWorld {
         return hyperiumWorld.getHorizon(worldInfo);
     }
 
-    /**
-     * Removes lightupdates
-     *
-     * @param pos
-     * @param ci
-     */
+    @Inject(method = "checkLightFor", at = @At("HEAD"), cancellable = true)
+    private void checkLightFor(CallbackInfoReturnable<Boolean> ci) {
+        hyperiumWorld.checkLightFor(ci);
+    }
+
+    @Inject(method = "getLightFromNeighborsFor", at = @At("HEAD"), cancellable = true)
+    private void getLightFromNeighborsFor(CallbackInfoReturnable<Integer> ci) {
+        hyperiumWorld.getLightFromNeighborsFor(ci);
+    }
+
     @Inject(method = "getLightFromNeighbors", at = @At("HEAD"), cancellable = true)
-    private void getLightFromNeighbor(BlockPos pos, CallbackInfoReturnable<Integer> ci) {
-        hyperiumWorld.getLightFromNeighbor(pos, ci);
+    private void getLightFromNeighbor(CallbackInfoReturnable<Integer> ci) {
+        hyperiumWorld.getLightFromNeighbor(ci);
     }
 
-    /**
-     * Removes lightupdates
-     *
-     * @param pos
-     * @param lightType
-     * @param ci
-     */
     @Inject(method = "getRawLight", at = @At("HEAD"), cancellable = true)
-    private void getRawLight(BlockPos pos, EnumSkyBlock lightType, CallbackInfoReturnable<Integer> ci) {
-        hyperiumWorld.getRawLight(pos, lightType, ci);
+    private void getRawLight(CallbackInfoReturnable<Integer> ci) {
+        hyperiumWorld.getRawLight(ci);
     }
 
-    /**
-     * Removes lightupdates
-     *
-     * @param pos
-     * @param ci
-     */
     @Inject(method = "getLight(Lnet/minecraft/util/BlockPos;)I", at = @At("HEAD"), cancellable = true)
-    private void getLight(BlockPos pos, CallbackInfoReturnable<Integer> ci) {
-        hyperiumWorld.getLight(pos, ci);
+    private void getLightInteger(CallbackInfoReturnable<Integer> ci) {
+        hyperiumWorld.getLight(ci);
     }
 
-    /**
-     * Removes lightupdates
-     *
-     * @param pos
-     * @param checkNeighbors
-     * @param ci
-     */
     @Inject(method = "getLight(Lnet/minecraft/util/BlockPos;Z)I", at = @At("HEAD"), cancellable = true)
-    private void getLight(BlockPos pos, boolean checkNeighbors, CallbackInfoReturnable<Integer> ci) {
-        hyperiumWorld.getLight(pos, checkNeighbors, ci);
+    private void getLightBoolean(CallbackInfoReturnable<Integer> ci) {
+        hyperiumWorld.getLight(ci);
     }
 }

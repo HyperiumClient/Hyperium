@@ -205,12 +205,9 @@ public class HyperiumFontRenderer {
         }
 
         GL11.glScaled(2.0F, 2.0F, 2.0F);
-        if (texture)
-            GL11.glEnable(GL11.GL_TEXTURE_2D);
-        if (lighting)
-            GL11.glEnable(GL11.GL_LIGHTING);
-        if (!blend)
-            GL11.glDisable(GL11.GL_BLEND);
+        if (texture) GL11.glEnable(GL11.GL_TEXTURE_2D);
+        if (lighting) GL11.glEnable(GL11.GL_LIGHTING);
+        if (!blend) GL11.glDisable(GL11.GL_BLEND);
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         GL11.glPopMatrix();
         return (int) x / 2;
