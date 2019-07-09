@@ -13,7 +13,6 @@
     "MixinScreenShotHelper",
     "MixinSoundManager",
     "MixinTextureManager",
-    "block.MixinBlockGlass",
     "gui.MixinLoadingScreenRenderer",
     "client.MixinClientBrand",
     "client.MixinGameSettings",
