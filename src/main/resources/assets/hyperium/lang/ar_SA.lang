@@ -209,6 +209,7 @@ gui.settings.confirmdisconnect=Confirm Disconnect
 gui.settings.confirmquit=Confirm Quit
 gui.settings.hotbarkeys=Hotbar Keys
 gui.settings.disableglerrorchecking=Disable GL Error Checking
+gui.settings.clearglass=Clear Glass
 
 # Hyperium Splash Progress
 splashprogress.startinggame=بدء اللعبة...

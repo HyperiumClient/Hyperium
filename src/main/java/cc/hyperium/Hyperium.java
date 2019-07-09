@@ -1,18 +1,18 @@
 /*
- *     Copyright (C) 2018-present Hyperium <https://hyperium.cc/>
+ *       Copyright (C) 2018-present Hyperium <https://hyperium.cc/>
  *
- *     This program is free software: you can redistribute it and/or modify
- *     it under the terms of the GNU Lesser General Public License as published
- *     by the Free Software Foundation, either version 3 of the License, or
- *     (at your option) any later version.
+ *       This program is free software: you can redistribute it and/or modify
+ *       it under the terms of the GNU Lesser General Public License as published
+ *       by the Free Software Foundation, either version 3 of the License, or
+ *       (at your option) any later version.
  *
- *     This program is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *     GNU Lesser General Public License for more details.
+ *       This program is distributed in the hope that it will be useful,
+ *       but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *       GNU Lesser General Public License for more details.
  *
- *     You should have received a copy of the GNU Lesser General Public License
- *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *       You should have received a copy of the GNU Lesser General Public License
+ *       along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package cc.hyperium;
@@ -63,34 +63,61 @@ import org.lwjgl.opengl.Display;
 
 import java.io.*;
 
-/**
- * Hyperium Client
- */
+@SuppressWarnings("ResultOfMethodCallIgnored")
 public class Hyperium {
 
     /**
-     * The hyperium instance
+     * The Hyperium instance
+     * anything in this class that isn't static or private can be accessed through calling Hyperium.INSTANCE
      */
     public static final Hyperium INSTANCE = new Hyperium();
+
     /**
-     * Instance of the global mod LOGGER
+     * The Hyperium logger
+     * used to print any information, debug information, or errors that would occur due to Hyperium.
      */
     public static final Logger LOGGER = LogManager.getLogger(Metadata.getModid());
-    /**
-     * The Hyperium configuration folder
-     */
-    public static final File folder = new File("hyperium");
 
     /**
-     * Instance of default CONFIG
+     * The Hyperium folder
+     * typically located in .minecraft/hyperium, stores all files related to Hyperium.
      */
-    public static final DefaultConfig CONFIG = new DefaultConfig(new File(folder, "CONFIG.json"));
+    public static final File FOLDER = new File("hyperium");
 
+    /**
+     * The Hyperium configuration file
+     * anything registered to Hyperium.CONFIG.register(Object) is going to end up in this file.
+     */
+    public static final DefaultConfig CONFIG = new DefaultConfig(new File(FOLDER, "CONFIG.json"));
+
+    /**
+     * The current Hyperium build ID
+     * -1 if it's the dev environment, otherwise it grabs the current version.
+     */
     public static int BUILD_ID = -1;
+
+    /**
+     * By default, this is set to false. If the build version doesn't match up to the latest stable release,
+     * then it's assumed to be a beta version.
+     */
     public static boolean IS_BETA;
+
+    /** Used to track stats made ingame, such as Daily/Monthly/Lifetime Coins. */
     private final GeneralStatisticsTracking statTrack = new GeneralStatisticsTracking();
+
+    /**
+     * Hyperium's Discord Rich Presence, which sends information to your Discord client,
+     * such as if you're on Hypixel and what minigame you may be playing.
+     */
     private final DiscordPresence richPresenceManager = new DiscordPresence();
+
+    /**
+     * If you're on Hypixel and you receive a party/duel/friend request, a popup is going to
+     * appear asking if you'd like to accept or deny said request.
+     */
     private final ConfirmationPopup confirmation = new ConfirmationPopup();
+
+    /** Refer to boolean IS_BETA */
     public boolean isLatestVersion;
     private NotificationCenter notification;
     private HyperiumCosmetics cosmetics;
@@ -109,8 +136,6 @@ public class Hyperium {
     @InvokeEvent
     public void preinit(PreInitializationEvent event) {
         EventBus.INSTANCE.register(new AutoGG());
-
-        /* register language files */
         HyperiumLocale.registerHyperiumLang("af_ZA");
         HyperiumLocale.registerHyperiumLang("ar_SA");
         HyperiumLocale.registerHyperiumLang("bs_BA");
@@ -129,13 +154,13 @@ public class Hyperium {
                 UniversalNetty.getInstance().getPacketManager().register(new LoginReplyHandler());
             });
 
-            Multithreading.runAsync(() -> new PlayerStatsGui(null)); // Don't remove, we need to generate some stuff with Gl context
+            Multithreading.runAsync(() -> new PlayerStatsGui(null));
             notification = new NotificationCenter();
             InputStream resourceAsStream = getClass().getResourceAsStream("/build.txt");
             try {
                 if (resourceAsStream != null) {
                     BufferedReader br = new BufferedReader(new InputStreamReader(resourceAsStream));
-                    BUILD_ID = Integer.valueOf(br.readLine());
+                    BUILD_ID = Integer.parseInt(br.readLine());
                     br.close();
                 }
             } catch (Exception e) {
@@ -145,7 +170,7 @@ public class Hyperium {
             System.out.println("[VERSION] Hyperium build ID: " + BUILD_ID);
 
             try {
-                Class.forName("net.minecraft.dispenser.BehaviorProjectileDispense"); // check for random MC class
+                Class.forName("net.minecraft.dispenser.BehaviorProjectileDispense");
                 isDevEnv = true;
             } catch (ClassNotFoundException e) {
                 isDevEnv = false;
@@ -153,13 +178,11 @@ public class Hyperium {
 
             cosmetics = new HyperiumCosmetics();
 
-            // Creates the accounts dir
-            firstLaunch = new File(folder.getAbsolutePath() + "/accounts").mkdirs();
+            firstLaunch = new File(FOLDER.getAbsolutePath() + "/accounts").mkdirs();
             new ChargebackStopper();
 
-            // Has the user accepted the TOS of the client?
             this.acceptedTos = new File(
-                folder.getAbsolutePath() + "/accounts/" + Minecraft.getMinecraft().getSession()
+                FOLDER.getAbsolutePath() + "/accounts/" + Minecraft.getMinecraft().getSession()
                     .getPlayerID() + ".lck").exists();
 
             SplashProgress.setProgress(5, I18n.format("splashprogress.loadinghandlers"));
@@ -178,7 +201,6 @@ public class Hyperium {
             EventBus.INSTANCE.register(new ThankWatchdog());
             EventBus.INSTANCE.register(new MemoryHelper());
 
-            // Register statistics tracking.
             EventBus.INSTANCE.register(statTrack);
             CONFIG.register(statTrack);
             CONFIG.register(new ToggleSprintContainer());
@@ -197,11 +219,9 @@ public class Hyperium {
                 LOGGER.warn("[Tray] Failed to hookup TrayIcon");
             }
 
-            // instance does not need to be saved as shit is static ^.^
             SplashProgress.setProgress(9, I18n.format("splashprogress.registeringconfiguration"));
             Settings.register();
             Hyperium.CONFIG.register(new ColourOptions());
-            //Register commands.
             SplashProgress.setProgress(10, I18n.format("splashprogress.registeringcommands"));
             registerCommands();
             EventBus.INSTANCE.register(PurchaseApi.getInstance());
@@ -226,9 +246,7 @@ public class Hyperium {
 
             if (acceptedTos) {
                 sk1erMod = new Sk1erMod("hyperium", Metadata.getVersion(), object -> {
-                    //Callback
                     if (object.has("enabled") && !object.optBoolean("enabled")) {
-                        //Disable stuff
                         getHandlers().getHyperiumCommandHandler().clear();
                     }
                 });
@@ -239,7 +257,7 @@ public class Hyperium {
 
             Multithreading.runAsync(() -> {
                 if (Settings.PERSISTENT_CHAT) {
-                    File file = new File(folder, "chat.txt");
+                    File file = new File(FOLDER, "chat.txt");
 
                     if (file.exists()) {
                         try {
@@ -262,7 +280,7 @@ public class Hyperium {
                 isLatestVersion = UpdateUtils.INSTANCE.isAbsoluteLatest();
                 IS_BETA = UpdateUtils.INSTANCE.isBeta();
             });
-            // Check if OptiFine is installed.
+
             try {
                 Class.forName("optifine.OptiFineTweaker");
                 optifineInstalled = true;
@@ -280,9 +298,6 @@ public class Hyperium {
         }
     }
 
-    /**
-     * register the commands
-     */
     private void registerCommands() {
         HyperiumCommandHandler hyperiumCommandHandler = getHandlers().getHyperiumCommandHandler();
         hyperiumCommandHandler.registerCommand(new CommandConfigGui());
@@ -305,15 +320,12 @@ public class Hyperium {
         hyperiumCommandHandler.registerCommand(new CommandKeybinds());
     }
 
-    /**
-     * Called when Hyperium shuts down
-     */
     private void shutdown() {
         client.close();
         CONFIG.save();
         richPresenceManager.shutdown();
         if (Settings.PERSISTENT_CHAT) {
-            File file = new File(folder, "chat.txt");
+            File file = new File(FOLDER, "chat.txt");
             try {
                 file.createNewFile();
                 FileWriter fileWriter = new FileWriter(file);
@@ -327,7 +339,6 @@ public class Hyperium {
                 e.printStackTrace();
             }
         }
-        // Tell the modules the game is shutting down
         EventBus.INSTANCE.post(new GameShutDownEvent());
 
         LOGGER.info("Shutting down Hyperium..");
@@ -340,7 +351,7 @@ public class Hyperium {
             sk1erMod.checkStatus();
         }
         try {
-            new File(folder.getAbsolutePath() + "/accounts/" + Minecraft.getMinecraft().getSession()
+            new File(FOLDER.getAbsolutePath() + "/accounts/" + Minecraft.getMinecraft().getSession()
                 .getPlayerID() + ".lck").createNewFile();
         } catch (IOException e) {
             e.printStackTrace();

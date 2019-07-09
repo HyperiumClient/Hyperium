@@ -40,7 +40,7 @@ object CTJS {
 
     @InvokeEvent
     fun preInit(event: PreInitializationEvent) {
-        this.configLocation = File(Hyperium.folder, "ctjs")
+        this.configLocation = File(Hyperium.FOLDER, "ctjs")
         configLocation.mkdir()
 
         val pictures = File(configLocation, "images/")

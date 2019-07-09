@@ -60,7 +60,7 @@ public class ClientProxy extends BaseProxy {
     @Override
     public void onInit() {
 //        ROOT = mc.mcDataDir.getAbsolutePath() + File.separator + "MCEF";
-        ROOT = Hyperium.folder.getAbsolutePath() + File.separator + "libs";
+        ROOT = Hyperium.FOLDER.getAbsolutePath() + File.separator + "libs";
 
         File rootDir = new File(ROOT);
         if (!rootDir.exists()) {
