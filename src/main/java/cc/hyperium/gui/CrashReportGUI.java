@@ -26,7 +26,9 @@ import javax.swing.*;
 import javax.swing.plaf.basic.BasicButtonUI;
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
+import java.awt.event.MouseListener;
 import java.io.IOException;
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.concurrent.atomic.AtomicReference;
@@ -74,19 +76,19 @@ public class CrashReportGUI extends JDialog {
 
     public static void main(String[] args) {
         // For testing
-        handle(CrashReport.makeCrashReport(null, "Developer Debug"));
+        handle(CrashReport.makeCrashReport(new Throwable(), "Developer Debug"));
     }
 
     public static String haste(String txt) {
         try {
             HttpClient hc = HttpClients.createDefault();
-            HttpPost post = new HttpPost("https://hastebin.com/documents");
+            HttpPost post = new HttpPost("https://hasteb.in/documents");
             post.setEntity(new StringEntity(txt));
 
             HttpResponse response = hc.execute(post);
 
             String result = EntityUtils.toString(response.getEntity());
-            return "https://hastebin.com/" + new JsonParser().parse(result).getAsJsonObject().get("key").getAsString();
+            return "https://hasteb.in/" + new JsonParser().parse(result).getAsJsonObject().get("key").getAsString();
         } catch (IOException e) {
             e.printStackTrace();
             return null;
@@ -157,12 +159,13 @@ public class CrashReportGUI extends JDialog {
         report.addActionListener(e -> Multithreading.runAsync(() -> {
             report.setEnabled(false);
             report.setText("REPORTING...");
+            // Copy Report to clipboard anyways
+            boolean copied = copyReport();
             if (sendReport()) {
                 report.setEnabled(false);
-                report.setText("REPORTED");
-            } else if (copyReport()) {
+                report.setText("REPORTED & COPIED");
+            } else if (copied) {
                 report.setEnabled(false);
-                report.setText("COPIED TO CLIPBOARD");
             } else {
                 report.setText("FAILED TO REPORT");
             }
@@ -251,6 +254,9 @@ public class CrashReportGUI extends JDialog {
                         .put("hyperium", Metadata.getVersion() + " - " + Metadata.getVersionID())
                         .put("addons", addons.toString())
                 )));
+
+            Desktop.getDesktop().browse(URI.create(hurl));
+
             return true;
         } catch (Exception ex) {
             ex.printStackTrace();
