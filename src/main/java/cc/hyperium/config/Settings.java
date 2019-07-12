@@ -514,6 +514,10 @@ public class Settings {
     @ToggleSetting(name = "gui.settings.disableglerrorchecking", category = IMPROVEMENTS)
     public static boolean GL_ERROR_CHECKING = true;
 
+    @ConfigOpt
+    @ToggleSetting(name = "gui.settings.clearglass", category = GENERAL)
+    public static boolean CLEAR_GLASS = false;
+
     public static void register() {
         Hyperium.CONFIG.register(INSTANCE);
     }

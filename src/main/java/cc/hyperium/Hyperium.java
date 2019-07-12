@@ -374,6 +374,7 @@ public class Hyperium {
     public MinigameListener getMinigameListener() {
         return minigameListener;
     }
+
     public boolean isAcceptedTos() {
         return acceptedTos;
     }

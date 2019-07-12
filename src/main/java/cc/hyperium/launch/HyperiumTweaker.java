@@ -81,6 +81,7 @@ public class HyperiumTweaker implements ITweaker {
         // Excludes packages from classloader
         MixinEnvironment environment = MixinEnvironment.getDefaultEnvironment();
         Mixins.addConfiguration("mixins.hyperium.json");
+        classLoader.registerTransformer("cc.hyperium.launch.transformers.HyperiumAccessTransformer");
 
         if (this.isRunningOptifine) {
             this.OPTIFINE = true;

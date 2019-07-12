@@ -69,6 +69,8 @@ minecraft {
     runDir = 'run'
     clientJvmArgs = ["-XX:-DisableExplicitGC"] // fast world loading
     makeObfSourceJar = false
+    useDepAts = true
+    ats("src/main/resources/hyperium_at.cfg")
 }
 
 dependencies {
@@ -126,6 +128,8 @@ processResources {
         from("src/main/resources")
         into("build/classes/main")
     }
+
+    rename '(.+_at.cfg)', 'META-INF/$1'
 }
 
 jar {
@@ -144,7 +148,8 @@ jar {
             "TweakClass": 'cc.hyperium.launch.HyperiumTweaker',
             "TweakOrder": 0,
             "Manifest-Version": 1.1,
-            'Main-Class': 'cc.hyperium.installer.InstallerStart'
+            'Main-Class': 'cc.hyperium.installer.InstallerStart',
+            "AT": "hyperium_at.cfg"
     )
 
     configurations.embed.each { dep ->
