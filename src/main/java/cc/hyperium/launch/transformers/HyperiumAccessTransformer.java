@@ -57,7 +57,7 @@ public class HyperiumAccessTransformer extends AccessTransformer {
 
     public static void addJar(JarFile jar) throws IOException {
         Manifest manifest = jar.getManifest();
-        String atList = manifest.getMainAttributes().getValue("FMLAT");
+        String atList = manifest.getMainAttributes().getValue("AT");
         if (atList == null) return;
         for (String at : atList.split(" ")) {
             JarEntry jarEntry = jar.getJarEntry("META-INF/" + at);

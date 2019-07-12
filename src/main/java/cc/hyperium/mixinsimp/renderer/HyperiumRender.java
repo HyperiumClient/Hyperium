@@ -93,9 +93,6 @@ public class HyperiumRender<T extends Entity> {
                 xMultiplier = -1;
             GlStateManager.rotate(renderManager.playerViewX * xMultiplier, 1.0F, 0.0F, 0.0F);
             GlStateManager.scale(-f1, -f1, f1);
-//            if(self) {
-//                GlStateManager.translate(0,10,0);
-//            }
             GlStateManager.disableLighting();
             GlStateManager.depthMask(false);
             GlStateManager.disableDepth();
@@ -109,10 +106,10 @@ public class HyperiumRender<T extends Entity> {
                 GlStateManager.disableTexture2D();
                 worldrenderer.begin(7, DefaultVertexFormats.POSITION_COLOR);
                 float a = .25F;
-                worldrenderer.pos((double) (-j - 1), (double) (-1), 0.0D).color(0.0F, 0.0F, 0.0F, a).endVertex();
-                worldrenderer.pos((double) (-j - 1), (double) (8), 0.0D).color(0.0F, 0.0F, 0.0F, a).endVertex();
-                worldrenderer.pos((double) (j + 1), (double) (8), 0.0D).color(0.0F, 0.0F, 0.0F, a).endVertex();
-                worldrenderer.pos((double) (j + 1), (double) (-1), 0.0D).color(0.0F, 0.0F, 0.0F, a).endVertex();
+                worldrenderer.pos(-j - 1, -1, 0.0D).color(0.0F, 0.0F, 0.0F, a).endVertex();
+                worldrenderer.pos(-j - 1, 8, 0.0D).color(0.0F, 0.0F, 0.0F, a).endVertex();
+                worldrenderer.pos(j + 1, 8, 0.0D).color(0.0F, 0.0F, 0.0F, a).endVertex();
+                worldrenderer.pos(j + 1, -1, 0.0D).color(0.0F, 0.0F, 0.0F, a).endVertex();
                 tessellator.draw();
             }
             GlStateManager.enableTexture2D();

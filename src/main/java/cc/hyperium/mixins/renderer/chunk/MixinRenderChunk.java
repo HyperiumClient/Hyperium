@@ -35,7 +35,7 @@ public class MixinRenderChunk {
     private HyperiumRenderChunk hyperiumRenderChunk = new HyperiumRenderChunk((RenderChunk) (Object) this);
 
     @Inject(method = "setPosition", at = @At("INVOKE"))
-    public void setPosition(BlockPos bp, CallbackInfo ci) {
+    private void setPosition(BlockPos bp, CallbackInfo ci) {
         hyperiumRenderChunk.setPosition(bp);
     }
 }

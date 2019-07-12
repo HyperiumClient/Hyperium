@@ -37,43 +37,38 @@ public class MixinSoundManager {
      * @param sound the sound
      * @param ci    callback
      */
-    @Inject(
-        method = "playSound",
-        at = @At(value = "INVOKE", target = "Lnet/minecraft/client/audio/SoundHandler;getSound(Lnet/minecraft/util/ResourceLocation;)Lnet/minecraft/client/audio/SoundEventAccessorComposite;"),
-        cancellable = true
-    )
+    @Inject(method = "playSound", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/audio/SoundHandler;getSound(Lnet/minecraft/util/ResourceLocation;)Lnet/minecraft/client/audio/SoundEventAccessorComposite;"), cancellable = true)
     private void playSound(ISound sound, CallbackInfo ci) {
         hyperiumSoundManager.playSound(sound, ci);
     }
 
     @Inject(method = "updateAllSounds", at = @At("HEAD"))
-    public void startUpdate(CallbackInfo info) {
+    private void startUpdate(CallbackInfo info) {
         hyperiumSoundManager.startUpdate(info);
     }
 
     @Inject(method = "updateAllSounds", at = @At("TAIL"))
-    public void endUpdate(CallbackInfo info) {
+    private void endUpdate(CallbackInfo info) {
         hyperiumSoundManager.endUpdate(info);
     }
 
-
     @Inject(method = "playSound", at = @At("HEAD"))
-    public void startPlaySound(CallbackInfo info) {
+    private void startPlaySound(CallbackInfo info) {
         hyperiumSoundManager.startPlaySound(info);
     }
 
     @Inject(method = "playSound", at = @At("TAIL"))
-    public void endPlaySound(CallbackInfo info) {
+    private void endPlaySound(CallbackInfo info) {
         hyperiumSoundManager.endPlaySound(info);
     }
 
     @Inject(method = "stopAllSounds", at = @At("HEAD"))
-    public void startStopAllSounds(CallbackInfo info) {
+    private void startStopAllSounds(CallbackInfo info) {
         hyperiumSoundManager.startStopAllSounds(info);
     }
 
     @Inject(method = "stopAllSounds", at = @At("TAIL"))
-    public void endStopAllSounds(CallbackInfo info) {
+    private void endStopAllSounds(CallbackInfo info) {
         hyperiumSoundManager.endStopAllSounds(info);
 
     }

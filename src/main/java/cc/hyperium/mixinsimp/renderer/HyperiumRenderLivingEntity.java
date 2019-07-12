@@ -86,7 +86,6 @@ public class HyperiumRenderLivingEntity<T extends EntityLivingBase> {
 
             if (d0 < (double) (f * f)) {
                 String s = entity.getDisplayName().getFormattedText();
-                float f1 = 0.02666667F;
                 GlStateManager.alphaFunc(516, 0.1F);
 
                 if (entity.isSneaking() && (Settings.SHOW_OWN_NAME || !entity.equals(Minecraft.getMinecraft().thePlayer))) {
@@ -108,10 +107,10 @@ public class HyperiumRenderLivingEntity<T extends EntityLivingBase> {
                     Tessellator tessellator = Tessellator.getInstance();
                     WorldRenderer worldrenderer = tessellator.getWorldRenderer();
                     worldrenderer.begin(7, DefaultVertexFormats.POSITION_COLOR);
-                    worldrenderer.pos((double) (-i - 1), -1.0D, 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
-                    worldrenderer.pos((double) (-i - 1), 8.0D, 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
-                    worldrenderer.pos((double) (i + 1), 8.0D, 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
-                    worldrenderer.pos((double) (i + 1), -1.0D, 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
+                    worldrenderer.pos(-i - 1, -1.0D, 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
+                    worldrenderer.pos(-i - 1, 8.0D, 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
+                    worldrenderer.pos(i + 1, 8.0D, 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
+                    worldrenderer.pos(i + 1, -1.0D, 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
                     tessellator.draw();
                     GlStateManager.enableTexture2D();
                     GlStateManager.depthMask(true);

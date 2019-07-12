@@ -30,7 +30,6 @@ import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiIngame;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.achievement.GuiAchievement;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.particle.EffectRenderer;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -80,6 +79,9 @@ public abstract class MixinMinecraft {
     @Shadow long systemTime;
     @Final @Shadow public File mcDataDir;
     @Shadow private Framebuffer framebufferMc;
+    @Shadow public abstract void shutdown();
+    @Shadow public abstract void run();
+    @Shadow public EffectRenderer effectRenderer;
 
     private HyperiumMinecraft hyperiumMinecraft = new HyperiumMinecraft((Minecraft) (Object) this);
 
@@ -93,12 +95,12 @@ public abstract class MixinMinecraft {
      */
     @Inject(method = "startGame", at = @At("HEAD"))
     private void preinit(CallbackInfo ci) {
-        hyperiumMinecraft.preinit(ci, defaultResourcePacks, mcDefaultResourcePack, defaultResourcePacks);
+        hyperiumMinecraft.preinit(defaultResourcePacks, mcDefaultResourcePack);
     }
 
     @Inject(method = "runGameLoop", at = @At("HEAD"))
-    public void loop(CallbackInfo info) {
-        hyperiumMinecraft.loop(info, inGameHasFocus, theWorld, thePlayer, renderManager, timer);
+    private void loop(CallbackInfo info) {
+        hyperiumMinecraft.loop(inGameHasFocus, theWorld, thePlayer, renderManager, timer);
     }
 
     /**
@@ -110,7 +112,7 @@ public abstract class MixinMinecraft {
     private void init(CallbackInfo ci) {
         //Accessor not needed since its only set once
         enableGLErrorChecking = Metadata.isDevelopment();
-        hyperiumMinecraft.startGame(ci);
+        hyperiumMinecraft.startGame();
     }
 
     /**
@@ -120,12 +122,7 @@ public abstract class MixinMinecraft {
      */
     @Inject(method = "runTick", at = @At("RETURN"))
     private void runTick(CallbackInfo ci) {
-        hyperiumMinecraft.runTick(ci, mcProfiler);
-    }
-
-    @Inject(method = "runTick", at = @At("HEAD"))
-    private void tick(CallbackInfo info) {
-        hyperiumMinecraft.startTick(info, mcProfiler);
+        hyperiumMinecraft.runTick(mcProfiler);
     }
 
     /**
@@ -135,7 +132,7 @@ public abstract class MixinMinecraft {
      */
     @Inject(method = "dispatchKeypresses", at = @At(value = "INVOKE_ASSIGN", target = "Lorg/lwjgl/input/Keyboard;getEventKeyState()Z"))
     private void runTickKeyboard(CallbackInfo ci) {
-        hyperiumMinecraft.runTickKeyboard(ci);
+        hyperiumMinecraft.runTickKeyboard();
     }
 
     @Inject(
@@ -150,11 +147,7 @@ public abstract class MixinMinecraft {
     )
     private void dispatchKeypresses(CallbackInfo ci) {
         IChatComponent chatComponent = ScreenShotHelper.saveScreenshot(this.mcDataDir, this.displayWidth, this.displayHeight, this.framebufferMc);
-
-        if (chatComponent != null) {
-            new TextComponent(chatComponent).chat();
-        }
-
+        new TextComponent(chatComponent).chat();
         ci.cancel();
     }
 
@@ -165,7 +158,7 @@ public abstract class MixinMinecraft {
      */
     @Inject(method = "clickMouse", at = @At("RETURN"))
     private void clickMouse(CallbackInfo ci) {
-        hyperiumMinecraft.clickMouse(ci);
+        hyperiumMinecraft.clickMouse();
     }
 
     /**
@@ -175,7 +168,7 @@ public abstract class MixinMinecraft {
      */
     @Inject(method = "rightClickMouse", at = @At("RETURN"))
     private void rightClickMouse(CallbackInfo ci) {
-        hyperiumMinecraft.rightClickMouse(ci);
+        hyperiumMinecraft.rightClickMouse();
     }
 
     /**
@@ -185,14 +178,12 @@ public abstract class MixinMinecraft {
      */
     @Inject(method = "launchIntegratedServer", at = @At("HEAD"))
     private void launchIntegratedServer(String folderName, String worldName, WorldSettings worldSettingsIn, CallbackInfo ci) {
-        hyperiumMinecraft.launchIntegratedServer(folderName, worldName, worldSettingsIn, ci);
+        hyperiumMinecraft.launchIntegratedServer();
     }
 
     /**
-     * Fixes bug MC-68754 and MC-111254
-     *
-     * @param ci
      * @author Kevin Brewster
+     * @reason Fixes bug MC-68754 and MC-111254
      */
     @Inject(method = "setInitialDisplayMode", at = @At(value = "HEAD"), cancellable = true)
     private void displayFix(CallbackInfo ci) throws LWJGLException {
@@ -201,7 +192,7 @@ public abstract class MixinMinecraft {
 
     @Inject(method = "toggleFullscreen", at = @At(value = "INVOKE", target = "Lorg/lwjgl/opengl/Display;setVSyncEnabled(Z)V", shift = At.Shift.AFTER))
     private void fullScreenFix(CallbackInfo ci) throws LWJGLException {
-        hyperiumMinecraft.fullScreenFix(ci, fullscreen, displayWidth, displayHeight);
+        hyperiumMinecraft.fullScreenFix(fullscreen, displayWidth, displayHeight);
     }
 
     /**
@@ -227,15 +218,6 @@ public abstract class MixinMinecraft {
         hyperiumMinecraft.getLimitFramerate(ci);
     }
 
-    @Shadow
-    public abstract void shutdown();
-
-    @Shadow
-    public abstract void run();
-
-    @Shadow
-    public EffectRenderer effectRenderer;
-
     /**
      * @author Cubxity
      * @reason Change splash screen
@@ -248,41 +230,44 @@ public abstract class MixinMinecraft {
 
     @Inject(method = "startGame", at = @At("HEAD"))
     private void onStartGame(CallbackInfo ci) {
-        hyperiumMinecraft.onStartGame(ci);
+        hyperiumMinecraft.onStartGame();
     }
 
     @Inject(method = "startGame", at = @At(value = "INVOKE", target = "java/util/List.add(Ljava/lang/Object;)Z", shift = At.Shift.BEFORE))
     private void onLoadDefaultResourcePack(CallbackInfo ci) {
-        hyperiumMinecraft.onLoadDefaultResourcePack(ci);
+        hyperiumMinecraft.onLoadDefaultResourcePack();
     }
 
     @Inject(method = "startGame", at = @At(value = "INVOKE", target = "net/minecraft/client/Minecraft.createDisplay()V", shift = At.Shift.BEFORE))
     private void onCreateDisplay(CallbackInfo ci) {
-        hyperiumMinecraft.onCreateDisplay(ci);
+        hyperiumMinecraft.onCreateDisplay();
     }
 
     @Inject(method = "startGame", at = @At(value = "INVOKE", target = "net/minecraft/client/renderer/OpenGlHelper.initializeTextures()V", shift = At.Shift.BEFORE))
     private void onLoadTexture(CallbackInfo ci) {
-        hyperiumMinecraft.onLoadTexture(ci);
+        hyperiumMinecraft.onLoadTexture();
     }
 
     @Inject(method = "loadWorld(Lnet/minecraft/client/multiplayer/WorldClient;)V", at = @At("HEAD"))
     private void loadWorld(WorldClient worldClient, CallbackInfo ci) {
-        hyperiumMinecraft.loadWorld(worldClient, ci);
+        hyperiumMinecraft.loadWorld();
     }
 
     @Inject(method = "loadWorld(Lnet/minecraft/client/multiplayer/WorldClient;Ljava/lang/String;)V", at = @At(value = "INVOKE", target = "Ljava/lang/System;gc()V"), cancellable = true)
-    public void fixGarbageCollection(WorldClient worldClientIn, String loadingMessage, CallbackInfo info) {
+    private void fixGarbageCollection(WorldClient worldClientIn, String loadingMessage, CallbackInfo info) {
         new WorldLoadEvent().post();
-        if (!Settings.FAST_WORLD_LOADING)
+
+        if (!Settings.FAST_WORLD_LOADING) {
             return;
+        }
+
         systemTime = 0;
         info.cancel();
     }
 
     @Inject(method = "runTick", at = @At(value = "INVOKE", target = "Lorg/lwjgl/input/Mouse;getEventButton()I", ordinal = 0))
     private void runTickMouseButton(CallbackInfo ci) {
-        hyperiumMinecraft.runTickMouseButton(ci);
+        hyperiumMinecraft.runTickMouseButton();
     }
 
     /**
@@ -293,11 +278,10 @@ public abstract class MixinMinecraft {
     public void displayCrashReport(CrashReport crashReportIn) {
         hyperiumMinecraft.displayCrashReport(crashReportIn);
     }
-
-
+    
     @Inject(method = "shutdown", at = @At("HEAD"))
     private void shutdown(CallbackInfo ci) {
-        hyperiumMinecraft.shutdown(ci);
+        hyperiumMinecraft.shutdown();
     }
 
     @Inject(method = "runGameLoop", at = @At(value = "FIELD", target = "Lnet/minecraft/client/Minecraft;skipRenderWorld:Z", shift = At.Shift.AFTER))

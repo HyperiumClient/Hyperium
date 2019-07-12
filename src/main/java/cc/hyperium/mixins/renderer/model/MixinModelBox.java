@@ -27,8 +27,7 @@ import org.spongepowered.asm.mixin.Shadow;
 @Mixin(ModelBox.class)
 public class MixinModelBox implements IMixinModelBox {
 
-    @Shadow
-    private TexturedQuad[] quadList;
+    @Shadow private TexturedQuad[] quadList;
 
     @Override
     public void offsetTextureQuad(ModelRenderer renderer, int quadId, float xOffset, float yOffset) {

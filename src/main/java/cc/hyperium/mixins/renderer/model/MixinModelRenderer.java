@@ -24,8 +24,8 @@ import org.spongepowered.asm.mixin.Shadow;
 
 @Mixin(ModelRenderer.class)
 public class MixinModelRenderer implements IMixinModelRenderer {
-    @Shadow
-    private boolean compiled;
+
+    @Shadow private boolean compiled;
 
     public void reset() {
         compiled = false;

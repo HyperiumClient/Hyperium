@@ -41,43 +41,22 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(ModelBiped.class)
 public class MixinModelBiped extends ModelBase implements IMixinModelBiped {
 
-    @Shadow
-    public ModelRenderer bipedHead;
+    @Shadow public ModelRenderer bipedHead;
+    @Shadow public ModelRenderer bipedHeadwear;
+    @Shadow public ModelRenderer bipedBody;
+    @Shadow public ModelRenderer bipedRightArm;
+    @Shadow public ModelRenderer bipedLeftArm;
+    @Shadow public ModelRenderer bipedRightLeg;
+    @Shadow public ModelRenderer bipedLeftLeg;
+    @Shadow public int heldItemLeft;
+    @Shadow public int heldItemRight;
+    @Shadow public boolean isSneak;
+    @Shadow public boolean aimedBow;
 
-    @Shadow
-    public ModelRenderer bipedHeadwear;
-
-    @Shadow
-    public ModelRenderer bipedBody;
-
-    @Shadow
-    public ModelRenderer bipedRightArm;
-
-    @Shadow
-    public ModelRenderer bipedLeftArm;
-
-    @Shadow
-    public ModelRenderer bipedRightLeg;
-
-    @Shadow
-    public ModelRenderer bipedLeftLeg;
-
-    @Shadow
-    public int heldItemLeft;
-
-    @Shadow
-    public int heldItemRight;
-
-    @Shadow
-    public boolean isSneak;
-
-    @Shadow
-    public boolean aimedBow;
-
-    protected ModelRenderer bipedLeftForeArm;
-    protected ModelRenderer bipedRightForeArm;
-    protected ModelRenderer bipedLeftLowerLeg;
-    protected ModelRenderer bipedRightLowerLeg;
+    ModelRenderer bipedLeftForeArm;
+    ModelRenderer bipedRightForeArm;
+    ModelRenderer bipedLeftLowerLeg;
+    ModelRenderer bipedRightLowerLeg;
 
     @Inject(method = "<init>(FFII)V", at = @At("RETURN"))
     private void injectModelChanges(float modelSize, float p_i1149_2_, int textureWidthIn, int textureHeightIn, CallbackInfo ci) {
@@ -127,7 +106,7 @@ public class MixinModelBiped extends ModelBase implements IMixinModelBiped {
      *
      * @param models The {@link ModelRenderer} parts you want to fix
      */
-    protected void fixTopAndBottomOfLimbWrongTextures(ModelRenderer... models) {
+    void fixTopAndBottomOfLimbWrongTextures(ModelRenderer... models) {
         for (ModelRenderer model : models) {
             // We only need the first box since we know there only is one
             ModelBox box = model.cubeList.get(0);
@@ -332,7 +311,7 @@ public class MixinModelBiped extends ModelBase implements IMixinModelBiped {
         }
     }
 
-    protected void copyModelAnglesAndOffest(ModelRenderer src, ModelRenderer dest) {
+    void copyModelAnglesAndOffest(ModelRenderer src, ModelRenderer dest) {
         copyModelAngles(src, dest);
         dest.offsetX = src.offsetX;
         dest.offsetY = src.offsetY;

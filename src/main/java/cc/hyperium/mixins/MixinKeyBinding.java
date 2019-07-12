@@ -23,7 +23,5 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 
 @Mixin(KeyBinding.class)
 public interface MixinKeyBinding {
-
-    @Accessor
-    void setPressed(boolean pressed);
+    @Accessor void setPressed(boolean pressed);
 }

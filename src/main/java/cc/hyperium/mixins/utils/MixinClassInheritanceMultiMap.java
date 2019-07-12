@@ -36,17 +36,15 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 @Mixin(ClassInheritanceMultiMap.class)
 public abstract class MixinClassInheritanceMultiMap<T> extends AbstractSet<T> {
 
+    @Shadow @Final private Class<T> baseClass;
+
     private static Set<Class<?>> field_181158_a1 = ConcurrentHashMap.newKeySet();
     private ConcurrentLinkedQueue<T> queue = new ConcurrentLinkedQueue<>();
-
     private Set<Class<?>> knownKeys1 = ConcurrentHashMap.newKeySet();
-    @Shadow
-    @Final
-    private Class<T> baseClass;
     private ConcurrentHashMap<Class<?>, ConcurrentLinkedQueue<T>> map1 = new ConcurrentHashMap<>();
 
     @Inject(method = "<init>", at = @At("RETURN"))
-    public void create(Class<T> baseClassIn, CallbackInfo info) {
+    private void create(Class<T> baseClassIn, CallbackInfo info) {
         this.knownKeys1.add(baseClassIn);
         map1.put(baseClassIn, this.queue);
 

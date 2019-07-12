@@ -30,14 +30,8 @@ import java.util.Map;
 @Mixin(Scoreboard.class)
 public abstract class MixinScoreboard {
 
-    @Shadow
-    @Final
-    private Map<String, ScorePlayerTeam> teams;
-
-    @Shadow
-    @Final
-    private Map<String, ScorePlayerTeam> teamMemberships;
-
+    @Shadow @Final private Map<String, ScorePlayerTeam> teams;
+    @Shadow @Final private Map<String, ScorePlayerTeam> teamMemberships;
 
     private HyperiumScoreboard hyperiumScoreboard = new HyperiumScoreboard((Scoreboard) (Object) this);
 

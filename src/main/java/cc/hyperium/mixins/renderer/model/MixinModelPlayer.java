@@ -36,40 +36,21 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(ModelPlayer.class)
 public class MixinModelPlayer extends MixinModelBiped implements IMixinModelPlayer {
 
-    /**
-     * Will now be the left upperarm wear.
-     */
-    @Shadow
-    public ModelRenderer bipedLeftArmwear;
-
-    /**
-     * Will now be the right upperarm wear.
-     */
-    @Shadow
-    public ModelRenderer bipedRightArmwear;
-
-    /**
-     * Will now be the left upperleg wear.
-     */
-    @Shadow
-    public ModelRenderer bipedLeftLegwear;
-
-    /**
-     * Will now be the right upperleg wear.
-     */
-    @Shadow
-    public ModelRenderer bipedRightLegwear;
-
-    @Shadow
-    public ModelRenderer bipedBodyWear;
+    /** Will now be the left upperarm wear. */
+    @Shadow public ModelRenderer bipedLeftArmwear;
+    /** Will now be the right upperarm wear.  */
+    @Shadow public ModelRenderer bipedRightArmwear;
+    /** Will now be the left upperleg wear. */
+    @Shadow public ModelRenderer bipedLeftLegwear;
+    /** Will now be the right upperleg wear. */
+    @Shadow public ModelRenderer bipedRightLegwear;
+    @Shadow public ModelRenderer bipedBodyWear;
+    @Shadow private ModelRenderer bipedCape;
 
     private ModelRenderer bipedLeftForeArmwear;
     private ModelRenderer bipedRightForeArmwear;
     private ModelRenderer bipedLeftLowerLegwear;
     private ModelRenderer bipedRightLowerLegwear;
-
-    @Shadow
-    private ModelRenderer bipedCape;
 
     private ModelRenderer butt;
 

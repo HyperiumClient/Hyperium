@@ -5,7 +5,6 @@
   "refmap": "mixin.hyperium.refmap.json",
   "verbose": true,
   "mixins": [
-    "IMixinMinecraft",
     "MixinCrashReport",
     "MixinEnchantment",
     "MixinKeyBinding",
@@ -86,7 +85,6 @@
     "packet.MixinS19PacketEntityHeadLook",
     "packet.MixinS19PacketEntityStatus",
     "packet.MixinS2EPacketCloseWindow",
-    "renderer.IMixinItemRenderer",
     "renderer.IMixinRender",
     "renderer.IMixinRenderItem",
     "renderer.IMixinRenderItem2",

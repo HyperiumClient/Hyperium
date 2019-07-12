@@ -32,16 +32,10 @@ import java.util.Map;
 
 @Mixin(ClassInheritanceMultiMap.class)
 public abstract class MixinMultiMap<T> {
-    @Shadow
-    @Final
-    private List<T> values;
 
-    @Shadow
-    @Final
-    private Map<Class<?>, List<T>> map;
-
-    @Shadow
-    protected abstract Class<?> initializeClassLookup(Class<?> clazz);
+    @Shadow @Final private List<T> values;
+    @Shadow @Final private Map<Class<?>, List<T>> map;
+    @Shadow protected abstract Class<?> initializeClassLookup(Class<?> clazz);
 
     /**
      * @author FalseHonesty

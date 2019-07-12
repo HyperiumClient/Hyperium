@@ -34,7 +34,6 @@ import cc.hyperium.handlers.handlers.purchase.ChargebackStopper;
 import cc.hyperium.handlers.handlers.stats.PlayerStatsGui;
 import cc.hyperium.integrations.watchdog.ThankWatchdog;
 import cc.hyperium.internal.MemoryHelper;
-import cc.hyperium.mixins.IMixinMinecraft;
 import cc.hyperium.mixinsimp.client.resources.HyperiumLocale;
 import cc.hyperium.mods.HyperiumModIntegration;
 import cc.hyperium.mods.autogg.AutoGG;
@@ -270,11 +269,6 @@ public class Hyperium {
             } catch (ClassNotFoundException e) {
                 optifineInstalled = false;
             }
-
-            if (Settings.GL_ERROR_CHECKING) {
-                ((IMixinMinecraft) Minecraft.getMinecraft()).setEnableGLErrorChecking(false);
-            }
-
         } catch (Throwable t) {
             Minecraft.getMinecraft().crashed(new CrashReport("Hyperium Startup Failure", t));
         }
