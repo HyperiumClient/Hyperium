@@ -17,7 +17,7 @@
 
 package cc.hyperium;
 
-import cc.hyperium.mixinsimp.client.GlStateModifier;
+import cc.hyperium.utils.GlStateModifier;
 import cc.hyperium.utils.HyperiumFontRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;

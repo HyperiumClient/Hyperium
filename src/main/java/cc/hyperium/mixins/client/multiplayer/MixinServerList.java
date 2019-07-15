@@ -32,15 +32,10 @@ import org.spongepowered.asm.mixin.Shadow;
 
 @Mixin(ServerList.class)
 public class MixinServerList {
-    @Shadow
-    @Final
-    private static Logger logger;
-    @Shadow
-    @Final
-    private List<ServerData> servers;
-    @Shadow
-    @Final
-    private Minecraft mc;
+
+    @Shadow @Final private static Logger logger;
+    @Shadow @Final private List<ServerData> servers;
+    @Shadow @Final private Minecraft mc;
 
     private HyperiumServerList hyperiumServerList = new HyperiumServerList();
 

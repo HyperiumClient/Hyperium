@@ -1,6 +1,6 @@
 package com.chattriggers.ctjs.minecraft.objects
 
-import cc.hyperium.mixins.gui.MixinGuiScreenBook
+import cc.hyperium.mixins.client.gui.IMixinGuiScreenBook
 import com.chattriggers.ctjs.minecraft.objects.gui.GuiHandler
 import com.chattriggers.ctjs.minecraft.objects.message.Message
 import com.chattriggers.ctjs.minecraft.wrappers.Client
@@ -90,7 +90,7 @@ class Book(bookName: String) {
         bookData["pages"] = pages
         book.tagCompound = bookData
 
-        (bookScreen as? MixinGuiScreenBook)?.bookPages = pages
+        (bookScreen as? IMixinGuiScreenBook)?.bookPages = pages
     }
 
     @JvmOverloads
@@ -99,7 +99,7 @@ class Book(bookName: String) {
             bookScreen = GuiScreenBook(Player.getPlayer(), book, false)
         }
 
-        (bookScreen as? MixinGuiScreenBook)?.currPage = page
+        (bookScreen as? IMixinGuiScreenBook)?.currPage = page
 
         GuiHandler.openGui(bookScreen ?: return)
     }
@@ -109,7 +109,7 @@ class Book(bookName: String) {
     }
 
     fun getCurrentPage(): Int {
-        return if (!isOpen()) -1 else (bookScreen as MixinGuiScreenBook).currPage
+        return if (!isOpen()) -1 else (bookScreen as IMixinGuiScreenBook).currPage
     }
 
     operator fun NBTTagCompound.set(tag: String, value: NBTBase) {

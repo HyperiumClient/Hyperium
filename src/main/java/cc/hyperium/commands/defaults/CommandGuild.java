@@ -23,12 +23,6 @@ import cc.hyperium.commands.BaseCommand;
 import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
 import net.minecraft.client.gui.GuiNewChat;
 
-/**
- * A simple command to clear your chat history & sent commands,
- * simply calls the {@link GuiNewChat#clearChatMessages()} method
- *
- * @author boomboompower
- */
 public class CommandGuild implements BaseCommand {
 
     @Override

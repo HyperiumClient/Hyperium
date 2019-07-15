@@ -18,7 +18,7 @@
 package cc.hyperium.handlers.handlers.particle.particle;
 
 import cc.hyperium.handlers.handlers.particle.IParticle;
-import cc.hyperium.mixinsimp.renderer.client.particle.IMixinEffectRenderer;
+import cc.hyperium.mixinsimp.client.particle.IMixinEffectRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.client.particle.IParticleFactory;

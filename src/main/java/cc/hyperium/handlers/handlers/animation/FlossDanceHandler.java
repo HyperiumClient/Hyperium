@@ -18,8 +18,8 @@
 package cc.hyperium.handlers.handlers.animation;
 
 import cc.hyperium.gui.HyperiumGui;
-import cc.hyperium.mixinsimp.renderer.model.IMixinModelBiped;
-import cc.hyperium.mixinsimp.renderer.model.IMixinModelPlayer;
+import cc.hyperium.mixinsimp.client.model.IMixinModelBiped;
+import cc.hyperium.mixinsimp.client.model.IMixinModelPlayer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 

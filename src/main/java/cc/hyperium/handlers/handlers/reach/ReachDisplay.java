@@ -44,7 +44,6 @@ import java.util.List;
 
 public class ReachDisplay {
 
-
     public static double dis = 0.0;
     private List<Hit> hits = new ArrayList<>();
     private boolean locked = true;
@@ -88,10 +87,10 @@ public class ReachDisplay {
             int j = fontrenderer.getStringWidth(string) / 2;
             GlStateManager.disableTexture2D();
             worldrenderer.begin(7, DefaultVertexFormats.POSITION_COLOR);
-            worldrenderer.pos((double) (-j - 1), (double) (-1 + i), 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
-            worldrenderer.pos((double) (-j - 1), (double) (8 + i), 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
-            worldrenderer.pos((double) (j + 1), (double) (8 + i), 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
-            worldrenderer.pos((double) (j + 1), (double) (-1 + i), 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
+            worldrenderer.pos(-j - 1, -1 + i, 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
+            worldrenderer.pos(-j - 1, 8 + i, 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
+            worldrenderer.pos(j + 1, 8 + i, 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
+            worldrenderer.pos(j + 1, -1 + i, 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
             tessellator.draw();
             GlStateManager.enableTexture2D();
 
@@ -112,28 +111,20 @@ public class ReachDisplay {
 
     @InvokeEvent
     public void attacc(PlayerAttackEntityEvent entityEvent) {
-        if (!Settings.SHOW_HIT_DISTANCES)
-            return;
-        if (!(entityEvent.getEntity() instanceof EntityLivingBase))
-            return;
-        if (((EntityLivingBase) entityEvent.getEntity()).hurtTime > 0)
-            return;
-        if (locked)
-            return;
+        if (!Settings.SHOW_HIT_DISTANCES) return;
+        if (!(entityEvent.getEntity() instanceof EntityLivingBase)) return;
+        if (((EntityLivingBase) entityEvent.getEntity()).hurtTime > 0) return;
+        if (locked) return;
+
         locked = true;
         EntityPlayerSP entity = Minecraft.getMinecraft().thePlayer;
         double d0 = 6;
         Vec3 vec3 = entity.getPositionEyes(0.0F);
-
-
         Vec3 vec31 = entity.getLook(0.0F);
         Vec3 vec32 = vec3.addVector(vec31.xCoord * d0, vec31.yCoord * d0, vec31.zCoord * d0);
-        float f = 1.0F;
-
-
         Entity entity1 = entityEvent.getEntity();
         float f1 = .1F;
-        AxisAlignedBB axisalignedbb = entity1.getEntityBoundingBox().expand((double) f1, (double) f1, (double) f1);
+        AxisAlignedBB axisalignedbb = entity1.getEntityBoundingBox().expand(f1, f1, f1);
         MovingObjectPosition movingobjectposition = axisalignedbb.calculateIntercept(vec3, vec32);
         if (movingobjectposition == null) {
             return;
@@ -143,7 +134,7 @@ public class ReachDisplay {
 
     }
 
-    class Hit {
+    static class Hit {
 
         private Vec3 pos;
         private double distance;

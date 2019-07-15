@@ -154,6 +154,5 @@ public class CommandDebug implements BaseCommand {
         String haste = CrashReportGUI.haste(message);
         Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new StringSelection(haste), null);
         GeneralChatHandler.instance().sendMessage("Link copied (" + haste + ")");
-
     }
 }

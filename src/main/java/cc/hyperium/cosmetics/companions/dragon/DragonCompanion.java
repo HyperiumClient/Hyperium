@@ -24,7 +24,7 @@ import cc.hyperium.event.RenderEntitiesEvent;
 import cc.hyperium.event.RenderPlayerEvent;
 import cc.hyperium.event.TickEvent;
 import cc.hyperium.event.WorldChangeEvent;
-import cc.hyperium.mixinsimp.renderer.IMixinRenderManager;
+import cc.hyperium.mixinsimp.client.renderer.entity.IMixinRenderManager;
 import cc.hyperium.purchases.EnumPurchaseType;
 import cc.hyperium.purchases.HyperiumPurchase;
 import cc.hyperium.purchases.PurchaseApi;

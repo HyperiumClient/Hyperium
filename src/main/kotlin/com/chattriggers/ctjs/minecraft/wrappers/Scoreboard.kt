@@ -1,6 +1,6 @@
 package com.chattriggers.ctjs.minecraft.wrappers
 
-import cc.hyperium.mixinsimp.gui.HyperiumGuiIngame
+import cc.hyperium.mixinsimp.client.gui.HyperiumGuiIngame
 import net.minecraft.scoreboard.ScorePlayerTeam
 
 object Scoreboard {

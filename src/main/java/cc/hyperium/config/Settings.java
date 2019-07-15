@@ -99,10 +99,6 @@ public class Settings {
     @ToggleSetting(name = "gui.settings.hotbarkeys", category = VANILLA_ENHANCEMENTS, mods = true)
     public static boolean HOTBAR_KEYS = false;
 
-    @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;combatParticleFixEnabled")
-    @ToggleSetting(name = "gui.settings.critparticlefix", category = IMPROVEMENTS)
-    public static boolean CRIT_FIX = true;
-
     @ConfigOpt(alt = "cc.hyperium.gui.settings.items.GeneralSetting;perspectiveHoldDownEnabled")
     @ToggleSetting(name = "gui.settings.holdperspectivekey")
     public static boolean PERSPECTIVE_HOLD = false;
@@ -509,10 +505,6 @@ public class Settings {
     @ConfigOpt
     @ToggleSetting(name = "gui.settings.confirmquit", category = MISC)
     public static boolean CONFIRM_QUIT = false;
-
-    @ConfigOpt
-    @ToggleSetting(name = "gui.settings.disableglerrorchecking", category = IMPROVEMENTS)
-    public static boolean GL_ERROR_CHECKING = true;
 
     @ConfigOpt
     @ToggleSetting(name = "gui.settings.clearglass", category = GENERAL)

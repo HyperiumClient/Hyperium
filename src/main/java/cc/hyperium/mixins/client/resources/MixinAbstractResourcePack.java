@@ -33,10 +33,7 @@ import org.spongepowered.asm.mixin.Shadow;
 @Mixin(AbstractResourcePack.class)
 public abstract class MixinAbstractResourcePack implements IResourcePack {
 
-    private static final int IconSize = 64;
-
-    @Shadow
-    public abstract InputStream getInputStream(ResourceLocation location) throws IOException;
+    @Shadow public abstract InputStream getInputStream(ResourceLocation location) throws IOException;
 
     private HyperiumAbstractResourcePack hyperiumAbstractResourcePack = new HyperiumAbstractResourcePack((AbstractResourcePack) (Object) this);
 
@@ -46,6 +43,6 @@ public abstract class MixinAbstractResourcePack implements IResourcePack {
      */
     @Overwrite
     public BufferedImage getPackImage() throws IOException {
-        return hyperiumAbstractResourcePack.getPackImage(IconSize);
+        return hyperiumAbstractResourcePack.getPackImage(64);
     }
 }

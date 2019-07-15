@@ -18,7 +18,7 @@
 package cc.hyperium.gui.hyperium.components;
 
 import cc.hyperium.gui.HyperiumGui;
-import cc.hyperium.mixinsimp.client.GlStateModifier;
+import cc.hyperium.utils.GlStateModifier;
 import cc.hyperium.utils.HyperiumFontRenderer;
 import cc.hyperium.utils.RenderUtils;
 

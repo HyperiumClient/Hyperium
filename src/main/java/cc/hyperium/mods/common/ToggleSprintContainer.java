@@ -20,19 +20,17 @@ package cc.hyperium.mods.common;
 import cc.hyperium.config.ConfigOpt;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.TickEvent;
-import cc.hyperium.mixins.MixinKeyBinding;
+import cc.hyperium.mixins.client.settings.IMixinKeyBinding;
 import net.minecraft.client.Minecraft;
 
 public class ToggleSprintContainer {
 
-    @ConfigOpt
-    public static boolean toggleSprintActive = false;
+    @ConfigOpt public static boolean toggleSprintActive = false;
 
     @InvokeEvent
     public void onTick(TickEvent e) {
         if (toggleSprintActive) {
-            ((MixinKeyBinding) Minecraft.getMinecraft().gameSettings.keyBindSprint).setPressed(true);
+            ((IMixinKeyBinding) Minecraft.getMinecraft().gameSettings.keyBindSprint).setPressed(true);
         }
     }
-
 }

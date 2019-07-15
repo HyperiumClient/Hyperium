@@ -23,7 +23,7 @@ import cc.hyperium.gui.Icons;
 import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
 import cc.hyperium.handlers.handlers.stats.display.StatsDisplayItem;
 import cc.hyperium.handlers.handlers.stats.fields.*;
-import cc.hyperium.mixinsimp.client.GlStateModifier;
+import cc.hyperium.utils.GlStateModifier;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
 import cc.hyperium.utils.RenderUtils;
@@ -151,16 +151,6 @@ public class PlayerStatsGui extends HyperiumGui {
                 }
             }
         }, button -> {
-
-        });
-
-        reg("VIEW_GUILD", new GuiButton(nextId(), 1, 22, "View Guild"), button -> {
-            new GuildStatsGui(player.getGuild()).show();
-        }, button -> button.visible = player.getGuild().isLoaded() && player.getGuild().isValid());
-        reg("VIEW_FRIENDS", new GuiButton(nextId(), 1, 22 + 21, "View Friends"), button -> {
-//TODO
-//   new FriendsGui(player.getFriends()).show();
-        }, button -> {
         });
     }
 
@@ -181,7 +171,7 @@ public class PlayerStatsGui extends HyperiumGui {
             return;
         }
         boolean isInGuild = guild.isLoaded() && guild.isValid();
-        drawScaledText(player.getDisplayString() + (isInGuild ? " " + guild.getFormatedTag() : ""), current.getScaledWidth() / 2, 30, 3, Color.WHITE.getRGB(), true, true);
+        drawScaledText(player.getDisplayString() + (isInGuild ? " " + guild.getFormatedTag() : ""), current.getScaledWidth() / 2, 30, 2, Color.WHITE.getRGB(), true, true);
         if (focused == null) {
             final int blockWidth = 64 + 32;
             int blocksPerLine = (int) (current.getScaledWidth() / (1.2D * blockWidth));
@@ -200,9 +190,6 @@ public class PlayerStatsGui extends HyperiumGui {
                     y++;
                 }
                 if (dynamicTexture != null) {
-                    //Render Image
-
-
                     int y1 = 100 + y * blockWidth - 10 - offset;
                     if (y1 < 70)
                         continue;
@@ -243,16 +230,16 @@ public class PlayerStatsGui extends HyperiumGui {
                 if (rightSide > current.getScaledWidth()) {
                     xOffset = rightSide - current.getScaledWidth();
                 }
-                float scale = 2.0F;
+                float scale = 1.0F;
                 GlStateManager.scale(scale, scale, scale);
-                int left = block.getRight() - xOffset + yRenderOffset;
+                int left = block.getRight() - xOffset + yRenderOffset - 8;
                 int top = block.getTop();
                 int printY = 0;
                 if (top + height * 2 > current.getScaledHeight()) {
                     top = current.getScaledHeight() - height * 2 - 50;
                 }
                 RenderUtils.drawRect((left - 3) / scale, (top - 3) / scale, (left + (width + 3) * scale) / scale, (top + (height + 3) * scale) / scale,
-                    new Color(0, 0, 0, 175).getRGB());
+                    new Color(0, 0, 0, 220).getRGB());
 
                 for (StatsDisplayItem statsDisplayItem : preview) {
                     statsDisplayItem.draw((int) (left / scale), (int) ((top) / scale) + printY);
@@ -261,8 +248,6 @@ public class PlayerStatsGui extends HyperiumGui {
                 GlStateManager.scale(1 / scale, 1 / scale, 1 / scale);
             }
         } else {
-            List<StatsDisplayItem> deepStats = focused.getDeepStats(player);
-
             DynamicTexture dynamicTexture = logos.get(focused);
             GlStateManager.resetColor();
             GlStateManager.pushMatrix();
@@ -278,7 +263,7 @@ public class PlayerStatsGui extends HyperiumGui {
             Icons.EXTENSION.bind();
             GlStateModifier.INSTANCE.reset();
             Icons.EXIT.bind();
-            float scale = 4.0F;
+            float scale = 2.0F;
             GlStateManager.scale(scale, scale, scale);
             GlStateManager.translate(current.getScaledWidth() / 2 / scale - 90 / scale, (73) / scale, 0);
             GlStateManager.rotate(180, 0.0F, 0.0F, 1.0F);

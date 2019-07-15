@@ -34,14 +34,14 @@ public class HyperiumAbstractResourcePack {
         this.parent = parent;
     }
 
-    public BufferedImage getPackImage(int IconSize) throws IOException {
+    public BufferedImage getPackImage(int iconSize) throws IOException {
         BufferedImage originalIcon = TextureUtil.readBufferedImage(((IMixinAbstractResourcePack) parent).callGetInputStreamByName("pack.png"));
         if (originalIcon == null) {
             return null;
         }
-        BufferedImage resizedIcon = new BufferedImage(IconSize, IconSize, BufferedImage.TYPE_INT_ARGB);
+        BufferedImage resizedIcon = new BufferedImage(iconSize, iconSize, BufferedImage.TYPE_INT_ARGB);
         Graphics graphics = resizedIcon.getGraphics();
-        graphics.drawImage(originalIcon, 0, 0, IconSize, IconSize, null);
+        graphics.drawImage(originalIcon, 0, 0, iconSize, iconSize, null);
         graphics.dispose();
         return resizedIcon;
     }

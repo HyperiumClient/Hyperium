@@ -1,7 +1,7 @@
 package com.chattriggers.ctjs.minecraft.wrappers
 
 import com.chattriggers.ctjs.minecraft.libs.renderer.Renderer
-import cc.hyperium.mixins.gui.IMixinGuiChat
+import cc.hyperium.mixins.client.gui.IMixinGuiChat
 import com.chattriggers.ctjs.minecraft.objects.KeyBind
 import com.chattriggers.ctjs.utils.kotlin.External
 import net.minecraft.client.Minecraft

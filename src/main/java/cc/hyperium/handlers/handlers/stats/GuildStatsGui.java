@@ -33,7 +33,7 @@ import java.util.List;
 public class GuildStatsGui extends HyperiumGui {
     private HypixelApiGuild guild;
 
-    public GuildStatsGui(HypixelApiGuild guild) {
+    GuildStatsGui(HypixelApiGuild guild) {
         this.guild = guild;
     }
 

@@ -33,18 +33,16 @@ import net.minecraft.util.ResourceLocation;
 
 public class LayerDeadmau5HeadHandler {
 
-    public void doRenderLayer(AbstractClientPlayer entitylivingbaseIn, float p_177141_2_, float p_177141_3_,
-                              float partialTicks, float p_177141_5_, float p_177141_6_, float p_177141_7_, float scale, RenderPlayer playerRenderer) {
+    public void doRenderLayer(AbstractClientPlayer entitylivingbaseIn, float partialTicks, RenderPlayer playerRenderer) {
         int k = 0;
         try {
 
             k = 1;
-            if (entitylivingbaseIn == null)
-                return;
-            if (entitylivingbaseIn.isInvisible())
-                return;
-            if (entitylivingbaseIn.isInvisibleToPlayer(Minecraft.getMinecraft().thePlayer))
-                return;
+
+            if (entitylivingbaseIn == null) return;
+            if (entitylivingbaseIn.isInvisible()) return;
+            if (entitylivingbaseIn.isInvisibleToPlayer(Minecraft.getMinecraft().thePlayer)) return;
+
             k = 2;
             if (!Settings.SHOW_COSMETICS_EVERYWHERE) {
                 if (!(Hyperium.INSTANCE.getMinigameListener().getCurrentMinigameName().equalsIgnoreCase("HOUSING") || Hyperium.INSTANCE.getHandlers().getLocationHandler().getLocation().contains("lobby")))

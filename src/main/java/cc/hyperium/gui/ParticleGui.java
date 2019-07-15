@@ -66,10 +66,6 @@ public class ParticleGui extends HyperiumGui implements GuiYesNoCallback {
     private GuiBlock previewBlock = null;
     private boolean queueBuild = false;
 
-    public ParticleGui() {
-
-    }
-
     @Override
     public void confirmClicked(boolean result, int id) {
         super.confirmClicked(result, id);
@@ -219,7 +215,7 @@ public class ParticleGui extends HyperiumGui implements GuiYesNoCallback {
 
         ParticleAuraHandler particleAuraHandler = Hyperium.INSTANCE.getHandlers().getParticleAuraHandler();
         HashMap<String, AbstractAnimation> animations = particleAuraHandler.getAnimations();
-        String[] keys = new String[]{"Double Twirl", "Tornado", "Double Helix", "Triple Twirl", "Quad Twirl", "Static Trail", "Explode", "Vortex of doom"};
+        String[] keys = {"Double Twirl", "Tornado", "Double Helix", "Triple Twirl", "Quad Twirl", "Static Trail", "Explode", "Vortex of doom"};
         CarouselItem[] animationItems = new CarouselItem[animations.size()];
         int c = 0;
         int g = 0;

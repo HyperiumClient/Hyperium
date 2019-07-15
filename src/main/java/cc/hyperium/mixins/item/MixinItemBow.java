@@ -36,8 +36,7 @@ import org.spongepowered.asm.mixin.Shadow;
 @Mixin(ItemBow.class)
 public abstract class MixinItemBow extends Item {
 
-    @Shadow
-    public abstract int getMaxItemUseDuration(ItemStack p_getMaxItemUseDuration_1_);
+    @Shadow public abstract int getMaxItemUseDuration(ItemStack p_getMaxItemUseDuration_1_);
 
     /**
      * @author Amp

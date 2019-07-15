@@ -295,7 +295,6 @@ public class Hyperium {
         hyperiumCommandHandler.registerCommand(new CommandParticleAuras());
         hyperiumCommandHandler.registerCommand(new CommandDisableCommand());
         hyperiumCommandHandler.registerCommand(new CommandGuild());
-        hyperiumCommandHandler.registerCommand(new CommandStatistics());
         hyperiumCommandHandler.registerCommand(new CommandKeybinds());
     }
 

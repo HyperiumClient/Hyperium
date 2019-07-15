@@ -31,7 +31,7 @@ public class MixinRenderItemFrame {
     private HyperiumRenderItemFrame hyperiumRenderItemFrame = new HyperiumRenderItemFrame();
 
     @Inject(method = "doRender", at = @At("HEAD"), cancellable = true)
-    public void doRender(EntityItemFrame entity, double x, double y, double z, float entityYaw, float partialTicks, CallbackInfo ci) {
-        hyperiumRenderItemFrame.doRender(entity, x, y, z, entityYaw, partialTicks, ci);
+    private void doRender(EntityItemFrame entity, double x, double y, double z, float entityYaw, float partialTicks, CallbackInfo ci) {
+        hyperiumRenderItemFrame.doRender(ci);
     }
 }

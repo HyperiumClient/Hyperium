@@ -258,14 +258,14 @@ public class SettingsHandler {
 
             registerCallback(max_particle_string, o -> {
                 try {
-                    Settings.MAX_PARTICLES = Integer.valueOf(o.toString());
+                    Settings.MAX_PARTICLES = Integer.parseInt(o.toString());
                 } catch (Exception ignored) {
 
                 }
             });
             registerCallback(Settings.class.getField("HEAD_SCALE_FACTOR_STRING"), o -> {
                 try {
-                    Settings.HEAD_SCALE_FACTOR = Double.valueOf(o.toString());
+                    Settings.HEAD_SCALE_FACTOR = Double.parseDouble(o.toString());
                 } catch (Exception ignored) {
 
                 }
@@ -312,7 +312,7 @@ public class SettingsHandler {
         }
     }
 
-    public void registerCallback(Field field, Consumer<Object> callback) {
+    private void registerCallback(Field field, Consumer<Object> callback) {
         this.callbacks.computeIfAbsent(field, tmp -> new ArrayList<>()).add(callback);
     }
 

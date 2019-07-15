@@ -29,7 +29,7 @@ val MODID
 
 val VERSION
     @JvmName("getVersion")
-    get() = "1.1 (Beta V2)"
+    get() = "1.1 (Beta V3)"
 
 /**
  * @since 12 (Hyperium Build 12)
@@ -54,14 +54,8 @@ val DEVELOPMENT
 val BLACKLISTED
     @JvmName("getBlacklisted")
     get() = arrayOf(
-        "AutoFriend",
         "Custom Crosshair Addon",
-        "PlayTime addon",
-        "Tab Toggle",
         "SidebarAddon",
         "BossbarAddon",
-        "Auto Cheating",
-        "Auto Dab",
-        "FortniteCompassMod",
         "Item Physic"
     )

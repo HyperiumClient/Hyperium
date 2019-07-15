@@ -23,12 +23,6 @@ import net.minecraft.client.gui.GuiNewChat;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * A simple command to clear your chat history & sent commands,
- * simply calls the {@link GuiNewChat#clearChatMessages()} method
- *
- * @author boomboompower
- */
 public class CommandGarbageCollect implements BaseCommand {
 
     @Override

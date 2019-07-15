@@ -23,7 +23,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 public class HyperiumRenderLightningBolt {
 
-    public void doRender(EntityLightningBolt entity, double x, double y, double z, float entityYaw, float partialTicks, CallbackInfo ci) {
+    public void doRender(CallbackInfo ci) {
         if (Settings.DISABLE_LIGHTNING) {
             ci.cancel();
         }

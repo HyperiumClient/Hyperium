@@ -30,8 +30,8 @@ import java.util.function.Supplier;
 
 @Mixin(Locale.class)
 public abstract class MixinLocale {
-    @Shadow
-    protected abstract void loadLocaleData(InputStream p_135021_1_) throws IOException;
+
+    @Shadow protected abstract void loadLocaleData(InputStream inputStream) throws IOException;
 
     @Redirect(
         method = "loadLocaleDataFiles",

@@ -17,7 +17,7 @@
 
 package cc.hyperium.utils;
 
-import cc.hyperium.mixins.packet.MixinC01PacketChatMessage;
+import cc.hyperium.mixins.network.play.client.MixinC01PacketChatMessage;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.play.client.C01PacketChatMessage;
 

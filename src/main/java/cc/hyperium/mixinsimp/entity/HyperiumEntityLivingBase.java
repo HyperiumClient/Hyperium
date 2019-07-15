@@ -33,7 +33,7 @@ public class HyperiumEntityLivingBase {
         this.parent = parent;
     }
 
-    public void getLook(float partialTicks, CallbackInfoReturnable<Vec3> ci, Vec3 look) {
+    public void getLook(CallbackInfoReturnable<Vec3> ci, Vec3 look) {
         EntityLivingBase base = parent;
         if (base instanceof EntityPlayerSP) {
             ci.setReturnValue(look);

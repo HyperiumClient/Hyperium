@@ -26,6 +26,7 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 
 @Mixin(AbstractResourcePack.class)
 public interface IMixinAbstractResourcePack {
-    @Invoker
-    InputStream callGetInputStreamByName(String name) throws IOException;
+
+    @Invoker InputStream callGetInputStreamByName(String name) throws IOException;
+
 }

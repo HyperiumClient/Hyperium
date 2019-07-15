@@ -22,7 +22,7 @@ import cc.hyperium.config.Settings;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.TickEvent;
-import cc.hyperium.mixinsimp.entity.HyperiumEntityRenderer;
+import cc.hyperium.mixinsimp.client.renderer.HyperiumEntityRenderer;
 import cc.hyperium.mods.AbstractMod;
 import cc.hyperium.mods.motionblur.resource.MotionBlurResourceManager;
 import net.minecraft.client.Minecraft;

@@ -19,7 +19,7 @@ package cc.hyperium.handlers.handlers.animation;
 
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.PreCopyPlayerModelAnglesEvent;
-import cc.hyperium.mixinsimp.renderer.model.IMixinModelBiped;
+import cc.hyperium.mixinsimp.client.model.IMixinModelBiped;
 import net.minecraft.client.entity.AbstractClientPlayer;
 
 public abstract class AbstractPreCopyAnglesAnimationHandler extends AbstractAnimationHandler {

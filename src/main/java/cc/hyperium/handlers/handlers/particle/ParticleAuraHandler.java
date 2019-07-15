@@ -23,15 +23,8 @@ import cc.hyperium.event.PurchaseLoadEvent;
 import cc.hyperium.event.RenderPlayerEvent;
 import cc.hyperium.event.WorldChangeEvent;
 import cc.hyperium.gui.GuiHyperiumScreenIngameMenu;
-import cc.hyperium.handlers.handlers.particle.animations.DoubleHelix;
-import cc.hyperium.handlers.handlers.particle.animations.DoubleTwirlAnimation;
-import cc.hyperium.handlers.handlers.particle.animations.ExplodeAnimation;
-import cc.hyperium.handlers.handlers.particle.animations.QuadTwirlAnimation;
-import cc.hyperium.handlers.handlers.particle.animations.StaticTrailAnimation;
-import cc.hyperium.handlers.handlers.particle.animations.TornadoAnimation;
-import cc.hyperium.handlers.handlers.particle.animations.TripleTwirlAnimation;
-import cc.hyperium.handlers.handlers.particle.animations.VortexOfDoomAnimation;
-import cc.hyperium.mixins.entity.IMixinEntityFx;
+import cc.hyperium.handlers.handlers.particle.animations.*;
+import cc.hyperium.mixins.client.particle.IMixinEntityFX;
 import cc.hyperium.purchases.HyperiumPurchase;
 import cc.hyperium.utils.JsonHolder;
 import cc.hyperium.utils.UUIDUtil;
@@ -41,12 +34,9 @@ import net.minecraft.client.particle.EntityFX;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.Vec3;
 
-import java.awt.Color;
-import java.util.ArrayList;
-import java.util.EnumMap;
-import java.util.HashMap;
+import java.awt.*;
 import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Created by mitchellkatz on 6/23/18. Designed for production use on Sk1er.club
@@ -72,22 +62,6 @@ public class ParticleAuraHandler {
         animations.put("Vortex of doom", new VortexOfDoomAnimation());
         animations.put("Tornado", new TornadoAnimation());
 
-    }
-
-    public EnumMap<EnumParticleType, IParticle> getRenderEngines() {
-        return renderEngines;
-    }
-
-    public HashMap<UUID, ParticleAura> getAuras() {
-        return auras;
-    }
-
-    public HashMap<String, AbstractAnimation> getAnimations() {
-        return animations;
-    }
-
-    public ArrayList<EnumParticleTypes> getParticleTypes() {
-        return particleTypes;
     }
 
     @InvokeEvent
@@ -160,7 +134,7 @@ public class ParticleAuraHandler {
                 if (type != null) {
                     EntityFX entityFX = type.spawn(entity.worldObj, vec3.xCoord, vec3.yCoord, vec3.zCoord);
                     int particleMaxAge = particleAura.getParticleMaxAge();
-                    IMixinEntityFx e = (IMixinEntityFx) entityFX;
+                    IMixinEntityFX e = (IMixinEntityFX) entityFX;
                     if (particleAura.isChroma()) {
                         int i = Color.HSBtoRGB(System.currentTimeMillis() % 1000L / 1000.0f, 0.8f, 0.8f);
                         Color color = new Color(i);
@@ -176,5 +150,16 @@ public class ParticleAuraHandler {
         }
     }
 
-
+    public EnumMap<EnumParticleType, IParticle> getRenderEngines() {
+        return renderEngines;
+    }
+    public HashMap<UUID, ParticleAura> getAuras() {
+        return auras;
+    }
+    public HashMap<String, AbstractAnimation> getAnimations() {
+        return animations;
+    }
+    public ArrayList<EnumParticleTypes> getParticleTypes() {
+        return particleTypes;
+    }
 }

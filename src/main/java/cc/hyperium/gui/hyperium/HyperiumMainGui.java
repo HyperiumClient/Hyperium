@@ -28,7 +28,7 @@ import cc.hyperium.gui.hyperium.components.AbstractTab;
 import cc.hyperium.gui.hyperium.tabs.SettingsTab;
 import cc.hyperium.gui.hyperium.tabs.ShopTab;
 import cc.hyperium.handlers.handlers.SettingsHandler;
-import cc.hyperium.mixinsimp.client.GlStateModifier;
+import cc.hyperium.utils.GlStateModifier;
 import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
 import cc.hyperium.utils.HyperiumFontRenderer;
 import net.minecraft.client.Minecraft;

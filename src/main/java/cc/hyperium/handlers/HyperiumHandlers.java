@@ -36,7 +36,6 @@ import cc.hyperium.handlers.handlers.mixin.LayerDeadmau5HeadHandler;
 import cc.hyperium.handlers.handlers.particle.ParticleAuraHandler;
 import cc.hyperium.handlers.handlers.reach.ReachDisplay;
 import cc.hyperium.handlers.handlers.stats.StatsHandler;
-import cc.hyperium.handlers.handlers.tracking.HypixelValueTracking;
 import cc.hyperium.mods.common.PerspectiveModifierHandler;
 import cc.hyperium.mods.sk1ercommon.ResolutionUtil;
 import net.minecraft.client.Minecraft;
@@ -81,7 +80,6 @@ public class HyperiumHandlers {
     private TwerkDance twerkDance;
     private StatsHandler statsHandler;
     private BroadcastEvents broadcastEvents;
-    private HypixelValueTracking hypixelValueTracking;
     private SettingsHandler settingsHandler;
     private YeetHandler yeetHandler;
 
@@ -100,7 +98,6 @@ public class HyperiumHandlers {
         register(locationHandler = new LocationHandler());
         register(vanillaEnhancementsHud = new VanillaEnhancementsHud());
         register(layerDeadmau5HeadHandler = new LayerDeadmau5HeadHandler());
-        register(hypixelValueTracking = new HypixelValueTracking());
         register(resolutionUtil = new ResolutionUtil());
         register(capeHandler = new CapeHandler());
         register(guiDisplayHandler = new GuiDisplayHandler());
@@ -133,64 +130,8 @@ public class HyperiumHandlers {
         register(commandHandler = new HyperiumCommandHandler());
     }
 
-    public YeetHandler getYeetHandler() {
-        return yeetHandler;
-    }
-
     public void postInit() {
         generalChatHandler.post();
-    }
-
-    public HypixelValueTracking getHypixelValueTracking() {
-        return hypixelValueTracking;
-    }
-
-    public HypixelGuiAugmenter getHypixelGuiAugmenter() {
-        return hypixelGuiAugmenter;
-    }
-
-    public StatsHandler getStatsHandler() {
-        return statsHandler;
-    }
-
-    public List<HyperiumChatHandler> getChatHandlers() {
-        return chatHandlers;
-    }
-
-    public HyperiumCommandHandler getCommandHandler() {
-        return commandHandler;
-    }
-
-    public HyperiumNetwork getNetwork() {
-        return network;
-    }
-
-    public ParticleAuraHandler getParticleAuraHandler() {
-        return particleAuraHandler;
-    }
-
-    public VanillaEnhancementsHud getVanillaEnhancementsHud() {
-        return vanillaEnhancementsHud;
-    }
-
-    public FlipHandler getFlipHandler() {
-        return flipHandler;
-    }
-
-    public LayerDeadmau5HeadHandler getLayerDeadmau5HeadHandler() {
-        return layerDeadmau5HeadHandler;
-    }
-
-    public TwerkDance getTwerkDance() {
-        return twerkDance;
-    }
-
-    public BroadcastEvents getBroadcastEvents() {
-        return broadcastEvents;
-    }
-
-    public SettingsHandler getSettingsHandler() {
-        return settingsHandler;
     }
 
     private void registerChatHandler(HyperiumChatHandler chatHandler) {
@@ -218,87 +159,105 @@ public class HyperiumHandlers {
         EventBus.INSTANCE.register(object);
     }
 
+    public YeetHandler getYeetHandler() {
+        return yeetHandler;
+    }
+    public HypixelGuiAugmenter getHypixelGuiAugmenter() {
+        return hypixelGuiAugmenter;
+    }
+    public StatsHandler getStatsHandler() {
+        return statsHandler;
+    }
+    public List<HyperiumChatHandler> getChatHandlers() {
+        return chatHandlers;
+    }
+    public HyperiumCommandHandler getCommandHandler() {
+        return commandHandler;
+    }
+    public HyperiumNetwork getNetwork() {
+        return network;
+    }
+    public ParticleAuraHandler getParticleAuraHandler() {
+        return particleAuraHandler;
+    }
+    public VanillaEnhancementsHud getVanillaEnhancementsHud() {
+        return vanillaEnhancementsHud;
+    }
+    public FlipHandler getFlipHandler() {
+        return flipHandler;
+    }
+    public LayerDeadmau5HeadHandler getLayerDeadmau5HeadHandler() {
+        return layerDeadmau5HeadHandler;
+    }
+    public TwerkDance getTwerkDance() {
+        return twerkDance;
+    }
+    public BroadcastEvents getBroadcastEvents() {
+        return broadcastEvents;
+    }
+    public SettingsHandler getSettingsHandler() {
+        return settingsHandler;
+    }
     public LocationHandler getLocationHandler() {
         return locationHandler;
     }
-
     public HypixelDetector getHypixelDetector() {
         return hypixelDetector;
     }
-
     public CommandQueue getCommandQueue() {
         return commandQueue;
     }
-
     public GeneralChatHandler getGeneralChatHandler() {
         return generalChatHandler;
     }
-
     public HypixelAPI getDataHandler() {
         return dataHandler;
     }
-
     public ResolutionUtil getResolutionUtil() {
         return resolutionUtil;
     }
-
     public GuiDisplayHandler getGuiDisplayHandler() {
         return guiDisplayHandler;
     }
-
     public KeyBindHandler getKeybindHandler() {
         return keybindHandler;
     }
-
-
     public TPoseHandler gettPoseHandler() {
         return tPoseHandler;
     }
-
     public FortniteDefaultDance getFortniteDefaultDance() {
         return fortniteDefaultDance;
     }
-
     public HyperiumCommandHandler getHyperiumCommandHandler() {
         return commandHandler;
     }
-
     public ScoreboardRenderer getScoreboardRenderer() {
         return scoreboardRenderer;
     }
-
     public OtherConfigOptions getConfigOptions() {
         return configOptions;
     }
-
     public QuestTrackingChatHandler getQuestTracking() {
         return questTracking;
     }
-
     public DabHandler getDabHandler() {
         return dabHandler;
     }
-
     public FlossDanceHandler getFlossDanceHandler() {
         return flossDanceHandler;
     }
-
     public CapeHandler getCapeHandler() {
         return capeHandler;
     }
-
     public StatusHandler getStatusHandler() {
         return statusHandler;
     }
-
     public ReachDisplay getReachDisplay() {
         return reachDisplay;
     }
-
     public PerspectiveModifierHandler getPerspectiveHandler() {
         return perspectiveHandler;
     }
-
     public TPoseHandler getTPoseHandler() {
         return tPoseHandler;
     }

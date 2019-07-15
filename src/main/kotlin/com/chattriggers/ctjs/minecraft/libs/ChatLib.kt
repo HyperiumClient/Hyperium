@@ -2,7 +2,7 @@ package com.chattriggers.ctjs.minecraft.libs
 
 import cc.hyperium.Hyperium
 import cc.hyperium.event.ServerChatEvent
-import cc.hyperium.mixins.gui.IMixinGuiNewChat
+import cc.hyperium.mixins.client.gui.IMixinGuiNewChat
 import com.chattriggers.ctjs.engine.ModuleManager
 import com.chattriggers.ctjs.minecraft.libs.renderer.Renderer
 import com.chattriggers.ctjs.minecraft.listeners.ChatListener

@@ -21,7 +21,7 @@ import cc.hyperium.Hyperium;
 import cc.hyperium.config.Settings;
 import cc.hyperium.gui.hyperium.HyperiumMainGui;
 import cc.hyperium.handlers.handlers.SettingsMigrator;
-import cc.hyperium.mixinsimp.renderer.gui.IMixinGuiMultiplayer;
+import cc.hyperium.mixinsimp.client.gui.IMixinGuiMultiplayer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.multiplayer.ServerData;
