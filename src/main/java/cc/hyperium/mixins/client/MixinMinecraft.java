@@ -85,9 +85,6 @@ public abstract class MixinMinecraft {
 
     private HyperiumMinecraft hyperiumMinecraft = new HyperiumMinecraft((Minecraft) (Object) this);
 
-    protected MixinMinecraft() {
-    }
-
     /**
      * Invoked once the game is launching
      *

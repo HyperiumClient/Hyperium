@@ -17,7 +17,8 @@
 
 package cc.hyperium.mixins.world.chunk;
 
-import cc.hyperium.mixinsimp.world.chunk.HyperiumChunk;
+import cc.hyperium.config.Settings;
+import net.minecraft.client.Minecraft;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.chunk.Chunk;
@@ -26,25 +27,26 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+/**
+ * Used to set the light value in the world to be utilized for Fullbright
+ */
 @Mixin(Chunk.class)
 public class MixinChunk {
 
-    private HyperiumChunk hyperiumChunk = new HyperiumChunk();
-
-    /**
-     * Used in fullbright module
-     */
     @Inject(method = "getLightFor", at = @At("HEAD"), cancellable = true)
     private void getLightFor(EnumSkyBlock type, BlockPos pos, CallbackInfoReturnable<Integer> ci) {
-        hyperiumChunk.getLightFor(ci);
+        setLightValueInt(ci);
     }
 
-
-    /**
-     * Used in fullbright module
-     */
     @Inject(method = "getLightSubtracted", at = @At("HEAD"), cancellable = true)
     private void getLightSubtracted(BlockPos pos, int amount, CallbackInfoReturnable<Integer> ci) {
-        hyperiumChunk.getLightSubtracted(ci);
+        setLightValueInt(ci);
+    }
+
+    private void setLightValueInt(CallbackInfoReturnable<Integer> cir) {
+        if (Minecraft.getMinecraft().isCallingFromMinecraftThread() // allow for mobs to still spawn in singleplayer despite clientside light level being 15
+            && Settings.FULLBRIGHT) {
+            cir.setReturnValue(15);
+        }
     }
 }

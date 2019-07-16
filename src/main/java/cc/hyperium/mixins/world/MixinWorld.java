@@ -17,7 +17,9 @@
 
 package cc.hyperium.mixins.world;
 
+import cc.hyperium.config.Settings;
 import cc.hyperium.mixinsimp.world.HyperiumWorld;
+import net.minecraft.client.Minecraft;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.storage.WorldInfo;
@@ -57,31 +59,43 @@ public abstract class MixinWorld {
 
     @Inject(method = "checkLightFor", at = @At("HEAD"), cancellable = true)
     private void checkLightFor(CallbackInfoReturnable<Boolean> ci) {
-        hyperiumWorld.checkLightFor(ci);
+        setLightValueBoolean(ci);
     }
 
     @Inject(method = "getLightFromNeighborsFor", at = @At("HEAD"), cancellable = true)
     private void getLightFromNeighborsFor(CallbackInfoReturnable<Integer> ci) {
-        hyperiumWorld.getLightFromNeighborsFor(ci);
+        setLightValueInt(ci);
     }
 
     @Inject(method = "getLightFromNeighbors", at = @At("HEAD"), cancellable = true)
     private void getLightFromNeighbor(CallbackInfoReturnable<Integer> ci) {
-        hyperiumWorld.getLightFromNeighbor(ci);
+        setLightValueInt(ci);
     }
 
     @Inject(method = "getRawLight", at = @At("HEAD"), cancellable = true)
     private void getRawLight(CallbackInfoReturnable<Integer> ci) {
-        hyperiumWorld.getRawLight(ci);
+        setLightValueInt(ci);
     }
 
     @Inject(method = "getLight(Lnet/minecraft/util/BlockPos;)I", at = @At("HEAD"), cancellable = true)
     private void getLightInteger(CallbackInfoReturnable<Integer> ci) {
-        hyperiumWorld.getLight(ci);
+        setLightValueInt(ci);
     }
 
     @Inject(method = "getLight(Lnet/minecraft/util/BlockPos;Z)I", at = @At("HEAD"), cancellable = true)
     private void getLightBoolean(CallbackInfoReturnable<Integer> ci) {
-        hyperiumWorld.getLight(ci);
+        setLightValueInt(ci);
+    }
+
+    private void setLightValueBoolean(CallbackInfoReturnable<Boolean> cir) {
+        if (Minecraft.getMinecraft().isCallingFromMinecraftThread() && Settings.FULLBRIGHT) {
+            cir.setReturnValue(false);
+        }
+    }
+
+    private void setLightValueInt(CallbackInfoReturnable<Integer> cir) {
+        if (Minecraft.getMinecraft().isCallingFromMinecraftThread() && Settings.FULLBRIGHT) {
+            cir.setReturnValue(15);
+        }
     }
 }
