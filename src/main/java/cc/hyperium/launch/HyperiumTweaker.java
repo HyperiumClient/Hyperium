@@ -53,8 +53,7 @@ public class HyperiumTweaker implements ITweaker {
     }
 
     @Override
-    public void acceptOptions(List<String> args, File gameDir, final File assetsDir,
-                              String profile) {
+    public void acceptOptions(List<String> args, File gameDir, final File assetsDir, String profile) {
         this.args.addAll(args);
 
         addArg("gameDir", gameDir);
@@ -80,7 +79,6 @@ public class HyperiumTweaker implements ITweaker {
         // Excludes packages from classloader
         MixinEnvironment environment = MixinEnvironment.getDefaultEnvironment();
         Mixins.addConfiguration("mixins.hyperium.json");
-        classLoader.registerTransformer("cc.hyperium.launch.transformers.HyperiumAccessTransformer");
 
         if (this.isRunningOptifine) {
             this.OPTIFINE = true;

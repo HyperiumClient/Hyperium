@@ -34,7 +34,7 @@ public interface IMixinRenderItem {
 
     @Accessor TextureManager getTextureManager();
     @Invoker void callSetupGuiTransform(int xPosition, int yPosition, boolean isGui3d);
-    @Invoker void callRenderModel(IBakedModel model, int e);
-    @Invoker void callRenderModel(IBakedModel model, ItemStack stack);
     @Invoker void callRenderQuads(WorldRenderer renderer, List<BakedQuad> quads, int color, ItemStack stack);
+    @Invoker void callRenderModel(IBakedModel model, ItemStack stack);
+    @Invoker void callRenderModel(IBakedModel model, int color);
 }

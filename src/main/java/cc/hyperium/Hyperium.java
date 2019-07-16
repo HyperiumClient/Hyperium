@@ -134,7 +134,7 @@ public class Hyperium {
             try {
                 if (resourceAsStream != null) {
                     BufferedReader br = new BufferedReader(new InputStreamReader(resourceAsStream));
-                    BUILD_ID = Integer.valueOf(br.readLine());
+                    BUILD_ID = Integer.parseInt(br.readLine());
                     br.close();
                 }
             } catch (Exception e) {
