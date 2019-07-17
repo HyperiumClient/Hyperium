@@ -26,7 +26,6 @@ import cc.hyperium.gui.ScoreboardRenderer;
 import cc.hyperium.handlers.handlers.*;
 import cc.hyperium.handlers.handlers.animation.*;
 import cc.hyperium.handlers.handlers.animation.cape.CapeHandler;
-import cc.hyperium.handlers.handlers.animation.fortnite.FortniteDefaultDance;
 import cc.hyperium.handlers.handlers.chat.*;
 import cc.hyperium.handlers.handlers.data.HypixelAPI;
 import cc.hyperium.handlers.handlers.hud.VanillaEnhancementsHud;
@@ -75,7 +74,6 @@ public class HyperiumHandlers {
     private LayerDeadmau5HeadHandler layerDeadmau5HeadHandler;
     private PerspectiveModifierHandler perspectiveHandler;
     private TPoseHandler tPoseHandler;
-    private FortniteDefaultDance fortniteDefaultDance;
     private HypixelGuiAugmenter hypixelGuiAugmenter;
     private TwerkDance twerkDance;
     private StatsHandler statsHandler;
@@ -110,7 +108,6 @@ public class HyperiumHandlers {
         register(statusHandler = new StatusHandler());
         register(flossDanceHandler = new FlossDanceHandler());
         register(tPoseHandler = new TPoseHandler());
-        register(fortniteDefaultDance = new FortniteDefaultDance());
         register(statsHandler = new StatsHandler());
         register(broadcastEvents = new BroadcastEvents());
         commandQueue = new CommandQueue();
@@ -224,9 +221,6 @@ public class HyperiumHandlers {
     }
     public TPoseHandler gettPoseHandler() {
         return tPoseHandler;
-    }
-    public FortniteDefaultDance getFortniteDefaultDance() {
-        return fortniteDefaultDance;
     }
     public HyperiumCommandHandler getHyperiumCommandHandler() {
         return commandHandler;

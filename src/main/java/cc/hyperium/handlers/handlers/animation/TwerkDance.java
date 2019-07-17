@@ -22,6 +22,7 @@ import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 
 public class TwerkDance extends AnimatedDance {
 
@@ -29,9 +30,7 @@ public class TwerkDance extends AnimatedDance {
     //THE EPITOME OF PAIN. FOR YOUR OWN GOOD, DO NOT ATTEMPT
     public JsonHolder getData() {
         try {
-            return new JsonHolder(IOUtils.toString(new URL("https://static.sk1er.club/hyperium/twerk.json")));
-//            return new JsonHolder(FileUtils.readFileToString(new File("twerk.json")));
-
+            return new JsonHolder(IOUtils.toString(new URL("https://static.sk1er.club/hyperium/twerk.json"), StandardCharsets.UTF_8));
         } catch (IOException e) {
             e.printStackTrace();
         }
