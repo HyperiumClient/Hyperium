@@ -273,13 +273,11 @@ public class NotificationCenter extends Gui {
          * Set the display image for this notification
          *
          * @param img Img to display
-         * @return This
          */
-        Notification setImage(BufferedImage img) {
+        void setImage(BufferedImage img) {
             Minecraft.getMinecraft().addScheduledTask(() -> {
                 this.img = img != null ? new DynamicTexture(img) : null;
             });
-            return this;
         }
 
         /**

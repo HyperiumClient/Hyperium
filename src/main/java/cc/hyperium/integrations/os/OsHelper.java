@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class OsHelper {
+
     public static boolean isProcessRunning(String proc) throws IOException {
         if (SystemUtils.IS_OS_WINDOWS)
             return isProcessRunningWindows(proc);

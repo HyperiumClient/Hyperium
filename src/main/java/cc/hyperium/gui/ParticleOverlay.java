@@ -41,7 +41,7 @@ public class ParticleOverlay {
     private float h = 0.1F;
     private long last;
 
-    public ParticleOverlay() {
+    private ParticleOverlay() {
         int max = Settings.MAX_PARTICLES;
         for (int i = 0; i < max; i++) {
             particles.add(new Particle());
@@ -171,19 +171,19 @@ public class ParticleOverlay {
         CHROMA_2
     }
 
-    class Particle {
+    static class Particle {
         float x;
         float y;
         float xVec;
         float yVec;
 
-        public Particle() {
+        Particle() {
             x = (float) ThreadLocalRandom.current().nextDouble(0, 1);
             y = (float) ThreadLocalRandom.current().nextDouble(0, 1);
             regenerateVector();
         }
 
-        public void regenerateVector() {
+        void regenerateVector() {
             xVec = (float) ThreadLocalRandom.current().nextDouble(-.003, .003);
             yVec = (float) ThreadLocalRandom.current().nextDouble(-.003, .003);
 
@@ -203,14 +203,12 @@ public class ParticleOverlay {
 
         }
 
-        public double distSqTo(Particle other) {
+        double distSqTo(Particle other) {
             return Math.pow(other.x - this.x, 2) + Math.pow(other.y - this.y, 2);
         }
-
         public float getX() {
             return x;
         }
-
         public float getY() {
             return y;
         }

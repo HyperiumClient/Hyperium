@@ -74,8 +74,8 @@ public class NameHistoryGui extends GuiScreen {
         //TITLE BG
         drawRect(left, top, right, bottom, new Color(0, 0, 0, 150).getRGB());
 
-        //TITLE
-        fontRenderer.drawCenteredString(I18n.format("gui.namehistory.text"), width / 2, height / 5, Color.WHITE.getRGB());
+        //TITLE;
+        drawCenteredString(mc.fontRendererObj, I18n.format("gui.namehistory.text"), width / 2, height / 5, Color.WHITE.getRGB());
 
         //Text Box
         nameField.drawTextBox();
@@ -141,7 +141,7 @@ public class NameHistoryGui extends GuiScreen {
                     if (history.getChangedToAt() == 0) {
                         names.add(name);
                     } else {
-                        names.add(String.format("%s -> %s", name, format.format(history.getChangedToAt())));
+                        names.add(String.format("%s > %s", name, format.format(history.getChangedToAt())));
                     }
                 }
             });

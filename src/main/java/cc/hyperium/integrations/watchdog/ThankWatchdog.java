@@ -17,7 +17,6 @@
 
 package cc.hyperium.integrations.watchdog;
 
-import cc.hyperium.Hyperium;
 import cc.hyperium.config.Settings;
 import cc.hyperium.event.ChatEvent;
 import cc.hyperium.event.InvokeEvent;

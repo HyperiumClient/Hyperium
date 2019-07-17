@@ -100,10 +100,10 @@ public class HyperiumCommandHandler {
         // Check if arguments are provided.
         if (commandLine.contains(" ")) {
             String[] syntax = commandLine.split(" ");
-            commandName = syntax[0];
+            commandName = syntax[0].toLowerCase();
             args = Arrays.copyOfRange(syntax, 1, syntax.length);
         } else {
-            commandName = commandLine;
+            commandName = commandLine.toLowerCase();
         }
 
         // Disabled commands will be ignored

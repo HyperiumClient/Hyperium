@@ -32,6 +32,7 @@ import net.minecraft.item.ItemPotion;
 import net.minecraft.item.ItemSkull;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import org.lwjgl.opengl.GL11;
 
 public class HyperiumRenderItem {
     private static final ResourceLocation RES_ITEM_GLINT = new ResourceLocation("textures/misc/enchanted_item_glint.png");
@@ -50,9 +51,9 @@ public class HyperiumRenderItem {
             .setBlurMipmap(false, false);
         GlStateManager.enableRescaleNormal();
         GlStateManager.enableAlpha();
-        GlStateManager.alphaFunc(516, 0.1F);
+        GlStateManager.alphaFunc(GL11.GL_GREATER, 0.1F);
         GlStateManager.enableBlend();
-        GlStateManager.blendFunc(770, 771);
+        GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         ((IMixinRenderItem) parent).callSetupGuiTransform(x, y, ibakedmodel.isGui3d());
         ibakedmodel.getItemCameraTransforms()
@@ -138,9 +139,9 @@ public class HyperiumRenderItem {
     private void renderPot(IBakedModel model) {
         GlStateManager.depthMask(false);
         GlStateManager.disableLighting();
-        GlStateManager.blendFunc(768, 1);
+        GlStateManager.blendFunc(GL11.GL_SRC_COLOR, 1);
         ((IMixinRenderItem) parent).getTextureManager().bindTexture(RES_ITEM_GLINT);
-        GlStateManager.matrixMode(5890);
+        GlStateManager.matrixMode(GL11.GL_TEXTURE);
         GlStateManager.pushMatrix();
         GlStateManager.scale(8.0F, 8.0F, 8.0F);
         float f = (float) (Minecraft.getSystemTime() % 3000L) / 3000.0F / 8.0F;
@@ -155,8 +156,8 @@ public class HyperiumRenderItem {
         GlStateManager.rotate(10.0F, 0.0F, 0.0F, 1.0F);
         ((IMixinRenderItem2) parent).callRenderModel(model, -8372020);
         GlStateManager.popMatrix();
-        GlStateManager.matrixMode(5888);
-        GlStateManager.blendFunc(770, 771);
+        GlStateManager.matrixMode(GL11.GL_MODELVIEW);
+        GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         GlStateManager.enableLighting();
         GlStateManager.depthMask(true);
 
@@ -174,12 +175,11 @@ public class HyperiumRenderItem {
         }
         GlStateManager.depthMask(false);
 
-        GlStateManager.depthFunc(514); // This is for render depth
-
+        GlStateManager.depthFunc(GL11.GL_EQUAL); // This is for render depth
         GlStateManager.disableLighting();
-        GlStateManager.blendFunc(768, 1);
+        GlStateManager.blendFunc(GL11.GL_SRC_COLOR, GL11.GL_ONE);
         ((IMixinRenderItem) parent).getTextureManager().bindTexture(RES_ITEM_GLINT);
-        GlStateManager.matrixMode(5890);
+        GlStateManager.matrixMode(GL11.GL_TEXTURE);
         GlStateManager.pushMatrix();
         GlStateManager.scale(8.0F, 8.0F, 8.0F);
         float f = (float) (Minecraft.getSystemTime() % 3000L) / 3000.0F / 8.0F; // Animates the effect
@@ -194,11 +194,11 @@ public class HyperiumRenderItem {
         GlStateManager.rotate(10.0F, 0.0F, 0.0F, 1.0F);
         ((IMixinRenderItem2) parent).callRenderModel(model, Colors.onepoint8glintcolorI);
         GlStateManager.popMatrix();
-        GlStateManager.matrixMode(5888);
-        GlStateManager.blendFunc(770, 771);
+        GlStateManager.matrixMode(GL11.GL_MODELVIEW);
+        GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         GlStateManager.enableLighting();
 
-        GlStateManager.depthFunc(515); // Changes back to the normal depth
+        GlStateManager.depthFunc(GL11.GL_LEQUAL); // Changes back to the normal depth
 
         GlStateManager.depthMask(true);
         ((IMixinRenderItem) parent).getTextureManager().bindTexture(TextureMap.locationBlocksTexture);

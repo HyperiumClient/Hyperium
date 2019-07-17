@@ -102,19 +102,15 @@ public class ScoreboardRenderer {
     public double getxLocation() {
         return xLocation;
     }
-
     public void setxLocation(double xLocation) {
         this.xLocation = xLocation;
     }
-
     public double getyLocation() {
         return yLocation;
     }
-
     public void setyLocation(double yLocation) {
         this.yLocation = yLocation;
     }
-
     private FontRenderer getFontRenderer() {
         return Minecraft.getMinecraft().fontRendererObj;
     }

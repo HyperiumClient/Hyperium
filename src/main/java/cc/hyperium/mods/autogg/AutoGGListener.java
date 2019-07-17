@@ -31,9 +31,8 @@ import net.minecraft.client.Minecraft;
  */
 public class AutoGGListener {
 
-    private final Minecraft mc = Minecraft.getMinecraft();
     private final AutoGG mod;
-    boolean invoked = false;
+    private boolean invoked = false;
 
 
     public AutoGGListener(AutoGG mod) {
@@ -53,7 +52,7 @@ public class AutoGGListener {
         }
         // Make sure the mod is enabled
         if (
-//            !this.mod.isHypixel() ||
+            !this.mod.isHypixel() ||
             !this.mod.getConfig().isToggled() || this.mod.isRunning() || this.mod.getTriggers().isEmpty()) {
             return;
         }
