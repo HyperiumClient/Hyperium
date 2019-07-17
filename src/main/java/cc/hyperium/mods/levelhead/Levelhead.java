@@ -25,7 +25,6 @@ import cc.hyperium.mods.AbstractMod;
 import cc.hyperium.mods.levelhead.auth.MojangAuth;
 import cc.hyperium.mods.levelhead.command.CustomLevelheadCommand;
 import cc.hyperium.mods.levelhead.command.LevelheadCommand;
-import cc.hyperium.mods.levelhead.config.MasterConfig;
 import cc.hyperium.mods.levelhead.display.AboveHeadDisplay;
 import cc.hyperium.mods.levelhead.display.DisplayConfig;
 import cc.hyperium.mods.levelhead.display.DisplayManager;
@@ -40,6 +39,7 @@ import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.mods.sk1ercommon.Sk1erMod;
 import cc.hyperium.utils.ChatColor;
 import net.minecraft.client.Minecraft;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 
 import java.awt.*;
@@ -48,6 +48,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.List;
@@ -79,11 +80,16 @@ public class Levelhead extends AbstractMod {
     @Override
     public AbstractMod init() {
         instance = this;
-        MasterConfig config = new MasterConfig();
-        Hyperium.CONFIG.register(config);
-        Hyperium.CONFIG.register(new DisplayConfig());
 
-        displayManager = new DisplayManager(new LevelheadJsonHolder(), new File(Hyperium.folder, "levelhead.json"));
+        LevelheadJsonHolder jsonHolder = new LevelheadJsonHolder();
+
+        try {
+            jsonHolder = new LevelheadJsonHolder(FileUtils.readFileToString(new File(Hyperium.folder, "levelhead.json"), StandardCharsets.UTF_8));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        displayManager = new DisplayManager(jsonHolder, new File(Hyperium.folder, "levelhead.json"));
 
         Multithreading.runAsync(() -> types = new LevelheadJsonHolder(rawWithAgent("https://api.sk1er.club/levelhead_config")));
 
