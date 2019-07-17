@@ -184,15 +184,12 @@ public class DisplayManager {
     public List<AboveHeadDisplay> getAboveHead() {
         return aboveHead;
     }
-
     public LevelheadDisplay getChat() {
         return chat;
     }
-
     public LevelheadDisplay getTab() {
         return tab;
     }
-
     public MasterConfig getMasterConfig() {
         return config;
     }

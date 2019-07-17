@@ -18,10 +18,16 @@
 package cc.hyperium.mods.levelhead.renderer;
 
 import cc.hyperium.Hyperium;
+import cc.hyperium.config.Settings;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.RenderPlayerEvent;
 import cc.hyperium.mods.levelhead.Levelhead;
 import cc.hyperium.mods.levelhead.display.AboveHeadDisplay;
+import cc.hyperium.purchases.AbstractHyperiumPurchase;
+import cc.hyperium.purchases.EnumPurchaseType;
+import cc.hyperium.purchases.HyperiumPurchase;
+import cc.hyperium.purchases.PurchaseApi;
+import cc.hyperium.purchases.packages.EarsCosmetic;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.GlStateManager;
@@ -84,8 +90,20 @@ public class AboveHeadRenderer {
                         offset *= 2;
                     }
 
-                    if (event.getEntity().getUniqueID().equals(Levelhead.getInstance().userUuid)) {
-                        offset = 0;
+                    if (player.getUniqueID().equals(levelhead.userUuid) && !Settings.SHOW_OWN_NAME) offset -= .3;
+                    if (Hyperium.INSTANCE.getCosmetics().getDeadmau5Cosmetic().isPurchasedBy(event.getEntity().getUniqueID())) {
+                        HyperiumPurchase packageIfReady = PurchaseApi.getInstance().getPackageIfReady(event.getEntity().getUniqueID());
+                        if (packageIfReady != null) {
+                            AbstractHyperiumPurchase purchase = packageIfReady.getPurchase(EnumPurchaseType.DEADMAU5_COSMETIC);
+                            if (purchase != null) {
+                                if (event.getEntity().getUniqueID() != Minecraft.getMinecraft().thePlayer.getUniqueID()) {
+                                    if (((EarsCosmetic) purchase).isEnabled()) {
+                                        offset += .3;
+                                    }
+                                } else if (Settings.EARS_STATE.equalsIgnoreCase("on"))
+                                    offset += .2;
+                            }
+                        }
                     }
 
                     offset += levelhead.getDisplayManager().getMasterConfig().getOffset();
@@ -119,10 +137,10 @@ public class AboveHeadRenderer {
         int j = fontrenderer.getStringWidth(tag.getString()) / 2;
         GlStateManager.disableTexture2D();
         worldrenderer.begin(7, DefaultVertexFormats.POSITION_COLOR);
-        worldrenderer.pos((double) (-j - 1), (double) (-1 + i), 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
-        worldrenderer.pos((double) (-j - 1), (double) (8 + i), 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
-        worldrenderer.pos((double) (j + 1), (double) (8 + i), 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
-        worldrenderer.pos((double) (j + 1), (double) (-1 + i), 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
+        worldrenderer.pos(-j - 1, -1 + i, 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
+        worldrenderer.pos(-j - 1, 8 + i, 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
+        worldrenderer.pos(j + 1, 8 + i, 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
+        worldrenderer.pos(j + 1, -1 + i, 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
         tessellator.draw();
         GlStateManager.enableTexture2D();
 
@@ -135,8 +153,6 @@ public class AboveHeadRenderer {
     }
 
     private void renderString(FontRenderer fontrenderer, LevelheadTag tag) {
-        int y = 0;
-
         int x = -fontrenderer.getStringWidth(tag.getString()) / 2;
         LevelheadComponent header = tag.getHeader();
         render(fontrenderer, header, x);
