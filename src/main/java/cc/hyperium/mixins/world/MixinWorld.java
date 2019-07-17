@@ -34,7 +34,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(World.class)
 public abstract class MixinWorld {
 
-    @Shadow protected WorldInfo worldInfo;
+    @Shadow
+    protected WorldInfo worldInfo;
 
     private HyperiumWorld hyperiumWorld = new HyperiumWorld();
 
@@ -88,13 +89,13 @@ public abstract class MixinWorld {
     }
 
     private void setLightValueBoolean(CallbackInfoReturnable<Boolean> cir) {
-        if (Minecraft.getMinecraft().isCallingFromMinecraftThread() && Settings.FULLBRIGHT) {
+        if (Settings.FULLBRIGHT && !Minecraft.getMinecraft().isIntegratedServerRunning()) {
             cir.setReturnValue(false);
         }
     }
 
     private void setLightValueInt(CallbackInfoReturnable<Integer> cir) {
-        if (Minecraft.getMinecraft().isCallingFromMinecraftThread() && Settings.FULLBRIGHT) {
+        if (Settings.FULLBRIGHT && !Minecraft.getMinecraft().isIntegratedServerRunning()) {
             cir.setReturnValue(15);
         }
     }

@@ -44,8 +44,7 @@ public class MixinChunk {
     }
 
     private void setLightValueInt(CallbackInfoReturnable<Integer> cir) {
-        if (Minecraft.getMinecraft().isCallingFromMinecraftThread() // allow for mobs to still spawn in singleplayer despite clientside light level being 15
-            && Settings.FULLBRIGHT) {
+        if (Settings.FULLBRIGHT && !Minecraft.getMinecraft().isIntegratedServerRunning()) {
             cir.setReturnValue(15);
         }
     }

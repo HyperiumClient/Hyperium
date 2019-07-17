@@ -17,23 +17,17 @@
 
 package cc.hyperium.mixins.client.renderer.entity;
 
-import net.minecraft.client.renderer.WorldRenderer;
-import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.entity.RenderItem;
-import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.resources.model.IBakedModel;
-import net.minecraft.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.gen.Accessor;
 import org.spongepowered.asm.mixin.gen.Invoker;
 
-import java.util.List;
-
+/**
+ * Mixins is incredibly dumb and doesn't allow you alias a method
+ * So you can't pair two methods with different parameters into the same class
+ * so you need to create a new one, hence why this exist :-)
+ */
 @Mixin(RenderItem.class)
-public interface IMixinRenderItem {
-
-    @Accessor TextureManager getTextureManager();
-    @Invoker void callSetupGuiTransform(int xPosition, int yPosition, boolean isGui3d);
-    @Invoker void callRenderQuads(WorldRenderer renderer, List<BakedQuad> quads, int color, ItemStack stack);
-    @Invoker void callRenderModel(IBakedModel model, ItemStack stack);
+public interface IMixinRenderItem2 {
+    @Invoker void callRenderModel(IBakedModel model, int color);
 }

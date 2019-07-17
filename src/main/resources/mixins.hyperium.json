@@ -59,6 +59,7 @@
     "client.renderer.entity.IMixinRender",
     "client.renderer.entity.IMixinRendererLivingEntity",
     "client.renderer.entity.IMixinRenderItem",
+    "client.renderer.entity.IMixinRenderItem2",
     "client.renderer.entity.MixinRender",
     "client.renderer.entity.MixinRenderEntityItem",
     "client.renderer.entity.MixinRendererLivingEntity",
