@@ -84,7 +84,7 @@ public class Levelhead extends AbstractMod {
         LevelheadJsonHolder jsonHolder = new LevelheadJsonHolder();
 
         try {
-            jsonHolder = new LevelheadJsonHolder(FileUtils.readFileToString(new File(Hyperium.folder, "levelhead.json"), StandardCharsets.UTF_8));
+            jsonHolder = new LevelheadJsonHolder(FileUtils.readFileToString(new File(Hyperium.folder, "levelhead.json")));
         } catch (Exception e) {
             e.printStackTrace();
         }

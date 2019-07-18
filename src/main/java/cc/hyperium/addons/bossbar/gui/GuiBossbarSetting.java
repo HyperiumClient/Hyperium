@@ -17,21 +17,14 @@
 
 package cc.hyperium.addons.bossbar.gui;
 
-import cc.hyperium.addons.bossbar.BossbarAddon;
 import cc.hyperium.addons.bossbar.config.BossbarConfig;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.util.EnumChatFormatting;
-import net.minecraftforge.fml.client.config.GuiSlider;
 
 import java.io.IOException;
 
 public class GuiBossbarSetting extends GuiScreen {
-    private BossbarAddon addon;
-
-    public GuiBossbarSetting(BossbarAddon addon) {
-        this.addon = addon;
-    }
 
     @Override
     public void initGui() {
@@ -64,7 +57,7 @@ public class GuiBossbarSetting extends GuiScreen {
                 button.displayString = "Bar: " + this.getSuffix(BossbarConfig.barEnabled);
                 break;
             case 3:
-                mc.displayGuiScreen(new GuiBossbarPosition(this, this.addon));
+                mc.displayGuiScreen(new GuiBossbarPosition(this));
                 break;
             case 4:
                 BossbarConfig.bossBarEnabled = true;
@@ -76,14 +69,12 @@ public class GuiBossbarSetting extends GuiScreen {
         super.actionPerformed(button);
     }
 
-    public int getRowPos(final int rowNumber) {
+    private int getRowPos(final int rowNumber) {
         return this.height / 4 + (24 * rowNumber - 24) - 16;
     }
-
     public int getCenter() {
         return this.width / 2;
     }
-
     private String getSuffix(final boolean enabled) {
         return enabled ? (EnumChatFormatting.GREEN + "Enabled") : (EnumChatFormatting.RED + "Disabled");
     }

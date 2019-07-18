@@ -25,7 +25,6 @@ import cc.hyperium.addons.sidebar.gui.GuiSidebar;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.RenderScoreboardEvent;
-import net.minecraft.client.Minecraft;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -42,9 +41,8 @@ public class SidebarAddon extends AbstractAddon {
     @Override
     public AbstractAddon init() {
         EventBus.INSTANCE.register(this);
-        Minecraft mc = Minecraft.getMinecraft();
         Hyperium.INSTANCE.getHandlers().getHyperiumCommandHandler().registerCommand(new CommandSidebar(this));
-        this.saveFile = new File(mc.mcDataDir, "hyperium/sidebaraddon.json");
+        this.saveFile = new File(Hyperium.folder, "sidebaraddon.json");
         this.guiSidebar = new GuiSidebar();
         this.loadConfig();
         logger.info("Successfully loaded SidebarAddon!");

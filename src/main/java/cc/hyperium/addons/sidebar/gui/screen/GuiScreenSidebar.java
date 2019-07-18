@@ -28,12 +28,12 @@ import java.io.IOException;
 public class GuiScreenSidebar extends GuiScreen {
 
     protected SidebarAddon addon;
-    protected GuiSidebar sidebar;
     private boolean dragging;
     private int lastX;
     private int lastY;
+    GuiSidebar sidebar;
 
-    public GuiScreenSidebar(final SidebarAddon addon) {
+    GuiScreenSidebar(final SidebarAddon addon) {
         this.addon = addon;
         this.sidebar = addon.getSidebarGui();
     }
@@ -46,12 +46,12 @@ public class GuiScreenSidebar extends GuiScreen {
                 this.sidebar.drawSidebar(scoreObjective, new ScaledResolution(this.mc));
             }
         }
+
         if (this.dragging) {
-            final GuiSidebar sidebar = this.sidebar;
             sidebar.offsetX += mouseX - this.lastX;
-            final GuiSidebar sidebar2 = this.sidebar;
-            sidebar2.offsetY += mouseY - this.lastY;
+            sidebar.offsetY += mouseY - lastY;
         }
+
         this.lastX = mouseX;
         this.lastY = mouseY;
     }

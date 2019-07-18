@@ -36,7 +36,7 @@ public class GuiScreenBackground extends GuiScreenSidebar {
     private GuiSlider sliderChromaSpeed;
     private GuiButton buttonChromaType;
 
-    public GuiScreenBackground(final GuiScreen parent, final SidebarAddon addon) {
+    GuiScreenBackground(final GuiScreen parent, final SidebarAddon addon) {
         super(addon);
         this.byte0 = -16;
         this.parent = parent;
@@ -54,10 +54,9 @@ public class GuiScreenBackground extends GuiScreenSidebar {
         this.setSlidersVisibility();
     }
 
-    public int getRowPos(final int rowNumber) {
+    private int getRowPos(final int rowNumber) {
         return this.height / 4 + (24 * rowNumber - 24) + this.byte0;
     }
-
     public int getCenter() {
         return this.width / 2;
     }
@@ -109,4 +108,5 @@ public class GuiScreenBackground extends GuiScreenSidebar {
     private String getSuffix(final boolean enabled) {
         return enabled ? (EnumChatFormatting.GREEN + "Enabled") : (EnumChatFormatting.RED + "Disabled");
     }
+
 }

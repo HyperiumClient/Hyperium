@@ -17,7 +17,6 @@
 
 package cc.hyperium.addons.bossbar.gui;
 
-import cc.hyperium.addons.bossbar.BossbarAddon;
 import cc.hyperium.addons.bossbar.config.BossbarConfig;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -26,15 +25,14 @@ import net.minecraft.entity.boss.BossStatus;
 import java.io.IOException;
 
 public class GuiBossbarPosition extends GuiScreen {
+
     private GuiScreen parent;
-    private BossbarAddon addon;
     private String oldBossName;
     private int oldStatusBarTime;
     private float oldHealthScale;
 
-    public GuiBossbarPosition(GuiScreen parent, BossbarAddon addon) {
+    GuiBossbarPosition(GuiScreen parent) {
         this.parent = parent;
-        this.addon = addon;
     }
 
     @Override
@@ -71,10 +69,9 @@ public class GuiBossbarPosition extends GuiScreen {
         super.actionPerformed(button);
     }
 
-    public int getRowPos() {
+    private int getRowPos() {
         return this.height - 36;
     }
-
     public int getCenter() {
         return this.width / 2;
     }

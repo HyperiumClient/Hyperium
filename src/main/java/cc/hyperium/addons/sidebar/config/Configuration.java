@@ -26,8 +26,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class Configuration {
-    private Configuration() {
-    }
 
     public boolean enabled = true;
     public int offsetX = 0;

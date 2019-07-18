@@ -26,9 +26,6 @@ import net.minecraftforge.fml.client.config.GuiSlider;
 public class GuiScreenSettings extends GuiScreenSidebar {
 
     private byte byte0;
-    private GuiButton buttonToggle;
-    private GuiButton buttonNumbers;
-    private GuiButton buttonShadow;
     private GuiSlider sliderScale;
 
     public GuiScreenSettings(final SidebarAddon addon) {
@@ -37,9 +34,9 @@ public class GuiScreenSettings extends GuiScreenSidebar {
     }
 
     public void initGui() {
-        this.buttonList.add(this.buttonToggle = new GuiButton(0, this.getCenter() - 75, this.getRowPos(1), 150, 20, "Sidebar: " + this.getSuffix(this.sidebar.enabled)));
-        this.buttonList.add(this.buttonNumbers = new GuiButton(1, this.getCenter() - 75, this.getRowPos(2), 150, 20, "Red Numbers: " + this.getSuffix(this.sidebar.redNumbers)));
-        this.buttonList.add(this.buttonShadow = new GuiButton(2, this.getCenter() - 75, this.getRowPos(3), 150, 20, "Shadow: " + this.getSuffix(this.sidebar.shadow)));
+        this.buttonList.add(new GuiButton(0, this.getCenter() - 75, this.getRowPos(1), 150, 20, "Sidebar: " + this.getSuffix(this.sidebar.enabled)));
+        this.buttonList.add(new GuiButton(1, this.getCenter() - 75, this.getRowPos(2), 150, 20, "Red Numbers: " + this.getSuffix(this.sidebar.redNumbers)));
+        this.buttonList.add(new GuiButton(2, this.getCenter() - 75, this.getRowPos(3), 150, 20, "Shadow: " + this.getSuffix(this.sidebar.shadow)));
         this.buttonList.add(new GuiButton(3, this.getCenter() - 75, this.getRowPos(4), 150, 20, "Change Background"));
         this.buttonList.add(this.sliderScale = new GuiSlider(4, this.getCenter() - 75, this.getRowPos(5), 150, 20, "Scale: ", "%", 50.0, 200.0, Math.round(this.sidebar.scale * 100.0f), false, true));
         this.buttonList.add(new GuiButton(5, this.getCenter() - 75, this.getRowPos(6), 150, 20, "Reset Sidebar"));
@@ -50,10 +47,9 @@ public class GuiScreenSettings extends GuiScreenSidebar {
         super.onGuiClosed();
     }
 
-    public int getRowPos(final int rowNumber) {
+    private int getRowPos(final int rowNumber) {
         return this.height / 4 + (24 * rowNumber - 24) + this.byte0;
     }
-
     public int getCenter() {
         return this.width / 2;
     }
@@ -96,9 +92,7 @@ public class GuiScreenSettings extends GuiScreenSidebar {
                 this.sidebar.chromaSpeed = 2;
                 this.sliderScale.setValue(100.0);
                 this.sliderScale.updateSlider();
-                final GuiSidebar sidebar = this.sidebar;
-                final GuiSidebar sidebar2 = this.sidebar;
-                sidebar2.offsetX = 0;
+                sidebar.offsetX = 0;
                 sidebar.offsetY = 0;
                 break;
             }
