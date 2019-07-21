@@ -11,6 +11,7 @@
 
     "client.audio.MixinSoundManager",
     "client.entity.IMixinAbstractClientPlayer",
+    "client.entity.MixinAbstractClientPlayer",
     "client.entity.MixinEntityPlayerSP",
     "client.gui.inventory.IMixinGuiContainer",
     "client.gui.inventory.MixinGuiContainer",
