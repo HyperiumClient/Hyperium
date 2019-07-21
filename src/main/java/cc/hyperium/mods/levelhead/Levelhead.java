@@ -130,9 +130,9 @@ public class Levelhead extends AbstractMod {
     @InvokeEvent
     public void tick(TickEvent event) {
         if (!Hyperium.INSTANCE.getHandlers().getHypixelDetector().isHypixel()
-            || getDisplayManager() == null
-            || getDisplayManager().getMasterConfig() == null
-            || !getDisplayManager().getMasterConfig().isEnabled()
+            || displayManager == null
+            || displayManager.getMasterConfig() == null
+            || !displayManager.getMasterConfig().isEnabled()
             || !Sk1erMod.getInstance().isEnabled()) {
             return;
         }
@@ -147,7 +147,7 @@ public class Levelhead extends AbstractMod {
                 return;
             }
 
-            getDisplayManager().tick();
+            displayManager.tick();
         }
     }
 
@@ -278,7 +278,7 @@ public class Levelhead extends AbstractMod {
         levelheadPurchaseStates.setTab(purchaseStatus.optBoolean("tab"));
         levelheadPurchaseStates.setExtraHead(purchaseStatus.optInt("head"));
 
-        DisplayManager displayManager = getDisplayManager();
+        DisplayManager displayManager = this.displayManager;
 
         while (displayManager.getAboveHead().size() <= levelheadPurchaseStates.getExtraHead()) {
             displayManager.getAboveHead().add(new AboveHeadDisplay(new DisplayConfig()));
@@ -288,7 +288,7 @@ public class Levelhead extends AbstractMod {
     }
 
     private void clearCache() {
-        getDisplayManager().checkCacheSizes();
+        displayManager.checkCacheSizes();
     }
     private String trimUuid(UUID uuid) {
         return uuid.toString().replace("-", "");

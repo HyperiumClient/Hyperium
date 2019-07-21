@@ -17,8 +17,6 @@
 
 package cc.hyperium.mods.chromahud.gui;
 
-
-import cc.hyperium.Hyperium;
 import cc.hyperium.mods.chromahud.ChromaHUD;
 import cc.hyperium.mods.chromahud.ChromaHUDApi;
 import cc.hyperium.mods.chromahud.DisplayElement;
@@ -54,7 +52,7 @@ public class AddItemsGui extends GuiScreen {
     private int offset = 0;
     private boolean mouseLock;
 
-    public AddItemsGui(ChromaHUD mod, DisplayElement element) {
+    AddItemsGui(ChromaHUD mod, DisplayElement element) {
         this.mod = mod;
         this.element = element;
         //Make all parsers so we can access them

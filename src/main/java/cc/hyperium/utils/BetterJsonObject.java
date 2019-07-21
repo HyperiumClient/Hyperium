@@ -302,7 +302,7 @@ public class BetterJsonObject {
      */
     public BetterJsonObject add(String key, BetterJsonObject object) {
         if (key != null) {
-            this.data.add(key, object.getData());
+            this.data.add(key, object.data);
         }
         return this;
     }

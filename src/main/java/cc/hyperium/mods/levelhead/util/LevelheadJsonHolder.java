@@ -68,7 +68,7 @@ public class LevelheadJsonHolder {
     }
 
     public void merge(LevelheadJsonHolder merge, boolean override) {
-        JsonObject object = merge.getObject();
+        JsonObject object = merge.object;
         for (String s : merge.getKeys()) {
             if (override || !this.has(s))
                 put(s, object.get(s));
@@ -218,7 +218,7 @@ public class LevelheadJsonHolder {
     }
 
     public LevelheadJsonHolder put(String values, LevelheadJsonHolder values1) {
-        put(values, values1.getObject());
+        put(values, values1.object);
         return this;
     }
 

@@ -72,9 +72,9 @@ public class ScoreboardRenderer {
             }
 
             int i1 = collection.size() * this.getFontRenderer().FONT_HEIGHT;
-            int j1 = (int) (resolution.getScaledHeight_double() * getyLocation()) + i1 / 3;
+            int j1 = (int) (resolution.getScaledHeight_double() * yLocation) + i1 / 3;
             int k1 = 3;
-            int l1 = (int) (resolution.getScaledWidth_double() * getxLocation()) - i - k1;
+            int l1 = (int) (resolution.getScaledWidth_double() * xLocation) - i - k1;
             int j = 0;
 
             for (Score score1 : collection) {
@@ -83,7 +83,7 @@ public class ScoreboardRenderer {
                 String s1 = ScorePlayerTeam.formatPlayerName(scoreplayerteam1, score1.getPlayerName());
                 String s2 = EnumChatFormatting.RED.toString() + score1.getScorePoints();
                 int k = j1 - j * this.getFontRenderer().FONT_HEIGHT;
-                int l = (int) (resolution.getScaledWidth_double() * getxLocation()) - k1 + 2;
+                int l = (int) (resolution.getScaledWidth_double() * xLocation) - k1 + 2;
                 RenderUtils.drawRect(l1 - 2, k, l, k + this.getFontRenderer().FONT_HEIGHT, 1342177280);
                 this.getFontRenderer().drawString(s1, l1, k, 553648127);
                 this.getFontRenderer().drawString(s2, l - this.getFontRenderer().getStringWidth(s2), k, 553648127);

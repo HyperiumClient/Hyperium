@@ -75,7 +75,7 @@ public class Sk1erMod {
     }
 
     public JsonObject getPlayer(String name) {
-        return new JsonParser().parse(rawWithAgent("https://sk1er.club/data/" + name + "/" + getApIKey())).getAsJsonObject();
+        return new JsonParser().parse(rawWithAgent("https://sk1er.club/data/" + name + "/" + apiKey)).getAsJsonObject();
     }
 
     public void checkStatus() {

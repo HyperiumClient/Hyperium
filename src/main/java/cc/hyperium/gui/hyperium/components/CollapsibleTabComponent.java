@@ -193,7 +193,7 @@ public class CollapsibleTabComponent extends AbstractTabComponent {
 
     private String getLabel(AbstractTabComponent component) {
         if (component instanceof CollapsibleTabComponent) {
-            return ((CollapsibleTabComponent) component).getLabel();
+            return ((CollapsibleTabComponent) component).label;
         }
         if (component instanceof SliderComponent) {
             return ((SliderComponent) component).getLabel();

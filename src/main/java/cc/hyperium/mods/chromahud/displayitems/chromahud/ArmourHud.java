@@ -59,7 +59,7 @@ public class ArmourHud extends DisplayItem {
     public void draw(int starX, double startY, boolean isConfig) {
         list.clear();
         if (isConfig) {
-            if (isArmourOnTop()) {
+            if (armourOnTop) {
                 list.add(new ItemStack(Item.getItemById(310), 1));
                 list.add(new ItemStack(Item.getItemById(311), 1));
                 list.add(new ItemStack(Item.getItemById(312), 1));

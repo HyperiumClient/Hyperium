@@ -43,7 +43,7 @@ public class CCTickbox extends CCGuiItem {
         this.toggleChecked();
 
         if (this.callback != null) {
-            this.callback.run(getChecked());
+            this.callback.run(checked);
         }
     }
 
@@ -53,7 +53,7 @@ public class CCTickbox extends CCGuiItem {
             .drawThemeBorderedRectangle(this.getPosX(), this.getPosY(), this.getPosX() + this.getWidth(), this.getPosY() + this.getHeight());
         CustomCrosshairGraphics
             .drawString(this.getDisplayText(), this.getPosX() + this.getWidth() + 3, this.getPosY() + this.getHeight() / 2 - 3, 16777215);
-        if (this.getChecked()) {
+        if (this.checked) {
             CustomCrosshairGraphics
                 .drawFilledRectangle(this.getPosX() + 2, this.getPosY() + 2, this.getPosX() + this.getWidth() - 1, this.getPosY() + this.getHeight() - 1, new Color(50, 255, 50, 255));
         }

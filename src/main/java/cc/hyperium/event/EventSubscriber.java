@@ -44,8 +44,8 @@ public final class EventSubscriber {
         this.instance = instance;
         this.method = method;
         this.priority = priority;
-        this.objName = getInstance().getClass().getSimpleName().replace(".", "_");
-        methodName = getMethod().getName();
+        this.objName = this.instance.getClass().getSimpleName().replace(".", "_");
+        methodName = this.method.getName();
     }
 
     public String getObjName() {

@@ -228,7 +228,7 @@ public class Hyperium {
                     //Callback
                     if (object.has("enabled") && !object.optBoolean("enabled")) {
                         //Disable stuff
-                        getHandlers().getHyperiumCommandHandler().clear();
+                        handlers.getHyperiumCommandHandler().clear();
                     }
                 });
                 sk1erMod.checkStatus();
@@ -278,7 +278,7 @@ public class Hyperium {
      * register the commands
      */
     private void registerCommands() {
-        HyperiumCommandHandler hyperiumCommandHandler = getHandlers().getHyperiumCommandHandler();
+        HyperiumCommandHandler hyperiumCommandHandler = handlers.getHyperiumCommandHandler();
         hyperiumCommandHandler.registerCommand(new CommandConfigGui());
         hyperiumCommandHandler.registerCommand(new CustomLevelheadCommand());
         hyperiumCommandHandler.registerCommand(new CommandClearChat());

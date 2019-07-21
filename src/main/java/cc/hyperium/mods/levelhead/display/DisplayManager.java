@@ -110,7 +110,7 @@ public class DisplayManager {
     }
 
     public void tick() {
-        if (!getMasterConfig().isEnabled()) {
+        if (!config.isEnabled()) {
             return;
         }
 
@@ -139,7 +139,7 @@ public class DisplayManager {
 
     public void save() {
         LevelheadJsonHolder jsonHolder = new LevelheadJsonHolder();
-        jsonHolder.put("master", new LevelheadJsonHolder(GSON.toJson(getMasterConfig())));
+        jsonHolder.put("master", new LevelheadJsonHolder(GSON.toJson(config)));
 
         if (tab != null) {
             jsonHolder.put("tab", new LevelheadJsonHolder(GSON.toJson(tab.getConfig())));

@@ -41,7 +41,7 @@ public class HyperiumPurchase {
         everything = (response.optLong("everything") > System.currentTimeMillis());
 
         purchaseSettings = PurchaseApi.getInstance().get("https://api.hyperium.cc/purchaseSettings/" + (playerUUID.toString()));
-        cachedSettings = new PurchaseSettings(getPurchaseSettings());
+        cachedSettings = new PurchaseSettings(purchaseSettings);
         for (JsonElement nicePackages : response.optJSONArray("hyperium")) {
             String asString = nicePackages.getAsString();
             EnumPurchaseType parse = EnumPurchaseType.parse(asString);
@@ -68,7 +68,7 @@ public class HyperiumPurchase {
     }
 
     public void refreshCachedSettings() {
-        this.cachedSettings = new PurchaseSettings(getPurchaseSettings());
+        this.cachedSettings = new PurchaseSettings(purchaseSettings);
     }
 
     public PurchaseSettings getCachedSettings() {
@@ -86,14 +86,14 @@ public class HyperiumPurchase {
     public boolean hasPurchased(EnumPurchaseType type) {
         if (type == EnumPurchaseType.UNKNOWN)
             return false;
-        if (isEverything())
+        if (everything)
             return true;
         return getPurchase(type) != null;
     }
 
     public boolean hasPurchased(String key) {
 
-        if (isEverything())
+        if (everything)
             return true;
         for (JsonElement element : response.optJSONArray("hyperium")) {
             if (element instanceof JsonPrimitive && element.getAsString().equalsIgnoreCase(key))

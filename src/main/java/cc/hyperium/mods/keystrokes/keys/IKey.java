@@ -86,7 +86,7 @@ public abstract class IKey extends Gui {
      * @return the color from settings or chroma if its enabled
      */
     protected final int getColor() {
-        return this.mod.getSettings().isChroma() ? Color.HSBtoRGB((float) ((System.currentTimeMillis() - (getXOffset() * 10) - (getYOffset() * 10)) % 2000) / 2000.0F, 0.8F, 0.8F) : new Color(this.mod.getSettings().getRed(), this.mod.getSettings().getGreen(), this.mod.getSettings().getBlue()).getRGB();
+        return this.mod.getSettings().isChroma() ? Color.HSBtoRGB((float) ((System.currentTimeMillis() - (xOffset * 10) - (yOffset * 10)) % 2000) / 2000.0F, 0.8F, 0.8F) : new Color(this.mod.getSettings().getRed(), this.mod.getSettings().getGreen(), this.mod.getSettings().getBlue()).getRGB();
     }
 
     /**

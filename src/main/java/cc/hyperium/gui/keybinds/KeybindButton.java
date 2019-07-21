@@ -53,9 +53,9 @@ public class KeybindButton extends GuiButton {
         this.listening = listening;
 
         if (!listening) {
-            setText(getName(btnBind.getKeyCode()));
+            displayString = getName(btnBind.getKeyCode());
         } else {
-            setText(ChatColor.YELLOW + "LISTENING...");
+            displayString = ChatColor.YELLOW + "LISTENING...";
         }
     }
 
@@ -84,7 +84,7 @@ public class KeybindButton extends GuiButton {
 
     private void setBindKey(int key) {
         listening = false;
-        setText(getName(key));
+        displayString = getName(key);
         this.btnBind.setKeyCode(key);
         detectConflicts();
     }

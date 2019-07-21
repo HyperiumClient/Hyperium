@@ -158,6 +158,6 @@ public class LocationHandler {
     }
 
     public boolean isLobbyOrHousing() {
-        return Hyperium.INSTANCE.getMinigameListener().getCurrentMinigameName().equalsIgnoreCase("HOUSING") || getLocation().contains("lobby");
+        return Hyperium.INSTANCE.getMinigameListener().getCurrentMinigameName().equalsIgnoreCase("HOUSING") || location.contains("lobby");
     }
 }

@@ -100,13 +100,13 @@ public class ElementRenderer {
 
             if (current.isHighlighted()) {
                 int stringWidth = fontRendererObj.getStringWidth(string);
-                RenderUtils.drawRect((int) ((x - 1) / getCurrentScale() - shift), (int) ((ty - 1) / getCurrentScale()), (int) ((x + 1) / getCurrentScale()) + stringWidth - shift, (int) ((ty + 1) / getCurrentScale()) + 8, new Color(0, 0, 0, 120).getRGB());
+                RenderUtils.drawRect((int) ((x - 1) / currentScale - shift), (int) ((ty - 1) / currentScale), (int) ((x + 1) / currentScale) + stringWidth - shift, (int) ((ty + 1) / currentScale) + 8, new Color(0, 0, 0, 120).getRGB());
             }
 
             if (current.isChroma()) {
                 drawChromaString(string, x - shift, (int) ty);
             } else {
-                fontRendererObj.drawString(string, (int) (x / getCurrentScale() - shift), (int) (ty / getCurrentScale()), getColor(color, x), current.isShadow());
+                fontRendererObj.drawString(string, (int) (x / currentScale - shift), (int) (ty / currentScale), getColor(color, x), current.isShadow());
             }
             ty += 10D * currentScale;
         }
@@ -125,8 +125,8 @@ public class ElementRenderer {
             float ff = current.isStaticChroma() ? 1000.0F : 2000.0F;
             int i = Color.HSBtoRGB((float) (l % (int) ff) / ff, 0.8F, 0.8F);
             String tmp = String.valueOf(c);
-            renderer.drawString(tmp, (float) ((double) x / getCurrentScale()), (float) ((double) y / getCurrentScale()), i, current.isShadow());
-            x += (double) renderer.getCharWidth(c) * getCurrentScale();
+            renderer.drawString(tmp, (float) ((double) x / currentScale), (float) ((double) y / currentScale), i, current.isShadow());
+            x += (double) renderer.getCharWidth(c) * currentScale;
         }
     }
 

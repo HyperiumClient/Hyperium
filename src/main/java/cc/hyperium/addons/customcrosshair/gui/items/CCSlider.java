@@ -89,7 +89,7 @@ public class CCSlider extends CCGuiItem {
             this.setCurrentPosition(x - this.getPosX());
         }
         CustomCrosshairGraphics
-            .drawBorderedRectangle((int) x, this.getPosY() + 1, (int) x + this.boxWidth, this.getPosY() + this.getHeight() - 1, this.getBoxColour(), borderColour);
+            .drawBorderedRectangle((int) x, this.getPosY() + 1, (int) x + this.boxWidth, this.getPosY() + this.getHeight() - 1, this.boxColour, borderColour);
         CustomCrosshairGraphics
             .drawString(this.getDisplayText() + ": " + this.getValue(), this.getPosX() + this.getWidth() + 3, this.getPosY() + this.getHeight() / 2 - 3, 16777215);
     }

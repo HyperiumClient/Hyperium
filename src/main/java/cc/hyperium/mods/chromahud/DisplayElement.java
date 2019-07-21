@@ -109,9 +109,9 @@ public class DisplayElement extends Dimension {
     }
 
     public void recalculateColor() {
-        if (isChroma()) {
+        if (chroma) {
             color = 0;
-        } else if (isRGB()) {
+        } else if (rgb) {
             this.color = new Color(data.optInt("red"), data.optInt("green"), data.optInt("blue")).getRGB();
         }
     }
@@ -202,7 +202,7 @@ public class DisplayElement extends Dimension {
     public void renderEditView() {
         ScaledResolution resolution = new ScaledResolution(Minecraft.getMinecraft());
         int x = (int) (.8 * resolution.getScaledWidth_double());
-        if (isRightSided()) {
+        if (rightSided) {
             x += getDimensions().getWidth();
             if (x > resolution.getScaledWidth())
                 x = resolution.getScaledWidth();

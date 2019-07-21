@@ -48,7 +48,7 @@ public class CCGuiItem {
         this.height = height;
         this.displayText = displayText;
         this.helpText = new ArrayList<>();
-        this.setCurrentScreen(screen);
+        this.currentScreen = screen;
     }
 
     public void mouseClicked(final int mouseX, final int mouseY) {
@@ -73,8 +73,8 @@ public class CCGuiItem {
     }
 
     public void setPosition(final int newPosX, final int newPosY) {
-        this.setPosX(newPosX);
-        this.setPosY(newPosY);
+        this.posX = newPosX;
+        this.posY = newPosY;
     }
 
     public int getPosX() {

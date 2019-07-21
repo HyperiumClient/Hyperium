@@ -44,7 +44,7 @@ public abstract class Stats {
     }
 
     public String getTipsSent() {
-        return FORMAT.format(this.getTipsSentInt());
+        return FORMAT.format(this.tipsSent);
     }
 
     public int getTipsSentInt() {
@@ -61,7 +61,7 @@ public abstract class Stats {
     }
 
     public String getTipsReceived() {
-        return FORMAT.format(this.getTipsReceivedInt());
+        return FORMAT.format(this.tipsReceived);
     }
 
     public int getTipsReceivedInt() {
@@ -86,7 +86,7 @@ public abstract class Stats {
     }
 
     public String getXpSent() {
-        return FORMAT.format(this.getXpSentInt());
+        return FORMAT.format(this.xpSent);
     }
 
     public int getXpSentInt() {
@@ -98,7 +98,7 @@ public abstract class Stats {
     }
 
     public String getXpReceived() {
-        return FORMAT.format(this.getXpReceivedInt());
+        return FORMAT.format(this.xpReceived);
     }
 
     public int getXpReceivedInt() {

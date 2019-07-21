@@ -165,9 +165,9 @@ public class HyperiumBind {
     }
 
     public void detectConflicts() {
-        setConflicted(false);
+        conflicted = false;
 
-        int currentKeyCode = this.getKeyCode();
+        int currentKeyCode = this.key;
 
         if (currentKeyCode == 0 || conflictExempt) {
             // Allow multiple binds to be set to NONE.
@@ -183,7 +183,7 @@ public class HyperiumBind {
 
             if (currentKeyCode == keyCode) {
                 // There is a conflict!
-                setConflicted(true);
+                conflicted = true;
             }
         }
 
@@ -192,11 +192,11 @@ public class HyperiumBind {
             if (hyperiumBind.conflictExempt) {
                 continue;
             }
-            int keyCode = hyperiumBind.getKeyCode();
+            int keyCode = hyperiumBind.key;
 
             if (currentKeyCode == keyCode) {
                 // There is a conflict!
-                setConflicted(true);
+                conflicted = true;
             }
         }
     }

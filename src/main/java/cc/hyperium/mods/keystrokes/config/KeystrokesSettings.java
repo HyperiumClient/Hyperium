@@ -112,26 +112,26 @@ public class KeystrokesSettings {
             }
 
             BetterJsonObject object = new BetterJsonObject();
-            object.addProperty("x", getX());
-            object.addProperty("y", getY());
-            object.addProperty("leftClick", isLeftClick());
-            object.addProperty("red", getRed());
-            object.addProperty("green", getGreen());
-            object.addProperty("blue", getBlue());
-            object.addProperty("pressedRed", getPressedRed());
-            object.addProperty("pressedGreen", getPressedGreen());
-            object.addProperty("pressedBlue", getPressedBlue());
+            object.addProperty("x", x);
+            object.addProperty("y", y);
+            object.addProperty("leftClick", leftClick);
+            object.addProperty("red", red);
+            object.addProperty("green", green);
+            object.addProperty("blue", blue);
+            object.addProperty("pressedRed", pressedRed);
+            object.addProperty("pressedGreen", pressedGreen);
+            object.addProperty("pressedBlue", pressedBlue);
             object.addProperty("scale", getScale());
             object.addProperty("fadeTime", getFadeTime());
-            object.addProperty("enabled", isEnabled());
-            object.addProperty("chroma", isChroma());
-            object.addProperty("mouseButtons", isShowingMouseButtons());
-            object.addProperty("showCPS", isShowingCPS());
-            object.addProperty("showCPSOnButtons", isShowingCPSOnButtons());
-            object.addProperty("showSpacebar", isShowingSpacebar());
-            object.addProperty("showSneak", isShowingSneak());
-            object.addProperty("showFps", isShowingFPS());
-            object.addProperty("keyBackground", isKeyBackgroundEnabled());
+            object.addProperty("enabled", enabled);
+            object.addProperty("chroma", chroma);
+            object.addProperty("mouseButtons", mouseButtons);
+            object.addProperty("showCPS", showCPS);
+            object.addProperty("showCPSOnButtons", showCPSOnButtons);
+            object.addProperty("showSpacebar", showSpacebar);
+            object.addProperty("showSneak", showingSneak);
+            object.addProperty("showFps", showingFPS);
+            object.addProperty("keyBackground", keyBackground);
             final JsonArray keys = new JsonArray();
             for (CustomKeyWrapper wrapper : theMod.getRenderer().getCustomKeys()) {
                 JsonHolder holder = new JsonHolder();
@@ -150,26 +150,26 @@ public class KeystrokesSettings {
     }
 
     private void parseSettings(BetterJsonObject object) {
-        setX(object.optInt("x"));
-        setY(object.optInt("y"));
-        setRed(object.optInt("red", 255));
-        setGreen(object.optInt("green", 255));
-        setBlue(object.optInt("blue", 255));
-        setPressedRed(object.optInt("pressedRed"));
-        setPressedGreen(object.optInt("pressedGreen"));
-        setPressedBlue(object.optInt("pressedBlue"));
+        x = object.optInt("x");
+        y = object.optInt("y");
+        red = object.optInt("red", 255);
+        green = object.optInt("green", 255);
+        blue = object.optInt("blue", 255);
+        pressedRed = object.optInt("pressedRed");
+        pressedGreen = object.optInt("pressedGreen");
+        pressedBlue = object.optInt("pressedBlue");
         setScale(object.optDouble("scale", 1.0D));
         setFadeTime(object.optDouble("fadeTime", 1.0D));
-        setEnabled(object.optBoolean("enabled", true));
-        setChroma(object.optBoolean("chroma"));
-        setLeftClick(object.optBoolean("leftClick", true));
-        setShowingMouseButtons(object.optBoolean("mouseButtons"));
-        setShowingCPS(object.optBoolean("showCPS"));
-        setShowingCPSOnButtons(object.optBoolean("showCPSOnButtons"));
-        setShowingSpacebar(object.optBoolean("showSpacebar"));
-        setShowingSneak(object.optBoolean("showSneak"));
-        setShowingFPS(object.optBoolean("showFps"));
-        setKeyBackgroundEnabled(object.optBoolean("keyBackground"));
+        enabled = object.optBoolean("enabled", true);
+        chroma = object.optBoolean("chroma");
+        leftClick = object.optBoolean("leftClick", true);
+        mouseButtons = object.optBoolean("mouseButtons");
+        showCPS = object.optBoolean("showCPS");
+        showCPSOnButtons = object.optBoolean("showCPSOnButtons");
+        showSpacebar = object.optBoolean("showSpacebar");
+        showingSneak = object.optBoolean("showSneak");
+        showingFPS = object.optBoolean("showFps");
+        keyBackground = object.optBoolean("keyBackground");
         JsonObject data = object.getData();
         if (data.has("custom")) {
             JsonArray custom = data.getAsJsonArray("custom");
@@ -337,15 +337,15 @@ public class KeystrokesSettings {
     public int getHeight() {
         int height = 50;
 
-        if (isShowingCPS()) {
+        if (showCPS) {
             height += 18;
         }
 
-        if (isShowingMouseButtons()) {
+        if (mouseButtons) {
             height += 24;
         }
 
-        if (isShowingSpacebar()) {
+        if (showSpacebar) {
             height += 18;
         }
 
