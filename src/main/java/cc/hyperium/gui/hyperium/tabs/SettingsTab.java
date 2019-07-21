@@ -30,6 +30,7 @@ import cc.hyperium.gui.hyperium.HyperiumMainGui;
 import cc.hyperium.gui.hyperium.RGBFieldSet;
 import cc.hyperium.gui.hyperium.components.*;
 import cc.hyperium.gui.keybinds.GuiKeybinds;
+import cc.hyperium.mods.chromahud.gui.GeneralConfigGui;
 import cc.hyperium.mods.keystrokes.screen.GuiScreenKeystrokes;
 import cc.hyperium.mods.togglechat.gui.ToggleChatMainGui;
 import net.minecraft.client.resources.I18n;
@@ -106,6 +107,9 @@ public class SettingsTab extends AbstractTab {
 
         // Link to custom crosshair gui
         apply(new LinkComponent(this, Collections.emptyList(), "Custom Crosshair", new GuiCustomCrosshairEditCrosshair(Hyperium.INSTANCE.getInternalAddons().getCustomCrosshairAddon())), true, Category.OTHER, items);
+
+        // Link to chromahud gui
+        apply(new LinkComponent(this, Collections.emptyList(), "Chroma HUD", new GeneralConfigGui(Hyperium.INSTANCE.getModIntegration().getChromaHUD())), true, Category.CHROMAHUD, items);
 
         for (RGBFieldSet rgbFieldSet : gui.getRgbFields()) {
             apply(new RGBComponent(this, rgbFieldSet), rgbFieldSet.isMods(), rgbFieldSet.getCategory(), items);
