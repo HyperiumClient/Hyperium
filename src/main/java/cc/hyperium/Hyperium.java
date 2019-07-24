@@ -113,6 +113,7 @@ public class Hyperium {
         HyperiumLocale.registerHyperiumLang("af_ZA");
         HyperiumLocale.registerHyperiumLang("ar_SA");
         HyperiumLocale.registerHyperiumLang("bs_BA");
+        HyperiumLocale.registerHyperiumLang("de_DE");
         HyperiumLocale.registerHyperiumLang("en_US");
         HyperiumLocale.registerHyperiumLang("ja_JP");
     }
