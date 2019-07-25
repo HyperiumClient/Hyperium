@@ -44,11 +44,7 @@ class LayerCape(private val playerRenderer: RenderPlayer) : LayerRenderer<Abstra
         val d3 = MathHelper.sin(f * 0.01745329f).toDouble()
         val d4 = (-MathHelper.cos(f * 0.01745329f)).toDouble()
         var f1 = d1.toFloat() * 10.0f
-        //#if MC<=10809
         f1 = MathHelper.clamp_float(f1, 3.0f, 32.0f)
-        //#else
-        //$$ f1 = MathHelper.clamp(f1, 3.0F, 32.0F);
-        //#endif
         var f2 = (d0 * d3 + d2 * d4).toFloat() * 100.0f
         val f3 = (d0 * d4 - d2 * d3).toFloat() * 100.0f
         if (f2 < 0.0f) {

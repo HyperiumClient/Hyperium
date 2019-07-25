@@ -294,32 +294,6 @@ object World {
                 ) as MCParticle
             }!!
 
-            /*val method = ReflectionHelper.findMethod(
-                    RenderGlobal::class.java,
-                    //#if MC<=10809
-                    Client.getMinecraft().renderGlobal,
-                    arrayOf("spawnEntityFX", "func_174974_b"),
-                    //#else
-                    //$$ "spawnEntityFX",
-                    //$$ "func_174974_b",
-                    //#endif
-                    Int::class.javaPrimitiveType,
-                    Boolean::class.javaPrimitiveType,
-                    Double::class.javaPrimitiveType,
-                    Double::class.javaPrimitiveType,
-                    Double::class.javaPrimitiveType,
-                    Double::class.javaPrimitiveType,
-                    Double::class.javaPrimitiveType,
-                    Double::class.javaPrimitiveType,
-                    IntArray::class.java
-            )
-
-            val fx = method.invoke(Client.getMinecraft().renderGlobal,
-                    particleType.particleID,
-                    particleType.shouldIgnoreRange,
-                    x, y, z, xSpeed, ySpeed, zSpeed, intArrayOf()
-            ) as MCParticle*/
-
             return Particle(fx)
         }
 

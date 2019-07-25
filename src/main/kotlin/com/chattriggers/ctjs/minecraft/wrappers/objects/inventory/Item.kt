@@ -16,12 +16,6 @@ import net.minecraft.nbt.NBTTagCompound
 import org.lwjgl.opengl.GL11
 import net.minecraft.item.Item as MCItem
 
-
-//#if MC>10809
-//$$ import net.minecraft.client.util.ITooltipFlag
-//$$ import com.chattriggers.ctjs.minecraft.wrappers.World
-//#endif
-
 @External
 class Item {
     val item: MCItem
@@ -29,11 +23,7 @@ class Item {
 
     /* Constructors */
     constructor(itemStack: ItemStack?) {
-        //#if MC<=10809
         if (itemStack == null) {
-            //#else
-            //$$ if (itemStack == null || itemStack == ItemStack.EMPTY) {
-            //#endif
             this.item = ItemBlock(Block(0).block)
             this.itemStack = ItemStack(item)
         } else {
@@ -58,13 +48,8 @@ class Item {
     }
 
     constructor(entityItem: EntityItem) {
-        //#if MC<=10809
         this.item = entityItem.entityItem.item
         this.itemStack = entityItem.entityItem
-        //#else
-        //$$ this.item = entityItem.item.item;
-        //$$ this.itemStack = entityItem.item;
-        //#endif
     }
 
     /**
@@ -75,13 +60,8 @@ class Item {
      */
     constructor(entity: Entity) {
         if (entity.entity is EntityItem) {
-            //#if MC<=10809
             this.item = entity.entity.entityItem.item
             this.itemStack = entity.entity.entityItem
-            //#else
-            //$$ this.item = entity.entity.item.item;
-            //$$ this.itemStack = entity.entity.item;
-            //#endif
         } else {
             throw IllegalArgumentException("Entity is not of type EntityItem")
         }
@@ -95,11 +75,7 @@ class Item {
     }
 
     fun getStackSize(): Int {
-        //#if MC<=10809
         return this.itemStack.stackSize
-        //#else
-        //$$ return this.itemStack.count
-        //#endif
     }
 
     /**
@@ -170,11 +146,7 @@ class Item {
     fun isDamagable(): Boolean = itemStack.isItemStackDamageable
 
     fun getLore(): List<String> {
-        //#if MC<=10809
         return itemStack.getTooltip(Player.getPlayer(), Client.getMinecraft().gameSettings.advancedItemTooltips)
-        //#else
-        //$$ return itemStack.getTooltip(Player.getEntity(), ITooltipFlag.TooltipFlags.ADVANCED);
-        //#endif
     }
 
     /**

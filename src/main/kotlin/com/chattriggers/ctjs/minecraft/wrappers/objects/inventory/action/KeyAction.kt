@@ -1,11 +1,6 @@
 package com.chattriggers.ctjs.minecraft.wrappers.objects.inventory.action
 
 import com.chattriggers.ctjs.utils.kotlin.External
-
-//#if MC>10809
-//$$ import com.chattriggers.ctjs.utils.kotlin.MCClickType
-//#endif
-
 @External
 class KeyAction(slot: Int, windowId: Int) : Action(slot, windowId) {
     private var key: Int = -1
@@ -23,10 +18,6 @@ class KeyAction(slot: Int, windowId: Int) : Action(slot, windowId) {
     }
 
     override fun complete() {
-        //#if MC<=10809
         doClick(key, 2)
-        //#else
-        //$$ doClick(key, MCClickType.SWAP)
-        //#endif
     }
 }

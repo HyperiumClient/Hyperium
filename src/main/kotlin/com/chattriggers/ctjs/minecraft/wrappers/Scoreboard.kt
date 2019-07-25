@@ -94,12 +94,7 @@ object Scoreboard {
                     scoreboard.removeObjectiveFromEntity(it.playerName, sidebarObjective)
                 }
             }
-
-            //#if MC<=10809
             val theScore = scoreboard.getValueFromObjective(line, sidebarObjective)
-            //#else
-            //$$ val theScore = scoreboard.getOrCreateScore(line, sidebarObjective);
-            //#endif
 
             theScore.scorePoints = score
         } catch (ignored: Exception) {

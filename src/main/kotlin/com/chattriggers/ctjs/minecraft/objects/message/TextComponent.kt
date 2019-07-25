@@ -101,11 +101,7 @@ class TextComponent {
         if (this.clickAction == null || this.clickValue == null) return
 
         this.chatComponentText.getStyling()
-            //#if MC<=10809
             .chatClickEvent =
-                //#else
-                //$$ .clickEvent =
-                //#endif
             TextClickEvent(
                 ClickEventAction.getValueByCanonicalName(this.clickAction),
                 if (this.formatted) ChatLib.addColor(this.clickValue)
@@ -117,11 +113,7 @@ class TextComponent {
         if (this.hoverAction == null || this.hoverValue == null) return
 
         this.chatComponentText.getStyling()
-            //#if MC<=10809
             .chatHoverEvent =
-                //#else
-                //$$ .hoverEvent =
-                //#endif
             TextHoverEvent(
                 HoverEventAction.getValueByCanonicalName(this.hoverAction),
                 BaseTextComponent(

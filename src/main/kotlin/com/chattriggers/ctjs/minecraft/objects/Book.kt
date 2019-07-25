@@ -18,12 +18,7 @@ import net.minecraft.nbt.NBTTagString
 @External
 class Book(bookName: String) {
     private var bookScreen: GuiScreenBook? = null
-    private val book: ItemStack
-    //#if MC<=10809
-            = ItemStack(Items.written_book)
-    //#else
-    //$$ = ItemStack(Items.WRITTEN_BOOK)
-    //#endif
+    private val book: ItemStack = ItemStack(Items.written_book)
     private val bookData: NBTTagCompound = NBTTagCompound()
 
     init {

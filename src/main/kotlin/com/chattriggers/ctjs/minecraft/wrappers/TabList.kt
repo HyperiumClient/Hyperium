@@ -60,13 +60,8 @@ object TabList {
                     playerOne.gameType != GameType.SPECTATOR,
                     playerTwo.gameType != GameType.SPECTATOR
                 ).compare(
-                    //#if MC<=10809
                     teamOne?.registeredName ?: "",
                     teamTwo?.registeredName ?: ""
-                    //#else
-                    //$$ teamOne?.name ?: "",
-                    //$$ teamTwo?.name ?: ""
-                    //#endif
                 ).compare(
                     playerOne.gameProfile.name,
                     playerTwo.gameProfile.name

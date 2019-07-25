@@ -44,10 +44,6 @@ class Particle(val underlyingEntity: MCParticle) {
     }
 
     fun remove() {
-        //#if MC<=10809
         this.underlyingEntity.setDead()
-        //#else
-        //$$ this.underlyingEntity.setExpired();
-        //#endif
     }
 }

@@ -68,11 +68,7 @@ object Renderer {
 
     @JvmStatic
     fun getFontRenderer(): FontRenderer {
-        //#if MC<=10809
         return Client.getMinecraft().fontRendererObj
-        //#else
-        //$$ return Client.getMinecraft().fontRenderer
-        //#endif
     }
 
     @JvmStatic
@@ -428,11 +424,7 @@ object Renderer {
         val renderManager = Client.getMinecraft().renderManager
         renderManager.setPlayerViewY(180.0f)
         renderManager.isRenderShadow = false
-        //#if MC<=10809
         renderManager.renderEntityWithPosYaw(ent, 0.0, 0.0, 0.0, 0.0f, 1.0f)
-        //#else
-        //$$ renderManager.doRenderEntity(ent, 0.0, 0.0, 0.0, 0.0F, 1.0F, false)
-        //#endif
         renderManager.isRenderShadow = true
 
         ent.renderYawOffset = f

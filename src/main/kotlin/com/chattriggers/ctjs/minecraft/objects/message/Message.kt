@@ -153,19 +153,11 @@ class Message {
             return
         }
 
-        //#if MC<=10809
         if (this.recursive) {
             Client.getConnection().handleChat(ChatPacket(this.chatMessage, 0))
         } else {
             Player.getPlayer()?.addChatMessage(this.chatMessage)
         }
-        //#else
-        //$$ if (this.recursive) {
-        //$$    Client.getConnection().handleChat(ChatPacket(this.chatMessage, ChatType.CHAT))
-        //$$ } else {
-        //$$    Player.getEntity()?.sendMessage(this.chatMessage)
-        //$$ }
-        //#endif
     }
 
     /**
@@ -178,11 +170,7 @@ class Message {
         Client.getConnection().handleChat(
             ChatPacket(
                 this.chatMessage,
-                //#if MC<=10809
                 2
-                //#else
-                //$$ ChatType.GAME_INFO
-                //#endif
             )
         )
     }

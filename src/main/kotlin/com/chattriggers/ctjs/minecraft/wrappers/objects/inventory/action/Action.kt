@@ -5,10 +5,6 @@ import com.chattriggers.ctjs.minecraft.wrappers.Player
 import com.chattriggers.ctjs.minecraft.wrappers.objects.inventory.Inventory
 import com.chattriggers.ctjs.utils.kotlin.External
 
-//#if MC>10809
-//$$ import com.chattriggers.ctjs.utils.kotlin.MCClickType
-//#endif
-
 @External
 abstract class Action(var slot: Int, var windowId: Int) {
     fun setSlot(slot: Int) = apply {
@@ -21,11 +17,7 @@ abstract class Action(var slot: Int, var windowId: Int) {
 
     abstract fun complete()
 
-    //#if MC<=10809
     protected fun doClick(button: Int, mode: Int) {
-        //#else
-        //$$ protected fun doClick(button: Int, mode: MCClickType) {
-        //#endif
         Client.getMinecraft().playerController.windowClick(
             windowId,
             slot,

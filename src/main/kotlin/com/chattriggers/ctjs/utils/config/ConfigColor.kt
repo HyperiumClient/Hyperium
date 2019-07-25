@@ -82,7 +82,6 @@ open class ConfigColor
             .setOutline(-0x1000000, 1f)
             .draw()
 
-        //#if MC<=10809
         this.redButton.xPosition = MathLib.map(
             this.value.red.toFloat(),
             0f,
@@ -91,17 +90,12 @@ open class ConfigColor
             (middle + 52 + this.x).toFloat()
         ).toInt()
         this.redButton.drawButton(Client.getMinecraft(), mouseX, mouseY)
-        //#else
-        //$$ this.redButton.x = MathLib.map(this.value.red.toFloat(), 0f, 255f, (middle - 100 + this.x).toFloat(), (middle + 52 + this.x).toFloat()).toInt()
-        //$$ this.redButton.drawButton(Client.getMinecraft(), mouseX, mouseY, partialTicks)
-        //#endif
 
         // green slider
         Rectangle(-0xff7800, (middle - 100 + this.x).toFloat(), (this.y + 34).toFloat(), 155f, 3f)
             .setOutline(-0x1000000, 1f)
             .draw()
 
-        //#if MC<=10809
         this.greenButton.xPosition = MathLib.map(
             this.value.green.toFloat(),
             0f,
@@ -110,16 +104,11 @@ open class ConfigColor
             (middle + 52 + this.x).toFloat()
         ).toInt()
         this.greenButton.drawButton(Client.getMinecraft(), mouseX, mouseY)
-        //#else
-        //$$ this.greenButton.x = MathLib.map(this.value.green.toFloat(), 0f, 255f, (middle - 100 + this.x).toFloat(), (middle + 52 + this.x).toFloat()).toInt()
-        //$$ this.greenButton.drawButton(Client.getMinecraft(), mouseX, mouseY, partialTicks)
-        //#endif
 
         // blue slider
         Rectangle(-0xffff34, (middle - 100 + this.x).toFloat(), (this.y + 49).toFloat(), 155f, 3f)
             .setOutline(-0x1000000, 1f)
             .draw()
-        //#if MC<=10809
         this.blueButton.xPosition = MathLib.map(
             this.value.blue.toFloat(),
             0f,
@@ -128,10 +117,6 @@ open class ConfigColor
             (middle + 52 + this.x).toFloat()
         ).toInt()
         this.blueButton.drawButton(Client.getMinecraft(), mouseX, mouseY)
-        //#else
-        //$$ this.blueButton.x = MathLib.map(this.value.blue.toFloat(), 0f, 255f, (middle - 100 + this.x).toFloat(), (middle + 52 + this.x).toFloat()).toInt()
-        //$$ this.blueButton.drawButton(Client.getMinecraft(), mouseX, mouseY, partialTicks)
-        //#endif
 
         // color preview
         Rectangle(this.value.rgb, (middle + this.x + 60).toFloat(), (this.y + 15).toFloat(), 40f, 40f)
@@ -145,20 +130,12 @@ open class ConfigColor
 
     private fun handleHeldButtons(mouseX: Int, middle: Int) {
         if (this.redHeld) {
-            //#if MC<=10809
             this.redButton.xPosition = mouseX - 1
-            //#else
-            //$$ this.redButton.x = mouseX - 1
-            //#endif
 
             limitHeldButton(this.redButton)
             this.value = Color(
                 MathLib.map(
-                    //#if MC<=10809
                     this.redButton.xPosition.toFloat(),
-                    //#else
-                    //$$ this.redButton.x.toFloat(),
-                    //#endif
                     (middle - 100 + this.x).toFloat(), (middle + 52 + this.x).toFloat(), 0f, 255f
                 ).toInt(),
                 this.value.green,
@@ -166,43 +143,27 @@ open class ConfigColor
             )
         }
         if (this.greenHeld) {
-            //#if MC<=10809
             this.greenButton.xPosition = mouseX - 1
-            //#else
-            //$$ this.greenButton.x = mouseX - 1
-            //#endif
 
             limitHeldButton(this.greenButton)
             this.value = Color(
                 this.value.red,
                 MathLib.map(
-                    //#if MC<=10809
                     this.greenButton.xPosition.toFloat(),
-                    //#else
-                    //$$ this.greenButton.x.toFloat(),
-                    //#endif
                     (middle - 100 + this.x).toFloat(), (middle + 52 + this.x).toFloat(), 0f, 255f
                 ).toInt(),
                 this.value.blue
             )
         }
         if (this.blueHeld) {
-            //#if MC<=10809
             this.blueButton.xPosition = mouseX - 1
-            //#else
-            //$$ this.blueButton.x = mouseX - 1
-            //#endif
 
             limitHeldButton(this.blueButton)
             this.value = Color(
                 this.value.red,
                 this.value.green,
                 MathLib.map(
-                    //#if MC<=10809
                     this.blueButton.xPosition.toFloat(),
-                    //#else
-                    //$$ this.blueButton.x.toFloat(),
-                    //#endif
                     (middle - 100 + this.x).toFloat(), (middle + 52 + this.x).toFloat(), 0f, 255f
                 ).toInt()
             )
@@ -210,17 +171,10 @@ open class ConfigColor
     }
 
     private fun limitHeldButton(button: GuiButton) {
-        //#if MC<=10809
         if (button.xPosition < Renderer.Screen.getWidth() / 2 - 100 + this.x)
             button.xPosition = Renderer.Screen.getWidth() / 2 - 100 + this.x
         if (button.xPosition > Renderer.Screen.getWidth() / 2 + 52 + this.x)
             button.xPosition = Renderer.Screen.getWidth() / 2 + 52 + this.x
-        //#else
-        //$$ if (button.x < Renderer.Screen.getWidth() / 2 - 100 + this.x)
-        //$$     button.x = Renderer.Screen.getWidth() / 2 - 100 + this.x
-        //$$ if (button.x > Renderer.Screen.getWidth() / 2 + 52 + this.x)
-        //$$     button.x = Renderer.Screen.getWidth() / 2 + 52 + this.x
-        //#endif
     }
 
     override fun mouseClicked(mouseX: Int, mouseY: Int) {
@@ -242,7 +196,6 @@ open class ConfigColor
         if (this.resetButton.mousePressed(Client.getMinecraft(), mouseX, mouseY)) {
             this.value = this.initial
             val middle = Renderer.Screen.getWidth() / 2
-            //#if MC<=10809
             this.redButton.xPosition = MathLib.map(
                 this.value.red.toFloat(),
                 0f,
@@ -264,11 +217,6 @@ open class ConfigColor
                 (middle - 100 + this.x).toFloat(),
                 (middle + 52 + this.x).toFloat()
             ).toInt()
-            //#else
-            //$$ this.redButton.x = MathLib.map(this.value.red.toFloat(), 0f, 255f, (middle - 100 + this.x).toFloat(), (middle + 52 + this.x).toFloat()).toInt()
-            //$$ this.greenButton.x = MathLib.map(this.value.green.toFloat(), 0f, 255f, (middle - 100 + this.x).toFloat(), (middle + 52 + this.x).toFloat()).toInt()
-            //$$ this.blueButton.x = MathLib.map(this.value.blue.toFloat(), 0f, 255f, (middle - 100 + this.x).toFloat(), (middle + 52 + this.x).toFloat()).toInt()
-            //#endif
             this.resetButton.playPressSound(Client.getMinecraft().soundHandler)
         }
     }

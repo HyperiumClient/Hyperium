@@ -78,15 +78,7 @@ open class Block {
     fun getName(): String = block.localizedName
 
     fun getLightValue(): Int {
-        //#if MC<=10809
         return this.block.lightValue
-        //#else
-        //$$ return this.block.getLightValue(
-        //$$         World.getWorld()!!.getBlockState(blockPos),
-        //$$         World.getWorld(),
-        //$$         blockPos
-        //$$ );
-        //#endif
     }
 
     fun getState(): IBlockState = World.getWorld()!!.getBlockState(blockPos)
@@ -101,13 +93,7 @@ open class Block {
     fun getDefaultMetadata(): Int = block.getMetaFromState(getDefaultState())
 
     fun canProvidePower(): Boolean {
-        //#if MC<=10809
         return this.block.canProvidePower()
-        //#else
-        //$$ return this.block.canProvidePower(
-        //$$         World.getWorld()!!.getBlockState(blockPos)
-        //$$ );
-        //#endif
     }
 
     fun isPowered(): Boolean = World.getWorld()!!.isBlockPowered(blockPos)

@@ -64,13 +64,7 @@ class ConfigString
             .setShadow(-0x30000000, 3f, 3f)
             .draw()
         Text(this.name!!, (middle - 100 + this.x).toFloat(), this.y.toFloat()).draw()
-
-        //#if MC<=10809
         this.textField!!.xPosition = middle - 100 + this.x
-        //#else
-        //$$ this.textField!!.x = middle - 100 + this.x
-        //#endif
-
         this.textField!!.drawTextBox()
 
         super.draw(mouseX, mouseY, partialTicks)

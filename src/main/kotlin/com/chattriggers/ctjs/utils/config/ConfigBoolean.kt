@@ -45,13 +45,8 @@ class ConfigBoolean
 
         Text(this.name!!, (middle - 100 + this.x).toFloat(), this.y.toFloat()).draw()
 
-        //#if MC<=10809
         this.button.xPosition = middle - 100 + this.x
         this.button.drawButton(Client.getMinecraft(), mouseX, mouseY)
-        //#else
-        //$$ this.button.x = middle - 100 + this.x;
-        //$$ this.button.drawButton(Client.getMinecraft(), mouseX, mouseY, partialTicks);
-        //#endif
 
         super.draw(mouseX, mouseY, partialTicks)
     }
