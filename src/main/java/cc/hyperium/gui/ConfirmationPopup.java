@@ -35,7 +35,7 @@ import java.util.Queue;
 import java.util.function.Consumer;
 
 public class ConfirmationPopup {
-    private final Queue<Confirmation> confirmations = new LinkedList<>();
+    public final Queue<Confirmation> confirmations = new LinkedList<>();
     private Confirmation currentConfirmation;
     private String acceptFrom = "";
 
@@ -96,7 +96,7 @@ public class ConfirmationPopup {
         this.acceptFrom = acceptFrom;
     }
 
-    class Confirmation {
+    public class Confirmation {
         private final String text;
         private final Consumer<Boolean> callback;
         private final long upperThreshold;
