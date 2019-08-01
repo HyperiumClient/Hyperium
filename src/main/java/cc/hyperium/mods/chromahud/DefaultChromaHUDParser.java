@@ -40,7 +40,7 @@ public class DefaultChromaHUDParser implements ChromaHUDParser {
     private final HashMap<String, String> names = new HashMap<>();
 
     DefaultChromaHUDParser() {
-        names.put("CORDS", "Cords");
+        names.put("COORDS", "Cords");
         names.put("TEXT", "Text");
         names.put("ARMOUR_HUD", "Armour");
         names.put("POTION", "Potion");
