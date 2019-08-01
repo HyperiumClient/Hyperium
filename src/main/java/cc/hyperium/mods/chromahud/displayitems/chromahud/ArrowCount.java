@@ -27,7 +27,9 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author Sk1er
@@ -47,14 +49,8 @@ public class ArrowCount extends DisplayItem {
         list.add(new ItemStack(Item.getItemById(262), 64));
         EntityPlayerSP thePlayer = Minecraft.getMinecraft().thePlayer;
         if (thePlayer != null) {
-            int c = 0;
-            for (ItemStack is : thePlayer.inventory.mainInventory) {
-                if (is != null) {
-                    if (is.getUnlocalizedName().equalsIgnoreCase("item.arrow"))
-                        c += is.stackSize;
-                }
-
-            }
+            int c = Arrays.stream(thePlayer.inventory.mainInventory).filter(Objects::nonNull).filter(is ->
+                is.getUnlocalizedName().equalsIgnoreCase("item.arrow")).mapToInt(is -> is.stackSize).sum();
             ElementRenderer.render(list, starX, startY, false);
             ElementRenderer.draw(starX + 16, startY + 8, "x" + (isConfig ? 64 : c));
         }

@@ -23,7 +23,7 @@ public class MasterConfig {
 
     @ConfigOpt private boolean enabled = true;
     @ConfigOpt private double fontSize = 1.0;
-    @ConfigOpt private double offset = 0.0;
+    @ConfigOpt private double offset;
 
     public boolean isEnabled() {
         return enabled;

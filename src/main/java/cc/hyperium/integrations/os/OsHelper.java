@@ -22,6 +22,7 @@ import org.apache.commons.lang3.SystemUtils;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.stream.Collectors;
 
 public class OsHelper {
 
@@ -34,26 +35,20 @@ public class OsHelper {
     }
 
     private static boolean isProcessRunningWindows(String proc) throws IOException {
-        String line;
-        StringBuilder pidInfo = new StringBuilder();
+        String pidInfo;
         Process p = Runtime.getRuntime().exec(System.getenv("windir") + "\\system32\\" + "tasklist.exe");
         BufferedReader input = new BufferedReader(new InputStreamReader(p.getInputStream()));
-        while ((line = input.readLine()) != null) {
-            pidInfo.append(line);
-        }
+        pidInfo = input.lines().collect(Collectors.joining());
         input.close();
-        return pidInfo.toString().contains(proc);
+        return pidInfo.contains(proc);
     }
 
     private static boolean isProcessRunningMac(String proc) throws IOException {
-        String line;
-        StringBuilder pidInfo = new StringBuilder();
+        String pidInfo;
         Process p = Runtime.getRuntime().exec("ps -A");
         BufferedReader input = new BufferedReader(new InputStreamReader(p.getInputStream()));
-        while ((line = input.readLine()) != null) {
-            pidInfo.append(line);
-        }
+        pidInfo = input.lines().collect(Collectors.joining());
         input.close();
-        return pidInfo.toString().contains(proc);
+        return pidInfo.contains(proc);
     }
 }

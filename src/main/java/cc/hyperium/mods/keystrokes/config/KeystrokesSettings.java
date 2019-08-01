@@ -39,25 +39,25 @@ public class KeystrokesSettings {
 
     private final KeystrokesMod theMod;
     private final File configFile;
-    private int x = 0;
-    private int y = 0;
+    private int x;
+    private int y;
     private boolean enabled = true;
-    private boolean chroma = false;
-    private boolean mouseButtons = false;
-    private boolean showCPS = false;
-    private boolean showCPSOnButtons = false;
-    private boolean showSpacebar = false;
+    private boolean chroma;
+    private boolean mouseButtons;
+    private boolean showCPS;
+    private boolean showCPSOnButtons;
+    private boolean showSpacebar;
     private double scale = 1;
     private double fadeTime = 1;
     private int red = 255;
     private int green = 255;
     private int blue = 255;
-    private int pressedRed = 0;
-    private int pressedGreen = 0;
-    private int pressedBlue = 0;
+    private int pressedRed;
+    private int pressedGreen;
+    private int pressedBlue;
     private boolean leftClick = true;
-    private boolean showingSneak = false;
-    private boolean showingFPS = false;
+    private boolean showingSneak;
+    private boolean showingFPS;
     private boolean keyBackground = true;
     private List<CustomKeyWrapper> configWrappers = new ArrayList<>();
 
@@ -80,21 +80,17 @@ public class KeystrokesSettings {
 
             BufferedReader f = new BufferedReader(new FileReader(this.configFile));
             List<String> options = f.lines().collect(Collectors.toList());
-            StringBuilder builder = new StringBuilder();
 
             if (options.isEmpty()) {
                 return;
             }
 
-            for (String s : options) {
-                builder.append(s);
-            }
-
-            if (builder.toString().trim().length() > 0) {
-                parseSettings(new BetterJsonObject(builder.toString().trim()));
+            String builder = String.join("", options);
+            if (builder.trim().length() > 0) {
+                parseSettings(new BetterJsonObject(builder.trim()));
             }
         } catch (Exception ex) {
-            Hyperium.LOGGER.warn(String.format("Could not load config file! (\"%s\")", this.configFile.getName()));
+            Hyperium.LOGGER.warn("Could not load config file! {}", configFile.getName());
             save();
         }
     }
@@ -169,7 +165,7 @@ public class KeystrokesSettings {
         showSpacebar = object.optBoolean("showSpacebar");
         showingSneak = object.optBoolean("showSneak");
         showingFPS = object.optBoolean("showFps");
-        keyBackground = object.optBoolean("keyBackground");
+        keyBackground = object.optBoolean("keyBackground", true);
         JsonObject data = object.getData();
         if (data.has("custom")) {
             JsonArray custom = data.getAsJsonArray("custom");
@@ -185,151 +181,114 @@ public class KeystrokesSettings {
     public int getX() {
         return this.x;
     }
-
     public void setX(int x) {
         this.x = x;
     }
-
     public int getY() {
         return this.y;
     }
-
     public void setY(int y) {
         this.y = y;
     }
-
     public int getRed() {
         return this.red;
     }
-
     public void setRed(int red) {
         this.red = red;
     }
-
     public int getGreen() {
         return this.green;
     }
-
     public void setGreen(int green) {
         this.green = green;
     }
-
     public int getBlue() {
         return this.blue;
     }
-
     public void setBlue(int blue) {
         this.blue = blue;
     }
-
     public int getPressedRed() {
         return this.pressedRed;
     }
-
     public void setPressedRed(int red) {
         this.pressedRed = red;
     }
-
     public int getPressedGreen() {
         return this.pressedGreen;
     }
-
     public void setPressedGreen(int green) {
         this.pressedGreen = green;
     }
-
     public int getPressedBlue() {
         return this.pressedBlue;
     }
-
     public void setPressedBlue(int blue) {
         this.pressedBlue = blue;
     }
-
     public double getScale() {
         return capDouble(this.scale, 0.5F, 1.5F);
     }
-
     public void setScale(double scale) {
         this.scale = capDouble(scale, 0.5F, 1.5F);
     }
-
     public double getFadeTime() {
         return capDouble(this.fadeTime, 0.1F, 3.0F);
     }
-
     public void setFadeTime(double scale) {
         this.fadeTime = capDouble(scale, 0.1F, 3.0F);
     }
-
     public boolean isEnabled() {
         return this.enabled;
     }
-
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
     }
-
     public boolean isShowingMouseButtons() {
         return this.mouseButtons;
     }
-
     public void setShowingMouseButtons(boolean showingMouseButtons) {
         this.mouseButtons = showingMouseButtons;
     }
-
     public boolean isShowingSpacebar() {
         return this.showSpacebar;
     }
-
     public void setShowingSpacebar(boolean showSpacebar) {
         this.showSpacebar = showSpacebar;
     }
-
     public boolean isShowingCPS() {
         return this.showCPS;
     }
-
     public void setShowingCPS(boolean showingCPS) {
         this.showCPS = showingCPS;
     }
-
     public boolean isShowingCPSOnButtons() {
         return this.showCPSOnButtons;
     }
-
     public void setShowingCPSOnButtons(boolean showCPSOnButtons) {
         this.showCPSOnButtons = showCPSOnButtons;
     }
-
     public boolean isChroma() {
         return this.chroma;
     }
-
     public void setChroma(boolean showingChroma) {
         this.chroma = showingChroma;
     }
-
     public boolean isLeftClick() {
         return this.leftClick;
     }
-
     public void setLeftClick(boolean leftClick) {
         this.leftClick = leftClick;
     }
-
     public boolean isShowingFPS() {
         return showingFPS;
     }
-
     public void setShowingFPS(boolean showingFPS) {
         this.showingFPS = showingFPS;
     }
-
     public boolean isKeyBackgroundEnabled() {
         return keyBackground;
     }
-
     public void setKeyBackgroundEnabled(boolean keyBackground) {
         this.keyBackground = keyBackground;
     }
@@ -372,15 +331,7 @@ public class KeystrokesSettings {
         return this.theMod;
     }
 
-    private float capFloat(float valueIn, float minValue, float maxValue) {
-        return (valueIn < minValue) ? minValue : ((valueIn > maxValue) ? maxValue : valueIn);
-    }
-
     private double capDouble(double valueIn, double minValue, double maxValue) {
-        return (valueIn < minValue) ? minValue : ((valueIn > maxValue) ? maxValue : valueIn);
-    }
-
-    private int capInt(int valueIn, int minValue, int maxValue) {
         return (valueIn < minValue) ? minValue : ((valueIn > maxValue) ? maxValue : valueIn);
     }
 }

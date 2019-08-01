@@ -19,11 +19,9 @@ package cc.hyperium.mods;
 
 import cc.hyperium.mods.autogg.AutoGG;
 import cc.hyperium.mods.blockoverlay.BlockOverlay;
-import cc.hyperium.mods.browser.BrowserMod;
 import cc.hyperium.mods.chromahud.ChromaHUD;
 import cc.hyperium.mods.chunkanimator.ChunkAnimator;
 import cc.hyperium.mods.glintcolorizer.GlintColorizer;
-import cc.hyperium.mods.hgames.HGames;
 import cc.hyperium.mods.itemphysic.ItemPhysicMod;
 import cc.hyperium.mods.keystrokes.KeystrokesMod;
 import cc.hyperium.mods.levelhead.Levelhead;
@@ -47,13 +45,11 @@ public class HyperiumModIntegration {
     private final ChromaHUD chromaHUD;
     private final Autotip autotip;
     private final AutoGG autogg;
-    private final HGames hgames;
     private final GlintColorizer glintcolorizer;
     private final BlockOverlay blockOverlay;
     private final MotionBlurMod motionBlur;
     private final OldAnimations oldanimations;
     private final ItemPhysicMod itemPhysicMod;
-    private final BrowserMod browserMod;
     private final VictoryRoyale victoryRoyale;
     private final ChunkAnimator chunkAnimator;
 
@@ -80,9 +76,6 @@ public class HyperiumModIntegration {
         // AutoGG implementation
         this.autogg = ((AutoGG) new AutoGG().init());
 
-        // HGames implementation
-        this.hgames = ((HGames) new HGames().init());
-
         // Old Animations implementation
 
         this.oldanimations = ((OldAnimations) new OldAnimations().init());
@@ -99,74 +92,49 @@ public class HyperiumModIntegration {
         nickHider.init();
 
         this.itemPhysicMod = (ItemPhysicMod) new ItemPhysicMod().init();
-
-        this.browserMod = (BrowserMod) new BrowserMod().init();
-
         this.victoryRoyale = (VictoryRoyale) new VictoryRoyale().init();
-
         this.chunkAnimator = (ChunkAnimator) new ChunkAnimator().init();
     }
 
     public KeystrokesMod getKeystrokesMod() {
         return keystrokesMod;
     }
-
     public TimeChanger getTimeChanger() {
         return timeChanger;
     }
-
     public ToggleChatMod getToggleChat() {
         return toggleChat;
     }
-
     public Levelhead getLevelhead() {
         return levelhead;
     }
-
     public ChromaHUD getChromaHUD() {
         return chromaHUD;
     }
-
     public Autotip getAutotip() {
         return autotip;
     }
-
     public AutoGG getAutoGG() {
         return autogg;
     }
-
-    public HGames getHGames() {
-        return hgames;
-    }
-
     public GlintColorizer getGlintcolorizer() {
         return glintcolorizer;
     }
-
     public BlockOverlay getBlockOverlay() {
         return blockOverlay;
     }
-
     public MotionBlurMod getMotionBlur() {
         return motionBlur;
     }
-
     public OldAnimations getOldanimations() {
         return oldanimations;
     }
-
     public ItemPhysicMod getItemPhysicMod() {
         return itemPhysicMod;
     }
-
-    public BrowserMod getBrowserMod() {
-        return browserMod;
-    }
-
     public VictoryRoyale getVictoryRoyale() {
         return victoryRoyale;
     }
-
     public ChunkAnimator getChunkAnimator() {
         return chunkAnimator;
     }

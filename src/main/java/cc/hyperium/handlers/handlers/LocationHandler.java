@@ -43,8 +43,8 @@ public class LocationHandler {
 
     private final Pattern whereami = Pattern.compile("You are currently connected to server (?<server>.+)");
     private String location = "";
-    private boolean sendingWhereAmI = false;
-    private long ticksInWorld = 0;
+    private boolean sendingWhereAmI;
+    private long ticksInWorld;
 
     @InvokeEvent
     public void serverJoinEvent(ServerJoinEvent event) {

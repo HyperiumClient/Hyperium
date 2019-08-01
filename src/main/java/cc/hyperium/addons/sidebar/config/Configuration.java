@@ -28,14 +28,14 @@ import java.io.IOException;
 public class Configuration {
 
     public boolean enabled = true;
-    public int offsetX = 0;
-    public int offsetY = 0;
+    public int offsetX;
+    public int offsetY;
     public float scale = 1.0f;
     public boolean redNumbers = true;
-    public boolean shadow = false;
-    public int rgb = 0;
+    public boolean shadow;
+    public int rgb;
     public int alpha = 50;
-    public boolean chromaEnabled = false;
+    public boolean chromaEnabled;
     public int chromaSpeed = 2;
     public GuiSidebar.ChromaType chromaType = GuiSidebar.ChromaType.ONE;
 

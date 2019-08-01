@@ -35,9 +35,8 @@ public class SplashProgress {
 
     public static final int DEFAULT_MAX = 12;
     public static int MAX = DEFAULT_MAX;
-    public static int PROGRESS = 0;
+    public static int PROGRESS;
     public static String CURRENT = "";
-    public static boolean CANCEL_IF_MAX = true;
     private static ResourceLocation splash;
     private static TextureManager ctm;
     /**

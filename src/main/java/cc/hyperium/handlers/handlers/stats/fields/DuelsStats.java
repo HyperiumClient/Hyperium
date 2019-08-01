@@ -27,6 +27,7 @@ import club.sk1er.website.utils.WebsiteUtils;
 import net.hypixel.api.GameType;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class DuelsStats extends AbstractHypixelStats {
@@ -53,11 +54,7 @@ public class DuelsStats extends AbstractHypixelStats {
         List<StatsDisplayItem> preview = super.getPreview(player);
         preview.add(new DisplayLine(""));
         JsonHolder stats = player.getStats(GameType.DUELS);
-        int wins = 0;
-        for (String tournament : tournaments) {
-            wins += stats.optInt(tournament + "_wins");
-        }
-        preview.add(new DisplayLine(bold("Tournament Wins: ", wins)));
+        preview.add(new DisplayLine(bold("Tournament Wins: ", Arrays.stream(tournaments).mapToInt(tournament -> stats.optInt(tournament + "_wins")).sum())));
         return preview;
     }
 

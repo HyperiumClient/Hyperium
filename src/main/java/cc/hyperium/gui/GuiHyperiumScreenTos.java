@@ -28,7 +28,7 @@ import java.awt.Color;
 
 public class GuiHyperiumScreenTos extends GuiHyperiumScreen {
 
-    private static boolean firstAccept = false;
+    private static boolean firstAccept;
 
     public final int BUTTON_ID_ACCEPT = 0;
 

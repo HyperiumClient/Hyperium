@@ -58,9 +58,9 @@ public class HypixelFriendsGui extends HyperiumGui {
     private int tick;
     private HypixelFriends friends;
     private GuiTextField textField;
-    private GuiBoxItem<HypixelApiFriendObject> selectedItem = null;
+    private GuiBoxItem<HypixelApiFriendObject> selectedItem;
     private int columnWidth;
-    private int removeTicks = 0;
+    private int removeTicks;
 
     public HypixelFriendsGui() {
         rebuildFriends();

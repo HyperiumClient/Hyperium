@@ -21,7 +21,7 @@ import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.renderer.entity.RenderManager;
 
 public class RenderNameTagEvent {
-    public static boolean CANCEL = false;
+    public static boolean CANCEL;
     private AbstractClientPlayer entity;
     private RenderManager renderManager;
 

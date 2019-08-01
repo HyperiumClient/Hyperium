@@ -35,8 +35,8 @@ public class DisplayManager {
 
     private Gson GSON = new Gson();
     private List<AboveHeadDisplay> aboveHead = new ArrayList<>();
-    private LevelheadDisplay chat = null;
-    private TabDisplay tab = null;
+    private LevelheadDisplay chat;
+    private TabDisplay tab;
     private MasterConfig config = new MasterConfig();
     private File file;
 

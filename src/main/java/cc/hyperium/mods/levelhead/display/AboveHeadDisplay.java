@@ -20,12 +20,14 @@ package cc.hyperium.mods.levelhead.display;
 import cc.hyperium.mods.levelhead.Levelhead;
 import cc.hyperium.utils.ChatColor;
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.scoreboard.Team;
 
 import java.util.ArrayList;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class AboveHeadDisplay extends LevelheadDisplay {
 
@@ -67,13 +69,9 @@ public class AboveHeadDisplay extends LevelheadDisplay {
     public void checkCacheSize() {
         int max = Math.max(150, Levelhead.getInstance().getDisplayManager().getMasterConfig().getPurgeSize());
         if (cache.size() > max) {
-            ArrayList<UUID> safePlayers = new ArrayList<>();
-
-            for (EntityPlayer player : Minecraft.getMinecraft().theWorld.playerEntities) {
-                if (existedMoreThan5Seconds.contains(player.getUniqueID())) {
-                    safePlayers.add(player.getUniqueID());
-                }
-            }
+            ArrayList<UUID> safePlayers = Minecraft.getMinecraft().theWorld.playerEntities.stream().filter(player ->
+                existedMoreThan5Seconds.contains(player.getUniqueID())).
+                map(Entity::getUniqueID).collect(Collectors.toCollection(ArrayList::new));
 
             existedMoreThan5Seconds.clear();
             existedMoreThan5Seconds.addAll(safePlayers);

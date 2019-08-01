@@ -45,13 +45,13 @@ import java.util.regex.Pattern;
  */
 public class GeneralChatHandler {
 
-    private static GeneralChatHandler instance = null;
+    private static GeneralChatHandler instance;
     private final List<HyperiumChatHandler> handlerList;
 
     // Queued messages
     private final ConcurrentLinkedQueue<IChatComponent> messages = new ConcurrentLinkedQueue<>();
 
-    private boolean posted = false;
+    private boolean posted;
 
     public GeneralChatHandler(List<HyperiumChatHandler> handlerList) {
         this.handlerList = handlerList;

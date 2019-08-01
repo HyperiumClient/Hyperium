@@ -202,9 +202,9 @@ public class DragonCompanion extends AbstractCosmetic {
         AnimationPoint nextNext;
         //Speed in blocks per second
         private double speed = 3D;
-        private long start = 0L;
-        private double currentDistance = 0;
-        private long totalTime = 0;
+        private long start;
+        private double currentDistance;
+        private long totalTime;
         private long endTime;
 
         public AnimationState() {

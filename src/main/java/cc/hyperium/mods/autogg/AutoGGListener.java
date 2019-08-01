@@ -32,7 +32,7 @@ import net.minecraft.client.Minecraft;
 public class AutoGGListener {
 
     private final AutoGG mod;
-    private boolean invoked = false;
+    private boolean invoked;
 
 
     public AutoGGListener(AutoGG mod) {

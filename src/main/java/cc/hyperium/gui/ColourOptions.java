@@ -33,7 +33,7 @@ public class ColourOptions extends HyperiumOverlay {
     @ConfigOpt
     public static int accent_g = 255;
     @ConfigOpt
-    public static int accent_b = 0;
+    public static int accent_b;
 
 
     public static boolean toggle = true;

@@ -26,6 +26,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.stream.Collectors;
 
 /**
  * KeyBinding config, basically just a modified ToggleChat config
@@ -75,13 +76,7 @@ public class KeyBindConfig {
             try {
                 FileReader fileReader = new FileReader(this.keybindFile);
                 BufferedReader reader = new BufferedReader(fileReader);
-                StringBuilder builder = new StringBuilder();
-
-                String current;
-                while ((current = reader.readLine()) != null) {
-                    builder.append(current);
-                }
-                this.keyBindJson = new BetterJsonObject(builder.toString());
+                this.keyBindJson = new BetterJsonObject(reader.lines().collect(Collectors.joining()));
             } catch (Exception ex) {
                 // Error occured while loading
                 save();

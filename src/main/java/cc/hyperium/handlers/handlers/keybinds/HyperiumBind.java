@@ -45,8 +45,8 @@ public class HyperiumBind {
 
     private boolean wasPressed;
 
-    private boolean conflicted = false;
-    protected boolean conflictExempt = false;
+    private boolean conflicted;
+    protected boolean conflictExempt;
 
     public HyperiumBind(String description, int key) {
         this(description, key, "Hyperium");

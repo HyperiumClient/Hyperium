@@ -27,7 +27,7 @@ public class TypeOfficer extends ToggleBase {
     private final Pattern pattern = Pattern.compile(
         "(O|Officer) > (?<rank>\\[.+] )?(?<player>\\S{1,16})?(?<role>\\[.+])*: (?<message>.*)");
 
-    private boolean enabled = false;
+    private boolean enabled;
 
     @Override
     public String getName() {

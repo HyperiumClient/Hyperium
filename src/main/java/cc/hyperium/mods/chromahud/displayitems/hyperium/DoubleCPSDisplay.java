@@ -44,11 +44,7 @@ public class DoubleCPSDisplay extends DisplayItem {
         list.add("Right CPS: " + rightCps);
         list.add("Total CPS: " + (leftCps + rightCps));
         this.height = fr.FONT_HEIGHT * list.size();
-        int maxWidth = 0;
-        for (String line : list) {
-            if (fr.getStringWidth(line) > maxWidth) maxWidth = fr.getStringWidth(line);
-        }
-        this.width = maxWidth;
+        this.width = list.stream().mapToInt(fr::getStringWidth).filter(line -> line >= 0).max().orElse(0);
         ElementRenderer.draw(x, y, list);
     }
 }

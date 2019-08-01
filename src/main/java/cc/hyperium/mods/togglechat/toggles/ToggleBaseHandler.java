@@ -49,12 +49,7 @@ public class ToggleBaseHandler {
      * @return the formatted text
      */
     public boolean shouldToggle(String input) {
-        for (ToggleBase parser : this.toggles.values()) {
-            if (!parser.isEnabled() && parser.shouldToggle(input)) {
-                return true;
-            }
-        }
-        return false;
+        return this.toggles.values().stream().anyMatch(parser -> !parser.isEnabled() && parser.shouldToggle(input));
     }
 
     /**

@@ -41,7 +41,7 @@ public abstract class AbstractTab {
     protected HyperiumMainGui gui;
     protected String title;
     private SimpleAnimValue scrollAnim = new SimpleAnimValue(0L, 0f, 0f);
-    private int scroll = 0;
+    private int scroll;
     private String filter;
 
     /**

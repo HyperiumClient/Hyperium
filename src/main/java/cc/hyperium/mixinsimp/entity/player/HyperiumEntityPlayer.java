@@ -35,7 +35,7 @@ import net.minecraft.util.IChatComponent;
 public class HyperiumEntityPlayer {
     private EntityPlayer parent;
 
-    private boolean last = false;
+    private boolean last;
     private float currentHeight = 1.62F;
     private long lastChangeTime = System.currentTimeMillis();
     private IChatComponent cachedName;

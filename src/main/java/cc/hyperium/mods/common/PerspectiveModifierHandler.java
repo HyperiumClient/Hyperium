@@ -32,7 +32,7 @@ public class PerspectiveModifierHandler {
     public float modifiedYaw;
     public float modifiedPitch;
 
-    public boolean enabled = false;
+    public boolean enabled;
 
     public void onEnable() {
         this.enabled = true;

@@ -215,11 +215,11 @@ public class NotificationCenter extends Gui {
         /**
          * Ran when the user clicks on this notification, if applicable
          */
-        private Runnable clickedCallback = null;
+        private Runnable clickedCallback;
         /**
          * Image rendered with this notification, if applicable
          */
-        private DynamicTexture img = null;
+        private DynamicTexture img;
         /**
          * What to scale the image to
          * Should be around <code>height / imgSize</code>

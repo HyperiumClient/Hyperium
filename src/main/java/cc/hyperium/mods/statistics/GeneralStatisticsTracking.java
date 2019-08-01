@@ -34,11 +34,11 @@ public class GeneralStatisticsTracking {
     // These can be put in a HUD or printed in a command somewhere.
 
     @ConfigOpt
-    public static int lifetimeCoins = 0;
+    public static int lifetimeCoins;
     @ConfigOpt
-    public static int monthlyCoins = 0;
+    public static int monthlyCoins;
     @ConfigOpt
-    public static int dailyCoins = 0;
+    public static int dailyCoins;
 
     @ConfigOpt
     public String currentDateString = format.format(new Date());

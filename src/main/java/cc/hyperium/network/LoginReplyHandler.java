@@ -34,7 +34,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 
 public class LoginReplyHandler implements PacketHandler<LoginReplyPacket> {
-    public static boolean SHOW_MESSAGES = false;
+    public static boolean SHOW_MESSAGES;
 
     @Override
     public void handle(LoginReplyPacket loginReplyPacket) {

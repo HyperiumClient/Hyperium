@@ -42,10 +42,10 @@ import java.util.function.Consumer;
 
 public class GuiDances extends HyperiumGui {
 
-    private String foc = null;
+    private String foc;
     private HashMap<String, Consumer<Boolean>> handlers = new HashMap<>();
     private HashMap<String, Runnable> cancel = new HashMap<>();
-    private String lastFoc = null;
+    private String lastFoc;
 
     public GuiDances() {
         HyperiumHandlers handlers = Hyperium.INSTANCE.getHandlers();

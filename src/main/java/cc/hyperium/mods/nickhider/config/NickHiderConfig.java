@@ -24,13 +24,13 @@ public class NickHiderConfig {
     private String pseudoKey = RandomStringUtils.random(6, true, true);
     private String prefix = "Player-";
     private String suffix = "";
-    private boolean masterEnabled = false;
-    private boolean hideNames = false;
-    private boolean hideOtherNames = false;
-    private boolean hideOtherSkins = false;
-    private boolean hideSkins = false;
-    private boolean usePlayerSkinForAll = false;
-    private boolean useRealSkinForSelf = false;
+    private boolean masterEnabled;
+    private boolean hideNames;
+    private boolean hideOtherNames;
+    private boolean hideOtherSkins;
+    private boolean hideSkins;
+    private boolean usePlayerSkinForAll;
+    private boolean useRealSkinForSelf;
 
     public String getPseudoKey() {
         return pseudoKey;

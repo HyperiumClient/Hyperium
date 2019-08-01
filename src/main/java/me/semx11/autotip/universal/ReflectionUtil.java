@@ -208,9 +208,9 @@ public class ReflectionUtil {
         private static final long serialVersionUID = 601263623563010837L;
 
         UnableToFindConstructorException(Class<?>[] params, Exception e) {
-            super("Could not find params: " + String.join(", ", Arrays.stream(params)
+            super("Could not find params: " + Arrays.stream(params)
                     .map(Class::getSimpleName)
-                    .collect(Collectors.toList())), e);
+                    .collect(Collectors.joining(", ")), e);
         }
 
     }

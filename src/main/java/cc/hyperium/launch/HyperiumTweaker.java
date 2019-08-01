@@ -46,7 +46,7 @@ public class HyperiumTweaker implements ITweaker {
     private boolean isRunningOptifine = Launch.classLoader.getTransformers().stream()
         .anyMatch(p -> p.getClass().getName().contains("optifine"));
 
-    private boolean OPTIFINE = false;
+    private boolean OPTIFINE;
 
     public HyperiumTweaker() {
         INSTANCE = this;

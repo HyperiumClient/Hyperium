@@ -25,10 +25,7 @@ import cc.hyperium.mods.chromahud.api.TextConfig;
 import cc.hyperium.utils.JsonHolder;
 import com.google.gson.JsonArray;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.logging.Logger;
 
 /**
@@ -44,7 +41,7 @@ public class ChromaHUDApi {
     private final Map<String, ArrayList<ButtonConfig>> buttonConfigs = new HashMap<>();
     private final Map<String, ArrayList<TextConfig>> textConfigs = new HashMap<>();
     private final Map<String, ArrayList<StringConfig>> stringConfigs = new HashMap<>();
-    private boolean posted = false;
+    private boolean posted;
     private JsonHolder config = new JsonHolder();
 
     private ChromaHUDApi() {
@@ -177,15 +174,8 @@ public class ChromaHUDApi {
      * @return StatsDisplayItem instance created, null if the system was unable to resolve type
      */
     public DisplayItem parse(String type, int ord, JsonHolder item) {
-        for (ChromaHUDParser parser : parsers) {
-            DisplayItem parsed = parser.parse(type, ord, item);
-            if (parsed != null) {
-
-                return parsed;
-            }
-        }
+        return parsers.stream().map(parser -> parser.parse(type, ord, item)).filter(Objects::nonNull).findFirst().orElse(null);
         //No parsers could parse -> return null
-        return null;
     }
 
     /**

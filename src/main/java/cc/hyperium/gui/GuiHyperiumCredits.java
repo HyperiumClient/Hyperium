@@ -57,7 +57,7 @@ public class GuiHyperiumCredits extends HyperiumGui {
     }
 
     private GuiScreen prevGui;
-    private int offY = 0;
+    private int offY;
 
     GuiHyperiumCredits(GuiScreen prevGui) {
         this.prevGui = prevGui;

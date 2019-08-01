@@ -30,7 +30,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 @SuppressWarnings("UnstableApiUsage")
 public class EventBus {
     public static final EventBus INSTANCE = new EventBus();
-    public static boolean ALLOW_PROFILE = false;
+    public static boolean ALLOW_PROFILE;
     private HashMap<Class<?>, CopyOnWriteArrayList<EventSubscriber>> subscriptions = new HashMap<>();
 
     /**

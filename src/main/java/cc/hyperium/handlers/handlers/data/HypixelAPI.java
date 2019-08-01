@@ -64,8 +64,8 @@ public class HypixelAPI {
         .executor(Multithreading.POOL)
         .buildAsync(this::getApiGuild);
 
-    private List<Leaderboard> LEADERBOARDS = null;
-    private JsonHolder QUESTS = null;
+    private List<Leaderboard> LEADERBOARDS;
+    private JsonHolder QUESTS;
 
     private List<UUID> friendsForCurrentUser = new ArrayList<>();
 

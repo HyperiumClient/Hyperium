@@ -42,7 +42,7 @@ public class Colors {
     public static int glintB = 255;
     @ConfigOpt
     @ToggleSetting(category = Category.GLINTCOLORIZER, mods = true, name = "Enabled")
-    public static boolean enabled = false;
+    public static boolean enabled;
     private static float[] onepoint8glintcolorF = Color.RGBtoHSB(Colors.glintR, Colors.glintG, Colors.glintB, null);
     public static int onepoint8glintcolorI = Color.HSBtoRGB(Colors.onepoint8glintcolorF[0], Colors.onepoint8glintcolorF[1], Colors.onepoint8glintcolorF[2]);
 

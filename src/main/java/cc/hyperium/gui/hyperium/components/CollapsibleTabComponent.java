@@ -139,9 +139,7 @@ public class CollapsibleTabComponent extends AbstractTabComponent {
             List<AbstractTabComponent> children = this.tmpf == null ? this.children : this.children.stream().filter(c -> c.filter(tmpf)).collect(Collectors.toList());
             if (parent != null) {
                 int h = 18;
-                for (AbstractTabComponent child : children) {
-                    h += child.getHeight();
-                }
+                h += children.stream().mapToInt(AbstractTabComponent::getHeight).sum();
                 return h;
             }
 

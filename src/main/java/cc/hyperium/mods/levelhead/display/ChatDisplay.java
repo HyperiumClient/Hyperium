@@ -23,6 +23,7 @@ import net.minecraft.client.network.NetworkPlayerInfo;
 
 import java.util.ArrayList;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class ChatDisplay extends LevelheadDisplay {
 
@@ -48,15 +49,9 @@ public class ChatDisplay extends LevelheadDisplay {
     @Override
     public void checkCacheSize() {
         if (cache.size() > Math.max(Levelhead.getInstance().getDisplayManager().getMasterConfig().getPurgeSize(), 150)) {
-            ArrayList<UUID> safePlayers = new ArrayList<>();
-
-            for (NetworkPlayerInfo info : Minecraft.getMinecraft().getNetHandler().getPlayerInfoMap()) {
-                UUID id = info.getGameProfile().getId();
-
-                if (existedMoreThan5Seconds.contains(id)) {
-                    safePlayers.add(id);
-                }
-            }
+            ArrayList<UUID> safePlayers = Minecraft.getMinecraft().getNetHandler().getPlayerInfoMap().stream().map(info ->
+                info.getGameProfile().getId()).filter(existedMoreThan5Seconds::contains).
+                collect(Collectors.toCollection(ArrayList::new));
 
             existedMoreThan5Seconds.clear();
             existedMoreThan5Seconds.addAll(safePlayers);

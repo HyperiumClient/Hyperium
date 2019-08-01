@@ -23,6 +23,9 @@ import cc.hyperium.commands.BaseCommand;
 import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
 import net.minecraft.client.gui.GuiNewChat;
 
+import java.util.Arrays;
+import java.util.stream.Collectors;
+
 public class CommandGuild implements BaseCommand {
 
     @Override
@@ -44,11 +47,8 @@ public class CommandGuild implements BaseCommand {
                 Hyperium.INSTANCE.getHandlers().getStatsHandler().loadGuildByPlayer(args[1]);
             } else {
                 if (args[0].equalsIgnoreCase("name")) {
-                    StringBuilder builder = new StringBuilder();
-                    for (int i = 1; i < args.length; i++) {
-                        builder.append(args[i]);
-                    }
-                    Hyperium.INSTANCE.getHandlers().getStatsHandler().loadGuildByName(builder.toString());
+                    String builder = Arrays.stream(args, 1, args.length).collect(Collectors.joining());
+                    Hyperium.INSTANCE.getHandlers().getStatsHandler().loadGuildByName(builder);
                 } else {
                     GeneralChatHandler.instance().sendMessage(getUsage());
                 }

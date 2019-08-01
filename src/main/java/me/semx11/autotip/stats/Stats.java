@@ -23,10 +23,10 @@ public abstract class Stats {
     @Exclude
     protected final GlobalSettings settings;
 
-    protected int tipsSent = 0;
-    protected int tipsReceived = 0;
-    protected int xpSent = 0;
-    protected int xpReceived = 0;
+    protected int tipsSent;
+    protected int tipsReceived;
+    protected int xpSent;
+    protected int xpReceived;
 
     Map<String, Coins> gameStatistics = new ConcurrentHashMap<>();
 

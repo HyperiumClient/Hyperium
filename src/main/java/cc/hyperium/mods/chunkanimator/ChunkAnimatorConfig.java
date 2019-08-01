@@ -28,7 +28,7 @@ import static cc.hyperium.config.Category.CHUNK_ANIMATOR;
 public class ChunkAnimatorConfig {
     @ConfigOpt
     @ToggleSetting(name = "Enable", mods = true, category = CHUNK_ANIMATOR)
-    public static boolean enabled = false;
+    public static boolean enabled;
 
     @ConfigOpt
     @SelectorSetting(name = "Mode", category = CHUNK_ANIMATOR, items = {
@@ -46,5 +46,5 @@ public class ChunkAnimatorConfig {
 
     @ConfigOpt
     @ToggleSetting(name = "Disable Around Player", category = CHUNK_ANIMATOR, mods = true)
-    public static boolean disableAroundPlayer = false;
+    public static boolean disableAroundPlayer;
 }

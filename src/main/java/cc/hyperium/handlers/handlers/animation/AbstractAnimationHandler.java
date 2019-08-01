@@ -34,13 +34,13 @@ import java.util.concurrent.ConcurrentHashMap;
 public abstract class AbstractAnimationHandler {
 
 
-    public static boolean reset = false;
+    public static boolean reset;
     private final ConcurrentHashMap<UUID, AnimationState> animationStates = new ConcurrentHashMap<>();
 
-    protected float state = 0;
+    protected float state;
     protected boolean right = true;
     protected boolean asc = true;
-    private long systemTime = 0;
+    private long systemTime;
 
     @InvokeEvent
     public void onRender(RenderEvent e) {
@@ -228,7 +228,7 @@ public abstract class AbstractAnimationHandler {
     }
 
     public class AnimationState {
-        public int frames = 0;
+        public int frames;
         private long systemTime;
         private boolean toggled;
 

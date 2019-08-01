@@ -30,7 +30,7 @@ public class MouseButton extends IKey {
     private static final String[] BUTTONS = new String[]{"LMB", "RMB"};
     private final int button;
     private boolean wasPressed = true;
-    private long lastPress = 0L;
+    private long lastPress;
 
     public MouseButton(KeystrokesMod mod, int button, int xOffset, int yOffset) {
         super(mod, xOffset, yOffset);

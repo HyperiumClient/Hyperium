@@ -47,9 +47,9 @@ public class AddItemsGui extends GuiScreen {
     private final Map<GuiButton, Consumer<GuiButton>> updates = new HashMap<>();
     private final List<DisplayElement> all = new ArrayList<>();
     private final DisplayElement target;
-    private int tmpId = 0;
+    private int tmpId;
     private boolean adding = true;
-    private int offset = 0;
+    private int offset;
     private boolean mouseLock;
 
     AddItemsGui(ChromaHUD mod, DisplayElement element) {
@@ -223,11 +223,6 @@ public class AddItemsGui extends GuiScreen {
     }
 
     private DisplayElement find(String key) {
-        for (DisplayElement displayElement : all) {
-            if (displayElement.getDisplayItems().get(0).getType().equalsIgnoreCase(key)) {
-                return displayElement;
-            }
-        }
-        return null;
+        return all.stream().filter(displayElement -> displayElement.getDisplayItems().get(0).getType().equalsIgnoreCase(key)).findFirst().orElse(null);
     }
 }

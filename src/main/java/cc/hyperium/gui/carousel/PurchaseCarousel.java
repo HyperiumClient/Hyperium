@@ -40,8 +40,8 @@ public class PurchaseCarousel {
     private CarouselItem[] items;
     private SimpleAnimValue larrow = new SimpleAnimValue(0L, 0.5f, 0.5f);
     private SimpleAnimValue rarrow = new SimpleAnimValue(0L, 0.5f, 0.5f);
-    private boolean lhover = false;
-    private boolean rhover = false;
+    private boolean lhover;
+    private boolean rhover;
     private GuiBlock activeBlock;
 
     private PurchaseCarousel(int index, CarouselItem[] items) {

@@ -41,7 +41,7 @@ public abstract class MixinGuiButton extends Gui {
     @Shadow protected int height;
     @Shadow protected abstract void mouseDragged(Minecraft mc, int mouseX, int mouseY);
 
-    private float selectPercent = 0.0f;
+    private float selectPercent;
 
     private long systemTime = Minecraft.getSystemTime();
 

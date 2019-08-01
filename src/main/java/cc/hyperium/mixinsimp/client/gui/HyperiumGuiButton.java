@@ -41,7 +41,7 @@ public class HyperiumGuiButton {
     private final FontRenderer fontRenderer = Minecraft.getMinecraft().fontRendererObj;
     private GuiButton parent;
     private long systemTime = Minecraft.getSystemTime();
-    private float selectPercent = 0.0f;
+    private float selectPercent;
 
     public HyperiumGuiButton(GuiButton parent) {
         this.parent = parent;

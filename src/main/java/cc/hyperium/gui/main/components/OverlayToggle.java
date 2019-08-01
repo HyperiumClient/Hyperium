@@ -31,7 +31,7 @@ import java.util.function.Consumer;
 public class OverlayToggle extends OverlayComponent {
     private boolean toggle;
     private Consumer<Boolean> callback;
-    private float step = 0f;
+    private float step;
     private float colorStep = 0.5f;
 
     public OverlayToggle(String label, boolean toggle, Consumer<Boolean> callback, boolean enabled) {

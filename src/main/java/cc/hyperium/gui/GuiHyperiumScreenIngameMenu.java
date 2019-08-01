@@ -41,8 +41,8 @@ public class GuiHyperiumScreenIngameMenu extends GuiScreen {
 
     private static JsonHolder data = new JsonHolder();
     private final DecimalFormat formatter = new DecimalFormat("#,###");
-    private long lastUpdate = 0L;
-    private int cooldown = 0;
+    private long lastUpdate;
+    private int cooldown;
     private int baseAngle;
 
     @Override

@@ -61,7 +61,7 @@ public class HyperiumCommandHandler {
 
     private String[] latestAutoComplete;
 
-    public boolean runningCommand = false;
+    public boolean runningCommand;
 
     public HyperiumCommandHandler() {
         this.mc = Minecraft.getMinecraft();
@@ -238,14 +238,8 @@ public class HyperiumCommandHandler {
         String s = astring[0];
 
         if (astring.length == 1) {
-            List<String> list = Lists.newArrayList();
-
-            for (Entry<String, BaseCommand> entry : this.commands.entrySet()) {
-                if (CommandBase.doesStringStartWith(s, entry.getKey())) {
-                    list.add(entry.getKey());
-                }
-            }
-
+            List<String> list = this.commands.keySet().stream().filter(baseCommand ->
+                CommandBase.doesStringStartWith(s, baseCommand)).collect(Collectors.toList());
             return list;
         } else {
             BaseCommand command = this.commands.get(s);

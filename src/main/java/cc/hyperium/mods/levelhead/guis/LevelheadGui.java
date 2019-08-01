@@ -61,10 +61,10 @@ public class LevelheadGui extends GuiScreen implements GuiYesNoCallback {
     private LevelheadDisplay currentlyBeingEdited;
     private GuiTextField textField;
     private int currentID = 2;
-    private boolean bigChange = false;
-    private boolean isCustom = false;
-    private boolean purchasingStats = false;
-    private int offset = 0;
+    private boolean bigChange;
+    private boolean isCustom;
+    private boolean purchasingStats;
+    private int offset;
 
     @Override
     public void initGui() {

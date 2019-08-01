@@ -33,7 +33,7 @@ public class HyperiumChromaHudParser implements ChromaHUDParser {
 
     private final Map<String, String> names = new HashMap<>();
 
-    public HyperiumChromaHudParser() {
+    HyperiumChromaHudParser() {
         names.put("LOCATION", "Location");
         names.put("HYPIXEL", "Hypixel");
         names.put("MINIGAME_DISPLAY", "Hypixel Minigame Display");
@@ -56,8 +56,6 @@ public class HyperiumChromaHudParser implements ChromaHUDParser {
                 return new LocationDisplay(item, ord);
             case "HYPIXEL":
                 return new HypixelDisplay(item, ord);
-            case "MINIGAME_DISPLAY":
-                return new MinigameDisplay(item, ord);
             case "COINS":
                 return new CoinsDisplay(item, ord);
             case "SCOREBOARD":

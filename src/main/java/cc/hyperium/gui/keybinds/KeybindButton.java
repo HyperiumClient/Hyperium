@@ -34,7 +34,7 @@ import java.awt.Color;
 
 public class KeybindButton extends GuiButton {
 
-    private boolean listening = false;
+    private boolean listening;
     private HyperiumBind btnBind;
 
     public KeybindButton(int buttonId, int x, int y, int widthIn, int heightIn, String buttonText, HyperiumBind bind) {
