@@ -34,7 +34,7 @@ public class GuiScreenColor extends GuiScreen {
     private final IScrollable scrollable3; // Blue
     private final IScrollable scrollable4; // Gamma
 
-    private boolean updated = false; // Have the values been changed?
+    private boolean updated; // Have the values been changed?
 
     GuiScreenColor(KeystrokesMod mod, IScrollable scrollable1, IScrollable scrollable2, IScrollable scrollable3) {
         this.mod = mod;

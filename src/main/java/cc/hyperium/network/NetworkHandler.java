@@ -42,8 +42,8 @@ import java.util.UUID;
 public class NetworkHandler implements INetty, PostConfigHandler, PreSaveHandler {
 
     @ConfigOpt
-    public boolean log = false;
-    private boolean post = false;
+    public boolean log;
+    private boolean post;
     private List<String> verboseLogs = new ArrayList<>();
 
     public boolean isLog() {

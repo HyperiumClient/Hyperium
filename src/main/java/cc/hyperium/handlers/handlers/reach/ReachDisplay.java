@@ -44,7 +44,7 @@ import java.util.List;
 
 public class ReachDisplay {
 
-    public static double dis = 0.0;
+    public static double dis;
     private List<Hit> hits = new ArrayList<>();
     private boolean locked = true;
 

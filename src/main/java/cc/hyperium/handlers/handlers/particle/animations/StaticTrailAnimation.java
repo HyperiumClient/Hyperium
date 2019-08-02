@@ -24,6 +24,8 @@ import net.minecraft.util.Vec3;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * Created by mitchellkatz on 6/25/18. Designed for production use on Sk1er.club
@@ -31,13 +33,11 @@ import java.util.List;
 public class StaticTrailAnimation extends AbstractAnimation {
     @Override
     public List<Vec3> render(EntityPlayer player, double x, double y, double z) {
-        ArrayList<Vec3> vec3s = new ArrayList<>();
+        ArrayList<Vec3> vec3s;
         float rotationYaw = player.rotationYawHead;
         rotationYaw -= 90;
         Vec3 base = new Vec3(x + MathHelper.cos((float) Math.toRadians(rotationYaw)), y + 1.8D, z + MathHelper.sin((float) Math.toRadians(rotationYaw)));
-        for (int i = 0; i < 4; i++) {
-            vec3s.add(base.addVector(0, -.4 * i, 0));
-        }
+        vec3s = IntStream.range(0, 4).mapToObj(i -> base.addVector(0, -.4 * i, 0)).collect(Collectors.toCollection(ArrayList::new));
         return vec3s;
     }
 }

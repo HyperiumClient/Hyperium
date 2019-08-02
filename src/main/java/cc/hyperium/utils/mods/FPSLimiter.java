@@ -30,7 +30,7 @@ public class FPSLimiter {
     private static FPSLimiter instance;
 
     private static boolean limbo;
-    private static long time = 0L;
+    private static long time;
 
     public static FPSLimiter getInstance() {
         if (instance == null)

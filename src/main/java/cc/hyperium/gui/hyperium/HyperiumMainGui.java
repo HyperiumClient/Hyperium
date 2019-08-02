@@ -56,8 +56,8 @@ import java.util.function.Supplier;
 public class HyperiumMainGui extends HyperiumGui {
 
     public static HyperiumMainGui INSTANCE = new HyperiumMainGui();
-    private static int tabIndex = 0; // save tab position
-    public boolean show = false;
+    private static int tabIndex; // save tab position
+    public boolean show;
     private HashMap<Field, Supplier<String[]>> customStates = new HashMap<>();
     private HashMap<Field, List<Consumer<Object>>> callbacks = new HashMap<>();
     private List<Object> settingsObjects = new ArrayList<>();
@@ -350,7 +350,7 @@ public class HyperiumMainGui extends HyperiumGui {
         private ResourceLocation icon;
         private Runnable action;
         private String title;
-        private int step = 0;
+        private int step;
 
         public Alert(ResourceLocation icon, Runnable action, String title) {
             this.icon = icon;

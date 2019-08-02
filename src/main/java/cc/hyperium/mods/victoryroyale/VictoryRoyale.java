@@ -46,7 +46,7 @@ public class VictoryRoyale extends AbstractMod {
     private ResourceLocation texture = new ResourceLocation("textures/material/victoryroyale/victory_royale.png");
     private ConcurrentLinkedQueue<WhiteLine> points = new ConcurrentLinkedQueue<>();
 
-    private long start = 0;
+    private long start;
 
     public static VictoryRoyale getInstance() {
         return INSTANCE;
@@ -216,7 +216,7 @@ public class VictoryRoyale extends AbstractMod {
         private double xPercent, yPercent;
         private int width;
 
-        public WhiteLine(double xPercent, double yPercent, int width) {
+        WhiteLine(double xPercent, double yPercent, int width) {
             this.xPercent = xPercent;
             this.yPercent = yPercent;
             this.width = width;

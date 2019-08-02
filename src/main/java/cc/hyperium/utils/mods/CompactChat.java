@@ -31,8 +31,8 @@ public class CompactChat {
 
     private String lastMessage = "";
 
-    private int line = 0;
-    private int amount = 0;
+    private int line;
+    private int amount;
 
     public static CompactChat getInstance() {
         if (instance == null) {

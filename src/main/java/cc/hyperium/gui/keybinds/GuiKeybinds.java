@@ -30,6 +30,8 @@ import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class GuiKeybinds extends HyperiumGui {
 
@@ -159,10 +161,8 @@ public class GuiKeybinds extends HyperiumGui {
     }
 
     private List<List<KeybindEntry>> divideList(List<KeybindEntry> inputList, int number) {
-        List<List<KeybindEntry>> partitions = new ArrayList<>(number);
-        for (int i = 0; i < number; i++) {
-            partitions.add(new ArrayList<>());
-        }
+        List<List<KeybindEntry>> partitions = IntStream.range(0, number).<List<KeybindEntry>>mapToObj(i ->
+            new ArrayList<>()).collect(Collectors.toCollection(() -> new ArrayList<>(number)));
 
         int counter = 0;
         for (KeybindEntry entry : inputList) {
@@ -260,13 +260,7 @@ public class GuiKeybinds extends HyperiumGui {
     }
 
     private boolean areKeysListening() {
-        for (KeybindEntry entry : keybindEntries) {
-            KeybindButton btn = entry.getKeybindButton();
-            if (btn.isListening()) {
-                return true;
-            }
-        }
-        return false;
+        return keybindEntries.stream().map(KeybindEntry::getKeybindButton).anyMatch(KeybindButton::isListening);
     }
 
     @Override

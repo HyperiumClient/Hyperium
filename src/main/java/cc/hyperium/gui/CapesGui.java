@@ -55,7 +55,7 @@ public class CapesGui extends HyperiumGui implements GuiYesNoCallback {
     private Map<String, DynamicTexture> textures = new ConcurrentHashMap<>();
     private Map<String, BufferedImage> texturesImage = new ConcurrentHashMap<>();
     private JsonHolder cosmeticCallback = new JsonHolder();
-    private boolean purchasing = false;
+    private boolean purchasing;
     private HashMap<Integer, Runnable> ids = new HashMap<>();
     private int initialGuiScale;
     private HashMap<String, Integer> intMap = new HashMap<>();

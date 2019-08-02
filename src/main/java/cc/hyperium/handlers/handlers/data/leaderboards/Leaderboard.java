@@ -29,8 +29,8 @@ public class Leaderboard {
 
     private String name;
     private String id;
-    private boolean fetched = false;
-    private boolean loaded = false;
+    private boolean fetched;
+    private boolean loaded;
     private List<LeaderboardEntry> entries = new ArrayList<>();
 
     public Leaderboard(String id, String name) {

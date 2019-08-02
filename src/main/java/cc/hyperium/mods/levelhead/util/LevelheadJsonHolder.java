@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class LevelheadJsonHolder {
 
@@ -42,11 +43,7 @@ public class LevelheadJsonHolder {
 
     public static String[] getNames(LevelheadJsonHolder statsObject) {
         List<String> keys = statsObject.getKeys();
-        String[] keyArray = new String[keys.size()];
-        for (int i = 0; i < keys.size(); i++) {
-            keyArray[i] = keys.get(i);
-        }
-        return keyArray;
+        return keys.toArray(new String[0]);
     }
 
     @Override
@@ -196,12 +193,7 @@ public class LevelheadJsonHolder {
     }
 
     public List<String> getKeys() {
-        List<String> tmp = new ArrayList<>();
-//        tmp.addAll(object.keySet());
-        for (Map.Entry<String, JsonElement> stringJsonElementEntry : object.entrySet()) {
-            tmp.add(stringJsonElementEntry.getKey());
-        }
-        return tmp;
+        return object.entrySet().stream().map(Map.Entry::getKey).collect(Collectors.toList());
 
     }
 

@@ -36,14 +36,14 @@ public class GuiSlider extends GuiButtonExt {
     /**
      * Is this slider control being dragged.
      */
-    public boolean dragging = false;
+    public boolean dragging;
     public boolean showDecimal = true;
 
-    public double minValue = 0.0D;
+    public double minValue;
     public double maxValue = 5.0D;
     public int precision = 1;
 
-    public ISlider parent = null;
+    public ISlider parent;
 
     public String suffix = "";
 

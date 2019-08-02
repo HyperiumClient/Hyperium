@@ -96,14 +96,14 @@ public class Hyperium {
     private HyperiumHandlers handlers;
     private HyperiumModIntegration modIntegration;
     private MinigameListener minigameListener;
-    private boolean acceptedTos = false;
-    private boolean optifineInstalled = false;
+    private boolean acceptedTos;
+    private boolean optifineInstalled;
     public boolean isDevEnv;
     private Sk1erMod sk1erMod;
     private NettyClient client;
     private InternalAddons internalAddons;
     private NetworkHandler networkHandler;
-    private boolean firstLaunch = false;
+    private boolean firstLaunch;
 
     @InvokeEvent
     public void preinit(PreInitializationEvent event) {
@@ -197,7 +197,6 @@ public class Hyperium {
                 LOGGER.warn("[Tray] Failed to hookup TrayIcon");
             }
 
-            // instance does not need to be saved as shit is static ^.^
             SplashProgress.setProgress(9, I18n.format("splashprogress.registeringconfiguration"));
             Settings.register();
             Hyperium.CONFIG.register(new ColourOptions());
@@ -275,6 +274,7 @@ public class Hyperium {
         }
     }
 
+
     /**
      * register the commands
      */
@@ -283,7 +283,6 @@ public class Hyperium {
         hyperiumCommandHandler.registerCommand(new CommandConfigGui());
         hyperiumCommandHandler.registerCommand(new CustomLevelheadCommand());
         hyperiumCommandHandler.registerCommand(new CommandClearChat());
-        hyperiumCommandHandler.registerCommand(new CommandBrowse());
         hyperiumCommandHandler.registerCommand(new CommandNameHistory());
         hyperiumCommandHandler.registerCommand(new CommandDebug());
         hyperiumCommandHandler.registerCommand(new CommandCoords());

@@ -43,7 +43,7 @@ import java.util.Map;
 public class MemoryHelper {
 
     private List<ResourceLocation> locations = new ArrayList<>();
-    private int tickCounter = 0;
+    private int tickCounter;
 
     public static MemoryHelper INSTANCE;
 

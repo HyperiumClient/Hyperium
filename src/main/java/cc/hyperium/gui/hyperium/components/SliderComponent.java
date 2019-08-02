@@ -42,7 +42,7 @@ public class SliderComponent extends AbstractTabComponent {
     private boolean round;
     private double currentValue;
     private int width;
-    private boolean wasDown = false;
+    private boolean wasDown;
 
     public SliderComponent(AbstractTab tab, List<String> tags, String label, Field field, Object parentObj, float minVal, float maxVal, boolean isInteger, boolean round) {
         super(tab, tags);

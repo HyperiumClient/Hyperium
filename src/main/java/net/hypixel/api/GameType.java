@@ -18,6 +18,8 @@
 package net.hypixel.api;
 
 
+import java.util.Arrays;
+
 public enum GameType {
     QUAKECRAFT("Quakecraft", "Quake", 2),
     WALLS("Walls", "Walls", 3),
@@ -63,21 +65,11 @@ public enum GameType {
      * @return The GameType associated with that id, or null if there isn't one.
      */
     public static GameType fromId(int id) {
-        for (GameType gameType : v) {
-            if (gameType.id == id) {
-                return gameType;
-            }
-        }
-        return null;
+        return Arrays.stream(v).filter(gameType -> gameType.id == id).findFirst().orElse(null);
     }
 
     public static GameType fromRealName(String id) {
-        for (GameType gameType : v) {
-            if (gameType.name.equalsIgnoreCase(id)) {
-                return gameType;
-            }
-        }
-        return null;
+        return Arrays.stream(v).filter(gameType -> gameType.name.equalsIgnoreCase(id)).findFirst().orElse(null);
     }
 
     /**
@@ -85,12 +77,7 @@ public enum GameType {
      * @return The GameType associated with that key, or null if there isn't one.
      */
     public static GameType fromDatabase(String dbName) {
-        for (GameType gameType : v) {
-            if (gameType.dbName.equals(dbName)) {
-                return gameType;
-            }
-        }
-        return GameType.UNKNOWN;
+        return Arrays.stream(v).filter(gameType -> gameType.dbName.equals(dbName)).findFirst().orElse(GameType.UNKNOWN);
     }
 
     public static GameType parse(String mostRecentGameType) {

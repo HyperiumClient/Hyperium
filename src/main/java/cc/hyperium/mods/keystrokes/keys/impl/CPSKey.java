@@ -33,8 +33,8 @@ public class CPSKey extends IKey {
 
     private final List<Long> leftClicks = new ArrayList<>();
     private final List<Long> rightClicks = new ArrayList<>();
-    private boolean leftWasDown = false;
-    private boolean rightWasDown = false;
+    private boolean leftWasDown;
+    private boolean rightWasDown;
 
     public CPSKey(KeystrokesMod mod, int xOffset, int yOffset) {
         super(mod, xOffset, yOffset);

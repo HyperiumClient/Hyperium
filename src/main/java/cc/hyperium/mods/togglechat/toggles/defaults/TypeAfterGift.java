@@ -23,7 +23,7 @@ import java.util.LinkedList;
 
 public class TypeAfterGift extends ToggleBase {
 
-    private boolean enabled = false;
+    private boolean enabled;
 
     @Override
     public String getName() {

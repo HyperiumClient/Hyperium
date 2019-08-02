@@ -91,11 +91,7 @@ public class HamsterCompanion extends AbstractCosmetic {
     }
 
     public boolean worldHasEntityWithUUID(World world, UUID id) {
-        for (Entity entity : world.loadedEntityList) {
-            if (entity.getUniqueID().equals(id)) return true;
-        }
-
-        return false;
+        return world.loadedEntityList.stream().anyMatch(entity -> entity.getUniqueID().equals(id));
     }
 
     public void spawnHamster(EntityPlayer player) {

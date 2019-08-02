@@ -51,7 +51,7 @@ public class NameHistoryGui extends GuiScreen {
     private List<String> names = new ArrayList<>();
     private final HyperiumFontRenderer fontRenderer = new HyperiumFontRenderer("Arial", Font.PLAIN, 16);
     private GuiTextField nameField;
-    private int offset = 0;
+    private int offset;
 
     @Override
     public void initGui() {

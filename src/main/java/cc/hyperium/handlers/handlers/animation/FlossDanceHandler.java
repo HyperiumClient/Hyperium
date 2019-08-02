@@ -30,7 +30,7 @@ public class FlossDanceHandler extends AbstractPreCopyAnglesAnimationHandler {
     private final Random random = new Random();
     private final float[] randomHeadMovement = new float[3]; // x, y, z values
     private ArmsDirection armsDirection = ArmsDirection.HORIZONTAL;
-    private long systemTime = 0;
+    private long systemTime;
 
     public FlossDanceHandler() {
         fillRandomHeadMovementArray();

@@ -43,7 +43,7 @@ public class ToggleChatMainGui extends GuiScreen {
     private final ToggleChatMod main;
     private final Map<GuiButton, ToggleBase> data = new HashMap<>();
 
-    private boolean changed = false;
+    private boolean changed;
 
     private int pageNumber;
 

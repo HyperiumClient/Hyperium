@@ -39,8 +39,8 @@ import java.util.Map;
 public class DefaultChromaHUDParser implements ChromaHUDParser {
     private final HashMap<String, String> names = new HashMap<>();
 
-    public DefaultChromaHUDParser() {
-        names.put("CORDS", "Cords");
+    DefaultChromaHUDParser() {
+        names.put("COORDS", "Cords");
         names.put("TEXT", "Text");
         names.put("ARMOUR_HUD", "Armour");
         names.put("POTION", "Potion");

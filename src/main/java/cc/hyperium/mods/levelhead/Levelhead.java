@@ -58,11 +58,11 @@ public class Levelhead extends AbstractMod {
 
     public static final String VERSION = "6.4";
 
-    public UUID userUuid = null;
+    public UUID userUuid;
     public int count = 1;
     public int wait = 60;
     private long waitUntil = System.currentTimeMillis();
-    private int updates = 0;
+    private int updates;
 
     private MojangAuth auth;
     private DecimalFormat format = new DecimalFormat("#,###");

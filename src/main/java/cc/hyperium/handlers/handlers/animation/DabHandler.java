@@ -25,7 +25,7 @@ import net.minecraft.client.entity.AbstractClientPlayer;
 
 public class DabHandler extends AbstractPreCopyAnglesAnimationHandler {
 
-    private long systemTime = 0;
+    private long systemTime;
 
     @Override
     public float modifyState() {

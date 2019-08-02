@@ -17,6 +17,8 @@
 
 package cc.hyperium.purchases;
 
+import java.util.Arrays;
+
 public enum EnumPurchaseType {
     PARTICLE_BACKGROUND("Particle Background"),
     WING_COSMETIC("wings"),
@@ -44,12 +46,7 @@ public enum EnumPurchaseType {
         try {
             return valueOf(asString.toUpperCase());
         } catch (Exception e) {
-            for (EnumPurchaseType enumPurchaseType : values()) {
-                if (enumPurchaseType.displayName.equalsIgnoreCase(asString)) {
-                    return enumPurchaseType;
-                }
-            }
-            return UNKNOWN;
+            return Arrays.stream(values()).filter(enumPurchaseType -> enumPurchaseType.displayName.equalsIgnoreCase(asString)).findFirst().orElse(UNKNOWN);
         }
     }
 

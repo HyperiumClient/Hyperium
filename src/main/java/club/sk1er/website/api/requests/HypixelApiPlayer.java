@@ -26,6 +26,7 @@ import net.hypixel.api.util.ILeveling;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.concurrent.ExecutionException;
 
@@ -230,11 +231,7 @@ public class HypixelApiPlayer implements HypixelApiObject {
         NONE;
 
         static Rank get(String in) {
-            for (Rank rank : values()) {
-                if (rank.name().equalsIgnoreCase(in))
-                    return rank;
-            }
-            return NONE;
+            return Arrays.stream(values()).filter(rank -> rank.name().equalsIgnoreCase(in)).findFirst().orElse(NONE);
         }
 
         boolean has(Rank other) {

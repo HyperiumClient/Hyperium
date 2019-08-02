@@ -35,7 +35,7 @@ public class SpaceKey extends IKey {
 
     private boolean wasPressed = true;
 
-    private long lastPress = 0L;
+    private long lastPress;
 
     private String name;
 

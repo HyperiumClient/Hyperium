@@ -33,7 +33,7 @@ public class AutoGGConfig {
 
     @ConfigOpt
     @ToggleSetting(name = "Hide GG's at end of game", mods = true, category = AUTO_GG)
-    public boolean ANTI_GG = false;
+    public boolean ANTI_GG;
     @ConfigOpt
     @SliderSetting(name = "Delay", min = 0, max = 5, isInt = true, category = Category.AUTO_GG, mods = true)
     public int delay = 1;
@@ -42,10 +42,10 @@ public class AutoGGConfig {
     public boolean toggled = true;
     @ConfigOpt
     @ToggleSetting(name = "Say Good Game instead of GG", mods = true, category = AUTO_GG)
-    public boolean sayGoodGameInsteadOfGG = false;
+    public boolean sayGoodGameInsteadOfGG;
     @ConfigOpt
     @ToggleSetting(name = "Say Lowercase", mods = true, category = AUTO_GG)
-    public boolean lowercase = false;
+    public boolean lowercase;
 
     public AutoGGConfig() {
         Hyperium.CONFIG.register(this);

@@ -36,9 +36,9 @@ import java.util.List;
 public class ArmourHud extends DisplayItem {
     private List<ItemStack> list = new ArrayList<>();
     private int ordinal;
-    private boolean dur = false;
-    private boolean hand = false;
-    private boolean armourOnTop = false;
+    private boolean dur;
+    private boolean hand;
+    private boolean armourOnTop;
 
     public ArmourHud(JsonHolder raw, int ordinal) {
         super(raw, ordinal);

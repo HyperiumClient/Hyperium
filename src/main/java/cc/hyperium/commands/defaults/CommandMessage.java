@@ -25,6 +25,7 @@ import net.minecraft.client.Minecraft;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
 
 public class CommandMessage implements BaseCommand {
     @Override
@@ -44,11 +45,7 @@ public class CommandMessage implements BaseCommand {
 
     @Override
     public void onExecute(String[] args) {
-        StringBuilder builder = new StringBuilder();
-        for (String arg : args) {
-            builder.append(arg).append(" ");
-        }
-        Hyperium.INSTANCE.getHandlers().getCommandQueue().queue("/msg " + builder.toString());
+        Hyperium.INSTANCE.getHandlers().getCommandQueue().queue("/msg " + Arrays.stream(args).map(arg -> arg + " ").collect(Collectors.joining()));
     }
 
     @Override

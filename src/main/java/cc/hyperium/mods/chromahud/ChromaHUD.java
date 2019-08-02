@@ -45,6 +45,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ChromaHUD extends AbstractMod {
     public static final String MODID = "ChromaHUD";
@@ -170,13 +171,7 @@ public class ChromaHUD extends AbstractMod {
             }
             FileReader fr = new FileReader(suggestedConfigurationFile);
             BufferedReader br = new BufferedReader(fr);
-            StringBuilder builder = new StringBuilder();
-            String line;
-            while ((line = br.readLine()) != null)
-                builder.append(line);
-
-            String done = builder.toString();
-            data = new JsonHolder(done);
+            data = new JsonHolder(br.lines().collect(Collectors.joining()));
         } catch (Exception e) {
             e.printStackTrace();
         }

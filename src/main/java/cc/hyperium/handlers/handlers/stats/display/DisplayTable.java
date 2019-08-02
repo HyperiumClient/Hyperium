@@ -35,11 +35,7 @@ public class DisplayTable extends StatsDisplayItem {
     }
 
     public DisplayTable(List<String[]> strings) {
-        String[][] data = new String[strings.size()][];
-        for (int i = 0; i < strings.size(); i++) {
-            data[i] = strings.get(i);
-        }
-        this.rows = data;
+        this.rows = strings.toArray(new String[0][]);
         build();
     }
 

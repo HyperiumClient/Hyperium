@@ -48,6 +48,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class NickHider extends AbstractMod {
 
@@ -59,11 +60,11 @@ public class NickHider extends AbstractMod {
     private List<String> namesDatabase = new ArrayList<>();
     private File configFile;
     private NickHiderConfig nickHiderConfig;
-    private boolean forceDown = false;
-    private boolean extendedUse = false;
-    private String override = null;
+    private boolean forceDown;
+    private boolean extendedUse;
+    private String override;
     private ResourceLocation playerSkin;
-    private boolean startedLoadingSkin = false;
+    private boolean startedLoadingSkin;
     private String playerRealSkinType = "default";
     private ResourceLocation playerCape;
 
@@ -251,16 +252,12 @@ public class NickHider extends AbstractMod {
 
         String[] split = soFar.split(" ");
         String tmp = split[split.length - 1];
-        List<String> tmp1 = new ArrayList<>();
-        for (int i = 0; i < in.length; i++) {
-            in[i] = apply(in[i]);
-        }
+        List<String> tmp1;
+        Arrays.setAll(in, i -> apply(in[i]));
 
-        for (Nick nick : nicks) {
-            if (nick.newName.toLowerCase().startsWith(tmp.toLowerCase())) {
-                tmp1.add(nick.newName);
-            }
-        }
+        tmp1 = nicks.stream().filter(nick ->
+            nick.newName.toLowerCase().startsWith(tmp.toLowerCase())).map(nick ->
+            nick.newName).collect(Collectors.toList());
 
         HashSet<String> strings = Sets.newHashSet(in);
         strings.addAll(tmp1);

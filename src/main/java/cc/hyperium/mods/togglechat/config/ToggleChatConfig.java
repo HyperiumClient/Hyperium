@@ -28,6 +28,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.stream.Collectors;
 
 public class ToggleChatConfig {
 
@@ -50,13 +51,7 @@ public class ToggleChatConfig {
             try {
                 FileReader fileReader = new FileReader(this.toggleFile);
                 BufferedReader reader = new BufferedReader(fileReader);
-                StringBuilder builder = new StringBuilder();
-
-                String current;
-                while ((current = reader.readLine()) != null) {
-                    builder.append(current);
-                }
-                this.toggleJson = new BetterJsonObject(builder.toString());
+                this.toggleJson = new BetterJsonObject(reader.lines().collect(Collectors.joining()));
             } catch (Exception ex) {
                 log("Could not read toggles properly, saving.");
                 saveToggles();
@@ -83,7 +78,6 @@ public class ToggleChatConfig {
 
             this.toggleFile.createNewFile();
             FileWriter writer = new FileWriter(this.toggleFile);
-            BufferedWriter bufferedWriter = new BufferedWriter(writer);
 
             for (ToggleBase base : this.theMod.getToggleHandler().getToggles().values()) {
                 this.toggleJson.addProperty("show" + base.getName().replace(" ", "_"), base.isEnabled());

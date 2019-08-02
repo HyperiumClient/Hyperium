@@ -35,7 +35,7 @@ import java.util.function.Consumer;
 
 public class CustomLevelheadConfigurer extends GuiScreen {
 
-    private int idIteration = 0;
+    private int idIteration;
     private GuiTextField header;
     private GuiTextField level;
     private LevelheadJsonHolder levelheadPropose = new LevelheadJsonHolder();

@@ -58,13 +58,13 @@ import java.util.Objects;
 public class ParticleGui extends HyperiumGui implements GuiYesNoCallback {
 
     private HashMap<Integer, Runnable> ids = new HashMap<>();
-    private int purchaseIds = 0;
+    private int purchaseIds;
     private HyperiumOverlay overlay;
     private PurchaseCarousel particleType;
     private PurchaseCarousel particleAnimation;
     private int credits;
-    private GuiBlock previewBlock = null;
-    private boolean queueBuild = false;
+    private GuiBlock previewBlock;
+    private boolean queueBuild;
 
     @Override
     public void confirmClicked(boolean result, int id) {

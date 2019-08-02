@@ -41,7 +41,7 @@ class MoveElementGui extends GuiScreen {
     private GuiButton edit;
     private double lastX;
     private double lastY;
-    private boolean lastD = false;
+    private boolean lastD;
     private boolean mouseLock;
 
     public MoveElementGui(ChromaHUD mod, DisplayElement element) {

@@ -28,7 +28,7 @@ public class BlockOverlaySettings {
     private File configFile;
     private BlockOverlayMode overlayMode = BlockOverlayMode.DEFAULT;
     private boolean alwaysRender = true;
-    private boolean isChroma = false;
+    private boolean isChroma;
     private float lineWidth = 1.0f;
     private float overlayRed = 1.0f;
     private float overlayGreen = 1.0f;
@@ -47,12 +47,9 @@ public class BlockOverlaySettings {
         try {
             if (this.configFile.getParentFile().exists() && this.configFile.exists()) {
                 BufferedReader bufferedReader = new BufferedReader(new FileReader(this.configFile));
-                StringBuilder stringBuilder = new StringBuilder();
-                for (String line : bufferedReader.lines().collect(Collectors.toList())) {
-                    stringBuilder.append(line);
-                }
+                String stringBuilder = bufferedReader.lines().collect(Collectors.joining(""));
 
-                BetterJsonObject json = new BetterJsonObject(stringBuilder.toString());
+                BetterJsonObject json = new BetterJsonObject(stringBuilder);
                 String overlayMode = json.optString("overlayMode");
                 for (BlockOverlayMode mode : BlockOverlayMode.values()) {
                     if (mode.getName().equals(overlayMode)) {

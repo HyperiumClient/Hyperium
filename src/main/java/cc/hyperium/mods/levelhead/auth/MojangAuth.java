@@ -29,10 +29,10 @@ public class MojangAuth {
 
     private String accessKey;
 
-    private boolean failed = false;
-    private String failedMessage = null;
+    private boolean failed;
+    private String failedMessage;
 
-    private boolean success = false;
+    private boolean success;
     private String hash;
 
     public void auth() {

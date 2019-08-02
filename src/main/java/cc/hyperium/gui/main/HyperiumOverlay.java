@@ -36,7 +36,7 @@ import org.lwjgl.input.Mouse;
  */
 public class HyperiumOverlay {
     private List<OverlayComponent> components;
-    private int offsetY = 0;
+    private int offsetY;
     private String name;
 
     public HyperiumOverlay(String name) {

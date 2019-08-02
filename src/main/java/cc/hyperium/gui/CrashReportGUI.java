@@ -56,7 +56,7 @@ import java.util.concurrent.atomic.AtomicReference;
 public class CrashReportGUI extends JDialog {
     private CrashReport report;
 
-    private int handle = 0; // 0 - // Force stop, 1 - Soft shutdown, 2 - Restart
+    private int handle; // 0 - // Force stop, 1 - Soft shutdown, 2 - Restart
 
     private CrashReportGUI(CrashReport report) {
         super();

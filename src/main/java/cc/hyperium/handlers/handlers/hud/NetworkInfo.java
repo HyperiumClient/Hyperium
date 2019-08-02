@@ -61,12 +61,7 @@ public class NetworkInfo {
 
     private NetworkPlayerInfo getPlayerInfo(final String ign) {
         final Collection<NetworkPlayerInfo> map = this.mc.getNetHandler().getPlayerInfoMap();
-        for (final NetworkPlayerInfo networkplayerinfo : map) {
-            if (networkplayerinfo.getGameProfile().getName().equalsIgnoreCase(ign)) {
-                return networkplayerinfo;
-            }
-        }
-        return null;
+        return map.stream().filter(networkplayerinfo -> networkplayerinfo.getGameProfile().getName().equalsIgnoreCase(ign)).findFirst().orElse(null);
     }
 
     public int getPing(final String ign) {

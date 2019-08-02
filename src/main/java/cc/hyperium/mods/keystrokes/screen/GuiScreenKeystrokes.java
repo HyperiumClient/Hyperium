@@ -46,8 +46,8 @@ public class GuiScreenKeystrokes extends GuiScreen {
     private GuiButton buttonShowFPS;
     private GuiButton buttonBackground;
 
-    private boolean dragging = false;
-    private boolean updated = false;
+    private boolean dragging;
+    private boolean updated;
     private int lastMouseX;
     private int lastMouseY;
 

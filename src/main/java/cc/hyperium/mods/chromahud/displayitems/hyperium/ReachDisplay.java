@@ -42,7 +42,8 @@ public class ReachDisplay extends DisplayItem {
 
     @InvokeEvent
     public void onAttack(PlayerAttackEntityEvent event) {
-        if (mc.objectMouseOver != null && mc.objectMouseOver.typeOfHit == MovingObjectPosition.MovingObjectType.ENTITY && mc.objectMouseOver.entityHit.getEntityId() == event.getEntity().getEntityId()) {
+        if (mc.objectMouseOver != null && mc.objectMouseOver.typeOfHit == MovingObjectPosition.MovingObjectType.ENTITY && mc.objectMouseOver.entityHit.getEntityId() ==
+            event.getEntity().getEntityId()) {
             Vec3 vec = mc.getRenderViewEntity().getPositionEyes(1.0f);
             double range = mc.objectMouseOver.hitVec.distanceTo(vec);
             rangeText = new DecimalFormat(".##").format(range) + " blocks";
@@ -58,14 +59,8 @@ public class ReachDisplay extends DisplayItem {
             rangeText = "Hasn't attacked";
         }
 
+        height = mc.fontRendererObj.FONT_HEIGHT;
+        width = mc.fontRendererObj.getStringWidth(rangeText);
         ElementRenderer.draw(x, y, rangeText);
-    }
-
-    public String getRangeText() {
-        return rangeText;
-    }
-
-    public void setRangeText(String rangeText) {
-        this.rangeText = rangeText;
     }
 }

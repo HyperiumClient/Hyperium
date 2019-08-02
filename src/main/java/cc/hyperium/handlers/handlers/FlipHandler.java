@@ -36,7 +36,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class FlipHandler {
     private final Map<UUID, Integer> rotateState = new ConcurrentHashMap<>();
 
-    private int tick = 0;
+    private int tick;
 
     @InvokeEvent
     public void tickEvent(TickEvent event) {

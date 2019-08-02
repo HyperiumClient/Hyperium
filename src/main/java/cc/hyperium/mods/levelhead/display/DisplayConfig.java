@@ -27,16 +27,16 @@ public class DisplayConfig {
 
     @ConfigOpt private String type = "LEVEL";
 
-    @ConfigOpt private boolean headerChroma = false;
-    @ConfigOpt private boolean headerRgb = false;
+    @ConfigOpt private boolean headerChroma;
+    @ConfigOpt private boolean headerRgb;
     @ConfigOpt private int headerRed = 255;
     @ConfigOpt private int headerGreen = 255;
     @ConfigOpt private int headerBlue = 255;
     @ConfigOpt private String headerColor = ChatColor.AQUA.toString();
     @ConfigOpt private String customHeader = "Level";
 
-    @ConfigOpt private boolean footerChroma = false;
-    @ConfigOpt private boolean footerRgb = false;
+    @ConfigOpt private boolean footerChroma;
+    @ConfigOpt private boolean footerRgb;
     @ConfigOpt private int footerRed = 255;
     @ConfigOpt private int footerGreen = 255;
     @ConfigOpt private int footerBlue = 255;

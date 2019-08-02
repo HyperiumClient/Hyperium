@@ -30,7 +30,7 @@ public class HyperiumPurchase {
     private final List<AbstractHyperiumPurchase> purchases = new ArrayList<>();
     private final JsonHolder response;
     private JsonHolder purchaseSettings = new JsonHolder();
-    private boolean everything = false;
+    private boolean everything;
     private PurchaseSettings cachedSettings = new PurchaseSettings(new JsonHolder());
 
     public HyperiumPurchase(UUID playerUUID, JsonHolder response) {
@@ -123,11 +123,6 @@ public class HyperiumPurchase {
     }
 
     public AbstractHyperiumPurchase getPurchase(EnumPurchaseType type) {
-        for (AbstractHyperiumPurchase purchase : purchases) {
-            if (purchase.getType() == type) {
-                return purchase;
-            }
-        }
-        return null;
+        return purchases.stream().filter(purchase -> purchase.getType() == type).findFirst().orElse(null);
     }
 }

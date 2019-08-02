@@ -50,9 +50,9 @@ public class ElementRenderer {
     private static String cValue;
     private final ChromaHUD mod;
     private final Minecraft minecraft;
-    private boolean last = false;
-    private boolean rLast = false;
-    private boolean mLast = false;
+    private boolean last;
+    private boolean rLast;
+    private boolean mLast;
 
     public ElementRenderer(ChromaHUD mod) {
         this.mod = mod;

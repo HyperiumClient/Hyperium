@@ -125,9 +125,7 @@ public abstract class ToggleBase {
      */
     @SafeVarargs
     public final <T> LinkedList<T> asLinked(T... entry) {
-        LinkedList<T> list = new LinkedList<>();
-        list.addAll(Arrays.asList(entry));
-        return list;
+        return new LinkedList<>(Arrays.asList(entry));
     }
 
     /**

@@ -50,10 +50,10 @@ import java.io.IOException;
 public class GuiHyperiumScreen extends GuiScreen {
 
     public static ResourceLocation background = new ResourceLocation("textures/material/backgrounds/1.png");
-    public static boolean customBackground = false;
+    public static boolean customBackground;
     public static File customImage = new File(Minecraft.getMinecraft().mcDataDir, "customImage.png");
-    public static ResourceLocation bgDynamicTexture = null;
-    public static BufferedImage bgBr = null;
+    public static ResourceLocation bgDynamicTexture;
+    public static BufferedImage bgBr;
     public static HyperiumFontRenderer fr = new HyperiumFontRenderer("Arial", Font.PLAIN, 20);
     public static HyperiumFontRenderer sfr = new HyperiumFontRenderer("Arial", Font.PLAIN, 12);
     private static float swing;

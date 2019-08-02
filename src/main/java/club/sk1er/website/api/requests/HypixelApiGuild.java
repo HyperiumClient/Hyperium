@@ -133,12 +133,7 @@ public class HypixelApiGuild implements HypixelApiObject {
     }
 
     public int getPriorityForRank(String rank) {
-        for (GuildRank guildRank : getCustomRanks()) {
-            if (guildRank.name.equals(rank)) {
-                return guildRank.priority;
-            }
-        }
-        return -1;
+        return getCustomRanks().stream().filter(guildRank -> guildRank.name.equals(rank)).findFirst().map(guildRank -> guildRank.priority).orElse(-1);
     }
 
     public List<GuildRank> getCustomRanks() {

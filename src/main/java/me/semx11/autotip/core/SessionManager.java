@@ -41,10 +41,10 @@ public class SessionManager {
     private final Queue<Tip> tipQueue = new ConcurrentLinkedQueue<>();
 
     private LoginReply reply;
-    private SessionKey sessionKey = null;
+    private SessionKey sessionKey;
 
-    private boolean onHypixel = false;
-    private boolean loggedIn = false;
+    private boolean onHypixel;
+    private boolean loggedIn;
 
     private long lastTipWave;
     private long nextTipWave;

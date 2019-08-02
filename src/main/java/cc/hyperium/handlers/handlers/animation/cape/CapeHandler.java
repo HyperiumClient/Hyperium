@@ -82,7 +82,7 @@ public class CapeHandler {
 
             @Override
             public void skinAvailable() {
-                CapeHandler.this.setCape(uuid, new StaticCape(resourceLocation));
+                setCape(uuid, new StaticCape(resourceLocation));
             }
         });
         try {
@@ -97,7 +97,6 @@ public class CapeHandler {
     public void setCape(UUID uuid, ICape cape) {
         capes.put(uuid, cape);
     }
-
 
     public ResourceLocation getCape(final AbstractClientPlayer player) {
         UUID uuid = player.getUniqueID();

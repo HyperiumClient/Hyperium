@@ -25,6 +25,7 @@ import net.minecraft.client.Minecraft;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class CommandParty implements BaseCommand {
     @Override
@@ -39,11 +40,7 @@ public class CommandParty implements BaseCommand {
 
     @Override
     public void onExecute(String[] args) {
-        StringBuilder builder = new StringBuilder();
-        for (String arg : args) {
-            builder.append(" ").append(arg);
-        }
-        Hyperium.INSTANCE.getHandlers().getCommandQueue().queue("/party" + builder.toString());
+        Hyperium.INSTANCE.getHandlers().getCommandQueue().queue("/party" + Arrays.stream(args).map(arg -> " " + arg).collect(Collectors.joining()));
     }
 
     @Override

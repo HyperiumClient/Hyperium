@@ -44,8 +44,12 @@ import net.minecraft.world.WorldSettings;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class VanillaEnhancementsHud {
 
@@ -67,13 +71,8 @@ public class VanillaEnhancementsHud {
                 ItemStack heldItem = thePlayer.getHeldItem();
                 if (heldItem != null) {
                     if (heldItem.getUnlocalizedName().equalsIgnoreCase("item.bow")) {
-                        int c = 0;
-                        for (ItemStack is : thePlayer.inventory.mainInventory) {
-                            if (is != null) {
-                                if (is.getUnlocalizedName().equalsIgnoreCase("item.arrow"))
-                                    c += is.stackSize;
-                            }
-                        }
+                        int c = Arrays.stream(thePlayer.inventory.mainInventory).filter(Objects::nonNull).filter(is ->
+                            is.getUnlocalizedName().equalsIgnoreCase("item.arrow")).mapToInt(is -> is.stackSize).sum();
                         ScaledResolution current = ResolutionUtil.current();
                         FontRenderer fontRendererObj = mc.fontRendererObj;
                         final int offset = (mc.playerController.getCurrentGameType() == WorldSettings.GameType.CREATIVE) ? 10 : 0;
@@ -158,12 +157,8 @@ public class VanillaEnhancementsHud {
     }
 
     private String getAttackDamageString(final ItemStack stack) {
-        for (final String entry : stack.getTooltip(this.mc.thePlayer, true)) {
-            if (entry.endsWith("Attack Damage")) {
-                return entry.split(" ", 2)[0].substring(2);
-            }
-        }
-        return "";
+        return stack.getTooltip(this.mc.thePlayer, true).stream().filter(entry ->
+            entry.endsWith("Attack Damage")).findFirst().map(entry -> entry.split(" ", 2)[0].substring(2)).orElse("");
     }
 
     private String getPotionEffectString(final ItemStack heldItemStack) {
@@ -188,16 +183,12 @@ public class VanillaEnhancementsHud {
     }
 
     private String getEnchantmentString(final ItemStack heldItemStack) {
-        final StringBuilder enchantBuilder = new StringBuilder();
+        final String enchantBuilder;
         final Map<Integer, Integer> en = EnchantmentHelper.getEnchantments(heldItemStack);
-        for (final Map.Entry<Integer, Integer> entry : en.entrySet()) {
-            enchantBuilder.append(EnumChatFormatting.BOLD.toString());
-            enchantBuilder.append(cc.hyperium.handlers.handlers.hud.Maps.ENCHANTMENT_SHORT_NAME.get(entry.getKey()));
-            enchantBuilder.append(" ");
-            enchantBuilder.append(entry.getValue());
-            enchantBuilder.append(" ");
-        }
-        return enchantBuilder.toString().trim();
+        enchantBuilder = en.entrySet().stream().map(entry ->
+            EnumChatFormatting.BOLD.toString() +
+                Maps.ENCHANTMENT_SHORT_NAME.get(entry.getKey()) + " " + entry.getValue() + " ").collect(Collectors.joining());
+        return enchantBuilder.trim();
     }
 
     private String getArmorString() {
@@ -253,10 +244,7 @@ public class VanillaEnhancementsHud {
     }
 
     private double calcProtection(int armorEpf) {
-        double protection = 0.0;
-        for (int i = 50; i <= 100; ++i) {
-            protection += ((Math.ceil(armorEpf * i / 100.0) < 20.0) ? Math.ceil(armorEpf * i / 100.0) : 20.0);
-        }
+        double protection = IntStream.rangeClosed(50, 100).mapToDouble(i -> ((Math.ceil(armorEpf * i / 100.0) < 20.0) ? Math.ceil(armorEpf * i / 100.0) : 20.0)).sum();
         return protection / 51.0;
     }
 

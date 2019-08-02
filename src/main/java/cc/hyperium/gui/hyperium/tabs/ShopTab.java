@@ -42,8 +42,8 @@ import java.util.Objects;
 
 public class ShopTab extends AbstractTab {
 
-    private JsonHolder personData = null;
-    private JsonHolder cosmeticCallback = null;
+    private JsonHolder personData;
+    private JsonHolder cosmeticCallback;
 
     public ShopTab(HyperiumMainGui gui) {
         super(gui, "tab.shop.name");

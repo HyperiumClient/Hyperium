@@ -60,8 +60,8 @@ public class DisplayElementConfig extends GuiScreen {
     private int saturation = -1;
     private int brightness = 5;
     private ChromaHUD mod;
-    private int lastWidth = 0;
-    private int lastHeight = 0;
+    private int lastWidth;
+    private int lastHeight;
     private boolean mouseLock;
 
 

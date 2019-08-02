@@ -31,6 +31,7 @@ import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Sk1er
@@ -49,13 +50,7 @@ public class DefaultConfig {
             if (configFile.exists()) {
                 FileReader fr = new FileReader(file);
                 BufferedReader br = new BufferedReader(fr);
-                StringBuilder builder = new StringBuilder();
-                String line;
-                while ((line = br.readLine()) != null)
-                    builder.append(line);
-
-                String done = builder.toString();
-                config = new JsonParser().parse(done).getAsJsonObject();
+                config = new JsonParser().parse(br.lines().collect(Collectors.joining())).getAsJsonObject();
             } else {
                 config = new JsonObject();
                 saveFile();
