@@ -77,7 +77,7 @@ public class CordsDisplay extends DisplayItem {
                 tmp.add("X " + df.format(player.posX));
                 tmp.add("Y " + df.format(player.posY));
                 tmp.add("Z " + df.format(player.posZ));
-            } else tmp.add("Illegal state of cords unit (" + state + ")");
+            } else tmp.add("Illegal state of coords unit (" + state + ")");
         } else {
             tmp.add("X: null, Y: null, Z: null");
         }

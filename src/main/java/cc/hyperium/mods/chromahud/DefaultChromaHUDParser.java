@@ -40,7 +40,7 @@ public class DefaultChromaHUDParser implements ChromaHUDParser {
     private final HashMap<String, String> names = new HashMap<>();
 
     DefaultChromaHUDParser() {
-        names.put("COORDS", "Cords");
+        names.put("COORDS", "Coords");
         names.put("TEXT", "Text");
         names.put("ARMOUR_HUD", "Armour");
         names.put("POTION", "Potion");
@@ -56,7 +56,7 @@ public class DefaultChromaHUDParser implements ChromaHUDParser {
     @Override
     public DisplayItem parse(String type, int ord, JsonHolder item) {
         switch (type) {
-            case "CORDS":
+            case "COORDS":
                 return new CordsDisplay(item, ord);
             case "TEXT":
                 return new TextItem(item, ord);

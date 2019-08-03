@@ -36,7 +36,6 @@ public class HyperiumChromaHudParser implements ChromaHUDParser {
     HyperiumChromaHudParser() {
         names.put("LOCATION", "Location");
         names.put("HYPIXEL", "Hypixel");
-        names.put("MINIGAME_DISPLAY", "Hypixel Minigame Display");
         names.put("SCOREBOARD", "Scoreboard");
         names.put("INFO", "Hyperium Info");
         names.put("COINS", "Coin Display");

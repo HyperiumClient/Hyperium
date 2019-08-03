@@ -128,13 +128,13 @@ public class ChromaHUDApi {
     }
 
     /**
-     * <p>Add a parser to the ChromaHUD runtime. Must be done before FMLPostInitialization event</p>
+     * <p>Add a parser to the ChromaHUD runtime. Must be done before InitializationEvent event</p>
      *
      * @param parser A valid ChromaHUDParser object for an addon.
      */
     public void register(ChromaHUDParser parser) {
         if (posted)
-            throw new IllegalStateException("Cannot register parser after FMLPostInitialization event");
+            throw new IllegalStateException("Cannot register parser after InitializationEvent");
         parsers.add(parser);
         names.putAll(parser.getNames());
     }
