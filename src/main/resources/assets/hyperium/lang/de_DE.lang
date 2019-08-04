@@ -1,10 +1,9 @@
-#Hyperium Language File - Created by ScottehBoeh
 
-#Hyperium Disclaimers
+# Hyperium Disclaimers
 menu.left=Copyright 2019 Hyperium Entwicklungsteam
 menu.right=Not affiliated with Mojang AB
 
-#Hyperium Buttons
+# Hyperium Buttons
 button.menu.changebackground=Menühintergrund
 button.menu.cosmeticshop=Cosmetics-Shop
 button.ingame.hyperiumsettings=Hyperium Einstellungen
@@ -16,7 +15,7 @@ button.changebackground.seturl=URL setzen
 button.changebackground.choosefile=Datei auswählen
 button.changebackground.resetbackground=Hintergrund zurücksetzen
 
-#Hyperium Disclaimer
+# Hyperium Disclaimer
 disclaimer.line1=Dadurch, dass du fortfährst, stimmst du zu, dass dieser Client %s
 disclaimer.line1.bold=AUF EIGENE GEFAHR
 disclaimer.line2=benutzt wird. Die Entwickler von Hyperium sind für keine Schäden oder Banns verantwortlich,
@@ -26,22 +25,23 @@ disclaimer.line4.policylink=(https://hyperium.cc/#privacy)
 disclaimer.line5=Bitte klicke auf "Akzeptieren", um fortzufahren
 button.disclaimer.accept=Akzeptieren
 button.disclaimer.confirm=Akzeptieren bestätigen
-#Hyperium Menu Strings
+
+# Hyperium Menu Strings
 menu.profile.credits=%s Impressum
 
-#Hyperium Tabs
+# Hyperium Tabs
 tabs.searchbar=Suchen...
 tab.settings.name=Einstellungen
 tab.shop.name=Shop
 
-#Hyperium Ingame Menu
+# Hyperium Ingame Menu
 gui.ingamemenu.playercount=Hyperium Spieleranzahl:
 gui.ingamemenu.playercount.now=Heute Online: %s
 gui.ingamemenu.playercount.lastday=Gestern: %s
 gui.ingamemenu.playercount.lastweek=Letzte Woche: %s
 gui.ingamemenu.playercount.alltime=Insgesamt: %s
 
-#Hyperium Change Background Text
+# Hyperium Change Background Text
 gui.changebackground.line1=Gib unten eine URL ein oder wähle eine Datei aus, um den Hintergrund zu ändern
 gui.changebackground.line2=Du musst "Custom" in den Hintergrundeinstellungen angezeigt haben, damit er angezeigt wird.
 gui.changebackground.urlempty=Die URL darf nicht leer sein.
@@ -53,7 +53,7 @@ gui.changebackground.unknownerror=Unbekannter Fehler
 gui.changebackground.downloaderror=Fehler beim Herunterladen
 gui.changebackground.selectimage=Wähle ein Hintergrundbild aus.
 
-#Hyperium PurchaseCarousel Text
+# Hyperium PurchaseCarousel Text
 gui.purchase.purchased=Gekauft
 gui.purchase.purchase=Kaufen
 gui.purchase.active=Aktiviert
@@ -62,7 +62,7 @@ gui.purchase.notpurchased=Not Purchased
 gui.purchase.clicktouse=Klicke zum Benutzen
 gui.purchase.state=Status
 
-#Hyperium Cosmetics Gui
+# Hyperium Cosmetics Gui
 gui.cosmetics.purchase=Cosmetic kaufen
 gui.cosmetics.refresh=Käufe neu laden
 gui.cosmetics.credits=Credits
@@ -78,7 +78,7 @@ gui.cosmetics.green=Grün
 gui.cosmetics.blue=Blau
 gui.cosmetics.maxage=Partikel-Leben
 
-#Hyperium Shop Gui
+# Hyperium Shop Gui
 gui.shop.capes=Capes anzeigen
 gui.shop.browser=Im Browser öffnen
 gui.shop.purchasecredits=Credits kaufen
@@ -94,7 +94,7 @@ gui.shop.insufficientcredits=Nicht genügend Credits!
 gui.shop.loading.cosmetics=Cosmetics werden geladen...
 gui.shop.loading.person=Persönliche Daten werden geladen...
 
-#Hyperium Settings Text
+# Hyperium Settings Text
 gui.settings.discordrp=Discord RP
 gui.settings.fullbright=Alles Hell
 gui.settings.romannumerals=Römische Zahlen
@@ -208,8 +208,9 @@ gui.settings.confirmdisconnect=Verbindung trennen bestätigen
 gui.settings.confirmquit=Spiel beenden bestätigen
 gui.settings.hotbarkeys=Hotbartasten
 gui.settings.clearglass=Durchsichtiges Glas
+gui.settings.portalsounds=Portal Sounds
 
-#Hyperium Splash Progress
+# Hyperium Splash Progress
 splashprogress.startinggame=Spiel wird gestartet...
 splashprogress.loadingresources=Ressourcen werden geladen...
 splashprogress.creatingdisplay=Display wird erstellt...
@@ -224,12 +225,12 @@ splashprogress.loadingintegrations=Integrationen werden geladen...
 splashprogress.reloadingresourcemanager=Ressourcenpaketmanager wird geladen...
 splashprogress.finishing=Fertigstellen...
 
-#Hyperium Misc Gui Text
+# Hyperium Misc Gui Text
 gui.namehistory.text=NAMENSGESCHICHTE
 gui.confirmdisconnect.text=Bist Du sicher, dass Du das Spiel verlassen willst?
 gui.confirmquit.text=Bist Du sicher, dass Du das Spiel beenden willst?
 
-#Hyperium Chat Message
+# Hyperium Chat Message
 message.insufficientcredits=Nicht genügend Credits
 message.attemptingpurchase=Kaufversuch gestartet: %s
 message.alreadypurchased=Bereits gekauft: %s

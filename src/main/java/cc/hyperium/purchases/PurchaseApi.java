@@ -39,6 +39,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -59,7 +60,9 @@ public class PurchaseApi {
 
         for (EnumPurchaseType enumPurchaseType : EnumPurchaseType.values()) {
             purchaseClasses.putIfAbsent(enumPurchaseType, DefaultCosmetic.class);
+            //todo: causes deadlock, threads freeze, check out sometime
         }
+
         getPackageAsync(UUIDUtil.getClientUUID(), hyperiumPurchase -> System.out.println("[Packages] Loaded self packages: " + hyperiumPurchase.getResponse()));
         Multithreading.runAsync(() -> capeAtlas = get("https://api.hyperium.cc/capeAtlas"));
         getSelf();
@@ -180,7 +183,7 @@ public class PurchaseApi {
             connection.setConnectTimeout(15000);
             connection.setDoOutput(true);
             InputStream is = connection.getInputStream();
-            return new JsonHolder(IOUtils.toString(is, Charset.forName("UTF-8")));
+            return new JsonHolder(IOUtils.toString(is, StandardCharsets.UTF_8));
         } catch (Exception ignored) {
         }
         JsonObject object = new JsonObject();

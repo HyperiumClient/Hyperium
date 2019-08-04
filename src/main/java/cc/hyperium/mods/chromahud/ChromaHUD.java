@@ -48,7 +48,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class ChromaHUD extends AbstractMod {
-    public static final String MODID = "ChromaHUD";
+    private static final String MODID = "ChromaHUD";
     public static final String VERSION = "3.0";
     /**
      * The metadata of ChromaHUD
@@ -57,8 +57,7 @@ public class ChromaHUD extends AbstractMod {
     private File suggestedConfigurationFile;
 
     public ChromaHUD() {
-        Metadata metadata = new Metadata(this, "ChromaHUD", "3.0", "Sk1er");
-        this.meta = metadata;
+        this.meta = new Metadata(this, MODID, VERSION, "Sk1er");
     }
 
     public AbstractMod init() {

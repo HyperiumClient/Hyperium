@@ -21,6 +21,7 @@ import cc.hyperium.mods.autogg.AutoGG;
 import cc.hyperium.mods.blockoverlay.BlockOverlay;
 import cc.hyperium.mods.chromahud.ChromaHUD;
 import cc.hyperium.mods.chunkanimator.ChunkAnimator;
+import cc.hyperium.mods.common.SoundHandler;
 import cc.hyperium.mods.glintcolorizer.GlintColorizer;
 import cc.hyperium.mods.itemphysic.ItemPhysicMod;
 import cc.hyperium.mods.keystrokes.KeystrokesMod;
@@ -52,6 +53,7 @@ public class HyperiumModIntegration {
     private final ItemPhysicMod itemPhysicMod;
     private final VictoryRoyale victoryRoyale;
     private final ChunkAnimator chunkAnimator;
+    private final SoundHandler soundHandler;
 
     public HyperiumModIntegration() {
         // ChromaHUD implementation
@@ -94,6 +96,7 @@ public class HyperiumModIntegration {
         this.itemPhysicMod = (ItemPhysicMod) new ItemPhysicMod().init();
         this.victoryRoyale = (VictoryRoyale) new VictoryRoyale().init();
         this.chunkAnimator = (ChunkAnimator) new ChunkAnimator().init();
+        this.soundHandler = (SoundHandler) new SoundHandler().init();
     }
 
     public KeystrokesMod getKeystrokesMod() {
@@ -137,5 +140,8 @@ public class HyperiumModIntegration {
     }
     public ChunkAnimator getChunkAnimator() {
         return chunkAnimator;
+    }
+    public SoundHandler getSoundHandler() {
+        return soundHandler;
     }
 }

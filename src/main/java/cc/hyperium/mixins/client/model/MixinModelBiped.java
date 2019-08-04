@@ -23,6 +23,7 @@ import cc.hyperium.event.PostCopyPlayerModelAnglesEvent;
 import cc.hyperium.event.PreCopyPlayerModelAnglesEvent;
 import cc.hyperium.mixinsimp.client.model.IMixinModelBiped;
 import cc.hyperium.mixinsimp.client.model.IMixinModelBox;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelBiped;

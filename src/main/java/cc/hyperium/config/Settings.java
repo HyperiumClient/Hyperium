@@ -507,6 +507,10 @@ public class Settings {
     @ToggleSetting(name = "gui.settings.clearglass", category = GENERAL)
     public static boolean CLEAR_GLASS;
 
+    @ConfigOpt
+    @ToggleSetting(name = "gui.settings.portalsounds", category = VANILLA_ENHANCEMENTS, mods = true)
+    public static boolean PORTAL_SOUNDS;
+
     public static void register() {
         Hyperium.CONFIG.register(INSTANCE);
     }

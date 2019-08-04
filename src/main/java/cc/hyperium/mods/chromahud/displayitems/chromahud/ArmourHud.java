@@ -35,7 +35,6 @@ import java.util.List;
  */
 public class ArmourHud extends DisplayItem {
     private List<ItemStack> list = new ArrayList<>();
-    private int ordinal;
     private boolean dur;
     private boolean hand;
     private boolean armourOnTop;
@@ -95,7 +94,7 @@ public class ArmourHud extends DisplayItem {
     }
 
     private int getArmourHeight() {
-        return list.size() * 16;
+        return list.size() * 13;
     }
 
     private List<ItemStack> itemsToRender() {
