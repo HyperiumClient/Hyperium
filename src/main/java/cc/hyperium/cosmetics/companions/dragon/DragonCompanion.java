@@ -177,7 +177,7 @@ public class DragonCompanion extends AbstractCosmetic {
         }
     }
 
-    class AnimationPoint {
+    static class AnimationPoint {
         double x, y, z;
 
         public AnimationPoint(double x, double y, double z) {

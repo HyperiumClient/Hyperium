@@ -25,7 +25,7 @@ import net.minecraft.util.ResourceLocation;
 public class StaticCape implements ICape {
     private ResourceLocation location;
 
-    public StaticCape(ResourceLocation location) {
+    StaticCape(ResourceLocation location) {
         this.location = location;
     }
 

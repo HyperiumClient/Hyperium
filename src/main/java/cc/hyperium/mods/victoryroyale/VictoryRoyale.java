@@ -127,24 +127,24 @@ public class VictoryRoyale extends AbstractMod {
                     worldRenderer.begin(GL11.GL_TRIANGLES, DefaultVertexFormats.POSITION);
 
                     if (side == 1) {
-                        worldRenderer.pos((double) trueX, (double) trueY, 0.0D).endVertex(); // x
+                        worldRenderer.pos(trueX, trueY, 0.0D).endVertex(); // x
                         worldRenderer.pos((double) px + 0, (double) py + point.width, 0.0D).endVertex(); // y
-                        worldRenderer.pos((double) px, (double) py, 0.0D).endVertex(); // z
+                        worldRenderer.pos(px, py, 0.0D).endVertex(); // z
 
                     } else if (side == 3) {
-                        worldRenderer.pos((double) trueX, (double) trueY, 0.0D).endVertex();
-                        worldRenderer.pos((double) px, (double) py, 0.0D).endVertex();
-                        worldRenderer.pos((double) px + 10, (double) py, 0.0D).endVertex();
+                        worldRenderer.pos(trueX, trueY, 0.0D).endVertex();
+                        worldRenderer.pos(px, py, 0.0D).endVertex();
+                        worldRenderer.pos((double) px + 10, py, 0.0D).endVertex();
 
                     } else if (side == 2) {
-                        worldRenderer.pos((double) trueX, (double) trueY, 0.0D).endVertex();
-                        worldRenderer.pos((double) px, (double) py, 0.0D).endVertex();
-                        worldRenderer.pos((double) px + 10, (double) py, 0.0D).endVertex();
+                        worldRenderer.pos(trueX, trueY, 0.0D).endVertex();
+                        worldRenderer.pos(px, py, 0.0D).endVertex();
+                        worldRenderer.pos((double) px + 10, py, 0.0D).endVertex();
 
                     } else {
-                        worldRenderer.pos((double) trueX, (double) trueY, 0.0D).endVertex();
-                        worldRenderer.pos((double) px + 10, (double) py, 0.0D).endVertex();
-                        worldRenderer.pos((double) px, (double) py, 0.0D).endVertex();
+                        worldRenderer.pos(trueX, trueY, 0.0D).endVertex();
+                        worldRenderer.pos((double) px + 10, py, 0.0D).endVertex();
+                        worldRenderer.pos(px, py, 0.0D).endVertex();
                     }
                     renderer.draw();
                     GlStateManager.enableTexture2D();
@@ -212,7 +212,7 @@ public class VictoryRoyale extends AbstractMod {
         return new Metadata(this, "Victory Royale", "1.0", "Sk1er");
     }
 
-    class WhiteLine {
+    static class WhiteLine {
         private double xPercent, yPercent;
         private int width;
 

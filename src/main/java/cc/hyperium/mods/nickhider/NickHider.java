@@ -337,7 +337,7 @@ public class NickHider extends AbstractMod {
         return new Metadata(this, "Nick Hider", VERSION, "Sk1er");
     }
 
-    public class Nick {
+    public static class Nick {
         public Pattern pattern;
         public String oldName;
         String newName;

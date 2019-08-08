@@ -27,7 +27,7 @@ public abstract class AbstractAddon {
 
     public abstract Metadata getAddonMetadata();
 
-    public class Metadata {
+    public static class Metadata {
         private final AbstractAddon addon;
         private final String author;
         private final String name;

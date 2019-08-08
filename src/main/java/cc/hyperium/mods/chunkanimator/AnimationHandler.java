@@ -145,7 +145,7 @@ public class AnimationHandler {
         return chunkFacing;
     }
 
-    private class AnimationData {
+    private static class AnimationData {
         long timeStamp;
         EnumFacing chunkFacing;
 

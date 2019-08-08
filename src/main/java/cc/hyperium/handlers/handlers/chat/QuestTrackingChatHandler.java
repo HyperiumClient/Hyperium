@@ -92,7 +92,7 @@ public class QuestTrackingChatHandler extends HyperiumChatHandler {
         return trackedQuests;
     }
 
-    public class QuestData {
+    public static class QuestData {
         private final String name;
         private final String type;
         private final Long timestamp;

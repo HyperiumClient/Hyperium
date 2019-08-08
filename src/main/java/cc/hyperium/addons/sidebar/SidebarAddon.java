@@ -52,7 +52,7 @@ public class SidebarAddon extends AbstractAddon {
 
     @Override
     public Metadata getAddonMetadata() {
-        AbstractAddon.Metadata metadata = new AbstractAddon.Metadata(this, "SidebarAddon", "1.0.1", "Amplifiable");
+        AbstractAddon.Metadata metadata = new Metadata(this, "SidebarAddon", "1.0.1", "Amplifiable");
         metadata.setDescription("Allows for full scoreboard customization");
 
         return metadata;

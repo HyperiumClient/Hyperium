@@ -108,7 +108,7 @@ class ListCompatibilityHack extends AbstractList<OverlayComponent> {
         this.data.clear();
     }
 
-    class OverlayComparator implements Comparator<OverlayComponent> {
+    static class OverlayComparator implements Comparator<OverlayComponent> {
 
         @Override
         public int compare(OverlayComponent first, OverlayComponent second) {

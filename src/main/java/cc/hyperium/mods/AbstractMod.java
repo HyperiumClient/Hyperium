@@ -48,7 +48,7 @@ public abstract class AbstractMod {
      * The Metadata implementation, created to identify built-in
      * addons and their other information. For upcoming features
      */
-    public class Metadata {
+    public static class Metadata {
 
         private final AbstractMod mod;
         private final String author;

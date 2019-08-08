@@ -227,7 +227,7 @@ public abstract class AbstractAnimationHandler {
         }
     }
 
-    public class AnimationState {
+    public static class AnimationState {
         public int frames;
         private long systemTime;
         private boolean toggled;

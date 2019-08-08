@@ -353,7 +353,7 @@ public class HypixelFriendsGui extends HyperiumGui {
 
     }
 
-    class HypixelFriends {
+    static class HypixelFriends {
         private final List<HypixelApiFriendObject> all = new ArrayList<>();
         private List<HypixelApiFriendObject> working = new ArrayList<>();
 

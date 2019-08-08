@@ -151,7 +151,7 @@ public class HypixelApiGuild implements HypixelApiObject {
         return ranks;
     }
 
-    public class GuildPlayer {
+    public static class GuildPlayer {
         private JsonHolder object;
 
         public GuildPlayer(JsonHolder object) {
@@ -175,7 +175,7 @@ public class HypixelApiGuild implements HypixelApiObject {
         }
     }
 
-    public class GuildRank {
+    public static class GuildRank {
         private String name;
         private int priority;
 
