@@ -40,6 +40,6 @@ public class SoundHandler extends AbstractMod {
 
     @Override
     public Metadata getModMetadata() {
-        return null;
+        return new Metadata(this, "Portal Muter", "1.0", "asbyth");
     }
 }
