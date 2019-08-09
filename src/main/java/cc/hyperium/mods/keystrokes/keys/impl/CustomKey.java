@@ -116,7 +116,7 @@ public class CustomKey extends IKey {
         } else if (this.type == 0 || this.type == 1) {
             this.drawCenteredString(name, x + (this.xOffset + 70) / 2, y + this.yOffset + 5, pressed ? pressedColor : colorN);
         } else {
-            this.mc.fontRendererObj.drawString(name, (left + right) / 2 - fontRendererObj.getStringWidth(name), (int) yPos, pressed ? pressedColor : colorN);
+            this.mc.fontRendererObj.drawString(name, (left + right) / 2 - fontRendererObj.getStringWidth(name) + 3, (int) yPos, pressed ? pressedColor : colorN);
         }
     }
 
