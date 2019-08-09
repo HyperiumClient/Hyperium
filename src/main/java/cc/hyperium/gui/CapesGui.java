@@ -69,7 +69,7 @@ public class CapesGui extends HyperiumGui implements GuiYesNoCallback {
         }
 
         guiScale = 2;
-        scollMultiplier = 2;
+        scrollMultiplier = 2;
         updatePurchases();
         Multithreading.runAsync(() -> {
             JsonHolder capeAtlas = PurchaseApi.getInstance().getCapeAtlas();

@@ -511,6 +511,10 @@ public class Settings {
     @ToggleSetting(name = "gui.settings.portalsounds", category = VANILLA_ENHANCEMENTS, mods = true)
     public static boolean PORTAL_SOUNDS;
 
+    @ConfigOpt
+    @ToggleSetting(name = "gui.settings.disableachievements", category = VANILLA_ENHANCEMENTS, mods = true)
+    public static boolean DISABLE_ACHIEVEMENTS;
+
     public static void register() {
         Hyperium.CONFIG.register(INSTANCE);
     }

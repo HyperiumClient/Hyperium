@@ -112,7 +112,7 @@ public class HyperiumMainGui extends HyperiumGui {
             new SettingsTab(this),
             new ShopTab(this)
         );
-        scollMultiplier = 2;
+        scrollMultiplier = 2;
         setTab(tabIndex);
 
     }

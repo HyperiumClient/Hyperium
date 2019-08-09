@@ -59,6 +59,7 @@ public abstract class HyperiumGui extends GuiScreen {
     private int idIteration;
     private int alpha = 100;
     private ScaledResolution lastResolution;
+    public double scrollMultiplier = 1;
 
     public HyperiumGui() {
         lastResolution = ResolutionUtil.current();
@@ -242,7 +243,6 @@ public abstract class HyperiumGui extends GuiScreen {
     public void handleMouseInput() throws IOException {
         super.handleMouseInput();
         int i = Mouse.getEventDWheel();
-        double scrollMultiplier = 1;
         if (i < 0) {
             offset += 11 * scrollMultiplier;
         } else if (i > 0) {

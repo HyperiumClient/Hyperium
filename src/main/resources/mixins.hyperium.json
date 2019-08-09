@@ -13,6 +13,7 @@
     "client.entity.IMixinAbstractClientPlayer",
     "client.entity.MixinAbstractClientPlayer",
     "client.entity.MixinEntityPlayerSP",
+    "client.gui.achievement.MixinGuiAchievement",
     "client.gui.inventory.IMixinGuiContainer",
     "client.gui.inventory.MixinGuiContainer",
     "client.gui.inventory.MixinGuiEditSign",

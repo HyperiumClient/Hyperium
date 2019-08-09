@@ -208,7 +208,8 @@ gui.settings.confirmdisconnect=Confirm Disconnect
 gui.settings.confirmquit=Confirm Quit
 gui.settings.hotbarkeys=Hotbar Keys
 gui.settings.clearglass=Clear Glass
-gui.settings.portalsounds=Portal Sounds
+gui.settings.portalsounds=Disable Portal Sounds
+gui.settings.disableachievements=Disable Achievements
 
 # Hyperium Splash Progress
 splashprogress.startinggame=Početna igra...
