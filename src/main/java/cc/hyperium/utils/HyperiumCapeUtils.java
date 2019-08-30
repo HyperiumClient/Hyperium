@@ -20,13 +20,7 @@ package cc.hyperium.utils;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
-public class CapeUtils {
-
-    /**
-     * Singleton
-     */
-    public CapeUtils() {
-    }
+public class HyperiumCapeUtils {
 
     public static BufferedImage parseCape(final BufferedImage img) {
         int imageWidth = 64;

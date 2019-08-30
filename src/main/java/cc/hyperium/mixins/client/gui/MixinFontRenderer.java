@@ -17,11 +17,14 @@
 
 package cc.hyperium.mixins.client.gui;
 
+import cc.hyperium.config.Settings;
 import cc.hyperium.mods.nickhider.NickHider;
 import net.minecraft.client.gui.FontRenderer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(FontRenderer.class)
 public abstract class MixinFontRenderer {
@@ -40,5 +43,12 @@ public abstract class MixinFontRenderer {
             return in;
         }
         return NickHider.instance.apply(in);
+    }
+
+    @Inject(method = "renderString", at = @At("HEAD"), cancellable = true)
+    private void renderString(String text, float x, float y, int color, boolean dropShadow, CallbackInfoReturnable<Integer> cir) {
+        if (dropShadow && Settings.DISABLE_SHADOW_TEXT) {
+            cir.setReturnValue(0);
+        }
     }
 }

@@ -18,6 +18,7 @@
 package cc.hyperium.gui;
 
 import cc.hyperium.Hyperium;
+import cc.hyperium.handlers.handlers.animation.cape.HyperiumCapeHandler;
 import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.netty.NettyClient;
@@ -34,10 +35,10 @@ import net.minecraft.client.gui.GuiYesNoCallback;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.texture.DynamicTexture;
+import net.minecraft.util.ChatComponentText;
 
 import javax.imageio.ImageIO;
-import java.awt.Color;
-import java.awt.Desktop;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
@@ -130,7 +131,7 @@ public class CapesGui extends HyperiumGui implements GuiYesNoCallback {
                 purchaseSettings.put("cape", new JsonHolder());
             }
             purchaseSettings.optJSONObject("cape").put("type", "default");
-            Hyperium.INSTANCE.getHandlers().getCapeHandler().deleteCape(UUIDUtil.getClientUUID());
+            Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage("You may need to switch worlds to update your cape.");
         }, guiButton -> {
 
         });
@@ -290,7 +291,7 @@ public class CapesGui extends HyperiumGui implements GuiYesNoCallback {
                             if (client != null) {
                                 client.write(ServerCrossDataPacket.build(new JsonHolder().put("internal", true).put("set_cape", true).put("value", s)));
                             }
-                            Hyperium.INSTANCE.getHandlers().getCapeHandler().deleteCape(UUIDUtil.getClientUUID());
+                            Hyperium.INSTANCE.getHandlers().getGeneralChatHandler().sendMessage("You may need to switch worlds to update your cape.");
                         });
                         GlStateManager.scale(2F, 2F, 2F);
 

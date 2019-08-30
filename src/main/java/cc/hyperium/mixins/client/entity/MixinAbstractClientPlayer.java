@@ -17,18 +17,21 @@
 
 package cc.hyperium.mixins.client.entity;
 
+import cc.hyperium.handlers.handlers.animation.cape.HyperiumCapeHandler;
 import cc.hyperium.mixinsimp.client.entity.HyperiumAbstractClientPlayer;
 import cc.hyperium.mods.nickhider.NickHider;
 import cc.hyperium.mods.nickhider.config.NickHiderConfig;
 import com.mojang.authlib.GameProfile;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
+import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.client.resources.DefaultPlayerSkin;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -37,17 +40,19 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(AbstractClientPlayer.class)
 public abstract class MixinAbstractClientPlayer extends EntityPlayer {
 
-    private HyperiumAbstractClientPlayer hyperiumAbstractClientPlayer = new HyperiumAbstractClientPlayer((AbstractClientPlayer) (Object) this);
+    @Shadow private NetworkPlayerInfo playerInfo;
+
+    private HyperiumCapeHandler hook;
+
+    private HyperiumAbstractClientPlayer hyperiumAbstractClientPlayer = new HyperiumAbstractClientPlayer();
 
     public MixinAbstractClientPlayer(World worldIn, GameProfile gameProfileIn) {
         super(worldIn, gameProfileIn);
     }
 
     @Inject(method = "<init>", at = @At("RETURN"))
-    private void AbstractPlayer(World worldIn, GameProfile playerProfile, CallbackInfo callbackInfo) {
-
-        //Blank get cape call to get the show on the road
-        hyperiumAbstractClientPlayer.init();
+    private void init(World worldIn, GameProfile playerProfile, CallbackInfo callbackInfo) {
+        hook = new HyperiumCapeHandler(playerProfile);
     }
 
     /**
@@ -56,7 +61,12 @@ public abstract class MixinAbstractClientPlayer extends EntityPlayer {
      */
     @Overwrite
     public ResourceLocation getLocationCape() {
-        return hyperiumAbstractClientPlayer.getLocationCape();
+        if (hook.getLocationCape() != null) {
+           return hook.getLocationCape();
+        } else {
+            NetworkPlayerInfo networkplayerinfo = playerInfo;
+            return networkplayerinfo == null ? null : networkplayerinfo.getLocationCape();
+        }
     }
 
     @Inject(method = "getFovModifier", at = @At("HEAD"), cancellable = true)

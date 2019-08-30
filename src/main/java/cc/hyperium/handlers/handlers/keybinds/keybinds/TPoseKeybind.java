@@ -35,7 +35,7 @@ import org.lwjgl.input.Keyboard;
 public class TPoseKeybind extends HyperiumBind {
 
     public TPoseKeybind() {
-        super("T-Pose", Keyboard.KEY_N);
+        super("T-Pose", Keyboard.KEY_NONE);
     }
 
     private boolean tPoseToggled;

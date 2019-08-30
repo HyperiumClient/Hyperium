@@ -210,6 +210,7 @@ gui.settings.hotbarkeys=Hotbar Keys
 gui.settings.clearglass=Clear Glass
 gui.settings.portalsounds=Disable Portal Sounds
 gui.settings.disableachievements=Disable Achievements
+gui.settings.disableshadowtext=Disable Shadowed Text
 
 # Hyperium Splash Progress
 splashprogress.startinggame=Starting Game...

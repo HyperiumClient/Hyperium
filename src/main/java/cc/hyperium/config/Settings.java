@@ -515,6 +515,10 @@ public class Settings {
     @ToggleSetting(name = "gui.settings.disableachievements", category = VANILLA_ENHANCEMENTS, mods = true)
     public static boolean DISABLE_ACHIEVEMENTS;
 
+    @ConfigOpt
+    @ToggleSetting(name = "gui.settings.disableshadowtext", category = IMPROVEMENTS)
+    public static boolean DISABLE_SHADOW_TEXT;
+
     public static void register() {
         Hyperium.CONFIG.register(INSTANCE);
     }

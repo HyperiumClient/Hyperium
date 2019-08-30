@@ -197,6 +197,7 @@ public class HyperiumBind {
             if (currentKeyCode == keyCode) {
                 // There is a conflict!
                 conflicted = true;
+                break;
             }
         }
     }

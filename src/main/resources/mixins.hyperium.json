@@ -71,7 +71,6 @@
     "client.renderer.entity.MixinRenderManger",
     "client.renderer.entity.MixinRenderPlayer",
     "client.renderer.texture.IMixinTextureManager",
-    "client.renderer.texture.MixinTextureManager",
     "client.renderer.tileentity.MixinRenderItemFrame",
     "client.renderer.IMixinEntityRenderer",
     "client.renderer.IMixinInventoryEffectRenderer",

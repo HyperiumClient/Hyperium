@@ -17,11 +17,11 @@
 
 package cc.hyperium.purchases;
 
-import cc.hyperium.Hyperium;
 import cc.hyperium.event.EventBus;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.PurchaseLoadEvent;
 import cc.hyperium.event.SpawnpointChangeEvent;
+import cc.hyperium.handlers.handlers.animation.cape.HyperiumCapeHandler;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.purchases.packages.EarsCosmetic;
 import cc.hyperium.utils.JsonHolder;
@@ -38,7 +38,6 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
@@ -203,7 +202,6 @@ public class PurchaseApi {
         HyperiumPurchase value = new HyperiumPurchase(uuid, get(url + uuid.toString()));
         EventBus.INSTANCE.post(new PurchaseLoadEvent(uuid, value, true));
         purchasePlayers.put(uuid, value);
-        Hyperium.INSTANCE.getHandlers().getCapeHandler().deleteCape(uuid);
+        HyperiumCapeHandler.LOCATION_CACHE.clear();
     }
-
 }

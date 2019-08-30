@@ -24,7 +24,7 @@ import org.lwjgl.input.Keyboard;
 public class GuiDanceKeybind extends HyperiumBind {
 
     public GuiDanceKeybind() {
-        super("Use Dances", Keyboard.KEY_SEMICOLON);
+        super("Use Dances", Keyboard.KEY_O);
     }
 
     @Override

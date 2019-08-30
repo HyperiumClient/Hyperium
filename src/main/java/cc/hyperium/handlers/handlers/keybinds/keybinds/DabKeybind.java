@@ -34,7 +34,7 @@ import java.util.UUID;
 public class DabKeybind extends HyperiumBind {
 
     public DabKeybind() {
-        super("Dab", Keyboard.KEY_B);
+        super("Dab", Keyboard.KEY_NONE);
     }
 
     @Override
