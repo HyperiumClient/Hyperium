@@ -18,7 +18,6 @@
 package cc.hyperium.gui;
 
 import cc.hyperium.Hyperium;
-import cc.hyperium.handlers.handlers.animation.cape.HyperiumCapeHandler;
 import cc.hyperium.handlers.handlers.chat.GeneralChatHandler;
 import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.netty.NettyClient;
@@ -35,7 +34,6 @@ import net.minecraft.client.gui.GuiYesNoCallback;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.texture.DynamicTexture;
-import net.minecraft.util.ChatComponentText;
 
 import javax.imageio.ImageIO;
 import java.awt.*;

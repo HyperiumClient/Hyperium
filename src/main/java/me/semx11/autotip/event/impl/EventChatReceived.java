@@ -1,6 +1,5 @@
 package me.semx11.autotip.event.impl;
 
-import cc.hyperium.event.ChatEvent;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.ServerChatEvent;
 import me.semx11.autotip.Autotip;

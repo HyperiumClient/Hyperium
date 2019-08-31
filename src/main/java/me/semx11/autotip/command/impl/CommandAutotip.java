@@ -1,17 +1,5 @@
 package me.semx11.autotip.command.impl;
 
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
-
-import cc.hyperium.commands.CommandException;
 import me.semx11.autotip.Autotip;
 import me.semx11.autotip.chat.MessageOption;
 import me.semx11.autotip.chat.MessageUtil;
@@ -26,14 +14,23 @@ import me.semx11.autotip.event.impl.EventClientConnection;
 import me.semx11.autotip.stats.StatsDaily;
 import me.semx11.autotip.universal.UniversalUtil;
 import me.semx11.autotip.util.MinecraftVersion;
-import net.minecraft.command.ICommandSender;
+
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 import static net.minecraft.command.CommandBase.getListOfStringsMatchingLastWord;
 
 public class CommandAutotip extends CommandAbstract {
 
     private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("d/M/yyyy");
-    private static final DateTimeFormatter SESSION_FORMAT = DateTimeFormatter.ofPattern("HH:mm:ss");
     private static final DateTimeFormatter WAVE_FORMAT = DateTimeFormatter.ofPattern("mm:ss");
 
     public CommandAutotip(Autotip autotip) {
@@ -62,7 +59,7 @@ public class CommandAutotip extends CommandAbstract {
     }
 
     @Override
-    public void onExecute(String[] args) throws CommandException {
+    public void onExecute(String[] args) {
         Config config = autotip.getConfig();
         MessageUtil messageUtil = autotip.getMessageUtil();
         TaskManager taskManager = autotip.getTaskManager();
