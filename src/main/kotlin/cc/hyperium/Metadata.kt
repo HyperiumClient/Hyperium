@@ -29,7 +29,7 @@ val MODID
 
 val VERSION
     @JvmName("getVersion")
-    get() = "1.1 (Beta V4)"
+    get() = "1.1 (Public Beta)"
 
 /**
  * @since 12 (Hyperium Build 12)
