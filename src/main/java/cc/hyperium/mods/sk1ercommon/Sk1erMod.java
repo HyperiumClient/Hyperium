@@ -79,18 +79,20 @@ public class Sk1erMod {
     }
 
     public void checkStatus() {
-        Multithreading.schedule(() -> {
-            en = new JsonHolder(rawWithAgent("https://sk1er.club/genkey?name=" + Minecraft.getMinecraft().getSession().getProfile().getName()
-                + "&uuid=" + Minecraft.getMinecraft().getSession().getPlayerID().replace("-", "")
-                + "&mcver=" + Minecraft.getMinecraft().getVersion()
-                + "&modver=" + version
-                + "&mod=" + modid
-            ));
-            if (callback != null)
-                callback.call(en);
-            enabled = en.optBoolean("enabled");
-            apiKey = en.optString("key");
-        }, 0, 5, TimeUnit.MINUTES);
+        if (Minecraft.getMinecraft().gameSettings.snooperEnabled) {
+            Multithreading.schedule(() -> {
+                en = new JsonHolder(rawWithAgent("https://sk1er.club/genkey?name=" + Minecraft.getMinecraft().getSession().getProfile().getName()
+                    + "&uuid=" + Minecraft.getMinecraft().getSession().getPlayerID().replace("-", "")
+                    + "&mcver=" + Minecraft.getMinecraft().getVersion()
+                    + "&modver=" + version
+                    + "&mod=" + modid
+                ));
+                if (callback != null)
+                    callback.call(en);
+                enabled = en.optBoolean("enabled");
+                apiKey = en.optString("key");
+            }, 0, 5, TimeUnit.MINUTES);
+        }
     }
 
     public String rawWithAgent(String url) {
