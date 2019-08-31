@@ -519,6 +519,10 @@ public class Settings {
     @ToggleSetting(name = "gui.settings.disableshadowtext", category = IMPROVEMENTS)
     public static boolean DISABLE_SHADOW_TEXT;
 
+    @ConfigOpt
+    @ToggleSetting(name ="gui.settings.shinypotions.matchcolor", category = ANIMATIONS)
+    public static boolean SHINY_POTS_MATCH_COLOR = false;
+
     public static void register() {
         Hyperium.CONFIG.register(INSTANCE);
     }

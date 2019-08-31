@@ -211,6 +211,7 @@ gui.settings.clearglass=Clear Glass
 gui.settings.portalsounds=Disable Portal Sounds
 gui.settings.disableachievements=Disable Achievements
 gui.settings.disableshadowtext=Disable Shadowed Text
+gui.settings.shinypotions.matchcolor=Shiny Potions - Match Potion Color
 
 # Hyperium Splash Progress
 splashprogress.startinggame=بدء اللعبة...
