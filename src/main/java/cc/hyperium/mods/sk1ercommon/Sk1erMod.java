@@ -27,7 +27,7 @@ import org.apache.commons.io.IOUtils;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -39,8 +39,8 @@ public class Sk1erMod {
         Dabbing intensifies
      */
     private static Sk1erMod instance;
-    private String modid = "";
-    private String version = "";
+    private String modid;
+    private String version;
     private boolean enabled = true;
     private String apiKey = "";
     private JsonHolder en = new JsonHolder();
@@ -110,7 +110,7 @@ public class Sk1erMod {
             connection.setConnectTimeout(15000);
             connection.setDoOutput(true);
             InputStream is = connection.getInputStream();
-            return IOUtils.toString(is, Charset.forName("UTF-8"));
+            return IOUtils.toString(is, StandardCharsets.UTF_8);
 
         } catch (Exception e) {
             e.printStackTrace();
