@@ -96,11 +96,8 @@ dependencies {
     }
     
     embed 'com.github.Cubxity:DeobfStack:1.2'
-    embed 'com.github.HyperiumClient:Installer:1.9'
 
-    embed fileTree(dir: 'libs', include: 'Netty Client.jar')
-    compile fileTree(dir: 'libs', include: '*.jar')
-
+    embed fileTree(dir: 'libs', include: '*.jar')
 }
 
 mixin {
@@ -143,8 +140,7 @@ jar {
             "MixinConfigs": 'mixins.hyperium.json',
             "TweakClass": 'cc.hyperium.launch.HyperiumTweaker',
             "TweakOrder": 0,
-            "Manifest-Version": 1.0,
-            'Main-Class': 'cc.hyperium.installer.InstallerStart'
+            "Manifest-Version": 1.0
     )
 
     configurations.embed.each { dep ->

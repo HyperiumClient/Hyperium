@@ -21,8 +21,10 @@ import cc.hyperium.utils.staff.StaffSettings;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import net.minecraft.util.HttpUtil;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -30,7 +32,7 @@ public class StaffUtils {
     private static final HashMap<UUID, StaffSettings> STAFF_CACHE = new HashMap<>();
 
     public static boolean isStaff(UUID uuid) {
-        return STAFF_CACHE.keySet().contains(uuid);
+        return STAFF_CACHE.containsKey(uuid);
     }
 
     public static DotColour getColor(UUID uuid) {
@@ -39,7 +41,7 @@ public class StaffUtils {
 
     private static HashMap<UUID, StaffSettings> getStaff() throws IOException {
         HashMap<UUID, StaffSettings> staff = new HashMap<>();
-        String content = InstallerUtils.getRaw("https://raw.githubusercontent.com/HyperiumClient/Hyperium-Repo/master/files/staff.json");
+        String content = HttpUtil.get(new URL("https://raw.githubusercontent.com/HyperiumClient/Hyperium-Repo/master/files/staff.json"));
         JsonParser parser = new JsonParser();
         JsonArray array = parser.parse(content).getAsJsonArray();
         for (int i = 0; i < array.size(); i++) {

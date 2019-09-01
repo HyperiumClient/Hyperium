@@ -21,7 +21,7 @@ import cc.hyperium.purchases.HyperiumPurchase;
 import cc.hyperium.purchases.PurchaseApi;
 import cc.hyperium.utils.HyperiumCapeUtils;
 import cc.hyperium.utils.JsonHolder;
-import cc.hyperium.utils.Multithreading;
+import cc.hyperium.mods.sk1ercommon.Multithreading;
 import com.mojang.authlib.GameProfile;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IImageBuffer;

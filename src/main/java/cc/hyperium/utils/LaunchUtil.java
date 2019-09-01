@@ -32,7 +32,7 @@ public class LaunchUtil {
 
     public static void launch() {
         try {
-            boolean windows = InstallerUtils.getOS() == InstallerUtils.OSType.Windows;
+            boolean windows = System.getProperty("os.name").toLowerCase().contains("win");
             //Class<?> c = getClass();
             //String n = c.getName().replace('.', '/');
             String cs = "";

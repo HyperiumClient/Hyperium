@@ -24,8 +24,8 @@ import cc.hyperium.event.EventBus;
 import cc.hyperium.event.InvokeEvent;
 import cc.hyperium.event.LevelupEvent;
 import cc.hyperium.event.ServerChatEvent;
-import me.lpk.util.StringUtils;
 import net.minecraft.util.EnumChatFormatting;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;

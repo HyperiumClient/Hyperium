@@ -32,18 +32,17 @@ import java.io.IOException;
 /**
  * @author Cubxity
  */
-
 public class UpdateUtils {
     private static final HttpClient client = HttpClients.createDefault();
     public static UpdateUtils INSTANCE = new UpdateUtils();
     private VersionAPIUtils apiUtils = new VersionAPIUtils();
 
-    public static cc.hyperium.installer.utils.JsonHolder get(String url) {
+    public static JsonHolder get(String url) {
         try {
-            return new cc.hyperium.installer.utils.JsonHolder(getRaw(url));
+            return new JsonHolder(getRaw(url));
         } catch (Exception var2) {
             var2.printStackTrace();
-            return new cc.hyperium.installer.utils.JsonHolder();
+            return new JsonHolder();
         }
     }
 

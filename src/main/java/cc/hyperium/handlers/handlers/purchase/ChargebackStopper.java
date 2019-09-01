@@ -19,7 +19,7 @@ package cc.hyperium.handlers.handlers.purchase;
 
 import cc.hyperium.netty.utils.Utils;
 import cc.hyperium.utils.JsonHolder;
-import cc.hyperium.utils.Multithreading;
+import cc.hyperium.mods.sk1ercommon.Multithreading;
 import cc.hyperium.utils.UUIDUtil;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;

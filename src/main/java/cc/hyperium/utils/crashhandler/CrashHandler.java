@@ -15,10 +15,7 @@
  *       along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package cc.hyperium.utils;
-
-import cc.hyperium.installer.components.HScrollBarUI;
-import cc.hyperium.installer.components.VScrollBarUI;
+package cc.hyperium.utils.crashhandler;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;

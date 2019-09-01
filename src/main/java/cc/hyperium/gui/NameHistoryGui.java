@@ -18,7 +18,7 @@
 package cc.hyperium.gui;
 
 import cc.hyperium.utils.HyperiumFontRenderer;
-import cc.hyperium.utils.Multithreading;
+import cc.hyperium.mods.sk1ercommon.Multithreading;
 import me.kbrewster.mojangapi.MojangAPI;
 import me.kbrewster.mojangapi.profile.Name;
 import net.minecraft.client.gui.GuiScreen;
