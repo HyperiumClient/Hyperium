@@ -89,7 +89,7 @@ public class TrayManager {
 
     private void trayDisplayAboutInfo() {
         JOptionPane popup = new JOptionPane();
-        JOptionPane.showMessageDialog(popup, "Hyperium is a Hypixel Based 1.8.9 Client developed by Sk1er, CoalOres, Cubxity, KevinPriv, boomboompower, and asbyth. Version: " + Metadata
+        JOptionPane.showMessageDialog(popup, "Hyperium is a Hypixel Based 1.8.9 Client developed by Sk1er, CoalOres, Cubxity, KevinPriv, boomboompower, FalseHonesty, and asbyth. Version: " + Metadata
             .getVersion(), "Hyperium - About", JOptionPane.PLAIN_MESSAGE);
     }
 }
