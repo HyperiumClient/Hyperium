@@ -33,10 +33,9 @@ import java.awt.Font;
 
 public class SplashProgress {
 
-    public static final int DEFAULT_MAX = 12;
-    public static int MAX = DEFAULT_MAX;
-    public static int PROGRESS;
-    public static String CURRENT = "";
+    private static final int DEFAULT_MAX = 12;
+    private static int PROGRESS;
+    private static String CURRENT = "";
     private static ResourceLocation splash;
     private static TextureManager ctm;
     /**
@@ -107,14 +106,14 @@ public class SplashProgress {
         ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
 
         double nProgress = PROGRESS;
-        double calc = (nProgress / MAX) * sr.getScaledWidth();
+        double calc = (nProgress / DEFAULT_MAX) * sr.getScaledWidth();
 
         Gui.drawRect(0, sr.getScaledHeight() - 35, sr.getScaledWidth(), sr.getScaledHeight(), new Color(0, 0, 0, 50).getRGB());
 
         GlStateManager.resetColor();
         GlStateModifier.INSTANCE.reset();
         sfr.drawString(CURRENT, 20, sr.getScaledHeight() - 25, 0xffffffff);
-        String s = PROGRESS + "/" + MAX;
+        String s = PROGRESS + "/" + DEFAULT_MAX;
         sfr.drawString(s, sr.getScaledWidth() - 20 - sfr.getStringWidth(s), sr.getScaledHeight() - 25, 0xe1e1e1ff);
         // Progress
         GlStateManager.resetColor();
