@@ -70,7 +70,7 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
                 addDefaultStyleOptionsButton(j);
                 break;
             case HYPERIUM:
-                addHyperiumStyleOptionsButton(j);
+                addHyperiumStyleOptionsButton();
                 break;
         }
     }
@@ -187,7 +187,7 @@ public class GuiHyperiumScreenMainMenu extends GuiHyperiumScreen implements GuiY
         this.buttonList.add(new GuiButton(15, this.width / 2 - 100, p_73969_1_ + p_73969_2_ * 3, I18n.format("button.ingame.hyperiumsettings")));
     }
 
-    public void addHyperiumStyleOptionsButton(int j) {
+    public void addHyperiumStyleOptionsButton() {
         this.buttonList.add(new GuiButton(0, width / 2 - getIntendedWidth(55), height / 2 - getIntendedHeight(55), getIntendedWidth(110), getIntendedHeight(110), ""));
         this.buttonList.add(new GuiButton(4, width / 2 + getIntendedWidth(185), height / 2 - getIntendedHeight(55), getIntendedWidth(110), getIntendedHeight(110), ""));
     }

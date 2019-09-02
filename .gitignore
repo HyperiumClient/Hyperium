@@ -1,42 +1,30 @@
-.fuse_hidden*
-.directory
-.Trash-*
-.nfs*
-Thumbs.db
-ehthumbs.db
-ehthumbs_vista.db
-*.stackdump
-[Dd]esktop.ini
-$RECYCLE.BIN/
-*.cab
-*.msi
-*.msix
-*.msm
-*.msp
-*.lnk
+    
+# eclipse
+eclipse
+bin
+*.launch
+.settings
+.metadata
+.classpath
+.project
+
+# idea
+out
+classes
+*.ipr
+*.iws
 *.iml
-build/
-.gradle/
-out/
-run/
-src/api/
-src/test/
-.idea/
-gradlew
-src/main/java/cc/hyperium/addons/sidebar/versions/UpdateChecker.java
+.idea
+
+# gradle
+build
+.gradle
+
+#Netbeans
+.nb-gradle
+.nb-gradle-properties
+
+# other
+run
 .DS_Store
-.AppleDB
-.AppleDesktop
-Network Trash Folder
-Temporary Items
-.apdisk
-.AppleDouble
-.LSOverride
-.DocumentRevisions-V100
-.fseventsd
-.Spotlight-V100
-.TemporaryItems
-.Trashes
-.VolumeIcon.icns
-.com.apple.timemachine.donotpresent
-classes/
+Thumbs.db

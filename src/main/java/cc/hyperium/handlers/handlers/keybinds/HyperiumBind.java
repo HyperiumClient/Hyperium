@@ -188,17 +188,10 @@ public class HyperiumBind {
         }
 
         // Check for conflicts with other Hyperium binds.
-        for (HyperiumBind hyperiumBind : otherBinds) {
-            if (hyperiumBind.conflictExempt) {
-                continue;
-            }
-            int keyCode = hyperiumBind.key;
-
-            if (currentKeyCode == keyCode) {
-                // There is a conflict!
-                conflicted = true;
-                break;
-            }
+        // There is a conflict!
+        if (otherBinds.stream().filter(hyperiumBind ->
+            !hyperiumBind.conflictExempt).mapToInt(hyperiumBind -> hyperiumBind.key).anyMatch(keyCode -> currentKeyCode == keyCode)) {
+            conflicted = true;
         }
     }
 }

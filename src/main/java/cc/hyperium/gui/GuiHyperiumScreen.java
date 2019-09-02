@@ -235,6 +235,7 @@ public class GuiHyperiumScreen extends GuiScreen {
         if (!Settings.BACKGROUND.equals("DEFAULT")) {
             GlStateManager.disableAlpha();
             this.renderHyperiumBackground(new ScaledResolution(mc));
+            GlStateManager.enableAlpha();
         }
 
         ParticleOverlay.getOverlay().render(mouseX, mouseY, 0, 0, 0, 0);
@@ -246,15 +247,17 @@ public class GuiHyperiumScreen extends GuiScreen {
         GlStateManager.scale(4F, 4F, 1F);
         this.drawCenteredString(fontRendererObj, Metadata.getModid(), width / 8, 40 / 4, 0xFFFFFF);
         GlStateManager.popMatrix();
+
         String s = String.format("%s %s", Metadata.getModid(), Metadata.getVersion());
         this.drawString(this.fontRendererObj, s, 2, this.height - 10, -1);
-        String s1 = I18n.format("menu.right");
-        this.drawString(this.fontRendererObj, s1, this.width - this.fontRendererObj.getStringWidth(s1) - 2, this.height - 10, -1);
-        String s3 = "Made by Sk1er, Kevin,";
-        this.drawString(this.fontRendererObj, s3, this.width - this.fontRendererObj.getStringWidth(s3) - 2, this.height - 30, -1);
 
-        String s4 = "Cubxity, CoalOres and boomboompower";
-        this.drawString(this.fontRendererObj, s4, this.width - this.fontRendererObj.getStringWidth(s4) - 2, this.height - 20, -1);
+        String s1 = I18n.format("menu.right");
+        this.drawString(this.fontRendererObj, s1, this.width - this.fontRendererObj.getStringWidth(s1) - 2, this.height - 30, -1);
+        s1 = "Made by Sk1er, Kevin, Cubxity, CoalOres,";
+        this.drawString(this.fontRendererObj, s1, this.width - this.fontRendererObj.getStringWidth(s1) - 2, this.height - 20, -1);
+        s1 = "boomboompower, FalseHonesty, and asbyth.";
+        this.drawString(this.fontRendererObj, s1, this.width - this.fontRendererObj.getStringWidth(s1) - 2, this.height - 10, -1);
+
         GuiButton hypixelButton = this.hypixelButton;
         if (hypixelButton != null)
             hypixelButton.displayString = Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) ? I18n.format("button.ingame.fixhypixelsession") : I18n.format("button.ingame.joinhypixel");
