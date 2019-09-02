@@ -82,7 +82,7 @@ public class NameHistoryGui extends GuiScreen {
         int defaultColour = Color.WHITE.getRGB();
         for (int i = 0; i < names.size(); i++) {
 
-            float xPos = width / 2 - (115 / 2);
+            float xPos = (width >> 1) - (115 >> 1);
             float yPos = bottom + (i * 10) + offset;
 
             // Check if names have been scrolled outside of bounding box.
@@ -92,11 +92,11 @@ public class NameHistoryGui extends GuiScreen {
 
             // Highlight current and original names.
             if (i == 0) {
-                fontRenderer.drawString(names.get(i), xPos, yPos, Color.YELLOW.getRGB());
+                mc.fontRendererObj.drawString(names.get(i), (int) xPos, (int) yPos, Color.YELLOW.getRGB());
             } else if (i == names.size() - 1) {
-                fontRenderer.drawString(names.get(i), xPos, yPos, Color.GREEN.getRGB());
+                mc.fontRendererObj.drawString(names.get(i), (int) xPos, (int) yPos, Color.GREEN.getRGB());
             } else {
-                fontRenderer.drawString(names.get(i), xPos, yPos, defaultColour);
+                mc.fontRendererObj.drawString(names.get(i), (int) xPos, (int) yPos, defaultColour);
             }
         }
     }
