@@ -24,14 +24,11 @@ import cc.hyperium.mods.nickhider.config.NickHiderConfig;
 import com.mojang.authlib.GameProfile;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
-import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.client.resources.DefaultPlayerSkin;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Overwrite;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -39,8 +36,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(AbstractClientPlayer.class)
 public abstract class MixinAbstractClientPlayer extends EntityPlayer {
-
-    @Shadow private NetworkPlayerInfo playerInfo;
 
     private HyperiumCapeHandler hook;
 
@@ -59,13 +54,10 @@ public abstract class MixinAbstractClientPlayer extends EntityPlayer {
      * @author - Kevin & Sk1er
      * @reason - Custom Cape Support
      */
-    @Overwrite
-    public ResourceLocation getLocationCape() {
+    @Inject(method = "getLocationCape", at = @At("HEAD"), cancellable = true)
+    private void getHyperiumCape(CallbackInfoReturnable<ResourceLocation> cir) {
         if (hook.getLocationCape() != null) {
-           return hook.getLocationCape();
-        } else {
-            NetworkPlayerInfo networkplayerinfo = playerInfo;
-            return networkplayerinfo == null ? null : networkplayerinfo.getLocationCape();
+           cir.setReturnValue(hook.getLocationCape());
         }
     }
 
