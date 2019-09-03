@@ -71,7 +71,7 @@ public class HyperiumMainGui extends HyperiumGui {
     private MaterialTextField searchField;
     private Queue<Alert> alerts = new ArrayDeque<>();
 
-    public HyperiumMainGui() {
+    private HyperiumMainGui() {
         smol = new HyperiumFontRenderer(Settings.GUI_FONT, 14.0F, 0, 1.0F);
         font = new HyperiumFontRenderer(Settings.GUI_FONT, 16.0F, 0, 1.0F);
         title = new HyperiumFontRenderer(Settings.GUI_FONT, 30.0F, 0, 1.0F);
@@ -177,8 +177,8 @@ public class HyperiumMainGui extends HyperiumGui {
         searchField.render(mouseX, mouseY);
         GlStateModifier.INSTANCE.reset();
 
-        title.drawCenteredString(I18n.format(currentTab.getTitle()), this.width / 2,
-            yg + (yg / 2 - 8), 0xFFFFFF);
+        title.drawCenteredString(I18n.format(currentTab.getTitle()), this.width >> 1,
+            yg + ((yg >> 1) - 8), 0xFFFFFF);
 
         /* Render Body */
         currentTab.setFilter(searchField.getText().isEmpty() ? null : searchField.getText());
@@ -293,11 +293,11 @@ public class HyperiumMainGui extends HyperiumGui {
             Tessellator tessellator = Tessellator.getInstance();
             WorldRenderer worldrenderer = tessellator.getWorldRenderer();
             worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
-            worldrenderer.pos(0.0D, (double) sr.getScaledHeight(), -90.0D).tex(0.0D, 1.0D)
+            worldrenderer.pos(0.0D, sr.getScaledHeight(), -90.0D).tex(0.0D, 1.0D)
                 .endVertex();
-            worldrenderer.pos((double) sr.getScaledWidth(), (double) sr.getScaledHeight(), -90.0D)
+            worldrenderer.pos(sr.getScaledWidth(), sr.getScaledHeight(), -90.0D)
                 .tex(1.0D, 1.0D).endVertex();
-            worldrenderer.pos((double) sr.getScaledWidth(), 0.0D, -90.0D).tex(1.0D, 0.0D)
+            worldrenderer.pos(sr.getScaledWidth(), 0.0D, -90.0D).tex(1.0D, 0.0D)
                 .endVertex();
             worldrenderer.pos(0.0D, 0.0D, -90.0D).tex(0.0D, 0.0D).endVertex();
             tessellator.draw();
@@ -363,7 +363,7 @@ public class HyperiumMainGui extends HyperiumGui {
             GlStateManager.translate(0, (20 - step), 0);
             drawRect(width / 4, height - 20, width - width / 4, height,
                 new Color(0, 0, 0, 40).getRGB());
-            fr.drawString(title, width / 4 + 20, height - 20 + (20 - fr.FONT_HEIGHT) / 2, 0xffffff);
+            fr.drawString(title, (width >> 2) + 20, height - 20 + ((20 - fr.FONT_HEIGHT) >> 1), 0xffffff);
             if (icon != null) {
                 GlStateManager.enableBlend();
                 GlStateManager.color(1f, 1f, 1f);

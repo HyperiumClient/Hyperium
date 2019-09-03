@@ -36,9 +36,7 @@ object CapeHandler {
 
     private fun bindTexture(url: String, resource: String) {
         val iib = object : IImageBuffer {
-            override fun parseUserSkin(var1: BufferedImage): BufferedImage {
-                return parseCape(var1)
-            }
+            override fun parseUserSkin(var1: BufferedImage): BufferedImage = parseCape(var1)
 
             override fun skinAvailable() {}
         }

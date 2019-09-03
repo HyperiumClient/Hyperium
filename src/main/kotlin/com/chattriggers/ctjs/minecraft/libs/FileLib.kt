@@ -54,9 +54,7 @@ object FileLib {
      * @return the string in the file
      */
     @JvmStatic
-    fun read(fileLocation: String): String? {
-        return read(File(fileLocation))
-    }
+    fun read(fileLocation: String): String? = read(File(fileLocation))
 
     /**
      * Reads a file from anywhere on the system using java.io.File.

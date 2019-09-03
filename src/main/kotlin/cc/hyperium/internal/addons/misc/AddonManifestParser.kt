@@ -103,18 +103,14 @@ class AddonManifestParser {
     /**
      * Gets the AddonManifest instance
      */
-    fun getAddonManifest(): AddonManifest {
-        return gson.fromJson(json, AddonManifest::class.java)
-    }
+    fun getAddonManifest(): AddonManifest = gson.fromJson(json, AddonManifest::class.java)
 
     /**
      * The String of the json
      *
      * @return addon manifest json in string
      */
-    override fun toString(): String {
-        return json!!.toString()
-    }
+    override fun toString(): String = json!!.toString()
 
     private fun copyInputStream(input: InputStream, output: OutputStream): Int {
         val count = copyLarge(input, output, ByteArray(1024 * 4))

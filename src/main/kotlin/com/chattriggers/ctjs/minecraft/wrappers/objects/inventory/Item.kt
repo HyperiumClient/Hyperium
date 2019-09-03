@@ -74,9 +74,7 @@ class Item {
         itemStack = ItemStack(item, stackSize)
     }
 
-    fun getStackSize(): Int {
-        return this.itemStack.stackSize
-    }
+    fun getStackSize(): Int = this.itemStack.stackSize
 
     /**
      * Gets the item's unlocalized name.<br>
@@ -92,9 +90,7 @@ class Item {
      *
      * @return the item's registry name
      */
-    fun getRegistryName(): String {
-        return MCItem.itemRegistry.getNameForObject(item).toString()
-    }
+    fun getRegistryName(): String = MCItem.itemRegistry.getNameForObject(item).toString()
 
     /**
      * Gets the item's stack display name.<br>
@@ -122,9 +118,7 @@ class Item {
 
     fun canPlaceOn(block: Block): Boolean = itemStack.canPlaceOn(block.block)
 
-    fun canHarvest(block: Block): Boolean {
-        return this.itemStack.canHarvestBlock(block.block)
-    }
+    fun canHarvest(block: Block): Boolean = this.itemStack.canHarvestBlock(block.block)
 
     fun canDestroy(block: Block): Boolean = itemStack.canDestroy(block.block)
 
@@ -145,9 +139,8 @@ class Item {
 
     fun isDamagable(): Boolean = itemStack.isItemStackDamageable
 
-    fun getLore(): List<String> {
-        return itemStack.getTooltip(Player.getPlayer(), Client.getMinecraft().gameSettings.advancedItemTooltips)
-    }
+    fun getLore(): List<String> =
+        itemStack.getTooltip(Player.getPlayer(), Client.getMinecraft().gameSettings.advancedItemTooltips)
 
     /**
      * Renders the item icon to the client's overlay.

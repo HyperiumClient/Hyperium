@@ -38,7 +38,5 @@ class JSDisplay : Display {
     constructor() : super()
     constructor(config: ScriptObjectMirror?) : super(config)
 
-    override fun createDisplayLine(text: String): DisplayLine {
-        return JSDisplayLine(text)
-    }
+    override fun createDisplayLine(text: String): DisplayLine = JSDisplayLine(text)
 }

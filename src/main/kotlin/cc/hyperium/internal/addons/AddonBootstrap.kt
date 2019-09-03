@@ -82,9 +82,9 @@ object AddonBootstrap {
      * at a certain phase
      */
     internal val translators = arrayListOf(
-            InstanceTranslator(),
-            MixinTranslator(),
-            TransformerTranslator()
+        InstanceTranslator(),
+        MixinTranslator(),
+        TransformerTranslator()
     )
 
     /**
@@ -108,8 +108,8 @@ object AddonBootstrap {
         }
 
         jars = modDirectory.listFiles()!!
-                .filter { it.name.toLowerCase().endsWith(".jar") }
-                .toCollection(ArrayList())
+            .filter { it.name.toLowerCase().endsWith(".jar") }
+            .toCollection(ArrayList())
 
     }
 
@@ -169,7 +169,7 @@ object AddonBootstrap {
      */
     private fun loadAddons(loader: AddonLoaderStrategy): List<AddonManifest> {
         val addons = ArrayList<AddonManifest>()
-        val pendings = if(pendingDirectory.exists()) pendingDirectory.listFiles() else arrayOf()
+        val pendings = if (pendingDirectory.exists()) pendingDirectory.listFiles() else arrayOf()
         try {
             if (pendingDirectory.exists())
                 pendings.forEach { pendingManifests.add(AddonManifestParser(JarFile(it)).getAddonManifest()) }
@@ -188,7 +188,7 @@ object AddonBootstrap {
             }
         }
         pendingManifests.clear()
-        for(jar in pendings) {
+        for (jar in pendings) {
             val dest = File(modDirectory, jar.name)
             FileUtils.moveFile(jar, dest)
             try {
@@ -212,9 +212,7 @@ object AddonBootstrap {
      * @return returns the addon manifest
      */
     @Throws(Exception::class)
-    private fun loadAddon(loader: AddonLoaderStrategy, addon: File?): AddonManifest? {
-        return loader.load(addon)
-    }
+    private fun loadAddon(loader: AddonLoaderStrategy, addon: File?): AddonManifest? = loader.load(addon)
 
     /**
      * Phase the bootstrap is currently in

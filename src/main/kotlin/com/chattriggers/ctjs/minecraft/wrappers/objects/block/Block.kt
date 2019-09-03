@@ -57,9 +57,7 @@ open class Block {
      *
      * @return the block's registry name
      */
-    fun getRegistryName(): String {
-        return MCBlock.blockRegistry.getNameForObject(block).toString()
-    }
+    fun getRegistryName(): String = MCBlock.blockRegistry.getNameForObject(block).toString()
 
     /**
      * Gets the block's unlocalized name.<br>
@@ -77,9 +75,7 @@ open class Block {
      */
     fun getName(): String = block.localizedName
 
-    fun getLightValue(): Int {
-        return this.block.lightValue
-    }
+    fun getLightValue(): Int = this.block.lightValue
 
     fun getState(): IBlockState = World.getWorld()!!.getBlockState(blockPos)
 
@@ -92,9 +88,7 @@ open class Block {
     fun getMetadata(): Int = block.getMetaFromState(getState())
     fun getDefaultMetadata(): Int = block.getMetaFromState(getDefaultState())
 
-    fun canProvidePower(): Boolean {
-        return this.block.canProvidePower()
-    }
+    fun canProvidePower(): Boolean = this.block.canProvidePower()
 
     fun isPowered(): Boolean = World.getWorld()!!.isBlockPowered(blockPos)
 
@@ -109,9 +103,7 @@ open class Block {
 
     fun canBeHarvestedWith(item: Item): Boolean = item.canHarvest(this)
 
-    fun isTranslucent(): Boolean {
-        return this.block.isTranslucent
-    }
+    fun isTranslucent(): Boolean = this.block.isTranslucent
 
     override fun toString(): String = "Block{name=${getRegistryName()}, x=${getX()}, y=${getY()}, z=${getZ()}}"
 }

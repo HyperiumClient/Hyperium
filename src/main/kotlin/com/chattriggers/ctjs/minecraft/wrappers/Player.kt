@@ -24,9 +24,7 @@ object Player {
      * @return The Minecraft EntityPlayerSP object representing the user
      */
     @JvmStatic
-    fun getPlayer(): EntityPlayerSP? {
-        return Client.getMinecraft().thePlayer
-    }
+    fun getPlayer(): EntityPlayerSP? = Client.getMinecraft().thePlayer
 
     @JvmStatic
     fun getX(): Double = getPlayer()?.posX ?: 0.0
@@ -70,8 +68,7 @@ object Player {
      * @return the player's camera pitch
      */
     @JvmStatic
-    fun getPitch(): Float = MathHelper.
-        wrapAngleTo180_float(getPlayer()?.rotationPitch ?: 0f)
+    fun getPitch(): Float = MathHelper.wrapAngleTo180_float(getPlayer()?.rotationPitch ?: 0f)
 
     /**
      * Gets the player's camera yaw.
@@ -79,8 +76,7 @@ object Player {
      * @return the player's camera yaw
      */
     @JvmStatic
-    fun getYaw(): Float = MathHelper.
-        wrapAngleTo180_float(getPlayer()?.rotationYaw ?: 0f)
+    fun getYaw(): Float = MathHelper.wrapAngleTo180_float(getPlayer()?.rotationYaw ?: 0f)
 
     /**
      * Gets the player's yaw rotation without wrapping.

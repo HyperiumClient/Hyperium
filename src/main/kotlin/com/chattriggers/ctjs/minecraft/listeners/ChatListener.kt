@@ -16,9 +16,7 @@ object ChatListener {
     fun onReceiveChat(event: ServerChatEvent) {
         if (event.isCancelled) return
 
-        val type = event.type.toInt()
-
-        when (type) {
+        when (event.type.toInt()) {
             in 0..1 -> {
                 // save to chatHistory
                 chatHistory += ChatLib.getChatMessage(event, true)

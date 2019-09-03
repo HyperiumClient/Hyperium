@@ -19,9 +19,7 @@ class PlayerMP(val player: EntityPlayer) : Entity(player) {
         }
     }
 
-    fun getPing(): Int {
-        return getPlayerInfo().responseTime
-    }
+    fun getPing(): Int = getPlayerInfo().responseTime
 
     /**
      * Gets the item currently in the player's specified inventory slot.
@@ -31,18 +29,14 @@ class PlayerMP(val player: EntityPlayer) : Entity(player) {
      * @param slot the slot to access
      * @return the item in said slot
      */
-    fun getItemInSlot(slot: Int): Item {
-        return Item(player.getEquipmentInSlot(slot))
-    }
+    fun getItemInSlot(slot: Int): Item = Item(player.getEquipmentInSlot(slot))
 
     /**
      * Gets the display name for this player,
      * i.e. the name shown in tab list and in the player's nametag.
      * @return the display name
      */
-    fun getDisplayName(): TextComponent {
-        return TextComponent(getPlayerName(getPlayerInfo()))
-    }
+    fun getDisplayName(): TextComponent = TextComponent(getPlayerName(getPlayerInfo()))
 
     fun setTabDisplayName(textComponent: TextComponent) {
         getPlayerInfo().displayName = textComponent.chatComponentText

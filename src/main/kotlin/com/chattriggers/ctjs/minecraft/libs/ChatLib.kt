@@ -140,9 +140,7 @@ object ChatLib {
      * @return the unformatted string
      */
     @JvmStatic
-    fun removeFormatting(text: String): String {
-        return text.replace("[\\u00a7&][0-9a-fklmnor]".toRegex(), "")
-    }
+    fun removeFormatting(text: String): String = text.replace("[\\u00a7&][0-9a-fklmnor]".toRegex(), "")
 
     /**
      * Replaces Minecraft formatted text with normal formatted text
@@ -151,9 +149,7 @@ object ChatLib {
      * @return the unformatted string
      */
     @JvmStatic
-    fun replaceFormatting(text: String): String {
-        return text.replace("\\u00a7(?![^0-9a-fklmnor]|$)".toRegex(), "&")
-    }
+    fun replaceFormatting(text: String): String = text.replace("\\u00a7(?![^0-9a-fklmnor]|$)".toRegex(), "&")
 
     /**
      * Get a message that will be perfectly centered in chat.
@@ -354,9 +350,8 @@ object ChatLib {
      * @return the formatted message
      */
     @JvmStatic
-    fun addColor(message: String?): String {
-        return message.toString().replace("(?:(?<!\\\\))&(?![^0-9a-fklmnor]|$)".toRegex(), "\u00a7")
-    }
+    fun addColor(message: String?): String =
+        message.toString().replace("(?:(?<!\\\\))&(?![^0-9a-fklmnor]|$)".toRegex(), "\u00a7")
 
     // helper method to make sure player exists before putting something in chat
     fun isPlayer(out: String): Boolean {

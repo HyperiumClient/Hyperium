@@ -52,7 +52,11 @@ class DefaultAddonLoader : AddonLoaderStrategy() {
             AddonBootstrap.addonResourcePacks.add(file)
         }
         val manifest = AddonManifestParser(jar).getAddonManifest()
-        if (BLACKLISTED.contains(manifest.name) || AddonBootstrap.pendingManifests.stream().anyMatch { it.name.equals(manifest.name) }) {
+        if (BLACKLISTED.contains(manifest.name) || AddonBootstrap.pendingManifests.stream().anyMatch {
+                it.name.equals(
+                    manifest.name
+                )
+            }) {
             file.delete()
             return null
         }

@@ -47,7 +47,7 @@ object CTJS {
         pictures.mkdirs()
         assetsDir = pictures
 
-        Multithreading.runAsync(thread {   loadConfig() })
+        Multithreading.runAsync(thread { loadConfig() })
 
         AnnotationHandler.subscribeAutomatic()
 
@@ -80,9 +80,9 @@ object CTJS {
         try {
             val parser = JsonParser()
             val obj = parser.parse(
-                    FileReader(
-                            File(this.configLocation, "ChatTriggers.json")
-                    )
+                FileReader(
+                    File(this.configLocation, "ChatTriggers.json")
+                )
             ).asJsonObject
 
             Config.load(obj)
@@ -102,12 +102,12 @@ object CTJS {
         Hyperium.INSTANCE.handlers.hyperiumCommandHandler.registerCommand(CTCommand)
 
         Runtime.getRuntime().addShutdownHook(
-                Thread { TriggerType.GAME_UNLOAD::triggerAll }
+            Thread { TriggerType.GAME_UNLOAD::triggerAll }
         )
     }
 
     @JvmStatic
     fun loadIntoJVM() {
-        
+
     }
 }

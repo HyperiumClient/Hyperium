@@ -164,7 +164,7 @@ object Client {
         if (isInChat()) {
             val chatGui = getMinecraft().currentScreen as IMixinGuiChat
             chatGui.inputField.text = message
-        } else Client.getMinecraft().displayGuiScreen(GuiChat(message))
+        } else getMinecraft().displayGuiScreen(GuiChat(message))
     }
 
     object Gui {

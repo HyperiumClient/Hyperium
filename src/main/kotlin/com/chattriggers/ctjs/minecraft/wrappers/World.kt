@@ -24,9 +24,7 @@ object World {
      * @return The Minecraft WorldClient object
      */
     @JvmStatic
-    fun getWorld(): WorldClient? {
-        return Client.getMinecraft().theWorld
-    }
+    fun getWorld(): WorldClient? = Client.getMinecraft().theWorld
 
     @JvmStatic
     fun isLoaded(): Boolean = getWorld() != null
@@ -93,9 +91,7 @@ object World {
     fun getSeed(): Long = getWorld()?.seed ?: -1L
 
     @JvmStatic
-    fun getType(): String {
-        return getWorld()?.worldType?.worldTypeName.toString()
-    }
+    fun getType(): String = getWorld()?.worldType?.worldTypeName.toString()
 
     /**
      * Gets the [Block] at a location in the world.

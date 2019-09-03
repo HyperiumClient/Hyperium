@@ -67,9 +67,7 @@ object Renderer {
     }
 
     @JvmStatic
-    fun getFontRenderer(): FontRenderer {
-        return Client.getMinecraft().fontRendererObj
-    }
+    fun getFontRenderer(): FontRenderer = Client.getMinecraft().fontRendererObj
 
     @JvmStatic
     @JvmOverloads

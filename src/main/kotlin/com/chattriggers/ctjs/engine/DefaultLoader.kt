@@ -78,9 +78,7 @@ object DefaultLoader {
         return null
     }
 
-    private fun doImport(name: String): Boolean {
-        return downloadModule(name, true)
-    }
+    private fun doImport(name: String): Boolean = downloadModule(name, true)
 
     private fun loadAssets() {
         val toCopy = CTJS.assetsDir

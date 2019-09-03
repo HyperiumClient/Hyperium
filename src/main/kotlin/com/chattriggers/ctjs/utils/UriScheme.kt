@@ -53,9 +53,7 @@ object UriScheme {
         Thread(Runnable { socketListener() }, "CTJSSocketListener").start()
     }
 
-    private fun quote(toQuote: String): String {
-        return QUOTE + toQuote + QUOTE
-    }
+    private fun quote(toQuote: String): String = QUOTE + toQuote + QUOTE
 
     @Throws(IOException::class, InterruptedException::class)
     private fun regAdd(args: String) {

@@ -30,7 +30,7 @@ class OnChatTrigger(method: Any, type: TriggerType, loader: ILoader) : OnTrigger
     fun setChatCriteria(chatCriteria: String) = apply {
         this.chatCriteria = chatCriteria
 
-        val replacedCriteria = chatCriteria.replace("\n", "->newLine<-").let(Pattern::quote)
+        val replacedCriteria = chatCriteria.replace("\n", "->newLine<-").let { Pattern.quote(it) }
             .replace("\\$\\{[^*]+?}".toRegex(), "\\\\E(.+)\\\\Q")
             .replace("\\$\\{\\*?}".toRegex(), "\\\\E(?:.+)\\\\Q")
 

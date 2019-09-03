@@ -23,7 +23,7 @@ import org.spongepowered.asm.mixin.Mixins
 class MixinTranslator : AbstractTranslator() {
 
     override fun translate(manifest: AddonManifest) {
-        manifest.mixinConfigs?.forEach(Mixins::addConfiguration)
+        manifest.mixinConfigs?.forEach { Mixins.addConfiguration(it) }
     }
 
 }

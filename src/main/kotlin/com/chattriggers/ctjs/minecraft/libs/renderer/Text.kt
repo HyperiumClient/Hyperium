@@ -86,9 +86,7 @@ class Text(private var string: String, private var x: Float = 0f, private var y:
         else this.lines.size * this.scale * 9
     }
 
-    fun exceedsMaxLines(): Boolean {
-        return this.width != 0 && this.lines.size > this.maxLines
-    }
+    fun exceedsMaxLines(): Boolean = this.width != 0 && this.lines.size > this.maxLines
 
     @JvmOverloads
     fun draw(x: Float? = null, y: Float? = null) = apply {

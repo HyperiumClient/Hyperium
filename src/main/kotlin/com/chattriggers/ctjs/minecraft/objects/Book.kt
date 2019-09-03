@@ -99,19 +99,13 @@ class Book(bookName: String) {
         GuiHandler.openGui(bookScreen ?: return)
     }
 
-    fun isOpen(): Boolean {
-        return Client.getMinecraft().currentScreen === bookScreen
-    }
+    fun isOpen(): Boolean = Client.getMinecraft().currentScreen === bookScreen
 
-    fun getCurrentPage(): Int {
-        return if (!isOpen()) -1 else (bookScreen as IMixinGuiScreenBook).currPage
-    }
+    fun getCurrentPage(): Int = if (!isOpen()) -1 else (bookScreen as IMixinGuiScreenBook).currPage
 
     operator fun NBTTagCompound.set(tag: String, value: NBTBase) {
         this.setTag(tag, value)
     }
 
-    operator fun NBTTagCompound.get(tag: String): NBTBase {
-        return this.getTag(tag)
-    }
+    operator fun NBTTagCompound.get(tag: String): NBTBase = this.getTag(tag)
 }
